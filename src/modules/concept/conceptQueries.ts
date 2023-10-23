@@ -18,36 +18,36 @@ export interface UseConcept {
   language?: string;
 }
 
-export const conceptQueryKey = (params?: Partial<UseConcept>) => [CONCEPT, params];
-
-export const useConcept = (params: UseConcept, options?: UseQueryOptions<IConcept>) => {
-  return useQuery<IConcept>(
-    conceptQueryKey(params),
-    () => fetchConcept(params.id, params.language),
-    options,
-  );
+export const conceptQueryKeys = {
+  concept: (params?: Partial<UseConcept>) => [CONCEPT, params] as const,
+  searchConcepts: (params?: Partial<ConceptQuery>) => [SEARCH_CONCEPTS, params] as const,
+  statusStateMachine: [CONCEPT_STATE_MACHINE] as const,
 };
 
-export const searchConceptsQueryKey = (params?: Partial<ConceptQuery>) => [SEARCH_CONCEPTS, params];
+export const useConcept = (params: UseConcept, options?: Partial<UseQueryOptions<IConcept>>) => {
+  return useQuery<IConcept>({
+    queryKey: conceptQueryKeys.concept(params),
+    queryFn: () => fetchConcept(params.id, params.language),
+    ...options,
+  });
+};
 
 export const useSearchConcepts = (
   query: ConceptQuery,
-  options?: UseQueryOptions<IConceptSearchResult>,
+  options?: Partial<UseQueryOptions<IConceptSearchResult>>,
 ) =>
-  useQuery<IConceptSearchResult>(
-    searchConceptsQueryKey(query),
-    () => searchConcepts(query),
-    options,
-  );
-
-export const conceptStateMachineQueryKey = () => [CONCEPT_STATE_MACHINE];
+  useQuery<IConceptSearchResult>({
+    queryKey: conceptQueryKeys.searchConcepts(query),
+    queryFn: () => searchConcepts(query),
+    ...options,
+  });
 
 export const useConceptStateMachine = (
-  options?: UseQueryOptions<ConceptStatusStateMachineType>,
+  options?: Partial<UseQueryOptions<ConceptStatusStateMachineType>>,
 ) => {
-  return useQuery<ConceptStatusStateMachineType>(
-    conceptStateMachineQueryKey(),
-    () => fetchStatusStateMachine(),
-    options,
-  );
+  return useQuery<ConceptStatusStateMachineType>({
+    queryKey: conceptQueryKeys.statusStateMachine,
+    queryFn: () => fetchStatusStateMachine(),
+    ...options,
+  });
 };

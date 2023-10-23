@@ -9,11 +9,12 @@
 import { IFrontPage } from '@ndla/types-backend/frontpage-api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { postFrontpage } from './frontpageApi';
-import { frontpageQueryKey } from './frontpageQueries';
+import { frontpageQueryKeys } from './frontpageQueries';
 
 export const useUpdateFrontpageMutation = () => {
   const qc = useQueryClient();
-  return useMutation<IFrontPage, unknown, IFrontPage>(postFrontpage, {
-    onSettled: () => qc.invalidateQueries(frontpageQueryKey()),
+  return useMutation<IFrontPage, unknown, IFrontPage>({
+    mutationFn: postFrontpage,
+    onSettled: () => qc.invalidateQueries({ queryKey: frontpageQueryKeys.frontpage }),
   });
 };

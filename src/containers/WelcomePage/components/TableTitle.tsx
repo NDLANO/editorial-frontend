@@ -21,7 +21,7 @@ const ComponentWrapper = styled.div`
 const TextWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: ${spacing.normal};
+  margin-bottom: ${spacing.small};
 `;
 
 const StyledTitle = styled.span`

@@ -16,13 +16,18 @@ import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
 import { isValid } from '../../util/jwtHelper';
 import { FAVOURITES_SUBJECT_ID } from '../../constants';
 
-export const searchQueryKey = (params?: Partial<MultiSearchApiQuery>) => [SEARCH, params];
+export const searchQueryKeys = {
+  search: (params?: Partial<MultiSearchApiQuery>) => [SEARCH, params] as const,
+};
 
 export interface UseSearch extends MultiSearchApiQuery {
   favoriteSubjects?: string[];
 }
 
-export const useSearch = (query: UseSearch, options?: UseQueryOptions<IMultiSearchResult>) => {
+export const useSearch = (
+  query: UseSearch,
+  options?: Partial<UseQueryOptions<IMultiSearchResult>>,
+) => {
   const isFav = query.subjects === FAVOURITES_SUBJECT_ID;
 
   const { data, isInitialLoading } = useUserData({
@@ -34,7 +39,9 @@ export const useSearch = (query: UseSearch, options?: UseQueryOptions<IMultiSear
     subjects: isFav ? data?.favoriteSubjects?.join(',') : query.subjects,
   };
 
-  return useQuery<IMultiSearchResult>(searchQueryKey(actualQuery), () => search(actualQuery), {
+  return useQuery<IMultiSearchResult>({
+    queryKey: searchQueryKeys.search(actualQuery),
+    queryFn: () => search(actualQuery),
     ...options,
     enabled: options?.enabled && !isInitialLoading,
   });

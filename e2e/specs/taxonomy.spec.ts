@@ -74,10 +74,7 @@ test.beforeEach(async ({ page }) => {
 
 test('should have settingsMenu available after clicking button', async ({ page }) => {
   await page.getByTestId('structure').waitFor();
-  await page
-    .getByTestId('structure')
-    .getByRole('button', { name: 'Engelsk 1', exact: true })
-    .click();
+  await page.getByTestId('structure').getByRole('button', { name: 'Engelsk 1' }).click();
   await page.getByTestId('settings-button').click();
   expect(await page.getByTestId('settings-menu-modal').count()).toEqual(1);
   await mockWaitResponse(page, '**/taxonomy/v1/nodes/**');
@@ -85,10 +82,7 @@ test('should have settingsMenu available after clicking button', async ({ page }
 
 test('should be able to change name of node', async ({ page }) => {
   await page.getByTestId('structure').waitFor();
-  await page
-    .getByTestId('structure')
-    .getByRole('button', { name: 'Engelsk 1', exact: true })
-    .click();
+  await page.getByTestId('structure').getByRole('button', { name: 'Engelsk 1' }).click();
   await mockRoute({
     page,
     path: '**/taxonomy/v1/nodes/urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357?language=asdasdasd',
@@ -127,10 +121,7 @@ test('should be able to delete name of node', async ({ page }) => {
     fixture: 'taxonomy_change_name_translations_nb_delete',
   });
   await page.getByTestId('structure').waitFor();
-  await page
-    .getByTestId('structure')
-    .getByRole('button', { name: 'Engelsk 1', exact: true })
-    .click();
+  await page.getByTestId('structure').getByRole('button', { name: 'Engelsk 1' }).click();
   await page.getByTestId('settings-button').click();
   await page.getByTestId('changeNodeNameButton').click();
   await page.getByTestId('edit-node-name-form').waitFor();
@@ -155,10 +146,7 @@ test('should be able to change visibility', async ({ page }) => {
     }),
   });
 
-  await page
-    .getByTestId('structure')
-    .getByRole('button', { name: 'Engelsk 1', exact: true })
-    .click();
+  await page.getByTestId('structure').getByRole('button', { name: 'Engelsk 1' }).click();
   await page.getByTestId('settings-button').click();
   await page.getByTestId('toggleVisibilityButton').click();
   expect(await page.locator('button[id="switch-visible"]').count()).toEqual(1);
@@ -188,7 +176,7 @@ test('can toggle favourites', async ({ page }) => {
 test('can only toggle only show favourites', async ({ page }) => {
   await page.getByTestId('structure').waitFor();
   expect(await page.getByTestId('switch-favorites').isChecked()).toBeFalsy();
-  expect(await page.getByTestId('structure').locator('div').count()).toEqual(538);
+  expect(await page.getByTestId('structure').locator('div').count()).toEqual(808);
   await page.getByTestId('switch-favorites').click();
   expect(await page.getByTestId('switch-favorites').isChecked()).toBeTruthy();
   await page.getByTestId('structure').waitFor();

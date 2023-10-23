@@ -20,7 +20,7 @@ import { NodeChild, Node } from '@ndla/types-taxonomy';
 import AlertModal from '../../components/AlertModal';
 import { TAXONOMY_ADMIN_SCOPE } from '../../constants';
 import { usePublishNodeMutation } from '../../modules/nodes/nodeMutations';
-import { nodeTreeQueryKeys, useNodeTree } from '../../modules/nodes/nodeQueries';
+import { nodeQueryKeys, useNodeTree } from '../../modules/nodes/nodeQueries';
 import { fetchVersions } from '../../modules/taxonomy/versions/versionApi';
 import { useSession } from '../Session/SessionProvider';
 import { diffTrees, DiffType, DiffTypeWithChildren, RootDiffType } from './diffUtils';
@@ -87,7 +87,9 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
 
   const publishNodeMutation = usePublishNodeMutation({
     onSettled: () =>
-      qc.invalidateQueries(nodeTreeQueryKeys({ id: nodeId, taxonomyVersion: originalHash })),
+      qc.invalidateQueries({
+        queryKey: nodeQueryKeys.tree({ id: nodeId, taxonomyVersion: originalHash }),
+      }),
   });
 
   useEffect(() => {

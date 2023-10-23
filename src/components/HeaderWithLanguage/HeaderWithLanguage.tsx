@@ -94,6 +94,7 @@ const HeaderWithLanguage = ({
         responsibleId={responsible}
         hasRSS={hasRSS}
         language={language}
+        slug={article?.slug}
       />
       <StyledLanguageWrapper>
         {id ? (

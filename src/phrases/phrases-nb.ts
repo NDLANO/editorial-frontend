@@ -155,6 +155,8 @@ const phrases = {
       conceptSubject: 'Forklaringsfag',
       sortAsc: 'Sorter stigende',
       sortDesc: 'Sorter synkende',
+      pickPageSize: 'Velg antall rader',
+      numberOfRows: 'Antall rader',
     },
     welcomeBack: 'Velkommen',
   },
@@ -1185,6 +1187,7 @@ const phrases = {
     processed: {
       label: 'Bearbeidet',
       description: 'Innholdet har blitt bearbeidet',
+      disabledCause: 'Bearbeidet kan kun settes dersom opphav er satt',
     },
     image: {
       file: 'Bilde',
@@ -1513,6 +1516,7 @@ const phrases = {
     getExisting: 'Eller hent eksisterende ressurs',
     inProgress: 'Denne artikkelen er påbegynt',
     addPriority: 'Sett artikkel som prioritert',
+    titleChangeAlert: 'Endring av tittel krever delpublisering av taksonomi',
     changeName: {
       loadError: 'Klarte ikke hente oversettelser',
       updateError: 'Klarte ikke oppdatere oversettelser',

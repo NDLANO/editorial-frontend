@@ -6,20 +6,22 @@
  *
  */
 
-import { ISearchResultV2 } from '@ndla/types-backend/build/article-api';
+import { ISearchResultV2 } from '@ndla/types-backend/article-api';
 import { UseQueryOptions, useQuery } from '@tanstack/react-query';
 import { ARTICLE } from '../../queryKeys';
 import { ArticleSearchParams, searchArticles } from './articleApi';
 
-const articleSearchQueryKey = (params?: Partial<ArticleSearchParams>) => [ARTICLE, params];
+export const articleQueryKeys = {
+  search: (params?: Partial<ArticleSearchParams>) => [ARTICLE, params] as const,
+};
 
 export const useArticleSearch = (
   params: ArticleSearchParams,
-  options?: UseQueryOptions<ISearchResultV2>,
+  options?: Partial<UseQueryOptions<ISearchResultV2>>,
 ) => {
-  return useQuery<ISearchResultV2>(
-    articleSearchQueryKey(params),
-    () => searchArticles(params),
-    options,
-  );
+  return useQuery<ISearchResultV2>({
+    queryKey: articleQueryKeys.search(params),
+    queryFn: () => searchArticles(params),
+    ...options,
+  });
 };

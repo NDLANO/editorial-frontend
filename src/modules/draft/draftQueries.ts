@@ -31,7 +31,6 @@ import {
 } from './draftApi';
 import { DraftStatusStateMachineType } from '../../interfaces';
 import { DraftSearchQuery } from './draftApiInterfaces';
-import { useAuth0Users } from '../auth0/auth0Queries';
 
 export interface UseDraft {
   id: number;
@@ -39,38 +38,45 @@ export interface UseDraft {
   responsibleId?: string;
 }
 
-export const draftQueryKey = (params?: Partial<UseDraft>) => [DRAFT, params];
+export const draftQueryKeys = {
+  draft: (params?: Partial<UseDraft>) => [DRAFT, params] as const,
+  search: (params?: Partial<DraftSearchQuery>) => [SEARCH_DRAFTS, params] as const,
+  licenses: [LICENSES] as const,
+  userData: [USER_DATA] as const,
+  statusStateMachine: (params?: Partial<StatusStateMachineParams>) =>
+    [DRAFT_STATUS_STATE_MACHINE, params] as const,
+};
 
-export const useDraft = (params: UseDraft, options?: UseQueryOptions<IArticle>) => {
-  return useQuery<IArticle>(
-    draftQueryKey(params),
-    () => fetchDraft(params.id, params.language),
-    options,
-  );
+draftQueryKeys.draft({ id: 1 });
+
+export const useDraft = (params: UseDraft, options?: Partial<UseQueryOptions<IArticle>>) => {
+  return useQuery<IArticle>({
+    queryKey: draftQueryKeys.draft(params),
+    queryFn: () => fetchDraft(params.id, params.language),
+    ...options,
+  });
 };
 interface UseSearchDrafts extends DraftSearchQuery {
   ids: number[];
 }
 
-const searchDraftQueryKey = (params: UseSearchDrafts) => [SEARCH_DRAFTS, params];
-
 export const useSearchDrafts = (
   params: UseSearchDrafts,
-  options?: UseQueryOptions<ISearchResult>,
+  options?: Partial<UseQueryOptions<ISearchResult>>,
 ) => {
-  return useQuery<ISearchResult>(
-    searchDraftQueryKey(params),
-    () => searchAllDrafts(params.ids, params.language, params.sort),
-    options,
-  );
+  return useQuery<ISearchResult>({
+    queryKey: draftQueryKeys.search(params),
+    queryFn: () => searchAllDrafts(params.ids, params.language, params.sort),
+    ...options,
+  });
 };
 
-export const licensesQueryKey = () => [LICENSES];
-
 export const useLicenses = <ReturnType = ILicense[]>(
-  options?: UseQueryOptions<ILicense[], unknown, ReturnType>,
+  options?: Partial<UseQueryOptions<ILicense[], unknown, ReturnType>>,
 ) =>
-  useQuery<ILicense[], unknown, ReturnType>(licensesQueryKey(), fetchLicenses, {
+  useQuery<ILicense[], unknown, ReturnType>({
+    queryKey: draftQueryKeys.licenses,
+    queryFn: fetchLicenses,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     refetchOnReconnect: false,
@@ -79,54 +85,48 @@ export const useLicenses = <ReturnType = ILicense[]>(
     ...options,
   });
 
-export const userDataQueryKey = () => [USER_DATA];
-
-export const useUserData = (options?: UseQueryOptions<IUserData | undefined>) =>
-  useQuery<IUserData | undefined>(userDataQueryKey(), fetchUserData, options);
+export const useUserData = (options?: Partial<UseQueryOptions<IUserData | undefined>>) =>
+  useQuery<IUserData | undefined>({
+    queryKey: draftQueryKeys.userData,
+    queryFn: fetchUserData,
+    ...options,
+  });
 
 export const useUpdateUserDataMutation = () => {
   const queryClient = useQueryClient();
-  return useMutation<IUserData, unknown, IUpdatedUserData, IUserData>(
-    (data) => {
-      return updateUserData(data);
+  return useMutation<IUserData, unknown, IUpdatedUserData, IUserData>({
+    mutationFn: (data) => updateUserData(data),
+    onMutate: async (newUserData) => {
+      const key = draftQueryKeys.userData;
+      await queryClient.cancelQueries({ queryKey: key });
+      const previousUserData = queryClient.getQueryData<IUserData>(key);
+      queryClient.setQueryData<IUserData>(key, {
+        ...previousUserData,
+        userId: previousUserData?.userId!,
+        ...newUserData,
+      });
+      return previousUserData;
     },
-    {
-      onMutate: async (newUserData) => {
-        const key = userDataQueryKey();
-        await queryClient.cancelQueries(key);
-        const previousUserData = queryClient.getQueryData<IUserData>(key);
-        queryClient.setQueryData<IUserData>(key, {
-          ...previousUserData,
-          userId: previousUserData?.userId!,
-          ...newUserData,
-        });
-        return previousUserData;
-      },
-      onError: (_, __, previousUserData) => {
-        if (previousUserData) {
-          queryClient.setQueryData(userDataQueryKey(), previousUserData);
-        }
-      },
-      onSettled: () => queryClient.invalidateQueries(userDataQueryKey()),
+    onError: (_, __, previousUserData) => {
+      if (previousUserData) {
+        queryClient.setQueryData(draftQueryKeys.userData, previousUserData);
+      }
     },
-  );
+    onSettled: () => queryClient.invalidateQueries({ queryKey: draftQueryKeys.userData }),
+  });
 };
 
 interface StatusStateMachineParams {
   articleId?: number;
 }
 
-export const draftStatusStateMachineQueryKey = (params?: Partial<StatusStateMachineParams>) => [
-  DRAFT_STATUS_STATE_MACHINE,
-  params,
-];
 export const useDraftStatusStateMachine = (
   params: StatusStateMachineParams = {},
-  options?: UseQueryOptions<DraftStatusStateMachineType>,
+  options?: Partial<UseQueryOptions<DraftStatusStateMachineType>>,
 ) => {
-  return useQuery<DraftStatusStateMachineType>(
-    draftStatusStateMachineQueryKey(params),
-    () => fetchStatusStateMachine(params.articleId),
-    options,
-  );
+  return useQuery<DraftStatusStateMachineType>({
+    queryKey: draftQueryKeys.statusStateMachine(params),
+    queryFn: () => fetchStatusStateMachine(params.articleId),
+    ...options,
+  });
 };

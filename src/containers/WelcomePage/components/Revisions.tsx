@@ -26,6 +26,7 @@ import {
   StyledSwitch,
   StyledTopRowDashboardInfo,
   SwitchWrapper,
+  TopRowControls,
 } from '../styles';
 import TableComponent, { FieldElement, Prefix, TitleElement } from './TableComponent';
 import TableTitle from './TableTitle';
@@ -37,17 +38,12 @@ import GoToSearch from './GoToSearch';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import { useSearchNodes } from '../../../modules/nodes/nodeQueries';
 import { SUBJECT_NODE } from '../../../modules/nodes/nodeApiTypes';
-import { FAVOURITES_SUBJECT_ID, PUBLISHED } from '../../../constants';
+import { FAVOURITES_SUBJECT_ID, PUBLISHED, STORED_SORT_OPTION_REVISION } from '../../../constants';
 
 const RevisionsWrapper = styled.div`
   ${mq.range({ from: breakpoints.tabletWide })} {
     margin-top: 25px;
   }
-`;
-
-const StyledRevisionControls = styled.div`
-  display: flex;
-  flex-direction: column;
 `;
 
 const getLastPage = (totalCount: number, pageSize: number) =>
@@ -61,8 +57,10 @@ type SortOptionRevision = 'title' | 'revisionDate' | 'status';
 
 const Revisions = ({ userData }: Props) => {
   const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
-  const [sortOption, setSortOption] = useState<Prefix<'-', SortOptionRevision>>('revisionDate');
-  const [error, setError] = useState<string | undefined>(undefined);
+  const [sortOption, _setSortOption] = useState<Prefix<'-', SortOptionRevision>>(
+    (localStorage.getItem(STORED_SORT_OPTION_REVISION) as Prefix<'-', SortOptionRevision>) ||
+      'revisionDate',
+  );
   const [page, setPage] = useState(1);
   const [checked, setChecked] = useState(false);
 
@@ -81,7 +79,7 @@ const Revisions = ({ userData }: Props) => {
 
   const currentDateAddYear = formatDateForBackend(addYears(new Date(), 1));
 
-  const { data, isInitialLoading } = useSearch(
+  const { data, isInitialLoading, isError } = useSearch(
     {
       subjects: filterSubject ? filterSubject.value : userData?.favoriteSubjects?.join(','),
       'revision-date-to': currentDateAddYear,
@@ -95,10 +93,14 @@ const Revisions = ({ userData }: Props) => {
     },
     {
       enabled: !!userData?.favoriteSubjects?.length,
-      onError: () => setError(t('welcomePage.errorMessage')),
-      onSuccess: () => setError(undefined),
     },
   );
+
+  const error = useMemo(() => {
+    if (isError) {
+      return t('welcomePage.errorMessage');
+    }
+  }, [t, isError]);
 
   const { data: subjectData, isInitialLoading: isInitialLoadingSubjects } = useSearchNodes(
     {
@@ -188,6 +190,11 @@ const Revisions = ({ userData }: Props) => {
     [filteredData, t],
   );
 
+  const setSortOption = useCallback((s: Prefix<'-', SortOptionRevision>) => {
+    _setSortOption(s);
+    localStorage.setItem(STORED_SORT_OPTION_REVISION, s);
+  }, []);
+
   return (
     <RevisionsWrapper>
       <StyledDashboardInfo>
@@ -198,8 +205,8 @@ const Revisions = ({ userData }: Props) => {
             Icon={Alarm}
             infoText={t('welcomePage.revisionInfo')}
           />
-          <StyledRevisionControls>
-            <ControlWrapperDashboard>
+          <ControlWrapperDashboard>
+            <TopRowControls>
               <DropdownWrapper>
                 <Select<false>
                   label={t('welcomePage.chooseFavoriteSubject')}
@@ -221,7 +228,7 @@ const Revisions = ({ userData }: Props) => {
                 searchEnv="content"
                 revisionDateTo={currentDateAddYear}
               />
-            </ControlWrapperDashboard>
+            </TopRowControls>
             <Tooltip tooltip={t('welcomePage.primaryConnection')}>
               <SwitchWrapper>
                 <StyledSwitch
@@ -236,7 +243,7 @@ const Revisions = ({ userData }: Props) => {
                 />
               </SwitchWrapper>
             </Tooltip>
-          </StyledRevisionControls>
+          </ControlWrapperDashboard>
         </StyledTopRowDashboardInfo>
         <TableComponent
           isLoading={isInitialLoading}

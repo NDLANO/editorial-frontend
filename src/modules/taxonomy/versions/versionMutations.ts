@@ -16,12 +16,12 @@ interface UsePostVersionMutationParams {
 }
 
 export const usePostVersionMutation = (
-  options?: UseMutationOptions<string, unknown, UsePostVersionMutationParams>,
+  options?: Partial<UseMutationOptions<string, unknown, UsePostVersionMutationParams>>,
 ) => {
-  return useMutation<string, unknown, UsePostVersionMutationParams>(
-    ({ body, sourceId }) => postVersion({ body, sourceId }),
-    options,
-  );
+  return useMutation<string, unknown, UsePostVersionMutationParams>({
+    mutationFn: ({ body, sourceId }) => postVersion({ body, sourceId }),
+    ...options,
+  });
 };
 
 interface UsePutVersionMutationParams {
@@ -30,12 +30,12 @@ interface UsePutVersionMutationParams {
 }
 
 export const usePutVersionMutation = (
-  options?: UseMutationOptions<void, unknown, UsePutVersionMutationParams>,
+  options?: Partial<UseMutationOptions<void, unknown, UsePutVersionMutationParams>>,
 ) => {
-  return useMutation<void, unknown, UsePutVersionMutationParams>(
-    ({ id, body }) => putVersion({ id, body }),
-    options,
-  );
+  return useMutation<void, unknown, UsePutVersionMutationParams>({
+    mutationFn: ({ id, body }) => putVersion({ id, body }),
+    ...options,
+  });
 };
 
 interface UseDeleteVersionMutationParams {
@@ -43,12 +43,12 @@ interface UseDeleteVersionMutationParams {
 }
 
 export const useDeleteVersionMutation = (
-  options?: UseMutationOptions<void, unknown, UseDeleteVersionMutationParams>,
+  options?: Partial<UseMutationOptions<void, unknown, UseDeleteVersionMutationParams>>,
 ) => {
-  return useMutation<void, unknown, UseDeleteVersionMutationParams>(
-    ({ id }) => deleteVersion({ id }),
-    options,
-  );
+  return useMutation<void, unknown, UseDeleteVersionMutationParams>({
+    mutationFn: ({ id }) => deleteVersion({ id }),
+    ...options,
+  });
 };
 
 interface UsePublishVersionMutation {
@@ -56,10 +56,10 @@ interface UsePublishVersionMutation {
 }
 
 export const usePublishVersionMutation = (
-  options?: UseMutationOptions<void, unknown, UsePublishVersionMutation>,
+  options?: Partial<UseMutationOptions<void, unknown, UsePublishVersionMutation>>,
 ) => {
-  return useMutation<void, unknown, UsePublishVersionMutation>(
-    ({ id }) => publishVersion({ id }),
-    options,
-  );
+  return useMutation<void, unknown, UsePublishVersionMutation>({
+    mutationFn: ({ id }) => publishVersion({ id }),
+    ...options,
+  });
 };

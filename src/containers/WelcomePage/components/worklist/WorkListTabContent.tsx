@@ -23,6 +23,7 @@ import {
   StyledSwitch,
   StyledTopRowDashboardInfo,
   SwitchWrapper,
+  TopRowControls,
 } from '../../styles';
 import SubjectDropdown from './SubjectDropdown';
 import TableComponent, { FieldElement, Prefix, TitleElement } from '../TableComponent';
@@ -30,16 +31,12 @@ import TableTitle from '../TableTitle';
 import GoToSearch from '../GoToSearch';
 import { SortOption } from './WorkList';
 import StatusCell from './StatusCell';
+import PageSizeDropdown from './PageSizeDropdown';
 
 export const CellWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`;
-
-const StyledWorkListControls = styled.div`
-  display: flex;
-  flex-direction: column;
 `;
 
 const StyledTitleWrapper = styled.div`
@@ -71,6 +68,8 @@ interface Props {
   setPage: (page: number) => void;
   setPrioritized: (prioritized: boolean) => void;
   prioritized: boolean;
+  pageSize: SingleValue;
+  setPageSize: (p: SingleValue) => void;
 }
 const WorkListTabContent = ({
   data,
@@ -84,6 +83,8 @@ const WorkListTabContent = ({
   setPage,
   setPrioritized,
   prioritized,
+  pageSize,
+  setPageSize,
 }: Props) => {
   const { t } = useTranslation();
 
@@ -176,15 +177,16 @@ const WorkListTabContent = ({
           description={t('welcomePage.workList.description')}
           Icon={Calendar}
         />
-        <StyledWorkListControls>
-          <ControlWrapperDashboard>
+        <ControlWrapperDashboard>
+          <TopRowControls>
+            <PageSizeDropdown pageSize={pageSize} setPageSize={setPageSize} />
             <SubjectDropdown
               subjectIds={subjectIds || []}
               filterSubject={filterSubject}
               setFilterSubject={setFilterSubject}
             />
             <GoToSearch ndlaId={ndlaId} filterSubject={filterSubject?.value} searchEnv="content" />
-          </ControlWrapperDashboard>
+          </TopRowControls>
           <Tooltip tooltip={t('welcomePage.prioritizedLabel')}>
             <SwitchWrapper>
               <StyledSwitch
@@ -199,7 +201,7 @@ const WorkListTabContent = ({
               />
             </SwitchWrapper>
           </Tooltip>
-        </StyledWorkListControls>
+        </ControlWrapperDashboard>
       </StyledTopRowDashboardInfo>
       <TableComponent
         isLoading={isLoading}

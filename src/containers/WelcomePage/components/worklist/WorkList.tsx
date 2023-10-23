@@ -8,73 +8,105 @@
 
 import { useTranslation } from 'react-i18next';
 import { SingleValue } from '@ndla/select';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import Tabs from '@ndla/tabs';
 import { useSearch } from '../../../../modules/search/searchQueries';
 import WorkListTabContent from './WorkListTabContent';
 import { useSearchConcepts } from '../../../../modules/concept/conceptQueries';
 import ConceptListTabContent from './ConceptListTabContent';
 import { Prefix } from '../TableComponent';
+import {
+  STORED_PAGE_SIZE,
+  STORED_PAGE_SIZE_CONCEPT,
+  STORED_SORT_OPTION_WORKLIST,
+  STORED_SORT_OPTION_WORKLIST_CONCEPT,
+} from '../../../../constants';
 
 interface Props {
   ndlaId: string;
 }
 
 export type SortOption = 'title' | 'responsibleLastUpdated' | 'status';
+const defaultPageSize = { label: '6', value: '6' };
 
 const WorkList = ({ ndlaId }: Props) => {
-  const [sortOption, setSortOption] = useState<Prefix<'-', SortOption>>('-responsibleLastUpdated');
+  const storedPageSize = localStorage.getItem(STORED_PAGE_SIZE);
+  const [sortOption, _setSortOption] = useState<Prefix<'-', SortOption>>(
+    (localStorage.getItem(STORED_SORT_OPTION_WORKLIST) as SortOption) || '-responsibleLastUpdated',
+  );
   const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
-  const [error, setError] = useState<string | undefined>(undefined);
   const [page, setPage] = useState(1);
+  const [pageSize, _setPageSize] = useState<SingleValue>(
+    storedPageSize
+      ? {
+          label: storedPageSize,
+          value: storedPageSize,
+        }
+      : defaultPageSize,
+  );
 
-  const [sortOptionConcepts, setSortOptionConcepts] =
-    useState<Prefix<'-', SortOption>>('-responsibleLastUpdated');
+  const storedPageSizeConcept = localStorage.getItem(STORED_PAGE_SIZE_CONCEPT);
+  const [sortOptionConcepts, _setSortOptionConcepts] = useState<Prefix<'-', SortOption>>(
+    (localStorage.getItem(STORED_SORT_OPTION_WORKLIST_CONCEPT) as SortOption) ||
+      '-responsibleLastUpdated',
+  );
   const [filterConceptSubject, setFilterConceptSubject] = useState<SingleValue | undefined>(
     undefined,
   );
-  const [errorConceptList, setErrorConceptList] = useState<string | undefined>(undefined);
   const [pageConcept, setPageConcept] = useState(1);
+  const [pageSizeConcept, _setPageSizeConcept] = useState<SingleValue>(
+    storedPageSizeConcept
+      ? {
+          label: storedPageSizeConcept,
+          value: storedPageSizeConcept,
+        }
+      : defaultPageSize,
+  );
   const [prioritized, setPrioritized] = useState(false);
 
   const {
     t,
     i18n: { language },
   } = useTranslation();
-  const { data, isInitialLoading } = useSearch(
+  const searchQuery = useSearch(
     {
       'responsible-ids': ndlaId,
       sort: sortOption,
       ...(prioritized ? { prioritized: true } : {}),
       ...(filterSubject ? { subjects: filterSubject.value } : {}),
       page: page,
-      'page-size': 6,
+      'page-size': Number(pageSize!.value),
       language,
       fallback: true,
       'aggregate-paths': 'contexts.rootId',
     },
-    {
-      enabled: !!ndlaId,
-      onError: () => setError(t('welcomePage.errorMessage')),
-      onSuccess: () => setError(undefined),
-    },
+    { enabled: !!ndlaId },
   );
-  const { data: concepts, isInitialLoading: conceptsLoading } = useSearchConcepts(
+
+  const searchConceptsQuery = useSearchConcepts(
     {
       'responsible-ids': ndlaId,
       sort: sortOptionConcepts,
       ...(filterConceptSubject ? { subjects: filterConceptSubject.value } : {}),
       page: pageConcept,
-      'page-size': 6,
+      'page-size': Number(pageSizeConcept!.value),
       language,
       fallback: true,
     },
-    {
-      enabled: !!ndlaId,
-      onError: () => setErrorConceptList(t('welcomePage.errorMessage')),
-      onSuccess: () => setErrorConceptList(undefined),
-    },
+    { enabled: !!ndlaId },
   );
+
+  const searchError = useMemo(() => {
+    if (searchQuery.isError) {
+      return t('welcomePage.errorMessage');
+    }
+  }, [searchQuery.isError, t]);
+
+  const searchConceptsError = useMemo(() => {
+    if (searchConceptsQuery.isError) {
+      return t('welcomePage.errorMessage');
+    }
+  }, [searchConceptsQuery.isError, t]);
 
   useEffect(() => {
     setPage(1);
@@ -84,44 +116,70 @@ const WorkList = ({ ndlaId }: Props) => {
     setPageConcept(1);
   }, [filterConceptSubject]);
 
+  const setPageSize = useCallback((p: SingleValue) => {
+    if (!p) return;
+    _setPageSize(p);
+    localStorage.setItem(STORED_PAGE_SIZE, p.value);
+  }, []);
+
+  const setPageSizeConcept = useCallback((p: SingleValue) => {
+    if (!p) return;
+    _setPageSizeConcept(p);
+    localStorage.setItem(STORED_PAGE_SIZE_CONCEPT, p.value);
+  }, []);
+
+  const setSortOption = useCallback((s: Prefix<'-', SortOption>) => {
+    _setSortOption(s);
+    localStorage.setItem(STORED_SORT_OPTION_WORKLIST, s);
+  }, []);
+
+  const setSortOptionConcepts = useCallback((s: Prefix<'-', SortOption>) => {
+    _setSortOptionConcepts(s);
+    localStorage.setItem(STORED_SORT_OPTION_WORKLIST_CONCEPT, s);
+  }, []);
+
   return (
     <Tabs
       variant="rounded"
       aria-label={t('welcomePage.workList.ariaLabel')}
       tabs={[
         {
-          title: `${t('taxonomy.resources')} (${data?.totalCount ?? 0})`,
+          title: `${t('taxonomy.resources')} (${searchQuery.data?.totalCount ?? 0})`,
           id: 'articles',
           content: (
             <WorkListTabContent
-              data={data}
+              data={searchQuery.data}
               filterSubject={filterSubject}
               setSortOption={setSortOption}
               setFilterSubject={setFilterSubject}
-              isLoading={isInitialLoading}
-              error={error}
+              isLoading={searchQuery.isInitialLoading}
+              error={searchError}
               sortOption={sortOption}
               ndlaId={ndlaId}
               setPage={setPage}
               setPrioritized={setPrioritized}
               prioritized={prioritized}
+              pageSize={pageSize}
+              setPageSize={setPageSize}
             />
           ),
         },
         {
-          title: `${t('form.name.concepts')} (${concepts?.totalCount ?? 0})`,
+          title: `${t('form.name.concepts')} (${searchConceptsQuery.data?.totalCount ?? 0})`,
           id: 'concepts',
           content: (
             <ConceptListTabContent
-              data={concepts}
+              data={searchConceptsQuery.data}
               setSortOption={setSortOptionConcepts}
-              isLoading={conceptsLoading}
-              error={errorConceptList}
+              isLoading={searchConceptsQuery.isInitialLoading}
+              error={searchConceptsError}
               sortOption={sortOptionConcepts}
               filterSubject={filterConceptSubject}
               setFilterSubject={setFilterConceptSubject}
               ndlaId={ndlaId}
               setPageConcept={setPageConcept}
+              pageSizeConcept={pageSizeConcept}
+              setPageSizeConcept={setPageSizeConcept}
             />
           ),
         },

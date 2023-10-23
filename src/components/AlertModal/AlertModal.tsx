@@ -21,19 +21,19 @@ import { MessageSeverity } from '../../interfaces';
 const severities: Record<string, SerializedStyles> = {
   success: css`
     background-color: ${colors.support.green};
-    color: white;
+    color: ${colors.white};
   `,
   info: css`
-    background-color: white;
-    color: black;
+    background-color: ${colors.white};
+    color: ${colors.text.primary};
   `,
   warning: css`
     background-color: ${colors.support.yellow};
-    color: white;
+    color: ${colors.text.primary};
   `,
   danger: css`
     background-color: ${colors.support.red};
-    color: white;
+    color: ${colors.white};
   `,
 };
 
@@ -57,6 +57,13 @@ const Heading = styled.h1`
   flex: 1;
   margin: 0;
   color: ${colors.white};
+
+  &[data-severity='info'] {
+    color: ${colors.text.primary};
+  }
+  &[data-severity='warning'] {
+    color: ${colors.text.primary};
+  }
 `;
 
 const StyledBody = styled.div`
@@ -72,6 +79,12 @@ const StyledIcon = styled(Warning)`
 const CloseButton = styled(IconButtonV2)`
   svg {
     color: ${colors.white};
+    &[data-severity='info'] {
+      color: ${colors.text.primary};
+    }
+    &[data-severity='warning'] {
+      color: ${colors.text.primary};
+    }
   }
   &:hover,
   &:focus,
@@ -134,7 +147,7 @@ const AlertModal = ({
       >
         <StyledModalBody css={severities[severity]} data-testid="alert-modal">
           <Header>
-            {title && <Heading>{title}</Heading>}
+            {title && <Heading data-severity={severity}>{title}</Heading>}
             <CloseButton
               data-testid="closeAlert"
               variant="ghost"
@@ -145,7 +158,7 @@ const AlertModal = ({
                 onCancel();
               }}
             >
-              <Cross />
+              <Cross data-severity={severity} />
             </CloseButton>
           </Header>
           <StyledBody>

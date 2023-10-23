@@ -12,21 +12,17 @@ import {
   INewOrUpdatedFilmFrontPageData,
 } from '@ndla/types-backend/frontpage-api';
 import { updateFilmFrontpage } from './frontpageApi';
-import { filmFrontpageQueryKey } from './filmQueries';
+import { filmQueryKeys } from './filmQueries';
 
 export const useUpdateFilmFrontpageMutation = () => {
   const queryClient = useQueryClient();
-  return useMutation<IFilmFrontPageData, unknown, INewOrUpdatedFilmFrontPageData>(
-    (data) => {
-      return updateFilmFrontpage(data);
+  return useMutation<IFilmFrontPageData, unknown, INewOrUpdatedFilmFrontPageData>({
+    mutationFn: (data) => updateFilmFrontpage(data),
+    onError: (_, __, previousFrontpage) => {
+      if (previousFrontpage) {
+        queryClient.setQueryData(filmQueryKeys.filmFrontpage, previousFrontpage);
+      }
     },
-    {
-      onError: (_, __, previousFrontpage) => {
-        if (previousFrontpage) {
-          queryClient.setQueryData(filmFrontpageQueryKey(), previousFrontpage);
-        }
-      },
-      onSettled: () => queryClient.invalidateQueries(filmFrontpageQueryKey()),
-    },
-  );
+    onSettled: () => queryClient.invalidateQueries({ queryKey: filmQueryKeys.filmFrontpage }),
+  });
 };

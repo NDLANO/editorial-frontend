@@ -11,10 +11,9 @@ import express from 'express';
 import compression from 'compression';
 import helmet from 'helmet';
 import bodyParser from 'body-parser';
-import prettier from 'prettier/standalone';
-import parseHTML from 'prettier/parser-html';
+import prettier from 'prettier';
 import proxy from 'express-http-proxy';
-import jwt from 'express-jwt';
+import { GetVerificationKey, expressjwt as jwt, Request } from 'express-jwt';
 import jwksRsa from 'jwks-rsa';
 import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN } from '../httpCodes';
 import getConditionalClassnames from './getConditionalClassnames';
@@ -35,7 +34,7 @@ import { DRAFT_PUBLISH_SCOPE, DRAFT_WRITE_SCOPE } from '../constants';
 import { NdlaError } from '../interfaces';
 import { translateDocument } from './translate';
 
-type NdlaUser = (Express.User | undefined) & {
+type NdlaUser = {
   'https://ndla.no/user_email'?: string;
   'https://ndla.no/user_name'?: string;
   permissions?: string[];
@@ -96,25 +95,24 @@ const renderHtmlString = (locale: string, userAgentString?: string, state?: { lo
     <Html lang={locale} state={state} className={getConditionalClassnames(userAgentString)} />,
   );
 
-app.get('/robots.txt', (req, res) => {
+app.get('/robots.txt', (_, res) => {
   res.type('text/plain');
   res.send('User-agent: *\nDisallow: /');
 });
 
-app.get('/health', (req, res) => {
+app.get('/health', (_, res) => {
   res.status(OK).json({ status: OK, text: 'Health check ok' });
 });
 
-app.post('/format-html', (req, res) => {
-  const html = prettier.format(req.body.html, {
+app.post('/format-html', async (req, res) => {
+  const html = await prettier.format(req.body.html, {
     parser: 'html',
     printWidth: 1000000, // Avoid inserting linebreaks for long inline texts i.e. <p>Lorem ......... ipsum</p>
-    plugins: [parseHTML],
   });
   res.status(OK).json({ html });
 });
 
-app.get('/get_brightcove_token', (req, res) => {
+app.get('/get_brightcove_token', (_, res) => {
   getBrightcoveToken()
     .then((token) => {
       res.send(token);
@@ -128,13 +126,13 @@ app.get(
     secret: jwksRsa.expressJwtSecret({
       cache: true,
       jwksUri: `https://${config.auth0Domain}/.well-known/jwks.json`,
-    }),
+    }) as GetVerificationKey,
     audience: 'ndla_system',
     issuer: `https://${config.auth0Domain}/`,
     algorithms: ['RS256'],
   }),
-  async (req, res) => {
-    const user = req.user as NdlaUser;
+  async (req: Request, res) => {
+    const user = req.auth as NdlaUser;
     const name = user['https://ndla.no/user_name'] || '';
     const email = user['https://ndla.no/user_email'] || '';
     const token = getZendeskToken(name, email);
@@ -148,14 +146,14 @@ app.get(
     secret: jwksRsa.expressJwtSecret({
       cache: true,
       jwksUri: `https://${config.auth0Domain}/.well-known/jwks.json`,
-    }),
+    }) as GetVerificationKey,
     audience: 'ndla_system',
     issuer: `https://${config.auth0Domain}/`,
     algorithms: ['RS256'],
   }),
-  async (req, res) => {
+  async (req: Request, res) => {
     const {
-      user: untypedUser,
+      auth: untypedUser,
       query: { userIds },
     } = req;
 
@@ -187,12 +185,12 @@ app.get(
     secret: jwksRsa.expressJwtSecret({
       cache: true,
       jwksUri: `https://${config.auth0Domain}/.well-known/jwks.json`,
-    }),
+    }) as GetVerificationKey,
     audience: 'ndla_system',
     issuer: `https://${config.auth0Domain}/`,
     algorithms: ['RS256'],
   }),
-  async (req, res) => {
+  async (_, res) => {
     try {
       const managementToken = await getToken(`https://${config.auth0Domain}/api/v2/`);
       const editors = await getEditors(managementToken);
@@ -209,7 +207,7 @@ app.get(
     secret: jwksRsa.expressJwtSecret({
       cache: true,
       jwksUri: `https://${config.auth0Domain}/.well-known/jwks.json`,
-    }),
+    }) as GetVerificationKey,
     audience: 'ndla_system',
     issuer: `https://${config.auth0Domain}/`,
     algorithms: ['RS256'],

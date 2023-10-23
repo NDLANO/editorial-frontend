@@ -26,10 +26,7 @@ import {
   useCreateResourceResourceTypeMutation,
   usePostResourceForNodeMutation,
 } from '../../../modules/nodes/nodeMutations';
-import {
-  childNodesWithArticleTypeQueryKey,
-  resourcesWithNodeConnectionQueryKey,
-} from '../../../modules/nodes/nodeQueries';
+import { nodeQueryKeys } from '../../../modules/nodes/nodeQueries';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import { RESOURCE_NODE, TOPIC_NODE } from '../../../modules/nodes/nodeApiTypes';
 import FormikField from '../../../components/FormikField';
@@ -153,8 +150,8 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
   const { taxonomyVersion } = useTaxonomyVersion();
   const qc = useQueryClient();
   const nodeId = useMemo(() => node && getRootIdForNode(node), [node]);
-  const compKey = resourcesWithNodeConnectionQueryKey({ id: node?.id, language: i18n.language });
-  const compKeyChildNodes = childNodesWithArticleTypeQueryKey({
+  const compKey = nodeQueryKeys.resources({ id: node?.id, language: i18n.language });
+  const compKeyChildNodes = nodeQueryKeys.childNodes({
     taxonomyVersion,
     id: nodeId,
     language: i18n.language,
@@ -162,13 +159,13 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
   const { mutateAsync: createNodeResource, isLoading: postResourceLoading } =
     usePostResourceForNodeMutation({
       onSuccess: (_) => {
-        qc.invalidateQueries(compKey);
-        qc.invalidateQueries(compKeyChildNodes);
+        qc.invalidateQueries({ queryKey: compKey });
+        qc.invalidateQueries({ queryKey: compKeyChildNodes });
       },
     });
   const { mutateAsync: createResourceResourceType, isLoading: createResourceTypeLoading } =
     useCreateResourceResourceTypeMutation({
-      onSuccess: (_) => qc.invalidateQueries(compKey),
+      onSuccess: (_) => qc.invalidateQueries({ queryKey: compKey }),
     });
   const initialValues = useMemo(() => toInitialValues(ndlaId, articleType), [ndlaId, articleType]);
   const isTopicArticle = articleType === 'topic-article';
@@ -186,11 +183,12 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
     {
       select: (res) =>
         res
-          .flatMap((parent) =>
-            parent.subtypes?.map((s) => ({
-              label: `${parent.name} - ${s.name}`,
-              value: `${s.id},${parent.id}`,
-            })),
+          .flatMap(
+            (parent) =>
+              parent.subtypes?.map((s) => ({
+                label: `${parent.name} - ${s.name}`,
+                value: `${s.id},${parent.id}`,
+              })),
           )
           .filter((r) => !!r) as Option[],
       placeholderData: [],

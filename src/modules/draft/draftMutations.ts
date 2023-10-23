@@ -11,19 +11,19 @@ import { useMutation, UseMutationOptions } from '@tanstack/react-query';
 import { copyRevisionDates, updateDraft } from './draftApi';
 
 export const useUpdateDraftMutation = (
-  options?: UseMutationOptions<IArticle, unknown, { id: number; body: IUpdatedArticle }>,
+  options?: Partial<UseMutationOptions<IArticle, unknown, { id: number; body: IUpdatedArticle }>>,
 ) => {
-  return useMutation<IArticle, undefined, { id: number; body: IUpdatedArticle }>(
-    (vars) => updateDraft(vars.id, vars.body),
-    options,
-  );
+  return useMutation<IArticle, undefined, { id: number; body: IUpdatedArticle }>({
+    mutationFn: (vars) => updateDraft(vars.id, vars.body),
+    ...options,
+  });
 };
 
 export const useCopyRevisionDates = (
   options?: UseMutationOptions<void, unknown, { nodeId: string }>,
 ) => {
-  return useMutation<void, unknown, { nodeId: string }>(
-    (vars) => copyRevisionDates(vars.nodeId),
-    options,
-  );
+  return useMutation<void, unknown, { nodeId: string }>({
+    mutationFn: (vars) => copyRevisionDates(vars.nodeId),
+    ...options,
+  });
 };

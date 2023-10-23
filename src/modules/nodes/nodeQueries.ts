@@ -10,51 +10,58 @@ import { useQuery, useQueryClient, UseQueryOptions } from '@tanstack/react-query
 import { IDraftResponsible, IEditorNote, IRevisionMeta } from '@ndla/types-backend/draft-api';
 import chunk from 'lodash/chunk';
 import uniqBy from 'lodash/uniqBy';
-import { Connection, Node, NodeChild, NodeType, Translation } from '@ndla/types-taxonomy';
+import { Node, NodeChild, NodeType } from '@ndla/types-taxonomy';
 import { NodeTree } from '../../containers/NodeDiff/diffUtils';
 import { SearchResultBase, WithTaxonomyVersion } from '../../interfaces';
 import { PUBLISHED } from '../../constants';
 import {
   CHILD_NODES_WITH_ARTICLE_TYPE,
-  CONNECTIONS_FOR_NODE,
   NODE,
   NODE_RESOURCES,
-  NODE_TRANSLATIONS,
   NODES,
   RESOURCES_WITH_NODE_CONNECTION,
   ROOT_NODE_WITH_CHILDREN,
   SEARCH_NODES,
 } from '../../queryKeys';
 import { fetchDrafts } from '../draft/draftApi';
-import {
-  fetchChildNodes,
-  fetchConnectionsForNode,
-  fetchNode,
-  fetchNodeResources,
-  fetchNodes,
-  fetchNodeTranslations,
-  searchNodes,
-} from './nodeApi';
+import { fetchChildNodes, fetchNode, fetchNodeResources, fetchNodes, searchNodes } from './nodeApi';
 import { fetchLearningpaths } from '../learningpath/learningpathApi';
 import { GetNodeParams, GetNodeResourcesParams, RESOURCE_NODE, TOPIC_NODE } from './nodeApiTypes';
 
+export const nodeQueryKeys = {
+  nodes: (params?: Partial<UseNodesParams>) => [NODES, params] as const,
+  node: (params?: Partial<UseNodeParams>) => [NODE, params] as const,
+  search: (params?: Partial<UseSearchNodes>) => [SEARCH_NODES, params] as const,
+  tree: (params?: Partial<UseNodeTree>) => [ROOT_NODE_WITH_CHILDREN, params] as const,
+  resources: (params?: Partial<UseResourcesWithNodeConnectionParams>) =>
+    [RESOURCES_WITH_NODE_CONNECTION, params] as const,
+  resourceMetas: (params?: Partial<UseNodeResourceMetas>) => [NODE_RESOURCES, params] as const,
+  childNodes: (params?: Partial<UseChildNodesWithArticleTypeParams>) =>
+    [CHILD_NODES_WITH_ARTICLE_TYPE, params] as const,
+};
+
 interface UseNodesParams extends WithTaxonomyVersion, GetNodeParams {}
-export const nodesQueryKey = (params?: Partial<UseNodesParams>) => [NODES, params];
-export const useNodes = (params: UseNodesParams, options?: UseQueryOptions<Node[]>) => {
-  return useQuery<Node[]>([NODES, params], () => fetchNodes(params), options);
+export const useNodes = (params: UseNodesParams, options?: Partial<UseQueryOptions<Node[]>>) => {
+  return useQuery<Node[]>({
+    queryKey: nodeQueryKeys.nodes(params),
+    queryFn: () => fetchNodes(params),
+    ...options,
+  });
 };
 
 interface UseNodeParams extends WithTaxonomyVersion {
   id: string;
   language?: string;
 }
-export const nodeQueryKey = (params?: Partial<UseNodeParams>) => [NODE, params];
-export const useNode = (params: UseNodeParams, options?: UseQueryOptions<Node>) => {
+
+export const useNode = (params: UseNodeParams, options?: Partial<UseQueryOptions<Node>>) => {
   const qc = useQueryClient();
-  return useQuery<Node>(nodeQueryKey(params), () => fetchNode(params), {
+  return useQuery<Node>({
+    queryKey: nodeQueryKeys.node(params),
+    queryFn: () => fetchNode(params),
     placeholderData: qc
       .getQueryData<Node[]>(
-        nodesQueryKey({ taxonomyVersion: params.taxonomyVersion, language: params.language }),
+        nodeQueryKeys.nodes({ taxonomyVersion: params.taxonomyVersion, language: params.language }),
       )
       ?.find((s) => s.id === params.id),
     ...options,
@@ -79,20 +86,15 @@ export interface NodeResourceMeta {
   started?: boolean;
 }
 
-export const nodeResourceMetasQueryKey = (params: Partial<UseNodeResourceMetas>) => [
-  NODE_RESOURCES,
-  params,
-];
-
 export const useNodeResourceMetas = (
   params: UseNodeResourceMetas,
-  options?: UseQueryOptions<NodeResourceMeta[]>,
+  options?: Partial<UseQueryOptions<NodeResourceMeta[]>>,
 ) => {
-  return useQuery<NodeResourceMeta[]>(
-    nodeResourceMetasQueryKey(params),
-    () => fetchNodeResourceMetas(params),
-    options,
-  );
+  return useQuery<NodeResourceMeta[]>({
+    queryKey: nodeQueryKeys.resourceMetas(params),
+    queryFn: () => fetchNodeResourceMetas(params),
+    ...options,
+  });
 };
 
 interface ContentUriPartition {
@@ -214,14 +216,14 @@ interface UseNodeTree extends WithTaxonomyVersion {
   language: string;
 }
 
-export const nodeTreeQueryKeys = (params?: Partial<UseNodeTree>) => [
-  ROOT_NODE_WITH_CHILDREN,
-  params,
-];
-
-export const useNodeTree = (params: UseNodeTree, options?: UseQueryOptions<NodeTree>) => {
-  return useQuery<NodeTree>(nodeTreeQueryKeys(params), () => fetchNodeTree(params), options);
+export const useNodeTree = (params: UseNodeTree, options?: Partial<UseQueryOptions<NodeTree>>) => {
+  return useQuery<NodeTree>({
+    queryKey: nodeQueryKeys.tree(params),
+    queryFn: () => fetchNodeTree(params),
+    ...options,
+  });
 };
+
 interface NodeTreeGetParams extends WithTaxonomyVersion {
   id: string;
   language: string;
@@ -275,76 +277,30 @@ interface UseChildNodesWithArticleTypeParams extends WithTaxonomyVersion {
   nodeType?: NodeType[];
 }
 
-export const childNodesWithArticleTypeQueryKey = (
-  params?: Partial<UseChildNodesWithArticleTypeParams>,
-) => [CHILD_NODES_WITH_ARTICLE_TYPE, params];
-
 export const useChildNodesWithArticleType = (
   params: UseChildNodesWithArticleTypeParams,
-  options?: UseQueryOptions<(NodeChildWithChildren & { articleType?: string })[]>,
+  options?: Partial<UseQueryOptions<(NodeChildWithChildren & { articleType?: string })[]>>,
 ) => {
-  return useQuery<NodeChildWithChildren[]>(
-    childNodesWithArticleTypeQueryKey(params),
-    () => fetchChildNodesWithArticleType(params),
-    options,
-  );
-};
-
-interface UseConnectionsForNodeParams extends WithTaxonomyVersion {
-  id: string;
-}
-export const connectionsForNodeQueryKey = (params?: Partial<UseConnectionsForNodeParams>) => [
-  CONNECTIONS_FOR_NODE,
-  params,
-];
-export const useConnectionsForNode = (
-  params: UseConnectionsForNodeParams,
-  options?: UseQueryOptions<Connection[]>,
-) => {
-  return useQuery<Connection[]>(
-    connectionsForNodeQueryKey(params),
-    () => fetchConnectionsForNode(params),
-    options,
-  );
-};
-
-interface UseNodeTranslationParams extends WithTaxonomyVersion {
-  id: string;
-}
-
-export const nodeTranslationsQueryKey = (params?: Partial<UseNodeTranslationParams>) => [
-  NODE_TRANSLATIONS,
-  params,
-];
-
-export const useNodeTranslations = (
-  params: UseNodeTranslationParams,
-  options?: UseQueryOptions<Translation[]>,
-) => {
-  return useQuery<Translation[]>(
-    nodeTranslationsQueryKey(params),
-    () => fetchNodeTranslations(params),
-    options,
-  );
+  return useQuery<NodeChildWithChildren[]>({
+    queryKey: nodeQueryKeys.childNodes(params),
+    queryFn: () => fetchChildNodesWithArticleType(params),
+    ...options,
+  });
 };
 
 interface UseResourcesWithNodeConnectionParams extends WithTaxonomyVersion, GetNodeResourcesParams {
   id: string;
 }
 
-export const resourcesWithNodeConnectionQueryKey = (
-  params?: Partial<UseResourcesWithNodeConnectionParams>,
-) => [RESOURCES_WITH_NODE_CONNECTION, params];
-
 export const useResourcesWithNodeConnection = (
   params: UseResourcesWithNodeConnectionParams,
-  options?: UseQueryOptions<NodeChild[]>,
+  options?: Partial<UseQueryOptions<NodeChild[]>>,
 ) => {
-  return useQuery<NodeChild[]>(
-    resourcesWithNodeConnectionQueryKey(params),
-    () => fetchNodeResources(params),
-    options,
-  );
+  return useQuery<NodeChild[]>({
+    ...options,
+    queryKey: nodeQueryKeys.resources(params),
+    queryFn: () => fetchNodeResources(params),
+  });
 };
 
 interface UseSearchNodes extends WithTaxonomyVersion {
@@ -356,14 +312,13 @@ interface UseSearchNodes extends WithTaxonomyVersion {
   query?: string;
 }
 
-export const searchNodesQueryKey = (params: UseSearchNodes) => [SEARCH_NODES, params];
 export const useSearchNodes = (
   params: UseSearchNodes,
-  options?: UseQueryOptions<SearchResultBase<Node>>,
+  options?: Partial<UseQueryOptions<SearchResultBase<Node>>>,
 ) => {
-  return useQuery<SearchResultBase<Node>>(
-    searchNodesQueryKey(params),
-    () => searchNodes(params),
-    options,
-  );
+  return useQuery<SearchResultBase<Node>>({
+    queryKey: nodeQueryKeys.search(params),
+    queryFn: () => searchNodes(params),
+    ...options,
+  });
 };

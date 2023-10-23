@@ -23,7 +23,7 @@ import { getContentTypeFromResourceTypes } from '../../../util/resourceHelpers';
 import RelevanceOption from '../../../components/Taxonomy/RelevanceOption';
 import ResourceItemLink from './ResourceItemLink';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
-import { resourcesWithNodeConnectionQueryKey } from '../../../modules/nodes/nodeQueries';
+import { nodeQueryKeys } from '../../../modules/nodes/nodeQueries';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 import StatusIcons from './StatusIcons';
 import GrepCodesModal from './GrepCodesModal';
@@ -124,13 +124,13 @@ const Resource = ({
 
   const qc = useQueryClient();
   const { taxonomyVersion } = useTaxonomyVersion();
-  const compKey = resourcesWithNodeConnectionQueryKey({
+  const compKey = nodeQueryKeys.resources({
     id: currentNodeId,
     language: i18n.language,
   });
 
   const onUpdateConnection = async (id: string, { relevanceId }: NodeConnectionPUT) => {
-    await qc.cancelQueries(compKey);
+    await qc.cancelQueries({ queryKey: compKey });
     const resources = qc.getQueryData<NodeChild[]>(compKey) ?? [];
     if (relevanceId) {
       const newResources = resources.map((res) => {
@@ -145,11 +145,11 @@ const Resource = ({
 
   const { mutateAsync: updateNodeConnection } = useUpdateNodeConnectionMutation({
     onMutate: async ({ id, body }) => onUpdateConnection(id, body),
-    onSettled: () => qc.invalidateQueries(compKey),
+    onSettled: () => qc.invalidateQueries({ queryKey: compKey }),
   });
   const { mutateAsync: updateResourceConnection } = usePutResourceForNodeMutation({
     onMutate: async ({ id, body }) => onUpdateConnection(id, body),
-    onSettled: () => qc.invalidateQueries(compKey),
+    onSettled: () => qc.invalidateQueries({ queryKey: compKey }),
   });
 
   const contentType =

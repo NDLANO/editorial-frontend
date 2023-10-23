@@ -30,6 +30,10 @@ export const StyledDashboardInfo = styled.div`
 export const StyledTopRowDashboardInfo = styled.div`
   display: flex;
   justify-content: space-between;
+  margin-bottom: ${spacing.small};
+  ${mq.range({ until: breakpoints.tabletWide })} {
+    flex-direction: column;
+  }
 `;
 
 export const StyledLink = styled(SafeLink)`
@@ -58,22 +62,35 @@ export const DropdownWrapper = styled.div`
 
 export const ControlWrapperDashboard = styled.div`
   display: flex;
-  gap: ${spacing.small};
-  ${mq.range({ until: breakpoints.tablet })} {
-    flex-direction: column;
+  gap: ${spacing.xsmall};
+  flex-direction: column;
+  ${mq.range({ until: breakpoints.tabletWide })} {
+    flex-direction: row;
   }
 `;
 export const SwitchWrapper = styled.div`
-  margin-top: ${spacing.small};
-  & button {
-    margin-left: auto;
-  }
+  margin-top: ${spacing.xxsmall};
+  margin-left: auto;
 `;
 
 export const StyledSwitch = styled(Switch)`
   white-space: nowrap;
+  ${mq.range({ until: breakpoints.tabletWide })} {
+    margin-right: auto;
+  }
   label {
     font-size: ${fonts.sizes('16px')};
-    margin-left: auto;
+    ${mq.range({ from: breakpoints.tabletWide })} {
+      margin-left: auto;
+    }
+  }
+`;
+
+export const TopRowControls = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: ${spacing.xsmall};
+  ${mq.range({ until: breakpoints.tabletWide })} {
+    justify-content: flex-start;
   }
 `;

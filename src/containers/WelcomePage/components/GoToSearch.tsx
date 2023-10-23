@@ -14,7 +14,6 @@ import queryString from 'query-string';
 
 const StyledSafeLinkButton = styled(SafeLinkButton)`
   height: fit-content;
-  margin-left: auto;
 `;
 
 interface Props {

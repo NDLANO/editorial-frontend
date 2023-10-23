@@ -13,15 +13,12 @@ import sortBy from 'lodash/sortBy';
 import { IUserData } from '@ndla/types-backend/draft-api';
 import { NodeChild, Node, NodeType } from '@ndla/types-taxonomy';
 import { DragEndEvent } from '@dnd-kit/core';
-import {
-  childNodesWithArticleTypeQueryKey,
-  useChildNodesWithArticleType,
-} from '../../modules/nodes/nodeQueries';
+import { nodeQueryKeys, useChildNodesWithArticleType } from '../../modules/nodes/nodeQueries';
 import { groupChildNodes } from '../../util/taxonomyHelpers';
 import NodeItem, { RenderBeforeFunction } from './NodeItem';
 import { useUpdateNodeConnectionMutation } from '../../modules/nodes/nodeMutations';
 import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
-import { userDataQueryKey, useUpdateUserDataMutation } from '../../modules/draft/draftQueries';
+import { draftQueryKeys, useUpdateUserDataMutation } from '../../modules/draft/draftQueries';
 
 interface Props {
   node: Node;
@@ -56,7 +53,7 @@ const RootNode = ({
       select: (childNodes) => groupChildNodes(childNodes),
     },
   );
-  const compKey = childNodesWithArticleTypeQueryKey({
+  const compKey = nodeQueryKeys.childNodes({
     taxonomyVersion,
     id: node.id,
     language: locale,
@@ -66,7 +63,7 @@ const RootNode = ({
   const qc = useQueryClient();
 
   const onUpdateRank = async (id: string, newRank: number) => {
-    await qc.cancelQueries(compKey);
+    await qc.cancelQueries({ queryKey: compKey });
     const prevData = qc.getQueryData<NodeChild[]>(compKey);
     const [toUpdate, other] = partition(prevData, (t) => t.connectionId === id);
     const updatedNode: NodeChild = { ...toUpdate[0], rank: newRank };
@@ -78,7 +75,7 @@ const RootNode = ({
 
   const { mutateAsync: updateNodeConnection } = useUpdateNodeConnectionMutation({
     onMutate: ({ id, body }) => onUpdateRank(id, body.rank!),
-    onSettled: () => qc.invalidateQueries(compKey),
+    onSettled: () => qc.invalidateQueries({ queryKey: compKey }),
   });
 
   const onDragEnd = async ({ active, over }: DragEndEvent, nodes: NodeChild[]) => {
@@ -97,7 +94,7 @@ const RootNode = ({
   };
 
   const toggleFavorite = () => {
-    const favorites = qc.getQueryData<IUserData>(userDataQueryKey())?.favoriteSubjects ?? [];
+    const favorites = qc.getQueryData<IUserData>(draftQueryKeys.userData)?.favoriteSubjects ?? [];
     const updatedFavs = favorites.includes(node.id)
       ? favorites.filter((s) => s !== node.id)
       : favorites.concat(node.id);

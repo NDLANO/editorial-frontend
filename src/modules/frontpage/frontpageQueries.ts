@@ -11,8 +11,14 @@ import { UseQueryOptions, useQuery } from '@tanstack/react-query';
 import { FRONTPAGE } from '../../queryKeys';
 import { fetchFrontpage } from './frontpageApi';
 
-export const frontpageQueryKey = () => [FRONTPAGE];
+export const frontpageQueryKeys = {
+  frontpage: [FRONTPAGE] as const,
+};
 
-export const useFrontpage = (options?: UseQueryOptions<IFrontPage>) => {
-  return useQuery<IFrontPage>(frontpageQueryKey(), () => fetchFrontpage(), options);
+export const useFrontpage = (options?: Partial<UseQueryOptions<IFrontPage>>) => {
+  return useQuery<IFrontPage>({
+    queryKey: frontpageQueryKeys.frontpage,
+    queryFn: () => fetchFrontpage(),
+    ...options,
+  });
 };

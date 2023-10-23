@@ -118,6 +118,10 @@ function EditorFooter<T extends FormValues>({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newStatus]);
 
+  useEffect(() => {
+    if (prioritized !== undefined) setPrioritizedOn(prioritized);
+  }, [prioritized]);
+
   const catchError = useCallback(
     (error: any, createMessage: (message: NewMessageType) => void) => {
       if (error?.json?.messages) {

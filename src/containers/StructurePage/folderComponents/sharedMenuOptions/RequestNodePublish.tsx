@@ -1,4 +1,4 @@
-import { Check } from '@ndla/icons/editor';
+import { CloudUploadOutline } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -16,27 +16,30 @@ interface Props {
   rootNodeId: string;
 }
 const RequestNodePublish = ({ node, rootNodeId }: Props) => {
-  const [hasRequested, setHasRequested] = useState<string | undefined>(
-    node.metadata.customFields[TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH],
+  const [hasRequested, setHasRequested] = useState(
+    node.metadata.customFields[TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH] === 'true',
   );
   const { id, metadata } = node;
   const { taxonomyVersion } = useTaxonomyVersion();
 
-  const updateMetadata = useUpdateNodeMetadataMutation();
+  const { mutateAsync: updateMetadata } = useUpdateNodeMetadataMutation();
 
   const togglePublish = async () => {
-    if (hasRequested) {
-      delete metadata.customFields[TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH];
-    } else {
-      metadata.customFields[TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH] = 'true';
-    }
-    await updateMetadata.mutateAsync({
+    const oldValue = metadata.customFields[TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH];
+    const newValue = oldValue === 'true' ? 'false' : 'true';
+    await updateMetadata({
       id,
-      metadata,
+      metadata: {
+        ...metadata,
+        customFields: {
+          ...metadata.customFields,
+          [TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH]: newValue,
+        },
+      },
       rootId: rootNodeId !== node.id ? rootNodeId : undefined,
       taxonomyVersion: 'default',
     });
-    setHasRequested(metadata.customFields[TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH]);
+    setHasRequested(newValue === 'true');
   };
 
   const { t } = useTranslation();
@@ -46,7 +49,7 @@ const RequestNodePublish = ({ node, rootNodeId }: Props) => {
       onClick={togglePublish}
       disabled={taxonomyVersion !== 'default' || metadata.customFields.isPublishing === 'true'}
     >
-      <RoundIcon small icon={<Check />} />
+      <RoundIcon small icon={<CloudUploadOutline />} />
       {t(
         hasRequested
           ? 'taxonomy.metadata.customFields.cancelPublishRequest'

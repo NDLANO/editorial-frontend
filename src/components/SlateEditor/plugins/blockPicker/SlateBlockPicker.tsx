@@ -125,7 +125,9 @@ const BlockPickerButton = styled(IconButtonV2)`
   border: 2px solid ${colors.brand.primary};
   height: ${spacing.large};
   width: ${spacing.large};
-  transition: background 200ms ease, transform 200ms ease;
+  transition:
+    background 200ms ease,
+    transform 200ms ease;
   svg {
     transition: transform 300ms ease;
     height: ${spacing.medium};

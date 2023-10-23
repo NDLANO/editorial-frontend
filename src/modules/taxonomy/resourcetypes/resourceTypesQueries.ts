@@ -12,32 +12,34 @@ import { fetchAllResourceTypes, fetchResourceType } from '.';
 import { WithTaxonomyVersion } from '../../../interfaces';
 import { RESOURCE_TYPE, RESOURCE_TYPES } from '../../../queryKeys';
 
+export const resourceTypeQueryKeys = {
+  resourceType: (params?: Partial<UseResourceTypeParams>) => [RESOURCE_TYPE, params] as const,
+  resourceTypes: (params?: Partial<UseAllResourceTypesParams>) => [RESOURCE_TYPES, params] as const,
+};
+
 interface UseResourceTypeParams extends WithTaxonomyVersion {
   id: string;
   language: string;
 }
-export const resourceTypeQueryKey = (params?: Partial<UseResourceTypeParams>) => [
-  RESOURCE_TYPE,
-  params,
-];
 export const useResourceType = (
   params: UseResourceTypeParams,
-  options?: UseQueryOptions<ResourceType>,
-) => useQuery<ResourceType>(resourceTypeQueryKey(params), () => fetchResourceType(params), options);
+  options?: Partial<UseQueryOptions<ResourceType>>,
+) =>
+  useQuery<ResourceType>({
+    queryKey: resourceTypeQueryKeys.resourceType(params),
+    queryFn: () => fetchResourceType(params),
+    ...options,
+  });
 
 interface UseAllResourceTypesParams extends WithTaxonomyVersion {
   language: string;
 }
-export const resourceTypesQueryKey = (params?: Partial<UseAllResourceTypesParams>) => [
-  RESOURCE_TYPES,
-  params,
-];
 export const useAllResourceTypes = <ReturnType>(
   params: UseAllResourceTypesParams,
-  options?: UseQueryOptions<ResourceType[], unknown, ReturnType>,
+  options?: Partial<UseQueryOptions<ResourceType[], unknown, ReturnType>>,
 ) =>
-  useQuery<ResourceType[], unknown, ReturnType>(
-    resourceTypesQueryKey(params),
-    () => fetchAllResourceTypes(params),
-    options,
-  );
+  useQuery<ResourceType[], unknown, ReturnType>({
+    queryKey: resourceTypeQueryKeys.resourceTypes(params),
+    queryFn: () => fetchAllResourceTypes(params),
+    ...options,
+  });

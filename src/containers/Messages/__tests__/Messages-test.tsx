@@ -24,7 +24,7 @@ beforeEach(() => {
 
   jest
     .spyOn(window, 'location', 'get')
-    .mockImplementation(() => ({ reload } as unknown as Location));
+    .mockImplementation(() => ({ reload }) as unknown as Location);
 });
 
 const wrapper = (messages: MessageType[]) => (

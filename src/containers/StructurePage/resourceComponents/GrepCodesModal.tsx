@@ -24,8 +24,8 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useUpdateDraftMutation } from '../../../modules/draft/draftMutations';
-import { draftQueryKey } from '../../../modules/draft/draftQueries';
-import { NodeResourceMeta, nodeResourceMetasQueryKey } from '../../../modules/nodes/nodeQueries';
+import { draftQueryKeys } from '../../../modules/draft/draftQueries';
+import { NodeResourceMeta, nodeQueryKeys } from '../../../modules/nodes/nodeQueries';
 import { getIdFromUrn } from '../../../util/taxonomyHelpers';
 import GrepCodesForm from './GrepCodesForm';
 
@@ -101,11 +101,11 @@ const GrepCodeContent = ({
   const { t, i18n } = useTranslation();
   const qc = useQueryClient();
   const key = useMemo(
-    () => draftQueryKey({ id: draftId, language: i18n.language }),
+    () => draftQueryKeys.draft({ id: draftId, language: i18n.language }),
     [i18n.language, draftId],
   );
   const nodeKey = useMemo(
-    () => nodeResourceMetasQueryKey({ nodeId: currentNodeId, language: i18n.language }),
+    () => nodeQueryKeys.resourceMetas({ nodeId: currentNodeId, language: i18n.language }),
     [i18n.language, currentNodeId],
   );
 
@@ -115,11 +115,15 @@ const GrepCodeContent = ({
         { id: draftId, body: { grepCodes, revision } },
         {
           onSuccess: (data) => {
-            qc.cancelQueries(key);
+            qc.cancelQueries({ queryKey: key });
             qc.setQueryData<IArticle>(key, data);
-            qc.invalidateQueries(key);
-            qc.setQueriesData<NodeResourceMeta[]>({ queryKey: nodeKey }, (data) =>
-              data?.map((meta) => (meta.contentUri === contentUri ? { ...meta, grepCodes } : meta)),
+            qc.invalidateQueries({ queryKey: key });
+            qc.setQueriesData<NodeResourceMeta[]>(
+              { queryKey: nodeKey },
+              (data) =>
+                data?.map((meta) =>
+                  meta.contentUri === contentUri ? { ...meta, grepCodes } : meta,
+                ),
             );
           },
         },

@@ -70,6 +70,7 @@ interface Props {
   responsibleName?: string;
   hasRSS?: boolean;
   inSearch?: boolean;
+  slug?: string;
 }
 
 const StyledStatus = styled.p`
@@ -133,6 +134,7 @@ const HeaderStatusInformation = ({
   inSearch,
   expirationDate,
   responsibleName,
+  slug,
   hasRSS,
 }: Props) => {
   const { t } = useTranslation();
@@ -180,7 +182,7 @@ const HeaderStatusInformation = ({
             title={t('form.workflow.published')}
             to={`${config.ndlaFrontendDomain}/${
               type === 'concept' || type === 'gloss' ? 'concept' : 'article'
-            }/${id}`}
+            }/${slug ?? id}`}
           >
             <StyledCheckIcon />
           </StyledLink>

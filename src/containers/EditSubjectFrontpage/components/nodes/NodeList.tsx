@@ -16,7 +16,6 @@ import Tooltip from '@ndla/tooltip';
 import { Node } from '@ndla/types-taxonomy';
 
 import DndList from '../../../../components/DndList';
-import { useEffect } from 'react';
 
 const NodeWrapper = styled.div`
   align-items: center;

@@ -32,7 +32,7 @@ interface KeyFigureFormValue {
   title: string;
   subtitle: string;
   alt?: string;
-  isDecorative: boolean;
+  isDecorative?: boolean;
 }
 
 const toInitialValues = (initialData: KeyFigureEmbedData): KeyFigureFormValue => ({
@@ -40,8 +40,8 @@ const toInitialValues = (initialData: KeyFigureEmbedData): KeyFigureFormValue =>
   metaImageId: initialData?.imageId ?? '',
   title: initialData?.title ?? '',
   subtitle: initialData?.subtitle ?? '',
-  alt: initialData?.alt,
-  isDecorative: !!initialData?.alt,
+  alt: initialData?.alt ?? '',
+  isDecorative: initialData ? initialData.alt === undefined : false,
 });
 
 const rules: RulesType<KeyFigureFormValue> = {
@@ -64,13 +64,13 @@ const inputStyle = css`
   display: flex;
   flex-direction: column;
 
-  label {
-    max-width: 100%;
-    width:100%;
+  & > label {
+    white-space: nowrap;
   }
 `;
 
 const ButtonContainer = styled.div`
+  margin-top: ${spacing.small};
   display: flex;
   justify-content: flex-end;
   gap: ${spacing.small};

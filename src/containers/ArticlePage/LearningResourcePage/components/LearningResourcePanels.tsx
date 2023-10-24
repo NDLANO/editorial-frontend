@@ -9,7 +9,7 @@
 import { useTranslation } from 'react-i18next';
 import { useFormikContext } from 'formik';
 import { IUpdatedArticle, IArticle } from '@ndla/types-backend/draft-api';
-import { memo, useMemo } from 'react';
+import { memo, useMemo, useState } from 'react';
 import { Node, TaxonomyContext } from '@ndla/types-taxonomy';
 import config from '../../../../config';
 import RelatedContentFieldGroup from '../../components/RelatedContentFieldGroup';
@@ -31,6 +31,7 @@ interface Props {
   handleSubmit: HandleSubmitFunc<LearningResourceFormType>;
   articleLanguage: string;
   contexts?: TaxonomyContext[];
+  initialHTML: string;
 }
 
 const LearningResourcePanels = ({
@@ -40,6 +41,7 @@ const LearningResourcePanels = ({
   articleLanguage,
   contexts,
   handleSubmit,
+  initialHTML,
 }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
@@ -58,6 +60,7 @@ const LearningResourcePanels = ({
           articleLanguage={articleLanguage}
           articleId={article?.id}
           handleSubmit={handleSubmit}
+          initialHTML={initialHTML}
         />
       </FormAccordion>
       {!!article && !!taxonomy && !!userPermissions?.includes(TAXONOMY_WRITE_SCOPE) && (

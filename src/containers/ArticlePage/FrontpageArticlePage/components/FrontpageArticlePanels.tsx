@@ -20,12 +20,12 @@ import { useWideArticle } from '../../../../components/WideArticleEditorProvider
 interface Props {
   article?: IArticle;
   articleLanguage: string;
+  initialHTML: string;
 }
 
-const FrontpageArticlePanels = ({ article, articleLanguage }: Props) => {
+const FrontpageArticlePanels = ({ article, articleLanguage, initialHTML }: Props) => {
   const { t } = useTranslation();
-  const formikContext = useFormikContext<FrontpageArticleFormType>();
-  const { values, errors, handleBlur } = formikContext;
+  const { errors } = useFormikContext<FrontpageArticleFormType>();
   const { isWideArticle } = useWideArticle();
 
   return (
@@ -42,12 +42,7 @@ const FrontpageArticlePanels = ({ article, articleLanguage }: Props) => {
         wide={isWideArticle}
         isFrontpageArticle={article?.articleType === 'frontpage-article'}
       >
-        <FrontpageArticleFormContent
-          articleLanguage={articleLanguage}
-          formik={formikContext}
-          handleBlur={handleBlur}
-          values={values}
-        />
+        <FrontpageArticleFormContent initialHTML={initialHTML} articleLanguage={articleLanguage} />
       </FormAccordion>
       <FormAccordion
         id={'frontpage-article-copyright'}

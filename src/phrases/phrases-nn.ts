@@ -1096,6 +1096,8 @@ const phrases = {
         row: 'rad',
         column: 'kolonne',
       },
+      normalizedOnLoad:
+        'Endringar etter oppdatering av editor, republiser for å inkludere endringar',
     },
     tags: {
       label: 'Nøkkelord',

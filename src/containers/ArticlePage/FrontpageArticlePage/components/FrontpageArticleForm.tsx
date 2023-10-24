@@ -103,7 +103,11 @@ const FrontpageArticleForm = ({
         />
         <FlexWrapper>
           <MainContent data-wide={isWideArticle}>
-            <FrontpageArticlePanels articleLanguage={articleLanguage} article={article} />
+            <FrontpageArticlePanels
+              articleLanguage={articleLanguage}
+              article={article}
+              initialHTML={initialHTML}
+            />
           </MainContent>
           <CommentSection savedStatus={article?.status} />
         </FlexWrapper>

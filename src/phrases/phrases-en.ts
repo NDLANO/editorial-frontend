@@ -1096,6 +1096,8 @@ const phrases = {
         row: 'row',
         column: 'column',
       },
+      normalizedOnLoad:
+        'There are edits due to editor update. Republish the article to include edits.',
     },
     tags: {
       label: 'Tags',

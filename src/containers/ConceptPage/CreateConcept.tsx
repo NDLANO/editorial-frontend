@@ -43,7 +43,7 @@ const CreateConcept = ({ inModal = false, addConceptInModal }: Props) => {
 
   return (
     <>
-      <HelmetWithTracker title={t(`conceptform.concept`)} />
+      <HelmetWithTracker title={t(`conceptform.title`)} />
       <ConceptForm
         language={i18n.language}
         upsertProps={{ onCreate }}

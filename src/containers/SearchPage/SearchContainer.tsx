@@ -62,11 +62,7 @@ const SearchContainer = ({ searchHook, type }: Props) => {
     taxonomyVersion,
   });
   const [searchObject, setSearchObject] = useState(parseSearchParams(location.search));
-  const {
-    data: results,
-    isInitialLoading: isSearching,
-    error: searchError,
-  } = searchHook(searchObject);
+  const { data: results, isLoading: isSearching, error: searchError } = searchHook(searchObject);
   const nextPage = (searchObject?.page ?? 1) + 1;
   // preload next page.
   searchHook({ ...searchObject, page: nextPage });

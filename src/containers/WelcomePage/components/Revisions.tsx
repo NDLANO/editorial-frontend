@@ -79,7 +79,7 @@ const Revisions = ({ userData }: Props) => {
 
   const currentDateAddYear = formatDateForBackend(addYears(new Date(), 1));
 
-  const { data, isInitialLoading, isError } = useSearch(
+  const { data, isLoading, isError } = useSearch(
     {
       subjects: filterSubject ? filterSubject.value : userData?.favoriteSubjects?.join(','),
       'revision-date-to': currentDateAddYear,
@@ -102,7 +102,7 @@ const Revisions = ({ userData }: Props) => {
     }
   }, [t, isError]);
 
-  const { data: subjectData, isInitialLoading: isInitialLoadingSubjects } = useSearchNodes(
+  const { data: subjectData, isLoading: isLoadingSubjects } = useSearchNodes(
     {
       nodeType: SUBJECT_NODE,
       taxonomyVersion,
@@ -217,7 +217,7 @@ const Revisions = ({ userData }: Props) => {
                   menuPlacement="bottom"
                   small
                   outline
-                  isLoading={isInitialLoadingSubjects}
+                  isLoading={isLoadingSubjects}
                   isSearchable
                   noOptionsMessage={() => t('form.responsible.noResults')}
                   isClearable
@@ -246,7 +246,7 @@ const Revisions = ({ userData }: Props) => {
           </ControlWrapperDashboard>
         </StyledTopRowDashboardInfo>
         <TableComponent
-          isLoading={isInitialLoading}
+          isLoading={isLoading}
           tableTitleList={tableTitles}
           tableData={tableData}
           setSortOption={setSortOption}

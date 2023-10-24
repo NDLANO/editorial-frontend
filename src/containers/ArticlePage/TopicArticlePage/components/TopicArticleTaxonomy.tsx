@@ -84,11 +84,7 @@ const TopicArticleTaxonomy = ({ article, updateNotes, articleLanguage, hasTaxEnt
         }}
       />
     );
-  } else if (
-    nodesQuery.isInitialLoading ||
-    subjectsQuery.isInitialLoading ||
-    versionsQuery.isInitialLoading
-  ) {
+  } else if (nodesQuery.isLoading || subjectsQuery.isLoading || versionsQuery.isLoading) {
     return <Spinner />;
   }
 

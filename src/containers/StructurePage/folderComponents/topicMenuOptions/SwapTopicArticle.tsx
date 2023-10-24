@@ -147,7 +147,7 @@ const SwapTopicArticle = ({
         {t('taxonomy.swapTopicArticle.info')}
       </MenuItemButton>
       <StyledActionContent>
-        {putNodeMutation.isLoading && (
+        {putNodeMutation.isPending && (
           <MenuContent>
             <StyledSpinner />
           </MenuContent>

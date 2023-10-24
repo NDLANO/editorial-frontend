@@ -152,7 +152,7 @@ const WorkList = ({ ndlaId }: Props) => {
               filterSubject={filterSubject}
               setSortOption={setSortOption}
               setFilterSubject={setFilterSubject}
-              isLoading={searchQuery.isInitialLoading}
+              isLoading={searchQuery.isLoading}
               error={searchError}
               sortOption={sortOption}
               ndlaId={ndlaId}
@@ -171,7 +171,7 @@ const WorkList = ({ ndlaId }: Props) => {
             <ConceptListTabContent
               data={searchConceptsQuery.data}
               setSortOption={setSortOptionConcepts}
-              isLoading={searchConceptsQuery.isInitialLoading}
+              isLoading={searchConceptsQuery.isLoading}
               error={searchConceptsError}
               sortOption={sortOptionConcepts}
               filterSubject={filterConceptSubject}

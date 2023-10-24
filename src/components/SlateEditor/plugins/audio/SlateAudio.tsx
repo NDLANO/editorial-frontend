@@ -133,7 +133,7 @@ const SlateAudio = ({ element, editor, attributes, language, children }: Props) 
         data-selected={isSelected}
         data-type={embed?.embedData.type}
       >
-        {audioMetaQuery.isInitialLoading ? (
+        {audioMetaQuery.isLoading ? (
           <Spinner />
         ) : embed ? (
           <>

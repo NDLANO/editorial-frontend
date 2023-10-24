@@ -126,26 +126,17 @@ const BOGUS_LANGUAGE = 'asdasdasd';
 
 const ChangeNodeNameContent = ({ onClose, node, nodeType = 'SUBJECT' }: ModalProps) => {
   const { t } = useTranslation();
-  const [loadError, setLoadError] = useState('');
   const [updateError, setUpdateError] = useState('');
   const [saved, setSaved] = useState(false);
   const { taxonomyVersion } = useTaxonomyVersion();
   const qc = useQueryClient();
   const { id, name } = node;
 
-  const nodeWithoutTranslationsQuery = useNode(
-    {
-      id: node.id,
-      language: BOGUS_LANGUAGE,
-      taxonomyVersion,
-    },
-    {
-      onError: (e) => {
-        handleError(e);
-        setLoadError(t('taxonomy.changeName.loadError'));
-      },
-    },
-  );
+  const nodeWithoutTranslationsQuery = useNode({
+    id: node.id,
+    language: BOGUS_LANGUAGE,
+    taxonomyVersion,
+  });
 
   const { mutateAsync: deleteNodeTranslation } = useDeleteNodeTranslationMutation();
   const { mutateAsync: updateNodeTranslation } = useUpdateNodeTranslationMutation();
@@ -216,12 +207,12 @@ const ChangeNodeNameContent = ({ onClose, node, nodeType = 'SUBJECT' }: ModalPro
     setSaved(true);
   };
 
-  if (nodeWithoutTranslationsQuery.isInitialLoading) {
+  if (nodeWithoutTranslationsQuery.isLoading) {
     return <Spinner />;
   }
 
-  if (loadError || !nodeWithoutTranslationsQuery.data) {
-    return <StyledErrorMessage>{loadError}</StyledErrorMessage>;
+  if (nodeWithoutTranslationsQuery.isError || !nodeWithoutTranslationsQuery.data) {
+    return <StyledErrorMessage>{t('taxonomy.changeName.loadError')}</StyledErrorMessage>;
   }
 
   const initialValues = {

@@ -188,14 +188,14 @@ const VersionAndNotesPanel = ({ article, type, currentLanguage }: Props) => {
           />
         )}
       </FormikField>
-      <StyledAccordionRoot type="multiple">
+      <StyledAccordionRoot type="multiple" defaultValue={['0']}>
         {versions.map((version, index) => {
           const isLatestVersion = index === 0;
           const published =
             version.status.current === 'PUBLISHED' ||
             version.status.other.some((s) => s === 'PUBLISHED');
           return (
-            <StyledAccordionItem value={version.revision.toString()} key={version.revision}>
+            <StyledAccordionItem value={index.toString()} key={index}>
               <StyledAccordionBar>
                 <InfoGrouping>
                   <AccordionTrigger asChild>

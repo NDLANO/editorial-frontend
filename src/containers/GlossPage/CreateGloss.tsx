@@ -43,7 +43,7 @@ const CreateGloss = ({ inModal = false, addConceptInModal }: Props) => {
 
   return (
     <>
-      <HelmetWithTracker title={t(`conceptform.gloss`)} />
+      <HelmetWithTracker title={t(`glossform.title`)} />
       <ConceptForm
         language={i18n.language}
         upsertProps={{ onCreate }}

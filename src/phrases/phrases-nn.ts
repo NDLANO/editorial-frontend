@@ -823,7 +823,7 @@ const phrases = {
       success: 'Innhold er tilbakestilt, trykk lagre for å lagre endringene',
     },
     resetToVersion: 'Tilbakestill til versjon',
-    previewVersion: 'Se versjon',
+    previewVersion: 'Samanlikn versjon',
     variant: {
       create: 'Legg til språk',
       translate: 'Oversett til nynorsk',

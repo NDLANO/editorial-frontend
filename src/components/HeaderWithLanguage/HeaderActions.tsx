@@ -6,12 +6,12 @@
  *
  */
 
-import { Check } from '@ndla/icons/editor';
+import { Check, Eye } from '@ndla/icons/editor';
 import { FileCompare } from '@ndla/icons/action';
 import { useTranslation } from 'react-i18next';
 import { IConcept } from '@ndla/types-backend/concept-api';
 import { IArticle } from '@ndla/types-backend/draft-api';
-import { memo, useCallback, useMemo } from 'react';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { useFormikContext } from 'formik';
 import StyledFilledButton from '../StyledFilledButton';
 import { StyledSplitter } from './HeaderInformation';
@@ -33,6 +33,7 @@ import {
   toEditPodcastSeries,
   toEditTopicArticle,
 } from '../../util/routeHelpers';
+import { fetchDraftHistory } from '../../modules/draft/draftApi';
 
 interface PreviewLightBoxProps {
   article?: IArticle;
@@ -124,6 +125,8 @@ const HeaderActions = ({
   concept,
   supportedLanguages = [],
 }: Props) => {
+  const [lastPublishedVersion, setLastPublishedVersion] = useState<IArticle>();
+
   const { t } = useTranslation();
   const { isSubmitting } = useFormikContext();
   const showTranslate = useIsTranslatableToNN();
@@ -134,6 +137,18 @@ const HeaderActions = ({
     },
     [type],
   );
+
+  useEffect(() => {
+    const getVersions = async (article: IArticle) => {
+      const versions = await fetchDraftHistory(article.id, article.title?.language);
+      if (versions.length) {
+        setLastPublishedVersion(versions[1]);
+      }
+    };
+    if (article) {
+      getVersions(article);
+    }
+  }, [article]);
 
   const languages = useMemo(
     () => [
@@ -195,6 +210,21 @@ const HeaderActions = ({
             <TranslateNbToNn id={id} editUrl={editUrl} />
           </>
         )}
+      {lastPublishedVersion && (
+        <>
+          <StyledSplitter />
+          <PreviewDraftLightboxV2
+            type="version"
+            article={lastPublishedVersion}
+            language={language}
+            activateButton={
+              <StyledFilledButton type="button">
+                <Eye /> {t('form.previewVersion')}
+              </StyledFilledButton>
+            }
+          />
+        </>
+      )}
       {
         <DeleteLanguageVersion
           id={id}

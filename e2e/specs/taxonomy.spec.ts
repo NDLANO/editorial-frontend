@@ -85,7 +85,7 @@ test('should be able to change name of node', async ({ page }) => {
   await page.getByTestId('structure').getByRole('button', { name: 'Engelsk 1' }).click();
   await mockRoute({
     page,
-    path: '**/taxonomy/v1/nodes/urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357?language=asdasdasd',
+    path: '**/taxonomy/v1/nodes/urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
     fixture: 'taxonomy_change_name_translations_add',
   });
   await mockRoute({
@@ -107,7 +107,7 @@ test('should be able to change name of node', async ({ page }) => {
 test('should be able to delete name of node', async ({ page }) => {
   await mockRoute({
     page,
-    path: '**/taxonomy/v1/nodes/urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357?language=asdasdasd',
+    path: '**/taxonomy/v1/nodes/urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
     fixture: 'taxonomy_change_name_translations_delete',
     overrideValue: (val) =>
       JSON.stringify({
@@ -176,7 +176,7 @@ test('can toggle favourites', async ({ page }) => {
 test('can only toggle only show favourites', async ({ page }) => {
   await page.getByTestId('structure').waitFor();
   expect(await page.getByTestId('switch-favorites').isChecked()).toBeFalsy();
-  expect(await page.getByTestId('structure').locator('div').count()).toEqual(808);
+  expect(await page.getByTestId('structure').locator('div').count()).toEqual(811);
   await page.getByTestId('switch-favorites').click();
   expect(await page.getByTestId('switch-favorites').isChecked()).toBeTruthy();
   await page.getByTestId('structure').waitFor();

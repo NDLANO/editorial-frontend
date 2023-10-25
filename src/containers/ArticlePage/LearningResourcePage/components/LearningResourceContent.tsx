@@ -13,8 +13,8 @@ import { FieldProps, useField, useFormikContext } from 'formik';
 import styled from '@emotion/styled';
 import { FieldHeader } from '@ndla/forms';
 import { Eye } from '@ndla/icons/editor';
-import { ButtonV2, IconButtonV2 } from '@ndla/button';
-import { colors, spacing } from '@ndla/core';
+import { IconButtonV2 } from '@ndla/button';
+import { colors } from '@ndla/core';
 import { IAuthor } from '@ndla/types-backend/draft-api';
 import FormikField from '../../../../components/FormikField';
 import LearningResourceFootnotes, { FootnoteType } from './LearningResourceFootnotes';
@@ -44,7 +44,7 @@ import { tablePlugin } from '../../../../components/SlateEditor/plugins/table';
 import { EditMarkupLink } from '../../../../components/EditMarkupLink';
 import { IngressField, TitleField } from '../../../FormikForm';
 import { DRAFT_HTML_SCOPE } from '../../../../constants';
-import { toEditMarkup } from '../../../../util/routeHelpers';
+import { toCreateLearningResource, toEditMarkup } from '../../../../util/routeHelpers';
 import { toolbarPlugin } from '../../../../components/SlateEditor/plugins/toolbar';
 import saveHotkeyPlugin from '../../../../components/SlateEditor/plugins/saveHotkey';
 import { sectionPlugin } from '../../../../components/SlateEditor/plugins/section';
@@ -80,6 +80,7 @@ import { TYPE_H5P } from '../../../../components/SlateEditor/plugins/h5p/types';
 import { h5pPlugin } from '../../../../components/SlateEditor/plugins/h5p';
 import { isFormikFormDirty } from '../../../../util/formHelper';
 import AlertModal from '../../../../components/AlertModal';
+import CreateFrontpageArticle from '../../FrontpageArticlePage/CreateFrontpageArticle';
 
 const StyledFormikField = styled(FormikField)`
   display: flex;
@@ -192,20 +193,27 @@ const LearningResourceContent = ({
 
   const { dirty, initialValues, values } = useFormikContext<LearningResourceFormType>();
 
-  const isFormikDirt = useMemo(
-    () => isFormikFormDirty({ values, initialValues, dirty, initialHTML }),
+  const isFormikDirty = useMemo(
+    () =>
+      isFormikFormDirty({
+        values,
+        initialValues,
+        dirty,
+        initialHTML,
+      }),
     [values, initialValues, dirty, initialHTML],
   );
 
-  const [isNormalizedOnLoad, setIsNormalizedOnLoad] = useState(isFormikDirt);
+  const [isNormalizedOnLoad, setIsNormalizedOnLoad] = useState(isFormikDirty);
   const [isTouched, setIsTouched] = useState(false);
+  const isCreatePage = toCreateLearningResource() === window.location.pathname;
 
   useEffect(() => {
-    if (isFormikDirt !== isNormalizedOnLoad && !isTouched) {
-      setIsNormalizedOnLoad(isFormikDirt);
+    if (isFormikDirty !== isNormalizedOnLoad && !isTouched) {
+      setIsNormalizedOnLoad(isFormikDirty && !isCreatePage);
       setIsTouched(true);
     }
-  }, [isFormikDirt, isTouched, isNormalizedOnLoad]);
+  }, [isFormikDirty, isTouched, isNormalizedOnLoad, isCreatePage]);
 
   return (
     <>

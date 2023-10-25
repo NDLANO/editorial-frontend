@@ -1097,7 +1097,7 @@ const phrases = {
         column: 'kolonne',
       },
       normalizedOnLoad:
-        'Endringer etter oppdatering av editor, republiser artikkelen for å få med endringer',
+        'Artikkelen har endringer på grunn av oppdatering av editoren. Eventuelle endringer som lagres må republiseres.',
     },
     tags: {
       label: 'Nøkkelord',

@@ -1097,7 +1097,7 @@ const phrases = {
         column: 'column',
       },
       normalizedOnLoad:
-        'There are edits due to editor update. Republish the article to include edits.',
+        'The article has changes due to an update of the the editor. The possible changes that are saved must be republished.',
     },
     tags: {
       label: 'Tags',

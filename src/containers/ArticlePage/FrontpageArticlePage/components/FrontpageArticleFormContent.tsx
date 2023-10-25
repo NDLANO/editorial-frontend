@@ -37,7 +37,11 @@ import { tablePlugin } from '../../../../components/SlateEditor/plugins/table';
 import { EditMarkupLink } from '../../../../components/EditMarkupLink';
 import { IngressField, TitleField, SlugField } from '../../../FormikForm';
 import { DRAFT_HTML_SCOPE } from '../../../../constants';
-import { toEditMarkup } from '../../../../util/routeHelpers';
+import {
+  toCreateFrontPageArticle,
+  toEditMarkup,
+  usePreviousLocation,
+} from '../../../../util/routeHelpers';
 import { toolbarPlugin } from '../../../../components/SlateEditor/plugins/toolbar';
 import saveHotkeyPlugin from '../../../../components/SlateEditor/plugins/saveHotkey';
 import { sectionPlugin } from '../../../../components/SlateEditor/plugins/section';
@@ -212,20 +216,27 @@ const FrontpageArticleFormContent = ({ articleLanguage, initialHTML }: Props) =>
   const { dirty, initialValues, values } = useFormikContext<FrontpageArticleFormType>();
   const { slug, id, creators, published, language } = values;
 
-  const isFormikDirt = useMemo(
-    () => isFormikFormDirty({ values, initialValues, dirty, initialHTML }),
+  const isFormikDirty = useMemo(
+    () =>
+      isFormikFormDirty({
+        values,
+        initialValues,
+        dirty,
+        initialHTML,
+      }),
     [values, initialValues, dirty, initialHTML],
   );
 
-  const [isNormalizedOnLoad, setIsNormalizedOnLoad] = useState(isFormikDirt);
+  const [isNormalizedOnLoad, setIsNormalizedOnLoad] = useState(isFormikDirty);
   const [isTouched, setIsTouched] = useState(false);
+  const isCreatePage = toCreateFrontPageArticle() === window.location.pathname;
 
   useEffect(() => {
-    if (isFormikDirt !== isNormalizedOnLoad && !isTouched) {
-      setIsNormalizedOnLoad(isFormikDirt);
+    if (isFormikDirty !== isNormalizedOnLoad && !isTouched) {
+      setIsNormalizedOnLoad(isFormikDirty && !isCreatePage);
       setIsTouched(true);
     }
-  }, [isFormikDirt, isTouched, isNormalizedOnLoad]);
+  }, [isFormikDirty, isTouched, isNormalizedOnLoad, isCreatePage]);
 
   const [preview, setPreview] = useState(false);
   const [editSlug, setEditSlug] = useState(false);

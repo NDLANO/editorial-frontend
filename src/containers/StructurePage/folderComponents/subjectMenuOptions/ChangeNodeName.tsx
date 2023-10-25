@@ -307,7 +307,7 @@ const ChangeNodeNameContent = ({ onClose, node, nodeType = 'SUBJECT' }: ModalPro
                         </Row>
                       ))}
                       <AddNodeTranslation
-                        defaultName={name}
+                        defaultName={baseName}
                         onAddTranslation={push}
                         availableLanguages={availableLanguages}
                       />

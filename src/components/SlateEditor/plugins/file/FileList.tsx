@@ -16,7 +16,6 @@ import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { TFunction } from 'i18next';
 import { FieldHeader } from '@ndla/forms';
-import { FileListEditor } from '@ndla/editor';
 import { Cross, Plus } from '@ndla/icons/action';
 import { spacing } from '@ndla/core';
 import {
@@ -34,6 +33,7 @@ import { headFileAtRemote } from '../../../../modules/draft/draftApi';
 import { FileElement } from '.';
 import { TYPE_FILE } from './types';
 import FileUploader from '../../../FileUploader';
+import FileListEditor from './FileListEditor';
 
 const StyledSection = styled.section`
   margin-bottom: ${spacing.normal};

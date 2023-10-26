@@ -98,7 +98,7 @@ test.beforeEach(async ({ page }) => {
   ]);
 });
 
-const totalSearchCount = '4874';
+const totalSearchCount = '4901';
 
 test.afterEach(async ({ page }) => mockWaitResponse(page, '**/concept-api/v1/drafts/?*'));
 
@@ -111,7 +111,7 @@ test('Can use text input', async ({ page }) => {
   await page.locator('input[name="query"]').fill('Test');
   await page.getByRole('button', { name: 'Søk', exact: true }).click();
   await page.getByTestId('concept-search-result').first().waitFor();
-  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('74');
+  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('76');
   await page.locator('input[name="query"]').clear();
   await page.getByRole('button', { name: 'Søk', exact: true }).click();
   await page.getByTestId('concept-search-result').first().waitFor();
@@ -126,7 +126,7 @@ test('Can use status dropdown', async ({ page }) => {
   });
   await page.locator('select[name="status"]').selectOption({ index: 1 });
   await page.getByTestId('concept-search-result').first().waitFor();
-  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('952');
+  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('973');
   await page.locator('select[name="status"]').selectOption({ index: 0 });
   await page.getByTestId('concept-search-result').first().waitFor();
   expect(await page.getByTestId('searchTotalCount').innerText()).toEqual(totalSearchCount);
@@ -140,7 +140,7 @@ test('Can use language dropdown', async ({ page }) => {
   });
   await page.locator('select[name="language"]').selectOption({ label: 'Engelsk' });
   await page.getByTestId('concept-search-result').first().waitFor();
-  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('34');
+  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('35');
   await page.locator('select[name="language"]').selectOption({ index: 0 });
   await page.getByTestId('concept-search-result').first().waitFor();
   expect(await page.getByTestId('searchTotalCount').innerText()).toEqual(totalSearchCount);
@@ -154,7 +154,7 @@ test('Can use subject dropdown', async ({ page }) => {
   });
   await page.locator('select[name="subjects"]').selectOption({ index: 3 });
   await page.getByTestId('concept-search-result').first().waitFor();
-  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('429');
+  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('369');
   await page.locator('select[name="subjects"]').selectOption({ index: 0 });
   await page.getByTestId('concept-search-result').first().waitFor();
   expect(await page.getByTestId('searchTotalCount').innerText()).toEqual(totalSearchCount);

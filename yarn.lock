@@ -2023,10 +2023,10 @@
   resolved "https://registry.yarnpkg.com/@ndla/types-embed/-/types-embed-4.0.4.tgz#e88a5d90c67c264fa7a02f22b1bf596a1df3e215"
   integrity sha512-I7e3+33N1v9Ks2N0kDgDC2j1Lfu0SQ9PnIB0CSXq9haSy6DHkoSLo4TfUswk6fX2G7D8MTk7kIlbEFgkwzg8TA==
 
-"@ndla/types-taxonomy@^1.0.18":
-  version "1.0.18"
-  resolved "https://registry.yarnpkg.com/@ndla/types-taxonomy/-/types-taxonomy-1.0.18.tgz#854258b5355aa911aaa91b262b72bd3fa3225116"
-  integrity sha512-wxJgzE+dzvLsYyw5AXNcfxJMV64/rfdN3UGOry2y9zxcLdyVnJPZ+mLJZ5kwndEKWjSGNCFBsLweycl4QZXUcw==
+"@ndla/types-taxonomy@^1.0.19":
+  version "1.0.19"
+  resolved "https://registry.yarnpkg.com/@ndla/types-taxonomy/-/types-taxonomy-1.0.19.tgz#9fdfd8a5934a9108421f0b30f8f4a135a5fa7642"
+  integrity sha512-F0rN7OWD7iUnJv8F/R9ZMW5Zu1ZjEd9pXHxO/BsiaxqaJWXT8b4TQtF0pUQ17pEXZkZlr156+hyfx3bQTw8+iw==
 
 "@ndla/typography@^0.2.2":
   version "0.2.2"

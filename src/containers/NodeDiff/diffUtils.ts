@@ -91,6 +91,7 @@ const diffAndGroupChildren = <T extends Node = Node>(
       resources: true,
       contexts: true,
       breadcrumbs: true,
+      language: true,
       metadata: {
         customFields: {
           requestPublish: true,
@@ -106,6 +107,7 @@ const diffAndGroupChildren = <T extends Node = Node>(
         paths: true,
         contexts: true,
         breadcrumbs: true,
+        language: true,
       },
       'id',
     );
@@ -184,6 +186,7 @@ const diffChildren = (
           paths: true,
           contexts: true,
           breadcrumbs: true,
+          language: true,
         },
         'id',
       );
@@ -193,6 +196,7 @@ const diffChildren = (
           paths: true,
           resources: true,
           contexts: true,
+          language: true,
           metadata: {
             customFields: {
               requestPublish: true,
@@ -232,6 +236,7 @@ export const diffTrees = (
     resources: true,
     contexts: true,
     breadcrumbs: true,
+    language: true,
     metadata: {
       customFields: {
         requestPublish: true,
@@ -247,6 +252,7 @@ export const diffTrees = (
       paths: true,
       contexts: true,
       breadcrumbs: true,
+      language: true,
     },
     'id',
   );

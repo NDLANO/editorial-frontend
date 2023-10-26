@@ -9,7 +9,7 @@
 import { useTranslation } from 'react-i18next';
 import { useFormikContext } from 'formik';
 import { IUpdatedArticle, IArticle } from '@ndla/types-backend/draft-api';
-import { memo, useMemo, useState } from 'react';
+import { memo, useMemo } from 'react';
 import { Node, TaxonomyContext } from '@ndla/types-taxonomy';
 import config from '../../../../config';
 import RelatedContentFieldGroup from '../../components/RelatedContentFieldGroup';

@@ -80,7 +80,6 @@ import { TYPE_H5P } from '../../../../components/SlateEditor/plugins/h5p/types';
 import { h5pPlugin } from '../../../../components/SlateEditor/plugins/h5p';
 import { isFormikFormDirty } from '../../../../util/formHelper';
 import AlertModal from '../../../../components/AlertModal';
-import CreateFrontpageArticle from '../../FrontpageArticlePage/CreateFrontpageArticle';
 
 const StyledFormikField = styled(FormikField)`
   display: flex;
@@ -214,7 +213,7 @@ const LearningResourceContent = ({
         setIsNormalizedOnLoad(isFormikDirty);
         setIsTouched(true);
       }
-    }, 500);
+    }, 100);
   }, [isFormikDirty, isTouched]);
 
   return (

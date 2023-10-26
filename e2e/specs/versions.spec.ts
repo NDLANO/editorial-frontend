@@ -125,7 +125,6 @@ test('can add notes then save', async ({ page }) => {
   await expect(page.getByTestId('addNote')).toBeVisible();
   await page.getByTestId('addNote').click();
   await page.getByTestId('notesInput').click();
-  await page.getByTestId('alert-modal').getByRole('button', { name: 'Fortsett' }).click();
   await page.keyboard.type('Test merknad');
   await page.getByTestId('saveLearningResourceButtonWrapper').first().click();
   expect((await page.locator('table').nth(2).locator('tr').all()).length).toEqual(6);

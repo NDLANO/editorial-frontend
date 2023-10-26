@@ -11,11 +11,15 @@ import { createEditor, Descendant } from 'slate';
 import { Slate, Editable, ReactEditor, withReact } from 'slate-react';
 import { withHistory } from 'slate-history';
 import { FormikHandlers, useFormikContext } from 'formik';
+import styled from '@emotion/styled';
 import { SlatePlugin } from './interfaces';
 import withPlugins from './utils/withPlugins';
 import { ArticleFormType } from '../../containers/FormikForm/articleFormHooks';
 import { FormikStatus } from '../../interfaces';
 
+const StyledEditable = styled(Editable)`
+  outline: none;
+`;
 interface Props {
   id: string;
   value: Descendant[];
@@ -68,7 +72,7 @@ const PlainTextEditor = ({
 
   return (
     <Slate editor={editor} initialValue={value} onChange={onSlateChange}>
-      <Editable
+      <StyledEditable
         id={id}
         // Forcing slate field to be deselected before selecting new field.
         // Fixes a problem where slate field is not properly focused on click.

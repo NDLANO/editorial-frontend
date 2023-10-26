@@ -237,7 +237,7 @@ const FrontpageArticleFormContent = ({ articleLanguage, initialHTML }: Props) =>
         setIsNormalizedOnLoad(isFormikDirty);
         setIsTouched(true);
       }
-    }, 500);
+    }, 100);
   }, [isFormikDirty, isTouched]);
 
   const [preview, setPreview] = useState(false);

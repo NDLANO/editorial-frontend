@@ -189,17 +189,6 @@ const HeaderActions = ({
         </HeaderLanguagePill>
       )}
       <StyledSplitter />
-      {!noStatus && (
-        <>
-          <PreviewLightBox
-            article={article}
-            concept={concept}
-            type={type}
-            currentLanguage={language}
-          />
-          <StyledSplitter />
-        </>
-      )}
       <HeaderLanguagePicker id={id} emptyLanguages={emptyLanguages} editUrl={editUrl} />
       {translatableTypes.includes(type) &&
         language === 'nb' &&
@@ -210,6 +199,17 @@ const HeaderActions = ({
             <TranslateNbToNn id={id} editUrl={editUrl} />
           </>
         )}
+      {!noStatus && (
+        <>
+          <StyledSplitter />
+          <PreviewLightBox
+            article={article}
+            concept={concept}
+            type={type}
+            currentLanguage={language}
+          />
+        </>
+      )}
       {lastPublishedVersion && (
         <>
           <StyledSplitter />

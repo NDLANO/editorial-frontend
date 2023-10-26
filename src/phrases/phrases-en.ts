@@ -823,7 +823,7 @@ const phrases = {
       success: 'Content is reset, press save to save changes',
     },
     resetToVersion: 'Reset to version',
-    previewVersion: 'Compare versions',
+    previewVersion: 'Compare with published',
     variant: {
       create: 'Create variant',
       translate: 'Translate to Nynorsk',

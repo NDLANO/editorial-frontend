@@ -11,7 +11,7 @@ import { colors } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { Switch } from '@ndla/switch';
 import { FieldHeader } from '@ndla/forms';
-import { TaxNode } from '../LearningResourceTaxonomy';
+import { TaxNode } from './TaxonomyBlock';
 
 type StyledIdProps = {
   isVisible: boolean;

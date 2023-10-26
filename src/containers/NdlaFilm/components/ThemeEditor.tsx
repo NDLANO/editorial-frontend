@@ -27,10 +27,7 @@ interface Props {
   selectedLanguage: string;
 }
 
-export interface ThemeNames {
-  name: Record<LocaleType, string>;
-  warnings: Record<LocaleType, boolean>;
-}
+export type ThemeNames = Partial<Record<LocaleType, string>>;
 
 const ThemeEditor = ({ onUpdateMovieTheme, selectedLanguage }: Props) => {
   const { t } = useTranslation();
@@ -103,13 +100,9 @@ const ThemeEditor = ({ onUpdateMovieTheme, selectedLanguage }: Props) => {
               <ThemeNameModal
                 onSaveTheme={(theme) => onSaveThemeName(theme, index)}
                 initialTheme={{
-                  name: {
-                    nb: findName(theme.name, 'nb'),
-                    nn: findName(theme.name, 'nn'),
-                    en: findName(theme.name, 'en'),
-                    se: findName(theme.name, 'se'),
-                    sma: findName(theme.name, 'sma'),
-                  },
+                  nb: findName(theme.name, 'nb'),
+                  nn: findName(theme.name, 'nn'),
+                  en: findName(theme.name, 'en'),
                 }}
                 activateButton={
                   <IconButtonV2

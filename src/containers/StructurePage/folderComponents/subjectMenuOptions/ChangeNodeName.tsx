@@ -122,8 +122,6 @@ interface ModalProps {
   nodeType?: NodeType;
 }
 
-const BOGUS_LANGUAGE = 'asdasdasd';
-
 const ChangeNodeNameContent = ({ onClose, node, nodeType = 'SUBJECT' }: ModalProps) => {
   const { t } = useTranslation();
   const [loadError, setLoadError] = useState('');
@@ -131,12 +129,11 @@ const ChangeNodeNameContent = ({ onClose, node, nodeType = 'SUBJECT' }: ModalPro
   const [saved, setSaved] = useState(false);
   const { taxonomyVersion } = useTaxonomyVersion();
   const qc = useQueryClient();
-  const { id, name } = node;
+  const { id, baseName } = node;
 
   const nodeWithoutTranslationsQuery = useNode(
     {
       id: node.id,
-      language: BOGUS_LANGUAGE,
       taxonomyVersion,
     },
     {
@@ -197,7 +194,7 @@ const ChangeNodeNameContent = ({ onClose, node, nodeType = 'SUBJECT' }: ModalPro
       });
 
       await qc.invalidateQueries({
-        queryKey: nodeQueryKeys.node({ id, language: BOGUS_LANGUAGE, taxonomyVersion }),
+        queryKey: nodeQueryKeys.node({ id, taxonomyVersion }),
       });
       formik.setSubmitting(false);
       return;
@@ -209,7 +206,7 @@ const ChangeNodeNameContent = ({ onClose, node, nodeType = 'SUBJECT' }: ModalPro
       });
 
       await qc.invalidateQueries({
-        queryKey: nodeQueryKeys.node({ id, language: BOGUS_LANGUAGE, taxonomyVersion }),
+        queryKey: nodeQueryKeys.node({ id, taxonomyVersion }),
       });
     }
     formik.resetForm({ values: formik.values, isSubmitting: false });
@@ -226,7 +223,7 @@ const ChangeNodeNameContent = ({ onClose, node, nodeType = 'SUBJECT' }: ModalPro
 
   const initialValues = {
     translations: nodeWithoutTranslationsQuery.data.translations?.slice() ?? [],
-    name: nodeWithoutTranslationsQuery.data.name,
+    name: nodeWithoutTranslationsQuery.data.baseName,
   };
 
   return (
@@ -310,7 +307,7 @@ const ChangeNodeNameContent = ({ onClose, node, nodeType = 'SUBJECT' }: ModalPro
                         </Row>
                       ))}
                       <AddNodeTranslation
-                        defaultName={name}
+                        defaultName={baseName}
                         onAddTranslation={push}
                         availableLanguages={availableLanguages}
                       />

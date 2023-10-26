@@ -20,6 +20,14 @@ import { FormikStatus } from '../../interfaces';
 const StyledEditable = styled(Editable)`
   outline: none;
 `;
+const StyledPlaceholder = styled.div`
+  display: inline-block;
+  width: 0;
+  white-space: nowrap;
+  opacity: 0.33;
+  pointer-events: none;
+`;
+
 interface Props {
   id: string;
   value: Descendant[];
@@ -82,7 +90,11 @@ const PlainTextEditor = ({
         readOnly={submitted}
         className={className}
         placeholder={placeholder}
-        renderPlaceholder={undefined}
+        renderPlaceholder={({ children, attributes }) => {
+          // Remove inline styling to be able to apply styling from StyledPlaceholder
+          const { style, ...remainingAttributes } = attributes;
+          return <StyledPlaceholder {...remainingAttributes}>{children}</StyledPlaceholder>;
+        }}
         {...rest}
       />
     </Slate>

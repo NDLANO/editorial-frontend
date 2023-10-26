@@ -121,7 +121,6 @@ test('can change status correctly', async ({ page }) => {
 
   await statusSelect.click();
   await page.locator('*[id^="react-select-3-option"]', { hasText: 'I arbeid' }).click();
-  await page.getByTestId('alert-modal').getByRole('button', { name: 'Fortsett' }).click();
   await page.getByTestId('responsible-select').click();
   await page.keyboard.type('Ed test');
   await page.keyboard.press('Enter');

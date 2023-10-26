@@ -5,9 +5,10 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { useState } from 'react';
 import { Formik, FormikProps } from 'formik';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
 import {
   ISubjectPageData,
   INewSubjectFrontPageData,
@@ -15,28 +16,30 @@ import {
 } from '@ndla/types-backend/frontpage-api';
 import { ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
 import { IArticle } from '@ndla/types-backend/draft-api';
+import { Node } from '@ndla/types-taxonomy';
+
+import SubjectpageAccordionPanels from './SubjectpageAccordionPanels';
+import { AlertModalWrapper } from '../../FormikForm';
+import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
+import { useMessages } from '../../Messages/MessagesProvider';
+import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
+import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
 import Field from '../../../components/Field';
 import SimpleLanguageHeader from '../../../components/HeaderWithLanguage/SimpleLanguageHeader';
-import { AlertModalWrapper } from '../../FormikForm';
-import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
-import { isFormikFormDirty } from '../../../util/formHelper';
-import { toEditSubjectpage } from '../../../util/routeHelpers';
-import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
-import SubjectpageAccordionPanels from './SubjectpageAccordionPanels';
 import SaveButton from '../../../components/SaveButton';
+import { isSlateEmbed } from '../../../components/SlateEditor/plugins/embed/utils';
+import StyledForm from '../../../components/StyledFormComponents';
+import { SAVE_BUTTON_ID } from '../../../constants';
+import { fetchNodes } from '../../../modules/nodes/nodeApi';
+import { isFormikFormDirty } from '../../../util/formHelper';
+import { NdlaErrorPayload } from '../../../util/resolveJsonOrRejectWithError';
+import { toEditSubjectpage } from '../../../util/routeHelpers';
 import {
   subjectpageApiTypeToFormikType,
   SubjectPageFormikType,
   subjectpageFormikTypeToPatchType,
   subjectpageFormikTypeToPostType,
 } from '../../../util/subjectHelpers';
-import { useMessages } from '../../Messages/MessagesProvider';
-import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
-import StyledForm from '../../../components/StyledFormComponents';
-import { NdlaErrorPayload } from '../../../util/resolveJsonOrRejectWithError';
-import { isSlateEmbed } from '../../../components/SlateEditor/plugins/embed/utils';
-import { fetchNodes } from '../../../modules/nodes/nodeApi';
-import { SAVE_BUTTON_ID } from '../../../constants';
 
 interface Props {
   subjectpage?: ISubjectPageData;
@@ -174,7 +177,6 @@ const SubjectpageForm = ({
     >
       {(formik: FormikProps<SubjectPageFormikType>) => {
         const { values, dirty, isSubmitting, errors, isValid } = formik;
-
         const formIsDirty: boolean = isFormikFormDirty({
           values,
           initialValues,
@@ -193,9 +195,12 @@ const SubjectpageForm = ({
               title={values.name ?? ''}
             />
             <SubjectpageAccordionPanels
+              buildsOn={values.buildsOn}
+              connectedTo={values.connectedTo}
               editorsChoices={values.editorsChoices}
               elementId={values.elementId!}
               errors={errors}
+              leadsTo={values.leadsTo}
             />
             <Field right>
               <SaveButton

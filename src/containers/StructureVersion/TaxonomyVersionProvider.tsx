@@ -7,6 +7,7 @@
  */
 
 import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from 'react';
+import { TAXONOMY_VERSION_DEFAULT } from '../../constants';
 
 const TaxonomyVersionContext = createContext<
   [string | undefined, Dispatch<SetStateAction<string | undefined>>] | undefined
@@ -41,7 +42,7 @@ export const useTaxonomyVersion = (): TaxonomyVersion => {
     versionContext[1](newHash);
   };
   return {
-    taxonomyVersion: versionContext?.[0] ?? 'default',
+    taxonomyVersion: versionContext?.[0] ?? TAXONOMY_VERSION_DEFAULT,
     changeVersion,
   };
 };

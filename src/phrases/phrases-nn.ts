@@ -435,6 +435,13 @@ const phrases = {
     addArticle: 'Legg til artikkel',
     removeArticle: 'Fjern artikkel',
     missingVisualElement: 'Visuelt element er påkrevd.',
+    subjectlinks: 'Faglenkjer',
+    addSubject: 'Legg til fag',
+    moveSubject: 'Dra og slepp',
+    removeSubject: 'Fjern fag',
+    connectedTo: 'Felles programfag saman med',
+    buildsOn: 'Byggjer på',
+    leadsTo: 'Leier til',
   },
   programmepageForm: {
     title: 'Utdanningsprogram',
@@ -1182,6 +1189,7 @@ const phrases = {
     processed: {
       label: 'Omarbeidd',
       description: 'Innhaldet har vorte omarbeidd',
+      disabledCause: 'Omarbeidd kan kun settast dersom opphav er satt',
     },
     image: {
       file: 'Bilete',

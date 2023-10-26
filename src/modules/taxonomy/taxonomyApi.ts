@@ -12,7 +12,7 @@ import { apiResourceUrl, httpFunctions } from '../../util/apiHelpers';
 import { createResourceResourceType, deleteResourceResourceType } from './resourcetypes';
 import { taxonomyApi } from '../../config';
 import { WithTaxonomyVersion } from '../../interfaces';
-import { TaxNode } from '../../containers/ArticlePage/LearningResourcePage/components/LearningResourceTaxonomy';
+import { TaxNode } from '../../containers/ArticlePage/LearningResourcePage/components/taxonomy/TaxonomyBlock';
 import { doDiff } from '../../containers/NodeDiff/diffUtils';
 import {
   deleteNodeConnection,

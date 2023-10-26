@@ -124,7 +124,6 @@ test('can enter title, ingress, content and responsible then save', async ({ pag
   await expect(saveButton).toBeDisabled();
   await page.getByTestId('learning-resource-title').click();
   await page.keyboard.type('TITTEL');
-  await page.getByTestId('alert-modal').getByRole('button', { name: 'Fortsett' }).click();
   await page.getByTestId('learning-resource-ingress').click();
   await page.keyboard.type('INGRESS');
   await page.getByTestId('slate-editor').click({ position: { x: 0, y: 0 } });

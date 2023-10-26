@@ -35,8 +35,7 @@ const SubjectpageArticles = ({ editorsChoices, elementId, fieldName }: Props) =>
   const { t } = useTranslation();
   const [resources, setResources] = useState<(IArticle | ILearningPathV2)[]>(editorsChoices);
   const { setFieldTouched } = useFormikContext();
-  const [FieldInputProps] = useField<(IArticle | ILearningPathV2)[]>(fieldName);
-  const { onChange } = FieldInputProps;
+  const [fieldInputProps] = useField<(IArticle | ILearningPathV2)[]>(fieldName);
   const subjectId = getSubject(elementId);
 
   const onAddResultToList = async (result: IMultiSearchSummary) => {
@@ -58,7 +57,7 @@ const SubjectpageArticles = ({ editorsChoices, elementId, fieldName }: Props) =>
 
   const updateFormik = (newData: (IArticle | ILearningPathV2)[]) => {
     setFieldTouched(fieldName, true, false);
-    onChange({
+    fieldInputProps.onChange({
       target: {
         name: fieldName,
         value: newData || null,

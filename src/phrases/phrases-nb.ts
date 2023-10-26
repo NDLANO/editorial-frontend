@@ -435,6 +435,13 @@ const phrases = {
     addArticle: 'Legg til artikkel',
     removeArticle: 'Fjern artikkel',
     missingVisualElement: 'Visuelt element er påkrevd.',
+    subjectlinks: 'Faglenker',
+    addSubject: 'Legg til fag',
+    moveSubject: 'Dra og slipp',
+    removeSubject: 'Fjern fag',
+    connectedTo: 'Felles programfag sammen med',
+    buildsOn: 'Bygger på',
+    leadsTo: 'Leder til',
   },
   programmepageForm: {
     title: 'Utdanningsprogram',
@@ -1182,6 +1189,7 @@ const phrases = {
     processed: {
       label: 'Bearbeidet',
       description: 'Innholdet har blitt bearbeidet',
+      disabledCause: 'Bearbeidet kan kun settes dersom opphav er satt',
     },
     image: {
       file: 'Bilde',

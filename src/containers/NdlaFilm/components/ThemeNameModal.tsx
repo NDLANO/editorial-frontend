@@ -5,27 +5,41 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { ReactElement, useCallback, useState } from 'react';
-import { NdlaFilmThemeEditorModal } from '@ndla/editor';
-import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
+import { ReactElement, useState } from 'react';
+import { spacing } from '@ndla/core';
+import {
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalTitle,
+  ModalTrigger,
+} from '@ndla/modal';
+import { InputV2 } from '@ndla/forms';
+import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
+import { ButtonV2 } from '@ndla/button';
 import { ThemeNames } from './ThemeEditor';
 
 const blankTheme = {
-  name: {
-    nb: '',
-    nn: '',
-    en: '',
-    se: '',
-    sma: '',
-  },
-  warnings: {
-    nb: false,
-    nn: false,
-    en: false,
-    se: false,
-    sma: false,
-  },
+  nb: '',
+  nn: '',
+  en: '',
 };
+
+const StyledModalBody = styled(ModalBody)`
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.small};
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  gap: ${spacing.small};
+  justify-content: flex-end;
+`;
 
 const initialState = (initialTheme = {}) => {
   return {
@@ -36,7 +50,7 @@ const initialState = (initialTheme = {}) => {
 
 interface Props {
   onSaveTheme: (newTheme: ThemeNames) => void;
-  initialTheme?: { name: ThemeNames['name'] };
+  initialTheme?: ThemeNames;
   activateButton: ReactElement;
   messages: {
     save: string;
@@ -53,35 +67,45 @@ const ThemeNameModal = ({
   onSaveTheme,
   createTheme,
 }: Props) => {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
-  const onCloseModal = useCallback(() => setOpen(false), []);
   const [newTheme, setNewTheme] = useState(initialState(initialTheme));
   return (
     <Modal open={open} onOpenChange={setOpen}>
       <ModalTrigger>{activateButton}</ModalTrigger>
       <ModalContent>
-        <NdlaFilmThemeEditorModal
-          onClose={() => {
-            if (createTheme) setNewTheme(blankTheme);
-            onCloseModal();
-          }}
-          onEditName={(evt: { value: string; lang: string }) => {
-            setNewTheme({
-              ...newTheme,
-              name: {
-                ...newTheme.name,
-                [evt.lang]: evt.value,
-              },
-            });
-          }}
-          onSave={() => {
-            onSaveTheme(newTheme);
-            if (createTheme) setNewTheme(blankTheme);
-            onCloseModal();
-          }}
-          theme={newTheme}
-          messages={messages}
-        />
+        <ModalHeader>
+          <ModalTitle>{messages.title}</ModalTitle>
+        </ModalHeader>
+        <StyledModalBody>
+          {Object.entries(newTheme).map(([key, value]) => (
+            <InputV2
+              key={key}
+              name={key}
+              label={t(`languages.${key}`)}
+              type="text"
+              value={value}
+              onChange={(e) => setNewTheme((prev) => ({ ...prev, [key]: e.currentTarget.value }))}
+              placeholder={t('ndlaFilm.editor.groupNamePlaceholder', {
+                lang: t(`languages.${key}`),
+              })}
+            />
+          ))}
+          <ButtonWrapper>
+            <ModalCloseButton>
+              <ButtonV2 variant="outline">{messages.cancel}</ButtonV2>
+            </ModalCloseButton>
+            <ButtonV2
+              onClick={() => {
+                onSaveTheme(newTheme);
+                if (createTheme) setNewTheme(blankTheme);
+                setOpen(false);
+              }}
+            >
+              {messages.save}
+            </ButtonV2>
+          </ButtonWrapper>
+        </StyledModalBody>
       </ModalContent>
     </Modal>
   );

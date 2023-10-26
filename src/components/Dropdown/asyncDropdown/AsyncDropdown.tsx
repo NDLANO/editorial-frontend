@@ -61,6 +61,7 @@ interface Props<ApiType> {
   initialSearch?: boolean;
   label?: string;
   white?: boolean;
+  menuHeight?: number;
 }
 
 interface ApiTypeValues {
@@ -104,6 +105,7 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
   initialSearch = true,
   label,
   white = false,
+  menuHeight,
 }: Props<ApiType>) => {
   const [items, setItems] = useState<ItemValues<ApiType>[]>([]);
   const [selectedItem, setSelectedItem] = useState<ItemValues<ApiType> | null>(null);
@@ -263,6 +265,7 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
               hideTotalSearchCount={hideTotalSearchCount}
               page={showPagination && page}
               handlePageChange={handlePageChange}
+              menuHeight={menuHeight}
             />
           </div>
         );

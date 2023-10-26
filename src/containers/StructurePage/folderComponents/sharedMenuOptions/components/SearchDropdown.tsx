@@ -59,6 +59,7 @@ interface Props<ParamType extends BaseParams, InnerType, ApiType, Type = ApiType
   wide?: boolean;
   positionAbsolute?: boolean;
   isMultiSelect?: boolean;
+  maxRender?: number;
 }
 
 const SearchDropdown = <ParamType extends BaseParams, InnerType, ApiType, Type>({
@@ -74,6 +75,7 @@ const SearchDropdown = <ParamType extends BaseParams, InnerType, ApiType, Type>(
   wide = true,
   positionAbsolute = true,
   isMultiSelect = false,
+  maxRender = 10,
 }: Props<ParamType, InnerType, ApiType, Type>) => {
   const [query, setQuery] = useState('');
   const [page, setPage] = useState<number>(1);
@@ -138,6 +140,7 @@ const SearchDropdown = <ParamType extends BaseParams, InnerType, ApiType, Type>(
               wide={wide}
               selectedItems={selectedItems}
               multiSelect={isMultiSelect}
+              maxRender={maxRender}
             />
           </DropdownWrapper>
         );

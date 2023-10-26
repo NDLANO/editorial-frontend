@@ -6,7 +6,7 @@
  *
  */
 
-import { useState, useMemo, useCallback, memo, useEffect } from 'react';
+import { useState, useMemo, useCallback, memo, useEffect, Dispatch, SetStateAction } from 'react';
 import { Descendant } from 'slate';
 import { useTranslation } from 'react-i18next';
 import { FieldProps, useField, useFormikContext } from 'formik';
@@ -209,11 +209,13 @@ const LearningResourceContent = ({
   const isCreatePage = toCreateLearningResource() === window.location.pathname;
 
   useEffect(() => {
-    if (isFormikDirty !== isNormalizedOnLoad && !isTouched) {
-      setIsNormalizedOnLoad(isFormikDirty && !isCreatePage);
-      setIsTouched(true);
-    }
-  }, [isFormikDirty, isTouched, isNormalizedOnLoad, isCreatePage]);
+    setTimeout(() => {
+      if (!isTouched) {
+        setIsNormalizedOnLoad(isFormikDirty);
+        setIsTouched(true);
+      }
+    }, 500);
+  }, [isFormikDirty, isTouched]);
 
   return (
     <>
@@ -249,7 +251,7 @@ const LearningResourceContent = ({
       <AlertModal
         title={t('editorFooter.changeHeader')}
         label={t('editorFooter.changeHeader')}
-        show={isNormalizedOnLoad}
+        show={isNormalizedOnLoad && !isCreatePage}
         text={t('form.content.normalizedOnLoad')}
         actions={[
           {
@@ -258,6 +260,7 @@ const LearningResourceContent = ({
           },
         ]}
         onCancel={() => setIsNormalizedOnLoad(false)}
+        severity="warning"
       />
       <StyledContentDiv name="content" label={t('form.content.label')} noBorder>
         {(fieldProps) => (

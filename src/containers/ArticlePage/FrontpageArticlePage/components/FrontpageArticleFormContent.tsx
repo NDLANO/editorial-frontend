@@ -232,11 +232,13 @@ const FrontpageArticleFormContent = ({ articleLanguage, initialHTML }: Props) =>
   const isCreatePage = toCreateFrontPageArticle() === window.location.pathname;
 
   useEffect(() => {
-    if (isFormikDirty !== isNormalizedOnLoad && !isTouched) {
-      setIsNormalizedOnLoad(isFormikDirty && !isCreatePage);
-      setIsTouched(true);
-    }
-  }, [isFormikDirty, isTouched, isNormalizedOnLoad, isCreatePage]);
+    setTimeout(() => {
+      if (!isTouched) {
+        setIsNormalizedOnLoad(isFormikDirty);
+        setIsTouched(true);
+      }
+    }, 500);
+  }, [isFormikDirty, isTouched]);
 
   const [preview, setPreview] = useState(false);
   const [editSlug, setEditSlug] = useState(false);
@@ -289,7 +291,7 @@ const FrontpageArticleFormContent = ({ articleLanguage, initialHTML }: Props) =>
       <AlertModal
         title={t('editorFooter.changeHeader')}
         label={t('editorFooter.changeHeader')}
-        show={isNormalizedOnLoad}
+        show={isNormalizedOnLoad && !isCreatePage}
         text={t('form.content.normalizedOnLoad')}
         actions={[
           {
@@ -298,6 +300,7 @@ const FrontpageArticleFormContent = ({ articleLanguage, initialHTML }: Props) =>
           },
         ]}
         onCancel={() => setIsNormalizedOnLoad(false)}
+        severity="warning"
       />
       <StyledContentDiv name="content" label={t('form.content.label')} noBorder>
         {({ field: { value, name, onChange }, form: { isSubmitting } }) => (

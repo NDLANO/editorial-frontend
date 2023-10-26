@@ -39,7 +39,7 @@ import {
   ExternalEmbedElement,
   ImageEmbedElement,
 } from './plugins/embed';
-import { BodyboxElement } from './plugins/bodybox';
+import { FramedContentElement } from './plugins/framedContent';
 import { CodeblockElement } from './plugins/codeBlock';
 import { DivElement } from './plugins/div';
 import { SpanElement } from './plugins/span';
@@ -114,7 +114,7 @@ declare module 'slate' {
       | ErrorEmbedElement
       | ExternalEmbedElement
       | H5pElement
-      | BodyboxElement
+      | FramedContentElement
       | DivElement
       | SpanElement
       | ConceptListElement

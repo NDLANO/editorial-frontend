@@ -9,6 +9,7 @@
 import { Descendant, Editor, Element } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { RenderElementProps } from 'slate-react';
+import { FramedContent } from '@ndla/ui';
 import {
   afterOrBeforeTextBlockElement,
   firstTextBlockElement,
@@ -16,13 +17,13 @@ import {
   textBlockElements,
 } from '../../utils/normalizationHelpers';
 import { SlateSerializer } from '../../interfaces';
-import SlateBodybox from './SlateBodybox';
+import SlateFramedContent from './SlateFramedContent';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
-import { TYPE_BODYBOX } from './types';
+import { TYPE_FRAMED_CONTENT } from './types';
 
-export interface BodyboxElement {
-  type: 'bodybox';
+export interface FramedContentElement {
+  type: 'framed-content';
   children: Descendant[];
 }
 
@@ -49,28 +50,27 @@ const normalizerConfig: NormalizerConfig = {
   },
 };
 
-export const bodyboxSerializer: SlateSerializer = {
+export const framedContentSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: (Descendant | null)[]) {
     if (el.tagName.toLowerCase() !== 'div') return;
     if (el.className === 'c-bodybox') {
-      return slatejsx('element', { type: TYPE_BODYBOX }, children);
+      return slatejsx('element', { type: TYPE_FRAMED_CONTENT }, children);
     }
   },
   serialize(node: Descendant, children: JSX.Element[]) {
-    if (!Element.isElement(node) || node.type !== TYPE_BODYBOX) return;
-    return <div className="c-bodybox">{children}</div>;
+    if (!Element.isElement(node) || node.type !== TYPE_FRAMED_CONTENT) return;
+    return <FramedContent>{children}</FramedContent>;
   },
 };
 
-export const bodyboxPlugin = (editor: Editor) => {
+export const framedContentPlugin = (editor: Editor) => {
   const { renderElement: nextRenderElement, normalizeNode: nextNormalizeNode } = editor;
-
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
-    if (element.type === TYPE_BODYBOX) {
+    if (element.type === TYPE_FRAMED_CONTENT) {
       return (
-        <SlateBodybox editor={editor} element={element} attributes={attributes}>
+        <SlateFramedContent editor={editor} element={element} attributes={attributes}>
           {children}
-        </SlateBodybox>
+        </SlateFramedContent>
       );
     } else if (nextRenderElement) {
       return nextRenderElement({ attributes, children, element });
@@ -81,7 +81,7 @@ export const bodyboxPlugin = (editor: Editor) => {
   editor.normalizeNode = (entry) => {
     const [node] = entry;
 
-    if (Element.isElement(node) && node.type === TYPE_BODYBOX) {
+    if (Element.isElement(node) && node.type === TYPE_FRAMED_CONTENT) {
       if (!defaultBlockNormalizer(editor, entry, normalizerConfig)) {
         return nextNormalizeNode(entry);
       }

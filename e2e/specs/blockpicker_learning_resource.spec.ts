@@ -63,11 +63,11 @@ test('adds and removes table', async ({ page }) => {
   await expect(page.getByTestId('table-remove')).toHaveCount(0);
 });
 
-test('adds and removes bodybox', async ({ page }) => {
-  await page.getByTestId('create-bodybox').click();
-  await expect(page.getByTestId('remove-bodybox')).toBeVisible();
-  await page.getByTestId('remove-bodybox').click();
-  await expect(page.getByTestId('remove-bodybox')).toHaveCount(0);
+test('adds and removes framed content', async ({ page }) => {
+  await page.getByTestId('create-framedContent').click();
+  await expect(page.getByTestId('remove-framed-content')).toBeVisible();
+  await page.getByTestId('remove-framed-content').click();
+  await expect(page.getByTestId('remove-framed-content')).toHaveCount(0);
 });
 
 test('adds and removes details', async ({ page }) => {

@@ -21,7 +21,7 @@ import HowToHelper from '../../../../components/HowTo/HowToHelper';
 import { codeblockPlugin } from '../../../../components/SlateEditor/plugins/codeBlock';
 import { footnotePlugin } from '../../../../components/SlateEditor/plugins/footnote';
 import { embedPlugin } from '../../../../components/SlateEditor/plugins/embed';
-import { bodyboxPlugin } from '../../../../components/SlateEditor/plugins/bodybox';
+import { framedContentPlugin } from '../../../../components/SlateEditor/plugins/framedContent';
 import { asidePlugin } from '../../../../components/SlateEditor/plugins/aside';
 import { detailsPlugin } from '../../../../components/SlateEditor/plugins/details';
 import { linkPlugin } from '../../../../components/SlateEditor/plugins/link';
@@ -161,7 +161,7 @@ export const plugins = (articleLanguage: string): SlatePlugin[] => {
     embedPlugin(articleLanguage),
     audioPlugin(articleLanguage),
     h5pPlugin(articleLanguage),
-    bodyboxPlugin,
+    framedContentPlugin,
     asidePlugin,
     detailsPlugin,
     blockQuotePlugin,

@@ -21,7 +21,7 @@ import SlateVisualElementPicker from './SlateVisualElementPicker';
 import { Action, ActionData } from './actions';
 import { defaultAsideBlock } from '../aside/utils';
 import { defaultDetailsBlock } from '../details/utils';
-import { defaultBodyboxBlock } from '../bodybox/utils';
+import { defaultFramedContentBlock } from '../framedContent/utils';
 import { defaultCodeblockBlock } from '../codeBlock/utils';
 import { defaultRelatedBlock } from '../related';
 import { defaultCampaignBlock } from '../campaignBlock/utils';
@@ -34,7 +34,6 @@ import getCurrentBlock from '../../utils/getCurrentBlock';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
 import { isInTableCellHeader, isTableCell } from '../table/slateHelpers';
 import { defaultTableBlock } from '../table/defaultBlocks';
-import { TYPE_BODYBOX } from '../bodybox/types';
 import { TYPE_DETAILS } from '../details/types';
 import { TYPE_TABLE } from '../table/types';
 import { TYPE_ASIDE } from '../aside/types';
@@ -64,6 +63,7 @@ import { TYPE_H5P } from '../h5p/types';
 import { defaultH5pBlock } from '../h5p/utils';
 import { BLOCK_PICKER_TRIGGER_ID } from '../../../../constants';
 import { IS_MAC } from '../toolbar/ToolbarButton';
+import { TYPE_FRAMED_CONTENT } from '../framedContent/types';
 
 interface Props {
   editor: Editor;
@@ -281,8 +281,8 @@ const SlateBlockPicker = ({
 
   const onElementAdd = (data: ActionData) => {
     switch (data.type) {
-      case TYPE_BODYBOX: {
-        onInsertBlock(defaultBodyboxBlock(), true);
+      case TYPE_FRAMED_CONTENT: {
+        onInsertBlock(defaultFramedContentBlock(), true);
         break;
       }
       case TYPE_DETAILS: {

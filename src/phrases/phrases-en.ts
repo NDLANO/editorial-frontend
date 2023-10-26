@@ -644,7 +644,7 @@ const phrases = {
       block: 'Section',
       factAside: 'Factbox',
       table: 'Table',
-      bodybox: 'Text in frame',
+      framedContent: 'Text in frame',
       details: 'Expandable box',
       image: 'Image',
       video: 'Video',

@@ -16,26 +16,26 @@ import { TYPE_HEADING } from '../../heading/types';
 import { TYPE_LINK } from '../../link/types';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 import { TYPE_SECTION } from '../../section/types';
-import { TYPE_BODYBOX } from '../types';
+import { TYPE_FRAMED_CONTENT } from '../types';
 
 const editor = withHistory(withReact(withPlugins(createEditor(), plugins('nb'))));
 
-describe('bodybox normalizer tests', () => {
-  test('adds paragraphs around bodybox element', () => {
+describe('framed content normalizer tests', () => {
+  test('adds paragraphs around framed content element', () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
         children: [
           {
-            type: TYPE_BODYBOX,
+            type: TYPE_FRAMED_CONTENT,
             children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'content' }] }],
           },
           {
-            type: TYPE_BODYBOX,
+            type: TYPE_FRAMED_CONTENT,
             children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'content' }] }],
           },
           {
-            type: TYPE_BODYBOX,
+            type: TYPE_FRAMED_CONTENT,
             children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'content' }] }],
           },
         ],
@@ -48,17 +48,17 @@ describe('bodybox normalizer tests', () => {
         children: [
           { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
           {
-            type: TYPE_BODYBOX,
+            type: TYPE_FRAMED_CONTENT,
             children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'content' }] }],
           },
           { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
           {
-            type: TYPE_BODYBOX,
+            type: TYPE_FRAMED_CONTENT,
             children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'content' }] }],
           },
           { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
           {
-            type: TYPE_BODYBOX,
+            type: TYPE_FRAMED_CONTENT,
             children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'content' }] }],
           },
           { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
@@ -70,13 +70,13 @@ describe('bodybox normalizer tests', () => {
     expect(editor.children).toEqual(expectedValue);
   });
 
-  test('adds paragraph to empty bodybox element', () => {
+  test('adds paragraph to empty framed content element', () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
         children: [
           {
-            type: TYPE_BODYBOX,
+            type: TYPE_FRAMED_CONTENT,
             children: [],
           },
         ],
@@ -89,7 +89,7 @@ describe('bodybox normalizer tests', () => {
         children: [
           { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
           {
-            type: TYPE_BODYBOX,
+            type: TYPE_FRAMED_CONTENT,
             children: [{ type: TYPE_PARAGRAPH, children: [{ text: '' }] }],
           },
           { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
@@ -101,13 +101,13 @@ describe('bodybox normalizer tests', () => {
     expect(editor.children).toEqual(expectedValue);
   });
 
-  test('adds paragraph at the end of bodybox with only heading', () => {
+  test('adds paragraph at the end of framed content with only heading', () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
         children: [
           {
-            type: TYPE_BODYBOX,
+            type: TYPE_FRAMED_CONTENT,
             children: [{ type: TYPE_HEADING, level: 1, children: [{ text: 'content' }] }],
           },
         ],
@@ -120,7 +120,7 @@ describe('bodybox normalizer tests', () => {
         children: [
           { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
           {
-            type: TYPE_BODYBOX,
+            type: TYPE_FRAMED_CONTENT,
             children: [
               { type: TYPE_HEADING, level: 1, children: [{ text: 'content' }] },
               { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
@@ -141,7 +141,7 @@ describe('bodybox normalizer tests', () => {
         type: TYPE_SECTION,
         children: [
           {
-            type: TYPE_BODYBOX,
+            type: TYPE_FRAMED_CONTENT,
             children: [
               {
                 type: TYPE_LINK,
@@ -160,7 +160,7 @@ describe('bodybox normalizer tests', () => {
         children: [
           { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
           {
-            type: TYPE_BODYBOX,
+            type: TYPE_FRAMED_CONTENT,
             children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'content' }] }],
           },
           { type: TYPE_PARAGRAPH, children: [{ text: '' }] },

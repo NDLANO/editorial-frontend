@@ -27,7 +27,7 @@ import {
   footnotePlugin,
 } from '../../../../components/SlateEditor/plugins/footnote';
 import { embedPlugin } from '../../../../components/SlateEditor/plugins/embed';
-import { bodyboxPlugin } from '../../../../components/SlateEditor/plugins/bodybox';
+import { framedContentPlugin } from '../../../../components/SlateEditor/plugins/framedContent';
 import { asidePlugin } from '../../../../components/SlateEditor/plugins/aside';
 import { detailsPlugin } from '../../../../components/SlateEditor/plugins/details';
 import { linkPlugin } from '../../../../components/SlateEditor/plugins/link';
@@ -125,7 +125,7 @@ const actions = [TYPE_TABLE, TYPE_CODEBLOCK, TYPE_FILE, TYPE_GRID].concat(visual
 const actionsToShowInAreas = {
   details: actions,
   aside: actions,
-  bodybox: actions,
+  'framed-content': actions,
   'table-cell': [TYPE_EMBED_IMAGE],
   'grid-cell': [TYPE_EMBED_IMAGE],
 };
@@ -141,7 +141,7 @@ export const plugins = (articleLanguage: string): SlatePlugin[] => {
     audioPlugin(articleLanguage),
     h5pPlugin(articleLanguage),
     embedPlugin(articleLanguage),
-    bodyboxPlugin,
+    framedContentPlugin,
     asidePlugin,
     detailsPlugin,
     blockQuotePlugin,

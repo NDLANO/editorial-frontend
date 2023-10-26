@@ -644,7 +644,7 @@ const phrases = {
       block: 'Seksjon',
       factAside: 'Faktaboks',
       table: 'Tabell',
-      bodybox: 'Tekst i ramme',
+      framedContent: 'Tekst i ramme',
       details: 'Ekspanderende boks',
       image: 'Bilde',
       video: 'Video',

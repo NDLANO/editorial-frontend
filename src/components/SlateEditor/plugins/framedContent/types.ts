@@ -6,4 +6,4 @@
  *
  */
 
-export const TYPE_BODYBOX = 'bodybox';
+export const TYPE_FRAMED_CONTENT = 'framed-content';

@@ -28,7 +28,7 @@ import { inlineConceptSerializer } from '../components/SlateEditor/plugins/conce
 import { asideSerializer } from '../components/SlateEditor/plugins/aside';
 import { fileSerializer } from '../components/SlateEditor/plugins/file';
 import { detailsSerializer } from '../components/SlateEditor/plugins/details';
-import { bodyboxSerializer } from '../components/SlateEditor/plugins/bodybox';
+import { framedContentSerializer } from '../components/SlateEditor/plugins/framedContent';
 import { tableSerializer } from '../components/SlateEditor/plugins/table';
 import { relatedSerializer } from '../components/SlateEditor/plugins/related';
 import { embedSerializer } from '../components/SlateEditor/plugins/embed';
@@ -111,7 +111,7 @@ const extendedRules: SlateSerializer[] = [
   audioSerializer,
   h5pSerializer,
   embedSerializer,
-  bodyboxSerializer,
+  framedContentSerializer,
   divSerializer,
   spanSerializer,
 ];

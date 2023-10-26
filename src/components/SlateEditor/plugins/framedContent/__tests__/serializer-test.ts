@@ -13,7 +13,7 @@ import {
 } from '../../../../../util/articleContentConverter';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 import { TYPE_SECTION } from '../../section/types';
-import { TYPE_BODYBOX } from '../types';
+import { TYPE_FRAMED_CONTENT } from '../types';
 
 const editor: Descendant[] = [
   {
@@ -21,7 +21,7 @@ const editor: Descendant[] = [
     children: [
       { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
       {
-        type: TYPE_BODYBOX,
+        type: TYPE_FRAMED_CONTENT,
         children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'content' }] }],
       },
       { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
@@ -31,7 +31,7 @@ const editor: Descendant[] = [
 
 const html = '<section><div class="c-bodybox"><p>content</p></div></section>';
 
-describe('bodybox serializing tests', () => {
+describe('framed content serializing tests', () => {
   test('serializing', () => {
     const res = blockContentToHTML(editor);
     expect(res).toMatch(html);

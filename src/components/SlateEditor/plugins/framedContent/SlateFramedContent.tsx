@@ -11,11 +11,12 @@ import { ReactEditor, RenderElementProps } from 'slate-react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
+import { FramedContent } from '@ndla/ui';
 import DeleteButton from '../../../DeleteButton';
 import MoveContentButton from '../../../MoveContentButton';
-import { TYPE_BODYBOX } from './types';
+import { TYPE_FRAMED_CONTENT } from './types';
 
-const StyledBodybox = styled.div`
+const StyledContent = styled.div`
   display: flex;
   flex-direction: column;
 `;
@@ -36,7 +37,7 @@ interface Props {
   editor: Editor;
 }
 
-const SlateBodybox = (props: Props & RenderElementProps) => {
+const SlateFramedContent = (props: Props & RenderElementProps) => {
   const { element, editor, attributes, children } = props;
   const { t } = useTranslation();
 
@@ -44,7 +45,7 @@ const SlateBodybox = (props: Props & RenderElementProps) => {
     const path = ReactEditor.findPath(editor, element);
     Transforms.removeNodes(editor, {
       at: path,
-      match: (node) => Element.isElement(node) && node.type === TYPE_BODYBOX,
+      match: (node) => Element.isElement(node) && node.type === TYPE_FRAMED_CONTENT,
     });
     setTimeout(() => {
       ReactEditor.focus(editor);
@@ -57,7 +58,7 @@ const SlateBodybox = (props: Props & RenderElementProps) => {
     const path = ReactEditor.findPath(editor, element);
     Transforms.unwrapNodes(editor, {
       at: path,
-      match: (node) => Element.isElement(node) && node.type === TYPE_BODYBOX,
+      match: (node) => Element.isElement(node) && node.type === TYPE_FRAMED_CONTENT,
       voids: true,
     });
     setTimeout(() => {
@@ -68,20 +69,22 @@ const SlateBodybox = (props: Props & RenderElementProps) => {
   };
 
   return (
-    <StyledBodybox draggable className="c-bodybox" {...attributes}>
-      <ButtonContainer>
-        <MoveContentButton onMouseDown={onMoveContent} />
-        <DeleteButton
-          aria-label={t('form.remove')}
-          tabIndex={-1}
-          data-testid="remove-bodybox"
-          colorTheme="danger"
-          onMouseDown={onRemoveClick}
-        />
-      </ButtonContainer>
-      <ChildrenWrapper>{children}</ChildrenWrapper>
-    </StyledBodybox>
+    <FramedContent>
+      <StyledContent draggable {...attributes}>
+        <ButtonContainer>
+          <MoveContentButton onMouseDown={onMoveContent} />
+          <DeleteButton
+            aria-label={t('form.remove')}
+            tabIndex={-1}
+            data-testid="remove-framed-content"
+            colorTheme="danger"
+            onMouseDown={onRemoveClick}
+          />
+        </ButtonContainer>
+        <ChildrenWrapper>{children}</ChildrenWrapper>
+      </StyledContent>
+    </FramedContent>
   );
 };
 
-export default SlateBodybox;
+export default SlateFramedContent;

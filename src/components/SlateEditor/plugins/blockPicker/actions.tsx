@@ -32,7 +32,7 @@ import { TYPE_EMBED_BRIGHTCOVE, TYPE_EMBED_EXTERNAL, TYPE_EMBED_IMAGE } from '..
 import { TYPE_ASIDE } from '../aside/types';
 import { TYPE_DETAILS } from '../details/types';
 import { TYPE_TABLE } from '../table/types';
-import { TYPE_BODYBOX } from '../bodybox/types';
+import { TYPE_FRAMED_CONTENT } from '../framedContent/types';
 import { TYPE_FILE } from '../file/types';
 import { TYPE_RELATED } from '../related/types';
 import { TYPE_CODEBLOCK } from '../codeBlock/types';
@@ -64,7 +64,7 @@ export const commonActions: Action[] = [
   {
     data: { type: TYPE_ASIDE, object: 'factAside' },
     icon: <FactBoxMaterial />,
-    helpIcon: renderArticleInModal('FactASide'),
+    helpIcon: renderArticleInModal('FactAside'),
   },
   {
     data: { type: TYPE_DETAILS, object: 'details' },
@@ -77,9 +77,9 @@ export const commonActions: Action[] = [
     helpIcon: renderArticleInModal('Table'),
   },
   {
-    data: { type: TYPE_BODYBOX, object: 'bodybox' },
+    data: { type: TYPE_FRAMED_CONTENT, object: 'framedContent' },
     icon: <Framed />,
-    helpIcon: renderArticleInModal('BodyBox'),
+    helpIcon: renderArticleInModal('FramedContent'),
   },
   {
     data: { type: TYPE_EMBED_IMAGE, object: 'image' },

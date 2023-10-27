@@ -78,7 +78,7 @@ const SearchDropdown = <ParamType extends BaseParams, InnerType, ApiType, Type>(
   positionAbsolute = true,
   isMultiSelect = false,
   maxRender,
-  pageSize = 5,
+  pageSize = 10,
 }: Props<ParamType, InnerType, ApiType, Type>) => {
   const [query, setQuery] = useState('');
   const [page, setPage] = useState<number>(1);

@@ -32,7 +32,11 @@ interface InputPropsOptionsRef extends GetInputPropsOptions {
 
 interface Props<ApiType> {
   onChange: (value: ApiType) => Promise<void> | void;
-  apiAction: (query: string, page?: number) => Promise<SearchResultBase<ApiType>>;
+  apiAction: (
+    query: string,
+    page?: number,
+    pageSize?: number,
+  ) => Promise<SearchResultBase<ApiType>>;
   placeholder?: string;
   labelField?: string;
   idField?: string;
@@ -62,6 +66,7 @@ interface Props<ApiType> {
   label?: string;
   white?: boolean;
   maxRender?: number;
+  pageSize?: number;
 }
 
 interface ApiTypeValues {
@@ -105,7 +110,8 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
   initialSearch = true,
   label,
   white = false,
-  maxRender = 10,
+  maxRender,
+  pageSize = 10,
 }: Props<ApiType>) => {
   const [items, setItems] = useState<ItemValues<ApiType>[]>([]);
   const [selectedItem, setSelectedItem] = useState<ItemValues<ApiType> | null>(null);
@@ -265,7 +271,8 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
               hideTotalSearchCount={hideTotalSearchCount}
               page={showPagination && page}
               handlePageChange={handlePageChange}
-              maxRender={maxRender}
+              maxRender={maxRender ? maxRender : pageSize}
+              pageSize={pageSize}
             />
           </div>
         );

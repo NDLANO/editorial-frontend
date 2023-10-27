@@ -52,7 +52,7 @@ const FrontpageArticleSearch = ({ articleId, children, onChange }: Props) => {
     return () => {
       window.removeEventListener('resize', changeSize);
     };
-  });
+  }, [window.innerHeight]);
 
   const selectedValues = useMemo(() => {
     const articleIds = extractArticleIds(values);

@@ -1516,7 +1516,6 @@ const phrases = {
     getExisting: 'Eller hent eksisterende ressurs',
     inProgress: 'Denne artikkelen er påbegynt',
     addPriority: 'Sett artikkel som prioritert',
-    titleChangeAlert: 'Endring av tittel krever delpublisering av taksonomi',
     changeName: {
       loadError: 'Klarte ikke hente oversettelser',
       updateError: 'Klarte ikke oppdatere oversettelser',

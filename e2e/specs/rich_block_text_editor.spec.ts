@@ -132,7 +132,6 @@ test('can enter title, ingress, content and responsible then save', async ({ pag
   await page.keyboard.type('Test user');
   await page.keyboard.press('Enter');
   await saveButton.click();
-  await page.getByTestId('closeAlert').click();
   await expect(saveButton).toContainText('Lagret');
 });
 

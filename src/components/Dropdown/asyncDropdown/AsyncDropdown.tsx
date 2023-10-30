@@ -144,7 +144,7 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
 
       setKeepOpen(keepOpen || !!query);
     },
-    [apiAction, keepOpen, showPagination],
+    [apiAction, keepOpen, pageSize, showPagination],
   );
 
   const handleInputChange = async (evt: ChangeEvent<HTMLInputElement>) => {

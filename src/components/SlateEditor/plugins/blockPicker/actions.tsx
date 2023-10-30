@@ -64,7 +64,7 @@ export const commonActions: Action[] = [
   {
     data: { type: TYPE_ASIDE, object: 'factAside' },
     icon: <FactBoxMaterial />,
-    helpIcon: renderArticleInModal('FactASide'),
+    helpIcon: renderArticleInModal('FactAside'),
   },
   {
     data: { type: TYPE_DETAILS, object: 'details' },
@@ -77,9 +77,9 @@ export const commonActions: Action[] = [
     helpIcon: renderArticleInModal('Table'),
   },
   {
-    data: { type: TYPE_BODYBOX, object: 'bodybox' },
+    data: { type: TYPE_BODYBOX, object: 'framedContent' },
     icon: <Framed />,
-    helpIcon: renderArticleInModal('BodyBox'),
+    helpIcon: renderArticleInModal('FramedContent'),
   },
   {
     data: { type: TYPE_EMBED_IMAGE, object: 'image' },

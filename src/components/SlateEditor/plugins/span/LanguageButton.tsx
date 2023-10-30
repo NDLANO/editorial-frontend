@@ -24,6 +24,7 @@ const StyledLanguageButton = styled.button<{ isActive: boolean }>`
 
   padding: 8px 0.5rem 8px 0.5rem;
   border: none;
+  white-space: nowrap;
   &:hover {
     background: ${colors.brand.lightest};
   }

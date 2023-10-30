@@ -54,6 +54,15 @@ export function handleClickInline(event: SyntheticEvent, editor: Editor, type: s
   }
 }
 
+export function handleClickSelect(event: SyntheticEvent, editor: Editor, type: string) {
+  if (editor.selection) {
+    event.preventDefault();
+    if (type === 'span') {
+      toggleSpan(editor);
+    }
+  }
+}
+
 export const handleClickTable = (event: SyntheticEvent, editor: Editor, type: string) => {
   event.preventDefault();
 

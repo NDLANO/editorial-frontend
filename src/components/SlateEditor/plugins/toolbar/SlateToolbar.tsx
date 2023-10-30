@@ -13,7 +13,12 @@ import styled from '@emotion/styled';
 import { Portal } from '@radix-ui/react-portal';
 import ToolbarButton from './ToolbarButton';
 import { toggleMark } from '../mark/utils';
-import { handleClickInline, handleClickBlock, handleClickTable } from './handleMenuClicks';
+import {
+  handleClickInline,
+  handleClickBlock,
+  handleClickSelect,
+  handleClickTable,
+} from './handleMenuClicks';
 import hasNodeWithProps from '../../utils/hasNodeWithProps';
 import { isMarkActive } from '../mark';
 import { LIST_TYPES as listTypes } from '../list/types';
@@ -27,13 +32,15 @@ import hasDefinitionListItem from '../definitionList/utils/hasDefinitionListItem
 const topicArticleElements: { [key: string]: string[] } = {
   mark: ['bold', 'italic', 'code', 'sub', 'sup'],
   block: ['quote', 'heading-2', 'heading-3', 'heading-4', 'definition-list', ...listTypes],
-  inline: ['link', 'mathml', 'concept', 'span'],
+  inline: ['link', 'mathml', 'concept'],
+  select: ['span'],
 };
 
 const learningResourceElements: { [key: string]: string[] } = {
   mark: ['bold', 'italic', 'code', 'sub', 'sup'],
   block: ['quote', 'heading-2', 'heading-3', 'heading-4', 'definition-list', ...listTypes],
-  inline: ['link', 'mathml', 'concept', 'span'],
+  inline: ['link', 'mathml', 'concept'],
+  select: ['span'],
   table: ['left', 'center', 'right'],
 };
 
@@ -121,6 +128,8 @@ const SlateToolbar = () => {
         handleClickInline(event, editor, type);
       } else if (kind === 'table') {
         handleClickTable(event, editor, type);
+      } else if (kind === 'select') {
+        handleClickSelect(event, editor, type);
       }
     },
     [editor],
@@ -141,6 +150,7 @@ const SlateToolbar = () => {
   );
 
   const onMouseDown = useCallback((e: MouseEvent) => e.preventDefault(), []);
+  console.log(toolbarElements);
 
   return (
     <Portal>
@@ -173,6 +183,19 @@ const SlateToolbar = () => {
             type={type}
             kind="inline"
             isActive={hasNodeWithProps(editor, specialRules[type] ?? { type })}
+            handleOnClick={onButtonClick}
+          />
+        ))}
+        {toolbarElements.select.map((type) => (
+          <ToolbarButton
+            key={type}
+            type={type}
+            kind="select"
+            isActive={
+              type.includes('list')
+                ? isActiveList(type)
+                : hasNodeWithProps(editor, specialRules[type] ?? { type })
+            }
             handleOnClick={onButtonClick}
           />
         ))}

@@ -30,9 +30,9 @@ const Container = styled.div`
   position: absolute;
   user-select: none;
   font-family: monospace;
-  transform: translateY(100%);
-  left: 0;
-  top: 0;
+  transform: translate(-50%, 50%);
+  left: 50%;
+  top: 50%;
   border: ${colors.brand.greyLight} solid 1px;
   background: ${colors.white};
   overflow: hidden;

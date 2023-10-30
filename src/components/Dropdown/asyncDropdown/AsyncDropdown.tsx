@@ -129,7 +129,7 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
   const handleSearch = useCallback(
     async (query: string = '', page: number) => {
       setLoading(true);
-      const apiOutput = await apiAction(query, showPagination ? page : undefined);
+      const apiOutput = await apiAction(query, showPagination ? page : undefined, pageSize);
       setTotalCount(apiOutput.totalCount ?? 1);
       const transformedItems: ItemValues<ApiType>[] = apiOutput.results.map((item) => ({
         ...item,

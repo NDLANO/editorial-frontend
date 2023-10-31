@@ -1104,7 +1104,7 @@ const phrases = {
         column: 'kolonne',
       },
       normalizedOnLoad:
-        'Artikkelen har endringer på grunn av oppdatering av editoren. Eventuelle endringer som lagres må republiseres.',
+        'Artikkelen du har åpnet inneholder gammel html-kode, som er endret av editoren. Dette medfører at du må republisere ressursen også om du bare har endret metadata eller læreplankoder.',
     },
     tags: {
       label: 'Nøkkelord',

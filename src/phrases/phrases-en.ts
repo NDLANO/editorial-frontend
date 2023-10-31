@@ -1104,7 +1104,7 @@ const phrases = {
         column: 'column',
       },
       normalizedOnLoad:
-        'The article has changes due to an update of the the editor. The possible changes that are saved must be republished.',
+        'This article contains old html-code, changed by the editor. This means that you will have to republish the resource even if you only have changed metadata or grep-codes.',
     },
     tags: {
       label: 'Tags',

@@ -9,7 +9,7 @@
 import styled from '@emotion/styled';
 import { Content, Portal as PopoverPortal, Root, Trigger } from '@radix-ui/react-popover';
 import { spacing, misc, colors } from '@ndla/core';
-import { ReactNode, useCallback, useMemo } from 'react';
+import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Heading } from '@ndla/typography';
 import { IArticleSummaryV2 } from '@ndla/types-backend/article-api';
@@ -40,6 +40,19 @@ const PopoverContent = styled(Content)`
 const FrontpageArticleSearch = ({ articleId, children, onChange }: Props) => {
   const { t } = useTranslation();
   const { values } = useFormikContext<MenuWithArticle>();
+  const [windowHeight, setWindowHeight] = useState<number>(window.innerHeight);
+
+  useEffect(() => {
+    const changeSize = () => {
+      setWindowHeight(window.innerHeight);
+    };
+
+    window.addEventListener('resize', changeSize);
+
+    return () => {
+      window.removeEventListener('resize', changeSize);
+    };
+  });
 
   const selectedValues = useMemo(() => {
     const articleIds = extractArticleIds(values);
@@ -71,6 +84,7 @@ const FrontpageArticleSearch = ({ articleId, children, onChange }: Props) => {
             startOpen
             showPagination
             initialSearch={true}
+            menuHeight={windowHeight * 0.3}
           />
         </PopoverContent>
       </PopoverPortal>

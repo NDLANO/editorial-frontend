@@ -977,6 +977,7 @@ const phrases = {
       awaiting_unpublishing: 'Til avpublisering',
       awaiting_archiving: 'Utsatt arkivering',
       archived: 'Slettet',
+      republish: 'Til republisering',
       actions: {
         PLANNED: 'Planlagd',
         IN_PROGRESS: 'I arbeid',
@@ -1002,6 +1003,7 @@ const phrases = {
         UNPUBLISHED: 'Avpubliser',
         ARCHIVED: 'Slett',
         AWAITING_ARCHIVING: 'Utsatt arkivering',
+        REPUBLISH: 'Til republisering',
       },
       learningpath_statuses: {
         private: 'Kladd',

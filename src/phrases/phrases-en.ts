@@ -977,6 +977,7 @@ const phrases = {
       awaiting_unpublishing: 'Awaiting unpublishing',
       awaiting_archiving: 'Delayed archivation',
       archived: 'Deleted',
+      republish: 'For republishing',
       actions: {
         PLANNED: 'Planned',
         IN_PROGRESS: 'In progress',
@@ -1002,6 +1003,7 @@ const phrases = {
         UNPUBLISHED: 'Unpublish',
         ARCHIVED: 'Delete',
         AWAITING_ARCHIVING: 'Delayed archivation',
+        REPUBLISH: 'For republishing',
       },
       learningpath_statuses: {
         private: 'Draft',

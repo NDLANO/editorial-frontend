@@ -49,6 +49,10 @@ const rules: RulesType<BlogPostFormValues> = {
     required: true,
     url: true,
   },
+  metaImageAlt: {
+    required: true,
+    onlyValidateIf: (value) => !!value.metaImageId,
+  },
 };
 
 const StyledSelect = styled.select`

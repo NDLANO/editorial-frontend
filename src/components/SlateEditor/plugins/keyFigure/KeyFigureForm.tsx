@@ -54,6 +54,10 @@ const rules: RulesType<KeyFigureFormValue> = {
   metaImageId: {
     required: true,
   },
+  metaImageAlt: {
+    required: true,
+    onlyValidateIf: (value) => !!value.metaImageId && !value.isDecorative,
+  },
 };
 
 const StyledFormikField = styled(FormikField)`

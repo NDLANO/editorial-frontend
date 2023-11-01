@@ -68,6 +68,10 @@ const rules: RulesType<CampaignBlockFormValues> = {
   linkText: {
     required: true,
   },
+  metaImageAlt: {
+    required: true,
+    onlyValidateIf: (value) => !!value.metaImageId && !value.isDecorative,
+  },
 };
 
 const toInitialValues = (

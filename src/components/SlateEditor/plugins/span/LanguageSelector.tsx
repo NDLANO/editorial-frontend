@@ -6,15 +6,15 @@
  *
  */
 
-import styled from '@emotion/styled';
 import { Transforms } from 'slate';
 import { useSlateStatic } from 'slate-react';
-import { colors } from '@ndla/core';
+import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
+import { colors, spacing } from '@ndla/core';
 import { DeleteForever } from '@ndla/icons/editor';
+import { Portal } from '@radix-ui/react-portal';
 import { SpanElement } from '.';
 import LanguageButton from './LanguageButton';
-import { Portal } from '@radix-ui/react-portal';
 
 interface Props {
   element: SpanElement;
@@ -34,7 +34,7 @@ const Container = styled.div`
   overflow: hidden;
   border-radius: 4px;
   border-width: 1px;
-  box-shadow: 3px 3px 5px #99999959;
+  box-shadow: 3px 3px ${spacing.xsmall} #99999959;
 `;
 
 const LanguageSelector = ({ element, onClose }: Props) => {

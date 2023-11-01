@@ -159,7 +159,6 @@ const SlateToolbar = () => {
   );
 
   const onMouseDown = useCallback((e: MouseEvent) => e.preventDefault(), []);
-  console.log(toolbarElements);
 
   return (
     <Portal>

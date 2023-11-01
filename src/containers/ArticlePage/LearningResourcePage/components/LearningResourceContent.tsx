@@ -6,7 +6,7 @@
  *
  */
 
-import { useState, useMemo, useCallback, memo } from 'react';
+import { useState, useMemo, useCallback, memo, useEffect, Dispatch, SetStateAction } from 'react';
 import { Descendant } from 'slate';
 import { useTranslation } from 'react-i18next';
 import { FieldProps, useField, useFormikContext } from 'formik';
@@ -44,7 +44,7 @@ import { tablePlugin } from '../../../../components/SlateEditor/plugins/table';
 import { EditMarkupLink } from '../../../../components/EditMarkupLink';
 import { IngressField, TitleField } from '../../../FormikForm';
 import { DRAFT_HTML_SCOPE } from '../../../../constants';
-import { toEditMarkup } from '../../../../util/routeHelpers';
+import { toCreateLearningResource, toEditMarkup } from '../../../../util/routeHelpers';
 import { toolbarPlugin } from '../../../../components/SlateEditor/plugins/toolbar';
 import saveHotkeyPlugin from '../../../../components/SlateEditor/plugins/saveHotkey';
 import { sectionPlugin } from '../../../../components/SlateEditor/plugins/section';
@@ -78,6 +78,8 @@ import { TYPE_AUDIO } from '../../../../components/SlateEditor/plugins/audio/typ
 import { learningResourceActions } from '../../../../components/SlateEditor/plugins/blockPicker/actions';
 import { TYPE_H5P } from '../../../../components/SlateEditor/plugins/h5p/types';
 import { h5pPlugin } from '../../../../components/SlateEditor/plugins/h5p';
+import { isFormikFormDirty } from '../../../../util/formHelper';
+import AlertModal from '../../../../components/AlertModal';
 
 const StyledFormikField = styled(FormikField)`
   display: flex;
@@ -175,18 +177,44 @@ interface Props {
   articleLanguage: string;
   articleId?: number;
   handleSubmit: HandleSubmitFunc<LearningResourceFormType>;
+  initialHTML: string;
 }
 
 const LearningResourceContent = ({
   articleLanguage,
   articleId,
   handleSubmit: _handleSubmit,
+  initialHTML,
 }: Props) => {
   const { t } = useTranslation();
-
   const [creatorsField] = useField<IAuthor[]>('creators');
-
   const [preview, setPreview] = useState(false);
+
+  const { dirty, initialValues, values } = useFormikContext<LearningResourceFormType>();
+
+  const isFormikDirty = useMemo(
+    () =>
+      isFormikFormDirty({
+        values,
+        initialValues,
+        dirty,
+        initialHTML,
+      }),
+    [values, initialValues, dirty, initialHTML],
+  );
+
+  const [isNormalizedOnLoad, setIsNormalizedOnLoad] = useState(isFormikDirty);
+  const [isTouched, setIsTouched] = useState(false);
+  const isCreatePage = toCreateLearningResource() === window.location.pathname;
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (!isTouched) {
+        setIsNormalizedOnLoad(isFormikDirty);
+        setIsTouched(true);
+      }
+    }, 100);
+  }, [isFormikDirty, isTouched]);
 
   return (
     <>
@@ -219,6 +247,20 @@ const LearningResourceContent = ({
         )}
       </StyledFormikField>
       <IngressField preview={preview} />
+      <AlertModal
+        title={t('editorFooter.changeHeader')}
+        label={t('editorFooter.changeHeader')}
+        show={isNormalizedOnLoad && !isCreatePage}
+        text={t('form.content.normalizedOnLoad')}
+        actions={[
+          {
+            text: t('alertModal.continue'),
+            onClick: () => setIsNormalizedOnLoad(false),
+          },
+        ]}
+        onCancel={() => setIsNormalizedOnLoad(false)}
+        severity="warning"
+      />
       <StyledContentDiv name="content" label={t('form.content.label')} noBorder>
         {(fieldProps) => (
           <ContentField articleLanguage={articleLanguage} articleId={articleId} {...fieldProps} />
@@ -231,7 +273,6 @@ const LearningResourceContent = ({
 interface ContentFieldProps extends FieldProps<Descendant[]> {
   articleId?: number;
   articleLanguage: string;
-  handleSubmit: () => void;
 }
 
 const ContentField = ({

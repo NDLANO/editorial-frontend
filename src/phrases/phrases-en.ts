@@ -1105,6 +1105,8 @@ const phrases = {
         row: 'row',
         column: 'column',
       },
+      normalizedOnLoad:
+        'This article contains old html-code, changed by the editor. This means that you will have to republish the resource even if you only have changed metadata or grep-codes.',
     },
     tags: {
       label: 'Tags',

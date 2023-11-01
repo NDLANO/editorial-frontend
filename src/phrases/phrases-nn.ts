@@ -1105,6 +1105,8 @@ const phrases = {
         row: 'rad',
         column: 'kolonne',
       },
+      normalizedOnLoad:
+        'Artikkelen du har åpna inneheld gammal html-kode som er endra av editoren. Dette medfører at du må republisere ressursen også om du berre har endra metadata eller læreplankoder.',
     },
     tags: {
       label: 'Nøkkelord',

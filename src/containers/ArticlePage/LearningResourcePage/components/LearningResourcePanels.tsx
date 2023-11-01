@@ -31,6 +31,7 @@ interface Props {
   handleSubmit: HandleSubmitFunc<LearningResourceFormType>;
   articleLanguage: string;
   contexts?: TaxonomyContext[];
+  initialHTML: string;
 }
 
 const LearningResourcePanels = ({
@@ -40,6 +41,7 @@ const LearningResourcePanels = ({
   articleLanguage,
   contexts,
   handleSubmit,
+  initialHTML,
 }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
@@ -58,6 +60,7 @@ const LearningResourcePanels = ({
           articleLanguage={articleLanguage}
           articleId={article?.id}
           handleSubmit={handleSubmit}
+          initialHTML={initialHTML}
         />
       </FormAccordion>
       {!!article && !!taxonomy && !!userPermissions?.includes(TAXONOMY_WRITE_SCOPE) && (

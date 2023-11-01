@@ -17,6 +17,9 @@ import withPlugins from './utils/withPlugins';
 import { ArticleFormType } from '../../containers/FormikForm/articleFormHooks';
 import { FormikStatus } from '../../interfaces';
 
+const StyledEditable = styled(Editable)`
+  outline: none;
+`;
 const StyledPlaceholder = styled.div`
   display: inline-block;
   width: 0;
@@ -76,8 +79,8 @@ const PlainTextEditor = ({
   }, [status]);
 
   return (
-    <Slate editor={editor} value={value} onChange={onSlateChange}>
-      <Editable
+    <Slate editor={editor} initialValue={value} onChange={onSlateChange}>
+      <StyledEditable
         id={id}
         // Forcing slate field to be deselected before selecting new field.
         // Fixes a problem where slate field is not properly focused on click.

@@ -14,12 +14,7 @@ import { colors, spacing } from '@ndla/core';
 import { Portal } from '@radix-ui/react-portal';
 import ToolbarButton from './ToolbarButton';
 import { toggleMark } from '../mark/utils';
-import {
-  handleClickInline,
-  handleClickBlock,
-  handleClickSelect,
-  handleClickTable,
-} from './handleMenuClicks';
+import { handleClickInline, handleClickBlock, handleClickTable } from './handleMenuClicks';
 import hasNodeWithProps from '../../utils/hasNodeWithProps';
 import { isMarkActive } from '../mark';
 import { LIST_TYPES as listTypes } from '../list/types';
@@ -137,8 +132,6 @@ const SlateToolbar = () => {
         handleClickInline(event, editor, type);
       } else if (kind === 'table') {
         handleClickTable(event, editor, type);
-      } else if (kind === 'select') {
-        handleClickSelect(event, editor, type);
       }
     },
     [editor],

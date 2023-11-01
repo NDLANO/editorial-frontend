@@ -105,7 +105,7 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
     if (campaignBlock?.imageId) {
       fetchImage(campaignBlock.imageId).then((img) => setImage(img));
     }
-  }, [campaignBlock?.imageId, setImage]);
+  }, [campaignBlock?.imageId]);
 
   const handleRemove = useCallback(
     () =>

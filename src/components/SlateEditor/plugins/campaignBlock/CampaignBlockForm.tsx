@@ -40,7 +40,7 @@ export interface CampaignBlockFormValues {
   linkText: string;
   metaImageId?: string;
   imageSide?: CampaignBlockEmbedData['imageSide'];
-  alt?: string;
+  metaImageAlt?: string;
   isDecorative?: boolean;
 }
 
@@ -85,7 +85,7 @@ const toInitialValues = (
     headingLevel: initialData?.headingLevel ?? 'h2',
     link: initialData?.url ?? '',
     linkText: initialData?.urlText ?? '',
-    alt: initialData?.alt ?? '',
+    metaImageAlt: initialData?.alt ?? '',
     isDecorative: initialData ? initialData.alt === undefined : false,
   };
 };
@@ -147,7 +147,7 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
         url: values.link,
         urlText: values.linkText,
         imageId: values.metaImageId,
-        alt: values.isDecorative ? undefined : values.alt,
+        alt: values.isDecorative ? undefined : values.metaImageAlt,
       });
     },
     [onSave],
@@ -246,25 +246,29 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
               />
             )}
           </StyledFormikField>
-          <InlineImageSearch name="metaImageId" disableAltEditing />
-          <StyledFormikField name="alt">
+          <InlineImageSearch name="metaImageId" disableAltEditing hideAltText />
+          <StyledFormikField name="metaImageAlt">
             {({ field, form }: FieldProps) => (
               <>
-                {!form.values.isDecorative && (
+                {!form.values.isDecorative && form.values.metaImageId && (
                   <InputV2 customCss={inputStyle} label={t('form.name.metaImageAlt')} {...field} />
                 )}
               </>
             )}
           </StyledFormikField>
           <StyledFormikField name="isDecorative">
-            {({ field }: FieldProps) => (
-              <CheckboxItem
-                label={t('form.image.isDecorative')}
-                checked={field.value}
-                onChange={() =>
-                  field.onChange({ target: { name: field.name, value: !field.value } })
-                }
-              />
+            {({ field, form }: FieldProps) => (
+              <>
+                {form.values.metaImageId && (
+                  <CheckboxItem
+                    label={t('form.image.isDecorative')}
+                    checked={field.value}
+                    onChange={() =>
+                      field.onChange({ target: { name: field.name, value: !field.value } })
+                    }
+                  />
+                )}
+              </>
             )}
           </StyledFormikField>
           <ButtonContainer>

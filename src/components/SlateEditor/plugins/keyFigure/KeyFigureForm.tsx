@@ -31,7 +31,7 @@ interface KeyFigureFormValue {
   metaImageId: string;
   title: string;
   subtitle: string;
-  alt?: string;
+  metaImageAlt?: string;
   isDecorative?: boolean;
 }
 
@@ -40,7 +40,7 @@ const toInitialValues = (initialData: KeyFigureEmbedData): KeyFigureFormValue =>
   metaImageId: initialData?.imageId ?? '',
   title: initialData?.title ?? '',
   subtitle: initialData?.subtitle ?? '',
-  alt: initialData?.alt ?? '',
+  metaImageAlt: initialData?.alt ?? '',
   isDecorative: initialData ? initialData.alt === undefined : false,
 });
 
@@ -88,7 +88,7 @@ const KeyFigureForm = ({ onSave, initialData, onCancel }: Props) => {
         imageId: values.metaImageId,
         title: values.title,
         subtitle: values.subtitle,
-        alt: values.isDecorative ? undefined : values.alt,
+        alt: values.isDecorative ? undefined : values.metaImageAlt,
       };
       onSave(newData);
     },
@@ -114,25 +114,29 @@ const KeyFigureForm = ({ onSave, initialData, onCancel }: Props) => {
               <InputV2 customCss={inputStyle} label={t('form.name.subtitle')} {...field} />
             )}
           </StyledFormikField>
-          <InlineImageSearch name="metaImageId" disableAltEditing />
-          <StyledFormikField name="alt">
+          <InlineImageSearch name="metaImageId" disableAltEditing hideAltText />
+          <StyledFormikField name="metaImageAlt">
             {({ field, form }: FieldProps) => (
               <>
-                {!form.values.isDecorative && (
+                {!form.values.isDecorative && form.values.metaImageId && (
                   <InputV2 customCss={inputStyle} label={t('form.name.metaImageAlt')} {...field} />
                 )}
               </>
             )}
           </StyledFormikField>
           <StyledFormikField name="isDecorative">
-            {({ field }: FieldProps) => (
-              <CheckboxItem
-                label={t('form.image.isDecorative')}
-                checked={field.value}
-                onChange={() =>
-                  field.onChange({ target: { name: field.name, value: !field.value } })
-                }
-              />
+            {({ field, form }: FieldProps) => (
+              <>
+                {form.values.metaImageId && (
+                  <CheckboxItem
+                    label={t('form.image.isDecorative')}
+                    checked={field.value}
+                    onChange={() =>
+                      field.onChange({ target: { name: field.name, value: !field.value } })
+                    }
+                  />
+                )}
+              </>
             )}
           </StyledFormikField>
           <ButtonContainer>

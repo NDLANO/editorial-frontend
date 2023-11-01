@@ -14,6 +14,7 @@ import { ButtonV2 } from '@ndla/button';
 import { DeleteForever } from '@ndla/icons/editor';
 import { SpanElement } from '.';
 import LanguageButton from './LanguageButton';
+import { Portal } from '@radix-ui/react-portal';
 
 interface Props {
   element: SpanElement;
@@ -24,20 +25,16 @@ export const languages = ['ar', 'de', 'en', 'es', 'fr', 'la', 'no', 'se', 'sma',
 
 const Container = styled.div`
   display: flex;
-  z-index: 1;
   font-size: 0.8rem;
   flex-direction: row;
-  position: absolute;
   user-select: none;
   font-family: monospace;
-  transform: translate(-50%, 50%);
-  left: 50%;
-  top: 50%;
   border: ${colors.brand.greyLight} solid 1px;
   background: ${colors.white};
   overflow: hidden;
   border-radius: 4px;
   border-width: 1px;
+  box-shadow: 3px 3px 5px #99999959;
 `;
 
 const LanguageSelector = ({ element, onClose }: Props) => {
@@ -67,20 +64,24 @@ const LanguageSelector = ({ element, onClose }: Props) => {
     });
   };
 
+  const container = document.getElementById('toolbarPortal');
+
   return (
-    <Container contentEditable={false}>
-      {languages.map((lang) => (
-        <LanguageButton
-          key={lang}
-          language={lang}
-          onClick={onClick}
-          isActive={lang === element.data.lang}
-        />
-      ))}
-      <ButtonV2 variant="ghost" colorTheme="danger" contentEditable={false} onClick={onDelete}>
-        <DeleteForever />
-      </ButtonV2>
-    </Container>
+    <Portal container={container}>
+      <Container contentEditable={false}>
+        {languages.map((lang) => (
+          <LanguageButton
+            key={lang}
+            language={lang}
+            onClick={onClick}
+            isActive={lang === element.data.lang}
+          />
+        ))}
+        <ButtonV2 variant="ghost" colorTheme="danger" contentEditable={false} onClick={onDelete}>
+          <DeleteForever />
+        </ButtonV2>
+      </Container>
+    </Portal>
   );
 };
 

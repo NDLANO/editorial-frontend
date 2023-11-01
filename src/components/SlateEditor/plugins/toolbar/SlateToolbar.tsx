@@ -10,6 +10,7 @@ import { createRef, memo, MouseEvent, useCallback, useEffect, useMemo } from 're
 import { Editor, Element, Range } from 'slate';
 import { useFocused, useSlate } from 'slate-react';
 import styled from '@emotion/styled';
+import { colors, spacing } from '@ndla/core';
 import { Portal } from '@radix-ui/react-portal';
 import ToolbarButton from './ToolbarButton';
 import { toggleMark } from '../mark/utils';
@@ -32,15 +33,13 @@ import hasDefinitionListItem from '../definitionList/utils/hasDefinitionListItem
 const topicArticleElements: { [key: string]: string[] } = {
   mark: ['bold', 'italic', 'code', 'sub', 'sup'],
   block: ['quote', 'heading-2', 'heading-3', 'heading-4', 'definition-list', ...listTypes],
-  inline: ['link', 'mathml', 'concept'],
-  select: ['span'],
+  inline: ['link', 'mathml', 'concept', 'span'],
 };
 
 const learningResourceElements: { [key: string]: string[] } = {
   mark: ['bold', 'italic', 'code', 'sub', 'sup'],
   block: ['quote', 'heading-2', 'heading-3', 'heading-4', 'definition-list', ...listTypes],
-  inline: ['link', 'mathml', 'concept'],
-  select: ['span'],
+  inline: ['link', 'mathml', 'concept', 'span'],
   table: ['left', 'center', 'right'],
 };
 
@@ -60,17 +59,27 @@ const specialRules: { [key: string]: Partial<Element> } = {
 };
 
 const ToolbarContainer = styled.div`
-  border-radius: 4px;
-  position: absolute;
-  z-index: 11;
-  top: -10000px;
   left: -10000px;
-  margin-top: -6px;
   opacity: 0;
-  color: black;
-  background-color: white;
+  position: absolute;
+  top: -10000px;
   transition: opacity 0.75s;
-  box-shadow: 3px 3px 5px #99999959;
+  z-index: 11;
+`;
+
+const ToolbarButtons = styled.div`
+  background-color: ${colors.white};
+  border-radius: ${spacing.xxsmall};
+  box-shadow: 3px 3px ${spacing.xsmall} #99999959;
+  color: ${colors.black};
+  margin: -6px 0 ${spacing.xsmall};
+`;
+
+const ToolbarSubMenu = styled.div`
+  display: none;
+  &:not(:empty) {
+    display: inline-block;
+  }
 `;
 
 const SlateToolbar = () => {
@@ -155,60 +164,51 @@ const SlateToolbar = () => {
   return (
     <Portal>
       <ToolbarContainer ref={portalRef} onMouseDown={onMouseDown}>
-        {toolbarElements.mark.map((type) => (
-          <ToolbarButton
-            key={type}
-            type={type}
-            kind="mark"
-            isActive={isMarkActive(editor, type)}
-            handleOnClick={onButtonClick}
-          />
-        ))}
-        {toolbarElements.block.map((type) => (
-          <ToolbarButton
-            key={type}
-            type={type}
-            kind="block"
-            isActive={
-              type.includes('list')
-                ? isActiveList(type)
-                : hasNodeWithProps(editor, specialRules[type] ?? { type })
-            }
-            handleOnClick={onButtonClick}
-          />
-        ))}
-        {toolbarElements.inline.map((type) => (
-          <ToolbarButton
-            key={type}
-            type={type}
-            kind="inline"
-            isActive={hasNodeWithProps(editor, specialRules[type] ?? { type })}
-            handleOnClick={onButtonClick}
-          />
-        ))}
-        {toolbarElements.select.map((type) => (
-          <ToolbarButton
-            key={type}
-            type={type}
-            kind="select"
-            isActive={
-              type.includes('list')
-                ? isActiveList(type)
-                : hasNodeWithProps(editor, specialRules[type] ?? { type })
-            }
-            handleOnClick={onButtonClick}
-          />
-        ))}
-        {getCurrentBlock(editor, TYPE_TABLE_CELL) &&
-          toolbarElements.table?.map((type, index) => (
+        <ToolbarButtons>
+          {toolbarElements.mark.map((type) => (
             <ToolbarButton
-              key={index}
+              key={type}
               type={type}
-              kind="table"
-              isActive={hasCellAlignOfType(editor, type)}
+              kind="mark"
+              isActive={isMarkActive(editor, type)}
               handleOnClick={onButtonClick}
             />
           ))}
+          {toolbarElements.block.map((type) => (
+            <ToolbarButton
+              key={type}
+              type={type}
+              kind="block"
+              isActive={
+                type.includes('list')
+                  ? isActiveList(type)
+                  : hasNodeWithProps(editor, specialRules[type] ?? { type })
+              }
+              handleOnClick={onButtonClick}
+            />
+          ))}
+          {toolbarElements.inline.map((type) => (
+            <ToolbarButton
+              key={type}
+              type={type}
+              kind="inline"
+              isActive={hasNodeWithProps(editor, specialRules[type] ?? { type })}
+              handleOnClick={onButtonClick}
+            />
+          ))}
+
+          {getCurrentBlock(editor, TYPE_TABLE_CELL) &&
+            toolbarElements.table?.map((type, index) => (
+              <ToolbarButton
+                key={index}
+                type={type}
+                kind="table"
+                isActive={hasCellAlignOfType(editor, type)}
+                handleOnClick={onButtonClick}
+              />
+            ))}
+        </ToolbarButtons>
+        <ToolbarSubMenu id="toolbarPortal"></ToolbarSubMenu>
       </ToolbarContainer>
     </Portal>
   );

@@ -77,6 +77,22 @@ const ToolbarSubMenu = styled.div`
   }
 `;
 
+export const showToolbar = (toolbar: HTMLElement) => {
+  toolbar.style.display = 'block';
+  const native = window.getSelection();
+  if (!native) {
+    return;
+  }
+  const range = native.getRangeAt(0);
+  const rect = range.getBoundingClientRect();
+
+  toolbar.style.opacity = '1';
+  const left = rect.left + window.scrollX - toolbar.offsetWidth / 2 + rect.width / 2;
+
+  toolbar.style.top = `${rect.top + window.scrollY - toolbar.offsetHeight}px`;
+  toolbar.style.left = `${left > 10 ? left : 10}px`;
+};
+
 const SlateToolbar = () => {
   const portalRef = createRef<HTMLDivElement>();
   const editor = useSlate();
@@ -107,19 +123,7 @@ const SlateToolbar = () => {
       return;
     }
 
-    menu.style.display = 'block';
-    const native = window.getSelection();
-    if (!native) {
-      return;
-    }
-    const range = native.getRangeAt(0);
-    const rect = range.getBoundingClientRect();
-
-    menu.style.opacity = '1';
-    const left = rect.left + window.scrollX - menu.offsetWidth / 2 + rect.width / 2;
-
-    menu.style.top = `${rect.top + window.scrollY - menu.offsetHeight}px`;
-    menu.style.left = `${left > 10 ? left : 10}px`;
+    showToolbar(menu);
   });
 
   const onButtonClick = useCallback(
@@ -155,7 +159,7 @@ const SlateToolbar = () => {
 
   return (
     <Portal>
-      <ToolbarContainer ref={portalRef} onMouseDown={onMouseDown}>
+      <ToolbarContainer id="toolbarContainer" ref={portalRef} onMouseDown={onMouseDown}>
         <ToolbarButtons>
           {toolbarElements.mark.map((type) => (
             <ToolbarButton

@@ -13,6 +13,7 @@ import { RenderElementProps, useSelected, useSlateStatic } from 'slate-react';
 import { SpanElement } from '.';
 import SelectedLanguage from './SelectedLanguage';
 import LanguageSelector from './LanguageSelector';
+import { showToolbar } from '../toolbar/SlateToolbar';
 
 interface Props {
   attributes: RenderElementProps['attributes'];
@@ -52,7 +53,13 @@ const Span = ({ element, attributes, children }: Props) => {
         <SelectedLanguage
           language={language}
           element={element}
-          onClick={() => setShowPicker(true)}
+          onClick={() => {
+            const toolbar = document.getElementById('toolbarContainer');
+            if (toolbar) {
+              showToolbar(toolbar);
+            }
+            setShowPicker(true);
+          }}
         />
       )}
     </StyledSpan>

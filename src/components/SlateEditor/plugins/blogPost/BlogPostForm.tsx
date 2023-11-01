@@ -29,7 +29,7 @@ interface BlogPostFormValues {
   size?: 'normal' | 'large';
   author?: string;
   link: string;
-  alt?: string;
+  metaImageAlt?: string;
 }
 
 const rules: RulesType<BlogPostFormValues> = {
@@ -49,6 +49,10 @@ const rules: RulesType<BlogPostFormValues> = {
     required: true,
     url: true,
   },
+  metaImageAlt: {
+    required: true,
+    onlyValidateIf: (value) => !!value.metaImageId,
+  },
 };
 
 const StyledSelect = styled.select`
@@ -65,7 +69,7 @@ const toInitialValues = (initialData?: BlogPostEmbedData): BlogPostFormValues =>
     language: initialData?.language ?? 'nb',
     link: initialData?.url ?? '',
     author: initialData?.author ?? '',
-    alt: initialData?.alt ?? '',
+    metaImageAlt: initialData?.alt ?? '',
   };
 };
 
@@ -113,7 +117,7 @@ const BlogPostForm = ({ initialData, onSave, onCancel }: Props) => {
         size: values.size,
         author: values.author ?? '',
         url: values.link,
-        alt: values.alt ?? '',
+        alt: values.metaImageAlt ?? '',
       };
 
       onSave(newData);
@@ -166,10 +170,14 @@ const BlogPostForm = ({ initialData, onSave, onCancel }: Props) => {
           <StyledFormikField name="size" showError>
             {({ field }: FieldProps) => <SizeField field={field} />}
           </StyledFormikField>
-          <InlineImageSearch name="metaImageId" disableAltEditing />
-          <StyledFormikField name="alt">
-            {({ field }: FieldProps) => (
-              <InputV2 customCss={inputStyle} label={t('form.name.metaImageAlt')} {...field} />
+          <InlineImageSearch name="metaImageId" disableAltEditing hideAltText />
+          <StyledFormikField name="metaImageAlt">
+            {({ field, form }: FieldProps) => (
+              <>
+                {form.values.metaImageId && (
+                  <InputV2 customCss={inputStyle} label={t('form.name.metaImageAlt')} {...field} />
+                )}
+              </>
             )}
           </StyledFormikField>
           <ButtonContainer>

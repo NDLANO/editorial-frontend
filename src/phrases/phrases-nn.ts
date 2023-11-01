@@ -440,7 +440,7 @@ const phrases = {
     moveSubject: 'Dra og slepp',
     removeSubject: 'Fjern fag',
     connectedTo: 'Felles programfag saman med',
-    buildsOn: 'Byggjer på',
+    buildsOn: 'Bygger på',
     leadsTo: 'Leier til',
   },
   programmepageForm: {

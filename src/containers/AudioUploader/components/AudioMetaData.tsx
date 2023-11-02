@@ -40,7 +40,6 @@ const AudioMetaData = () => {
           />
         )}
       </FormikField>
-      <CopyrightFieldGroup />
     </>
   );
 };

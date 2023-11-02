@@ -7,7 +7,6 @@
  */
 
 import { Descendant, Editor, Element } from 'slate';
-import { RenderElementProps } from 'slate-react';
 import { ConceptListEmbedData, EmbedData } from '@ndla/types-embed';
 import { createEmbedTagV2, reduceElementDataAttributesV2 } from '../../../../util/embedTagHelpers';
 import { SlateSerializer } from '../../interfaces';
@@ -15,7 +14,6 @@ import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNor
 import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
 import { TYPE_NDLA_EMBED } from '../embed/types';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
-import ConceptList from './ConceptList';
 import { TYPE_CONCEPT_LIST } from './types';
 import { defaultConceptListBlock } from './utils';
 
@@ -54,20 +52,8 @@ export const conceptListSerializer: SlateSerializer = {
   },
 };
 
-export const conceptListPlugin = (language: string) => (editor: Editor) => {
-  const { renderElement, isVoid, normalizeNode } = editor;
-
-  editor.renderElement = (props: RenderElementProps) => {
-    const { element, attributes, children } = props;
-    if (element.type === TYPE_CONCEPT_LIST) {
-      return (
-        <ConceptList attributes={attributes} element={element} language={language} editor={editor}>
-          {children}
-        </ConceptList>
-      );
-    }
-    return renderElement?.(props);
-  };
+export const conceptListPlugin = (editor: Editor) => {
+  const { isVoid, normalizeNode } = editor;
 
   editor.isVoid = (element: Element) => {
     if (element.type === TYPE_CONCEPT_LIST) {

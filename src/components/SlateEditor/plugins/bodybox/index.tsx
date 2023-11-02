@@ -8,7 +8,6 @@
 
 import { Descendant, Editor, Element } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
-import { RenderElementProps } from 'slate-react';
 import {
   afterOrBeforeTextBlockElement,
   firstTextBlockElement,
@@ -16,7 +15,6 @@ import {
   textBlockElements,
 } from '../../utils/normalizationHelpers';
 import { SlateSerializer } from '../../interfaces';
-import SlateBodybox from './SlateBodybox';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
 import { TYPE_BODYBOX } from './types';
@@ -63,20 +61,7 @@ export const bodyboxSerializer: SlateSerializer = {
 };
 
 export const bodyboxPlugin = (editor: Editor) => {
-  const { renderElement: nextRenderElement, normalizeNode: nextNormalizeNode } = editor;
-
-  editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
-    if (element.type === TYPE_BODYBOX) {
-      return (
-        <SlateBodybox editor={editor} element={element} attributes={attributes}>
-          {children}
-        </SlateBodybox>
-      );
-    } else if (nextRenderElement) {
-      return nextRenderElement({ attributes, children, element });
-    }
-    return undefined;
-  };
+  const { normalizeNode: nextNormalizeNode } = editor;
 
   editor.normalizeNode = (entry) => {
     const [node] = entry;

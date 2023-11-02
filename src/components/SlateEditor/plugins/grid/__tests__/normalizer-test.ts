@@ -10,12 +10,12 @@ import { createEditor, Descendant, Editor } from 'slate';
 import { withHistory } from 'slate-history';
 import { withReact } from 'slate-react';
 import withPlugins from '../../../utils/withPlugins';
-import { plugins } from '../../../../../containers/ArticlePage/FrontpageArticlePage/components/FrontpageArticleFormContent';
+import { frontpagePlugins } from '../../../../../containers/ArticlePage/FrontpageArticlePage/components/frontpagePlugins';
 import { TYPE_SECTION } from '../../section/types';
 import { TYPE_GRID, TYPE_GRID_CELL } from '../types';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 
-const editor = withHistory(withReact(withPlugins(createEditor(), plugins('nb'))));
+const editor = withHistory(withReact(withPlugins(createEditor(), frontpagePlugins)));
 
 describe('normalizing grid tests', () => {
   test('column of two should have only two cells', () => {

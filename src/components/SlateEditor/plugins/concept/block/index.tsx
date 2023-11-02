@@ -8,7 +8,6 @@
 
 import { Descendant, Editor, Element } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
-import { RenderElementProps } from 'slate-react';
 import {
   createEmbedTagV2,
   reduceElementDataAttributesV2,
@@ -18,7 +17,6 @@ import { defaultBlockNormalizer, NormalizerConfig } from '../../../utils/default
 import { afterOrBeforeTextBlockElement } from '../../../utils/normalizationHelpers';
 import { TYPE_NDLA_EMBED } from '../../embed/types';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
-import BlockWrapper from './BlockWrapper';
 import { TYPE_CONCEPT_BLOCK, TYPE_GLOSS_BLOCK } from './types';
 
 const normalizerConfig: NormalizerConfig = {
@@ -57,20 +55,8 @@ export const blockConceptSerializer: SlateSerializer = {
   },
 };
 
-export const blockConceptPlugin = (locale: string) => (editor: Editor) => {
-  const { renderElement, isVoid, normalizeNode } = editor;
-
-  editor.renderElement = (props: RenderElementProps) => {
-    const { element, attributes, children } = props;
-    if (element.type === TYPE_CONCEPT_BLOCK || element.type === TYPE_GLOSS_BLOCK) {
-      return (
-        <BlockWrapper attributes={attributes} element={element} editor={editor} locale={locale}>
-          {children}
-        </BlockWrapper>
-      );
-    }
-    return renderElement?.(props);
-  };
+export const blockConceptPlugin = (editor: Editor) => {
+  const { isVoid, normalizeNode } = editor;
 
   editor.normalizeNode = (entry) => {
     const [node] = entry;

@@ -13,6 +13,7 @@ import { IConcept } from '@ndla/types-backend/concept-api';
 import { IArticle } from '@ndla/types-backend/draft-api';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { useFormikContext } from 'formik';
+import styled from '@emotion/styled';
 import StyledFilledButton from '../StyledFilledButton';
 import { StyledSplitter } from './HeaderInformation';
 import HeaderLanguagePicker from './HeaderLanguagePicker';
@@ -77,6 +78,11 @@ const PreviewLightBox = memo(
     } else return null;
   },
 );
+
+const StyledWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`;
 
 interface Props {
   id: number;
@@ -175,56 +181,58 @@ const HeaderActions = ({
 
   return (
     <>
-      <HeaderSupportedLanguages
-        id={id}
-        editUrl={editUrl}
-        language={language}
-        supportedLanguages={supportedLanguages}
-        isSubmitting={isSubmitting}
-      />
-      {isNewLanguage && (
-        <HeaderLanguagePill current key={`types_${language}`}>
-          <Check />
-          {t(`languages.${language}`)}
-        </HeaderLanguagePill>
-      )}
-      <StyledSplitter />
-      <HeaderLanguagePicker id={id} emptyLanguages={emptyLanguages} editUrl={editUrl} />
-      {translatableTypes.includes(type) &&
-        language === 'nb' &&
-        showTranslate &&
-        !supportedLanguages.includes('nn') && (
+      <StyledWrapper>
+        <HeaderSupportedLanguages
+          id={id}
+          editUrl={editUrl}
+          language={language}
+          supportedLanguages={supportedLanguages}
+          isSubmitting={isSubmitting}
+        />
+        {isNewLanguage && (
+          <HeaderLanguagePill current key={`types_${language}`}>
+            <Check />
+            {t(`languages.${language}`)}
+          </HeaderLanguagePill>
+        )}
+        <StyledSplitter />
+        <HeaderLanguagePicker id={id} emptyLanguages={emptyLanguages} editUrl={editUrl} />
+        {translatableTypes.includes(type) &&
+          language === 'nb' &&
+          showTranslate &&
+          !supportedLanguages.includes('nn') && (
+            <>
+              <StyledSplitter />
+              <TranslateNbToNn id={id} editUrl={editUrl} />
+            </>
+          )}
+        {!noStatus && (
           <>
             <StyledSplitter />
-            <TranslateNbToNn id={id} editUrl={editUrl} />
+            <PreviewLightBox
+              article={article}
+              concept={concept}
+              type={type}
+              currentLanguage={language}
+            />
           </>
         )}
-      {!noStatus && (
-        <>
-          <StyledSplitter />
-          <PreviewLightBox
-            article={article}
-            concept={concept}
-            type={type}
-            currentLanguage={language}
-          />
-        </>
-      )}
-      {lastPublishedVersion && (
-        <>
-          <StyledSplitter />
-          <PreviewDraftLightboxV2
-            type="version"
-            article={lastPublishedVersion}
-            language={language}
-            activateButton={
-              <StyledFilledButton type="button">
-                <Eye /> {t('form.previewVersion')}
-              </StyledFilledButton>
-            }
-          />
-        </>
-      )}
+        {lastPublishedVersion && (
+          <>
+            <StyledSplitter />
+            <PreviewDraftLightboxV2
+              type="version"
+              article={lastPublishedVersion}
+              language={language}
+              activateButton={
+                <StyledFilledButton type="button">
+                  <Eye /> {t('form.previewVersion')}
+                </StyledFilledButton>
+              }
+            />
+          </>
+        )}
+      </StyledWrapper>
       {
         <DeleteLanguageVersion
           id={id}

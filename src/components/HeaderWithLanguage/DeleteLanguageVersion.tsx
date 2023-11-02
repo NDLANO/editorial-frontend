@@ -40,6 +40,7 @@ import { useMessages } from '../../containers/Messages/MessagesProvider';
 import { NdlaErrorPayload } from '../../util/resolveJsonOrRejectWithError';
 
 const DeleteButton = styled(ButtonV2)`
+  white-space: nowrap;
   span {
     color: ${colors.brand.primary};
   }

@@ -99,6 +99,7 @@ const normalizeRow = (row: TableCellElement[]) => {
   return cells;
 };
 
+// Check if previous cell in both col or row is equal
 export const previousMatrixCellIsEqualCurrent = (
   matrix: TableMatrix,
   rowIndex: number,
@@ -115,6 +116,8 @@ export const previousMatrixCellIsEqualCurrent = (
       matrix?.[rowIndex]?.[columnIndex]?.children,
     ));
 
+// Creates an header object depending on the ID's of the header cells surrounding it.
+// If colspan or rowspan we check the corresponding neighbor cells for the headercells.
 export const getHeader = (
   matrix: TableMatrix,
   rowIndex: number,
@@ -126,10 +129,15 @@ export const getHeader = (
   const normalizedHeaderRow = normalizeRow(matrix[0]);
   const headers: TableCellElement[] = [];
 
+  // First header row
+  // Adding all the cells in the corresponding colspan
   [...Array(colspan)].forEach(
     (_, it) =>
       normalizedHeaderRow[columnIndex + it] && headers.push(normalizedHeaderRow[columnIndex + it]),
   );
+
+  // Second header row
+  // If there is a second header row, the index 1 1  of the matrix will be of type table cell header
   if (
     matrix?.[1]?.[1]?.type === TYPE_TABLE_CELL_HEADER &&
     matrix?.[rowIndex]?.[columnIndex].type !== TYPE_TABLE_CELL_HEADER
@@ -142,6 +150,7 @@ export const getHeader = (
     );
   }
 
+  // If row headers we append all row headers following the rowspan.
   if (
     isRowHeaders &&
     columnIndex !== 0 &&

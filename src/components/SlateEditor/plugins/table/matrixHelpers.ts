@@ -9,7 +9,9 @@
 
 import compact from 'lodash/compact';
 import uniq from 'lodash/uniq';
+import isEqual from 'lodash/isEqual';
 import { TableCellElement, TableMatrix } from './interfaces';
+import { TYPE_TABLE_CELL_HEADER } from './types';
 
 export const getPrevCell = (matrix: TableMatrix, row: number, column: number) => {
   return matrix[row][column - 1];
@@ -89,4 +91,68 @@ export const insertCellInMatrix = (
   }
   // C. Otherwise place cell at end of row.
   insertCellHelper(matrix, cell, rowIndex, rowspan, rowLength, rowLength + colspan);
+};
+
+const normalizeRow = (row: TableCellElement[]) => {
+  const cells: TableCellElement[] = [];
+  row.forEach((cell) => [...Array(cell?.data?.colspan)].forEach((_) => cells.push(cell)));
+  return cells;
+};
+
+export const previousMatrixCellIsEqualCurrent = (
+  matrix: TableMatrix,
+  rowIndex: number,
+  columnIndex: number,
+) =>
+  (matrix?.[rowIndex]?.[columnIndex]?.data?.colspan > 1 &&
+    isEqual(
+      matrix?.[rowIndex]?.[columnIndex - 1]?.children,
+      matrix?.[rowIndex]?.[columnIndex]?.children,
+    )) ||
+  (matrix[rowIndex][columnIndex].data.rowspan > 1 &&
+    isEqual(
+      matrix?.[rowIndex - 1]?.[columnIndex]?.children,
+      matrix?.[rowIndex]?.[columnIndex]?.children,
+    ));
+
+export const getHeader = (
+  matrix: TableMatrix,
+  rowIndex: number,
+  columnIndex: number,
+  isRowHeaders: boolean,
+) => {
+  const { colspan, rowspan } = matrix[rowIndex][columnIndex].data;
+
+  const normalizedHeaderRow = normalizeRow(matrix[0]);
+  const headers: TableCellElement[] = [];
+
+  [...Array(colspan)].forEach(
+    (_, it) =>
+      normalizedHeaderRow[columnIndex + it] && headers.push(normalizedHeaderRow[columnIndex + it]),
+  );
+  if (
+    matrix?.[1]?.[1]?.type === TYPE_TABLE_CELL_HEADER &&
+    matrix?.[rowIndex]?.[columnIndex].type !== TYPE_TABLE_CELL_HEADER
+  ) {
+    const normalizedSecondHeaderRow = normalizeRow(matrix[1]);
+    [...Array(colspan)].forEach(
+      (_, it) =>
+        normalizedSecondHeaderRow?.[columnIndex + it] &&
+        headers.push(normalizedSecondHeaderRow[columnIndex + it]),
+    );
+  }
+
+  if (
+    isRowHeaders &&
+    columnIndex !== 0 &&
+    matrix?.[rowIndex]?.[columnIndex]?.type !== TYPE_TABLE_CELL_HEADER
+  ) {
+    [...Array(rowspan)].forEach(
+      (_, it) => matrix?.[rowIndex + it]?.[0] && headers.push(matrix?.[rowIndex + it]?.[0]),
+    );
+  }
+  return headers
+    .map((cell) => cell?.data?.id)
+    .filter((cell) => !!cell)
+    .join(' ');
 };

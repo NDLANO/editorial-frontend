@@ -65,7 +65,7 @@ const wrapper = () => {
   return render(
     <IntlWrapper>
       <div>
-        <Slate editor={editor} value={[element]} onChange={() => {}}>
+        <Slate editor={editor} initialValue={[element]} onChange={() => {}}>
           <Editable />
         </Slate>
         {/* @ts-ignore */}

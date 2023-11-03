@@ -41,7 +41,7 @@ const normalizeCell = (
       // Check that no other cells are blocking the required space.
       for (let r = rowIndex; r < rowIndex + rowspan; r++) {
         for (let c = colIndex; c < colIndex + colspan; c++) {
-          if (matrix[r][c]) {
+          if (matrix?.[r]?.[c]) {
             // A cell is blocking required space. Insert the required amount of cells to push the blocking cell to the right.
             const stepsRight = colIndex + colspan - c;
             const cellPath = ReactEditor.findPath(editor, matrix[r][c]);
@@ -91,67 +91,69 @@ const normalizeRow = (
 
     const row = matrix[rowIndex].entries();
     for (const [index, cell] of row) {
-      const { scope } = cell.data;
+      const scope = cell?.data?.scope;
       // A. Normalize table head
-      if (isHead) {
-        // i. If cell in header
-        //    Make sure scope='col' and isHeader=true and type is correct
-        if (isTableCell(cell) && (cell.type !== TYPE_TABLE_CELL_HEADER || scope !== 'col')) {
-          updateCell(
-            editor,
-            cell,
-            {
-              scope: 'col',
-            },
-            TYPE_TABLE_CELL_HEADER,
-          );
-          return true;
-        }
-      } else {
-        // i. If table does not have headers on rows
-        //    Make sure cells in body has scope=undefined and isHeader=false
-        if (!rowHeaders && (scope || cell.type === TYPE_TABLE_CELL_HEADER)) {
-          updateCell(
-            editor,
-            cell,
-            {
-              scope: undefined,
-            },
-            TYPE_TABLE_CELL,
-          );
-          return true;
-        }
+      if (cell) {
+        if (isHead) {
+          // i. If cell in header
+          //    Make sure scope='col' and isHeader=true and type is correct
+          if (isTableCell(cell) && (cell.type !== TYPE_TABLE_CELL_HEADER || scope !== 'col')) {
+            updateCell(
+              editor,
+              cell,
+              {
+                scope: 'col',
+              },
+              TYPE_TABLE_CELL_HEADER,
+            );
+            return true;
+          }
+        } else {
+          // i. If table does not have headers on rows
+          //    Make sure cells in body has scope=undefined and isHeader=false
+          if (!rowHeaders && (scope || cell.type === TYPE_TABLE_CELL_HEADER)) {
+            updateCell(
+              editor,
+              cell,
+              {
+                scope: undefined,
+              },
+              TYPE_TABLE_CELL,
+            );
+            return true;
+          }
 
-        // ii. If table has headers on rows
-        //    First cell in row should be a header
-        //    Other cells should not be a header
-        if (rowHeaders) {
-          if (index === 0) {
-            if (scope !== 'row' || cell.type !== TYPE_TABLE_CELL_HEADER) {
-              updateCell(
-                editor,
-                cell,
-                {
-                  scope: 'row',
-                },
-                TYPE_TABLE_CELL_HEADER,
-              );
-              return true;
-            }
-          } else {
-            if (
-              (scope || cell.type === TYPE_TABLE_CELL_HEADER) &&
-              getPrevCell(matrix, rowIndex, index) !== cell
-            ) {
-              updateCell(
-                editor,
-                cell,
-                {
-                  scope: undefined,
-                },
-                TYPE_TABLE_CELL,
-              );
-              return true;
+          // ii. If table has headers on rows
+          //    First cell in row should be a header
+          //    Other cells should not be a header
+          if (rowHeaders) {
+            if (index === 0) {
+              if (scope !== 'row' || cell.type !== TYPE_TABLE_CELL_HEADER) {
+                updateCell(
+                  editor,
+                  cell,
+                  {
+                    scope: 'row',
+                  },
+                  TYPE_TABLE_CELL_HEADER,
+                );
+                return true;
+              }
+            } else {
+              if (
+                (scope || cell.type === TYPE_TABLE_CELL_HEADER) &&
+                getPrevCell(matrix, rowIndex, index) !== cell
+              ) {
+                updateCell(
+                  editor,
+                  cell,
+                  {
+                    scope: undefined,
+                  },
+                  TYPE_TABLE_CELL,
+                );
+                return true;
+              }
             }
           }
         }
@@ -215,8 +217,8 @@ export const normalizeTableBodyAsMatrix = (
         return false;
       }
 
-      const colspan = cell.data.colspan;
-      const rowspan = cell.data.rowspan;
+      const colspan = cell?.data?.colspan;
+      const rowspan = cell?.data?.rowspan;
 
       // i. Check if next element can be placed in matrix without needing a normalize.
       // Normalize if needed. This will restart the normalization.

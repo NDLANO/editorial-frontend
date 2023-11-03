@@ -79,8 +79,8 @@ export const insertCellInMatrix = (
     return;
   }
   // B. If there are open slots in the row => Place cell at first open slot.
-  for (const [colIndex, cell] of matrix[rowIndex].entries()) {
-    if (cell) {
+  for (const [colIndex, cellMatrix] of matrix[rowIndex].entries()) {
+    if (cellMatrix) {
       continue;
     } else {
       insertCellHelper(matrix, cell, rowIndex, rowspan, colIndex, colIndex + colspan);

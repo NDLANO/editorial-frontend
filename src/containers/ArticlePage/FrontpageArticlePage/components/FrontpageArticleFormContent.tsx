@@ -6,14 +6,14 @@
  *
  */
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { FormikContextType } from 'formik';
+import { FormikContextType, useFormikContext } from 'formik';
 import { FieldHeader } from '@ndla/forms';
 import Tooltip from '@ndla/tooltip';
 import { Eye, Link } from '@ndla/icons/editor';
-import { IconButtonV2 } from '@ndla/button';
+import { ButtonV2, IconButtonV2 } from '@ndla/button';
 import { colors } from '@ndla/core';
 import FormikField from '../../../../components/FormikField';
 import LastUpdatedLine from '../../../../components/LastUpdatedLine/LastUpdatedLine';
@@ -37,7 +37,11 @@ import { tablePlugin } from '../../../../components/SlateEditor/plugins/table';
 import { EditMarkupLink } from '../../../../components/EditMarkupLink';
 import { IngressField, TitleField, SlugField } from '../../../FormikForm';
 import { DRAFT_HTML_SCOPE } from '../../../../constants';
-import { toEditMarkup } from '../../../../util/routeHelpers';
+import {
+  toCreateFrontPageArticle,
+  toEditMarkup,
+  usePreviousLocation,
+} from '../../../../util/routeHelpers';
 import { toolbarPlugin } from '../../../../components/SlateEditor/plugins/toolbar';
 import saveHotkeyPlugin from '../../../../components/SlateEditor/plugins/saveHotkey';
 import { sectionPlugin } from '../../../../components/SlateEditor/plugins/section';
@@ -81,6 +85,8 @@ import { audioPlugin } from '../../../../components/SlateEditor/plugins/audio';
 import { TYPE_AUDIO } from '../../../../components/SlateEditor/plugins/audio/types';
 import { TYPE_H5P } from '../../../../components/SlateEditor/plugins/h5p/types';
 import { h5pPlugin } from '../../../../components/SlateEditor/plugins/h5p';
+import { isFormikFormDirty } from '../../../../util/formHelper';
+import AlertModal from '../../../../components/AlertModal';
 
 const StyledFormikField = styled(FormikField)`
   display: flex;
@@ -197,23 +203,45 @@ export const plugins = (articleLanguage: string): SlatePlugin[] => {
 };
 interface Props {
   articleLanguage: string;
-  handleBlur: (evt: { target: { name: string } }) => void;
-  values: FrontpageArticleFormType;
-  formik: FormikContextType<FrontpageArticleFormType>;
+  initialHTML: string;
 }
 
-const FrontpageArticleFormContent = ({
-  articleLanguage,
-  values: { id, language, creators, published, slug },
-}: Props) => {
+const FrontpageArticleFormContent = ({ articleLanguage, initialHTML }: Props) => {
   const { userPermissions } = useSession();
   const { t } = useTranslation();
   const { isWideArticle } = useWideArticle();
 
+  const editorPlugins = useMemo(() => plugins(articleLanguage ?? ''), [articleLanguage]);
+
+  const { dirty, initialValues, values } = useFormikContext<FrontpageArticleFormType>();
+  const { slug, id, creators, published, language } = values;
+
+  const isFormikDirty = useMemo(
+    () =>
+      isFormikFormDirty({
+        values,
+        initialValues,
+        dirty,
+        initialHTML,
+      }),
+    [values, initialValues, dirty, initialHTML],
+  );
+
+  const [isNormalizedOnLoad, setIsNormalizedOnLoad] = useState(isFormikDirty);
+  const [isTouched, setIsTouched] = useState(false);
+  const isCreatePage = toCreateFrontPageArticle() === window.location.pathname;
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (!isTouched) {
+        setIsNormalizedOnLoad(isFormikDirty);
+        setIsTouched(true);
+      }
+    }, 100);
+  }, [isFormikDirty, isTouched]);
+
   const [preview, setPreview] = useState(false);
   const [editSlug, setEditSlug] = useState(false);
-
-  const editorPlugins = useMemo(() => plugins(articleLanguage ?? ''), [articleLanguage]);
 
   return (
     <StyledContentWrapper data-wide={isWideArticle}>
@@ -259,8 +287,21 @@ const FrontpageArticleFormContent = ({
           </StyledDiv>
         )}
       </StyledFormikField>
-
       <IngressField preview={preview} />
+      <AlertModal
+        title={t('editorFooter.changeHeader')}
+        label={t('editorFooter.changeHeader')}
+        show={isNormalizedOnLoad && !isCreatePage}
+        text={t('form.content.normalizedOnLoad')}
+        actions={[
+          {
+            text: t('alertModal.continue'),
+            onClick: () => setIsNormalizedOnLoad(false),
+          },
+        ]}
+        onCancel={() => setIsNormalizedOnLoad(false)}
+        severity="warning"
+      />
       <StyledContentDiv name="content" label={t('form.content.label')} noBorder>
         {({ field: { value, name, onChange }, form: { isSubmitting } }) => (
           <>

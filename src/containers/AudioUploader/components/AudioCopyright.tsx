@@ -8,8 +8,8 @@
 
 import CopyrightFieldGroup from '../../FormikForm/CopyrightFieldGroup';
 
-const ImageCopyright = () => {
+const AudioCopyright = () => {
   return <CopyrightFieldGroup />;
 };
 
-export default ImageCopyright;
+export default AudioCopyright;

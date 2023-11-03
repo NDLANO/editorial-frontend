@@ -153,9 +153,11 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
       supportedLanguages: [],
       translations: [],
       nodeType: 'SUBJECT',
+      baseName: t('searchForm.favourites'),
       name: t('searchForm.favourites'),
       contentUri: '',
       path: '',
+      language: '',
       metadata: {
         customFields: {},
         grepCodes: [],

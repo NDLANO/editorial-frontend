@@ -644,7 +644,7 @@ const phrases = {
       block: 'Seksjon',
       factAside: 'Faktaboks',
       table: 'Tabell',
-      bodybox: 'Tekst i ramme',
+      framedContent: 'Tekst i ramme',
       details: 'Ekspanderende boks',
       image: 'Bilde',
       video: 'Video',
@@ -977,6 +977,7 @@ const phrases = {
       awaiting_unpublishing: 'Til avpublisering',
       awaiting_archiving: 'Utsatt arkivering',
       archived: 'Slettet',
+      republish: 'Til republisering',
       actions: {
         PLANNED: 'Planlagt',
         IN_PROGRESS: 'I arbeid',
@@ -1002,6 +1003,7 @@ const phrases = {
         UNPUBLISHED: 'Avpubliser',
         ARCHIVED: 'Slett',
         AWAITING_ARCHIVING: 'Utsatt arkivering',
+        REPUBLISH: 'Til republisering',
       },
       learningpath_statuses: {
         private: 'Kladd',
@@ -1103,6 +1105,8 @@ const phrases = {
         row: 'rad',
         column: 'kolonne',
       },
+      normalizedOnLoad:
+        'Artikkelen du har åpnet inneholder gammel html-kode, som er endret av editoren. Dette medfører at du må republisere ressursen også om du bare har endret metadata eller læreplankoder.',
     },
     tags: {
       label: 'Nøkkelord',
@@ -1516,7 +1520,6 @@ const phrases = {
     getExisting: 'Eller hent eksisterende ressurs',
     inProgress: 'Denne artikkelen er påbegynt',
     addPriority: 'Sett artikkel som prioritert',
-    titleChangeAlert: 'Endring av tittel krever delpublisering av taksonomi',
     changeName: {
       loadError: 'Klarte ikke hente oversettelser',
       updateError: 'Klarte ikke oppdatere oversettelser',

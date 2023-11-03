@@ -4,6 +4,8 @@ export const nodeTreeWithNoChildren: NodeTree = {
   root: {
     id: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
     name: 'Samfunnskunnskap',
+    baseName: 'Samfunnskunnskap',
+    language: 'nb',
     contentUri: 'urn:frontpage:62',
     path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
     paths: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578'],
@@ -44,6 +46,8 @@ export const nodeTreeWithNoChildrenUpdated: NodeTree = {
   root: {
     id: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
     name: 'Samfunnskunnskap oppdatert',
+    baseName: 'Samfunnskunnskap oppdatert',
+    language: 'nb',
     contentUri: undefined,
     path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
     paths: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578'],
@@ -90,6 +94,17 @@ export const nodeTreeWithNoChildrenDiff: DiffTree = {
       original: 'Samfunnskunnskap',
       other: 'Samfunnskunnskap oppdatert',
       diffType: 'MODIFIED',
+    },
+    baseName: {
+      original: 'Samfunnskunnskap',
+      other: 'Samfunnskunnskap oppdatert',
+      diffType: 'MODIFIED',
+    },
+    language: {
+      original: 'nb',
+      other: 'nb',
+      diffType: 'NONE',
+      ignored: true,
     },
     contentUri: {
       original: 'urn:frontpage:62',
@@ -202,6 +217,8 @@ export const nodeTreeWithDirectChildren: NodeTree = {
   root: {
     id: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
     name: 'Samfunnskunnskap',
+    baseName: 'Samfunnskunnskap',
+    language: 'nb',
     contentUri: 'urn:frontpage:62',
     path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
     paths: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578'],
@@ -239,6 +256,8 @@ export const nodeTreeWithDirectChildren: NodeTree = {
     {
       id: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       name: 'Verktøy for utforskning',
+      baseName: 'Verktøy for utforskning',
+      language: 'nb',
       contentUri: 'urn:article:20136',
       parentId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
@@ -275,6 +294,8 @@ export const nodeTreeWithDirectChildren: NodeTree = {
     {
       id: 'urn:topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
       name: 'Sosialisering, identitet og livsmestring',
+      baseName: 'Sosialisering, identitet og livsmestring',
+      language: 'nb',
       contentUri: 'urn:article:20126',
       parentId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
@@ -315,6 +336,8 @@ export const nodeTreeWithDirectChildrenUpdated: NodeTree = {
   root: {
     id: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
     name: 'Samfunnskunnskap',
+    baseName: 'Samfunnskunnskap',
+    language: 'nb',
     contentUri: 'urn:frontpage:62',
     path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
     paths: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578'],
@@ -352,6 +375,8 @@ export const nodeTreeWithDirectChildrenUpdated: NodeTree = {
     {
       id: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       name: 'Verktøy for utforskning',
+      baseName: 'Verktøy for utforskning',
+      language: 'nb',
       contentUri: 'urn:article:20136',
       parentId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
@@ -388,6 +413,8 @@ export const nodeTreeWithDirectChildrenUpdated: NodeTree = {
     {
       id: 'urn:topic:1:00018b29-3b51-478d-a691-20732e0601fd',
       name: 'Ulikheter og utenforskap',
+      baseName: 'Ulikheter og utenforskap',
+      language: 'nb',
       contentUri: 'urn:article:20138',
       parentId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
@@ -437,6 +464,17 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
       original: 'Samfunnskunnskap',
       other: 'Samfunnskunnskap',
       diffType: 'NONE',
+    },
+    baseName: {
+      original: 'Samfunnskunnskap',
+      other: 'Samfunnskunnskap',
+      diffType: 'NONE',
+    },
+    language: {
+      original: 'nb',
+      other: 'nb',
+      diffType: 'NONE',
+      ignored: true,
     },
     contentUri: {
       original: 'urn:frontpage:62',
@@ -553,6 +591,17 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
         original: 'Verktøy for utforskning',
         other: 'Verktøy for utforskning',
         diffType: 'NONE',
+      },
+      baseName: {
+        original: 'Verktøy for utforskning',
+        other: 'Verktøy for utforskning',
+        diffType: 'NONE',
+      },
+      language: {
+        original: 'nb',
+        other: 'nb',
+        diffType: 'NONE',
+        ignored: true,
       },
       contentUri: {
         original: 'urn:article:20136',
@@ -692,6 +741,18 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
         other: undefined,
         diffType: 'DELETED',
       },
+      baseName: {
+        original: 'Sosialisering, identitet og livsmestring',
+        other: undefined,
+        diffType: 'DELETED',
+      },
+      language: {
+        original: 'nb',
+        other: undefined,
+        diffType: 'DELETED',
+        ignored: true,
+      },
+
       contentUri: {
         original: 'urn:article:20126',
         other: undefined,
@@ -818,6 +879,17 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
         other: 'Ulikheter og utenforskap',
         diffType: 'ADDED',
       },
+      baseName: {
+        original: undefined,
+        other: 'Ulikheter og utenforskap',
+        diffType: 'ADDED',
+      },
+      language: {
+        original: undefined,
+        other: 'nb',
+        diffType: 'ADDED',
+        ignored: true,
+      },
       contentUri: {
         original: undefined,
         other: 'urn:article:20138',
@@ -937,6 +1009,8 @@ export const nodeTreeWithDirectChildrenAndResources: NodeTree = {
   root: {
     id: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
     name: 'Samfunnskunnskap',
+    baseName: 'Samfunnskunnskap',
+    language: 'nb',
     contentUri: 'urn:frontpage:62',
     path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
     paths: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578'],
@@ -974,6 +1048,8 @@ export const nodeTreeWithDirectChildrenAndResources: NodeTree = {
     {
       id: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       name: 'Verktøy for utforskning',
+      baseName: 'Verktøy for utforskning',
+      language: 'nb',
       contentUri: 'urn:article:20136',
       parentId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
@@ -1010,6 +1086,8 @@ export const nodeTreeWithDirectChildrenAndResources: NodeTree = {
     {
       id: 'urn:topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
       name: 'Sosialisering, identitet og livsmestring',
+      baseName: 'Sosialisering, identitet og livsmestring',
+      language: 'nb',
       contentUri: 'urn:article:20126',
       parentId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
@@ -1050,6 +1128,8 @@ export const nodeTreeWithNestedChildren: NodeTree = {
   root: {
     id: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
     name: 'Samfunnskunnskap',
+    baseName: 'Samfunnskunnskap',
+    language: 'nb',
     contentUri: 'urn:frontpage:62',
     path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
     paths: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578'],
@@ -1087,6 +1167,8 @@ export const nodeTreeWithNestedChildren: NodeTree = {
     {
       id: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       name: 'Verktøy for utforskning',
+      baseName: 'Verktøy for utforskning',
+      language: 'nb',
       contentUri: 'urn:article:20136',
       parentId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
@@ -1123,6 +1205,8 @@ export const nodeTreeWithNestedChildren: NodeTree = {
     {
       id: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
       name: 'Samfunnsfaglige metoder',
+      baseName: 'Samfunnsfaglige metoder',
+      language: 'nb',
       contentUri: 'urn:article:20161',
       parentId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       parent: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
@@ -1159,6 +1243,8 @@ export const nodeTreeWithNestedChildren: NodeTree = {
     {
       id: 'urn:topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
       name: 'Kildebruk og kildekritikk oppdatert',
+      baseName: 'Kildebruk og kildekritikk oppdatert',
+      language: 'nb',
       contentUri: 'urn:article:20162',
       parentId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       parent: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
@@ -1199,6 +1285,8 @@ export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
   root: {
     id: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
     name: 'Samfunnskunnskap',
+    baseName: 'Samfunnskunnskap',
+    language: 'nb',
     contentUri: 'urn:frontpage:62',
     path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
     paths: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578'],
@@ -1236,6 +1324,8 @@ export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
     {
       id: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       name: 'Verktøy for utforskning',
+      baseName: 'Verktøy for utforskning',
+      language: 'nb',
       contentUri: 'urn:article:20136',
       parentId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
@@ -1272,6 +1362,8 @@ export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
     {
       id: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
       name: 'Samfunnsfaglige metoder',
+      baseName: 'Samfunnsfaglige metoder',
+      language: 'nb',
       contentUri: 'urn:article:20161',
       parentId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       parent: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
@@ -1308,6 +1400,8 @@ export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
     {
       id: 'urn:topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
       name: 'Kildebruk og kildekritikk oppdatert',
+      baseName: 'Kildebruk og kildekritikk oppdatert',
+      language: 'nb',
       contentUri: 'urn:article:20162',
       parentId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       parent: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
@@ -1357,6 +1451,17 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
       original: 'Samfunnskunnskap',
       other: 'Samfunnskunnskap',
       diffType: 'NONE',
+    },
+    baseName: {
+      original: 'Samfunnskunnskap',
+      other: 'Samfunnskunnskap',
+      diffType: 'NONE',
+    },
+    language: {
+      original: 'nb',
+      other: 'nb',
+      diffType: 'NONE',
+      ignored: true,
     },
     contentUri: {
       original: 'urn:frontpage:62',
@@ -1483,6 +1588,17 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
         other: 'Verktøy for utforskning',
         diffType: 'NONE',
       },
+      baseName: {
+        original: 'Verktøy for utforskning',
+        other: 'Verktøy for utforskning',
+        diffType: 'NONE',
+      },
+      language: {
+        original: 'nb',
+        other: 'nb',
+        diffType: 'NONE',
+        ignored: true,
+      },
       contentUri: {
         original: 'urn:article:20136',
         other: 'urn:article:20136',
@@ -1597,6 +1713,17 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
             original: 'Samfunnsfaglige metoder',
             other: 'Samfunnsfaglige metoder',
             diffType: 'NONE',
+          },
+          baseName: {
+            original: 'Samfunnsfaglige metoder',
+            other: 'Samfunnsfaglige metoder',
+            diffType: 'NONE',
+          },
+          language: {
+            original: 'nb',
+            other: 'nb',
+            diffType: 'NONE',
+            ignored: true,
           },
           contentUri: {
             original: 'urn:article:20161',
@@ -1727,6 +1854,17 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
             original: 'Kildebruk og kildekritikk oppdatert',
             other: 'Kildebruk og kildekritikk oppdatert',
             diffType: 'NONE',
+          },
+          baseName: {
+            original: 'Kildebruk og kildekritikk oppdatert',
+            other: 'Kildebruk og kildekritikk oppdatert',
+            diffType: 'NONE',
+          },
+          language: {
+            original: 'nb',
+            other: 'nb',
+            diffType: 'NONE',
+            ignored: true,
           },
           contentUri: {
             original: 'urn:article:20162',
@@ -1894,6 +2032,17 @@ export const nodeTreeInOriginalVersionDiff: DiffTree = {
       other: undefined,
       diffType: 'DELETED',
     },
+    baseName: {
+      original: 'Samfunnskunnskap',
+      other: undefined,
+      diffType: 'DELETED',
+    },
+    language: {
+      original: 'nb',
+      other: undefined,
+      diffType: 'DELETED',
+      ignored: true,
+    },
     contentUri: {
       original: 'urn:frontpage:62',
       other: undefined,
@@ -1999,6 +2148,17 @@ export const nodeTreeInOtherVersionDiff: DiffTree = {
       other: 'Samfunnskunnskap',
       diffType: 'ADDED',
     },
+    baseName: {
+      original: undefined,
+      other: 'Samfunnskunnskap',
+      diffType: 'ADDED',
+    },
+    language: {
+      original: undefined,
+      other: 'nb',
+      diffType: 'ADDED',
+      ignored: true,
+    },
     contentUri: {
       original: undefined,
       other: 'urn:frontpage:62',
@@ -2094,6 +2254,8 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
   root: {
     id: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
     name: 'Samfunnskunnskap',
+    baseName: 'Samfunnskunnskap',
+    language: 'nb',
     contentUri: 'urn:frontpage:62',
     path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
     paths: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578'],
@@ -2131,6 +2293,8 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
     {
       id: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       name: 'Verktøy for utforskning',
+      baseName: 'Verktøy for utforskning',
+      language: 'nb',
       contentUri: 'urn:article:20136',
       parentId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
@@ -2167,6 +2331,8 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
     {
       id: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
       name: 'Samfunnsfaglige metoder',
+      baseName: 'Samfunnsfaglige metoder',
+      language: 'nb',
       contentUri: 'urn:article:20161',
       parentId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       parent: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
@@ -2198,6 +2364,8 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
         {
           id: 'urn:resource:1:168358',
           name: 'Ulike metoder',
+          baseName: 'Ulike metoder',
+          language: 'nb',
           contentUri: 'urn:article:7',
           path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6/resource:1:168358',
           metadata: {
@@ -2268,6 +2436,8 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
     {
       id: 'urn:topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
       name: 'Kildebruk og kildekritikk oppdatert',
+      baseName: 'Kildebruk og kildekritikk oppdatert',
+      language: 'nb',
       contentUri: 'urn:article:20162',
       parentId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       parent: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
@@ -2308,6 +2478,8 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
   root: {
     id: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
     name: 'Samfunnskunnskap',
+    baseName: 'Samfunnskunnskap',
+    language: 'nb',
     contentUri: 'urn:frontpage:62',
     path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
     paths: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578'],
@@ -2345,6 +2517,8 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
     {
       id: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       name: 'Verktøy for utforskning',
+      baseName: 'Verktøy for utforskning',
+      language: 'nb',
       contentUri: 'urn:article:20136',
       parentId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
@@ -2381,6 +2555,8 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
     {
       id: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
       name: 'Samfunnsfaglige metoder',
+      baseName: 'Samfunnsfaglige metoder',
+      language: 'nb',
       contentUri: 'urn:article:20161',
       parentId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       parent: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
@@ -2414,6 +2590,8 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
         {
           id: 'urn:resource:1:168358',
           name: 'Ulike metoder oppdatert',
+          baseName: 'Ulike metoder oppdatert',
+          language: 'nb',
           contentUri: 'urn:article:7',
           path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6/resource:1:168358',
           metadata: {
@@ -2482,6 +2660,8 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
     {
       id: 'urn:topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
       name: 'Kildebruk og kildekritikk oppdatert',
+      baseName: 'Kildebruk og kildekritikk oppdatert',
+      language: 'nb',
       contentUri: 'urn:article:20162',
       parentId: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
       parent: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
@@ -2531,6 +2711,17 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
       original: 'Samfunnskunnskap',
       other: 'Samfunnskunnskap',
       diffType: 'NONE',
+    },
+    baseName: {
+      original: 'Samfunnskunnskap',
+      other: 'Samfunnskunnskap',
+      diffType: 'NONE',
+    },
+    language: {
+      original: 'nb',
+      other: 'nb',
+      diffType: 'NONE',
+      ignored: true,
     },
     contentUri: {
       original: 'urn:frontpage:62',
@@ -2645,6 +2836,17 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
         original: 'Verktøy for utforskning',
         other: 'Verktøy for utforskning',
         diffType: 'NONE',
+      },
+      baseName: {
+        original: 'Verktøy for utforskning',
+        other: 'Verktøy for utforskning',
+        diffType: 'NONE',
+      },
+      language: {
+        original: 'nb',
+        other: 'nb',
+        diffType: 'NONE',
+        ignored: true,
       },
       contentUri: {
         original: 'urn:article:20136',
@@ -2761,6 +2963,17 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
             other: 'Samfunnsfaglige metoder',
             diffType: 'NONE',
           },
+          baseName: {
+            original: 'Samfunnsfaglige metoder',
+            other: 'Samfunnsfaglige metoder',
+            diffType: 'NONE',
+          },
+          language: {
+            original: 'nb',
+            other: 'nb',
+            diffType: 'NONE',
+            ignored: true,
+          },
           contentUri: {
             original: 'urn:article:20161',
             other: 'urn:article:20161',
@@ -2871,6 +3084,17 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
                 original: 'Ulike metoder',
                 other: 'Ulike metoder oppdatert',
                 diffType: 'MODIFIED',
+              },
+              baseName: {
+                original: 'Ulike metoder',
+                other: 'Ulike metoder oppdatert',
+                diffType: 'MODIFIED',
+              },
+              language: {
+                original: 'nb',
+                other: 'nb',
+                diffType: 'NONE',
+                ignored: true,
               },
               contentUri: { original: 'urn:article:7', other: 'urn:article:7', diffType: 'NONE' },
               path: {
@@ -3071,6 +3295,17 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
             original: 'Kildebruk og kildekritikk oppdatert',
             other: 'Kildebruk og kildekritikk oppdatert',
             diffType: 'NONE',
+          },
+          baseName: {
+            original: 'Kildebruk og kildekritikk oppdatert',
+            other: 'Kildebruk og kildekritikk oppdatert',
+            diffType: 'NONE',
+          },
+          language: {
+            original: 'nb',
+            other: 'nb',
+            diffType: 'NONE',
+            ignored: true,
           },
           contentUri: {
             original: 'urn:article:20162',

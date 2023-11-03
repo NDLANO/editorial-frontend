@@ -22,7 +22,7 @@ const ProcessedField = () => {
           <CheckboxItem
             label={t('form.processed.description')}
             checked={field.value}
-            disabled={!originField.value?.length}
+            disabled={!originField.value?.length && !field.value}
             onChange={() =>
               field.onChange({
                 target: {

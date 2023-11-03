@@ -107,7 +107,7 @@ test.beforeEach(async ({ page }) => {
 
 test.afterEach(async ({ page }) => await mockWaitResponse(page, '**/image-api/v3/images/**'));
 
-const totalSearchCount = '65043';
+const totalSearchCount = '67343';
 
 test('Can use text input', async ({ page }) => {
   await mockRoute({
@@ -119,7 +119,7 @@ test('Can use text input', async ({ page }) => {
   await page.locator('input[name="query"]').fill('Test');
   await page.getByRole('button', { name: 'Søk', exact: true }).click();
   await page.getByTestId('image-search-result').first().waitFor();
-  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('399');
+  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('402');
   await page.locator('input[name="query"]').clear();
   await page.getByRole('button', { name: 'Søk', exact: true }).click();
   await page.getByTestId('image-search-result').first().waitFor();
@@ -135,7 +135,7 @@ test('Can use model released dropdown', async ({ page }) => {
   });
   await page.locator('select[name="model-released"]').selectOption({ index: 1 });
   await page.getByTestId('image-search-result').first().waitFor();
-  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('693');
+  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('1671');
   await page.locator('select[name="model-released"]').selectOption({ index: 0 });
   await page.getByTestId('image-search-result').first().waitFor();
   expect(await page.getByTestId('searchTotalCount').innerText()).toEqual(totalSearchCount);
@@ -150,7 +150,7 @@ test('Can use language dropdown', async ({ page }) => {
   });
   await page.locator('select[name="language"]').selectOption({ index: 1 });
   await page.getByTestId('image-search-result').first().waitFor();
-  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('22135');
+  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('24764');
   await page.locator('select[name="language"]').selectOption({ index: 0 });
   await page.getByTestId('image-search-result').first().waitFor();
   expect(await page.getByTestId('searchTotalCount').innerText()).toEqual(totalSearchCount);
@@ -165,7 +165,7 @@ test('Can use license dropdown', async ({ page }) => {
   });
   await page.locator('select[name="license"]').selectOption({ index: 1 });
   await page.getByTestId('image-search-result').first().waitFor();
-  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('814');
+  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('840');
   await page.locator('select[name="license"]').selectOption({ index: 0 });
   await page.getByTestId('image-search-result').first().waitFor();
   expect(await page.getByTestId('searchTotalCount').innerText()).toEqual(totalSearchCount);

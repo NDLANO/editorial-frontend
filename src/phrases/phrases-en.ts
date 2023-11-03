@@ -644,7 +644,7 @@ const phrases = {
       block: 'Section',
       factAside: 'Factbox',
       table: 'Table',
-      bodybox: 'Text in frame',
+      framedContent: 'Text in frame',
       details: 'Expandable box',
       image: 'Image',
       video: 'Video',
@@ -977,6 +977,7 @@ const phrases = {
       awaiting_unpublishing: 'Awaiting unpublishing',
       awaiting_archiving: 'Delayed archivation',
       archived: 'Deleted',
+      republish: 'For republishing',
       actions: {
         PLANNED: 'Planned',
         IN_PROGRESS: 'In progress',
@@ -1002,6 +1003,7 @@ const phrases = {
         UNPUBLISHED: 'Unpublish',
         ARCHIVED: 'Delete',
         AWAITING_ARCHIVING: 'Delayed archivation',
+        REPUBLISH: 'For republishing',
       },
       learningpath_statuses: {
         private: 'Draft',
@@ -1103,6 +1105,8 @@ const phrases = {
         row: 'row',
         column: 'column',
       },
+      normalizedOnLoad:
+        'This article contains old html-code, changed by the editor. This means that you will have to republish the resource even if you only have changed metadata or grep-codes.',
     },
     tags: {
       label: 'Tags',
@@ -1514,7 +1518,6 @@ const phrases = {
     getExisting: 'Or get existing resource',
     inProgress: 'This article is in progress',
     addPriority: 'Set article as prioritized',
-    titleChangeAlert: 'Title changes require partial publishing of the taxonomy',
     changeName: {
       loadError: 'Could not fetch translations',
       updateError: 'Could not update translations',

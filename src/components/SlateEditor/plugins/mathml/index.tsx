@@ -7,11 +7,9 @@
  */
 
 import { Descendant, Editor, Element } from 'slate';
-import { RenderElementProps } from 'slate-react';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { SlateSerializer } from '../../interfaces';
 import { reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
-import MathEditor from './MathEditor';
 import { TYPE_MATHML } from './types';
 import { KEY_ARROW_DOWN, KEY_ARROW_UP } from '../../utils/keys';
 import { onArrowDown, onArrowUp } from './utils';
@@ -49,24 +47,7 @@ export const mathmlSerializer: SlateSerializer = {
 };
 
 export const mathmlPlugin = (editor: Editor) => {
-  const {
-    renderElement: nextRenderElement,
-    isInline: nextIsInline,
-    isVoid: nextIsVoid,
-    onKeyDown,
-  } = editor;
-
-  editor.renderElement = (props: RenderElementProps) => {
-    const { element, attributes, children } = props;
-    if (element.type === TYPE_MATHML) {
-      return (
-        <MathEditor element={element} attributes={attributes} editor={editor}>
-          {children}
-        </MathEditor>
-      );
-    }
-    return nextRenderElement && nextRenderElement(props);
-  };
+  const { isInline: nextIsInline, isVoid: nextIsVoid, onKeyDown } = editor;
 
   editor.isInline = (element: Element) => {
     if (element.type === TYPE_MATHML) {

@@ -8,13 +8,10 @@
 
 import { Descendant, Editor, Element, Path, Transforms } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
-import { RenderElementProps } from 'slate-react';
-import { DefinitionDescription, DefinitionTerm } from '@ndla/ui';
 import { SlateSerializer } from '../../interfaces';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
 import { KEY_BACKSPACE, KEY_ENTER, KEY_TAB } from '../../utils/keys';
 import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_LIST, TYPE_DEFINITION_TERM } from './types';
-import { TYPE_SECTION } from '../section/types';
 import onEnter from './handlers/onEnter';
 import onTab from './handlers/onTab';
 import onBackspace from './handlers/onBackspace';
@@ -82,11 +79,7 @@ export const definitionListSerializer: SlateSerializer = {
 };
 
 export const definitionListPlugin = (editor: Editor) => {
-  const {
-    renderElement: nextRenderElement,
-    normalizeNode: nextNormalizeNode,
-    onKeyDown: nextOnKeyDown,
-  } = editor;
+  const { normalizeNode: nextNormalizeNode, onKeyDown: nextOnKeyDown } = editor;
 
   editor.onKeyDown = (e: KeyboardEvent) => {
     if (e.key === KEY_ENTER) {
@@ -98,20 +91,6 @@ export const definitionListPlugin = (editor: Editor) => {
     } else if (nextOnKeyDown) {
       nextOnKeyDown(e);
     }
-  };
-
-  editor.renderElement = (props: RenderElementProps) => {
-    const { attributes, children, element } = props;
-    if (element.type === TYPE_DEFINITION_LIST) {
-      return <dl {...attributes}>{children}</dl>;
-    } else if (element.type === TYPE_DEFINITION_DESCRIPTION) {
-      return <DefinitionDescription {...attributes}>{children}</DefinitionDescription>;
-    } else if (element.type === TYPE_DEFINITION_TERM) {
-      return <DefinitionTerm {...attributes}>{children}</DefinitionTerm>;
-    } else if (nextRenderElement) {
-      return nextRenderElement(props);
-    }
-    return undefined;
   };
 
   editor.normalizeNode = (entry) => {

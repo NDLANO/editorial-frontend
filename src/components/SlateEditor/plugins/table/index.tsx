@@ -7,29 +7,22 @@
  *
  */
 
-import { TdHTMLAttributes } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Descendant, Editor, Element, Node, NodeEntry, Path, Text, Transforms } from 'slate';
-import { ReactEditor, RenderElementProps, RenderLeafProps } from 'slate-react';
 import { HistoryEditor } from 'slate-history';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import equals from 'lodash/fp/equals';
-import styled from '@emotion/styled';
-import { colors, fonts } from '@ndla/core';
 import { SlateSerializer } from '../../interfaces';
 import {
   reduceElementDataAttributes,
   removeEmptyElementDataAttributes,
 } from '../../../../util/embedTagHelpers';
-import SlateTable from './SlateTable';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { handleTableKeydown } from './handleKeyDown';
 import { defaultParagraphBlock } from '../paragraph/utils';
 import { TableElement } from './interfaces';
 import { NormalizerConfig, defaultBlockNormalizer } from '../../utils/defaultNormalizer';
-import WithPlaceHolder from './../../common/WithPlaceHolder';
 import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
-import TableActions from './TableActions';
 import {
   KEY_ARROW_DOWN,
   KEY_ARROW_UP,
@@ -84,16 +77,6 @@ const TABLE_TAGS = {
   th: 'table-cell-header',
   td: 'table-cell',
 };
-
-const StyledTh = styled.th`
-  border: 1px solid ${colors.brand.lighter};
-  background-color: transparent !important;
-  text-align: top;
-  vertical-align: inherit;
-  border-bottom: 3px solid ${colors.brand.tertiary} !important;
-  font-weight: ${fonts.weight.bold};
-  vertical-align: text-top;
-`;
 
 export const tableSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
@@ -233,81 +216,7 @@ export const tableSerializer: SlateSerializer = {
 };
 
 export const tablePlugin = (editor: Editor) => {
-  const { renderElement, normalizeNode, onKeyDown, renderLeaf } = editor;
-
-  editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
-    switch (element.type) {
-      case TYPE_TABLE:
-        return (
-          <>
-            <TableActions editor={editor} element={element} />
-            <SlateTable editor={editor} element={element} attributes={attributes}>
-              <colgroup
-                contentEditable={false}
-                dangerouslySetInnerHTML={{ __html: element.colgroups || '' }}
-              />
-              {children}
-            </SlateTable>
-          </>
-        );
-      case TYPE_TABLE_CAPTION:
-        return <caption {...attributes}>{children}</caption>;
-      case TYPE_TABLE_ROW:
-        return <tr {...attributes}>{children}</tr>;
-      case TYPE_TABLE_CELL: {
-        const align = element.data.align || '';
-        const parsedAlign = (
-          ['left', 'center', 'right'].includes(align) ? align : undefined
-        ) as TdHTMLAttributes<HTMLTableCellElement>['align'];
-        return (
-          <td
-            rowSpan={element.data.rowspan}
-            colSpan={element.data.colspan}
-            align={parsedAlign}
-            {...attributes}
-          >
-            {children}
-          </td>
-        );
-      }
-      case TYPE_TABLE_HEAD:
-        return <thead {...attributes}>{children}</thead>;
-      case TYPE_TABLE_BODY:
-        return <tbody {...attributes}>{children}</tbody>;
-      case TYPE_TABLE_CELL_HEADER:
-        return (
-          <StyledTh
-            rowSpan={element.data.rowspan}
-            colSpan={element.data.colspan}
-            scope={element.data.scope}
-            {...attributes}
-          >
-            {children}
-          </StyledTh>
-        );
-      default:
-        return renderElement?.({ attributes, children, element });
-    }
-  };
-
-  editor.renderLeaf = (props: RenderLeafProps) => {
-    const { attributes, children, leaf, text } = props;
-    const path = ReactEditor.findPath(editor, text);
-
-    const [parent] = Editor.node(editor, Path.parent(path));
-    if (
-      Element.isElement(parent) &&
-      parent.type === TYPE_TABLE_CAPTION &&
-      Node.string(leaf) === ''
-    ) {
-      return (
-        <WithPlaceHolder attributes={attributes} placeholder="form.name.title">
-          {children}
-        </WithPlaceHolder>
-      );
-    }
-    return renderLeaf?.(props);
-  };
+  const { normalizeNode, onKeyDown } = editor;
 
   editor.normalizeNode = (entry) => {
     const [node, path] = entry;

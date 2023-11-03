@@ -7,11 +7,9 @@
  */
 
 import { Descendant, Editor, Element, Transforms } from 'slate';
-import { RenderElementProps } from 'slate-react';
 import { GridType } from '@ndla/ui';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { reduceElementDataAttributesV2 } from '../../../../util/embedTagHelpers';
-import { SlateGrid } from './SlateGrid';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
 import { SlateSerializer } from '../../interfaces';
 import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
@@ -20,7 +18,6 @@ import { TYPE_GRID, TYPE_GRID_CELL } from './types';
 import { defaultGridCellBlock } from './utils';
 import { TYPE_EMBED_IMAGE } from '../embed/types';
 import { TYPE_BLOGPOST } from '../blogPost/types';
-import SlateGridCell from './SlateGridCell';
 import { TYPE_HEADING } from '../heading/types';
 import { TYPE_LIST } from '../list/types';
 import { TYPE_KEY_FIGURE } from '../keyFigure/types';
@@ -116,24 +113,7 @@ export const gridSerializer: SlateSerializer = {
 };
 
 export const gridPlugin = (editor: Editor) => {
-  const { renderElement: nextRenderElement, normalizeNode: nextNormalizeNode } = editor;
-
-  editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
-    if (element.type === TYPE_GRID) {
-      return (
-        <SlateGrid editor={editor} element={element} attributes={attributes}>
-          {children}
-        </SlateGrid>
-      );
-    } else if (element.type === TYPE_GRID_CELL) {
-      return (
-        <SlateGridCell editor={editor} element={element} attributes={attributes}>
-          {children}
-        </SlateGridCell>
-      );
-    }
-    return nextRenderElement?.({ attributes, children, element });
-  };
+  const { normalizeNode: nextNormalizeNode } = editor;
 
   editor.normalizeNode = (entry) => {
     const [node, path] = entry;

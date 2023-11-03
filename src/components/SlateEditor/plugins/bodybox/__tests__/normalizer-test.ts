@@ -11,14 +11,14 @@ import { withHistory } from 'slate-history';
 import { withReact } from 'slate-react';
 
 import withPlugins from '../../../utils/withPlugins';
-import { plugins } from '../../../../../containers/ArticlePage/LearningResourcePage/components/LearningResourceContent';
+import { learningResourcePlugins } from '../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins';
 import { TYPE_HEADING } from '../../heading/types';
 import { TYPE_LINK } from '../../link/types';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 import { TYPE_SECTION } from '../../section/types';
 import { TYPE_BODYBOX } from '../types';
 
-const editor = withHistory(withReact(withPlugins(createEditor(), plugins('nb'))));
+const editor = withHistory(withReact(withPlugins(createEditor(), learningResourcePlugins)));
 
 describe('bodybox normalizer tests', () => {
   test('adds paragraphs around bodybox element', () => {

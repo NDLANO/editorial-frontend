@@ -7,10 +7,8 @@
  */
 
 import { Descendant, Editor, Element } from 'slate';
-import { RenderElementProps } from 'slate-react';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
-import SlateBlogPost from './SlateBlogPost';
 import { TYPE_BLOGPOST } from './types';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
 import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
@@ -51,22 +49,7 @@ export const blogPostSerializer: SlateSerializer = {
 };
 
 export const blogPostPlugin = (editor: Editor) => {
-  const {
-    renderElement: nextRenderElement,
-    normalizeNode: nextNormalizeNode,
-    isVoid: nextIsVoid,
-  } = editor;
-
-  editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
-    if (element.type === TYPE_BLOGPOST) {
-      return (
-        <SlateBlogPost editor={editor} element={element} attributes={attributes}>
-          {children}
-        </SlateBlogPost>
-      );
-    }
-    return nextRenderElement?.({ attributes, children, element });
-  };
+  const { normalizeNode: nextNormalizeNode, isVoid: nextIsVoid } = editor;
 
   editor.normalizeNode = (entry) => {
     const [node] = entry;

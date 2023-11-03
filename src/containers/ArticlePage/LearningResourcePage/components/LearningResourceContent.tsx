@@ -6,7 +6,7 @@
  *
  */
 
-import { useState, useMemo, useCallback, memo, useEffect, Dispatch, SetStateAction } from 'react';
+import { useState, useMemo, useCallback, memo, useEffect } from 'react';
 import { Descendant } from 'slate';
 import { useTranslation } from 'react-i18next';
 import { FieldProps, useField, useFormikContext } from 'formik';
@@ -21,48 +21,14 @@ import LearningResourceFootnotes, { FootnoteType } from './LearningResourceFootn
 import LastUpdatedLine from '../../../../components/LastUpdatedLine/LastUpdatedLine';
 import HowToHelper from '../../../../components/HowTo/HowToHelper';
 import { findNodesByType } from '../../../../util/slateHelpers';
-import { codeblockPlugin } from '../../../../components/SlateEditor/plugins/codeBlock';
-import {
-  FootnoteElement,
-  footnotePlugin,
-} from '../../../../components/SlateEditor/plugins/footnote';
-import { embedPlugin } from '../../../../components/SlateEditor/plugins/embed';
-import { bodyboxPlugin } from '../../../../components/SlateEditor/plugins/bodybox';
-import { asidePlugin } from '../../../../components/SlateEditor/plugins/aside';
-import { detailsPlugin } from '../../../../components/SlateEditor/plugins/details';
-import { linkPlugin } from '../../../../components/SlateEditor/plugins/link';
-import { headingPlugin } from '../../../../components/SlateEditor/plugins/heading';
-import { blockPickerPlugin } from '../../../../components/SlateEditor/plugins/blockPicker';
-import { relatedPlugin } from '../../../../components/SlateEditor/plugins/related';
-import { filePlugin } from '../../../../components/SlateEditor/plugins/file';
-import { blockQuotePlugin } from '../../../../components/SlateEditor/plugins/blockquote';
-import { paragraphPlugin } from '../../../../components/SlateEditor/plugins/paragraph';
-import { mathmlPlugin } from '../../../../components/SlateEditor/plugins/mathml';
-import { textTransformPlugin } from '../../../../components/SlateEditor/plugins/textTransform';
-
-import { tablePlugin } from '../../../../components/SlateEditor/plugins/table';
+import { FootnoteElement } from '../../../../components/SlateEditor/plugins/footnote';
 import { EditMarkupLink } from '../../../../components/EditMarkupLink';
 import { IngressField, TitleField } from '../../../FormikForm';
 import { DRAFT_HTML_SCOPE } from '../../../../constants';
 import { toCreateLearningResource, toEditMarkup } from '../../../../util/routeHelpers';
-import { toolbarPlugin } from '../../../../components/SlateEditor/plugins/toolbar';
-import saveHotkeyPlugin from '../../../../components/SlateEditor/plugins/saveHotkey';
-import { sectionPlugin } from '../../../../components/SlateEditor/plugins/section';
-import { breakPlugin } from '../../../../components/SlateEditor/plugins/break';
-import { markPlugin } from '../../../../components/SlateEditor/plugins/mark';
-import { listPlugin } from '../../../../components/SlateEditor/plugins/list';
-import { divPlugin } from '../../../../components/SlateEditor/plugins/div';
-import { dndPlugin } from '../../../../components/SlateEditor/plugins/DND';
-import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
 import { useSession } from '../../../Session/SessionProvider';
 import RichTextEditor from '../../../../components/SlateEditor/RichTextEditor';
-import { spanPlugin } from '../../../../components/SlateEditor/plugins/span';
 import { TYPE_FOOTNOTE } from '../../../../components/SlateEditor/plugins/footnote/types';
-import { conceptListPlugin } from '../../../../components/SlateEditor/plugins/conceptList';
-import { inlineConceptPlugin } from '../../../../components/SlateEditor/plugins/concept/inline';
-import { blockConceptPlugin } from '../../../../components/SlateEditor/plugins/concept/block';
-import { definitionListPlugin } from '../../../../components/SlateEditor/plugins/definitionList';
-import { gridPlugin } from '../../../../components/SlateEditor/plugins/grid';
 import {
   TYPE_EMBED_BRIGHTCOVE,
   TYPE_EMBED_EXTERNAL,
@@ -73,13 +39,13 @@ import { TYPE_CODEBLOCK } from '../../../../components/SlateEditor/plugins/codeB
 import { TYPE_FILE } from '../../../../components/SlateEditor/plugins/file/types';
 import { TYPE_GRID } from '../../../../components/SlateEditor/plugins/grid/types';
 import { HandleSubmitFunc, LearningResourceFormType } from '../../../FormikForm/articleFormHooks';
-import { audioPlugin } from '../../../../components/SlateEditor/plugins/audio';
 import { TYPE_AUDIO } from '../../../../components/SlateEditor/plugins/audio/types';
 import { learningResourceActions } from '../../../../components/SlateEditor/plugins/blockPicker/actions';
 import { TYPE_H5P } from '../../../../components/SlateEditor/plugins/h5p/types';
-import { h5pPlugin } from '../../../../components/SlateEditor/plugins/h5p';
 import { isFormikFormDirty } from '../../../../util/formHelper';
 import AlertModal from '../../../../components/AlertModal';
+import { learningResourcePlugins } from './learningResourcePlugins';
+import { learningResourceRenderers } from './learningResourceRenderers';
 
 const StyledFormikField = styled(FormikField)`
   display: flex;
@@ -133,46 +99,6 @@ const actionsToShowInAreas = {
 };
 
 // Plugins are checked from last to first
-export const plugins = (articleLanguage: string): SlatePlugin[] => {
-  return [
-    sectionPlugin,
-    spanPlugin,
-    divPlugin,
-    paragraphPlugin(articleLanguage),
-    footnotePlugin,
-    audioPlugin(articleLanguage),
-    h5pPlugin(articleLanguage),
-    embedPlugin(articleLanguage),
-    bodyboxPlugin,
-    asidePlugin,
-    detailsPlugin,
-    blockQuotePlugin,
-    linkPlugin(articleLanguage),
-    conceptListPlugin(articleLanguage),
-    inlineConceptPlugin(articleLanguage),
-    blockConceptPlugin(articleLanguage),
-    headingPlugin,
-    // // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
-    // // Blockquote and editList actions need to be triggered before paragraph action, else
-    // // unwrapping (jumping out of block) will not work.
-    tablePlugin,
-    relatedPlugin,
-    filePlugin,
-    mathmlPlugin,
-    codeblockPlugin,
-    blockPickerPlugin,
-    dndPlugin,
-    // pasteHandler(),
-    toolbarPlugin,
-    textTransformPlugin,
-    breakPlugin,
-    saveHotkeyPlugin,
-    markPlugin,
-    definitionListPlugin,
-    listPlugin,
-    gridPlugin,
-  ];
-};
 interface Props {
   articleLanguage: string;
   articleId?: number;
@@ -298,7 +224,10 @@ const ContentField = ({
     [onChange, name],
   );
 
-  const editorPlugins = useMemo(() => plugins(articleLanguage ?? ''), [articleLanguage]);
+  const editorPlugins = useMemo(
+    () => learningResourcePlugins.concat(learningResourceRenderers(articleLanguage)),
+    [articleLanguage],
+  );
 
   return (
     <>

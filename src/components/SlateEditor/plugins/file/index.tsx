@@ -7,8 +7,6 @@
  */
 
 import { Descendant, Editor, Element } from 'slate';
-import { RenderElementProps } from 'slate-react';
-import FileList from './FileList';
 import { createEmbedTag } from '../../../../util/embedTagHelpers';
 import { SlateSerializer } from '../../interfaces';
 import { File } from '../../../../interfaces';
@@ -54,24 +52,7 @@ export const fileSerializer: SlateSerializer = {
 };
 
 export const filePlugin = (editor: Editor) => {
-  const {
-    renderElement: nextRenderElement,
-    normalizeNode: nextNormalizeNode,
-    isVoid: nextIsVoid,
-  } = editor;
-
-  editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
-    if (element.type === TYPE_FILE) {
-      return (
-        <FileList editor={editor} element={element} attributes={attributes}>
-          {children}
-        </FileList>
-      );
-    } else if (nextRenderElement) {
-      return nextRenderElement({ attributes, children, element });
-    }
-    return undefined;
-  };
+  const { normalizeNode: nextNormalizeNode, isVoid: nextIsVoid } = editor;
 
   editor.isVoid = (element: Element) => {
     if (element.type === TYPE_FILE) {

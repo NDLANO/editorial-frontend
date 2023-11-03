@@ -8,7 +8,6 @@
 
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { Descendant, Editor, Element } from 'slate';
-import { RenderElementProps } from 'slate-react';
 import { createEmbedTagV2, reduceElementDataAttributesV2 } from '../../../../util/embedTagHelpers';
 import { SlateSerializer } from '../../interfaces';
 import { NormalizerConfig, defaultBlockNormalizer } from '../../utils/defaultNormalizer';
@@ -16,7 +15,6 @@ import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers'
 import { TYPE_NDLA_EMBED } from '../embed/types';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
 import { TYPE_AUDIO } from './types';
-import SlateAudio from './SlateAudio';
 
 const normalizerConfig: NormalizerConfig = {
   previous: {
@@ -43,23 +41,8 @@ export const audioSerializer: SlateSerializer = {
   },
 };
 
-export const audioPlugin = (language: string, disableNormalize?: boolean) => (editor: Editor) => {
-  const {
-    renderElement: nextRenderElement,
-    normalizeNode: nextNormalizeNode,
-    isVoid: nextIsVoid,
-  } = editor;
-
-  editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
-    if (element.type === TYPE_AUDIO) {
-      return (
-        <SlateAudio attributes={attributes} editor={editor} element={element} language={language}>
-          {children}
-        </SlateAudio>
-      );
-    }
-    return nextRenderElement?.({ attributes, children, element });
-  };
+export const audioPlugin = (disableNormalize?: boolean) => (editor: Editor) => {
+  const { normalizeNode: nextNormalizeNode, isVoid: nextIsVoid } = editor;
 
   editor.normalizeNode = (entry) => {
     const [node] = entry;

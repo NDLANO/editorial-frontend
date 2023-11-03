@@ -80,6 +80,13 @@ const StyledAccordionRoot = styled(AccordionRoot)`
 `;
 
 const StyledAccordionContent = styled(AccordionContent)`
+  background-color: ${colors.white};
+  padding: 0px;
+  padding-bottom: ${spacing.small};
+`;
+
+const VersionHistoryWrapper = styled.div`
+  padding: 0px ${spacing.normal};
   background-color: ${colors.brand.greyLightest};
 `;
 
@@ -226,7 +233,9 @@ const VersionAndNotesPanel = ({ article, type, currentLanguage }: Props) => {
                 </InfoGrouping>
               </StyledAccordionBar>
               <StyledAccordionContent>
-                <VersionHistory notes={cleanupNotes(version.notes)} />
+                <VersionHistoryWrapper>
+                  <VersionHistory notes={cleanupNotes(version.notes)} />
+                </VersionHistoryWrapper>
               </StyledAccordionContent>
             </StyledAccordionItem>
           );

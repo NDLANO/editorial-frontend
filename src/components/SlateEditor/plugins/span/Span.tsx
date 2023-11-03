@@ -34,16 +34,10 @@ const StyledSpan = styled.span<{ language?: string }>`
 
 const Span = ({ element, attributes, children }: Props) => {
   const [showPicker, setShowPicker] = useState(false);
+  const [clicks, setClicks] = useState<number>(0);
   const language = element.data.lang;
   const selected = useSelected();
   const { selection } = useSlateStatic();
-
-  // const handleOutsideClick = (event: MouseEvent) => {
-  //   console.log('event target', event.target);
-  //   if (attributes.ref.current && !attributes.ref.current.contains(event.target)) {
-  //     setShowPicker(false);
-  //   }
-  // };
 
   useEffect(() => {
     if (!selected) {
@@ -51,25 +45,18 @@ const Span = ({ element, attributes, children }: Props) => {
     }
   }, [selection, selected]);
 
-  // useEffect(() => {
-  //   if (showPicker) {
-  //     document.addEventListener('click', handleOutsideClick);
-  //   } else {
-  //     document.removeEventListener('click', handleOutsideClick);
-  //   }
-  //   return () => {
-  //     document.removeEventListener('click', handleOutsideClick);
-  //   };
-  // });
-
   return (
     <StyledSpan {...attributes} language={language}>
       {children}
       {!language || showPicker ? (
         <LanguageSelector
           element={element}
-          onClose={() => setShowPicker(false)}
-          isOpen={showPicker}
+          onClose={() => {
+            setShowPicker(false);
+            setClicks(0);
+          }}
+          clicks={clicks}
+          setClicks={setClicks}
         />
       ) : (
         <SelectedLanguage

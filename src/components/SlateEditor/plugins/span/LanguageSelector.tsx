@@ -6,6 +6,7 @@
  *
  */
 
+import { Dispatch, SetStateAction } from 'react';
 import { Transforms } from 'slate';
 import { useSlateStatic } from 'slate-react';
 import styled from '@emotion/styled';
@@ -19,8 +20,9 @@ import { useEffect } from 'react';
 
 interface Props {
   element: SpanElement;
-  isOpen: boolean;
+  clicks: number;
   onClose: () => void;
+  setClicks: Dispatch<SetStateAction<number>>;
 }
 
 export const languages = ['ar', 'de', 'en', 'es', 'fr', 'la', 'no', 'se', 'sma', 'so', 'ti', 'zh'];
@@ -39,21 +41,27 @@ const Container = styled.div`
   box-shadow: 3px 3px ${spacing.xsmall} #99999959;
 `;
 
-const LanguageSelector = ({ element, isOpen, onClose }: Props) => {
+const LanguageSelector = ({ element, clicks, onClose, setClicks }: Props) => {
   const editor = useSlateStatic();
 
-  const handleClickFallback = (e: MouseEvent) => {
-    console.log(e);
-    isOpen &&
-      setTimeout(() => {
-        onClose();
-      }, 500);
+  console.log('clicks:', clicks);
+
+  const handleClickFallback = (e: MouseEvent | KeyboardEvent) => {
+    clicks > 0 ? onClose() : setClicks((prev) => prev + 1);
+  };
+
+  const handleKeypressFallback = (e: KeyboardEvent) => {
+    if (e.key === 'Escape' || e.key === 'Esc') {
+      onClose();
+    }
   };
 
   useEffect(() => {
     document.addEventListener('click', handleClickFallback);
+    document.addEventListener('keydown', handleKeypressFallback);
     return () => {
       document.removeEventListener('click', handleClickFallback);
+      document.removeEventListener('keydown', handleKeypressFallback);
     };
   });
 

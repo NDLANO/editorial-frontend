@@ -15,9 +15,11 @@ import { DeleteForever } from '@ndla/icons/editor';
 import { Portal } from '@radix-ui/react-portal';
 import { SpanElement } from '.';
 import LanguageButton from './LanguageButton';
+import { useEffect } from 'react';
 
 interface Props {
   element: SpanElement;
+  isOpen: boolean;
   onClose: () => void;
 }
 
@@ -37,8 +39,23 @@ const Container = styled.div`
   box-shadow: 3px 3px ${spacing.xsmall} #99999959;
 `;
 
-const LanguageSelector = ({ element, onClose }: Props) => {
+const LanguageSelector = ({ element, isOpen, onClose }: Props) => {
   const editor = useSlateStatic();
+
+  const handleClickFallback = (e: MouseEvent) => {
+    console.log(e);
+    isOpen &&
+      setTimeout(() => {
+        onClose();
+      }, 500);
+  };
+
+  useEffect(() => {
+    document.addEventListener('click', handleClickFallback);
+    return () => {
+      document.removeEventListener('click', handleClickFallback);
+    };
+  });
 
   const onClick = (language: string) => {
     Transforms.setNodes(

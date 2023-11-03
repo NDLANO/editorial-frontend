@@ -7,7 +7,7 @@
  */
 
 import styled from '@emotion/styled';
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 import { colors } from '@ndla/core';
 import { RenderElementProps, useSelected, useSlateStatic } from 'slate-react';
 import { SpanElement } from '.';
@@ -38,17 +38,39 @@ const Span = ({ element, attributes, children }: Props) => {
   const selected = useSelected();
   const { selection } = useSlateStatic();
 
+  // const handleOutsideClick = (event: MouseEvent) => {
+  //   console.log('event target', event.target);
+  //   if (attributes.ref.current && !attributes.ref.current.contains(event.target)) {
+  //     setShowPicker(false);
+  //   }
+  // };
+
   useEffect(() => {
     if (!selected) {
       setShowPicker(false);
     }
   }, [selection, selected]);
 
+  // useEffect(() => {
+  //   if (showPicker) {
+  //     document.addEventListener('click', handleOutsideClick);
+  //   } else {
+  //     document.removeEventListener('click', handleOutsideClick);
+  //   }
+  //   return () => {
+  //     document.removeEventListener('click', handleOutsideClick);
+  //   };
+  // });
+
   return (
     <StyledSpan {...attributes} language={language}>
       {children}
       {!language || showPicker ? (
-        <LanguageSelector element={element} onClose={() => setShowPicker(false)} />
+        <LanguageSelector
+          element={element}
+          onClose={() => setShowPicker(false)}
+          isOpen={showPicker}
+        />
       ) : (
         <SelectedLanguage
           language={language}

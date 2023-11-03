@@ -126,8 +126,58 @@ test('can add notes then save', async ({ page }) => {
   await page.getByTestId('addNote').click();
   await page.getByTestId('notesInput').click();
   await page.keyboard.type('Test merknad');
+  const draftPatchData = mockRoute({
+    page,
+    overrideRoute: true,
+    path: '**/draft-api/v1/drafts/800*',
+    fixture: 'version_draft_patch_data',
+    overrideValue: (val) => JSON.stringify({ ...JSON.parse(val), copyright: copyrightMock }),
+  });
+
   await page.getByTestId('saveLearningResourceButtonWrapper').first().click();
-  expect((await page.locator('table').nth(2).locator('tr').all()).length).toEqual(6);
+
+  await draftPatchData;
+
+  const userData = mockRoute({
+    page,
+    path: '**/draft-api/v1/user-data',
+    overrideRoute: true,
+    fixture: 'version_user_data',
+    overrideValue: JSON.stringify(userDataMock),
+  });
+
+  const draftData = mockRoute({
+    page,
+    overrideRoute: true,
+    path: '**/draft-api/v1/drafts/800*',
+    fixture: 'version_draft_patch_data',
+    overrideValue: (val) => JSON.stringify({ ...JSON.parse(val), copyright: copyrightMock }),
+  });
+
+  const draftHistory = mockRoute({
+    page,
+    path: '**/draft-api/v1/drafts/800/history?language=nb&fallback=true',
+    overrideRoute: true,
+    fixture: 'version_draft_patched_history',
+    overrideValue: (val) =>
+      JSON.stringify(JSON.parse(val).map((draft) => ({ ...draft, copyright: copyrightMock }))),
+  });
+
+  const getNoteUsers = mockRoute({
+    page,
+    overrideRoute: true,
+    path: '**/get_note_users*',
+    fixture: 'version_get_note_users',
+    overrideValue: JSON.stringify(getNoteUsersMock),
+  });
+
+  await Promise.all([draftData, userData, getNoteUsers, draftHistory]);
+
+  await expect(page.getByTestId('saveLearningResourceButtonWrapper').first()).toHaveText('Lagret');
+
+  await expect(page.locator('table')).toBeVisible();
+
+  expect(await page.locator('table').locator('tr').count()).toEqual(25);
 });
 
 test('Open previews', async ({ page }) => {

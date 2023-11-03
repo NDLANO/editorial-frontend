@@ -8,7 +8,6 @@
 
 import { Editor, Element, Descendant } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
-import { RenderElementProps } from 'slate-react';
 import { SlateSerializer } from '../../interfaces';
 import { TYPE_BREAK } from './types';
 
@@ -54,21 +53,7 @@ export const breakSerializer: SlateSerializer = {
 };
 
 export const breakPlugin = (editor: Editor) => {
-  const { renderElement: nextRenderELement, isVoid: nextIsVoid } = editor;
-
-  editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
-    if (element.type === TYPE_BREAK) {
-      return (
-        <div {...attributes} contentEditable={false}>
-          <br />
-          {children}
-        </div>
-      );
-    } else if (nextRenderELement) {
-      return nextRenderELement({ attributes, children, element });
-    }
-    return undefined;
-  };
+  const { isVoid: nextIsVoid } = editor;
 
   editor.isVoid = (element: Element) => {
     if (element.type === TYPE_BREAK) {

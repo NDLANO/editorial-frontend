@@ -13,6 +13,9 @@ import { EmbedElements, embedPlugin } from '../../components/SlateEditor/plugins
 import { VisualElementType } from '../../containers/VisualElement/VisualElementMenu';
 import { audioPlugin } from '../../components/SlateEditor/plugins/audio';
 import { h5pPlugin } from '../../components/SlateEditor/plugins/h5p';
+import { audioRenderer } from '../../components/SlateEditor/plugins/audio/render';
+import { h5pRenderer } from '../../components/SlateEditor/plugins/h5p/render';
+import { embedRenderer } from '../../components/SlateEditor/plugins/embed/render';
 
 interface Props {
   onChange: FormikHandlers['handleChange'];
@@ -37,9 +40,12 @@ const VisualElement = ({
 }: Props) => {
   const plugins = useMemo(() => {
     return [
-      audioPlugin(language, true),
-      h5pPlugin(language, true),
-      embedPlugin(language, true, allowDecorative),
+      audioPlugin(true),
+      audioRenderer(language),
+      h5pPlugin(true),
+      h5pRenderer(language),
+      embedPlugin(true),
+      embedRenderer(language, allowDecorative),
     ];
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedResource]);

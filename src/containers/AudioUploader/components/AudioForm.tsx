@@ -24,6 +24,7 @@ import SaveButton from '../../../components/SaveButton';
 import { DEFAULT_LICENSE, isFormikFormDirty } from '../../../util/formHelper';
 import { AlertModalWrapper } from '../../FormikForm';
 import AudioMetaData from './AudioMetaData';
+import AudioCopyright from './AudioCopyright';
 import AudioContent from './AudioContent';
 import AudioManuscript from './AudioManuscript';
 import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';
@@ -228,10 +229,17 @@ const AudioForm = ({
                 <AudioManuscript />
               </FormAccordion>
               <FormAccordion
+                id="audio-upload-copyright"
+                title={t('form.copyrightSection')}
+                hasError={hasError(['rightsholders', 'creators', 'processors', 'license'])}
+              >
+                <AudioCopyright />
+              </FormAccordion>
+              <FormAccordion
                 id="audio-upload-metadataSection"
                 className={'u-6/6'}
                 title={t('form.metadataSection')}
-                hasError={hasError(['tags', 'creators', 'rightsholders', 'processors', 'license'])}
+                hasError={hasError(['tags'])}
               >
                 <AudioMetaData />
               </FormAccordion>

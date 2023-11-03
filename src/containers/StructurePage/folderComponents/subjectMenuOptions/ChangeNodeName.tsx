@@ -122,30 +122,18 @@ interface ModalProps {
   nodeType?: NodeType;
 }
 
-const BOGUS_LANGUAGE = 'asdasdasd';
-
 const ChangeNodeNameContent = ({ onClose, node, nodeType = 'SUBJECT' }: ModalProps) => {
   const { t } = useTranslation();
-  const [loadError, setLoadError] = useState('');
   const [updateError, setUpdateError] = useState('');
   const [saved, setSaved] = useState(false);
   const { taxonomyVersion } = useTaxonomyVersion();
   const qc = useQueryClient();
-  const { id, name } = node;
+  const { id, baseName } = node;
 
-  const nodeWithoutTranslationsQuery = useNode(
-    {
-      id: node.id,
-      language: BOGUS_LANGUAGE,
-      taxonomyVersion,
-    },
-    {
-      onError: (e) => {
-        handleError(e);
-        setLoadError(t('taxonomy.changeName.loadError'));
-      },
-    },
-  );
+  const nodeWithoutTranslationsQuery = useNode({
+    id: node.id,
+    taxonomyVersion,
+  });
 
   const { mutateAsync: deleteNodeTranslation } = useDeleteNodeTranslationMutation();
   const { mutateAsync: updateNodeTranslation } = useUpdateNodeTranslationMutation();
@@ -197,7 +185,7 @@ const ChangeNodeNameContent = ({ onClose, node, nodeType = 'SUBJECT' }: ModalPro
       });
 
       await qc.invalidateQueries({
-        queryKey: nodeQueryKeys.node({ id, language: BOGUS_LANGUAGE, taxonomyVersion }),
+        queryKey: nodeQueryKeys.node({ id, taxonomyVersion }),
       });
       formik.setSubmitting(false);
       return;
@@ -209,24 +197,24 @@ const ChangeNodeNameContent = ({ onClose, node, nodeType = 'SUBJECT' }: ModalPro
       });
 
       await qc.invalidateQueries({
-        queryKey: nodeQueryKeys.node({ id, language: BOGUS_LANGUAGE, taxonomyVersion }),
+        queryKey: nodeQueryKeys.node({ id, taxonomyVersion }),
       });
     }
     formik.resetForm({ values: formik.values, isSubmitting: false });
     setSaved(true);
   };
 
-  if (nodeWithoutTranslationsQuery.isInitialLoading) {
+  if (nodeWithoutTranslationsQuery.isLoading) {
     return <Spinner />;
   }
 
-  if (loadError || !nodeWithoutTranslationsQuery.data) {
-    return <StyledErrorMessage>{loadError}</StyledErrorMessage>;
+  if (nodeWithoutTranslationsQuery.isError || !nodeWithoutTranslationsQuery.data) {
+    return <StyledErrorMessage>{t('taxonomy.changeName.loadError')}</StyledErrorMessage>;
   }
 
   const initialValues = {
     translations: nodeWithoutTranslationsQuery.data.translations?.slice() ?? [],
-    name: nodeWithoutTranslationsQuery.data.name,
+    name: nodeWithoutTranslationsQuery.data.baseName,
   };
 
   return (
@@ -310,7 +298,7 @@ const ChangeNodeNameContent = ({ onClose, node, nodeType = 'SUBJECT' }: ModalPro
                         </Row>
                       ))}
                       <AddNodeTranslation
-                        defaultName={name}
+                        defaultName={baseName}
                         onAddTranslation={push}
                         availableLanguages={availableLanguages}
                       />

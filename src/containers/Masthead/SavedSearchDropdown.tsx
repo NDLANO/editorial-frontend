@@ -10,7 +10,7 @@ import styled from '@emotion/styled';
 import { spacing, misc, colors, fonts } from '@ndla/core';
 import Downshift from 'downshift';
 import { useTranslation } from 'react-i18next';
-import { FormEvent, useCallback, useMemo, useRef, useState } from 'react';
+import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import queryString from 'query-string';
 import SavedSearchItem from './components/SavedSearchItem';
@@ -89,6 +89,23 @@ const SearchDropdown = ({ onClose }: Props) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [query, setQuery] = useState(queryFromUrl);
+
+  useEffect(() => {
+    const onSlashPressed = (evt: KeyboardEvent) => {
+      if (
+        evt.key === '/' &&
+        !menuOpen &&
+        !['input', 'textarea'].includes(document.activeElement?.tagName.toLowerCase() ?? '') &&
+        !document.activeElement?.getAttribute('contenteditable')
+      ) {
+        evt.preventDefault();
+        setMenuOpen(true);
+        inputRef.current?.focus();
+      }
+    };
+    window.addEventListener('keydown', onSlashPressed);
+    return () => window.removeEventListener('keydown', onSlashPressed);
+  }, [menuOpen]);
 
   const onMenuOpen = useCallback(
     (open: boolean): void => {

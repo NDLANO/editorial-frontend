@@ -10,14 +10,14 @@ import { createEditor, Editor } from 'slate';
 import { withHistory } from 'slate-history';
 import { withReact } from 'slate-react';
 import withPlugins from '../../../utils/withPlugins';
-import { plugins } from '../../../../../containers/ArticlePage/LearningResourcePage/components/LearningResourceContent';
+import { learningResourcePlugins } from '../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins';
 
 import {
   blockContentToEditorValue,
   blockContentToHTML,
 } from '../../../../../util/articleContentConverter';
 
-const editor = withHistory(withReact(withPlugins(createEditor(), plugins('nb'))));
+const editor = withHistory(withReact(withPlugins(createEditor(), learningResourcePlugins)));
 
 describe('combined table plugin tests', () => {
   test('id in th and td is preserved on serialize and normalize', () => {

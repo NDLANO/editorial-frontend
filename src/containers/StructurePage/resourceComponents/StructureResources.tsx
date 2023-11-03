@@ -19,7 +19,6 @@ import {
   useResourcesWithNodeConnection,
 } from '../../../modules/nodes/nodeQueries';
 import { useAllResourceTypes } from '../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
-import handleError from '../../../util/handleError';
 import ResourcesContainer from './ResourcesContainer';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
@@ -70,12 +69,11 @@ const StructureResources = ({ currentChildNode, resourceRef, setCurrentNode }: P
     {
       select: (resources) =>
         resources.map((r) => (r.resourceTypes.length > 0 ? r : withMissing(r))),
-      onError: (e) => handleError(e),
       placeholderData: [],
     },
   );
 
-  const { data: nodeResourceMetas, isInitialLoading: contentMetaLoading } = useNodeResourceMetas(
+  const { data: nodeResourceMetas, isLoading: contentMetaLoading } = useNodeResourceMetas(
     {
       nodeId: currentChildNode.id,
       ids:
@@ -94,7 +92,6 @@ const StructureResources = ({ currentChildNode, resourceRef, setCurrentNode }: P
     { language: i18n.language, taxonomyVersion },
     {
       select: (resourceTypes) => resourceTypes.concat(getMissingResourceType(t)),
-      onError: (e) => handleError(e),
     },
   );
 

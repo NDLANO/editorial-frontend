@@ -31,13 +31,20 @@ const StyledImage = styled.img`
 
 interface Props {
   disableAltEditing?: boolean;
+  hideAltText?: boolean;
   image: IImageMetaInformationV3;
   onImageRemove: () => void;
   showRemoveButton: boolean;
   onImageLoad?: (width: number, height: number) => void;
 }
 
-const MetaImageField = ({ image, onImageRemove, onImageLoad, disableAltEditing }: Props) => {
+const MetaImageField = ({
+  image,
+  onImageRemove,
+  onImageLoad,
+  disableAltEditing,
+  hideAltText,
+}: Props) => {
   const { t } = useTranslation();
   const copyright = image.copyright.creators.map((creator) => creator.name).join(', ');
   const title = convertFieldWithFallback<'title'>(image, 'title', '');
@@ -78,6 +85,7 @@ const MetaImageField = ({ image, onImageRemove, onImageLoad, disableAltEditing }
   const onLoad = (_: SyntheticEvent<HTMLImageElement, Event>) => {
     onImageLoad?.(width, height);
   };
+
   return (
     <>
       <MetaImageContainer>
@@ -86,7 +94,7 @@ const MetaImageField = ({ image, onImageRemove, onImageLoad, disableAltEditing }
           title={title}
           copyright={copyright}
           action={imageAction}
-          alt={disableAltEditing ? alt : undefined}
+          alt={hideAltText ? undefined : disableAltEditing ? alt : undefined}
           translations={metaInformationTranslations}
         />
       </MetaImageContainer>

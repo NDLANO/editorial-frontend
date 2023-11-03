@@ -118,7 +118,7 @@ const RootNode = ({
       parentActive={true}
       isRoot={true}
       isFavorite={isFavorite}
-      isLoading={childNodesQuery.isInitialLoading}
+      isLoading={childNodesQuery.isLoading}
       addChildTooltip={addChildTooltip}
     />
   );

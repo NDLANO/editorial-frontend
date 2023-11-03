@@ -6,7 +6,7 @@
  *
  */
 
-import { Descendant, Element } from 'slate';
+import { Descendant } from 'slate';
 import {
   IFilmFrontPageData,
   IMovieTheme,
@@ -187,8 +187,11 @@ export interface ConvertedThemeName {
 }
 
 export const convertThemeNames = (names: ThemeNames): ConvertedThemeName[] => {
-  return LOCALE_VALUES.map((lang) => ({
-    language: lang,
-    name: names.name[lang],
-  }));
+  return LOCALE_VALUES.map((lang) => {
+    if (!names[lang]) return null;
+    return {
+      language: lang,
+      name: names[lang],
+    };
+  }).filter((val) => !!val?.name?.length) as ConvertedThemeName[];
 };

@@ -7,10 +7,9 @@
  */
 
 import { Element, Descendant, Editor, Path, Transforms, Node, Range, Location } from 'slate';
-import { ReactEditor, RenderElementProps, RenderLeafProps } from 'slate-react';
+import { ReactEditor, RenderLeafProps } from 'slate-react';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { SlateSerializer } from '../../interfaces';
-import Details from './Details';
 import hasNodeOfType from '../../utils/hasNodeOfType';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import containsVoid from '../../utils/containsVoid';
@@ -19,7 +18,6 @@ import {
   lastTextBlockElement,
   textBlockElements,
 } from '../../utils/normalizationHelpers';
-import Summary from './Summary';
 import WithPlaceHolder from '../../common/WithPlaceHolder';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
 import { KEY_BACKSPACE, KEY_ENTER } from '../../utils/keys';
@@ -144,7 +142,6 @@ export const detailsSerializer: SlateSerializer = {
 
 export const detailsPlugin = (editor: Editor) => {
   const {
-    renderElement: nextRenderElement,
     normalizeNode: nextNormalizeNode,
     onKeyDown: nextOnKeyDown,
     shouldShowToolbar: nextShouldShowToolbar,
@@ -173,24 +170,6 @@ export const detailsPlugin = (editor: Editor) => {
       return nextShouldShowToolbar();
     }
     return true;
-  };
-
-  editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
-    if (element.type === TYPE_SUMMARY) {
-      return (
-        <Summary attributes={attributes} element={element}>
-          {children}
-        </Summary>
-      );
-    } else if (element.type === TYPE_DETAILS) {
-      return (
-        <Details attributes={attributes} editor={editor} element={element}>
-          {children}
-        </Details>
-      );
-    } else if (nextRenderElement) {
-      return nextRenderElement({ attributes, children, element });
-    }
   };
 
   editor.renderLeaf = (props: RenderLeafProps) => {

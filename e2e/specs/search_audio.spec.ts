@@ -59,7 +59,7 @@ test.beforeEach(async ({ page }) => {
   await Promise.all([licenses, allSubjects, search, searchNextPage, zendesk, notesUser, userData]);
 });
 
-const totalSearchCount = '3284';
+const totalSearchCount = '3291';
 
 test.afterEach(async ({ page }) => mockWaitResponse(page, '**/audio-api/v1/audio/?*'));
 
@@ -72,7 +72,7 @@ test('Can use text input', async ({ page }) => {
   await page.locator('input[name="query"]').fill('Test');
   await page.getByRole('button', { name: 'Søk', exact: true }).click();
   await page.getByTestId('audio-search-result').first().waitFor();
-  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('27');
+  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('34');
   await page.locator('input[name="query"]').clear();
   await page.getByRole('button', { name: 'Søk', exact: true }).click();
   await page.getByTestId('audio-search-result').first().waitFor();
@@ -87,7 +87,7 @@ test('Can use audiotype dropdown', async ({ page }) => {
   });
   await page.locator('select[name="audio-type"]').selectOption({ label: 'Podkast' });
   await page.getByTestId('audio-search-result').first().waitFor();
-  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('113');
+  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('114');
   await page.locator('select[name="audio-type"]').selectOption({ label: 'Velg lydfiltype' });
   await page.getByTestId('audio-search-result').first().waitFor();
   expect(await page.getByTestId('searchTotalCount').innerText()).toEqual(totalSearchCount);

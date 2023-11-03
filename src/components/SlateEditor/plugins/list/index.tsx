@@ -1,8 +1,5 @@
 import { Editor, Node, Element, Descendant, Transforms, Text, Path } from 'slate';
-import { RenderElementProps } from 'slate-react';
 import { jsx as slatejsx } from 'slate-hyperscript';
-import styled from '@emotion/styled';
-import { OrderedList, UnOrderedList } from '@ndla/ui';
 import { SlateSerializer } from '../../interfaces';
 import onEnter from './handlers/onEnter';
 import { firstTextBlockElement } from '../../utils/normalizationHelpers';
@@ -33,11 +30,6 @@ export interface ListItemElement {
   moveUp?: boolean;
   moveDown?: boolean;
 }
-
-const BulletedList = styled(UnOrderedList)`
-  margin: 16px 0;
-  padding: 0;
-`;
 
 const inlines = [TYPE_CONCEPT_INLINE, TYPE_FOOTNOTE, TYPE_LINK, TYPE_CONTENT_LINK, TYPE_MATHML];
 
@@ -154,42 +146,7 @@ export const listSerializer: SlateSerializer = {
 };
 
 export const listPlugin = (editor: Editor) => {
-  const { onKeyDown, renderElement, normalizeNode } = editor;
-  editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
-    if (element.type === TYPE_LIST) {
-      if (element.listType === 'bulleted-list') {
-        return <BulletedList {...attributes}>{children}</BulletedList>;
-      } else if (element.listType === 'numbered-list') {
-        const { start } = element.data;
-        return (
-          <OrderedList
-            start={start ? parseInt(start) : undefined}
-            className={`${start ? `ol-reset-${start}` : ''}`}
-            {...attributes}
-          >
-            {children}
-          </OrderedList>
-        );
-      } else if (element.listType === 'letter-list') {
-        const { start } = element.data;
-        return (
-          <OrderedList
-            start={start ? parseInt(start) : undefined}
-            data-type="letters"
-            className={`ol-list--roman ${start ? `ol-reset-${start}` : ''}`}
-            {...attributes}
-          >
-            {children}
-          </OrderedList>
-        );
-      }
-    } else if (element.type === TYPE_LIST_ITEM) {
-      return <li {...attributes}>{children}</li>;
-    } else if (renderElement) {
-      return renderElement({ attributes, children, element });
-    }
-    return undefined;
-  };
+  const { onKeyDown, normalizeNode } = editor;
 
   editor.normalizeNode = (entry) => {
     const [node, path] = entry;

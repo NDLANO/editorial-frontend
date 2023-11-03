@@ -41,16 +41,17 @@ interface DropdownItem<Type> {
 interface BaseParams {
   query?: string;
   page?: number;
+  pageSize?: number;
 }
 
 interface Props<ParamType extends BaseParams, InnerType, ApiType, Type = ApiType> {
   onChange: (value: InnerType) => void;
   useQuery: (
     params: ParamType,
-    options?: Partial<UseQueryOptions<ApiType, unknown, Type>>,
-  ) => UseQueryResult<Type, unknown>;
+    options?: Partial<UseQueryOptions<ApiType>>,
+  ) => UseQueryResult<Type>;
   params?: ParamType;
-  options?: Partial<UseQueryOptions<ApiType, unknown, Type>>;
+  options?: Partial<UseQueryOptions<ApiType>>;
   transform: (value: Type) => SearchResultBase<DropdownItem<InnerType>>;
   placeholder: string;
   preload?: boolean;
@@ -59,6 +60,8 @@ interface Props<ParamType extends BaseParams, InnerType, ApiType, Type = ApiType
   wide?: boolean;
   positionAbsolute?: boolean;
   isMultiSelect?: boolean;
+  maxRender?: number;
+  pageSize?: number;
 }
 
 const SearchDropdown = <ParamType extends BaseParams, InnerType, ApiType, Type>({
@@ -74,12 +77,15 @@ const SearchDropdown = <ParamType extends BaseParams, InnerType, ApiType, Type>(
   wide = true,
   positionAbsolute = true,
   isMultiSelect = false,
+  maxRender,
+  pageSize = 10,
 }: Props<ParamType, InnerType, ApiType, Type>) => {
   const [query, setQuery] = useState('');
   const [page, setPage] = useState<number>(1);
   const debouncedQuery = useDebounce(query);
   const allParams: ParamType = {
     query: debouncedQuery,
+    pageSize,
     page,
     ...params,
   } as ParamType;
@@ -119,9 +125,7 @@ const SearchDropdown = <ParamType extends BaseParams, InnerType, ApiType, Type>(
               {...getInputProps({ placeholder })}
               white
               id={id}
-              iconRight={
-                searchQuery.isInitialLoading ? <StyledSpinner size="normal" /> : <Search />
-              }
+              iconRight={searchQuery.isLoading ? <StyledSpinner size="normal" /> : <Search />}
             />
             <DropdownMenu
               items={transformed?.results ?? []}
@@ -138,6 +142,8 @@ const SearchDropdown = <ParamType extends BaseParams, InnerType, ApiType, Type>(
               wide={wide}
               selectedItems={selectedItems}
               multiSelect={isMultiSelect}
+              maxRender={maxRender ? maxRender : pageSize}
+              pageSize={pageSize}
             />
           </DropdownWrapper>
         );

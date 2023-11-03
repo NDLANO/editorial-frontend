@@ -234,7 +234,7 @@ const TopicTaxonomyBlock = ({
         <ButtonV2
           variant="outline"
           onClick={onReset}
-          disabled={!isDirty || createTopicNodeConnectionsMutation.isLoading}
+          disabled={!isDirty || createTopicNodeConnectionsMutation.isPending}
         >
           {t('reset')}
         </ButtonV2>

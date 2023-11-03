@@ -8,7 +8,6 @@
 
 import { Descendant, Editor, Element } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
-import { RenderElementProps } from 'slate-react';
 import { CampaignBlockEmbedData } from '@ndla/types-embed';
 import { createEmbedTagV2, reduceElementDataAttributesV2 } from '../../../../util/embedTagHelpers';
 import { SlateSerializer } from '../../interfaces';
@@ -17,7 +16,6 @@ import { TYPE_CAMPAIGN_BLOCK } from './types';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
 import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
-import SlateCampaignBlock from './SlateCampaignBlock';
 
 export interface CampaignBlockElement {
   type: 'campaign-block';
@@ -52,22 +50,7 @@ export const campaignBlockSerializer: SlateSerializer = {
 };
 
 export const campaignBlockPlugin = (editor: Editor) => {
-  const {
-    renderElement: nextRenderElement,
-    normalizeNode: nextNormalizeNode,
-    isVoid: nextIsVoid,
-  } = editor;
-
-  editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
-    if (element.type === TYPE_CAMPAIGN_BLOCK) {
-      return (
-        <SlateCampaignBlock editor={editor} element={element} attributes={attributes}>
-          {children}
-        </SlateCampaignBlock>
-      );
-    }
-    return nextRenderElement?.({ attributes, children, element });
-  };
+  const { normalizeNode: nextNormalizeNode, isVoid: nextIsVoid } = editor;
 
   editor.normalizeNode = (entry) => {
     const [node] = entry;

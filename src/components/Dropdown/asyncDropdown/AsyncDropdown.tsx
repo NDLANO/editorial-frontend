@@ -32,7 +32,11 @@ interface InputPropsOptionsRef extends GetInputPropsOptions {
 
 interface Props<ApiType> {
   onChange: (value: ApiType) => Promise<void> | void;
-  apiAction: (query: string, page?: number) => Promise<SearchResultBase<ApiType>>;
+  apiAction: (
+    query: string,
+    page?: number,
+    pageSize?: number,
+  ) => Promise<SearchResultBase<ApiType>>;
   placeholder?: string;
   labelField?: string;
   idField?: string;
@@ -61,6 +65,9 @@ interface Props<ApiType> {
   initialSearch?: boolean;
   label?: string;
   white?: boolean;
+  menuHeight?: number;
+  maxRender?: number;
+  pageSize?: number;
 }
 
 interface ApiTypeValues {
@@ -104,6 +111,9 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
   initialSearch = true,
   label,
   white = false,
+  menuHeight,
+  maxRender,
+  pageSize = 10,
 }: Props<ApiType>) => {
   const [items, setItems] = useState<ItemValues<ApiType>[]>([]);
   const [selectedItem, setSelectedItem] = useState<ItemValues<ApiType> | null>(null);
@@ -121,7 +131,7 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
   const handleSearch = useCallback(
     async (query: string = '', page: number) => {
       setLoading(true);
-      const apiOutput = await apiAction(query, showPagination ? page : undefined);
+      const apiOutput = await apiAction(query, showPagination ? page : undefined, pageSize);
       setTotalCount(apiOutput.totalCount ?? 1);
       const transformedItems: ItemValues<ApiType>[] = apiOutput.results.map((item) => ({
         ...item,
@@ -136,7 +146,7 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
 
       setKeepOpen(keepOpen || !!query);
     },
-    [apiAction, keepOpen, showPagination],
+    [apiAction, keepOpen, pageSize, showPagination],
   );
 
   const handleInputChange = async (evt: ChangeEvent<HTMLInputElement>) => {
@@ -263,6 +273,9 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
               hideTotalSearchCount={hideTotalSearchCount}
               page={showPagination && page}
               handlePageChange={handlePageChange}
+              menuHeight={menuHeight}
+              maxRender={maxRender ? maxRender : pageSize}
+              pageSize={pageSize}
             />
           </div>
         );

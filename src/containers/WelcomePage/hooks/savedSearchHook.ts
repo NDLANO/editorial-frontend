@@ -156,7 +156,7 @@ export const useSavedSearchUrl = (currentUserData: IUserData | undefined): Searc
 
   const {
     data: userData,
-    isInitialLoading: auth0UsersLoading,
+    isLoading: auth0UsersLoading,
     error: auth0UsersError,
   } = useAuth0Users(
     { uniqueUserIds: userIds.join(',') },
@@ -172,7 +172,7 @@ export const useSavedSearchUrl = (currentUserData: IUserData | undefined): Searc
 
   const {
     data: responsibleData,
-    isInitialLoading: auth0ResponsiblesLoading,
+    isLoading: auth0ResponsiblesLoading,
     error: auth0ResponsiblesError,
   } = useAuth0Users(
     { uniqueUserIds: responsibleIds.join(',') },

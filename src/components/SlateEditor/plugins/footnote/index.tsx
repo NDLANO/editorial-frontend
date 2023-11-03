@@ -7,10 +7,8 @@
  */
 
 import { Descendant, Editor, Element, Transforms, Range } from 'slate';
-import { RenderElementProps } from 'slate-react';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { SlateSerializer } from '../../interfaces';
-import Footnote from './Footnote';
 import { reduceElementDataAttributes, createEmbedTag } from '../../../../util/embedTagHelpers';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { KEY_BACKSPACE, KEY_DELETE } from '../../utils/keys';
@@ -62,24 +60,7 @@ export const footnoteSerializer: SlateSerializer = {
 };
 
 export const footnotePlugin = (editor: Editor) => {
-  const {
-    renderElement: nextRenderElement,
-    isInline: nextIsInline,
-    isVoid: nextIsVoid,
-    onKeyDown: nextOnKeyDown,
-  } = editor;
-
-  editor.renderElement = (props: RenderElementProps) => {
-    const { element, attributes, children } = props;
-    if (element.type === TYPE_FOOTNOTE) {
-      return (
-        <Footnote element={element} attributes={attributes} editor={editor}>
-          {children}
-        </Footnote>
-      );
-    }
-    return nextRenderElement && nextRenderElement(props);
-  };
+  const { isInline: nextIsInline, isVoid: nextIsVoid, onKeyDown: nextOnKeyDown } = editor;
 
   editor.isInline = (element: Element) => {
     if (element.type === TYPE_FOOTNOTE) {

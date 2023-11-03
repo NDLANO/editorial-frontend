@@ -154,7 +154,7 @@ const StructureContainer = ({
               nodeType={rootNodeType}
             />
             <StyledStructureContainer>
-              {userDataQuery.isInitialLoading || nodesQuery.isInitialLoading ? (
+              {userDataQuery.isLoading || nodesQuery.isLoading ? (
                 <Spinner />
               ) : (
                 <StructureWrapper data-testid="structure">

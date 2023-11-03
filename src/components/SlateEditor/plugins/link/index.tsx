@@ -6,12 +6,10 @@
  *
  */
 
-import { RenderElementProps } from 'slate-react';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { Descendant, Editor, Element, Text, Node, Transforms } from 'slate';
 import { ContentLinkEmbedData } from '@ndla/types-embed';
 import { SlateSerializer } from '../../interfaces';
-import Link from './Link';
 import { reduceElementDataAttributesV2 } from '../../../../util/embedTagHelpers';
 import { TYPE_CONTENT_LINK, TYPE_LINK } from './types';
 import { TYPE_NDLA_EMBED } from '../embed/types';
@@ -87,12 +85,8 @@ export const linkSerializer: SlateSerializer = {
   },
 };
 
-export const linkPlugin = (language: string) => (editor: Editor) => {
-  const {
-    isInline: nextIsInline,
-    renderElement: nextRenderElement,
-    normalizeNode: nextNormalizeNode,
-  } = editor;
+export const linkPlugin = (editor: Editor) => {
+  const { isInline: nextIsInline, normalizeNode: nextNormalizeNode } = editor;
 
   editor.isInline = (element: Element) => {
     if (element.type === 'link' || element.type === 'content-link') {
@@ -100,20 +94,6 @@ export const linkPlugin = (language: string) => (editor: Editor) => {
     } else {
       return nextIsInline(element);
     }
-  };
-
-  editor.renderElement = (props: RenderElementProps) => {
-    const { children, element, attributes } = props;
-    if (element.type === 'link' || element.type === 'content-link') {
-      return (
-        <Link element={element} attributes={attributes} editor={editor} language={language}>
-          {children}
-        </Link>
-      );
-    } else if (nextRenderElement) {
-      return nextRenderElement(props);
-    }
-    return undefined;
   };
 
   editor.normalizeNode = (entry) => {

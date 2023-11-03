@@ -105,7 +105,7 @@ test.beforeEach(async ({ page }) => {
   ]);
 });
 
-const searchTotalCount = '21122';
+const searchTotalCount = '21410';
 
 test.afterEach(
   async ({ page }) => await mockWaitResponse(page, '**/search-api/v1/search/editorial/?*'),
@@ -120,7 +120,7 @@ test('Can use text input', async ({ page }) => {
   await page.locator('input[name="query"]').fill('Test');
   await page.getByRole('button', { name: 'Søk', exact: true }).click();
   await page.getByTestId('content-search-result').first().waitFor();
-  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('1262');
+  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('1363');
   await page.locator('input[name="query"]').clear();
   await page.getByRole('button', { name: 'Søk', exact: true }).click();
   await page.getByTestId('content-search-result').first().waitFor();
@@ -135,7 +135,7 @@ test('Can use status dropdown', async ({ page }) => {
   });
   await page.locator('select[name="draft-status"]').selectOption({ label: 'Publisert' });
   await page.getByTestId('content-search-result').first().waitFor();
-  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('17755');
+  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('17924');
   await page.locator('select[name="draft-status"]').selectOption({ index: 0 });
   await page.getByTestId('content-search-result').first().waitFor();
   expect(await page.getByTestId('searchTotalCount').innerText()).toEqual(searchTotalCount);
@@ -149,7 +149,7 @@ test('Can use language dropdown', async ({ page }) => {
   });
   await page.locator('select[name="language"]').selectOption({ index: 1 });
   await page.getByTestId('content-search-result').first().waitFor();
-  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('18908');
+  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('19142');
   await page.locator('select[name="language"]').selectOption({ index: 0 });
   await page.getByTestId('content-search-result').first().waitFor();
   expect(await page.getByTestId('searchTotalCount').innerText()).toEqual(searchTotalCount);
@@ -163,7 +163,7 @@ test('Can use subject dropdown', async ({ page }) => {
   });
   await page.locator('select[name="subjects"]').selectOption({ label: 'Biologi 1' });
   await page.getByTestId('content-search-result').first().waitFor();
-  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('620');
+  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('623');
   await page.locator('select[name="subjects"]').selectOption({ index: 0 });
   await page.getByTestId('content-search-result').first().waitFor();
   expect(await page.getByTestId('searchTotalCount').innerText()).toEqual(searchTotalCount);
@@ -177,7 +177,7 @@ test('Can use responsible dropdown', async ({ page }) => {
   });
   await page.locator('select[name="responsible-ids"]').selectOption({ label: 'Ed Test' });
   await page.getByTestId('content-search-result').first().waitFor();
-  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('21');
+  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('23');
   await page.locator('select[name="responsible-ids"]').selectOption({ index: 0 });
   await page.getByTestId('content-search-result').first().waitFor();
   expect(await page.getByTestId('searchTotalCount').innerText()).toEqual(searchTotalCount);
@@ -191,7 +191,7 @@ test('Can use user dropdown', async ({ page }) => {
   });
   await page.locator('select[name="users"]').selectOption({ label: 'Ed Test' });
   await page.getByTestId('content-search-result').first().waitFor();
-  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('98');
+  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('103');
   await page.locator('select[name="users"]').selectOption({ index: 0 });
   await page.getByTestId('content-search-result').first().waitFor();
   expect(await page.getByTestId('searchTotalCount').innerText()).toEqual(searchTotalCount);
@@ -205,7 +205,7 @@ test('Can use content type dropdown', async ({ page }) => {
   });
   await page.locator('select[name="resource-types"]').selectOption({ label: 'Arbeidsoppdrag' });
   await page.getByTestId('content-search-result').first().waitFor();
-  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('547');
+  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('552');
   await page.locator('select[name="resource-types"]').selectOption({ index: 0 });
   await page.getByTestId('content-search-result').first().waitFor();
   expect(await page.getByTestId('searchTotalCount').innerText()).toEqual(searchTotalCount);
@@ -219,7 +219,7 @@ test('Can use inactive checkbox', async ({ page }) => {
   });
   await page.locator('input[id="checkbox-filter-inactive"]').click();
   await page.getByTestId('content-search-result').first().waitFor();
-  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('37176');
+  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('37315');
   await page.locator('input[id="checkbox-filter-inactive"]').click();
   await page.getByTestId('content-search-result').first().waitFor();
   expect(await page.getByTestId('searchTotalCount').innerText()).toEqual(searchTotalCount);

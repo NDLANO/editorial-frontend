@@ -7,10 +7,8 @@
  */
 
 import { Descendant, Editor, Element } from 'slate';
-import { RenderElementProps } from 'slate-react';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { CodeEmbedData } from '@ndla/types-embed';
-import CodeBlock from './CodeBlock';
 import { SlateSerializer } from '../../interfaces';
 import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
 import { createEmbedTagV2, reduceElementDataAttributesV2 } from '../../../../util/embedTagHelpers';
@@ -56,24 +54,7 @@ export const codeblockSerializer: SlateSerializer = {
 };
 
 export const codeblockPlugin = (editor: Editor) => {
-  const {
-    renderElement: nextRenderElement,
-    normalizeNode: nextNormalizeNode,
-    isVoid: nextIsVoid,
-  } = editor;
-
-  editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
-    if (element.type === TYPE_CODEBLOCK) {
-      return (
-        <CodeBlock editor={editor} element={element} attributes={attributes}>
-          {children}
-        </CodeBlock>
-      );
-    } else if (nextRenderElement) {
-      return nextRenderElement({ attributes, children, element });
-    }
-    return undefined;
-  };
+  const { normalizeNode: nextNormalizeNode, isVoid: nextIsVoid } = editor;
 
   editor.normalizeNode = (entry) => {
     const [node] = entry;

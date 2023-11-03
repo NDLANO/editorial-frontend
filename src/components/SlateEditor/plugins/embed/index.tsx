@@ -7,8 +7,6 @@
  */
 
 import { Editor, Descendant, Element } from 'slate';
-import { RenderElementProps } from 'slate-react';
-import SlateFigure from './SlateFigure';
 import { SlateSerializer } from '../../interfaces';
 import {
   Embed,
@@ -80,52 +78,28 @@ export const embedSerializer: SlateSerializer = {
   },
 };
 
-export const embedPlugin =
-  (language: string, disableNormalize?: boolean, allowDecorative?: boolean) => (editor: Editor) => {
-    const {
-      renderElement: nextRenderElement,
-      normalizeNode: nextNormalizeNode,
-      isVoid: nextIsVoid,
-    } = editor;
+export const embedPlugin = (disableNormalize?: boolean) => (editor: Editor) => {
+  const { normalizeNode: nextNormalizeNode, isVoid: nextIsVoid } = editor;
 
-    editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
-      if (isSlateEmbedElement(element)) {
-        return (
-          <SlateFigure
-            attributes={attributes}
-            editor={editor}
-            element={element}
-            language={language}
-            allowDecorative={allowDecorative}
-          >
-            {children}
-          </SlateFigure>
-        );
-      } else if (nextRenderElement) {
-        return nextRenderElement({ attributes, children, element });
+  editor.normalizeNode = (entry) => {
+    const [node] = entry;
+
+    if (isSlateEmbed(node)) {
+      if (!disableNormalize && defaultBlockNormalizer(editor, entry, normalizerConfig)) {
+        return;
       }
       return undefined;
-    };
+    }
 
-    editor.normalizeNode = (entry) => {
-      const [node] = entry;
-
-      if (isSlateEmbed(node)) {
-        if (!disableNormalize && defaultBlockNormalizer(editor, entry, normalizerConfig)) {
-          return;
-        }
-        return undefined;
-      }
-
-      nextNormalizeNode(entry);
-    };
-
-    editor.isVoid = (element: Element) => {
-      if (isSlateEmbedElement(element)) {
-        return true;
-      }
-      return nextIsVoid(element);
-    };
-
-    return editor;
+    nextNormalizeNode(entry);
   };
+
+  editor.isVoid = (element: Element) => {
+    if (isSlateEmbedElement(element)) {
+      return true;
+    }
+    return nextIsVoid(element);
+  };
+
+  return editor;
+};

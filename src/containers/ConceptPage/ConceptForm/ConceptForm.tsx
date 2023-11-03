@@ -307,25 +307,29 @@ const ConceptForm = ({
               >
                 <CopyrightFieldGroup enableLicenseNA={true} />
               </FormAccordion>
-              <FormAccordion
-                id="metadata"
-                title={t('form.metadataSection')}
-                hasError={!!(errors.tags || errors.metaImageAlt || errors.subjects)}
-              >
-                <ConceptMetaData
-                  fetchTags={fetchConceptTags}
-                  subjects={subjects}
-                  inModal={inModal}
-                  language={language}
-                />
-              </FormAccordion>
-              <FormAccordion
-                id="articles"
-                title={t('form.articleSection')}
-                hasError={!!errors.articles}
-              >
-                <ConceptArticles />
-              </FormAccordion>
+              {!isGloss && (
+                <>
+                  <FormAccordion
+                    id="metadata"
+                    title={t('form.metadataSection')}
+                    hasError={!!(errors.tags || errors.metaImageAlt || errors.subjects)}
+                  >
+                    <ConceptMetaData
+                      fetchTags={fetchConceptTags}
+                      subjects={subjects}
+                      inModal={inModal}
+                      language={language}
+                    />
+                  </FormAccordion>
+                  <FormAccordion
+                    id="articles"
+                    title={t('form.articleSection')}
+                    hasError={!!errors.articles}
+                  >
+                    <ConceptArticles />
+                  </FormAccordion>
+                </>
+              )}
             </FormAccordions>
             <ConceptFormFooter
               entityStatus={concept?.status}

@@ -130,7 +130,7 @@ export function useArticleFormHooks<T extends ArticleFormType>({
   rules,
   ndlaId,
 }: HooksInputObject<T>) {
-  const { id, revision, title } = article ?? {};
+  const { id, revision } = article ?? {};
   const formikRef: any = useRef<any>(null);
   const { createMessage, applicationError } = useMessages();
   const { data: licenses } = useLicenses({ placeholderData: [] });
@@ -177,20 +177,6 @@ export function useArticleFormHooks<T extends ArticleFormType>({
           formikHelpers.setStatus({ warnings: newInitialWarnings });
         }
         formikHelpers.setFieldValue('notes', [], false);
-
-        // Show warning when the title has changed and the article is published
-        if (
-          article?.articleType !== 'frontpage-article' &&
-          title?.title !== newArticle.title &&
-          (articleStatus?.current === PUBLISHED ||
-            articleStatus?.other.find((s) => s === PUBLISHED))
-        ) {
-          createMessage({
-            message: t('taxonomy.titleChangeAlert'),
-            severity: 'warning',
-            timeToLive: 0,
-          });
-        }
       } catch (e) {
         const err = e as NdlaErrorPayload;
         if (err && err.status && err.status === 409) {
@@ -214,7 +200,7 @@ export function useArticleFormHooks<T extends ArticleFormType>({
     },
     [
       applicationError,
-      article,
+      article?.content?.content,
       articleLanguage,
       articleStatus,
       createMessage,
@@ -226,7 +212,6 @@ export function useArticleFormHooks<T extends ArticleFormType>({
       revision,
       rules,
       t,
-      title?.title,
       updateArticle,
     ],
   );

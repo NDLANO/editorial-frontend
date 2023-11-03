@@ -38,6 +38,7 @@ const StyledSlateWrapper = styled.div`
 
 const StyledEditable = styled(Editable)`
   font-family: ${fonts.serif};
+  outline: none;
 `;
 
 interface Props {
@@ -186,7 +187,7 @@ const RichTextEditor = ({
     <article>
       <SlateProvider isSubmitted={submitted}>
         <StyledSlateWrapper data-testid="slate-editor">
-          <Slate editor={editor} value={value} onChange={onChange}>
+          <Slate editor={editor} initialValue={value} onChange={onChange}>
             {isFirstNormalize ? (
               <Spinner />
             ) : (

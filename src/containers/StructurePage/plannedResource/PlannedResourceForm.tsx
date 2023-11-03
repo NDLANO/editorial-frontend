@@ -146,7 +146,7 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
 
   const { t, i18n } = useTranslation();
   const { ndlaId, userName } = useSession();
-  const { mutateAsync: addNodeMutation, isLoading: addNodeMutationLoading } = useAddNodeMutation();
+  const { mutateAsync: addNodeMutation, isPending: addNodeMutationLoading } = useAddNodeMutation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const qc = useQueryClient();
   const nodeId = useMemo(() => node && getRootIdForNode(node), [node]);
@@ -156,14 +156,14 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
     id: nodeId,
     language: i18n.language,
   });
-  const { mutateAsync: createNodeResource, isLoading: postResourceLoading } =
+  const { mutateAsync: createNodeResource, isPending: postResourceLoading } =
     usePostResourceForNodeMutation({
       onSuccess: (_) => {
         qc.invalidateQueries({ queryKey: compKey });
         qc.invalidateQueries({ queryKey: compKeyChildNodes });
       },
     });
-  const { mutateAsync: createResourceResourceType, isLoading: createResourceTypeLoading } =
+  const { mutateAsync: createResourceResourceType, isPending: createResourceTypeLoading } =
     useCreateResourceResourceTypeMutation({
       onSuccess: (_) => qc.invalidateQueries({ queryKey: compKey }),
     });

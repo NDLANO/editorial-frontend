@@ -46,7 +46,7 @@ const ButtonContainer = styled.div`
 const DeletePublishRequests = ({ nodes }: Props) => {
   const { t } = useTranslation();
 
-  const { mutateAsync, isLoading } = useUpdateNodeMetadataMutation();
+  const { mutateAsync, isPending } = useUpdateNodeMetadataMutation();
   const qc = useQueryClient();
 
   const onDelete = useCallback(
@@ -85,9 +85,9 @@ const DeletePublishRequests = ({ nodes }: Props) => {
               variant="outline"
               colorTheme="danger"
               onClick={() => onDelete(nodes)}
-              disabled={isLoading}
+              disabled={isPending}
             >
-              {isLoading && <Spinner size="small" />}
+              {isPending && <Spinner size="small" />}
               {t('delete')}
             </ButtonV2>
           </ButtonContainer>

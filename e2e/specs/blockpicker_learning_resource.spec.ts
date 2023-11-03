@@ -64,7 +64,7 @@ test('adds and removes table', async ({ page }) => {
 });
 
 test('adds and removes bodybox', async ({ page }) => {
-  await page.getByTestId('create-bodybox').click();
+  await page.getByTestId('create-framedContent').click();
   await expect(page.getByTestId('remove-bodybox')).toBeVisible();
   await page.getByTestId('remove-bodybox').click();
   await expect(page.getByTestId('remove-bodybox')).toHaveCount(0);

@@ -440,7 +440,7 @@ const phrases = {
     moveSubject: 'Dra og slepp',
     removeSubject: 'Fjern fag',
     connectedTo: 'Felles programfag saman med',
-    buildsOn: 'Byggjer på',
+    buildsOn: 'Bygger på',
     leadsTo: 'Leier til',
   },
   programmepageForm: {
@@ -644,7 +644,7 @@ const phrases = {
       block: 'Seksjon',
       factAside: 'Faktaboks',
       table: 'Tabell',
-      bodybox: 'Tekst i ramme',
+      framedContent: 'Tekst i ramme',
       details: 'Ekspanderande boks',
       image: 'Bilete',
       video: 'Video',
@@ -977,6 +977,7 @@ const phrases = {
       awaiting_unpublishing: 'Til avpublisering',
       awaiting_archiving: 'Utsatt arkivering',
       archived: 'Slettet',
+      republish: 'Til republisering',
       actions: {
         PLANNED: 'Planlagd',
         IN_PROGRESS: 'I arbeid',
@@ -1002,6 +1003,7 @@ const phrases = {
         UNPUBLISHED: 'Avpubliser',
         ARCHIVED: 'Slett',
         AWAITING_ARCHIVING: 'Utsatt arkivering',
+        REPUBLISH: 'Til republisering',
       },
       learningpath_statuses: {
         private: 'Kladd',
@@ -1103,6 +1105,8 @@ const phrases = {
         row: 'rad',
         column: 'kolonne',
       },
+      normalizedOnLoad:
+        'Artikkelen du har åpna inneheld gammal html-kode som er endra av editoren. Dette medfører at du må republisere ressursen også om du berre har endra metadata eller læreplankoder.',
     },
     tags: {
       label: 'Nøkkelord',
@@ -1516,7 +1520,6 @@ const phrases = {
     getExisting: 'Eller hent eksisterande ressurs',
     inProgress: 'Denne artikkelen har blitt byrja på',
     addPriority: 'Sett artikkel som prioritert',
-    titleChangeAlert: 'Endring av tittel krever delpublisering av taksonomi',
     changeName: {
       loadError: 'Klarte ikkje hente omsetjingar',
       updateError: 'Klarte ikkje oppdatere omsetjingar',

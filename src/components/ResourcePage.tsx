@@ -129,11 +129,11 @@ const EditResourceRedirect = <T extends BaseResource>({
   const locale = i18n.language;
   const { id } = useParams<'id'>();
   const parsedId = Number(id);
-  const { data, error, isInitialLoading } = useHook(
+  const { data, error, isLoading } = useHook(
     { id: parsedId, language: undefined },
     { enabled: !!parsedId },
   );
-  if (isInitialLoading) return <Spinner />;
+  if (isLoading) return <Spinner />;
   if (error || !data || !parsedId) return <NotFoundPage />;
   const supportedLanguage =
     data.supportedLanguages.find((l) => l === locale) ?? data.supportedLanguages[0];

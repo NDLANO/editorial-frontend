@@ -136,7 +136,7 @@ const SlateH5p = ({ element, editor, attributes, language, children }: Props) =>
   return (
     <Modal open={isEditing} onOpenChange={setIsEditing}>
       <H5pWrapper {...attributes} data-selected={isSelected}>
-        {h5pMetaQuery.isInitialLoading ? (
+        {h5pMetaQuery.isLoading ? (
           <Spinner />
         ) : embed ? (
           <div contentEditable={false}>

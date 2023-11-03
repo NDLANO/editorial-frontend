@@ -30,7 +30,7 @@ export const useSearch = (
 ) => {
   const isFav = query.subjects === FAVOURITES_SUBJECT_ID;
 
-  const { data, isInitialLoading } = useUserData({
+  const { data, isLoading } = useUserData({
     enabled: !!isFav && isValid(getAccessToken()) && getAccessTokenPersonal(),
   });
 
@@ -43,6 +43,6 @@ export const useSearch = (
     queryKey: searchQueryKeys.search(actualQuery),
     queryFn: () => search(actualQuery),
     ...options,
-    enabled: options?.enabled && !isInitialLoading,
+    enabled: options?.enabled && !isLoading,
   });
 };

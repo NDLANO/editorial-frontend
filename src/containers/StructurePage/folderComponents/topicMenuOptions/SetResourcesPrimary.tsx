@@ -33,7 +33,7 @@ const SetResourcesPrimary = ({
 }: Props) => {
   const { t } = useTranslation();
   const [error, setError] = useState<string>();
-  const { mutateAsync, isLoading } = usePutResourcesPrimaryMutation();
+  const { mutateAsync, isPending } = usePutResourcesPrimaryMutation();
   const { taxonomyVersion } = useTaxonomyVersion();
 
   const toggleConnectedResourcesPrimary = () => toggleEditMode('setResourcesPrimary');
@@ -77,8 +77,8 @@ const SetResourcesPrimary = ({
             : t('taxonomy.resourcesPrimary.text')
         }
       />
-      {isLoading && <Spinner appearance="absolute" />}
-      {isLoading && <Overlay modifiers={['absolute', 'white-opacity', 'zIndex']} />}
+      {isPending && <Spinner appearance="absolute" />}
+      {isPending && <Overlay modifiers={['absolute', 'white-opacity', 'zIndex']} />}
       {error && (
         <StyledErrorMessage data-testid="inlineEditErrorMessage">{error}</StyledErrorMessage>
       )}

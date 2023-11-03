@@ -79,7 +79,7 @@ const EditLearningResource = ({ isNewlyCreated }: Props) => {
     })();
   }, [article, loading, setArticle, shouldTranslate, translate]);
 
-  if (loading || translating || taxonomyQuery.isInitialLoading) {
+  if (loading || translating || taxonomyQuery.isLoading) {
     return <Spinner withWrapper />;
   }
 

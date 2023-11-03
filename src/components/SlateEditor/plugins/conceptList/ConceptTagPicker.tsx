@@ -154,7 +154,7 @@ const ConceptTagPicker = ({ element, onClose, language, onSave: onSaveProp }: Pr
               selectedTag={selectedSubject}
               placeholder={t('form.name.subjects')}
             />
-            {conceptSearchQuery.isInitialLoading ? (
+            {conceptSearchQuery.isLoading ? (
               <Spinner />
             ) : conceptSearchQuery.data?.results.length ? (
               <div>
@@ -180,7 +180,7 @@ const ConceptTagPicker = ({ element, onClose, language, onSave: onSaveProp }: Pr
               <p>{t('conceptSearch.noResults')}</p>
             )}
           </FormInput>
-          <ButtonV2 onClick={onSave} disabled={!selectedTag || conceptSearchQuery.isInitialLoading}>
+          <ButtonV2 onClick={onSave} disabled={!selectedTag || conceptSearchQuery.isLoading}>
             {t('form.save')}
           </ButtonV2>
         </TwoColumn>

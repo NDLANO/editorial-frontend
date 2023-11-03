@@ -102,16 +102,11 @@ const FrontpageEditPage = () => {
   );
 
   const transformedMenu: MenuWithArticle | undefined = useMemo(() => {
-    if (frontpageQuery.isInitialLoading || articlesQuery.isInitialLoading || !articlesQuery.data) {
+    if (frontpageQuery.isLoading || articlesQuery.isLoading || !articlesQuery.data) {
       return undefined;
     }
     return addArticlesToAboutMenu(frontpageQuery.data, articlesQuery.data);
-  }, [
-    articlesQuery.data,
-    articlesQuery.isInitialLoading,
-    frontpageQuery.data,
-    frontpageQuery.isInitialLoading,
-  ]);
+  }, [articlesQuery.data, articlesQuery.isLoading, frontpageQuery.data, frontpageQuery.isLoading]);
 
   const postFrontpageMutation = useUpdateFrontpageMutation();
 
@@ -135,7 +130,7 @@ const FrontpageEditPage = () => {
   return (
     <OneColumn>
       <HelmetWithTracker title={t('htmlTitles.editFrontpage')} />
-      {frontpageQuery.isInitialLoading || articlesQuery.isInitialLoading ? (
+      {frontpageQuery.isLoading || articlesQuery.isLoading ? (
         <Spinner />
       ) : transformedMenu ? (
         <Formik

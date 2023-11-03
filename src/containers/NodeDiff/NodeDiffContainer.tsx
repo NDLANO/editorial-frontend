@@ -122,11 +122,7 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
   );
 
   useEffect(() => {
-    if (
-      defaultQuery.isInitialLoading ||
-      otherQuery.isInitialLoading ||
-      (defaultQuery.data && otherQuery.data)
-    ) {
+    if (defaultQuery.isLoading || otherQuery.isLoading || (defaultQuery.data && otherQuery.data)) {
       setError(undefined);
       return;
     }
@@ -137,12 +133,7 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
     } else {
       setError('diff.error.onlyExistsInOriginal');
     }
-  }, [
-    defaultQuery.data,
-    defaultQuery.isInitialLoading,
-    otherQuery.data,
-    otherQuery.isInitialLoading,
-  ]);
+  }, [defaultQuery.data, defaultQuery.isLoading, otherQuery.data, otherQuery.isLoading]);
 
   const onPublish = async (node: Node) => {
     setHasPublished(false);
@@ -181,7 +172,7 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
     (otherQuery.data?.children.length ?? 0) + 1,
   );
 
-  if (defaultQuery.isInitialLoading || otherQuery.isInitialLoading) {
+  if (defaultQuery.isLoading || otherQuery.isLoading) {
     const rows: ReactNode[] = [];
     for (let i = 0; i < shownNodes; i++) {
       rows.push(

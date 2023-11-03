@@ -40,12 +40,8 @@ const SubjectMatterPage = () => (
 
 const GenericArticleRedirect = () => {
   const parsedId = Number(useParams<'id'>().id);
-  const {
-    data: article,
-    error,
-    isInitialLoading,
-  } = useDraft({ id: parsedId }, { enabled: !!parsedId });
-  if (isInitialLoading) return <Spinner />;
+  const { data: article, error, isLoading } = useDraft({ id: parsedId }, { enabled: !!parsedId });
+  if (isLoading) return <Spinner />;
   if (error || !article || !parsedId) return <NotFoundPage />;
 
   const replaceUrl = toEditArticle(article.id, article.articleType);

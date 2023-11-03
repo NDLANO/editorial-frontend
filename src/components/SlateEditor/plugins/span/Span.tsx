@@ -7,7 +7,7 @@
  */
 
 import styled from '@emotion/styled';
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { colors } from '@ndla/core';
 import { RenderElementProps, useSelected, useSlateStatic } from 'slate-react';
 import { SpanElement } from '.';

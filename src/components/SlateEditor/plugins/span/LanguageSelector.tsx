@@ -6,7 +6,7 @@
  *
  */
 
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import { Transforms } from 'slate';
 import { useSlateStatic } from 'slate-react';
 import styled from '@emotion/styled';
@@ -16,7 +16,6 @@ import { DeleteForever } from '@ndla/icons/editor';
 import { Portal } from '@radix-ui/react-portal';
 import { SpanElement } from '.';
 import LanguageButton from './LanguageButton';
-import { useEffect } from 'react';
 
 interface Props {
   element: SpanElement;
@@ -44,9 +43,7 @@ const Container = styled.div`
 const LanguageSelector = ({ element, clicks, onClose, setClicks }: Props) => {
   const editor = useSlateStatic();
 
-  console.log('clicks:', clicks);
-
-  const handleClickFallback = (e: MouseEvent | KeyboardEvent) => {
+  const handleClickFallback = () => {
     clicks > 0 ? onClose() : setClicks((prev) => prev + 1);
   };
 

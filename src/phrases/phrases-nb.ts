@@ -1048,6 +1048,10 @@ const phrases = {
         remove: 'Fjern forklaring',
         choose: 'Velg forklaring',
       },
+      gloss: {
+        remove: 'Fjern glose',
+        choose: 'Velg glose',
+      },
       link: {
         name: 'Navn',
         domains: 'Url',

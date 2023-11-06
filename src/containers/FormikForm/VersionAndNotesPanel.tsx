@@ -15,7 +15,6 @@ import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { useFormikContext } from 'formik';
 import { AccordionRoot, AccordionItem, AccordionContent } from '@ndla/accordion';
-import { VersionLogTag, VersionHistory } from '@ndla/editor';
 import { Text } from '@ndla/typography';
 import { ChevronRight } from '@ndla/icons/common';
 import { IArticle, IEditorNote } from '@ndla/types-backend/draft-api';
@@ -35,6 +34,8 @@ import {
   draftApiTypeToLearningResourceFormType,
   draftApiTypeToTopicArticleFormType,
 } from '../ArticlePage/articleTransformers';
+import VersionHistory from '../../components/VersionHistory/VersionHistory';
+import VersionLogTag from '../../components/VersionHistory/VersionLogTag';
 
 const StyledAccordionBar = styled.div`
   display: flex;

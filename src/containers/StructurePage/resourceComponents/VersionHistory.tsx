@@ -11,7 +11,6 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
-import { VersionHistory as UIVersionHistory } from '@ndla/editor';
 import { IEditorNote } from '@ndla/types-backend/draft-api';
 import { ButtonV2 } from '@ndla/button';
 import {
@@ -31,6 +30,7 @@ import formatDate from '../../../util/formatDate';
 import { fetchDraftHistory } from '../../../modules/draft/draftApi';
 import { fetchAuth0Users } from '../../../modules/auth0/auth0Api';
 import { getIdFromUrn } from '../../../util/taxonomyHelpers';
+import NotesVersionHistory from '../../../components/VersionHistory/VersionHistory';
 
 interface Props {
   resource: ResourceWithNodeConnectionAndMeta;
@@ -160,7 +160,7 @@ const VersionHistoryContent = ({ contentType, resource }: ModalContentProps) => 
           />
         </LinkWrapper>
         {notes?.length ? (
-          <UIVersionHistory notes={notes} />
+          <NotesVersionHistory notes={notes} />
         ) : notes ? (
           t('form.notes.history.empty')
         ) : (

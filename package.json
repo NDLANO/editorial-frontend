@@ -166,7 +166,7 @@
     "i18next": "^23.5.1",
     "is-hotkey": "^0.1.4",
     "jwks-rsa": "^3.1.0",
-    "jwt-decode": "^3.1.2",
+    "jwt-decode": "^4.0.0",
     "lodash": "^4.17.21",
     "marked": "^9.1.0",
     "monaco-editor": "0.23.0",

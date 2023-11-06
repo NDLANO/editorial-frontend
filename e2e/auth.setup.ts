@@ -6,7 +6,7 @@
  *
  */
 
-import decode, { JwtPayload } from 'jwt-decode';
+import { JwtPayload, jwtDecode as decode } from 'jwt-decode';
 import { test as setup } from '@playwright/test';
 import { STORAGE_STATE } from '../playwright.config';
 

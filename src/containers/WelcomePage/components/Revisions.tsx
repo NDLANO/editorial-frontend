@@ -9,13 +9,13 @@
 import { useTranslation } from 'react-i18next';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { IUserData } from '@ndla/types-backend/draft-api';
-import { Alarm } from '@ndla/icons/common';
+import { Alarm, Time } from '@ndla/icons/common';
 import addYears from 'date-fns/addYears';
 import { Select, SingleValue } from '@ndla/select';
 import Pager from '@ndla/pager';
 import sortBy from 'lodash/sortBy';
 import styled from '@emotion/styled';
-import { mq, breakpoints } from '@ndla/core';
+import { mq, breakpoints, colors, spacing } from '@ndla/core';
 import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
 import Tooltip from '@ndla/tooltip';
 import {
@@ -39,11 +39,24 @@ import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvid
 import { useSearchNodes } from '../../../modules/nodes/nodeQueries';
 import { SUBJECT_NODE } from '../../../modules/nodes/nodeApiTypes';
 import { FAVOURITES_SUBJECT_ID, PUBLISHED, STORED_SORT_OPTION_REVISION } from '../../../constants';
+import { getWarnStatus } from '../../../components/HeaderWithLanguage/HeaderStatusInformation';
 
 const RevisionsWrapper = styled.div`
   ${mq.range({ from: breakpoints.tabletWide })} {
     margin-top: 25px;
   }
+`;
+
+const StyledTimeIcon = styled(Time)`
+  &[data-status='warn'] {
+    fill: ${colors.tasksAndActivities.dark};
+  }
+  &[data-status='expired'] {
+    fill: ${colors.support.red};
+  }
+  width: ${spacing.nsmall};
+  height: ${spacing.nsmall};
+  margin-right: ${spacing.xsmall};
 `;
 
 const getLastPage = (totalCount: number, pageSize: number) =>
@@ -163,30 +176,45 @@ const Revisions = ({ userData }: Props) => {
 
   const tableData: FieldElement[][] = useMemo(
     () =>
-      filteredData.results?.map((a) => [
-        {
-          id: `title_${a.id}`,
-          data: (
-            <StyledLink to={toEditArticle(a.id, a.learningResourceType)} title={a.title?.title}>
-              {a.title?.title}
-            </StyledLink>
-          ),
-        },
-        {
-          id: `status_${a.id}`,
-          data: a.status?.current ? t(`form.status.${a.status.current.toLowerCase()}`) : '',
-        },
-        {
-          id: `primarySubject_${a.id}`,
-          data: a.contexts.find((context) => context.isPrimaryConnection)?.subject ?? '',
-        },
-        {
-          id: `lastUpdated_${a.id}`,
-          data: a.revisions.length
-            ? formatDate(getExpirationDate({ revisions: a.revisions })!)
-            : '',
-        },
-      ]) ?? [[]],
+      filteredData.results?.map((a) => {
+        const expirationDate = a.revisions.length
+          ? getExpirationDate({ revisions: a.revisions })!
+          : '';
+        const revisions = a.revisions
+          .map((revision) => `${revision.note} (${formatDate(revision.revisionDate)})`)
+          .join('\n');
+
+        return [
+          {
+            id: `title_${a.id}`,
+            data: (
+              <>
+                <StyledTimeIcon
+                  data-status={getWarnStatus(expirationDate)}
+                  title={revisions}
+                  aria-label={revisions}
+                  aria-hidden={false}
+                />
+                <StyledLink to={toEditArticle(a.id, a.learningResourceType)} title={a.title?.title}>
+                  {a.title?.title}
+                </StyledLink>
+              </>
+            ),
+          },
+          {
+            id: `status_${a.id}`,
+            data: a.status?.current ? t(`form.status.${a.status.current.toLowerCase()}`) : '',
+          },
+          {
+            id: `primarySubject_${a.id}`,
+            data: a.contexts.find((context) => context.isPrimaryConnection)?.subject ?? '',
+          },
+          {
+            id: `lastUpdated_${a.id}`,
+            data: formatDate(expirationDate!),
+          },
+        ];
+      }) ?? [[]],
     [filteredData, t],
   );
 

@@ -52,6 +52,15 @@ const RevisionsWrapper = styled.div`
   }
 `;
 
+const StyledTitle = styled.div`
+  display: flex;
+  justify-content: row-start;
+`;
+
+const StyledRevision = styled.div`
+  text-align: left;
+`;
+
 const StyledTimeIcon = styled(Time)`
   &[data-status='warn'] {
     fill: ${colors.tasksAndActivities.dark};
@@ -187,24 +196,29 @@ const Revisions = ({ userData }: Props) => {
           : '';
         const revisions = a.revisions
           .filter((revision) => revision.status !== Revision.REVISED)
-          .map((revision) => `${revision.note} (${formatDate(revision.revisionDate)})`)
-          .join('\n');
+          .map((revision) => (
+            <StyledRevision>
+              {revision.note} ({formatDate(revision.revisionDate)})
+            </StyledRevision>
+          ));
 
         return [
           {
             id: `title_${a.id}`,
             data: (
-              <>
-                <StyledTimeIcon
-                  data-status={getWarnStatus(expirationDate)}
-                  title={revisions}
-                  aria-label={revisions}
-                  aria-hidden={false}
-                />
+              <StyledTitle>
+                <Tooltip tooltip={revisions}>
+                  <div>
+                    <StyledTimeIcon
+                      data-status={getWarnStatus(expirationDate)}
+                      aria-hidden={false}
+                    />
+                  </div>
+                </Tooltip>
                 <StyledLink to={toEditArticle(a.id, a.learningResourceType)} title={a.title?.title}>
                   {a.title?.title}
                 </StyledLink>
-              </>
+              </StyledTitle>
             ),
           },
           {

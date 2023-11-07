@@ -1261,7 +1261,7 @@ const phrases = {
         save: 'Lagre',
         cancel: 'Avbryt',
         edit: 'Endre H5P metadata',
-        description: 'Metadataen lagres i artikkelen og vil ikke påvirke h5p ressursen',
+        description: 'Metadataen blir lagra i artikkelen og vil ikkje påverka H5P-ressursen',
       },
     },
     audio: {

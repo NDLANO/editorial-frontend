@@ -20,6 +20,7 @@ import { ArticleFormType } from './articleFormHooks';
 import InlineDatePicker from './components/InlineDatePicker';
 import { formatDateForBackend } from '../../util/formatDate';
 import { useMessages } from '../Messages/MessagesProvider';
+import { Revision } from '../../constants';
 
 type RevisionMetaFormType = ArticleFormType['revisionMeta'];
 
@@ -147,11 +148,11 @@ const AddRevisionDateField = ({ formikField, showError }: Props) => {
                 <Tooltip tooltip={t('form.revisions.switchTooltip')}>
                   <div>
                     <StyledSwitch
-                      checked={revisionMeta.status === 'revised'}
+                      checked={revisionMeta.status === Revision.REVISED}
                       onChange={(c) => {
-                        const status = c ? 'revised' : 'needs-revision';
+                        const status = c ? Revision.REVISED : Revision.NEEDSREVISION;
                         editRevision((old) => ({ ...old, status }));
-                        if (status === 'revised') {
+                        if (status === Revision.REVISED) {
                           createMessage({
                             translationKey: 'form.revisions.reminder',
                             severity: 'info',

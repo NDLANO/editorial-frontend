@@ -40,6 +40,7 @@ import { useSearchNodes } from '../../../modules/nodes/nodeQueries';
 import { SUBJECT_NODE } from '../../../modules/nodes/nodeApiTypes';
 import { FAVOURITES_SUBJECT_ID, PUBLISHED, STORED_SORT_OPTION_REVISION } from '../../../constants';
 import { getWarnStatus } from '../../../components/HeaderWithLanguage/HeaderStatusInformation';
+import { Revision } from '../../../constants';
 
 const RevisionsWrapper = styled.div`
   ${mq.range({ from: breakpoints.tabletWide })} {
@@ -181,6 +182,7 @@ const Revisions = ({ userData }: Props) => {
           ? getExpirationDate({ revisions: a.revisions })!
           : '';
         const revisions = a.revisions
+          .filter((revision) => revision.status !== Revision.REVISED)
           .map((revision) => `${revision.note} (${formatDate(revision.revisionDate)})`)
           .join('\n');
 

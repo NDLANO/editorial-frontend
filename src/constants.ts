@@ -144,3 +144,8 @@ export const SearchTypeValues = [
   'concept',
   'podcast-series',
 ] as const;
+
+export enum Revision {
+  REVISED = 'revised',
+  NEEDSREVISION = 'needs-revision',
+}

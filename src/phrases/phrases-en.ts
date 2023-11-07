@@ -1048,6 +1048,10 @@ const phrases = {
         remove: 'Remove concept',
         choose: 'Choose concept',
       },
+      gloss: {
+        remove: 'Remove gloss',
+        choose: 'Choose gloss',
+      },
       link: {
         name: 'Name',
         domains: 'Url',

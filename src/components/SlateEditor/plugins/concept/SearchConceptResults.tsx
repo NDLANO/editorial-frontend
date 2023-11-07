@@ -97,7 +97,7 @@ const SearchConceptResults = ({ results, searchObject, addConcept, searching = t
               addConcept(result);
             }}
           >
-            {t('form.content.concept.choose')}
+            {t(`form.content.${result.conceptType}.choose`)}
           </StyledButton>
         </StyledConceptResult>
       ))}

@@ -1844,18 +1844,6 @@
     "@radix-ui/react-dropdown-menu" "^2.0.6"
     "@radix-ui/react-slot" "^1.0.2"
 
-"@ndla/editor@^5.0.8":
-  version "5.0.8"
-  resolved "https://registry.yarnpkg.com/@ndla/editor/-/editor-5.0.8.tgz#1c7d04a5a1da0b42a84ac78622176e0ee7197f22"
-  integrity sha512-OcljDwRR9kmtJE2jsVjjijMyHyJWRWm5ctVp6B5U62S48WBfE814SaMmh9swxXexLXD6zOm+iDvVRFQaMrugCQ==
-  dependencies:
-    "@ndla/button" "^12.0.6"
-    "@ndla/core" "^4.2.3"
-    "@ndla/forms" "^5.0.8"
-    "@ndla/icons" "^4.1.4"
-    "@ndla/modal" "^5.0.6"
-    "@ndla/tooltip" "^5.0.6"
-
 "@ndla/error-reporter@^1.0.33":
   version "1.0.33"
   resolved "https://registry.yarnpkg.com/@ndla/error-reporter/-/error-reporter-1.0.33.tgz#2602bc96a19a0e9ee884d3e1199a70abdd295c69"

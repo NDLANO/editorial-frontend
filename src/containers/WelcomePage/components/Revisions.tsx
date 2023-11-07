@@ -196,8 +196,8 @@ const Revisions = ({ userData }: Props) => {
           : '';
         const revisions = a.revisions
           .filter((revision) => revision.status !== Revision.REVISED)
-          .map((revision) => (
-            <StyledRevision>
+          .map((revision, index) => (
+            <StyledRevision key={index}>
               {revision.note} ({formatDate(revision.revisionDate)})
             </StyledRevision>
           ));

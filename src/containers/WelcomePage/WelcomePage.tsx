@@ -27,6 +27,7 @@ export const Wrapper = styled.div`
   flex-direction: column;
   justify-content: space-between;
   gap: ${spacing.small};
+  margin-top: ${spacing.small};
   flex: 1;
 `;
 

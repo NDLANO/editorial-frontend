@@ -83,6 +83,9 @@ const StyledWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
 `;
+const StyledGroup = styled.div`
+  display: flex;
+`;
 
 interface Props {
   id: number;
@@ -206,32 +209,34 @@ const HeaderActions = ({
               <TranslateNbToNn id={id} editUrl={editUrl} />
             </>
           )}
-        {!noStatus && (
-          <>
-            <StyledSplitter />
-            <PreviewLightBox
-              article={article}
-              concept={concept}
-              type={type}
-              currentLanguage={language}
-            />
-          </>
-        )}
-        {lastPublishedVersion && (
-          <>
-            <StyledSplitter />
-            <PreviewDraftLightboxV2
-              type="version"
-              article={lastPublishedVersion}
-              language={language}
-              activateButton={
-                <StyledFilledButton type="button">
-                  <Eye /> {t('form.previewVersion')}
-                </StyledFilledButton>
-              }
-            />
-          </>
-        )}
+        <StyledGroup>
+          {!noStatus && (
+            <>
+              <StyledSplitter />
+              <PreviewLightBox
+                article={article}
+                concept={concept}
+                type={type}
+                currentLanguage={language}
+              />
+            </>
+          )}
+          {lastPublishedVersion && (
+            <>
+              <StyledSplitter />
+              <PreviewDraftLightboxV2
+                type="version"
+                article={lastPublishedVersion}
+                language={language}
+                activateButton={
+                  <StyledFilledButton type="button">
+                    <Eye /> {t('form.previewVersion')}
+                  </StyledFilledButton>
+                }
+              />
+            </>
+          )}
+        </StyledGroup>
       </StyledWrapper>
       {
         <DeleteLanguageVersion

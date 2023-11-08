@@ -197,7 +197,8 @@ const Revisions = ({ userData }: Props) => {
           : '';
         const revisions = resource.revisions
           .filter((revision) => revision.status !== Revision.revised)
-          .map((revision) => `${revision.note} (${formatDate(revision.revisionDate)})`)
+          .sort((a, b) => (a.revisionDate > b.revisionDate ? 1 : -1))
+          .map((revision) => `${formatDate(revision.revisionDate)}: ${revision.note}`)
           .join('\n');
 
         return [

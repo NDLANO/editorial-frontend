@@ -90,7 +90,7 @@ const LanguageSelector = ({ element, clicks, onClose, setClicks }: Props) => {
 
   return (
     <Portal container={container}>
-      <Container contentEditable={false}>
+      <Container id={'langaugeSelector'} contentEditable={false}>
         {languages.map((lang) => (
           <LanguageButton
             key={lang}

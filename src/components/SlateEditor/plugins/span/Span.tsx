@@ -56,7 +56,8 @@ const Span = ({ element, attributes, children }: Props) => {
           clicks={clicks}
           setClicks={setClicks}
         />
-      ) : (
+      ) : null}
+      {language ? (
         <SelectedLanguage
           language={language}
           element={element}
@@ -65,10 +66,11 @@ const Span = ({ element, attributes, children }: Props) => {
             if (toolbar) {
               showToolbar(toolbar);
             }
+            setClicks(0);
             setShowPicker(true);
           }}
         />
-      )}
+      ) : null}
     </StyledSpan>
   );
 };

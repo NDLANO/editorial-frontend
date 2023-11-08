@@ -10,6 +10,7 @@ import { createRef, memo, MouseEvent, useCallback, useEffect, useMemo } from 're
 import { Editor, Element, Range } from 'slate';
 import { useFocused, useSlate } from 'slate-react';
 import styled from '@emotion/styled';
+import { colors, spacing } from '@ndla/core';
 import { Portal } from '@radix-ui/react-portal';
 import ToolbarButton from './ToolbarButton';
 import { toggleMark } from '../mark/utils';
@@ -53,18 +54,44 @@ const specialRules: { [key: string]: Partial<Element> } = {
 };
 
 const ToolbarContainer = styled.div`
-  border-radius: 4px;
-  position: absolute;
-  z-index: 11;
-  top: -10000px;
   left: -10000px;
-  margin-top: -6px;
   opacity: 0;
-  color: black;
-  background-color: white;
+  position: absolute;
+  top: -10000px;
   transition: opacity 0.75s;
-  box-shadow: 3px 3px 5px #99999959;
+  z-index: 11;
 `;
+
+const ToolbarButtons = styled.div`
+  background-color: ${colors.white};
+  border-radius: ${spacing.xxsmall};
+  box-shadow: 3px 3px ${spacing.xsmall} #99999959;
+  color: ${colors.black};
+  margin: -6px 0 ${spacing.xsmall};
+`;
+
+const ToolbarSubMenu = styled.div`
+  display: none;
+  &:not(:empty) {
+    display: inline-block;
+  }
+`;
+
+export const showToolbar = (toolbar: HTMLElement) => {
+  toolbar.style.display = 'block';
+  const native = window.getSelection();
+  if (!native) {
+    return;
+  }
+  const range = native.getRangeAt(0);
+  const rect = range.getBoundingClientRect();
+
+  toolbar.style.opacity = '1';
+  const left = rect.left + window.scrollX - toolbar.offsetWidth / 2 + rect.width / 2;
+
+  toolbar.style.top = `${rect.top + window.scrollY - toolbar.offsetHeight}px`;
+  toolbar.style.left = `${left > 10 ? left : 10}px`;
+};
 
 const SlateToolbar = () => {
   const portalRef = createRef<HTMLDivElement>();
@@ -96,19 +123,7 @@ const SlateToolbar = () => {
       return;
     }
 
-    menu.style.display = 'block';
-    const native = window.getSelection();
-    if (!native) {
-      return;
-    }
-    const range = native.getRangeAt(0);
-    const rect = range.getBoundingClientRect();
-
-    menu.style.opacity = '1';
-    const left = rect.left + window.scrollX - menu.offsetWidth / 2 + rect.width / 2;
-
-    menu.style.top = `${rect.top + window.scrollY - menu.offsetHeight}px`;
-    menu.style.left = `${left > 10 ? left : 10}px`;
+    showToolbar(menu);
   });
 
   const onButtonClick = useCallback(
@@ -144,48 +159,52 @@ const SlateToolbar = () => {
 
   return (
     <Portal>
-      <ToolbarContainer ref={portalRef} onMouseDown={onMouseDown}>
-        {toolbarElements.mark.map((type) => (
-          <ToolbarButton
-            key={type}
-            type={type}
-            kind="mark"
-            isActive={isMarkActive(editor, type)}
-            handleOnClick={onButtonClick}
-          />
-        ))}
-        {toolbarElements.block.map((type) => (
-          <ToolbarButton
-            key={type}
-            type={type}
-            kind="block"
-            isActive={
-              type.includes('list')
-                ? isActiveList(type)
-                : hasNodeWithProps(editor, specialRules[type] ?? { type })
-            }
-            handleOnClick={onButtonClick}
-          />
-        ))}
-        {toolbarElements.inline.map((type) => (
-          <ToolbarButton
-            key={type}
-            type={type}
-            kind="inline"
-            isActive={hasNodeWithProps(editor, specialRules[type] ?? { type })}
-            handleOnClick={onButtonClick}
-          />
-        ))}
-        {getCurrentBlock(editor, TYPE_TABLE_CELL) &&
-          toolbarElements.table?.map((type, index) => (
+      <ToolbarContainer id="toolbarContainer" ref={portalRef} onMouseDown={onMouseDown}>
+        <ToolbarButtons>
+          {toolbarElements.mark.map((type) => (
             <ToolbarButton
-              key={index}
+              key={type}
               type={type}
-              kind="table"
-              isActive={hasCellAlignOfType(editor, type)}
+              kind="mark"
+              isActive={isMarkActive(editor, type)}
               handleOnClick={onButtonClick}
             />
           ))}
+          {toolbarElements.block.map((type) => (
+            <ToolbarButton
+              key={type}
+              type={type}
+              kind="block"
+              isActive={
+                type.includes('list')
+                  ? isActiveList(type)
+                  : hasNodeWithProps(editor, specialRules[type] ?? { type })
+              }
+              handleOnClick={onButtonClick}
+            />
+          ))}
+          {toolbarElements.inline.map((type) => (
+            <ToolbarButton
+              key={type}
+              type={type}
+              kind="inline"
+              isActive={hasNodeWithProps(editor, specialRules[type] ?? { type })}
+              handleOnClick={onButtonClick}
+            />
+          ))}
+
+          {getCurrentBlock(editor, TYPE_TABLE_CELL) &&
+            toolbarElements.table?.map((type, index) => (
+              <ToolbarButton
+                key={index}
+                type={type}
+                kind="table"
+                isActive={hasCellAlignOfType(editor, type)}
+                handleOnClick={onButtonClick}
+              />
+            ))}
+        </ToolbarButtons>
+        <ToolbarSubMenu id="toolbarPortal"></ToolbarSubMenu>
       </ToolbarContainer>
     </Portal>
   );

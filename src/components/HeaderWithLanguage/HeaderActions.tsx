@@ -85,6 +85,7 @@ const StyledWrapper = styled.div`
 `;
 const StyledGroup = styled.div`
   display: flex;
+  align-items: center;
 `;
 
 interface Props {

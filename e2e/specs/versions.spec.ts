@@ -134,9 +134,11 @@ test('can add notes then save', async ({ page }) => {
     overrideValue: (val) => JSON.stringify({ ...JSON.parse(val), copyright: copyrightMock }),
   });
 
-  await page.getByTestId('saveLearningResourceButtonWrapper').first().click();
+  const saveButton = page.getByTestId('saveLearningResourceButtonWrapper').first();
 
-  await draftPatchData;
+  await saveButton.click();
+
+  await Promise.all([draftPatchData]);
 
   const userData = mockRoute({
     page,

@@ -9,13 +9,13 @@
 import { useTranslation } from 'react-i18next';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { IUserData } from '@ndla/types-backend/draft-api';
-import { Alarm } from '@ndla/icons/common';
+import { Alarm, Time } from '@ndla/icons/common';
 import addYears from 'date-fns/addYears';
 import { Select, SingleValue } from '@ndla/select';
 import Pager from '@ndla/pager';
 import sortBy from 'lodash/sortBy';
 import styled from '@emotion/styled';
-import { mq, breakpoints } from '@ndla/core';
+import { mq, breakpoints, colors, spacing } from '@ndla/core';
 import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
 import Tooltip from '@ndla/tooltip';
 import {
@@ -38,11 +38,39 @@ import GoToSearch from './GoToSearch';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import { useSearchNodes } from '../../../modules/nodes/nodeQueries';
 import { SUBJECT_NODE } from '../../../modules/nodes/nodeApiTypes';
-import { FAVOURITES_SUBJECT_ID, PUBLISHED, STORED_SORT_OPTION_REVISION } from '../../../constants';
+import {
+  FAVOURITES_SUBJECT_ID,
+  PUBLISHED,
+  STORED_SORT_OPTION_REVISION,
+  Revision,
+} from '../../../constants';
+import { getWarnStatus } from '../../../components/HeaderWithLanguage/HeaderStatusInformation';
 
 const RevisionsWrapper = styled.div`
   ${mq.range({ from: breakpoints.tabletWide })} {
     margin-top: 25px;
+  }
+`;
+
+const StyledTitle = styled.div`
+  align-items: center;
+  display: flex;
+  justify-content: row-start;
+`;
+
+const IconWrapper = styled.div`
+  display: flex;
+  width: ${spacing.nsmall};
+  height: ${spacing.nsmall};
+  margin-right: ${spacing.xsmall};
+`;
+
+const StyledTimeIcon = styled(Time)`
+  &[data-status='warn'] {
+    fill: ${colors.tasksAndActivities.dark};
+  }
+  &[data-status='expired'] {
+    fill: ${colors.support.red};
   }
 `;
 
@@ -163,30 +191,53 @@ const Revisions = ({ userData }: Props) => {
 
   const tableData: FieldElement[][] = useMemo(
     () =>
-      filteredData.results?.map((a) => [
-        {
-          id: `title_${a.id}`,
-          data: (
-            <StyledLink to={toEditArticle(a.id, a.learningResourceType)} title={a.title?.title}>
-              {a.title?.title}
-            </StyledLink>
-          ),
-        },
-        {
-          id: `status_${a.id}`,
-          data: a.status?.current ? t(`form.status.${a.status.current.toLowerCase()}`) : '',
-        },
-        {
-          id: `primarySubject_${a.id}`,
-          data: a.contexts.find((context) => context.isPrimaryConnection)?.subject ?? '',
-        },
-        {
-          id: `lastUpdated_${a.id}`,
-          data: a.revisions.length
-            ? formatDate(getExpirationDate({ revisions: a.revisions })!)
-            : '',
-        },
-      ]) ?? [[]],
+      filteredData.results?.map((resource) => {
+        const expirationDate = resource.revisions.length
+          ? getExpirationDate({ revisions: resource.revisions })!
+          : '';
+        const revisions = resource.revisions
+          .filter((revision) => revision.status !== Revision.revised)
+          .sort((a, b) => (a.revisionDate > b.revisionDate ? 1 : -1))
+          .map((revision) => `${formatDate(revision.revisionDate)}: ${revision.note}`)
+          .join('\n');
+
+        return [
+          {
+            id: `title_${resource.id}`,
+            data: (
+              <StyledTitle>
+                <IconWrapper>
+                  <StyledTimeIcon
+                    data-status={getWarnStatus(expirationDate)}
+                    title={revisions}
+                    aria-label={revisions}
+                  />
+                </IconWrapper>
+                <StyledLink
+                  to={toEditArticle(resource.id, resource.learningResourceType)}
+                  title={resource.title?.title}
+                >
+                  {resource.title?.title}
+                </StyledLink>
+              </StyledTitle>
+            ),
+          },
+          {
+            id: `status_${resource.id}`,
+            data: resource.status?.current
+              ? t(`form.status.${resource.status.current.toLowerCase()}`)
+              : '',
+          },
+          {
+            id: `primarySubject_${resource.id}`,
+            data: resource.contexts.find((context) => context.isPrimaryConnection)?.subject ?? '',
+          },
+          {
+            id: `lastUpdated_${resource.id}`,
+            data: formatDate(expirationDate!),
+          },
+        ];
+      }) ?? [[]],
     [filteredData, t],
   );
 

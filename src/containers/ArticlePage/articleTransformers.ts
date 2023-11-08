@@ -27,7 +27,7 @@ import {
 } from '../FormikForm/articleFormHooks';
 import { DEFAULT_LICENSE, parseImageUrl } from '../../util/formHelper';
 import { getSlugFromTitle, nullOrUndefined } from '../../util/articleUtil';
-import { ARCHIVED, PUBLISHED, UNPUBLISHED } from '../../constants';
+import { ARCHIVED, PUBLISHED, UNPUBLISHED, Revision } from '../../constants';
 
 const getPublishedDate = (
   values: ArticleFormType,
@@ -281,5 +281,5 @@ export const getExpirationDate = (article?: { revisions: IRevisionMeta[] }): str
       return { parsed: new Date(r.revisionDate), ...r };
     }) ?? [];
   const sorted = withParsed.sort((a, b) => a.parsed.getTime() - b.parsed.getTime());
-  return sorted.find((r) => r.status !== 'revised')?.revisionDate;
+  return sorted.find((r) => r.status !== Revision.revised)?.revisionDate;
 };

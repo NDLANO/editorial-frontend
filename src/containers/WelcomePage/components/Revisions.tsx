@@ -53,6 +53,7 @@ const RevisionsWrapper = styled.div`
 `;
 
 const StyledTitle = styled.div`
+  align-items: center;
   display: flex;
   justify-content: row-start;
 `;

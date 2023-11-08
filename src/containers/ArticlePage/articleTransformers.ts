@@ -281,5 +281,5 @@ export const getExpirationDate = (article?: { revisions: IRevisionMeta[] }): str
       return { parsed: new Date(r.revisionDate), ...r };
     }) ?? [];
   const sorted = withParsed.sort((a, b) => a.parsed.getTime() - b.parsed.getTime());
-  return sorted.find((r) => r.status !== Revision.REVISED)?.revisionDate;
+  return sorted.find((r) => r.status !== Revision.revised)?.revisionDate;
 };

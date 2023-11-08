@@ -145,7 +145,8 @@ export const SearchTypeValues = [
   'podcast-series',
 ] as const;
 
-export enum Revision {
-  REVISED = 'revised',
-  NEEDSREVISION = 'needs-revision',
-}
+export type Revision = 'revised' | 'needs-revision';
+export const Revision = {
+  revised: 'revised' as Revision,
+  needsRevision: 'needs-revision' as Revision,
+};

@@ -58,10 +58,6 @@ const StyledTitle = styled.div`
   justify-content: row-start;
 `;
 
-const StyledRevision = styled.div`
-  text-align: left;
-`;
-
 const StyledTimeIcon = styled(Time)`
   &[data-status='warn'] {
     fill: ${colors.tasksAndActivities.dark};
@@ -191,47 +187,46 @@ const Revisions = ({ userData }: Props) => {
 
   const tableData: FieldElement[][] = useMemo(
     () =>
-      filteredData.results?.map((a) => {
-        const expirationDate = a.revisions.length
-          ? getExpirationDate({ revisions: a.revisions })!
+      filteredData.results?.map((resource) => {
+        const expirationDate = resource.revisions.length
+          ? getExpirationDate({ revisions: resource.revisions })!
           : '';
-        const revisions = a.revisions
-          .filter((revision) => revision.status !== Revision.REVISED)
-          .map((revision, index) => (
-            <StyledRevision key={index}>
-              {revision.note} ({formatDate(revision.revisionDate)})
-            </StyledRevision>
-          ));
+        const revisions = resource.revisions
+          .filter((revision) => revision.status !== Revision.revised)
+          .map((revision) => `${revision.note} (${formatDate(revision.revisionDate)})`)
+          .join('\n');
 
         return [
           {
-            id: `title_${a.id}`,
+            id: `title_${resource.id}`,
             data: (
               <StyledTitle>
-                <Tooltip tooltip={revisions}>
-                  <div>
-                    <StyledTimeIcon
-                      data-status={getWarnStatus(expirationDate)}
-                      aria-hidden={false}
-                    />
-                  </div>
-                </Tooltip>
-                <StyledLink to={toEditArticle(a.id, a.learningResourceType)} title={a.title?.title}>
-                  {a.title?.title}
+                <StyledTimeIcon
+                  data-status={getWarnStatus(expirationDate)}
+                  title={revisions}
+                  aria-label={revisions}
+                />
+                <StyledLink
+                  to={toEditArticle(resource.id, resource.learningResourceType)}
+                  title={resource.title?.title}
+                >
+                  {resource.title?.title}
                 </StyledLink>
               </StyledTitle>
             ),
           },
           {
-            id: `status_${a.id}`,
-            data: a.status?.current ? t(`form.status.${a.status.current.toLowerCase()}`) : '',
+            id: `status_${resource.id}`,
+            data: resource.status?.current
+              ? t(`form.status.${resource.status.current.toLowerCase()}`)
+              : '',
           },
           {
-            id: `primarySubject_${a.id}`,
-            data: a.contexts.find((context) => context.isPrimaryConnection)?.subject ?? '',
+            id: `primarySubject_${resource.id}`,
+            data: resource.contexts.find((context) => context.isPrimaryConnection)?.subject ?? '',
           },
           {
-            id: `lastUpdated_${a.id}`,
+            id: `lastUpdated_${resource.id}`,
             data: formatDate(expirationDate!),
           },
         ];

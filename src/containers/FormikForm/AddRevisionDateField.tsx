@@ -148,11 +148,11 @@ const AddRevisionDateField = ({ formikField, showError }: Props) => {
                 <Tooltip tooltip={t('form.revisions.switchTooltip')}>
                   <div>
                     <StyledSwitch
-                      checked={revisionMeta.status === Revision.REVISED}
+                      checked={revisionMeta.status === Revision.revised}
                       onChange={(c) => {
-                        const status = c ? Revision.REVISED : Revision.NEEDSREVISION;
+                        const status = c ? Revision.revised : Revision.needsRevision;
                         editRevision((old) => ({ ...old, status }));
-                        if (status === Revision.REVISED) {
+                        if (status === Revision.revised) {
                           createMessage({
                             translationKey: 'form.revisions.reminder',
                             severity: 'info',

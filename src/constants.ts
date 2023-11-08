@@ -145,8 +145,8 @@ export const SearchTypeValues = [
   'podcast-series',
 ] as const;
 
-export type Revision = 'revised' | 'needs-revision';
+export type RevisionTypes = 'revised' | 'needs-revision';
 export const Revision = {
-  revised: 'revised' as Revision,
-  needsRevision: 'needs-revision' as Revision,
+  revised: 'revised' as RevisionTypes,
+  needsRevision: 'needs-revision' as RevisionTypes,
 };

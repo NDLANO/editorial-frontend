@@ -58,6 +58,13 @@ const StyledTitle = styled.div`
   justify-content: row-start;
 `;
 
+const IconWrapper = styled.div`
+  display: flex;
+  width: ${spacing.nsmall};
+  height: ${spacing.nsmall};
+  margin-right: ${spacing.xsmall};
+`;
+
 const StyledTimeIcon = styled(Time)`
   &[data-status='warn'] {
     fill: ${colors.tasksAndActivities.dark};
@@ -65,9 +72,6 @@ const StyledTimeIcon = styled(Time)`
   &[data-status='expired'] {
     fill: ${colors.support.red};
   }
-  width: ${spacing.nsmall};
-  height: ${spacing.nsmall};
-  margin-right: ${spacing.xsmall};
 `;
 
 const getLastPage = (totalCount: number, pageSize: number) =>
@@ -201,11 +205,13 @@ const Revisions = ({ userData }: Props) => {
             id: `title_${resource.id}`,
             data: (
               <StyledTitle>
-                <StyledTimeIcon
-                  data-status={getWarnStatus(expirationDate)}
-                  title={revisions}
-                  aria-label={revisions}
-                />
+                <IconWrapper>
+                  <StyledTimeIcon
+                    data-status={getWarnStatus(expirationDate)}
+                    title={revisions}
+                    aria-label={revisions}
+                  />
+                </IconWrapper>
                 <StyledLink
                   to={toEditArticle(resource.id, resource.learningResourceType)}
                   title={resource.title?.title}

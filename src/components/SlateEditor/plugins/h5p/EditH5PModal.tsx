@@ -61,9 +61,7 @@ const EditH5PModal = ({ embed, language, editor, element }: Props) => {
         alt: embed?.embedData.alt,
         url,
       };
-      const properties = {
-        data: embedData,
-      };
+      const properties = { data: embedData };
       ReactEditor.focus(editor);
       const path = ReactEditor.findPath(editor, element);
       Transforms.setNodes(editor, properties, { at: path });

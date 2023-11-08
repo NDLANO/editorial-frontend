@@ -75,30 +75,22 @@ const SlateH5p = ({ element, editor, attributes, language, children }: Props) =>
 
   return (
     <H5pWrapper {...attributes} data-selected={isSelected}>
-      {h5pMetaQuery.isLoading ? (
-        <Spinner />
-      ) : embed ? (
-        <div contentEditable={false}>
-          <FigureButtons>
-            {embed.status === 'success' && (
-              <>
-                <EditMetadataModal embed={embed} editor={editor} element={element} />
-                <EditH5PModal embed={embed} language={language} editor={editor} element={element} />
-              </>
-            )}
-            <StyledDeleteEmbedButton
-              title={t('form.h5p.remove')}
-              aria-label={t('form.h5p.remove')}
-              colorTheme="danger"
-              onClick={handleRemove}
-              data-testid="remove-h5p-element"
-            >
-              <DeleteForever />
-            </StyledDeleteEmbedButton>
-          </FigureButtons>
-          <H5pEmbed embed={embed} />
-        </div>
-      ) : null}
+      <div contentEditable={false}>
+        <FigureButtons>
+          <EditMetadataModal embed={embed} editor={editor} element={element} />
+          <EditH5PModal embed={embed} language={language} editor={editor} element={element} />
+          <StyledDeleteEmbedButton
+            title={t('form.h5p.remove')}
+            aria-label={t('form.h5p.remove')}
+            colorTheme="danger"
+            onClick={handleRemove}
+            data-testid="remove-h5p-element"
+          >
+            <DeleteForever />
+          </StyledDeleteEmbedButton>
+        </FigureButtons>
+        {h5pMetaQuery.isLoading || !embed ? <Spinner /> : <H5pEmbed embed={embed} />}
+      </div>
       {children}
     </H5pWrapper>
   );

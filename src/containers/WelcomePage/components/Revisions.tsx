@@ -70,8 +70,8 @@ const StyledTimeIcon = styled(Time)`
   &[data-status='expired'] {
     fill: ${colors.support.red};
   }
-  width: ${spacing.normal};
-  height: ${spacing.normal};
+  width: 20px;
+  height: 20px;
 `;
 
 const getLastPage = (totalCount: number, pageSize: number) =>

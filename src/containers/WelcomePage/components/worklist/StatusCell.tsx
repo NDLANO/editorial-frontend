@@ -9,7 +9,7 @@
 import { IStatus } from '@ndla/types-backend/search-api';
 import styled from '@emotion/styled';
 import { Check } from '@ndla/icons/editor';
-import { spacing, colors } from '@ndla/core';
+import { colors } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { CellWrapper } from './WorkListTabContent';
 
@@ -24,8 +24,8 @@ const TextWrapper = styled.div`
 `;
 
 const StyledCheckIcon = styled(Check)`
-  height: ${spacing.normal};
-  width: ${spacing.normal};
+  height: 20px;
+  width: 20px;
   fill: ${colors.support.green};
 `;
 

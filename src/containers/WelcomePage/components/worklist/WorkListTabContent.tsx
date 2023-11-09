@@ -59,8 +59,8 @@ const StyledIconWrapper = styled.div`
   height: 100%;
 `;
 const StyledCommentIcon = styled(Comment)`
-  width: ${spacing.normal};
-  height: ${spacing.normal};
+  width: 20px;
+  height: 20px;
 `;
 
 interface Props {
@@ -120,11 +120,12 @@ const WorkListTabContent = ({
                     </StyledLink>
                   </StyledTitleWrapper>
                   {res.comments?.length ? (
-                    <Tooltip tooltip={res.comments[0]?.content}>
-                      <StyledIconWrapper>
-                        <StyledCommentIcon />
-                      </StyledIconWrapper>
-                    </Tooltip>
+                    <StyledIconWrapper>
+                      <StyledCommentIcon
+                        title={res.comments[0]?.content}
+                        aria-label={res.comments[0]?.content}
+                      />
+                    </StyledIconWrapper>
                   ) : null}
                 </CellWrapper>
               ),

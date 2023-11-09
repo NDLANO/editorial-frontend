@@ -74,8 +74,13 @@ const StyledPreviewWrapper = styled.div`
   display: inline-flex;
   justify-content: center;
   & .c-article {
-    padding-top: 0;
+    padding: 0;
     margin-top: 20px;
+    line-height: unset;
+    > section {
+      width: unset !important;
+      left: unset !important;
+    }
   }
 `;
 
@@ -98,9 +103,13 @@ const PreviewMarkup = ({ article, language }: MarkupPreviewProps) => {
 const TwoArticleWrapper = styled(StyledPreviewWrapper)`
   > div {
     margin: 0 2.5%;
+    width: 40%;
     > h2 {
       margin: 0;
       margin-left: ${spacing.large};
+    }
+    > article {
+      max-width: unset;
     }
   }
 `;

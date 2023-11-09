@@ -173,7 +173,7 @@ const HeaderStatusInformation = ({
             )}
           </>
         ) : (type === 'concept' || type === 'gloss') && !inSearch ? (
-          <EmbedConnection id={id} type="concept" articles={articles} setArticles={setArticles} />
+          <EmbedConnection id={id} type={type} articles={articles} setArticles={setArticles} />
         ) : null}
         {published && (
           <StyledLink

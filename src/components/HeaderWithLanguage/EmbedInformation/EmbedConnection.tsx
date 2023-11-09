@@ -28,7 +28,7 @@ import { searchConcepts } from '../../../modules/concept/conceptApi';
 import { search as searchArticles } from '../../../modules/search/searchApi';
 import ElementList from '../../../containers/FormikForm/components/ElementList';
 
-type EmbedType = 'image' | 'audio' | 'concept' | 'article';
+type EmbedType = 'image' | 'audio' | 'concept' | 'gloss' | 'article';
 
 interface Props {
   id?: number;
@@ -45,12 +45,20 @@ const ImageInformationIcon = styled(SubjectMaterial)`
   cursor: pointer;
 `;
 
-type SearchEmbedTypes = 'image' | 'audio' | 'concept' | 'content-link' | 'related-content';
+type SearchEmbedTypes =
+  | 'image'
+  | 'audio'
+  | 'concept'
+  | 'gloss'
+  | 'content-link'
+  | 'related-content';
 
 const convertToSearchEmbedTypes = (embedType: EmbedType): SearchEmbedTypes[] => {
   switch (embedType) {
     case 'article':
       return ['content-link', 'related-content'];
+    case 'gloss':
+      return ['concept'];
     default:
       return [embedType];
   }
@@ -138,7 +146,7 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
                 </em>
               </p>
               <ElementList
-                elements={concepts?.map((obj) => ({ ...obj, articleType: 'concept' })) ?? []}
+                elements={concepts?.map((obj) => ({ ...obj, articleType: obj.conceptType })) ?? []}
                 isEditable={false}
               />
             </>

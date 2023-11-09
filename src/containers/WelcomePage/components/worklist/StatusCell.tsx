@@ -10,7 +10,6 @@ import { IStatus } from '@ndla/types-backend/search-api';
 import styled from '@emotion/styled';
 import { Check } from '@ndla/icons/editor';
 import { spacing, colors } from '@ndla/core';
-import Tooltip from '@ndla/tooltip';
 import { useTranslation } from 'react-i18next';
 import { CellWrapper } from './WorkListTabContent';
 
@@ -25,8 +24,8 @@ const TextWrapper = styled.div`
 `;
 
 const StyledCheckIcon = styled(Check)`
-  height: ${spacing.nsmall};
-  width: ${spacing.nsmall};
+  height: ${spacing.normal};
+  width: ${spacing.normal};
   fill: ${colors.support.green};
 `;
 
@@ -43,11 +42,12 @@ const StatusCell = ({ status }: Props) => {
     <CellWrapper>
       <TextWrapper title={statusTitle}>{statusTitle}</TextWrapper>
       {published && (
-        <Tooltip tooltip={t('form.workflow.published')}>
-          <IconWrapper>
-            <StyledCheckIcon />
-          </IconWrapper>
-        </Tooltip>
+        <IconWrapper>
+          <StyledCheckIcon
+            title={t('form.workflow.published')}
+            aria-label={t('form.workflow.published')}
+          />
+        </IconWrapper>
       )}
     </CellWrapper>
   );

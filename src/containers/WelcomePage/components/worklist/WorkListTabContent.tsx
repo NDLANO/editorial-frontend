@@ -12,6 +12,7 @@ import { IMultiSearchResult } from '@ndla/types-backend/search-api';
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
 import Pager from '@ndla/pager';
+import { spacing } from '@ndla/core';
 import { Comment, ExclamationMark } from '@ndla/icons/common';
 import Tooltip from '@ndla/tooltip';
 import styled from '@emotion/styled';
@@ -54,6 +55,10 @@ const StyledIconWrapper = styled.div`
   display: flex;
   align-items: center;
   height: 100%;
+`;
+const StyledCommentIcon = styled(Comment)`
+  width: ${spacing.normal};
+  height: ${spacing.normal};
 `;
 
 interface Props {
@@ -115,7 +120,7 @@ const WorkListTabContent = ({
                   {res.comments?.length ? (
                     <Tooltip tooltip={res.comments[0]?.content}>
                       <StyledIconWrapper>
-                        <Comment />
+                        <StyledCommentIcon />
                       </StyledIconWrapper>
                     </Tooltip>
                   ) : null}

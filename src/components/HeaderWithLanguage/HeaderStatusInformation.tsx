@@ -172,7 +172,7 @@ const HeaderStatusInformation = ({
               />
             )}
           </>
-        ) : type === 'concept' && !inSearch ? (
+        ) : (type === 'concept' || type === 'gloss') && !inSearch ? (
           <EmbedConnection id={id} type="concept" articles={articles} setArticles={setArticles} />
         ) : null}
         {published && (
@@ -230,7 +230,14 @@ const HeaderStatusInformation = ({
   } else if (type === 'audio' || type === 'podcast') {
     return (
       <StyledStatusWrapper>
-        <EmbedConnection id={id} type="audio" articles={articles} setArticles={setArticles} />
+        <EmbedConnection
+          id={id}
+          type="audio"
+          articles={articles}
+          setArticles={setArticles}
+          concepts={concepts}
+          setConcepts={setConcepts}
+        />
       </StyledStatusWrapper>
     );
   } else if (type === 'podcast-series' && hasRSS && id !== undefined) {

@@ -71,7 +71,7 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
       searchArticles(searchObjects(id, type)).then((result) => {
         if (shouldUpdateState) setArticles(result.results);
       });
-      type === 'image' &&
+      (type === 'image' || type === 'audio') &&
         searchConcepts(searchObjects(id, type)).then((result) => {
           if (shouldUpdateState) setConcepts?.(result.results);
         });
@@ -123,7 +123,7 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
             isEditable={false}
           />
 
-          {type === 'image' && (
+          {(type === 'image' || type === 'audio') && (
             <>
               <p>
                 {t('form.embedConnections.sectionTitleConcept', {

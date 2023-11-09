@@ -199,7 +199,7 @@ const InlineWrapper = (props: Props) => {
                       status: t(`form.status.${concept?.status.current.toLowerCase()}`),
                     })}
                   >
-                    <AlertCircle />
+                    <AlertCircle color={colors.support.red} />
                   </StyledIconWrapper>
                 )}
                 <IconButtonV2

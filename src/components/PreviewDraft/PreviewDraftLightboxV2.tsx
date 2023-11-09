@@ -72,6 +72,7 @@ const StyledPreviewWrapper = styled.div`
   width: 100%;
   max-width: 100%;
   display: inline-flex;
+  justify-content: center;
   & .c-article {
     padding-top: 0;
     margin-top: 20px;
@@ -96,7 +97,7 @@ const PreviewMarkup = ({ article, language }: MarkupPreviewProps) => {
 
 const TwoArticleWrapper = styled(StyledPreviewWrapper)`
   > div {
-    width: 50%;
+    margin: 0 2.5%;
     > h2 {
       margin: 0;
       margin-left: ${spacing.large};

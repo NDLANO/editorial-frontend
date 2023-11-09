@@ -49,6 +49,8 @@ const StyledExclamationMark = styled(ExclamationMark)`
   &[aria-hidden='false'] {
     visibility: hidden;
   }
+  width: ${spacing.normal};
+  height: ${spacing.normal};
 `;
 
 const StyledIconWrapper = styled.div`

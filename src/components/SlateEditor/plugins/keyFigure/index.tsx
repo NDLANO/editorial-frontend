@@ -9,7 +9,6 @@
 import { EmbedData, KeyFigureEmbedData } from '@ndla/types-embed';
 import { Descendant, Editor, Element } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
-import { RenderElementProps } from 'slate-react';
 import { createEmbedTagV2, reduceElementDataAttributesV2 } from '../../../../util/embedTagHelpers';
 import { SlateSerializer } from '../../interfaces';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
@@ -17,7 +16,6 @@ import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers'
 import { TYPE_NDLA_EMBED } from '../embed/types';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
 import { TYPE_KEY_FIGURE } from './types';
-import SlateKeyFigure from './SlateKeyFigure';
 
 export interface KeyFigureElement {
   type: 'key-figure';
@@ -54,19 +52,7 @@ export const keyFigureSerializer: SlateSerializer = {
 };
 
 export const keyFigurePlugin = (editor: Editor) => {
-  const { renderElement, normalizeNode, isVoid: nextIsVoid } = editor;
-
-  editor.renderElement = (props: RenderElementProps) => {
-    const { element, attributes, children } = props;
-    if (element.type === TYPE_KEY_FIGURE) {
-      return (
-        <SlateKeyFigure element={element} editor={editor} attributes={attributes}>
-          {children}
-        </SlateKeyFigure>
-      );
-    }
-    return renderElement?.(props);
-  };
+  const { normalizeNode, isVoid: nextIsVoid } = editor;
 
   editor.normalizeNode = (entry) => {
     const [node] = entry;

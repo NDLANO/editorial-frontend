@@ -8,8 +8,6 @@
 
 import { Node, Element, Descendant, Editor, Text, Transforms, Range } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
-import { RenderElementProps } from 'slate-react';
-import Section from './Section';
 import { SlateSerializer } from '../../interfaces';
 import { defaultParagraphBlock } from '../paragraph/utils';
 import { KEY_BACKSPACE, KEY_TAB } from '../../utils/keys';
@@ -74,24 +72,7 @@ const onBackspace = (
 };
 
 export const sectionPlugin = (editor: Editor) => {
-  const {
-    renderElement: nextRenderElement,
-    normalizeNode: nextNormalizeNode,
-    onKeyDown: nextOnKeyDown,
-  } = editor;
-
-  editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
-    if (element.type === 'section') {
-      return (
-        <Section attributes={attributes} element={element} editor={editor}>
-          {children}
-        </Section>
-      );
-    } else if (nextRenderElement) {
-      return nextRenderElement({ attributes, children, element });
-    }
-    return undefined;
-  };
+  const { normalizeNode: nextNormalizeNode, onKeyDown: nextOnKeyDown } = editor;
 
   editor.onKeyDown = (e: KeyboardEvent) => {
     if (e.key === KEY_BACKSPACE) {

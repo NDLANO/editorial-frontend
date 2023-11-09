@@ -823,7 +823,7 @@ const phrases = {
       success: 'Content is reset, press save to save changes',
     },
     resetToVersion: 'Reset to version',
-    previewVersion: 'See version',
+    previewVersion: 'Compare with published',
     variant: {
       create: 'Create variant',
       translate: 'Translate to Nynorsk',
@@ -1047,6 +1047,10 @@ const phrases = {
       concept: {
         remove: 'Remove concept',
         choose: 'Choose concept',
+      },
+      gloss: {
+        remove: 'Remove gloss',
+        choose: 'Choose gloss',
       },
       link: {
         name: 'Name',

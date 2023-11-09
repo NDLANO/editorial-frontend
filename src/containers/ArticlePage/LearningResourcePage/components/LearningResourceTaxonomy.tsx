@@ -68,10 +68,10 @@ const LearningResourceTaxonomy = ({
   const versionsQuery = useVersions();
 
   if (
-    nodesQuery.isInitialLoading ||
-    subjectsQuery.isInitialLoading ||
-    allResourceTypesQuery.isInitialLoading ||
-    versionsQuery.isInitialLoading
+    nodesQuery.isLoading ||
+    subjectsQuery.isLoading ||
+    allResourceTypesQuery.isLoading ||
+    versionsQuery.isLoading
   ) {
     return <Spinner />;
   }

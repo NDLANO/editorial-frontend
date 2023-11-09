@@ -26,7 +26,7 @@ interface Props {
 
 const CopyRevisionDate = ({ node, editModeHandler: { editMode, toggleEditMode } }: Props) => {
   const { t } = useTranslation();
-  const { mutateAsync, isLoading } = useCopyRevisionDates();
+  const { mutateAsync, isPending } = useCopyRevisionDates();
   const [error, setError] = useState<string | undefined>(undefined);
 
   const toggleCopyRevisionDate = () => toggleEditMode('copyRevisionDate');
@@ -63,8 +63,8 @@ const CopyRevisionDate = ({ node, editModeHandler: { editMode, toggleEditMode } 
         onCancel={toggleCopyRevisionDate}
         text={t('taxonomy.copyRevisionDates.text')}
       />
-      {isLoading && <Spinner appearance="absolute" />}
-      {isLoading && <Overlay modifiers={['absolute', 'white-opacity', 'zIndex']} />}
+      {isPending && <Spinner appearance="absolute" />}
+      {isPending && <Overlay modifiers={['absolute', 'white-opacity', 'zIndex']} />}
       {error && (
         <StyledErrorMessage data-testid="inlineEditErrorMessage">{error}</StyledErrorMessage>
       )}

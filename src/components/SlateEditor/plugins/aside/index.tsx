@@ -7,7 +7,6 @@
  */
 
 import { Descendant, Editor, Element } from 'slate';
-import { RenderElementProps } from 'slate-react';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import {
   afterOrBeforeTextBlockElement,
@@ -16,7 +15,6 @@ import {
   textBlockElements,
 } from '../../utils/normalizationHelpers';
 import { SlateSerializer } from '../../interfaces';
-import SlateAside from './SlateAside';
 import { getAsideType } from './utils';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
 import { TYPE_ASIDE } from './types';
@@ -66,20 +64,7 @@ export const asideSerializer: SlateSerializer = {
 };
 
 export const asidePlugin = (editor: Editor) => {
-  const { renderElement: nextRenderElement, normalizeNode: nextNormalizeNode } = editor;
-
-  editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
-    if (element.type === TYPE_ASIDE) {
-      return (
-        <SlateAside editor={editor} element={element} attributes={attributes}>
-          {children}
-        </SlateAside>
-      );
-    } else if (nextRenderElement) {
-      return nextRenderElement({ attributes, children, element });
-    }
-    return undefined;
-  };
+  const { normalizeNode: nextNormalizeNode } = editor;
 
   editor.normalizeNode = (entry) => {
     const [node] = entry;

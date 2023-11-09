@@ -7,7 +7,6 @@
  */
 
 import { createElement } from 'react';
-import { RenderElementProps } from 'slate-react';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { Descendant, Editor, Element, Transforms, Range, Node, Path } from 'slate';
 import { SlateSerializer } from '../../interfaces';
@@ -105,36 +104,7 @@ const onBackspace = (
 };
 
 export const headingPlugin = (editor: Editor) => {
-  const {
-    renderElement: nextRenderElement,
-    normalizeNode: nextNormalizeNode,
-    onKeyDown: nextOnKeyDown,
-  } = editor;
-
-  editor.renderElement = (props: RenderElementProps) => {
-    const { element, attributes, children } = props;
-    if (element.type === TYPE_HEADING) {
-      switch (element.level) {
-        case 1:
-          return <h1 {...attributes}>{children}</h1>;
-        case 2:
-          return <h2 {...attributes}>{children}</h2>;
-        case 3:
-          return <h3 {...attributes}>{children}</h3>;
-        case 4:
-          return <h4 {...attributes}>{children}</h4>;
-        case 5:
-          return <h5 {...attributes}>{children}</h5>;
-        case 6:
-          return <h6 {...attributes}>{children}</h6>;
-        default:
-          return nextRenderElement && nextRenderElement(props);
-      }
-    } else if (nextRenderElement) {
-      return nextRenderElement(props);
-    }
-    return undefined;
-  };
+  const { normalizeNode: nextNormalizeNode, onKeyDown: nextOnKeyDown } = editor;
 
   editor.normalizeNode = (entry) => {
     const [node, path] = entry;

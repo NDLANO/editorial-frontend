@@ -6,18 +6,17 @@
  *
  */
 
-import { useEffect, useState, Fragment, memo } from 'react';
-import { spacing, colors } from '@ndla/core';
+import { useEffect, useState, memo } from 'react';
+
+import { AccordionTrigger } from '@radix-ui/react-accordion';
+import { ButtonV2 } from '@ndla/button';
+import { spacing, colors, fonts } from '@ndla/core';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { useFormikContext } from 'formik';
-import Accordion, {
-  AccordionWrapper,
-  AccordionPanel,
-  StyledAccordionsPanelItemsWrapper,
-  AccordionBar,
-} from '@ndla/accordion';
-import { VersionLogTag, VersionHistory } from '@ndla/editor';
+import { AccordionRoot, AccordionItem, AccordionContent } from '@ndla/accordion';
+import { Text } from '@ndla/typography';
+import { ChevronRight } from '@ndla/icons/common';
 import { IArticle, IEditorNote } from '@ndla/types-backend/draft-api';
 import FormikField from '../../components/FormikField';
 import { fetchDraftHistory } from '../../modules/draft/draftApi';
@@ -35,10 +34,61 @@ import {
   draftApiTypeToLearningResourceFormType,
   draftApiTypeToTopicArticleFormType,
 } from '../ArticlePage/articleTransformers';
+import VersionHistory from '../../components/VersionHistory/VersionHistory';
+import VersionLogTag from '../../components/VersionHistory/VersionLogTag';
 
-const StyledAccordionPanel = styled(AccordionPanel)`
-  background: ${colors.brand.greyLightest};
-  padding: 0 ${spacing.normal};
+const StyledAccordionBar = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: ${spacing.small};
+  background-color: ${colors.brand.light};
+  button {
+    font-weight: ${fonts.weight.semibold};
+  }
+`;
+
+const InfoGrouping = styled.div`
+  display: flex;
+  gap: ${spacing.small};
+`;
+
+const StyledAccordionItem = styled(AccordionItem)`
+  border-radius: 0px;
+  border: none;
+  svg {
+    transition: all 200ms;
+  }
+  &[data-state='open'] {
+    svg[data-open-indicator] {
+      transform: rotate(90deg);
+    }
+  }
+`;
+
+const StyledButton = styled(ButtonV2)`
+  box-shadow: none;
+  text-decoration: underline;
+  &:hover,
+  &:focus-visible,
+  &:active {
+    text-decoration: none;
+  }
+`;
+
+const StyledAccordionRoot = styled(AccordionRoot)`
+  gap: 0px;
+  padding: ${spacing.normal} 0px;
+`;
+
+const StyledAccordionContent = styled(AccordionContent)`
+  background-color: ${colors.white};
+  padding: 0px;
+  padding-bottom: ${spacing.small};
+`;
+
+const VersionHistoryWrapper = styled.div`
+  padding: 0px ${spacing.normal};
+  background-color: ${colors.brand.greyLightest};
 `;
 
 const getUser = (userId: string, allUsers: SimpleUserType[]) => {
@@ -146,53 +196,52 @@ const VersionAndNotesPanel = ({ article, type, currentLanguage }: Props) => {
           />
         )}
       </FormikField>
-      <Accordion openIndexes={[0]} tiny>
-        {({ getPanelProps, getBarProps }) => (
-          <AccordionWrapper>
-            {versions.map((version, index) => {
-              const {
-                revision,
-                updated,
-                status: { current, other },
-                notes,
-              } = version;
-              const isLatestVersion = index === 0;
-              const published = current === 'PUBLISHED' || other.some((s) => s === 'PUBLISHED');
-              const showFromArticleApi = versions.length === 1 && published;
-              const _panelProps = getPanelProps(index);
-              const panelProps = { ..._panelProps, id: _panelProps.id.toString() };
-              return (
-                <Fragment key={revision}>
-                  <AccordionBar {...getBarProps(index)} title={`${revision}`}>
-                    <StyledAccordionsPanelItemsWrapper>
-                      <div>{formatDate(updated)}</div>
-                      <div>
-                        <VersionActionbuttons
-                          showFromArticleApi={showFromArticleApi}
-                          current={isLatestVersion}
-                          version={version}
-                          resetVersion={resetVersion}
-                          article={article}
-                          currentLanguage={currentLanguage}
-                        />
-                        {isLatestVersion && (
-                          <VersionLogTag color="yellow" label={t('form.notes.areHere')} />
-                        )}
-                        {published && (!isLatestVersion || versions.length === 1) && (
-                          <VersionLogTag color="green" label={t('form.notes.published')} />
-                        )}
-                      </div>
-                    </StyledAccordionsPanelItemsWrapper>
-                  </AccordionBar>
-                  <StyledAccordionPanel {...panelProps}>
-                    <VersionHistory notes={cleanupNotes(notes)} />
-                  </StyledAccordionPanel>
-                </Fragment>
-              );
-            })}
-          </AccordionWrapper>
-        )}
-      </Accordion>
+      <StyledAccordionRoot type="multiple" defaultValue={['0']}>
+        {versions.map((version, index) => {
+          const isLatestVersion = index === 0;
+          const published =
+            version.status.current === 'PUBLISHED' ||
+            version.status.other.some((s) => s === 'PUBLISHED');
+          return (
+            <StyledAccordionItem value={index.toString()} key={index}>
+              <StyledAccordionBar>
+                <InfoGrouping>
+                  <AccordionTrigger asChild>
+                    <StyledButton variant="link">
+                      <ChevronRight data-open-indicator="" />
+                      {version.revision}
+                    </StyledButton>
+                  </AccordionTrigger>
+                  <Text element="span" margin="none" textStyle="meta-text-small">
+                    {formatDate(version.updated)}
+                  </Text>
+                </InfoGrouping>
+                <InfoGrouping>
+                  <VersionActionbuttons
+                    showFromArticleApi={versions.length === 1 && published}
+                    current={isLatestVersion}
+                    version={version}
+                    resetVersion={resetVersion}
+                    article={article}
+                    currentLanguage={currentLanguage}
+                  />
+                  {isLatestVersion && (
+                    <VersionLogTag color="yellow" label={t('form.notes.areHere')} />
+                  )}
+                  {published && (!isLatestVersion || versions.length === 1) && (
+                    <VersionLogTag color="green" label={t('form.notes.published')} />
+                  )}
+                </InfoGrouping>
+              </StyledAccordionBar>
+              <StyledAccordionContent>
+                <VersionHistoryWrapper>
+                  <VersionHistory notes={cleanupNotes(version.notes)} />
+                </VersionHistoryWrapper>
+              </StyledAccordionContent>
+            </StyledAccordionItem>
+          );
+        })}
+      </StyledAccordionRoot>
     </>
   );
 };

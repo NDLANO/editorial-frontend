@@ -6,7 +6,7 @@
  *
  */
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import isEqual from 'lodash/isEqual';
 import { useTranslation } from 'react-i18next';
 import { Spinner } from '@ndla/icons';
@@ -29,11 +29,14 @@ export const ThemeMovies = ({ movies, onMoviesUpdated, placeholder }: Props) => 
   const [apiMovies, setApiMovies] = useState<IMultiSearchSummary[]>([]);
   const moviesQuery = useMoviesQuery(
     { movieUrns: movies },
-    {
-      enabled: !isEqual(movies, localMovies),
-      onSuccess: (movies) => setApiMovies(movies.results),
-    },
+    { enabled: !isEqual(movies, localMovies) },
   );
+
+  useEffect(() => {
+    if (moviesQuery.isSuccess) {
+      setApiMovies(moviesQuery.data.results);
+    }
+  }, [moviesQuery.data?.results, moviesQuery.isSuccess]);
 
   const onUpdateMovies = (updates: IMultiSearchSummary[]) => {
     const updated = updates.map((u) => getUrnFromId(u.id));
@@ -50,7 +53,7 @@ export const ThemeMovies = ({ movies, onMoviesUpdated, placeholder }: Props) => 
 
   return (
     <>
-      {moviesQuery.isInitialLoading ? (
+      {moviesQuery.isLoading ? (
         <Spinner />
       ) : (
         <ElementList

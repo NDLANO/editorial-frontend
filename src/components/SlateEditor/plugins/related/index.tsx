@@ -6,12 +6,9 @@
  *
  */
 
-import { MouseEvent } from 'react';
-import { Descendant, Editor, Element, Transforms } from 'slate';
-import { ReactEditor, RenderElementProps } from 'slate-react';
+import { Descendant, Editor, Element } from 'slate';
 import { RelatedContentEmbedData } from '@ndla/types-embed';
 import { jsx as slatejsx } from 'slate-hyperscript';
-import RelatedArticleBox from './RelatedArticleBox';
 import { SlateSerializer } from '../../interfaces';
 import { reduceElementDataAttributesV2, createEmbedTagV2 } from '../../../../util/embedTagHelpers';
 import { NormalizerConfig, defaultBlockNormalizer } from '../../utils/defaultNormalizer';
@@ -66,30 +63,7 @@ export const relatedSerializer: SlateSerializer = {
 };
 
 export const relatedPlugin = (editor: Editor) => {
-  const { renderElement, isVoid, normalizeNode } = editor;
-
-  editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
-    if (element.type === 'related') {
-      return (
-        <RelatedArticleBox
-          attributes={attributes}
-          element={element}
-          editor={editor}
-          onRemoveClick={(e: MouseEvent<HTMLButtonElement>) => {
-            e.stopPropagation();
-            e.preventDefault();
-            const path = ReactEditor.findPath(editor, element);
-            ReactEditor.focus(editor);
-            Transforms.select(editor, path);
-            Transforms.removeNodes(editor, { at: path });
-          }}
-        >
-          {children}
-        </RelatedArticleBox>
-      );
-    }
-    return renderElement && renderElement({ attributes, children, element });
-  };
+  const { isVoid, normalizeNode } = editor;
 
   editor.isVoid = (element) => {
     if (element.type === 'related') {

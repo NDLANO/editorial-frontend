@@ -48,10 +48,10 @@ interface Props<ParamType extends BaseParams, InnerType, ApiType, Type = ApiType
   onChange: (value: InnerType) => void;
   useQuery: (
     params: ParamType,
-    options?: Partial<UseQueryOptions<ApiType, unknown, Type>>,
-  ) => UseQueryResult<Type, unknown>;
+    options?: Partial<UseQueryOptions<ApiType>>,
+  ) => UseQueryResult<Type>;
   params?: ParamType;
-  options?: Partial<UseQueryOptions<ApiType, unknown, Type>>;
+  options?: Partial<UseQueryOptions<ApiType>>;
   transform: (value: Type) => SearchResultBase<DropdownItem<InnerType>>;
   placeholder: string;
   preload?: boolean;
@@ -125,9 +125,7 @@ const SearchDropdown = <ParamType extends BaseParams, InnerType, ApiType, Type>(
               {...getInputProps({ placeholder })}
               white
               id={id}
-              iconRight={
-                searchQuery.isInitialLoading ? <StyledSpinner size="normal" /> : <Search />
-              }
+              iconRight={searchQuery.isLoading ? <StyledSpinner size="normal" /> : <Search />}
             />
             <DropdownMenu
               items={transformed?.results ?? []}

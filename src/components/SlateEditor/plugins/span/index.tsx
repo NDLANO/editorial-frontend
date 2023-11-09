@@ -9,7 +9,6 @@
 import isEmpty from 'lodash/isEmpty';
 import { Descendant, Editor, Element, Node, Transforms } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
-import { RenderElementProps } from 'slate-react';
 import { createProps, reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
 import { SlateSerializer } from '../../interfaces';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
@@ -20,7 +19,6 @@ import { TYPE_HEADING } from '../heading/types';
 import { TYPE_LIST_ITEM } from '../list/types';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
 import { TYPE_TABLE_CELL } from '../table/types';
-import Span from './Span';
 import { TYPE_SPAN } from './types';
 
 export interface SpanElement {
@@ -70,20 +68,7 @@ export const spanSerializer: SlateSerializer = {
 };
 
 export const spanPlugin = (editor: Editor) => {
-  const { renderElement, isInline, normalizeNode } = editor;
-
-  editor.renderElement = ({ element, attributes, children }: RenderElementProps) => {
-    if (element.type === TYPE_SPAN) {
-      return (
-        <Span element={element} attributes={attributes}>
-          {children}
-        </Span>
-      );
-    } else if (renderElement) {
-      return renderElement({ element, attributes, children });
-    }
-    return undefined;
-  };
+  const { isInline, normalizeNode } = editor;
 
   editor.isInline = (element) => {
     if (element.type === TYPE_SPAN) {

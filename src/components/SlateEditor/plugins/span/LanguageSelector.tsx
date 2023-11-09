@@ -6,42 +6,61 @@
  *
  */
 
-import styled from '@emotion/styled';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import { Transforms } from 'slate';
 import { useSlateStatic } from 'slate-react';
-import { colors } from '@ndla/core';
+import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
+import { colors, spacing } from '@ndla/core';
 import { DeleteForever } from '@ndla/icons/editor';
+import { Portal } from '@radix-ui/react-portal';
 import { SpanElement } from '.';
 import LanguageButton from './LanguageButton';
 
 interface Props {
   element: SpanElement;
+  clicks: number;
   onClose: () => void;
+  setClicks: Dispatch<SetStateAction<number>>;
 }
 
 export const languages = ['ar', 'de', 'en', 'es', 'fr', 'la', 'no', 'se', 'sma', 'so', 'ti', 'zh'];
 
 const Container = styled.div`
   display: flex;
-  z-index: 1;
   font-size: 0.8rem;
   flex-direction: row;
-  position: absolute;
   user-select: none;
   font-family: monospace;
-  transform: translateY(100%);
-  left: 0;
-  top: 0;
   border: ${colors.brand.greyLight} solid 1px;
   background: ${colors.white};
   overflow: hidden;
   border-radius: 4px;
   border-width: 1px;
+  box-shadow: 3px 3px ${spacing.xsmall} #99999959;
 `;
 
-const LanguageSelector = ({ element, onClose }: Props) => {
+const LanguageSelector = ({ element, clicks, onClose, setClicks }: Props) => {
   const editor = useSlateStatic();
+
+  const handleClickFallback = () => {
+    clicks > 0 ? onClose() : setClicks((prev) => prev + 1);
+  };
+
+  const handleKeypressFallback = (e: KeyboardEvent) => {
+    if (e.key === 'Escape' || e.key === 'Esc') {
+      onClose();
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('click', handleClickFallback);
+    document.addEventListener('keydown', handleKeypressFallback);
+    return () => {
+      document.removeEventListener('click', handleClickFallback);
+      document.removeEventListener('keydown', handleKeypressFallback);
+    };
+  });
 
   const onClick = (language: string) => {
     Transforms.setNodes(
@@ -67,20 +86,24 @@ const LanguageSelector = ({ element, onClose }: Props) => {
     });
   };
 
+  const container = document.getElementById('toolbarPortal');
+
   return (
-    <Container contentEditable={false}>
-      {languages.map((lang) => (
-        <LanguageButton
-          key={lang}
-          language={lang}
-          onClick={onClick}
-          isActive={lang === element.data.lang}
-        />
-      ))}
-      <ButtonV2 variant="ghost" colorTheme="danger" contentEditable={false} onClick={onDelete}>
-        <DeleteForever />
-      </ButtonV2>
-    </Container>
+    <Portal container={container}>
+      <Container id={'langaugeSelector'} contentEditable={false}>
+        {languages.map((lang) => (
+          <LanguageButton
+            key={lang}
+            language={lang}
+            onClick={onClick}
+            isActive={lang === element.data.lang}
+          />
+        ))}
+        <ButtonV2 variant="ghost" colorTheme="danger" contentEditable={false} onClick={onDelete}>
+          <DeleteForever />
+        </ButtonV2>
+      </Container>
+    </Portal>
   );
 };
 

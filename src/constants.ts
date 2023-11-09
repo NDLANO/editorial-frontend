@@ -12,8 +12,6 @@ import { WhitelistProvider } from './interfaces';
 export const SAVE_BUTTON_ID = 'editor-save-button';
 export const BLOCK_PICKER_TRIGGER_ID = 'block-picker-trigger';
 
-export const NAVIGATION_HEADER_MARGIN = '95px';
-
 export const RESOURCE_TYPE_LEARNING_PATH = 'urn:resourcetype:learningPath';
 export const RESOURCE_TYPE_SUBJECT_MATERIAL = 'urn:resourcetype:subjectMaterial';
 export const RESOURCE_TYPE_TASKS_AND_ACTIVITIES = 'urn:resourcetype:tasksAndActivities';
@@ -144,3 +142,9 @@ export const SearchTypeValues = [
   'concept',
   'podcast-series',
 ] as const;
+
+export type RevisionTypes = 'revised' | 'needs-revision';
+export const Revision = {
+  revised: 'revised' as RevisionTypes,
+  needsRevision: 'needs-revision' as RevisionTypes,
+};

@@ -861,7 +861,7 @@ const phrases = {
       success: 'Innhold er tilbakestilt, trykk lagre for å lagre endringene',
     },
     resetToVersion: 'Tilbakestill til versjon',
-    previewVersion: 'Se versjon',
+    previewVersion: 'Sammenlign med publisert',
     variant: {
       create: 'Legg til språk',
       translate: 'Oversett til nynorsk',
@@ -1047,6 +1047,10 @@ const phrases = {
       concept: {
         remove: 'Fjern forklaring',
         choose: 'Velg forklaring',
+      },
+      gloss: {
+        remove: 'Fjern glose',
+        choose: 'Velg glose',
       },
       link: {
         name: 'Navn',

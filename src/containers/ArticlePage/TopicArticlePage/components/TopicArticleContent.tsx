@@ -14,37 +14,21 @@ import Tooltip from '@ndla/tooltip';
 import { Eye } from '@ndla/icons/editor';
 import { IconButtonV2 } from '@ndla/button';
 import { colors } from '@ndla/core';
-import { headingPlugin } from '../../../../components/SlateEditor/plugins/heading';
-import { noEmbedPlugin } from '../../../../components/SlateEditor/plugins/noEmbed';
 import VisualElementField from '../../../FormikForm/components/VisualElementField';
 import LastUpdatedLine from './../../../../components/LastUpdatedLine/LastUpdatedLine';
 import HowToHelper from '../../../../components/HowTo/HowToHelper';
 
-import { blockQuotePlugin } from '../../../../components/SlateEditor/plugins/blockquote';
-import { listPlugin } from '../../../../components/SlateEditor/plugins/list';
-import { inlineConceptPlugin } from '../../../../components/SlateEditor/plugins/concept/inline';
-import { paragraphPlugin } from '../../../../components/SlateEditor/plugins/paragraph';
-import { linkPlugin } from '../../../../components/SlateEditor/plugins/link';
-import { mathmlPlugin } from '../../../../components/SlateEditor/plugins/mathml';
 import FormikField from '../../../../components/FormikField';
 import RichTextEditor from '../../../../components/SlateEditor/RichTextEditor';
 import { EditMarkupLink } from '../../../../components/EditMarkupLink';
 import { IngressField, TitleField } from '../../../FormikForm';
 import { DRAFT_HTML_SCOPE } from '../../../../constants';
 import { toEditMarkup } from '../../../../util/routeHelpers';
-import { textTransformPlugin } from '../../../../components/SlateEditor/plugins/textTransform';
-import { toolbarPlugin } from '../../../../components/SlateEditor/plugins/toolbar';
-import saveHotkeyPlugin from '../../../../components/SlateEditor/plugins/saveHotkey';
-import { markPlugin } from '../../../../components/SlateEditor/plugins/mark';
-import { sectionPlugin } from '../../../../components/SlateEditor/plugins/section';
-import { divPlugin } from '../../../../components/SlateEditor/plugins/div';
-import { breakPlugin } from '../../../../components/SlateEditor/plugins/break';
 import { TopicArticleFormType } from '../../../FormikForm/articleFormHooks';
-import { dndPlugin } from '../../../../components/SlateEditor/plugins/DND';
 import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
 import { useSession } from '../../../Session/SessionProvider';
-import { spanPlugin } from '../../../../components/SlateEditor/plugins/span';
-import { definitionListPlugin } from '../../../../components/SlateEditor/plugins/definitionList';
+import { topicArticlePlugins } from './topicArticlePlugins';
+import { topicArticleRenderers } from './topicArticleRenderers';
 
 const StyledByLineFormikField = styled(FormikField)`
   display: flex;
@@ -73,29 +57,7 @@ const MarkdownButton = styled(IconButtonV2)<{ active: boolean }>`
 
 const createPlugins = (language: string): SlatePlugin[] => {
   // Plugins are checked from last to first
-  return [
-    sectionPlugin,
-    spanPlugin,
-    divPlugin,
-    paragraphPlugin(language),
-    noEmbedPlugin,
-    linkPlugin(language),
-    headingPlugin,
-    // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
-    // Blockquote and editList actions need to be triggered before paragraph action, else
-    // unwrapping (jumping out of block) will not work.
-    blockQuotePlugin,
-    definitionListPlugin,
-    listPlugin,
-    inlineConceptPlugin(language),
-    mathmlPlugin,
-    markPlugin,
-    dndPlugin,
-    toolbarPlugin,
-    textTransformPlugin,
-    breakPlugin,
-    saveHotkeyPlugin,
-  ];
+  return topicArticlePlugins.concat(topicArticleRenderers(language));
 };
 
 interface Props {

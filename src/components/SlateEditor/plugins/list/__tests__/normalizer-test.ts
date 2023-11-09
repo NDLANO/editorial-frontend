@@ -11,11 +11,11 @@ import { withHistory } from 'slate-history';
 import { withReact } from 'slate-react';
 import { TYPE_LIST, TYPE_LIST_ITEM } from '../types';
 import withPlugins from '../../../utils/withPlugins';
-import { plugins } from '../../../../../containers/ArticlePage/LearningResourcePage/components/LearningResourceContent';
+import { learningResourcePlugins } from '../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 import { TYPE_SECTION } from '../../section/types';
 
-const editor = withHistory(withReact(withPlugins(createEditor(), plugins('nb'))));
+const editor = withHistory(withReact(withPlugins(createEditor(), learningResourcePlugins)));
 
 describe('list normalizer tests', () => {
   test('Unwrap list item not placed inside list', () => {

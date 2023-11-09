@@ -6,11 +6,9 @@
  *
  */
 
-import styled from '@emotion/styled';
 import { ReactElement } from 'react';
 import { Descendant, Editor, Text, Transforms } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
-import { RenderLeafProps } from 'slate-react';
 import { SlateSerializer } from '../../interfaces';
 
 export const isMarkActive = (editor: Editor, format: string) => {
@@ -36,13 +34,6 @@ const marks: { [key: string]: string } = {
   sup: 'sup',
   sub: 'sub',
 };
-
-const StyledCode = styled.code`
-  display: inline;
-  padding: 0;
-  margin: 0;
-  background-color: #eee;
-`;
 
 export const markSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
@@ -88,36 +79,7 @@ export const markSerializer: SlateSerializer = {
 };
 
 export const markPlugin = (editor: Editor) => {
-  const { renderLeaf: nextRenderLeaf, normalizeNode: nextNormalizeNode } = editor;
-
-  editor.renderLeaf = ({ attributes, children, leaf, text }: RenderLeafProps) => {
-    let ret;
-    if (leaf.bold) {
-      ret = <strong {...attributes}>{ret || children}</strong>;
-    }
-    if (leaf.italic) {
-      ret = <em {...attributes}>{ret || children}</em>;
-    }
-    if (leaf.sup) {
-      ret = <sup {...attributes}>{ret || children}</sup>;
-    }
-    if (leaf.sub) {
-      ret = <sub {...attributes}>{ret || children}</sub>;
-    }
-    if (leaf.underlined) {
-      ret = <u {...attributes}>{ret || children}</u>;
-    }
-    if (leaf.code) {
-      ret = <StyledCode {...attributes}>{ret || children}</StyledCode>;
-    }
-    if (ret) {
-      return ret;
-    }
-    if (nextRenderLeaf) {
-      return nextRenderLeaf({ attributes, children, leaf, text });
-    }
-    return undefined;
-  };
+  const { normalizeNode: nextNormalizeNode } = editor;
 
   editor.normalizeNode = (entry) => {
     const [node, path] = entry;

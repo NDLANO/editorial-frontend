@@ -10,14 +10,14 @@ import { createEditor, Descendant, Editor } from 'slate';
 import { withHistory } from 'slate-history';
 import { withReact } from 'slate-react';
 import withPlugins from '../../../utils/withPlugins';
-import { plugins } from '../../../../../containers/ArticlePage/LearningResourcePage/components/LearningResourceContent';
+import { learningResourcePlugins } from '../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 import { TYPE_SECTION } from '../../section/types';
 import { TYPE_EMBED_IMAGE } from '../types';
 import { TYPE_AUDIO } from '../../audio/types';
 import { TYPE_H5P } from '../../h5p/types';
 
-const editor = withHistory(withReact(withPlugins(createEditor(), plugins('nb'))));
+const editor = withHistory(withReact(withPlugins(createEditor(), learningResourcePlugins)));
 
 describe('embed normalizer tests', () => {
   test('adds paragraphs around embed', () => {

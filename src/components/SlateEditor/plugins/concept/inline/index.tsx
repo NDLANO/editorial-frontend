@@ -8,13 +8,11 @@
 
 import { Descendant, Editor, Element, Node, Range, Transforms } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
-import { RenderElementProps } from 'slate-react';
 import hasNodeOfType from '../../../utils/hasNodeOfType';
 import {
   createEmbedTagV2,
   reduceElementDataAttributesV2,
 } from '../../../../../util/embedTagHelpers';
-import InlineConcept from './InlineWrapper';
 import { KEY_BACKSPACE } from '../../../utils/keys';
 import { SlateSerializer } from '../../../interfaces';
 import { TYPE_CONCEPT_INLINE } from './types';
@@ -77,24 +75,8 @@ const onBackspace = (
   return nextOnKeyDown?.(e);
 };
 
-export const inlineConceptPlugin = (locale: string) => (editor: Editor) => {
-  const {
-    renderElement: nextRenderElement,
-    isInline: nextIsInline,
-    onKeyDown: nextOnKeyDown,
-  } = editor;
-
-  editor.renderElement = (props: RenderElementProps) => {
-    const { element, attributes, children } = props;
-    if (element.type === TYPE_CONCEPT_INLINE) {
-      return (
-        <InlineConcept element={element} attributes={attributes} editor={editor} locale={locale}>
-          {children}
-        </InlineConcept>
-      );
-    }
-    return nextRenderElement?.(props);
-  };
+export const inlineConceptPlugin = (editor: Editor) => {
+  const { isInline: nextIsInline, onKeyDown: nextOnKeyDown } = editor;
 
   editor.isInline = (element: Element) => {
     if (element.type === TYPE_CONCEPT_INLINE) {

@@ -38,11 +38,42 @@ const Html = (props: Props) => {
         {assets['client.css'] && (
           <link rel="stylesheet" type="text/css" href={assets['client.css']} />
         )}
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        {config.ndlaEnvironment === 'prod' ? (
+          <>
+            <link rel="icon" type="image/png" sizes="32x32" href="/favicon-prod-32x32.png" />
+            <link rel="icon" type="image/png" sizes="16x16" href="/favicon-prod-16x16.png" />
+            <link
+              rel="apple-touch-icon"
+              type="image/png"
+              sizes="180x180"
+              href="/apple-touch-icon-prod.png"
+            />
+          </>
+        ) : config.ndlaEnvironment === 'staging' ? (
+          <>
+            <link rel="icon" type="image/png" sizes="32x32" href="/favicon-staging-32x32.png" />
+            <link rel="icon" type="image/png" sizes="16x16" href="/favicon-staging-16x16.png" />
+            <link
+              rel="apple-touch-icon"
+              type="image/png"
+              sizes="180x180"
+              href="/apple-touch-icon-staging.png"
+            />
+          </>
+        ) : (
+          <>
+            <link rel="icon" type="image/png" sizes="32x32" href="/favicon-test-32x32.png" />
+            <link rel="icon" type="image/png" sizes="16x16" href="/favicon-test-16x16.png" />
+            <link
+              rel="apple-touch-icon"
+              type="image/png"
+              sizes="180x180"
+              href="/apple-touch-icon-test.png"
+            />
+          </>
+        )}
+
         <link rel="manifest" href="/site.webmanifest" />
-        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
         <meta name="msapplication-TileColor" content="#da532c" />
         <meta name="theme-color" content="#ffffff" />
       </head>

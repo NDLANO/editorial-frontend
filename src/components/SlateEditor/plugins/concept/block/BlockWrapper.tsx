@@ -181,6 +181,11 @@ const IconWrapper = styled.div`
       fill: ${colors.support.green};
     }
   }
+  &[data-color='red'] {
+    svg {
+      fill: ${colors.support.red};
+    }
+  }
 `;
 
 const ConceptButtonContainer = ({ concept, handleRemove, language }: ButtonContainerProps) => {
@@ -220,6 +225,7 @@ const ConceptButtonContainer = ({ concept, handleRemove, language }: ButtonConta
         <IconWrapper
           aria-label={t('form.workflow.currentStatus', { status: translatedCurrent })}
           title={t('form.workflow.currentStatus', { status: translatedCurrent })}
+          data-color="red"
         >
           <AlertCircle />
         </IconWrapper>

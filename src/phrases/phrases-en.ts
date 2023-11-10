@@ -823,7 +823,7 @@ const phrases = {
       success: 'Content is reset, press save to save changes',
     },
     resetToVersion: 'Reset to version',
-    previewVersion: 'See version',
+    previewVersion: 'Compare with published',
     variant: {
       create: 'Create variant',
       translate: 'Translate to Nynorsk',
@@ -1256,6 +1256,13 @@ const phrases = {
     },
     h5p: {
       remove: 'Remove H5P',
+      metadata: {
+        alttext: 'Alt-text',
+        save: 'Save',
+        cancel: 'Cancel',
+        edit: 'Edit H5P metadata',
+        description: 'The metadata is stored in the article and will not affect the original H5P.',
+      },
     },
     audio: {
       file: 'Audio file',
@@ -1349,6 +1356,7 @@ const phrases = {
         image: 'image',
         audio: 'audio file',
         concept: 'concept',
+        gloss: 'gloss',
         article: 'article',
       },
       sectionTitleArticle: 'Articles containing the {{resource}}',
@@ -1358,12 +1366,13 @@ const phrases = {
         image: 'Uses of the image in articles and/or concepts',
         audio: 'Uses of the audio file in articles',
         concept: 'Uses of the concept in articles',
+        gloss: 'Uses of the gloss in articles',
         article: 'Uses of the article in other articles',
       },
       articles: '1 article',
       articles_plural: '{{count}} articles',
-      concepts: '1 concept',
-      concepts_plural: '{{count}} concepts',
+      concepts: '1 concept/gloss',
+      concepts_plural: '{{count}} concepts/glosses',
     },
     relatedConcepts: {
       placeholder: 'Search for title',

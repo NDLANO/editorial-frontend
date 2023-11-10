@@ -13,6 +13,7 @@ import {
   toEditArticle,
   toEditAudio,
   toEditConcept,
+  toEditGloss,
   toEditPodcastSeries,
   toLearningpathFull,
 } from './routeHelpers';
@@ -82,6 +83,7 @@ const isLearningPathResourceType = (contentType?: string) =>
   contentType === contentTypes.LEARNING_PATH;
 
 const isConceptType = (contentType?: string) => contentType === 'concept';
+const isGlossType = (contentType?: string) => contentType === 'gloss';
 const isAudioType = (contentType?: string) => contentType === 'audio';
 const isSeriesType = (contentType?: string) => contentType === 'series';
 
@@ -108,6 +110,11 @@ export const resourceToLinkProps = (
   if (isConceptType(contentType)) {
     return {
       to: toEditConcept(content.id, languageOrDefault),
+    };
+  }
+  if (isGlossType(contentType)) {
+    return {
+      to: toEditGloss(content.id, languageOrDefault),
     };
   }
   if (isAudioType(contentType)) {

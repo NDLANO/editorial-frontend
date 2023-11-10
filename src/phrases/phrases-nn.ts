@@ -823,7 +823,7 @@ const phrases = {
       success: 'Innhold er tilbakestilt, trykk lagre for å lagre endringene',
     },
     resetToVersion: 'Tilbakestill til versjon',
-    previewVersion: 'Se versjon',
+    previewVersion: 'Samanlikn med publisert',
     variant: {
       create: 'Legg til språk',
       translate: 'Oversett til nynorsk',
@@ -1256,6 +1256,13 @@ const phrases = {
     },
     h5p: {
       remove: 'Ta bort H5P',
+      metadata: {
+        alttext: 'Alt-tekst',
+        save: 'Lagre',
+        cancel: 'Avbryt',
+        edit: 'Endre H5P metadata',
+        description: 'Metadataen blir lagra i artikkelen og vil ikkje påverka H5P-ressursen',
+      },
     },
     audio: {
       file: 'Lydfil',
@@ -1349,6 +1356,7 @@ const phrases = {
         image: 'biletet',
         audio: 'lydfilen',
         concept: 'forklaringa',
+        gloss: 'glosen',
         article: 'artikkelen',
       },
       sectionTitleArticle: 'Artiklar som bruker {{resource}}',
@@ -1358,12 +1366,13 @@ const phrases = {
         image: 'Bruk av biletet i artiklar og/eller forklaringar',
         audio: 'Bruk av lydfilen i artikler',
         concept: 'Bruk av forklaringa i artikler',
+        gloss: 'Bruk av glosen i artikler',
         article: 'Bruk av artikkelen i andre artiklar',
       },
       articles: '1 artikkel',
       articles_plural: '{{count}} artikler',
-      concepts: '1 forklaring',
-      concepts_plural: '{{count}} forklaringar',
+      concepts: '1 forklaring/glose',
+      concepts_plural: '{{count}} forklaringar/gloser',
     },
     relatedConcepts: {
       placeholder: 'Søk på tittel',

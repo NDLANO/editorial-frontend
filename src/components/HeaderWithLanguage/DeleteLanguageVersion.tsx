@@ -40,6 +40,7 @@ import { useMessages } from '../../containers/Messages/MessagesProvider';
 import { NdlaErrorPayload } from '../../util/resolveJsonOrRejectWithError';
 
 const DeleteButton = styled(ButtonV2)`
+  white-space: nowrap;
   span {
     color: ${colors.brand.primary};
   }
@@ -56,6 +57,7 @@ const StyledWrapper = styled.div`
   flex-grow: 1;
   display: flex;
   justify-content: flex-end;
+  align-self: flex-start;
 `;
 
 const nonDeletableTypes = ['standard', 'topic-article', 'concept'];

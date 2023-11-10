@@ -59,8 +59,8 @@ const StyledIconWrapper = styled.div`
   height: 100%;
 `;
 const StyledCommentIcon = styled(Comment)`
-  width: 20px;
-  height: 20px;
+  width: ${spacing.snormal};
+  height: ${spacing.snormal};
 `;
 
 interface Props {

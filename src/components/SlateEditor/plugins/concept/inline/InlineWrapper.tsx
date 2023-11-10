@@ -58,6 +58,11 @@ const StyledIconWrapper = styled.div`
       fill: ${colors.support.green};
     }
   }
+  &[data-color='red'] {
+    svg {
+      fill: ${colors.support.red};
+    }
+  }
 `;
 
 const ConceptWrapper = styled.div`
@@ -192,6 +197,7 @@ const InlineWrapper = (props: Props) => {
                   ))}
                 {concept?.status.current !== PUBLISHED && (
                   <StyledIconWrapper
+                    data-color="red"
                     aria-label={t('form.workflow.currentStatus', {
                       status: t(`form.status.${concept?.status.current.toLowerCase()}`),
                     })}

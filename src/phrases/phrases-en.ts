@@ -1256,6 +1256,13 @@ const phrases = {
     },
     h5p: {
       remove: 'Remove H5P',
+      metadata: {
+        alttext: 'Alt-text',
+        save: 'Save',
+        cancel: 'Cancel',
+        edit: 'Edit H5P metadata',
+        description: 'The metadata is stored in the article and will not affect the original H5P.',
+      },
     },
     audio: {
       file: 'Audio file',

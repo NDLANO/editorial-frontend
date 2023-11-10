@@ -1256,6 +1256,13 @@ const phrases = {
     },
     h5p: {
       remove: 'Ta bort H5P',
+      metadata: {
+        alttext: 'Alt-tekst',
+        save: 'Lagre',
+        cancel: 'Avbryt',
+        edit: 'Endre H5P metadata',
+        description: 'Metadataen blir lagra i artikkelen og vil ikkje påverka H5P-ressursen',
+      },
     },
     audio: {
       file: 'Lydfil',

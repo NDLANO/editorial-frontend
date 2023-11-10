@@ -1798,7 +1798,7 @@
     html-react-parser "^4.2.2"
     lodash "^4.17.20"
 
-"@ndla/audio-search@^4.0.39":
+"@ndla/audio-search@^4.0.37":
   version "4.0.39"
   resolved "https://registry.yarnpkg.com/@ndla/audio-search/-/audio-search-4.0.39.tgz#18bcce735270046b4a1dbbc7400f52ccf9f9960d"
   integrity sha512-DsmBRSrGotCna6Re/ndFCTonoWziKQuSD2+zo/2fB57XkLp/yais/N6PbycPviZTC10lmfulCVrh11n5o8dX4w==
@@ -1843,17 +1843,6 @@
   dependencies:
     "@ndla/core" "^4.2.3"
     "@ndla/icons" "^4.1.4"
-
-"@ndla/code@^5.0.10":
-  version "5.0.10"
-  resolved "https://registry.yarnpkg.com/@ndla/code/-/code-5.0.10.tgz#736a5c2f9eadedc55870448ded69e3dda4d45c8d"
-  integrity sha512-nzMLR07qzpHZ/noryj/5MhplKhS7sqmxI1+Gi4SBgFMQ2zNebyUPK/Doj48MWVTb5BUHbMPokzgDZdUSOWja9w==
-  dependencies:
-    "@ndla/button" "^12.0.8"
-    "@ndla/core" "^4.2.4"
-    "@ndla/icons" "^4.1.5"
-    "@ndla/util" "^4.0.0"
-    react-simple-code-editor "^0.13.0"
 
 "@ndla/code@^5.0.8":
   version "5.0.8"
@@ -1935,7 +1924,7 @@
   dependencies:
     "@ndla/util" "^4.0.0"
 
-"@ndla/howto@^4.1.12":
+"@ndla/howto@^4.1.10":
   version "4.1.12"
   resolved "https://registry.yarnpkg.com/@ndla/howto/-/howto-4.1.12.tgz#09b86848bd5b33323fc51240f37f7d1bf44f1f2f"
   integrity sha512-yXBdqAtP5xlJoyV9nx8hkY6BzK0epgfoxK9F8Hl7rT4WVLB2pISAIfDnGvnaLgfpLCmofjYywzGHr9JqMm3+QQ==
@@ -1964,7 +1953,7 @@
   dependencies:
     "@ndla/core" "^4.2.4"
 
-"@ndla/image-search@^6.0.109":
+"@ndla/image-search@^6.0.107":
   version "6.0.109"
   resolved "https://registry.yarnpkg.com/@ndla/image-search/-/image-search-6.0.109.tgz#22a3a1481998333bd72c4374614e46878bc5f6ce"
   integrity sha512-+jMTDSmcfJOIT3iqbKeEfI0kKjUCxKMoTeHLCsy+EhBiRndM+0fWkNXCAQ21EVE/kSivicHdiYjjYdroaYl2tg==
@@ -2246,7 +2235,7 @@
   dependencies:
     html-react-parser "^4.2.2"
 
-"@ndla/video-search@^4.1.36":
+"@ndla/video-search@^4.1.34":
   version "4.1.36"
   resolved "https://registry.yarnpkg.com/@ndla/video-search/-/video-search-4.1.36.tgz#f15c6fb8224afbb37f960dc0a2c6d0854c0fc30c"
   integrity sha512-KgfNIJHKTwP/oetfyDufmm6vTpO/ZbAO9Nhwi6gdRdBJ1KsK5+sC0f5r/oe6drWloDNclmiskiG0h9HzFRdTOw==

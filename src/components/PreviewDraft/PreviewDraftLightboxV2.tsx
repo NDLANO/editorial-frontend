@@ -77,9 +77,13 @@ const StyledPreviewWrapper = styled.div`
     padding: 0;
     margin-top: 20px;
     line-height: unset;
+    font-family: unset;
     > section {
       width: unset !important;
       left: unset !important;
+    }
+    & .c-article__header {
+      margin-bottom: unset;
     }
   }
 `;

@@ -170,6 +170,7 @@ const HeaderActions = ({
       { key: 'und', title: t('languages.und'), include: false },
       { key: 'de', title: t('languages.de'), include: true },
       { key: 'es', title: t('languages.es'), include: true },
+      { key: 'zh', title: t('languages.zh'), include: true },
       { key: 'ukr', title: t('languages.ukr'), include: true },
     ],
     [t],

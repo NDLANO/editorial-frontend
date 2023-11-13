@@ -17,7 +17,7 @@ export default defineConfig({
   maxFailures: process.env.CI ? 10 : undefined,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
-  retries: 0,
+  retries: 2,
   reporter: 'html',
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */

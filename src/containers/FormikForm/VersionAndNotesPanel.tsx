@@ -154,6 +154,7 @@ const VersionAndNotesPanel = ({ article, type, currentLanguage }: Props) => {
           editorLabels: [],
           relatedContent: [],
           revisions: [],
+          priority: 'unspecified',
           status: { current: 'PUBLISHED', other: [] },
           comments: [],
           prioritized: false,

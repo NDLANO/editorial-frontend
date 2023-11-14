@@ -26,9 +26,7 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
   min-width: 180px;
 }
 
-.emotion-0[lang='zh'],
-.emotion-0[lang='zh-Hans'],
-.emotion-0[lang='zh-Hant'] {
+.emotion-0:where([lang='zh'], .emotion-0[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(16 * 1.11);
   font-size: calc(0.8888888888888888rem * 1.11);
 }
@@ -138,9 +136,7 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
   cursor: not-allowed;
 }
 
-.emotion-1[lang='zh'],
-.emotion-1[lang='zh-Hans'],
-.emotion-1[lang='zh-Hant'] {
+.emotion-1:where([lang='zh'], .emotion-1[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(16px * 1.11);
   font-size: calc(0.8888888888888888rem * 1.11);
 }
@@ -227,9 +223,7 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
   min-width: 180px;
 }
 
-.emotion-0[lang='zh'],
-.emotion-0[lang='zh-Hans'],
-.emotion-0[lang='zh-Hant'] {
+.emotion-0:where([lang='zh'], .emotion-0[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(16 * 1.11);
   font-size: calc(0.8888888888888888rem * 1.11);
 }
@@ -339,9 +333,7 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
   cursor: not-allowed;
 }
 
-.emotion-1[lang='zh'],
-.emotion-1[lang='zh-Hans'],
-.emotion-1[lang='zh-Hant'] {
+.emotion-1:where([lang='zh'], .emotion-1[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(16px * 1.11);
   font-size: calc(0.8888888888888888rem * 1.11);
 }
@@ -428,9 +420,7 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
   min-width: 180px;
 }
 
-.emotion-0[lang='zh'],
-.emotion-0[lang='zh-Hans'],
-.emotion-0[lang='zh-Hant'] {
+.emotion-0:where([lang='zh'], .emotion-0[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(16 * 1.11);
   font-size: calc(0.8888888888888888rem * 1.11);
 }
@@ -540,9 +530,7 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
   cursor: not-allowed;
 }
 
-.emotion-1[lang='zh'],
-.emotion-1[lang='zh-Hans'],
-.emotion-1[lang='zh-Hant'] {
+.emotion-1:where([lang='zh'], .emotion-1[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(16px * 1.11);
   font-size: calc(0.8888888888888888rem * 1.11);
 }
@@ -629,9 +617,7 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
   min-width: 180px;
 }
 
-.emotion-0[lang='zh'],
-.emotion-0[lang='zh-Hans'],
-.emotion-0[lang='zh-Hant'] {
+.emotion-0:where([lang='zh'], .emotion-0[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(16 * 1.11);
   font-size: calc(0.8888888888888888rem * 1.11);
 }
@@ -741,9 +727,7 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
   cursor: not-allowed;
 }
 
-.emotion-1[lang='zh'],
-.emotion-1[lang='zh-Hans'],
-.emotion-1[lang='zh-Hant'] {
+.emotion-1:where([lang='zh'], .emotion-1[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(16px * 1.11);
   font-size: calc(0.8888888888888888rem * 1.11);
 }
@@ -830,9 +814,7 @@ exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
   min-width: 180px;
 }
 
-.emotion-0[lang='zh'],
-.emotion-0[lang='zh-Hans'],
-.emotion-0[lang='zh-Hant'] {
+.emotion-0:where([lang='zh'], .emotion-0[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(16 * 1.11);
   font-size: calc(0.8888888888888888rem * 1.11);
 }
@@ -942,9 +924,7 @@ exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
   cursor: not-allowed;
 }
 
-.emotion-1[lang='zh'],
-.emotion-1[lang='zh-Hans'],
-.emotion-1[lang='zh-Hant'] {
+.emotion-1:where([lang='zh'], .emotion-1[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(16px * 1.11);
   font-size: calc(0.8888888888888888rem * 1.11);
 }

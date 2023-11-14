@@ -134,6 +134,7 @@ const SlateContactBlock = ({ element, editor, attributes, children }: Props) => 
             </StyledFigureButtons>
             <ContactBlock
               image={image}
+              embedAlt={element.data?.alt}
               jobTitle={contactBlock.jobTitle}
               name={contactBlock.name}
               description={contactBlock.description}

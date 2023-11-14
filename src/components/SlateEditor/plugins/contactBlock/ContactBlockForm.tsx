@@ -14,7 +14,8 @@ import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { ContactBlockEmbedData } from '@ndla/types-embed';
 import { FieldProps, Formik } from 'formik';
-import { InputV2, TextAreaV2 } from '@ndla/forms';
+import { CheckboxItem, InputV2, TextAreaV2 } from '@ndla/forms';
+import { css } from '@emotion/react';
 import FormikField from '../../../FormikField';
 import validateFormik, { RulesType } from '../../../formikValidationSchema';
 import InlineImageSearch from '../../../../containers/ConceptPage/components/InlineImageSearch';
@@ -29,6 +30,8 @@ interface ContactBlockFormValues {
   blobColor: ContactBlockEmbedData['blobColor'];
   blob: ContactBlockEmbedData['blob'];
   metaImageId?: string;
+  metaImageAlt?: string;
+  isDecorative?: boolean;
 }
 
 const rules: RulesType<ContactBlockFormValues> = {
@@ -86,6 +89,15 @@ const StyledFormikField = styled(FormikField)`
   padding-bottom: ${spacing.small};
 `;
 
+const inputStyle = css`
+  display: flex;
+  flex-direction: column;
+
+  & > label {
+    white-space: nowrap;
+  }
+`;
+
 const toInitialValues = (initialData?: ContactBlockEmbedData): ContactBlockFormValues => {
   return {
     resource: TYPE_CONTACT_BLOCK,
@@ -96,6 +108,8 @@ const toInitialValues = (initialData?: ContactBlockEmbedData): ContactBlockFormV
     metaImageId: initialData?.imageId,
     name: initialData?.name ?? '',
     email: initialData?.email ?? '',
+    metaImageAlt: initialData?.alt ?? '',
+    isDecorative: initialData?.alt === '',
   };
 };
 const types: ContactBlockEmbedData['blob'][] = ['pointy', 'round'];
@@ -120,6 +134,7 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
         blob: values.blob,
         blobColor: values.blobColor,
         email: values.email,
+        alt: values.isDecorative ? '' : values.metaImageAlt,
       };
       onSave(newData);
     },
@@ -194,7 +209,31 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
               />
             )}
           </StyledFormikField>
-          <InlineImageSearch name={'metaImageId'} disableAltEditing />
+          <InlineImageSearch name="metaImageId" disableAltEditing hideAltText />
+          <StyledFormikField name="metaImageAlt">
+            {({ field, form }: FieldProps) => (
+              <>
+                {!form.values.isDecorative && form.values.metaImageId && (
+                  <InputV2 customCss={inputStyle} label={t('form.name.metaImageAlt')} {...field} />
+                )}
+              </>
+            )}
+          </StyledFormikField>
+          <StyledFormikField name="isDecorative">
+            {({ field, form }: FieldProps) => (
+              <>
+                {!!form.values.metaImageId && (
+                  <CheckboxItem
+                    label={t('form.image.isDecorative')}
+                    checked={field.value}
+                    onChange={() =>
+                      field.onChange({ target: { name: field.name, value: !field.value } })
+                    }
+                  />
+                )}
+              </>
+            )}
+          </StyledFormikField>
           <ButtonContainer>
             <ButtonV2 variant="outline" onClick={onCancel}>
               {t('cancel')}

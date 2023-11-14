@@ -42,18 +42,13 @@ export const CellWrapper = styled.div`
 const StyledTitleWrapper = styled.div`
   display: flex;
   overflow: hidden;
+  align-items: center;
 `;
 
 const StyledExclamationMark = styled(ExclamationMark)`
   &[aria-hidden='false'] {
     visibility: hidden;
   }
-`;
-
-const StyledIconWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  height: 100%;
 `;
 
 interface Props {
@@ -98,12 +93,12 @@ const WorkListTabContent = ({
                 <CellWrapper>
                   <StyledTitleWrapper>
                     <Tooltip tooltip={t('editorFooter.prioritized')}>
-                      <StyledIconWrapper>
+                      <div>
                         <StyledExclamationMark
                           aria-hidden={!!res?.prioritized}
                           aria-label={t('editorFooter.prioritized')}
                         />
-                      </StyledIconWrapper>
+                      </div>
                     </Tooltip>
                     <StyledLink
                       to={toEditArticle(res.id, res.learningResourceType)}
@@ -114,9 +109,9 @@ const WorkListTabContent = ({
                   </StyledTitleWrapper>
                   {res.comments?.length ? (
                     <Tooltip tooltip={res.comments[0]?.content}>
-                      <StyledIconWrapper>
+                      <div>
                         <Comment />
-                      </StyledIconWrapper>
+                      </div>
                     </Tooltip>
                   ) : null}
                 </CellWrapper>

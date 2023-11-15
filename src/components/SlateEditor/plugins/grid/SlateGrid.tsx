@@ -26,7 +26,6 @@ import { Editor, Path, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import { GridElement } from '.';
 import DeleteButton from '../../../DeleteButton';
-import { StyledFigureButtons } from '../embed/FigureButtons';
 import GridForm from './GridForm';
 import { GridProvider } from './GridContext';
 
@@ -54,8 +53,9 @@ const StyledGrid = styled(Grid)`
 `;
 
 const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   position: absolute;
-  align-self: start;
   right: -${spacing.large};
 `;
 

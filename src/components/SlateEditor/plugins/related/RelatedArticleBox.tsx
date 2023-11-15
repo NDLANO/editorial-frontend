@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { RelatedContentEmbedData, RelatedContentMetaData } from '@ndla/types-embed';
 import { spacing } from '@ndla/core';
-import { RelatedArticleListV2, RelatedContentEmbed } from '@ndla/ui';
+import { RelatedArticleList, RelatedContentEmbed } from '@ndla/ui';
 import { IconButtonV2 } from '@ndla/button';
 import Tooltip from '@ndla/tooltip';
 import { Pencil } from '@ndla/icons/action';
@@ -202,7 +202,7 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
           />
         </Portal>
       </Root>
-      <RelatedArticleListV2
+      <RelatedArticleList
         data-testid="relatedWrapper"
         headingButtons={
           <ButtonWrapper>
@@ -231,7 +231,7 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
         {embeds.map((embed, index) => (
           <RelatedContentEmbed key={`related-${index}`} embed={embed} />
         ))}
-      </RelatedArticleListV2>
+      </RelatedArticleList>
       {children}
     </div>
   );

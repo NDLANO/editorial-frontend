@@ -51,8 +51,12 @@ const StyledDiv = styled.div`
   justify-content: space-between;
 `;
 
-const MarkdownButton = styled(IconButtonV2)<{ active: boolean }>`
-  color: ${(p) => (p.active ? colors.brand.primary : colors.brand.light)};
+const MarkdownButton = styled(IconButtonV2)`
+  color: ${colors.brand.light};
+
+  &[data-active='true'] {
+    color: ${colors.brand.primary};
+  }
 `;
 
 const createPlugins = (language: string): SlatePlugin[] => {
@@ -95,7 +99,7 @@ const TopicArticleContent = (props: Props) => {
                   aria-label={'form.markdown.button'}
                   variant="stripped"
                   colorTheme="light"
-                  active={preview}
+                  data-active={preview}
                   onClick={() => setPreview(!preview)}
                 >
                   <Eye />

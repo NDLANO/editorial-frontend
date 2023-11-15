@@ -195,11 +195,11 @@ const WorkListTabContent = ({
               </>
             )}
           </TopRowControls>
-          {setPrioritized && prioritized && (
+          {setPrioritized && (
             <Tooltip tooltip={t('welcomePage.prioritizedLabel')}>
               <SwitchWrapper>
                 <StyledSwitch
-                  checked={prioritized}
+                  checked={prioritized ?? false}
                   onChange={() => {
                     setPrioritized(!prioritized);
                     setPage(1);

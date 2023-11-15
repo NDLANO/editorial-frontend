@@ -13,7 +13,7 @@ import { fonts, spacing, colors } from '@ndla/core';
 import { useQueryClient } from '@tanstack/react-query';
 import { ButtonV2 } from '@ndla/button';
 import { InputV2 } from '@ndla/forms';
-import { Option } from '@ndla/select';
+import { Option, SingleValue } from '@ndla/select';
 import sortBy from 'lodash/sortBy';
 import { IUpdatedArticle } from '@ndla/types-backend/draft-api';
 import { css } from '@emotion/react';
@@ -35,16 +35,14 @@ import { DRAFT_RESPONSIBLE, RESOURCE_FILTER_CORE } from '../../../constants';
 import { useAuth0Responsibles } from '../../../modules/auth0/auth0Queries';
 import { useAllResourceTypes } from '../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
 import PlannedResourceSelect from './PlannedResourceSelect';
-import RelevanceOption, {
-  StyledSwitch,
-  StyledToggleSwitch,
-} from '../../../components/Taxonomy/RelevanceOption';
+import RelevanceOption from '../../../components/Taxonomy/RelevanceOption';
 import { Auth0UserData } from '../../../interfaces';
 import { createDraft, updateUserData } from '../../../modules/draft/draftApi';
 import { getRootIdForNode } from '../../../modules/nodes/nodeUtil';
 import Spinner from '../../../components/Spinner';
 import { getCommentWithInfoText } from '../../ArticlePage/components/InputComment';
 import { useUserData } from '../../../modules/draft/draftQueries';
+import PrioritySelect from '../../FormikForm/components/PrioritySelect';
 
 const StyledForm = styled.form`
   width: 100%;
@@ -98,7 +96,7 @@ interface PlannedResourceFormikType {
   responsible: string;
   articleType: string;
   relevance: string;
-  prioritized: boolean;
+  priority: string;
 }
 
 const plannedResourceRules: RulesType<PlannedResourceFormikType> = {
@@ -112,7 +110,7 @@ const plannedResourceRules: RulesType<PlannedResourceFormikType> = {
   },
   responsible: { required: true },
   relevance: { required: true },
-  prioritized: { required: false },
+  priority: { required: false },
 };
 
 const toInitialValues = (responsible?: string, articleType?: string): PlannedResourceFormikType => {
@@ -123,7 +121,7 @@ const toInitialValues = (responsible?: string, articleType?: string): PlannedRes
     responsible: responsible ?? '',
     articleType: articleType ?? 'standard',
     relevance: RESOURCE_FILTER_CORE,
-    prioritized: false,
+    priority: 'unspecified',
   };
 };
 
@@ -141,7 +139,6 @@ interface Props {
 
 const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
   const [error, setError] = useState<string | undefined>(undefined);
-  const [prioritized, setPrioritized] = useState(false);
   const { data: userData } = useUserData();
 
   const { t, i18n } = useTranslation();
@@ -207,7 +204,7 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
           articleType: values.articleType,
           responsibleId: values.responsible,
           revision: 0,
-          prioritized: values.prioritized,
+          priority: values.priority,
         };
         const createdArticle = await createDraft(convertUpdateToNewDraft(plannedResource));
 
@@ -329,6 +326,22 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
             options={users ?? []}
             defaultValue={ndlaId && userName ? { value: ndlaId, label: userName } : undefined}
           />
+          <StyledFormikField name="priority">
+            {({ field, form }: FieldProps) => (
+              <>
+                <StyledLabel htmlFor="select-priority">{t('taxonomy.addPriority')}</StyledLabel>
+                <PrioritySelect
+                  id="select-priority"
+                  priority={field.value}
+                  menuPlacement="bottom"
+                  inModal
+                  updatePriority={(p: SingleValue) =>
+                    form.setFieldValue('priority', p ? p.value : 'unspecified')
+                  }
+                />
+              </>
+            )}
+          </StyledFormikField>
           <StyledFormikField name="relevance">
             {({ field }: FieldProps) => (
               <SwitchWrapper>
@@ -339,25 +352,6 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
                   }}
                 />
                 <StyledLabel htmlFor="toggleRelevanceId">{t('taxonomy.resourceType')}</StyledLabel>
-              </SwitchWrapper>
-            )}
-          </StyledFormikField>
-          <StyledFormikField name="prioritized">
-            {({ field, form }: FieldProps) => (
-              <SwitchWrapper>
-                <StyledToggleSwitch>
-                  <StyledSwitch
-                    checked={prioritized}
-                    label=""
-                    id="togglePrioritized"
-                    onChange={(prioritized: boolean) => {
-                      form.setFieldValue(field.name, prioritized);
-                      setPrioritized(prioritized);
-                    }}
-                    thumbCharacter="P"
-                  />
-                </StyledToggleSwitch>
-                <StyledLabel htmlFor="togglePrioritized">{t('taxonomy.addPriority')}</StyledLabel>
               </SwitchWrapper>
             )}
           </StyledFormikField>

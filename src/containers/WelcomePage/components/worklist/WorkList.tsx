@@ -89,7 +89,7 @@ const WorkList = ({ ndlaId }: Props) => {
     {
       'responsible-ids': ndlaId,
       sort: sortOption,
-      ...(prioritized ? { prioritized: true } : {}),
+      ...(prioritized ? { priority: 'prioritized' } : {}),
       ...(filterSubject ? { subjects: filterSubject.value } : {}),
       page: page,
       'page-size': Number(pageSize!.value),

@@ -16,7 +16,6 @@ import { IStatus as DraftStatus } from '@ndla/types-backend/draft-api';
 import { useFormikContext } from 'formik';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { SingleValue } from '@ndla/select';
-import { Switch } from '@ndla/switch';
 import { SafeLinkButton } from '@ndla/safelink';
 import { toPreviewDraft } from '../../util/routeHelpers';
 import SaveMultiButton from '../SaveMultiButton';
@@ -29,6 +28,7 @@ import PreviewDraftLightboxV2 from '../PreviewDraft/PreviewDraftLightboxV2';
 import { useSession } from '../../containers/Session/SessionProvider';
 import Footer from '../Footer/Footer';
 import { articleResourcePageStyle } from '../../containers/ArticlePage/styles';
+import PrioritySelect from '../../containers/FormikForm/components/PrioritySelect';
 
 interface Props {
   formIsDirty: boolean;
@@ -44,7 +44,6 @@ interface Props {
   isNewlyCreated: boolean;
   hasErrors?: boolean;
   responsibleId?: string;
-  prioritized?: boolean;
 }
 
 interface FormValues {
@@ -52,6 +51,7 @@ interface FormValues {
   language: string;
   revision?: number;
   status: ConceptStatus;
+  priority?: string;
 }
 
 const StyledLine = styled.hr`
@@ -94,7 +94,6 @@ function EditorFooter<T extends FormValues>({
   isNewlyCreated,
   hasErrors,
   responsibleId,
-  prioritized,
 }: Props) {
   const [status, setStatus] = useState<SingleValue>(null);
   const [responsible, setResponsible] = useState<SingleValue>(null);
@@ -106,7 +105,6 @@ function EditorFooter<T extends FormValues>({
 
   // Wait for newStatus to be set to trigger since formik doesn't update fields instantly
   const [newStatus, setNewStatus] = useState<SingleValue>(null);
-  const [prioritizedOn, setPrioritizedOn] = useState(prioritized ?? false);
 
   const articleOrConcept = isArticle || isConcept;
 
@@ -117,10 +115,6 @@ function EditorFooter<T extends FormValues>({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newStatus]);
-
-  useEffect(() => {
-    if (prioritized !== undefined) setPrioritizedOn(prioritized);
-  }, [prioritized]);
 
   const catchError = useCallback(
     (error: any, createMessage: (message: NewMessageType) => void) => {
@@ -187,11 +181,8 @@ function EditorFooter<T extends FormValues>({
     [catchError, createMessage, setFieldValue],
   );
 
-  const updatePrioritized = useCallback(
-    (prioritized: boolean) => {
-      setPrioritizedOn(prioritized);
-      setFieldValue('prioritized', prioritized);
-    },
+  const updatePriority = useCallback(
+    (p: SingleValue) => setFieldValue('priority', p ? p.value : 'unspecified'),
     [setFieldValue],
   );
 
@@ -201,12 +192,10 @@ function EditorFooter<T extends FormValues>({
         <StyledFooter>
           <StyledFooterControls>
             {isArticle && (
-              <Switch
-                checked={prioritizedOn}
-                onChange={updatePrioritized}
-                thumbCharacter="P"
-                label={t('editorFooter.prioritized')}
-                id="prioritized"
+              <PrioritySelect
+                id="priority-select"
+                priority={values.priority}
+                updatePriority={updatePriority}
               />
             )}
             {articleOrConcept && (
@@ -265,15 +254,15 @@ function EditorFooter<T extends FormValues>({
         </div>
 
         <StyledFooterControls>
-          {isArticle && (
-            <Switch
-              checked={prioritizedOn}
-              onChange={updatePrioritized}
-              thumbCharacter="P"
-              label={t('editorFooter.prioritized')}
-              id="prioritized"
-            />
-          )}
+          <Wrapper>
+            {isArticle && (
+              <PrioritySelect
+                id="priority-select"
+                priority={values.priority}
+                updatePriority={updatePriority}
+              />
+            )}
+          </Wrapper>
           <Wrapper>
             <ResponsibleSelect
               responsible={responsible}

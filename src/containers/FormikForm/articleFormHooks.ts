@@ -78,7 +78,7 @@ export interface ArticleFormType {
   revisionError?: string;
   slug?: string;
   comments?: IComment[];
-  prioritized: boolean;
+  priority: string;
   processed: boolean;
   origin?: string;
 }

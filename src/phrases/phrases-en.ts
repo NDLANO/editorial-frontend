@@ -1533,7 +1533,7 @@ const phrases = {
     add: 'Add',
     getExisting: 'Or get existing resource',
     inProgress: 'This article is in progress',
-    addPriority: 'Set article as prioritized',
+    addPriority: 'Priority',
     changeName: {
       loadError: 'Could not fetch translations',
       updateError: 'Could not update translations',
@@ -1741,6 +1741,7 @@ const phrases = {
     changeHeader: 'Changes',
     saveAsNew: 'Save as copy',
     prioritized: 'Prioritized',
+    placeholderPrioritized: 'Choose priority',
   },
   taxonomyVersions: {
     title: 'Taxonomy Versions',

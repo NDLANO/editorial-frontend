@@ -16,6 +16,7 @@ import {
 } from '@ndla/types-backend/audio-api';
 import { ButtonV2 } from '@ndla/button';
 import AudioContent from '../../AudioUploader/components/AudioContent';
+import AudioCopyright from '../../AudioUploader/components/AudioCopyright';
 import AudioMetaData from '../../AudioUploader/components/AudioMetaData';
 import AudioManuscript from '../../AudioUploader/components/AudioManuscript';
 import { AlertModalWrapper } from '../../FormikForm';
@@ -285,14 +286,21 @@ const PodcastForm = ({
                   />
                   <PodcastSeriesInformation />
                 </FormAccordion>
-
+                <FormAccordion
+                  id="audio-upload-copyright"
+                  title={t('form.copyrightSection')}
+                  className={'u-6/6'}
+                  hasError={['rightsholders', 'creators', 'processors', 'license'].some(
+                    (field) => field in errors,
+                  )}
+                >
+                  <AudioCopyright />
+                </FormAccordion>
                 <FormAccordion
                   id="podcast-upload-metadata"
                   title={t('form.metadataSection')}
                   className={'u-6/6'}
-                  hasError={['tags', 'creators', 'rightsholders', 'processors', 'license'].some(
-                    (field) => field in errors,
-                  )}
+                  hasError={['tags'].some((field) => field in errors)}
                 >
                   <AudioMetaData />
                 </FormAccordion>

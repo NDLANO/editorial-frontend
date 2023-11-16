@@ -140,6 +140,10 @@ const phrases = {
     primaryConnection: 'Only show resources with primary connection to my favorite subjects',
     primaryConnectionLabel: 'Only show primary connection',
     prioritizedLabel: 'Only show prioritized',
+    lmaSubjectsHeading: 'Resources in your LMA subjects',
+    lmaSubjectsDescription:
+      'Distribution of where resources in your LMA subjects is in the workflow',
+    count: 'Count',
     workList: {
       heading: 'My tasks',
       description: 'Resources where you are responsible',

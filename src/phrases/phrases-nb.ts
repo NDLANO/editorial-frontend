@@ -141,6 +141,9 @@ const phrases = {
     primaryConnection: 'Vis kun ressurser med primærkobling til mine favorittfag',
     primaryConnectionLabel: 'Vis kun primærkobling',
     prioritizedLabel: 'Vis kun prioriterte',
+    lmaSubjectsHeading: 'Ressurser i dine LMA-fag',
+    lmaSubjectsDescription: 'Fordeling av ressurser i dine LMA-fag i flyten',
+    count: 'Antall',
     workList: {
       heading: 'Mine arbeidsoppgaver',
       description: 'Ressurser hvor du står som ansvarlig',

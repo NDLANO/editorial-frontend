@@ -23,11 +23,13 @@ import { deleteLanguageVersion as deleteLanguageVersionDraft } from '../../modul
 import {
   toCreateAudioFile,
   toCreateConcept,
+  toCreateGloss,
   toCreateImage,
   toCreatePodcastFile,
   toCreatePodcastSeries,
   toEditAudio,
   toEditConcept,
+  toEditGloss,
   toEditFrontPageArticle,
   toEditImage,
   toEditLearningResource,
@@ -125,6 +127,12 @@ const DeleteLanguageVersion = ({ id, language, supportedLanguages, type, disable
               newAfterLanguageDeletion
                 ? toCreateConcept()
                 : toEditConcept(id, otherSupportedLanguage!),
+            );
+            break;
+          case 'gloss':
+            await deleteLanguageVersionConcept(id, language);
+            navigate(
+              newAfterLanguageDeletion ? toCreateGloss() : toEditGloss(id, otherSupportedLanguage!),
             );
             break;
           case 'standard':

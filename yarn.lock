@@ -1998,20 +1998,20 @@
     "@ndla/util" "^4.0.0"
     tiny-warning "^1.0.3"
 
-"@ndla/types-backend@^0.2.24":
-  version "0.2.24"
-  resolved "https://registry.npmjs.org/@ndla/types-backend/-/types-backend-0.2.24.tgz#8515b11575558a605b5d4423b718062553fb378d"
-  integrity sha512-GbJQs6+cKU7GSmpj+lRs/qS9euHiVj2qRx81P8oUL+EbB5pAPxHWVbpQP2SQIKJTArPh5GtT1PMd/6TNwflJHg==
+"@ndla/types-backend@^0.2.27":
+  version "0.2.27"
+  resolved "https://registry.yarnpkg.com/@ndla/types-backend/-/types-backend-0.2.27.tgz#c5f6a293c2696e2b1d4f2e5c213137528027821a"
+  integrity sha512-jt1H6XT5hV57x+m8Sj4j/p877KoJAkxzYpSfuCwV0GrheUBMsRtcVOe/rQ0sY30gWxzkoMcMQY8LIeOZzg3lvA==
 
-"@ndla/types-embed@^4.0.5":
-  version "4.0.5"
-  resolved "https://registry.npmjs.org/@ndla/types-embed/-/types-embed-4.0.5.tgz#e0b274016c92a326a0eca7281f057811bacfd8f4"
-  integrity sha512-aSxO6/Y49sKf/h2BjEpt/VbWpclwRMx1BtxfX9ehc02zijk8y7AYhpnuUSkcoIV8gz8aW8vV6Z6fmPes6/bH6A==
+"@ndla/types-embed@^4.0.6":
+  version "4.0.6"
+  resolved "https://registry.yarnpkg.com/@ndla/types-embed/-/types-embed-4.0.6.tgz#f1d7a326b30d7cca5fd0382649401211158a53b0"
+  integrity sha512-xM1VXyoUEcSnM+ZGlSAPwtzSyTqjai1tOBNpghh8zVJB+6NOiO8cXl8FzKvkJwvKCDnm8Mz/QCQ+9Q5j26GlTQ==
 
-"@ndla/types-taxonomy@^1.0.19":
-  version "1.0.19"
-  resolved "https://registry.yarnpkg.com/@ndla/types-taxonomy/-/types-taxonomy-1.0.19.tgz#9fdfd8a5934a9108421f0b30f8f4a135a5fa7642"
-  integrity sha512-F0rN7OWD7iUnJv8F/R9ZMW5Zu1ZjEd9pXHxO/BsiaxqaJWXT8b4TQtF0pUQ17pEXZkZlr156+hyfx3bQTw8+iw==
+"@ndla/types-taxonomy@^1.0.21":
+  version "1.0.21"
+  resolved "https://registry.yarnpkg.com/@ndla/types-taxonomy/-/types-taxonomy-1.0.21.tgz#fe3db31cbd859385fa21b27ade81f98a6d314200"
+  integrity sha512-80QnSj1cg0vgX001W13Sl/VJTreTWNFx5uC5ZJcDGJNbU+dK1fQ8zRUkNa46od61+JjX6ZNWYBqpVCOb0urexQ==
 
 "@ndla/typography@^0.2.7":
   version "0.2.7"

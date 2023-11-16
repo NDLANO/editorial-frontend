@@ -95,7 +95,7 @@ const draftApiTypeToArticleFormType = (
       (article?.status.current && RESET_COMMENTS_STATUSES.includes(article?.status.current))
         ? []
         : article.comments,
-    prioritized: article?.prioritized ?? false,
+    priority: article?.priority ?? 'unspecified',
   };
 };
 
@@ -184,7 +184,7 @@ export const learningResourceFormTypeToDraftApiType = (
     revisionMeta: article.revisionMeta,
     responsibleId: article.responsibleId,
     comments: article.comments,
-    prioritized: article.prioritized,
+    priority: article.priority ?? 'unspecified',
   };
 };
 
@@ -225,7 +225,7 @@ export const frontpageArticleFormTypeToDraftApiType = (
     revisionMeta: article.revisionMeta,
     responsibleId: article.responsibleId,
     comments: article.comments,
-    prioritized: article.prioritized,
+    priority: article.priority ?? 'unspecified',
   };
 };
 
@@ -269,7 +269,7 @@ export const topicArticleFormTypeToDraftApiType = (
     revisionMeta: article.revisionMeta,
     responsibleId: article.responsibleId,
     comments: article.comments,
-    prioritized: article.prioritized,
+    priority: article.priority ?? 'unspecified',
   };
 };
 

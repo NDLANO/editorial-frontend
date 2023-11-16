@@ -18,8 +18,10 @@ import { Prefix } from '../TableComponent';
 import {
   STORED_PAGE_SIZE,
   STORED_PAGE_SIZE_CONCEPT,
+  STORED_PAGE_SIZE_ON_HOLD,
   STORED_SORT_OPTION_WORKLIST,
   STORED_SORT_OPTION_WORKLIST_CONCEPT,
+  STORED_SORT_OPTION_WORKLIST_ON_HOLD,
 } from '../../../../constants';
 
 interface Props {
@@ -64,6 +66,21 @@ const WorkList = ({ ndlaId }: Props) => {
   );
   const [prioritized, setPrioritized] = useState(false);
 
+  const storedPageSizeOnHold = localStorage.getItem(STORED_SORT_OPTION_WORKLIST_ON_HOLD);
+  const [pageOnHold, setPageOnHold] = useState(1);
+  const [sortOptionOnHold, _setSortOptionOnHold] = useState<Prefix<'-', SortOption>>(
+    (localStorage.getItem(STORED_SORT_OPTION_WORKLIST_ON_HOLD) as SortOption) ||
+      '-responsibleLastUpdated',
+  );
+  const [pageSizeOnHold, _setPageSizeOnHold] = useState<SingleValue>(
+    storedPageSizeOnHold
+      ? {
+          label: storedPageSizeOnHold,
+          value: storedPageSizeOnHold,
+        }
+      : defaultPageSize,
+  );
+
   const {
     t,
     i18n: { language },
@@ -72,7 +89,7 @@ const WorkList = ({ ndlaId }: Props) => {
     {
       'responsible-ids': ndlaId,
       sort: sortOption,
-      ...(prioritized ? { prioritized: true } : {}),
+      ...(prioritized ? { priority: 'prioritized' } : { priority: 'prioritized,unspecified' }),
       ...(filterSubject ? { subjects: filterSubject.value } : {}),
       page: page,
       'page-size': Number(pageSize!.value),
@@ -96,6 +113,19 @@ const WorkList = ({ ndlaId }: Props) => {
     { enabled: !!ndlaId },
   );
 
+  const searchOnHoldQuery = useSearch(
+    {
+      'responsible-ids': ndlaId,
+      sort: sortOptionOnHold,
+      priority: 'on-hold',
+      page: pageOnHold,
+      'page-size': Number(pageSizeOnHold!.value),
+      language,
+      fallback: true,
+    },
+    { enabled: !!ndlaId },
+  );
+
   const searchError = useMemo(() => {
     if (searchQuery.isError) {
       return t('welcomePage.errorMessage');
@@ -107,6 +137,12 @@ const WorkList = ({ ndlaId }: Props) => {
       return t('welcomePage.errorMessage');
     }
   }, [searchConceptsQuery.isError, t]);
+
+  const searchOnHoldError = useMemo(() => {
+    if (searchOnHoldQuery.isError) {
+      return t('welcomePage.errorMessage');
+    }
+  }, [searchOnHoldQuery.isError, t]);
 
   useEffect(() => {
     setPage(1);
@@ -128,6 +164,12 @@ const WorkList = ({ ndlaId }: Props) => {
     localStorage.setItem(STORED_PAGE_SIZE_CONCEPT, p.value);
   }, []);
 
+  const setPageSizeOnHold = useCallback((p: SingleValue) => {
+    if (!p) return;
+    _setPageSizeOnHold(p);
+    localStorage.setItem(STORED_PAGE_SIZE_ON_HOLD, p.value);
+  }, []);
+
   const setSortOption = useCallback((s: Prefix<'-', SortOption>) => {
     _setSortOption(s);
     localStorage.setItem(STORED_SORT_OPTION_WORKLIST, s);
@@ -136,6 +178,11 @@ const WorkList = ({ ndlaId }: Props) => {
   const setSortOptionConcepts = useCallback((s: Prefix<'-', SortOption>) => {
     _setSortOptionConcepts(s);
     localStorage.setItem(STORED_SORT_OPTION_WORKLIST_CONCEPT, s);
+  }, []);
+
+  const setSortOptionOnHold = useCallback((s: Prefix<'-', SortOption>) => {
+    _setSortOptionOnHold(s);
+    localStorage.setItem(STORED_SORT_OPTION_WORKLIST_ON_HOLD, s);
   }, []);
 
   return (
@@ -180,6 +227,25 @@ const WorkList = ({ ndlaId }: Props) => {
               setPageConcept={setPageConcept}
               pageSizeConcept={pageSizeConcept}
               setPageSizeConcept={setPageSizeConcept}
+            />
+          ),
+        },
+        {
+          title: `${t('welcomePage.workList.onHold')} (${searchOnHoldQuery.data?.totalCount ?? 0})`,
+          id: 'onHold',
+          content: (
+            <WorkListTabContent
+              data={searchOnHoldQuery.data}
+              setSortOption={setSortOptionOnHold}
+              isLoading={searchOnHoldQuery.isLoading}
+              error={searchOnHoldError}
+              sortOption={sortOptionOnHold}
+              ndlaId={ndlaId}
+              setPage={setPageOnHold}
+              pageSize={pageSizeOnHold}
+              setPageSize={setPageSizeOnHold}
+              headerText="welcomePage.workList.onHoldHeading"
+              descriptionText="welcomePage.workList.onHoldDescription"
             />
           ),
         },

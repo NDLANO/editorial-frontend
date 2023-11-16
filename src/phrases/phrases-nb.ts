@@ -157,6 +157,9 @@ const phrases = {
       sortDesc: 'Sorter synkende',
       pickPageSize: 'Velg antall rader',
       numberOfRows: 'Antall rader',
+      onHold: 'Parkert',
+      onHoldHeading: 'Parkerte ressurser',
+      onHoldDescription: 'Parkerte ressurser der du står som ansvarlig',
     },
     welcomeBack: 'Velkommen',
   },
@@ -1532,7 +1535,7 @@ const phrases = {
     add: 'Legg til',
     getExisting: 'Eller hent eksisterende ressurs',
     inProgress: 'Denne artikkelen er påbegynt',
-    addPriority: 'Sett artikkel som prioritert',
+    addPriority: 'Prioritering',
     changeName: {
       loadError: 'Klarte ikke hente oversettelser',
       updateError: 'Klarte ikke oppdatere oversettelser',
@@ -1741,6 +1744,7 @@ const phrases = {
     changeHeader: 'Endringer',
     saveAsNew: 'Lagre som kopi',
     prioritized: 'Prioritert',
+    placeholderPrioritized: 'Velg prioritet',
   },
   taxonomyVersions: {
     title: 'Taksonomiversjoner',

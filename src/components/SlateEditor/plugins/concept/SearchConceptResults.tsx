@@ -89,7 +89,10 @@ const SearchConceptResults = ({ results, searchObject, addConcept, searching = t
             )}
           </StyledConceptResultHeader>
           <StyledConceptContent>
-            {result.content.content ?? t('conceptSearch.noContent')}
+            {result.glossData
+              ? `${t(`languages.${result.glossData?.originalLanguage}`)}: ${result.glossData
+                  ?.gloss}`
+              : result.content.content ?? t('conceptSearch.noContent')}
           </StyledConceptContent>
           <StyledButton
             onClick={(evt) => {

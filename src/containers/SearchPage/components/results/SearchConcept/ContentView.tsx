@@ -65,6 +65,10 @@ const ContentView = ({
   const { t } = useTranslation();
   const { data: licenses } = useLicenses();
   const license = licenses && licenses.find((l) => concept.license === l.license);
+  const isGloss = concept.conceptType === 'gloss';
+  const glossInfo = isGloss
+    ? `${t(`languages.${concept.glossData?.originalLanguage}`)}: ${concept.glossData?.gloss}`
+    : '';
 
   return (
     <StyledConceptView>
@@ -92,7 +96,7 @@ const ContentView = ({
           );
         })}
       </div>
-      <StyledDescription>{content}</StyledDescription>
+      <StyledDescription>{isGloss ? glossInfo : content}</StyledDescription>
       {license && (
         <LicenseByline
           licenseRights={getLicenseByAbbreviation(license.license, locale).rights}

@@ -70,12 +70,14 @@ const LMASubjects = ({ ndlaId }: Props) => {
   ];
 
   const tableData: FieldElement[][] = useMemo(() => {
-    const statusAggregationData =
-      searchQuery.data?.aggregations[0].values.filter((v) => !EXCLUDE_STATUSES.includes(v.value)) ??
-      [];
+    const aggregationData = searchQuery.data?.aggregations.find(
+      (a) => a.field === 'draftStatus.current',
+    );
+    const aggregationDataExcludeStatuses =
+      aggregationData?.values.filter((v) => !EXCLUDE_STATUSES.includes(v.value)) ?? [];
 
     return (
-      statusAggregationData.map((statusData) => {
+      aggregationDataExcludeStatuses.map((statusData) => {
         const statusTitle = t(`form.status.actions.${statusData.value}`);
         return [
           {

@@ -17,6 +17,7 @@ import { SearchParams } from './SearchForm';
 import {
   DRAFT_RESPONSIBLE,
   FAVOURITES_SUBJECT_ID,
+  LMA_SUBJECT_ID,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
 } from '../../../../constants';
 import { useAuth0Editors, useAuth0Responsibles } from '../../../../modules/auth0/auth0Queries';
@@ -31,10 +32,16 @@ interface Props {
   subjects: Node[];
   searchObject: SearchParams;
   locale: string;
-  favouriteSubjectIDs?: string;
+  userId: string | undefined;
 }
 
-const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, locale }: Props) => {
+const SearchContentForm = ({
+  search: doSearch,
+  searchObject: search,
+  subjects,
+  locale,
+  userId,
+}: Props) => {
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const [queryInput, setQueryInput] = useState(search.query ?? '');
@@ -164,11 +171,36 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
         visible: true,
       },
     };
+
+    const userHasLMASubjects = subjects.some((s) => s.metadata.customFields?.subjectLMA === userId);
+
+    const LMAsubjects: Node = {
+      id: LMA_SUBJECT_ID,
+      breadcrumbs: [],
+      contexts: [],
+      paths: [],
+      resourceTypes: [],
+      supportedLanguages: [],
+      translations: [],
+      nodeType: 'SUBJECT',
+      baseName: t('searchForm.LMASubjects'),
+      name: t('searchForm.LMASubjects'),
+      contentUri: '',
+      path: '',
+      language: '',
+      metadata: {
+        customFields: {},
+        grepCodes: [],
+        visible: true,
+      },
+    };
     const filteredAndSortedSubjects = subjects
       .filter((s) => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== 'true')
       .sort(sortByProperty('name'));
-    return [favoriteSubject].concat(filteredAndSortedSubjects);
-  }, [subjects, t]);
+    return [favoriteSubject, ...(userHasLMASubjects ? [LMAsubjects] : [])].concat(
+      filteredAndSortedSubjects,
+    );
+  }, [subjects, t, userId]);
 
   const selectors: SearchFormSelector[] = [
     {

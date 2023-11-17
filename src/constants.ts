@@ -28,6 +28,7 @@ export const STORED_LANGUAGE_KEY = 'language';
 export const REMEMBER_FAVOURITE_SUBJECTS = 'rememberFavouriteSubjects';
 export const REMEMBER_FAVORITE_NODES = 'rememberFavoriteNodes';
 export const FAVOURITES_SUBJECT_ID = 'urn:favourites';
+export const LMA_SUBJECT_ID = 'urn:lmaSubjects';
 // Relevances
 export const RESOURCE_FILTER_CORE = 'urn:relevance:core';
 export const RESOURCE_FILTER_SUPPLEMENTARY = 'urn:relevance:supplementary';

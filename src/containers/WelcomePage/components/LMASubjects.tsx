@@ -15,6 +15,7 @@ import TableComponent, { FieldElement } from './TableComponent';
 import TableTitle from './TableTitle';
 import {
   ARCHIVED,
+  LMA_SUBJECT_ID,
   PUBLISHED,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
   UNPUBLISHED,
@@ -22,6 +23,7 @@ import {
 import { useNodes } from '../../../modules/nodes/nodeQueries';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import { useSearch } from '../../../modules/search/searchQueries';
+import { toSearch } from '../../../util/routeHelpers';
 
 const EXCLUDE_STATUSES = [PUBLISHED, UNPUBLISHED, ARCHIVED];
 
@@ -33,13 +35,16 @@ const LMASubjects = ({ userData }: Props) => {
   const { i18n, t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
 
-  const subjectsQuery = useNodes({
-    language: i18n.language,
-    taxonomyVersion,
-    nodeType: 'SUBJECT',
-    key: TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
-    value: userData?.userId,
-  });
+  const subjectsQuery = useNodes(
+    {
+      language: i18n.language,
+      taxonomyVersion,
+      nodeType: 'SUBJECT',
+      key: TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
+      value: userData?.userId,
+    },
+    { enabled: !!userData?.userId },
+  );
 
   const userHasSubjectLMA = !!subjectsQuery.data?.length;
 
@@ -77,7 +82,19 @@ const LMASubjects = ({ userData }: Props) => {
           {
             id: `status_${statusData.value}`,
             data: (
-              <StyledLink to={'/'} title={statusTitle}>
+              <StyledLink
+                to={toSearch(
+                  {
+                    page: '1',
+                    sort: '-relevance',
+                    'page-size': 10,
+                    subjects: LMA_SUBJECT_ID,
+                    'draft-status': statusData.value,
+                  },
+                  'content',
+                )}
+                title={statusTitle}
+              >
                 {statusTitle}
               </StyledLink>
             ),

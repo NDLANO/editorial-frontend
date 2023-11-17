@@ -329,6 +329,7 @@ const phrases = {
     },
     resultError: 'Noe gikk feil med innlasting av type: {{type}}',
     favourites: 'Mine favorittfag',
+    LMASubjects: 'Mine LMA-fag',
     archivedIncluded: 'Utgåtte fag inkludert',
     error: 'Noe gikk galt med søket',
   },

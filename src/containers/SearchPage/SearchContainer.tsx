@@ -30,6 +30,9 @@ import { SearchType } from '../../interfaces';
 import SearchSaveButton from './SearchSaveButton';
 import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
 import { useNodes } from '../../modules/nodes/nodeQueries';
+import { useUserData } from '../../modules/draft/draftQueries';
+import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
+import { isValid } from '../../util/jwtHelper';
 
 const StyledSearchHeader = styled.div`
   display: flex;
@@ -61,6 +64,11 @@ const SearchContainer = ({ searchHook, type }: Props) => {
     nodeType: 'SUBJECT',
     taxonomyVersion,
   });
+
+  const { data: userData } = useUserData({
+    enabled: isValid(getAccessToken()) && getAccessTokenPersonal(),
+  });
+
   const [searchObject, setSearchObject] = useState(parseSearchParams(location.search));
   const { data: results, isLoading: isSearching, error: searchError } = searchHook(searchObject);
   const nextPage = (searchObject?.page ?? 1) + 1;
@@ -104,7 +112,7 @@ const SearchContainer = ({ searchHook, type }: Props) => {
             <Search className="c-icon--medium" />
             {t(`searchPage.header.${type}`)}
           </h2>
-          <SearchSaveButton />
+          <SearchSaveButton userData={userData} />
         </StyledSearchHeader>
         <SearchForm
           type={type}
@@ -112,6 +120,7 @@ const SearchContainer = ({ searchHook, type }: Props) => {
           searchObject={searchObject}
           locale={locale}
           subjects={subjects}
+          userId={userData?.userId}
         />
         <SearchSort type={type} onSortOrderChange={onSortOrderChange} />
         <SearchListOptions

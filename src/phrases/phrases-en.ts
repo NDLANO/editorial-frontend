@@ -329,6 +329,7 @@ const phrases = {
     },
     resultError: 'Something went wrong with type: {{type}}',
     favourites: 'My favourite subjects',
+    LMASubjects: 'My LMA-subjects',
     archivedIncluded: 'Archived subjects included',
     error: 'Something went wrong with the search',
   },

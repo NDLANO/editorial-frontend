@@ -143,6 +143,7 @@ const phrases = {
     lmaSubjectsHeading: 'Resources in your LMA-subjects',
     lmaSubjectsDescription:
       'Distribution of where resources in your LMA-subjects is in the workflow',
+    noResultsLMASubjects: 'The following statuses will not be shown',
     count: 'Count',
     workList: {
       heading: 'My tasks',

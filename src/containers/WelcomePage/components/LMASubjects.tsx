@@ -46,7 +46,6 @@ const LMASubjects = ({ ndlaId }: Props) => {
   );
 
   const userHasSubjectLMA = !!subjectsQuery.data?.length;
-
   const searchQuery = useSearch(
     {
       'page-size': 0,
@@ -122,6 +121,9 @@ const LMASubjects = ({ ndlaId }: Props) => {
             tableTitleList={tableTitles}
             tableData={tableData}
             error={error}
+            noResultsText={`${t('welcomePage.noResultsLMASubjects')}: ${EXCLUDE_STATUSES.map(
+              (status) => t(`form.status.actions.${status}`),
+            ).join(', ')}`}
           />
         </StyledDashboardInfo>
       )}

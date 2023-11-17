@@ -143,6 +143,7 @@ const phrases = {
     prioritizedLabel: 'Vis kun prioriterte',
     lmaSubjectsHeading: 'Ressurser i dine LMA-fag',
     lmaSubjectsDescription: 'Fordeling av ressurser i dine LMA-fag i flyten',
+    noResultsLMASubjects: 'Følgende statuser vil ikke vises i oversikten',
     count: 'Antall',
     workList: {
       heading: 'Mine arbeidsoppgaver',

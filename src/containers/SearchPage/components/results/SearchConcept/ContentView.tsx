@@ -65,9 +65,8 @@ const ContentView = ({
   const { t } = useTranslation();
   const { data: licenses } = useLicenses();
   const license = licenses && licenses.find((l) => concept.license === l.license);
-  const isGloss = concept.conceptType === 'gloss';
-  const conceptInfo = isGloss
-    ? `${t(`languages.${concept.glossData?.originalLanguage}`)}: ${concept.glossData?.gloss}`
+  const conceptInfo = concept.glossData
+    ? `${t(`languages.${concept.glossData.originalLanguage}`)}: ${concept.glossData.gloss}`
     : content;
 
   return (

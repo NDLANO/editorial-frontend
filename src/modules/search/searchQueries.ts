@@ -53,7 +53,7 @@ export const useSearch = (
       key: TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
       value: data?.userId,
     },
-    { enabled: !!data?.userId },
+    { enabled: !!isLMASubjects && !!data?.userId },
   );
 
   const actualQuery = {

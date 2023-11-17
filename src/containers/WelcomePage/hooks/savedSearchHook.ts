@@ -69,7 +69,7 @@ const getLMASubjectIds = async (taxonomyVersion: string, userId: string | undefi
     key: TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
     value: userId,
   });
-  return nodes.map((n) => n.id).join(',');
+  return nodes?.map((n) => n.id).join(',');
 };
 
 interface SavedSearchObjectType {

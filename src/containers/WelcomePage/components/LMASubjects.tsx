@@ -7,7 +7,6 @@
  */
 
 import { useMemo } from 'react';
-import { IUserData } from '@ndla/types-backend/draft-api';
 import { BookOpen } from '@ndla/icons/common';
 import { useTranslation } from 'react-i18next';
 import { StyledDashboardInfo, StyledLink, StyledTopRowDashboardInfo } from '../styles';
@@ -28,10 +27,10 @@ import { toSearch } from '../../../util/routeHelpers';
 const EXCLUDE_STATUSES = [PUBLISHED, UNPUBLISHED, ARCHIVED];
 
 interface Props {
-  userData: IUserData | undefined;
+  ndlaId: string;
 }
 
-const LMASubjects = ({ userData }: Props) => {
+const LMASubjects = ({ ndlaId }: Props) => {
   const { i18n, t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
 
@@ -41,9 +40,9 @@ const LMASubjects = ({ userData }: Props) => {
       taxonomyVersion,
       nodeType: 'SUBJECT',
       key: TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
-      value: userData?.userId,
+      value: ndlaId,
     },
-    { enabled: !!userData?.userId },
+    { enabled: !!ndlaId },
   );
 
   const userHasSubjectLMA = !!subjectsQuery.data?.length;
@@ -59,11 +58,11 @@ const LMASubjects = ({ userData }: Props) => {
     },
   );
 
-  const searchError = useMemo(() => {
-    if (searchQuery.isError) {
+  const error = useMemo(() => {
+    if (subjectsQuery.isError || searchQuery.isError) {
       return t('welcomePage.errorMessage');
     }
-  }, [searchQuery.isError, t]);
+  }, [searchQuery.isError, subjectsQuery.isError, t]);
 
   const tableTitles = [
     { title: t('welcomePage.workList.status') },
@@ -120,7 +119,7 @@ const LMASubjects = ({ userData }: Props) => {
             isLoading={searchQuery.isLoading}
             tableTitleList={tableTitles}
             tableData={tableData}
-            error={searchError}
+            error={error}
           />
         </StyledDashboardInfo>
       )}

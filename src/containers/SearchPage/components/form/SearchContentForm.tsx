@@ -10,6 +10,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import sortBy from 'lodash/sortBy';
 import { Node } from '@ndla/types-taxonomy';
+import { TFunction } from 'i18next';
 import { flattenResourceTypesAndAddContextTypes } from '../../../../util/taxonomyHelpers';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import { getTagName } from '../../../../util/formHelper';
@@ -26,6 +27,27 @@ import { useDraftStatusStateMachine } from '../../../../modules/draft/draftQueri
 import GenericSearchForm, { OnFieldChangeFunction } from './GenericSearchForm';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import { SearchFormSelector } from './Selector';
+
+const generateSubjectNode = (id: string, name: string, t: TFunction): Node => ({
+  id: id,
+  breadcrumbs: [],
+  contexts: [],
+  paths: [],
+  resourceTypes: [],
+  supportedLanguages: [],
+  translations: [],
+  nodeType: 'SUBJECT',
+  baseName: t(name),
+  name: t(name),
+  contentUri: '',
+  path: '',
+  language: '',
+  metadata: {
+    customFields: {},
+    grepCodes: [],
+    visible: true,
+  },
+});
 
 interface Props {
   search: (o: SearchParams) => void;
@@ -151,49 +173,16 @@ const SearchContentForm = ({
   };
 
   const sortedSubjects = useMemo(() => {
-    const favoriteSubject: Node = {
-      id: FAVOURITES_SUBJECT_ID,
-      breadcrumbs: [],
-      contexts: [],
-      paths: [],
-      resourceTypes: [],
-      supportedLanguages: [],
-      translations: [],
-      nodeType: 'SUBJECT',
-      baseName: t('searchForm.favourites'),
-      name: t('searchForm.favourites'),
-      contentUri: '',
-      path: '',
-      language: '',
-      metadata: {
-        customFields: {},
-        grepCodes: [],
-        visible: true,
-      },
-    };
+    const favoriteSubject: Node = generateSubjectNode(
+      FAVOURITES_SUBJECT_ID,
+      'searchForm.favourites',
+      t,
+    );
 
     const userHasLMASubjects = subjects.some((s) => s.metadata.customFields?.subjectLMA === userId);
 
-    const LMAsubjects: Node = {
-      id: LMA_SUBJECT_ID,
-      breadcrumbs: [],
-      contexts: [],
-      paths: [],
-      resourceTypes: [],
-      supportedLanguages: [],
-      translations: [],
-      nodeType: 'SUBJECT',
-      baseName: t('searchForm.LMASubjects'),
-      name: t('searchForm.LMASubjects'),
-      contentUri: '',
-      path: '',
-      language: '',
-      metadata: {
-        customFields: {},
-        grepCodes: [],
-        visible: true,
-      },
-    };
+    const LMAsubjects: Node = generateSubjectNode(LMA_SUBJECT_ID, 'searchForm.LMASubjects', t);
+
     const filteredAndSortedSubjects = subjects
       .filter((s) => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== 'true')
       .sort(sortByProperty('name'));

@@ -63,9 +63,7 @@ export const WelcomePage = () => {
           )}
         </Column>
         <Column colStart={6}>{ndlaId && <Revisions userData={data} />}</Column>
-        <Column colEnd={6}>
-          <LMASubjects userData={data} />
-        </Column>
+        <Column colEnd={6}>{ndlaId && <LMASubjects ndlaId={ndlaId} />}</Column>
       </GridContainer>
 
       <Footer showLocaleSelector />

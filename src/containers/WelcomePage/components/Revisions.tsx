@@ -60,8 +60,6 @@ const StyledTitle = styled.div`
 
 const IconWrapper = styled.div`
   display: flex;
-  width: ${spacing.nsmall};
-  height: ${spacing.nsmall};
   margin-right: ${spacing.xsmall};
 `;
 
@@ -72,6 +70,8 @@ const StyledTimeIcon = styled(Time)`
   &[data-status='expired'] {
     fill: ${colors.support.red};
   }
+  width: ${spacing.snormal};
+  height: ${spacing.snormal};
 `;
 
 const getLastPage = (totalCount: number, pageSize: number) =>

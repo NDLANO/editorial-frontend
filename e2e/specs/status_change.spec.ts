@@ -120,7 +120,7 @@ test('can change status correctly', async ({ page }) => {
     .first();
 
   await statusSelect.click();
-  await page.locator('*[id^="react-select-3-option"]', { hasText: 'I arbeid' }).click();
+  await page.getByText('I arbeid', { exact: true }).click();
   await page.getByTestId('responsible-select').click();
   await page.keyboard.type('Ed test');
   await page.keyboard.press('Enter');
@@ -146,7 +146,7 @@ test('can change status correctly', async ({ page }) => {
   });
 
   await statusSelect.click();
-  await page.locator('*[id^="react-select-3-option"]', { hasText: 'Sisteblikk' }).click();
+  await page.getByText('Sisteblikk', { exact: true }).click();
   await saveButton.click();
   await saveButton.getByText('Lagret').waitFor();
   await expect(statusSelect.getByText('Sisteblikk')).toBeVisible();
@@ -160,7 +160,7 @@ test('can change status correctly', async ({ page }) => {
   });
 
   await statusSelect.click();
-  await page.locator('*[id^="react-select-3-option"]', { hasText: 'Publiser' }).click();
+  await page.getByText('Publiser', { exact: true }).click();
 
   await saveButton.getByText('Lagret').waitFor();
   await expect(statusSelect.getByText('Publisert')).toBeVisible();

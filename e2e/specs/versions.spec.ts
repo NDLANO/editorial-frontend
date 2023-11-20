@@ -136,6 +136,8 @@ test('can add notes then save', async ({ page }) => {
 
   const saveButton = page.getByTestId('saveLearningResourceButtonWrapper').first();
 
+  await expect(saveButton).not.toHaveAttribute('disabled');
+
   await saveButton.click();
 
   await Promise.all([draftPatchData]);
@@ -175,11 +177,11 @@ test('can add notes then save', async ({ page }) => {
 
   await Promise.all([draftData, userData, getNoteUsers, draftHistory]);
 
-  await expect(page.getByTestId('saveLearningResourceButtonWrapper').first()).toHaveText('Lagret');
+  await expect(saveButton).toHaveText('Lagret');
 
   await expect(page.locator('table')).toBeVisible();
 
-  expect(await page.locator('table').locator('tr').count()).toEqual(25);
+  await expect(page.locator('table').locator('tr')).toHaveCount(25);
 });
 
 test('Open previews', async ({ page }) => {

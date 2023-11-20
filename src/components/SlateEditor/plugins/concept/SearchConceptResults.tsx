@@ -8,7 +8,7 @@
 
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
-import { Concept, Check } from '@ndla/icons/editor';
+import { Concept, Check, Globe } from '@ndla/icons/editor';
 import { spacing, colors } from '@ndla/core';
 import { ButtonV2 } from '@ndla/button';
 import Tooltip from '@ndla/tooltip';
@@ -28,6 +28,10 @@ const StyledConceptResult = styled.div`
 `;
 
 const StyledConcept = styled(Concept)`
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+`;
+const StyledGlobe = styled(Globe)`
   grid-column: 1 / 2;
   grid-row: 1 / 2;
 `;
@@ -76,7 +80,11 @@ const SearchConceptResults = ({ results, searchObject, addConcept, searching = t
       ) : null}
       {results.map((result) => (
         <StyledConceptResult key={result.id}>
-          <StyledConcept className="c-icon--large" />
+          {result.glossData ? (
+            <StyledGlobe className="c-icon--large" />
+          ) : (
+            <StyledConcept className="c-icon--large" />
+          )}
           <StyledConceptResultHeader>
             {result.title.title ?? t('conceptSearch.noTitle')}
             {(result.status.current === 'PUBLISHED' ||
@@ -89,7 +97,9 @@ const SearchConceptResults = ({ results, searchObject, addConcept, searching = t
             )}
           </StyledConceptResultHeader>
           <StyledConceptContent>
-            {result.content.content ?? t('conceptSearch.noContent')}
+            {result.glossData
+              ? `${t(`languages.${result.glossData.originalLanguage}`)}: ${result.glossData.gloss}`
+              : result.content.content ?? t('conceptSearch.noContent')}
           </StyledConceptContent>
           <StyledButton
             onClick={(evt) => {

@@ -7,12 +7,12 @@
  */
 
 import { ReactNode, useState, MouseEvent } from 'react';
-import styled from '@emotion/styled';
-import { RenderElementProps, useSlateStatic } from 'slate-react';
-import { IconButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
+import { RenderElementProps, useSlateStatic } from 'slate-react';
 import parse from 'html-react-parser';
 import { Editor, Path } from 'slate';
+import styled from '@emotion/styled';
+import { IconButtonV2 } from '@ndla/button';
 import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
 import { Pencil } from '@ndla/icons/action';
 import { SafeLinkIconButton } from '@ndla/safelink';

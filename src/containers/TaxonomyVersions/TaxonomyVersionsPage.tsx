@@ -50,7 +50,7 @@ const getPublishedAndOther = (
   const [published, other] = partition(versions, (v) => v.versionType === 'PUBLISHED');
   return {
     published: published[0],
-    other: sortBy(other, 'created'),
+    other: sortBy(other, 'created').reverse(),
   };
 };
 

@@ -74,9 +74,7 @@ exports[`EditorErrorMessage renders 1`] = `
   cursor: not-allowed;
 }
 
-.emotion-1[lang='zh'],
-.emotion-1[lang='zh-Hans'],
-.emotion-1[lang='zh-Hant'] {
+.emotion-1:where([lang='zh'], .emotion-1[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(14px * 1.11);
   font-size: calc(0.7777777777777778rem * 1.11);
 }
@@ -112,47 +110,42 @@ exports[`EditorErrorMessage renders 1`] = `
         This is error
       </span>
     </div>
-    <div
-      data-tooltip="Fjern"
-      data-tooltip-container="true"
+    <button
+      aria-label="Fjern"
+      class="emotion-1"
+      contenteditable="false"
+      data-state="closed"
+      data-testid="close-related-button"
+      data-trigger="true"
+      type="button"
     >
-      <button
-        aria-label="Fjern"
-        class="emotion-1"
-        contenteditable="false"
-        data-state="closed"
-        data-testid="close-related-button"
-        data-trigger="true"
-        type="button"
+      <svg
+        aria-hidden="true"
+        class="c-icon"
+        data-license="Apache License 2.0"
+        data-source="Material Design"
+        fill="currentColor"
+        height="1em"
+        preserveAspectRatio="xMidYMid meet"
+        style="vertical-align: middle;"
+        viewBox="0 0 24 24"
+        width="1em"
       >
-        <svg
-          aria-hidden="true"
-          class="c-icon"
-          data-license="Apache License 2.0"
-          data-source="Material Design"
-          fill="currentColor"
-          height="1em"
-          preserveAspectRatio="xMidYMid meet"
-          style="vertical-align: middle;"
-          viewBox="0 0 24 24"
-          width="1em"
-        >
-          <g>
-            <path
-              d="M0 0h24v24H0V0z"
-              fill="none"
-            />
-            <path
-              d="M6 19c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V7H6v12zm2.5-7.1 1.4-1.4 2.1 2 2.1-2 1.4 1.4-2 2.1 2 2.1-1.4 1.4-2.1-2-2.1 2-1.4-1.4 2-2.1-2-2.1zm7-7.9-1-1h-5l-1 1H5v2h14V4z"
-            />
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
-            />
-          </g>
-        </svg>
-      </button>
-    </div>
+        <g>
+          <path
+            d="M0 0h24v24H0V0z"
+            fill="none"
+          />
+          <path
+            d="M6 19c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V7H6v12zm2.5-7.1 1.4-1.4 2.1 2 2.1-2 1.4 1.4-2 2.1 2 2.1-1.4 1.4-2.1-2-2.1 2-1.4-1.4 2-2.1-2-2.1zm7-7.9-1-1h-5l-1 1H5v2h14V4z"
+          />
+          <path
+            d="M0 0h24v24H0z"
+            fill="none"
+          />
+        </g>
+      </svg>
+    </button>
   </div>
 </div>
 `;

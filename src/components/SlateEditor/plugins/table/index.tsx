@@ -20,7 +20,7 @@ import {
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { handleTableKeydown } from './handleKeyDown';
 import { defaultParagraphBlock } from '../paragraph/utils';
-import { TableElement } from './interfaces';
+import { TableCellElement, TableElement, TableMatrix } from './interfaces';
 import { NormalizerConfig, defaultBlockNormalizer } from '../../utils/defaultNormalizer';
 import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
 import {
@@ -59,6 +59,8 @@ import {
   defaultTableRowBlock,
 } from './defaultBlocks';
 import { normalizeTableBodyAsMatrix } from './matrixNormalizer';
+import { getTableAsMatrix, tableContainsSpan } from './matrix';
+import { getHeader, previousMatrixCellIsEqualCurrent } from './matrixHelpers';
 
 const validKeys = [KEY_ARROW_UP, KEY_ARROW_DOWN, KEY_TAB, KEY_BACKSPACE, KEY_DELETE];
 
@@ -144,7 +146,7 @@ export const tableSerializer: SlateSerializer = {
           },
         ];
       }
-      return slatejsx('element', { type: TABLE_TAGS[tagName], data }, children);
+      return slatejsx('element', { type: TABLE_TAGS[tagName], data: data }, children);
     }
     return;
   },
@@ -264,6 +266,71 @@ export const tablePlugin = (editor: Editor) => {
       // v. Add surrounding paragraphs. Must be last since the table itself is not altered.
       if (defaultBlockNormalizer(editor, entry, normalizerConfig)) {
         return;
+      }
+
+      // Normalize headers and id. For each row check that id and headers are set accordingly.
+      // We have a maximum of rows of header elements in thead and only 1 column max for rowheaders
+      const matrix = getTableAsMatrix(editor, path);
+      if (
+        tableContainsSpan(matrix ?? []) ||
+        node.rowHeaders ||
+        matrix?.[1]?.[1]?.type === TYPE_TABLE_CELL_HEADER
+      ) {
+        matrix?.forEach((row, rowIndex) => {
+          row.forEach((cell, cellIndex) => {
+            const result = Editor.nodes(editor, {
+              at: path,
+              match: (node) => equals(node, cell),
+            });
+            const [maybeNode] = result;
+
+            // If the previous cell in column and row direction is not equal we can normalize the proper cell.
+            // Table matrix isn't a direct repsentation of the HTML table so read comments for `getTableAsMatrix`
+            if (maybeNode?.[1] && !previousMatrixCellIsEqualCurrent(matrix, rowIndex, cellIndex)) {
+              const [_, cellPath] = maybeNode;
+              const [parent] = Editor.node(editor, Path.parent(Path.parent(cellPath)));
+              const headers = !((node.rowHeaders && cellIndex === 0) || rowIndex === 0)
+                ? getHeader(matrix, rowIndex, cellIndex, node.rowHeaders)
+                : undefined;
+
+              if (isTableHead(parent)) {
+                // If first row we add only a double digit id based on the cellIndex
+                if (
+                  rowIndex === 0 &&
+                  cell.data.id !== `0${cellIndex}` &&
+                  cell.type === TYPE_TABLE_CELL_HEADER
+                ) {
+                  return updateCell(editor, cell, { id: `0${cellIndex}` }, TYPE_TABLE_CELL_HEADER);
+                }
+
+                // Second head row need to have a id combined with the previous cell and headers are set to the standard ruleset
+                if (
+                  rowIndex === 1 &&
+                  matrix?.[1]?.[1]?.type === TYPE_TABLE_CELL_HEADER &&
+                  (cell.data.id !== `0${cellIndex}1${cellIndex}` ||
+                    (!!headers && headers !== cell.data.headers))
+                ) {
+                  return updateCell(
+                    editor,
+                    cell,
+                    { id: `0${cellIndex}1${cellIndex}`, headers: headers },
+                    TYPE_TABLE_CELL_HEADER,
+                  );
+                }
+              }
+              if (isTableBody(parent)) {
+                // If rowheaders need to set ID on the first cell of each row in the body.
+                if (node.rowHeaders && cellIndex === 0 && cell.data.id !== `r${rowIndex}`) {
+                  return updateCell(editor, cell, { id: `r${rowIndex}` }, TYPE_TABLE_CELL_HEADER);
+                }
+                // Adds headers to the cell
+                if (!!headers && cell.type === TYPE_TABLE_CELL && headers !== cell.data.headers) {
+                  return updateCell(editor, cell, { headers: headers });
+                }
+              }
+            }
+          });
+        });
       }
     }
 

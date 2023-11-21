@@ -792,6 +792,7 @@ describe('table normalizer tests', () => {
                       {
                         type: TYPE_TABLE_CELL,
                         data: {
+                          headers: '00',
                           colspan: 1,
                           rowspan: 2,
                           align: 'right',
@@ -810,6 +811,7 @@ describe('table normalizer tests', () => {
                       {
                         type: TYPE_TABLE_CELL,
                         data: {
+                          headers: '01',
                           colspan: 1,
                           rowspan: 1,
                           align: 'right',
@@ -893,6 +895,7 @@ describe('table normalizer tests', () => {
                         type: TYPE_TABLE_CELL_HEADER,
                         data: {
                           colspan: 1,
+                          id: '00',
                           rowspan: 1,
                           scope: 'col',
                           align: 'right',
@@ -912,6 +915,7 @@ describe('table normalizer tests', () => {
                         type: TYPE_TABLE_CELL_HEADER,
                         data: {
                           colspan: 1,
+                          id: '01',
                           rowspan: 1,
                           scope: 'col',
                           align: 'right',
@@ -940,6 +944,8 @@ describe('table normalizer tests', () => {
                       {
                         type: TYPE_TABLE_CELL_HEADER,
                         data: {
+                          id: 'r1',
+                          headers: '00',
                           colspan: 1,
                           rowspan: 2,
                           scope: 'row',
@@ -959,6 +965,7 @@ describe('table normalizer tests', () => {
                       {
                         type: TYPE_TABLE_CELL,
                         data: {
+                          headers: '01 r1',
                           colspan: 1,
                           rowspan: 1,
                           align: 'right',
@@ -982,6 +989,7 @@ describe('table normalizer tests', () => {
                       {
                         type: TYPE_TABLE_CELL,
                         data: {
+                          headers: '01 r1',
                           colspan: 1,
                           rowspan: 1,
                           align: 'right',

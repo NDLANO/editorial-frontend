@@ -65,6 +65,7 @@ export const tableRenderer = (editor: Editor) => {
           <td
             rowSpan={element.data.rowspan}
             colSpan={element.data.colspan}
+            headers={element.data.headers}
             align={parsedAlign}
             {...attributes}
           >
@@ -81,6 +82,8 @@ export const tableRenderer = (editor: Editor) => {
           <StyledTh
             rowSpan={element.data.rowspan}
             colSpan={element.data.colspan}
+            headers={element.data.headers}
+            id={element.data.id}
             scope={element.data.scope}
             {...attributes}
           >

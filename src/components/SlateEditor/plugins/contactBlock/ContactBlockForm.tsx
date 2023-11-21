@@ -30,8 +30,8 @@ interface ContactBlockFormValues {
   blobColor: ContactBlockEmbedData['blobColor'];
   blob: ContactBlockEmbedData['blob'];
   metaImageId?: string;
-  metaImageAlt?: string;
-  isDecorative?: boolean;
+  metaImageAlt: string;
+  isDecorative: boolean;
 }
 
 const rules: RulesType<ContactBlockFormValues> = {
@@ -56,6 +56,10 @@ const rules: RulesType<ContactBlockFormValues> = {
   },
   blob: {
     required: true,
+  },
+  metaImageAlt: {
+    required: true,
+    onlyValidateIf: (values) => !values.isDecorative,
   },
 };
 

@@ -9,7 +9,9 @@
 
 import compact from 'lodash/compact';
 import uniq from 'lodash/uniq';
+import isEqual from 'lodash/isEqual';
 import { TableCellElement, TableMatrix } from './interfaces';
+import { TYPE_TABLE_CELL_HEADER } from './types';
 
 export const getPrevCell = (matrix: TableMatrix, row: number, column: number) => {
   return matrix[row][column - 1];
@@ -89,4 +91,77 @@ export const insertCellInMatrix = (
   }
   // C. Otherwise place cell at end of row.
   insertCellHelper(matrix, cell, rowIndex, rowspan, rowLength, rowLength + colspan);
+};
+
+const normalizeRow = (row: TableCellElement[]) => {
+  const cells: TableCellElement[] = [];
+  row.forEach((cell) => [...Array(cell?.data?.colspan)].forEach((_) => cells.push(cell)));
+  return cells;
+};
+
+// Check if previous cell in both col or row is equal
+export const previousMatrixCellIsEqualCurrent = (
+  matrix: TableMatrix,
+  rowIndex: number,
+  columnIndex: number,
+) =>
+  (matrix?.[rowIndex]?.[columnIndex]?.data?.colspan > 1 &&
+    isEqual(
+      matrix?.[rowIndex]?.[columnIndex - 1]?.children,
+      matrix?.[rowIndex]?.[columnIndex]?.children,
+    )) ||
+  (matrix[rowIndex][columnIndex].data.rowspan > 1 &&
+    isEqual(
+      matrix?.[rowIndex - 1]?.[columnIndex]?.children,
+      matrix?.[rowIndex]?.[columnIndex]?.children,
+    ));
+
+// Creates an header object depending on the ID's of the header cells surrounding it.
+// If colspan or rowspan we check the corresponding neighbor cells for the headercells.
+export const getHeader = (
+  matrix: TableMatrix,
+  rowIndex: number,
+  columnIndex: number,
+  isRowHeaders: boolean,
+) => {
+  const { colspan, rowspan } = matrix[rowIndex][columnIndex].data;
+
+  const normalizedHeaderRow = normalizeRow(matrix[0]);
+  const headers: TableCellElement[] = [];
+
+  // First header row
+  // Adding all the cells in the corresponding colspan
+  [...Array(colspan)].forEach(
+    (_, it) =>
+      normalizedHeaderRow[columnIndex + it] && headers.push(normalizedHeaderRow[columnIndex + it]),
+  );
+
+  // Second header row
+  // If there is a second header row, the index 1 1  of the matrix will be of type table cell header
+  if (
+    matrix?.[1]?.[1]?.type === TYPE_TABLE_CELL_HEADER &&
+    matrix?.[rowIndex]?.[columnIndex].type !== TYPE_TABLE_CELL_HEADER
+  ) {
+    const normalizedSecondHeaderRow = normalizeRow(matrix[1]);
+    [...Array(colspan)].forEach(
+      (_, it) =>
+        normalizedSecondHeaderRow?.[columnIndex + it] &&
+        headers.push(normalizedSecondHeaderRow[columnIndex + it]),
+    );
+  }
+
+  // If row headers we append all row headers following the rowspan.
+  if (
+    isRowHeaders &&
+    columnIndex !== 0 &&
+    matrix?.[rowIndex]?.[columnIndex]?.type !== TYPE_TABLE_CELL_HEADER
+  ) {
+    [...Array(rowspan)].forEach(
+      (_, it) => matrix?.[rowIndex + it]?.[0] && headers.push(matrix?.[rowIndex + it]?.[0]),
+    );
+  }
+  return headers
+    .map((cell) => cell?.data?.id)
+    .filter((cell) => !!cell)
+    .join(' ');
 };

@@ -242,7 +242,6 @@ const _FormFooter = ({
         isConcept={false}
         hideSecondaryButton={false}
         responsibleId={article?.responsible?.responsibleId}
-        prioritized={article?.prioritized}
       />
       <AlertModalWrapper
         isSubmitting={isSubmitting}

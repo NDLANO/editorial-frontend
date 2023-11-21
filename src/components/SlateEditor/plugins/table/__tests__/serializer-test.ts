@@ -56,6 +56,7 @@ describe('table serializing tests', () => {
                           colspan: 1,
                           rowspan: 1,
                           scope: 'col',
+                          id: '00',
                         },
                         children: [
                           {
@@ -74,6 +75,7 @@ describe('table serializing tests', () => {
                           colspan: 1,
                           rowspan: 1,
                           scope: 'col',
+                          id: '01',
                         },
                         children: [
                           {
@@ -101,6 +103,7 @@ describe('table serializing tests', () => {
                         data: {
                           colspan: 1,
                           rowspan: 1,
+                          headers: '00',
                         },
                         children: [
                           {
@@ -118,6 +121,7 @@ describe('table serializing tests', () => {
                         data: {
                           colspan: 1,
                           rowspan: 1,
+                          headers: '01',
                         },
                         children: [
                           {
@@ -140,6 +144,7 @@ describe('table serializing tests', () => {
                         data: {
                           colspan: 1,
                           rowspan: 1,
+                          headers: '00',
                         },
                         children: [
                           {
@@ -157,6 +162,7 @@ describe('table serializing tests', () => {
                         data: {
                           colspan: 1,
                           rowspan: 1,
+                          headers: '01',
                         },
                         children: [
                           {
@@ -181,7 +187,7 @@ describe('table serializing tests', () => {
     ];
 
     const html =
-      '<section><table><caption>title</caption><colgroup></colgroup><colgroup span="2"></colgroup><thead><tr><th scope="col"><p>1</p></th><th scope="col"><p>2</p></th></tr></thead><tbody><tr><td><p>3</p></td><td><p>4</p></td></tr><tr><td><p>5</p></td><td><p>6</p></td></tr></tbody></table></section>';
+      '<section><table><caption>title</caption><colgroup></colgroup><colgroup span="2"></colgroup><thead><tr><th scope="col" id="00"><p>1</p></th><th scope="col" id="01"><p>2</p></th></tr></thead><tbody><tr><td headers="00"><p>3</p></td><td headers="01"><p>4</p></td></tr><tr><td headers="00"><p>5</p></td><td headers="01"><p>6</p></td></tr></tbody></table></section>';
 
     const serialized = blockContentToHTML(editor);
     expect(serialized).toMatch(html);

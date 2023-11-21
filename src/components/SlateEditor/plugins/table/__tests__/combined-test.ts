@@ -22,7 +22,7 @@ const editor = withHistory(withReact(withPlugins(createEditor(), learningResourc
 describe('combined table plugin tests', () => {
   test('id in th and td is preserved on serialize and normalize', () => {
     const html =
-      '<section><table><tbody><tr><th id="123" scope="row" align="right"><p>1</p></th><td align="right" id="abc"><p>2</p></td></tr></tbody></table></section>';
+      '<section><table><tbody><tr><th id="r0" scope="row" align="right"><p>1</p></th><td align="right" id="abc"><p>2</p></td></tr></tbody></table></section>';
 
     const deserialized = blockContentToEditorValue(html);
 

@@ -6,7 +6,7 @@
  *
  */
 
-import { HTMLAttributes, MouseEvent, forwardRef, useCallback, useState } from 'react';
+import { HTMLAttributes, MouseEvent, forwardRef, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IconButtonV2 } from '@ndla/button';
 import styled from '@emotion/styled';
@@ -86,6 +86,7 @@ const EditRelated = forwardRef<HTMLDivElement, Props>(
     const { t } = useTranslation();
     const [currentTab, setCurrentTab] = useState<TabType>('internalArticle');
     const [externalToEdit, setExternalToEdit] = useState<ExternalToEdit | undefined>(undefined);
+    const [windowHeight, setWindowHeight] = useState<number>(window.innerHeight);
 
     const searchForArticles = async (query: string, page: number | undefined) => {
       return search({
@@ -135,6 +136,18 @@ const EditRelated = forwardRef<HTMLDivElement, Props>(
       const newEmbeds = embeds.map((embed, idx) => (idx === editEmbed.index ? newEmbed : embed));
       updateArticles(newEmbeds);
     };
+
+    useEffect(() => {
+      const changeSize = () => {
+        setWindowHeight(window.innerHeight);
+      };
+
+      window.addEventListener('resize', changeSize);
+
+      return () => {
+        window.removeEventListener('resize', changeSize);
+      };
+    });
 
     return (
       <StyledBorderDiv {...rest} sticky="always" avoidCollisions={false} ref={ref}>
@@ -215,6 +228,7 @@ const EditRelated = forwardRef<HTMLDivElement, Props>(
                   onClick={(e) => e.stopPropagation()}
                   onChange={(selected) => selected && onInsertBlock(selected.id.toString())}
                   showPagination
+                  menuHeight={windowHeight * 0.3}
                 />
               ),
             },

@@ -31,14 +31,14 @@ import StatusCell from './StatusCell';
 import PageSizeDropdown from './PageSizeDropdown';
 
 interface Props {
-  data?: IConceptSearchResult;
-  filterSubject?: SingleValue;
+  data: IConceptSearchResult | undefined;
+  filterSubject: SingleValue | undefined;
   isLoading: boolean;
   setSortOption: (o: Prefix<'-', SortOption>) => void;
   sortOption: string;
   error: string | undefined;
   setFilterSubject: (fs: SingleValue) => void;
-  ndlaId?: string;
+  ndlaId: string | undefined;
   setPageConcept: (page: number) => void;
   pageSizeConcept: SingleValue;
   setPageSizeConcept: (p: SingleValue) => void;

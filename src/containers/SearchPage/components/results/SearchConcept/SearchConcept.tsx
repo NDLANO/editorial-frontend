@@ -9,7 +9,7 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
-import { Concept } from '@ndla/icons/editor';
+import { Concept, Globe } from '@ndla/icons/editor';
 import { IConcept, IConceptSummary } from '@ndla/types-backend/concept-api';
 import { Node } from '@ndla/types-taxonomy';
 import { convertFieldWithFallback } from '../../../../../util/convertFieldWithFallback';
@@ -46,6 +46,7 @@ const SearchConcept = ({ concept, locale, subjects, editingState, responsibleNam
     'content',
     t('conceptSearch.noContent'),
   );
+  const isGloss = concept.conceptType === 'gloss';
   const breadcrumbs = subjects.filter((s) => localConcept.subjectIds?.includes(s.id));
 
   const updateLocalConcept = (newConcept: IConcept): void => {
@@ -76,6 +77,8 @@ const SearchConcept = ({ concept, locale, subjects, editingState, responsibleNam
       <StyledSearchImageContainer>
         {metaImageSrc ? (
           <img src={`${metaImageSrc}?width=200&language=${locale}`} alt={metaImageAlt} />
+        ) : isGloss ? (
+          <Globe className="c-icon--large" />
         ) : (
           <Concept className="c-icon--large" />
         )}

@@ -157,6 +157,9 @@ const phrases = {
       sortDesc: 'Sorter synkande',
       pickPageSize: 'Velg antall rader',
       numberOfRows: 'Antall rader',
+      onHold: 'Parkert',
+      onHoldHeading: 'Parkerte ressursar',
+      onHoldDescription: 'Parkerte ressursar der du står som ansvarleg',
     },
     welcomeBack: 'Velkommen',
   },
@@ -1532,7 +1535,7 @@ const phrases = {
     add: 'Legg til',
     getExisting: 'Eller hent eksisterande ressurs',
     inProgress: 'Denne artikkelen har blitt byrja på',
-    addPriority: 'Sett artikkel som prioritert',
+    addPriority: 'Prioritering',
     changeName: {
       loadError: 'Klarte ikkje hente omsetjingar',
       updateError: 'Klarte ikkje oppdatere omsetjingar',
@@ -1741,6 +1744,7 @@ const phrases = {
     changeHeader: 'Endringer',
     saveAsNew: 'Lagre som kopi',
     prioritized: 'Prioritert',
+    placeholderPrioritized: 'Velg prioritet',
   },
   taxonomyVersions: {
     title: 'Taksonomiversjonar',

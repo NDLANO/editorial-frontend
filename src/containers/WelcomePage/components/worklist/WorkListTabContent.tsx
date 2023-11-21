@@ -12,6 +12,7 @@ import { IMultiSearchResult } from '@ndla/types-backend/search-api';
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
 import Pager from '@ndla/pager';
+import { spacing } from '@ndla/core';
 import { Comment, ExclamationMark } from '@ndla/icons/common';
 import Tooltip from '@ndla/tooltip';
 import styled from '@emotion/styled';
@@ -51,20 +52,32 @@ const StyledExclamationMark = styled(ExclamationMark)`
   }
 `;
 
+const StyledIconWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  height: 100%;
+`;
+const StyledCommentIcon = styled(Comment)`
+  width: ${spacing.snormal};
+  height: ${spacing.snormal};
+`;
+
 interface Props {
-  data?: IMultiSearchResult;
-  filterSubject?: SingleValue;
+  data: IMultiSearchResult | undefined;
   isLoading: boolean;
   setSortOption: (o: Prefix<'-', SortOption>) => void;
   sortOption: string;
   error: string | undefined;
-  setFilterSubject: (fs: SingleValue) => void;
-  ndlaId?: string;
+  ndlaId: string | undefined;
   setPage: (page: number) => void;
-  setPrioritized: (prioritized: boolean) => void;
-  prioritized: boolean;
   pageSize: SingleValue;
   setPageSize: (p: SingleValue) => void;
+  filterSubject?: SingleValue;
+  setFilterSubject?: (fs: SingleValue) => void;
+  setPrioritized?: (prioritized: boolean) => void;
+  prioritized?: boolean;
+  headerText?: string;
+  descriptionText?: string;
 }
 const WorkListTabContent = ({
   data,
@@ -80,6 +93,8 @@ const WorkListTabContent = ({
   prioritized,
   pageSize,
   setPageSize,
+  headerText = 'welcomePage.workList.heading',
+  descriptionText = 'welcomePage.workList.description',
 }: Props) => {
   const { t } = useTranslation();
 
@@ -108,11 +123,12 @@ const WorkListTabContent = ({
                     </StyledLink>
                   </StyledTitleWrapper>
                   {res.comments?.length ? (
-                    <Tooltip tooltip={res.comments[0]?.content}>
-                      <div>
-                        <Comment />
-                      </div>
-                    </Tooltip>
+                    <StyledIconWrapper>
+                      <StyledCommentIcon
+                        title={res.comments[0]?.content}
+                        aria-label={res.comments[0]?.content}
+                      />
+                    </StyledIconWrapper>
                   ) : null}
                 </CellWrapper>
               ),
@@ -167,35 +183,41 @@ const WorkListTabContent = ({
   return (
     <>
       <StyledTopRowDashboardInfo>
-        <TableTitle
-          title={t('welcomePage.workList.heading')}
-          description={t('welcomePage.workList.description')}
-          Icon={Calendar}
-        />
+        <TableTitle title={t(headerText)} description={t(descriptionText)} Icon={Calendar} />
         <ControlWrapperDashboard>
           <TopRowControls>
             <PageSizeDropdown pageSize={pageSize} setPageSize={setPageSize} />
-            <SubjectDropdown
-              subjectIds={subjectIds || []}
-              filterSubject={filterSubject}
-              setFilterSubject={setFilterSubject}
-            />
-            <GoToSearch ndlaId={ndlaId} filterSubject={filterSubject?.value} searchEnv="content" />
+            {setFilterSubject && (
+              <>
+                <SubjectDropdown
+                  subjectIds={subjectIds || []}
+                  filterSubject={filterSubject}
+                  setFilterSubject={setFilterSubject}
+                />
+                <GoToSearch
+                  ndlaId={ndlaId}
+                  filterSubject={filterSubject?.value}
+                  searchEnv="content"
+                />
+              </>
+            )}
           </TopRowControls>
-          <Tooltip tooltip={t('welcomePage.prioritizedLabel')}>
-            <SwitchWrapper>
-              <StyledSwitch
-                checked={prioritized}
-                onChange={() => {
-                  setPrioritized(!prioritized);
-                  setPage(1);
-                }}
-                label={t('welcomePage.prioritizedLabel')}
-                id="filter-prioritized-switch"
-                thumbCharacter="P"
-              />
-            </SwitchWrapper>
-          </Tooltip>
+          {setPrioritized && (
+            <Tooltip tooltip={t('welcomePage.prioritizedLabel')}>
+              <SwitchWrapper>
+                <StyledSwitch
+                  checked={prioritized ?? false}
+                  onChange={() => {
+                    setPrioritized(!prioritized);
+                    setPage(1);
+                  }}
+                  label={t('welcomePage.prioritizedLabel')}
+                  id="filter-prioritized-switch"
+                  thumbCharacter="P"
+                />
+              </SwitchWrapper>
+            </Tooltip>
+          )}
         </ControlWrapperDashboard>
       </StyledTopRowDashboardInfo>
       <TableComponent

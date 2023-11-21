@@ -35,10 +35,10 @@ describe('combined table plugin tests', () => {
 
   test('Make sure cells in first row is marked as header', () => {
     const initial =
-      '<section><table><thead><tr><th align="right" id="00">1</th></tr></thead><tbody><tr><td><p>2</p></td></tr></tbody></table></section>';
+      '<section><table><thead><tr><th align="right">1</th></tr></thead><tbody><tr><td><p>2</p></td></tr></tbody></table></section>';
 
     const expected =
-      '<section><table><thead><tr><th align="right" id="00" scope="col"><p>1</p></th></tr></thead><tbody><tr><td align="right" headers="00"><p>2</p></td></tr></tbody></table></section>';
+      '<section><table><thead><tr><th align="right" scope="col"><p>1</p></th></tr></thead><tbody><tr><td align="right"><p>2</p></td></tr></tbody></table></section>';
 
     const deserialized = blockContentToEditorValue(initial);
 

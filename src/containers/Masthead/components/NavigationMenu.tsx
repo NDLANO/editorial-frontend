@@ -23,7 +23,6 @@ import {
 import { List } from '@ndla/icons/action';
 //@ts-ignore
 import { ContentTypeBadge, constants } from '@ndla/ui';
-import Tooltip from '@ndla/tooltip';
 import { styledListElement } from '../../../components/StyledListElement/StyledListElement';
 import config from '../../../config';
 import {
@@ -66,13 +65,6 @@ const StyledNav = styled.nav`
   margin: 0 auto;
 `;
 
-const DisabledButton = styled.button`
-  cursor: not-allowed;
-  > span {
-    color: ${colors.brand.greyMedium};
-  }
-`;
-
 interface Props {
   close: () => void;
 }
@@ -82,41 +74,10 @@ const OpenMenu = ({ close }: Props) => {
   const { contentTypes } = constants;
   const { userPermissions } = useSession();
 
-  const ariaLabelDisabled = `${t('subNavigation.subjectMatter')}. ${t(
-    'subNavigation.creationMovedInfo',
-  )}`;
   return (
     <ContentWrapper>
       <StyledNav>
         <div>
-          <DisabledButton
-            css={styledListElement}
-            aria-disabled={true}
-            disabled
-            role="link"
-            aria-label={ariaLabelDisabled}
-          >
-            <Tooltip tooltip={t('subNavigation.creationMovedInfo')}>
-              <StyledMenuItem>
-                <ContentTypeBadge type={contentTypes.SUBJECT_MATERIAL} background size="xx-small" />
-                {t('subNavigation.subjectMatter')}
-              </StyledMenuItem>
-            </Tooltip>
-          </DisabledButton>
-          <DisabledButton
-            css={styledListElement}
-            aria-disabled={true}
-            disabled
-            role="link"
-            aria-label={ariaLabelDisabled}
-          >
-            <Tooltip tooltip={t('subNavigation.creationMovedInfo')}>
-              <StyledMenuItem>
-                <ContentTypeBadge type={contentTypes.TOPIC} background size="xx-small" />
-                {t('subNavigation.topicArticle')}
-              </StyledMenuItem>
-            </Tooltip>
-          </DisabledButton>
           <Link css={styledListElement} to={toCreateConcept()} onClick={close}>
             <StyledMenuItem>
               <Concept /> {t('subNavigation.newConcept')}
@@ -159,6 +120,12 @@ const OpenMenu = ({ close }: Props) => {
               {t('subNavigation.newFrontpageArticle')}
             </StyledMenuItem>
           </Link>
+          <Link css={styledListElement} to={toEditNdlaFilm()} onClick={close}>
+            <StyledMenuItem>
+              <ContentTypeBadge type={contentTypes.SUBJECT} background size="xx-small" />
+              {t('subNavigation.film')}
+            </StyledMenuItem>
+          </Link>
         </div>
         <div>
           <Link css={styledListElement} to="/structure" onClick={close}>
@@ -189,12 +156,7 @@ const OpenMenu = ({ close }: Props) => {
               {t('subNavigation.publishRequests')}
             </StyledMenuItem>
           </Link>
-          <Link css={styledListElement} to={toEditNdlaFilm()} onClick={close}>
-            <StyledMenuItem>
-              <ContentTypeBadge type={contentTypes.SUBJECT} background size="xx-small" />
-              {t('subNavigation.film')}
-            </StyledMenuItem>
-          </Link>
+
           <Link css={styledListElement} to="/h5p" onClick={close}>
             <StyledMenuItem>
               <H5P />

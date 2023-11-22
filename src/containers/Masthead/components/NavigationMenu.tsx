@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Launch, Audio, Podcast } from '@ndla/icons/common';
 import styled from '@emotion/styled';
-import { spacing, animations, colors } from '@ndla/core';
+import { spacing, colors } from '@ndla/core';
 import {
   Camera,
   CloudUploadOutline,
@@ -68,7 +68,7 @@ const StyledNav = styled.nav`
 
 const DisabledButton = styled.button`
   cursor: not-allowed;
-  > div {
+  > span {
     color: ${colors.brand.greyMedium};
   }
 `;

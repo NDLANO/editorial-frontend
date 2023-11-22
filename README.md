@@ -6,7 +6,7 @@ NDLA Editorial Frontend for producing content for NDLA
 
 ## Requirements
 
-- Node.JS 18
+- Node.JS 20.9
 - yarn ~1.15.0
 - Docker (optional)
 

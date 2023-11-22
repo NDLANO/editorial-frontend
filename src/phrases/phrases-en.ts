@@ -1741,7 +1741,7 @@ const phrases = {
     changeHeader: 'Changes',
     saveAsNew: 'Save as copy',
     prioritized: 'Prioritized',
-    placeholderPrioritized: 'Choose priority',
+    placeholderPrioritized: 'No priority',
   },
   taxonomyVersions: {
     title: 'Taxonomy Versions',

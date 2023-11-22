@@ -53,8 +53,6 @@ const NdlaFilmArticle = ({ fieldName, onUpdateArticle }: Props) => {
     fetchArticle();
   }, []);
 
-  console.log('selected article', selectedArticle);
-
   return (
     <>
       {selectedArticle && (
@@ -70,7 +68,7 @@ const NdlaFilmArticle = ({ fieldName, onUpdateArticle }: Props) => {
               variant="ghost"
               colorTheme="danger"
               data-testid="elementListItemDeleteButton"
-              onClick={() => console.log('sletteee?')}
+              onClick={() => onUpdateArticle(field, form)}
             >
               <DeleteForever />
             </IconButtonV2>

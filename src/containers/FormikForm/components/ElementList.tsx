@@ -199,7 +199,6 @@ class ElementList extends Component<Props, State> {
           {elements
             .filter((element) => !!element)
             .map((element, index) => {
-              console.log('fra element item', element);
               if ('id' in element) {
                 return (
                   <ElementListItem

@@ -206,9 +206,7 @@ const phrases = {
     learningPath: 'Læringssti',
     learningPathLink: 'Gå til læringssti',
     brightcoveLink: 'Gå til Brightcove',
-    subjectMatter: 'Opprett læringsressurs',
     detailSearch: 'Detaljsøk',
-    topicArticle: 'Opprett emne',
     learningResource: 'Læringsressurs',
     image: 'Nytt bilete',
     audio: 'Ny lydfil',
@@ -230,7 +228,6 @@ const phrases = {
     newGloss: 'Opprett glose',
     newSubject: 'Opprett fag',
     newFrontpageArticle: 'Opprett Om-NDLA-artikkel',
-    creationMovedInfo: 'Emner og ressursar må opprettast frå strukturredigeringa',
     frontpage: 'Rediger forside',
   },
   logo: {

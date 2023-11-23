@@ -46,12 +46,14 @@ const NdlaFilmArticle = ({ fieldName, onUpdateArticle }: Props) => {
     if (field.value) {
       const article = await searchArticles({ ids: `${getIdFromUrn(field.value)}` });
       setSelectedArticle(article.results[0]);
+    } else {
+      setSelectedArticle(null);
     }
   };
 
   useEffect(() => {
     fetchArticle();
-  }, []);
+  }, [field.value]);
 
   return (
     <>

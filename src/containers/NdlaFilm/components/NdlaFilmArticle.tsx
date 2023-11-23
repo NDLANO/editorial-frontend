@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
+import { FieldHeader } from '@ndla/forms';
 import { colors, spacing } from '@ndla/core';
 import { DeleteForever } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
@@ -30,7 +31,7 @@ const ArticleElement = styled.div`
   background: ${colors.brand.greyLighter};
   display: flex;
   justify-content: space-between;
-  margin: 0 0 ${spacing.normal};
+  margin: ${spacing.normal} 0;
   padding: ${spacing.small};
 `;
 
@@ -55,6 +56,10 @@ const NdlaFilmArticle = ({ fieldName, onUpdateArticle }: Props) => {
 
   return (
     <>
+      <FieldHeader
+        title={t('ndlaFilm.editor.moreInfoTitle')}
+        subTitle={t('ndlaFilm.editor.moreInfoSubTitle')}
+      />
       {selectedArticle && (
         <ArticleElement>
           <Link

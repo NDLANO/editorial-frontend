@@ -1716,6 +1716,8 @@ const phrases = {
       newGroupTitle: 'Kva skal gruppa heite?',
       notFound: 'Vi finn ikkje metadata for denne filmen...',
       moreInfoHeader: 'Meir informasjon',
+      moreInfoTitle: 'Artikkel',
+      moreInfoSubTitle: 'til Les meir-lenke',
       addArticleToMoreInformation: 'Legg til ein artikkel',
       removeArticleFromMoreInformation: 'Fjern artikkel',
     },

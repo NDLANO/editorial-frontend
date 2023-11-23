@@ -14,7 +14,7 @@ import { IconButtonV2 } from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
 import { DeleteForever } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
-import { IArticleSummaryV2 } from '@ndla/types-backend/build/article-api';
+import { IArticleSummaryV2 } from '@ndla/types-backend/article-api';
 import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
 import DropdownSearch from '../../NdlaFilm/components/DropdownSearch';
 import { getUrnFromId, getIdFromUrn } from '../../../util/ndlaFilmHelpers';
@@ -38,9 +38,7 @@ const NdlaFilmArticle = ({ fieldName, onUpdateArticle }: Props) => {
   const { t } = useTranslation();
   const form = useFormikContext();
   const [field] = useField<string>(fieldName);
-  const [selectedArticle, setSelectedArticle] = useState<
-    null | IMultiSearchSummary | IArticleSummaryV2
-  >(null);
+  const [selectedArticle, setSelectedArticle] = useState<null | IArticleSummaryV2>(null);
 
   const fetchArticle = useCallback(async () => {
     if (field.value) {
@@ -53,7 +51,7 @@ const NdlaFilmArticle = ({ fieldName, onUpdateArticle }: Props) => {
 
   useEffect(() => {
     fetchArticle();
-  }, [field.value]);
+  }, [field.value, fetchArticle]);
 
   return (
     <>

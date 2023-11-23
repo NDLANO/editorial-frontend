@@ -70,7 +70,7 @@ const NdlaFilmArticle = ({ fieldName, onUpdateArticle }: Props) => {
               variant="ghost"
               colorTheme="danger"
               data-testid="elementListItemDeleteButton"
-              onClick={() => onUpdateArticle(field, form)}
+              onClick={() => onUpdateArticle(field, form, null)}
             >
               <DeleteForever />
             </IconButtonV2>
@@ -85,6 +85,7 @@ const NdlaFilmArticle = ({ fieldName, onUpdateArticle }: Props) => {
           onUpdateArticle(field, form, getUrnFromId(article.id));
         }}
         placeholder={'søk da, for faen'}
+        clearInputField
       />
     </>
   );

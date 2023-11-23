@@ -45,9 +45,6 @@ const ndlaFilmRules: RulesType<FilmFormikType> = {
   title: {
     required: true,
   },
-  article: {
-    required: false,
-  },
   description: {
     required: true,
     maxLength: 300,

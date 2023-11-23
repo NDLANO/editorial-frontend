@@ -148,13 +148,12 @@ export const getNdlaFilmFromSlate = (
     };
   });
 
-  const article = newFrontpage.article;
   return {
     name: newFrontpage.name,
     about: newAbout,
     movieThemes: newThemes,
     slideShow: newSlideShow,
-    article: article,
+    article: newFrontpage.article,
   };
 };
 

@@ -39,14 +39,14 @@ const NdlaFilmArticle = ({ fieldName, onUpdateArticle }: Props) => {
   const { t } = useTranslation();
   const form = useFormikContext();
   const [field] = useField<string>(fieldName);
-  const [selectedArticle, setSelectedArticle] = useState<null | IArticleSummaryV2>(null);
+  const [selectedArticle, setSelectedArticle] = useState<undefined | IArticleSummaryV2>(undefined);
 
   const fetchArticle = useCallback(async () => {
     if (field.value) {
       const article = await searchArticles({ ids: `${getIdFromUrn(field.value)}` });
       setSelectedArticle(article.results[0]);
     } else {
-      setSelectedArticle(null);
+      setSelectedArticle(undefined);
     }
   }, [field.value]);
 

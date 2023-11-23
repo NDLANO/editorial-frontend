@@ -205,9 +205,7 @@ const phrases = {
     learningPath: 'Learningpath',
     learningPathLink: 'Go to learningpath',
     brightcoveLink: 'Go to Brightcove',
-    subjectMatter: 'Subject matter',
     detailSearch: 'Detail search',
-    topicArticle: 'Create new topic',
     learningResource: 'Learning resource',
     image: 'New image',
     audio: 'New Audiofile',
@@ -229,7 +227,6 @@ const phrases = {
     newGloss: 'Create new gloss',
     newSubject: 'Create new subject',
     newFrontpageArticle: 'Create new About-NDLA article',
-    creationMovedInfo: 'Topics and resources need to be created from structure',
     frontpage: 'Edit front page',
   },
   logo: {

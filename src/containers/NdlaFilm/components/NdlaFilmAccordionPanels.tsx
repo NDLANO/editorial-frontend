@@ -67,7 +67,7 @@ const SubjectpageAccordionPanels = ({ errors, selectedLanguage }: ComponentProps
       </FormAccordion>
       <FormAccordion
         id="article"
-        title="Artikkel"
+        title={t('ndlaFilm.editor.moreInfoHeader')}
         hasError={['article'].some((field) => field in errors)}
       >
         <FormikField name="article">

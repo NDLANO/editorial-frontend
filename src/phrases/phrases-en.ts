@@ -1712,6 +1712,9 @@ const phrases = {
       editGroupTitle: 'Change the name(s) in this movie group:',
       newGroupTitle: 'What shall we call the new movie group?',
       notFound: 'We can not find metadata for this movie...',
+      moreInfoHeader: 'More information',
+      addArticleToMoreInformation: 'Add an article',
+      removeArticleFromMoreInformation: 'Remove article',
     },
   },
   modal: {

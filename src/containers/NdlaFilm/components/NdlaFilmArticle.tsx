@@ -64,9 +64,9 @@ const NdlaFilmArticle = ({ fieldName, onUpdateArticle }: Props) => {
           >
             {selectedArticle.title.title}
           </Link>
-          <Tooltip tooltip={''}>
+          <Tooltip tooltip={t('ndlaFilm.editor.removeArticleFromMoreInformation')}>
             <IconButtonV2
-              aria-label={''}
+              aria-label={t('ndlaFilm.editor.removeArticleFromMoreInformation')}
               variant="ghost"
               colorTheme="danger"
               data-testid="elementListItemDeleteButton"
@@ -84,7 +84,7 @@ const NdlaFilmArticle = ({ fieldName, onUpdateArticle }: Props) => {
           console.log(article);
           onUpdateArticle(field, form, getUrnFromId(article.id));
         }}
-        placeholder={'søk da, for faen'}
+        placeholder={t('ndlaFilm.editor.addArticleToMoreInformation')}
         clearInputField
       />
     </>

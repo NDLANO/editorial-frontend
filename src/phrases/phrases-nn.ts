@@ -1715,6 +1715,9 @@ const phrases = {
       editGroupTitle: 'Endre namn(a) på filmgruppa:',
       newGroupTitle: 'Kva skal gruppa heite?',
       notFound: 'Vi finn ikkje metadata for denne filmen...',
+      moreInfoHeader: 'Meir informasjon',
+      addArticleToMoreInformation: 'Legg til ein artikkel',
+      removeArticleFromMoreInformation: 'Fjern artikkel',
     },
   },
   modal: {

@@ -1741,7 +1741,7 @@ const phrases = {
     changeHeader: 'Endringer',
     saveAsNew: 'Lagre som kopi',
     prioritized: 'Prioritert',
-    placeholderPrioritized: 'Velg prioritet',
+    placeholderPrioritized: 'Ingen prioritet',
   },
   taxonomyVersions: {
     title: 'Taksonomiversjonar',

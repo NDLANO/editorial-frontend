@@ -212,25 +212,6 @@ const WorkList = ({ ndlaId }: Props) => {
           ),
         },
         {
-          title: `${t('form.name.concepts')} (${searchConceptsQuery.data?.totalCount ?? 0})`,
-          id: 'concepts',
-          content: (
-            <ConceptListTabContent
-              data={searchConceptsQuery.data}
-              setSortOption={setSortOptionConcepts}
-              isLoading={searchConceptsQuery.isLoading}
-              error={searchConceptsError}
-              sortOption={sortOptionConcepts}
-              filterSubject={filterConceptSubject}
-              setFilterSubject={setFilterConceptSubject}
-              ndlaId={ndlaId}
-              setPageConcept={setPageConcept}
-              pageSizeConcept={pageSizeConcept}
-              setPageSizeConcept={setPageSizeConcept}
-            />
-          ),
-        },
-        {
           title: `${t('welcomePage.workList.onHold')} (${searchOnHoldQuery.data?.totalCount ?? 0})`,
           id: 'onHold',
           content: (
@@ -246,6 +227,25 @@ const WorkList = ({ ndlaId }: Props) => {
               setPageSize={setPageSizeOnHold}
               headerText="welcomePage.workList.onHoldHeading"
               descriptionText="welcomePage.workList.onHoldDescription"
+            />
+          ),
+        },
+        {
+          title: `${t('form.name.concepts')} (${searchConceptsQuery.data?.totalCount ?? 0})`,
+          id: 'concepts',
+          content: (
+            <ConceptListTabContent
+              data={searchConceptsQuery.data}
+              setSortOption={setSortOptionConcepts}
+              isLoading={searchConceptsQuery.isLoading}
+              error={searchConceptsError}
+              sortOption={sortOptionConcepts}
+              filterSubject={filterConceptSubject}
+              setFilterSubject={setFilterConceptSubject}
+              ndlaId={ndlaId}
+              setPageConcept={setPageConcept}
+              pageSizeConcept={pageSizeConcept}
+              setPageSizeConcept={setPageSizeConcept}
             />
           ),
         },

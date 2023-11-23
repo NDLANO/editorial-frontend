@@ -53,7 +53,7 @@ const NdlaFilmArticle = ({ fieldName, onUpdateArticle }: Props) => {
 
   useEffect(() => {
     fetchArticle();
-  }, [field.value]);
+  }, [field.value, fetchArticle]);
 
   return (
     <>

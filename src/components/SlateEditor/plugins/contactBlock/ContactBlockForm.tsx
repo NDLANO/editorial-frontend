@@ -59,7 +59,7 @@ const rules: RulesType<ContactBlockFormValues> = {
   },
   metaImageAlt: {
     required: true,
-    onlyValidateIf: (values) => !values.isDecorative,
+    onlyValidateIf: (values) => !values.isDecorative && !!values.metaImageId,
   },
 };
 

@@ -6,7 +6,7 @@
  */
 
 import { useField, useFormikContext } from 'formik';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
@@ -42,18 +42,18 @@ const NdlaFilmArticle = ({ fieldName, onUpdateArticle }: Props) => {
     null | IMultiSearchSummary | IArticleSummaryV2
   >(null);
 
-  const fetchArticle = async () => {
+  const fetchArticle = useCallback(async () => {
     if (field.value) {
       const article = await searchArticles({ ids: `${getIdFromUrn(field.value)}` });
       setSelectedArticle(article.results[0]);
     } else {
       setSelectedArticle(null);
     }
-  };
+  }, [field.value]);
 
   useEffect(() => {
     fetchArticle();
-  }, [field.value, fetchArticle]);
+  }, [field.value]);
 
   return (
     <>

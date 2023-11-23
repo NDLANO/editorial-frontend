@@ -79,7 +79,6 @@ const NdlaFilmArticle = ({ fieldName, onUpdateArticle }: Props) => {
         contextTypes="article"
         selectedElements={[]}
         onChange={(article: IMultiSearchSummary) => {
-          console.log(article);
           onUpdateArticle(field, form, getUrnFromId(article.id));
         }}
         placeholder={t('ndlaFilm.editor.addArticleToMoreInformation')}

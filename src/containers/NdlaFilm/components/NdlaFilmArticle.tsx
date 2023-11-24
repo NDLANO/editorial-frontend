@@ -6,7 +6,7 @@
  */
 
 import { useField, useFormikContext } from 'formik';
-import { useCallback, useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
@@ -17,7 +17,7 @@ import { DeleteForever } from '@ndla/icons/editor';
 import { IArticleSummaryV2 } from '@ndla/types-backend/article-api';
 import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
 import DropdownSearch from '../../NdlaFilm/components/DropdownSearch';
-import { searchArticles } from '../../../modules/article/articleApi';
+import { useArticleSearch } from '../../../modules/article/articleQueries';
 import { getUrnFromId, getIdFromUrn } from '../../../util/ndlaFilmHelpers';
 import { toEditFrontPageArticle } from '../../../util/routeHelpers';
 
@@ -39,20 +39,18 @@ const NdlaFilmArticle = ({ fieldName, onUpdateArticle }: Props) => {
   const { t } = useTranslation();
   const form = useFormikContext();
   const [field] = useField<string>(fieldName);
-  const [selectedArticle, setSelectedArticle] = useState<undefined | IArticleSummaryV2>(undefined);
 
-  const fetchArticle = useCallback(async () => {
-    if (field.value) {
-      const article = await searchArticles({ ids: `${getIdFromUrn(field.value)}` });
-      setSelectedArticle(article.results[0]);
-    } else {
-      setSelectedArticle(undefined);
+  const article = useArticleSearch(
+    { ids: field.value ? `${getIdFromUrn(field.value)}` : undefined },
+    { enabled: !!field.value },
+  );
+
+  const selectedArticle: undefined | IArticleSummaryV2 = useMemo(() => {
+    if (article.isLoading || !article.data) {
+      return undefined;
     }
-  }, [field.value]);
-
-  useEffect(() => {
-    fetchArticle();
-  }, [field.value, fetchArticle]);
+    return article.data.results[0];
+  }, [article.data, article.isLoading]);
 
   return (
     <>

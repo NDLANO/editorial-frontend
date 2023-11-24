@@ -14,7 +14,6 @@ import { IconButtonV2 } from '@ndla/button';
 import { FieldHeader } from '@ndla/forms';
 import { colors, spacing } from '@ndla/core';
 import { DeleteForever } from '@ndla/icons/editor';
-import Tooltip from '@ndla/tooltip';
 import { IArticleSummaryV2 } from '@ndla/types-backend/article-api';
 import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
 import DropdownSearch from '../../NdlaFilm/components/DropdownSearch';
@@ -67,17 +66,16 @@ const NdlaFilmArticle = ({ fieldName, onUpdateArticle }: Props) => {
           >
             {selectedArticle.title.title}
           </Link>
-          <Tooltip tooltip={t('ndlaFilm.editor.removeArticleFromMoreInformation')}>
-            <IconButtonV2
-              aria-label={t('ndlaFilm.editor.removeArticleFromMoreInformation')}
-              variant="ghost"
-              colorTheme="danger"
-              data-testid="elementListItemDeleteButton"
-              onClick={() => onUpdateArticle(field, form, null)}
-            >
-              <DeleteForever />
-            </IconButtonV2>
-          </Tooltip>
+          <IconButtonV2
+            aria-label={t('ndlaFilm.editor.removeArticleFromMoreInformation')}
+            variant="ghost"
+            title={t('ndlaFilm.editor.removeArticleFromMoreInformation')}
+            colorTheme="danger"
+            data-testid="elementListItemDeleteButton"
+            onClick={() => onUpdateArticle(field, form, null)}
+          >
+            <DeleteForever />
+          </IconButtonV2>
         </ArticleElement>
       )}
       <DropdownSearch

@@ -50,7 +50,7 @@ const SubjectpageAccordionPanels = ({ errors, selectedLanguage }: ComponentProps
     field.onChange({
       target: {
         name: field.name,
-        value: articleId || '',
+        value: articleId,
       },
     });
   };

@@ -17,8 +17,9 @@ import { DeleteForever } from '@ndla/icons/editor';
 import { IArticleSummaryV2 } from '@ndla/types-backend/article-api';
 import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
 import DropdownSearch from '../../NdlaFilm/components/DropdownSearch';
-import { getUrnFromId, getIdFromUrn } from '../../../util/ndlaFilmHelpers';
 import { searchArticles } from '../../../modules/article/articleApi';
+import { getUrnFromId, getIdFromUrn } from '../../../util/ndlaFilmHelpers';
+import { toEditFrontPageArticle } from '../../../util/routeHelpers';
 
 interface Props {
   fieldName: string;
@@ -61,9 +62,7 @@ const NdlaFilmArticle = ({ fieldName, onUpdateArticle }: Props) => {
       />
       {selectedArticle && (
         <ArticleElement>
-          <Link
-            to={`/subject-matter/learning-resource/${selectedArticle.id}/edit/${selectedArticle.title.language}`}
-          >
+          <Link to={toEditFrontPageArticle(selectedArticle.id, selectedArticle.title.language)}>
             {selectedArticle.title.title}
           </Link>
           <IconButtonV2

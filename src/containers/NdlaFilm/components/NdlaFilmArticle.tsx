@@ -6,7 +6,7 @@
  */
 
 import { useField, useFormikContext } from 'formik';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
@@ -14,9 +14,9 @@ import { IconButtonV2 } from '@ndla/button';
 import { FieldHeader } from '@ndla/forms';
 import { colors, spacing } from '@ndla/core';
 import { DeleteForever } from '@ndla/icons/editor';
-import { IArticleSummaryV2 } from '@ndla/types-backend/article-api';
+import { IArticleSummaryV2, IArticleV2 } from '@ndla/types-backend/article-api';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
-import { searchArticles } from '../../../modules/article/articleApi';
+import { getArticle, searchArticles } from '../../../modules/article/articleApi';
 import { useArticleSearch } from '../../../modules/article/articleQueries';
 import { getUrnFromId, getIdFromUrn } from '../../../util/ndlaFilmHelpers';
 import { toEditFrontPageArticle } from '../../../util/routeHelpers';
@@ -39,18 +39,21 @@ const NdlaFilmArticle = ({ fieldName, onUpdateArticle }: Props) => {
   const { t } = useTranslation();
   const form = useFormikContext();
   const [field] = useField<string>(fieldName);
+  const [selectedArticle, setSelectedArticle] = useState<undefined | IArticleV2>(undefined);
 
-  const article = useArticleSearch(
-    { ids: field.value ? `${getIdFromUrn(field.value)}` : undefined },
-    { enabled: !!field.value },
-  );
+  useEffect(() => {
+    const initSelectedArticle = async () => {
+      if (field.value) {
+        const response = await getArticle(getIdFromUrn(field.value));
+        setSelectedArticle(response);
+      } else {
+        setSelectedArticle(undefined);
+      }
+    };
+    initSelectedArticle();
+  }, [field.value]);
 
-  const selectedArticle: undefined | IArticleSummaryV2 = useMemo(() => {
-    if (article.isLoading || !article.data) {
-      return undefined;
-    }
-    return article.data.results[0];
-  }, [article.data, article.isLoading]);
+  console.log(selectedArticle);
 
   const onSearch = useCallback((query: string, page?: number) => {
     return searchArticles({ articleTypes: ['frontpage-article'], page, query });

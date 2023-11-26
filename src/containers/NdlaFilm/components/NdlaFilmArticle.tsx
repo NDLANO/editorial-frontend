@@ -15,16 +15,11 @@ import { FieldHeader } from '@ndla/forms';
 import { colors, spacing } from '@ndla/core';
 import { DeleteForever } from '@ndla/icons/editor';
 import { IArticleSummaryV2 } from '@ndla/types-backend/article-api';
-import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
-import DropdownSearch from '../../NdlaFilm/components/DropdownSearch';
+import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
+import { searchArticles } from '../../../modules/article/articleApi';
 import { useArticleSearch } from '../../../modules/article/articleQueries';
 import { getUrnFromId, getIdFromUrn } from '../../../util/ndlaFilmHelpers';
 import { toEditFrontPageArticle } from '../../../util/routeHelpers';
-
-import FrontpageArticleSearch from '../../FrontpageEditPage/FrontpageArticleSearch';
-import { Plus } from '@ndla/icons/action';
-import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
-import { searchArticles } from '../../../modules/article/articleApi';
 
 interface Props {
   fieldName: string;

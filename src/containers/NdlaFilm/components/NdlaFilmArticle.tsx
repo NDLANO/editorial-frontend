@@ -53,8 +53,6 @@ const NdlaFilmArticle = ({ fieldName, onUpdateArticle }: Props) => {
     initSelectedArticle();
   }, [field.value]);
 
-  console.log(selectedArticle);
-
   const onSearch = useCallback((query: string, page?: number) => {
     return searchArticles({ articleTypes: ['frontpage-article'], page, query });
   }, []);

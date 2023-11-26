@@ -6,7 +6,7 @@
  */
 
 import { useField, useFormikContext } from 'formik';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
@@ -20,6 +20,11 @@ import DropdownSearch from '../../NdlaFilm/components/DropdownSearch';
 import { useArticleSearch } from '../../../modules/article/articleQueries';
 import { getUrnFromId, getIdFromUrn } from '../../../util/ndlaFilmHelpers';
 import { toEditFrontPageArticle } from '../../../util/routeHelpers';
+
+import FrontpageArticleSearch from '../../FrontpageEditPage/FrontpageArticleSearch';
+import { Plus } from '@ndla/icons/action';
+import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
+import { searchArticles } from '../../../modules/article/articleApi';
 
 interface Props {
   fieldName: string;
@@ -52,6 +57,10 @@ const NdlaFilmArticle = ({ fieldName, onUpdateArticle }: Props) => {
     return article.data.results[0];
   }, [article.data, article.isLoading]);
 
+  const onSearch = useCallback((query: string, page?: number) => {
+    return searchArticles({ articleTypes: ['frontpage-article'], page, query });
+  }, []);
+
   return (
     <>
       <FieldHeader
@@ -75,13 +84,18 @@ const NdlaFilmArticle = ({ fieldName, onUpdateArticle }: Props) => {
           </IconButtonV2>
         </ArticleElement>
       )}
-      <DropdownSearch
-        contextTypes="article"
-        selectedElements={[]}
-        onChange={(article: IMultiSearchSummary) => {
-          onUpdateArticle(field, form, getUrnFromId(article.id));
-        }}
-        placeholder={t('ndlaFilm.editor.addArticleToMoreInformation')}
+      <AsyncDropdown<IArticleSummaryV2>
+        idField="id"
+        labelField="title"
+        placeholder={t('frontpageForm.search')}
+        apiAction={onSearch}
+        disableSelected
+        onChange={(article: IArticleSummaryV2) =>
+          onUpdateArticle(field, form, getUrnFromId(article.id))
+        }
+        startOpen
+        showPagination
+        initialSearch={true}
         clearInputField
       />
     </>

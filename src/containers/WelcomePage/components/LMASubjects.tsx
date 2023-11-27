@@ -6,11 +6,17 @@
  *
  */
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { BookOpen } from '@ndla/icons/common';
 import { IMultiSearchResult } from '@ndla/types-backend/search-api';
 import { useTranslation } from 'react-i18next';
-import { StyledDashboardInfo, StyledLink, StyledTopRowDashboardInfo } from '../styles';
+import { SingleValue } from '@ndla/select';
+import {
+  ControlWrapperDashboard,
+  StyledDashboardInfo,
+  StyledLink,
+  StyledTopRowDashboardInfo,
+} from '../styles';
 import TableComponent, { FieldElement } from './TableComponent';
 import TableTitle from './TableTitle';
 import {
@@ -24,6 +30,7 @@ import { useNodes } from '../../../modules/nodes/nodeQueries';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import { useSearch } from '../../../modules/search/searchQueries';
 import { toSearch } from '../../../util/routeHelpers';
+import SubjectDropdown from './worklist/SubjectDropdown';
 
 const EXCLUDE_STATUSES = [PUBLISHED, UNPUBLISHED, ARCHIVED];
 
@@ -54,6 +61,7 @@ interface Props {
 }
 
 const LMASubjects = ({ ndlaId }: Props) => {
+  const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
   const { i18n, t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
 
@@ -70,16 +78,16 @@ const LMASubjects = ({ ndlaId }: Props) => {
 
   const userHasSubjectLMA = !!subjectsQuery.data?.length;
 
-  const subjectIds = useMemo(
-    () => subjectsQuery.data?.map((s) => s.id).join(', '),
-    [subjectsQuery],
+  const subjectIds: string[] | undefined = useMemo(
+    () => (filterSubject ? [filterSubject.value] : subjectsQuery.data?.map((s) => s.id)),
+    [filterSubject, subjectsQuery.data],
   );
 
   const searchQuery = useSearch(
     {
       'page-size': 0,
       'aggregate-paths': 'draftStatus.current',
-      subjects: subjectIds,
+      subjects: subjectIds?.join(', '),
     },
     {
       enabled: userHasSubjectLMA,
@@ -91,7 +99,7 @@ const LMASubjects = ({ ndlaId }: Props) => {
       'responsible-ids': ndlaId,
       'page-size': 0,
       'aggregate-paths': 'draftStatus.current',
-      subjects: subjectIds,
+      subjects: subjectIds?.join(', '),
     },
     {
       enabled: userHasSubjectLMA,
@@ -157,6 +165,13 @@ const LMASubjects = ({ ndlaId }: Props) => {
               description={t('welcomePage.lmaSubjectsDescription')}
               Icon={BookOpen}
             />
+            <ControlWrapperDashboard>
+              <SubjectDropdown
+                subjectIds={subjectIds || []}
+                filterSubject={filterSubject}
+                setFilterSubject={setFilterSubject}
+              />
+            </ControlWrapperDashboard>
           </StyledTopRowDashboardInfo>
           <TableComponent
             isLoading={searchQuery.isLoading}

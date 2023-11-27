@@ -8,6 +8,7 @@
 
 import { useMemo } from 'react';
 import { BookOpen } from '@ndla/icons/common';
+import { IMultiSearchResult } from '@ndla/types-backend/search-api';
 import { useTranslation } from 'react-i18next';
 import { StyledDashboardInfo, StyledLink, StyledTopRowDashboardInfo } from '../styles';
 import TableComponent, { FieldElement } from './TableComponent';
@@ -25,6 +26,28 @@ import { useSearch } from '../../../modules/search/searchQueries';
 import { toSearch } from '../../../util/routeHelpers';
 
 const EXCLUDE_STATUSES = [PUBLISHED, UNPUBLISHED, ARCHIVED];
+
+// Function to combine results from two aggregations into one result array
+const getResultAggregationList = (
+  searchResult: IMultiSearchResult | undefined,
+  responibleSearchResult: IMultiSearchResult | undefined,
+) => {
+  const aggData = searchResult?.aggregations.find((a) => a.field === 'draftStatus.current');
+  const aggDataExcludeStatuses =
+    aggData?.values.filter((v) => !EXCLUDE_STATUSES.includes(v.value)) ?? [];
+
+  const responsibleAggData = responibleSearchResult?.aggregations.find(
+    (a) => a.field === 'draftStatus.current',
+  );
+  const responsibleAggDataExcludeStatuses =
+    responsibleAggData?.values.filter((v) => !EXCLUDE_STATUSES.includes(v.value)) ?? [];
+
+  const resultList = aggDataExcludeStatuses.map((aggData) => {
+    const responsibleAgg = responsibleAggDataExcludeStatuses.find((r) => r.value === aggData.value);
+    return { ...aggData, responsibleCount: responsibleAgg?.count ?? 0 };
+  });
+  return resultList;
+};
 
 interface Props {
   ndlaId: string;
@@ -46,11 +69,29 @@ const LMASubjects = ({ ndlaId }: Props) => {
   );
 
   const userHasSubjectLMA = !!subjectsQuery.data?.length;
+
+  const subjectIds = useMemo(
+    () => subjectsQuery.data?.map((s) => s.id).join(', '),
+    [subjectsQuery],
+  );
+
   const searchQuery = useSearch(
     {
       'page-size': 0,
       'aggregate-paths': 'draftStatus.current',
-      subjects: subjectsQuery.data?.map((s) => s.id).join(','),
+      subjects: subjectIds,
+    },
+    {
+      enabled: userHasSubjectLMA,
+    },
+  );
+
+  const searchResponsibleQuery = useSearch(
+    {
+      'responsible-ids': ndlaId,
+      'page-size': 0,
+      'aggregate-paths': 'draftStatus.current',
+      subjects: subjectIds,
     },
     {
       enabled: userHasSubjectLMA,
@@ -58,25 +99,22 @@ const LMASubjects = ({ ndlaId }: Props) => {
   );
 
   const error = useMemo(() => {
-    if (subjectsQuery.isError || searchQuery.isError) {
+    if (subjectsQuery.isError || searchQuery.isError || searchResponsibleQuery.error) {
       return t('welcomePage.errorMessage');
     }
-  }, [searchQuery.isError, subjectsQuery.isError, t]);
+  }, [searchQuery.isError, searchResponsibleQuery.error, subjectsQuery.isError, t]);
 
   const tableTitles = [
     { title: t('welcomePage.workList.status') },
     { title: t('welcomePage.count') },
+    { title: t('welcomePage.countResponsible') },
   ];
 
   const tableData: FieldElement[][] = useMemo(() => {
-    const aggregationData = searchQuery.data?.aggregations.find(
-      (a) => a.field === 'draftStatus.current',
-    );
-    const aggregationDataExcludeStatuses =
-      aggregationData?.values.filter((v) => !EXCLUDE_STATUSES.includes(v.value)) ?? [];
+    const resultList = getResultAggregationList(searchQuery.data, searchResponsibleQuery.data);
 
     return (
-      aggregationDataExcludeStatuses.map((statusData) => {
+      resultList.map((statusData) => {
         const statusTitle = t(`form.status.actions.${statusData.value}`);
         return [
           {
@@ -100,10 +138,14 @@ const LMASubjects = ({ ndlaId }: Props) => {
             ),
           },
           { id: `count_${statusData.value}`, data: statusData.count },
+          {
+            id: `responsible_${statusData.value}`,
+            data: statusData.responsibleCount,
+          },
         ];
       }) ?? [[]]
     );
-  }, [searchQuery.data?.aggregations, t]);
+  }, [searchQuery.data, searchResponsibleQuery.data, t]);
 
   return (
     <>

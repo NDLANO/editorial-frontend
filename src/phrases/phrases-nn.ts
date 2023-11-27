@@ -145,6 +145,7 @@ const phrases = {
     lmaSubjectsDescription: 'Fordeling av ressursar i LMA-faga dine i flyten',
     noResultsLMASubjects: 'Følgjande statusar vil ikkje visast i oversikta',
     count: 'Antall',
+    countResponsible: 'Antall ansvarleg for',
     workList: {
       heading: 'Mine arbeidsoppgåver',
       description: 'Ressursar der du står som ansvarleg',

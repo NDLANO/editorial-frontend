@@ -44,13 +44,13 @@ const SubjectpageAccordionPanels = ({ errors, selectedLanguage }: ComponentProps
   const onUpdateArticle = (
     field: FieldProps<FormikValues>['field'],
     form: FormikHelpers<FormikValues>,
-    articleId?: string,
+    article?: string,
   ) => {
     form.setFieldTouched(field.name, true, false);
     field.onChange({
       target: {
         name: field.name,
-        value: articleId,
+        value: article,
       },
     });
   };

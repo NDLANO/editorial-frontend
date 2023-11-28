@@ -12,7 +12,6 @@ import { ButtonV2, IconButtonV2 } from '@ndla/button';
 import { FieldHeader } from '@ndla/forms';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
-import Tooltip from '@ndla/tooltip';
 import { Pencil } from '@ndla/icons/action';
 import { ChevronUp, ChevronDown } from '@ndla/icons/common';
 import { DeleteForever } from '@ndla/icons/editor';
@@ -120,47 +119,42 @@ const ThemeEditor = ({ onUpdateMovieTheme, selectedLanguage }: Props) => {
                   title: t('ndlaFilm.editor.editGroupTitle'),
                 }}
               />
-              <Tooltip
-                tooltip={t('ndlaFilm.editor.deleteMovieGroup', {
+              <IconButtonV2
+                aria-label={t('ndlaFilm.editor.deleteMovieGroup')}
+                variant="ghost"
+                colorTheme="danger"
+                onClick={() => onDeleteTheme(index)}
+                data-testid={'deleteThemeButton'}
+                title={t('ndlaFilm.editor.deleteMovieGroup', {
                   name: theme.name.find((name) => name.language === selectedLanguage)?.name || '',
                 })}
               >
-                <IconButtonV2
-                  aria-label={t('ndlaFilm.editor.deleteMovieGroup')}
-                  variant="ghost"
-                  colorTheme="danger"
-                  onClick={() => onDeleteTheme(index)}
-                  data-testid={'deleteThemeButton'}
-                >
-                  <DeleteForever />
-                </IconButtonV2>
-              </Tooltip>
-              <Tooltip tooltip={t('ndlaFilm.editor.moveMovieGroupUp')}>
-                <IconButtonV2
-                  aria-label={t('ndlaFilm.editor.moveMovieGroupUp')}
-                  variant="ghost"
-                  colorTheme="lighter"
-                  onClick={(e: MouseEvent<HTMLButtonElement>) => {
-                    onMoveTheme(index, -1);
-                    e.preventDefault();
-                  }}
-                >
-                  <ChevronUp />
-                </IconButtonV2>
-              </Tooltip>
-              <Tooltip tooltip={t('ndlaFilm.editor.moveMovieGroupDown')}>
-                <IconButtonV2
-                  aria-label={t('ndlaFilm.editor.moveMovieGroupDown')}
-                  variant="ghost"
-                  colorTheme="lighter"
-                  onClick={(e: MouseEvent<HTMLButtonElement>) => {
-                    onMoveTheme(index, 1);
-                    e.preventDefault();
-                  }}
-                >
-                  <ChevronDown />
-                </IconButtonV2>
-              </Tooltip>
+                <DeleteForever />
+              </IconButtonV2>
+              <IconButtonV2
+                aria-label={t('ndlaFilm.editor.moveMovieGroupUp')}
+                variant="ghost"
+                colorTheme="lighter"
+                onClick={(e: MouseEvent<HTMLButtonElement>) => {
+                  onMoveTheme(index, -1);
+                  e.preventDefault();
+                }}
+                title={t('ndlaFilm.editor.moveMovieGroupUp')}
+              >
+                <ChevronUp />
+              </IconButtonV2>
+              <IconButtonV2
+                aria-label={t('ndlaFilm.editor.moveMovieGroupDown')}
+                variant="ghost"
+                colorTheme="lighter"
+                onClick={(e: MouseEvent<HTMLButtonElement>) => {
+                  onMoveTheme(index, 1);
+                  e.preventDefault();
+                }}
+                title={t('ndlaFilm.editor.moveMovieGroupDown')}
+              >
+                <ChevronDown />
+              </IconButtonV2>
             </FieldHeader>
             <ThemeMovies
               movies={theme.movies}

@@ -40,7 +40,7 @@
     "@emotion/jest": "11.11.0",
     "@loadable/babel-plugin": "^5.15.3",
     "@ndla/scripts": "^1.0.4",
-    "@ndla/types-backend": "^0.2.27",
+    "@ndla/types-backend": "^0.2.28",
     "@ndla/types-embed": "^4.0.7",
     "@ndla/types-taxonomy": "^1.0.21",
     "@playwright/test": "^1.39.0",

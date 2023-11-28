@@ -41,6 +41,7 @@ export const getInitialValues = (
     supportedLanguages,
     slideShow: filmFrontpage.slideShow,
     themes: filmFrontpage.movieThemes,
+    article: filmFrontpage.article,
   };
 };
 
@@ -146,11 +147,13 @@ export const getNdlaFilmFromSlate = (
       movies: theme.movies,
     };
   });
+
   return {
     name: newFrontpage.name,
     about: newAbout,
     movieThemes: newThemes,
     slideShow: newSlideShow,
+    article: newFrontpage.article,
   };
 };
 

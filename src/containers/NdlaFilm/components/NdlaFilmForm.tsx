@@ -38,6 +38,7 @@ export interface FilmFormikType {
   supportedLanguages: string[];
   slideShow: string[];
   themes: IMovieTheme[];
+  article?: string;
 }
 
 const ndlaFilmRules: RulesType<FilmFormikType> = {

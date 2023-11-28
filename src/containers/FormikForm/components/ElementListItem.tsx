@@ -11,7 +11,6 @@ import { Link } from 'react-router-dom';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { spacing, spacingUnit, colors, fonts, animations } from '@ndla/core';
-import Tooltip from '@ndla/tooltip';
 import { IconButtonV2 } from '@ndla/button';
 import { DragHorizontal, DeleteForever } from '@ndla/icons/editor';
 import { resourceToLinkProps } from '../../../util/resourceHelpers';
@@ -98,17 +97,16 @@ const ElementListItem = ({
         <div>
           {isOrderable ? (
             showDragTooltip ? (
-              <Tooltip tooltip={messages?.dragElement || ''}>
-                <DraggableIconButton
-                  aria-label={messages?.dragElement || ''}
-                  variant="ghost"
-                  colorTheme="light"
-                  onMouseDown={(e) => onDragStart(e, index)}
-                  onMouseUp={onDragEnd}
-                >
-                  <DragHorizontal />
-                </DraggableIconButton>
-              </Tooltip>
+              <DraggableIconButton
+                aria-label={messages?.dragElement || ''}
+                variant="ghost"
+                colorTheme="light"
+                onMouseDown={(e) => onDragStart(e, index)}
+                onMouseUp={onDragEnd}
+                title={messages?.dragElement || ''}
+              >
+                <DragHorizontal />
+              </DraggableIconButton>
             ) : (
               <DraggableIconButton
                 aria-label={messages?.dragElement || ''}
@@ -121,17 +119,16 @@ const ElementListItem = ({
               </DraggableIconButton>
             )
           ) : null}
-          <Tooltip tooltip={messages?.removeElement || ''}>
-            <IconButtonV2
-              aria-label={messages?.removeElement || ''}
-              variant="ghost"
-              colorTheme="danger"
-              data-testid="elementListItemDeleteButton"
-              onClick={() => deleteFile(index)}
-            >
-              <DeleteForever />
-            </IconButtonV2>
-          </Tooltip>
+          <IconButtonV2
+            aria-label={messages?.removeElement || ''}
+            variant="ghost"
+            colorTheme="danger"
+            data-testid="elementListItemDeleteButton"
+            onClick={() => deleteFile(index)}
+            title={messages?.removeElement || ''}
+          >
+            <DeleteForever />
+          </IconButtonV2>
         </div>
       )}
     </StyledListItem>

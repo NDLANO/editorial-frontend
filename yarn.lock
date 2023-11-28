@@ -1998,10 +1998,10 @@
     "@ndla/util" "^4.0.0"
     tiny-warning "^1.0.3"
 
-"@ndla/types-backend@^0.2.27":
-  version "0.2.27"
-  resolved "https://registry.yarnpkg.com/@ndla/types-backend/-/types-backend-0.2.27.tgz#c5f6a293c2696e2b1d4f2e5c213137528027821a"
-  integrity sha512-jt1H6XT5hV57x+m8Sj4j/p877KoJAkxzYpSfuCwV0GrheUBMsRtcVOe/rQ0sY30gWxzkoMcMQY8LIeOZzg3lvA==
+"@ndla/types-backend@^0.2.28":
+  version "0.2.28"
+  resolved "https://registry.yarnpkg.com/@ndla/types-backend/-/types-backend-0.2.28.tgz#87402f2a96fb08bdc560f217c537e5757ec3d351"
+  integrity sha512-s3jZGhFKufuEQI5s6cRCGMsAV464lG2zLGn0u3xjj/1l5lDkvTGWEQNumoGVxoWtowPeNPAW/CG4AcDswaUEWQ==
 
 "@ndla/types-embed@^4.0.7":
   version "4.0.7"

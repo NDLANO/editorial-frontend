@@ -10,6 +10,7 @@ import SubjectpageAbout from '../../EditSubjectFrontpage/components/SubjectpageA
 import { Values } from '../../../components/SlateEditor/editorTypes';
 import ThemeEditor from './ThemeEditor';
 import SlideshowEditor from './SlideshowEditor';
+import NdlaFilmArticle from './NdlaFilmArticle';
 import FormikField from '../../../components/FormikField';
 import FormAccordions from '../../../components/Accordion/FormAccordions';
 import FormAccordion from '../../../components/Accordion/FormAccordion';
@@ -40,6 +41,19 @@ const SubjectpageAccordionPanels = ({ errors, selectedLanguage }: ComponentProps
       },
     });
   };
+  const onUpdateArticle = (
+    field: FieldProps<FormikValues>['field'],
+    form: FormikHelpers<FormikValues>,
+    article?: string,
+  ) => {
+    form.setFieldTouched(field.name, true, false);
+    field.onChange({
+      target: {
+        name: field.name,
+        value: article,
+      },
+    });
+  };
 
   return (
     <FormAccordions defaultOpen={['slideshow', 'themes']}>
@@ -50,6 +64,9 @@ const SubjectpageAccordionPanels = ({ errors, selectedLanguage }: ComponentProps
         hasError={['title', 'description', 'visualElement'].some((field) => field in errors)}
       >
         <SubjectpageAbout selectedLanguage={selectedLanguage} />
+      </FormAccordion>
+      <FormAccordion id="article" title={t('ndlaFilm.editor.moreInfoHeader')} hasError={false}>
+        <NdlaFilmArticle fieldName={'article'} onUpdateArticle={onUpdateArticle} />
       </FormAccordion>
       <FormAccordion
         id="slideshow"

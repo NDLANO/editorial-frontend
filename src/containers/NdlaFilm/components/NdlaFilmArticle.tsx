@@ -89,9 +89,9 @@ const NdlaFilmArticle = ({ fieldName, onUpdateArticle }: Props) => {
         onChange={(article: IArticleSummaryV2) =>
           onUpdateArticle(field, form, getUrnFromId(article.id))
         }
-        startOpen
+        startOpen={!field.value}
         showPagination
-        initialSearch={true}
+        initialSearch={!field.value}
         clearInputField
       />
     </>

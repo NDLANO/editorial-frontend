@@ -24,6 +24,10 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '20.9'
+      - name: 'Enable yarn v4'
+        run: |
+          corepack enable
+          yarn set version berry
       - name: 'Login to ECR repo'
         run:
           RES=$(aws sts assume-role --role-arn $CI_RELEASE_ROLE --role-session-name github-actions-ecr-login)
@@ -38,10 +42,11 @@ jobs:
           path: |
             **/node_modules
             .eslintcache
+            .yarn/cache
             ~/.npm
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
       - name: 'Install'
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
       - name: 'Check-all'
         run: yarn check-all
       - name: 'Build'

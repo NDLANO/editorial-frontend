@@ -1,5 +1,4 @@
 {
-  "version": 2,
   "builds": [
     {
       "src": "build/public/**",
@@ -10,23 +9,25 @@
       "use": "@vercel/node"
     }
   ],
-  "routes": [
+  "rewrites": [
+    { "source": "/static/(.*)", "destination": "build/public/static/$1" },
+    { "source": "/(.*).(png|jpg|svg|gif)", "destination": "build/public/$1" },
+    { "source": "/(.*)", "destination": "/build/server.js" }
+  ],
+  "headers": [
     {
-      "src": "/static/(.*)",
-      "headers": { "cache-control": "s-maxage=86400" },
-      "dest": "build/public/static/$1"
-    },
-    {
-      "src": "/(.*.(png|jpg|svg|gif))",
-      "dest": "build/public/$1"
-    },
-    { "src": "/(.*)", "dest": "/build/server.js" }
+      "source": "/static/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "s-maxage=86400"
+        }
+      ]
+    }
   ],
   "env": {
     "NDLA_EDITORIAL_CLIENT_ID": "@ndla_editorial_client_id",
     "NDLA_EDITORIAL_CLIENT_SECRET": "@ndla_editorial_client_secret",
-    "NDLA_GOOGLE_API_KEY": "@ndla_google_api_key",
-    "NDLA_GOOGLE_SEARCH_ENGINE_ID": "@ndla_google_search_engine_id",
     "NDLA_PERSONAL_CLIENT_ID": "@ndla_personal_client_id",
     "BRIGHTCOVE_PLAYER_ID": "@brightcove_player_id",
     "BRIGHTCOVE_ACCOUNT_ID": "@brightcove_account_id",

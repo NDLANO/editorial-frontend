@@ -131,7 +131,7 @@ const phrases = {
     chooseTopic: 'Choose topics',
     errorMessage: 'Failed to retrieve data',
     goToSearch: 'Go to search',
-    revision: 'Revisjon',
+    revision: 'Revision',
     revisionDescription: 'Resources with a revision date within 365 days',
     revisionDate: 'Revision date',
     welcomeText: 'to ED',
@@ -140,7 +140,7 @@ const phrases = {
     primaryConnection: 'Only show resources with primary connection to my favorite subjects',
     primaryConnectionLabel: 'Only show primary connection',
     prioritizedLabel: 'Only show prioritized',
-    lmaSubjectsHeading: 'Resources in your LMA-subjects',
+    lmaSubjectsHeading: 'Production flow in LMA-subjects',
     lmaSubjectsDescription:
       'Distribution of where resources in your LMA-subjects is in the workflow',
     noResultsLMASubjects: 'The following statuses will not be shown',

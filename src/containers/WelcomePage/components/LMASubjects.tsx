@@ -23,6 +23,7 @@ import {
   ARCHIVED,
   LMA_SUBJECT_ID,
   PUBLISHED,
+  STATUS_ORDER,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
   UNPUBLISHED,
 } from '../../../constants';
@@ -34,7 +35,7 @@ import SubjectDropdown from './worklist/SubjectDropdown';
 
 const EXCLUDE_STATUSES = [PUBLISHED, UNPUBLISHED, ARCHIVED];
 
-// Function to combine results from two aggregations into one result array
+// Function to combine results from two aggregations into one sorted result array
 const getResultAggregationList = (
   searchResult: IMultiSearchResult | undefined,
   responibleSearchResult: IMultiSearchResult | undefined,
@@ -53,7 +54,8 @@ const getResultAggregationList = (
     const responsibleAgg = responsibleAggDataExcludeStatuses.find((r) => r.value === aggData.value);
     return { ...aggData, responsibleCount: responsibleAgg?.count ?? 0 };
   });
-  return resultList;
+
+  return resultList.sort((a, b) => STATUS_ORDER.indexOf(a.value) - STATUS_ORDER.indexOf(b.value));
 };
 
 interface Props {

@@ -10,6 +10,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import sortBy from 'lodash/sortBy';
 import { Node } from '@ndla/types-taxonomy';
+import { TFunction } from 'i18next';
 import { flattenResourceTypesAndAddContextTypes } from '../../../../util/taxonomyHelpers';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import { getTagName } from '../../../../util/formHelper';
@@ -17,6 +18,7 @@ import { SearchParams } from './SearchForm';
 import {
   DRAFT_RESPONSIBLE,
   FAVOURITES_SUBJECT_ID,
+  LMA_SUBJECT_ID,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
 } from '../../../../constants';
 import { useAuth0Editors, useAuth0Responsibles } from '../../../../modules/auth0/auth0Queries';
@@ -26,15 +28,42 @@ import GenericSearchForm, { OnFieldChangeFunction } from './GenericSearchForm';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import { SearchFormSelector } from './Selector';
 
+const generateSubjectNode = (id: string, name: string, t: TFunction): Node => ({
+  id: id,
+  breadcrumbs: [],
+  contexts: [],
+  paths: [],
+  resourceTypes: [],
+  supportedLanguages: [],
+  translations: [],
+  nodeType: 'SUBJECT',
+  baseName: t(name),
+  name: t(name),
+  contentUri: '',
+  path: '',
+  language: '',
+  metadata: {
+    customFields: {},
+    grepCodes: [],
+    visible: true,
+  },
+});
+
 interface Props {
   search: (o: SearchParams) => void;
   subjects: Node[];
   searchObject: SearchParams;
   locale: string;
-  favouriteSubjectIDs?: string;
+  userId: string | undefined;
 }
 
-const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, locale }: Props) => {
+const SearchContentForm = ({
+  search: doSearch,
+  searchObject: search,
+  subjects,
+  locale,
+  userId,
+}: Props) => {
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const [queryInput, setQueryInput] = useState(search.query ?? '');
@@ -144,31 +173,23 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
   };
 
   const sortedSubjects = useMemo(() => {
-    const favoriteSubject: Node = {
-      id: FAVOURITES_SUBJECT_ID,
-      breadcrumbs: [],
-      contexts: [],
-      paths: [],
-      resourceTypes: [],
-      supportedLanguages: [],
-      translations: [],
-      nodeType: 'SUBJECT',
-      baseName: t('searchForm.favourites'),
-      name: t('searchForm.favourites'),
-      contentUri: '',
-      path: '',
-      language: '',
-      metadata: {
-        customFields: {},
-        grepCodes: [],
-        visible: true,
-      },
-    };
+    const favoriteSubject: Node = generateSubjectNode(
+      FAVOURITES_SUBJECT_ID,
+      'searchForm.favourites',
+      t,
+    );
+
+    const userHasLMASubjects = subjects.some((s) => s.metadata.customFields?.subjectLMA === userId);
+
+    const LMAsubjects: Node = generateSubjectNode(LMA_SUBJECT_ID, 'searchForm.LMASubjects', t);
+
     const filteredAndSortedSubjects = subjects
       .filter((s) => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== 'true')
       .sort(sortByProperty('name'));
-    return [favoriteSubject].concat(filteredAndSortedSubjects);
-  }, [subjects, t]);
+    return [favoriteSubject, ...(userHasLMASubjects ? [LMAsubjects] : [])].concat(
+      filteredAndSortedSubjects,
+    );
+  }, [subjects, t, userId]);
 
   const selectors: SearchFormSelector[] = [
     {

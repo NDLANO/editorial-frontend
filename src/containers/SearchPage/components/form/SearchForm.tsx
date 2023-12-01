@@ -87,12 +87,13 @@ interface Props {
   search: (o: SearchParams) => void;
   subjects: Node[];
   locale: string;
+  userId?: string | undefined;
 }
 
-const SearchForm = ({ type, searchObject, ...rest }: Props) => {
+const SearchForm = ({ type, searchObject, userId, ...rest }: Props) => {
   switch (type) {
     case 'content':
-      return <SearchContentForm searchObject={searchObject} {...rest} />;
+      return <SearchContentForm searchObject={searchObject} userId={userId} {...rest} />;
     case 'audio':
       return <SearchAudioForm searchObject={searchObject} {...rest} />;
     case 'image':

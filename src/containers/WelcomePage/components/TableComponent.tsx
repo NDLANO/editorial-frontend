@@ -115,7 +115,7 @@ interface Props<T extends string> {
   tableTitleList: TitleElement<T>[];
   tableData: FieldElement[][];
   isLoading: boolean;
-  setSortOption: (o: Prefix<'-', T>) => void;
+  setSortOption?: (o: Prefix<'-', T>) => void;
   noResultsText?: string;
   sortOption?: string;
   error?: string;
@@ -148,31 +148,33 @@ const TableComponent = <T extends string>({
                 <TableTitleComponent>
                   {tableTitle.title}
 
-                  <SortArrowWrapper>
-                    <Tooltip tooltip={t('welcomePage.workList.sortAsc')}>
-                      <ContentWrapper>
-                        <ExpandLess
-                          role="button"
-                          onClick={() => setSortOption(tableTitle.sortableField!)}
-                          css={orderButtonStyle(
-                            !tableTitle.sortableField || sortOption === tableTitle.sortableField,
-                          )}
-                        />
-                      </ContentWrapper>
-                    </Tooltip>
-                    <Tooltip tooltip={t('welcomePage.workList.sortDesc')}>
-                      <ContentWrapper>
-                        <ExpandMore
-                          role="button"
-                          onClick={() => setSortOption(`-${tableTitle.sortableField!}`!)}
-                          css={orderButtonStyle(
-                            !tableTitle.sortableField ||
-                              sortOption === `-${tableTitle.sortableField}`,
-                          )}
-                        />
-                      </ContentWrapper>
-                    </Tooltip>
-                  </SortArrowWrapper>
+                  {setSortOption && (
+                    <SortArrowWrapper>
+                      <Tooltip tooltip={t('welcomePage.workList.sortAsc')}>
+                        <ContentWrapper>
+                          <ExpandLess
+                            role="button"
+                            onClick={() => setSortOption(tableTitle.sortableField!)}
+                            css={orderButtonStyle(
+                              !tableTitle.sortableField || sortOption === tableTitle.sortableField,
+                            )}
+                          />
+                        </ContentWrapper>
+                      </Tooltip>
+                      <Tooltip tooltip={t('welcomePage.workList.sortDesc')}>
+                        <ContentWrapper>
+                          <ExpandMore
+                            role="button"
+                            onClick={() => setSortOption(`-${tableTitle.sortableField!}`!)}
+                            css={orderButtonStyle(
+                              !tableTitle.sortableField ||
+                                sortOption === `-${tableTitle.sortableField}`,
+                            )}
+                          />
+                        </ContentWrapper>
+                      </Tooltip>
+                    </SortArrowWrapper>
+                  )}
                 </TableTitleComponent>
               </StyledTableHeader>
             ))}

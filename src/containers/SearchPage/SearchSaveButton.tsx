@@ -11,8 +11,7 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { colors, fonts, spacing } from '@ndla/core';
 import { parse, stringify } from 'query-string';
-import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
-import { isValid } from '../../util/jwtHelper';
+import { IUserData } from '@ndla/types-backend/draft-api';
 import SaveButton from '../../components/SaveButton';
 import { useUpdateUserDataMutation, useUserData } from '../../modules/draft/draftQueries';
 
@@ -42,17 +41,19 @@ const createSearchString = (location: Location) => {
   return location.pathname + '?' + stringify(searchObject);
 };
 
-const SearchSaveButton = () => {
+interface Props {
+  userData: IUserData | undefined;
+}
+
+const SearchSaveButton = ({ userData }: Props) => {
   const { t } = useTranslation();
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<Error>('');
   const [loading, setLoading] = useState(false);
-  const { data } = useUserData({
-    enabled: isValid(getAccessToken()) && getAccessTokenPersonal(),
-  });
+
   const { mutateAsync } = useUpdateUserDataMutation();
 
-  const savedSearches = data?.savedSearches ?? [];
+  const savedSearches = userData?.savedSearches ?? [];
 
   useEffect(() => {
     setError('');

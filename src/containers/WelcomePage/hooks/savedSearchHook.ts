@@ -23,7 +23,11 @@ import { useAuth0Users } from '../../../modules/auth0/auth0Queries';
 import { transformQuery } from '../../../util/searchHelpers';
 import { fetchResourceType } from '../../../modules/taxonomy';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
-import { FAVOURITES_SUBJECT_ID } from '../../../constants';
+import {
+  FAVOURITES_SUBJECT_ID,
+  LMA_SUBJECT_ID,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
+} from '../../../constants';
 import { search } from '../../../modules/search/searchApi';
 import { searchAudio, searchSeries } from '../../../modules/audio/audioApi';
 import { searchConcepts } from '../../../modules/concept/conceptApi';
@@ -32,7 +36,7 @@ import { AudioSearchParams, SeriesSearchParams } from '../../../modules/audio/au
 import { ConceptQuery } from '../../../modules/concept/conceptApiInterfaces';
 import { MultiSearchApiQuery } from '../../../modules/search/searchApiInterfaces';
 import { ImageSearchQuery } from '../../../modules/image/imageApiInterfaces';
-import { fetchNode } from '../../../modules/nodes/nodeApi';
+import { fetchNode, fetchNodes } from '../../../modules/nodes/nodeApi';
 
 type QueryType =
   | AudioSearchParams
@@ -56,6 +60,16 @@ export const searchTypeToFetchMapping: Record<string, SearchFetchType> = {
   image: searchImages,
   'podcast-series': searchSeries,
   content: search,
+};
+
+const getLMASubjectIds = async (taxonomyVersion: string, userId: string | undefined) => {
+  const nodes = await fetchNodes({
+    taxonomyVersion,
+    nodeType: 'SUBJECT',
+    key: TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
+    value: userId,
+  });
+  return nodes?.map((n) => n.id).join(',');
 };
 
 interface SavedSearchObjectType {
@@ -105,7 +119,7 @@ export const useSavedSearchUrl = (currentUserData: IUserData | undefined): Searc
         setDataFetchLoading(true);
         setDataFetchError(false);
         const searchResultData = await Promise.all(
-          searchObjects.map((searchObject) => {
+          searchObjects.map(async (searchObject) => {
             const searchFunction =
               searchTypeToFetchMapping[searchObject['type'] ?? 'content'] ?? search;
 
@@ -114,6 +128,11 @@ export const useSavedSearchUrl = (currentUserData: IUserData | undefined): Searc
                 ? {
                     ...searchObject,
                     subjects: favoriteSubjects?.join(','),
+                  }
+                : searchObject.subjects === LMA_SUBJECT_ID
+                ? {
+                    ...searchObject,
+                    subjects: await getLMASubjectIds(taxonomyVersion, currentUserData?.userId),
                   }
                 : searchObject;
 
@@ -125,7 +144,12 @@ export const useSavedSearchUrl = (currentUserData: IUserData | undefined): Searc
         setSearchResultData(searchResultData);
         const subjects = searchObjects
           .map((searchObject) => searchObject['subjects'])
-          .filter((searchObject) => !searchObject?.includes(FAVOURITES_SUBJECT_ID) && searchObject);
+          .filter(
+            (searchObject) =>
+              searchObject &&
+              !searchObject.includes(FAVOURITES_SUBJECT_ID) &&
+              !searchObject.includes(LMA_SUBJECT_ID),
+          );
         const subjectData = await Promise.all(
           subjects.map((subject) =>
             fetchNode({ id: subject ?? '', language: i18n.language, taxonomyVersion }),
@@ -147,7 +171,7 @@ export const useSavedSearchUrl = (currentUserData: IUserData | undefined): Searc
         setDataFetchError(true);
       }
     })();
-  }, [searchObjects, favoriteSubjects, taxonomyVersion, i18n.language]);
+  }, [searchObjects, favoriteSubjects, taxonomyVersion, i18n.language, currentUserData?.userId]);
 
   const userIds = useMemo(
     () => searchObjects.filter((s) => s.users).map((u) => u.users),
@@ -190,43 +214,47 @@ export const useSavedSearchUrl = (currentUserData: IUserData | undefined): Searc
     [auth0ResponsiblesError, auth0UsersError, dataFetchError],
   );
 
-  const filterToSearchTextMapping = (searchObject: SearchObjectType): SearchObjectType => ({
-    type: searchObject.type && t(`searchTypes.${searchObject.type}`),
-    query: searchObject.query && `"${searchObject.query}"`,
-    language: searchObject.language && t(`languages.${searchObject.language}`),
-    subjects:
-      searchObject.subjects && searchObject.subjects === FAVOURITES_SUBJECT_ID
-        ? t('searchForm.favourites')
-        : subjectData?.find((s) => s.id === searchObject.subjects)?.name,
-    'resource-types':
-      searchObject['resource-types'] &&
-      resourceTypeData?.find((r) => r.id === searchObject['resource-types'])?.name,
-    'audio-type': searchObject['audio-type'] && searchObject['audio-type'],
-    'article-types':
-      searchObject['article-types'] && t(`articleType.${searchObject['article-types']}`),
-    'draft-status':
-      searchObject['draft-status'] &&
-      t(`form.status.${searchObject['draft-status'].toLowerCase()}`),
-    'context-type': searchObject['context-type'] && t(`contextTypes.topic`),
-    users:
-      searchObject.users &&
-      `${t('searchForm.tagType.users')}: ${userData?.find(
-        (u) => u.app_metadata.ndla_id === searchObject.users,
-      )?.name}`,
-    'responsible-ids':
-      searchObject['responsible-ids'] &&
-      `${t(`searchForm.tagType.responsible-ids`)}: ${responsibleData?.find(
-        (r) => r.app_metadata.ndla_id === searchObject['responsible-ids'],
-      )?.name}`,
-    license: searchObject.license && searchObject.license,
-    'model-released':
-      searchObject['model-released'] &&
-      t(`imageSearch.modelReleased.${searchObject['model-released']}`),
-    'filter-inactive':
-      searchObject['filter-inactive'] === 'false' ? t('searchForm.archivedIncluded') : undefined,
-    'concept-type':
-      searchObject['concept-type'] && t(`searchForm.conceptType.${searchObject['concept-type']}`),
-  });
+  const filterToSearchTextMapping = (searchObject: SearchObjectType): SearchObjectType => {
+    return {
+      type: searchObject.type && t(`searchTypes.${searchObject.type}`),
+      query: searchObject.query && `"${searchObject.query}"`,
+      language: searchObject.language && t(`languages.${searchObject.language}`),
+      subjects:
+        searchObject.subjects && searchObject.subjects === FAVOURITES_SUBJECT_ID
+          ? t('searchForm.favourites')
+          : searchObject.subjects === LMA_SUBJECT_ID
+          ? t('searchForm.LMASubjects')
+          : subjectData?.find((s) => s.id === searchObject.subjects)?.name,
+      'resource-types':
+        searchObject['resource-types'] &&
+        resourceTypeData?.find((r) => r.id === searchObject['resource-types'])?.name,
+      'audio-type': searchObject['audio-type'] && searchObject['audio-type'],
+      'article-types':
+        searchObject['article-types'] && t(`articleType.${searchObject['article-types']}`),
+      'draft-status':
+        searchObject['draft-status'] &&
+        t(`form.status.${searchObject['draft-status'].toLowerCase()}`),
+      'context-type': searchObject['context-type'] && t(`contextTypes.topic`),
+      users:
+        searchObject.users &&
+        `${t('searchForm.tagType.users')}: ${userData?.find(
+          (u) => u.app_metadata.ndla_id === searchObject.users,
+        )?.name}`,
+      'responsible-ids':
+        searchObject['responsible-ids'] &&
+        `${t(`searchForm.tagType.responsible-ids`)}: ${responsibleData?.find(
+          (r) => r.app_metadata.ndla_id === searchObject['responsible-ids'],
+        )?.name}`,
+      license: searchObject.license && searchObject.license,
+      'model-released':
+        searchObject['model-released'] &&
+        t(`imageSearch.modelReleased.${searchObject['model-released']}`),
+      'filter-inactive':
+        searchObject['filter-inactive'] === 'false' ? t('searchForm.archivedIncluded') : undefined,
+      'concept-type':
+        searchObject['concept-type'] && t(`searchForm.conceptType.${searchObject['concept-type']}`),
+    };
+  };
 
   const getSavedSearchData = (searchObjects: SearchObjectType[]): SavedSearchObjectType[] =>
     searchObjects.map((searchObject, index) => {

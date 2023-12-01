@@ -21,6 +21,7 @@ import WelcomeHeader from './components/WelcomeHeader';
 import { GridContainer, Column } from '../../components/Layout/Layout';
 import { useSession } from '../Session/SessionProvider';
 import Revisions from './components/Revisions';
+import LMASubjects from './components/LMASubjects';
 
 export const Wrapper = styled.div`
   display: flex;
@@ -62,6 +63,7 @@ export const WelcomePage = () => {
           )}
         </Column>
         <Column colStart={6}>{ndlaId && <Revisions userData={data} />}</Column>
+        <Column colEnd={6}>{ndlaId && <LMASubjects ndlaId={ndlaId} />}</Column>
       </GridContainer>
 
       <Footer showLocaleSelector />

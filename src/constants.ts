@@ -28,6 +28,7 @@ export const STORED_LANGUAGE_KEY = 'language';
 export const REMEMBER_FAVOURITE_SUBJECTS = 'rememberFavouriteSubjects';
 export const REMEMBER_FAVORITE_NODES = 'rememberFavoriteNodes';
 export const FAVOURITES_SUBJECT_ID = 'urn:favourites';
+export const LMA_SUBJECT_ID = 'urn:lmaSubjects';
 // Relevances
 export const RESOURCE_FILTER_CORE = 'urn:relevance:core';
 export const RESOURCE_FILTER_SUPPLEMENTARY = 'urn:relevance:supplementary';
@@ -83,6 +84,27 @@ export const IN_PROGRESS = 'IN_PROGRESS';
 export const PLANNED = 'PLANNED';
 export const PUBLISHED = 'PUBLISHED';
 export const UNPUBLISHED = 'UNPUBLISHED';
+export const EXTERNAL_REVIEW = 'EXTERNAL_REVIEW';
+export const INTERNAL_REVIEW = 'INTERNAL_REVIEW';
+export const QUALITY_ASSURANCE = 'QUALITY_ASSURANCE';
+export const LANGUAGE = 'LANGUAGE';
+export const FOR_APPROVAL = 'FOR_APPROVAL';
+export const PUBLISH_DELAYED = 'PUBLISH_DELAYED';
+export const REPUBLISH = 'REPUBLISH';
+
+export const STATUS_ORDER = [
+  IMPORTED,
+  PLANNED,
+  IN_PROGRESS,
+  EXTERNAL_REVIEW,
+  INTERNAL_REVIEW,
+  QUALITY_ASSURANCE,
+  LANGUAGE,
+  FOR_APPROVAL,
+  END_CONTROL,
+  PUBLISH_DELAYED,
+  REPUBLISH,
+];
 
 export const STORED_PAGE_SIZE = 'STORED_PAGE_SIZE';
 export const STORED_PAGE_SIZE_CONCEPT = 'STORED_PAGE_SIZE_CONCEPT';

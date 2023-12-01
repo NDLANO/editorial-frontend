@@ -136,7 +136,7 @@ const ResourceBanner = ({
                 </IconButtonV2>
               </ModalTrigger>
             </Tooltip>
-            <ModalContent size={{ width: 'normal', height: 'normal' }} position="top" forceOverlay>
+            <ModalContent size={{ width: 'normal', height: 'large' }} position="top" forceOverlay>
               <TaxonomyLightbox title={t('taxonomy.addResource')}>
                 <AddResourceModal>
                   <Tabs

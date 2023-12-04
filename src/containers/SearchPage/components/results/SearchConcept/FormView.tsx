@@ -7,7 +7,7 @@
  */
 
 import { useState, useEffect } from 'react';
-import { RadioButtonGroup } from '@ndla/ui';
+import { RadioButtonGroup } from '@ndla/forms';
 import { IConcept, IConceptSummary, IUpdatedConcept } from '@ndla/types-backend/concept-api';
 import { useTranslation } from 'react-i18next';
 import { Spinner } from '@ndla/icons';

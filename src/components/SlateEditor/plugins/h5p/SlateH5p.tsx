@@ -18,6 +18,7 @@ import { DeleteForever } from '@ndla/icons/editor';
 import { Spinner } from '@ndla/icons';
 import { H5pElement } from './types';
 import { useH5pMeta } from '../../../../modules/embed/queries';
+import config from '../../../../config';
 import { StyledDeleteEmbedButton, StyledFigureButtons } from '../embed/FigureButtons';
 import EditH5PModal from './EditH5PModal';
 import EditMetadataModal from './EditMetadataModal';
@@ -77,7 +78,9 @@ const SlateH5p = ({ element, editor, attributes, language, children }: Props) =>
     <H5pWrapper {...attributes} data-selected={isSelected}>
       <div contentEditable={false}>
         <FigureButtons>
-          <EditMetadataModal embed={embed} editor={editor} element={element} />
+          {config.h5pMetaEnabled && (
+            <EditMetadataModal embed={embed} editor={editor} element={element} />
+          )}
           <EditH5PModal embed={embed} language={language} editor={editor} element={element} />
           <StyledDeleteEmbedButton
             title={t('form.h5p.remove')}

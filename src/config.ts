@@ -161,6 +161,7 @@ export type ConfigType = {
   brightcoveCopyrightPlayerId: string | undefined;
   disableCSP: string | undefined;
   usernamePasswordEnabled: boolean;
+  h5pMetaEnabled: boolean;
   translateServiceUrl: string;
   isVercel: boolean;
 };
@@ -202,6 +203,7 @@ const config: ConfigType = {
     'USERNAME_PASSWORD_ENABLED',
     usernamePasswordEnabled(),
   ),
+  h5pMetaEnabled: getEnvironmentVariabel('H5PMETA_ENABLED', false),
   translateServiceUrl: getEnvironmentVariabel('NDKM_URL', getTranslateServiceUrl()),
   isVercel: getEnvironmentVariabel('IS_VERCEL', 'false') === 'true',
 };

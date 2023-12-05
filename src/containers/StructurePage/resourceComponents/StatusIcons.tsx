@@ -109,7 +109,7 @@ const StatusIcons = ({ contentMetaLoading, resource, path }: Props) => {
       {!contentMetaLoading && (
         <WrongTypeError resource={resource} articleType={resource.contentMeta?.articleType} />
       )}
-      {resource.paths?.length > 1 && (
+      {resource.contexts?.length > 1 && (
         <Tooltip tooltip={t('form.workflow.multipleTaxonomy')}>
           <IconWrapper>
             <StyledWarnIcon aria-label={t('form.workflow.multipleTaxonomy')} />

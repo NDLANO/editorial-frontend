@@ -13,8 +13,8 @@ import { NodeChild, ResourceType } from '@ndla/types-taxonomy';
 import { useTranslation } from 'react-i18next';
 import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
 import { Plus } from '@ndla/icons/action';
-import { FieldHeader } from '@ndla/forms';
 import Tooltip from '@ndla/tooltip';
+import Tabs from '@ndla/tabs';
 import { Dictionary } from '../../../interfaces';
 import { NodeResourceMeta } from '../../../modules/nodes/nodeQueries';
 import { ResourceGroupBanner, StyledShareIcon } from '../styles';
@@ -25,6 +25,7 @@ import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 import AddResourceModal from '../plannedResource/AddResourceModal';
 import PlannedResourceForm from '../plannedResource/PlannedResourceForm';
 import AddExistingResource from '../plannedResource/AddExistingResource';
+import { PUBLISHED } from '../../../constants';
 
 const PublishedText = styled.div`
   font-weight: ${fonts.weight.normal};
@@ -56,7 +57,7 @@ const RightContent = styled(Content)`
 
 const getWorkflowCount = (contentMeta: Dictionary<NodeResourceMeta>) => {
   const contentMetaList = Object.values(contentMeta);
-  const workflowCount = contentMetaList.filter((c) => c.status?.current !== 'PUBLISHED').length;
+  const workflowCount = contentMetaList.filter((c) => c.status?.current !== PUBLISHED).length;
   return workflowCount;
 };
 
@@ -135,17 +136,35 @@ const ResourceBanner = ({
                 </IconButtonV2>
               </ModalTrigger>
             </Tooltip>
-            <ModalContent size={{ width: 'normal', height: 'normal' }} position="top" forceOverlay>
+            <ModalContent size={{ width: 'normal', height: 'large' }} position="top" forceOverlay>
               <TaxonomyLightbox title={t('taxonomy.addResource')}>
                 <AddResourceModal>
-                  <FieldHeader title={t('taxonomy.createResource')} />
-                  <PlannedResourceForm onClose={close} articleType="standard" node={currentNode} />
-                  <FieldHeader title={t('taxonomy.getExisting')} />
-                  <AddExistingResource
-                    resourceTypes={resourceTypes}
-                    nodeId={currentNode.id}
-                    onClose={close}
-                    existingResourceIds={resources.map((r) => r.id)}
+                  <Tabs
+                    tabs={[
+                      {
+                        title: t('taxonomy.createResource'),
+                        id: 'create-new-resource',
+                        content: (
+                          <PlannedResourceForm
+                            onClose={close}
+                            articleType="standard"
+                            node={currentNode}
+                          />
+                        ),
+                      },
+                      {
+                        title: t('taxonomy.getExisting'),
+                        id: 'get-existing-resource',
+                        content: (
+                          <AddExistingResource
+                            resourceTypes={resourceTypes}
+                            nodeId={currentNode.id}
+                            onClose={close}
+                            existingResourceIds={resources.map((r) => r.id)}
+                          />
+                        ),
+                      },
+                    ]}
                   />
                 </AddResourceModal>
               </TaxonomyLightbox>

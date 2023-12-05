@@ -49,12 +49,10 @@ const StyledOrDivider = styled.div`
 `;
 const PreviewWrapper = styled.div`
   padding-left: ${spacing.medium};
-`;
-
-const StyledSection = styled.div`
+  padding-top: ${spacing.normal};
   display: flex;
   flex-direction: column;
-  gap: ${spacing.small};
+  gap: ${spacing.nsmall};
 `;
 
 const emptySearchResults: IGroupSearchResult = {
@@ -125,7 +123,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
     setPreviewLoading(true);
     const fetchData = async () => {
       setPreviewLoading(true);
-      let preview = undefined;
+      let preview;
       if (contentUri.includes('learningpath')) {
         const learningpathId = contentUri.split('learningpath:')[1];
         const res = await fetchLearningpaths([Number(learningpathId)]);
@@ -266,60 +264,54 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
   };
 
   return (
-    <>
-      <PreviewWrapper>
-        {selectedType && (
-          <>
-            <InputV2
-              customCss={inputWrapperStyles}
-              label={t('taxonomy.urlPlaceholder')}
-              white
-              onChange={onPaste}
-              name="pasteUrlInput"
-              placeholder={t('taxonomy.urlPlaceholder')}
-            />
-            {!pastedUrl && <StyledOrDivider>{t('taxonomy.or')}</StyledOrDivider>}
-          </>
-        )}
-        <StyledSection>
-          {!pastedUrl && (
-            <div>
-              <StyledLabel htmlFor="select-resource-type">{t('taxonomy.contentType')}</StyledLabel>
-              <ResourceTypeSelect
-                availableResourceTypes={resourceTypes ?? []}
-                onChangeSelectedResource={(value) => {
-                  if (value) setSelectedType(value?.value);
-                }}
-                isClearable
-              />
-            </div>
-          )}
-          {!pastedUrl && selectedType && (
-            <>
-              <AsyncDropdown<ILearningPathSummaryV2 | IMultiSearchSummary>
-                idField="id"
-                labelField="title"
-                placeholder={t('form.content.relatedArticle.placeholder')}
-                apiAction={(query, page) => onSearch(query, page)}
-                onChange={(res) => setPreview(toPreview(res))}
-                startOpen={false}
-                showPagination
-                initialSearch={false}
-                label={t('form.content.relatedArticle.placeholder')}
-                white
-              />
-            </>
-          )}
-        </StyledSection>
-        {previewLoading ? <Spinner /> : preview && <ArticlePreview article={preview} />}
-        {error && <ErrorMessage>{t(error)}</ErrorMessage>}
-      </PreviewWrapper>
+    <PreviewWrapper>
+      {selectedType && (
+        <>
+          <InputV2
+            customCss={inputWrapperStyles}
+            label={t('taxonomy.urlPlaceholder')}
+            white
+            onChange={onPaste}
+            name="pasteUrlInput"
+            placeholder={t('taxonomy.urlPlaceholder')}
+          />
+          {!pastedUrl && <StyledOrDivider>{t('taxonomy.or')}</StyledOrDivider>}
+        </>
+      )}
+      {!pastedUrl && (
+        <div>
+          <StyledLabel htmlFor="select-resource-type">{t('taxonomy.contentType')}</StyledLabel>
+          <ResourceTypeSelect
+            availableResourceTypes={resourceTypes ?? []}
+            onChangeSelectedResource={(value) => {
+              if (value) setSelectedType(value?.value);
+            }}
+            isClearable
+          />
+        </div>
+      )}
+      {!pastedUrl && selectedType && (
+        <AsyncDropdown<ILearningPathSummaryV2 | IMultiSearchSummary>
+          idField="id"
+          labelField="title"
+          placeholder={t('form.content.relatedArticle.placeholder')}
+          apiAction={(query, page) => onSearch(query, page)}
+          onChange={(res) => setPreview(toPreview(res))}
+          startOpen={false}
+          showPagination
+          initialSearch={false}
+          label={t('form.content.relatedArticle.placeholder')}
+          white
+        />
+      )}
+      {previewLoading ? <Spinner /> : preview && <ArticlePreview article={preview} />}
+      {error && <ErrorMessage>{t(error)}</ErrorMessage>}
       <ButtonWrapper>
         <ButtonV2 disabled={preview === undefined} onClick={onAddResource} type="submit">
           {t('taxonomy.add')} {loading && <Spinner appearance="small" />}
         </ButtonV2>
       </ButtonWrapper>
-    </>
+    </PreviewWrapper>
   );
 };
 

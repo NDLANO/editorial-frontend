@@ -27,7 +27,6 @@ const StyledHeader = styled.div`
 
 const StyledContent = styled.div`
   padding: ${spacing.normal} ${spacing.large};
-  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

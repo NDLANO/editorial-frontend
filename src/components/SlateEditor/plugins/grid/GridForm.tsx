@@ -9,8 +9,8 @@
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
-import { CheckboxItem } from '@ndla/forms';
-import { RadioButtonGroup, GridType } from '@ndla/ui';
+import { CheckboxItem, RadioButtonGroup } from '@ndla/forms';
+import { GridType } from '@ndla/ui';
 import { Formik, FieldProps } from 'formik';
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';

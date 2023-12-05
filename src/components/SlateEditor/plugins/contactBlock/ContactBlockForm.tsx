@@ -6,7 +6,6 @@
  *
  */
 
-import { RadioButtonGroup } from '@ndla/ui';
 import { ButtonV2 } from '@ndla/button';
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -14,7 +13,7 @@ import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { ContactBlockEmbedData } from '@ndla/types-embed';
 import { FieldProps, Formik } from 'formik';
-import { CheckboxItem, InputV2, TextAreaV2 } from '@ndla/forms';
+import { CheckboxItem, InputV2, TextAreaV2, RadioButtonGroup } from '@ndla/forms';
 import { css } from '@emotion/react';
 import FormikField from '../../../FormikField';
 import validateFormik, { RulesType } from '../../../formikValidationSchema';

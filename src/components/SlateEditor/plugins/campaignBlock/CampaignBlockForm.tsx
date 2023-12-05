@@ -6,14 +6,13 @@
  *
  */
 
-import { RadioButtonGroup } from '@ndla/ui';
 import { HeadingLevel } from '@ndla/typography';
 import { CampaignBlockEmbedData } from '@ndla/types-embed';
 import { useTranslation } from 'react-i18next';
 import { useCallback, useMemo } from 'react';
 import { FieldProps, Formik } from 'formik';
 import { css } from '@emotion/react';
-import { CheckboxItem, InputV2, TextAreaV2 } from '@ndla/forms';
+import { CheckboxItem, InputV2, TextAreaV2, RadioButtonGroup } from '@ndla/forms';
 import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';

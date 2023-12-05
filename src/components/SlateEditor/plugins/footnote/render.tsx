@@ -14,9 +14,11 @@ export const footnoteRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ element, attributes, children }) => {
     if (element.type === TYPE_FOOTNOTE) {
-      <Footnote element={element} attributes={attributes} editor={editor}>
-        {children}
-      </Footnote>;
+      return (
+        <Footnote element={element} attributes={attributes} editor={editor}>
+          {children}
+        </Footnote>
+      );
     } else return renderElement?.({ element, attributes, children });
   };
 

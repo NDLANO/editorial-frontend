@@ -84,7 +84,7 @@ export const PreviewDraft = ({ type, draft: draftProp, label, contentType, langu
     });
     return {
       title: draft.title ?? '',
-      introduction: parse(parseMarkdown({ markdown: draft.introduction ?? '' })),
+      introduction: parse(parseMarkdown({ inline: true, markdown: draft.introduction ?? '' })),
       content,
       copyright: draft.copyright,
       published: draft.published ? formatDate(draft.published) : '',

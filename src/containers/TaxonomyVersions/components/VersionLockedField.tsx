@@ -6,7 +6,7 @@
  *
  */
 
-import { RadioButtonGroup } from '@ndla/ui';
+import { RadioButtonGroup } from '@ndla/forms';
 import { FieldProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import FormikField from '../../../components/FormikField';

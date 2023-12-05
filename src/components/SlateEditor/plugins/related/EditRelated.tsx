@@ -10,12 +10,13 @@ import { HTMLAttributes, MouseEvent, forwardRef, useCallback, useEffect, useStat
 import { useTranslation } from 'react-i18next';
 import { IconButtonV2 } from '@ndla/button';
 import styled from '@emotion/styled';
-import { RelatedContentEmbed, SectionHeading } from '@ndla/ui';
+import { RelatedContentEmbed } from '@ndla/ui';
 import Tooltip from '@ndla/tooltip';
 import { Pencil } from '@ndla/icons/action';
 import { colors, spacing } from '@ndla/core';
 import { DeleteForever } from '@ndla/icons/editor';
 import { RelatedContentEmbedData, RelatedContentMetaData } from '@ndla/types-embed';
+import { Heading } from '@ndla/typography';
 import { DragEndEvent } from '@dnd-kit/core';
 import { Content } from '@radix-ui/react-popover';
 import Tabs from '@ndla/tabs';
@@ -152,9 +153,9 @@ const EditRelated = forwardRef<HTMLDivElement, Props>(
     return (
       <StyledBorderDiv {...rest} sticky="always" avoidCollisions={false} ref={ref}>
         <HeadingWrapper>
-          <SectionHeading className="c-related-articles__component-title" headingLevel="h3">
+          <Heading element="h3" headingStyle="list-title">
             {t('form.related.title')}
-          </SectionHeading>
+          </Heading>
           <Tooltip tooltip={t('form.remove')}>
             <IconButtonV2
               data-testid="close-related-button"

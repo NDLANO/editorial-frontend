@@ -919,7 +919,7 @@ const phrases = {
       glossMissingFields: 'A glossary entry must include all fields.',
       transcriptionMissingFields: 'A transcription cannot be empty.',
       editExamples: 'Edit examples',
-      editExamplesHeading: 'Choose example sentences and language',
+      editExamplesHeading: 'Choose example sentences and languages',
       editExamplesLanguage: 'Choose the languages to display on the gloss',
       displayOnGloss: 'Show this example',
     },

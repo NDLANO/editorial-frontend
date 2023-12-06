@@ -13,16 +13,13 @@ import { ReactEditor, RenderElementProps, useSelected } from 'slate-react';
 import styled from '@emotion/styled';
 import { IConcept, IConceptSummary } from '@ndla/types-backend/concept-api';
 import { ConceptEmbedData, ConceptMetaData } from '@ndla/types-embed';
-import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
+import { Modal, ModalContent } from '@ndla/modal';
 import { spacing, colors } from '@ndla/core';
 import { Check, AlertCircle, DeleteForever } from '@ndla/icons/editor';
 import { IconButtonV2 } from '@ndla/button';
 import { Link as LinkIcon } from '@ndla/icons/common';
 import { SafeLinkIconButton } from '@ndla/safelink';
 import { ConceptEmbed } from '@ndla/ui';
-import { Pencil } from '@ndla/icons/action';
-import uniq from 'lodash/uniq';
-import range from 'lodash/range';
 import { useFetchConceptData } from '../../../../../containers/FormikForm/formikConceptHooks';
 import { TYPE_CONCEPT_BLOCK, TYPE_GLOSS_BLOCK } from './types';
 import { ConceptBlockElement } from './interfaces';
@@ -30,7 +27,8 @@ import ConceptModalContent from '../ConceptModalContent';
 import { PUBLISHED } from '../../../../../constants';
 import { useConceptVisualElement } from '../../../../../modules/embed/queries';
 import parseMarkdown from '../../../../../util/parseMarkdown';
-import EditGlossExamplesModalContent from '../EditGlossExamplesModalContent';
+import EditGlossExamplesModal from '../EditGlossExamplesModal';
+import { getGlossDataAttributes } from '../utils';
 
 const getConceptDataAttributes = ({
   id,
@@ -42,11 +40,7 @@ const getConceptDataAttributes = ({
   type: 'block',
   linkText: '',
   ...(conceptType === 'gloss' && glossData?.examples.length
-    ? {
-        // Display all examples with languages as default
-        exampleIds: range(0, glossData.examples.length).join(','),
-        exampleLangs: uniq(glossData.examples.flat().map((e) => e.language)).join(','),
-      }
+    ? getGlossDataAttributes(glossData)
     : {}),
 });
 
@@ -217,7 +211,6 @@ const ConceptButtonContainer = ({
   element,
   embed,
 }: ButtonContainerProps) => {
-  const [modalOpen, setModalOpen] = useState(false);
   const { t } = useTranslation();
   const translatedCurrent = t(`form.status.${concept?.status.current?.toLowerCase()}`);
 
@@ -232,29 +225,7 @@ const ConceptButtonContainer = ({
       >
         <DeleteForever />
       </IconButtonV2>
-      <Modal open={modalOpen} onOpenChange={setModalOpen}>
-        {concept.conceptType === 'gloss' && concept.glossData?.examples.length ? (
-          <ModalTrigger>
-            <IconButtonV2
-              title={t('form.gloss.editExamples')}
-              aria-label={t('form.gloss.editExamples')}
-              variant="ghost"
-              colorTheme="light"
-            >
-              <Pencil />
-            </IconButtonV2>
-          </ModalTrigger>
-        ) : null}
-        <ModalContent>
-          <EditGlossExamplesModalContent
-            examples={concept.glossData?.examples ?? []}
-            editor={editor}
-            element={element}
-            embed={embed}
-            close={() => setModalOpen(false)}
-          />
-        </ModalContent>
-      </Modal>
+      <EditGlossExamplesModal concept={concept} editor={editor} element={element} embed={embed} />
       <SafeLinkIconButton
         arial-label={t(`form.${concept?.conceptType}.edit`)}
         title={t(`form.${concept?.conceptType}.edit`)}

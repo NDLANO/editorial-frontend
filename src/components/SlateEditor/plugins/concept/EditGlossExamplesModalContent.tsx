@@ -20,6 +20,7 @@ import { CheckboxItem } from '@ndla/forms';
 import { useMemo, useState } from 'react';
 import uniq from 'lodash/uniq';
 import { ConceptBlockElement } from './block/interfaces';
+import { ConceptInlineElement } from './inline/interfaces';
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -80,7 +81,7 @@ const StyledModalBody = styled(ModalBody)`
 interface Props {
   examples: IGlossExample[][];
   editor: Editor;
-  element: ConceptBlockElement;
+  element: ConceptBlockElement | ConceptInlineElement;
   embed: ConceptMetaData;
   close: () => void;
 }

@@ -100,7 +100,7 @@ const onCheckboxChange = (
 const EditGlossExamplesModalContent = ({ examples, editor, element, embed, close }: Props) => {
   const { t } = useTranslation();
   const [selectedExamples, setSelectedExamples] = useState<string[]>(
-    embed.embedData.exampleIds ? embed.embedData.exampleIds.split(',') : [],
+    embed.embedData.exampleIds?.split(',') ?? [],
   );
 
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>(

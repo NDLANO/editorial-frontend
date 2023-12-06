@@ -917,6 +917,10 @@ const phrases = {
       exampleMissingFields: 'Alle felt for eit eksempel må fyllast ut.',
       glossMissingFields: 'Ei glose må innehalde alle felt.',
       transcriptionMissingFields: 'Ein transkripsjon kan ikkje være tom.',
+      editExamples: 'Rediger døme',
+      editExamplesHeading: 'Vel dømesetningar og språk',
+      editExamplesLanguage: 'Vel kva språk du vil visa på glosekortet',
+      displayOnGloss: 'Vis dette dømet på glosekortet',
     },
     conceptList: {
       edit: 'Rediger forklaringsliste',

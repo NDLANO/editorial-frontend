@@ -66,9 +66,6 @@ const podcastRules: RulesType<PodcastFormValues, IAudioMetaInformation> = {
     required: true,
   },
   metaImageAlt: {
-    // coverPhotoAltText
-    required: true,
-    onlyValidateIf: (values: PodcastFormValues) => !!values.coverPhotoId,
     warnings: {
       languageMatch: true,
     },

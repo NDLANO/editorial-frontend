@@ -51,10 +51,6 @@ const podcastRules: RulesType<PodcastSeriesFormikType, ISeries> = {
   coverPhotoId: {
     required: true,
   },
-  metaImageAlt: {
-    required: true,
-    onlyValidateIf: (values: PodcastSeriesFormikType) => !!values.coverPhotoId,
-  },
 };
 
 const AdminWarningTextWrapper = styled.div`

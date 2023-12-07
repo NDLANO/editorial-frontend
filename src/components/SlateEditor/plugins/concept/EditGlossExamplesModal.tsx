@@ -44,6 +44,7 @@ const EditGlossExamplesModal = ({ concept, editor, element, embed }: Props) => {
       ) : null}
       <ModalContent>
         <EditGlossExamplesModalContent
+          originalLanguage={concept.glossData?.originalLanguage}
           examples={concept.glossData?.examples ?? []}
           editor={editor}
           element={element}

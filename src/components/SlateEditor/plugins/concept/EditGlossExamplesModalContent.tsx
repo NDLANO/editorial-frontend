@@ -12,13 +12,14 @@ import { IGlossExample } from '@ndla/types-backend/concept-api';
 import { useTranslation } from 'react-i18next';
 import { Text } from '@ndla/typography';
 import styled from '@emotion/styled';
-import { fonts, colors, spacing } from '@ndla/core';
+import { fonts, spacing } from '@ndla/core';
 import { Editor, Transforms } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { ButtonV2 } from '@ndla/button';
 import { CheckboxItem } from '@ndla/forms';
 import { useMemo, useState } from 'react';
 import uniq from 'lodash/uniq';
+import { GlossExample } from '@ndla/ui';
 import { ConceptBlockElement } from './block/interfaces';
 import { ConceptInlineElement } from './inline/interfaces';
 
@@ -37,36 +38,14 @@ const CheckboxGroupWrapper = styled.div`
   }
 `;
 
-const GlossExample = styled.div`
-  padding: ${spacing.small} 0;
-  padding-left: ${spacing.normal};
-  border: 1px solid ${colors.brand.lighter};
-  &:last-of-type {
-    border-bottom: 1px solid ${colors.brand.lighter};
-    margin-bottom: ${spacing.xsmall};
-  }
-  &:not(:last-of-type) {
-    border-bottom: none;
-  }
-  &[data-is-first='true'] {
-    background-color: ${colors.background.lightBlue};
-  }
-`;
-
 const FlexWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${spacing.normal};
 `;
 
-const StyledText = styled(Text)`
-  &[data-is-first='true'] {
-    font-weight: ${fonts.weight.semibold};
-    color: ${colors.brand.dark};
-  }
-`;
-
 const StyledCheckboxWrapper = styled.div`
+  margin-top: ${spacing.small};
   & label {
     font-weight: ${fonts.weight.semibold};
   }
@@ -79,6 +58,7 @@ const StyledModalBody = styled(ModalBody)`
 `;
 
 interface Props {
+  originalLanguage: string | undefined;
   examples: IGlossExample[][];
   editor: Editor;
   element: ConceptBlockElement | ConceptInlineElement;
@@ -98,7 +78,14 @@ const onCheckboxChange = (
   updateFunction(updatedSelectedExamples);
 };
 
-const EditGlossExamplesModalContent = ({ examples, editor, element, embed, close }: Props) => {
+const EditGlossExamplesModalContent = ({
+  originalLanguage,
+  examples,
+  editor,
+  element,
+  embed,
+  close,
+}: Props) => {
   const { t } = useTranslation();
   const [selectedExamples, setSelectedExamples] = useState<string[]>(
     embed.embedData.exampleIds ? embed.embedData.exampleIds?.split(',') : [],
@@ -139,26 +126,25 @@ const EditGlossExamplesModalContent = ({ examples, editor, element, embed, close
       </ModalHeader>
       <StyledModalBody>
         <FlexWrapper>
-          {examples.map((glossExample, outerIndex) => (
-            <div key={`gloss-${outerIndex}`}>
+          {examples.map((glossExample, index) => (
+            <div key={`edit-gloss-example-${index}`}>
               <div>
-                {glossExample.map((example, index) => (
-                  <GlossExample data-is-first={index === 0} key={`gloss-${outerIndex}-${index}`}>
-                    <StyledText
-                      data-is-first={index === 0}
-                      textStyle="meta-text-medium"
-                      margin="none"
-                    >
-                      {example.example}
-                    </StyledText>
-                  </GlossExample>
+                {glossExample.map((example, innerIndex) => (
+                  <GlossExample
+                    key={`edit-gloss-example${index}-${innerIndex}`}
+                    example={example}
+                    originalLanguage={originalLanguage}
+                    index={innerIndex}
+                    isStandalone
+                  />
                 ))}
               </div>
+
               <StyledCheckboxWrapper>
                 <CheckboxItem
                   label={t('form.gloss.displayOnGloss')}
-                  checked={selectedExamples.includes(outerIndex.toString())}
-                  id={outerIndex}
+                  checked={selectedExamples.includes(index.toString())}
+                  id={index}
                   onChange={(v) => {
                     if (v === undefined) return;
                     onCheckboxChange(v.toString(), setSelectedExamples, selectedExamples);

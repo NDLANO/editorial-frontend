@@ -9,7 +9,7 @@
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { uuid } from '@ndla/util';
-import { colors } from '@ndla/core';
+import { colors, fonts, spacing } from '@ndla/core';
 
 const FootnoteId = styled.sup`
   text-decoration: underline;
@@ -37,7 +37,7 @@ const Footnote = ({ footnote, id }: FootnoteProps) => {
   const editonLabel = t('learningResourceForm.fields.footnotes.edition');
   const publisherLabel = t('learningResourceForm.fields.footnotes.publisher');
   return (
-    <li className="c-footnotes__item" id={`${id}_cite`}>
+    <li id={`${id}_cite`}>
       <FootnoteId>{id}</FootnoteId>
       <cite>{` ${footnote.title} (${footnote.year}), ${authors}, ${editonLabel}: ${footnote.edition}, ${publisherLabel}: ${footnote.publisher}`}</cite>
     </li>
@@ -48,14 +48,24 @@ interface LearningResourceFootnotesProps {
   footnotes: FootnoteType[];
 }
 
+const FootnotesList = styled.ol`
+  border-top: 2px solid ${colors.brand.greyLight};
+  padding-top: ${spacing.large};
+  color: ${colors.brand.grey};
+  ${fonts.size.text.metaText.small};
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.small};
+`;
+
 const LearningResourceFootnotes = ({ footnotes }: LearningResourceFootnotesProps) => {
   if (footnotes.length > 0) {
     return (
-      <ol className="c-footnotes">
+      <FootnotesList>
         {footnotes.map((footnote, i) => (
           <Footnote key={uuid()} id={`${i + 1}`} footnote={footnote} />
         ))}
-      </ol>
+      </FootnotesList>
     );
   }
   return null;

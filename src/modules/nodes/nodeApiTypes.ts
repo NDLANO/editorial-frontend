@@ -23,6 +23,7 @@ export interface GetNodeParams {
   nodeType?: NodeType;
   value?: string;
   includeContexts?: boolean;
+  filterProgrammes?: boolean;
 }
 
 export interface GetChildNodesParams {
@@ -30,6 +31,7 @@ export interface GetChildNodesParams {
   nodeType?: NodeType[];
   recursive?: boolean;
   includeContexts?: boolean;
+  filterProgrammes?: boolean;
 }
 
 export interface GetNodeResourcesParams {
@@ -37,4 +39,6 @@ export interface GetNodeResourcesParams {
   recursive?: boolean;
   relevance?: string;
   type?: string;
+  includeContexts?: boolean;
+  filterProgrammes?: boolean;
 }

@@ -50,6 +50,7 @@ const StyledForm = styled.form`
   flex-direction: column;
   gap: ${spacing.nsmall};
   padding-left: ${spacing.medium};
+  padding-top: ${spacing.normal};
 `;
 
 export const StyledLabel = styled.label`

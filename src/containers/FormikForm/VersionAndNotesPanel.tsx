@@ -166,7 +166,7 @@ const VersionAndNotesPanel = ({ article, type, currentLanguage }: Props) => {
           ? draftApiTypeToLearningResourceFormType
           : draftApiTypeToTopicArticleFormType;
       const newValues = transform(
-        { ...newArticle, status: version.status, responsible: article.responsible },
+        { ...newArticle, status: article.status, responsible: article.responsible },
         language,
         ndlaId,
       );

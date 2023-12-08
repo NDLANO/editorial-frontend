@@ -1,12 +1,19 @@
-import { CloudUploadOutline } from '@ndla/icons/editor';
-import Tooltip from '@ndla/tooltip';
+/**
+ * Copyright (c) 2022-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { CloudUploadOutline } from '@ndla/icons/editor';
+import Tooltip from '@ndla/tooltip';
 import { Node } from '@ndla/types-taxonomy';
+import MenuItemButton from './components/MenuItemButton';
 import RoundIcon from '../../../../components/RoundIcon';
 import { TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH } from '../../../../constants';
 import { useUpdateNodeMetadataMutation } from '../../../../modules/nodes/nodeMutations';
-import MenuItemButton from './components/MenuItemButton';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import { EditModeHandler } from '../SettingsMenuDropdownType';
 

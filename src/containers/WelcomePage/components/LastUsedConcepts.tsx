@@ -6,17 +6,17 @@
  *
  */
 
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pencil } from '@ndla/icons/action';
-import { IConceptSummary } from '@ndla/types-backend/concept-api';
-import { useMemo } from 'react';
 import Pager from '@ndla/pager';
-import { StyledLink } from '../styles';
-import TableTitle from './TableTitle';
-import TableComponent, { FieldElement, Prefix, TitleElement } from './TableComponent';
+import { IConceptSummary } from '@ndla/types-backend/concept-api';
 import { SortOptionLastUsed } from './LastUsedItems';
-import { toEditConcept, toEditGloss } from '../../../util/routeHelpers';
+import TableComponent, { FieldElement, Prefix, TitleElement } from './TableComponent';
+import TableTitle from './TableTitle';
 import formatDate from '../../../util/formatDate';
+import { toEditConcept, toEditGloss } from '../../../util/routeHelpers';
+import { StyledLink } from '../styles';
 
 interface Props {
   data: IConceptSummary[];

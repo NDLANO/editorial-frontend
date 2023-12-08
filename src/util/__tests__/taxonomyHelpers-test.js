@@ -6,8 +6,8 @@
  *
  */
 
-import { flattenResourceTypesAndAddContextTypes } from '../taxonomyHelpers';
 import { resourceTypesMock, flattenedResourceTypes } from './taxonomyMocks';
+import { flattenResourceTypesAndAddContextTypes } from '../taxonomyHelpers';
 
 test('taxonomy/flattenResourceTypesAndAddContextTypes flattening', () => {
   const types = {

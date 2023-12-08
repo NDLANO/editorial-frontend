@@ -2,37 +2,38 @@
  * Copyright (c) 2016-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { UseQueryResult } from '@tanstack/react-query';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
-import { ISearchResultV3 } from '@ndla/types-backend/image-api';
+import { UseQueryResult } from '@tanstack/react-query';
+import { Search } from '@ndla/icons/common';
+import Pager from '@ndla/pager';
+import { HelmetWithTracker } from '@ndla/tracker';
 import {
   IAudioSummarySearchResult,
   ISeriesSummarySearchResult,
 } from '@ndla/types-backend/audio-api';
 import { IConceptSearchResult } from '@ndla/types-backend/concept-api';
+import { ISearchResultV3 } from '@ndla/types-backend/image-api';
 import { IMultiSearchResult } from '@ndla/types-backend/search-api';
-import { HelmetWithTracker } from '@ndla/tracker';
 import { OneColumn } from '@ndla/ui';
-import Pager from '@ndla/pager';
-import { Search } from '@ndla/icons/common';
+import SearchForm, { parseSearchParams, SearchParams } from './components/form/SearchForm';
 import SearchList from './components/results/SearchList';
 import SearchListOptions from './components/results/SearchListOptions';
-import SearchForm, { parseSearchParams, SearchParams } from './components/form/SearchForm';
 import SearchSort from './components/sort/SearchSort';
-import { toSearch } from '../../util/routeHelpers';
-import { SearchType } from '../../interfaces';
 import SearchSaveButton from './SearchSaveButton';
-import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
-import { useNodes } from '../../modules/nodes/nodeQueries';
+import { SearchType } from '../../interfaces';
 import { useUserData } from '../../modules/draft/draftQueries';
+import { useNodes } from '../../modules/nodes/nodeQueries';
 import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
 import { isValid } from '../../util/jwtHelper';
+import { toSearch } from '../../util/routeHelpers';
+import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
 
 const StyledSearchHeader = styled.div`
   display: flex;

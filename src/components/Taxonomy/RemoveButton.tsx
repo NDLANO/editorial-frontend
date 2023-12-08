@@ -6,12 +6,12 @@
  *
  */
 
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
-import Tooltip from '@ndla/tooltip';
-import { RemoveCircle } from '@ndla/icons/action';
 import { spacing } from '@ndla/core';
-import { useTranslation } from 'react-i18next';
+import { RemoveCircle } from '@ndla/icons/action';
+import Tooltip from '@ndla/tooltip';
 
 const StyledRemoveButton = styled(ButtonV2)`
   margin-left: ${spacing.small};

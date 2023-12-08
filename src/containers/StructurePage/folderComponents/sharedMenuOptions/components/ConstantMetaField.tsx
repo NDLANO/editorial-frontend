@@ -1,17 +1,19 @@
-/*
+/**
  * Copyright (c) 2021-present, NDLA.
+ *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
+ *
  */
 
 import { useState, KeyboardEvent } from 'react';
+import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { DeleteForever, Done } from '@ndla/icons/editor';
-import styled from '@emotion/styled';
 import { Metadata } from '@ndla/types-taxonomy';
-import { StyledMenuItemEditField, StyledMenuItemInputField } from '../../styles';
-import RoundIcon from '../../../../../components/RoundIcon';
 import CustomFieldButton from './CustomFieldButton';
+import RoundIcon from '../../../../../components/RoundIcon';
+import { StyledMenuItemEditField, StyledMenuItemInputField } from '../../styles';
 
 interface Props {
   fieldKey: string;

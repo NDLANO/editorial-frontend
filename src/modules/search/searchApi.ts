@@ -8,13 +8,13 @@
 
 import queryString from 'query-string';
 import { IGroupSearchResult, IMultiSearchResult } from '@ndla/types-backend/search-api';
+import { MultiSearchApiQuery } from './searchApiInterfaces';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
   fetchAuthorized,
 } from '../../util/apiHelpers';
 import { transformQuery } from '../../util/searchHelpers';
-import { MultiSearchApiQuery } from './searchApiInterfaces';
 
 const baseUrl = apiResourceUrl('/search-api/v1/search');
 const groupUrl = apiResourceUrl('/search-api/v1/search/group/');

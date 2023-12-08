@@ -6,13 +6,13 @@
  *
  */
 
-import styled from '@emotion/styled';
 import { ReactNode, useEffect, useState } from 'react';
-import { colors } from '@ndla/core';
 import { RenderElementProps, useSelected, useSlateStatic } from 'slate-react';
+import styled from '@emotion/styled';
+import { colors } from '@ndla/core';
 import { SpanElement } from '.';
-import SelectedLanguage from './SelectedLanguage';
 import LanguageSelector from './LanguageSelector';
+import SelectedLanguage from './SelectedLanguage';
 import { showToolbar } from '../toolbar/SlateToolbar';
 
 interface Props {

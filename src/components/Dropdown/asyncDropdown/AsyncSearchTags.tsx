@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2020-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,11 +6,11 @@
  *
  */
 
+import { FieldInputProps, FormikHelpers } from 'formik';
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 //@ts-ignore
 import { DropdownInput } from '@ndla/forms';
-import { FieldInputProps, FormikHelpers } from 'formik';
-import { useTranslation } from 'react-i18next';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
 import { SearchResultBase } from '../../../interfaces';
 

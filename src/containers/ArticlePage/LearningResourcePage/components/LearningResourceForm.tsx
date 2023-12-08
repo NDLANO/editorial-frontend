@@ -6,37 +6,37 @@
  *
  */
 
+import { Formik, useFormikContext } from 'formik';
 import { memo, useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Formik, useFormikContext } from 'formik';
 import { IArticle, IUpdatedArticle, IStatus } from '@ndla/types-backend/draft-api';
 import { Node } from '@ndla/types-taxonomy';
-import { AlertModalWrapper } from '../../../FormikForm';
-import validateFormik, { getWarnings } from '../../../../components/formikValidationSchema';
 import LearningResourcePanels from './LearningResourcePanels';
-import { isFormikFormDirty, learningResourceRules } from '../../../../util/formHelper';
+import AlertModal from '../../../../components/AlertModal';
+import validateFormik, { getWarnings } from '../../../../components/formikValidationSchema';
 import HeaderWithLanguage from '../../../../components/HeaderWithLanguage';
 import EditorFooter from '../../../../components/SlateEditor/EditorFooter';
+import StyledForm from '../../../../components/StyledFormComponents';
+import { useSession } from '../../../../containers/Session/SessionProvider';
+import { validateDraft } from '../../../../modules/draft/draftApi';
+import { useLicenses, useDraftStatusStateMachine } from '../../../../modules/draft/draftQueries';
+import { blockContentToHTML } from '../../../../util/articleContentConverter';
+import { isFormikFormDirty, learningResourceRules } from '../../../../util/formHelper';
+import { AlertModalWrapper } from '../../../FormikForm';
 import {
   HandleSubmitFunc,
   LearningResourceFormType,
   useArticleFormHooks,
 } from '../../../FormikForm/articleFormHooks';
 import usePreventWindowUnload from '../../../FormikForm/preventWindowUnloadHook';
-import { useLicenses, useDraftStatusStateMachine } from '../../../../modules/draft/draftQueries';
-import { validateDraft } from '../../../../modules/draft/draftApi';
+import { TaxonomyVersionProvider } from '../../../StructureVersion/TaxonomyVersionProvider';
 import {
   draftApiTypeToLearningResourceFormType,
   getExpirationDate,
   learningResourceFormTypeToDraftApiType,
 } from '../../articleTransformers';
-import { blockContentToHTML } from '../../../../util/articleContentConverter';
-import StyledForm from '../../../../components/StyledFormComponents';
-import { TaxonomyVersionProvider } from '../../../StructureVersion/TaxonomyVersionProvider';
-import { useSession } from '../../../../containers/Session/SessionProvider';
-import { FlexWrapper, MainContent } from '../../styles';
 import CommentSection from '../../components/CommentSection';
-import AlertModal from '../../../../components/AlertModal';
+import { FlexWrapper, MainContent } from '../../styles';
 
 interface Props {
   article?: IArticle;

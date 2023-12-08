@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2019-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -8,8 +8,8 @@
 
 import { memo } from 'react';
 import loadable from '@loadable/component';
-import { useConcept } from '../../modules/concept/conceptQueries';
 import ResourcePage from '../../components/ResourcePage';
+import { useConcept } from '../../modules/concept/conceptQueries';
 const CreateConcept = loadable(() => import('./CreateConcept'));
 const EditConcept = loadable(() => import('./EditConcept'));
 

@@ -8,11 +8,11 @@
 
 import { Descendant, Editor, Element, Transforms, Range } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
-import { SlateSerializer } from '../../interfaces';
+import { TYPE_FOOTNOTE } from './types';
 import { reduceElementDataAttributes, createEmbedTag } from '../../../../util/embedTagHelpers';
+import { SlateSerializer } from '../../interfaces';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { KEY_BACKSPACE, KEY_DELETE } from '../../utils/keys';
-import { TYPE_FOOTNOTE } from './types';
 import { TYPE_NDLA_EMBED } from '../embed/types';
 
 export interface FootnoteElement {

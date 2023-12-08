@@ -6,9 +6,9 @@
  *
  */
 
+import { Auth0DecodedHash } from 'auth0-js';
 import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Auth0DecodedHash } from 'auth0-js';
 import {
   clearAccessTokenFromLocalStorage,
   getAccessToken,

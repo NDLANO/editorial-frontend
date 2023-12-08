@@ -7,20 +7,20 @@
  */
 
 import { Descendant, Editor, Element, Transforms } from 'slate';
-import { GridType } from '@ndla/ui';
 import { jsx as slatejsx } from 'slate-hyperscript';
-import { reduceElementDataAttributesV2 } from '../../../../util/embedTagHelpers';
-import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
-import { SlateSerializer } from '../../interfaces';
-import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
-import { TYPE_PARAGRAPH } from '../paragraph/types';
+import { GridType } from '@ndla/ui';
 import { TYPE_GRID, TYPE_GRID_CELL } from './types';
 import { defaultGridCellBlock } from './utils';
-import { TYPE_EMBED_IMAGE } from '../embed/types';
+import { reduceElementDataAttributesV2 } from '../../../../util/embedTagHelpers';
+import { SlateSerializer } from '../../interfaces';
+import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
+import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
 import { TYPE_BLOGPOST } from '../blogPost/types';
+import { TYPE_EMBED_IMAGE } from '../embed/types';
 import { TYPE_HEADING } from '../heading/types';
-import { TYPE_LIST } from '../list/types';
 import { TYPE_KEY_FIGURE } from '../keyFigure/types';
+import { TYPE_LIST } from '../list/types';
+import { TYPE_PARAGRAPH } from '../paragraph/types';
 
 export interface GridElement {
   type: 'grid';

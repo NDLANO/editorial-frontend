@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2016-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,8 +6,8 @@
  *
  */
 
-import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import { ISeriesSummary } from '@ndla/types-backend/audio-api';
 import { toEditPodcastSeries } from '../../../../util/routeHelpers';
 import {

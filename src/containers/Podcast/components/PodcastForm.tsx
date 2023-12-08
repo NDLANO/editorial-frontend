@@ -2,41 +2,42 @@
  * Copyright (c) 2021-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
-import { useState, useRef, useCallback, useMemo } from 'react';
 import { Formik, FormikHelpers, FormikErrors } from 'formik';
+import { useState, useRef, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { ButtonV2 } from '@ndla/button';
 import {
   IAudioMetaInformation,
   IUpdatedAudioMetaInformation,
   INewAudioMetaInformation,
 } from '@ndla/types-backend/audio-api';
-import { ButtonV2 } from '@ndla/button';
+import PodcastMetaData from './PodcastMetaData';
+import PodcastSeriesInformation from './PodcastSeriesInformation';
+import FormAccordion from '../../../components/Accordion/FormAccordion';
+import FormAccordions from '../../../components/Accordion/FormAccordions';
+import Field from '../../../components/Field';
+import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';
+import FormWrapper from '../../../components/FormWrapper';
+import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
+import SaveButton from '../../../components/SaveButton';
+import Spinner from '../../../components/Spinner';
+import { SAVE_BUTTON_ID } from '../../../constants';
+import { PodcastFormValues } from '../../../modules/audio/audioApiInterfaces';
+import { useLicenses } from '../../../modules/draft/draftQueries';
+import { editorValueToPlainText } from '../../../util/articleContentConverter';
+import { audioApiTypeToPodcastFormType } from '../../../util/audioHelpers';
+import { isFormikFormDirty } from '../../../util/formHelper';
+import handleError from '../../../util/handleError';
 import AudioContent from '../../AudioUploader/components/AudioContent';
 import AudioCopyright from '../../AudioUploader/components/AudioCopyright';
-import AudioMetaData from '../../AudioUploader/components/AudioMetaData';
 import AudioManuscript from '../../AudioUploader/components/AudioManuscript';
+import AudioMetaData from '../../AudioUploader/components/AudioMetaData';
 import { AlertModalWrapper } from '../../FormikForm';
-import PodcastMetaData from './PodcastMetaData';
-import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
-import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';
-import SaveButton from '../../../components/SaveButton';
-import Field from '../../../components/Field';
-import Spinner from '../../../components/Spinner';
-import { isFormikFormDirty } from '../../../util/formHelper';
-import { PodcastFormValues } from '../../../modules/audio/audioApiInterfaces';
-import { editorValueToPlainText } from '../../../util/articleContentConverter';
-import PodcastSeriesInformation from './PodcastSeriesInformation';
-import handleError from '../../../util/handleError';
-import { audioApiTypeToPodcastFormType } from '../../../util/audioHelpers';
-import { useLicenses } from '../../../modules/draft/draftQueries';
-import FormWrapper from '../../../components/FormWrapper';
-import FormAccordions from '../../../components/Accordion/FormAccordions';
-import FormAccordion from '../../../components/Accordion/FormAccordion';
-import { SAVE_BUTTON_ID } from '../../../constants';
 
 const podcastRules: RulesType<PodcastFormValues, IAudioMetaInformation> = {
   title: {

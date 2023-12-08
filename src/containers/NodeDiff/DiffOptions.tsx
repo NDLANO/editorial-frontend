@@ -7,17 +7,17 @@
  */
 
 import { FormEvent } from 'react';
-import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
-import { ContentLoader } from '@ndla/ui';
+import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
-import { TAXONOMY_ADMIN_SCOPE } from '../../constants';
+import { ContentLoader } from '@ndla/ui';
 import { Row } from '../../components';
 import ObjectSelector from '../../components/ObjectSelector';
-import { useSession } from '../Session/SessionProvider';
-import { useVersions } from '../../modules/taxonomy/versions/versionQueries';
 import OptGroupVersionSelector from '../../components/Taxonomy/OptGroupVersionSelector';
+import { TAXONOMY_ADMIN_SCOPE } from '../../constants';
+import { useVersions } from '../../modules/taxonomy/versions/versionQueries';
+import { useSession } from '../Session/SessionProvider';
 
 const StyledDiffOptions = styled.div`
   display: flex;

@@ -7,62 +7,62 @@
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Editor, Element, Node, Location, Range, Path, Transforms } from 'slate';
 import { useTranslation } from 'react-i18next';
+import { Editor, Element, Node, Location, Range, Path, Transforms } from 'slate';
 import { ReactEditor } from 'slate-react';
 import styled from '@emotion/styled';
 import { Popover, PopoverContent, PopoverTrigger } from '@radix-ui/react-popover';
 import { Portal } from '@radix-ui/react-portal';
 import { ButtonV2, IconButtonV2 } from '@ndla/button';
-import { Plus } from '@ndla/icons/action';
 import { shadows, colors, spacing, fonts, animations } from '@ndla/core';
+import { Plus } from '@ndla/icons/action';
 import { Heading } from '@ndla/typography';
-import SlateVisualElementPicker from './SlateVisualElementPicker';
 import { Action, ActionData } from './actions';
-import { defaultAsideBlock } from '../aside/utils';
-import { defaultDetailsBlock } from '../details/utils';
-import { defaultBodyboxBlock } from '../bodybox/utils';
-import { defaultCodeblockBlock } from '../codeBlock/utils';
-import { defaultRelatedBlock } from '../related';
-import { defaultCampaignBlock } from '../campaignBlock/utils';
-import { TYPE_LIST_ITEM } from '../list/types';
-import { defaultConceptListBlock } from '../conceptList/utils';
-import { TYPE_CONCEPT_BLOCK, TYPE_GLOSS_BLOCK } from '../concept/block/types';
-import { defaultConceptBlock, defaultGlossBlock } from '../concept/block/utils';
+import SlateVisualElementPicker from './SlateVisualElementPicker';
+import { BLOCK_PICKER_TRIGGER_ID } from '../../../../constants';
 import { useSession } from '../../../../containers/Session/SessionProvider';
 import getCurrentBlock from '../../utils/getCurrentBlock';
-import { TYPE_PARAGRAPH } from '../paragraph/types';
-import { isInTableCellHeader, isTableCell } from '../table/slateHelpers';
-import { defaultTableBlock } from '../table/defaultBlocks';
-import { TYPE_BODYBOX } from '../bodybox/types';
-import { TYPE_DETAILS } from '../details/types';
-import { TYPE_TABLE } from '../table/types';
 import { TYPE_ASIDE } from '../aside/types';
-import { TYPE_FILE } from '../file/types';
+import { defaultAsideBlock } from '../aside/utils';
+import { TYPE_AUDIO } from '../audio/types';
+import { TYPE_BLOGPOST } from '../blogPost/types';
+import { defaultBlogPostBlock } from '../blogPost/utils';
+import { TYPE_BODYBOX } from '../bodybox/types';
+import { defaultBodyboxBlock } from '../bodybox/utils';
+import { TYPE_CAMPAIGN_BLOCK } from '../campaignBlock/types';
+import { defaultCampaignBlock } from '../campaignBlock/utils';
+import { TYPE_CODEBLOCK } from '../codeBlock/types';
+import { defaultCodeblockBlock } from '../codeBlock/utils';
+import { TYPE_CONCEPT_BLOCK, TYPE_GLOSS_BLOCK } from '../concept/block/types';
+import { defaultConceptBlock, defaultGlossBlock } from '../concept/block/utils';
+import { TYPE_CONCEPT_LIST } from '../conceptList/types';
+import { defaultConceptListBlock } from '../conceptList/utils';
+import { TYPE_CONTACT_BLOCK } from '../contactBlock/types';
+import { defaultContactBlock } from '../contactBlock/utils';
+import { TYPE_DETAILS } from '../details/types';
+import { defaultDetailsBlock } from '../details/utils';
 import {
   TYPE_EMBED_BRIGHTCOVE,
   TYPE_EMBED_ERROR,
   TYPE_EMBED_EXTERNAL,
   TYPE_EMBED_IMAGE,
 } from '../embed/types';
-import { TYPE_RELATED } from '../related/types';
-import { TYPE_CODEBLOCK } from '../codeBlock/types';
-import { TYPE_CONCEPT_LIST } from '../conceptList/types';
-import { TYPE_KEY_FIGURE } from '../keyFigure/types';
-import { defaultKeyFigureBlock } from '../keyFigure/utils';
-import { TYPE_CONTACT_BLOCK } from '../contactBlock/types';
-import { TYPE_BLOGPOST } from '../blogPost/types';
-import { defaultBlogPostBlock } from '../blogPost/utils';
+import { TYPE_FILE } from '../file/types';
 import { TYPE_GRID } from '../grid/types';
 import { defaultGridBlock } from '../grid/utils';
-import { defaultContactBlock } from '../contactBlock/utils';
-import { TYPE_CAMPAIGN_BLOCK } from '../campaignBlock/types';
-import { TYPE_LINK_BLOCK_LIST } from '../linkBlockList/types';
-import { defaultLinkBlockList } from '../linkBlockList';
-import { TYPE_AUDIO } from '../audio/types';
 import { TYPE_H5P } from '../h5p/types';
 import { defaultH5pBlock } from '../h5p/utils';
-import { BLOCK_PICKER_TRIGGER_ID } from '../../../../constants';
+import { TYPE_KEY_FIGURE } from '../keyFigure/types';
+import { defaultKeyFigureBlock } from '../keyFigure/utils';
+import { defaultLinkBlockList } from '../linkBlockList';
+import { TYPE_LINK_BLOCK_LIST } from '../linkBlockList/types';
+import { TYPE_LIST_ITEM } from '../list/types';
+import { TYPE_PARAGRAPH } from '../paragraph/types';
+import { defaultRelatedBlock } from '../related';
+import { TYPE_RELATED } from '../related/types';
+import { defaultTableBlock } from '../table/defaultBlocks';
+import { isInTableCellHeader, isTableCell } from '../table/slateHelpers';
+import { TYPE_TABLE } from '../table/types';
 import { IS_MAC } from '../toolbar/ToolbarButton';
 
 interface Props {

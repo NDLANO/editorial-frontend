@@ -7,9 +7,10 @@
  */
 
 import { useEffect } from 'react';
-import styled from '@emotion/styled';
-import { colors } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
+import { ButtonV2 } from '@ndla/button';
+import { colors } from '@ndla/core';
 import { LearningPath } from '@ndla/icons/contentType';
 import {
   ModalCloseButton,
@@ -20,11 +21,10 @@ import {
   ModalTrigger,
   ModalContent,
 } from '@ndla/modal';
-import { ButtonV2 } from '@ndla/button';
 import { ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
-import { normalPaddingCSS } from '../HowTo';
 import ElementList from '../../containers/FormikForm/components/ElementList';
 import { fetchLearningpathsWithArticle } from '../../modules/learningpath/learningpathApi';
+import { normalPaddingCSS } from '../HowTo';
 
 interface Props {
   id?: number;

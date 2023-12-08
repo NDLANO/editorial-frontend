@@ -6,12 +6,12 @@
  *
  */
 
-import { useCallback, useEffect, useState } from 'react';
 import get from 'lodash/get';
-import set from 'lodash/set';
 import merge from 'lodash/merge';
-import { fetchNnTranslation } from '../../modules/translate/translateApi';
+import set from 'lodash/set';
+import { useCallback, useEffect, useState } from 'react';
 import { ApiTranslateType } from '../../interfaces';
+import { fetchNnTranslation } from '../../modules/translate/translateApi';
 
 /**
  * The translate service requires a json-payload with one level of fields.

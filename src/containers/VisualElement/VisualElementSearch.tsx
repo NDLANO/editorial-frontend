@@ -6,25 +6,25 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
 import { TFunction } from 'i18next';
-import VideoSearch from '@ndla/video-search';
+import { useTranslation } from 'react-i18next';
 import AudioSearch from '@ndla/audio-search';
 import { IAudioSummary } from '@ndla/types-backend/audio-api';
 import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import { BrightcoveApiType } from '@ndla/types-embed';
+import VideoSearch from '@ndla/video-search';
+import VisualElementUrlPreview from './VisualElementUrlPreview';
+import FileUploader from '../../components/FileUploader';
+import ImageSearchAndUploader from '../../components/ImageSearchAndUploader';
 import config from '../../config';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
-import VisualElementUrlPreview from './VisualElementUrlPreview';
-import ImageSearchAndUploader from '../../components/ImageSearchAndUploader';
-import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
-import { fetchImage, searchImages } from '../../modules/image/imageApi';
-import { fetchAudio, searchAudio } from '../../modules/audio/audioApi';
-import { onError } from '../../util/resolveJsonOrRejectWithError';
-import { searchVideos, VideoSearchQuery } from '../../modules/video/brightcoveApi';
-import { AudioSearchParams } from '../../modules/audio/audioApiInterfaces';
 import { Embed, ExternalEmbed, H5pEmbed } from '../../interfaces';
-import FileUploader from '../../components/FileUploader';
+import { fetchAudio, searchAudio } from '../../modules/audio/audioApi';
+import { AudioSearchParams } from '../../modules/audio/audioApiInterfaces';
+import { fetchImage, searchImages } from '../../modules/image/imageApi';
+import { searchVideos, VideoSearchQuery } from '../../modules/video/brightcoveApi';
+import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
+import { onError } from '../../util/resolveJsonOrRejectWithError';
 
 const titles = (t: TFunction, resource: string) => ({
   [resource]: t(`form.visualElement.${resource.toLowerCase()}`),

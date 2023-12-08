@@ -6,10 +6,10 @@
  *
  */
 
-import styled from '@emotion/styled';
 import { useState, useEffect, useRef, MouseEvent } from 'react';
 import { Editor } from 'slate';
 import { ReactEditor } from 'slate-react';
+import styled from '@emotion/styled';
 import { MathmlElement } from '.';
 
 interface Props {

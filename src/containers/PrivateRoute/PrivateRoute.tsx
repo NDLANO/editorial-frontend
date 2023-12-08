@@ -1,6 +1,13 @@
+/**
+ * Copyright (c) 2021-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 import { Navigate, useLocation } from 'react-router-dom';
-import { toLogin } from '../../util/routeHelpers';
 import { loginPersonalAccessToken } from '../../util/authHelpers';
+import { toLogin } from '../../util/routeHelpers';
 import { useSession } from '../Session/SessionProvider';
 const okPaths = ['/login', '/logout'];
 

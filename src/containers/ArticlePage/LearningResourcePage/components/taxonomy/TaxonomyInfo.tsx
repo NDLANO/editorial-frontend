@@ -6,11 +6,11 @@
  *
  */
 
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
-import { useTranslation } from 'react-i18next';
-import { Switch } from '@ndla/switch';
 import { FieldHeader } from '@ndla/forms';
+import { Switch } from '@ndla/switch';
 import { TaxNode } from './TaxonomyBlock';
 
 type StyledIdProps = {

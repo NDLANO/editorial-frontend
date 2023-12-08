@@ -7,8 +7,8 @@
  */
 
 import { Editor } from 'slate';
-import { isSlateEmbedElement } from './utils';
 import SlateFigure from './SlateFigure';
+import { isSlateEmbedElement } from './utils';
 
 export const embedRenderer = (language: string, allowDecorative?: boolean) => (editor: Editor) => {
   const { renderElement } = editor;

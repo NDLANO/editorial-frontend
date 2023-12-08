@@ -8,29 +8,29 @@
 
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useQueryClient } from '@tanstack/react-query';
 import styled from '@emotion/styled';
-import { Copy } from '@ndla/icons/action';
+import { useQueryClient } from '@tanstack/react-query';
 import { spacing, colors } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
+import { Copy } from '@ndla/icons/action';
 import { Done } from '@ndla/icons/editor';
 import { Node, NodeChild } from '@ndla/types-taxonomy';
+import AlertModal from '../../../../components/AlertModal';
 import RoundIcon from '../../../../components/RoundIcon';
-import { EditModeHandler } from '../SettingsMenuDropdownType';
-import MenuItemButton from '../sharedMenuOptions/components/MenuItemButton';
-import NodeSearchDropdown from '../sharedMenuOptions/components/NodeSearchDropdown';
+import { EditMode } from '../../../../interfaces';
+import { cloneDraft } from '../../../../modules/draft/draftApi';
+import { learningpathCopy } from '../../../../modules/learningpath/learningpathApi';
 import {
   cloneNode,
   fetchNodeResources,
   postResourceForNode,
 } from '../../../../modules/nodes/nodeApi';
-import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
-import { cloneDraft } from '../../../../modules/draft/draftApi';
-import { learningpathCopy } from '../../../../modules/learningpath/learningpathApi';
-import { EditMode } from '../../../../interfaces';
-import AlertModal from '../../../../components/AlertModal';
-import ResourceItemLink from '../../resourceComponents/ResourceItemLink';
 import { nodeQueryKeys } from '../../../../modules/nodes/nodeQueries';
+import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
+import ResourceItemLink from '../../resourceComponents/ResourceItemLink';
+import { EditModeHandler } from '../SettingsMenuDropdownType';
+import MenuItemButton from '../sharedMenuOptions/components/MenuItemButton';
+import NodeSearchDropdown from '../sharedMenuOptions/components/NodeSearchDropdown';
 
 type ActionType = Extract<EditMode, 'copyResources' | 'cloneResources'>;
 interface Props {

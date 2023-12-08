@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2016-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -8,11 +8,11 @@
 
 import queryString from 'query-string';
 import { Node } from '@ndla/types-taxonomy';
-import SearchContentForm from './SearchContentForm';
 import SearchAudioForm from './SearchAudioForm';
-import SearchPodcastSeriesForm from './SearchPodcastSeriesForm';
-import SearchImageForm from './SearchImageForm';
 import SearchConceptForm from './SearchConceptForm';
+import SearchContentForm from './SearchContentForm';
+import SearchImageForm from './SearchImageForm';
+import SearchPodcastSeriesForm from './SearchPodcastSeriesForm';
 import { SearchType } from '../../../../interfaces';
 
 export interface SearchParams {

@@ -6,14 +6,14 @@
  *
  */
 
-import { IGlossExample } from '@ndla/types-backend/concept-api';
-import { FieldRemoveButton, FieldSection } from '@ndla/forms';
+import { FieldArray } from 'formik';
+import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
 
-import { useTranslation } from 'react-i18next';
-import { FieldArray } from 'formik';
-import styled from '@emotion/styled';
+import { FieldRemoveButton, FieldSection } from '@ndla/forms';
+import { IGlossExample } from '@ndla/types-backend/concept-api';
 import ExampleField from './ExampleField';
 import { emptyGlossExample } from '../glossData';
 

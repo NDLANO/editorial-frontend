@@ -6,10 +6,10 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
 import sortBy from 'lodash/sortBy';
-import { DRAFT_RESPONSIBLE, TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA } from '../../../../constants';
+import { useTranslation } from 'react-i18next';
 import TaxonomyMetadataDropdown from './TaxonomyMetadataDropdown';
+import { DRAFT_RESPONSIBLE, TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA } from '../../../../constants';
 import { useAuth0Responsibles } from '../../../../modules/auth0/auth0Queries';
 
 interface Props {

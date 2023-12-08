@@ -8,10 +8,10 @@
 
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Tooltip from '@ndla/tooltip';
 import styled from '@emotion/styled';
-import { Switch } from '@ndla/switch';
 import { spacing } from '@ndla/core';
+import { Switch } from '@ndla/switch';
+import Tooltip from '@ndla/tooltip';
 import { RESOURCE_FILTER_CORE, RESOURCE_FILTER_SUPPLEMENTARY } from '../../constants';
 
 export const StyledSwitch = styled(Switch)`

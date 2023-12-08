@@ -6,18 +6,18 @@
  *
  */
 
+import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
-import { memo } from 'react';
+import { MetaImageSearch } from '.';
+import AvailabilityField from './components/AvailabilityField';
+import AsyncSearchTags from '../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import FormikField from '../../components/FormikField';
 import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
 import { textTransformPlugin } from '../../components/SlateEditor/plugins/textTransform';
-import { MetaImageSearch } from '.';
-import AsyncSearchTags from '../../components/Dropdown/asyncDropdown/AsyncSearchTags';
-import AvailabilityField from './components/AvailabilityField';
 import { DRAFT_ADMIN_SCOPE } from '../../constants';
-import { useSession } from '../Session/SessionProvider';
 import { fetchSearchTags } from '../../modules/draft/draftApi';
+import { useSession } from '../Session/SessionProvider';
 
 interface Props {
   articleLanguage: string;

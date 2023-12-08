@@ -4,17 +4,16 @@
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
- *
  */
 
 import { Editor, Path, Transforms } from 'slate';
-import getCurrentBlock from '../../utils/getCurrentBlock';
 import { defaultTableCellBlock } from './defaultBlocks';
 import { TableBodyElement, TableCellElement, TableElement, TableHeadElement } from './interfaces';
 import { getTableAsMatrix } from './matrix';
 import { findCellCoordinate, getMatrixColumn } from './matrixHelpers';
 import { hasCellAlignOfType, isTableCell, isTableRow } from './slateHelpers';
 import { TYPE_TABLE_CELL } from './types';
+import getCurrentBlock from '../../utils/getCurrentBlock';
 
 export const insertEmptyCells = (editor: Editor, path: Path, amount: number) => {
   Transforms.insertNodes(

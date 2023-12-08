@@ -8,12 +8,12 @@
 
 import { FieldArrayRenderProps, useField } from 'formik';
 import { ComponentType, useCallback, useMemo } from 'react';
-import styled from '@emotion/styled';
-import { DragEndEvent } from '@dnd-kit/core';
-import { DragVertical } from '@ndla/icons/editor';
 import { useTranslation } from 'react-i18next';
-import { MenuWithArticle } from './types';
+import { DragEndEvent } from '@dnd-kit/core';
+import styled from '@emotion/styled';
+import { DragVertical } from '@ndla/icons/editor';
 import FrontpageNode from './FrontpageNode';
+import { MenuWithArticle } from './types';
 import DndList from '../../components/DndList';
 import { DragHandle } from '../../components/DraggableItem';
 

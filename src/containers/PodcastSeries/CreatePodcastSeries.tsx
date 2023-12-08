@@ -2,15 +2,16 @@
  * Copyright (c) 2021-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
-import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { INewSeries } from '@ndla/types-backend/audio-api';
+import PodcastSeriesForm from './components/PodcastSeriesForm';
 import { postSeries } from '../../modules/audio/audioApi';
 import { toEditPodcastSeries } from '../../util/routeHelpers';
-import PodcastSeriesForm from './components/PodcastSeriesForm';
 
 const CreatePodcastSeries = () => {
   const { i18n } = useTranslation();

@@ -9,25 +9,25 @@
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
-import { ContentTypeBadge } from '@ndla/ui';
+import { useQueryClient } from '@tanstack/react-query';
 import { ButtonV2 } from '@ndla/button';
 import { colors, spacing, breakpoints, fonts } from '@ndla/core';
 import Tooltip from '@ndla/tooltip';
-import { useQueryClient } from '@tanstack/react-query';
 import { NodeConnectionPUT, NodeChild } from '@ndla/types-taxonomy';
+import { ContentTypeBadge } from '@ndla/ui';
+import GrepCodesModal from './GrepCodesModal';
+import ResourceItemLink from './ResourceItemLink';
+import StatusIcons from './StatusIcons';
+import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
+import VersionHistory from './VersionHistory';
+import RelevanceOption from '../../../components/Taxonomy/RelevanceOption';
 import {
   usePutResourceForNodeMutation,
   useUpdateNodeConnectionMutation,
 } from '../../../modules/nodes/nodeMutations';
-import { getContentTypeFromResourceTypes } from '../../../util/resourceHelpers';
-import RelevanceOption from '../../../components/Taxonomy/RelevanceOption';
-import ResourceItemLink from './ResourceItemLink';
-import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import { nodeQueryKeys } from '../../../modules/nodes/nodeQueries';
-import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
-import StatusIcons from './StatusIcons';
-import GrepCodesModal from './GrepCodesModal';
-import VersionHistory from './VersionHistory';
+import { getContentTypeFromResourceTypes } from '../../../util/resourceHelpers';
+import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
 const Wrapper = styled.div`
   display: flex;

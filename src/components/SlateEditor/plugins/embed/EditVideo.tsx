@@ -6,15 +6,16 @@
  *
  */
 
-import { useEffect, useMemo } from 'react';
-import styled from '@emotion/styled';
-import { css } from '@emotion/react';
-import { useTranslation } from 'react-i18next';
 import { FieldProps, Form, Formik, FormikProps } from 'formik';
-import { Input, TextArea } from '@ndla/forms';
-import { spacing } from '@ndla/core';
+import { useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
+import { spacing } from '@ndla/core';
+import { Input, TextArea } from '@ndla/forms';
 import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle } from '@ndla/modal';
+import { SlateVideoWrapper, StyledVideo } from './SlateVideo';
 import { BrightcoveEmbed, ExternalEmbed } from '../../../../interfaces';
 import {
   addBrightCoveTimeStampVideoid,
@@ -23,9 +24,8 @@ import {
   getStartTime,
   getStopTime,
 } from '../../../../util/videoUtil';
-import validateFormik, { RulesType } from '../../../formikValidationSchema';
 import FormikField from '../../../FormikField';
-import { SlateVideoWrapper, StyledVideo } from './SlateVideo';
+import validateFormik, { RulesType } from '../../../formikValidationSchema';
 
 interface Props {
   embed: BrightcoveEmbed | ExternalEmbed;

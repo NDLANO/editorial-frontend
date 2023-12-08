@@ -6,23 +6,23 @@
  *
  */
 
+import Downshift from 'downshift';
+import queryString from 'query-string';
+import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { spacing, misc, colors, fonts } from '@ndla/core';
-import Downshift from 'downshift';
-import { useTranslation } from 'react-i18next';
-import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import queryString from 'query-string';
+import MastheadSearchForm from './components/MastheadSearchForm';
 import SavedSearchItem from './components/SavedSearchItem';
+import Spinner from '../../components/Spinner';
 import { useUpdateUserDataMutation, useUserData } from '../../modules/draft/draftQueries';
 import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
 import { isValid } from '../../util/jwtHelper';
-import { parseSearchParams } from '../SearchPage/components/form/SearchForm';
 import { toSearch } from '../../util/routeHelpers';
-import MastheadSearchForm from './components/MastheadSearchForm';
-import { useSavedSearchUrl } from '../WelcomePage/hooks/savedSearchHook';
-import Spinner from '../../components/Spinner';
+import { parseSearchParams } from '../SearchPage/components/form/SearchForm';
 import { StyledErrorMessage } from '../TaxonomyVersions/components/StyledErrorMessage';
+import { useSavedSearchUrl } from '../WelcomePage/hooks/savedSearchHook';
 
 const DropdownWrapper = styled.div`
   position: relative;

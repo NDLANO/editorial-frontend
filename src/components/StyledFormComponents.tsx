@@ -7,8 +7,8 @@
  */
 
 import { Form } from 'formik';
-import { spacing, mq } from '@ndla/core';
 import styled from '@emotion/styled';
+import { spacing, mq } from '@ndla/core';
 
 const StyledForm = styled(Form)`
   margin-top: ${spacing.normal};

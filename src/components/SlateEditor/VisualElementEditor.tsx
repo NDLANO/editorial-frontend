@@ -6,17 +6,17 @@
  *
  */
 
-import { useEffect, useMemo } from 'react';
 import { FormikHandlers } from 'formik';
 import isEqual from 'lodash/isEqual';
+import { useEffect, useMemo } from 'react';
 import { Descendant, createEditor } from 'slate';
-import { Slate, Editable, withReact, RenderElementProps } from 'slate-react';
 import { withHistory } from 'slate-history';
-import { SlateProvider } from './SlateContext';
+import { Slate, Editable, withReact, RenderElementProps } from 'slate-react';
 import { SlatePlugin } from './interfaces';
+import { SlateProvider } from './SlateContext';
 import withPlugins from './utils/withPlugins';
-import VisualElementPicker from '../../containers/VisualElement/VisualElementPicker';
 import { VisualElementType } from '../../containers/VisualElement/VisualElementMenu';
+import VisualElementPicker from '../../containers/VisualElement/VisualElementPicker';
 
 interface Props {
   name: string;

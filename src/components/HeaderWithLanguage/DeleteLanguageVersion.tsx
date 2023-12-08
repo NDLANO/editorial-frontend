@@ -7,19 +7,21 @@
  */
 
 import { useState } from 'react';
-import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { DeleteForever } from '@ndla/icons/editor';
-import { colors } from '@ndla/core';
+import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
-import { deleteLanguageVersionConcept } from '../../modules/concept/conceptApi';
-import { deleteLanguageVersionImage } from '../../modules/image/imageApi';
+import { colors } from '@ndla/core';
+import { DeleteForever } from '@ndla/icons/editor';
+import { useMessages } from '../../containers/Messages/MessagesProvider';
 import {
   deleteLanguageVersionAudio,
   deleteLanguageVersionSeries,
 } from '../../modules/audio/audioApi';
+import { deleteLanguageVersionConcept } from '../../modules/concept/conceptApi';
 import { deleteLanguageVersion as deleteLanguageVersionDraft } from '../../modules/draft/draftApi';
+import { deleteLanguageVersionImage } from '../../modules/image/imageApi';
+import { NdlaErrorPayload } from '../../util/resolveJsonOrRejectWithError';
 import {
   toCreateAudioFile,
   toCreateConcept,
@@ -38,8 +40,6 @@ import {
   toEditTopicArticle,
 } from '../../util/routeHelpers';
 import AlertModal from '../AlertModal';
-import { useMessages } from '../../containers/Messages/MessagesProvider';
-import { NdlaErrorPayload } from '../../util/resolveJsonOrRejectWithError';
 
 const DeleteButton = styled(ButtonV2)`
   white-space: nowrap;

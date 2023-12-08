@@ -2,17 +2,18 @@
  * Copyright (c) 2020-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
 import { useTranslation } from 'react-i18next';
-import { HelmetWithTracker } from '@ndla/tracker';
 import { useParams } from 'react-router-dom';
+import { HelmetWithTracker } from '@ndla/tracker';
 import SubjectpageForm from './components/SubjectpageForm';
-import { useFetchSubjectpageData } from '../FormikForm/formikSubjectpageHooks';
 import Spinner from '../../components/Spinner';
-import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { LocaleType } from '../../interfaces';
+import { useFetchSubjectpageData } from '../FormikForm/formikSubjectpageHooks';
+import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 interface Props {
   isNewlyCreated: boolean;

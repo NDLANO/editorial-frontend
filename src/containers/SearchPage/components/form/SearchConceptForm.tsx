@@ -6,21 +6,21 @@
  *
  */
 
+import sortBy from 'lodash/sortBy';
 import { useEffect, useState, MouseEvent, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import sortBy from 'lodash/sortBy';
 import { Node } from '@ndla/types-taxonomy';
-import { getResourceLanguages } from '../../../../util/resourceHelpers';
-import { getTagName } from '../../../../util/formHelper';
+import GenericSearchForm, { OnFieldChangeFunction } from './GenericSearchForm';
 import { SearchParams } from './SearchForm';
+import { SearchFormSelector } from './Selector';
 import {
   CONCEPT_RESPONSIBLE,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
 } from '../../../../constants';
 import { useAuth0Editors, useAuth0Responsibles } from '../../../../modules/auth0/auth0Queries';
 import { useConceptStateMachine } from '../../../../modules/concept/conceptQueries';
-import GenericSearchForm, { OnFieldChangeFunction } from './GenericSearchForm';
-import { SearchFormSelector } from './Selector';
+import { getTagName } from '../../../../util/formHelper';
+import { getResourceLanguages } from '../../../../util/resourceHelpers';
 
 interface Props {
   search: (o: SearchParams) => void;

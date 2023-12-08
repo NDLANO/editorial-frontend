@@ -7,16 +7,16 @@
  */
 
 import { useState } from 'react';
-import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { UploadDropZone } from '@ndla/forms';
+import { DRAFT_ADMIN_SCOPE } from '../../constants';
+import { useSession } from '../../containers/Session/SessionProvider';
+import { UnsavedFile } from '../../interfaces';
 import { uploadFile } from '../../modules/draft/draftApi';
 import { createFormData } from '../../util/formDataHelper';
-import { DRAFT_ADMIN_SCOPE } from '../../constants';
 import handleError from '../../util/handleError';
-import { UnsavedFile } from '../../interfaces';
-import { useSession } from '../../containers/Session/SessionProvider';
 import { isNdlaErrorPayload } from '../../util/resolveJsonOrRejectWithError';
 
 const FileUploaderWrapper = styled.div`

@@ -7,15 +7,15 @@
  */
 
 import { ReactNode, useMemo } from 'react';
-import styled from '@emotion/styled';
-import { css } from '@emotion/react';
-import { AlertCircle } from '@ndla/icons/editor';
-import { colors, spacing } from '@ndla/core';
-import { FieldHeader } from '@ndla/forms';
-import Tooltip from '@ndla/tooltip';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import { colors, spacing } from '@ndla/core';
+import { FieldHeader } from '@ndla/forms';
 import { InformationOutline } from '@ndla/icons/common';
+import { AlertCircle } from '@ndla/icons/editor';
+import Tooltip from '@ndla/tooltip';
 import { Node } from '@ndla/types-taxonomy';
 import { toStructure } from '../../../util/routeHelpers';
 

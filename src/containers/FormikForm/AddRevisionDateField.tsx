@@ -6,21 +6,21 @@
  *
  */
 
-import { FormEvent } from 'react';
 import addYears from 'date-fns/addYears';
-import { ButtonV2 } from '@ndla/button';
-import { Input, FieldRemoveButton } from '@ndla/forms';
-import { useTranslation } from 'react-i18next';
 import { FieldInputProps } from 'formik';
-import { colors, spacing } from '@ndla/core';
+import { FormEvent } from 'react';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
+import { ButtonV2 } from '@ndla/button';
+import { colors, spacing } from '@ndla/core';
+import { Input, FieldRemoveButton } from '@ndla/forms';
 import { Switch } from '@ndla/switch';
 import Tooltip from '@ndla/tooltip';
 import { ArticleFormType } from './articleFormHooks';
 import InlineDatePicker from './components/InlineDatePicker';
+import { Revision } from '../../constants';
 import { formatDateForBackend } from '../../util/formatDate';
 import { useMessages } from '../Messages/MessagesProvider';
-import { Revision } from '../../constants';
 
 type RevisionMetaFormType = ArticleFormType['revisionMeta'];
 

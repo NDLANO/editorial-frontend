@@ -1,12 +1,19 @@
+/**
+ * Copyright (c) 2018-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 import { ReactElement } from 'react';
 import { NavLink } from 'react-router-dom';
-import { UseQueryResult } from '@tanstack/react-query';
 import styled from '@emotion/styled';
+import { UseQueryResult } from '@tanstack/react-query';
 import { spacing, colors } from '@ndla/core';
+import { MAX_PAGE_WIDTH } from '../../../constants';
 import { SearchType } from '../../../interfaces';
 import { SearchParams } from '../../SearchPage/components/form/SearchForm';
 import { ResultType } from '../../SearchPage/SearchContainer';
-import { MAX_PAGE_WIDTH } from '../../../constants';
 
 interface SubType {
   title: string;

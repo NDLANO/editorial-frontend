@@ -2,18 +2,19 @@
  * Copyright (c) 2020-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
+import { useField, useFormikContext } from 'formik';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ModalBody, Modal, ModalTrigger, ModalContent } from '@ndla/modal';
-import { FieldHeader } from '@ndla/forms';
-import { useField, useFormikContext } from 'formik';
 import { ButtonV2 } from '@ndla/button';
+import { FieldHeader } from '@ndla/forms';
+import { ModalBody, Modal, ModalTrigger, ModalContent } from '@ndla/modal';
 import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
-import { ImageEmbed } from '../../../interfaces';
 import SubjectpageBannerImage from './SubjectpageBannerImage';
 import ImageSearchAndUploader from '../../../components/ImageSearchAndUploader';
+import { ImageEmbed } from '../../../interfaces';
 import { fetchImage, onError, searchImages } from '../../../modules/image/imageApi';
 import { SubjectPageFormikType } from '../../../util/subjectHelpers';
 

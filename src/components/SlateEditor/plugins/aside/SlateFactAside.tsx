@@ -7,8 +7,8 @@
  */
 
 import { MouseEventHandler, ReactNode, useState } from 'react';
-import { RenderElementProps } from 'slate-react';
 import { useTranslation } from 'react-i18next';
+import { RenderElementProps } from 'slate-react';
 import styled from '@emotion/styled';
 import { FactBox } from '@ndla/ui';
 import DeleteButton from '../../../DeleteButton';

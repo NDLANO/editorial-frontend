@@ -8,19 +8,19 @@
 
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useQueryClient } from '@tanstack/react-query';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 import { DeleteForever } from '@ndla/icons/editor';
 import { Node, NodeChild } from '@ndla/types-taxonomy';
+import MenuItemButton from './components/MenuItemButton';
 import AlertModal from '../../../../components/AlertModal';
+import Overlay from '../../../../components/Overlay';
 import RoundIcon from '../../../../components/RoundIcon';
+import Spinner from '../../../../components/Spinner';
 import { useDeleteNodeConnectionMutation } from '../../../../modules/nodes/nodeMutations';
 import { nodeQueryKeys } from '../../../../modules/nodes/nodeQueries';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import { EditModeHandler } from '../SettingsMenuDropdownType';
-import MenuItemButton from './components/MenuItemButton';
-import Spinner from '../../../../components/Spinner';
-import Overlay from '../../../../components/Overlay';
 import { StyledErrorMessage } from '../styles';
 
 interface Props {

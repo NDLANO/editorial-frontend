@@ -6,24 +6,24 @@
  *
  */
 
-import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
-import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
+import { useQueryClient } from '@tanstack/react-query';
+import { IconButtonV2 } from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
-import Tooltip from '@ndla/tooltip';
-import SafeLink from '@ndla/safelink';
-import { DeleteForever, Keyhole } from '@ndla/icons/editor';
 import { Pencil } from '@ndla/icons/action';
 import { Launch } from '@ndla/icons/common';
-import { IconButtonV2 } from '@ndla/button';
+import { DeleteForever, Keyhole } from '@ndla/icons/editor';
+import SafeLink from '@ndla/safelink';
+import Tooltip from '@ndla/tooltip';
 import { Version as TaxVersion, VersionType } from '@ndla/types-taxonomy';
+import { StyledErrorMessage } from './StyledErrorMessage';
 import VersionForm from './VersionForm';
-import { useDeleteVersionMutation } from '../../../modules/taxonomy/versions/versionMutations';
 import AlertModal from '../../../components/AlertModal';
 import config from '../../../config';
+import { useDeleteVersionMutation } from '../../../modules/taxonomy/versions/versionMutations';
 import { versionQueryKeys } from '../../../modules/taxonomy/versions/versionQueries';
-import { StyledErrorMessage } from './StyledErrorMessage';
 
 interface Props {
   version: TaxVersion;

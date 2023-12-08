@@ -9,6 +9,7 @@
 import isEmpty from 'lodash/isEmpty';
 import { Descendant, Editor, Element, Node, Transforms } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
+import { TYPE_SPAN } from './types';
 import { createProps, reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
 import { SlateSerializer } from '../../interfaces';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
@@ -19,7 +20,6 @@ import { TYPE_HEADING } from '../heading/types';
 import { TYPE_LIST_ITEM } from '../list/types';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
 import { TYPE_TABLE_CELL } from '../table/types';
-import { TYPE_SPAN } from './types';
 
 export interface SpanElement {
   type: 'span';

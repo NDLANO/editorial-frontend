@@ -6,26 +6,26 @@
  *
  */
 
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { spacing, fonts } from '@ndla/core';
-import { ContentLoader, MessageBox } from '@ndla/ui';
-import { ChevronRight } from '@ndla/icons/common';
 import isEqual from 'lodash/isEqual';
 import { Fragment, ReactNode, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useQueryClient } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router-dom';
+import styled from '@emotion/styled';
+import { useQueryClient } from '@tanstack/react-query';
+import { ButtonV2 } from '@ndla/button';
+import { spacing, fonts } from '@ndla/core';
+import { ChevronRight } from '@ndla/icons/common';
 import { NodeChild, Node } from '@ndla/types-taxonomy';
+import { ContentLoader, MessageBox } from '@ndla/ui';
+import { diffTrees, DiffType, DiffTypeWithChildren, RootDiffType } from './diffUtils';
+import NodeDiff from './NodeDiff';
+import { RootNode } from './TreeNode';
 import AlertModal from '../../components/AlertModal';
 import { TAXONOMY_ADMIN_SCOPE } from '../../constants';
 import { usePublishNodeMutation } from '../../modules/nodes/nodeMutations';
 import { nodeQueryKeys, useNodeTree } from '../../modules/nodes/nodeQueries';
 import { fetchVersions } from '../../modules/taxonomy/versions/versionApi';
 import { useSession } from '../Session/SessionProvider';
-import { diffTrees, DiffType, DiffTypeWithChildren, RootDiffType } from './diffUtils';
-import NodeDiff from './NodeDiff';
-import { RootNode } from './TreeNode';
 
 interface Props {
   originalHash: string;

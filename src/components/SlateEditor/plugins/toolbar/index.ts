@@ -8,9 +8,9 @@
 
 import { isKeyHotkey, isCodeHotkey } from 'is-hotkey';
 import { Editor } from 'slate';
+import { handleClickBlock, handleClickInline } from './handleMenuClicks';
 import SlateToolbar from './SlateToolbar';
 import { toggleMark } from '../mark/utils';
-import { handleClickBlock, handleClickInline } from './handleMenuClicks';
 
 const isBoldHotkey = isKeyHotkey('mod+b');
 const isCodeHotKey = isKeyHotkey('mod+k');

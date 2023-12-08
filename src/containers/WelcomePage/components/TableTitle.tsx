@@ -6,10 +6,10 @@
  *
  */
 
+import { ElementType } from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { spacing, colors, fonts } from '@ndla/core';
-import { ElementType } from 'react';
 import { InformationOutline } from '@ndla/icons/common';
 import Tooltip from '@ndla/tooltip';
 

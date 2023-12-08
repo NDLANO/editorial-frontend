@@ -7,16 +7,16 @@
  */
 
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import { Root, Trigger, Close, Content, Portal } from '@radix-ui/react-popover';
 import { CloseButton, IconButtonV2 } from '@ndla/button';
 import { colors, spacing, animations } from '@ndla/core';
 import { Settings } from '@ndla/icons/editor';
-import styled from '@emotion/styled';
 import { Node } from '@ndla/types-taxonomy';
-import { getNodeTypeFromNodeId } from '../../../modules/nodes/nodeUtil';
-import RoundIcon from '../../../components/RoundIcon';
-import Overlay from '../../../components/Overlay';
 import SettingsMenuDropdownType from './SettingsMenuDropdownType';
+import Overlay from '../../../components/Overlay';
+import RoundIcon from '../../../components/RoundIcon';
+import { getNodeTypeFromNodeId } from '../../../modules/nodes/nodeUtil';
 
 const TitleWrapper = styled.div`
   display: flex;

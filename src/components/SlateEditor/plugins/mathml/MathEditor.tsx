@@ -6,21 +6,21 @@
  *
  */
 
+import he from 'he';
 import { useCallback, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Editor, Node, Path, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
-import { colors, spacing } from '@ndla/core';
-import he from 'he';
-import { Content, Root, Trigger } from '@radix-ui/react-popover';
 import styled from '@emotion/styled';
-import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
+import { Content, Root, Trigger } from '@radix-ui/react-popover';
 import { ButtonV2 } from '@ndla/button';
-import { useTranslation } from 'react-i18next';
+import { colors, spacing } from '@ndla/core';
+import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
+import { MathmlElement } from '.';
 import EditMath, { MathMLType, emptyMathTag } from './EditMath';
 import MathML from './MathML';
-import { MathmlElement } from '.';
-import mergeLastUndos from '../../utils/mergeLastUndos';
 import AlertModal from '../../../AlertModal';
+import mergeLastUndos from '../../utils/mergeLastUndos';
 
 const getInfoFromNode = (node: MathmlElement) => {
   const data = node.data ? node.data : {};

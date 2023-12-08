@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2019-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,17 +6,17 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
 import { useFormikContext } from 'formik';
+import { useTranslation } from 'react-i18next';
 import { ITagsSearchResult } from '@ndla/types-backend/concept-api';
 import { Node } from '@ndla/types-taxonomy';
-import FormikField from '../../../components/FormikField';
-import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
-import { MetaImageSearch } from '../../FormikForm';
-import { ConceptFormValues } from '../conceptInterfaces';
 import InlineImageSearch from './InlineImageSearch';
+import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import MultiSelectDropdown from '../../../components/Dropdown/MultiSelectDropdown';
+import FormikField from '../../../components/FormikField';
+import { MetaImageSearch } from '../../FormikForm';
 import { onSaveAsVisualElement } from '../../FormikForm/utils';
+import { ConceptFormValues } from '../conceptInterfaces';
 
 interface Props {
   subjects: Node[];

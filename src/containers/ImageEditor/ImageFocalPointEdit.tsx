@@ -7,16 +7,16 @@
  */
 
 import { MouseEvent, useRef, useState } from 'react';
+import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { colors } from '@ndla/core';
-import styled from '@emotion/styled';
+import { ImageEmbed } from '../../interfaces';
 import {
   getElementOffset,
   getClientPos,
   getImageDimensions,
   getSrcSets,
 } from '../../util/imageEditorUtil';
-import { ImageEmbed } from '../../interfaces';
 
 const StyledFocalPointButton = styled(ButtonV2)`
   display: block;

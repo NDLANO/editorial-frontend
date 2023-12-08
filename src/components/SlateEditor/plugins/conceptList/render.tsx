@@ -7,8 +7,8 @@
  */
 
 import { Editor } from 'slate';
-import { TYPE_CONCEPT_LIST } from './types';
 import ConceptList from './ConceptList';
+import { TYPE_CONCEPT_LIST } from './types';
 
 export const conceptListRenderer = (language: string) => (editor: Editor) => {
   const { renderElement } = editor;

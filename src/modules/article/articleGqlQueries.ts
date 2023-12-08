@@ -9,8 +9,8 @@
 import { request, gql, Variables } from 'graphql-request';
 import { useQuery, UseQueryOptions, UseQueryResult } from '@tanstack/react-query';
 import config from '../../config';
-import { apiResourceUrl } from '../../util/apiHelpers';
 import { TRANFSFORM_ARTICLE } from '../../queryKeys';
+import { apiResourceUrl } from '../../util/apiHelpers';
 
 const gqlEndpoint = config.localConverter
   ? 'http://localhost:4000/graphql-api/graphql'

@@ -7,12 +7,12 @@
  */
 
 import { FormEvent, MouseEvent } from 'react';
-import { contributorGroups, contributorTypes } from '@ndla/licenses';
-import { ButtonV2 } from '@ndla/button';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
+import { ButtonV2 } from '@ndla/button';
 import { fonts, colors } from '@ndla/core';
 import { FieldHeader } from '@ndla/forms';
-import { useTranslation } from 'react-i18next';
+import { contributorGroups, contributorTypes } from '@ndla/licenses';
 import Contributor from './Contributor';
 import { ContributorType, ContributorFieldName } from './types';
 

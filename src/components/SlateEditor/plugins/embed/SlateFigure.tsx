@@ -7,15 +7,15 @@
  */
 
 import { ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Editor, Transforms, Path } from 'slate';
 import { RenderElementProps, ReactEditor, useSelected } from 'slate-react';
-import { useTranslation } from 'react-i18next';
+import { EmbedElements } from '.';
 import SlateImage from './SlateImage';
 import SlateVideo from './SlateVideo';
-import EditorErrorMessage from '../../EditorErrorMessage';
-import DisplayExternal from '../../../DisplayEmbed/DisplayExternal';
-import { EmbedElements } from '.';
 import { isSlateEmbed } from './utils';
+import DisplayExternal from '../../../DisplayEmbed/DisplayExternal';
+import EditorErrorMessage from '../../EditorErrorMessage';
 
 interface Props {
   attributes: RenderElementProps['attributes'];

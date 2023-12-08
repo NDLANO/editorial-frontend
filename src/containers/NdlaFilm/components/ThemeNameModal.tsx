@@ -2,11 +2,16 @@
  * Copyright (c) 2019-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
 import { ReactElement, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
+import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
+import { InputV2 } from '@ndla/forms';
 import {
   Modal,
   ModalBody,
@@ -16,10 +21,6 @@ import {
   ModalTitle,
   ModalTrigger,
 } from '@ndla/modal';
-import { InputV2 } from '@ndla/forms';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
 import { ThemeNames } from './ThemeEditor';
 
 const blankTheme = {

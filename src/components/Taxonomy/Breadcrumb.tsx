@@ -1,8 +1,15 @@
+/**
+ * Copyright (c) 2019-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 import { Fragment, useMemo } from 'react';
 import styled from '@emotion/styled';
 import { colors, fonts } from '@ndla/core';
-import SafeLink from '@ndla/safelink';
 import { ChevronRight } from '@ndla/icons/common';
+import SafeLink from '@ndla/safelink';
 import { Node } from '@ndla/types-taxonomy';
 import { MinimalNodeChild } from '../../containers/ArticlePage/LearningResourcePage/components/LearningResourceTaxonomy';
 

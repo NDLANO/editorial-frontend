@@ -6,14 +6,14 @@
  *
  */
 
-import { Descendant, Editor, Transforms } from 'slate';
 import { useTranslation } from 'react-i18next';
+import { Descendant, Editor, Transforms } from 'slate';
 import { ReactEditor } from 'slate-react';
 import styled from '@emotion/styled';
 import { CloseButton } from '@ndla/button';
 import { ModalBody, ModalHeader, ModalTitle } from '@ndla/modal';
-import FootnoteForm from './FootnoteForm';
 import { FootnoteElement } from '.';
+import FootnoteForm from './FootnoteForm';
 
 interface Props {
   closeDialog: () => void;

@@ -1,22 +1,24 @@
-/*
+/**
  * Copyright (c) 2019-present, NDLA.
+ *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
+ *
  */
 
 import { useEffect, useMemo, useState } from 'react';
-import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
-import SafeLink from '@ndla/safelink';
+import styled from '@emotion/styled';
 import { colors, fonts, spacing } from '@ndla/core';
 import { RssFeed, Time } from '@ndla/icons/common';
 import { Check, AlertCircle } from '@ndla/icons/editor';
+import SafeLink from '@ndla/safelink';
 import { IConceptSummary } from '@ndla/types-backend/concept-api';
-import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
 import { ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
-import config from '../../config';
-import LearningpathConnection from './LearningpathConnection';
+import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
 import EmbedConnection from './EmbedInformation/EmbedConnection';
+import LearningpathConnection from './LearningpathConnection';
+import config from '../../config';
 import formatDate from '../../util/formatDate';
 
 export const StyledSplitter = styled.div`

@@ -6,12 +6,12 @@
  *
  */
 
+import Downshift, { StateChangeOptions } from 'downshift';
+import { FormikHandlers } from 'formik';
 import { ChangeEvent, useState } from 'react';
 
-import Downshift, { StateChangeOptions } from 'downshift';
 //@ts-ignore
 import { DropdownInput, DropdownMenu } from '@ndla/forms';
-import { FormikHandlers } from 'formik';
 import { itemToString } from '../../util/downShiftHelpers';
 
 interface Props<T> {

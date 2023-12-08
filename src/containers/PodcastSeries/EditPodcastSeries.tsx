@@ -2,7 +2,8 @@
  * Copyright (c) 2021-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
 import { useEffect, useState } from 'react';
@@ -10,11 +11,11 @@ import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { ISeries, INewSeries } from '@ndla/types-backend/audio-api';
 
-import { fetchSeries, updateSeries } from '../../modules/audio/audioApi';
-import Spinner from '../../components/Spinner';
 import PodcastSeriesForm from './components/PodcastSeriesForm';
-import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { TranslateType, useTranslateToNN } from '../../components/NynorskTranslateProvider';
+import Spinner from '../../components/Spinner';
+import { fetchSeries, updateSeries } from '../../modules/audio/audioApi';
+import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 interface Props {
   isNewlyCreated?: boolean;

@@ -6,20 +6,20 @@
  *
  */
 
-import { memo, RefObject } from 'react';
-import { useTranslation } from 'react-i18next';
-import { spacing } from '@ndla/core';
-import styled from '@emotion/styled';
 import { TFunction } from 'i18next';
 import keyBy from 'lodash/keyBy';
+import { memo, RefObject } from 'react';
+import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
+import { spacing } from '@ndla/core';
 import { NodeChild, ResourceType } from '@ndla/types-taxonomy';
+import ResourcesContainer from './ResourcesContainer';
 import {
   NodeResourceMeta,
   useNodeResourceMetas,
   useResourcesWithNodeConnection,
 } from '../../../modules/nodes/nodeQueries';
 import { useAllResourceTypes } from '../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
-import ResourcesContainer from './ResourcesContainer';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
 const StickyContainer = styled.div`

@@ -6,24 +6,24 @@
  *
  */
 
+import { useFormikContext } from 'formik';
 import { FormEvent } from 'react';
 
 import { useTranslation } from 'react-i18next';
-import { useFormikContext } from 'formik';
-import { UploadDropZone, FieldHeader } from '@ndla/forms';
 import styled from '@emotion/styled';
-import Tooltip from '@ndla/tooltip';
-import { DeleteForever } from '@ndla/icons/editor';
 import { IconButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
-import AudioPlayer from './AudioPlayer';
-import FormikField from '../../../components/FormikField';
-import { AudioFormikType } from './AudioForm';
-import { TitleField } from '../../FormikForm';
+import { UploadDropZone, FieldHeader } from '@ndla/forms';
+import { DeleteForever } from '@ndla/icons/editor';
+import Tooltip from '@ndla/tooltip';
 import AudioCopyInfo from './AudioCopyInfo';
 import AudioFileInfoModal from './AudioFileInfoModal';
-import { HandleSubmitFunc } from '../../FormikForm/articleFormHooks';
+import { AudioFormikType } from './AudioForm';
+import AudioPlayer from './AudioPlayer';
+import FormikField from '../../../components/FormikField';
 import { PodcastFormValues } from '../../../modules/audio/audioApiInterfaces';
+import { TitleField } from '../../FormikForm';
+import { HandleSubmitFunc } from '../../FormikForm/articleFormHooks';
 
 interface Props<T extends AudioFormikType | PodcastFormValues> {
   handleSubmit: HandleSubmitFunc<T>;

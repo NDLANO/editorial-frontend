@@ -6,15 +6,14 @@
  *
  */
 
+import { TFunction } from 'i18next';
+import sortBy from 'lodash/sortBy';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import sortBy from 'lodash/sortBy';
 import { Node } from '@ndla/types-taxonomy';
-import { TFunction } from 'i18next';
-import { flattenResourceTypesAndAddContextTypes } from '../../../../util/taxonomyHelpers';
-import { getResourceLanguages } from '../../../../util/resourceHelpers';
-import { getTagName } from '../../../../util/formHelper';
+import GenericSearchForm, { OnFieldChangeFunction } from './GenericSearchForm';
 import { SearchParams } from './SearchForm';
+import { SearchFormSelector } from './Selector';
 import {
   DRAFT_RESPONSIBLE,
   FAVOURITES_SUBJECT_ID,
@@ -22,11 +21,12 @@ import {
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
 } from '../../../../constants';
 import { useAuth0Editors, useAuth0Responsibles } from '../../../../modules/auth0/auth0Queries';
-import { useAllResourceTypes } from '../../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
 import { useDraftStatusStateMachine } from '../../../../modules/draft/draftQueries';
-import GenericSearchForm, { OnFieldChangeFunction } from './GenericSearchForm';
+import { useAllResourceTypes } from '../../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
+import { getTagName } from '../../../../util/formHelper';
+import { getResourceLanguages } from '../../../../util/resourceHelpers';
+import { flattenResourceTypesAndAddContextTypes } from '../../../../util/taxonomyHelpers';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
-import { SearchFormSelector } from './Selector';
 
 const generateSubjectNode = (id: string, name: string, t: TFunction): Node => ({
   id: id,

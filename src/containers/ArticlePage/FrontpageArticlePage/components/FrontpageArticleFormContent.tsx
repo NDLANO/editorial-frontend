@@ -6,47 +6,47 @@
  *
  */
 
+import { useFormikContext } from 'formik';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { useFormikContext } from 'formik';
-import { FieldHeader } from '@ndla/forms';
-import Tooltip from '@ndla/tooltip';
-import { Eye, Link } from '@ndla/icons/editor';
 import { IconButtonV2 } from '@ndla/button';
 import { colors } from '@ndla/core';
-import FormikField from '../../../../components/FormikField';
-import LastUpdatedLine from '../../../../components/LastUpdatedLine/LastUpdatedLine';
-import HowToHelper from '../../../../components/HowTo/HowToHelper';
+import { FieldHeader } from '@ndla/forms';
+import { Eye, Link } from '@ndla/icons/editor';
+import Tooltip from '@ndla/tooltip';
+import { frontpagePlugins } from './frontpagePlugins';
+import { frontpageRenderers } from './frontpageRenderers';
+import AlertModal from '../../../../components/AlertModal';
 import { EditMarkupLink } from '../../../../components/EditMarkupLink';
-import { IngressField, TitleField, SlugField } from '../../../FormikForm';
-import { DRAFT_HTML_SCOPE } from '../../../../constants';
-import { toCreateFrontPageArticle, toEditMarkup } from '../../../../util/routeHelpers';
-import { FrontpageArticleFormType } from '../../../FormikForm/articleFormHooks';
-import { useSession } from '../../../Session/SessionProvider';
-import RichTextEditor from '../../../../components/SlateEditor/RichTextEditor';
-import { TYPE_TABLE } from '../../../../components/SlateEditor/plugins/table/types';
+import FormikField from '../../../../components/FormikField';
+import HowToHelper from '../../../../components/HowTo/HowToHelper';
+import LastUpdatedLine from '../../../../components/LastUpdatedLine/LastUpdatedLine';
+import { TYPE_AUDIO } from '../../../../components/SlateEditor/plugins/audio/types';
+import { frontpageActions } from '../../../../components/SlateEditor/plugins/blockPicker/actions';
+import { TYPE_BLOGPOST } from '../../../../components/SlateEditor/plugins/blogPost/types';
+import { TYPE_CAMPAIGN_BLOCK } from '../../../../components/SlateEditor/plugins/campaignBlock/types';
 import { TYPE_CODEBLOCK } from '../../../../components/SlateEditor/plugins/codeBlock/types';
+import { TYPE_CONTACT_BLOCK } from '../../../../components/SlateEditor/plugins/contactBlock/types';
 import {
   TYPE_EMBED_BRIGHTCOVE,
   TYPE_EMBED_EXTERNAL,
   TYPE_EMBED_IMAGE,
 } from '../../../../components/SlateEditor/plugins/embed/types';
 import { TYPE_FILE } from '../../../../components/SlateEditor/plugins/file/types';
-import { TYPE_CONTACT_BLOCK } from '../../../../components/SlateEditor/plugins/contactBlock/types';
-import { TYPE_BLOGPOST } from '../../../../components/SlateEditor/plugins/blogPost/types';
-import { frontpageActions } from '../../../../components/SlateEditor/plugins/blockPicker/actions';
 import { TYPE_GRID } from '../../../../components/SlateEditor/plugins/grid/types';
-import { TYPE_KEY_FIGURE } from '../../../../components/SlateEditor/plugins/keyFigure/types';
-import { TYPE_CAMPAIGN_BLOCK } from '../../../../components/SlateEditor/plugins/campaignBlock/types';
-import { useWideArticle } from '../../../../components/WideArticleEditorProvider';
-import { TYPE_LINK_BLOCK_LIST } from '../../../../components/SlateEditor/plugins/linkBlockList/types';
-import { TYPE_AUDIO } from '../../../../components/SlateEditor/plugins/audio/types';
 import { TYPE_H5P } from '../../../../components/SlateEditor/plugins/h5p/types';
+import { TYPE_KEY_FIGURE } from '../../../../components/SlateEditor/plugins/keyFigure/types';
+import { TYPE_LINK_BLOCK_LIST } from '../../../../components/SlateEditor/plugins/linkBlockList/types';
+import { TYPE_TABLE } from '../../../../components/SlateEditor/plugins/table/types';
+import RichTextEditor from '../../../../components/SlateEditor/RichTextEditor';
+import { useWideArticle } from '../../../../components/WideArticleEditorProvider';
+import { DRAFT_HTML_SCOPE } from '../../../../constants';
 import { isFormikFormDirty } from '../../../../util/formHelper';
-import AlertModal from '../../../../components/AlertModal';
-import { frontpagePlugins } from './frontpagePlugins';
-import { frontpageRenderers } from './frontpageRenderers';
+import { toCreateFrontPageArticle, toEditMarkup } from '../../../../util/routeHelpers';
+import { IngressField, TitleField, SlugField } from '../../../FormikForm';
+import { FrontpageArticleFormType } from '../../../FormikForm/articleFormHooks';
+import { useSession } from '../../../Session/SessionProvider';
 
 const StyledFormikField = styled(FormikField)`
   display: flex;

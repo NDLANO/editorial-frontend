@@ -7,9 +7,9 @@
  */
 
 import { messagesNB, messagesEN, messagesNN } from '@ndla/ui';
+import en from './phrases/phrases-en';
 import nb from './phrases/phrases-nb';
 import nn from './phrases/phrases-nn';
-import en from './phrases/phrases-en';
 
 type NestedPhrases = { [key: string]: NestedPhrases | string };
 export type FormattedMessages = { [key: string]: string };

@@ -6,17 +6,17 @@
  *
  */
 
-import { ReactEditor } from 'slate-react';
-import { Editor, Path, Transforms } from 'slate';
-import { useTranslation } from 'react-i18next';
 import { ChangeEvent, useCallback, useMemo, useState } from 'react';
-import { H5pEmbedData, H5pMetaData } from '@ndla/types-embed';
-import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
+import { useTranslation } from 'react-i18next';
+import { Editor, Path, Transforms } from 'slate';
+import { ReactEditor } from 'slate-react';
 import styled from '@emotion/styled';
 import { ButtonV2, IconButtonV2 } from '@ndla/button';
-import { Pencil } from '@ndla/icons/action';
-import { TextAreaV2 } from '@ndla/forms';
 import { spacing } from '@ndla/core';
+import { TextAreaV2 } from '@ndla/forms';
+import { Pencil } from '@ndla/icons/action';
+import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
+import { H5pEmbedData, H5pMetaData } from '@ndla/types-embed';
 import { H5pElement } from './types';
 import FormikFieldDescription from '../../../FormikField/FormikFieldDescription';
 

@@ -9,10 +9,9 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
+import { ButtonV2 } from '@ndla/button';
 import { spacing, colors } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
-import { IEditorNote } from '@ndla/types-backend/draft-api';
-import { ButtonV2 } from '@ndla/button';
 import {
   ModalBody,
   ModalHeader,
@@ -22,15 +21,16 @@ import {
   ModalContent,
   ModalCloseButton,
 } from '@ndla/modal';
+import { IEditorNote } from '@ndla/types-backend/draft-api';
 import { ContentTypeBadge } from '@ndla/ui';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 import ResourceItemLink from '../../../components/Taxonomy/ResourceItemLink';
-import { Auth0UserData } from '../../../interfaces';
-import formatDate from '../../../util/formatDate';
-import { fetchDraftHistory } from '../../../modules/draft/draftApi';
-import { fetchAuth0Users } from '../../../modules/auth0/auth0Api';
-import { getIdFromUrn } from '../../../util/taxonomyHelpers';
 import NotesVersionHistory from '../../../components/VersionHistory/VersionHistory';
+import { Auth0UserData } from '../../../interfaces';
+import { fetchAuth0Users } from '../../../modules/auth0/auth0Api';
+import { fetchDraftHistory } from '../../../modules/draft/draftApi';
+import formatDate from '../../../util/formatDate';
+import { getIdFromUrn } from '../../../util/taxonomyHelpers';
 
 interface Props {
   resource: ResourceWithNodeConnectionAndMeta;

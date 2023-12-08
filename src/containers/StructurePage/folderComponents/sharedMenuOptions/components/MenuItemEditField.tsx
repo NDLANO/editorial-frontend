@@ -7,14 +7,14 @@
  */
 
 import { ReactNode, useState, KeyboardEvent } from 'react';
-import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
+import { spacing } from '@ndla/core';
 import { Done } from '@ndla/icons/editor';
+import CustomFieldButton from './CustomFieldButton';
 import RoundIcon from '../../../../../components/RoundIcon';
-import { StyledErrorMessage, StyledMenuItemInputField } from '../../styles';
 import Spinner from '../../../../../components/Spinner';
 import handleError from '../../../../../util/handleError';
-import CustomFieldButton from './CustomFieldButton';
+import { StyledErrorMessage, StyledMenuItemInputField } from '../../styles';
 
 const StyledMenuItemEditField = styled('div')`
   display: flex;

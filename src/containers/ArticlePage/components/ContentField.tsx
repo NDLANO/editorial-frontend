@@ -2,26 +2,27 @@
  * Copyright (c) 2021-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
+import { FieldInputProps, FormikHelpers } from 'formik';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
+import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
 import { FieldHeader } from '@ndla/forms';
-import { ButtonV2 } from '@ndla/button';
-import { IArticle, IArticleSummary, IRelatedContentLink } from '@ndla/types-backend/draft-api';
-import { FieldInputProps, FormikHelpers } from 'formik';
 import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
-import { fetchDraft, searchDrafts } from '../../../modules/draft/draftApi';
-import ElementList from '../../FormikForm/components/ElementList';
-import { ConvertedRelatedContent, RelatedContent } from '../../../interfaces';
-import handleError from '../../../util/handleError';
+import { IArticle, IArticleSummary, IRelatedContentLink } from '@ndla/types-backend/draft-api';
 import ContentLink from './ContentLink';
-import { ArticleFormType } from '../../FormikForm/articleFormHooks';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
+import { ConvertedRelatedContent, RelatedContent } from '../../../interfaces';
+import { fetchDraft, searchDrafts } from '../../../modules/draft/draftApi';
+import handleError from '../../../util/handleError';
+import { ArticleFormType } from '../../FormikForm/articleFormHooks';
+import ElementList from '../../FormikForm/components/ElementList';
 
 interface Props {
   field: FieldInputProps<ArticleFormType['relatedContent']>;

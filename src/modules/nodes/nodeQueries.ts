@@ -6,14 +6,16 @@
  *
  */
 
-import { useQuery, useQueryClient, UseQueryOptions } from '@tanstack/react-query';
-import { IDraftResponsible, IEditorNote, IRevisionMeta } from '@ndla/types-backend/draft-api';
 import chunk from 'lodash/chunk';
 import uniqBy from 'lodash/uniqBy';
+import { useQuery, useQueryClient, UseQueryOptions } from '@tanstack/react-query';
+import { IDraftResponsible, IEditorNote, IRevisionMeta } from '@ndla/types-backend/draft-api';
 import { Node, NodeChild, NodeType } from '@ndla/types-taxonomy';
+import { fetchChildNodes, fetchNode, fetchNodeResources, fetchNodes, searchNodes } from './nodeApi';
+import { GetNodeParams, GetNodeResourcesParams, RESOURCE_NODE, TOPIC_NODE } from './nodeApiTypes';
+import { PUBLISHED } from '../../constants';
 import { NodeTree } from '../../containers/NodeDiff/diffUtils';
 import { SearchResultBase, WithTaxonomyVersion } from '../../interfaces';
-import { PUBLISHED } from '../../constants';
 import {
   CHILD_NODES_WITH_ARTICLE_TYPE,
   NODE,
@@ -24,9 +26,7 @@ import {
   SEARCH_NODES,
 } from '../../queryKeys';
 import { fetchDrafts } from '../draft/draftApi';
-import { fetchChildNodes, fetchNode, fetchNodeResources, fetchNodes, searchNodes } from './nodeApi';
 import { fetchLearningpaths } from '../learningpath/learningpathApi';
-import { GetNodeParams, GetNodeResourcesParams, RESOURCE_NODE, TOPIC_NODE } from './nodeApiTypes';
 
 export const nodeQueryKeys = {
   nodes: (params?: Partial<UseNodesParams>) => [NODES, params] as const,

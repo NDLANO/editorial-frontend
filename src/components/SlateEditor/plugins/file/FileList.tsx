@@ -6,18 +6,19 @@
  *
  */
 
-import { ReactNode, useEffect, useRef, useState } from 'react';
-import debounce from 'lodash/debounce';
+import { TFunction } from 'i18next';
 // eslint-disable-next-line lodash/import-scope
 import { DebouncedFunc } from 'lodash';
+import debounce from 'lodash/debounce';
+import { ReactNode, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Editor, Element, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import styled from '@emotion/styled';
-import { useTranslation } from 'react-i18next';
-import { TFunction } from 'i18next';
+import { IconButtonV2 } from '@ndla/button';
+import { spacing } from '@ndla/core';
 import { FieldHeader } from '@ndla/forms';
 import { Cross, Plus } from '@ndla/icons/action';
-import { spacing } from '@ndla/core';
 import {
   Modal,
   ModalBody,
@@ -26,14 +27,13 @@ import {
   ModalHeader,
   ModalTrigger,
 } from '@ndla/modal';
-import { IconButtonV2 } from '@ndla/button';
+import { FileElement } from '.';
+import FileListEditor from './FileListEditor';
+import { TYPE_FILE } from './types';
 import config from '../../../../config';
 import { File, UnsavedFile } from '../../../../interfaces';
 import { headFileAtRemote } from '../../../../modules/draft/draftApi';
-import { FileElement } from '.';
-import { TYPE_FILE } from './types';
 import FileUploader from '../../../FileUploader';
-import FileListEditor from './FileListEditor';
 
 const StyledSection = styled.section`
   margin-bottom: ${spacing.normal};

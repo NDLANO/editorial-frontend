@@ -6,10 +6,10 @@
  *
  */
 
-import styled from '@emotion/styled';
-import { InformationOutline } from '@ndla/icons/common';
-import { spacing, fonts } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
+import { spacing, fonts } from '@ndla/core';
+import { InformationOutline } from '@ndla/icons/common';
 import { AudioFormikType } from './AudioForm';
 
 interface Props {

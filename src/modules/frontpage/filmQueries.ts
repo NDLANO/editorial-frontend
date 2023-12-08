@@ -12,10 +12,10 @@ import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 import { IFilmFrontPageData } from '@ndla/types-backend/frontpage-api';
 import { IMultiSearchResult } from '@ndla/types-backend/search-api';
 import { fetchFilmFrontpage } from './frontpageApi';
-import { searchResources } from '../search/searchApi';
+import { sortMoviesByIdList } from '../../containers/NdlaFilm/filmUtil';
 import { FILM_FRONTPAGE_QUERY, FILM_SLIDESHOW } from '../../queryKeys';
 import { getIdFromUrn } from '../../util/ndlaFilmHelpers';
-import { sortMoviesByIdList } from '../../containers/NdlaFilm/filmUtil';
+import { searchResources } from '../search/searchApi';
 
 export const filmQueryKeys = {
   filmFrontpage: [FILM_FRONTPAGE_QUERY],

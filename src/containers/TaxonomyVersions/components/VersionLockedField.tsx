@@ -6,9 +6,9 @@
  *
  */
 
-import { RadioButtonGroup } from '@ndla/forms';
 import { FieldProps } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { RadioButtonGroup } from '@ndla/forms';
 import FormikField from '../../../components/FormikField';
 
 const VersionLockedField = () => {

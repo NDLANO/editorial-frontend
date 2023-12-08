@@ -6,36 +6,36 @@
  *
  */
 
+import { useFormikContext } from 'formik';
 import { useEffect, useState, memo } from 'react';
 
+import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import { AccordionTrigger } from '@radix-ui/react-accordion';
+import { AccordionRoot, AccordionItem, AccordionContent } from '@ndla/accordion';
 import { ButtonV2 } from '@ndla/button';
 import { spacing, colors, fonts } from '@ndla/core';
-import styled from '@emotion/styled';
-import { useTranslation } from 'react-i18next';
-import { useFormikContext } from 'formik';
-import { AccordionRoot, AccordionItem, AccordionContent } from '@ndla/accordion';
-import { Text } from '@ndla/typography';
 import { ChevronRight } from '@ndla/icons/common';
 import { IArticle, IEditorNote } from '@ndla/types-backend/draft-api';
-import FormikField from '../../components/FormikField';
-import { fetchDraftHistory } from '../../modules/draft/draftApi';
-import handleError from '../../util/handleError';
+import { Text } from '@ndla/typography';
 import AddNotesField from './AddNotesField';
-import formatDate from '../../util/formatDate';
-import { fetchAuth0UsersFromUserIds, SimpleUserType } from '../../modules/auth0/auth0Api';
 import VersionActionbuttons from './VersionActionButtons';
-import * as articleApi from '../../modules/article/articleApi';
+import FormikField from '../../components/FormikField';
 import Spinner from '../../components/Spinner';
-import { FormikStatus } from '../../interfaces';
-import { useMessages } from '../Messages/MessagesProvider';
+import VersionHistory from '../../components/VersionHistory/VersionHistory';
+import VersionLogTag from '../../components/VersionHistory/VersionLogTag';
 import { useSession } from '../../containers/Session/SessionProvider';
+import { FormikStatus } from '../../interfaces';
+import * as articleApi from '../../modules/article/articleApi';
+import { fetchAuth0UsersFromUserIds, SimpleUserType } from '../../modules/auth0/auth0Api';
+import { fetchDraftHistory } from '../../modules/draft/draftApi';
+import formatDate from '../../util/formatDate';
+import handleError from '../../util/handleError';
 import {
   draftApiTypeToLearningResourceFormType,
   draftApiTypeToTopicArticleFormType,
 } from '../ArticlePage/articleTransformers';
-import VersionHistory from '../../components/VersionHistory/VersionHistory';
-import VersionLogTag from '../../components/VersionHistory/VersionLogTag';
+import { useMessages } from '../Messages/MessagesProvider';
 
 const StyledAccordionBar = styled.div`
   display: flex;

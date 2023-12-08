@@ -6,16 +6,12 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
 import { Formik, Form, FormikHelpers } from 'formik';
-import { ButtonV2 } from '@ndla/button';
+import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/react';
-import { colors, spacing } from '@ndla/core';
 import styled from '@emotion/styled';
-import config from '../../../../config';
-import validateFormik from '../../../formikValidationSchema';
-import FormikField from '../../../FormikField';
-import { Checkbox } from '../../../../containers/FormikForm';
+import { ButtonV2 } from '@ndla/button';
+import { colors, spacing } from '@ndla/core';
 import {
   isNDLAArticleUrl,
   isNDLAEdPathUrl,
@@ -23,8 +19,12 @@ import {
   isNDLATaxonomyUrl,
   isPlainId,
 } from './EditLink';
-import { isUrl } from '../../../validators';
 import { Model } from './Link';
+import config from '../../../../config';
+import { Checkbox } from '../../../../containers/FormikForm';
+import FormikField from '../../../FormikField';
+import validateFormik from '../../../formikValidationSchema';
+import { isUrl } from '../../../validators';
 
 const StyledField = styled.div`
   gap: ${spacing.xsmall};

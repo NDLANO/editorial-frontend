@@ -7,15 +7,15 @@
  */
 
 import { memo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
+import { Check } from '@ndla/icons/editor';
 import { IConcept } from '@ndla/types-backend/concept-api';
 import { IArticle, IStatus } from '@ndla/types-backend/draft-api';
-import { useTranslation } from 'react-i18next';
-import { Check } from '@ndla/icons/editor';
 import { TaxonomyContext } from '@ndla/types-taxonomy';
-import HeaderInformation from './HeaderInformation';
 import HeaderActions from './HeaderActions';
+import HeaderInformation from './HeaderInformation';
 import HeaderLanguagePill from './HeaderLanguagePill';
 
 export const StyledLanguageWrapper = styled.div`

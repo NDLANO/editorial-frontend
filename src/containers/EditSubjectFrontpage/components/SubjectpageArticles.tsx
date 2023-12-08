@@ -2,21 +2,22 @@
  * Copyright (c) 2020-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
+import { useField, useFormikContext } from 'formik';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
+import { IArticle } from '@ndla/types-backend/draft-api';
 import { ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
 import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
-import { IArticle } from '@ndla/types-backend/draft-api';
-import { useField, useFormikContext } from 'formik';
-import ElementList from '../../FormikForm/components/ElementList';
-import DropdownSearch from '../../NdlaFilm/components/DropdownSearch';
-import handleError from '../../../util/handleError';
 import { fetchDraft } from '../../../modules/draft/draftApi';
 import { fetchLearningpath } from '../../../modules/learningpath/learningpathApi';
+import handleError from '../../../util/handleError';
+import ElementList from '../../FormikForm/components/ElementList';
+import DropdownSearch from '../../NdlaFilm/components/DropdownSearch';
 
 interface Props {
   editorsChoices: (IArticle | ILearningPathV2)[];

@@ -1,10 +1,17 @@
+/**
+ * Copyright (c) 2021-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 import { Editor, Node, Element, Range, Transforms, Path, Point } from 'slate';
 
-import { TYPE_LIST_ITEM } from '../types';
 import getCurrentBlock from '../../../utils/getCurrentBlock';
-import { defaultParagraphBlock } from '../../paragraph/utils';
-import { defaultListItemBlock } from '../utils/defaultBlocks';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
+import { defaultParagraphBlock } from '../../paragraph/utils';
+import { TYPE_LIST_ITEM } from '../types';
+import { defaultListItemBlock } from '../utils/defaultBlocks';
 
 const onEnter = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEvent) => void) => {
   if (event.shiftKey || !editor.selection) return next?.(event);

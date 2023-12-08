@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2021-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,9 +6,9 @@
  *
  */
 
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { fonts } from '@ndla/core';
-import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
 

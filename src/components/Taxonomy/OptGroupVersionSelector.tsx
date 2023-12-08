@@ -1,6 +1,13 @@
+/**
+ * Copyright (c) 2022-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+import { TFunction } from 'i18next';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { TFunction } from 'i18next';
 import { Version, VersionType } from '@ndla/types-taxonomy';
 import ObjectSelector from '../ObjectSelector';
 

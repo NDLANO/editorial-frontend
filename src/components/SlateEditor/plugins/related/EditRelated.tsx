@@ -8,22 +8,22 @@
 
 import { HTMLAttributes, MouseEvent, forwardRef, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IconButtonV2 } from '@ndla/button';
+import { DragEndEvent } from '@dnd-kit/core';
 import styled from '@emotion/styled';
-import { RelatedContentEmbed } from '@ndla/ui';
-import Tooltip from '@ndla/tooltip';
-import { Pencil } from '@ndla/icons/action';
+import { Content } from '@radix-ui/react-popover';
+import { IconButtonV2 } from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
+import { Pencil } from '@ndla/icons/action';
 import { DeleteForever } from '@ndla/icons/editor';
+import Tabs from '@ndla/tabs';
+import Tooltip from '@ndla/tooltip';
 import { RelatedContentEmbedData, RelatedContentMetaData } from '@ndla/types-embed';
 import { Heading } from '@ndla/typography';
-import { DragEndEvent } from '@dnd-kit/core';
-import { Content } from '@radix-ui/react-popover';
-import Tabs from '@ndla/tabs';
-import { search } from '../../../../modules/search/searchApi';
-import AsyncDropdown from '../../../Dropdown/asyncDropdown/AsyncDropdown';
-import DndList from '../../../DndList';
+import { RelatedContentEmbed } from '@ndla/ui';
 import ContentLink from '../../../../containers/ArticlePage/components/ContentLink';
+import { search } from '../../../../modules/search/searchApi';
+import DndList from '../../../DndList';
+import AsyncDropdown from '../../../Dropdown/asyncDropdown/AsyncDropdown';
 
 const StyledUl = styled.ul`
   list-style: none;

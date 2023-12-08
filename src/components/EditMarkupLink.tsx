@@ -6,10 +6,10 @@
  *
  */
 
+import { Link, useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
 import { Code } from '@ndla/icons/editor';
-import { Link, useLocation } from 'react-router-dom';
 
 interface Props {
   to: string;

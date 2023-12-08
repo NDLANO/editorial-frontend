@@ -6,6 +6,8 @@
  *
  */
 
+import { nb, nn, enGB } from 'date-fns/locale';
+import { TFunction } from 'i18next';
 import { ReactNode, useCallback, useMemo, useState } from 'react';
 import {
   DayPicker,
@@ -15,13 +17,11 @@ import {
   CustomComponents,
   useNavigation,
 } from 'react-day-picker';
-import { nb, nn, enGB } from 'date-fns/locale';
 import { useTranslation } from 'react-i18next';
-import { TFunction } from 'i18next';
 import styled from '@emotion/styled';
 import { Arrow, Content, Portal, Root, Trigger } from '@radix-ui/react-popover';
-import { colors, misc } from '@ndla/core';
 import { ButtonV2 } from '@ndla/button';
+import { colors, misc } from '@ndla/core';
 
 interface Props {
   children: ReactNode;

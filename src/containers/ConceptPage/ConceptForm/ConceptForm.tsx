@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2019-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,7 +6,9 @@
  *
  */
 
+import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { useState, useMemo, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   IConcept,
   INewConcept,
@@ -16,29 +18,27 @@ import {
   IGlossExample,
 } from '@ndla/types-backend/concept-api';
 import { IArticle } from '@ndla/types-backend/draft-api';
-import { Formik, FormikProps, FormikHelpers } from 'formik';
-import { useTranslation } from 'react-i18next';
 import { Node } from '@ndla/types-taxonomy';
-import GlossDataSection from '../../GlossPage/components/GlossDataSection';
-import { ARCHIVED, PUBLISHED, UNPUBLISHED } from '../../../constants';
-import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
+import ConceptFormFooter from './ConceptFormFooter';
+import FormAccordion from '../../../components/Accordion/FormAccordion';
+import FormAccordions from '../../../components/Accordion/FormAccordions';
 import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';
+import FormWrapper from '../../../components/FormWrapper';
+import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
+import { isEmpty } from '../../../components/validators';
+import { ARCHIVED, PUBLISHED, UNPUBLISHED } from '../../../constants';
+import { useLicenses } from '../../../modules/draft/draftQueries';
+import CopyrightFieldGroup from '../../FormikForm/CopyrightFieldGroup';
+import GlossDataSection from '../../GlossPage/components/GlossDataSection';
+import { MessageError, useMessages } from '../../Messages/MessagesProvider';
+import { useSession } from '../../Session/SessionProvider';
+import { ConceptArticles, ConceptContent, ConceptMetaData } from '../components';
+import { ConceptFormValues, ConceptType } from '../conceptInterfaces';
 import {
   conceptApiTypeToFormType,
   getNewConceptType,
   getUpdatedConceptType,
 } from '../conceptTransformers';
-import { ConceptArticles, ConceptContent, ConceptMetaData } from '../components';
-import { ConceptFormValues, ConceptType } from '../conceptInterfaces';
-import ConceptFormFooter from './ConceptFormFooter';
-import { MessageError, useMessages } from '../../Messages/MessagesProvider';
-import { useLicenses } from '../../../modules/draft/draftQueries';
-import FormWrapper from '../../../components/FormWrapper';
-import { useSession } from '../../Session/SessionProvider';
-import FormAccordion from '../../../components/Accordion/FormAccordion';
-import FormAccordions from '../../../components/Accordion/FormAccordions';
-import { isEmpty } from '../../../components/validators';
-import CopyrightFieldGroup from '../../FormikForm/CopyrightFieldGroup';
 
 const STATUSES_RESPONSIBLE_NOT_REQUIRED = [PUBLISHED, ARCHIVED, UNPUBLISHED];
 

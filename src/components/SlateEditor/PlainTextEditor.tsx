@@ -6,11 +6,11 @@
  *
  */
 
+import { FormikHandlers, useFormikContext } from 'formik';
 import { useMemo, useEffect, useCallback } from 'react';
 import { createEditor, Descendant } from 'slate';
-import { Slate, Editable, ReactEditor, withReact } from 'slate-react';
 import { withHistory } from 'slate-history';
-import { FormikHandlers, useFormikContext } from 'formik';
+import { Slate, Editable, ReactEditor, withReact } from 'slate-react';
 import styled from '@emotion/styled';
 import { SlatePlugin } from './interfaces';
 import withPlugins from './utils/withPlugins';

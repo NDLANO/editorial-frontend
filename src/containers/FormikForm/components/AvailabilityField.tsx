@@ -6,9 +6,9 @@
  *
  */
 
-import { RadioButtonGroup } from '@ndla/forms';
 import { FieldInputProps } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { RadioButtonGroup } from '@ndla/forms';
 
 interface Props {
   field: FieldInputProps<string>;

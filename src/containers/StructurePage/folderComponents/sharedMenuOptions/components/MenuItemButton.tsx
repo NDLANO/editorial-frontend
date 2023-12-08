@@ -7,9 +7,9 @@
  */
 
 import { forwardRef, ReactNode } from 'react';
+import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
-import styled from '@emotion/styled';
 
 const StyledMenuItemButton = styled(ButtonV2)`
   display: flex;

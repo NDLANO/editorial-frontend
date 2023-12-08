@@ -4,14 +4,15 @@
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
- *
  */
 
-import { ReactEditor } from 'slate-react';
-import { Editor, Element, Node, Path } from 'slate';
 import { TdHTMLAttributes } from 'react';
+import { Editor, Element, Node, Path } from 'slate';
+import { ReactEditor } from 'slate-react';
 import styled from '@emotion/styled';
 import { colors, fonts } from '@ndla/core';
+import SlateTable from './SlateTable';
+import TableActions from './TableActions';
 import {
   TYPE_TABLE,
   TYPE_TABLE_BODY,
@@ -21,8 +22,6 @@ import {
   TYPE_TABLE_HEAD,
   TYPE_TABLE_ROW,
 } from './types';
-import TableActions from './TableActions';
-import SlateTable from './SlateTable';
 import WithPlaceHolder from '../../common/WithPlaceHolder';
 
 const StyledTh = styled.th`

@@ -7,14 +7,14 @@
  */
 
 import { MouseEvent, ReactElement, useCallback, useRef } from 'react';
-import { Warning } from '@ndla/icons/editor';
+import { useTranslation } from 'react-i18next';
 import { css, SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
-import { spacing, colors } from '@ndla/core';
-import { ModalHeader, Modal, ModalContent } from '@ndla/modal';
 import { IconButtonV2 } from '@ndla/button';
+import { spacing, colors } from '@ndla/core';
 import { Cross } from '@ndla/icons/action';
-import { useTranslation } from 'react-i18next';
+import { Warning } from '@ndla/icons/editor';
+import { ModalHeader, Modal, ModalContent } from '@ndla/modal';
 import AlertModalFooter from './AlertModalFooter';
 import { MessageSeverity } from '../../interfaces';
 

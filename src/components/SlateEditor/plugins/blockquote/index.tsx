@@ -6,13 +6,13 @@
  *
  */
 
-import { jsx as slatejsx } from 'slate-hyperscript';
 import { Descendant, Editor, Element, Transforms } from 'slate';
+import { jsx as slatejsx } from 'slate-hyperscript';
+import { TYPE_QUOTE } from './types';
 import { SlateSerializer } from '../../interfaces';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { KEY_ENTER } from '../../utils/keys';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
-import { TYPE_QUOTE } from './types';
 
 export interface BlockQuoteElement {
   type: 'quote';

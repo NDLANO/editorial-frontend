@@ -8,8 +8,8 @@
 
 import { Editor, Element, Descendant } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
-import { SlateSerializer } from '../../interfaces';
 import { TYPE_DIV } from './types';
+import { SlateSerializer } from '../../interfaces';
 
 export interface DivElement {
   type: 'div';

@@ -6,8 +6,8 @@
  *
  */
 
-import { IArticleV2, ISearchResultV2 } from '@ndla/types-backend/article-api';
 import queryString from 'query-string';
+import { IArticleV2, ISearchResultV2 } from '@ndla/types-backend/article-api';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,

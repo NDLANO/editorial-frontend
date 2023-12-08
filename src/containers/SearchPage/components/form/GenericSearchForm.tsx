@@ -9,8 +9,8 @@
 import { FormEvent, MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
 import { ButtonV2 } from '@ndla/button';
+import { spacing } from '@ndla/core';
 import { SearchParams } from './SearchForm';
 import SearchTagGroup from './SearchTagGroup';
 import Selector, { SearchFormSelector, TextInputSelectorType } from './Selector';

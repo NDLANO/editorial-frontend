@@ -7,8 +7,8 @@
  */
 
 import { Editor } from 'slate';
-import { TYPE_ASIDE } from './types';
 import SlateAside from './SlateAside';
+import { TYPE_ASIDE } from './types';
 
 export const asideRenderer = (editor: Editor) => {
   const { renderElement } = editor;

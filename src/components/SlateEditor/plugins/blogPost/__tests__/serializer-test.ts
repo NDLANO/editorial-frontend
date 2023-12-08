@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -7,13 +7,13 @@
  */
 
 import { Descendant } from 'slate';
-import { TYPE_SECTION } from '../../section/types';
-import { TYPE_BLOGPOST } from '../types';
 import {
   blockContentToEditorValue,
   blockContentToHTML,
 } from '../../../../../util/articleContentConverter';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
+import { TYPE_SECTION } from '../../section/types';
+import { TYPE_BLOGPOST } from '../types';
 
 const editor: Descendant[] = [
   {

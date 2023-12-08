@@ -7,9 +7,9 @@
  */
 
 import { Node, NodeType } from '@ndla/types-taxonomy';
-import { useTaxonomyVersion } from '../../../../StructureVersion/TaxonomyVersionProvider';
-import { useSearchNodes } from '../../../../../modules/nodes/nodeQueries';
 import SearchDropdown from './SearchDropdown';
+import { useSearchNodes } from '../../../../../modules/nodes/nodeQueries';
+import { useTaxonomyVersion } from '../../../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
   placeholder: string;

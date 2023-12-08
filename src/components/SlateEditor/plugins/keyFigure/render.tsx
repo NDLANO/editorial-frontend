@@ -7,8 +7,8 @@
  */
 
 import { Editor } from 'slate';
-import { TYPE_KEY_FIGURE } from './types';
 import SlateKeyFigure from './SlateKeyFigure';
+import { TYPE_KEY_FIGURE } from './types';
 
 export const keyFigureRenderer = (editor: Editor) => {
   const { renderElement } = editor;

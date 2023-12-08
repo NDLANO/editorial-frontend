@@ -6,9 +6,14 @@
  *
  */
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
 import debounce from 'lodash/debounce';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { ButtonV2, CloseButton } from '@ndla/button';
+import { Search } from '@ndla/icons/common';
 import { ModalHeader, ModalBody } from '@ndla/modal';
+import Pager from '@ndla/pager';
+import Tabs from '@ndla/tabs';
 import {
   IConcept,
   IConceptSearchResult,
@@ -18,19 +23,14 @@ import {
   IConceptSummary,
 } from '@ndla/types-backend/concept-api';
 import { IArticle } from '@ndla/types-backend/draft-api';
-import { useTranslation } from 'react-i18next';
-import { ButtonV2, CloseButton } from '@ndla/button';
-import Tabs from '@ndla/tabs';
-import { Search } from '@ndla/icons/common';
-import Pager from '@ndla/pager';
 
 import { Node } from '@ndla/types-taxonomy';
-import { searchConcepts } from '../../../../modules/concept/conceptApi';
-import SearchForm from '../../../../containers/SearchPage/components/form/SearchForm';
 import SearchConceptResults from './SearchConceptResults';
 import ConceptForm from '../../../../containers/ConceptPage/ConceptForm/ConceptForm';
-import { ConceptQuery } from '../../../../modules/concept/conceptApiInterfaces';
 import { ConceptType } from '../../../../containers/ConceptPage/conceptInterfaces';
+import SearchForm from '../../../../containers/SearchPage/components/form/SearchForm';
+import { searchConcepts } from '../../../../modules/concept/conceptApi';
+import { ConceptQuery } from '../../../../modules/concept/conceptApiInterfaces';
 
 interface Props {
   addConcept: (concept: IConceptSummary | IConcept) => void;

@@ -7,24 +7,24 @@
  */
 
 import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
-import { headingPlugin } from '../../../../components/SlateEditor/plugins/heading';
-import { noEmbedPlugin } from '../../../../components/SlateEditor/plugins/noEmbed';
 import { blockQuotePlugin } from '../../../../components/SlateEditor/plugins/blockquote';
-import { listPlugin } from '../../../../components/SlateEditor/plugins/list';
+import { breakPlugin } from '../../../../components/SlateEditor/plugins/break';
 import { inlineConceptPlugin } from '../../../../components/SlateEditor/plugins/concept/inline';
-import { paragraphPlugin } from '../../../../components/SlateEditor/plugins/paragraph';
+import { definitionListPlugin } from '../../../../components/SlateEditor/plugins/definitionList';
+import { divPlugin } from '../../../../components/SlateEditor/plugins/div';
+import { dndPlugin } from '../../../../components/SlateEditor/plugins/DND';
+import { headingPlugin } from '../../../../components/SlateEditor/plugins/heading';
 import { linkPlugin } from '../../../../components/SlateEditor/plugins/link';
+import { listPlugin } from '../../../../components/SlateEditor/plugins/list';
+import { markPlugin } from '../../../../components/SlateEditor/plugins/mark';
 import { mathmlPlugin } from '../../../../components/SlateEditor/plugins/mathml';
+import { noEmbedPlugin } from '../../../../components/SlateEditor/plugins/noEmbed';
+import { paragraphPlugin } from '../../../../components/SlateEditor/plugins/paragraph';
+import saveHotkeyPlugin from '../../../../components/SlateEditor/plugins/saveHotkey';
+import { sectionPlugin } from '../../../../components/SlateEditor/plugins/section';
+import { spanPlugin } from '../../../../components/SlateEditor/plugins/span';
 import { textTransformPlugin } from '../../../../components/SlateEditor/plugins/textTransform';
 import { toolbarPlugin } from '../../../../components/SlateEditor/plugins/toolbar';
-import saveHotkeyPlugin from '../../../../components/SlateEditor/plugins/saveHotkey';
-import { markPlugin } from '../../../../components/SlateEditor/plugins/mark';
-import { sectionPlugin } from '../../../../components/SlateEditor/plugins/section';
-import { divPlugin } from '../../../../components/SlateEditor/plugins/div';
-import { breakPlugin } from '../../../../components/SlateEditor/plugins/break';
-import { dndPlugin } from '../../../../components/SlateEditor/plugins/DND';
-import { spanPlugin } from '../../../../components/SlateEditor/plugins/span';
-import { definitionListPlugin } from '../../../../components/SlateEditor/plugins/definitionList';
 
 // Plugins are checked from last to first
 export const topicArticlePlugins: SlatePlugin[] = [

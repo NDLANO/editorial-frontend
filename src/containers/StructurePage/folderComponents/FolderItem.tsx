@@ -6,23 +6,23 @@
  *
  */
 
-import { spacing, fonts, mq, breakpoints } from '@ndla/core';
-import { ButtonV2, IconButtonV2 } from '@ndla/button';
+import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
+import { ButtonV2, IconButtonV2 } from '@ndla/button';
+import { spacing, fonts, mq, breakpoints } from '@ndla/core';
 import { Plus } from '@ndla/icons/action';
-import { Node } from '@ndla/types-taxonomy';
 import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
-import { useCallback, useState } from 'react';
 import Tooltip from '@ndla/tooltip';
+import { Node } from '@ndla/types-taxonomy';
+import SettingsMenu from './SettingsMenu';
 import { Row } from '../../../components';
 import Spinner from '../../../components/Spinner';
-import SettingsMenu from './SettingsMenu';
-import AddNodeModalContent from '../AddNodeModalContent';
-import { getNodeTypeFromNodeId } from '../../../modules/nodes/nodeUtil';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
-import PlannedResourceForm from '../plannedResource/PlannedResourceForm';
+import { getNodeTypeFromNodeId } from '../../../modules/nodes/nodeUtil';
+import AddNodeModalContent from '../AddNodeModalContent';
 import AddResourceModal from '../plannedResource/AddResourceModal';
+import PlannedResourceForm from '../plannedResource/PlannedResourceForm';
 
 const StyledResourceButton = styled(ButtonV2)`
   min-height: unset;

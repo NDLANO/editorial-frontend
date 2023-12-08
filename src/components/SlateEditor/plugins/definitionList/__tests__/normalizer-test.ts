@@ -11,9 +11,9 @@ import { withHistory } from 'slate-history';
 import { withReact } from 'slate-react';
 import { learningResourcePlugins } from '../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins';
 import withPlugins from '../../../utils/withPlugins';
-import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_LIST, TYPE_DEFINITION_TERM } from '../types';
-import { TYPE_SECTION } from '../../section/types';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
+import { TYPE_SECTION } from '../../section/types';
+import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_LIST, TYPE_DEFINITION_TERM } from '../types';
 
 const editor = withHistory(withReact(withPlugins(createEditor(), learningResourcePlugins)));
 

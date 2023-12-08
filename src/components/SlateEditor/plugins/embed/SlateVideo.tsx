@@ -6,34 +6,34 @@
  *
  */
 
-import { ReactNode, useEffect, useState, MouseEvent, useCallback } from 'react';
-import styled from '@emotion/styled';
-import { RenderElementProps } from 'slate-react';
-import { ButtonV2, IconButtonV2 } from '@ndla/button';
-import { Figure } from '@ndla/ui';
-import { breakpoints } from '@ndla/util';
 import parse from 'html-react-parser';
+import { ReactNode, useEffect, useState, MouseEvent, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import Tooltip from '@ndla/tooltip';
+import { RenderElementProps } from 'slate-react';
+import styled from '@emotion/styled';
+import { ButtonV2, IconButtonV2 } from '@ndla/button';
 import { colors, spacing, fonts, mq } from '@ndla/core';
-import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
 import { Pencil } from '@ndla/icons/action';
-import { SafeLinkIconButton } from '@ndla/safelink';
 import { Link } from '@ndla/icons/common';
 import { DeleteForever } from '@ndla/icons/editor';
-import config from '../../../../config';
-import { isNumeric } from '../../../validators';
-import { StyledDeleteEmbedButton, StyledFigureButtons } from './FigureButtons';
+import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
+import { SafeLinkIconButton } from '@ndla/safelink';
+import Tooltip from '@ndla/tooltip';
+import { Figure } from '@ndla/ui';
+import { breakpoints } from '@ndla/util';
 import EditVideo, { toVideoEmbedFormValues, brightcoveEmbedFormRules } from './EditVideo';
+import { StyledDeleteEmbedButton, StyledFigureButtons } from './FigureButtons';
+import config from '../../../../config';
+import { ExternalEmbed, BrightcoveEmbed } from '../../../../interfaces';
 import { fetchBrightcoveVideo } from '../../../../modules/video/brightcoveApi';
+import parseMarkdown from '../../../../util/parseMarkdown';
 import {
   addBrightCoveTimeStampVideoid,
   getBrightCoveStartTime,
   getYoutubeEmbedUrl,
 } from '../../../../util/videoUtil';
-import { ExternalEmbed, BrightcoveEmbed } from '../../../../interfaces';
 import validateFormik from '../../../formikValidationSchema';
-import parseMarkdown from '../../../../util/parseMarkdown';
+import { isNumeric } from '../../../validators';
 
 export const StyledVideo = styled.iframe`
   width: 100%;

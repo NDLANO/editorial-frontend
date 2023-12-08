@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+import sortBy from 'lodash/sortBy';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Select, SingleValue } from '@ndla/select';
-import { useState, useEffect, useCallback, useMemo } from 'react';
-import sortBy from 'lodash/sortBy';
-import { useAuth0Responsibles } from '../../../modules/auth0/auth0Queries';
 import { DRAFT_RESPONSIBLE } from '../../../constants';
+import { useAuth0Responsibles } from '../../../modules/auth0/auth0Queries';
 
 interface Props {
   responsible: SingleValue;

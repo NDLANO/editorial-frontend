@@ -2,16 +2,16 @@
  * Copyright (c) 2020-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
+import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
-import { memo } from 'react';
-import formatDate from '../../util/formatDate';
-
 import DateEdit from './DateEdit';
+import formatDate from '../../util/formatDate';
 
 const StyledLastUpdatedLine = styled.div`
   color: ${colors.text.light};

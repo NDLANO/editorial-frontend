@@ -6,37 +6,37 @@
  *
  */
 
-import { HelmetWithTracker } from '@ndla/tracker';
-import { OneColumn } from '@ndla/ui';
-import { Heading } from '@ndla/typography';
-import { useTranslation } from 'react-i18next';
-import { Spinner } from '@ndla/icons';
-import { colors, misc, spacing } from '@ndla/core';
-import { useCallback, useMemo } from 'react';
-import styled from '@emotion/styled';
-import SafeLink from '@ndla/safelink';
-import { IconButtonV2 } from '@ndla/button';
-import { Pencil, Plus } from '@ndla/icons/action';
 import { FieldArray, Formik, useField, useFormikContext } from 'formik';
+import { useCallback, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
+import { IconButtonV2 } from '@ndla/button';
+import { colors, misc, spacing } from '@ndla/core';
+import { Spinner } from '@ndla/icons';
+import { Pencil, Plus } from '@ndla/icons/action';
+import SafeLink from '@ndla/safelink';
+import { HelmetWithTracker } from '@ndla/tracker';
 import { IArticleSummaryV2 } from '@ndla/types-backend/article-api';
-import { useFrontpage } from '../../modules/frontpage/frontpageQueries';
-import { useUpdateFrontpageMutation } from '../../modules/frontpage/frontpageMutations';
-import { useArticleSearch } from '../../modules/article/articleQueries';
+import { Heading } from '@ndla/typography';
+import { OneColumn } from '@ndla/ui';
 import FrontpageArticleSearch from './FrontpageArticleSearch';
 import {
   addArticlesToAboutMenu,
   extractArticleIds,
   menuWithArticleToIMenu,
 } from './frontpageHelpers';
-import { MenuWithArticle } from './types';
 import FrontpageNodeList from './FrontpageNodeList';
-import { toEditFrontPageArticle } from '../../util/routeHelpers';
-import SaveButton from '../../components/SaveButton';
-import { AlertModalWrapper } from '../FormikForm';
+import { MenuWithArticle } from './types';
 import validateFormik, { RulesType } from '../../components/formikValidationSchema';
-import { useSession } from '../Session/SessionProvider';
+import SaveButton from '../../components/SaveButton';
 import { FRONTPAGE_ADMIN_SCOPE } from '../../constants';
+import { useArticleSearch } from '../../modules/article/articleQueries';
+import { useUpdateFrontpageMutation } from '../../modules/frontpage/frontpageMutations';
+import { useFrontpage } from '../../modules/frontpage/frontpageQueries';
+import { toEditFrontPageArticle } from '../../util/routeHelpers';
+import { AlertModalWrapper } from '../FormikForm';
 import NotFound from '../NotFoundPage/NotFoundPage';
+import { useSession } from '../Session/SessionProvider';
 
 const FrontpageArticleWrapper = styled.div`
   display: flex;

@@ -8,14 +8,14 @@
 
 import { Descendant, Editor, Element } from 'slate';
 import { ConceptListEmbedData, EmbedData } from '@ndla/types-embed';
+import { TYPE_CONCEPT_LIST } from './types';
+import { defaultConceptListBlock } from './utils';
 import { createEmbedTagV2, reduceElementDataAttributesV2 } from '../../../../util/embedTagHelpers';
 import { SlateSerializer } from '../../interfaces';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
 import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
 import { TYPE_NDLA_EMBED } from '../embed/types';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
-import { TYPE_CONCEPT_LIST } from './types';
-import { defaultConceptListBlock } from './utils';
 
 export interface ConceptListElement {
   type: 'concept-list';

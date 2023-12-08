@@ -6,9 +6,9 @@
  *
  */
 
+import isObjectLike from 'lodash/fp/isObjectLike';
 import isEqual from 'lodash/isEqual';
 import partition from 'lodash/partition';
-import isObjectLike from 'lodash/fp/isObjectLike';
 import { NodeChild, Node } from '@ndla/types-taxonomy';
 
 export type DiffResultType = 'NONE' | 'MODIFIED' | 'ADDED' | 'DELETED';

@@ -2,18 +2,19 @@
  * Copyright (c) 2020-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
+import { useFormikContext } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
-import { useFormikContext } from 'formik';
 import { IArticle, IArticleSummary } from '@ndla/types-backend/draft-api';
-import ElementList from '../../FormikForm/components/ElementList';
-import handleError from '../../../util/handleError';
-import { fetchDraft, searchDrafts } from '../../../modules/draft/draftApi';
-import { ConceptFormValues } from '../conceptInterfaces';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
+import { fetchDraft, searchDrafts } from '../../../modules/draft/draftApi';
+import handleError from '../../../util/handleError';
+import ElementList from '../../FormikForm/components/ElementList';
+import { ConceptFormValues } from '../conceptInterfaces';
 
 const ConceptArticles = () => {
   const { t } = useTranslation();

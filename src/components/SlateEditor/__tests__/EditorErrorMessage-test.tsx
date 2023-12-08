@@ -7,8 +7,8 @@
  */
 
 import { render } from '@testing-library/react';
-import EditorErrorMessage from '../EditorErrorMessage';
 import IntlWrapper from '../../../util/__tests__/IntlWrapper';
+import EditorErrorMessage from '../EditorErrorMessage';
 
 test('EditorErrorMessage renders', () => {
   const embed = {

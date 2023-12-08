@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,8 +6,14 @@
  *
  */
 
+import { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Editor, Path, Transforms } from 'slate';
+import { ReactEditor, RenderElementProps } from 'slate-react';
+import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
 import { Pencil } from '@ndla/icons/action';
+import { DeleteForever } from '@ndla/icons/editor';
 import {
   Modal,
   ModalBody,
@@ -17,18 +23,12 @@ import {
   ModalTitle,
   ModalTrigger,
 } from '@ndla/modal';
-import { useCallback, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Editor, Path, Transforms } from 'slate';
-import { CampaignBlockEmbedData } from '@ndla/types-embed';
-import styled from '@emotion/styled';
-import { CampaignBlock } from '@ndla/ui';
 import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
-import { ReactEditor, RenderElementProps } from 'slate-react';
-import { DeleteForever } from '@ndla/icons/editor';
+import { CampaignBlockEmbedData } from '@ndla/types-embed';
+import { CampaignBlock } from '@ndla/ui';
 import { CampaignBlockElement } from '.';
-import { fetchImage } from '../../../../modules/image/imageApi';
 import CampaignBlockForm from './CampaignBlockForm';
+import { fetchImage } from '../../../../modules/image/imageApi';
 import { StyledDeleteEmbedButton, StyledFigureButtons } from '../embed/FigureButtons';
 
 interface Props extends RenderElementProps {

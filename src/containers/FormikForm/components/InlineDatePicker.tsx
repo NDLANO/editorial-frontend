@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { useCallback, useMemo } from 'react';
 import { format } from 'date-fns';
+import { useCallback, useMemo } from 'react';
 import styled from '@emotion/styled';
-import { colors, misc, spacing } from '@ndla/core';
 import { ButtonV2 } from '@ndla/button';
+import { colors, misc, spacing } from '@ndla/core';
 import { Calendar } from '@ndla/icons/editor';
 import DatePicker from '../../../components/DatePicker';
 import { formatDateForBackend } from '../../../util/formatDate';

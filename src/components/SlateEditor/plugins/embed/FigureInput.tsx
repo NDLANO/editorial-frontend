@@ -7,13 +7,13 @@
  */
 
 import { ChangeEvent, MouseEventHandler } from 'react';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
+import { ButtonV2 } from '@ndla/button';
 import { spacing, colors } from '@ndla/core';
 import { CheckboxItem, StyledButtonWrapper, TextArea } from '@ndla/forms';
-import { ButtonV2 } from '@ndla/button';
-import { useTranslation } from 'react-i18next';
-import { useSlateContext } from '../../SlateContext';
 import { isEmpty } from '../../../validators';
+import { useSlateContext } from '../../SlateContext';
 import { useInGrid } from '../grid/GridContext';
 
 export const StyledInputWrapper = styled.div`

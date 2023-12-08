@@ -6,12 +6,12 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
 import { FieldInputProps } from 'formik';
+import { useTranslation } from 'react-i18next';
 import { FieldHeader, FieldSection, Select } from '@ndla/forms';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
-import { getLicensesWithTranslations } from '../../../util/licenseHelpers';
 import { useLicenses } from '../../../modules/draft/draftQueries';
+import { getLicensesWithTranslations } from '../../../util/licenseHelpers';
 
 interface Props extends FieldInputProps<string> {
   disabled?: boolean;

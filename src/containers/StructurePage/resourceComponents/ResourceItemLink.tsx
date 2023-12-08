@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2019-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,8 +6,8 @@
  *
  */
 
-import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { colors, fonts, mq, breakpoints } from '@ndla/core';
 import { toEditArticle, toLearningpathFull } from '../../../util/routeHelpers';

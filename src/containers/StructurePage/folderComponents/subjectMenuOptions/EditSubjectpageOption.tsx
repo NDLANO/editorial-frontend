@@ -8,15 +8,15 @@
 
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { Home } from '@ndla/icons/common';
-import { colors } from '@ndla/core';
 import styled from '@emotion/styled';
+import { colors } from '@ndla/core';
+import { Home } from '@ndla/icons/common';
 import { Node } from '@ndla/types-taxonomy';
 
+import RoundIcon from '../../../../components/RoundIcon';
 import { toCreateSubjectpage, toEditSubjectpage } from '../../../../util/routeHelpers';
 import { getIdFromUrn } from '../../../../util/subjectHelpers';
 import MenuItemButton from '../sharedMenuOptions/components/MenuItemButton';
-import RoundIcon from '../../../../components/RoundIcon';
 
 interface Props {
   node: Node;

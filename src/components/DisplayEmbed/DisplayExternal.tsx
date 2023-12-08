@@ -8,27 +8,27 @@
 
 import { useEffect, useState, useRef, HTMLAttributes } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Transforms, Editor, Path } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import './helpers/h5pResizer';
-import { Transforms, Editor, Path } from 'slate';
 import styled from '@emotion/styled';
-import { DeleteForever, Expandable } from '@ndla/icons/editor';
 import { IconButtonV2 } from '@ndla/button';
 import { Link } from '@ndla/icons/common';
-import handleError from '../../util/handleError';
-import EditorErrorMessage from '../SlateEditor/EditorErrorMessage';
+import { DeleteForever, Expandable } from '@ndla/icons/editor';
 import DisplayExternalModal from './helpers/DisplayExternalModal';
-import { fetchExternalOembed } from '../../util/apiHelpers';
-import { urlOrigin, getIframeSrcFromHtmlString, urlDomain } from '../../util/htmlHelpers';
+import SlateResourceBox from './SlateResourceBox';
+import config from '../../config';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
+import { Embed, ExternalEmbed, H5pEmbed } from '../../interfaces';
+import { fetchExternalOembed } from '../../util/apiHelpers';
+import handleError from '../../util/handleError';
+import { urlOrigin, getIframeSrcFromHtmlString, urlDomain } from '../../util/htmlHelpers';
+import { getH5pLocale } from '../H5PElement/h5pApi';
+import EditorErrorMessage from '../SlateEditor/EditorErrorMessage';
 import {
   StyledDeleteEmbedButton,
   StyledFigureButtons,
 } from '../SlateEditor/plugins/embed/FigureButtons';
-import config from '../../config';
-import { getH5pLocale } from '../H5PElement/h5pApi';
-import { Embed, ExternalEmbed, H5pEmbed } from '../../interfaces';
-import SlateResourceBox from './SlateResourceBox';
 
 const ApplyBoxshadow = styled.div`
   &[data-show-copy-outline='true'] {

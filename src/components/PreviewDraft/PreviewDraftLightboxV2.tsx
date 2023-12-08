@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,11 +6,11 @@
  *
  */
 
-import styled from '@emotion/styled';
-import { useTranslation } from 'react-i18next';
 import { useFormikContext } from 'formik';
+import { ReactElement, useMemo, useState, ElementType } from 'react';
+import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
-import { IConcept } from '@ndla/types-backend/concept-api';
 import {
   ModalCloseButton,
   ModalHeader,
@@ -19,17 +19,17 @@ import {
   ModalTrigger,
   ModalContent,
 } from '@ndla/modal';
+import { IConcept } from '@ndla/types-backend/concept-api';
 import { IArticle } from '@ndla/types-backend/draft-api';
 import { OneColumn } from '@ndla/ui';
-import { ReactElement, useMemo, useState, ElementType } from 'react';
+import PreviewConceptComponent from './PreviewConcept';
 import PreviewDraft from './PreviewDraft';
-import { useDraft, useLicenses } from '../../modules/draft/draftQueries';
 import { learningResourceFormTypeToDraftApiType } from '../../containers/ArticlePage/articleTransformers';
-import { LearningResourceFormType } from '../../containers/FormikForm/articleFormHooks';
-import { useConcept } from '../../modules/concept/conceptQueries';
 import { ConceptFormValues } from '../../containers/ConceptPage/conceptInterfaces';
 import { conceptFormTypeToApiType } from '../../containers/ConceptPage/conceptTransformers';
-import PreviewConceptComponent from './PreviewConcept';
+import { LearningResourceFormType } from '../../containers/FormikForm/articleFormHooks';
+import { useConcept } from '../../modules/concept/conceptQueries';
+import { useDraft, useLicenses } from '../../modules/draft/draftQueries';
 
 interface BaseProps {
   type: 'markup' | 'version' | 'compare' | 'conceptCompare' | 'concept';

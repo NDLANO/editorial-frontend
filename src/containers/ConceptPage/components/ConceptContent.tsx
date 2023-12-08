@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2019-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,21 +6,21 @@
  *
  */
 
-import { useState } from 'react';
 import { useFormikContext } from 'formik';
-import styled from '@emotion/styled';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Eye } from '@ndla/icons/editor';
-import Tooltip from '@ndla/tooltip';
+import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
 import { colors } from '@ndla/core';
+import { Eye } from '@ndla/icons/editor';
+import Tooltip from '@ndla/tooltip';
 
-import { IngressField, TitleField } from '../../FormikForm';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
+import LastUpdatedLine from '../../../components/LastUpdatedLine/LastUpdatedLine';
+import { IngressField, TitleField } from '../../FormikForm';
 import VisualElementField from '../../FormikForm/components/VisualElementField';
 
 import { ConceptFormValues } from '../conceptInterfaces';
-import LastUpdatedLine from '../../../components/LastUpdatedLine/LastUpdatedLine';
 
 const ByLine = styled.div`
   display: flex;

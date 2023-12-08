@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -7,8 +7,8 @@
  */
 
 import { Editor } from 'slate';
-import { TYPE_CONCEPT_INLINE } from './types';
 import InlineConcept from './InlineWrapper';
+import { TYPE_CONCEPT_INLINE } from './types';
 
 export const inlineConceptRenderer = (locale: string) => (editor: Editor) => {
   const { renderElement } = editor;

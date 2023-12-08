@@ -6,19 +6,20 @@
  *
  */
 
+import partition from 'lodash/partition';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
+import { useQueryClient } from '@tanstack/react-query';
 import { colors } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { Done } from '@ndla/icons/editor';
 import { IArticle } from '@ndla/types-backend/draft-api';
 import { ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
-import partition from 'lodash/partition';
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useQueryClient } from '@tanstack/react-query';
 import { Node } from '@ndla/types-taxonomy';
 import AlertModal from '../../../../components/AlertModal';
 import RoundIcon from '../../../../components/RoundIcon';
+import { PUBLISHED } from '../../../../constants';
 import { fetchDrafts, updateStatusDraft } from '../../../../modules/draft/draftApi';
 import {
   fetchLearningpaths,
@@ -26,7 +27,6 @@ import {
 } from '../../../../modules/learningpath/learningpathApi';
 import { fetchNodeResources } from '../../../../modules/nodes/nodeApi';
 import { RESOURCE_META } from '../../../../queryKeys';
-import { PUBLISHED } from '../../../../constants';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import ResourceItemLink from '../../resourceComponents/ResourceItemLink';
 import MenuItemButton from '../sharedMenuOptions/components/MenuItemButton';

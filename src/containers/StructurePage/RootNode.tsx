@@ -1,24 +1,26 @@
-/*
+/**
  * Copyright (c) 2021-present, NDLA.
+ *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
+ *
  */
 
-import { memo, MutableRefObject } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useQueryClient } from '@tanstack/react-query';
 import isEqual from 'lodash/isEqual';
 import partition from 'lodash/partition';
 import sortBy from 'lodash/sortBy';
+import { memo, MutableRefObject } from 'react';
+import { useTranslation } from 'react-i18next';
+import { DragEndEvent } from '@dnd-kit/core';
+import { useQueryClient } from '@tanstack/react-query';
 import { IUserData } from '@ndla/types-backend/draft-api';
 import { NodeChild, Node, NodeType } from '@ndla/types-taxonomy';
-import { DragEndEvent } from '@dnd-kit/core';
+import NodeItem, { RenderBeforeFunction } from './NodeItem';
+import { draftQueryKeys, useUpdateUserDataMutation } from '../../modules/draft/draftQueries';
+import { useUpdateNodeConnectionMutation } from '../../modules/nodes/nodeMutations';
 import { nodeQueryKeys, useChildNodesWithArticleType } from '../../modules/nodes/nodeQueries';
 import { groupChildNodes } from '../../util/taxonomyHelpers';
-import NodeItem, { RenderBeforeFunction } from './NodeItem';
-import { useUpdateNodeConnectionMutation } from '../../modules/nodes/nodeMutations';
 import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
-import { draftQueryKeys, useUpdateUserDataMutation } from '../../modules/draft/draftQueries';
 
 interface Props {
   node: Node;

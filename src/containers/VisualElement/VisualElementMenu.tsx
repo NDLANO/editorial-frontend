@@ -6,13 +6,13 @@
  *
  */
 
+import { useState } from 'react';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
-import { Audio } from '@ndla/icons/common';
 import { Cross, Plus } from '@ndla/icons/action';
+import { Audio } from '@ndla/icons/common';
 import { Camera, H5P, Link, Video } from '@ndla/icons/editor';
-import { useState } from 'react';
 
 const StyledButton = styled(ButtonV2)`
   border-radius: 100%;

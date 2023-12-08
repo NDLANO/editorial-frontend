@@ -9,15 +9,15 @@
 import { IConcept, ILicense, INewConcept, IUpdatedConcept } from '@ndla/types-backend/concept-api';
 import { IArticle } from '@ndla/types-backend/draft-api';
 import { Node } from '@ndla/types-taxonomy';
+import { ConceptFormValues, ConceptType } from './conceptInterfaces';
+import { IN_PROGRESS } from '../../constants';
 import {
   plainTextToEditorValue,
   editorValueToPlainText,
   embedTagToEditorValue,
   editorValueToEmbedTag,
 } from '../../util/articleContentConverter';
-import { ConceptFormValues, ConceptType } from './conceptInterfaces';
 import { parseImageUrl } from '../../util/formHelper';
-import { IN_PROGRESS } from '../../constants';
 
 export const conceptApiTypeToFormType = (
   concept: IConcept | undefined,

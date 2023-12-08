@@ -6,18 +6,18 @@
  *
  */
 
+import { useFormikContext } from 'formik';
+import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { Content, Portal as PopoverPortal, Root, Trigger } from '@radix-ui/react-popover';
 import { spacing, misc, colors } from '@ndla/core';
-import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Heading } from '@ndla/typography';
 import { IArticleSummaryV2 } from '@ndla/types-backend/article-api';
-import { useFormikContext } from 'formik';
-import AsyncDropdown from '../../components/Dropdown/asyncDropdown/AsyncDropdown';
-import { searchArticles } from '../../modules/article/articleApi';
+import { Heading } from '@ndla/typography';
 import { extractArticleIds } from './frontpageHelpers';
 import { MenuWithArticle } from './types';
+import AsyncDropdown from '../../components/Dropdown/asyncDropdown/AsyncDropdown';
+import { searchArticles } from '../../modules/article/articleApi';
 
 interface Props {
   articleId?: number;

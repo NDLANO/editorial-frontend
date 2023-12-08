@@ -6,32 +6,32 @@
  *
  */
 
-import { useCallback, useMemo, useState, MouseEvent, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
+import differenceBy from 'lodash/differenceBy';
 import isEqual from 'lodash/isEqual';
 import partition from 'lodash/partition';
-import differenceBy from 'lodash/differenceBy';
-import { useQueryClient } from '@tanstack/react-query';
+import { useCallback, useMemo, useState, MouseEvent, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
+import { useQueryClient } from '@tanstack/react-query';
+import { ButtonV2 } from '@ndla/button';
 import { spacing, colors } from '@ndla/core';
 import { SingleValue } from '@ndla/select';
 import { IArticle, IUpdatedArticle } from '@ndla/types-backend/draft-api';
 import { Node, Version } from '@ndla/types-taxonomy';
-import { ButtonV2 } from '@ndla/button';
-import { useSession } from '../../../Session/SessionProvider';
-import { FormikFieldHelp } from '../../../../components/FormikField';
-import { TAXONOMY_ADMIN_SCOPE } from '../../../../constants';
-import TaxonomyConnectionErrors from '../../components/TaxonomyConnectionErrors';
-import VersionSelect from '../../components/VersionSelect';
 import TopicArticleConnections from './TopicArticleConnections';
+import { FormikFieldHelp } from '../../../../components/FormikField';
 import SaveButton from '../../../../components/SaveButton';
 import { NodeWithChildren } from '../../../../components/Taxonomy/TaxonomyBlockNode';
-import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
+import { TAXONOMY_ADMIN_SCOPE } from '../../../../constants';
 import { fetchChildNodes } from '../../../../modules/nodes/nodeApi';
-import { groupChildNodes } from '../../../../util/taxonomyHelpers';
-import handleError from '../../../../util/handleError';
-import { useCreateTopicNodeConnectionsMutation } from '../../../../modules/taxonomy/taxonomyMutations';
 import { nodeQueryKeys } from '../../../../modules/nodes/nodeQueries';
+import { useCreateTopicNodeConnectionsMutation } from '../../../../modules/taxonomy/taxonomyMutations';
+import handleError from '../../../../util/handleError';
+import { groupChildNodes } from '../../../../util/taxonomyHelpers';
+import { useSession } from '../../../Session/SessionProvider';
+import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
+import TaxonomyConnectionErrors from '../../components/TaxonomyConnectionErrors';
+import VersionSelect from '../../components/VersionSelect';
 
 interface Props {
   hasTaxEntries: boolean;

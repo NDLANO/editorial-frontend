@@ -8,16 +8,16 @@
 
 import { FieldProps, Form, Formik, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { ButtonV2 } from '@ndla/button';
-import { Select, Input } from '@ndla/forms';
-import { Heading } from '@ndla/typography';
-import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
+import { ButtonV2 } from '@ndla/button';
+import { spacing } from '@ndla/core';
+import { Select, Input } from '@ndla/forms';
 import { Translation } from '@ndla/types-taxonomy';
-import { LocaleType } from '../../../../interfaces';
+import { Heading } from '@ndla/typography';
 import { Row } from '../../../../components';
 import FormikField from '../../../../components/FormikField';
 import validateFormik from '../../../../components/formikValidationSchema';
+import { LocaleType } from '../../../../interfaces';
 
 const StyledFormikField = styled(FormikField)`
   margin-top: 0px;

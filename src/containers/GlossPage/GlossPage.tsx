@@ -8,8 +8,8 @@
 
 import { memo } from 'react';
 import loadable from '@loadable/component';
-import { useConcept } from '../../modules/concept/conceptQueries';
 import ResourcePage from '../../components/ResourcePage';
+import { useConcept } from '../../modules/concept/conceptQueries';
 const CreateGloss = loadable(() => import('./CreateGloss'));
 const EditGloss = loadable(() => import('./EditGloss'));
 

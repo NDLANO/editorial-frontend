@@ -7,6 +7,7 @@
  */
 
 import parse from 'html-react-parser';
+import { IConceptSummary } from '@ndla/types-backend/concept-api';
 import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import {
   AudioEmbedData,
@@ -27,7 +28,13 @@ import {
   OembedEmbedData,
   OembedMetaData,
 } from '@ndla/types-embed';
-import { IConceptSummary } from '@ndla/types-backend/concept-api';
+import {
+  fetchH5PInfo,
+  fetchH5pLicenseInformation,
+  fetchH5pPreviewOembed,
+} from '../../components/H5PElement/h5pApi';
+import { fetchExternalOembed } from '../../util/apiHelpers';
+import { reduceElementDataAttributesV2 } from '../../util/embedTagHelpers';
 import { fetchAudio } from '../audio/audioApi';
 import { fetchImage } from '../image/imageApi';
 import {
@@ -35,13 +42,6 @@ import {
   fetchBrightcoveVideo,
   getBrightcoveCopyright,
 } from '../video/brightcoveApi';
-import { reduceElementDataAttributesV2 } from '../../util/embedTagHelpers';
-import { fetchExternalOembed } from '../../util/apiHelpers';
-import {
-  fetchH5PInfo,
-  fetchH5pLicenseInformation,
-  fetchH5pPreviewOembed,
-} from '../../components/H5PElement/h5pApi';
 
 export const fetchAudioMeta = async (resourceId: string, language: string): Promise<AudioMeta> => {
   const audio = await fetchAudio(parseInt(resourceId), language);

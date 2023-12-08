@@ -6,37 +6,37 @@
  *
  */
 
+import { Formik, FormikHelpers, useFormikContext } from 'formik';
 import { memo, useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Formik, FormikHelpers, useFormikContext } from 'formik';
 import { IUpdatedArticle, IArticle, IStatus, ILicense } from '@ndla/types-backend/draft-api';
 import { Node } from '@ndla/types-taxonomy';
-import { AlertModalWrapper } from '../../../FormikForm';
-import validateFormik, { getWarnings } from '../../../../components/formikValidationSchema';
 import TopicArticleAccordionPanels from './TopicArticleAccordionPanels';
+import AlertModal from '../../../../components/AlertModal';
+import validateFormik, { getWarnings } from '../../../../components/formikValidationSchema';
 import HeaderWithLanguage from '../../../../components/HeaderWithLanguage';
 import EditorFooter from '../../../../components/SlateEditor/EditorFooter';
+import StyledForm from '../../../../components/StyledFormComponents';
+import { useSession } from '../../../../containers/Session/SessionProvider';
+import { validateDraft } from '../../../../modules/draft/draftApi';
+import { useLicenses, useDraftStatusStateMachine } from '../../../../modules/draft/draftQueries';
+import { blockContentToHTML } from '../../../../util/articleContentConverter';
+import { isFormikFormDirty, topicArticleRules } from '../../../../util/formHelper';
+import { AlertModalWrapper } from '../../../FormikForm';
 import {
   HandleSubmitFunc,
   TopicArticleFormType,
   useArticleFormHooks,
 } from '../../../FormikForm/articleFormHooks';
 import usePreventWindowUnload from '../../../FormikForm/preventWindowUnloadHook';
-import { useLicenses, useDraftStatusStateMachine } from '../../../../modules/draft/draftQueries';
+import { TaxonomyVersionProvider } from '../../../StructureVersion/TaxonomyVersionProvider';
 import {
   draftApiTypeToTopicArticleFormType,
   getExpirationDate,
   topicArticleFormTypeToDraftApiType,
 } from '../../articleTransformers';
-import { validateDraft } from '../../../../modules/draft/draftApi';
-import { isFormikFormDirty, topicArticleRules } from '../../../../util/formHelper';
-import { blockContentToHTML } from '../../../../util/articleContentConverter';
-import StyledForm from '../../../../components/StyledFormComponents';
-import { TaxonomyVersionProvider } from '../../../StructureVersion/TaxonomyVersionProvider';
-import { useSession } from '../../../../containers/Session/SessionProvider';
-import { FlexWrapper, MainContent } from '../../styles';
 import CommentSection from '../../components/CommentSection';
-import AlertModal from '../../../../components/AlertModal';
+import { FlexWrapper, MainContent } from '../../styles';
 
 interface Props {
   article?: IArticle;

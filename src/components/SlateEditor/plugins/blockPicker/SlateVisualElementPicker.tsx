@@ -6,17 +6,17 @@
  *
  */
 
-import { Editor, Element } from 'slate';
 import { FormikContextType, useFormikContext } from 'formik';
-import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
+import { Editor, Element } from 'slate';
 import { useSlateStatic } from 'slate-react';
+import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
+import VisualElementModalWrapper from '../../../../containers/VisualElement/VisualElementModalWrapper';
+import VisualElementSearch from '../../../../containers/VisualElement/VisualElementSearch';
+import { Embed } from '../../../../interfaces';
+import getCurrentBlock from '../../utils/getCurrentBlock';
 import { defaultEmbedBlock } from '../embed/utils';
 import { defaultFileBlock } from '../file/utils';
-import VisualElementModalWrapper from '../../../../containers/VisualElement/VisualElementModalWrapper';
-import getCurrentBlock from '../../utils/getCurrentBlock';
 import { TYPE_TABLE_CELL } from '../table/types';
-import { Embed } from '../../../../interfaces';
-import VisualElementSearch from '../../../../containers/VisualElement/VisualElementSearch';
 
 export const checkboxAction = (
   image: IImageMetaInformationV3,

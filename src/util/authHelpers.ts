@@ -7,8 +7,8 @@
  */
 
 import auth0, { Auth0DecodedHash, Auth0ParseHashError } from 'auth0-js';
-import config from '../config';
 import { expiresIn, ndlaId, ndlaUserName, ndlaUserEmail } from './jwtHelper';
+import config from '../config';
 import { NewMessageType } from '../containers/Messages/MessagesProvider';
 
 let createMessageRef: (newMessage: NewMessageType) => void | undefined;

@@ -7,13 +7,13 @@
  */
 
 import { VersionPostPut, Version } from '@ndla/types-taxonomy';
+import { GetVersionsParams } from './versionApiTypes';
 import { taxonomyApi } from '../../../config';
 import { apiResourceUrl, httpFunctions, stringifyQuery } from '../../../util/apiHelpers';
 import {
   resolveLocation,
   resolveVoidOrRejectWithError,
 } from '../../../util/resolveJsonOrRejectWithError';
-import { GetVersionsParams } from './versionApiTypes';
 
 const baseUrl = apiResourceUrl(`${taxonomyApi}/versions`);
 

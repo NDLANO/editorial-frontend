@@ -6,15 +6,17 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { useCallback, useMemo, useState, MouseEvent, useEffect } from 'react';
 import isEqual from 'lodash/isEqual';
-import sortBy from 'lodash/sortBy';
 import partition from 'lodash/partition';
-import { useQueryClient } from '@tanstack/react-query';
+import sortBy from 'lodash/sortBy';
+import { useCallback, useMemo, useState, MouseEvent, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
+import { useQueryClient } from '@tanstack/react-query';
+import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
 import { SingleValue } from '@ndla/select';
+import { IArticle, IUpdatedArticle } from '@ndla/types-backend/draft-api';
 import {
   Node,
   NodeChild,
@@ -23,25 +25,23 @@ import {
   TaxonomyContext,
   Version,
 } from '@ndla/types-taxonomy';
-import { ButtonV2 } from '@ndla/button';
-import { IArticle, IUpdatedArticle } from '@ndla/types-backend/draft-api';
+import TaxonomyInfo from './TaxonomyInfo';
 import { FormikFieldHelp } from '../../../../../components/FormikField';
 import SaveButton from '../../../../../components/SaveButton';
-import { MinimalNodeChild } from '../LearningResourceTaxonomy';
-import TopicConnections from '../../../../../components/Taxonomy/TopicConnections';
-import ResourceTypeSelect from '../../../components/ResourceTypeSelect';
-import VersionSelect from '../../../components/VersionSelect';
-import TaxonomyInfo from './TaxonomyInfo';
-import { useSession } from '../../../../Session/SessionProvider';
-import { RESOURCE_TYPE_LEARNING_PATH, TAXONOMY_ADMIN_SCOPE } from '../../../../../constants';
-import TaxonomyConnectionErrors from '../../../components/TaxonomyConnectionErrors';
-import { useUpdateTaxonomyMutation } from '../../../../../modules/taxonomy/taxonomyMutations';
-import { useTaxonomyVersion } from '../../../../StructureVersion/TaxonomyVersionProvider';
-import { fetchChildNodes, postNode } from '../../../../../modules/nodes/nodeApi';
-import { groupChildNodes } from '../../../../../util/taxonomyHelpers';
-import handleError from '../../../../../util/handleError';
-import { nodeQueryKeys } from '../../../../../modules/nodes/nodeQueries';
 import { NodeWithChildren } from '../../../../../components/Taxonomy/TaxonomyBlockNode';
+import TopicConnections from '../../../../../components/Taxonomy/TopicConnections';
+import { RESOURCE_TYPE_LEARNING_PATH, TAXONOMY_ADMIN_SCOPE } from '../../../../../constants';
+import { fetchChildNodes, postNode } from '../../../../../modules/nodes/nodeApi';
+import { nodeQueryKeys } from '../../../../../modules/nodes/nodeQueries';
+import { useUpdateTaxonomyMutation } from '../../../../../modules/taxonomy/taxonomyMutations';
+import handleError from '../../../../../util/handleError';
+import { groupChildNodes } from '../../../../../util/taxonomyHelpers';
+import { useSession } from '../../../../Session/SessionProvider';
+import { useTaxonomyVersion } from '../../../../StructureVersion/TaxonomyVersionProvider';
+import ResourceTypeSelect from '../../../components/ResourceTypeSelect';
+import TaxonomyConnectionErrors from '../../../components/TaxonomyConnectionErrors';
+import VersionSelect from '../../../components/VersionSelect';
+import { MinimalNodeChild } from '../LearningResourceTaxonomy';
 
 const ButtonContainer = styled.div`
   display: flex;

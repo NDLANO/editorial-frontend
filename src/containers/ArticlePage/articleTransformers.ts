@@ -9,6 +9,7 @@
 import isEmpty from 'lodash/isEmpty';
 import { Descendant } from 'slate';
 import { ILicense, IUpdatedArticle, IArticle, IRevisionMeta } from '@ndla/types-backend/draft-api';
+import { ARCHIVED, PUBLISHED, UNPUBLISHED, Revision } from '../../constants';
 import {
   editorValueToEmbedTag,
   editorValueToPlainText,
@@ -19,15 +20,14 @@ import {
   inlineContentToEditorValue,
   inlineContentToHTML,
 } from '../../util/articleContentConverter';
+import { getSlugFromTitle, nullOrUndefined } from '../../util/articleUtil';
+import { DEFAULT_LICENSE, parseImageUrl } from '../../util/formHelper';
 import {
   ArticleFormType,
   LearningResourceFormType,
   TopicArticleFormType,
   FrontpageArticleFormType,
 } from '../FormikForm/articleFormHooks';
-import { DEFAULT_LICENSE, parseImageUrl } from '../../util/formHelper';
-import { getSlugFromTitle, nullOrUndefined } from '../../util/articleUtil';
-import { ARCHIVED, PUBLISHED, UNPUBLISHED, Revision } from '../../constants';
 
 const getPublishedDate = (
   values: ArticleFormType,

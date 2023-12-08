@@ -2,17 +2,18 @@
  * Copyright (c) 2020-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 import { FormikProps } from 'formik';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IFilmFrontPageData } from '@ndla/types-backend/frontpage-api';
-import { getInitialValues, getNdlaFilmFromSlate } from '../../util/ndlaFilmHelpers';
 import { FilmFormikType } from '../../containers/NdlaFilm/components/NdlaFilmForm';
-import { useMessages } from '../Messages/MessagesProvider';
 import { useUpdateFilmFrontpageMutation } from '../../modules/frontpage/filmMutations';
+import { getInitialValues, getNdlaFilmFromSlate } from '../../util/ndlaFilmHelpers';
 import { NdlaErrorPayload } from '../../util/resolveJsonOrRejectWithError';
+import { useMessages } from '../Messages/MessagesProvider';
 
 export function useNdlaFilmFormHooks(filmFrontpage: IFilmFrontPageData, selectedLanguage: string) {
   const { t } = useTranslation();

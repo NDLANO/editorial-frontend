@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,19 +6,19 @@
  *
  */
 
-import { ButtonV2 } from '@ndla/button';
+import { FieldProps, Formik } from 'formik';
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { ContactBlockEmbedData } from '@ndla/types-embed';
-import { FieldProps, Formik } from 'formik';
-import { CheckboxItem, InputV2, TextAreaV2, RadioButtonGroup } from '@ndla/forms';
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import { ButtonV2 } from '@ndla/button';
+import { spacing } from '@ndla/core';
+import { CheckboxItem, InputV2, TextAreaV2, RadioButtonGroup } from '@ndla/forms';
+import { ContactBlockEmbedData } from '@ndla/types-embed';
+import { TYPE_CONTACT_BLOCK } from './types';
+import InlineImageSearch from '../../../../containers/ConceptPage/components/InlineImageSearch';
 import FormikField from '../../../FormikField';
 import validateFormik, { RulesType } from '../../../formikValidationSchema';
-import InlineImageSearch from '../../../../containers/ConceptPage/components/InlineImageSearch';
-import { TYPE_CONTACT_BLOCK } from './types';
 
 interface ContactBlockFormValues {
   resource: 'contact-block';

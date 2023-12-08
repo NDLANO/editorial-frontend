@@ -6,37 +6,37 @@
  *
  */
 
-import { Node, ResourceType } from '@ndla/types-taxonomy';
-import { useTranslation } from 'react-i18next';
-import { useEffect, useMemo, useState } from 'react';
 import queryString from 'query-string';
-import { IUserData } from '@ndla/types-backend/draft-api';
+import { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   IAudioSummarySearchResult,
   ISeriesSummarySearchResult,
 } from '@ndla/types-backend/audio-api';
 import { IConceptSearchResult } from '@ndla/types-backend/concept-api';
+import { IUserData } from '@ndla/types-backend/draft-api';
 import { ISearchResultV3 } from '@ndla/types-backend/image-api';
 import { IMultiSearchResult } from '@ndla/types-backend/search-api';
-import { SearchObjectType, SearchResultBase } from '../../../interfaces';
-import { useAuth0Users } from '../../../modules/auth0/auth0Queries';
-import { transformQuery } from '../../../util/searchHelpers';
-import { fetchResourceType } from '../../../modules/taxonomy';
-import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
+import { Node, ResourceType } from '@ndla/types-taxonomy';
 import {
   FAVOURITES_SUBJECT_ID,
   LMA_SUBJECT_ID,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
 } from '../../../constants';
-import { search } from '../../../modules/search/searchApi';
+import { SearchObjectType, SearchResultBase } from '../../../interfaces';
 import { searchAudio, searchSeries } from '../../../modules/audio/audioApi';
-import { searchConcepts } from '../../../modules/concept/conceptApi';
-import { searchImages } from '../../../modules/image/imageApi';
 import { AudioSearchParams, SeriesSearchParams } from '../../../modules/audio/audioApiInterfaces';
+import { useAuth0Users } from '../../../modules/auth0/auth0Queries';
+import { searchConcepts } from '../../../modules/concept/conceptApi';
 import { ConceptQuery } from '../../../modules/concept/conceptApiInterfaces';
-import { MultiSearchApiQuery } from '../../../modules/search/searchApiInterfaces';
+import { searchImages } from '../../../modules/image/imageApi';
 import { ImageSearchQuery } from '../../../modules/image/imageApiInterfaces';
 import { fetchNode, fetchNodes } from '../../../modules/nodes/nodeApi';
+import { search } from '../../../modules/search/searchApi';
+import { MultiSearchApiQuery } from '../../../modules/search/searchApiInterfaces';
+import { fetchResourceType } from '../../../modules/taxonomy';
+import { transformQuery } from '../../../util/searchHelpers';
+import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
 type QueryType =
   | AudioSearchParams

@@ -7,8 +7,8 @@
  */
 
 import { jsx as slatejsx } from 'slate-hyperscript';
-import { defaultParagraphBlock } from '../paragraph/utils';
 import { TYPE_ASIDE } from './types';
+import { defaultParagraphBlock } from '../paragraph/utils';
 
 export const defaultAsideBlock = (type?: string) =>
   slatejsx('element', { type: TYPE_ASIDE, data: { type } }, defaultParagraphBlock());

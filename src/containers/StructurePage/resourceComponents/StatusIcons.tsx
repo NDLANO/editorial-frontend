@@ -11,20 +11,20 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 import { AlertCircle, Check, InProgress } from '@ndla/icons/editor';
-import Tooltip from '@ndla/tooltip';
 import SafeLink from '@ndla/safelink';
-import config from '../../../config';
-import { PUBLISHED } from '../../../constants';
-import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
-import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
+import Tooltip from '@ndla/tooltip';
 import { isApproachingRevision } from './ApproachingRevisionDate';
+import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 import WrongTypeError from './WrongTypeError';
 import {
   getWarnStatus,
   StyledTimeIcon,
 } from '../../../components/HeaderWithLanguage/HeaderStatusInformation';
-import { getExpirationDate } from '../../ArticlePage/articleTransformers';
+import config from '../../../config';
+import { PUBLISHED } from '../../../constants';
 import formatDate from '../../../util/formatDate';
+import { getExpirationDate } from '../../ArticlePage/articleTransformers';
+import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
 const StyledCheckIcon = styled(Check)`
   height: 24px;

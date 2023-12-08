@@ -6,17 +6,17 @@
  *
  */
 
+import { FieldProps, FormikHelpers, FormikValues } from 'formik';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FormPill } from '@ndla/forms';
-import { FieldProps, FormikHelpers, FormikValues } from 'formik';
 import styled from '@emotion/styled';
+import { FormPill } from '@ndla/forms';
+import AsyncDropdown from '../../components/Dropdown/asyncDropdown/AsyncDropdown';
+import { FormikFieldHelp } from '../../components/FormikField';
+import FormikFieldDescription from '../../components/FormikField/FormikFieldDescription';
 import { fetchGrepCodes } from '../../modules/draft/draftApi';
 import { fetchGrepCodeTitle } from '../../modules/grep/grepApi';
 import { isGrepCodeValid } from '../../util/articleUtil';
-import FormikFieldDescription from '../../components/FormikField/FormikFieldDescription';
-import { FormikFieldHelp } from '../../components/FormikField';
-import AsyncDropdown from '../../components/Dropdown/asyncDropdown/AsyncDropdown';
 
 interface Props {
   field: FieldProps<string[]>['field'];

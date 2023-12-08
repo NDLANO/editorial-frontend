@@ -6,19 +6,19 @@
  *
  */
 
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { CheckboxItem, InputV2 } from '@ndla/forms';
-import { KeyFigureEmbedData } from '@ndla/types-embed';
-import { spacing } from '@ndla/core';
 import { FieldProps, Formik } from 'formik';
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import { ButtonV2 } from '@ndla/button';
+import { spacing } from '@ndla/core';
+import { CheckboxItem, InputV2 } from '@ndla/forms';
+import { KeyFigureEmbedData } from '@ndla/types-embed';
+import { TYPE_KEY_FIGURE } from './types';
 import InlineImageSearch from '../../../../containers/ConceptPage/components/InlineImageSearch';
 import FormikField from '../../../FormikField';
 import validateFormik, { RulesType } from '../../../formikValidationSchema';
-import { TYPE_KEY_FIGURE } from './types';
 
 interface Props {
   onSave: (data: KeyFigureEmbedData) => void;

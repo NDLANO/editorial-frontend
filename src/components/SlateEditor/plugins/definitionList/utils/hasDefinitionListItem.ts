@@ -7,8 +7,8 @@
  */
 
 import { Editor, Element } from 'slate';
-import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_TERM } from '../types';
 import { isDefinitionListItem } from './isDefinitionListItem';
+import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_TERM } from '../types';
 
 const hasDefinitionListItem = (editor: Editor) => {
   // For all selected list elements

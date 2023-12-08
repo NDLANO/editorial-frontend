@@ -1,18 +1,20 @@
-/*
+/**
  * Copyright (c) 2019-present, NDLA.
+ *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
+ *
  */
 
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Editor, Transforms, Element } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
-import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
+import { TYPE_DETAILS } from './types';
 import DeleteButton from '../../../DeleteButton';
 import MoveContentButton from '../../../MoveContentButton';
-import { TYPE_DETAILS } from './types';
 
 const StyledDetailsDiv = styled.div`
   padding: ${spacing.small};

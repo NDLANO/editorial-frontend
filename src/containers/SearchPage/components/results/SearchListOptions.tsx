@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2016-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,9 +6,9 @@
  *
  */
 
-import styled from '@emotion/styled';
 import { FormEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { SearchParams } from '../form/SearchForm';
 

@@ -6,6 +6,7 @@
  *
  */
 
+import { ComponentProps, ReactElement, useCallback, useEffect, useState } from 'react';
 import {
   DndContext,
   DragEndEvent,
@@ -23,7 +24,6 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-import { ComponentProps, ReactElement, useCallback, useEffect, useState } from 'react';
 import { IconButtonV2 } from '@ndla/button';
 import DraggableItem from './DraggableItem';
 

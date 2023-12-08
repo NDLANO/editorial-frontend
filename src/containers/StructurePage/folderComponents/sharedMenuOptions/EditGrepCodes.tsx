@@ -8,21 +8,21 @@
 
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import { ButtonV2, IconButtonV2 } from '@ndla/button';
+import { spacing } from '@ndla/core';
 import { Plus, Pencil } from '@ndla/icons/action';
 import { DeleteForever } from '@ndla/icons/editor';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
 import { Node } from '@ndla/types-taxonomy';
-import { EditModeHandler } from '../SettingsMenuDropdownType';
-import { useUpdateNodeMetadataMutation } from '../../../../modules/nodes/nodeMutations';
-import Spinner from '../../../../components/Spinner';
-import RoundIcon from '../../../../components/RoundIcon';
 import MenuItemButton from './components/MenuItemButton';
-import { useGrepCodes } from '../../../../modules/grep/grepQueries';
 import MenuItemEditField from './components/MenuItemEditField';
+import RoundIcon from '../../../../components/RoundIcon';
+import Spinner from '../../../../components/Spinner';
+import { useGrepCodes } from '../../../../modules/grep/grepQueries';
+import { useUpdateNodeMetadataMutation } from '../../../../modules/nodes/nodeMutations';
 import { getRootIdForNode, isRootNode } from '../../../../modules/nodes/nodeUtil';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
+import { EditModeHandler } from '../SettingsMenuDropdownType';
 
 interface Props {
   editModeHandler: EditModeHandler;

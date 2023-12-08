@@ -6,6 +6,7 @@
  *
  */
 
+import { Plain } from '../../util/slatePlainSerializer';
 import {
   isEmpty,
   minLength,
@@ -15,7 +16,6 @@ import {
   isUrl,
   validDateRange,
 } from '../validators';
-import { Plain } from '../../util/slatePlainSerializer';
 
 test('validators/isEmpty returns true when empty', () => {
   expect(isEmpty(undefined)).toBe(true);

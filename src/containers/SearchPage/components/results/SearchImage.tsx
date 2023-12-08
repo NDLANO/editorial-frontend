@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2016-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,16 +6,16 @@
  *
  */
 
-import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
+import { ImageMeta } from '@ndla/image-search';
 import { getLicenseByAbbreviation } from '@ndla/licenses';
 import { LicenseByline } from '@ndla/notion';
-import { ImageMeta } from '@ndla/image-search';
 import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
-import { toEditImage } from '../../../../util/routeHelpers';
 import { useLicenses } from '../../../../modules/draft/draftQueries';
+import { toEditImage } from '../../../../util/routeHelpers';
 import {
   StyledOtherLink,
   StyledSearchContent,

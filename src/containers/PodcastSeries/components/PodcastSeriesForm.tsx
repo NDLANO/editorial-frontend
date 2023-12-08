@@ -2,38 +2,39 @@
  * Copyright (c) 2021-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
-import { useState, useRef } from 'react';
 import { Formik, FormikProps, FormikHelpers, FormikErrors } from 'formik';
+import { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Descendant } from 'slate';
 import styled from '@emotion/styled';
-import { colors } from '@ndla/core';
 import { ButtonV2 } from '@ndla/button';
+import { colors } from '@ndla/core';
 import { IAudioMetaInformation, INewSeries, ISeries } from '@ndla/types-backend/audio-api';
-import { AlertModalWrapper } from '../../FormikForm';
-import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
-import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';
-import SaveButton from '../../../components/SaveButton';
-import Field from '../../../components/Field';
-import { isFormikFormDirty } from '../../../util/formHelper';
-import { editorValueToPlainText } from '../../../util/articleContentConverter';
-import PodcastSeriesMetaData from './PodcastSeriesMetaData';
 import PodcastEpisodes from './PodcastEpisodes';
+import PodcastSeriesMetaData from './PodcastSeriesMetaData';
+import FormAccordion from '../../../components/Accordion/FormAccordion';
+import FormAccordions from '../../../components/Accordion/FormAccordions';
+import Field from '../../../components/Field';
+import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';
+import FormWrapper from '../../../components/FormWrapper';
+import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
+import SaveButton from '../../../components/SaveButton';
 import {
   AUDIO_ADMIN_SCOPE,
   ITUNES_STANDARD_MAXIMUM_WIDTH,
   ITUNES_STANDARD_MINIMUM_WIDTH,
   SAVE_BUTTON_ID,
 } from '../../../constants';
+import { editorValueToPlainText } from '../../../util/articleContentConverter';
 import { podcastSeriesTypeToFormType } from '../../../util/audioHelpers';
-import FormWrapper from '../../../components/FormWrapper';
+import { isFormikFormDirty } from '../../../util/formHelper';
+import { AlertModalWrapper } from '../../FormikForm';
 import { useSession } from '../../Session/SessionProvider';
-import FormAccordions from '../../../components/Accordion/FormAccordions';
-import FormAccordion from '../../../components/Accordion/FormAccordion';
 
 const podcastRules: RulesType<PodcastSeriesFormikType, ISeries> = {
   title: {

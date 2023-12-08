@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,21 +6,21 @@
  *
  */
 
-import { HeadingLevel } from '@ndla/typography';
-import { CampaignBlockEmbedData } from '@ndla/types-embed';
-import { useTranslation } from 'react-i18next';
-import { useCallback, useMemo } from 'react';
 import { FieldProps, Formik } from 'formik';
+import { useCallback, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/react';
-import { CheckboxItem, InputV2, TextAreaV2, RadioButtonGroup } from '@ndla/forms';
-import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
-import validateFormik, { RulesType } from '../../../formikValidationSchema';
-import { frontpageLanguages } from '../../../../i18n2';
-import FormikField from '../../../FormikField';
+import { spacing } from '@ndla/core';
+import { CheckboxItem, InputV2, TextAreaV2, RadioButtonGroup } from '@ndla/forms';
+import { CampaignBlockEmbedData } from '@ndla/types-embed';
+import { HeadingLevel } from '@ndla/typography';
 import { TYPE_CAMPAIGN_BLOCK } from './types';
 import InlineImageSearch from '../../../../containers/ConceptPage/components/InlineImageSearch';
+import { frontpageLanguages } from '../../../../i18n2';
+import FormikField from '../../../FormikField';
+import validateFormik, { RulesType } from '../../../formikValidationSchema';
 
 interface Props {
   initialData?: CampaignBlockEmbedData;

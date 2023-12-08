@@ -6,14 +6,18 @@
  *
  */
 
-import { IGlossData } from '@ndla/types-backend/concept-api';
-import range from 'lodash/range';
-import uniq from 'lodash/uniq';
+import { IGlossData, IGlossExample } from '@ndla/types-backend/concept-api';
+
+export const generateNumbersArray = (arrayLength: number): string[] =>
+  Array.from(Array(arrayLength).keys()).map((el) => el.toString());
+
+export const generateUniqueGlossLanguageArray = (glossExamples: IGlossExample[][]): string[] =>
+  Array.from(new Set(glossExamples.flat().map((e) => e.language)));
 
 export const getGlossDataAttributes = (
   glossData: IGlossData,
 ): { exampleIds: string; exampleLangs: string } => ({
   // Display all examples with languages as default
-  exampleIds: range(0, glossData.examples.length).join(','),
-  exampleLangs: uniq(glossData.examples.flat().map((e) => e.language)).join(','),
+  exampleIds: generateNumbersArray(glossData.examples.length).join(','),
+  exampleLangs: generateUniqueGlossLanguageArray(glossData.examples).join(','),
 });

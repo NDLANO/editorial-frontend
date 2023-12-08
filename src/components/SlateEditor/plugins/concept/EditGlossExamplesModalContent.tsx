@@ -18,10 +18,10 @@ import { ReactEditor } from 'slate-react';
 import { ButtonV2 } from '@ndla/button';
 import { CheckboxItem } from '@ndla/forms';
 import { useMemo, useState } from 'react';
-import uniq from 'lodash/uniq';
 import { GlossExample } from '@ndla/ui';
 import { ConceptBlockElement } from './block/interfaces';
 import { ConceptInlineElement } from './inline/interfaces';
+import { generateNumbersArray, generateUniqueGlossLanguageArray } from './utils';
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -78,6 +78,24 @@ const onCheckboxChange = (
   updateFunction(updatedSelectedExamples);
 };
 
+const getInitialStateSelectedExamples = (
+  exampleIds: string | undefined,
+  examples: IGlossExample[][],
+): string[] => {
+  if (exampleIds) return exampleIds.split(',');
+  else if (exampleIds === undefined) return generateNumbersArray(examples.length);
+  else return [];
+};
+
+const getInitialStateSelectedLanguages = (
+  exampleLangs: string | undefined,
+  examples: IGlossExample[][],
+): string[] => {
+  if (exampleLangs) return exampleLangs.split(',');
+  else if (exampleLangs === undefined) return generateUniqueGlossLanguageArray(examples);
+  else return [];
+};
+
 const EditGlossExamplesModalContent = ({
   originalLanguage,
   examples,
@@ -88,17 +106,14 @@ const EditGlossExamplesModalContent = ({
 }: Props) => {
   const { t } = useTranslation();
   const [selectedExamples, setSelectedExamples] = useState<string[]>(
-    embed.embedData.exampleIds ? embed.embedData.exampleIds?.split(',') : [],
+    getInitialStateSelectedExamples(embed.embedData.exampleIds, examples),
   );
 
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>(
-    embed.embedData.exampleLangs ? embed.embedData.exampleLangs.split(',') : [],
+    getInitialStateSelectedLanguages(embed.embedData.exampleLangs, examples),
   );
 
-  const languages = useMemo(
-    () => uniq(examples.flat().map((exampleTranslation) => exampleTranslation.language)),
-    [examples],
-  );
+  const languages = useMemo(() => generateUniqueGlossLanguageArray(examples), [examples]);
 
   const saveGlossUpdates = () => {
     Transforms.setNodes(

@@ -109,7 +109,7 @@ const VersionAndNotesPanel = ({ article, type, currentLanguage }: Props) => {
   const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState<SimpleUserType[]>([]);
   const { createMessage } = useMessages();
-  const { setStatus, setValues } = useFormikContext();
+  const { setStatus, setValues, status } = useFormikContext();
 
   useEffect(() => {
     const getVersions = async () => {
@@ -166,13 +166,13 @@ const VersionAndNotesPanel = ({ article, type, currentLanguage }: Props) => {
           ? draftApiTypeToLearningResourceFormType
           : draftApiTypeToTopicArticleFormType;
       const newValues = transform(
-        { ...newArticle, status: version.status, responsible: article.responsible },
+        { ...newArticle, status: article.status, responsible: article.responsible },
         language,
         ndlaId,
       );
 
       setValues(newValues);
-      setStatus((prevStatus: FormikStatus) => ({ ...prevStatus, status: 'revertVersion' }));
+      setStatus({ ...status, status: 'revertVersion' });
       createMessage({
         message: t('form.resetToProd.success'),
         severity: 'success',

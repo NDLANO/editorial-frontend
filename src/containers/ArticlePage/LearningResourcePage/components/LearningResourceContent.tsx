@@ -120,7 +120,8 @@ const LearningResourceContent = ({
   const [creatorsField] = useField<IAuthor[]>('creators');
   const [preview, setPreview] = useState(false);
 
-  const { dirty, initialValues, values } = useFormikContext<LearningResourceFormType>();
+  const { dirty, initialValues, values, status, setStatus } =
+    useFormikContext<LearningResourceFormType>();
 
   const isFormikDirty = useMemo(
     () =>
@@ -139,12 +140,16 @@ const LearningResourceContent = ({
 
   useEffect(() => {
     setTimeout(() => {
-      if (!isTouched) {
+      if (status.status === 'revertVersion') {
+        setIsNormalizedOnLoad(false);
+        setIsTouched(true);
+        setStatus({ ...status, status: undefined });
+      } else if (!isTouched) {
         setIsNormalizedOnLoad(isFormikDirty);
         setIsTouched(true);
       }
     }, 100);
-  }, [isFormikDirty, isTouched]);
+  }, [isFormikDirty, isTouched, setStatus, status, status.status]);
 
   return (
     <>
@@ -191,7 +196,12 @@ const LearningResourceContent = ({
         onCancel={() => setIsNormalizedOnLoad(false)}
         severity="warning"
       />
-      <StyledContentDiv name="content" label={t('form.content.label')} noBorder>
+      <StyledContentDiv
+        name="content"
+        label={t('form.content.label')}
+        noBorder
+        key={values.revision}
+      >
         {(fieldProps) => (
           <ContentField articleLanguage={articleLanguage} articleId={articleId} {...fieldProps} />
         )}

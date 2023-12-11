@@ -6,13 +6,13 @@
  *
  */
 
-import { Input, Select, FieldSplitter } from '@ndla/forms';
-import { IGlossExample } from '@ndla/types-backend/concept-api';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
+import { Input, Select, FieldSplitter } from '@ndla/forms';
+import { IGlossExample } from '@ndla/types-backend/concept-api';
 import TranscriptionsField from './TranscriptionsField';
-import { LANGUAGES } from '../glossData';
 import FormikField from '../../../components/FormikField';
+import { LANGUAGES } from '../glossData';
 
 interface Props {
   example: IGlossExample;

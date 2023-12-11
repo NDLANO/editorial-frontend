@@ -4,13 +4,12 @@
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
- *
  */
 
 import { Descendant, Editor, Path } from 'slate';
 import { TableCellElement, TableMatrix } from './interfaces';
-import { isTable, isTableHead, isTableRow, isTableCell, isTableBody } from './slateHelpers';
 import { insertCellInMatrix } from './matrixHelpers';
+import { isTable, isTableHead, isTableRow, isTableCell, isTableBody } from './slateHelpers';
 
 // Expects a perfectly normalized table. Requires path to the table body
 export const getTableBodyAsMatrix = (editor: Editor, path: Path) => {

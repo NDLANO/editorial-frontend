@@ -6,8 +6,8 @@
  *
  */
 
-import { useEffect } from 'react';
 import queryString from 'query-string';
+import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useSession } from '../Session/SessionProvider';
 

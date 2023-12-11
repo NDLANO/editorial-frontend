@@ -4,12 +4,11 @@
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
- *
  */
 
 import compact from 'lodash/compact';
-import uniq from 'lodash/uniq';
 import isEqual from 'lodash/isEqual';
+import uniq from 'lodash/uniq';
 import { TableCellElement, TableMatrix } from './interfaces';
 import { TYPE_TABLE_CELL_HEADER } from './types';
 

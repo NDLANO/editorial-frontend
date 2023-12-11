@@ -6,15 +6,15 @@
  *
  */
 
+import { useTranslation } from 'react-i18next';
 import { Editor, Transforms, Element } from 'slate';
 import { ReactEditor } from 'slate-react';
-import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { ModalBody, ModalHeader, ModalTitle } from '@ndla/modal';
 import { CloseButton } from '@ndla/button';
+import { ModalBody, ModalHeader, ModalTitle } from '@ndla/modal';
 import { LinkElement, ContentLinkElement } from '.';
-import LinkForm from './LinkForm';
 import { Model } from './Link';
+import LinkForm from './LinkForm';
 import { TYPE_CONTENT_LINK, TYPE_LINK } from './types';
 import {
   splitLearningPathUrl,

@@ -6,26 +6,26 @@
  *
  */
 
-import { ReactEditor, RenderElementProps, useSelected } from 'slate-react';
-import { Editor, Path, Transforms } from 'slate';
-import { useTranslation } from 'react-i18next';
 import { useCallback, useMemo, useState } from 'react';
-import { spacing, colors } from '@ndla/core';
-import { AudioEmbedData, AudioMetaData } from '@ndla/types-embed';
-import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
+import { useTranslation } from 'react-i18next';
+import { Editor, Path, Transforms } from 'slate';
+import { ReactEditor, RenderElementProps, useSelected } from 'slate-react';
 import styled from '@emotion/styled';
-import { AudioEmbed } from '@ndla/ui';
-import { SafeLinkIconButton } from '@ndla/safelink';
+import { IconButtonV2 } from '@ndla/button';
+import { spacing, colors } from '@ndla/core';
+import { Spinner } from '@ndla/icons';
+import { Pencil } from '@ndla/icons/action';
 import { Link } from '@ndla/icons/common';
 import { DeleteForever } from '@ndla/icons/editor';
-import { IconButtonV2 } from '@ndla/button';
-import { Pencil } from '@ndla/icons/action';
-import { Spinner } from '@ndla/icons';
+import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
+import { SafeLinkIconButton } from '@ndla/safelink';
+import { AudioEmbedData, AudioMetaData } from '@ndla/types-embed';
+import { AudioEmbed } from '@ndla/ui';
+import AudioEmbedForm from './AudioEmbedForm';
 import { AudioElement } from './types';
 import { useAudioMeta } from '../../../../modules/embed/queries';
-import { StyledDeleteEmbedButton, StyledFigureButtons } from '../embed/FigureButtons';
-import AudioEmbedForm from './AudioEmbedForm';
 import parseMarkdown from '../../../../util/parseMarkdown';
+import { StyledDeleteEmbedButton, StyledFigureButtons } from '../embed/FigureButtons';
 
 interface Props extends RenderElementProps {
   element: AudioElement;

@@ -1,16 +1,16 @@
 /**
- * Copyright (C) 2017 -present, NDLA
+ * Copyright (c) 2017-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
+ *
  */
 
-import { Route, Routes } from 'react-router-dom';
-//@ts-ignore
-import { OneColumn } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
-import { HelmetWithTracker } from '@ndla/tracker';
+import { Route, Routes } from 'react-router-dom';
 import loadable from '@loadable/component';
+import { HelmetWithTracker } from '@ndla/tracker';
+import { OneColumn } from '@ndla/ui';
 import LogoutProviders from './LogoutProviders';
 import Footer from '../App/components/Footer';
 const LogoutFederated = loadable(() => import('./LogoutFederated'));

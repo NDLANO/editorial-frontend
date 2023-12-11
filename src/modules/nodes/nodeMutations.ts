@@ -18,8 +18,6 @@ import {
   TranslationPUT,
   Metadata,
 } from '@ndla/types-taxonomy';
-import { WithTaxonomyVersion } from '../../interfaces';
-import handleError from '../../util/handleError';
 import {
   deleteNode,
   deleteNodeConnection,
@@ -39,6 +37,8 @@ import {
   PutResourcesPrimaryParams,
 } from './nodeApi';
 import { nodeQueryKeys } from './nodeQueries';
+import { WithTaxonomyVersion } from '../../interfaces';
+import handleError from '../../util/handleError';
 import {
   createResourceResourceType,
   ResourceResourceTypePostParams,

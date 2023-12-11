@@ -6,10 +6,10 @@
  *
  */
 
-import styled from '@emotion/styled';
-import { spacing, colors } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
+import styled from '@emotion/styled';
+import { spacing, colors } from '@ndla/core';
 import { NodeChild } from '@ndla/types-taxonomy';
 import ArrayDiffField from './ArrayDiffField';
 import {
@@ -20,9 +20,10 @@ import {
   removeType,
   RootDiffType,
 } from './diffUtils';
-import { DiffTypePill } from './TreeNode';
 import FieldDiff from './FieldDiff';
 import TranslationsDiff from './TranslationsDiff';
+import { DiffTypePill } from './TreeNode';
+import NodeIconType from '../../components/NodeIconType';
 import {
   TAXONOMY_CUSTOM_FIELD_LANGUAGE,
   TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH,
@@ -30,7 +31,6 @@ import {
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID,
 } from '../../constants';
-import NodeIconType from '../../components/NodeIconType';
 
 interface Props {
   node: RootDiffType | DiffTypeWithChildren;

@@ -6,12 +6,12 @@
  *
  */
 
+import { ComponentProps, ReactElement, ReactNode, cloneElement, forwardRef } from 'react';
 import { UniqueIdentifier } from '@dnd-kit/core';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
-import { ComponentProps, ReactElement, ReactNode, cloneElement, forwardRef } from 'react';
 
 interface Props {
   children: ReactNode;

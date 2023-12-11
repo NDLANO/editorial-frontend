@@ -9,11 +9,11 @@
 import { useEffect, useState, MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Node } from '@ndla/types-taxonomy';
-import { getResourceLanguages } from '../../../../util/resourceHelpers';
-import { getTagName } from '../../../../util/formHelper';
-import { SearchParams } from './SearchForm';
 import GenericSearchForm, { OnFieldChangeFunction } from './GenericSearchForm';
+import { SearchParams } from './SearchForm';
 import { SearchFormSelector } from './Selector';
+import { getTagName } from '../../../../util/formHelper';
+import { getResourceLanguages } from '../../../../util/resourceHelpers';
 
 interface Props {
   search: (o: SearchParams) => void;

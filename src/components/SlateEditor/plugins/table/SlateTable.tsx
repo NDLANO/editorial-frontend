@@ -6,16 +6,16 @@
  *
  */
 
-import styled from '@emotion/styled';
 import { MouseEvent, ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Editor } from 'slate';
-import { TableStyling } from '@ndla/ui';
-import { colors } from '@ndla/core';
 import { RenderElementProps } from 'slate-react';
-import DeleteButton from '../../../DeleteButton';
+import styled from '@emotion/styled';
+import { colors } from '@ndla/core';
+import { TableStyling } from '@ndla/ui';
 import { TableElement } from './interfaces';
 import { removeTable } from './slateActions';
+import DeleteButton from '../../../DeleteButton';
 
 interface Props {
   editor: Editor;

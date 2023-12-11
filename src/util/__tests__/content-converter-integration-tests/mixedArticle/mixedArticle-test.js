@@ -6,8 +6,8 @@
  *
  */
 
-import { blockContentToEditorValue, blockContentToHTML } from '../../../articleContentConverter';
 import { html } from './mixedArticle';
+import { blockContentToEditorValue, blockContentToHTML } from '../../../articleContentConverter';
 
 test('serializing article with many diffrent tags and embeds', () => {
   const converted = blockContentToEditorValue(html);

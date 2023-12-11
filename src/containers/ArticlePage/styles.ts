@@ -2,11 +2,12 @@
  * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
-import styled from '@emotion/styled';
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import { COMMENT_WIDTH, SPACING_COMMENT } from './components/CommentSection';
 import {
   DEFAULT_FRONTPAGE_ARTICLE_WIDTH,

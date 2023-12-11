@@ -6,19 +6,15 @@
  *
  */
 
-import { renderToString } from 'react-dom/server';
-import express from 'express';
-import compression from 'compression';
-import helmet from 'helmet';
 import bodyParser from 'body-parser';
-import prettier from 'prettier';
+import compression from 'compression';
+import express from 'express';
 import proxy from 'express-http-proxy';
 import { GetVerificationKey, expressjwt as jwt, Request } from 'express-jwt';
+import helmet from 'helmet';
 import jwksRsa from 'jwks-rsa';
-import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN } from '../httpCodes';
-import getConditionalClassnames from './getConditionalClassnames';
-import { getLocaleObject } from '../i18n';
-import Html from './Html';
+import prettier from 'prettier';
+import { renderToString } from 'react-dom/server';
 import {
   getToken,
   getBrightcoveToken,
@@ -28,11 +24,15 @@ import {
   getResponsibles,
 } from './auth';
 import contentSecurityPolicy from './contentSecurityPolicy';
-import errorLogger from '../util/logger';
+import getConditionalClassnames from './getConditionalClassnames';
+import Html from './Html';
+import { translateDocument } from './translate';
 import config from '../config';
 import { DRAFT_PUBLISH_SCOPE, DRAFT_WRITE_SCOPE } from '../constants';
+import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN } from '../httpCodes';
+import { getLocaleObject } from '../i18n';
 import { NdlaError } from '../interfaces';
-import { translateDocument } from './translate';
+import errorLogger from '../util/logger';
 
 type NdlaUser = {
   'https://ndla.no/user_email'?: string;

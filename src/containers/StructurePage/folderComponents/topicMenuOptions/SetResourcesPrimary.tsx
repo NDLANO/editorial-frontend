@@ -6,19 +6,19 @@
  *
  */
 
-import { Pencil } from '@ndla/icons/action';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Pencil } from '@ndla/icons/action';
 import { Node } from '@ndla/types-taxonomy';
 import AlertModal from '../../../../components/AlertModal';
 import Overlay from '../../../../components/Overlay';
 import RoundIcon from '../../../../components/RoundIcon';
 import Spinner from '../../../../components/Spinner';
-import { EditModeHandler } from '../SettingsMenuDropdownType';
-import { StyledErrorMessage } from '../styles';
-import MenuItemButton from '../sharedMenuOptions/components/MenuItemButton';
-import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import { usePutResourcesPrimaryMutation } from '../../../../modules/nodes/nodeMutations';
+import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
+import { EditModeHandler } from '../SettingsMenuDropdownType';
+import MenuItemButton from '../sharedMenuOptions/components/MenuItemButton';
+import { StyledErrorMessage } from '../styles';
 
 interface Props {
   node: Node;

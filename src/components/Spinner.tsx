@@ -6,8 +6,8 @@
  *
  */
 
-import styled from '@emotion/styled';
 import { keyframes, css, SerializedStyles } from '@emotion/react';
+import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 
 const spinnerKeyframeStyle = keyframes`

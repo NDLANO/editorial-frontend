@@ -6,8 +6,8 @@
  *
  */
 
-import { IFrontPage } from '@ndla/types-backend/frontpage-api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { IFrontPage } from '@ndla/types-backend/frontpage-api';
 import { postFrontpage } from './frontpageApi';
 import { frontpageQueryKeys } from './frontpageQueries';
 

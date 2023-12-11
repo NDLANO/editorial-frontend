@@ -7,20 +7,20 @@
  */
 
 import { useEffect, useState } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
+import { useQueryClient } from '@tanstack/react-query';
 import { spacing, colors } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { Plus } from '@ndla/icons/action';
 import { Done } from '@ndla/icons/editor';
 import { Node, NodeType } from '@ndla/types-taxonomy';
-import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
-import { usePostNodeConnectionMutation } from '../../../../modules/nodes/nodeMutations';
-import { nodeQueryKeys } from '../../../../modules/nodes/nodeQueries';
-import RoundIcon from '../../../../components/RoundIcon';
 import MenuItemButton from './components/MenuItemButton';
 import NodeSearchDropdown from './components/NodeSearchDropdown';
+import RoundIcon from '../../../../components/RoundIcon';
+import { usePostNodeConnectionMutation } from '../../../../modules/nodes/nodeMutations';
+import { nodeQueryKeys } from '../../../../modules/nodes/nodeQueries';
+import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import { EditModeHandler } from '../SettingsMenuDropdownType';
 
 interface Props {

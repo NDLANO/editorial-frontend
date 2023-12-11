@@ -7,11 +7,11 @@
  */
 
 import { useState, useEffect } from 'react';
-import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import { ErrorMessage } from '@ndla/ui';
-import handleError from '../../util/handleError';
 import { fetchH5PiframeUrl, editH5PiframeUrl, fetchH5PInfo } from './h5pApi';
+import handleError from '../../util/handleError';
 
 const FlexWrapper = styled.div`
   display: flex;

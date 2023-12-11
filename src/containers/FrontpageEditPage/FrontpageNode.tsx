@@ -6,20 +6,20 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { spacing, colors, fonts } from '@ndla/core';
-import { ButtonV2, IconButtonV2 } from '@ndla/button';
-import { ChevronRight } from '@ndla/icons/common';
 import { ArrayHelpers, FieldArray, useField } from 'formik';
 import { useCallback, useMemo, useState } from 'react';
-import { IArticleSummaryV2 } from '@ndla/types-backend/article-api';
+import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
+import { ButtonV2, IconButtonV2 } from '@ndla/button';
+import { spacing, colors, fonts } from '@ndla/core';
 import { Plus } from '@ndla/icons/action';
+import { ChevronRight } from '@ndla/icons/common';
 import { DeleteForever } from '@ndla/icons/editor';
 import SafeLink from '@ndla/safelink';
-import { MenuWithArticle } from './types';
+import { IArticleSummaryV2 } from '@ndla/types-backend/article-api';
 import FrontpageArticleSearch from './FrontpageArticleSearch';
 import FrontpageNodeList, { FRONTPAGE_DEPTH_LIMIT } from './FrontpageNodeList';
+import { MenuWithArticle } from './types';
 import { toEditFrontPageArticle } from '../../util/routeHelpers';
 
 interface Props extends Pick<ArrayHelpers, 'remove' | 'replace'> {

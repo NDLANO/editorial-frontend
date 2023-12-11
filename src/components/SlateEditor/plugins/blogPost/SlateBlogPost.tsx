@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,21 +6,21 @@
  *
  */
 
-import styled from '@emotion/styled';
-import { CloseButton, IconButtonV2 } from '@ndla/button';
-import { Pencil } from '@ndla/icons/action';
-import { ModalBody, ModalHeader, ModalTitle, Modal, ModalTrigger, ModalContent } from '@ndla/modal';
-import { BlogPostEmbedData } from '@ndla/types-embed';
-import { BlogPostV2 } from '@ndla/ui';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Editor, Path, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
+import styled from '@emotion/styled';
+import { CloseButton, IconButtonV2 } from '@ndla/button';
+import { Pencil } from '@ndla/icons/action';
 import { DeleteForever } from '@ndla/icons/editor';
-import config from '../../../../config';
-import { StyledDeleteEmbedButton, StyledFigureButtons } from '../embed/FigureButtons';
+import { ModalBody, ModalHeader, ModalTitle, Modal, ModalTrigger, ModalContent } from '@ndla/modal';
+import { BlogPostEmbedData } from '@ndla/types-embed';
+import { BlogPostV2 } from '@ndla/ui';
 import BlogPostForm from './BlogPostForm';
 import { BlogPostElement } from './types';
+import config from '../../../../config';
+import { StyledDeleteEmbedButton, StyledFigureButtons } from '../embed/FigureButtons';
 
 interface Props extends RenderElementProps {
   element: BlogPostElement;

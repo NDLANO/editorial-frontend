@@ -6,14 +6,14 @@
  *
  */
 
+import isEmpty from 'lodash/isEmpty';
+import { CSSProperties, ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { spacing, colors, fonts } from '@ndla/core';
-import { CSSProperties, ReactNode } from 'react';
 import { ExpandLess, ExpandMore } from '@ndla/icons/action';
-import { css } from '@emotion/react';
-import isEmpty from 'lodash/isEmpty';
 import Tooltip from '@ndla/tooltip';
-import { useTranslation } from 'react-i18next';
 import Spinner from '../../../components/Spinner';
 
 const TableWrapper = styled.div`

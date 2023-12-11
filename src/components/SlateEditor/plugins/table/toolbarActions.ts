@@ -4,16 +4,22 @@
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
- *
  */
 
 import { Editor, Element, Path, Transforms } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { ReactEditor } from 'slate-react';
+import {
+  defaultTableCellBlock,
+  defaultTableHeadBlock,
+  defaultTableRowBlock,
+  defaultTableBodyBlock,
+  defaultTableCellHeaderBlock,
+} from './defaultBlocks';
 import { TableElement } from './interfaces';
-import getCurrentBlock from '../../utils/getCurrentBlock';
 import { getTableAsMatrix, getTableBodyAsMatrix } from './matrix';
-import { TYPE_TABLE_ROW, TYPE_TABLE_BODY, TYPE_TABLE_CELL_HEADER, TYPE_TABLE_HEAD } from './types';
+import { findCellCoordinate } from './matrixHelpers';
+import { updateCell } from './slateActions';
 import {
   getTableBodyWidth,
   isTable,
@@ -23,15 +29,8 @@ import {
   isTableHead,
   isTableRow,
 } from './slateHelpers';
-import { findCellCoordinate } from './matrixHelpers';
-import { updateCell } from './slateActions';
-import {
-  defaultTableCellBlock,
-  defaultTableHeadBlock,
-  defaultTableRowBlock,
-  defaultTableBodyBlock,
-  defaultTableCellHeaderBlock,
-} from './defaultBlocks';
+import { TYPE_TABLE_ROW, TYPE_TABLE_BODY, TYPE_TABLE_CELL_HEADER, TYPE_TABLE_HEAD } from './types';
+import getCurrentBlock from '../../utils/getCurrentBlock';
 
 export const toggleRowHeaders = (editor: Editor, path: Path) => {
   const [table] = Editor.node(editor, path);

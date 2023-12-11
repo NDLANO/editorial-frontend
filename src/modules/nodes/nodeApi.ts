@@ -20,6 +20,7 @@ import {
   Connection,
   Metadata,
 } from '@ndla/types-taxonomy';
+import { GetChildNodesParams, GetNodeParams, GetNodeResourcesParams } from './nodeApiTypes';
 import { taxonomyApi } from '../../config';
 import { SearchResultBase, WithTaxonomyVersion } from '../../interfaces';
 import { apiResourceUrl, httpFunctions, stringifyQuery } from '../../util/apiHelpers';
@@ -27,7 +28,6 @@ import {
   resolveLocation,
   resolveVoidOrRejectWithError,
 } from '../../util/resolveJsonOrRejectWithError';
-import { GetChildNodesParams, GetNodeParams, GetNodeResourcesParams } from './nodeApiTypes';
 
 const baseUrl = apiResourceUrl(`${taxonomyApi}/nodes`);
 const connUrl = apiResourceUrl(`${taxonomyApi}/node-connections`);

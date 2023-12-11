@@ -7,21 +7,21 @@
  */
 
 import { Element, Descendant, Editor, Path, Transforms, Node, Range, Location } from 'slate';
-import { ReactEditor, RenderLeafProps } from 'slate-react';
 import { jsx as slatejsx } from 'slate-hyperscript';
+import { ReactEditor, RenderLeafProps } from 'slate-react';
+import { TYPE_DETAILS, TYPE_SUMMARY } from './types';
+import WithPlaceHolder from '../../common/WithPlaceHolder';
 import { SlateSerializer } from '../../interfaces';
-import hasNodeOfType from '../../utils/hasNodeOfType';
-import getCurrentBlock from '../../utils/getCurrentBlock';
 import containsVoid from '../../utils/containsVoid';
+import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
+import getCurrentBlock from '../../utils/getCurrentBlock';
+import hasNodeOfType from '../../utils/hasNodeOfType';
+import { KEY_BACKSPACE, KEY_ENTER } from '../../utils/keys';
 import {
   afterOrBeforeTextBlockElement,
   lastTextBlockElement,
   textBlockElements,
 } from '../../utils/normalizationHelpers';
-import WithPlaceHolder from '../../common/WithPlaceHolder';
-import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
-import { KEY_BACKSPACE, KEY_ENTER } from '../../utils/keys';
-import { TYPE_DETAILS, TYPE_SUMMARY } from './types';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
 
 export interface DetailsElement {

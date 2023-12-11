@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2016-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,24 +6,24 @@
  *
  */
 
-import { Link } from 'react-router-dom';
-import { fonts } from '@ndla/core';
-import { ContentTypeBadge } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
+import { fonts } from '@ndla/core';
 import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
+import { ContentTypeBadge } from '@ndla/ui';
+import SearchContentLanguage from './SearchContentLanguage';
+import SearchHighlight from './SearchHighlight';
+import { EditMarkupLink } from '../../../../components/EditMarkupLink';
+import HeaderStatusInformation from '../../../../components/HeaderWithLanguage/HeaderStatusInformation';
+import { DRAFT_HTML_SCOPE, RESOURCE_TYPE_LEARNING_PATH } from '../../../../constants';
 import {
   getContentTypeFromResourceTypes,
   resourceToLinkProps,
 } from '../../../../util/resourceHelpers';
 import { isLearningpath, toEditMarkup } from '../../../../util/routeHelpers';
-import { DRAFT_HTML_SCOPE, RESOURCE_TYPE_LEARNING_PATH } from '../../../../constants';
-import SearchContentLanguage from './SearchContentLanguage';
-import HeaderStatusInformation from '../../../../components/HeaderWithLanguage/HeaderStatusInformation';
-import { EditMarkupLink } from '../../../../components/EditMarkupLink';
-import SearchHighlight from './SearchHighlight';
-import { useSession } from '../../../Session/SessionProvider';
 import { getExpirationDate } from '../../../ArticlePage/articleTransformers';
+import { useSession } from '../../../Session/SessionProvider';
 import {
   NoShadowAnchor,
   StyledSearchBreadcrumb,

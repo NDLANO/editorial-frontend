@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -7,8 +7,8 @@
  */
 
 import { jsx as slatejsx } from 'slate-hyperscript';
-import { defaultParagraphBlock } from '../paragraph/utils';
 import { TYPE_GRID, TYPE_GRID_CELL } from './types';
+import { defaultParagraphBlock } from '../paragraph/utils';
 
 export const defaultGridCellBlock = () => {
   return slatejsx(

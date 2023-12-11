@@ -6,15 +6,15 @@
  *
  */
 
+import { useTranslation } from 'react-i18next';
+import { useParams, useSearchParams } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { OneColumn } from '@ndla/ui';
-import { useTranslation } from 'react-i18next';
-import { useParams, useSearchParams } from 'react-router-dom';
-import FooterWrapper from '../App/components/Footer';
 import DiffOptions from './DiffOptions';
 import NodeDiffcontainer from './NodeDiffContainer';
+import FooterWrapper from '../App/components/Footer';
 
 const StyledNodeContainer = styled.div`
   display: flex;

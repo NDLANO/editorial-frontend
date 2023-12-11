@@ -6,9 +6,9 @@
  *
  */
 
-import { Input } from '@ndla/forms';
 import { FieldProps } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { Input } from '@ndla/forms';
 import FormikField from '../../../components/FormikField';
 const VersionNameField = () => {
   const { t } = useTranslation();

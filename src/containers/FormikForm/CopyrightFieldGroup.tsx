@@ -7,11 +7,11 @@
  */
 
 import { memo } from 'react';
-import LicenseField from './components/LicenseField';
 import { ContributorsField } from '.';
-import FormikField from '../../components/FormikField';
+import LicenseField from './components/LicenseField';
 import OriginField from './components/OriginField';
 import ProcessedField from './components/ProcessedField';
+import FormikField from '../../components/FormikField';
 
 const contributorTypes = ['creators', 'rightsholders', 'processors'];
 

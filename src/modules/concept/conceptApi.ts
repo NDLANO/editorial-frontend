@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2019-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -14,13 +14,13 @@ import {
   ITagsSearchResult,
   IUpdatedConcept,
 } from '@ndla/types-backend/concept-api';
+import { ConceptQuery } from './conceptApiInterfaces';
+import { ConceptStatusStateMachineType } from '../../interfaces';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
   fetchAuthorized,
 } from '../../util/apiHelpers';
-import { ConceptQuery } from './conceptApiInterfaces';
-import { ConceptStatusStateMachineType } from '../../interfaces';
 
 const draftConceptUrl: string = apiResourceUrl('/concept-api/v1/drafts');
 

@@ -2,28 +2,29 @@
  * Copyright (c) 2016-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
 import { ReactElement } from 'react';
 
-import { Route, Routes } from 'react-router-dom';
-import { SearchMedia, SearchContent, Concept, SquareAudio } from '@ndla/icons/editor';
-import { List } from '@ndla/icons/action';
 import { useTranslation } from 'react-i18next';
-import { UseQueryResult } from '@tanstack/react-query';
+import { Route, Routes } from 'react-router-dom';
 import loadable from '@loadable/component';
-import PrivateRoute from '../PrivateRoute/PrivateRoute';
-import SubNavigation from '../Masthead/components/SubNavigation';
-import { toSearch } from '../../util/routeHelpers';
-import SearchContainer, { ResultType } from '../SearchPage/SearchContainer';
-import { SearchType } from '../../interfaces';
-import { SearchParams } from '../SearchPage/components/form/SearchForm';
+import { UseQueryResult } from '@tanstack/react-query';
+import { List } from '@ndla/icons/action';
+import { SearchMedia, SearchContent, Concept, SquareAudio } from '@ndla/icons/editor';
 import Footer from './components/Footer';
-import { useSearch } from '../../modules/search/searchQueries';
-import { useSearchImages } from '../../modules/image/imageQueries';
-import { useSearchConcepts } from '../../modules/concept/conceptQueries';
+import { SearchType } from '../../interfaces';
 import { useSearchAudio, useSearchSeries } from '../../modules/audio/audioQueries';
+import { useSearchConcepts } from '../../modules/concept/conceptQueries';
+import { useSearchImages } from '../../modules/image/imageQueries';
+import { useSearch } from '../../modules/search/searchQueries';
+import { toSearch } from '../../util/routeHelpers';
+import SubNavigation from '../Masthead/components/SubNavigation';
+import PrivateRoute from '../PrivateRoute/PrivateRoute';
+import { SearchParams } from '../SearchPage/components/form/SearchForm';
+import SearchContainer, { ResultType } from '../SearchPage/SearchContainer';
 const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
 
 const SearchPage = () => {

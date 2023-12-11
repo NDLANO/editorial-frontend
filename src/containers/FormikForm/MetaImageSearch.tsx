@@ -6,14 +6,11 @@
  *
  */
 
+import { FormikHandlers, useFormikContext } from 'formik';
 import { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FieldHeader } from '@ndla/forms';
-import {
-  IImageMetaInformationV3,
-  IUpdateImageMetaInformation,
-} from '@ndla/types-backend/image-api';
 import { ButtonV2 } from '@ndla/button';
+import { FieldHeader } from '@ndla/forms';
 import {
   ModalBody,
   ModalCloseButton,
@@ -22,8 +19,13 @@ import {
   ModalTrigger,
   ModalContent,
 } from '@ndla/modal';
-import { FormikHandlers, useFormikContext } from 'formik';
-import { createFormData } from '../../util/formDataHelper';
+import {
+  IImageMetaInformationV3,
+  IUpdateImageMetaInformation,
+} from '@ndla/types-backend/image-api';
+import MetaImageField from './components/MetaImageField';
+import ImageSearchAndUploader from '../../components/ControlledImageSearchAndUploader';
+import HowToHelper from '../../components/HowTo/HowToHelper';
 import {
   postImage,
   updateImage,
@@ -31,10 +33,7 @@ import {
   fetchImage,
   onError,
 } from '../../modules/image/imageApi';
-import HowToHelper from '../../components/HowTo/HowToHelper';
-import ImageSearchAndUploader from '../../components/ControlledImageSearchAndUploader';
-
-import MetaImageField from './components/MetaImageField';
+import { createFormData } from '../../util/formDataHelper';
 
 interface Props {
   metaImageId: string;

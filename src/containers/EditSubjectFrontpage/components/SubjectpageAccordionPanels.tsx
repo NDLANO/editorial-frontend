@@ -2,7 +2,8 @@
  * Copyright (c) 2020-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
 import { FormikErrors } from 'formik';
@@ -14,14 +15,14 @@ import { ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
 import { Node } from '@ndla/types-taxonomy';
 
 import SubjectpageAbout from './SubjectpageAbout';
-import SubjectpageMetadata from './SubjectpageMetadata';
 import SubjectpageArticles from './SubjectpageArticles';
+import SubjectpageMetadata from './SubjectpageMetadata';
 import SubjectpageSubjectlinks from './SubjectpageSubjectlinks';
-import FormikField from '../../../components/FormikField';
-import { SubjectPageFormikType } from '../../../util/subjectHelpers';
-import FormAccordions from '../../../components/Accordion/FormAccordions';
 import FormAccordion from '../../../components/Accordion/FormAccordion';
+import FormAccordions from '../../../components/Accordion/FormAccordions';
+import FormikField from '../../../components/FormikField';
 import { useSearchNodes } from '../../../modules/nodes/nodeQueries';
+import { SubjectPageFormikType } from '../../../util/subjectHelpers';
 
 interface Props {
   buildsOn: string[];

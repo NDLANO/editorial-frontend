@@ -6,11 +6,11 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
 import { FieldProps, FormikValues } from 'formik';
 import { memo } from 'react';
-import FormikField from '../../components/FormikField';
+import { useTranslation } from 'react-i18next';
 import GrepCodesFieldContent from './GrepCodesFieldContent';
+import FormikField from '../../components/FormikField';
 
 const GrepCodesField = () => {
   const { t } = useTranslation();

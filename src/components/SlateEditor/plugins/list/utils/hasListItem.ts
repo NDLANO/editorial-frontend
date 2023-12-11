@@ -1,7 +1,14 @@
+/**
+ * Copyright (c) 2021-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 import { Editor, Element } from 'slate';
-import { TYPE_LIST_ITEM } from '../types';
 import { getListItemType } from './getListItemType';
 import { isListItemPathSelected } from './isListItemSelected';
+import { TYPE_LIST_ITEM } from '../types';
 
 const hasListItem = (editor: Editor, type?: string) => {
   // For all selected list elements

@@ -11,11 +11,11 @@ import {
   blockContentToEditorValue,
   blockContentToHTML,
 } from '../../../../../util/articleContentConverter';
+import { TYPE_AUDIO } from '../../audio/types';
+import { TYPE_H5P } from '../../h5p/types';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 import { TYPE_SECTION } from '../../section/types';
 import { TYPE_EMBED_BRIGHTCOVE, TYPE_EMBED_EXTERNAL, TYPE_EMBED_IMAGE } from '../types';
-import { TYPE_AUDIO } from '../../audio/types';
-import { TYPE_H5P } from '../../h5p/types';
 
 describe('embed image serializing tests', () => {
   const editorWithImage: Descendant[] = [

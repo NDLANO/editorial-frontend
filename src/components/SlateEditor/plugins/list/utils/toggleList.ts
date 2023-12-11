@@ -1,11 +1,18 @@
+/**
+ * Copyright (c) 2021-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 import { Editor, Transforms, Element, Range, Path } from 'slate';
 import { ReactEditor } from 'slate-react';
-import { TYPE_LIST, TYPE_LIST_ITEM } from '../types';
-import { firstTextBlockElement } from '../../../utils/normalizationHelpers';
 import { defaultListBlock, defaultListItemBlock } from './defaultBlocks';
+import hasListItem from './hasListItem';
 import { isListItemSelected } from './isListItemSelected';
 import { isSelectionOnlyOfType } from './isSelectionOnlyOfType';
-import hasListItem from './hasListItem';
+import { firstTextBlockElement } from '../../../utils/normalizationHelpers';
+import { TYPE_LIST, TYPE_LIST_ITEM } from '../types';
 
 export const toggleList = (editor: Editor, type: string) => {
   const listType = type ? type : 'numbered-list';

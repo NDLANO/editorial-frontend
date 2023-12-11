@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2016-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,18 +6,18 @@
  *
  */
 
-import { useEffect, useMemo } from 'react';
 import parse from 'html-react-parser';
-import { ContentTypeBadge, Article, FrontpageArticle } from '@ndla/ui';
-import { IArticle, IDraftCopyright } from '@ndla/types-backend/draft-api';
+import { useEffect, useMemo } from 'react';
 import { transform } from '@ndla/article-converter';
+import { IArticle, IDraftCopyright } from '@ndla/types-backend/draft-api';
+import { ContentTypeBadge, Article, FrontpageArticle } from '@ndla/ui';
+import config from '../../config';
 import { LocaleType } from '../../interfaces';
 import '../DisplayEmbed/helpers/h5pResizer';
-import formatDate from '../../util/formatDate';
 import { usePreviewArticle } from '../../modules/article/articleGqlQueries';
-import config from '../../config';
-import { articleIsWide } from '../WideArticleEditorProvider';
+import formatDate from '../../util/formatDate';
 import parseMarkdown from '../../util/parseMarkdown';
+import { articleIsWide } from '../WideArticleEditorProvider';
 
 interface BaseProps {
   label: string;

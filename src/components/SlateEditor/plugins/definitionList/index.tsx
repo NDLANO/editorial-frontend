@@ -8,13 +8,13 @@
 
 import { Descendant, Editor, Element, Path, Transforms } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
+import onBackspace from './handlers/onBackspace';
+import onEnter from './handlers/onEnter';
+import onTab from './handlers/onTab';
+import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_LIST, TYPE_DEFINITION_TERM } from './types';
 import { SlateSerializer } from '../../interfaces';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
 import { KEY_BACKSPACE, KEY_ENTER, KEY_TAB } from '../../utils/keys';
-import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_LIST, TYPE_DEFINITION_TERM } from './types';
-import onEnter from './handlers/onEnter';
-import onTab from './handlers/onTab';
-import onBackspace from './handlers/onBackspace';
 
 export interface DefinitionListElement {
   type: 'definition-list';

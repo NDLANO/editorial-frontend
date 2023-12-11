@@ -7,12 +7,12 @@
  */
 
 import nock from 'nock';
+import { ReactNode } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { render } from '@testing-library/react';
-import { ReactNode } from 'react';
-import { MastheadSearchForm } from '../components/MastheadSearchForm';
 import { taxonomyApi } from '../../../config';
 import IntlWrapper from '../../../util/__tests__/IntlWrapper';
+import { MastheadSearchForm } from '../components/MastheadSearchForm';
 
 const noop = () => {};
 

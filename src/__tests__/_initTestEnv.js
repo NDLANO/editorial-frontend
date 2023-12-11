@@ -6,8 +6,8 @@
  *
  */
 
-import prettier from 'prettier/standalone';
 import parseHTML from 'prettier/parser-html';
+import prettier from 'prettier/standalone';
 
 const localStorageMock = (function createLocalStorage() {
   let store = {};

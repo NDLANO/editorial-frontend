@@ -8,7 +8,9 @@
 
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import { ButtonV2, IconButtonV2 } from '@ndla/button';
+import { spacing } from '@ndla/core';
 import {
   FieldHeader,
   FieldSection,
@@ -18,8 +20,7 @@ import {
   TextArea,
 } from '@ndla/forms';
 import { Link as LinkIcon } from '@ndla/icons/common';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
+import { DeleteForever } from '@ndla/icons/editor';
 import {
   ModalBody,
   ModalCloseButton,
@@ -29,22 +30,21 @@ import {
   ModalTrigger,
   ModalContent,
 } from '@ndla/modal';
-import Tooltip from '@ndla/tooltip';
 import { SafeLinkIconButton } from '@ndla/safelink';
+import Tooltip from '@ndla/tooltip';
 import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
-import { DeleteForever } from '@ndla/icons/editor';
 
 import UrlAllowList from './UrlAllowList';
+import { urlTransformers } from './urlTransformers';
+import { HelpIcon, normalPaddingCSS } from '../../components/HowTo';
+import ImageSearchAndUploader from '../../components/ImageSearchAndUploader';
+import { EXTERNAL_WHITELIST_PROVIDERS, DRAFT_ADMIN_SCOPE } from '../../constants';
+import { Embed, ExternalEmbed } from '../../interfaces';
+import { fetchImage, searchImages } from '../../modules/image/imageApi';
 import { fetchExternalOembed } from '../../util/apiHelpers';
 import { isValidURL, urlDomain, getIframeSrcFromHtmlString } from '../../util/htmlHelpers';
-import { EXTERNAL_WHITELIST_PROVIDERS, DRAFT_ADMIN_SCOPE } from '../../constants';
-import { useSession } from '../Session/SessionProvider';
-import { HelpIcon, normalPaddingCSS } from '../../components/HowTo';
-import { urlTransformers } from './urlTransformers';
-import { Embed, ExternalEmbed } from '../../interfaces';
-import ImageSearchAndUploader from '../../components/ImageSearchAndUploader';
-import { fetchImage, searchImages } from '../../modules/image/imageApi';
 import { onError } from '../../util/resolveJsonOrRejectWithError';
+import { useSession } from '../Session/SessionProvider';
 
 const filterWhiteListedURL = (url: string) => {
   const domain = urlDomain(url);

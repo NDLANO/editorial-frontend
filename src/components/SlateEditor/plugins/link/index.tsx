@@ -6,12 +6,12 @@
  *
  */
 
-import { jsx as slatejsx } from 'slate-hyperscript';
 import { Descendant, Editor, Element, Text, Node, Transforms } from 'slate';
+import { jsx as slatejsx } from 'slate-hyperscript';
 import { ContentLinkEmbedData } from '@ndla/types-embed';
-import { SlateSerializer } from '../../interfaces';
-import { reduceElementDataAttributesV2 } from '../../../../util/embedTagHelpers';
 import { TYPE_CONTENT_LINK, TYPE_LINK } from './types';
+import { reduceElementDataAttributesV2 } from '../../../../util/embedTagHelpers';
+import { SlateSerializer } from '../../interfaces';
 import { TYPE_NDLA_EMBED } from '../embed/types';
 
 export interface LinkElement {

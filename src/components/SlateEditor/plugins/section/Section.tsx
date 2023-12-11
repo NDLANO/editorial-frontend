@@ -1,12 +1,19 @@
-import styled from '@emotion/styled';
+/**
+ * Copyright (c) 2021-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 import { ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Editor, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
-import { useTranslation } from 'react-i18next';
-import Tooltip from '@ndla/tooltip';
+import styled from '@emotion/styled';
+import { ButtonV2 } from '@ndla/button';
 import { colors } from '@ndla/core';
 import { DeleteForever } from '@ndla/icons/editor';
-import { ButtonV2 } from '@ndla/button';
+import Tooltip from '@ndla/tooltip';
 import { SectionElement } from '.';
 
 import StyledFormContainer from '../../common/StyledFormContainer';

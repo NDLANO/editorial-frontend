@@ -7,19 +7,19 @@
  */
 
 import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Editor, Node } from 'slate';
 import { RenderElementProps } from 'slate-react';
+import styled from '@emotion/styled';
 import { Portal } from '@radix-ui/react-portal';
 import { ButtonV2 } from '@ndla/button';
-import styled from '@emotion/styled';
-import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
-import { useTranslation } from 'react-i18next';
 import { colors, spacing } from '@ndla/core';
+import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
+import { ContentLinkElement, LinkElement } from '.';
+import EditLink from './EditLink';
 import config from '../../../../config';
 import { toEditGenericArticle, toLearningpathFull } from '../../../../util/routeHelpers';
 import isNodeInCurrentSelection from '../../utils/isNodeInCurrentSelection';
-import EditLink from './EditLink';
-import { ContentLinkElement, LinkElement } from '.';
 
 interface StyledLinkMenuProps {
   top: number;

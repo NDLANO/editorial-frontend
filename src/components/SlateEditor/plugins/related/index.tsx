@@ -7,14 +7,14 @@
  */
 
 import { Descendant, Editor, Element } from 'slate';
-import { RelatedContentEmbedData } from '@ndla/types-embed';
 import { jsx as slatejsx } from 'slate-hyperscript';
-import { SlateSerializer } from '../../interfaces';
+import { RelatedContentEmbedData } from '@ndla/types-embed';
+import { TYPE_RELATED } from './types';
 import { reduceElementDataAttributesV2, createEmbedTagV2 } from '../../../../util/embedTagHelpers';
+import { SlateSerializer } from '../../interfaces';
 import { NormalizerConfig, defaultBlockNormalizer } from '../../utils/defaultNormalizer';
 import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
-import { TYPE_RELATED } from './types';
 
 export const defaultRelatedBlock = () =>
   slatejsx('element', { type: TYPE_RELATED, data: [] }, [{ text: '' }]);

@@ -6,11 +6,11 @@
  *
  */
 
+import FormData from 'form-data';
 import fetch from 'node-fetch';
 import queryString from 'query-string';
-import FormData from 'form-data';
-import { ApiTranslateType } from '../interfaces';
 import config, { getEnvironmentVariabel } from '../config';
+import { ApiTranslateType } from '../interfaces';
 
 const baseUrl = config.translateServiceUrl;
 const user = getEnvironmentVariabel('NDKM_USER', '');

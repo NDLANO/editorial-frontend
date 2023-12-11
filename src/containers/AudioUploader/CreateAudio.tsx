@@ -2,11 +2,12 @@
  * Copyright (c) 2016-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
-import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { INewAudioMetaInformation } from '@ndla/types-backend/audio-api';
 import AudioForm from './components/AudioForm';
 import { postAudio } from '../../modules/audio/audioApi';

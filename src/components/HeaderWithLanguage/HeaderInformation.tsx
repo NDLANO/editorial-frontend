@@ -9,20 +9,20 @@
 import { ReactNode, memo, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { ButtonV2 } from '@ndla/button';
 import styled from '@emotion/styled';
-import { ContentTypeBadge, constants } from '@ndla/ui';
+import { ButtonV2 } from '@ndla/button';
 import { colors, fonts, spacing } from '@ndla/core';
-import { Camera, Concept, Taxonomy, SquareAudio, Globe } from '@ndla/icons/editor';
-import { Podcast } from '@ndla/icons/common';
 import { List } from '@ndla/icons/action';
+import { Podcast } from '@ndla/icons/common';
+import { Camera, Concept, Taxonomy, SquareAudio, Globe } from '@ndla/icons/editor';
+import { ContentTypeBadge, constants } from '@ndla/ui';
 import HeaderStatusInformation from './HeaderStatusInformation';
-import { toEditArticle } from '../../util/routeHelpers';
-import * as draftApi from '../../modules/draft/draftApi';
-import Spinner from '../Spinner';
-import handleError from '../../util/handleError';
 import { useMessages } from '../../containers/Messages/MessagesProvider';
 import { fetchAuth0Users } from '../../modules/auth0/auth0Api';
+import * as draftApi from '../../modules/draft/draftApi';
+import handleError from '../../util/handleError';
+import { toEditArticle } from '../../util/routeHelpers';
+import Spinner from '../Spinner';
 
 export const StyledSplitter = styled.div`
   width: 1px;

@@ -2,26 +2,27 @@
  * Copyright (c) 2016-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
 import isEqual from 'lodash/fp/isEqual';
 import { Descendant, Node } from 'slate';
 import { IArticle, ILicense, IArticleMetaImage } from '@ndla/types-backend/draft-api';
+import { blockContentToHTML, inlineContentToHTML } from './articleContentConverter';
+import { isGrepCodeValid } from './articleUtil';
+import { diffHTML } from './diffHTML';
 import { isUserProvidedEmbedDataValid } from './embedTagHelpers';
 import { findNodesByType } from './slateHelpers';
-import { blockContentToHTML, inlineContentToHTML } from './articleContentConverter';
-import { diffHTML } from './diffHTML';
-import { isGrepCodeValid } from './articleUtil';
 import { RulesType } from '../components/formikValidationSchema';
+import { EmbedElements } from '../components/SlateEditor/plugins/embed';
+import { isSlateEmbed } from '../components/SlateEditor/plugins/embed/utils';
 import {
   ArticleFormType,
   LearningResourceFormType,
   TopicArticleFormType,
   FrontpageArticleFormType,
 } from '../containers/FormikForm/articleFormHooks';
-import { EmbedElements } from '../components/SlateEditor/plugins/embed';
-import { isSlateEmbed } from '../components/SlateEditor/plugins/embed/utils';
 
 export const DEFAULT_LICENSE: ILicense = {
   description: 'Creative Commons Attribution-ShareAlike 4.0 International',

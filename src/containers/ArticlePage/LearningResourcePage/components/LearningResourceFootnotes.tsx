@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2016-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -8,8 +8,8 @@
 
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { uuid } from '@ndla/util';
 import { colors, fonts, spacing } from '@ndla/core';
+import { uuid } from '@ndla/util';
 
 const FootnoteId = styled.sup`
   text-decoration: underline;

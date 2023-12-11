@@ -2,19 +2,20 @@
  * Copyright (c) 2020-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
-import { useTranslation } from 'react-i18next';
 import { FieldProps, FormikErrors, FormikHelpers, FormikProps, FormikValues } from 'formik';
-import SubjectpageAbout from '../../EditSubjectFrontpage/components/SubjectpageAbout';
-import { Values } from '../../../components/SlateEditor/editorTypes';
-import ThemeEditor from './ThemeEditor';
-import SlideshowEditor from './SlideshowEditor';
+import { useTranslation } from 'react-i18next';
 import NdlaFilmArticle from './NdlaFilmArticle';
-import FormikField from '../../../components/FormikField';
-import FormAccordions from '../../../components/Accordion/FormAccordions';
-import FormAccordion from '../../../components/Accordion/FormAccordion';
 import { FilmFormikType } from './NdlaFilmForm';
+import SlideshowEditor from './SlideshowEditor';
+import ThemeEditor from './ThemeEditor';
+import FormAccordion from '../../../components/Accordion/FormAccordion';
+import FormAccordions from '../../../components/Accordion/FormAccordions';
+import FormikField from '../../../components/FormikField';
+import { Values } from '../../../components/SlateEditor/editorTypes';
+import SubjectpageAbout from '../../EditSubjectFrontpage/components/SubjectpageAbout';
 
 interface Props {
   selectedLanguage: string;

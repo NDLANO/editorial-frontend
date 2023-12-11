@@ -8,11 +8,11 @@
 
 import { Descendant, Editor, Element } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
-import { SlateSerializer } from '../../interfaces';
-import { reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
 import { TYPE_MATHML } from './types';
-import { KEY_ARROW_DOWN, KEY_ARROW_UP } from '../../utils/keys';
 import { onArrowDown, onArrowUp } from './utils';
+import { reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
+import { SlateSerializer } from '../../interfaces';
+import { KEY_ARROW_DOWN, KEY_ARROW_UP } from '../../utils/keys';
 
 export interface MathmlElement {
   type: 'mathml';

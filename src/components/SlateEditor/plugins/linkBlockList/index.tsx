@@ -6,14 +6,14 @@
  *
  */
 
-import { jsx as slatejsx } from 'slate-hyperscript';
 import { Descendant, Editor, Element } from 'slate';
+import { jsx as slatejsx } from 'slate-hyperscript';
+import { TYPE_LINK_BLOCK_LIST } from './types';
+import { createEmbedTagV2, reduceElementDataAttributesV2 } from '../../../../util/embedTagHelpers';
+import { SlateSerializer } from '../../interfaces';
 import { NormalizerConfig, defaultBlockNormalizer } from '../../utils/defaultNormalizer';
 import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
-import { SlateSerializer } from '../../interfaces';
-import { TYPE_LINK_BLOCK_LIST } from './types';
-import { createEmbedTagV2, reduceElementDataAttributesV2 } from '../../../../util/embedTagHelpers';
 
 const normalizerConfig: NormalizerConfig = {
   previous: {

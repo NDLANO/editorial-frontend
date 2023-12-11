@@ -7,8 +7,8 @@
  */
 
 import { Editor, Element } from 'slate';
-import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_LIST, TYPE_DEFINITION_TERM } from '../types';
 import { isDefinitionListItem } from './isDefinitionListItem';
+import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_LIST, TYPE_DEFINITION_TERM } from '../types';
 
 const isOnlySelectionOfDefinitionList = (editor: Editor) => {
   let hasListItems = false;

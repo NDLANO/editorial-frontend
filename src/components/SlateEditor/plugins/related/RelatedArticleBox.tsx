@@ -7,29 +7,29 @@
  */
 
 import { useEffect, useRef, useState, MouseEvent, ReactNode, useCallback } from 'react';
-import { Root, Anchor, Portal } from '@radix-ui/react-popover';
+import { useTranslation } from 'react-i18next';
 import { Editor, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
-import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { RelatedContentEmbedData, RelatedContentMetaData } from '@ndla/types-embed';
-import { spacing } from '@ndla/core';
-import { RelatedArticleList, RelatedContentEmbed } from '@ndla/ui';
+import { Root, Anchor, Portal } from '@radix-ui/react-popover';
 import { IconButtonV2 } from '@ndla/button';
-import Tooltip from '@ndla/tooltip';
+import { spacing } from '@ndla/core';
 import { Pencil } from '@ndla/icons/action';
 import { DeleteForever } from '@ndla/icons/editor';
-import { fetchDraft } from '../../../../modules/draft/draftApi';
-import EditRelated from './EditRelated';
+import Tooltip from '@ndla/tooltip';
+import { RelatedContentEmbedData, RelatedContentMetaData } from '@ndla/types-embed';
+import { RelatedArticleList, RelatedContentEmbed } from '@ndla/ui';
 import { RelatedElement } from '.';
+import EditRelated from './EditRelated';
 import { useTaxonomyVersion } from '../../../../containers/StructureVersion/TaxonomyVersionProvider';
+import { fetchDraft } from '../../../../modules/draft/draftApi';
 import { fetchNodes } from '../../../../modules/nodes/nodeApi';
-import Overlay from '../../../Overlay';
 import {
   toEditFrontPageArticle,
   toEditLearningResource,
   toEditTopicArticle,
 } from '../../../../util/routeHelpers';
+import Overlay from '../../../Overlay';
 
 interface Props {
   attributes: RenderElementProps['attributes'];

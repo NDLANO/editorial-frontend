@@ -1,7 +1,14 @@
+/**
+ * Copyright (c) 2019-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 import { Location } from 'react-router-dom';
-import { LocaleType } from '../interfaces';
-import { appLocales } from '../i18n';
 import { LOCALE_VALUES } from '../constants';
+import { appLocales } from '../i18n';
+import { LocaleType } from '../interfaces';
 
 interface appLocaleType {
   name: string;

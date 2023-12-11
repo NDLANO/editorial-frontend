@@ -7,8 +7,8 @@
  */
 
 import { ReactNode } from 'react';
-import { RenderElementProps } from 'slate-react';
 import { useTranslation } from 'react-i18next';
+import { RenderElementProps } from 'slate-react';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 import DeleteButton from '../../../DeleteButton';

@@ -8,9 +8,9 @@
 
 import { MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import { colors, spacing } from '@ndla/core';
-import { CloseButton } from '@ndla/button';
 import styled from '@emotion/styled';
+import { CloseButton } from '@ndla/button';
+import { colors, spacing } from '@ndla/core';
 import { SearchFormSelector } from './Selector';
 import formatDate from '../../../../util/formatDate';
 import { unreachable } from '../../../../util/guards';

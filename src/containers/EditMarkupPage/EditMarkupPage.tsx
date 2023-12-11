@@ -9,27 +9,27 @@
 import { lazy, Suspense, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useParams } from 'react-router-dom';
+import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { spacing, colors } from '@ndla/core';
-import { IArticle } from '@ndla/types-backend/draft-api';
-import styled from '@emotion/styled';
 import { FieldHeader } from '@ndla/forms';
 import { Spinner } from '@ndla/icons';
-import { fetchDraft, updateDraft } from '../../modules/draft/draftApi';
-import handleError from '../../util/handleError';
+import { IArticle } from '@ndla/types-backend/draft-api';
 import { Row } from '../../components';
-import { blockContentToEditorValue, blockContentToHTML } from '../../util/articleContentConverter';
-import { DRAFT_HTML_SCOPE } from '../../constants';
-import { getSessionStateFromLocalStorage } from '../Session/SessionProvider';
 import HeaderSupportedLanguages from '../../components/HeaderWithLanguage/HeaderSupportedLanguages';
+import HelpMessage from '../../components/HelpMessage';
+import PreviewDraftLightboxV2 from '../../components/PreviewDraft/PreviewDraftLightboxV2';
+import SaveButton from '../../components/SaveButton';
+import { DRAFT_HTML_SCOPE } from '../../constants';
+import { fetchDraft, updateDraft } from '../../modules/draft/draftApi';
+import { blockContentToEditorValue, blockContentToHTML } from '../../util/articleContentConverter';
+import handleError from '../../util/handleError';
+import { NdlaErrorPayload } from '../../util/resolveJsonOrRejectWithError';
 import { toEditMarkup } from '../../util/routeHelpers';
 import { AlertModalWrapper } from '../FormikForm';
-import SaveButton from '../../components/SaveButton';
-import HelpMessage from '../../components/HelpMessage';
-import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { useMessages } from '../Messages/MessagesProvider';
-import { NdlaErrorPayload } from '../../util/resolveJsonOrRejectWithError';
-import PreviewDraftLightboxV2 from '../../components/PreviewDraft/PreviewDraftLightboxV2';
+import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import { getSessionStateFromLocalStorage } from '../Session/SessionProvider';
 
 declare global {
   interface Window {

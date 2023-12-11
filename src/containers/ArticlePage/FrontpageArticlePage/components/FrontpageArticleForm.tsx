@@ -6,35 +6,35 @@
  *
  */
 
+import { Formik, useFormikContext } from 'formik';
 import { memo, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Formik, useFormikContext } from 'formik';
 import { IArticle, IUpdatedArticle, IStatus } from '@ndla/types-backend/draft-api';
-import { AlertModalWrapper } from '../../../FormikForm';
+import FrontpageArticlePanels from './FrontpageArticlePanels';
 import validateFormik, { getWarnings } from '../../../../components/formikValidationSchema';
-import { frontPageArticleRules, isFormikFormDirty } from '../../../../util/formHelper';
 import HeaderWithLanguage from '../../../../components/HeaderWithLanguage';
 import EditorFooter from '../../../../components/SlateEditor/EditorFooter';
+import StyledForm from '../../../../components/StyledFormComponents';
+import { useWideArticle } from '../../../../components/WideArticleEditorProvider';
+import { useSession } from '../../../../containers/Session/SessionProvider';
+import { validateDraft } from '../../../../modules/draft/draftApi';
+import { useLicenses, useDraftStatusStateMachine } from '../../../../modules/draft/draftQueries';
+import { blockContentToHTML } from '../../../../util/articleContentConverter';
+import { frontPageArticleRules, isFormikFormDirty } from '../../../../util/formHelper';
+import { AlertModalWrapper } from '../../../FormikForm';
 import {
   FrontpageArticleFormType,
   HandleSubmitFunc,
   useArticleFormHooks,
 } from '../../../FormikForm/articleFormHooks';
 import usePreventWindowUnload from '../../../FormikForm/preventWindowUnloadHook';
-import { useLicenses, useDraftStatusStateMachine } from '../../../../modules/draft/draftQueries';
-import { validateDraft } from '../../../../modules/draft/draftApi';
 import {
   draftApiTypeToFrontpageArticleFormType,
   frontpageArticleFormTypeToDraftApiType,
   getExpirationDate,
 } from '../../articleTransformers';
-import { blockContentToHTML } from '../../../../util/articleContentConverter';
-import StyledForm from '../../../../components/StyledFormComponents';
-import FrontpageArticlePanels from './FrontpageArticlePanels';
-import { useSession } from '../../../../containers/Session/SessionProvider';
 import CommentSection from '../../components/CommentSection';
 import { FlexWrapper, MainContent } from '../../styles';
-import { useWideArticle } from '../../../../components/WideArticleEditorProvider';
 
 interface Props {
   article?: IArticle;

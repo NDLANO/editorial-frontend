@@ -1,10 +1,15 @@
-/*
+/**
  * Copyright (c) 2021-present, NDLA.
+ *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
+ *
  */
 
 import { HTMLProps, MutableRefObject, ReactNode, useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { DragEndEvent } from '@dnd-kit/core';
+import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { Subject } from '@ndla/icons/contentType';
@@ -16,15 +21,10 @@ import {
   Taxonomy,
 } from '@ndla/icons/editor';
 import { NodeChild, Node, NodeType } from '@ndla/types-taxonomy';
-import { DragEndEvent } from '@dnd-kit/core';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import Fade from '../../components/Taxonomy/Fade';
-import { createGuard } from '../../util/guards';
-import { nodePathToUrnPath } from '../../util/taxonomyHelpers';
 import FolderItem from './folderComponents/FolderItem';
-import { useSession } from '../Session/SessionProvider';
-import { TAXONOMY_ADMIN_SCOPE, TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH } from '../../constants';
+import DndList from '../../components/DndList';
+import { DragHandle } from '../../components/DraggableItem';
+import Fade from '../../components/Taxonomy/Fade';
 import {
   ItemTitleButton,
   StructureWrapper,
@@ -32,9 +32,11 @@ import {
   StyledItemBar,
   StyledStructureItem,
 } from '../../components/Taxonomy/nodeStyles';
+import { TAXONOMY_ADMIN_SCOPE, TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH } from '../../constants';
 import { NodeChildWithChildren } from '../../modules/nodes/nodeQueries';
-import DndList from '../../components/DndList';
-import { DragHandle } from '../../components/DraggableItem';
+import { createGuard } from '../../util/guards';
+import { nodePathToUrnPath } from '../../util/taxonomyHelpers';
+import { useSession } from '../Session/SessionProvider';
 
 export type RenderBeforeFunction = (
   node: NodeChild | Node,

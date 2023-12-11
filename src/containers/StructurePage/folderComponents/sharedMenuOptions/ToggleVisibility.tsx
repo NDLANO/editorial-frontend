@@ -8,18 +8,18 @@
 
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Eye } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
+import { useQueryClient } from '@tanstack/react-query';
 import { spacing } from '@ndla/core';
+import { Eye } from '@ndla/icons/editor';
 import { Switch } from '@ndla/switch';
 import { Node, NodeType } from '@ndla/types-taxonomy';
-import { useQueryClient } from '@tanstack/react-query';
-import { EditModeHandler } from '../SettingsMenuDropdownType';
-import { useUpdateNodeMetadataMutation } from '../../../../modules/nodes/nodeMutations';
-import RoundIcon from '../../../../components/RoundIcon';
 import MenuItemButton from './components/MenuItemButton';
-import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
+import RoundIcon from '../../../../components/RoundIcon';
+import { useUpdateNodeMetadataMutation } from '../../../../modules/nodes/nodeMutations';
 import { nodeQueryKeys } from '../../../../modules/nodes/nodeQueries';
+import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
+import { EditModeHandler } from '../SettingsMenuDropdownType';
 
 interface Props {
   node: Node;

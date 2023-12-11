@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2020-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,9 +6,9 @@
  *
  */
 
-import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 
 export const StyledInfo = styled.div`

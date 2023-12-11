@@ -6,17 +6,17 @@
  *
  */
 
+import sortBy from 'lodash/sortBy';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import sortBy from 'lodash/sortBy';
-import { ErrorMessage } from '@ndla/ui';
 import { Spinner } from '@ndla/icons';
 import { IUpdatedArticle, IArticle } from '@ndla/types-backend/draft-api';
 import { Node } from '@ndla/types-taxonomy';
-import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
-import { useVersions } from '../../../../modules/taxonomy/versions/versionQueries';
-import { useNodes } from '../../../../modules/nodes/nodeQueries';
+import { ErrorMessage } from '@ndla/ui';
 import TopicTaxonomyBlock from './TopicTaxonomyBlock';
+import { useNodes } from '../../../../modules/nodes/nodeQueries';
+import { useVersions } from '../../../../modules/taxonomy/versions/versionQueries';
+import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 
 type Props = {
   article: IArticle;

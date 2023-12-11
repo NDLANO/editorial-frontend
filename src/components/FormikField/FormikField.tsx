@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2019-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,15 +6,15 @@
  *
  */
 
-import { ReactElement, useCallback } from 'react';
-import get from 'lodash/get';
-import { useTranslation } from 'react-i18next';
 import { Field, FieldAttributes, FormikValues, FieldProps, useFormikContext } from 'formik';
+import get from 'lodash/get';
+import { ReactElement, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Node } from 'slate';
 import styled from '@emotion/styled';
-import FormikFieldLabel from './FormikFieldLabel';
 import FormikFieldDescription from './FormikFieldDescription';
 import FormikFieldHelp from './FormikFieldHelp';
+import FormikFieldLabel from './FormikFieldLabel';
 import FormikRemainingCharacters from './FormikRemainingCharacters';
 import { StyledField } from '../Field';
 

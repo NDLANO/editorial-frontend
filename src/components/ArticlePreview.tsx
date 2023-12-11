@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2016-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,9 +6,9 @@
  *
  */
 
-import { IArticleSummaryV2 } from '@ndla/types-backend/article-api';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
+import { IArticleSummaryV2 } from '@ndla/types-backend/article-api';
 
 const Container = styled.div`
   padding: ${spacing.small};

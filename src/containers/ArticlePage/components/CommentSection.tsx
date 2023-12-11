@@ -2,19 +2,20 @@
  * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
+import { useField } from 'formik';
+import { useState, useCallback, useMemo, memo } from 'react';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { spacing, fonts } from '@ndla/core';
 import { IStatus } from '@ndla/types-backend/draft-api';
-import { useField } from 'formik';
-import { useState, useCallback, useMemo, memo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { ARCHIVED, PUBLISHED, UNPUBLISHED } from '../../../constants';
 import Comment, { CommentType } from './Comment';
 import InputComment from './InputComment';
+import { ARCHIVED, PUBLISHED, UNPUBLISHED } from '../../../constants';
 
 export const RESET_COMMENTS_STATUSES = [PUBLISHED, ARCHIVED, UNPUBLISHED];
 export const COMMENT_WIDTH = 220;

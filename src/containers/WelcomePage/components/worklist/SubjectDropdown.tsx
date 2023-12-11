@@ -6,17 +6,17 @@
  *
  */
 
+import sortBy from 'lodash/sortBy';
+import uniq from 'lodash/uniq';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Select, SingleValue } from '@ndla/select';
-import uniq from 'lodash/uniq';
-import sortBy from 'lodash/sortBy';
 import styled from '@emotion/styled';
+import { Select, SingleValue } from '@ndla/select';
+import { useSearchNodes } from '../../../../modules/nodes/nodeQueries';
 import { useSearch } from '../../../../modules/search/searchQueries';
 import { useSession } from '../../../Session/SessionProvider';
-import { DropdownWrapper } from '../../styles';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
-import { useSearchNodes } from '../../../../modules/nodes/nodeQueries';
+import { DropdownWrapper } from '../../styles';
 
 interface Props {
   subjectIds: string[];

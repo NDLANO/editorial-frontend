@@ -10,8 +10,8 @@ import { useTranslation } from 'react-i18next';
 
 import { Node } from '@ndla/types-taxonomy';
 
-import SearchDropdown from '../../../StructurePage/folderComponents/sharedMenuOptions/components/SearchDropdown';
 import { useSearchNodes } from '../../../../modules/nodes/nodeQueries';
+import SearchDropdown from '../../../StructurePage/folderComponents/sharedMenuOptions/components/SearchDropdown';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {

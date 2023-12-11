@@ -7,15 +7,15 @@
  */
 
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
 import ImageSearch from '@ndla/image-search';
 import Tabs from '@ndla/tabs';
-import styled from '@emotion/styled';
 import { IImageMetaInformationV3, ISearchResultV3 } from '@ndla/types-backend/image-api';
-import { useTranslation } from 'react-i18next';
-import { ImageSearchQuery } from '../modules/image/imageApiInterfaces';
 import CreateImage from '../containers/ImageUploader/CreateImage';
+import { ImageSearchQuery } from '../modules/image/imageApiInterfaces';
 
 const StyledTitleDiv = styled.div`
   margin-bottom: ${spacing.small};

@@ -6,11 +6,11 @@
  *
  */
 
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { Check } from '@ndla/icons/editor';
-import { useTranslation } from 'react-i18next';
-import { saveButtonAppearances } from './SaveButton';
 import MultiButton from './MultiButton';
+import { saveButtonAppearances } from './SaveButton';
 
 type SaveModifiers = 'save' | 'saving' | 'saved';
 

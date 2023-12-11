@@ -10,8 +10,8 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { MessageBox } from '@ndla/ui';
-import config from '../../config';
 import StructureContainer from './StructureContainer';
+import config from '../../config';
 import { TaxonomyVersionProvider } from '../StructureVersion/TaxonomyVersionProvider';
 
 const ProgrammePage = () => {

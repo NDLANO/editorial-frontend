@@ -6,18 +6,18 @@
  *
  */
 
-import { ModalBody, ModalHeader, ModalTitle } from '@ndla/modal';
-import { AudioEmbedData } from '@ndla/types-embed';
 import { FieldProps, Form, Formik, useFormikContext } from 'formik';
 import { useCallback, useMemo, MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IAudioMetaInformation } from '@ndla/types-backend/audio-api';
-import { spacing } from '@ndla/core';
-import { AudioPlayer } from '@ndla/ui';
-import { ButtonV2 } from '@ndla/button';
 import styled from '@emotion/styled';
-import validateFormik, { RulesType } from '../../../formikValidationSchema';
+import { ButtonV2 } from '@ndla/button';
+import { spacing } from '@ndla/core';
+import { ModalBody, ModalHeader, ModalTitle } from '@ndla/modal';
+import { IAudioMetaInformation } from '@ndla/types-backend/audio-api';
+import { AudioEmbedData } from '@ndla/types-embed';
+import { AudioPlayer } from '@ndla/ui';
 import FormikField from '../../../FormikField';
+import validateFormik, { RulesType } from '../../../formikValidationSchema';
 import ObjectSelector from '../../../ObjectSelector';
 
 interface Props {

@@ -7,8 +7,8 @@
  */
 
 import { Editor } from 'slate';
-import { TYPE_FOOTNOTE } from './types';
 import Footnote from './Footnote';
+import { TYPE_FOOTNOTE } from './types';
 
 export const footnoteRenderer = (editor: Editor) => {
   const { renderElement } = editor;

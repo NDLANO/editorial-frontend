@@ -6,8 +6,8 @@
  *
  */
 
-import { Node } from 'slate';
 import { useTranslation } from 'react-i18next';
+import { Node } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import EditorErrorMessage from '../../EditorErrorMessage';
 import { EmbedElements } from '../embed';

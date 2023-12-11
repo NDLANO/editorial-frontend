@@ -2,18 +2,19 @@
  * Copyright (c) 2019-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
-import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { IImageMetaInformationV3, INewImageMetaInformationV2 } from '@ndla/types-backend/image-api';
 import ImageForm from './components/ImageForm';
-import { createFormData } from '../../util/formDataHelper';
-import { postImage } from '../../modules/image/imageApi';
-import { toEditImage } from '../../util/routeHelpers';
-import { useLicenses } from '../../modules/draft/draftQueries';
 import { draftLicensesToImageLicenses } from '../../modules/draft/draftApiUtils';
+import { useLicenses } from '../../modules/draft/draftQueries';
+import { postImage } from '../../modules/image/imageApi';
+import { createFormData } from '../../util/formDataHelper';
+import { toEditImage } from '../../util/routeHelpers';
 
 interface Props {
   isNewlyCreated?: boolean;

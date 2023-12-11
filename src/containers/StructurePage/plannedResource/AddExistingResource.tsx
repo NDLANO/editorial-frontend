@@ -6,41 +6,41 @@
  *
  */
 
-import { useQueryClient } from '@tanstack/react-query';
-import { InputV2 } from '@ndla/forms';
-import styled from '@emotion/styled';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
+import { useQueryClient } from '@tanstack/react-query';
+import { ButtonV2 } from '@ndla/button';
+import { spacing } from '@ndla/core';
+import { InputV2 } from '@ndla/forms';
 import { IArticleV2 } from '@ndla/types-backend/article-api';
 import { ILearningPathSummaryV2, ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
 import { IGroupSearchResult, IMultiSearchSummary } from '@ndla/types-backend/search-api';
-import { ButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
-import { getResourceIdFromPath } from '../../../util/routeHelpers';
-import { RESOURCE_TYPE_LEARNING_PATH, RESOURCE_TYPE_SUBJECT_MATERIAL } from '../../../constants';
-import ResourceTypeSelect from '../../ArticlePage/components/ResourceTypeSelect';
-import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
-import {
-  fetchLearningpaths,
-  learningpathSearch,
-  updateLearningPathTaxonomy,
-} from '../../../modules/learningpath/learningpathApi';
-import { search } from '../../../modules/search/searchApi';
-import ArticlePreview from '../../../components/ArticlePreview';
-import { getArticle } from '../../../modules/article/articleApi';
-import handleError from '../../../util/handleError';
-import { usePostResourceForNodeMutation } from '../../../modules/nodes/nodeMutations';
-import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
-import { nodeQueryKeys, useNodes } from '../../../modules/nodes/nodeQueries';
-import Spinner from '../../../components/Spinner';
 import {
   ButtonWrapper,
   ErrorMessage,
   StyledLabel,
   inputWrapperStyles,
 } from './PlannedResourceForm';
-import { resolveUrls } from '../../../modules/taxonomy/taxonomyApi';
+import ArticlePreview from '../../../components/ArticlePreview';
+import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
+import Spinner from '../../../components/Spinner';
+import { RESOURCE_TYPE_LEARNING_PATH, RESOURCE_TYPE_SUBJECT_MATERIAL } from '../../../constants';
+import { getArticle } from '../../../modules/article/articleApi';
+import {
+  fetchLearningpaths,
+  learningpathSearch,
+  updateLearningPathTaxonomy,
+} from '../../../modules/learningpath/learningpathApi';
 import { fetchNodes } from '../../../modules/nodes/nodeApi';
+import { usePostResourceForNodeMutation } from '../../../modules/nodes/nodeMutations';
+import { nodeQueryKeys, useNodes } from '../../../modules/nodes/nodeQueries';
+import { search } from '../../../modules/search/searchApi';
+import { resolveUrls } from '../../../modules/taxonomy/taxonomyApi';
+import handleError from '../../../util/handleError';
+import { getResourceIdFromPath } from '../../../util/routeHelpers';
+import ResourceTypeSelect from '../../ArticlePage/components/ResourceTypeSelect';
+import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
 const StyledOrDivider = styled.div`
   display: flex;

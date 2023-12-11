@@ -6,8 +6,8 @@
  *
  */
 
-import { Marked, TokenizerAndRendererExtension } from 'marked';
 import DOMPurify from 'dompurify';
+import { Marked, TokenizerAndRendererExtension } from 'marked';
 
 // https://github.com/markedjs/marked/issues/2709
 const superscriptPlugin: TokenizerAndRendererExtension = {

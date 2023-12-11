@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2016-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,15 +6,15 @@
  *
  */
 
-import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
-import { Concept, Check, Globe } from '@ndla/icons/editor';
-import { spacing, colors } from '@ndla/core';
+import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
+import { spacing, colors } from '@ndla/core';
+import { Concept, Check, Globe } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import { IConceptSummary } from '@ndla/types-backend/concept-api';
-import Spinner from '../../../Spinner';
 import { ConceptQuery } from '../../../../modules/concept/conceptApiInterfaces';
+import Spinner from '../../../Spinner';
 
 const StyledConceptResult = styled.div`
   display: grid;

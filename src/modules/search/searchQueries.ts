@@ -6,22 +6,22 @@
  *
  */
 
+import { useTranslation } from 'react-i18next';
 import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 import { IMultiSearchResult } from '@ndla/types-backend/search-api';
-import { useTranslation } from 'react-i18next';
-import { SEARCH } from '../../queryKeys';
 import { search } from './searchApi';
 import { MultiSearchApiQuery } from './searchApiInterfaces';
-import { useUserData } from '../draft/draftQueries';
-import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
-import { isValid } from '../../util/jwtHelper';
 import {
   FAVOURITES_SUBJECT_ID,
   LMA_SUBJECT_ID,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
 } from '../../constants';
-import { useNodes } from '../nodes/nodeQueries';
 import { useTaxonomyVersion } from '../../containers/StructureVersion/TaxonomyVersionProvider';
+import { SEARCH } from '../../queryKeys';
+import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
+import { isValid } from '../../util/jwtHelper';
+import { useUserData } from '../draft/draftQueries';
+import { useNodes } from '../nodes/nodeQueries';
 
 export const searchQueryKeys = {
   search: (params?: Partial<MultiSearchApiQuery>) => [SEARCH, params] as const,

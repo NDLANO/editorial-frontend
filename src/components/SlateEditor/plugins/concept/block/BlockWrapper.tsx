@@ -7,28 +7,28 @@
  */
 
 import { useState, ReactNode, useCallback, useMemo } from 'react';
-import { Editor, Element, Transforms, Path } from 'slate';
 import { useTranslation } from 'react-i18next';
+import { Editor, Element, Transforms, Path } from 'slate';
 import { ReactEditor, RenderElementProps, useSelected } from 'slate-react';
 import styled from '@emotion/styled';
+import { IconButtonV2 } from '@ndla/button';
+import { spacing, colors } from '@ndla/core';
+import { Link as LinkIcon } from '@ndla/icons/common';
+import { Check, AlertCircle, DeleteForever } from '@ndla/icons/editor';
+import { Modal, ModalContent } from '@ndla/modal';
+import { SafeLinkIconButton } from '@ndla/safelink';
 import { IConcept, IConceptSummary } from '@ndla/types-backend/concept-api';
 import { ConceptEmbedData, ConceptMetaData } from '@ndla/types-embed';
-import { Modal, ModalContent } from '@ndla/modal';
-import { spacing, colors } from '@ndla/core';
-import { Check, AlertCircle, DeleteForever } from '@ndla/icons/editor';
-import { IconButtonV2 } from '@ndla/button';
-import { Link as LinkIcon } from '@ndla/icons/common';
-import { SafeLinkIconButton } from '@ndla/safelink';
 import { ConceptEmbed } from '@ndla/ui';
-import { useFetchConceptData } from '../../../../../containers/FormikForm/formikConceptHooks';
-import { TYPE_CONCEPT_BLOCK, TYPE_GLOSS_BLOCK } from './types';
 import { ConceptBlockElement } from './interfaces';
-import ConceptModalContent from '../ConceptModalContent';
+import { TYPE_CONCEPT_BLOCK, TYPE_GLOSS_BLOCK } from './types';
 import { PUBLISHED } from '../../../../../constants';
+import { useFetchConceptData } from '../../../../../containers/FormikForm/formikConceptHooks';
 import { useConceptVisualElement } from '../../../../../modules/embed/queries';
 import parseMarkdown from '../../../../../util/parseMarkdown';
 import EditGlossExamplesModal from '../EditGlossExamplesModal';
 import { getGlossDataAttributes } from '../utils';
+import ConceptModalContent from '../ConceptModalContent';
 
 const getConceptDataAttributes = ({
   id,

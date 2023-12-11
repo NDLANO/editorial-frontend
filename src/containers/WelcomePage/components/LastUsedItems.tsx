@@ -6,21 +6,21 @@
  *
  */
 
+import orderBy from 'lodash/orderBy';
 import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import orderBy from 'lodash/orderBy';
 import Tabs from '@ndla/tabs';
 import { IConceptSearchResult, IConceptSummary } from '@ndla/types-backend/concept-api';
 import { IArticleSummary, ISearchResult } from '@ndla/types-backend/draft-api';
-import { Prefix, TitleElement } from './TableComponent';
-import { useSearchDrafts } from '../../../modules/draft/draftQueries';
-import LastUsedResources from './LastUsedResources';
 import LastUsedConcepts from './LastUsedConcepts';
-import { useSearchConcepts } from '../../../modules/concept/conceptQueries';
+import LastUsedResources from './LastUsedResources';
+import { Prefix, TitleElement } from './TableComponent';
 import {
   STORED_SORT_OPTION_LAST_USED,
   STORED_SORT_OPTION_LAST_USED_CONCEPT,
 } from '../../../constants';
+import { useSearchConcepts } from '../../../modules/concept/conceptQueries';
+import { useSearchDrafts } from '../../../modules/draft/draftQueries';
 
 export type SortOptionLastUsed = 'title' | 'lastUpdated';
 

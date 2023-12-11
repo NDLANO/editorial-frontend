@@ -2,18 +2,19 @@
  * Copyright (c) 2020-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
+import { FieldProps } from 'formik';
 import { useEffect, useState } from 'react';
-import { Spinner } from '@ndla/icons';
 import { useTranslation } from 'react-i18next';
 import { Descendant } from 'slate';
-import { FieldProps } from 'formik';
+import { Spinner } from '@ndla/icons';
 import FormikField from '../../../components/FormikField';
-import VisualElementField from '../../FormikForm/components/VisualElementField';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 import { TitleField } from '../../FormikForm';
+import VisualElementField from '../../FormikForm/components/VisualElementField';
 
 interface Props {
   selectedLanguage?: string;

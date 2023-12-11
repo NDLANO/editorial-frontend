@@ -7,22 +7,22 @@
  */
 
 import { ComponentType } from 'react';
-import loadable from '@loadable/component';
 import { useTranslation } from 'react-i18next';
 import { Navigate, Route, Routes, useLocation, useParams } from 'react-router-dom';
+import styled from '@emotion/styled';
+import loadable from '@loadable/component';
 import { UseQueryOptions, UseQueryResult } from '@tanstack/react-query';
 import { HelmetWithTracker } from '@ndla/tracker';
-import styled from '@emotion/styled';
-import { usePreviousLocation } from '../util/routeHelpers';
-import Footer from '../containers/App/components/Footer';
-import Spinner from './Spinner';
 import { NynorskTranslateProvider } from './NynorskTranslateProvider';
+import Spinner from './Spinner';
+import { useWideArticle } from './WideArticleEditorProvider';
 import { MAX_PAGE_WIDTH } from '../constants';
+import Footer from '../containers/App/components/Footer';
 import {
   MAX_DEFAULT_WIDTH_FRONTPAGE_WITH_COMMENTS,
   MAX_WIDTH_FRONTPAGE_WITH_COMMENTS,
 } from '../containers/ArticlePage/styles';
-import { useWideArticle } from './WideArticleEditorProvider';
+import { usePreviousLocation } from '../util/routeHelpers';
 
 const NotFoundPage = loadable(() => import('../containers/NotFoundPage/NotFoundPage'));
 

@@ -6,12 +6,12 @@
  *
  */
 import { useTranslation } from 'react-i18next';
-import { unreachable } from '../../../../util/guards';
-import ObjectSelector from '../../../../components/ObjectSelector';
 import CheckboxSelector from './CheckboxSelector';
-import InlineDatePicker from '../../../FormikForm/components/InlineDatePicker';
-import { SearchParams } from './SearchForm';
 import { OnFieldChangeFunction } from './GenericSearchForm';
+import { SearchParams } from './SearchForm';
+import ObjectSelector from '../../../../components/ObjectSelector';
+import { unreachable } from '../../../../util/guards';
+import InlineDatePicker from '../../../FormikForm/components/InlineDatePicker';
 
 interface SearchFormSelectorBase {
   parameterName: keyof SearchParams;

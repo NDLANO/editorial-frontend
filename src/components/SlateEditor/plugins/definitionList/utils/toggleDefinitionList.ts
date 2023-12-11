@@ -7,10 +7,10 @@
  */
 
 import { Editor, Range, Element, Transforms } from 'slate';
-import { firstTextBlockElement } from '../../../utils/normalizationHelpers';
-import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_TERM, TYPE_DEFINITION_LIST } from '../types';
 import { isDefinitionListItem } from './isDefinitionListItem';
 import isOnlySelectionOfDefinitionList from './isOnlySelectionOfDefinitionList';
+import { firstTextBlockElement } from '../../../utils/normalizationHelpers';
+import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_TERM, TYPE_DEFINITION_LIST } from '../types';
 
 export const toggleDefinitionList = (editor: Editor) => {
   if (!Range.isRange(editor.selection)) {

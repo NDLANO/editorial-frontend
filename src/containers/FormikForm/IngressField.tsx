@@ -6,18 +6,18 @@
  *
  */
 
-import { useMemo } from 'react';
 import parse from 'html-react-parser';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import FormikField from '../../components/FormikField';
 import StyledFormContainer from '../../components/SlateEditor/common/StyledFormContainer';
 import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
-import FormikField from '../../components/FormikField';
 
-import { textTransformPlugin } from '../../components/SlateEditor/plugins/textTransform';
 import saveHotkeyPlugin from '../../components/SlateEditor/plugins/saveHotkey';
-import { Plain } from '../../util/slatePlainSerializer';
+import { textTransformPlugin } from '../../components/SlateEditor/plugins/textTransform';
 import parseMarkdown from '../../util/parseMarkdown';
+import { Plain } from '../../util/slatePlainSerializer';
 
 interface Props {
   name?: string;

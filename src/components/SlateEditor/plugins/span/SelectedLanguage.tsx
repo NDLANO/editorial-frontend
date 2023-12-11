@@ -6,9 +6,9 @@
  *
  */
 
+import { useSelected } from 'slate-react';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
-import { useSelected } from 'slate-react';
 import { SpanElement } from '.';
 
 interface Props {

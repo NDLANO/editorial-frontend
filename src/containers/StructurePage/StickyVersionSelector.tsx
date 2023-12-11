@@ -6,10 +6,10 @@
  *
  */
 
-import styled from '@emotion/styled';
-import { spacing, colors } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import { useQueryClient } from '@tanstack/react-query';
+import { spacing, colors } from '@ndla/core';
 import { VersionType } from '@ndla/types-taxonomy';
 import OptGroupVersionSelector from '../../components/Taxonomy/OptGroupVersionSelector';
 import { useVersions } from '../../modules/taxonomy/versions/versionQueries';

@@ -8,8 +8,8 @@
 
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { Eye, Restore } from '@ndla/icons/editor';
 import { colors, spacing } from '@ndla/core';
+import { Eye, Restore } from '@ndla/icons/editor';
 import { IArticle } from '@ndla/types-backend/draft-api';
 
 import PreviewDraftLightboxV2 from '../../components/PreviewDraft/PreviewDraftLightboxV2';

@@ -7,10 +7,10 @@
  */
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import styled from '@emotion/styled';
-import { FieldHeader } from '@ndla/forms';
-import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
+import { ButtonV2 } from '@ndla/button';
+import { FieldHeader } from '@ndla/forms';
 import {
   ModalHeader,
   ModalBody,
@@ -22,12 +22,12 @@ import {
 } from '@ndla/modal';
 import { Switch } from '@ndla/switch';
 import { Node, NodeChild } from '@ndla/types-taxonomy';
-import { fetchUserData } from '../../../../modules/draft/draftApi';
 import { HowToHelper } from '../../../../components/HowTo';
 import ActiveTopicConnections from '../../../../components/Taxonomy/ActiveTopicConnections';
 import TaxonomyBlockNode, {
   NodeWithChildren,
 } from '../../../../components/Taxonomy/TaxonomyBlockNode';
+import { fetchUserData } from '../../../../modules/draft/draftApi';
 import { MinimalNodeChild } from '../../LearningResourcePage/components/LearningResourceTaxonomy';
 
 const StyledModalHeader = styled(ModalHeader)`

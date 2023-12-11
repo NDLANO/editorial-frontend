@@ -7,10 +7,10 @@
  */
 import fetch from 'cross-fetch';
 import queryString from 'query-string';
-import { BrightcoveAccessToken, H5POembed } from '../interfaces';
-import config from '../config';
 import { apiBaseUrl, getAccessToken, isAccessTokenValid, renewAuth } from './authHelpers';
 import { resolveJsonOrRejectWithError, throwErrorPayload } from './resolveJsonOrRejectWithError';
+import config from '../config';
+import { BrightcoveAccessToken, H5POembed } from '../interfaces';
 
 export interface HttpHeadersType {
   'Content-Type': string;

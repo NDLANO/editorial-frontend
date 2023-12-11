@@ -6,8 +6,9 @@
  *
  */
 
-import { useEffect, useRef } from 'react';
+import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import PropTypes from 'prop-types';
+import { useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
 
@@ -22,7 +23,6 @@ import 'monaco-editor/esm/vs/editor/contrib/wordHighlighter/wordHighlighter';
 import 'monaco-editor/esm/vs/editor/contrib/multicursor/multicursor';
 import 'monaco-editor/esm/vs/editor/contrib/linesOperations/linesOperations';
 import 'monaco-editor/esm/vs/editor/contrib/fontZoom/fontZoom';
-import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 
 // Uncomment the following line to test all monaco-editor features
 // import * as monaco from 'monaco-editor';

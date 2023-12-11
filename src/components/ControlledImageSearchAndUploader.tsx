@@ -7,22 +7,22 @@
  */
 
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
 import ImageSearch from '@ndla/image-search';
 import Tabs from '@ndla/tabs';
-import styled from '@emotion/styled';
 import {
   IImageMetaInformationV3,
   IUpdateImageMetaInformation,
   ISearchResultV3,
 } from '@ndla/types-backend/image-api';
-import { useTranslation } from 'react-i18next';
-import ImageForm from '../containers/ImageUploader/components/ImageForm';
-import { ImageSearchQuery } from '../modules/image/imageApiInterfaces';
 import EditorErrorMessage from './SlateEditor/EditorErrorMessage';
-import { useLicenses } from '../modules/draft/draftQueries';
+import ImageForm from '../containers/ImageUploader/components/ImageForm';
 import { draftLicensesToImageLicenses } from '../modules/draft/draftApiUtils';
+import { useLicenses } from '../modules/draft/draftQueries';
+import { ImageSearchQuery } from '../modules/image/imageApiInterfaces';
 
 const StyledTitleDiv = styled.div`
   margin-bottom: ${spacing.small};

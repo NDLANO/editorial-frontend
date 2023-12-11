@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import styled from '@emotion/styled';
-import { colors, fonts, spacing } from '@ndla/core';
-import { Search } from '@ndla/icons/common';
-import { TrashCanOutline } from '@ndla/icons/action';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
+import { colors, fonts, spacing } from '@ndla/core';
+import { TrashCanOutline } from '@ndla/icons/action';
+import { Search } from '@ndla/icons/common';
 import Tooltip from '@ndla/tooltip';
 import { NoShadowLink } from '../../WelcomePage/components/NoShadowLink';
 

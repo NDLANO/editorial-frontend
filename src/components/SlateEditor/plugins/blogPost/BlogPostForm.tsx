@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,19 +6,19 @@
  *
  */
 
+import { FieldProps, Formik, FieldInputProps } from 'formik';
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FieldProps, Formik, FieldInputProps } from 'formik';
-import styled from '@emotion/styled';
 import { css } from '@emotion/react';
-import { InputV2, RadioButtonGroup } from '@ndla/forms';
-import { spacing } from '@ndla/core';
-import { BlogPostEmbedData } from '@ndla/types-embed';
+import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
-import validateFormik, { RulesType } from '../../../formikValidationSchema';
-import FormikField from '../../../FormikField';
+import { spacing } from '@ndla/core';
+import { InputV2, RadioButtonGroup } from '@ndla/forms';
+import { BlogPostEmbedData } from '@ndla/types-embed';
 import InlineImageSearch from '../../../../containers/ConceptPage/components/InlineImageSearch';
 import { frontpageLanguages } from '../../../../i18n2';
+import FormikField from '../../../FormikField';
+import validateFormik, { RulesType } from '../../../formikValidationSchema';
 
 interface BlogPostFormValues {
   resource: 'blog-post';

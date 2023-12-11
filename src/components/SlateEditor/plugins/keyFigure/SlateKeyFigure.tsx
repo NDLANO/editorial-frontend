@@ -6,9 +6,14 @@
  *
  */
 
+import { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Editor, Path, Transforms } from 'slate';
+import { ReactEditor, RenderElementProps } from 'slate-react';
 import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
 import { Pencil } from '@ndla/icons/action';
+import { DeleteForever } from '@ndla/icons/editor';
 import {
   Modal,
   ModalBody,
@@ -21,15 +26,10 @@ import {
 import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import { KeyFigureEmbedData } from '@ndla/types-embed';
 import { KeyFigure } from '@ndla/ui';
-import { useCallback, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Editor, Path, Transforms } from 'slate';
-import { ReactEditor, RenderElementProps } from 'slate-react';
-import { DeleteForever } from '@ndla/icons/editor';
 import { KeyFigureElement } from '.';
+import KeyFigureForm from './KeyFigureForm';
 import { fetchImage } from '../../../../modules/image/imageApi';
 import { StyledDeleteEmbedButton, StyledFigureButtons } from '../embed/FigureButtons';
-import KeyFigureForm from './KeyFigureForm';
 
 interface Props extends RenderElementProps {
   element: KeyFigureElement;

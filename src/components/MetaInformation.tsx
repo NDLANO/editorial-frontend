@@ -7,8 +7,8 @@
  */
 
 import { ReactNode } from 'react';
-import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
+import { spacing } from '@ndla/core';
 
 const StyleMetaInformation = styled.div`
   display: flex;

@@ -6,11 +6,12 @@
  *
  */
 
-import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Launch, Audio, Podcast } from '@ndla/icons/common';
+import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
+import { List } from '@ndla/icons/action';
+import { Launch, Audio, Podcast } from '@ndla/icons/common';
 import {
   Camera,
   CloudUploadOutline,
@@ -20,11 +21,15 @@ import {
   Taxonomy,
   Video,
 } from '@ndla/icons/editor';
-import { List } from '@ndla/icons/action';
-//@ts-ignore
 import { ContentTypeBadge, constants } from '@ndla/ui';
 import { styledListElement } from '../../../components/StyledListElement/StyledListElement';
 import config from '../../../config';
+import {
+  AUDIO_ADMIN_SCOPE,
+  DRAFT_ADMIN_SCOPE,
+  FRONTPAGE_ADMIN_SCOPE,
+  TAXONOMY_ADMIN_SCOPE,
+} from '../../../constants';
 import {
   toCreateConcept,
   toCreateImage,
@@ -36,12 +41,6 @@ import {
   toCreateGloss,
 } from '../../../util/routeHelpers';
 import { useSession } from '../../Session/SessionProvider';
-import {
-  AUDIO_ADMIN_SCOPE,
-  DRAFT_ADMIN_SCOPE,
-  FRONTPAGE_ADMIN_SCOPE,
-  TAXONOMY_ADMIN_SCOPE,
-} from '../../../constants';
 
 const StyledMenuItem = styled.span`
   display: flex;

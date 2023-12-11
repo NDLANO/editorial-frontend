@@ -2,29 +2,26 @@
  * Copyright (c) 2020-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
 import { Formik, FormikProps } from 'formik';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { IArticle } from '@ndla/types-backend/draft-api';
 import {
   ISubjectPageData,
   INewSubjectFrontPageData,
   IUpdatedSubjectFrontPageData,
 } from '@ndla/types-backend/frontpage-api';
 import { ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
-import { IArticle } from '@ndla/types-backend/draft-api';
 import { Node } from '@ndla/types-taxonomy';
 
 import SubjectpageAccordionPanels from './SubjectpageAccordionPanels';
-import { AlertModalWrapper } from '../../FormikForm';
-import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
-import { useMessages } from '../../Messages/MessagesProvider';
-import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
-import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
 import Field from '../../../components/Field';
+import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
 import SimpleLanguageHeader from '../../../components/HeaderWithLanguage/SimpleLanguageHeader';
 import SaveButton from '../../../components/SaveButton';
 import { isSlateEmbed } from '../../../components/SlateEditor/plugins/embed/utils';
@@ -40,6 +37,10 @@ import {
   subjectpageFormikTypeToPatchType,
   subjectpageFormikTypeToPostType,
 } from '../../../util/subjectHelpers';
+import { AlertModalWrapper } from '../../FormikForm';
+import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
+import { useMessages } from '../../Messages/MessagesProvider';
+import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
   subjectpage?: ISubjectPageData;

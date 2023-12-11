@@ -9,9 +9,9 @@
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { DeleteForever } from '@ndla/icons/editor';
-import { StyledMenuItemEditField, StyledMenuItemInputField } from '../styles';
 import RoundIcon from '../../../../components/RoundIcon';
 import CustomFieldButton from '../sharedMenuOptions/components/CustomFieldButton';
+import { StyledMenuItemEditField, StyledMenuItemInputField } from '../styles';
 
 interface Option {
   key: string;

@@ -6,12 +6,12 @@
  *
  */
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
+import { useQueryClient } from '@tanstack/react-query';
+import { spacing } from '@ndla/core';
 import { Switch } from '@ndla/switch';
 import Tooltip from '@ndla/tooltip';
-import { useTranslation } from 'react-i18next';
-import { useQueryClient } from '@tanstack/react-query';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
 import { Node, Metadata } from '@ndla/types-taxonomy';
 import {
   TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE,

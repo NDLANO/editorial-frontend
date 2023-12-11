@@ -7,21 +7,18 @@
  */
 
 import { MouseEvent, ReactNode } from 'react';
-import styled from '@emotion/styled';
+import { useTranslation } from 'react-i18next';
 import { Editor, Path, Range } from 'slate';
 import { ReactEditor } from 'slate-react';
-import { useTranslation } from 'react-i18next';
-import { colors, fonts } from '@ndla/core';
-import { AlignCenter, AlignLeft, AlignRight } from '@ndla/icons/editor';
+import styled from '@emotion/styled';
 import { ButtonV2, IconButtonV2 } from '@ndla/button';
+import { colors, fonts } from '@ndla/core';
 import { Minus, Plus } from '@ndla/icons/action';
+import { AlignCenter, AlignLeft, AlignRight } from '@ndla/icons/editor';
+import EditColgroupsModal from './EditColgroupsModal';
 import { TableElement } from './interfaces';
-import getCurrentBlock from '../../utils/getCurrentBlock';
-import { TYPE_TABLE_CAPTION } from './types';
-import { useSession } from '../../../../containers/Session/SessionProvider';
-import { DRAFT_HTML_SCOPE } from '../../../../constants';
-import { isTable, isTableHead } from './slateHelpers';
 import { alignColumn } from './slateActions';
+import { isTable, isTableHead } from './slateHelpers';
 import {
   insertColumn,
   insertRow,
@@ -30,7 +27,10 @@ import {
   removeRow,
   toggleRowHeaders,
 } from './toolbarActions';
-import EditColgroupsModal from './EditColgroupsModal';
+import { TYPE_TABLE_CAPTION } from './types';
+import { DRAFT_HTML_SCOPE } from '../../../../constants';
+import { useSession } from '../../../../containers/Session/SessionProvider';
+import getCurrentBlock from '../../utils/getCurrentBlock';
 
 const StyledTableActions = styled.div`
   background: ${colors.white};

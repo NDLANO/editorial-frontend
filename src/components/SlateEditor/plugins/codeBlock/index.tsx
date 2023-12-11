@@ -9,13 +9,13 @@
 import { Descendant, Editor, Element } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { CodeEmbedData } from '@ndla/types-embed';
-import { SlateSerializer } from '../../interfaces';
-import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
-import { createEmbedTagV2, reduceElementDataAttributesV2 } from '../../../../util/embedTagHelpers';
-import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
 import { TYPE_CODEBLOCK } from './types';
-import { TYPE_PARAGRAPH } from '../paragraph/types';
+import { createEmbedTagV2, reduceElementDataAttributesV2 } from '../../../../util/embedTagHelpers';
+import { SlateSerializer } from '../../interfaces';
+import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
+import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
 import { TYPE_NDLA_EMBED } from '../embed/types';
+import { TYPE_PARAGRAPH } from '../paragraph/types';
 
 export interface CodeblockElement {
   type: 'code-block';

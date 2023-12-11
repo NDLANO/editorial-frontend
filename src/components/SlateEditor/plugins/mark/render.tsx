@@ -6,8 +6,8 @@
  *
  */
 
-import styled from '@emotion/styled';
 import { Editor } from 'slate';
+import styled from '@emotion/styled';
 
 const StyledCode = styled.code`
   display: inline;

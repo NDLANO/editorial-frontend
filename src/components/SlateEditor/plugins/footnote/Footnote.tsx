@@ -9,10 +9,10 @@
 import { useCallback, useState } from 'react';
 import { Editor } from 'slate';
 import { RenderElementProps, useFocused, useSelected } from 'slate-react';
-import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
 import { colors } from '@ndla/core';
-import EditFootnote from './EditFootnote';
+import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
 import { FootnoteElement } from '.';
+import EditFootnote from './EditFootnote';
 
 // Todo: a -> button
 /* eslint jsx-a11y/no-static-element-interactions: 1 */

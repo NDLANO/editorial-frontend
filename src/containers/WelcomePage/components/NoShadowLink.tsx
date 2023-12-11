@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
+import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 
 export const NoShadowLink = styled(Link)`

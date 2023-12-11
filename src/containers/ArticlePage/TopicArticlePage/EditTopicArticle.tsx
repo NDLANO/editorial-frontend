@@ -2,21 +2,22 @@
  * Copyright (c) 2016-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
+import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Navigate, useParams } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { useTranslation } from 'react-i18next';
-import { useEffect } from 'react';
 import TopicArticleForm from './components/TopicArticleForm';
-import { toEditArticle } from '../../../util/routeHelpers';
+import { TranslateType, useTranslateToNN } from '../../../components/NynorskTranslateProvider';
 import Spinner from '../../../components/Spinner';
 import { LocaleType } from '../../../interfaces';
+import { useNodes } from '../../../modules/nodes/nodeQueries';
+import { toEditArticle } from '../../../util/routeHelpers';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 import NotFound from '../../NotFoundPage/NotFoundPage';
-import { TranslateType, useTranslateToNN } from '../../../components/NynorskTranslateProvider';
-import { useNodes } from '../../../modules/nodes/nodeQueries';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {

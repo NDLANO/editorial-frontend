@@ -7,19 +7,19 @@
  */
 
 import { ReactNode, useCallback, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Editor, Path, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
+import styled from '@emotion/styled';
+import { IconButtonV2 } from '@ndla/button';
+import { spacing } from '@ndla/core';
+import { Pencil, Plus } from '@ndla/icons/action';
+import { DeleteForever } from '@ndla/icons/editor';
+import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
 import { LinkBlockEmbedData } from '@ndla/types-embed';
 import { LinkBlock, LinkBlockSection } from '@ndla/ui';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { IconButtonV2 } from '@ndla/button';
-import { Pencil, Plus } from '@ndla/icons/action';
-import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
-import { useTranslation } from 'react-i18next';
-import { DeleteForever } from '@ndla/icons/editor';
-import { LinkBlockListElement } from './types';
 import LinkBlockForm from './LinkBlockForm';
+import { LinkBlockListElement } from './types';
 
 interface Props {
   attributes: RenderElementProps['attributes'];

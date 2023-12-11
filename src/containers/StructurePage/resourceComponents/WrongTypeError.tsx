@@ -7,13 +7,13 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import Tooltip from '@ndla/tooltip';
-import { AlertCircle } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
+import { AlertCircle } from '@ndla/icons/editor';
+import Tooltip from '@ndla/tooltip';
 import { NodeChild } from '@ndla/types-taxonomy';
-import { getIdFromUrn } from '../../../util/taxonomyHelpers';
 import { IconWrapper } from './StatusIcons';
+import { getIdFromUrn } from '../../../util/taxonomyHelpers';
 
 const StyledWarnIcon = styled(AlertCircle)`
   height: 24px;

@@ -6,12 +6,12 @@
  *
  */
 
+import { FieldInputProps, FieldProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { RadioButtonGroup } from '@ndla/forms';
-import { FieldInputProps, FieldProps } from 'formik';
-import { fetchSearchTags } from '../../../modules/image/imageApi';
-import FormikField from '../../../components/FormikField';
 import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
+import FormikField from '../../../components/FormikField';
+import { fetchSearchTags } from '../../../modules/image/imageApi';
 
 interface Props {
   imageTags: string[];

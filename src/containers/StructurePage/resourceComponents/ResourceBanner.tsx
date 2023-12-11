@@ -6,26 +6,26 @@
  *
  */
 import { useCallback, useMemo, useState } from 'react';
-import styled from '@emotion/styled';
-import { spacing, fonts } from '@ndla/core';
-import { ButtonV2, IconButtonV2 } from '@ndla/button';
-import { NodeChild, ResourceType } from '@ndla/types-taxonomy';
 import { useTranslation } from 'react-i18next';
-import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
+import styled from '@emotion/styled';
+import { ButtonV2, IconButtonV2 } from '@ndla/button';
+import { spacing, fonts } from '@ndla/core';
 import { Plus } from '@ndla/icons/action';
-import Tooltip from '@ndla/tooltip';
+import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
 import Tabs from '@ndla/tabs';
-import { Dictionary } from '../../../interfaces';
-import { NodeResourceMeta } from '../../../modules/nodes/nodeQueries';
-import { ResourceGroupBanner, StyledShareIcon } from '../styles';
+import Tooltip from '@ndla/tooltip';
+import { NodeChild, ResourceType } from '@ndla/types-taxonomy';
 import ApproachingRevisionDate from './ApproachingRevisionDate';
 import GroupResourceSwitch from './GroupResourcesSwitch';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
+import { PUBLISHED } from '../../../constants';
+import { Dictionary } from '../../../interfaces';
+import { NodeResourceMeta } from '../../../modules/nodes/nodeQueries';
+import AddExistingResource from '../plannedResource/AddExistingResource';
 import AddResourceModal from '../plannedResource/AddResourceModal';
 import PlannedResourceForm from '../plannedResource/PlannedResourceForm';
-import AddExistingResource from '../plannedResource/AddExistingResource';
-import { PUBLISHED } from '../../../constants';
+import { ResourceGroupBanner, StyledShareIcon } from '../styles';
 
 const PublishedText = styled.div`
   font-weight: ${fonts.weight.normal};

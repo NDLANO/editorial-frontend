@@ -6,11 +6,11 @@
  *
  */
 
-import { SingleValue } from '@ndla/select';
+import queryString from 'query-string';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { SafeLinkButton } from '@ndla/safelink';
-import queryString from 'query-string';
+import { SingleValue } from '@ndla/select';
 
 const StyledSafeLinkButton = styled(SafeLinkButton)`
   height: fit-content;

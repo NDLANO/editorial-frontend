@@ -7,8 +7,8 @@
  */
 
 import { MouseEvent, ReactElement } from 'react';
-import { ButtonV2 } from '@ndla/button';
 import styled from '@emotion/styled';
+import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
 
 const StyledButton = styled(ButtonV2)`

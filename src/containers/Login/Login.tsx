@@ -1,17 +1,18 @@
 /**
- * Copyright (C) 2017 -present, NDLA
+ * Copyright (c) 2017-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
+ *
  */
 
 import { useEffect } from 'react';
-import { Route, useNavigate, useLocation, Routes } from 'react-router-dom';
-import { OneColumn } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
-import { HelmetWithTracker } from '@ndla/tracker';
-import loadable from '@loadable/component';
+import { Route, useNavigate, useLocation, Routes } from 'react-router-dom';
 import styled from '@emotion/styled';
+import loadable from '@loadable/component';
+import { HelmetWithTracker } from '@ndla/tracker';
+import { OneColumn } from '@ndla/ui';
 import LoginProviders from './LoginProviders';
 import Footer from '../App/components/Footer';
 import { useSession } from '../Session/SessionProvider';

@@ -7,8 +7,8 @@
  */
 
 import { Editor } from 'slate';
-import { TYPE_PARAGRAPH } from './types';
 import Paragraph from './Paragraph';
+import { TYPE_PARAGRAPH } from './types';
 import { BlockPickerOptions } from '../blockPicker/options';
 
 export const paragraphRenderer =

@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2021-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,22 +6,22 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
 import { useFormikContext } from 'formik';
+import { useTranslation } from 'react-i18next';
 import { IUpdatedArticle, IArticle } from '@ndla/types-backend/draft-api';
-import config from '../../../../config';
 import TopicArticleContent from './TopicArticleContent';
-import RelatedContentFieldGroup from '../../components/RelatedContentFieldGroup';
-import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from '../../../FormikForm';
 import TopicArticleTaxonomy from './TopicArticleTaxonomy';
-import { TAXONOMY_WRITE_SCOPE } from '../../../../constants';
-import GrepCodesField from '../../../FormikForm/GrepCodesField';
-import { TopicArticleFormType } from '../../../FormikForm/articleFormHooks';
-import { useSession } from '../../../Session/SessionProvider';
-import { onSaveAsVisualElement } from '../../../FormikForm/utils';
-import RevisionNotes from '../../components/RevisionNotes';
-import FormAccordions from '../../../../components/Accordion/FormAccordions';
 import FormAccordion from '../../../../components/Accordion/FormAccordion';
+import FormAccordions from '../../../../components/Accordion/FormAccordions';
+import config from '../../../../config';
+import { TAXONOMY_WRITE_SCOPE } from '../../../../constants';
+import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from '../../../FormikForm';
+import { TopicArticleFormType } from '../../../FormikForm/articleFormHooks';
+import GrepCodesField from '../../../FormikForm/GrepCodesField';
+import { onSaveAsVisualElement } from '../../../FormikForm/utils';
+import { useSession } from '../../../Session/SessionProvider';
+import RelatedContentFieldGroup from '../../components/RelatedContentFieldGroup';
+import RevisionNotes from '../../components/RevisionNotes';
 
 interface Props {
   article?: IArticle;

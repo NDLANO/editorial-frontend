@@ -6,8 +6,8 @@
  *
  */
 
-import { ButtonV2, CloseButton } from '@ndla/button';
 import styled from '@emotion/styled';
+import { ButtonV2, CloseButton } from '@ndla/button';
 import { spacing, colors, fonts } from '@ndla/core';
 import { BookOpen } from '@ndla/icons/common';
 import { ModalCloseButton, ModalTitle } from '@ndla/modal';

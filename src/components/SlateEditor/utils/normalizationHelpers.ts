@@ -1,7 +1,15 @@
+/**
+ * Copyright (c) 2021-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 import { Element } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { ElementType } from '../interfaces';
 import { TYPE_ASIDE } from '../plugins/aside/types';
+import { TYPE_AUDIO } from '../plugins/audio/types';
 import { TYPE_QUOTE } from '../plugins/blockquote/types';
 import { TYPE_BODYBOX } from '../plugins/bodybox/types';
 import { TYPE_CODEBLOCK } from '../plugins/codeBlock/types';
@@ -13,13 +21,12 @@ import {
   TYPE_EMBED_EXTERNAL,
 } from '../plugins/embed/types';
 import { TYPE_FILE } from '../plugins/file/types';
+import { TYPE_GRID } from '../plugins/grid/types';
+import { TYPE_H5P } from '../plugins/h5p/types';
 import { TYPE_HEADING } from '../plugins/heading/types';
 import { TYPE_LIST } from '../plugins/list/types';
 import { TYPE_PARAGRAPH } from '../plugins/paragraph/types';
 import { TYPE_TABLE } from '../plugins/table/types';
-import { TYPE_AUDIO } from '../plugins/audio/types';
-import { TYPE_GRID } from '../plugins/grid/types';
-import { TYPE_H5P } from '../plugins/h5p/types';
 
 export const firstTextBlockElement: Element['type'][] = [TYPE_PARAGRAPH, TYPE_HEADING, TYPE_QUOTE];
 

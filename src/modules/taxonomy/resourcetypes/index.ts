@@ -7,14 +7,14 @@
  */
 
 import { ResourceType } from '@ndla/types-taxonomy';
-import { apiResourceUrl, httpFunctions } from '../../../util/apiHelpers';
+import { ResourceResourceTypePostBody } from './resourceTypesApiInterfaces';
 import { taxonomyApi } from '../../../config';
+import { WithTaxonomyVersion } from '../../../interfaces';
+import { apiResourceUrl, httpFunctions } from '../../../util/apiHelpers';
 import {
   resolveLocation,
   resolveVoidOrRejectWithError,
 } from '../../../util/resolveJsonOrRejectWithError';
-import { WithTaxonomyVersion } from '../../../interfaces';
-import { ResourceResourceTypePostBody } from './resourceTypesApiInterfaces';
 
 const resourceTypesUrl = apiResourceUrl(`${taxonomyApi}/resource-types`);
 const resourceResourceTypesUrl = apiResourceUrl(`${taxonomyApi}/resource-resourcetypes`);

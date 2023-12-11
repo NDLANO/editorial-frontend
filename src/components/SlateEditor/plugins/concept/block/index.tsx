@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2022-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -8,6 +8,7 @@
 
 import { Descendant, Editor, Element } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
+import { TYPE_CONCEPT_BLOCK, TYPE_GLOSS_BLOCK } from './types';
 import {
   createEmbedTagV2,
   reduceElementDataAttributesV2,
@@ -17,7 +18,6 @@ import { defaultBlockNormalizer, NormalizerConfig } from '../../../utils/default
 import { afterOrBeforeTextBlockElement } from '../../../utils/normalizationHelpers';
 import { TYPE_NDLA_EMBED } from '../../embed/types';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
-import { TYPE_CONCEPT_BLOCK, TYPE_GLOSS_BLOCK } from './types';
 
 const normalizerConfig: NormalizerConfig = {
   previous: {

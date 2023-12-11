@@ -6,20 +6,20 @@
  *
  */
 
+import FocusTrapReact from 'focus-trap-react';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { colors, spacing, fonts } from '@ndla/core';
-import { Logo } from '@ndla/ui';
-import FocusTrapReact from 'focus-trap-react';
 import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
+import { colors, spacing, fonts } from '@ndla/core';
 import { Menu } from '@ndla/icons/common';
 import SafeLink from '@ndla/safelink';
-import SessionContainer from './SessionContainer';
+import { Logo } from '@ndla/ui';
 import NavigationMenu from './NavigationMenu';
+import SessionContainer from './SessionContainer';
+import { Column, GridContainer } from '../../../components/Layout/Layout';
 import Overlay from '../../../components/Overlay';
 import config from '../../../config';
-import { Column, GridContainer } from '../../../components/Layout/Layout';
 import SavedSearchDropdown from '../SavedSearchDropdown';
 
 const StyledLogoDiv = styled.div`

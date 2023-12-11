@@ -6,14 +6,14 @@
  *
  */
 
-import styled from '@emotion/styled';
-import { shadows } from '@ndla/core';
 import { FormikValues } from 'formik';
 import { useCallback, useState } from 'react';
+import styled from '@emotion/styled';
+import { shadows } from '@ndla/core';
+import FigureInput from './FigureInput';
 import ImageEditor from '../../../../containers/ImageEditor/ImageEditor';
 import { ImageEmbed } from '../../../../interfaces';
 import { TransformData } from '../../../../util/imageEditorUtil';
-import FigureInput from './FigureInput';
 
 const StyledEditorContent = styled.div`
   box-shadow: ${shadows.levitate1};

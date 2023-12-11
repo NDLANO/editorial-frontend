@@ -7,19 +7,19 @@
  */
 
 import { FormEvent, InputHTMLAttributes, forwardRef, useState } from 'react';
-import { ButtonV2 } from '@ndla/button';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import styled from '@emotion/styled';
+import { ButtonV2 } from '@ndla/button';
 import { colors, misc, spacing, fonts } from '@ndla/core';
 import { Search } from '@ndla/icons/common';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
 import { isValidLocale } from '../../../i18n';
-import { toEditArticle, to404 } from '../../../util/routeHelpers';
-import { isNDLAFrontendUrl } from '../../../util/htmlHelpers';
 import { fetchNewArticleId } from '../../../modules/draft/draftApi';
-import { resolveUrls } from '../../../modules/taxonomy/taxonomyApi';
-import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import { fetchNode } from '../../../modules/nodes/nodeApi';
+import { resolveUrls } from '../../../modules/taxonomy/taxonomyApi';
+import { isNDLAFrontendUrl } from '../../../util/htmlHelpers';
+import { toEditArticle, to404 } from '../../../util/routeHelpers';
+import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
 const StyledForm = styled.form`
   display: flex;

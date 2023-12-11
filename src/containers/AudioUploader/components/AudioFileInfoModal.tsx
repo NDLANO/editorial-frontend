@@ -6,6 +6,7 @@
  *
  */
 
+import { useTranslation } from 'react-i18next';
 import { IconButtonV2 } from '@ndla/button';
 import {
   ModalBody,
@@ -17,7 +18,6 @@ import {
   ModalContent,
 } from '@ndla/modal';
 
-import { useTranslation } from 'react-i18next';
 import { HelpIcon, normalPaddingCSS } from '../../../components/HowTo';
 
 const AudioFileInfoModal = () => {

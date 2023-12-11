@@ -10,10 +10,10 @@ import { Dispatch, SetStateAction, useEffect } from 'react';
 import { Transforms } from 'slate';
 import { useSlateStatic } from 'slate-react';
 import styled from '@emotion/styled';
+import { Portal } from '@radix-ui/react-portal';
 import { ButtonV2 } from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
 import { DeleteForever } from '@ndla/icons/editor';
-import { Portal } from '@radix-ui/react-portal';
 import { SpanElement } from '.';
 import LanguageButton from './LanguageButton';
 

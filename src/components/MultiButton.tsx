@@ -8,10 +8,10 @@
 
 import { ReactElement } from 'react';
 import styled from '@emotion/styled';
-import { colors, shadows } from '@ndla/core';
-import { ChevronDown } from '@ndla/icons/common';
 import { Content, Item, Portal, Root, Trigger } from '@radix-ui/react-dropdown-menu';
 import { ButtonV2 } from '@ndla/button';
+import { colors, shadows } from '@ndla/core';
+import { ChevronDown } from '@ndla/icons/common';
 
 const MainButton = styled(ButtonV2)`
   border-top-right-radius: 0;

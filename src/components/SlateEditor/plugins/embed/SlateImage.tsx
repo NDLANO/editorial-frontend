@@ -6,23 +6,23 @@
  *
  */
 
+import parse from 'html-react-parser';
 import { ReactNode, useState, MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import { RenderElementProps, useSlateStatic } from 'slate-react';
-import parse from 'html-react-parser';
 import { Editor, Path } from 'slate';
+import { RenderElementProps, useSlateStatic } from 'slate-react';
 import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
-import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
 import { Pencil } from '@ndla/icons/action';
-import { SafeLinkIconButton } from '@ndla/safelink';
 import { DeleteForever, Link } from '@ndla/icons/editor';
-import { getSrcSets } from '../../../../util/imageEditorUtil';
-import { StyledDeleteEmbedButton, StyledFigureButtons } from './FigureButtons';
+import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
+import { SafeLinkIconButton } from '@ndla/safelink';
 import EditImage from './EditImage';
+import { StyledDeleteEmbedButton, StyledFigureButtons } from './FigureButtons';
 import { ImageEmbed } from '../../../../interfaces';
-import { isTable } from '../table/slateHelpers';
+import { getSrcSets } from '../../../../util/imageEditorUtil';
 import parseMarkdown from '../../../../util/parseMarkdown';
+import { isTable } from '../table/slateHelpers';
 
 interface Props {
   active?: boolean;

@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2021-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,19 +6,19 @@
  *
  */
 
-import { useEffect, useState } from 'react';
 import { useFormikContext } from 'formik';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
-import ImageSearch from '@ndla/image-search';
+import { spacing } from '@ndla/core';
 import { FieldHeader } from '@ndla/forms';
-import MetaImageField from '../../FormikForm/components/MetaImageField';
+import ImageSearch from '@ndla/image-search';
+import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
-import { fetchImage, searchImages, onError } from '../../../modules/image/imageApi';
 import { LocaleType } from '../../../interfaces';
+import { fetchImage, searchImages, onError } from '../../../modules/image/imageApi';
+import MetaImageField from '../../FormikForm/components/MetaImageField';
 import { ConceptFormValues } from '../conceptInterfaces';
 
 const StyledTitleDiv = styled.div`

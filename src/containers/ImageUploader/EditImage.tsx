@@ -2,7 +2,8 @@
  * Copyright (c) 2016-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
 import { useEffect, useState } from 'react';
@@ -13,14 +14,14 @@ import {
   IUpdateImageMetaInformation,
 } from '@ndla/types-backend/image-api';
 import ImageForm from './components/ImageForm';
-import { fetchImage, updateImage } from '../../modules/image/imageApi';
-import { useLicenses } from '../../modules/draft/draftQueries';
-import { useMessages } from '../Messages/MessagesProvider';
-import { createFormData } from '../../util/formDataHelper';
-import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import { TranslateType, useTranslateToNN } from '../../components/NynorskTranslateProvider';
 import Spinner from '../../components/Spinner';
 import { draftLicensesToImageLicenses } from '../../modules/draft/draftApiUtils';
-import { TranslateType, useTranslateToNN } from '../../components/NynorskTranslateProvider';
+import { useLicenses } from '../../modules/draft/draftQueries';
+import { fetchImage, updateImage } from '../../modules/image/imageApi';
+import { createFormData } from '../../util/formDataHelper';
+import { useMessages } from '../Messages/MessagesProvider';
+import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 interface Props {
   imageId?: string;

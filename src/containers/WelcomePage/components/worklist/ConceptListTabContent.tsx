@@ -6,13 +6,16 @@
  *
  */
 
+import uniqBy from 'lodash/uniqBy';
+import { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Calendar } from '@ndla/icons/editor';
 import Pager from '@ndla/pager';
 import { Select, SingleValue } from '@ndla/select';
 import { IConceptSearchResult, IConceptSummary, IStatus } from '@ndla/types-backend/concept-api';
-import uniqBy from 'lodash/uniqBy';
-import { useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import PageSizeDropdown from './PageSizeDropdown';
+import StatusCell from './StatusCell';
+import { SortOption } from './WorkList';
 import { searchNodes } from '../../../../modules/nodes/nodeApi';
 import formatDate from '../../../../util/formatDate';
 import { toEditConcept, toEditGloss } from '../../../../util/routeHelpers';
@@ -26,9 +29,6 @@ import {
 import GoToSearch from '../GoToSearch';
 import TableComponent, { FieldElement, Prefix, TitleElement } from '../TableComponent';
 import TableTitle from '../TableTitle';
-import { SortOption } from './WorkList';
-import StatusCell from './StatusCell';
-import PageSizeDropdown from './PageSizeDropdown';
 
 interface Props {
   data: IConceptSearchResult | undefined;

@@ -15,13 +15,6 @@ import {
   ISearchResult,
 } from '@ndla/types-backend/draft-api';
 import {
-  DRAFT,
-  DRAFT_STATUS_STATE_MACHINE,
-  LICENSES,
-  USER_DATA,
-  SEARCH_DRAFTS,
-} from '../../queryKeys';
-import {
   fetchDraft,
   fetchLicenses,
   fetchStatusStateMachine,
@@ -29,8 +22,15 @@ import {
   updateUserData,
   searchAllDrafts,
 } from './draftApi';
-import { DraftStatusStateMachineType } from '../../interfaces';
 import { DraftSearchQuery } from './draftApiInterfaces';
+import { DraftStatusStateMachineType } from '../../interfaces';
+import {
+  DRAFT,
+  DRAFT_STATUS_STATE_MACHINE,
+  LICENSES,
+  USER_DATA,
+  SEARCH_DRAFTS,
+} from '../../queryKeys';
 
 export interface UseDraft {
   id: number;

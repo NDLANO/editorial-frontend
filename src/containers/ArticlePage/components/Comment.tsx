@@ -2,17 +2,18 @@
  * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
-import styled from '@emotion/styled';
-import { colors, spacing, fonts, misc } from '@ndla/core';
-import { TrashCanOutline, RightArrow, ExpandMore } from '@ndla/icons/action';
-import { IconButtonV2 } from '@ndla/button';
-import { useTranslation } from 'react-i18next';
-import { TextAreaV2 } from '@ndla/forms';
 import { ChangeEvent, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import { IconButtonV2 } from '@ndla/button';
+import { colors, spacing, fonts, misc } from '@ndla/core';
+import { TextAreaV2 } from '@ndla/forms';
+import { TrashCanOutline, RightArrow, ExpandMore } from '@ndla/icons/action';
 import { IComment } from '@ndla/types-backend/draft-api';
 import AlertModal from '../../../components/AlertModal';
 

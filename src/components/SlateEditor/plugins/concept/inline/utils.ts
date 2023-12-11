@@ -8,8 +8,8 @@
 
 import { Editor, Transforms, Element, Range } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
-import hasNodeOfType from '../../../utils/hasNodeOfType';
 import { TYPE_CONCEPT_INLINE } from './types';
+import hasNodeOfType from '../../../utils/hasNodeOfType';
 
 export const insertInlineConcept = (editor: Editor) => {
   if (hasNodeOfType(editor, TYPE_CONCEPT_INLINE)) {

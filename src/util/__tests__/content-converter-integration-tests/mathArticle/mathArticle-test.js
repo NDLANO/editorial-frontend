@@ -7,8 +7,8 @@
  */
 
 import filterConsole from 'filter-console';
-import { blockContentToEditorValue, blockContentToHTML } from '../../../articleContentConverter';
 import { html } from './mathArticle';
+import { blockContentToEditorValue, blockContentToHTML } from '../../../articleContentConverter';
 
 let disableFilter;
 beforeEach(() => {

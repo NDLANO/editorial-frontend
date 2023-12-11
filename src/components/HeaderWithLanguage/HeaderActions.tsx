@@ -6,23 +6,21 @@
  *
  */
 
-import { Check, Eye } from '@ndla/icons/editor';
-import { FileCompare } from '@ndla/icons/action';
+import { useFormikContext } from 'formik';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
+import { FileCompare } from '@ndla/icons/action';
+import { Check, Eye } from '@ndla/icons/editor';
 import { IConcept } from '@ndla/types-backend/concept-api';
 import { IArticle } from '@ndla/types-backend/draft-api';
-import { memo, useCallback, useEffect, useMemo, useState } from 'react';
-import { useFormikContext } from 'formik';
-import styled from '@emotion/styled';
-import StyledFilledButton from '../StyledFilledButton';
+import DeleteLanguageVersion from './DeleteLanguageVersion';
 import { StyledSplitter } from './HeaderInformation';
 import HeaderLanguagePicker from './HeaderLanguagePicker';
-import TranslateNbToNn from './TranslateNbToNn';
-import DeleteLanguageVersion from './DeleteLanguageVersion';
-import HeaderSupportedLanguages from './HeaderSupportedLanguages';
 import HeaderLanguagePill from './HeaderLanguagePill';
-import { useIsTranslatableToNN } from '../NynorskTranslateProvider';
-import PreviewDraftLightboxV2 from '../PreviewDraft/PreviewDraftLightboxV2';
+import HeaderSupportedLanguages from './HeaderSupportedLanguages';
+import TranslateNbToNn from './TranslateNbToNn';
+import { fetchDraftHistory } from '../../modules/draft/draftApi';
 import {
   toEditAudio,
   toEditConcept,
@@ -34,7 +32,9 @@ import {
   toEditPodcastSeries,
   toEditTopicArticle,
 } from '../../util/routeHelpers';
-import { fetchDraftHistory } from '../../modules/draft/draftApi';
+import { useIsTranslatableToNN } from '../NynorskTranslateProvider';
+import PreviewDraftLightboxV2 from '../PreviewDraft/PreviewDraftLightboxV2';
+import StyledFilledButton from '../StyledFilledButton';
 
 interface PreviewLightBoxProps {
   article?: IArticle;

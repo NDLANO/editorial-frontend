@@ -6,16 +6,16 @@
  *
  */
 
-import { useMemo } from 'react';
 import { FormikHandlers } from 'formik';
-import VisualElementEditor from '../../components/SlateEditor/VisualElementEditor';
-import { EmbedElements, embedPlugin } from '../../components/SlateEditor/plugins/embed';
-import { VisualElementType } from '../../containers/VisualElement/VisualElementMenu';
+import { useMemo } from 'react';
 import { audioPlugin } from '../../components/SlateEditor/plugins/audio';
-import { h5pPlugin } from '../../components/SlateEditor/plugins/h5p';
 import { audioRenderer } from '../../components/SlateEditor/plugins/audio/render';
-import { h5pRenderer } from '../../components/SlateEditor/plugins/h5p/render';
+import { EmbedElements, embedPlugin } from '../../components/SlateEditor/plugins/embed';
 import { embedRenderer } from '../../components/SlateEditor/plugins/embed/render';
+import { h5pPlugin } from '../../components/SlateEditor/plugins/h5p';
+import { h5pRenderer } from '../../components/SlateEditor/plugins/h5p/render';
+import VisualElementEditor from '../../components/SlateEditor/VisualElementEditor';
+import { VisualElementType } from '../../containers/VisualElement/VisualElementMenu';
 
 interface Props {
   onChange: FormikHandlers['handleChange'];

@@ -1,12 +1,19 @@
+/**
+ * Copyright (c) 2021-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 import { Editor, Element, Transforms, Path } from 'slate';
 import { ReactEditor } from 'slate-react';
 
+import getCurrentBlock from '../../../utils/getCurrentBlock';
 import hasNodeOfType from '../../../utils/hasNodeOfType';
+import { firstTextBlockElement } from '../../../utils/normalizationHelpers';
 import { TYPE_LIST, TYPE_LIST_ITEM } from '../types';
 
 import { defaultListBlock } from '../utils/defaultBlocks';
-import getCurrentBlock from '../../../utils/getCurrentBlock';
-import { firstTextBlockElement } from '../../../utils/normalizationHelpers';
 
 const onTab = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEvent) => void) => {
   if (!editor.selection) return next && next(event);

@@ -6,15 +6,8 @@
  *
  */
 
-import { jsx as slatejsx } from 'slate-hyperscript';
 import { Element, Node } from 'slate';
-import { Embed } from '../../../../interfaces';
-import {
-  TYPE_EMBED_BRIGHTCOVE,
-  TYPE_EMBED_ERROR,
-  TYPE_EMBED_EXTERNAL,
-  TYPE_EMBED_IMAGE,
-} from './types';
+import { jsx as slatejsx } from 'slate-hyperscript';
 import {
   BrightcoveEmbedElement,
   EmbedElements,
@@ -22,6 +15,13 @@ import {
   ExternalEmbedElement,
   ImageEmbedElement,
 } from '.';
+import {
+  TYPE_EMBED_BRIGHTCOVE,
+  TYPE_EMBED_ERROR,
+  TYPE_EMBED_EXTERNAL,
+  TYPE_EMBED_IMAGE,
+} from './types';
+import { Embed } from '../../../../interfaces';
 import { AudioElement, TYPE_AUDIO } from '../audio/types';
 import { H5pElement, TYPE_H5P } from '../h5p/types';
 

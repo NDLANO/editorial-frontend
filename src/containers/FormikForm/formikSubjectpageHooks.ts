@@ -2,24 +2,25 @@
  * Copyright (c) 2020-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 import { useEffect, useState } from 'react';
+import { IArticle } from '@ndla/types-backend/draft-api';
 import {
   ISubjectPageData,
   IUpdatedSubjectFrontPageData,
   INewSubjectFrontPageData,
 } from '@ndla/types-backend/frontpage-api';
 import { ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
-import { IArticle } from '@ndla/types-backend/draft-api';
 import { Node } from '@ndla/types-taxonomy';
-import * as frontpageApi from '../../modules/frontpage/frontpageApi';
-import { getUrnFromId } from '../../util/subjectHelpers';
 import { LocaleType } from '../../interfaces';
 import { fetchDraft } from '../../modules/draft/draftApi';
+import * as frontpageApi from '../../modules/frontpage/frontpageApi';
 import { fetchLearningpath } from '../../modules/learningpath/learningpathApi';
-import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
 import { fetchNode, putNode } from '../../modules/nodes/nodeApi';
+import { getUrnFromId } from '../../util/subjectHelpers';
+import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
 
 export function useFetchSubjectpageData(
   elementId: string,

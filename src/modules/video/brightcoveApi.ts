@@ -2,12 +2,13 @@
  * Copyright (c) 2021-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 import queryString from 'query-string';
-import { BrightcoveApiType, BrightcoveCopyright, BrightcoveVideoSource } from '@ndla/types-embed';
-import { ICopyright } from '@ndla/types-backend/article-api';
 import { contributorGroups, contributorTypes, getLicenseByNBTitle } from '@ndla/licenses';
+import { ICopyright } from '@ndla/types-backend/article-api';
+import { BrightcoveApiType, BrightcoveCopyright, BrightcoveVideoSource } from '@ndla/types-embed';
 import config from '../../config';
 import {
   brightcoveApiResourceUrl,

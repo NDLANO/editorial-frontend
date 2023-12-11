@@ -6,16 +6,16 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
 import { useFormikContext } from 'formik';
+import { useTranslation } from 'react-i18next';
 import { IArticle } from '@ndla/types-backend/draft-api';
+import FrontpageArticleFormContent from './FrontpageArticleFormContent';
+import FormAccordion from '../../../../components/Accordion/FormAccordion';
+import FormAccordions from '../../../../components/Accordion/FormAccordions';
+import { useWideArticle } from '../../../../components/WideArticleEditorProvider';
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from '../../../FormikForm';
 import { FrontpageArticleFormType } from '../../../FormikForm/articleFormHooks';
 import RevisionNotes from '../../components/RevisionNotes';
-import FrontpageArticleFormContent from './FrontpageArticleFormContent';
-import FormAccordions from '../../../../components/Accordion/FormAccordions';
-import FormAccordion from '../../../../components/Accordion/FormAccordion';
-import { useWideArticle } from '../../../../components/WideArticleEditorProvider';
 
 interface Props {
   article?: IArticle;

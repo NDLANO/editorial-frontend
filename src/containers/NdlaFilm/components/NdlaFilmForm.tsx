@@ -2,26 +2,27 @@
  * Copyright (c) 2020-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
-import { useTranslation } from 'react-i18next';
-import { useState } from 'react';
 import { Formik } from 'formik';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Descendant, Element } from 'slate';
 import { IFilmFrontPageData, IMovieTheme } from '@ndla/types-backend/frontpage-api';
+import NdlaFilmAccordionPanels from './NdlaFilmAccordionPanels';
+import Field from '../../../components/Field';
+import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
+import SimpleLanguageHeader from '../../../components/HeaderWithLanguage/SimpleLanguageHeader';
+import SaveButton from '../../../components/SaveButton';
+import { isSlateEmbed } from '../../../components/SlateEditor/plugins/embed/utils';
+import StyledForm from '../../../components/StyledFormComponents';
+import { SAVE_BUTTON_ID } from '../../../constants';
+import { isFormikFormDirty } from '../../../util/formHelper';
+import { toEditNdlaFilm } from '../../../util/routeHelpers';
+import { AlertModalWrapper } from '../../FormikForm/index';
 import { useNdlaFilmFormHooks } from '../../FormikForm/ndlaFilmFormHooks';
 import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
-import Field from '../../../components/Field';
-import { isFormikFormDirty } from '../../../util/formHelper';
-import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
-import { AlertModalWrapper } from '../../FormikForm/index';
-import SimpleLanguageHeader from '../../../components/HeaderWithLanguage/SimpleLanguageHeader';
-import { toEditNdlaFilm } from '../../../util/routeHelpers';
-import NdlaFilmAccordionPanels from './NdlaFilmAccordionPanels';
-import SaveButton from '../../../components/SaveButton';
-import StyledForm from '../../../components/StyledFormComponents';
-import { isSlateEmbed } from '../../../components/SlateEditor/plugins/embed/utils';
-import { SAVE_BUTTON_ID } from '../../../constants';
 
 interface Props {
   filmFrontpage: IFilmFrontPageData;

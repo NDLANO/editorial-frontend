@@ -6,11 +6,11 @@
  *
  */
 
+import { MouseEventHandler } from 'react';
+import { useTranslation } from 'react-i18next';
 import { IconButtonV2 } from '@ndla/button';
 import { ChevronLeft } from '@ndla/icons/common';
 import Tooltip from '@ndla/tooltip';
-import { MouseEventHandler } from 'react';
-import { useTranslation } from 'react-i18next';
 
 interface Props {
   onMouseDown?: MouseEventHandler;

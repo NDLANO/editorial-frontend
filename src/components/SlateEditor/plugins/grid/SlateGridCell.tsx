@@ -6,14 +6,14 @@
  *
  */
 
-import styled from '@emotion/styled';
-import { spacing, colors } from '@ndla/core';
-import { Editor, Transforms } from 'slate';
-import { ReactEditor, RenderElementProps } from 'slate-react';
-import { IconButtonV2 } from '@ndla/button';
-import { Pin } from '@ndla/icons/common';
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Editor, Transforms } from 'slate';
+import { ReactEditor, RenderElementProps } from 'slate-react';
+import styled from '@emotion/styled';
+import { IconButtonV2 } from '@ndla/button';
+import { spacing, colors } from '@ndla/core';
+import { Pin } from '@ndla/icons/common';
 import { GridCellElement } from '.';
 
 interface Props extends RenderElementProps {

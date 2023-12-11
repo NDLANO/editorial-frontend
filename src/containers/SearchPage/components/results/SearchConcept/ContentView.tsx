@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2020-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -7,11 +7,11 @@
  */
 
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
+import { colors } from '@ndla/core';
 import { getLicenseByAbbreviation } from '@ndla/licenses';
 import { LicenseByline } from '@ndla/notion';
-import { colors } from '@ndla/core';
-import styled from '@emotion/styled';
 import { IConceptSummary } from '@ndla/types-backend/concept-api';
 import { Node } from '@ndla/types-taxonomy';
 import {
@@ -22,11 +22,11 @@ import {
   StyledBreadcrumbs,
   Crumb,
 } from './SearchStyles';
-import formatDate from '../../../../../util/formatDate';
-import { toEditConcept, toEditGloss } from '../../../../../util/routeHelpers';
 import HeaderStatusInformation from '../../../../../components/HeaderWithLanguage/HeaderStatusInformation';
 import { LocaleType } from '../../../../../interfaces';
 import { useLicenses } from '../../../../../modules/draft/draftQueries';
+import formatDate from '../../../../../util/formatDate';
+import { toEditConcept, toEditGloss } from '../../../../../util/routeHelpers';
 
 interface Props {
   concept: IConceptSummary;

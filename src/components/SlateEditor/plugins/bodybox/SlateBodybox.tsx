@@ -6,14 +6,14 @@
  *
  */
 
+import { useTranslation } from 'react-i18next';
 import { Editor, Element, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
-import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
+import { TYPE_BODYBOX } from './types';
 import DeleteButton from '../../../DeleteButton';
 import MoveContentButton from '../../../MoveContentButton';
-import { TYPE_BODYBOX } from './types';
 
 const StyledBodybox = styled.div`
   display: flex;

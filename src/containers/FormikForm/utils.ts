@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2021-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -8,11 +8,11 @@
 
 import { FormikContextType } from 'formik';
 import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
+import { ArticleFormType } from './articleFormHooks';
 import { defaultEmbedBlock } from '../../components/SlateEditor/plugins/embed/utils';
 import { ImageEmbed } from '../../interfaces';
 import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
 import { ConceptFormValues } from '../ConceptPage/conceptInterfaces';
-import { ArticleFormType } from './articleFormHooks';
 
 export const onSaveAsVisualElement = <T extends ArticleFormType>(
   image: IImageMetaInformationV3,

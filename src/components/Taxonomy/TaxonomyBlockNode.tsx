@@ -6,22 +6,22 @@
  *
  */
 
-import { Node, NodeChild } from '@ndla/types-taxonomy';
 import { useCallback, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { colors, fonts, spacing } from '@ndla/core';
 import { Check } from '@ndla/icons/editor';
-import { useTranslation } from 'react-i18next';
-import { NodeChildWithChildren } from '../../modules/nodes/nodeQueries';
+import { Node, NodeChild } from '@ndla/types-taxonomy';
+import Fade from './Fade';
 import {
   ItemTitleButton,
   StructureWrapper,
   StyledItemBar,
   StyledStructureItem,
 } from './nodeStyles';
-import Fade from './Fade';
 import { MinimalNodeChild } from '../../containers/ArticlePage/LearningResourcePage/components/LearningResourceTaxonomy';
+import { NodeChildWithChildren } from '../../modules/nodes/nodeQueries';
 
 export interface NodeWithChildren extends Node {
   childNodes?: NodeChildWithChildren[];

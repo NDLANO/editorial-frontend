@@ -5,28 +5,28 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { Spinner } from '@ndla/icons';
 import { useEffect, useRef, useState, ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { breakpoints } from '@ndla/core';
+import { Spinner } from '@ndla/icons';
 import { NodeChild, Node, NodeType } from '@ndla/types-taxonomy';
-import ErrorBoundary from '../../components/ErrorBoundary';
-import { REMEMBER_FAVORITE_NODES, TAXONOMY_ADMIN_SCOPE } from '../../constants';
-import { useSession } from '../Session/SessionProvider';
-import { useUserData } from '../../modules/draft/draftQueries';
-import { useNodes } from '../../modules/nodes/nodeQueries';
-import RootNode from './RootNode';
-import { getPathsFromUrl, removeLastItemFromUrl } from '../../util/routeHelpers';
 import StructureErrorIcon from './folderComponents/StructureErrorIcon';
 import StructureResources from './resourceComponents/StructureResources';
-import Footer from '../App/components/Footer';
-import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
+import RootNode from './RootNode';
 import StickyVersionSelector from './StickyVersionSelector';
-import { createGuard } from '../../util/guards';
-import { GridContainer, Column } from '../../components/Layout/Layout';
 import StructureBanner from './StructureBanner';
+import ErrorBoundary from '../../components/ErrorBoundary';
+import { GridContainer, Column } from '../../components/Layout/Layout';
+import { REMEMBER_FAVORITE_NODES, TAXONOMY_ADMIN_SCOPE } from '../../constants';
+import { useUserData } from '../../modules/draft/draftQueries';
+import { useNodes } from '../../modules/nodes/nodeQueries';
+import { createGuard } from '../../util/guards';
+import { getPathsFromUrl, removeLastItemFromUrl } from '../../util/routeHelpers';
+import Footer from '../App/components/Footer';
+import { useSession } from '../Session/SessionProvider';
+import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
 
 const StructureWrapper = styled.ul`
   margin: 0;

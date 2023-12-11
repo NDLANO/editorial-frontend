@@ -6,18 +6,18 @@
  *
  */
 
+import { TFunction } from 'i18next';
 import { useEffect, useState, MouseEvent } from 'react';
 
 import { useTranslation } from 'react-i18next';
-import { TFunction } from 'i18next';
 import { Node } from '@ndla/types-taxonomy';
-import { getResourceLanguages } from '../../../../util/resourceHelpers';
+import GenericSearchForm, { OnFieldChangeFunction } from './GenericSearchForm';
+import { SearchParams } from './SearchForm';
+import { SearchFormSelector } from './Selector';
+import { useLicenses } from '../../../../modules/draft/draftQueries';
 import { getTagName } from '../../../../util/formHelper';
 import { getLicensesWithTranslations } from '../../../../util/licenseHelpers';
-import { SearchParams } from './SearchForm';
-import { useLicenses } from '../../../../modules/draft/draftQueries';
-import GenericSearchForm, { OnFieldChangeFunction } from './GenericSearchForm';
-import { SearchFormSelector } from './Selector';
+import { getResourceLanguages } from '../../../../util/resourceHelpers';
 
 interface Props {
   search: (o: SearchParams) => void;

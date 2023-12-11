@@ -7,18 +7,18 @@
  */
 
 import { FieldProps, useFormikContext } from 'formik';
-import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
-import { UploadDropZone, TextArea } from '@ndla/forms';
-import SafeLink from '@ndla/safelink';
-import Tooltip from '@ndla/tooltip';
-import { DeleteForever } from '@ndla/icons/editor';
-import { ImageMeta } from '@ndla/image-search';
+import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
 import { animations, spacing, colors } from '@ndla/core';
+import { UploadDropZone, TextArea } from '@ndla/forms';
+import { DeleteForever } from '@ndla/icons/editor';
+import { ImageMeta } from '@ndla/image-search';
+import SafeLink from '@ndla/safelink';
+import Tooltip from '@ndla/tooltip';
 import FormikField from '../../../components/FormikField';
-import { ImageFormikType } from '../imageTransformers';
 import { TitleField } from '../../FormikForm';
+import { ImageFormikType } from '../imageTransformers';
 
 const StyledImage = styled.img`
   margin: ${spacing.normal} 0;

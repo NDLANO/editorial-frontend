@@ -6,18 +6,18 @@
  *
  */
 
-import { HelmetWithTracker } from '@ndla/tracker';
-import { Hero, HeroContentType, OneColumn } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { spacing, colors } from '@ndla/core';
 import styled from '@emotion/styled';
-import PreviewDraft from '../../components/PreviewDraft/PreviewDraft';
-import { getContentTypeFromResourceTypes } from '../../util/resourceHelpers';
-import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
+import { spacing, colors } from '@ndla/core';
+import { HelmetWithTracker } from '@ndla/tracker';
+import { Hero, HeroContentType, OneColumn } from '@ndla/ui';
 import LanguageSelector from './LanguageSelector';
+import PreviewDraft from '../../components/PreviewDraft/PreviewDraft';
 import { useDraft } from '../../modules/draft/draftQueries';
 import { useNodes } from '../../modules/nodes/nodeQueries';
+import { getContentTypeFromResourceTypes } from '../../util/resourceHelpers';
+import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
 
 const StyledOneColumn = styled(OneColumn)`
   &[data-wide='true'] {

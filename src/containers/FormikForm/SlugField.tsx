@@ -6,8 +6,8 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
 import { FieldProps } from 'formik';
+import { useTranslation } from 'react-i18next';
 import { TextArea } from '@ndla/forms';
 import FormikField from '../../components/FormikField';
 

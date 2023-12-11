@@ -6,36 +6,36 @@
  *
  */
 
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
 import { Formik, FormikHelpers } from 'formik';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import { useQueryClient } from '@tanstack/react-query';
+import { ButtonV2 } from '@ndla/button';
+import { spacing } from '@ndla/core';
 import { Version } from '@ndla/types-taxonomy';
+import { StyledErrorMessage } from './StyledErrorMessage';
+import VersionLockedField from './VersionLockedField';
+import VersionNameField from './VersionNameField';
+import VersionSourceField from './VersionSourceField';
 import { Row } from '../../../components';
 import AlertModal from '../../../components/AlertModal';
 import Field from '../../../components/Field';
 import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
 import SaveButton from '../../../components/SaveButton';
+import Fade from '../../../components/Taxonomy/Fade';
 import {
   usePostVersionMutation,
   usePublishVersionMutation,
   usePutVersionMutation,
 } from '../../../modules/taxonomy/versions/versionMutations';
 import { versionQueryKeys } from '../../../modules/taxonomy/versions/versionQueries';
-import { StyledErrorMessage } from './StyledErrorMessage';
-import Fade from '../../../components/Taxonomy/Fade';
 import {
   VersionFormType,
   versionFormTypeToVersionPostType,
   versionFormTypeToVersionPutType,
   versionTypeToVersionFormType,
 } from '../versionTransformers';
-import VersionLockedField from './VersionLockedField';
-import VersionNameField from './VersionNameField';
-import VersionSourceField from './VersionSourceField';
 
 interface Props {
   version?: Version;

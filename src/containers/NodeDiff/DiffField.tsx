@@ -6,8 +6,8 @@
  *
  */
 
-import styled from '@emotion/styled';
 import { ReactNode } from 'react';
+import styled from '@emotion/styled';
 import DiffSeparator from './DiffSeparator';
 import { DiffResultType } from './diffUtils';
 

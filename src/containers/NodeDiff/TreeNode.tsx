@@ -6,20 +6,11 @@
  *
  */
 
-import styled from '@emotion/styled';
-import { useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useSearchParams } from 'react-router-dom';
+import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
 import { Node } from '@ndla/types-taxonomy';
-import { createGuard } from '../../util/guards';
-import { nodePathToUrnPath } from '../../util/taxonomyHelpers';
-import Fade from '../../components/Taxonomy/Fade';
-import {
-  ItemTitleButton,
-  StructureWrapper,
-  StyledItemBar,
-  StyledStructureItem,
-} from '../../components/Taxonomy/nodeStyles';
 import {
   DiffResultType,
   DiffTree,
@@ -27,6 +18,15 @@ import {
   DiffTypeWithChildren,
   removeUnchangedFromTree,
 } from './diffUtils';
+import Fade from '../../components/Taxonomy/Fade';
+import {
+  ItemTitleButton,
+  StructureWrapper,
+  StyledItemBar,
+  StyledStructureItem,
+} from '../../components/Taxonomy/nodeStyles';
+import { createGuard } from '../../util/guards';
+import { nodePathToUrnPath } from '../../util/taxonomyHelpers';
 
 interface Props {
   node: DiffType<Node> | DiffTypeWithChildren;

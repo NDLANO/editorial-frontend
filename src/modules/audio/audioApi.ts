@@ -15,13 +15,13 @@ import {
   INewSeries,
   ITagsSearchResult,
 } from '@ndla/types-backend/audio-api';
-import { resolveJsonOrVoidOrRejectWithError } from '../../util/resolveJsonOrRejectWithError';
+import { AudioSearchParams, SeriesSearchParams } from './audioApiInterfaces';
 import {
   apiResourceUrl,
   fetchAuthorized,
   resolveJsonOrRejectWithError,
 } from '../../util/apiHelpers';
-import { AudioSearchParams, SeriesSearchParams } from './audioApiInterfaces';
+import { resolveJsonOrVoidOrRejectWithError } from '../../util/resolveJsonOrRejectWithError';
 
 const baseUrl = apiResourceUrl('/audio-api/v1/audio');
 const seriesBaseUrl = apiResourceUrl('/audio-api/v1/series');

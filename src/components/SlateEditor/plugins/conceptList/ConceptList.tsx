@@ -2,25 +2,26 @@
  * Copyright (c) 2022-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
+import { ReactNode, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Editor, Transforms } from 'slate';
+import { RenderElementProps, ReactEditor, useSelected } from 'slate-react';
 import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
 import { colors } from '@ndla/core';
 import { Pencil } from '@ndla/icons/action';
 import { DeleteForever } from '@ndla/icons/editor';
-import { ReactNode, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Editor, Transforms } from 'slate';
-import { RenderElementProps, ReactEditor, useSelected } from 'slate-react';
 import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
 import { ConceptListEmbedData, ConceptListMetaData } from '@ndla/types-embed';
 import { ConceptListEmbed } from '@ndla/ui';
 import { ConceptListElement } from '.';
 import ConceptTagPicker from './ConceptTagPicker';
-import { useConceptListMeta } from '../../../../modules/embed/queries';
 import { useSearchConcepts } from '../../../../modules/concept/conceptQueries';
+import { useConceptListMeta } from '../../../../modules/embed/queries';
 
 interface Props {
   element: ConceptListElement;

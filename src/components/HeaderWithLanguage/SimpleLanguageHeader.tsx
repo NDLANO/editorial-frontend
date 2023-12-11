@@ -9,10 +9,10 @@
 import { useTranslation } from 'react-i18next';
 import { Check } from '@ndla/icons/editor';
 import HeaderInformation, { StyledSplitter } from './HeaderInformation';
-import HeaderSupportedLanguages from './HeaderSupportedLanguages';
-import HeaderLanguagePill from './HeaderLanguagePill';
-import { StyledLanguageWrapper } from './HeaderWithLanguage';
 import HeaderLanguagePicker from './HeaderLanguagePicker';
+import HeaderLanguagePill from './HeaderLanguagePill';
+import HeaderSupportedLanguages from './HeaderSupportedLanguages';
+import { StyledLanguageWrapper } from './HeaderWithLanguage';
 
 interface Props {
   articleType: string;

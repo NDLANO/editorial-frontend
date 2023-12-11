@@ -6,11 +6,11 @@
  *
  */
 
-import Tooltip from '@ndla/tooltip';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { AlertCircle } from '@ndla/icons/editor';
 import { spacing, colors } from '@ndla/core';
+import { AlertCircle } from '@ndla/icons/editor';
+import Tooltip from '@ndla/tooltip';
 import { Node } from '@ndla/types-taxonomy';
 import { getIdFromUrn } from '../../../util/taxonomyHelpers';
 

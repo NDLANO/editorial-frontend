@@ -6,18 +6,18 @@
  *
  */
 
-import { Editor } from 'slate';
 import { SyntheticEvent } from 'react';
-import { insertLink } from '../link/utils';
+import { Editor } from 'slate';
 import toggleBlock from '../../utils/toggleBlock';
+import { insertInlineConcept } from '../concept/inline/utils';
+import { toggleDefinitionList } from '../definitionList/utils/toggleDefinitionList';
 import { toggleHeading } from '../heading/utils';
+import { insertLink } from '../link/utils';
 import { LIST_TYPES } from '../list/types';
 import { toggleList } from '../list/utils/toggleList';
 import { insertMathml } from '../mathml/utils';
-import { insertInlineConcept } from '../concept/inline/utils';
 import { toggleSpan } from '../span/utils';
 import { toggleCellAlign } from '../table/slateActions';
-import { toggleDefinitionList } from '../definitionList/utils/toggleDefinitionList';
 
 export function handleClickBlock(event: SyntheticEvent, editor: Editor, type: string) {
   event.preventDefault();

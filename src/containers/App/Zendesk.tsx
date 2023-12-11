@@ -7,9 +7,9 @@
  */
 
 import { Fragment, useEffect } from 'react';
-import { isAccessTokenValid } from '../../util/authHelpers';
-import { fetchZendeskToken } from '../../modules/auth0/auth0Api';
 import config from '../../config';
+import { fetchZendeskToken } from '../../modules/auth0/auth0Api';
+import { isAccessTokenValid } from '../../util/authHelpers';
 import { useSession } from '../Session/SessionProvider';
 
 const Zendesk = () => {

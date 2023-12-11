@@ -7,9 +7,10 @@
  */
 
 import { ElementType, MouseEvent, ReactNode, memo, useCallback, useMemo } from 'react';
-import { colors, fonts } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
+import { colors, fonts } from '@ndla/core';
+import { Language } from '@ndla/icons/common';
 import {
   Bold,
   Code,
@@ -29,8 +30,6 @@ import {
   AlignRight,
   FormatList,
 } from '@ndla/icons/editor';
-
-import { Language } from '@ndla/icons/common';
 
 const StyledHeadingSpan = styled.span`
   ${fonts.sizes('14px', '14px')};

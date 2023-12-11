@@ -6,8 +6,8 @@
  *
  */
 
-import { blockContentToEditorValue, blockContentToHTML } from '../../../articleContentConverter';
 import { html } from './embedInHeadingArticle';
+import { blockContentToEditorValue, blockContentToHTML } from '../../../articleContentConverter';
 
 test('serializing article with <embed> in <h3>', () => {
   const converted = blockContentToEditorValue(html);

@@ -6,6 +6,10 @@
  *
  */
 
+import { useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Editor, Path, Transforms } from 'slate';
+import { ReactEditor, RenderElementProps } from 'slate-react';
 import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
@@ -20,14 +24,10 @@ import {
   ModalTrigger,
 } from '@ndla/modal';
 import { Grid, GridType } from '@ndla/ui';
-import { useCallback, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Editor, Path, Transforms } from 'slate';
-import { ReactEditor, RenderElementProps } from 'slate-react';
 import { GridElement } from '.';
-import DeleteButton from '../../../DeleteButton';
-import GridForm from './GridForm';
 import { GridProvider } from './GridContext';
+import GridForm from './GridForm';
+import DeleteButton from '../../../DeleteButton';
 
 interface Props extends RenderElementProps {
   element: GridElement;

@@ -1,9 +1,16 @@
+/**
+ * Copyright (c) 2021-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 import { Editor, Element, Node, Range, Transforms } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { MathmlElement } from '.';
+import { TYPE_MATHML } from './types';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import hasNodeOfType from '../../utils/hasNodeOfType';
-import { TYPE_MATHML } from './types';
 
 export const isMathml = (node: Node | undefined): node is MathmlElement => {
   return Element.isElement(node) && node.type === TYPE_MATHML;

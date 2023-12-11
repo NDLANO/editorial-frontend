@@ -7,13 +7,13 @@
  */
 
 import { Descendant, Editor, Element } from 'slate';
+import { TYPE_FILE } from './types';
+import { defaultFileBlock } from './utils';
+import { File } from '../../../../interfaces';
 import { createEmbedTag } from '../../../../util/embedTagHelpers';
 import { SlateSerializer } from '../../interfaces';
-import { File } from '../../../../interfaces';
-import { defaultFileBlock } from './utils';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
 import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
-import { TYPE_FILE } from './types';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
 
 export interface FileElement {

@@ -6,21 +6,21 @@
  *
  */
 
-import { LinkBlockEmbedData } from '@ndla/types-embed';
-import { useTranslation } from 'react-i18next';
 import { FieldProps, Formik } from 'formik';
 import { useCallback, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { InputV2 } from '@ndla/forms';
 import { ButtonV2 } from '@ndla/button';
 import { spacing, fonts } from '@ndla/core';
+import { InputV2 } from '@ndla/forms';
 import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle } from '@ndla/modal';
-import { css } from '@emotion/react';
-import validateFormik, { RulesType } from '../../../formikValidationSchema';
-import { supportedLanguages } from '../../../../i18n2';
-import FormikField from '../../../FormikField';
+import { LinkBlockEmbedData } from '@ndla/types-embed';
 import InlineDatePicker from '../../../../containers/FormikForm/components/InlineDatePicker';
+import { supportedLanguages } from '../../../../i18n2';
 import { formatDateForBackend } from '../../../../util/formatDate';
+import FormikField from '../../../FormikField';
+import validateFormik, { RulesType } from '../../../formikValidationSchema';
 
 interface Props {
   embed?: LinkBlockEmbedData;

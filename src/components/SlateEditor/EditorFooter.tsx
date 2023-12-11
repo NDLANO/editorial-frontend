@@ -6,29 +6,29 @@
  *
  */
 
-import styled from '@emotion/styled';
-import { useTranslation } from 'react-i18next';
-import { colors, spacing } from '@ndla/core';
-import { ButtonV2 } from '@ndla/button';
-import { Launch } from '@ndla/icons/common';
-import { IStatus as ConceptStatus } from '@ndla/types-backend/concept-api';
-import { IStatus as DraftStatus } from '@ndla/types-backend/draft-api';
 import { useFormikContext } from 'formik';
 import { memo, useCallback, useEffect, useState } from 'react';
-import { SingleValue } from '@ndla/select';
+import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
+import { ButtonV2 } from '@ndla/button';
+import { colors, spacing } from '@ndla/core';
+import { Launch } from '@ndla/icons/common';
 import { SafeLinkButton } from '@ndla/safelink';
-import { toPreviewDraft } from '../../util/routeHelpers';
-import SaveMultiButton from '../SaveMultiButton';
-import { NewMessageType, useMessages } from '../../containers/Messages/MessagesProvider';
-import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from '../../interfaces';
-import ResponsibleSelect from '../../containers/FormikForm/components/ResponsibleSelect';
-import StatusSelect from '../../containers/FormikForm/components/StatusSelect';
+import { SingleValue } from '@ndla/select';
+import { IStatus as ConceptStatus } from '@ndla/types-backend/concept-api';
+import { IStatus as DraftStatus } from '@ndla/types-backend/draft-api';
 import { ARCHIVED, PUBLISHED, SAVE_BUTTON_ID, UNPUBLISHED } from '../../constants';
-import PreviewDraftLightboxV2 from '../PreviewDraft/PreviewDraftLightboxV2';
-import { useSession } from '../../containers/Session/SessionProvider';
-import Footer from '../Footer/Footer';
 import { articleResourcePageStyle } from '../../containers/ArticlePage/styles';
 import PrioritySelect from '../../containers/FormikForm/components/PrioritySelect';
+import ResponsibleSelect from '../../containers/FormikForm/components/ResponsibleSelect';
+import StatusSelect from '../../containers/FormikForm/components/StatusSelect';
+import { NewMessageType, useMessages } from '../../containers/Messages/MessagesProvider';
+import { useSession } from '../../containers/Session/SessionProvider';
+import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from '../../interfaces';
+import { toPreviewDraft } from '../../util/routeHelpers';
+import Footer from '../Footer/Footer';
+import PreviewDraftLightboxV2 from '../PreviewDraft/PreviewDraftLightboxV2';
+import SaveMultiButton from '../SaveMultiButton';
 
 interface Props {
   formIsDirty: boolean;

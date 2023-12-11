@@ -4,7 +4,6 @@
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
- *
  */
 
 import { Editor, NodeEntry, Path, Point, Range, Transforms } from 'slate';
@@ -16,8 +15,8 @@ import {
   TableHeadElement,
   TableRowElement,
 } from './interfaces';
-import { KEY_ARROW_DOWN, KEY_ARROW_UP, KEY_BACKSPACE, KEY_DELETE, KEY_TAB } from '../../utils/keys';
 import { getTableAsMatrix } from './matrix';
+import { findCellCoordinate } from './matrixHelpers';
 import {
   createIdenticalRow,
   isTableBody,
@@ -25,7 +24,7 @@ import {
   isTableHead,
   isTableRow,
 } from './slateHelpers';
-import { findCellCoordinate } from './matrixHelpers';
+import { KEY_ARROW_DOWN, KEY_ARROW_UP, KEY_BACKSPACE, KEY_DELETE, KEY_TAB } from '../../utils/keys';
 
 export const handleTableKeydown = (
   event: KeyboardEvent,

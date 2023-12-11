@@ -2,21 +2,22 @@
  * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
-import styled from '@emotion/styled';
-import { colors, fonts, spacing, misc } from '@ndla/core';
-import { useTranslation } from 'react-i18next';
-import { TFunction } from 'i18next';
-import { TextAreaV2 } from '@ndla/forms';
-import { ChangeEvent, useCallback, useRef, useState } from 'react';
-import uniqueId from 'lodash/uniqueId';
 import { format } from 'date-fns';
+import { TFunction } from 'i18next';
+import uniqueId from 'lodash/uniqueId';
+import { ChangeEvent, useCallback, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
-import { useSession } from '../../Session/SessionProvider';
+import { colors, fonts, spacing, misc } from '@ndla/core';
+import { TextAreaV2 } from '@ndla/forms';
 import { COMMENT_COLOR, CommentType, textAreaStyles } from './Comment';
 import formatDate, { formatDateForBackend } from '../../../util/formatDate';
+import { useSession } from '../../Session/SessionProvider';
 
 const CommentCard = styled.div`
   max-width: inherit;

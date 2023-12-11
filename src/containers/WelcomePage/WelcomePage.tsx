@@ -6,22 +6,22 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { HelmetWithTracker } from '@ndla/tracker';
-import styled from '@emotion/styled';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import { breakpoints, spacing } from '@ndla/core';
+import { HelmetWithTracker } from '@ndla/tracker';
+import LastUsedItems from './components/LastUsedItems';
+import LMASubjects from './components/LMASubjects';
+import Revisions from './components/Revisions';
+import WelcomeHeader from './components/WelcomeHeader';
+import WorkList from './components/worklist/WorkList';
+import { GridContainer, Column } from '../../components/Layout/Layout';
+import { useUserData } from '../../modules/draft/draftQueries';
 import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
 import { isValid } from '../../util/jwtHelper';
 import Footer from '../App/components/Footer';
-import LastUsedItems from './components/LastUsedItems';
-import { useUserData } from '../../modules/draft/draftQueries';
-import WorkList from './components/worklist/WorkList';
-import WelcomeHeader from './components/WelcomeHeader';
-import { GridContainer, Column } from '../../components/Layout/Layout';
 import { useSession } from '../Session/SessionProvider';
-import Revisions from './components/Revisions';
-import LMASubjects from './components/LMASubjects';
 
 export const Wrapper = styled.div`
   display: flex;

@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Select, SingleValue, Option } from '@ndla/select';
-import { useCallback, useEffect, useMemo, useState } from 'react';
 import { IStatus as DraftStatus } from '@ndla/types-backend/draft-api';
-import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from '../../../interfaces';
 import { PUBLISHED } from '../../../constants';
+import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from '../../../interfaces';
 
 interface Props {
   status: SingleValue;

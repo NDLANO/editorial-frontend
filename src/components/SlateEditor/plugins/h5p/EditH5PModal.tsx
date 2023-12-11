@@ -6,19 +6,19 @@
  *
  */
 
-import { ReactEditor } from 'slate-react';
-import { Editor, Path, Transforms } from 'slate';
-import { useTranslation } from 'react-i18next';
 import { useCallback, useState } from 'react';
-import { H5pEmbedData, H5pMetaData } from '@ndla/types-embed';
-import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
+import { useTranslation } from 'react-i18next';
+import { Editor, Path, Transforms } from 'slate';
+import { ReactEditor } from 'slate-react';
 import styled from '@emotion/styled';
-import { Link } from '@ndla/icons/common';
 import { IconButtonV2 } from '@ndla/button';
+import { Link } from '@ndla/icons/common';
+import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
+import { H5pEmbedData, H5pMetaData } from '@ndla/types-embed';
 import { H5pElement } from './types';
-import H5PElement, { OnSelectObject } from '../../../H5PElement/H5PElement';
-import { getH5pLocale } from '../../../H5PElement/h5pApi';
 import config from '../../../../config';
+import { getH5pLocale } from '../../../H5PElement/h5pApi';
+import H5PElement, { OnSelectObject } from '../../../H5PElement/H5PElement';
 
 const StyledModalBody = styled.div`
   display: flex;

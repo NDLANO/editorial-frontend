@@ -6,9 +6,9 @@
  *
  */
 
-import { FieldHeader } from '@ndla/forms';
 import { FieldProps, useFormikContext } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { FieldHeader } from '@ndla/forms';
 import { Version } from '@ndla/types-taxonomy';
 import FormikField from '../../../components/FormikField';
 import OptGroupVersionSelector from '../../../components/Taxonomy/OptGroupVersionSelector';

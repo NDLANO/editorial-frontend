@@ -7,12 +7,12 @@
  */
 
 import { useState, KeyboardEvent } from 'react';
-import { DeleteForever, Done } from '@ndla/icons/editor';
-import { spacing } from '@ndla/core';
-import { Metadata } from '@ndla/types-taxonomy';
 import styled from '@emotion/styled';
-import RoundIcon from '../../../../../components/RoundIcon';
+import { spacing } from '@ndla/core';
+import { DeleteForever, Done } from '@ndla/icons/editor';
+import { Metadata } from '@ndla/types-taxonomy';
 import CustomFieldButton from './CustomFieldButton';
+import RoundIcon from '../../../../../components/RoundIcon';
 import { StyledMenuItemEditField, StyledMenuItemInputField } from '../../styles';
 
 interface Props {

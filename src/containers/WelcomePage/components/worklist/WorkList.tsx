@@ -6,15 +6,12 @@
  *
  */
 
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { SingleValue } from '@ndla/select';
-import { useCallback, useEffect, useMemo, useState } from 'react';
 import Tabs from '@ndla/tabs';
-import { useSearch } from '../../../../modules/search/searchQueries';
-import WorkListTabContent from './WorkListTabContent';
-import { useSearchConcepts } from '../../../../modules/concept/conceptQueries';
 import ConceptListTabContent from './ConceptListTabContent';
-import { Prefix } from '../TableComponent';
+import WorkListTabContent from './WorkListTabContent';
 import {
   STORED_PAGE_SIZE,
   STORED_PAGE_SIZE_CONCEPT,
@@ -23,6 +20,9 @@ import {
   STORED_SORT_OPTION_WORKLIST_CONCEPT,
   STORED_SORT_OPTION_WORKLIST_ON_HOLD,
 } from '../../../../constants';
+import { useSearchConcepts } from '../../../../modules/concept/conceptQueries';
+import { useSearch } from '../../../../modules/search/searchQueries';
+import { Prefix } from '../TableComponent';
 
 interface Props {
   ndlaId: string;

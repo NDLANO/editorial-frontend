@@ -13,13 +13,13 @@ import {
   ISearchResultV3,
   ITagsSearchResult,
 } from '@ndla/types-backend/image-api';
+import { ImageSearchQuery } from './imageApiInterfaces';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
   fetchAuthorized,
   throwErrorPayload,
 } from '../../util/apiHelpers';
-import { ImageSearchQuery } from './imageApiInterfaces';
 import { resolveJsonOrVoidOrRejectWithError } from '../../util/resolveJsonOrRejectWithError';
 
 const baseUrl = apiResourceUrl('/image-api/v3/images');

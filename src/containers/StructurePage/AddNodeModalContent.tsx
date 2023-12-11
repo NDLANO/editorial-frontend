@@ -9,11 +9,11 @@
 import { ChangeEvent, useState, SyntheticEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { spacing, colors } from '@ndla/core';
+import { useQueryClient } from '@tanstack/react-query';
 import { ButtonV2 } from '@ndla/button';
+import { spacing, colors } from '@ndla/core';
 import { InputV2 } from '@ndla/forms';
 import { Node, NodeType } from '@ndla/types-taxonomy';
-import { useQueryClient } from '@tanstack/react-query';
 import {
   useAddNodeMutation,
   usePostNodeConnectionMutation,

@@ -19,14 +19,14 @@ import {
   IUpdatedUserData,
   IUploadedFile,
 } from '@ndla/types-backend/draft-api';
+import { DraftSearchQuery } from './draftApiInterfaces';
+import { DraftStatusType, DraftStatusStateMachineType } from '../../interfaces';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
   fetchAuthorized,
 } from '../../util/apiHelpers';
-import { DraftSearchQuery } from './draftApiInterfaces';
 import { resolveVoidOrRejectWithError } from '../../util/resolveJsonOrRejectWithError';
-import { DraftStatusType, DraftStatusStateMachineType } from '../../interfaces';
 
 const baseUrl: string = apiResourceUrl('/draft-api/v1/drafts');
 const baseAgreementsUrl: string = apiResourceUrl('/draft-api/v1/agreements');

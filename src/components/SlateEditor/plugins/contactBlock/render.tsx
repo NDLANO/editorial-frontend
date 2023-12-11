@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -7,8 +7,8 @@
  */
 
 import { Editor } from 'slate';
-import { TYPE_CONTACT_BLOCK } from './types';
 import SlateContactBlock from './SlateContactBlock';
+import { TYPE_CONTACT_BLOCK } from './types';
 
 export const contactBlockRenderer = (editor: Editor) => {
   const { renderElement } = editor;

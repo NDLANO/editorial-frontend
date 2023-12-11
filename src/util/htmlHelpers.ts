@@ -1,5 +1,4 @@
-/* eslint-disable no-useless-escape */
-/*
+/**
  * Copyright (c) 2016-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -33,7 +32,7 @@ export const urlOrigin = (url: string) => {
 
 export const isValidURL = (string: string) =>
   string.match(
-    /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g,
+    /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g,
   ) || false;
 
 export const isNDLAFrontendUrl = (url: string) =>

@@ -7,9 +7,9 @@
  */
 
 import { Editor } from 'slate';
-import { TYPE_DETAILS, TYPE_SUMMARY } from './types';
-import Summary from './Summary';
 import Details from './Details';
+import Summary from './Summary';
+import { TYPE_DETAILS, TYPE_SUMMARY } from './types';
 
 export const detailsRenderer = (editor: Editor) => {
   const { renderElement } = editor;

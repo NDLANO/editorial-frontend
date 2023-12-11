@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { ToggleItem } from '@ndla/ui';
 import { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
+import { ToggleItem } from '@ndla/ui';
 
 interface Props {
   checked: boolean;

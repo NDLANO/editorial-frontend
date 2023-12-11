@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2019-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -12,10 +12,10 @@ import { useTranslation } from 'react-i18next';
 import { Concept, Globe } from '@ndla/icons/editor';
 import { IConcept, IConceptSummary } from '@ndla/types-backend/concept-api';
 import { Node } from '@ndla/types-taxonomy';
-import { convertFieldWithFallback } from '../../../../../util/convertFieldWithFallback';
 import ContentView from './ContentView';
 import FormView from './FormView';
 import { LocaleType } from '../../../../../interfaces';
+import { convertFieldWithFallback } from '../../../../../util/convertFieldWithFallback';
 import { StyledSearchImageContainer, StyledSearchResult } from '../../form/StyledSearchComponents';
 
 interface Props {

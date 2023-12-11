@@ -8,15 +8,15 @@
 
 import { Editor, Node, Element, Descendant, Text, Path, Transforms } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
-import { SlateSerializer } from '../../interfaces';
-import { reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
+import { TYPE_PARAGRAPH } from './types';
 import { getCurrentParagraph, isParagraph } from './utils';
+import { reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
+import { SlateSerializer } from '../../interfaces';
 import containsVoid from '../../utils/containsVoid';
-import { TYPE_LIST_ITEM } from '../list/types';
 import { KEY_ENTER } from '../../utils/keys';
 import { TYPE_BREAK } from '../break/types';
+import { TYPE_LIST_ITEM } from '../list/types';
 import { TYPE_TABLE_CELL } from '../table/types';
-import { TYPE_PARAGRAPH } from './types';
 
 export interface ParagraphElement {
   type: 'paragraph';

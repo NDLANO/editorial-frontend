@@ -6,28 +6,28 @@
  *
  */
 
+import sortBy from 'lodash/sortBy';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useQueryClient } from '@tanstack/react-query';
-import sortBy from 'lodash/sortBy';
+import { DragEndEvent } from '@dnd-kit/core';
 import styled from '@emotion/styled';
-import { NodeChild } from '@ndla/types-taxonomy';
+import { useQueryClient } from '@tanstack/react-query';
 import { spacing } from '@ndla/core';
 import { DragVertical } from '@ndla/icons/editor';
-import { DragEndEvent } from '@dnd-kit/core';
+import { NodeChild } from '@ndla/types-taxonomy';
 import Resource from './Resource';
-import handleError from '../../../util/handleError';
+import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
+import AlertModal from '../../../components/AlertModal';
+import DndList from '../../../components/DndList';
+import { DragHandle } from '../../../components/DraggableItem';
+import { Auth0UserData, Dictionary } from '../../../interfaces';
 import {
   useDeleteResourceForNodeMutation,
   usePutResourceForNodeMutation,
 } from '../../../modules/nodes/nodeMutations';
-import AlertModal from '../../../components/AlertModal';
-import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import { NodeResourceMeta, nodeQueryKeys } from '../../../modules/nodes/nodeQueries';
-import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
-import { Auth0UserData, Dictionary } from '../../../interfaces';
-import DndList from '../../../components/DndList';
-import { DragHandle } from '../../../components/DraggableItem';
+import handleError from '../../../util/handleError';
+import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
 const StyledResourceItems = styled.ul`
   list-style: none;

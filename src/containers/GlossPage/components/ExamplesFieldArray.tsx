@@ -6,8 +6,8 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
 import { FieldArray, useField } from 'formik';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { colors } from '@ndla/core';

@@ -1,14 +1,22 @@
+/**
+ * Copyright (c) 2022-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+import isBefore from 'date-fns/isBefore';
+import sortBy from 'lodash/sortBy';
+import { Fragment, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing, colors, fonts } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
-import { OneColumn } from '@ndla/ui';
-import { Fragment, useEffect, useMemo, useState } from 'react';
-import sortBy from 'lodash/sortBy';
-import { useTranslation } from 'react-i18next';
-import isBefore from 'date-fns/isBefore';
-import { SafeLinkButton } from '@ndla/safelink';
 import { ChevronRight } from '@ndla/icons/common';
+import { SafeLinkButton } from '@ndla/safelink';
 import { Node } from '@ndla/types-taxonomy';
+import { OneColumn } from '@ndla/ui';
+import NodeIconType from '../../components/NodeIconType';
 import {
   TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH,
   TAXONOMY_CUSTOM_FIELD_IS_PUBLISHING,
@@ -17,7 +25,6 @@ import { useNodes } from '../../modules/nodes/nodeQueries';
 import { useVersions } from '../../modules/taxonomy/versions/versionQueries';
 import { toNodeDiff, toStructure } from '../../util/routeHelpers';
 import Footer from '../App/components/Footer';
-import NodeIconType from '../../components/NodeIconType';
 
 const ErrorMessage = styled.p`
   color: ${colors.support.red};

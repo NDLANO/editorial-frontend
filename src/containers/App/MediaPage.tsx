@@ -2,15 +2,16 @@
  * Copyright (c) 2016-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
 import { Route, Routes } from 'react-router-dom';
-import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import AudioUploaderPage from '../AudioUploader/AudioUploaderPage';
 import ImageUploaderPage from '../ImageUploader/ImageUploaderPage';
 import PodcastUploaderPage from '../Podcast/PodcastUploaderPage';
 import PodcastSeriesPage from '../PodcastSeries/PodcastSeriesPage';
+import PrivateRoute from '../PrivateRoute/PrivateRoute';
 
 const MediaPage = () => (
   <>

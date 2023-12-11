@@ -6,9 +6,9 @@
  *
  */
 
+import keyBy from 'lodash/keyBy';
 import { IArticleSummaryV2, ISearchResultV2 } from '@ndla/types-backend/article-api';
 import { IMenu } from '@ndla/types-backend/frontpage-api';
-import keyBy from 'lodash/keyBy';
 import { MenuWithArticle } from './types';
 
 export const extractArticleIds = (menu: IMenu): number[] => {

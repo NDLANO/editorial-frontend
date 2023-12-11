@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2020-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+import he from 'he';
 import { highlight, languages } from 'prismjs';
 import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-markup';
@@ -26,16 +34,13 @@ import 'prismjs/components/prism-powershell';
 import 'prismjs/components/prism-vhdl';
 import 'prismjs/components/prism-bash';
 import { useCallback, useMemo, useState } from 'react';
-import styled from '@emotion/styled';
+import { useTranslation } from 'react-i18next';
 import { Editor, Path, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
-import he from 'he';
-import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
-import { DeleteForever } from '@ndla/icons/editor';
 import { CodeBlockEditor, Codeblock } from '@ndla/code';
-import { CodeEmbedData } from '@ndla/types-embed';
-
+import { DeleteForever } from '@ndla/icons/editor';
 import {
   Modal,
   ModalBody,
@@ -44,8 +49,10 @@ import {
   ModalHeader,
   ModalTrigger,
 } from '@ndla/modal';
-import { CodeBlockType } from '../../../../interfaces';
+import { CodeEmbedData } from '@ndla/types-embed';
+
 import { CodeblockElement } from '.';
+import { CodeBlockType } from '../../../../interfaces';
 import AlertModal from '../../../AlertModal';
 
 const CodeDiv = styled.div`

@@ -6,14 +6,14 @@
  *
  */
 
+import { Formik, FieldProps } from 'formik';
+import { useCallback, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
 import { CheckboxItem, RadioButtonGroup } from '@ndla/forms';
 import { GridType } from '@ndla/ui';
-import { Formik, FieldProps } from 'formik';
-import { useCallback, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
 import FormikField from '../../../FormikField';
 import validateFormik, { RulesType } from '../../../formikValidationSchema';
 

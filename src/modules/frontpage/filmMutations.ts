@@ -11,8 +11,8 @@ import {
   IFilmFrontPageData,
   INewOrUpdatedFilmFrontPageData,
 } from '@ndla/types-backend/frontpage-api';
-import { updateFilmFrontpage } from './frontpageApi';
 import { filmQueryKeys } from './filmQueries';
+import { updateFilmFrontpage } from './frontpageApi';
 
 export const useUpdateFilmFrontpageMutation = () => {
   const queryClient = useQueryClient();

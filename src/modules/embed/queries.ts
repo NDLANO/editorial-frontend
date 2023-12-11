@@ -6,16 +6,16 @@
  *
  */
 
-import { AudioMeta, ConceptListData, ConceptVisualElementMeta, H5pData } from '@ndla/types-embed';
 import { UseQueryOptions, useQuery } from '@tanstack/react-query';
 import { IConceptSummary } from '@ndla/types-backend/concept-api';
-import { AUDIO_EMBED } from '../../queryKeys';
+import { AudioMeta, ConceptListData, ConceptVisualElementMeta, H5pData } from '@ndla/types-embed';
 import {
   fetchAudioMeta,
   fetchConceptListMeta,
   fetchConceptVisualElement,
   fetchH5pMeta,
 } from './embedApi';
+import { AUDIO_EMBED } from '../../queryKeys';
 
 export const useAudioMeta = (
   resourceId: string,

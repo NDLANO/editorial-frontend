@@ -6,8 +6,8 @@
  *
  */
 
-import { Editor, Transforms } from 'slate';
 import isHotkey from 'is-hotkey';
+import { Editor, Transforms } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { SAVE_BUTTON_ID } from '../../../../constants';
 

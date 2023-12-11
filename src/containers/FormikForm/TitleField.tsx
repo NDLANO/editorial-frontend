@@ -8,11 +8,11 @@
 
 import { useMemo, memo } from 'react';
 import { useTranslation } from 'react-i18next';
-import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
 import FormikField from '../../components/FormikField';
+import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
 
-import { textTransformPlugin } from '../../components/SlateEditor/plugins/textTransform';
 import saveHotkeyPlugin from '../../components/SlateEditor/plugins/saveHotkey';
+import { textTransformPlugin } from '../../components/SlateEditor/plugins/textTransform';
 
 interface Props {
   maxLength?: number;

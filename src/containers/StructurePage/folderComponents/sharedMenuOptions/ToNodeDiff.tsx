@@ -7,15 +7,15 @@
  */
 
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
+import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 import { Taxonomy } from '@ndla/icons/editor';
-import styled from '@emotion/styled';
-import { Link } from 'react-router-dom';
 import { Node } from '@ndla/types-taxonomy';
 import MenuItemButton from './components/MenuItemButton';
 import RoundIcon from '../../../../components/RoundIcon';
-import { toNodeDiff } from '../../../../util/routeHelpers';
 import { useTaxonomyVersion } from '../../../../containers/StructureVersion/TaxonomyVersionProvider';
+import { toNodeDiff } from '../../../../util/routeHelpers';
 
 interface Props {
   node: Node;

@@ -1,7 +1,14 @@
-import styled from '@emotion/styled';
-import { HelmetWithTracker } from '@ndla/tracker';
+/**
+ * Copyright (c) 2019-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import styled from '@emotion/styled';
+import { HelmetWithTracker } from '@ndla/tracker';
 import H5PElement from '../../components/H5PElement/H5PElement';
 
 const H5PWrapper = styled.div`

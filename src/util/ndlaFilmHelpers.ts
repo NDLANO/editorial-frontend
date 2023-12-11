@@ -7,20 +7,20 @@
  */
 
 import { Descendant } from 'slate';
+import { jsx as slatejsx } from 'slate-hyperscript';
 import {
   IFilmFrontPageData,
   IMovieTheme,
   INewOrUpdatedFilmFrontPageData,
   IVisualElement,
 } from '@ndla/types-backend/frontpage-api';
-import { jsx as slatejsx } from 'slate-hyperscript';
 import { editorValueToPlainText, plainTextToEditorValue } from './articleContentConverter';
-import { LOCALE_VALUES } from '../constants';
-import { LocaleType } from '../interfaces';
-import { FilmFormikType } from '../containers/NdlaFilm/components/NdlaFilmForm';
-import { ThemeNames } from '../containers/NdlaFilm/components/ThemeEditor';
 import { TYPE_EMBED_BRIGHTCOVE } from '../components/SlateEditor/plugins/embed/types';
 import { defineTypeOfEmbed, isSlateEmbed } from '../components/SlateEditor/plugins/embed/utils';
+import { LOCALE_VALUES } from '../constants';
+import { FilmFormikType } from '../containers/NdlaFilm/components/NdlaFilmForm';
+import { ThemeNames } from '../containers/NdlaFilm/components/ThemeEditor';
+import { LocaleType } from '../interfaces';
 
 export const getInitialValues = (
   filmFrontpage: IFilmFrontPageData,

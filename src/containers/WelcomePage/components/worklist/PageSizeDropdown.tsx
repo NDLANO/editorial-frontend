@@ -6,8 +6,8 @@
  *
  */
 
-import { Select, SingleValue } from '@ndla/select';
 import { useTranslation } from 'react-i18next';
+import { Select, SingleValue } from '@ndla/select';
 import { DropdownWrapper } from '../../styles';
 
 interface Props {

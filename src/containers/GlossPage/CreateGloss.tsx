@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,14 +6,14 @@
  *
  */
 
+import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { INewConcept } from '@ndla/types-backend/concept-api';
-import { useCallback } from 'react';
-import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
 import { toEditGloss } from '../../util/routeHelpers';
 import ConceptForm from '../ConceptPage/ConceptForm/ConceptForm';
+import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
 
 interface Props {
   inModal?: boolean;

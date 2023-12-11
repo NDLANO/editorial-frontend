@@ -1,20 +1,27 @@
+/**
+ * Copyright (c) 2021-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 import { Editor, Node, Element, Descendant, Transforms, Text, Path } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
-import { SlateSerializer } from '../../interfaces';
-import onEnter from './handlers/onEnter';
-import { firstTextBlockElement } from '../../utils/normalizationHelpers';
-import { defaultListBlock } from './utils/defaultBlocks';
-import onTab from './handlers/onTab';
 import onBackspace from './handlers/onBackspace';
+import onEnter from './handlers/onEnter';
+import onTab from './handlers/onTab';
 import { TYPE_LIST, TYPE_LIST_ITEM } from './types';
+import { defaultListBlock } from './utils/defaultBlocks';
+import { Dictionary } from '../../../../interfaces';
+import { SlateSerializer } from '../../interfaces';
 import { KEY_BACKSPACE, KEY_ENTER, KEY_TAB } from '../../utils/keys';
+import { firstTextBlockElement } from '../../utils/normalizationHelpers';
 import { TYPE_BREAK } from '../break/types';
 import { TYPE_CONCEPT_INLINE } from '../concept/inline/types';
 import { TYPE_FOOTNOTE } from '../footnote/types';
 import { TYPE_LINK, TYPE_CONTENT_LINK } from '../link/types';
 import { TYPE_MATHML } from '../mathml/types';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
-import { Dictionary } from '../../../../interfaces';
 
 export interface ListElement {
   type: 'list';

@@ -6,11 +6,11 @@
  *
  */
 
+import { parse, stringify } from 'query-string';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { colors, fonts, spacing } from '@ndla/core';
-import { parse, stringify } from 'query-string';
 import { IUserData } from '@ndla/types-backend/draft-api';
 import SaveButton from '../../components/SaveButton';
 import { useUpdateUserDataMutation, useUserData } from '../../modules/draft/draftQueries';

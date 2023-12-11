@@ -6,9 +6,9 @@
  *
  */
 
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
-import { useTranslation } from 'react-i18next';
 
 interface Props {
   language: string;

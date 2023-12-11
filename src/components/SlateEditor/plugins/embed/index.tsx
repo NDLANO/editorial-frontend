@@ -7,7 +7,8 @@
  */
 
 import { Editor, Descendant, Element } from 'slate';
-import { SlateSerializer } from '../../interfaces';
+import { TYPE_NDLA_EMBED } from './types';
+import { defaultEmbedBlock, isSlateEmbed, isSlateEmbedElement } from './utils';
 import {
   Embed,
   ImageEmbed,
@@ -16,13 +17,12 @@ import {
   ExternalEmbed,
 } from '../../../../interfaces';
 import { createEmbedTag, parseEmbedTag } from '../../../../util/embedTagHelpers';
-import { defaultEmbedBlock, isSlateEmbed, isSlateEmbedElement } from './utils';
+import { SlateSerializer } from '../../interfaces';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
 import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
-import { TYPE_PARAGRAPH } from '../paragraph/types';
-import { TYPE_NDLA_EMBED } from './types';
 import { AudioElement } from '../audio/types';
 import { H5pElement } from '../h5p/types';
+import { TYPE_PARAGRAPH } from '../paragraph/types';
 
 export interface ImageEmbedElement {
   type: 'image-embed';

@@ -6,28 +6,28 @@
  *
  */
 
+import parse from 'html-react-parser';
 import { useState, ReactNode, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Editor, Element, Node, Transforms, Path } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
-import parse from 'html-react-parser';
 import styled from '@emotion/styled';
-import { Spinner } from '@ndla/icons';
-import { SafeLinkIconButton } from '@ndla/safelink';
-import { colors, spacing } from '@ndla/core';
 import { IconButtonV2 } from '@ndla/button';
-import { IConcept, IConceptSummary } from '@ndla/types-backend/concept-api';
+import { colors, spacing } from '@ndla/core';
+import { Spinner } from '@ndla/icons';
 import { AlertCircle, Check, DeleteForever, Link } from '@ndla/icons/editor';
-import { ConceptEmbedData, ConceptMetaData } from '@ndla/types-embed';
 import { Modal, ModalContent } from '@ndla/modal';
+import { SafeLinkIconButton } from '@ndla/safelink';
+import { IConcept, IConceptSummary } from '@ndla/types-backend/concept-api';
+import { ConceptEmbedData, ConceptMetaData } from '@ndla/types-embed';
 import { ConceptEmbed, InlineConcept } from '@ndla/ui';
 import { ConceptInlineElement } from './interfaces';
-import { useFetchConceptData } from '../../../../../containers/FormikForm/formikConceptHooks';
 import { TYPE_CONCEPT_INLINE } from './types';
-import ConceptModalContent from '../ConceptModalContent';
-import { useConceptVisualElement } from '../../../../../modules/embed/queries';
 import { PUBLISHED } from '../../../../../constants';
+import { useFetchConceptData } from '../../../../../containers/FormikForm/formikConceptHooks';
+import { useConceptVisualElement } from '../../../../../modules/embed/queries';
 import parseMarkdown from '../../../../../util/parseMarkdown';
+import ConceptModalContent from '../ConceptModalContent';
 
 const getConceptDataAttributes = (
   concept: IConcept | IConceptSummary,

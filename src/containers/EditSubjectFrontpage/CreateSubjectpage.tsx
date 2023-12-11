@@ -2,16 +2,17 @@
  * Copyright (c) 2020-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 import { useTranslation } from 'react-i18next';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { INewSubjectFrontPageData } from '@ndla/types-backend/frontpage-api';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { LocaleType } from '../../interfaces';
 import SubjectpageForm from './components/SubjectpageForm';
-import { useFetchSubjectpageData } from '../FormikForm/formikSubjectpageHooks';
+import { LocaleType } from '../../interfaces';
 import { toEditSubjectpage } from '../../util/routeHelpers';
+import { useFetchSubjectpageData } from '../FormikForm/formikSubjectpageHooks';
 
 interface LocationState {
   elementName?: string;

@@ -7,8 +7,8 @@
  */
 
 import { Editor, Element, Transforms } from 'slate';
-import hasNodeOfType from '../../../utils/hasNodeOfType';
 import getCurrentBlock from '../../../utils/getCurrentBlock';
+import hasNodeOfType from '../../../utils/hasNodeOfType';
 import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_LIST, TYPE_DEFINITION_TERM } from '../types';
 
 const onTab = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEvent) => void) => {

@@ -7,20 +7,20 @@
  */
 
 import { useEffect, useRef, useState } from 'react';
+import { createRoot } from 'react-dom/client';
 import { HelmetProvider } from 'react-helmet-async';
-import { BrowserRouter } from 'react-router-dom';
 import { I18nextProvider, useTranslation } from 'react-i18next';
+import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import ErrorReporter from '@ndla/error-reporter';
 import { i18nInstance } from '@ndla/ui';
-import { createRoot } from 'react-dom/client';
-import config, { ConfigType, getDefaultLanguage } from './config';
-import { isValidLocale } from './i18n';
-import App from './containers/App/App';
-import { initializeI18n, supportedLanguages } from './i18n2';
-import { STORED_LANGUAGE_KEY } from './constants';
 import Spinner from './components/Spinner';
+import config, { ConfigType, getDefaultLanguage } from './config';
+import { STORED_LANGUAGE_KEY } from './constants';
+import App from './containers/App/App';
+import { isValidLocale } from './i18n';
+import { initializeI18n, supportedLanguages } from './i18n2';
 import { LocaleType } from './interfaces';
 
 declare global {

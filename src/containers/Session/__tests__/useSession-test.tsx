@@ -6,10 +6,10 @@
  *
  */
 
-import { ElementType, ReactNode } from 'react';
-import { act, renderHook } from '@testing-library/react';
-import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
+import { ElementType, ReactNode } from 'react';
+import { Router } from 'react-router-dom';
+import { act, renderHook } from '@testing-library/react';
 import { getSessionStateFromLocalStorage, SessionProvider, useSession } from '../SessionProvider';
 
 const authResult = {

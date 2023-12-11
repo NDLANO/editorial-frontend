@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2016-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,22 +6,22 @@
  *
  */
 
+import uniq from 'lodash/uniq';
 import { useState, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
+import { colors } from '@ndla/core';
 import { IAudioSummary, ISeriesSummary } from '@ndla/types-backend/audio-api';
 import { IConceptSummary } from '@ndla/types-backend/concept-api';
 import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
-import uniq from 'lodash/uniq';
-import styled from '@emotion/styled';
-import { colors } from '@ndla/core';
 import { Node } from '@ndla/types-taxonomy';
 import SearchResult, { SearchResultReturnType } from './SearchResult';
 import Spinner from '../../../../components/Spinner';
-import { ResultType } from '../../SearchContainer';
-import { SearchParams } from '../form/SearchForm';
 import { LocaleType, SearchType } from '../../../../interfaces';
 import { fetchAuth0Users } from '../../../../modules/auth0/auth0Api';
+import { ResultType } from '../../SearchContainer';
+import { SearchParams } from '../form/SearchForm';
 
 const StyledSearchError = styled.p`
   color: ${colors.support.red};

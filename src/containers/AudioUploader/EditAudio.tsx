@@ -2,19 +2,20 @@
  * Copyright (c) 2016-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
 import { useEffect, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import { IAudioMetaInformation, IUpdatedAudioMetaInformation } from '@ndla/types-backend/audio-api';
 import AudioForm from './components/AudioForm';
+import { TranslateType, useTranslateToNN } from '../../components/NynorskTranslateProvider';
+import Spinner from '../../components/Spinner';
+import { fetchAudio, updateAudio } from '../../modules/audio/audioApi';
 import { createFormData } from '../../util/formDataHelper';
 import { toEditPodcast } from '../../util/routeHelpers';
-import Spinner from '../../components/Spinner';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
-import { fetchAudio, updateAudio } from '../../modules/audio/audioApi';
-import { TranslateType, useTranslateToNN } from '../../components/NynorskTranslateProvider';
 
 interface Props {
   isNewlyCreated?: boolean;

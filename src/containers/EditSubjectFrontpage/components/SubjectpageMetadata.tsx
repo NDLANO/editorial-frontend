@@ -2,17 +2,18 @@
  * Copyright (c) 2020-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
-import { useTranslation } from 'react-i18next';
 import { FieldProps } from 'formik';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
+import SubjectpageBanner from './SubjectpageBanner';
 import FormikField from '../../../components/FormikField';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 import { textTransformPlugin } from '../../../components/SlateEditor/plugins/textTransform';
-import SubjectpageBanner from './SubjectpageBanner';
 
 const ImageWrapper = styled.div`
   display: flex;

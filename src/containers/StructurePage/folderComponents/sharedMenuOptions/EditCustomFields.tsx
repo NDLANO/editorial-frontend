@@ -9,10 +9,10 @@
 import { useTranslation } from 'react-i18next';
 import { Pencil } from '@ndla/icons/action';
 import { Node } from '@ndla/types-taxonomy';
-import RoundIcon from '../../../../components/RoundIcon';
 import MenuItemButton from './components/MenuItemButton';
-import { EditMode } from '../../../../interfaces';
 import MenuItemCustomField from './components/MenuItemCustomField';
+import RoundIcon from '../../../../components/RoundIcon';
+import { EditMode } from '../../../../interfaces';
 
 interface Props {
   node: Node;

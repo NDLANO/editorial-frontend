@@ -13,9 +13,9 @@ import {
   ISeriesSummarySearchResult,
   ISeries,
 } from '@ndla/types-backend/audio-api';
-import { AUDIO, PODCAST_SERIES, SEARCH_AUDIO, SEARCH_SERIES } from '../../queryKeys';
-import { AudioSearchParams, SeriesSearchParams } from './audioApiInterfaces';
 import { fetchAudio, fetchSeries, searchAudio, searchSeries } from './audioApi';
+import { AudioSearchParams, SeriesSearchParams } from './audioApiInterfaces';
+import { AUDIO, PODCAST_SERIES, SEARCH_AUDIO, SEARCH_SERIES } from '../../queryKeys';
 
 export interface UseAudio {
   id: number;

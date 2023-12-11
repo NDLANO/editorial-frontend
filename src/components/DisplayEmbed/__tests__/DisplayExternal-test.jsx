@@ -9,8 +9,8 @@
 import nock from 'nock';
 import { render } from '@testing-library/react';
 import IntlWrapper from '../../../util/__tests__/IntlWrapper';
-import DisplayExternal from '../DisplayExternal';
 import { getIframeSrcFromHtmlString } from '../../../util/htmlHelpers';
+import DisplayExternal from '../DisplayExternal';
 
 function createNodeMock(element) {
   if (element.type === 'div') {

@@ -7,15 +7,15 @@
  */
 
 import { useField } from 'formik';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { FieldHeader, FieldSection, Input, Select } from '@ndla/forms';
-import { useTranslation } from 'react-i18next';
-import { constants } from '@ndla/ui';
 import { IGlossData } from '@ndla/types-backend/concept-api';
-import FormikField from '../../../components/FormikField';
+import { constants } from '@ndla/ui';
 import ExamplesFieldArray from './ExamplesFieldArray';
-import { LANGUAGES } from '../glossData';
 import TranscriptionsField from './TranscriptionsField';
+import FormikField from '../../../components/FormikField';
+import { LANGUAGES } from '../glossData';
 
 const StyledFormikField = styled(FormikField)`
   margin-top: 0px;

@@ -7,28 +7,28 @@
  */
 
 import { useMemo, useState } from 'react';
-import { FieldHeader } from '@ndla/forms';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import Tooltip from '@ndla/tooltip';
-import { Eye } from '@ndla/icons/editor';
 import { IconButtonV2 } from '@ndla/button';
 import { colors } from '@ndla/core';
-import VisualElementField from '../../../FormikForm/components/VisualElementField';
+import { FieldHeader } from '@ndla/forms';
+import { Eye } from '@ndla/icons/editor';
+import Tooltip from '@ndla/tooltip';
 import LastUpdatedLine from './../../../../components/LastUpdatedLine/LastUpdatedLine';
-import HowToHelper from '../../../../components/HowTo/HowToHelper';
 
-import FormikField from '../../../../components/FormikField';
-import RichTextEditor from '../../../../components/SlateEditor/RichTextEditor';
-import { EditMarkupLink } from '../../../../components/EditMarkupLink';
-import { IngressField, TitleField } from '../../../FormikForm';
-import { DRAFT_HTML_SCOPE } from '../../../../constants';
-import { toEditMarkup } from '../../../../util/routeHelpers';
-import { TopicArticleFormType } from '../../../FormikForm/articleFormHooks';
-import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
-import { useSession } from '../../../Session/SessionProvider';
 import { topicArticlePlugins } from './topicArticlePlugins';
 import { topicArticleRenderers } from './topicArticleRenderers';
+import { EditMarkupLink } from '../../../../components/EditMarkupLink';
+import FormikField from '../../../../components/FormikField';
+import HowToHelper from '../../../../components/HowTo/HowToHelper';
+import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
+import RichTextEditor from '../../../../components/SlateEditor/RichTextEditor';
+import { DRAFT_HTML_SCOPE } from '../../../../constants';
+import { toEditMarkup } from '../../../../util/routeHelpers';
+import { IngressField, TitleField } from '../../../FormikForm';
+import { TopicArticleFormType } from '../../../FormikForm/articleFormHooks';
+import VisualElementField from '../../../FormikForm/components/VisualElementField';
+import { useSession } from '../../../Session/SessionProvider';
 
 const StyledByLineFormikField = styled(FormikField)`
   display: flex;

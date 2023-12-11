@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2019-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,16 +6,16 @@
  *
  */
 
-import { HelmetWithTracker } from '@ndla/tracker';
-import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
+import { HelmetWithTracker } from '@ndla/tracker';
 import ConceptForm from './ConceptForm/ConceptForm';
-import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
-import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import { TranslateType, useTranslateToNN } from '../../components/NynorskTranslateProvider';
 import Spinner from '../../components/Spinner';
 import { LocaleType } from '../../interfaces';
-import { TranslateType, useTranslateToNN } from '../../components/NynorskTranslateProvider';
+import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
+import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 const translateFields: TranslateType[] = [
   {

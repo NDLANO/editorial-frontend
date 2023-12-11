@@ -4,34 +4,35 @@
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
- *
  */
 
+import equals from 'lodash/fp/equals';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Descendant, Editor, Element, Node, NodeEntry, Path, Text, Transforms } from 'slate';
 import { HistoryEditor } from 'slate-history';
 import { jsx as slatejsx } from 'slate-hyperscript';
-import equals from 'lodash/fp/equals';
-import { SlateSerializer } from '../../interfaces';
 import {
-  reduceElementDataAttributes,
-  removeEmptyElementDataAttributes,
-} from '../../../../util/embedTagHelpers';
-import getCurrentBlock from '../../utils/getCurrentBlock';
+  defaultTableBodyBlock,
+  defaultTableCaptionBlock,
+  defaultTableCellBlock,
+  defaultTableHeadBlock,
+  defaultTableRowBlock,
+} from './defaultBlocks';
 import { handleTableKeydown } from './handleKeyDown';
-import { defaultParagraphBlock } from '../paragraph/utils';
 import { TableCellElement, TableElement, TableMatrix } from './interfaces';
-import { NormalizerConfig, defaultBlockNormalizer } from '../../utils/defaultNormalizer';
-import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
+import { getTableAsMatrix, tableContainsSpan } from './matrix';
+import { getHeader, previousMatrixCellIsEqualCurrent } from './matrixHelpers';
+import { normalizeTableBodyAsMatrix } from './matrixNormalizer';
+import { updateCell } from './slateActions';
 import {
-  KEY_ARROW_DOWN,
-  KEY_ARROW_UP,
-  KEY_BACKSPACE,
-  KEY_DELETE,
-  KEY_ENTER,
-  KEY_TAB,
-} from '../../utils/keys';
-import { TYPE_PARAGRAPH } from '../paragraph/types';
+  isTable,
+  isTableBody,
+  isTableCaption,
+  isTableCell,
+  isTableCellHeader,
+  isTableHead,
+  isTableRow,
+} from './slateHelpers';
 import {
   TYPE_TABLE,
   TYPE_TABLE_HEAD,
@@ -42,25 +43,23 @@ import {
   TYPE_TABLE_CELL_HEADER,
 } from './types';
 import {
-  isTable,
-  isTableBody,
-  isTableCaption,
-  isTableCell,
-  isTableCellHeader,
-  isTableHead,
-  isTableRow,
-} from './slateHelpers';
-import { updateCell } from './slateActions';
+  reduceElementDataAttributes,
+  removeEmptyElementDataAttributes,
+} from '../../../../util/embedTagHelpers';
+import { SlateSerializer } from '../../interfaces';
+import { NormalizerConfig, defaultBlockNormalizer } from '../../utils/defaultNormalizer';
+import getCurrentBlock from '../../utils/getCurrentBlock';
 import {
-  defaultTableBodyBlock,
-  defaultTableCaptionBlock,
-  defaultTableCellBlock,
-  defaultTableHeadBlock,
-  defaultTableRowBlock,
-} from './defaultBlocks';
-import { normalizeTableBodyAsMatrix } from './matrixNormalizer';
-import { getTableAsMatrix, tableContainsSpan } from './matrix';
-import { getHeader, previousMatrixCellIsEqualCurrent } from './matrixHelpers';
+  KEY_ARROW_DOWN,
+  KEY_ARROW_UP,
+  KEY_BACKSPACE,
+  KEY_DELETE,
+  KEY_ENTER,
+  KEY_TAB,
+} from '../../utils/keys';
+import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
+import { TYPE_PARAGRAPH } from '../paragraph/types';
+import { defaultParagraphBlock } from '../paragraph/utils';
 
 const validKeys = [KEY_ARROW_UP, KEY_ARROW_DOWN, KEY_TAB, KEY_BACKSPACE, KEY_DELETE];
 

@@ -6,10 +6,10 @@
  *
  */
 
+import { MouseEvent } from 'react';
 import { css, SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
 import { animations } from '@ndla/core';
-import { MouseEvent } from 'react';
 
 const appearances: Record<string, SerializedStyles> = {
   zIndex: css`

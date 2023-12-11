@@ -6,15 +6,15 @@
  *
  */
 
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import FocusTrapReact from 'focus-trap-react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import { Plus } from '@ndla/icons/action';
+import { StyledDropdownOverlay } from '../Dropdown';
+import Overlay from '../Overlay';
 import StyledFilledButton from '../StyledFilledButton';
 import { styledListElement } from '../StyledListElement/StyledListElement';
-import Overlay from '../Overlay';
-import { StyledDropdownOverlay } from '../Dropdown';
 
 const LanguagePicker = ({ id, emptyLanguages, editUrl }: Props) => {
   const { t } = useTranslation();

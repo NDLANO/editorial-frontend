@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2016-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,15 +6,15 @@
  *
  */
 
-import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { getLicenseByAbbreviation } from '@ndla/licenses';
-import { LicenseByline } from '@ndla/notion';
+import { Link } from 'react-router-dom';
 import { colors } from '@ndla/core';
 import { Audio, Podcast } from '@ndla/icons/common';
+import { getLicenseByAbbreviation } from '@ndla/licenses';
+import { LicenseByline } from '@ndla/notion';
 import { IAudioSummary } from '@ndla/types-backend/audio-api';
-import { toEditAudio, toEditPodcast } from '../../../../util/routeHelpers';
 import { useLicenses } from '../../../../modules/draft/draftQueries';
+import { toEditAudio, toEditPodcast } from '../../../../util/routeHelpers';
 import {
   StyledSearchContent,
   StyledSearchDescription,

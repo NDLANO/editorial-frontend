@@ -2,12 +2,15 @@
  * Copyright (c) 2016-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
+import { Formik, FormikHelpers } from 'formik';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { Descendant } from 'slate';
 import { ButtonV2 } from '@ndla/button';
 import {
   IAudio,
@@ -16,26 +19,24 @@ import {
   INewAudioMetaInformation,
   IUpdatedAudioMetaInformation,
 } from '@ndla/types-backend/audio-api';
-import { Formik, FormikHelpers } from 'formik';
-import { Descendant } from 'slate';
-import { editorValueToPlainText } from '../../../util/articleContentConverter';
+import AudioContent from './AudioContent';
+import AudioCopyright from './AudioCopyright';
+import AudioManuscript from './AudioManuscript';
+import AudioMetaData from './AudioMetaData';
+import FormAccordion from '../../../components/Accordion/FormAccordion';
+import FormAccordions from '../../../components/Accordion/FormAccordions';
 import Field from '../../../components/Field';
+import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';
+import FormWrapper from '../../../components/FormWrapper';
+import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import SaveButton from '../../../components/SaveButton';
+import { SAVE_BUTTON_ID } from '../../../constants';
+import { useLicenses } from '../../../modules/draft/draftQueries';
+import { editorValueToPlainText } from '../../../util/articleContentConverter';
+import { audioApiTypeToFormType } from '../../../util/audioHelpers';
 import { DEFAULT_LICENSE, isFormikFormDirty } from '../../../util/formHelper';
 import { AlertModalWrapper } from '../../FormikForm';
-import AudioMetaData from './AudioMetaData';
-import AudioCopyright from './AudioCopyright';
-import AudioContent from './AudioContent';
-import AudioManuscript from './AudioManuscript';
-import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';
-import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
-import { audioApiTypeToFormType } from '../../../util/audioHelpers';
 import { MessageError, useMessages } from '../../Messages/MessagesProvider';
-import { useLicenses } from '../../../modules/draft/draftQueries';
-import FormWrapper from '../../../components/FormWrapper';
-import FormAccordions from '../../../components/Accordion/FormAccordions';
-import FormAccordion from '../../../components/Accordion/FormAccordion';
-import { SAVE_BUTTON_ID } from '../../../constants';
 
 export interface AudioFormikType {
   id?: number;

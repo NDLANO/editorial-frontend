@@ -9,9 +9,9 @@
 import { useTranslation } from 'react-i18next';
 import { CheckboxItem } from '@ndla/forms';
 import FormikField from '../../../components/FormikField';
-import { MetaImageSearch, TitleField } from '../../FormikForm';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 import { textTransformPlugin } from '../../../components/SlateEditor/plugins/textTransform';
+import { MetaImageSearch, TitleField } from '../../FormikForm';
 
 interface Props {
   language?: string;

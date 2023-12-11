@@ -2,12 +2,13 @@
  * Copyright (c) 2019-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
-import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
 import { IArticle } from '@ndla/types-backend/draft-api';
 import { ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
+import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
 import { searchResources } from '../../../modules/search/searchApi';
 

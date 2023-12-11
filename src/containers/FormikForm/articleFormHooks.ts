@@ -6,9 +6,9 @@
  *
  */
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { TFunction } from 'i18next';
 import { FormikHelpers } from 'formik';
+import { TFunction } from 'i18next';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Descendant } from 'slate';
 import {
   IArticle,
@@ -18,13 +18,13 @@ import {
   IAuthor,
   IComment,
 } from '@ndla/types-backend/draft-api';
-import { deleteFile } from '../../modules/draft/draftApi';
-import { RelatedContent } from '../../interfaces';
-import { useMessages } from '../Messages/MessagesProvider';
-import { useLicenses } from '../../modules/draft/draftQueries';
 import { getWarnings, RulesType } from '../../components/formikValidationSchema';
-import { NdlaErrorPayload } from '../../util/resolveJsonOrRejectWithError';
 import { PUBLISHED } from '../../constants';
+import { RelatedContent } from '../../interfaces';
+import { deleteFile } from '../../modules/draft/draftApi';
+import { useLicenses } from '../../modules/draft/draftQueries';
+import { NdlaErrorPayload } from '../../util/resolveJsonOrRejectWithError';
+import { useMessages } from '../Messages/MessagesProvider';
 
 const getFilePathsFromHtml = (htmlString: string): string[] => {
   const parsed = new DOMParser().parseFromString(htmlString, 'text/html');

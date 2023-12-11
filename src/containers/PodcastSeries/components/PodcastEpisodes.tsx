@@ -2,19 +2,20 @@
  * Copyright (c) 2021-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
+import { useFormikContext } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
 import { IAudioSummarySearchResult, IAudioSummary } from '@ndla/types-backend/audio-api';
-import { useFormikContext } from 'formik';
-import ElementList from '../../FormikForm/components/ElementList';
+import { PodcastSeriesFormikType } from './PodcastSeriesForm';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
+import { fetchAudio, searchAudio } from '../../../modules/audio/audioApi';
 import handleError from '../../../util/handleError';
 
-import { PodcastSeriesFormikType } from './PodcastSeriesForm';
-import { fetchAudio, searchAudio } from '../../../modules/audio/audioApi';
+import ElementList from '../../FormikForm/components/ElementList';
 
 const PodcastEpisodes = () => {
   const { t } = useTranslation();

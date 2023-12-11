@@ -6,10 +6,10 @@
  *
  */
 import isObject from 'lodash/fp/isObject';
+import { TYPE_AUDIO } from '../components/SlateEditor/plugins/audio/types';
 import { TYPE_NDLA_EMBED } from '../components/SlateEditor/plugins/embed/types';
 import { isEmpty } from '../components/validators';
 import { Dictionary, Embed } from '../interfaces';
-import { TYPE_AUDIO } from '../components/SlateEditor/plugins/audio/types';
 
 export const removeEmptyElementDataAttributes = (obj: Dictionary<any>) => {
   const newObject: Dictionary<string> = {};

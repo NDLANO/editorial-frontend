@@ -9,8 +9,8 @@
 import { ReactElement } from 'react';
 import { renderToString } from 'react-dom/server';
 import serialize from 'serialize-javascript';
-import config from '../config';
 import { GoogleTagMangerScript, GoogleTagMangerNoScript } from './Gtm';
+import config from '../config';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST as string); // eslint-disable-line import/no-dynamic-require
 

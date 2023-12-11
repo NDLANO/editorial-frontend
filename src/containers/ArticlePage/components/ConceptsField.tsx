@@ -2,19 +2,20 @@
  * Copyright (c) 2020-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
+import { FieldInputProps, FormikHelpers } from 'formik';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
 import { IConcept, IConceptSummary } from '@ndla/types-backend/concept-api';
-import { FieldInputProps, FormikHelpers } from 'formik';
-import ElementList from '../../FormikForm/components/ElementList';
-import handleError from '../../../util/handleError';
-import { fetchConcept, searchConcepts } from '../../../modules/concept/conceptApi';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
+import { fetchConcept, searchConcepts } from '../../../modules/concept/conceptApi';
+import handleError from '../../../util/handleError';
 import { ArticleFormType } from '../../FormikForm/articleFormHooks';
+import ElementList from '../../FormikForm/components/ElementList';
 
 interface ConceptApiTypeWithArticleType extends IConcept {
   articleType?: string;

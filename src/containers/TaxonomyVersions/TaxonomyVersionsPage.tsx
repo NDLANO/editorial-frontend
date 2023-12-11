@@ -6,25 +6,25 @@
  *
  */
 
+import partition from 'lodash/partition';
+import sortBy from 'lodash/sortBy';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import sortBy from 'lodash/sortBy';
-import partition from 'lodash/partition';
 import styled from '@emotion/styled';
-import { colors, spacing, misc } from '@ndla/core';
 import { ButtonV2 } from '@ndla/button';
-import { OneColumn } from '@ndla/ui';
+import { colors, spacing, misc } from '@ndla/core';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { Version } from '@ndla/types-taxonomy';
-import { Row } from '../../components';
-import Footer from '../App/components/Footer';
+import { OneColumn } from '@ndla/ui';
+import DeletePublishRequests from './components/DeletePublishRequests';
 import UIVersion from './components/Version';
 import VersionForm from './components/VersionForm';
 import VersionList from './components/VersionList';
-import { useVersions } from '../../modules/taxonomy/versions/versionQueries';
-import DeletePublishRequests from './components/DeletePublishRequests';
-import { useNodes } from '../../modules/nodes/nodeQueries';
+import { Row } from '../../components';
 import { TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH } from '../../constants';
+import { useNodes } from '../../modules/nodes/nodeQueries';
+import { useVersions } from '../../modules/taxonomy/versions/versionQueries';
+import Footer from '../App/components/Footer';
 
 const NewFormWrapper = styled.div`
   padding: ${spacing.normal};

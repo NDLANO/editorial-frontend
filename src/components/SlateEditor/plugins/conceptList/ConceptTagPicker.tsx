@@ -2,25 +2,26 @@
  * Copyright (c) 2022-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
-import { ButtonV2, CloseButton } from '@ndla/button';
-import { spacing } from '@ndla/core';
-import { ModalBody, ModalHeader } from '@ndla/modal';
-import { Input } from '@ndla/forms';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { Node } from '@ndla/types-taxonomy';
+import { ButtonV2, CloseButton } from '@ndla/button';
+import { spacing } from '@ndla/core';
+import { Input } from '@ndla/forms';
 import { Spinner } from '@ndla/icons';
-import { Figure, BlockConcept } from '@ndla/ui';
+import { ModalBody, ModalHeader } from '@ndla/modal';
 import { ConceptListEmbedData } from '@ndla/types-embed';
+import { Node } from '@ndla/types-taxonomy';
+import { Figure, BlockConcept } from '@ndla/ui';
 import { ConceptListElement } from '.';
 import { fetchAllSubjects, fetchAllTags } from '../../../../modules/concept/conceptApi';
-import Dropdown, { DropdownItem } from '../../../Dropdown/Dropdown';
-import { fetchNode } from '../../../../modules/nodes/nodeApi';
 import { useSearchConcepts } from '../../../../modules/concept/conceptQueries';
+import { fetchNode } from '../../../../modules/nodes/nodeApi';
+import Dropdown, { DropdownItem } from '../../../Dropdown/Dropdown';
 
 const TwoColumn = styled.div`
   display: flex;

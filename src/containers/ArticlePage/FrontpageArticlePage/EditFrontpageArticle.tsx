@@ -6,18 +6,18 @@
  *
  */
 
-import { HelmetWithTracker } from '@ndla/tracker';
-import { Navigate, useParams } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Navigate, useParams } from 'react-router-dom';
+import { HelmetWithTracker } from '@ndla/tracker';
 import FrontpageArticleForm from './components/FrontpageArticleForm';
+import { TranslateType, useTranslateToNN } from '../../../components/NynorskTranslateProvider';
+import Spinner from '../../../components/Spinner';
+import { useWideArticle, articleIsWide } from '../../../components/WideArticleEditorProvider';
+import { LocaleType } from '../../../interfaces';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
-import Spinner from '../../../components/Spinner';
-import { LocaleType } from '../../../interfaces';
 import NotFound from '../../NotFoundPage/NotFoundPage';
-import { TranslateType, useTranslateToNN } from '../../../components/NynorskTranslateProvider';
-import { useWideArticle, articleIsWide } from '../../../components/WideArticleEditorProvider';
 
 const translateFields: TranslateType[] = [
   {

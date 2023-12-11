@@ -6,17 +6,17 @@
  *
  */
 
-import { memo } from 'react';
-import { IUpdatedArticle, IArticle } from '@ndla/types-backend/draft-api';
-import { useTranslation } from 'react-i18next';
-import { Metadata, NodeChild } from '@ndla/types-taxonomy';
 import sortBy from 'lodash/sortBy';
+import { memo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Spinner } from '@ndla/icons';
+import { IUpdatedArticle, IArticle } from '@ndla/types-backend/draft-api';
+import { Metadata, NodeChild } from '@ndla/types-taxonomy';
+import TaxonomyBlock from './taxonomy/TaxonomyBlock';
+import { useNodes } from '../../../../modules/nodes/nodeQueries';
+import { useAllResourceTypes } from '../../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
 import { useVersions } from '../../../../modules/taxonomy/versions/versionQueries';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
-import { useAllResourceTypes } from '../../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
-import { useNodes } from '../../../../modules/nodes/nodeQueries';
-import TaxonomyBlock from './taxonomy/TaxonomyBlock';
 
 interface Props {
   article: IArticle;

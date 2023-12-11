@@ -6,18 +6,35 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { memo, useCallback, useEffect, useMemo, useState } from 'react';
-import { IUserData } from '@ndla/types-backend/draft-api';
-import { Alarm, Time } from '@ndla/icons/common';
 import addYears from 'date-fns/addYears';
-import { Select, SingleValue } from '@ndla/select';
-import Pager from '@ndla/pager';
 import sortBy from 'lodash/sortBy';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { mq, breakpoints, colors, spacing } from '@ndla/core';
-import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
+import { Alarm, Time } from '@ndla/icons/common';
+import Pager from '@ndla/pager';
+import { Select, SingleValue } from '@ndla/select';
 import Tooltip from '@ndla/tooltip';
+import { IUserData } from '@ndla/types-backend/draft-api';
+import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
+import GoToSearch from './GoToSearch';
+import TableComponent, { FieldElement, Prefix, TitleElement } from './TableComponent';
+import TableTitle from './TableTitle';
+import { getWarnStatus } from '../../../components/HeaderWithLanguage/HeaderStatusInformation';
+import {
+  FAVOURITES_SUBJECT_ID,
+  PUBLISHED,
+  STORED_SORT_OPTION_REVISION,
+  Revision,
+} from '../../../constants';
+import { SUBJECT_NODE } from '../../../modules/nodes/nodeApiTypes';
+import { useSearchNodes } from '../../../modules/nodes/nodeQueries';
+import { useSearch } from '../../../modules/search/searchQueries';
+import formatDate, { formatDateForBackend } from '../../../util/formatDate';
+import { toEditArticle } from '../../../util/routeHelpers';
+import { getExpirationDate } from '../../ArticlePage/articleTransformers';
+import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import {
   ControlWrapperDashboard,
   DropdownWrapper,
@@ -28,23 +45,6 @@ import {
   SwitchWrapper,
   TopRowControls,
 } from '../styles';
-import TableComponent, { FieldElement, Prefix, TitleElement } from './TableComponent';
-import TableTitle from './TableTitle';
-import formatDate, { formatDateForBackend } from '../../../util/formatDate';
-import { toEditArticle } from '../../../util/routeHelpers';
-import { useSearch } from '../../../modules/search/searchQueries';
-import { getExpirationDate } from '../../ArticlePage/articleTransformers';
-import GoToSearch from './GoToSearch';
-import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
-import { useSearchNodes } from '../../../modules/nodes/nodeQueries';
-import { SUBJECT_NODE } from '../../../modules/nodes/nodeApiTypes';
-import {
-  FAVOURITES_SUBJECT_ID,
-  PUBLISHED,
-  STORED_SORT_OPTION_REVISION,
-  Revision,
-} from '../../../constants';
-import { getWarnStatus } from '../../../components/HeaderWithLanguage/HeaderStatusInformation';
 
 const RevisionsWrapper = styled.div`
   ${mq.range({ from: breakpoints.tabletWide })} {

@@ -7,22 +7,22 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { useQueryClient } from '@tanstack/react-query';
-import Tooltip from '@ndla/tooltip';
 import styled from '@emotion/styled';
+import { useQueryClient } from '@tanstack/react-query';
 import { Switch } from '@ndla/switch';
+import Tooltip from '@ndla/tooltip';
 import { Node, Metadata } from '@ndla/types-taxonomy';
+import RoundIcon from '../../../../components/RoundIcon';
 import {
   TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE,
   TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
   TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
 } from '../../../../constants';
-import RoundIcon from '../../../../components/RoundIcon';
-import { StyledMenuItemEditField, StyledMenuItemInputField } from '../styles';
 import { useUpdateNodeMetadataMutation } from '../../../../modules/nodes/nodeMutations';
+import { nodeQueryKeys } from '../../../../modules/nodes/nodeQueries';
 import { getRootIdForNode, isRootNode } from '../../../../modules/nodes/nodeUtil';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
-import { nodeQueryKeys } from '../../../../modules/nodes/nodeQueries';
+import { StyledMenuItemEditField, StyledMenuItemInputField } from '../styles';
 
 interface Props {
   node: Node;

@@ -8,8 +8,8 @@
 
 import { Editor } from 'slate';
 import { RenderElementProps } from 'slate-react';
-import { TYPE_SPAN } from './types';
 import Span from './Span';
+import { TYPE_SPAN } from './types';
 
 export const spanRenderer = (editor: Editor) => {
   const { renderElement } = editor;

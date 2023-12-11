@@ -7,12 +7,12 @@
  */
 
 import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
-import { uuid } from '@ndla/util';
 import { useTranslation } from 'react-i18next';
-import { ModalBody, ModalHeader, ModalTitle } from '@ndla/modal';
-import { ButtonV2 } from '@ndla/button';
 import styled from '@emotion/styled';
+import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
+import { ModalBody, ModalHeader, ModalTitle } from '@ndla/modal';
+import { uuid } from '@ndla/util';
 
 export const emptyMathTag = '<math xmlns="http://www.w3.org/1998/Math/MathML"/>';
 

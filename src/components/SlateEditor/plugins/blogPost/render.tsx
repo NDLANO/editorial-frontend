@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -7,8 +7,8 @@
  */
 
 import { Editor } from 'slate';
-import { TYPE_BLOGPOST } from './types';
 import SlateBlogPost from './SlateBlogPost';
+import { TYPE_BLOGPOST } from './types';
 
 export const blogPostRenderer = (editor: Editor) => {
   const { renderElement } = editor;

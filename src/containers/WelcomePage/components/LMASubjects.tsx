@@ -7,18 +7,13 @@
  */
 
 import { useMemo, useState } from 'react';
-import { BookOpen } from '@ndla/icons/common';
-import { IMultiSearchResult } from '@ndla/types-backend/search-api';
 import { useTranslation } from 'react-i18next';
+import { BookOpen } from '@ndla/icons/common';
 import { SingleValue } from '@ndla/select';
-import {
-  ControlWrapperDashboard,
-  StyledDashboardInfo,
-  StyledLink,
-  StyledTopRowDashboardInfo,
-} from '../styles';
+import { IMultiSearchResult } from '@ndla/types-backend/search-api';
 import TableComponent, { FieldElement } from './TableComponent';
 import TableTitle from './TableTitle';
+import SubjectDropdown from './worklist/SubjectDropdown';
 import {
   ARCHIVED,
   LMA_SUBJECT_ID,
@@ -28,10 +23,15 @@ import {
   UNPUBLISHED,
 } from '../../../constants';
 import { useNodes } from '../../../modules/nodes/nodeQueries';
-import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import { useSearch } from '../../../modules/search/searchQueries';
 import { toSearch } from '../../../util/routeHelpers';
-import SubjectDropdown from './worklist/SubjectDropdown';
+import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
+import {
+  ControlWrapperDashboard,
+  StyledDashboardInfo,
+  StyledLink,
+  StyledTopRowDashboardInfo,
+} from '../styles';
 
 const EXCLUDE_STATUSES = [PUBLISHED, UNPUBLISHED, ARCHIVED];
 

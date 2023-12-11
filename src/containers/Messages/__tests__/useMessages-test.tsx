@@ -9,8 +9,8 @@
 import { ReactNode } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { act, renderHook } from '@testing-library/react';
-import { MessagesProvider, NewMessageType, useMessages } from '../MessagesProvider';
 import IntlWrapper from '../../../util/__tests__/IntlWrapper';
+import { MessagesProvider, NewMessageType, useMessages } from '../MessagesProvider';
 
 interface WrapperProps {
   children?: ReactNode;

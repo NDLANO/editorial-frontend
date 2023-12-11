@@ -2,12 +2,13 @@
  * Copyright (c) 2021-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
 import loadable from '@loadable/component';
-import { useSeries } from '../../modules/audio/audioQueries';
 import ResourcePage from '../../components/ResourcePage';
+import { useSeries } from '../../modules/audio/audioQueries';
 const CreatePodcastSeries = loadable(() => import('./CreatePodcastSeries'));
 const EditPodcastSeries = loadable(() => import('./EditPodcastSeries'));
 

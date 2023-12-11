@@ -7,13 +7,13 @@
  */
 
 import { createElement } from 'react';
-import { jsx as slatejsx } from 'slate-hyperscript';
 import { Descendant, Editor, Element, Transforms, Range, Node, Path } from 'slate';
+import { jsx as slatejsx } from 'slate-hyperscript';
+import { TYPE_HEADING } from './types';
 import { SlateSerializer } from '../../interfaces';
 import hasNodeOfType from '../../utils/hasNodeOfType';
 import { KEY_BACKSPACE, KEY_ENTER } from '../../utils/keys';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
-import { TYPE_HEADING } from './types';
 
 export interface HeadingElement {
   type: 'heading';

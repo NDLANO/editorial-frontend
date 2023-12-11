@@ -1,9 +1,16 @@
+/**
+ * Copyright (c) 2022-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 import { MenuBook } from '@ndla/icons/action';
 import { Subject } from '@ndla/icons/contentType';
 import Tooltip from '@ndla/tooltip';
-import { useTranslation } from 'react-i18next';
 import { Node } from '@ndla/types-taxonomy';
 import { DiffType } from '../containers/NodeDiff/diffUtils';
 import { SUBJECT_NODE } from '../modules/nodes/nodeApiTypes';

@@ -7,13 +7,13 @@
  */
 
 import { UseMutationOptions, useMutation } from '@tanstack/react-query';
-import { WithTaxonomyVersion } from '../../interfaces';
 import {
   CreateTopicNodeConnections,
   UpdateTaxParams,
   createTopicNodeConnections,
   updateTax,
 } from './taxonomyApi';
+import { WithTaxonomyVersion } from '../../interfaces';
 
 interface UseUpdateTaxMutation extends WithTaxonomyVersion, UpdateTaxParams {}
 

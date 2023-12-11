@@ -6,9 +6,9 @@
  *
  */
 
-import { constants } from '@ndla/ui';
 import { TFunction } from 'i18next';
 import { ResourceType } from '@ndla/types-taxonomy';
+import { constants } from '@ndla/ui';
 import {
   toEditArticle,
   toEditAudio,

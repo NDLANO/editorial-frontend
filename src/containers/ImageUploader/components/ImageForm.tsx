@@ -2,36 +2,37 @@
  * Copyright (c) 2016-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import { Formik, FormikHelpers } from 'formik';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
+import { ButtonV2 } from '@ndla/button';
+import { spacing } from '@ndla/core';
 import {
   IImageMetaInformationV3,
   INewImageMetaInformationV2,
   ILicense,
 } from '@ndla/types-backend/image-api';
-import { ButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
-import SaveButton from '../../../components/SaveButton';
-import { isFormikFormDirty } from '../../../util/formHelper';
-import validateFormik, { RulesType, getWarnings } from '../../../components/formikValidationSchema';
-import ImageMetaData from './ImageMetaData';
-import ImageCopyright from './ImageCopyright';
 import ImageContent from './ImageContent';
-import { AlertModalWrapper } from '../../FormikForm';
-import HeaderWithLanguage from '../../../components/HeaderWithLanguage/HeaderWithLanguage';
+import ImageCopyright from './ImageCopyright';
+import ImageMetaData from './ImageMetaData';
 import ImageVersionNotes from './ImageVersionNotes';
-import { MAX_IMAGE_UPLOAD_SIZE, SAVE_BUTTON_ID } from '../../../constants';
-import { imageApiTypeToFormType, ImageFormikType } from '../imageTransformers';
-import { editorValueToPlainText } from '../../../util/articleContentConverter';
-import FormWrapper from '../../../components/FormWrapper';
-import FormAccordions from '../../../components/Accordion/FormAccordions';
 import FormAccordion from '../../../components/Accordion/FormAccordion';
+import FormAccordions from '../../../components/Accordion/FormAccordions';
+import validateFormik, { RulesType, getWarnings } from '../../../components/formikValidationSchema';
+import FormWrapper from '../../../components/FormWrapper';
+import HeaderWithLanguage from '../../../components/HeaderWithLanguage/HeaderWithLanguage';
+import SaveButton from '../../../components/SaveButton';
+import { MAX_IMAGE_UPLOAD_SIZE, SAVE_BUTTON_ID } from '../../../constants';
+import { editorValueToPlainText } from '../../../util/articleContentConverter';
+import { isFormikFormDirty } from '../../../util/formHelper';
+import { AlertModalWrapper } from '../../FormikForm';
+import { imageApiTypeToFormType, ImageFormikType } from '../imageTransformers';
 
 const ButtonContainer = styled.div`
   margin-top: ${spacing.small};

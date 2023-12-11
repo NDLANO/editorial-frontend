@@ -9,9 +9,9 @@
 import { ReactNode } from 'react';
 import { Editor, Element, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
-import SlateRightAside from './SlateRightAside';
-import SlateFactAside from './SlateFactAside';
 import { AsideElement } from '.';
+import SlateFactAside from './SlateFactAside';
+import SlateRightAside from './SlateRightAside';
 import { TYPE_ASIDE } from './types';
 
 interface Props {

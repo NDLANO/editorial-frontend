@@ -7,8 +7,8 @@
  */
 
 import { Editor } from 'slate';
-import { isSlateEmbedElement } from '../embed/utils';
 import NoEmbedMessage from './NoEmbedMessage';
+import { isSlateEmbedElement } from '../embed/utils';
 
 export const noEmbedRenderer = (editor: Editor) => {
   const { renderElement } = editor;

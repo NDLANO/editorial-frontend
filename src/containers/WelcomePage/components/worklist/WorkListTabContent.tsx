@@ -6,16 +6,20 @@
  *
  */
 
-import { Calendar } from '@ndla/icons/editor';
-import { SingleValue } from '@ndla/select';
-import { IMultiSearchResult } from '@ndla/types-backend/search-api';
-import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
-import Pager from '@ndla/pager';
+import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { Comment, ExclamationMark } from '@ndla/icons/common';
+import { Calendar } from '@ndla/icons/editor';
+import Pager from '@ndla/pager';
+import { SingleValue } from '@ndla/select';
 import Tooltip from '@ndla/tooltip';
-import styled from '@emotion/styled';
+import { IMultiSearchResult } from '@ndla/types-backend/search-api';
+import PageSizeDropdown from './PageSizeDropdown';
+import StatusCell from './StatusCell';
+import SubjectDropdown from './SubjectDropdown';
+import { SortOption } from './WorkList';
 import formatDate from '../../../../util/formatDate';
 import { toEditArticle } from '../../../../util/routeHelpers';
 import {
@@ -26,13 +30,9 @@ import {
   SwitchWrapper,
   TopRowControls,
 } from '../../styles';
-import SubjectDropdown from './SubjectDropdown';
+import GoToSearch from '../GoToSearch';
 import TableComponent, { FieldElement, Prefix, TitleElement } from '../TableComponent';
 import TableTitle from '../TableTitle';
-import GoToSearch from '../GoToSearch';
-import { SortOption } from './WorkList';
-import StatusCell from './StatusCell';
-import PageSizeDropdown from './PageSizeDropdown';
 
 export const CellWrapper = styled.div`
   display: flex;

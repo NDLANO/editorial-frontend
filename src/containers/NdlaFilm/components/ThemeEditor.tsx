@@ -2,24 +2,25 @@
  * Copyright (c) 2019-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
+import { useField, useFormikContext } from 'formik';
 import { MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IMovieTheme } from '@ndla/types-backend/frontpage-api';
-import { ButtonV2, IconButtonV2 } from '@ndla/button';
-import { FieldHeader } from '@ndla/forms';
 import styled from '@emotion/styled';
+import { ButtonV2, IconButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
+import { FieldHeader } from '@ndla/forms';
 import { Pencil } from '@ndla/icons/action';
 import { ChevronUp, ChevronDown } from '@ndla/icons/common';
 import { DeleteForever } from '@ndla/icons/editor';
-import { useField, useFormikContext } from 'formik';
-import ThemeNameModal from './ThemeNameModal';
-import { findName, convertThemeNames, changeThemeNames } from '../../../util/ndlaFilmHelpers';
+import { IMovieTheme } from '@ndla/types-backend/frontpage-api';
 import { ThemeMovies } from './ThemeMovies';
+import ThemeNameModal from './ThemeNameModal';
 import { LocaleType } from '../../../interfaces';
+import { findName, convertThemeNames, changeThemeNames } from '../../../util/ndlaFilmHelpers';
 
 interface Props {
   onUpdateMovieTheme: Function;

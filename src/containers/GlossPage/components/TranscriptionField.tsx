@@ -6,10 +6,10 @@
  *
  */
 
-import { Input, FieldRemoveButton } from '@ndla/forms';
-import { spacing } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
+import { spacing } from '@ndla/core';
+import { Input, FieldRemoveButton } from '@ndla/forms';
 import FormikField from '../../../components/FormikField';
 
 interface Props {

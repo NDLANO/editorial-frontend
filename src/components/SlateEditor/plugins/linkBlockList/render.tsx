@@ -7,8 +7,8 @@
  */
 
 import { Editor } from 'slate';
-import { TYPE_LINK_BLOCK_LIST } from './types';
 import SlateLinkBlockList from './SlateLinkBlockList';
+import { TYPE_LINK_BLOCK_LIST } from './types';
 
 export const linkBlockListRenderer = (editor: Editor) => {
   const { renderElement } = editor;

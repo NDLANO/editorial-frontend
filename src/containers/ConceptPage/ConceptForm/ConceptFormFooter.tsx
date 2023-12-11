@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2021-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,19 +6,19 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
 import { useFormikContext } from 'formik';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { IStatus } from '@ndla/types-backend/concept-api';
-import { spacing } from '@ndla/core';
 import { ButtonV2 } from '@ndla/button';
-import { isFormikFormDirty } from '../../../util/formHelper';
-import EditorFooter from '../../../components/SlateEditor/EditorFooter';
+import { spacing } from '@ndla/core';
+import { IStatus } from '@ndla/types-backend/concept-api';
 import SaveButton from '../../../components/SaveButton';
+import EditorFooter from '../../../components/SlateEditor/EditorFooter';
+import { SAVE_BUTTON_ID } from '../../../constants';
+import { useConceptStateMachine } from '../../../modules/concept/conceptQueries';
+import { isFormikFormDirty } from '../../../util/formHelper';
 import { AlertModalWrapper } from '../../FormikForm';
 import { ConceptFormValues } from '../conceptInterfaces';
-import { useConceptStateMachine } from '../../../modules/concept/conceptQueries';
-import { SAVE_BUTTON_ID } from '../../../constants';
 
 interface Props {
   entityStatus?: IStatus;

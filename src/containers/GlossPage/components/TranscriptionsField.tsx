@@ -6,10 +6,10 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { Select } from '@ndla/forms';
 import { useField } from 'formik';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Select } from '@ndla/forms';
 import { IGlossData } from '@ndla/types-backend/concept-api';
 import TranscriptionField from './TranscriptionField';
 import FormikField from '../../../components/FormikField';

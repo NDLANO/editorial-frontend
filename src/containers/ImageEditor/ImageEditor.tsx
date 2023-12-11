@@ -7,20 +7,20 @@
  */
 
 import { MouseEvent, useEffect, useState } from 'react';
-import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
+import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { colors } from '@ndla/core';
-import styled from '@emotion/styled';
 import { Crop, FocalPoint } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
-import { useTranslation } from 'react-i18next';
-import ImageTransformEditor from './ImageTransformEditor';
+import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import ImageAlignButton from './ImageAlignButton';
-import ImageSizeButton from './ImageSizeButton';
 import ImageEditorButton from './ImageEditorButton';
+import ImageSizeButton from './ImageSizeButton';
+import ImageTransformEditor from './ImageTransformEditor';
+import ShowBylineButton from './ShowBylineButton';
 import { ImageEmbed } from '../../interfaces';
 import { fetchImage } from '../../modules/image/imageApi';
-import ShowBylineButton from './ShowBylineButton';
 
 const StyledImageEditorMenu = styled('div')`
   color: white;

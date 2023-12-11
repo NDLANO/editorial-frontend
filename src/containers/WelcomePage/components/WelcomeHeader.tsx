@@ -6,11 +6,11 @@
  *
  */
 
-import { colors, spacing, fonts, mq, breakpoints } from '@ndla/core';
-import styled from '@emotion/styled';
-import { SafeLinkButton } from '@ndla/safelink';
-import { css } from '@emotion/react';
 import { useTranslation } from 'react-i18next';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import { colors, spacing, fonts, mq, breakpoints } from '@ndla/core';
+import { SafeLinkButton } from '@ndla/safelink';
 import { useSession } from '../../Session/SessionProvider';
 
 const StyledHeader = styled.div`

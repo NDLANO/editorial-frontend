@@ -1,6 +1,13 @@
+/**
+ * Copyright (c) 2021-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 import { Editor, Element } from 'slate';
-import { LIST_TYPES, TYPE_LIST, TYPE_LIST_ITEM } from '../types';
 import { isListItemSelected } from './isListItemSelected';
+import { LIST_TYPES, TYPE_LIST, TYPE_LIST_ITEM } from '../types';
 
 export const isSelectionOnlyOfType = (editor: Editor, type: string) => {
   const otherTypes = LIST_TYPES.filter((t) => t !== type);

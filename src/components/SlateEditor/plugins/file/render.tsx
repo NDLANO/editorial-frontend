@@ -7,8 +7,8 @@
  */
 
 import { Editor } from 'slate';
-import { TYPE_FILE } from './types';
 import FileList from './FileList';
+import { TYPE_FILE } from './types';
 
 export const fileRenderer = (editor: Editor) => {
   const { renderElement } = editor;

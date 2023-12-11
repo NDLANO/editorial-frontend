@@ -11,8 +11,8 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { colors } from '@ndla/core';
-import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import { ModalTrigger } from '@ndla/modal';
+import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import MetaInformation from '../../../components/MetaInformation';
 import config from '../../../config';
 

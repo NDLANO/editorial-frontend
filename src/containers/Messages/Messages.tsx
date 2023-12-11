@@ -7,12 +7,12 @@
  */
 
 import { MouseEvent } from 'react';
-import { css, SerializedStyles } from '@emotion/react';
-import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import AlertModal from '../../components/AlertModal';
+import { css, SerializedStyles } from '@emotion/react';
+import styled from '@emotion/styled';
 import { useMessages } from './MessagesProvider';
+import AlertModal from '../../components/AlertModal';
 
 const appearances: Record<string, SerializedStyles> = {
   hidden: css`

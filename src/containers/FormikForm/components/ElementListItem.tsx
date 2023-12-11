@@ -10,11 +10,11 @@ import { MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { spacing, spacingUnit, colors, fonts, animations } from '@ndla/core';
 import { IconButtonV2 } from '@ndla/button';
+import { spacing, spacingUnit, colors, fonts, animations } from '@ndla/core';
 import { DragHorizontal, DeleteForever } from '@ndla/icons/editor';
-import { resourceToLinkProps } from '../../../util/resourceHelpers';
 import { ElementType } from './ElementList';
+import { resourceToLinkProps } from '../../../util/resourceHelpers';
 
 const ELEMENT_HEIGHT = 69;
 const ELEMENT_MARGIN = 4;

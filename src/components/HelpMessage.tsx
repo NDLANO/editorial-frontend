@@ -6,6 +6,8 @@
  *
  */
 
+import { ReactNode } from 'react';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
@@ -18,8 +20,6 @@ import {
   ModalTrigger,
   ModalContent,
 } from '@ndla/modal';
-import { ReactNode } from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
 import { HelpIcon } from './HowTo';
 
 const StyledHelpIcon = styled(HelpIcon)`

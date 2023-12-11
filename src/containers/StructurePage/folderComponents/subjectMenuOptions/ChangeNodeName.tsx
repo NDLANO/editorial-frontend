@@ -6,11 +6,11 @@
  *
  */
 
-import { useCallback, useState } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
 import { FieldArray, Formik, FormikProps } from 'formik';
+import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
+import { useQueryClient } from '@tanstack/react-query';
 
 import { ButtonV2, CloseButton } from '@ndla/button';
 import { spacing } from '@ndla/core';
@@ -18,29 +18,29 @@ import { Input } from '@ndla/forms';
 import { Pencil } from '@ndla/icons/action';
 import { ModalHeader, ModalBody, Modal, ModalTitle, ModalContent, ModalTrigger } from '@ndla/modal';
 import { Translation, Node, NodeType } from '@ndla/types-taxonomy';
-import { EditModeHandler } from '../SettingsMenuDropdownType';
-import MenuItemButton from '../sharedMenuOptions/components/MenuItemButton';
+import AddNodeTranslation from './AddNodeTranslation';
+import { Row } from '../../../../components';
+import DeleteButton from '../../../../components/DeleteButton';
+import UIField from '../../../../components/Field';
+import FormikField from '../../../../components/FormikField';
+import validateFormik, { RulesType } from '../../../../components/formikValidationSchema';
 import RoundIcon from '../../../../components/RoundIcon';
-import handleError from '../../../../util/handleError';
-import { nodeQueryKeys, useNode } from '../../../../modules/nodes/nodeQueries';
+import SaveButton from '../../../../components/SaveButton';
+import Spinner from '../../../../components/Spinner';
+import StyledForm from '../../../../components/StyledFormComponents';
+import { subjectpageLanguages } from '../../../../i18n2';
 import {
   useDeleteNodeTranslationMutation,
   usePutNodeMutation,
   useUpdateNodeTranslationMutation,
 } from '../../../../modules/nodes/nodeMutations';
-import Spinner from '../../../../components/Spinner';
-import { StyledErrorMessage } from '../styles';
-import { subjectpageLanguages } from '../../../../i18n2';
+import { nodeQueryKeys, useNode } from '../../../../modules/nodes/nodeQueries';
 import { isFormikFormDirty } from '../../../../util/formHelper';
-import { Row } from '../../../../components';
-import FormikField from '../../../../components/FormikField';
-import DeleteButton from '../../../../components/DeleteButton';
-import AddNodeTranslation from './AddNodeTranslation';
-import SaveButton from '../../../../components/SaveButton';
-import UIField from '../../../../components/Field';
+import handleError from '../../../../util/handleError';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
-import StyledForm from '../../../../components/StyledFormComponents';
-import validateFormik, { RulesType } from '../../../../components/formikValidationSchema';
+import { EditModeHandler } from '../SettingsMenuDropdownType';
+import MenuItemButton from '../sharedMenuOptions/components/MenuItemButton';
+import { StyledErrorMessage } from '../styles';
 
 const StyledDeleteButton = styled(DeleteButton)`
   flex-grow: 1;

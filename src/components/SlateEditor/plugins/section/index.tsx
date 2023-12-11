@@ -8,10 +8,10 @@
 
 import { Node, Element, Descendant, Editor, Text, Transforms, Range } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
-import { SlateSerializer } from '../../interfaces';
-import { defaultParagraphBlock } from '../paragraph/utils';
-import { KEY_BACKSPACE, KEY_TAB } from '../../utils/keys';
 import { TYPE_SECTION } from './types';
+import { SlateSerializer } from '../../interfaces';
+import { KEY_BACKSPACE, KEY_TAB } from '../../utils/keys';
+import { defaultParagraphBlock } from '../paragraph/utils';
 
 export interface SectionElement {
   type: 'section';

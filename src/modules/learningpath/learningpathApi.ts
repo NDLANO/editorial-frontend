@@ -8,12 +8,12 @@
 
 import queryString from 'query-string';
 import { ILearningPathV2, ISearchResultV2 } from '@ndla/types-backend/learningpath-api';
+import { CopyLearningPathBody, SearchBody } from './learningpathApiInterfaces';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
   fetchAuthorized,
 } from '../../util/apiHelpers';
-import { CopyLearningPathBody, SearchBody } from './learningpathApiInterfaces';
 
 const baseUrl = apiResourceUrl('/learningpath-api/v2/learningpaths');
 

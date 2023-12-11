@@ -6,8 +6,8 @@
  *
  */
 
-import { Editor, Transforms } from 'slate';
 import { MouseEvent } from 'react';
+import { Editor, Transforms } from 'slate';
 import { ReactEditor } from 'slate-react';
 import RelatedArticleBox from './RelatedArticleBox';
 

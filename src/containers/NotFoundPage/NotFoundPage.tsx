@@ -6,8 +6,8 @@
  *
  */
 
-import { OneColumn, ErrorMessage } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
+import { OneColumn, ErrorMessage } from '@ndla/ui';
 
 const NotFound = () => {
   const { t } = useTranslation();

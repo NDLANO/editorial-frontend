@@ -7,10 +7,10 @@
  */
 
 import { memo } from 'react';
-import FormikField from '../../../components/FormikField';
-import { DRAFT_ADMIN_SCOPE } from '../../../constants';
 import ConceptsField from './ConceptsField';
 import ContentField from './ContentField';
+import FormikField from '../../../components/FormikField';
+import { DRAFT_ADMIN_SCOPE } from '../../../constants';
 import { useSession } from '../../Session/SessionProvider';
 
 const RelatedContentFieldGroup = () => {

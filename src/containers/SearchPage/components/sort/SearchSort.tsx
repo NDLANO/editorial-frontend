@@ -6,10 +6,10 @@
  *
  */
 
+import queryString from 'query-string';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-import queryString from 'query-string';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 

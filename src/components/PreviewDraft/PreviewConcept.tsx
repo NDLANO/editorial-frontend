@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -7,11 +7,11 @@
  */
 
 import parse from 'html-react-parser';
+import { useMemo } from 'react';
 import { extractEmbedMeta } from '@ndla/article-converter';
 import { IConcept } from '@ndla/types-backend/concept-api';
 import { ConceptVisualElementMeta } from '@ndla/types-embed';
 import { ConceptNotionV2, Gloss } from '@ndla/ui';
-import { useMemo } from 'react';
 import { useTaxonomyVersion } from '../../containers/StructureVersion/TaxonomyVersionProvider';
 import { usePreviewArticle } from '../../modules/article/articleGqlQueries';
 import { useSearchNodes } from '../../modules/nodes/nodeQueries';

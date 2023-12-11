@@ -4,11 +4,9 @@
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
- *
  */
 
 import { jsx as slatejsx } from 'slate-hyperscript';
-import { defaultParagraphBlock } from '../paragraph/utils';
 import { TableElement, TableCaptionElement, TableCellElement } from './interfaces';
 import {
   TYPE_TABLE,
@@ -19,6 +17,7 @@ import {
   TYPE_TABLE_BODY,
   TYPE_TABLE_CELL_HEADER,
 } from './types';
+import { defaultParagraphBlock } from '../paragraph/utils';
 
 export const defaultTableBlock = (height: number, width: number) => {
   return slatejsx('element', { type: TYPE_TABLE, colgroups: '' }, [

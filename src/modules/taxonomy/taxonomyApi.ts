@@ -8,12 +8,12 @@
 
 import orderBy from 'lodash/orderBy';
 import { ResolvedUrl, Node } from '@ndla/types-taxonomy';
-import { apiResourceUrl, httpFunctions } from '../../util/apiHelpers';
 import { createResourceResourceType, deleteResourceResourceType } from './resourcetypes';
 import { taxonomyApi } from '../../config';
-import { WithTaxonomyVersion } from '../../interfaces';
 import { TaxNode } from '../../containers/ArticlePage/LearningResourcePage/components/taxonomy/TaxonomyBlock';
 import { doDiff } from '../../containers/NodeDiff/diffUtils';
+import { WithTaxonomyVersion } from '../../interfaces';
+import { apiResourceUrl, httpFunctions } from '../../util/apiHelpers';
 import {
   deleteNodeConnection,
   postNode,

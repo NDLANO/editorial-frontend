@@ -7,8 +7,14 @@
  */
 
 import { lazy, Suspense, useState } from 'react';
-import { Spinner } from '@ndla/icons';
+import { useTranslation } from 'react-i18next';
+import { Transforms } from 'slate';
+import { useSlateStatic } from 'slate-react';
+import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
+import { fonts } from '@ndla/core';
+import { Spinner } from '@ndla/icons';
+import { Pencil } from '@ndla/icons/action';
 import {
   ModalBody,
   ModalCloseButton,
@@ -18,12 +24,6 @@ import {
   ModalTrigger,
   ModalContent,
 } from '@ndla/modal';
-import { fonts } from '@ndla/core';
-import { useSlateStatic } from 'slate-react';
-import { Transforms } from 'slate';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { Pencil } from '@ndla/icons/action';
 import { TableElement } from './interfaces';
 
 window.MonacoEnvironment = {

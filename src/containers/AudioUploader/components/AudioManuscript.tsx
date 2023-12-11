@@ -6,14 +6,14 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { fonts } from '@ndla/core';
 import { connect } from 'formik';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
+import { fonts } from '@ndla/core';
+import { AudioFormikType } from './AudioForm';
 import FormikField from '../../../components/FormikField';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 import { textTransformPlugin } from '../../../components/SlateEditor/plugins/textTransform';
-import { AudioFormikType } from './AudioForm';
 
 const plugins = [textTransformPlugin];
 

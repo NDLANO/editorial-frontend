@@ -6,15 +6,15 @@
  *
  */
 
-import { ButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
 import { Formik, Form, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
+import { ButtonV2 } from '@ndla/button';
+import { spacing } from '@ndla/core';
+import { FootnoteElement } from '.';
 import MultiSelectDropdown from '../../../Dropdown/MultiSelectDropdown';
 import FormikField from '../../../FormikField';
 import validateFormik from '../../../formikValidationSchema';
-import { FootnoteElement } from '.';
 
 const ButtonContainer = styled.div`
   margin-top: ${spacing.small};

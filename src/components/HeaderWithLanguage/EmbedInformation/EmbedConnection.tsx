@@ -7,9 +7,10 @@
  */
 
 import { useEffect } from 'react';
-import styled from '@emotion/styled';
-import { colors } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
+import { ButtonV2 } from '@ndla/button';
+import { colors } from '@ndla/core';
 import { SubjectMaterial } from '@ndla/icons/contentType';
 import {
   ModalHeader,
@@ -20,13 +21,12 @@ import {
   ModalTrigger,
   ModalContent,
 } from '@ndla/modal';
-import { ButtonV2 } from '@ndla/button';
 import { IConceptSummary } from '@ndla/types-backend/concept-api';
 import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
-import { normalPaddingCSS } from '../../HowTo';
+import ElementList from '../../../containers/FormikForm/components/ElementList';
 import { searchConcepts } from '../../../modules/concept/conceptApi';
 import { search as searchArticles } from '../../../modules/search/searchApi';
-import ElementList from '../../../containers/FormikForm/components/ElementList';
+import { normalPaddingCSS } from '../../HowTo';
 
 type EmbedType = 'image' | 'audio' | 'concept' | 'gloss' | 'article';
 

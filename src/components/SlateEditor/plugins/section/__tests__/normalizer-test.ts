@@ -9,8 +9,8 @@
 import { createEditor, Descendant, Editor } from 'slate';
 import { withHistory } from 'slate-history';
 import { withReact } from 'slate-react';
-import withPlugins from '../../../utils/withPlugins';
 import { learningResourcePlugins } from '../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins';
+import withPlugins from '../../../utils/withPlugins';
 import { TYPE_HEADING } from '../../heading/types';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 import { TYPE_SECTION } from '../types';

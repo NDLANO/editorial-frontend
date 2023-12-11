@@ -1,23 +1,30 @@
+/**
+ * Copyright (c) 2022-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { DeleteForever } from '@ndla/icons/editor';
 import { Node, NodeChild } from '@ndla/types-taxonomy';
+import MenuItemButton from './components/MenuItemButton';
 import AlertModal from '../../../../components/AlertModal';
+import Overlay from '../../../../components/Overlay';
 import RoundIcon from '../../../../components/RoundIcon';
+import Spinner from '../../../../components/Spinner';
+import { ARCHIVED } from '../../../../constants';
 import { updateStatusDraft } from '../../../../modules/draft/draftApi';
+import { fetchNodes } from '../../../../modules/nodes/nodeApi';
 import {
   useDeleteNodeConnectionMutation,
   useDeleteNodeMutation,
 } from '../../../../modules/nodes/nodeMutations';
-import { ARCHIVED } from '../../../../constants';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import { EditModeHandler } from '../SettingsMenuDropdownType';
-import MenuItemButton from './components/MenuItemButton';
-import Spinner from '../../../../components/Spinner';
-import Overlay from '../../../../components/Overlay';
 import { StyledErrorMessage } from '../styles';
-import { fetchNodes } from '../../../../modules/nodes/nodeApi';
 
 interface Props {
   node: Node | NodeChild;

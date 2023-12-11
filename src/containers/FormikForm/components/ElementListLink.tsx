@@ -8,11 +8,11 @@
 
 import { MouseEvent } from 'react';
 import styled from '@emotion/styled';
+import { IconButtonV2 } from '@ndla/button';
 import { spacing, spacingUnit, colors } from '@ndla/core';
 import { Link } from '@ndla/icons/common';
-import Tooltip from '@ndla/tooltip';
-import { IconButtonV2 } from '@ndla/button';
 import { DragHorizontal, DeleteForever } from '@ndla/icons/editor';
+import Tooltip from '@ndla/tooltip';
 import { IRelatedContentLink } from '@ndla/types-backend/draft-api';
 import { StyledListItem } from './ElementListItem';
 

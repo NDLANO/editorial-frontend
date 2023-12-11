@@ -8,18 +8,13 @@
 
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { spacing, colors } from '@ndla/core';
 import { Plus } from '@ndla/icons/action';
-import styled from '@emotion/styled';
 import { Node, Metadata } from '@ndla/types-taxonomy';
-import { PROGRAMME, SUBJECT_NODE, TOPIC_NODE } from '../../../../../modules/nodes/nodeApiTypes';
-import {
-  getNodeTypeFromNodeId,
-  getRootIdForNode,
-  isRootNode,
-} from '../../../../../modules/nodes/nodeUtil';
-import { useUpdateNodeMetadataMutation } from '../../../../../modules/nodes/nodeMutations';
+import ConstantMetaField from './ConstantMetaField';
+import CustomFieldComponent from './CustomFieldComponent';
 import {
   TAXONOMY_CUSTOM_FIELD_LANGUAGE,
   TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH,
@@ -31,16 +26,21 @@ import {
   TAXONOMY_CUSTOM_FIELD_PROGRAMME_SUBJECT,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
 } from '../../../../../constants';
-import GroupTopicResources from '../../topicMenuOptions/GroupTopicResources';
-import TaxonomyMetadataLanguageSelector from '../../subjectMenuOptions/TaxonomyMetadataLanguageSelector';
+import { PROGRAMME, SUBJECT_NODE, TOPIC_NODE } from '../../../../../modules/nodes/nodeApiTypes';
+import { useUpdateNodeMetadataMutation } from '../../../../../modules/nodes/nodeMutations';
+import {
+  getNodeTypeFromNodeId,
+  getRootIdForNode,
+  isRootNode,
+} from '../../../../../modules/nodes/nodeUtil';
+import { useTaxonomyVersion } from '../../../../StructureVersion/TaxonomyVersionProvider';
 import SubjectCategorySelector from '../../subjectMenuOptions/SubjectCategorySelector';
 import SubjectLMASelector from '../../subjectMenuOptions/SubjectLMASelector';
 import SubjectTypeSelector from '../../subjectMenuOptions/SubjectTypeSelector';
+import TaxonomyMetadataLanguageSelector from '../../subjectMenuOptions/TaxonomyMetadataLanguageSelector';
 import ToggleExplanationSubject from '../../subjectMenuOptions/ToggleExplanationSubject';
 import ToggleProgrammeSubject from '../../subjectMenuOptions/ToggleProgrammeSubject';
-import ConstantMetaField from './ConstantMetaField';
-import CustomFieldComponent from './CustomFieldComponent';
-import { useTaxonomyVersion } from '../../../../StructureVersion/TaxonomyVersionProvider';
+import GroupTopicResources from '../../topicMenuOptions/GroupTopicResources';
 
 interface Props {
   node: Node;

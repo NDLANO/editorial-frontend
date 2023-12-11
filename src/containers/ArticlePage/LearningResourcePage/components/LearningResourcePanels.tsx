@@ -6,23 +6,23 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
 import { useFormikContext } from 'formik';
-import { IUpdatedArticle, IArticle } from '@ndla/types-backend/draft-api';
 import { memo, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { IUpdatedArticle, IArticle } from '@ndla/types-backend/draft-api';
 import { Node, TaxonomyContext } from '@ndla/types-taxonomy';
+import LearningResourceContent from './LearningResourceContent';
+import LearningResourceTaxonomy from './LearningResourceTaxonomy';
+import FormAccordion from '../../../../components/Accordion/FormAccordion';
+import FormAccordions from '../../../../components/Accordion/FormAccordions';
 import config from '../../../../config';
-import RelatedContentFieldGroup from '../../components/RelatedContentFieldGroup';
 import { TAXONOMY_WRITE_SCOPE } from '../../../../constants';
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from '../../../FormikForm';
-import GrepCodesField from '../../../FormikForm/GrepCodesField';
-import LearningResourceTaxonomy from './LearningResourceTaxonomy';
-import LearningResourceContent from './LearningResourceContent';
 import { HandleSubmitFunc, LearningResourceFormType } from '../../../FormikForm/articleFormHooks';
+import GrepCodesField from '../../../FormikForm/GrepCodesField';
 import { useSession } from '../../../Session/SessionProvider';
+import RelatedContentFieldGroup from '../../components/RelatedContentFieldGroup';
 import RevisionNotes from '../../components/RevisionNotes';
-import FormAccordions from '../../../../components/Accordion/FormAccordions';
-import FormAccordion from '../../../../components/Accordion/FormAccordion';
 
 interface Props {
   article?: IArticle;

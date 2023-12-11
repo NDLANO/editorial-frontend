@@ -6,19 +6,19 @@
  *
  */
 
+import uniq from 'lodash/uniq';
 import { useState, useEffect } from 'react';
 import { IConcept, INewConcept, IUpdatedConcept } from '@ndla/types-backend/concept-api';
 import { IArticle, IUserData } from '@ndla/types-backend/draft-api';
-import uniq from 'lodash/uniq';
 import { Node } from '@ndla/types-taxonomy';
+import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../../constants';
 import * as conceptApi from '../../modules/concept/conceptApi';
 import { fetchSearchTags } from '../../modules/concept/conceptApi';
 import { fetchDraft } from '../../modules/draft/draftApi';
-import handleError from '../../util/handleError';
-import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../../constants';
-import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
 import { useUpdateUserDataMutation, useUserData } from '../../modules/draft/draftQueries';
 import { fetchNodes } from '../../modules/nodes/nodeApi';
+import handleError from '../../util/handleError';
+import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
 
 export function useFetchConceptData(conceptId: number | undefined, locale: string) {
   const [concept, setConcept] = useState<IConcept>();

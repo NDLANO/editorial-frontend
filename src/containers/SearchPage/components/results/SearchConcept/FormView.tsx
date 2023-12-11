@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2020-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -7,19 +7,19 @@
  */
 
 import { useState, useEffect } from 'react';
-import { RadioButtonGroup } from '@ndla/forms';
-import { IConcept, IConceptSummary, IUpdatedConcept } from '@ndla/types-backend/concept-api';
 import { useTranslation } from 'react-i18next';
+import { RadioButtonGroup } from '@ndla/forms';
 import { Spinner } from '@ndla/icons';
+import { IConcept, IConceptSummary, IUpdatedConcept } from '@ndla/types-backend/concept-api';
 import { Node } from '@ndla/types-taxonomy';
+import ConceptForm, { InlineFormConcept } from './ConceptForm';
+import { StyledConceptView } from './SearchStyles';
+import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../../../../../constants';
 import {
   fetchConcept,
   updateConcept,
   updateConceptStatus,
 } from '../../../../../modules/concept/conceptApi';
-import { StyledConceptView } from './SearchStyles';
-import ConceptForm, { InlineFormConcept } from './ConceptForm';
-import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../../../../../constants';
 import { useLicenses } from '../../../../../modules/draft/draftQueries';
 
 interface Props {

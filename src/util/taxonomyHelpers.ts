@@ -11,9 +11,9 @@ import merge from 'lodash/merge';
 import sortBy from 'lodash/sortBy';
 import uniqBy from 'lodash/uniqBy';
 import { NodeChild, ResourceType } from '@ndla/types-taxonomy';
-import { FlattenedResourceType } from '../interfaces';
 import { getContentTypeFromResourceTypes } from './resourceHelpers';
 import { ResourceWithNodeConnectionAndMeta } from '../containers/StructurePage/resourceComponents/StructureResources';
+import { FlattenedResourceType } from '../interfaces';
 import { NodeChildWithChildren } from '../modules/nodes/nodeQueries';
 
 // Kan hende at id i contentUri fra taxonomy inneholder '#xxx' (revision)

@@ -6,16 +6,16 @@
  *
  */
 
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
+import { useQueryClient } from '@tanstack/react-query';
 import { spacing, colors } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { SubjectMaterial } from '@ndla/icons/contentType';
 import { Done } from '@ndla/icons/editor';
 import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
 import { Node } from '@ndla/types-taxonomy';
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useQueryClient } from '@tanstack/react-query';
 import RoundIcon from '../../../../components/RoundIcon';
 import { fetchDraft, updateDraft } from '../../../../modules/draft/draftApi';
 import { TOPIC_NODE } from '../../../../modules/nodes/nodeApiTypes';

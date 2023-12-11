@@ -7,6 +7,7 @@
  */
 
 import { Descendant } from 'slate';
+import { IArticle } from '@ndla/types-backend/draft-api';
 import {
   ISubjectPageData,
   INewSubjectFrontPageData,
@@ -14,14 +15,13 @@ import {
 } from '@ndla/types-backend/frontpage-api';
 import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import { ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
-import { IArticle } from '@ndla/types-backend/draft-api';
-import { BrightcoveEmbed, ImageEmbed } from '../interfaces';
 import {
   editorValueToEmbed,
   editorValueToPlainText,
   plainTextToEditorValue,
 } from './articleContentConverter';
 import { convertVisualElement } from './ndlaFilmHelpers';
+import { BrightcoveEmbed, ImageEmbed } from '../interfaces';
 
 export const getIdFromUrn = (urnId: string | undefined) => urnId?.replace('urn:frontpage:', '');
 

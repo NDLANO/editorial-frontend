@@ -11,12 +11,12 @@ import { useTranslation } from 'react-i18next';
 import { Pencil } from '@ndla/icons/action';
 import Pager from '@ndla/pager';
 import { IArticleSummary } from '@ndla/types-backend/draft-api';
-import { StyledLink } from '../styles';
+import { SortOptionLastUsed } from './LastUsedItems';
 import TableComponent, { FieldElement, Prefix, TitleElement } from './TableComponent';
 import TableTitle from './TableTitle';
 import formatDate from '../../../util/formatDate';
 import { toEditArticle } from '../../../util/routeHelpers';
-import { SortOptionLastUsed } from './LastUsedItems';
+import { StyledLink } from '../styles';
 
 interface Props {
   data: IArticleSummary[];

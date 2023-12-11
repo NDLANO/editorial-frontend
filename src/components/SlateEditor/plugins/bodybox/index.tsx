@@ -8,16 +8,16 @@
 
 import { Descendant, Editor, Element } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
+import { TYPE_BODYBOX } from './types';
+import { SlateSerializer } from '../../interfaces';
+import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
 import {
   afterOrBeforeTextBlockElement,
   firstTextBlockElement,
   lastTextBlockElement,
   textBlockElements,
 } from '../../utils/normalizationHelpers';
-import { SlateSerializer } from '../../interfaces';
-import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
-import { TYPE_BODYBOX } from './types';
 
 export interface BodyboxElement {
   type: 'bodybox';

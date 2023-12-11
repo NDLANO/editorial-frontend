@@ -2,47 +2,48 @@
  * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
-import { useTranslation } from 'react-i18next';
 import { FieldProps, Formik } from 'formik';
+import sortBy from 'lodash/sortBy';
+import uniq from 'lodash/uniq';
 import { useCallback, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { fonts, spacing, colors } from '@ndla/core';
 import { useQueryClient } from '@tanstack/react-query';
 import { ButtonV2 } from '@ndla/button';
+import { fonts, spacing, colors } from '@ndla/core';
 import { InputV2 } from '@ndla/forms';
 import { Option, SingleValue } from '@ndla/select';
-import sortBy from 'lodash/sortBy';
 import { IUpdatedArticle } from '@ndla/types-backend/draft-api';
-import { css } from '@emotion/react';
-import uniq from 'lodash/uniq';
 import { Node } from '@ndla/types-taxonomy';
+import PlannedResourceSelect from './PlannedResourceSelect';
+import FormikField from '../../../components/FormikField';
 import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
-import { useSession } from '../../Session/SessionProvider';
+import Spinner from '../../../components/Spinner';
+import RelevanceOption from '../../../components/Taxonomy/RelevanceOption';
+import { DRAFT_RESPONSIBLE, RESOURCE_FILTER_CORE } from '../../../constants';
+import { Auth0UserData } from '../../../interfaces';
+import { useAuth0Responsibles } from '../../../modules/auth0/auth0Queries';
+import { createDraft, updateUserData } from '../../../modules/draft/draftApi';
+import { useUserData } from '../../../modules/draft/draftQueries';
+import { RESOURCE_NODE, TOPIC_NODE } from '../../../modules/nodes/nodeApiTypes';
 import {
   useAddNodeMutation,
   useCreateResourceResourceTypeMutation,
   usePostResourceForNodeMutation,
 } from '../../../modules/nodes/nodeMutations';
 import { nodeQueryKeys } from '../../../modules/nodes/nodeQueries';
-import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
-import { RESOURCE_NODE, TOPIC_NODE } from '../../../modules/nodes/nodeApiTypes';
-import FormikField from '../../../components/FormikField';
-import { convertUpdateToNewDraft } from '../../../util/articleUtil';
-import { DRAFT_RESPONSIBLE, RESOURCE_FILTER_CORE } from '../../../constants';
-import { useAuth0Responsibles } from '../../../modules/auth0/auth0Queries';
-import { useAllResourceTypes } from '../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
-import PlannedResourceSelect from './PlannedResourceSelect';
-import RelevanceOption from '../../../components/Taxonomy/RelevanceOption';
-import { Auth0UserData } from '../../../interfaces';
-import { createDraft, updateUserData } from '../../../modules/draft/draftApi';
 import { getRootIdForNode } from '../../../modules/nodes/nodeUtil';
-import Spinner from '../../../components/Spinner';
+import { useAllResourceTypes } from '../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
+import { convertUpdateToNewDraft } from '../../../util/articleUtil';
 import { getCommentWithInfoText } from '../../ArticlePage/components/InputComment';
-import { useUserData } from '../../../modules/draft/draftQueries';
 import PrioritySelect from '../../FormikForm/components/PrioritySelect';
+import { useSession } from '../../Session/SessionProvider';
+import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
 const StyledForm = styled.form`
   width: 100%;

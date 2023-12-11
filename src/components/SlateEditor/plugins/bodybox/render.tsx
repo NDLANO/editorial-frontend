@@ -7,8 +7,8 @@
  */
 
 import { Editor } from 'slate';
-import { TYPE_BODYBOX } from './types';
 import SlateBodybox from './SlateBodybox';
+import { TYPE_BODYBOX } from './types';
 
 export const bodyboxRenderer = (editor: Editor) => {
   const { renderElement } = editor;

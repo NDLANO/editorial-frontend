@@ -10,12 +10,12 @@ import Downshift, { GetItemPropsOptions } from 'downshift';
 import { useState } from 'react';
 
 import styled from '@emotion/styled';
+import { UseQueryOptions, UseQueryResult } from '@tanstack/react-query';
 //@ts-ignore
 import { Input, DropdownMenu } from '@ndla/forms';
 import { Spinner } from '@ndla/icons';
 import { Search } from '@ndla/icons/common';
 import { Node } from '@ndla/types-taxonomy';
-import { UseQueryOptions, UseQueryResult } from '@tanstack/react-query';
 
 import { SearchResultBase } from '../../../../../interfaces';
 import useDebounce from '../../../../../util/useDebounce';

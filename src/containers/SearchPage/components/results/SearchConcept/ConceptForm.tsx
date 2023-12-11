@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2020-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,25 +6,25 @@
  *
  */
 
-import { useEffect } from 'react';
-import isEqual from 'lodash/fp/isEqual';
 import { useFormik } from 'formik';
-import styled from '@emotion/styled';
-import { colors } from '@ndla/core';
+import isEqual from 'lodash/fp/isEqual';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Select } from '@ndla/forms';
+import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
+import { colors } from '@ndla/core';
+import { Select } from '@ndla/forms';
 import { Node } from '@ndla/types-taxonomy';
-import { fetchSearchTags } from '../../../../../modules/concept/conceptApi';
+import { InputField } from './SearchStyles';
 import AsyncSearchTags from '../../../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import { MultiSelectDropdown } from '../../../../../components/Dropdown/MultiSelectDropdown';
-import { InputField } from './SearchStyles';
-import { getLicensesWithTranslations } from '../../../../../util/licenseHelpers';
-import { useLicenses } from '../../../../../modules/draft/draftQueries';
+import MultiButton from '../../../../../components/MultiButton';
 import { CONCEPT_ADMIN_SCOPE, END_CONTROL, PUBLISHED } from '../../../../../constants';
 import { ConceptStatusType } from '../../../../../interfaces';
+import { fetchSearchTags } from '../../../../../modules/concept/conceptApi';
+import { useLicenses } from '../../../../../modules/draft/draftQueries';
+import { getLicensesWithTranslations } from '../../../../../util/licenseHelpers';
 import { useSession } from '../../../../Session/SessionProvider';
-import MultiButton from '../../../../../components/MultiButton';
 
 export interface InlineFormConcept {
   title: string;

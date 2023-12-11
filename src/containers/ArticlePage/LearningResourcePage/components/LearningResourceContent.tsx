@@ -6,46 +6,46 @@
  *
  */
 
-import { useState, useMemo, useCallback, memo, useEffect } from 'react';
-import { Descendant } from 'slate';
-import { useTranslation } from 'react-i18next';
 import { FieldProps, useField, useFormikContext } from 'formik';
+import { useState, useMemo, useCallback, memo, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Descendant } from 'slate';
 import styled from '@emotion/styled';
-import { FieldHeader } from '@ndla/forms';
-import { Eye } from '@ndla/icons/editor';
 import { IconButtonV2 } from '@ndla/button';
 import { colors } from '@ndla/core';
+import { FieldHeader } from '@ndla/forms';
+import { Eye } from '@ndla/icons/editor';
 import { IAuthor } from '@ndla/types-backend/draft-api';
-import FormikField from '../../../../components/FormikField';
 import LearningResourceFootnotes, { FootnoteType } from './LearningResourceFootnotes';
-import LastUpdatedLine from '../../../../components/LastUpdatedLine/LastUpdatedLine';
-import HowToHelper from '../../../../components/HowTo/HowToHelper';
-import { findNodesByType } from '../../../../util/slateHelpers';
-import { FootnoteElement } from '../../../../components/SlateEditor/plugins/footnote';
+import { learningResourcePlugins } from './learningResourcePlugins';
+import { learningResourceRenderers } from './learningResourceRenderers';
+import AlertModal from '../../../../components/AlertModal';
 import { EditMarkupLink } from '../../../../components/EditMarkupLink';
-import { IngressField, TitleField } from '../../../FormikForm';
-import { DRAFT_HTML_SCOPE } from '../../../../constants';
-import { toCreateLearningResource, toEditMarkup } from '../../../../util/routeHelpers';
-import { useSession } from '../../../Session/SessionProvider';
-import RichTextEditor from '../../../../components/SlateEditor/RichTextEditor';
-import { TYPE_FOOTNOTE } from '../../../../components/SlateEditor/plugins/footnote/types';
+import FormikField from '../../../../components/FormikField';
+import HowToHelper from '../../../../components/HowTo/HowToHelper';
+import LastUpdatedLine from '../../../../components/LastUpdatedLine/LastUpdatedLine';
+import { TYPE_AUDIO } from '../../../../components/SlateEditor/plugins/audio/types';
+import { learningResourceActions } from '../../../../components/SlateEditor/plugins/blockPicker/actions';
+import { TYPE_CODEBLOCK } from '../../../../components/SlateEditor/plugins/codeBlock/types';
 import {
   TYPE_EMBED_BRIGHTCOVE,
   TYPE_EMBED_EXTERNAL,
   TYPE_EMBED_IMAGE,
 } from '../../../../components/SlateEditor/plugins/embed/types';
-import { TYPE_TABLE } from '../../../../components/SlateEditor/plugins/table/types';
-import { TYPE_CODEBLOCK } from '../../../../components/SlateEditor/plugins/codeBlock/types';
 import { TYPE_FILE } from '../../../../components/SlateEditor/plugins/file/types';
+import { FootnoteElement } from '../../../../components/SlateEditor/plugins/footnote';
+import { TYPE_FOOTNOTE } from '../../../../components/SlateEditor/plugins/footnote/types';
 import { TYPE_GRID } from '../../../../components/SlateEditor/plugins/grid/types';
-import { HandleSubmitFunc, LearningResourceFormType } from '../../../FormikForm/articleFormHooks';
-import { TYPE_AUDIO } from '../../../../components/SlateEditor/plugins/audio/types';
-import { learningResourceActions } from '../../../../components/SlateEditor/plugins/blockPicker/actions';
 import { TYPE_H5P } from '../../../../components/SlateEditor/plugins/h5p/types';
+import { TYPE_TABLE } from '../../../../components/SlateEditor/plugins/table/types';
+import RichTextEditor from '../../../../components/SlateEditor/RichTextEditor';
+import { DRAFT_HTML_SCOPE } from '../../../../constants';
 import { isFormikFormDirty } from '../../../../util/formHelper';
-import AlertModal from '../../../../components/AlertModal';
-import { learningResourcePlugins } from './learningResourcePlugins';
-import { learningResourceRenderers } from './learningResourceRenderers';
+import { toCreateLearningResource, toEditMarkup } from '../../../../util/routeHelpers';
+import { findNodesByType } from '../../../../util/slateHelpers';
+import { IngressField, TitleField } from '../../../FormikForm';
+import { HandleSubmitFunc, LearningResourceFormType } from '../../../FormikForm/articleFormHooks';
+import { useSession } from '../../../Session/SessionProvider';
 
 const StyledFormikField = styled(FormikField)`
   display: flex;

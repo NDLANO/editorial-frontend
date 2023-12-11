@@ -6,10 +6,10 @@
  *
  */
 
+import { ComponentProps } from 'react';
 import { IconButtonV2 } from '@ndla/button';
 import { DeleteForever } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
-import { ComponentProps } from 'react';
 
 interface Props extends ComponentProps<typeof IconButtonV2> {}
 

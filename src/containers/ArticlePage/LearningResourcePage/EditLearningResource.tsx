@@ -6,18 +6,18 @@
  *
  */
 
-import { HelmetWithTracker } from '@ndla/tracker';
-import { Navigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Navigate, useParams } from 'react-router-dom';
+import { HelmetWithTracker } from '@ndla/tracker';
 import LearningResourceForm from './components/LearningResourceForm';
-import { toEditArticle } from '../../../util/routeHelpers';
-import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
+import { TranslateType, useTranslateToNN } from '../../../components/NynorskTranslateProvider';
 import Spinner from '../../../components/Spinner';
 import { LocaleType } from '../../../interfaces';
-import NotFound from '../../NotFoundPage/NotFoundPage';
-import { TranslateType, useTranslateToNN } from '../../../components/NynorskTranslateProvider';
 import { useNodes } from '../../../modules/nodes/nodeQueries';
+import { toEditArticle } from '../../../util/routeHelpers';
+import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
+import NotFound from '../../NotFoundPage/NotFoundPage';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {

@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2016-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -13,10 +13,10 @@ import { IConceptSummary } from '@ndla/types-backend/concept-api';
 import { IImageMetaSummary } from '@ndla/types-backend/image-api';
 import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
 import { Node } from '@ndla/types-taxonomy';
-import SearchContent from './SearchContent';
-import SearchConcept from './SearchConcept';
-import SearchImage from './SearchImage';
 import SearchAudio from './SearchAudio';
+import SearchConcept from './SearchConcept';
+import SearchContent from './SearchContent';
+import SearchImage from './SearchImage';
 import SearchPodcastSeries from './SearchPodcastSeries';
 import { LocaleType, ReturnType } from '../../../../interfaces';
 

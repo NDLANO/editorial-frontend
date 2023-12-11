@@ -8,16 +8,16 @@
 
 import { Descendant, Editor, Element } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
+import { TYPE_ASIDE } from './types';
+import { getAsideType } from './utils';
+import { SlateSerializer } from '../../interfaces';
+import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
 import {
   afterOrBeforeTextBlockElement,
   firstTextBlockElement,
   lastTextBlockElement,
   textBlockElements,
 } from '../../utils/normalizationHelpers';
-import { SlateSerializer } from '../../interfaces';
-import { getAsideType } from './utils';
-import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
-import { TYPE_ASIDE } from './types';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
 
 export interface AsideElement {

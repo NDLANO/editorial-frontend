@@ -10,20 +10,20 @@ import { createRef, memo, MouseEvent, useCallback, useEffect, useMemo } from 're
 import { Editor, Element, Range } from 'slate';
 import { useFocused, useSlate } from 'slate-react';
 import styled from '@emotion/styled';
-import { colors, spacing } from '@ndla/core';
 import { Portal } from '@radix-ui/react-portal';
-import ToolbarButton from './ToolbarButton';
-import { toggleMark } from '../mark/utils';
+import { colors, spacing } from '@ndla/core';
 import { handleClickInline, handleClickBlock, handleClickTable } from './handleMenuClicks';
-import hasNodeWithProps from '../../utils/hasNodeWithProps';
-import { isMarkActive } from '../mark';
-import { LIST_TYPES as listTypes } from '../list/types';
-import hasListItem from '../list/utils/hasListItem';
+import ToolbarButton from './ToolbarButton';
 import getCurrentBlock from '../../utils/getCurrentBlock';
-import { TYPE_TABLE_CELL } from '../table/types';
-import { hasCellAlignOfType } from '../table/slateHelpers';
+import hasNodeWithProps from '../../utils/hasNodeWithProps';
 import { TYPE_DEFINITION_LIST } from '../definitionList/types';
 import hasDefinitionListItem from '../definitionList/utils/hasDefinitionListItem';
+import { LIST_TYPES as listTypes } from '../list/types';
+import hasListItem from '../list/utils/hasListItem';
+import { isMarkActive } from '../mark';
+import { toggleMark } from '../mark/utils';
+import { hasCellAlignOfType } from '../table/slateHelpers';
+import { TYPE_TABLE_CELL } from '../table/types';
 
 const topicArticleElements: { [key: string]: string[] } = {
   mark: ['bold', 'italic', 'code', 'sub', 'sup'],

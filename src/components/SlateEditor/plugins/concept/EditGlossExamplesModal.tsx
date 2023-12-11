@@ -7,13 +7,13 @@
  */
 
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Editor } from 'slate';
-import { IConcept, IConceptSummary } from '@ndla/types-backend/concept-api';
-import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
 import { IconButtonV2 } from '@ndla/button';
 import { Pencil } from '@ndla/icons/action';
+import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
+import { IConcept, IConceptSummary } from '@ndla/types-backend/concept-api';
 import { ConceptMetaData } from '@ndla/types-embed';
-import { useTranslation } from 'react-i18next';
 import { ConceptBlockElement } from './block/interfaces';
 import EditGlossExamplesModalContent from './EditGlossExamplesModalContent';
 import { ConceptInlineElement } from './inline/interfaces';

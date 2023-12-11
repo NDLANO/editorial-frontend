@@ -6,18 +6,18 @@
  *
  */
 
-import { ConceptMetaData } from '@ndla/types-embed';
-import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle } from '@ndla/modal';
-import { IGlossExample } from '@ndla/types-backend/concept-api';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text } from '@ndla/typography';
-import styled from '@emotion/styled';
-import { fonts, spacing } from '@ndla/core';
 import { Editor, Transforms } from 'slate';
 import { ReactEditor } from 'slate-react';
+import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
+import { fonts, spacing } from '@ndla/core';
 import { CheckboxItem } from '@ndla/forms';
-import { useMemo, useState } from 'react';
+import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle } from '@ndla/modal';
+import { IGlossExample } from '@ndla/types-backend/concept-api';
+import { ConceptMetaData } from '@ndla/types-embed';
+import { Text } from '@ndla/typography';
 import { GlossExample } from '@ndla/ui';
 import { ConceptBlockElement } from './block/interfaces';
 import { ConceptInlineElement } from './inline/interfaces';

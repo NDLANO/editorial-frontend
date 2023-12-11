@@ -27,9 +27,9 @@ import { PUBLISHED } from '../../../../../constants';
 import { useFetchConceptData } from '../../../../../containers/FormikForm/formikConceptHooks';
 import { useConceptVisualElement } from '../../../../../modules/embed/queries';
 import parseMarkdown from '../../../../../util/parseMarkdown';
+import ConceptModalContent from '../ConceptModalContent';
 import EditGlossExamplesModal from '../EditGlossExamplesModal';
 import { getGlossDataAttributes } from '../utils';
-import ConceptModalContent from '../ConceptModalContent';
 
 const getConceptDataAttributes = (
   concept: IConcept | IConceptSummary,

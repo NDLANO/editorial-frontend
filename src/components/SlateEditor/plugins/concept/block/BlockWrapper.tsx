@@ -27,12 +27,21 @@ import { useFetchConceptData } from '../../../../../containers/FormikForm/formik
 import { useConceptVisualElement } from '../../../../../modules/embed/queries';
 import parseMarkdown from '../../../../../util/parseMarkdown';
 import ConceptModalContent from '../ConceptModalContent';
+import EditGlossExamplesModal from '../EditGlossExamplesModal';
+import { getGlossDataAttributes } from '../utils';
 
-const getConceptDataAttributes = ({ id }: IConceptSummary | IConcept): ConceptEmbedData => ({
+const getConceptDataAttributes = ({
+  id,
+  conceptType,
+  glossData,
+}: IConceptSummary | IConcept): ConceptEmbedData => ({
   contentId: id.toString(),
   resource: 'concept',
   type: 'block',
   linkText: '',
+  ...(conceptType === 'gloss' && glossData?.examples.length
+    ? getGlossDataAttributes(glossData)
+    : {}),
 });
 
 interface Props {
@@ -133,6 +142,9 @@ const BlockWrapper = ({ element, locale, editor, attributes, children }: Props) 
               concept={concept}
               handleRemove={handleRemove}
               language={locale}
+              editor={editor}
+              element={element}
+              embed={embed}
             />
             <ConceptEmbed embed={embed} />
           </div>
@@ -159,6 +171,9 @@ interface ButtonContainerProps {
   concept: IConcept | IConceptSummary;
   handleRemove: () => void;
   language: string;
+  editor: Editor;
+  element: ConceptBlockElement;
+  embed: ConceptMetaData;
 }
 
 const ButtonContainer = styled.div`
@@ -188,9 +203,17 @@ const IconWrapper = styled.div`
   }
 `;
 
-const ConceptButtonContainer = ({ concept, handleRemove, language }: ButtonContainerProps) => {
+const ConceptButtonContainer = ({
+  concept,
+  handleRemove,
+  language,
+  editor,
+  element,
+  embed,
+}: ButtonContainerProps) => {
   const { t } = useTranslation();
   const translatedCurrent = t(`form.status.${concept?.status.current?.toLowerCase()}`);
+
   return (
     <ButtonContainer>
       <IconButtonV2
@@ -202,6 +225,7 @@ const ConceptButtonContainer = ({ concept, handleRemove, language }: ButtonConta
       >
         <DeleteForever />
       </IconButtonV2>
+      <EditGlossExamplesModal concept={concept} editor={editor} element={element} embed={embed} />
       <SafeLinkIconButton
         arial-label={t(`form.${concept?.conceptType}.edit`)}
         title={t(`form.${concept?.conceptType}.edit`)}

@@ -28,6 +28,8 @@ import { useFetchConceptData } from '../../../../../containers/FormikForm/formik
 import { useConceptVisualElement } from '../../../../../modules/embed/queries';
 import parseMarkdown from '../../../../../util/parseMarkdown';
 import ConceptModalContent from '../ConceptModalContent';
+import EditGlossExamplesModal from '../EditGlossExamplesModal';
+import { getGlossDataAttributes } from '../utils';
 
 const getConceptDataAttributes = (
   concept: IConcept | IConceptSummary,
@@ -37,6 +39,9 @@ const getConceptDataAttributes = (
   linkText: title,
   resource: 'concept',
   type: 'inline',
+  ...(concept.conceptType === 'gloss' && concept.glossData?.examples.length
+    ? getGlossDataAttributes(concept.glossData)
+    : {}),
 });
 
 interface Props {
@@ -183,6 +188,8 @@ const InlineWrapper = (props: Props) => {
             linkText={children}
             conceptType={embed.data.concept.conceptType}
             glossData={embed.data.concept.glossData}
+            exampleIds={embed.embedData.exampleIds}
+            exampleLangs={embed.embedData.exampleLangs}
             headerButtons={
               <>
                 {concept?.status.current === PUBLISHED ||
@@ -217,6 +224,14 @@ const InlineWrapper = (props: Props) => {
                 >
                   <DeleteForever />
                 </IconButtonV2>
+                {concept && (
+                  <EditGlossExamplesModal
+                    concept={concept}
+                    editor={editor}
+                    element={element}
+                    embed={embed}
+                  />
+                )}
                 <SafeLinkIconButton
                   to={`/${concept?.conceptType}/${concept?.id}/edit/${concept?.content?.language}`}
                   target="_blank"

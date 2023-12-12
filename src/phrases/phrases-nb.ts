@@ -816,6 +816,10 @@ const phrases = {
       exampleMissingFields: 'Alle felter for et eksempel må fylles ut.',
       glossMissingFields: 'En glose må inneholde alle felter.',
       transcriptionMissingFields: 'En transkripsjon kan ikke være tom.',
+      editExamples: 'Rediger eksempler',
+      editExamplesHeading: 'Velg eksempelsetninger og språk',
+      editExamplesLanguage: 'Velg hvilke språk du vil vise på glosekortet',
+      displayOnGloss: 'Vis dette eksempelet på glosekortet',
     },
     conceptList: {
       edit: 'Rediger forklaringsliste',

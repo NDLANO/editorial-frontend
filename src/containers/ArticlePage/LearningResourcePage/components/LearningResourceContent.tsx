@@ -97,7 +97,7 @@ const actions = [TYPE_TABLE, TYPE_CODEBLOCK, TYPE_FILE, TYPE_GRID].concat(visual
 const actionsToShowInAreas = {
   details: actions,
   aside: actions,
-  bodybox: actions,
+  framedContent: actions,
   'table-cell': [TYPE_EMBED_IMAGE],
   'grid-cell': [TYPE_EMBED_IMAGE],
 };

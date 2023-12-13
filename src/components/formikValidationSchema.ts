@@ -228,8 +228,8 @@ const validateFormik = <FormikValuesType, ApiTypes = any, FormikNestedValueType 
       const label = translationKey
         ? t(translationKey)
         : formType
-        ? t(`${formType}.${ruleKey}`)
-        : t(`form.name.${ruleKey}`);
+          ? t(`${formType}.${ruleKey}`)
+          : t(`form.name.${ruleKey}`);
       const nestedValidation = rules[ruleKey]?.nestedValidationRules;
 
       if (nestedValidation) {

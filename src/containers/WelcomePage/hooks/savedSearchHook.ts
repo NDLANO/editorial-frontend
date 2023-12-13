@@ -130,11 +130,11 @@ export const useSavedSearchUrl = (currentUserData: IUserData | undefined): Searc
                     subjects: favoriteSubjects?.join(','),
                   }
                 : searchObject.subjects === LMA_SUBJECT_ID
-                ? {
-                    ...searchObject,
-                    subjects: await getLMASubjectIds(taxonomyVersion, currentUserData?.userId),
-                  }
-                : searchObject;
+                  ? {
+                      ...searchObject,
+                      subjects: await getLMASubjectIds(taxonomyVersion, currentUserData?.userId),
+                    }
+                  : searchObject;
 
             const searchResult = searchFunction({ ...searchObj, 'page-size': 0 });
 
@@ -223,8 +223,8 @@ export const useSavedSearchUrl = (currentUserData: IUserData | undefined): Searc
         searchObject.subjects && searchObject.subjects === FAVOURITES_SUBJECT_ID
           ? t('searchForm.favourites')
           : searchObject.subjects === LMA_SUBJECT_ID
-          ? t('searchForm.LMASubjects')
-          : subjectData?.find((s) => s.id === searchObject.subjects)?.name,
+            ? t('searchForm.LMASubjects')
+            : subjectData?.find((s) => s.id === searchObject.subjects)?.name,
       'resource-types':
         searchObject['resource-types'] &&
         resourceTypeData?.find((r) => r.id === searchObject['resource-types'])?.name,

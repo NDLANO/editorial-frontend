@@ -129,8 +129,8 @@ const Version = ({ version }: Props) => {
   const deleteTooltip = version.locked
     ? t('taxonomyVersions.deleteLocked')
     : version.versionType === 'PUBLISHED'
-    ? t('taxonomyVersions.deletePublished')
-    : t('taxonomyVersions.delete');
+      ? t('taxonomyVersions.deletePublished')
+      : t('taxonomyVersions.delete');
 
   const ndlaUrl = `${config.ndlaFrontendDomain}?versionHash=${version.hash}`;
 

@@ -21,7 +21,6 @@ import {
 import ImageContent from './ImageContent';
 import ImageCopyright from './ImageCopyright';
 import ImageMetaData from './ImageMetaData';
-import ImageVersionNotes from './ImageVersionNotes';
 import FormAccordion from '../../../components/Accordion/FormAccordion';
 import FormAccordions from '../../../components/Accordion/FormAccordions';
 import validateFormik, { RulesType, getWarnings } from '../../../components/formikValidationSchema';
@@ -32,6 +31,7 @@ import { MAX_IMAGE_UPLOAD_SIZE, SAVE_BUTTON_ID } from '../../../constants';
 import { editorValueToPlainText } from '../../../util/articleContentConverter';
 import { isFormikFormDirty } from '../../../util/formHelper';
 import { AlertModalWrapper } from '../../FormikForm';
+import SimpleVersionPanel from '../../FormikForm/SimpleVersionPanel';
 import { imageApiTypeToFormType, ImageFormikType } from '../imageTransformers';
 
 const ButtonContainer = styled.div`
@@ -232,7 +232,7 @@ const ImageForm = ({
                 className={'u-6/6'}
                 hasError={false}
               >
-                <ImageVersionNotes image={image} />
+                <SimpleVersionPanel editorNotes={image?.editorNotes} />
               </FormAccordion>
             </FormAccordions>
             <ButtonContainer>

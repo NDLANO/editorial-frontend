@@ -7,11 +7,13 @@
  */
 
 import { useCallback, useEffect, useState } from 'react';
-import { IImageMetaInformationV3, IEditorNote } from '@ndla/types-backend/image-api';
-import Spinner from '../../../components/Spinner';
-import VersionHistory from '../../../components/VersionHistory/VersionHistory';
-import { fetchAuth0UsersFromUserIds, SimpleUserType } from '../../../modules/auth0/auth0Api';
-import formatDate from '../../../util/formatDate';
+import { useTranslation } from 'react-i18next';
+import { IEditorNote as IEditorNoteConcept } from '@ndla/types-backend/concept-api';
+import { IEditorNote } from '@ndla/types-backend/image-api';
+import Spinner from '../../components/Spinner';
+import VersionHistory from '../../components/VersionHistory/VersionHistory';
+import { fetchAuth0UsersFromUserIds, SimpleUserType } from '../../modules/auth0/auth0Api';
+import formatDate from '../../util/formatDate';
 
 const getUser = (userId: string, allUsers: SimpleUserType[]): string => {
   const user = allUsers.find((user) => user.id === userId);
@@ -19,11 +21,12 @@ const getUser = (userId: string, allUsers: SimpleUserType[]): string => {
 };
 
 interface Props {
-  image?: IImageMetaInformationV3;
+  editorNotes: IEditorNote[] | IEditorNoteConcept[] | undefined;
 }
 
-const ImageVersionNotes = ({ image }: Props) => {
-  const numNotes = image?.editorNotes?.length ?? 0;
+const SimpleVersionPanel = ({ editorNotes }: Props) => {
+  const { t } = useTranslation();
+  const numNotes = editorNotes?.length ?? 0;
 
   const [users, setUsers] = useState<SimpleUserType[]>([]);
   const [loading, setLoading] = useState(numNotes > 0);
@@ -35,14 +38,15 @@ const ImageVersionNotes = ({ image }: Props) => {
         author: getUser(note.updatedBy, users),
         date: formatDate(note.timestamp),
         id: idx,
+        ...(note.status ? { status: t(`form.status.actions.${note.status.current}`) } : {}),
       })),
-    [users],
+    [t, users],
   );
 
   useEffect(() => {
     let shouldUpdate = true;
     if (numNotes > 0) {
-      const notes = image?.editorNotes ?? [];
+      const notes = editorNotes ?? [];
       const userIds = notes.map((note) => note.updatedBy).filter((user) => user !== 'System');
       fetchAuth0UsersFromUserIds(userIds, setUsers).then((r) => {
         if (shouldUpdate) setLoading(false);
@@ -52,13 +56,13 @@ const ImageVersionNotes = ({ image }: Props) => {
     return () => {
       shouldUpdate = false;
     };
-  }, [image?.editorNotes, numNotes]);
+  }, [editorNotes, numNotes]);
 
   if (loading) return <Spinner />;
 
-  const cleanedNotes = cleanupNotes(image?.editorNotes ?? []);
+  const cleanedNotes = cleanupNotes(editorNotes ?? []);
 
   return <VersionHistory notes={cleanedNotes} />;
 };
 
-export default ImageVersionNotes;
+export default SimpleVersionPanel;

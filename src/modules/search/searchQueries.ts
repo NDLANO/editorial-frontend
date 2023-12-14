@@ -61,8 +61,8 @@ export const useSearch = (
     subjects: isFavourite
       ? data?.favoriteSubjects?.join(',')
       : isLMASubjects
-      ? nodeData?.map((s) => s.id).join(',')
-      : query.subjects,
+        ? nodeData?.map((s) => s.id).join(',')
+        : query.subjects,
   };
 
   return useQuery<IMultiSearchResult>({

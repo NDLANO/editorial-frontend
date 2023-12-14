@@ -72,8 +72,8 @@ const internalEmbedToMeta = async (
       article.articleType === 'frontpage-article'
         ? toEditFrontPageArticle
         : article.articleType === 'topic-article'
-        ? toEditTopicArticle
-        : toEditLearningResource;
+          ? toEditTopicArticle
+          : toEditLearningResource;
     return {
       resource: 'related-content',
       embedData,

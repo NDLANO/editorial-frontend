@@ -134,8 +134,8 @@ const VisualElementSearch = ({
                   video.projection === 'equirectangular'
                     ? config.brightcove360PlayerId!
                     : video.custom_fields['license'] === 'Opphavsrett'
-                    ? config.brightcoveCopyrightPlayerId!
-                    : config.brightcovePlayerId!,
+                      ? config.brightcoveCopyrightPlayerId!
+                      : config.brightcovePlayerId!,
                 metaData: video,
                 title: video.name ?? '',
               })

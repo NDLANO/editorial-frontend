@@ -32,14 +32,25 @@ const SimpleVersionPanel = ({ editorNotes }: Props) => {
   const [loading, setLoading] = useState(numNotes > 0);
 
   const cleanupNotes = useCallback(
-    (notes: IEditorNote[]) =>
-      notes.map((note, idx) => ({
-        ...note,
-        author: getUser(note.updatedBy, users),
-        date: formatDate(note.timestamp),
-        id: idx,
-        ...(note.status ? { status: t(`form.status.actions.${note.status.current}`) } : {}),
-      })),
+    (notes: IEditorNote[] | IEditorNoteConcept[]) =>
+      notes.map((note, idx) => {
+        const commonFields = {
+          author: getUser(note.updatedBy, users),
+          date: formatDate(note.timestamp),
+          id: idx,
+        };
+        if ('status' in note) {
+          return {
+            ...note,
+            ...commonFields,
+            status: t(`form.status.actions.${note.status.current}`),
+          };
+        }
+        return {
+          ...note,
+          ...commonFields,
+        };
+      }),
     [t, users],
   );
 

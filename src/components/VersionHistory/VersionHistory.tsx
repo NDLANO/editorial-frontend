@@ -36,16 +36,6 @@ const StyledTable = styled.table`
   }
 `;
 
-const StyleLine = styled.hr`
-  height: 2px;
-  border: 0;
-  background: ${colors.brand.greyLight};
-  margin: ${spacing.normal} 0 ${spacing.small};
-  &:before {
-    content: normal;
-  }
-`;
-
 type Props = {
   notes: {
     author: string;
@@ -82,7 +72,6 @@ const VersionHistory = ({ notes, children }: Props) => {
           ))}
         </tbody>
       </StyledTable>
-      <StyleLine aria-hidden={true} />
       {children}
     </StyledWrapper>
   );

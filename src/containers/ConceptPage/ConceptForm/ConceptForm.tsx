@@ -29,6 +29,7 @@ import { isEmpty } from '../../../components/validators';
 import { ARCHIVED, PUBLISHED, UNPUBLISHED } from '../../../constants';
 import { useLicenses } from '../../../modules/draft/draftQueries';
 import CopyrightFieldGroup from '../../FormikForm/CopyrightFieldGroup';
+import SimpleVersionPanel from '../../FormikForm/SimpleVersionPanel';
 import GlossDataSection from '../../GlossPage/components/GlossDataSection';
 import { MessageError, useMessages } from '../../Messages/MessagesProvider';
 import { useSession } from '../../Session/SessionProvider';
@@ -330,6 +331,9 @@ const ConceptForm = ({
                   </FormAccordion>
                 </>
               )}
+              <FormAccordion id="versionNotes" title={t('form.workflowSection')} hasError={false}>
+                <SimpleVersionPanel editorNotes={concept?.editorNotes} />
+              </FormAccordion>
             </FormAccordions>
             <ConceptFormFooter
               entityStatus={concept?.status}

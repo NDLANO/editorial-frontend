@@ -148,8 +148,8 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
         'coverPhoto' in resource
           ? resource.coverPhoto?.url
           : 'coverPhotoUrl' in resource
-          ? resource.coverPhotoUrl
-          : undefined;
+            ? resource.coverPhotoUrl
+            : undefined;
       return {
         ...resource,
         metaUrl: url,
@@ -244,8 +244,8 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
       id = isLearningpath
         ? await findResourceIdLearningPath(preview.id)
         : isArticleOrDraft
-        ? getResourceIdFromPath(preview.paths?.[0])
-        : undefined;
+          ? getResourceIdFromPath(preview.paths?.[0])
+          : undefined;
     }
 
     if (!id) {

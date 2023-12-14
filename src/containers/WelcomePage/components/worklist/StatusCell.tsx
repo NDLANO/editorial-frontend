@@ -24,8 +24,8 @@ const TextWrapper = styled.div`
 `;
 
 const StyledCheckIcon = styled(Check)`
-  height: ${spacing.snormal};
-  width: ${spacing.snormal};
+  height: 20px;
+  width: 20px;
   fill: ${colors.support.green};
 `;
 

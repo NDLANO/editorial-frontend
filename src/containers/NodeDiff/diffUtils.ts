@@ -23,8 +23,8 @@ export type DiffType<T> = {
   [key in keyof T]: T[key] extends Array<infer ArrType>
     ? DiffResult<ArrType[]>
     : T[key] extends object
-    ? DiffType<T[key]>
-    : DiffResult<T[key]>;
+      ? DiffType<T[key]>
+      : DiffResult<T[key]>;
 } & {
   changed: DiffResult<null>;
   childrenChanged?: DiffResult<null>;
@@ -35,8 +35,8 @@ type Keys<T> = {
   [key in keyof T]: T[key] extends Array<any>
     ? boolean
     : T[key] extends object
-    ? Partial<Keys<T[key]>>
-    : boolean;
+      ? Partial<Keys<T[key]>>
+      : boolean;
 };
 
 type SkipKeys<T> = Partial<Keys<T>>;

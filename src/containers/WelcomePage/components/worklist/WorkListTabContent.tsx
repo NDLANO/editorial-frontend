@@ -9,7 +9,6 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
 import { Comment, ExclamationMark } from '@ndla/icons/common';
 import { Calendar } from '@ndla/icons/editor';
 import Pager from '@ndla/pager';
@@ -58,8 +57,8 @@ const StyledIconWrapper = styled.div`
   height: 100%;
 `;
 const StyledCommentIcon = styled(Comment)`
-  width: ${spacing.snormal};
-  height: ${spacing.snormal};
+  width: 20px;
+  height: 20px;
 `;
 
 interface Props {

@@ -50,6 +50,8 @@ interface FormArticle {
 
 type Props = PreviewArticleV2Props | PreviewFormArticleV2Props;
 
+const getUpdatedLanguage = (language: string | undefined) => (language === 'nb' ? 'no' : language);
+
 export const PreviewDraft = ({ type, draft: draftProp, label, contentType, language }: Props) => {
   const draft = useMemo(() => {
     if (type === 'article') {
@@ -80,7 +82,7 @@ export const PreviewDraft = ({ type, draft: draftProp, label, contentType, langu
     const content = transform(transformedContent.data, {
       previewAlt: true,
       frontendDomain: config.ndlaFrontendDomain,
-      articleLanguage: draft.language,
+      articleLanguage: getUpdatedLanguage(draft.language),
     });
     return {
       title: draft.title ?? '',
@@ -111,7 +113,7 @@ export const PreviewDraft = ({ type, draft: draftProp, label, contentType, langu
       id={draft.id.toString()}
       locale={language as LocaleType}
       messages={{ label }}
-      lang={draft.language}
+      lang={getUpdatedLanguage(draft.language)}
     />
   );
 };

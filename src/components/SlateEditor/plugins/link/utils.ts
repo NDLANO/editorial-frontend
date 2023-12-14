@@ -68,8 +68,9 @@ export const splitArticleUrl = (href: string) => {
 
 export const splitLearningPathUrl = (href: string) => {
   const splittedHref = href.split('learningpaths/');
+  const path = splittedHref[1];
   return {
-    resourceId: splittedHref[1],
+    resourceId: path.split('/')[0],
     resourceType: 'learningpath',
   };
 };

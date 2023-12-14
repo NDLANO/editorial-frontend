@@ -2505,12 +2505,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/article-converter@npm:^6.0.27":
-  version: 6.0.27
-  resolution: "@ndla/article-converter@npm:6.0.27"
+"@ndla/article-converter@npm:^6.0.28":
+  version: 6.0.28
+  resolution: "@ndla/article-converter@npm:6.0.28"
   dependencies:
     "@ndla/code": "npm:^5.0.22"
-    "@ndla/ui": "npm:^50.5.0"
+    "@ndla/ui": "npm:^50.5.1"
     html-react-parser: "npm:^4.2.2"
     lodash: "npm:^4.17.20"
   peerDependencies:
@@ -2521,7 +2521,7 @@ __metadata:
     react-dom: ">= 16.8.0"
     react-i18next: ^13.3.0
     react-router-dom: ">= 6.0.0"
-  checksum: 55e69fd8cdee46c71e494e348a46df2148ebde6456336dde7d5ad39849dfb0e19539dca5f39477b95632905425bdccca7d481666763dcd82877ea0fbc0ee4c93
+  checksum: e6d1765ca77a23527ae0bdbf3a832486dab2984d6c3a35ab782e76ab8221b4dd0b089ba3bb9e97d45ae1fd2cfd4eac80bcf7f9d9d55ce17b53bfa933673e34d9
   languageName: node
   linkType: hard
 
@@ -2662,9 +2662,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/howto@npm:^4.1.39":
-  version: 4.1.39
-  resolution: "@ndla/howto@npm:4.1.39"
+"@ndla/howto@npm:^4.1.40":
+  version: 4.1.40
+  resolution: "@ndla/howto@npm:4.1.40"
   dependencies:
     "@ndla/button": "npm:^12.0.18"
     "@ndla/core": "npm:^4.3.0"
@@ -2673,7 +2673,7 @@ __metadata:
     "@ndla/modal": "npm:^5.0.18"
     "@ndla/notion": "npm:^6.0.19"
     "@ndla/tooltip": "npm:^6.0.8"
-    "@ndla/ui": "npm:^50.5.0"
+    "@ndla/ui": "npm:^50.5.1"
     "@ndla/util": "npm:^4.0.3"
   peerDependencies:
     "@emotion/react": ^11.10.4
@@ -2684,7 +2684,7 @@ __metadata:
     react-dom: ">= 16.8.0"
     react-i18next: ">= 13.0.0"
     react-router-dom: ">= 6.0.0"
-  checksum: 05834c593eda0bf72a73157d4d66751282b794adb958fb2f4b6d92a9f93954ae81066feb40a1adba4efcb66e26dd818a6a5c1cee7a51e4cb8dc5d399326af9c3
+  checksum: db9a84bd015d8e3cf39074674fe9d9f274b45e0348cd2eb2c121bc5a57e7d055d8fd724f3c0ff529e5b17306e65ae730969d8af037fc3551814e4b879e849bd0
   languageName: node
   linkType: hard
 
@@ -2701,16 +2701,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/image-search@npm:^6.0.136":
-  version: 6.0.136
-  resolution: "@ndla/image-search@npm:6.0.136"
+"@ndla/image-search@npm:^6.0.137":
+  version: 6.0.137
+  resolution: "@ndla/image-search@npm:6.0.137"
   dependencies:
     "@ndla/button": "npm:^12.0.18"
     "@ndla/core": "npm:^4.3.0"
     "@ndla/forms": "npm:^5.2.8"
     "@ndla/icons": "npm:^4.2.5"
     "@ndla/pager": "npm:^2.2.43"
-    "@ndla/ui": "npm:^50.5.0"
+    "@ndla/ui": "npm:^50.5.1"
     "@ndla/util": "npm:^4.0.3"
     pretty-bytes: "npm:^5.6.0"
   peerDependencies:
@@ -2722,7 +2722,7 @@ __metadata:
     react-dom: ">= 16.8.0"
     react-i18next: ">= 13.0.0"
     react-router-dom: ">= 6.0.0"
-  checksum: 1ba56ceea3c68ad7b82f1d61ce61f209fd780a5b2d177a04b3996cf2c2f845e0c988b6a4e82dfb297493bbf5da7fe4194b5297b8911db108666a11b32c0e3b62
+  checksum: 51a8ea46174c3344438597a9345ad49061103340d24130ebcaf22e80e5b838dad0c36ab9e83d420eb2fa961e5944f7e5da8b01d58ca80596bb2699dc838cdf7e
   languageName: node
   linkType: hard
 
@@ -2920,9 +2920,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/ui@npm:^50.5.0":
-  version: 50.5.0
-  resolution: "@ndla/ui@npm:50.5.0"
+"@ndla/ui@npm:^50.5.1":
+  version: 50.5.1
+  resolution: "@ndla/ui@npm:50.5.1"
   dependencies:
     "@ndla/accordion": "npm:^3.0.13"
     "@ndla/button": "npm:^12.0.18"
@@ -2960,7 +2960,7 @@ __metadata:
     react-dom: ">= 16.8.0"
     react-i18next: ^13.3.0
     react-router-dom: "> 6.0.0"
-  checksum: b4eedda56a6b5598d78ca71e7bca51a12b1a5489175a72c0943a59f17c03366bee8c17b63c21101842aac71779268cdefbab910d6ff2967133731c1e1a9469b7
+  checksum: 227dc0c22cbab9dd20dec4f308be30ce47eff54eb464b380aff2a99ad35368abb5d2ab5e1e70992b5afa5bc6bf63e51af21e90133d2a8d4022a88f3f33473e70
   languageName: node
   linkType: hard
 
@@ -7615,15 +7615,15 @@ __metadata:
     "@loadable/babel-plugin": "npm:^5.15.3"
     "@loadable/component": "npm:^5.15.0"
     "@ndla/accordion": "npm:^3.0.13"
-    "@ndla/article-converter": "npm:^6.0.27"
+    "@ndla/article-converter": "npm:^6.0.28"
     "@ndla/audio-search": "npm:^4.0.49"
     "@ndla/button": "npm:^12.0.18"
     "@ndla/code": "npm:^5.0.22"
     "@ndla/error-reporter": "npm:^1.0.36"
     "@ndla/forms": "npm:^5.2.8"
-    "@ndla/howto": "npm:^4.1.39"
+    "@ndla/howto": "npm:^4.1.40"
     "@ndla/icons": "npm:^4.2.5"
-    "@ndla/image-search": "npm:^6.0.136"
+    "@ndla/image-search": "npm:^6.0.137"
     "@ndla/licenses": "npm:^7.2.4"
     "@ndla/modal": "npm:^5.0.18"
     "@ndla/notion": "npm:^6.0.19"
@@ -7639,7 +7639,7 @@ __metadata:
     "@ndla/types-embed": "npm:^4.0.10"
     "@ndla/types-taxonomy": "npm:^1.0.21"
     "@ndla/typography": "npm:^0.4.3"
-    "@ndla/ui": "npm:^50.5.0"
+    "@ndla/ui": "npm:^50.5.1"
     "@ndla/util": "npm:^4.0.3"
     "@ndla/video-search": "npm:^4.1.47"
     "@playwright/test": "npm:^1.39.0"
@@ -9474,14 +9474,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"graceful-fs@npm:^4.1.2, graceful-fs@npm:^4.2.4, graceful-fs@npm:^4.2.6, graceful-fs@npm:^4.2.9":
-  version: 4.2.10
-  resolution: "graceful-fs@npm:4.2.10"
-  checksum: 4223a833e38e1d0d2aea630c2433cfb94ddc07dfc11d511dbd6be1d16688c5be848acc31f9a5d0d0ddbfb56d2ee5a6ae0278aceeb0ca6a13f27e06b9956fb952
-  languageName: node
-  linkType: hard
-
-"graceful-fs@npm:^4.1.6, graceful-fs@npm:^4.2.0":
+"graceful-fs@npm:^4.1.2, graceful-fs@npm:^4.1.6, graceful-fs@npm:^4.2.0, graceful-fs@npm:^4.2.4, graceful-fs@npm:^4.2.6, graceful-fs@npm:^4.2.9":
   version: 4.2.11
   resolution: "graceful-fs@npm:4.2.11"
   checksum: 386d011a553e02bc594ac2ca0bd6d9e4c22d7fa8cfbfc448a6d148c59ea881b092db9dbe3547ae4b88e55f1b01f7c4a2ecc53b310c042793e63aa44cf6c257f2
@@ -12181,7 +12174,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mkdirp@npm:^0.5.5":
+"mkdirp@npm:^0.5.5, mkdirp@npm:~0.5.1":
   version: 0.5.6
   resolution: "mkdirp@npm:0.5.6"
   dependencies:
@@ -12198,17 +12191,6 @@ __metadata:
   bin:
     mkdirp: bin/cmd.js
   checksum: 46ea0f3ffa8bc6a5bc0c7081ffc3907777f0ed6516888d40a518c5111f8366d97d2678911ad1a6882bf592fa9de6c784fea32e1687bb94e1f4944170af48a5cf
-  languageName: node
-  linkType: hard
-
-"mkdirp@npm:~0.5.1":
-  version: 0.5.5
-  resolution: "mkdirp@npm:0.5.5"
-  dependencies:
-    minimist: "npm:^1.2.5"
-  bin:
-    mkdirp: bin/cmd.js
-  checksum: 4469faeeba703bc46b7cdbe3097d6373747a581eb8b556ce41c8fd25a826eb3254466c6522ba823c2edb0b6f0da7beb91cf71f040bc4e361534a3e67f0994bd0
   languageName: node
   linkType: hard
 

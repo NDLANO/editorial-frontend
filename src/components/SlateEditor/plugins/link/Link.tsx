@@ -71,15 +71,7 @@ const StyledLink = styled.a`
   cursor: text;
 `;
 
-const Link = (props: Props) => {
-  const {
-    attributes,
-    editor: { onChange },
-    editor,
-    element,
-    language,
-    children,
-  } = props;
+const Link = ({ attributes, editor, element, language, children }: Props) => {
   const linkRef = useRef<HTMLAnchorElement>(null);
   const [model, setModel] = useState<Model | undefined>();
   const startOpen = useRef(!hasHrefOrContentId(element));
@@ -155,7 +147,12 @@ const Link = (props: Props) => {
       </StyledLink>
       <ModalContent>
         {model && (
-          <EditLink {...props} model={model} closeEditMode={toggleEditMode} onChange={onChange} />
+          <EditLink
+            editor={editor}
+            element={element}
+            model={model}
+            closeEditMode={toggleEditMode}
+          />
         )}
       </ModalContent>
     </Modal>

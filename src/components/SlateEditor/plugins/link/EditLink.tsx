@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { Editor, Transforms, Element } from 'slate';
+import { Editor, Transforms, Element, Path } from 'slate';
 import { ReactEditor } from 'slate-react';
 import styled from '@emotion/styled';
 import { CloseButton } from '@ndla/button';
@@ -90,32 +90,29 @@ const getIdAndTypeFromUrl = async (href: string) => {
 };
 
 interface Props {
-  model: Partial<Model>;
+  model: Model;
   closeEditMode: () => void;
-  onChange: () => void;
   editor: Editor;
   element: LinkElement | ContentLinkElement;
 }
 
-const EditLink = (props: Props) => {
+const EditLink = ({ model, closeEditMode, editor, element }: Props) => {
   const { t } = useTranslation();
 
   const onClose = () => {
-    const { editor, model } = props;
+    ReactEditor.focus(editor);
     if (!model.href) {
       handleRemove();
     } else {
-      handleChangeAndClose(editor);
+      handleChangeAndClose();
     }
   };
 
-  const handleSave = async (model: Model) => {
-    const { editor, element } = props;
-    const { href, text, checkbox } = model;
-
+  const handleSave = async ({ href, text, checkbox }: Model) => {
     const { resourceId, resourceType } = await getIdAndTypeFromUrl(href);
 
     const targetRel = checkbox ? 'new-context' : 'current-context';
+    ReactEditor.focus(editor);
 
     const data = resourceId
       ? createContentLinkData(resourceId, resourceType, targetRel)
@@ -125,7 +122,6 @@ const EditLink = (props: Props) => {
       const path = ReactEditor.findPath(editor, element);
 
       Transforms.insertText(editor, text, { at: path });
-
       Transforms.setNodes<LinkElement | ContentLinkElement>(
         editor,
         { ...data },
@@ -135,32 +131,25 @@ const EditLink = (props: Props) => {
             Element.isElement(node) && (node.type === TYPE_LINK || node.type === TYPE_CONTENT_LINK),
         },
       );
-      handleChangeAndClose(editor);
+      handleChangeAndClose();
     }
   };
 
   const handleRemove = () => {
-    const { editor } = props;
     const path = ReactEditor.findPath(editor, element);
 
+    ReactEditor.focus(editor);
     Transforms.unwrapNodes(editor, {
       at: path,
       match: (node) =>
         Element.isElement(node) && (node.type === TYPE_LINK || node.type === TYPE_CONTENT_LINK),
     });
-
-    ReactEditor.focus(editor);
   };
 
-  const handleChangeAndClose = (editor: Editor) => {
-    const { closeEditMode } = props;
-
-    ReactEditor.focus(editor); // Always return focus to editor
-
+  const handleChangeAndClose = () => {
     closeEditMode();
   };
 
-  const { model, element } = props;
   const isEdit = model && model.href !== undefined;
 
   return (

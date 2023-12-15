@@ -8,7 +8,6 @@
 import { TYPE_ASIDE } from './plugins/aside/types';
 import { TYPE_AUDIO } from './plugins/audio/types';
 import { TYPE_BLOGPOST } from './plugins/blogPost/types';
-import { TYPE_BODYBOX } from './plugins/bodybox/types';
 import { TYPE_CAMPAIGN_BLOCK } from './plugins/campaignBlock/types';
 import { TYPE_CODEBLOCK } from './plugins/codeBlock/types';
 import { TYPE_CONCEPT_INLINE } from './plugins/concept/inline/types';
@@ -21,6 +20,7 @@ import {
 } from './plugins/embed/types';
 import { TYPE_FILE } from './plugins/file/types';
 import { TYPE_FOOTNOTE } from './plugins/footnote/types';
+import { TYPE_FRAMED_CONTENT } from './plugins/framedContent/types';
 import { TYPE_GRID } from './plugins/grid/types';
 import { TYPE_H5P } from './plugins/h5p/types';
 import { TYPE_KEY_FIGURE } from './plugins/keyFigure/types';
@@ -41,7 +41,7 @@ export const inlines = [
 
 export const blocks = [
   TYPE_ASIDE,
-  TYPE_BODYBOX,
+  TYPE_FRAMED_CONTENT,
   TYPE_CODEBLOCK,
   TYPE_DETAILS,
   TYPE_AUDIO,

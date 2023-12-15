@@ -19,7 +19,6 @@ import { asideSerializer } from '../components/SlateEditor/plugins/aside';
 import { audioSerializer } from '../components/SlateEditor/plugins/audio';
 import { blockQuoteSerializer } from '../components/SlateEditor/plugins/blockquote';
 import { blogPostSerializer } from '../components/SlateEditor/plugins/blogPost';
-import { bodyboxSerializer } from '../components/SlateEditor/plugins/bodybox';
 import { breakSerializer } from '../components/SlateEditor/plugins/break';
 import { campaignBlockSerializer } from '../components/SlateEditor/plugins/campaignBlock';
 import { codeblockSerializer } from '../components/SlateEditor/plugins/codeBlock';
@@ -34,6 +33,7 @@ import { embedSerializer } from '../components/SlateEditor/plugins/embed';
 import { defaultEmbedBlock, isSlateEmbed } from '../components/SlateEditor/plugins/embed/utils';
 import { fileSerializer } from '../components/SlateEditor/plugins/file';
 import { footnoteSerializer } from '../components/SlateEditor/plugins/footnote';
+import { framedContentSerializer } from '../components/SlateEditor/plugins/framedContent';
 import { gridSerializer } from '../components/SlateEditor/plugins/grid';
 import { h5pSerializer } from '../components/SlateEditor/plugins/h5p';
 import { headingSerializer } from '../components/SlateEditor/plugins/heading';
@@ -111,7 +111,7 @@ const extendedRules: SlateSerializer[] = [
   audioSerializer,
   h5pSerializer,
   embedSerializer,
-  bodyboxSerializer,
+  framedContentSerializer,
   divSerializer,
   spanSerializer,
 ];

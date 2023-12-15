@@ -11,7 +11,6 @@ import { ElementType } from '../interfaces';
 import { TYPE_ASIDE } from '../plugins/aside/types';
 import { TYPE_AUDIO } from '../plugins/audio/types';
 import { TYPE_QUOTE } from '../plugins/blockquote/types';
-import { TYPE_BODYBOX } from '../plugins/bodybox/types';
 import { TYPE_CODEBLOCK } from '../plugins/codeBlock/types';
 import { TYPE_DEFINITION_LIST } from '../plugins/definitionList/types';
 import { TYPE_DETAILS } from '../plugins/details/types';
@@ -21,6 +20,7 @@ import {
   TYPE_EMBED_EXTERNAL,
 } from '../plugins/embed/types';
 import { TYPE_FILE } from '../plugins/file/types';
+import { TYPE_FRAMED_CONTENT } from '../plugins/framedContent/types';
 import { TYPE_GRID } from '../plugins/grid/types';
 import { TYPE_H5P } from '../plugins/h5p/types';
 import { TYPE_HEADING } from '../plugins/heading/types';
@@ -44,7 +44,7 @@ export const textBlockElements: Element['type'][] = [
   TYPE_FILE,
   TYPE_CODEBLOCK,
   TYPE_ASIDE,
-  TYPE_BODYBOX,
+  TYPE_FRAMED_CONTENT,
   TYPE_DETAILS,
   TYPE_DEFINITION_LIST,
   TYPE_GRID,

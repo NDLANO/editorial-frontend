@@ -11,7 +11,6 @@ import { asideRenderer } from '../../../../components/SlateEditor/plugins/aside/
 import { audioRenderer } from '../../../../components/SlateEditor/plugins/audio/render';
 import { blockQuoteRenderer } from '../../../../components/SlateEditor/plugins/blockquote/render';
 import { blogPostRenderer } from '../../../../components/SlateEditor/plugins/blogPost/render';
-import { bodyboxRenderer } from '../../../../components/SlateEditor/plugins/bodybox/render';
 import { breakRenderer } from '../../../../components/SlateEditor/plugins/break/render';
 import { campaignBlockRenderer } from '../../../../components/SlateEditor/plugins/campaignBlock/render';
 import { codeblockRenderer } from '../../../../components/SlateEditor/plugins/codeBlock/render';
@@ -25,6 +24,7 @@ import { divRenderer } from '../../../../components/SlateEditor/plugins/div/rend
 import { embedRenderer } from '../../../../components/SlateEditor/plugins/embed/render';
 import { fileRenderer } from '../../../../components/SlateEditor/plugins/file/render';
 import { footnoteRenderer } from '../../../../components/SlateEditor/plugins/footnote/render';
+import { framedContentRenderer } from '../../../../components/SlateEditor/plugins/framedContent/render';
 import { gridRenderer } from '../../../../components/SlateEditor/plugins/grid/render';
 import { h5pRenderer } from '../../../../components/SlateEditor/plugins/h5p/render';
 import { headingRenderer } from '../../../../components/SlateEditor/plugins/heading/render';
@@ -50,7 +50,7 @@ export const frontpageRenderers = (articleLanguage: string): SlatePlugin[] => [
   embedRenderer(articleLanguage),
   audioRenderer(articleLanguage),
   h5pRenderer(articleLanguage),
-  bodyboxRenderer,
+  framedContentRenderer,
   asideRenderer,
   detailsRenderer,
   blockQuoteRenderer,

@@ -37,7 +37,6 @@ import HowToHelper from '../../../HowTo/HowToHelper';
 import { TYPE_ASIDE } from '../aside/types';
 import { TYPE_AUDIO } from '../audio/types';
 import { TYPE_BLOGPOST } from '../blogPost/types';
-import { TYPE_BODYBOX } from '../bodybox/types';
 import { TYPE_CAMPAIGN_BLOCK } from '../campaignBlock/types';
 import { TYPE_CODEBLOCK } from '../codeBlock/types';
 import { TYPE_CONCEPT_BLOCK, TYPE_GLOSS_BLOCK } from '../concept/block/types';
@@ -46,6 +45,7 @@ import { TYPE_CONTACT_BLOCK } from '../contactBlock/types';
 import { TYPE_DETAILS } from '../details/types';
 import { TYPE_EMBED_BRIGHTCOVE, TYPE_EMBED_EXTERNAL, TYPE_EMBED_IMAGE } from '../embed/types';
 import { TYPE_FILE } from '../file/types';
+import { TYPE_FRAMED_CONTENT } from '../framedContent/types';
 import { TYPE_GRID } from '../grid/types';
 import { TYPE_H5P } from '../h5p/types';
 import { TYPE_KEY_FIGURE } from '../keyFigure/types';
@@ -84,7 +84,7 @@ export const commonActions: Action[] = [
     helpIcon: renderArticleInModal('Table'),
   },
   {
-    data: { type: TYPE_BODYBOX, object: 'framedContent' },
+    data: { type: TYPE_FRAMED_CONTENT, object: 'framedContent' },
     icon: <Framed />,
     helpIcon: renderArticleInModal('FramedContent'),
   },

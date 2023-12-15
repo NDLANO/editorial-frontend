@@ -12,7 +12,6 @@ import { audioPlugin } from '../../../../components/SlateEditor/plugins/audio';
 import { blockPickerPlugin } from '../../../../components/SlateEditor/plugins/blockPicker';
 import { blockQuotePlugin } from '../../../../components/SlateEditor/plugins/blockquote';
 import { blogPostPlugin } from '../../../../components/SlateEditor/plugins/blogPost';
-import { bodyboxPlugin } from '../../../../components/SlateEditor/plugins/bodybox';
 import { breakPlugin } from '../../../../components/SlateEditor/plugins/break';
 import { campaignBlockPlugin } from '../../../../components/SlateEditor/plugins/campaignBlock';
 import { codeblockPlugin } from '../../../../components/SlateEditor/plugins/codeBlock';
@@ -27,6 +26,7 @@ import { dndPlugin } from '../../../../components/SlateEditor/plugins/DND';
 import { embedPlugin } from '../../../../components/SlateEditor/plugins/embed';
 import { filePlugin } from '../../../../components/SlateEditor/plugins/file';
 import { footnotePlugin } from '../../../../components/SlateEditor/plugins/footnote';
+import { framedContentPlugin } from '../../../../components/SlateEditor/plugins/framedContent';
 import { gridPlugin } from '../../../../components/SlateEditor/plugins/grid';
 import { h5pPlugin } from '../../../../components/SlateEditor/plugins/h5p';
 import { headingPlugin } from '../../../../components/SlateEditor/plugins/heading';
@@ -55,7 +55,7 @@ export const frontpagePlugins: SlatePlugin[] = [
   embedPlugin(),
   audioPlugin(),
   h5pPlugin(),
-  bodyboxPlugin,
+  framedContentPlugin,
   asidePlugin,
   detailsPlugin,
   blockQuotePlugin,

@@ -21,7 +21,6 @@ import { AsideElement } from './plugins/aside';
 import { AudioElement } from './plugins/audio/types';
 import { BlockQuoteElement } from './plugins/blockquote';
 import { BlogPostElement } from './plugins/blogPost/types';
-import { BodyboxElement } from './plugins/bodybox';
 import { BreakElement } from './plugins/break';
 import { CampaignBlockElement } from './plugins/campaignBlock';
 import { CodeblockElement } from './plugins/codeBlock';
@@ -44,6 +43,7 @@ import {
 } from './plugins/embed';
 import { FileElement } from './plugins/file';
 import { FootnoteElement } from './plugins/footnote';
+import { FramedContentElement } from './plugins/framedContent';
 import { GridCellElement, GridElement } from './plugins/grid';
 import { H5pElement } from './plugins/h5p/types';
 import { HeadingElement } from './plugins/heading';
@@ -121,7 +121,7 @@ declare module 'slate' {
       | ErrorEmbedElement
       | ExternalEmbedElement
       | H5pElement
-      | BodyboxElement
+      | FramedContentElement
       | DivElement
       | SpanElement
       | ConceptListElement

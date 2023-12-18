@@ -13,11 +13,11 @@ import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
+import { breakpoints, colors, mq, spacing } from '@ndla/core';
 import { CheckboxItem } from '@ndla/forms';
 import { Pencil } from '@ndla/icons/action';
 import { DeleteForever, DragVertical } from '@ndla/icons/editor';
-import { SlateFile } from '@ndla/ui';
+import { Format } from '@ndla/ui';
 import EditFile from './EditFile';
 import { File as FileType } from '../../../../interfaces';
 import DndList from '../../../DndList';
@@ -30,6 +30,20 @@ const FileContentWrapper = styled.div`
     width: 100%;
     justify-content: space-between;
     align-items: center;
+  }
+`;
+
+const File = styled.div`
+  background: ${colors.brand.greyLighter};
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  flex-wrap: wrap;
+  margin-bottom: ${spacing.xsmall};
+  padding: ${spacing.small};
+  ${mq.range({ from: breakpoints.tablet })} {
+    padding: ${spacing.small} ${spacing.normal};
   }
 `;
 
@@ -91,14 +105,19 @@ const DndFileList = ({
           </DragHandle>
         }
         renderItem={(file, index) => (
-          <SlateFile
-            title={file.title}
-            url={file.url}
-            fileExists={!missingFilePaths.find((mp) => mp === file.path)}
-            fileType={file.type}
-            hiddenTitle={editFileIndex === index}
-            key={index + 1}
-          >
+          <File>
+            {editFileIndex !== index && (
+              <Format
+                format={{
+                  url: file.url,
+                  fileType: file.type,
+                  tooltip: `${t('download')} ${file.url.split('/').pop()}`,
+                }}
+                isPrimary
+                title={file.title}
+                isDeadLink={!!missingFilePaths.find((mp) => mp === file.path)}
+              />
+            )}
             <FileContentWrapper data-edit-mode={editFileIndex === index}>
               <EditFile
                 onEditFileName={onEditFileName}
@@ -137,7 +156,7 @@ const DndFileList = ({
                 </IconButtonV2>
               </StyledButtonWrapper>
             </FileContentWrapper>
-          </SlateFile>
+          </File>
         )}
       />
     </>

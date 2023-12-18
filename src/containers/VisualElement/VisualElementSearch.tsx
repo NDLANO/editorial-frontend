@@ -24,7 +24,7 @@ import { AudioSearchParams } from '../../modules/audio/audioApiInterfaces';
 import { fetchImage, searchImages } from '../../modules/image/imageApi';
 import { searchVideos, VideoSearchQuery } from '../../modules/video/brightcoveApi';
 import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
-import { onError } from '../../util/resolveJsonOrRejectWithError';
+import { NdlaErrorPayload, onError } from '../../util/resolveJsonOrRejectWithError';
 
 const titles = (t: TFunction, resource: string) => ({
   [resource]: t(`form.visualElement.${resource.toLowerCase()}`),
@@ -114,19 +114,19 @@ const VisualElementSearch = ({
         publishedDate: t('videoSearch.publishedDate'),
         duration: t('videoSearch.duration'),
         interactioncount: t('videoSearch.interactioncount'),
+        is360Video: t('videoSearch.is360Video'),
       };
 
       return (
         <>
           <h2>{titles(t, selectedResource)[selectedResource]}</h2>
           <VideoSearch
-            enabledSources={['Brightcove']}
             searchVideos={(query: VideoSearchQuery) => searchVideos(query)}
             locale={locale}
             translations={videoTranslations}
-            onVideoSelect={(video: BrightcoveApiType, type: 'brightcove') =>
+            onVideoSelect={(video: BrightcoveApiType) =>
               handleVisualElementChange({
-                resource: type,
+                resource: 'brightcove',
                 videoid: video.id,
                 caption: '',
                 account: config.brightcoveAccountId!,
@@ -140,7 +140,7 @@ const VisualElementSearch = ({
                 title: video.name ?? '',
               })
             }
-            onError={onError}
+            onError={(e) => onError(e as NdlaErrorPayload)}
           />
         </>
       );

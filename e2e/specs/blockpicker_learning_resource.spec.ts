@@ -151,7 +151,7 @@ test('opens and closes video', async ({ page }) => {
   });
   await Promise.all([brightcoveToken, brightcoveVideos, brightcoveVideo, brightcovePlayback]);
   await page.getByTestId('create-video').click();
-  await page.getByTestId('use-video').first().click();
+  await page.getByText('Bruk video').first().click();
   await expect(page.getByTestId('remove-element')).toBeVisible();
   await page.getByTestId('remove-element').click();
   await expect(page.getByTestId('remove-element')).toHaveCount(0);

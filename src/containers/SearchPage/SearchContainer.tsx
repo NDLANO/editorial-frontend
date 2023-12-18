@@ -110,7 +110,7 @@ const SearchContainer = ({ searchHook, type }: Props) => {
       <OneColumn>
         <StyledSearchHeader>
           <h2>
-            <Search className="c-icon--medium" />
+            <Search size="normal" />
             {t(`searchPage.header.${type}`)}
           </h2>
           <SearchSaveButton userData={userData} />

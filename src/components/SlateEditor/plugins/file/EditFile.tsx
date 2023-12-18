@@ -30,14 +30,11 @@ interface Props {
   onEditFileName: (index: number, value: string) => void;
   index: number;
   title: string;
-  editIndex: number | undefined;
   setEditFileIndex: (v: number | undefined) => void;
 }
 
-const EditFile = ({ onEditFileName, index, title, editIndex, setEditFileIndex }: Props) => {
+const EditFile = ({ onEditFileName, index, title, setEditFileIndex }: Props) => {
   const { t } = useTranslation();
-
-  if (editIndex !== index) return null;
 
   return (
     <StyledFormControl id={'update-file-name'}>
@@ -47,6 +44,8 @@ const EditFile = ({ onEditFileName, index, title, editIndex, setEditFileIndex }:
         value={title}
         onChange={(e) => onEditFileName(index, e.target.value)}
         onBlur={() => setEditFileIndex(undefined)}
+        // eslint-disable-next-line jsx-a11y/no-autofocus
+        autoFocus
       />
     </StyledFormControl>
   );

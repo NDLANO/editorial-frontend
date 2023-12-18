@@ -39,7 +39,6 @@ const File = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  flex-wrap: wrap;
   margin-bottom: ${spacing.xsmall};
   padding: ${spacing.small};
   ${mq.range({ from: breakpoints.tablet })} {
@@ -104,60 +103,64 @@ const DndFileList = ({
             <DragVertical />
           </DragHandle>
         }
-        renderItem={(file, index) => (
-          <File>
-            {editFileIndex !== index && (
-              <Format
-                format={{
-                  url: file.url,
-                  fileType: file.type,
-                  tooltip: `${t('download')} ${file.url.split('/').pop()}`,
-                }}
-                isPrimary
-                title={file.title}
-                isDeadLink={!!missingFilePaths.find((mp) => mp === file.path)}
-              />
-            )}
-            <FileContentWrapper data-edit-mode={editFileIndex === index}>
-              <EditFile
-                onEditFileName={onEditFileName}
-                index={index}
-                title={file.title}
-                editIndex={editFileIndex}
-                setEditFileIndex={setEditFileIndex}
-              />
-              <StyledButtonWrapper>
-                {file.type === 'pdf' && (
-                  <CheckboxItem
-                    label={t('form.file.showPdf')}
-                    checked={file.display === 'block'}
-                    id={index}
-                    onChange={onToggleRenderInline}
+        renderItem={(file, index) => {
+          const isEditMode = editFileIndex === index;
+          return (
+            <File>
+              {!isEditMode && (
+                <Format
+                  format={{
+                    url: file.url,
+                    fileType: file.type,
+                    tooltip: `${t('download')} ${file.url.split('/').pop()}`,
+                  }}
+                  isPrimary
+                  title={file.title}
+                  isDeadLink={!!missingFilePaths.find((mp) => mp === file.path)}
+                />
+              )}
+              <FileContentWrapper data-edit-mode={isEditMode}>
+                {isEditMode && (
+                  <EditFile
+                    onEditFileName={onEditFileName}
+                    index={index}
+                    title={file.title}
+                    setEditFileIndex={setEditFileIndex}
                   />
                 )}
-                <IconButtonV2
-                  title={t('form.file.changeName')}
-                  aria-label={t('form.file.changeName')}
-                  onClick={() => setEditFileIndex(index)}
-                  variant="ghost"
-                  size="xsmall"
-                >
-                  <Pencil aria-hidden="true" />
-                </IconButtonV2>
-                <IconButtonV2
-                  title={t('form.file.removeFile')}
-                  aria-label={t('form.file.removeFile')}
-                  onClick={() => onDeleteFile(index)}
-                  colorTheme="danger"
-                  variant="ghost"
-                  size="xsmall"
-                >
-                  <DeleteForever aria-hidden="true" />
-                </IconButtonV2>
-              </StyledButtonWrapper>
-            </FileContentWrapper>
-          </File>
-        )}
+                <StyledButtonWrapper>
+                  {file.type === 'pdf' && (
+                    <CheckboxItem
+                      label={t('form.file.showPdf')}
+                      checked={file.display === 'block'}
+                      id={index}
+                      onChange={onToggleRenderInline}
+                    />
+                  )}
+                  <IconButtonV2
+                    title={t('form.file.changeName')}
+                    aria-label={t('form.file.changeName')}
+                    onClick={() => setEditFileIndex(index)}
+                    variant="ghost"
+                    size="xsmall"
+                  >
+                    <Pencil aria-hidden="true" />
+                  </IconButtonV2>
+                  <IconButtonV2
+                    title={t('form.file.removeFile')}
+                    aria-label={t('form.file.removeFile')}
+                    onClick={() => onDeleteFile(index)}
+                    colorTheme="danger"
+                    variant="ghost"
+                    size="xsmall"
+                  >
+                    <DeleteForever aria-hidden="true" />
+                  </IconButtonV2>
+                </StyledButtonWrapper>
+              </FileContentWrapper>
+            </File>
+          );
+        }}
       />
     </>
   );

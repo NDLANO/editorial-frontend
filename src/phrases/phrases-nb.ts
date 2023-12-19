@@ -383,6 +383,7 @@ const phrases = {
     publishedDate: 'Publisert dato',
     duration: 'Varighet',
     interactioncount: 'Visninger',
+    is360Video: 'VR-video',
   },
   mathEditor: {
     editMath: 'Rediger Matematikk',

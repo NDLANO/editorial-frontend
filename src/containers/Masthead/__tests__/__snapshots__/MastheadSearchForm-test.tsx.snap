@@ -181,11 +181,9 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
         viewBox="0 0 48 48"
         width="1em"
       >
-        <g>
-          <path
-            d="M31 28h-1.6l-.5-.6a13 13 0 1 0-1.4 1.4l.5.6V31l10 10 3-3-10-10zm-12 0a9 9 0 1 1 0-18 9 9 0 0 1 0 18z"
-          />
-        </g>
+        <path
+          d="M31 28h-1.6l-.5-.6a13 13 0 1 0-1.4 1.4l.5.6V31l10 10 3-3zm-12 0a9 9 0 1 1 0-18 9 9 0 0 1 0 18"
+        />
       </svg>
     </button>
     <input
@@ -378,11 +376,9 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
         viewBox="0 0 48 48"
         width="1em"
       >
-        <g>
-          <path
-            d="M31 28h-1.6l-.5-.6a13 13 0 1 0-1.4 1.4l.5.6V31l10 10 3-3-10-10zm-12 0a9 9 0 1 1 0-18 9 9 0 0 1 0 18z"
-          />
-        </g>
+        <path
+          d="M31 28h-1.6l-.5-.6a13 13 0 1 0-1.4 1.4l.5.6V31l10 10 3-3zm-12 0a9 9 0 1 1 0-18 9 9 0 0 1 0 18"
+        />
       </svg>
     </button>
     <input
@@ -575,11 +571,9 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
         viewBox="0 0 48 48"
         width="1em"
       >
-        <g>
-          <path
-            d="M31 28h-1.6l-.5-.6a13 13 0 1 0-1.4 1.4l.5.6V31l10 10 3-3-10-10zm-12 0a9 9 0 1 1 0-18 9 9 0 0 1 0 18z"
-          />
-        </g>
+        <path
+          d="M31 28h-1.6l-.5-.6a13 13 0 1 0-1.4 1.4l.5.6V31l10 10 3-3zm-12 0a9 9 0 1 1 0-18 9 9 0 0 1 0 18"
+        />
       </svg>
     </button>
     <input
@@ -772,11 +766,9 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
         viewBox="0 0 48 48"
         width="1em"
       >
-        <g>
-          <path
-            d="M31 28h-1.6l-.5-.6a13 13 0 1 0-1.4 1.4l.5.6V31l10 10 3-3-10-10zm-12 0a9 9 0 1 1 0-18 9 9 0 0 1 0 18z"
-          />
-        </g>
+        <path
+          d="M31 28h-1.6l-.5-.6a13 13 0 1 0-1.4 1.4l.5.6V31l10 10 3-3zm-12 0a9 9 0 1 1 0-18 9 9 0 0 1 0 18"
+        />
       </svg>
     </button>
     <input
@@ -969,11 +961,9 @@ exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
         viewBox="0 0 48 48"
         width="1em"
       >
-        <g>
-          <path
-            d="M31 28h-1.6l-.5-.6a13 13 0 1 0-1.4 1.4l.5.6V31l10 10 3-3-10-10zm-12 0a9 9 0 1 1 0-18 9 9 0 0 1 0 18z"
-          />
-        </g>
+        <path
+          d="M31 28h-1.6l-.5-.6a13 13 0 1 0-1.4 1.4l.5.6V31l10 10 3-3zm-12 0a9 9 0 1 1 0-18 9 9 0 0 1 0 18"
+        />
       </svg>
     </button>
     <input

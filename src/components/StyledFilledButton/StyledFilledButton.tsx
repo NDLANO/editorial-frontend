@@ -29,7 +29,7 @@ const StyledFilledButton = styled.button<StyledFilledButtonProps>`
   border-radius: ${misc.borderRadius};
   transition: all 200ms ease;
   cursor: pointer;
-  .c-icon {
+  [data-icon] {
     width: 16px;
     height: 16px;
     margin: 0 3px 0 -3px;
@@ -50,7 +50,7 @@ const StyledFilledButton = styled.button<StyledFilledButtonProps>`
         background: ${colors.support.red};
       `}
     transform: translate(1px, 1px);
-    .c-icon {
+    [data-icon] {
       color: #fff;
     }
   }
@@ -60,7 +60,7 @@ const StyledFilledButton = styled.button<StyledFilledButtonProps>`
     cursor: not-allowed;
     pointer-events: auto;
     transform: translate(0px, 0px);
-    .c-icon {
+    [data-icon] {
       color: ${colors.support.red};
     }
   }

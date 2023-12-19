@@ -80,11 +80,7 @@ const SearchConceptResults = ({ results, searchObject, addConcept, searching = t
       ) : null}
       {results.map((result) => (
         <StyledConceptResult key={result.id}>
-          {result.glossData ? (
-            <StyledGlobe className="c-icon--large" />
-          ) : (
-            <StyledConcept className="c-icon--large" />
-          )}
+          {result.glossData ? <StyledGlobe size="large" /> : <StyledConcept size="large" />}
           <StyledConceptResultHeader>
             {result.title.title ?? t('conceptSearch.noTitle')}
             {(result.status.current === 'PUBLISHED' ||

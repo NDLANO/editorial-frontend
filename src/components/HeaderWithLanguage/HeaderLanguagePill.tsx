@@ -36,7 +36,7 @@ const languagePillStyle = css`
     display: flex;
     align-items: center;
 
-    .c-icon {
+    [data-icon] {
       margin-right: ${spacing.xsmall};
     }
   }

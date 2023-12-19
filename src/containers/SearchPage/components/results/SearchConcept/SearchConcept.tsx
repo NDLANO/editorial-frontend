@@ -78,9 +78,9 @@ const SearchConcept = ({ concept, locale, subjects, editingState, responsibleNam
         {metaImageSrc ? (
           <img src={`${metaImageSrc}?width=200&language=${locale}`} alt={metaImageAlt} />
         ) : isGloss ? (
-          <Globe className="c-icon--large" />
+          <Globe size="large" />
         ) : (
-          <Concept className="c-icon--large" />
+          <Concept size="large" />
         )}
       </StyledSearchImageContainer>
       {showForm ? (

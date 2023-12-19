@@ -93,7 +93,7 @@ const MenuItemEditField = ({
           {status === 'loading' ? (
             <Spinner appearance="small" data-testid="inlineEditSpinner" />
           ) : (
-            <Done className="c-icon--small" />
+            <Done size="small" />
           )}
         </CustomFieldButton>
       </StyledMenuItemEditField>

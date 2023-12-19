@@ -65,7 +65,7 @@ const StyledRemoveButton = styled(FieldRemoveButton)<{ visible?: boolean }>`
   visibility: ${({ visible }) => (visible ? 'visible' : 'hidden')};
   height: 100%;
   padding-top: 0;
-  .c-icon {
+  [data-icon] {
     fill: ${colors.support.red};
   }
 `;

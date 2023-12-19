@@ -125,7 +125,7 @@ const ConceptModalContent = ({
               content: (
                 <div>
                   <h2>
-                    <Search className="c-icon--medium" />
+                    <Search size="normal" />
                     {t(`searchPage.header.concept`)}
                   </h2>
                   <SearchForm

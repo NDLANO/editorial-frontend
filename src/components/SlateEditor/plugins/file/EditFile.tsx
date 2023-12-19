@@ -12,7 +12,6 @@ import { colors } from '@ndla/core';
 import { FormControl, InputV3, Label } from '@ndla/forms';
 
 const StyledInputV3 = styled(InputV3)`
-  min-height: 0;
   background-color: ${colors.white};
   width: 100%;
   // !important is needed to override styles from data-no-border attribute styling

@@ -26,6 +26,7 @@ import { DragHandle } from '../../../DraggableItem';
 const FileContentWrapper = styled.div`
   display: flex;
   gap: ${spacing.small};
+  min-height: ${spacing.large};
   &[data-edit-mode='true'] {
     width: 100%;
     justify-content: space-between;
@@ -50,9 +51,9 @@ const File = styled.div`
   justify-content: space-between;
   width: 100%;
   margin-bottom: ${spacing.xsmall};
-  padding: ${spacing.small};
+  padding: ${spacing.xsmall};
   ${mq.range({ from: breakpoints.tablet })} {
-    padding: ${spacing.small} ${spacing.normal};
+    padding: ${spacing.xsmall} ${spacing.normal};
   }
 `;
 

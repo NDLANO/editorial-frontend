@@ -93,7 +93,7 @@ const CustomFieldComponent = ({
           onKeyDown={handleKeyPress}
         />
         <CustomFieldButton onClick={handleSubmit} data-testid={'CustomFieldSaveButton'}>
-          <Done className="c-icon--small" />
+          <Done size="small" />
         </CustomFieldButton>
         <StyledCustomFieldButton onClick={handleDelete}>
           <DeleteForever />

@@ -383,6 +383,7 @@ const phrases = {
     publishedDate: 'Published date',
     duration: 'Duration',
     interactioncount: 'Views',
+    is360Video: 'VR video',
   },
   mathEditor: {
     editMath: 'Edit Math',

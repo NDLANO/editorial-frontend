@@ -7,7 +7,7 @@
  */
 
 import { jsx as slatejsx } from 'slate-hyperscript';
-import { TYPE_BODYBOX } from './types';
+import { TYPE_FRAMED_CONTENT } from './types';
 
-export const defaultBodyboxBlock = () =>
-  slatejsx('element', { type: TYPE_BODYBOX }, [{ text: '' }]);
+export const defaultFramedContentBlock = () =>
+  slatejsx('element', { type: TYPE_FRAMED_CONTENT }, [{ text: '' }]);

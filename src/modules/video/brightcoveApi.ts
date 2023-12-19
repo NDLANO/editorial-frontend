@@ -33,7 +33,7 @@ export const searchBrightcoveVideos = (query: BrightcoveQueryParams) =>
       offset: query.offset,
       limit: query.limit,
     })}`,
-  ).then((r) => resolveJsonOrRejectWithError<BrightcoveApiType>(r));
+  ).then((r) => resolveJsonOrRejectWithError<BrightcoveApiType[]>(r));
 
 export const fetchBrightcoveVideo = (videoId: string) =>
   fetchWithBrightCoveToken(`${baseBrightCoveUrlV3}/${videoId}`).then((r) =>

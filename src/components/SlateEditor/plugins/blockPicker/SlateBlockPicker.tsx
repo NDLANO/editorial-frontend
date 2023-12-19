@@ -27,8 +27,6 @@ import { defaultAsideBlock } from '../aside/utils';
 import { TYPE_AUDIO } from '../audio/types';
 import { TYPE_BLOGPOST } from '../blogPost/types';
 import { defaultBlogPostBlock } from '../blogPost/utils';
-import { TYPE_BODYBOX } from '../bodybox/types';
-import { defaultBodyboxBlock } from '../bodybox/utils';
 import { TYPE_CAMPAIGN_BLOCK } from '../campaignBlock/types';
 import { defaultCampaignBlock } from '../campaignBlock/utils';
 import { TYPE_CODEBLOCK } from '../codeBlock/types';
@@ -48,6 +46,8 @@ import {
   TYPE_EMBED_IMAGE,
 } from '../embed/types';
 import { TYPE_FILE } from '../file/types';
+import { TYPE_FRAMED_CONTENT } from '../framedContent/types';
+import { defaultFramedContentBlock } from '../framedContent/utils';
 import { TYPE_GRID } from '../grid/types';
 import { defaultGridBlock } from '../grid/utils';
 import { TYPE_H5P } from '../h5p/types';
@@ -281,8 +281,8 @@ const SlateBlockPicker = ({
 
   const onElementAdd = (data: ActionData) => {
     switch (data.type) {
-      case TYPE_BODYBOX: {
-        onInsertBlock(defaultBodyboxBlock(), true);
+      case TYPE_FRAMED_CONTENT: {
+        onInsertBlock(defaultFramedContentBlock(), true);
         break;
       }
       case TYPE_DETAILS: {

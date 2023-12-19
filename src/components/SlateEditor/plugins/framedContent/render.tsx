@@ -7,17 +7,17 @@
  */
 
 import { Editor } from 'slate';
-import SlateBodybox from './SlateBodybox';
-import { TYPE_BODYBOX } from './types';
+import SlateFramedContent from './SlateFramedContent';
+import { TYPE_FRAMED_CONTENT } from './types';
 
-export const bodyboxRenderer = (editor: Editor) => {
+export const framedContentRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
-    if (element.type === TYPE_BODYBOX) {
+    if (element.type === TYPE_FRAMED_CONTENT) {
       return (
-        <SlateBodybox editor={editor} element={element} attributes={attributes}>
+        <SlateFramedContent editor={editor} element={element} attributes={attributes}>
           {children}
-        </SlateBodybox>
+        </SlateFramedContent>
       );
     } else return renderElement?.({ attributes, children, element });
   };

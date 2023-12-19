@@ -10,11 +10,6 @@ details {
   position: relative;
 }
 
-.c-bodybox {
-  margin-top: 26px;
-  margin-bottom: 26px;
-}
-
 .o-list--two-columns {
   & p {
     margin: 0;

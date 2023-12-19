@@ -63,11 +63,11 @@ test('adds and removes table', async ({ page }) => {
   await expect(page.getByTestId('table-remove')).toHaveCount(0);
 });
 
-test('adds and removes bodybox', async ({ page }) => {
+test('adds and removes framedcontent', async ({ page }) => {
   await page.getByTestId('create-framedContent').click();
-  await expect(page.getByTestId('remove-bodybox')).toBeVisible();
-  await page.getByTestId('remove-bodybox').click();
-  await expect(page.getByTestId('remove-bodybox')).toHaveCount(0);
+  await expect(page.getByTestId('remove-framedContent')).toBeVisible();
+  await page.getByTestId('remove-framedContent').click();
+  await expect(page.getByTestId('remove-framedContent')).toHaveCount(0);
 });
 
 test('adds and removes details', async ({ page }) => {
@@ -151,7 +151,7 @@ test('opens and closes video', async ({ page }) => {
   });
   await Promise.all([brightcoveToken, brightcoveVideos, brightcoveVideo, brightcovePlayback]);
   await page.getByTestId('create-video').click();
-  await page.getByTestId('use-video').first().click();
+  await page.getByText('Bruk video').first().click();
   await expect(page.getByTestId('remove-element')).toBeVisible();
   await page.getByTestId('remove-element').click();
   await expect(page.getByTestId('remove-element')).toHaveCount(0);

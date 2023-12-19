@@ -156,6 +156,15 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
 }
 
 .emotion-2 {
+  display: inline-block;
+  fill: currentColor;
+  vertical-align: middle;
+  line-height: 1em;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
   margin: 0 12px;
   width: 24px;
   height: 24px;
@@ -171,21 +180,18 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
     >
       <svg
         aria-hidden="true"
-        class="c-icon emotion-2"
+        class="emotion-2 emotion-3"
+        data-icon=""
         data-license="Apache License 2.0"
         data-source="Material Design"
         fill="currentColor"
-        height="1em"
         preserveAspectRatio="xMidYMid meet"
-        style="vertical-align: middle; color: rgb(32, 88, 143);"
+        style="color: rgb(32, 88, 143);"
         viewBox="0 0 48 48"
-        width="1em"
       >
-        <g>
-          <path
-            d="M31 28h-1.6l-.5-.6a13 13 0 1 0-1.4 1.4l.5.6V31l10 10 3-3-10-10zm-12 0a9 9 0 1 1 0-18 9 9 0 0 1 0 18z"
-          />
-        </g>
+        <path
+          d="M31 28h-1.6l-.5-.6a13 13 0 1 0-1.4 1.4l.5.6V31l10 10 3-3zm-12 0a9 9 0 1 1 0-18 9 9 0 0 1 0 18"
+        />
       </svg>
     </button>
     <input
@@ -353,6 +359,15 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
 }
 
 .emotion-2 {
+  display: inline-block;
+  fill: currentColor;
+  vertical-align: middle;
+  line-height: 1em;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
   margin: 0 12px;
   width: 24px;
   height: 24px;
@@ -368,21 +383,18 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
     >
       <svg
         aria-hidden="true"
-        class="c-icon emotion-2"
+        class="emotion-2 emotion-3"
+        data-icon=""
         data-license="Apache License 2.0"
         data-source="Material Design"
         fill="currentColor"
-        height="1em"
         preserveAspectRatio="xMidYMid meet"
-        style="vertical-align: middle; color: rgb(32, 88, 143);"
+        style="color: rgb(32, 88, 143);"
         viewBox="0 0 48 48"
-        width="1em"
       >
-        <g>
-          <path
-            d="M31 28h-1.6l-.5-.6a13 13 0 1 0-1.4 1.4l.5.6V31l10 10 3-3-10-10zm-12 0a9 9 0 1 1 0-18 9 9 0 0 1 0 18z"
-          />
-        </g>
+        <path
+          d="M31 28h-1.6l-.5-.6a13 13 0 1 0-1.4 1.4l.5.6V31l10 10 3-3zm-12 0a9 9 0 1 1 0-18 9 9 0 0 1 0 18"
+        />
       </svg>
     </button>
     <input
@@ -550,6 +562,15 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
 }
 
 .emotion-2 {
+  display: inline-block;
+  fill: currentColor;
+  vertical-align: middle;
+  line-height: 1em;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
   margin: 0 12px;
   width: 24px;
   height: 24px;
@@ -565,21 +586,18 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
     >
       <svg
         aria-hidden="true"
-        class="c-icon emotion-2"
+        class="emotion-2 emotion-3"
+        data-icon=""
         data-license="Apache License 2.0"
         data-source="Material Design"
         fill="currentColor"
-        height="1em"
         preserveAspectRatio="xMidYMid meet"
-        style="vertical-align: middle; color: rgb(32, 88, 143);"
+        style="color: rgb(32, 88, 143);"
         viewBox="0 0 48 48"
-        width="1em"
       >
-        <g>
-          <path
-            d="M31 28h-1.6l-.5-.6a13 13 0 1 0-1.4 1.4l.5.6V31l10 10 3-3-10-10zm-12 0a9 9 0 1 1 0-18 9 9 0 0 1 0 18z"
-          />
-        </g>
+        <path
+          d="M31 28h-1.6l-.5-.6a13 13 0 1 0-1.4 1.4l.5.6V31l10 10 3-3zm-12 0a9 9 0 1 1 0-18 9 9 0 0 1 0 18"
+        />
       </svg>
     </button>
     <input
@@ -747,6 +765,15 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
 }
 
 .emotion-2 {
+  display: inline-block;
+  fill: currentColor;
+  vertical-align: middle;
+  line-height: 1em;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
   margin: 0 12px;
   width: 24px;
   height: 24px;
@@ -762,21 +789,18 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
     >
       <svg
         aria-hidden="true"
-        class="c-icon emotion-2"
+        class="emotion-2 emotion-3"
+        data-icon=""
         data-license="Apache License 2.0"
         data-source="Material Design"
         fill="currentColor"
-        height="1em"
         preserveAspectRatio="xMidYMid meet"
-        style="vertical-align: middle; color: rgb(32, 88, 143);"
+        style="color: rgb(32, 88, 143);"
         viewBox="0 0 48 48"
-        width="1em"
       >
-        <g>
-          <path
-            d="M31 28h-1.6l-.5-.6a13 13 0 1 0-1.4 1.4l.5.6V31l10 10 3-3-10-10zm-12 0a9 9 0 1 1 0-18 9 9 0 0 1 0 18z"
-          />
-        </g>
+        <path
+          d="M31 28h-1.6l-.5-.6a13 13 0 1 0-1.4 1.4l.5.6V31l10 10 3-3zm-12 0a9 9 0 1 1 0-18 9 9 0 0 1 0 18"
+        />
       </svg>
     </button>
     <input
@@ -944,6 +968,15 @@ exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
 }
 
 .emotion-2 {
+  display: inline-block;
+  fill: currentColor;
+  vertical-align: middle;
+  line-height: 1em;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
   margin: 0 12px;
   width: 24px;
   height: 24px;
@@ -959,21 +992,18 @@ exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
     >
       <svg
         aria-hidden="true"
-        class="c-icon emotion-2"
+        class="emotion-2 emotion-3"
+        data-icon=""
         data-license="Apache License 2.0"
         data-source="Material Design"
         fill="currentColor"
-        height="1em"
         preserveAspectRatio="xMidYMid meet"
-        style="vertical-align: middle; color: rgb(32, 88, 143);"
+        style="color: rgb(32, 88, 143);"
         viewBox="0 0 48 48"
-        width="1em"
       >
-        <g>
-          <path
-            d="M31 28h-1.6l-.5-.6a13 13 0 1 0-1.4 1.4l.5.6V31l10 10 3-3-10-10zm-12 0a9 9 0 1 1 0-18 9 9 0 0 1 0 18z"
-          />
-        </g>
+        <path
+          d="M31 28h-1.6l-.5-.6a13 13 0 1 0-1.4 1.4l.5.6V31l10 10 3-3zm-12 0a9 9 0 1 1 0-18 9 9 0 0 1 0 18"
+        />
       </svg>
     </button>
     <input

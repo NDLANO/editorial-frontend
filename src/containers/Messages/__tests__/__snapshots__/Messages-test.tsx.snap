@@ -512,15 +512,13 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
             viewBox="0 0 24 24"
             width="1em"
           >
-            <g>
-              <path
-                d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z"
-              />
-              <path
-                d="M0 0h24v24H0z"
-                fill="none"
-              />
-            </g>
+            <path
+              d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
           </svg>
         </button>
       </div>
@@ -539,15 +537,13 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
           viewBox="0 0 24 24"
           width="1em"
         >
-          <g>
-            <path
-              d="M0 0h24v24H0V0z"
-              fill="none"
-            />
-            <path
-              d="M11 15h2v2h-2zm0-8h2v6h-2zm1-5a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16z"
-            />
-          </g>
+          <path
+            d="M0 0h24v24H0z"
+            fill="none"
+          />
+          <path
+            d="M11 15h2v2h-2zm0-8h2v6h-2zm1-5a10 10 0 1 0 0 20 10 10 0 0 0 0-20m0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16"
+          />
         </svg>
         Testmessage
       </div>
@@ -1102,15 +1098,13 @@ exports[`Messages A single message renders correctly 1`] = `
             viewBox="0 0 24 24"
             width="1em"
           >
-            <g>
-              <path
-                d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z"
-              />
-              <path
-                d="M0 0h24v24H0z"
-                fill="none"
-              />
-            </g>
+            <path
+              d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
           </svg>
         </button>
       </div>
@@ -1129,15 +1123,13 @@ exports[`Messages A single message renders correctly 1`] = `
           viewBox="0 0 24 24"
           width="1em"
         >
-          <g>
-            <path
-              d="M0 0h24v24H0V0z"
-              fill="none"
-            />
-            <path
-              d="M11 15h2v2h-2zm0-8h2v6h-2zm1-5a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16z"
-            />
-          </g>
+          <path
+            d="M0 0h24v24H0z"
+            fill="none"
+          />
+          <path
+            d="M11 15h2v2h-2zm0-8h2v6h-2zm1-5a10 10 0 1 0 0 20 10 10 0 0 0 0-20m0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16"
+          />
         </svg>
         Testmessage
       </div>
@@ -1670,15 +1662,13 @@ exports[`Messages Several messages renders correctly 1`] = `
             viewBox="0 0 24 24"
             width="1em"
           >
-            <g>
-              <path
-                d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z"
-              />
-              <path
-                d="M0 0h24v24H0z"
-                fill="none"
-              />
-            </g>
+            <path
+              d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
           </svg>
         </button>
       </div>
@@ -1697,15 +1687,13 @@ exports[`Messages Several messages renders correctly 1`] = `
           viewBox="0 0 24 24"
           width="1em"
         >
-          <g>
-            <path
-              d="M0 0h24v24H0V0z"
-              fill="none"
-            />
-            <path
-              d="M11 15h2v2h-2zm0-8h2v6h-2zm1-5a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16z"
-            />
-          </g>
+          <path
+            d="M0 0h24v24H0z"
+            fill="none"
+          />
+          <path
+            d="M11 15h2v2h-2zm0-8h2v6h-2zm1-5a10 10 0 1 0 0 20 10 10 0 0 0 0-20m0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16"
+          />
         </svg>
         Testmessage
       </div>
@@ -1770,15 +1758,13 @@ exports[`Messages Several messages renders correctly 1`] = `
             viewBox="0 0 24 24"
             width="1em"
           >
-            <g>
-              <path
-                d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z"
-              />
-              <path
-                d="M0 0h24v24H0z"
-                fill="none"
-              />
-            </g>
+            <path
+              d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
           </svg>
         </button>
       </div>
@@ -1797,15 +1783,13 @@ exports[`Messages Several messages renders correctly 1`] = `
           viewBox="0 0 24 24"
           width="1em"
         >
-          <g>
-            <path
-              d="M0 0h24v24H0V0z"
-              fill="none"
-            />
-            <path
-              d="M11 15h2v2h-2zm0-8h2v6h-2zm1-5a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16z"
-            />
-          </g>
+          <path
+            d="M0 0h24v24H0z"
+            fill="none"
+          />
+          <path
+            d="M11 15h2v2h-2zm0-8h2v6h-2zm1-5a10 10 0 1 0 0 20 10 10 0 0 0 0-20m0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16"
+          />
         </svg>
         Testmessage2
       </div>
@@ -2412,15 +2396,13 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
             viewBox="0 0 24 24"
             width="1em"
           >
-            <g>
-              <path
-                d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z"
-              />
-              <path
-                d="M0 0h24v24H0z"
-                fill="none"
-              />
-            </g>
+            <path
+              d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
           </svg>
         </button>
       </div>
@@ -2439,15 +2421,13 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
           viewBox="0 0 24 24"
           width="1em"
         >
-          <g>
-            <path
-              d="M0 0h24v24H0V0z"
-              fill="none"
-            />
-            <path
-              d="M11 15h2v2h-2zm0-8h2v6h-2zm1-5a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16z"
-            />
-          </g>
+          <path
+            d="M0 0h24v24H0z"
+            fill="none"
+          />
+          <path
+            d="M11 15h2v2h-2zm0-8h2v6h-2zm1-5a10 10 0 1 0 0 20 10 10 0 0 0 0-20m0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16"
+          />
         </svg>
         Testmessage
       </div>

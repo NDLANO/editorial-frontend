@@ -6,10 +6,15 @@
  *
  */
 
+// eslint-disable-next-line lodash/import-scope
+import { DebouncedFunc } from 'lodash';
+import debounce from 'lodash/debounce';
+import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 import { FormControl, InputV3, Label } from '@ndla/forms';
+import { File } from '../../../../interfaces';
 
 const StyledInputV3 = styled(InputV3)`
   background-color: ${colors.white};
@@ -26,21 +31,32 @@ const StyledFormControl = styled(FormControl)`
 `;
 
 interface Props {
-  onEditFileName: (index: number, value: string) => void;
   index: number;
   title: string;
-  setEditFileIndex: (v: number | undefined) => void;
+  files: File[];
+  onEditFileList: (data: File[]) => void;
+  setEditFileIndex: (i: number | undefined) => void;
 }
 
-const EditFile = ({ onEditFileName, index, title, setEditFileIndex }: Props) => {
+const EditFile = ({ index, title, files, onEditFileList, setEditFileIndex }: Props) => {
+  const [fileName, setFileName] = useState(title);
   const { t } = useTranslation();
+  const debounceFunc = useRef<DebouncedFunc<() => void> | null>(null);
+
+  const onEditFileName = (index: number, value: string) => {
+    debounceFunc.current?.cancel?.();
+    const data = files.map((file, i) => (i === index ? { ...file, title: value } : file));
+    setFileName(value);
+    debounceFunc.current = debounce(() => onEditFileList(data), 500);
+    debounceFunc.current?.();
+  };
 
   return (
     <StyledFormControl id={'update-file-name'}>
       <Label visuallyHidden>{t('form.file.changeName')}</Label>
       <StyledInputV3
         name="file-name"
-        value={title}
+        value={fileName}
         onChange={(e) => onEditFileName(index, e.target.value)}
         onBlur={() => setEditFileIndex(undefined)}
         // eslint-disable-next-line jsx-a11y/no-autofocus

@@ -61,13 +61,9 @@ const getMissingFiles = async (files: File[]) => {
 
 const SlateFileList = ({ element, editor, attributes, children }: Props) => {
   const { t } = useTranslation();
-  const [files, setFiles] = useState<File[]>(element.data);
   const [missingFilePaths, setMissingFilePaths] = useState<string[]>([]);
   const [showFileUploader, setShowFileUploader] = useState(false);
-
-  useEffect(() => {
-    setFiles(element.data);
-  }, [element.data]);
+  const { data: files } = element;
 
   useEffect(() => {
     getMissingFiles(files).then(setMissingFilePaths);
@@ -94,7 +90,6 @@ const SlateFileList = ({ element, editor, attributes, children }: Props) => {
       return;
     }
     const data = files.filter((_, i) => i !== indexToDelete);
-    setFiles(data);
     onEditFileList(data);
   };
 
@@ -105,7 +100,6 @@ const SlateFileList = ({ element, editor, attributes, children }: Props) => {
         return formatFile({ ...file, url: config.ndlaApiUrl + file.path, resource: 'file' }, t);
       }),
     );
-    setFiles(data);
     onEditFileList(data);
   };
 
@@ -152,7 +146,6 @@ const SlateFileList = ({ element, editor, attributes, children }: Props) => {
       >
         <DndFileList
           files={files}
-          setFiles={setFiles}
           onEditFileList={onEditFileList}
           onDeleteFile={onDeleteFile}
           missingFilePaths={missingFilePaths}

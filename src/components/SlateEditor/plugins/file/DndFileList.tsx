@@ -6,10 +6,7 @@
  *
  */
 
-// eslint-disable-next-line lodash/import-scope
-import { DebouncedFunc } from 'lodash';
-import debounce from 'lodash/debounce';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
@@ -65,22 +62,14 @@ const StyledButtonWrapper = styled.div`
 
 interface Props {
   files: FileType[];
-  setFiles: (v: FileType[]) => void;
   onEditFileList: (data: FileType[]) => void;
   onDeleteFile: (indexToDelete: number) => void;
   missingFilePaths: string[];
 }
 
-const DndFileList = ({
-  files,
-  setFiles,
-  onEditFileList,
-  onDeleteFile,
-  missingFilePaths = [],
-}: Props) => {
+const DndFileList = ({ files, onEditFileList, onDeleteFile, missingFilePaths = [] }: Props) => {
   const [editFileIndex, setEditFileIndex] = useState<number | undefined>();
 
-  const debounceFunc = useRef<DebouncedFunc<() => void> | null>(null);
   const { t } = useTranslation();
 
   const onToggleRenderInline = (index: number | undefined) => {
@@ -88,21 +77,11 @@ const DndFileList = ({
     const data = files.map((f, i) =>
       i === index ? { ...f, display: f.display === 'block' ? 'inline' : 'block' } : f,
     );
-    setFiles(data);
     onEditFileList(data);
   };
 
   const onMovedFile = (data: FileType[]) => {
-    setFiles(data);
     onEditFileList(data);
-  };
-
-  const onEditFileName = (index: number, value: string) => {
-    debounceFunc.current?.cancel?.();
-    const data = files.map((file, i) => (i === index ? { ...file, title: value } : file));
-    setFiles(data);
-    debounceFunc.current = debounce(() => onEditFileList(data), 500);
-    debounceFunc.current?.();
   };
 
   return (
@@ -135,9 +114,10 @@ const DndFileList = ({
               <FileContentWrapper data-edit-mode={isEditMode}>
                 {isEditMode && (
                   <EditFile
-                    onEditFileName={onEditFileName}
                     index={index}
                     title={file.title}
+                    files={files}
+                    onEditFileList={onEditFileList}
                     setEditFileIndex={setEditFileIndex}
                   />
                 )}

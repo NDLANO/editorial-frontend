@@ -158,7 +158,7 @@ const DndFileList = ({
                     variant="ghost"
                     size="xsmall"
                   >
-                    <Pencil aria-hidden="true" />
+                    <Pencil />
                   </IconButtonV2>
                   <IconButtonV2
                     title={t('form.file.removeFile')}
@@ -168,7 +168,7 @@ const DndFileList = ({
                     variant="ghost"
                     size="xsmall"
                   >
-                    <DeleteForever aria-hidden="true" />
+                    <DeleteForever />
                   </IconButtonV2>
                 </StyledButtonWrapper>
               </FileContentWrapper>

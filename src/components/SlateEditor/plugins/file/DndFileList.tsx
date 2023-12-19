@@ -13,7 +13,7 @@ import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
-import { breakpoints, colors, mq, spacing } from '@ndla/core';
+import { breakpoints, colors, fonts, mq, spacing } from '@ndla/core';
 import { CheckboxItem } from '@ndla/forms';
 import { Pencil } from '@ndla/icons/action';
 import { DeleteForever, DragVertical } from '@ndla/icons/editor';
@@ -33,6 +33,16 @@ const FileContentWrapper = styled.div`
   }
 `;
 
+const CheckboxWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: ${spacing.normal};
+  & label {
+    font-size: ${fonts.size.text.button};
+    font-weight: ${fonts.weight.semibold};
+  }
+`;
+
 const File = styled.div`
   background: ${colors.brand.greyLighter};
   display: flex;
@@ -48,6 +58,8 @@ const File = styled.div`
 
 const StyledButtonWrapper = styled.div`
   white-space: nowrap;
+  display: flex;
+  align-items: center;
 `;
 
 interface Props {
@@ -130,12 +142,14 @@ const DndFileList = ({
                 )}
                 <StyledButtonWrapper>
                   {file.type === 'pdf' && (
-                    <CheckboxItem
-                      label={t('form.file.showPdf')}
-                      checked={file.display === 'block'}
-                      id={index}
-                      onChange={onToggleRenderInline}
-                    />
+                    <CheckboxWrapper>
+                      <CheckboxItem
+                        label={t('form.file.showPdf')}
+                        checked={file.display === 'block'}
+                        id={index}
+                        onChange={onToggleRenderInline}
+                      />
+                    </CheckboxWrapper>
                   )}
                   <IconButtonV2
                     title={t('form.file.changeName')}

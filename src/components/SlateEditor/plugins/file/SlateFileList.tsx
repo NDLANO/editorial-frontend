@@ -34,9 +34,6 @@ import FileUploader from '../../../FileUploader';
 
 const StyledSection = styled.section`
   margin-bottom: ${spacing.normal};
-  label > span {
-    font-size: 1rem;
-  }
 `;
 
 const formatFile = (file: File, t: TFunction): File => ({

@@ -100,6 +100,18 @@ exports[`EditorErrorMessage renders 1`] = `
   margin: 0;
 }
 
+.emotion-2 {
+  display: inline-block;
+  fill: currentColor;
+  vertical-align: middle;
+  line-height: 1em;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+}
+
 <div>
   <div
     class="emotion-0"
@@ -121,15 +133,13 @@ exports[`EditorErrorMessage renders 1`] = `
     >
       <svg
         aria-hidden="true"
-        class="c-icon"
+        class="emotion-2 emotion-3"
+        data-icon=""
         data-license="Apache License 2.0"
         data-source="Material Design"
         fill="currentColor"
-        height="1em"
         preserveAspectRatio="xMidYMid meet"
-        style="vertical-align: middle;"
         viewBox="0 0 24 24"
-        width="1em"
       >
         <path
           d="M0 0h24v24H0z"

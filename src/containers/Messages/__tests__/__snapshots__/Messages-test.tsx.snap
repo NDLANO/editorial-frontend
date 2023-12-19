@@ -413,6 +413,18 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
 }
 
 .emotion-10 {
+  display: inline-block;
+  fill: currentColor;
+  vertical-align: middle;
+  line-height: 1em;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+}
+
+.emotion-12 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -420,12 +432,21 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
   gap: 12px;
 }
 
-.emotion-11 {
+.emotion-13 {
+  display: inline-block;
+  fill: currentColor;
+  vertical-align: middle;
+  line-height: 1em;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
   width: 27px;
   height: 27px;
 }
 
-.emotion-12 {
+.emotion-15 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -501,16 +522,14 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
         >
           <svg
             aria-hidden="true"
-            class="c-icon"
+            class="emotion-10 emotion-11"
+            data-icon=""
             data-license="Apache License 2.0"
             data-severity="danger"
             data-source="Material Design"
             fill="currentColor"
-            height="1em"
             preserveAspectRatio="xMidYMid meet"
-            style="vertical-align: middle;"
             viewBox="0 0 24 24"
-            width="1em"
           >
             <path
               d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z"
@@ -523,19 +542,17 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
         </button>
       </div>
       <div
-        class="emotion-10"
+        class="emotion-12"
       >
         <svg
           aria-hidden="true"
-          class="c-icon emotion-11"
+          class="emotion-13 emotion-11"
+          data-icon=""
           data-license="Apache License 2.0"
           data-source="Material Design"
           fill="currentColor"
-          height="1em"
           preserveAspectRatio="xMidYMid meet"
-          style="vertical-align: middle;"
           viewBox="0 0 24 24"
-          width="1em"
         >
           <path
             d="M0 0h24v24H0z"
@@ -548,7 +565,7 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
         Testmessage
       </div>
       <div
-        class="emotion-12"
+        class="emotion-15"
       />
     </div>
   </div>
@@ -999,6 +1016,18 @@ exports[`Messages A single message renders correctly 1`] = `
 }
 
 .emotion-10 {
+  display: inline-block;
+  fill: currentColor;
+  vertical-align: middle;
+  line-height: 1em;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+}
+
+.emotion-12 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1006,12 +1035,21 @@ exports[`Messages A single message renders correctly 1`] = `
   gap: 12px;
 }
 
-.emotion-11 {
+.emotion-13 {
+  display: inline-block;
+  fill: currentColor;
+  vertical-align: middle;
+  line-height: 1em;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
   width: 27px;
   height: 27px;
 }
 
-.emotion-12 {
+.emotion-15 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1087,16 +1125,14 @@ exports[`Messages A single message renders correctly 1`] = `
         >
           <svg
             aria-hidden="true"
-            class="c-icon"
+            class="emotion-10 emotion-11"
+            data-icon=""
             data-license="Apache License 2.0"
             data-severity="danger"
             data-source="Material Design"
             fill="currentColor"
-            height="1em"
             preserveAspectRatio="xMidYMid meet"
-            style="vertical-align: middle;"
             viewBox="0 0 24 24"
-            width="1em"
           >
             <path
               d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z"
@@ -1109,19 +1145,17 @@ exports[`Messages A single message renders correctly 1`] = `
         </button>
       </div>
       <div
-        class="emotion-10"
+        class="emotion-12"
       >
         <svg
           aria-hidden="true"
-          class="c-icon emotion-11"
+          class="emotion-13 emotion-11"
+          data-icon=""
           data-license="Apache License 2.0"
           data-source="Material Design"
           fill="currentColor"
-          height="1em"
           preserveAspectRatio="xMidYMid meet"
-          style="vertical-align: middle;"
           viewBox="0 0 24 24"
-          width="1em"
         >
           <path
             d="M0 0h24v24H0z"
@@ -1134,7 +1168,7 @@ exports[`Messages A single message renders correctly 1`] = `
         Testmessage
       </div>
       <div
-        class="emotion-12"
+        class="emotion-15"
       />
     </div>
   </div>
@@ -1561,6 +1595,18 @@ exports[`Messages Several messages renders correctly 1`] = `
 }
 
 .emotion-10 {
+  display: inline-block;
+  fill: currentColor;
+  vertical-align: middle;
+  line-height: 1em;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+}
+
+.emotion-12 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1568,12 +1614,21 @@ exports[`Messages Several messages renders correctly 1`] = `
   gap: 12px;
 }
 
-.emotion-11 {
+.emotion-13 {
+  display: inline-block;
+  fill: currentColor;
+  vertical-align: middle;
+  line-height: 1em;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
   width: 27px;
   height: 27px;
 }
 
-.emotion-12 {
+.emotion-15 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1651,16 +1706,14 @@ exports[`Messages Several messages renders correctly 1`] = `
         >
           <svg
             aria-hidden="true"
-            class="c-icon"
+            class="emotion-10 emotion-11"
+            data-icon=""
             data-license="Apache License 2.0"
             data-severity="danger"
             data-source="Material Design"
             fill="currentColor"
-            height="1em"
             preserveAspectRatio="xMidYMid meet"
-            style="vertical-align: middle;"
             viewBox="0 0 24 24"
-            width="1em"
           >
             <path
               d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z"
@@ -1673,19 +1726,17 @@ exports[`Messages Several messages renders correctly 1`] = `
         </button>
       </div>
       <div
-        class="emotion-10"
+        class="emotion-12"
       >
         <svg
           aria-hidden="true"
-          class="c-icon emotion-11"
+          class="emotion-13 emotion-11"
+          data-icon=""
           data-license="Apache License 2.0"
           data-source="Material Design"
           fill="currentColor"
-          height="1em"
           preserveAspectRatio="xMidYMid meet"
-          style="vertical-align: middle;"
           viewBox="0 0 24 24"
-          width="1em"
         >
           <path
             d="M0 0h24v24H0z"
@@ -1698,7 +1749,7 @@ exports[`Messages Several messages renders correctly 1`] = `
         Testmessage
       </div>
       <div
-        class="emotion-12"
+        class="emotion-15"
       />
     </div>
   </div>
@@ -1747,16 +1798,14 @@ exports[`Messages Several messages renders correctly 1`] = `
         >
           <svg
             aria-hidden="true"
-            class="c-icon"
+            class="emotion-10 emotion-11"
+            data-icon=""
             data-license="Apache License 2.0"
             data-severity="danger"
             data-source="Material Design"
             fill="currentColor"
-            height="1em"
             preserveAspectRatio="xMidYMid meet"
-            style="vertical-align: middle;"
             viewBox="0 0 24 24"
-            width="1em"
           >
             <path
               d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z"
@@ -1769,19 +1818,17 @@ exports[`Messages Several messages renders correctly 1`] = `
         </button>
       </div>
       <div
-        class="emotion-10"
+        class="emotion-12"
       >
         <svg
           aria-hidden="true"
-          class="c-icon emotion-11"
+          class="emotion-13 emotion-11"
+          data-icon=""
           data-license="Apache License 2.0"
           data-source="Material Design"
           fill="currentColor"
-          height="1em"
           preserveAspectRatio="xMidYMid meet"
-          style="vertical-align: middle;"
           viewBox="0 0 24 24"
-          width="1em"
         >
           <path
             d="M0 0h24v24H0z"
@@ -1794,7 +1841,7 @@ exports[`Messages Several messages renders correctly 1`] = `
         Testmessage2
       </div>
       <div
-        class="emotion-12"
+        class="emotion-15"
       />
     </div>
   </div>
@@ -2221,6 +2268,18 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
 }
 
 .emotion-10 {
+  display: inline-block;
+  fill: currentColor;
+  vertical-align: middle;
+  line-height: 1em;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+}
+
+.emotion-12 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -2228,12 +2287,21 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
   gap: 12px;
 }
 
-.emotion-11 {
+.emotion-13 {
+  display: inline-block;
+  fill: currentColor;
+  vertical-align: middle;
+  line-height: 1em;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
   width: 27px;
   height: 27px;
 }
 
-.emotion-12 {
+.emotion-15 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -2248,7 +2316,7 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
   margin-top: 12px;
 }
 
-.emotion-13 {
+.emotion-16 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -2288,39 +2356,39 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
   margin-left: 0;
 }
 
-.emotion-13:hover,
-.emotion-13:focus-visible {
+.emotion-16:hover,
+.emotion-16:focus-visible {
   color: #20588f;
   background-color: #ceddea;
   border-color: #ceddea;
 }
 
-.emotion-13[disabled] {
+.emotion-16[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-13:where([lang='zh'], .emotion-13[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-16:where([lang='zh'], .emotion-16[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(16px * 1.11);
   font-size: calc(0.8888888888888888rem * 1.11);
 }
 
-.emotion-13:hover {
+.emotion-16:hover {
   color: #fff;
   background: #20588f;
   border-color: #20588f;
 }
 
-.emotion-13[disabled] {
+.emotion-16[disabled] {
   color: #777777;
   background-color: transparent;
   border-color: #777777;
   cursor: not-allowed;
 }
 
-.emotion-13:only-child {
+.emotion-16:only-child {
   margin-left: auto;
 }
 
@@ -2385,16 +2453,14 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
         >
           <svg
             aria-hidden="true"
-            class="c-icon"
+            class="emotion-10 emotion-11"
+            data-icon=""
             data-license="Apache License 2.0"
             data-severity="danger"
             data-source="Material Design"
             fill="currentColor"
-            height="1em"
             preserveAspectRatio="xMidYMid meet"
-            style="vertical-align: middle;"
             viewBox="0 0 24 24"
-            width="1em"
           >
             <path
               d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z"
@@ -2407,19 +2473,17 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
         </button>
       </div>
       <div
-        class="emotion-10"
+        class="emotion-12"
       >
         <svg
           aria-hidden="true"
-          class="c-icon emotion-11"
+          class="emotion-13 emotion-11"
+          data-icon=""
           data-license="Apache License 2.0"
           data-source="Material Design"
           fill="currentColor"
-          height="1em"
           preserveAspectRatio="xMidYMid meet"
-          style="vertical-align: middle;"
           viewBox="0 0 24 24"
-          width="1em"
         >
           <path
             d="M0 0h24v24H0z"
@@ -2432,16 +2496,16 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
         Testmessage
       </div>
       <div
-        class="emotion-12"
+        class="emotion-15"
       >
         <button
-          class="emotion-13"
+          class="emotion-16"
           type="button"
         >
           Avbryt
         </button>
         <button
-          class="emotion-13"
+          class="emotion-16"
           type="button"
         >
           Logg inn på nytt

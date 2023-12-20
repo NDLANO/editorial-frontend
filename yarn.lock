@@ -2505,12 +2505,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/article-converter@npm:^6.0.33":
-  version: 6.0.33
-  resolution: "@ndla/article-converter@npm:6.0.33"
+"@ndla/article-converter@npm:^6.0.35":
+  version: 6.0.37
+  resolution: "@ndla/article-converter@npm:6.0.37"
   dependencies:
     "@ndla/code": "npm:^5.0.25"
-    "@ndla/ui": "npm:^50.6.1"
+    "@ndla/ui": "npm:^50.6.5"
     html-react-parser: "npm:^4.2.2"
     lodash: "npm:^4.17.20"
   peerDependencies:
@@ -2521,7 +2521,7 @@ __metadata:
     react-dom: ">= 16.8.0"
     react-i18next: ^13.3.0
     react-router-dom: ">= 6.0.0"
-  checksum: d3423bb8aaad15880e85830d217b808d37c4733b8c194ac4852bf02617bf28ad907597a193432209b7bd2721ce00b02c3dd759599142fe96fd7e4208cf0fd786
+  checksum: c9f10241e257d725c1171aca2948788bef685679aa797c48a1b42a7ebe162c7e434964985a628f6a0769d5ab30a84f841f1822cea64a11f9526f91d7d77341fa
   languageName: node
   linkType: hard
 
@@ -2662,9 +2662,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/howto@npm:^4.1.45":
-  version: 4.1.45
-  resolution: "@ndla/howto@npm:4.1.45"
+"@ndla/howto@npm:^4.1.47":
+  version: 4.1.49
+  resolution: "@ndla/howto@npm:4.1.49"
   dependencies:
     "@ndla/button": "npm:^12.0.20"
     "@ndla/core": "npm:^4.3.1"
@@ -2673,7 +2673,7 @@ __metadata:
     "@ndla/modal": "npm:^5.0.20"
     "@ndla/notion": "npm:^6.0.21"
     "@ndla/tooltip": "npm:^6.0.9"
-    "@ndla/ui": "npm:^50.6.1"
+    "@ndla/ui": "npm:^50.6.5"
     "@ndla/util": "npm:^4.0.3"
   peerDependencies:
     "@emotion/react": ^11.10.4
@@ -2684,7 +2684,7 @@ __metadata:
     react-dom: ">= 16.8.0"
     react-i18next: ">= 13.0.0"
     react-router-dom: ">= 6.0.0"
-  checksum: 0042204e553b210226d63fd910a4aec0ab22706128330e73596359984b81cdb2e6f926f733e9993ca676cf3afece9f3b48532c99b5caf9ae83b89c6dd8472588
+  checksum: c29c76d90a60e010f96a2fe785dc436bce806e14094f10b660f07cfdb6954853c911e6d50707d4d12d3c4bcc14009729164e747dbc1c4c7ad800f3b29474b77a
   languageName: node
   linkType: hard
 
@@ -2701,16 +2701,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/image-search@npm:^6.0.142":
-  version: 6.0.142
-  resolution: "@ndla/image-search@npm:6.0.142"
+"@ndla/image-search@npm:^6.0.144":
+  version: 6.0.146
+  resolution: "@ndla/image-search@npm:6.0.146"
   dependencies:
     "@ndla/button": "npm:^12.0.20"
     "@ndla/core": "npm:^4.3.1"
     "@ndla/forms": "npm:^5.2.10"
     "@ndla/icons": "npm:^5.0.0"
     "@ndla/pager": "npm:^2.2.45"
-    "@ndla/ui": "npm:^50.6.1"
+    "@ndla/ui": "npm:^50.6.5"
     "@ndla/util": "npm:^4.0.3"
     pretty-bytes: "npm:^5.6.0"
   peerDependencies:
@@ -2722,7 +2722,7 @@ __metadata:
     react-dom: ">= 16.8.0"
     react-i18next: ">= 13.0.0"
     react-router-dom: ">= 6.0.0"
-  checksum: 1319a6af980ba774020c5934874a7616dc354427f8f3321b5e371ebafb72260a5607a7e738548990a0dd7e6dea25d2b7db436f671baad058ccc0d26a8f4269f6
+  checksum: 0d91d58f487647cdbcf468b6a8836893ff7d3fadafd01b1b58c2529440d37860e5f3693bf5f4b5e9666c36a08bf0d1b29d13bca6813fdc0543070a936ded05d7
   languageName: node
   linkType: hard
 
@@ -2920,9 +2920,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/ui@npm:^50.6.1":
-  version: 50.6.1
-  resolution: "@ndla/ui@npm:50.6.1"
+"@ndla/ui@npm:^50.6.3, @ndla/ui@npm:^50.6.5":
+  version: 50.6.5
+  resolution: "@ndla/ui@npm:50.6.5"
   dependencies:
     "@ndla/accordion": "npm:^3.0.15"
     "@ndla/button": "npm:^12.0.20"
@@ -2960,7 +2960,7 @@ __metadata:
     react-dom: ">= 16.8.0"
     react-i18next: ^13.3.0
     react-router-dom: "> 6.0.0"
-  checksum: 4d173e14b5b7cbbc66eb77ab29448cb70feb0c89ad6b3091cfa2d8dc389d53cbdd204d4cde19146392856669aa47d47e6ed149676376453493a713524835d33e
+  checksum: 93abc181288741f00ca2a9b8757dea2ff12cf130b37d4827b083f5738ca8e3c13759625511122c10b177dad24e491a5e0e6c5859d2001b755ee4d9e58ca3fee9
   languageName: node
   linkType: hard
 
@@ -7616,15 +7616,15 @@ __metadata:
     "@loadable/babel-plugin": "npm:^5.15.3"
     "@loadable/component": "npm:^5.15.0"
     "@ndla/accordion": "npm:^3.0.15"
-    "@ndla/article-converter": "npm:^6.0.33"
+    "@ndla/article-converter": "npm:^6.0.35"
     "@ndla/audio-search": "npm:^4.0.51"
     "@ndla/button": "npm:^12.0.20"
     "@ndla/code": "npm:^5.0.25"
     "@ndla/error-reporter": "npm:^1.0.36"
     "@ndla/forms": "npm:^5.2.10"
-    "@ndla/howto": "npm:^4.1.45"
+    "@ndla/howto": "npm:^4.1.47"
     "@ndla/icons": "npm:^5.0.0"
-    "@ndla/image-search": "npm:^6.0.142"
+    "@ndla/image-search": "npm:^6.0.144"
     "@ndla/licenses": "npm:^7.2.4"
     "@ndla/modal": "npm:^5.0.20"
     "@ndla/notion": "npm:^6.0.21"
@@ -7640,7 +7640,7 @@ __metadata:
     "@ndla/types-embed": "npm:^4.0.11"
     "@ndla/types-taxonomy": "npm:^1.0.21"
     "@ndla/typography": "npm:^0.4.4"
-    "@ndla/ui": "npm:^50.6.1"
+    "@ndla/ui": "npm:^50.6.3"
     "@ndla/util": "npm:^4.0.3"
     "@ndla/video-search": "npm:^5.0.2"
     "@playwright/test": "npm:^1.39.0"

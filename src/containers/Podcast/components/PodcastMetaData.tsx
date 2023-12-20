@@ -51,6 +51,7 @@ const PodcastMetaData = ({ language, onImageLoad }: Props) => {
               showRemoveButton
               onImageLoad={onImageLoad}
               language={language}
+              podcastFriendly={true}
               {...field}
             />
           );

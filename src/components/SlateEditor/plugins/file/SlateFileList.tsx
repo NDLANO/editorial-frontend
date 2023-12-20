@@ -7,7 +7,7 @@
  */
 
 import { TFunction } from 'i18next';
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Editor, Element, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
@@ -71,9 +71,12 @@ const SlateFileList = ({ element, editor, attributes, children }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onEditFileList = (data: File[]) => {
-    Transforms.setNodes(editor, { data }, { at: ReactEditor.findPath(editor, element) });
-  };
+  const onEditFileList = useCallback(
+    (data: File[]) => {
+      Transforms.setNodes(editor, { data }, { at: ReactEditor.findPath(editor, element) });
+    },
+    [editor, element],
+  );
 
   const removeFileList = () => {
     const path = ReactEditor.findPath(editor, element);

@@ -83,9 +83,10 @@ const LMASubjects = ({ ndlaId }: Props) => {
 
   const userHasSubjectLMA = !!subjectsQuery.data?.length;
 
+  const allSubjectIds = useMemo(() => subjectsQuery.data?.map((s) => s.id), [subjectsQuery.data]);
   const subjectIds: string[] | undefined = useMemo(
-    () => (filterSubject ? [filterSubject.value] : subjectsQuery.data?.map((s) => s.id)),
-    [filterSubject, subjectsQuery.data],
+    () => (filterSubject ? [filterSubject.value] : allSubjectIds),
+    [allSubjectIds, filterSubject],
   );
 
   const searchQuery = useSearch(
@@ -173,7 +174,7 @@ const LMASubjects = ({ ndlaId }: Props) => {
             />
             <ControlWrapperDashboard>
               <SubjectDropdown
-                subjectIds={subjectIds || []}
+                subjectIds={allSubjectIds || []}
                 filterSubject={filterSubject}
                 setFilterSubject={setFilterSubject}
               />

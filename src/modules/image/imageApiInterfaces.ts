@@ -13,5 +13,5 @@ export interface ImageSearchQuery {
   language?: string;
   sort?: string;
   fallback?: boolean;
-  podcastFriendly?: boolean;
+  'podcast-friendly'?: boolean;
 }

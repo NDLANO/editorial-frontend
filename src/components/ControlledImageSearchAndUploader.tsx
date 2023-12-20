@@ -73,7 +73,7 @@ const ImageSearchAndUploader = ({
       'page-size': 16,
       language: language,
       fallback: true,
-      podcastFriendly,
+      'podcast-friendly': podcastFriendly,
     });
   };
   const imageLicenses = draftLicensesToImageLicenses(licenses ?? []);

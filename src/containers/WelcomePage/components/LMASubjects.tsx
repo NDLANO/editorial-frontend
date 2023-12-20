@@ -30,7 +30,9 @@ import {
   ControlWrapperDashboard,
   StyledDashboardInfo,
   StyledLink,
+  StyledSwitch,
   StyledTopRowDashboardInfo,
+  SwitchWrapper,
 } from '../styles';
 
 const EXCLUDE_STATUSES = [PUBLISHED, UNPUBLISHED, ARCHIVED];
@@ -64,6 +66,7 @@ interface Props {
 
 const LMASubjects = ({ ndlaId }: Props) => {
   const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
+  const [hideOnHold, setHideOnHold] = useState(false);
   const { i18n, t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
 
@@ -90,6 +93,7 @@ const LMASubjects = ({ ndlaId }: Props) => {
       'page-size': 0,
       'aggregate-paths': 'draftStatus.current',
       subjects: subjectIds?.join(', '),
+      ...(hideOnHold ? { priority: 'prioritized,unspecified' } : {}),
     },
     {
       enabled: userHasSubjectLMA,
@@ -173,6 +177,14 @@ const LMASubjects = ({ ndlaId }: Props) => {
                 filterSubject={filterSubject}
                 setFilterSubject={setFilterSubject}
               />
+              <SwitchWrapper>
+                <StyledSwitch
+                  checked={hideOnHold}
+                  onChange={(checked) => setHideOnHold(checked)}
+                  label={t('welcomePage.workList.onHoldFilter')}
+                  id="filter-on-hold-switch"
+                />
+              </SwitchWrapper>
             </ControlWrapperDashboard>
           </StyledTopRowDashboardInfo>
           <TableComponent

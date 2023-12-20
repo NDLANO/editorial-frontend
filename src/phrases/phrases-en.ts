@@ -165,6 +165,7 @@ const phrases = {
       onHold: 'On hold',
       onHoldHeading: 'Resources on hold',
       onHoldDescription: 'Resources on hold where you are responsible',
+      onHoldFilter: 'Hide articles on hold',
     },
     welcomeBack: 'Welcome',
   },

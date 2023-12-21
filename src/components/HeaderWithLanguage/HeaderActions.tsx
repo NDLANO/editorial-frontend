@@ -230,7 +230,7 @@ const HeaderActions = ({
                 type="version"
                 article={lastPublishedVersion}
                 language={language}
-                customTitle="form.previewProductionArticle.published"
+                customTitle={t('form.previewProductionArticle.published')}
                 activateButton={
                   <StyledFilledButton type="button">
                     <Eye /> {t('form.previewVersion')}

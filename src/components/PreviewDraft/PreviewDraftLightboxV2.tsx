@@ -153,9 +153,8 @@ const PreviewVersion = ({ article, language, customTitle }: VersionPreviewProps)
       <div>
         <div className="u-4/6@desktop u-push-1/6@desktop">
           <h2>
-            {customTitle
-              ? t(customTitle)
-              : t('form.previewProductionArticle.version', { revision: article.revision })}
+            {customTitle ??
+              t('form.previewProductionArticle.version', { revision: article.revision })}
           </h2>
         </div>
         <PreviewDraft

@@ -49,11 +49,6 @@ const StyledFormikField = styled(FormikField)`
   margin: 0;
 `;
 
-const SeriesContent = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
 const PodcastSeries = () => {
   const { t, i18n } = useTranslation();
 
@@ -78,21 +73,17 @@ const PodcastSeries = () => {
           <FieldHeader title={t('podcastForm.fields.series')} />
           {field.value ? (
             <PodcastSeriesElement>
-              <SeriesContent>
+              <div>
                 <ElementImage element={{ ...field.value, metaImage: field.value.coverPhoto }} />
-                {field.value.id ? (
+                {field.value.id && (
                   <StyledSafeLink
                     to={toEditPodcastSeries(field.value.id, i18n.language)}
                     target="_blank"
                   >
                     {field.value.title.title}
                   </StyledSafeLink>
-                ) : (
-                  <Text textStyle="content-alt" margin="none">
-                    {field.value.title.title}
-                  </Text>
                 )}
-              </SeriesContent>
+              </div>
               <IconButtonV2
                 aria-label={t('podcastForm.information.removeSeries')}
                 title={t('podcastForm.information.removeSeries')}

@@ -29,7 +29,6 @@ import {
 import { resolveVoidOrRejectWithError } from '../../util/resolveJsonOrRejectWithError';
 
 const baseUrl: string = apiResourceUrl('/draft-api/v1/drafts');
-const baseAgreementsUrl: string = apiResourceUrl('/draft-api/v1/agreements');
 const baseFileUrl: string = apiResourceUrl('/draft-api/v1/files');
 const baseUserDataUrl: string = apiResourceUrl('/draft-api/v1/user-data');
 

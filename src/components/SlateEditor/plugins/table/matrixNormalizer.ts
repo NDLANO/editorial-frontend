@@ -7,7 +7,7 @@
  */
 
 import compact from 'lodash/compact';
-import { Editor, Path, Transforms, Node } from 'slate';
+import { Editor, Path, Transforms } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { defaultTableRowBlock } from './defaultBlocks';
 import { TableMatrix, TableHeadElement, TableBodyElement } from './interfaces';

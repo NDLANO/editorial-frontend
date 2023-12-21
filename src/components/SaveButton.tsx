@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { css, SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
-import { colors, fonts, spacing } from '@ndla/core';
+import { colors } from '@ndla/core';
 import { Check } from '@ndla/icons/editor';
 
 export const saveButtonAppearances: Record<string, SerializedStyles> = {

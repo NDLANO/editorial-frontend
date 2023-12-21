@@ -8,7 +8,6 @@
 
 import { Form, Formik, FormikHelpers } from 'formik';
 import { useState } from 'react';
-import { IArticle } from '@ndla/types-backend/draft-api';
 import SaveMultiButton from '../../../components/SaveMultiButton';
 import GrepCodesField from '../../FormikForm/GrepCodesField';
 

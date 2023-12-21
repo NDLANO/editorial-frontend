@@ -10,14 +10,13 @@ import { ReactNode } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { act, renderHook } from '@testing-library/react';
 import IntlWrapper from '../../../util/__tests__/IntlWrapper';
-import { MessagesProvider, NewMessageType, useMessages } from '../MessagesProvider';
+import { MessagesProvider, useMessages } from '../MessagesProvider';
 
 interface WrapperProps {
   children?: ReactNode;
-  initialValues?: NewMessageType[];
 }
 
-const wrapper = ({ children, initialValues }: WrapperProps) => (
+const wrapper = ({ children }: WrapperProps) => (
   <MemoryRouter>
     <IntlWrapper>
       <MessagesProvider>{children}</MessagesProvider>

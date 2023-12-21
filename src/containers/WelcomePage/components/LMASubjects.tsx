@@ -57,7 +57,15 @@ const getResultAggregationList = (
     return { ...aggData, responsibleCount: responsibleAgg?.count ?? 0 };
   });
 
-  return resultList.sort((a, b) => STATUS_ORDER.indexOf(a.value) - STATUS_ORDER.indexOf(b.value));
+  const withMissingStatuses = STATUS_ORDER.map((s) => {
+    const aggregationData = resultList.find((r) => r.value === s);
+    return {
+      value: s,
+      count: aggregationData ? aggregationData.count : 0,
+      responsibleCount: aggregationData ? aggregationData.responsibleCount : 0,
+    };
+  });
+  return withMissingStatuses;
 };
 
 interface Props {

@@ -29,6 +29,19 @@ interface MessageProps {
   dragElement: string;
 }
 
+const DraggableIconButton = styled(IconButtonV2)`
+  cursor: grabbing;
+`;
+interface ElementImageProps {
+  element: ElementType;
+}
+
+export const ElementImage = ({ element }: ElementImageProps) => (
+  <StyledElementImage
+    src={(element.metaImage?.url && `${element.metaImage.url}?width=100`) || '/placeholder.png'}
+    alt={element.metaImage?.alt || ''}
+  />
+);
 interface Props {
   deleteFile: (deleteIndex: number) => void;
   articleType?: string;
@@ -44,10 +57,6 @@ interface Props {
   onDragStart: (evt: MouseEvent<HTMLButtonElement>, dragIndex: number) => void;
   showDragTooltip: boolean;
 }
-
-const DraggableIconButton = styled(IconButtonV2)`
-  cursor: grabbing;
-`;
 
 const ElementListItem = ({
   deleteFile,
@@ -77,12 +86,7 @@ const ElementListItem = ({
       onAnimationEnd={deleteIndex === index ? executeDeleteFile : undefined}
     >
       <div>
-        <StyledElementImage
-          src={
-            (element.metaImage?.url && `${element.metaImage.url}?width=100`) || '/placeholder.png'
-          }
-          alt={element.metaImage?.alt || ''}
-        />
+        <ElementImage element={element} />
         {linkProps.to ? (
           <Link to={linkProps.to} target="_blank" rel="noopener noreferrer">
             {element.title?.title}

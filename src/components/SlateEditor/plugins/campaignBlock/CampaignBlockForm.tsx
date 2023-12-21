@@ -65,7 +65,8 @@ const rules: RulesType<CampaignBlockFormValues> = {
     url: false,
   },
   linkText: {
-    required: false,
+    required: true,
+    onlyValidateIf: (value) => !!value.link,
   },
   metaImageAlt: {
     required: true,

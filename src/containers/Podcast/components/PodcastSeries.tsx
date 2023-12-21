@@ -55,8 +55,7 @@ const SeriesContent = styled.div`
 `;
 
 const PodcastSeries = () => {
-  const { t } = useTranslation();
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const searchForSeries = async (
     query: string,

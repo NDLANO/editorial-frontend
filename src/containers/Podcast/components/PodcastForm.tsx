@@ -17,7 +17,7 @@ import {
   INewAudioMetaInformation,
 } from '@ndla/types-backend/audio-api';
 import PodcastMetaData from './PodcastMetaData';
-import PodcastSeriesInformation from './PodcastSeriesInformation';
+import PodcastSeries from './PodcastSeries';
 import FormAccordion from '../../../components/Accordion/FormAccordion';
 import FormAccordions from '../../../components/Accordion/FormAccordions';
 import Field from '../../../components/Field';
@@ -282,7 +282,7 @@ const PodcastForm = ({
                       validateForm();
                     }}
                   />
-                  <PodcastSeriesInformation />
+                  <PodcastSeries />
                 </FormAccordion>
                 <FormAccordion
                   id="audio-upload-copyright"

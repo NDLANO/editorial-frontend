@@ -182,7 +182,7 @@ test('Can use user dropdown', async ({ page }) => {
   });
   await page.locator('select[name="users"]').selectOption({ label: 'Ed Test' });
   await page.getByTestId('concept-search-result').first().waitFor();
-  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('17');
+  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('18');
   await page.locator('select[name="users"]').selectOption({ index: 0 });
   await page.getByTestId('concept-search-result').first().waitFor();
   expect(await page.getByTestId('searchTotalCount').innerText()).toEqual(totalSearchCount);

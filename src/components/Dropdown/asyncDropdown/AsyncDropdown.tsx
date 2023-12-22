@@ -7,7 +7,7 @@
  */
 import Downshift, { GetInputPropsOptions, StateChangeOptions } from 'downshift';
 import debounce from 'lodash/debounce';
-import React, { ChangeEvent, Ref, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, Ref, useCallback, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 //@ts-ignore

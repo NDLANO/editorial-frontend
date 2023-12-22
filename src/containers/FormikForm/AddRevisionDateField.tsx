@@ -61,8 +61,7 @@ const StyledDatePickerWrapper = styled.div`
   height: ${spacing.large};
 `;
 
-const StyledRemoveButton = styled(FieldRemoveButton)<{ visible?: boolean }>`
-  visibility: ${({ visible }) => (visible ? 'visible' : 'hidden')};
+const StyledRemoveButton = styled(FieldRemoveButton)`
   height: 100%;
   padding-top: 0;
   [data-icon] {
@@ -167,7 +166,7 @@ const AddRevisionDateField = ({ formikField, showError }: Props) => {
                 </Tooltip>
                 <Tooltip tooltip={t('form.revisions.deleteTooltip')}>
                   <div>
-                    <StyledRemoveButton visible onClick={() => removeRevision(index)} />
+                    <StyledRemoveButton data-visible={true} onClick={() => removeRevision(index)} />
                   </div>
                 </Tooltip>
               </VerticalCenter>

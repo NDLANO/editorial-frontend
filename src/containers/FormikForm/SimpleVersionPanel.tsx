@@ -59,7 +59,7 @@ const SimpleVersionPanel = ({ editorNotes }: Props) => {
     if (numNotes > 0) {
       const notes = editorNotes ?? [];
       const userIds = notes.map((note) => note.updatedBy).filter((user) => user !== 'System');
-      fetchAuth0UsersFromUserIds(userIds, setUsers).then((r) => {
+      fetchAuth0UsersFromUserIds(userIds, setUsers).then(() => {
         if (shouldUpdate) setLoading(false);
       });
     }

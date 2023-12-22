@@ -18,11 +18,9 @@ import { TYPE_PARAGRAPH } from '../paragraph/types';
 import { TYPE_SECTION } from '../section/types';
 import { TYPE_TABLE_CAPTION } from '../table/types';
 
-const onDragOver =
-  (editor: Editor): DragEventHandler<HTMLDivElement> =>
-  (event) => {
-    event.preventDefault();
-  };
+const onDragOver = (): DragEventHandler<HTMLDivElement> => (event) => {
+  event.preventDefault();
+};
 
 const onDragStart =
   (editor: Editor): DragEventHandler<HTMLDivElement> =>

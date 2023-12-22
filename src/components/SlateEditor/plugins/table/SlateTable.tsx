@@ -6,7 +6,7 @@
  *
  */
 
-import { MouseEvent, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Editor } from 'slate';
 import { RenderElementProps } from 'slate-react';
@@ -87,7 +87,7 @@ const SlateTable = ({ attributes, children, element, editor }: Props) => {
       <StyledTable css={TableStyling} {...attributes}>
         <DeleteButton
           variant="stripped"
-          onClick={(e: MouseEvent<HTMLButtonElement>) => removeTable(editor, element)}
+          onClick={() => removeTable(editor, element)}
           data-testid="table-remove"
           aria-label={t('form.content.table.table-remove')}
           tabIndex={-1}

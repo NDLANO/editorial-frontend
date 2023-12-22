@@ -7,14 +7,10 @@
  */
 
 import sortBy from 'lodash/sortBy';
-import uniq from 'lodash/uniq';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
 import { Select, SingleValue } from '@ndla/select';
 import { useSearchNodes } from '../../../../modules/nodes/nodeQueries';
-import { useSearch } from '../../../../modules/search/searchQueries';
-import { useSession } from '../../../Session/SessionProvider';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import { DropdownWrapper } from '../../styles';
 

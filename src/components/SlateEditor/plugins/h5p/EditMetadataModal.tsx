@@ -6,7 +6,7 @@
  *
  */
 
-import { ChangeEvent, useCallback, useMemo, useState } from 'react';
+import { ChangeEvent, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Editor, Path, Transforms } from 'slate';
 import { ReactEditor } from 'slate-react';

@@ -21,7 +21,7 @@ export interface MathmlElement {
 }
 
 export const mathmlSerializer: SlateSerializer = {
-  deserialize(el: HTMLElement, children: Descendant[]) {
+  deserialize(el: HTMLElement) {
     if (el.tagName.toLowerCase() !== 'math') return;
     return slatejsx(
       'element',

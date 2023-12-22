@@ -6,7 +6,6 @@
  *
  */
 
-import { SyntheticEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import FormikField from '../../../components/FormikField';

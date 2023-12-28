@@ -12,7 +12,7 @@ import serialize from 'serialize-javascript';
 import { GoogleTagMangerScript, GoogleTagMangerNoScript } from './Gtm';
 import config from '../config';
 
-const assets = require(process.env.RAZZLE_ASSETS_MANIFEST as string); // eslint-disable-line import/no-dynamic-require
+const assets = require(process.env.ASSETS_MANIFEST as string); // eslint-disable-line import/no-dynamic-require
 
 interface Props {
   lang: string;

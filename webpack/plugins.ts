@@ -2,10 +2,13 @@
  * Copyright (c) 2022-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
 import path from 'path';
+import CopyPlugin from 'copy-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import webpack, {
   DefinePlugin,
   HotModuleReplacementPlugin,
@@ -13,10 +16,8 @@ import webpack, {
   WatchIgnorePlugin,
   WebpackPluginInstance,
 } from 'webpack';
-import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
-import CopyPlugin from 'copy-webpack-plugin';
+import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 
 export const clientPlugins: WebpackPluginInstance[] = [
   new ProvidePlugin({
@@ -28,9 +29,9 @@ export const clientPlugins: WebpackPluginInstance[] = [
     writeToFileEmit: true,
   }),
   new DefinePlugin({
-    'process.env.RAZZLE_ASSETS_MANIFEST': JSON.stringify(path.resolve('./build/assets.json')),
+    'process.env.ASSETS_MANIFEST': JSON.stringify(path.resolve('./build/assets.json')),
     'process.env.BUILD_TARGET': JSON.stringify('client'),
-    'process.env.RAZZLE_PUBLIC_DIR': JSON.stringify(
+    'process.env.PUBLIC_DIR': JSON.stringify(
       process.env.NODE_ENV === 'development' ? path.resolve('./build/public') : 'build/public',
     ),
   }),
@@ -55,9 +56,9 @@ export const clientPlugins: WebpackPluginInstance[] = [
 
 export const serverPlugins: WebpackPluginInstance[] = [
   new DefinePlugin({
-    'process.env.RAZZLE_ASSETS_MANIFEST': JSON.stringify(path.resolve('./build/assets.json')),
+    'process.env.ASSETS_MANIFEST': JSON.stringify(path.resolve('./build/assets.json')),
     'process.env.BUILD_TARGET': JSON.stringify('server'),
-    'process.env.RAZZLE_PUBLIC_DIR': JSON.stringify(
+    'process.env.PUBLIC_DIR': JSON.stringify(
       process.env.NODE_ENV === 'development' ? path.resolve('./public') : 'build/public',
     ),
   }),

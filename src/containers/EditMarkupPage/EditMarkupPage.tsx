@@ -43,12 +43,12 @@ declare global {
 window.MonacoEnvironment = {
   getWorkerUrl: function (moduleId: string, label: string) {
     if (label === 'html') {
-      return process.env.NODE_ENV !== 'production'
+      return !import.meta.env.PROD
         ? '/static/js/html.worker.js'
         : // @ts-ignore
           window.assets['html.worker.js'] ?? '';
     }
-    return process.env.NODE_ENV !== 'production'
+    return !import.meta.env.PROD
       ? '/static/js/editor.worker.js'
       : // @ts-ignore
         window.assets['editor.worker.js'] ?? '';

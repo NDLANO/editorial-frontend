@@ -12,7 +12,7 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import { OneColumn } from '@ndla/ui';
 import NdlaFilmForm from './components/NdlaFilmForm';
 import Spinner from '../../components/Spinner';
-import { getDefaultLanguage } from '../../config';
+import config from '../../config';
 import { isValidLocale } from '../../i18n';
 import { useFilmFrontpageQuery } from '../../modules/frontpage/filmQueries';
 import NotFound from '../NotFoundPage/NotFoundPage';
@@ -20,7 +20,7 @@ import NotFound from '../NotFoundPage/NotFoundPage';
 const NdlaFilmEditor = () => {
   const filmFrontpageQuery = useFilmFrontpageQuery();
   const { selectedLanguage } = useParams<'selectedLanguage'>();
-  const selectedLangOrDefault = selectedLanguage ?? getDefaultLanguage();
+  const selectedLangOrDefault = selectedLanguage ?? config.defaultLanguage;
   const { t } = useTranslation();
 
   if (!isValidLocale(selectedLangOrDefault)) {

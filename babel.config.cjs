@@ -12,11 +12,5 @@ module.exports = {
     ],
   ],
 
-  plugins: [
-    ['@emotion', { autoLabel: 'always' }],
-    '@loadable/babel-plugin',
-    process.env.BABEL_ENV === 'development' && process.env.BUILD_TARGET === 'client'
-      ? 'react-refresh/babel'
-      : false,
-  ].filter((e) => !!e),
+  plugins: [['@emotion', { autoLabel: 'always' }], '@loadable/babel-plugin'],
 };

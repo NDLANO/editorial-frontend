@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "baseUrl": "src",
-    "target": "es6",
-    "module": "commonjs",
+    "target": "ES2017",
+    "module": "ES2022",
     "esModuleInterop": true,
     "outDir": "build",
     "jsx": "react-jsx",
@@ -15,7 +15,7 @@
     "noEmit": false,
     "sourceMap": true,
     "skipLibCheck": true,
-    "lib": ["es2020", "esnext.asynciterable", "dom"],
+    "lib": ["es2021", "esnext.asynciterable", "dom"],
     "types": [
       "@emotion/react",
       "@emotion/styled",

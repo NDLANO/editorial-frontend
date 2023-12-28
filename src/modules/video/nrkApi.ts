@@ -15,7 +15,7 @@ const corsAnywhereUrl = `${
 }`;
 
 const baseUrl =
-  process.env.NODE_ENV === 'unittest'
+  import.meta.env.NODE_ENV === 'test'
     ? 'http://nrk-api'
     : corsAnywhereUrl + 'https://nrkno-skole-prod.kube.nrk.no';
 

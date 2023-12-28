@@ -16,7 +16,6 @@ const assets = require(process.env.ASSETS_MANIFEST as string); // eslint-disable
 
 interface Props {
   lang: string;
-  className: string;
   component?: ReactElement;
   state?: {
     locale?: string;
@@ -24,12 +23,12 @@ interface Props {
 }
 
 const Html = (props: Props) => {
-  const { lang, className, component, state = {} } = props;
+  const { lang, component, state = {} } = props;
 
   const content = component ? renderToString(component) : '';
 
   return (
-    <html lang={lang} className={className}>
+    <html lang={lang}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />

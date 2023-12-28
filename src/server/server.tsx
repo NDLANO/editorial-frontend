@@ -24,7 +24,6 @@ import {
   getResponsibles,
 } from './auth';
 import contentSecurityPolicy from './contentSecurityPolicy';
-import getConditionalClassnames from './getConditionalClassnames';
 import Html from './Html';
 import { translateDocument } from './translate';
 import config from '../config';
@@ -90,10 +89,8 @@ app.use(
   }),
 );
 
-const renderHtmlString = (locale: string, userAgentString?: string, state?: { locale: string }) =>
-  renderToString(
-    <Html lang={locale} state={state} className={getConditionalClassnames(userAgentString)} />,
-  );
+const renderHtmlString = (locale: string, state?: { locale: string }) =>
+  renderToString(<Html lang={locale} state={state} />);
 
 app.get('/robots.txt', (_, res) => {
   res.type('text/plain');
@@ -258,9 +255,8 @@ if (process.env.NODE_ENV === 'development') {
 app.get('*', (req, res) => {
   const paths = req.url.split('/');
   const { abbreviation: locale } = getLocaleObject(paths[1]);
-  const userAgentString = req.headers['user-agent'];
 
-  const htmlString = renderHtmlString(locale, userAgentString, { locale });
+  const htmlString = renderHtmlString(locale, { locale });
   res.send(`<!doctype html>\n${htmlString}`);
 });
 

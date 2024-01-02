@@ -45,6 +45,7 @@ interface Props {
   showCheckbox: boolean;
   checkboxAction: (image: IImageMetaInformationV3) => void;
   language?: string;
+  podcastFriendly?: boolean;
 }
 
 const MetaImageSearch = ({
@@ -57,6 +58,7 @@ const MetaImageSearch = ({
   showCheckbox,
   checkboxAction,
   language,
+  podcastFriendly,
 }: Props) => {
   const { t, i18n } = useTranslation();
   const { setFieldValue } = useFormikContext();
@@ -143,6 +145,7 @@ const MetaImageSearch = ({
               image={image}
               showCheckbox={showCheckbox}
               checkboxAction={checkboxAction}
+              podcastFriendly={podcastFriendly}
             />
           </ModalBody>
         </ModalContent>

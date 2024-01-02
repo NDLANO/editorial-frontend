@@ -45,6 +45,7 @@ interface MarkupPreviewProps extends BaseProps {
 interface VersionPreviewProps extends BaseProps {
   type: 'version';
   article: IArticle;
+  customTitle?: string;
 }
 
 interface ComparePreviewProps extends BaseProps {
@@ -118,7 +119,7 @@ const TwoArticleWrapper = styled(StyledPreviewWrapper)`
   }
 `;
 
-const PreviewVersion = ({ article, language }: VersionPreviewProps) => {
+const PreviewVersion = ({ article, language, customTitle }: VersionPreviewProps) => {
   const { t } = useTranslation();
   const { values, initialValues } = useFormikContext<LearningResourceFormType>();
   const { data: licenses = [] } = useLicenses();
@@ -151,7 +152,10 @@ const PreviewVersion = ({ article, language }: VersionPreviewProps) => {
       </div>
       <div>
         <div className="u-4/6@desktop u-push-1/6@desktop">
-          <h2>{t('form.previewProductionArticle.version', { revision: article.revision })}</h2>
+          <h2>
+            {customTitle ??
+              t('form.previewProductionArticle.version', { revision: article.revision })}
+          </h2>
         </div>
         <PreviewDraft
           type="article"

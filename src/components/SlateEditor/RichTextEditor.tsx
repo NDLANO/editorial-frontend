@@ -179,7 +179,7 @@ const RichTextEditor = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const onDragStartCallback = useCallback(onDragStart(editor), []);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const onDragOverCallback = useCallback(onDragOver(editor), []);
+  const onDragOverCallback = useCallback(onDragOver(), []);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const onDropCallback = useCallback(onDrop(editor), []);
 

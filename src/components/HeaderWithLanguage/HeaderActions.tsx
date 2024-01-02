@@ -20,6 +20,7 @@ import HeaderLanguagePicker from './HeaderLanguagePicker';
 import HeaderLanguagePill from './HeaderLanguagePill';
 import HeaderSupportedLanguages from './HeaderSupportedLanguages';
 import TranslateNbToNn from './TranslateNbToNn';
+import { PUBLISHED } from '../../constants';
 import { fetchDraftHistory } from '../../modules/draft/draftApi';
 import {
   toEditAudio,
@@ -151,9 +152,8 @@ const HeaderActions = ({
   useEffect(() => {
     const getVersions = async (article: IArticle) => {
       const versions = await fetchDraftHistory(article.id, article.title?.language);
-      if (versions.length) {
-        setLastPublishedVersion(versions[1]);
-      }
+      const publishedVersion = versions.find((v) => v.status.current === PUBLISHED);
+      if (publishedVersion) setLastPublishedVersion(publishedVersion);
     };
     if (article) {
       getVersions(article);
@@ -230,6 +230,7 @@ const HeaderActions = ({
                 type="version"
                 article={lastPublishedVersion}
                 language={language}
+                customTitle={t('form.previewProductionArticle.published')}
                 activateButton={
                   <StyledFilledButton type="button">
                     <Eye /> {t('form.previewVersion')}

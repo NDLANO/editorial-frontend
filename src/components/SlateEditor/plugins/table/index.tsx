@@ -19,7 +19,7 @@ import {
   defaultTableRowBlock,
 } from './defaultBlocks';
 import { handleTableKeydown } from './handleKeyDown';
-import { TableCellElement, TableElement, TableMatrix } from './interfaces';
+import { TableElement } from './interfaces';
 import { getTableAsMatrix, tableContainsSpan } from './matrix';
 import { getHeader, previousMatrixCellIsEqualCurrent } from './matrixHelpers';
 import { normalizeTableBodyAsMatrix } from './matrixNormalizer';

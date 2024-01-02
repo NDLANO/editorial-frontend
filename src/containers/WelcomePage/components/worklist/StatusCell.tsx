@@ -8,7 +8,7 @@
 
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { colors, spacing } from '@ndla/core';
+import { colors } from '@ndla/core';
 import { Check } from '@ndla/icons/editor';
 import { IStatus } from '@ndla/types-backend/search-api';
 import { CellWrapper } from './WorkListTabContent';

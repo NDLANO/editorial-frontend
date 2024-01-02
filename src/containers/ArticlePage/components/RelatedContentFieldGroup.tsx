@@ -17,9 +17,7 @@ const RelatedContentFieldGroup = () => {
   const { userPermissions } = useSession();
   return (
     <>
-      <FormikField name={'conceptIds'}>
-        {({ field, form }) => <ConceptsField field={field} form={form} />}
-      </FormikField>
+      <FormikField name={'conceptIds'}>{({ field, form }) => <ConceptsField field={field} form={form} />}</FormikField>
       {!!userPermissions?.includes(DRAFT_ADMIN_SCOPE) && (
         <FormikField name={'relatedContent'}>
           {({ field, form }) => <ContentField field={field} form={form} />}

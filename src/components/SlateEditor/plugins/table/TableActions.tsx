@@ -19,14 +19,7 @@ import EditColgroupsModal from './EditColgroupsModal';
 import { TableElement } from './interfaces';
 import { alignColumn } from './slateActions';
 import { isTable, isTableHead } from './slateHelpers';
-import {
-  insertColumn,
-  insertRow,
-  insertTableHead,
-  removeColumn,
-  removeRow,
-  toggleRowHeaders,
-} from './toolbarActions';
+import { insertColumn, insertRow, insertTableHead, removeColumn, removeRow, toggleRowHeaders } from './toolbarActions';
 import { TYPE_TABLE_CAPTION } from './types';
 import { DRAFT_HTML_SCOPE } from '../../../../constants';
 import { useSession } from '../../../../containers/Session/SessionProvider';
@@ -232,20 +225,12 @@ const TableActions = ({ editor, element }: Props) => {
           <ButtonV2
             data-testid="toggle-row-headers"
             variant="stripped"
-            onMouseDown={(e: MouseEvent<HTMLButtonElement>) =>
-              handleOnClick(e, 'toggle-row-headers')
-            }
+            onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'toggle-row-headers')}
             aria-label={t(
-              `form.content.table.${
-                isTable(table) && table.rowHeaders ? 'disable-header' : 'enable-header'
-              }`,
+              `form.content.table.${isTable(table) && table.rowHeaders ? 'disable-header' : 'enable-header'}`,
             )}
           >
-            {t(
-              `form.content.table.${
-                isTable(table) && table.rowHeaders ? 'disable-header' : 'enable-header'
-              }`,
-            )}
+            {t(`form.content.table.${isTable(table) && table.rowHeaders ? 'disable-header' : 'enable-header'}`)}
           </ButtonV2>
         </ActionGrid>
       </StyledTableActions>

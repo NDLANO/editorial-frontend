@@ -5,15 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import {
-  createContext,
-  Dispatch,
-  ReactNode,
-  SetStateAction,
-  useCallback,
-  useContext,
-  useState,
-} from 'react';
+import { createContext, Dispatch, ReactNode, SetStateAction, useCallback, useContext, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
 import { uuid } from '@ndla/util';
@@ -23,9 +15,7 @@ interface Props {
   children?: ReactNode;
   initialValues?: MessageType[];
 }
-const MessagesContext = createContext<
-  [MessageType[], Dispatch<SetStateAction<MessageType[]>>] | undefined
->(undefined);
+const MessagesContext = createContext<[MessageType[], Dispatch<SetStateAction<MessageType[]>>] | undefined>(undefined);
 
 export interface MessagesFunctions {
   messages: MessageType[];
@@ -72,9 +62,7 @@ export const useMessages = () => {
 
   const errorMessageFromError = useCallback(
     (error: MessageError): string => {
-      const jsonMessage = error?.json?.messages
-        ?.map((message) => `${message.field}: ${message.message}`)
-        .join(', ');
+      const jsonMessage = error?.json?.messages?.map((message) => `${message.field}: ${message.message}`).join(', ');
       if (jsonMessage !== undefined) return jsonMessage;
 
       const errorMessages = error?.messages;

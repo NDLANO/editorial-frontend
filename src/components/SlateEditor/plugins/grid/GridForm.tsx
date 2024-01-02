@@ -160,12 +160,7 @@ const GridForm = ({ initialData, onSave, onCancel }: Props) => {
             <ButtonV2 variant="outline" onClick={onCancel}>
               {t('cancel')}
             </ButtonV2>
-            <ButtonV2
-              variant="solid"
-              disabled={!dirty || !isValid}
-              type="submit"
-              onClick={() => handleSubmit()}
-            >
+            <ButtonV2 variant="solid" disabled={!dirty || !isValid} type="submit" onClick={() => handleSubmit()}>
               {t('save')}
             </ButtonV2>
           </ButtonContainer>

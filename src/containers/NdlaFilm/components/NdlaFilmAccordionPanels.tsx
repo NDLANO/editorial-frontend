@@ -86,12 +86,7 @@ const SubjectpageAccordionPanels = ({ errors, selectedLanguage }: ComponentProps
         hasError={['editorsChoices'].some((field) => field in errors)}
       >
         <FormikField name={'themes'}>
-          {() => (
-            <ThemeEditor
-              onUpdateMovieTheme={onUpdateMovieList}
-              selectedLanguage={selectedLanguage}
-            />
-          )}
+          {() => <ThemeEditor onUpdateMovieTheme={onUpdateMovieList} selectedLanguage={selectedLanguage} />}
         </FormikField>
       </FormAccordion>
     </FormAccordions>

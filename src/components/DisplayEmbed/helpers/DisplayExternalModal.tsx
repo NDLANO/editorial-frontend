@@ -21,15 +21,7 @@ interface Props {
   allowedProvider: WhitelistProvider;
 }
 
-const DisplayExternalModal = ({
-  isEditMode,
-  allowedProvider,
-  onEditEmbed,
-  onClose,
-  type,
-  embed,
-  src,
-}: Props) => {
+const DisplayExternalModal = ({ isEditMode, allowedProvider, onEditEmbed, onClose, type, embed, src }: Props) => {
   const { t } = useTranslation();
   if (!isEditMode) {
     return null;

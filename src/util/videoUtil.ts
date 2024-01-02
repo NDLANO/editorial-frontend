@@ -31,9 +31,7 @@ export const calcSecondsFromHMS = (hms: string) => {
 };
 
 export const getYoutubeEmbedUrl = (url: string, start?: string, stop?: string) => {
-  const youtubeEmbedUrl = `https://www.youtube.com/embed/${(url.split('/').pop() || '')
-    .split('v=')
-    .pop()}?`;
+  const youtubeEmbedUrl = `https://www.youtube.com/embed/${(url.split('/').pop() || '').split('v=').pop()}?`;
   return addYoutubeTimeStamps(youtubeEmbedUrl, start, stop);
 };
 
@@ -74,9 +72,7 @@ export const addBrightCoveTimeStampVideoid = (videoid: string, start: string) =>
 
 export const addBrightCovetimeStampSrc = (src: string, start: string) => {
   const [baseUrl, videoid] = src.split('?');
-  const newVideoid = start
-    ? addBrightCoveTimeStampVideoid(videoid, start)
-    : videoid.split('&t=')[0];
+  const newVideoid = start ? addBrightCoveTimeStampVideoid(videoid, start) : videoid.split('&t=')[0];
 
   return `${baseUrl}?${newVideoid}`;
 };

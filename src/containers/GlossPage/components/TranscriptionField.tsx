@@ -32,12 +32,7 @@ const TranscriptionField = ({ name, value, label, removeField }: Props) => {
     <FormikField name={name}>
       {({ field }) => (
         <StyledTranscriptionField>
-          <Input
-            label={label}
-            placeholder={t('form.gloss.transcription')}
-            value={value ?? ''}
-            {...field}
-          />
+          <Input label={label} placeholder={t('form.gloss.transcription')} value={value ?? ''} {...field} />
           <FieldRemoveButton onClick={removeField} />
         </StyledTranscriptionField>
       )}

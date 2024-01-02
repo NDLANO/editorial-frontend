@@ -109,8 +109,7 @@ const SearchDropdown = ({ onClose }: Props) => {
 
   const onMenuOpen = useCallback(
     (open: boolean): void => {
-      if (!enableUserData)
-        setEnableUserData(isValid(getAccessToken()) && getAccessTokenPersonal() && open);
+      if (!enableUserData) setEnableUserData(isValid(getAccessToken()) && getAccessTokenPersonal() && open);
       setMenuOpen(open);
       onClose();
     },
@@ -128,8 +127,7 @@ const SearchDropdown = ({ onClose }: Props) => {
   const onSearchQuerySubmit = (searchQuery: string) => {
     const matched = location.pathname.split('/').find((v) => !!pathToTypeMapping[v]);
     const type = matched ? pathToTypeMapping[matched] : pathToTypeMapping.default;
-    const oldParams =
-      type === 'content' ? parseSearchParams(location.search) : queryString.parse(location.search);
+    const oldParams = type === 'content' ? parseSearchParams(location.search) : queryString.parse(location.search);
     const sort = type === 'content' || type === 'concept' ? '-lastUpdated' : '-relevance';
 
     const newParams = {
@@ -156,11 +154,7 @@ const SearchDropdown = ({ onClose }: Props) => {
   };
 
   return (
-    <Downshift
-      itemToString={(item) => (item ? item.value : '')}
-      isOpen={menuOpen}
-      onSelect={onElementClick}
-    >
+    <Downshift itemToString={(item) => (item ? item.value : '')} isOpen={menuOpen} onSelect={onElementClick}>
       {({ getInputProps, getItemProps, getMenuProps, isOpen, highlightedIndex, getRootProps }) => {
         return (
           <DropdownWrapper {...getRootProps()}>

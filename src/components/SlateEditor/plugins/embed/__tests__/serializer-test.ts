@@ -7,10 +7,7 @@
  */
 
 import { Descendant } from 'slate';
-import {
-  blockContentToEditorValue,
-  blockContentToHTML,
-} from '../../../../../util/articleContentConverter';
+import { blockContentToEditorValue, blockContentToHTML } from '../../../../../util/articleContentConverter';
 import { TYPE_AUDIO } from '../../audio/types';
 import { TYPE_H5P } from '../../h5p/types';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';

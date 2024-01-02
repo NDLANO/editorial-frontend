@@ -39,9 +39,7 @@ export const conceptListSerializer: SlateSerializer = {
   deserialize(el: HTMLElement) {
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const embed = el as HTMLEmbedElement;
-    const embedAttributes = reduceElementDataAttributesV2(
-      Array.from(embed.attributes),
-    ) as EmbedData;
+    const embedAttributes = reduceElementDataAttributesV2(Array.from(embed.attributes)) as EmbedData;
     if (embedAttributes.resource !== 'concept-list') return;
     return defaultConceptListBlock(embedAttributes);
   },

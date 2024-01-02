@@ -41,11 +41,7 @@ export const codeblockSerializer: SlateSerializer = {
     const embed = el as HTMLEmbedElement;
     const embedAttributes = reduceElementDataAttributesV2(Array.from(embed.attributes));
     if (embedAttributes.resource !== 'code-block') return;
-    return slatejsx(
-      'element',
-      { type: TYPE_CODEBLOCK, data: embedAttributes, isFirstEdit: false },
-      [{ text: '' }],
-    );
+    return slatejsx('element', { type: TYPE_CODEBLOCK, data: embedAttributes, isFirstEdit: false }, [{ text: '' }]);
   },
   serialize(node: Descendant) {
     if (!Element.isElement(node) || node.type !== 'code-block') return;

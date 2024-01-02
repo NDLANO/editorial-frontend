@@ -52,15 +52,7 @@ interface DiffOptionProps {
   emptyField?: boolean;
 }
 
-const DiffOption = ({
-  label,
-  options,
-  name,
-  placeholder,
-  value,
-  onChange,
-  emptyField,
-}: DiffOptionProps) => {
+const DiffOption = ({ label, options, name, placeholder, value, onChange, emptyField }: DiffOptionProps) => {
   return (
     <StyledDiffOption>
       <strong>{label}</strong>
@@ -84,12 +76,8 @@ const DiffOptions = ({ originalHash, otherHash }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const taxonomyVersions = useVersions();
-  const originalVersion = originalHash
-    ? taxonomyVersions.data?.find((v) => v.hash === originalHash)
-    : undefined;
-  const otherVersion = otherHash
-    ? taxonomyVersions.data?.find((v) => v.hash === otherHash)
-    : undefined;
+  const originalVersion = originalHash ? taxonomyVersions.data?.find((v) => v.hash === originalHash) : undefined;
+  const otherVersion = otherHash ? taxonomyVersions.data?.find((v) => v.hash === otherHash) : undefined;
 
   const nodeViewOptions = [
     { id: 'all', label: t('diff.options.allNodes') },

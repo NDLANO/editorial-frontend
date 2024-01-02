@@ -48,11 +48,7 @@ const Contributor = ({
     <div>
       <FieldSplitter>
         <Input
-          warningText={
-            showError && (contributor.name === '' || contributor.type === '')
-              ? errorMessages[0]
-              : undefined
-          }
+          warningText={showError && (contributor.name === '' || contributor.type === '') ? errorMessages[0] : undefined}
           type="text"
           // eslint-disable-next-line jsx-a11y/no-autofocus
           autoFocus={!!contributor.focusOnMount}
@@ -77,9 +73,7 @@ const Contributor = ({
       </FieldSplitter>
     </div>
     <div>
-      <FieldRemoveButton onClick={(evt) => removeContributor(evt, index)}>
-        {labelRemove}
-      </FieldRemoveButton>
+      <FieldRemoveButton onClick={(evt) => removeContributor(evt, index)}>{labelRemove}</FieldRemoveButton>
     </div>
   </FieldSection>
 );

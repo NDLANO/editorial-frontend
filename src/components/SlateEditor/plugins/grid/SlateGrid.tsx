@@ -14,15 +14,7 @@ import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
 import { Pencil } from '@ndla/icons/action';
-import {
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalTitle,
-  ModalTrigger,
-} from '@ndla/modal';
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from '@ndla/modal';
 import { Grid, GridType } from '@ndla/ui';
 import { GridElement } from '.';
 import { GridProvider } from './GridContext';
@@ -98,11 +90,7 @@ export const SlateGrid = ({ element, editor, children }: Props) => {
         <DeleteButton aria-label={t('delete')} data-testid="remove-grid" onClick={handleRemove} />
         <Modal open={isEditing} onOpenChange={setIsEditing}>
           <ModalTrigger>
-            <IconButtonV2
-              variant="ghost"
-              aria-label={t('gridForm.title')}
-              data-testid="edit-grid-button"
-            >
+            <IconButtonV2 variant="ghost" aria-label={t('gridForm.title')} data-testid="edit-grid-button">
               <Pencil />
             </IconButtonV2>
           </ModalTrigger>
@@ -118,11 +106,7 @@ export const SlateGrid = ({ element, editor, children }: Props) => {
         </Modal>
       </ButtonContainer>
       <GridProvider value={true}>
-        <StyledGrid
-          border="none"
-          columns={element.data.columns}
-          background={element.data.background}
-        >
+        <StyledGrid border="none" columns={element.data.columns} background={element.data.background}>
           {children}
         </StyledGrid>
       </GridProvider>

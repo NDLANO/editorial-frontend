@@ -9,10 +9,7 @@
 import { Descendant, Editor, Element, Node, Range, Transforms } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { TYPE_CONCEPT_INLINE } from './types';
-import {
-  createEmbedTagV2,
-  reduceElementDataAttributesV2,
-} from '../../../../../util/embedTagHelpers';
+import { createEmbedTagV2, reduceElementDataAttributesV2 } from '../../../../../util/embedTagHelpers';
 import { SlateSerializer } from '../../../interfaces';
 import hasNodeOfType from '../../../utils/hasNodeOfType';
 import { KEY_BACKSPACE } from '../../../utils/keys';
@@ -50,11 +47,7 @@ export const inlineConceptSerializer: SlateSerializer = {
   },
 };
 
-const onBackspace = (
-  e: KeyboardEvent,
-  editor: Editor,
-  nextOnKeyDown?: (event: KeyboardEvent) => void,
-) => {
+const onBackspace = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: KeyboardEvent) => void) => {
   if (hasNodeOfType(editor, TYPE_CONCEPT_INLINE)) {
     if (Range.isRange(editor.selection)) {
       // Replace heading with paragraph if last character is removed

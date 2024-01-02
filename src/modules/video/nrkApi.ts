@@ -10,14 +10,10 @@ import fetch from 'cross-fetch';
 import config from '../../config';
 import { resolveJsonOrRejectWithError } from '../../util/resolveJsonOrRejectWithError';
 
-const corsAnywhereUrl = `${
-  config.ndlaEnvironment === 'local' ? 'https://cors-anywhere.herokuapp.com/' : ''
-}`;
+const corsAnywhereUrl = `${config.ndlaEnvironment === 'local' ? 'https://cors-anywhere.herokuapp.com/' : ''}`;
 
 const baseUrl =
-  process.env.NODE_ENV === 'unittest'
-    ? 'http://nrk-api'
-    : corsAnywhereUrl + 'https://nrkno-skole-prod.kube.nrk.no';
+  process.env.NODE_ENV === 'unittest' ? 'http://nrk-api' : corsAnywhereUrl + 'https://nrkno-skole-prod.kube.nrk.no';
 
 //Type inferred from API call.
 interface NRKMedia {

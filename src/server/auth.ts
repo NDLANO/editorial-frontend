@@ -18,11 +18,7 @@ const editorialFrontendClientSecret = getEnvironmentVariabel('NDLA_EDITORIAL_CLI
 const btoa = (str: string) => Buffer.from(str.toString(), 'binary').toString('base64');
 
 const b64EncodeUnicode = (str: string) =>
-  btoa(
-    encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (match, p1) =>
-      String.fromCharCode(Number(`0x${p1}`)),
-    ),
-  );
+  btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (match, p1) => String.fromCharCode(Number(`0x${p1}`))));
 
 export const getToken = (audience = 'ndla_system') =>
   fetch(url, {
@@ -40,9 +36,9 @@ export const getToken = (audience = 'ndla_system') =>
 
 export const getBrightcoveToken = () => {
   const bightCoveUrl = 'https://oauth.brightcove.com/v3/access_token';
-  const clientIdSecret = `${getEnvironmentVariabel(
-    'BRIGHTCOVE_API_CLIENT_ID',
-  )}:${getEnvironmentVariabel('BRIGHTCOVE_API_CLIENT_SECRET')}`;
+  const clientIdSecret = `${getEnvironmentVariabel('BRIGHTCOVE_API_CLIENT_ID')}:${getEnvironmentVariabel(
+    'BRIGHTCOVE_API_CLIENT_SECRET',
+  )}`;
   return fetch(bightCoveUrl, {
     method: 'POST',
     headers: {
@@ -60,15 +56,12 @@ export const fetchAuth0UsersById = (managementToken: ManagementToken, userIds: s
     .split(',')
     .map((userId) => `"${userId}"`)
     .join(' OR ');
-  return fetch(
-    `https://${getUniversalConfig().auth0Domain}/api/v2/users?q=app_metadata.ndla_id:(${query})`,
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${managementToken.access_token}`,
-      },
+  return fetch(`https://${getUniversalConfig().auth0Domain}/api/v2/users?q=app_metadata.ndla_id:(${query})`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${managementToken.access_token}`,
     },
-  ).then((res) => res.json());
+  }).then((res) => res.json());
 };
 
 async function fetchAuth0UsersByQuery(token: string, query: string, page: number) {

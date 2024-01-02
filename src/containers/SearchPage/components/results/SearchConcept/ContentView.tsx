@@ -14,14 +14,7 @@ import { getLicenseByAbbreviation } from '@ndla/licenses';
 import { LicenseByline } from '@ndla/notion';
 import { IConceptSummary } from '@ndla/types-backend/concept-api';
 import { Node } from '@ndla/types-taxonomy';
-import {
-  StyledInfo,
-  StyledConceptView,
-  StyledLink,
-  StyledDescription,
-  StyledBreadcrumbs,
-  Crumb,
-} from './SearchStyles';
+import { StyledInfo, StyledConceptView, StyledLink, StyledDescription, StyledBreadcrumbs, Crumb } from './SearchStyles';
 import HeaderStatusInformation from '../../../../../components/HeaderWithLanguage/HeaderStatusInformation';
 import { LocaleType } from '../../../../../interfaces';
 import { useLicenses } from '../../../../../modules/draft/draftQueries';
@@ -48,9 +41,7 @@ const StyledButton = styled(ButtonV2)`
 `;
 
 const toEditConceptPage = (concept: IConceptSummary, locale?: string) =>
-  concept.conceptType === 'concept'
-    ? toEditConcept(concept.id, locale)
-    : toEditGloss(concept.id, locale);
+  concept.conceptType === 'concept' ? toEditConcept(concept.id, locale) : toEditGloss(concept.id, locale);
 
 const ContentView = ({
   concept,
@@ -77,17 +68,11 @@ const ContentView = ({
         </StyledLink>
         {false && !editing && <StyledButton onClick={setShowForm}>{t('form.edit')}</StyledButton>}
       </h2>
-      <StyledInfo>
-        {`${t('topicArticleForm.info.lastUpdated')} ${formatDate(concept.lastUpdated)}`}
-      </StyledInfo>
+      <StyledInfo>{`${t('topicArticleForm.info.lastUpdated')} ${formatDate(concept.lastUpdated)}`}</StyledInfo>
       <div>
         {concept.supportedLanguages.map((lang) => {
           return lang !== locale ? (
-            <StyledLink
-              other
-              key={`language_${lang}_${concept.id}`}
-              to={toEditConceptPage(concept, lang)}
-            >
+            <StyledLink other key={`language_${lang}_${concept.id}`} to={toEditConceptPage(concept, lang)}>
               {t(`languages.${lang}`)}
             </StyledLink>
           ) : (
@@ -104,17 +89,13 @@ const ContentView = ({
         />
       )}
       <StyledBreadcrumbs>
-        {breadcrumbs?.map((breadcrumb) => <Crumb key={breadcrumb.id}>{breadcrumb.name}</Crumb>) || (
-          <Crumb />
-        )}
+        {breadcrumbs?.map((breadcrumb) => <Crumb key={breadcrumb.id}>{breadcrumb.name}</Crumb>) || <Crumb />}
         <HeaderStatusInformation
           id={concept.id}
           inSearch
           type="concept"
           statusText={t(`form.status.${concept.status?.current.toLowerCase()}`)}
-          published={
-            concept.status?.current === 'PUBLISHED' || concept.status?.other.includes('PUBLISHED')
-          }
+          published={concept.status?.current === 'PUBLISHED' || concept.status?.other.includes('PUBLISHED')}
           compact
           responsibleName={responsibleName}
         />

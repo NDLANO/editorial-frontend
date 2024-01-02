@@ -112,11 +112,7 @@ const ConceptModalContent = ({
         <CloseButton title={t('dialog.close')} onClick={onClose} />
       </ModalHeader>
       <ModalBody>
-        {concept?.id && (
-          <ButtonV2 onClick={handleRemove}>
-            {t(`form.content.${concept.conceptType}.remove`)}
-          </ButtonV2>
-        )}
+        {concept?.id && <ButtonV2 onClick={handleRemove}>{t(`form.content.${concept.conceptType}.remove`)}</ButtonV2>}
         <Tabs
           tabs={[
             {

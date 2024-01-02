@@ -13,10 +13,7 @@ import { Node } from '@ndla/types-taxonomy';
 import GenericSearchForm, { OnFieldChangeFunction } from './GenericSearchForm';
 import { SearchParams } from './SearchForm';
 import { SearchFormSelector } from './Selector';
-import {
-  CONCEPT_RESPONSIBLE,
-  TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
-} from '../../../../constants';
+import { CONCEPT_RESPONSIBLE, TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../../../../constants';
 import { useAuth0Editors, useAuth0Responsibles } from '../../../../modules/auth0/auth0Queries';
 import { useConceptStateMachine } from '../../../../modules/concept/conceptQueries';
 import { getTagName } from '../../../../util/formHelper';
@@ -122,9 +119,7 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
       parameterName: 'subjects',
       value: getTagName(search.subjects, subjects),
       options: subjects
-        .filter(
-          (s) => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === 'true',
-        )
+        .filter((s) => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === 'true')
         .sort(sortByProperty('name')),
       formElementType: 'dropdown',
       width: 25,

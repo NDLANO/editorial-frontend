@@ -18,8 +18,7 @@ export interface SectionElement {
   children: Descendant[];
 }
 
-export const defaultSectionBlock = () =>
-  slatejsx('element', { type: TYPE_SECTION }, defaultParagraphBlock());
+export const defaultSectionBlock = () => slatejsx('element', { type: TYPE_SECTION }, defaultParagraphBlock());
 
 export const sectionSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
@@ -41,11 +40,7 @@ export const sectionSerializer: SlateSerializer = {
   },
 };
 
-const onBackspace = (
-  e: KeyboardEvent,
-  editor: Editor,
-  nextOnKeyDown?: (event: KeyboardEvent) => void,
-) => {
+const onBackspace = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: KeyboardEvent) => void) => {
   if (editor.selection) {
     // Find the closest ancestor <section>-element
     const section = Editor.above(editor, {

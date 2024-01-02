@@ -8,19 +8,8 @@
 
 import { Element, Node } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
-import {
-  BrightcoveEmbedElement,
-  EmbedElements,
-  ErrorEmbedElement,
-  ExternalEmbedElement,
-  ImageEmbedElement,
-} from '.';
-import {
-  TYPE_EMBED_BRIGHTCOVE,
-  TYPE_EMBED_ERROR,
-  TYPE_EMBED_EXTERNAL,
-  TYPE_EMBED_IMAGE,
-} from './types';
+import { BrightcoveEmbedElement, EmbedElements, ErrorEmbedElement, ExternalEmbedElement, ImageEmbedElement } from '.';
+import { TYPE_EMBED_BRIGHTCOVE, TYPE_EMBED_ERROR, TYPE_EMBED_EXTERNAL, TYPE_EMBED_IMAGE } from './types';
 import { Embed } from '../../../../interfaces';
 import { AudioElement, TYPE_AUDIO } from '../audio/types';
 import { H5pElement, TYPE_H5P } from '../h5p/types';
@@ -65,8 +54,7 @@ export const defineTypeOfEmbed = (type?: string) => {
   return type;
 };
 
-export const isSlateEmbedElement = (element: Element): element is EmbedElements =>
-  isEmbedType(element.type);
+export const isSlateEmbedElement = (element: Element): element is EmbedElements => isEmbedType(element.type);
 
 export const isEmbedType = (type: string) =>
   type === TYPE_EMBED_BRIGHTCOVE ||

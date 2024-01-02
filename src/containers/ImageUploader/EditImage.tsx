@@ -9,10 +9,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import {
-  IImageMetaInformationV3,
-  IUpdateImageMetaInformation,
-} from '@ndla/types-backend/image-api';
+import { IImageMetaInformationV3, IUpdateImageMetaInformation } from '@ndla/types-backend/image-api';
 import ImageForm from './components/ImageForm';
 import { TranslateType, useTranslateToNN } from '../../components/NynorskTranslateProvider';
 import Spinner from '../../components/Spinner';

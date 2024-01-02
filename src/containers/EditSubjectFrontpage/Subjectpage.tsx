@@ -25,11 +25,7 @@ const Subjectpage = () => {
         <Routes>
           <Route
             path=":elementId/:subjectpageId/edit/:selectedLanguage"
-            element={
-              <EditSubjectpage
-                isNewlyCreated={/\/subjectpage\/(.*)\/new/.test(previousLocation ?? '')}
-              />
-            }
+            element={<EditSubjectpage isNewlyCreated={/\/subjectpage\/(.*)\/new/.test(previousLocation ?? '')} />}
           />
           <Route path=":elementId/new/:selectedLanguage" element={<CreateSubjectpage />} />
           <Route path="*" element={<NotFoundPage />} />

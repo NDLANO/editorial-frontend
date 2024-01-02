@@ -35,11 +35,7 @@ import { MessageError, useMessages } from '../../Messages/MessagesProvider';
 import { useSession } from '../../Session/SessionProvider';
 import { ConceptArticles, ConceptContent, ConceptMetaData } from '../components';
 import { ConceptFormValues, ConceptType } from '../conceptInterfaces';
-import {
-  conceptApiTypeToFormType,
-  getNewConceptType,
-  getUpdatedConceptType,
-} from '../conceptTransformers';
+import { conceptApiTypeToFormType, getNewConceptType, getUpdatedConceptType } from '../conceptTransformers';
 
 const STATUSES_RESPONSIBLE_NOT_REQUIRED = [PUBLISHED, ARCHIVED, UNPUBLISHED];
 
@@ -186,13 +182,9 @@ const ConceptForm = ({
   const { data: licenses = [] } = useLicenses({ placeholderData: [] });
   const { ndlaId } = useSession();
 
-  const handleSubmit = async (
-    values: ConceptFormValues,
-    formikHelpers: FormikHelpers<ConceptFormValues>,
-  ) => {
+  const handleSubmit = async (values: ConceptFormValues, formikHelpers: FormikHelpers<ConceptFormValues>) => {
     if (
-      ((!values.subjects.length || isEmpty(values.conceptContent)) &&
-        values.conceptType === 'concept') ||
+      ((!values.subjects.length || isEmpty(values.conceptContent)) && values.conceptType === 'concept') ||
       isEmpty(values.title)
     )
       return;
@@ -244,15 +236,9 @@ const ConceptForm = ({
     () => getWarnings(initialValues, formRules, t, concept),
     [concept, formRules, initialValues, t],
   );
-  const initialErrors = useMemo(
-    () => validateFormik(initialValues, formRules, t),
-    [initialValues, t, formRules],
-  );
+  const initialErrors = useMemo(() => validateFormik(initialValues, formRules, t), [initialValues, t, formRules]);
 
-  const validate = useCallback(
-    (values: ConceptFormValues) => validateFormik(values, formRules, t),
-    [t, formRules],
-  );
+  const validate = useCallback((values: ConceptFormValues) => validateFormik(values, formRules, t), [t, formRules]);
 
   return (
     <Formik
@@ -291,11 +277,7 @@ const ConceptForm = ({
                   id="glossData"
                   title={t('form.gloss.gloss')}
                   hasError={
-                    !!(
-                      errors.gloss ||
-                      Object.keys(errors).find((e) => e.includes('examples')) ||
-                      errors.transcriptions
-                    )
+                    !!(errors.gloss || Object.keys(errors).find((e) => e.includes('examples')) || errors.transcriptions)
                   }
                 >
                   <GlossDataSection />
@@ -322,11 +304,7 @@ const ConceptForm = ({
                       language={language}
                     />
                   </FormAccordion>
-                  <FormAccordion
-                    id="articles"
-                    title={t('form.articleSection')}
-                    hasError={!!errors.articles}
-                  >
+                  <FormAccordion id="articles" title={t('form.articleSection')} hasError={!!errors.articles}>
                     <ConceptArticles />
                   </FormAccordion>
                 </>

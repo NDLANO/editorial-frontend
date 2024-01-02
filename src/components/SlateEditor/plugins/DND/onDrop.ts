@@ -66,10 +66,7 @@ const onDrop =
         if (!insertAtNode) {
           return;
         }
-        const insertBeforeNode = ReactEditor.findPath(
-          editor,
-          ReactEditor.toSlateNode(editor, insertAtNode),
-        );
+        const insertBeforeNode = ReactEditor.findPath(editor, ReactEditor.toSlateNode(editor, insertAtNode));
         if (Path.equals(insertBeforeNode, originPath)) {
           return;
         }
@@ -81,17 +78,12 @@ const onDrop =
           });
         });
       } else {
-        if (
-          Path.equals(originPath, topLevelTargetPath) ||
-          Path.isDescendant(topLevelTargetPath, originPath)
-        ) {
+        if (Path.equals(originPath, topLevelTargetPath) || Path.isDescendant(topLevelTargetPath, originPath)) {
           return;
         }
         const { height, top } = (event.target as HTMLDivElement).getBoundingClientRect();
 
-        const goUp =
-          top + height / 2 > event.clientY ||
-          !Editor.hasPath(editor, Path.next(topLevelTargetPath));
+        const goUp = top + height / 2 > event.clientY || !Editor.hasPath(editor, Path.next(topLevelTargetPath));
 
         HistoryEditor.withoutMerging(editor, () => {
           Transforms.moveNodes(editor, {

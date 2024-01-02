@@ -70,9 +70,7 @@ export const getResourceLanguages = (t: TFunction) => [
   { id: 'zh', name: t('languages.zh') },
 ];
 
-export const getContentTypeFromResourceTypes = (
-  resourceTypes: Pick<ResourceType, 'id'>[],
-): ContentTypeType => {
+export const getContentTypeFromResourceTypes = (resourceTypes: Pick<ResourceType, 'id'>[]): ContentTypeType => {
   const resourceType = resourceTypes.find((type) => !!mapping[type.id]);
   if (resourceType) {
     return mapping[resourceType.id];
@@ -80,8 +78,7 @@ export const getContentTypeFromResourceTypes = (
   return mapping.default;
 };
 
-const isLearningPathResourceType = (contentType?: string) =>
-  contentType === contentTypes.LEARNING_PATH;
+const isLearningPathResourceType = (contentType?: string) => contentType === contentTypes.LEARNING_PATH;
 
 const isConceptType = (contentType?: string) => contentType === 'concept';
 const isGlossType = (contentType?: string) => contentType === 'gloss';
@@ -131,10 +128,6 @@ export const resourceToLinkProps = (
   }
 
   return {
-    to: toEditArticle(
-      content.id,
-      content?.contexts?.[0]?.learningResourceType || 'standard',
-      languageOrDefault,
-    ),
+    to: toEditArticle(content.id, content?.contexts?.[0]?.learningResourceType || 'standard', languageOrDefault),
   };
 };

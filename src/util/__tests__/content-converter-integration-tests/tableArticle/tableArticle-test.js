@@ -13,9 +13,7 @@ import { blockContentToEditorValue, blockContentToHTML } from '../../../articleC
 let disableFilter;
 beforeEach(() => {
   // colspan is valid html. We can safely ignore this warning from react.
-  disableFilter = filterConsole([
-    'Warning: Invalid DOM property `colspan`. Did you mean `colSpan`?',
-  ]);
+  disableFilter = filterConsole(['Warning: Invalid DOM property `colspan`. Did you mean `colSpan`?']);
 });
 
 afterEach(() => {

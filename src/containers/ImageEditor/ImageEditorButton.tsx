@@ -31,12 +31,10 @@ interface Props {
   onClick: (evt: MouseEvent<HTMLButtonElement>) => void;
 }
 
-const ImageEditorButton = forwardRef<HTMLButtonElement, Props>(
-  ({ isActive, children, ...rest }, ref) => (
-    <EditButton variant="stripped" isActive={!!isActive} ref={ref} {...rest}>
-      {children}
-    </EditButton>
-  ),
-);
+const ImageEditorButton = forwardRef<HTMLButtonElement, Props>(({ isActive, children, ...rest }, ref) => (
+  <EditButton variant="stripped" isActive={!!isActive} ref={ref} {...rest}>
+    {children}
+  </EditButton>
+));
 
 export default ImageEditorButton;

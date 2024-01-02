@@ -14,15 +14,7 @@ import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
 import { Pencil } from '@ndla/icons/action';
 import { DeleteForever } from '@ndla/icons/editor';
-import {
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalTitle,
-  ModalTrigger,
-} from '@ndla/modal';
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from '@ndla/modal';
 import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import { CampaignBlockEmbedData } from '@ndla/types-embed';
 import { CampaignBlock } from '@ndla/ui';
@@ -108,8 +100,7 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
   }, [campaignBlock?.imageId]);
 
   const handleRemove = useCallback(
-    () =>
-      Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true }),
+    () => Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true }),
     [editor, element],
   );
 

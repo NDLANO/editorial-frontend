@@ -171,9 +171,7 @@ const HeaderInformation = ({
     <StyledHeader>
       <StyledTitleHeaderWrapper>
         {types[type].icon}
-        <h1>
-          {title ? `${t(`${types[type].form}.title`)}: ${title}` : t(`${types[type].form}.title`)}
-        </h1>
+        <h1>{title ? `${t(`${types[type].form}.title`)}: ${title}` : t(`${types[type].form}.title`)}</h1>
         {(type === 'standard' || type === 'topic-article') && (
           <ButtonV2 variant="stripped" onClick={onSaveAsNew} data-testid="saveAsNew">
             {t('form.workflow.saveAsNew')}

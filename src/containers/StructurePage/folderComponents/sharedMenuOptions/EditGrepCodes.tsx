@@ -113,11 +113,7 @@ const EditGrepCodes = ({ node, editModeHandler: { editMode, toggleEditMode } }: 
           placeholder={t('form.grepCodes.placeholder')}
         />
       ) : (
-        <ButtonV2
-          variant="link"
-          data-testid="addFilterButton"
-          onClick={() => setAddingNewGrepCode(!addingNewGrepCode)}
-        >
+        <ButtonV2 variant="link" data-testid="addFilterButton" onClick={() => setAddingNewGrepCode(!addingNewGrepCode)}>
           <Plus />
           {t('taxonomy.grepCodes.addNew')}
         </ButtonV2>

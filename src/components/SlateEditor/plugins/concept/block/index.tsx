@@ -9,10 +9,7 @@
 import { Descendant, Editor, Element } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { TYPE_CONCEPT_BLOCK, TYPE_GLOSS_BLOCK } from './types';
-import {
-  createEmbedTagV2,
-  reduceElementDataAttributesV2,
-} from '../../../../../util/embedTagHelpers';
+import { createEmbedTagV2, reduceElementDataAttributesV2 } from '../../../../../util/embedTagHelpers';
 import { SlateSerializer } from '../../../interfaces';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../../utils/defaultNormalizer';
 import { afterOrBeforeTextBlockElement } from '../../../utils/normalizationHelpers';
@@ -46,11 +43,7 @@ export const blockConceptSerializer: SlateSerializer = {
     }
   },
   serialize(node: Descendant) {
-    if (
-      !Element.isElement(node) ||
-      (node.type !== TYPE_CONCEPT_BLOCK && node.type !== TYPE_GLOSS_BLOCK)
-    )
-      return;
+    if (!Element.isElement(node) || (node.type !== TYPE_CONCEPT_BLOCK && node.type !== TYPE_GLOSS_BLOCK)) return;
     return createEmbedTagV2(node.data);
   },
 };
@@ -61,10 +54,7 @@ export const blockConceptPlugin = (editor: Editor) => {
   editor.normalizeNode = (entry) => {
     const [node] = entry;
 
-    if (
-      Element.isElement(node) &&
-      (node.type === TYPE_CONCEPT_BLOCK || node.type === TYPE_GLOSS_BLOCK)
-    ) {
+    if (Element.isElement(node) && (node.type === TYPE_CONCEPT_BLOCK || node.type === TYPE_GLOSS_BLOCK)) {
       if (defaultBlockNormalizer(editor, entry, normalizerConfig)) {
         return;
       }

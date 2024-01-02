@@ -37,20 +37,14 @@ export const linkBlockListSerializer: SlateSerializer = {
       'element',
       {
         type: TYPE_LINK_BLOCK_LIST,
-        data: Array.from(el.children ?? []).map((el) =>
-          reduceElementDataAttributesV2(Array.from(el.attributes)),
-        ),
+        data: Array.from(el.children ?? []).map((el) => reduceElementDataAttributesV2(Array.from(el.attributes))),
       },
       [{ text: '' }],
     );
   },
   serialize(node: Descendant) {
     if (!Element.isElement(node) || node.type !== TYPE_LINK_BLOCK_LIST) return;
-    return (
-      <nav data-type={TYPE_LINK_BLOCK_LIST}>
-        {node.data?.map((child) => createEmbedTagV2(child))}
-      </nav>
-    );
+    return <nav data-type={TYPE_LINK_BLOCK_LIST}>{node.data?.map((child) => createEmbedTagV2(child))}</nav>;
   },
 };
 

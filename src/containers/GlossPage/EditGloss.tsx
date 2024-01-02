@@ -42,16 +42,8 @@ const EditGloss = ({ isNewlyCreated }: Props) => {
   const conceptId = Number(params.id);
   const selectedLanguage = params.selectedLanguage as LocaleType;
   const { t } = useTranslation();
-  const {
-    concept,
-    setConcept,
-    fetchSearchTags,
-    conceptArticles,
-    loading,
-    conceptChanged,
-    subjects,
-    updateConcept,
-  } = useFetchConceptData(conceptId, selectedLanguage!);
+  const { concept, setConcept, fetchSearchTags, conceptArticles, loading, conceptChanged, subjects, updateConcept } =
+    useFetchConceptData(conceptId, selectedLanguage!);
 
   const { shouldTranslate, translate, translating } = useTranslateToNN();
 

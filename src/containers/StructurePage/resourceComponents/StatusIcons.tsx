@@ -16,10 +16,7 @@ import Tooltip from '@ndla/tooltip';
 import { isApproachingRevision } from './ApproachingRevisionDate';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 import WrongTypeError from './WrongTypeError';
-import {
-  getWarnStatus,
-  StyledTimeIcon,
-} from '../../../components/HeaderWithLanguage/HeaderStatusInformation';
+import { getWarnStatus, StyledTimeIcon } from '../../../components/HeaderWithLanguage/HeaderStatusInformation';
 import config from '../../../config';
 import { PUBLISHED } from '../../../constants';
 import formatDate from '../../../util/formatDate';
@@ -106,9 +103,7 @@ const StatusIcons = ({ contentMetaLoading, resource, path }: Props) => {
           )}
         </>
       ) : null}
-      {!contentMetaLoading && (
-        <WrongTypeError resource={resource} articleType={resource.contentMeta?.articleType} />
-      )}
+      {!contentMetaLoading && <WrongTypeError resource={resource} articleType={resource.contentMeta?.articleType} />}
       {resource.contexts?.length > 1 && (
         <Tooltip tooltip={t('form.workflow.multipleTaxonomy')}>
           <IconWrapper>
@@ -136,10 +131,7 @@ const PublishedWrapper = ({ path, children }: { path?: string; children: ReactEl
     return children;
   }
   return (
-    <StyledLink
-      target="_blank"
-      to={`${config.ndlaFrontendDomain}${path}?versionHash=${taxonomyVersion}`}
-    >
+    <StyledLink target="_blank" to={`${config.ndlaFrontendDomain}${path}?versionHash=${taxonomyVersion}`}>
       {children}
     </StyledLink>
   );

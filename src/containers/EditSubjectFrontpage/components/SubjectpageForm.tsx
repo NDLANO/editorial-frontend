@@ -46,10 +46,7 @@ interface Props {
   editorsChoices?: (IArticle | ILearningPathV2)[];
   elementName?: string;
   createSubjectpage?: (subjectpage: INewSubjectFrontPageData) => Promise<ISubjectPageData>;
-  updateSubjectpage?: (
-    id: string | number,
-    subjectpage: IUpdatedSubjectFrontPageData,
-  ) => Promise<ISubjectPageData>;
+  updateSubjectpage?: (id: string | number, subjectpage: IUpdatedSubjectFrontPageData) => Promise<ISubjectPageData>;
   selectedLanguage: string;
   elementId: string;
   isNewlyCreated: boolean;
@@ -69,9 +66,7 @@ const subjectpageRules: RulesType<SubjectPageFormikType> = {
       const element = values?.visualElement[0];
       const data = isSlateEmbed(element) && element.data;
       const badVisualElementId = data && 'resource_id' in data && data.resource_id === '';
-      return badVisualElementId
-        ? { translationKey: 'subjectpageForm.missingVisualElement' }
-        : undefined;
+      return badVisualElementId ? { translationKey: 'subjectpageForm.missingVisualElement' } : undefined;
     },
   },
   metaDescription: {

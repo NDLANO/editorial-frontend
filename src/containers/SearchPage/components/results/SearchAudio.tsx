@@ -35,9 +35,7 @@ const SearchAudio = ({ audio, locale }: Props) => {
   const license = licenses && licenses.find((l) => audio.license === l.license);
   return (
     <StyledSearchResult data-testid="audio-search-result">
-      <StyledSearchImageContainer>
-        {audio.audioType === 'podcast' ? <Podcast /> : <Audio />}
-      </StyledSearchImageContainer>
+      <StyledSearchImageContainer>{audio.audioType === 'podcast' ? <Podcast /> : <Audio />}</StyledSearchImageContainer>
       <StyledSearchContent>
         <Link
           to={

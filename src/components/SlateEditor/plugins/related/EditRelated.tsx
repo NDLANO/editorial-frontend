@@ -114,10 +114,7 @@ const EditRelated = forwardRef<HTMLDivElement, Props>(
       index: number,
     ) => {
       e.stopPropagation();
-      if (
-        !deleteEmbed.embedData.articleId &&
-        deleteEmbed.embedData.url === externalToEdit?.embedData.url
-      ) {
+      if (!deleteEmbed.embedData.articleId && deleteEmbed.embedData.url === externalToEdit?.embedData.url) {
         setExternalToEdit(undefined);
       }
       const newEmbeds = embeds.filter((_, idx) => index !== idx);

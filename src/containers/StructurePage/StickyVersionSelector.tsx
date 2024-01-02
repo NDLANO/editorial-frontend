@@ -65,11 +65,7 @@ const StickyVersionSelector = () => {
   return (
     <StickyDiv color={versionTypeToColorMap[currentVersion?.versionType ?? 'default']}>
       {t('taxonomy.currentVersion')}
-      <OptGroupVersionSelector
-        versions={data}
-        currentVersion={currentVersion}
-        onVersionChanged={onVersionChanged}
-      />
+      <OptGroupVersionSelector versions={data} currentVersion={currentVersion} onVersionChanged={onVersionChanged} />
     </StickyDiv>
   );
 };

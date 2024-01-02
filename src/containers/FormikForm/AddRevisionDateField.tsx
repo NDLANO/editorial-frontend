@@ -117,9 +117,7 @@ const AddRevisionDateField = ({ formikField, showError }: Props) => {
             <Wrapper>
               <InputWrapper>
                 <Input
-                  warningText={
-                    showError && revisionMeta.note === '' ? t('validation.noEmptyRevision') : ''
-                  }
+                  warningText={showError && revisionMeta.note === '' ? t('validation.noEmptyRevision') : ''}
                   placeholder={t('form.revisions.inputPlaceholder')}
                   type="text"
                   // eslint-disable-next-line jsx-a11y/no-autofocus
@@ -138,9 +136,7 @@ const AddRevisionDateField = ({ formikField, showError }: Props) => {
                     <InlineDatePicker
                       value={revisionMeta.revisionDate}
                       name={`revision_date_${index}`}
-                      onChange={(date) =>
-                        editRevision((old) => ({ ...old, revisionDate: date.currentTarget.value }))
-                      }
+                      onChange={(date) => editRevision((old) => ({ ...old, revisionDate: date.currentTarget.value }))}
                     />
                   </StyledDatePickerWrapper>
                 </Tooltip>

@@ -15,7 +15,5 @@ test('taxonomy/flattenResourceTypesAndAddContextTypes flattening', () => {
     'contextTypes.frontpage': 'Forsideartikkel',
   };
   const t = (key) => types[key];
-  expect(flattenResourceTypesAndAddContextTypes(resourceTypesMock, t)).toEqual(
-    flattenedResourceTypes,
-  );
+  expect(flattenResourceTypesAndAddContextTypes(resourceTypesMock, t)).toEqual(flattenedResourceTypes);
 });

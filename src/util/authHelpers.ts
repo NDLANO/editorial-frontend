@@ -32,13 +32,7 @@ const locationOrigin = (() => {
     const oldLoc = window.location;
     window.location = {
       ...oldLoc,
-      origin: [
-        window.location.protocol,
-        '//',
-        window.location.host,
-        ':',
-        window.location.port,
-      ].join(''),
+      origin: [window.location.protocol, '//', window.location.host, ':', window.location.port].join(''),
     };
   }
 
@@ -97,10 +91,7 @@ export function parseHash(hash: string): Promise<Auth0DecodedHash> {
 
 export function setAccessTokenInLocalStorage(accessToken: string, personal: boolean) {
   localStorage.setItem('access_token', accessToken);
-  localStorage.setItem(
-    'access_token_expires_at',
-    (expiresIn(accessToken) * 1000 + new Date().getTime()).toString(),
-  );
+  localStorage.setItem('access_token_expires_at', (expiresIn(accessToken) * 1000 + new Date().getTime()).toString());
   localStorage.setItem('access_token_personal', personal.toString());
 }
 
@@ -110,8 +101,7 @@ export const clearAccessTokenFromLocalStorage = () => {
   localStorage.removeItem('access_token_personal');
 };
 
-export const getAccessTokenPersonal = () =>
-  localStorage.getItem('access_token_personal') === 'true';
+export const getAccessTokenPersonal = () => localStorage.getItem('access_token_personal') === 'true';
 
 export const getAccessTokenExpiresAt = () => {
   const expiresAt = localStorage.getItem('access_token_expires_at');
@@ -160,10 +150,7 @@ export const renewAuth = async () => {
 
 let tokenRenewalTimeout: ReturnType<typeof setTimeout>;
 
-export const scheduleRenewal = async (
-  createMessage?: (newMessage: NewMessageType) => void,
-  ignoreRenew = false,
-) => {
+export const scheduleRenewal = async (createMessage?: (newMessage: NewMessageType) => void, ignoreRenew = false) => {
   if (!createMessageRef && createMessage) {
     createMessageRef = createMessage;
   }

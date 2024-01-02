@@ -85,13 +85,7 @@ const findFootnotes = (content: Descendant[]): FootnoteType[] =>
     .filter((footnote) => Object.keys(footnote.data).length > 0)
     .map((footnoteElement) => footnoteElement.data);
 
-const visualElements = [
-  TYPE_H5P,
-  TYPE_EMBED_BRIGHTCOVE,
-  TYPE_AUDIO,
-  TYPE_EMBED_EXTERNAL,
-  TYPE_EMBED_IMAGE,
-];
+const visualElements = [TYPE_H5P, TYPE_EMBED_BRIGHTCOVE, TYPE_AUDIO, TYPE_EMBED_EXTERNAL, TYPE_EMBED_IMAGE];
 
 const actions = [TYPE_TABLE, TYPE_CODEBLOCK, TYPE_FILE, TYPE_GRID].concat(visualElements);
 const actionsToShowInAreas = {
@@ -110,18 +104,12 @@ interface Props {
   initialHTML: string;
 }
 
-const LearningResourceContent = ({
-  articleLanguage,
-  articleId,
-  handleSubmit: _handleSubmit,
-  initialHTML,
-}: Props) => {
+const LearningResourceContent = ({ articleLanguage, articleId, handleSubmit: _handleSubmit, initialHTML }: Props) => {
   const { t } = useTranslation();
   const [creatorsField] = useField<IAuthor[]>('creators');
   const [preview, setPreview] = useState(false);
 
-  const { dirty, initialValues, values, status, setStatus } =
-    useFormikContext<LearningResourceFormType>();
+  const { dirty, initialValues, values, status, setStatus } = useFormikContext<LearningResourceFormType>();
 
   const isFormikDirty = useMemo(
     () =>
@@ -196,15 +184,8 @@ const LearningResourceContent = ({
         onCancel={() => setIsNormalizedOnLoad(false)}
         severity="warning"
       />
-      <StyledContentDiv
-        name="content"
-        label={t('form.content.label')}
-        noBorder
-        key={values.revision}
-      >
-        {(fieldProps) => (
-          <ContentField articleLanguage={articleLanguage} articleId={articleId} {...fieldProps} />
-        )}
+      <StyledContentDiv name="content" label={t('form.content.label')} noBorder key={values.revision}>
+        {(fieldProps) => <ContentField articleLanguage={articleLanguage} articleId={articleId} {...fieldProps} />}
       </StyledContentDiv>
     </>
   );
@@ -215,11 +196,7 @@ interface ContentFieldProps extends FieldProps<Descendant[]> {
   articleLanguage: string;
 }
 
-const ContentField = ({
-  articleId,
-  field: { name, onChange, value },
-  articleLanguage,
-}: ContentFieldProps) => {
+const ContentField = ({ articleId, field: { name, onChange, value }, articleLanguage }: ContentFieldProps) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const { isSubmitting } = useFormikContext<LearningResourceFormType>();
@@ -247,10 +224,7 @@ const ContentField = ({
     <>
       <FieldHeader title={t('form.content.label')}>
         {articleId && userPermissions?.includes(DRAFT_HTML_SCOPE) && (
-          <EditMarkupLink
-            to={toEditMarkup(articleId, articleLanguage ?? '')}
-            title={t('editMarkup.linkTitle')}
-          />
+          <EditMarkupLink to={toEditMarkup(articleId, articleLanguage ?? '')} title={t('editMarkup.linkTitle')} />
         )}
       </FieldHeader>
       <RichTextEditor

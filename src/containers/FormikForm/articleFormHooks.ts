@@ -10,14 +10,7 @@ import { FormikHelpers } from 'formik';
 import { TFunction } from 'i18next';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Descendant } from 'slate';
-import {
-  IArticle,
-  ILicense,
-  IStatus,
-  IUpdatedArticle,
-  IAuthor,
-  IComment,
-} from '@ndla/types-backend/draft-api';
+import { IArticle, ILicense, IStatus, IUpdatedArticle, IAuthor, IComment } from '@ndla/types-backend/draft-api';
 import { getWarnings, RulesType } from '../../components/formikValidationSchema';
 import { PUBLISHED } from '../../constants';
 import { RelatedContent } from '../../interfaces';
@@ -92,32 +85,19 @@ export interface TopicArticleFormType extends ArticleFormType {
 export interface FrontpageArticleFormType extends ArticleFormType {}
 
 type HooksInputObject<T extends ArticleFormType> = {
-  getInitialValues: (
-    article: IArticle | undefined,
-    language: string,
-    ndlaId: string | undefined,
-  ) => T;
+  getInitialValues: (article: IArticle | undefined, language: string, ndlaId: string | undefined) => T;
   article?: IArticle;
   t: TFunction;
   articleStatus?: IStatus;
   updateArticle: (art: IUpdatedArticle) => Promise<IArticle>;
   licenses?: ILicense[];
-  getArticleFromSlate: (
-    values: T,
-    initialValues: T,
-    licenses: ILicense[],
-    preview?: boolean,
-  ) => IUpdatedArticle;
+  getArticleFromSlate: (values: T, initialValues: T, licenses: ILicense[], preview?: boolean) => IUpdatedArticle;
   articleLanguage: string;
   rules?: RulesType<T, IArticle>;
   ndlaId?: string;
 };
 
-export type HandleSubmitFunc<T> = (
-  values: T,
-  formikHelpers: FormikHelpers<T>,
-  saveAsNew?: boolean,
-) => Promise<void>;
+export type HandleSubmitFunc<T> = (values: T, formikHelpers: FormikHelpers<T>, saveAsNew?: boolean) => Promise<void>;
 
 export function useArticleFormHooks<T extends ArticleFormType>({
   getInitialValues,

@@ -142,9 +142,9 @@ const SlateAudio = ({ element, editor, attributes, language, children }: Props) 
                 <>
                   <SafeLinkIconButton
                     colorTheme="light"
-                    to={`/media/${
-                      embed.embedData.type === 'podcast' ? 'podcast' : 'audio'
-                    }-upload/${embed.embedData.resourceId}/edit/${language}`}
+                    to={`/media/${embed.embedData.type === 'podcast' ? 'podcast' : 'audio'}-upload/${
+                      embed.embedData.resourceId
+                    }/edit/${language}`}
                     target="_blank"
                     title={t('form.editAudio')}
                     aria-label={t('form.editAudio')}
@@ -164,11 +164,7 @@ const SlateAudio = ({ element, editor, attributes, language, children }: Props) 
               )}
               {embed.embedData.type !== 'podcast' && (
                 <ModalTrigger>
-                  <IconButtonV2
-                    title={t('form.audio.edit')}
-                    aria-label={t('form.audio.edit')}
-                    variant="ghost"
-                  >
+                  <IconButtonV2 title={t('form.audio.edit')} aria-label={t('form.audio.edit')} variant="ghost">
                     <Pencil />
                   </IconButtonV2>
                 </ModalTrigger>
@@ -180,12 +176,7 @@ const SlateAudio = ({ element, editor, attributes, language, children }: Props) 
       </AudioWrapper>
       <ModalContent>
         {!!element.data && !!audioMetaQuery.data && (
-          <AudioEmbedForm
-            audio={audioMetaQuery.data}
-            onSave={onSave}
-            onCancel={onClose}
-            embed={element.data}
-          />
+          <AudioEmbedForm audio={audioMetaQuery.data} onSave={onSave} onCancel={onClose} embed={element.data} />
         )}
       </ModalContent>
       {children}

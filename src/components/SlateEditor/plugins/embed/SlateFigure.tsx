@@ -32,23 +32,12 @@ interface ChangesProp {
   [x: string]: string;
 }
 
-const SlateFigure = ({
-  attributes,
-  editor,
-  element,
-  language,
-  children,
-  allowDecorative = true,
-}: Props) => {
+const SlateFigure = ({ attributes, editor, element, language, children, allowDecorative = true }: Props) => {
   const embed = element.data;
   const { t } = useTranslation();
 
   const saveEmbedUpdates = (updates: ChangesProp) => {
-    Transforms.setNodes(
-      editor,
-      { data: { ...embed, ...updates } },
-      { at: ReactEditor.findPath(editor, element) },
-    );
+    Transforms.setNodes(editor, { data: { ...embed, ...updates } }, { at: ReactEditor.findPath(editor, element) });
   };
 
   const isActive = () => {
@@ -132,11 +121,7 @@ const SlateFigure = ({
       );
     case 'error':
       return (
-        <EditorErrorMessage
-          onRemoveClick={onRemoveClick}
-          attributes={attributes}
-          msg={embed.message}
-        >
+        <EditorErrorMessage onRemoveClick={onRemoveClick} attributes={attributes} msg={embed.message}>
           {children}
         </EditorErrorMessage>
       );

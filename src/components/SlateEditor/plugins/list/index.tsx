@@ -52,27 +52,17 @@ export const listSerializer: SlateSerializer = {
         return acc;
       } else if (Element.isElement(cur) && !inlines.includes(cur.type)) {
         if (cur.type === TYPE_BREAK) {
-          if (
-            Element.isElement(lastElement) &&
-            lastElement.type === TYPE_PARAGRAPH &&
-            lastElement.serializeAsText
-          ) {
+          if (Element.isElement(lastElement) && lastElement.type === TYPE_PARAGRAPH && lastElement.serializeAsText) {
             lastElement.children.push({ text: '\n' });
           } else {
-            acc.push(
-              slatejsx('element', { type: TYPE_PARAGRAPH, serializeAsText: true }, { text: '\n' }),
-            );
+            acc.push(slatejsx('element', { type: TYPE_PARAGRAPH, serializeAsText: true }, { text: '\n' }));
           }
         } else {
           acc.push(cur);
         }
         return acc;
       } else if (Text.isText(cur) || (Element.isElement(cur) && inlines.includes(cur.type))) {
-        if (
-          Element.isElement(lastElement) &&
-          lastElement.type === TYPE_PARAGRAPH &&
-          lastElement.serializeAsText
-        ) {
+        if (Element.isElement(lastElement) && lastElement.type === TYPE_PARAGRAPH && lastElement.serializeAsText) {
           lastElement.children.push(cur);
           return acc;
         } else {
@@ -85,11 +75,7 @@ export const listSerializer: SlateSerializer = {
     }, [] as Descendant[]);
 
     if (tag === 'ul') {
-      return slatejsx(
-        'element',
-        { type: TYPE_LIST, listType: 'bulleted-list', data: {} },
-        children,
-      );
+      return slatejsx('element', { type: TYPE_LIST, listType: 'bulleted-list', data: {} }, children);
     }
     if (tag === 'ol') {
       const start = el.getAttribute('start');
@@ -209,10 +195,7 @@ export const listPlugin = (editor: Editor) => {
     }
     if (Element.isElement(node) && node.type === TYPE_LIST) {
       // If list is empty or zero-length text element, remove it
-      if (
-        node.children.length === 0 ||
-        (Text.isTextList(node.children) && Node.string(node) === '')
-      ) {
+      if (node.children.length === 0 || (Text.isTextList(node.children) && Node.string(node) === '')) {
         return Transforms.removeNodes(editor, { at: path });
       }
 

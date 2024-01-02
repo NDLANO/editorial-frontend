@@ -12,13 +12,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
-import {
-  isNDLAArticleUrl,
-  isNDLAEdPathUrl,
-  isNDLALearningPathUrl,
-  isNDLATaxonomyUrl,
-  isPlainId,
-} from './EditLink';
+import { isNDLAArticleUrl, isNDLAEdPathUrl, isNDLALearningPathUrl, isNDLATaxonomyUrl, isPlainId } from './EditLink';
 import { Model } from './Link';
 import config from '../../../../config';
 import { Checkbox } from '../../../../containers/FormikForm';

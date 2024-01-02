@@ -73,11 +73,7 @@ const ElementListItem = ({
   onDragStart,
   showDragTooltip,
 }: Props) => {
-  const linkProps = resourceToLinkProps(
-    element,
-    element.articleType ?? articleType ?? 'learning-path',
-    locale,
-  );
+  const linkProps = resourceToLinkProps(element, element.articleType ?? articleType ?? 'learning-path', locale);
 
   return (
     <StyledListItem

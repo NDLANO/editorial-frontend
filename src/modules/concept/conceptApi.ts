@@ -16,18 +16,11 @@ import {
 } from '@ndla/types-backend/concept-api';
 import { ConceptQuery } from './conceptApiInterfaces';
 import { ConceptStatusStateMachineType } from '../../interfaces';
-import {
-  resolveJsonOrRejectWithError,
-  apiResourceUrl,
-  fetchAuthorized,
-} from '../../util/apiHelpers';
+import { resolveJsonOrRejectWithError, apiResourceUrl, fetchAuthorized } from '../../util/apiHelpers';
 
 const draftConceptUrl: string = apiResourceUrl('/concept-api/v1/drafts');
 
-export const fetchSearchTags = async (
-  input: string,
-  language: string,
-): Promise<ITagsSearchResult> => {
+export const fetchSearchTags = async (input: string, language: string): Promise<ITagsSearchResult> => {
   const response = await fetchAuthorized(
     `${draftConceptUrl}/tag-search/?language=${language}&query=${input}&fallback=true`,
   );
@@ -35,9 +28,7 @@ export const fetchSearchTags = async (
 };
 
 export const fetchAllTags = async (language: string): Promise<string[]> => {
-  const response = await fetchAuthorized(
-    `${draftConceptUrl}/tags/?language=${language}&fallback=true`,
-  );
+  const response = await fetchAuthorized(`${draftConceptUrl}/tags/?language=${language}&fallback=true`);
   return resolveJsonOrRejectWithError(response);
 };
 
@@ -46,13 +37,10 @@ export const fetchAllSubjects = async (): Promise<string[]> => {
   return resolveJsonOrRejectWithError(response);
 };
 
-export const fetchConcept = async (
-  conceptId: string | number,
-  locale?: string,
-): Promise<IConcept> => {
+export const fetchConcept = async (conceptId: string | number, locale?: string): Promise<IConcept> => {
   const languageParam = locale ? `language=${locale}&` : '';
-  return fetchAuthorized(`${draftConceptUrl}/${conceptId}?${languageParam}fallback=true`).then(
-    (r) => resolveJsonOrRejectWithError<IConcept>(r),
+  return fetchAuthorized(`${draftConceptUrl}/${conceptId}?${languageParam}fallback=true`).then((r) =>
+    resolveJsonOrRejectWithError<IConcept>(r),
   );
 };
 
@@ -68,10 +56,7 @@ export const updateConcept = async (id: number, concept: IUpdatedConcept): Promi
     body: JSON.stringify(concept),
   }).then((r) => resolveJsonOrRejectWithError<IConcept>(r));
 
-export const deleteLanguageVersionConcept = async (
-  conceptId: number,
-  language: string,
-): Promise<IConcept> =>
+export const deleteLanguageVersionConcept = async (conceptId: number, language: string): Promise<IConcept> =>
   fetchAuthorized(`${draftConceptUrl}/${conceptId}?language=${language}`, {
     method: 'DELETE',
   }).then((r) => resolveJsonOrRejectWithError<IConcept>(r));

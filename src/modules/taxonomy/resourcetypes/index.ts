@@ -11,10 +11,7 @@ import { ResourceResourceTypePostBody } from './resourceTypesApiInterfaces';
 import { taxonomyApi } from '../../../config';
 import { WithTaxonomyVersion } from '../../../interfaces';
 import { apiResourceUrl, httpFunctions } from '../../../util/apiHelpers';
-import {
-  resolveLocation,
-  resolveVoidOrRejectWithError,
-} from '../../../util/resolveJsonOrRejectWithError';
+import { resolveLocation, resolveVoidOrRejectWithError } from '../../../util/resolveJsonOrRejectWithError';
 
 const resourceTypesUrl = apiResourceUrl(`${taxonomyApi}/resource-types`);
 const resourceResourceTypesUrl = apiResourceUrl(`${taxonomyApi}/resource-resourcetypes`);
@@ -37,11 +34,7 @@ interface ResourceTypeGetParams extends WithTaxonomyVersion {
   language: string;
 }
 
-export const fetchResourceType = ({
-  id,
-  language,
-  taxonomyVersion,
-}: ResourceTypeGetParams): Promise<ResourceType> => {
+export const fetchResourceType = ({ id, language, taxonomyVersion }: ResourceTypeGetParams): Promise<ResourceType> => {
   return fetchAndResolve({
     url: `${resourceTypesUrl}/${id}`,
     queryParams: { language },

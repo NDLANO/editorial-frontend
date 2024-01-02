@@ -117,9 +117,7 @@ const ErrorMessage = ({ draftId, language, messageId }: ErrorMessageProps) => {
     <Container>
       <StyledErrorMessage>{t(messageId)}</StyledErrorMessage>
       <Row justifyContent="center" alignItems="baseline">
-        <Link to={`/subject-matter/learning-resource/${draftId}/edit/${language}`}>
-          {t('editMarkup.back')}
-        </Link>
+        <Link to={`/subject-matter/learning-resource/${draftId}/edit/${language}`}>{t('editMarkup.back')}</Link>
       </Row>
     </Container>
   );
@@ -191,9 +189,7 @@ const EditMarkupPage = () => {
   };
 
   if (status === 'access-error') {
-    return (
-      <ErrorMessage draftId={draftId} language={language} messageId="forbiddenPage.description" />
-    );
+    return <ErrorMessage draftId={draftId} language={language} messageId="forbiddenPage.description" />;
   }
 
   if (status === 'fetch-error') {
@@ -221,11 +217,7 @@ const EditMarkupPage = () => {
       </LanguageWrapper>
       <Suspense fallback={<Spinner />}>
         <MonacoEditor
-          key={
-            draft && draft.content
-              ? draft.id + draft.revision + '-' + draft.content.language
-              : 'draft'
-          }
+          key={draft && draft.content ? draft.id + draft.revision + '-' + draft.content.language : 'draft'}
           value={draft?.content?.content ?? ''}
           onChange={handleChange}
           onSave={saveChanges}
@@ -240,12 +232,7 @@ const EditMarkupPage = () => {
             />
           )}
           <Row justifyContent="end" alignItems="baseline">
-            <Link
-              to={
-                locationState?.backUrl ||
-                `/subject-matter/learning-resource/${draftId}/edit/${language}`
-              }
-            >
+            <Link to={locationState?.backUrl || `/subject-matter/learning-resource/${draftId}/edit/${language}`}>
               {t('editMarkup.back')}
             </Link>
             <SaveButton

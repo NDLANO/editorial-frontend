@@ -16,12 +16,7 @@ import { InputV2 } from '@ndla/forms';
 import { IArticleV2 } from '@ndla/types-backend/article-api';
 import { ILearningPathSummaryV2, ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
 import { IGroupSearchResult, IMultiSearchSummary } from '@ndla/types-backend/search-api';
-import {
-  ButtonWrapper,
-  ErrorMessage,
-  StyledLabel,
-  inputWrapperStyles,
-} from './PlannedResourceForm';
+import { ButtonWrapper, ErrorMessage, StyledLabel, inputWrapperStyles } from './PlannedResourceForm';
 import ArticlePreview from '../../../components/ArticlePreview';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
 import Spinner from '../../../components/Spinner';
@@ -81,11 +76,7 @@ interface Preview extends Pick<IMultiSearchSummary, 'id' | 'title' | 'metaDescri
   paths?: string[];
 }
 
-type PossibleResources =
-  | IMultiSearchSummary
-  | ILearningPathSummaryV2
-  | ILearningPathV2
-  | IArticleV2;
+type PossibleResources = IMultiSearchSummary | ILearningPathSummaryV2 | ILearningPathV2 | IArticleV2;
 
 const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, nodeId }: Props) => {
   const { t, i18n } = useTranslation();
@@ -191,9 +182,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
 
     const pastedIsNumber = /^-?\d+$/.test(input);
     const articleIdInPathMatch = input.match(/article\/(\d+)/);
-    const articleIdInInput = articleIdInPathMatch
-      ? articleIdInPathMatch[1]
-      : pastedIsNumber && input;
+    const articleIdInInput = articleIdInPathMatch ? articleIdInPathMatch[1] : pastedIsNumber && input;
 
     if (articleIdInInput === articleInputId) return;
     resetPastedUrlStatesWithError();

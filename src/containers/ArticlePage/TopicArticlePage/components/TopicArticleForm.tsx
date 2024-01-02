@@ -23,11 +23,7 @@ import { useLicenses, useDraftStatusStateMachine } from '../../../../modules/dra
 import { blockContentToHTML } from '../../../../util/articleContentConverter';
 import { isFormikFormDirty, topicArticleRules } from '../../../../util/formHelper';
 import { AlertModalWrapper } from '../../../FormikForm';
-import {
-  HandleSubmitFunc,
-  TopicArticleFormType,
-  useArticleFormHooks,
-} from '../../../FormikForm/articleFormHooks';
+import { HandleSubmitFunc, TopicArticleFormType, useArticleFormHooks } from '../../../FormikForm/articleFormHooks';
 import usePreventWindowUnload from '../../../FormikForm/preventWindowUnloadHook';
 import { TaxonomyVersionProvider } from '../../../StructureVersion/TaxonomyVersionProvider';
 import {
@@ -65,10 +61,7 @@ const TopicArticleForm = ({
   const { t } = useTranslation();
   const { ndlaId } = useSession();
 
-  const validate = useCallback(
-    (values: TopicArticleFormType) => validateFormik(values, topicArticleRules, t),
-    [t],
-  );
+  const validate = useCallback((values: TopicArticleFormType) => validateFormik(values, topicArticleRules, t), [t]);
 
   const {
     savedToServer,
@@ -95,10 +88,7 @@ const TopicArticleForm = ({
     [article, initialValues, t],
   );
 
-  const initialErrors = useMemo(
-    () => validateFormik(initialValues, topicArticleRules, t),
-    [initialValues, t],
-  );
+  const initialErrors = useMemo(() => validateFormik(initialValues, topicArticleRules, t), [initialValues, t]);
 
   const handleSubmit: HandleSubmitFunc<TopicArticleFormType> = useCallback(
     async (values, helpers, saveAsNew) => {

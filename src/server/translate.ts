@@ -80,9 +80,7 @@ const doFetch = (name: string, element: ApiTranslateType): Promise<ResponseType>
 
 export const translateDocument = async (document: Record<string, ApiTranslateType>) => {
   try {
-    const translations = await Promise.all(
-      Object.keys(document).map((k) => doFetch(k, document[k])),
-    );
+    const translations = await Promise.all(Object.keys(document).map((k) => doFetch(k, document[k])));
     return translations.reduce<Record<string, string | string[]>>((acc, { key, value }) => {
       acc[key] = value;
       return acc;

@@ -15,11 +15,7 @@ import { Node } from '@ndla/types-taxonomy';
 import ConceptForm, { InlineFormConcept } from './ConceptForm';
 import { StyledConceptView } from './SearchStyles';
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../../../../../constants';
-import {
-  fetchConcept,
-  updateConcept,
-  updateConceptStatus,
-} from '../../../../../modules/concept/conceptApi';
+import { fetchConcept, updateConcept, updateConceptStatus } from '../../../../../modules/concept/conceptApi';
 import { useLicenses } from '../../../../../modules/draft/draftQueries';
 
 interface Props {
@@ -60,9 +56,7 @@ const FormView = ({ concept, cancel, subjects, updateLocalConcept }: Props) => {
       setFormValues({
         title: fullConcept.title.title,
         subjects: subjects.filter((s) => subjectIds?.find((id) => id === s.id)),
-        license:
-          licenses!.find((l) => l.license === fullConcept.copyright?.license?.license)?.license ||
-          '',
+        license: licenses!.find((l) => l.license === fullConcept.copyright?.license?.license)?.license || '',
         tags: fullConcept.tags?.tags || [],
       });
     }

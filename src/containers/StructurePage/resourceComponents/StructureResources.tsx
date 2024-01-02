@@ -73,8 +73,7 @@ const StructureResources = ({ currentChildNode, resourceRef, setCurrentNode }: P
       taxonomyVersion,
     },
     {
-      select: (resources) =>
-        resources.map((r) => (r.resourceTypes.length > 0 ? r : withMissing(r))),
+      select: (resources) => resources.map((r) => (r.resourceTypes.length > 0 ? r : withMissing(r))),
       placeholderData: [],
     },
   );

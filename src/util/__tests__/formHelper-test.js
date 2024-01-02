@@ -5,10 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import {
-  valueWithTwoImageEmbeds,
-  valueWithInlineFootnotesAndContentLinks,
-} from './slateMockValues';
+import { valueWithTwoImageEmbeds, valueWithInlineFootnotesAndContentLinks } from './slateMockValues';
 import { isFormikFormDirty } from '../formHelper';
 
 test('util/formHelper isFormikFormDirty is true', () => {

@@ -14,10 +14,7 @@ import { ButtonV2 } from '@ndla/button';
 import { spacing, colors } from '@ndla/core';
 import { InputV2 } from '@ndla/forms';
 import { Node, NodeType } from '@ndla/types-taxonomy';
-import {
-  useAddNodeMutation,
-  usePostNodeConnectionMutation,
-} from '../../modules/nodes/nodeMutations';
+import { useAddNodeMutation, usePostNodeConnectionMutation } from '../../modules/nodes/nodeMutations';
 import { nodeQueryKeys } from '../../modules/nodes/nodeQueries';
 import handleError from '../../util/handleError';
 import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';

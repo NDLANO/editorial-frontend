@@ -113,8 +113,6 @@ describe('useMessages', () => {
 
     expect(result.current.messages.length).toBe(1);
     expect(result.current.messages[0].severity).toBe('danger');
-    expect(result.current.messages[0].message).toBe(
-      'Generic error: Another somewhat less dangerous error',
-    );
+    expect(result.current.messages[0].message).toBe('Generic error: Another somewhat less dangerous error');
   });
 });

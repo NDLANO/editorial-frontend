@@ -128,9 +128,7 @@ const GrepCodesFieldContent = ({ field, form }: Props) => {
       <FormikFieldDescription description={t('form.grepCodes.description')} />
       {!!failedGrepCodes.length && (
         <FormikFieldHelp error>
-          <StyledErrorPreLine>
-            {`${t('errorMessage.grepCodes')}${failedGrepCodes.join(', ')}`}
-          </StyledErrorPreLine>
+          <StyledErrorPreLine>{`${t('errorMessage.grepCodes')}${failedGrepCodes.join(', ')}`}</StyledErrorPreLine>
         </FormikFieldHelp>
       )}
       <AsyncDropdown
@@ -151,12 +149,7 @@ const GrepCodesFieldContent = ({ field, form }: Props) => {
       />
 
       {grepCodes.map((grepCode, index) => (
-        <FormPill
-          id={index.toString()}
-          label={isTitleTooLong(grepCode.title)}
-          onClick={removeGrepCode}
-          key={index}
-        />
+        <FormPill id={index.toString()} label={isTitleTooLong(grepCode.title)} onClick={removeGrepCode} key={index} />
       ))}
     </>
   );

@@ -156,9 +156,7 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
         {({ isSubmitting, isValid, dirty, handleSubmit }) => {
           return (
             <>
-              <StyledTitle>
-                {t(`taxonomyVersions.${!version ? 'newVersionTitle' : 'editVersionTitle'}`)}
-              </StyledTitle>
+              <StyledTitle>{t(`taxonomyVersions.${!version ? 'newVersionTitle' : 'editVersionTitle'}`)}</StyledTitle>
               <VersionNameField />
               {!version && <VersionSourceField existingVersions={existingVersions} />}
               {version?.versionType !== 'PUBLISHED' && <VersionLockedField />}

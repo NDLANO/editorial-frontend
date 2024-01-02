@@ -66,8 +66,7 @@ interface ListWrapperProps {
 
 const ListWrapper = styled.ul<ListWrapperProps>`
   overflow: visible;
-  margin: 0 0
-    ${(props) => (props.draggingIndex > -1 ? `${FILE_HEIGHT + spacingUnit * 0.75}px` : '0')};
+  margin: 0 0 ${(props) => (props.draggingIndex > -1 ? `${FILE_HEIGHT + spacingUnit * 0.75}px` : '0')};
   padding: 0;
   position: relative;
   list-style: none;
@@ -195,9 +194,7 @@ class FileListEditor extends Component<Props, State> {
   }
 
   updateTransforms(dragIndex: number) {
-    const childNodes = this.filesWrapperRef.current?.childNodes as
-      | NodeListOf<HTMLLIElement>
-      | undefined;
+    const childNodes = this.filesWrapperRef.current?.childNodes as NodeListOf<HTMLLIElement> | undefined;
     childNodes?.forEach((node, index) => {
       if (index !== this.initialPosition) {
         const value = index >= dragIndex ? FILE_HEIGHT : 0;
@@ -212,9 +209,7 @@ class FileListEditor extends Component<Props, State> {
     this.initialPosition = dragIndex;
     this.updateTransforms(dragIndex);
 
-    const childNodes = this.filesWrapperRef.current?.childNodes as
-      | NodeListOf<HTMLLIElement>
-      | undefined;
+    const childNodes = this.filesWrapperRef.current?.childNodes as NodeListOf<HTMLLIElement> | undefined;
 
     this.DraggingFile = childNodes?.[dragIndex];
     if (this.DraggingFile) {
@@ -248,9 +243,7 @@ class FileListEditor extends Component<Props, State> {
   onDragEnd() {
     window.removeEventListener('mousemove', this.onDragging);
     window.removeEventListener('mouseup', this.onDragEnd);
-    const childNodes = this.filesWrapperRef.current?.childNodes as
-      | NodeListOf<HTMLLIElement>
-      | undefined;
+    const childNodes = this.filesWrapperRef.current?.childNodes as NodeListOf<HTMLLIElement> | undefined;
 
     if (this.state.draggingIndex !== -1) {
       this.props.onMovedFile(this.initialPosition, this.state.draggingIndex);
@@ -274,10 +267,7 @@ class FileListEditor extends Component<Props, State> {
 
   onDragging(e: MouseEvent) {
     this.mouseMovement += e.movementY;
-    const currentPosition = Math.max(
-      Math.ceil((this.mouseMovement + FILE_HEIGHT / 2) / FILE_HEIGHT),
-      0,
-    );
+    const currentPosition = Math.max(Math.ceil((this.mouseMovement + FILE_HEIGHT / 2) / FILE_HEIGHT), 0);
     const addToPosition = this.initialPosition < currentPosition ? 1 : 0;
     const dragIndex = Math.min(this.props.files.length, Math.max(currentPosition, 0));
     if (this.DraggingFile) {

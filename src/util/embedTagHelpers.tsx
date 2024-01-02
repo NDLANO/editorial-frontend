@@ -28,9 +28,7 @@ export const reduceElementDataAttributesV2 = (
   filter?: string[],
 ): Record<string, string> => {
   const _attributes = attributes.filter((a) => a.name !== 'style');
-  const filteredAttributes = filter?.length
-    ? _attributes.filter((a) => filter.includes(a.name))
-    : _attributes;
+  const filteredAttributes = filter?.length ? _attributes.filter((a) => filter.includes(a.name)) : _attributes;
   return filteredAttributes.reduce<Record<string, string>>((acc, attr) => {
     if (attr.name.startsWith('data-')) {
       const key = attr.name
@@ -46,19 +44,13 @@ export const reduceElementDataAttributesV2 = (
   }, {});
 };
 
-export const reduceElementDataAttributes = (
-  el: Element,
-  filter?: string[],
-): { [key: string]: string } => {
+export const reduceElementDataAttributes = (el: Element, filter?: string[]): { [key: string]: string } => {
   if (!el.attributes) return {};
   let attrs: Attr[] = [].slice.call(el.attributes);
   attrs = attrs.filter((a) => a.name !== 'style');
 
   if (filter) attrs = attrs.filter((a) => filter.includes(a.name));
-  const obj = attrs.reduce(
-    (all, attr) => Object.assign({}, all, { [attr.name.replace('data-', '')]: attr.value }),
-    {},
-  );
+  const obj = attrs.reduce((all, attr) => Object.assign({}, all, { [attr.name.replace('data-', '')]: attr.value }), {});
   return obj;
 };
 
@@ -125,9 +117,7 @@ type EmbedProps<T extends object> = {
   [Key in keyof T]: string | undefined;
 };
 
-export const createEmbedTagV2 = <T extends object>(
-  data: EmbedProps<T>,
-): JSX.Element | undefined => {
+export const createEmbedTagV2 = <T extends object>(data: EmbedProps<T>): JSX.Element | undefined => {
   const entries = Object.entries(data ?? {});
   if (entries.length === 0) {
     return undefined;

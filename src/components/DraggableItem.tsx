@@ -32,14 +32,13 @@ const StyledListElement = styled.li`
 `;
 
 const DraggableItem = ({ id, index, children, dragHandle, disabled }: Props) => {
-  const { attributes, setNodeRef, transform, transition, listeners, setActivatorNodeRef } =
-    useSortable({
-      id: id,
-      disabled,
-      data: {
-        index: index,
-      },
-    });
+  const { attributes, setNodeRef, transform, transition, listeners, setActivatorNodeRef } = useSortable({
+    id: id,
+    disabled,
+    data: {
+      index: index,
+    },
+  });
 
   const style = {
     transition,
@@ -77,27 +76,9 @@ const DragHandleButton = styled(IconButtonV2)`
 `;
 
 export const DragHandle = forwardRef<HTMLButtonElement, ComponentProps<typeof IconButtonV2>>(
-  (
-    {
-      children,
-      id,
-      tabIndex = 0,
-      variant = 'ghost',
-      colorTheme = 'light',
-      size = 'small',
-      ...rest
-    },
-    ref,
-  ) => {
+  ({ children, id, tabIndex = 0, variant = 'ghost', colorTheme = 'light', size = 'small', ...rest }, ref) => {
     return (
-      <DragHandleButton
-        {...rest}
-        tabIndex={tabIndex}
-        variant={variant}
-        colorTheme={colorTheme}
-        size={size}
-        ref={ref}
-      >
+      <DragHandleButton {...rest} tabIndex={tabIndex} variant={variant} colorTheme={colorTheme} size={size} ref={ref}>
         {children}
       </DragHandleButton>
     );

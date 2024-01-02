@@ -17,10 +17,7 @@ import { SafeLinkButton } from '@ndla/safelink';
 import { Node } from '@ndla/types-taxonomy';
 import { OneColumn } from '@ndla/ui';
 import NodeIconType from '../../components/NodeIconType';
-import {
-  TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH,
-  TAXONOMY_CUSTOM_FIELD_IS_PUBLISHING,
-} from '../../constants';
+import { TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH, TAXONOMY_CUSTOM_FIELD_IS_PUBLISHING } from '../../constants';
 import { useNodes } from '../../modules/nodes/nodeQueries';
 import { useVersions } from '../../modules/taxonomy/versions/versionQueries';
 import { toNodeDiff, toStructure } from '../../util/routeHelpers';
@@ -86,10 +83,7 @@ const PublishRequestsContainer = () => {
     value: 'true',
   });
 
-  const sorted = useMemo(
-    () => sortBy(nodesQuery?.data, (n) => n.breadcrumbs?.join('')),
-    [nodesQuery],
-  );
+  const sorted = useMemo(() => sortBy(nodesQuery?.data, (n) => n.breadcrumbs?.join('')), [nodesQuery]);
 
   const versionsQuery = useVersions();
 
@@ -145,9 +139,7 @@ const PublishRequestsContainer = () => {
                 </StyledTitleColumn>
               </StyledTitleRow>
               <StyledButtonRow>
-                <SafeLinkButton to={toStructure(node.path)}>
-                  {t('publishRequests.showInStructure')}
-                </SafeLinkButton>
+                <SafeLinkButton to={toStructure(node.path)}>{t('publishRequests.showInStructure')}</SafeLinkButton>
                 <SafeLinkButton to={onCompare(node)} disabled={!otherVersion || !!error}>
                   {t('publishRequests.compare')}
                 </SafeLinkButton>

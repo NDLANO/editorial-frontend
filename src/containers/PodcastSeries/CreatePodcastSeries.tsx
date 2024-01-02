@@ -24,12 +24,7 @@ const CreatePodcastSeries = () => {
   };
 
   return (
-    <PodcastSeriesForm
-      language={locale}
-      onUpdate={onUpdate}
-      isNewlyCreated={false}
-      supportedLanguages={[locale]}
-    />
+    <PodcastSeriesForm language={locale} onUpdate={onUpdate} isNewlyCreated={false} supportedLanguages={[locale]} />
   );
 };
 

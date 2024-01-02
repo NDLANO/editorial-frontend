@@ -9,27 +9,19 @@
 import queryString from 'query-string';
 import { IGroupSearchResult, IMultiSearchResult } from '@ndla/types-backend/search-api';
 import { MultiSearchApiQuery } from './searchApiInterfaces';
-import {
-  resolveJsonOrRejectWithError,
-  apiResourceUrl,
-  fetchAuthorized,
-} from '../../util/apiHelpers';
+import { resolveJsonOrRejectWithError, apiResourceUrl, fetchAuthorized } from '../../util/apiHelpers';
 import { transformQuery } from '../../util/searchHelpers';
 
 const baseUrl = apiResourceUrl('/search-api/v1/search');
 const groupUrl = apiResourceUrl('/search-api/v1/search/group/');
 
 export const search = async (query: MultiSearchApiQuery): Promise<IMultiSearchResult> => {
-  const response = await fetchAuthorized(
-    `${baseUrl}/editorial/?${queryString.stringify(transformQuery(query))}`,
-  );
+  const response = await fetchAuthorized(`${baseUrl}/editorial/?${queryString.stringify(transformQuery(query))}`);
   return resolveJsonOrRejectWithError(response);
 };
 
 export const searchResources = async (query: MultiSearchApiQuery): Promise<IMultiSearchResult> => {
-  const response = await fetchAuthorized(
-    `${baseUrl}/?${queryString.stringify(transformQuery(query))}`,
-  );
+  const response = await fetchAuthorized(`${baseUrl}/?${queryString.stringify(transformQuery(query))}`);
   return resolveJsonOrRejectWithError(response);
 };
 

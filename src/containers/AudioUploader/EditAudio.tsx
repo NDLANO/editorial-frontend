@@ -66,10 +66,7 @@ const EditAudio = ({ isNewlyCreated }: Props) => {
     return <NotFoundPage />;
   }
 
-  const onUpdate = async (
-    newAudio: IUpdatedAudioMetaInformation,
-    file: string | Blob | undefined,
-  ): Promise<void> => {
+  const onUpdate = async (newAudio: IUpdatedAudioMetaInformation, file: string | Blob | undefined): Promise<void> => {
     const formData = await createFormData(file, newAudio);
     const updatedAudio = await updateAudio(audioId, formData);
     setAudio(updatedAudio);

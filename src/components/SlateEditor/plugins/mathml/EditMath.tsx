@@ -50,14 +50,7 @@ interface Props {
   setMathEditor: Dispatch<SetStateAction<MathMLType | undefined>>;
 }
 
-const EditMath = ({
-  model: { innerHTML },
-  onExit,
-  onRemove,
-  onSave,
-  mathEditor,
-  setMathEditor,
-}: Props) => {
+const EditMath = ({ model: { innerHTML }, onExit, onRemove, onSave, mathEditor, setMathEditor }: Props) => {
   const [initialized, setInitialized] = useState(false);
   const [renderedMathML, setRenderedMathML] = useState(innerHTML ?? emptyMathTag);
   const id = useMemo(() => uuid(), []);

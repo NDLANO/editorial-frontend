@@ -39,12 +39,7 @@ import { TYPE_CONTACT_BLOCK } from '../contactBlock/types';
 import { defaultContactBlock } from '../contactBlock/utils';
 import { TYPE_DETAILS } from '../details/types';
 import { defaultDetailsBlock } from '../details/utils';
-import {
-  TYPE_EMBED_BRIGHTCOVE,
-  TYPE_EMBED_ERROR,
-  TYPE_EMBED_EXTERNAL,
-  TYPE_EMBED_IMAGE,
-} from '../embed/types';
+import { TYPE_EMBED_BRIGHTCOVE, TYPE_EMBED_ERROR, TYPE_EMBED_EXTERNAL, TYPE_EMBED_IMAGE } from '../embed/types';
 import { TYPE_FILE } from '../file/types';
 import { TYPE_FRAMED_CONTENT } from '../framedContent/types';
 import { defaultFramedContentBlock } from '../framedContent/utils';
@@ -186,9 +181,7 @@ const SlateBlockPicker = ({
 
   const blockPickerLabel = useMemo(
     () =>
-      blockPickerOpen
-        ? t('editorBlockpicker.close')
-        : t('editorBlockpicker.open', { ctrl: IS_MAC ? 'cmd' : 'ctrl' }),
+      blockPickerOpen ? t('editorBlockpicker.close') : t('editorBlockpicker.open', { ctrl: IS_MAC ? 'cmd' : 'ctrl' }),
     [blockPickerOpen, t],
   );
 
@@ -226,8 +219,7 @@ const SlateBlockPicker = ({
       el.hidden = true;
       return;
     }
-    const parent =
-      selectedParagraphPath && Editor.node(editor, Path.parent(selectedParagraphPath))?.[0];
+    const parent = selectedParagraphPath && Editor.node(editor, Path.parent(selectedParagraphPath))?.[0];
     const leftAdjust = getLeftAdjust(parent);
     const domElement = ReactEditor.toDOMNode(editor, selectedParagraph);
     const rect = domElement.getBoundingClientRect();
@@ -422,12 +414,7 @@ const SlateBlockPicker = ({
             </BlockPickerButton>
           </PopoverTrigger>
         </Portal>
-        <StyledContent
-          side="right"
-          sideOffset={6}
-          data-testid="slate-block-picker-menu"
-          avoidCollisions={false}
-        >
+        <StyledContent side="right" sideOffset={6} data-testid="slate-block-picker-menu" avoidCollisions={false}>
           <BlockPickerLabel element="h1" headingStyle="list-title" margin="none">
             {t('editorBlockpicker.heading')}
           </BlockPickerLabel>

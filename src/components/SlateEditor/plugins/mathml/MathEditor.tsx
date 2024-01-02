@@ -108,8 +108,7 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
             match: (node) => node === element,
           });
 
-          const mathAsString = new DOMParser().parseFromString(mathML, 'text/xml').firstChild
-            ?.textContent;
+          const mathAsString = new DOMParser().parseFromString(mathML, 'text/xml').firstChild?.textContent;
 
           Transforms.insertText(editor, mathAsString || '', {
             at: path,
@@ -147,10 +146,7 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
   }, [editor, element]);
 
   const onExit = useCallback(() => {
-    if (
-      (nodeInfo.model.innerHTML ?? emptyMathTag !== mathEditor?.getMathML()) &&
-      !openDiscardModal
-    ) {
+    if ((nodeInfo.model.innerHTML ?? emptyMathTag !== mathEditor?.getMathML()) && !openDiscardModal) {
       setOpenDiscardModal(true);
       return;
     }
@@ -171,15 +167,7 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
       setEditMode(false);
       setShowMenu(false);
     }
-  }, [
-    editor,
-    element,
-    handleRemove,
-    isFirstEdit,
-    mathEditor,
-    nodeInfo.model.innerHTML,
-    openDiscardModal,
-  ]);
+  }, [editor, element, handleRemove, isFirstEdit, mathEditor, nodeInfo.model.innerHTML, openDiscardModal]);
 
   return (
     <Modal open={editMode} onOpenChange={onOpenChange}>

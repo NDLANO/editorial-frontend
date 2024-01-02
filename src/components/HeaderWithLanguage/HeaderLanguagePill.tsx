@@ -50,13 +50,7 @@ interface Props extends HTMLProps<HTMLElement> {
   to?: string;
 }
 
-const LanguagePill = ({
-  children,
-  isSubmitting = false,
-  component: Component = 'div',
-  current,
-  ...rest
-}: Props) => {
+const LanguagePill = ({ children, isSubmitting = false, component: Component = 'div', current, ...rest }: Props) => {
   return (
     <Component disabled={isSubmitting} data-current={current} css={languagePillStyle} {...rest}>
       {children}

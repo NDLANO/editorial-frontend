@@ -53,8 +53,7 @@ const ResourcesContainer = ({
   contentMetaLoading,
 }: Props) => {
   const resourceTypesWithoutMissing = useMemo(
-    () =>
-      resourceTypes.filter((rt) => rt.id !== 'missing').map((rt) => ({ id: rt.id, name: rt.name })),
+    () => resourceTypes.filter((rt) => rt.id !== 'missing').map((rt) => ({ id: rt.id, name: rt.name })),
     [resourceTypes],
   );
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -98,11 +97,7 @@ const ResourcesContainer = ({
         {currentNode.name && (
           <StyledResource
             currentNodeId={currentNode.id}
-            responsible={
-              currentMeta?.responsible
-                ? users?.[currentMeta.responsible.responsibleId]?.name
-                : undefined
-            }
+            responsible={currentMeta?.responsible ? users?.[currentMeta.responsible.responsibleId]?.name : undefined}
             resource={{
               ...currentNode,
               paths,

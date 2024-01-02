@@ -32,12 +32,7 @@ const StyledOptionSpan = styled.span`
   text-transform: uppercase;
 `;
 
-const SearchListOptions = ({
-  searchObject = { 'page-size': 10 },
-  search,
-  type,
-  totalCount,
-}: Props) => {
+const SearchListOptions = ({ searchObject = { 'page-size': 10 }, search, type, totalCount }: Props) => {
   const { t } = useTranslation();
   const [pageSize, setPageSize] = useState(searchObject['page-size'] ?? 10);
 

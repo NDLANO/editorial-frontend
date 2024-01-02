@@ -73,9 +73,7 @@ export function convertFromHTML(root: Descendant | null) {
     if (Element.isElement(node)) {
       const children = node.children;
 
-      const blockChildren = children.filter(
-        (child) => Element.isElement(child) && !inlines.includes(child.type),
-      );
+      const blockChildren = children.filter((child) => Element.isElement(child) && !inlines.includes(child.type));
       const mixed = blockChildren.length > 0 && blockChildren.length !== children.length;
       if (!mixed) {
         node.children = children.map(wrapMixedChildren);

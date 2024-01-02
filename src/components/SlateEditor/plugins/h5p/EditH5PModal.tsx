@@ -51,9 +51,7 @@ const EditH5PModal = ({ embed, language, editor, element }: Props) => {
       }
       setOpen(false);
       const cssUrl = encodeURIComponent(`${config.ndlaFrontendDomain}/static/h5p-custom-css.css`);
-      const url = `${config.h5pApiUrl}${params.path}?locale=${getH5pLocale(
-        language,
-      )}&cssUrl=${cssUrl}`;
+      const url = `${config.h5pApiUrl}${params.path}?locale=${getH5pLocale(language)}&cssUrl=${cssUrl}`;
       const embedData: H5pEmbedData = {
         resource: 'h5p',
         path: params.path,

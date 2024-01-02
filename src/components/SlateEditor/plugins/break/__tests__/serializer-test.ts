@@ -7,10 +7,7 @@
  */
 
 import { Descendant } from 'slate';
-import {
-  blockContentToEditorValue,
-  blockContentToHTML,
-} from '../../../../../util/articleContentConverter';
+import { blockContentToEditorValue, blockContentToHTML } from '../../../../../util/articleContentConverter';
 import { TYPE_SECTION } from '../../section/types';
 import { TYPE_BREAK } from '../types';
 

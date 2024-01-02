@@ -73,9 +73,7 @@ const AddNotesField = ({
             />
           </div>
           <div>
-            <FieldRemoveButton onClick={(evt) => removeNote(evt, index)}>
-              {labelRemoveNote}
-            </FieldRemoveButton>
+            <FieldRemoveButton onClick={(evt) => removeNote(evt, index)}>{labelRemoveNote}</FieldRemoveButton>
           </div>
         </FieldSection>
       ))}

@@ -32,11 +32,7 @@ export type DiffType<T> = {
 };
 
 type Keys<T> = {
-  [key in keyof T]: T[key] extends Array<any>
-    ? boolean
-    : T[key] extends object
-      ? Partial<Keys<T[key]>>
-      : boolean;
+  [key in keyof T]: T[key] extends Array<any> ? boolean : T[key] extends object ? Partial<Keys<T[key]>> : boolean;
 };
 
 type SkipKeys<T> = Partial<Keys<T>>;
@@ -223,8 +219,7 @@ export const diffTrees = (
   viewType: 'flat' | 'tree',
 ): DiffTree => {
   // The root node is returned from the recursive endpoint as well, filter it out.
-  const originalChildren =
-    originalTree?.children.filter((c) => c.id !== originalTree.root.id) ?? [];
+  const originalChildren = originalTree?.children.filter((c) => c.id !== originalTree.root.id) ?? [];
   const originalRoot = originalTree?.root;
   const otherChildren = otherTree?.children.filter((c) => c.id !== otherTree.root.id) ?? [];
   const otherRoot = otherTree?.root;
@@ -256,11 +251,7 @@ export const diffTrees = (
     },
     'id',
   );
-  const childrenDiff = diffChildren(
-    { original: originalRoot, other: otherRoot },
-    Object.values(grouping),
-    viewType,
-  );
+  const childrenDiff = diffChildren({ original: originalRoot, other: otherRoot }, Object.values(grouping), viewType);
   const childrenChanged = childrenDiff.some(
     (child) =>
       child.childrenChanged?.diffType !== 'NONE' ||
@@ -283,11 +274,7 @@ const isObject = <T>(original: T | undefined, other: T | undefined) => {
   return isObjectLike(original) || isObjectLike(other);
 };
 
-export const diffObject = <T>(
-  original: T | undefined,
-  other: T | undefined,
-  skipFields?: SkipKeys<T>,
-): DiffType<T> => {
+export const diffObject = <T>(original: T | undefined, other: T | undefined, skipFields?: SkipKeys<T>): DiffType<T> => {
   let hasChanged = false;
   const objDiff = diffField(original, other, undefined, true);
   const allKeys = Object.keys({ ...original, ...other }) as Array<keyof T>;
@@ -347,10 +334,7 @@ export const diffField = <T>(
   } else if (original != null && other == null) {
     return { diffType: 'DELETED', original, other };
     // Skip equality check for cheap diffType in diffObject.
-  } else if (
-    !skipEqualityCheck &&
-    (isEqual(original, other) || (original == null && other == null))
-  ) {
+  } else if (!skipEqualityCheck && (isEqual(original, other) || (original == null && other == null))) {
     return { diffType: 'NONE', original, other };
   } else {
     return { diffType: 'MODIFIED', original, other };

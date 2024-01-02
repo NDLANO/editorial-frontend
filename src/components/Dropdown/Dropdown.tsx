@@ -49,10 +49,7 @@ const Dropdown = ({ onSelect, selectedTag, onReset, items, placeholder }: Props)
   const onStateChange = (changes: StateChangeOptions<string>) => {
     const { isOpen, type } = changes;
 
-    if (
-      type === Downshift.stateChangeTypes.keyDownArrowUp ||
-      type === Downshift.stateChangeTypes.keyDownArrowDown
-    ) {
+    if (type === Downshift.stateChangeTypes.keyDownArrowUp || type === Downshift.stateChangeTypes.keyDownArrowDown) {
       setDropdownOpen(true);
     }
     if (type === Downshift.stateChangeTypes.mouseUp) {

@@ -143,9 +143,7 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates, language }: 
 
   const isModifiable = () => {
     if (image) {
-      return !(
-        image.copyright.license.license.includes('ND') || image.image.contentType.includes('svg')
-      );
+      return !(image.copyright.license.license.includes('ND') || image.image.contentType.includes('svg'));
     }
   };
 
@@ -217,10 +215,7 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates, language }: 
             </Tooltip>
           )}
           {imageCancelButtonNeeded && (
-            <ButtonV2
-              onClick={(evt: MouseEvent<HTMLButtonElement>) => onRemoveData(evt, editType)}
-              variant="stripped"
-            >
+            <ButtonV2 onClick={(evt: MouseEvent<HTMLButtonElement>) => onRemoveData(evt, editType)} variant="stripped">
               {t(`imageEditor.remove.${editType}`)}
             </ButtonV2>
           )}

@@ -18,8 +18,7 @@ interface RelatedArticleMapping {
 }
 
 export const mapping = (relatedArticleEntryNum?: number): RelatedArticleMapping => {
-  const hiddenModifier =
-    isNumber(relatedArticleEntryNum) && relatedArticleEntryNum > 1 ? ' hidden' : '';
+  const hiddenModifier = isNumber(relatedArticleEntryNum) && relatedArticleEntryNum > 1 ? ' hidden' : '';
   return {
     [resourceTypeConstants.RESOURCE_TYPE_SUBJECT_MATERIAL]: {
       icon: <ContentTypeBadge background type={constants.contentTypes.SUBJECT_MATERIAL} />,
@@ -30,9 +29,7 @@ export const mapping = (relatedArticleEntryNum?: number): RelatedArticleMapping 
       modifier: `tasks-and-activities${hiddenModifier}`,
     },
     [resourceTypeConstants.ARTICLE_EXTERNAL]: {
-      icon: (
-        <ContentTypeBadge background type={constants.contentTypes.EXTERNAL_LEARNING_RESOURCES} />
-      ),
+      icon: <ContentTypeBadge background type={constants.contentTypes.EXTERNAL_LEARNING_RESOURCES} />,
       modifier: `external-learning-resources${hiddenModifier}`,
     },
     subject: {

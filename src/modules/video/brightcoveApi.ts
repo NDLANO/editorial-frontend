@@ -16,9 +16,7 @@ import {
   resolveJsonOrRejectWithError,
 } from '../../util/apiHelpers';
 
-const baseBrightCoveUrlV3 = brightcoveApiResourceUrl(
-  `/v1/accounts/${config.brightcoveAccountId}/videos`,
-);
+const baseBrightCoveUrlV3 = brightcoveApiResourceUrl(`/v1/accounts/${config.brightcoveAccountId}/videos`);
 
 interface BrightcoveQueryParams {
   query?: string;
@@ -45,9 +43,7 @@ export interface VideoSearchQuery extends BrightcoveQueryParams {
 }
 
 export const fetchBrightcoveSources = async (videoId: string): Promise<BrightcoveVideoSource[]> =>
-  fetchWithBrightCoveToken(`${baseBrightCoveUrlV3}/${videoId}/sources`).then((r) =>
-    resolveJsonOrRejectWithError(r),
-  );
+  fetchWithBrightCoveToken(`${baseBrightCoveUrlV3}/${videoId}/sources`).then((r) => resolveJsonOrRejectWithError(r));
 
 export const searchVideos = async (query: VideoSearchQuery) => {
   return await searchBrightcoveVideos(query);

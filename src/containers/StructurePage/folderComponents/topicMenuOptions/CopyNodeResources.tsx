@@ -20,11 +20,7 @@ import RoundIcon from '../../../../components/RoundIcon';
 import { EditMode } from '../../../../interfaces';
 import { cloneDraft } from '../../../../modules/draft/draftApi';
 import { learningpathCopy } from '../../../../modules/learningpath/learningpathApi';
-import {
-  cloneNode,
-  fetchNodeResources,
-  postResourceForNode,
-} from '../../../../modules/nodes/nodeApi';
+import { cloneNode, fetchNodeResources, postResourceForNode } from '../../../../modules/nodes/nodeApi';
 import { nodeQueryKeys } from '../../../../modules/nodes/nodeQueries';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import ResourceItemLink from '../../resourceComponents/ResourceItemLink';
@@ -75,11 +71,7 @@ const StyledDone = styled(Done)`
   color: green;
 `;
 
-const CopyNodeResources = ({
-  editModeHandler: { editMode, toggleEditMode },
-  currentNode,
-  type,
-}: Props) => {
+const CopyNodeResources = ({ editModeHandler: { editMode, toggleEditMode }, currentNode, type }: Props) => {
   const {
     t,
     i18n: { language },
@@ -208,9 +200,7 @@ const CopyNodeResources = ({
         component={failedResources.map((res, index) => (
           <LinkWrapper key={index}>
             <ResourceItemLink
-              contentType={
-                res.contentUri?.split(':')[1] === 'article' ? 'article' : 'learning-resource'
-              }
+              contentType={res.contentUri?.split(':')[1] === 'article' ? 'article' : 'learning-resource'}
               contentUri={res.contentUri}
               name={res.name}
             />

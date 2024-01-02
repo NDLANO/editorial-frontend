@@ -46,11 +46,7 @@ export const resolveLocation = (res: Response): Promise<string> => {
 };
 
 export interface ResolveOptions<T> {
-  alternateResolve?: (
-    res: Response,
-    resolve: (value: T | PromiseLike<T>) => void,
-    reject: (reason?: any) => void,
-  ) => T;
+  alternateResolve?: (res: Response, resolve: (value: T | PromiseLike<T>) => void, reject: (reason?: any) => void) => T;
 }
 
 export const resolveVoidOrRejectWithError = (res: Response): Promise<void> => {
@@ -88,9 +84,7 @@ export const resolveJsonOrRejectWithError = <T>(
     return res
       .json()
       .then((json) => {
-        reject(
-          throwErrorPayload(res.status, json.messages ?? json.description ?? res.statusText, json),
-        );
+        reject(throwErrorPayload(res.status, json.messages ?? json.description ?? res.statusText, json));
       })
       .catch(reject);
   });

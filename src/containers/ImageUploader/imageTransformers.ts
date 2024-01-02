@@ -50,8 +50,7 @@ export const imageApiTypeToFormType = (
     rightsholders: image?.copyright.rightsholders ?? [],
     processed: image?.copyright.processed ?? false,
     origin: image?.copyright.origin ?? '',
-    license:
-      image?.copyright.license.license !== 'unknown' ? image?.copyright.license.license : undefined,
+    license: image?.copyright.license.license !== 'unknown' ? image?.copyright.license.license : undefined,
     modelReleased: image?.modelRelease ?? 'not-set',
     contentType: image?.image.contentType,
     fileSize: image?.image.size,

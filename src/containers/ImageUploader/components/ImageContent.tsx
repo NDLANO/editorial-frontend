@@ -51,10 +51,7 @@ const ImageContent = () => {
           allowedFiles={['image/gif', 'image/png', 'image/jpeg', 'image/jpg', 'image/svg+xml']}
           onAddedFiles={(_, evt) => {
             const target = evt.target;
-            setFieldValue(
-              'filepath',
-              target.files?.[0] ? URL.createObjectURL(target.files[0]) : undefined,
-            );
+            setFieldValue('filepath', target.files?.[0] ? URL.createObjectURL(target.files[0]) : undefined);
             Promise.resolve(
               createImageBitmap(target.files?.[0] as Blob).then((image) => {
                 setFieldValue('imageDimensions', image);

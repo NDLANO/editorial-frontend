@@ -29,10 +29,7 @@ export const audioQueryKeys = {
   podcastSeriesSearch: (params?: Partial<SeriesSearchParams>) => [SEARCH_SERIES, params] as const,
 };
 
-export const useAudio = (
-  params: UseAudio,
-  options?: Partial<UseQueryOptions<IAudioMetaInformation>>,
-) =>
+export const useAudio = (params: UseAudio, options?: Partial<UseQueryOptions<IAudioMetaInformation>>) =>
   useQuery<IAudioMetaInformation>({
     queryKey: audioQueryKeys.audio(params),
     queryFn: () => fetchAudio(params.id, params.language),

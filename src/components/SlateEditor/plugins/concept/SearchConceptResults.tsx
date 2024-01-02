@@ -75,16 +75,13 @@ const SearchConceptResults = ({ results, searchObject, addConcept, searching = t
   return (
     <div>
       {searching && <Spinner appearance="absolute" />}
-      {results.length === 0 ? (
-        <p>{t(`searchPage.conceptNoHits`, { query: searchObject.query })}</p>
-      ) : null}
+      {results.length === 0 ? <p>{t(`searchPage.conceptNoHits`, { query: searchObject.query })}</p> : null}
       {results.map((result) => (
         <StyledConceptResult key={result.id}>
           {result.glossData ? <StyledGlobe size="large" /> : <StyledConcept size="large" />}
           <StyledConceptResultHeader>
             {result.title.title ?? t('conceptSearch.noTitle')}
-            {(result.status.current === 'PUBLISHED' ||
-              result.status.other.includes('PUBLISHED')) && (
+            {(result.status.current === 'PUBLISHED' || result.status.other.includes('PUBLISHED')) && (
               <Tooltip tooltip={t('form.workflow.published')}>
                 <div>
                   <StyledCheckIcon />

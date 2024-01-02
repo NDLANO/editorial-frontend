@@ -32,10 +32,7 @@ const start = async () => {
   );
   server.use(webpackHotMiddleware(serverCompiler, { heartbeat: 100 }));
 
-  const clientDevServer = new devServer(
-    Object.assign(clientConfig.devServer!, { port: 3001 }),
-    clientCompiler,
-  );
+  const clientDevServer = new devServer(Object.assign(clientConfig.devServer!, { port: 3001 }), clientCompiler);
 
   clientDevServer.startCallback((err) => {
     if (err) {

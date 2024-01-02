@@ -19,20 +19,14 @@ export const insertLink = (editor: Editor) => {
 
 const isLinkActive = (editor: Editor) => {
   const [link] = Editor.nodes(editor, {
-    match: (n) =>
-      !Editor.isEditor(n) &&
-      Element.isElement(n) &&
-      (n.type === 'link' || n.type === 'content-link'),
+    match: (n) => !Editor.isEditor(n) && Element.isElement(n) && (n.type === 'link' || n.type === 'content-link'),
   });
   return !!link;
 };
 
 const unwrapLink = (editor: Editor) => {
   Transforms.unwrapNodes(editor, {
-    match: (n) =>
-      !Editor.isEditor(n) &&
-      Element.isElement(n) &&
-      (n.type === 'link' || n.type === 'content-link'),
+    match: (n) => !Editor.isEditor(n) && Element.isElement(n) && (n.type === 'link' || n.type === 'content-link'),
   });
 };
 

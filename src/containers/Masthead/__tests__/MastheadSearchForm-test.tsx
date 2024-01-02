@@ -29,13 +29,7 @@ test('MastheadSearchForm redirects on ndla url paste with id at the end', () => 
 
   const { container } = render(
     wrapper(
-      <MastheadSearchForm
-        query=""
-        onSearchQuerySubmit={noop}
-        onChange={noop}
-        setQuery={noop}
-        setMenuOpen={noop}
-      />,
+      <MastheadSearchForm query="" onSearchQuerySubmit={noop} onChange={noop} setQuery={noop} setMenuOpen={noop} />,
     ),
   );
   expect(container).toMatchSnapshot();

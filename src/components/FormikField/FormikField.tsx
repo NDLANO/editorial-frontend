@@ -74,12 +74,7 @@ const FormikField = ({
   );
 
   return (
-    <StyledField
-      data-no-border={noBorder}
-      data-right={right}
-      data-is-title={title}
-      className={className}
-    >
+    <StyledField data-no-border={noBorder} data-right={right} data-is-title={title} className={className}>
       <FormikFieldLabel label={label} name={name} noBorder={noBorder} />
       <FormikFieldDescription description={description} obligatory={obligatory} />
       <Field name={name} maxLength={maxLength} {...rest} {...fieldActions}>

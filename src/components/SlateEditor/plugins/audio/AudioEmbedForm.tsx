@@ -54,10 +54,7 @@ const AudioEmbedForm = ({ embed, onCancel, onSave, audio }: Props) => {
   const { t } = useTranslation();
   const initialValues = useMemo(() => toAudioEmbedFormValues(embed), [embed]);
 
-  const validate = useCallback(
-    (values: FormValues) => validateFormik(values, audioEmbedFormRules, t),
-    [t],
-  );
+  const validate = useCallback((values: FormValues) => validateFormik(values, audioEmbedFormRules, t), [t]);
 
   const handleSubmit = useCallback(
     (values: FormValues) => {
@@ -120,11 +117,7 @@ const EmbedForm = ({ onCancel, audio }: EmbedFormProps) => {
           />
         )}
       </FormikField>
-      <AudioPlayer
-        src={audio.audioFile.url}
-        title={audio.title.title}
-        speech={values.type === 'minimal'}
-      />
+      <AudioPlayer src={audio.audioFile.url} title={audio.title.title} speech={values.type === 'minimal'} />
       <ButtonWrapper>
         <ButtonV2 onClick={onCancel}>{t('form.abort')}</ButtonV2>
         <ButtonV2 disabled={!isValid || !dirty} type="submit">

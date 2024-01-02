@@ -12,24 +12,11 @@ import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
 import { List } from '@ndla/icons/action';
 import { Launch, Audio, Podcast } from '@ndla/icons/common';
-import {
-  Camera,
-  CloudUploadOutline,
-  Concept,
-  Globe,
-  H5P,
-  Taxonomy,
-  Video,
-} from '@ndla/icons/editor';
+import { Camera, CloudUploadOutline, Concept, Globe, H5P, Taxonomy, Video } from '@ndla/icons/editor';
 import { ContentTypeBadge, constants } from '@ndla/ui';
 import { styledListElement } from '../../../components/StyledListElement/StyledListElement';
 import config from '../../../config';
-import {
-  AUDIO_ADMIN_SCOPE,
-  DRAFT_ADMIN_SCOPE,
-  FRONTPAGE_ADMIN_SCOPE,
-  TAXONOMY_ADMIN_SCOPE,
-} from '../../../constants';
+import { AUDIO_ADMIN_SCOPE, DRAFT_ADMIN_SCOPE, FRONTPAGE_ADMIN_SCOPE, TAXONOMY_ADMIN_SCOPE } from '../../../constants';
 import {
   toCreateConcept,
   toCreateImage,

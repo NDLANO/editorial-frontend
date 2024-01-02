@@ -82,12 +82,7 @@ const SlateVisualElementPicker = ({
     onVisualElementClose();
   };
   return (
-    <VisualElementModalWrapper
-      isOpen={isOpen}
-      label={label}
-      resource={resource}
-      onClose={onVisualElementClose}
-    >
+    <VisualElementModalWrapper isOpen={isOpen} label={label} resource={resource} onClose={onVisualElementClose}>
       <VisualElementSearch
         articleLanguage={articleLanguage}
         selectedResource={resource}

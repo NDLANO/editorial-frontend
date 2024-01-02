@@ -7,10 +7,7 @@
  */
 
 import { Descendant } from 'slate';
-import {
-  blockContentToEditorValue,
-  blockContentToHTML,
-} from '../../../../../util/articleContentConverter';
+import { blockContentToEditorValue, blockContentToHTML } from '../../../../../util/articleContentConverter';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 import { TYPE_SECTION } from '../../section/types';
 import { TYPE_SPAN } from '../types';
@@ -21,11 +18,7 @@ const editor: Descendant[] = [
     children: [
       {
         type: TYPE_PARAGRAPH,
-        children: [
-          { text: '' },
-          { type: TYPE_SPAN, data: { lang: 'en' }, children: [{ text: 'test' }] },
-          { text: '' },
-        ],
+        children: [{ text: '' }, { type: TYPE_SPAN, data: { lang: 'en' }, children: [{ text: 'test' }] }, { text: '' }],
       },
     ],
   },
@@ -48,10 +41,7 @@ describe('span serializing tests', () => {
         children: [
           {
             type: TYPE_PARAGRAPH,
-            children: [
-              { text: '' },
-              { type: TYPE_SPAN, data: {}, children: [{ text: 'test' }, { text: '' }] },
-            ],
+            children: [{ text: '' }, { type: TYPE_SPAN, data: {}, children: [{ text: 'test' }, { text: '' }] }],
           },
         ],
       },

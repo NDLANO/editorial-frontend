@@ -55,11 +55,7 @@ const NodeList = ({ nodes, nodeSet, onUpdate }: Props) => {
             {node.name}
             <ActionsContainer>
               <Tooltip tooltip={t('subjectpageForm.moveSubject')}>
-                <DraggableIconButton
-                  aria-label={t('subjectpageForm.moveSubject')}
-                  colorTheme="light"
-                  variant="ghost"
-                >
+                <DraggableIconButton aria-label={t('subjectpageForm.moveSubject')} colorTheme="light" variant="ghost">
                   <DragHorizontal />
                 </DraggableIconButton>
               </Tooltip>

@@ -14,12 +14,7 @@ const CreateGloss = loadable(() => import('./CreateGloss'));
 const EditGloss = loadable(() => import('./EditGloss'));
 
 const GlossPage = () => (
-  <ResourcePage
-    CreateComponent={CreateGloss}
-    EditComponent={EditGloss}
-    useHook={useConcept}
-    createUrl="/gloss/new"
-  />
+  <ResourcePage CreateComponent={CreateGloss} EditComponent={EditGloss} useHook={useConcept} createUrl="/gloss/new" />
 );
 
 export default memo(GlossPage);

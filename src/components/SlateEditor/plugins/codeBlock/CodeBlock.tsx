@@ -41,14 +41,7 @@ import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
 import { CodeBlockEditor, Codeblock } from '@ndla/code';
 import { DeleteForever } from '@ndla/icons/editor';
-import {
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalTrigger,
-} from '@ndla/modal';
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTrigger } from '@ndla/modal';
 import { CodeEmbedData } from '@ndla/types-embed';
 
 import { CodeblockElement } from '.';
@@ -182,10 +175,7 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
           {children}
         </CodeDiv>
       </ModalTrigger>
-      <ModalContent
-        size={{ width: 'large', height: 'large' }}
-        onCloseAutoFocus={(e) => e.preventDefault()}
-      >
+      <ModalContent size={{ width: 'large', height: 'large' }} onCloseAutoFocus={(e) => e.preventDefault()}>
         <ModalHeader>
           <ModalCloseButton />
         </ModalHeader>

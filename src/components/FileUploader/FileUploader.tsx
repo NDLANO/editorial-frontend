@@ -56,9 +56,7 @@ const FileUploader = ({ onFileSave }: Props) => {
       );
     } catch (err) {
       if (isNdlaErrorPayload(err) && err.json && err.json.messages) {
-        setErrorMessage(
-          err.json.messages.map((message: { message: string }) => message.message).join(', '),
-        );
+        setErrorMessage(err.json.messages.map((message: { message: string }) => message.message).join(', '));
       }
       handleError(err);
     }

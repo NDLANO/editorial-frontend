@@ -90,13 +90,7 @@ const StyledIconButton = styled(IconButtonV2)`
   }
 `;
 
-const visualElements = [
-  TYPE_H5P,
-  TYPE_EMBED_BRIGHTCOVE,
-  TYPE_AUDIO,
-  TYPE_EMBED_EXTERNAL,
-  TYPE_EMBED_IMAGE,
-];
+const visualElements = [TYPE_H5P, TYPE_EMBED_BRIGHTCOVE, TYPE_AUDIO, TYPE_EMBED_EXTERNAL, TYPE_EMBED_IMAGE];
 
 const actions = [
   TYPE_TABLE,
@@ -225,10 +219,7 @@ const FrontpageArticleFormContent = ({ articleLanguage, initialHTML }: Props) =>
           <>
             <FieldHeader title={t('form.content.label')}>
               {id && userPermissions?.includes(DRAFT_HTML_SCOPE) && (
-                <EditMarkupLink
-                  to={toEditMarkup(id, language ?? '')}
-                  title={t('editMarkup.linkTitle')}
-                />
+                <EditMarkupLink to={toEditMarkup(id, language ?? '')} title={t('editMarkup.linkTitle')} />
               )}
             </FieldHeader>
             <RichTextEditor

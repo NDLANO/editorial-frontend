@@ -27,17 +27,13 @@ const StyledCustomFieldButton = styled(CustomFieldButton)`
 
 const ToggleExplanationSubject = ({ customFields, updateFields }: Props) => {
   const { t } = useTranslation();
-  const isToggled =
-    customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT]?.toLowerCase() === 'true';
+  const isToggled = customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT]?.toLowerCase() === 'true';
 
   return (
     <>
       <StyledMenuItemEditField>
         <RoundIcon open small />
-        <StyledMenuItemInputField
-          placeholder={t('taxonomy.metadata.customFields.explanationSubject')}
-          disabled
-        />
+        <StyledMenuItemInputField placeholder={t('taxonomy.metadata.customFields.explanationSubject')} disabled />
         <Switch
           onChange={() =>
             updateFields({

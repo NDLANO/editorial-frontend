@@ -42,12 +42,7 @@ export interface EditModeHandler {
   toggleEditMode: (editMode: EditMode) => void;
 }
 
-const SettingsMenuDropdownType = ({
-  rootNodeId,
-  node,
-  onCurrentNodeChanged,
-  nodeChildren,
-}: Props) => {
+const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, nodeChildren }: Props) => {
   const { userPermissions } = useSession();
   const [editMode, setEditMode] = useState<EditMode>('');
   const nodeType = getNodeTypeFromNodeId(node.id);
@@ -68,16 +63,8 @@ const SettingsMenuDropdownType = ({
             onCurrentNodeChanged={onCurrentNodeChanged}
           />
         )}
-        <MoveExistingNode
-          editModeHandler={editModeHandler}
-          currentNode={node}
-          nodeType="PROGRAMME"
-        />
-        <ConnectExistingNode
-          editModeHandler={editModeHandler}
-          currentNode={node}
-          nodeType="SUBJECT"
-        />
+        <MoveExistingNode editModeHandler={editModeHandler} currentNode={node} nodeType="PROGRAMME" />
+        <ConnectExistingNode editModeHandler={editModeHandler} currentNode={node} nodeType="SUBJECT" />
         <ToggleVisibility
           node={node}
           editModeHandler={editModeHandler}
@@ -145,9 +132,7 @@ const SettingsMenuDropdownType = ({
     return (
       <>
         {isTaxonomyAdmin && <PublishChildNodeResources node={node} />}
-        {isTaxonomyAdmin && (
-          <SwapTopicArticle node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
-        )}
+        {isTaxonomyAdmin && <SwapTopicArticle node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />}
         {isTaxonomyAdmin && (
           <EditCustomFields
             toggleEditMode={toggleEditMode}
@@ -170,21 +155,11 @@ const SettingsMenuDropdownType = ({
             onCurrentNodeChanged={onCurrentNodeChanged}
           />
         )}
-        <CopyNodeResources
-          currentNode={node}
-          editModeHandler={editModeHandler}
-          type="copyResources"
-        />
+        <CopyNodeResources currentNode={node} editModeHandler={editModeHandler} type="copyResources" />
         {isTaxonomyAdmin && (
-          <CopyNodeResources
-            currentNode={node}
-            editModeHandler={editModeHandler}
-            type="cloneResources"
-          />
+          <CopyNodeResources currentNode={node} editModeHandler={editModeHandler} type="cloneResources" />
         )}
-        {isTaxonomyAdmin && (
-          <SetResourcesPrimary node={node} editModeHandler={editModeHandler} recursive />
-        )}
+        {isTaxonomyAdmin && <SetResourcesPrimary node={node} editModeHandler={editModeHandler} recursive />}
       </>
     );
   }

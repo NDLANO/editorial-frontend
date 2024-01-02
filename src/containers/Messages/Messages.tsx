@@ -66,9 +66,7 @@ const Message = ({ message }: MessageProps) => {
       text: t('alertModal.loginAgain'),
       onClick: (evt: MouseEvent<HTMLButtonElement>) => {
         evt.preventDefault();
-        const lastPath = `${window.location.pathname}${
-          window.location.search ? window.location.search : ''
-        }`;
+        const lastPath = `${window.location.pathname}${window.location.search ? window.location.search : ''}`;
         localStorage.setItem('lastPath', lastPath);
         navigate('/logout/session?returnToLogin=true'); // Push to logoutPath
         window.location.reload();
@@ -81,11 +79,7 @@ const Message = ({ message }: MessageProps) => {
       title={t(`messages.severity.${message.severity ?? 'danger'}`)}
       label={t(`messages.severity.${message.severity ?? 'danger'}`)}
       show
-      text={
-        message.translationKey
-          ? t(message.translationKey, message.translationObject)
-          : message.message!
-      }
+      text={message.translationKey ? t(message.translationKey, message.translationObject) : message.message!}
       actions={message.type === 'auth0' ? auth0Actions : []}
       onCancel={() => clearMessage(message.id)}
       severity={message.severity}

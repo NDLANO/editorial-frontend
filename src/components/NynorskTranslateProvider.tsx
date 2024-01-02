@@ -9,23 +9,12 @@
 import get from 'lodash/get';
 import merge from 'lodash/merge';
 import set from 'lodash/set';
-import {
-  createContext,
-  Dispatch,
-  ReactNode,
-  SetStateAction,
-  useCallback,
-  useContext,
-  useMemo,
-  useState,
-} from 'react';
+import { createContext, Dispatch, ReactNode, SetStateAction, useCallback, useContext, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { ApiTranslateType } from '../interfaces';
 import { fetchNnTranslation } from '../modules/translate/translateApi';
 
-const TranslateContext = createContext<[boolean, Dispatch<SetStateAction<boolean>>] | undefined>(
-  undefined,
-);
+const TranslateContext = createContext<[boolean, Dispatch<SetStateAction<boolean>>] | undefined>(undefined);
 
 interface Props {
   children: ReactNode;

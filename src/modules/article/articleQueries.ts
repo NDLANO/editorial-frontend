@@ -15,10 +15,7 @@ export const articleQueryKeys = {
   search: (params?: Partial<ArticleSearchParams>) => [ARTICLE, params] as const,
 };
 
-export const useArticleSearch = (
-  params: ArticleSearchParams,
-  options?: Partial<UseQueryOptions<ISearchResultV2>>,
-) => {
+export const useArticleSearch = (params: ArticleSearchParams, options?: Partial<UseQueryOptions<ISearchResultV2>>) => {
   return useQuery<ISearchResultV2>({
     queryKey: articleQueryKeys.search(params),
     queryFn: () => searchArticles(params),

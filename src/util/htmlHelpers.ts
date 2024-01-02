@@ -31,9 +31,8 @@ export const urlOrigin = (url: string) => {
 };
 
 export const isValidURL = (string: string) =>
-  string.match(
-    /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g,
-  ) || false;
+  string.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g) ||
+  false;
 
 export const isNDLAFrontendUrl = (url: string) =>
   /^https:\/(.*).ndla.no\/(article|subjects|nb|nn|en)?\/?(node|\d*)(\/|\d*)/.test(url);
@@ -42,6 +41,4 @@ export const isNDLAEdSearchUrl = (url: string) =>
   /(https?:\/\/)?(www\.)?ed(.*)?\.ndla\.no(\/(en|nb|nn))?\/search\//.test(url);
 
 export const isBrightcoveUrl = (url: string) =>
-  /https:\/\/players\.brightcove\.net\/[A-Za-z0-9]+\/[A-Za-z0-9]+_default\/index\.html\?videoId=[A-Za-z0-9]+/.test(
-    url,
-  );
+  /https:\/\/players\.brightcove\.net\/[A-Za-z0-9]+\/[A-Za-z0-9]+_default\/index\.html\?videoId=[A-Za-z0-9]+/.test(url);

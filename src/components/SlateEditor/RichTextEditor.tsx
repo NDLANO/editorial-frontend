@@ -10,14 +10,7 @@ import isEqual from 'lodash/isEqual';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createEditor, Descendant, Editor, NodeEntry, Range, Transforms } from 'slate';
 import { withHistory } from 'slate-history';
-import {
-  Slate,
-  Editable,
-  withReact,
-  RenderElementProps,
-  RenderLeafProps,
-  ReactEditor,
-} from 'slate-react';
+import { Slate, Editable, withReact, RenderElementProps, RenderLeafProps, ReactEditor } from 'slate-react';
 import styled from '@emotion/styled';
 import { fonts } from '@ndla/core';
 import { SlatePlugin } from './interfaces';

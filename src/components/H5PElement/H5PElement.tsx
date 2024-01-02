@@ -68,9 +68,7 @@ const H5PElement = ({ h5pUrl, onSelect, onClose, locale, canReturnResources }: P
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchAndSetH5PUrl = async () => {
-    const data = h5pUrl
-      ? await editH5PiframeUrl(h5pUrl, locale)
-      : await fetchH5PiframeUrl(locale, canReturnResources);
+    const data = h5pUrl ? await editH5PiframeUrl(h5pUrl, locale) : await fetchH5PiframeUrl(locale, canReturnResources);
     setUrl(data.url);
   };
 

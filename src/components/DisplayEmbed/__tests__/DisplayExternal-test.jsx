@@ -50,16 +50,13 @@ test('getIframeSrcFromHtmlString returns null id src not found', () => {
 });
 
 test('DisplayExternal renders external correctly', () => {
-  nock('http://ndla-api/')
-    .persist()
-    .get('/oembed-proxy/v1/oembed?url=https%3A%2F%2Fndla.no%2Foembed')
-    .reply(200, {
-      resource: 'external',
-      title: 'unit test',
-      providerName: 'Vimeo',
-      type: 'rich',
-      html: '<iframe src="iframe.html">',
-    });
+  nock('http://ndla-api/').persist().get('/oembed-proxy/v1/oembed?url=https%3A%2F%2Fndla.no%2Foembed').reply(200, {
+    resource: 'external',
+    title: 'unit test',
+    providerName: 'Vimeo',
+    type: 'rich',
+    html: '<iframe src="iframe.html">',
+  });
 
   const embed = {
     resource: 'external',
@@ -94,13 +91,10 @@ test('DisplayExternal renders iframe correctly', () => {
 });
 
 test('DisplayExternal display error on fetch fail', () => {
-  nock('http://ndla-api/')
-    .persist()
-    .get('/oembed-proxy/v1/oembed?url=https%3A%2F%2Fndla.no%2Foembed')
-    .replyWithError({
-      message: 'something awful happened',
-      code: 'AWFUL_ERROR',
-    });
+  nock('http://ndla-api/').persist().get('/oembed-proxy/v1/oembed?url=https%3A%2F%2Fndla.no%2Foembed').replyWithError({
+    message: 'something awful happened',
+    code: 'AWFUL_ERROR',
+  });
 
   const { container } = render(
     <IntlWrapper>

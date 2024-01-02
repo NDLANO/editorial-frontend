@@ -22,12 +22,7 @@ const ImageMetaData = ({ imageTags, imageLanguage }: Props) => {
   const { t } = useTranslation();
   return (
     <>
-      <FormikField
-        name="tags"
-        label={t('form.tags.label')}
-        obligatory
-        description={t('form.tags.description')}
-      >
+      <FormikField name="tags" label={t('form.tags.label')} obligatory description={t('form.tags.description')}>
         {({ field, form }: FieldProps<string[], string[]>) => (
           <AsyncSearchTags
             multiSelect

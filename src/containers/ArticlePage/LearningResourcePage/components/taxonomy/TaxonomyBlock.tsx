@@ -65,10 +65,7 @@ export interface TaxNode extends Pick<Node, 'resourceTypes' | 'metadata' | 'id'>
   placements: MinimalNodeChild[];
 }
 
-export const contextToMinimalNodeChild = (
-  context: TaxonomyContext,
-  articleLanguage: string,
-): MinimalNodeChild => {
+export const contextToMinimalNodeChild = (context: TaxonomyContext, articleLanguage: string): MinimalNodeChild => {
   const crumb = context.breadcrumbs[articleLanguage] ?? Object.values(context.breadcrumbs)[0] ?? [];
   return {
     id: context.parentIds[context.parentIds.length - 1],
@@ -94,9 +91,7 @@ export const toInitialResource = (resource: Node | undefined, language: string):
       customFields: {},
     },
     placements: sortBy(
-      resource?.contexts
-        .filter((c) => c.rootId.includes('subject'))
-        .map((c) => contextToMinimalNodeChild(c, language)),
+      resource?.contexts.filter((c) => c.rootId.includes('subject')).map((c) => contextToMinimalNodeChild(c, language)),
       (c) => c.connectionId,
     ),
   };
@@ -120,9 +115,7 @@ const TaxonomyBlock = ({
   const [subjects, setSubjects] = useState<NodeWithChildren[]>(propSubjects);
   const [showWarning, setShowWarning] = useState<boolean>(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [workingResource, setWorkingResource] = useState<TaxNode>(
-    toInitialResource(nodes[0], i18n.language),
-  );
+  const [workingResource, setWorkingResource] = useState<TaxNode>(toInitialResource(nodes[0], i18n.language));
 
   useEffect(() => {
     setWorkingResource(toInitialResource(nodes[0], i18n.language));
@@ -132,10 +125,7 @@ const TaxonomyBlock = ({
 
   const updateTaxMutation = useUpdateTaxonomyMutation();
 
-  const [resources, topics] = useMemo(
-    () => partition(nodes, (node) => node.nodeType === 'RESOURCE'),
-    [nodes],
-  );
+  const [resources, topics] = useMemo(() => partition(nodes, (node) => node.nodeType === 'RESOURCE'), [nodes]);
 
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
 
@@ -144,10 +134,7 @@ const TaxonomyBlock = ({
     [i18n.language, nodes],
   );
 
-  const isDirty = useMemo(
-    () => !isEqual(initialResource, workingResource),
-    [initialResource, workingResource],
-  );
+  const isDirty = useMemo(() => !isEqual(initialResource, workingResource), [initialResource, workingResource]);
 
   const filteredResourceTypes = useMemo(
     () =>
@@ -218,9 +205,7 @@ const TaxonomyBlock = ({
           recursive: true,
         });
         const childNodes = groupChildNodes(nodes);
-        setSubjects((subjects) =>
-          subjects.map((s) => (s.id === subjectId ? { ...s, childNodes } : s)),
-        );
+        setSubjects((subjects) => subjects.map((s) => (s.id === subjectId ? { ...s, childNodes } : s)));
       } catch (err) {
         handleError(err);
       }
@@ -364,9 +349,7 @@ const TaxonomyBlock = ({
         setRelevance={setRelevance}
         getSubjectTopics={getSubjectTopics}
       />
-      {updateTaxMutation.isError && (
-        <FormikFieldHelp error>{t('errorMessage.taxonomy')}</FormikFieldHelp>
-      )}
+      {updateTaxMutation.isError && <FormikFieldHelp error>{t('errorMessage.taxonomy')}</FormikFieldHelp>}
       {showWarning && <FormikFieldHelp error>{t('errorMessage.unsavedTaxonomy')}</FormikFieldHelp>}
       <ButtonContainer>
         <ButtonV2 variant="outline" disabled={!isDirty} onClick={onReset}>

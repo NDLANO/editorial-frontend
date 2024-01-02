@@ -155,9 +155,7 @@ const TableComponent = <T extends string>({
                           <ExpandLess
                             role="button"
                             onClick={() => setSortOption(tableTitle.sortableField!)}
-                            css={orderButtonStyle(
-                              !tableTitle.sortableField || sortOption === tableTitle.sortableField,
-                            )}
+                            css={orderButtonStyle(!tableTitle.sortableField || sortOption === tableTitle.sortableField)}
                           />
                         </ContentWrapper>
                       </Tooltip>
@@ -167,8 +165,7 @@ const TableComponent = <T extends string>({
                             role="button"
                             onClick={() => setSortOption(`-${tableTitle.sortableField!}`!)}
                             css={orderButtonStyle(
-                              !tableTitle.sortableField ||
-                                sortOption === `-${tableTitle.sortableField}`,
+                              !tableTitle.sortableField || sortOption === `-${tableTitle.sortableField}`,
                             )}
                           />
                         </ContentWrapper>

@@ -61,10 +61,7 @@ interface Props<T extends BaseResource> {
   CreateComponent: ComponentType;
   EditComponent: ComponentType<ResourceComponentProps>;
   className?: string;
-  useHook: (
-    params: { id: number; language?: string },
-    options?: Partial<UseQueryOptions<T>>,
-  ) => UseQueryResult<T>;
+  useHook: (params: { id: number; language?: string }, options?: Partial<UseQueryOptions<T>>) => UseQueryResult<T>;
   createUrl: string;
   titleTranslationKey?: string;
   isFrontpageArticle?: boolean;
@@ -84,11 +81,7 @@ const ResourcePage = <T extends BaseResource>({
   const { isWideArticle } = useWideArticle();
   return (
     <Wrapper>
-      <PageContent
-        className={className}
-        data-wide={isWideArticle}
-        data-frontpage={isFrontpageArticle}
-      >
+      <PageContent className={className} data-wide={isWideArticle} data-frontpage={isFrontpageArticle}>
         {titleTranslationKey && <HelmetWithTracker title={t(titleTranslationKey)} />}
         <Routes>
           <Route path="new" element={<CreateComponent />} />
@@ -112,10 +105,7 @@ const ResourcePage = <T extends BaseResource>({
 
 interface EditResourceRedirectProps<T extends BaseResource> {
   isNewlyCreated: boolean;
-  useHook: (
-    params: { id: number; language?: string },
-    options?: Partial<UseQueryOptions<T>>,
-  ) => UseQueryResult<T>;
+  useHook: (params: { id: number; language?: string }, options?: Partial<UseQueryOptions<T>>) => UseQueryResult<T>;
   Component: ComponentType<ResourceComponentProps>;
 }
 
@@ -129,14 +119,10 @@ const EditResourceRedirect = <T extends BaseResource>({
   const locale = i18n.language;
   const { id } = useParams<'id'>();
   const parsedId = Number(id);
-  const { data, error, isLoading } = useHook(
-    { id: parsedId, language: undefined },
-    { enabled: !!parsedId },
-  );
+  const { data, error, isLoading } = useHook({ id: parsedId, language: undefined }, { enabled: !!parsedId });
   if (isLoading) return <Spinner />;
   if (error || !data || !parsedId) return <NotFoundPage />;
-  const supportedLanguage =
-    data.supportedLanguages.find((l) => l === locale) ?? data.supportedLanguages[0];
+  const supportedLanguage = data.supportedLanguages.find((l) => l === locale) ?? data.supportedLanguages[0];
 
   return (
     <Routes>
@@ -144,10 +130,7 @@ const EditResourceRedirect = <T extends BaseResource>({
         path="/:selectedLanguage/"
         element={<EditComponentWrapper isNewlyCreated={isNewlyCreated} Component={Component} />}
       />
-      <Route
-        path="/"
-        element={<Navigate replace state={{ from: pathname }} to={supportedLanguage} />}
-      />
+      <Route path="/" element={<Navigate replace state={{ from: pathname }} to={supportedLanguage} />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );

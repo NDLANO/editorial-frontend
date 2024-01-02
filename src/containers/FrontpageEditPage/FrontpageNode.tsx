@@ -133,10 +133,7 @@ const FrontpageNode = ({ name, remove, index, level, replace }: Props) => {
               {!!field.value.menu.length && <ChevronRight />}
             </OpenButton>
           )}
-          <TitleLink
-            to={toEditFrontPageArticle(field.value.articleId, i18n.language)}
-            target="_blank"
-          >
+          <TitleLink to={toEditFrontPageArticle(field.value.articleId, i18n.language)} target="_blank">
             {field.value.article?.title.title ?? t('frontpageForm.failedTitle')}
           </TitleLink>
         </TitleWrapper>
@@ -166,10 +163,7 @@ const FrontpageNode = ({ name, remove, index, level, replace }: Props) => {
         </EditButtonWrapper>
       </NodeContentWrapper>
       {!!field.value.menu.length && isOpen && (
-        <FieldArray
-          name={`${name}.menu`}
-          render={(props) => <FrontpageNodeList {...props} level={level + 1} />}
-        />
+        <FieldArray name={`${name}.menu`} render={(props) => <FrontpageNodeList {...props} level={level + 1} />} />
       )}
     </NodeWrapper>
   );

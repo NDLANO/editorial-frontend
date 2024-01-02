@@ -32,11 +32,7 @@ const ShowBylineButton = ({ currentSize, onFieldChange, show }: Props) => {
 
   const onChange = (evt: MouseEvent<HTMLButtonElement>) => {
     if (!isActive) {
-      onFieldChange(
-        evt,
-        'size',
-        show && currentSize ? currentSize.replace(bylineTag, '') : currentSize + bylineTag,
-      );
+      onFieldChange(evt, 'size', show && currentSize ? currentSize.replace(bylineTag, '') : currentSize + bylineTag);
     }
   };
 

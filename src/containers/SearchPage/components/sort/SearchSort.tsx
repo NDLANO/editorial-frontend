@@ -43,23 +43,12 @@ interface Props {
   type: string;
 }
 
-const SearchSort = ({
-  sort: sortProp = 'relevance',
-  order: orderProp = 'desc',
-  onSortOrderChange,
-  type,
-}: Props) => {
+const SearchSort = ({ sort: sortProp = 'relevance', order: orderProp = 'desc', onSortOrderChange, type }: Props) => {
   const [sort, setSort] = useState(sortProp);
   const [order, setOrder] = useState(orderProp);
   const location = useLocation();
   const { t } = useTranslation();
-  const sortOptions = [
-    'id',
-    'relevance',
-    'title',
-    'lastUpdated',
-    ...(customSortOptions[type] ?? []),
-  ];
+  const sortOptions = ['id', 'relevance', 'title', 'lastUpdated', ...(customSortOptions[type] ?? [])];
 
   useEffect(() => {
     const { sort: sortOrder } = queryString.parse(location.search);

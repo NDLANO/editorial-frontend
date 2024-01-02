@@ -49,12 +49,9 @@ const WorkList = ({ ndlaId }: Props) => {
 
   const storedPageSizeConcept = localStorage.getItem(STORED_PAGE_SIZE_CONCEPT);
   const [sortOptionConcepts, _setSortOptionConcepts] = useState<Prefix<'-', SortOption>>(
-    (localStorage.getItem(STORED_SORT_OPTION_WORKLIST_CONCEPT) as SortOption) ||
-      '-responsibleLastUpdated',
+    (localStorage.getItem(STORED_SORT_OPTION_WORKLIST_CONCEPT) as SortOption) || '-responsibleLastUpdated',
   );
-  const [filterConceptSubject, setFilterConceptSubject] = useState<SingleValue | undefined>(
-    undefined,
-  );
+  const [filterConceptSubject, setFilterConceptSubject] = useState<SingleValue | undefined>(undefined);
   const [pageConcept, setPageConcept] = useState(1);
   const [pageSizeConcept, _setPageSizeConcept] = useState<SingleValue>(
     storedPageSizeConcept
@@ -69,8 +66,7 @@ const WorkList = ({ ndlaId }: Props) => {
   const storedPageSizeOnHold = localStorage.getItem(STORED_SORT_OPTION_WORKLIST_ON_HOLD);
   const [pageOnHold, setPageOnHold] = useState(1);
   const [sortOptionOnHold, _setSortOptionOnHold] = useState<Prefix<'-', SortOption>>(
-    (localStorage.getItem(STORED_SORT_OPTION_WORKLIST_ON_HOLD) as SortOption) ||
-      '-responsibleLastUpdated',
+    (localStorage.getItem(STORED_SORT_OPTION_WORKLIST_ON_HOLD) as SortOption) || '-responsibleLastUpdated',
   );
   const [pageSizeOnHold, _setPageSizeOnHold] = useState<SingleValue>(
     storedPageSizeOnHold

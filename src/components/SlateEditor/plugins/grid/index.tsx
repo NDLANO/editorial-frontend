@@ -53,14 +53,7 @@ const normalizerConfig: NormalizerConfig = {
 
 const normalizerConfigGridCell: NormalizerConfig = {
   nodes: {
-    allowed: [
-      TYPE_KEY_FIGURE,
-      TYPE_BLOGPOST,
-      TYPE_PARAGRAPH,
-      TYPE_EMBED_IMAGE,
-      TYPE_HEADING,
-      TYPE_LIST,
-    ],
+    allowed: [TYPE_KEY_FIGURE, TYPE_BLOGPOST, TYPE_PARAGRAPH, TYPE_EMBED_IMAGE, TYPE_HEADING, TYPE_LIST],
     defaultType: TYPE_PARAGRAPH,
   },
 };
@@ -131,9 +124,7 @@ export const gridPlugin = (editor: Editor) => {
         Editor.withoutNormalizing(editor, () => {
           Array(node.children.length - columns)
             .fill(undefined)
-            .forEach((_, index) =>
-              Transforms.removeNodes(editor, { at: [...path, node.children.length - 1 - index] }),
-            );
+            .forEach((_, index) => Transforms.removeNodes(editor, { at: [...path, node.children.length - 1 - index] }));
         });
       }
 

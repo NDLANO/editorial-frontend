@@ -23,10 +23,7 @@ interface Props {
 const CreateConcept = ({ inModal = false, addConceptInModal }: Props) => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
-  const { subjects, createConcept, fetchSearchTags, conceptArticles } = useFetchConceptData(
-    undefined,
-    i18n.language,
-  );
+  const { subjects, createConcept, fetchSearchTags, conceptArticles } = useFetchConceptData(undefined, i18n.language);
 
   const onCreate = useCallback(
     async (createdConcept: INewConcept) => {

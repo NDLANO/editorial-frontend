@@ -21,10 +21,7 @@ import StatusIcons from './StatusIcons';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
 import VersionHistory from './VersionHistory';
 import RelevanceOption from '../../../components/Taxonomy/RelevanceOption';
-import {
-  usePutResourceForNodeMutation,
-  useUpdateNodeConnectionMutation,
-} from '../../../modules/nodes/nodeMutations';
+import { usePutResourceForNodeMutation, useUpdateNodeConnectionMutation } from '../../../modules/nodes/nodeMutations';
 import { nodeQueryKeys } from '../../../modules/nodes/nodeQueries';
 import { getContentTypeFromResourceTypes } from '../../../util/resourceHelpers';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
@@ -111,14 +108,7 @@ interface Props {
   className?: string;
 }
 
-const Resource = ({
-  resource,
-  onDelete,
-  currentNodeId,
-  contentMetaLoading,
-  responsible,
-  className,
-}: Props) => {
+const Resource = ({ resource, onDelete, currentNodeId, contentMetaLoading, responsible, className }: Props) => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
 
@@ -175,9 +165,7 @@ const Resource = ({
 
   const updateRelevanceId = async (relevanceId: string) => {
     const { connectionId, isPrimary, rank } = resource;
-    const func = connectionId.includes('-resource')
-      ? updateResourceConnection
-      : updateNodeConnection;
+    const func = connectionId.includes('-resource') ? updateResourceConnection : updateNodeConnection;
     await func({
       id: connectionId,
       body: { relevanceId, primary: isPrimary, rank: rank },

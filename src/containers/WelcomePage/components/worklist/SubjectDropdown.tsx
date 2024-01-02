@@ -42,10 +42,7 @@ const SubjectDropdown = ({ subjectIds, filterSubject, setFilterSubject }: Props)
   );
   const subjectContexts = useMemo(() => {
     if (subjects?.results.length) {
-      const archivedAtBottom = sortBy(
-        subjects.results,
-        (r) => r.metadata.customFields.subjectCategory === 'archive',
-      );
+      const archivedAtBottom = sortBy(subjects.results, (r) => r.metadata.customFields.subjectCategory === 'archive');
       return archivedAtBottom.map((r) => ({ value: r.id, label: r.name }));
     } else return [];
   }, [subjects]);

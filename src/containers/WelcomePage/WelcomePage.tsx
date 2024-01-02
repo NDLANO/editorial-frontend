@@ -56,10 +56,7 @@ export const WelcomePage = () => {
         <Column>{ndlaId && <WorkList ndlaId={ndlaId} />}</Column>
         <Column colEnd={6}>
           {ndlaId && (
-            <LastUsedItems
-              lastUsedResources={lastUsedResources}
-              lastUsedConcepts={data?.latestEditedConcepts}
-            />
+            <LastUsedItems lastUsedResources={lastUsedResources} lastUsedConcepts={data?.latestEditedConcepts} />
           )}
         </Column>
         <Column colStart={6}>{ndlaId && <Revisions userData={data} />}</Column>

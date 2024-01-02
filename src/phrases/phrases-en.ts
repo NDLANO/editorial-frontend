@@ -141,8 +141,7 @@ const phrases = {
     primaryConnectionLabel: 'Only show primary connection',
     prioritizedLabel: 'Only show prioritized',
     lmaSubjectsHeading: 'Production flow in LMA-subjects',
-    lmaSubjectsDescription:
-      'Distribution of where resources in your LMA-subjects is in the workflow',
+    lmaSubjectsDescription: 'Distribution of where resources in your LMA-subjects is in the workflow',
     noResultsLMASubjects: 'The following statuses will not be shown',
     count: 'Count',
     countResponsible: 'Responsible count',
@@ -246,8 +245,7 @@ const phrases = {
   loginFailure: {
     errorMessage: 'Sorry. Login failed.',
     loginLink: 'Click to try again.',
-    userNotRegistered:
-      'We did not recognize your email address. Did you use the correct email address?',
+    userNotRegistered: 'We did not recognize your email address. Did you use the correct email address?',
   },
   loginProviders: {
     description: 'Log in with',
@@ -346,8 +344,7 @@ const phrases = {
     title: 'HTML editor',
     subTitle: 'Edit article with HTML',
     back: 'Back',
-    fetchError:
-      'An error occurred while loding an article into the HTML editor. Go back or try to reload the page.',
+    fetchError: 'An error occurred while loding an article into the HTML editor. Go back or try to reload the page.',
     saveError: 'An error occurred while saving article changes.',
     helpMessage: {
       tooltip: 'About the HTML editor',
@@ -568,8 +565,7 @@ const phrases = {
   frontpageArticleForm: {
     title: 'About-NDLA article',
     validation: {
-      illegalSlug:
-        'Use of illegal characters in permalink! Legal characters are numbers and letters, plus dashes.',
+      illegalSlug: 'Use of illegal characters in permalink! Legal characters are numbers and letters, plus dashes.',
     },
     isFrontpageArticle: {
       toggleArticle: 'Wide editor',
@@ -600,8 +596,7 @@ const phrases = {
     },
     title: 'Learning resource',
     validation: {
-      missingEmbedData:
-        'One or more included video, image, or audio elements is missing caption or alternative text.',
+      missingEmbedData: 'One or more included video, image, or audio elements is missing caption or alternative text.',
     },
     fields: {
       rightAside: {
@@ -1301,8 +1296,7 @@ const phrases = {
       info: {
         multipleFiles: 'You can upload different audio files for each language.',
         changeFile: 'Changes made to a language will not alter the other languages.',
-        newLanguage:
-          'When adding a new language, an audio file from an existing language will be suggested.',
+        newLanguage: 'When adding a new language, an audio file from an existing language will be suggested.',
         deleteFiles: 'Audio files will only be deleted when not used in any language.',
       },
       modal: {
@@ -1436,10 +1430,8 @@ const phrases = {
     minItems_plural: '{{label}} must have at least {{count}} unique {{labelLowerCase}}.',
     noEmptyNote: 'A note cannot be empty',
     noEmptyRevision: 'A description cannot be empty',
-    noLicenseWithoutCopyrightHolder:
-      'A license cannot be added without providing at least one copyright holder.',
-    maxSizeExceeded:
-      'The file you are trying to upload is too large. Max size: {{maxSize}}. File size: {{fileSize}}.',
+    noLicenseWithoutCopyrightHolder: 'A license cannot be added without providing at least one copyright holder.',
+    maxSizeExceeded: 'The file you are trying to upload is too large. Max size: {{maxSize}}. File size: {{fileSize}}.',
     grepCodes:
       'The code format is wrong. The correct format is K(E/M) or TT followed by one or more digits. Ex. KE137, KM2255, TT2.',
     podcastImageShape: 'A meta image must have equal height and width.',
@@ -1458,8 +1450,7 @@ const phrases = {
     taxonomy: 'There was a problem loading taxonomy',
     versionSelect: 'This article does not exist in the selected version',
     errorWhenFetchingTaxonomyArticle: 'There was a problem fetching the underlying article',
-    unsavedTaxonomy:
-      'You have unsaved changes. Press reset again if you are sure you want to continue.',
+    unsavedTaxonomy: 'You have unsaved changes. Press reset again if you are sure you want to continue.',
     auth0:
       'Authentication error. Press cancel to take care of any changes you have made before logging in again. The following error message came from auth0: {{message}}',
     statusCode: {
@@ -1611,8 +1602,7 @@ const phrases = {
       subTitle: 'Id and visibility for the element',
       wrongArticleType:
         'The article is placed as "{{placedAs}}" in the taxonomy, but the article is of "{{isType}}" type.',
-      missingArticleType:
-        'The article with ID {{id}} does not have an article type. It most likely does not exist.',
+      missingArticleType: 'The article with ID {{id}} does not have an article type. It most likely does not exist.',
       wrongConnections: 'Bad connections',
       wrongConnectionsSubTitle: 'This article has bad connections, see the list below.',
       canBeFixedInDatabase: 'The article type can be changed in the database to fix the error.',
@@ -1663,8 +1653,7 @@ const phrases = {
     },
     resourcesPrimary: {
       text: 'Are you sure you want to make all connected resources primary?',
-      recursiveText:
-        'Are you sure you want to make all connected resources and sub resources primary?',
+      recursiveText: 'Are you sure you want to make all connected resources and sub resources primary?',
       buttonText: 'Make resources primary',
       recursiveButtonText: 'Make resources and sub resources primary',
       error: 'An error occured',
@@ -1816,8 +1805,7 @@ const phrases = {
     showInStructure: 'Show in structure',
     compare: 'Compare',
     deleteAll: 'Remove publish requests',
-    deleteAllInfo:
-      'Are you sure you want to remove all publish requests? This action cannot be undone.',
+    deleteAllInfo: 'Are you sure you want to remove all publish requests? This action cannot be undone.',
     errors: {
       noPublishedVersion: 'Failed to find a published version',
       noVersions: 'Failed to find other versions',

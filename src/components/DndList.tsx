@@ -74,13 +74,7 @@ const DndList = <T extends { id: UniqueIdentifier }>({
     >
       <SortableContext items={items} disabled={disabled} strategy={verticalListSortingStrategy}>
         {items.map((item, index) => (
-          <DraggableItem
-            disabled={disabled}
-            key={item.id}
-            id={item.id}
-            index={index}
-            dragHandle={dragHandle}
-          >
+          <DraggableItem disabled={disabled} key={item.id} id={item.id} index={index} dragHandle={dragHandle}>
             {renderItem(item, index)}
           </DraggableItem>
         ))}

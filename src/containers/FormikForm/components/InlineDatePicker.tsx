@@ -70,10 +70,7 @@ const StyledButton = styled(ButtonV2)`
 
 const InlineDatePicker = ({ onChange, value, name, placeholder }: Props) => {
   const dateValue = useMemo(() => (value ? new Date(value) : undefined), [value]);
-  const displayValue = useMemo(
-    () => (dateValue ? format(dateValue, 'dd/MM/yyyy') : undefined),
-    [dateValue],
-  );
+  const displayValue = useMemo(() => (dateValue ? format(dateValue, 'dd/MM/yyyy') : undefined), [dateValue]);
   const onValueChange = useCallback(
     (value?: Date) => {
       if (!value) return;

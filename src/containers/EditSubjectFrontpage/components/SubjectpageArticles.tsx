@@ -68,10 +68,7 @@ const SubjectpageArticles = ({ editorsChoices, elementId, fieldName }: Props) =>
 
   return (
     <>
-      <FieldHeader
-        title={t('subjectpageForm.editorsChoices')}
-        subTitle={t('subjectpageForm.articles')}
-      />
+      <FieldHeader title={t('subjectpageForm.editorsChoices')} subTitle={t('subjectpageForm.articles')} />
       <ElementList
         elements={resources}
         data-testid="editors-choices-article-list"

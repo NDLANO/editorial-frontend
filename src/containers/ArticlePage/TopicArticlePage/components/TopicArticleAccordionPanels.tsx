@@ -30,12 +30,7 @@ interface Props {
   hasTaxonomyEntries: boolean;
 }
 
-const TopicArticleAccordionPanels = ({
-  article,
-  updateNotes,
-  articleLanguage,
-  hasTaxonomyEntries,
-}: Props) => {
+const TopicArticleAccordionPanels = ({ article, updateNotes, articleLanguage, hasTaxonomyEntries }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const formikContext = useFormikContext<TopicArticleFormType>();
@@ -70,9 +65,7 @@ const TopicArticleAccordionPanels = ({
         id={'topic-article-copyright'}
         title={t('form.copyrightSection')}
         className={'u-6/6'}
-        hasError={
-          !!(errors.creators || errors.rightsholders || errors.processors || errors.license)
-        }
+        hasError={!!(errors.creators || errors.rightsholders || errors.processors || errors.license)}
       >
         <CopyrightFieldGroup enableLicenseNA />
       </FormAccordion>
@@ -121,11 +114,7 @@ const TopicArticleAccordionPanels = ({
           className={'u-6/6'}
           hasError={!!errors.notes}
         >
-          <VersionAndNotesPanel
-            article={article}
-            type="topic-article"
-            currentLanguage={values.language}
-          />
+          <VersionAndNotesPanel article={article} type="topic-article" currentLanguage={values.language} />
         </FormAccordion>
       )}
     </FormAccordions>

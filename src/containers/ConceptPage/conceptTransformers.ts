@@ -28,8 +28,7 @@ export const conceptApiTypeToFormType = (
   initialTitle = '',
   conceptType?: ConceptType,
 ): ConceptFormValues => {
-  const conceptSubjects =
-    subjects.filter((s) => concept?.subjectIds?.find((id) => id === s.id)) ?? [];
+  const conceptSubjects = subjects.filter((s) => concept?.subjectIds?.find((id) => id === s.id)) ?? [];
   const license = concept?.copyright?.license?.license;
   const conceptLicense = license === 'unknown' ? undefined : license;
 

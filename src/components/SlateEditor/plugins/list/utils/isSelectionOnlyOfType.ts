@@ -15,8 +15,7 @@ export const isSelectionOnlyOfType = (editor: Editor, type: string) => {
   let hasListItems = false;
   // For all selected list elements
   for (const [, path] of Editor.nodes(editor, {
-    match: (node) =>
-      Element.isElement(node) && node.type === TYPE_LIST_ITEM && isListItemSelected(editor, node),
+    match: (node) => Element.isElement(node) && node.type === TYPE_LIST_ITEM && isListItemSelected(editor, node),
   })) {
     const [parentNode] = Editor.parent(editor, path);
     if (Element.isElement(parentNode) && parentNode.type === TYPE_LIST) {

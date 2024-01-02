@@ -43,10 +43,7 @@ export interface UpdateTaxParams {
   originalNode: TaxNode;
 }
 
-export const updateTax = async (
-  { node, originalNode }: UpdateTaxParams,
-  taxonomyVersion: string,
-) => {
+export const updateTax = async ({ node, originalNode }: UpdateTaxParams, taxonomyVersion: string) => {
   const resourceTypesDiff = doDiff(
     originalNode.resourceTypes,
     node.resourceTypes,

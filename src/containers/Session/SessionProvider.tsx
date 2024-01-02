@@ -19,9 +19,7 @@ import {
 import { decodeToken, isValid } from '../../util/jwtHelper';
 import { toLogin } from '../../util/routeHelpers';
 
-const SessionContext = createContext<
-  [SessionState, Dispatch<SetStateAction<SessionState>>] | undefined
->(undefined);
+const SessionContext = createContext<[SessionState, Dispatch<SetStateAction<SessionState>>] | undefined>(undefined);
 
 interface Props {
   children: ReactNode;
@@ -88,15 +86,12 @@ export const useSession = (): SessionProps => {
   const navigate = useNavigate();
 
   const setAuthenticated = (authenticated: boolean) => setSession((s) => ({ ...s, authenticated }));
-  const setUserNotRegistered = (userNotRegistered: boolean) =>
-    setSession((s) => ({ ...s, userNotRegistered }));
+  const setUserNotRegistered = (userNotRegistered: boolean) => setSession((s) => ({ ...s, userNotRegistered }));
   const setUserData = (user: UserData) => setSession((s) => ({ ...s, user }));
 
   const login = (authResult: Auth0DecodedHash) => {
     try {
-      const decoded = isValid(authResult.accessToken ?? null)
-        ? decodeToken(authResult.accessToken!)
-        : undefined;
+      const decoded = isValid(authResult.accessToken ?? null) ? decodeToken(authResult.accessToken!) : undefined;
       const permissions = decoded?.permissions ?? [];
       const scope = decoded?.scope ?? '';
       const combinedPermissions = [...permissions, ...scope.split(' ')];

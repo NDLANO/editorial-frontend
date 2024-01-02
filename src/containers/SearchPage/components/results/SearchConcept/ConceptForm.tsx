@@ -119,9 +119,7 @@ const ConceptForm = ({ initialValues, status, language, onSubmit, allSubjects, c
           onBlur={handleBlur}
         />
         {errors.title ? (
-          <StyledHelpMessage>
-            {t('validation.isRequired', { label: t('form.name.title') })}
-          </StyledHelpMessage>
+          <StyledHelpMessage>{t('validation.isRequired', { label: t('form.name.title') })}</StyledHelpMessage>
         ) : null}
       </InputField>
       <InputField>

@@ -182,9 +182,7 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
             {({ field }: FieldProps) => <StyledInput label={t('form.name.email')} {...field} />}
           </StyledFormikField>
           <StyledFormikField name="description" showError>
-            {({ field }: FieldProps) => (
-              <StyledTextArea label={t('form.name.description')} {...field} />
-            )}
+            {({ field }: FieldProps) => <StyledTextArea label={t('form.name.description')} {...field} />}
           </StyledFormikField>
           <StyledFormikField name="blob">
             {({ field }) => (
@@ -193,9 +191,7 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
                 selected={field.value}
                 uniqeIds
                 options={blobTypes}
-                onChange={(value: string) =>
-                  field.onChange({ target: { name: field.name, value: value } })
-                }
+                onChange={(value: string) => field.onChange({ target: { name: field.name, value: value } })}
               />
             )}
           </StyledFormikField>
@@ -206,9 +202,7 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
                 selected={field.value}
                 uniqeIds
                 options={blobColors}
-                onChange={(value: string) =>
-                  field.onChange({ target: { name: field.name, value: value } })
-                }
+                onChange={(value: string) => field.onChange({ target: { name: field.name, value: value } })}
               />
             )}
           </StyledFormikField>
@@ -229,9 +223,7 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
                   <CheckboxItem
                     label={t('form.image.isDecorative')}
                     checked={field.value}
-                    onChange={() =>
-                      field.onChange({ target: { name: field.name, value: !field.value } })
-                    }
+                    onChange={() => field.onChange({ target: { name: field.name, value: !field.value } })}
                   />
                 )}
               </>
@@ -241,12 +233,7 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
             <ButtonV2 variant="outline" onClick={onCancel}>
               {t('cancel')}
             </ButtonV2>
-            <ButtonV2
-              variant="solid"
-              disabled={!dirty || !isValid}
-              type="submit"
-              onClick={() => handleSubmit()}
-            >
+            <ButtonV2 variant="solid" disabled={!dirty || !isValid} type="submit" onClick={() => handleSubmit()}>
               {t('save')}
             </ButtonV2>
           </ButtonContainer>

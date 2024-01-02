@@ -54,11 +54,7 @@ const ResourceItemLink = ({ contentType, contentUri, locale, name, isVisible = t
       );
     }
     return (
-      <Link
-        to={toEditArticle(parseInt(linkTo), contentType!)}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <Link to={toEditArticle(parseInt(linkTo), contentType!)} target="_blank" rel="noopener noreferrer">
         <StyledH1 isVisible={isVisible}>{name}</StyledH1>
       </Link>
     );

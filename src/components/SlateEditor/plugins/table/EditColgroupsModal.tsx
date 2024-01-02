@@ -15,15 +15,7 @@ import { ButtonV2 } from '@ndla/button';
 import { fonts } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { Pencil } from '@ndla/icons/action';
-import {
-  ModalBody,
-  ModalCloseButton,
-  ModalHeader,
-  ModalTitle,
-  Modal,
-  ModalTrigger,
-  ModalContent,
-} from '@ndla/modal';
+import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, Modal, ModalTrigger, ModalContent } from '@ndla/modal';
 import { TableElement } from './interfaces';
 
 window.MonacoEnvironment = {
@@ -73,11 +65,7 @@ const EditColgroupsModal = ({ element }: Props) => {
   return (
     <Modal open={open} onOpenChange={setOpen}>
       <ModalTrigger>
-        <ButtonV2
-          data-testid="edit-colgroups"
-          variant="stripped"
-          title={t('form.content.table.edit-colgroups')}
-        >
+        <ButtonV2 data-testid="edit-colgroups" variant="stripped" title={t('form.content.table.edit-colgroups')}>
           {t('form.content.table.colgroups')}
           <Pencil />
         </ButtonV2>
@@ -93,12 +81,7 @@ const EditColgroupsModal = ({ element }: Props) => {
             <StyledCode>{'<colgroup><col><col><col style="width:200px;"></colgroup>'}</StyledCode>
           </p>
           <Suspense fallback={<Spinner />}>
-            <MonacoEditor
-              onChange={setColgroups}
-              onSave={onSave}
-              value={colgroups}
-              height={'50vh'}
-            />
+            <MonacoEditor onChange={setColgroups} onSave={onSave} value={colgroups} height={'50vh'} />
           </Suspense>
           <ButtonV2 onClick={() => onSave(colgroups)}>{t('form.save')}</ButtonV2>
         </ModalBody>

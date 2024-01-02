@@ -15,10 +15,7 @@ import { IArticleSummary, ISearchResult } from '@ndla/types-backend/draft-api';
 import LastUsedConcepts from './LastUsedConcepts';
 import LastUsedResources from './LastUsedResources';
 import { Prefix, TitleElement } from './TableComponent';
-import {
-  STORED_SORT_OPTION_LAST_USED,
-  STORED_SORT_OPTION_LAST_USED_CONCEPT,
-} from '../../../constants';
+import { STORED_SORT_OPTION_LAST_USED, STORED_SORT_OPTION_LAST_USED_CONCEPT } from '../../../constants';
 import { useSearchConcepts } from '../../../modules/concept/conceptQueries';
 import { useSearchDrafts } from '../../../modules/draft/draftQueries';
 
@@ -44,8 +41,7 @@ const getSortedPaginationData = <T extends IConceptSummary | IArticleSummary>(
 
   return orderBy(
     currentPageElements,
-    (e) =>
-      sortOption.includes('title') ? e.title?.title : 'updated' in e ? e.updated : e.lastUpdated,
+    (e) => (sortOption.includes('title') ? e.title?.title : 'updated' in e ? e.updated : e.lastUpdated),
     [sortDesc ? 'desc' : 'asc'],
   );
 };
@@ -66,8 +62,7 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [] }: Props)
   const [page, setPage] = useState(1);
 
   const [sortOptionConcept, _setSortOptionConcept] = useState<SortOptionType>(
-    (localStorage.getItem(STORED_SORT_OPTION_LAST_USED_CONCEPT) as SortOptionType) ||
-      '-lastUpdated',
+    (localStorage.getItem(STORED_SORT_OPTION_LAST_USED_CONCEPT) as SortOptionType) || '-lastUpdated',
   );
   const [pageConcept, setPageConcept] = useState(1);
 
@@ -101,9 +96,7 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [] }: Props)
 
   const sortedData = useMemo(
     () =>
-      searchDraftsQuery.data?.results
-        ? getSortedPaginationData(page, sortOption, searchDraftsQuery.data.results)
-        : [],
+      searchDraftsQuery.data?.results ? getSortedPaginationData(page, sortOption, searchDraftsQuery.data.results) : [],
     [searchDraftsQuery.data, page, sortOption],
   );
 
@@ -116,10 +109,7 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [] }: Props)
   );
 
   const lastPage = useMemo(() => getLastPage(searchDraftsQuery.data), [searchDraftsQuery.data]);
-  const lastPageConcepts = useMemo(
-    () => getLastPage(searchConceptsQuery.data),
-    [searchConceptsQuery.data],
-  );
+  const lastPageConcepts = useMemo(() => getLastPage(searchConceptsQuery.data), [searchConceptsQuery.data]);
 
   const tableTitles: TitleElement<SortOptionLastUsed>[] = [
     { title: t('form.name.title'), sortableField: 'title' },

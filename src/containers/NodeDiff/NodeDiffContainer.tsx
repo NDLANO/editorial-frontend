@@ -75,9 +75,7 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
   const [params] = useSearchParams();
   const view = params.get('view') === 'flat' ? 'flat' : 'tree';
   const { t, i18n } = useTranslation();
-  const [selectedNode, setSelectedNode] = useState<RootDiffType | DiffTypeWithChildren | undefined>(
-    undefined,
-  );
+  const [selectedNode, setSelectedNode] = useState<RootDiffType | DiffTypeWithChildren | undefined>(undefined);
   const [error, setError] = useState<string | undefined>(undefined);
   const [showAlertModal, setShowAlertModal] = useState(false);
   const [hasPublished, setHasPublished] = useState(false);
@@ -143,8 +141,7 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
     }
     setIsLoading(true);
     const targetVersions = await fetchVersions({ hash: originalHash });
-    const sourceVersions =
-      otherHash !== 'default' ? await fetchVersions({ hash: otherHash }) : undefined;
+    const sourceVersions = otherHash !== 'default' ? await fetchVersions({ hash: otherHash }) : undefined;
     if (targetVersions.length !== 1 || (sourceVersions && sourceVersions.length !== 1)) {
       setIsLoading(false);
       setError('diff.publishError');
@@ -175,17 +172,7 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
   if (defaultQuery.isLoading || otherQuery.isLoading) {
     const rows: ReactNode[] = [];
     for (let i = 0; i < shownNodes; i++) {
-      rows.push(
-        <rect
-          x="0"
-          y={(i * 45).toString()}
-          rx="3"
-          ry="3"
-          width="800"
-          height="40"
-          key={`rect-${i}`}
-        />,
-      );
+      rows.push(<rect x="0" y={(i * 45).toString()} rx="3" ry="3" width="800" height="40" key={`rect-${i}`} />);
     }
     return (
       <ContentLoader width={800} height={shownNodes * 50}>
@@ -207,10 +194,8 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
     diff.root.changed.diffType === 'NONE' &&
     diff.root.resourcesChanged?.diffType === 'NONE' &&
     diff.root.childrenChanged?.diffType === 'NONE';
-  const publishable =
-    !equal && userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) && originalHash !== 'default';
-  const isPublishing =
-    isLoading || otherQuery.data?.root.metadata.customFields['isPublishing'] === 'true';
+  const publishable = !equal && userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) && originalHash !== 'default';
+  const isPublishing = isLoading || otherQuery.data?.root.metadata.customFields['isPublishing'] === 'true';
   return (
     <DiffContainer id="diffContainer">
       {publishable && (
@@ -231,19 +216,13 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
       {hasPublished && <MessageBox>{t('diff.published')}</MessageBox>}
       {equal && <MessageBox>{t('diff.equalNodes')}</MessageBox>}
       {error && <MessageBox>{t(error)}</MessageBox>}
-      {view === 'tree' && (
-        <RootNode tree={diff} onNodeSelected={setSelectedNode} selectedNode={selectedNode} />
-      )}
+      {view === 'tree' && <RootNode tree={diff} onNodeSelected={setSelectedNode} selectedNode={selectedNode} />}
       {view === 'tree' && selectedNode && (
         <NodeDiff node={selectedNode} isRoot={isEqual(selectedNode.id, diff.root.id)} />
       )}
       {view === 'flat' && (
         <StyledNodeList>
-          <NodeDiff
-            node={diff.root}
-            key={diff.root.id.original ?? diff.root.id.other!}
-            isRoot={true}
-          />
+          <NodeDiff node={diff.root} key={diff.root.id.original ?? diff.root.id.other!} isRoot={true} />
           {nodes.map((node) => (
             <NodeDiff node={node} key={node.id.original ?? node.id.other} />
           ))}

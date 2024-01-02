@@ -86,13 +86,7 @@ const FigureInput = ({
           onChange={() => handleCheck(!isDecorative)}
         />
       )}
-      {inGrid && (
-        <CheckboxItem
-          label={t('form.image.showBorder')}
-          checked={border}
-          onChange={onBorderChecked}
-        />
-      )}
+      {inGrid && <CheckboxItem label={t('form.image.showBorder')} checked={border} onChange={onBorderChecked} />}
       <StyledButtonWrapper paddingLeft>
         <ButtonV2 onClick={onAbort} variant="outline">
           {t('form.abort')}

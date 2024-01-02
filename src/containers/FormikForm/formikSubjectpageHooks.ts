@@ -49,15 +49,8 @@ export function useFetchSubjectpageData(
     return await Promise.all(promises);
   };
 
-  const updateSubjectpage = async (
-    id: string | number,
-    updatedSubjectpage: IUpdatedSubjectFrontPageData,
-  ) => {
-    const savedSubjectpage = await frontpageApi.updateSubjectpage(
-      updatedSubjectpage,
-      id,
-      selectedLanguage,
-    );
+  const updateSubjectpage = async (id: string | number, updatedSubjectpage: IUpdatedSubjectFrontPageData) => {
+    const savedSubjectpage = await frontpageApi.updateSubjectpage(updatedSubjectpage, id, selectedLanguage);
     setSubjectpage(savedSubjectpage);
     return savedSubjectpage;
   };
@@ -94,10 +87,7 @@ export function useFetchSubjectpageData(
     (async () => {
       if (subjectpage) {
         try {
-          const editorsChoices = await fetchElementList(
-            subjectpage.editorsChoices,
-            taxonomyVersion,
-          );
+          const editorsChoices = await fetchElementList(subjectpage.editorsChoices, taxonomyVersion);
           setEditorsChoices(editorsChoices);
         } catch (e) {
           setError(e as Error);

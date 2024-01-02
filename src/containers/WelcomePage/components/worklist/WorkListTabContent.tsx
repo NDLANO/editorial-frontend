@@ -114,19 +114,13 @@ const WorkListTabContent = ({
                         />
                       </div>
                     </Tooltip>
-                    <StyledLink
-                      to={toEditArticle(res.id, res.learningResourceType)}
-                      title={res.title?.title}
-                    >
+                    <StyledLink to={toEditArticle(res.id, res.learningResourceType)} title={res.title?.title}>
                       {res.title?.title}
                     </StyledLink>
                   </StyledTitleWrapper>
                   {res.comments?.length ? (
                     <StyledIconWrapper>
-                      <StyledCommentIcon
-                        title={res.comments[0]?.content}
-                        aria-label={res.comments[0]?.content}
-                      />
+                      <StyledCommentIcon title={res.comments[0]?.content} aria-label={res.comments[0]?.content} />
                     </StyledIconWrapper>
                   ) : null}
                 </CellWrapper>
@@ -149,9 +143,7 @@ const WorkListTabContent = ({
             },
             {
               id: `topic_${res.id}`,
-              data: res.contexts.length
-                ? res.contexts[0].breadcrumbs[res.contexts[0].breadcrumbs.length - 1]
-                : '',
+              data: res.contexts.length ? res.contexts[0].breadcrumbs[res.contexts[0].breadcrumbs.length - 1] : '',
             },
             {
               id: `date_${res.id}`,
@@ -193,11 +185,7 @@ const WorkListTabContent = ({
                   filterSubject={filterSubject}
                   setFilterSubject={setFilterSubject}
                 />
-                <GoToSearch
-                  ndlaId={ndlaId}
-                  filterSubject={filterSubject?.value}
-                  searchEnv="content"
-                />
+                <GoToSearch ndlaId={ndlaId} filterSubject={filterSubject?.value} searchEnv="content" />
               </>
             )}
           </TopRowControls>

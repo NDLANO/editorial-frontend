@@ -30,18 +30,12 @@ import ConceptModalContent from '../ConceptModalContent';
 import EditGlossExamplesModal from '../EditGlossExamplesModal';
 import { getGlossDataAttributes } from '../utils';
 
-const getConceptDataAttributes = ({
-  id,
-  conceptType,
-  glossData,
-}: IConceptSummary | IConcept): ConceptEmbedData => ({
+const getConceptDataAttributes = ({ id, conceptType, glossData }: IConceptSummary | IConcept): ConceptEmbedData => ({
   contentId: id.toString(),
   resource: 'concept',
   type: 'block',
   linkText: '',
-  ...(conceptType === 'gloss' && glossData?.examples.length
-    ? getGlossDataAttributes(glossData)
-    : {}),
+  ...(conceptType === 'gloss' && glossData?.examples.length ? getGlossDataAttributes(glossData) : {}),
 });
 
 interface Props {
@@ -62,19 +56,11 @@ const StyledWrapper = styled.div`
 const BlockWrapper = ({ element, locale, editor, attributes, children }: Props) => {
   const isSelected = useSelected();
   const [isEditing, setIsEditing] = useState(element.isFirstEdit);
-  const { concept, subjects, loading, ...conceptHooks } = useFetchConceptData(
-    parseInt(element.data.contentId),
-    locale,
-  );
+  const { concept, subjects, loading, ...conceptHooks } = useFetchConceptData(parseInt(element.data.contentId), locale);
 
-  const visualElementQuery = useConceptVisualElement(
-    concept?.id!,
-    concept?.visualElement?.visualElement!,
-    locale,
-    {
-      enabled: !!concept?.id && !!concept?.visualElement?.visualElement.length,
-    },
-  );
+  const visualElementQuery = useConceptVisualElement(concept?.id!, concept?.visualElement?.visualElement!, locale, {
+    enabled: !!concept?.id && !!concept?.visualElement?.visualElement.length,
+  });
 
   const embed: ConceptMetaData | undefined = useMemo(() => {
     if (!element.data || !concept) return undefined;
@@ -105,8 +91,7 @@ const BlockWrapper = ({ element, locale, editor, attributes, children }: Props) 
         {
           at: path,
           match: (node) =>
-            Element.isElement(node) &&
-            (node.type === TYPE_CONCEPT_BLOCK || node.type === TYPE_GLOSS_BLOCK),
+            Element.isElement(node) && (node.type === TYPE_CONCEPT_BLOCK || node.type === TYPE_GLOSS_BLOCK),
         },
       );
     },
@@ -114,8 +99,7 @@ const BlockWrapper = ({ element, locale, editor, attributes, children }: Props) 
   );
 
   const handleRemove = useCallback(
-    () =>
-      Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true }),
+    () => Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true }),
     [editor, element],
   );
 
@@ -203,14 +187,7 @@ const IconWrapper = styled.div`
   }
 `;
 
-const ConceptButtonContainer = ({
-  concept,
-  handleRemove,
-  language,
-  editor,
-  element,
-  embed,
-}: ButtonContainerProps) => {
+const ConceptButtonContainer = ({ concept, handleRemove, language, editor, element, embed }: ButtonContainerProps) => {
   const { t } = useTranslation();
   const translatedCurrent = t(`form.status.${concept?.status.current?.toLowerCase()}`);
 
@@ -237,11 +214,7 @@ const ConceptButtonContainer = ({
         <LinkIcon />
       </SafeLinkIconButton>
       {(concept?.status.current === PUBLISHED || concept?.status.other.includes(PUBLISHED)) && (
-        <IconWrapper
-          aria-label={t('form.workflow.published')}
-          title={t('form.workflow.published')}
-          data-color="green"
-        >
+        <IconWrapper aria-label={t('form.workflow.published')} title={t('form.workflow.published')} data-color="green">
           <Check />
         </IconWrapper>
       )}

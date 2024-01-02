@@ -36,13 +36,11 @@ const ContentField = ({ field, form }: Props) => {
 
   useEffect(() => {
     (async () => {
-      const promises = field.value.map<Promise<ConvertedRelatedContent> | IRelatedContentLink>(
-        (element) => {
-          if (typeof element === 'number') {
-            return fetchDraft(element);
-          } else return element;
-        },
-      );
+      const promises = field.value.map<Promise<ConvertedRelatedContent> | IRelatedContentLink>((element) => {
+        if (typeof element === 'number') {
+          return fetchDraft(element);
+        } else return element;
+      });
       const content = await Promise.all(promises);
       setRelatedContent(content);
     })();
@@ -102,8 +100,7 @@ const ContentField = ({ field, form }: Props) => {
       <FieldHeader title={t('form.relatedContent.articlesTitle')} />
       <ElementList
         elements={relatedContent.filter(
-          (rc: number | IArticle | IRelatedContentLink): rc is IArticle | IRelatedContentLink =>
-            typeof rc !== 'number',
+          (rc: number | IArticle | IRelatedContentLink): rc is IArticle | IRelatedContentLink => typeof rc !== 'number',
         )}
         messages={{
           dragElement: t('form.relatedContent.changeOrder'),

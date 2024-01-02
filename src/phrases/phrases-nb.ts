@@ -46,8 +46,7 @@ const phrases = {
     isSelectedItem: 'Lagt til',
   },
   meta: {
-    description:
-      'Kvalitetssikrede fritt tilgjengelige nettbaserte læremidler for videregående opplæring',
+    description: 'Kvalitetssikrede fritt tilgjengelige nettbaserte læremidler for videregående opplæring',
   },
   menu: {
     title: 'Meny',
@@ -246,8 +245,7 @@ const phrases = {
   loginFailure: {
     errorMessage: 'Beklager. Innlogging feilet.',
     loginLink: 'Klikk for å prøve igjen.',
-    userNotRegistered:
-      'Vi kjente ikke igjen epostadressen din. Har du logget inn med riktig adresse?',
+    userNotRegistered: 'Vi kjente ikke igjen epostadressen din. Har du logget inn med riktig adresse?',
   },
   loginProviders: {
     description: 'Logg inn i produksjonssystem med',
@@ -345,8 +343,7 @@ const phrases = {
     linkTitle: 'Gå til HTML-editor',
     title: 'HTML-editor',
     subTitle: 'Rediger artikkelinnhold med HTML',
-    fetchError:
-      'En feil oppsto ved lasting av HTML-editoren. Gå tilbake eller prøv å laste siden på nytt.',
+    fetchError: 'En feil oppsto ved lasting av HTML-editoren. Gå tilbake eller prøv å laste siden på nytt.',
     saveError: 'En feil oppsto ved lagring av endringer.',
     back: 'Tilbake',
     helpMessage: {
@@ -568,8 +565,7 @@ const phrases = {
   frontpageArticleForm: {
     title: 'Om-NDLA-artikkel',
     validation: {
-      illegalSlug:
-        'Bruk av ulovlige tegn i permalenken! Tillatte tegn er alle tall og bokstaver, og bindestrek',
+      illegalSlug: 'Bruk av ulovlige tegn i permalenken! Tillatte tegn er alle tall og bokstaver, og bindestrek',
     },
     isFrontpageArticle: {
       toggleArticle: 'Bred editor',
@@ -1295,13 +1291,11 @@ const phrases = {
         sub: 'eller trykk for å laste opp lydfil',
         ariaLabel: 'Dra og slipp eller trykk for å laste opp lydfil',
       },
-      copiedFrom:
-        'Lydfil kopieres fra {{language}}. Trykk på søppelbøtten for å fjerne den og laste opp en ny fil.',
+      copiedFrom: 'Lydfil kopieres fra {{language}}. Trykk på søppelbøtten for å fjerne den og laste opp en ny fil.',
       info: {
         multipleFiles: 'Du kan laste opp forskjellig lydfiler for hvert språk.',
         changeFile: 'Fjerning og endring av et språk vil ikke påvirke de andre språkene.',
-        newLanguage:
-          'Ved oppretting av nytt språk vil en lydfil fra et eksisterende språk foreslås.',
+        newLanguage: 'Ved oppretting av nytt språk vil en lydfil fra et eksisterende språk foreslås.',
         deleteFiles: 'En lydfil slettes kun når den ikke lenger er brukt i et språk.',
       },
       modal: {
@@ -1343,8 +1337,7 @@ const phrases = {
       changeName: 'Endre navn',
       changeOrder: 'Endre rekkefølge',
       removeFile: 'Ta bort fil',
-      missingFileTooltip:
-        'Ser ikke ut til å eksistere på serveren. Den kan ha blitt slettet fra en annen artikkel.',
+      missingFileTooltip: 'Ser ikke ut til å eksistere på serveren. Den kan ha blitt slettet fra en annen artikkel.',
       missingFilename: 'Filtypen støttes ikke',
       dragdrop: {
         main: 'Dra og slipp',
@@ -1414,8 +1407,7 @@ const phrases = {
       remove: 'Fjern revisjon',
       description:
         'Revisjoner krever en beskrivelse og en dato artikkelen utløper på. Bryteren markerer hvorvidt en revisjon er utført eller ikke. Husk at en revidert artikkel må republiseres.',
-      datePickerTooltip:
-        'Dato artikkelen utløper dersom revisjonen ikke blir markert som revidert.',
+      datePickerTooltip: 'Dato artikkelen utløper dersom revisjonen ikke blir markert som revidert.',
       reminder: 'Husk å sjekke om revisjonen du nå har utført krever republisering.',
       switchTooltip: 'Hvorvidt artikkelen er revidert eller ikke.',
       inputPlaceholder: 'Beskrivelse av revisjonen',
@@ -1436,10 +1428,8 @@ const phrases = {
     minItems_plural: '{{label}} feltet må minst inneholde {{minItems}} ulike {{labelLowerCase}}',
     noEmptyNote: 'En merknad kan ikke være tom',
     noEmptyRevision: 'En beskrivelse kan ikke være tom',
-    noLicenseWithoutCopyrightHolder:
-      'En lisens kan ikke tas i bruk uten å definere minst en opphaver.',
-    maxSizeExceeded:
-      'Filen du prøver å laste opp er for stor. Maksstørrelse: {{maxSize}}. Filstørrelse: {{fileSize}}.',
+    noLicenseWithoutCopyrightHolder: 'En lisens kan ikke tas i bruk uten å definere minst en opphaver.',
+    maxSizeExceeded: 'Filen du prøver å laste opp er for stor. Maksstørrelse: {{maxSize}}. Filstørrelse: {{fileSize}}.',
     grepCodes:
       'Koden er på feil format. Det korrekte formatet er K(E/M) eller TT fulgt av ett eller flere siffer. Eks. KE137, KM2255, TT2',
     podcastImageShape: 'Metabilde må være like høyt som det er bredt.',
@@ -1457,10 +1447,8 @@ const phrases = {
     noArticleInProd: 'Ingen artikkel funnet i prod',
     taxonomy: 'Det var et problem ved lasting av taksonomi',
     versionSelect: 'Artikkelen finnes ikke i valgt versjon',
-    errorWhenFetchingTaxonomyArticle:
-      'Det var et problem ved lasting av den underliggende artikkelen',
-    unsavedTaxonomy:
-      'Du har ulagrede endringer. Trykk tilbakestill igjen hvis du ønsker å fortsette.',
+    errorWhenFetchingTaxonomyArticle: 'Det var et problem ved lasting av den underliggende artikkelen',
+    unsavedTaxonomy: 'Du har ulagrede endringer. Trykk tilbakestill igjen hvis du ønsker å fortsette.',
     auth0:
       'Autentiseringsfeil. Trykk avbryt for å ta vare på eventuelle endringer du har gjort før du logger inn på nytt. Følgende feilmelding kom fra auth0: {{message}}',
     statusCode: {
@@ -1558,8 +1546,7 @@ const phrases = {
       title: 'Endre navn',
       cancel: 'Avbryt',
       add: 'Legg til',
-      noTranslations:
-        'Ingen oversettelser tilgjengelig. Standardnavn vil brukes inntil dette er lagt inn.',
+      noTranslations: 'Ingen oversettelser tilgjengelig. Standardnavn vil brukes inntil dette er lagt inn.',
     },
     addTopic: 'Legg til nytt emne',
     addTopicHeader: 'Legg til emne',
@@ -1613,16 +1600,14 @@ const phrases = {
       subTitle: 'Id og synlighet for elementet',
       wrongArticleType:
         'Artikkelen er plassert som "{{placedAs}}" i taksonomien, men artikkelen er av typen "{{isType}}".',
-      missingArticleType:
-        'Artikkelen med ID {{id}} mangler artikkeltype. Den er sannsynligvis slettet.',
+      missingArticleType: 'Artikkelen med ID {{id}} mangler artikkeltype. Den er sannsynligvis slettet.',
       wrongConnections: 'Feilkoblinger',
       wrongConnectionsSubTitle: 'Denne artikkelen har feilkoblinger, se listen under.',
       canBeFixedInDatabase: 'Artikkeltypen kan endres i databasen for å fikse feilen.',
       notPublished: 'Artikkelen har ingen publisert versjon.',
     },
     resource: {
-      confirmDelete:
-        'Vil du fjerne ressursen fra denne mappen? Dette vil ikke påvirke plasseringen andre steder',
+      confirmDelete: 'Vil du fjerne ressursen fra denne mappen? Dette vil ikke påvirke plasseringen andre steder',
       copyError:
         'Det oppsto en feil ved kopiering av ressurser. Dobbeltsjekk de kopierte ressursene og prøv å fikse mangler manuelt, eller slett de kopierte ressursene og prøv å kopiere på nytt',
       addResourceConflict: 'Ressursen du forsøkte å legge til finnes allerede på emnet.',

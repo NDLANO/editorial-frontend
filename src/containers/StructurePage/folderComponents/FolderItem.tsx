@@ -92,12 +92,7 @@ const FolderItem = ({
             <Tooltip tooltip={addChildTooltip}>
               <IconButtonContainer>
                 <ModalTrigger>
-                  <IconButtonV2
-                    size="xsmall"
-                    variant="ghost"
-                    title={addChildTooltip}
-                    aria-label={addChildTooltip}
-                  >
+                  <IconButtonV2 size="xsmall" variant="ghost" title={addChildTooltip} aria-label={addChildTooltip}>
                     <Plus />
                   </IconButtonV2>
                 </ModalTrigger>
@@ -133,11 +128,7 @@ const FolderItem = ({
         </ControlButtonsWrapper>
       )}
       {showJumpToResources && (
-        <StyledResourceButton
-          variant="outline"
-          disabled={resourcesLoading}
-          onClick={() => jumpToResources?.()}
-        >
+        <StyledResourceButton variant="outline" disabled={resourcesLoading} onClick={() => jumpToResources?.()}>
           <Row>
             {t('taxonomy.jumpToResources')}
             {!!resourcesLoading && <Spinner appearance="small" />}

@@ -74,9 +74,7 @@ const HeaderWithLanguage = ({
   const statusText = status?.current ? t(`form.status.${status.current.toLowerCase()}`) : '';
   const published = status?.current === 'PUBLISHED' || status?.other?.includes('PUBLISHED');
   const isArticle = type === 'standard' || type === 'topic-article' || type === 'frontpage-article';
-  const responsible = isArticle
-    ? article?.responsible?.responsibleId
-    : concept?.responsible?.responsibleId;
+  const responsible = isArticle ? article?.responsible?.responsibleId : concept?.responsible?.responsibleId;
 
   return (
     <header>

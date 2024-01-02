@@ -11,22 +11,12 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { FieldHeader } from '@ndla/forms';
-import {
-  ModalHeader,
-  ModalBody,
-  ModalCloseButton,
-  Modal,
-  ModalTitle,
-  ModalTrigger,
-  ModalContent,
-} from '@ndla/modal';
+import { ModalHeader, ModalBody, ModalCloseButton, Modal, ModalTitle, ModalTrigger, ModalContent } from '@ndla/modal';
 import { Switch } from '@ndla/switch';
 import { Node, NodeChild } from '@ndla/types-taxonomy';
 import { HowToHelper } from '../../../../components/HowTo';
 import ActiveTopicConnections from '../../../../components/Taxonomy/ActiveTopicConnections';
-import TaxonomyBlockNode, {
-  NodeWithChildren,
-} from '../../../../components/Taxonomy/TaxonomyBlockNode';
+import TaxonomyBlockNode, { NodeWithChildren } from '../../../../components/Taxonomy/TaxonomyBlockNode';
 import { fetchUserData } from '../../../../modules/draft/draftApi';
 import { MinimalNodeChild } from '../../LearningResourcePage/components/LearningResourceTaxonomy';
 
@@ -41,12 +31,7 @@ interface Props {
   getSubjectTopics: (subjectId: string) => Promise<void>;
 }
 
-const TopicArticleConnections = ({
-  structure,
-  selectedNodes,
-  addConnection,
-  getSubjectTopics,
-}: Props) => {
+const TopicArticleConnections = ({ structure, selectedNodes, addConnection, getSubjectTopics }: Props) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [openedPaths, setOpenedPaths] = useState<string[]>([]);
@@ -54,8 +39,7 @@ const TopicArticleConnections = ({
   const [favoriteSubjectIds, setFavoriteSubjectIds] = useState<string[]>([]);
 
   const nodes = useMemo(
-    () =>
-      showFavorites ? structure.filter((node) => favoriteSubjectIds.includes(node.id)) : structure,
+    () => (showFavorites ? structure.filter((node) => favoriteSubjectIds.includes(node.id)) : structure),
     [favoriteSubjectIds, showFavorites, structure],
   );
 
@@ -101,10 +85,7 @@ const TopicArticleConnections = ({
   };
   return (
     <>
-      <FieldHeader
-        title={t('taxonomy.topics.topicPlacement')}
-        subTitle={t('taxonomy.topics.subTitleTopic')}
-      >
+      <FieldHeader title={t('taxonomy.topics.topicPlacement')} subTitle={t('taxonomy.topics.subTitleTopic')}>
         <HowToHelper pageId="TaxonomyTopicConnections" tooltip={t('taxonomy.topics.helpLabel')} />
       </FieldHeader>
       <ActiveTopicConnections activeTopics={selectedNodes} type="topic-article" />

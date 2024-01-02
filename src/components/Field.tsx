@@ -52,12 +52,7 @@ export const StyledField = styled.div<StyledFieldProps>`
 `;
 
 const Field = ({ children, className, noBorder = false, title = false, right = false }: Props) => (
-  <StyledField
-    data-no-border={noBorder}
-    data-right={right}
-    data-is-title={title}
-    className={className}
-  >
+  <StyledField data-no-border={noBorder} data-right={right} data-is-title={title} className={className}>
     {children}
   </StyledField>
 );

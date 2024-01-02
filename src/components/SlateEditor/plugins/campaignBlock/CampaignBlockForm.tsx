@@ -73,10 +73,7 @@ const rules: RulesType<CampaignBlockFormValues> = {
   },
 };
 
-const toInitialValues = (
-  lang: string,
-  initialData?: CampaignBlockEmbedData,
-): CampaignBlockFormValues => {
+const toInitialValues = (lang: string, initialData?: CampaignBlockEmbedData): CampaignBlockFormValues => {
   return {
     resource: TYPE_CAMPAIGN_BLOCK,
     title: initialData?.title ?? '',
@@ -131,10 +128,7 @@ const sides: CampaignBlockEmbedData['imageSide'][] = ['left', 'right'];
 
 const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
   const { t, i18n } = useTranslation();
-  const initialValues = useMemo(
-    () => toInitialValues(i18n.language, initialData),
-    [initialData, i18n.language],
-  );
+  const initialValues = useMemo(() => toInitialValues(i18n.language, initialData), [initialData, i18n.language]);
   const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
 
   const onSubmit = useCallback(
@@ -156,10 +150,7 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
     [onSave],
   );
 
-  const onValidate = useCallback(
-    (values: CampaignBlockFormValues) => validateFormik(values, rules, t),
-    [t],
-  );
+  const onValidate = useCallback((values: CampaignBlockFormValues) => validateFormik(values, rules, t), [t]);
 
   const imageSides = useMemo(
     () =>
@@ -226,14 +217,10 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
           </StyledFormikField>
           <UrlWrapper>
             <StyledUrlFormikField name="link" showError>
-              {({ field }: FieldProps) => (
-                <InputV2 customCss={inputStyle} label={t('form.name.link')} {...field} />
-              )}
+              {({ field }: FieldProps) => <InputV2 customCss={inputStyle} label={t('form.name.link')} {...field} />}
             </StyledUrlFormikField>
             <StyledUrlFormikField name="linkText" showError>
-              {({ field }: FieldProps) => (
-                <InputV2 customCss={inputStyle} label={t('form.name.linkText')} {...field} />
-              )}
+              {({ field }: FieldProps) => <InputV2 customCss={inputStyle} label={t('form.name.linkText')} {...field} />}
             </StyledUrlFormikField>
           </UrlWrapper>
           <StyledFormikField name="imageSide">
@@ -243,9 +230,7 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
                 selected={field.value}
                 uniqeIds
                 options={imageSides}
-                onChange={(value: string) =>
-                  field.onChange({ target: { name: field.name, value: value } })
-                }
+                onChange={(value: string) => field.onChange({ target: { name: field.name, value: value } })}
               />
             )}
           </StyledFormikField>
@@ -266,9 +251,7 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
                   <CheckboxItem
                     label={t('form.image.isDecorative')}
                     checked={field.value}
-                    onChange={() =>
-                      field.onChange({ target: { name: field.name, value: !field.value } })
-                    }
+                    onChange={() => field.onChange({ target: { name: field.name, value: !field.value } })}
                   />
                 )}
               </>
@@ -278,12 +261,7 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
             <ButtonV2 variant="outline" onClick={onCancel}>
               {t('cancel')}
             </ButtonV2>
-            <ButtonV2
-              variant="solid"
-              disabled={!dirty || !isValid}
-              type="submit"
-              onClick={() => handleSubmit()}
-            >
+            <ButtonV2 variant="solid" disabled={!dirty || !isValid} type="submit" onClick={() => handleSubmit()}>
               {t('save')}
             </ButtonV2>
           </ButtonContainer>

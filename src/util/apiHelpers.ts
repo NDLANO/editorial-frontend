@@ -36,11 +36,7 @@ export function brightcoveApiResourceUrl(path: string) {
   return config.brightcoveApiUrl + path;
 }
 
-export const fetchWithAuthorization = async (
-  url: string,
-  config: FetchConfigType = {},
-  forceAuth: boolean,
-) => {
+export const fetchWithAuthorization = async (url: string, config: FetchConfigType = {}, forceAuth: boolean) => {
   if (forceAuth || !isAccessTokenValid()) {
     await renewAuth();
   }
@@ -115,13 +111,9 @@ export const fetchReAuthorized = async (url: string, config: FetchConfigType = {
   fetchWithAuthorization(url, config, true);
 
 export const fetchBrightcoveAccessToken = () =>
-  fetch('/get_brightcove_token').then((r) =>
-    resolveJsonOrRejectWithError<BrightcoveAccessToken>(r),
-  );
+  fetch('/get_brightcove_token').then((r) => resolveJsonOrRejectWithError<BrightcoveAccessToken>(r));
 
-export const setBrightcoveAccessTokenInLocalStorage = (
-  brightcoveAccessToken: BrightcoveAccessToken,
-) => {
+export const setBrightcoveAccessTokenInLocalStorage = (brightcoveAccessToken: BrightcoveAccessToken) => {
   localStorage.setItem('brightcove_access_token', brightcoveAccessToken.access_token);
   localStorage.setItem(
     'brightcove_access_token_expires_at',
@@ -131,9 +123,7 @@ export const setBrightcoveAccessTokenInLocalStorage = (
 
 export const fetchWithBrightCoveToken = (url: string) => {
   const brightcoveAccessToken = localStorage.getItem('brightcove_access_token');
-  const expiresAt = brightcoveAccessToken
-    ? JSON.parse(localStorage.getItem('brightcove_access_token_expires_at')!)
-    : 0;
+  const expiresAt = brightcoveAccessToken ? JSON.parse(localStorage.getItem('brightcove_access_token_expires_at')!) : 0;
   if (new Date().getTime() > expiresAt || !expiresAt) {
     return fetchBrightcoveAccessToken().then((res) => {
       setBrightcoveAccessTokenInLocalStorage(res);

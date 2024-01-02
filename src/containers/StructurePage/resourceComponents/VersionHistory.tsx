@@ -12,15 +12,7 @@ import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { spacing, colors } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
-import {
-  ModalBody,
-  ModalHeader,
-  ModalTitle,
-  Modal,
-  ModalTrigger,
-  ModalContent,
-  ModalCloseButton,
-} from '@ndla/modal';
+import { ModalBody, ModalHeader, ModalTitle, Modal, ModalTrigger, ModalContent, ModalCloseButton } from '@ndla/modal';
 import { IEditorNote } from '@ndla/types-backend/draft-api';
 import { ContentTypeBadge } from '@ndla/ui';
 import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
@@ -53,11 +45,9 @@ const StyledButton = styled(ButtonV2, { shouldForwardProp })<StyledButtonProps>`
   border: none;
   flex: 2;
 
-  background-color: ${(props) =>
-    props.isPublished ? colors.subjectMaterial.light : colors.learningPath.light};
+  background-color: ${(props) => (props.isPublished ? colors.subjectMaterial.light : colors.learningPath.light)};
   &:hover {
-    background-color: ${(props) =>
-      props.isPublished ? colors.subjectMaterial.dark : colors.learningPath.dark};
+    background-color: ${(props) => (props.isPublished ? colors.subjectMaterial.dark : colors.learningPath.dark)};
   }
 `;
 
@@ -147,10 +137,7 @@ const VersionHistoryContent = ({ contentType, resource }: ModalContentProps) => 
       </StyledModalHeader>
       <StyledModalBody>
         <LinkWrapper>
-          <ContentTypeBadge
-            background
-            type={contentType === 'topic-article' ? 'topic' : contentType}
-          />
+          <ContentTypeBadge background type={contentType === 'topic-article' ? 'topic' : contentType} />
           <ResourceItemLink
             contentType={contentType}
             contentUri={resource.contentUri}
@@ -159,13 +146,7 @@ const VersionHistoryContent = ({ contentType, resource }: ModalContentProps) => 
             isVisible={resource.metadata?.visible}
           />
         </LinkWrapper>
-        {notes?.length ? (
-          <NotesVersionHistory notes={notes} />
-        ) : notes ? (
-          t('form.notes.history.empty')
-        ) : (
-          <Spinner />
-        )}
+        {notes?.length ? <NotesVersionHistory notes={notes} /> : notes ? t('form.notes.history.empty') : <Spinner />}
       </StyledModalBody>
     </>
   );

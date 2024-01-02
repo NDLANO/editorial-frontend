@@ -11,28 +11,12 @@ import { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ButtonV2 } from '@ndla/button';
 import { FieldHeader } from '@ndla/forms';
-import {
-  ModalBody,
-  ModalCloseButton,
-  Modal,
-  ModalHeader,
-  ModalTrigger,
-  ModalContent,
-} from '@ndla/modal';
-import {
-  IImageMetaInformationV3,
-  IUpdateImageMetaInformation,
-} from '@ndla/types-backend/image-api';
+import { ModalBody, ModalCloseButton, Modal, ModalHeader, ModalTrigger, ModalContent } from '@ndla/modal';
+import { IImageMetaInformationV3, IUpdateImageMetaInformation } from '@ndla/types-backend/image-api';
 import MetaImageField from './components/MetaImageField';
 import ImageSearchAndUploader from '../../components/ControlledImageSearchAndUploader';
 import HowToHelper from '../../components/HowTo/HowToHelper';
-import {
-  postImage,
-  updateImage,
-  searchImages,
-  fetchImage,
-  onError,
-} from '../../modules/image/imageApi';
+import { postImage, updateImage, searchImages, fetchImage, onError } from '../../modules/image/imageApi';
 import { createFormData } from '../../util/formDataHelper';
 
 interface Props {
@@ -101,11 +85,7 @@ const MetaImageSearch = ({
     onChangeFormik(null);
   };
 
-  const onImageUpdate = async (
-    image: IUpdateImageMetaInformation,
-    file: string | Blob | undefined,
-    id?: number,
-  ) => {
+  const onImageUpdate = async (image: IUpdateImageMetaInformation, file: string | Blob | undefined, id?: number) => {
     if (id) {
       const updatedImage = await updateImage(id, image);
       onImageSet(updatedImage);

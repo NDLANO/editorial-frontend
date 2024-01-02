@@ -164,9 +164,7 @@ const MoveExistingNode = ({
             {t('taxonomy.addExistingSuccess')}
           </MenuContent>
         )}
-        {error && (
-          <StyledErrorMessage data-testid="inlineEditErrorMessage">{t(error)}</StyledErrorMessage>
-        )}
+        {error && <StyledErrorMessage data-testid="inlineEditErrorMessage">{t(error)}</StyledErrorMessage>}
       </StyledActionContent>
     </StyledMenuWrapper>
   );

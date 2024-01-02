@@ -14,8 +14,7 @@ const hasDefinitionListItem = (editor: Editor) => {
   // For all selected list elements
   for (const [, path] of Editor.nodes(editor, {
     match: (node) =>
-      Element.isElement(node) &&
-      (node.type === TYPE_DEFINITION_DESCRIPTION || node.type === TYPE_DEFINITION_TERM),
+      Element.isElement(node) && (node.type === TYPE_DEFINITION_DESCRIPTION || node.type === TYPE_DEFINITION_TERM),
   })) {
     if (isDefinitionListItem(editor, path)) {
       return true;

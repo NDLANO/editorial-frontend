@@ -6,11 +6,7 @@
  *
  */
 
-import {
-  resolveJsonOrRejectWithError,
-  apiResourceUrl,
-  fetchAuthorized,
-} from '../../util/apiHelpers';
+import { resolveJsonOrRejectWithError, apiResourceUrl, fetchAuthorized } from '../../util/apiHelpers';
 
 const baseUrl = apiResourceUrl('/draft-api/v1/rules');
 

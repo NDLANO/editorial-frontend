@@ -39,9 +39,7 @@ export const markSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
     if (!Object.keys(marks).includes(el.tagName.toLowerCase())) return;
     return children.map((child) =>
-      Text.isText(child)
-        ? slatejsx('text', { [marks[el.tagName.toLowerCase()]]: true }, child)
-        : child,
+      Text.isText(child) ? slatejsx('text', { [marks[el.tagName.toLowerCase()]]: true }, child) : child,
     );
   },
 

@@ -28,9 +28,7 @@ export const stringToLocale = (stringLanguage?: string): LocaleType | undefined 
 
 const getLocaleURL = (newLocale: string, locale: string, location: Location): string => {
   const { pathname, search } = location;
-  const basePath = pathname.startsWith(`/${locale}/`)
-    ? pathname.replace(`/${locale}/`, '/')
-    : pathname;
+  const basePath = pathname.startsWith(`/${locale}/`) ? pathname.replace(`/${locale}/`, '/') : pathname;
   return newLocale === 'nb' ? `${basePath}${search}` : `/${newLocale}${basePath}${search}`;
 };
 

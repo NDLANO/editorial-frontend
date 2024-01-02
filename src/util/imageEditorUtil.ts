@@ -86,7 +86,5 @@ export function getSrcSets(imageId: string, transformData?: TransformData, langu
   const languageString = language ? `&language=${language}` : '';
   const focalString = focalPoint ? `&${focalPoint}` : '';
 
-  return imageWidths
-    .map((w) => `${src}?width=${w}${languageString}${cropString}${focalString} ${w}w`)
-    .join(', ');
+  return imageWidths.map((w) => `${src}?width=${w}${languageString}${cropString}${focalString} ${w}w`).join(', ');
 }

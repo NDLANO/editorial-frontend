@@ -33,8 +33,7 @@ interface Props {
 }
 
 const isGrouped = (node: Node): boolean =>
-  node.metadata?.customFields[TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES] !==
-  TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE;
+  node.metadata?.customFields[TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES] !== TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE;
 
 const GroupResourceSwitch = ({ node, onChanged }: Props) => {
   const grouped = useMemo(() => isGrouped(node), [node]);

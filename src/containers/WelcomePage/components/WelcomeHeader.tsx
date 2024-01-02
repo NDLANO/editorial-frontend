@@ -85,9 +85,7 @@ export const WelcomeHeader = () => {
       <LeftShape />
       <ContentWrapper>
         <StyledTitle>
-          {`${t('welcomePage.welcomeBack')} ${
-            userName ? `${userName}!` : t('welcomePage.welcomeText')
-          }`}
+          {`${t('welcomePage.welcomeBack')} ${userName ? `${userName}!` : t('welcomePage.welcomeText')}`}
         </StyledTitle>
       </ContentWrapper>
       <ButtonWrapper>

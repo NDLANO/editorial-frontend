@@ -27,8 +27,7 @@ interface UseTransformArticle extends Variables {
 }
 
 export const transformArticleQueryKeys = {
-  transformArticle: (params?: Partial<UseTransformArticle>) =>
-    [TRANFSFORM_ARTICLE, params] as const,
+  transformArticle: (params?: Partial<UseTransformArticle>) => [TRANFSFORM_ARTICLE, params] as const,
 };
 
 export const usePreviewArticle = (
@@ -81,14 +80,9 @@ export const useTransformArticle = (
   return useQuery<string>({
     queryKey: transformArticleQueryKeys.transformArticle(params),
     queryFn: async (): Promise<string> => {
-      const res = await request<ReturnData, UseTransformArticle>(
-        gqlEndpoint,
-        transformArticleMutation,
-        params,
-        {
-          'Accept-Language': params.language,
-        },
-      );
+      const res = await request<ReturnData, UseTransformArticle>(gqlEndpoint, transformArticleMutation, params, {
+        'Accept-Language': params.language,
+      });
       return res.transformArticleContent;
     },
     ...options,

@@ -24,10 +24,7 @@ export const getIdFromUrn = (urn?: string) => {
   return idWithoutRevision;
 };
 
-const flattenResourceTypesAndAddContextTypes = (
-  data: ResourceType[] = [],
-  t: (key: string) => string,
-) => {
+const flattenResourceTypesAndAddContextTypes = (data: ResourceType[] = [], t: (key: string) => string) => {
   const resourceTypes: FlattenedResourceType[] = [];
   data.forEach((type) => {
     if (type.subtypes) {
@@ -51,10 +48,7 @@ const flattenResourceTypesAndAddContextTypes = (
   return resourceTypes;
 };
 
-export const groupResourcesByType = (
-  resources: ResourceWithNodeConnectionAndMeta[],
-  resourceTypes: ResourceType[],
-) => {
+export const groupResourcesByType = (resources: ResourceWithNodeConnectionAndMeta[], resourceTypes: ResourceType[]) => {
   const types = resourceTypes.reduce<Record<string, string>>((types, rt) => {
     const reversedMapping =
       rt.subtypes?.reduce<Record<string, string>>((acc, curr) => {
@@ -66,37 +60,33 @@ export const groupResourcesByType = (
   }, {});
 
   const typeToResourcesMapping = resources
-    .flatMap((res) =>
-      res.resourceTypes.map<[string, ResourceWithNodeConnectionAndMeta]>((rt) => [rt.id, res]),
-    )
-    .reduce<Record<string, { parentId: string; resources: ResourceWithNodeConnectionAndMeta[] }>>(
-      (acc, [id, curr]) => {
-        if (acc[id]) {
-          acc[id]['resources'] = acc[id]['resources'].concat(curr);
-        } else {
-          acc[id] = {
-            parentId: types[id],
-            resources: [curr],
-          };
-        }
-        return acc;
-      },
-      {},
-    );
+    .flatMap((res) => res.resourceTypes.map<[string, ResourceWithNodeConnectionAndMeta]>((rt) => [rt.id, res]))
+    .reduce<Record<string, { parentId: string; resources: ResourceWithNodeConnectionAndMeta[] }>>((acc, [id, curr]) => {
+      if (acc[id]) {
+        acc[id]['resources'] = acc[id]['resources'].concat(curr);
+      } else {
+        acc[id] = {
+          parentId: types[id],
+          resources: [curr],
+        };
+      }
+      return acc;
+    }, {});
 
   const groupedValues = groupBy(Object.values(typeToResourcesMapping), (t) => t.parentId);
 
-  const unique = Object.entries(groupedValues).reduce<
-    Record<string, ResourceWithNodeConnectionAndMeta[]>
-  >((acc, [id, val]) => {
-    const uniqueValues = uniqBy(
-      val.flatMap((v) => v.resources),
-      (r) => r.id,
-    );
+  const unique = Object.entries(groupedValues).reduce<Record<string, ResourceWithNodeConnectionAndMeta[]>>(
+    (acc, [id, val]) => {
+      const uniqueValues = uniqBy(
+        val.flatMap((v) => v.resources),
+        (r) => r.id,
+      );
 
-    acc[id] = uniqueValues;
-    return acc;
-  }, {});
+      acc[id] = uniqueValues;
+      return acc;
+    },
+    {},
+  );
 
   return resourceTypes
     .map((rt) => ({
@@ -107,8 +97,7 @@ export const groupResourcesByType = (
     .filter((rt) => rt.resources.length > 0);
 };
 
-export const safeConcat = <T>(toAdd: T, existing?: T[]) =>
-  existing ? existing.concat(toAdd) : [toAdd];
+export const safeConcat = <T>(toAdd: T, existing?: T[]) => (existing ? existing.concat(toAdd) : [toAdd]);
 
 const insertChild = (
   childNodes: NodeChildWithChildren[],

@@ -63,13 +63,7 @@ const StyledConnections = styled.div`
   }
 `;
 
-const ActiveTopicConnection = ({
-  removeConnection,
-  setPrimaryConnection,
-  setRelevance,
-  type,
-  node,
-}: Props) => {
+const ActiveTopicConnection = ({ removeConnection, setPrimaryConnection, setRelevance, type, node }: Props) => {
   const { t } = useTranslation();
 
   if (type === 'topic-article') {

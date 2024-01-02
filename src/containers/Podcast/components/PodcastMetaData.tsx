@@ -25,12 +25,7 @@ const PodcastMetaData = ({ language, onImageLoad }: Props) => {
 
   return (
     <>
-      <FormikField
-        label={t('podcastForm.fields.introduction')}
-        name="introduction"
-        maxLength={1000}
-        showMaxLength
-      >
+      <FormikField label={t('podcastForm.fields.introduction')} name="introduction" maxLength={1000} showMaxLength>
         {({ field }) => (
           <PlainTextEditor
             id={field.name}

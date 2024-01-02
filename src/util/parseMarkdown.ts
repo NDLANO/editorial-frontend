@@ -69,9 +69,7 @@ interface ParseOptions {
 }
 
 const parseMarkdown = ({ markdown, inline }: ParseOptions) => {
-  const html = (
-    inline ? marked.parseInline(markdown.trim()) : marked.parse(markdown.trim())
-  ) as string;
+  const html = (inline ? marked.parseInline(markdown.trim()) : marked.parse(markdown.trim())) as string;
   // We use DOMPurify instead of the sanitize-html package because it is much smaller.
   // Sanitize-html is intended for node usage, and DOMPurify is intended for browser usage.
   const sanitizedHtml = DOMPurify.sanitize(html);

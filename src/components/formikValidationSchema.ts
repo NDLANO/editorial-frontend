@@ -27,8 +27,7 @@ const EMAIL_REGEX =
   // eslint-disable-next-line no-useless-escape
   /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
-const appendError = (error: string, newError: string): string =>
-  error ? `${error} \n ${newError}` : newError;
+const appendError = (error: string, newError: string): string => (error ? `${error} \n ${newError}` : newError);
 
 const validateFormikField = <FormikValuesType, ApiTypes = any, FormikNestedValueType = {}>(
   errors: Record<string, string> = {},
@@ -43,10 +42,7 @@ const validateFormikField = <FormikValuesType, ApiTypes = any, FormikNestedValue
 
   const value = get(ruleKey, values);
   if (rules[ruleKey].required && isEmpty(value)) {
-    errors[appendErrorKey] = appendError(
-      errors[appendErrorKey],
-      t('validation.isRequired', { label }),
-    );
+    errors[appendErrorKey] = appendError(errors[appendErrorKey], t('validation.isRequired', { label }));
   }
 
   if (rules[ruleKey].allObjectFieldsRequired) {
@@ -147,19 +143,13 @@ const validateFormikField = <FormikValuesType, ApiTypes = any, FormikNestedValue
     );
   }
   if (rules[ruleKey].numeric && !isNumeric(value)) {
-    errors[appendErrorKey] = appendError(
-      errors[appendErrorKey],
-      t('validation.isNumeric', { label }),
-    );
+    errors[appendErrorKey] = appendError(errors[appendErrorKey], t('validation.isNumeric', { label }));
   }
   if (rules[ruleKey].url && !isUrl(value)) {
     errors[appendErrorKey] = appendError(errors[appendErrorKey], t('validation.url', { label }));
   }
   if (rules[ruleKey].urlOrNumber && !isUrl(value) && !isNumeric(value)) {
-    errors[appendErrorKey] = appendError(
-      errors[appendErrorKey],
-      t('validation.urlOrNumber', { label }),
-    );
+    errors[appendErrorKey] = appendError(errors[appendErrorKey], t('validation.urlOrNumber', { label }));
   }
 
   const testFunction = rules[ruleKey].test;
@@ -203,9 +193,7 @@ interface RuleObject<FormikValuesType, ApiType = any, FormikNestedValueType = {}
   nestedValidationRules?: Record<string, RuleObject<FormikNestedValueType, ApiType>>;
   test?: (
     value: FormikValuesType,
-  ) =>
-    | { translationKey: string; variables?: { [key: string]: string | boolean | number } }
-    | undefined;
+  ) => { translationKey: string; variables?: { [key: string]: string | boolean | number } } | undefined;
   onlyValidateIf?: (value: FormikValuesType) => boolean;
 }
 

@@ -9,20 +9,13 @@
 import queryString from 'query-string';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  IAudioSummarySearchResult,
-  ISeriesSummarySearchResult,
-} from '@ndla/types-backend/audio-api';
+import { IAudioSummarySearchResult, ISeriesSummarySearchResult } from '@ndla/types-backend/audio-api';
 import { IConceptSearchResult } from '@ndla/types-backend/concept-api';
 import { IUserData } from '@ndla/types-backend/draft-api';
 import { ISearchResultV3 } from '@ndla/types-backend/image-api';
 import { IMultiSearchResult } from '@ndla/types-backend/search-api';
 import { Node, ResourceType } from '@ndla/types-taxonomy';
-import {
-  FAVOURITES_SUBJECT_ID,
-  LMA_SUBJECT_ID,
-  TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
-} from '../../../constants';
+import { FAVOURITES_SUBJECT_ID, LMA_SUBJECT_ID, TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA } from '../../../constants';
 import { SearchObjectType, SearchResultBase } from '../../../interfaces';
 import { searchAudio, searchSeries } from '../../../modules/audio/audioApi';
 import { AudioSearchParams, SeriesSearchParams } from '../../../modules/audio/audioApiInterfaces';
@@ -38,12 +31,7 @@ import { fetchResourceType } from '../../../modules/taxonomy';
 import { transformQuery } from '../../../util/searchHelpers';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
-type QueryType =
-  | AudioSearchParams
-  | ConceptQuery
-  | ImageSearchQuery
-  | SeriesSearchParams
-  | MultiSearchApiQuery;
+type QueryType = AudioSearchParams | ConceptQuery | ImageSearchQuery | SeriesSearchParams | MultiSearchApiQuery;
 
 type SearchFetchReturnType =
   | IAudioSummarySearchResult
@@ -120,8 +108,7 @@ export const useSavedSearchUrl = (currentUserData: IUserData | undefined): Searc
         setDataFetchError(false);
         const searchResultData = await Promise.all(
           searchObjects.map(async (searchObject) => {
-            const searchFunction =
-              searchTypeToFetchMapping[searchObject['type'] ?? 'content'] ?? search;
+            const searchFunction = searchTypeToFetchMapping[searchObject['type'] ?? 'content'] ?? search;
 
             const searchObj =
               searchObject.subjects === FAVOURITES_SUBJECT_ID
@@ -146,20 +133,14 @@ export const useSavedSearchUrl = (currentUserData: IUserData | undefined): Searc
           .map((searchObject) => searchObject['subjects'])
           .filter(
             (searchObject) =>
-              searchObject &&
-              !searchObject.includes(FAVOURITES_SUBJECT_ID) &&
-              !searchObject.includes(LMA_SUBJECT_ID),
+              searchObject && !searchObject.includes(FAVOURITES_SUBJECT_ID) && !searchObject.includes(LMA_SUBJECT_ID),
           );
         const subjectData = await Promise.all(
-          subjects.map((subject) =>
-            fetchNode({ id: subject ?? '', language: i18n.language, taxonomyVersion }),
-          ),
+          subjects.map((subject) => fetchNode({ id: subject ?? '', language: i18n.language, taxonomyVersion })),
         );
         setSubjectData(subjectData);
 
-        const resourceTypes = searchObjects
-          .map((searchObject) => searchObject['resource-types'])
-          .filter((r) => r);
+        const resourceTypes = searchObjects.map((searchObject) => searchObject['resource-types']).filter((r) => r);
         const resourceTypesData = await Promise.all(
           resourceTypes.map((resourceType) =>
             fetchResourceType({ id: resourceType ?? '', language: i18n.language, taxonomyVersion }),
@@ -173,10 +154,7 @@ export const useSavedSearchUrl = (currentUserData: IUserData | undefined): Searc
     })();
   }, [searchObjects, favoriteSubjects, taxonomyVersion, i18n.language, currentUserData?.userId]);
 
-  const userIds = useMemo(
-    () => searchObjects.filter((s) => s.users).map((u) => u.users),
-    [searchObjects],
-  );
+  const userIds = useMemo(() => searchObjects.filter((s) => s.users).map((u) => u.users), [searchObjects]);
 
   const {
     data: userData,
@@ -226,20 +204,15 @@ export const useSavedSearchUrl = (currentUserData: IUserData | undefined): Searc
             ? t('searchForm.LMASubjects')
             : subjectData?.find((s) => s.id === searchObject.subjects)?.name,
       'resource-types':
-        searchObject['resource-types'] &&
-        resourceTypeData?.find((r) => r.id === searchObject['resource-types'])?.name,
+        searchObject['resource-types'] && resourceTypeData?.find((r) => r.id === searchObject['resource-types'])?.name,
       'audio-type': searchObject['audio-type'] && searchObject['audio-type'],
-      'article-types':
-        searchObject['article-types'] && t(`articleType.${searchObject['article-types']}`),
-      'draft-status':
-        searchObject['draft-status'] &&
-        t(`form.status.${searchObject['draft-status'].toLowerCase()}`),
+      'article-types': searchObject['article-types'] && t(`articleType.${searchObject['article-types']}`),
+      'draft-status': searchObject['draft-status'] && t(`form.status.${searchObject['draft-status'].toLowerCase()}`),
       'context-type': searchObject['context-type'] && t(`contextTypes.topic`),
       users:
         searchObject.users &&
-        `${t('searchForm.tagType.users')}: ${userData?.find(
-          (u) => u.app_metadata.ndla_id === searchObject.users,
-        )?.name}`,
+        `${t('searchForm.tagType.users')}: ${userData?.find((u) => u.app_metadata.ndla_id === searchObject.users)
+          ?.name}`,
       'responsible-ids':
         searchObject['responsible-ids'] &&
         `${t(`searchForm.tagType.responsible-ids`)}: ${responsibleData?.find(
@@ -247,12 +220,9 @@ export const useSavedSearchUrl = (currentUserData: IUserData | undefined): Searc
         )?.name}`,
       license: searchObject.license && searchObject.license,
       'model-released':
-        searchObject['model-released'] &&
-        t(`imageSearch.modelReleased.${searchObject['model-released']}`),
-      'filter-inactive':
-        searchObject['filter-inactive'] === 'false' ? t('searchForm.archivedIncluded') : undefined,
-      'concept-type':
-        searchObject['concept-type'] && t(`searchForm.conceptType.${searchObject['concept-type']}`),
+        searchObject['model-released'] && t(`imageSearch.modelReleased.${searchObject['model-released']}`),
+      'filter-inactive': searchObject['filter-inactive'] === 'false' ? t('searchForm.archivedIncluded') : undefined,
+      'concept-type': searchObject['concept-type'] && t(`searchForm.conceptType.${searchObject['concept-type']}`),
     };
   };
 
@@ -269,8 +239,7 @@ export const useSavedSearchUrl = (currentUserData: IUserData | undefined): Searc
         .filter((r) => !!r)
         .join(' + ');
 
-      const resultHitsString =
-        searchResultData !== undefined ? ` (${searchResultData?.[index]?.totalCount})` : '';
+      const resultHitsString = searchResultData !== undefined ? ` (${searchResultData?.[index]?.totalCount})` : '';
 
       return { text: `${resultDataSting}${resultHitsString}`, url: url };
     });

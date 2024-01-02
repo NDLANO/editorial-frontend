@@ -66,11 +66,7 @@ const StyledActionContent = styled.div`
   padding-left: ${spacing.normal};
 `;
 
-const ConnectExistingNode = ({
-  editModeHandler: { editMode, toggleEditMode },
-  currentNode,
-  nodeType,
-}: Props) => {
+const ConnectExistingNode = ({ editModeHandler: { editMode, toggleEditMode }, currentNode, nodeType }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const { mutateAsync: connectNode } = usePostNodeConnectionMutation();
@@ -150,9 +146,7 @@ const ConnectExistingNode = ({
             {t('taxonomy.connectExistingSuccess')}
           </MenuContent>
         )}
-        {error && (
-          <StyledErrorMessage data-testid="inlineEditErrorMessage">{t(error)}</StyledErrorMessage>
-        )}
+        {error && <StyledErrorMessage data-testid="inlineEditErrorMessage">{t(error)}</StyledErrorMessage>}
       </StyledActionContent>
     </StyledMenuWrapper>
   );

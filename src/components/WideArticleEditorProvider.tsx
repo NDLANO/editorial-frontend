@@ -6,15 +6,7 @@
  *
  */
 
-import {
-  createContext,
-  Dispatch,
-  ReactNode,
-  SetStateAction,
-  useCallback,
-  useContext,
-  useState,
-} from 'react';
+import { createContext, Dispatch, ReactNode, SetStateAction, useCallback, useContext, useState } from 'react';
 
 const WideArticleContext = createContext<[boolean, Dispatch<SetStateAction<boolean>>] | undefined>([
   false,

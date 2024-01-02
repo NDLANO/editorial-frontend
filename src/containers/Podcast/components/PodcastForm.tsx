@@ -125,10 +125,7 @@ const PodcastForm = ({
   const size = useRef<[number, number] | undefined>(undefined);
   const navigate = useNavigate();
 
-  const handleSubmit = async (
-    values: PodcastFormValues,
-    actions: FormikHelpers<PodcastFormValues>,
-  ) => {
+  const handleSubmit = async (values: PodcastFormValues, actions: FormikHelpers<PodcastFormValues>) => {
     const license = licenses!.find((license) => license.license === values.license);
 
     if (
@@ -174,10 +171,7 @@ const PodcastForm = ({
     };
     try {
       audio?.revision
-        ? await onUpdatePodcast?.(
-            { ...podcastMetaData, revision: audio.revision },
-            values.audioFile.newFile?.file,
-          )
+        ? await onUpdatePodcast?.({ ...podcastMetaData, revision: audio.revision }, values.audioFile.newFile?.file)
         : await onCreatePodcast?.(podcastMetaData, values.audioFile.newFile?.file);
     } catch (e) {
       handleError(e);
@@ -186,10 +180,7 @@ const PodcastForm = ({
   };
 
   const validateMetaImage = useCallback(
-    (
-      [width, height]: [number, number],
-      values: PodcastFormValues,
-    ): FormikErrors<PodcastFormValues> => {
+    ([width, height]: [number, number], values: PodcastFormValues): FormikErrors<PodcastFormValues> => {
       if (values.coverPhotoId) {
         if (width !== height) {
           return { coverPhotoId: t('validation.podcastImageShape') };
@@ -214,10 +205,7 @@ const PodcastForm = ({
 
   const initialValues = audioApiTypeToPodcastFormType(audio, language);
   const initialWarnings = getWarnings(initialValues, podcastRules, t, audio);
-  const initialErrors = useMemo(
-    () => validateFunction(initialValues),
-    [initialValues, validateFunction],
-  );
+  const initialErrors = useMemo(() => validateFunction(initialValues), [initialValues, validateFunction]);
 
   return (
     <Formik
@@ -271,9 +259,7 @@ const PodcastForm = ({
                   id="podcast-upload-podcastmeta"
                   title={t('form.podcastSection')}
                   className={'u-6/6'}
-                  hasError={['introduction', 'coverPhotoId', 'metaImageAlt'].some(
-                    (field) => field in errors,
-                  )}
+                  hasError={['introduction', 'coverPhotoId', 'metaImageAlt'].some((field) => field in errors)}
                 >
                   <PodcastMetaData
                     language={language}
@@ -288,9 +274,7 @@ const PodcastForm = ({
                   id="audio-upload-copyright"
                   title={t('form.copyrightSection')}
                   className={'u-6/6'}
-                  hasError={['rightsholders', 'creators', 'processors', 'license'].some(
-                    (field) => field in errors,
-                  )}
+                  hasError={['rightsholders', 'creators', 'processors', 'license'].some((field) => field in errors)}
                 >
                   <AudioCopyright />
                 </FormAccordion>

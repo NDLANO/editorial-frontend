@@ -7,13 +7,7 @@
  */
 
 import { useMutation, useQuery, useQueryClient, UseQueryOptions } from '@tanstack/react-query';
-import {
-  ILicense,
-  IArticle,
-  IUserData,
-  IUpdatedUserData,
-  ISearchResult,
-} from '@ndla/types-backend/draft-api';
+import { ILicense, IArticle, IUserData, IUpdatedUserData, ISearchResult } from '@ndla/types-backend/draft-api';
 import {
   fetchDraft,
   fetchLicenses,
@@ -24,13 +18,7 @@ import {
 } from './draftApi';
 import { DraftSearchQuery } from './draftApiInterfaces';
 import { DraftStatusStateMachineType } from '../../interfaces';
-import {
-  DRAFT,
-  DRAFT_STATUS_STATE_MACHINE,
-  LICENSES,
-  USER_DATA,
-  SEARCH_DRAFTS,
-} from '../../queryKeys';
+import { DRAFT, DRAFT_STATUS_STATE_MACHINE, LICENSES, USER_DATA, SEARCH_DRAFTS } from '../../queryKeys';
 
 export interface UseDraft {
   id: number;
@@ -43,8 +31,7 @@ export const draftQueryKeys = {
   search: (params?: Partial<DraftSearchQuery>) => [SEARCH_DRAFTS, params] as const,
   licenses: [LICENSES] as const,
   userData: [USER_DATA] as const,
-  statusStateMachine: (params?: Partial<StatusStateMachineParams>) =>
-    [DRAFT_STATUS_STATE_MACHINE, params] as const,
+  statusStateMachine: (params?: Partial<StatusStateMachineParams>) => [DRAFT_STATUS_STATE_MACHINE, params] as const,
 };
 
 draftQueryKeys.draft({ id: 1 });
@@ -60,10 +47,7 @@ interface UseSearchDrafts extends DraftSearchQuery {
   ids: number[];
 }
 
-export const useSearchDrafts = (
-  params: UseSearchDrafts,
-  options?: Partial<UseQueryOptions<ISearchResult>>,
-) => {
+export const useSearchDrafts = (params: UseSearchDrafts, options?: Partial<UseQueryOptions<ISearchResult>>) => {
   return useQuery<ISearchResult>({
     queryKey: draftQueryKeys.search(params),
     queryFn: () => searchAllDrafts(params.ids, params.language, params.sort),

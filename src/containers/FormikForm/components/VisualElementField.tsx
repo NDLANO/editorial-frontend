@@ -34,12 +34,8 @@ const VisualElementField = ({ types, isGloss = false }: Props) => {
       <FormikField name="visualElement">
         {({ field }) => (
           <div>
-            <FieldHeader
-              title={isGloss ? t('searchForm.audioType.standard') : t('form.visualElement.title')}
-            >
-              {!isGloss && (
-                <HowToHelper pageId="VisualElement" tooltip={t('form.visualElement.helpLabel')} />
-              )}
+            <FieldHeader title={isGloss ? t('searchForm.audioType.standard') : t('form.visualElement.title')}>
+              {!isGloss && <HowToHelper pageId="VisualElement" tooltip={t('form.visualElement.helpLabel')} />}
             </FieldHeader>
             <>
               <VisualElement

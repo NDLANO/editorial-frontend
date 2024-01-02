@@ -26,9 +26,7 @@ export const fetchH5PiframeUrl = (
   canReturnResources: boolean = false,
 ): Promise<{ url: string }> => {
   return fetchReAuthorized(
-    `${config.h5pApiUrl}/select?locale=${getH5pLocale(
-      locale,
-    )}&canReturnResources=${canReturnResources}`,
+    `${config.h5pApiUrl}/select?locale=${getH5pLocale(locale)}&canReturnResources=${canReturnResources}`,
     {
       method: 'POST',
       headers: { Authorization: `Bearer JWT-token` },
@@ -52,13 +50,9 @@ export const getH5pLocale = (language: string) => {
 };
 
 export const fetchH5pPreviewOembed = async (url: string): Promise<H5pPreviewResponse> =>
-  fetch(`${config.h5pApiUrl}/oembed/preview?${qs.stringify({ url })}`).then((r) =>
-    resolveJsonOrRejectWithError(r),
-  );
+  fetch(`${config.h5pApiUrl}/oembed/preview?${qs.stringify({ url })}`).then((r) => resolveJsonOrRejectWithError(r));
 
-export const fetchH5pLicenseInformation = async (
-  resourceId: string,
-): Promise<H5pLicenseInformation | undefined> => {
+export const fetchH5pLicenseInformation = async (resourceId: string): Promise<H5pLicenseInformation | undefined> => {
   const url = `${config.h5pApiUrl}/v2/resource/${resourceId}/copyright`;
   return await fetch(url)
     .then((r) => resolveJsonOrRejectWithError<H5pLicenseInformation>(r))

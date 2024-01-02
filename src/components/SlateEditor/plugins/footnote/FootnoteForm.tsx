@@ -60,10 +60,7 @@ interface Props {
 const FootnoteForm = ({ isEdit, footnote, onRemove, onClose, onSave }: Props) => {
   const { t } = useTranslation();
 
-  const handleSave = async (
-    values: FootnoteFormikValues,
-    actions: FormikHelpers<FootnoteFormikValues>,
-  ) => {
+  const handleSave = async (values: FootnoteFormikValues, actions: FormikHelpers<FootnoteFormikValues>) => {
     const { setSubmitting } = actions;
     setSubmitting(true);
     await onSave({ ...values, authors: values.authors.map((auth) => auth.id) });
@@ -94,9 +91,7 @@ const FootnoteForm = ({ isEdit, footnote, onRemove, onClose, onSave }: Props) =>
 
           <FormikField name="publisher" label={t('form.content.footnote.publisher')} />
           <ButtonContainer>
-            {isEdit && (
-              <ButtonV2 onClick={onRemove}>{t('form.content.footnote.removeFootnote')}</ButtonV2>
-            )}
+            {isEdit && <ButtonV2 onClick={onRemove}>{t('form.content.footnote.removeFootnote')}</ButtonV2>}
             <ButtonV2 variant="outline" onClick={onClose}>
               {t('form.abort')}
             </ButtonV2>

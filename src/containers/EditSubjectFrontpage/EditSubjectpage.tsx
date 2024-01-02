@@ -24,8 +24,11 @@ const EditSubjectpage = ({ isNewlyCreated }: Props) => {
   const { elementId, subjectpageId, selectedLanguage } = useParams<
     'elementId' | 'subjectpageId' | 'selectedLanguage'
   >();
-  const { loading, subjectpage, updateSubjectpage, error, editorsChoices } =
-    useFetchSubjectpageData(elementId!, selectedLanguage as LocaleType, subjectpageId);
+  const { loading, subjectpage, updateSubjectpage, error, editorsChoices } = useFetchSubjectpageData(
+    elementId!,
+    selectedLanguage as LocaleType,
+    subjectpageId,
+  );
 
   if (error !== undefined) {
     return <NotFoundPage />;

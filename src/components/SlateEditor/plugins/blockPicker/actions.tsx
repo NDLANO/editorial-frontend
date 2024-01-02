@@ -7,15 +7,7 @@
  */
 import { Element } from 'slate';
 import { List } from '@ndla/icons/action';
-import {
-  Announcement,
-  Download,
-  Insights,
-  Link,
-  Person,
-  Podcast,
-  VolumeUp,
-} from '@ndla/icons/common';
+import { Announcement, Download, Insights, Link, Person, Podcast, VolumeUp } from '@ndla/icons/common';
 import {
   ArrowExpand,
   BlogPost,

@@ -20,11 +20,7 @@ import { IArticleSummaryV2 } from '@ndla/types-backend/article-api';
 import { Heading } from '@ndla/typography';
 import { OneColumn } from '@ndla/ui';
 import FrontpageArticleSearch from './FrontpageArticleSearch';
-import {
-  addArticlesToAboutMenu,
-  extractArticleIds,
-  menuWithArticleToIMenu,
-} from './frontpageHelpers';
+import { addArticlesToAboutMenu, extractArticleIds, menuWithArticleToIMenu } from './frontpageHelpers';
 import FrontpageNodeList from './FrontpageNodeList';
 import { MenuWithArticle } from './types';
 import validateFormik, { RulesType } from '../../components/formikValidationSchema';
@@ -96,10 +92,7 @@ const FrontpageEditPage = () => {
     [frontpageQuery.data],
   );
 
-  const articlesQuery = useArticleSearch(
-    { ids: articleIds.join(',') },
-    { enabled: !!articleIds.length },
-  );
+  const articlesQuery = useArticleSearch({ ids: articleIds.join(',') }, { enabled: !!articleIds.length });
 
   const transformedMenu: MenuWithArticle | undefined = useMemo(() => {
     if (frontpageQuery.isLoading || articlesQuery.isLoading || !articlesQuery.data) {
@@ -118,10 +111,7 @@ const FrontpageEditPage = () => {
     [postFrontpageMutation],
   );
 
-  const validate = useCallback(
-    (values: MenuWithArticle) => validateFormik(values, frontpageRules, t),
-    [t],
-  );
+  const validate = useCallback((values: MenuWithArticle) => validateFormik(values, frontpageRules, t), [t]);
 
   if (!userPermissions?.includes(FRONTPAGE_ADMIN_SCOPE)) {
     return <NotFound />;
@@ -143,10 +133,7 @@ const FrontpageEditPage = () => {
           {({ handleSubmit }) => (
             <form onSubmit={handleSubmit}>
               <RootFields />
-              <FieldArray
-                name="menu"
-                render={(props) => <FrontpageNodeList {...props} level={0} />}
-              />
+              <FieldArray name="menu" render={(props) => <FrontpageNodeList {...props} level={0} />} />
             </form>
           )}
         </Formik>
@@ -195,10 +182,7 @@ const RootFields = () => {
             {articleField.value ? (
               <>
                 {t('frontpageForm.frontpageArticle')}
-                <StyledSafeLink
-                  to={toEditFrontPageArticle(articleField.value.id, i18n.language)}
-                  target="_blank"
-                >
+                <StyledSafeLink to={toEditFrontPageArticle(articleField.value.id, i18n.language)} target="_blank">
                   {articleField.value.title.title}
                 </StyledSafeLink>
               </>

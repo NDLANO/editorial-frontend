@@ -20,12 +20,7 @@ import { searchNodes } from '../../../../modules/nodes/nodeApi';
 import formatDate from '../../../../util/formatDate';
 import { toEditConcept, toEditGloss } from '../../../../util/routeHelpers';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
-import {
-  DropdownWrapper,
-  StyledLink,
-  StyledTopRowDashboardInfo,
-  TopRowControls,
-} from '../../styles';
+import { DropdownWrapper, StyledLink, StyledTopRowDashboardInfo, TopRowControls } from '../../styles';
 import GoToSearch from '../GoToSearch';
 import TableComponent, { FieldElement, Prefix, TitleElement } from '../TableComponent';
 import TableTitle from '../TableTitle';
@@ -53,11 +48,7 @@ interface Concept {
   subjects: { value: string; label: string }[];
 }
 
-const fetchConceptData = async (
-  concept: IConceptSummary,
-  taxonomyVersion: string,
-  language: string,
-) => {
+const fetchConceptData = async (concept: IConceptSummary, taxonomyVersion: string, language: string) => {
   const subjects = concept.subjectIds
     ? await searchNodes({
         ids: concept.subjectIds,
@@ -73,8 +64,7 @@ const fetchConceptData = async (
     status: concept.status,
     type: concept.conceptType,
     lastUpdated: concept.responsible ? formatDate(concept.responsible.lastUpdated) : '',
-    subjects:
-      subjects?.results.map((subject) => ({ value: subject.id, label: subject.name })) ?? [],
+    subjects: subjects?.results.map((subject) => ({ value: subject.id, label: subject.name })) ?? [],
   };
 };
 
@@ -99,9 +89,7 @@ const ConceptListTabContent = ({
   useEffect(() => {
     (async () => {
       if (!data?.results) return;
-      const _data = await Promise.all(
-        data.results.map((c) => fetchConceptData(c, taxonomyVersion, i18n.language)),
-      );
+      const _data = await Promise.all(data.results.map((c) => fetchConceptData(c, taxonomyVersion, i18n.language)));
       setConceptData(_data);
     })();
   }, [data?.results, i18n.language, taxonomyVersion]);
@@ -112,10 +100,7 @@ const ConceptListTabContent = ({
         {
           id: `title_${res.id}`,
           data: (
-            <StyledLink
-              to={res.type === 'concept' ? toEditConcept(res.id) : toEditGloss(res.id)}
-              title={res.title}
-            >
+            <StyledLink to={res.type === 'concept' ? toEditConcept(res.id) : toEditGloss(res.id)} title={res.title}>
               {res.title}
             </StyledLink>
           ),

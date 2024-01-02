@@ -95,8 +95,7 @@ const SlateLinkBlockList = ({ attributes, editor, element, children }: Props) =>
   );
 
   const handleRemove = useCallback(
-    () =>
-      Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true }),
+    () => Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true }),
     [editor, element],
   );
 
@@ -174,10 +173,7 @@ const SlateLinkBlock = ({ link, onSave, onDelete, allEmbeds, index }: SlateLinkB
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
 
-  const otherEmbeds = useMemo(
-    () => allEmbeds.filter((el) => el.url !== link.url),
-    [allEmbeds, link],
-  );
+  const otherEmbeds = useMemo(() => allEmbeds.filter((el) => el.url !== link.url), [allEmbeds, link]);
 
   const onSaveElement = useCallback(
     (embed: LinkBlockEmbedData) => {

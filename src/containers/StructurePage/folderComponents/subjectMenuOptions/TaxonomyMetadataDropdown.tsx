@@ -34,13 +34,7 @@ const StyledCustomFieldButton = styled(CustomFieldButton)`
   margin-left: ${spacing.xxsmall};
 `;
 
-const TaxonomyMetadataDropdown = ({
-  options,
-  field,
-  customFields,
-  updateCustomFields,
-  messages,
-}: Props) => {
+const TaxonomyMetadataDropdown = ({ options, field, customFields, updateCustomFields, messages }: Props) => {
   const selectedValue = customFields[field];
   return (
     <StyledMenuItemEditField>

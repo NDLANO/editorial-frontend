@@ -185,11 +185,7 @@ const Version = ({ version }: Props) => {
             title={t('taxonomyVersions.delete')}
             label={t('taxonomyVersions.delete')}
             show={showAlertModal}
-            text={t(
-              `taxonomyVersions.deleteWarning${
-                version.versionType === 'PUBLISHED' ? 'Published' : ''
-              }`,
-            )}
+            text={t(`taxonomyVersions.deleteWarning${version.versionType === 'PUBLISHED' ? 'Published' : ''}`)}
             actions={[
               {
                 text: t('form.abort'),
@@ -208,9 +204,7 @@ const Version = ({ version }: Props) => {
         </VersionContentWrapper>
       )}
       {error && <StyledErrorMessage>{error}</StyledErrorMessage>}
-      {isEditing && (
-        <VersionForm version={version} existingVersions={[]} onClose={() => setIsEditing(false)} />
-      )}
+      {isEditing && <VersionForm version={version} existingVersions={[]} onClose={() => setIsEditing(false)} />}
     </VersionWrapper>
   );
 };

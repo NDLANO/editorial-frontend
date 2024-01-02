@@ -6,8 +6,4 @@
  *
  */
 
-export {
-  fetchAllResourceTypes,
-  fetchResourceType,
-  createResourceResourceType,
-} from './resourcetypes';
+export { fetchAllResourceTypes, fetchResourceType, createResourceResourceType } from './resourcetypes';

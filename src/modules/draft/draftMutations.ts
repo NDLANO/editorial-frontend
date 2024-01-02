@@ -19,9 +19,7 @@ export const useUpdateDraftMutation = (
   });
 };
 
-export const useCopyRevisionDates = (
-  options?: UseMutationOptions<void, unknown, { nodeId: string }>,
-) => {
+export const useCopyRevisionDates = (options?: UseMutationOptions<void, unknown, { nodeId: string }>) => {
   return useMutation<void, unknown, { nodeId: string }>({
     mutationFn: (vars) => copyRevisionDates(vars.nodeId),
     ...options,

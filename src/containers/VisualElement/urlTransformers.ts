@@ -138,9 +138,8 @@ const sketchupTransformer: UrlTransformer = {
     obj.pathname = obj.pathname.replace(/model/, 'embed');
     const parts = obj.pathname.split('/');
     const index =
-      parts.findIndex((part) =>
-        part.match(/\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b/),
-      ) ?? parts.length;
+      parts.findIndex((part) => part.match(/\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b/)) ??
+      parts.length;
     obj.pathname = parts.slice(0, index + 1).join('/');
     return obj.href;
   },

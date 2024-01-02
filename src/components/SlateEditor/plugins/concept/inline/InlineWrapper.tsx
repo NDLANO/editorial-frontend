@@ -31,10 +31,7 @@ import ConceptModalContent from '../ConceptModalContent';
 import EditGlossExamplesModal from '../EditGlossExamplesModal';
 import { getGlossDataAttributes } from '../utils';
 
-const getConceptDataAttributes = (
-  concept: IConcept | IConceptSummary,
-  title: string,
-): ConceptEmbedData => ({
+const getConceptDataAttributes = (concept: IConcept | IConceptSummary, title: string): ConceptEmbedData => ({
   contentId: concept.id.toString(),
   linkText: title,
   resource: 'concept',
@@ -86,24 +83,12 @@ const InlineWrapper = (props: Props) => {
   const { children, element, locale, editor, attributes } = props;
   const nodeText = Node.string(element).trim();
   const [isEditing, setIsEditing] = useState(element.isFirstEdit);
-  const {
-    concept,
-    subjects,
-    loading,
-    fetchSearchTags,
-    conceptArticles,
-    createConcept,
-    updateConcept,
-  } = useFetchConceptData(parseInt(element.data.contentId), locale);
+  const { concept, subjects, loading, fetchSearchTags, conceptArticles, createConcept, updateConcept } =
+    useFetchConceptData(parseInt(element.data.contentId), locale);
 
-  const visualElementQuery = useConceptVisualElement(
-    concept?.id!,
-    concept?.visualElement?.visualElement!,
-    locale,
-    {
-      enabled: !!concept?.id && !!concept?.visualElement?.visualElement.length,
-    },
-  );
+  const visualElementQuery = useConceptVisualElement(concept?.id!, concept?.visualElement?.visualElement!, locale, {
+    enabled: !!concept?.id && !!concept?.visualElement?.visualElement.length,
+  });
 
   const embed: ConceptMetaData | undefined = useMemo(() => {
     // This will be in an error state until the data is either fetched or fails, allowing
@@ -225,12 +210,7 @@ const InlineWrapper = (props: Props) => {
                   <DeleteForever />
                 </IconButtonV2>
                 {concept && (
-                  <EditGlossExamplesModal
-                    concept={concept}
-                    editor={editor}
-                    element={element}
-                    embed={embed}
-                  />
+                  <EditGlossExamplesModal concept={concept} editor={editor} element={element} embed={embed} />
                 )}
                 <SafeLinkIconButton
                   to={`/${concept?.conceptType}/${concept?.id}/edit/${concept?.content?.language}`}

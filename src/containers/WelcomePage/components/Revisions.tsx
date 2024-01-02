@@ -22,12 +22,7 @@ import GoToSearch from './GoToSearch';
 import TableComponent, { FieldElement, Prefix, TitleElement } from './TableComponent';
 import TableTitle from './TableTitle';
 import { getWarnStatus } from '../../../components/HeaderWithLanguage/HeaderStatusInformation';
-import {
-  FAVOURITES_SUBJECT_ID,
-  PUBLISHED,
-  STORED_SORT_OPTION_REVISION,
-  Revision,
-} from '../../../constants';
+import { FAVOURITES_SUBJECT_ID, PUBLISHED, STORED_SORT_OPTION_REVISION, Revision } from '../../../constants';
 import { SUBJECT_NODE } from '../../../modules/nodes/nodeApiTypes';
 import { useSearchNodes } from '../../../modules/nodes/nodeQueries';
 import { useSearch } from '../../../modules/search/searchQueries';
@@ -74,8 +69,7 @@ const StyledTimeIcon = styled(Time)`
   height: 20px;
 `;
 
-const getLastPage = (totalCount: number, pageSize: number) =>
-  Math.ceil(totalCount / (pageSize ?? 1));
+const getLastPage = (totalCount: number, pageSize: number) => Math.ceil(totalCount / (pageSize ?? 1));
 
 interface Props {
   userData: IUserData | undefined;
@@ -86,8 +80,7 @@ type SortOptionRevision = 'title' | 'revisionDate' | 'status';
 const Revisions = ({ userData }: Props) => {
   const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
   const [sortOption, _setSortOption] = useState<Prefix<'-', SortOptionRevision>>(
-    (localStorage.getItem(STORED_SORT_OPTION_REVISION) as Prefix<'-', SortOptionRevision>) ||
-      'revisionDate',
+    (localStorage.getItem(STORED_SORT_OPTION_REVISION) as Prefix<'-', SortOptionRevision>) || 'revisionDate',
   );
   const [page, setPage] = useState(1);
   const [checked, setChecked] = useState(false);
@@ -147,10 +140,7 @@ const Revisions = ({ userData }: Props) => {
   );
 
   const favoriteSubjects = useMemo(() => {
-    const archivedAtBottom = sortBy(
-      subjectData?.results,
-      (r) => r.metadata.customFields.subjectCategory === 'archive',
-    );
+    const archivedAtBottom = sortBy(subjectData?.results, (r) => r.metadata.customFields.subjectCategory === 'archive');
     return archivedAtBottom.map((s) => ({ label: s.name, value: s.id }));
   }, [subjectData]);
 
@@ -159,9 +149,7 @@ const Revisions = ({ userData }: Props) => {
       const filteredResult = results
         ?.map((r) => {
           const primarySubject = r.contexts.find((c) => c.isPrimary);
-          const isFavorite = userData?.favoriteSubjects?.some(
-            (fs) => fs === primarySubject?.rootId,
-          );
+          const isFavorite = userData?.favoriteSubjects?.some((fs) => fs === primarySubject?.rootId);
           return isFavorite ? r : undefined;
         })
         .filter((fd): fd is IMultiSearchSummary => !!fd);
@@ -180,8 +168,7 @@ const Revisions = ({ userData }: Props) => {
   );
 
   const lastPage = useMemo(
-    () =>
-      filteredData.totalCount ? getLastPage(filteredData.totalCount, filteredData.pageSize) : 1,
+    () => (filteredData.totalCount ? getLastPage(filteredData.totalCount, filteredData.pageSize) : 1),
     [filteredData.pageSize, filteredData.totalCount],
   );
 
@@ -192,9 +179,7 @@ const Revisions = ({ userData }: Props) => {
   const tableData: FieldElement[][] = useMemo(
     () =>
       filteredData.results?.map((resource) => {
-        const expirationDate = resource.revisions.length
-          ? getExpirationDate({ revisions: resource.revisions })!
-          : '';
+        const expirationDate = resource.revisions.length ? getExpirationDate({ revisions: resource.revisions })! : '';
         const revisions = resource.revisions
           .filter((revision) => revision.status !== Revision.revised)
           .sort((a, b) => (a.revisionDate > b.revisionDate ? 1 : -1))
@@ -224,9 +209,7 @@ const Revisions = ({ userData }: Props) => {
           },
           {
             id: `status_${resource.id}`,
-            data: resource.status?.current
-              ? t(`form.status.${resource.status.current.toLowerCase()}`)
-              : '',
+            data: resource.status?.current ? t(`form.status.${resource.status.current.toLowerCase()}`) : '',
           },
           {
             id: `primarySubject_${resource.id}`,

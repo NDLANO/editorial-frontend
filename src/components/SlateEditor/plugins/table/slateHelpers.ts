@@ -47,8 +47,7 @@ export const isTableRow = (node?: Node): node is TableRowElement => {
 };
 
 export const isTableCell = (node?: Node): node is TableCellElement =>
-  Element.isElement(node) &&
-  (node.type === TYPE_TABLE_CELL || node.type === TYPE_TABLE_CELL_HEADER);
+  Element.isElement(node) && (node.type === TYPE_TABLE_CELL || node.type === TYPE_TABLE_CELL_HEADER);
 
 export const isTableCellHeader = (node?: Node): node is TableCellElement =>
   Element.isElement(node) && node.type === TYPE_TABLE_CELL_HEADER;

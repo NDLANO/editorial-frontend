@@ -14,12 +14,7 @@ import { colors, fonts, spacing } from '@ndla/core';
 import { Check } from '@ndla/icons/editor';
 import { Node, NodeChild } from '@ndla/types-taxonomy';
 import Fade from './Fade';
-import {
-  ItemTitleButton,
-  StructureWrapper,
-  StyledItemBar,
-  StyledStructureItem,
-} from './nodeStyles';
+import { ItemTitleButton, StructureWrapper, StyledItemBar, StyledStructureItem } from './nodeStyles';
 import { MinimalNodeChild } from '../../containers/ArticlePage/LearningResourcePage/components/LearningResourceTaxonomy';
 import { NodeChildWithChildren } from '../../modules/nodes/nodeQueries';
 
@@ -63,10 +58,7 @@ export const TaxonomyBlockNode = ({
 }: Props) => {
   const { t } = useTranslation();
   const isOpen = useMemo(() => openedPaths.includes(node.id), [openedPaths, node.id]);
-  const isActive = useMemo(
-    () => openedPaths[openedPaths.length - 1] === node.id,
-    [openedPaths, node.id],
-  );
+  const isActive = useMemo(() => openedPaths[openedPaths.length - 1] === node.id, [openedPaths, node.id]);
 
   const isSelected = useMemo(() => {
     return selectedNodes.some((sel) => sel.id === node.id);
@@ -94,12 +86,7 @@ export const TaxonomyBlockNode = ({
             <span>{t('taxonomy.topics.addedTopic')}</span>
           </StyledChecked>
         ) : onRootSelected ? (
-          <StyledButton
-            data-select-button=""
-            variant="outline"
-            size="small"
-            onClick={() => onRootSelected(node)}
-          >
+          <StyledButton data-select-button="" variant="outline" size="small" onClick={() => onRootSelected(node)}>
             {t('taxonomy.topics.filestructureButton')}
           </StyledButton>
         ) : null}
@@ -150,20 +137,10 @@ const StyledButton = styled(ButtonV2)`
   opacity: 0;
 `;
 
-const ChildNode = ({
-  node,
-  onSelect,
-  toggleOpen,
-  openedPaths,
-  parentActive,
-  selectedNodes,
-}: NodeItemProps) => {
+const ChildNode = ({ node, onSelect, toggleOpen, openedPaths, parentActive, selectedNodes }: NodeItemProps) => {
   const { t } = useTranslation();
   const isOpen = useMemo(() => openedPaths.includes(node.id), [openedPaths, node.id]);
-  const isActive = useMemo(
-    () => openedPaths[openedPaths.length - 1] === node.id,
-    [openedPaths, node.id],
-  );
+  const isActive = useMemo(() => openedPaths[openedPaths.length - 1] === node.id, [openedPaths, node.id]);
 
   const isSelected = useMemo(() => {
     return selectedNodes.some((sel) => sel.id === node.id);

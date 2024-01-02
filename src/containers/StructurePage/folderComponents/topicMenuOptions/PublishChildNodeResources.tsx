@@ -21,10 +21,7 @@ import AlertModal from '../../../../components/AlertModal';
 import RoundIcon from '../../../../components/RoundIcon';
 import { PUBLISHED } from '../../../../constants';
 import { fetchDrafts, updateStatusDraft } from '../../../../modules/draft/draftApi';
-import {
-  fetchLearningpaths,
-  updateStatusLearningpath,
-} from '../../../../modules/learningpath/learningpathApi';
+import { fetchLearningpaths, updateStatusLearningpath } from '../../../../modules/learningpath/learningpathApi';
 import { fetchNodeResources } from '../../../../modules/nodes/nodeApi';
 import { RESOURCE_META } from '../../../../queryKeys';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
@@ -98,17 +95,12 @@ const PublishChildNodeResources = ({ node }: Props) => {
       return resourceType === 'article';
     });
     const draftIds = draftResources.map((res) => Number(res.contentUri!.split(':')[2]));
-    const learningpathIds = learningpathResources.map((res) =>
-      Number(res.contentUri!.split(':')[2]),
-    );
+    const learningpathIds = learningpathResources.map((res) => Number(res.contentUri!.split(':')[2]));
     const [drafts, learningpaths]: [IArticle[], ILearningPathV2[]] = await Promise.all([
       fetchDrafts(draftIds),
       fetchLearningpaths(learningpathIds),
     ]);
-    const [unpublishedDrafts, publishedDrafts] = partition(
-      drafts,
-      (draft) => draft.status.current !== PUBLISHED,
-    );
+    const [unpublishedDrafts, publishedDrafts] = partition(drafts, (draft) => draft.status.current !== PUBLISHED);
     const [unpublishedLearningpaths, publishedLearningpaths] = partition(
       learningpaths,
       (lp) => lp.status !== PUBLISHED,
@@ -129,9 +121,7 @@ const PublishChildNodeResources = ({ node }: Props) => {
       updateStatusLearningpath(lp.id, PUBLISHED)
         .then((_) => setPublishedCount((c) => c + 1))
         .catch((_) =>
-          setFailedResources((prev) =>
-            prev.concat({ name: lp.title.title, contentUri: `url:learningpath:${lp.id}` }),
-          ),
+          setFailedResources((prev) => prev.concat({ name: lp.title.title, contentUri: `url:learningpath:${lp.id}` })),
         ),
     );
     await Promise.all([...draftPromises, ...learningpathPromises]);
@@ -162,9 +152,7 @@ const PublishChildNodeResources = ({ node }: Props) => {
         component={failedResources.map((res, index) => (
           <LinkWrapper key={index}>
             <ResourceItemLink
-              contentType={
-                res.contentUri?.split(':')[1] === 'article' ? 'article' : 'learning-resource'
-              }
+              contentType={res.contentUri?.split(':')[1] === 'article' ? 'article' : 'learning-resource'}
               contentUri={res.contentUri}
               name={res.name}
             />

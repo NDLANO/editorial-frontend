@@ -18,10 +18,7 @@ import Spinner from '../../../../components/Spinner';
 import { ARCHIVED } from '../../../../constants';
 import { updateStatusDraft } from '../../../../modules/draft/draftApi';
 import { fetchNodes } from '../../../../modules/nodes/nodeApi';
-import {
-  useDeleteNodeConnectionMutation,
-  useDeleteNodeMutation,
-} from '../../../../modules/nodes/nodeMutations';
+import { useDeleteNodeConnectionMutation, useDeleteNodeMutation } from '../../../../modules/nodes/nodeMutations';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import { EditModeHandler } from '../SettingsMenuDropdownType';
 import { StyledErrorMessage } from '../styles';
@@ -117,9 +114,7 @@ const DeleteNode = ({
       />
       {loading && <Spinner appearance="absolute" />}
       {loading && <Overlay modifiers={['absolute', 'white-opacity', 'zIndex']} />}
-      {error && (
-        <StyledErrorMessage data-testid="inlineEditErrorMessage">{error}</StyledErrorMessage>
-      )}
+      {error && <StyledErrorMessage data-testid="inlineEditErrorMessage">{error}</StyledErrorMessage>}
     </>
   );
 };

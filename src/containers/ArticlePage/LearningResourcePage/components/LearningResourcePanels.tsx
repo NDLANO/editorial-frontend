@@ -82,9 +82,7 @@ const LearningResourcePanels = ({
         id={'learning-resource-copyright'}
         title={t('form.copyrightSection')}
         className={'u-6/6'}
-        hasError={
-          !!(errors.creators || errors.rightsholders || errors.processors || errors.license)
-        }
+        hasError={!!(errors.creators || errors.rightsholders || errors.processors || errors.license)}
       >
         <CopyrightFieldGroup />
       </FormAccordion>
@@ -130,11 +128,7 @@ const LearningResourcePanels = ({
           hasError={!!errors.notes}
           data-testid={'learning-resource-workflow'}
         >
-          <VersionAndNotesPanel
-            article={article}
-            type="standard"
-            currentLanguage={articleLanguage}
-          />
+          <VersionAndNotesPanel article={article} type="standard" currentLanguage={articleLanguage} />
         </FormAccordion>
       )}
     </FormAccordions>

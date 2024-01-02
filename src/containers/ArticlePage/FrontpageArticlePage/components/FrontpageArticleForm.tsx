@@ -22,11 +22,7 @@ import { useLicenses, useDraftStatusStateMachine } from '../../../../modules/dra
 import { blockContentToHTML } from '../../../../util/articleContentConverter';
 import { frontPageArticleRules, isFormikFormDirty } from '../../../../util/formHelper';
 import { AlertModalWrapper } from '../../../FormikForm';
-import {
-  FrontpageArticleFormType,
-  HandleSubmitFunc,
-  useArticleFormHooks,
-} from '../../../FormikForm/articleFormHooks';
+import { FrontpageArticleFormType, HandleSubmitFunc, useArticleFormHooks } from '../../../FormikForm/articleFormHooks';
 import usePreventWindowUnload from '../../../FormikForm/preventWindowUnloadHook';
 import {
   draftApiTypeToFrontpageArticleFormType,
@@ -58,26 +54,22 @@ const FrontpageArticleForm = ({
   const { t } = useTranslation();
   const { isWideArticle } = useWideArticle();
   const { ndlaId } = useSession();
-  const { savedToServer, formikRef, initialValues, handleSubmit } =
-    useArticleFormHooks<FrontpageArticleFormType>({
-      getInitialValues: draftApiTypeToFrontpageArticleFormType,
-      article,
-      t,
-      articleStatus,
-      updateArticle,
-      getArticleFromSlate: frontpageArticleFormTypeToDraftApiType,
-      articleLanguage,
-      rules: frontPageArticleRules,
-      ndlaId,
-    });
+  const { savedToServer, formikRef, initialValues, handleSubmit } = useArticleFormHooks<FrontpageArticleFormType>({
+    getInitialValues: draftApiTypeToFrontpageArticleFormType,
+    article,
+    t,
+    articleStatus,
+    updateArticle,
+    getArticleFromSlate: frontpageArticleFormTypeToDraftApiType,
+    articleLanguage,
+    rules: frontPageArticleRules,
+    ndlaId,
+  });
 
   const initialHTML = useMemo(() => blockContentToHTML(initialValues.content), [initialValues]);
 
   const initialWarnings = getWarnings(initialValues, frontPageArticleRules, t, article);
-  const initialErrors = useMemo(
-    () => validateFormik(initialValues, frontPageArticleRules, t),
-    [initialValues, t],
-  );
+  const initialErrors = useMemo(() => validateFormik(initialValues, frontPageArticleRules, t), [initialValues, t]);
 
   return (
     <Formik
@@ -103,11 +95,7 @@ const FrontpageArticleForm = ({
         />
         <FlexWrapper>
           <MainContent data-wide={isWideArticle}>
-            <FrontpageArticlePanels
-              articleLanguage={articleLanguage}
-              article={article}
-              initialHTML={initialHTML}
-            />
+            <FrontpageArticlePanels articleLanguage={articleLanguage} article={article} initialHTML={initialHTML} />
           </MainContent>
           <CommentSection savedStatus={article?.status} />
         </FlexWrapper>

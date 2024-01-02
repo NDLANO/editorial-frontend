@@ -11,11 +11,7 @@ import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 import { IMultiSearchResult } from '@ndla/types-backend/search-api';
 import { search } from './searchApi';
 import { MultiSearchApiQuery } from './searchApiInterfaces';
-import {
-  FAVOURITES_SUBJECT_ID,
-  LMA_SUBJECT_ID,
-  TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
-} from '../../constants';
+import { FAVOURITES_SUBJECT_ID, LMA_SUBJECT_ID, TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA } from '../../constants';
 import { useTaxonomyVersion } from '../../containers/StructureVersion/TaxonomyVersionProvider';
 import { SEARCH } from '../../queryKeys';
 import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
@@ -31,10 +27,7 @@ export interface UseSearch extends MultiSearchApiQuery {
   favoriteSubjects?: string[];
 }
 
-export const useSearch = (
-  query: UseSearch,
-  options?: Partial<UseQueryOptions<IMultiSearchResult>>,
-) => {
+export const useSearch = (query: UseSearch, options?: Partial<UseQueryOptions<IMultiSearchResult>>) => {
   const { i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
 

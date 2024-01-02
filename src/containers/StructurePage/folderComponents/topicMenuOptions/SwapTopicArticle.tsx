@@ -67,11 +67,7 @@ const StyledSuccessIcon = styled(Done)`
   color: ${colors.white};
 `;
 
-const SwapTopicArticle = ({
-  node,
-  rootNodeId,
-  editModeHandler: { editMode, toggleEditMode },
-}: Props) => {
+const SwapTopicArticle = ({ node, rootNodeId, editModeHandler: { editMode, toggleEditMode } }: Props) => {
   const { t, i18n } = useTranslation();
   const putNodeMutation = usePutNodeMutation();
   const toggleEditModeFunc = () => toggleEditMode('swapTopicArticle');
@@ -158,9 +154,7 @@ const SwapTopicArticle = ({
             {t('taxonomy.swapTopicArticle.success')}
           </MenuContent>
         )}
-        {error && (
-          <StyledErrorMessage data-testid="failedToSwapTopicArticle">{t(error)}</StyledErrorMessage>
-        )}
+        {error && <StyledErrorMessage data-testid="failedToSwapTopicArticle">{t(error)}</StyledErrorMessage>}
       </StyledActionContent>
     </StyledMenuWrapper>
   );

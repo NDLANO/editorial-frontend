@@ -17,22 +17,13 @@ import { toEditAudio } from '../../util/routeHelpers';
 const CreateAudio = () => {
   const { i18n } = useTranslation();
   const navigate = useNavigate();
-  const onCreateAudio = async (
-    newAudio: INewAudioMetaInformation,
-    file?: string | Blob,
-  ): Promise<void> => {
+  const onCreateAudio = async (newAudio: INewAudioMetaInformation, file?: string | Blob): Promise<void> => {
     const formData = await createFormData(file, newAudio);
     const createdAudio = await postAudio(formData);
     navigate(toEditAudio(createdAudio.id, newAudio.language));
   };
 
-  return (
-    <AudioForm
-      onCreateAudio={onCreateAudio}
-      audioLanguage={i18n.language}
-      supportedLanguages={[i18n.language]}
-    />
-  );
+  return <AudioForm onCreateAudio={onCreateAudio} audioLanguage={i18n.language} supportedLanguages={[i18n.language]} />;
 };
 
 export default CreateAudio;

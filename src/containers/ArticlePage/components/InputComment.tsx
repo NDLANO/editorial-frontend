@@ -53,11 +53,7 @@ const ButtonWrapper = styled.div`
   gap: ${spacing.xsmall};
 `;
 
-export const getCommentWithInfoText = (
-  comment: string,
-  userName: string | undefined,
-  t: TFunction,
-) => {
+export const getCommentWithInfoText = (comment: string, userName: string | undefined, t: TFunction) => {
   const currentDate = new Date();
   const dateTime = formatDateForBackend(currentDate);
   const formattedDate = formatDate(dateTime);

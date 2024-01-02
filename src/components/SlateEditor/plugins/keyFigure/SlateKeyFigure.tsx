@@ -14,15 +14,7 @@ import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
 import { Pencil } from '@ndla/icons/action';
 import { DeleteForever } from '@ndla/icons/editor';
-import {
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalTitle,
-  ModalTrigger,
-} from '@ndla/modal';
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from '@ndla/modal';
 import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import { KeyFigureEmbedData } from '@ndla/types-embed';
 import { KeyFigure } from '@ndla/ui';
@@ -116,11 +108,7 @@ const SlateKeyFigure = ({ element, editor, attributes, children }: Props) => {
           <div contentEditable={false}>
             <StyledFigureButtons>
               <ModalTrigger>
-                <IconButtonV2
-                  colorTheme="light"
-                  aria-label={t('keyFigureForm.edit')}
-                  title={t('keyFigureForm.edit')}
-                >
+                <IconButtonV2 colorTheme="light" aria-label={t('keyFigureForm.edit')} title={t('keyFigureForm.edit')}>
                   <Pencil />
                 </IconButtonV2>
               </ModalTrigger>

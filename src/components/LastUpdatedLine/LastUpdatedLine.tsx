@@ -38,12 +38,7 @@ const LastUpdatedLine = ({ creators, published, onChange, allowEdit = false }: P
     <StyledLastUpdatedLine>
       {creators.map((creator) => creator.name).join(', ')}
       {published ? ` - ${t('topicArticleForm.info.lastUpdated')}` : ''}
-      {published &&
-        (allowEdit ? (
-          <DateEdit onChange={onChange} published={published} />
-        ) : (
-          formatDate(published)
-        ))}
+      {published && (allowEdit ? <DateEdit onChange={onChange} published={published} /> : formatDate(published))}
     </StyledLastUpdatedLine>
   );
 };

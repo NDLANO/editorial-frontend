@@ -79,10 +79,7 @@ const EditPodcast = ({ isNewlyCreated }: Props) => {
     })();
   }, [podcast, shouldTranslate, translate]);
 
-  const onUpdate = async (
-    newPodcast: IUpdatedAudioMetaInformation,
-    podcastFile: string | Blob | undefined,
-  ) => {
+  const onUpdate = async (newPodcast: IUpdatedAudioMetaInformation, podcastFile: string | Blob | undefined) => {
     const formData = await createFormData(podcastFile, newPodcast);
     const updatedPodcast = await updateAudio(Number(podcastId!), formData);
     setPodcastWithFlag(updatedPodcast, false);

@@ -50,9 +50,7 @@ const ResourceTypeSelect = ({
 
   const value = useMemo(
     () =>
-      resourceTypes?.length
-        ? options.find((o) => o.value === selectedResourceTypeValue(resourceTypes))
-        : undefined,
+      resourceTypes?.length ? options.find((o) => o.value === selectedResourceTypeValue(resourceTypes)) : undefined,
     [options, resourceTypes],
   );
 

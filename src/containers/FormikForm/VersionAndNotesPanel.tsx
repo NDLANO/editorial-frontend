@@ -161,9 +161,7 @@ const VersionAndNotesPanel = ({ article, type, currentLanguage }: Props) => {
         };
       }
       const transform =
-        type === 'standard'
-          ? draftApiTypeToLearningResourceFormType
-          : draftApiTypeToTopicArticleFormType;
+        type === 'standard' ? draftApiTypeToLearningResourceFormType : draftApiTypeToTopicArticleFormType;
       const newValues = transform(
         { ...newArticle, status: article.status, responsible: article.responsible },
         language,
@@ -200,8 +198,7 @@ const VersionAndNotesPanel = ({ article, type, currentLanguage }: Props) => {
         {versions.map((version, index) => {
           const isLatestVersion = index === 0;
           const published =
-            version.status.current === 'PUBLISHED' ||
-            version.status.other.some((s) => s === 'PUBLISHED');
+            version.status.current === 'PUBLISHED' || version.status.other.some((s) => s === 'PUBLISHED');
           return (
             <StyledAccordionItem value={index.toString()} key={index}>
               <StyledAccordionBar>
@@ -225,9 +222,7 @@ const VersionAndNotesPanel = ({ article, type, currentLanguage }: Props) => {
                     article={article}
                     currentLanguage={currentLanguage}
                   />
-                  {isLatestVersion && (
-                    <VersionLogTag color="yellow" label={t('form.notes.areHere')} />
-                  )}
+                  {isLatestVersion && <VersionLogTag color="yellow" label={t('form.notes.areHere')} />}
                   {published && (!isLatestVersion || versions.length === 1) && (
                     <VersionLogTag color="green" label={t('form.notes.published')} />
                   )}

@@ -19,10 +19,7 @@ const CreatePodcast = () => {
   const locale = i18n.language;
   const navigate = useNavigate();
 
-  const onCreatePodcast = async (
-    newPodcast: INewAudioMetaInformation,
-    podcastFile: string | Blob | undefined,
-  ) => {
+  const onCreatePodcast = async (newPodcast: INewAudioMetaInformation, podcastFile: string | Blob | undefined) => {
     const formData = await createFormData(podcastFile, newPodcast);
     const createdPodcast = await postAudio(formData);
     navigate(toEditPodcast(createdPodcast.id, newPodcast.language));

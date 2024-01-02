@@ -28,20 +28,12 @@ import {
   OembedEmbedData,
   OembedMetaData,
 } from '@ndla/types-embed';
-import {
-  fetchH5PInfo,
-  fetchH5pLicenseInformation,
-  fetchH5pPreviewOembed,
-} from '../../components/H5PElement/h5pApi';
+import { fetchH5PInfo, fetchH5pLicenseInformation, fetchH5pPreviewOembed } from '../../components/H5PElement/h5pApi';
 import { fetchExternalOembed } from '../../util/apiHelpers';
 import { reduceElementDataAttributesV2 } from '../../util/embedTagHelpers';
 import { fetchAudio } from '../audio/audioApi';
 import { fetchImage } from '../image/imageApi';
-import {
-  fetchBrightcoveSources,
-  fetchBrightcoveVideo,
-  getBrightcoveCopyright,
-} from '../video/brightcoveApi';
+import { fetchBrightcoveSources, fetchBrightcoveVideo, getBrightcoveCopyright } from '../video/brightcoveApi';
 
 export const fetchAudioMeta = async (resourceId: string, language: string): Promise<AudioMeta> => {
   const audio = await fetchAudio(parseInt(resourceId), language);
@@ -56,10 +48,7 @@ export const fetchAudioMeta = async (resourceId: string, language: string): Prom
   };
 };
 
-const fetchVisualImageMeta = async (
-  embed: ImageEmbedData,
-  language: string,
-): Promise<ImageMetaData> => {
+const fetchVisualImageMeta = async (embed: ImageEmbedData, language: string): Promise<ImageMetaData> => {
   try {
     const res = await fetchImage(embed.resourceId, language);
     return {
@@ -78,10 +67,7 @@ const fetchVisualImageMeta = async (
   }
 };
 
-const fetchVisualAudioMeta = async (
-  embed: AudioEmbedData,
-  language: string,
-): Promise<AudioMetaData> => {
+const fetchVisualAudioMeta = async (embed: AudioEmbedData, language: string): Promise<AudioMetaData> => {
   try {
     const res = await fetchAudioMeta(embed.resourceId, language);
     return {
@@ -100,10 +86,7 @@ const fetchVisualAudioMeta = async (
   }
 };
 
-const fetchVisualIframeMeta = async (
-  embed: IframeEmbedData,
-  language: string,
-): Promise<IframeMetaData> => {
+const fetchVisualIframeMeta = async (embed: IframeEmbedData, language: string): Promise<IframeMetaData> => {
   const image = embed.imageid
     ? await fetchImage(embed.imageid, language).catch((_) => undefined)
     : await Promise.resolve(undefined);
@@ -124,10 +107,7 @@ const fetchVisualBrightcoveMeta = async (
 ): Promise<BrightcoveMetaData> => {
   try {
     const videoId = embedData.videoid.replace('&t=', '');
-    const [video, sources] = await Promise.all([
-      fetchBrightcoveVideo(videoId),
-      fetchBrightcoveSources(videoId),
-    ]);
+    const [video, sources] = await Promise.all([fetchBrightcoveVideo(videoId), fetchBrightcoveSources(videoId)]);
 
     return {
       resource: 'brightcove',
@@ -248,17 +228,13 @@ export const fetchConceptVisualElement = async (
   return undefined;
 };
 
-export const fetchConceptListMeta = async (
-  concepts: IConceptSummary[],
-  language: string,
-): Promise<ConceptListData> => {
+export const fetchConceptListMeta = async (concepts: IConceptSummary[], language: string): Promise<ConceptListData> => {
   const conceptsWithVisualElement = await Promise.all(
     concepts.map(async (concept) => {
       if (!concept.visualElement?.visualElement) return { concept };
-      const visualElement = await fetchConceptVisualElement(
-        concept.visualElement?.visualElement,
-        language,
-      ).catch((_) => undefined);
+      const visualElement = await fetchConceptVisualElement(concept.visualElement?.visualElement, language).catch(
+        (_) => undefined,
+      );
       return { concept, visualElement };
     }),
   );

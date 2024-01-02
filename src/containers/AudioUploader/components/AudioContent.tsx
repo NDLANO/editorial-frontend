@@ -37,9 +37,7 @@ const PlayerWrapper = styled.div`
   margin-top: ${spacing.large};
 `;
 
-const getPlayerObject = (
-  values: AudioFormikType,
-): { src: string; mimeType: string } | undefined => {
+const getPlayerObject = (values: AudioFormikType): { src: string; mimeType: string } | undefined => {
   const { newFile, storedFile } = values.audioFile;
 
   if (newFile) {
@@ -56,9 +54,7 @@ const getPlayerObject = (
   return undefined;
 };
 
-const AudioContent = <T extends AudioFormikType | PodcastFormValues>({
-  handleSubmit: _handleSubmit,
-}: Props<T>) => {
+const AudioContent = <T extends AudioFormikType | PodcastFormValues>({ handleSubmit: _handleSubmit }: Props<T>) => {
   const { t } = useTranslation();
   const formikContext = useFormikContext<T>();
   const { values, setFieldValue } = formikContext;

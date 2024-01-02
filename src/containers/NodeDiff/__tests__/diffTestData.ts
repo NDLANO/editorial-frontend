@@ -269,9 +269,7 @@ export const nodeTreeWithDirectChildren: NodeTree = {
       parentId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-      paths: [
-        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-      ],
+      paths: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6'],
       connectionId: 'urn:subject-topic:b5c7dede-f8ec-4a57-909f-940343eb4155',
       isPrimary: true,
       rank: 1,
@@ -307,9 +305,7 @@ export const nodeTreeWithDirectChildren: NodeTree = {
       parentId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
-      paths: [
-        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
-      ],
+      paths: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:d208bf2d-836c-43fe-977b-de4af1771396'],
       connectionId: 'urn:subject-topic:2b597082-6c36-4fc1-ac60-f7b9aec06cfc',
       isPrimary: true,
       rank: 2,
@@ -388,9 +384,7 @@ export const nodeTreeWithDirectChildrenUpdated: NodeTree = {
       parentId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-      paths: [
-        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-      ],
+      paths: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6'],
       connectionId: 'urn:subject-topic:b5c7dede-f8ec-4a57-909f-940343eb4155',
       isPrimary: true,
       rank: 1,
@@ -426,9 +420,7 @@ export const nodeTreeWithDirectChildrenUpdated: NodeTree = {
       parentId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:00018b29-3b51-478d-a691-20732e0601fd',
-      paths: [
-        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:00018b29-3b51-478d-a691-20732e0601fd',
-      ],
+      paths: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:00018b29-3b51-478d-a691-20732e0601fd'],
       connectionId: 'urn:subject-topic:e497ff48-b716-4d42-a5f2-c06c44c771eb',
       isPrimary: true,
       rank: 3,
@@ -626,20 +618,14 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
         diffType: 'NONE',
       },
       path: {
-        original:
-          '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-        other:
-          '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+        original: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+        other: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
         diffType: 'NONE',
         ignored: true,
       },
       paths: {
-        original: [
-          '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-        ],
-        other: [
-          '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-        ],
+        original: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6'],
+        other: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6'],
         diffType: 'NONE',
         ignored: true,
       },
@@ -776,16 +762,13 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
         diffType: 'DELETED',
       },
       path: {
-        original:
-          '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
+        original: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
         other: undefined,
         diffType: 'DELETED',
         ignored: true,
       },
       paths: {
-        original: [
-          '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
-        ],
+        original: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:d208bf2d-836c-43fe-977b-de4af1771396'],
         other: undefined,
         diffType: 'DELETED',
         ignored: true,
@@ -914,16 +897,13 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
       },
       path: {
         original: undefined,
-        other:
-          '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:00018b29-3b51-478d-a691-20732e0601fd',
+        other: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:00018b29-3b51-478d-a691-20732e0601fd',
         diffType: 'ADDED',
         ignored: true,
       },
       paths: {
         original: undefined,
-        other: [
-          '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:00018b29-3b51-478d-a691-20732e0601fd',
-        ],
+        other: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:00018b29-3b51-478d-a691-20732e0601fd'],
         diffType: 'ADDED',
         ignored: true,
       },
@@ -1061,9 +1041,7 @@ export const nodeTreeWithDirectChildrenAndResources: NodeTree = {
       parentId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-      paths: [
-        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-      ],
+      paths: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6'],
       connectionId: 'urn:subject-topic:b5c7dede-f8ec-4a57-909f-940343eb4155',
       isPrimary: true,
       rank: 1,
@@ -1099,9 +1077,7 @@ export const nodeTreeWithDirectChildrenAndResources: NodeTree = {
       parentId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
-      paths: [
-        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
-      ],
+      paths: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:d208bf2d-836c-43fe-977b-de4af1771396'],
       connectionId: 'urn:subject-topic:2b597082-6c36-4fc1-ac60-f7b9aec06cfc',
       isPrimary: true,
       rank: 2,
@@ -1180,9 +1156,7 @@ export const nodeTreeWithNestedChildren: NodeTree = {
       parentId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-      paths: [
-        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-      ],
+      paths: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6'],
       connectionId: 'urn:subject-topic:b5c7dede-f8ec-4a57-909f-940343eb4155',
       isPrimary: true,
       rank: 1,
@@ -1337,9 +1311,7 @@ export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
       parentId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-      paths: [
-        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-      ],
+      paths: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6'],
       connectionId: 'urn:subject-topic:b5c7dede-f8ec-4a57-909f-940343eb4155',
       isPrimary: true,
       rank: 1,
@@ -1622,20 +1594,14 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
         diffType: 'NONE',
       },
       path: {
-        original:
-          '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-        other:
-          '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+        original: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+        other: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
         diffType: 'NONE',
         ignored: true,
       },
       paths: {
-        original: [
-          '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-        ],
-        other: [
-          '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-        ],
+        original: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6'],
+        other: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6'],
         diffType: 'NONE',
         ignored: true,
       },
@@ -2306,9 +2272,7 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
       parentId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-      paths: [
-        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-      ],
+      paths: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6'],
       connectionId: 'urn:subject-topic:b5c7dede-f8ec-4a57-909f-940343eb4155',
       isPrimary: true,
       rank: 1,
@@ -2530,9 +2494,7 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
       parentId: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       parent: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-      paths: [
-        '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-      ],
+      paths: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6'],
       connectionId: 'urn:subject-topic:b5c7dede-f8ec-4a57-909f-940343eb4155',
       isPrimary: true,
       rank: 1,
@@ -2871,20 +2833,14 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
         diffType: 'NONE',
       },
       path: {
-        original:
-          '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-        other:
-          '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+        original: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
+        other: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
         diffType: 'NONE',
         ignored: true,
       },
       paths: {
-        original: [
-          '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-        ],
-        other: [
-          '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
-        ],
+        original: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6'],
+        other: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6'],
         diffType: 'NONE',
         ignored: true,
       },

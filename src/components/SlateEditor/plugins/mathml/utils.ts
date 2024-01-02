@@ -29,22 +29,14 @@ export const insertMathml = (editor: Editor) => {
   }
 
   if (Range.isCollapsed(selection)) {
-    Transforms.insertNodes(
-      editor,
-      slatejsx('element', { type: 'mathml', data: {} }, [{ text: '' }]),
-      {
-        at: Editor.unhangRange(editor, selection),
-      },
-    );
+    Transforms.insertNodes(editor, slatejsx('element', { type: 'mathml', data: {} }, [{ text: '' }]), {
+      at: Editor.unhangRange(editor, selection),
+    });
   } else {
-    Transforms.wrapNodes(
-      editor,
-      slatejsx('element', { type: 'mathml', data: {} }, [{ text: '' }]),
-      {
-        at: Editor.unhangRange(editor, selection),
-        split: true,
-      },
-    );
+    Transforms.wrapNodes(editor, slatejsx('element', { type: 'mathml', data: {} }, [{ text: '' }]), {
+      at: Editor.unhangRange(editor, selection),
+      split: true,
+    });
   }
 };
 

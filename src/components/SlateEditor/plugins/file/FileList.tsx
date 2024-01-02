@@ -19,14 +19,7 @@ import { IconButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
 import { FieldHeader } from '@ndla/forms';
 import { Cross, Plus } from '@ndla/icons/action';
-import {
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalTrigger,
-} from '@ndla/modal';
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTrigger } from '@ndla/modal';
 import { FileElement } from '.';
 import FileListEditor from './FileListEditor';
 import { TYPE_FILE } from './types';
@@ -44,9 +37,7 @@ const StyledSection = styled.section`
 
 const formatFile = (file: File, t: TFunction): File => ({
   ...file,
-  formats: [
-    { url: file.url, fileType: file.type, tooltip: `${t(`form.file.download`)} ${file.title}` },
-  ],
+  formats: [{ url: file.url, fileType: file.type, tooltip: `${t(`form.file.download`)} ${file.title}` }],
 });
 
 interface Props {
@@ -132,9 +123,7 @@ const FileList = ({ element, editor, attributes, children }: Props) => {
   };
 
   const onToggleRenderInline = (index: number) => {
-    const data = files.map((f, i) =>
-      i === index ? { ...f, display: f.display === 'block' ? 'inline' : 'block' } : f,
-    );
+    const data = files.map((f, i) => (i === index ? { ...f, display: f.display === 'block' ? 'inline' : 'block' } : f));
     setFiles(data);
     Transforms.setNodes(editor, { data }, { at: ReactEditor.findPath(editor, element) });
   };
@@ -147,11 +136,7 @@ const FileList = ({ element, editor, attributes, children }: Props) => {
       <FieldHeader title={t('form.file.label')}>
         <Modal open={showFileUploader} onOpenChange={setShowFileUploader}>
           <ModalTrigger>
-            <IconButtonV2
-              variant="ghost"
-              title={t('form.file.addFile')}
-              aria-label={t('form.file.addFile')}
-            >
+            <IconButtonV2 variant="ghost" title={t('form.file.addFile')} aria-label={t('form.file.addFile')}>
               <Plus />
             </IconButtonV2>
           </ModalTrigger>

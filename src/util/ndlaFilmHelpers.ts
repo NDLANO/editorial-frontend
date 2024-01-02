@@ -22,10 +22,7 @@ import { FilmFormikType } from '../containers/NdlaFilm/components/NdlaFilmForm';
 import { ThemeNames } from '../containers/NdlaFilm/components/ThemeEditor';
 import { LocaleType } from '../interfaces';
 
-export const getInitialValues = (
-  filmFrontpage: IFilmFrontPageData,
-  selectedLanguage: string,
-): FilmFormikType => {
+export const getInitialValues = (filmFrontpage: IFilmFrontPageData, selectedLanguage: string): FilmFormikType => {
   const supportedLanguages = filmFrontpage.about.map((about) => about.language);
   const languageAbout = filmFrontpage.about.find((about) => about.language === selectedLanguage);
   const about = languageAbout ?? filmFrontpage.about?.[0];
@@ -165,11 +162,7 @@ export const getUrnFromId = (id: string | number) => {
   return `urn:article:${id}`;
 };
 
-export const changeThemeNames = (
-  themes: IMovieTheme[],
-  names: ConvertedThemeName[],
-  index: number,
-) => {
+export const changeThemeNames = (themes: IMovieTheme[], names: ConvertedThemeName[], index: number) => {
   return themes.map((theme, i) => (i === index ? { ...theme, name: names } : theme));
 };
 

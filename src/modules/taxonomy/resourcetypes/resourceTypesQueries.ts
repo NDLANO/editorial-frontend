@@ -21,10 +21,7 @@ interface UseResourceTypeParams extends WithTaxonomyVersion {
   id: string;
   language: string;
 }
-export const useResourceType = (
-  params: UseResourceTypeParams,
-  options?: Partial<UseQueryOptions<ResourceType>>,
-) =>
+export const useResourceType = (params: UseResourceTypeParams, options?: Partial<UseQueryOptions<ResourceType>>) =>
   useQuery<ResourceType>({
     queryKey: resourceTypeQueryKeys.resourceType(params),
     queryFn: () => fetchResourceType(params),

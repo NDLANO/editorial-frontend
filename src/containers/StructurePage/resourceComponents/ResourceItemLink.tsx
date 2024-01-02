@@ -37,13 +37,7 @@ interface Props {
   size?: FontSizeType;
 }
 
-const ResourceItemLink = ({
-  contentType,
-  contentUri,
-  name,
-  isVisible = true,
-  size = 'medium',
-}: Props) => {
+const ResourceItemLink = ({ contentType, contentUri, name, isVisible = true, size = 'medium' }: Props) => {
   const { i18n } = useTranslation();
   const linkTo = contentUri && contentUri.split(':').pop();
 
@@ -61,11 +55,7 @@ const ResourceItemLink = ({
       );
     }
     return (
-      <Link
-        to={toEditArticle(parseInt(linkTo), contentType!)}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <Link to={toEditArticle(parseInt(linkTo), contentType!)} target="_blank" rel="noopener noreferrer">
         <StyledH1 isVisible={isVisible} size={size}>
           {name}
         </StyledH1>

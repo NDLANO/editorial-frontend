@@ -40,13 +40,9 @@ export const insertInlineConcept = (editor: Editor) => {
       });
     }
 
-    Transforms.wrapNodes(
-      editor,
-      slatejsx('element', { type: TYPE_CONCEPT_INLINE, isFirstEdit: true, data: {} }),
-      {
-        at: Editor.unhangRange(editor, editor.selection),
-        split: true,
-      },
-    );
+    Transforms.wrapNodes(editor, slatejsx('element', { type: TYPE_CONCEPT_INLINE, isFirstEdit: true, data: {} }), {
+      at: Editor.unhangRange(editor, editor.selection),
+      split: true,
+    });
   }
 };

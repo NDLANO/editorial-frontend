@@ -17,9 +17,7 @@ const GrepCodesField = () => {
   return (
     <>
       <FormikField name="grepCodes" label={t('form.grepCodes.label')}>
-        {({ field, form }: FieldProps<string[], FormikValues>) => (
-          <GrepCodesFieldContent field={field} form={form} />
-        )}
+        {({ field, form }: FieldProps<string[], FormikValues>) => <GrepCodesFieldContent field={field} form={form} />}
       </FormikField>
     </>
   );

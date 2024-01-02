@@ -22,9 +22,7 @@ const history = createMemoryHistory();
 beforeEach(() => {
   const reload = jest.fn();
 
-  jest
-    .spyOn(window, 'location', 'get')
-    .mockImplementation(() => ({ reload }) as unknown as Location);
+  jest.spyOn(window, 'location', 'get').mockImplementation(() => ({ reload }) as unknown as Location);
 });
 
 const wrapper = (messages: MessageType[]) => (
@@ -67,9 +65,7 @@ describe('Messages', () => {
   });
 
   it('auth0 messages provides a cancel button', async () => {
-    const messages: MessageType[] = [
-      { id: uuid(), message: 'Testmessage', timeToLive: 10000, type: 'auth0' },
-    ];
+    const messages: MessageType[] = [{ id: uuid(), message: 'Testmessage', timeToLive: 10000, type: 'auth0' }];
     const { baseElement, findByText } = render(wrapper(messages));
     expect(baseElement).toMatchSnapshot();
     const cancelButton = await findByText('Avbryt');
@@ -80,17 +76,13 @@ describe('Messages', () => {
   });
 
   it('auth0 messages allows the user to log in again', async () => {
-    const messages: MessageType[] = [
-      { id: uuid(), message: 'Testmessage', timeToLive: 10000, type: 'auth0' },
-    ];
+    const messages: MessageType[] = [{ id: uuid(), message: 'Testmessage', timeToLive: 10000, type: 'auth0' }];
 
     const { findByText } = render(wrapper(messages));
     const loginButton = await findByText('Logg inn på nytt');
     act(() => {
       fireEvent.click(loginButton);
     });
-    expect(`${history.location.pathname}${history.location.search}`).toEqual(
-      '/logout/session?returnToLogin=true',
-    );
+    expect(`${history.location.pathname}${history.location.search}`).toEqual('/logout/session?returnToLogin=true');
   });
 });

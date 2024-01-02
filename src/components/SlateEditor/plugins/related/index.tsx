@@ -16,8 +16,7 @@ import { NormalizerConfig, defaultBlockNormalizer } from '../../utils/defaultNor
 import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
 
-export const defaultRelatedBlock = () =>
-  slatejsx('element', { type: TYPE_RELATED, data: [] }, [{ text: '' }]);
+export const defaultRelatedBlock = () => slatejsx('element', { type: TYPE_RELATED, data: [] }, [{ text: '' }]);
 
 const normalizerConfig: NormalizerConfig = {
   previous: {
@@ -46,9 +45,7 @@ export const relatedSerializer: SlateSerializer = {
       'element',
       {
         type: TYPE_RELATED,
-        data: Array.from(el.children ?? []).map((el) =>
-          reduceElementDataAttributesV2(Array.from(el.attributes)),
-        ),
+        data: Array.from(el.children ?? []).map((el) => reduceElementDataAttributesV2(Array.from(el.attributes))),
       },
       [{ text: '' }],
     );
@@ -56,9 +53,7 @@ export const relatedSerializer: SlateSerializer = {
   serialize(node: Descendant) {
     if (!Element.isElement(node) || node.type !== TYPE_RELATED) return;
 
-    return (
-      <div data-type="related-content">{node.data.map((child) => createEmbedTagV2(child))}</div>
-    );
+    return <div data-type="related-content">{node.data.map((child) => createEmbedTagV2(child))}</div>;
   },
 };
 

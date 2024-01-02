@@ -44,41 +44,36 @@ interface PreviewLightBoxProps {
   currentLanguage: string;
 }
 
-const PreviewLightBox = memo(
-  ({ type, currentLanguage, article, concept }: PreviewLightBoxProps) => {
-    const { t } = useTranslation();
-    if ((type === 'concept' || type === 'gloss') && concept) {
-      return (
-        <PreviewDraftLightboxV2
-          type="conceptCompare"
-          concept={concept}
-          language={currentLanguage}
-          activateButton={
-            <StyledFilledButton type="button">
-              <FileCompare /> {t('form.previewLanguageArticle.button')}
-            </StyledFilledButton>
-          }
-        />
-      );
-    } else if (
-      (type === 'standard' || type === 'topic-article' || type === 'frontpage-article') &&
-      article
-    ) {
-      return (
-        <PreviewDraftLightboxV2
-          type="compare"
-          article={article}
-          language={currentLanguage}
-          activateButton={
-            <StyledFilledButton type="button">
-              <FileCompare /> {t('form.previewLanguageArticle.button')}
-            </StyledFilledButton>
-          }
-        />
-      );
-    } else return null;
-  },
-);
+const PreviewLightBox = memo(({ type, currentLanguage, article, concept }: PreviewLightBoxProps) => {
+  const { t } = useTranslation();
+  if ((type === 'concept' || type === 'gloss') && concept) {
+    return (
+      <PreviewDraftLightboxV2
+        type="conceptCompare"
+        concept={concept}
+        language={currentLanguage}
+        activateButton={
+          <StyledFilledButton type="button">
+            <FileCompare /> {t('form.previewLanguageArticle.button')}
+          </StyledFilledButton>
+        }
+      />
+    );
+  } else if ((type === 'standard' || type === 'topic-article' || type === 'frontpage-article') && article) {
+    return (
+      <PreviewDraftLightboxV2
+        type="compare"
+        article={article}
+        language={currentLanguage}
+        activateButton={
+          <StyledFilledButton type="button">
+            <FileCompare /> {t('form.previewLanguageArticle.button')}
+          </StyledFilledButton>
+        }
+      />
+    );
+  } else return null;
+});
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -177,10 +172,7 @@ const HeaderActions = ({
   );
 
   const emptyLanguages = useMemo(
-    () =>
-      languages.filter(
-        (lang) => lang.key !== language && !supportedLanguages.includes(lang.key) && lang.include,
-      ),
+    () => languages.filter((lang) => lang.key !== language && !supportedLanguages.includes(lang.key) && lang.include),
     [language, languages, supportedLanguages],
   );
 
@@ -215,12 +207,7 @@ const HeaderActions = ({
           {!noStatus && (
             <>
               <StyledSplitter />
-              <PreviewLightBox
-                article={article}
-                concept={concept}
-                type={type}
-                currentLanguage={language}
-              />
+              <PreviewLightBox article={article} concept={concept} type={type} currentLanguage={language} />
             </>
           )}
           {lastPublishedVersion && (

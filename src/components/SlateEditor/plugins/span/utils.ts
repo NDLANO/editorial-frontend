@@ -12,8 +12,7 @@ import { SpanElement } from '.';
 import { TYPE_SPAN } from './types';
 import hasNodeOfType from '../../utils/hasNodeOfType';
 
-export const defaultSpanBlock = () =>
-  slatejsx('element', { type: TYPE_SPAN, data: {} }, { text: '' }) as SpanElement;
+export const defaultSpanBlock = () => slatejsx('element', { type: TYPE_SPAN, data: {} }, { text: '' }) as SpanElement;
 
 export const toggleSpan = (editor: Editor) => {
   if (hasNodeOfType(editor, TYPE_SPAN)) {

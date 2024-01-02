@@ -7,10 +7,7 @@
  */
 
 import { Descendant } from 'slate';
-import {
-  inlineContentToEditorValue,
-  inlineContentToHTML,
-} from '../../../../../util/articleContentConverter';
+import { inlineContentToEditorValue, inlineContentToHTML } from '../../../../../util/articleContentConverter';
 import { TYPE_EMBED_IMAGE } from '../../embed/types';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 import { TYPE_SECTION } from '../../section/types';

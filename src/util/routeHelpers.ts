@@ -42,11 +42,7 @@ export const toEditGenericArticle = (articleId: number | string) => {
   return `/subject-matter/article/${articleId}`;
 };
 
-export function toEditSubjectpage(
-  subjectId: string,
-  locale: string,
-  subjectpageId?: number | string,
-) {
+export function toEditSubjectpage(subjectId: string, locale: string, subjectpageId?: number | string) {
   if (subjectId === NDLA_FILM_SUBJECT) {
     return toEditNdlaFilm(locale);
   }

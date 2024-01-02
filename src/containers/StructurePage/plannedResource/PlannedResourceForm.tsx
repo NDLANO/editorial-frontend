@@ -155,13 +155,12 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
     id: nodeId,
     language: i18n.language,
   });
-  const { mutateAsync: createNodeResource, isPending: postResourceLoading } =
-    usePostResourceForNodeMutation({
-      onSuccess: (_) => {
-        qc.invalidateQueries({ queryKey: compKey });
-        qc.invalidateQueries({ queryKey: compKeyChildNodes });
-      },
-    });
+  const { mutateAsync: createNodeResource, isPending: postResourceLoading } = usePostResourceForNodeMutation({
+    onSuccess: (_) => {
+      qc.invalidateQueries({ queryKey: compKey });
+      qc.invalidateQueries({ queryKey: compKeyChildNodes });
+    },
+  });
   const { mutateAsync: createResourceResourceType, isPending: createResourceTypeLoading } =
     useCreateResourceResourceTypeMutation({
       onSuccess: (_) => qc.invalidateQueries({ queryKey: compKey }),
@@ -211,9 +210,7 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
         const createdArticle = await createDraft(convertUpdateToNewDraft(plannedResource));
 
         // Add created article to latest edited
-        const latestEdited = uniq(
-          [createdArticle.id.toString()].concat(userData?.latestEditedArticles ?? []),
-        );
+        const latestEdited = uniq([createdArticle.id.toString()].concat(userData?.latestEditedArticles ?? []));
         await updateUserData({ latestEditedArticles: latestEdited.slice(0, 10) });
 
         // Create node in taxonomy
@@ -337,9 +334,7 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
                   priority={field.value}
                   menuPlacement="bottom"
                   inModal
-                  updatePriority={(p: SingleValue) =>
-                    form.setFieldValue('priority', p ? p.value : 'unspecified')
-                  }
+                  updatePriority={(p: SingleValue) => form.setFieldValue('priority', p ? p.value : 'unspecified')}
                 />
               </>
             )}

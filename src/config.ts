@@ -11,10 +11,7 @@ import { LocaleType } from './interfaces';
 export function getEnvironmentVariabel(key: string, fallback: string): string;
 export function getEnvironmentVariabel(key: string, fallback: boolean): boolean;
 export function getEnvironmentVariabel(key: string, fallback?: string): string | undefined;
-export function getEnvironmentVariabel(
-  key: string,
-  fallback?: string | boolean,
-): string | boolean | undefined {
+export function getEnvironmentVariabel(key: string, fallback?: string | boolean): string | boolean | undefined {
   const env = 'env';
   const variabel = process[env][key]; // Hack to prevent DefinePlugin replacing process.env
   return variabel || fallback;
@@ -116,8 +113,7 @@ export const getZendeskWidgetSecret = () => {
   return getEnvironmentVariabel('NDLA_ED_ZENDESK_SECRET_KEY', 'something');
 };
 
-export const getDefaultLanguage = () =>
-  getEnvironmentVariabel('NDLA_DEFAULT_LANGUAGE', 'nb') as LocaleType;
+export const getDefaultLanguage = () => getEnvironmentVariabel('NDLA_DEFAULT_LANGUAGE', 'nb') as LocaleType;
 
 const usernamePasswordEnabled = () => {
   switch (ndlaEnvironment) {
@@ -180,10 +176,7 @@ const config: ConfigType = {
   ndlaBaseUrl: ndlaBaseUrl(),
   ndlaFrontendDomain: getEnvironmentVariabel('FRONTEND_DOMAIN', ndlaFrontendDomain()),
   editorialFrontendDomain: getEnvironmentVariabel('EDITORIAL_DOMAIN', editorialFrontendDomain()),
-  learningpathFrontendDomain: getEnvironmentVariabel(
-    'LEARNINGPATH_DOMAIN',
-    learningpathFrontendDomain(),
-  ),
+  learningpathFrontendDomain: getEnvironmentVariabel('LEARNINGPATH_DOMAIN', learningpathFrontendDomain()),
   ndlaPersonalClientId: getEnvironmentVariabel('NDLA_PERSONAL_CLIENT_ID', ''),
   auth0Domain: getEnvironmentVariabel('AUTH0_DOMAIN', getAuth0Hostname()),
   brightcoveAccountId: getEnvironmentVariabel('BRIGHTCOVE_ACCOUNT_ID', '123456789'),
@@ -199,10 +192,7 @@ const config: ConfigType = {
   googleTagManagerId: getEnvironmentVariabel('NDLA_GOOGLE_TAG_MANAGER_ID'),
   zendeskWidgetKey: getEnvironmentVariabel('NDLA_ED_ZENDESK_WIDGET_KEY'),
   disableCSP: getEnvironmentVariabel('DISABLE_CSP', 'false'),
-  usernamePasswordEnabled: getEnvironmentVariabel(
-    'USERNAME_PASSWORD_ENABLED',
-    usernamePasswordEnabled(),
-  ),
+  usernamePasswordEnabled: getEnvironmentVariabel('USERNAME_PASSWORD_ENABLED', usernamePasswordEnabled()),
   h5pMetaEnabled: getEnvironmentVariabel('H5PMETA_ENABLED', false),
   translateServiceUrl: getEnvironmentVariabel('NDKM_URL', getTranslateServiceUrl()),
   isVercel: getEnvironmentVariabel('IS_VERCEL', 'false') === 'true',
@@ -213,9 +203,7 @@ export function getUniversalConfig(): ConfigType {
     return config;
   }
 
-  return process.env.BUILD_TARGET === 'server' || process.env.NODE_ENV === 'unittest'
-    ? config
-    : window.config;
+  return process.env.BUILD_TARGET === 'server' || process.env.NODE_ENV === 'unittest' ? config : window.config;
 }
 
 export default getUniversalConfig();

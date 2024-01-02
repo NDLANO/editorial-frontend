@@ -13,13 +13,7 @@ import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { Subject } from '@ndla/icons/contentType';
-import {
-  CloudUploadOutline,
-  DragVertical,
-  Star,
-  SubjectMatter,
-  Taxonomy,
-} from '@ndla/icons/editor';
+import { CloudUploadOutline, DragVertical, Star, SubjectMatter, Taxonomy } from '@ndla/icons/editor';
 import { NodeChild, Node, NodeType } from '@ndla/types-taxonomy';
 import FolderItem from './folderComponents/FolderItem';
 import DndList from '../../components/DndList';
@@ -52,10 +46,7 @@ interface RoundIconProps {
   type?: 'button' | 'reset' | 'submit';
 }
 
-const RoundIcon = ({
-  smallIcon,
-  ...rest
-}: RoundIconProps & Omit<HTMLProps<HTMLButtonElement>, 'as'>) => (
+const RoundIcon = ({ smallIcon, ...rest }: RoundIconProps & Omit<HTMLProps<HTMLButtonElement>, 'as'>) => (
   <StyledIcon {...rest}>{smallIcon}</StyledIcon>
 );
 
@@ -79,9 +70,7 @@ const IconWrapper = styled.div`
   }
 `;
 
-const isChildNode = createGuard<NodeChild & { articleType?: string; isPublished?: boolean }>(
-  'connectionId',
-);
+const isChildNode = createGuard<NodeChild & { articleType?: string; isPublished?: boolean }>('connectionId');
 
 const getNodeIcon = (nodeType: NodeType): { icon: ReactNode; title: string } => {
   switch (nodeType) {
@@ -166,21 +155,13 @@ const NodeItem = ({
   const publishing = item.metadata.customFields[TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH] === 'true';
 
   return (
-    <StyledStructureItem
-      connectionId={connectionId}
-      id={item.id}
-      key={path}
-      greyedOut={!parentActive && !isActive}
-    >
+    <StyledStructureItem connectionId={connectionId} id={item.id} key={path} greyedOut={!parentActive && !isActive}>
       <StyledItemBar highlight={isActive}>
         {isRoot && (
           <RoundIcon
             onClick={toggleFavorite}
             smallIcon={
-              <Star
-                color={isFavorite ? colors.favoriteColor : colors.brand.greyDark}
-                data-testid="star-icon"
-              />
+              <Star color={isFavorite ? colors.favoriteColor : colors.brand.greyDark} data-testid="star-icon" />
             }
             data-testid="favourite-subject"
           />

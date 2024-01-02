@@ -54,8 +54,7 @@ const HeadingThree = ({ title }: HeadingProps) => <HeadingSpan title={title}>H3<
 const HeadingFour = ({ title }: HeadingProps) => <HeadingSpan title={title}>H4</HeadingSpan>;
 
 // Fetched from https://github.com/ianstormtaylor/is-hotkey/blob/master/src/index.js
-export const IS_MAC =
-  typeof window != 'undefined' && /Mac|iPod|iPhone|iPad/.test(window.navigator.platform);
+export const IS_MAC = typeof window != 'undefined' && /Mac|iPod|iPhone|iPad/.test(window.navigator.platform);
 const options = { ctrl: IS_MAC ? 'cmd' : 'ctrl' };
 
 const icon: Record<string, ElementType> = {
@@ -139,17 +138,10 @@ const ToolbarButton = ({ isActive, type, kind, handleOnClick }: Props) => {
   const Icon = useMemo(() => icon[type], [type]);
   const { t } = useTranslation();
 
-  const onClick = useCallback(
-    (e: MouseEvent) => handleOnClick(e, kind, type),
-    [handleOnClick, kind, type],
-  );
+  const onClick = useCallback((e: MouseEvent) => handleOnClick(e, kind, type), [handleOnClick, kind, type]);
 
   return (
-    <StyledToolbarButton
-      onClick={onClick}
-      data-testid={`toolbar-button-${type}`}
-      data-active={isActive}
-    >
+    <StyledToolbarButton onClick={onClick} data-testid={`toolbar-button-${type}`} data-active={isActive}>
       <ToolbarIcon>
         <Icon title={t(`editorToolbar.${type}`, options)} />
       </ToolbarIcon>

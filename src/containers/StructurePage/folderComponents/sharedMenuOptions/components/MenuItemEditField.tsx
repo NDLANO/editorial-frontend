@@ -85,11 +85,7 @@ const MenuItemEditField = ({
           // eslint-disable-next-line jsx-a11y/no-autofocus
           autoFocus={autoFocus}
         />
-        <CustomFieldButton
-          data-testid="inlineEditSaveButton"
-          disabled={status === 'loading'}
-          onClick={handleSubmit}
-        >
+        <CustomFieldButton data-testid="inlineEditSaveButton" disabled={status === 'loading'} onClick={handleSubmit}>
           {status === 'loading' ? (
             <Spinner appearance="small" data-testid="inlineEditSpinner" />
           ) : (
@@ -98,9 +94,7 @@ const MenuItemEditField = ({
         </CustomFieldButton>
       </StyledMenuItemEditField>
       {status === 'error' && (
-        <StyledErrorMessage data-testid="inlineEditErrorMessage">
-          {messages.errorMessage}
-        </StyledErrorMessage>
+        <StyledErrorMessage data-testid="inlineEditErrorMessage">{messages.errorMessage}</StyledErrorMessage>
       )}
     </>
   );

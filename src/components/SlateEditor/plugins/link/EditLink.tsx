@@ -16,13 +16,7 @@ import { LinkElement, ContentLinkElement } from '.';
 import { Model } from './Link';
 import LinkForm from './LinkForm';
 import { TYPE_CONTENT_LINK, TYPE_LINK } from './types';
-import {
-  splitLearningPathUrl,
-  splitEdPathUrl,
-  splitArticleUrl,
-  splitPlainUrl,
-  splitTaxonomyUrl,
-} from './utils';
+import { splitLearningPathUrl, splitEdPathUrl, splitArticleUrl, splitPlainUrl, splitTaxonomyUrl } from './utils';
 
 const newTabAttributes = {
   target: '_blank',
@@ -53,17 +47,13 @@ const createContentLinkData = (
   };
 };
 
-const createLinkData = (
-  href: string,
-  targetRel: { target?: string; rel?: string },
-): Partial<LinkElement> => ({
+const createLinkData = (href: string, targetRel: { target?: string; rel?: string }): Partial<LinkElement> => ({
   type: TYPE_LINK,
   href,
   ...targetRel,
 });
 
-export const isNDLAArticleUrl = (url: string) =>
-  /^http(s)?:\/\/((.*)\.)?ndla.no\/((.*)\/)?article\/\d*/.test(url);
+export const isNDLAArticleUrl = (url: string) => /^http(s)?:\/\/((.*)\.)?ndla.no\/((.*)\/)?article\/\d*/.test(url);
 export const isNDLATaxonomyUrl = (url: string) =>
   /^http(s)?:\/\/((.*)\.)?ndla.no\/((.*)\/)?subject:(.*)\/topic(.*)/.test(url);
 export const isNDLALearningPathUrl = (url: string) =>
@@ -127,8 +117,7 @@ const EditLink = ({ model, closeEditMode, editor, element }: Props) => {
         { ...data },
         {
           at: path,
-          match: (node) =>
-            Element.isElement(node) && (node.type === TYPE_LINK || node.type === TYPE_CONTENT_LINK),
+          match: (node) => Element.isElement(node) && (node.type === TYPE_LINK || node.type === TYPE_CONTENT_LINK),
         },
       );
       handleChangeAndClose();
@@ -141,8 +130,7 @@ const EditLink = ({ model, closeEditMode, editor, element }: Props) => {
     ReactEditor.focus(editor);
     Transforms.unwrapNodes(editor, {
       at: path,
-      match: (node) =>
-        Element.isElement(node) && (node.type === TYPE_LINK || node.type === TYPE_CONTENT_LINK),
+      match: (node) => Element.isElement(node) && (node.type === TYPE_LINK || node.type === TYPE_CONTENT_LINK),
     });
   };
 
@@ -159,13 +147,7 @@ const EditLink = ({ model, closeEditMode, editor, element }: Props) => {
         <CloseButton onClick={onClose} />
       </StyledModalHeader>
       <StyledModalBody>
-        <LinkForm
-          onClose={onClose}
-          link={model}
-          isEdit={isEdit}
-          onRemove={handleRemove}
-          onSave={handleSave}
-        />
+        <LinkForm onClose={onClose} link={model} isEdit={isEdit} onRemove={handleRemove} onSave={handleSave} />
       </StyledModalBody>
     </>
   );

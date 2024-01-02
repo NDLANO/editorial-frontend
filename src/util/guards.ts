@@ -49,7 +49,5 @@ const isType = <T, S = T>(prop: keyof S, value: any, options: GuardOptions = {})
  *  ```
  */
 export const unreachable = (parameter: never): never => {
-  throw new Error(
-    `This code should be unreachable but is not, because '${parameter}' is not of 'never' type.`,
-  );
+  throw new Error(`This code should be unreachable but is not, because '${parameter}' is not of 'never' type.`);
 };

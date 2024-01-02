@@ -57,13 +57,7 @@ interface Props {
   userId: string | undefined;
 }
 
-const SearchContentForm = ({
-  search: doSearch,
-  searchObject: search,
-  subjects,
-  locale,
-  userId,
-}: Props) => {
+const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, locale, userId }: Props) => {
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const [queryInput, setQueryInput] = useState(search.query ?? '');
@@ -120,11 +114,7 @@ const SearchContentForm = ({
     const searchObj = { ...search, 'include-other-statuses': includeOtherStatuses, [name]: value };
 
     if (name !== 'query') {
-      doSearch(
-        name !== 'draft-status'
-          ? searchObj
-          : { ...searchObj, 'draft-status': status, fallback: false },
-      );
+      doSearch(name !== 'draft-status' ? searchObj : { ...searchObj, 'draft-status': status, fallback: false });
     }
   };
 
@@ -173,11 +163,7 @@ const SearchContentForm = ({
   };
 
   const sortedSubjects = useMemo(() => {
-    const favoriteSubject: Node = generateSubjectNode(
-      FAVOURITES_SUBJECT_ID,
-      'searchForm.favourites',
-      t,
-    );
+    const favoriteSubject: Node = generateSubjectNode(FAVOURITES_SUBJECT_ID, 'searchForm.favourites', t);
 
     const userHasLMASubjects = subjects.some((s) => s.metadata.customFields?.subjectLMA === userId);
 
@@ -186,9 +172,7 @@ const SearchContentForm = ({
     const filteredAndSortedSubjects = subjects
       .filter((s) => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== 'true')
       .sort(sortByProperty('name'));
-    return [favoriteSubject, ...(userHasLMASubjects ? [LMAsubjects] : [])].concat(
-      filteredAndSortedSubjects,
-    );
+    return [favoriteSubject, ...(userHasLMASubjects ? [LMAsubjects] : [])].concat(filteredAndSortedSubjects);
   }, [subjects, t, userId]);
 
   const selectors: SearchFormSelector[] = [
@@ -214,10 +198,7 @@ const SearchContentForm = ({
       formElementType: 'dropdown',
     },
     {
-      value: getTagName(
-        isHasPublished ? 'HAS_PUBLISHED' : search['draft-status'],
-        getDraftStatuses(),
-      ),
+      value: getTagName(isHasPublished ? 'HAS_PUBLISHED' : search['draft-status'], getDraftStatuses()),
       parameterName: 'draft-status',
       width: 25,
       options: getDraftStatuses().sort(sortByProperty('name')),

@@ -96,15 +96,9 @@ const TopicTaxonomyBlock = ({
     [propValidPlacements],
   );
 
-  const [resources, topics] = useMemo(
-    () => partition(nodes, (node) => node.nodeType === 'RESOURCE'),
-    [nodes],
-  );
+  const [resources, topics] = useMemo(() => partition(nodes, (node) => node.nodeType === 'RESOURCE'), [nodes]);
 
-  const isDirty = useMemo(
-    () => !isEqual(initialPlacements, placements),
-    [initialPlacements, placements],
-  );
+  const isDirty = useMemo(() => !isEqual(initialPlacements, placements), [initialPlacements, placements]);
 
   useEffect(() => {
     setPlacements(propValidPlacements);
@@ -189,9 +183,7 @@ const TopicTaxonomyBlock = ({
           recursive: true,
         });
         const childNodes = groupChildNodes(nodes);
-        setSubjects((subjects) =>
-          subjects.map((s) => (s.id === subjectId ? { ...s, childNodes } : s)),
-        );
+        setSubjects((subjects) => subjects.map((s) => (s.id === subjectId ? { ...s, childNodes } : s)));
       } catch (err) {
         handleError(err);
       }

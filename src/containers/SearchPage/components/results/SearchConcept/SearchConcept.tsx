@@ -36,16 +36,8 @@ const SearchConcept = ({ concept, locale, subjects, editingState, responsibleNam
     setShowForm(true);
   };
   const { url: metaImageSrc, alt: metaImageAlt } = localConcept.metaImage || {};
-  const title = convertFieldWithFallback<'title', string>(
-    localConcept,
-    'title',
-    t('conceptSearch.noTitle'),
-  );
-  const content = convertFieldWithFallback<'content', string>(
-    localConcept,
-    'content',
-    t('conceptSearch.noContent'),
-  );
+  const title = convertFieldWithFallback<'title', string>(localConcept, 'title', t('conceptSearch.noTitle'));
+  const content = convertFieldWithFallback<'content', string>(localConcept, 'content', t('conceptSearch.noContent'));
   const isGloss = concept.conceptType === 'gloss';
   const breadcrumbs = subjects.filter((s) => localConcept.subjectIds?.includes(s.id));
 

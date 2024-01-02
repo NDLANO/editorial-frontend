@@ -149,8 +149,7 @@ const AudioForm = ({
         tags: values.tags,
         audioType: 'standard',
         copyright: {
-          license:
-            licenses?.find((license) => license.license === values.license) ?? DEFAULT_LICENSE,
+          license: licenses?.find((license) => license.license === values.license) ?? DEFAULT_LICENSE,
           origin: values.origin,
           creators: values.creators,
           processors: values.processors,
@@ -159,10 +158,7 @@ const AudioForm = ({
         },
       };
       if (audio?.revision) {
-        await onUpdateAudio?.(
-          { ...audioMetaData, revision: audio.revision },
-          values.audioFile.newFile?.file,
-        );
+        await onUpdateAudio?.({ ...audioMetaData, revision: audio.revision }, values.audioFile.newFile?.file);
       } else {
         await onCreateAudio?.(audioMetaData, values.audioFile.newFile?.file);
       }

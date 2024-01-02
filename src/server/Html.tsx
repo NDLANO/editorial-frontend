@@ -35,41 +35,24 @@ const Html = (props: Props) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <GoogleTagMangerScript />
-        {assets['client.css'] && (
-          <link rel="stylesheet" type="text/css" href={assets['client.css']} />
-        )}
+        {assets['client.css'] && <link rel="stylesheet" type="text/css" href={assets['client.css']} />}
         {config.ndlaEnvironment === 'prod' ? (
           <>
             <link rel="icon" type="image/png" sizes="32x32" href="/favicon-prod-32x32.png" />
             <link rel="icon" type="image/png" sizes="16x16" href="/favicon-prod-16x16.png" />
-            <link
-              rel="apple-touch-icon"
-              type="image/png"
-              sizes="180x180"
-              href="/apple-touch-icon-prod.png"
-            />
+            <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="/apple-touch-icon-prod.png" />
           </>
         ) : config.ndlaEnvironment === 'staging' ? (
           <>
             <link rel="icon" type="image/png" sizes="32x32" href="/favicon-staging-32x32.png" />
             <link rel="icon" type="image/png" sizes="16x16" href="/favicon-staging-16x16.png" />
-            <link
-              rel="apple-touch-icon"
-              type="image/png"
-              sizes="180x180"
-              href="/apple-touch-icon-staging.png"
-            />
+            <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="/apple-touch-icon-staging.png" />
           </>
         ) : (
           <>
             <link rel="icon" type="image/png" sizes="32x32" href="/favicon-test-32x32.png" />
             <link rel="icon" type="image/png" sizes="16x16" href="/favicon-test-16x16.png" />
-            <link
-              rel="apple-touch-icon"
-              type="image/png"
-              sizes="180x180"
-              href="/apple-touch-icon-test.png"
-            />
+            <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="/apple-touch-icon-test.png" />
           </>
         )}
 
@@ -129,11 +112,7 @@ const Html = (props: Props) => {
         `,
           }}
         />
-        <script
-          type="text/javascript"
-          defer
-          src="https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/mml-chtml.js"
-        />
+        <script type="text/javascript" defer src="https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/mml-chtml.js" />
       </body>
     </html>
   );

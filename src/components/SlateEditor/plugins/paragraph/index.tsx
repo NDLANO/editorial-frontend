@@ -27,11 +27,7 @@ export interface ParagraphElement {
   children: Descendant[];
 }
 
-const onEnter = (
-  e: KeyboardEvent,
-  editor: Editor,
-  nextOnKeyDown?: (event: KeyboardEvent) => void,
-) => {
+const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: KeyboardEvent) => void) => {
   const currentParagraph = getCurrentParagraph(editor);
 
   if (!currentParagraph) {
@@ -95,8 +91,7 @@ export const paragraphSerializer: SlateSerializer = {
       on seriaization.
      */
 
-    if (Node.string(node) === '' && node.children.length === 1 && Text.isText(node.children[0]))
-      return null;
+    if (Node.string(node) === '' && node.children.length === 1 && Text.isText(node.children[0])) return null;
 
     if (node.serializeAsText) {
       return <>{children}</>;

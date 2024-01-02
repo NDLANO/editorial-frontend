@@ -124,9 +124,7 @@ const EditVideo = ({ embed, saveEmbedUpdates, activeSrc, close, setHasError }: P
           validateOnMount
           onSubmit={handleSave}
         >
-          {(formik) => (
-            <VideoEmbedForm {...formik} setHasError={setHasError} close={close} embed={embed} />
-          )}
+          {(formik) => <VideoEmbedForm {...formik} setHasError={setHasError} close={close} embed={embed} />}
         </Formik>
       </ModalBody>
     </>

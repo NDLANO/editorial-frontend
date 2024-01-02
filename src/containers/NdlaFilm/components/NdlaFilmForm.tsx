@@ -56,19 +56,14 @@ const ndlaFilmRules: RulesType<FilmFormikType> = {
       const element = values?.visualElement[0];
       const data = isSlateEmbed(element) && element.data;
       const badVisualElementId = data && 'resource_id' in data && data.resource_id === '';
-      return badVisualElementId
-        ? { translationKey: 'subjectpageForm.missingVisualElement' }
-        : undefined;
+      return badVisualElementId ? { translationKey: 'subjectpageForm.missingVisualElement' } : undefined;
     },
   },
 };
 
 const NdlaFilmForm = ({ filmFrontpage, selectedLanguage }: Props) => {
   const { t } = useTranslation();
-  const { savedToServer, handleSubmit, initialValues } = useNdlaFilmFormHooks(
-    filmFrontpage,
-    selectedLanguage,
-  );
+  const { savedToServer, handleSubmit, initialValues } = useNdlaFilmFormHooks(filmFrontpage, selectedLanguage);
   const [unsaved, setUnsaved] = useState(false);
   usePreventWindowUnload(unsaved);
 

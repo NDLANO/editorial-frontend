@@ -68,15 +68,11 @@ const GroupTopicResources = ({ node, hideIcon, onChanged }: Props) => {
 
   const nodeResources = node.metadata?.customFields[TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES];
   const isGrouped =
-    (nodeResources ?? TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE) ===
-    TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE;
+    (nodeResources ?? TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE) === TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE;
   return (
     <StyledMenuItemEditField>
       {hideIcon || <RoundIcon open small />}
-      <StyledMenuItemInputField
-        placeholder={t('taxonomy.metadata.customFields.resourceGroupPlaceholder')}
-        disabled
-      />
+      <StyledMenuItemInputField placeholder={t('taxonomy.metadata.customFields.resourceGroupPlaceholder')} disabled />
       <StyledTooltip tooltip={t('taxonomy.metadata.customFields.RGTooltip')}>
         <div>
           <Switch

@@ -20,14 +20,7 @@ interface Props {
   defaultValue?: Option;
 }
 
-const PlannedResourceSelect = ({
-  label,
-  fieldName,
-  id,
-  placeholder,
-  options = [],
-  defaultValue,
-}: Props) => {
+const PlannedResourceSelect = ({ label, fieldName, id, placeholder, options = [], defaultValue }: Props) => {
   const { t } = useTranslation();
   return (
     <StyledFormikField name={fieldName}>
@@ -44,9 +37,7 @@ const PlannedResourceSelect = ({
             matchFrom="any"
             defaultValue={defaultValue}
             noOptionsMessage={() => t('form.responsible.noResults')}
-            onChange={(value: SingleValue) =>
-              field.onChange({ target: { name: field.name, value: value?.value } })
-            }
+            onChange={(value: SingleValue) => field.onChange({ target: { name: field.name, value: value?.value } })}
           />
         </>
       )}

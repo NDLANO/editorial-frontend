@@ -58,8 +58,7 @@ const SearchTagContent = ({
   tagValue: string | number | boolean | undefined;
 }) => {
   const { t } = useTranslation();
-  const isCheckboxTag =
-    tag.formElementType === 'check-box' || tag.formElementType === 'check-box-reverse';
+  const isCheckboxTag = tag.formElementType === 'check-box' || tag.formElementType === 'check-box-reverse';
 
   return (
     <>
@@ -78,9 +77,7 @@ const SearchTag = ({ tag, onRemoveItem }: Props) => {
     onRemoveItem(tag);
   };
 
-  const searchParamsFormatter = (
-    selector: SearchFormSelector,
-  ): string | number | boolean | undefined => {
+  const searchParamsFormatter = (selector: SearchFormSelector): string | number | boolean | undefined => {
     switch (selector.formElementType) {
       case 'date-picker':
         if (selector.value) return formatDate(selector.value);

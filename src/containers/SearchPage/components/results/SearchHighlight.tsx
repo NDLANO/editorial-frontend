@@ -39,9 +39,7 @@ const SearchHighlight = ({ content, locale }: Props) => {
     return null;
   }
 
-  const highlightsInLocale = content.highlights.filter(
-    (highlight) => highlight.field.split('.')[1] === locale,
-  );
+  const highlightsInLocale = content.highlights.filter((highlight) => highlight.field.split('.')[1] === locale);
 
   const highlightsToSearch = highlightsInLocale.length ? highlightsInLocale : content.highlights;
 
@@ -59,9 +57,7 @@ const SearchHighlight = ({ content, locale }: Props) => {
     <StyledDiv>
       <StyledHeading>{t('searchPage.highlights.title')}</StyledHeading>
       <Tooltip tooltip={t(`searchPage.highlights.${selectedHighlights.field.split('.')[0]}`)}>
-        <StyledHighlights
-          dangerouslySetInnerHTML={{ __html: selectedHighlights.matches.join(' [...] ') }}
-        />
+        <StyledHighlights dangerouslySetInnerHTML={{ __html: selectedHighlights.matches.join(' [...] ') }} />
       </Tooltip>
     </StyledDiv>
   ) : null;

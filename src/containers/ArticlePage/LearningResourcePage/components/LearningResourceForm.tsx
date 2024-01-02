@@ -23,11 +23,7 @@ import { useLicenses, useDraftStatusStateMachine } from '../../../../modules/dra
 import { blockContentToHTML } from '../../../../util/articleContentConverter';
 import { isFormikFormDirty, learningResourceRules } from '../../../../util/formHelper';
 import { AlertModalWrapper } from '../../../FormikForm';
-import {
-  HandleSubmitFunc,
-  LearningResourceFormType,
-  useArticleFormHooks,
-} from '../../../FormikForm/articleFormHooks';
+import { HandleSubmitFunc, LearningResourceFormType, useArticleFormHooks } from '../../../FormikForm/articleFormHooks';
 import usePreventWindowUnload from '../../../FormikForm/preventWindowUnloadHook';
 import { TaxonomyVersionProvider } from '../../../StructureVersion/TaxonomyVersionProvider';
 import {
@@ -88,10 +84,7 @@ const LearningResourceForm = ({
     ndlaId,
   });
   const contexts = useMemo(
-    () =>
-      articleTaxonomy
-        ?.flatMap((node) => node.contexts)
-        .filter((context) => !context.rootId.includes('programme')),
+    () => articleTaxonomy?.flatMap((node) => node.contexts).filter((context) => !context.rootId.includes('programme')),
     [articleTaxonomy],
   );
 
@@ -114,10 +107,7 @@ const LearningResourceForm = ({
     };
   }, [article, initialValues, t]);
 
-  const initialErrors = useMemo(
-    () => validateFormik(initialValues, learningResourceRules, t),
-    [initialValues, t],
-  );
+  const initialErrors = useMemo(() => validateFormik(initialValues, learningResourceRules, t), [initialValues, t]);
 
   return (
     <Formik

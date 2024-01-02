@@ -52,10 +52,7 @@ const StyledFormikField = styled(FormikField)`
 const PodcastSeries = () => {
   const { t, i18n } = useTranslation();
 
-  const searchForSeries = async (
-    query: string,
-    page: number | undefined,
-  ): Promise<SearchResultBase<SeriesType>> => {
+  const searchForSeries = async (query: string, page: number | undefined): Promise<SearchResultBase<SeriesType>> => {
     const searchResult = await searchSeries({
       query,
       page,
@@ -76,10 +73,7 @@ const PodcastSeries = () => {
               <div>
                 <ElementImage element={{ ...field.value, metaImage: field.value.coverPhoto }} />
                 {field.value.id && (
-                  <StyledSafeLink
-                    to={toEditPodcastSeries(field.value.id, i18n.language)}
-                    target="_blank"
-                  >
+                  <StyledSafeLink to={toEditPodcastSeries(field.value.id, i18n.language)} target="_blank">
                     {field.value.title.title}
                   </StyledSafeLink>
                 )}

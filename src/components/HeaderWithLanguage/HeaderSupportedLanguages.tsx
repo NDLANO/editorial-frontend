@@ -28,14 +28,7 @@ interface Props {
   replace?: boolean;
 }
 
-const HeaderSupportedLanguages = ({
-  supportedLanguages = [],
-  id,
-  editUrl,
-  isSubmitting,
-  language,
-  replace,
-}: Props) => {
+const HeaderSupportedLanguages = ({ supportedLanguages = [], id, editUrl, isSubmitting, language, replace }: Props) => {
   const { t } = useTranslation();
   return (
     <>

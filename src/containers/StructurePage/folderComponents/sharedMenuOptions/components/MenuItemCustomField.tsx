@@ -28,11 +28,7 @@ import {
 } from '../../../../../constants';
 import { PROGRAMME, SUBJECT_NODE, TOPIC_NODE } from '../../../../../modules/nodes/nodeApiTypes';
 import { useUpdateNodeMetadataMutation } from '../../../../../modules/nodes/nodeMutations';
-import {
-  getNodeTypeFromNodeId,
-  getRootIdForNode,
-  isRootNode,
-} from '../../../../../modules/nodes/nodeUtil';
+import { getNodeTypeFromNodeId, getRootIdForNode, isRootNode } from '../../../../../modules/nodes/nodeUtil';
 import { useTaxonomyVersion } from '../../../../StructureVersion/TaxonomyVersionProvider';
 import SubjectCategorySelector from '../../subjectMenuOptions/SubjectCategorySelector';
 import SubjectLMASelector from '../../subjectMenuOptions/SubjectLMASelector';
@@ -88,10 +84,7 @@ const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
     TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH,
     TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
   ];
-  const filteredTopicFields = [
-    TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
-    TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH,
-  ];
+  const filteredTopicFields = [TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES, TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH];
 
   const filterHardcodedMetadataValues = () => {
     return Object.entries(customFields).filter(([taxonomyMetadataField, _]) => {
@@ -115,19 +108,14 @@ const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
     <>
       <GroupTopicResources
         node={node}
-        onChanged={(partialMeta) =>
-          onCurrentNodeChanged({ ...node, metadata: { ...node.metadata, ...partialMeta } })
-        }
+        onChanged={(partialMeta) => onCurrentNodeChanged({ ...node, metadata: { ...node.metadata, ...partialMeta } })}
       />
     </>
   );
 
   const subjectSettings = (
     <>
-      <TaxonomyMetadataLanguageSelector
-        customFields={customFields}
-        updateCustomFields={setCustomFields}
-      />
+      <TaxonomyMetadataLanguageSelector customFields={customFields} updateCustomFields={setCustomFields} />
       <SubjectLMASelector customFields={customFields} updateCustomFields={setCustomFields} />
       <SubjectCategorySelector customFields={customFields} updateCustomFields={setCustomFields} />
       <SubjectTypeSelector customFields={customFields} updateCustomFields={setCustomFields} />
@@ -150,12 +138,7 @@ const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
       {filterHardcodedMetadataValues()
         .sort((a, b) => a[0].localeCompare(b[0]))
         .map(([key, value]) => (
-          <CustomFieldComponent
-            key={`unique-${key}`}
-            onSubmit={setCustomFields}
-            initialKey={key}
-            initialVal={value}
-          />
+          <CustomFieldComponent key={`unique-${key}`} onSubmit={setCustomFields} initialKey={key} initialVal={value} />
         ))}
       {isOpen ? (
         <CustomFieldComponent onSubmit={setCustomFields} onClose={() => setOpen(false)} />

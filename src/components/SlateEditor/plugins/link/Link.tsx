@@ -146,14 +146,7 @@ const Link = ({ attributes, editor, element, language, children }: Props) => {
         )}
       </StyledLink>
       <ModalContent>
-        {model && (
-          <EditLink
-            editor={editor}
-            element={element}
-            model={model}
-            closeEditMode={toggleEditMode}
-          />
-        )}
+        {model && <EditLink editor={editor} element={element} model={model} closeEditMode={toggleEditMode} />}
       </ModalContent>
     </Modal>
   );

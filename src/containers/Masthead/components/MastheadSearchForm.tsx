@@ -169,8 +169,7 @@ export const MastheadSearchForm = forwardRef<HTMLInputElement, Props>(
     const handleSubmit = (evt: FormEvent) => {
       evt.preventDefault();
       const isNDLAUrl = isNDLAFrontendUrl(query);
-      const isNodeId =
-        query.length > 2 && /#\d+/g.test(query) && !Number.isNaN(parseFloat(query.substring(1)));
+      const isNodeId = query.length > 2 && /#\d+/g.test(query) && !Number.isNaN(parseFloat(query.substring(1)));
 
       const isTaxonomyId = query.length > 2 && /#urn:(resource|topic)[:\da-fA-F-]+/g.test(query);
 

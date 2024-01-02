@@ -24,11 +24,7 @@ import EditRelated from './EditRelated';
 import { useTaxonomyVersion } from '../../../../containers/StructureVersion/TaxonomyVersionProvider';
 import { fetchDraft } from '../../../../modules/draft/draftApi';
 import { fetchNodes } from '../../../../modules/nodes/nodeApi';
-import {
-  toEditFrontPageArticle,
-  toEditLearningResource,
-  toEditTopicArticle,
-} from '../../../../util/routeHelpers';
+import { toEditFrontPageArticle, toEditLearningResource, toEditTopicArticle } from '../../../../util/routeHelpers';
 import Overlay from '../../../Overlay';
 
 interface Props {
@@ -44,9 +40,7 @@ const ButtonWrapper = styled.div`
   gap: ${spacing.xsmall};
 `;
 
-const externalEmbedToMeta = async (
-  embedData: RelatedContentEmbedData,
-): Promise<RelatedContentMetaData> => {
+const externalEmbedToMeta = async (embedData: RelatedContentEmbedData): Promise<RelatedContentMetaData> => {
   return {
     resource: 'related-content',
     embedData,
@@ -98,11 +92,7 @@ const internalEmbedToMeta = async (
   }
 };
 
-const embedsToMeta = async (
-  embeds: RelatedContentEmbedData[],
-  language: string,
-  taxonomyVersion: string,
-) => {
+const embedsToMeta = async (embeds: RelatedContentEmbedData[], language: string, taxonomyVersion: string) => {
   const promises = embeds.map((embed) => {
     if (embed.articleId) {
       return internalEmbedToMeta(embed, language, taxonomyVersion);
@@ -156,11 +146,7 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
       return;
     }
     const newEmbed: RelatedContentEmbedData = { resource: 'related-content', articleId };
-    const embed = await internalEmbedToMeta(
-      { resource: 'related-content', articleId },
-      i18n.language,
-      taxonomyVersion,
-    );
+    const embed = await internalEmbedToMeta({ resource: 'related-content', articleId }, i18n.language, taxonomyVersion);
     setEmbeds((embeds) => embeds.concat(embed));
     setNodeData(existingNodes.concat(newEmbed));
   };
@@ -207,21 +193,12 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
         headingButtons={
           <ButtonWrapper>
             <Tooltip tooltip={t('form.edit')}>
-              <StyledIconButton
-                onClick={() => setEditMode(true)}
-                aria-label={t('form.edit')}
-                variant="ghost"
-              >
+              <StyledIconButton onClick={() => setEditMode(true)} aria-label={t('form.edit')} variant="ghost">
                 <Pencil />
               </StyledIconButton>
             </Tooltip>
             <Tooltip tooltip={t('delete')}>
-              <StyledIconButton
-                onClick={deleteElement}
-                aria-label={t('delete')}
-                variant="ghost"
-                colorTheme="danger"
-              >
+              <StyledIconButton onClick={deleteElement} aria-label={t('delete')} variant="ghost" colorTheme="danger">
                 <DeleteForever />
               </StyledIconButton>
             </Tooltip>

@@ -44,9 +44,5 @@ export const nullOrUndefined = (metaImageId?: unknown | null | undefined) => {
 export const getSlugFromTitle = (title: string) => {
   const onlySingleSpace = /\s\s+/g;
   const noIllegalCharacters = /[^a-zA-Z0-9- ]/g;
-  return title
-    .replace(onlySingleSpace, ' ')
-    .replace(noIllegalCharacters, '')
-    .trim()
-    .replace(/\s/g, '-');
+  return title.replace(onlySingleSpace, ' ').replace(noIllegalCharacters, '').trim().replace(/\s/g, '-');
 };

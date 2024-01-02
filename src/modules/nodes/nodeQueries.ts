@@ -60,9 +60,7 @@ export const useNode = (params: UseNodeParams, options?: Partial<UseQueryOptions
     queryKey: nodeQueryKeys.node(params),
     queryFn: () => fetchNode(params),
     placeholderData: qc
-      .getQueryData<Node[]>(
-        nodeQueryKeys.nodes({ taxonomyVersion: params.taxonomyVersion, language: params.language }),
-      )
+      .getQueryData<Node[]>(nodeQueryKeys.nodes({ taxonomyVersion: params.taxonomyVersion, language: params.language }))
       ?.find((s) => s.id === params.id),
     ...options,
   });
@@ -122,13 +120,9 @@ const partitionByContentUri = (contentUris: (string | undefined)[]) => {
     );
 };
 
-const fetchNodeResourceMetas = async (
-  params: UseNodeResourceMetas,
-): Promise<NodeResourceMeta[]> => {
+const fetchNodeResourceMetas = async (params: UseNodeResourceMetas): Promise<NodeResourceMeta[]> => {
   const { articleIds, learningpathIds } = partitionByContentUri(params.ids);
-  const articlesPromise = articleIds.length
-    ? fetchDrafts(articleIds, params.language)
-    : Promise.resolve([]);
+  const articlesPromise = articleIds.length ? fetchDrafts(articleIds, params.language) : Promise.resolve([]);
   const learningpathsPromise = learningpathIds.length
     ? fetchLearningpaths(learningpathIds, params.language)
     : Promise.resolve([]);
@@ -229,11 +223,7 @@ interface NodeTreeGetParams extends WithTaxonomyVersion {
   language: string;
 }
 
-const fetchNodeTree = async ({
-  id,
-  language,
-  taxonomyVersion,
-}: NodeTreeGetParams): Promise<NodeTree> => {
+const fetchNodeTree = async ({ id, language, taxonomyVersion }: NodeTreeGetParams): Promise<NodeTree> => {
   const [root, children] = await Promise.all([
     fetchNode({ id, language, taxonomyVersion }),
     fetchChildNodesWithArticleType({
@@ -312,10 +302,7 @@ interface UseSearchNodes extends WithTaxonomyVersion {
   query?: string;
 }
 
-export const useSearchNodes = (
-  params: UseSearchNodes,
-  options?: Partial<UseQueryOptions<SearchResultBase<Node>>>,
-) => {
+export const useSearchNodes = (params: UseSearchNodes, options?: Partial<UseQueryOptions<SearchResultBase<Node>>>) => {
   return useQuery<SearchResultBase<Node>>({
     queryKey: nodeQueryKeys.search(params),
     queryFn: () => searchNodes(params),

@@ -131,12 +131,7 @@ const Navigation = () => {
                       <Menu />
                     </IconButtonV2>
                     <StyledLogoDiv>
-                      <SafeLink
-                        to="/"
-                        aria-label={t('logo.altText')}
-                        title={t('logo.altText')}
-                        reloadDocument
-                      >
+                      <SafeLink to="/" aria-label={t('logo.altText')} title={t('logo.altText')} reloadDocument>
                         <Logo label={t('logo.altText')} />
                       </SafeLink>
                     </StyledLogoDiv>

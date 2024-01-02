@@ -26,11 +26,7 @@ interface Props {
   editModeHandler: EditModeHandler;
 }
 
-const SetResourcesPrimary = ({
-  node,
-  recursive = false,
-  editModeHandler: { editMode, toggleEditMode },
-}: Props) => {
+const SetResourcesPrimary = ({ node, recursive = false, editModeHandler: { editMode, toggleEditMode } }: Props) => {
   const { t } = useTranslation();
   const [error, setError] = useState<string>();
   const { mutateAsync, isPending } = usePutResourcesPrimaryMutation();
@@ -52,9 +48,7 @@ const SetResourcesPrimary = ({
     <>
       <MenuItemButton onClick={toggleConnectedResourcesPrimary}>
         <RoundIcon small icon={<Pencil />} />
-        {recursive
-          ? t('taxonomy.resourcesPrimary.recursiveButtonText')
-          : t('taxonomy.resourcesPrimary.buttonText')}
+        {recursive ? t('taxonomy.resourcesPrimary.recursiveButtonText') : t('taxonomy.resourcesPrimary.buttonText')}
       </MenuItemButton>
       <AlertModal
         title={t('taxonomy.resourcesPrimary.buttonText')}
@@ -71,17 +65,11 @@ const SetResourcesPrimary = ({
           },
         ]}
         onCancel={toggleConnectedResourcesPrimary}
-        text={
-          recursive
-            ? t('taxonomy.resourcesPrimary.recursiveText')
-            : t('taxonomy.resourcesPrimary.text')
-        }
+        text={recursive ? t('taxonomy.resourcesPrimary.recursiveText') : t('taxonomy.resourcesPrimary.text')}
       />
       {isPending && <Spinner appearance="absolute" />}
       {isPending && <Overlay modifiers={['absolute', 'white-opacity', 'zIndex']} />}
-      {error && (
-        <StyledErrorMessage data-testid="inlineEditErrorMessage">{error}</StyledErrorMessage>
-      )}
+      {error && <StyledErrorMessage data-testid="inlineEditErrorMessage">{error}</StyledErrorMessage>}
     </>
   );
 };

@@ -48,9 +48,7 @@ const FrontpageArticlePanels = ({ article, articleLanguage, initialHTML }: Props
         id={'frontpage-article-copyright'}
         title={t('form.copyrightSection')}
         className={'u-6/6'}
-        hasError={
-          !!(errors.creators || errors.rightsholders || errors.processors || errors.license)
-        }
+        hasError={!!(errors.creators || errors.rightsholders || errors.processors || errors.license)}
       >
         <CopyrightFieldGroup />
       </FormAccordion>
@@ -77,11 +75,7 @@ const FrontpageArticlePanels = ({ article, articleLanguage, initialHTML }: Props
           className={'u-6/6'}
           hasError={!!errors.notes}
         >
-          <VersionAndNotesPanel
-            article={article}
-            type="standard"
-            currentLanguage={articleLanguage}
-          />
+          <VersionAndNotesPanel article={article} type="standard" currentLanguage={articleLanguage} />
         </FormAccordion>
       )}
     </FormAccordions>

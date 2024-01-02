@@ -17,10 +17,7 @@ import SearchHighlight from './SearchHighlight';
 import { EditMarkupLink } from '../../../../components/EditMarkupLink';
 import HeaderStatusInformation from '../../../../components/HeaderWithLanguage/HeaderStatusInformation';
 import { DRAFT_HTML_SCOPE, RESOURCE_TYPE_LEARNING_PATH } from '../../../../constants';
-import {
-  getContentTypeFromResourceTypes,
-  resourceToLinkProps,
-} from '../../../../util/resourceHelpers';
+import { getContentTypeFromResourceTypes, resourceToLinkProps } from '../../../../util/resourceHelpers';
 import { isLearningpath, toEditMarkup } from '../../../../util/routeHelpers';
 import { getExpirationDate } from '../../../ArticlePage/articleTransformers';
 import { useSession } from '../../../Session/SessionProvider';
@@ -144,17 +141,12 @@ const SearchContent = ({ content, locale, responsibleName }: Props) => {
           ))}
         </div>
         <SearchHighlight content={content} locale={locale} />
-        {metaDescription !== '' && (
-          <DescriptionTitle>{t('form.name.metaDescription')}</DescriptionTitle>
-        )}
+        {metaDescription !== '' && <DescriptionTitle>{t('form.name.metaDescription')}</DescriptionTitle>}
         <StyledSearchDescription>{metaDescription}</StyledSearchDescription>
         <StyledSearchBreadcrumbs style={{ marginTop: '-25px' }}>
           {contexts && contexts.length > 0 && contexts[0].breadcrumbs ? (
             contexts[0].breadcrumbs.map((breadcrumb) => (
-              <StyledSearchBreadcrumb
-                key={breadcrumb}
-                style={{ marginTop: 'auto', marginBottom: 'auto' }}
-              >
+              <StyledSearchBreadcrumb key={breadcrumb} style={{ marginTop: 'auto', marginBottom: 'auto' }}>
                 {breadcrumb}
               </StyledSearchBreadcrumb>
             ))
@@ -165,12 +157,7 @@ const SearchContent = ({ content, locale, responsibleName }: Props) => {
             id={content.id}
             statusText={statusType()}
             inSearch
-            published={
-              !!(
-                content.status?.current === 'PUBLISHED' ||
-                content.status?.other.includes('PUBLISHED')
-              )
-            }
+            published={!!(content.status?.current === 'PUBLISHED' || content.status?.other.includes('PUBLISHED'))}
             compact
             expirationDate={expirationDate}
             type={content.learningResourceType}

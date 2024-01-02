@@ -22,9 +22,7 @@ const SlugField = ({ name = 'slug' }: Props) => {
   return (
     <>
       <FormikField name={name}>
-        {({ field }: FieldProps) => (
-          <TextArea {...field} white placeholder={t('form.slug.label')} />
-        )}
+        {({ field }: FieldProps) => <TextArea {...field} white placeholder={t('form.slug.label')} />}
       </FormikField>
     </>
   );

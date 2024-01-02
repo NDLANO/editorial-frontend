@@ -50,10 +50,7 @@ const normalizerConfig: NormalizerConfig = {
 export const framedContentSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: (Descendant | null)[]) {
     if (el.tagName.toLowerCase() !== 'div') return;
-    if (
-      el.className === 'c-bodybox' ||
-      el.attributes.getNamedItem('data-type')?.value === 'framed-content'
-    ) {
+    if (el.className === 'c-bodybox' || el.attributes.getNamedItem('data-type')?.value === 'framed-content') {
       return slatejsx('element', { type: TYPE_FRAMED_CONTENT }, children);
     }
   },

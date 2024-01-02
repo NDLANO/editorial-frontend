@@ -36,14 +36,7 @@ const GlossDataSection = () => {
         {({ field }) => (
           <FieldSection>
             <StyledFormikField name={`${field.name}.gloss`}>
-              {({ field }) => (
-                <Input
-                  placeholder={t('form.gloss.gloss')}
-                  type="text"
-                  value={field.value}
-                  {...field}
-                />
-              )}
+              {({ field }) => <Input placeholder={t('form.gloss.gloss')} type="text" value={field.value} {...field} />}
             </StyledFormikField>
             <StyledFormikField name={`${field.name}.wordClass`}>
               {({ field }) => (

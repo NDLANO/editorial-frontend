@@ -26,12 +26,7 @@ import { useNodes } from '../../../modules/nodes/nodeQueries';
 import { useSearch } from '../../../modules/search/searchQueries';
 import { toSearch } from '../../../util/routeHelpers';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
-import {
-  ControlWrapperDashboard,
-  StyledDashboardInfo,
-  StyledLink,
-  StyledTopRowDashboardInfo,
-} from '../styles';
+import { ControlWrapperDashboard, StyledDashboardInfo, StyledLink, StyledTopRowDashboardInfo } from '../styles';
 
 const EXCLUDE_STATUSES = [PUBLISHED, UNPUBLISHED, ARCHIVED];
 
@@ -41,12 +36,9 @@ const getResultAggregationList = (
   responibleSearchResult: IMultiSearchResult | undefined,
 ) => {
   const aggData = searchResult?.aggregations.find((a) => a.field === 'draftStatus.current');
-  const aggDataExcludeStatuses =
-    aggData?.values.filter((v) => !EXCLUDE_STATUSES.includes(v.value)) ?? [];
+  const aggDataExcludeStatuses = aggData?.values.filter((v) => !EXCLUDE_STATUSES.includes(v.value)) ?? [];
 
-  const responsibleAggData = responibleSearchResult?.aggregations.find(
-    (a) => a.field === 'draftStatus.current',
-  );
+  const responsibleAggData = responibleSearchResult?.aggregations.find((a) => a.field === 'draftStatus.current');
   const responsibleAggDataExcludeStatuses =
     responsibleAggData?.values.filter((v) => !EXCLUDE_STATUSES.includes(v.value)) ?? [];
 
@@ -180,8 +172,8 @@ const LMASubjects = ({ ndlaId }: Props) => {
             tableTitleList={tableTitles}
             tableData={tableData}
             error={error}
-            noResultsText={`${t('welcomePage.noResultsLMASubjects')}: ${EXCLUDE_STATUSES.map(
-              (status) => t(`form.status.actions.${status}`),
+            noResultsText={`${t('welcomePage.noResultsLMASubjects')}: ${EXCLUDE_STATUSES.map((status) =>
+              t(`form.status.actions.${status}`),
             ).join(', ')}`}
           />
         </StyledDashboardInfo>

@@ -37,10 +37,7 @@ const PodcastEpisodes = () => {
     setFieldValue('episodes', eps);
   };
 
-  const searchForPodcasts = async (
-    input: string,
-    page?: number,
-  ): Promise<IAudioSummarySearchResult> => {
+  const searchForPodcasts = async (input: string, page?: number): Promise<IAudioSummarySearchResult> => {
     const searchResult = await searchAudio({
       query: input,
       page,
@@ -74,10 +71,7 @@ const PodcastEpisodes = () => {
 
   return (
     <>
-      <FieldHeader
-        title={t('form.podcastEpisodesSection')}
-        subTitle={t('form.podcastEpisodesTypeName')}
-      />
+      <FieldHeader title={t('form.podcastEpisodesSection')} subTitle={t('form.podcastEpisodesTypeName')} />
       <ElementList
         elements={elements}
         isOrderable={false}

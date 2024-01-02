@@ -33,10 +33,7 @@ const ToggleProgrammeSubject = ({ customFields, updateFields }: Props) => {
     <>
       <StyledMenuItemEditField>
         <RoundIcon open small />
-        <StyledMenuItemInputField
-          placeholder={t('taxonomy.metadata.customFields.programmeSubject')}
-          disabled
-        />
+        <StyledMenuItemInputField placeholder={t('taxonomy.metadata.customFields.programmeSubject')} disabled />
         <Switch
           onChange={() =>
             updateFields({

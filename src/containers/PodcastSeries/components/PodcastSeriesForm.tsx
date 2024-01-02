@@ -104,10 +104,7 @@ const PodcastSeriesForm = ({
 
   const isAudioAdmin = !!userPermissions?.includes(AUDIO_ADMIN_SCOPE);
 
-  const handleSubmit = async (
-    values: PodcastSeriesFormikType,
-    actions: FormikHelpers<PodcastSeriesFormikType>,
-  ) => {
+  const handleSubmit = async (values: PodcastSeriesFormikType, actions: FormikHelpers<PodcastSeriesFormikType>) => {
     if (
       values.title === undefined ||
       values.language === undefined ||
@@ -138,10 +135,7 @@ const PodcastSeriesForm = ({
     setSavedToServer(true);
   };
 
-  const validateMetaImage = ([width, height]: [
-    number,
-    number,
-  ]): FormikErrors<PodcastSeriesFormikType> => {
+  const validateMetaImage = ([width, height]: [number, number]): FormikErrors<PodcastSeriesFormikType> => {
     if (width !== height) {
       return { coverPhotoId: t('validation.podcastImageShape') };
     } else if (width < ITUNES_STANDARD_MINIMUM_WIDTH || width > ITUNES_STANDARD_MAXIMUM_WIDTH) {
@@ -191,9 +185,7 @@ const PodcastSeriesForm = ({
                 id="podcast-series-podcastmeta"
                 title={t('form.podcastSeriesSection')}
                 className="u-4/6@desktop u-push-1/6@desktop"
-                hasError={['title', 'coverPhotoId', 'metaImageAlt'].some(
-                  (field) => field in errors,
-                )}
+                hasError={['title', 'coverPhotoId', 'metaImageAlt'].some((field) => field in errors)}
               >
                 <PodcastSeriesMetaData
                   language={language}
@@ -207,9 +199,7 @@ const PodcastSeriesForm = ({
                 id="podcast-series-podcastepisodes"
                 title={t('form.podcastEpisodesSection')}
                 className={'u-6/6'}
-                hasError={['title', 'coverPhotoId', 'metaImageAlt'].some(
-                  (field) => field in errors,
-                )}
+                hasError={['title', 'coverPhotoId', 'metaImageAlt'].some((field) => field in errors)}
               >
                 <PodcastEpisodes />
               </FormAccordion>

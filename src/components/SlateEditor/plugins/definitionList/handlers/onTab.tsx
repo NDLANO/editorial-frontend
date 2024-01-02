@@ -43,10 +43,7 @@ const onTab = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEven
           },
           { at: currentItemPath },
         );
-      } else if (
-        Element.isElement(currentItemNode) &&
-        currentItemNode.type === TYPE_DEFINITION_TERM
-      ) {
+      } else if (Element.isElement(currentItemNode) && currentItemNode.type === TYPE_DEFINITION_TERM) {
         Transforms.setNodes(
           editor,
           {

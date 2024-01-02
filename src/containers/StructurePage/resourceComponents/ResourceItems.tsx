@@ -21,10 +21,7 @@ import AlertModal from '../../../components/AlertModal';
 import DndList from '../../../components/DndList';
 import { DragHandle } from '../../../components/DraggableItem';
 import { Auth0UserData, Dictionary } from '../../../interfaces';
-import {
-  useDeleteResourceForNodeMutation,
-  usePutResourceForNodeMutation,
-} from '../../../modules/nodes/nodeMutations';
+import { useDeleteResourceForNodeMutation, usePutResourceForNodeMutation } from '../../../modules/nodes/nodeMutations';
 import { NodeResourceMeta, nodeQueryKeys } from '../../../modules/nodes/nodeQueries';
 import handleError from '../../../util/handleError';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
@@ -54,13 +51,7 @@ interface Props {
 
 const isError = (error: unknown): error is Error => (error as Error).message !== undefined;
 
-const ResourceItems = ({
-  resources,
-  currentNodeId,
-  contentMeta,
-  contentMetaLoading,
-  users,
-}: Props) => {
+const ResourceItems = ({ resources, currentNodeId, contentMeta, contentMetaLoading, users }: Props) => {
   const { t, i18n } = useTranslation();
   const [deleteId, setDeleteId] = useState<string>('');
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -110,10 +101,7 @@ const ResourceItems = ({
   };
 
   const onDragEnd = async ({ active, over }: DragEndEvent) => {
-    const [source, dest] = [
-      resources[active.data.current?.index],
-      resources[over?.data.current?.index],
-    ];
+    const [source, dest] = [resources[active.data.current?.index], resources[over?.data.current?.index]];
     if (!dest || !source || source.rank === dest.rank) return;
 
     await updateNodeResource({
@@ -144,10 +132,7 @@ const ResourceItems = ({
         }
         renderItem={(resource) => (
           <Resource
-            responsible={
-              users?.[contentMeta[resource.contentUri ?? '']?.responsible?.responsibleId ?? '']
-                ?.name
-            }
+            responsible={users?.[contentMeta[resource.contentUri ?? '']?.responsible?.responsibleId ?? '']?.name}
             currentNodeId={currentNodeId}
             resource={{
               ...resource,

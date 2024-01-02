@@ -66,11 +66,7 @@ interface Props {
   close: () => void;
 }
 
-const onCheckboxChange = (
-  value: string,
-  updateFunction: (val: string[]) => void,
-  selectedElements: string[],
-): void => {
+const onCheckboxChange = (value: string, updateFunction: (val: string[]) => void, selectedElements: string[]): void => {
   const updatedSelectedExamples = selectedElements.includes(value)
     ? selectedElements.filter((el) => el !== value)
     : [...selectedElements, value];
@@ -78,32 +74,19 @@ const onCheckboxChange = (
   updateFunction(updatedSelectedExamples);
 };
 
-const getInitialStateSelectedExamples = (
-  exampleIds: string | undefined,
-  examples: IGlossExample[][],
-): string[] => {
+const getInitialStateSelectedExamples = (exampleIds: string | undefined, examples: IGlossExample[][]): string[] => {
   if (exampleIds) return exampleIds.split(',');
   else if (exampleIds === undefined) return generateNumbersArray(examples.length);
   else return [];
 };
 
-const getInitialStateSelectedLanguages = (
-  exampleLangs: string | undefined,
-  examples: IGlossExample[][],
-): string[] => {
+const getInitialStateSelectedLanguages = (exampleLangs: string | undefined, examples: IGlossExample[][]): string[] => {
   if (exampleLangs) return exampleLangs.split(',');
   else if (exampleLangs === undefined) return generateUniqueGlossLanguageArray(examples);
   else return [];
 };
 
-const EditGlossExamplesModalContent = ({
-  originalLanguage,
-  examples,
-  editor,
-  element,
-  embed,
-  close,
-}: Props) => {
+const EditGlossExamplesModalContent = ({ originalLanguage, examples, editor, element, embed, close }: Props) => {
   const { t } = useTranslation();
   const [selectedExamples, setSelectedExamples] = useState<string[]>(
     getInitialStateSelectedExamples(embed.embedData.exampleIds, examples),

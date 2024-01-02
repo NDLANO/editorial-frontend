@@ -26,11 +26,6 @@ test('typescript: convertFieldWithFallback converts string[] fields', () => {
 });
 
 test('typescript: convertFieldWithFallback falls back if wrong language', () => {
-  const obj = convertFieldWithFallback<'tags', string[]>(
-    article,
-    'tags',
-    ['english', 'tags'],
-    'en',
-  );
+  const obj = convertFieldWithFallback<'tags', string[]>(article, 'tags', ['english', 'tags'], 'en');
   expect(obj).toEqual(['english', 'tags']);
 });

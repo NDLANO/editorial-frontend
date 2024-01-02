@@ -31,10 +31,7 @@ export const postImage = (formData: FormData): Promise<IImageMetaInformationV3> 
     body: formData,
   }).then((r) => resolveJsonOrRejectWithError<IImageMetaInformationV3>(r));
 
-export const fetchImage = (
-  id: number | string,
-  language?: string,
-): Promise<IImageMetaInformationV3> =>
+export const fetchImage = (id: number | string, language?: string): Promise<IImageMetaInformationV3> =>
   fetchAuthorized(`${baseUrl}/${id}?language=${language}`).then((r) =>
     resolveJsonOrRejectWithError<IImageMetaInformationV3>(r),
   );
@@ -61,20 +58,12 @@ export const onError = (err: Response & Error) => {
   throwErrorPayload(err.status, err.message ?? err.statusText, err);
 };
 
-export const deleteLanguageVersionImage = (
-  imageId: number,
-  locale: string,
-): Promise<IImageMetaInformationV3 | void> =>
+export const deleteLanguageVersionImage = (imageId: number, locale: string): Promise<IImageMetaInformationV3 | void> =>
   fetchAuthorized(`${baseUrl}/${imageId}/language/${locale}`, {
     method: 'DELETE',
   }).then((r) => resolveJsonOrVoidOrRejectWithError(r));
 
-export const fetchSearchTags = async (
-  input: string,
-  language: string,
-): Promise<ITagsSearchResult> => {
-  const response = await fetchAuthorized(
-    `${baseUrl}/tag-search/?language=${language}&query=${input}`,
-  );
+export const fetchSearchTags = async (input: string, language: string): Promise<ITagsSearchResult> => {
+  const response = await fetchAuthorized(`${baseUrl}/tag-search/?language=${language}&query=${input}`);
   return resolveJsonOrRejectWithError(response);
 };

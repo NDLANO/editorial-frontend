@@ -86,14 +86,7 @@ interface Props {
   commentsOpen: boolean[];
 }
 
-const Comment = ({
-  comments,
-  setComments,
-  onDelete,
-  index,
-  setCommentsOpen,
-  commentsOpen,
-}: Props) => {
+const Comment = ({ comments, setComments, onDelete, index, setCommentsOpen, commentsOpen }: Props) => {
   const { t } = useTranslation();
   const comment = comments[index];
 
@@ -114,9 +107,7 @@ const Comment = ({
 
   const toggleOpen = (value?: boolean) => {
     const _open = value !== undefined ? value : !open;
-    const updatedCommentsOpen: boolean[] = commentsOpen?.map((c: boolean, i: number) =>
-      i === index ? _open : c,
-    );
+    const updatedCommentsOpen: boolean[] = commentsOpen?.map((c: boolean, i: number) => (i === index ? _open : c));
     setCommentsOpen(updatedCommentsOpen);
     const updatedComments = comments.map((c, i) => (index === i ? { ...c, isOpen: _open } : c));
     setComments(updatedComments);
@@ -124,9 +115,7 @@ const Comment = ({
 
   const focusUpdate = (focus: boolean) => {
     if (!focus) {
-      const updatedComments = comments.map((c, i) =>
-        i === index ? { ...c, content: inputValue } : c,
-      );
+      const updatedComments = comments.map((c, i) => (i === index ? { ...c, content: inputValue } : c));
       setComments(updatedComments);
     }
   };

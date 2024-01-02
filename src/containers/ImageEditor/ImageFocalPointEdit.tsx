@@ -11,12 +11,7 @@ import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { colors } from '@ndla/core';
 import { ImageEmbed } from '../../interfaces';
-import {
-  getElementOffset,
-  getClientPos,
-  getImageDimensions,
-  getSrcSets,
-} from '../../util/imageEditorUtil';
+import { getElementOffset, getClientPos, getImageDimensions, getSrcSets } from '../../util/imageEditorUtil';
 
 const StyledFocalPointButton = styled(ButtonV2)`
   display: block;
@@ -92,12 +87,8 @@ const ImageFocalPointEdit = ({ embed, language, onFocalPointChange, transformDat
     const dimensions = getImageDimensions(target);
     let x, y;
     if (transformData) {
-      x = transformData['focal-x']
-        ? (parseInt(transformData['focal-x']) / 100) * dimensions.current.width
-        : undefined;
-      y = transformData['focal-y']
-        ? (parseInt(transformData['focal-y']) / 100) * dimensions.current.height
-        : undefined;
+      x = transformData['focal-x'] ? (parseInt(transformData['focal-x']) / 100) * dimensions.current.width : undefined;
+      y = transformData['focal-y'] ? (parseInt(transformData['focal-y']) / 100) * dimensions.current.height : undefined;
     }
     setMarker({
       showMarker: (x !== undefined && y !== undefined) || false,

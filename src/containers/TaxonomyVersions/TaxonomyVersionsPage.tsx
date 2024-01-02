@@ -44,9 +44,7 @@ const DangerZone = styled.div`
   justify-content: space-between;
 `;
 
-const getPublishedAndOther = (
-  versions: Version[],
-): { published: Version | undefined; other: Version[] } => {
+const getPublishedAndOther = (versions: Version[]): { published: Version | undefined; other: Version[] } => {
   const [published, other] = partition(versions, (v) => v.versionType === 'PUBLISHED');
   return {
     published: published[0],
@@ -74,9 +72,7 @@ const TaxonomyVersionsPage = () => {
         <h1>{t('taxonomyVersions.title')}</h1>
         <Row alignItems="center">
           <p>{t('taxonomyVersions.about')}</p>
-          <ButtonV2 onClick={() => setShowNewForm((prev) => !prev)}>
-            {t('taxonomyVersions.newVersionButton')}
-          </ButtonV2>
+          <ButtonV2 onClick={() => setShowNewForm((prev) => !prev)}>{t('taxonomyVersions.newVersionButton')}</ButtonV2>
         </Row>
         {showNewForm && (
           <FormSpacingWrapper>

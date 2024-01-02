@@ -38,10 +38,7 @@ export const conf = {
       action: { indentAction: _monaco.languages.IndentAction.IndentOutdent },
     },
     {
-      beforeText: new RegExp(
-        '<(?!(?:' + EMPTY_ELEMENTS.join('|') + '))(\\w[\\w\\d]*)([^/>]*(?!/)>)[^<]*$',
-        'i',
-      ),
+      beforeText: new RegExp('<(?!(?:' + EMPTY_ELEMENTS.join('|') + '))(\\w[\\w\\d]*)([^/>]*(?!/)>)[^<]*$', 'i'),
       action: { indentAction: _monaco.languages.IndentAction.Indent },
     },
   ],
@@ -61,15 +58,9 @@ function createLanguage(VALID_TAGS) {
     tokenizer: {
       root: [
         [/(<)((?:[\w-]+:)?[\w-]+)(\s*)(\/>)/, ['delimiter', 'tag', '', 'delimiter']],
-        [
-          new RegExp('(<)(' + VALID_TAGS.join('|') + ')'),
-          ['delimiter', { token: 'tag', next: '@otherTag' }],
-        ],
+        [new RegExp('(<)(' + VALID_TAGS.join('|') + ')'), ['delimiter', { token: 'tag', next: '@otherTag' }]],
         [/(<)((?:[\w-]+:)?[\w-]+)/, ['delimiter', { token: 'invalidtag', next: '@otherTag' }]],
-        [
-          new RegExp('(</)(' + VALID_TAGS.join('|') + ')'),
-          ['delimiter', { token: 'tag', next: '@otherTag' }],
-        ],
+        [new RegExp('(</)(' + VALID_TAGS.join('|') + ')'), ['delimiter', { token: 'tag', next: '@otherTag' }]],
         [/(<\/)((?:[\w-]+:)?[\w-]+)/, ['delimiter', { token: 'invalidtag', next: '@otherTag' }]],
         [/</, 'delimiter'],
         [/[^<]+/],

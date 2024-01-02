@@ -112,16 +112,7 @@ interface Props {
   show?: boolean;
 }
 
-const AlertModal = ({
-  text,
-  onCancel,
-  title,
-  actions,
-  component,
-  show,
-  label,
-  severity = 'danger',
-}: Props) => {
+const AlertModal = ({ text, onCancel, title, actions, component, show, label, severity = 'danger' }: Props) => {
   const { t } = useTranslation();
   const focusedElementBeforeModalRef = useRef<HTMLElement | null>(null);
 

@@ -81,15 +81,9 @@ const App = () => {
                   <Route path="/" element={<WelcomePage />} />
                   <Route path="login/*" element={<Login />} />
                   <Route path="logout/*" element={<Logout />} />
-                  <Route
-                    path="/subjectpage/*"
-                    element={<PrivateRoute component={<Subjectpage />} />}
-                  />
+                  <Route path="/subjectpage/*" element={<PrivateRoute component={<Subjectpage />} />} />
                   <Route path="search/*" element={<PrivateRoute component={<SearchPage />} />} />
-                  <Route
-                    path="subject-matter/*"
-                    element={<PrivateRoute component={<SubjectMatterPage />} />}
-                  />
+                  <Route path="subject-matter/*" element={<PrivateRoute component={<SubjectMatterPage />} />} />
                   <Route
                     path="/edit-markup/:draftId/:language/*"
                     element={<PrivateRoute component={<EditMarkupPage />} />}
@@ -100,30 +94,12 @@ const App = () => {
                   <Route path="/media/*" element={<PrivateRoute component={<MediaPage />} />} />
                   <Route path="/film/*" element={<PrivateRoute component={<NdlaFilm />} />} />
                   <Route path="/h5p/*" element={<PrivateRoute component={<H5PPage />} />} />
-                  <Route
-                    path="/structure/*"
-                    element={<PrivateRoute component={<StructurePage />} />}
-                  />
-                  <Route
-                    path="/programme/*"
-                    element={<PrivateRoute component={<ProgrammePage />} />}
-                  />
-                  <Route
-                    path="/taxonomyVersions/*"
-                    element={<PrivateRoute component={<TaxonomyVersionsPage />} />}
-                  />
-                  <Route
-                    path="/publishRequests/*"
-                    element={<PrivateRoute component={<PublishRequestsPage />} />}
-                  />
-                  <Route
-                    path="/nodeDiff/:nodeId"
-                    element={<PrivateRoute component={<NodeDiffPage />} />}
-                  />
-                  <Route
-                    path="/frontpage/"
-                    element={<PrivateRoute component={<FrontpageEditPage />} />}
-                  />
+                  <Route path="/structure/*" element={<PrivateRoute component={<StructurePage />} />} />
+                  <Route path="/programme/*" element={<PrivateRoute component={<ProgrammePage />} />} />
+                  <Route path="/taxonomyVersions/*" element={<PrivateRoute component={<TaxonomyVersionsPage />} />} />
+                  <Route path="/publishRequests/*" element={<PrivateRoute component={<PublishRequestsPage />} />} />
+                  <Route path="/nodeDiff/:nodeId" element={<PrivateRoute component={<NodeDiffPage />} />} />
+                  <Route path="/frontpage/" element={<PrivateRoute component={<FrontpageEditPage />} />} />
                   <Route path="/forbidden" element={<ForbiddenPage />} />
                   <Route path="*" element={<NotFoundPage />} />
                 </Routes>

@@ -24,10 +24,7 @@ const SlideshowEditor = ({ onUpdateSlideshow, fieldName }: Props) => {
 
   return (
     <>
-      <FieldHeader
-        title={t('ndlaFilm.editor.slideshowTitle')}
-        subTitle={t('ndlaFilm.editor.slideshowSubTitle')}
-      />
+      <FieldHeader title={t('ndlaFilm.editor.slideshowTitle')} subTitle={t('ndlaFilm.editor.slideshowSubTitle')} />
       <ThemeMovies
         movies={slideshowMovies}
         onMoviesUpdated={(movies) => onUpdateSlideshow(field, form, movies)}

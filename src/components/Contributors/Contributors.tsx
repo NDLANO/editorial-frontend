@@ -90,9 +90,7 @@ const Contributors = ({
 
   const contributorTypeItems = contributorGroups[name].map((item: string) => ({
     type: item,
-    translation: contributorTypes[locale]
-      ? contributorTypes[locale][item]
-      : contributorTypes.nb[item],
+    translation: contributorTypes[locale] ? contributorTypes[locale][item] : contributorTypes.nb[item],
   }));
 
   return (
@@ -114,12 +112,7 @@ const Contributors = ({
       {showError && value.length === 0 && errorMessages.length > 0 && (
         <StyledFormWarningText>{errorMessages[0]}</StyledFormWarningText>
       )}
-      <ButtonV2
-        variant="outline"
-        onClick={addContributor}
-        data-testid="addContributor"
-        disabled={disabled}
-      >
+      <ButtonV2 variant="outline" onClick={addContributor} data-testid="addContributor" disabled={disabled}>
         {t('form.contributor.add')}
       </ButtonV2>
     </div>

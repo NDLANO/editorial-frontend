@@ -51,11 +51,7 @@ export const headingSerializer: SlateSerializer = {
   },
 };
 
-const onEnter = (
-  e: KeyboardEvent,
-  editor: Editor,
-  nextOnKeyDown?: (event: KeyboardEvent) => void,
-) => {
+const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: KeyboardEvent) => void) => {
   if (hasNodeOfType(editor, TYPE_HEADING)) {
     e.preventDefault();
     Transforms.insertNodes(editor, slatejsx('element', { type: TYPE_PARAGRAPH }, [{ text: '' }]));
@@ -64,21 +60,14 @@ const onEnter = (
   return nextOnKeyDown && nextOnKeyDown(e);
 };
 
-const onBackspace = (
-  e: KeyboardEvent,
-  editor: Editor,
-  nextOnKeyDown?: (event: KeyboardEvent) => void,
-) => {
+const onBackspace = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: KeyboardEvent) => void) => {
   if (hasNodeOfType(editor, TYPE_HEADING)) {
     if (Range.isRange(editor.selection)) {
       if (e.ctrlKey) {
         e.preventDefault();
         editor.deleteBackward('word');
         // Replace heading with paragraph if last character is removed
-        if (
-          hasNodeOfType(editor, 'heading') &&
-          Editor.string(editor, editor.selection.anchor.path) === ''
-        ) {
+        if (hasNodeOfType(editor, 'heading') && Editor.string(editor, editor.selection.anchor.path) === '') {
           Transforms.unwrapNodes(editor, {
             match: (node) => Element.isElement(node) && node.type === 'heading',
           });

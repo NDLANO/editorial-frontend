@@ -69,9 +69,7 @@ const RequestNodePublish = ({ node, rootNodeId }: Props) => {
     return button;
   }
 
-  return (
-    <Tooltip tooltip={t('taxonomy.metadata.customFields.requestVersionError')}>{button}</Tooltip>
-  );
+  return <Tooltip tooltip={t('taxonomy.metadata.customFields.requestVersionError')}>{button}</Tooltip>;
 };
 
 export default RequestNodePublish;

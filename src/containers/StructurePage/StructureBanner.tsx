@@ -71,13 +71,8 @@ const StructureBanner = ({ onChange, checked, nodeType }: Props) => {
               </AddSubjectButton>
             </ModalTrigger>
             <ModalContent position="top">
-              <TaxonomyLightbox
-                title={t('taxonomy.addNode', { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
-              >
-                <AddNodeModalContent
-                  onClose={() => setAddSubjectModalOpen(false)}
-                  nodeType={nodeType}
-                />
+              <TaxonomyLightbox title={t('taxonomy.addNode', { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}>
+                <AddNodeModalContent onClose={() => setAddSubjectModalOpen(false)} nodeType={nodeType} />
               </TaxonomyLightbox>
             </ModalContent>
           </Modal>

@@ -14,15 +14,7 @@ import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
 import { Pencil } from '@ndla/icons/action';
 import { DeleteForever } from '@ndla/icons/editor';
-import {
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalTitle,
-  ModalTrigger,
-} from '@ndla/modal';
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from '@ndla/modal';
 import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import { ContactBlockEmbedData } from '@ndla/types-embed';
 import { ContactBlock } from '@ndla/ui';
@@ -104,8 +96,7 @@ const SlateContactBlock = ({ element, editor, attributes, children }: Props) => 
     }
   }, [contactBlock?.imageId, setImage]);
 
-  const handleRemove = () =>
-    Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true });
+  const handleRemove = () => Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true });
 
   return (
     <Modal open={isEditing} onOpenChange={setIsEditing}>

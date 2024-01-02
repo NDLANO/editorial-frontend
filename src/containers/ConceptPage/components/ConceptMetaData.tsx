@@ -49,25 +49,10 @@ const ConceptMetaData = ({ subjects, fetchTags, inModal, language }: Props) => {
           )}
         </FormikField>
       )}
-      <FormikField
-        name="subjects"
-        label={t('form.subjects.label')}
-        description={t('form.concept.subjects')}
-      >
-        {({ field }) => (
-          <MultiSelectDropdown
-            labelField="name"
-            minSearchLength={1}
-            initialData={subjects}
-            {...field}
-          />
-        )}
+      <FormikField name="subjects" label={t('form.subjects.label')} description={t('form.concept.subjects')}>
+        {({ field }) => <MultiSelectDropdown labelField="name" minSearchLength={1} initialData={subjects} {...field} />}
       </FormikField>
-      <FormikField
-        name="tags"
-        label={t('form.categories.label')}
-        description={t('form.categories.description')}
-      >
+      <FormikField name="tags" label={t('form.categories.label')} description={t('form.categories.description')}>
         {({ field, form }) => (
           <AsyncSearchTags
             multiSelect

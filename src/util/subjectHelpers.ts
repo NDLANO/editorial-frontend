@@ -14,18 +14,13 @@ import {
   IUpdatedSubjectFrontPageData,
 } from '@ndla/types-backend/frontpage-api';
 import { ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
-import {
-  editorValueToEmbed,
-  editorValueToPlainText,
-  plainTextToEditorValue,
-} from './articleContentConverter';
+import { editorValueToEmbed, editorValueToPlainText, plainTextToEditorValue } from './articleContentConverter';
 import { convertVisualElement } from './ndlaFilmHelpers';
 import { BrightcoveEmbed, ImageEmbed } from '../interfaces';
 
 export const getIdFromUrn = (urnId: string | undefined) => urnId?.replace('urn:frontpage:', '');
 
-export const getUrnFromId = (id?: number | string): string | undefined =>
-  id ? `urn:frontpage:${id}` : undefined;
+export const getUrnFromId = (id?: number | string): string | undefined => (id ? `urn:frontpage:${id}` : undefined);
 
 export interface SubjectPageFormikType {
   id?: number;
@@ -80,9 +75,7 @@ export const subjectpageFormikTypeToPostType = (
     editorsChoices: editorsChoicesUrns,
     metaDescription: [
       {
-        metaDescription: values.metaDescription
-          ? editorValueToPlainText(values.metaDescription)
-          : '',
+        metaDescription: values.metaDescription ? editorValueToPlainText(values.metaDescription) : '',
         language: values.language,
       },
     ],
@@ -102,9 +95,7 @@ export const subjectpageApiTypeToFormikType = (
 ): SubjectPageFormikType => {
   const visualElement = subjectpage?.about?.visualElement;
 
-  const embed = visualElement
-    ? convertVisualElement({ ...visualElement, alt: visualElement.alt ?? '' })
-    : undefined;
+  const embed = visualElement ? convertVisualElement({ ...visualElement, alt: visualElement.alt ?? '' }) : undefined;
   return {
     articleType: elementId.includes('subject') ? 'subjectpage' : 'programme',
     supportedLanguages: subjectpage?.supportedLanguages ?? [],

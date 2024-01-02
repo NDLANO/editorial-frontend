@@ -14,10 +14,7 @@ import { UseQueryResult } from '@tanstack/react-query';
 import { Search } from '@ndla/icons/common';
 import Pager from '@ndla/pager';
 import { HelmetWithTracker } from '@ndla/tracker';
-import {
-  IAudioSummarySearchResult,
-  ISeriesSummarySearchResult,
-} from '@ndla/types-backend/audio-api';
+import { IAudioSummarySearchResult, ISeriesSummarySearchResult } from '@ndla/types-backend/audio-api';
 import { IConceptSearchResult } from '@ndla/types-backend/concept-api';
 import { ISearchResultV3 } from '@ndla/types-backend/image-api';
 import { IMultiSearchResult } from '@ndla/types-backend/search-api';
@@ -100,9 +97,7 @@ const SearchContainer = ({ searchHook, type }: Props) => {
     onQueryPush({ ...searchObject, sort, page: 1 });
   };
 
-  const lastPage = results?.totalCount
-    ? Math.ceil(results?.totalCount / (results.pageSize ?? 1))
-    : 1;
+  const lastPage = results?.totalCount ? Math.ceil(results?.totalCount / (results.pageSize ?? 1)) : 1;
 
   return (
     <>
@@ -139,12 +134,7 @@ const SearchContainer = ({ searchHook, type }: Props) => {
           subjects={subjects}
           error={!!searchError}
         />
-        <Pager
-          page={searchObject.page ?? 1}
-          lastPage={lastPage}
-          query={searchObject}
-          onClick={onQueryPush}
-        />
+        <Pager page={searchObject.page ?? 1} lastPage={lastPage} query={searchObject} onClick={onQueryPush} />
       </OneColumn>
     </>
   );

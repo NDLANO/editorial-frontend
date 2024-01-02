@@ -11,15 +11,7 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { FieldHeader } from '@ndla/forms';
-import {
-  ModalHeader,
-  ModalBody,
-  ModalCloseButton,
-  Modal,
-  ModalTitle,
-  ModalTrigger,
-  ModalContent,
-} from '@ndla/modal';
+import { ModalHeader, ModalBody, ModalCloseButton, Modal, ModalTitle, ModalTrigger, ModalContent } from '@ndla/modal';
 import { Switch } from '@ndla/switch';
 import { Node, NodeChild } from '@ndla/types-taxonomy';
 import ActiveTopicConnections from './ActiveTopicConnections';
@@ -58,8 +50,7 @@ const TopicConnections = ({
   const [favoriteSubjectIds, setFavoriteSubjectIds] = useState<string[]>([]);
 
   const nodes = useMemo(
-    () =>
-      showFavorites ? structure.filter((node) => favoriteSubjectIds.includes(node.id)) : structure,
+    () => (showFavorites ? structure.filter((node) => favoriteSubjectIds.includes(node.id)) : structure),
     [favoriteSubjectIds, showFavorites, structure],
   );
 

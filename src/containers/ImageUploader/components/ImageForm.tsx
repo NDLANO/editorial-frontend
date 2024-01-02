@@ -13,11 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
-import {
-  IImageMetaInformationV3,
-  INewImageMetaInformationV2,
-  ILicense,
-} from '@ndla/types-backend/image-api';
+import { IImageMetaInformationV3, INewImageMetaInformationV2, ILicense } from '@ndla/types-backend/image-api';
 import ImageContent from './ImageContent';
 import ImageCopyright from './ImageCopyright';
 import ImageMetaData from './ImageMetaData';
@@ -190,8 +186,7 @@ const ImageForm = ({
           dirty,
           changed: isNewLanguage,
         });
-        const hasError = (errorFields: ImageFormErrorFields[]): boolean =>
-          errorFields.some((field) => !!errors[field]);
+        const hasError = (errorFields: ImageFormErrorFields[]): boolean => errorFields.some((field) => !!errors[field]);
         return (
           <FormWrapper inModal={inModal}>
             <HeaderWithLanguage
@@ -241,11 +236,7 @@ const ImageForm = ({
                   {t('form.abort')}
                 </ButtonV2>
               ) : (
-                <ButtonV2
-                  variant="outline"
-                  disabled={isSubmitting || isSaving}
-                  onClick={() => navigate(-1)}
-                >
+                <ButtonV2 variant="outline" disabled={isSubmitting || isSaving} onClick={() => navigate(-1)}>
                   {t('form.abort')}
                 </ButtonV2>
               )}

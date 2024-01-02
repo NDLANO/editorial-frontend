@@ -74,11 +74,7 @@ const ImageSearchAndUploader = ({
               noResults={
                 <>
                   <StyledTitleDiv>{t('imageSearch.noResultsText')}</StyledTitleDiv>
-                  <ButtonV2
-                    type="submit"
-                    variant="outline"
-                    onClick={() => setSelectedTab('upload')}
-                  >
+                  <ButtonV2 type="submit" variant="outline" onClick={() => setSelectedTab('upload')}>
                     {t('imageSearch.noResultsButtonText')}
                   </ButtonV2>
                 </>
@@ -93,12 +89,7 @@ const ImageSearchAndUploader = ({
           title: t('form.visualElement.imageUpload'),
           id: 'upload',
           content: (
-            <CreateImage
-              inModal={inModal}
-              editingArticle
-              closeModal={closeModal}
-              onImageCreated={onImageSelect}
-            />
+            <CreateImage inModal={inModal} editingArticle closeModal={closeModal} onImageCreated={onImageSelect} />
           ),
         },
       ]}

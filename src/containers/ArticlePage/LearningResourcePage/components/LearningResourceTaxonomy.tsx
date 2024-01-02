@@ -26,19 +26,11 @@ interface Props {
 }
 
 export interface MinimalNodeChild
-  extends Pick<
-    NodeChild,
-    'id' | 'relevanceId' | 'isPrimary' | 'path' | 'name' | 'connectionId' | 'breadcrumbs'
-  > {
+  extends Pick<NodeChild, 'id' | 'relevanceId' | 'isPrimary' | 'path' | 'name' | 'connectionId' | 'breadcrumbs'> {
   metadata: Pick<Metadata, 'visible'>;
 }
 
-const LearningResourceTaxonomy = ({
-  article,
-  updateNotes,
-  articleLanguage,
-  hasTaxEntries,
-}: Props) => {
+const LearningResourceTaxonomy = ({ article, updateNotes, articleLanguage, hasTaxEntries }: Props) => {
   const { i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
 
@@ -67,12 +59,7 @@ const LearningResourceTaxonomy = ({
 
   const versionsQuery = useVersions();
 
-  if (
-    nodesQuery.isLoading ||
-    subjectsQuery.isLoading ||
-    allResourceTypesQuery.isLoading ||
-    versionsQuery.isLoading
-  ) {
+  if (nodesQuery.isLoading || subjectsQuery.isLoading || allResourceTypesQuery.isLoading || versionsQuery.isLoading) {
     return <Spinner />;
   }
 

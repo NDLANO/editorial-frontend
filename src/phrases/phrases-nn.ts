@@ -46,8 +46,7 @@ const phrases = {
     isSelectedItem: 'Lagt til',
   },
   meta: {
-    description:
-      'Kvalitetssikra fritt tilgjengelige nettbaserte læremidler for videregående opplæring',
+    description: 'Kvalitetssikra fritt tilgjengelige nettbaserte læremidler for videregående opplæring',
   },
   menu: {
     title: 'Meny',
@@ -246,8 +245,7 @@ const phrases = {
   loginFailure: {
     errorMessage: 'Beklager. Innlogging feila.',
     loginLink: 'Klikk for å prøve igjen.',
-    userNotRegistered:
-      'Vi kjente ikkje igjen epostadressa di. Har du logga inn med riktig adresse?',
+    userNotRegistered: 'Vi kjente ikkje igjen epostadressa di. Har du logga inn med riktig adresse?',
   },
   loginProviders: {
     description: 'Logg inn i produksjonssystem med',
@@ -345,8 +343,7 @@ const phrases = {
     linkTitle: 'Gå til HTML-editor',
     title: 'HTML-editor',
     subTitle: 'Rediger artikkelinnhold med HTML',
-    fetchError:
-      'Ein feil oppsto ved lasting av HTML-editoren. Gå tilbake eller prøv å laste sida på nytt.',
+    fetchError: 'Ein feil oppsto ved lasting av HTML-editoren. Gå tilbake eller prøv å laste sida på nytt.',
     saveError: 'Ein feil oppsto ved lagring av endringar.',
     back: 'Tilbake',
     helpMessage: {
@@ -568,8 +565,7 @@ const phrases = {
   frontpageArticleForm: {
     title: 'Om-NDLA-artikkel',
     validation: {
-      illegalSlug:
-        'Bruk av ulovlige tegn i permalenken! Tillatte tegn er alle tall og bokstaver, og bindestrek',
+      illegalSlug: 'Bruk av ulovlige tegn i permalenken! Tillatte tegn er alle tall og bokstaver, og bindestrek',
     },
     isFrontpageArticle: {
       toggleArticle: 'Brei editor',
@@ -1295,13 +1291,11 @@ const phrases = {
         sub: 'eller trykk for å laste opp lydfil',
         ariaLabel: 'Dra og slipp eller trykk for å laste opp lydfil',
       },
-      copiedFrom:
-        'Lydfil kopieres fra {{language}}. Trykk på søppelbøtten for å fjerne den og laste opp ei ny fil.',
+      copiedFrom: 'Lydfil kopieres fra {{language}}. Trykk på søppelbøtten for å fjerne den og laste opp ei ny fil.',
       info: {
         multipleFiles: 'Du kan laste opp forskjellige lydfilar for kvart språk.',
         changeFile: 'Fjerning og endring av eit språk vil ikkje påverke dei andre språka.',
-        newLanguage:
-          'Ved oppretting av eit nytt språk vil ei lydfil fra eit eksisterande språk foreslås.',
+        newLanguage: 'Ved oppretting av eit nytt språk vil ei lydfil fra eit eksisterande språk foreslås.',
         deleteFiles: 'Ei lydfil slettes bare når den ikkje lenger brukes i eit språk.',
       },
       modal: {
@@ -1343,8 +1337,7 @@ const phrases = {
       changeName: 'Endre namn',
       changeOrder: 'Endre rekkefølgje',
       removeFile: 'Ta bort fil',
-      missingFileTooltip:
-        'Ser ikkje ut til å eksistere på serveren. Den kan ha blitt sletta frå ein annan artikkel.',
+      missingFileTooltip: 'Ser ikkje ut til å eksistere på serveren. Den kan ha blitt sletta frå ein annan artikkel.',
       missingFilename: 'Filtypen støttes ikke',
       dragdrop: {
         main: 'Dra og slipp',
@@ -1414,8 +1407,7 @@ const phrases = {
       remove: 'Fjern revisjon',
       description:
         'Revisjonar krev ei skildring og ein dato artikkelen går ut på. Bryteren markerar i kva grad ein revisjon er utført eller ikkje. Hugs at ein revidert artikkel må republiserast.',
-      datePickerTooltip:
-        'Dato artikkelen går ut dersom revisjonen ikkje blir markert som revidert.',
+      datePickerTooltip: 'Dato artikkelen går ut dersom revisjonen ikkje blir markert som revidert.',
       reminder: 'Hugs å sjekke om revisjonen du no har utført krev republisering.',
       switchTooltip: 'I kva grad artikkelen er revidert eller ikkje.',
       inputPlaceholder: 'Beskrivelse av revisjonen',
@@ -1436,8 +1428,7 @@ const phrases = {
     minItems_plural: '{{label}} feltet må minst inneholde {{count}} ulike {{labelLowerCase}}.',
     noEmptyNote: 'Ein merknad kan ikkje være tom',
     noEmptyRevision: 'Ein beskrivelse kan ikkje være tom',
-    noLicenseWithoutCopyrightHolder:
-      'Ein lisens kan ikkje takast i bruk uten å definere minst ein opphavar.',
+    noLicenseWithoutCopyrightHolder: 'Ein lisens kan ikkje takast i bruk uten å definere minst ein opphavar.',
     maxSizeExceeded:
       'Filen du forsøkar å laste opp er for stor. Maksstorleik: {{maxSize}} MB. Filstorleik: {{fileSize}} MB.',
     grepCodes:
@@ -1457,10 +1448,8 @@ const phrases = {
     noArticleInProd: 'Ingen artikkel funnet i prod',
     taxonomy: 'Det var eit problem ved lasting av taksonomi',
     versionSelect: 'Artikkelen finst ikkje i vald versjon',
-    errorWhenFetchingTaxonomyArticle:
-      'Det var eit problem ved lasting av den underliggande artikkelen',
-    unsavedTaxonomy:
-      'Du har ulagra endringar. Trykk tilbakestill igjen viss du ønsker å fortsette.',
+    errorWhenFetchingTaxonomyArticle: 'Det var eit problem ved lasting av den underliggande artikkelen',
+    unsavedTaxonomy: 'Du har ulagra endringar. Trykk tilbakestill igjen viss du ønsker å fortsette.',
     auth0:
       'Autentiseringsfeil. Trykk avbryt for å ta vare på eventuelle endringer du har gjort før du logger inn på nytt. Følgende feilmelding kom fra auth0: {{message}}',
     statusCode: {
@@ -1558,8 +1547,7 @@ const phrases = {
       title: 'Endre namn',
       cancel: 'Avbryt',
       add: 'Legg til',
-      noTranslations:
-        'Ingen omsetjingar tilgjengeleg! Standardnamn vil brukes inntil dette er lagt inn.',
+      noTranslations: 'Ingen omsetjingar tilgjengeleg! Standardnamn vil brukes inntil dette er lagt inn.',
     },
     addTopic: 'Legg til nytt emne',
     addTopicHeader: 'Legg til emne',
@@ -1613,16 +1601,14 @@ const phrases = {
       subTitle: 'Id og synlighet for elementet',
       wrongArticleType:
         'Artikkelen er plassert som "{{placedAs}}" i taksonomien, men artikkelen er av typen "{{isType}}".',
-      missingArticleType:
-        'Artikkelen med ID {{id}} manglar artikkeltype. Han er sannsynlegvis sletta.',
+      missingArticleType: 'Artikkelen med ID {{id}} manglar artikkeltype. Han er sannsynlegvis sletta.',
       wrongConnections: 'Feilkoplingar',
       wrongConnectionsSubTitle: 'Denne artikkelen har feilkoplingar, sjå lista under.',
       canBeFixedInDatabase: 'Artikkeltypen kan endres i databasen for å fikse feilen.',
       notPublished: 'Artikkelen har ingen publisert versjon.',
     },
     resource: {
-      confirmDelete:
-        'Vil du fjerne ressursen frå denne mappa? Dette vil ikkje påverke plasseringa andre steder',
+      confirmDelete: 'Vil du fjerne ressursen frå denne mappa? Dette vil ikkje påverke plasseringa andre steder',
       copyError:
         'Det oppstod ein feil ved kopiering av ressursar. Dobbeltsjekk dei kopierte ressursane og prøv å fikse manglar manuelt, eller slett dei kopierte ressursane og prøv å kopiere på nytt',
       addResourceConflict: 'Ressursen du forsøkte å legge til finnes allerede på emnet.',

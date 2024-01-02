@@ -67,14 +67,7 @@ interface Props extends ComponentProps<typeof ButtonV2> {
   formIsDirty?: boolean;
 }
 
-const SaveButton = ({
-  isSaving,
-  showSaved,
-  defaultText,
-  formIsDirty = true,
-  disabled,
-  ...rest
-}: Props) => {
+const SaveButton = ({ isSaving, showSaved, defaultText, formIsDirty = true, disabled, ...rest }: Props) => {
   const getModifier = () => {
     if (isSaving) return 'saving';
     if (showSaved) return 'saved';

@@ -135,11 +135,7 @@ const normalizeNodes = (editor: Editor, entry: NodeEntry, config: NormalizerConf
   return false;
 };
 
-const normalizePrevious = (
-  editor: Editor,
-  entry: NodeEntry,
-  settings: DefaultNodeRule,
-): boolean => {
+const normalizePrevious = (editor: Editor, entry: NodeEntry, settings: DefaultNodeRule): boolean => {
   const [, path] = entry;
   const { defaultType, allowed } = settings;
 
@@ -202,11 +198,7 @@ const normalizeParent = (editor: Editor, entry: NodeEntry, settings: ParentNodeR
   return false;
 };
 
-export const defaultBlockNormalizer = (
-  editor: Editor,
-  entry: NodeEntry,
-  config: NormalizerConfig,
-): boolean => {
+export const defaultBlockNormalizer = (editor: Editor, entry: NodeEntry, config: NormalizerConfig): boolean => {
   const [node] = entry;
 
   if (!Element.isElement(node)) return false;

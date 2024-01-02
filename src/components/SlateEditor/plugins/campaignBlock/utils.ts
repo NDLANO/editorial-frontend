@@ -9,5 +9,4 @@
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { TYPE_CAMPAIGN_BLOCK } from './types';
 
-export const defaultCampaignBlock = () =>
-  slatejsx('element', { type: TYPE_CAMPAIGN_BLOCK, isFirstEdit: true });
+export const defaultCampaignBlock = () => slatejsx('element', { type: TYPE_CAMPAIGN_BLOCK, isFirstEdit: true });

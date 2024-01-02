@@ -71,23 +71,14 @@ interface Props {
   articleIds?: number[];
 }
 
-const ResourceBanner = ({
-  title,
-  contentMeta,
-  currentNode,
-  onCurrentNodeChanged,
-  resourceTypes,
-  resources,
-}: Props) => {
+const ResourceBanner = ({ title, contentMeta, currentNode, onCurrentNodeChanged, resourceTypes, resources }: Props) => {
   const [open, setOpen] = useState(false);
   const elementCount = Object.values(contentMeta).length;
   const workflowCount = useMemo(() => getWorkflowCount(contentMeta), [contentMeta]);
   const { t } = useTranslation();
   const allRevisions = useMemo(() => {
     const resourceRevisions = resources.map((r) => r.contentMeta?.revisions).filter((r) => !!r);
-    const currentNodeRevision = currentNode.contentUri
-      ? contentMeta[currentNode.contentUri]?.revisions
-      : undefined;
+    const currentNodeRevision = currentNode.contentUri ? contentMeta[currentNode.contentUri]?.revisions : undefined;
     return resourceRevisions.concat([currentNodeRevision]);
   }, [contentMeta, currentNode.contentUri, resources]);
 
@@ -100,16 +91,12 @@ const ResourceBanner = ({
           <ButtonV2
             size="small"
             variant="outline"
-            onClick={() =>
-              document.getElementById(currentNode.id)?.scrollIntoView({ block: 'center' })
-            }
+            onClick={() => document.getElementById(currentNode.id)?.scrollIntoView({ block: 'center' })}
           >
             {t('taxonomy.jumpToStructure')}
           </ButtonV2>
           <ControlWrapper>
-            <PublishedText>{`${workflowCount}/${elementCount} ${t(
-              'taxonomy.workflow',
-            ).toLowerCase()}`}</PublishedText>
+            <PublishedText>{`${workflowCount}/${elementCount} ${t('taxonomy.workflow').toLowerCase()}`}</PublishedText>
             <ApproachingRevisionDate revisions={allRevisions} />
             {currentNode && currentNode.id && (
               <GroupResourceSwitch
@@ -144,13 +131,7 @@ const ResourceBanner = ({
                       {
                         title: t('taxonomy.createResource'),
                         id: 'create-new-resource',
-                        content: (
-                          <PlannedResourceForm
-                            onClose={close}
-                            articleType="standard"
-                            node={currentNode}
-                          />
-                        ),
+                        content: <PlannedResourceForm onClose={close} articleType="standard" node={currentNode} />,
                       },
                       {
                         title: t('taxonomy.getExisting'),

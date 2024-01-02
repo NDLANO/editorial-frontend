@@ -99,10 +99,7 @@ const SlateToolbar = () => {
   const inFocus = useFocused();
 
   const toolbarElements = useMemo(
-    () =>
-      window.location.pathname.includes('learning-resource')
-        ? learningResourceElements
-        : topicArticleElements,
+    () => (window.location.pathname.includes('learning-resource') ? learningResourceElements : topicArticleElements),
     [],
   );
 
@@ -176,9 +173,7 @@ const SlateToolbar = () => {
               type={type}
               kind="block"
               isActive={
-                type.includes('list')
-                  ? isActiveList(type)
-                  : hasNodeWithProps(editor, specialRules[type] ?? { type })
+                type.includes('list') ? isActiveList(type) : hasNodeWithProps(editor, specialRules[type] ?? { type })
               }
               handleOnClick={onButtonClick}
             />

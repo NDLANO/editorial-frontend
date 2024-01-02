@@ -25,9 +25,7 @@ const InputComponent = ({ usePortal, forwardedRef, childIndex, ...rest }: InputC
 
   useEffect(() => {
     if (usePortal && inputRef.current) {
-      const element = forwardedRef.current?.childNodes[childIndex].firstChild as
-        | HTMLDivElement
-        | undefined;
+      const element = forwardedRef.current?.childNodes[childIndex].firstChild as HTMLDivElement | undefined;
       const rect = element?.getBoundingClientRect();
       if (rect) {
         inputRef.current.style.top = `${rect.top + window.scrollY - 15}px`;

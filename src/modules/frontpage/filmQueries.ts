@@ -41,14 +41,9 @@ export interface UseMovies {
   movieUrns: string[];
 }
 
-export const useMoviesQuery = (
-  params: UseMovies,
-  options: Partial<UseQueryOptions<IMultiSearchResult>> = {},
-) => {
+export const useMoviesQuery = (params: UseMovies, options: Partial<UseQueryOptions<IMultiSearchResult>> = {}) => {
   const { i18n } = useTranslation();
-  const movieIds = params.movieUrns
-    .map((urn) => Number(getIdFromUrn(urn)))
-    .filter((id) => !isNaN(id));
+  const movieIds = params.movieUrns.map((urn) => Number(getIdFromUrn(urn))).filter((id) => !isNaN(id));
   const ids = sortBy(movieIds).join(',');
 
   return useQuery<IMultiSearchResult>({

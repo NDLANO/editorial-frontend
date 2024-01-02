@@ -86,12 +86,7 @@ const FormAccordion = ({
       <StyledHeader data-error={hasError}>
         <HeaderWrapper data-error={hasError}>{title}</HeaderWrapper>
       </StyledHeader>
-      <StyledAccordionContent
-        id={id}
-        className={className}
-        data-wide={!!wide}
-        data-frontpage={!!isFrontpageArticle}
-      >
+      <StyledAccordionContent id={id} className={className} data-wide={!!wide} data-frontpage={!!isFrontpageArticle}>
         {children}
       </StyledAccordionContent>
     </StyledItem>

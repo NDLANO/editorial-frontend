@@ -14,10 +14,7 @@ const errorReporter = (store) => (next) => (action) => {
     if (err.status) {
       const { json } = err;
       // eslint-disable-next-line no-console
-      handleError(
-        `${err.status} ${err.message}: ${json.code} ${json.description}. %o`,
-        json.messages,
-      );
+      handleError(`${err.status} ${err.message}: ${json.code} ${json.description}. %o`, json.messages);
     } else {
       handleError(action.payload, action, store.getState()); // eslint-disable-line no-console
     }

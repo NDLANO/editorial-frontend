@@ -32,12 +32,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
 
   return (
     <>
-      <FormikField
-        name="tags"
-        label={t('form.tags.label')}
-        showError
-        description={t('form.tags.description')}
-      >
+      <FormikField name="tags" label={t('form.tags.label')} showError description={t('form.tags.description')}>
         {({ field, form }) => (
           <AsyncSearchTags
             multiSelect
@@ -62,12 +57,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
         description={t('form.metaDescription.description')}
       >
         {({ field }) => (
-          <PlainTextEditor
-            id={field.name}
-            placeholder={t('form.metaDescription.label')}
-            {...field}
-            plugins={plugins}
-          />
+          <PlainTextEditor id={field.name} placeholder={t('form.metaDescription.label')} {...field} plugins={plugins} />
         )}
       </FormikField>
       <FormikField name="metaImageId">

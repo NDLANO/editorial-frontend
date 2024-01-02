@@ -7,10 +7,7 @@
  */
 
 import { Descendant } from 'slate';
-import {
-  blockContentToEditorValue,
-  blockContentToHTML,
-} from '../../../../../util/articleContentConverter';
+import { blockContentToEditorValue, blockContentToHTML } from '../../../../../util/articleContentConverter';
 import { TYPE_SECTION } from '../../section/types';
 import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_LIST, TYPE_DEFINITION_TERM } from '../types';
 
@@ -27,9 +24,7 @@ const editor: Descendant[] = [
           },
           {
             type: TYPE_DEFINITION_DESCRIPTION,
-            children: [
-              { text: 'En test er en test vi tester for å teste om testingen gir test resultater' },
-            ],
+            children: [{ text: 'En test er en test vi tester for å teste om testingen gir test resultater' }],
           },
         ],
       },

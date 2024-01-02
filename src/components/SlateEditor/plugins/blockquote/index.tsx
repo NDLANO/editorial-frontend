@@ -34,11 +34,7 @@ export const blockQuoteSerializer: SlateSerializer = {
   },
 };
 
-const onEnter = (
-  e: KeyboardEvent,
-  editor: Editor,
-  nextOnKeyDown?: (event: KeyboardEvent) => void,
-) => {
+const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: KeyboardEvent) => void) => {
   const entry = getCurrentBlock(editor, TYPE_QUOTE);
   if (!entry) {
     return nextOnKeyDown && nextOnKeyDown(e);

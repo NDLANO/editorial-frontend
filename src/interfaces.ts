@@ -89,11 +89,7 @@ export interface ZendeskToken {
   token: string;
 }
 
-export type TypeOfPreview =
-  | 'preview'
-  | 'previewLanguageArticle'
-  | 'previewVersion'
-  | 'previewProductionArticle';
+export type TypeOfPreview = 'preview' | 'previewLanguageArticle' | 'previewVersion' | 'previewProductionArticle';
 
 export type RelatedContent = IRelatedContentLink | number;
 
@@ -157,13 +153,7 @@ export interface ErrorEmbed {
   message: string;
 }
 
-export type Embed =
-  | ImageEmbed
-  | BrightcoveEmbed
-  | AudioEmbedData
-  | H5pEmbedData
-  | ExternalEmbed
-  | ErrorEmbed;
+export type Embed = ImageEmbed | BrightcoveEmbed | AudioEmbedData | H5pEmbedData | ExternalEmbed | ErrorEmbed;
 
 export interface FileFormat {
   url: string;

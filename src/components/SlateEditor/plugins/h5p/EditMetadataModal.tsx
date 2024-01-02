@@ -72,11 +72,7 @@ const EditMetadataModal = ({ embed, editor, element }: Props) => {
   return (
     <Modal open={isOpen} onOpenChange={setOpen}>
       <ModalTrigger>
-        <IconButtonV2
-          colorTheme="light"
-          title={t('form.h5p.metadata.edit')}
-          aria-label={t('form.h5p.metadata.edit')}
-        >
+        <IconButtonV2 colorTheme="light" title={t('form.h5p.metadata.edit')} aria-label={t('form.h5p.metadata.edit')}>
           <Pencil />
         </IconButtonV2>
       </ModalTrigger>

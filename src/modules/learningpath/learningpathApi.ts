@@ -9,11 +9,7 @@
 import queryString from 'query-string';
 import { ILearningPathV2, ISearchResultV2 } from '@ndla/types-backend/learningpath-api';
 import { CopyLearningPathBody, SearchBody } from './learningpathApiInterfaces';
-import {
-  resolveJsonOrRejectWithError,
-  apiResourceUrl,
-  fetchAuthorized,
-} from '../../util/apiHelpers';
+import { resolveJsonOrRejectWithError, apiResourceUrl, fetchAuthorized } from '../../util/apiHelpers';
 
 const baseUrl = apiResourceUrl('/learningpath-api/v2/learningpaths');
 
@@ -24,10 +20,7 @@ export const fetchLearningpath = (id: number, locale?: string): Promise<ILearnin
   );
 };
 
-export const fetchLearningpaths = (
-  ids: number[],
-  language?: string,
-): Promise<ILearningPathV2[]> => {
+export const fetchLearningpaths = (ids: number[], language?: string): Promise<ILearningPathV2[]> => {
   const query = queryString.stringify({
     ids: ids.join(','),
     language,
@@ -40,15 +33,9 @@ export const fetchLearningpaths = (
 };
 
 export const fetchLearningpathsWithArticle = (id: number): Promise<ILearningPathV2[]> =>
-  fetchAuthorized(`${baseUrl}/contains-article/${id}`).then((r) =>
-    resolveJsonOrRejectWithError<ILearningPathV2[]>(r),
-  );
+  fetchAuthorized(`${baseUrl}/contains-article/${id}`).then((r) => resolveJsonOrRejectWithError<ILearningPathV2[]>(r));
 
-export const updateStatusLearningpath = (
-  id: number,
-  status: string,
-  message?: string,
-): Promise<ILearningPathV2> =>
+export const updateStatusLearningpath = (id: number, status: string, message?: string): Promise<ILearningPathV2> =>
   fetchAuthorized(`${baseUrl}/${id}/status/`, {
     method: 'PUT',
     body: JSON.stringify({
@@ -57,17 +44,12 @@ export const updateStatusLearningpath = (
     }),
   }).then((r) => resolveJsonOrRejectWithError<ILearningPathV2>(r));
 
-export const updateLearningPathTaxonomy = (
-  id: number,
-  createIfMissing: boolean = false,
-): Promise<ILearningPathV2> =>
+export const updateLearningPathTaxonomy = (id: number, createIfMissing: boolean = false): Promise<ILearningPathV2> =>
   fetchAuthorized(`${baseUrl}/${id}/update-taxonomy/?create-if-missing=${createIfMissing}`, {
     method: 'POST',
   }).then((r) => resolveJsonOrRejectWithError<ILearningPathV2>(r));
 
-export const learningpathSearch = async (
-  query: SearchBody & { ids?: number[] },
-): Promise<ISearchResultV2> => {
+export const learningpathSearch = async (query: SearchBody & { ids?: number[] }): Promise<ISearchResultV2> => {
   if (query.ids && query.ids.length === 0) {
     return {
       totalCount: 0,
@@ -83,10 +65,7 @@ export const learningpathSearch = async (
   }).then((r) => resolveJsonOrRejectWithError<ISearchResultV2>(r));
 };
 
-export const learningpathCopy = (
-  id: number,
-  query: CopyLearningPathBody,
-): Promise<ILearningPathV2> =>
+export const learningpathCopy = (id: number, query: CopyLearningPathBody): Promise<ILearningPathV2> =>
   fetchAuthorized(`${baseUrl}/${id}/copy/`, {
     method: 'POST',
     body: JSON.stringify(query),

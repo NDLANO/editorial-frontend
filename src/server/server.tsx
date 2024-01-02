@@ -91,9 +91,7 @@ app.use(
 );
 
 const renderHtmlString = (locale: string, userAgentString?: string, state?: { locale: string }) =>
-  renderToString(
-    <Html lang={locale} state={state} className={getConditionalClassnames(userAgentString)} />,
-  );
+  renderToString(<Html lang={locale} state={state} className={getConditionalClassnames(userAgentString)} />);
 
 app.get('/robots.txt', (_, res) => {
   res.type('text/plain');
@@ -162,8 +160,7 @@ app.get(
     const hasWriteAccess =
       user &&
       user.permissions &&
-      (user.permissions.includes(DRAFT_WRITE_SCOPE) ||
-        user.permissions.includes(DRAFT_PUBLISH_SCOPE));
+      (user.permissions.includes(DRAFT_WRITE_SCOPE) || user.permissions.includes(DRAFT_PUBLISH_SCOPE));
 
     if (!hasWriteAccess) {
       res.status(FORBIDDEN).json({ status: FORBIDDEN, text: 'No access allowed' });

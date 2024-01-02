@@ -25,10 +25,7 @@ import handleError from '../../util/handleError';
 import { urlOrigin, getIframeSrcFromHtmlString, urlDomain } from '../../util/htmlHelpers';
 import { getH5pLocale } from '../H5PElement/h5pApi';
 import EditorErrorMessage from '../SlateEditor/EditorErrorMessage';
-import {
-  StyledDeleteEmbedButton,
-  StyledFigureButtons,
-} from '../SlateEditor/plugins/embed/FigureButtons';
+import { StyledDeleteEmbedButton, StyledFigureButtons } from '../SlateEditor/plugins/embed/FigureButtons';
 
 const ApplyBoxshadow = styled.div`
   &[data-show-copy-outline='true'] {
@@ -276,8 +273,7 @@ const DisplayExternal = ({
           <DeleteForever />
         </StyledDeleteEmbedButton>
       </StyledFigureButtons>
-      {(embed.resource === 'iframe' || embed.resource === 'external') &&
-      embed.type === 'fullscreen' ? (
+      {(embed.resource === 'iframe' || embed.resource === 'external') && embed.type === 'fullscreen' ? (
         <ApplyBoxshadow data-show-copy-outline={showCopyOutline}>
           <SlateResourceBox embed={embed} language={language} />
         </ApplyBoxshadow>
@@ -297,11 +293,7 @@ const DisplayExternal = ({
             frameBorder="0"
           />
           {embed.resource === 'iframe' && (
-            <ExpandableButton
-              role="button"
-              onMouseDown={handleResize}
-              aria-label={t('form.resize')}
-            >
+            <ExpandableButton role="button" onMouseDown={handleResize} aria-label={t('form.resize')}>
               <Expandable />
             </ExpandableButton>
           )}

@@ -32,19 +32,14 @@ export const useConcept = (params: UseConcept, options?: Partial<UseQueryOptions
   });
 };
 
-export const useSearchConcepts = (
-  query: ConceptQuery,
-  options?: Partial<UseQueryOptions<IConceptSearchResult>>,
-) =>
+export const useSearchConcepts = (query: ConceptQuery, options?: Partial<UseQueryOptions<IConceptSearchResult>>) =>
   useQuery<IConceptSearchResult>({
     queryKey: conceptQueryKeys.searchConcepts(query),
     queryFn: () => searchConcepts(query),
     ...options,
   });
 
-export const useConceptStateMachine = (
-  options?: Partial<UseQueryOptions<ConceptStatusStateMachineType>>,
-) => {
+export const useConceptStateMachine = (options?: Partial<UseQueryOptions<ConceptStatusStateMachineType>>) => {
   return useQuery<ConceptStatusStateMachineType>({
     queryKey: conceptQueryKeys.statusStateMachine,
     queryFn: () => fetchStatusStateMachine(),

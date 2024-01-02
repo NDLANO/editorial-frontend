@@ -34,10 +34,7 @@ const CopyRevisionDate = ({ node, editModeHandler: { editMode, toggleEditMode } 
   const copyRevisionDate = async () => {
     setError(undefined);
     toggleCopyRevisionDate();
-    await mutateAsync(
-      { nodeId: node.id },
-      { onError: () => setError(t('taxonomy.copyRevisionDates.error')) },
-    );
+    await mutateAsync({ nodeId: node.id }, { onError: () => setError(t('taxonomy.copyRevisionDates.error')) });
   };
 
   return (
@@ -65,9 +62,7 @@ const CopyRevisionDate = ({ node, editModeHandler: { editMode, toggleEditMode } 
       />
       {isPending && <Spinner appearance="absolute" />}
       {isPending && <Overlay modifiers={['absolute', 'white-opacity', 'zIndex']} />}
-      {error && (
-        <StyledErrorMessage data-testid="inlineEditErrorMessage">{error}</StyledErrorMessage>
-      )}
+      {error && <StyledErrorMessage data-testid="inlineEditErrorMessage">{error}</StyledErrorMessage>}
     </>
   );
 };

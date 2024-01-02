@@ -156,11 +156,7 @@ const HeaderStatusInformation = ({
         {(type === 'standard' || type === 'topic-article') && !inSearch ? (
           <>
             <EmbedConnection id={id} type="article" articles={articles} setArticles={setArticles} />
-            <LearningpathConnection
-              id={id}
-              learningpaths={learningpaths}
-              setLearningpaths={setLearningpaths}
-            />
+            <LearningpathConnection id={id} learningpaths={learningpaths} setLearningpaths={setLearningpaths} />
             {!!expirationColor && !!expirationDate && (
               <StyledTimeIcon
                 data-status={expirationColor}
@@ -182,9 +178,9 @@ const HeaderStatusInformation = ({
             target="_blank"
             aria-label={t('form.workflow.published')}
             title={t('form.workflow.published')}
-            to={`${config.ndlaFrontendDomain}/${
-              type === 'concept' || type === 'gloss' ? 'concept' : 'article'
-            }/${slug ?? id}`}
+            to={`${config.ndlaFrontendDomain}/${type === 'concept' || type === 'gloss' ? 'concept' : 'article'}/${
+              slug ?? id
+            }`}
           >
             <StyledCheckIcon />
           </StyledLink>
@@ -198,18 +194,14 @@ const HeaderStatusInformation = ({
         )}
         <StyledStatus data-compact={compact}>
           <span>
-            <StyledSmallText data-compact={compact}>{`${t(
-              'form.responsible.label',
-            )}:`}</StyledSmallText>
+            <StyledSmallText data-compact={compact}>{`${t('form.responsible.label')}:`}</StyledSmallText>
             {responsibleName || t('form.responsible.noResponsible')}
           </span>
           {noStatus ? (
             t('form.status.new_language')
           ) : (
             <span>
-              <StyledSmallText data-compact={compact}>
-                {t('form.workflow.statusLabel')}:
-              </StyledSmallText>
+              <StyledSmallText data-compact={compact}>{t('form.workflow.statusLabel')}:</StyledSmallText>
               {isNewLanguage ? t('form.status.new_language') : statusText || t('form.status.new')}
             </span>
           )}

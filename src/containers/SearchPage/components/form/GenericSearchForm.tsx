@@ -115,16 +115,8 @@ const GenericSearchForm = ({
     >
       {selectors.map((selector) => {
         return (
-          <StyledField
-            key={`search-form-field-${selector.parameterName}`}
-            width={selector.width ?? 50}
-          >
-            <Selector
-              searchObject={searchObject}
-              selector={selector}
-              onFieldChange={onFieldChange}
-              formType={type}
-            />
+          <StyledField key={`search-form-field-${selector.parameterName}`} width={selector.width ?? 50}>
+            <Selector searchObject={searchObject} selector={selector} onFieldChange={onFieldChange} formType={type} />
           </StyledField>
         );
       })}

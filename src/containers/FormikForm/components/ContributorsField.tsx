@@ -21,11 +21,7 @@ const ContributorsField = ({ contributorTypes, width }: Props) => {
       {contributorTypes.map((contributorType) => {
         const label = t(`form.${contributorType}.label`);
         return (
-          <FormikField
-            showError={false}
-            key={`formik_contributor_${contributorType}`}
-            name={contributorType}
-          >
+          <FormikField showError={false} key={`formik_contributor_${contributorType}`} name={contributorType}>
             {({ field, form }) => {
               const { errors } = form;
               const error = errors[field.name] || '';

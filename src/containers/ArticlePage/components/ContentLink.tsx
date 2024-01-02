@@ -66,9 +66,7 @@ const ContentLink = ({ onAddLink, initialTitle = '', initialUrl = '' }: Props) =
   return (
     <StyledContent>
       <Input
-        warningText={
-          showError && isEmpty(title) ? t('form.relatedContent.link.missingTitle') : undefined
-        }
+        warningText={showError && isEmpty(title) ? t('form.relatedContent.link.missingTitle') : undefined}
         data-testid="addExternalTitleInput"
         type="text"
         placeholder={t('form.relatedContent.link.titlePlaceholder')}
@@ -76,9 +74,7 @@ const ContentLink = ({ onAddLink, initialTitle = '', initialUrl = '' }: Props) =
         onChange={(e: ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
       />
       <Input
-        warningText={
-          showError && !isUrl(url) ? t('form.relatedContent.link.missingUrl') : undefined
-        }
+        warningText={showError && !isUrl(url) ? t('form.relatedContent.link.missingUrl') : undefined}
         data-testid="addExternalUrlInput"
         type="text"
         placeholder={t('form.relatedContent.link.urlPlaceholder')}

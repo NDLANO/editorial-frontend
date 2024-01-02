@@ -57,11 +57,7 @@ export const generateOptionGroups = (
   return optGroups;
 };
 
-const OptGroupVersionSelector = ({
-  versions,
-  currentVersion: currentVersionProp,
-  onVersionChanged,
-}: Props) => {
+const OptGroupVersionSelector = ({ versions, currentVersion: currentVersionProp, onVersionChanged }: Props) => {
   const { t } = useTranslation();
 
   const fakeDefault: VersionTypeWithDefault = {

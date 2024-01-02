@@ -21,9 +21,7 @@ test('util/htmlHelpers isValidUrl', () => {
   expect(isValidURL('https://ndla.no/')).toBeTruthy();
   expect(isValidURL('https://www.youtube.com/embed/VWuQ1y6IDng?feature=oembed')).toBeTruthy();
   expect(isValidURL('https://player.vimeo.com/video/178939743?app_id=122963')).toBeTruthy();
-  expect(
-    isValidURL('https://www.slideshare.net/slideshow/embed_code/key/LxxywSCOgTBFi1'),
-  ).toBeTruthy();
+  expect(isValidURL('https://www.slideshare.net/slideshow/embed_code/key/LxxywSCOgTBFi1')).toBeTruthy();
   expect(isValidURL('https://nb.khanacademy.org/embed_video?v=jHPr-CuvHhs')).toBeTruthy();
   expect(isValidURL('https://www.tv2skole.no/e/fullvideo/1041959?start=0')).toBeTruthy();
   expect(isValidURL('https://w')).toBeFalsy();
@@ -51,9 +49,7 @@ test('urlDomain gets correct domain from url', () => {
 });
 
 test('urlOrigin gets correct origin from url', () => {
-  expect(
-    urlOrigin(
-      'https://test.ndla.no/subjects/subject:6/topic:1:182849/topic:1:175043/resource:1:175253',
-    ),
-  ).toBe('https://test.ndla.no');
+  expect(urlOrigin('https://test.ndla.no/subjects/subject:6/topic:1:182849/topic:1:175043/resource:1:175253')).toBe(
+    'https://test.ndla.no',
+  );
 });

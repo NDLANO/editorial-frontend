@@ -44,21 +44,10 @@ interface Props {
   error: boolean;
 }
 
-const toResultReturnType = (
-  results: ResultType['results'],
-  type: SearchType,
-): SearchResultReturnType[] =>
+const toResultReturnType = (results: ResultType['results'], type: SearchType): SearchResultReturnType[] =>
   results.map((result: ResultSummaryType) => ({ type: type, value: result }));
 
-const SearchList = ({
-  results,
-  searchObject,
-  type,
-  searching = true,
-  locale,
-  subjects,
-  error,
-}: Props) => {
+const SearchList = ({ results, searchObject, type, searching = true, locale, subjects, error }: Props) => {
   const { t } = useTranslation();
   const editingState = useState(false);
   const setEditing = editingState[1];
@@ -85,9 +74,7 @@ const SearchList = ({
       const userData = await fetchAuth0Users(formattedResponsibleIds);
       // UserNames need to be positioned at exact same spot as its corresponsing id to map to correct search result
       const userNames = responsibleIds.flatMap((r) =>
-        r
-          ? userData.filter((u) => u?.app_metadata?.ndla_id === r).map((user) => user.name)
-          : undefined,
+        r ? userData.filter((u) => u?.app_metadata?.ndla_id === r).map((user) => user.name) : undefined,
       );
       setResponsibleNames(userNames);
     })();
@@ -95,13 +82,11 @@ const SearchList = ({
 
   if (searching) return <Spinner />;
   if (error) return <StyledSearchError>{t('searchForm.error')}</StyledSearchError>;
-  if (results.length === 0)
-    return <p>{t(`searchPage.${type}NoHits`, { query: searchObject.query ?? '' })}</p>;
+  if (results.length === 0) return <p>{t(`searchPage.${type}NoHits`, { query: searchObject.query ?? '' })}</p>;
   return (
     <div>
       {toResultReturnType(results, type).map((result, index) => {
-        const learningResourceType =
-          'learningResourceType' in result.value ? result.value.learningResourceType : '';
+        const learningResourceType = 'learningResourceType' in result.value ? result.value.learningResourceType : '';
         return (
           <SearchResult
             key={`${result.value.id}-${learningResourceType}`}

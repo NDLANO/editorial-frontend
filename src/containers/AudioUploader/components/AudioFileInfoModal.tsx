@@ -8,15 +8,7 @@
 
 import { useTranslation } from 'react-i18next';
 import { IconButtonV2 } from '@ndla/button';
-import {
-  ModalBody,
-  ModalCloseButton,
-  ModalTitle,
-  ModalHeader,
-  Modal,
-  ModalTrigger,
-  ModalContent,
-} from '@ndla/modal';
+import { ModalBody, ModalCloseButton, ModalTitle, ModalHeader, Modal, ModalTrigger, ModalContent } from '@ndla/modal';
 
 import { HelpIcon, normalPaddingCSS } from '../../../components/HowTo';
 

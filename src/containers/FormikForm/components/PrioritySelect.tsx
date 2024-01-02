@@ -21,13 +21,7 @@ interface Props {
   inModal?: boolean;
 }
 
-const PrioritySelect = ({
-  id,
-  priority,
-  updatePriority,
-  menuPlacement = 'top',
-  inModal = false,
-}: Props) => {
+const PrioritySelect = ({ id, priority, updatePriority, menuPlacement = 'top', inModal = false }: Props) => {
   const { t } = useTranslation();
 
   return (

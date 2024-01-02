@@ -11,10 +11,7 @@ import { withHistory } from 'slate-history';
 import { withReact } from 'slate-react';
 import { learningResourcePlugins } from '../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins';
 
-import {
-  blockContentToEditorValue,
-  blockContentToHTML,
-} from '../../../../../util/articleContentConverter';
+import { blockContentToEditorValue, blockContentToHTML } from '../../../../../util/articleContentConverter';
 import withPlugins from '../../../utils/withPlugins';
 
 const editor = withHistory(withReact(withPlugins(createEditor(), learningResourcePlugins)));

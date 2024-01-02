@@ -14,25 +14,15 @@ import { toEditArticle } from '../../util/routeHelpers';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
 const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
 const TopicArticlePage = loadable(() => import('../ArticlePage/TopicArticlePage/TopicArticlePage'));
-const LearningResourcePage = loadable(
-  () => import('../ArticlePage/LearningResourcePage/LearningResourcePage'),
-);
-const FrontPageArticlePage = loadable(
-  () => import('../ArticlePage/FrontpageArticlePage/FrontpageArticlePage'),
-);
+const LearningResourcePage = loadable(() => import('../ArticlePage/LearningResourcePage/LearningResourcePage'));
+const FrontPageArticlePage = loadable(() => import('../ArticlePage/FrontpageArticlePage/FrontpageArticlePage'));
 
 const SubjectMatterPage = () => (
   <>
     <Routes>
       <Route path="topic-article/*" element={<PrivateRoute component={<TopicArticlePage />} />} />
-      <Route
-        path="learning-resource/*"
-        element={<PrivateRoute component={<LearningResourcePage />} />}
-      />
-      <Route
-        path="frontpage-article/*"
-        element={<PrivateRoute component={<FrontPageArticlePage />} />}
-      />
+      <Route path="learning-resource/*" element={<PrivateRoute component={<LearningResourcePage />} />} />
+      <Route path="frontpage-article/*" element={<PrivateRoute component={<FrontPageArticlePage />} />} />
       <Route path="article/:id" element={<PrivateRoute component={<GenericArticleRedirect />} />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>

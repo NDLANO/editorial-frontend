@@ -27,24 +27,13 @@ interface Props {
   preview?: boolean;
 }
 
-const IngressField = ({
-  name = 'introduction',
-  maxLength = 300,
-  placeholder,
-  preview = false,
-}: Props) => {
+const IngressField = ({ name = 'introduction', maxLength = 300, placeholder, preview = false }: Props) => {
   const plugins = useMemo(() => [textTransformPlugin, saveHotkeyPlugin], []);
 
   const { t } = useTranslation();
   return (
     <StyledFormContainer>
-      <FormikField
-        noBorder
-        label={t('form.introduction.label')}
-        name={name}
-        showMaxLength
-        maxLength={maxLength}
-      >
+      <FormikField noBorder label={t('form.introduction.label')} name={name} showMaxLength maxLength={maxLength}>
         {({ field, form: { isSubmitting } }) =>
           preview ? (
             <div className="article_introduction">

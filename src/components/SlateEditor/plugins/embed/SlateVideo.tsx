@@ -27,11 +27,7 @@ import config from '../../../../config';
 import { ExternalEmbed, BrightcoveEmbed } from '../../../../interfaces';
 import { fetchBrightcoveVideo } from '../../../../modules/video/brightcoveApi';
 import parseMarkdown from '../../../../util/parseMarkdown';
-import {
-  addBrightCoveTimeStampVideoid,
-  getBrightCoveStartTime,
-  getYoutubeEmbedUrl,
-} from '../../../../util/videoUtil';
+import { addBrightCoveTimeStampVideoid, getBrightCoveStartTime, getYoutubeEmbedUrl } from '../../../../util/videoUtil';
 import validateFormik from '../../../formikValidationSchema';
 import { isNumeric } from '../../../validators';
 
@@ -62,8 +58,7 @@ export const SlateVideoWrapper = styled('div', { shouldForwardProp })<SlateVideo
   padding-bottom: 56.25%;
   border-style: solid;
   border-width: 2px;
-  border-color: ${(p) =>
-    p.showOutline ? colors.brand.primary : p.hasError ? colors.support.red : 'transparent'};
+  border-color: ${(p) => (p.showOutline ? colors.brand.primary : p.hasError ? colors.support.red : 'transparent')};
 `;
 
 interface Props {
@@ -76,9 +71,7 @@ interface Props {
   children: ReactNode;
 }
 
-const isBrightcove = (
-  embed: BrightcoveEmbed | ExternalEmbed | undefined,
-): embed is BrightcoveEmbed => {
+const isBrightcove = (embed: BrightcoveEmbed | ExternalEmbed | undefined): embed is BrightcoveEmbed => {
   return !!embed && 'videoid' in embed;
 };
 
@@ -133,9 +126,7 @@ const SlateVideo = ({
   const [editMode, setEditMode] = useState(false);
   const showCopyOutline = isSelectedForCopy && (!editMode || !active);
   const [showLinkedVideo, setShowLinkedVideo] = useState(false);
-  const linkedVideoTooltip = showLinkedVideo
-    ? t('form.video.fromLinkedVideo')
-    : t('form.video.toLinkedVideo');
+  const linkedVideoTooltip = showLinkedVideo ? t('form.video.fromLinkedVideo') : t('form.video.toLinkedVideo');
 
   const setHasError = useCallback((hasError: boolean) => _setHasError(hasError), []);
 
@@ -143,10 +134,7 @@ const SlateVideo = ({
 
   useEffect(() => {
     if (!editMode && embed.resource === 'brightcove') {
-      _setHasError(
-        !!Object.keys(validateFormik(toVideoEmbedFormValues(embed), brightcoveEmbedFormRules, t))
-          .length,
-      );
+      _setHasError(!!Object.keys(validateFormik(toVideoEmbedFormValues(embed), brightcoveEmbedFormRules, t)).length);
     }
   }, [editMode, embed, t]);
 
@@ -169,10 +157,7 @@ const SlateVideo = ({
       const { account, videoid } = embed;
 
       const startTime = getBrightCoveStartTime(videoid);
-      const id =
-        getLinkedVideo && linkedVideoId
-          ? addBrightCoveTimeStampVideoid(linkedVideoId, startTime)
-          : videoid;
+      const id = getLinkedVideo && linkedVideoId ? addBrightCoveTimeStampVideoid(linkedVideoId, startTime) : videoid;
       return `https://players.brightcove.net/${account}/${config.brightcoveEdPlayerId}_default/index.html?videoId=${id}`;
     } else if (embed.resource === 'external') {
       const { url } = embed;
@@ -201,11 +186,7 @@ const SlateVideo = ({
         <StyledFigureButtons data-white={true}>
           <Modal open={editMode} onOpenChange={setEditMode}>
             <ModalTrigger>
-              <IconButtonV2
-                aria-label={t('form.video.editVideo')}
-                title={t('form.video.editVideo')}
-                colorTheme="light"
-              >
+              <IconButtonV2 aria-label={t('form.video.editVideo')} title={t('form.video.editVideo')} colorTheme="light">
                 <Pencil />
               </IconButtonV2>
             </ModalTrigger>
@@ -225,19 +206,13 @@ const SlateVideo = ({
                 title={t('form.video.brightcove')}
                 aria-label={t('form.video.brightcove')}
                 colorTheme="light"
-                to={`https://studio.brightcove.com/products/videocloud/media/videos/${
-                  embed.videoid.split('&t=')[0]
-                }`}
+                to={`https://studio.brightcove.com/products/videocloud/media/videos/${embed.videoid.split('&t=')[0]}`}
               >
                 <Link />
               </SafeLinkIconButton>
               {linkedVideoId && (
                 <Tooltip tooltip={linkedVideoTooltip}>
-                  <IconButtonV2
-                    aria-label={linkedVideoTooltip}
-                    colorTheme="light"
-                    onClick={switchEmbedSource}
-                  >
+                  <IconButtonV2 aria-label={linkedVideoTooltip} colorTheme="light" onClick={switchEmbedSource}>
                     <StyledText>{t('form.video.linkedVideoButton')}</StyledText>
                   </IconButtonV2>
                 </Tooltip>
@@ -273,9 +248,7 @@ const SlateVideo = ({
         </SlateVideoWrapper>
         <CaptionButton variant="stripped" onClick={toggleEditModus}>
           <StyledFigcaption>
-            <FigureInfo>
-              {parse(parseMarkdown({ markdown: embed.caption ?? '', inline: true }))}
-            </FigureInfo>
+            <FigureInfo>{parse(parseMarkdown({ markdown: embed.caption ?? '', inline: true }))}</FigureInfo>
           </StyledFigcaption>
         </CaptionButton>
       </Figure>

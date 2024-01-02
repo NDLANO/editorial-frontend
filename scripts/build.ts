@@ -82,11 +82,7 @@ const compile = (
   }
 };
 
-const print = (
-  summary: string,
-  errors: string[] | StatsError[] | Error[],
-  type: 'warning' | 'error',
-) => {
+const print = (summary: string, errors: string[] | StatsError[] | Error[], type: 'warning' | 'error') => {
   const chalkFunc = type === 'warning' ? chalk.yellow : chalk.red;
   const logFunc = type === 'warning' ? console.warn : console.error;
   logFunc(`${chalkFunc(summary)}`);

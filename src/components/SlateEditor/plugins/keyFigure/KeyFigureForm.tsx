@@ -109,14 +109,10 @@ const KeyFigureForm = ({ onSave, initialData, onCancel }: Props) => {
       {({ dirty, isValid, handleSubmit }) => (
         <>
           <StyledFormikField name="title" showError>
-            {({ field }: FieldProps) => (
-              <InputV2 customCss={inputStyle} label={t('form.name.title')} {...field} />
-            )}
+            {({ field }: FieldProps) => <InputV2 customCss={inputStyle} label={t('form.name.title')} {...field} />}
           </StyledFormikField>
           <StyledFormikField name="subtitle" showError>
-            {({ field }: FieldProps) => (
-              <InputV2 customCss={inputStyle} label={t('form.name.subtitle')} {...field} />
-            )}
+            {({ field }: FieldProps) => <InputV2 customCss={inputStyle} label={t('form.name.subtitle')} {...field} />}
           </StyledFormikField>
           <InlineImageSearch name="metaImageId" disableAltEditing hideAltText />
           <StyledFormikField name="metaImageAlt">
@@ -135,9 +131,7 @@ const KeyFigureForm = ({ onSave, initialData, onCancel }: Props) => {
                   <CheckboxItem
                     label={t('form.image.isDecorative')}
                     checked={field.value}
-                    onChange={() =>
-                      field.onChange({ target: { name: field.name, value: !field.value } })
-                    }
+                    onChange={() => field.onChange({ target: { name: field.name, value: !field.value } })}
                   />
                 )}
               </>
@@ -147,12 +141,7 @@ const KeyFigureForm = ({ onSave, initialData, onCancel }: Props) => {
             <ButtonV2 variant="outline" onClick={onCancel}>
               {t('cancel')}
             </ButtonV2>
-            <ButtonV2
-              variant="solid"
-              disabled={!dirty || !isValid}
-              type="submit"
-              onClick={() => handleSubmit()}
-            >
+            <ButtonV2 variant="solid" disabled={!dirty || !isValid} type="submit" onClick={() => handleSubmit()}>
               {t('save')}
             </ButtonV2>
           </ButtonContainer>

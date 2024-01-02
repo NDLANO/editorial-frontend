@@ -55,9 +55,7 @@ const ConceptTagPicker = ({ element, onClose, language, onSave: onSaveProp }: Pr
     element.data.tag ? { name: element.data.tag, id: element.data.tag } : undefined,
   );
   const [selectedSubject, setSelectedSubject] = useState<DropdownItem | undefined>(
-    element.data.subjectId
-      ? { name: element.data.subjectId, id: element.data.subjectId }
-      : undefined,
+    element.data.subjectId ? { name: element.data.subjectId, id: element.data.subjectId } : undefined,
   );
   const [titleInput, setTitleInput] = useState(element.data.title || '');
   const [tags, setTags] = useState<DropdownItem[]>([]);
@@ -104,9 +102,7 @@ const ConceptTagPicker = ({ element, onClose, language, onSave: onSaveProp }: Pr
       }
 
       fetchAllTags(language).then((tags) => {
-        const items = tags
-          .map((tag) => ({ name: tag, id: tag }))
-          .sort((a, b) => a.name.localeCompare(b.name));
+        const items = tags.map((tag) => ({ name: tag, id: tag })).sort((a, b) => a.name.localeCompare(b.name));
         setTags(items);
       });
 
@@ -115,9 +111,7 @@ const ConceptTagPicker = ({ element, onClose, language, onSave: onSaveProp }: Pr
         subjectIds.map((id) => fetchNode({ id, language, taxonomyVersion: 'default' })),
       );
       const subjects = (
-        subjectResults.filter((result) => result.status === 'fulfilled') as Array<
-          PromiseFulfilledResult<Node>
-        >
+        subjectResults.filter((result) => result.status === 'fulfilled') as Array<PromiseFulfilledResult<Node>>
       ).map((res) => {
         const subject = res.value;
         return { name: subject.name, id: subject.id };
@@ -136,11 +130,7 @@ const ConceptTagPicker = ({ element, onClose, language, onSave: onSaveProp }: Pr
       <ModalBody>
         <TwoColumn>
           <FormInput>
-            <Input
-              value={titleInput}
-              onChange={onChangeTitleInput}
-              placeholder={t('form.name.title')}
-            />
+            <Input value={titleInput} onChange={onChangeTitleInput} placeholder={t('form.name.title')} />
             <Dropdown
               items={tags}
               onSelect={setSelectedTag}

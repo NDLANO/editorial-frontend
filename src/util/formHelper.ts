@@ -37,8 +37,7 @@ const checkIfContentHasChanged = (
   initialHTML?: string,
 ) => {
   if (currentValue.length !== initialContent.length) return true;
-  const toHTMLFunction =
-    type === 'standard' || type === 'frontpage-article' ? blockContentToHTML : inlineContentToHTML;
+  const toHTMLFunction = type === 'standard' || type === 'frontpage-article' ? blockContentToHTML : inlineContentToHTML;
   const newHTML = toHTMLFunction(currentValue);
 
   const diff = diffHTML(newHTML, initialHTML || toHTMLFunction(initialContent));
@@ -93,14 +92,7 @@ export const isFormikFormDirty = <T extends FormikFields>({
     .forEach(([key, value]) => {
       if (slateFields.includes(key)) {
         if (key === 'content') {
-          if (
-            checkIfContentHasChanged(
-              values[key]!,
-              initialValues[key]!,
-              initialValues.articleType!,
-              initialHTML,
-            )
-          ) {
+          if (checkIfContentHasChanged(values[key]!, initialValues[key]!, initialValues.articleType!, initialHTML)) {
             dirtyFields.push(value);
           }
         } else if (typeof value === 'object' && !isEqual(value, initialValues[key])) {
@@ -230,14 +222,10 @@ export const learningResourceRules: RulesType<LearningResourceFormType, IArticle
         'error-embed',
         'external-embed',
       ).map((node) => (node as EmbedElements).data);
-      const notValidEmbeds = embeds.filter(
-        (embed) => embed && !isUserProvidedEmbedDataValid(embed),
-      );
+      const notValidEmbeds = embeds.filter((embed) => embed && !isUserProvidedEmbedDataValid(embed));
       const embedsHasErrors = notValidEmbeds.length > 0;
 
-      return embedsHasErrors
-        ? { translationKey: 'learningResourceForm.validation.missingEmbedData' }
-        : undefined;
+      return embedsHasErrors ? { translationKey: 'learningResourceForm.validation.missingEmbedData' } : undefined;
     },
     warnings: {
       languageMatch: true,
@@ -251,11 +239,8 @@ export const frontPageArticleRules: RulesType<FrontpageArticleFormType, IArticle
     required: true,
     onlyValidateIf: (values) => values.slug !== undefined,
     test: (values) => {
-      const containsIllegalCharacters =
-        values.slug?.replace(/[^a-zA-Z0-9-]/g, '').length !== values.slug?.length;
-      return containsIllegalCharacters
-        ? { translationKey: 'frontpageArticleForm.validation.illegalSlug' }
-        : undefined;
+      const containsIllegalCharacters = values.slug?.replace(/[^a-zA-Z0-9-]/g, '').length !== values.slug?.length;
+      return containsIllegalCharacters ? { translationKey: 'frontpageArticleForm.validation.illegalSlug' } : undefined;
     },
     warnings: {
       languageMatch: true,
@@ -274,8 +259,7 @@ export const topicArticleRules: RulesType<TopicArticleFormType, IArticle> = {
     required: false,
     onlyValidateIf: (values) =>
       isSlateEmbed(values.visualElement[0]) &&
-      (values.visualElement[0].data?.resource === 'image' ||
-        values.visualElement[0].data?.resource === 'brightcove'),
+      (values.visualElement[0].data?.resource === 'image' || values.visualElement[0].data?.resource === 'brightcove'),
     warnings: {
       languageMatch: true,
       apiField: 'visualElement',

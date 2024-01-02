@@ -39,10 +39,7 @@ import {
 import { nodeQueryKeys } from './nodeQueries';
 import { WithTaxonomyVersion } from '../../interfaces';
 import handleError from '../../util/handleError';
-import {
-  createResourceResourceType,
-  ResourceResourceTypePostParams,
-} from '../taxonomy/resourcetypes';
+import { createResourceResourceType, ResourceResourceTypePostParams } from '../taxonomy/resourcetypes';
 
 interface UseAddNodeMutation extends WithTaxonomyVersion {
   body: NodePostPut;
@@ -91,8 +88,7 @@ export const useUpdateNodeMetadataMutation = () => {
   const qc = useQueryClient();
   const { i18n } = useTranslation();
   return useMutation<Metadata, unknown, UseUpdateNodeMetadataMutation>({
-    mutationFn: ({ id, metadata, taxonomyVersion }) =>
-      putNodeMetadata({ id: id, meta: metadata, taxonomyVersion }),
+    mutationFn: ({ id, metadata, taxonomyVersion }) => putNodeMetadata({ id: id, meta: metadata, taxonomyVersion }),
 
     onMutate: async ({ id, metadata, rootId, taxonomyVersion }) => {
       const key = rootId
@@ -177,8 +173,7 @@ interface UseDeleteNodeTranslationMutation extends WithTaxonomyVersion {
 
 export const useDeleteNodeTranslationMutation = () => {
   return useMutation<void, unknown, UseDeleteNodeTranslationMutation>({
-    mutationFn: ({ id, language, taxonomyVersion }) =>
-      deleteNodeTranslation({ id, language, taxonomyVersion }),
+    mutationFn: ({ id, language, taxonomyVersion }) => deleteNodeTranslation({ id, language, taxonomyVersion }),
   });
 };
 
@@ -251,8 +246,7 @@ export const useCreateResourceResourceTypeMutation = (
   options?: Partial<UseMutationOptions<string, unknown, ResourceResourceTypePostParams>>,
 ) => {
   return useMutation<string, unknown, ResourceResourceTypePostParams>({
-    mutationFn: ({ body, taxonomyVersion }) =>
-      createResourceResourceType({ body, taxonomyVersion }),
+    mutationFn: ({ body, taxonomyVersion }) => createResourceResourceType({ body, taxonomyVersion }),
     ...options,
   });
 };
@@ -279,8 +273,7 @@ export const usePutResourceForNodeMutation = (
   options?: Partial<UseMutationOptions<void, unknown, UsePutResourceForNodeMutation>>,
 ) => {
   return useMutation<void, unknown, UsePutResourceForNodeMutation>({
-    mutationFn: ({ id, body, taxonomyVersion }) =>
-      putResourceForNode({ id, body, taxonomyVersion }),
+    mutationFn: ({ id, body, taxonomyVersion }) => putResourceForNode({ id, body, taxonomyVersion }),
     ...options,
   });
 };
@@ -302,9 +295,7 @@ export const usePublishNodeMutation = (
 
 type UsePutNodeMutation = PutNodeParams;
 
-export const usePutNodeMutation = (
-  options?: Partial<UseMutationOptions<void, unknown, UsePutNodeMutation>>,
-) => {
+export const usePutNodeMutation = (options?: Partial<UseMutationOptions<void, unknown, UsePutNodeMutation>>) => {
   return useMutation<void, unknown, UsePutNodeMutation>({
     mutationFn: (params) => putNode(params),
     ...options,

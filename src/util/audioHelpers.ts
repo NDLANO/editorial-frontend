@@ -13,10 +13,7 @@ import { AudioFormikType } from '../containers/AudioUploader/components/AudioFor
 import { PodcastSeriesFormikType } from '../containers/PodcastSeries/components/PodcastSeriesForm';
 import { PodcastFormValues } from '../modules/audio/audioApiInterfaces';
 
-export const audioApiTypeToFormType = (
-  audio: IAudioMetaInformation | undefined,
-  language: string,
-): AudioFormikType => {
+export const audioApiTypeToFormType = (audio: IAudioMetaInformation | undefined, language: string): AudioFormikType => {
   const copyright: ICopyright = audio?.copyright ?? {
     creators: [],
     processors: [],
@@ -55,10 +52,7 @@ export const audioApiTypeToPodcastFormType = (
   };
 };
 
-export const podcastSeriesTypeToFormType = (
-  series: ISeries | undefined,
-  language: string,
-): PodcastSeriesFormikType => {
+export const podcastSeriesTypeToFormType = (series: ISeries | undefined, language: string): PodcastSeriesFormikType => {
   return {
     ...series,
     language,

@@ -55,17 +55,11 @@ const SlateAside = (props: Props) => {
 
   switch (type) {
     case 'rightAside':
-      return (
-        <SlateRightAside onRemoveClick={onRemoveClick} onMoveContent={onMoveContent} {...props} />
-      );
+      return <SlateRightAside onRemoveClick={onRemoveClick} onMoveContent={onMoveContent} {...props} />;
     case 'factAside':
-      return (
-        <SlateFactAside onRemoveClick={onRemoveClick} onMoveContent={onMoveContent} {...props} />
-      );
+      return <SlateFactAside onRemoveClick={onRemoveClick} onMoveContent={onMoveContent} {...props} />;
     default: {
-      return (
-        <SlateFactAside onRemoveClick={onRemoveClick} onMoveContent={onMoveContent} {...props} />
-      );
+      return <SlateFactAside onRemoveClick={onRemoveClick} onMoveContent={onMoveContent} {...props} />;
     }
   }
 };

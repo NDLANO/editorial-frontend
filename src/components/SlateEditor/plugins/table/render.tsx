@@ -43,10 +43,7 @@ export const tableRenderer = (editor: Editor) => {
           <>
             <TableActions editor={editor} element={element} />
             <SlateTable editor={editor} element={element} attributes={attributes}>
-              <colgroup
-                contentEditable={false}
-                dangerouslySetInnerHTML={{ __html: element.colgroups || '' }}
-              />
+              <colgroup contentEditable={false} dangerouslySetInnerHTML={{ __html: element.colgroups || '' }} />
               {children}
             </SlateTable>
           </>
@@ -98,11 +95,7 @@ export const tableRenderer = (editor: Editor) => {
     const path = ReactEditor.findPath(editor, text);
 
     const [parent] = Editor.node(editor, Path.parent(path));
-    if (
-      Element.isElement(parent) &&
-      parent.type === TYPE_TABLE_CAPTION &&
-      Node.string(leaf) === ''
-    ) {
+    if (Element.isElement(parent) && parent.type === TYPE_TABLE_CAPTION && Node.string(leaf) === '') {
       return (
         <WithPlaceHolder attributes={attributes} placeholder="form.name.title">
           {children}

@@ -63,10 +63,7 @@ const ImageTransformEditor = ({
     default:
       return (
         <figure>
-          <StyledImg
-            alt={embed.alt}
-            srcSet={getSrcSets(embed.resource_id, transformData, language)}
-          />
+          <StyledImg alt={embed.alt} srcSet={getSrcSets(embed.resource_id, transformData, language)} />
         </figure>
       );
   }

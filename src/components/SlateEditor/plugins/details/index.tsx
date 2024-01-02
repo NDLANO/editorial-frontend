@@ -64,11 +64,7 @@ const summaryNormalizerConfig: NormalizerConfig = {
   },
 };
 
-const onEnter = (
-  e: KeyboardEvent,
-  editor: Editor,
-  nextOnKeyDown?: (event: KeyboardEvent) => void,
-) => {
+const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: KeyboardEvent) => void) => {
   if (hasNodeOfType(editor, TYPE_SUMMARY)) {
     e.preventDefault();
     Transforms.splitNodes(editor, {
@@ -80,11 +76,7 @@ const onEnter = (
   return nextOnKeyDown && nextOnKeyDown(e);
 };
 
-const onBackspace = (
-  e: KeyboardEvent,
-  editor: Editor,
-  nextOnKeyDown?: (event: KeyboardEvent) => void,
-) => {
+const onBackspace = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: KeyboardEvent) => void) => {
   if (
     hasNodeOfType(editor, TYPE_DETAILS) &&
     Location.isLocation(editor.selection) &&
@@ -206,14 +198,7 @@ export const detailsPlugin = (editor: Editor) => {
           }
 
           // Remove marks if any is active
-          if (
-            child.bold ||
-            child.code ||
-            child.italic ||
-            child.sub ||
-            child.sup ||
-            child.underlined
-          ) {
+          if (child.bold || child.code || child.italic || child.sub || child.sup || child.underlined) {
             Transforms.unsetNodes(editor, ['bold', 'code', 'italic', 'sub', 'sup', 'underlined'], {
               at: childPath,
             });

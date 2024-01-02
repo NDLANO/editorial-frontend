@@ -78,9 +78,7 @@ const SlateH5p = ({ element, editor, attributes, language, children }: Props) =>
     <H5pWrapper {...attributes} data-selected={isSelected}>
       <div contentEditable={false}>
         <FigureButtons>
-          {config.h5pMetaEnabled && (
-            <EditMetadataModal embed={embed} editor={editor} element={element} />
-          )}
+          {config.h5pMetaEnabled && <EditMetadataModal embed={embed} editor={editor} element={element} />}
           <EditH5PModal embed={embed} language={language} editor={editor} element={element} />
           <StyledDeleteEmbedButton
             title={t('form.h5p.remove')}

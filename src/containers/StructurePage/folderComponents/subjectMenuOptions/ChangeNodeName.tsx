@@ -162,9 +162,7 @@ const ChangeNodeNameContent = ({ onClose, node, nodeType = 'SUBJECT' }: ModalPro
     const promises: (() => Promise<any>)[] = [];
 
     if (formik.initialValues.name !== formik.values.name) {
-      promises.push(() =>
-        putNodeMutation.mutateAsync({ id, taxonomyVersion, name: formik.values.name }),
-      );
+      promises.push(() => putNodeMutation.mutateAsync({ id, taxonomyVersion, name: formik.values.name }));
     }
 
     deleted.forEach(([, d]) =>
@@ -237,9 +235,7 @@ const ChangeNodeNameContent = ({ onClose, node, nodeType = 'SUBJECT' }: ModalPro
           initialValues={initialValues}
           onSubmit={(_, __) => {}}
           validate={(values) => {
-            const errors = values.translations.map((translation) =>
-              validateFormik(translation, rules, t),
-            );
+            const errors = values.translations.map((translation) => validateFormik(translation, rules, t));
 
             const nameErrors = validateFormik(
               { name: values.name },
@@ -250,10 +246,7 @@ const ChangeNodeNameContent = ({ onClose, node, nodeType = 'SUBJECT' }: ModalPro
               },
               t,
             );
-            if (
-              errors.some((err) => Object.keys(err).length > 0) ||
-              Object.keys(nameErrors).length > 0
-            ) {
+            if (errors.some((err) => Object.keys(err).length > 0) || Object.keys(nameErrors).length > 0) {
               return { translations: errors, ...nameErrors };
             }
           }}
@@ -261,10 +254,7 @@ const ChangeNodeNameContent = ({ onClose, node, nodeType = 'SUBJECT' }: ModalPro
         >
           {(formik) => {
             const { values, dirty, isSubmitting, isValid } = formik;
-            const takenLanguages = values.translations.reduce(
-              (prev, curr) => ({ ...prev, [curr.language]: '' }),
-              {},
-            );
+            const takenLanguages = values.translations.reduce((prev, curr) => ({ ...prev, [curr.language]: '' }), {});
             const availableLanguages = subjectpageLanguages.filter(
               (trans) => !Object.prototype.hasOwnProperty.call(takenLanguages, trans),
             );
@@ -289,10 +279,7 @@ const ChangeNodeNameContent = ({ onClose, node, nodeType = 'SUBJECT' }: ModalPro
                     <>
                       {values.translations.map((trans, i) => (
                         <Row key={i}>
-                          <StyledFormikField
-                            name={`translations.${i}.name`}
-                            label={t(`languages.${trans.language}`)}
-                          >
+                          <StyledFormikField name={`translations.${i}.name`} label={t(`languages.${trans.language}`)}>
                             {({ field }) => (
                               <InputRow>
                                 <Input {...field} data-testid={`subjectName_${trans.language}`} />
@@ -316,9 +303,7 @@ const ChangeNodeNameContent = ({ onClose, node, nodeType = 'SUBJECT' }: ModalPro
                 </FieldArray>
                 <StyledUIField right noBorder>
                   <Row justifyContent="end">
-                    <StyledCancelButton onClick={onClose}>
-                      {t('taxonomy.changeName.cancel')}
-                    </StyledCancelButton>
+                    <StyledCancelButton onClick={onClose}>{t('taxonomy.changeName.cancel')}</StyledCancelButton>
                     <SaveButton
                       data-testid="saveNodeTranslationsButton"
                       size="large"

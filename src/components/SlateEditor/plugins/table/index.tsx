@@ -42,21 +42,11 @@ import {
   TYPE_TABLE_CELL,
   TYPE_TABLE_CELL_HEADER,
 } from './types';
-import {
-  reduceElementDataAttributes,
-  removeEmptyElementDataAttributes,
-} from '../../../../util/embedTagHelpers';
+import { reduceElementDataAttributes, removeEmptyElementDataAttributes } from '../../../../util/embedTagHelpers';
 import { SlateSerializer } from '../../interfaces';
 import { NormalizerConfig, defaultBlockNormalizer } from '../../utils/defaultNormalizer';
 import getCurrentBlock from '../../utils/getCurrentBlock';
-import {
-  KEY_ARROW_DOWN,
-  KEY_ARROW_UP,
-  KEY_BACKSPACE,
-  KEY_DELETE,
-  KEY_ENTER,
-  KEY_TAB,
-} from '../../utils/keys';
+import { KEY_ARROW_DOWN, KEY_ARROW_UP, KEY_BACKSPACE, KEY_DELETE, KEY_ENTER, KEY_TAB } from '../../utils/keys';
 import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
 import { defaultParagraphBlock } from '../paragraph/utils';
@@ -91,9 +81,7 @@ export const tableSerializer: SlateSerializer = {
       // We append the colgroup into the html in the serialization.
       const colgroups =
         childNodes
-          .filter((child) =>
-            ['colgroup', 'col'].includes((child as HTMLElement).tagName?.toLowerCase()),
-          )
+          .filter((child) => ['colgroup', 'col'].includes((child as HTMLElement).tagName?.toLowerCase()))
           .map((col) => col.outerHTML)
           .join('') || '';
       return slatejsx(
@@ -106,8 +94,7 @@ export const tableSerializer: SlateSerializer = {
         // We ensure the children of of the table only includes the wrapper elements and not direct table rows or cells.
         children.filter(
           (child) =>
-            Element.isElement(child) &&
-            [TYPE_TABLE_HEAD, TYPE_TABLE_BODY, TYPE_TABLE_CAPTION].includes(child.type),
+            Element.isElement(child) && [TYPE_TABLE_HEAD, TYPE_TABLE_BODY, TYPE_TABLE_CAPTION].includes(child.type),
         ),
       );
     }
@@ -173,9 +160,7 @@ export const tableSerializer: SlateSerializer = {
           <table
             dangerouslySetInnerHTML={{
               __html:
-                renderToStaticMarkup(caption) +
-                node.colgroups +
-                rest.map((e) => renderToStaticMarkup(e)).join(''),
+                renderToStaticMarkup(caption) + node.colgroups + rest.map((e) => renderToStaticMarkup(e)).join(''),
             }}
           ></table>
         );
@@ -270,11 +255,7 @@ export const tablePlugin = (editor: Editor) => {
       // Normalize headers and id. For each row check that id and headers are set accordingly.
       // We have a maximum of rows of header elements in thead and only 1 column max for rowheaders
       const matrix = getTableAsMatrix(editor, path);
-      if (
-        tableContainsSpan(matrix ?? []) ||
-        node.rowHeaders ||
-        matrix?.[1]?.[1]?.type === TYPE_TABLE_CELL_HEADER
-      ) {
+      if (tableContainsSpan(matrix ?? []) || node.rowHeaders || matrix?.[1]?.[1]?.type === TYPE_TABLE_CELL_HEADER) {
         matrix?.forEach((row, rowIndex) => {
           row.forEach((cell, cellIndex) => {
             const result = Editor.nodes(editor, {
@@ -294,11 +275,7 @@ export const tablePlugin = (editor: Editor) => {
 
               if (isTableHead(parent)) {
                 // If first row we add only a double digit id based on the cellIndex
-                if (
-                  rowIndex === 0 &&
-                  cell.data.id !== `0${cellIndex}` &&
-                  cell.type === TYPE_TABLE_CELL_HEADER
-                ) {
+                if (rowIndex === 0 && cell.data.id !== `0${cellIndex}` && cell.type === TYPE_TABLE_CELL_HEADER) {
                   return updateCell(editor, cell, { id: `0${cellIndex}` }, TYPE_TABLE_CELL_HEADER);
                 }
 
@@ -306,8 +283,7 @@ export const tablePlugin = (editor: Editor) => {
                 if (
                   rowIndex === 1 &&
                   matrix?.[1]?.[1]?.type === TYPE_TABLE_CELL_HEADER &&
-                  (cell.data.id !== `0${cellIndex}1${cellIndex}` ||
-                    (!!headers && headers !== cell.data.headers))
+                  (cell.data.id !== `0${cellIndex}1${cellIndex}` || (!!headers && headers !== cell.data.headers))
                 ) {
                   return updateCell(
                     editor,
@@ -363,9 +339,7 @@ export const tablePlugin = (editor: Editor) => {
 
       // Numbers need to be right aligned default
       if (!isNaN(Number(Node.string(node))) && !node.data?.align && Node.string(node) !== '') {
-        return HistoryEditor.withoutSaving(editor, () =>
-          updateCell(editor, node, { align: 'right' }),
-        );
+        return HistoryEditor.withoutSaving(editor, () => updateCell(editor, node, { align: 'right' }));
       }
     }
 
@@ -410,14 +384,7 @@ export const tablePlugin = (editor: Editor) => {
             at: [...path, index],
           });
           // ii. Remove styling on text
-        } else if (
-          child.bold ||
-          child.code ||
-          child.italic ||
-          child.sub ||
-          child.sup ||
-          child.underlined
-        ) {
+        } else if (child.bold || child.code || child.italic || child.sub || child.sup || child.underlined) {
           Transforms.unsetNodes(editor, ['bold', 'code', 'italic', 'sub', 'sup', 'underlined'], {
             at: path,
             match: (node) => Text.isText(node),
@@ -439,17 +406,9 @@ export const tablePlugin = (editor: Editor) => {
       }
       const [tableNode, tablePath] = entry;
 
-      if (
-        tablePath &&
-        tableNode &&
-        editor.selection &&
-        Path.isDescendant(editor.selection.anchor.path, tablePath)
-      ) {
+      if (tablePath && tableNode && editor.selection && Path.isDescendant(editor.selection.anchor.path, tablePath)) {
         if (tableNode) {
-          return handleTableKeydown(event, editor, [
-            tableNode,
-            tablePath,
-          ] as NodeEntry<TableElement>);
+          return handleTableKeydown(event, editor, [tableNode, tablePath] as NodeEntry<TableElement>);
         }
       }
     }

@@ -92,12 +92,7 @@ const LanguageSelector = ({ element, clicks, onClose, setClicks }: Props) => {
     <Portal container={container}>
       <Container id={'langaugeSelector'} contentEditable={false}>
         {languages.map((lang) => (
-          <LanguageButton
-            key={lang}
-            language={lang}
-            onClick={onClick}
-            isActive={lang === element.data.lang}
-          />
+          <LanguageButton key={lang} language={lang} onClick={onClick} isActive={lang === element.data.lang} />
         ))}
         <ButtonV2 variant="ghost" colorTheme="danger" contentEditable={false} onClick={onDelete}>
           <DeleteForever />

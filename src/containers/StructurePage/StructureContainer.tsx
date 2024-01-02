@@ -74,9 +74,7 @@ const StructureContainer = ({
   const [shouldScroll, setShouldScroll] = useState(!!paths.length);
 
   const { userPermissions } = useSession();
-  const [showFavorites, setShowFavorites] = useState(
-    window.localStorage.getItem(REMEMBER_FAVORITE_NODES) === 'true',
-  );
+  const [showFavorites, setShowFavorites] = useState(window.localStorage.getItem(REMEMBER_FAVORITE_NODES) === 'true');
 
   const resourceSection = useRef<HTMLDivElement>(null);
   const firstRender = useRef(true);
@@ -127,9 +125,7 @@ const StructureContainer = ({
     return nodes.filter((node) => favoriteNodeIds.includes(node.id));
   };
 
-  const nodes = showFavorites
-    ? getFavoriteNodes(nodesQuery.data, [...favoriteNodeIds, rootId])
-    : nodesQuery.data!;
+  const nodes = showFavorites ? getFavoriteNodes(nodesQuery.data, [...favoriteNodeIds, rootId]) : nodesQuery.data!;
 
   const toggleShowFavorites = () => {
     window.localStorage.setItem(REMEMBER_FAVORITE_NODES, (!showFavorites).toString());
@@ -148,11 +144,7 @@ const StructureContainer = ({
         <GridContainer breakpoint={breakpoints.desktop}>
           {messageBox && <Column>{messageBox}</Column>}
           <Column colEnd={7}>
-            <StructureBanner
-              onChange={toggleShowFavorites}
-              checked={showFavorites}
-              nodeType={rootNodeType}
-            />
+            <StructureBanner onChange={toggleShowFavorites} checked={showFavorites} nodeType={rootNodeType} />
             <StyledStructureContainer>
               {userDataQuery.isLoading || nodesQuery.isLoading ? (
                 <Spinner />

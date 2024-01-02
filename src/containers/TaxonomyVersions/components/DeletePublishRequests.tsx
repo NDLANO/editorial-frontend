@@ -13,15 +13,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
-import {
-  ModalBody,
-  ModalHeader,
-  ModalTitle,
-  Modal,
-  ModalTrigger,
-  ModalContent,
-  ModalCloseButton,
-} from '@ndla/modal';
+import { ModalBody, ModalHeader, ModalTitle, Modal, ModalTrigger, ModalContent, ModalCloseButton } from '@ndla/modal';
 import { Node } from '@ndla/types-taxonomy';
 import { TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH } from '../../../constants';
 import { useUpdateNodeMetadataMutation } from '../../../modules/nodes/nodeMutations';
@@ -81,12 +73,7 @@ const DeletePublishRequests = ({ nodes }: Props) => {
             <ModalCloseButton>
               <ButtonV2 variant="outline">{t('cancel')}</ButtonV2>
             </ModalCloseButton>
-            <ButtonV2
-              variant="outline"
-              colorTheme="danger"
-              onClick={() => onDelete(nodes)}
-              disabled={isPending}
-            >
+            <ButtonV2 variant="outline" colorTheme="danger" onClick={() => onDelete(nodes)} disabled={isPending}>
               {isPending && <Spinner size="small" />}
               {t('delete')}
             </ButtonV2>

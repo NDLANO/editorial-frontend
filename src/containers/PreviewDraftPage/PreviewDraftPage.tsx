@@ -57,22 +57,12 @@ const PreviewDraftPage = () => {
   const isFrontpage = draft.data?.articleType === 'frontpage-article';
   return (
     <>
-      <Hero
-        contentType={
-          isFrontpage ? 'frontpage-article' : (contentType as HeroContentType | undefined)
-        }
-      >
+      <Hero contentType={isFrontpage ? 'frontpage-article' : (contentType as HeroContentType | undefined)}>
         <LanguageSelector supportedLanguages={draft.data?.supportedLanguages ?? []} />
       </Hero>
       <HelmetWithTracker title={`${draft.data?.title?.title} ${t('htmlTitles.titleTemplate')}`} />
       <StyledOneColumn data-wide={isFrontpage}>
-        <PreviewDraft
-          type="article"
-          draft={draft.data!}
-          label={label}
-          contentType={contentType}
-          language={language}
-        />
+        <PreviewDraft type="article" draft={draft.data!} label={label} contentType={contentType} language={language} />
       </StyledOneColumn>
     </>
   );

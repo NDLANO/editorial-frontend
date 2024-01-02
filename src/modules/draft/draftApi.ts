@@ -21,11 +21,7 @@ import {
 } from '@ndla/types-backend/draft-api';
 import { DraftSearchQuery } from './draftApiInterfaces';
 import { DraftStatusType, DraftStatusStateMachineType } from '../../interfaces';
-import {
-  resolveJsonOrRejectWithError,
-  apiResourceUrl,
-  fetchAuthorized,
-} from '../../util/apiHelpers';
+import { resolveJsonOrRejectWithError, apiResourceUrl, fetchAuthorized } from '../../util/apiHelpers';
 import { resolveVoidOrRejectWithError } from '../../util/resolveJsonOrRejectWithError';
 
 const baseUrl: string = apiResourceUrl('/draft-api/v1/drafts');
@@ -51,11 +47,7 @@ export const fetchDrafts = async (ids: number[], language?: string): Promise<IAr
   }).then((r) => resolveJsonOrRejectWithError<[IArticle]>(r));
 };
 
-export const updateDraft = async (
-  id: number,
-  draft: IUpdatedArticle,
-  versionHash = 'default',
-): Promise<IArticle> =>
+export const updateDraft = async (id: number, draft: IUpdatedArticle, versionHash = 'default'): Promise<IArticle> =>
   fetchAuthorized(`${baseUrl}/${id}`, {
     method: 'PATCH',
     headers: { VersionHash: versionHash },
@@ -74,11 +66,7 @@ export const searchDrafts = async (query: DraftSearchQuery): Promise<ISearchResu
     body: JSON.stringify(query),
   }).then((r) => resolveJsonOrRejectWithError<ISearchResult>(r));
 
-export const searchAllDrafts = async (
-  ids: number[],
-  language?: string,
-  sort?: string,
-): Promise<ISearchResult> => {
+export const searchAllDrafts = async (ids: number[], language?: string, sort?: string): Promise<ISearchResult> => {
   const query = queryString.stringify({
     ids: ids.join(','),
     language,
@@ -104,16 +92,12 @@ export const cloneDraft = async (
     fallback: true,
   });
   const url = `${baseUrl}/clone/${id}?${query}`;
-  return fetchAuthorized(url, { method: 'POST' }).then((r) =>
-    resolveJsonOrRejectWithError<IArticle>(r),
-  );
+  return fetchAuthorized(url, { method: 'POST' }).then((r) => resolveJsonOrRejectWithError<IArticle>(r));
 };
 
 export const fetchDraftHistory = async (id: number, language?: string): Promise<IArticle[]> => {
   const query = queryString.stringify({ language });
-  const url = language
-    ? `${baseUrl}/${id}/history?${query}&fallback=true`
-    : `${baseUrl}/${id}/history`;
+  const url = language ? `${baseUrl}/${id}/history?${query}&fallback=true` : `${baseUrl}/${id}/history`;
   return fetchAuthorized(url).then((r) => resolveJsonOrRejectWithError<IArticle[]>(r));
 };
 
@@ -140,17 +124,12 @@ export const updateStatusDraft = async (id: number, status: DraftStatusType): Pr
 
 export const fetchTags = async (language: string): Promise<IArticleTag> => {
   const query = queryString.stringify({ size: 7000, language });
-  return fetchAuthorized(`${baseUrl}/tags/?${query}`).then((r) =>
-    resolveJsonOrRejectWithError<IArticleTag>(r),
-  );
+  return fetchAuthorized(`${baseUrl}/tags/?${query}`).then((r) => resolveJsonOrRejectWithError<IArticleTag>(r));
 };
 
-export const fetchSearchTags = async (
-  input: string,
-  language: string,
-): Promise<ITagsSearchResult> =>
-  fetchAuthorized(`${baseUrl}/tag-search/?language=${language}&query=${input}&fallback=true`).then(
-    (r) => resolveJsonOrRejectWithError<ITagsSearchResult>(r),
+export const fetchSearchTags = async (input: string, language: string): Promise<ITagsSearchResult> =>
+  fetchAuthorized(`${baseUrl}/tag-search/?language=${language}&query=${input}&fallback=true`).then((r) =>
+    resolveJsonOrRejectWithError<ITagsSearchResult>(r),
   );
 
 export const fetchLicenses = async (): Promise<ILicense[]> =>
@@ -170,9 +149,7 @@ export const updateUserData = async (userData: IUpdatedUserData): Promise<IUserD
     body: JSON.stringify(userData),
   }).then((r) => resolveJsonOrRejectWithError<IUserData>(r));
 
-export const fetchStatusStateMachine = async (
-  id?: number,
-): Promise<DraftStatusStateMachineType> => {
+export const fetchStatusStateMachine = async (id?: number): Promise<DraftStatusStateMachineType> => {
   const idParam = id ? `?articleId=${id}` : '';
   return fetchAuthorized(`${baseUrl}/status-state-machine/${idParam}`).then((r) =>
     resolveJsonOrRejectWithError<DraftStatusStateMachineType>(r),

@@ -32,10 +32,7 @@ interface LinkBlockFormValues extends Omit<LinkBlockEmbedData, 'date'> {
   date?: Date;
 }
 
-const toInitialValues = (
-  initialData: LinkBlockEmbedData | undefined,
-  language: string,
-): LinkBlockFormValues => {
+const toInitialValues = (initialData: LinkBlockEmbedData | undefined, language: string): LinkBlockFormValues => {
   return {
     resource: 'link-block',
     title: initialData?.title ?? '',
@@ -123,14 +120,8 @@ const LinkBlockForm = ({ embed, existingEmbeds, onSave }: Props) => {
     [onSave],
   );
 
-  const initialValues = useMemo(
-    () => toInitialValues(embed, i18n.language),
-    [embed, i18n.language],
-  );
-  const initialErrors = useMemo(
-    () => validateFormik(initialValues, rules, t),
-    [initialValues, t, rules],
-  );
+  const initialValues = useMemo(() => toInitialValues(embed, i18n.language), [embed, i18n.language]);
+  const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t, rules]);
 
   return (
     <>
@@ -149,9 +140,7 @@ const LinkBlockForm = ({ embed, existingEmbeds, onSave }: Props) => {
           {({ dirty, isValid, handleSubmit }) => (
             <>
               <StyledFormikField name="title" showError>
-                {({ field }: FieldProps) => (
-                  <InputV2 {...field} customCss={inputStyle} label={t('form.name.title')} />
-                )}
+                {({ field }: FieldProps) => <InputV2 {...field} customCss={inputStyle} label={t('form.name.title')} />}
               </StyledFormikField>
               <StyledFormikField name="language">
                 {({ field }: FieldProps) => (
@@ -168,9 +157,7 @@ const LinkBlockForm = ({ embed, existingEmbeds, onSave }: Props) => {
                 )}
               </StyledFormikField>
               <StyledFormikField name="url" showError>
-                {({ field }: FieldProps) => (
-                  <InputV2 label={t('form.name.url')} customCss={inputStyle} {...field} />
-                )}
+                {({ field }: FieldProps) => <InputV2 label={t('form.name.url')} customCss={inputStyle} {...field} />}
               </StyledFormikField>
               <StyledFormikField name="date">
                 {({ field, form }: FieldProps) => (
@@ -178,9 +165,7 @@ const LinkBlockForm = ({ embed, existingEmbeds, onSave }: Props) => {
                     <label>{t('form.name.date')}</label>
                     <DateWrapper>
                       <InlineDatePicker placeholder={t('linkBlock.chooseDate')} {...field} />
-                      <ButtonV2 onClick={() => form.setFieldValue('date', '')}>
-                        {t('reset')}
-                      </ButtonV2>
+                      <ButtonV2 onClick={() => form.setFieldValue('date', '')}>{t('reset')}</ButtonV2>
                     </DateWrapper>
                   </FieldWrapper>
                 )}
@@ -189,12 +174,7 @@ const LinkBlockForm = ({ embed, existingEmbeds, onSave }: Props) => {
                 <ModalCloseButton>
                   <ButtonV2 variant="outline">{t('cancel')}</ButtonV2>
                 </ModalCloseButton>
-                <ButtonV2
-                  variant="solid"
-                  disabled={!dirty || !isValid}
-                  type="submit"
-                  onClick={() => handleSubmit()}
-                >
+                <ButtonV2 variant="solid" disabled={!dirty || !isValid} type="submit" onClick={() => handleSubmit()}>
                   {t('save')}
                 </ButtonV2>
               </ButtonContainer>

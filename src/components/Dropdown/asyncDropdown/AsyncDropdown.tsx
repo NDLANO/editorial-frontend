@@ -33,11 +33,7 @@ interface InputPropsOptionsRef extends GetInputPropsOptions {
 
 interface Props<ApiType> {
   onChange: (value: ApiType) => Promise<void> | void;
-  apiAction: (
-    query: string,
-    page?: number,
-    pageSize?: number,
-  ) => Promise<SearchResultBase<ApiType>>;
+  apiAction: (query: string, page?: number, pageSize?: number) => Promise<SearchResultBase<ApiType>>;
   placeholder?: string;
   labelField?: string;
   idField?: string;
@@ -251,11 +247,7 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
                 label={label ?? placeholder}
                 labelHidden={!label}
                 data-testid={'dropdown-input'}
-                after={
-                  <IconWrapper>
-                    {loading ? <StyledSpinner size="normal" /> : <Search />}
-                  </IconWrapper>
-                }
+                after={<IconWrapper>{loading ? <StyledSpinner size="normal" /> : <Search />}</IconWrapper>}
                 white={white}
               />
             )}

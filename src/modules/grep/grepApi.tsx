@@ -61,21 +61,17 @@ const getTitlesObject = (titles: Tekst | Title[] | undefined): Title[] => {
 
 // Uses nob, but falls back to default if missing.
 const getTitle = (titles: Title[]): string | undefined => {
-  const title =
-    titles.find((t) => t.spraak === 'nob') || titles.find((t) => t.spraak === 'default');
+  const title = titles.find((t) => t.spraak === 'nob') || titles.find((t) => t.spraak === 'default');
   return title?.verdi;
 };
 
-const fetchKjerneelementer = async (code: string) =>
-  fetch(grepUrl(`/kjerneelementer-lk20/${code}`));
+const fetchKjerneelementer = async (code: string) => fetch(grepUrl(`/kjerneelementer-lk20/${code}`));
 
 const fetchKompetansemaal = async (code: string) => fetch(grepUrl(`/kompetansemaal-lk20/${code}`));
 
-const fetchTverrfagligeTemaer = async (code: string) =>
-  fetch(grepUrl(`/tverrfaglige-temaer-lk20/${code}`));
+const fetchTverrfagligeTemaer = async (code: string) => fetch(grepUrl(`/tverrfaglige-temaer-lk20/${code}`));
 
-const fetchKompetansemaalsett = async (code: string) =>
-  fetch(grepUrl(`/kompetansemaalsett-lk20/${code}`));
+const fetchKompetansemaalsett = async (code: string) => fetch(grepUrl(`/kompetansemaalsett-lk20/${code}`));
 
 const fetchLaereplaner = async (code: string) => fetch(grepUrl(`/laereplaner-lk20/${code}`));
 

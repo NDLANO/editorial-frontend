@@ -9,14 +9,7 @@
 import { nb, nn, enGB } from 'date-fns/locale';
 import { TFunction } from 'i18next';
 import { ReactNode, useCallback, useMemo, useState } from 'react';
-import {
-  DayPicker,
-  Dropdown,
-  Labels,
-  DropdownProps,
-  CustomComponents,
-  useNavigation,
-} from 'react-day-picker';
+import { DayPicker, Dropdown, Labels, DropdownProps, CustomComponents, useNavigation } from 'react-day-picker';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { Arrow, Content, Portal, Root, Trigger } from '@radix-ui/react-popover';

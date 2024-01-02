@@ -28,8 +28,5 @@ declare module 'react-i18next' {
   export function useTranslation<
     Ns extends FlatNamespace | $Tuple<FlatNamespace> | undefined = undefined,
     KPrefix extends KeyPrefix<FallbackNs<Ns>> = undefined,
-  >(
-    ns?: Ns,
-    options?: UseTranslationOptions<KPrefix>,
-  ): CustomUseTranslationResponse<FallbackNs<Ns>, KPrefix>;
+  >(ns?: Ns, options?: UseTranslationOptions<KPrefix>): CustomUseTranslationResponse<FallbackNs<Ns>, KPrefix>;
 }

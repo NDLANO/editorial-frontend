@@ -11,14 +11,7 @@ import { ReactElement, useMemo, useState, ElementType } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
-import {
-  ModalCloseButton,
-  ModalHeader,
-  ModalSizeType,
-  Modal,
-  ModalTrigger,
-  ModalContent,
-} from '@ndla/modal';
+import { ModalCloseButton, ModalHeader, ModalSizeType, Modal, ModalTrigger, ModalContent } from '@ndla/modal';
 import { IConcept } from '@ndla/types-backend/concept-api';
 import { IArticle } from '@ndla/types-backend/draft-api';
 import { OneColumn } from '@ndla/ui';
@@ -143,26 +136,13 @@ const PreviewVersion = ({ article, language, customTitle }: VersionPreviewProps)
         <div className="u-4/6@desktop u-push-1/6@desktop">
           <h2>{t('form.previewProductionArticle.current')}</h2>
         </div>
-        <PreviewDraft
-          type="formArticle"
-          draft={formArticle}
-          language={language}
-          label={article.articleType}
-        />
+        <PreviewDraft type="formArticle" draft={formArticle} language={language} label={article.articleType} />
       </div>
       <div>
         <div className="u-4/6@desktop u-push-1/6@desktop">
-          <h2>
-            {customTitle ??
-              t('form.previewProductionArticle.version', { revision: article.revision })}
-          </h2>
+          <h2>{customTitle ?? t('form.previewProductionArticle.version', { revision: article.revision })}</h2>
         </div>
-        <PreviewDraft
-          type="article"
-          draft={article}
-          language={language}
-          label={article.articleType}
-        />
+        <PreviewDraft type="article" draft={article} language={language} label={article.articleType} />
       </div>
     </TwoArticleWrapper>
   );
@@ -285,9 +265,7 @@ const PreviewConceptCompare = ({ concept, language }: CompareConceptPreviewProps
             ))}
           </select>
         </PreviewTitleWrapper>
-        {apiConcept.data && (
-          <PreviewConceptComponent concept={apiConcept.data} language={previewLanguage} />
-        )}
+        {apiConcept.data && <PreviewConceptComponent concept={apiConcept.data} language={previewLanguage} />}
       </ConceptWrapper>
     </TwoArticleWrapper>
   );
@@ -320,9 +298,7 @@ const components: Record<Props['type'], ElementType> = {
 const PreviewDraftLightboxV2 = (props: Props) => {
   const Component = components[props.type];
   const size: ModalSizeType =
-    props.type === 'compare' || props.type === 'version'
-      ? 'full'
-      : { width: 'large', height: 'full' };
+    props.type === 'compare' || props.type === 'version' ? 'full' : { width: 'large', height: 'full' };
   return (
     <Modal>
       <ModalTrigger>{props.activateButton}</ModalTrigger>

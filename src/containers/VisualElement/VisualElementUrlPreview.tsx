@@ -11,25 +11,10 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { ButtonV2, IconButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
-import {
-  FieldHeader,
-  FieldSection,
-  Input,
-  CheckboxItem,
-  FieldRemoveButton,
-  TextArea,
-} from '@ndla/forms';
+import { FieldHeader, FieldSection, Input, CheckboxItem, FieldRemoveButton, TextArea } from '@ndla/forms';
 import { Link as LinkIcon } from '@ndla/icons/common';
 import { DeleteForever } from '@ndla/icons/editor';
-import {
-  ModalBody,
-  ModalCloseButton,
-  Modal,
-  ModalHeader,
-  ModalTitle,
-  ModalTrigger,
-  ModalContent,
-} from '@ndla/modal';
+import { ModalBody, ModalCloseButton, Modal, ModalHeader, ModalTitle, ModalTrigger, ModalContent } from '@ndla/modal';
 import { SafeLinkIconButton } from '@ndla/safelink';
 import Tooltip from '@ndla/tooltip';
 import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
@@ -260,9 +245,7 @@ const VisualElementUrlPreview = ({
   const titleChanged = title !== embed?.title;
   const descriptionChanged = embed?.caption !== description;
   const imageChanged = embed?.imageid !== image?.id;
-  const typeChanged = showFullscreen
-    ? embed?.type === 'iframe' || !embed?.type
-    : embed?.type === 'fullscreen';
+  const typeChanged = showFullscreen ? embed?.type === 'iframe' || !embed?.type : embed?.type === 'fullscreen';
 
   const canSave = () => {
     if (url === '' || !!error) {
@@ -305,10 +288,7 @@ const VisualElementUrlPreview = ({
       >
         <Modal>
           <ModalTrigger>
-            <IconButtonV2
-              aria-label={t('form.content.link.validDomains')}
-              title={t('form.content.link.validDomains')}
-            >
+            <IconButtonV2 aria-label={t('form.content.link.validDomains')} title={t('form.content.link.validDomains')}>
               <HelpIcon css={normalPaddingCSS} />
             </IconButtonV2>
           </ModalTrigger>
@@ -336,9 +316,7 @@ const VisualElementUrlPreview = ({
           onBlur={handleBlur}
         />
         <RemoveButtonWrapper>
-          <FieldRemoveButton onClick={handleClearInput}>
-            {t('form.content.link.remove')}
-          </FieldRemoveButton>
+          <FieldRemoveButton onClick={handleClearInput}>{t('form.content.link.remove')}</FieldRemoveButton>
         </RemoveButtonWrapper>
       </FieldSection>
       <FieldHeader title={t('form.name.title')} />

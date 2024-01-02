@@ -24,13 +24,7 @@ interface Props {
   inModal?: boolean;
 }
 
-const CreateImage = ({
-  isNewlyCreated,
-  editingArticle,
-  onImageCreated,
-  inModal,
-  closeModal,
-}: Props) => {
+const CreateImage = ({ isNewlyCreated, editingArticle, onImageCreated, inModal, closeModal }: Props) => {
   const { i18n } = useTranslation();
   const locale = i18n.language;
   const { data: licenses } = useLicenses({ placeholderData: [] });

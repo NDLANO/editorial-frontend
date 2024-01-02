@@ -16,11 +16,7 @@ import {
   ITagsSearchResult,
 } from '@ndla/types-backend/audio-api';
 import { AudioSearchParams, SeriesSearchParams } from './audioApiInterfaces';
-import {
-  apiResourceUrl,
-  fetchAuthorized,
-  resolveJsonOrRejectWithError,
-} from '../../util/apiHelpers';
+import { apiResourceUrl, fetchAuthorized, resolveJsonOrRejectWithError } from '../../util/apiHelpers';
 import { resolveJsonOrVoidOrRejectWithError } from '../../util/resolveJsonOrRejectWithError';
 
 const baseUrl = apiResourceUrl('/audio-api/v1/audio');
@@ -52,30 +48,19 @@ export const searchAudio = (query: AudioSearchParams): Promise<IAudioSummarySear
     resolveJsonOrRejectWithError<IAudioSummarySearchResult>(r),
   );
 
-export const deleteLanguageVersionAudio = (
-  audioId: number,
-  locale: string,
-): Promise<IAudioMetaInformation | void> =>
+export const deleteLanguageVersionAudio = (audioId: number, locale: string): Promise<IAudioMetaInformation | void> =>
   fetchAuthorized(`${baseUrl}/${audioId}/language/${locale}`, {
     method: 'DELETE',
   }).then((r) => resolveJsonOrVoidOrRejectWithError(r));
 
-export const deleteLanguageVersionSeries = (
-  seriesId: number,
-  language: string,
-): Promise<ISeries | void> => {
+export const deleteLanguageVersionSeries = (seriesId: number, language: string): Promise<ISeries | void> => {
   return fetchAuthorized(`${seriesBaseUrl}/${seriesId}/language/${language}`, {
     method: 'DELETE',
   }).then((r) => resolveJsonOrVoidOrRejectWithError(r));
 };
 
-export const fetchSearchTags = async (
-  input: string,
-  language: string,
-): Promise<ITagsSearchResult> => {
-  const response = await fetchAuthorized(
-    `${baseUrl}/tag-search/?language=${language}&query=${input}`,
-  );
+export const fetchSearchTags = async (input: string, language: string): Promise<ITagsSearchResult> => {
+  const response = await fetchAuthorized(`${baseUrl}/tag-search/?language=${language}&query=${input}`);
   return resolveJsonOrRejectWithError(response);
 };
 

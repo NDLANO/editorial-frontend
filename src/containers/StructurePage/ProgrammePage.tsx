@@ -19,9 +19,7 @@ const ProgrammePage = () => {
   const messageBox = useMemo(
     () => (
       <MessageBox>
-        {`[${t('taxonomy.previewProgrammes')}](${
-          config.ndlaFrontendDomain
-        }?taxStructure=true&versionHash=default)`}
+        {`[${t('taxonomy.previewProgrammes')}](${config.ndlaFrontendDomain}?taxStructure=true&versionHash=default)`}
       </MessageBox>
     ),
     [t],

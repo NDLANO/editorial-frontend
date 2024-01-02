@@ -17,9 +17,7 @@ import { usePreviewArticle } from '../../modules/article/articleGqlQueries';
 import { useSearchNodes } from '../../modules/nodes/nodeQueries';
 import parseMarkdown from '../../util/parseMarkdown';
 
-const getAudioData = (
-  visualElement?: ConceptVisualElementMeta,
-): { title: string; src?: string } => {
+const getAudioData = (visualElement?: ConceptVisualElementMeta): { title: string; src?: string } => {
   const isSuccessAudio = visualElement?.resource === 'audio' && visualElement?.status === 'success';
   if (!isSuccessAudio) return { title: '' };
 

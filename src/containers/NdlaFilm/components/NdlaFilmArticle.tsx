@@ -59,10 +59,7 @@ const NdlaFilmArticle = ({ fieldName, onUpdateArticle }: Props) => {
 
   return (
     <>
-      <FieldHeader
-        title={t('ndlaFilm.editor.moreInfoTitle')}
-        subTitle={t('ndlaFilm.editor.moreInfoSubTitle')}
-      />
+      <FieldHeader title={t('ndlaFilm.editor.moreInfoTitle')} subTitle={t('ndlaFilm.editor.moreInfoSubTitle')} />
       {selectedArticle && (
         <ArticleElement>
           <Link to={toEditFrontPageArticle(selectedArticle.id, selectedArticle.title.language)}>
@@ -86,9 +83,7 @@ const NdlaFilmArticle = ({ fieldName, onUpdateArticle }: Props) => {
         placeholder={t('frontpageForm.search')}
         apiAction={onSearch}
         disableSelected
-        onChange={(article: IArticleSummaryV2) =>
-          onUpdateArticle(field, form, getUrnFromId(article.id))
-        }
+        onChange={(article: IArticleSummaryV2) => onUpdateArticle(field, form, getUrnFromId(article.id))}
         startOpen={!field.value}
         showPagination
         initialSearch={!field.value}

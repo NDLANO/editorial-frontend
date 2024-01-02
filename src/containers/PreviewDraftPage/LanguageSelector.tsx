@@ -35,10 +35,7 @@ const LanguageSelector = ({ supportedLanguages }: Props) => {
     return null;
   }
   return (
-    <StyledSelect
-      onChange={(evt) => navigate(toPreviewDraft(Number(draftId), evt.target.value))}
-      value={language}
-    >
+    <StyledSelect onChange={(evt) => navigate(toPreviewDraft(Number(draftId), evt.target.value))} value={language}>
       {supportedLanguages.map((supportedLanguage) => (
         <option key={supportedLanguage} value={supportedLanguage}>
           {t(`languages.${supportedLanguage}`)}

@@ -46,9 +46,7 @@ const SearchResult = ({ result, locale, subjects, editingState, responsibleName 
   const { t } = useTranslation();
   switch (result.type) {
     case 'content':
-      return (
-        <SearchContent content={result.value} locale={locale} responsibleName={responsibleName} />
-      );
+      return <SearchContent content={result.value} locale={locale} responsibleName={responsibleName} />;
     case 'concept':
       return (
         <SearchConcept

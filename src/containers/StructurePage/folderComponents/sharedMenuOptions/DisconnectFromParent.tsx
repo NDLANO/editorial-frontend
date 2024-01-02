@@ -29,11 +29,7 @@ interface Props {
   onCurrentNodeChanged: (node?: Node) => void;
 }
 
-const DisconnectFromParent = ({
-  node,
-  editModeHandler: { editMode, toggleEditMode },
-  onCurrentNodeChanged,
-}: Props) => {
+const DisconnectFromParent = ({ node, editModeHandler: { editMode, toggleEditMode }, onCurrentNodeChanged }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const { mutateAsync: disconnectNode } = useDeleteNodeConnectionMutation();
@@ -97,9 +93,7 @@ const DisconnectFromParent = ({
       />
       {loading && <Spinner appearance="absolute" />}
       {loading && <Overlay modifiers={['absolute', 'white-opacity', 'zIndex']} />}
-      {error && (
-        <StyledErrorMessage data-testid="inlineEditErrorMessage">{error}</StyledErrorMessage>
-      )}
+      {error && <StyledErrorMessage data-testid="inlineEditErrorMessage">{error}</StyledErrorMessage>}
     </>
   );
 };

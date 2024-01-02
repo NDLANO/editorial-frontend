@@ -12,15 +12,7 @@ import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { colors } from '@ndla/core';
 import { LearningPath } from '@ndla/icons/contentType';
-import {
-  ModalCloseButton,
-  ModalBody,
-  Modal,
-  ModalTitle,
-  ModalHeader,
-  ModalTrigger,
-  ModalContent,
-} from '@ndla/modal';
+import { ModalCloseButton, ModalBody, Modal, ModalTitle, ModalHeader, ModalTrigger, ModalContent } from '@ndla/modal';
 import { ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
 import ElementList from '../../containers/FormikForm/components/ElementList';
 import { fetchLearningpathsWithArticle } from '../../modules/learningpath/learningpathApi';

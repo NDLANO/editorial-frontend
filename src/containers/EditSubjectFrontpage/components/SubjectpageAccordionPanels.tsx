@@ -33,14 +33,7 @@ interface Props {
   leadsTo: string[];
 }
 
-const SubjectpageAccordionPanels = ({
-  buildsOn,
-  connectedTo,
-  editorsChoices,
-  elementId,
-  errors,
-  leadsTo,
-}: Props) => {
+const SubjectpageAccordionPanels = ({ buildsOn, connectedTo, editorsChoices, elementId, errors, leadsTo }: Props) => {
   const { t } = useTranslation();
 
   const subjectsLinks = buildsOn.concat(connectedTo).concat(leadsTo);
@@ -75,11 +68,7 @@ const SubjectpageAccordionPanels = ({
   };
 
   const SubjectPageArticle = () => (
-    <SubjectpageArticles
-      editorsChoices={editorsChoices}
-      elementId={elementId}
-      fieldName={'editorsChoices'}
-    />
+    <SubjectpageArticles editorsChoices={editorsChoices} elementId={elementId} fieldName={'editorsChoices'} />
   );
 
   return (
@@ -96,9 +85,7 @@ const SubjectpageAccordionPanels = ({
         id="metadata"
         title={t('subjectpageForm.metadata')}
         className="u-6/6"
-        hasError={['metaDescription', 'desktopBannerId', 'mobileBannerId'].some(
-          (field) => field in errors,
-        )}
+        hasError={['metaDescription', 'desktopBannerId', 'mobileBannerId'].some((field) => field in errors)}
       >
         <SubjectpageMetadata />
       </FormAccordion>
@@ -108,10 +95,7 @@ const SubjectpageAccordionPanels = ({
         className="u-6/6"
         hasError={['connectedTo', 'buildsOn', 'leadsTo'].some((field) => field in errors)}
       >
-        <SubjectpageSubjectlinks
-          subjects={transformToNodes(connectedTo)}
-          fieldName={'connectedTo'}
-        />
+        <SubjectpageSubjectlinks subjects={transformToNodes(connectedTo)} fieldName={'connectedTo'} />
         <SubjectpageSubjectlinks subjects={transformToNodes(buildsOn)} fieldName={'buildsOn'} />
         <SubjectpageSubjectlinks subjects={transformToNodes(leadsTo)} fieldName={'leadsTo'} />
       </FormAccordion>

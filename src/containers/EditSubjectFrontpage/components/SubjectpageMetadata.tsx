@@ -48,17 +48,10 @@ const SubjectpageMetadata = () => {
       </FormikField>
       <ImageWrapper>
         <FormikField name="desktopBannerId">
-          {() => (
-            <SubjectpageBanner
-              title={t('form.name.desktopBannerId')}
-              fieldName={'desktopBannerId'}
-            />
-          )}
+          {() => <SubjectpageBanner title={t('form.name.desktopBannerId')} fieldName={'desktopBannerId'} />}
         </FormikField>
         <FormikField name="mobileBannerId">
-          {() => (
-            <SubjectpageBanner title={t('form.name.mobileBannerId')} fieldName={'mobileBannerId'} />
-          )}
+          {() => <SubjectpageBanner title={t('form.name.mobileBannerId')} fieldName={'mobileBannerId'} />}
         </FormikField>
       </ImageWrapper>
     </>

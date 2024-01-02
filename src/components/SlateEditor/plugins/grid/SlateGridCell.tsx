@@ -37,8 +37,7 @@ const GridCell = ({ element, editor, attributes, children }: Props) => {
   }, [editor, element]);
 
   const label = useMemo(
-    () =>
-      element.data?.parallaxCell !== 'true' ? t('gridForm.setSticky') : t('gridForm.unsetSticky'),
+    () => (element.data?.parallaxCell !== 'true' ? t('gridForm.setSticky') : t('gridForm.unsetSticky')),
     [t, element.data?.parallaxCell],
   );
 

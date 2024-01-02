@@ -11,13 +11,7 @@ import { useSearchParams } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
 import { Node } from '@ndla/types-taxonomy';
-import {
-  DiffResultType,
-  DiffTree,
-  DiffType,
-  DiffTypeWithChildren,
-  removeUnchangedFromTree,
-} from './diffUtils';
+import { DiffResultType, DiffTree, DiffType, DiffTypeWithChildren, removeUnchangedFromTree } from './diffUtils';
 import Fade from '../../components/Taxonomy/Fade';
 import {
   ItemTitleButton,
@@ -118,12 +112,9 @@ const isChildNode = createGuard<DiffTypeWithChildren>('children');
 export const TreeNode = ({ node, onNodeSelected, selectedNode, parentActive, nodes }: Props) => {
   const { t } = useTranslation();
   const path = nodePathToUrnPath(node.path.other ?? node.path?.original!);
-  const isActive =
-    (selectedNode?.id.other ?? selectedNode?.id.original) === (node.id.other ?? node.id.original);
+  const isActive = (selectedNode?.id.other ?? selectedNode?.id.original) === (node.id.other ?? node.id.original);
   const hasChildNodes = nodes && nodes.length > 0;
-  const connectionId = isChildNode(node)
-    ? node.connectionId.other ?? node.connectionId.original
-    : undefined;
+  const connectionId = isChildNode(node) ? node.connectionId.other ?? node.connectionId.original : undefined;
 
   const onItemClick = () => {
     onNodeSelected(node);

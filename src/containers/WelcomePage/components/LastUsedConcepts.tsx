@@ -64,11 +64,7 @@ const LastUsedConcepts = ({
 
   return (
     <>
-      <TableTitle
-        title={t('welcomePage.lastUsed')}
-        description={t('welcomePage.lastUsedConcepts')}
-        Icon={Pencil}
-      />
+      <TableTitle title={t('welcomePage.lastUsed')} description={t('welcomePage.lastUsedConcepts')} Icon={Pencil} />
       <TableComponent
         isLoading={isLoading}
         tableTitleList={titles}

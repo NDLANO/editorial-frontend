@@ -5,16 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import {
-  Editor,
-  Descendant,
-  BaseEditor,
-  NodeEntry,
-  BaseRange,
-  BaseSelection,
-  Node,
-  Element,
-} from 'slate';
+import { Editor, Descendant, BaseEditor, NodeEntry, BaseRange, BaseSelection, Node, Element } from 'slate';
 import { HistoryEditor } from 'slate-history';
 import { ReactEditor, RenderElementProps, RenderLeafProps } from 'slate-react';
 import { AsideElement } from './plugins/aside';
@@ -28,19 +19,10 @@ import { ConceptBlockElement } from './plugins/concept/block/interfaces';
 import { ConceptInlineElement } from './plugins/concept/inline/interfaces';
 import { ConceptListElement } from './plugins/conceptList';
 import { ContactBlockElement } from './plugins/contactBlock';
-import {
-  DefinitionDescriptionElement,
-  DefinitionListElement,
-  DefinitionTermElement,
-} from './plugins/definitionList';
+import { DefinitionDescriptionElement, DefinitionListElement, DefinitionTermElement } from './plugins/definitionList';
 import { DetailsElement, SummaryElement } from './plugins/details';
 import { DivElement } from './plugins/div';
-import {
-  BrightcoveEmbedElement,
-  ErrorEmbedElement,
-  ExternalEmbedElement,
-  ImageEmbedElement,
-} from './plugins/embed';
+import { BrightcoveEmbedElement, ErrorEmbedElement, ExternalEmbedElement, ImageEmbedElement } from './plugins/embed';
 import { FileElement } from './plugins/file';
 import { FootnoteElement } from './plugins/footnote';
 import { FramedContentElement } from './plugins/framedContent';

@@ -34,10 +34,7 @@ const NdlaFilmEditor = () => {
   return (
     <OneColumn>
       <HelmetWithTracker title={t('htmlTitles.ndlaFilmPage')} />
-      <NdlaFilmForm
-        filmFrontpage={filmFrontpageQuery.data}
-        selectedLanguage={selectedLangOrDefault}
-      />
+      <NdlaFilmForm filmFrontpage={filmFrontpageQuery.data} selectedLanguage={selectedLangOrDefault} />
     </OneColumn>
   );
 };

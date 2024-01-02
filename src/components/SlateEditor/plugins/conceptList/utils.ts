@@ -12,8 +12,4 @@ import { ConceptListElement } from '.';
 import { TYPE_CONCEPT_LIST } from './types';
 
 export const defaultConceptListBlock = (data?: ConceptListEmbedData): ConceptListElement =>
-  slatejsx(
-    'element',
-    { type: TYPE_CONCEPT_LIST, data: data ?? {} },
-    { text: '' },
-  ) as ConceptListElement;
+  slatejsx('element', { type: TYPE_CONCEPT_LIST, data: data ?? {} }, { text: '' }) as ConceptListElement;

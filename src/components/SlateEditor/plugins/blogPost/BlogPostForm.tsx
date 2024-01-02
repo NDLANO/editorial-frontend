@@ -157,14 +157,10 @@ const BlogPostForm = ({ initialData, onSave, onCancel }: Props) => {
             )}
           </StyledFormikField>
           <StyledFormikField name="author" showError>
-            {({ field }: FieldProps) => (
-              <InputV2 customCss={inputStyle} label={t('form.name.author')} {...field} />
-            )}
+            {({ field }: FieldProps) => <InputV2 customCss={inputStyle} label={t('form.name.author')} {...field} />}
           </StyledFormikField>
           <StyledFormikField name="link" showError>
-            {({ field }: FieldProps) => (
-              <InputV2 customCss={inputStyle} label={t('form.name.link')} {...field} />
-            )}
+            {({ field }: FieldProps) => <InputV2 customCss={inputStyle} label={t('form.name.link')} {...field} />}
           </StyledFormikField>
           <StyledFormikField name="size" showError>
             {({ field }: FieldProps) => <SizeField field={field} />}
@@ -183,12 +179,7 @@ const BlogPostForm = ({ initialData, onSave, onCancel }: Props) => {
             <ButtonV2 variant="outline" onClick={onCancel}>
               {t('cancel')}
             </ButtonV2>
-            <ButtonV2
-              variant="solid"
-              disabled={!dirty || !isValid}
-              type="submit"
-              onClick={() => handleSubmit()}
-            >
+            <ButtonV2 variant="solid" disabled={!dirty || !isValid} type="submit" onClick={() => handleSubmit()}>
               {t('save')}
             </ButtonV2>
           </ButtonContainer>

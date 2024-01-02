@@ -192,11 +192,7 @@ function EditorFooter<T extends FormValues>({
         <StyledFooter>
           <StyledFooterControls>
             {isArticle && (
-              <PrioritySelect
-                id="priority-select"
-                priority={values.priority}
-                updatePriority={updatePriority}
-              />
+              <PrioritySelect id="priority-select" priority={values.priority} updatePriority={updatePriority} />
             )}
             {articleOrConcept && (
               <Wrapper>
@@ -236,11 +232,7 @@ function EditorFooter<T extends FormValues>({
             />
           )}
           {values.id && isArticle && (
-            <SafeLinkButton
-              variant="link"
-              to={toPreviewDraft(values.id, values.language)}
-              target="_blank"
-            >
+            <SafeLinkButton variant="link" to={toPreviewDraft(values.id, values.language)} target="_blank">
               {t('form.preview.button')}
               <Launch />
             </SafeLinkButton>
@@ -256,11 +248,7 @@ function EditorFooter<T extends FormValues>({
         <StyledFooterControls>
           <Wrapper>
             {isArticle && (
-              <PrioritySelect
-                id="priority-select"
-                priority={values.priority}
-                updatePriority={updatePriority}
-              />
+              <PrioritySelect id="priority-select" priority={values.priority} updatePriority={updatePriority} />
             )}
           </Wrapper>
           <Wrapper>

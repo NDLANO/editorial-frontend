@@ -38,16 +38,7 @@ interface Props {
   plugins?: SlatePlugin[];
 }
 
-const PlainTextEditor = ({
-  onChange,
-  value,
-  submitted,
-  id,
-  className,
-  placeholder,
-  plugins,
-  ...rest
-}: Props) => {
+const PlainTextEditor = ({ onChange, value, submitted, id, className, placeholder, plugins, ...rest }: Props) => {
   const _editor = useMemo(() => withHistory(withReact(createEditor())), []);
   const editor = useMemo(() => withPlugins(_editor, plugins), [_editor, plugins]);
 

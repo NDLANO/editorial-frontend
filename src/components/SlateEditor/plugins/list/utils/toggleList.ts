@@ -27,8 +27,7 @@ export const toggleList = (editor: Editor, type: string) => {
   if (isIdentical) {
     // List normalizer removes empty list blocks afterwards.
     return Transforms.liftNodes(editor, {
-      match: (node) =>
-        Element.isElement(node) && node.type === TYPE_LIST_ITEM && isListItemSelected(editor, node),
+      match: (node) => Element.isElement(node) && node.type === TYPE_LIST_ITEM && isListItemSelected(editor, node),
       mode: 'all',
     });
     // Selected list items are of mixed type.
@@ -39,19 +38,13 @@ export const toggleList = (editor: Editor, type: string) => {
       { changeTo: listType },
       {
         match: (node) => {
-          if (
-            !Element.isElement(node) ||
-            node.type !== TYPE_LIST_ITEM ||
-            !isListItemSelected(editor, node)
-          ) {
+          if (!Element.isElement(node) || node.type !== TYPE_LIST_ITEM || !isListItemSelected(editor, node)) {
             return false;
           }
           const [parentNode] = Editor.node(editor, Path.parent(ReactEditor.findPath(editor, node)));
 
           const shouldChange =
-            Element.isElement(parentNode) &&
-            parentNode.type === TYPE_LIST &&
-            parentNode.listType !== listType;
+            Element.isElement(parentNode) && parentNode.type === TYPE_LIST && parentNode.listType !== listType;
 
           return shouldChange;
         },

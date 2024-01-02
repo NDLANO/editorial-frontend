@@ -13,11 +13,7 @@ import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
 import ImageSearch from '@ndla/image-search';
 import Tabs from '@ndla/tabs';
-import {
-  IImageMetaInformationV3,
-  IUpdateImageMetaInformation,
-  ISearchResultV3,
-} from '@ndla/types-backend/image-api';
+import { IImageMetaInformationV3, IUpdateImageMetaInformation, ISearchResultV3 } from '@ndla/types-backend/image-api';
 import EditorErrorMessage from './SlateEditor/EditorErrorMessage';
 import ImageForm from '../containers/ImageUploader/components/ImageForm';
 import { draftLicensesToImageLicenses } from '../modules/draft/draftApiUtils';
@@ -37,11 +33,7 @@ interface Props {
   searchImages: (queryObject: ImageSearchQuery) => Promise<ISearchResultV3>;
   fetchImage: (id: number) => Promise<IImageMetaInformationV3>;
   image?: IImageMetaInformationV3;
-  updateImage: (
-    imageMetadata: IUpdateImageMetaInformation,
-    file: string | Blob,
-    id?: number,
-  ) => void;
+  updateImage: (imageMetadata: IUpdateImageMetaInformation, file: string | Blob, id?: number) => void;
   inModal?: boolean;
   showCheckbox?: boolean;
   checkboxAction?: (image: IImageMetaInformationV3) => void;
@@ -99,11 +91,7 @@ const ImageSearchAndUploader = ({
               noResults={
                 <>
                   <StyledTitleDiv>{t('imageSearch.noResultsText')}</StyledTitleDiv>
-                  <ButtonV2
-                    type="submit"
-                    variant="outline"
-                    onClick={() => setSelectedTab('imageUpload')}
-                  >
+                  <ButtonV2 type="submit" variant="outline" onClick={() => setSelectedTab('imageUpload')}>
                     {t('imageSearch.noResultsButtonText')}
                   </ButtonV2>
                 </>

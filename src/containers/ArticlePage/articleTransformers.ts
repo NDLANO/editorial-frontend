@@ -29,11 +29,7 @@ import {
   FrontpageArticleFormType,
 } from '../FormikForm/articleFormHooks';
 
-const getPublishedDate = (
-  values: ArticleFormType,
-  initialValues: ArticleFormType,
-  preview: boolean = false,
-) => {
+const getPublishedDate = (values: ArticleFormType, initialValues: ArticleFormType, preview: boolean = false) => {
   if (isEmpty(values.published)) {
     return undefined;
   }
@@ -91,8 +87,7 @@ const draftApiTypeToArticleFormType = (
     slug: article?.slug,
     responsibleId: article === undefined ? ndlaId : article?.responsible?.responsibleId,
     comments:
-      !article?.comments ||
-      (article?.status.current && RESET_COMMENTS_STATUSES.includes(article?.status.current))
+      !article?.comments || (article?.status.current && RESET_COMMENTS_STATUSES.includes(article?.status.current))
         ? []
         : article.comments,
     priority: article?.priority ?? 'unspecified',
@@ -105,13 +100,7 @@ export const draftApiTypeToLearningResourceFormType = (
   ndlaId: string | undefined,
 ): LearningResourceFormType => {
   return {
-    ...draftApiTypeToArticleFormType(
-      article,
-      language,
-      'standard',
-      ndlaId,
-      blockContentToEditorValue,
-    ),
+    ...draftApiTypeToArticleFormType(article, language, 'standard', ndlaId, blockContentToEditorValue),
   };
 };
 
@@ -121,13 +110,7 @@ export const draftApiTypeToFrontpageArticleFormType = (
   ndlaId: string | undefined,
 ): FrontpageArticleFormType => {
   return {
-    ...draftApiTypeToArticleFormType(
-      article,
-      language,
-      'frontpage-article',
-      ndlaId,
-      blockContentToEditorValue,
-    ),
+    ...draftApiTypeToArticleFormType(article, language, 'frontpage-article', ndlaId, blockContentToEditorValue),
   };
 };
 
@@ -137,13 +120,7 @@ export const draftApiTypeToTopicArticleFormType = (
   ndlaId: string | undefined,
 ): TopicArticleFormType => {
   return {
-    ...draftApiTypeToArticleFormType(
-      article,
-      language,
-      'topic-article',
-      ndlaId,
-      inlineContentToEditorValue,
-    ),
+    ...draftApiTypeToArticleFormType(article, language, 'topic-article', ndlaId, inlineContentToEditorValue),
     visualElement: embedTagToEditorValue(article?.visualElement?.visualElement ?? ''),
   };
 };

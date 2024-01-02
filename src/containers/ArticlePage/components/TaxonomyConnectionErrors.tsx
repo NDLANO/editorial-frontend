@@ -86,10 +86,7 @@ const TaxonomyConnectionErrors = ({ topics, resources, articleType }: Props) => 
 
   return (
     <>
-      <FieldHeader
-        title={t('taxonomy.info.wrongConnections')}
-        subTitle={t('taxonomy.info.wrongConnectionsSubTitle')}
-      >
+      <FieldHeader title={t('taxonomy.info.wrongConnections')} subTitle={t('taxonomy.info.wrongConnectionsSubTitle')}>
         <Tooltip tooltip={t('taxonomy.info.canBeFixedInDatabase')}>
           <div>
             <HelpIcon />

@@ -25,8 +25,7 @@ interface StyledListProps {
 }
 const StyledList = styled.ul<StyledListProps>`
   overflow: visible;
-  margin: 0 0
-    ${(props) => (props.draggingIndex === -1 ? 0 : `${ELEMENT_HEIGHT + spacingUnit * 0.75}px`)};
+  margin: 0 0 ${(props) => (props.draggingIndex === -1 ? 0 : `${ELEMENT_HEIGHT + spacingUnit * 0.75}px`)};
   padding: 0;
   position: relative;
   list-style: none;
@@ -170,10 +169,7 @@ class ElementList extends Component<Props, State> {
 
   onDragging = (evt: MouseEvent) => {
     this.mouseMovement += evt.movementY;
-    const currentPosition = Math.max(
-      Math.ceil((this.mouseMovement + ELEMENT_HEIGHT / 2) / ELEMENT_HEIGHT),
-      0,
-    );
+    const currentPosition = Math.max(Math.ceil((this.mouseMovement + ELEMENT_HEIGHT / 2) / ELEMENT_HEIGHT), 0);
     const addToPosition = this.initialPosition < currentPosition ? 1 : 0;
     const dragIndex = Math.min(this.props.elements.length, Math.max(currentPosition, 0));
     if (this.DraggingFile) {

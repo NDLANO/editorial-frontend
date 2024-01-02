@@ -239,7 +239,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   color: #d1372e;
 }
 
-.emotion-7[data-show-copy-outline='true'] {
+.emotion-7[data-show-copy-outline="true"] {
   box-shadow: rgb(32, 88, 143) 0 0 0 2px;
 }
 

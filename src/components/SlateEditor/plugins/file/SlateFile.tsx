@@ -46,11 +46,6 @@ const CheckboxWrapper = styled.div`
 const StyledInputContainer = styled(InputContainer)`
   background-color: ${colors.white};
   width: 100%;
-  // !important is needed to override styles from data-no-border attribute styling
-  border: 1px solid ${colors.brand.greyMedium} !important;
-  &:focus-within {
-    border: 1px solid ${colors.brand.primary} !important;
-  }
 `;
 
 const File = styled.div`

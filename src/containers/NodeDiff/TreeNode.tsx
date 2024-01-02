@@ -6,21 +6,21 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { useSearchParams } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { spacing, colors } from '@ndla/core';
-import { Node } from '@ndla/types-taxonomy';
-import { DiffResultType, DiffTree, DiffType, DiffTypeWithChildren, removeUnchangedFromTree } from './diffUtils';
-import Fade from '../../components/Taxonomy/Fade';
+import { useTranslation } from "react-i18next";
+import { useSearchParams } from "react-router-dom";
+import styled from "@emotion/styled";
+import { spacing, colors } from "@ndla/core";
+import { Node } from "@ndla/types-taxonomy";
+import { DiffResultType, DiffTree, DiffType, DiffTypeWithChildren, removeUnchangedFromTree } from "./diffUtils";
+import Fade from "../../components/Taxonomy/Fade";
 import {
   ItemTitleButton,
   StructureWrapper,
   StyledItemBar,
   StyledStructureItem,
-} from '../../components/Taxonomy/nodeStyles';
-import { createGuard } from '../../util/guards';
-import { nodePathToUrnPath } from '../../util/taxonomyHelpers';
+} from "../../components/Taxonomy/nodeStyles";
+import { createGuard } from "../../util/guards";
+import { nodePathToUrnPath } from "../../util/taxonomyHelpers";
 
 interface Props {
   node: DiffType<Node> | DiffTypeWithChildren;
@@ -44,15 +44,15 @@ export const RootNode = ({ tree, onNodeSelected, selectedNode }: RootNodeProps) 
   const root = tree.root;
   const [params] = useSearchParams();
 
-  const nodeView = params.get('nodeView') ?? 'changed';
+  const nodeView = params.get("nodeView") ?? "changed";
   if (
-    root.changed.diffType === 'NONE' &&
-    root.childrenChanged?.diffType === 'NONE' &&
-    root.resourcesChanged?.diffType === 'NONE' &&
-    nodeView === 'changed'
+    root.changed.diffType === "NONE" &&
+    root.childrenChanged?.diffType === "NONE" &&
+    root.resourcesChanged?.diffType === "NONE" &&
+    nodeView === "changed"
   )
     return null;
-  const children = nodeView === 'changed' ? removeUnchangedFromTree(tree.children) : tree.children;
+  const children = nodeView === "changed" ? removeUnchangedFromTree(tree.children) : tree.children;
 
   return (
     <TreeNode
@@ -87,7 +87,7 @@ interface DiffTypePillProps {
 }
 
 const diffTypeToColorMap: Record<DiffResultType, string> = {
-  NONE: 'transparent',
+  NONE: "transparent",
   MODIFIED: colors.support.yellow,
   ADDED: colors.support.green,
   DELETED: colors.support.red,
@@ -95,7 +95,7 @@ const diffTypeToColorMap: Record<DiffResultType, string> = {
 
 export const DiffTypePill = ({ diffType }: DiffTypePillProps) => {
   const { t } = useTranslation();
-  if (diffType === 'NONE') return null;
+  if (diffType === "NONE") return null;
   return (
     <StyledChangedPill color={diffTypeToColorMap[diffType]} textColor="white">
       {t(`diff.diffTypes.${diffType}`)}
@@ -107,7 +107,7 @@ const StyledItem = styled(StyledItemBar)`
   justify-content: space-between;
 `;
 
-const isChildNode = createGuard<DiffTypeWithChildren>('children');
+const isChildNode = createGuard<DiffTypeWithChildren>("children");
 
 export const TreeNode = ({ node, onNodeSelected, selectedNode, parentActive, nodes }: Props) => {
   const { t } = useTranslation();
@@ -142,19 +142,19 @@ export const TreeNode = ({ node, onNodeSelected, selectedNode, parentActive, nod
         </ItemTitleButton>
         <DiffPills>
           {node.resourcesChanged &&
-            node.resourcesChanged?.diffType !== 'NONE' &&
-            node.changed.diffType !== 'DELETED' &&
-            node.changed.diffType !== 'ADDED' && (
-              <StyledChangedPill color={colors.tasksAndActivities.dark} textColor={'white'}>
-                {t('diff.resourcesChanged')}
+            node.resourcesChanged?.diffType !== "NONE" &&
+            node.changed.diffType !== "DELETED" &&
+            node.changed.diffType !== "ADDED" && (
+              <StyledChangedPill color={colors.tasksAndActivities.dark} textColor={"white"}>
+                {t("diff.resourcesChanged")}
               </StyledChangedPill>
             )}
-          {node.childrenChanged && node.childrenChanged?.diffType !== 'NONE' && (
-            <StyledChangedPill color={colors.brand.primary} textColor={'white'}>
-              {t('diff.childrenChanged')}
+          {node.childrenChanged && node.childrenChanged?.diffType !== "NONE" && (
+            <StyledChangedPill color={colors.brand.primary} textColor={"white"}>
+              {t("diff.childrenChanged")}
             </StyledChangedPill>
           )}
-          {node.changed.diffType !== 'NONE' && <DiffTypePill diffType={node.changed.diffType} />}
+          {node.changed.diffType !== "NONE" && <DiffTypePill diffType={node.changed.diffType} />}
         </DiffPills>
       </StyledItem>
       {hasChildNodes &&

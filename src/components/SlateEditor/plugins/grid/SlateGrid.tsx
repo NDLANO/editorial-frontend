@@ -6,20 +6,20 @@
  *
  */
 
-import { useCallback, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Editor, Path, Transforms } from 'slate';
-import { ReactEditor, RenderElementProps } from 'slate-react';
-import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
-import { Pencil } from '@ndla/icons/action';
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from '@ndla/modal';
-import { Grid, GridType } from '@ndla/ui';
-import { GridElement } from '.';
-import { GridProvider } from './GridContext';
-import GridForm from './GridForm';
-import DeleteButton from '../../../DeleteButton';
+import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Path, Transforms } from "slate";
+import { ReactEditor, RenderElementProps } from "slate-react";
+import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
+import { spacing } from "@ndla/core";
+import { Pencil } from "@ndla/icons/action";
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
+import { Grid, GridType } from "@ndla/ui";
+import { GridElement } from ".";
+import { GridProvider } from "./GridContext";
+import GridForm from "./GridForm";
+import DeleteButton from "../../../DeleteButton";
 
 interface Props extends RenderElementProps {
   element: GridElement;
@@ -56,7 +56,10 @@ export const SlateGrid = ({ element, editor, children }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const handleRemove = () => {
-    Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true });
+    Transforms.removeNodes(editor, {
+      at: ReactEditor.findPath(editor, element),
+      voids: true,
+    });
   };
 
   const onClose = () => {
@@ -87,16 +90,16 @@ export const SlateGrid = ({ element, editor, children }: Props) => {
   return (
     <GridWrapper>
       <ButtonContainer>
-        <DeleteButton aria-label={t('delete')} data-testid="remove-grid" onClick={handleRemove} />
+        <DeleteButton aria-label={t("delete")} data-testid="remove-grid" onClick={handleRemove} />
         <Modal open={isEditing} onOpenChange={setIsEditing}>
           <ModalTrigger>
-            <IconButtonV2 variant="ghost" aria-label={t('gridForm.title')} data-testid="edit-grid-button">
+            <IconButtonV2 variant="ghost" aria-label={t("gridForm.title")} data-testid="edit-grid-button">
               <Pencil />
             </IconButtonV2>
           </ModalTrigger>
           <ModalContent size="small">
             <StyledModalHeader>
-              <ModalTitle>{t('gridForm.title')}</ModalTitle>
+              <ModalTitle>{t("gridForm.title")}</ModalTitle>
               <ModalCloseButton />
             </StyledModalHeader>
             <StyledModalBody>

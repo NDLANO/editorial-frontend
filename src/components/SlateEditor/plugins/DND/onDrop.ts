@@ -5,22 +5,22 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { DragEventHandler } from 'react';
-import { Editor, Element, Path, Transforms } from 'slate';
-import { HistoryEditor } from 'slate-history';
-import { ReactEditor } from 'slate-react';
-import { getTopNode } from './utils';
+import { DragEventHandler } from "react";
+import { Editor, Element, Path, Transforms } from "slate";
+import { HistoryEditor } from "slate-history";
+import { ReactEditor } from "slate-react";
+import { getTopNode } from "./utils";
 
 const onDrop =
   (editor: Editor): DragEventHandler<HTMLDivElement> =>
   (event) => {
     const data = event.dataTransfer;
-    if (data.getData('application/x-slate-fragment')) {
+    if (data.getData("application/x-slate-fragment")) {
       // Prevent slate from merging current event with the previous by inserting an empty undo.
       // Reason: Undo after drag and drop causes both drag and previous action to be undone.
       editor.history.undos.push({ operations: [], selectionBefore: null });
     }
-    const originPath = JSON.parse(data.getData('application/slate-node-path') || '[]');
+    const originPath = JSON.parse(data.getData("application/slate-node-path") || "[]");
 
     if (Array.isArray(originPath) && originPath.length > 0) {
       event.preventDefault();
@@ -42,7 +42,7 @@ const onDrop =
       }
 
       // Handle case where root section is detected as the target.
-      if (Element.isElement(topLevelTargetNode) && topLevelTargetNode.type === 'section') {
+      if (Element.isElement(topLevelTargetNode) && topLevelTargetNode.type === "section") {
         // We need to manually calculate the correct posistion to move the node
         // @ts-ignore EventTarget interface does not include children attribute, but the property does exist on target in this case.
         const children = event.target.children as HTMLCollection;

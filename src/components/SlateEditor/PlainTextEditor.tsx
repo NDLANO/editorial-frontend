@@ -6,16 +6,16 @@
  *
  */
 
-import { FormikHandlers, useFormikContext } from 'formik';
-import { useMemo, useEffect, useCallback } from 'react';
-import { createEditor, Descendant } from 'slate';
-import { withHistory } from 'slate-history';
-import { Slate, Editable, ReactEditor, withReact } from 'slate-react';
-import styled from '@emotion/styled';
-import { SlatePlugin } from './interfaces';
-import withPlugins from './utils/withPlugins';
-import { ArticleFormType } from '../../containers/FormikForm/articleFormHooks';
-import { FormikStatus } from '../../interfaces';
+import { FormikHandlers, useFormikContext } from "formik";
+import { useMemo, useEffect, useCallback } from "react";
+import { createEditor, Descendant } from "slate";
+import { withHistory } from "slate-history";
+import { Slate, Editable, ReactEditor, withReact } from "slate-react";
+import styled from "@emotion/styled";
+import { SlatePlugin } from "./interfaces";
+import withPlugins from "./utils/withPlugins";
+import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
+import { FormikStatus } from "../../interfaces";
 
 const StyledEditable = styled(Editable)`
   outline: none;
@@ -32,7 +32,7 @@ interface Props {
   id: string;
   value: Descendant[];
   submitted: boolean;
-  onChange: FormikHandlers['handleChange'];
+  onChange: FormikHandlers["handleChange"];
   className?: string;
   placeholder?: string;
   plugins?: SlatePlugin[];
@@ -52,7 +52,7 @@ const PlainTextEditor = ({ onChange, value, submitted, id, className, placeholde
         target: {
           name: id,
           value: val,
-          type: 'SlateEditorValue',
+          type: "SlateEditorValue",
         },
       }),
     [id, onChange],
@@ -61,10 +61,13 @@ const PlainTextEditor = ({ onChange, value, submitted, id, className, placeholde
   const { status, setStatus } = useFormikContext<ArticleFormType>();
 
   useEffect(() => {
-    if (status?.status === 'revertVersion') {
+    if (status?.status === "revertVersion") {
       ReactEditor.deselect(editor);
       editor.children = value;
-      setStatus((prevStatus: FormikStatus) => ({ ...prevStatus, status: undefined }));
+      setStatus((prevStatus: FormikStatus) => ({
+        ...prevStatus,
+        status: undefined,
+      }));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status]);

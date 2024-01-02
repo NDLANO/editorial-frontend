@@ -6,19 +6,19 @@
  *
  */
 
-import { ChangeEvent, useCallback, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Editor, Path, Transforms } from 'slate';
-import { ReactEditor } from 'slate-react';
-import styled from '@emotion/styled';
-import { ButtonV2, IconButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
-import { TextAreaV2 } from '@ndla/forms';
-import { Pencil } from '@ndla/icons/action';
-import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
-import { H5pEmbedData, H5pMetaData } from '@ndla/types-embed';
-import { H5pElement } from './types';
-import FormikFieldDescription from '../../../FormikField/FormikFieldDescription';
+import { ChangeEvent, useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Path, Transforms } from "slate";
+import { ReactEditor } from "slate-react";
+import styled from "@emotion/styled";
+import { ButtonV2, IconButtonV2 } from "@ndla/button";
+import { spacing } from "@ndla/core";
+import { TextAreaV2 } from "@ndla/forms";
+import { Pencil } from "@ndla/icons/action";
+import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
+import { H5pEmbedData, H5pMetaData } from "@ndla/types-embed";
+import { H5pElement } from "./types";
+import FormikFieldDescription from "../../../FormikField/FormikFieldDescription";
 
 const StyledModalBody = styled.div`
   display: flex;
@@ -72,29 +72,29 @@ const EditMetadataModal = ({ embed, editor, element }: Props) => {
   return (
     <Modal open={isOpen} onOpenChange={setOpen}>
       <ModalTrigger>
-        <IconButtonV2 colorTheme="light" title={t('form.h5p.metadata.edit')} aria-label={t('form.h5p.metadata.edit')}>
+        <IconButtonV2 colorTheme="light" title={t("form.h5p.metadata.edit")} aria-label={t("form.h5p.metadata.edit")}>
           <Pencil />
         </IconButtonV2>
       </ModalTrigger>
       <ModalContent size="small">
         <StyledModalBody>
           <div>
-            <label>{t('form.h5p.metadata.edit')}</label>
-            <FormikFieldDescription description={t('form.h5p.metadata.description')} />
+            <label>{t("form.h5p.metadata.edit")}</label>
+            <FormikFieldDescription description={t("form.h5p.metadata.description")} />
           </div>
           <TextAreaV2
             name="alt"
-            label={t('form.h5p.metadata.alttext')}
+            label={t("form.h5p.metadata.alttext")}
             value={alttext}
             onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setAlttext(e.target.value)}
             type="text"
-            placeholder={t('form.h5p.metadata.alttext')}
+            placeholder={t("form.h5p.metadata.alttext")}
             white
           />
           <ButtonWrapper>
-            <ButtonV2 onClick={onCancel}>{t('form.h5p.metadata.cancel')}</ButtonV2>
+            <ButtonV2 onClick={onCancel}>{t("form.h5p.metadata.cancel")}</ButtonV2>
             <ButtonV2 onClick={onSaveMetadata} disabled={alttext === embed?.embedData.alt}>
-              {t('form.h5p.metadata.save')}
+              {t("form.h5p.metadata.save")}
             </ButtonV2>
           </ButtonWrapper>
         </StyledModalBody>

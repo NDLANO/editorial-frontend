@@ -6,6 +6,6 @@
  *
  */
 
-import get from 'lodash/get';
+import get from "lodash/get";
 
-export const itemToString = <T extends any>(item: T | undefined, field = '') => (item ? get(item, field, '') : '');
+export const itemToString = <T extends any>(item: T | undefined, field = "") => (item ? get(item, field, "") : "");

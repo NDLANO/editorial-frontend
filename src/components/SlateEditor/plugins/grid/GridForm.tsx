@@ -6,20 +6,20 @@
  *
  */
 
-import { Formik, FieldProps } from 'formik';
-import { useCallback, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
-import { CheckboxItem, RadioButtonGroup } from '@ndla/forms';
-import { GridType } from '@ndla/ui';
-import FormikField from '../../../FormikField';
-import validateFormik, { RulesType } from '../../../formikValidationSchema';
+import { Formik, FieldProps } from "formik";
+import { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { spacing } from "@ndla/core";
+import { CheckboxItem, RadioButtonGroup } from "@ndla/forms";
+import { GridType } from "@ndla/ui";
+import FormikField from "../../../FormikField";
+import validateFormik, { RulesType } from "../../../formikValidationSchema";
 
 interface GridFormValues {
-  columns: GridType['columns'];
-  background: GridType['background'];
+  columns: GridType["columns"];
+  background: GridType["background"];
   border: boolean;
 }
 
@@ -34,9 +34,9 @@ const rules: RulesType<GridFormValues> = {
 
 const toInitialValues = (initialData?: GridType): GridFormValues => {
   return {
-    columns: initialData?.columns ?? '2',
-    border: initialData?.border === 'lightBlue' ? true : false,
-    background: initialData?.background ?? 'transparent',
+    columns: initialData?.columns ?? "2",
+    border: initialData?.border === "lightBlue" ? true : false,
+    background: initialData?.background ?? "transparent",
   };
 };
 
@@ -56,8 +56,8 @@ const StyledFormikField = styled(FormikField)`
   margin: 0px;
 `;
 
-const columns: GridType['columns'][] = ['2', '4', '2x2'];
-const backgrounds: GridType['background'][] = ['transparent', 'white'];
+const columns: GridType["columns"][] = ["2", "4", "2x2"];
+const backgrounds: GridType["background"][] = ["transparent", "white"];
 
 const GridForm = ({ initialData, onSave, onCancel }: Props) => {
   const { t } = useTranslation();
@@ -68,7 +68,7 @@ const GridForm = ({ initialData, onSave, onCancel }: Props) => {
     (values: GridFormValues) => {
       const newData: GridType = {
         columns: values.columns,
-        border: values.border ? 'lightBlue' : 'none',
+        border: values.border ? "lightBlue" : "none",
         background: values.background,
       };
       onSave(newData);
@@ -107,7 +107,7 @@ const GridForm = ({ initialData, onSave, onCancel }: Props) => {
           <StyledFormikField name="columns">
             {({ field }: FieldProps) => (
               <RadioButtonGroup
-                label={t('form.name.columns')}
+                label={t("form.name.columns")}
                 selected={field.value.toString()}
                 uniqeIds
                 options={columnsOptions}
@@ -125,7 +125,7 @@ const GridForm = ({ initialData, onSave, onCancel }: Props) => {
           <StyledFormikField name="background">
             {({ field }: FieldProps) => (
               <RadioButtonGroup
-                label={t('form.name.background')}
+                label={t("form.name.background")}
                 selected={field.value}
                 uniqeIds
                 options={backgroundOptions}
@@ -143,7 +143,7 @@ const GridForm = ({ initialData, onSave, onCancel }: Props) => {
           <StyledFormikField name="border">
             {({ field }: FieldProps) => (
               <CheckboxItem
-                label={t('form.name.border')}
+                label={t("form.name.border")}
                 checked={field.value}
                 onChange={() =>
                   field.onChange({
@@ -158,10 +158,10 @@ const GridForm = ({ initialData, onSave, onCancel }: Props) => {
           </StyledFormikField>
           <ButtonContainer>
             <ButtonV2 variant="outline" onClick={onCancel}>
-              {t('cancel')}
+              {t("cancel")}
             </ButtonV2>
             <ButtonV2 variant="solid" disabled={!dirty || !isValid} type="submit" onClick={() => handleSubmit()}>
-              {t('save')}
+              {t("save")}
             </ButtonV2>
           </ButtonContainer>
         </>

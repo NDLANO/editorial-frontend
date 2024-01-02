@@ -6,16 +6,16 @@
  *
  */
 
-import { ChangeEvent, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
-import { colors, spacing, fonts, misc } from '@ndla/core';
-import { TextAreaV2 } from '@ndla/forms';
-import { TrashCanOutline, RightArrow, ExpandMore } from '@ndla/icons/action';
-import { IComment } from '@ndla/types-backend/draft-api';
-import AlertModal from '../../../components/AlertModal';
+import { ChangeEvent, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
+import { colors, spacing, fonts, misc } from "@ndla/core";
+import { TextAreaV2 } from "@ndla/forms";
+import { TrashCanOutline, RightArrow, ExpandMore } from "@ndla/icons/action";
+import { IComment } from "@ndla/types-backend/draft-api";
+import AlertModal from "../../../components/AlertModal";
 
 export const COMMENT_COLOR = colors.support.yellowLight;
 
@@ -27,7 +27,7 @@ export const textAreaStyles = css`
 
   input,
   textarea {
-    ${fonts.sizes('16px')};
+    ${fonts.sizes("16px")};
     margin: 0px;
     padding: 0 ${spacing.xxsmall};
     font-weight: ${fonts.weight.light};
@@ -43,7 +43,7 @@ const StyledClickableTextArea = styled(TextAreaV2)`
     border: 1px solid ${colors.brand.primary};
   }
   textarea {
-    &[data-open='false'] {
+    &[data-open="false"] {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -59,7 +59,7 @@ const CommentCard = styled.li`
   border: 1px solid ${colors.brand.greyMedium};
   border-radius: ${misc.borderRadius};
   padding: ${spacing.xsmall};
-  ${fonts.sizes('16px')};
+  ${fonts.sizes("16px")};
   font-weight: ${fonts.weight.light};
   background-color: ${COMMENT_COLOR};
 `;
@@ -120,8 +120,8 @@ const Comment = ({ comments, setComments, onDelete, index, setCommentsOpen, comm
     }
   };
 
-  const tooltipText = open ? t('form.hideComment') : t('form.showComment');
-  const commentId = `${'id' in comment ? comment.id : comment.generatedId}-comment-section`;
+  const tooltipText = open ? t("form.hideComment") : t("form.showComment");
+  const commentId = `${"id" in comment ? comment.id : comment.generatedId}-comment-section`;
 
   return (
     <CommentCard>
@@ -142,8 +142,8 @@ const Comment = ({ comments, setComments, onDelete, index, setCommentsOpen, comm
           <IconButtonV2
             variant="ghost"
             size="xsmall"
-            aria-label={t('form.workflow.deleteComment.title')}
-            title={t('form.workflow.deleteComment.title')}
+            aria-label={t("form.workflow.deleteComment.title")}
+            title={t("form.workflow.deleteComment.title")}
             onClick={() => setModalOpen(true)}
             colorTheme="danger"
           >
@@ -152,8 +152,8 @@ const Comment = ({ comments, setComments, onDelete, index, setCommentsOpen, comm
         </TopButtonRow>
         <StyledClickableTextArea
           value={inputValue}
-          label={t('form.commentField')}
-          name={t('form.commentField')}
+          label={t("form.commentField")}
+          name={t("form.commentField")}
           labelHidden
           onChange={handleInputChange}
           onFocus={() => {
@@ -167,17 +167,17 @@ const Comment = ({ comments, setComments, onDelete, index, setCommentsOpen, comm
       </CardContent>
 
       <AlertModal
-        title={t('form.workflow.deleteComment.title')}
-        label={t('form.workflow.deleteComment.title')}
+        title={t("form.workflow.deleteComment.title")}
+        label={t("form.workflow.deleteComment.title")}
         show={modalOpen}
-        text={t('form.workflow.deleteComment.modal')}
+        text={t("form.workflow.deleteComment.modal")}
         actions={[
           {
-            text: t('form.abort'),
+            text: t("form.abort"),
             onClick: () => setModalOpen(!modalOpen),
           },
           {
-            text: t('form.workflow.deleteComment.button'),
+            text: t("form.workflow.deleteComment.button"),
             onClick: handleDelete,
           },
         ]}

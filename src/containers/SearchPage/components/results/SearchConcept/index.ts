@@ -6,6 +6,6 @@
  *
  */
 
-import SearchConcept from './SearchConcept';
+import SearchConcept from "./SearchConcept";
 
 export default SearchConcept;

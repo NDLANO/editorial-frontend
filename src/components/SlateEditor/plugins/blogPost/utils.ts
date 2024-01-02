@@ -6,7 +6,7 @@
  *
  */
 
-import { jsx as slatejsx } from 'slate-hyperscript';
-import { TYPE_BLOGPOST } from './types';
+import { jsx as slatejsx } from "slate-hyperscript";
+import { TYPE_BLOGPOST } from "./types";
 
-export const defaultBlogPostBlock = () => slatejsx('element', { type: TYPE_BLOGPOST, isFirstEdit: true });
+export const defaultBlogPostBlock = () => slatejsx("element", { type: TYPE_BLOGPOST, isFirstEdit: true });

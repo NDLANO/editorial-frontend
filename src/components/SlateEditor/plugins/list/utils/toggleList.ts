@@ -5,17 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { Editor, Transforms, Element, Range, Path } from 'slate';
-import { ReactEditor } from 'slate-react';
-import { defaultListBlock, defaultListItemBlock } from './defaultBlocks';
-import hasListItem from './hasListItem';
-import { isListItemSelected } from './isListItemSelected';
-import { isSelectionOnlyOfType } from './isSelectionOnlyOfType';
-import { firstTextBlockElement } from '../../../utils/normalizationHelpers';
-import { TYPE_LIST, TYPE_LIST_ITEM } from '../types';
+import { Editor, Transforms, Element, Range, Path } from "slate";
+import { ReactEditor } from "slate-react";
+import { defaultListBlock, defaultListItemBlock } from "./defaultBlocks";
+import hasListItem from "./hasListItem";
+import { isListItemSelected } from "./isListItemSelected";
+import { isSelectionOnlyOfType } from "./isSelectionOnlyOfType";
+import { firstTextBlockElement } from "../../../utils/normalizationHelpers";
+import { TYPE_LIST, TYPE_LIST_ITEM } from "../types";
 
 export const toggleList = (editor: Editor, type: string) => {
-  const listType = type ? type : 'numbered-list';
+  const listType = type ? type : "numbered-list";
 
   const isIdentical = isSelectionOnlyOfType(editor, listType);
 
@@ -28,7 +28,7 @@ export const toggleList = (editor: Editor, type: string) => {
     // List normalizer removes empty list blocks afterwards.
     return Transforms.liftNodes(editor, {
       match: (node) => Element.isElement(node) && node.type === TYPE_LIST_ITEM && isListItemSelected(editor, node),
-      mode: 'all',
+      mode: "all",
     });
     // Selected list items are of mixed type.
   } else if (hasListItem(editor)) {
@@ -48,7 +48,7 @@ export const toggleList = (editor: Editor, type: string) => {
 
           return shouldChange;
         },
-        mode: 'all',
+        mode: "all",
       },
     );
     // No list items are selected

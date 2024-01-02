@@ -6,19 +6,19 @@
  *
  */
 
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
-import { IImageMetaInformationV3, IUpdateImageMetaInformation } from '@ndla/types-backend/image-api';
-import ImageForm from './components/ImageForm';
-import { TranslateType, useTranslateToNN } from '../../components/NynorskTranslateProvider';
-import Spinner from '../../components/Spinner';
-import { draftLicensesToImageLicenses } from '../../modules/draft/draftApiUtils';
-import { useLicenses } from '../../modules/draft/draftQueries';
-import { fetchImage, updateImage } from '../../modules/image/imageApi';
-import { createFormData } from '../../util/formDataHelper';
-import { useMessages } from '../Messages/MessagesProvider';
-import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
+import { IImageMetaInformationV3, IUpdateImageMetaInformation } from "@ndla/types-backend/image-api";
+import ImageForm from "./components/ImageForm";
+import { TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
+import Spinner from "../../components/Spinner";
+import { draftLicensesToImageLicenses } from "../../modules/draft/draftApiUtils";
+import { useLicenses } from "../../modules/draft/draftQueries";
+import { fetchImage, updateImage } from "../../modules/image/imageApi";
+import { createFormData } from "../../util/formDataHelper";
+import { useMessages } from "../Messages/MessagesProvider";
+import NotFoundPage from "../NotFoundPage/NotFoundPage";
 
 interface Props {
   imageId?: string;
@@ -28,26 +28,26 @@ interface Props {
 
 const translateFields: TranslateType[] = [
   {
-    field: 'title.title',
-    type: 'text',
+    field: "title.title",
+    type: "text",
   },
   {
-    field: 'alttext.alttext',
-    type: 'text',
+    field: "alttext.alttext",
+    type: "text",
   },
   {
-    field: 'caption.caption',
-    type: 'text',
+    field: "caption.caption",
+    type: "text",
   },
   {
-    field: 'tags.tags',
-    type: 'text',
+    field: "tags.tags",
+    type: "text",
   },
 ];
 
 const EditImage = ({ isNewlyCreated }: Props) => {
   const { i18n } = useTranslation();
-  const { id: imageId, selectedLanguage: imageLanguage } = useParams<'id' | 'selectedLanguage'>();
+  const { id: imageId, selectedLanguage: imageLanguage } = useParams<"id" | "selectedLanguage">();
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const [loading, setLoading] = useState(true);
   const { applicationError, createMessage } = useMessages();

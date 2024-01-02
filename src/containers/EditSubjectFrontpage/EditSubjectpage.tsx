@@ -6,14 +6,14 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
-import { HelmetWithTracker } from '@ndla/tracker';
-import SubjectpageForm from './components/SubjectpageForm';
-import Spinner from '../../components/Spinner';
-import { LocaleType } from '../../interfaces';
-import { useFetchSubjectpageData } from '../FormikForm/formikSubjectpageHooks';
-import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
+import { HelmetWithTracker } from "@ndla/tracker";
+import SubjectpageForm from "./components/SubjectpageForm";
+import Spinner from "../../components/Spinner";
+import { LocaleType } from "../../interfaces";
+import { useFetchSubjectpageData } from "../FormikForm/formikSubjectpageHooks";
+import NotFoundPage from "../NotFoundPage/NotFoundPage";
 
 interface Props {
   isNewlyCreated: boolean;
@@ -22,7 +22,7 @@ interface Props {
 const EditSubjectpage = ({ isNewlyCreated }: Props) => {
   const { t } = useTranslation();
   const { elementId, subjectpageId, selectedLanguage } = useParams<
-    'elementId' | 'subjectpageId' | 'selectedLanguage'
+    "elementId" | "subjectpageId" | "selectedLanguage"
   >();
   const { loading, subjectpage, updateSubjectpage, error, editorsChoices } = useFetchSubjectpageData(
     elementId!,
@@ -40,7 +40,7 @@ const EditSubjectpage = ({ isNewlyCreated }: Props) => {
 
   return (
     <>
-      <HelmetWithTracker title={`${subjectpage?.about?.title} ${t('htmlTitles.titleTemplate')}`} />
+      <HelmetWithTracker title={`${subjectpage?.about?.title} ${t("htmlTitles.titleTemplate")}`} />
       <SubjectpageForm
         editorsChoices={editorsChoices}
         elementId={elementId!}

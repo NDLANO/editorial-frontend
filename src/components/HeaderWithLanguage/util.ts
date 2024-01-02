@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { Node } from '@ndla/types-taxonomy';
+import { Node } from "@ndla/types-taxonomy";
 
-export const getTaxonomyPathsFromTaxonomy = (taxonomy?: Pick<Node, 'paths'>[], articleId?: number): string[] => {
+export const getTaxonomyPathsFromTaxonomy = (taxonomy?: Pick<Node, "paths">[], articleId?: number): string[] => {
   const taxPaths = taxonomy?.flatMap((t) => t.paths) ?? [];
   const articlePath = articleId ? `/article/${articleId}` : undefined;
   const paths = articlePath ? taxPaths.concat(articlePath) : taxPaths;

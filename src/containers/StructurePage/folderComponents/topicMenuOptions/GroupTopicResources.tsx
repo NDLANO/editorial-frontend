@@ -6,23 +6,23 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { useQueryClient } from '@tanstack/react-query';
-import { Switch } from '@ndla/switch';
-import Tooltip from '@ndla/tooltip';
-import { Node, Metadata } from '@ndla/types-taxonomy';
-import RoundIcon from '../../../../components/RoundIcon';
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { useQueryClient } from "@tanstack/react-query";
+import { Switch } from "@ndla/switch";
+import Tooltip from "@ndla/tooltip";
+import { Node, Metadata } from "@ndla/types-taxonomy";
+import RoundIcon from "../../../../components/RoundIcon";
 import {
   TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE,
   TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
   TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
-} from '../../../../constants';
-import { useUpdateNodeMetadataMutation } from '../../../../modules/nodes/nodeMutations';
-import { nodeQueryKeys } from '../../../../modules/nodes/nodeQueries';
-import { getRootIdForNode, isRootNode } from '../../../../modules/nodes/nodeUtil';
-import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
-import { StyledMenuItemEditField, StyledMenuItemInputField } from '../styles';
+} from "../../../../constants";
+import { useUpdateNodeMetadataMutation } from "../../../../modules/nodes/nodeMutations";
+import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
+import { getRootIdForNode, isRootNode } from "../../../../modules/nodes/nodeUtil";
+import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
+import { StyledMenuItemEditField, StyledMenuItemInputField } from "../styles";
 
 interface Props {
   node: Node;
@@ -72,15 +72,15 @@ const GroupTopicResources = ({ node, hideIcon, onChanged }: Props) => {
   return (
     <StyledMenuItemEditField>
       {hideIcon || <RoundIcon open small />}
-      <StyledMenuItemInputField placeholder={t('taxonomy.metadata.customFields.resourceGroupPlaceholder')} disabled />
-      <StyledTooltip tooltip={t('taxonomy.metadata.customFields.RGTooltip')}>
+      <StyledMenuItemInputField placeholder={t("taxonomy.metadata.customFields.resourceGroupPlaceholder")} disabled />
+      <StyledTooltip tooltip={t("taxonomy.metadata.customFields.RGTooltip")}>
         <div>
           <Switch
             id="group-topic-resources"
             checked={isGrouped}
             label=""
             onChange={updateMetadata}
-            thumbCharacter={isGrouped ? 'G' : 'U'}
+            thumbCharacter={isGrouped ? "G" : "U"}
           />
         </div>
       </StyledTooltip>

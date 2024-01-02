@@ -6,11 +6,11 @@
  *
  */
 
-import { useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-import StyledFilledButton from '../../components/StyledFilledButton';
-import { useTranslateToNN } from '../NynorskTranslateProvider';
+import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+import StyledFilledButton from "../../components/StyledFilledButton";
+import { useTranslateToNN } from "../NynorskTranslateProvider";
 
 const StyledLink = StyledFilledButton.withComponent(Link);
 
@@ -28,8 +28,8 @@ const TranslateNbToNn = ({ id, editUrl }: Props) => {
 
   const { t } = useTranslation();
   return (
-    <StyledLink to={editUrl(id, 'nn')} onClick={onClick}>
-      {t('form.variant.translate')}
+    <StyledLink to={editUrl(id, "nn")} onClick={onClick}>
+      {t("form.variant.translate")}
     </StyledLink>
   );
 };

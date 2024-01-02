@@ -5,48 +5,48 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import he from 'he';
-import { highlight, languages } from 'prismjs';
-import 'prismjs/components/prism-clike';
-import 'prismjs/components/prism-markup';
-import 'prismjs/components/prism-markup-templating';
-import 'prismjs/components/prism-php';
-import 'prismjs/components/prism-css';
-import 'prismjs/components/prism-javascript';
-import 'prismjs/components/prism-jsx';
-import 'prismjs/components/prism-c';
-import 'prismjs/components/prism-csharp';
-import 'prismjs/components/prism-cpp';
-import 'prismjs/components/prism-diff';
-import 'prismjs/components/prism-ini';
-import 'prismjs/components/prism-json';
-import 'prismjs/components/prism-java';
-import 'prismjs/components/prism-kotlin';
-import 'prismjs/components/prism-lua';
-import 'prismjs/components/prism-markdown';
-import 'prismjs/components/prism-matlab';
-import 'prismjs/components/prism-nsis';
-import 'prismjs/components/prism-python';
-import 'prismjs/components/prism-ruby';
-import 'prismjs/components/prism-rust';
-import 'prismjs/components/prism-sql';
-import 'prismjs/components/prism-powershell';
-import 'prismjs/components/prism-vhdl';
-import 'prismjs/components/prism-bash';
-import { useCallback, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Editor, Path, Transforms } from 'slate';
-import { ReactEditor, RenderElementProps } from 'slate-react';
-import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
-import { CodeBlockEditor, Codeblock } from '@ndla/code';
-import { DeleteForever } from '@ndla/icons/editor';
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTrigger } from '@ndla/modal';
-import { CodeEmbedData } from '@ndla/types-embed';
+import he from "he";
+import { highlight, languages } from "prismjs";
+import "prismjs/components/prism-clike";
+import "prismjs/components/prism-markup";
+import "prismjs/components/prism-markup-templating";
+import "prismjs/components/prism-php";
+import "prismjs/components/prism-css";
+import "prismjs/components/prism-javascript";
+import "prismjs/components/prism-jsx";
+import "prismjs/components/prism-c";
+import "prismjs/components/prism-csharp";
+import "prismjs/components/prism-cpp";
+import "prismjs/components/prism-diff";
+import "prismjs/components/prism-ini";
+import "prismjs/components/prism-json";
+import "prismjs/components/prism-java";
+import "prismjs/components/prism-kotlin";
+import "prismjs/components/prism-lua";
+import "prismjs/components/prism-markdown";
+import "prismjs/components/prism-matlab";
+import "prismjs/components/prism-nsis";
+import "prismjs/components/prism-python";
+import "prismjs/components/prism-ruby";
+import "prismjs/components/prism-rust";
+import "prismjs/components/prism-sql";
+import "prismjs/components/prism-powershell";
+import "prismjs/components/prism-vhdl";
+import "prismjs/components/prism-bash";
+import { useCallback, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Path, Transforms } from "slate";
+import { ReactEditor, RenderElementProps } from "slate-react";
+import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
+import { CodeBlockEditor, Codeblock } from "@ndla/code";
+import { DeleteForever } from "@ndla/icons/editor";
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTrigger } from "@ndla/modal";
+import { CodeEmbedData } from "@ndla/types-embed";
 
-import { CodeblockElement } from '.';
-import { CodeBlockType } from '../../../../interfaces';
-import AlertModal from '../../../AlertModal';
+import { CodeblockElement } from ".";
+import { CodeBlockType } from "../../../../interfaces";
+import AlertModal from "../../../AlertModal";
 
 const CodeDiv = styled.div`
   cursor: pointer;
@@ -67,7 +67,7 @@ const RemoveCodeBlock = ({ handleRemove }: RemoveCodeBlockProps) => {
     <IconButtonV2
       variant="ghost"
       colorTheme="danger"
-      aria-label={t('form.remove')}
+      aria-label={t("form.remove")}
       data-testid="remove-code"
       onClick={handleRemove}
     >
@@ -82,10 +82,10 @@ const highlightCode = (code: string, language: string): string => {
 
 const getInfoFromNode = (data: CodeEmbedData): CodeEmbedData => {
   return {
-    resource: 'code-block',
-    codeContent: he.decode(data.codeContent || '') as string,
-    title: data.title || '',
-    codeFormat: data.codeFormat || 'text',
+    resource: "code-block",
+    codeContent: he.decode(data.codeContent || "") as string,
+    title: data.title || "",
+    codeFormat: data.codeFormat || "text",
   };
 };
 
@@ -104,7 +104,7 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
 
   const handleSave = (codeBlock: CodeBlockType) => {
     const newData: CodeEmbedData = {
-      resource: 'code-block',
+      resource: "code-block",
       codeFormat: codeBlock.format,
       title: codeBlock.title,
       codeContent: he.encode(codeBlock.code),
@@ -125,7 +125,10 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
   };
 
   const handleRemove = () => {
-    Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true });
+    Transforms.removeNodes(editor, {
+      at: ReactEditor.findPath(editor, element),
+      voids: true,
+    });
   };
 
   const onOpenChange = useCallback(
@@ -159,7 +162,7 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
       <ModalTrigger>
         <CodeDiv
           className="c-figure"
-          aria-label={t('codeEditor.subtitle')}
+          aria-label={t("codeEditor.subtitle")}
           contentEditable={false}
           draggable={!editMode}
           role="button"
@@ -175,7 +178,7 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
           {children}
         </CodeDiv>
       </ModalTrigger>
-      <ModalContent size={{ width: 'large', height: 'large' }} onCloseAutoFocus={(e) => e.preventDefault()}>
+      <ModalContent size={{ width: "large", height: "large" }} onCloseAutoFocus={(e) => e.preventDefault()}>
         <ModalHeader>
           <ModalCloseButton />
         </ModalHeader>
@@ -184,7 +187,7 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
             content={{
               code: embedData.codeContent,
               format: embedData.codeFormat,
-              title: embedData.title || '',
+              title: embedData.title || "",
             }}
             onSave={handleSave}
             highlight={highlightCode}
@@ -194,17 +197,17 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
       </ModalContent>
 
       <AlertModal
-        title={t('unsavedChanges')}
-        label={t('unsavedChanges')}
+        title={t("unsavedChanges")}
+        label={t("unsavedChanges")}
         show={showWarning}
-        text={t('code.continue')}
+        text={t("code.continue")}
         actions={[
           {
-            text: t('form.abort'),
+            text: t("form.abort"),
             onClick: () => setShowWarning(false),
           },
           {
-            text: t('alertModal.continue'),
+            text: t("alertModal.continue"),
             onClick: () => {
               setShowWarning(false);
               setEditMode(false);

@@ -6,44 +6,44 @@
  *
  */
 
-import { Descendant } from 'slate';
-import { blockContentToEditorValue, blockContentToHTML } from '../../../../../util/articleContentConverter';
-import { TYPE_PARAGRAPH } from '../../paragraph/types';
-import { TYPE_SECTION } from '../types';
+import { Descendant } from "slate";
+import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
+import { TYPE_PARAGRAPH } from "../../paragraph/types";
+import { TYPE_SECTION } from "../types";
 
 const editor: Descendant[] = [
   {
     type: TYPE_SECTION,
-    children: [{ type: TYPE_PARAGRAPH, children: [{ text: '123' }] }],
+    children: [{ type: TYPE_PARAGRAPH, children: [{ text: "123" }] }],
   },
   {
     type: TYPE_SECTION,
-    children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'abc' }] }],
+    children: [{ type: TYPE_PARAGRAPH, children: [{ text: "abc" }] }],
   },
 ];
 
-const html = '<section><p>123</p></section><section><p>abc</p></section>';
+const html = "<section><p>123</p></section><section><p>abc</p></section>";
 
-describe('section serializing tests', () => {
-  test('serializing', () => {
+describe("section serializing tests", () => {
+  test("serializing", () => {
     const res = blockContentToHTML(editor);
     expect(res).toMatch(html);
   });
 
-  test('deserializing', () => {
+  test("deserializing", () => {
     const res = blockContentToEditorValue(html);
     expect(res).toEqual(editor);
   });
 
-  test('create empty <section> if html is undefined or empty string', () => {
+  test("create empty <section> if html is undefined or empty string", () => {
     const expected = [
       {
         type: TYPE_SECTION,
-        children: [{ type: TYPE_PARAGRAPH, children: [{ text: '' }] }],
+        children: [{ type: TYPE_PARAGRAPH, children: [{ text: "" }] }],
       },
     ];
 
-    const res1 = blockContentToEditorValue('');
+    const res1 = blockContentToEditorValue("");
     expect(res1).toEqual(expected);
   });
 });

@@ -6,18 +6,18 @@
  *
  */
 
-import { memo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
-import { MetaImageSearch } from '.';
-import AvailabilityField from './components/AvailabilityField';
-import AsyncSearchTags from '../../components/Dropdown/asyncDropdown/AsyncSearchTags';
-import FormikField from '../../components/FormikField';
-import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
-import { textTransformPlugin } from '../../components/SlateEditor/plugins/textTransform';
-import { DRAFT_ADMIN_SCOPE } from '../../constants';
-import { fetchSearchTags } from '../../modules/draft/draftApi';
-import { useSession } from '../Session/SessionProvider';
+import { memo } from "react";
+import { useTranslation } from "react-i18next";
+import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
+import { MetaImageSearch } from ".";
+import AvailabilityField from "./components/AvailabilityField";
+import AsyncSearchTags from "../../components/Dropdown/asyncDropdown/AsyncSearchTags";
+import FormikField from "../../components/FormikField";
+import PlainTextEditor from "../../components/SlateEditor/PlainTextEditor";
+import { textTransformPlugin } from "../../components/SlateEditor/plugins/textTransform";
+import { DRAFT_ADMIN_SCOPE } from "../../constants";
+import { fetchSearchTags } from "../../modules/draft/draftApi";
+import { useSession } from "../Session/SessionProvider";
 
 interface Props {
   articleLanguage: string;
@@ -32,7 +32,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
 
   return (
     <>
-      <FormikField name="tags" label={t('form.tags.label')} showError description={t('form.tags.description')}>
+      <FormikField name="tags" label={t("form.tags.label")} showError description={t("form.tags.description")}>
         {({ field, form }) => (
           <AsyncSearchTags
             multiSelect
@@ -45,7 +45,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
         )}
       </FormikField>
       {userPermissions?.includes(DRAFT_ADMIN_SCOPE) && (
-        <FormikField name="availability" label={t('form.availability.label')}>
+        <FormikField name="availability" label={t("form.availability.label")}>
           {({ field }) => <AvailabilityField field={field} />}
         </FormikField>
       )}
@@ -53,11 +53,11 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
         name="metaDescription"
         maxLength={155}
         showMaxLength
-        label={t('form.metaDescription.label')}
-        description={t('form.metaDescription.description')}
+        label={t("form.metaDescription.label")}
+        description={t("form.metaDescription.description")}
       >
         {({ field }) => (
-          <PlainTextEditor id={field.name} placeholder={t('form.metaDescription.label')} {...field} plugins={plugins} />
+          <PlainTextEditor id={field.name} placeholder={t("form.metaDescription.label")} {...field} plugins={plugins} />
         )}
       </FormikField>
       <FormikField name="metaImageId">

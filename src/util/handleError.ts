@@ -7,10 +7,10 @@
  */
 
 const handleError = (error: any, ...rest: any[]) => {
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === "production") {
     window.errorReporter.captureError(error);
     // No logging when unit testing
-  } else if (process.env.NODE_ENV !== 'unittest') {
+  } else if (process.env.NODE_ENV !== "unittest") {
     console.error(error, ...rest); // eslint-disable-line no-console
   }
 };

@@ -6,15 +6,15 @@
  *
  */
 
-import { Descendant, Editor, Element } from 'slate';
-import { jsx as slatejsx } from 'slate-hyperscript';
-import { TYPE_CONCEPT_BLOCK, TYPE_GLOSS_BLOCK } from './types';
-import { createEmbedTagV2, reduceElementDataAttributesV2 } from '../../../../../util/embedTagHelpers';
-import { SlateSerializer } from '../../../interfaces';
-import { defaultBlockNormalizer, NormalizerConfig } from '../../../utils/defaultNormalizer';
-import { afterOrBeforeTextBlockElement } from '../../../utils/normalizationHelpers';
-import { TYPE_NDLA_EMBED } from '../../embed/types';
-import { TYPE_PARAGRAPH } from '../../paragraph/types';
+import { Descendant, Editor, Element } from "slate";
+import { jsx as slatejsx } from "slate-hyperscript";
+import { TYPE_CONCEPT_BLOCK, TYPE_GLOSS_BLOCK } from "./types";
+import { createEmbedTagV2, reduceElementDataAttributesV2 } from "../../../../../util/embedTagHelpers";
+import { SlateSerializer } from "../../../interfaces";
+import { defaultBlockNormalizer, NormalizerConfig } from "../../../utils/defaultNormalizer";
+import { afterOrBeforeTextBlockElement } from "../../../utils/normalizationHelpers";
+import { TYPE_NDLA_EMBED } from "../../embed/types";
+import { TYPE_PARAGRAPH } from "../../paragraph/types";
 
 const normalizerConfig: NormalizerConfig = {
   previous: {
@@ -31,14 +31,14 @@ export const blockConceptSerializer: SlateSerializer = {
   deserialize(el: HTMLElement) {
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const embedAttributes = reduceElementDataAttributesV2(Array.from(el.attributes));
-    if (embedAttributes.resource === 'concept' && embedAttributes.type === 'block') {
+    if (embedAttributes.resource === "concept" && embedAttributes.type === "block") {
       return slatejsx(
-        'element',
+        "element",
         {
-          type: embedAttributes.conceptType === 'concept' ? TYPE_CONCEPT_BLOCK : TYPE_GLOSS_BLOCK,
+          type: embedAttributes.conceptType === "concept" ? TYPE_CONCEPT_BLOCK : TYPE_GLOSS_BLOCK,
           data: embedAttributes,
         },
-        { text: '' },
+        { text: "" },
       );
     }
   },

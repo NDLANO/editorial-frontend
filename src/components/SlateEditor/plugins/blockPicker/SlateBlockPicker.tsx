@@ -6,65 +6,65 @@
  *
  */
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Editor, Element, Node, Location, Range, Path, Transforms } from 'slate';
-import { ReactEditor } from 'slate-react';
-import styled from '@emotion/styled';
-import { Popover, PopoverContent, PopoverTrigger } from '@radix-ui/react-popover';
-import { Portal } from '@radix-ui/react-portal';
-import { ButtonV2, IconButtonV2 } from '@ndla/button';
-import { shadows, colors, spacing, fonts, animations } from '@ndla/core';
-import { Plus } from '@ndla/icons/action';
-import { Heading } from '@ndla/typography';
-import { Action, ActionData } from './actions';
-import SlateVisualElementPicker from './SlateVisualElementPicker';
-import { BLOCK_PICKER_TRIGGER_ID } from '../../../../constants';
-import { useSession } from '../../../../containers/Session/SessionProvider';
-import getCurrentBlock from '../../utils/getCurrentBlock';
-import { TYPE_ASIDE } from '../aside/types';
-import { defaultAsideBlock } from '../aside/utils';
-import { TYPE_AUDIO } from '../audio/types';
-import { TYPE_BLOGPOST } from '../blogPost/types';
-import { defaultBlogPostBlock } from '../blogPost/utils';
-import { TYPE_CAMPAIGN_BLOCK } from '../campaignBlock/types';
-import { defaultCampaignBlock } from '../campaignBlock/utils';
-import { TYPE_CODEBLOCK } from '../codeBlock/types';
-import { defaultCodeblockBlock } from '../codeBlock/utils';
-import { TYPE_CONCEPT_BLOCK, TYPE_GLOSS_BLOCK } from '../concept/block/types';
-import { defaultConceptBlock, defaultGlossBlock } from '../concept/block/utils';
-import { TYPE_CONCEPT_LIST } from '../conceptList/types';
-import { defaultConceptListBlock } from '../conceptList/utils';
-import { TYPE_CONTACT_BLOCK } from '../contactBlock/types';
-import { defaultContactBlock } from '../contactBlock/utils';
-import { TYPE_DETAILS } from '../details/types';
-import { defaultDetailsBlock } from '../details/utils';
-import { TYPE_EMBED_BRIGHTCOVE, TYPE_EMBED_ERROR, TYPE_EMBED_EXTERNAL, TYPE_EMBED_IMAGE } from '../embed/types';
-import { TYPE_FILE } from '../file/types';
-import { TYPE_FRAMED_CONTENT } from '../framedContent/types';
-import { defaultFramedContentBlock } from '../framedContent/utils';
-import { TYPE_GRID } from '../grid/types';
-import { defaultGridBlock } from '../grid/utils';
-import { TYPE_H5P } from '../h5p/types';
-import { defaultH5pBlock } from '../h5p/utils';
-import { TYPE_KEY_FIGURE } from '../keyFigure/types';
-import { defaultKeyFigureBlock } from '../keyFigure/utils';
-import { defaultLinkBlockList } from '../linkBlockList';
-import { TYPE_LINK_BLOCK_LIST } from '../linkBlockList/types';
-import { TYPE_LIST_ITEM } from '../list/types';
-import { TYPE_PARAGRAPH } from '../paragraph/types';
-import { defaultRelatedBlock } from '../related';
-import { TYPE_RELATED } from '../related/types';
-import { defaultTableBlock } from '../table/defaultBlocks';
-import { isInTableCellHeader, isTableCell } from '../table/slateHelpers';
-import { TYPE_TABLE } from '../table/types';
-import { IS_MAC } from '../toolbar/ToolbarButton';
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Element, Node, Location, Range, Path, Transforms } from "slate";
+import { ReactEditor } from "slate-react";
+import styled from "@emotion/styled";
+import { Popover, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
+import { Portal } from "@radix-ui/react-portal";
+import { ButtonV2, IconButtonV2 } from "@ndla/button";
+import { shadows, colors, spacing, fonts, animations } from "@ndla/core";
+import { Plus } from "@ndla/icons/action";
+import { Heading } from "@ndla/typography";
+import { Action, ActionData } from "./actions";
+import SlateVisualElementPicker from "./SlateVisualElementPicker";
+import { BLOCK_PICKER_TRIGGER_ID } from "../../../../constants";
+import { useSession } from "../../../../containers/Session/SessionProvider";
+import getCurrentBlock from "../../utils/getCurrentBlock";
+import { TYPE_ASIDE } from "../aside/types";
+import { defaultAsideBlock } from "../aside/utils";
+import { TYPE_AUDIO } from "../audio/types";
+import { TYPE_BLOGPOST } from "../blogPost/types";
+import { defaultBlogPostBlock } from "../blogPost/utils";
+import { TYPE_CAMPAIGN_BLOCK } from "../campaignBlock/types";
+import { defaultCampaignBlock } from "../campaignBlock/utils";
+import { TYPE_CODEBLOCK } from "../codeBlock/types";
+import { defaultCodeblockBlock } from "../codeBlock/utils";
+import { TYPE_CONCEPT_BLOCK, TYPE_GLOSS_BLOCK } from "../concept/block/types";
+import { defaultConceptBlock, defaultGlossBlock } from "../concept/block/utils";
+import { TYPE_CONCEPT_LIST } from "../conceptList/types";
+import { defaultConceptListBlock } from "../conceptList/utils";
+import { TYPE_CONTACT_BLOCK } from "../contactBlock/types";
+import { defaultContactBlock } from "../contactBlock/utils";
+import { TYPE_DETAILS } from "../details/types";
+import { defaultDetailsBlock } from "../details/utils";
+import { TYPE_EMBED_BRIGHTCOVE, TYPE_EMBED_ERROR, TYPE_EMBED_EXTERNAL, TYPE_EMBED_IMAGE } from "../embed/types";
+import { TYPE_FILE } from "../file/types";
+import { TYPE_FRAMED_CONTENT } from "../framedContent/types";
+import { defaultFramedContentBlock } from "../framedContent/utils";
+import { TYPE_GRID } from "../grid/types";
+import { defaultGridBlock } from "../grid/utils";
+import { TYPE_H5P } from "../h5p/types";
+import { defaultH5pBlock } from "../h5p/utils";
+import { TYPE_KEY_FIGURE } from "../keyFigure/types";
+import { defaultKeyFigureBlock } from "../keyFigure/utils";
+import { defaultLinkBlockList } from "../linkBlockList";
+import { TYPE_LINK_BLOCK_LIST } from "../linkBlockList/types";
+import { TYPE_LIST_ITEM } from "../list/types";
+import { TYPE_PARAGRAPH } from "../paragraph/types";
+import { defaultRelatedBlock } from "../related";
+import { TYPE_RELATED } from "../related/types";
+import { defaultTableBlock } from "../table/defaultBlocks";
+import { isInTableCellHeader, isTableCell } from "../table/slateHelpers";
+import { TYPE_TABLE } from "../table/types";
+import { IS_MAC } from "../toolbar/ToolbarButton";
 
 interface Props {
   editor: Editor;
   actions: Action[];
-  allowedPickAreas: Element['type'][];
-  illegalAreas: Element['type'][];
+  allowedPickAreas: Element["type"][];
+  illegalAreas: Element["type"][];
   actionsToShowInAreas: { [key: string]: string[] };
   articleLanguage: string;
 }
@@ -138,7 +138,7 @@ const BlockPickerButton = styled(IconButtonV2)`
     transform: scale(0.9);
   }
 
-  &[data-state='open'] {
+  &[data-state="open"] {
     svg {
       transform: rotate(135deg);
     }
@@ -175,13 +175,13 @@ const SlateBlockPicker = ({
   const portalRef = useRef<HTMLButtonElement | null>(null);
 
   const [visualElementPickerOpen, setVisualElementPickerOpen] = useState(false);
-  const [type, setType] = useState('');
+  const [type, setType] = useState("");
   const { userPermissions } = useSession();
   const { t } = useTranslation();
 
   const blockPickerLabel = useMemo(
     () =>
-      blockPickerOpen ? t('editorBlockpicker.close') : t('editorBlockpicker.open', { ctrl: IS_MAC ? 'cmd' : 'ctrl' }),
+      blockPickerOpen ? t("editorBlockpicker.close") : t("editorBlockpicker.open", { ctrl: IS_MAC ? "cmd" : "ctrl" }),
     [blockPickerOpen, t],
   );
 
@@ -194,7 +194,7 @@ const SlateBlockPicker = ({
 
     const [node] = Editor.nodes(editor, {
       match: (node) => Element.isElement(node) && !editor.isInline(node),
-      mode: 'lowest',
+      mode: "lowest",
     });
 
     const [illegalBlock] = Editor.nodes(editor, {
@@ -209,7 +209,7 @@ const SlateBlockPicker = ({
       // Do not show block picker in table headers.
       isInTableCellHeader(editor, selectedParagraphPath) ||
       // If the current paragraph contains text, return.
-      Node.string(selectedParagraph) !== '' ||
+      Node.string(selectedParagraph) !== "" ||
       // If `shouldShowBlockPicker` returns false, return.
       !editor.shouldShowBlockPicker?.() ||
       illegalBlock ||
@@ -247,7 +247,7 @@ const SlateBlockPicker = ({
 
   const onVisualElementClose = useCallback(() => {
     setVisualElementPickerOpen(false);
-    setType('');
+    setType("");
     ReactEditor.focus(editor);
   }, [editor]);
 
@@ -268,7 +268,7 @@ const SlateBlockPicker = ({
       });
     }, 0);
     setBlockPickerOpen(false);
-    setType('');
+    setType("");
   };
 
   const onElementAdd = (data: ActionData) => {
@@ -375,7 +375,7 @@ const SlateBlockPicker = ({
     for (const entry of nodes) {
       const [node, path] = entry;
       if (!Element.isElement(node)) return actions;
-      if (node.type === 'section') {
+      if (node.type === "section") {
         return actions;
       }
       const [parent] = Editor.parent(editor, path);
@@ -396,7 +396,7 @@ const SlateBlockPicker = ({
       <SlateVisualElementPicker
         isOpen={visualElementPickerOpen}
         articleLanguage={articleLanguage}
-        resource={type || ''}
+        resource={type || ""}
         onVisualElementClose={onVisualElementClose}
         onInsertBlock={onInsertBlock}
       />
@@ -416,7 +416,7 @@ const SlateBlockPicker = ({
         </Portal>
         <StyledContent side="right" sideOffset={6} data-testid="slate-block-picker-menu" avoidCollisions={false}>
           <BlockPickerLabel element="h1" headingStyle="list-title" margin="none">
-            {t('editorBlockpicker.heading')}
+            {t("editorBlockpicker.heading")}
           </BlockPickerLabel>
           <StyledList>
             {getActionsForArea()

@@ -6,11 +6,11 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { spacing, fonts } from '@ndla/core';
-import { InformationOutline } from '@ndla/icons/common';
-import { AudioFormikType } from './AudioForm';
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { spacing, fonts } from "@ndla/core";
+import { InformationOutline } from "@ndla/icons/common";
+import { AudioFormikType } from "./AudioForm";
 
 interface Props {
   values: AudioFormikType;
@@ -42,7 +42,7 @@ const AudioFormInfo = ({ values }: Props) => {
   }
 
   const tCopiedLanguage =
-    i18n.language === 'en' ? t('languages.' + copiedLanguage) : t('languages.' + copiedLanguage).toLowerCase();
+    i18n.language === "en" ? t("languages." + copiedLanguage) : t("languages." + copiedLanguage).toLowerCase();
 
   return (
     <div>
@@ -51,7 +51,7 @@ const AudioFormInfo = ({ values }: Props) => {
           <IconWrapper>
             <InformationOutline />
           </IconWrapper>
-          {t('form.audio.copiedFrom', {
+          {t("form.audio.copiedFrom", {
             language: tCopiedLanguage,
           })}
         </InfoWrapper>

@@ -6,16 +6,16 @@
  *
  */
 
-const el = document.createElement('html');
+const el = document.createElement("html");
 
 export const getIframeSrcFromHtmlString = (html: string) => {
   el.innerHTML = html;
-  const iframe = el.getElementsByTagName('iframe')[0];
-  return iframe.getAttribute('src');
+  const iframe = el.getElementsByTagName("iframe")[0];
+  return iframe.getAttribute("src");
 };
 
 export const urlAsATag = (url: string) => {
-  const a = document.createElement('a');
+  const a = document.createElement("a");
   a.href = url;
   return a;
 };

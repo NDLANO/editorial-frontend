@@ -6,10 +6,10 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { constants } from '@ndla/ui';
-import TaxonomyMetadataDropdown from './TaxonomyMetadataDropdown';
-import { TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE } from '../../../../constants';
+import { useTranslation } from "react-i18next";
+import { constants } from "@ndla/ui";
+import TaxonomyMetadataDropdown from "./TaxonomyMetadataDropdown";
+import { TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE } from "../../../../constants";
 
 interface Props {
   customFields: Record<string, string>;
@@ -25,8 +25,8 @@ const SubjectTypeSelector = ({ customFields, updateCustomFields }: Props) => {
     value: t(`subjectTypes.${type}`),
   }));
   const messages = {
-    selected: t('taxonomy.metadata.placeholders.type'),
-    title: t('taxonomy.metadata.customFields.subjectType'),
+    selected: t("taxonomy.metadata.placeholders.type"),
+    title: t("taxonomy.metadata.customFields.subjectType"),
   };
   return (
     <TaxonomyMetadataDropdown

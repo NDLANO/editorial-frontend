@@ -5,19 +5,19 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import queryString from 'query-string';
-import { useEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
-import config from '../config';
-import { NDLA_FILM_SUBJECT } from '../constants';
+import queryString from "query-string";
+import { useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
+import config from "../config";
+import { NDLA_FILM_SUBJECT } from "../constants";
 
 const articleTypes: Record<string, string> = {
-  'topic-article': 'topic-article',
-  standard: 'learning-resource',
-  'frontpage-article': 'frontpage-article',
+  "topic-article": "topic-article",
+  standard: "learning-resource",
+  "frontpage-article": "frontpage-article",
 };
 
-export function toSearch(query: object, type = 'content') {
+export function toSearch(query: object, type = "content") {
   if (query) {
     return `/search/${type}?${queryString.stringify(query)}`;
   }
@@ -50,7 +50,7 @@ export function toEditSubjectpage(subjectId: string, locale: string, subjectpage
 }
 
 export function toEditNdlaFilm(language?: string) {
-  return `/film/${language ? language : 'nb'}`;
+  return `/film/${language ? language : "nb"}`;
 }
 
 export function toEditConcept(conceptId: number, locale?: string) {
@@ -68,15 +68,15 @@ export function toEditMarkup(id: number | string, language: string) {
 }
 
 export function toCreateLearningResource() {
-  return '/subject-matter/learning-resource/new';
+  return "/subject-matter/learning-resource/new";
 }
 
 export function toCreateTopicArticle() {
-  return '/subject-matter/topic-article/new';
+  return "/subject-matter/topic-article/new";
 }
 
 export function toCreateFrontPageArticle() {
-  return '/subject-matter/frontpage-article/new';
+  return "/subject-matter/frontpage-article/new";
 }
 
 export function toEditFrontPageArticle(id: number, locale: string) {
@@ -85,37 +85,37 @@ export function toEditFrontPageArticle(id: number, locale: string) {
 
 export function toCreateSubjectpage(subjectId: string, locale: string) {
   if (subjectId === NDLA_FILM_SUBJECT) {
-    return '/film';
+    return "/film";
   }
   return `/subjectpage/${subjectId}/new/${locale}`;
 }
 
 export function toCreateConcept() {
-  return '/concept/new';
+  return "/concept/new";
 }
 
 export function toCreateGloss() {
-  return '/gloss/new';
+  return "/gloss/new";
 }
 
 export function toLogin() {
-  return '/login';
+  return "/login";
 }
 
 export function toLogout() {
-  return '/logout';
+  return "/logout";
 }
 
 export function toLogoutSession() {
-  return '/logout/session';
+  return "/logout/session";
 }
 
 export function toLogoutFederated() {
-  return '/logout/federated';
+  return "/logout/federated";
 }
 
 export function toCreateAudioFile() {
-  return '/media/audio-upload/new';
+  return "/media/audio-upload/new";
 }
 
 export function toEditAudio(audioId: number, language: string) {
@@ -123,11 +123,11 @@ export function toEditAudio(audioId: number, language: string) {
 }
 
 export function toCreatePodcastFile() {
-  return '/media/podcast-upload/new';
+  return "/media/podcast-upload/new";
 }
 
 export function toCreatePodcastSeries() {
-  return '/media/podcast-series/new';
+  return "/media/podcast-series/new";
 }
 
 export function toEditPodcast(audioId: number, language: string) {
@@ -139,7 +139,7 @@ export function toEditPodcastSeries(seriesId: number, language: string) {
 }
 
 export function toCreateImage() {
-  return '/media/image-upload/new';
+  return "/media/image-upload/new";
 }
 
 export function toEditImage(imageId: number | string, language: string) {
@@ -152,19 +152,19 @@ export function toPreviewDraft(draftId: number, language: string) {
 
 export function toStructure(path: string) {
   const urnPath = path
-    .split('/')
+    .split("/")
     .slice(1)
     .map((part) => `urn:${part}`)
-    .join('/');
+    .join("/");
   return `/structure/${urnPath}`;
 }
 
 export const toStructureOld = (path: string) => {
   const urnPath = path
-    .split('/')
+    .split("/")
     .slice(1)
     .map((part) => `urn:${part}`)
-    .join('/');
+    .join("/");
   return `/structureOld/${urnPath}`;
 };
 
@@ -173,20 +173,20 @@ export const toNodeDiff = (nodeId: string, originalHash: string, otherHash: stri
 };
 
 export function to404() {
-  return '/404';
+  return "/404";
 }
 
 export function isLearningpath(path: string | string[]): boolean {
-  if (typeof path !== 'string') return false;
-  return path.includes('learningpath-api');
+  if (typeof path !== "string") return false;
+  return path.includes("learningpath-api");
 }
 
 export function getResourceIdFromPath(path?: string): string | undefined {
-  if (typeof path !== 'string') return undefined;
+  if (typeof path !== "string") return undefined;
   const learningPath = path.match(/learningpaths\/(\d+)/);
   if (learningPath && learningPath[1]) return learningPath[1];
   const resource = path.match(/(resource:[:\da-fA-F-]+)\/?$/);
-  return resource ? `urn:${resource[1]}` : '';
+  return resource ? `urn:${resource[1]}` : "";
 }
 
 export function toLearningpathFull(id: number | string, locale: string) {
@@ -195,15 +195,15 @@ export function toLearningpathFull(id: number | string, locale: string) {
 
 export const removeLastItemFromUrl = (url: string) =>
   url
-    .split('/')
-    .splice(0, url.split('/').length - 1)
-    .join('/');
+    .split("/")
+    .splice(0, url.split("/").length - 1)
+    .join("/");
 
 export const getPathsFromUrl = (url: string) => {
   return url
-    .split('/')
-    .filter((item) => item.includes('urn:'))
-    .reduce((acc: string[], curr) => [...acc, acc.slice(-1).concat(curr).join('/')], []);
+    .split("/")
+    .filter((item) => item.includes("urn:"))
+    .reduce((acc: string[], curr) => [...acc, acc.slice(-1).concat(curr).join("/")], []);
 };
 
 export const usePreviousLocation = () => {

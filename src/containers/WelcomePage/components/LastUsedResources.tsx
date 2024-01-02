@@ -6,17 +6,17 @@
  *
  */
 
-import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Pencil } from '@ndla/icons/action';
-import Pager from '@ndla/pager';
-import { IArticleSummary } from '@ndla/types-backend/draft-api';
-import { SortOptionLastUsed } from './LastUsedItems';
-import TableComponent, { FieldElement, Prefix, TitleElement } from './TableComponent';
-import TableTitle from './TableTitle';
-import formatDate from '../../../util/formatDate';
-import { toEditArticle } from '../../../util/routeHelpers';
-import { StyledLink } from '../styles';
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { Pencil } from "@ndla/icons/action";
+import Pager from "@ndla/pager";
+import { IArticleSummary } from "@ndla/types-backend/draft-api";
+import { SortOptionLastUsed } from "./LastUsedItems";
+import TableComponent, { FieldElement, Prefix, TitleElement } from "./TableComponent";
+import TableTitle from "./TableTitle";
+import formatDate from "../../../util/formatDate";
+import { toEditArticle } from "../../../util/routeHelpers";
+import { StyledLink } from "../styles";
 
 interface Props {
   data: IArticleSummary[];
@@ -24,7 +24,7 @@ interface Props {
   page: number;
   setPage: (page: number) => void;
   sortOption: string;
-  setSortOption: (o: Prefix<'-', SortOptionLastUsed>) => void;
+  setSortOption: (o: Prefix<"-", SortOptionLastUsed>) => void;
   error: string | undefined;
   lastPage: number;
   titles: TitleElement<SortOptionLastUsed>[];
@@ -61,7 +61,7 @@ const LastUsedResources = ({
 
   return (
     <>
-      <TableTitle title={t('welcomePage.lastUsed')} description={t('welcomePage.lastUsedDescription')} Icon={Pencil} />
+      <TableTitle title={t("welcomePage.lastUsed")} description={t("welcomePage.lastUsedDescription")} Icon={Pencil} />
       <TableComponent
         isLoading={isLoading}
         tableTitleList={titles}
@@ -69,7 +69,7 @@ const LastUsedResources = ({
         setSortOption={setSortOption}
         sortOption={sortOption}
         error={error}
-        noResultsText={t('welcomePage.emptyLastUsed')}
+        noResultsText={t("welcomePage.emptyLastUsed")}
         minWidth="250px"
       />
       <Pager

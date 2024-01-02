@@ -6,21 +6,21 @@
  *
  */
 
-import orderBy from 'lodash/orderBy';
-import { ResolvedUrl, Node } from '@ndla/types-taxonomy';
-import { createResourceResourceType, deleteResourceResourceType } from './resourcetypes';
-import { taxonomyApi } from '../../config';
-import { TaxNode } from '../../containers/ArticlePage/LearningResourcePage/components/taxonomy/TaxonomyBlock';
-import { doDiff } from '../../containers/NodeDiff/diffUtils';
-import { WithTaxonomyVersion } from '../../interfaces';
-import { apiResourceUrl, httpFunctions } from '../../util/apiHelpers';
+import orderBy from "lodash/orderBy";
+import { ResolvedUrl, Node } from "@ndla/types-taxonomy";
+import { createResourceResourceType, deleteResourceResourceType } from "./resourcetypes";
+import { taxonomyApi } from "../../config";
+import { TaxNode } from "../../containers/ArticlePage/LearningResourcePage/components/taxonomy/TaxonomyBlock";
+import { doDiff } from "../../containers/NodeDiff/diffUtils";
+import { WithTaxonomyVersion } from "../../interfaces";
+import { apiResourceUrl, httpFunctions } from "../../util/apiHelpers";
 import {
   deleteNodeConnection,
   postNode,
   postNodeConnection,
   putNodeConnection,
   putNodeMetadata,
-} from '../nodes/nodeApi';
+} from "../nodes/nodeApi";
 
 const baseUrl = apiResourceUrl(taxonomyApi);
 
@@ -48,19 +48,19 @@ export const updateTax = async ({ node, originalNode }: UpdateTaxParams, taxonom
     originalNode.resourceTypes,
     node.resourceTypes,
     { connectionId: true, supportedLanguages: true, translations: true },
-    'id',
+    "id",
   );
-  const resourceDiff = doDiff(originalNode.placements, node.placements, { isPrimary: true }, 'id');
+  const resourceDiff = doDiff(originalNode.placements, node.placements, { isPrimary: true }, "id");
 
   const primaryConnection = node.placements.find((p) => p.isPrimary);
   const originalPrimary = originalNode.placements.find((p) => p.isPrimary);
 
   const diffChanged = primaryConnection?.connectionId !== originalPrimary?.connectionId;
 
-  if (resourceDiff.changed.diffType !== 'NONE' || diffChanged) {
-    const placementDiff = orderBy(resourceDiff.diff, (d) => d.isPrimary.other, 'desc');
+  if (resourceDiff.changed.diffType !== "NONE" || diffChanged) {
+    const placementDiff = orderBy(resourceDiff.diff, (d) => d.isPrimary.other, "desc");
     for (const diff of placementDiff) {
-      if (diff.changed.diffType === 'ADDED') {
+      if (diff.changed.diffType === "ADDED") {
         await postNodeConnection({
           body: {
             parentId: diff.id.other!,
@@ -70,15 +70,21 @@ export const updateTax = async ({ node, originalNode }: UpdateTaxParams, taxonom
           },
           taxonomyVersion,
         });
-      } else if (diff.changed.diffType === 'DELETED') {
-        await deleteNodeConnection({ id: diff.connectionId.original!, taxonomyVersion });
+      } else if (diff.changed.diffType === "DELETED") {
+        await deleteNodeConnection({
+          id: diff.connectionId.original!,
+          taxonomyVersion,
+        });
       } else if (
-        diff.changed.diffType === 'MODIFIED' ||
+        diff.changed.diffType === "MODIFIED" ||
         (diffChanged && diff.connectionId.other === primaryConnection?.connectionId)
       ) {
         await putNodeConnection({
           id: diff.connectionId.original!,
-          body: { primary: diff.isPrimary.other!, relevanceId: diff.relevanceId?.other },
+          body: {
+            primary: diff.isPrimary.other!,
+            relevanceId: diff.relevanceId?.other,
+          },
           taxonomyVersion,
         });
       }
@@ -93,11 +99,14 @@ export const updateTax = async ({ node, originalNode }: UpdateTaxParams, taxonom
     });
   }
 
-  if (resourceTypesDiff.changed.diffType !== 'NONE') {
+  if (resourceTypesDiff.changed.diffType !== "NONE") {
     const rtPromises = resourceTypesDiff.diff.map((rt) => {
-      if (rt.changed.diffType === 'DELETED') {
-        return deleteResourceResourceType({ id: rt.connectionId.original!, taxonomyVersion });
-      } else if (rt.changed.diffType === 'ADDED') {
+      if (rt.changed.diffType === "DELETED") {
+        return deleteResourceResourceType({
+          id: rt.connectionId.original!,
+          taxonomyVersion,
+        });
+      } else if (rt.changed.diffType === "ADDED") {
         return createResourceResourceType({
           body: { resourceId: node.id, resourceTypeId: rt.id.other! },
           taxonomyVersion,
@@ -126,13 +135,13 @@ export const createTopicNodeConnections = async ({
       body: {
         contentUri: `urn:article:${articleId}`,
         name: name,
-        nodeType: 'TOPIC',
+        nodeType: "TOPIC",
         visible: placement.metadata.visible,
       },
       taxonomyVersion,
     });
 
-    const nodeId = location.replace('/v1/nodes/', '');
+    const nodeId = location.replace("/v1/nodes/", "");
     await postNodeConnection({
       body: {
         childId: nodeId,

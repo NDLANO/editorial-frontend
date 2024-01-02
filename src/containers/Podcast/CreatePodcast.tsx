@@ -6,13 +6,13 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import { INewAudioMetaInformation } from '@ndla/types-backend/audio-api';
-import PodcastForm from './components/PodcastForm';
-import { postAudio } from '../../modules/audio/audioApi';
-import { createFormData } from '../../util/formDataHelper';
-import { toEditPodcast } from '../../util/routeHelpers';
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import { INewAudioMetaInformation } from "@ndla/types-backend/audio-api";
+import PodcastForm from "./components/PodcastForm";
+import { postAudio } from "../../modules/audio/audioApi";
+import { createFormData } from "../../util/formDataHelper";
+import { toEditPodcast } from "../../util/routeHelpers";
 
 const CreatePodcast = () => {
   const { i18n } = useTranslation();

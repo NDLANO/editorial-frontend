@@ -6,8 +6,8 @@
  *
  */
 
-import { FormEvent, MouseEvent } from 'react';
-import { uuid } from '@ndla/util';
+import { FormEvent, MouseEvent } from "react";
+import { uuid } from "@ndla/util";
 
 interface Props {
   options?: Record<string, any>[];
@@ -33,8 +33,8 @@ const ObjectSelector = ({
   onBlur,
   value,
   emptyField = false,
-  placeholder = '',
-  className = '',
+  placeholder = "",
+  className = "",
   name,
   onClick,
   optGroups,
@@ -54,7 +54,7 @@ const ObjectSelector = ({
           {placeholder}
         </option>
       ) : (
-        ''
+        ""
       )}
       {options?.map((option) => (
         <option key={option[idKey] ? option[idKey] : uuid()} value={option[idKey]}>

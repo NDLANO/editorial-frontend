@@ -6,16 +6,16 @@
  *
  */
 
-import { Navigate, Route, Routes, useParams } from 'react-router-dom';
-import loadable from '@loadable/component';
-import Spinner from '../../components/Spinner';
-import { useDraft } from '../../modules/draft/draftQueries';
-import { toEditArticle } from '../../util/routeHelpers';
-import PrivateRoute from '../PrivateRoute/PrivateRoute';
-const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
-const TopicArticlePage = loadable(() => import('../ArticlePage/TopicArticlePage/TopicArticlePage'));
-const LearningResourcePage = loadable(() => import('../ArticlePage/LearningResourcePage/LearningResourcePage'));
-const FrontPageArticlePage = loadable(() => import('../ArticlePage/FrontpageArticlePage/FrontpageArticlePage'));
+import { Navigate, Route, Routes, useParams } from "react-router-dom";
+import loadable from "@loadable/component";
+import Spinner from "../../components/Spinner";
+import { useDraft } from "../../modules/draft/draftQueries";
+import { toEditArticle } from "../../util/routeHelpers";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
+const NotFoundPage = loadable(() => import("../NotFoundPage/NotFoundPage"));
+const TopicArticlePage = loadable(() => import("../ArticlePage/TopicArticlePage/TopicArticlePage"));
+const LearningResourcePage = loadable(() => import("../ArticlePage/LearningResourcePage/LearningResourcePage"));
+const FrontPageArticlePage = loadable(() => import("../ArticlePage/FrontpageArticlePage/FrontpageArticlePage"));
 
 const SubjectMatterPage = () => (
   <>
@@ -30,7 +30,7 @@ const SubjectMatterPage = () => (
 );
 
 const GenericArticleRedirect = () => {
-  const parsedId = Number(useParams<'id'>().id);
+  const parsedId = Number(useParams<"id">().id);
   const { data: article, error, isLoading } = useDraft({ id: parsedId }, { enabled: !!parsedId });
   if (isLoading) return <Spinner />;
   if (error || !article || !parsedId) return <NotFoundPage />;

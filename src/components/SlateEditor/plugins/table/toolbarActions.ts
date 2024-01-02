@@ -6,20 +6,20 @@
  *
  */
 
-import { Editor, Element, Path, Transforms } from 'slate';
-import { jsx as slatejsx } from 'slate-hyperscript';
-import { ReactEditor } from 'slate-react';
+import { Editor, Element, Path, Transforms } from "slate";
+import { jsx as slatejsx } from "slate-hyperscript";
+import { ReactEditor } from "slate-react";
 import {
   defaultTableCellBlock,
   defaultTableHeadBlock,
   defaultTableRowBlock,
   defaultTableBodyBlock,
   defaultTableCellHeaderBlock,
-} from './defaultBlocks';
-import { TableElement } from './interfaces';
-import { getTableAsMatrix, getTableBodyAsMatrix } from './matrix';
-import { findCellCoordinate } from './matrixHelpers';
-import { updateCell } from './slateActions';
+} from "./defaultBlocks";
+import { TableElement } from "./interfaces";
+import { getTableAsMatrix, getTableBodyAsMatrix } from "./matrix";
+import { findCellCoordinate } from "./matrixHelpers";
+import { updateCell } from "./slateActions";
 import {
   getTableBodyWidth,
   isTable,
@@ -28,9 +28,9 @@ import {
   isTableCellHeader,
   isTableHead,
   isTableRow,
-} from './slateHelpers';
-import { TYPE_TABLE_ROW, TYPE_TABLE_BODY, TYPE_TABLE_CELL_HEADER, TYPE_TABLE_HEAD } from './types';
-import getCurrentBlock from '../../utils/getCurrentBlock';
+} from "./slateHelpers";
+import { TYPE_TABLE_ROW, TYPE_TABLE_BODY, TYPE_TABLE_CELL_HEADER, TYPE_TABLE_HEAD } from "./types";
+import getCurrentBlock from "../../utils/getCurrentBlock";
 
 export const toggleRowHeaders = (editor: Editor, path: Path) => {
   const [table] = Editor.node(editor, path);
@@ -330,7 +330,7 @@ export const insertRow = (editor: Editor, tableElement: TableElement, path: Path
           } else {
             // C. If not row is inserted yet. Insert a new row.
             if (!rowsInserted) {
-              Transforms.insertNodes(editor, slatejsx('element', { type: TYPE_TABLE_ROW }), {
+              Transforms.insertNodes(editor, slatejsx("element", { type: TYPE_TABLE_ROW }), {
                 at: newRowPath,
               });
             }

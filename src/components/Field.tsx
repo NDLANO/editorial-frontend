@@ -6,9 +6,9 @@
  *
  */
 
-import { ReactNode } from 'react';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
+import { ReactNode } from "react";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
 
 interface StyledFieldProps {
   right?: boolean;
@@ -28,7 +28,7 @@ export const StyledField = styled.div<StyledFieldProps>`
   & label {
     font-size: 1.5rem;
   }
-  &[data-no-border='true'] {
+  &[data-no-border="true"] {
     & input {
       border: none;
       padding: 0;
@@ -36,11 +36,11 @@ export const StyledField = styled.div<StyledFieldProps>`
       outline: none;
     }
   }
-  &[data-right='true'] {
+  &[data-right="true"] {
     text-align: right;
     margin-right: ${spacing.small};
   }
-  &[data-is-title='true'] {
+  &[data-is-title="true"] {
     & input {
       font-size: 2.11111rem;
     }

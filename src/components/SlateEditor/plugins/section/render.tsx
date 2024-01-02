@@ -6,14 +6,14 @@
  *
  */
 
-import { Editor } from 'slate';
-import { RenderElementProps } from 'slate-react';
-import Section from './Section';
+import { Editor } from "slate";
+import { RenderElementProps } from "slate-react";
+import Section from "./Section";
 
 export const sectionRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
-    if (element.type === 'section') {
+    if (element.type === "section") {
       return (
         <Section attributes={attributes} element={element} editor={editor}>
           {children}

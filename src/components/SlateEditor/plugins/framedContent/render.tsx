@@ -6,9 +6,9 @@
  *
  */
 
-import { Editor } from 'slate';
-import SlateFramedContent from './SlateFramedContent';
-import { TYPE_FRAMED_CONTENT } from './types';
+import { Editor } from "slate";
+import SlateFramedContent from "./SlateFramedContent";
+import { TYPE_FRAMED_CONTENT } from "./types";
 
 export const framedContentRenderer = (editor: Editor) => {
   const { renderElement } = editor;

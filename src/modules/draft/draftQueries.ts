@@ -6,8 +6,8 @@
  *
  */
 
-import { useMutation, useQuery, useQueryClient, UseQueryOptions } from '@tanstack/react-query';
-import { ILicense, IArticle, IUserData, IUpdatedUserData, ISearchResult } from '@ndla/types-backend/draft-api';
+import { useMutation, useQuery, useQueryClient, UseQueryOptions } from "@tanstack/react-query";
+import { ILicense, IArticle, IUserData, IUpdatedUserData, ISearchResult } from "@ndla/types-backend/draft-api";
 import {
   fetchDraft,
   fetchLicenses,
@@ -15,10 +15,10 @@ import {
   fetchUserData,
   updateUserData,
   searchAllDrafts,
-} from './draftApi';
-import { DraftSearchQuery } from './draftApiInterfaces';
-import { DraftStatusStateMachineType } from '../../interfaces';
-import { DRAFT, DRAFT_STATUS_STATE_MACHINE, LICENSES, USER_DATA, SEARCH_DRAFTS } from '../../queryKeys';
+} from "./draftApi";
+import { DraftSearchQuery } from "./draftApiInterfaces";
+import { DraftStatusStateMachineType } from "../../interfaces";
+import { DRAFT, DRAFT_STATUS_STATE_MACHINE, LICENSES, USER_DATA, SEARCH_DRAFTS } from "../../queryKeys";
 
 export interface UseDraft {
   id: number;

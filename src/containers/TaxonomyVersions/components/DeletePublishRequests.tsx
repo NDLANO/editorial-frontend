@@ -6,18 +6,18 @@
  *
  */
 
-import { useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { useQueryClient } from '@tanstack/react-query';
-import { ButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
-import { Spinner } from '@ndla/icons';
-import { ModalBody, ModalHeader, ModalTitle, Modal, ModalTrigger, ModalContent, ModalCloseButton } from '@ndla/modal';
-import { Node } from '@ndla/types-taxonomy';
-import { TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH } from '../../../constants';
-import { useUpdateNodeMetadataMutation } from '../../../modules/nodes/nodeMutations';
-import { nodeQueryKeys } from '../../../modules/nodes/nodeQueries';
+import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { useQueryClient } from "@tanstack/react-query";
+import { ButtonV2 } from "@ndla/button";
+import { spacing } from "@ndla/core";
+import { Spinner } from "@ndla/icons";
+import { ModalBody, ModalHeader, ModalTitle, Modal, ModalTrigger, ModalContent, ModalCloseButton } from "@ndla/modal";
+import { Node } from "@ndla/types-taxonomy";
+import { TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH } from "../../../constants";
+import { useUpdateNodeMetadataMutation } from "../../../modules/nodes/nodeMutations";
+import { nodeQueryKeys } from "../../../modules/nodes/nodeQueries";
 
 interface Props {
   nodes: Node[];
@@ -25,8 +25,8 @@ interface Props {
 
 const queryKey = nodeQueryKeys.nodes({
   key: TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH,
-  value: 'true',
-  taxonomyVersion: 'default',
+  value: "true",
+  taxonomyVersion: "default",
 });
 
 const ButtonContainer = styled.div`
@@ -44,9 +44,16 @@ const DeletePublishRequests = ({ nodes }: Props) => {
   const onDelete = useCallback(
     async (nodes: Node[]) => {
       const promises = nodes.map(async ({ id, metadata }) => {
-        const newMeta = { ...metadata, customFields: { ...metadata.customFields } };
+        const newMeta = {
+          ...metadata,
+          customFields: { ...metadata.customFields },
+        };
         delete newMeta.customFields[TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH];
-        await mutateAsync({ id, metadata: newMeta, taxonomyVersion: 'default' });
+        await mutateAsync({
+          id,
+          metadata: newMeta,
+          taxonomyVersion: "default",
+        });
       });
       await Promise.all(promises);
       qc.invalidateQueries({ queryKey: queryKey });
@@ -59,23 +66,23 @@ const DeletePublishRequests = ({ nodes }: Props) => {
     <Modal>
       <ModalTrigger>
         <ButtonV2 size="small" colorTheme="danger">
-          {t('delete')}
+          {t("delete")}
         </ButtonV2>
       </ModalTrigger>
       <ModalContent>
         <ModalHeader>
-          <ModalTitle>{t('publishRequests.deleteAll')}</ModalTitle>
+          <ModalTitle>{t("publishRequests.deleteAll")}</ModalTitle>
           <ModalCloseButton />
         </ModalHeader>
         <ModalBody>
-          <p>{t('publishRequests.deleteAllInfo')}</p>
+          <p>{t("publishRequests.deleteAllInfo")}</p>
           <ButtonContainer>
             <ModalCloseButton>
-              <ButtonV2 variant="outline">{t('cancel')}</ButtonV2>
+              <ButtonV2 variant="outline">{t("cancel")}</ButtonV2>
             </ModalCloseButton>
             <ButtonV2 variant="outline" colorTheme="danger" onClick={() => onDelete(nodes)} disabled={isPending}>
               {isPending && <Spinner size="small" />}
-              {t('delete')}
+              {t("delete")}
             </ButtonV2>
           </ButtonContainer>
         </ModalBody>

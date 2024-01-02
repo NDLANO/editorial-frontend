@@ -6,15 +6,15 @@
  *
  */
 
-import { FormEvent, MouseEvent } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { fonts, colors } from '@ndla/core';
-import { FieldHeader } from '@ndla/forms';
-import { contributorGroups, contributorTypes } from '@ndla/licenses';
-import Contributor from './Contributor';
-import { ContributorType, ContributorFieldName } from './types';
+import { FormEvent, MouseEvent } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { fonts, colors } from "@ndla/core";
+import { FieldHeader } from "@ndla/forms";
+import { contributorGroups, contributorTypes } from "@ndla/licenses";
+import Contributor from "./Contributor";
+import { ContributorType, ContributorFieldName } from "./types";
 
 const StyledFormWarningText = styled.p`
   font-family: ${fonts.sans};
@@ -23,9 +23,9 @@ const StyledFormWarningText = styled.p`
 `;
 
 enum ContributorGroups {
-  CREATORS = 'creators',
-  PROCESSORS = 'processors',
-  RIGHTSHOLDERS = 'rightsholders',
+  CREATORS = "creators",
+  PROCESSORS = "processors",
+  RIGHTSHOLDERS = "rightsholders",
 }
 
 interface Props {
@@ -64,7 +64,7 @@ const Contributors = ({
 
   const addContributor = () => {
     const newContributors = [...value];
-    newContributors.push({ name: '', type: '', focusOnMount: true });
+    newContributors.push({ name: "", type: "", focusOnMount: true });
     onContributorChange(newContributors);
   };
 
@@ -113,7 +113,7 @@ const Contributors = ({
         <StyledFormWarningText>{errorMessages[0]}</StyledFormWarningText>
       )}
       <ButtonV2 variant="outline" onClick={addContributor} data-testid="addContributor" disabled={disabled}>
-        {t('form.contributor.add')}
+        {t("form.contributor.add")}
       </ButtonV2>
     </div>
   );

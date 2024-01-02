@@ -6,23 +6,23 @@
  *
  */
 
-import { ReactNode, useCallback, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Editor, Path, Transforms } from 'slate';
-import { ReactEditor, RenderElementProps } from 'slate-react';
-import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
-import { Pencil, Plus } from '@ndla/icons/action';
-import { DeleteForever } from '@ndla/icons/editor';
-import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
-import { LinkBlockEmbedData } from '@ndla/types-embed';
-import { LinkBlock, LinkBlockSection } from '@ndla/ui';
-import LinkBlockForm from './LinkBlockForm';
-import { LinkBlockListElement } from './types';
+import { ReactNode, useCallback, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Path, Transforms } from "slate";
+import { ReactEditor, RenderElementProps } from "slate-react";
+import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
+import { spacing } from "@ndla/core";
+import { Pencil, Plus } from "@ndla/icons/action";
+import { DeleteForever } from "@ndla/icons/editor";
+import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
+import { LinkBlockEmbedData } from "@ndla/types-embed";
+import { LinkBlock, LinkBlockSection } from "@ndla/ui";
+import LinkBlockForm from "./LinkBlockForm";
+import { LinkBlockListElement } from "./types";
 
 interface Props {
-  attributes: RenderElementProps['attributes'];
+  attributes: RenderElementProps["attributes"];
   editor: Editor;
   element: LinkBlockListElement;
   children: ReactNode;
@@ -95,7 +95,11 @@ const SlateLinkBlockList = ({ attributes, editor, element, children }: Props) =>
   );
 
   const handleRemove = useCallback(
-    () => Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true }),
+    () =>
+      Transforms.removeNodes(editor, {
+        at: ReactEditor.findPath(editor, element),
+        voids: true,
+      }),
     [editor, element],
   );
 
@@ -118,7 +122,7 @@ const SlateLinkBlockList = ({ attributes, editor, element, children }: Props) =>
       <HeaderWrapper>
         <Modal open={open} onOpenChange={onOpenChange}>
           <ModalTrigger>
-            <IconButtonV2 aria-label={t('linkBlock.create')} title={t('linkBlock.create')}>
+            <IconButtonV2 aria-label={t("linkBlock.create")} title={t("linkBlock.create")}>
               <Plus />
             </IconButtonV2>
           </ModalTrigger>
@@ -127,8 +131,8 @@ const SlateLinkBlockList = ({ attributes, editor, element, children }: Props) =>
           </ModalContent>
         </Modal>
         <IconButtonV2
-          aria-label={t('linkBlock.deleteBlock')}
-          title={t('linkBlock.deleteBlock')}
+          aria-label={t("linkBlock.deleteBlock")}
+          title={t("linkBlock.deleteBlock")}
           colorTheme="danger"
           onClick={handleRemove}
         >
@@ -188,7 +192,7 @@ const SlateLinkBlock = ({ link, onSave, onDelete, allEmbeds, index }: SlateLinkB
       <LinkBlock title={link.title} url={link.url} language={link.language} date={link.date} />
       <Modal open={open} onOpenChange={setOpen}>
         <ModalTrigger>
-          <IconButtonV2 aria-label={t('linkBlock.edit')} title={t('linkBlock.edit')}>
+          <IconButtonV2 aria-label={t("linkBlock.edit")} title={t("linkBlock.edit")}>
             <Pencil />
           </IconButtonV2>
         </ModalTrigger>
@@ -198,8 +202,8 @@ const SlateLinkBlock = ({ link, onSave, onDelete, allEmbeds, index }: SlateLinkB
       </Modal>
       <IconButtonV2
         colorTheme="danger"
-        aria-label={t('linkBlock.delete')}
-        title={t('linkBlock.delete')}
+        aria-label={t("linkBlock.delete")}
+        title={t("linkBlock.delete")}
         onClick={() => onDelete(index)}
       >
         <DeleteForever />

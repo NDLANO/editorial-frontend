@@ -6,19 +6,19 @@
  *
  */
 
-import { ReactNode } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Editor, Transforms, Path } from 'slate';
-import { RenderElementProps, ReactEditor, useSelected } from 'slate-react';
-import { EmbedElements } from '.';
-import SlateImage from './SlateImage';
-import SlateVideo from './SlateVideo';
-import { isSlateEmbed } from './utils';
-import DisplayExternal from '../../../DisplayEmbed/DisplayExternal';
-import EditorErrorMessage from '../../EditorErrorMessage';
+import { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Transforms, Path } from "slate";
+import { RenderElementProps, ReactEditor, useSelected } from "slate-react";
+import { EmbedElements } from ".";
+import SlateImage from "./SlateImage";
+import SlateVideo from "./SlateVideo";
+import { isSlateEmbed } from "./utils";
+import DisplayExternal from "../../../DisplayEmbed/DisplayExternal";
+import EditorErrorMessage from "../../EditorErrorMessage";
 
 interface Props {
-  attributes: RenderElementProps['attributes'];
+  attributes: RenderElementProps["attributes"];
   editor: Editor;
   element: EmbedElements;
   language: string;
@@ -59,7 +59,7 @@ const SlateFigure = ({ attributes, editor, element, language, children, allowDec
   };
 
   switch (embed?.resource) {
-    case 'image':
+    case "image":
       return (
         <SlateImage
           attributes={attributes}
@@ -76,7 +76,7 @@ const SlateFigure = ({ attributes, editor, element, language, children, allowDec
           {children}
         </SlateImage>
       );
-    case 'brightcove':
+    case "brightcove":
       return (
         <SlateVideo
           attributes={attributes}
@@ -89,9 +89,9 @@ const SlateFigure = ({ attributes, editor, element, language, children, allowDec
           {children}
         </SlateVideo>
       );
-    case 'external':
-    case 'iframe':
-      if (embed.url?.includes('youtu')) {
+    case "external":
+    case "iframe":
+      if (embed.url?.includes("youtu")) {
         return (
           <SlateVideo
             attributes={attributes}
@@ -119,7 +119,7 @@ const SlateFigure = ({ attributes, editor, element, language, children, allowDec
           {children}
         </DisplayExternal>
       );
-    case 'error':
+    case "error":
       return (
         <EditorErrorMessage onRemoveClick={onRemoveClick} attributes={attributes} msg={embed.message}>
           {children}
@@ -129,7 +129,7 @@ const SlateFigure = ({ attributes, editor, element, language, children, allowDec
       return (
         <EditorErrorMessage
           attributes={attributes}
-          msg={t('form.content.figure.notSupported', {
+          msg={t("form.content.figure.notSupported", {
             mediaType: embed?.resource,
           })}
         >

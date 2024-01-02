@@ -6,24 +6,24 @@
  *
  */
 
-import { useFormikContext } from 'formik';
-import { FormEvent } from 'react';
+import { useFormikContext } from "formik";
+import { FormEvent } from "react";
 
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
-import { UploadDropZone, FieldHeader } from '@ndla/forms';
-import { DeleteForever } from '@ndla/icons/editor';
-import Tooltip from '@ndla/tooltip';
-import AudioCopyInfo from './AudioCopyInfo';
-import AudioFileInfoModal from './AudioFileInfoModal';
-import { AudioFormikType } from './AudioForm';
-import AudioPlayer from './AudioPlayer';
-import FormikField from '../../../components/FormikField';
-import { PodcastFormValues } from '../../../modules/audio/audioApiInterfaces';
-import { TitleField } from '../../FormikForm';
-import { HandleSubmitFunc } from '../../FormikForm/articleFormHooks';
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
+import { spacing } from "@ndla/core";
+import { UploadDropZone, FieldHeader } from "@ndla/forms";
+import { DeleteForever } from "@ndla/icons/editor";
+import Tooltip from "@ndla/tooltip";
+import AudioCopyInfo from "./AudioCopyInfo";
+import AudioFileInfoModal from "./AudioFileInfoModal";
+import { AudioFormikType } from "./AudioForm";
+import AudioPlayer from "./AudioPlayer";
+import FormikField from "../../../components/FormikField";
+import { PodcastFormValues } from "../../../modules/audio/audioApiInterfaces";
+import { TitleField } from "../../FormikForm";
+import { HandleSubmitFunc } from "../../FormikForm/articleFormHooks";
 
 interface Props<T extends AudioFormikType | PodcastFormValues> {
   handleSubmit: HandleSubmitFunc<T>;
@@ -63,21 +63,21 @@ const AudioContent = <T extends AudioFormikType | PodcastFormValues>({ handleSub
   return (
     <>
       <TitleField />
-      <FormikField noBorder name="audioFile" label={t('form.audio.file')}>
+      <FormikField noBorder name="audioFile" label={t("form.audio.file")}>
         {() => (
           <>
-            <FieldHeader title={t('form.audio.sound')}>
+            <FieldHeader title={t("form.audio.sound")}>
               <AudioFileInfoModal />
             </FieldHeader>
             {playerObject ? (
               <PlayerWrapper>
                 <AudioPlayer audio={playerObject} />
-                <Tooltip tooltip={t('form.audio.remove')}>
+                <Tooltip tooltip={t("form.audio.remove")}>
                   <IconButtonV2
                     variant="ghost"
                     colorTheme="danger"
-                    aria-label={t('form.audio.remove')}
-                    onClick={() => setFieldValue('audioFile', {})}
+                    aria-label={t("form.audio.remove")}
+                    onClick={() => setFieldValue("audioFile", {})}
                     tabIndex={-1}
                   >
                     <DeleteForever />
@@ -87,17 +87,17 @@ const AudioContent = <T extends AudioFormikType | PodcastFormValues>({ handleSub
             ) : (
               <UploadDropZone
                 name="audioFile"
-                allowedFiles={['audio/mp3', 'audio/mpeg']}
+                allowedFiles={["audio/mp3", "audio/mpeg"]}
                 onAddedFiles={(_, evt: FormEvent<HTMLInputElement>) => {
                   const file = evt.currentTarget.files?.[0];
                   const filepath = file ? URL.createObjectURL(file) : undefined;
                   const newFile = file && filepath ? { file, filepath } : undefined;
-                  setFieldValue('audioFile', { newFile });
+                  setFieldValue("audioFile", { newFile });
                 }}
-                ariaLabel={t('form.audio.dragdrop.ariaLabel')}
+                ariaLabel={t("form.audio.dragdrop.ariaLabel")}
               >
-                <strong>{t('form.audio.dragdrop.main')}</strong>
-                {t('form.audio.dragdrop.sub')}
+                <strong>{t("form.audio.dragdrop.main")}</strong>
+                {t("form.audio.dragdrop.sub")}
               </UploadDropZone>
             )}
           </>

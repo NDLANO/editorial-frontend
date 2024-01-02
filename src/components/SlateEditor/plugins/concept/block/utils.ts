@@ -6,11 +6,11 @@
  *
  */
 
-import { jsx as slatejsx } from 'slate-hyperscript';
-import { TYPE_CONCEPT_BLOCK, TYPE_GLOSS_BLOCK } from './types';
+import { jsx as slatejsx } from "slate-hyperscript";
+import { TYPE_CONCEPT_BLOCK, TYPE_GLOSS_BLOCK } from "./types";
 
 export const defaultConceptBlock = () =>
-  slatejsx('element', { type: TYPE_CONCEPT_BLOCK, data: {}, isFirstEdit: true }, [{ text: '' }]);
+  slatejsx("element", { type: TYPE_CONCEPT_BLOCK, data: {}, isFirstEdit: true }, [{ text: "" }]);
 
 export const defaultGlossBlock = () =>
-  slatejsx('element', { type: TYPE_GLOSS_BLOCK, isFirstEdit: true, data: {} }, [{ text: '' }]);
+  slatejsx("element", { type: TYPE_GLOSS_BLOCK, isFirstEdit: true, data: {} }, [{ text: "" }]);

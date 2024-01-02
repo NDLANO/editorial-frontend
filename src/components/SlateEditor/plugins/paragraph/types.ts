@@ -6,4 +6,4 @@
  *
  */
 
-export const TYPE_PARAGRAPH = 'paragraph';
+export const TYPE_PARAGRAPH = "paragraph";

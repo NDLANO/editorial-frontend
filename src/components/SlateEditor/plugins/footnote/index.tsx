@@ -6,17 +6,17 @@
  *
  */
 
-import { Descendant, Editor, Element, Transforms, Range } from 'slate';
-import { jsx as slatejsx } from 'slate-hyperscript';
-import { TYPE_FOOTNOTE } from './types';
-import { reduceElementDataAttributes, createEmbedTag } from '../../../../util/embedTagHelpers';
-import { SlateSerializer } from '../../interfaces';
-import getCurrentBlock from '../../utils/getCurrentBlock';
-import { KEY_BACKSPACE, KEY_DELETE } from '../../utils/keys';
-import { TYPE_NDLA_EMBED } from '../embed/types';
+import { Descendant, Editor, Element, Transforms, Range } from "slate";
+import { jsx as slatejsx } from "slate-hyperscript";
+import { TYPE_FOOTNOTE } from "./types";
+import { reduceElementDataAttributes, createEmbedTag } from "../../../../util/embedTagHelpers";
+import { SlateSerializer } from "../../interfaces";
+import getCurrentBlock from "../../utils/getCurrentBlock";
+import { KEY_BACKSPACE, KEY_DELETE } from "../../utils/keys";
+import { TYPE_NDLA_EMBED } from "../embed/types";
 
 export interface FootnoteElement {
-  type: 'footnote';
+  type: "footnote";
   data: {
     authors: string[];
     title: string;
@@ -34,17 +34,17 @@ export const footnoteSerializer: SlateSerializer = {
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const embed = el as HTMLEmbedElement;
     const embedAttributes = reduceElementDataAttributes(embed);
-    if (embedAttributes.resource !== 'footnote') return;
+    if (embedAttributes.resource !== "footnote") return;
     return slatejsx(
-      'element',
+      "element",
       {
         type: TYPE_FOOTNOTE,
         data: {
           ...embedAttributes,
-          authors: embedAttributes.authors ? embedAttributes.authors.split(';') : [],
+          authors: embedAttributes.authors ? embedAttributes.authors.split(";") : [],
         },
       },
-      [{ text: '[#]' }],
+      [{ text: "[#]" }],
     );
   },
   serialize(node: Descendant) {
@@ -52,7 +52,7 @@ export const footnoteSerializer: SlateSerializer = {
     if (node.type !== TYPE_FOOTNOTE) return;
     const data = {
       ...node.data,
-      authors: node.data.authors ? node.data.authors.join(';') : '',
+      authors: node.data.authors ? node.data.authors.join(";") : "",
     };
 
     return createEmbedTag(data);
@@ -86,7 +86,7 @@ export const footnotePlugin = (editor: Editor) => {
         }
         const [currentBlock, currentPath] = entry;
 
-        if (Element.isElement(currentBlock) && currentBlock.type === 'footnote') {
+        if (Element.isElement(currentBlock) && currentBlock.type === "footnote") {
           e.preventDefault();
           Transforms.removeNodes(editor, {
             at: currentPath,

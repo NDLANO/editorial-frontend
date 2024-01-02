@@ -6,4 +6,4 @@
  *
  */
 
-export const TYPE_ASIDE = 'aside';
+export const TYPE_ASIDE = "aside";

@@ -6,17 +6,17 @@
  *
  */
 
-import { createElement } from 'react';
-import { Descendant, Editor, Element, Transforms, Range, Node, Path } from 'slate';
-import { jsx as slatejsx } from 'slate-hyperscript';
-import { TYPE_HEADING } from './types';
-import { SlateSerializer } from '../../interfaces';
-import hasNodeOfType from '../../utils/hasNodeOfType';
-import { KEY_BACKSPACE, KEY_ENTER } from '../../utils/keys';
-import { TYPE_PARAGRAPH } from '../paragraph/types';
+import { createElement } from "react";
+import { Descendant, Editor, Element, Transforms, Range, Node, Path } from "slate";
+import { jsx as slatejsx } from "slate-hyperscript";
+import { TYPE_HEADING } from "./types";
+import { SlateSerializer } from "../../interfaces";
+import hasNodeOfType from "../../utils/hasNodeOfType";
+import { KEY_BACKSPACE, KEY_ENTER } from "../../utils/keys";
+import { TYPE_PARAGRAPH } from "../paragraph/types";
 
 export interface HeadingElement {
-  type: 'heading';
+  type: "heading";
   level: 1 | 2 | 3 | 4 | 5 | 6;
   children: Descendant[];
 }
@@ -24,29 +24,29 @@ export interface HeadingElement {
 export const headingSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
     const tag = el.tagName.toLowerCase();
-    if (tag === 'h1') {
-      return slatejsx('element', { type: TYPE_HEADING, level: 2 }, children);
+    if (tag === "h1") {
+      return slatejsx("element", { type: TYPE_HEADING, level: 2 }, children);
     }
-    if (tag === 'h2') {
-      return slatejsx('element', { type: TYPE_HEADING, level: 2 }, children);
+    if (tag === "h2") {
+      return slatejsx("element", { type: TYPE_HEADING, level: 2 }, children);
     }
-    if (tag === 'h3') {
-      return slatejsx('element', { type: TYPE_HEADING, level: 3 }, children);
+    if (tag === "h3") {
+      return slatejsx("element", { type: TYPE_HEADING, level: 3 }, children);
     }
-    if (tag === 'h4') {
-      return slatejsx('element', { type: TYPE_HEADING, level: 4 }, children);
+    if (tag === "h4") {
+      return slatejsx("element", { type: TYPE_HEADING, level: 4 }, children);
     }
-    if (tag === 'h5') {
-      return slatejsx('element', { type: TYPE_HEADING, level: 4 }, children);
+    if (tag === "h5") {
+      return slatejsx("element", { type: TYPE_HEADING, level: 4 }, children);
     }
-    if (tag === 'h6') {
-      return slatejsx('element', { type: TYPE_HEADING, level: 4 }, children);
+    if (tag === "h6") {
+      return slatejsx("element", { type: TYPE_HEADING, level: 4 }, children);
     }
   },
   serialize(node: Descendant, children: JSX.Element[]) {
     if (!Element.isElement(node)) return;
     if (node.type === TYPE_HEADING) {
-      return createElement('h' + node.level, [], [children]);
+      return createElement("h" + node.level, [], [children]);
     }
   },
 };
@@ -54,7 +54,7 @@ export const headingSerializer: SlateSerializer = {
 const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: KeyboardEvent) => void) => {
   if (hasNodeOfType(editor, TYPE_HEADING)) {
     e.preventDefault();
-    Transforms.insertNodes(editor, slatejsx('element', { type: TYPE_PARAGRAPH }, [{ text: '' }]));
+    Transforms.insertNodes(editor, slatejsx("element", { type: TYPE_PARAGRAPH }, [{ text: "" }]));
     return;
   }
   return nextOnKeyDown && nextOnKeyDown(e);
@@ -65,11 +65,11 @@ const onBackspace = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: K
     if (Range.isRange(editor.selection)) {
       if (e.ctrlKey) {
         e.preventDefault();
-        editor.deleteBackward('word');
+        editor.deleteBackward("word");
         // Replace heading with paragraph if last character is removed
-        if (hasNodeOfType(editor, 'heading') && Editor.string(editor, editor.selection.anchor.path) === '') {
+        if (hasNodeOfType(editor, "heading") && Editor.string(editor, editor.selection.anchor.path) === "") {
           Transforms.unwrapNodes(editor, {
-            match: (node) => Element.isElement(node) && node.type === 'heading',
+            match: (node) => Element.isElement(node) && node.type === "heading",
           });
           return;
         }
@@ -81,7 +81,7 @@ const onBackspace = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: K
         editor.selection.anchor.offset === 1
       ) {
         e.preventDefault();
-        editor.deleteBackward('character');
+        editor.deleteBackward("character");
         Transforms.unwrapNodes(editor, {
           match: (node) => Element.isElement(node) && node.type === TYPE_HEADING,
         });
@@ -101,7 +101,7 @@ export const headingPlugin = (editor: Editor) => {
     if (Element.isElement(node) && node.type === TYPE_HEADING) {
       // Remove empty headers, but not when cursor is placed inside it.
       if (
-        Node.string(node) === '' &&
+        Node.string(node) === "" &&
         (!Range.isRange(editor.selection) ||
           (Range.isRange(editor.selection) &&
             Range.isCollapsed(editor.selection) &&

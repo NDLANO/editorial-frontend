@@ -6,25 +6,25 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { useQueryClient } from '@tanstack/react-query';
-import { ButtonV2 } from '@ndla/button';
-import { colors, spacing, breakpoints, fonts } from '@ndla/core';
-import Tooltip from '@ndla/tooltip';
-import { NodeConnectionPUT, NodeChild } from '@ndla/types-taxonomy';
-import { ContentTypeBadge } from '@ndla/ui';
-import GrepCodesModal from './GrepCodesModal';
-import ResourceItemLink from './ResourceItemLink';
-import StatusIcons from './StatusIcons';
-import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
-import VersionHistory from './VersionHistory';
-import RelevanceOption from '../../../components/Taxonomy/RelevanceOption';
-import { usePutResourceForNodeMutation, useUpdateNodeConnectionMutation } from '../../../modules/nodes/nodeMutations';
-import { nodeQueryKeys } from '../../../modules/nodes/nodeQueries';
-import { getContentTypeFromResourceTypes } from '../../../util/resourceHelpers';
-import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
+import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
+import styled from "@emotion/styled";
+import { useQueryClient } from "@tanstack/react-query";
+import { ButtonV2 } from "@ndla/button";
+import { colors, spacing, breakpoints, fonts } from "@ndla/core";
+import Tooltip from "@ndla/tooltip";
+import { NodeConnectionPUT, NodeChild } from "@ndla/types-taxonomy";
+import { ContentTypeBadge } from "@ndla/ui";
+import GrepCodesModal from "./GrepCodesModal";
+import ResourceItemLink from "./ResourceItemLink";
+import StatusIcons from "./StatusIcons";
+import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
+import VersionHistory from "./VersionHistory";
+import RelevanceOption from "../../../components/Taxonomy/RelevanceOption";
+import { usePutResourceForNodeMutation, useUpdateNodeConnectionMutation } from "../../../modules/nodes/nodeMutations";
+import { nodeQueryKeys } from "../../../modules/nodes/nodeQueries";
+import { getContentTypeFromResourceTypes } from "../../../util/resourceHelpers";
+import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
 const Wrapper = styled.div`
   display: flex;
@@ -145,27 +145,27 @@ const Resource = ({ resource, onDelete, currentNodeId, contentMetaLoading, respo
   const contentType =
     resource.resourceTypes.length > 0
       ? getContentTypeFromResourceTypes(resource.resourceTypes).contentType
-      : 'topic-article';
+      : "topic-article";
 
   const contentTypeName =
     resource.resourceTypes.length > 0
       ? resource.resourceTypes[resource.resourceTypes.length - 1].name
-      : t('searchForm.articleType.topicArticle');
+      : t("searchForm.articleType.topicArticle");
 
-  const iconType = contentType === 'topic-article' ? 'topic' : contentType;
+  const iconType = contentType === "topic-article" ? "topic" : contentType;
 
-  const structurePaths: string[] = location.pathname.replace('/structure', '').split('/');
-  const currentPath = structurePaths.map((p) => p.replace('urn:', '')).join('/');
+  const structurePaths: string[] = location.pathname.replace("/structure", "").split("/");
+  const currentPath = structurePaths.map((p) => p.replace("urn:", "")).join("/");
   const path = resource.paths.find((p) => {
-    const pArr = p.split('/');
-    const isResource = pArr[pArr.length - 1].startsWith('resource');
-    const pathWithoutResource = pArr.slice(0, pArr.length - (isResource ? 1 : 0)).join('/');
+    const pArr = p.split("/");
+    const isResource = pArr[pArr.length - 1].startsWith("resource");
+    const pathWithoutResource = pArr.slice(0, pArr.length - (isResource ? 1 : 0)).join("/");
     return pathWithoutResource === currentPath;
   });
 
   const updateRelevanceId = async (relevanceId: string) => {
     const { connectionId, isPrimary, rank } = resource;
-    const func = connectionId.includes('-resource') ? updateResourceConnection : updateNodeConnection;
+    const func = connectionId.includes("-resource") ? updateResourceConnection : updateNodeConnection;
     await func({
       id: connectionId,
       body: { relevanceId, primary: isPrimary, rank: rank },
@@ -201,8 +201,8 @@ const Resource = ({ resource, onDelete, currentNodeId, contentMetaLoading, respo
           </StyledText>
           <ButtonRow>
             <StyledResponsibleBadge>
-              <BoldFont>{`${t('form.responsible.label')}: `}</BoldFont>
-              {responsible ?? t('form.responsible.noResponsible')}
+              <BoldFont>{`${t("form.responsible.label")}: `}</BoldFont>
+              {responsible ?? t("form.responsible.noResponsible")}
             </StyledResponsibleBadge>
             <GrepCodesModal
               codes={resource.contentMeta?.grepCodes ?? []}
@@ -218,7 +218,7 @@ const Resource = ({ resource, onDelete, currentNodeId, contentMetaLoading, respo
               colorTheme="danger"
               disabled={!onDelete}
             >
-              {t('form.remove')}
+              {t("form.remove")}
             </RemoveButton>
           </ButtonRow>
         </ContentWrapper>

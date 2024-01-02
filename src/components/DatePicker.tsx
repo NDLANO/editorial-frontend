@@ -6,15 +6,15 @@
  *
  */
 
-import { nb, nn, enGB } from 'date-fns/locale';
-import { TFunction } from 'i18next';
-import { ReactNode, useCallback, useMemo, useState } from 'react';
-import { DayPicker, Dropdown, Labels, DropdownProps, CustomComponents, useNavigation } from 'react-day-picker';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { Arrow, Content, Portal, Root, Trigger } from '@radix-ui/react-popover';
-import { ButtonV2 } from '@ndla/button';
-import { colors, misc } from '@ndla/core';
+import { nb, nn, enGB } from "date-fns/locale";
+import { TFunction } from "i18next";
+import { ReactNode, useCallback, useMemo, useState } from "react";
+import { DayPicker, Dropdown, Labels, DropdownProps, CustomComponents, useNavigation } from "react-day-picker";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { Arrow, Content, Portal, Root, Trigger } from "@radix-ui/react-popover";
+import { ButtonV2 } from "@ndla/button";
+import { colors, misc } from "@ndla/core";
 
 interface Props {
   children: ReactNode;
@@ -31,10 +31,10 @@ const StyledContent = styled(Content)`
 
 const getDatePickerTranslations = (t: TFunction): Partial<Labels> => {
   return {
-    labelMonthDropdown: () => t('datePicker.chooseMonth'),
-    labelYearDropdown: () => t('datePicker.chooseYear'),
-    labelNext: () => t('datePicker.nextMonth'),
-    labelPrevious: () => t('datePicker.previousMonth'),
+    labelMonthDropdown: () => t("datePicker.chooseMonth"),
+    labelYearDropdown: () => t("datePicker.chooseYear"),
+    labelNext: () => t("datePicker.nextMonth"),
+    labelPrevious: () => t("datePicker.previousMonth"),
   };
 };
 
@@ -53,13 +53,13 @@ const DatePickerFooter = () => {
 
   return (
     <ButtonV2 variant="outline" onClick={() => goToDate(new Date())}>
-      {t('datePicker.goToToday')}
+      {t("datePicker.goToToday")}
     </ButtonV2>
   );
 };
 
 const DatePickerDropdown = (props: DropdownProps) => {
-  if (props.name === 'months') {
+  if (props.name === "months") {
     return <Dropdown {...props} />;
   }
   const { children, ...rest } = props;
@@ -76,9 +76,9 @@ const DatePicker = ({ children, value, onChange }: Props) => {
   const components: CustomComponents = useMemo(() => ({ Dropdown: DatePickerDropdown }), []);
 
   const locale = useMemo(() => {
-    if (i18n.language === 'en') {
+    if (i18n.language === "en") {
       return enGB;
-    } else if (i18n.language === 'nn') {
+    } else if (i18n.language === "nn") {
       return nn;
     } else return nb;
   }, [i18n.language]);

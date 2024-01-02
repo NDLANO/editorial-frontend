@@ -6,16 +6,16 @@
  *
  */
 
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
-import ImageSearch from '@ndla/image-search';
-import Tabs from '@ndla/tabs';
-import { IImageMetaInformationV3, ISearchResultV3 } from '@ndla/types-backend/image-api';
-import CreateImage from '../containers/ImageUploader/CreateImage';
-import { ImageSearchQuery } from '../modules/image/imageApiInterfaces';
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { spacing } from "@ndla/core";
+import ImageSearch from "@ndla/image-search";
+import Tabs from "@ndla/tabs";
+import { IImageMetaInformationV3, ISearchResultV3 } from "@ndla/types-backend/image-api";
+import CreateImage from "../containers/ImageUploader/CreateImage";
+import { ImageSearchQuery } from "../modules/image/imageApiInterfaces";
 
 const StyledTitleDiv = styled.div`
   margin-bottom: ${spacing.small};
@@ -50,7 +50,13 @@ const ImageSearchAndUploader = ({
   const { t } = useTranslation();
 
   const searchImagesWithParameters = (query?: string, page?: number) => {
-    return searchImages({ query, page, 'page-size': 16, language: language, fallback: true });
+    return searchImages({
+      query,
+      page,
+      "page-size": 16,
+      language: language,
+      fallback: true,
+    });
   };
 
   return (
@@ -60,22 +66,22 @@ const ImageSearchAndUploader = ({
       tabs={[
         {
           title: t(`form.visualElement.image`),
-          id: 'image',
+          id: "image",
           content: (
             <ImageSearch
               fetchImage={fetchImage}
               searchImages={searchImagesWithParameters}
               locale={locale}
-              searchPlaceholder={t('imageSearch.placeholder')}
-              searchButtonTitle={t('imageSearch.buttonTitle')}
-              useImageTitle={t('imageSearch.useImage')}
-              checkboxLabel={t('imageSearch.metaImageCheckboxLabel')}
+              searchPlaceholder={t("imageSearch.placeholder")}
+              searchButtonTitle={t("imageSearch.buttonTitle")}
+              useImageTitle={t("imageSearch.useImage")}
+              checkboxLabel={t("imageSearch.metaImageCheckboxLabel")}
               onImageSelect={onImageSelect}
               noResults={
                 <>
-                  <StyledTitleDiv>{t('imageSearch.noResultsText')}</StyledTitleDiv>
-                  <ButtonV2 type="submit" variant="outline" onClick={() => setSelectedTab('upload')}>
-                    {t('imageSearch.noResultsButtonText')}
+                  <StyledTitleDiv>{t("imageSearch.noResultsText")}</StyledTitleDiv>
+                  <ButtonV2 type="submit" variant="outline" onClick={() => setSelectedTab("upload")}>
+                    {t("imageSearch.noResultsButtonText")}
                   </ButtonV2>
                 </>
               }
@@ -86,8 +92,8 @@ const ImageSearchAndUploader = ({
           ),
         },
         {
-          title: t('form.visualElement.imageUpload'),
-          id: 'upload',
+          title: t("form.visualElement.imageUpload"),
+          id: "upload",
           content: (
             <CreateImage inModal={inModal} editingArticle closeModal={closeModal} onImageCreated={onImageSelect} />
           ),

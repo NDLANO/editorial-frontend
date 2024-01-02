@@ -6,15 +6,15 @@
  *
  */
 
-import isEmpty from 'lodash/isEmpty';
-import { CSSProperties, ReactNode } from 'react';
-import { useTranslation } from 'react-i18next';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { spacing, colors, fonts } from '@ndla/core';
-import { ExpandLess, ExpandMore } from '@ndla/icons/action';
-import Tooltip from '@ndla/tooltip';
-import Spinner from '../../../components/Spinner';
+import isEmpty from "lodash/isEmpty";
+import { CSSProperties, ReactNode } from "react";
+import { useTranslation } from "react-i18next";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { spacing, colors, fonts } from "@ndla/core";
+import { ExpandLess, ExpandMore } from "@ndla/icons/action";
+import Tooltip from "@ndla/tooltip";
+import Spinner from "../../../components/Spinner";
 
 const TableWrapper = styled.div`
   overflow-x: auto;
@@ -82,7 +82,7 @@ const SpinnerWrapper = styled.div`
 const NoResultsText = styled.div`
   display: flex;
   justify-content: center;
-  ${fonts.sizes('16px', '20px')};
+  ${fonts.sizes("16px", "20px")};
   color: ${colors.text.light};
   margin-bottom: ${spacing.nsmall};
 `;
@@ -95,7 +95,7 @@ const ContentWrapper = styled.div`
 const orderButtonStyle = (isHidden: boolean) => css`
   cursor: pointer;
   color: ${colors.text.primary};
-  visibility: ${isHidden ? 'hidden' : 'visible'};
+  visibility: ${isHidden ? "hidden" : "visible"};
 `;
 
 export interface FieldElement {
@@ -115,7 +115,7 @@ interface Props<T extends string> {
   tableTitleList: TitleElement<T>[];
   tableData: FieldElement[][];
   isLoading: boolean;
-  setSortOption?: (o: Prefix<'-', T>) => void;
+  setSortOption?: (o: Prefix<"-", T>) => void;
   noResultsText?: string;
   sortOption?: string;
   error?: string;
@@ -137,20 +137,20 @@ const TableComponent = <T extends string>({
 
   return (
     <TableWrapper>
-      <StyledTable style={{ '--table-min-width': minWidth } as CSSProperties}>
+      <StyledTable style={{ "--table-min-width": minWidth } as CSSProperties}>
         <thead>
           <tr>
             {tableTitleList.map((tableTitle, index) => (
               <StyledTableHeader
                 key={`${index}_${tableTitle.title}`}
-                style={{ '--header-width': tableTitle.width } as CSSProperties}
+                style={{ "--header-width": tableTitle.width } as CSSProperties}
               >
                 <TableTitleComponent>
                   {tableTitle.title}
 
                   {setSortOption && (
                     <SortArrowWrapper>
-                      <Tooltip tooltip={t('welcomePage.workList.sortAsc')}>
+                      <Tooltip tooltip={t("welcomePage.workList.sortAsc")}>
                         <ContentWrapper>
                           <ExpandLess
                             role="button"
@@ -159,7 +159,7 @@ const TableComponent = <T extends string>({
                           />
                         </ContentWrapper>
                       </Tooltip>
-                      <Tooltip tooltip={t('welcomePage.workList.sortDesc')}>
+                      <Tooltip tooltip={t("welcomePage.workList.sortDesc")}>
                         <ContentWrapper>
                           <ExpandMore
                             role="button"
@@ -182,7 +182,7 @@ const TableComponent = <T extends string>({
             {tableData.map((contentRow, index) => (
               <tr key={`tablerow_${contentRow?.[0]?.id}_${index}`}>
                 {contentRow.map((field) => (
-                  <td key={field.id} title={typeof field.data === 'string' ? field.data : ''}>
+                  <td key={field.id} title={typeof field.data === "string" ? field.data : ""}>
                     {field.data}
                   </td>
                 ))}

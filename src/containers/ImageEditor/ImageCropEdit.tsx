@@ -6,22 +6,22 @@
  *
  */
 
-import { useState } from 'react';
-import ReactCrop from 'react-image-crop';
-import config from '../../config';
-import { ImageEmbed } from '../../interfaces';
+import { useState } from "react";
+import ReactCrop from "react-image-crop";
+import config from "../../config";
+import { ImageEmbed } from "../../interfaces";
 
 interface Props {
   embed: ImageEmbed;
   language: string;
   onCropComplete: (crop: ReactCrop.Crop, pixelCrop: ReactCrop.PixelCrop) => void;
   transformData?: {
-    'focal-x'?: string;
-    'focal-y'?: string;
-    'upper-left-x'?: string;
-    'upper-left-y'?: string;
-    'lower-right-x'?: string;
-    'lower-right-y'?: string;
+    "focal-x"?: string;
+    "focal-y"?: string;
+    "upper-left-x"?: string;
+    "upper-left-y"?: string;
+    "lower-right-x"?: string;
+    "lower-right-y"?: string;
   };
 }
 
@@ -29,23 +29,23 @@ const ImageCropEdit = ({ embed, language, onCropComplete, transformData }: Props
   const src = `${config.ndlaApiUrl}/image-api/raw/id/${embed.resource_id}?language=${language}`;
   const [crop, setCrop] = useState<ReactCrop.Crop | undefined>(
     transformData &&
-      !!transformData['upper-left-x'] &&
-      !!transformData['upper-left-y'] &&
-      !!transformData['lower-right-x'] &&
-      !!transformData['lower-right-y']
+      !!transformData["upper-left-x"] &&
+      !!transformData["upper-left-y"] &&
+      !!transformData["lower-right-x"] &&
+      !!transformData["lower-right-y"]
       ? {
-          x: parseInt(transformData!['upper-left-x']),
-          y: parseInt(transformData!['upper-left-y']),
-          width: parseInt(transformData!['lower-right-x']) - parseInt(transformData!['upper-left-x']),
-          height: parseInt(transformData!['lower-right-y']) - parseInt(transformData!['upper-left-y']),
+          x: parseInt(transformData!["upper-left-x"]),
+          y: parseInt(transformData!["upper-left-y"]),
+          width: parseInt(transformData!["lower-right-x"]) - parseInt(transformData!["upper-left-x"]),
+          height: parseInt(transformData!["lower-right-y"]) - parseInt(transformData!["upper-left-y"]),
         }
       : undefined,
   );
 
   return (
     <ReactCrop
-      style={{ minWidth: '100%' }}
-      imageStyle={{ minWidth: '100%' }}
+      style={{ minWidth: "100%" }}
+      imageStyle={{ minWidth: "100%" }}
       src={src}
       onComplete={onCropComplete}
       crop={crop}

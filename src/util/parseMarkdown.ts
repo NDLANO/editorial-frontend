@@ -6,15 +6,15 @@
  *
  */
 
-import DOMPurify from 'dompurify';
-import { Marked, TokenizerAndRendererExtension } from 'marked';
+import DOMPurify from "dompurify";
+import { Marked, TokenizerAndRendererExtension } from "marked";
 
 // https://github.com/markedjs/marked/issues/2709
 const superscriptPlugin: TokenizerAndRendererExtension = {
-  name: 'superscript',
-  level: 'inline',
+  name: "superscript",
+  level: "inline",
   start(src: string) {
-    return src.indexOf('^');
+    return src.indexOf("^");
   },
   tokenizer(src) {
     const match = src.match(/^\^(\w+)\^/);
@@ -24,7 +24,7 @@ const superscriptPlugin: TokenizerAndRendererExtension = {
     }
 
     return {
-      type: 'superscript',
+      type: "superscript",
       raw: match[0],
       text: match[1],
     };
@@ -35,10 +35,10 @@ const superscriptPlugin: TokenizerAndRendererExtension = {
 };
 
 const subscriptPlugin: TokenizerAndRendererExtension = {
-  name: 'subscript',
-  level: 'inline',
+  name: "subscript",
+  level: "inline",
   start(src) {
-    return src.indexOf('~');
+    return src.indexOf("~");
   },
   tokenizer(src) {
     const match = src.match(/^~(\w+)~/);
@@ -48,7 +48,7 @@ const subscriptPlugin: TokenizerAndRendererExtension = {
     }
 
     return {
-      type: 'subscript',
+      type: "subscript",
       raw: match[0],
       text: match[1],
     };

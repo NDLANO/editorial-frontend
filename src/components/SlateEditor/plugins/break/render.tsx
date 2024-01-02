@@ -6,8 +6,8 @@
  *
  */
 
-import { Editor } from 'slate';
-import { TYPE_BREAK } from './types';
+import { Editor } from "slate";
+import { TYPE_BREAK } from "./types";
 
 export const breakRenderer = (editor: Editor) => {
   const { renderElement } = editor;

@@ -19,12 +19,12 @@ import {
   NodeType,
   Connection,
   Metadata,
-} from '@ndla/types-taxonomy';
-import { GetChildNodesParams, GetNodeParams, GetNodeResourcesParams } from './nodeApiTypes';
-import { taxonomyApi } from '../../config';
-import { SearchResultBase, WithTaxonomyVersion } from '../../interfaces';
-import { apiResourceUrl, httpFunctions, stringifyQuery } from '../../util/apiHelpers';
-import { resolveLocation, resolveVoidOrRejectWithError } from '../../util/resolveJsonOrRejectWithError';
+} from "@ndla/types-taxonomy";
+import { GetChildNodesParams, GetNodeParams, GetNodeResourcesParams } from "./nodeApiTypes";
+import { taxonomyApi } from "../../config";
+import { SearchResultBase, WithTaxonomyVersion } from "../../interfaces";
+import { apiResourceUrl, httpFunctions, stringifyQuery } from "../../util/apiHelpers";
+import { resolveLocation, resolveVoidOrRejectWithError } from "../../util/resolveJsonOrRejectWithError";
 
 const baseUrl = apiResourceUrl(`${taxonomyApi}/nodes`);
 const connUrl = apiResourceUrl(`${taxonomyApi}/node-connections`);
@@ -157,7 +157,11 @@ export const fetchNodeResources = ({
   taxonomyVersion,
   ...queryParams
 }: NodeResourcesGetParams): Promise<NodeChild[]> => {
-  return fetchAndResolve({ url: `${baseUrl}/${id}/resources`, taxonomyVersion, queryParams });
+  return fetchAndResolve({
+    url: `${baseUrl}/${id}/resources`,
+    taxonomyVersion,
+    queryParams,
+  });
 };
 
 interface NodeConnectionDeleteParams extends WithTaxonomyVersion {
@@ -242,7 +246,7 @@ export const publishNode = ({ id, targetId, sourceId }: PublishNodeParams) => {
   return putAndResolve({
     url: `${baseUrl}/${id}/publish${queryParams}`,
     alternateResolve: resolveVoidOrRejectWithError,
-    taxonomyVersion: 'default',
+    taxonomyVersion: "default",
   });
 };
 

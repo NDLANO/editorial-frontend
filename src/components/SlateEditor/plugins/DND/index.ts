@@ -6,17 +6,17 @@
  *
  */
 
-import { DragEventHandler } from 'react';
-import { Editor, Element, Node, Text } from 'slate';
-import { ReactEditor } from 'slate-react';
-import onDrop from './onDrop';
-import { getTopNode } from './utils';
-import { TYPE_QUOTE } from '../blockquote/types';
-import { TYPE_HEADING } from '../heading/types';
-import { TYPE_LIST, TYPE_LIST_ITEM } from '../list/types';
-import { TYPE_PARAGRAPH } from '../paragraph/types';
-import { TYPE_SECTION } from '../section/types';
-import { TYPE_TABLE_CAPTION } from '../table/types';
+import { DragEventHandler } from "react";
+import { Editor, Element, Node, Text } from "slate";
+import { ReactEditor } from "slate-react";
+import onDrop from "./onDrop";
+import { getTopNode } from "./utils";
+import { TYPE_QUOTE } from "../blockquote/types";
+import { TYPE_HEADING } from "../heading/types";
+import { TYPE_LIST, TYPE_LIST_ITEM } from "../list/types";
+import { TYPE_PARAGRAPH } from "../paragraph/types";
+import { TYPE_SECTION } from "../section/types";
+import { TYPE_TABLE_CAPTION } from "../table/types";
 
 const onDragOver = (): DragEventHandler<HTMLDivElement> => (event) => {
   event.preventDefault();
@@ -25,13 +25,13 @@ const onDragOver = (): DragEventHandler<HTMLDivElement> => (event) => {
 const onDragStart =
   (editor: Editor): DragEventHandler<HTMLDivElement> =>
   (event) => {
-    event.dataTransfer.effectAllowed = 'copy';
+    event.dataTransfer.effectAllowed = "copy";
 
     const node = ReactEditor.toSlateNode(editor, event.target as globalThis.Node);
     const path = ReactEditor.findPath(editor, node);
     const topNode = getTopNode(editor, path);
     if (!Text.isText(node) && topNode && Element.isElement(topNode[0])) {
-      event.dataTransfer.setData('application/slate-node-path', JSON.stringify(topNode[1]));
+      event.dataTransfer.setData("application/slate-node-path", JSON.stringify(topNode[1]));
     }
   };
 

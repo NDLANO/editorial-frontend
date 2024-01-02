@@ -6,14 +6,14 @@
  *
  */
 
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
-import { Editor, Element, Transforms } from 'slate';
-import VisualElementMenu, { VisualElementType } from './VisualElementMenu';
-import SlateVisualElementPicker from '../../components/SlateEditor/plugins/blockPicker/SlateVisualElementPicker';
-import { defaultH5pBlock } from '../../components/SlateEditor/plugins/h5p/utils';
-import { isEmpty } from '../../components/validators';
+import { Editor, Element, Transforms } from "slate";
+import VisualElementMenu, { VisualElementType } from "./VisualElementMenu";
+import SlateVisualElementPicker from "../../components/SlateEditor/plugins/blockPicker/SlateVisualElementPicker";
+import { defaultH5pBlock } from "../../components/SlateEditor/plugins/h5p/utils";
+import { isEmpty } from "../../components/validators";
 
 interface Props {
   editor: Editor;
@@ -36,7 +36,7 @@ const VisualElementPicker = ({ editor, language, types }: Props) => {
   };
 
   const onSelect = (visualElement: string) => {
-    if (visualElement === 'h5p') {
+    if (visualElement === "h5p") {
       onInsertBlock(defaultH5pBlock());
       return;
     }

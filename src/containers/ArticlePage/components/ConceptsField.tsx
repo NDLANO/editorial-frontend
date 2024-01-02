@@ -6,22 +6,22 @@
  *
  */
 
-import { FieldInputProps, FormikHelpers } from 'formik';
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { FieldHeader } from '@ndla/forms';
-import { IConcept, IConceptSummary } from '@ndla/types-backend/concept-api';
-import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
-import { fetchConcept, searchConcepts } from '../../../modules/concept/conceptApi';
-import handleError from '../../../util/handleError';
-import { ArticleFormType } from '../../FormikForm/articleFormHooks';
-import ElementList from '../../FormikForm/components/ElementList';
+import { FieldInputProps, FormikHelpers } from "formik";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { FieldHeader } from "@ndla/forms";
+import { IConcept, IConceptSummary } from "@ndla/types-backend/concept-api";
+import AsyncDropdown from "../../../components/Dropdown/asyncDropdown/AsyncDropdown";
+import { fetchConcept, searchConcepts } from "../../../modules/concept/conceptApi";
+import handleError from "../../../util/handleError";
+import { ArticleFormType } from "../../FormikForm/articleFormHooks";
+import ElementList from "../../FormikForm/components/ElementList";
 
 interface ConceptApiTypeWithArticleType extends IConcept {
   articleType?: string;
 }
 interface Props {
-  field: FieldInputProps<ArticleFormType['conceptIds']>;
+  field: FieldInputProps<ArticleFormType["conceptIds"]>;
   form: FormikHelpers<ArticleFormType>;
 }
 
@@ -31,9 +31,14 @@ const ConceptsField = ({ field, form }: Props) => {
 
   useEffect(() => {
     (async () => {
-      const conceptPromises = field.value.filter((a) => !!a).map((id) => fetchConcept(id, ''));
+      const conceptPromises = field.value.filter((a) => !!a).map((id) => fetchConcept(id, ""));
       const fetchedConcepts = await Promise.all(conceptPromises);
-      setConcepts(fetchedConcepts.map((concept) => ({ ...concept, articleType: 'concept' })));
+      setConcepts(
+        fetchedConcepts.map((concept) => ({
+          ...concept,
+          articleType: "concept",
+        })),
+      );
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -41,7 +46,7 @@ const ConceptsField = ({ field, form }: Props) => {
   const onAddConceptToList = async (concept: IConceptSummary) => {
     try {
       const newConcept = await fetchConcept(concept.id, i18n.language);
-      const temp = [...concepts, { ...newConcept, articleType: 'concept' }];
+      const temp = [...concepts, { ...newConcept, articleType: "concept" }];
       setConcepts(temp);
       updateFormik(field, temp);
     } catch (e) {
@@ -54,8 +59,8 @@ const ConceptsField = ({ field, form }: Props) => {
     updateFormik(field, conceptList);
   };
 
-  const updateFormik = (formikField: Props['field'], newData: ConceptApiTypeWithArticleType[]) => {
-    form.setFieldTouched('conceptIds', true, false);
+  const updateFormik = (formikField: Props["field"], newData: ConceptApiTypeWithArticleType[]) => {
+    form.setFieldTouched("conceptIds", true, false);
     formikField.onChange({
       target: {
         name: formikField.name,
@@ -74,12 +79,12 @@ const ConceptsField = ({ field, form }: Props) => {
 
   return (
     <>
-      <FieldHeader title={t('form.relatedConcepts.articlesTitle')} />
+      <FieldHeader title={t("form.relatedConcepts.articlesTitle")} />
       <ElementList
         elements={concepts}
         messages={{
-          dragElement: t('form.relatedConcepts.changeOrder'),
-          removeElement: t('form.relatedConcepts.removeArticle'),
+          dragElement: t("form.relatedConcepts.changeOrder"),
+          removeElement: t("form.relatedConcepts.removeArticle"),
         }}
         onUpdateElements={onUpdateElements}
       />
@@ -87,7 +92,7 @@ const ConceptsField = ({ field, form }: Props) => {
         selectedItems={concepts}
         idField="id"
         labelField="title"
-        placeholder={t('form.relatedConcepts.placeholder')}
+        placeholder={t("form.relatedConcepts.placeholder")}
         apiAction={searchForConcepts}
         onClick={(event: Event) => event.stopPropagation()}
         onChange={onAddConceptToList}

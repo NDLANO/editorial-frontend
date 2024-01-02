@@ -6,13 +6,13 @@
  *
  */
 
-import { resourceTypesMock, flattenedResourceTypes } from './taxonomyMocks';
-import { flattenResourceTypesAndAddContextTypes } from '../taxonomyHelpers';
+import { resourceTypesMock, flattenedResourceTypes } from "./taxonomyMocks";
+import { flattenResourceTypesAndAddContextTypes } from "../taxonomyHelpers";
 
-test('taxonomy/flattenResourceTypesAndAddContextTypes flattening', () => {
+test("taxonomy/flattenResourceTypesAndAddContextTypes flattening", () => {
   const types = {
-    'contextTypes.topic': 'Emne',
-    'contextTypes.frontpage': 'Forsideartikkel',
+    "contextTypes.topic": "Emne",
+    "contextTypes.frontpage": "Forsideartikkel",
   };
   const t = (key) => types[key];
   expect(flattenResourceTypesAndAddContextTypes(resourceTypesMock, t)).toEqual(flattenedResourceTypes);

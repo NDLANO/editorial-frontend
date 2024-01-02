@@ -6,13 +6,13 @@
  *
  */
 
-import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
-import { ModalBody, ModalHeader, ModalTitle } from '@ndla/modal';
-import { uuid } from '@ndla/util';
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { spacing } from "@ndla/core";
+import { ModalBody, ModalHeader, ModalTitle } from "@ndla/modal";
+import { uuid } from "@ndla/util";
 
 export const emptyMathTag = '<math xmlns="http://www.w3.org/1998/Math/MathML"/>';
 
@@ -63,7 +63,7 @@ const EditMath = ({ model: { innerHTML }, onExit, onRemove, onSave, mathEditor, 
     const onScriptLoad = () => {
       //@ts-ignore
       const mathEditor = window.com.wiris.jsEditor.JsEditor.newInstance({
-        language: ['nb', 'nn'].includes(i18n.language) ? 'no' : i18n.language,
+        language: ["nb", "nn"].includes(i18n.language) ? "no" : i18n.language,
       });
       setMathEditor(mathEditor);
       mathEditor?.setMathML(renderedMathML ?? emptyMathTag);
@@ -76,8 +76,8 @@ const EditMath = ({ model: { innerHTML }, onExit, onRemove, onSave, mathEditor, 
       onScriptLoad();
       return;
     }
-    const script = document.createElement('script');
-    script.src = 'https://www.wiris.net/client/editor/editor';
+    const script = document.createElement("script");
+    script.src = "https://www.wiris.net/client/editor/editor";
     script.onload = onScriptLoad;
     document.head.appendChild(script);
   }, [i18n.language, id, initialized, renderedMathML, setMathEditor]);
@@ -90,7 +90,7 @@ const EditMath = ({ model: { innerHTML }, onExit, onRemove, onSave, mathEditor, 
   return (
     <>
       <ModalHeader>
-        <ModalTitle>{t('mathEditor.editMath')}</ModalTitle>
+        <ModalTitle>{t("mathEditor.editMath")}</ModalTitle>
       </ModalHeader>
       <ModalBody>
         <hr />
@@ -101,23 +101,23 @@ const EditMath = ({ model: { innerHTML }, onExit, onRemove, onSave, mathEditor, 
             variant="outline"
             onClick={() => setRenderedMathML(mathEditor?.getMathML() ?? emptyMathTag)}
           >
-            {t('form.preview.button')}
+            {t("form.preview.button")}
           </ButtonV2>
           <ButtonV2
             variant="outline"
             data-testid="save-math"
             onClick={() => onSave(mathEditor?.getMathML() ?? emptyMathTag)}
           >
-            {t('form.save')}
+            {t("form.save")}
           </ButtonV2>
           <ButtonV2 data-testid="abort-math" variant="outline" onClick={onExit}>
-            {t('form.abort')}
+            {t("form.abort")}
           </ButtonV2>
           <ButtonV2 variant="outline" onClick={onRemove}>
-            {t('form.remove')}
+            {t("form.remove")}
           </ButtonV2>
         </StyledButtonWrapper>
-        <h3>{t('mathEditor.preview')}</h3>
+        <h3>{t("mathEditor.preview")}</h3>
         <hr />
         <StyledMathPreviewWrapper
           id={id}

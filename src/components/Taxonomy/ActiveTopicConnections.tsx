@@ -6,11 +6,11 @@
  *
  */
 
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { Node } from '@ndla/types-taxonomy';
-import ActiveTopicConnection from './ActiveTopicConnection';
-import { MinimalNodeChild } from '../../containers/ArticlePage/LearningResourcePage/components/LearningResourceTaxonomy';
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { Node } from "@ndla/types-taxonomy";
+import ActiveTopicConnection from "./ActiveTopicConnection";
+import { MinimalNodeChild } from "../../containers/ArticlePage/LearningResourcePage/components/LearningResourceTaxonomy";
 
 interface Props {
   removeConnection?: (id: string) => void;

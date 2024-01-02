@@ -6,13 +6,13 @@
  *
  */
 
-import { Form } from 'formik';
-import styled from '@emotion/styled';
-import { spacing, mq } from '@ndla/core';
+import { Form } from "formik";
+import styled from "@emotion/styled";
+import { spacing, mq } from "@ndla/core";
 
 const StyledForm = styled(Form)`
   margin-top: ${spacing.normal};
-  ${mq.range({ from: '37.5em' })} {
+  ${mq.range({ from: "37.5em" })} {
     padding-left: 0;
     padding-right: 0;
     padding-top: 0;

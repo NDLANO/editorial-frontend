@@ -6,8 +6,8 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { useMutation, UseMutationOptions, useQueryClient } from '@tanstack/react-query';
+import { useTranslation } from "react-i18next";
+import { useMutation, UseMutationOptions, useQueryClient } from "@tanstack/react-query";
 import {
   Node,
   NodeConnectionPOST,
@@ -17,7 +17,7 @@ import {
   NodeResourcePUT,
   TranslationPUT,
   Metadata,
-} from '@ndla/types-taxonomy';
+} from "@ndla/types-taxonomy";
 import {
   deleteNode,
   deleteNodeConnection,
@@ -35,11 +35,11 @@ import {
   putResourceForNode,
   putResourcesPrimary,
   PutResourcesPrimaryParams,
-} from './nodeApi';
-import { nodeQueryKeys } from './nodeQueries';
-import { WithTaxonomyVersion } from '../../interfaces';
-import handleError from '../../util/handleError';
-import { createResourceResourceType, ResourceResourceTypePostParams } from '../taxonomy/resourcetypes';
+} from "./nodeApi";
+import { nodeQueryKeys } from "./nodeQueries";
+import { WithTaxonomyVersion } from "../../interfaces";
+import handleError from "../../util/handleError";
+import { createResourceResourceType, ResourceResourceTypePostParams } from "../taxonomy/resourcetypes";
 
 interface UseAddNodeMutation extends WithTaxonomyVersion {
   body: NodePostPut;
@@ -55,11 +55,11 @@ export const useAddNodeMutation = () => {
       const previousNodes = queryClient.getQueryData<Node[]>(key) ?? [];
       const optimisticNode: Node = {
         ...newNode,
-        baseName: newNode.name ?? '',
-        name: newNode.name ?? '',
-        contentUri: newNode.contentUri ?? '',
-        id: newNode.nodeId ?? '',
-        path: '',
+        baseName: newNode.name ?? "",
+        name: newNode.name ?? "",
+        contentUri: newNode.contentUri ?? "",
+        id: newNode.nodeId ?? "",
+        path: "",
         paths: [],
         translations: [],
         supportedLanguages: [],
@@ -67,14 +67,16 @@ export const useAddNodeMutation = () => {
         contexts: [],
         metadata: { visible: true, grepCodes: [], customFields: {} },
         breadcrumbs: [],
-        language: '',
+        language: "",
       };
       queryClient.setQueryData<Node[]>(key, [...previousNodes, optimisticNode]);
       return previousNodes;
     },
     onError: (e) => handleError(e),
     onSettled: (_, __, { taxonomyVersion }) =>
-      queryClient.invalidateQueries({ queryKey: nodeQueryKeys.nodes({ taxonomyVersion }) }),
+      queryClient.invalidateQueries({
+        queryKey: nodeQueryKeys.nodes({ taxonomyVersion }),
+      }),
   });
 };
 
@@ -99,7 +101,7 @@ export const useUpdateNodeMetadataMutation = () => {
           })
         : nodeQueryKeys.nodes({
             isContext: true,
-            nodeType: 'SUBJECT',
+            nodeType: "SUBJECT",
             language: i18n.language,
             taxonomyVersion,
           });
@@ -121,7 +123,7 @@ export const useUpdateNodeMetadataMutation = () => {
           })
         : nodeQueryKeys.nodes({
             language: i18n.language,
-            nodeType: 'SUBJECT',
+            nodeType: "SUBJECT",
             isContext: true,
             taxonomyVersion,
           });

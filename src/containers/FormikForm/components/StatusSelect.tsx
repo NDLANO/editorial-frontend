@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Select, SingleValue, Option } from '@ndla/select';
-import { IStatus as DraftStatus } from '@ndla/types-backend/draft-api';
-import { PUBLISHED } from '../../../constants';
-import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from '../../../interfaces';
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Select, SingleValue, Option } from "@ndla/select";
+import { IStatus as DraftStatus } from "@ndla/types-backend/draft-api";
+import { PUBLISHED } from "../../../constants";
+import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from "../../../interfaces";
 
 interface Props {
   status: SingleValue;
@@ -30,7 +30,7 @@ const StatusSelect = ({ status, setStatus, onSave, statusStateMachine, entitySta
 
   const [options, setOptions] = useState<Option[]>([]);
   const optionsWithGroupTitle = useMemo(
-    () => [{ label: t('editorFooter.statusLabel'), options: options }],
+    () => [{ label: t("editorFooter.statusLabel"), options: options }],
     [options, t],
   );
 
@@ -64,7 +64,7 @@ const StatusSelect = ({ status, setStatus, onSave, statusStateMachine, entitySta
       <Select<false>
         options={optionsWithGroupTitle}
         menuPlacement="top"
-        placeholder={t('searchForm.types.status')}
+        placeholder={t("searchForm.types.status")}
         value={status}
         onChange={updateStatus}
         closeMenuOnSelect

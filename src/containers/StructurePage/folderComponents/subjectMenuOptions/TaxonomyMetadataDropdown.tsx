@@ -6,12 +6,12 @@
  *
  */
 
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { DeleteForever } from '@ndla/icons/editor';
-import RoundIcon from '../../../../components/RoundIcon';
-import CustomFieldButton from '../sharedMenuOptions/components/CustomFieldButton';
-import { StyledMenuItemEditField, StyledMenuItemInputField } from '../styles';
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { DeleteForever } from "@ndla/icons/editor";
+import RoundIcon from "../../../../components/RoundIcon";
+import CustomFieldButton from "../sharedMenuOptions/components/CustomFieldButton";
+import { StyledMenuItemEditField, StyledMenuItemInputField } from "../styles";
 
 interface Option {
   key: string;
@@ -25,7 +25,7 @@ interface Props {
   messages: Record<string, string>;
 }
 
-const StyledSelect = styled('select')`
+const StyledSelect = styled("select")`
   padding: 0 ${spacing.nsmall} 0 calc(${spacing.nsmall} / 2);
   margin-left: 0;
 `;
@@ -39,7 +39,7 @@ const TaxonomyMetadataDropdown = ({ options, field, customFields, updateCustomFi
   return (
     <StyledMenuItemEditField>
       <RoundIcon open small />
-      <StyledMenuItemInputField placeholder={messages['title']} disabled />
+      <StyledMenuItemInputField placeholder={messages["title"]} disabled />
       <StyledSelect
         onChange={(e) => {
           e.persist();
@@ -52,7 +52,7 @@ const TaxonomyMetadataDropdown = ({ options, field, customFields, updateCustomFi
       >
         {selectedValue || (
           <option selected disabled hidden>
-            {messages['selected']}
+            {messages["selected"]}
           </option>
         )}
         {options.map((option: Option) => (

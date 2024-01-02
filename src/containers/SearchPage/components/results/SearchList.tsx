@@ -6,22 +6,22 @@
  *
  */
 
-import uniq from 'lodash/uniq';
-import { useState, useEffect, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { colors } from '@ndla/core';
-import { IAudioSummary, ISeriesSummary } from '@ndla/types-backend/audio-api';
-import { IConceptSummary } from '@ndla/types-backend/concept-api';
-import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
-import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
-import { Node } from '@ndla/types-taxonomy';
-import SearchResult, { SearchResultReturnType } from './SearchResult';
-import Spinner from '../../../../components/Spinner';
-import { LocaleType, SearchType } from '../../../../interfaces';
-import { fetchAuth0Users } from '../../../../modules/auth0/auth0Api';
-import { ResultType } from '../../SearchContainer';
-import { SearchParams } from '../form/SearchForm';
+import uniq from "lodash/uniq";
+import { useState, useEffect, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { colors } from "@ndla/core";
+import { IAudioSummary, ISeriesSummary } from "@ndla/types-backend/audio-api";
+import { IConceptSummary } from "@ndla/types-backend/concept-api";
+import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
+import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
+import { Node } from "@ndla/types-taxonomy";
+import SearchResult, { SearchResultReturnType } from "./SearchResult";
+import Spinner from "../../../../components/Spinner";
+import { LocaleType, SearchType } from "../../../../interfaces";
+import { fetchAuth0Users } from "../../../../modules/auth0/auth0Api";
+import { ResultType } from "../../SearchContainer";
+import { SearchParams } from "../form/SearchForm";
 
 const StyledSearchError = styled.p`
   color: ${colors.support.red};
@@ -35,7 +35,7 @@ export type ResultSummaryType =
   | IMultiSearchSummary;
 
 interface Props {
-  results: ResultType['results'];
+  results: ResultType["results"];
   searching: boolean;
   searchObject: SearchParams;
   type: SearchType;
@@ -44,7 +44,7 @@ interface Props {
   error: boolean;
 }
 
-const toResultReturnType = (results: ResultType['results'], type: SearchType): SearchResultReturnType[] =>
+const toResultReturnType = (results: ResultType["results"], type: SearchType): SearchResultReturnType[] =>
   results.map((result: ResultSummaryType) => ({ type: type, value: result }));
 
 const SearchList = ({ results, searchObject, type, searching = true, locale, subjects, error }: Props) => {
@@ -60,7 +60,7 @@ const SearchList = ({ results, searchObject, type, searching = true, locale, sub
   const responsibleIds = useMemo(
     () =>
       results.map((r) => {
-        if ('responsible' in r) {
+        if ("responsible" in r) {
           return r.responsible?.responsibleId;
         } else return null;
       }),
@@ -70,7 +70,7 @@ const SearchList = ({ results, searchObject, type, searching = true, locale, sub
   useEffect(() => {
     (async () => {
       if (!responsibleIds.length) return;
-      const formattedResponsibleIds = uniq(responsibleIds.filter((r) => r)).join(',');
+      const formattedResponsibleIds = uniq(responsibleIds.filter((r) => r)).join(",");
       const userData = await fetchAuth0Users(formattedResponsibleIds);
       // UserNames need to be positioned at exact same spot as its corresponsing id to map to correct search result
       const userNames = responsibleIds.flatMap((r) =>
@@ -81,12 +81,12 @@ const SearchList = ({ results, searchObject, type, searching = true, locale, sub
   }, [responsibleIds]);
 
   if (searching) return <Spinner />;
-  if (error) return <StyledSearchError>{t('searchForm.error')}</StyledSearchError>;
-  if (results.length === 0) return <p>{t(`searchPage.${type}NoHits`, { query: searchObject.query ?? '' })}</p>;
+  if (error) return <StyledSearchError>{t("searchForm.error")}</StyledSearchError>;
+  if (results.length === 0) return <p>{t(`searchPage.${type}NoHits`, { query: searchObject.query ?? "" })}</p>;
   return (
     <div>
       {toResultReturnType(results, type).map((result, index) => {
-        const learningResourceType = 'learningResourceType' in result.value ? result.value.learningResourceType : '';
+        const learningResourceType = "learningResourceType" in result.value ? result.value.learningResourceType : "";
         return (
           <SearchResult
             key={`${result.value.id}-${learningResourceType}`}

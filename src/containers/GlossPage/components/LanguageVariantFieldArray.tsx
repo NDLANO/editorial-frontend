@@ -6,16 +6,16 @@
  *
  */
 
-import { FieldArray } from 'formik';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
+import { FieldArray } from "formik";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { spacing } from "@ndla/core";
 
-import { FieldRemoveButton, FieldSection } from '@ndla/forms';
-import { IGlossExample } from '@ndla/types-backend/concept-api';
-import ExampleField from './ExampleField';
-import { emptyGlossExample } from '../glossData';
+import { FieldRemoveButton, FieldSection } from "@ndla/forms";
+import { IGlossExample } from "@ndla/types-backend/concept-api";
+import ExampleField from "./ExampleField";
+import { emptyGlossExample } from "../glossData";
 
 const Wrapper = styled.div`
   margin-bottom: ${spacing.small};
@@ -48,13 +48,13 @@ const LanguageVariantFieldArray = ({ examples, name, removeFromParentArray }: Pr
                       examples.length === 1 ? removeFromParentArray() : arrayHelpers.remove(exampleIndex)
                     }
                   >
-                    {t('form.gloss.removeExample')}
+                    {t("form.gloss.removeExample")}
                   </FieldRemoveButton>
                 </div>
               </FieldSection>
             ))}
             <StyledButton variant="outline" onClick={() => arrayHelpers.push(emptyGlossExample)}>
-              {t('form.gloss.add', {
+              {t("form.gloss.add", {
                 label: t(`form.gloss.languageVariant`).toLowerCase(),
               })}
             </StyledButton>

@@ -6,24 +6,24 @@
  *
  */
 
-import { Descendant, Editor, Element } from 'slate';
-import { jsx as slatejsx } from 'slate-hyperscript';
-import { TYPE_ASIDE } from './types';
-import { getAsideType } from './utils';
-import { SlateSerializer } from '../../interfaces';
-import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
+import { Descendant, Editor, Element } from "slate";
+import { jsx as slatejsx } from "slate-hyperscript";
+import { TYPE_ASIDE } from "./types";
+import { getAsideType } from "./utils";
+import { SlateSerializer } from "../../interfaces";
+import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import {
   afterOrBeforeTextBlockElement,
   firstTextBlockElement,
   lastTextBlockElement,
   textBlockElements,
-} from '../../utils/normalizationHelpers';
-import { TYPE_PARAGRAPH } from '../paragraph/types';
+} from "../../utils/normalizationHelpers";
+import { TYPE_PARAGRAPH } from "../paragraph/types";
 
 export interface AsideElement {
-  type: 'aside';
+  type: "aside";
   data: {
-    type: 'rightAside' | 'factAside';
+    type: "rightAside" | "factAside";
   };
   children: Descendant[];
 }
@@ -53,13 +53,13 @@ const normalizerConfig: NormalizerConfig = {
 
 export const asideSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
-    if (el.tagName.toLowerCase() !== 'aside') return;
-    return slatejsx('element', { type: TYPE_ASIDE, data: getAsideType(el) }, children);
+    if (el.tagName.toLowerCase() !== "aside") return;
+    return slatejsx("element", { type: TYPE_ASIDE, data: getAsideType(el) }, children);
   },
   serialize(node: Descendant, children: JSX.Element[]) {
     if (!Element.isElement(node)) return;
-    if (node.type !== 'aside') return;
-    return <aside data-type={node.data.type || ''}>{children}</aside>;
+    if (node.type !== "aside") return;
+    return <aside data-type={node.data.type || ""}>{children}</aside>;
   },
 };
 

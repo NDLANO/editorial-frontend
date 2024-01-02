@@ -6,7 +6,7 @@
  *
  */
 
-import config from '../config';
+import config from "../config";
 
 export const GoogleTagMangerNoScript = () => {
   if (config.googleTagManagerId) {
@@ -17,7 +17,7 @@ export const GoogleTagMangerNoScript = () => {
           src={`https://www.googletagmanager.com/ns.html?id=${config.googleTagManagerId}`}
           height="0"
           width="0"
-          style={{ display: 'none', visibility: 'hidden' }}
+          style={{ display: "none", visibility: "hidden" }}
         />
       </noscript>
     );

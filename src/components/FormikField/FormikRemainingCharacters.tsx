@@ -6,8 +6,8 @@
  *
  */
 
-import { ReactNode } from 'react';
-import FormikFieldHelp from './FormikFieldHelp';
+import { ReactNode } from "react";
+import FormikFieldHelp from "./FormikFieldHelp";
 
 interface Props {
   value: string;

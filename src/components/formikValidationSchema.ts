@@ -6,8 +6,8 @@
  *
  */
 
-import { TFunction } from 'i18next';
-import get from 'lodash/fp/get';
+import { TFunction } from "i18next";
+import get from "lodash/fp/get";
 import {
   isUrl,
   isEmpty,
@@ -17,9 +17,9 @@ import {
   isNumeric,
   objectHasBothField,
   validDateRange,
-} from './validators';
-import { bytesToSensibleFormat } from '../util/fileSizeUtil';
-import handleError from '../util/handleError';
+} from "./validators";
+import { bytesToSensibleFormat } from "../util/fileSizeUtil";
+import handleError from "../util/handleError";
 
 // Taken directly from https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address
 // We don't really need spec compliance, but why not include it?
@@ -42,14 +42,14 @@ const validateFormikField = <FormikValuesType, ApiTypes = any, FormikNestedValue
 
   const value = get(ruleKey, values);
   if (rules[ruleKey].required && isEmpty(value)) {
-    errors[appendErrorKey] = appendError(errors[appendErrorKey], t('validation.isRequired', { label }));
+    errors[appendErrorKey] = appendError(errors[appendErrorKey], t("validation.isRequired", { label }));
   }
 
   if (rules[ruleKey].allObjectFieldsRequired) {
     if (value.filter((v: any) => !objectHasBothField(v)).length > 0) {
       errors[appendErrorKey] = appendError(
         errors[appendErrorKey],
-        t('validation.bothFields', {
+        t("validation.bothFields", {
           labelLowerCase: label.toLowerCase(),
         }),
       );
@@ -62,9 +62,9 @@ const validateFormikField = <FormikValuesType, ApiTypes = any, FormikNestedValue
     if (!validDateRange(beforeDate, afterDate)) {
       errors[appendErrorKey] = appendError(
         errors[appendErrorKey],
-        t('validation.dateBeforeInvalid', {
+        t("validation.dateBeforeInvalid", {
           label,
-          afterLabel: t('form.validDate.to.label').toLowerCase(),
+          afterLabel: t("form.validDate.to.label").toLowerCase(),
         }),
       );
     }
@@ -76,9 +76,9 @@ const validateFormikField = <FormikValuesType, ApiTypes = any, FormikNestedValue
     if (!validDateRange(beforeDate, afterDate)) {
       errors[appendErrorKey] = appendError(
         errors[appendErrorKey],
-        t('validation.dateAfterInvalid', {
+        t("validation.dateAfterInvalid", {
           label,
-          beforeLabel: t('form.validDate.from.label').toLowerCase(),
+          beforeLabel: t("form.validDate.from.label").toLowerCase(),
         }),
       );
     }
@@ -89,7 +89,7 @@ const validateFormikField = <FormikValuesType, ApiTypes = any, FormikNestedValue
     if (!email.match(EMAIL_REGEX)) {
       errors[appendErrorKey] = appendError(
         errors[appendErrorKey],
-        t('validation.email', {
+        t("validation.email", {
           label,
         }),
       );
@@ -102,7 +102,7 @@ const validateFormikField = <FormikValuesType, ApiTypes = any, FormikNestedValue
     if (fileSize > maxSize) {
       errors[appendErrorKey] = appendError(
         errors[appendErrorKey],
-        t('validation.maxSizeExceeded', {
+        t("validation.maxSizeExceeded", {
           maxSize: bytesToSensibleFormat(maxSize),
           fileSize: bytesToSensibleFormat(fileSize),
         }),
@@ -114,7 +114,7 @@ const validateFormikField = <FormikValuesType, ApiTypes = any, FormikNestedValue
   if (ruleMinLength && minLength(value, ruleMinLength)) {
     errors[appendErrorKey] = appendError(
       errors[appendErrorKey],
-      t('validation.minLength', {
+      t("validation.minLength", {
         label,
         minLength: ruleMinLength,
       }),
@@ -124,7 +124,7 @@ const validateFormikField = <FormikValuesType, ApiTypes = any, FormikNestedValue
   if (ruleMaxLength && maxLength(value, ruleMaxLength)) {
     errors[appendErrorKey] = appendError(
       errors[appendErrorKey],
-      t('validation.maxLength', {
+      t("validation.maxLength", {
         label,
         maxLength: ruleMaxLength,
       }),
@@ -134,7 +134,7 @@ const validateFormikField = <FormikValuesType, ApiTypes = any, FormikNestedValue
   if (ruleMinItems && minItems(value, ruleMinItems)) {
     errors[appendErrorKey] = appendError(
       errors[appendErrorKey],
-      t('validation.minItems', {
+      t("validation.minItems", {
         label,
         labelLowerCase: label.toLowerCase(),
         minItems: ruleMinItems,
@@ -143,13 +143,13 @@ const validateFormikField = <FormikValuesType, ApiTypes = any, FormikNestedValue
     );
   }
   if (rules[ruleKey].numeric && !isNumeric(value)) {
-    errors[appendErrorKey] = appendError(errors[appendErrorKey], t('validation.isNumeric', { label }));
+    errors[appendErrorKey] = appendError(errors[appendErrorKey], t("validation.isNumeric", { label }));
   }
   if (rules[ruleKey].url && !isUrl(value)) {
-    errors[appendErrorKey] = appendError(errors[appendErrorKey], t('validation.url', { label }));
+    errors[appendErrorKey] = appendError(errors[appendErrorKey], t("validation.url", { label }));
   }
   if (rules[ruleKey].urlOrNumber && !isUrl(value) && !isNumeric(value)) {
-    errors[appendErrorKey] = appendError(errors[appendErrorKey], t('validation.urlOrNumber', { label }));
+    errors[appendErrorKey] = appendError(errors[appendErrorKey], t("validation.urlOrNumber", { label }));
   }
 
   const testFunction = rules[ruleKey].test;
@@ -191,9 +191,12 @@ interface RuleObject<FormikValuesType, ApiType = any, FormikNestedValueType = {}
     languageMatch?: boolean;
   };
   nestedValidationRules?: Record<string, RuleObject<FormikNestedValueType, ApiType>>;
-  test?: (
-    value: FormikValuesType,
-  ) => { translationKey: string; variables?: { [key: string]: string | boolean | number } } | undefined;
+  test?: (value: FormikValuesType) =>
+    | {
+        translationKey: string;
+        variables?: { [key: string]: string | boolean | number };
+      }
+    | undefined;
   onlyValidateIf?: (value: FormikValuesType) => boolean;
 }
 
@@ -249,7 +252,9 @@ const validateFormik = <FormikValuesType, ApiTypes = any, FormikNestedValueType 
           validateFormikRecursively(value, undefined);
         });
       } else {
-        errors = { ...validateFormikField(errors, rules, ruleKey, t, values, label) };
+        errors = {
+          ...validateFormikField(errors, rules, ruleKey, t, values, label),
+        };
       }
     });
   } catch (e) {
@@ -272,13 +277,13 @@ export const getWarnings = <FormikValuesType, ApiType, FormikNestedValueType = {
         if (warningRules?.languageMatch) {
           const apiField = warningRules.apiField ?? ruleKey;
           const entityField = get([apiField], entity);
-          const fieldLanguage = get('language', entityField);
-          const formikLanguage = get('language', values);
+          const fieldLanguage = get("language", entityField);
+          const formikLanguage = get("language", values);
           if (entity && fieldLanguage && formikLanguage !== fieldLanguage) {
             const edgeCaseWarning =
               apiField !== ruleKey
                 ? {
-                    [apiField]: t('warningMessage.fieldWithWrongLanguage', {
+                    [apiField]: t("warningMessage.fieldWithWrongLanguage", {
                       language: [fieldLanguage],
                     }),
                   }
@@ -286,7 +291,9 @@ export const getWarnings = <FormikValuesType, ApiType, FormikNestedValueType = {
             warnings = {
               ...warnings,
               ...edgeCaseWarning,
-              [ruleKey]: t('warningMessage.fieldWithWrongLanguage', { language: [fieldLanguage] }),
+              [ruleKey]: t("warningMessage.fieldWithWrongLanguage", {
+                language: [fieldLanguage],
+              }),
             };
           }
         }

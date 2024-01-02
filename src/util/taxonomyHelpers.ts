@@ -6,21 +6,21 @@
  *
  */
 
-import groupBy from 'lodash/groupBy';
-import merge from 'lodash/merge';
-import sortBy from 'lodash/sortBy';
-import uniqBy from 'lodash/uniqBy';
-import { NodeChild, ResourceType } from '@ndla/types-taxonomy';
-import { getContentTypeFromResourceTypes } from './resourceHelpers';
-import { ResourceWithNodeConnectionAndMeta } from '../containers/StructurePage/resourceComponents/StructureResources';
-import { FlattenedResourceType } from '../interfaces';
-import { NodeChildWithChildren } from '../modules/nodes/nodeQueries';
+import groupBy from "lodash/groupBy";
+import merge from "lodash/merge";
+import sortBy from "lodash/sortBy";
+import uniqBy from "lodash/uniqBy";
+import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
+import { getContentTypeFromResourceTypes } from "./resourceHelpers";
+import { ResourceWithNodeConnectionAndMeta } from "../containers/StructurePage/resourceComponents/StructureResources";
+import { FlattenedResourceType } from "../interfaces";
+import { NodeChildWithChildren } from "../modules/nodes/nodeQueries";
 
 // Kan hende at id i contentUri fra taxonomy inneholder '#xxx' (revision)
 export const getIdFromUrn = (urn?: string) => {
   if (!urn) return;
-  const [, , id] = urn.split(':');
-  const idWithoutRevision = parseInt(id.split('#')[0]);
+  const [, , id] = urn.split(":");
+  const idWithoutRevision = parseInt(id.split("#")[0]);
   return idWithoutRevision;
 };
 
@@ -43,8 +43,11 @@ const flattenResourceTypesAndAddContextTypes = (data: ResourceType[] = [], t: (k
       });
     }
   });
-  resourceTypes.push({ name: t('contextTypes.topic'), id: 'topic-article' });
-  resourceTypes.push({ name: t('contextTypes.frontpage'), id: 'frontpage-article' });
+  resourceTypes.push({ name: t("contextTypes.topic"), id: "topic-article" });
+  resourceTypes.push({
+    name: t("contextTypes.frontpage"),
+    id: "frontpage-article",
+  });
   return resourceTypes;
 };
 
@@ -63,7 +66,7 @@ export const groupResourcesByType = (resources: ResourceWithNodeConnectionAndMet
     .flatMap((res) => res.resourceTypes.map<[string, ResourceWithNodeConnectionAndMeta]>((rt) => [rt.id, res]))
     .reduce<Record<string, { parentId: string; resources: ResourceWithNodeConnectionAndMeta[] }>>((acc, [id, curr]) => {
       if (acc[id]) {
-        acc[id]['resources'] = acc[id]['resources'].concat(curr);
+        acc[id]["resources"] = acc[id]["resources"].concat(curr);
       } else {
         acc[id] = {
           parentId: types[id],
@@ -114,7 +117,7 @@ const insertChild = (
   });
 };
 
-const parentIsRoot = (node: NodeChild) => node.path.startsWith(node.parentId.replace('urn:', '/'));
+const parentIsRoot = (node: NodeChild) => node.path.startsWith(node.parentId.replace("urn:", "/"));
 
 const groupChildNodes = (childNodes: NodeChild[]) =>
   childNodes.reduce((acc, curr) => {
@@ -125,7 +128,7 @@ const groupChildNodes = (childNodes: NodeChild[]) =>
 
 const selectedResourceTypeValue = (resourceTypes: { id: string; parentId?: string }[]): string => {
   if (resourceTypes.length === 0) {
-    return '';
+    return "";
   }
   const withParentId = resourceTypes.find((resourceType) => resourceType.parentId);
   if (withParentId) {
@@ -135,6 +138,6 @@ const selectedResourceTypeValue = (resourceTypes: { id: string; parentId?: strin
   return resourceTypes[0].id;
 };
 
-export const nodePathToUrnPath = (path: string) => path.replace(/\//g, '/urn:').substr(1);
+export const nodePathToUrnPath = (path: string) => path.replace(/\//g, "/urn:").substr(1);
 
 export { groupChildNodes, flattenResourceTypesAndAddContextTypes, selectedResourceTypeValue };

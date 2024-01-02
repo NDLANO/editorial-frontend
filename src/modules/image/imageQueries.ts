@@ -6,10 +6,10 @@
  *
  */
 
-import { useQuery, UseQueryOptions } from '@tanstack/react-query';
-import { ISearchResultV3, ISearchParams, IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
-import { fetchImage, searchImages } from './imageApi';
-import { IMAGE, SEARCH_IMAGES } from '../../queryKeys';
+import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { ISearchResultV3, ISearchParams, IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
+import { fetchImage, searchImages } from "./imageApi";
+import { IMAGE, SEARCH_IMAGES } from "../../queryKeys";
 
 export interface UseImage {
   id: number;

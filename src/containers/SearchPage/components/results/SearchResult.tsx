@@ -6,25 +6,25 @@
  *
  */
 
-import { Dispatch, SetStateAction } from 'react';
-import { useTranslation } from 'react-i18next';
-import { IAudioSummary, ISeriesSummary } from '@ndla/types-backend/audio-api';
-import { IConceptSummary } from '@ndla/types-backend/concept-api';
-import { IImageMetaSummary } from '@ndla/types-backend/image-api';
-import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
-import { Node } from '@ndla/types-taxonomy';
-import SearchAudio from './SearchAudio';
-import SearchConcept from './SearchConcept';
-import SearchContent from './SearchContent';
-import SearchImage from './SearchImage';
-import SearchPodcastSeries from './SearchPodcastSeries';
-import { LocaleType, ReturnType } from '../../../../interfaces';
+import { Dispatch, SetStateAction } from "react";
+import { useTranslation } from "react-i18next";
+import { IAudioSummary, ISeriesSummary } from "@ndla/types-backend/audio-api";
+import { IConceptSummary } from "@ndla/types-backend/concept-api";
+import { IImageMetaSummary } from "@ndla/types-backend/image-api";
+import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
+import { Node } from "@ndla/types-taxonomy";
+import SearchAudio from "./SearchAudio";
+import SearchConcept from "./SearchConcept";
+import SearchContent from "./SearchContent";
+import SearchImage from "./SearchImage";
+import SearchPodcastSeries from "./SearchPodcastSeries";
+import { LocaleType, ReturnType } from "../../../../interfaces";
 
-type ContentReturnType = ReturnType<'content', IMultiSearchSummary>;
-type ConceptReturnType = ReturnType<'concept', IConceptSummary>;
-type ImageReturnType = ReturnType<'image', IImageMetaSummary>;
-type AudioReturnType = ReturnType<'audio', IAudioSummary>;
-type PodcastReturnType = ReturnType<'podcast-series', ISeriesSummary>;
+type ContentReturnType = ReturnType<"content", IMultiSearchSummary>;
+type ConceptReturnType = ReturnType<"concept", IConceptSummary>;
+type ImageReturnType = ReturnType<"image", IImageMetaSummary>;
+type AudioReturnType = ReturnType<"audio", IAudioSummary>;
+type PodcastReturnType = ReturnType<"podcast-series", ISeriesSummary>;
 type MissingReturnType = ReturnType<string, any>;
 export type SearchResultReturnType =
   | MissingReturnType
@@ -45,9 +45,9 @@ interface Props {
 const SearchResult = ({ result, locale, subjects, editingState, responsibleName }: Props) => {
   const { t } = useTranslation();
   switch (result.type) {
-    case 'content':
+    case "content":
       return <SearchContent content={result.value} locale={locale} responsibleName={responsibleName} />;
-    case 'concept':
+    case "concept":
       return (
         <SearchConcept
           concept={result.value}
@@ -57,14 +57,14 @@ const SearchResult = ({ result, locale, subjects, editingState, responsibleName 
           responsibleName={responsibleName}
         />
       );
-    case 'image':
+    case "image":
       return <SearchImage image={result.value} locale={locale} />;
-    case 'audio':
+    case "audio":
       return <SearchAudio audio={result.value} locale={locale} />;
-    case 'podcast-series':
+    case "podcast-series":
       return <SearchPodcastSeries series={result.value} />;
     default:
-      return <p>{t('searchForm.resultError', { type: result.type })}</p>;
+      return <p>{t("searchForm.resultError", { type: result.type })}</p>;
   }
 };
 

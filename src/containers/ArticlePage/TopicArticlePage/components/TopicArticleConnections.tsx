@@ -6,19 +6,19 @@
  *
  */
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { FieldHeader } from '@ndla/forms';
-import { ModalHeader, ModalBody, ModalCloseButton, Modal, ModalTitle, ModalTrigger, ModalContent } from '@ndla/modal';
-import { Switch } from '@ndla/switch';
-import { Node, NodeChild } from '@ndla/types-taxonomy';
-import { HowToHelper } from '../../../../components/HowTo';
-import ActiveTopicConnections from '../../../../components/Taxonomy/ActiveTopicConnections';
-import TaxonomyBlockNode, { NodeWithChildren } from '../../../../components/Taxonomy/TaxonomyBlockNode';
-import { fetchUserData } from '../../../../modules/draft/draftApi';
-import { MinimalNodeChild } from '../../LearningResourcePage/components/LearningResourceTaxonomy';
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { FieldHeader } from "@ndla/forms";
+import { ModalHeader, ModalBody, ModalCloseButton, Modal, ModalTitle, ModalTrigger, ModalContent } from "@ndla/modal";
+import { Switch } from "@ndla/switch";
+import { Node, NodeChild } from "@ndla/types-taxonomy";
+import { HowToHelper } from "../../../../components/HowTo";
+import ActiveTopicConnections from "../../../../components/Taxonomy/ActiveTopicConnections";
+import TaxonomyBlockNode, { NodeWithChildren } from "../../../../components/Taxonomy/TaxonomyBlockNode";
+import { fetchUserData } from "../../../../modules/draft/draftApi";
+import { MinimalNodeChild } from "../../LearningResourcePage/components/LearningResourceTaxonomy";
 
 const StyledModalHeader = styled(ModalHeader)`
   padding-bottom: 0;
@@ -59,7 +59,7 @@ const TopicArticleConnections = ({ structure, selectedNodes, addConnection, getS
   const handleOpenToggle = ({ id }: Node) => {
     let paths = [...openedPaths];
     const index = paths.indexOf(id);
-    const isSubject = id.includes('subject');
+    const isSubject = id.includes("subject");
     if (index === -1) {
       if (isSubject) {
         getSubjectTopics(id);
@@ -85,24 +85,24 @@ const TopicArticleConnections = ({ structure, selectedNodes, addConnection, getS
   };
   return (
     <>
-      <FieldHeader title={t('taxonomy.topics.topicPlacement')} subTitle={t('taxonomy.topics.subTitleTopic')}>
-        <HowToHelper pageId="TaxonomyTopicConnections" tooltip={t('taxonomy.topics.helpLabel')} />
+      <FieldHeader title={t("taxonomy.topics.topicPlacement")} subTitle={t("taxonomy.topics.subTitleTopic")}>
+        <HowToHelper pageId="TaxonomyTopicConnections" tooltip={t("taxonomy.topics.helpLabel")} />
       </FieldHeader>
       <ActiveTopicConnections activeTopics={selectedNodes} type="topic-article" />
       <Modal open={open} onOpenChange={setOpen}>
         <ModalTrigger>
-          <ButtonV2>{t(`taxonomy.topics.${'chooseTaxonomyPlacement'}`)}</ButtonV2>
+          <ButtonV2>{t(`taxonomy.topics.${"chooseTaxonomyPlacement"}`)}</ButtonV2>
         </ModalTrigger>
-        <ModalContent animation="subtle" size={{ width: 'large', height: 'large' }}>
+        <ModalContent animation="subtle" size={{ width: "large", height: "large" }}>
           <StyledModalHeader>
-            <ModalTitle>{t('taxonomy.topics.filestructureHeading')}</ModalTitle>
+            <ModalTitle>{t("taxonomy.topics.filestructureHeading")}</ModalTitle>
             <Switch
               onChange={toggleShowFavorites}
               checked={showFavorites}
-              label={t('taxonomy.favorites')}
-              id={'favorites'}
+              label={t("taxonomy.favorites")}
+              id={"favorites"}
             />
-            <ModalCloseButton title={t('taxonomy.topics.filestructureClose')} />
+            <ModalCloseButton title={t("taxonomy.topics.filestructureClose")} />
           </StyledModalHeader>
           <ModalBody>
             <hr />

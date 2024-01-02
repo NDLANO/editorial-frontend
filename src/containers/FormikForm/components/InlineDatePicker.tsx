@@ -5,14 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { format } from 'date-fns';
-import { useCallback, useMemo } from 'react';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { colors, misc, spacing } from '@ndla/core';
-import { Calendar } from '@ndla/icons/editor';
-import DatePicker from '../../../components/DatePicker';
-import { formatDateForBackend } from '../../../util/formatDate';
+import { format } from "date-fns";
+import { useCallback, useMemo } from "react";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { colors, misc, spacing } from "@ndla/core";
+import { Calendar } from "@ndla/icons/editor";
+import DatePicker from "../../../components/DatePicker";
+import { formatDateForBackend } from "../../../util/formatDate";
 
 export interface DateChangedEvent {
   target: {
@@ -49,7 +49,7 @@ const StyledButton = styled(ButtonV2)`
     height: 24px;
   }
 
-  &[data-has-value='true'] {
+  &[data-has-value="true"] {
     color: ${colors.text.primary};
   }
 
@@ -62,7 +62,7 @@ const StyledButton = styled(ButtonV2)`
     padding-left: ${spacing.nsmall};
     padding-right: ${spacing.xsmall};
     color: ${colors.brand.greyMedium};
-    &[data-has-value='true'] {
+    &[data-has-value="true"] {
       color: ${colors.text.primary};
     }
   }
@@ -70,14 +70,14 @@ const StyledButton = styled(ButtonV2)`
 
 const InlineDatePicker = ({ onChange, value, name, placeholder }: Props) => {
   const dateValue = useMemo(() => (value ? new Date(value) : undefined), [value]);
-  const displayValue = useMemo(() => (dateValue ? format(dateValue, 'dd/MM/yyyy') : undefined), [dateValue]);
+  const displayValue = useMemo(() => (dateValue ? format(dateValue, "dd/MM/yyyy") : undefined), [dateValue]);
   const onValueChange = useCallback(
     (value?: Date) => {
       if (!value) return;
       const target = {
         name,
         value: formatDateForBackend(value),
-        type: 'DateTime',
+        type: "DateTime",
       };
       return onChange({
         target,

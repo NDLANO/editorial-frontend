@@ -6,23 +6,23 @@
  *
  */
 
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { spacing, colors } from '@ndla/core';
-import { Spinner } from '@ndla/icons';
-import { ModalBody, ModalHeader, ModalTitle, Modal, ModalTrigger, ModalContent, ModalCloseButton } from '@ndla/modal';
-import { IEditorNote } from '@ndla/types-backend/draft-api';
-import { ContentTypeBadge } from '@ndla/ui';
-import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
-import ResourceItemLink from '../../../components/Taxonomy/ResourceItemLink';
-import NotesVersionHistory from '../../../components/VersionHistory/VersionHistory';
-import { Auth0UserData } from '../../../interfaces';
-import { fetchAuth0Users } from '../../../modules/auth0/auth0Api';
-import { fetchDraftHistory } from '../../../modules/draft/draftApi';
-import formatDate from '../../../util/formatDate';
-import { getIdFromUrn } from '../../../util/taxonomyHelpers';
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { spacing, colors } from "@ndla/core";
+import { Spinner } from "@ndla/icons";
+import { ModalBody, ModalHeader, ModalTitle, Modal, ModalTrigger, ModalContent, ModalCloseButton } from "@ndla/modal";
+import { IEditorNote } from "@ndla/types-backend/draft-api";
+import { ContentTypeBadge } from "@ndla/ui";
+import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
+import ResourceItemLink from "../../../components/Taxonomy/ResourceItemLink";
+import NotesVersionHistory from "../../../components/VersionHistory/VersionHistory";
+import { Auth0UserData } from "../../../interfaces";
+import { fetchAuth0Users } from "../../../modules/auth0/auth0Api";
+import { fetchDraftHistory } from "../../../modules/draft/draftApi";
+import formatDate from "../../../util/formatDate";
+import { getIdFromUrn } from "../../../util/taxonomyHelpers";
 
 interface Props {
   resource: ResourceWithNodeConnectionAndMeta;
@@ -35,7 +35,7 @@ const StyledModalBody = styled(ModalBody)`
   gap: ${spacing.small};
 `;
 
-const shouldForwardProp = (p: string) => p !== 'isPublished';
+const shouldForwardProp = (p: string) => p !== "isPublished";
 
 interface StyledButtonProps {
   isPublished?: boolean;
@@ -71,8 +71,8 @@ const VersionHistory = ({ resource, contentType }: Props) => {
         <StyledButton
           colorTheme="light"
           size="xsmall"
-          disabled={contentType === 'learning-path'}
-          isPublished={resource.contentMeta.status.current.toLowerCase() === 'published'}
+          disabled={contentType === "learning-path"}
+          isPublished={resource.contentMeta.status.current.toLowerCase() === "published"}
         >
           {t(`form.status.${resource.contentMeta.status.current.toLowerCase()}`)}
         </StyledButton>
@@ -106,7 +106,7 @@ const VersionHistoryContent = ({ contentType, resource }: ModalContentProps) => 
       notes.map((note, index) => ({
         id: index,
         note: note.note,
-        author: users.find((user) => user.app_metadata.ndla_id === note.user)?.name || '',
+        author: users.find((user) => user.app_metadata.ndla_id === note.user)?.name || "",
         date: formatDate(note.timestamp),
         status: t(`form.status.${note.status.current.toLowerCase()}`),
       }));
@@ -115,8 +115,8 @@ const VersionHistoryContent = ({ contentType, resource }: ModalContentProps) => 
       const versions = await fetchDraftHistory(id);
       const notes: IEditorNote[] = versions?.[0]?.notes;
       if (notes?.length) {
-        const userIds = notes.map((note) => note.user).filter((user) => user !== 'System');
-        const uniqueUserIds = Array.from(new Set(userIds)).join(',');
+        const userIds = notes.map((note) => note.user).filter((user) => user !== "System");
+        const uniqueUserIds = Array.from(new Set(userIds)).join(",");
         const users = await fetchAuth0Users(uniqueUserIds);
         setNotes(cleanupNotes(notes, users));
       } else {
@@ -132,12 +132,12 @@ const VersionHistoryContent = ({ contentType, resource }: ModalContentProps) => 
   return (
     <>
       <StyledModalHeader>
-        <ModalTitle>{t('form.workflowSection')}</ModalTitle>
+        <ModalTitle>{t("form.workflowSection")}</ModalTitle>
         <ModalCloseButton />
       </StyledModalHeader>
       <StyledModalBody>
         <LinkWrapper>
-          <ContentTypeBadge background type={contentType === 'topic-article' ? 'topic' : contentType} />
+          <ContentTypeBadge background type={contentType === "topic-article" ? "topic" : contentType} />
           <ResourceItemLink
             contentType={contentType}
             contentUri={resource.contentUri}
@@ -146,7 +146,7 @@ const VersionHistoryContent = ({ contentType, resource }: ModalContentProps) => 
             isVisible={resource.metadata?.visible}
           />
         </LinkWrapper>
-        {notes?.length ? <NotesVersionHistory notes={notes} /> : notes ? t('form.notes.history.empty') : <Spinner />}
+        {notes?.length ? <NotesVersionHistory notes={notes} /> : notes ? t("form.notes.history.empty") : <Spinner />}
       </StyledModalBody>
     </>
   );

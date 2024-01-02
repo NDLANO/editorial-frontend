@@ -6,15 +6,15 @@
  *
  */
 
-import { Formik, Form, FormikHelpers } from 'formik';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
-import { FootnoteElement } from '.';
-import MultiSelectDropdown from '../../../Dropdown/MultiSelectDropdown';
-import FormikField from '../../../FormikField';
-import validateFormik from '../../../formikValidationSchema';
+import { Formik, Form, FormikHelpers } from "formik";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { spacing } from "@ndla/core";
+import { FootnoteElement } from ".";
+import MultiSelectDropdown from "../../../Dropdown/MultiSelectDropdown";
+import FormikField from "../../../FormikField";
+import validateFormik from "../../../formikValidationSchema";
 
 const ButtonContainer = styled.div`
   margin-top: ${spacing.small};
@@ -29,14 +29,14 @@ const rules = {
   authors: { minItems: 1 },
 };
 
-const getInitialValues = (footnote: FootnoteElement['data'] | undefined): FootnoteFormikValues => ({
-  title: footnote?.title || '',
-  year: footnote?.year || '',
-  resource: footnote?.resource || 'footnote',
+const getInitialValues = (footnote: FootnoteElement["data"] | undefined): FootnoteFormikValues => ({
+  title: footnote?.title || "",
+  year: footnote?.year || "",
+  resource: footnote?.resource || "footnote",
   authors: footnote?.authors?.map((author) => ({ id: author })) || [],
-  edition: footnote?.edition || '',
-  publisher: footnote?.publisher || '',
-  type: footnote?.type || '',
+  edition: footnote?.edition || "",
+  publisher: footnote?.publisher || "",
+  type: footnote?.type || "",
 });
 
 interface FootnoteFormikValues {
@@ -50,11 +50,11 @@ interface FootnoteFormikValues {
 }
 
 interface Props {
-  footnote: FootnoteElement['data'];
+  footnote: FootnoteElement["data"];
   onClose: () => void;
   isEdit: boolean;
   onRemove: () => void;
-  onSave: (data: FootnoteElement['data']) => void;
+  onSave: (data: FootnoteElement["data"]) => void;
 }
 
 const FootnoteForm = ({ isEdit, footnote, onRemove, onClose, onSave }: Props) => {
@@ -71,32 +71,32 @@ const FootnoteForm = ({ isEdit, footnote, onRemove, onClose, onSave }: Props) =>
     <Formik
       initialValues={getInitialValues(footnote)}
       onSubmit={handleSave}
-      validate={(values) => validateFormik(values, rules, t, 'footnoteForm')}
+      validate={(values) => validateFormik(values, rules, t, "footnoteForm")}
     >
       {({ submitForm }) => (
         <Form>
-          <FormikField name="title" label={t('form.content.footnote.title')} />
-          <FormikField name="year" label={t('form.content.footnote.year')} />
-          <FormikField name="authors" label={t('form.content.footnote.authors.label')} obligatory>
+          <FormikField name="title" label={t("form.content.footnote.title")} />
+          <FormikField name="year" label={t("form.content.footnote.year")} />
+          <FormikField name="authors" label={t("form.content.footnote.authors.label")} obligatory>
             {({ field }) => (
               <MultiSelectDropdown
-                labelField={'id'}
+                labelField={"id"}
                 showCreateOption
                 shouldCreate={(allValues, newValue) => !allValues.some((v) => v.id === newValue.id)}
                 {...field}
               />
             )}
           </FormikField>
-          <FormikField name="edition" label={t('form.content.footnote.edition')} />
+          <FormikField name="edition" label={t("form.content.footnote.edition")} />
 
-          <FormikField name="publisher" label={t('form.content.footnote.publisher')} />
+          <FormikField name="publisher" label={t("form.content.footnote.publisher")} />
           <ButtonContainer>
-            {isEdit && <ButtonV2 onClick={onRemove}>{t('form.content.footnote.removeFootnote')}</ButtonV2>}
+            {isEdit && <ButtonV2 onClick={onRemove}>{t("form.content.footnote.removeFootnote")}</ButtonV2>}
             <ButtonV2 variant="outline" onClick={onClose}>
-              {t('form.abort')}
+              {t("form.abort")}
             </ButtonV2>
             <ButtonV2 data-testid="save_footnote" onClick={submitForm}>
-              {t('form.save')}
+              {t("form.save")}
             </ButtonV2>
           </ButtonContainer>
         </Form>

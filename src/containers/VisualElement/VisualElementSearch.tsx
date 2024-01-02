@@ -6,25 +6,25 @@
  *
  */
 
-import { TFunction } from 'i18next';
-import { useTranslation } from 'react-i18next';
-import AudioSearch from '@ndla/audio-search';
-import { IAudioSummary } from '@ndla/types-backend/audio-api';
-import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
-import { BrightcoveApiType } from '@ndla/types-embed';
-import VideoSearch from '@ndla/video-search';
-import VisualElementUrlPreview from './VisualElementUrlPreview';
-import FileUploader from '../../components/FileUploader';
-import ImageSearchAndUploader from '../../components/ImageSearchAndUploader';
-import config from '../../config';
-import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
-import { Embed, ExternalEmbed, H5pEmbed } from '../../interfaces';
-import { fetchAudio, searchAudio } from '../../modules/audio/audioApi';
-import { AudioSearchParams } from '../../modules/audio/audioApiInterfaces';
-import { fetchImage, searchImages } from '../../modules/image/imageApi';
-import { searchVideos, VideoSearchQuery } from '../../modules/video/brightcoveApi';
-import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
-import { NdlaErrorPayload, onError } from '../../util/resolveJsonOrRejectWithError';
+import { TFunction } from "i18next";
+import { useTranslation } from "react-i18next";
+import AudioSearch from "@ndla/audio-search";
+import { IAudioSummary } from "@ndla/types-backend/audio-api";
+import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
+import { BrightcoveApiType } from "@ndla/types-embed";
+import VideoSearch from "@ndla/video-search";
+import VisualElementUrlPreview from "./VisualElementUrlPreview";
+import FileUploader from "../../components/FileUploader";
+import ImageSearchAndUploader from "../../components/ImageSearchAndUploader";
+import config from "../../config";
+import { EXTERNAL_WHITELIST_PROVIDERS } from "../../constants";
+import { Embed, ExternalEmbed, H5pEmbed } from "../../interfaces";
+import { fetchAudio, searchAudio } from "../../modules/audio/audioApi";
+import { AudioSearchParams } from "../../modules/audio/audioApiInterfaces";
+import { fetchImage, searchImages } from "../../modules/image/imageApi";
+import { searchVideos, VideoSearchQuery } from "../../modules/video/brightcoveApi";
+import { convertFieldWithFallback } from "../../util/convertFieldWithFallback";
+import { NdlaErrorPayload, onError } from "../../util/resolveJsonOrRejectWithError";
 
 const titles = (t: TFunction, resource: string) => ({
   [resource]: t(`form.visualElement.${resource.toLowerCase()}`),
@@ -42,7 +42,7 @@ interface Props {
   embed?: H5pEmbed | ExternalEmbed;
 }
 
-interface LocalAudioSearchParams extends Omit<AudioSearchParams, 'audio-type' | 'page-size'> {
+interface LocalAudioSearchParams extends Omit<AudioSearchParams, "audio-type" | "page-size"> {
   audioType?: string;
   pageSize?: number;
   locale?: string;
@@ -55,8 +55,8 @@ const searchAudios = (query: LocalAudioSearchParams) => {
     page: query.page,
     query: query.query,
     sort: query.sort,
-    'page-size': 16,
-    'audio-type': query.audioType,
+    "page-size": 16,
+    "audio-type": query.audioType,
   };
   return searchAudio(correctedQuery);
 };
@@ -78,7 +78,7 @@ const VisualElementSearch = ({
     (name) => name === selectedResource,
   );
   switch (selectedResource) {
-    case 'image':
+    case "image":
       return (
         <ImageSearchAndUploader
           inModal={true}
@@ -92,10 +92,10 @@ const VisualElementSearch = ({
             handleVisualElementChange({
               resource: selectedResource,
               resource_id: image.id,
-              size: 'full',
-              align: '',
-              alt: convertFieldWithFallback<'alttext'>(image, 'alttext', ''),
-              caption: convertFieldWithFallback<'caption'>(image, 'caption', ''),
+              size: "full",
+              align: "",
+              alt: convertFieldWithFallback<"alttext">(image, "alttext", ""),
+              caption: convertFieldWithFallback<"caption">(image, "caption", ""),
               metaData: image,
             })
           }
@@ -103,18 +103,18 @@ const VisualElementSearch = ({
           checkboxAction={onSaveAsMetaImage}
         />
       );
-    case 'video': {
+    case "video": {
       const videoTranslations = {
-        searchPlaceholder: t('videoSearch.searchPlaceholder'),
-        searchButtonTitle: t('videoSearch.searchButtonTitle'),
-        loadMoreVideos: t('videoSearch.loadMoreVideos'),
-        noResults: t('videoSearch.noResults'),
-        addVideo: t('videoSearch.addVideo'),
-        previewVideo: t('videoSearch.previewVideo'),
-        publishedDate: t('videoSearch.publishedDate'),
-        duration: t('videoSearch.duration'),
-        interactioncount: t('videoSearch.interactioncount'),
-        is360Video: t('videoSearch.is360Video'),
+        searchPlaceholder: t("videoSearch.searchPlaceholder"),
+        searchButtonTitle: t("videoSearch.searchButtonTitle"),
+        loadMoreVideos: t("videoSearch.loadMoreVideos"),
+        noResults: t("videoSearch.noResults"),
+        addVideo: t("videoSearch.addVideo"),
+        previewVideo: t("videoSearch.previewVideo"),
+        publishedDate: t("videoSearch.publishedDate"),
+        duration: t("videoSearch.duration"),
+        interactioncount: t("videoSearch.interactioncount"),
+        is360Video: t("videoSearch.is360Video"),
       };
 
       return (
@@ -126,18 +126,18 @@ const VisualElementSearch = ({
             translations={videoTranslations}
             onVideoSelect={(video: BrightcoveApiType) =>
               handleVisualElementChange({
-                resource: 'brightcove',
+                resource: "brightcove",
                 videoid: video.id,
-                caption: '',
+                caption: "",
                 account: config.brightcoveAccountId!,
                 player:
-                  video.projection === 'equirectangular'
+                  video.projection === "equirectangular"
                     ? config.brightcove360PlayerId!
-                    : video.custom_fields['license'] === 'Opphavsrett'
+                    : video.custom_fields["license"] === "Opphavsrett"
                       ? config.brightcoveCopyrightPlayerId!
                       : config.brightcovePlayerId!,
                 metaData: video,
-                title: video.name ?? '',
+                title: video.name ?? "",
               })
             }
             onError={(e) => onError(e as NdlaErrorPayload)}
@@ -145,11 +145,11 @@ const VisualElementSearch = ({
         </>
       );
     }
-    case 'audio':
-    case 'podcast': {
-      const audioType = selectedResource === 'audio' ? 'standard' : 'podcast';
+    case "audio":
+    case "podcast": {
+      const audioType = selectedResource === "audio" ? "standard" : "podcast";
       const defaultQueryObject = {
-        query: '',
+        query: "",
         page: 1,
         pageSize: 16,
         locale,
@@ -157,10 +157,10 @@ const VisualElementSearch = ({
       };
 
       const translations = {
-        searchPlaceholder: t('audioSearch.searchPlaceholder'),
-        searchButtonTitle: t('audioSearch.searchButtonTitle'),
-        useAudio: t('audioSearch.useAudio'),
-        noResults: t('audioSearch.noResults'),
+        searchPlaceholder: t("audioSearch.searchPlaceholder"),
+        searchButtonTitle: t("audioSearch.searchButtonTitle"),
+        useAudio: t("audioSearch.useAudio"),
+        noResults: t("audioSearch.noResults"),
       };
 
       return (
@@ -170,7 +170,7 @@ const VisualElementSearch = ({
           searchAudios={searchAudios}
           onAudioSelect={(audio: IAudioSummary) =>
             handleVisualElementChange({
-              resource: 'audio',
+              resource: "audio",
               resourceId: audio.id.toString(),
               type: audioType,
               url: audio.url,
@@ -182,7 +182,7 @@ const VisualElementSearch = ({
       );
     }
     // URL-editable embed resources
-    case 'url':
+    case "url":
     case allowedUrlResource: {
       return (
         <VisualElementUrlPreview
@@ -191,17 +191,17 @@ const VisualElementSearch = ({
           selectedResourceType={selectedResourceType}
           onUrlSave={handleVisualElementChange}
           articleLanguage={articleLanguage}
-          embed={embed?.resource === 'external' || embed?.resource === 'iframe' ? embed : undefined}
+          embed={embed?.resource === "external" || embed?.resource === "iframe" ? embed : undefined}
         />
       );
     }
-    case 'file':
+    case "file":
       return (
         <FileUploader
           onFileSave={(files) => {
             const preparedFiles = files.map((file) => ({
               url: config.ndlaApiUrl + file.path,
-              resource: 'file',
+              resource: "file",
               ...file,
             }));
             handleVisualElementChange(preparedFiles);

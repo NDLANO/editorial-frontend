@@ -6,7 +6,7 @@
  *
  */
 
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
 interface ProviderProps {
   isSubmitted?: boolean;
@@ -33,7 +33,7 @@ const SlateProvider = ({ isSubmitted, children }: ProviderProps) => {
 const useSlateContext = (): SlateContextType => {
   const context = useContext(SlateContext);
   if (context === undefined) {
-    throw new Error('useSlateContext must be used within a SlateProvider');
+    throw new Error("useSlateContext must be used within a SlateProvider");
   }
   return context;
 };

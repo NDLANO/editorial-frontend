@@ -6,18 +6,18 @@
  *
  */
 
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { UploadDropZone } from '@ndla/forms';
-import { DRAFT_ADMIN_SCOPE } from '../../constants';
-import { useSession } from '../../containers/Session/SessionProvider';
-import { UnsavedFile } from '../../interfaces';
-import { uploadFile } from '../../modules/draft/draftApi';
-import { createFormData } from '../../util/formDataHelper';
-import handleError from '../../util/handleError';
-import { isNdlaErrorPayload } from '../../util/resolveJsonOrRejectWithError';
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { UploadDropZone } from "@ndla/forms";
+import { DRAFT_ADMIN_SCOPE } from "../../constants";
+import { useSession } from "../../containers/Session/SessionProvider";
+import { UnsavedFile } from "../../interfaces";
+import { uploadFile } from "../../modules/draft/draftApi";
+import { createFormData } from "../../util/formDataHelper";
+import handleError from "../../util/handleError";
+import { isNdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
 
 const FileUploaderWrapper = styled.div`
   padding: 0 ${spacing.large};
@@ -51,12 +51,12 @@ const FileUploader = ({ onFileSave }: Props) => {
         newFiles.map((file, i) => ({
           path: file.path,
           type: file.extension.substring(1),
-          title: files[i].name.replace(/\..*/, ''),
+          title: files[i].name.replace(/\..*/, ""),
         })),
       );
     } catch (err) {
       if (isNdlaErrorPayload(err) && err.json && err.json.messages) {
-        setErrorMessage(err.json.messages.map((message: { message: string }) => message.message).join(', '));
+        setErrorMessage(err.json.messages.map((message: { message: string }) => message.message).join(", "));
       }
       handleError(err);
     }
@@ -75,45 +75,45 @@ const FileUploader = ({ onFileSave }: Props) => {
         onAddedFiles={onSave}
         multiple
         loading={saving}
-        ariaLabel={t('form.file.dragdrop.ariaLabel')}
+        ariaLabel={t("form.file.dragdrop.ariaLabel")}
       >
-        <strong>{t('form.file.dragdrop.main')}</strong> {t('form.file.dragdrop.sub')}
+        <strong>{t("form.file.dragdrop.main")}</strong> {t("form.file.dragdrop.sub")}
       </UploadDropZone>
     </FileUploaderWrapper>
   );
 };
 
 const allowedFiletypes = [
-  '.csv',
-  '.doc',
-  '.docx',
-  '.dwg',
-  '.dxf',
-  '.ggb',
-  '.ipynb',
-  '.json',
-  '.odp',
-  '.ods',
-  '.odt',
-  '.pdf',
-  '.pln',
-  '.pro',
-  '.ppt',
-  '.pptx',
-  '.pub',
-  '.rtf',
-  '.skp',
-  '.stl',
-  '.tex',
-  '.tsv',
-  '.txt',
-  '.xls',
-  '.xlsx',
-  '.xml',
-  '.f3d',
-  '.ino',
+  ".csv",
+  ".doc",
+  ".docx",
+  ".dwg",
+  ".dxf",
+  ".ggb",
+  ".ipynb",
+  ".json",
+  ".odp",
+  ".ods",
+  ".odt",
+  ".pdf",
+  ".pln",
+  ".pro",
+  ".ppt",
+  ".pptx",
+  ".pub",
+  ".rtf",
+  ".skp",
+  ".stl",
+  ".tex",
+  ".tsv",
+  ".txt",
+  ".xls",
+  ".xlsx",
+  ".xml",
+  ".f3d",
+  ".ino",
 ];
 
-const adminAllowedFiletypes = ['.mp4'];
+const adminAllowedFiletypes = [".mp4"];
 
 export default FileUploader;

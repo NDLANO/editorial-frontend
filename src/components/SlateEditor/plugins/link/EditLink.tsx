@@ -6,21 +6,21 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { Editor, Transforms, Element } from 'slate';
-import { ReactEditor } from 'slate-react';
-import styled from '@emotion/styled';
-import { CloseButton } from '@ndla/button';
-import { ModalBody, ModalHeader, ModalTitle } from '@ndla/modal';
-import { LinkElement, ContentLinkElement } from '.';
-import { Model } from './Link';
-import LinkForm from './LinkForm';
-import { TYPE_CONTENT_LINK, TYPE_LINK } from './types';
-import { splitLearningPathUrl, splitEdPathUrl, splitArticleUrl, splitPlainUrl, splitTaxonomyUrl } from './utils';
+import { useTranslation } from "react-i18next";
+import { Editor, Transforms, Element } from "slate";
+import { ReactEditor } from "slate-react";
+import styled from "@emotion/styled";
+import { CloseButton } from "@ndla/button";
+import { ModalBody, ModalHeader, ModalTitle } from "@ndla/modal";
+import { LinkElement, ContentLinkElement } from ".";
+import { Model } from "./Link";
+import LinkForm from "./LinkForm";
+import { TYPE_CONTENT_LINK, TYPE_LINK } from "./types";
+import { splitLearningPathUrl, splitEdPathUrl, splitArticleUrl, splitPlainUrl, splitTaxonomyUrl } from "./utils";
 
 const newTabAttributes = {
-  target: '_blank',
-  rel: 'noopener noreferrer',
+  target: "_blank",
+  rel: "noopener noreferrer",
 };
 
 const StyledModalHeader = styled(ModalHeader)`
@@ -41,7 +41,7 @@ const createContentLinkData = (
     data: {
       resource: TYPE_CONTENT_LINK,
       contentId: id,
-      contentType: resourceType || 'article',
+      contentType: resourceType || "article",
       openIn,
     },
   };
@@ -76,7 +76,7 @@ const getIdAndTypeFromUrl = async (href: string) => {
   } else if (isNDLAEdPathUrl(baseHref)) {
     return splitEdPathUrl(baseHref);
   }
-  return { resourceId: null, resourceType: '' };
+  return { resourceId: null, resourceType: "" };
 };
 
 interface Props {
@@ -101,7 +101,7 @@ const EditLink = ({ model, closeEditMode, editor, element }: Props) => {
   const handleSave = async ({ href, text, checkbox }: Model) => {
     const { resourceId, resourceType } = await getIdAndTypeFromUrl(href);
 
-    const targetRel = checkbox ? 'new-context' : 'current-context';
+    const targetRel = checkbox ? "new-context" : "current-context";
     ReactEditor.focus(editor);
 
     const data = resourceId
@@ -143,7 +143,7 @@ const EditLink = ({ model, closeEditMode, editor, element }: Props) => {
   return (
     <>
       <StyledModalHeader>
-        <ModalTitle>{t(`form.content.link.${isEdit ? 'changeTitle' : 'addTitle'}`)}</ModalTitle>
+        <ModalTitle>{t(`form.content.link.${isEdit ? "changeTitle" : "addTitle"}`)}</ModalTitle>
         <CloseButton onClick={onClose} />
       </StyledModalHeader>
       <StyledModalBody>

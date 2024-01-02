@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-type TypeOfReturnType = 'string' | 'number' | 'object' | 'function' | 'undefined';
+type TypeOfReturnType = "string" | "number" | "object" | "function" | "undefined";
 
 interface GuardOptions {
   type?: TypeOfReturnType;

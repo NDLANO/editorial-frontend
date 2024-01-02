@@ -6,13 +6,13 @@
  *
  */
 
-import get from 'lodash/get';
-import merge from 'lodash/merge';
-import set from 'lodash/set';
-import { createContext, Dispatch, ReactNode, SetStateAction, useCallback, useContext, useMemo, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { ApiTranslateType } from '../interfaces';
-import { fetchNnTranslation } from '../modules/translate/translateApi';
+import get from "lodash/get";
+import merge from "lodash/merge";
+import set from "lodash/set";
+import { createContext, Dispatch, ReactNode, SetStateAction, useCallback, useContext, useMemo, useState } from "react";
+import { useParams } from "react-router-dom";
+import { ApiTranslateType } from "../interfaces";
+import { fetchNnTranslation } from "../modules/translate/translateApi";
 
 const TranslateContext = createContext<[boolean, Dispatch<SetStateAction<boolean>>] | undefined>(undefined);
 
@@ -22,7 +22,7 @@ interface Props {
 
 export interface TranslateType {
   field: string;
-  type: 'text' | 'html';
+  type: "text" | "html";
 }
 
 export const NynorskTranslateProvider = ({ children }: Props) => {
@@ -30,14 +30,14 @@ export const NynorskTranslateProvider = ({ children }: Props) => {
   return <TranslateContext.Provider value={translateState}>{children}</TranslateContext.Provider>;
 };
 
-const errorMessage = 'useTranslateToNN must be used within a NynorskTranslateProvider';
+const errorMessage = "useTranslateToNN must be used within a NynorskTranslateProvider";
 
 export const useTranslateToNN = () => {
   const translateContext = useContext(TranslateContext);
   const { selectedLanguage } = useParams();
   const [translating, setTranslating] = useState(false);
   const shouldTranslate = useMemo(
-    () => (translateContext?.[0] ? selectedLanguage === 'nn' : false),
+    () => (translateContext?.[0] ? selectedLanguage === "nn" : false),
     [translateContext, selectedLanguage],
   );
 
@@ -54,7 +54,7 @@ export const useTranslateToNN = () => {
   const translate = useCallback(
     async (element: any, fields: TranslateType[], setElement: (element: any) => void) => {
       if (translateContext === undefined) {
-        throw new Error('translate must be used within a NynorskTranslateProvider');
+        throw new Error("translate must be used within a NynorskTranslateProvider");
       }
       setTranslating(true);
       const payload = fields.reduce<Record<string, ApiTranslateType>>((acc, { field, type }) => {
@@ -67,7 +67,7 @@ export const useTranslateToNN = () => {
       const document = await fetchNnTranslation(payload);
       const cloned = JSON.parse(JSON.stringify(element));
       Object.entries(document).forEach(([key, value]) => set(cloned, key, value));
-      setElement({ ...merge(element, cloned), language: 'nn' });
+      setElement({ ...merge(element, cloned), language: "nn" });
       setTranslating(false);
       translateContext[1](false);
     },

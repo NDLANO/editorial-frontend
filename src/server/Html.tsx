@@ -6,11 +6,11 @@
  *
  */
 
-import { ReactElement } from 'react';
-import { renderToString } from 'react-dom/server';
-import serialize from 'serialize-javascript';
-import { GoogleTagMangerScript, GoogleTagMangerNoScript } from './Gtm';
-import config from '../config';
+import { ReactElement } from "react";
+import { renderToString } from "react-dom/server";
+import serialize from "serialize-javascript";
+import { GoogleTagMangerScript, GoogleTagMangerNoScript } from "./Gtm";
+import config from "../config";
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST as string); // eslint-disable-line import/no-dynamic-require
 
@@ -26,7 +26,7 @@ interface Props {
 const Html = (props: Props) => {
   const { lang, className, component, state = {} } = props;
 
-  const content = component ? renderToString(component) : '';
+  const content = component ? renderToString(component) : "";
 
   return (
     <html lang={lang} className={className}>
@@ -35,14 +35,14 @@ const Html = (props: Props) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <GoogleTagMangerScript />
-        {assets['client.css'] && <link rel="stylesheet" type="text/css" href={assets['client.css']} />}
-        {config.ndlaEnvironment === 'prod' ? (
+        {assets["client.css"] && <link rel="stylesheet" type="text/css" href={assets["client.css"]} />}
+        {config.ndlaEnvironment === "prod" ? (
           <>
             <link rel="icon" type="image/png" sizes="32x32" href="/favicon-prod-32x32.png" />
             <link rel="icon" type="image/png" sizes="16x16" href="/favicon-prod-16x16.png" />
             <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="/apple-touch-icon-prod.png" />
           </>
-        ) : config.ndlaEnvironment === 'staging' ? (
+        ) : config.ndlaEnvironment === "staging" ? (
           <>
             <link rel="icon" type="image/png" sizes="32x32" href="/favicon-staging-32x32.png" />
             <link rel="icon" type="image/png" sizes="16x16" href="/favicon-staging-16x16.png" />
@@ -87,7 +87,7 @@ const Html = (props: Props) => {
             __html: `window.assets = ${serialize(assets)}`,
           }}
         />
-        <script type="text/javascript" src={assets['client.js']} defer crossOrigin="anonymous" />
+        <script type="text/javascript" src={assets["client.js"]} defer crossOrigin="anonymous" />
         <script
           type="text/x-mathjax-config"
           defer

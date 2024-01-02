@@ -6,30 +6,30 @@
  *
  */
 
-import { lazy, Suspense, useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Link, useLocation, useParams } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { spacing, colors } from '@ndla/core';
-import { FieldHeader } from '@ndla/forms';
-import { Spinner } from '@ndla/icons';
-import { IArticle } from '@ndla/types-backend/draft-api';
-import { Row } from '../../components';
-import HeaderSupportedLanguages from '../../components/HeaderWithLanguage/HeaderSupportedLanguages';
-import HelpMessage from '../../components/HelpMessage';
-import PreviewDraftLightboxV2 from '../../components/PreviewDraft/PreviewDraftLightboxV2';
-import SaveButton from '../../components/SaveButton';
-import { DRAFT_HTML_SCOPE } from '../../constants';
-import { fetchDraft, updateDraft } from '../../modules/draft/draftApi';
-import { blockContentToEditorValue, blockContentToHTML } from '../../util/articleContentConverter';
-import handleError from '../../util/handleError';
-import { NdlaErrorPayload } from '../../util/resolveJsonOrRejectWithError';
-import { toEditMarkup } from '../../util/routeHelpers';
-import { AlertModalWrapper } from '../FormikForm';
-import { useMessages } from '../Messages/MessagesProvider';
-import NotFoundPage from '../NotFoundPage/NotFoundPage';
-import { getSessionStateFromLocalStorage } from '../Session/SessionProvider';
+import { lazy, Suspense, useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { Link, useLocation, useParams } from "react-router-dom";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { spacing, colors } from "@ndla/core";
+import { FieldHeader } from "@ndla/forms";
+import { Spinner } from "@ndla/icons";
+import { IArticle } from "@ndla/types-backend/draft-api";
+import { Row } from "../../components";
+import HeaderSupportedLanguages from "../../components/HeaderWithLanguage/HeaderSupportedLanguages";
+import HelpMessage from "../../components/HelpMessage";
+import PreviewDraftLightboxV2 from "../../components/PreviewDraft/PreviewDraftLightboxV2";
+import SaveButton from "../../components/SaveButton";
+import { DRAFT_HTML_SCOPE } from "../../constants";
+import { fetchDraft, updateDraft } from "../../modules/draft/draftApi";
+import { blockContentToEditorValue, blockContentToHTML } from "../../util/articleContentConverter";
+import handleError from "../../util/handleError";
+import { NdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
+import { toEditMarkup } from "../../util/routeHelpers";
+import { AlertModalWrapper } from "../FormikForm";
+import { useMessages } from "../Messages/MessagesProvider";
+import NotFoundPage from "../NotFoundPage/NotFoundPage";
+import { getSessionStateFromLocalStorage } from "../Session/SessionProvider";
 
 declare global {
   interface Window {
@@ -42,21 +42,21 @@ declare global {
 
 window.MonacoEnvironment = {
   getWorkerUrl: function (moduleId: string, label: string) {
-    if (label === 'html') {
-      return process.env.NODE_ENV !== 'production'
-        ? '/static/js/html.worker.js'
+    if (label === "html") {
+      return process.env.NODE_ENV !== "production"
+        ? "/static/js/html.worker.js"
         : // @ts-ignore
-          window.assets['html.worker.js'] ?? '';
+          window.assets["html.worker.js"] ?? "";
     }
-    return process.env.NODE_ENV !== 'production'
-      ? '/static/js/editor.worker.js'
+    return process.env.NODE_ENV !== "production"
+      ? "/static/js/editor.worker.js"
       : // @ts-ignore
-        window.assets['editor.worker.js'] ?? '';
+        window.assets["editor.worker.js"] ?? "";
   },
   globalAPI: true,
 };
 
-const MonacoEditor = lazy(() => import('../../components/MonacoEditor'));
+const MonacoEditor = lazy(() => import("../../components/MonacoEditor"));
 
 // Serialize and deserialize content using slate helpers
 // to ensure standarized markup.
@@ -65,7 +65,7 @@ function standardizeContent(content: string): string {
   const trimmedContent = content
     .split(/>\r?\n/)
     .map((s) => s.trim())
-    .join('>');
+    .join(">");
   const converted = blockContentToEditorValue(trimmedContent);
   return blockContentToHTML(converted);
 }
@@ -117,7 +117,7 @@ const ErrorMessage = ({ draftId, language, messageId }: ErrorMessageProps) => {
     <Container>
       <StyledErrorMessage>{t(messageId)}</StyledErrorMessage>
       <Row justifyContent="center" alignItems="baseline">
-        <Link to={`/subject-matter/learning-resource/${draftId}/edit/${language}`}>{t('editMarkup.back')}</Link>
+        <Link to={`/subject-matter/learning-resource/${draftId}/edit/${language}`}>{t("editMarkup.back")}</Link>
       </Row>
     </Container>
   );
@@ -127,14 +127,14 @@ interface LocationState {
   backUrl?: string;
 }
 
-type Status = 'initial' | 'edit' | 'fetch-error' | 'access-error' | 'saving' | 'saved';
+type Status = "initial" | "edit" | "fetch-error" | "access-error" | "saving" | "saved";
 
 const EditMarkupPage = () => {
   const { t } = useTranslation();
-  const params = useParams<'draftId' | 'language'>();
+  const params = useParams<"draftId" | "language">();
   const draftId = Number(params.draftId) || undefined;
   const language = params.language!;
-  const [status, setStatus] = useState<Status>('initial');
+  const [status, setStatus] = useState<Status>("initial");
   const [draft, setDraft] = useState<IArticle | undefined>(undefined);
   const location = useLocation();
   const locationState = location.state as LocationState | undefined;
@@ -143,11 +143,11 @@ const EditMarkupPage = () => {
   useEffect(() => {
     const session = getSessionStateFromLocalStorage();
     if (!session.user.permissions?.includes(DRAFT_HTML_SCOPE)) {
-      setStatus('access-error');
+      setStatus("access-error");
       return;
     }
     if (!draftId) {
-      setStatus('fetch-error');
+      setStatus("fetch-error");
       return;
     }
     (async () => {
@@ -156,7 +156,7 @@ const EditMarkupPage = () => {
         setDraft(fetched);
       } catch (e) {
         handleError(e);
-        setStatus('fetch-error');
+        setStatus("fetch-error");
       }
     })();
   }, [draftId, language]);
@@ -167,15 +167,15 @@ const EditMarkupPage = () => {
 
   const saveChanges = async (editorContent: string) => {
     try {
-      setStatus('saving');
-      const content = standardizeContent(editorContent ?? '');
+      setStatus("saving");
+      const content = standardizeContent(editorContent ?? "");
       const updatedDraft = await updateDraft(draftId, {
         content,
         revision: draft?.revision ?? 1,
         language,
       });
       setDraft(updatedDraft);
-      setStatus('saved');
+      setStatus("saved");
     } catch (e) {
       const err = e as NdlaErrorPayload;
       createMessage(formatErrorMessage(err));
@@ -184,25 +184,25 @@ const EditMarkupPage = () => {
   };
 
   const handleChange = (value: string) => {
-    setStatus('edit');
+    setStatus("edit");
     setDraft(updateContentInDraft(draft, value));
   };
 
-  if (status === 'access-error') {
+  if (status === "access-error") {
     return <ErrorMessage draftId={draftId} language={language} messageId="forbiddenPage.description" />;
   }
 
-  if (status === 'fetch-error') {
+  if (status === "fetch-error") {
     return <ErrorMessage draftId={draftId} language={language} messageId="editMarkup.fetchError" />;
   }
-  const isDirty = status === 'edit';
-  const isSubmitting = status === 'saving';
+  const isDirty = status === "edit";
+  const isSubmitting = status === "saving";
   return (
     <Container>
-      <FieldHeader title={t('editMarkup.title')} subTitle={t('editMarkup.subTitle')}>
+      <FieldHeader title={t("editMarkup.title")} subTitle={t("editMarkup.subTitle")}>
         <HelpMessage>
-          <p>{t('editMarkup.helpMessage.paragraph1')}</p>
-          <p>{t('editMarkup.helpMessage.paragraph2')}</p>
+          <p>{t("editMarkup.helpMessage.paragraph1")}</p>
+          <p>{t("editMarkup.helpMessage.paragraph2")}</p>
         </HelpMessage>
       </FieldHeader>
       <LanguageWrapper>
@@ -217,8 +217,8 @@ const EditMarkupPage = () => {
       </LanguageWrapper>
       <Suspense fallback={<Spinner />}>
         <MonacoEditor
-          key={draft && draft.content ? draft.id + draft.revision + '-' + draft.content.language : 'draft'}
-          value={draft?.content?.content ?? ''}
+          key={draft && draft.content ? draft.id + draft.revision + "-" + draft.content.language : "draft"}
+          value={draft?.content?.content ?? ""}
           onChange={handleChange}
           onSave={saveChanges}
         />
@@ -228,18 +228,18 @@ const EditMarkupPage = () => {
               type="markup"
               language={language}
               article={draft}
-              activateButton={<ButtonV2 variant="link">{t('form.preview.button')}</ButtonV2>}
+              activateButton={<ButtonV2 variant="link">{t("form.preview.button")}</ButtonV2>}
             />
           )}
           <Row justifyContent="end" alignItems="baseline">
             <Link to={locationState?.backUrl || `/subject-matter/learning-resource/${draftId}/edit/${language}`}>
-              {t('editMarkup.back')}
+              {t("editMarkup.back")}
             </Link>
             <SaveButton
-              isSaving={status === 'saving'}
-              formIsDirty={status === 'edit'}
-              showSaved={status === 'saved'}
-              onClick={() => saveChanges(draft?.content?.content ?? '')}
+              isSaving={status === "saving"}
+              formIsDirty={status === "edit"}
+              showSaved={status === "saved"}
+              onClick={() => saveChanges(draft?.content?.content ?? "")}
             />
           </Row>
         </StyledRow>
@@ -248,7 +248,7 @@ const EditMarkupPage = () => {
         isSubmitting={isSubmitting}
         formIsDirty={isDirty}
         severity="danger"
-        text={t('alertModal.notSaved')}
+        text={t("alertModal.notSaved")}
       />
     </Container>
   );

@@ -6,36 +6,36 @@
  *
  */
 
-import { ChangeEvent, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { useQueryClient } from '@tanstack/react-query';
-import { ButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
-import { InputV2 } from '@ndla/forms';
-import { IArticleV2 } from '@ndla/types-backend/article-api';
-import { ILearningPathSummaryV2, ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
-import { IGroupSearchResult, IMultiSearchSummary } from '@ndla/types-backend/search-api';
-import { ButtonWrapper, ErrorMessage, StyledLabel, inputWrapperStyles } from './PlannedResourceForm';
-import ArticlePreview from '../../../components/ArticlePreview';
-import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
-import Spinner from '../../../components/Spinner';
-import { RESOURCE_TYPE_LEARNING_PATH, RESOURCE_TYPE_SUBJECT_MATERIAL } from '../../../constants';
-import { getArticle } from '../../../modules/article/articleApi';
+import { ChangeEvent, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { useQueryClient } from "@tanstack/react-query";
+import { ButtonV2 } from "@ndla/button";
+import { spacing } from "@ndla/core";
+import { InputV2 } from "@ndla/forms";
+import { IArticleV2 } from "@ndla/types-backend/article-api";
+import { ILearningPathSummaryV2, ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
+import { IGroupSearchResult, IMultiSearchSummary } from "@ndla/types-backend/search-api";
+import { ButtonWrapper, ErrorMessage, StyledLabel, inputWrapperStyles } from "./PlannedResourceForm";
+import ArticlePreview from "../../../components/ArticlePreview";
+import AsyncDropdown from "../../../components/Dropdown/asyncDropdown/AsyncDropdown";
+import Spinner from "../../../components/Spinner";
+import { RESOURCE_TYPE_LEARNING_PATH, RESOURCE_TYPE_SUBJECT_MATERIAL } from "../../../constants";
+import { getArticle } from "../../../modules/article/articleApi";
 import {
   fetchLearningpaths,
   learningpathSearch,
   updateLearningPathTaxonomy,
-} from '../../../modules/learningpath/learningpathApi';
-import { fetchNodes } from '../../../modules/nodes/nodeApi';
-import { usePostResourceForNodeMutation } from '../../../modules/nodes/nodeMutations';
-import { nodeQueryKeys, useNodes } from '../../../modules/nodes/nodeQueries';
-import { search } from '../../../modules/search/searchApi';
-import { resolveUrls } from '../../../modules/taxonomy/taxonomyApi';
-import handleError from '../../../util/handleError';
-import { getResourceIdFromPath } from '../../../util/routeHelpers';
-import ResourceTypeSelect from '../../ArticlePage/components/ResourceTypeSelect';
-import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
+} from "../../../modules/learningpath/learningpathApi";
+import { fetchNodes } from "../../../modules/nodes/nodeApi";
+import { usePostResourceForNodeMutation } from "../../../modules/nodes/nodeMutations";
+import { nodeQueryKeys, useNodes } from "../../../modules/nodes/nodeQueries";
+import { search } from "../../../modules/search/searchApi";
+import { resolveUrls } from "../../../modules/taxonomy/taxonomyApi";
+import handleError from "../../../util/handleError";
+import { getResourceIdFromPath } from "../../../util/routeHelpers";
+import ResourceTypeSelect from "../../ArticlePage/components/ResourceTypeSelect";
+import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
 const StyledOrDivider = styled.div`
   display: flex;
@@ -54,11 +54,11 @@ const emptySearchResults: IGroupSearchResult = {
   totalCount: 0,
   page: 0,
   pageSize: 0,
-  language: '',
+  language: "",
   results: [],
   suggestions: [],
   aggregations: [],
-  resourceType: '',
+  resourceType: "",
 };
 
 interface Props {
@@ -71,7 +71,7 @@ interface Props {
   existingResourceIds: string[];
 }
 
-interface Preview extends Pick<IMultiSearchSummary, 'id' | 'title' | 'metaDescription'> {
+interface Preview extends Pick<IMultiSearchSummary, "id" | "title" | "metaDescription"> {
   metaUrl?: string;
   paths?: string[];
 }
@@ -80,10 +80,10 @@ type PossibleResources = IMultiSearchSummary | ILearningPathSummaryV2 | ILearnin
 
 const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, nodeId }: Props) => {
   const { t, i18n } = useTranslation();
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [selectedType, setSelectedType] = useState(RESOURCE_TYPE_SUBJECT_MATERIAL);
-  const [pastedUrl, setPastedUrl] = useState('');
+  const [pastedUrl, setPastedUrl] = useState("");
   const [previewLoading, setPreviewLoading] = useState(false);
   const [contentUri, setContentUri] = useState<string | undefined>();
   const [resourceId, setResourceId] = useState<string | undefined>();
@@ -91,13 +91,16 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
   const [articleInputId, setArticleInputId] = useState<string | undefined>();
   const qc = useQueryClient();
   const { taxonomyVersion } = useTaxonomyVersion();
-  const compKey = nodeQueryKeys.resources({ id: nodeId, language: i18n.language });
+  const compKey = nodeQueryKeys.resources({
+    id: nodeId,
+    language: i18n.language,
+  });
   const { mutateAsync: createNodeResource } = usePostResourceForNodeMutation({
     onSuccess: (_) => qc.invalidateQueries({ queryKey: compKey }),
   });
   const { data: articleSearchData } = useNodes({
     contentURI: `urn:article:${articleInputId}`,
-    nodeType: 'RESOURCE',
+    nodeType: "RESOURCE",
     taxonomyVersion,
   });
 
@@ -115,12 +118,12 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
     const fetchData = async () => {
       setPreviewLoading(true);
       let preview;
-      if (contentUri.includes('learningpath')) {
-        const learningpathId = contentUri.split('learningpath:')[1];
+      if (contentUri.includes("learningpath")) {
+        const learningpathId = contentUri.split("learningpath:")[1];
         const res = await fetchLearningpaths([Number(learningpathId)]);
         preview = res.length && toPreview(res[0]);
       } else {
-        const previewId = contentUri.split('article:')[1];
+        const previewId = contentUri.split("article:")[1];
         const res = await getArticle(Number(previewId));
         preview = res && toPreview(res);
       }
@@ -133,12 +136,12 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
   }, [contentUri, resourceId]);
 
   const toPreview = (resource: PossibleResources): Preview => {
-    if ('metaUrl' in resource) {
+    if ("metaUrl" in resource) {
       const { description, language } = resource.description;
       const url =
-        'coverPhoto' in resource
+        "coverPhoto" in resource
           ? resource.coverPhoto?.url
-          : 'coverPhotoUrl' in resource
+          : "coverPhotoUrl" in resource
             ? resource.coverPhotoUrl
             : undefined;
       return {
@@ -159,15 +162,21 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
       fallback: true,
     };
     if (selectedType === RESOURCE_TYPE_LEARNING_PATH) {
-      return await learningpathSearch({ ...baseQuery, verificationStatus: 'CREATED_BY_NDLA' });
+      return await learningpathSearch({
+        ...baseQuery,
+        verificationStatus: "CREATED_BY_NDLA",
+      });
     } else {
-      const res = await search({ ...baseQuery, 'resource-types': selectedType });
+      const res = await search({
+        ...baseQuery,
+        "resource-types": selectedType,
+      });
       return res ?? emptySearchResults;
     }
   };
 
   const resetPastedUrlStatesWithError = (error?: string) => {
-    setError(error ?? '');
+    setError(error ?? "");
     setArticleInputId(undefined);
     setPreview(undefined);
     setPreviewLoading(false);
@@ -193,15 +202,18 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
       const inputMatch = input.match(/ndla.no\/(.+)/);
       const inputPath = inputMatch && inputMatch[1];
       if (!inputPath) {
-        resetPastedUrlStatesWithError(t('errorMessage.invalidUrl'));
+        resetPastedUrlStatesWithError(t("errorMessage.invalidUrl"));
         return;
       }
       try {
-        const resolvedUrl = await resolveUrls({ path: inputPath, taxonomyVersion });
+        const resolvedUrl = await resolveUrls({
+          path: inputPath,
+          taxonomyVersion,
+        });
         setResourceId(resolvedUrl.id);
         setContentUri(resolvedUrl.contentUri);
       } catch (e) {
-        resetPastedUrlStatesWithError(t('taxonomy.noResources'));
+        resetPastedUrlStatesWithError(t("taxonomy.noResources"));
       }
     }
   };
@@ -228,8 +240,8 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
     if (!preview) return;
     let id = resourceId;
     if (!id) {
-      const isLearningpath = selectedType === RESOURCE_TYPE_LEARNING_PATH && 'metaUrl' in preview;
-      const isArticleOrDraft = 'paths' in preview;
+      const isLearningpath = selectedType === RESOURCE_TYPE_LEARNING_PATH && "metaUrl" in preview;
+      const isArticleOrDraft = "paths" in preview;
       id = isLearningpath
         ? await findResourceIdLearningPath(preview.id)
         : isArticleOrDraft
@@ -242,13 +254,16 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
     }
 
     if (existingResourceIds.includes(String(resourceId))) {
-      resetPastedUrlStatesWithError(t('taxonomy.resource.addResourceConflict'));
+      resetPastedUrlStatesWithError(t("taxonomy.resource.addResourceConflict"));
       return;
     }
 
-    await createNodeResource({ body: { resourceId: id, nodeId }, taxonomyVersion })
+    await createNodeResource({
+      body: { resourceId: id, nodeId },
+      taxonomyVersion,
+    })
       .then((_) => onClose())
-      .catch(() => resetPastedUrlStatesWithError('taxonomy.resource.creationFailed'));
+      .catch(() => resetPastedUrlStatesWithError("taxonomy.resource.creationFailed"));
     setLoading(false);
   };
 
@@ -258,18 +273,18 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
         <>
           <InputV2
             customCss={inputWrapperStyles}
-            label={t('taxonomy.urlPlaceholder')}
+            label={t("taxonomy.urlPlaceholder")}
             white
             onChange={onPaste}
             name="pasteUrlInput"
-            placeholder={t('taxonomy.urlPlaceholder')}
+            placeholder={t("taxonomy.urlPlaceholder")}
           />
-          {!pastedUrl && <StyledOrDivider>{t('taxonomy.or')}</StyledOrDivider>}
+          {!pastedUrl && <StyledOrDivider>{t("taxonomy.or")}</StyledOrDivider>}
         </>
       )}
       {!pastedUrl && (
         <div>
-          <StyledLabel htmlFor="select-resource-type">{t('taxonomy.contentType')}</StyledLabel>
+          <StyledLabel htmlFor="select-resource-type">{t("taxonomy.contentType")}</StyledLabel>
           <ResourceTypeSelect
             availableResourceTypes={resourceTypes ?? []}
             onChangeSelectedResource={(value) => {
@@ -283,13 +298,13 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
         <AsyncDropdown<ILearningPathSummaryV2 | IMultiSearchSummary>
           idField="id"
           labelField="title"
-          placeholder={t('form.content.relatedArticle.placeholder')}
+          placeholder={t("form.content.relatedArticle.placeholder")}
           apiAction={(query, page) => onSearch(query, page)}
           onChange={(res) => setPreview(toPreview(res))}
           startOpen={false}
           showPagination
           initialSearch={false}
-          label={t('form.content.relatedArticle.placeholder')}
+          label={t("form.content.relatedArticle.placeholder")}
           white
         />
       )}
@@ -297,7 +312,7 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
       {error && <ErrorMessage>{t(error)}</ErrorMessage>}
       <ButtonWrapper>
         <ButtonV2 disabled={preview === undefined} onClick={onAddResource} type="submit">
-          {t('taxonomy.add')} {loading && <Spinner appearance="small" />}
+          {t("taxonomy.add")} {loading && <Spinner appearance="small" />}
         </ButtonV2>
       </ButtonWrapper>
     </PreviewWrapper>

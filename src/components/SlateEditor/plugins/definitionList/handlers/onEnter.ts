@@ -6,9 +6,9 @@
  *
  */
 
-import { Editor, Element, Path, Transforms, Node, Range, Point } from 'slate';
-import { TYPE_DEFINITION_TERM, TYPE_DEFINITION_DESCRIPTION } from '../types';
-import { definitionDescription, definitionTerm } from '../utils/defaultBlocks';
+import { Editor, Element, Path, Transforms, Node, Range, Point } from "slate";
+import { TYPE_DEFINITION_TERM, TYPE_DEFINITION_DESCRIPTION } from "../types";
+import { definitionDescription, definitionTerm } from "../utils/defaultBlocks";
 
 const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown: ((e: KeyboardEvent) => void) | undefined) => {
   if ((e.shiftKey && nextOnKeyDown) || (!editor.selection && nextOnKeyDown)) {
@@ -32,7 +32,7 @@ const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown: ((e: KeyboardE
     Editor.deleteFragment(editor);
   }
 
-  if (Node.string(selectedDefinitionItem) === '' && selectedDefinitionItem.children.length === 1) {
+  if (Node.string(selectedDefinitionItem) === "" && selectedDefinitionItem.children.length === 1) {
     Editor.withoutNormalizing(editor, () => {
       Transforms.unwrapNodes(editor, {
         at: selectedDefinitionItemPath,
@@ -44,10 +44,10 @@ const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown: ((e: KeyboardE
     return;
   }
 
-  Transforms.unsetNodes(editor, 'serializeAsText', {
+  Transforms.unsetNodes(editor, "serializeAsText", {
     match: (node) =>
       Element.isElement(node) && (node.type === TYPE_DEFINITION_DESCRIPTION || node.type === TYPE_DEFINITION_TERM),
-    mode: 'lowest',
+    mode: "lowest",
   });
 
   const nextPoint = Editor.after(editor, Range.end(editor.selection));
@@ -71,7 +71,7 @@ const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown: ((e: KeyboardE
   Transforms.splitNodes(editor, {
     match: (node) =>
       Element.isElement(node) && (node.type === TYPE_DEFINITION_TERM || node.type === TYPE_DEFINITION_DESCRIPTION),
-    mode: 'lowest',
+    mode: "lowest",
   });
 };
 

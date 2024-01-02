@@ -6,24 +6,24 @@
  *
  */
 
-import { MouseEvent, ReactNode } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Editor, Path, Range } from 'slate';
-import { ReactEditor } from 'slate-react';
-import styled from '@emotion/styled';
-import { ButtonV2, IconButtonV2 } from '@ndla/button';
-import { colors, fonts } from '@ndla/core';
-import { Minus, Plus } from '@ndla/icons/action';
-import { AlignCenter, AlignLeft, AlignRight } from '@ndla/icons/editor';
-import EditColgroupsModal from './EditColgroupsModal';
-import { TableElement } from './interfaces';
-import { alignColumn } from './slateActions';
-import { isTable, isTableHead } from './slateHelpers';
-import { insertColumn, insertRow, insertTableHead, removeColumn, removeRow, toggleRowHeaders } from './toolbarActions';
-import { TYPE_TABLE_CAPTION } from './types';
-import { DRAFT_HTML_SCOPE } from '../../../../constants';
-import { useSession } from '../../../../containers/Session/SessionProvider';
-import getCurrentBlock from '../../utils/getCurrentBlock';
+import { MouseEvent, ReactNode } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Path, Range } from "slate";
+import { ReactEditor } from "slate-react";
+import styled from "@emotion/styled";
+import { ButtonV2, IconButtonV2 } from "@ndla/button";
+import { colors, fonts } from "@ndla/core";
+import { Minus, Plus } from "@ndla/icons/action";
+import { AlignCenter, AlignLeft, AlignRight } from "@ndla/icons/editor";
+import EditColgroupsModal from "./EditColgroupsModal";
+import { TableElement } from "./interfaces";
+import { alignColumn } from "./slateActions";
+import { isTable, isTableHead } from "./slateHelpers";
+import { insertColumn, insertRow, insertTableHead, removeColumn, removeRow, toggleRowHeaders } from "./toolbarActions";
+import { TYPE_TABLE_CAPTION } from "./types";
+import { DRAFT_HTML_SCOPE } from "../../../../constants";
+import { useSession } from "../../../../containers/Session/SessionProvider";
+import getCurrentBlock from "../../utils/getCurrentBlock";
 
 const StyledTableActions = styled.div`
   background: ${colors.white};
@@ -52,7 +52,7 @@ const StyledRightAlign = styled.div`
 `;
 
 const StyledWrapper = styled.div`
-  display: ${(p: { show: boolean }) => (p.show ? 'block;' : 'none')};
+  display: ${(p: { show: boolean }) => (p.show ? "block;" : "none")};
   position: relative;
   z-index: 1;
   user-select: none;
@@ -72,34 +72,34 @@ interface TableIconButtonProps {
 const rowActions = [
   {
     icon: <Plus />,
-    name: 'row-add',
+    name: "row-add",
   },
   {
     icon: <Minus />,
-    name: 'row-remove',
+    name: "row-remove",
   },
 ];
 
 const columnActions = [
   {
     icon: <Plus />,
-    name: 'column-add',
+    name: "column-add",
   },
   {
     icon: <Minus />,
-    name: 'column-remove',
+    name: "column-remove",
   },
   {
     icon: <AlignLeft />,
-    name: 'column-left',
+    name: "column-left",
   },
   {
     icon: <AlignCenter />,
-    name: 'column-center',
+    name: "column-center",
   },
   {
     icon: <AlignRight />,
-    name: 'column-right',
+    name: "column-right",
   },
 ];
 
@@ -143,32 +143,32 @@ const TableActions = ({ editor, element }: Props) => {
 
     if (selectedPath && Path.isDescendant(selectedPath, tablePath)) {
       switch (operation) {
-        case 'row-remove': {
+        case "row-remove": {
           removeRow(editor, selectedPath);
           break;
         }
-        case 'row-add':
+        case "row-add":
           insertRow(editor, element, selectedPath);
           break;
-        case 'head-add':
+        case "head-add":
           insertTableHead(editor);
           break;
-        case 'column-remove':
+        case "column-remove":
           removeColumn(editor, element, selectedPath);
           break;
-        case 'column-add':
+        case "column-add":
           insertColumn(editor, element, selectedPath);
           break;
-        case 'column-left':
-          alignColumn(editor, tablePath, 'left');
+        case "column-left":
+          alignColumn(editor, tablePath, "left");
           break;
-        case 'column-center':
-          alignColumn(editor, tablePath, 'center');
+        case "column-center":
+          alignColumn(editor, tablePath, "center");
           break;
-        case 'column-right':
-          alignColumn(editor, tablePath, 'right');
+        case "column-right":
+          alignColumn(editor, tablePath, "right");
           break;
-        case 'toggle-row-headers':
+        case "toggle-row-headers":
           toggleRowHeaders(editor, tablePath);
           break;
         default:
@@ -193,7 +193,7 @@ const TableActions = ({ editor, element }: Props) => {
         {showEditColgroups && <EditColgroupsModal element={element} />}
         <ActionGrid>
           {/* Row 1 - Row actions */}
-          <StyledRowTitle>{`${t('form.content.table.row')}:`}</StyledRowTitle>
+          <StyledRowTitle>{`${t("form.content.table.row")}:`}</StyledRowTitle>
           <ActionGroup>
             {rowActions.map((action, idx) => (
               <TableIconButton key={idx} operation={action.name} onClick={handleOnClick}>
@@ -207,14 +207,14 @@ const TableActions = ({ editor, element }: Props) => {
                 data-testid="head-add"
                 variant="stripped"
                 title={t(`form.content.table.addHeader`)}
-                onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'head-add')}
+                onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, "head-add")}
               >
                 {t(`form.content.table.addHeader`)}
               </ButtonV2>
             )}
           </StyledRightAlign>
           {/* Row 2  - Column actions*/}
-          <StyledRowTitle>{`${t('form.content.table.column')}:`}</StyledRowTitle>
+          <StyledRowTitle>{`${t("form.content.table.column")}:`}</StyledRowTitle>
           <ActionGroup>
             {columnActions.map((action, idx) => (
               <TableIconButton key={idx} operation={action.name} onClick={handleOnClick}>
@@ -225,12 +225,12 @@ const TableActions = ({ editor, element }: Props) => {
           <ButtonV2
             data-testid="toggle-row-headers"
             variant="stripped"
-            onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'toggle-row-headers')}
+            onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, "toggle-row-headers")}
             aria-label={t(
-              `form.content.table.${isTable(table) && table.rowHeaders ? 'disable-header' : 'enable-header'}`,
+              `form.content.table.${isTable(table) && table.rowHeaders ? "disable-header" : "enable-header"}`,
             )}
           >
-            {t(`form.content.table.${isTable(table) && table.rowHeaders ? 'disable-header' : 'enable-header'}`)}
+            {t(`form.content.table.${isTable(table) && table.rowHeaders ? "disable-header" : "enable-header"}`)}
           </ButtonV2>
         </ActionGrid>
       </StyledTableActions>

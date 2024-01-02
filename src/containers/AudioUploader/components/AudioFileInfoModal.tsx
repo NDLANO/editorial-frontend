@@ -6,11 +6,11 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { IconButtonV2 } from '@ndla/button';
-import { ModalBody, ModalCloseButton, ModalTitle, ModalHeader, Modal, ModalTrigger, ModalContent } from '@ndla/modal';
+import { useTranslation } from "react-i18next";
+import { IconButtonV2 } from "@ndla/button";
+import { ModalBody, ModalCloseButton, ModalTitle, ModalHeader, Modal, ModalTrigger, ModalContent } from "@ndla/modal";
 
-import { HelpIcon, normalPaddingCSS } from '../../../components/HowTo';
+import { HelpIcon, normalPaddingCSS } from "../../../components/HowTo";
 
 const AudioFileInfoModal = () => {
   const { t } = useTranslation();
@@ -19,8 +19,8 @@ const AudioFileInfoModal = () => {
     <Modal>
       <ModalTrigger>
         <IconButtonV2
-          title={t('form.audio.modal.label')}
-          aria-label={t('form.audio.modal.label')}
+          title={t("form.audio.modal.label")}
+          aria-label={t("form.audio.modal.label")}
           variant="stripped"
           colorTheme="light"
         >
@@ -29,15 +29,15 @@ const AudioFileInfoModal = () => {
       </ModalTrigger>
       <ModalContent>
         <ModalHeader>
-          <ModalTitle>{t('form.audio.modal.header')}</ModalTitle>
+          <ModalTitle>{t("form.audio.modal.header")}</ModalTitle>
           <ModalCloseButton />
         </ModalHeader>
         <ModalBody>
           <ul>
-            <li>{t('form.audio.info.multipleFiles')}</li>
-            <li>{t('form.audio.info.changeFile')}</li>
-            <li>{t('form.audio.info.newLanguage')}</li>
-            <li>{t('form.audio.info.deleteFiles')}</li>
+            <li>{t("form.audio.info.multipleFiles")}</li>
+            <li>{t("form.audio.info.changeFile")}</li>
+            <li>{t("form.audio.info.newLanguage")}</li>
+            <li>{t("form.audio.info.deleteFiles")}</li>
           </ul>
         </ModalBody>
       </ModalContent>

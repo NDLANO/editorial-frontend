@@ -6,10 +6,10 @@
  *
  */
 
-import { Descendant, Editor, Path } from 'slate';
-import { TableCellElement, TableMatrix } from './interfaces';
-import { insertCellInMatrix } from './matrixHelpers';
-import { isTable, isTableHead, isTableRow, isTableCell, isTableBody } from './slateHelpers';
+import { Descendant, Editor, Path } from "slate";
+import { TableCellElement, TableMatrix } from "./interfaces";
+import { insertCellInMatrix } from "./matrixHelpers";
+import { isTable, isTableHead, isTableRow, isTableCell, isTableBody } from "./slateHelpers";
 
 // Expects a perfectly normalized table. Requires path to the table body
 export const getTableBodyAsMatrix = (editor: Editor, path: Path) => {

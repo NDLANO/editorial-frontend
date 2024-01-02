@@ -6,13 +6,13 @@
  *
  */
 
-import { createRef, Component, MutableRefObject, MouseEvent as ReactMouseEvent } from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { spacing, spacingUnit, shadows } from '@ndla/core';
-import { IRelatedContentLink } from '@ndla/types-backend/draft-api';
-import ElementListItem from './ElementListItem';
-import ElementListLink from './ElementListLink';
+import { createRef, Component, MutableRefObject, MouseEvent as ReactMouseEvent } from "react";
+import { WithTranslation, withTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { spacing, spacingUnit, shadows } from "@ndla/core";
+import { IRelatedContentLink } from "@ndla/types-backend/draft-api";
+import ElementListItem from "./ElementListItem";
+import ElementListLink from "./ElementListLink";
 
 const ELEMENT_HEIGHT = 69;
 
@@ -60,7 +60,7 @@ interface State {
 }
 
 class ElementList extends Component<Props, State> {
-  static defaultProps: Pick<Props, 'isEditable' | 'isOrderable' | 'elements'>;
+  static defaultProps: Pick<Props, "isEditable" | "isOrderable" | "elements">;
   wrapperRef: MutableRefObject<HTMLUListElement | null>;
   initialPosition: number;
   mouseMovement: number;
@@ -111,9 +111,9 @@ class ElementList extends Component<Props, State> {
     this.DraggingFile = childNodes?.[dragIndex];
     if (this.DraggingFile) {
       this.DraggingFile.style.width = `${this.DraggingFile.getBoundingClientRect().width}px`;
-      this.DraggingFile.style.position = 'absolute';
-      this.DraggingFile.style.top = '0';
-      this.DraggingFile.style.zIndex = '9999';
+      this.DraggingFile.style.position = "absolute";
+      this.DraggingFile.style.top = "0";
+      this.DraggingFile.style.zIndex = "9999";
       this.DraggingFile.style.boxShadow = shadows.levitate1;
       this.DraggingFile.style.transform = `translateY(${this.mouseMovement + ELEMENT_HEIGHT}px)`;
     }
@@ -125,21 +125,21 @@ class ElementList extends Component<Props, State> {
       () => {
         // Add transitions
         childNodes?.forEach((node) => {
-          node.style.transition = 'transform 100ms ease';
+          node.style.transition = "transform 100ms ease";
         });
         if (this.DraggingFile) {
-          this.DraggingFile.style.transition = 'box-shadow 100ms ease';
+          this.DraggingFile.style.transition = "box-shadow 100ms ease";
         }
       },
     );
 
-    window.addEventListener('mousemove', this.onDragging);
-    window.addEventListener('mouseup', this.onDragEnd);
+    window.addEventListener("mousemove", this.onDragging);
+    window.addEventListener("mouseup", this.onDragEnd);
   };
 
   onDragEnd = () => {
-    window.removeEventListener('mousemove', this.onDragging);
-    window.removeEventListener('mouseup', this.onDragEnd);
+    window.removeEventListener("mousemove", this.onDragging);
+    window.removeEventListener("mouseup", this.onDragEnd);
     const { elements, onUpdateElements } = this.props;
     // Rearrange elements
     const elementToMove = elements[this.initialPosition];
@@ -155,15 +155,15 @@ class ElementList extends Component<Props, State> {
 
     const childNodes = this.wrapperRef.current?.childNodes as NodeListOf<HTMLLIElement> | undefined;
     childNodes?.forEach((node) => {
-      node.style.transition = 'none';
-      node.style.transform = 'none';
+      node.style.transition = "none";
+      node.style.transform = "none";
     });
 
     if (this.DraggingFile) {
-      this.DraggingFile.style.width = 'auto';
-      this.DraggingFile.style.position = 'static';
-      this.DraggingFile.style.zIndex = '0';
-      this.DraggingFile.style.boxShadow = 'none';
+      this.DraggingFile.style.width = "auto";
+      this.DraggingFile.style.position = "static";
+      this.DraggingFile.style.zIndex = "0";
+      this.DraggingFile.style.boxShadow = "none";
     }
   };
 
@@ -195,7 +195,7 @@ class ElementList extends Component<Props, State> {
           {elements
             .filter((element) => !!element)
             .map((element, index) => {
-              if ('id' in element) {
+              if ("id" in element) {
                 return (
                   <ElementListItem
                     articleType={this.props.articleType}

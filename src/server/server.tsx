@@ -6,15 +6,15 @@
  *
  */
 
-import bodyParser from 'body-parser';
-import compression from 'compression';
-import express from 'express';
-import proxy from 'express-http-proxy';
-import { GetVerificationKey, expressjwt as jwt, Request } from 'express-jwt';
-import helmet from 'helmet';
-import jwksRsa from 'jwks-rsa';
-import prettier from 'prettier';
-import { renderToString } from 'react-dom/server';
+import bodyParser from "body-parser";
+import compression from "compression";
+import express from "express";
+import proxy from "express-http-proxy";
+import { GetVerificationKey, expressjwt as jwt, Request } from "express-jwt";
+import helmet from "helmet";
+import jwksRsa from "jwks-rsa";
+import prettier from "prettier";
+import { renderToString } from "react-dom/server";
 import {
   getToken,
   getBrightcoveToken,
@@ -22,33 +22,33 @@ import {
   getEditors,
   getZendeskToken,
   getResponsibles,
-} from './auth';
-import contentSecurityPolicy from './contentSecurityPolicy';
-import getConditionalClassnames from './getConditionalClassnames';
-import Html from './Html';
-import { translateDocument } from './translate';
-import config from '../config';
-import { DRAFT_PUBLISH_SCOPE, DRAFT_WRITE_SCOPE } from '../constants';
-import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN } from '../httpCodes';
-import { getLocaleObject } from '../i18n';
-import { NdlaError } from '../interfaces';
-import errorLogger from '../util/logger';
+} from "./auth";
+import contentSecurityPolicy from "./contentSecurityPolicy";
+import getConditionalClassnames from "./getConditionalClassnames";
+import Html from "./Html";
+import { translateDocument } from "./translate";
+import config from "../config";
+import { DRAFT_PUBLISH_SCOPE, DRAFT_WRITE_SCOPE } from "../constants";
+import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN } from "../httpCodes";
+import { getLocaleObject } from "../i18n";
+import { NdlaError } from "../interfaces";
+import errorLogger from "../util/logger";
 
 type NdlaUser = {
-  'https://ndla.no/user_email'?: string;
-  'https://ndla.no/user_name'?: string;
+  "https://ndla.no/user_email"?: string;
+  "https://ndla.no/user_name"?: string;
   permissions?: string[];
 };
 
 const app = express();
-const allowedBodyContentTypes = ['application/csp-report', 'application/json'];
+const allowedBodyContentTypes = ["application/csp-report", "application/json"];
 
 // Temporal hack to send users to prod
-app.get('*', (req, res, next) => {
-  if (!req.hostname.includes('ed.ff')) {
+app.get("*", (req, res, next) => {
+  if (!req.hostname.includes("ed.ff")) {
     next();
   } else {
-    res.set('location', `https://ed.ndla.no${req.originalUrl}`);
+    res.set("location", `https://ed.ndla.no${req.originalUrl}`);
     res.status(302).send();
   }
 });
@@ -56,7 +56,7 @@ app.get('*', (req, res, next) => {
 if (!config.isVercel) {
   app.use(compression());
 }
-app.use(express.json({ limit: '1mb' }));
+app.use(express.json({ limit: "1mb" }));
 app.use(
   express.static(process.env.RAZZLE_PUBLIC_DIR as string, {
     maxAge: 1000 * 60 * 60 * 24 * 365, // One year
@@ -66,8 +66,8 @@ app.use(
 app.use(
   bodyParser.json({
     type: (req) => {
-      const contentType = req.headers['content-type'];
-      if (typeof contentType === 'string') return allowedBodyContentTypes.includes(contentType);
+      const contentType = req.headers["content-type"];
+      if (typeof contentType === "string") return allowedBodyContentTypes.includes(contentType);
       else return false;
     },
   }),
@@ -79,12 +79,12 @@ app.use(
       maxAge: 31536000,
       includeSubDomains: true,
     },
-    contentSecurityPolicy: config.disableCSP === 'true' ? null : contentSecurityPolicy,
+    contentSecurityPolicy: config.disableCSP === "true" ? null : contentSecurityPolicy,
     frameguard:
-      process.env.NODE_ENV === 'development'
+      process.env.NODE_ENV === "development"
         ? {
-            action: 'allow-from',
-            domain: '*://localhost',
+            action: "allow-from",
+            domain: "*://localhost",
           }
         : undefined,
   }),
@@ -93,24 +93,24 @@ app.use(
 const renderHtmlString = (locale: string, userAgentString?: string, state?: { locale: string }) =>
   renderToString(<Html lang={locale} state={state} className={getConditionalClassnames(userAgentString)} />);
 
-app.get('/robots.txt', (_, res) => {
-  res.type('text/plain');
-  res.send('User-agent: *\nDisallow: /');
+app.get("/robots.txt", (_, res) => {
+  res.type("text/plain");
+  res.send("User-agent: *\nDisallow: /");
 });
 
-app.get('/health', (_, res) => {
-  res.status(OK).json({ status: OK, text: 'Health check ok' });
+app.get("/health", (_, res) => {
+  res.status(OK).json({ status: OK, text: "Health check ok" });
 });
 
-app.post('/format-html', async (req, res) => {
+app.post("/format-html", async (req, res) => {
   const html = await prettier.format(req.body.html, {
-    parser: 'html',
+    parser: "html",
     printWidth: 1000000, // Avoid inserting linebreaks for long inline texts i.e. <p>Lorem ......... ipsum</p>
   });
   res.status(OK).json({ html });
 });
 
-app.get('/get_brightcove_token', (_, res) => {
+app.get("/get_brightcove_token", (_, res) => {
   getBrightcoveToken()
     .then((token) => {
       res.send(token);
@@ -119,35 +119,35 @@ app.get('/get_brightcove_token', (_, res) => {
 });
 
 app.get(
-  '/get_zendesk_token',
+  "/get_zendesk_token",
   jwt({
     secret: jwksRsa.expressJwtSecret({
       cache: true,
       jwksUri: `https://${config.auth0Domain}/.well-known/jwks.json`,
     }) as GetVerificationKey,
-    audience: 'ndla_system',
+    audience: "ndla_system",
     issuer: `https://${config.auth0Domain}/`,
-    algorithms: ['RS256'],
+    algorithms: ["RS256"],
   }),
   async (req: Request, res) => {
     const user = req.auth as NdlaUser;
-    const name = user['https://ndla.no/user_name'] || '';
-    const email = user['https://ndla.no/user_email'] || '';
+    const name = user["https://ndla.no/user_name"] || "";
+    const email = user["https://ndla.no/user_email"] || "";
     const token = getZendeskToken(name, email);
     res.send({ token });
   },
 );
 
 app.get(
-  '/get_note_users',
+  "/get_note_users",
   jwt({
     secret: jwksRsa.expressJwtSecret({
       cache: true,
       jwksUri: `https://${config.auth0Domain}/.well-known/jwks.json`,
     }) as GetVerificationKey,
-    audience: 'ndla_system',
+    audience: "ndla_system",
     issuer: `https://${config.auth0Domain}/`,
-    algorithms: ['RS256'],
+    algorithms: ["RS256"],
   }),
   async (req: Request, res) => {
     const {
@@ -163,7 +163,7 @@ app.get(
       (user.permissions.includes(DRAFT_WRITE_SCOPE) || user.permissions.includes(DRAFT_PUBLISH_SCOPE));
 
     if (!hasWriteAccess) {
-      res.status(FORBIDDEN).json({ status: FORBIDDEN, text: 'No access allowed' });
+      res.status(FORBIDDEN).json({ status: FORBIDDEN, text: "No access allowed" });
     } else {
       try {
         const managementToken = await getToken(`https://${config.auth0Domain}/api/v2/`);
@@ -177,15 +177,15 @@ app.get(
 );
 
 app.get(
-  '/get_editors',
+  "/get_editors",
   jwt({
     secret: jwksRsa.expressJwtSecret({
       cache: true,
       jwksUri: `https://${config.auth0Domain}/.well-known/jwks.json`,
     }) as GetVerificationKey,
-    audience: 'ndla_system',
+    audience: "ndla_system",
     issuer: `https://${config.auth0Domain}/`,
-    algorithms: ['RS256'],
+    algorithms: ["RS256"],
   }),
   async (_, res) => {
     try {
@@ -199,15 +199,15 @@ app.get(
 );
 
 app.get(
-  '/get_responsibles',
+  "/get_responsibles",
   jwt({
     secret: jwksRsa.expressJwtSecret({
       cache: true,
       jwksUri: `https://${config.auth0Domain}/.well-known/jwks.json`,
     }) as GetVerificationKey,
-    audience: 'ndla_system',
+    audience: "ndla_system",
     issuer: `https://${config.auth0Domain}/`,
-    algorithms: ['RS256'],
+    algorithms: ["RS256"],
   }),
   async (req, res) => {
     const {
@@ -224,38 +224,38 @@ app.get(
   },
 );
 
-app.post('/csp-report', (req, res) => {
+app.post("/csp-report", (req, res) => {
   const { body } = req;
-  if (body && body['csp-report']) {
-    const cspReport = body['csp-report'];
-    const errorMessage = `Refused to load the resource because it violates the following Content Security Policy directive: ${cspReport['violated-directive']}`;
+  if (body && body["csp-report"]) {
+    const cspReport = body["csp-report"];
+    const errorMessage = `Refused to load the resource because it violates the following Content Security Policy directive: ${cspReport["violated-directive"]}`;
     errorLogger.error(errorMessage, cspReport);
-    res.status(OK).json({ status: OK, text: 'CSP Error recieved' });
+    res.status(OK).json({ status: OK, text: "CSP Error recieved" });
   } else {
-    res.status(NOT_ACCEPTABLE).json({ status: NOT_ACCEPTABLE, text: 'CSP Error not recieved' });
+    res.status(NOT_ACCEPTABLE).json({ status: NOT_ACCEPTABLE, text: "CSP Error not recieved" });
   }
 });
 
 app.use(express.json());
-app.post('/translate', async (req, res) => {
+app.post("/translate", async (req, res) => {
   const { body } = req;
-  if (body && body['document']) {
-    const translated = await translateDocument(body['document']);
+  if (body && body["document"]) {
+    const translated = await translateDocument(body["document"]);
     res.status(OK).json(translated);
   } else {
-    res.status(OK).json({ status: OK, text: 'No body' });
+    res.status(OK).json({ status: OK, text: "No body" });
   }
 });
 
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === "development") {
   // proxy js request to handle web worker crossorgin issue (only necessary under development)
-  app.get('/static/js/*', proxy('http://localhost:3001'));
+  app.get("/static/js/*", proxy("http://localhost:3001"));
 }
 
-app.get('*', (req, res) => {
-  const paths = req.url.split('/');
+app.get("*", (req, res) => {
+  const paths = req.url.split("/");
   const { abbreviation: locale } = getLocaleObject(paths[1]);
-  const userAgentString = req.headers['user-agent'];
+  const userAgentString = req.headers["user-agent"];
 
   const htmlString = renderHtmlString(locale, userAgentString, { locale });
   res.send(`<!doctype html>\n${htmlString}`);

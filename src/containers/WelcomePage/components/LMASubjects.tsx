@@ -6,14 +6,14 @@
  *
  */
 
-import { useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { BookOpen } from '@ndla/icons/common';
-import { SingleValue } from '@ndla/select';
-import { IMultiSearchResult } from '@ndla/types-backend/search-api';
-import TableComponent, { FieldElement } from './TableComponent';
-import TableTitle from './TableTitle';
-import SubjectDropdown from './worklist/SubjectDropdown';
+import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { BookOpen } from "@ndla/icons/common";
+import { SingleValue } from "@ndla/select";
+import { IMultiSearchResult } from "@ndla/types-backend/search-api";
+import TableComponent, { FieldElement } from "./TableComponent";
+import TableTitle from "./TableTitle";
+import SubjectDropdown from "./worklist/SubjectDropdown";
 import {
   ARCHIVED,
   LMA_SUBJECT_ID,
@@ -21,12 +21,12 @@ import {
   STATUS_ORDER,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
   UNPUBLISHED,
-} from '../../../constants';
-import { useNodes } from '../../../modules/nodes/nodeQueries';
-import { useSearch } from '../../../modules/search/searchQueries';
-import { toSearch } from '../../../util/routeHelpers';
-import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
-import { ControlWrapperDashboard, StyledDashboardInfo, StyledLink, StyledTopRowDashboardInfo } from '../styles';
+} from "../../../constants";
+import { useNodes } from "../../../modules/nodes/nodeQueries";
+import { useSearch } from "../../../modules/search/searchQueries";
+import { toSearch } from "../../../util/routeHelpers";
+import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
+import { ControlWrapperDashboard, StyledDashboardInfo, StyledLink, StyledTopRowDashboardInfo } from "../styles";
 
 const EXCLUDE_STATUSES = [PUBLISHED, UNPUBLISHED, ARCHIVED];
 
@@ -35,10 +35,10 @@ const getResultAggregationList = (
   searchResult: IMultiSearchResult | undefined,
   responibleSearchResult: IMultiSearchResult | undefined,
 ) => {
-  const aggData = searchResult?.aggregations.find((a) => a.field === 'draftStatus.current');
+  const aggData = searchResult?.aggregations.find((a) => a.field === "draftStatus.current");
   const aggDataExcludeStatuses = aggData?.values.filter((v) => !EXCLUDE_STATUSES.includes(v.value)) ?? [];
 
-  const responsibleAggData = responibleSearchResult?.aggregations.find((a) => a.field === 'draftStatus.current');
+  const responsibleAggData = responibleSearchResult?.aggregations.find((a) => a.field === "draftStatus.current");
   const responsibleAggDataExcludeStatuses =
     responsibleAggData?.values.filter((v) => !EXCLUDE_STATUSES.includes(v.value)) ?? [];
 
@@ -63,7 +63,7 @@ const LMASubjects = ({ ndlaId }: Props) => {
     {
       language: i18n.language,
       taxonomyVersion,
-      nodeType: 'SUBJECT',
+      nodeType: "SUBJECT",
       key: TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
       value: ndlaId,
     },
@@ -79,9 +79,9 @@ const LMASubjects = ({ ndlaId }: Props) => {
 
   const searchQuery = useSearch(
     {
-      'page-size': 0,
-      'aggregate-paths': 'draftStatus.current',
-      subjects: subjectIds?.join(', '),
+      "page-size": 0,
+      "aggregate-paths": "draftStatus.current",
+      subjects: subjectIds?.join(", "),
     },
     {
       enabled: userHasSubjectLMA,
@@ -90,10 +90,10 @@ const LMASubjects = ({ ndlaId }: Props) => {
 
   const searchResponsibleQuery = useSearch(
     {
-      'responsible-ids': ndlaId,
-      'page-size': 0,
-      'aggregate-paths': 'draftStatus.current',
-      subjects: subjectIds?.join(', '),
+      "responsible-ids": ndlaId,
+      "page-size": 0,
+      "aggregate-paths": "draftStatus.current",
+      subjects: subjectIds?.join(", "),
     },
     {
       enabled: userHasSubjectLMA,
@@ -102,14 +102,14 @@ const LMASubjects = ({ ndlaId }: Props) => {
 
   const error = useMemo(() => {
     if (subjectsQuery.isError || searchQuery.isError || searchResponsibleQuery.error) {
-      return t('welcomePage.errorMessage');
+      return t("welcomePage.errorMessage");
     }
   }, [searchQuery.isError, searchResponsibleQuery.error, subjectsQuery.isError, t]);
 
   const tableTitles = [
-    { title: t('welcomePage.workList.status') },
-    { title: t('welcomePage.count') },
-    { title: t('welcomePage.countResponsible') },
+    { title: t("welcomePage.workList.status") },
+    { title: t("welcomePage.count") },
+    { title: t("welcomePage.countResponsible") },
   ];
 
   const tableData: FieldElement[][] = useMemo(() => {
@@ -125,13 +125,13 @@ const LMASubjects = ({ ndlaId }: Props) => {
               <StyledLink
                 to={toSearch(
                   {
-                    page: '1',
-                    sort: '-relevance',
-                    'page-size': 10,
+                    page: "1",
+                    sort: "-relevance",
+                    "page-size": 10,
                     subjects: LMA_SUBJECT_ID,
-                    'draft-status': statusData.value,
+                    "draft-status": statusData.value,
                   },
-                  'content',
+                  "content",
                 )}
                 title={statusTitle}
               >
@@ -155,8 +155,8 @@ const LMASubjects = ({ ndlaId }: Props) => {
         <StyledDashboardInfo>
           <StyledTopRowDashboardInfo>
             <TableTitle
-              title={t('welcomePage.lmaSubjectsHeading')}
-              description={t('welcomePage.lmaSubjectsDescription')}
+              title={t("welcomePage.lmaSubjectsHeading")}
+              description={t("welcomePage.lmaSubjectsDescription")}
               Icon={BookOpen}
             />
             <ControlWrapperDashboard>
@@ -172,9 +172,9 @@ const LMASubjects = ({ ndlaId }: Props) => {
             tableTitleList={tableTitles}
             tableData={tableData}
             error={error}
-            noResultsText={`${t('welcomePage.noResultsLMASubjects')}: ${EXCLUDE_STATUSES.map((status) =>
+            noResultsText={`${t("welcomePage.noResultsLMASubjects")}: ${EXCLUDE_STATUSES.map((status) =>
               t(`form.status.actions.${status}`),
-            ).join(', ')}`}
+            ).join(", ")}`}
           />
         </StyledDashboardInfo>
       )}

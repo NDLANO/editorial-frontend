@@ -6,10 +6,10 @@
  *
  */
 
-import { Descendant } from 'slate';
-import { blockContentToEditorValue, blockContentToHTML } from '../../../../../util/articleContentConverter';
-import { TYPE_PARAGRAPH } from '../../paragraph/types';
-import { TYPE_SECTION } from '../../section/types';
+import { Descendant } from "slate";
+import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
+import { TYPE_PARAGRAPH } from "../../paragraph/types";
+import { TYPE_SECTION } from "../../section/types";
 import {
   TYPE_TABLE,
   TYPE_TABLE_CAPTION,
@@ -18,15 +18,15 @@ import {
   TYPE_TABLE_CELL,
   TYPE_TABLE_BODY,
   TYPE_TABLE_CELL_HEADER,
-} from '../types';
+} from "../types";
 
-describe('table serializing tests', () => {
-  test('serializing and deserialize table', () => {
+describe("table serializing tests", () => {
+  test("serializing and deserialize table", () => {
     const editor: Descendant[] = [
       {
         type: TYPE_SECTION,
         children: [
-          { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
 
           {
             type: TYPE_TABLE,
@@ -37,7 +37,7 @@ describe('table serializing tests', () => {
                 type: TYPE_TABLE_CAPTION,
                 children: [
                   {
-                    text: 'title',
+                    text: "title",
                   },
                 ],
               },
@@ -52,15 +52,15 @@ describe('table serializing tests', () => {
                         data: {
                           colspan: 1,
                           rowspan: 1,
-                          scope: 'col',
-                          id: '00',
+                          scope: "col",
+                          id: "00",
                         },
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: '1',
+                                text: "1",
                               },
                             ],
                           },
@@ -71,15 +71,15 @@ describe('table serializing tests', () => {
                         data: {
                           colspan: 1,
                           rowspan: 1,
-                          scope: 'col',
-                          id: '01',
+                          scope: "col",
+                          id: "01",
                         },
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: '2',
+                                text: "2",
                               },
                             ],
                           },
@@ -100,14 +100,14 @@ describe('table serializing tests', () => {
                         data: {
                           colspan: 1,
                           rowspan: 1,
-                          headers: '00',
+                          headers: "00",
                         },
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: '3',
+                                text: "3",
                               },
                             ],
                           },
@@ -118,14 +118,14 @@ describe('table serializing tests', () => {
                         data: {
                           colspan: 1,
                           rowspan: 1,
-                          headers: '01',
+                          headers: "01",
                         },
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: '4',
+                                text: "4",
                               },
                             ],
                           },
@@ -141,14 +141,14 @@ describe('table serializing tests', () => {
                         data: {
                           colspan: 1,
                           rowspan: 1,
-                          headers: '00',
+                          headers: "00",
                         },
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: '5',
+                                text: "5",
                               },
                             ],
                           },
@@ -159,14 +159,14 @@ describe('table serializing tests', () => {
                         data: {
                           colspan: 1,
                           rowspan: 1,
-                          headers: '01',
+                          headers: "01",
                         },
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: '6',
+                                text: "6",
                               },
                             ],
                           },
@@ -178,7 +178,7 @@ describe('table serializing tests', () => {
               },
             ],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
         ],
       },
     ];
@@ -193,12 +193,12 @@ describe('table serializing tests', () => {
     expect(deserialized).toEqual(editor);
   });
 
-  test('seriaize and deserialize table with row headers', () => {
+  test("seriaize and deserialize table with row headers", () => {
     const editor: Descendant[] = [
       {
         type: TYPE_SECTION,
         children: [
-          { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
 
           {
             type: TYPE_TABLE,
@@ -216,14 +216,14 @@ describe('table serializing tests', () => {
                         data: {
                           colspan: 1,
                           rowspan: 1,
-                          scope: 'col',
+                          scope: "col",
                         },
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: '1',
+                                text: "1",
                               },
                             ],
                           },
@@ -234,14 +234,14 @@ describe('table serializing tests', () => {
                         data: {
                           colspan: 1,
                           rowspan: 1,
-                          scope: 'col',
+                          scope: "col",
                         },
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: '2',
+                                text: "2",
                               },
                             ],
                           },
@@ -262,14 +262,14 @@ describe('table serializing tests', () => {
                         data: {
                           colspan: 1,
                           rowspan: 2,
-                          scope: 'row',
+                          scope: "row",
                         },
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: '3',
+                                text: "3",
                               },
                             ],
                           },
@@ -286,7 +286,7 @@ describe('table serializing tests', () => {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: '4',
+                                text: "4",
                               },
                             ],
                           },
@@ -308,7 +308,7 @@ describe('table serializing tests', () => {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: '5',
+                                text: "5",
                               },
                             ],
                           },
@@ -320,7 +320,7 @@ describe('table serializing tests', () => {
               },
             ],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
         ],
       },
     ];

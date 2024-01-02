@@ -6,49 +6,49 @@
  *
  */
 
-import { createRef, memo, MouseEvent, useCallback, useEffect, useMemo } from 'react';
-import { Editor, Element, Range } from 'slate';
-import { useFocused, useSlate } from 'slate-react';
-import styled from '@emotion/styled';
-import { Portal } from '@radix-ui/react-portal';
-import { colors, spacing } from '@ndla/core';
-import { handleClickInline, handleClickBlock, handleClickTable } from './handleMenuClicks';
-import ToolbarButton from './ToolbarButton';
-import getCurrentBlock from '../../utils/getCurrentBlock';
-import hasNodeWithProps from '../../utils/hasNodeWithProps';
-import { TYPE_DEFINITION_LIST } from '../definitionList/types';
-import hasDefinitionListItem from '../definitionList/utils/hasDefinitionListItem';
-import { LIST_TYPES as listTypes } from '../list/types';
-import hasListItem from '../list/utils/hasListItem';
-import { isMarkActive } from '../mark';
-import { toggleMark } from '../mark/utils';
-import { hasCellAlignOfType } from '../table/slateHelpers';
-import { TYPE_TABLE_CELL } from '../table/types';
+import { createRef, memo, MouseEvent, useCallback, useEffect, useMemo } from "react";
+import { Editor, Element, Range } from "slate";
+import { useFocused, useSlate } from "slate-react";
+import styled from "@emotion/styled";
+import { Portal } from "@radix-ui/react-portal";
+import { colors, spacing } from "@ndla/core";
+import { handleClickInline, handleClickBlock, handleClickTable } from "./handleMenuClicks";
+import ToolbarButton from "./ToolbarButton";
+import getCurrentBlock from "../../utils/getCurrentBlock";
+import hasNodeWithProps from "../../utils/hasNodeWithProps";
+import { TYPE_DEFINITION_LIST } from "../definitionList/types";
+import hasDefinitionListItem from "../definitionList/utils/hasDefinitionListItem";
+import { LIST_TYPES as listTypes } from "../list/types";
+import hasListItem from "../list/utils/hasListItem";
+import { isMarkActive } from "../mark";
+import { toggleMark } from "../mark/utils";
+import { hasCellAlignOfType } from "../table/slateHelpers";
+import { TYPE_TABLE_CELL } from "../table/types";
 
 const topicArticleElements: { [key: string]: string[] } = {
-  mark: ['bold', 'italic', 'code', 'sub', 'sup'],
-  block: ['quote', 'heading-2', 'heading-3', 'heading-4', 'definition-list', ...listTypes],
-  inline: ['link', 'mathml', 'concept', 'span'],
+  mark: ["bold", "italic", "code", "sub", "sup"],
+  block: ["quote", "heading-2", "heading-3", "heading-4", "definition-list", ...listTypes],
+  inline: ["link", "mathml", "concept", "span"],
 };
 
 const learningResourceElements: { [key: string]: string[] } = {
-  mark: ['bold', 'italic', 'code', 'sub', 'sup'],
-  block: ['quote', 'heading-2', 'heading-3', 'heading-4', 'definition-list', ...listTypes],
-  inline: ['link', 'mathml', 'concept', 'span'],
-  table: ['left', 'center', 'right'],
+  mark: ["bold", "italic", "code", "sub", "sup"],
+  block: ["quote", "heading-2", "heading-3", "heading-4", "definition-list", ...listTypes],
+  inline: ["link", "mathml", "concept", "span"],
+  table: ["left", "center", "right"],
 };
 
 const specialRules: { [key: string]: Partial<Element> } = {
-  'heading-2': {
-    type: 'heading',
+  "heading-2": {
+    type: "heading",
     level: 2,
   },
-  'heading-3': {
-    type: 'heading',
+  "heading-3": {
+    type: "heading",
     level: 3,
   },
-  'heading-4': {
-    type: 'heading',
+  "heading-4": {
+    type: "heading",
     level: 4,
   },
 };
@@ -78,7 +78,7 @@ const ToolbarSubMenu = styled.div`
 `;
 
 export const showToolbar = (toolbar: HTMLElement) => {
-  toolbar.style.display = 'block';
+  toolbar.style.display = "block";
   const native = window.getSelection();
   if (!native) {
     return;
@@ -86,7 +86,7 @@ export const showToolbar = (toolbar: HTMLElement) => {
   const range = native.getRangeAt(0);
   const rect = range.getBoundingClientRect();
 
-  toolbar.style.opacity = '1';
+  toolbar.style.opacity = "1";
   const left = rect.left + window.scrollX - toolbar.offsetWidth / 2 + rect.width / 2;
 
   toolbar.style.top = `${rect.top + window.scrollY - toolbar.offsetHeight}px`;
@@ -99,7 +99,7 @@ const SlateToolbar = () => {
   const inFocus = useFocused();
 
   const toolbarElements = useMemo(
-    () => (window.location.pathname.includes('learning-resource') ? learningResourceElements : topicArticleElements),
+    () => (window.location.pathname.includes("learning-resource") ? learningResourceElements : topicArticleElements),
     [],
   );
 
@@ -113,10 +113,10 @@ const SlateToolbar = () => {
       !selection ||
       !inFocus ||
       Range.isCollapsed(selection) ||
-      Editor.string(editor, selection) === '' ||
+      Editor.string(editor, selection) === "" ||
       !editor.shouldShowToolbar()
     ) {
-      menu.removeAttribute('style');
+      menu.removeAttribute("style");
       return;
     }
 
@@ -125,13 +125,13 @@ const SlateToolbar = () => {
 
   const onButtonClick = useCallback(
     (event: MouseEvent, kind: string, type: string) => {
-      if (kind === 'mark') {
+      if (kind === "mark") {
         toggleMark(event, editor, type);
-      } else if (kind === 'block') {
+      } else if (kind === "block") {
         handleClickBlock(event, editor, type);
-      } else if (kind === 'inline') {
+      } else if (kind === "inline") {
         handleClickInline(event, editor, type);
-      } else if (kind === 'table') {
+      } else if (kind === "table") {
         handleClickTable(event, editor, type);
       }
     },
@@ -140,7 +140,7 @@ const SlateToolbar = () => {
 
   const isActiveList = useCallback(
     (type: string) => {
-      if (type === 'definition-list') {
+      if (type === "definition-list") {
         const path = getCurrentBlock(editor, TYPE_DEFINITION_LIST)?.[1];
         if (path) {
           return hasDefinitionListItem(editor);
@@ -173,7 +173,7 @@ const SlateToolbar = () => {
               type={type}
               kind="block"
               isActive={
-                type.includes('list') ? isActiveList(type) : hasNodeWithProps(editor, specialRules[type] ?? { type })
+                type.includes("list") ? isActiveList(type) : hasNodeWithProps(editor, specialRules[type] ?? { type })
               }
               handleOnClick={onButtonClick}
             />

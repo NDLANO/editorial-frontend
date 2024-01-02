@@ -6,29 +6,29 @@
  *
  */
 
-import { useState } from 'react';
-import { Node } from '@ndla/types-taxonomy';
-import ConnectExistingNode from './sharedMenuOptions/ConnectExistingNode';
-import CopyRevisionDate from './sharedMenuOptions/CopyRevisionDate';
-import DeleteNode from './sharedMenuOptions/DeleteNode';
-import DisconnectFromParent from './sharedMenuOptions/DisconnectFromParent';
-import EditCustomFields from './sharedMenuOptions/EditCustomFields';
-import EditGrepCodes from './sharedMenuOptions/EditGrepCodes';
-import MoveExistingNode from './sharedMenuOptions/MoveExistingNode';
-import RequestNodePublish from './sharedMenuOptions/RequestNodePublish';
-import ToggleVisibility from './sharedMenuOptions/ToggleVisibility';
-import ToNodeDiff from './sharedMenuOptions/ToNodeDiff';
-import ChangeNodeName from './subjectMenuOptions/ChangeNodeName';
-import EditSubjectpageOption from './subjectMenuOptions/EditSubjectpageOption';
-import CopyNodeResources from './topicMenuOptions/CopyNodeResources';
-import PublishChildNodeResources from './topicMenuOptions/PublishChildNodeResources';
-import SetResourcesPrimary from './topicMenuOptions/SetResourcesPrimary';
-import SwapTopicArticle from './topicMenuOptions/SwapTopicArticle';
-import { TAXONOMY_ADMIN_SCOPE } from '../../../constants';
-import { EditMode } from '../../../interfaces';
-import { PROGRAMME, SUBJECT_NODE, TOPIC_NODE } from '../../../modules/nodes/nodeApiTypes';
-import { getNodeTypeFromNodeId } from '../../../modules/nodes/nodeUtil';
-import { useSession } from '../../Session/SessionProvider';
+import { useState } from "react";
+import { Node } from "@ndla/types-taxonomy";
+import ConnectExistingNode from "./sharedMenuOptions/ConnectExistingNode";
+import CopyRevisionDate from "./sharedMenuOptions/CopyRevisionDate";
+import DeleteNode from "./sharedMenuOptions/DeleteNode";
+import DisconnectFromParent from "./sharedMenuOptions/DisconnectFromParent";
+import EditCustomFields from "./sharedMenuOptions/EditCustomFields";
+import EditGrepCodes from "./sharedMenuOptions/EditGrepCodes";
+import MoveExistingNode from "./sharedMenuOptions/MoveExistingNode";
+import RequestNodePublish from "./sharedMenuOptions/RequestNodePublish";
+import ToggleVisibility from "./sharedMenuOptions/ToggleVisibility";
+import ToNodeDiff from "./sharedMenuOptions/ToNodeDiff";
+import ChangeNodeName from "./subjectMenuOptions/ChangeNodeName";
+import EditSubjectpageOption from "./subjectMenuOptions/EditSubjectpageOption";
+import CopyNodeResources from "./topicMenuOptions/CopyNodeResources";
+import PublishChildNodeResources from "./topicMenuOptions/PublishChildNodeResources";
+import SetResourcesPrimary from "./topicMenuOptions/SetResourcesPrimary";
+import SwapTopicArticle from "./topicMenuOptions/SwapTopicArticle";
+import { TAXONOMY_ADMIN_SCOPE } from "../../../constants";
+import { EditMode } from "../../../interfaces";
+import { PROGRAMME, SUBJECT_NODE, TOPIC_NODE } from "../../../modules/nodes/nodeApiTypes";
+import { getNodeTypeFromNodeId } from "../../../modules/nodes/nodeUtil";
+import { useSession } from "../../Session/SessionProvider";
 
 interface Props {
   rootNodeId: string;
@@ -44,9 +44,9 @@ export interface EditModeHandler {
 
 const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, nodeChildren }: Props) => {
   const { userPermissions } = useSession();
-  const [editMode, setEditMode] = useState<EditMode>('');
+  const [editMode, setEditMode] = useState<EditMode>("");
   const nodeType = getNodeTypeFromNodeId(node.id);
-  const toggleEditMode = (mode: EditMode) => setEditMode((prev) => (mode === prev ? '' : mode));
+  const toggleEditMode = (mode: EditMode) => setEditMode((prev) => (mode === prev ? "" : mode));
   const editModeHandler = { editMode, toggleEditMode };
 
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);

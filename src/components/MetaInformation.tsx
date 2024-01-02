@@ -6,9 +6,9 @@
  *
  */
 
-import { ReactNode } from 'react';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
+import { ReactNode } from "react";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
 
 const StyleMetaInformation = styled.div`
   display: flex;
@@ -36,9 +36,9 @@ const MetaInformation = ({ title, copyright, translations, action, alt }: Props)
   <StyleMetaInformation>
     <div>{action || null}</div>
     <div>
-      <StyledStrong>{title ? translations.title : ''}</StyledStrong>
+      <StyledStrong>{title ? translations.title : ""}</StyledStrong>
       <span>{title}</span>
-      <StyledStrong>{copyright ? translations.copyright : ''}</StyledStrong>
+      <StyledStrong>{copyright ? translations.copyright : ""}</StyledStrong>
       <span>{copyright}</span>
       {!!alt && (
         <>

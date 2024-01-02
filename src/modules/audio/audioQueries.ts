@@ -6,16 +6,16 @@
  *
  */
 
-import { useQuery, UseQueryOptions } from '@tanstack/react-query';
+import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import {
   IAudioMetaInformation,
   IAudioSummarySearchResult,
   ISeriesSummarySearchResult,
   ISeries,
-} from '@ndla/types-backend/audio-api';
-import { fetchAudio, fetchSeries, searchAudio, searchSeries } from './audioApi';
-import { AudioSearchParams, SeriesSearchParams } from './audioApiInterfaces';
-import { AUDIO, PODCAST_SERIES, SEARCH_AUDIO, SEARCH_SERIES } from '../../queryKeys';
+} from "@ndla/types-backend/audio-api";
+import { fetchAudio, fetchSeries, searchAudio, searchSeries } from "./audioApi";
+import { AudioSearchParams, SeriesSearchParams } from "./audioApiInterfaces";
+import { AUDIO, PODCAST_SERIES, SEARCH_AUDIO, SEARCH_SERIES } from "../../queryKeys";
 
 export interface UseAudio {
   id: number;

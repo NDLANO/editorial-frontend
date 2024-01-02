@@ -6,61 +6,61 @@
  *
  */
 
-import { Descendant } from 'slate';
-import { blockContentToEditorValue, blockContentToHTML } from '../../../../../util/articleContentConverter';
-import { TYPE_SECTION } from '../../section/types';
+import { Descendant } from "slate";
+import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
+import { TYPE_SECTION } from "../../section/types";
 
 const editor: Descendant[] = [
   {
     type: TYPE_SECTION,
     children: [
       {
-        type: 'paragraph',
+        type: "paragraph",
         children: [
           {
             bold: true,
-            text: 'bold',
+            text: "bold",
           },
         ],
       },
       {
-        type: 'paragraph',
+        type: "paragraph",
         children: [
           {
             italic: true,
-            text: 'italic',
+            text: "italic",
           },
         ],
       },
       {
-        type: 'paragraph',
+        type: "paragraph",
         children: [
           {
             sup: true,
-            text: 'sup',
+            text: "sup",
           },
         ],
       },
       {
-        type: 'paragraph',
+        type: "paragraph",
         children: [
           {
             sub: true,
-            text: 'sub',
+            text: "sub",
           },
         ],
       },
       {
-        type: 'paragraph',
+        type: "paragraph",
         children: [
           {
             code: true,
-            text: 'code',
+            text: "code",
           },
         ],
       },
       {
-        type: 'paragraph',
+        type: "paragraph",
         children: [
           {
             bold: true,
@@ -68,7 +68,7 @@ const editor: Descendant[] = [
             italic: true,
             sub: true,
             sup: true,
-            text: 'all',
+            text: "all",
           },
         ],
       },
@@ -77,15 +77,15 @@ const editor: Descendant[] = [
 ];
 
 const html =
-  '<section><p><strong>bold</strong></p><p><em>italic</em></p><p><sup>sup</sup></p><p><sub>sub</sub></p><p><code>code</code></p><p><code><sub><sup><em><strong>all</strong></em></sup></sub></code></p></section>';
+  "<section><p><strong>bold</strong></p><p><em>italic</em></p><p><sup>sup</sup></p><p><sub>sub</sub></p><p><code>code</code></p><p><code><sub><sup><em><strong>all</strong></em></sup></sub></code></p></section>";
 
-describe('mark serializing tests', () => {
-  test('serializing', () => {
+describe("mark serializing tests", () => {
+  test("serializing", () => {
     const res = blockContentToHTML(editor);
     expect(res).toMatch(html);
   });
 
-  test('deserializing', () => {
+  test("deserializing", () => {
     const res = blockContentToEditorValue(html);
     expect(res).toEqual(editor);
   });

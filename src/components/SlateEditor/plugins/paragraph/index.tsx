@@ -6,20 +6,20 @@
  *
  */
 
-import { Editor, Node, Element, Descendant, Text, Path, Transforms } from 'slate';
-import { jsx as slatejsx } from 'slate-hyperscript';
-import { TYPE_PARAGRAPH } from './types';
-import { getCurrentParagraph, isParagraph } from './utils';
-import { reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
-import { SlateSerializer } from '../../interfaces';
-import containsVoid from '../../utils/containsVoid';
-import { KEY_ENTER } from '../../utils/keys';
-import { TYPE_BREAK } from '../break/types';
-import { TYPE_LIST_ITEM } from '../list/types';
-import { TYPE_TABLE_CELL } from '../table/types';
+import { Editor, Node, Element, Descendant, Text, Path, Transforms } from "slate";
+import { jsx as slatejsx } from "slate-hyperscript";
+import { TYPE_PARAGRAPH } from "./types";
+import { getCurrentParagraph, isParagraph } from "./utils";
+import { reduceElementDataAttributes } from "../../../../util/embedTagHelpers";
+import { SlateSerializer } from "../../interfaces";
+import containsVoid from "../../utils/containsVoid";
+import { KEY_ENTER } from "../../utils/keys";
+import { TYPE_BREAK } from "../break/types";
+import { TYPE_LIST_ITEM } from "../list/types";
+import { TYPE_TABLE_CELL } from "../table/types";
 
 export interface ParagraphElement {
-  type: 'paragraph';
+  type: "paragraph";
   data?: {
     align?: string;
   };
@@ -43,37 +43,37 @@ const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: Keybo
    throughout the document to enable positioning the cursor between element with no
    spacing (i.e two images).
    */
-  if (Node.string(currentParagraph) === '' && !containsVoid(editor, currentParagraph)) {
+  if (Node.string(currentParagraph) === "" && !containsVoid(editor, currentParagraph)) {
     editor.insertNode({
       type: TYPE_BREAK,
-      children: [{ text: '' }],
+      children: [{ text: "" }],
     });
 
     editor.insertNode({
       type: TYPE_PARAGRAPH,
-      children: [{ text: '' }],
+      children: [{ text: "" }],
     });
     return;
   }
 
   if (e.shiftKey === true) {
-    return editor.insertText('\n');
+    return editor.insertText("\n");
   }
 
   return editor.insertNode({
     type: TYPE_PARAGRAPH,
-    children: [{ text: '' }],
+    children: [{ text: "" }],
   });
 };
 
 export const paragraphSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
-    if (el.tagName.toLowerCase() !== 'p') return;
+    if (el.tagName.toLowerCase() !== "p") return;
 
-    const data = reduceElementDataAttributes(el, ['align', 'data-align']);
+    const data = reduceElementDataAttributes(el, ["align", "data-align"]);
 
     return slatejsx(
-      'element',
+      "element",
       {
         type: TYPE_PARAGRAPH,
         ...(Object.keys(data).length > 0 ? { data } : {}),
@@ -91,13 +91,13 @@ export const paragraphSerializer: SlateSerializer = {
       on seriaization.
      */
 
-    if (Node.string(node) === '' && node.children.length === 1 && Text.isText(node.children[0])) return null;
+    if (Node.string(node) === "" && node.children.length === 1 && Text.isText(node.children[0])) return null;
 
     if (node.serializeAsText) {
       return <>{children}</>;
     }
 
-    const attributes = node.data?.align ? { 'data-align': node.data.align } : {};
+    const attributes = node.data?.align ? { "data-align": node.data.align } : {};
     return <p {...attributes}>{children}</p>;
   },
 };
@@ -126,16 +126,16 @@ export const paragraphPlugin = (editor: Editor) => {
         parentNode.type !== TYPE_LIST_ITEM &&
         node.serializeAsText
       ) {
-        return Transforms.unsetNodes(editor, 'serializeAsText', { at: path });
+        return Transforms.unsetNodes(editor, "serializeAsText", { at: path });
       }
 
       // If two paragraphs are direct siblings, make sure both will be rendered with <p>-tag
       if (Path.hasPrevious(path)) {
         const [previousNode] = Editor.node(editor, Path.previous(path));
         if (isParagraph(previousNode) && (previousNode.serializeAsText || node.serializeAsText)) {
-          return Transforms.unsetNodes(editor, 'serializeAsText', {
+          return Transforms.unsetNodes(editor, "serializeAsText", {
             at: Path.parent(path),
-            mode: 'all',
+            mode: "all",
             match: isParagraph,
           });
         }
@@ -143,9 +143,9 @@ export const paragraphPlugin = (editor: Editor) => {
       if (Editor.hasPath(editor, Path.next(path))) {
         const [nextNode] = Editor.node(editor, Path.next(path));
         if (isParagraph(nextNode) && (nextNode.serializeAsText || node.serializeAsText)) {
-          return Transforms.unsetNodes(editor, 'serializeAsText', {
+          return Transforms.unsetNodes(editor, "serializeAsText", {
             at: Path.parent(path),
-            mode: 'all',
+            mode: "all",
             match: isParagraph,
           });
         }

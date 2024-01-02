@@ -6,15 +6,15 @@
  *
  */
 
-import { MouseEvent } from 'react';
-import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
-import { spacing, spacingUnit, colors } from '@ndla/core';
-import { Link } from '@ndla/icons/common';
-import { DragHorizontal, DeleteForever } from '@ndla/icons/editor';
-import Tooltip from '@ndla/tooltip';
-import { IRelatedContentLink } from '@ndla/types-backend/draft-api';
-import { StyledListItem } from './ElementListItem';
+import { MouseEvent } from "react";
+import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
+import { spacing, spacingUnit, colors } from "@ndla/core";
+import { Link } from "@ndla/icons/common";
+import { DragHorizontal, DeleteForever } from "@ndla/icons/editor";
+import Tooltip from "@ndla/tooltip";
+import { IRelatedContentLink } from "@ndla/types-backend/draft-api";
+import { StyledListItem } from "./ElementListItem";
 
 const ELEMENT_HEIGHT = 69;
 
@@ -74,9 +74,9 @@ const ElementListLink = ({
         <div>
           {isOrderable ? (
             showDragTooltip ? (
-              <Tooltip tooltip={messages?.dragElement || ''}>
+              <Tooltip tooltip={messages?.dragElement || ""}>
                 <DraggableIconButton
-                  aria-label={messages?.dragElement || ''}
+                  aria-label={messages?.dragElement || ""}
                   variant="ghost"
                   colorTheme="light"
                   onMouseDown={(e) => onDragStart(e, index)}
@@ -87,7 +87,7 @@ const ElementListLink = ({
               </Tooltip>
             ) : (
               <DraggableIconButton
-                aria-label={messages?.dragElement || ''}
+                aria-label={messages?.dragElement || ""}
                 variant="ghost"
                 colorTheme="light"
                 onMouseDown={(e) => onDragStart(e, index)}
@@ -97,9 +97,9 @@ const ElementListLink = ({
               </DraggableIconButton>
             )
           ) : null}
-          <Tooltip tooltip={messages?.removeElement || ''}>
+          <Tooltip tooltip={messages?.removeElement || ""}>
             <IconButtonV2
-              aria-label={messages?.removeElement || ''}
+              aria-label={messages?.removeElement || ""}
               variant="ghost"
               colorTheme="danger"
               onClick={() => deleteFile(index)}

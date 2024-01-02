@@ -6,8 +6,8 @@
  *
  */
 
-import { grepUrl, resolveJsonOrRejectWithError } from '../../util/apiHelpers';
-import handleError from '../../util/handleError';
+import { grepUrl, resolveJsonOrRejectWithError } from "../../util/apiHelpers";
+import handleError from "../../util/handleError";
 
 interface Tekst {
   tekst: Title[];
@@ -21,9 +21,9 @@ export interface UdirCoreType {
   id: string;
   kode: string;
   uri: string;
-  'url-data': string;
+  "url-data": string;
   tittel: Title[];
-  'grep-type': string;
+  "grep-type": string;
 }
 
 export interface KjerneElementer extends UdirCoreType {
@@ -31,7 +31,7 @@ export interface KjerneElementer extends UdirCoreType {
   tilhoerer_laereplan: {
     kode: string;
     uri: string;
-    'url-data': string;
+    "url-data": string;
   };
 }
 
@@ -49,7 +49,7 @@ export interface KompetanseMaal extends UdirCoreType {
   tilhoerer_laereplan: {
     kode: string;
     uri: string;
-    'url-data': string;
+    "url-data": string;
   };
 }
 
@@ -61,7 +61,7 @@ const getTitlesObject = (titles: Tekst | Title[] | undefined): Title[] => {
 
 // Uses nob, but falls back to default if missing.
 const getTitle = (titles: Title[]): string | undefined => {
-  const title = titles.find((t) => t.spraak === 'nob') || titles.find((t) => t.spraak === 'default');
+  const title = titles.find((t) => t.spraak === "nob") || titles.find((t) => t.spraak === "default");
   return title?.verdi;
 };
 
@@ -76,13 +76,13 @@ const fetchKompetansemaalsett = async (code: string) => fetch(grepUrl(`/kompetan
 const fetchLaereplaner = async (code: string) => fetch(grepUrl(`/laereplaner-lk20/${code}`));
 
 const doGrepCodeRequest = async (code: string) => {
-  if (code.startsWith('KE')) {
+  if (code.startsWith("KE")) {
     return fetchKjerneelementer(code);
-  } else if (code.startsWith('KM')) {
+  } else if (code.startsWith("KM")) {
     return fetchKompetansemaal(code);
-  } else if (code.startsWith('TT')) {
+  } else if (code.startsWith("TT")) {
     return fetchTverrfagligeTemaer(code);
-  } else if (code.startsWith('KV')) {
+  } else if (code.startsWith("KV")) {
     return fetchKompetansemaalsett(code);
   } else {
     return fetchLaereplaner(code);

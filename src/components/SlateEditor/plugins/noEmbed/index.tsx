@@ -6,12 +6,12 @@
  *
  */
 
-import { Descendant, Editor } from 'slate';
-import { Embed } from '../../../../interfaces';
-import { parseEmbedTag } from '../../../../util/embedTagHelpers';
-import { SlateSerializer } from '../../interfaces';
-import { TYPE_NDLA_EMBED } from '../embed/types';
-import { defaultEmbedBlock, isSlateEmbed } from '../embed/utils';
+import { Descendant, Editor } from "slate";
+import { Embed } from "../../../../interfaces";
+import { parseEmbedTag } from "../../../../util/embedTagHelpers";
+import { SlateSerializer } from "../../interfaces";
+import { TYPE_NDLA_EMBED } from "../embed/types";
+import { defaultEmbedBlock, isSlateEmbed } from "../embed/utils";
 
 export const noEmbedSerializer: SlateSerializer = {
   deserialize(el: HTMLElement) {

@@ -6,28 +6,28 @@
  *
  */
 
-import he from 'he';
-import { useCallback, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Editor, Node, Path, Transforms } from 'slate';
-import { ReactEditor, RenderElementProps } from 'slate-react';
-import styled from '@emotion/styled';
-import { Content, Root, Trigger } from '@radix-ui/react-popover';
-import { ButtonV2 } from '@ndla/button';
-import { colors, spacing } from '@ndla/core';
-import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
-import { MathmlElement } from '.';
-import EditMath, { MathMLType, emptyMathTag } from './EditMath';
-import MathML from './MathML';
-import AlertModal from '../../../AlertModal';
-import mergeLastUndos from '../../utils/mergeLastUndos';
+import he from "he";
+import { useCallback, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Node, Path, Transforms } from "slate";
+import { ReactEditor, RenderElementProps } from "slate-react";
+import styled from "@emotion/styled";
+import { Content, Root, Trigger } from "@radix-ui/react-popover";
+import { ButtonV2 } from "@ndla/button";
+import { colors, spacing } from "@ndla/core";
+import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
+import { MathmlElement } from ".";
+import EditMath, { MathMLType, emptyMathTag } from "./EditMath";
+import MathML from "./MathML";
+import AlertModal from "../../../AlertModal";
+import mergeLastUndos from "../../utils/mergeLastUndos";
 
 const getInfoFromNode = (node: MathmlElement) => {
   const data = node.data ? node.data : {};
   const innerHTML = data.innerHTML || `<mn>${he.encode(Node.string(node))}</mn>`;
   return {
     model: {
-      innerHTML: innerHTML.startsWith('<math')
+      innerHTML: innerHTML.startsWith("<math")
         ? innerHTML
         : `<math xmlns="http://www.w3.org/1998/Math/MathML">${innerHTML}</math>`,
       xlmns: data.xlmns || 'xmlns="http://www.w3.org/1998/Math/MathML',
@@ -42,7 +42,7 @@ const StyledContent = styled(Content)`
 `;
 
 const MathWrapper = styled.span`
-  &[data-state='open'] {
+  &[data-state="open"] {
     box-shadow: 0 0 0 1px ${colors.brand.tertiary};
   }
 `;
@@ -108,9 +108,9 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
             match: (node) => node === element,
           });
 
-          const mathAsString = new DOMParser().parseFromString(mathML, 'text/xml').firstChild?.textContent;
+          const mathAsString = new DOMParser().parseFromString(mathML, "text/xml").firstChild?.textContent;
 
-          Transforms.insertText(editor, mathAsString || '', {
+          Transforms.insertText(editor, mathAsString || "", {
             at: path,
             voids: true,
           });
@@ -186,10 +186,10 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
           <StyledContent>
             <StyledMenu>
               <ModalTrigger>
-                <ButtonV2 variant="link">{t('form.edit')}</ButtonV2>
+                <ButtonV2 variant="link">{t("form.edit")}</ButtonV2>
               </ModalTrigger>
               <ButtonV2 variant="link" onClick={handleRemove}>
-                {t('form.remove')}
+                {t("form.remove")}
               </ButtonV2>
             </StyledMenu>
           </StyledContent>
@@ -206,17 +206,17 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
           setMathEditor={setMathEditor}
         />
         <AlertModal
-          title={t('unsavedChanges')}
-          label={t('unsavedChanges')}
+          title={t("unsavedChanges")}
+          label={t("unsavedChanges")}
           show={openDiscardModal}
-          text={t('mathEditor.continue')}
+          text={t("mathEditor.continue")}
           actions={[
             {
-              text: t('form.abort'),
+              text: t("form.abort"),
               onClick: () => setOpenDiscardModal(false),
             },
             {
-              text: t('alertModal.continue'),
+              text: t("alertModal.continue"),
               onClick: onExit,
             },
           ]}

@@ -6,17 +6,17 @@
  *
  */
 
-import { ReactNode, useState, KeyboardEvent } from 'react';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { Done } from '@ndla/icons/editor';
-import CustomFieldButton from './CustomFieldButton';
-import RoundIcon from '../../../../../components/RoundIcon';
-import Spinner from '../../../../../components/Spinner';
-import handleError from '../../../../../util/handleError';
-import { StyledErrorMessage, StyledMenuItemInputField } from '../../styles';
+import { ReactNode, useState, KeyboardEvent } from "react";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { Done } from "@ndla/icons/editor";
+import CustomFieldButton from "./CustomFieldButton";
+import RoundIcon from "../../../../../components/RoundIcon";
+import Spinner from "../../../../../components/Spinner";
+import handleError from "../../../../../util/handleError";
+import { StyledErrorMessage, StyledMenuItemInputField } from "../../styles";
 
-const StyledMenuItemEditField = styled('div')`
+const StyledMenuItemEditField = styled("div")`
   display: flex;
   align-items: center;
   margin: ${spacing.xsmall};
@@ -39,33 +39,33 @@ interface Props {
 const MenuItemEditField = ({
   onSubmit,
   onClose,
-  currentVal = '',
+  currentVal = "",
   icon,
   messages = {},
-  dataTestid = 'inlineEditInput',
+  dataTestid = "inlineEditInput",
   placeholder,
   autoFocus,
 }: Props) => {
-  const [status, setStatus] = useState('initial');
+  const [status, setStatus] = useState("initial");
   const [input, setInput] = useState<string>(currentVal);
 
   const handleSubmit = async () => {
-    setStatus('loading');
+    setStatus("loading");
     try {
       await onSubmit(input);
-      setStatus('success');
+      setStatus("success");
       onClose();
     } catch (e) {
       handleError(e);
-      setStatus('error');
+      setStatus("error");
     }
   };
 
   const handleKeyPress = (e: KeyboardEvent) => {
-    if (e.key === 'Escape') {
-      setStatus('initial');
+    if (e.key === "Escape") {
+      setStatus("initial");
     }
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleSubmit();
     }
   };
@@ -85,15 +85,15 @@ const MenuItemEditField = ({
           // eslint-disable-next-line jsx-a11y/no-autofocus
           autoFocus={autoFocus}
         />
-        <CustomFieldButton data-testid="inlineEditSaveButton" disabled={status === 'loading'} onClick={handleSubmit}>
-          {status === 'loading' ? (
+        <CustomFieldButton data-testid="inlineEditSaveButton" disabled={status === "loading"} onClick={handleSubmit}>
+          {status === "loading" ? (
             <Spinner appearance="small" data-testid="inlineEditSpinner" />
           ) : (
             <Done size="small" />
           )}
         </CustomFieldButton>
       </StyledMenuItemEditField>
-      {status === 'error' && (
+      {status === "error" && (
         <StyledErrorMessage data-testid="inlineEditErrorMessage">{messages.errorMessage}</StyledErrorMessage>
       )}
     </>

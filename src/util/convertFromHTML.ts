@@ -16,11 +16,11 @@
 
 /* eslint-disable no-continue, no-param-reassign, no-restricted-syntax  */
 
-import { Descendant, Element, Text, Node } from 'slate';
-import { jsx as slatejsx } from 'slate-hyperscript';
-import { blocks, inlines } from '../components/SlateEditor/helpers';
-import { ParagraphElement } from '../components/SlateEditor/plugins/paragraph';
-import { defaultParagraphBlock } from '../components/SlateEditor/plugins/paragraph/utils';
+import { Descendant, Element, Text, Node } from "slate";
+import { jsx as slatejsx } from "slate-hyperscript";
+import { blocks, inlines } from "../components/SlateEditor/helpers";
+import { ParagraphElement } from "../components/SlateEditor/plugins/paragraph";
+import { defaultParagraphBlock } from "../components/SlateEditor/plugins/paragraph/utils";
 
 const addEmptyTextNodes = (node: Element) => {
   const { children } = node;
@@ -28,9 +28,9 @@ const addEmptyTextNodes = (node: Element) => {
   node.children = children.reduce((acc, cur, index) => {
     if (!Text.isText(cur)) {
       if (index === 0) {
-        acc.push({ text: '' });
+        acc.push({ text: "" });
       } else if (!Text.isText(acc[acc.length - 1])) {
-        acc.push({ text: '' });
+        acc.push({ text: "" });
       }
     }
 
@@ -38,7 +38,7 @@ const addEmptyTextNodes = (node: Element) => {
     return acc;
   }, [] as Descendant[]);
   if (!Text.isText(node.children[node.children.length - 1])) {
-    node.children.push({ text: '' });
+    node.children.push({ text: "" });
   }
 };
 
@@ -88,17 +88,17 @@ export function convertFromHTML(root: Descendant | null) {
       let openWrapperBlock;
       for (const child of children) {
         if (Text.isText(child) || (Element.isElement(child) && inlines.includes(child.type))) {
-          if (Node.string(child) === '' || Node.string(child) === ' ') {
+          if (Node.string(child) === "" || Node.string(child) === " ") {
             continue;
           }
           if (!openWrapperBlock) {
-            openWrapperBlock = slatejsx('element', { type: 'paragraph' }, []) as ParagraphElement;
+            openWrapperBlock = slatejsx("element", { type: "paragraph" }, []) as ParagraphElement;
             cleanNodes.push(openWrapperBlock);
           }
           openWrapperBlock.children.push(child);
         } else {
           openWrapperBlock = null;
-          if (child.type === 'paragraph' && child.children.length === 0) {
+          if (child.type === "paragraph" && child.children.length === 0) {
             continue;
           }
           cleanNodes.push(child);

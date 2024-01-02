@@ -6,11 +6,11 @@
  *
  */
 
-import queryString from 'query-string';
-import { IArticleV2, ISearchResultV2 } from '@ndla/types-backend/article-api';
-import { resolveJsonOrRejectWithError, apiResourceUrl, fetchAuthorized } from '../../util/apiHelpers';
+import queryString from "query-string";
+import { IArticleV2, ISearchResultV2 } from "@ndla/types-backend/article-api";
+import { resolveJsonOrRejectWithError, apiResourceUrl, fetchAuthorized } from "../../util/apiHelpers";
 
-const articleUrl = apiResourceUrl('/article-api/v2/articles');
+const articleUrl = apiResourceUrl("/article-api/v2/articles");
 
 export interface ArticleSearchParams {
   query?: string;
@@ -25,11 +25,11 @@ export interface ArticleSearchParams {
 
 export const searchArticles = (params?: ArticleSearchParams): Promise<ISearchResultV2> => {
   const stringifiedParams = queryString.stringify(params);
-  const query = params ? `?${stringifiedParams}` : '';
+  const query = params ? `?${stringifiedParams}` : "";
   return fetchAuthorized(`${articleUrl}/${query}`).then((r) => resolveJsonOrRejectWithError<ISearchResultV2>(r));
 };
 
-export const getArticle = (id: number, locale: string = 'nb'): Promise<IArticleV2> =>
+export const getArticle = (id: number, locale: string = "nb"): Promise<IArticleV2> =>
   fetchAuthorized(`${articleUrl}/${id}?language=${locale}&fallback=true`).then((r) =>
     resolveJsonOrRejectWithError<IArticleV2>(r),
   );

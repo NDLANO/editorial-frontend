@@ -6,14 +6,14 @@
  *
  */
 
-import { useState, KeyboardEvent } from 'react';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { DeleteForever, Done } from '@ndla/icons/editor';
-import { Metadata } from '@ndla/types-taxonomy';
-import CustomFieldButton from './CustomFieldButton';
-import RoundIcon from '../../../../../components/RoundIcon';
-import { StyledMenuItemEditField, StyledMenuItemInputField } from '../../styles';
+import { useState, KeyboardEvent } from "react";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { DeleteForever, Done } from "@ndla/icons/editor";
+import { Metadata } from "@ndla/types-taxonomy";
+import CustomFieldButton from "./CustomFieldButton";
+import RoundIcon from "../../../../../components/RoundIcon";
+import { StyledMenuItemEditField, StyledMenuItemInputField } from "../../styles";
 
 interface Props {
   onSubmit: (prevState: any) => void;
@@ -31,9 +31,9 @@ const StyledCustomFieldButton = styled(CustomFieldButton)`
 const CustomFieldComponent = ({
   onSubmit,
   onClose,
-  initialKey = '',
-  initialVal = '',
-  dataTestid = 'customFieldComponent',
+  initialKey = "",
+  initialVal = "",
+  dataTestid = "customFieldComponent",
   placeholder,
 }: Props) => {
   const [currentKey, setCurrentKey] = useState<string | undefined>(undefined);
@@ -43,20 +43,23 @@ const CustomFieldComponent = ({
     const newPair: Record<string, string> = {};
     if (initialKey !== currentKey && currentKey != null) {
       newPair[currentKey] = currentVal ?? initialVal;
-      onSubmit((prevState: Metadata['customFields']) => {
+      onSubmit((prevState: Metadata["customFields"]) => {
         delete prevState[initialKey];
         return { ...prevState, ...newPair };
       });
     } else if (initialVal !== currentVal && currentVal != null) {
       newPair[initialKey] = currentVal;
-      onSubmit((prevState: Metadata['customFields']) => ({ ...prevState, ...newPair }));
+      onSubmit((prevState: Metadata["customFields"]) => ({
+        ...prevState,
+        ...newPair,
+      }));
     }
     onClose?.();
   };
 
   const handleDelete = () => {
-    if (initialKey !== '') {
-      onSubmit((prevState: Metadata['customFields']) => {
+    if (initialKey !== "") {
+      onSubmit((prevState: Metadata["customFields"]) => {
         delete prevState[initialKey];
         return { ...prevState };
       });
@@ -64,10 +67,10 @@ const CustomFieldComponent = ({
   };
 
   const handleKeyPress = (e: KeyboardEvent) => {
-    if (e.key === 'Escape') {
+    if (e.key === "Escape") {
       onClose?.();
     }
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleSubmit();
     }
   };
@@ -92,7 +95,7 @@ const CustomFieldComponent = ({
           onChange={(e) => setCurrentVal(e.target.value)}
           onKeyDown={handleKeyPress}
         />
-        <CustomFieldButton onClick={handleSubmit} data-testid={'CustomFieldSaveButton'}>
+        <CustomFieldButton onClick={handleSubmit} data-testid={"CustomFieldSaveButton"}>
           <Done size="small" />
         </CustomFieldButton>
         <StyledCustomFieldButton onClick={handleDelete}>

@@ -6,11 +6,11 @@
  *
  */
 
-import loadable from '@loadable/component';
-import ResourcePage from '../../components/ResourcePage';
-import { useSeries } from '../../modules/audio/audioQueries';
-const CreatePodcastSeries = loadable(() => import('./CreatePodcastSeries'));
-const EditPodcastSeries = loadable(() => import('./EditPodcastSeries'));
+import loadable from "@loadable/component";
+import ResourcePage from "../../components/ResourcePage";
+import { useSeries } from "../../modules/audio/audioQueries";
+const CreatePodcastSeries = loadable(() => import("./CreatePodcastSeries"));
+const EditPodcastSeries = loadable(() => import("./EditPodcastSeries"));
 
 const PodcastSeriesPage = () => (
   <ResourcePage

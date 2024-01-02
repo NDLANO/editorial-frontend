@@ -6,15 +6,15 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { DeleteForever } from '@ndla/icons/editor';
-import { Switch } from '@ndla/switch';
-import RoundIcon from '../../../../components/RoundIcon';
-import { TAXONOMY_CUSTOM_FIELD_PROGRAMME_SUBJECT } from '../../../../constants';
-import CustomFieldButton from '../sharedMenuOptions/components/CustomFieldButton';
-import { StyledMenuItemEditField, StyledMenuItemInputField } from '../styles';
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { DeleteForever } from "@ndla/icons/editor";
+import { Switch } from "@ndla/switch";
+import RoundIcon from "../../../../components/RoundIcon";
+import { TAXONOMY_CUSTOM_FIELD_PROGRAMME_SUBJECT } from "../../../../constants";
+import CustomFieldButton from "../sharedMenuOptions/components/CustomFieldButton";
+import { StyledMenuItemEditField, StyledMenuItemInputField } from "../styles";
 
 interface Props {
   customFields: Record<string, string>;
@@ -27,13 +27,13 @@ const StyledCustomFieldButton = styled(CustomFieldButton)`
 
 const ToggleProgrammeSubject = ({ customFields, updateFields }: Props) => {
   const { t } = useTranslation();
-  const isToggled = customFields[TAXONOMY_CUSTOM_FIELD_PROGRAMME_SUBJECT]?.toLowerCase() === 'true';
+  const isToggled = customFields[TAXONOMY_CUSTOM_FIELD_PROGRAMME_SUBJECT]?.toLowerCase() === "true";
 
   return (
     <>
       <StyledMenuItemEditField>
         <RoundIcon open small />
-        <StyledMenuItemInputField placeholder={t('taxonomy.metadata.customFields.programmeSubject')} disabled />
+        <StyledMenuItemInputField placeholder={t("taxonomy.metadata.customFields.programmeSubject")} disabled />
         <Switch
           onChange={() =>
             updateFields({
@@ -43,7 +43,7 @@ const ToggleProgrammeSubject = ({ customFields, updateFields }: Props) => {
           }
           checked={isToggled}
           label=""
-          id={'programmeSubject'}
+          id={"programmeSubject"}
         />
         <StyledCustomFieldButton
           onClick={() => {

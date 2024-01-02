@@ -6,9 +6,9 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { Select, SingleValue } from '@ndla/select';
-import { DropdownWrapper } from '../../styles';
+import { useTranslation } from "react-i18next";
+import { Select, SingleValue } from "@ndla/select";
+import { DropdownWrapper } from "../../styles";
 
 interface Props {
   pageSize: SingleValue;
@@ -20,13 +20,13 @@ const PageSizeDropdown = ({ pageSize, setPageSize }: Props) => {
   return (
     <DropdownWrapper>
       <Select<false>
-        label={t('welcomePage.workList.pickPageSize')}
+        label={t("welcomePage.workList.pickPageSize")}
         options={[
-          { label: '6', value: '6' },
-          { label: '20', value: '20' },
-          { label: '50', value: '50' },
+          { label: "6", value: "6" },
+          { label: "20", value: "20" },
+          { label: "50", value: "50" },
         ]}
-        prefix={`${t('welcomePage.workList.numberOfRows')}: `}
+        prefix={`${t("welcomePage.workList.numberOfRows")}: `}
         value={pageSize}
         onChange={setPageSize}
         menuPlacement="bottom"

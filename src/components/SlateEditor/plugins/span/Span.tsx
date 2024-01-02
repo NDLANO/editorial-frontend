@@ -6,17 +6,17 @@
  *
  */
 
-import { ReactNode, useEffect, useState } from 'react';
-import { RenderElementProps, useSelected, useSlateStatic } from 'slate-react';
-import styled from '@emotion/styled';
-import { colors } from '@ndla/core';
-import { SpanElement } from '.';
-import LanguageSelector from './LanguageSelector';
-import SelectedLanguage from './SelectedLanguage';
-import { showToolbar } from '../toolbar/SlateToolbar';
+import { ReactNode, useEffect, useState } from "react";
+import { RenderElementProps, useSelected, useSlateStatic } from "slate-react";
+import styled from "@emotion/styled";
+import { colors } from "@ndla/core";
+import { SpanElement } from ".";
+import LanguageSelector from "./LanguageSelector";
+import SelectedLanguage from "./SelectedLanguage";
+import { showToolbar } from "../toolbar/SlateToolbar";
 
 interface Props {
-  attributes: RenderElementProps['attributes'];
+  attributes: RenderElementProps["attributes"];
   element: SpanElement;
   children: ReactNode;
 }
@@ -62,7 +62,7 @@ const Span = ({ element, attributes, children }: Props) => {
           language={language}
           element={element}
           onClick={() => {
-            const toolbar = document.getElementById('toolbarContainer');
+            const toolbar = document.getElementById("toolbarContainer");
             if (toolbar) {
               showToolbar(toolbar);
             }

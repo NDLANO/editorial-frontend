@@ -6,10 +6,10 @@
  *
  */
 
-import { ReactNode } from 'react';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { colors, spacing } from '@ndla/core';
+import { ReactNode } from "react";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { colors, spacing } from "@ndla/core";
 
 interface Props {
   icon?: ReactNode;
@@ -21,7 +21,7 @@ interface Props {
 
 const RoundIcon = ({ icon, ...rest }: Props) => <StyledRoundIcon {...rest}>{icon}</StyledRoundIcon>;
 
-const StyledRoundIcon = styled.div<Omit<Props, 'icon'>>`
+const StyledRoundIcon = styled.div<Omit<Props, "icon">>`
   display: flex;
   align-items: center;
   justify-content: center;

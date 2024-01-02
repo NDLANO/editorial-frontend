@@ -5,17 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { FieldProps, FormikErrors, FormikHelpers, FormikProps, FormikValues } from 'formik';
-import { useTranslation } from 'react-i18next';
-import NdlaFilmArticle from './NdlaFilmArticle';
-import { FilmFormikType } from './NdlaFilmForm';
-import SlideshowEditor from './SlideshowEditor';
-import ThemeEditor from './ThemeEditor';
-import FormAccordion from '../../../components/Accordion/FormAccordion';
-import FormAccordions from '../../../components/Accordion/FormAccordions';
-import FormikField from '../../../components/FormikField';
-import { Values } from '../../../components/SlateEditor/editorTypes';
-import SubjectpageAbout from '../../EditSubjectFrontpage/components/SubjectpageAbout';
+import { FieldProps, FormikErrors, FormikHelpers, FormikProps, FormikValues } from "formik";
+import { useTranslation } from "react-i18next";
+import NdlaFilmArticle from "./NdlaFilmArticle";
+import { FilmFormikType } from "./NdlaFilmForm";
+import SlideshowEditor from "./SlideshowEditor";
+import ThemeEditor from "./ThemeEditor";
+import FormAccordion from "../../../components/Accordion/FormAccordion";
+import FormAccordions from "../../../components/Accordion/FormAccordions";
+import FormikField from "../../../components/FormikField";
+import { Values } from "../../../components/SlateEditor/editorTypes";
+import SubjectpageAbout from "../../EditSubjectFrontpage/components/SubjectpageAbout";
 
 interface Props {
   selectedLanguage: string;
@@ -30,7 +30,7 @@ interface ComponentProps extends Props {
 const SubjectpageAccordionPanels = ({ errors, selectedLanguage }: ComponentProps) => {
   const { t } = useTranslation();
   const onUpdateMovieList = (
-    field: FieldProps<FormikValues>['field'],
+    field: FieldProps<FormikValues>["field"],
     form: FormikHelpers<FormikValues>,
     movieList: string[],
   ) => {
@@ -43,7 +43,7 @@ const SubjectpageAccordionPanels = ({ errors, selectedLanguage }: ComponentProps
     });
   };
   const onUpdateArticle = (
-    field: FieldProps<FormikValues>['field'],
+    field: FieldProps<FormikValues>["field"],
     form: FormikHelpers<FormikValues>,
     article?: string,
   ) => {
@@ -57,35 +57,35 @@ const SubjectpageAccordionPanels = ({ errors, selectedLanguage }: ComponentProps
   };
 
   return (
-    <FormAccordions defaultOpen={['slideshow', 'themes']}>
+    <FormAccordions defaultOpen={["slideshow", "themes"]}>
       <FormAccordion
         id="about"
-        title={t('subjectpageForm.about')}
+        title={t("subjectpageForm.about")}
         className="u-4/6@desktop u-push-1/6@desktop"
-        hasError={['title', 'description', 'visualElement'].some((field) => field in errors)}
+        hasError={["title", "description", "visualElement"].some((field) => field in errors)}
       >
         <SubjectpageAbout selectedLanguage={selectedLanguage} />
       </FormAccordion>
-      <FormAccordion id="article" title={t('ndlaFilm.editor.moreInfoHeader')} hasError={false}>
-        <NdlaFilmArticle fieldName={'article'} onUpdateArticle={onUpdateArticle} />
+      <FormAccordion id="article" title={t("ndlaFilm.editor.moreInfoHeader")} hasError={false}>
+        <NdlaFilmArticle fieldName={"article"} onUpdateArticle={onUpdateArticle} />
       </FormAccordion>
       <FormAccordion
         id="slideshow"
-        title={t('ndlaFilm.editor.slideshowHeader')}
+        title={t("ndlaFilm.editor.slideshowHeader")}
         className="u-6/6"
-        hasError={['metaDescription', 'mobileBannerId'].some((field) => field in errors)}
+        hasError={["metaDescription", "mobileBannerId"].some((field) => field in errors)}
       >
-        <FormikField name={'slideShow'}>
-          {() => <SlideshowEditor onUpdateSlideshow={onUpdateMovieList} fieldName={'slideShow'} />}
+        <FormikField name={"slideShow"}>
+          {() => <SlideshowEditor onUpdateSlideshow={onUpdateMovieList} fieldName={"slideShow"} />}
         </FormikField>
       </FormAccordion>
       <FormAccordion
         id="themes"
-        title={t('ndlaFilm.editor.movieGroupHeader')}
+        title={t("ndlaFilm.editor.movieGroupHeader")}
         className="u-6/6"
-        hasError={['editorsChoices'].some((field) => field in errors)}
+        hasError={["editorsChoices"].some((field) => field in errors)}
       >
-        <FormikField name={'themes'}>
+        <FormikField name={"themes"}>
           {() => <ThemeEditor onUpdateMovieTheme={onUpdateMovieList} selectedLanguage={selectedLanguage} />}
         </FormikField>
       </FormAccordion>

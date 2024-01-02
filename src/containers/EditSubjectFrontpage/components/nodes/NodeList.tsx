@@ -6,16 +6,16 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
-import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
-import { colors, spacing } from '@ndla/core';
-import { DeleteForever, DragHorizontal } from '@ndla/icons/editor';
-import Tooltip from '@ndla/tooltip';
-import { Node } from '@ndla/types-taxonomy';
+import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
+import { colors, spacing } from "@ndla/core";
+import { DeleteForever, DragHorizontal } from "@ndla/icons/editor";
+import Tooltip from "@ndla/tooltip";
+import { Node } from "@ndla/types-taxonomy";
 
-import DndList from '../../../../components/DndList';
+import DndList from "../../../../components/DndList";
 
 const NodeWrapper = styled.div`
   align-items: center;
@@ -54,14 +54,14 @@ const NodeList = ({ nodes, nodeSet, onUpdate }: Props) => {
           <NodeWrapper key={`${nodeSet}-${node.id}-${index}`}>
             {node.name}
             <ActionsContainer>
-              <Tooltip tooltip={t('subjectpageForm.moveSubject')}>
-                <DraggableIconButton aria-label={t('subjectpageForm.moveSubject')} colorTheme="light" variant="ghost">
+              <Tooltip tooltip={t("subjectpageForm.moveSubject")}>
+                <DraggableIconButton aria-label={t("subjectpageForm.moveSubject")} colorTheme="light" variant="ghost">
                   <DragHorizontal />
                 </DraggableIconButton>
               </Tooltip>
-              <Tooltip tooltip={t('subjectpageForm.removeSubject')}>
+              <Tooltip tooltip={t("subjectpageForm.removeSubject")}>
                 <IconButtonV2
-                  aria-label={t('subjectpageForm.removeSubject')}
+                  aria-label={t("subjectpageForm.removeSubject")}
                   colorTheme="danger"
                   onClick={() => onUpdate(nodes.filter((item) => item.id !== node.id))}
                   variant="ghost"

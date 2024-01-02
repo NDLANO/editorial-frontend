@@ -6,11 +6,11 @@
  *
  */
 
-import { Descendant } from 'slate';
-import { blockContentToEditorValue, blockContentToHTML } from '../../../../../util/articleContentConverter';
-import { TYPE_PARAGRAPH } from '../../paragraph/types';
-import { TYPE_SECTION } from '../../section/types';
-import { TYPE_SPAN } from '../types';
+import { Descendant } from "slate";
+import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
+import { TYPE_PARAGRAPH } from "../../paragraph/types";
+import { TYPE_SECTION } from "../../section/types";
+import { TYPE_SPAN } from "../types";
 
 const editor: Descendant[] = [
   {
@@ -18,30 +18,45 @@ const editor: Descendant[] = [
     children: [
       {
         type: TYPE_PARAGRAPH,
-        children: [{ text: '' }, { type: TYPE_SPAN, data: { lang: 'en' }, children: [{ text: 'test' }] }, { text: '' }],
+        children: [
+          { text: "" },
+          {
+            type: TYPE_SPAN,
+            data: { lang: "en" },
+            children: [{ text: "test" }],
+          },
+          { text: "" },
+        ],
       },
     ],
   },
 ];
 
 const html = '<section><p><span lang="en">test</span></p></section>';
-const htmlWithoutAttributes = '<section><p><span>test</span></p></section>';
-const hmtlWithoutSpan = '<section><p>test</p></section>';
+const htmlWithoutAttributes = "<section><p><span>test</span></p></section>";
+const hmtlWithoutSpan = "<section><p>test</p></section>";
 
-describe('span serializing tests', () => {
-  test('serializing', () => {
+describe("span serializing tests", () => {
+  test("serializing", () => {
     const res = blockContentToHTML(editor);
     expect(res).toMatch(html);
   });
 
-  test('serializing unwraps span without attributes', () => {
+  test("serializing unwraps span without attributes", () => {
     const editorWithoutAttributes: Descendant[] = [
       {
         type: TYPE_SECTION,
         children: [
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: '' }, { type: TYPE_SPAN, data: {}, children: [{ text: 'test' }, { text: '' }] }],
+            children: [
+              { text: "" },
+              {
+                type: TYPE_SPAN,
+                data: {},
+                children: [{ text: "test" }, { text: "" }],
+              },
+            ],
           },
         ],
       },
@@ -51,19 +66,19 @@ describe('span serializing tests', () => {
     expect(res).toMatch(hmtlWithoutSpan);
   });
 
-  test('deserializing', () => {
+  test("deserializing", () => {
     const res = blockContentToEditorValue(html);
     expect(res).toEqual(editor);
   });
 
-  test('deserializing handles span without attributes', () => {
+  test("deserializing handles span without attributes", () => {
     const editorWithoutSpan: Descendant[] = [
       {
         type: TYPE_SECTION,
         children: [
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: 'test' }],
+            children: [{ text: "test" }],
           },
         ],
       },

@@ -6,23 +6,23 @@
  *
  */
 
-import { useField } from 'formik';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { FieldHeader, FieldSection, Input, Select } from '@ndla/forms';
-import { IGlossData } from '@ndla/types-backend/concept-api';
-import { constants } from '@ndla/ui';
-import ExamplesFieldArray from './ExamplesFieldArray';
-import TranscriptionsField from './TranscriptionsField';
-import FormikField from '../../../components/FormikField';
-import { LANGUAGES } from '../glossData';
+import { useField } from "formik";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { FieldHeader, FieldSection, Input, Select } from "@ndla/forms";
+import { IGlossData } from "@ndla/types-backend/concept-api";
+import { constants } from "@ndla/ui";
+import ExamplesFieldArray from "./ExamplesFieldArray";
+import TranscriptionsField from "./TranscriptionsField";
+import FormikField from "../../../components/FormikField";
+import { LANGUAGES } from "../glossData";
 
 const StyledFormikField = styled(FormikField)`
   margin-top: 0px;
 `;
 
 const GlossDataSection = () => {
-  const [_, { value }] = useField<IGlossData>('gloss');
+  const [_, { value }] = useField<IGlossData>("gloss");
   const { t } = useTranslation();
 
   const {
@@ -31,20 +31,20 @@ const GlossDataSection = () => {
 
   return (
     <>
-      <FieldHeader title={t('form.gloss.glossHeading')} />
+      <FieldHeader title={t("form.gloss.glossHeading")} />
       <FormikField name="gloss">
         {({ field }) => (
           <FieldSection>
             <StyledFormikField name={`${field.name}.gloss`}>
-              {({ field }) => <Input placeholder={t('form.gloss.gloss')} type="text" value={field.value} {...field} />}
+              {({ field }) => <Input placeholder={t("form.gloss.gloss")} type="text" value={field.value} {...field} />}
             </StyledFormikField>
             <StyledFormikField name={`${field.name}.wordClass`}>
               {({ field }) => (
-                <Select label={t('form.gloss.wordClass')} value={field.value} {...field}>
+                <Select label={t("form.gloss.wordClass")} value={field.value} {...field}>
                   {!field.value && (
                     <option>
-                      {t('form.gloss.choose', {
-                        label: t('form.gloss.wordClass').toLowerCase(),
+                      {t("form.gloss.choose", {
+                        label: t("form.gloss.wordClass").toLowerCase(),
                       })}
                     </option>
                   )}
@@ -61,8 +61,8 @@ const GlossDataSection = () => {
                 <Select value={field.value} {...field}>
                   {!field.value && (
                     <option>
-                      {t('form.gloss.choose', {
-                        label: t('form.gloss.originalLanguage').toLowerCase(),
+                      {t("form.gloss.choose", {
+                        label: t("form.gloss.originalLanguage").toLowerCase(),
                       })}
                     </option>
                   )}
@@ -79,13 +79,13 @@ const GlossDataSection = () => {
         )}
       </FormikField>
 
-      {value?.originalLanguage === 'zh' && (
+      {value?.originalLanguage === "zh" && (
         <>
-          <FieldHeader title={t('form.gloss.transcriptions')} />
+          <FieldHeader title={t("form.gloss.transcriptions")} />
           <TranscriptionsField name="transcriptions" />
         </>
       )}
-      <FieldHeader title={t('form.gloss.examples')} />
+      <FieldHeader title={t("form.gloss.examples")} />
       <ExamplesFieldArray name="examples" />
     </>
   );

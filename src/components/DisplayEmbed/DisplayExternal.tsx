@@ -6,29 +6,29 @@
  *
  */
 
-import { useEffect, useState, useRef, HTMLAttributes } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Transforms, Editor, Path } from 'slate';
-import { RenderElementProps } from 'slate-react';
-import './helpers/h5pResizer';
-import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
-import { Link } from '@ndla/icons/common';
-import { DeleteForever, Expandable } from '@ndla/icons/editor';
-import DisplayExternalModal from './helpers/DisplayExternalModal';
-import SlateResourceBox from './SlateResourceBox';
-import config from '../../config';
-import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
-import { Embed, ExternalEmbed, H5pEmbed } from '../../interfaces';
-import { fetchExternalOembed } from '../../util/apiHelpers';
-import handleError from '../../util/handleError';
-import { urlOrigin, getIframeSrcFromHtmlString, urlDomain } from '../../util/htmlHelpers';
-import { getH5pLocale } from '../H5PElement/h5pApi';
-import EditorErrorMessage from '../SlateEditor/EditorErrorMessage';
-import { StyledDeleteEmbedButton, StyledFigureButtons } from '../SlateEditor/plugins/embed/FigureButtons';
+import { useEffect, useState, useRef, HTMLAttributes } from "react";
+import { useTranslation } from "react-i18next";
+import { Transforms, Editor, Path } from "slate";
+import { RenderElementProps } from "slate-react";
+import "./helpers/h5pResizer";
+import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
+import { Link } from "@ndla/icons/common";
+import { DeleteForever, Expandable } from "@ndla/icons/editor";
+import DisplayExternalModal from "./helpers/DisplayExternalModal";
+import SlateResourceBox from "./SlateResourceBox";
+import config from "../../config";
+import { EXTERNAL_WHITELIST_PROVIDERS } from "../../constants";
+import { Embed, ExternalEmbed, H5pEmbed } from "../../interfaces";
+import { fetchExternalOembed } from "../../util/apiHelpers";
+import handleError from "../../util/handleError";
+import { urlOrigin, getIframeSrcFromHtmlString, urlDomain } from "../../util/htmlHelpers";
+import { getH5pLocale } from "../H5PElement/h5pApi";
+import EditorErrorMessage from "../SlateEditor/EditorErrorMessage";
+import { StyledDeleteEmbedButton, StyledFigureButtons } from "../SlateEditor/plugins/embed/FigureButtons";
 
 const ApplyBoxshadow = styled.div`
-  &[data-show-copy-outline='true'] {
+  &[data-show-copy-outline="true"] {
     box-shadow: rgb(32, 88, 143) 0 0 0 2px;
   }
 `;
@@ -50,7 +50,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   language: string;
   active: boolean;
   isSelectedForCopy: boolean;
-  attributes?: RenderElementProps['attributes'];
+  attributes?: RenderElementProps["attributes"];
 }
 
 interface EmbedProperties {
@@ -75,7 +75,9 @@ const DisplayExternal = ({
 }: Props) => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [error, setError] = useState(false);
-  const [properties, setProperties] = useState<EmbedProperties>({ type: embed.resource });
+  const [properties, setProperties] = useState<EmbedProperties>({
+    type: embed.resource,
+  });
   const { t } = useTranslation();
   const prevEmbed = useRef<EmbedType>(embed);
   const [height, setHeight] = useState(0);
@@ -87,9 +89,9 @@ const DisplayExternal = ({
     const domain = embed.url ? urlDomain(embed.url) : config.h5pApiUrl;
     const cssUrl = encodeURIComponent(`${config.ndlaFrontendDomain}/static/h5p-custom-css.css`);
 
-    if (embed.resource === 'external' || embed.resource === 'h5p') {
+    if (embed.resource === "external" || embed.resource === "h5p") {
       try {
-        const base = embed.resource === 'h5p' ? `${origin}${embed.path}` : embed.url;
+        const base = embed.resource === "h5p" ? `${origin}${embed.path}` : embed.url;
         const url =
           config.h5pApiUrl && base.includes(config.h5pApiUrl)
             ? `${base}?locale=${getH5pLocale(language)}&cssUrl=${cssUrl}`
@@ -106,7 +108,7 @@ const DisplayExternal = ({
             src,
             type: data.type,
             provider: data.providerName,
-            height: data.height || '486px',
+            height: data.height || "486px",
             domain: domain,
           });
         } else {
@@ -119,7 +121,7 @@ const DisplayExternal = ({
     } else {
       // Update height if height of inserted element changes - otherwise reset height
       if (embed.height && prevEmbed.current.url === embed.url) {
-        setHeight(Number(embed.height.replace(/\D/g, '')));
+        setHeight(Number(embed.height.replace(/\D/g, "")));
       } else {
         setHeight(0);
       }
@@ -144,14 +146,14 @@ const DisplayExternal = ({
     if (prevEmbedElement.resource !== embed.resource) {
       getPropsFromEmbed();
     } else if (
-      embed.resource === 'h5p' &&
-      prevEmbedElement.resource === 'h5p' &&
+      embed.resource === "h5p" &&
+      prevEmbedElement.resource === "h5p" &&
       embed.path !== prevEmbedElement.path
     ) {
       getPropsFromEmbed();
     } else if (
-      (embed.resource === 'external' || embed.resource === 'iframe') &&
-      (prevEmbedElement.resource === 'external' || prevEmbedElement.resource === 'iframe') &&
+      (embed.resource === "external" || embed.resource === "iframe") &&
+      (prevEmbedElement.resource === "external" || prevEmbedElement.resource === "iframe") &&
       embed.url !== prevEmbedElement.url
     ) {
       getPropsFromEmbed();
@@ -181,8 +183,8 @@ const DisplayExternal = ({
       onRemoveClick={onRemoveClick}
       msg={
         error
-          ? t('displayOembed.errorMessage')
-          : t('displayOembed.notSupported', {
+          ? t("displayOembed.errorMessage")
+          : t("displayOembed.notSupported", {
               type: properties.type,
               provider: properties.provider,
             })
@@ -195,10 +197,10 @@ const DisplayExternal = ({
   }
 
   // H5P does not provide its name
-  const providerName = properties.domain?.includes('h5p') ? 'H5P' : properties.provider;
+  const providerName = properties.domain?.includes("h5p") ? "H5P" : properties.provider;
 
   const [allowedProvider] = EXTERNAL_WHITELIST_PROVIDERS.filter((whitelistProvider) =>
-    properties.type === 'iframe' && properties.domain
+    properties.type === "iframe" && properties.domain
       ? whitelistProvider.url.includes(properties.domain)
       : whitelistProvider.name === providerName,
   );
@@ -224,7 +226,7 @@ const DisplayExternal = ({
     };
 
     const onMouseUp = (mouseUpEvent: MouseEvent) => {
-      document.body.removeEventListener('mousemove', onMouseMove);
+      document.body.removeEventListener("mousemove", onMouseMove);
       const elementHeight = startSize - startPosition + mouseUpEvent.pageY;
       const updatedElementHeight = elementHeight > minHeight ? elementHeight : minHeight;
 
@@ -238,17 +240,21 @@ const DisplayExternal = ({
       setIsResizing(false);
     };
 
-    document.body.addEventListener('mousemove', onMouseMove);
-    document.body.addEventListener('mouseup', onMouseUp, { once: true });
+    document.body.addEventListener("mousemove", onMouseMove);
+    document.body.addEventListener("mouseup", onMouseUp, { once: true });
   };
 
   return (
-    <div {...attributes} className={'c-figure'} contentEditable={false}>
+    <div {...attributes} className={"c-figure"} contentEditable={false}>
       <StyledFigureButtons data-white={true}>
         {allowedProvider.name && (
           <IconButtonV2
-            aria-label={t('form.external.edit', { type: providerName || t('form.external.title') })}
-            title={t('form.external.edit', { type: providerName || t('form.external.title') })}
+            aria-label={t("form.external.edit", {
+              type: providerName || t("form.external.title"),
+            })}
+            title={t("form.external.edit", {
+              type: providerName || t("form.external.title"),
+            })}
             colorTheme="light"
             onClick={(evt) => {
               evt.preventDefault();
@@ -260,11 +266,11 @@ const DisplayExternal = ({
           </IconButtonV2>
         )}
         <StyledDeleteEmbedButton
-          aria-label={t('form.external.remove', {
-            type: providerName || t('form.external.title'),
+          aria-label={t("form.external.remove", {
+            type: providerName || t("form.external.title"),
           })}
-          title={t('form.external.remove', {
-            type: providerName || t('form.external.title'),
+          title={t("form.external.remove", {
+            type: providerName || t("form.external.title"),
           })}
           colorTheme="danger"
           onClick={onRemoveClick}
@@ -273,7 +279,7 @@ const DisplayExternal = ({
           <DeleteForever />
         </StyledDeleteEmbedButton>
       </StyledFigureButtons>
-      {(embed.resource === 'iframe' || embed.resource === 'external') && embed.type === 'fullscreen' ? (
+      {(embed.resource === "iframe" || embed.resource === "external") && embed.type === "fullscreen" ? (
         <ApplyBoxshadow data-show-copy-outline={showCopyOutline}>
           <SlateResourceBox embed={embed} language={language} />
         </ApplyBoxshadow>
@@ -281,19 +287,19 @@ const DisplayExternal = ({
         <ApplyBoxshadow
           ref={iframeWrapper}
           data-show-copy-outline={showCopyOutline}
-          style={{ pointerEvents: isResizing ? 'none' : 'auto' }}
+          style={{ pointerEvents: isResizing ? "none" : "auto" }}
         >
           <iframe
             contentEditable={false}
             src={properties.src}
             height={height ? height : allowedProvider.height || properties.height}
             title={properties.title}
-            scrolling={properties.type === 'iframe' ? 'no' : undefined}
+            scrolling={properties.type === "iframe" ? "no" : undefined}
             allowFullScreen={true}
             frameBorder="0"
           />
-          {embed.resource === 'iframe' && (
-            <ExpandableButton role="button" onMouseDown={handleResize} aria-label={t('form.resize')}>
+          {embed.resource === "iframe" && (
+            <ExpandableButton role="button" onMouseDown={handleResize} aria-label={t("form.resize")}>
               <Expandable />
             </ExpandableButton>
           )}

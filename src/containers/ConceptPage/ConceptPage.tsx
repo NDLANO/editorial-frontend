@@ -6,12 +6,12 @@
  *
  */
 
-import { memo } from 'react';
-import loadable from '@loadable/component';
-import ResourcePage from '../../components/ResourcePage';
-import { useConcept } from '../../modules/concept/conceptQueries';
-const CreateConcept = loadable(() => import('./CreateConcept'));
-const EditConcept = loadable(() => import('./EditConcept'));
+import { memo } from "react";
+import loadable from "@loadable/component";
+import ResourcePage from "../../components/ResourcePage";
+import { useConcept } from "../../modules/concept/conceptQueries";
+const CreateConcept = loadable(() => import("./CreateConcept"));
+const EditConcept = loadable(() => import("./EditConcept"));
 
 const ConceptPage = () => (
   <ResourcePage

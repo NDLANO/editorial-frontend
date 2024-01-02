@@ -6,19 +6,19 @@
  *
  */
 
-import { createEditor, Descendant, Editor } from 'slate';
-import { withHistory } from 'slate-history';
-import { withReact } from 'slate-react';
-import { learningResourcePlugins } from '../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins';
-import withPlugins from '../../../utils/withPlugins';
-import { TYPE_HEADING } from '../../heading/types';
-import { TYPE_PARAGRAPH } from '../../paragraph/types';
-import { TYPE_SECTION } from '../types';
+import { createEditor, Descendant, Editor } from "slate";
+import { withHistory } from "slate-history";
+import { withReact } from "slate-react";
+import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
+import withPlugins from "../../../utils/withPlugins";
+import { TYPE_HEADING } from "../../heading/types";
+import { TYPE_PARAGRAPH } from "../../paragraph/types";
+import { TYPE_SECTION } from "../types";
 
 const editor = withHistory(withReact(withPlugins(createEditor(), learningResourcePlugins)));
 
-describe('section normalizer tests', () => {
-  test('adds paragraph to empty section', () => {
+describe("section normalizer tests", () => {
+  test("adds paragraph to empty section", () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
@@ -32,7 +32,7 @@ describe('section normalizer tests', () => {
         children: [
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
+            children: [{ text: "" }],
           },
         ],
       },
@@ -42,11 +42,11 @@ describe('section normalizer tests', () => {
     expect(editor.children).toEqual(expectedValue);
   });
 
-  test('wraps child text in paragraph', () => {
+  test("wraps child text in paragraph", () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
-        children: [{ text: 'abc' }],
+        children: [{ text: "abc" }],
       },
     ];
 
@@ -56,7 +56,7 @@ describe('section normalizer tests', () => {
         children: [
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: 'abc' }],
+            children: [{ text: "abc" }],
           },
         ],
       },
@@ -66,7 +66,7 @@ describe('section normalizer tests', () => {
     expect(editor.children).toEqual(expectedValue);
   });
 
-  test('adds paragraph to start and end of section', () => {
+  test("adds paragraph to start and end of section", () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
@@ -74,7 +74,7 @@ describe('section normalizer tests', () => {
           {
             type: TYPE_HEADING,
             level: 1,
-            children: [{ text: 'heading' }],
+            children: [{ text: "heading" }],
           },
         ],
       },
@@ -86,16 +86,16 @@ describe('section normalizer tests', () => {
         children: [
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
+            children: [{ text: "" }],
           },
           {
             type: TYPE_HEADING,
             level: 1,
-            children: [{ text: 'heading' }],
+            children: [{ text: "heading" }],
           },
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
+            children: [{ text: "" }],
           },
         ],
       },

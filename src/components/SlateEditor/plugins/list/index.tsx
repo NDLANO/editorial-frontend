@@ -5,33 +5,33 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { Editor, Node, Element, Descendant, Transforms, Text, Path } from 'slate';
-import { jsx as slatejsx } from 'slate-hyperscript';
-import onBackspace from './handlers/onBackspace';
-import onEnter from './handlers/onEnter';
-import onTab from './handlers/onTab';
-import { TYPE_LIST, TYPE_LIST_ITEM } from './types';
-import { defaultListBlock } from './utils/defaultBlocks';
-import { Dictionary } from '../../../../interfaces';
-import { SlateSerializer } from '../../interfaces';
-import { KEY_BACKSPACE, KEY_ENTER, KEY_TAB } from '../../utils/keys';
-import { firstTextBlockElement } from '../../utils/normalizationHelpers';
-import { TYPE_BREAK } from '../break/types';
-import { TYPE_CONCEPT_INLINE } from '../concept/inline/types';
-import { TYPE_FOOTNOTE } from '../footnote/types';
-import { TYPE_LINK, TYPE_CONTENT_LINK } from '../link/types';
-import { TYPE_MATHML } from '../mathml/types';
-import { TYPE_PARAGRAPH } from '../paragraph/types';
+import { Editor, Node, Element, Descendant, Transforms, Text, Path } from "slate";
+import { jsx as slatejsx } from "slate-hyperscript";
+import onBackspace from "./handlers/onBackspace";
+import onEnter from "./handlers/onEnter";
+import onTab from "./handlers/onTab";
+import { TYPE_LIST, TYPE_LIST_ITEM } from "./types";
+import { defaultListBlock } from "./utils/defaultBlocks";
+import { Dictionary } from "../../../../interfaces";
+import { SlateSerializer } from "../../interfaces";
+import { KEY_BACKSPACE, KEY_ENTER, KEY_TAB } from "../../utils/keys";
+import { firstTextBlockElement } from "../../utils/normalizationHelpers";
+import { TYPE_BREAK } from "../break/types";
+import { TYPE_CONCEPT_INLINE } from "../concept/inline/types";
+import { TYPE_FOOTNOTE } from "../footnote/types";
+import { TYPE_LINK, TYPE_CONTENT_LINK } from "../link/types";
+import { TYPE_MATHML } from "../mathml/types";
+import { TYPE_PARAGRAPH } from "../paragraph/types";
 
 export interface ListElement {
-  type: 'list';
+  type: "list";
   listType: string;
   data: Dictionary<string>;
   children: Descendant[];
 }
 
 export interface ListItemElement {
-  type: 'list-item';
+  type: "list-item";
   children: Descendant[];
   changeTo?: string;
   moveUp?: boolean;
@@ -53,9 +53,9 @@ export const listSerializer: SlateSerializer = {
       } else if (Element.isElement(cur) && !inlines.includes(cur.type)) {
         if (cur.type === TYPE_BREAK) {
           if (Element.isElement(lastElement) && lastElement.type === TYPE_PARAGRAPH && lastElement.serializeAsText) {
-            lastElement.children.push({ text: '\n' });
+            lastElement.children.push({ text: "\n" });
           } else {
-            acc.push(slatejsx('element', { type: TYPE_PARAGRAPH, serializeAsText: true }, { text: '\n' }));
+            acc.push(slatejsx("element", { type: TYPE_PARAGRAPH, serializeAsText: true }, { text: "\n" }));
           }
         } else {
           acc.push(cur);
@@ -66,7 +66,7 @@ export const listSerializer: SlateSerializer = {
           lastElement.children.push(cur);
           return acc;
         } else {
-          acc.push(slatejsx('element', { type: TYPE_PARAGRAPH, serializeAsText: true }, cur));
+          acc.push(slatejsx("element", { type: TYPE_PARAGRAPH, serializeAsText: true }, cur));
           return acc;
         }
       }
@@ -74,47 +74,51 @@ export const listSerializer: SlateSerializer = {
       return acc;
     }, [] as Descendant[]);
 
-    if (tag === 'ul') {
-      return slatejsx('element', { type: TYPE_LIST, listType: 'bulleted-list', data: {} }, children);
+    if (tag === "ul") {
+      return slatejsx("element", { type: TYPE_LIST, listType: "bulleted-list", data: {} }, children);
     }
-    if (tag === 'ol') {
-      const start = el.getAttribute('start');
-      if (el.getAttribute('data-type') === 'letters') {
+    if (tag === "ol") {
+      const start = el.getAttribute("start");
+      if (el.getAttribute("data-type") === "letters") {
         return slatejsx(
-          'element',
-          { type: TYPE_LIST, listType: 'letter-list', data: { start: start ? start : undefined } },
+          "element",
+          {
+            type: TYPE_LIST,
+            listType: "letter-list",
+            data: { start: start ? start : undefined },
+          },
           children,
         );
       }
       // Default to numbered list if no type is set.
       else {
         return slatejsx(
-          'element',
+          "element",
           {
             type: TYPE_LIST,
-            listType: 'numbered-list',
+            listType: "numbered-list",
             data: { start: start ? start : undefined },
           },
           children,
         );
       }
     }
-    if (tag === 'li') {
-      return slatejsx('element', { type: TYPE_LIST_ITEM }, children);
+    if (tag === "li") {
+      return slatejsx("element", { type: TYPE_LIST_ITEM }, children);
     }
   },
   serialize(node: Descendant, children: JSX.Element[]) {
     if (!Element.isElement(node)) return;
 
     if (node.type === TYPE_LIST) {
-      if (node.listType === 'bulleted-list') {
+      if (node.listType === "bulleted-list") {
         return <ul>{children}</ul>;
       }
-      if (node.listType === 'numbered-list') {
+      if (node.listType === "numbered-list") {
         const { start } = node.data;
         return <ol start={start ? parseInt(start) : undefined}>{children}</ol>;
       }
-      if (node.listType === 'letter-list') {
+      if (node.listType === "letter-list") {
         const { start } = node.data;
         return (
           <ol data-type="letters" start={start ? parseInt(start) : undefined}>
@@ -127,7 +131,7 @@ export const listSerializer: SlateSerializer = {
       // If first child of list-item is a list, it means that an empty paragraph has been removed by
       // paragraph serializer. This should not be removed, therefore inserting it when serializing.
       const firstElement = children[0];
-      const illegalFirstElement = !firstElement || ['ol', 'ul'].includes(firstElement.type);
+      const illegalFirstElement = !firstElement || ["ol", "ul"].includes(firstElement.type);
       return (
         <li>
           {illegalFirstElement && <p></p>}
@@ -158,7 +162,7 @@ export const listPlugin = (editor: Editor) => {
             editor,
             {
               type: TYPE_PARAGRAPH,
-              children: [{ text: '' }],
+              children: [{ text: "" }],
             },
             { at: childPath },
           );
@@ -174,7 +178,7 @@ export const listPlugin = (editor: Editor) => {
             editor,
             {
               type: TYPE_PARAGRAPH,
-              children: [{ text: '' }],
+              children: [{ text: "" }],
             },
             { at: [...path, 0] },
           );
@@ -186,8 +190,10 @@ export const listPlugin = (editor: Editor) => {
       if (node.changeTo) {
         const changeTo = node.changeTo;
         Editor.withoutNormalizing(editor, () => {
-          Transforms.unsetNodes(editor, ['changeTo'], { at: path });
-          Transforms.wrapNodes(editor, defaultListBlock(changeTo), { at: path });
+          Transforms.unsetNodes(editor, ["changeTo"], { at: path });
+          Transforms.wrapNodes(editor, defaultListBlock(changeTo), {
+            at: path,
+          });
           Transforms.liftNodes(editor, { at: path });
         });
         return;
@@ -195,7 +201,7 @@ export const listPlugin = (editor: Editor) => {
     }
     if (Element.isElement(node) && node.type === TYPE_LIST) {
       // If list is empty or zero-length text element, remove it
-      if (node.children.length === 0 || (Text.isTextList(node.children) && Node.string(node) === '')) {
+      if (node.children.length === 0 || (Text.isTextList(node.children) && Node.string(node) === "")) {
         return Transforms.removeNodes(editor, { at: path });
       }
 

@@ -5,15 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { Editor, Element, Transforms, Path } from 'slate';
-import { ReactEditor } from 'slate-react';
+import { Editor, Element, Transforms, Path } from "slate";
+import { ReactEditor } from "slate-react";
 
-import getCurrentBlock from '../../../utils/getCurrentBlock';
-import hasNodeOfType from '../../../utils/hasNodeOfType';
-import { firstTextBlockElement } from '../../../utils/normalizationHelpers';
-import { TYPE_LIST, TYPE_LIST_ITEM } from '../types';
+import getCurrentBlock from "../../../utils/getCurrentBlock";
+import hasNodeOfType from "../../../utils/hasNodeOfType";
+import { firstTextBlockElement } from "../../../utils/normalizationHelpers";
+import { TYPE_LIST, TYPE_LIST_ITEM } from "../types";
 
-import { defaultListBlock } from '../utils/defaultBlocks';
+import { defaultListBlock } from "../utils/defaultBlocks";
 
 const onTab = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEvent) => void) => {
   if (!editor.selection) return next && next(event);
@@ -34,7 +34,7 @@ const onTab = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEven
   const [currentItemNode, currentItemPath] = listItemEntry;
   const [[currentTextBlockNode, currentTextBlockPath]] = Editor.nodes(editor, {
     match: (n) => Element.isElement(n) && firstTextBlockElement.includes(n.type),
-    mode: 'lowest',
+    mode: "lowest",
   });
 
   if (
@@ -68,7 +68,9 @@ const onTab = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEven
                 Transforms.setNodes(
                   editor,
                   { listType: currentListNode.listType },
-                  { at: [...currentItemPath, currentItemNode.children.length - 1] },
+                  {
+                    at: [...currentItemPath, currentItemNode.children.length - 1],
+                  },
                 );
               }
             }
@@ -102,7 +104,7 @@ const onTab = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEven
                     // move any following list-items of selected list to the child list.
                     Transforms.moveNodes(editor, {
                       match: (node) => Element.isElement(node) && node.type === TYPE_LIST_ITEM,
-                      mode: 'lowest',
+                      mode: "lowest",
                       at: {
                         anchor,
                         focus,

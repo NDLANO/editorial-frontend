@@ -6,20 +6,20 @@
  *
  */
 
-import { useCallback, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { useQueryClient } from '@tanstack/react-query';
-import { ButtonV2 } from '@ndla/button';
-import { spacing, colors } from '@ndla/core';
-import { BookOpen } from '@ndla/icons/common';
-import { ModalBody, ModalHeader, Modal, ModalTitle, ModalTrigger, ModalContent, ModalCloseButton } from '@ndla/modal';
-import { IArticle } from '@ndla/types-backend/draft-api';
-import GrepCodesForm from './GrepCodesForm';
-import { useUpdateDraftMutation } from '../../../modules/draft/draftMutations';
-import { draftQueryKeys } from '../../../modules/draft/draftQueries';
-import { NodeResourceMeta, nodeQueryKeys } from '../../../modules/nodes/nodeQueries';
-import { getIdFromUrn } from '../../../util/taxonomyHelpers';
+import { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { useQueryClient } from "@tanstack/react-query";
+import { ButtonV2 } from "@ndla/button";
+import { spacing, colors } from "@ndla/core";
+import { BookOpen } from "@ndla/icons/common";
+import { ModalBody, ModalHeader, Modal, ModalTitle, ModalTrigger, ModalContent, ModalCloseButton } from "@ndla/modal";
+import { IArticle } from "@ndla/types-backend/draft-api";
+import GrepCodesForm from "./GrepCodesForm";
+import { useUpdateDraftMutation } from "../../../modules/draft/draftMutations";
+import { draftQueryKeys } from "../../../modules/draft/draftQueries";
+import { NodeResourceMeta, nodeQueryKeys } from "../../../modules/nodes/nodeQueries";
+import { getIdFromUrn } from "../../../util/taxonomyHelpers";
 
 interface Props {
   codes: string[];
@@ -55,7 +55,7 @@ const StyledModalHeader = styled(ModalHeader)`
 
 const GrepCodesModal = ({ codes, contentType, contentUri, revision, currentNodeId }: Props) => {
   const draftId = Number(getIdFromUrn(contentUri));
-  if (contentType === 'learning-path' || !draftId || !revision) return null;
+  if (contentType === "learning-path" || !draftId || !revision) return null;
   return (
     <Modal>
       <ModalTrigger>
@@ -88,7 +88,11 @@ const GrepCodeContent = ({ codes, draftId, revision, currentNodeId, contentUri }
   const qc = useQueryClient();
   const key = useMemo(() => draftQueryKeys.draft({ id: draftId, language: i18n.language }), [i18n.language, draftId]);
   const nodeKey = useMemo(
-    () => nodeQueryKeys.resourceMetas({ nodeId: currentNodeId, language: i18n.language }),
+    () =>
+      nodeQueryKeys.resourceMetas({
+        nodeId: currentNodeId,
+        language: i18n.language,
+      }),
     [i18n.language, currentNodeId],
   );
 
@@ -117,7 +121,7 @@ const GrepCodeContent = ({ codes, draftId, revision, currentNodeId, contentUri }
         <StyledIconWrapper>
           <BookOpen />
         </StyledIconWrapper>
-        <ModalTitle>{t('form.name.grepCodes')}</ModalTitle>
+        <ModalTitle>{t("form.name.grepCodes")}</ModalTitle>
         <ModalCloseButton />
       </StyledModalHeader>
       <ModalBody>

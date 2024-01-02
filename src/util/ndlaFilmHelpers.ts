@@ -6,21 +6,21 @@
  *
  */
 
-import { Descendant } from 'slate';
-import { jsx as slatejsx } from 'slate-hyperscript';
+import { Descendant } from "slate";
+import { jsx as slatejsx } from "slate-hyperscript";
 import {
   IFilmFrontPageData,
   IMovieTheme,
   INewOrUpdatedFilmFrontPageData,
   IVisualElement,
-} from '@ndla/types-backend/frontpage-api';
-import { editorValueToPlainText, plainTextToEditorValue } from './articleContentConverter';
-import { TYPE_EMBED_BRIGHTCOVE } from '../components/SlateEditor/plugins/embed/types';
-import { defineTypeOfEmbed, isSlateEmbed } from '../components/SlateEditor/plugins/embed/utils';
-import { LOCALE_VALUES } from '../constants';
-import { FilmFormikType } from '../containers/NdlaFilm/components/NdlaFilmForm';
-import { ThemeNames } from '../containers/NdlaFilm/components/ThemeEditor';
-import { LocaleType } from '../interfaces';
+} from "@ndla/types-backend/frontpage-api";
+import { editorValueToPlainText, plainTextToEditorValue } from "./articleContentConverter";
+import { TYPE_EMBED_BRIGHTCOVE } from "../components/SlateEditor/plugins/embed/types";
+import { defineTypeOfEmbed, isSlateEmbed } from "../components/SlateEditor/plugins/embed/utils";
+import { LOCALE_VALUES } from "../constants";
+import { FilmFormikType } from "../containers/NdlaFilm/components/NdlaFilmForm";
+import { ThemeNames } from "../containers/NdlaFilm/components/ThemeEditor";
+import { LocaleType } from "../interfaces";
 
 export const getInitialValues = (filmFrontpage: IFilmFrontPageData, selectedLanguage: string): FilmFormikType => {
   const supportedLanguages = filmFrontpage.about.map((about) => about.language);
@@ -29,10 +29,10 @@ export const getInitialValues = (filmFrontpage: IFilmFrontPageData, selectedLang
 
   const visualElement = about?.visualElement && convertVisualElement(about?.visualElement);
   return {
-    articleType: 'subjectpage',
+    articleType: "subjectpage",
     name: filmFrontpage.name,
-    title: plainTextToEditorValue(about?.title ?? ''),
-    description: plainTextToEditorValue(about?.description ?? ''),
+    title: plainTextToEditorValue(about?.title ?? ""),
+    description: plainTextToEditorValue(about?.description ?? ""),
     visualElement: visualElement ?? [],
     language: selectedLanguage,
     supportedLanguages,
@@ -44,10 +44,10 @@ export const getInitialValues = (filmFrontpage: IFilmFrontPageData, selectedLang
 
 export const convertVisualElement = (visualElement: IVisualElement): Descendant[] => {
   const id = getVisualElementId(visualElement);
-  if (visualElement.type !== 'brightcove') {
+  if (visualElement.type !== "brightcove") {
     return [
       slatejsx(
-        'element',
+        "element",
         {
           type: defineTypeOfEmbed(visualElement.type),
           data: {
@@ -60,18 +60,18 @@ export const convertVisualElement = (visualElement: IVisualElement): Descendant[
             },
           },
         },
-        { text: '' },
+        { text: "" },
       ),
     ];
   }
 
-  const splittedUrl = visualElement.url.split('/');
+  const splittedUrl = visualElement.url.split("/");
   const account = splittedUrl[3];
-  const player = splittedUrl[4].split('_')[0];
+  const player = splittedUrl[4].split("_")[0];
 
   return [
     slatejsx(
-      'element',
+      "element",
       {
         type: TYPE_EMBED_BRIGHTCOVE,
         data: {
@@ -87,15 +87,15 @@ export const convertVisualElement = (visualElement: IVisualElement): Descendant[
           player: player,
         },
       },
-      { text: '' },
+      { text: "" },
     ),
   ];
 };
 
 const getVisualElementId = (visualElement: IVisualElement): string => {
-  const splitter = visualElement.type === 'brightcove' ? '=' : '/';
+  const splitter = visualElement.type === "brightcove" ? "=" : "/";
   const splittedUrl = visualElement.url.split(splitter);
-  const id = splittedUrl.pop() ?? '';
+  const id = splittedUrl.pop() ?? "";
   return id;
 };
 
@@ -112,9 +112,9 @@ export const getNdlaFilmFromSlate = (
     language: selectedLanguage,
     title: editorValueToPlainText(newFrontpage.title),
     visualElement: {
-      alt: (data && 'alt' in data && data.alt) || (data && 'caption' in data && data.caption) || '',
-      id: (data && 'metaData' in data && data.metaData.id) || '',
-      type: (data && 'resource' in data && data.resource) || '',
+      alt: (data && "alt" in data && data.alt) || (data && "caption" in data && data.caption) || "",
+      id: (data && "metaData" in data && data.metaData.id) || "",
+      type: (data && "resource" in data && data.resource) || "",
     },
   };
 
@@ -155,7 +155,7 @@ export const getNdlaFilmFromSlate = (
 };
 
 export const getIdFromUrn = (urnId: string) => {
-  return parseInt(urnId.replace('urn:article:', ''));
+  return parseInt(urnId.replace("urn:article:", ""));
 };
 
 export const getUrnFromId = (id: string | number) => {
@@ -174,7 +174,7 @@ export const findName = (
   language: string,
 ) => {
   const filteredName = themeNames.filter((name) => name.language === language);
-  return filteredName.length > 0 ? filteredName.map((name) => name.name).join() : '';
+  return filteredName.length > 0 ? filteredName.map((name) => name.name).join() : "";
 };
 
 export interface ConvertedThemeName {

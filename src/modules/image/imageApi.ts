@@ -6,28 +6,28 @@
  *
  */
 
-import queryString from 'query-string';
+import queryString from "query-string";
 import {
   IImageMetaInformationV3,
   IUpdateImageMetaInformation,
   ISearchResultV3,
   ITagsSearchResult,
-} from '@ndla/types-backend/image-api';
-import { ImageSearchQuery } from './imageApiInterfaces';
+} from "@ndla/types-backend/image-api";
+import { ImageSearchQuery } from "./imageApiInterfaces";
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
   fetchAuthorized,
   throwErrorPayload,
-} from '../../util/apiHelpers';
-import { resolveJsonOrVoidOrRejectWithError } from '../../util/resolveJsonOrRejectWithError';
+} from "../../util/apiHelpers";
+import { resolveJsonOrVoidOrRejectWithError } from "../../util/resolveJsonOrRejectWithError";
 
-const baseUrl = apiResourceUrl('/image-api/v3/images');
+const baseUrl = apiResourceUrl("/image-api/v3/images");
 
 export const postImage = (formData: FormData): Promise<IImageMetaInformationV3> =>
   fetchAuthorized(`${baseUrl}`, {
-    method: 'POST',
-    headers: { 'Content-Type': undefined }, // Without this we're missing a boundary: https://stackoverflow.com/questions/39280438/fetch-missing-boundary-in-multipart-form-data-post
+    method: "POST",
+    headers: { "Content-Type": undefined }, // Without this we're missing a boundary: https://stackoverflow.com/questions/39280438/fetch-missing-boundary-in-multipart-form-data-post
     body: formData,
   }).then((r) => resolveJsonOrRejectWithError<IImageMetaInformationV3>(r));
 
@@ -42,8 +42,8 @@ export const updateImage = (
   formData?: FormData,
 ): Promise<IImageMetaInformationV3> =>
   fetchAuthorized(`${baseUrl}/${id}`, {
-    method: 'PATCH',
-    headers: { 'Content-Type': undefined }, // Without this we're missing a boundary: https://stackoverflow.com/questions/39280438/fetch-missing-boundary-in-multipart-form-data-post
+    method: "PATCH",
+    headers: { "Content-Type": undefined }, // Without this we're missing a boundary: https://stackoverflow.com/questions/39280438/fetch-missing-boundary-in-multipart-form-data-post
     body: formData || JSON.stringify(imageMetadata),
   }).then((r) => resolveJsonOrRejectWithError<IImageMetaInformationV3>(r));
 
@@ -60,7 +60,7 @@ export const onError = (err: Response & Error) => {
 
 export const deleteLanguageVersionImage = (imageId: number, locale: string): Promise<IImageMetaInformationV3 | void> =>
   fetchAuthorized(`${baseUrl}/${imageId}/language/${locale}`, {
-    method: 'DELETE',
+    method: "DELETE",
   }).then((r) => resolveJsonOrVoidOrRejectWithError(r));
 
 export const fetchSearchTags = async (input: string, language: string): Promise<ITagsSearchResult> => {

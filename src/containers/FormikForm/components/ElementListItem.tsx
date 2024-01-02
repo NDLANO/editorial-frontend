@@ -6,15 +6,15 @@
  *
  */
 
-import { MouseEvent } from 'react';
-import { Link } from 'react-router-dom';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
-import { spacing, spacingUnit, colors, fonts, animations } from '@ndla/core';
-import { DragHorizontal, DeleteForever } from '@ndla/icons/editor';
-import { ElementType } from './ElementList';
-import { resourceToLinkProps } from '../../../util/resourceHelpers';
+import { MouseEvent } from "react";
+import { Link } from "react-router-dom";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
+import { spacing, spacingUnit, colors, fonts, animations } from "@ndla/core";
+import { DragHorizontal, DeleteForever } from "@ndla/icons/editor";
+import { ElementType } from "./ElementList";
+import { resourceToLinkProps } from "../../../util/resourceHelpers";
 
 const ELEMENT_HEIGHT = 69;
 const ELEMENT_MARGIN = 4;
@@ -38,8 +38,8 @@ interface ElementImageProps {
 
 export const ElementImage = ({ element }: ElementImageProps) => (
   <StyledElementImage
-    src={(element.metaImage?.url && `${element.metaImage.url}?width=100`) || '/placeholder.png'}
-    alt={element.metaImage?.alt || ''}
+    src={(element.metaImage?.url && `${element.metaImage.url}?width=100`) || "/placeholder.png"}
+    alt={element.metaImage?.alt || ""}
   />
 );
 interface Props {
@@ -73,7 +73,7 @@ const ElementListItem = ({
   onDragStart,
   showDragTooltip,
 }: Props) => {
-  const linkProps = resourceToLinkProps(element, element.articleType ?? articleType ?? 'learning-path', locale);
+  const linkProps = resourceToLinkProps(element, element.articleType ?? articleType ?? "learning-path", locale);
 
   return (
     <StyledListItem
@@ -98,18 +98,18 @@ const ElementListItem = ({
           {isOrderable ? (
             showDragTooltip ? (
               <DraggableIconButton
-                aria-label={messages?.dragElement || ''}
+                aria-label={messages?.dragElement || ""}
                 variant="ghost"
                 colorTheme="light"
                 onMouseDown={(e) => onDragStart(e, index)}
                 onMouseUp={onDragEnd}
-                title={messages?.dragElement || ''}
+                title={messages?.dragElement || ""}
               >
                 <DragHorizontal />
               </DraggableIconButton>
             ) : (
               <DraggableIconButton
-                aria-label={messages?.dragElement || ''}
+                aria-label={messages?.dragElement || ""}
                 variant="ghost"
                 colorTheme="light"
                 onMouseDown={(e) => onDragStart(e, index)}
@@ -120,12 +120,12 @@ const ElementListItem = ({
             )
           ) : null}
           <IconButtonV2
-            aria-label={messages?.removeElement || ''}
+            aria-label={messages?.removeElement || ""}
             variant="ghost"
             colorTheme="danger"
             data-testid="elementListItemDeleteButton"
             onClick={() => deleteFile(index)}
-            title={messages?.removeElement || ''}
+            title={messages?.removeElement || ""}
           >
             <DeleteForever />
           </IconButtonV2>

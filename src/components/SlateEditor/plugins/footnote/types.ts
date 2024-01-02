@@ -6,4 +6,4 @@
  *
  */
 
-export const TYPE_FOOTNOTE = 'footnote';
+export const TYPE_FOOTNOTE = "footnote";

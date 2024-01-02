@@ -6,12 +6,12 @@
  *
  */
 
-import { ResourceType } from '@ndla/types-taxonomy';
-import { ResourceResourceTypePostBody } from './resourceTypesApiInterfaces';
-import { taxonomyApi } from '../../../config';
-import { WithTaxonomyVersion } from '../../../interfaces';
-import { apiResourceUrl, httpFunctions } from '../../../util/apiHelpers';
-import { resolveLocation, resolveVoidOrRejectWithError } from '../../../util/resolveJsonOrRejectWithError';
+import { ResourceType } from "@ndla/types-taxonomy";
+import { ResourceResourceTypePostBody } from "./resourceTypesApiInterfaces";
+import { taxonomyApi } from "../../../config";
+import { WithTaxonomyVersion } from "../../../interfaces";
+import { apiResourceUrl, httpFunctions } from "../../../util/apiHelpers";
+import { resolveLocation, resolveVoidOrRejectWithError } from "../../../util/resolveJsonOrRejectWithError";
 
 const resourceTypesUrl = apiResourceUrl(`${taxonomyApi}/resource-types`);
 const resourceResourceTypesUrl = apiResourceUrl(`${taxonomyApi}/resource-resourcetypes`);
@@ -26,7 +26,11 @@ export const fetchAllResourceTypes = ({
   language,
   taxonomyVersion,
 }: ResourceTypesGetParams): Promise<ResourceType[]> => {
-  return fetchAndResolve({ url: resourceTypesUrl, taxonomyVersion, queryParams: { language } });
+  return fetchAndResolve({
+    url: resourceTypesUrl,
+    taxonomyVersion,
+    queryParams: { language },
+  });
 };
 
 interface ResourceTypeGetParams extends WithTaxonomyVersion {

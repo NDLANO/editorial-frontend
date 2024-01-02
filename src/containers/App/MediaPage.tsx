@@ -6,12 +6,12 @@
  *
  */
 
-import { Route, Routes } from 'react-router-dom';
-import AudioUploaderPage from '../AudioUploader/AudioUploaderPage';
-import ImageUploaderPage from '../ImageUploader/ImageUploaderPage';
-import PodcastUploaderPage from '../Podcast/PodcastUploaderPage';
-import PodcastSeriesPage from '../PodcastSeries/PodcastSeriesPage';
-import PrivateRoute from '../PrivateRoute/PrivateRoute';
+import { Route, Routes } from "react-router-dom";
+import AudioUploaderPage from "../AudioUploader/AudioUploaderPage";
+import ImageUploaderPage from "../ImageUploader/ImageUploaderPage";
+import PodcastUploaderPage from "../Podcast/PodcastUploaderPage";
+import PodcastSeriesPage from "../PodcastSeries/PodcastSeriesPage";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 const MediaPage = () => (
   <>

@@ -6,13 +6,13 @@
  *
  */
 
-import { TdHTMLAttributes } from 'react';
-import { Editor, Element, Node, Path } from 'slate';
-import { ReactEditor } from 'slate-react';
-import styled from '@emotion/styled';
-import { colors, fonts } from '@ndla/core';
-import SlateTable from './SlateTable';
-import TableActions from './TableActions';
+import { TdHTMLAttributes } from "react";
+import { Editor, Element, Node, Path } from "slate";
+import { ReactEditor } from "slate-react";
+import styled from "@emotion/styled";
+import { colors, fonts } from "@ndla/core";
+import SlateTable from "./SlateTable";
+import TableActions from "./TableActions";
 import {
   TYPE_TABLE,
   TYPE_TABLE_BODY,
@@ -21,8 +21,8 @@ import {
   TYPE_TABLE_CELL_HEADER,
   TYPE_TABLE_HEAD,
   TYPE_TABLE_ROW,
-} from './types';
-import WithPlaceHolder from '../../common/WithPlaceHolder';
+} from "./types";
+import WithPlaceHolder from "../../common/WithPlaceHolder";
 
 const StyledTh = styled.th`
   border: 1px solid ${colors.brand.lighter};
@@ -43,7 +43,7 @@ export const tableRenderer = (editor: Editor) => {
           <>
             <TableActions editor={editor} element={element} />
             <SlateTable editor={editor} element={element} attributes={attributes}>
-              <colgroup contentEditable={false} dangerouslySetInnerHTML={{ __html: element.colgroups || '' }} />
+              <colgroup contentEditable={false} dangerouslySetInnerHTML={{ __html: element.colgroups || "" }} />
               {children}
             </SlateTable>
           </>
@@ -53,10 +53,10 @@ export const tableRenderer = (editor: Editor) => {
       case TYPE_TABLE_ROW:
         return <tr {...attributes}>{children}</tr>;
       case TYPE_TABLE_CELL: {
-        const align = element.data.align || '';
+        const align = element.data.align || "";
         const parsedAlign = (
-          ['left', 'center', 'right'].includes(align) ? align : undefined
-        ) as TdHTMLAttributes<HTMLTableCellElement>['align'];
+          ["left", "center", "right"].includes(align) ? align : undefined
+        ) as TdHTMLAttributes<HTMLTableCellElement>["align"];
         return (
           <td
             rowSpan={element.data.rowspan}
@@ -95,7 +95,7 @@ export const tableRenderer = (editor: Editor) => {
     const path = ReactEditor.findPath(editor, text);
 
     const [parent] = Editor.node(editor, Path.parent(path));
-    if (Element.isElement(parent) && parent.type === TYPE_TABLE_CAPTION && Node.string(leaf) === '') {
+    if (Element.isElement(parent) && parent.type === TYPE_TABLE_CAPTION && Node.string(leaf) === "") {
       return (
         <WithPlaceHolder attributes={attributes} placeholder="form.name.title">
           {children}

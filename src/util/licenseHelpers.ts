@@ -6,12 +6,12 @@
  *
  */
 
-import { getLicenseByAbbreviation } from '@ndla/licenses';
-import { ILicense } from '@ndla/types-backend/draft-api';
+import { getLicenseByAbbreviation } from "@ndla/licenses";
+import { ILicense } from "@ndla/types-backend/draft-api";
 
 export const getLicensesWithTranslations = (licenses: ILicense[], language: string, enableLicenseNA: boolean = false) =>
   licenses
-    .filter((license) => license.license !== 'N/A' || enableLicenseNA)
+    .filter((license) => license.license !== "N/A" || enableLicenseNA)
     .map((license) => ({
       ...license,
       ...getLicenseByAbbreviation(license.license, language),

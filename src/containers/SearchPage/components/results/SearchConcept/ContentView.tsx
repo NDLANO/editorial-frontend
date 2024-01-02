@@ -6,20 +6,20 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { colors } from '@ndla/core';
-import { getLicenseByAbbreviation } from '@ndla/licenses';
-import { LicenseByline } from '@ndla/notion';
-import { IConceptSummary } from '@ndla/types-backend/concept-api';
-import { Node } from '@ndla/types-taxonomy';
-import { StyledInfo, StyledConceptView, StyledLink, StyledDescription, StyledBreadcrumbs, Crumb } from './SearchStyles';
-import HeaderStatusInformation from '../../../../../components/HeaderWithLanguage/HeaderStatusInformation';
-import { LocaleType } from '../../../../../interfaces';
-import { useLicenses } from '../../../../../modules/draft/draftQueries';
-import formatDate from '../../../../../util/formatDate';
-import { toEditConcept, toEditGloss } from '../../../../../util/routeHelpers';
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { colors } from "@ndla/core";
+import { getLicenseByAbbreviation } from "@ndla/licenses";
+import { LicenseByline } from "@ndla/notion";
+import { IConceptSummary } from "@ndla/types-backend/concept-api";
+import { Node } from "@ndla/types-taxonomy";
+import { StyledInfo, StyledConceptView, StyledLink, StyledDescription, StyledBreadcrumbs, Crumb } from "./SearchStyles";
+import HeaderStatusInformation from "../../../../../components/HeaderWithLanguage/HeaderStatusInformation";
+import { LocaleType } from "../../../../../interfaces";
+import { useLicenses } from "../../../../../modules/draft/draftQueries";
+import formatDate from "../../../../../util/formatDate";
+import { toEditConcept, toEditGloss } from "../../../../../util/routeHelpers";
 
 interface Props {
   concept: IConceptSummary;
@@ -41,7 +41,7 @@ const StyledButton = styled(ButtonV2)`
 `;
 
 const toEditConceptPage = (concept: IConceptSummary, locale?: string) =>
-  concept.conceptType === 'concept' ? toEditConcept(concept.id, locale) : toEditGloss(concept.id, locale);
+  concept.conceptType === "concept" ? toEditConcept(concept.id, locale) : toEditGloss(concept.id, locale);
 
 const ContentView = ({
   concept,
@@ -66,9 +66,9 @@ const ContentView = ({
         <StyledLink noShadow to={toEditConceptPage(concept)}>
           {title}
         </StyledLink>
-        {false && !editing && <StyledButton onClick={setShowForm}>{t('form.edit')}</StyledButton>}
+        {false && !editing && <StyledButton onClick={setShowForm}>{t("form.edit")}</StyledButton>}
       </h2>
-      <StyledInfo>{`${t('topicArticleForm.info.lastUpdated')} ${formatDate(concept.lastUpdated)}`}</StyledInfo>
+      <StyledInfo>{`${t("topicArticleForm.info.lastUpdated")} ${formatDate(concept.lastUpdated)}`}</StyledInfo>
       <div>
         {concept.supportedLanguages.map((lang) => {
           return lang !== locale ? (
@@ -76,7 +76,7 @@ const ContentView = ({
               {t(`languages.${lang}`)}
             </StyledLink>
           ) : (
-            ''
+            ""
           );
         })}
       </div>
@@ -95,7 +95,7 @@ const ContentView = ({
           inSearch
           type="concept"
           statusText={t(`form.status.${concept.status?.current.toLowerCase()}`)}
-          published={concept.status?.current === 'PUBLISHED' || concept.status?.other.includes('PUBLISHED')}
+          published={concept.status?.current === "PUBLISHED" || concept.status?.other.includes("PUBLISHED")}
           compact
           responsibleName={responsibleName}
         />

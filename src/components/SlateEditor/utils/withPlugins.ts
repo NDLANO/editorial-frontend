@@ -6,8 +6,8 @@
  *
  */
 
-import { Editor } from 'slate';
-import { SlatePlugin } from '../interfaces';
+import { Editor } from "slate";
+import { SlatePlugin } from "../interfaces";
 
 const withPlugins = (editor: Editor, plugins?: SlatePlugin[]) => {
   if (plugins) {

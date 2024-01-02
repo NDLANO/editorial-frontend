@@ -6,8 +6,8 @@
  *
  */
 
-import { INewAudioMetaInformation, IUpdatedAudioMetaInformation } from '@ndla/types-backend/audio-api';
-import { INewImageMetaInformationV2, IUpdateImageMetaInformation } from '@ndla/types-backend/image-api';
+import { INewAudioMetaInformation, IUpdatedAudioMetaInformation } from "@ndla/types-backend/audio-api";
+import { INewImageMetaInformationV2, IUpdateImageMetaInformation } from "@ndla/types-backend/image-api";
 
 export const createFormData = (
   file?: string | Blob,
@@ -20,10 +20,10 @@ export const createFormData = (
   new Promise((resolve) => {
     const form = new FormData();
     if (metadata) {
-      form.append('metadata', JSON.stringify(metadata));
+      form.append("metadata", JSON.stringify(metadata));
     }
     if (file) {
-      form.append('file', file);
+      form.append("file", file);
     }
     resolve(form);
   });

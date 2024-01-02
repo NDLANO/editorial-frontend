@@ -5,15 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { useTranslation } from 'react-i18next';
-import { HelmetWithTracker } from '@ndla/tracker';
-import PublishRequestsContainer from './PublishRequestsContainer';
+import { useTranslation } from "react-i18next";
+import { HelmetWithTracker } from "@ndla/tracker";
+import PublishRequestsContainer from "./PublishRequestsContainer";
 
 const PublishRequestsPage = () => {
   const { t } = useTranslation();
   return (
     <>
-      <HelmetWithTracker title={t('htmlTitles.publishRequestsPage')} />
+      <HelmetWithTracker title={t("htmlTitles.publishRequestsPage")} />
       <PublishRequestsContainer />
     </>
   );

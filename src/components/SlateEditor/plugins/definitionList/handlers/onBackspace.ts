@@ -6,9 +6,9 @@
  *
  */
 
-import { Editor, Element, Transforms, Range, Point } from 'slate';
-import hasNodeOfType from '../../../utils/hasNodeOfType';
-import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_LIST, TYPE_DEFINITION_TERM } from '../types';
+import { Editor, Element, Transforms, Range, Point } from "slate";
+import hasNodeOfType from "../../../utils/hasNodeOfType";
+import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_LIST, TYPE_DEFINITION_TERM } from "../types";
 
 const onBackspace = (e: KeyboardEvent, editor: Editor, nextOnKeyDown: ((e: KeyboardEvent) => void) | undefined) => {
   if (!editor.selection) return nextOnKeyDown?.(e);
@@ -29,7 +29,9 @@ const onBackspace = (e: KeyboardEvent, editor: Editor, nextOnKeyDown: ((e: Keybo
         const [, firstItemNodePath] = Editor.node(editor, [...selectedDefinitionItemPath, 0]);
         if (Point.equals(Range.start(editor.selection), Editor.start(editor, firstItemNodePath))) {
           e.preventDefault();
-          return Transforms.liftNodes(editor, { at: selectedDefinitionItemPath });
+          return Transforms.liftNodes(editor, {
+            at: selectedDefinitionItemPath,
+          });
         }
       }
     }

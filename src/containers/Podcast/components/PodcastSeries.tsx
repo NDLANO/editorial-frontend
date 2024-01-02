@@ -6,23 +6,23 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
-import { colors, fonts, spacing } from '@ndla/core';
-import { FieldHeader } from '@ndla/forms';
-import { DeleteForever } from '@ndla/icons/editor';
-import SafeLink from '@ndla/safelink';
-import { ISeriesSummary } from '@ndla/types-backend/audio-api';
-import { Text } from '@ndla/typography';
-import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
-import FormikField from '../../../components/FormikField';
-import { SearchResultBase } from '../../../interfaces';
-import { searchSeries } from '../../../modules/audio/audioApi';
-import { toEditPodcastSeries } from '../../../util/routeHelpers';
-import { ElementImage } from '../../FormikForm/components/ElementListItem';
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
+import { colors, fonts, spacing } from "@ndla/core";
+import { FieldHeader } from "@ndla/forms";
+import { DeleteForever } from "@ndla/icons/editor";
+import SafeLink from "@ndla/safelink";
+import { ISeriesSummary } from "@ndla/types-backend/audio-api";
+import { Text } from "@ndla/typography";
+import AsyncDropdown from "../../../components/Dropdown/asyncDropdown/AsyncDropdown";
+import FormikField from "../../../components/FormikField";
+import { SearchResultBase } from "../../../interfaces";
+import { searchSeries } from "../../../modules/audio/audioApi";
+import { toEditPodcastSeries } from "../../../util/routeHelpers";
+import { ElementImage } from "../../FormikForm/components/ElementListItem";
 
-interface SeriesType extends Omit<ISeriesSummary, 'coverPhoto'> {
+interface SeriesType extends Omit<ISeriesSummary, "coverPhoto"> {
   metaImage: { id: string; url: string; alt: string };
 }
 
@@ -67,11 +67,16 @@ const PodcastSeries = () => {
     <StyledFormikField name="series">
       {({ field }) => (
         <StyledWrapper>
-          <FieldHeader title={t('podcastForm.fields.series')} />
+          <FieldHeader title={t("podcastForm.fields.series")} />
           {field.value ? (
             <PodcastSeriesElement>
               <div>
-                <ElementImage element={{ ...field.value, metaImage: field.value.coverPhoto }} />
+                <ElementImage
+                  element={{
+                    ...field.value,
+                    metaImage: field.value.coverPhoto,
+                  }}
+                />
                 {field.value.id && (
                   <StyledSafeLink to={toEditPodcastSeries(field.value.id, i18n.language)} target="_blank">
                     {field.value.title.title}
@@ -79,8 +84,8 @@ const PodcastSeries = () => {
                 )}
               </div>
               <IconButtonV2
-                aria-label={t('podcastForm.information.removeSeries')}
-                title={t('podcastForm.information.removeSeries')}
+                aria-label={t("podcastForm.information.removeSeries")}
+                title={t("podcastForm.information.removeSeries")}
                 variant="ghost"
                 colorTheme="danger"
                 onClick={() => field.onChange({ target: { name: field.name, value: null } })}
@@ -89,19 +94,21 @@ const PodcastSeries = () => {
               </IconButtonV2>
             </PodcastSeriesElement>
           ) : (
-            <Text textStyle="content-alt">{t('podcastForm.information.noSeries')}</Text>
+            <Text textStyle="content-alt">{t("podcastForm.information.noSeries")}</Text>
           )}
           <AsyncDropdown<SeriesType>
             selectedItems={field.value ? [field.value] : []}
             idField="id"
             labelField="title"
-            placeholder={t('form.content.relatedArticle.placeholder')}
+            placeholder={t("form.content.relatedArticle.placeholder")}
             apiAction={searchForSeries}
             onClick={(e) => e.stopPropagation()}
             onChange={(series) => {
               // Delete episodes from series object, keep remaining
               const { episodes: _, ...remaining } = series;
-              field.onChange({ target: { name: field.name, value: remaining } });
+              field.onChange({
+                target: { name: field.name, value: remaining },
+              });
             }}
             multiSelect
             disableSelected

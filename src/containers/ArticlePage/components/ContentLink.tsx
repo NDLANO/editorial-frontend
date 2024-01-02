@@ -6,13 +6,13 @@
  *
  */
 
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from "react";
 
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
-import { Input } from '@ndla/forms';
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { spacing } from "@ndla/core";
+import { Input } from "@ndla/forms";
 
 const StyledContent = styled.div`
   display: flex;
@@ -32,7 +32,7 @@ interface Props {
   initialUrl?: string;
 }
 
-const ContentLink = ({ onAddLink, initialTitle = '', initialUrl = '' }: Props) => {
+const ContentLink = ({ onAddLink, initialTitle = "", initialUrl = "" }: Props) => {
   const { t } = useTranslation();
   const [title, setTitle] = useState(initialTitle);
   const [url, setUrl] = useState(initialUrl);
@@ -44,7 +44,7 @@ const ContentLink = ({ onAddLink, initialTitle = '', initialUrl = '' }: Props) =
   }, [initialTitle, initialUrl]);
 
   const isEmpty = (title: string) => {
-    return title === '';
+    return title === "";
   };
 
   const isUrl = (field: string) => {
@@ -55,8 +55,8 @@ const ContentLink = ({ onAddLink, initialTitle = '', initialUrl = '' }: Props) =
   const handleSubmit = () => {
     if (!isEmpty(title) && isUrl(url)) {
       onAddLink(title, url);
-      setTitle('');
-      setUrl('');
+      setTitle("");
+      setUrl("");
       setShowError(false);
     } else {
       setShowError(true);
@@ -66,22 +66,22 @@ const ContentLink = ({ onAddLink, initialTitle = '', initialUrl = '' }: Props) =
   return (
     <StyledContent>
       <Input
-        warningText={showError && isEmpty(title) ? t('form.relatedContent.link.missingTitle') : undefined}
+        warningText={showError && isEmpty(title) ? t("form.relatedContent.link.missingTitle") : undefined}
         data-testid="addExternalTitleInput"
         type="text"
-        placeholder={t('form.relatedContent.link.titlePlaceholder')}
+        placeholder={t("form.relatedContent.link.titlePlaceholder")}
         value={title}
         onChange={(e: ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
       />
       <Input
-        warningText={showError && !isUrl(url) ? t('form.relatedContent.link.missingUrl') : undefined}
+        warningText={showError && !isUrl(url) ? t("form.relatedContent.link.missingUrl") : undefined}
         data-testid="addExternalUrlInput"
         type="text"
-        placeholder={t('form.relatedContent.link.urlPlaceholder')}
+        placeholder={t("form.relatedContent.link.urlPlaceholder")}
         value={url}
         onChange={(e: ChangeEvent<HTMLInputElement>) => setUrl(e.target.value)}
       />
-      <StyledSaveButton onClick={handleSubmit}>{t('save')}</StyledSaveButton>
+      <StyledSaveButton onClick={handleSubmit}>{t("save")}</StyledSaveButton>
     </StyledContent>
   );
 };

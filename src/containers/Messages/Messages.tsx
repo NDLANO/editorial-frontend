@@ -6,13 +6,13 @@
  *
  */
 
-import { MouseEvent } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import { css, SerializedStyles } from '@emotion/react';
-import styled from '@emotion/styled';
-import { useMessages } from './MessagesProvider';
-import AlertModal from '../../components/AlertModal';
+import { MouseEvent } from "react";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import { css, SerializedStyles } from "@emotion/react";
+import styled from "@emotion/styled";
+import { useMessages } from "./MessagesProvider";
+import AlertModal from "../../components/AlertModal";
 
 const appearances: Record<string, SerializedStyles> = {
   hidden: css`
@@ -20,7 +20,7 @@ const appearances: Record<string, SerializedStyles> = {
   `,
 };
 
-const StyledMessageAlertOverlay = styled('div')`
+const StyledMessageAlertOverlay = styled("div")`
   position: fixed;
   width: 80%;
   max-width: 800px;
@@ -29,10 +29,10 @@ const StyledMessageAlertOverlay = styled('div')`
   right: 0;
   z-index: 200;
   margin: 0 auto;
-  ${(p: { appearance: 'hidden' | '' }) => appearances[p.appearance]};
+  ${(p: { appearance: "hidden" | "" }) => appearances[p.appearance]};
 `;
 
-type MessageSeverity = 'danger' | 'info' | 'success' | 'warning';
+type MessageSeverity = "danger" | "info" | "success" | "warning";
 
 export interface MessageType {
   id: string;
@@ -59,16 +59,16 @@ const Message = ({ message }: MessageProps) => {
 
   const auth0Actions = [
     {
-      text: t('form.abort'),
+      text: t("form.abort"),
       onClick: () => clearMessage(message.id),
     },
     {
-      text: t('alertModal.loginAgain'),
+      text: t("alertModal.loginAgain"),
       onClick: (evt: MouseEvent<HTMLButtonElement>) => {
         evt.preventDefault();
-        const lastPath = `${window.location.pathname}${window.location.search ? window.location.search : ''}`;
-        localStorage.setItem('lastPath', lastPath);
-        navigate('/logout/session?returnToLogin=true'); // Push to logoutPath
+        const lastPath = `${window.location.pathname}${window.location.search ? window.location.search : ""}`;
+        localStorage.setItem("lastPath", lastPath);
+        navigate("/logout/session?returnToLogin=true"); // Push to logoutPath
         window.location.reload();
       },
     },
@@ -76,11 +76,11 @@ const Message = ({ message }: MessageProps) => {
 
   return (
     <AlertModal
-      title={t(`messages.severity.${message.severity ?? 'danger'}`)}
-      label={t(`messages.severity.${message.severity ?? 'danger'}`)}
+      title={t(`messages.severity.${message.severity ?? "danger"}`)}
+      label={t(`messages.severity.${message.severity ?? "danger"}`)}
       show
       text={message.translationKey ? t(message.translationKey, message.translationObject) : message.message!}
-      actions={message.type === 'auth0' ? auth0Actions : []}
+      actions={message.type === "auth0" ? auth0Actions : []}
       onCancel={() => clearMessage(message.id)}
       severity={message.severity}
     />
@@ -93,7 +93,7 @@ const Messages = () => {
   const timeout = (item: MessageType) => setTimeout(() => clearMessage(item.id), item.timeToLive);
   messages.filter((m) => (m.timeToLive ?? 1) > 0).forEach((item) => timeout(item));
   return (
-    <StyledMessageAlertOverlay appearance={isHidden ? 'hidden' : ''}>
+    <StyledMessageAlertOverlay appearance={isHidden ? "hidden" : ""}>
       {messages.map((message) => (
         <Message key={message.id} message={message} />
       ))}

@@ -6,8 +6,8 @@
  *
  */
 
-import SearchTag from './SearchTag';
-import { SearchFormSelector } from './Selector';
+import SearchTag from "./SearchTag";
+import { SearchFormSelector } from "./Selector";
 
 interface Props {
   tagTypes: SearchFormSelector[];

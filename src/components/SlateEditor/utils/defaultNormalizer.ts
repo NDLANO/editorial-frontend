@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { Editor, Element, NodeEntry, Path, Text, Transforms } from 'slate';
-import { createNode } from './normalizationHelpers';
-import { ElementType } from '../interfaces';
+import { Editor, Element, NodeEntry, Path, Text, Transforms } from "slate";
+import { createNode } from "./normalizationHelpers";
+import { ElementType } from "../interfaces";
 
 interface DefaultNodeRule {
   allowed: ElementType[];
@@ -114,7 +114,9 @@ const normalizeNodes = (editor: Editor, entry: NodeEntry, config: NormalizerConf
     if (nodes) {
       // a. Wrap if text
       if (Text.isText(child)) {
-        Transforms.wrapNodes(editor, createNode(nodes.defaultType), { at: [...path, index] });
+        Transforms.wrapNodes(editor, createNode(nodes.defaultType), {
+          at: [...path, index],
+        });
         return true;
         // b. Unwrap if incorrect
       } else if (!nodes.allowed.includes(child.type)) {
@@ -127,7 +129,9 @@ const normalizeNodes = (editor: Editor, entry: NodeEntry, config: NormalizerConf
   if (children.length === 0) {
     const rule = firstNode || lastNode || nodes;
     if (rule?.defaultType) {
-      Transforms.insertNodes(editor, createNode(rule.defaultType), { at: [...path, 0] });
+      Transforms.insertNodes(editor, createNode(rule.defaultType), {
+        at: [...path, 0],
+      });
       return true;
     }
   }
@@ -188,7 +192,9 @@ const normalizeParent = (editor: Editor, entry: NodeEntry, settings: ParentNodeR
   // 1. If parent element is incorrect, change current node to default element
   if (!Element.isElement(parent) || !allowed.includes(parent.type)) {
     if (defaultType) {
-      Transforms.setNodes<Element>(editor, createNode(defaultType), { at: path });
+      Transforms.setNodes<Element>(editor, createNode(defaultType), {
+        at: path,
+      });
     } else {
       Transforms.unwrapNodes(editor, { at: path });
     }

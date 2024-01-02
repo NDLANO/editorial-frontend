@@ -6,37 +6,37 @@
  *
  */
 
-import { Descendant } from 'slate';
-import { blockContentToEditorValue, blockContentToHTML } from '../../../../../util/articleContentConverter';
-import { TYPE_PARAGRAPH } from '../../paragraph/types';
-import { TYPE_SECTION } from '../../section/types';
-import { TYPE_GRID, TYPE_GRID_CELL } from '../types';
+import { Descendant } from "slate";
+import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
+import { TYPE_PARAGRAPH } from "../../paragraph/types";
+import { TYPE_SECTION } from "../../section/types";
+import { TYPE_GRID, TYPE_GRID_CELL } from "../types";
 
 const editor2: Descendant[] = [
   {
     type: TYPE_SECTION,
     children: [
-      { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+      { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
       {
         type: TYPE_GRID,
         data: {
-          columns: '2',
-          border: 'none',
+          columns: "2",
+          border: "none",
         },
         children: [
           {
             type: TYPE_GRID_CELL,
-            data: { parallaxCell: 'false' },
-            children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'a' }] }],
+            data: { parallaxCell: "false" },
+            children: [{ type: TYPE_PARAGRAPH, children: [{ text: "a" }] }],
           },
           {
             type: TYPE_GRID_CELL,
-            data: { parallaxCell: 'false' },
-            children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'a' }] }],
+            data: { parallaxCell: "false" },
+            children: [{ type: TYPE_PARAGRAPH, children: [{ text: "a" }] }],
           },
         ],
       },
-      { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+      { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
     ],
   },
 ];
@@ -48,37 +48,37 @@ const editor4: Descendant[] = [
   {
     type: TYPE_SECTION,
     children: [
-      { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+      { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
       {
         type: TYPE_GRID,
         data: {
-          columns: '4',
-          border: 'none',
+          columns: "4",
+          border: "none",
         },
         children: [
           {
             type: TYPE_GRID_CELL,
-            data: { parallaxCell: 'false' },
-            children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'a' }] }],
+            data: { parallaxCell: "false" },
+            children: [{ type: TYPE_PARAGRAPH, children: [{ text: "a" }] }],
           },
           {
             type: TYPE_GRID_CELL,
-            data: { parallaxCell: 'false' },
-            children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'a' }] }],
+            data: { parallaxCell: "false" },
+            children: [{ type: TYPE_PARAGRAPH, children: [{ text: "a" }] }],
           },
           {
             type: TYPE_GRID_CELL,
-            data: { parallaxCell: 'false' },
-            children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'a' }] }],
+            data: { parallaxCell: "false" },
+            children: [{ type: TYPE_PARAGRAPH, children: [{ text: "a" }] }],
           },
           {
             type: TYPE_GRID_CELL,
-            data: { parallaxCell: 'false' },
-            children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'a' }] }],
+            data: { parallaxCell: "false" },
+            children: [{ type: TYPE_PARAGRAPH, children: [{ text: "a" }] }],
           },
         ],
       },
-      { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+      { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
     ],
   },
 ];
@@ -90,51 +90,51 @@ const editorMultipleChildrenGridCell: Descendant[] = [
   {
     type: TYPE_SECTION,
     children: [
-      { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+      { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
       {
         type: TYPE_GRID,
         data: {
-          columns: '4',
-          border: 'none',
+          columns: "4",
+          border: "none",
         },
         children: [
           {
             type: TYPE_GRID_CELL,
-            data: { parallaxCell: 'false' },
+            data: { parallaxCell: "false" },
             children: [
-              { type: TYPE_PARAGRAPH, children: [{ text: 'a' }] },
-              { type: TYPE_PARAGRAPH, children: [{ text: 'a' }] },
+              { type: TYPE_PARAGRAPH, children: [{ text: "a" }] },
+              { type: TYPE_PARAGRAPH, children: [{ text: "a" }] },
             ],
           },
           {
             type: TYPE_GRID_CELL,
-            data: { parallaxCell: 'false' },
+            data: { parallaxCell: "false" },
             children: [
-              { type: TYPE_PARAGRAPH, children: [{ text: 'a' }] },
-              { type: TYPE_PARAGRAPH, children: [{ text: 'a' }] },
-              { type: TYPE_PARAGRAPH, children: [{ text: 'a' }] },
+              { type: TYPE_PARAGRAPH, children: [{ text: "a" }] },
+              { type: TYPE_PARAGRAPH, children: [{ text: "a" }] },
+              { type: TYPE_PARAGRAPH, children: [{ text: "a" }] },
             ],
           },
           {
             type: TYPE_GRID_CELL,
-            data: { parallaxCell: 'false' },
+            data: { parallaxCell: "false" },
             children: [
-              { type: TYPE_PARAGRAPH, children: [{ text: 'a' }] },
-              { type: TYPE_PARAGRAPH, children: [{ text: 'a' }] },
+              { type: TYPE_PARAGRAPH, children: [{ text: "a" }] },
+              { type: TYPE_PARAGRAPH, children: [{ text: "a" }] },
             ],
           },
           {
             type: TYPE_GRID_CELL,
-            data: { parallaxCell: 'false' },
+            data: { parallaxCell: "false" },
             children: [
-              { type: TYPE_PARAGRAPH, children: [{ text: 'a' }] },
-              { type: TYPE_PARAGRAPH, children: [{ text: 'a' }] },
-              { type: TYPE_PARAGRAPH, children: [{ text: 'a' }] },
+              { type: TYPE_PARAGRAPH, children: [{ text: "a" }] },
+              { type: TYPE_PARAGRAPH, children: [{ text: "a" }] },
+              { type: TYPE_PARAGRAPH, children: [{ text: "a" }] },
             ],
           },
         ],
       },
-      { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+      { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
     ],
   },
 ];
@@ -142,33 +142,33 @@ const editorMultipleChildrenGridCell: Descendant[] = [
 const htmlMultipleChildrenGridCell =
   '<section><div data-type="grid" data-columns="4" data-border="none"><div data-type="grid-cell" data-parallax-cell="false"><p>a</p><p>a</p></div><div data-type="grid-cell" data-parallax-cell="false"><p>a</p><p>a</p><p>a</p></div><div data-type="grid-cell" data-parallax-cell="false"><p>a</p><p>a</p></div><div data-type="grid-cell" data-parallax-cell="false"><p>a</p><p>a</p><p>a</p></div></div></section>';
 
-describe('grid serializing tests', () => {
-  test('serializing 2x1 grid', () => {
+describe("grid serializing tests", () => {
+  test("serializing 2x1 grid", () => {
     const res = blockContentToHTML(editor2);
     expect(res).toMatch(html2);
   });
 
-  test('deserializing 2x1 grid', () => {
+  test("deserializing 2x1 grid", () => {
     const res = blockContentToEditorValue(html2);
     expect(res).toMatchObject(editor2);
   });
 
-  test('serializing 4x1 grid', () => {
+  test("serializing 4x1 grid", () => {
     const res = blockContentToHTML(editor4);
     expect(res).toMatch(html4);
   });
 
-  test('deserializing 4x1 grid', () => {
+  test("deserializing 4x1 grid", () => {
     const res = blockContentToEditorValue(html4);
     expect(res).toMatchObject(editor4);
   });
 
-  test('serializing multiple children inside grid_cell', () => {
+  test("serializing multiple children inside grid_cell", () => {
     const res = blockContentToEditorValue(htmlMultipleChildrenGridCell);
     expect(res).toMatchObject(editorMultipleChildrenGridCell);
   });
 
-  test('deserializing multiple children inside grid_cell', () => {
+  test("deserializing multiple children inside grid_cell", () => {
     const res = blockContentToHTML(editorMultipleChildrenGridCell);
     expect(res).toMatch(htmlMultipleChildrenGridCell);
   });

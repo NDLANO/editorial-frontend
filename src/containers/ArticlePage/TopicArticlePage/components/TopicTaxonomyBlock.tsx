@@ -6,32 +6,32 @@
  *
  */
 
-import differenceBy from 'lodash/differenceBy';
-import isEqual from 'lodash/isEqual';
-import partition from 'lodash/partition';
-import { useCallback, useMemo, useState, MouseEvent, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { useQueryClient } from '@tanstack/react-query';
-import { ButtonV2 } from '@ndla/button';
-import { spacing, colors } from '@ndla/core';
-import { SingleValue } from '@ndla/select';
-import { IArticle, IUpdatedArticle } from '@ndla/types-backend/draft-api';
-import { Node, Version } from '@ndla/types-taxonomy';
-import TopicArticleConnections from './TopicArticleConnections';
-import { FormikFieldHelp } from '../../../../components/FormikField';
-import SaveButton from '../../../../components/SaveButton';
-import { NodeWithChildren } from '../../../../components/Taxonomy/TaxonomyBlockNode';
-import { TAXONOMY_ADMIN_SCOPE } from '../../../../constants';
-import { fetchChildNodes } from '../../../../modules/nodes/nodeApi';
-import { nodeQueryKeys } from '../../../../modules/nodes/nodeQueries';
-import { useCreateTopicNodeConnectionsMutation } from '../../../../modules/taxonomy/taxonomyMutations';
-import handleError from '../../../../util/handleError';
-import { groupChildNodes } from '../../../../util/taxonomyHelpers';
-import { useSession } from '../../../Session/SessionProvider';
-import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
-import TaxonomyConnectionErrors from '../../components/TaxonomyConnectionErrors';
-import VersionSelect from '../../components/VersionSelect';
+import differenceBy from "lodash/differenceBy";
+import isEqual from "lodash/isEqual";
+import partition from "lodash/partition";
+import { useCallback, useMemo, useState, MouseEvent, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { useQueryClient } from "@tanstack/react-query";
+import { ButtonV2 } from "@ndla/button";
+import { spacing, colors } from "@ndla/core";
+import { SingleValue } from "@ndla/select";
+import { IArticle, IUpdatedArticle } from "@ndla/types-backend/draft-api";
+import { Node, Version } from "@ndla/types-taxonomy";
+import TopicArticleConnections from "./TopicArticleConnections";
+import { FormikFieldHelp } from "../../../../components/FormikField";
+import SaveButton from "../../../../components/SaveButton";
+import { NodeWithChildren } from "../../../../components/Taxonomy/TaxonomyBlockNode";
+import { TAXONOMY_ADMIN_SCOPE } from "../../../../constants";
+import { fetchChildNodes } from "../../../../modules/nodes/nodeApi";
+import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
+import { useCreateTopicNodeConnectionsMutation } from "../../../../modules/taxonomy/taxonomyMutations";
+import handleError from "../../../../util/handleError";
+import { groupChildNodes } from "../../../../util/taxonomyHelpers";
+import { useSession } from "../../../Session/SessionProvider";
+import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
+import TaxonomyConnectionErrors from "../../components/TaxonomyConnectionErrors";
+import VersionSelect from "../../components/VersionSelect";
 
 interface Props {
   hasTaxEntries: boolean;
@@ -96,7 +96,7 @@ const TopicTaxonomyBlock = ({
     [propValidPlacements],
   );
 
-  const [resources, topics] = useMemo(() => partition(nodes, (node) => node.nodeType === 'RESOURCE'), [nodes]);
+  const [resources, topics] = useMemo(() => partition(nodes, (node) => node.nodeType === "RESOURCE"), [nodes]);
 
   const isDirty = useMemo(() => !isEqual(initialPlacements, placements), [initialPlacements, placements]);
 
@@ -122,14 +122,14 @@ const TopicTaxonomyBlock = ({
     try {
       await createTopicNodeConnectionsMutation.mutateAsync({
         placements: newNodes,
-        name: article.title?.title ?? '',
+        name: article.title?.title ?? "",
         articleId: article.id,
         taxonomyVersion,
       });
       await updateNotes({
         revision: article.revision,
         language: article.title?.language,
-        notes: ['Oppdatert taksonomi.'],
+        notes: ["Oppdatert taksonomi."],
       });
       await qc.invalidateQueries({
         queryKey: nodeQueryKeys.nodes({
@@ -144,7 +144,7 @@ const TopicTaxonomyBlock = ({
         queryKey: nodeQueryKeys.nodes({
           language: articleLanguage,
           taxonomyVersion,
-          nodeType: 'SUBJECT',
+          nodeType: "SUBJECT",
         }),
       });
     } catch (err) {
@@ -161,7 +161,7 @@ const TopicTaxonomyBlock = ({
     } else {
       setPlacements(initialPlacements);
       setShowWarning(false);
-      changeVersion('draft');
+      changeVersion("draft");
     }
   }, [changeVersion, initialPlacements, isDirty, showWarning]);
 
@@ -179,7 +179,7 @@ const TopicTaxonomyBlock = ({
           id: subjectId,
           language: articleLanguage,
           taxonomyVersion,
-          nodeType: ['TOPIC'],
+          nodeType: ["TOPIC"],
           recursive: true,
         });
         const childNodes = groupChildNodes(nodes);
@@ -194,11 +194,11 @@ const TopicTaxonomyBlock = ({
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
   return (
     <>
-      {!hasTaxEntries && <FormikFieldHelp error>{t('errorMessage.missingTax')}</FormikFieldHelp>}
+      {!hasTaxEntries && <FormikFieldHelp error>{t("errorMessage.missingTax")}</FormikFieldHelp>}
       {isTaxonomyAdmin && (
         <>
           <TaxonomyConnectionErrors
-            articleType={article.articleType ?? 'topic-article'}
+            articleType={article.articleType ?? "topic-article"}
             resources={resources}
             topics={topics}
           />
@@ -213,7 +213,7 @@ const TopicTaxonomyBlock = ({
       />
       {!!invalidPlacements.length && isTaxonomyAdmin && (
         <details>
-          <summary>{t('errorMessage.invalidTopicPlacements')}</summary>
+          <summary>{t("errorMessage.invalidTopicPlacements")}</summary>
           <InvalidPlacementsWrapper>
             {invalidPlacements.map((placement) => (
               <InvalidPlacement key={placement.id}>{placement.id}</InvalidPlacement>
@@ -221,14 +221,14 @@ const TopicTaxonomyBlock = ({
           </InvalidPlacementsWrapper>
         </details>
       )}
-      {showWarning && <FormikFieldHelp error>{t('errorMessage.unsavedTaxonomy')}</FormikFieldHelp>}
+      {showWarning && <FormikFieldHelp error>{t("errorMessage.unsavedTaxonomy")}</FormikFieldHelp>}
       <ButtonContainer>
         <ButtonV2
           variant="outline"
           onClick={onReset}
           disabled={!isDirty || createTopicNodeConnectionsMutation.isPending}
         >
-          {t('reset')}
+          {t("reset")}
         </ButtonV2>
         <SaveButton
           isSaving={isSaving}
@@ -240,7 +240,7 @@ const TopicTaxonomyBlock = ({
         />
       </ButtonContainer>
       <FormikFieldHelp float="right" warning>
-        {t('warningMessage.taxonomy')}
+        {t("warningMessage.taxonomy")}
       </FormikFieldHelp>
     </>
   );

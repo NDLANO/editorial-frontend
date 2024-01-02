@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import queryString from 'query-string';
+import queryString from "query-string";
 import {
   ISubjectPageData,
   IFilmFrontPageData,
@@ -13,18 +13,18 @@ import {
   IUpdatedSubjectFrontPageData,
   INewOrUpdatedFilmFrontPageData,
   IFrontPage,
-} from '@ndla/types-backend/frontpage-api';
-import { LocaleType } from '../../interfaces';
-import { resolveJsonOrRejectWithError, apiResourceUrl, fetchAuthorized } from '../../util/apiHelpers';
+} from "@ndla/types-backend/frontpage-api";
+import { LocaleType } from "../../interfaces";
+import { resolveJsonOrRejectWithError, apiResourceUrl, fetchAuthorized } from "../../util/apiHelpers";
 
-const baseUrl = apiResourceUrl('/frontpage-api/v1');
+const baseUrl = apiResourceUrl("/frontpage-api/v1");
 
 export const fetchFrontpage = () =>
   fetchAuthorized(`${baseUrl}/frontpage`).then((r) => resolveJsonOrRejectWithError<IFrontPage>(r));
 
 export const postFrontpage = (frontpage: IFrontPage) =>
   fetchAuthorized(`${baseUrl}/frontpage`, {
-    method: 'POST',
+    method: "POST",
     body: JSON.stringify(frontpage),
   }).then((r) => resolveJsonOrRejectWithError<IFrontPage>(r));
 
@@ -33,7 +33,7 @@ export const fetchFilmFrontpage = () =>
 
 export const updateFilmFrontpage = (filmfrontpage: INewOrUpdatedFilmFrontPageData): Promise<IFilmFrontPageData> => {
   return fetchAuthorized(`${baseUrl}/filmfrontpage/`, {
-    method: 'POST',
+    method: "POST",
     body: JSON.stringify(filmfrontpage),
   }).then((r) => resolveJsonOrRejectWithError<IFilmFrontPageData>(r));
 };
@@ -52,13 +52,13 @@ export const updateSubjectpage = (
 ): Promise<ISubjectPageData> => {
   const query = queryString.stringify({ language });
   return fetchAuthorized(`${baseUrl}/subjectpage/${subjectpageId}?${query}`, {
-    method: 'PATCH',
+    method: "PATCH",
     body: JSON.stringify(subjectpage),
   }).then((r) => resolveJsonOrRejectWithError(r));
 };
 
 export const createSubjectpage = (subjectpage: INewSubjectFrontPageData): Promise<ISubjectPageData> =>
   fetchAuthorized(`${baseUrl}/subjectpage/`, {
-    method: 'POST',
+    method: "POST",
     body: JSON.stringify(subjectpage),
   }).then((r) => resolveJsonOrRejectWithError(r));

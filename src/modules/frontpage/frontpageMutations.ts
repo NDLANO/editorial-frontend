@@ -6,10 +6,10 @@
  *
  */
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { IFrontPage } from '@ndla/types-backend/frontpage-api';
-import { postFrontpage } from './frontpageApi';
-import { frontpageQueryKeys } from './frontpageQueries';
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { IFrontPage } from "@ndla/types-backend/frontpage-api";
+import { postFrontpage } from "./frontpageApi";
+import { frontpageQueryKeys } from "./frontpageQueries";
 
 export const useUpdateFrontpageMutation = () => {
   const qc = useQueryClient();

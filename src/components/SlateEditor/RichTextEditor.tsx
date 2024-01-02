@@ -5,25 +5,25 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { useFormikContext } from 'formik';
-import isEqual from 'lodash/isEqual';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { createEditor, Descendant, Editor, NodeEntry, Range, Transforms } from 'slate';
-import { withHistory } from 'slate-history';
-import { Slate, Editable, withReact, RenderElementProps, RenderLeafProps, ReactEditor } from 'slate-react';
-import styled from '@emotion/styled';
-import { fonts } from '@ndla/core';
-import { SlatePlugin } from './interfaces';
-import { Action, commonActions } from './plugins/blockPicker/actions';
-import { BlockPickerOptions, createBlockpickerOptions } from './plugins/blockPicker/options';
-import SlateBlockPicker from './plugins/blockPicker/SlateBlockPicker';
-import { onDragOver, onDragStart, onDrop } from './plugins/DND';
-import { SlateToolbar } from './plugins/toolbar';
-import { SlateProvider } from './SlateContext';
-import withPlugins from './utils/withPlugins';
-import { ArticleFormType } from '../../containers/FormikForm/articleFormHooks';
-import { FormikStatus } from '../../interfaces';
-import Spinner from '../Spinner';
+import { useFormikContext } from "formik";
+import isEqual from "lodash/isEqual";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { createEditor, Descendant, Editor, NodeEntry, Range, Transforms } from "slate";
+import { withHistory } from "slate-history";
+import { Slate, Editable, withReact, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
+import styled from "@emotion/styled";
+import { fonts } from "@ndla/core";
+import { SlatePlugin } from "./interfaces";
+import { Action, commonActions } from "./plugins/blockPicker/actions";
+import { BlockPickerOptions, createBlockpickerOptions } from "./plugins/blockPicker/options";
+import SlateBlockPicker from "./plugins/blockPicker/SlateBlockPicker";
+import { onDragOver, onDragStart, onDrop } from "./plugins/DND";
+import { SlateToolbar } from "./plugins/toolbar";
+import { SlateProvider } from "./SlateContext";
+import withPlugins from "./utils/withPlugins";
+import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
+import { FormikStatus } from "../../interfaces";
+import Spinner from "../Spinner";
 
 const StyledSlateWrapper = styled.div`
   position: relative;
@@ -81,7 +81,7 @@ const RichTextEditor = ({
 
   useEffect(() => {
     // When form is submitted or form content has been revert to a previous version, the editor has to be reinitialized.
-    if ((!submitted && prevSubmitted.current) || status === 'revertVersion') {
+    if ((!submitted && prevSubmitted.current) || status === "revertVersion") {
       if (isFirstNormalize) {
         return;
       }
@@ -122,13 +122,16 @@ const RichTextEditor = ({
         });
         if (target) {
           Transforms.select(editor, target[1]);
-          Transforms.collapse(editor, { edge: 'end' });
+          Transforms.collapse(editor, { edge: "end" });
         }
       }
       editor.lastSelection = undefined;
       editor.lastSelectedBlock = undefined;
-      if (status?.status === 'revertVersion') {
-        setStatus((prevStatus: FormikStatus) => ({ ...prevStatus, status: undefined }));
+      if (status?.status === "revertVersion") {
+        setStatus((prevStatus: FormikStatus) => ({
+          ...prevStatus,
+          status: undefined,
+        }));
       }
     } else if (submitted && !prevSubmitted.current) {
       ReactEditor.deselect(editor);

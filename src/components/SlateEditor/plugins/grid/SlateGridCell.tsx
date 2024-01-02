@@ -6,15 +6,15 @@
  *
  */
 
-import { useCallback, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Editor, Transforms } from 'slate';
-import { ReactEditor, RenderElementProps } from 'slate-react';
-import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
-import { spacing, colors } from '@ndla/core';
-import { Pin } from '@ndla/icons/common';
-import { GridCellElement } from '.';
+import { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Transforms } from "slate";
+import { ReactEditor, RenderElementProps } from "slate-react";
+import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
+import { spacing, colors } from "@ndla/core";
+import { Pin } from "@ndla/icons/common";
+import { GridCellElement } from ".";
 
 interface Props extends RenderElementProps {
   editor: Editor;
@@ -31,13 +31,13 @@ const StyledButton = styled(IconButtonV2)`
 const GridCell = ({ element, editor, attributes, children }: Props) => {
   const { t } = useTranslation();
   const onClickSticky = useCallback(() => {
-    const parallaxCell = element.data?.parallaxCell === 'true' ? 'false' : 'true';
+    const parallaxCell = element.data?.parallaxCell === "true" ? "false" : "true";
     const path = ReactEditor.findPath(editor, element);
     Transforms.setNodes(editor, { data: { ...element.data, parallaxCell } }, { at: path });
   }, [editor, element]);
 
   const label = useMemo(
-    () => (element.data?.parallaxCell !== 'true' ? t('gridForm.setSticky') : t('gridForm.unsetSticky')),
+    () => (element.data?.parallaxCell !== "true" ? t("gridForm.setSticky") : t("gridForm.unsetSticky")),
     [t, element.data?.parallaxCell],
   );
 
@@ -46,7 +46,7 @@ const GridCell = ({ element, editor, attributes, children }: Props) => {
       <StyledButton
         contentEditable={false}
         onClick={onClickSticky}
-        variant={element.data?.parallaxCell === 'true' ? 'solid' : 'ghost'}
+        variant={element.data?.parallaxCell === "true" ? "solid" : "ghost"}
         aria-label={label}
         title={label}
         data-testid="grid-cell-parallax"

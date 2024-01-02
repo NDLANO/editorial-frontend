@@ -6,17 +6,17 @@
  *
  */
 
-import Downshift, { StateChangeOptions } from 'downshift';
-import { FormikHandlers } from 'formik';
-import { ChangeEvent, useState } from 'react';
+import Downshift, { StateChangeOptions } from "downshift";
+import { FormikHandlers } from "formik";
+import { ChangeEvent, useState } from "react";
 
 //@ts-ignore
-import { DropdownInput, DropdownMenu } from '@ndla/forms';
-import { itemToString } from '../../util/downShiftHelpers';
+import { DropdownInput, DropdownMenu } from "@ndla/forms";
+import { itemToString } from "../../util/downShiftHelpers";
 
 interface Props<T> {
   initialData: T[];
-  onChange: FormikHandlers['handleChange'];
+  onChange: FormikHandlers["handleChange"];
   value: T[];
   name: string;
   labelField?: string;
@@ -35,13 +35,13 @@ export const MultiSelectDropdown = <T extends { id: string }>({
   setFieldTouched,
   labelField,
   minSearchLength = 2,
-  idField = 'id',
+  idField = "id",
   showCreateOption,
   shouldCreate = (_, __) => true,
 }: Props<T>) => {
   const [data, setData] = useState<T[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [inputValue, setInputvalue] = useState<string>('');
+  const [inputValue, setInputvalue] = useState<string>("");
 
   const onValueChange = (newValue: T | { id: string }) => {
     onChange({
@@ -50,7 +50,7 @@ export const MultiSelectDropdown = <T extends { id: string }>({
         value: [...value, newValue],
       },
     });
-    setInputvalue('');
+    setInputvalue("");
     setIsOpen(false);
   };
 
@@ -70,7 +70,7 @@ export const MultiSelectDropdown = <T extends { id: string }>({
       setData(
         initialData.filter((potentialResult: Record<string, any>) => {
           const string = labelField ? potentialResult[labelField] : potentialResult;
-          if (typeof string === 'string') {
+          if (typeof string === "string") {
             return string.toLowerCase().startsWith(value.toLowerCase());
           }
           return false;
@@ -100,7 +100,7 @@ export const MultiSelectDropdown = <T extends { id: string }>({
     }
 
     if (type === Downshift.stateChangeTypes.keyDownEnter) {
-      setInputvalue('');
+      setInputvalue("");
     }
   };
 
@@ -117,7 +117,7 @@ export const MultiSelectDropdown = <T extends { id: string }>({
       itemToString={(item) => itemToString(item, labelField)}
     >
       {({ getInputProps, ...downshiftProps }) => (
-        <div style={{ position: 'relative' }}>
+        <div style={{ position: "relative" }}>
           <DropdownInput
             multiSelect
             {...getInputProps({

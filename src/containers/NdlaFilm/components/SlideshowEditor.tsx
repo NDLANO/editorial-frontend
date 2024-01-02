@@ -6,10 +6,10 @@
  *
  */
 
-import { useField, useFormikContext } from 'formik';
-import { useTranslation } from 'react-i18next';
-import { FieldHeader } from '@ndla/forms';
-import { ThemeMovies } from './ThemeMovies';
+import { useField, useFormikContext } from "formik";
+import { useTranslation } from "react-i18next";
+import { FieldHeader } from "@ndla/forms";
+import { ThemeMovies } from "./ThemeMovies";
 
 interface Props {
   onUpdateSlideshow: Function;
@@ -24,11 +24,11 @@ const SlideshowEditor = ({ onUpdateSlideshow, fieldName }: Props) => {
 
   return (
     <>
-      <FieldHeader title={t('ndlaFilm.editor.slideshowTitle')} subTitle={t('ndlaFilm.editor.slideshowSubTitle')} />
+      <FieldHeader title={t("ndlaFilm.editor.slideshowTitle")} subTitle={t("ndlaFilm.editor.slideshowSubTitle")} />
       <ThemeMovies
         movies={slideshowMovies}
         onMoviesUpdated={(movies) => onUpdateSlideshow(field, form, movies)}
-        placeholder={t('ndlaFilm.editor.addMovieToSlideshow')}
+        placeholder={t("ndlaFilm.editor.addMovieToSlideshow")}
       />
     </>
   );

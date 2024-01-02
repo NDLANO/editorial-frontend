@@ -6,23 +6,23 @@
  *
  */
 
-import { FormikHandlers } from 'formik';
-import isEqual from 'lodash/isEqual';
-import { useEffect, useMemo } from 'react';
-import { Descendant, createEditor } from 'slate';
-import { withHistory } from 'slate-history';
-import { Slate, Editable, withReact, RenderElementProps } from 'slate-react';
-import { SlatePlugin } from './interfaces';
-import { SlateProvider } from './SlateContext';
-import withPlugins from './utils/withPlugins';
-import { VisualElementType } from '../../containers/VisualElement/VisualElementMenu';
-import VisualElementPicker from '../../containers/VisualElement/VisualElementPicker';
+import { FormikHandlers } from "formik";
+import isEqual from "lodash/isEqual";
+import { useEffect, useMemo } from "react";
+import { Descendant, createEditor } from "slate";
+import { withHistory } from "slate-history";
+import { Slate, Editable, withReact, RenderElementProps } from "slate-react";
+import { SlatePlugin } from "./interfaces";
+import { SlateProvider } from "./SlateContext";
+import withPlugins from "./utils/withPlugins";
+import { VisualElementType } from "../../containers/VisualElement/VisualElementMenu";
+import VisualElementPicker from "../../containers/VisualElement/VisualElementPicker";
 
 interface Props {
   name: string;
   value: Descendant[];
   plugins: SlatePlugin[];
-  onChange: FormikHandlers['handleChange'];
+  onChange: FormikHandlers["handleChange"];
   language: string;
   selectedResource: string;
   resetSelectedResource: () => void;

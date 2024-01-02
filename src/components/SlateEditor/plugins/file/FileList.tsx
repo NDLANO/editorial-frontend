@@ -6,27 +6,27 @@
  *
  */
 
-import { TFunction } from 'i18next';
+import { TFunction } from "i18next";
 // eslint-disable-next-line lodash/import-scope
-import { DebouncedFunc } from 'lodash';
-import debounce from 'lodash/debounce';
-import { ReactNode, useEffect, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Editor, Element, Transforms } from 'slate';
-import { ReactEditor, RenderElementProps } from 'slate-react';
-import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
-import { FieldHeader } from '@ndla/forms';
-import { Cross, Plus } from '@ndla/icons/action';
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTrigger } from '@ndla/modal';
-import { FileElement } from '.';
-import FileListEditor from './FileListEditor';
-import { TYPE_FILE } from './types';
-import config from '../../../../config';
-import { File, UnsavedFile } from '../../../../interfaces';
-import { headFileAtRemote } from '../../../../modules/draft/draftApi';
-import FileUploader from '../../../FileUploader';
+import { DebouncedFunc } from "lodash";
+import debounce from "lodash/debounce";
+import { ReactNode, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Element, Transforms } from "slate";
+import { ReactEditor, RenderElementProps } from "slate-react";
+import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
+import { spacing } from "@ndla/core";
+import { FieldHeader } from "@ndla/forms";
+import { Cross, Plus } from "@ndla/icons/action";
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTrigger } from "@ndla/modal";
+import { FileElement } from ".";
+import FileListEditor from "./FileListEditor";
+import { TYPE_FILE } from "./types";
+import config from "../../../../config";
+import { File, UnsavedFile } from "../../../../interfaces";
+import { headFileAtRemote } from "../../../../modules/draft/draftApi";
+import FileUploader from "../../../FileUploader";
 
 const StyledSection = styled.section`
   margin-bottom: ${spacing.normal};
@@ -37,11 +37,17 @@ const StyledSection = styled.section`
 
 const formatFile = (file: File, t: TFunction): File => ({
   ...file,
-  formats: [{ url: file.url, fileType: file.type, tooltip: `${t(`form.file.download`)} ${file.title}` }],
+  formats: [
+    {
+      url: file.url,
+      fileType: file.type,
+      tooltip: `${t(`form.file.download`)} ${file.title}`,
+    },
+  ],
 });
 
 interface Props {
-  attributes: RenderElementProps['attributes'];
+  attributes: RenderElementProps["attributes"];
   editor: Editor;
   element: FileElement;
   children: ReactNode;
@@ -107,7 +113,7 @@ const FileList = ({ element, editor, attributes, children }: Props) => {
     setShowFileUploader(false);
     const data = files.concat(
       newFiles.map((file) => {
-        return formatFile({ ...file, url: config.ndlaApiUrl + file.path, resource: 'file' }, t);
+        return formatFile({ ...file, url: config.ndlaApiUrl + file.path, resource: "file" }, t);
       }),
     );
     setFiles(data);
@@ -123,7 +129,7 @@ const FileList = ({ element, editor, attributes, children }: Props) => {
   };
 
   const onToggleRenderInline = (index: number) => {
-    const data = files.map((f, i) => (i === index ? { ...f, display: f.display === 'block' ? 'inline' : 'block' } : f));
+    const data = files.map((f, i) => (i === index ? { ...f, display: f.display === "block" ? "inline" : "block" } : f));
     setFiles(data);
     Transforms.setNodes(editor, { data }, { at: ReactEditor.findPath(editor, element) });
   };
@@ -133,10 +139,10 @@ const FileList = ({ element, editor, attributes, children }: Props) => {
   }
   return (
     <StyledSection {...attributes} contentEditable={false}>
-      <FieldHeader title={t('form.file.label')}>
+      <FieldHeader title={t("form.file.label")}>
         <Modal open={showFileUploader} onOpenChange={setShowFileUploader}>
           <ModalTrigger>
-            <IconButtonV2 variant="ghost" title={t('form.file.addFile')} aria-label={t('form.file.addFile')}>
+            <IconButtonV2 variant="ghost" title={t("form.file.addFile")} aria-label={t("form.file.addFile")}>
               <Plus />
             </IconButtonV2>
           </ModalTrigger>
@@ -152,8 +158,8 @@ const FileList = ({ element, editor, attributes, children }: Props) => {
         <IconButtonV2
           variant="ghost"
           colorTheme="danger"
-          title={t('form.file.removeList')}
-          aria-label={t('form.file.removeList')}
+          title={t("form.file.removeList")}
+          aria-label={t("form.file.removeList")}
           onClick={removeFileList}
         >
           <Cross />
@@ -169,14 +175,14 @@ const FileList = ({ element, editor, attributes, children }: Props) => {
         onToggleRenderInline={onToggleRenderInline}
         showRenderInlineCheckbox={true}
         messages={{
-          placeholder: t('form.file.placeholder'),
-          changeName: t('form.file.changeName'),
-          changeOrder: t('form.file.changeOrder'),
-          removeFile: t('form.file.removeFile'),
-          missingFileTooltip: t('form.file.missingFileTooltip'),
-          missingTitle: t('form.file.missingTitle'),
-          checkboxLabel: t('form.file.showPdf'),
-          checkboxTooltip: t('form.file.showPdfTooltip'),
+          placeholder: t("form.file.placeholder"),
+          changeName: t("form.file.changeName"),
+          changeOrder: t("form.file.changeOrder"),
+          removeFile: t("form.file.removeFile"),
+          missingFileTooltip: t("form.file.missingFileTooltip"),
+          missingTitle: t("form.file.missingTitle"),
+          checkboxLabel: t("form.file.showPdf"),
+          checkboxTooltip: t("form.file.showPdfTooltip"),
         }}
       />
       {children}

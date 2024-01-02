@@ -6,31 +6,31 @@
  *
  */
 
-import { Formik, useFormikContext } from 'formik';
-import { memo, useCallback, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { IArticle, IUpdatedArticle, IStatus } from '@ndla/types-backend/draft-api';
-import FrontpageArticlePanels from './FrontpageArticlePanels';
-import validateFormik, { getWarnings } from '../../../../components/formikValidationSchema';
-import HeaderWithLanguage from '../../../../components/HeaderWithLanguage';
-import EditorFooter from '../../../../components/SlateEditor/EditorFooter';
-import StyledForm from '../../../../components/StyledFormComponents';
-import { useWideArticle } from '../../../../components/WideArticleEditorProvider';
-import { useSession } from '../../../../containers/Session/SessionProvider';
-import { validateDraft } from '../../../../modules/draft/draftApi';
-import { useLicenses, useDraftStatusStateMachine } from '../../../../modules/draft/draftQueries';
-import { blockContentToHTML } from '../../../../util/articleContentConverter';
-import { frontPageArticleRules, isFormikFormDirty } from '../../../../util/formHelper';
-import { AlertModalWrapper } from '../../../FormikForm';
-import { FrontpageArticleFormType, HandleSubmitFunc, useArticleFormHooks } from '../../../FormikForm/articleFormHooks';
-import usePreventWindowUnload from '../../../FormikForm/preventWindowUnloadHook';
+import { Formik, useFormikContext } from "formik";
+import { memo, useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { IArticle, IUpdatedArticle, IStatus } from "@ndla/types-backend/draft-api";
+import FrontpageArticlePanels from "./FrontpageArticlePanels";
+import validateFormik, { getWarnings } from "../../../../components/formikValidationSchema";
+import HeaderWithLanguage from "../../../../components/HeaderWithLanguage";
+import EditorFooter from "../../../../components/SlateEditor/EditorFooter";
+import StyledForm from "../../../../components/StyledFormComponents";
+import { useWideArticle } from "../../../../components/WideArticleEditorProvider";
+import { useSession } from "../../../../containers/Session/SessionProvider";
+import { validateDraft } from "../../../../modules/draft/draftApi";
+import { useLicenses, useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
+import { blockContentToHTML } from "../../../../util/articleContentConverter";
+import { frontPageArticleRules, isFormikFormDirty } from "../../../../util/formHelper";
+import { AlertModalWrapper } from "../../../FormikForm";
+import { FrontpageArticleFormType, HandleSubmitFunc, useArticleFormHooks } from "../../../FormikForm/articleFormHooks";
+import usePreventWindowUnload from "../../../FormikForm/preventWindowUnloadHook";
 import {
   draftApiTypeToFrontpageArticleFormType,
   frontpageArticleFormTypeToDraftApiType,
   getExpirationDate,
-} from '../../articleTransformers';
-import CommentSection from '../../components/CommentSection';
-import { FlexWrapper, MainContent } from '../../styles';
+} from "../../articleTransformers";
+import CommentSection from "../../components/CommentSection";
+import { FlexWrapper, MainContent } from "../../styles";
 
 interface Props {
   article?: IArticle;
@@ -131,7 +131,9 @@ const _FormFooter = ({
 }: FormFooterProps) => {
   const { t } = useTranslation();
   const { data: licenses } = useLicenses();
-  const statusStateMachine = useDraftStatusStateMachine({ articleId: article?.id });
+  const statusStateMachine = useDraftStatusStateMachine({
+    articleId: article?.id,
+  });
   const formik = useFormikContext<FrontpageArticleFormType>();
   const { values, dirty, isSubmitting, initialValues } = formik;
 
@@ -181,7 +183,7 @@ const _FormFooter = ({
         isSubmitting={isSubmitting}
         formIsDirty={formIsDirty}
         severity="danger"
-        text={t('alertModal.notSaved')}
+        text={t("alertModal.notSaved")}
       />
     </>
   );

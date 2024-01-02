@@ -6,16 +6,16 @@
  *
  */
 
-import { Dispatch, SetStateAction, useEffect } from 'react';
-import { Transforms } from 'slate';
-import { useSlateStatic } from 'slate-react';
-import styled from '@emotion/styled';
-import { Portal } from '@radix-ui/react-portal';
-import { ButtonV2 } from '@ndla/button';
-import { colors, spacing } from '@ndla/core';
-import { DeleteForever } from '@ndla/icons/editor';
-import { SpanElement } from '.';
-import LanguageButton from './LanguageButton';
+import { Dispatch, SetStateAction, useEffect } from "react";
+import { Transforms } from "slate";
+import { useSlateStatic } from "slate-react";
+import styled from "@emotion/styled";
+import { Portal } from "@radix-ui/react-portal";
+import { ButtonV2 } from "@ndla/button";
+import { colors, spacing } from "@ndla/core";
+import { DeleteForever } from "@ndla/icons/editor";
+import { SpanElement } from ".";
+import LanguageButton from "./LanguageButton";
 
 interface Props {
   element: SpanElement;
@@ -24,7 +24,7 @@ interface Props {
   setClicks: Dispatch<SetStateAction<number>>;
 }
 
-export const languages = ['ar', 'de', 'en', 'es', 'fr', 'la', 'no', 'se', 'sma', 'so', 'ti', 'zh'];
+export const languages = ["ar", "de", "en", "es", "fr", "la", "no", "se", "sma", "so", "ti", "zh"];
 
 const Container = styled.div`
   display: flex;
@@ -48,17 +48,17 @@ const LanguageSelector = ({ element, clicks, onClose, setClicks }: Props) => {
   };
 
   const handleKeypressFallback = (e: KeyboardEvent) => {
-    if (e.key === 'Escape' || e.key === 'Esc') {
+    if (e.key === "Escape" || e.key === "Esc") {
       onClose();
     }
   };
 
   useEffect(() => {
-    document.addEventListener('click', handleClickFallback);
-    document.addEventListener('keydown', handleKeypressFallback);
+    document.addEventListener("click", handleClickFallback);
+    document.addEventListener("keydown", handleKeypressFallback);
     return () => {
-      document.removeEventListener('click', handleClickFallback);
-      document.removeEventListener('keydown', handleKeypressFallback);
+      document.removeEventListener("click", handleClickFallback);
+      document.removeEventListener("keydown", handleKeypressFallback);
     };
   });
 
@@ -86,11 +86,11 @@ const LanguageSelector = ({ element, clicks, onClose, setClicks }: Props) => {
     });
   };
 
-  const container = document.getElementById('toolbarPortal');
+  const container = document.getElementById("toolbarPortal");
 
   return (
     <Portal container={container}>
-      <Container id={'langaugeSelector'} contentEditable={false}>
+      <Container id={"langaugeSelector"} contentEditable={false}>
         {languages.map((lang) => (
           <LanguageButton key={lang} language={lang} onClick={onClick} isActive={lang === element.data.lang} />
         ))}

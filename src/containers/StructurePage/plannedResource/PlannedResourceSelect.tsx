@@ -6,10 +6,10 @@
  *
  */
 
-import { FieldProps } from 'formik';
-import { useTranslation } from 'react-i18next';
-import { Select, SingleValue, Option } from '@ndla/select';
-import { StyledFormikField, StyledLabel } from './PlannedResourceForm';
+import { FieldProps } from "formik";
+import { useTranslation } from "react-i18next";
+import { Select, SingleValue, Option } from "@ndla/select";
+import { StyledFormikField, StyledLabel } from "./PlannedResourceForm";
 
 interface Props {
   label: string;
@@ -36,8 +36,12 @@ const PlannedResourceSelect = ({ label, fieldName, id, placeholder, options = []
             isSearchable
             matchFrom="any"
             defaultValue={defaultValue}
-            noOptionsMessage={() => t('form.responsible.noResults')}
-            onChange={(value: SingleValue) => field.onChange({ target: { name: field.name, value: value?.value } })}
+            noOptionsMessage={() => t("form.responsible.noResults")}
+            onChange={(value: SingleValue) =>
+              field.onChange({
+                target: { name: field.name, value: value?.value },
+              })
+            }
           />
         </>
       )}

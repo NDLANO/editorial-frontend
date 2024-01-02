@@ -6,22 +6,22 @@
  *
  */
 
-import { useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Editor, Transforms } from 'slate';
-import { ReactEditor } from 'slate-react';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { fonts, spacing } from '@ndla/core';
-import { CheckboxItem } from '@ndla/forms';
-import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle } from '@ndla/modal';
-import { IGlossExample } from '@ndla/types-backend/concept-api';
-import { ConceptMetaData } from '@ndla/types-embed';
-import { Text } from '@ndla/typography';
-import { GlossExample } from '@ndla/ui';
-import { ConceptBlockElement } from './block/interfaces';
-import { ConceptInlineElement } from './inline/interfaces';
-import { generateNumbersArray, generateUniqueGlossLanguageArray } from './utils';
+import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Transforms } from "slate";
+import { ReactEditor } from "slate-react";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { fonts, spacing } from "@ndla/core";
+import { CheckboxItem } from "@ndla/forms";
+import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle } from "@ndla/modal";
+import { IGlossExample } from "@ndla/types-backend/concept-api";
+import { ConceptMetaData } from "@ndla/types-embed";
+import { Text } from "@ndla/typography";
+import { GlossExample } from "@ndla/ui";
+import { ConceptBlockElement } from "./block/interfaces";
+import { ConceptInlineElement } from "./inline/interfaces";
+import { generateNumbersArray, generateUniqueGlossLanguageArray } from "./utils";
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -75,13 +75,13 @@ const onCheckboxChange = (value: string, updateFunction: (val: string[]) => void
 };
 
 const getInitialStateSelectedExamples = (exampleIds: string | undefined, examples: IGlossExample[][]): string[] => {
-  if (exampleIds) return exampleIds.split(',');
+  if (exampleIds) return exampleIds.split(",");
   else if (exampleIds === undefined) return generateNumbersArray(examples.length);
   else return [];
 };
 
 const getInitialStateSelectedLanguages = (exampleLangs: string | undefined, examples: IGlossExample[][]): string[] => {
-  if (exampleLangs) return exampleLangs.split(',');
+  if (exampleLangs) return exampleLangs.split(",");
   else if (exampleLangs === undefined) return generateUniqueGlossLanguageArray(examples);
   else return [];
 };
@@ -106,8 +106,8 @@ const EditGlossExamplesModalContent = ({ originalLanguage, examples, editor, ele
           ...element.data,
           ...{
             ...embed.embedData,
-            exampleIds: selectedExamples.length ? selectedExamples.join(',') : '',
-            exampleLangs: selectedLanguages.length ? selectedLanguages.join(',') : '',
+            exampleIds: selectedExamples.length ? selectedExamples.join(",") : "",
+            exampleLangs: selectedLanguages.length ? selectedLanguages.join(",") : "",
           },
         },
       },
@@ -119,7 +119,7 @@ const EditGlossExamplesModalContent = ({ originalLanguage, examples, editor, ele
   return (
     <>
       <ModalHeader>
-        <ModalTitle>{t('form.gloss.editExamplesHeading')}</ModalTitle>
+        <ModalTitle>{t("form.gloss.editExamplesHeading")}</ModalTitle>
         <ModalCloseButton />
       </ModalHeader>
       <StyledModalBody>
@@ -140,7 +140,7 @@ const EditGlossExamplesModalContent = ({ originalLanguage, examples, editor, ele
 
               <StyledCheckboxWrapper>
                 <CheckboxItem
-                  label={t('form.gloss.displayOnGloss')}
+                  label={t("form.gloss.displayOnGloss")}
                   checked={selectedExamples.includes(index.toString())}
                   id={index}
                   onChange={(v) => {
@@ -154,10 +154,10 @@ const EditGlossExamplesModalContent = ({ originalLanguage, examples, editor, ele
         </FlexWrapper>
         <div>
           <Text textStyle="label-large" margin="none">
-            {t('form.name.language')}
+            {t("form.name.language")}
           </Text>
           <Text textStyle="content-alt" margin="none">
-            {t('form.gloss.editExamplesLanguage')}
+            {t("form.gloss.editExamplesLanguage")}
           </Text>
           <CheckboxGroupWrapper>
             {languages.map((lang, index) => (
@@ -176,9 +176,9 @@ const EditGlossExamplesModalContent = ({ originalLanguage, examples, editor, ele
         </div>
         <ButtonWrapper>
           <ButtonV2 onClick={close} variant="outline">
-            {t('form.abort')}
+            {t("form.abort")}
           </ButtonV2>
-          <ButtonV2 onClick={saveGlossUpdates}>{t('form.save')}</ButtonV2>
+          <ButtonV2 onClick={saveGlossUpdates}>{t("form.save")}</ButtonV2>
         </ButtonWrapper>
       </StyledModalBody>
     </>

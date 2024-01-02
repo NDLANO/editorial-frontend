@@ -6,9 +6,9 @@
  *
  */
 
-import { TFunction } from 'i18next';
-import { ResourceType } from '@ndla/types-taxonomy';
-import { constants } from '@ndla/ui';
+import { TFunction } from "i18next";
+import { ResourceType } from "@ndla/types-taxonomy";
+import { constants } from "@ndla/ui";
 import {
   toEditArticle,
   toEditAudio,
@@ -16,7 +16,7 @@ import {
   toEditGloss,
   toEditPodcastSeries,
   toLearningpathFull,
-} from './routeHelpers';
+} from "./routeHelpers";
 
 import {
   RESOURCE_TYPE_LEARNING_PATH,
@@ -25,7 +25,7 @@ import {
   RESOURCE_TYPE_ASSESSMENT_RESOURCES,
   RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES,
   RESOURCE_TYPE_SOURCE_MATERIAL,
-} from '../constants';
+} from "../constants";
 
 const { contentTypes } = constants;
 
@@ -58,19 +58,19 @@ const mapping: Record<string, ContentTypeType> = {
 };
 
 export const getResourceLanguages = (t: TFunction) => [
-  { id: 'nb', name: t('languages.nb') },
-  { id: 'nn', name: t('languages.nn') },
-  { id: 'en', name: t('languages.en') },
-  { id: 'sma', name: t('languages.sma') },
-  { id: 'se', name: t('languages.se') },
-  { id: 'ukr', name: t('languages.ukr') },
-  { id: 'und', name: t('languages.und') },
-  { id: 'de', name: t('languages.de') },
-  { id: 'es', name: t('languages.es') },
-  { id: 'zh', name: t('languages.zh') },
+  { id: "nb", name: t("languages.nb") },
+  { id: "nn", name: t("languages.nn") },
+  { id: "en", name: t("languages.en") },
+  { id: "sma", name: t("languages.sma") },
+  { id: "se", name: t("languages.se") },
+  { id: "ukr", name: t("languages.ukr") },
+  { id: "und", name: t("languages.und") },
+  { id: "de", name: t("languages.de") },
+  { id: "es", name: t("languages.es") },
+  { id: "zh", name: t("languages.zh") },
 ];
 
-export const getContentTypeFromResourceTypes = (resourceTypes: Pick<ResourceType, 'id'>[]): ContentTypeType => {
+export const getContentTypeFromResourceTypes = (resourceTypes: Pick<ResourceType, "id">[]): ContentTypeType => {
   const resourceType = resourceTypes.find((type) => !!mapping[type.id]);
   if (resourceType) {
     return mapping[resourceType.id];
@@ -80,10 +80,10 @@ export const getContentTypeFromResourceTypes = (resourceTypes: Pick<ResourceType
 
 const isLearningPathResourceType = (contentType?: string) => contentType === contentTypes.LEARNING_PATH;
 
-const isConceptType = (contentType?: string) => contentType === 'concept';
-const isGlossType = (contentType?: string) => contentType === 'gloss';
-const isAudioType = (contentType?: string) => contentType === 'audio';
-const isSeriesType = (contentType?: string) => contentType === 'series';
+const isConceptType = (contentType?: string) => contentType === "concept";
+const isGlossType = (contentType?: string) => contentType === "gloss";
+const isAudioType = (contentType?: string) => contentType === "audio";
+const isSeriesType = (contentType?: string) => contentType === "series";
 
 export const resourceToLinkProps = (
   content: {
@@ -97,13 +97,13 @@ export const resourceToLinkProps = (
   if (isLearningPathResourceType(contentType)) {
     return {
       href: toLearningpathFull(content.id, locale),
-      target: '_blank',
-      rel: 'noopener noreferrer',
+      target: "_blank",
+      rel: "noopener noreferrer",
     };
   }
 
   const foundSupportedLanguage = content.supportedLanguages?.find((l) => l === locale);
-  const languageOrDefault = foundSupportedLanguage ?? content.supportedLanguages?.[0] ?? 'nb';
+  const languageOrDefault = foundSupportedLanguage ?? content.supportedLanguages?.[0] ?? "nb";
 
   if (isConceptType(contentType)) {
     return {
@@ -128,6 +128,6 @@ export const resourceToLinkProps = (
   }
 
   return {
-    to: toEditArticle(content.id, content?.contexts?.[0]?.learningResourceType || 'standard', languageOrDefault),
+    to: toEditArticle(content.id, content?.contexts?.[0]?.learningResourceType || "standard", languageOrDefault),
   };
 };

@@ -6,9 +6,9 @@
  *
  */
 
-import { resolveJsonOrRejectWithError, apiResourceUrl, fetchAuthorized } from '../../util/apiHelpers';
+import { resolveJsonOrRejectWithError, apiResourceUrl, fetchAuthorized } from "../../util/apiHelpers";
 
-const baseUrl = apiResourceUrl('/draft-api/v1/rules');
+const baseUrl = apiResourceUrl("/draft-api/v1/rules");
 
 export async function fetchEmbedTagRules() {
   const response = await fetchAuthorized(`${baseUrl}/embed-tag/`);

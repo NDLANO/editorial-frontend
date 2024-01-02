@@ -20,33 +20,33 @@ import {
   nodeTreeWithNestedChildrenAndResources,
   nodeTreeWithNestedChildrenAndResourcesDiff,
   nodeTreeWithNestedChildrenAndResourcesUpdated,
-} from './diffTestData';
-import { diffField, DiffResult, diffTrees } from '../diffUtils';
+} from "./diffTestData";
+import { diffField, DiffResult, diffTrees } from "../diffUtils";
 
-describe('diffField', () => {
-  test('considers two equal fields to be equal', () => {
+describe("diffField", () => {
+  test("considers two equal fields to be equal", () => {
     const expected: DiffResult<string> = {
-      diffType: 'NONE',
-      original: 'tester',
-      other: 'tester',
+      diffType: "NONE",
+      original: "tester",
+      other: "tester",
     };
-    const res = diffField('tester', 'tester', undefined);
+    const res = diffField("tester", "tester", undefined);
     expect(res).toEqual(expected);
   });
 
-  test('considers two different fields to not be equal', () => {
+  test("considers two different fields to not be equal", () => {
     const expected: DiffResult<string> = {
-      diffType: 'MODIFIED',
-      original: 'tester',
-      other: 'tester2',
+      diffType: "MODIFIED",
+      original: "tester",
+      other: "tester2",
     };
-    const res = diffField('tester', 'tester2', undefined);
+    const res = diffField("tester", "tester2", undefined);
     expect(res).toEqual(expected);
   });
 
-  test('considers a field to be added if only present in other', () => {
+  test("considers a field to be added if only present in other", () => {
     const expected: DiffResult<number> = {
-      diffType: 'ADDED',
+      diffType: "ADDED",
       original: undefined,
       other: 3,
     };
@@ -54,7 +54,7 @@ describe('diffField', () => {
     expect(res).toEqual(expected);
 
     const expected2: DiffResult<number> = {
-      diffType: 'ADDED',
+      diffType: "ADDED",
       //@ts-ignore
       original: null,
       other: 3,
@@ -63,9 +63,9 @@ describe('diffField', () => {
     expect(res2).toEqual(expected2);
   });
 
-  test('considers a field to be deleted if only present in original', () => {
+  test("considers a field to be deleted if only present in original", () => {
     const expected: DiffResult<number[]> = {
-      diffType: 'DELETED',
+      diffType: "DELETED",
       original: [1, 2, 3],
       other: undefined,
     };
@@ -73,7 +73,7 @@ describe('diffField', () => {
     expect(res).toEqual(expected);
 
     const expected2: DiffResult<number[]> = {
-      diffType: 'DELETED',
+      diffType: "DELETED",
       original: [1, 2, 3],
       //@ts-ignore
       other: null,
@@ -82,9 +82,9 @@ describe('diffField', () => {
     expect(res2).toEqual(expected2);
   });
 
-  test('correctly identifies a modified array', () => {
+  test("correctly identifies a modified array", () => {
     const expected: DiffResult<number[]> = {
-      diffType: 'MODIFIED',
+      diffType: "MODIFIED",
       original: [1, 2, 3],
       other: [1, 2, 3, 4],
     };
@@ -92,9 +92,9 @@ describe('diffField', () => {
     expect(res).toEqual(expected);
   });
 
-  test('correctly handles boolean values', () => {
+  test("correctly handles boolean values", () => {
     const falseOriginalExpected: DiffResult<boolean> = {
-      diffType: 'MODIFIED',
+      diffType: "MODIFIED",
       original: false,
       other: true,
     };
@@ -102,7 +102,7 @@ describe('diffField', () => {
     expect(res).toEqual(falseOriginalExpected);
 
     const trueOriginalExpected: DiffResult<boolean> = {
-      diffType: 'MODIFIED',
+      diffType: "MODIFIED",
       original: true,
       other: false,
     };
@@ -110,9 +110,9 @@ describe('diffField', () => {
     expect(res2).toEqual(trueOriginalExpected);
   });
 
-  test('considers null and undefined to be equal', () => {
+  test("considers null and undefined to be equal", () => {
     const expected1: DiffResult<number[]> = {
-      diffType: 'NONE',
+      diffType: "NONE",
       original: undefined,
       //@ts-ignore
       other: null,
@@ -121,7 +121,7 @@ describe('diffField', () => {
     expect(res1).toEqual(expected1);
 
     const expected2: DiffResult<number[]> = {
-      diffType: 'NONE',
+      diffType: "NONE",
       //@ts-ignore
       original: null,
       other: undefined,
@@ -131,50 +131,50 @@ describe('diffField', () => {
   });
 });
 
-describe('diffTrees', () => {
-  test('correctly diffs trees with only root', () => {
+describe("diffTrees", () => {
+  test("correctly diffs trees with only root", () => {
     const original = nodeTreeWithNoChildren;
     const other = nodeTreeWithNoChildrenUpdated;
     const expected = nodeTreeWithNoChildrenDiff;
-    const res = diffTrees(original, other, 'flat');
+    const res = diffTrees(original, other, "flat");
     expect(res).toEqual(expected);
   });
 
-  test('correctly diffs direct children', () => {
+  test("correctly diffs direct children", () => {
     const original = nodeTreeWithDirectChildren;
     const other = nodeTreeWithDirectChildrenUpdated;
     const expected = nodeTreeWithDirectChildrenDiff;
-    const res = diffTrees(original, other, 'tree');
+    const res = diffTrees(original, other, "tree");
     expect(res).toEqual(expected);
   });
 
-  test('correctly diffs nested children with resources', () => {
+  test("correctly diffs nested children with resources", () => {
     const original = nodeTreeWithNestedChildrenAndResources;
     const other = nodeTreeWithNestedChildrenAndResourcesUpdated;
     const expected = nodeTreeWithNestedChildrenAndResourcesDiff;
-    const res = diffTrees(original, other, 'tree');
+    const res = diffTrees(original, other, "tree");
     expect(res).toEqual(expected);
   });
 
-  test('correctly diffs nested children', () => {
+  test("correctly diffs nested children", () => {
     const original = nodeTreeWithNestedChildren;
     const other = nodeTreeWithNestedChildrenUpdated;
     const expected = nodeTreeWithNestedChildrenDiff;
-    const res = diffTrees(original, other, 'tree');
+    const res = diffTrees(original, other, "tree");
     expect(res).toEqual(expected);
   });
 
-  test('correctly diffs original tree if other tree does not exist', () => {
+  test("correctly diffs original tree if other tree does not exist", () => {
     const original = nodeTreeWithNoChildren;
     const expected = nodeTreeInOriginalVersionDiff;
-    const res = diffTrees(original, undefined, 'tree');
+    const res = diffTrees(original, undefined, "tree");
     expect(res).toEqual(expected);
   });
 
-  test('correcly diffs other tree if original tree does not exist', () => {
+  test("correcly diffs other tree if original tree does not exist", () => {
     const other = nodeTreeWithNoChildren;
     const expected = nodeTreeInOtherVersionDiff;
-    const res = diffTrees(undefined, other, 'tree');
+    const res = diffTrees(undefined, other, "tree");
     expect(res).toEqual(expected);
   });
 });

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-const measurements = ['B', 'KB', 'MB', 'GB', 'TB'];
+const measurements = ["B", "KB", "MB", "GB", "TB"];
 
 export const bytesToSensibleFormat = (numberValue: number, measurement?: string): string => {
   if (numberValue < 100) {

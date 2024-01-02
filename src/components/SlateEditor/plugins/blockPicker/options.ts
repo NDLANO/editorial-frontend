@@ -5,15 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { Element } from 'slate';
-import { TYPE_QUOTE } from '../blockquote/types';
-import { TYPE_HEADING } from '../heading/types';
-import { TYPE_LIST } from '../list/types';
-import { TYPE_PARAGRAPH } from '../paragraph/types';
+import { Element } from "slate";
+import { TYPE_QUOTE } from "../blockquote/types";
+import { TYPE_HEADING } from "../heading/types";
+import { TYPE_LIST } from "../list/types";
+import { TYPE_PARAGRAPH } from "../paragraph/types";
 
 export interface BlockPickerOptions {
-  allowedPickAreas: Element['type'][];
-  illegalAreas: Element['type'][];
+  allowedPickAreas: Element["type"][];
+  illegalAreas: Element["type"][];
   actionsToShowInAreas: { [key: string]: string[] };
 }
 

@@ -6,8 +6,8 @@
  *
  */
 
-import { css } from '@emotion/react';
-import { colors, spacing, fonts } from '@ndla/core';
+import { css } from "@emotion/react";
+import { colors, spacing, fonts } from "@ndla/core";
 
 export const styledListElement = css`
   display: flex;

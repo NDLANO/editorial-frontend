@@ -6,21 +6,21 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { fonts } from '@ndla/core';
-import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
-import { ContentTypeBadge } from '@ndla/ui';
-import SearchContentLanguage from './SearchContentLanguage';
-import SearchHighlight from './SearchHighlight';
-import { EditMarkupLink } from '../../../../components/EditMarkupLink';
-import HeaderStatusInformation from '../../../../components/HeaderWithLanguage/HeaderStatusInformation';
-import { DRAFT_HTML_SCOPE, RESOURCE_TYPE_LEARNING_PATH } from '../../../../constants';
-import { getContentTypeFromResourceTypes, resourceToLinkProps } from '../../../../util/resourceHelpers';
-import { isLearningpath, toEditMarkup } from '../../../../util/routeHelpers';
-import { getExpirationDate } from '../../../ArticlePage/articleTransformers';
-import { useSession } from '../../../Session/SessionProvider';
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+import styled from "@emotion/styled";
+import { fonts } from "@ndla/core";
+import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
+import { ContentTypeBadge } from "@ndla/ui";
+import SearchContentLanguage from "./SearchContentLanguage";
+import SearchHighlight from "./SearchHighlight";
+import { EditMarkupLink } from "../../../../components/EditMarkupLink";
+import HeaderStatusInformation from "../../../../components/HeaderWithLanguage/HeaderStatusInformation";
+import { DRAFT_HTML_SCOPE, RESOURCE_TYPE_LEARNING_PATH } from "../../../../constants";
+import { getContentTypeFromResourceTypes, resourceToLinkProps } from "../../../../util/resourceHelpers";
+import { isLearningpath, toEditMarkup } from "../../../../util/routeHelpers";
+import { getExpirationDate } from "../../../ArticlePage/articleTransformers";
+import { useSession } from "../../../Session/SessionProvider";
 import {
   NoShadowAnchor,
   StyledSearchBreadcrumb,
@@ -30,7 +30,7 @@ import {
   StyledSearchImageContainer,
   StyledSearchResult,
   StyledSearchTitle,
-} from '../form/StyledSearchComponents';
+} from "../form/StyledSearchComponents";
 
 const FlexBoxWrapper = styled.div`
   display: flex;
@@ -60,7 +60,7 @@ interface ContentType {
   contentType: string;
 }
 
-const Title = StyledSearchTitle.withComponent('h2');
+const Title = StyledSearchTitle.withComponent("h2");
 const NoShadowLink = NoShadowAnchor.withComponent(Link);
 
 const SearchContent = ({ content, locale, responsibleName }: Props) => {
@@ -68,7 +68,7 @@ const SearchContent = ({ content, locale, responsibleName }: Props) => {
   const { userPermissions } = useSession();
   const { contexts, metaImage } = content;
   const { url, alt } = metaImage || {};
-  const imageUrl = url ? `${url}?width=200&language=${locale}` : '/placeholder.png';
+  const imageUrl = url ? `${url}?width=200&language=${locale}` : "/placeholder.png";
   let resourceType: ContentType | undefined;
   if ((contexts[0]?.resourceTypes?.length ?? 0) > 0) {
     resourceType = getContentTypeFromResourceTypes(contexts[0].resourceTypes);
@@ -80,8 +80,8 @@ const SearchContent = ({ content, locale, responsibleName }: Props) => {
 
   const statusType = () => {
     const status = content.status?.current.toLowerCase();
-    const isLearningpath = resourceType?.contentType === 'learning-path';
-    return t(`form.status.${isLearningpath ? 'learningpath_statuses.' + status : status}`);
+    const isLearningpath = resourceType?.contentType === "learning-path";
+    return t(`form.status.${isLearningpath ? "learningpath_statuses." + status : status}`);
   };
   const EditMarkup = (
     <>
@@ -91,7 +91,7 @@ const SearchContent = ({ content, locale, responsibleName }: Props) => {
             content.id,
             content.supportedLanguages.includes(locale) ? locale : content.supportedLanguages[0],
           )}
-          title={t('editMarkup.linkTitle')}
+          title={t("editMarkup.linkTitle")}
           inHeader={true}
         />
       )}
@@ -104,11 +104,11 @@ const SearchContent = ({ content, locale, responsibleName }: Props) => {
         <ContentTypeWrapper>
           <ContentTypeBadge background type={resourceType.contentType} />
         </ContentTypeWrapper>
-      )}{' '}
+      )}{" "}
     </>
   );
 
-  const metaDescription = content.metaDescription.metaDescription ?? '';
+  const metaDescription = content.metaDescription.metaDescription ?? "";
   const expirationDate = getExpirationDate(content);
 
   return (
@@ -124,7 +124,7 @@ const SearchContent = ({ content, locale, responsibleName }: Props) => {
               {linkProps && linkProps.href ? (
                 <NoShadowAnchor {...linkProps}>{content.title.title}</NoShadowAnchor>
               ) : (
-                <NoShadowLink to={linkProps.to ?? ''}>{content.title.title}</NoShadowLink>
+                <NoShadowLink to={linkProps.to ?? ""}>{content.title.title}</NoShadowLink>
               )}
               {EditMarkup}
             </Title>
@@ -132,7 +132,7 @@ const SearchContent = ({ content, locale, responsibleName }: Props) => {
           {content.supportedLanguages.map((lang) => (
             <SearchContentLanguage
               //@ts-ignore
-              style={{ display: 'flex' }}
+              style={{ display: "flex" }}
               key={`${lang}_search_content`}
               language={lang}
               content={content}
@@ -141,12 +141,12 @@ const SearchContent = ({ content, locale, responsibleName }: Props) => {
           ))}
         </div>
         <SearchHighlight content={content} locale={locale} />
-        {metaDescription !== '' && <DescriptionTitle>{t('form.name.metaDescription')}</DescriptionTitle>}
+        {metaDescription !== "" && <DescriptionTitle>{t("form.name.metaDescription")}</DescriptionTitle>}
         <StyledSearchDescription>{metaDescription}</StyledSearchDescription>
-        <StyledSearchBreadcrumbs style={{ marginTop: '-25px' }}>
+        <StyledSearchBreadcrumbs style={{ marginTop: "-25px" }}>
           {contexts && contexts.length > 0 && contexts[0].breadcrumbs ? (
             contexts[0].breadcrumbs.map((breadcrumb) => (
-              <StyledSearchBreadcrumb key={breadcrumb} style={{ marginTop: 'auto', marginBottom: 'auto' }}>
+              <StyledSearchBreadcrumb key={breadcrumb} style={{ marginTop: "auto", marginBottom: "auto" }}>
                 {breadcrumb}
               </StyledSearchBreadcrumb>
             ))
@@ -157,7 +157,7 @@ const SearchContent = ({ content, locale, responsibleName }: Props) => {
             id={content.id}
             statusText={statusType()}
             inSearch
-            published={!!(content.status?.current === 'PUBLISHED' || content.status?.other.includes('PUBLISHED'))}
+            published={!!(content.status?.current === "PUBLISHED" || content.status?.other.includes("PUBLISHED"))}
             compact
             expirationDate={expirationDate}
             type={content.learningResourceType}

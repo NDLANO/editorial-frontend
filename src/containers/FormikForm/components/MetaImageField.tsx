@@ -6,18 +6,18 @@
  *
  */
 
-import { SyntheticEvent } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
-import { Link } from '@ndla/icons/common';
-import { DeleteForever } from '@ndla/icons/editor';
-import { SafeLinkIconButton } from '@ndla/safelink';
-import Tooltip from '@ndla/tooltip';
-import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
-import FormikField from '../../../components/FormikField';
-import MetaInformation from '../../../components/MetaInformation';
-import { convertFieldWithFallback } from '../../../util/convertFieldWithFallback';
+import { SyntheticEvent } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
+import { Link } from "@ndla/icons/common";
+import { DeleteForever } from "@ndla/icons/editor";
+import { SafeLinkIconButton } from "@ndla/safelink";
+import Tooltip from "@ndla/tooltip";
+import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
+import FormikField from "../../../components/FormikField";
+import MetaInformation from "../../../components/MetaInformation";
+import { convertFieldWithFallback } from "../../../util/convertFieldWithFallback";
 
 const MetaImageContainer = styled.div`
   display: flex;
@@ -40,14 +40,14 @@ interface Props {
 
 const MetaImageField = ({ image, onImageRemove, onImageLoad, disableAltEditing, hideAltText }: Props) => {
   const { t } = useTranslation();
-  const copyright = image.copyright.creators.map((creator) => creator.name).join(', ');
-  const title = convertFieldWithFallback<'title'>(image, 'title', '');
-  const alt = convertFieldWithFallback<'alttext'>(image, 'alttext', '');
+  const copyright = image.copyright.creators.map((creator) => creator.name).join(", ");
+  const title = convertFieldWithFallback<"title">(image, "title", "");
+  const alt = convertFieldWithFallback<"alttext">(image, "alttext", "");
   const imageAction = (
     <>
-      <Tooltip tooltip={t('form.image.removeImage')}>
+      <Tooltip tooltip={t("form.image.removeImage")}>
         <IconButtonV2
-          aria-label={t('form.image.removeImage')}
+          aria-label={t("form.image.removeImage")}
           colorTheme="danger"
           variant="ghost"
           onClick={onImageRemove}
@@ -57,7 +57,7 @@ const MetaImageField = ({ image, onImageRemove, onImageLoad, disableAltEditing, 
           <DeleteForever />
         </IconButtonV2>
       </Tooltip>
-      <Tooltip tooltip={t('form.image.editImage')}>
+      <Tooltip tooltip={t("form.image.editImage")}>
         <SafeLinkIconButton
           variant="ghost"
           colorTheme="light"
@@ -70,9 +70,9 @@ const MetaImageField = ({ image, onImageRemove, onImageLoad, disableAltEditing, 
     </>
   );
   const metaInformationTranslations = {
-    title: t('form.metaImage.imageTitle'),
-    copyright: t('form.metaImage.copyright'),
-    alt: t('form.name.alttext'),
+    title: t("form.metaImage.imageTitle"),
+    copyright: t("form.metaImage.copyright"),
+    alt: t("form.name.alttext"),
   };
   const imageUrl = `${image.image.imageUrl}?width=400`;
   const { width, height } = image.image?.dimensions || { width: 0, height: 0 };
@@ -94,10 +94,10 @@ const MetaImageField = ({ image, onImageRemove, onImageLoad, disableAltEditing, 
       </MetaImageContainer>
       {!disableAltEditing && (
         <FormikField
-          label={t('topicArticleForm.fields.alt.label')}
+          label={t("topicArticleForm.fields.alt.label")}
           name="metaImageAlt"
           noBorder
-          placeholder={t('topicArticleForm.fields.alt.placeholder')}
+          placeholder={t("topicArticleForm.fields.alt.placeholder")}
           maxLength={300}
         />
       )}

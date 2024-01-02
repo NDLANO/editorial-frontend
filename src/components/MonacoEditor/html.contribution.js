@@ -1,19 +1,19 @@
-import { registerLanguage } from 'monaco-editor/esm/vs/basic-languages/_.contribution.js';
-import { createLanguageConfiguration } from './html.js';
-import { fetchAllRules } from './rulesApi.js';
+import { registerLanguage } from "monaco-editor/esm/vs/basic-languages/_.contribution.js";
+import { createLanguageConfiguration } from "./html.js";
+import { fetchAllRules } from "./rulesApi.js";
 
-const _monaco = typeof monaco === 'undefined' ? self.monaco : monaco; // eslint-disable-line
+const _monaco = typeof monaco === "undefined" ? self.monaco : monaco; // eslint-disable-line
 
 registerLanguage({
-  id: 'html',
-  extensions: ['.html'],
-  aliases: ['HTML', 'html'],
-  mimetypes: ['text/html'],
+  id: "html",
+  extensions: [".html"],
+  aliases: ["HTML", "html"],
+  mimetypes: ["text/html"],
   loader: async function () {
     const rules = await fetchAllRules();
 
     const VALID_TAGS = [
-      'ndlaembed',
+      "ndlaembed",
       ...rules.htmlRules.tags,
       ...Object.keys(rules.htmlRules.attributes),
       ...Object.keys(rules.mathmlRules.attributes),

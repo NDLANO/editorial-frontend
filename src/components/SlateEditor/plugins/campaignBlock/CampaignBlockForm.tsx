@@ -6,21 +6,21 @@
  *
  */
 
-import { FieldProps, Formik } from 'formik';
-import { useCallback, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
-import { CheckboxItem, InputV2, TextAreaV2, RadioButtonGroup } from '@ndla/forms';
-import { CampaignBlockEmbedData } from '@ndla/types-embed';
-import { HeadingLevel } from '@ndla/typography';
-import { TYPE_CAMPAIGN_BLOCK } from './types';
-import InlineImageSearch from '../../../../containers/ConceptPage/components/InlineImageSearch';
-import { frontpageLanguages } from '../../../../i18n2';
-import FormikField from '../../../FormikField';
-import validateFormik, { RulesType } from '../../../formikValidationSchema';
+import { FieldProps, Formik } from "formik";
+import { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { spacing } from "@ndla/core";
+import { CheckboxItem, InputV2, TextAreaV2, RadioButtonGroup } from "@ndla/forms";
+import { CampaignBlockEmbedData } from "@ndla/types-embed";
+import { HeadingLevel } from "@ndla/typography";
+import { TYPE_CAMPAIGN_BLOCK } from "./types";
+import InlineImageSearch from "../../../../containers/ConceptPage/components/InlineImageSearch";
+import { frontpageLanguages } from "../../../../i18n2";
+import FormikField from "../../../FormikField";
+import validateFormik, { RulesType } from "../../../formikValidationSchema";
 
 interface Props {
   initialData?: CampaignBlockEmbedData;
@@ -29,7 +29,7 @@ interface Props {
 }
 
 export interface CampaignBlockFormValues {
-  resource: 'campaign-block';
+  resource: "campaign-block";
   title: string;
   titleLanguage: string;
   description: string;
@@ -38,7 +38,7 @@ export interface CampaignBlockFormValues {
   link: string;
   linkText: string;
   metaImageId?: string;
-  imageSide?: CampaignBlockEmbedData['imageSide'];
+  imageSide?: CampaignBlockEmbedData["imageSide"];
   metaImageAlt?: string;
   isDecorative?: boolean;
 }
@@ -76,16 +76,16 @@ const rules: RulesType<CampaignBlockFormValues> = {
 const toInitialValues = (lang: string, initialData?: CampaignBlockEmbedData): CampaignBlockFormValues => {
   return {
     resource: TYPE_CAMPAIGN_BLOCK,
-    title: initialData?.title ?? '',
+    title: initialData?.title ?? "",
     titleLanguage: initialData?.titleLanguage ?? lang,
-    description: initialData?.description ?? '',
+    description: initialData?.description ?? "",
     descriptionLanguage: initialData?.descriptionLanguage ?? lang,
     metaImageId: initialData?.imageId,
-    imageSide: initialData?.imageSide ?? 'left',
-    headingLevel: initialData?.headingLevel ?? 'h2',
-    link: initialData?.url ?? '',
-    linkText: initialData?.urlText ?? '',
-    metaImageAlt: initialData?.alt ?? '',
+    imageSide: initialData?.imageSide ?? "left",
+    headingLevel: initialData?.headingLevel ?? "h2",
+    link: initialData?.url ?? "",
+    linkText: initialData?.urlText ?? "",
+    metaImageAlt: initialData?.alt ?? "",
     isDecorative: initialData ? initialData.alt === undefined : false,
   };
 };
@@ -124,7 +124,7 @@ const UrlWrapper = styled.div`
   gap: ${spacing.small};
 `;
 
-const sides: CampaignBlockEmbedData['imageSide'][] = ['left', 'right'];
+const sides: CampaignBlockEmbedData["imageSide"][] = ["left", "right"];
 
 const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
   const { t, i18n } = useTranslation();
@@ -175,12 +175,12 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
             {({ field }: FieldProps) => (
               <InputV2
                 customCss={inputStyle}
-                label={t('form.name.title')}
+                label={t("form.name.title")}
                 {...field}
                 after={
                   <StyledFormikField name="titleLanguage">
                     {({ field }: FieldProps) => (
-                      <StyledSelect {...field} title={t('blogPostForm.languageExplanation')}>
+                      <StyledSelect {...field} title={t("blogPostForm.languageExplanation")}>
                         {frontpageLanguages.map((lang) => (
                           <option value={lang} key={lang}>
                             {t(`languages.${lang}`)}
@@ -197,12 +197,12 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
             {({ field }: FieldProps) => (
               <TextAreaV2
                 customCss={inputStyle}
-                label={t('form.name.description')}
+                label={t("form.name.description")}
                 {...field}
                 after={
                   <StyledFormikField name="descriptionLanguage">
                     {({ field }: FieldProps) => (
-                      <StyledSelect {...field} title={t('blogPostForm.languageExplanation')}>
+                      <StyledSelect {...field} title={t("blogPostForm.languageExplanation")}>
                         {frontpageLanguages.map((lang) => (
                           <option value={lang} key={lang}>
                             {t(`languages.${lang}`)}
@@ -217,16 +217,16 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
           </StyledFormikField>
           <UrlWrapper>
             <StyledUrlFormikField name="link" showError>
-              {({ field }: FieldProps) => <InputV2 customCss={inputStyle} label={t('form.name.link')} {...field} />}
+              {({ field }: FieldProps) => <InputV2 customCss={inputStyle} label={t("form.name.link")} {...field} />}
             </StyledUrlFormikField>
             <StyledUrlFormikField name="linkText" showError>
-              {({ field }: FieldProps) => <InputV2 customCss={inputStyle} label={t('form.name.linkText')} {...field} />}
+              {({ field }: FieldProps) => <InputV2 customCss={inputStyle} label={t("form.name.linkText")} {...field} />}
             </StyledUrlFormikField>
           </UrlWrapper>
           <StyledFormikField name="imageSide">
             {({ field }) => (
               <RadioButtonGroup
-                label={t('form.name.sides')}
+                label={t("form.name.sides")}
                 selected={field.value}
                 uniqeIds
                 options={imageSides}
@@ -239,7 +239,7 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
             {({ field, form }: FieldProps) => (
               <>
                 {!form.values.isDecorative && form.values.metaImageId && (
-                  <InputV2 customCss={inputStyle} label={t('form.name.metaImageAlt')} {...field} />
+                  <InputV2 customCss={inputStyle} label={t("form.name.metaImageAlt")} {...field} />
                 )}
               </>
             )}
@@ -249,9 +249,13 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
               <>
                 {form.values.metaImageId && (
                   <CheckboxItem
-                    label={t('form.image.isDecorative')}
+                    label={t("form.image.isDecorative")}
                     checked={field.value}
-                    onChange={() => field.onChange({ target: { name: field.name, value: !field.value } })}
+                    onChange={() =>
+                      field.onChange({
+                        target: { name: field.name, value: !field.value },
+                      })
+                    }
                   />
                 )}
               </>
@@ -259,10 +263,10 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
           </StyledFormikField>
           <ButtonContainer>
             <ButtonV2 variant="outline" onClick={onCancel}>
-              {t('cancel')}
+              {t("cancel")}
             </ButtonV2>
             <ButtonV2 variant="solid" disabled={!dirty || !isValid} type="submit" onClick={() => handleSubmit()}>
-              {t('save')}
+              {t("save")}
             </ButtonV2>
           </ButtonContainer>
         </>

@@ -6,9 +6,9 @@
  *
  */
 
-import { keyframes, css, SerializedStyles } from '@emotion/react';
-import styled from '@emotion/styled';
-import { colors } from '@ndla/core';
+import { keyframes, css, SerializedStyles } from "@emotion/react";
+import styled from "@emotion/styled";
+import { colors } from "@ndla/core";
 
 const spinnerKeyframeStyle = keyframes`
   0% {
@@ -27,7 +27,7 @@ const commonAbsoluteAndFixedStyle = css`
   z-index: 999;
 `;
 
-export type SpinnerAppearance = 'fixed' | 'absolute' | 'small';
+export type SpinnerAppearance = "fixed" | "absolute" | "small";
 
 const appeareances: Record<SpinnerAppearance, SerializedStyles> = {
   fixed: css`
@@ -55,7 +55,7 @@ interface Props {
   withWrapper?: boolean;
 }
 
-const StyledSpinner = styled('div')<Props>`
+const StyledSpinner = styled("div")<Props>`
   border: 0.4em solid ${colors.brand.greyLight};
   border-bottom-color: ${colors.brand.primary};
   border-radius: 50%;

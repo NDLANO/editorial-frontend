@@ -6,14 +6,14 @@
  *
  */
 
-import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { Select, SingleValue } from '@ndla/select';
-import { Version } from '@ndla/types-taxonomy';
-import { generateOptionGroups } from '../../../components/Taxonomy/OptGroupVersionSelector';
-import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { Select, SingleValue } from "@ndla/select";
+import { Version } from "@ndla/types-taxonomy";
+import { generateOptionGroups } from "../../../components/Taxonomy/OptGroupVersionSelector";
+import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
 const Wrapper = styled.div`
   margin-top: ${spacing.normal};
@@ -36,8 +36,8 @@ const VersionSelect = ({ versions = [], onVersionChanged }: Props) => {
 
   const fakeDefault = useMemo(
     () => ({
-      value: '',
-      label: t('diff.defaultVersion'),
+      value: "",
+      label: t("diff.defaultVersion"),
     }),
     [t],
   );
@@ -54,7 +54,7 @@ const VersionSelect = ({ versions = [], onVersionChanged }: Props) => {
   );
   const optGroups = useMemo(
     () =>
-      [{ label: '', options: [fakeDefault] }].concat(
+      [{ label: "", options: [fakeDefault] }].concat(
         generateOptionGroups(options, t).map((g) => ({
           label: g.label,
           options: g.options.map((o) => ({ value: o.id, label: o.name })),
@@ -69,7 +69,7 @@ const VersionSelect = ({ versions = [], onVersionChanged }: Props) => {
         options={optGroups}
         value={currentVersion}
         onChange={onVersionChanged}
-        prefix={`${t('taxonomy.version')}: `}
+        prefix={`${t("taxonomy.version")}: `}
       />
     </Wrapper>
   );

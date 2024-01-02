@@ -6,9 +6,9 @@
  *
  */
 
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { colors, spacing, fonts } from '@ndla/core';
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { colors, spacing, fonts } from "@ndla/core";
 
 interface ItemTitleButtonProps {
   isVisible?: boolean;
@@ -20,7 +20,7 @@ interface ItemTitleButtonProps {
 
 export const itemTitleArrow = css`
   &:before {
-    content: '';
+    content: "";
     display: block;
     width: 0;
     height: 0;
@@ -33,7 +33,7 @@ export const itemTitleArrow = css`
 
 export const itemTitleLinked = css`
   &:before {
-    content: '';
+    content: "";
     display: block;
     width: 8px;
     height: 8px;
@@ -53,7 +53,7 @@ export const ItemTitleButton = styled.button<ItemTitleButtonProps>`
   display: flex;
   align-items: center;
   text-align: left;
-  font-style: ${(props) => !props.isVisible && 'italic'};
+  font-style: ${(props) => !props.isVisible && "italic"};
 
   ${(props) => props.hasChildNodes && itemTitleArrow};
   ${(props) =>
@@ -81,7 +81,7 @@ export const StyledItemBar = styled.div<StyledItemBarProps>`
   background: ${(props) => props.highlight && colors.brand.lighter};
 
   &:hover {
-    background: ${(props) => (props.highlight ? colors.brand.light : '#f1f5f8')};
+    background: ${(props) => (props.highlight ? colors.brand.light : "#f1f5f8")};
   }
 `;
 

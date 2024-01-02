@@ -6,18 +6,18 @@
  *
  */
 
-import parse from 'html-react-parser';
-import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
+import parse from "html-react-parser";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 
-import FormikField from '../../components/FormikField';
-import StyledFormContainer from '../../components/SlateEditor/common/StyledFormContainer';
-import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
+import FormikField from "../../components/FormikField";
+import StyledFormContainer from "../../components/SlateEditor/common/StyledFormContainer";
+import PlainTextEditor from "../../components/SlateEditor/PlainTextEditor";
 
-import saveHotkeyPlugin from '../../components/SlateEditor/plugins/saveHotkey';
-import { textTransformPlugin } from '../../components/SlateEditor/plugins/textTransform';
-import parseMarkdown from '../../util/parseMarkdown';
-import { Plain } from '../../util/slatePlainSerializer';
+import saveHotkeyPlugin from "../../components/SlateEditor/plugins/saveHotkey";
+import { textTransformPlugin } from "../../components/SlateEditor/plugins/textTransform";
+import parseMarkdown from "../../util/parseMarkdown";
+import { Plain } from "../../util/slatePlainSerializer";
 
 interface Props {
   name?: string;
@@ -27,23 +27,28 @@ interface Props {
   preview?: boolean;
 }
 
-const IngressField = ({ name = 'introduction', maxLength = 300, placeholder, preview = false }: Props) => {
+const IngressField = ({ name = "introduction", maxLength = 300, placeholder, preview = false }: Props) => {
   const plugins = useMemo(() => [textTransformPlugin, saveHotkeyPlugin], []);
 
   const { t } = useTranslation();
   return (
     <StyledFormContainer>
-      <FormikField noBorder label={t('form.introduction.label')} name={name} showMaxLength maxLength={maxLength}>
+      <FormikField noBorder label={t("form.introduction.label")} name={name} showMaxLength maxLength={maxLength}>
         {({ field, form: { isSubmitting } }) =>
           preview ? (
             <div className="article_introduction">
-              {parse(parseMarkdown({ inline: true, markdown: Plain.serialize(field.value) }))}
+              {parse(
+                parseMarkdown({
+                  inline: true,
+                  markdown: Plain.serialize(field.value),
+                }),
+              )}
             </div>
           ) : (
             <PlainTextEditor
               id={field.name}
               {...field}
-              placeholder={placeholder || t('form.introduction.label')}
+              placeholder={placeholder || t("form.introduction.label")}
               className="article_introduction"
               data-testid="learning-resource-ingress"
               submitted={isSubmitting}

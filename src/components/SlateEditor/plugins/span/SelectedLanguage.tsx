@@ -6,10 +6,10 @@
  *
  */
 
-import { useSelected } from 'slate-react';
-import styled from '@emotion/styled';
-import { colors } from '@ndla/core';
-import { SpanElement } from '.';
+import { useSelected } from "slate-react";
+import styled from "@emotion/styled";
+import { colors } from "@ndla/core";
+import { SpanElement } from ".";
 
 interface Props {
   element: SpanElement;
@@ -18,7 +18,7 @@ interface Props {
 }
 
 const StyledLanguagePicker = styled.div<{ selected: boolean }>`
-  display: ${(p) => (p.selected ? 'block' : 'none')};
+  display: ${(p) => (p.selected ? "block" : "none")};
   position: absolute;
   font-family: monospace;
   transform: translateY(100%);

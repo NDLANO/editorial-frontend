@@ -6,30 +6,30 @@
  *
  */
 
-import { ChangeEvent, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2, IconButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
-import { FieldHeader, FieldSection, Input, CheckboxItem, FieldRemoveButton, TextArea } from '@ndla/forms';
-import { Link as LinkIcon } from '@ndla/icons/common';
-import { DeleteForever } from '@ndla/icons/editor';
-import { ModalBody, ModalCloseButton, Modal, ModalHeader, ModalTitle, ModalTrigger, ModalContent } from '@ndla/modal';
-import { SafeLinkIconButton } from '@ndla/safelink';
-import Tooltip from '@ndla/tooltip';
-import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
+import { ChangeEvent, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2, IconButtonV2 } from "@ndla/button";
+import { spacing } from "@ndla/core";
+import { FieldHeader, FieldSection, Input, CheckboxItem, FieldRemoveButton, TextArea } from "@ndla/forms";
+import { Link as LinkIcon } from "@ndla/icons/common";
+import { DeleteForever } from "@ndla/icons/editor";
+import { ModalBody, ModalCloseButton, Modal, ModalHeader, ModalTitle, ModalTrigger, ModalContent } from "@ndla/modal";
+import { SafeLinkIconButton } from "@ndla/safelink";
+import Tooltip from "@ndla/tooltip";
+import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 
-import UrlAllowList from './UrlAllowList';
-import { urlTransformers } from './urlTransformers';
-import { HelpIcon, normalPaddingCSS } from '../../components/HowTo';
-import ImageSearchAndUploader from '../../components/ImageSearchAndUploader';
-import { EXTERNAL_WHITELIST_PROVIDERS, DRAFT_ADMIN_SCOPE } from '../../constants';
-import { Embed, ExternalEmbed } from '../../interfaces';
-import { fetchImage, searchImages } from '../../modules/image/imageApi';
-import { fetchExternalOembed } from '../../util/apiHelpers';
-import { isValidURL, urlDomain, getIframeSrcFromHtmlString } from '../../util/htmlHelpers';
-import { onError } from '../../util/resolveJsonOrRejectWithError';
-import { useSession } from '../Session/SessionProvider';
+import UrlAllowList from "./UrlAllowList";
+import { urlTransformers } from "./urlTransformers";
+import { HelpIcon, normalPaddingCSS } from "../../components/HowTo";
+import ImageSearchAndUploader from "../../components/ImageSearchAndUploader";
+import { EXTERNAL_WHITELIST_PROVIDERS, DRAFT_ADMIN_SCOPE } from "../../constants";
+import { Embed, ExternalEmbed } from "../../interfaces";
+import { fetchImage, searchImages } from "../../modules/image/imageApi";
+import { fetchExternalOembed } from "../../util/apiHelpers";
+import { isValidURL, urlDomain, getIframeSrcFromHtmlString } from "../../util/htmlHelpers";
+import { onError } from "../../util/resolveJsonOrRejectWithError";
+import { useSession } from "../Session/SessionProvider";
 
 const filterWhiteListedURL = (url: string) => {
   const domain = urlDomain(url);
@@ -39,7 +39,7 @@ const filterWhiteListedURL = (url: string) => {
   return isWhiteListedURL;
 };
 
-const StyledButtonWrapper = styled('div')`
+const StyledButtonWrapper = styled("div")`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -50,7 +50,7 @@ const StyledButtonWrapper = styled('div')`
   }
 `;
 
-const StyledPreviewWrapper = styled('div')`
+const StyledPreviewWrapper = styled("div")`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -105,10 +105,10 @@ interface Props {
   onUrlSave: (returnType: Embed) => void;
   embed?: ExternalEmbed;
 }
-const StyledPreviewItem = styled('div')`
+const StyledPreviewItem = styled("div")`
   width: 50%;
 `;
-type URLError = 'invalid' | 'unsupported';
+type URLError = "invalid" | "unsupported";
 
 const VisualElementUrlPreview = ({
   selectedResourceUrl,
@@ -120,13 +120,13 @@ const VisualElementUrlPreview = ({
 }: Props) => {
   const { userPermissions } = useSession();
   const [url, setUrl] = useState(selectedResourceUrl);
-  const [title, setTitle] = useState(embed?.title || '');
+  const [title, setTitle] = useState(embed?.title || "");
   const [image, setImage] = useState<IImageMetaInformationV3>();
   const [imageModalOpen, setImageModalOpen] = useState(false);
-  const [description, setDescription] = useState(embed?.caption || '');
-  const [showFullscreen, setShowFullscreen] = useState(embed?.type === 'fullscreen');
+  const [description, setDescription] = useState(embed?.caption || "");
+  const [showFullscreen, setShowFullscreen] = useState(embed?.type === "fullscreen");
   const [embedUrl, setEmbedUrl] = useState(selectedResourceUrl);
-  const [showPreview, setShowPreview] = useState(selectedResourceUrl !== '');
+  const [showPreview, setShowPreview] = useState(selectedResourceUrl !== "");
   const [error, setError] = useState<URLError | undefined>(undefined);
   const {
     t,
@@ -134,14 +134,14 @@ const VisualElementUrlPreview = ({
   } = useTranslation();
 
   const getUrlWarningText = () => {
-    if (error === 'invalid') {
-      return t('form.content.link.invalid');
+    if (error === "invalid") {
+      return t("form.content.link.invalid");
     }
-    if (error === 'unsupported') {
-      return t('form.content.link.unSupported');
+    if (error === "unsupported") {
+      return t("form.content.link.unSupported");
     }
-    if (url === '') {
-      return t('form.content.link.required');
+    if (url === "") {
+      return t("form.content.link.required");
     }
   };
 
@@ -150,19 +150,19 @@ const VisualElementUrlPreview = ({
     if (isChangedUrl) {
       return undefined;
     }
-    return resource || t('form.content.link.insert');
+    return resource || t("form.content.link.insert");
   };
 
   const handleClearInput = () => {
-    setUrl('');
-    setEmbedUrl('');
+    setUrl("");
+    setEmbedUrl("");
   };
 
   const handleSaveUrl = async (preview = false) => {
-    const whiteListedUrl = filterWhiteListedURL(url || '');
+    const whiteListedUrl = filterWhiteListedURL(url || "");
     if (whiteListedUrl) {
       try {
-        const data = await fetchExternalOembed(url || '');
+        const data = await fetchExternalOembed(url || "");
         const src = getIframeSrcFromHtmlString(data.html);
 
         if (preview) {
@@ -174,16 +174,16 @@ const VisualElementUrlPreview = ({
                 title,
                 caption: description,
                 imageid: image?.id,
-                type: 'fullscreen',
+                type: "fullscreen",
               }
             : {
-                type: 'external',
+                type: "external",
                 title,
               };
           onUrlSave({
             ...data,
-            resource: 'external',
-            url: src || '',
+            resource: "external",
+            url: src || "",
           });
         }
       } catch (err) {
@@ -196,23 +196,23 @@ const VisualElementUrlPreview = ({
                 title,
                 caption: description,
                 imageid: image?.id,
-                type: 'fullscreen',
+                type: "fullscreen",
               }
             : {
-                width: '708px',
+                width: "708px",
                 title,
-                height: whiteListedUrl.height || '486px',
-                type: 'iframe',
+                height: whiteListedUrl.height || "486px",
+                type: "iframe",
               };
           onUrlSave({
             ...data,
-            resource: 'iframe',
-            url: url || '',
+            resource: "iframe",
+            url: url || "",
           });
         }
       }
     } else {
-      setError('unsupported');
+      setError("unsupported");
     }
   };
 
@@ -227,7 +227,7 @@ const VisualElementUrlPreview = ({
     setUrl(url);
     setError(undefined);
     setShowPreview(false);
-    setEmbedUrl('');
+    setEmbedUrl("");
     if (url === selectedResourceUrl) {
       setShowPreview(true);
       setEmbedUrl(url);
@@ -236,8 +236,8 @@ const VisualElementUrlPreview = ({
 
   const handleBlur = (evt: ChangeEvent<HTMLInputElement>) => {
     const url = evt.target.value;
-    if (url !== '' && !isValidURL(url)) {
-      setError('invalid');
+    if (url !== "" && !isValidURL(url)) {
+      setError("invalid");
     }
   };
 
@@ -245,10 +245,10 @@ const VisualElementUrlPreview = ({
   const titleChanged = title !== embed?.title;
   const descriptionChanged = embed?.caption !== description;
   const imageChanged = embed?.imageid !== image?.id;
-  const typeChanged = showFullscreen ? embed?.type === 'iframe' || !embed?.type : embed?.type === 'fullscreen';
+  const typeChanged = showFullscreen ? embed?.type === "iframe" || !embed?.type : embed?.type === "fullscreen";
 
   const canSave = () => {
-    if (url === '' || !!error) {
+    if (url === "" || !!error) {
       return false;
     }
 
@@ -281,20 +281,22 @@ const VisualElementUrlPreview = ({
       <FieldHeader
         title={
           urlChanged
-            ? t('form.content.link.newUrlResource')
-            : t('form.content.link.changeUrlResource', { type: selectedResourceType })
+            ? t("form.content.link.newUrlResource")
+            : t("form.content.link.changeUrlResource", {
+                type: selectedResourceType,
+              })
         }
         subTitle={getSubTitle()}
       >
         <Modal>
           <ModalTrigger>
-            <IconButtonV2 aria-label={t('form.content.link.validDomains')} title={t('form.content.link.validDomains')}>
+            <IconButtonV2 aria-label={t("form.content.link.validDomains")} title={t("form.content.link.validDomains")}>
               <HelpIcon css={normalPaddingCSS} />
             </IconButtonV2>
           </ModalTrigger>
           <ModalContent>
             <ModalHeader>
-              <ModalTitle>{t('form.content.link.validDomains')}</ModalTitle>
+              <ModalTitle>{t("form.content.link.validDomains")}</ModalTitle>
               <ModalCloseButton />
             </ModalHeader>
             <ModalBody>
@@ -311,34 +313,34 @@ const VisualElementUrlPreview = ({
           warningText={getUrlWarningText()}
           value={url}
           type="text"
-          placeholder={t('form.content.link.href')}
+          placeholder={t("form.content.link.href")}
           onChange={handleChange}
           onBlur={handleBlur}
         />
         <RemoveButtonWrapper>
-          <FieldRemoveButton onClick={handleClearInput}>{t('form.content.link.remove')}</FieldRemoveButton>
+          <FieldRemoveButton onClick={handleClearInput}>{t("form.content.link.remove")}</FieldRemoveButton>
         </RemoveButtonWrapper>
       </FieldSection>
-      <FieldHeader title={t('form.name.title')} />
+      <FieldHeader title={t("form.name.title")} />
       <FieldSection>
         <Input
           value={title}
           type="text"
-          placeholder={t('form.name.title')}
+          placeholder={t("form.name.title")}
           onChange={(e) => setTitle(e.currentTarget.value)}
         />
       </FieldSection>
       {!showFullscreen && (
         <StyledButtonWrapper>
           <ButtonV2
-            disabled={url === selectedResourceUrl || url === ''}
+            disabled={url === selectedResourceUrl || url === ""}
             variant="outline"
             onClick={() => handleSaveUrl(true)}
           >
-            {t('form.content.link.preview')}
+            {t("form.content.link.preview")}
           </ButtonV2>
           <ButtonV2 disabled={!canSave()} variant="outline" onClick={() => handleSaveUrl()}>
-            {urlChanged ? t('form.content.link.insert') : t('form.content.link.update')}
+            {urlChanged ? t("form.content.link.insert") : t("form.content.link.update")}
           </ButtonV2>
         </StyledButtonWrapper>
       )}
@@ -347,7 +349,7 @@ const VisualElementUrlPreview = ({
           <CheckboxItem
             checked={showFullscreen}
             onChange={() => setShowFullscreen((prev) => !prev)}
-            label={t('form.content.link.fullscreen')}
+            label={t("form.content.link.fullscreen")}
           />
         </CheckboxWrapper>
       )}
@@ -359,9 +361,9 @@ const VisualElementUrlPreview = ({
                 {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
                 <img src={image?.image.imageUrl} alt={image?.alttext.alttext} />
                 <div>
-                  <Tooltip tooltip={t('form.metaImage.remove')}>
+                  <Tooltip tooltip={t("form.metaImage.remove")}>
                     <IconButtonV2
-                      aria-label={t('form.metaImage.remove')}
+                      aria-label={t("form.metaImage.remove")}
                       variant="ghost"
                       colorTheme="danger"
                       onClick={() => setImage(undefined)}
@@ -370,13 +372,13 @@ const VisualElementUrlPreview = ({
                       <DeleteForever />
                     </IconButtonV2>
                   </Tooltip>
-                  <Tooltip tooltip={t('imageEditor.editImage')}>
+                  <Tooltip tooltip={t("imageEditor.editImage")}>
                     <SafeLinkIconButton
                       variant="ghost"
                       colorTheme="light"
                       to={`/media/image-upload/${image.id}/edit/${language}`}
                       target="_blank"
-                      aria-label={t('form.editOriginalImage')}
+                      aria-label={t("form.editOriginalImage")}
                     >
                       <LinkIcon />
                     </SafeLinkIconButton>
@@ -386,7 +388,7 @@ const VisualElementUrlPreview = ({
             ) : (
               <Modal open={imageModalOpen} onOpenChange={setImageModalOpen}>
                 <ModalTrigger>
-                  <ButtonV2>{t('form.metaImage.add')}</ButtonV2>
+                  <ButtonV2>{t("form.metaImage.add")}</ButtonV2>
                 </ModalTrigger>
                 <ModalContent size="large">
                   <ModalHeader>
@@ -412,15 +414,15 @@ const VisualElementUrlPreview = ({
             )}
           </ImageInputWrapper>
           <ContentInputWrapper>
-            <h3>{t('form.name.description')}</h3>
+            <h3>{t("form.name.description")}</h3>
             <TextArea
               value={description}
               type="text"
-              placeholder={t('form.name.description')}
+              placeholder={t("form.name.description")}
               onChange={(e) => setDescription(e.currentTarget.value)}
             />
             <UpdateButton disabled={!canSave()} variant="outline" onClick={() => handleSaveUrl()}>
-              {urlChanged ? t('form.content.link.insert') : t('form.content.link.update')}
+              {urlChanged ? t("form.content.link.insert") : t("form.content.link.update")}
             </UpdateButton>
           </ContentInputWrapper>
         </FullscreenFormWrapper>

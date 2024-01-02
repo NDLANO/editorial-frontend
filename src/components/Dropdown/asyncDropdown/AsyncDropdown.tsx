@@ -5,19 +5,19 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import Downshift, { GetInputPropsOptions, StateChangeOptions } from 'downshift';
-import debounce from 'lodash/debounce';
-import { ChangeEvent, Ref, useCallback, useEffect, useState } from 'react';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
+import Downshift, { GetInputPropsOptions, StateChangeOptions } from "downshift";
+import debounce from "lodash/debounce";
+import { ChangeEvent, Ref, useCallback, useEffect, useState } from "react";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
 //@ts-ignore
-import { DropdownMenu, InputV2 } from '@ndla/forms';
-import { Spinner } from '@ndla/icons';
-import { Search } from '@ndla/icons/common';
-import { inputWrapperStyles } from '../../../containers/StructurePage/plannedResource/PlannedResourceForm';
-import { SearchResultBase } from '../../../interfaces';
-import { convertFieldWithFallback } from '../../../util/convertFieldWithFallback';
-import { itemToString } from '../../../util/downShiftHelpers';
+import { DropdownMenu, InputV2 } from "@ndla/forms";
+import { Spinner } from "@ndla/icons";
+import { Search } from "@ndla/icons/common";
+import { inputWrapperStyles } from "../../../containers/StructurePage/plannedResource/PlannedResourceForm";
+import { SearchResultBase } from "../../../interfaces";
+import { convertFieldWithFallback } from "../../../util/convertFieldWithFallback";
+import { itemToString } from "../../../util/downShiftHelpers";
 
 const IconWrapper = styled.div`
   padding: 0 ${spacing.small};
@@ -86,7 +86,7 @@ interface ItemValues<ApiType> {
 
 export const AsyncDropdown = <ApiType extends ApiTypeValues>({
   children,
-  placeholder = '',
+  placeholder = "",
   labelField,
   idField,
   onClick,
@@ -115,25 +115,27 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
   const [items, setItems] = useState<ItemValues<ApiType>[]>([]);
   const [selectedItem, setSelectedItem] = useState<ItemValues<ApiType> | null>(null);
   const [page, setPage] = useState<number>(1);
-  const [inputValue, setInputValue] = useState<string>('');
-  const [currentDebounce, setCurrentDebounce] = useState<{ cancel: Function }>();
+  const [inputValue, setInputValue] = useState<string>("");
+  const [currentDebounce, setCurrentDebounce] = useState<{
+    cancel: Function;
+  }>();
   const [keepOpen, setKeepOpen] = useState<boolean>(!!startOpen);
   const [loading, setLoading] = useState<boolean>(false);
   const [totalCount, setTotalCount] = useState<number>(1);
 
   useEffect(() => {
-    initialSearch && handleSearch('', page);
+    initialSearch && handleSearch("", page);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSearch = useCallback(
-    async (query: string = '', page: number) => {
+    async (query: string = "", page: number) => {
       setLoading(true);
       const apiOutput = await apiAction(query, showPagination ? page : undefined, pageSize);
       setTotalCount(apiOutput.totalCount ?? 1);
       const transformedItems: ItemValues<ApiType>[] = apiOutput.results.map((item) => ({
         ...item,
-        title: convertFieldWithFallback<'title'>(item, 'title', ''),
-        description: convertFieldWithFallback<'metaDescription'>(item, 'metaDescription', ''),
+        title: convertFieldWithFallback<"title">(item, "title", ""),
+        description: convertFieldWithFallback<"metaDescription">(item, "metaDescription", ""),
         image: item.metaImage && `${item.metaImage.url}?width=60`,
         alt: item.metaImage?.alt,
         originalItem: item,
@@ -173,7 +175,7 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
     onChange(selectedItem.originalItem);
 
     if (children || clearInputField) {
-      setInputValue('');
+      setInputValue("");
     }
     if (!multiSelect) {
       setKeepOpen(false);
@@ -183,7 +185,7 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
   const handleStateChange = (changes: StateChangeOptions<ApiType>) => {
     const { type } = changes;
     if (type === Downshift.stateChangeTypes.keyDownEnter) {
-      setInputValue('');
+      setInputValue("");
     }
   };
 
@@ -197,11 +199,11 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
 
   const getOnKeydown = (createOnEnter?: boolean) => {
     return (event: KeyboardEvent) => {
-      if (event.key === 'Enter') {
+      if (event.key === "Enter") {
         event.preventDefault();
         createOnEnter && handleCreate();
       }
-      if (event.key === 'ArrowDown') {
+      if (event.key === "ArrowDown") {
         setKeepOpen(true);
       } else {
         setKeepOpen(true);
@@ -213,7 +215,7 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
       onCreate(inputValue);
     }
     if (children || clearInputField) {
-      setInputValue('');
+      setInputValue("");
     }
   };
 
@@ -236,7 +238,7 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
         });
 
         return (
-          <div style={positionAbsolute ? { position: 'relative' } : undefined}>
+          <div style={positionAbsolute ? { position: "relative" } : undefined}>
             {children ? (
               children({ selectedItems, removeItem, ...inpProps })
             ) : (
@@ -246,7 +248,7 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
                 name="search-input-field"
                 label={label ?? placeholder}
                 labelHidden={!label}
-                data-testid={'dropdown-input'}
+                data-testid={"dropdown-input"}
                 after={<IconWrapper>{loading ? <StyledSpinner size="normal" /> : <Search />}</IconWrapper>}
                 white={white}
               />

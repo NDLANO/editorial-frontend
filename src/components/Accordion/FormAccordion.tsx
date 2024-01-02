@@ -6,10 +6,10 @@
  *
  */
 
-import { ReactNode, memo } from 'react';
-import styled from '@emotion/styled';
-import { AccordionContent, AccordionHeader, AccordionItem } from '@ndla/accordion';
-import { colors, misc, spacing } from '@ndla/core';
+import { ReactNode, memo } from "react";
+import styled from "@emotion/styled";
+import { AccordionContent, AccordionHeader, AccordionItem } from "@ndla/accordion";
+import { colors, misc, spacing } from "@ndla/core";
 
 export interface FormAccordionProps {
   children: ReactNode;
@@ -22,7 +22,7 @@ export interface FormAccordionProps {
 }
 
 const StyledHeader = styled(AccordionHeader)`
-  &[data-error='true'] {
+  &[data-error="true"] {
     background-color: ${colors.support.redLight};
     border-color: ${colors.support.red};
     color: ${colors.text.primary};
@@ -44,7 +44,7 @@ const StyledItem = styled(AccordionItem)`
     border: 2px solid ${colors.support.red};
   }
 
-  &[data-error='true'] {
+  &[data-error="true"] {
     border-color: ${colors.support.red};
   }
 `;
@@ -61,7 +61,7 @@ const HeaderWrapper = styled.div`
 `;
 
 const StyledAccordionContent = styled(AccordionContent)`
-  &[data-frontpage='true'] {
+  &[data-frontpage="true"] {
     background-color: ${colors.background.lightBlue};
     width: 100% !important;
     inset: unset !important;
@@ -77,7 +77,7 @@ const FormAccordion = ({
   title,
   hasError,
   id,
-  className = 'u-6/6',
+  className = "u-6/6",
   wide,
   isFrontpageArticle,
 }: FormAccordionProps) => {

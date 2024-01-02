@@ -6,17 +6,17 @@
  *
  */
 
-import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Pencil } from '@ndla/icons/action';
-import Pager from '@ndla/pager';
-import { IConceptSummary } from '@ndla/types-backend/concept-api';
-import { SortOptionLastUsed } from './LastUsedItems';
-import TableComponent, { FieldElement, Prefix, TitleElement } from './TableComponent';
-import TableTitle from './TableTitle';
-import formatDate from '../../../util/formatDate';
-import { toEditConcept, toEditGloss } from '../../../util/routeHelpers';
-import { StyledLink } from '../styles';
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { Pencil } from "@ndla/icons/action";
+import Pager from "@ndla/pager";
+import { IConceptSummary } from "@ndla/types-backend/concept-api";
+import { SortOptionLastUsed } from "./LastUsedItems";
+import TableComponent, { FieldElement, Prefix, TitleElement } from "./TableComponent";
+import TableTitle from "./TableTitle";
+import formatDate from "../../../util/formatDate";
+import { toEditConcept, toEditGloss } from "../../../util/routeHelpers";
+import { StyledLink } from "../styles";
 
 interface Props {
   data: IConceptSummary[];
@@ -24,7 +24,7 @@ interface Props {
   page: number;
   setPage: (page: number) => void;
   sortOption: string;
-  setSortOption: (o: Prefix<'-', SortOptionLastUsed>) => void;
+  setSortOption: (o: Prefix<"-", SortOptionLastUsed>) => void;
   error: string | undefined;
   lastPage: number;
   titles: TitleElement<SortOptionLastUsed>[];
@@ -50,7 +50,7 @@ const LastUsedConcepts = ({
           id: `title_${a.id}`,
           data: (
             <StyledLink
-              to={a.conceptType === 'concept' ? toEditConcept(a.id) : toEditGloss(a.id)}
+              to={a.conceptType === "concept" ? toEditConcept(a.id) : toEditGloss(a.id)}
               title={a.title?.title}
             >
               {a.title.title}
@@ -64,7 +64,7 @@ const LastUsedConcepts = ({
 
   return (
     <>
-      <TableTitle title={t('welcomePage.lastUsed')} description={t('welcomePage.lastUsedConcepts')} Icon={Pencil} />
+      <TableTitle title={t("welcomePage.lastUsed")} description={t("welcomePage.lastUsedConcepts")} Icon={Pencil} />
       <TableComponent
         isLoading={isLoading}
         tableTitleList={titles}
@@ -72,7 +72,7 @@ const LastUsedConcepts = ({
         setSortOption={setSortOption}
         sortOption={sortOption}
         error={error}
-        noResultsText={t('welcomePage.emptyLastUsed')}
+        noResultsText={t("welcomePage.emptyLastUsed")}
         minWidth="250px"
       />
       <Pager

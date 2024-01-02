@@ -6,11 +6,11 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { useNavigate, useParams } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { MAX_FRONTPAGE_ARTICLE_WIDTH } from '../../constants';
-import { toPreviewDraft } from '../../util/routeHelpers';
+import { useTranslation } from "react-i18next";
+import { useNavigate, useParams } from "react-router-dom";
+import styled from "@emotion/styled";
+import { MAX_FRONTPAGE_ARTICLE_WIDTH } from "../../constants";
+import { toPreviewDraft } from "../../util/routeHelpers";
 
 const StyledSelect = styled.select`
   max-width: 972px;
@@ -18,7 +18,7 @@ const StyledSelect = styled.select`
   width: 100%;
   display: block;
 
-  &[data-wide='true'] {
+  &[data-wide="true"] {
     max-width: ${MAX_FRONTPAGE_ARTICLE_WIDTH}px;
   }
 `;
@@ -29,7 +29,7 @@ interface Props {
 
 const LanguageSelector = ({ supportedLanguages }: Props) => {
   const { t } = useTranslation();
-  const { draftId, language } = useParams<'draftId' | 'language'>();
+  const { draftId, language } = useParams<"draftId" | "language">();
   const navigate = useNavigate();
   if (supportedLanguages.length === 0) {
     return null;

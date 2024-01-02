@@ -6,25 +6,25 @@
  *
  */
 
-import { useFormik } from 'formik';
-import isEqual from 'lodash/fp/isEqual';
-import { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { colors } from '@ndla/core';
-import { Select } from '@ndla/forms';
-import { Node } from '@ndla/types-taxonomy';
-import { InputField } from './SearchStyles';
-import AsyncSearchTags from '../../../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
-import { MultiSelectDropdown } from '../../../../../components/Dropdown/MultiSelectDropdown';
-import MultiButton from '../../../../../components/MultiButton';
-import { CONCEPT_ADMIN_SCOPE, END_CONTROL, PUBLISHED } from '../../../../../constants';
-import { ConceptStatusType } from '../../../../../interfaces';
-import { fetchSearchTags } from '../../../../../modules/concept/conceptApi';
-import { useLicenses } from '../../../../../modules/draft/draftQueries';
-import { getLicensesWithTranslations } from '../../../../../util/licenseHelpers';
-import { useSession } from '../../../../Session/SessionProvider';
+import { useFormik } from "formik";
+import isEqual from "lodash/fp/isEqual";
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { colors } from "@ndla/core";
+import { Select } from "@ndla/forms";
+import { Node } from "@ndla/types-taxonomy";
+import { InputField } from "./SearchStyles";
+import AsyncSearchTags from "../../../../../components/Dropdown/asyncDropdown/AsyncSearchTags";
+import { MultiSelectDropdown } from "../../../../../components/Dropdown/MultiSelectDropdown";
+import MultiButton from "../../../../../components/MultiButton";
+import { CONCEPT_ADMIN_SCOPE, END_CONTROL, PUBLISHED } from "../../../../../constants";
+import { ConceptStatusType } from "../../../../../interfaces";
+import { fetchSearchTags } from "../../../../../modules/concept/conceptApi";
+import { useLicenses } from "../../../../../modules/draft/draftQueries";
+import { getLicensesWithTranslations } from "../../../../../util/licenseHelpers";
+import { useSession } from "../../../../Session/SessionProvider";
 
 export interface InlineFormConcept {
   title: string;
@@ -56,10 +56,10 @@ const StyledHelpMessage = styled.span`
 const validate = (values: InlineFormConcept): ErrorsType => {
   const errors: ErrorsType = {};
   if (!values.title) {
-    errors.title = 'required';
+    errors.title = "required";
   }
   if (values.subjects.length === 0) {
-    errors.subjects = 'required';
+    errors.subjects = "required";
   }
   return errors;
 };
@@ -82,7 +82,7 @@ const ConceptForm = ({ initialValues, status, language, onSubmit, allSubjects, c
   const hasChanges = !isEqual(initialValues, values);
 
   const getStatus = (value: string, status: string) => {
-    if (value === 'saveAndPublish') {
+    if (value === "saveAndPublish") {
       return PUBLISHED;
     } else if (status === PUBLISHED) {
       return END_CONTROL;
@@ -99,8 +99,8 @@ const ConceptForm = ({ initialValues, status, language, onSubmit, allSubjects, c
   const secondaryButtons = canPublish
     ? [
         {
-          label: t('form.saveAndPublish'),
-          value: 'saveAndPublish',
+          label: t("form.saveAndPublish"),
+          value: "saveAndPublish",
         },
       ]
     : [];
@@ -108,22 +108,22 @@ const ConceptForm = ({ initialValues, status, language, onSubmit, allSubjects, c
   return (
     <form>
       <InputField>
-        <label htmlFor="title">{t('form.name.title')}</label>
+        <label htmlFor="title">{t("form.name.title")}</label>
         <input
           id="title"
           name="title"
           type="text"
-          aria-label={t('form.name.title')}
+          aria-label={t("form.name.title")}
           value={values.title}
           onChange={handleChange}
           onBlur={handleBlur}
         />
         {errors.title ? (
-          <StyledHelpMessage>{t('validation.isRequired', { label: t('form.name.title') })}</StyledHelpMessage>
+          <StyledHelpMessage>{t("validation.isRequired", { label: t("form.name.title") })}</StyledHelpMessage>
         ) : null}
       </InputField>
       <InputField>
-        <label htmlFor="license">{t('form.name.license')}</label>
+        <label htmlFor="license">{t("form.name.license")}</label>
         <Select
           value={values.license}
           onChange={(v: any) => {
@@ -134,7 +134,7 @@ const ConceptForm = ({ initialValues, status, language, onSubmit, allSubjects, c
             });
           }}
         >
-          {!values.license && <option>{t('form.license.choose')}</option>}
+          {!values.license && <option>{t("form.license.choose")}</option>}
           {licensesWithTranslations.map((license) => (
             <option value={license.license} key={license.license}>
               {license.title}
@@ -143,7 +143,7 @@ const ConceptForm = ({ initialValues, status, language, onSubmit, allSubjects, c
         </Select>
       </InputField>
       <InputField>
-        <label htmlFor="subjects">{t('searchForm.tagType.subjects')}</label>
+        <label htmlFor="subjects">{t("searchForm.tagType.subjects")}</label>
         <MultiSelectDropdown
           name="subjects"
           labelField="name"
@@ -154,12 +154,14 @@ const ConceptForm = ({ initialValues, status, language, onSubmit, allSubjects, c
         />
         {errors.subjects ? (
           <StyledHelpMessage>
-            {t('validation.isRequired', { label: t('searchForm.tagType.subjects') })}
+            {t("validation.isRequired", {
+              label: t("searchForm.tagType.subjects"),
+            })}
           </StyledHelpMessage>
         ) : null}
       </InputField>
       <InputField>
-        <label htmlFor="tags">{t('form.categories.label')}</label>
+        <label htmlFor="tags">{t("form.categories.label")}</label>
         <AsyncSearchTags
           multiSelect
           language={language}
@@ -172,12 +174,12 @@ const ConceptForm = ({ initialValues, status, language, onSubmit, allSubjects, c
       </InputField>
       <div className="buttons">
         <ButtonV2 className="form-button secondary" onClick={cancel}>
-          {t('editorFooter.cancelLabel')}
+          {t("editorFooter.cancelLabel")}
         </ButtonV2>
         <MultiButton
           disabled={!hasChanges || Object.keys(errors).length > 0}
           onClick={(value) => handleClick(value)}
-          mainButton={{ value: 'save', label: t(`form.save`) }}
+          mainButton={{ value: "save", label: t(`form.save`) }}
           secondaryButtons={secondaryButtons}
         />
       </div>

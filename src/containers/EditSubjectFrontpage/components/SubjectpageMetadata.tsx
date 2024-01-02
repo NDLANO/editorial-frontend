@@ -6,14 +6,14 @@
  *
  */
 
-import { FieldProps } from 'formik';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import SubjectpageBanner from './SubjectpageBanner';
-import FormikField from '../../../components/FormikField';
-import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
-import { textTransformPlugin } from '../../../components/SlateEditor/plugins/textTransform';
+import { FieldProps } from "formik";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import SubjectpageBanner from "./SubjectpageBanner";
+import FormikField from "../../../components/FormikField";
+import PlainTextEditor from "../../../components/SlateEditor/PlainTextEditor";
+import { textTransformPlugin } from "../../../components/SlateEditor/plugins/textTransform";
 
 const ImageWrapper = styled.div`
   display: flex;
@@ -33,25 +33,25 @@ const SubjectpageMetadata = () => {
         name="metaDescription"
         maxLength={300}
         showMaxLength
-        label={t('form.metaDescription.label')}
-        description={t('form.metaDescription.description')}
+        label={t("form.metaDescription.label")}
+        description={t("form.metaDescription.description")}
       >
         {({ field, form: { isSubmitting } }: FieldProps) => (
           <PlainTextEditor
             id={field.name}
             {...field}
             submitted={isSubmitting}
-            placeholder={t('form.metaDescription.label')}
+            placeholder={t("form.metaDescription.label")}
             plugins={plugins}
           />
         )}
       </FormikField>
       <ImageWrapper>
         <FormikField name="desktopBannerId">
-          {() => <SubjectpageBanner title={t('form.name.desktopBannerId')} fieldName={'desktopBannerId'} />}
+          {() => <SubjectpageBanner title={t("form.name.desktopBannerId")} fieldName={"desktopBannerId"} />}
         </FormikField>
         <FormikField name="mobileBannerId">
-          {() => <SubjectpageBanner title={t('form.name.mobileBannerId')} fieldName={'mobileBannerId'} />}
+          {() => <SubjectpageBanner title={t("form.name.mobileBannerId")} fieldName={"mobileBannerId"} />}
         </FormikField>
       </ImageWrapper>
     </>

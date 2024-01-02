@@ -6,17 +6,17 @@
  *
  */
 
-import { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { RadioButtonGroup } from '@ndla/forms';
-import { Spinner } from '@ndla/icons';
-import { IConcept, IConceptSummary, IUpdatedConcept } from '@ndla/types-backend/concept-api';
-import { Node } from '@ndla/types-taxonomy';
-import ConceptForm, { InlineFormConcept } from './ConceptForm';
-import { StyledConceptView } from './SearchStyles';
-import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../../../../../constants';
-import { fetchConcept, updateConcept, updateConceptStatus } from '../../../../../modules/concept/conceptApi';
-import { useLicenses } from '../../../../../modules/draft/draftQueries';
+import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { RadioButtonGroup } from "@ndla/forms";
+import { Spinner } from "@ndla/icons";
+import { IConcept, IConceptSummary, IUpdatedConcept } from "@ndla/types-backend/concept-api";
+import { Node } from "@ndla/types-taxonomy";
+import ConceptForm, { InlineFormConcept } from "./ConceptForm";
+import { StyledConceptView } from "./SearchStyles";
+import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from "../../../../../constants";
+import { fetchConcept, updateConcept, updateConceptStatus } from "../../../../../modules/concept/conceptApi";
+import { useLicenses } from "../../../../../modules/draft/draftQueries";
 
 interface Props {
   concept: IConceptSummary;
@@ -47,7 +47,7 @@ const FormView = ({ concept, cancel, subjects, updateLocalConcept }: Props) => {
   const [formValues, setFormValues] = useState<InlineFormConcept | undefined>();
 
   const conceptSubjects = subjects?.filter(
-    (s) => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === 'true',
+    (s) => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === "true",
   );
 
   useEffect(() => {
@@ -56,7 +56,7 @@ const FormView = ({ concept, cancel, subjects, updateLocalConcept }: Props) => {
       setFormValues({
         title: fullConcept.title.title,
         subjects: subjects.filter((s) => subjectIds?.find((id) => id === s.id)),
-        license: licenses!.find((l) => l.license === fullConcept.copyright?.license?.license)?.license || '',
+        license: licenses!.find((l) => l.license === fullConcept.copyright?.license?.license)?.license || "",
         tags: fullConcept.tags?.tags || [],
       });
     }
@@ -93,12 +93,12 @@ const FormView = ({ concept, cancel, subjects, updateLocalConcept }: Props) => {
 
   return (
     <StyledConceptView border>
-      <h2>{t('form.inlineEdit')}</h2>
+      <h2>{t("form.inlineEdit")}</h2>
       <RadioButtonGroup
         options={languageOptions}
         selected={language}
         onChange={(e: string) => {
-          const l = e.split('-')[0];
+          const l = e.split("-")[0];
           setLanguage(l);
         }}
         uniqeIds

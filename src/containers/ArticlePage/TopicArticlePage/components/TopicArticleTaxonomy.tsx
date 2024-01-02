@@ -6,17 +6,17 @@
  *
  */
 
-import sortBy from 'lodash/sortBy';
-import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Spinner } from '@ndla/icons';
-import { IUpdatedArticle, IArticle } from '@ndla/types-backend/draft-api';
-import { Node } from '@ndla/types-taxonomy';
-import { ErrorMessage } from '@ndla/ui';
-import TopicTaxonomyBlock from './TopicTaxonomyBlock';
-import { useNodes } from '../../../../modules/nodes/nodeQueries';
-import { useVersions } from '../../../../modules/taxonomy/versions/versionQueries';
-import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
+import sortBy from "lodash/sortBy";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { Spinner } from "@ndla/icons";
+import { IUpdatedArticle, IArticle } from "@ndla/types-backend/draft-api";
+import { Node } from "@ndla/types-taxonomy";
+import { ErrorMessage } from "@ndla/ui";
+import TopicTaxonomyBlock from "./TopicTaxonomyBlock";
+import { useNodes } from "../../../../modules/nodes/nodeQueries";
+import { useVersions } from "../../../../modules/taxonomy/versions/versionQueries";
+import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 
 type Props = {
   article: IArticle;
@@ -47,7 +47,7 @@ const TopicArticleTaxonomy = ({ article, updateNotes, articleLanguage, hasTaxEnt
   const versionsQuery = useVersions();
 
   const subjectsQuery = useNodes(
-    { language: articleLanguage, taxonomyVersion, nodeType: 'SUBJECT' },
+    { language: articleLanguage, taxonomyVersion, nodeType: "SUBJECT" },
     {
       select: (subject) =>
         sortBy(
@@ -69,18 +69,18 @@ const TopicArticleTaxonomy = ({ article, updateNotes, articleLanguage, hasTaxEnt
   }, [nodesQuery.data]);
 
   if (nodesQuery.isError || subjectsQuery.isError || versionsQuery.isError) {
-    changeVersion('');
+    changeVersion("");
     return (
       <ErrorMessage
         illustration={{
-          url: '/Oops.gif',
-          altText: t('errorMessage.title'),
+          url: "/Oops.gif",
+          altText: t("errorMessage.title"),
         }}
         messages={{
-          title: t('errorMessage.title'),
-          description: t('errorMessage.taxonomy'),
-          back: t('errorMessage.back'),
-          goToFrontPage: t('errorMessage.goToFrontPage'),
+          title: t("errorMessage.title"),
+          description: t("errorMessage.taxonomy"),
+          back: t("errorMessage.back"),
+          goToFrontPage: t("errorMessage.goToFrontPage"),
         }}
       />
     );

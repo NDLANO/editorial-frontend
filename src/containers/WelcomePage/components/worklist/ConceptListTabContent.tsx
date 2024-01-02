@@ -6,30 +6,30 @@
  *
  */
 
-import uniqBy from 'lodash/uniqBy';
-import { useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Calendar } from '@ndla/icons/editor';
-import Pager from '@ndla/pager';
-import { Select, SingleValue } from '@ndla/select';
-import { IConceptSearchResult, IConceptSummary, IStatus } from '@ndla/types-backend/concept-api';
-import PageSizeDropdown from './PageSizeDropdown';
-import StatusCell from './StatusCell';
-import { SortOption } from './WorkList';
-import { searchNodes } from '../../../../modules/nodes/nodeApi';
-import formatDate from '../../../../util/formatDate';
-import { toEditConcept, toEditGloss } from '../../../../util/routeHelpers';
-import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
-import { DropdownWrapper, StyledLink, StyledTopRowDashboardInfo, TopRowControls } from '../../styles';
-import GoToSearch from '../GoToSearch';
-import TableComponent, { FieldElement, Prefix, TitleElement } from '../TableComponent';
-import TableTitle from '../TableTitle';
+import uniqBy from "lodash/uniqBy";
+import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Calendar } from "@ndla/icons/editor";
+import Pager from "@ndla/pager";
+import { Select, SingleValue } from "@ndla/select";
+import { IConceptSearchResult, IConceptSummary, IStatus } from "@ndla/types-backend/concept-api";
+import PageSizeDropdown from "./PageSizeDropdown";
+import StatusCell from "./StatusCell";
+import { SortOption } from "./WorkList";
+import { searchNodes } from "../../../../modules/nodes/nodeApi";
+import formatDate from "../../../../util/formatDate";
+import { toEditConcept, toEditGloss } from "../../../../util/routeHelpers";
+import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
+import { DropdownWrapper, StyledLink, StyledTopRowDashboardInfo, TopRowControls } from "../../styles";
+import GoToSearch from "../GoToSearch";
+import TableComponent, { FieldElement, Prefix, TitleElement } from "../TableComponent";
+import TableTitle from "../TableTitle";
 
 interface Props {
   data: IConceptSearchResult | undefined;
   filterSubject: SingleValue | undefined;
   isLoading: boolean;
-  setSortOption: (o: Prefix<'-', SortOption>) => void;
+  setSortOption: (o: Prefix<"-", SortOption>) => void;
   sortOption: string;
   error: string | undefined;
   setFilterSubject: (fs: SingleValue) => void;
@@ -53,7 +53,7 @@ const fetchConceptData = async (concept: IConceptSummary, taxonomyVersion: strin
     ? await searchNodes({
         ids: concept.subjectIds,
         taxonomyVersion,
-        nodeType: 'SUBJECT',
+        nodeType: "SUBJECT",
         language,
       })
     : undefined;
@@ -63,8 +63,12 @@ const fetchConceptData = async (concept: IConceptSummary, taxonomyVersion: strin
     title: concept.title?.title,
     status: concept.status,
     type: concept.conceptType,
-    lastUpdated: concept.responsible ? formatDate(concept.responsible.lastUpdated) : '',
-    subjects: subjects?.results.map((subject) => ({ value: subject.id, label: subject.name })) ?? [],
+    lastUpdated: concept.responsible ? formatDate(concept.responsible.lastUpdated) : "",
+    subjects:
+      subjects?.results.map((subject) => ({
+        value: subject.id,
+        label: subject.name,
+      })) ?? [],
   };
 };
 
@@ -100,7 +104,7 @@ const ConceptListTabContent = ({
         {
           id: `title_${res.id}`,
           data: (
-            <StyledLink to={res.type === 'concept' ? toEditConcept(res.id) : toEditGloss(res.id)} title={res.title}>
+            <StyledLink to={res.type === "concept" ? toEditConcept(res.id) : toEditGloss(res.id)} title={res.title}>
               {res.title}
             </StyledLink>
           ),
@@ -117,7 +121,7 @@ const ConceptListTabContent = ({
         },
         {
           id: `concept_subject_${res.id}`,
-          data: res.subjects.map((s) => s.label).join(' - '),
+          data: res.subjects.map((s) => s.label).join(" - "),
         },
         {
           id: `date_${res.id}`,
@@ -137,14 +141,22 @@ const ConceptListTabContent = ({
   );
 
   const tableTitles: TitleElement<SortOption>[] = [
-    { title: t('welcomePage.workList.title'), sortableField: 'title', width: '25%' },
-    { title: t('welcomePage.workList.status'), sortableField: 'status', width: '20%' },
-    { title: t('welcomePage.workList.contentType'), width: '20%' },
-    { title: t('welcomePage.workList.conceptSubject'), width: '20%' },
     {
-      title: t('welcomePage.workList.date'),
-      sortableField: 'responsibleLastUpdated',
-      width: '15%',
+      title: t("welcomePage.workList.title"),
+      sortableField: "title",
+      width: "25%",
+    },
+    {
+      title: t("welcomePage.workList.status"),
+      sortableField: "status",
+      width: "20%",
+    },
+    { title: t("welcomePage.workList.contentType"), width: "20%" },
+    { title: t("welcomePage.workList.conceptSubject"), width: "20%" },
+    {
+      title: t("welcomePage.workList.date"),
+      sortableField: "responsibleLastUpdated",
+      width: "15%",
     },
   ];
 
@@ -154,8 +166,8 @@ const ConceptListTabContent = ({
     <>
       <StyledTopRowDashboardInfo>
         <TableTitle
-          title={t('welcomePage.workList.heading')}
-          description={t('welcomePage.workList.conceptDescription')}
+          title={t("welcomePage.workList.heading")}
+          description={t("welcomePage.workList.conceptDescription")}
           Icon={Calendar}
         />
         <TopRowControls>
@@ -164,9 +176,9 @@ const ConceptListTabContent = ({
           </DropdownWrapper>
           <DropdownWrapper>
             <Select<false>
-              label={t('welcomePage.chooseSubject')}
+              label={t("welcomePage.chooseSubject")}
               options={subjectList}
-              placeholder={t('welcomePage.chooseSubject')}
+              placeholder={t("welcomePage.chooseSubject")}
               value={filterSubject}
               onChange={setFilterSubject}
               menuPlacement="bottom"
@@ -174,11 +186,11 @@ const ConceptListTabContent = ({
               outline
               isLoading={isLoading}
               isSearchable
-              noOptionsMessage={() => t('form.responsible.noResults')}
+              noOptionsMessage={() => t("form.responsible.noResults")}
               isClearable
             />
           </DropdownWrapper>
-          <GoToSearch ndlaId={ndlaId} filterSubject={filterSubject?.value} searchEnv={'concept'} />
+          <GoToSearch ndlaId={ndlaId} filterSubject={filterSubject?.value} searchEnv={"concept"} />
         </TopRowControls>
       </StyledTopRowDashboardInfo>
       <TableComponent
@@ -188,7 +200,7 @@ const ConceptListTabContent = ({
         setSortOption={setSortOption}
         sortOption={sortOption}
         error={error}
-        noResultsText={t('welcomePage.emptyConcepts')}
+        noResultsText={t("welcomePage.emptyConcepts")}
         minWidth="630px"
       />
       <Pager

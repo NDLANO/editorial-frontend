@@ -6,13 +6,13 @@
  *
  */
 
-import { Link } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { colors, mq, breakpoints } from '@ndla/core';
-import { toEditArticle, toLearningpathFull } from '../../util/routeHelpers';
+import { Link } from "react-router-dom";
+import styled from "@emotion/styled";
+import { colors, mq, breakpoints } from "@ndla/core";
+import { toEditArticle, toLearningpathFull } from "../../util/routeHelpers";
 
 const StyledH1 = styled.h1<{ isVisible?: boolean }>`
-  font-style: ${(props) => !props.isVisible && 'italic'};
+  font-style: ${(props) => !props.isVisible && "italic"};
   color: ${(props) => (!props.isVisible ? colors.brand.grey : colors.brand.primary)};
   text-transform: none;
   letter-spacing: 0;
@@ -38,14 +38,14 @@ interface Props {
 }
 
 const ResourceItemLink = ({ contentType, contentUri, locale, name, isVisible = true }: Props) => {
-  const linkTo = contentUri && contentUri.split(':').pop();
+  const linkTo = contentUri && contentUri.split(":").pop();
 
   if (linkTo) {
-    if (contentType === 'learning-path') {
+    if (contentType === "learning-path") {
       const linkProps = {
         href: toLearningpathFull(parseInt(linkTo), locale),
-        target: '_blank',
-        rel: 'noopener noreferrer',
+        target: "_blank",
+        rel: "noopener noreferrer",
       };
       return (
         <StyledH1 isVisible={isVisible}>

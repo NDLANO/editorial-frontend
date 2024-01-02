@@ -6,13 +6,13 @@
  *
  */
 
-import nock from 'nock';
-import { ReactNode } from 'react';
-import { MemoryRouter } from 'react-router-dom';
-import { render } from '@testing-library/react';
-import { taxonomyApi } from '../../../config';
-import IntlWrapper from '../../../util/__tests__/IntlWrapper';
-import { MastheadSearchForm } from '../components/MastheadSearchForm';
+import nock from "nock";
+import { ReactNode } from "react";
+import { MemoryRouter } from "react-router-dom";
+import { render } from "@testing-library/react";
+import { taxonomyApi } from "../../../config";
+import IntlWrapper from "../../../util/__tests__/IntlWrapper";
+import { MastheadSearchForm } from "../components/MastheadSearchForm";
 
 const noop = () => {};
 
@@ -22,7 +22,7 @@ const wrapper = (component: ReactNode) => (
   </MemoryRouter>
 );
 
-test('MastheadSearchForm redirects on ndla url paste with id at the end', () => {
+test("MastheadSearchForm redirects on ndla url paste with id at the end", () => {
   const historyMock = {
     push: jest.fn(),
   };
@@ -35,18 +35,18 @@ test('MastheadSearchForm redirects on ndla url paste with id at the end', () => 
   expect(container).toMatchSnapshot();
   setTimeout(() => {
     expect(historyMock.push).toBeCalledTimes(1);
-    expect(historyMock.push).toBeCalledWith('/subject-matter/learning-resource/3333/edit/nb');
+    expect(historyMock.push).toBeCalledWith("/subject-matter/learning-resource/3333/edit/nb");
   });
 });
 
-test('MastheadSearchForm redirects on ndla url paste with taxonomy id at the end', () => {
+test("MastheadSearchForm redirects on ndla url paste with taxonomy id at the end", () => {
   const historyMock = {
     push: jest.fn(),
   };
 
-  nock('http://ndla-api')
+  nock("http://ndla-api")
     .get(`${taxonomyApi}/topics/urn:topic:1:179373/?language=nb`)
-    .reply(200, { contentUri: 'urn:content:4232' });
+    .reply(200, { contentUri: "urn:content:4232" });
 
   const { container } = render(
     wrapper(
@@ -62,16 +62,16 @@ test('MastheadSearchForm redirects on ndla url paste with taxonomy id at the end
   expect(container).toMatchSnapshot();
   setTimeout(() => {
     expect(historyMock.push).toBeCalledTimes(1);
-    expect(historyMock.push).toBeCalledWith('/subject-matter/topic-article/4232/edit/nb');
+    expect(historyMock.push).toBeCalledWith("/subject-matter/topic-article/4232/edit/nb");
   });
 });
 
-test('MastheadSearchForm redirects on old ndla url paste with new id', () => {
+test("MastheadSearchForm redirects on old ndla url paste with new id", () => {
   const historyMock = {
     push: jest.fn(),
   };
 
-  nock('http://ndla-api').get('/draft-api/v1/drafts/external_id/4737').reply(200, { id: '123' });
+  nock("http://ndla-api").get("/draft-api/v1/drafts/external_id/4737").reply(200, { id: "123" });
 
   const { container } = render(
     wrapper(
@@ -87,11 +87,11 @@ test('MastheadSearchForm redirects on old ndla url paste with new id', () => {
   expect(container).toMatchSnapshot();
   setTimeout(() => {
     expect(historyMock.push).toBeCalledTimes(1);
-    expect(historyMock.push).nthCalledWith(0, '/subject-matter/learning-resource/123/edit/nb');
+    expect(historyMock.push).nthCalledWith(0, "/subject-matter/learning-resource/123/edit/nb");
   });
 });
 
-test('MastheadSearchForm invalid id at the end of the url', () => {
+test("MastheadSearchForm invalid id at the end of the url", () => {
   const historyMock = {
     push: jest.fn(),
   };
@@ -113,11 +113,11 @@ test('MastheadSearchForm invalid id at the end of the url', () => {
   });
 });
 
-test('MastheadSearchForm redirects on ndla node id pasted', () => {
+test("MastheadSearchForm redirects on ndla node id pasted", () => {
   const historyMock = {
     push: jest.fn(),
   };
-  nock('http://ndla-api').get('/draft-api/v1/drafts/external_id/4737').reply(200, { id: '123' });
+  nock("http://ndla-api").get("/draft-api/v1/drafts/external_id/4737").reply(200, { id: "123" });
 
   const { container } = render(
     wrapper(
@@ -133,6 +133,6 @@ test('MastheadSearchForm redirects on ndla node id pasted', () => {
   expect(container).toMatchSnapshot();
   setTimeout(() => {
     expect(historyMock.push).toBeCalledTimes(1);
-    expect(historyMock.push).toBeCalledWith('/subject-matter/learning-resource/123/edit/nb');
+    expect(historyMock.push).toBeCalledWith("/subject-matter/learning-resource/123/edit/nb");
   });
 });

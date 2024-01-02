@@ -6,13 +6,13 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { Input, Select, FieldSplitter } from '@ndla/forms';
-import { IGlossExample } from '@ndla/types-backend/concept-api';
-import TranscriptionsField from './TranscriptionsField';
-import FormikField from '../../../components/FormikField';
-import { LANGUAGES } from '../glossData';
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { Input, Select, FieldSplitter } from "@ndla/forms";
+import { IGlossExample } from "@ndla/types-backend/concept-api";
+import TranscriptionsField from "./TranscriptionsField";
+import FormikField from "../../../components/FormikField";
+import { LANGUAGES } from "../glossData";
 
 interface Props {
   example: IGlossExample;
@@ -35,7 +35,7 @@ const ExampleField = ({ example, name }: Props) => {
           <FieldSplitter>
             <Input
               type="text"
-              placeholder={t('form.gloss.example')}
+              placeholder={t("form.gloss.example")}
               value={example.example}
               onChange={(e) =>
                 field.onChange({
@@ -59,8 +59,8 @@ const ExampleField = ({ example, name }: Props) => {
             >
               {!example.language && (
                 <option>
-                  {t('form.gloss.choose', {
-                    label: t('form.gloss.language').toLowerCase(),
+                  {t("form.gloss.choose", {
+                    label: t("form.gloss.language").toLowerCase(),
                   })}
                 </option>
               )}
@@ -71,7 +71,7 @@ const ExampleField = ({ example, name }: Props) => {
               ))}
             </Select>
           </FieldSplitter>
-          {example.language === 'zh' && <TranscriptionsField name={`${name}.transcriptions`} />}
+          {example.language === "zh" && <TranscriptionsField name={`${name}.transcriptions`} />}
         </>
       )}
     </StyledFormikField>

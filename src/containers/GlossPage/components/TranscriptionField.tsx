@@ -6,11 +6,11 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { Input, FieldRemoveButton } from '@ndla/forms';
-import FormikField from '../../../components/FormikField';
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { Input, FieldRemoveButton } from "@ndla/forms";
+import FormikField from "../../../components/FormikField";
 
 interface Props {
   label: string;
@@ -32,7 +32,7 @@ const TranscriptionField = ({ name, value, label, removeField }: Props) => {
     <FormikField name={name}>
       {({ field }) => (
         <StyledTranscriptionField>
-          <Input label={label} placeholder={t('form.gloss.transcription')} value={value ?? ''} {...field} />
+          <Input label={label} placeholder={t("form.gloss.transcription")} value={value ?? ""} {...field} />
           <FieldRemoveButton onClick={removeField} />
         </StyledTranscriptionField>
       )}

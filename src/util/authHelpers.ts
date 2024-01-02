@@ -6,10 +6,10 @@
  *
  */
 
-import auth0, { Auth0DecodedHash, Auth0ParseHashError } from 'auth0-js';
-import { expiresIn, ndlaId, ndlaUserName, ndlaUserEmail } from './jwtHelper';
-import config from '../config';
-import { NewMessageType } from '../containers/Messages/MessagesProvider';
+import auth0, { Auth0DecodedHash, Auth0ParseHashError } from "auth0-js";
+import { expiresIn, ndlaId, ndlaUserName, ndlaUserEmail } from "./jwtHelper";
+import config from "../config";
+import { NewMessageType } from "../containers/Messages/MessagesProvider";
 
 let createMessageRef: (newMessage: NewMessageType) => void | undefined;
 
@@ -18,21 +18,21 @@ const AUTH0_DOMAIN = config.auth0Domain;
 const NDLA_PERSONAL_CLIENT_ID = config.ndlaPersonalClientId;
 
 const locationOrigin = (() => {
-  if (process.env.NODE_ENV === 'unittest') {
-    return 'http://ndla-frontend';
+  if (process.env.NODE_ENV === "unittest") {
+    return "http://ndla-frontend";
   }
 
-  if (process.env.BUILD_TARGET === 'server') {
-    return '';
+  if (process.env.BUILD_TARGET === "server") {
+    return "";
   }
-  if (typeof window === 'undefined') {
-    return '';
+  if (typeof window === "undefined") {
+    return "";
   }
-  if (typeof window.location.origin === 'undefined') {
+  if (typeof window.location.origin === "undefined") {
     const oldLoc = window.location;
     window.location = {
       ...oldLoc,
-      origin: [window.location.protocol, '//', window.location.host, ':', window.location.port].join(''),
+      origin: [window.location.protocol, "//", window.location.host, ":", window.location.port].join(""),
     };
   }
 
@@ -40,22 +40,22 @@ const locationOrigin = (() => {
 })();
 
 export const auth0Domain = (() => {
-  if (process.env.NODE_ENV === 'unittest') {
-    return 'http://auth-ndla';
+  if (process.env.NODE_ENV === "unittest") {
+    return "http://auth-ndla";
   }
   return AUTH0_DOMAIN;
 })();
 
 export const ndlaPersonalClientId = (() => {
-  if (process.env.NODE_ENV === 'unittest') {
-    return '123456789';
+  if (process.env.NODE_ENV === "unittest") {
+    return "123456789";
   }
   return NDLA_PERSONAL_CLIENT_ID;
 })();
 
 const apiBaseUrl = (() => {
-  if (process.env.NODE_ENV === 'unittest') {
-    return 'http://ndla-api';
+  if (process.env.NODE_ENV === "unittest") {
+    return "http://ndla-api";
   }
 
   return NDLA_API_URL ?? locationOrigin;
@@ -64,11 +64,11 @@ const apiBaseUrl = (() => {
 export { locationOrigin, apiBaseUrl };
 
 const auth = new auth0.WebAuth({
-  clientID: ndlaPersonalClientId ?? '',
-  domain: auth0Domain || '',
-  responseType: 'token',
+  clientID: ndlaPersonalClientId ?? "",
+  domain: auth0Domain || "",
+  responseType: "token",
   redirectUri: `${locationOrigin}/login/success`,
-  audience: 'ndla_system',
+  audience: "ndla_system",
 });
 
 export function parseHash(hash: string): Promise<Auth0DecodedHash> {
@@ -90,25 +90,25 @@ export function parseHash(hash: string): Promise<Auth0DecodedHash> {
 }
 
 export function setAccessTokenInLocalStorage(accessToken: string, personal: boolean) {
-  localStorage.setItem('access_token', accessToken);
-  localStorage.setItem('access_token_expires_at', (expiresIn(accessToken) * 1000 + new Date().getTime()).toString());
-  localStorage.setItem('access_token_personal', personal.toString());
+  localStorage.setItem("access_token", accessToken);
+  localStorage.setItem("access_token_expires_at", (expiresIn(accessToken) * 1000 + new Date().getTime()).toString());
+  localStorage.setItem("access_token_personal", personal.toString());
 }
 
 export const clearAccessTokenFromLocalStorage = () => {
-  localStorage.removeItem('access_token');
-  localStorage.removeItem('access_token_expires_at');
-  localStorage.removeItem('access_token_personal');
+  localStorage.removeItem("access_token");
+  localStorage.removeItem("access_token_expires_at");
+  localStorage.removeItem("access_token_personal");
 };
 
-export const getAccessTokenPersonal = () => localStorage.getItem('access_token_personal') === 'true';
+export const getAccessTokenPersonal = () => localStorage.getItem("access_token_personal") === "true";
 
 export const getAccessTokenExpiresAt = () => {
-  const expiresAt = localStorage.getItem('access_token_expires_at');
+  const expiresAt = localStorage.getItem("access_token_expires_at");
   return expiresAt ? JSON.parse(expiresAt) : 0;
 };
 
-export const getAccessToken = () => localStorage.getItem('access_token');
+export const getAccessToken = () => localStorage.getItem("access_token");
 
 export const getNdlaId = () => ndlaId(getAccessToken());
 export const getNdlaUserName = () => ndlaUserName(getAccessToken());
@@ -120,7 +120,7 @@ export const renewPersonalAuth = () =>
   new Promise((resolve, reject) => {
     auth.checkSession(
       {
-        scope: 'openid profile email',
+        scope: "openid profile email",
       },
       (err, authResult) => {
         if (authResult && authResult.accessToken) {
@@ -128,9 +128,9 @@ export const renewPersonalAuth = () =>
           resolve(authResult.accessToken);
         } else {
           createMessageRef?.({
-            id: 'errorMessage.auth0.renewal',
-            type: 'auth0',
-            translationKey: 'errorMessage.auth0',
+            id: "errorMessage.auth0.renewal",
+            type: "auth0",
+            translationKey: "errorMessage.auth0",
             translationObject: {
               message: err?.errorDescription || err?.error_description,
             },
@@ -143,7 +143,7 @@ export const renewPersonalAuth = () =>
   });
 
 export const renewAuth = async () => {
-  if (localStorage.getItem('access_token_personal') === 'true') {
+  if (localStorage.getItem("access_token_personal") === "true") {
     return renewPersonalAuth();
   }
 };
@@ -157,7 +157,7 @@ export const scheduleRenewal = async (createMessage?: (newMessage: NewMessageTyp
   if (ignoreRenew) {
     return;
   }
-  if (localStorage.getItem('access_token_personal') !== 'true') {
+  if (localStorage.getItem("access_token_personal") !== "true") {
     return null;
   }
   const expiresAt = getAccessTokenExpiresAt();
@@ -179,8 +179,8 @@ export function loginPersonalAccessToken(type: string) {
   const connection = config.usernamePasswordEnabled ? undefined : type;
   auth.authorize({
     connection,
-    state: localStorage.getItem('lastPath') ?? undefined,
-    prompt: 'login', // Tells auth0 to always show account selection screen on authorize.
+    state: localStorage.getItem("lastPath") ?? undefined,
+    prompt: "login", // Tells auth0 to always show account selection screen on authorize.
   });
 }
 

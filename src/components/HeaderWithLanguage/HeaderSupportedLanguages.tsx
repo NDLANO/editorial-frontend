@@ -6,10 +6,10 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { Check } from '@ndla/icons/editor';
-import SafeLink from '@ndla/safelink';
-import HeaderLanguagePill from './HeaderLanguagePill';
+import { useTranslation } from "react-i18next";
+import { Check } from "@ndla/icons/editor";
+import SafeLink from "@ndla/safelink";
+import HeaderLanguagePill from "./HeaderLanguagePill";
 
 interface LinkWithReplaceProps {
   to: string;
@@ -40,10 +40,10 @@ const HeaderSupportedLanguages = ({ supportedLanguages = [], id, editUrl, isSubm
           </HeaderLanguagePill>
         ) : (
           <HeaderLanguagePill
-            aria-label={t('languages.change', {
+            aria-label={t("languages.change", {
               language: t(`languages.${supportedLanguage}`),
             })}
-            title={t('languages.change', {
+            title={t("languages.change", {
               language: t(`languages.${supportedLanguage}`),
             })}
             to={editUrl(id, supportedLanguage)}

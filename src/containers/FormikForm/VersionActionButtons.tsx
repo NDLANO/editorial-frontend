@@ -6,13 +6,13 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { colors, spacing } from '@ndla/core';
-import { Eye, Restore } from '@ndla/icons/editor';
-import { IArticle } from '@ndla/types-backend/draft-api';
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { colors, spacing } from "@ndla/core";
+import { Eye, Restore } from "@ndla/icons/editor";
+import { IArticle } from "@ndla/types-backend/draft-api";
 
-import PreviewDraftLightboxV2 from '../../components/PreviewDraft/PreviewDraftLightboxV2';
+import PreviewDraftLightboxV2 from "../../components/PreviewDraft/PreviewDraftLightboxV2";
 
 interface Props {
   showFromArticleApi: boolean;
@@ -66,8 +66,8 @@ const VersionActionButtons = ({
         activateButton={
           <StyledActionButton
             type="button"
-            title={t('form.previewVersion')}
-            aria-label={t('form.previewVersion')}
+            title={t("form.previewVersion")}
+            aria-label={t("form.previewVersion")}
             data-testid="previewVersion"
           >
             <Eye />
@@ -75,8 +75,8 @@ const VersionActionButtons = ({
         }
       />
       <StyledActionButton
-        aria-label={t('form.resetToVersion')}
-        title={t('form.resetToVersion')}
+        aria-label={t("form.resetToVersion")}
+        title={t("form.resetToVersion")}
         type="button"
         data-testid="resetToVersion"
         onClick={() => resetVersion(version, article.title!.language, showFromArticleApi)}

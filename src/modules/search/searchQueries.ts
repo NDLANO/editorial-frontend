@@ -6,18 +6,18 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { useQuery, UseQueryOptions } from '@tanstack/react-query';
-import { IMultiSearchResult } from '@ndla/types-backend/search-api';
-import { search } from './searchApi';
-import { MultiSearchApiQuery } from './searchApiInterfaces';
-import { FAVOURITES_SUBJECT_ID, LMA_SUBJECT_ID, TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA } from '../../constants';
-import { useTaxonomyVersion } from '../../containers/StructureVersion/TaxonomyVersionProvider';
-import { SEARCH } from '../../queryKeys';
-import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
-import { isValid } from '../../util/jwtHelper';
-import { useUserData } from '../draft/draftQueries';
-import { useNodes } from '../nodes/nodeQueries';
+import { useTranslation } from "react-i18next";
+import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { IMultiSearchResult } from "@ndla/types-backend/search-api";
+import { search } from "./searchApi";
+import { MultiSearchApiQuery } from "./searchApiInterfaces";
+import { FAVOURITES_SUBJECT_ID, LMA_SUBJECT_ID, TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA } from "../../constants";
+import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVersionProvider";
+import { SEARCH } from "../../queryKeys";
+import { getAccessToken, getAccessTokenPersonal } from "../../util/authHelpers";
+import { isValid } from "../../util/jwtHelper";
+import { useUserData } from "../draft/draftQueries";
+import { useNodes } from "../nodes/nodeQueries";
 
 export const searchQueryKeys = {
   search: (params?: Partial<MultiSearchApiQuery>) => [SEARCH, params] as const,
@@ -42,7 +42,7 @@ export const useSearch = (query: UseSearch, options?: Partial<UseQueryOptions<IM
     {
       language: i18n.language,
       taxonomyVersion,
-      nodeType: 'SUBJECT',
+      nodeType: "SUBJECT",
       key: TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
       value: data?.userId,
     },
@@ -52,9 +52,9 @@ export const useSearch = (query: UseSearch, options?: Partial<UseQueryOptions<IM
   const actualQuery = {
     ...query,
     subjects: isFavourite
-      ? data?.favoriteSubjects?.join(',')
+      ? data?.favoriteSubjects?.join(",")
       : isLMASubjects
-        ? nodeData?.map((s) => s.id).join(',')
+        ? nodeData?.map((s) => s.id).join(",")
         : query.subjects,
   };
 

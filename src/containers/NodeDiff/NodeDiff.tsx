@@ -6,12 +6,12 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { useSearchParams } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { spacing, colors } from '@ndla/core';
-import { NodeChild } from '@ndla/types-taxonomy';
-import ArrayDiffField from './ArrayDiffField';
+import { useTranslation } from "react-i18next";
+import { useSearchParams } from "react-router-dom";
+import styled from "@emotion/styled";
+import { spacing, colors } from "@ndla/core";
+import { NodeChild } from "@ndla/types-taxonomy";
+import ArrayDiffField from "./ArrayDiffField";
 import {
   diffField,
   DiffType,
@@ -19,18 +19,18 @@ import {
   NodeTypeWithResources,
   removeType,
   RootDiffType,
-} from './diffUtils';
-import FieldDiff from './FieldDiff';
-import TranslationsDiff from './TranslationsDiff';
-import { DiffTypePill } from './TreeNode';
-import NodeIconType from '../../components/NodeIconType';
+} from "./diffUtils";
+import FieldDiff from "./FieldDiff";
+import TranslationsDiff from "./TranslationsDiff";
+import { DiffTypePill } from "./TreeNode";
+import NodeIconType from "../../components/NodeIconType";
 import {
   TAXONOMY_CUSTOM_FIELD_LANGUAGE,
   TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID,
-} from '../../constants';
+} from "../../constants";
 
 interface Props {
   node: RootDiffType | DiffTypeWithChildren;
@@ -82,11 +82,11 @@ const NodeDiff = ({ node, isRoot }: Props) => {
   const [params] = useSearchParams();
   const { t } = useTranslation();
 
-  const fieldFilter = params.get('fieldView') ?? 'changed';
+  const fieldFilter = params.get("fieldView") ?? "changed";
 
   const filteredNode =
-    fieldFilter === 'changed'
-      ? removeType<Omit<NodeChild, 'resources'> | Omit<NodeTypeWithResources, 'resources'>>(node, 'NONE')
+    fieldFilter === "changed"
+      ? removeType<Omit<NodeChild, "resources"> | Omit<NodeTypeWithResources, "resources">>(node, "NONE")
       : node;
   const metadata = filteredNode.metadata;
   const customFields = metadata?.customFields;
@@ -96,7 +96,7 @@ const NodeDiff = ({ node, isRoot }: Props) => {
   return (
     <DiffContainer>
       <NodeInfoContainer>
-        {isRoot && <RootNodePill>{t('diff.isRoot')}</RootNodePill>}
+        {isRoot && <RootNodePill>{t("diff.isRoot")}</RootNodePill>}
         <NodeIconType node={node} />
       </NodeInfoContainer>
       <FieldDiff fieldName="name" result={node.name} toDisplayValue={(v) => v} />
@@ -115,20 +115,20 @@ const NodeDiff = ({ node, isRoot }: Props) => {
       {filteredNode.relevanceId && (
         <FieldDiff fieldName="relevance" result={filteredNode.relevanceId} toDisplayValue={(v) => v} />
       )}
-      {'connectionId' in filteredNode && filteredNode.connectionId && (
+      {"connectionId" in filteredNode && filteredNode.connectionId && (
         <FieldDiff fieldName="connectionId" result={filteredNode.connectionId} toDisplayValue={(v) => v} />
       )}
-      {'isPrimary' in filteredNode && filteredNode.isPrimary && (
+      {"isPrimary" in filteredNode && filteredNode.isPrimary && (
         <FieldDiff
           fieldName="isPrimary"
           result={filteredNode.isPrimary}
-          toDisplayValue={(v) => t(`diff.fields.isPrimary.${v ? 'isOn' : 'isOff'}`)}
+          toDisplayValue={(v) => t(`diff.fields.isPrimary.${v ? "isOn" : "isOff"}`)}
         />
       )}
-      {'rank' in filteredNode && filteredNode.rank && (
+      {"rank" in filteredNode && filteredNode.rank && (
         <FieldDiff fieldName="rank" result={filteredNode.rank} toDisplayValue={(v) => v.toString()} />
       )}
-      {'parentId' in filteredNode && filteredNode.parentId && (
+      {"parentId" in filteredNode && filteredNode.parentId && (
         <FieldDiff fieldName="parentId" result={filteredNode.parentId} toDisplayValue={(v) => v} />
       )}
       {metadata && (
@@ -137,7 +137,7 @@ const NodeDiff = ({ node, isRoot }: Props) => {
             <FieldDiff
               fieldName="visible"
               result={metadata.visible}
-              toDisplayValue={(v) => t(`diff.fields.visible.${v ? 'isOn' : 'isOff'}`)}
+              toDisplayValue={(v) => t(`diff.fields.visible.${v ? "isOn" : "isOff"}`)}
             />
           )}
           {metadata.grepCodes && (
@@ -145,10 +145,10 @@ const NodeDiff = ({ node, isRoot }: Props) => {
           )}
           {customFields && (
             <>
-              {customFields['topic-resources'] && (
+              {customFields["topic-resources"] && (
                 <FieldDiff
                   fieldName="topic-resources"
-                  result={customFields['topic-resources']}
+                  result={customFields["topic-resources"]}
                   toDisplayValue={(v) => v}
                 />
               )}
@@ -156,7 +156,7 @@ const NodeDiff = ({ node, isRoot }: Props) => {
                 <FieldDiff
                   fieldName="requestPublish"
                   result={customFields[TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH]}
-                  toDisplayValue={(v) => t(`diff.fields.requestPublish.${v === 'true' ? 'true' : 'false'}`)}
+                  toDisplayValue={(v) => t(`diff.fields.requestPublish.${v === "true" ? "true" : "false"}`)}
                 />
               )}
               {customFields[TAXONOMY_CUSTOM_FIELD_LANGUAGE] && (
@@ -210,7 +210,7 @@ const ResourceDiffList = ({ resources, fieldFilter }: ResourceDiffListProps) => 
 
   return (
     <>
-      <strong>{t('taxonomy.resources')}</strong>
+      <strong>{t("taxonomy.resources")}</strong>
       {resources.map((res, i) => (
         <ResourceDiff resource={res} fieldView={fieldFilter} key={`resource-${i}`} />
       ))}
@@ -225,7 +225,7 @@ interface ResourceDiffProps {
 
 const ResourceDiff = ({ resource, fieldView }: ResourceDiffProps) => {
   const { t } = useTranslation();
-  const res = fieldView === 'changed' ? removeType(resource, 'NONE') : resource;
+  const res = fieldView === "changed" ? removeType(resource, "NONE") : resource;
   const originalResourceTypes = (res.resourceTypes?.original?.map((rt) => rt.name) ?? []).sort();
   const otherResourceTypes = (res.resourceTypes?.other?.map((rt) => rt.name) ?? []).sort();
   const resourceTypeDiff = diffField(originalResourceTypes, otherResourceTypes, resource.changed.diffType);
@@ -250,7 +250,7 @@ const ResourceDiff = ({ resource, fieldView }: ResourceDiffProps) => {
           <FieldDiff
             fieldName="isPrimary"
             result={res.isPrimary}
-            toDisplayValue={(v) => t(`diff.fields.isPrimary.${v ? 'isOn' : 'isOff'}`)}
+            toDisplayValue={(v) => t(`diff.fields.isPrimary.${v ? "isOn" : "isOff"}`)}
           />
         )}
         {res.rank && <FieldDiff fieldName="rank" result={res.rank} toDisplayValue={(v) => v.toString()} />}
@@ -269,7 +269,7 @@ const ResourceDiff = ({ resource, fieldView }: ResourceDiffProps) => {
           <FieldDiff
             fieldName="visible"
             result={res.metadata.visible}
-            toDisplayValue={(v) => t(`diff.fields.visible.${v ? 'isOn' : 'isOff'}`)}
+            toDisplayValue={(v) => t(`diff.fields.visible.${v ? "isOn" : "isOff"}`)}
           />
         )}
       </DetailsContent>

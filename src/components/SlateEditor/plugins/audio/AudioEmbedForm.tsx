@@ -6,19 +6,19 @@
  *
  */
 
-import { FieldProps, Form, Formik, useFormikContext } from 'formik';
-import { useCallback, useMemo, MouseEvent } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
-import { ModalBody, ModalHeader, ModalTitle } from '@ndla/modal';
-import { IAudioMetaInformation } from '@ndla/types-backend/audio-api';
-import { AudioEmbedData } from '@ndla/types-embed';
-import { AudioPlayer } from '@ndla/ui';
-import FormikField from '../../../FormikField';
-import validateFormik, { RulesType } from '../../../formikValidationSchema';
-import ObjectSelector from '../../../ObjectSelector';
+import { FieldProps, Form, Formik, useFormikContext } from "formik";
+import { useCallback, useMemo, MouseEvent } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { spacing } from "@ndla/core";
+import { ModalBody, ModalHeader, ModalTitle } from "@ndla/modal";
+import { IAudioMetaInformation } from "@ndla/types-backend/audio-api";
+import { AudioEmbedData } from "@ndla/types-embed";
+import { AudioPlayer } from "@ndla/ui";
+import FormikField from "../../../FormikField";
+import validateFormik, { RulesType } from "../../../formikValidationSchema";
+import ObjectSelector from "../../../ObjectSelector";
 
 interface Props {
   embed: AudioEmbedData;
@@ -66,7 +66,7 @@ const AudioEmbedForm = ({ embed, onCancel, onSave, audio }: Props) => {
   return (
     <>
       <ModalHeader>
-        <ModalTitle>{t('form.editAudio')}</ModalTitle>
+        <ModalTitle>{t("form.editAudio")}</ModalTitle>
       </ModalHeader>
       <ModalBody>
         <Formik
@@ -106,22 +106,22 @@ const EmbedForm = ({ onCancel, audio }: EmbedFormProps) => {
             value={field.value}
             options={[
               {
-                id: 'standard',
-                label: t('form.audio.sound'),
+                id: "standard",
+                label: t("form.audio.sound"),
               },
               {
-                id: 'minimal',
-                label: t('form.audio.speech'),
+                id: "minimal",
+                label: t("form.audio.speech"),
               },
             ]}
           />
         )}
       </FormikField>
-      <AudioPlayer src={audio.audioFile.url} title={audio.title.title} speech={values.type === 'minimal'} />
+      <AudioPlayer src={audio.audioFile.url} title={audio.title.title} speech={values.type === "minimal"} />
       <ButtonWrapper>
-        <ButtonV2 onClick={onCancel}>{t('form.abort')}</ButtonV2>
+        <ButtonV2 onClick={onCancel}>{t("form.abort")}</ButtonV2>
         <ButtonV2 disabled={!isValid || !dirty} type="submit">
-          {t('form.save')}
+          {t("form.save")}
         </ButtonV2>
       </ButtonWrapper>
     </Form>

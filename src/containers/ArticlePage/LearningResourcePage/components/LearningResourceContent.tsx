@@ -6,46 +6,46 @@
  *
  */
 
-import { FieldProps, useField, useFormikContext } from 'formik';
-import { useState, useMemo, useCallback, memo, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Descendant } from 'slate';
-import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
-import { colors } from '@ndla/core';
-import { FieldHeader } from '@ndla/forms';
-import { Eye } from '@ndla/icons/editor';
-import { IAuthor } from '@ndla/types-backend/draft-api';
-import LearningResourceFootnotes, { FootnoteType } from './LearningResourceFootnotes';
-import { learningResourcePlugins } from './learningResourcePlugins';
-import { learningResourceRenderers } from './learningResourceRenderers';
-import AlertModal from '../../../../components/AlertModal';
-import { EditMarkupLink } from '../../../../components/EditMarkupLink';
-import FormikField from '../../../../components/FormikField';
-import HowToHelper from '../../../../components/HowTo/HowToHelper';
-import LastUpdatedLine from '../../../../components/LastUpdatedLine/LastUpdatedLine';
-import { TYPE_AUDIO } from '../../../../components/SlateEditor/plugins/audio/types';
-import { learningResourceActions } from '../../../../components/SlateEditor/plugins/blockPicker/actions';
-import { TYPE_CODEBLOCK } from '../../../../components/SlateEditor/plugins/codeBlock/types';
+import { FieldProps, useField, useFormikContext } from "formik";
+import { useState, useMemo, useCallback, memo, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { Descendant } from "slate";
+import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
+import { colors } from "@ndla/core";
+import { FieldHeader } from "@ndla/forms";
+import { Eye } from "@ndla/icons/editor";
+import { IAuthor } from "@ndla/types-backend/draft-api";
+import LearningResourceFootnotes, { FootnoteType } from "./LearningResourceFootnotes";
+import { learningResourcePlugins } from "./learningResourcePlugins";
+import { learningResourceRenderers } from "./learningResourceRenderers";
+import AlertModal from "../../../../components/AlertModal";
+import { EditMarkupLink } from "../../../../components/EditMarkupLink";
+import FormikField from "../../../../components/FormikField";
+import HowToHelper from "../../../../components/HowTo/HowToHelper";
+import LastUpdatedLine from "../../../../components/LastUpdatedLine/LastUpdatedLine";
+import { TYPE_AUDIO } from "../../../../components/SlateEditor/plugins/audio/types";
+import { learningResourceActions } from "../../../../components/SlateEditor/plugins/blockPicker/actions";
+import { TYPE_CODEBLOCK } from "../../../../components/SlateEditor/plugins/codeBlock/types";
 import {
   TYPE_EMBED_BRIGHTCOVE,
   TYPE_EMBED_EXTERNAL,
   TYPE_EMBED_IMAGE,
-} from '../../../../components/SlateEditor/plugins/embed/types';
-import { TYPE_FILE } from '../../../../components/SlateEditor/plugins/file/types';
-import { FootnoteElement } from '../../../../components/SlateEditor/plugins/footnote';
-import { TYPE_FOOTNOTE } from '../../../../components/SlateEditor/plugins/footnote/types';
-import { TYPE_GRID } from '../../../../components/SlateEditor/plugins/grid/types';
-import { TYPE_H5P } from '../../../../components/SlateEditor/plugins/h5p/types';
-import { TYPE_TABLE } from '../../../../components/SlateEditor/plugins/table/types';
-import RichTextEditor from '../../../../components/SlateEditor/RichTextEditor';
-import { DRAFT_HTML_SCOPE } from '../../../../constants';
-import { isFormikFormDirty } from '../../../../util/formHelper';
-import { toCreateLearningResource, toEditMarkup } from '../../../../util/routeHelpers';
-import { findNodesByType } from '../../../../util/slateHelpers';
-import { IngressField, TitleField } from '../../../FormikForm';
-import { HandleSubmitFunc, LearningResourceFormType } from '../../../FormikForm/articleFormHooks';
-import { useSession } from '../../../Session/SessionProvider';
+} from "../../../../components/SlateEditor/plugins/embed/types";
+import { TYPE_FILE } from "../../../../components/SlateEditor/plugins/file/types";
+import { FootnoteElement } from "../../../../components/SlateEditor/plugins/footnote";
+import { TYPE_FOOTNOTE } from "../../../../components/SlateEditor/plugins/footnote/types";
+import { TYPE_GRID } from "../../../../components/SlateEditor/plugins/grid/types";
+import { TYPE_H5P } from "../../../../components/SlateEditor/plugins/h5p/types";
+import { TYPE_TABLE } from "../../../../components/SlateEditor/plugins/table/types";
+import RichTextEditor from "../../../../components/SlateEditor/RichTextEditor";
+import { DRAFT_HTML_SCOPE } from "../../../../constants";
+import { isFormikFormDirty } from "../../../../util/formHelper";
+import { toCreateLearningResource, toEditMarkup } from "../../../../util/routeHelpers";
+import { findNodesByType } from "../../../../util/slateHelpers";
+import { IngressField, TitleField } from "../../../FormikForm";
+import { HandleSubmitFunc, LearningResourceFormType } from "../../../FormikForm/articleFormHooks";
+import { useSession } from "../../../Session/SessionProvider";
 
 const StyledFormikField = styled(FormikField)`
   display: flex;
@@ -74,7 +74,7 @@ const StyledContentDiv = styled(FormikField)`
 const MarkdownButton = styled(IconButtonV2)`
   color: ${colors.brand.light};
 
-  &[data-active='true'] {
+  &[data-active="true"] {
     color: ${colors.brand.primary};
   }
 `;
@@ -92,8 +92,8 @@ const actionsToShowInAreas = {
   details: actions,
   aside: actions,
   framedContent: actions,
-  'table-cell': [TYPE_EMBED_IMAGE],
-  'grid-cell': [TYPE_EMBED_IMAGE],
+  "table-cell": [TYPE_EMBED_IMAGE],
+  "grid-cell": [TYPE_EMBED_IMAGE],
 };
 
 // Plugins are checked from last to first
@@ -106,7 +106,7 @@ interface Props {
 
 const LearningResourceContent = ({ articleLanguage, articleId, handleSubmit: _handleSubmit, initialHTML }: Props) => {
   const { t } = useTranslation();
-  const [creatorsField] = useField<IAuthor[]>('creators');
+  const [creatorsField] = useField<IAuthor[]>("creators");
   const [preview, setPreview] = useState(false);
 
   const { dirty, initialValues, values, status, setStatus } = useFormikContext<LearningResourceFormType>();
@@ -128,7 +128,7 @@ const LearningResourceContent = ({ articleLanguage, articleId, handleSubmit: _ha
 
   useEffect(() => {
     setTimeout(() => {
-      if (status.status === 'revertVersion') {
+      if (status.status === "revertVersion") {
         setIsNormalizedOnLoad(false);
         setIsTouched(true);
         setStatus({ ...status, status: undefined });
@@ -155,8 +155,8 @@ const LearningResourceContent = ({ articleLanguage, articleId, handleSubmit: _ha
             />
             <IconContainer>
               <MarkdownButton
-                aria-label={t('form.markdown.button')}
-                title={t('form.markdown.button')}
+                aria-label={t("form.markdown.button")}
+                title={t("form.markdown.button")}
                 variant="stripped"
                 colorTheme="light"
                 data-active={preview}
@@ -164,27 +164,27 @@ const LearningResourceContent = ({ articleLanguage, articleId, handleSubmit: _ha
               >
                 <Eye />
               </MarkdownButton>
-              <HowToHelper pageId="Markdown" tooltip={t('form.markdown.helpLabel')} />
+              <HowToHelper pageId="Markdown" tooltip={t("form.markdown.helpLabel")} />
             </IconContainer>
           </StyledDiv>
         )}
       </StyledFormikField>
       <IngressField preview={preview} />
       <AlertModal
-        title={t('editorFooter.changeHeader')}
-        label={t('editorFooter.changeHeader')}
+        title={t("editorFooter.changeHeader")}
+        label={t("editorFooter.changeHeader")}
         show={isNormalizedOnLoad && !isCreatePage}
-        text={t('form.content.normalizedOnLoad')}
+        text={t("form.content.normalizedOnLoad")}
         actions={[
           {
-            text: t('alertModal.continue'),
+            text: t("alertModal.continue"),
             onClick: () => setIsNormalizedOnLoad(false),
           },
         ]}
         onCancel={() => setIsNormalizedOnLoad(false)}
         severity="warning"
       />
-      <StyledContentDiv name="content" label={t('form.content.label')} noBorder key={values.revision}>
+      <StyledContentDiv name="content" label={t("form.content.label")} noBorder key={values.revision}>
         {(fieldProps) => <ContentField articleLanguage={articleLanguage} articleId={articleId} {...fieldProps} />}
       </StyledContentDiv>
     </>
@@ -222,16 +222,16 @@ const ContentField = ({ articleId, field: { name, onChange, value }, articleLang
 
   return (
     <>
-      <FieldHeader title={t('form.content.label')}>
+      <FieldHeader title={t("form.content.label")}>
         {articleId && userPermissions?.includes(DRAFT_HTML_SCOPE) && (
-          <EditMarkupLink to={toEditMarkup(articleId, articleLanguage ?? '')} title={t('editMarkup.linkTitle')} />
+          <EditMarkupLink to={toEditMarkup(articleId, articleLanguage ?? "")} title={t("editMarkup.linkTitle")} />
         )}
       </FieldHeader>
       <RichTextEditor
         actions={learningResourceActions}
         language={articleLanguage}
         blockpickerOptions={blockPickerOptions}
-        placeholder={t('form.content.placeholder')}
+        placeholder={t("form.content.placeholder")}
         value={value}
         submitted={isSubmitting}
         plugins={editorPlugins}

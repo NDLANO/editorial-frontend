@@ -6,9 +6,9 @@
  *
  */
 
-import { Descendant } from 'slate';
-import { IImageMetaInformationV3, IAuthor, IImageDimensions } from '@ndla/types-backend/image-api';
-import { plainTextToEditorValue } from '../../util/articleContentConverter';
+import { Descendant } from "slate";
+import { IImageMetaInformationV3, IAuthor, IImageDimensions } from "@ndla/types-backend/image-api";
+import { plainTextToEditorValue } from "../../util/articleContentConverter";
 
 export interface ImageFormikType {
   id?: number;
@@ -40,18 +40,18 @@ export const imageApiTypeToFormType = (
     id: image?.id ? parseInt(image.id) : undefined,
     language,
     supportedLanguages: image?.supportedLanguages ?? [language],
-    title: plainTextToEditorValue(image?.title.title || ''),
-    alttext: image?.alttext.alttext ?? '',
-    caption: image?.caption.caption ?? '',
+    title: plainTextToEditorValue(image?.title.title || ""),
+    alttext: image?.alttext.alttext ?? "",
+    caption: image?.caption.caption ?? "",
     imageFile: image?.image.imageUrl,
     tags: image?.tags.tags ?? [],
     creators: image?.copyright.creators ?? [],
     processors: image?.copyright.processors ?? [],
     rightsholders: image?.copyright.rightsholders ?? [],
     processed: image?.copyright.processed ?? false,
-    origin: image?.copyright.origin ?? '',
-    license: image?.copyright.license.license !== 'unknown' ? image?.copyright.license.license : undefined,
-    modelReleased: image?.modelRelease ?? 'not-set',
+    origin: image?.copyright.origin ?? "",
+    license: image?.copyright.license.license !== "unknown" ? image?.copyright.license.license : undefined,
+    modelReleased: image?.modelRelease ?? "not-set",
     contentType: image?.image.contentType,
     fileSize: image?.image.size,
     imageDimensions: image?.image.dimensions,

@@ -6,8 +6,8 @@
  *
  */
 
-import parseHTML from 'prettier/parser-html';
-import prettier from 'prettier/standalone';
+import parseHTML from "prettier/parser-html";
+import prettier from "prettier/standalone";
 
 const localStorageMock = (function createLocalStorage() {
   let store = {};
@@ -29,14 +29,14 @@ const localStorageMock = (function createLocalStorage() {
 
 const prettify = (content) =>
   prettier.format(`${content}`, {
-    parser: 'html',
+    parser: "html",
     plugins: [parseHTML],
   });
 global.prettifyHTML = prettify;
 
-Object.defineProperty(window, 'localStorage', {
+Object.defineProperty(window, "localStorage", {
   value: localStorageMock,
 });
 
-localStorage.setItem('access_token', '123456789');
-localStorage.setItem('access_token_expires_at', new Date().getTime() + 24 * 60 * 60 * 1000);
+localStorage.setItem("access_token", "123456789");
+localStorage.setItem("access_token_expires_at", new Date().getTime() + 24 * 60 * 60 * 1000);

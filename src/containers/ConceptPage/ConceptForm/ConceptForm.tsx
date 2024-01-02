@@ -6,9 +6,9 @@
  *
  */
 
-import { Formik, FormikProps, FormikHelpers } from 'formik';
-import { useState, useMemo, useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Formik, FormikProps, FormikHelpers } from "formik";
+import { useState, useMemo, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import {
   IConcept,
   INewConcept,
@@ -16,26 +16,26 @@ import {
   ITagsSearchResult,
   IConceptSummary,
   IGlossExample,
-} from '@ndla/types-backend/concept-api';
-import { IArticle } from '@ndla/types-backend/draft-api';
-import { Node } from '@ndla/types-taxonomy';
-import ConceptFormFooter from './ConceptFormFooter';
-import FormAccordion from '../../../components/Accordion/FormAccordion';
-import FormAccordions from '../../../components/Accordion/FormAccordions';
-import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';
-import FormWrapper from '../../../components/FormWrapper';
-import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
-import { isEmpty } from '../../../components/validators';
-import { ARCHIVED, PUBLISHED, UNPUBLISHED } from '../../../constants';
-import { useLicenses } from '../../../modules/draft/draftQueries';
-import CopyrightFieldGroup from '../../FormikForm/CopyrightFieldGroup';
-import SimpleVersionPanel from '../../FormikForm/SimpleVersionPanel';
-import GlossDataSection from '../../GlossPage/components/GlossDataSection';
-import { MessageError, useMessages } from '../../Messages/MessagesProvider';
-import { useSession } from '../../Session/SessionProvider';
-import { ConceptArticles, ConceptContent, ConceptMetaData } from '../components';
-import { ConceptFormValues, ConceptType } from '../conceptInterfaces';
-import { conceptApiTypeToFormType, getNewConceptType, getUpdatedConceptType } from '../conceptTransformers';
+} from "@ndla/types-backend/concept-api";
+import { IArticle } from "@ndla/types-backend/draft-api";
+import { Node } from "@ndla/types-taxonomy";
+import ConceptFormFooter from "./ConceptFormFooter";
+import FormAccordion from "../../../components/Accordion/FormAccordion";
+import FormAccordions from "../../../components/Accordion/FormAccordions";
+import validateFormik, { getWarnings, RulesType } from "../../../components/formikValidationSchema";
+import FormWrapper from "../../../components/FormWrapper";
+import HeaderWithLanguage from "../../../components/HeaderWithLanguage";
+import { isEmpty } from "../../../components/validators";
+import { ARCHIVED, PUBLISHED, UNPUBLISHED } from "../../../constants";
+import { useLicenses } from "../../../modules/draft/draftQueries";
+import CopyrightFieldGroup from "../../FormikForm/CopyrightFieldGroup";
+import SimpleVersionPanel from "../../FormikForm/SimpleVersionPanel";
+import GlossDataSection from "../../GlossPage/components/GlossDataSection";
+import { MessageError, useMessages } from "../../Messages/MessagesProvider";
+import { useSession } from "../../Session/SessionProvider";
+import { ConceptArticles, ConceptContent, ConceptMetaData } from "../components";
+import { ConceptFormValues, ConceptType } from "../conceptInterfaces";
+import { conceptApiTypeToFormType, getNewConceptType, getUpdatedConceptType } from "../conceptTransformers";
 
 const STATUSES_RESPONSIBLE_NOT_REQUIRED = [PUBLISHED, ARCHIVED, UNPUBLISHED];
 
@@ -78,7 +78,7 @@ const conceptFormBaseRules: RulesType<ConceptFormValues, IConcept> = {
     required: true,
     onlyValidateIf: (values: ConceptFormValues) => !!values.metaImageId,
     warnings: {
-      apiField: 'metaImage',
+      apiField: "metaImage",
       languageMatch: true,
     },
   },
@@ -97,8 +97,8 @@ const conceptFormBaseRules: RulesType<ConceptFormValues, IConcept> = {
     required: false,
     test: (values) => {
       const authors = values.creators.concat(values.rightsholders).concat(values.processors);
-      if (!values.license || values.license === 'N/A' || authors.length > 0) return undefined;
-      return { translationKey: 'validation.noLicenseWithoutCopyrightHolder' };
+      if (!values.license || values.license === "N/A" || authors.length > 0) return undefined;
+      return { translationKey: "validation.noLicenseWithoutCopyrightHolder" };
     },
   },
   responsibleId: {
@@ -113,7 +113,7 @@ const conceptRules: RulesType<ConceptFormValues, IConcept> = {
   conceptContent: {
     required: true,
     warnings: {
-      apiField: 'content',
+      apiField: "content",
       languageMatch: true,
     },
   },
@@ -128,7 +128,7 @@ const glossRules: RulesType<ConceptFormValues, IConcept, IGlossExample> = {
     test: (values) => {
       if (!values.gloss?.gloss || !values.gloss?.wordClass || !values.gloss?.originalLanguage)
         return {
-          translationKey: 'form.gloss.glossMissingFields',
+          translationKey: "form.gloss.glossMissingFields",
         };
     },
   },
@@ -140,7 +140,7 @@ const glossRules: RulesType<ConceptFormValues, IConcept, IGlossExample> = {
             values?.transcriptions && Object.values(values.transcriptions).some((t) => !t);
 
           if (!values?.example || !values?.language || transcriptionMissingText)
-            return { translationKey: 'form.gloss.exampleMissingFields' };
+            return { translationKey: "form.gloss.exampleMissingFields" };
         },
       },
     },
@@ -153,8 +153,8 @@ const glossRules: RulesType<ConceptFormValues, IConcept, IGlossExample> = {
       return false;
     },
     test: (values) => {
-      if (values.transcriptions && Object.values(values.transcriptions).includes('')) {
-        return { translationKey: 'form.gloss.transcriptionMissingFields' };
+      if (values.transcriptions && Object.values(values.transcriptions).includes("")) {
+        return { translationKey: "form.gloss.transcriptionMissingFields" };
       }
     },
   },
@@ -174,7 +174,7 @@ const ConceptForm = ({
   initialTitle,
   onUpserted,
   supportedLanguages,
-  conceptType = 'concept',
+  conceptType = "concept",
 }: Props) => {
   const [savedToServer, setSavedToServer] = useState(false);
   const { t } = useTranslation();
@@ -184,7 +184,7 @@ const ConceptForm = ({
 
   const handleSubmit = async (values: ConceptFormValues, formikHelpers: FormikHelpers<ConceptFormValues>) => {
     if (
-      ((!values.subjects.length || isEmpty(values.conceptContent)) && values.conceptType === 'concept') ||
+      ((!values.subjects.length || isEmpty(values.conceptContent)) && values.conceptType === "concept") ||
       isEmpty(values.title)
     )
       return;
@@ -197,7 +197,7 @@ const ConceptForm = ({
 
     try {
       let savedConcept: IConcept;
-      if ('onCreate' in upsertProps) {
+      if ("onCreate" in upsertProps) {
         savedConcept = await upsertProps.onCreate(getNewConceptType(values, licenses, conceptType));
       } else {
         const conceptWithStatus = {
@@ -229,7 +229,7 @@ const ConceptForm = ({
     conceptType,
   );
 
-  const isGloss = conceptType === 'gloss';
+  const isGloss = conceptType === "gloss";
   const formRules = isGloss ? glossRules : conceptRules;
 
   const initialWarnings = useMemo(
@@ -263,11 +263,11 @@ const ConceptForm = ({
               type={conceptType}
               supportedLanguages={supportedLanguages}
             />
-            <FormAccordions defaultOpen={['content']}>
+            <FormAccordions defaultOpen={["content"]}>
               <FormAccordion
                 id="content"
                 className="u-4/6@desktop u-push-1/6@desktop"
-                title={t('form.contentSection')}
+                title={t("form.contentSection")}
                 hasError={!!(errors.title || errors.conceptContent)}
               >
                 <ConceptContent isGloss={isGloss} />
@@ -275,9 +275,9 @@ const ConceptForm = ({
               {isGloss && (
                 <FormAccordion
                   id="glossData"
-                  title={t('form.gloss.gloss')}
+                  title={t("form.gloss.gloss")}
                   hasError={
-                    !!(errors.gloss || Object.keys(errors).find((e) => e.includes('examples')) || errors.transcriptions)
+                    !!(errors.gloss || Object.keys(errors).find((e) => e.includes("examples")) || errors.transcriptions)
                   }
                 >
                   <GlossDataSection />
@@ -285,7 +285,7 @@ const ConceptForm = ({
               )}
               <FormAccordion
                 id="copyright"
-                title={t('form.copyrightSection')}
+                title={t("form.copyrightSection")}
                 hasError={!!(errors.creators || errors.license)}
               >
                 <CopyrightFieldGroup enableLicenseNA={true} />
@@ -294,7 +294,7 @@ const ConceptForm = ({
                 <>
                   <FormAccordion
                     id="metadata"
-                    title={t('form.metadataSection')}
+                    title={t("form.metadataSection")}
                     hasError={!!(errors.tags || errors.metaImageAlt || errors.subjects)}
                   >
                     <ConceptMetaData
@@ -304,12 +304,12 @@ const ConceptForm = ({
                       language={language}
                     />
                   </FormAccordion>
-                  <FormAccordion id="articles" title={t('form.articleSection')} hasError={!!errors.articles}>
+                  <FormAccordion id="articles" title={t("form.articleSection")} hasError={!!errors.articles}>
                     <ConceptArticles />
                   </FormAccordion>
                 </>
               )}
-              <FormAccordion id="versionNotes" title={t('form.workflowSection')} hasError={false}>
+              <FormAccordion id="versionNotes" title={t("form.workflowSection")} hasError={false}>
                 <SimpleVersionPanel editorNotes={concept?.editorNotes} />
               </FormAccordion>
             </FormAccordions>

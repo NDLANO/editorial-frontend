@@ -6,39 +6,39 @@
  *
  */
 
-import { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Navigate, useParams } from 'react-router-dom';
-import { HelmetWithTracker } from '@ndla/tracker';
-import FrontpageArticleForm from './components/FrontpageArticleForm';
-import { TranslateType, useTranslateToNN } from '../../../components/NynorskTranslateProvider';
-import Spinner from '../../../components/Spinner';
-import { useWideArticle, articleIsWide } from '../../../components/WideArticleEditorProvider';
-import { LocaleType } from '../../../interfaces';
-import { toEditArticle } from '../../../util/routeHelpers';
-import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
-import NotFound from '../../NotFoundPage/NotFoundPage';
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { Navigate, useParams } from "react-router-dom";
+import { HelmetWithTracker } from "@ndla/tracker";
+import FrontpageArticleForm from "./components/FrontpageArticleForm";
+import { TranslateType, useTranslateToNN } from "../../../components/NynorskTranslateProvider";
+import Spinner from "../../../components/Spinner";
+import { useWideArticle, articleIsWide } from "../../../components/WideArticleEditorProvider";
+import { LocaleType } from "../../../interfaces";
+import { toEditArticle } from "../../../util/routeHelpers";
+import { useFetchArticleData } from "../../FormikForm/formikDraftHooks";
+import NotFound from "../../NotFoundPage/NotFoundPage";
 
 const translateFields: TranslateType[] = [
   {
-    field: 'title.title',
-    type: 'text',
+    field: "title.title",
+    type: "text",
   },
   {
-    field: 'metaDescription.metaDescription',
-    type: 'text',
+    field: "metaDescription.metaDescription",
+    type: "text",
   },
   {
-    field: 'introduction.introduction',
-    type: 'text',
+    field: "introduction.introduction",
+    type: "text",
   },
   {
-    field: 'content.content',
-    type: 'html',
+    field: "content.content",
+    type: "html",
   },
   {
-    field: 'tags.tags',
-    type: 'text',
+    field: "tags.tags",
+    type: "text",
   },
 ];
 interface Props {
@@ -47,7 +47,7 @@ interface Props {
 
 const EditFrontpageArticle = ({ isNewlyCreated }: Props) => {
   const { t } = useTranslation();
-  const params = useParams<'selectedLanguage' | 'id'>();
+  const params = useParams<"selectedLanguage" | "id">();
   const selectedLanguage = params.selectedLanguage as LocaleType;
   const articleId = Number(params.id!) || undefined;
   const { loading, article, setArticle, articleChanged, updateArticle } = useFetchArticleData(
@@ -79,7 +79,7 @@ const EditFrontpageArticle = ({ isNewlyCreated }: Props) => {
     return <NotFound />;
   }
 
-  if (article.articleType !== 'frontpage-article') {
+  if (article.articleType !== "frontpage-article") {
     const replaceUrl = toEditArticle(article.id, article.articleType, selectedLanguage);
     return <Navigate replace to={replaceUrl} />;
   }
@@ -87,7 +87,7 @@ const EditFrontpageArticle = ({ isNewlyCreated }: Props) => {
 
   return (
     <>
-      <HelmetWithTracker title={`${article.title?.title} ${t('htmlTitles.titleTemplate')}`} />
+      <HelmetWithTracker title={`${article.title?.title} ${t("htmlTitles.titleTemplate")}`} />
       <FrontpageArticleForm
         articleLanguage={selectedLanguage}
         article={article}

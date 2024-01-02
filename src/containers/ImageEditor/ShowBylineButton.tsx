@@ -6,11 +6,11 @@
  *
  */
 
-import { MouseEvent } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Copyright, Publicdomain } from '@ndla/icons/licenses';
-import Tooltip from '@ndla/tooltip';
-import ImageEditorButton from './ImageEditorButton';
+import { MouseEvent } from "react";
+import { useTranslation } from "react-i18next";
+import { Copyright, Publicdomain } from "@ndla/icons/licenses";
+import Tooltip from "@ndla/tooltip";
+import ImageEditorButton from "./ImageEditorButton";
 
 const icon = {
   show: <Copyright />,
@@ -25,21 +25,21 @@ interface Props {
 
 const ShowBylineButton = ({ currentSize, onFieldChange, show }: Props) => {
   const { t } = useTranslation();
-  const bylineTag = '-hide-byline';
+  const bylineTag = "-hide-byline";
   const hideByline = currentSize?.endsWith(bylineTag);
 
   const isActive = (show && !hideByline) || (!show && hideByline);
 
   const onChange = (evt: MouseEvent<HTMLButtonElement>) => {
     if (!isActive) {
-      onFieldChange(evt, 'size', show && currentSize ? currentSize.replace(bylineTag, '') : currentSize + bylineTag);
+      onFieldChange(evt, "size", show && currentSize ? currentSize.replace(bylineTag, "") : currentSize + bylineTag);
     }
   };
 
   return (
-    <Tooltip tooltip={t(`form.image.byline.${show ? 'show' : 'hide'}`)}>
+    <Tooltip tooltip={t(`form.image.byline.${show ? "show" : "hide"}`)}>
       <ImageEditorButton tabIndex={-1} isActive={isActive} onClick={onChange}>
-        {icon[show ? 'show' : 'hide']}
+        {icon[show ? "show" : "hide"]}
       </ImageEditorButton>
     </Tooltip>
   );

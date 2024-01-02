@@ -5,6 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import FileUploader from './FileUploader';
+import FileUploader from "./FileUploader";
 
 export default FileUploader;

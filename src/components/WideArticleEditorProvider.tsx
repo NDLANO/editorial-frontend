@@ -6,7 +6,7 @@
  *
  */
 
-import { createContext, Dispatch, ReactNode, SetStateAction, useCallback, useContext, useState } from 'react';
+import { createContext, Dispatch, ReactNode, SetStateAction, useCallback, useContext, useState } from "react";
 
 const WideArticleContext = createContext<[boolean, Dispatch<SetStateAction<boolean>>] | undefined>([
   false,
@@ -29,7 +29,7 @@ export const useWideArticle = () => {
   const context = useContext(WideArticleContext);
 
   if (context === undefined) {
-    throw new Error('useFrontpageArticle can only be used within a FrontpageArticleContext');
+    throw new Error("useFrontpageArticle can only be used within a FrontpageArticleContext");
   }
 
   const [isWideArticle, setWideArticle] = context;
@@ -57,9 +57,9 @@ export const useWideArticle = () => {
 };
 
 const getArticleIdList: () => number[] = () =>
-  JSON.parse(localStorage.getItem('wide-articles') ?? '[]')
+  JSON.parse(localStorage.getItem("wide-articles") ?? "[]")
     .filter(Number)
     .map(Number);
 
 const updateFrontpageArticleList = (articles: number[]) =>
-  localStorage.setItem('wide-articles', JSON.stringify(articles));
+  localStorage.setItem("wide-articles", JSON.stringify(articles));

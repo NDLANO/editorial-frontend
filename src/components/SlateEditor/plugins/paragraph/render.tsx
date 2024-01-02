@@ -6,10 +6,10 @@
  *
  */
 
-import { Editor } from 'slate';
-import Paragraph from './Paragraph';
-import { TYPE_PARAGRAPH } from './types';
-import { BlockPickerOptions } from '../blockPicker/options';
+import { Editor } from "slate";
+import Paragraph from "./Paragraph";
+import { TYPE_PARAGRAPH } from "./types";
+import { BlockPickerOptions } from "../blockPicker/options";
 
 export const paragraphRenderer = (language?: string, blockpickerOptions?: BlockPickerOptions) => (editor: Editor) => {
   const { renderElement } = editor;

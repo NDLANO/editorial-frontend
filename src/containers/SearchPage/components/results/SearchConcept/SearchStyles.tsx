@@ -6,10 +6,10 @@
  *
  */
 
-import { Link } from 'react-router-dom';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { colors } from '@ndla/core';
+import { Link } from "react-router-dom";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { colors } from "@ndla/core";
 
 export const StyledInfo = styled.div`
   color: ${colors.text.light};
@@ -27,8 +27,8 @@ export const StyledConceptView = styled.div<StyledConceptViewProps>`
   align-self: center;
   padding: 0.7rem 1.3rem;
   margin: 0.3rem 0;
-  border: ${(props) => (props.border ? '1px solid black' : 'none')};
-  background-color: ${(props) => (props.border ? colors.brand.light : 'auto')};
+  border: ${(props) => (props.border ? "1px solid black" : "none")};
+  background-color: ${(props) => (props.border ? colors.brand.light : "auto")};
 
   h2 {
     font-size: 1.2rem;
@@ -75,18 +75,18 @@ export const StyledLink = styled(Link)<StyledLinkProps>`
     color: ${colors.brand.primary};
   }
 
-  box-shadow: ${(props) => (props.noShadow ? 'none' : 'inset 0 -1px')};
+  box-shadow: ${(props) => (props.noShadow ? "none" : "inset 0 -1px")};
 
   ${(props) =>
     props.other
       ? css`
           &:not(:last-child) {
             &::after {
-              content: ' / ';
+              content: " / ";
             }
           }
         `
-      : ''}
+      : ""}
 `;
 
 export const StyledDescription = styled.p`
@@ -125,7 +125,7 @@ export const InputField = styled.div<InputFieldProps>`
     margin-bottom: 5px;
     border-radius: 4px;
 
-    &[type='radio'] {
+    &[type="radio"] {
       width: auto;
       border-radius: auto;
       padding: auto;

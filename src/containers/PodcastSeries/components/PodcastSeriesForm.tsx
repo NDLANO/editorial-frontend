@@ -6,35 +6,35 @@
  *
  */
 
-import { Formik, FormikProps, FormikHelpers, FormikErrors } from 'formik';
-import { useState, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import { Descendant } from 'slate';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { colors } from '@ndla/core';
-import { IAudioMetaInformation, INewSeries, ISeries } from '@ndla/types-backend/audio-api';
-import PodcastEpisodes from './PodcastEpisodes';
-import PodcastSeriesMetaData from './PodcastSeriesMetaData';
-import FormAccordion from '../../../components/Accordion/FormAccordion';
-import FormAccordions from '../../../components/Accordion/FormAccordions';
-import Field from '../../../components/Field';
-import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';
-import FormWrapper from '../../../components/FormWrapper';
-import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
-import SaveButton from '../../../components/SaveButton';
+import { Formik, FormikProps, FormikHelpers, FormikErrors } from "formik";
+import { useState, useRef } from "react";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import { Descendant } from "slate";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { colors } from "@ndla/core";
+import { IAudioMetaInformation, INewSeries, ISeries } from "@ndla/types-backend/audio-api";
+import PodcastEpisodes from "./PodcastEpisodes";
+import PodcastSeriesMetaData from "./PodcastSeriesMetaData";
+import FormAccordion from "../../../components/Accordion/FormAccordion";
+import FormAccordions from "../../../components/Accordion/FormAccordions";
+import Field from "../../../components/Field";
+import validateFormik, { getWarnings, RulesType } from "../../../components/formikValidationSchema";
+import FormWrapper from "../../../components/FormWrapper";
+import HeaderWithLanguage from "../../../components/HeaderWithLanguage";
+import SaveButton from "../../../components/SaveButton";
 import {
   AUDIO_ADMIN_SCOPE,
   ITUNES_STANDARD_MAXIMUM_WIDTH,
   ITUNES_STANDARD_MINIMUM_WIDTH,
   SAVE_BUTTON_ID,
-} from '../../../constants';
-import { editorValueToPlainText } from '../../../util/articleContentConverter';
-import { podcastSeriesTypeToFormType } from '../../../util/audioHelpers';
-import { isFormikFormDirty } from '../../../util/formHelper';
-import { AlertModalWrapper } from '../../FormikForm';
-import { useSession } from '../../Session/SessionProvider';
+} from "../../../constants";
+import { editorValueToPlainText } from "../../../util/articleContentConverter";
+import { podcastSeriesTypeToFormType } from "../../../util/audioHelpers";
+import { isFormikFormDirty } from "../../../util/formHelper";
+import { AlertModalWrapper } from "../../FormikForm";
+import { useSession } from "../../Session/SessionProvider";
 
 const podcastRules: RulesType<PodcastSeriesFormikType, ISeries> = {
   title: {
@@ -137,9 +137,9 @@ const PodcastSeriesForm = ({
 
   const validateMetaImage = ([width, height]: [number, number]): FormikErrors<PodcastSeriesFormikType> => {
     if (width !== height) {
-      return { coverPhotoId: t('validation.podcastImageShape') };
+      return { coverPhotoId: t("validation.podcastImageShape") };
     } else if (width < ITUNES_STANDARD_MINIMUM_WIDTH || width > ITUNES_STANDARD_MAXIMUM_WIDTH) {
-      return { coverPhotoId: t('validation.podcastImageSize') };
+      return { coverPhotoId: t("validation.podcastImageSize") };
     }
     return {};
   };
@@ -180,12 +180,12 @@ const PodcastSeriesForm = ({
               title={podcastSeries?.title.title}
               hasRSS={podcastSeries?.hasRSS}
             />
-            <FormAccordions defaultOpen={['podcast-series-podcastmeta']}>
+            <FormAccordions defaultOpen={["podcast-series-podcastmeta"]}>
               <FormAccordion
                 id="podcast-series-podcastmeta"
-                title={t('form.podcastSeriesSection')}
+                title={t("form.podcastSeriesSection")}
                 className="u-4/6@desktop u-push-1/6@desktop"
-                hasError={['title', 'coverPhotoId', 'metaImageAlt'].some((field) => field in errors)}
+                hasError={["title", "coverPhotoId", "metaImageAlt"].some((field) => field in errors)}
               >
                 <PodcastSeriesMetaData
                   language={language}
@@ -197,16 +197,16 @@ const PodcastSeriesForm = ({
               </FormAccordion>
               <FormAccordion
                 id="podcast-series-podcastepisodes"
-                title={t('form.podcastEpisodesSection')}
-                className={'u-6/6'}
-                hasError={['title', 'coverPhotoId', 'metaImageAlt'].some((field) => field in errors)}
+                title={t("form.podcastEpisodesSection")}
+                className={"u-6/6"}
+                hasError={["title", "coverPhotoId", "metaImageAlt"].some((field) => field in errors)}
               >
                 <PodcastEpisodes />
               </FormAccordion>
             </FormAccordions>
             <Field right>
               <ButtonV2 variant="outline" disabled={isSubmitting} onClick={() => navigate(-1)}>
-                {t('form.abort')}
+                {t("form.abort")}
               </ButtonV2>
               <SaveButton
                 id={SAVE_BUTTON_ID}
@@ -214,7 +214,7 @@ const PodcastSeriesForm = ({
                 isSaving={isSubmitting}
                 showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
                 formIsDirty={formIsDirty}
-                type={!inModal ? 'submit' : 'button'}
+                type={!inModal ? "submit" : "button"}
                 onClick={(evt) => {
                   evt.preventDefault();
                   submitForm();
@@ -223,14 +223,14 @@ const PodcastSeriesForm = ({
             </Field>
             {!isAudioAdmin ? (
               <AdminWarningTextWrapper>
-                <p>{t('podcastSeriesForm.adminError')}</p>
+                <p>{t("podcastSeriesForm.adminError")}</p>
               </AdminWarningTextWrapper>
             ) : null}
             <AlertModalWrapper
               {...formikProps}
               formIsDirty={formIsDirty}
               severity="danger"
-              text={t('alertModal.notSaved')}
+              text={t("alertModal.notSaved")}
             />
           </FormWrapper>
         );

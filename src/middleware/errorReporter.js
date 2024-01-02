@@ -6,7 +6,7 @@
  *
  */
 
-import handleError from '../util/handleError';
+import handleError from "../util/handleError";
 
 const errorReporter = (store) => (next) => (action) => {
   if (action.error) {

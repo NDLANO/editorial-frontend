@@ -6,17 +6,17 @@
  *
  */
 
-import { FieldInputProps, FormikHelpers } from 'formik';
-import { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
+import { FieldInputProps, FormikHelpers } from "formik";
+import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 //@ts-ignore
-import { DropdownInput } from '@ndla/forms';
-import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
-import { SearchResultBase } from '../../../interfaces';
+import { DropdownInput } from "@ndla/forms";
+import AsyncDropdown from "../../../components/Dropdown/asyncDropdown/AsyncDropdown";
+import { SearchResultBase } from "../../../interfaces";
 
 export const formatTagToList = (newTag: string, existingTags: string[]): string[] => {
-  if (newTag.includes(',')) {
-    const tagList = newTag.split(',').map((tag) => tag.trim());
+  if (newTag.includes(",")) {
+    const tagList = newTag.split(",").map((tag) => tag.trim());
     const temp = [...existingTags, ...tagList];
     // Return unique list
     return [...new Set(temp)];
@@ -100,7 +100,7 @@ const AsyncSearchTags = ({
       <AsyncDropdown
         idField="title"
         labelField="title"
-        placeholder={t('form.tags.searchPlaceholder')}
+        placeholder={t("form.tags.searchPlaceholder")}
         apiAction={searchForTags}
         onChange={addTag}
         selectedItems={convertToTagsWithTitle(tags)}
@@ -113,8 +113,8 @@ const AsyncSearchTags = ({
         {({ selectedItems, value, removeItem, onBlur, onChange, onKeyDown }) => (
           <DropdownInput
             multiSelect
-            idField={'title'}
-            labelField={'title'}
+            idField={"title"}
+            labelField={"title"}
             values={selectedItems}
             data-testid="multiselect"
             value={value}

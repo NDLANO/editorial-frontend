@@ -5,15 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { ReactNode } from 'react';
-import { Editor } from 'slate';
-import { RenderElementProps } from 'slate-react';
-import styled from '@emotion/styled';
-import { ParagraphElement } from '.';
-import { BlockPickerOptions } from '../blockPicker/options';
+import { ReactNode } from "react";
+import { Editor } from "slate";
+import { RenderElementProps } from "slate-react";
+import styled from "@emotion/styled";
+import { ParagraphElement } from ".";
+import { BlockPickerOptions } from "../blockPicker/options";
 
 interface Props {
-  attributes: RenderElementProps['attributes'];
+  attributes: RenderElementProps["attributes"];
   element: ParagraphElement;
   children: ReactNode;
   language?: string;
@@ -27,7 +27,7 @@ const StyledParagraph = styled.p`
 
 const Paragraph = ({ attributes, children, element }: Props) => {
   return (
-    <StyledParagraph className={element.data?.align === 'center' ? 'u-text-center' : ''} {...attributes}>
+    <StyledParagraph className={element.data?.align === "center" ? "u-text-center" : ""} {...attributes}>
       {children}
     </StyledParagraph>
   );

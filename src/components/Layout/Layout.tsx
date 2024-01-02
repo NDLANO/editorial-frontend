@@ -6,18 +6,18 @@
  *
  */
 
-import styled from '@emotion/styled';
-import { spacing, mq } from '@ndla/core';
+import styled from "@emotion/styled";
+import { spacing, mq } from "@ndla/core";
 
 export const GridContainer = styled.div<{ breakpoint?: string }>`
-  ${({ breakpoint }) => breakpoint && mq.range({ from: '0px', until: breakpoint })} {
+  ${({ breakpoint }) => breakpoint && mq.range({ from: "0px", until: breakpoint })} {
     padding: 0 ${spacing.nsmall};
     display: flex;
     flex-direction: column;
     gap: ${spacing.nsmall};
   }
 
-  ${({ breakpoint }) => mq.range({ from: breakpoint ?? '0px' })} {
+  ${({ breakpoint }) => mq.range({ from: breakpoint ?? "0px" })} {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     grid-gap: 1em;

@@ -6,11 +6,11 @@
  *
  */
 
-import compact from 'lodash/compact';
-import isEqual from 'lodash/isEqual';
-import uniq from 'lodash/uniq';
-import { TableCellElement, TableMatrix } from './interfaces';
-import { TYPE_TABLE_CELL_HEADER } from './types';
+import compact from "lodash/compact";
+import isEqual from "lodash/isEqual";
+import uniq from "lodash/uniq";
+import { TableCellElement, TableMatrix } from "./interfaces";
+import { TYPE_TABLE_CELL_HEADER } from "./types";
 
 export const getPrevCell = (matrix: TableMatrix, row: number, column: number) => {
   return matrix[row][column - 1];
@@ -136,5 +136,5 @@ export const getHeader = (matrix: TableMatrix, rowIndex: number, columnIndex: nu
   return headers
     .map((cell) => cell?.data?.id)
     .filter((cell) => !!cell)
-    .join(' ');
+    .join(" ");
 };

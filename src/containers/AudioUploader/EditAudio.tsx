@@ -6,29 +6,29 @@
  *
  */
 
-import { useEffect, useState } from 'react';
-import { Navigate, useParams } from 'react-router-dom';
-import { IAudioMetaInformation, IUpdatedAudioMetaInformation } from '@ndla/types-backend/audio-api';
-import AudioForm from './components/AudioForm';
-import { TranslateType, useTranslateToNN } from '../../components/NynorskTranslateProvider';
-import Spinner from '../../components/Spinner';
-import { fetchAudio, updateAudio } from '../../modules/audio/audioApi';
-import { createFormData } from '../../util/formDataHelper';
-import { toEditPodcast } from '../../util/routeHelpers';
-import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import { useEffect, useState } from "react";
+import { Navigate, useParams } from "react-router-dom";
+import { IAudioMetaInformation, IUpdatedAudioMetaInformation } from "@ndla/types-backend/audio-api";
+import AudioForm from "./components/AudioForm";
+import { TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
+import Spinner from "../../components/Spinner";
+import { fetchAudio, updateAudio } from "../../modules/audio/audioApi";
+import { createFormData } from "../../util/formDataHelper";
+import { toEditPodcast } from "../../util/routeHelpers";
+import NotFoundPage from "../NotFoundPage/NotFoundPage";
 
 interface Props {
   isNewlyCreated?: boolean;
 }
 
 const translateFields: TranslateType[] = [
-  { field: 'manuscript.manuscript', type: 'text' },
-  { field: 'title.title', type: 'text' },
-  { field: 'tags.tags', type: 'text' },
+  { field: "manuscript.manuscript", type: "text" },
+  { field: "title.title", type: "text" },
+  { field: "tags.tags", type: "text" },
 ];
 
 const EditAudio = ({ isNewlyCreated }: Props) => {
-  const params = useParams<'id' | 'selectedLanguage'>();
+  const params = useParams<"id" | "selectedLanguage">();
   const [audio, setAudio] = useState<IAudioMetaInformation | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(true);
   const { shouldTranslate, translate, translating } = useTranslateToNN();
@@ -72,7 +72,7 @@ const EditAudio = ({ isNewlyCreated }: Props) => {
     setAudio(updatedAudio);
   };
 
-  if (audio?.audioType === 'podcast') {
+  if (audio?.audioType === "podcast") {
     return <Navigate replace to={toEditPodcast(audioId, audioLanguage)} />;
   }
 

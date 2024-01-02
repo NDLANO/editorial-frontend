@@ -6,17 +6,17 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { colors } from '@ndla/core';
-import { Home } from '@ndla/icons/common';
-import { Node } from '@ndla/types-taxonomy';
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+import styled from "@emotion/styled";
+import { colors } from "@ndla/core";
+import { Home } from "@ndla/icons/common";
+import { Node } from "@ndla/types-taxonomy";
 
-import RoundIcon from '../../../../components/RoundIcon';
-import { toCreateSubjectpage, toEditSubjectpage } from '../../../../util/routeHelpers';
-import { getIdFromUrn } from '../../../../util/subjectHelpers';
-import MenuItemButton from '../sharedMenuOptions/components/MenuItemButton';
+import RoundIcon from "../../../../components/RoundIcon";
+import { toCreateSubjectpage, toEditSubjectpage } from "../../../../util/routeHelpers";
+import { getIdFromUrn } from "../../../../util/subjectHelpers";
+import MenuItemButton from "../sharedMenuOptions/components/MenuItemButton";
 
 interface Props {
   node: Node;
@@ -40,7 +40,7 @@ const EditSubjectpageOption = ({ node }: Props) => {
     <StyledLink state={{ elementName: node?.name }} to={{ pathname: link }}>
       <MenuItemButton data-testid="editSubjectpageOption">
         <RoundIcon small icon={<Home />} />
-        {t('taxonomy.editSubjectpage')}
+        {t("taxonomy.editSubjectpage")}
       </MenuItemButton>
     </StyledLink>
   );

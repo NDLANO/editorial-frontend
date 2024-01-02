@@ -6,13 +6,13 @@
  *
  */
 
-import sortBy from 'lodash/sortBy';
-import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Select, SingleValue } from '@ndla/select';
-import { useSearchNodes } from '../../../../modules/nodes/nodeQueries';
-import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
-import { DropdownWrapper } from '../../styles';
+import sortBy from "lodash/sortBy";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { Select, SingleValue } from "@ndla/select";
+import { useSearchNodes } from "../../../../modules/nodes/nodeQueries";
+import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
+import { DropdownWrapper } from "../../styles";
 
 interface Props {
   subjectIds: string[];
@@ -28,7 +28,7 @@ const SubjectDropdown = ({ subjectIds, filterSubject, setFilterSubject }: Props)
     {
       ids: subjectIds,
       taxonomyVersion,
-      nodeType: 'SUBJECT',
+      nodeType: "SUBJECT",
       pageSize: subjectIds.length,
       language: i18n.language,
     },
@@ -42,7 +42,7 @@ const SubjectDropdown = ({ subjectIds, filterSubject, setFilterSubject }: Props)
   );
   const subjectContexts = useMemo(() => {
     if (subjects?.results.length) {
-      const archivedAtBottom = sortBy(subjects.results, (r) => r.metadata.customFields.subjectCategory === 'archive');
+      const archivedAtBottom = sortBy(subjects.results, (r) => r.metadata.customFields.subjectCategory === "archive");
       return archivedAtBottom.map((r) => ({ value: r.id, label: r.name }));
     } else return [];
   }, [subjects]);
@@ -50,16 +50,16 @@ const SubjectDropdown = ({ subjectIds, filterSubject, setFilterSubject }: Props)
   return (
     <DropdownWrapper>
       <Select<false>
-        label={t('welcomePage.chooseSubject')}
+        label={t("welcomePage.chooseSubject")}
         options={subjectContexts}
-        placeholder={t('welcomePage.chooseSubject')}
+        placeholder={t("welcomePage.chooseSubject")}
         value={filterSubject}
         onChange={setFilterSubject}
         menuPlacement="bottom"
         small
         outline
         isSearchable
-        noOptionsMessage={() => t('form.responsible.noResults')}
+        noOptionsMessage={() => t("form.responsible.noResults")}
         isClearable
       />
     </DropdownWrapper>

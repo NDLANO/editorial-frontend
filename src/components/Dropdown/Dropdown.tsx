@@ -6,11 +6,11 @@
  *
  */
 
-import Downshift, { StateChangeOptions } from 'downshift';
-import { ChangeEvent, useState } from 'react';
-import styled from '@emotion/styled';
+import Downshift, { StateChangeOptions } from "downshift";
+import { ChangeEvent, useState } from "react";
+import styled from "@emotion/styled";
 //@ts-ignore
-import { DropdownInput, DropdownMenu } from '@ndla/forms';
+import { DropdownInput, DropdownMenu } from "@ndla/forms";
 
 const DropdownContainer = styled.div`
   position: relative;
@@ -31,7 +31,7 @@ interface Props {
 
 const Dropdown = ({ onSelect, selectedTag, onReset, items, placeholder }: Props) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
 
   const filteredItems = items
     .filter((item) => {
@@ -55,12 +55,12 @@ const Dropdown = ({ onSelect, selectedTag, onReset, items, placeholder }: Props)
     if (type === Downshift.stateChangeTypes.mouseUp) {
       setDropdownOpen(!!isOpen);
       if (!isOpen) {
-        setInput('');
+        setInput("");
       }
     }
 
     if (type === Downshift.stateChangeTypes.keyDownEnter) {
-      setInput('');
+      setInput("");
     }
   };
 
@@ -86,8 +86,8 @@ const Dropdown = ({ onSelect, selectedTag, onReset, items, placeholder }: Props)
         return (
           <DropdownContainer {...getRootProps()}>
             <DropdownInput
-              idField={'id'}
-              labelField={'name'}
+              idField={"id"}
+              labelField={"name"}
               multiSelect
               {...getInputProps({
                 value: input,
@@ -100,8 +100,8 @@ const Dropdown = ({ onSelect, selectedTag, onReset, items, placeholder }: Props)
               removeItem={onReset}
             />
             <DropdownMenu
-              idField={'id'}
-              labelField={'name'}
+              idField={"id"}
+              labelField={"name"}
               getMenuProps={getMenuProps}
               getItemProps={getItemProps}
               isOpen={dropdownOpen}

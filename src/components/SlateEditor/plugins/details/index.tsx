@@ -6,31 +6,31 @@
  *
  */
 
-import { Element, Descendant, Editor, Path, Transforms, Node, Range, Location } from 'slate';
-import { jsx as slatejsx } from 'slate-hyperscript';
-import { ReactEditor, RenderLeafProps } from 'slate-react';
-import { TYPE_DETAILS, TYPE_SUMMARY } from './types';
-import WithPlaceHolder from '../../common/WithPlaceHolder';
-import { SlateSerializer } from '../../interfaces';
-import containsVoid from '../../utils/containsVoid';
-import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
-import getCurrentBlock from '../../utils/getCurrentBlock';
-import hasNodeOfType from '../../utils/hasNodeOfType';
-import { KEY_BACKSPACE, KEY_ENTER } from '../../utils/keys';
+import { Element, Descendant, Editor, Path, Transforms, Node, Range, Location } from "slate";
+import { jsx as slatejsx } from "slate-hyperscript";
+import { ReactEditor, RenderLeafProps } from "slate-react";
+import { TYPE_DETAILS, TYPE_SUMMARY } from "./types";
+import WithPlaceHolder from "../../common/WithPlaceHolder";
+import { SlateSerializer } from "../../interfaces";
+import containsVoid from "../../utils/containsVoid";
+import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
+import getCurrentBlock from "../../utils/getCurrentBlock";
+import hasNodeOfType from "../../utils/hasNodeOfType";
+import { KEY_BACKSPACE, KEY_ENTER } from "../../utils/keys";
 import {
   afterOrBeforeTextBlockElement,
   lastTextBlockElement,
   textBlockElements,
-} from '../../utils/normalizationHelpers';
-import { TYPE_PARAGRAPH } from '../paragraph/types';
+} from "../../utils/normalizationHelpers";
+import { TYPE_PARAGRAPH } from "../paragraph/types";
 
 export interface DetailsElement {
-  type: 'details';
+  type: "details";
   children: Descendant[];
 }
 
 export interface SummaryElement {
-  type: 'summary';
+  type: "summary";
   children: Descendant[];
 }
 
@@ -91,14 +91,14 @@ const onBackspace = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: K
 
         if (summaryEntry?.length) {
           const [summaryNode] = summaryEntry;
-          if (Node.string(detailsNode).length > 0 && Node.string(summaryNode) === '') {
+          if (Node.string(detailsNode).length > 0 && Node.string(summaryNode) === "") {
             e.preventDefault();
             Transforms.move(editor, { reverse: true });
             return;
           }
         }
         if (
-          Node.string(detailsNode) === '' &&
+          Node.string(detailsNode) === "" &&
           Element.isElement(detailsNode) &&
           !containsVoid(editor, detailsNode) &&
           detailsNode.children.length === 2
@@ -115,10 +115,10 @@ const onBackspace = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: K
 
 export const detailsSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
-    if (el.tagName.toLowerCase() === 'summary') {
-      return slatejsx('element', { type: TYPE_SUMMARY }, children);
-    } else if (el.tagName.toLowerCase() === 'details') {
-      return slatejsx('element', { type: TYPE_DETAILS }, children);
+    if (el.tagName.toLowerCase() === "summary") {
+      return slatejsx("element", { type: TYPE_SUMMARY }, children);
+    } else if (el.tagName.toLowerCase() === "details") {
+      return slatejsx("element", { type: TYPE_DETAILS }, children);
     }
     return;
   },
@@ -169,7 +169,7 @@ export const detailsPlugin = (editor: Editor) => {
     const path = ReactEditor.findPath(editor, text);
 
     const [parent] = Editor.node(editor, Path.parent(path));
-    if (Element.isElement(parent) && parent.type === TYPE_SUMMARY && Node.string(leaf) === '') {
+    if (Element.isElement(parent) && parent.type === TYPE_SUMMARY && Node.string(leaf) === "") {
       return (
         <WithPlaceHolder attributes={attributes} placeholder="form.name.title">
           {children}
@@ -199,7 +199,7 @@ export const detailsPlugin = (editor: Editor) => {
 
           // Remove marks if any is active
           if (child.bold || child.code || child.italic || child.sub || child.sup || child.underlined) {
-            Transforms.unsetNodes(editor, ['bold', 'code', 'italic', 'sub', 'sup', 'underlined'], {
+            Transforms.unsetNodes(editor, ["bold", "code", "italic", "sub", "sup", "underlined"], {
               at: childPath,
             });
             return;

@@ -6,49 +6,49 @@
  *
  */
 
-import { useState, ReactNode, useCallback, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Editor, Element, Transforms, Path } from 'slate';
-import { ReactEditor, RenderElementProps, useSelected } from 'slate-react';
-import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
-import { spacing, colors } from '@ndla/core';
-import { Link as LinkIcon } from '@ndla/icons/common';
-import { Check, AlertCircle, DeleteForever } from '@ndla/icons/editor';
-import { Modal, ModalContent } from '@ndla/modal';
-import { SafeLinkIconButton } from '@ndla/safelink';
-import { IConcept, IConceptSummary } from '@ndla/types-backend/concept-api';
-import { ConceptEmbedData, ConceptMetaData } from '@ndla/types-embed';
-import { ConceptEmbed } from '@ndla/ui';
-import { ConceptBlockElement } from './interfaces';
-import { TYPE_CONCEPT_BLOCK, TYPE_GLOSS_BLOCK } from './types';
-import { PUBLISHED } from '../../../../../constants';
-import { useFetchConceptData } from '../../../../../containers/FormikForm/formikConceptHooks';
-import { useConceptVisualElement } from '../../../../../modules/embed/queries';
-import parseMarkdown from '../../../../../util/parseMarkdown';
-import ConceptModalContent from '../ConceptModalContent';
-import EditGlossExamplesModal from '../EditGlossExamplesModal';
-import { getGlossDataAttributes } from '../utils';
+import { useState, ReactNode, useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Element, Transforms, Path } from "slate";
+import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
+import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
+import { spacing, colors } from "@ndla/core";
+import { Link as LinkIcon } from "@ndla/icons/common";
+import { Check, AlertCircle, DeleteForever } from "@ndla/icons/editor";
+import { Modal, ModalContent } from "@ndla/modal";
+import { SafeLinkIconButton } from "@ndla/safelink";
+import { IConcept, IConceptSummary } from "@ndla/types-backend/concept-api";
+import { ConceptEmbedData, ConceptMetaData } from "@ndla/types-embed";
+import { ConceptEmbed } from "@ndla/ui";
+import { ConceptBlockElement } from "./interfaces";
+import { TYPE_CONCEPT_BLOCK, TYPE_GLOSS_BLOCK } from "./types";
+import { PUBLISHED } from "../../../../../constants";
+import { useFetchConceptData } from "../../../../../containers/FormikForm/formikConceptHooks";
+import { useConceptVisualElement } from "../../../../../modules/embed/queries";
+import parseMarkdown from "../../../../../util/parseMarkdown";
+import ConceptModalContent from "../ConceptModalContent";
+import EditGlossExamplesModal from "../EditGlossExamplesModal";
+import { getGlossDataAttributes } from "../utils";
 
 const getConceptDataAttributes = ({ id, conceptType, glossData }: IConceptSummary | IConcept): ConceptEmbedData => ({
   contentId: id.toString(),
-  resource: 'concept',
-  type: 'block',
-  linkText: '',
-  ...(conceptType === 'gloss' && glossData?.examples.length ? getGlossDataAttributes(glossData) : {}),
+  resource: "concept",
+  type: "block",
+  linkText: "",
+  ...(conceptType === "gloss" && glossData?.examples.length ? getGlossDataAttributes(glossData) : {}),
 });
 
 interface Props {
   element: ConceptBlockElement;
   locale: string;
   editor: Editor;
-  attributes: RenderElementProps['attributes'];
+  attributes: RenderElementProps["attributes"];
   children: ReactNode;
 }
 
 const StyledWrapper = styled.div`
   position: relative;
-  &[data-solid-border='true'] {
+  &[data-solid-border="true"] {
     outline: 2px solid ${colors.brand.primary};
   }
 `;
@@ -65,18 +65,21 @@ const BlockWrapper = ({ element, locale, editor, attributes, children }: Props) 
   const embed: ConceptMetaData | undefined = useMemo(() => {
     if (!element.data || !concept) return undefined;
     return {
-      status: !concept && !loading ? 'error' : 'success',
+      status: !concept && !loading ? "error" : "success",
       data: {
         concept: {
           ...concept,
           content: concept.content
-            ? { ...concept.content, content: parseMarkdown({ markdown: concept.content.content }) }
+            ? {
+                ...concept.content,
+                content: parseMarkdown({ markdown: concept.content.content }),
+              }
             : undefined,
         },
         visualElement: visualElementQuery.data,
       },
       embedData: element.data,
-      resource: 'concept',
+      resource: "concept",
     };
   }, [element.data, concept, loading, visualElementQuery.data]);
 
@@ -99,7 +102,11 @@ const BlockWrapper = ({ element, locale, editor, attributes, children }: Props) 
   );
 
   const handleRemove = useCallback(
-    () => Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true }),
+    () =>
+      Transforms.removeNodes(editor, {
+        at: ReactEditor.findPath(editor, element),
+        voids: true,
+      }),
     [editor, element],
   );
 
@@ -107,7 +114,10 @@ const BlockWrapper = ({ element, locale, editor, attributes, children }: Props) 
     ReactEditor.focus(editor);
     setIsEditing(false);
     if (element.isFirstEdit) {
-      Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true });
+      Transforms.removeNodes(editor, {
+        at: ReactEditor.findPath(editor, element),
+        voids: true,
+      });
     }
     const path = ReactEditor.findPath(editor, element);
     if (Editor.hasPath(editor, Path.next(path))) {
@@ -133,7 +143,7 @@ const BlockWrapper = ({ element, locale, editor, attributes, children }: Props) 
             <ConceptEmbed embed={embed} />
           </div>
         )}
-        <ModalContent size={{ width: 'large', height: 'large' }}>
+        <ModalContent size={{ width: "large", height: "large" }}>
           <ConceptModalContent
             onClose={onClose}
             addConcept={addConcept}
@@ -141,7 +151,7 @@ const BlockWrapper = ({ element, locale, editor, attributes, children }: Props) 
             concept={concept}
             subjects={subjects}
             handleRemove={handleRemove}
-            conceptType={element.type === 'gloss-block' ? 'gloss' : 'concept'}
+            conceptType={element.type === "gloss-block" ? "gloss" : "concept"}
             {...conceptHooks}
           />
         </ModalContent>
@@ -175,12 +185,12 @@ const IconWrapper = styled.div`
     width: ${spacing.normal};
     fill: ${colors.brand.grey};
   }
-  &[data-color='green'] {
+  &[data-color="green"] {
     svg {
       fill: ${colors.support.green};
     }
   }
-  &[data-color='red'] {
+  &[data-color="red"] {
     svg {
       fill: ${colors.support.red};
     }
@@ -214,14 +224,18 @@ const ConceptButtonContainer = ({ concept, handleRemove, language, editor, eleme
         <LinkIcon />
       </SafeLinkIconButton>
       {(concept?.status.current === PUBLISHED || concept?.status.other.includes(PUBLISHED)) && (
-        <IconWrapper aria-label={t('form.workflow.published')} title={t('form.workflow.published')} data-color="green">
+        <IconWrapper aria-label={t("form.workflow.published")} title={t("form.workflow.published")} data-color="green">
           <Check />
         </IconWrapper>
       )}
       {concept?.status.current !== PUBLISHED && (
         <IconWrapper
-          aria-label={t('form.workflow.currentStatus', { status: translatedCurrent })}
-          title={t('form.workflow.currentStatus', { status: translatedCurrent })}
+          aria-label={t("form.workflow.currentStatus", {
+            status: translatedCurrent,
+          })}
+          title={t("form.workflow.currentStatus", {
+            status: translatedCurrent,
+          })}
           data-color="red"
         >
           <AlertCircle />

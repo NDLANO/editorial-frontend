@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { Editor, Element, Point, Range, Transforms } from 'slate';
-import getCurrentBlock from '../../../utils/getCurrentBlock';
-import hasNodeOfType from '../../../utils/hasNodeOfType';
-import { TYPE_LIST, TYPE_LIST_ITEM } from '../types';
+import { Editor, Element, Point, Range, Transforms } from "slate";
+import getCurrentBlock from "../../../utils/getCurrentBlock";
+import hasNodeOfType from "../../../utils/hasNodeOfType";
+import { TYPE_LIST, TYPE_LIST_ITEM } from "../types";
 
 const onBackspace = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEvent) => void) => {
   if (!editor.selection) return next && next(event);

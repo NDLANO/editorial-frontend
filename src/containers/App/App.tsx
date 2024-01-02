@@ -6,57 +6,57 @@
  *
  */
 
-import '@fontsource/source-sans-pro/index.css';
-import '@fontsource/source-sans-pro/400-italic.css';
-import '@fontsource/source-sans-pro/300.css';
-import '@fontsource/source-sans-pro/300-italic.css';
-import '@fontsource/source-sans-pro/600.css';
-import '@fontsource/source-sans-pro/700.css';
-import '@fontsource/source-code-pro/index.css';
-import '@fontsource/source-code-pro/400-italic.css';
-import '@fontsource/source-code-pro/700.css';
-import '@fontsource/source-serif-pro/index.css';
-import '@fontsource/source-serif-pro/400-italic.css';
-import '@fontsource/source-serif-pro/700.css';
+import "@fontsource/source-sans-pro/index.css";
+import "@fontsource/source-sans-pro/400-italic.css";
+import "@fontsource/source-sans-pro/300.css";
+import "@fontsource/source-sans-pro/300-italic.css";
+import "@fontsource/source-sans-pro/600.css";
+import "@fontsource/source-sans-pro/700.css";
+import "@fontsource/source-code-pro/index.css";
+import "@fontsource/source-code-pro/400-italic.css";
+import "@fontsource/source-code-pro/700.css";
+import "@fontsource/source-serif-pro/index.css";
+import "@fontsource/source-serif-pro/400-italic.css";
+import "@fontsource/source-serif-pro/700.css";
 // import before all other imports component to make sure it is loaded before any emotion stuff.
-import '../../style/index.css';
+import "../../style/index.css";
 
-import { ReactElement } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { useTranslation } from 'react-i18next';
-import { Route, Routes } from 'react-router-dom';
-import styled from '@emotion/styled';
-import loadable from '@loadable/component';
-import { PageContainer } from '@ndla/ui';
-import Zendesk from './Zendesk';
-import ErrorBoundary from '../../components/ErrorBoundary';
-import { scheduleRenewal } from '../../util/authHelpers';
-import Navigation from '../Masthead/components/Navigation';
-import Messages from '../Messages/Messages';
-import { MessagesProvider, useMessages } from '../Messages/MessagesProvider';
-import { getSessionStateFromLocalStorage, SessionProvider } from '../Session/SessionProvider';
-const Login = loadable(() => import('../Login/Login'));
-const Logout = loadable(() => import('../Logout/Logout'));
-const PrivateRoute = loadable(() => import('../PrivateRoute/PrivateRoute'));
-const WelcomePage = loadable(() => import('../WelcomePage/WelcomePage'));
-const SearchPage = loadable(() => import('./SearchPage'));
-const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
-const ForbiddenPage = loadable(() => import('../ForbiddenPage/ForbiddenPage'));
-const SubjectMatterPage = loadable(() => import('./SubjectMatterPage'));
-const MediaPage = loadable(() => import('./MediaPage'));
-const StructurePage = loadable(() => import('../StructurePage/StructurePage'));
-const ProgrammePage = loadable(() => import('../StructurePage/ProgrammePage'));
-const EditMarkupPage = loadable(() => import('../EditMarkupPage/EditMarkupPage'));
-const PreviewDraftPage = loadable(() => import('../PreviewDraftPage/PreviewDraftPage'));
-const NdlaFilm = loadable(() => import('../NdlaFilm/NdlaFilm'));
-const ConceptPage = loadable(() => import('../ConceptPage/ConceptPage'));
-const GlossPage = loadable(() => import('../GlossPage/GlossPage'));
-const Subjectpage = loadable(() => import('../EditSubjectFrontpage/Subjectpage'));
-const H5PPage = loadable(() => import('../H5PPage/H5PPage'));
-const TaxonomyVersionsPage = loadable(() => import('../TaxonomyVersions/TaxonomyVersionsPage'));
-const PublishRequestsPage = loadable(() => import('../PublishRequests/PublishRequestsPage'));
-const NodeDiffPage = loadable(() => import('../NodeDiff/NodeDiffPage'));
-const FrontpageEditPage = loadable(() => import('../FrontpageEditPage/FrontpageEditPage'));
+import { ReactElement } from "react";
+import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
+import { Route, Routes } from "react-router-dom";
+import styled from "@emotion/styled";
+import loadable from "@loadable/component";
+import { PageContainer } from "@ndla/ui";
+import Zendesk from "./Zendesk";
+import ErrorBoundary from "../../components/ErrorBoundary";
+import { scheduleRenewal } from "../../util/authHelpers";
+import Navigation from "../Masthead/components/Navigation";
+import Messages from "../Messages/Messages";
+import { MessagesProvider, useMessages } from "../Messages/MessagesProvider";
+import { getSessionStateFromLocalStorage, SessionProvider } from "../Session/SessionProvider";
+const Login = loadable(() => import("../Login/Login"));
+const Logout = loadable(() => import("../Logout/Logout"));
+const PrivateRoute = loadable(() => import("../PrivateRoute/PrivateRoute"));
+const WelcomePage = loadable(() => import("../WelcomePage/WelcomePage"));
+const SearchPage = loadable(() => import("./SearchPage"));
+const NotFoundPage = loadable(() => import("../NotFoundPage/NotFoundPage"));
+const ForbiddenPage = loadable(() => import("../ForbiddenPage/ForbiddenPage"));
+const SubjectMatterPage = loadable(() => import("./SubjectMatterPage"));
+const MediaPage = loadable(() => import("./MediaPage"));
+const StructurePage = loadable(() => import("../StructurePage/StructurePage"));
+const ProgrammePage = loadable(() => import("../StructurePage/ProgrammePage"));
+const EditMarkupPage = loadable(() => import("../EditMarkupPage/EditMarkupPage"));
+const PreviewDraftPage = loadable(() => import("../PreviewDraftPage/PreviewDraftPage"));
+const NdlaFilm = loadable(() => import("../NdlaFilm/NdlaFilm"));
+const ConceptPage = loadable(() => import("../ConceptPage/ConceptPage"));
+const GlossPage = loadable(() => import("../GlossPage/GlossPage"));
+const Subjectpage = loadable(() => import("../EditSubjectFrontpage/Subjectpage"));
+const H5PPage = loadable(() => import("../H5PPage/H5PPage"));
+const TaxonomyVersionsPage = loadable(() => import("../TaxonomyVersions/TaxonomyVersionsPage"));
+const PublishRequestsPage = loadable(() => import("../PublishRequests/PublishRequestsPage"));
+const NodeDiffPage = loadable(() => import("../NodeDiff/NodeDiffPage"));
+const FrontpageEditPage = loadable(() => import("../FrontpageEditPage/FrontpageEditPage"));
 
 const StyledContent = styled.div`
   display: flex;
@@ -74,7 +74,7 @@ const App = () => {
           <AuthInitializer>
             <PageContainer>
               <Zendesk />
-              <Helmet meta={[{ name: 'description', content: t('meta.description') }]} />
+              <Helmet meta={[{ name: "description", content: t("meta.description") }]} />
               <StyledContent>
                 <Navigation />
                 <Routes>

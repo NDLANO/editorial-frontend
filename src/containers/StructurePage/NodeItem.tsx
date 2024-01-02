@@ -6,31 +6,31 @@
  *
  */
 
-import { HTMLProps, MutableRefObject, ReactNode, useEffect, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { DragEndEvent } from '@dnd-kit/core';
-import styled from '@emotion/styled';
-import { colors, spacing } from '@ndla/core';
-import { Spinner } from '@ndla/icons';
-import { Subject } from '@ndla/icons/contentType';
-import { CloudUploadOutline, DragVertical, Star, SubjectMatter, Taxonomy } from '@ndla/icons/editor';
-import { NodeChild, Node, NodeType } from '@ndla/types-taxonomy';
-import FolderItem from './folderComponents/FolderItem';
-import DndList from '../../components/DndList';
-import { DragHandle } from '../../components/DraggableItem';
-import Fade from '../../components/Taxonomy/Fade';
+import { HTMLProps, MutableRefObject, ReactNode, useEffect, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { DragEndEvent } from "@dnd-kit/core";
+import styled from "@emotion/styled";
+import { colors, spacing } from "@ndla/core";
+import { Spinner } from "@ndla/icons";
+import { Subject } from "@ndla/icons/contentType";
+import { CloudUploadOutline, DragVertical, Star, SubjectMatter, Taxonomy } from "@ndla/icons/editor";
+import { NodeChild, Node, NodeType } from "@ndla/types-taxonomy";
+import FolderItem from "./folderComponents/FolderItem";
+import DndList from "../../components/DndList";
+import { DragHandle } from "../../components/DraggableItem";
+import Fade from "../../components/Taxonomy/Fade";
 import {
   ItemTitleButton,
   StructureWrapper,
   StyledIcon,
   StyledItemBar,
   StyledStructureItem,
-} from '../../components/Taxonomy/nodeStyles';
-import { TAXONOMY_ADMIN_SCOPE, TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH } from '../../constants';
-import { NodeChildWithChildren } from '../../modules/nodes/nodeQueries';
-import { createGuard } from '../../util/guards';
-import { nodePathToUrnPath } from '../../util/taxonomyHelpers';
-import { useSession } from '../Session/SessionProvider';
+} from "../../components/Taxonomy/nodeStyles";
+import { TAXONOMY_ADMIN_SCOPE, TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH } from "../../constants";
+import { NodeChildWithChildren } from "../../modules/nodes/nodeQueries";
+import { createGuard } from "../../util/guards";
+import { nodePathToUrnPath } from "../../util/taxonomyHelpers";
+import { useSession } from "../Session/SessionProvider";
 
 export type RenderBeforeFunction = (
   node: NodeChild | Node,
@@ -43,10 +43,10 @@ export type RenderBeforeFunction = (
 interface RoundIconProps {
   smallIcon: ReactNode;
   clicked?: boolean;
-  type?: 'button' | 'reset' | 'submit';
+  type?: "button" | "reset" | "submit";
 }
 
-const RoundIcon = ({ smallIcon, ...rest }: RoundIconProps & Omit<HTMLProps<HTMLButtonElement>, 'as'>) => (
+const RoundIcon = ({ smallIcon, ...rest }: RoundIconProps & Omit<HTMLProps<HTMLButtonElement>, "as">) => (
   <StyledIcon {...rest}>{smallIcon}</StyledIcon>
 );
 
@@ -63,31 +63,31 @@ const IconWrapper = styled.div`
     width: ${spacing.nsmall};
     fill: ${colors.text.primary};
   }
-  &[data-color='green'] {
+  &[data-color="green"] {
     svg {
       fill: ${colors.support.green};
     }
   }
 `;
 
-const isChildNode = createGuard<NodeChild & { articleType?: string; isPublished?: boolean }>('connectionId');
+const isChildNode = createGuard<NodeChild & { articleType?: string; isPublished?: boolean }>("connectionId");
 
 const getNodeIcon = (nodeType: NodeType): { icon: ReactNode; title: string } => {
   switch (nodeType) {
-    case 'SUBJECT':
+    case "SUBJECT":
       return {
         icon: <SubjectMatter />,
-        title: 'subjectpageForm.title',
+        title: "subjectpageForm.title",
       };
-    case 'PROGRAMME':
+    case "PROGRAMME":
       return {
         icon: <Taxonomy />,
-        title: 'programmepageForm.title',
+        title: "programmepageForm.title",
       };
     default:
       return {
         icon: <Subject />,
-        title: 'topicArticleForm.title',
+        title: "topicArticleForm.title",
       };
   }
 };
@@ -152,7 +152,7 @@ const NodeItem = ({
   };
 
   const nodeTypeIcon = useMemo(() => getNodeIcon(item.nodeType), [item.nodeType]);
-  const publishing = item.metadata.customFields[TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH] === 'true';
+  const publishing = item.metadata.customFields[TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH] === "true";
 
   return (
     <StyledStructureItem connectionId={connectionId} id={item.id} key={path} greyedOut={!parentActive && !isActive}>
@@ -183,8 +183,8 @@ const NodeItem = ({
           {publishing && (
             <IconWrapper
               data-color="green"
-              title={t('diff.fields.requestPublish.title')}
-              aria-label={t('diff.fields.requestPublish.title')}
+              title={t("diff.fields.requestPublish.title")}
+              aria-label={t("diff.fields.requestPublish.title")}
             >
               <CloudUploadOutline />
             </IconWrapper>
@@ -236,7 +236,7 @@ const NodeItem = ({
                 />
               )}
               dragHandle={
-                <DragHandle aria-label={t('dragAndDrop.handle')}>
+                <DragHandle aria-label={t("dragAndDrop.handle")}>
                   <DragVertical />
                 </DragHandle>
               }

@@ -6,37 +6,37 @@
  *
  */
 
-import { Formik, FormikHelpers } from 'formik';
-import { useEffect, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import { Descendant } from 'slate';
-import { ButtonV2 } from '@ndla/button';
+import { Formik, FormikHelpers } from "formik";
+import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import { Descendant } from "slate";
+import { ButtonV2 } from "@ndla/button";
 import {
   IAudio,
   IAuthor,
   IAudioMetaInformation,
   INewAudioMetaInformation,
   IUpdatedAudioMetaInformation,
-} from '@ndla/types-backend/audio-api';
-import AudioContent from './AudioContent';
-import AudioCopyright from './AudioCopyright';
-import AudioManuscript from './AudioManuscript';
-import AudioMetaData from './AudioMetaData';
-import FormAccordion from '../../../components/Accordion/FormAccordion';
-import FormAccordions from '../../../components/Accordion/FormAccordions';
-import Field from '../../../components/Field';
-import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';
-import FormWrapper from '../../../components/FormWrapper';
-import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
-import SaveButton from '../../../components/SaveButton';
-import { SAVE_BUTTON_ID } from '../../../constants';
-import { useLicenses } from '../../../modules/draft/draftQueries';
-import { editorValueToPlainText } from '../../../util/articleContentConverter';
-import { audioApiTypeToFormType } from '../../../util/audioHelpers';
-import { DEFAULT_LICENSE, isFormikFormDirty } from '../../../util/formHelper';
-import { AlertModalWrapper } from '../../FormikForm';
-import { MessageError, useMessages } from '../../Messages/MessagesProvider';
+} from "@ndla/types-backend/audio-api";
+import AudioContent from "./AudioContent";
+import AudioCopyright from "./AudioCopyright";
+import AudioManuscript from "./AudioManuscript";
+import AudioMetaData from "./AudioMetaData";
+import FormAccordion from "../../../components/Accordion/FormAccordion";
+import FormAccordions from "../../../components/Accordion/FormAccordions";
+import Field from "../../../components/Field";
+import validateFormik, { getWarnings, RulesType } from "../../../components/formikValidationSchema";
+import FormWrapper from "../../../components/FormWrapper";
+import HeaderWithLanguage from "../../../components/HeaderWithLanguage";
+import SaveButton from "../../../components/SaveButton";
+import { SAVE_BUTTON_ID } from "../../../constants";
+import { useLicenses } from "../../../modules/draft/draftQueries";
+import { editorValueToPlainText } from "../../../util/articleContentConverter";
+import { audioApiTypeToFormType } from "../../../util/audioHelpers";
+import { DEFAULT_LICENSE, isFormikFormDirty } from "../../../util/formHelper";
+import { AlertModalWrapper } from "../../FormikForm";
+import { MessageError, useMessages } from "../../Messages/MessagesProvider";
 
 export interface AudioFormikType {
   id?: number;
@@ -97,7 +97,7 @@ const rules: RulesType<AudioFormikType, IAudioMetaInformation> = {
     test: (values) => {
       const authors = values.creators.concat(values.rightsholders).concat(values.processors);
       if (authors.length > 0) return undefined;
-      return { translationKey: 'validation.noLicenseWithoutCopyrightHolder' };
+      return { translationKey: "validation.noLicenseWithoutCopyrightHolder" };
     },
   },
 };
@@ -147,7 +147,7 @@ const AudioForm = ({
         manuscript: editorValueToPlainText(values.manuscript),
         language: values.language,
         tags: values.tags,
-        audioType: 'standard',
+        audioType: "standard",
         copyright: {
           license: licenses?.find((license) => license.license === values.license) ?? DEFAULT_LICENSE,
           origin: values.origin,
@@ -208,42 +208,42 @@ const AudioForm = ({
               type="audio"
               title={audio?.title.title}
             />
-            <FormAccordions defaultOpen={['audio-upload-content']}>
+            <FormAccordions defaultOpen={["audio-upload-content"]}>
               <FormAccordion
                 id="audio-upload-content"
                 className="u-4/6@desktop u-push-1/6@desktop"
-                title={t('form.contentSection')}
-                hasError={hasError(['title', 'audioFile'])}
+                title={t("form.contentSection")}
+                hasError={hasError(["title", "audioFile"])}
               >
                 <AudioContent handleSubmit={handleSubmit} />
               </FormAccordion>
               <FormAccordion
                 id="podcast-upload-podcastmanus"
-                title={t('podcastForm.fields.manuscript')}
-                className={'u-6/6'}
+                title={t("podcastForm.fields.manuscript")}
+                className={"u-6/6"}
                 hasError={[].some((field) => field in errors)}
               >
                 <AudioManuscript />
               </FormAccordion>
               <FormAccordion
                 id="audio-upload-copyright"
-                title={t('form.copyrightSection')}
-                hasError={hasError(['rightsholders', 'creators', 'processors', 'license'])}
+                title={t("form.copyrightSection")}
+                hasError={hasError(["rightsholders", "creators", "processors", "license"])}
               >
                 <AudioCopyright />
               </FormAccordion>
               <FormAccordion
                 id="audio-upload-metadataSection"
-                className={'u-6/6'}
-                title={t('form.metadataSection')}
-                hasError={hasError(['tags'])}
+                className={"u-6/6"}
+                title={t("form.metadataSection")}
+                hasError={hasError(["tags"])}
               >
                 <AudioMetaData />
               </FormAccordion>
             </FormAccordions>
             <Field right>
               <ButtonV2 variant="outline" disabled={isSubmitting} onClick={() => navigate(-1)}>
-                {t('form.abort')}
+                {t("form.abort")}
               </ButtonV2>
               <SaveButton
                 id={SAVE_BUTTON_ID}
@@ -260,7 +260,7 @@ const AudioForm = ({
               {...formikProps}
               formIsDirty={formIsDirty}
               severity="danger"
-              text={t('alertModal.notSaved')}
+              text={t("alertModal.notSaved")}
             />
           </FormWrapper>
         );

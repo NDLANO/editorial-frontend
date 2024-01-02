@@ -6,12 +6,12 @@
  *
  */
 
-import { ComponentProps, ReactElement, ReactNode, cloneElement, forwardRef } from 'react';
-import { UniqueIdentifier } from '@dnd-kit/core';
-import { useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
-import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
+import { ComponentProps, ReactElement, ReactNode, cloneElement, forwardRef } from "react";
+import { UniqueIdentifier } from "@dnd-kit/core";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
 
 interface Props {
   children: ReactNode;
@@ -26,7 +26,7 @@ const StyledListElement = styled.li`
   margin: 0;
   display: flex;
   align-items: center;
-  &[data-has-handle='false'] {
+  &[data-has-handle="false"] {
     cursor: grab;
   }
 `;
@@ -76,7 +76,7 @@ const DragHandleButton = styled(IconButtonV2)`
 `;
 
 export const DragHandle = forwardRef<HTMLButtonElement, ComponentProps<typeof IconButtonV2>>(
-  ({ children, id, tabIndex = 0, variant = 'ghost', colorTheme = 'light', size = 'small', ...rest }, ref) => {
+  ({ children, id, tabIndex = 0, variant = "ghost", colorTheme = "light", size = "small", ...rest }, ref) => {
     return (
       <DragHandleButton {...rest} tabIndex={tabIndex} variant={variant} colorTheme={colorTheme} size={size} ref={ref}>
         {children}

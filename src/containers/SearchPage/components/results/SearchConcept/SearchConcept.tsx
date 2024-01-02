@@ -6,17 +6,17 @@
  *
  */
 
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useState } from "react";
 
-import { useTranslation } from 'react-i18next';
-import { Concept, Globe } from '@ndla/icons/editor';
-import { IConcept, IConceptSummary } from '@ndla/types-backend/concept-api';
-import { Node } from '@ndla/types-taxonomy';
-import ContentView from './ContentView';
-import FormView from './FormView';
-import { LocaleType } from '../../../../../interfaces';
-import { convertFieldWithFallback } from '../../../../../util/convertFieldWithFallback';
-import { StyledSearchImageContainer, StyledSearchResult } from '../../form/StyledSearchComponents';
+import { useTranslation } from "react-i18next";
+import { Concept, Globe } from "@ndla/icons/editor";
+import { IConcept, IConceptSummary } from "@ndla/types-backend/concept-api";
+import { Node } from "@ndla/types-taxonomy";
+import ContentView from "./ContentView";
+import FormView from "./FormView";
+import { LocaleType } from "../../../../../interfaces";
+import { convertFieldWithFallback } from "../../../../../util/convertFieldWithFallback";
+import { StyledSearchImageContainer, StyledSearchResult } from "../../form/StyledSearchComponents";
 
 interface Props {
   concept: IConceptSummary;
@@ -36,9 +36,9 @@ const SearchConcept = ({ concept, locale, subjects, editingState, responsibleNam
     setShowForm(true);
   };
   const { url: metaImageSrc, alt: metaImageAlt } = localConcept.metaImage || {};
-  const title = convertFieldWithFallback<'title', string>(localConcept, 'title', t('conceptSearch.noTitle'));
-  const content = convertFieldWithFallback<'content', string>(localConcept, 'content', t('conceptSearch.noContent'));
-  const isGloss = concept.conceptType === 'gloss';
+  const title = convertFieldWithFallback<"title", string>(localConcept, "title", t("conceptSearch.noTitle"));
+  const content = convertFieldWithFallback<"content", string>(localConcept, "content", t("conceptSearch.noContent"));
+  const isGloss = concept.conceptType === "gloss";
   const breadcrumbs = subjects.filter((s) => localConcept.subjectIds?.includes(s.id));
 
   const updateLocalConcept = (newConcept: IConcept): void => {
@@ -46,8 +46,8 @@ const SearchConcept = ({ concept, locale, subjects, editingState, responsibleNam
       id: newConcept.id,
       conceptType: newConcept.conceptType,
       title: newConcept.title,
-      content: newConcept.content ?? { content: '', language: 'und' },
-      metaImage: newConcept.metaImage ?? { alt: '', url: '', language: 'und' },
+      content: newConcept.content ?? { content: "", language: "und" },
+      metaImage: newConcept.metaImage ?? { alt: "", url: "", language: "und" },
       tags: newConcept.tags,
       subjectIds: newConcept.subjectIds,
       supportedLanguages: newConcept.supportedLanguages,

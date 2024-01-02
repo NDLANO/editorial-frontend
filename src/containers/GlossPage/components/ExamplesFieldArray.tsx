@@ -6,16 +6,16 @@
  *
  */
 
-import { FieldArray, useField } from 'formik';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { colors } from '@ndla/core';
-import { IGlossExample } from '@ndla/types-backend/concept-api';
+import { FieldArray, useField } from "formik";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { colors } from "@ndla/core";
+import { IGlossExample } from "@ndla/types-backend/concept-api";
 
-import LanguageVariantFieldArray from './LanguageVariantFieldArray';
-import FormikField from '../../../components/FormikField';
-import { emptyGlossExample } from '../glossData';
+import LanguageVariantFieldArray from "./LanguageVariantFieldArray";
+import FormikField from "../../../components/FormikField";
+import { emptyGlossExample } from "../glossData";
 
 const StyledExample = styled.div`
   &:not(:last-of-type) {
@@ -28,7 +28,7 @@ interface Props {
 }
 
 const ExamplesFieldArray = ({ name }: Props) => {
-  const [_, { value }] = useField<IGlossExample[][]>('examples');
+  const [_, { value }] = useField<IGlossExample[][]>("examples");
   const { t } = useTranslation();
 
   return (
@@ -54,7 +54,7 @@ const ExamplesFieldArray = ({ name }: Props) => {
               arrayHelpers.push([emptyGlossExample]);
             }}
           >
-            {t('form.gloss.add', {
+            {t("form.gloss.add", {
               label: t(`form.gloss.example`).toLowerCase(),
             })}
           </ButtonV2>

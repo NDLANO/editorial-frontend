@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { TFunction } from 'i18next';
-import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Version, VersionType } from '@ndla/types-taxonomy';
-import ObjectSelector from '../ObjectSelector';
+import { TFunction } from "i18next";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { Version, VersionType } from "@ndla/types-taxonomy";
+import ObjectSelector from "../ObjectSelector";
 
 interface Props {
   versions: Version[];
@@ -21,11 +21,11 @@ type OptGroups = {
   [key in Lowercase<VersionType>]: { id: string; name: string }[];
 };
 
-interface VersionTypeWithDefault extends Omit<Version, 'versionType'> {
+interface VersionTypeWithDefault extends Omit<Version, "versionType"> {
   versionType: PossibleVersionTypes;
 }
 
-type PossibleVersionTypes = VersionType | 'default';
+type PossibleVersionTypes = VersionType | "default";
 
 export const generateOptionGroups = (
   options: {
@@ -49,9 +49,9 @@ export const generateOptionGroups = (
   );
 
   const optGroups = [
-    { label: t('taxonomyVersions.status.PUBLISHED'), options: published },
-    { label: t('taxonomyVersions.status.BETA'), options: beta },
-    { label: t('taxonomyVersions.status.ARCHIVED'), options: archived },
+    { label: t("taxonomyVersions.status.PUBLISHED"), options: published },
+    { label: t("taxonomyVersions.status.BETA"), options: beta },
+    { label: t("taxonomyVersions.status.ARCHIVED"), options: archived },
   ].filter((group) => group.options.length > 0);
 
   return optGroups;
@@ -61,12 +61,12 @@ const OptGroupVersionSelector = ({ versions, currentVersion: currentVersionProp,
   const { t } = useTranslation();
 
   const fakeDefault: VersionTypeWithDefault = {
-    id: '',
-    versionType: 'default',
-    name: t('diff.defaultVersion'),
-    hash: 'default',
+    id: "",
+    versionType: "default",
+    name: t("diff.defaultVersion"),
+    hash: "default",
     locked: false,
-    created: '',
+    created: "",
   };
   const currentVersion = currentVersionProp ?? fakeDefault;
   const options = useMemo(

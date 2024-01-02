@@ -6,11 +6,11 @@
  *
  */
 
-import { Element, Editor, Transforms, Range } from 'slate';
-import { jsx as slatejsx } from 'slate-hyperscript';
-import hasNodeOfType from './hasNodeOfType';
+import { Element, Editor, Transforms, Range } from "slate";
+import { jsx as slatejsx } from "slate-hyperscript";
+import hasNodeOfType from "./hasNodeOfType";
 
-const toggleBlock = (editor: Editor, type: Element['type']) => {
+const toggleBlock = (editor: Editor, type: Element["type"]) => {
   if (!Range.isRange(editor.selection)) {
     return false;
   }
@@ -18,13 +18,13 @@ const toggleBlock = (editor: Editor, type: Element['type']) => {
 
   if (isActive) {
     Transforms.unwrapNodes(editor, {
-      mode: 'lowest',
+      mode: "lowest",
       match: (node) => Element.isElement(node) && node.type === type,
       split: true,
       at: Editor.unhangRange(editor, editor.selection),
     });
   } else {
-    Transforms.wrapNodes(editor, slatejsx('element', { type }, []), {
+    Transforms.wrapNodes(editor, slatejsx("element", { type }, []), {
       at: Editor.unhangRange(editor, editor.selection),
     });
   }

@@ -6,10 +6,10 @@
  *
  */
 
-import { ButtonV2 } from '@ndla/button';
-import { Pencil } from '@ndla/icons/action';
-import formatDate, { formatDateForBackend } from '../../util/formatDate';
-import DatePicker from '../DatePicker';
+import { ButtonV2 } from "@ndla/button";
+import { Pencil } from "@ndla/icons/action";
+import formatDate, { formatDateForBackend } from "../../util/formatDate";
+import DatePicker from "../DatePicker";
 
 interface Props {
   published: string;

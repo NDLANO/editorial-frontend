@@ -6,12 +6,12 @@
  *
  */
 
-import { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ErrorMessage } from '@ndla/ui';
-import { fetchH5PiframeUrl, editH5PiframeUrl, fetchH5PInfo } from './h5pApi';
-import handleError from '../../util/handleError';
+import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ErrorMessage } from "@ndla/ui";
+import { fetchH5PiframeUrl, editH5PiframeUrl, fetchH5PInfo } from "./h5pApi";
+import handleError from "../../util/handleError";
 
 const FlexWrapper = styled.div`
   display: flex;
@@ -49,12 +49,12 @@ interface MessageEvent extends Event {
 
 const H5PElement = ({ h5pUrl, onSelect, onClose, locale, canReturnResources }: Props) => {
   const { t } = useTranslation();
-  const [url, setUrl] = useState<string>('');
+  const [url, setUrl] = useState<string>("");
   const [fetchFailed, setFetchFailed] = useState<boolean>(false);
 
   useEffect(() => {
-    window.addEventListener('message', handleH5PChange);
-    window.addEventListener('message', handleH5PClose);
+    window.addEventListener("message", handleH5PChange);
+    window.addEventListener("message", handleH5PClose);
     try {
       fetchAndSetH5PUrl();
     } catch (e) {
@@ -62,8 +62,8 @@ const H5PElement = ({ h5pUrl, onSelect, onClose, locale, canReturnResources }: P
     }
 
     return () => {
-      window.removeEventListener('message', handleH5PChange);
-      window.removeEventListener('message', handleH5PClose);
+      window.removeEventListener("message", handleH5PChange);
+      window.removeEventListener("message", handleH5PClose);
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -73,13 +73,13 @@ const H5PElement = ({ h5pUrl, onSelect, onClose, locale, canReturnResources }: P
   };
 
   const handleH5PChange = async (event: MessageEvent) => {
-    if (event.data.type !== 'h5p') {
+    if (event.data.type !== "h5p") {
       return;
     }
     // Currently, we need to strip oembed part of H5P-url to support NDLA proxy oembed service
     const { oembed_url: oembedUrl } = event.data;
-    const url = oembedUrl.match(/url=([^&]*)/)?.[0].replace('url=', '');
-    const path = url?.replace(/https?:\/\/h5p.{0,8}.ndla.no/, '');
+    const url = oembedUrl.match(/url=([^&]*)/)?.[0].replace("url=", "");
+    const path = url?.replace(/https?:\/\/h5p.{0,8}.ndla.no/, "");
     try {
       const metadata = await fetchH5PInfo(event.data.embed_id);
       const title = metadata.title;
@@ -91,7 +91,7 @@ const H5PElement = ({ h5pUrl, onSelect, onClose, locale, canReturnResources }: P
   };
 
   const handleH5PClose = async (event: MessageEvent) => {
-    if (event.data.messageType !== 'closeEdlibModal') {
+    if (event.data.messageType !== "closeEdlibModal") {
       return;
     }
     onClose();
@@ -102,14 +102,14 @@ const H5PElement = ({ h5pUrl, onSelect, onClose, locale, canReturnResources }: P
       {fetchFailed && (
         <ErrorMessage
           illustration={{
-            url: '/Oops.gif',
-            altText: t('errorMessage.title'),
+            url: "/Oops.gif",
+            altText: t("errorMessage.title"),
           }}
           messages={{
-            title: t('errorMessage.title'),
-            description: t('h5pElement.fetchError'),
-            back: t('errorMessage.back'),
-            goToFrontPage: t('errorMessage.goToFrontPage'),
+            title: t("errorMessage.title"),
+            description: t("h5pElement.fetchError"),
+            back: t("errorMessage.back"),
+            goToFrontPage: t("errorMessage.goToFrontPage"),
           }}
         />
       )}

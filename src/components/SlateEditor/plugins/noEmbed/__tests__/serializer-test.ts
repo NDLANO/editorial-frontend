@@ -6,48 +6,48 @@
  *
  */
 
-import { Descendant } from 'slate';
-import { inlineContentToEditorValue, inlineContentToHTML } from '../../../../../util/articleContentConverter';
-import { TYPE_EMBED_IMAGE } from '../../embed/types';
-import { TYPE_PARAGRAPH } from '../../paragraph/types';
-import { TYPE_SECTION } from '../../section/types';
+import { Descendant } from "slate";
+import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../../util/articleContentConverter";
+import { TYPE_EMBED_IMAGE } from "../../embed/types";
+import { TYPE_PARAGRAPH } from "../../paragraph/types";
+import { TYPE_SECTION } from "../../section/types";
 
 const editor: Descendant[] = [
   {
     type: TYPE_SECTION,
     children: [
-      { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+      { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
       {
         type: TYPE_EMBED_IMAGE,
         children: [
           {
-            text: '',
+            text: "",
           },
         ],
         data: {
-          align: ' ',
-          alt: ' ',
-          caption: ' ',
-          resource: 'image',
-          resource_id: '41176',
-          size: 'fullbredde',
-          url: 'https://test123.no',
+          align: " ",
+          alt: " ",
+          caption: " ",
+          resource: "image",
+          resource_id: "41176",
+          size: "fullbredde",
+          url: "https://test123.no",
         },
       },
-      { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+      { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
     ],
   },
 ];
 
-describe('embed serializing tests', () => {
-  test('serializing', () => {
-    const emptySectionHtml = '<section></section>';
+describe("embed serializing tests", () => {
+  test("serializing", () => {
+    const emptySectionHtml = "<section></section>";
 
     const res = inlineContentToHTML(editor);
     expect(res).toMatch(emptySectionHtml);
   });
 
-  test('deserializing', () => {
+  test("deserializing", () => {
     const embedHtml =
       '<section><ndlaembed data-resource="image" data-resource_id="41176" data-size="fullbredde" data-align=" " data-alt=" " data-caption=" " data-url="https://test123.no"></ndlaembed></section>';
 

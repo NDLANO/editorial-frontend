@@ -6,20 +6,20 @@
  *
  */
 
-import { memo } from 'react';
-import ConceptsField from './ConceptsField';
-import ContentField from './ContentField';
-import FormikField from '../../../components/FormikField';
-import { DRAFT_ADMIN_SCOPE } from '../../../constants';
-import { useSession } from '../../Session/SessionProvider';
+import { memo } from "react";
+import ConceptsField from "./ConceptsField";
+import ContentField from "./ContentField";
+import FormikField from "../../../components/FormikField";
+import { DRAFT_ADMIN_SCOPE } from "../../../constants";
+import { useSession } from "../../Session/SessionProvider";
 
 const RelatedContentFieldGroup = () => {
   const { userPermissions } = useSession();
   return (
     <>
-      <FormikField name={'conceptIds'}>{({ field, form }) => <ConceptsField field={field} form={form} />}</FormikField>
+      <FormikField name={"conceptIds"}>{({ field, form }) => <ConceptsField field={field} form={form} />}</FormikField>
       {!!userPermissions?.includes(DRAFT_ADMIN_SCOPE) && (
-        <FormikField name={'relatedContent'}>
+        <FormikField name={"relatedContent"}>
           {({ field, form }) => <ContentField field={field} form={form} />}
         </FormikField>
       )}

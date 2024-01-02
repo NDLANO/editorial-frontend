@@ -6,11 +6,11 @@
  *
  */
 
-import CreateLearningResource from './CreateLearningResource';
-import EditLearningResource from './EditLearningResource';
-import ResourcePage from '../../../components/ResourcePage';
-import { useDraft } from '../../../modules/draft/draftQueries';
-import { articleResourcePageStyle } from '../styles';
+import CreateLearningResource from "./CreateLearningResource";
+import EditLearningResource from "./EditLearningResource";
+import ResourcePage from "../../../components/ResourcePage";
+import { useDraft } from "../../../modules/draft/draftQueries";
+import { articleResourcePageStyle } from "../styles";
 
 const LearningResourcePage = () => (
   <ResourcePage

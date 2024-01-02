@@ -6,12 +6,12 @@
  *
  */
 
-import { useQuery, UseQueryOptions } from '@tanstack/react-query';
-import { IConcept, IConceptSearchResult } from '@ndla/types-backend/concept-api';
-import { fetchConcept, fetchStatusStateMachine, searchConcepts } from './conceptApi';
-import { ConceptQuery } from './conceptApiInterfaces';
-import { ConceptStatusStateMachineType } from '../../interfaces';
-import { CONCEPT, CONCEPT_STATE_MACHINE, SEARCH_CONCEPTS } from '../../queryKeys';
+import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { IConcept, IConceptSearchResult } from "@ndla/types-backend/concept-api";
+import { fetchConcept, fetchStatusStateMachine, searchConcepts } from "./conceptApi";
+import { ConceptQuery } from "./conceptApiInterfaces";
+import { ConceptStatusStateMachineType } from "../../interfaces";
+import { CONCEPT, CONCEPT_STATE_MACHINE, SEARCH_CONCEPTS } from "../../queryKeys";
 
 export interface UseConcept {
   id: number;

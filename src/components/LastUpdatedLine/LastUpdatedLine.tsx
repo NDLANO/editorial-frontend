@@ -6,12 +6,12 @@
  *
  */
 
-import { memo } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { colors } from '@ndla/core';
-import DateEdit from './DateEdit';
-import formatDate from '../../util/formatDate';
+import { memo } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { colors } from "@ndla/core";
+import DateEdit from "./DateEdit";
+import formatDate from "../../util/formatDate";
 
 const StyledLastUpdatedLine = styled.div`
   color: ${colors.text.light};
@@ -36,8 +36,8 @@ const LastUpdatedLine = ({ creators, published, onChange, allowEdit = false }: P
   const { t } = useTranslation();
   return (
     <StyledLastUpdatedLine>
-      {creators.map((creator) => creator.name).join(', ')}
-      {published ? ` - ${t('topicArticleForm.info.lastUpdated')}` : ''}
+      {creators.map((creator) => creator.name).join(", ")}
+      {published ? ` - ${t("topicArticleForm.info.lastUpdated")}` : ""}
       {published && (allowEdit ? <DateEdit onChange={onChange} published={published} /> : formatDate(published))}
     </StyledLastUpdatedLine>
   );

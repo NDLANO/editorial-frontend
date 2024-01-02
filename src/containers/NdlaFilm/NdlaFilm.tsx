@@ -6,10 +6,10 @@
  *
  */
 
-import { Route, Routes } from 'react-router-dom';
-import { OneColumn } from '@ndla/ui';
-import NdlaFilmEditor from './NdlaFilmEditor';
-import Footer from '../App/components/Footer';
+import { Route, Routes } from "react-router-dom";
+import { OneColumn } from "@ndla/ui";
+import NdlaFilmEditor from "./NdlaFilmEditor";
+import Footer from "../App/components/Footer";
 
 const NdlaFilm = () => {
   return (

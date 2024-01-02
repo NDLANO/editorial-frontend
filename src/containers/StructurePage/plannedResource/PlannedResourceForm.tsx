@@ -6,44 +6,44 @@
  *
  */
 
-import { FieldProps, Formik } from 'formik';
-import sortBy from 'lodash/sortBy';
-import uniq from 'lodash/uniq';
-import { useCallback, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { useQueryClient } from '@tanstack/react-query';
-import { ButtonV2 } from '@ndla/button';
-import { fonts, spacing, colors } from '@ndla/core';
-import { InputV2 } from '@ndla/forms';
-import { Option, SingleValue } from '@ndla/select';
-import { IUpdatedArticle } from '@ndla/types-backend/draft-api';
-import { Node } from '@ndla/types-taxonomy';
-import PlannedResourceSelect from './PlannedResourceSelect';
-import FormikField from '../../../components/FormikField';
-import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
-import Spinner from '../../../components/Spinner';
-import RelevanceOption from '../../../components/Taxonomy/RelevanceOption';
-import { DRAFT_RESPONSIBLE, RESOURCE_FILTER_CORE } from '../../../constants';
-import { Auth0UserData } from '../../../interfaces';
-import { useAuth0Responsibles } from '../../../modules/auth0/auth0Queries';
-import { createDraft, updateUserData } from '../../../modules/draft/draftApi';
-import { useUserData } from '../../../modules/draft/draftQueries';
-import { RESOURCE_NODE, TOPIC_NODE } from '../../../modules/nodes/nodeApiTypes';
+import { FieldProps, Formik } from "formik";
+import sortBy from "lodash/sortBy";
+import uniq from "lodash/uniq";
+import { useCallback, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { useQueryClient } from "@tanstack/react-query";
+import { ButtonV2 } from "@ndla/button";
+import { fonts, spacing, colors } from "@ndla/core";
+import { InputV2 } from "@ndla/forms";
+import { Option, SingleValue } from "@ndla/select";
+import { IUpdatedArticle } from "@ndla/types-backend/draft-api";
+import { Node } from "@ndla/types-taxonomy";
+import PlannedResourceSelect from "./PlannedResourceSelect";
+import FormikField from "../../../components/FormikField";
+import validateFormik, { RulesType } from "../../../components/formikValidationSchema";
+import Spinner from "../../../components/Spinner";
+import RelevanceOption from "../../../components/Taxonomy/RelevanceOption";
+import { DRAFT_RESPONSIBLE, RESOURCE_FILTER_CORE } from "../../../constants";
+import { Auth0UserData } from "../../../interfaces";
+import { useAuth0Responsibles } from "../../../modules/auth0/auth0Queries";
+import { createDraft, updateUserData } from "../../../modules/draft/draftApi";
+import { useUserData } from "../../../modules/draft/draftQueries";
+import { RESOURCE_NODE, TOPIC_NODE } from "../../../modules/nodes/nodeApiTypes";
 import {
   useAddNodeMutation,
   useCreateResourceResourceTypeMutation,
   usePostResourceForNodeMutation,
-} from '../../../modules/nodes/nodeMutations';
-import { nodeQueryKeys } from '../../../modules/nodes/nodeQueries';
-import { getRootIdForNode } from '../../../modules/nodes/nodeUtil';
-import { useAllResourceTypes } from '../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
-import { convertUpdateToNewDraft } from '../../../util/articleUtil';
-import { getCommentWithInfoText } from '../../ArticlePage/components/InputComment';
-import PrioritySelect from '../../FormikForm/components/PrioritySelect';
-import { useSession } from '../../Session/SessionProvider';
-import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
+} from "../../../modules/nodes/nodeMutations";
+import { nodeQueryKeys } from "../../../modules/nodes/nodeQueries";
+import { getRootIdForNode } from "../../../modules/nodes/nodeUtil";
+import { useAllResourceTypes } from "../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
+import { convertUpdateToNewDraft } from "../../../util/articleUtil";
+import { getCommentWithInfoText } from "../../ArticlePage/components/InputComment";
+import PrioritySelect from "../../FormikForm/components/PrioritySelect";
+import { useSession } from "../../Session/SessionProvider";
+import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
 const StyledForm = styled.form`
   width: 100%;
@@ -56,13 +56,13 @@ const StyledForm = styled.form`
 
 export const StyledLabel = styled.label`
   font-weight: ${fonts.weight.semibold};
-  ${fonts.sizes('16px')};
+  ${fonts.sizes("16px")};
 `;
 
 export const StyledFormikField = styled(FormikField)`
   margin: 0px;
   label {
-    ${fonts.sizes('16px')};
+    ${fonts.sizes("16px")};
   }
 `;
 
@@ -74,7 +74,7 @@ export const inputWrapperStyles = css`
   flex-direction: column;
   label {
     padding: 0;
-    ${fonts.sizes('16px')};
+    ${fonts.sizes("16px")};
     white-space: nowrap;
   }
 `;
@@ -108,7 +108,7 @@ const plannedResourceRules: RulesType<PlannedResourceFormikType> = {
   comments: { required: false },
   contentType: {
     required: true,
-    onlyValidateIf: (values: PlannedResourceFormikType) => values.articleType !== 'topic-article',
+    onlyValidateIf: (values: PlannedResourceFormikType) => values.articleType !== "topic-article",
   },
   responsible: { required: true },
   relevance: { required: true },
@@ -117,13 +117,13 @@ const plannedResourceRules: RulesType<PlannedResourceFormikType> = {
 
 const toInitialValues = (responsible?: string, articleType?: string): PlannedResourceFormikType => {
   return {
-    title: '',
-    comments: '',
-    contentType: '',
-    responsible: responsible ?? '',
-    articleType: articleType ?? 'standard',
+    title: "",
+    comments: "",
+    contentType: "",
+    responsible: responsible ?? "",
+    articleType: articleType ?? "standard",
     relevance: RESOURCE_FILTER_CORE,
-    priority: 'unspecified',
+    priority: "unspecified",
   };
 };
 
@@ -149,7 +149,10 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
   const { taxonomyVersion } = useTaxonomyVersion();
   const qc = useQueryClient();
   const nodeId = useMemo(() => node && getRootIdForNode(node), [node]);
-  const compKey = nodeQueryKeys.resources({ id: node?.id, language: i18n.language });
+  const compKey = nodeQueryKeys.resources({
+    id: node?.id,
+    language: i18n.language,
+  });
   const compKeyChildNodes = nodeQueryKeys.childNodes({
     taxonomyVersion,
     id: nodeId,
@@ -166,7 +169,7 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
       onSuccess: (_) => qc.invalidateQueries({ queryKey: compKey }),
     });
   const initialValues = useMemo(() => toInitialValues(ndlaId, articleType), [ndlaId, articleType]);
-  const isTopicArticle = articleType === 'topic-article';
+  const isTopicArticle = articleType === "topic-article";
 
   const { data: users } = useAuth0Responsibles(
     { permission: DRAFT_RESPONSIBLE },
@@ -211,7 +214,9 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
 
         // Add created article to latest edited
         const latestEdited = uniq([createdArticle.id.toString()].concat(userData?.latestEditedArticles ?? []));
-        await updateUserData({ latestEditedArticles: latestEdited.slice(0, 10) });
+        await updateUserData({
+          latestEditedArticles: latestEdited.slice(0, 10),
+        });
 
         // Create node in taxonomy
         const resourceUrl = await addNodeMutation({
@@ -226,14 +231,18 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
         });
 
         // Position node in taxonomy
-        const resourceId = resourceUrl.replace('/v1/nodes/', '');
+        const resourceId = resourceUrl.replace("/v1/nodes/", "");
         await createNodeResource({
-          body: { resourceId: resourceId, nodeId: node?.id ?? '', relevanceId: values.relevance },
+          body: {
+            resourceId: resourceId,
+            nodeId: node?.id ?? "",
+            relevanceId: values.relevance,
+          },
           taxonomyVersion,
         });
 
         if (!isTopicArticle) {
-          const [childContentType, parentContentType] = values.contentType.split(',');
+          const [childContentType, parentContentType] = values.contentType.split(",");
           await createResourceResourceType({
             body: {
               resourceId: resourceId,
@@ -256,7 +265,7 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
           onClose();
         }
       } catch (e) {
-        setError('taxonomy.errorMessage');
+        setError("taxonomy.errorMessage");
       }
     },
     [
@@ -290,8 +299,8 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
             {({ field }: FieldProps) => (
               <InputV2
                 customCss={inputWrapperStyles}
-                label={t('taxonomy.title')}
-                placeholder={t('taxonomy.title')}
+                label={t("taxonomy.title")}
+                placeholder={t("taxonomy.title")}
                 white
                 {...field}
               />
@@ -301,8 +310,8 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
             {({ field }: FieldProps) => (
               <InputV2
                 customCss={inputWrapperStyles}
-                label={t('taxonomy.comment')}
-                placeholder={t('taxonomy.commentPlaceholder')}
+                label={t("taxonomy.comment")}
+                placeholder={t("taxonomy.commentPlaceholder")}
                 white
                 {...field}
               />
@@ -328,13 +337,13 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
           <StyledFormikField name="priority">
             {({ field, form }: FieldProps) => (
               <>
-                <StyledLabel htmlFor="select-priority">{t('taxonomy.addPriority')}</StyledLabel>
+                <StyledLabel htmlFor="select-priority">{t("taxonomy.addPriority")}</StyledLabel>
                 <PrioritySelect
                   id="select-priority"
                   priority={field.value}
                   menuPlacement="bottom"
                   inModal
-                  updatePriority={(p: SingleValue) => form.setFieldValue('priority', p ? p.value : 'unspecified')}
+                  updatePriority={(p: SingleValue) => form.setFieldValue("priority", p ? p.value : "unspecified")}
                 />
               </>
             )}
@@ -348,7 +357,7 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
                     field.onChange({ target: { name: field.name, value: id } });
                   }}
                 />
-                <StyledLabel htmlFor="toggleRelevanceId">{t('taxonomy.resourceType')}</StyledLabel>
+                <StyledLabel htmlFor="toggleRelevanceId">{t("taxonomy.resourceType")}</StyledLabel>
               </SwitchWrapper>
             )}
           </StyledFormikField>
@@ -361,7 +370,7 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
               disabled={!dirty || !isValid}
               type="submit"
             >
-              {t('taxonomy.create')}
+              {t("taxonomy.create")}
               {(addNodeMutationLoading || postResourceLoading || createResourceTypeLoading) && (
                 <Spinner appearance="small" />
               )}

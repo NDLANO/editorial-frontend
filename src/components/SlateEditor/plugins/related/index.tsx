@@ -6,17 +6,17 @@
  *
  */
 
-import { Descendant, Editor, Element } from 'slate';
-import { jsx as slatejsx } from 'slate-hyperscript';
-import { RelatedContentEmbedData } from '@ndla/types-embed';
-import { TYPE_RELATED } from './types';
-import { reduceElementDataAttributesV2, createEmbedTagV2 } from '../../../../util/embedTagHelpers';
-import { SlateSerializer } from '../../interfaces';
-import { NormalizerConfig, defaultBlockNormalizer } from '../../utils/defaultNormalizer';
-import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
-import { TYPE_PARAGRAPH } from '../paragraph/types';
+import { Descendant, Editor, Element } from "slate";
+import { jsx as slatejsx } from "slate-hyperscript";
+import { RelatedContentEmbedData } from "@ndla/types-embed";
+import { TYPE_RELATED } from "./types";
+import { reduceElementDataAttributesV2, createEmbedTagV2 } from "../../../../util/embedTagHelpers";
+import { SlateSerializer } from "../../interfaces";
+import { NormalizerConfig, defaultBlockNormalizer } from "../../utils/defaultNormalizer";
+import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
+import { TYPE_PARAGRAPH } from "../paragraph/types";
 
-export const defaultRelatedBlock = () => slatejsx('element', { type: TYPE_RELATED, data: [] }, [{ text: '' }]);
+export const defaultRelatedBlock = () => slatejsx("element", { type: TYPE_RELATED, data: [] }, [{ text: "" }]);
 
 const normalizerConfig: NormalizerConfig = {
   previous: {
@@ -30,24 +30,24 @@ const normalizerConfig: NormalizerConfig = {
 };
 
 export interface RelatedElement {
-  type: 'related';
+  type: "related";
   data: RelatedContentEmbedData[];
   children: Descendant[];
 }
 
 export const relatedSerializer: SlateSerializer = {
   deserialize(el: HTMLElement) {
-    if (el.tagName.toLowerCase() !== 'div') return;
+    if (el.tagName.toLowerCase() !== "div") return;
     const { type } = el.dataset;
-    if (type !== 'related-content') return;
+    if (type !== "related-content") return;
 
     return slatejsx(
-      'element',
+      "element",
       {
         type: TYPE_RELATED,
         data: Array.from(el.children ?? []).map((el) => reduceElementDataAttributesV2(Array.from(el.attributes))),
       },
-      [{ text: '' }],
+      [{ text: "" }],
     );
   },
   serialize(node: Descendant) {
@@ -61,7 +61,7 @@ export const relatedPlugin = (editor: Editor) => {
   const { isVoid, normalizeNode } = editor;
 
   editor.isVoid = (element) => {
-    if (element.type === 'related') {
+    if (element.type === "related") {
       return true;
     }
     return isVoid(element);

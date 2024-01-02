@@ -6,10 +6,10 @@
  *
  */
 
-import { ReactElement } from 'react';
-import { Descendant, Editor, Text, Transforms } from 'slate';
-import { jsx as slatejsx } from 'slate-hyperscript';
-import { SlateSerializer } from '../../interfaces';
+import { ReactElement } from "react";
+import { Descendant, Editor, Text, Transforms } from "slate";
+import { jsx as slatejsx } from "slate-hyperscript";
+import { SlateSerializer } from "../../interfaces";
 
 export const isMarkActive = (editor: Editor, format: string) => {
   const marks: { [key: string]: boolean } | null = Editor.marks(editor);
@@ -27,26 +27,26 @@ export interface CustomTextWithMarks {
 }
 
 const marks: { [key: string]: string } = {
-  strong: 'bold',
-  code: 'code',
-  em: 'italic',
-  u: 'underlined',
-  sup: 'sup',
-  sub: 'sub',
+  strong: "bold",
+  code: "code",
+  em: "italic",
+  u: "underlined",
+  sup: "sup",
+  sub: "sub",
 };
 
 export const markSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
     if (!Object.keys(marks).includes(el.tagName.toLowerCase())) return;
     return children.map((child) =>
-      Text.isText(child) ? slatejsx('text', { [marks[el.tagName.toLowerCase()]]: true }, child) : child,
+      Text.isText(child) ? slatejsx("text", { [marks[el.tagName.toLowerCase()]]: true }, child) : child,
     );
   },
 
   serialize(node: Descendant) {
     if (!Text.isText(node)) return;
     let ret;
-    const children = node.text.split('\n').reduce((array: (ReactElement | string)[], text, i) => {
+    const children = node.text.split("\n").reduce((array: (ReactElement | string)[], text, i) => {
       if (i !== 0) array.push(<br key={i} />);
       array.push(text);
       return array;
@@ -81,9 +81,9 @@ export const markPlugin = (editor: Editor) => {
 
   editor.normalizeNode = (entry) => {
     const [node, path] = entry;
-    if (Text.isText(node) && node.text === '') {
+    if (Text.isText(node) && node.text === "") {
       if (node.bold || node.code || node.italic || node.sub || node.sup || node.underlined) {
-        Transforms.unsetNodes(editor, ['bold', 'code', 'italic', 'sub', 'sup', 'underlined'], {
+        Transforms.unsetNodes(editor, ["bold", "code", "italic", "sub", "sup", "underlined"], {
           at: path,
         });
         return;

@@ -20,7 +20,7 @@ export function convertFieldWithFallback<Key extends string, ReturnType = string
     return fallback;
   }
 
-  if (typeof elementField !== 'object' || Array.isArray(elementField)) {
+  if (typeof elementField !== "object" || Array.isArray(elementField)) {
     return elementField as ReturnType;
   }
 

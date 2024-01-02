@@ -6,10 +6,10 @@
  *
  */
 
-import { FormEvent, MouseEvent } from 'react';
-import { ButtonV2 } from '@ndla/button';
-import { FieldSection, Input, FieldRemoveButton } from '@ndla/forms';
-import Field from '../../components/Field';
+import { FormEvent, MouseEvent } from "react";
+import { ButtonV2 } from "@ndla/button";
+import { FieldSection, Input, FieldRemoveButton } from "@ndla/forms";
+import Field from "../../components/Field";
 
 interface Props {
   name: string;
@@ -42,7 +42,7 @@ const AddNotesField = ({
   };
 
   const addNote = () => {
-    onNotesChange([...value, '']);
+    onNotesChange([...value, ""]);
   };
 
   const removeNote = (e: MouseEvent<HTMLButtonElement>, noteIndexToRemove: number) => {
@@ -61,7 +61,7 @@ const AddNotesField = ({
         <FieldSection key={`notes_${index}`}>
           <div>
             <Input
-              warningText={showError && note === '' ? labelWarningNote : ''}
+              warningText={showError && note === "" ? labelWarningNote : ""}
               type="text"
               // eslint-disable-next-line jsx-a11y/no-autofocus
               autoFocus

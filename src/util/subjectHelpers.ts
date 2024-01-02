@@ -6,19 +6,19 @@
  *
  */
 
-import { Descendant } from 'slate';
-import { IArticle } from '@ndla/types-backend/draft-api';
+import { Descendant } from "slate";
+import { IArticle } from "@ndla/types-backend/draft-api";
 import {
   ISubjectPageData,
   INewSubjectFrontPageData,
   IUpdatedSubjectFrontPageData,
-} from '@ndla/types-backend/frontpage-api';
-import { ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
-import { editorValueToEmbed, editorValueToPlainText, plainTextToEditorValue } from './articleContentConverter';
-import { convertVisualElement } from './ndlaFilmHelpers';
-import { BrightcoveEmbed, ImageEmbed } from '../interfaces';
+} from "@ndla/types-backend/frontpage-api";
+import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
+import { editorValueToEmbed, editorValueToPlainText, plainTextToEditorValue } from "./articleContentConverter";
+import { convertVisualElement } from "./ndlaFilmHelpers";
+import { BrightcoveEmbed, ImageEmbed } from "../interfaces";
 
-export const getIdFromUrn = (urnId: string | undefined) => urnId?.replace('urn:frontpage:', '');
+export const getIdFromUrn = (urnId: string | undefined) => urnId?.replace("urn:frontpage:", "");
 
 export const getUrnFromId = (id?: number | string): string | undefined => (id ? `urn:frontpage:${id}` : undefined);
 
@@ -53,13 +53,13 @@ export const subjectpageFormikTypeToPostType = (
   editorsChoicesUrns?: string[],
 ): INewSubjectFrontPageData => {
   const visualElement = editorValueToEmbed(values.visualElement)! as ImageEmbed | BrightcoveEmbed;
-  const alt = visualElement.resource === 'image' ? visualElement.alt : visualElement.caption;
-  const id = visualElement.resource === 'image' ? visualElement.resource_id : visualElement.videoid;
+  const alt = visualElement.resource === "image" ? visualElement.alt : visualElement.caption;
+  const id = visualElement.resource === "image" ? visualElement.resource_id : visualElement.videoid;
   return {
     about: [
       {
         title: editorValueToPlainText(values.title),
-        description: values.description ? editorValueToPlainText(values.description) : '',
+        description: values.description ? editorValueToPlainText(values.description) : "",
         language: values.language,
         visualElement: {
           type: visualElement?.resource,
@@ -75,7 +75,7 @@ export const subjectpageFormikTypeToPostType = (
     editorsChoices: editorsChoicesUrns,
     metaDescription: [
       {
-        metaDescription: values.metaDescription ? editorValueToPlainText(values.metaDescription) : '',
+        metaDescription: values.metaDescription ? editorValueToPlainText(values.metaDescription) : "",
         language: values.language,
       },
     ],
@@ -95,20 +95,20 @@ export const subjectpageApiTypeToFormikType = (
 ): SubjectPageFormikType => {
   const visualElement = subjectpage?.about?.visualElement;
 
-  const embed = visualElement ? convertVisualElement({ ...visualElement, alt: visualElement.alt ?? '' }) : undefined;
+  const embed = visualElement ? convertVisualElement({ ...visualElement, alt: visualElement.alt ?? "" }) : undefined;
   return {
-    articleType: elementId.includes('subject') ? 'subjectpage' : 'programme',
+    articleType: elementId.includes("subject") ? "subjectpage" : "programme",
     supportedLanguages: subjectpage?.supportedLanguages ?? [],
     language: selectedLanguage,
-    description: plainTextToEditorValue(subjectpage?.about?.description ?? ''),
-    title: plainTextToEditorValue(subjectpage?.about?.title ?? ''),
+    description: plainTextToEditorValue(subjectpage?.about?.description ?? ""),
+    title: plainTextToEditorValue(subjectpage?.about?.title ?? ""),
     mobileBannerId: subjectpage?.banner.mobileId || subjectpage?.banner.desktopId,
     desktopBannerId: subjectpage?.banner.desktopId,
     visualElement: embed ?? [],
     editorsChoices: editorsChoices ?? [],
     id: subjectpage?.id,
-    metaDescription: plainTextToEditorValue(subjectpage?.metaDescription || ''),
-    name: subjectpage?.about?.title ?? elementName ?? '',
+    metaDescription: plainTextToEditorValue(subjectpage?.metaDescription || ""),
+    name: subjectpage?.about?.title ?? elementName ?? "",
     elementId,
     connectedTo: subjectpage?.connectedTo ?? [],
     buildsOn: subjectpage?.buildsOn ?? [],

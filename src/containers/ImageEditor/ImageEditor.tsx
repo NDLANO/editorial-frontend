@@ -8,6 +8,7 @@
 
 import { MouseEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { PercentCrop } from 'react-image-crop';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { colors } from '@ndla/core';
@@ -82,6 +83,7 @@ type StateProp = 'crop' | 'focalPoint' | undefined;
 const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates, language }: Props) => {
   const { t } = useTranslation();
   const [editType, setEditType] = useState<StateProp>(undefined);
+  const [aspect, setAspect] = useState<number | undefined>(undefined);
   const [image, setImage] = useState<IImageMetaInformationV3 | undefined>(undefined);
 
   useEffect(() => {
@@ -102,10 +104,10 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates, language }: 
     });
   };
 
-  const onCropComplete = (crop: ReactCrop.Crop, size: ReactCrop.PixelCrop) => {
+  const onCropComplete = (crop: PercentCrop) => {
     const width = crop.width ?? 0;
     const height = crop.height ?? 0;
-    if (size.width === 0) {
+    if (width === 0) {
       setEditType(undefined);
       onUpdatedImageSettings({ transformData: defaultData.crop });
     } else {
@@ -128,6 +130,10 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates, language }: 
 
   const onEditorTypeSet = (evt: MouseEvent<HTMLButtonElement>, type: StateProp) => {
     setEditType(type);
+  };
+
+  const onAspectSet = (evt: MouseEvent<HTMLButtonElement>, type: number | undefined) => {
+    setAspect(type);
   };
 
   const onRemoveData = (evt: MouseEvent<HTMLButtonElement>, field: StateProp) => {
@@ -202,6 +208,7 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates, language }: 
           embed={embed}
           transformData={imageUpdates?.transformData}
           editType={editType}
+          aspect={aspect}
           language={language}
         />
         <StyledImageEditorMenu>
@@ -236,6 +243,34 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates, language }: 
             </Tooltip>
           )}
         </StyledImageEditorMenu>
+        {editType === 'crop' && (
+          <StyledImageEditorMenu>
+            <ImageEditorButton
+              onClick={(evt: MouseEvent<HTMLButtonElement>) => onAspectSet(evt, 4 / 3)}
+              tabIndex={-1}
+            >
+              {t('form.image.aspect.4_3')}
+            </ImageEditorButton>
+            <ImageEditorButton
+              onClick={(evt: MouseEvent<HTMLButtonElement>) => onAspectSet(evt, 16 / 9)}
+              tabIndex={-1}
+            >
+              {t('form.image.aspect.16_9')}
+            </ImageEditorButton>
+            <ImageEditorButton
+              onClick={(evt: MouseEvent<HTMLButtonElement>) => onAspectSet(evt, 1)}
+              tabIndex={-1}
+            >
+              {t('form.image.aspect.square')}
+            </ImageEditorButton>
+            <ImageEditorButton
+              onClick={(evt: MouseEvent<HTMLButtonElement>) => onAspectSet(evt, undefined)}
+              tabIndex={-1}
+            >
+              {t('form.image.aspect.none')}
+            </ImageEditorButton>
+          </StyledImageEditorMenu>
+        )}
       </StyledImageEditorEditMode>
     </div>
   );

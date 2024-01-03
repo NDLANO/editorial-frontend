@@ -7,14 +7,14 @@
  */
 
 import { useState } from 'react';
-import ReactCrop from 'react-image-crop';
+import ReactCrop, { Crop, PercentCrop } from 'react-image-crop';
 import config from '../../config';
 import { ImageEmbed } from '../../interfaces';
 
 interface Props {
   embed: ImageEmbed;
   language: string;
-  onCropComplete: (crop: ReactCrop.Crop, pixelCrop: ReactCrop.PixelCrop) => void;
+  onCropComplete: (crop: PercentCrop) => void;
   transformData?: {
     'focal-x'?: string;
     'focal-y'?: string;
@@ -23,36 +23,34 @@ interface Props {
     'lower-right-x'?: string;
     'lower-right-y'?: string;
   };
+  aspect?: number;
 }
 
-const ImageCropEdit = ({ embed, language, onCropComplete, transformData }: Props) => {
+const ImageCropEdit = ({ embed, language, onCropComplete, transformData, aspect }: Props) => {
   const src = `${config.ndlaApiUrl}/image-api/raw/id/${embed.resource_id}?language=${language}`;
-  const [crop, setCrop] = useState<ReactCrop.Crop | undefined>(
-    transformData &&
-      !!transformData['upper-left-x'] &&
-      !!transformData['upper-left-y'] &&
-      !!transformData['lower-right-x'] &&
-      !!transformData['lower-right-y']
-      ? {
-          x: parseInt(transformData!['upper-left-x']),
-          y: parseInt(transformData!['upper-left-y']),
-          width:
-            parseInt(transformData!['lower-right-x']) - parseInt(transformData!['upper-left-x']),
-          height:
-            parseInt(transformData!['lower-right-y']) - parseInt(transformData!['upper-left-y']),
-        }
-      : undefined,
-  );
+  const [crop, setCrop] = useState<Crop>({
+    unit: '%',
+    x: parseInt(transformData?.['upper-left-x'] || '0'),
+    y: parseInt(transformData!['upper-left-y'] || '0'),
+    width:
+      parseInt(transformData!['lower-right-x'] || '100') -
+      parseInt(transformData!['upper-left-x'] || '0'),
+    height:
+      parseInt(transformData!['lower-right-y'] || '100') -
+      parseInt(transformData!['upper-left-y'] || '0'),
+  });
 
   return (
     <ReactCrop
       style={{ minWidth: '100%' }}
-      imageStyle={{ minWidth: '100%' }}
-      src={src}
-      onComplete={onCropComplete}
+      onComplete={(_, crop) => onCropComplete(crop)}
       crop={crop}
-      onChange={(crop) => setCrop(crop)}
-    />
+      aspect={aspect}
+      onChange={(_, crop) => setCrop(crop)}
+      ruleOfThirds
+    >
+      <img src={src} alt="" />
+    </ReactCrop>
   );
 };
 

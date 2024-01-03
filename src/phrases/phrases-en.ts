@@ -1227,6 +1227,12 @@ const phrases = {
         fullwidth: 'Size: Large',
       },
       crop: 'Crop image',
+      aspect: {
+        '4_3': '4:3',
+        '16_9': '16:9',
+        square: 'Square',
+        none: 'Free form',
+      },
       focalPoint: 'Set focalpoint',
       alt: {
         label: 'Alt-text',

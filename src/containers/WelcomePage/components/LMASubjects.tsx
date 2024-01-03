@@ -56,13 +56,12 @@ const getResultAggregationList = (
     const responsibleAgg = responsibleAggDataExcludeStatuses.find((r) => r.value === aggData.value);
     return { ...aggData, responsibleCount: responsibleAgg?.count ?? 0 };
   });
-
   const withMissingStatuses = STATUS_ORDER.map((s) => {
     const aggregationData = resultList.find((r) => r.value === s);
     return {
       value: s,
-      count: aggregationData ? aggregationData.count : 0,
-      responsibleCount: aggregationData ? aggregationData.responsibleCount : 0,
+      count: aggregationData?.count ?? 0,
+      responsibleCount: aggregationData?.responsibleCount ?? 0,
     };
   });
   return withMissingStatuses;

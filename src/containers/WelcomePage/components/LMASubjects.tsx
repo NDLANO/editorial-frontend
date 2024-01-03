@@ -136,7 +136,7 @@ const LMASubjects = ({ ndlaId }: Props) => {
                     page: '1',
                     sort: '-relevance',
                     'page-size': 10,
-                    subjects: LMA_SUBJECT_ID,
+                    subjects: filterSubject ? filterSubject.value : LMA_SUBJECT_ID,
                     'draft-status': statusData.value,
                   },
                   'content',
@@ -155,7 +155,7 @@ const LMASubjects = ({ ndlaId }: Props) => {
         ];
       }) ?? [[]]
     );
-  }, [searchQuery.data, searchResponsibleQuery.data, t]);
+  }, [filterSubject, searchQuery.data, searchResponsibleQuery.data, t]);
 
   return (
     <>

@@ -6,7 +6,7 @@
  *
  */
 
-import { KeyboardEvent, useCallback, useState } from 'react';
+import { KeyboardEvent, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
@@ -70,12 +70,28 @@ interface Props {
   onEditFile: (file: FileType, index: number) => void;
   missingFilePaths: string[];
   onDeleteFile: (index: number) => void;
+  editIndex: number | undefined;
+  setEditIndex: (v: number | undefined) => void;
 }
 
-export const SlateFile = ({ file, onEditFile, onDeleteFile, index, missingFilePaths }: Props) => {
-  const [isEditMode, setIsEditMode] = useState(false);
+export const SlateFile = ({
+  file,
+  onEditFile,
+  onDeleteFile,
+  index,
+  missingFilePaths,
+  editIndex,
+  setEditIndex,
+}: Props) => {
   const [fileName, setFileName] = useState(file.title);
   const { t } = useTranslation();
+
+  const isEditMode = editIndex === index;
+
+  useEffect(() => {
+    // We need to update the filename in case the order changes while in edit mode
+    if (isEditMode) setFileName(file.title);
+  }, [file, isEditMode]);
 
   const onToggleRenderInline = (index: number | undefined) => {
     if (index === undefined) return;
@@ -84,8 +100,8 @@ export const SlateFile = ({ file, onEditFile, onDeleteFile, index, missingFilePa
 
   const onCommitFileName = useCallback(() => {
     onEditFile({ ...file, title: fileName }, index);
-    setIsEditMode(false);
-  }, [file, fileName, index, onEditFile]);
+    setEditIndex(undefined);
+  }, [file, fileName, index, onEditFile, setEditIndex]);
 
   const onKeyDown = useCallback(
     (e: KeyboardEvent<HTMLInputElement>) => {
@@ -143,7 +159,7 @@ export const SlateFile = ({ file, onEditFile, onDeleteFile, index, missingFilePa
           <IconButtonV2
             title={t('cancel')}
             aria-label={t('form.file.changeName')}
-            onClick={() => setIsEditMode(false)}
+            onClick={() => setEditIndex(undefined)}
             variant="ghost"
             colorTheme="danger"
             size="xsmall"
@@ -165,7 +181,7 @@ export const SlateFile = ({ file, onEditFile, onDeleteFile, index, missingFilePa
             <IconButtonV2
               title={t('form.file.changeName')}
               aria-label={t('form.file.changeName')}
-              onClick={() => setIsEditMode(true)}
+              onClick={() => setEditIndex(index)}
               variant="ghost"
               size="xsmall"
             >

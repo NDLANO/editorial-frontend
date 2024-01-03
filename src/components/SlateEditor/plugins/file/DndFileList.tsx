@@ -6,7 +6,7 @@
  *
  */
 
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DragVertical } from '@ndla/icons/editor';
 import { SlateFile } from './SlateFile';
@@ -23,6 +23,7 @@ interface Props {
 
 const DndFileList = ({ files, onEditFileList, onDeleteFile, missingFilePaths = [] }: Props) => {
   const { t } = useTranslation();
+  const [editIndex, setEditIndex] = useState<number | undefined>();
 
   const onEditFile = useCallback(
     (newFile: FileType, index: number) => {
@@ -36,23 +37,26 @@ const DndFileList = ({ files, onEditFileList, onDeleteFile, missingFilePaths = [
     <DndList
       items={files.map((file, index) => ({ ...file, id: index + 1 }))}
       disabled={files.length < 2}
-      onDragEnd={(_, newArray) => onEditFileList(newArray)}
+      onDragEnd={(_, newArray) => {
+        setEditIndex(undefined);
+        onEditFileList(newArray);
+      }}
       dragHandle={
         <DragHandle aria-label={t('form.file.changeOrder')} title={t('form.file.changeOrder')}>
           <DragVertical />
         </DragHandle>
       }
-      renderItem={({ id: _, ...rest }, index) => {
-        return (
-          <SlateFile
-            file={rest}
-            index={index}
-            onEditFile={onEditFile}
-            missingFilePaths={missingFilePaths}
-            onDeleteFile={onDeleteFile}
-          />
-        );
-      }}
+      renderItem={({ id: _, ...rest }, index) => (
+        <SlateFile
+          file={rest}
+          index={index}
+          onEditFile={onEditFile}
+          missingFilePaths={missingFilePaths}
+          onDeleteFile={onDeleteFile}
+          editIndex={editIndex}
+          setEditIndex={setEditIndex}
+        />
+      )}
     />
   );
 };

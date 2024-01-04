@@ -285,7 +285,6 @@ const Revisions = ({ userData }: Props) => {
                   }}
                   label={t("welcomePage.primaryConnectionLabel")}
                   id="filter-primary-connection-switch"
-                  thumbCharacter="P"
                 />
               </SwitchWrapper>
             </Tooltip>

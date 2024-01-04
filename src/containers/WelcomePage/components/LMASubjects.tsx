@@ -26,7 +26,14 @@ import { useNodes } from "../../../modules/nodes/nodeQueries";
 import { useSearch } from "../../../modules/search/searchQueries";
 import { toSearch } from "../../../util/routeHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
-import { ControlWrapperDashboard, StyledDashboardInfo, StyledLink, StyledTopRowDashboardInfo } from "../styles";
+import {
+  ControlWrapperDashboard,
+  StyledDashboardInfo,
+  StyledLink,
+  StyledSwitch,
+  StyledTopRowDashboardInfo,
+  SwitchWrapper,
+} from "../styles";
 
 const EXCLUDE_STATUSES = [PUBLISHED, UNPUBLISHED, ARCHIVED];
 
@@ -46,8 +53,15 @@ const getResultAggregationList = (
     const responsibleAgg = responsibleAggDataExcludeStatuses.find((r) => r.value === aggData.value);
     return { ...aggData, responsibleCount: responsibleAgg?.count ?? 0 };
   });
-
-  return resultList.sort((a, b) => STATUS_ORDER.indexOf(a.value) - STATUS_ORDER.indexOf(b.value));
+  const withMissingStatuses = STATUS_ORDER.map((s) => {
+    const aggregationData = resultList.find((r) => r.value === s);
+    return {
+      value: s,
+      count: aggregationData?.count ?? 0,
+      responsibleCount: aggregationData?.responsibleCount ?? 0,
+    };
+  });
+  return withMissingStatuses;
 };
 
 interface Props {
@@ -56,6 +70,7 @@ interface Props {
 
 const LMASubjects = ({ ndlaId }: Props) => {
   const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
+  const [hideOnHold, setHideOnHold] = useState(false);
   const { i18n, t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
 
@@ -72,9 +87,10 @@ const LMASubjects = ({ ndlaId }: Props) => {
 
   const userHasSubjectLMA = !!subjectsQuery.data?.length;
 
+  const allSubjectIds = useMemo(() => subjectsQuery.data?.map((s) => s.id), [subjectsQuery.data]);
   const subjectIds: string[] | undefined = useMemo(
-    () => (filterSubject ? [filterSubject.value] : subjectsQuery.data?.map((s) => s.id)),
-    [filterSubject, subjectsQuery.data],
+    () => (filterSubject ? [filterSubject.value] : allSubjectIds),
+    [allSubjectIds, filterSubject],
   );
 
   const searchQuery = useSearch(
@@ -82,6 +98,7 @@ const LMASubjects = ({ ndlaId }: Props) => {
       "page-size": 0,
       "aggregate-paths": "draftStatus.current",
       subjects: subjectIds?.join(", "),
+      ...(hideOnHold ? { priority: "prioritized,unspecified" } : {}),
     },
     {
       enabled: userHasSubjectLMA,
@@ -128,7 +145,7 @@ const LMASubjects = ({ ndlaId }: Props) => {
                     page: "1",
                     sort: "-relevance",
                     "page-size": 10,
-                    subjects: LMA_SUBJECT_ID,
+                    subjects: filterSubject ? filterSubject.value : LMA_SUBJECT_ID,
                     "draft-status": statusData.value,
                   },
                   "content",
@@ -147,7 +164,7 @@ const LMASubjects = ({ ndlaId }: Props) => {
         ];
       }) ?? [[]]
     );
-  }, [searchQuery.data, searchResponsibleQuery.data, t]);
+  }, [filterSubject, searchQuery.data, searchResponsibleQuery.data, t]);
 
   return (
     <>
@@ -161,10 +178,18 @@ const LMASubjects = ({ ndlaId }: Props) => {
             />
             <ControlWrapperDashboard>
               <SubjectDropdown
-                subjectIds={subjectIds || []}
+                subjectIds={allSubjectIds || []}
                 filterSubject={filterSubject}
                 setFilterSubject={setFilterSubject}
               />
+              <SwitchWrapper>
+                <StyledSwitch
+                  checked={hideOnHold}
+                  onChange={(checked) => setHideOnHold(checked)}
+                  label={t("welcomePage.workList.onHoldFilter")}
+                  id="filter-on-hold-switch"
+                />
+              </SwitchWrapper>
             </ControlWrapperDashboard>
           </StyledTopRowDashboardInfo>
           <TableComponent

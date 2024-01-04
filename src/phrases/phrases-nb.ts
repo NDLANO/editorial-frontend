@@ -164,6 +164,7 @@ const phrases = {
       onHold: "Parkert",
       onHoldHeading: "Parkerte ressurser",
       onHoldDescription: "Parkerte ressurser der du står som ansvarlig",
+      onHoldFilter: "Ikke tell parkerte",
     },
     welcomeBack: "Velkommen",
   },

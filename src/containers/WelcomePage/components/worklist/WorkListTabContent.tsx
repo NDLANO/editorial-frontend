@@ -198,20 +198,17 @@ const WorkListTabContent = ({
             )}
           </TopRowControls>
           {setPrioritized && (
-            <Tooltip tooltip={t("welcomePage.prioritizedLabel")}>
-              <SwitchWrapper>
-                <StyledSwitch
-                  checked={prioritized ?? false}
-                  onChange={() => {
-                    setPrioritized(!prioritized);
-                    setPage(1);
-                  }}
-                  label={t("welcomePage.prioritizedLabel")}
-                  id="filter-prioritized-switch"
-                  thumbCharacter="P"
-                />
-              </SwitchWrapper>
-            </Tooltip>
+            <SwitchWrapper>
+              <StyledSwitch
+                checked={prioritized ?? false}
+                onChange={() => {
+                  setPrioritized(!prioritized);
+                  setPage(1);
+                }}
+                label={t("welcomePage.prioritizedLabel")}
+                id="filter-prioritized-switch"
+              />
+            </SwitchWrapper>
           )}
         </ControlWrapperDashboard>
       </StyledTopRowDashboardInfo>

@@ -7,7 +7,7 @@
  */
 
 import { Editor } from "slate";
-import FileList from "./FileList";
+import SlateFileList from "./SlateFileList";
 import { TYPE_FILE } from "./types";
 
 export const fileRenderer = (editor: Editor) => {
@@ -15,9 +15,9 @@ export const fileRenderer = (editor: Editor) => {
   editor.renderElement = ({ attributes, children, element }) => {
     if (element.type === TYPE_FILE) {
       return (
-        <FileList editor={editor} element={element} attributes={attributes}>
+        <SlateFileList editor={editor} element={element} attributes={attributes}>
           {children}
-        </FileList>
+        </SlateFileList>
       );
     } else return renderElement?.({ attributes, children, element });
   };

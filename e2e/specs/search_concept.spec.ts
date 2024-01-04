@@ -177,7 +177,7 @@ test('Can use responsible dropdown', async ({ page }) => {
 test('Can use user dropdown', async ({ page }) => {
   await mockRoute({
     page,
-    path: '**/concept-api/v1/drafts/?exclude-revision-log=false&fallback=false&filter-inactive=true&include-other-statuses=false&page=*&page-size=10&sort=-lastUpdated&users=%22Gxfx7B-MXoFdgVZZ6p611C6w%22',
+    path: '**/concept-api/v1/drafts/?exclude-revision-log=false&fallback=false&filter-inactive=true&include-other-statuses=false&page=*&page-size=10&sort=-lastUpdated&users=Gxfx7B-MXoFdgVZZ6p611C6w',
     fixture: 'search_concept_users_search',
   });
   await page.locator('select[name="users"]').selectOption({ label: 'Ed Test' });

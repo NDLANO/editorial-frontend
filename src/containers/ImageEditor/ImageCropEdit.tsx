@@ -28,22 +28,35 @@ interface Props {
 
 const ImageCropEdit = ({ embed, language, onCropComplete, transformData, aspect }: Props) => {
   const src = `${config.ndlaApiUrl}/image-api/raw/id/${embed.resource_id}?language=${language}`;
-  const [crop, setCrop] = useState<Crop>({
-    unit: '%',
-    x: parseInt(transformData?.['upper-left-x'] || '0'),
-    y: parseInt(transformData!['upper-left-y'] || '0'),
-    width:
-      parseInt(transformData!['lower-right-x'] || '100') -
-      parseInt(transformData!['upper-left-x'] || '0'),
-    height:
-      parseInt(transformData!['lower-right-y'] || '100') -
-      parseInt(transformData!['upper-left-y'] || '0'),
-  });
+  const [crop, setCrop] = useState<Crop | undefined>(
+    transformData &&
+      !!transformData['upper-left-x'] &&
+      !!transformData['upper-left-y'] &&
+      !!transformData['lower-right-x'] &&
+      !!transformData['lower-right-y']
+      ? {
+          unit: '%',
+          x: parseInt(transformData!['upper-left-x']),
+          y: parseInt(transformData!['upper-left-y']),
+          width:
+            parseInt(transformData!['lower-right-x']) - parseInt(transformData!['upper-left-x']),
+          height:
+            parseInt(transformData!['lower-right-y']) - parseInt(transformData!['upper-left-y']),
+        }
+      : undefined,
+  );
+
+  const onComplete = (crop: PercentCrop) => {
+    if (crop.width === 0 && crop.height === 0) {
+      return;
+    }
+    onCropComplete(crop);
+  };
 
   return (
     <ReactCrop
       style={{ minWidth: '100%' }}
-      onComplete={(_, crop) => onCropComplete(crop)}
+      onComplete={(_, crop) => onComplete(crop)}
       crop={crop}
       aspect={aspect}
       onChange={(_, crop) => setCrop(crop)}

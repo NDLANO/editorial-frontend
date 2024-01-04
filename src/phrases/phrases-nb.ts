@@ -1228,6 +1228,7 @@ const phrases = {
       crop: 'Lag utsnitt av bildet',
       aspect: {
         '4_3': '4:3',
+        '3_4': '3:4',
         '16_9': '16:9',
         square: 'Kvadratisk',
         none: 'Fritt',

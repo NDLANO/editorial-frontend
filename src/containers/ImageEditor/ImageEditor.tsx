@@ -155,6 +155,29 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates, language }: 
     }
   };
 
+  const aspects = [
+    {
+      aspect: 3 / 4,
+      label: t('form.image.aspect.3_4'),
+    },
+    {
+      aspect: 4 / 3,
+      label: t('form.image.aspect.4_3'),
+    },
+    {
+      aspect: 16 / 9,
+      label: t('form.image.aspect.16_9'),
+    },
+    {
+      aspect: 1,
+      label: t('form.image.aspect.square'),
+    },
+    {
+      aspect: undefined,
+      label: t('form.image.aspect.none'),
+    },
+  ];
+
   const imageCancelButtonNeeded =
     (editType === 'focalPoint' && imageUpdates?.transformData['focal-x']) ||
     (editType === 'crop' && imageUpdates?.transformData['upper-left-x']);
@@ -245,30 +268,15 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates, language }: 
         </StyledImageEditorMenu>
         {editType === 'crop' && (
           <StyledImageEditorMenu>
-            <ImageEditorButton
-              onClick={(evt: MouseEvent<HTMLButtonElement>) => onAspectSet(evt, 4 / 3)}
-              tabIndex={-1}
-            >
-              {t('form.image.aspect.4_3')}
-            </ImageEditorButton>
-            <ImageEditorButton
-              onClick={(evt: MouseEvent<HTMLButtonElement>) => onAspectSet(evt, 16 / 9)}
-              tabIndex={-1}
-            >
-              {t('form.image.aspect.16_9')}
-            </ImageEditorButton>
-            <ImageEditorButton
-              onClick={(evt: MouseEvent<HTMLButtonElement>) => onAspectSet(evt, 1)}
-              tabIndex={-1}
-            >
-              {t('form.image.aspect.square')}
-            </ImageEditorButton>
-            <ImageEditorButton
-              onClick={(evt: MouseEvent<HTMLButtonElement>) => onAspectSet(evt, undefined)}
-              tabIndex={-1}
-            >
-              {t('form.image.aspect.none')}
-            </ImageEditorButton>
+            {aspects.map(({ aspect: aspectValue, label }) => (
+              <ImageEditorButton
+                key={label}
+                onClick={(evt: MouseEvent<HTMLButtonElement>) => onAspectSet(evt, aspectValue)}
+                tabIndex={-1}
+              >
+                {label}
+              </ImageEditorButton>
+            ))}
           </StyledImageEditorMenu>
         )}
       </StyledImageEditorEditMode>

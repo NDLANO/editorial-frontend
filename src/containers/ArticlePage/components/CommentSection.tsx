@@ -7,7 +7,7 @@
  */
 
 import { useField } from 'formik';
-import { useState, useCallback, useMemo, memo } from 'react';
+import { useCallback, useMemo, memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
@@ -55,19 +55,17 @@ const CommentSection = ({ savedStatus }: Props) => {
   const { t } = useTranslation();
 
   const [_, { value }, { setValue }] = useField<CommentType[]>('comments');
-  const [commentsOpen, setCommentsOpen] = useState<boolean[]>(value.map((c) => c.isOpen));
-  const allOpen = useMemo(() => commentsOpen.every((o) => !!o) ?? undefined, [commentsOpen]);
+  const allOpen = useMemo(() => value.every((v) => v.isOpen), [value]);
 
   const onDelete = useCallback(
     (index: number) => {
-      const updatedList = value?.filter((_c, i) => i !== index);
+      const updatedList = value.filter((_, i) => i !== index);
       setValue(updatedList);
     },
     [value, setValue],
   );
 
   const toggleAllOpen = (allOpen: boolean) => {
-    setCommentsOpen(value.map(() => allOpen));
     setValue(value.map((c) => ({ ...c, isOpen: allOpen })));
   };
   const commentsHidden = RESET_COMMENTS_STATUSES.some((s) => s === savedStatus?.current);
@@ -92,8 +90,6 @@ const CommentSection = ({ savedStatus }: Props) => {
             comments={value ?? []}
             onDelete={onDelete}
             index={index}
-            setCommentsOpen={setCommentsOpen}
-            commentsOpen={commentsOpen}
           />
         ))}
       </StyledList>

@@ -18,7 +18,6 @@ import { DeleteForever } from '@ndla/icons/editor';
 import { IArticleSummaryV2, IArticleV2 } from '@ndla/types-backend/article-api';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
 import { getArticle, searchArticles } from '../../../modules/article/articleApi';
-import { useArticleSearch } from '../../../modules/article/articleQueries';
 import { getUrnFromId, getIdFromUrn } from '../../../util/ndlaFilmHelpers';
 import { toEditFrontPageArticle } from '../../../util/routeHelpers';
 

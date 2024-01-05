@@ -7,7 +7,7 @@
  */
 
 import { Formik, FormikProps } from 'formik';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { IArticle } from '@ndla/types-backend/draft-api';
@@ -17,7 +17,6 @@ import {
   IUpdatedSubjectFrontPageData,
 } from '@ndla/types-backend/frontpage-api';
 import { ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
-import { Node } from '@ndla/types-taxonomy';
 
 import SubjectpageAccordionPanels from './SubjectpageAccordionPanels';
 import Field from '../../../components/Field';

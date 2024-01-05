@@ -13,7 +13,6 @@ import {
   INewSubjectFrontPageData,
   IUpdatedSubjectFrontPageData,
 } from '@ndla/types-backend/frontpage-api';
-import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import { ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
 import {
   editorValueToEmbed,

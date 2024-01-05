@@ -165,6 +165,7 @@ const phrases = {
       onHold: 'Parkert',
       onHoldHeading: 'Parkerte ressursar',
       onHoldDescription: 'Parkerte ressursar der du står som ansvarleg',
+      onHoldFilter: 'Ikkje tell parkerte',
     },
     welcomeBack: 'Velkommen',
   },
@@ -383,6 +384,7 @@ const phrases = {
     publishedDate: 'Publisert dato',
     duration: 'Varighet',
     interactioncount: 'Visninger',
+    is360Video: 'VR-video',
   },
   mathEditor: {
     editMath: 'Rediger Matematikk',
@@ -772,6 +774,7 @@ const phrases = {
       button: 'Samanlikn gjeldande versjon med gamal versjon',
       version: 'Versjon {{revision}}',
       current: 'Gjeldende versjon',
+      published: 'Publisert versjon',
       article: 'Artikkel',
     },
     previewLanguageArticle: {

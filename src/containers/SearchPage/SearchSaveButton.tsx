@@ -13,7 +13,7 @@ import styled from '@emotion/styled';
 import { colors, fonts, spacing } from '@ndla/core';
 import { IUserData } from '@ndla/types-backend/draft-api';
 import SaveButton from '../../components/SaveButton';
-import { useUpdateUserDataMutation, useUserData } from '../../modules/draft/draftQueries';
+import { useUpdateUserDataMutation } from '../../modules/draft/draftQueries';
 
 type Error = 'alreadyExist' | 'other' | 'fetchFailed' | '';
 

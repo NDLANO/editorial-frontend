@@ -43,9 +43,18 @@ import MenuItemButton from '../sharedMenuOptions/components/MenuItemButton';
 import { StyledErrorMessage } from '../styles';
 
 const StyledDeleteButton = styled(DeleteButton)`
-  flex-grow: 1;
   text-align: center;
   align-items: center;
+`;
+
+const InputRow = styled.div`
+  display: flex;
+  width: 100%;
+  gap: ${spacing.normal};
+  align-items: center;
+  > div {
+    width: 100%;
+  }
 `;
 
 const StyledModalBody = styled(ModalBody)`
@@ -285,14 +294,14 @@ const ChangeNodeNameContent = ({ onClose, node, nodeType = 'SUBJECT' }: ModalPro
                             label={t(`languages.${trans.language}`)}
                           >
                             {({ field }) => (
-                              <Row>
+                              <InputRow>
                                 <Input {...field} data-testid={`subjectName_${trans.language}`} />
                                 <StyledDeleteButton
                                   aria-label={t('form.remove')}
                                   onClick={() => remove(i)}
                                   data-testid={`subjectName_${trans.language}_delete`}
                                 />
-                              </Row>
+                              </InputRow>
                             )}
                           </StyledFormikField>
                         </Row>

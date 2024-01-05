@@ -12,9 +12,6 @@ import { AudioFormikType } from './AudioForm';
 import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import FormikField from '../../../components/FormikField';
 import { fetchSearchTags } from '../../../modules/audio/audioApi';
-import { LicenseField, ContributorsField } from '../../FormikForm';
-import OriginField from '../../FormikForm/components/OriginField';
-import CopyrightFieldGroup from '../../FormikForm/CopyrightFieldGroup';
 
 const AudioMetaData = () => {
   const {

@@ -165,6 +165,7 @@ const phrases = {
       onHold: 'On hold',
       onHoldHeading: 'Resources on hold',
       onHoldDescription: 'Resources on hold where you are responsible',
+      onHoldFilter: 'Do not count on hold',
     },
     welcomeBack: 'Welcome',
   },
@@ -383,6 +384,7 @@ const phrases = {
     publishedDate: 'Published date',
     duration: 'Duration',
     interactioncount: 'Views',
+    is360Video: 'VR video',
   },
   mathEditor: {
     editMath: 'Edit Math',
@@ -773,6 +775,7 @@ const phrases = {
       button: 'Compare current version with old version',
       version: 'Version {{revision}}',
       current: 'Current version',
+      published: 'Published version',
       article: 'Article',
     },
     previewLanguageArticle: {

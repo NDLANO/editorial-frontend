@@ -33,8 +33,8 @@ const StyledRoundIcon = styled.div<Omit<Props, 'icon'>>`
   background-color: white;
 
   > svg {
-    height: 20px;
-    width: 20px;
+    height: ${spacing.nsmall};
+    width: ${spacing.nsmall};
   }
 
   &:hover,
@@ -63,8 +63,8 @@ const StyledRoundIcon = styled.div<Omit<Props, 'icon'>>`
     props.smallIcon &&
     css`
       > svg {
-        height: 11px;
-        width: 11px;
+        height: ${spacing.small};
+        width: ${spacing.small};
       }
     `}
 

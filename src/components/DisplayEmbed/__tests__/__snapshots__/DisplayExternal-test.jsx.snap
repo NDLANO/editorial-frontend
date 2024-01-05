@@ -120,11 +120,14 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   min-height: unset;
 }
 
-.emotion-1:hover,
-.emotion-1:focus-visible {
+.emotion-1:hover {
   color: #fff;
   background-color: #184673;
   border-color: #184673;
+}
+
+.emotion-1:focus-visible {
+  border-color: #272728;
 }
 
 .emotion-1[disabled] {
@@ -146,6 +149,18 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
 }
 
 .emotion-2 {
+  display: inline-block;
+  fill: currentColor;
+  vertical-align: middle;
+  line-height: 1em;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+}
+
+.emotion-4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -186,52 +201,55 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   min-height: unset;
 }
 
-.emotion-2:hover,
-.emotion-2:focus-visible {
+.emotion-4:hover {
   color: #fff;
   background-color: #d1372e;
   border-color: #d1372e;
 }
 
-.emotion-2[disabled] {
+.emotion-4:focus-visible {
+  border-color: #272728;
+}
+
+.emotion-4[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-2:where([lang='zh'], .emotion-2[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-4:where([lang='zh'], .emotion-4[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(14px * 1.11);
   font-size: calc(0.7777777777777778rem * 1.11);
 }
 
-.emotion-2 svg {
+.emotion-4 svg {
   width: 24px;
   height: 24px;
   margin: 0;
 }
 
-.emotion-2:hover,
-.emotion-2:focus,
-.emotion-2:focus-within,
-.emotion-2:focus-visible,
-.emotion-2:active {
+.emotion-4:hover,
+.emotion-4:focus,
+.emotion-4:focus-within,
+.emotion-4:focus-visible,
+.emotion-4:active {
   background-color: #fff;
 }
 
-.emotion-2:hover svg,
-.emotion-2:focus svg,
-.emotion-2:focus-within svg,
-.emotion-2:focus-visible svg,
-.emotion-2:active svg {
+.emotion-4:hover svg,
+.emotion-4:focus svg,
+.emotion-4:focus-within svg,
+.emotion-4:focus-visible svg,
+.emotion-4:active svg {
   color: #d1372e;
 }
 
-.emotion-3[data-show-copy-outline='true'] {
+.emotion-7[data-show-copy-outline='true'] {
   box-shadow: rgb(32, 88, 143) 0 0 0 2px;
 }
 
-.emotion-4 {
+.emotion-8 {
   position: absolute;
   bottom: 0px;
   right: 23px;
@@ -255,64 +273,56 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
       >
         <svg
           aria-hidden="true"
-          class="c-icon"
+          class="emotion-2 emotion-3"
+          data-icon=""
           data-license="Apache License 2.0"
           data-source="Material Design"
           fill="currentColor"
-          height="1em"
           preserveAspectRatio="xMidYMid meet"
-          style="vertical-align: middle;"
           viewBox="0 0 24 24"
-          width="1em"
         >
-          <g>
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
-            />
-            <path
-              d="M3.9 12c0-1.7 1.4-3.1 3.1-3.1h4V7H7a5 5 0 0 0 0 10h4v-1.9H7A3.1 3.1 0 0 1 3.9 12zM8 13h8v-2H8v2zm9-6h-4v1.9h4a3.1 3.1 0 0 1 0 6.2h-4V17h4a5 5 0 0 0 0-10z"
-            />
-          </g>
+          <path
+            d="M0 0h24v24H0z"
+            fill="none"
+          />
+          <path
+            d="M3.9 12c0-1.7 1.4-3.1 3.1-3.1h4V7H7a5 5 0 0 0 0 10h4v-1.9H7A3.1 3.1 0 0 1 3.9 12M8 13h8v-2H8zm9-6h-4v1.9h4a3.1 3.1 0 0 1 0 6.2h-4V17h4a5 5 0 0 0 0-10"
+          />
         </svg>
       </button>
       <button
         aria-label="Fjern eksternt element"
-        class="emotion-2"
+        class="emotion-4"
         data-testid="remove-element"
         title="Fjern eksternt element"
         type="button"
       >
         <svg
           aria-hidden="true"
-          class="c-icon"
+          class="emotion-2 emotion-3"
+          data-icon=""
           data-license="Apache License 2.0"
           data-source="Material Design"
           fill="currentColor"
-          height="1em"
           preserveAspectRatio="xMidYMid meet"
-          style="vertical-align: middle;"
           viewBox="0 0 24 24"
-          width="1em"
         >
-          <g>
-            <path
-              d="M0 0h24v24H0V0z"
-              fill="none"
-            />
-            <path
-              d="M6 19c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V7H6v12zm2.5-7.1 1.4-1.4 2.1 2 2.1-2 1.4 1.4-2 2.1 2 2.1-1.4 1.4-2.1-2-2.1 2-1.4-1.4 2-2.1-2-2.1zm7-7.9-1-1h-5l-1 1H5v2h14V4z"
-            />
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
-            />
-          </g>
+          <path
+            d="M0 0h24v24H0z"
+            fill="none"
+          />
+          <path
+            d="M6 19c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V7H6zm2.5-7.1 1.4-1.4 2.1 2 2.1-2 1.4 1.4-2 2.1 2 2.1-1.4 1.4-2.1-2-2.1 2-1.4-1.4 2-2.1zm7-7.9-1-1h-5l-1 1H5v2h14V4z"
+          />
+          <path
+            d="M0 0h24v24H0z"
+            fill="none"
+          />
         </svg>
       </button>
     </div>
     <div
-      class="emotion-3"
+      class="emotion-7"
       style="pointer-events: auto;"
     >
       <iframe
@@ -326,30 +336,26 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
       />
       <div
         aria-label="Endre størrelse"
-        class="emotion-4"
+        class="emotion-8"
         role="button"
       >
         <svg
           aria-hidden="true"
-          class="c-icon"
+          class="emotion-2 emotion-3"
+          data-icon=""
           data-license="Apache License 2.0"
           data-source="Material Design"
           fill="currentColor"
-          height="1em"
           preserveAspectRatio="xMidYMid meet"
-          style="vertical-align: middle;"
           viewBox="0 0 24 24"
-          width="1em"
         >
-          <g>
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
-            />
-            <path
-              d="M12 5.8 15.2 9l1.4-1.4L12 3 7.4 7.6 8.8 9 12 5.8zm0 12.4L8.8 15l-1.4 1.4L12 21l4.6-4.6-1.4-1.4-3.2 3.2z"
-            />
-          </g>
+          <path
+            d="M0 0h24v24H0z"
+            fill="none"
+          />
+          <path
+            d="M12 5.8 15.2 9l1.4-1.4L12 3 7.4 7.6 8.8 9zm0 12.4L8.8 15l-1.4 1.4L12 21l4.6-4.6-1.4-1.4z"
+          />
         </svg>
       </div>
     </div>

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { useEffect, useRef, useState, ReactNode, useCallback } from 'react';
+import { useEffect, useRef, useState, ReactNode, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
@@ -23,7 +23,6 @@ import {
   REMEMBER_FAVORITE_NODES,
   REMEMBER_LMA_SUBJECTS,
   TAXONOMY_ADMIN_SCOPE,
-  TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
 } from '../../constants';
 import { useUserData } from '../../modules/draft/draftQueries';
 import { useNodes } from '../../modules/nodes/nodeQueries';
@@ -53,23 +52,15 @@ const Wrapper = styled.div`
 
 const getNodes = (
   allNodes: Node[] | undefined = [],
-  lmaSubjectNodes: Node[] | undefined = [],
+  lmaSubjectIds: string[],
   favoriteNodeIds: string[],
   rootId: string,
-  showFavorites: boolean,
-  showLmaSubjects: boolean,
 ): Node[] => {
-  let filteredIds: string[] = [];
-  if (showLmaSubjects) {
-    filteredIds = lmaSubjectNodes.map((el) => el.id);
-  }
-  if (showFavorites) {
-    filteredIds = filteredIds.concat(favoriteNodeIds);
-  }
+  const filteredNodes =
+    lmaSubjectIds.length || favoriteNodeIds.length
+      ? allNodes.filter((node) => [...lmaSubjectIds, ...favoriteNodeIds, rootId].includes(node.id))
+      : allNodes;
 
-  const filteredNodes = filteredIds.length
-    ? allNodes.filter((node) => [...filteredIds, rootId].includes(node.id))
-    : allNodes;
   return filteredNodes;
 };
 
@@ -132,21 +123,6 @@ const StructureContainer = ({
       placeholderData: [],
     },
   );
-  const lmaSubjectsQuery = useNodes(
-    {
-      language: i18n.language,
-      nodeType: rootNodeType,
-      ...rootOrContext,
-      taxonomyVersion,
-      key: TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
-      value: ndlaId,
-    },
-    {
-      select: (nodes) => nodes.sort((a, b) => a.name?.localeCompare(b.name)),
-      enabled: !!ndlaId,
-      placeholderData: [],
-    },
-  );
 
   useEffect(() => {
     if (currentNode && shouldScroll) {
@@ -172,14 +148,22 @@ const StructureContainer = ({
     const deleteSearch = !!params.rootId && !newPath.includes(params.rootId);
     navigate(`${rootPath}${newPath.concat(deleteSearch ? '' : search)}`);
   };
+  const lmaSubjectIds = useMemo(() => {
+    if (ndlaId) {
+      return (
+        nodesQuery.data
+          ?.filter((node) => node.metadata?.customFields?.subjectLMA === ndlaId)
+          .map((subjectLmaNode) => subjectLmaNode.id) ?? []
+      );
+    }
+    return [];
+  }, [ndlaId, nodesQuery.data]);
 
   const nodes = getNodes(
     nodesQuery.data,
-    lmaSubjectsQuery.data,
-    favoriteNodeIds,
+    showLmaSubjects ? lmaSubjectIds : [],
+    showFavorites ? favoriteNodeIds : [],
     rootId,
-    showFavorites,
-    showLmaSubjects,
   );
 
   const toggleShowFavorites = useCallback(() => {
@@ -210,7 +194,7 @@ const StructureContainer = ({
               setShowLmaSubjects={toggleShowLmaSubjects}
               showLmaSubjects={showLmaSubjects}
               nodeType={rootNodeType}
-              hasLmaSubjects={!!lmaSubjectsQuery.data?.length}
+              hasLmaSubjects={!!lmaSubjectIds.length}
             />
             <StyledStructureContainer>
               {userDataQuery.isLoading || nodesQuery.isLoading ? (

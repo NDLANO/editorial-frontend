@@ -122,14 +122,11 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
   font-weight: 400;
 }
 
-.emotion-1:hover {
+.emotion-1:hover,
+.emotion-1:focus-visible {
   color: #20588f;
   background-color: #ceddea;
   border-color: #ceddea;
-}
-
-.emotion-1:focus-visible {
-  border-color: #272728;
 }
 
 .emotion-1[disabled] {
@@ -328,14 +325,11 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
   font-weight: 400;
 }
 
-.emotion-1:hover {
+.emotion-1:hover,
+.emotion-1:focus-visible {
   color: #20588f;
   background-color: #ceddea;
   border-color: #ceddea;
-}
-
-.emotion-1:focus-visible {
-  border-color: #272728;
 }
 
 .emotion-1[disabled] {
@@ -534,14 +528,11 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
   font-weight: 400;
 }
 
-.emotion-1:hover {
+.emotion-1:hover,
+.emotion-1:focus-visible {
   color: #20588f;
   background-color: #ceddea;
   border-color: #ceddea;
-}
-
-.emotion-1:focus-visible {
-  border-color: #272728;
 }
 
 .emotion-1[disabled] {
@@ -740,14 +731,11 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
   font-weight: 400;
 }
 
-.emotion-1:hover {
+.emotion-1:hover,
+.emotion-1:focus-visible {
   color: #20588f;
   background-color: #ceddea;
   border-color: #ceddea;
-}
-
-.emotion-1:focus-visible {
-  border-color: #272728;
 }
 
 .emotion-1[disabled] {
@@ -946,14 +934,11 @@ exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
   font-weight: 400;
 }
 
-.emotion-1:hover {
+.emotion-1:hover,
+.emotion-1:focus-visible {
   color: #20588f;
   background-color: #ceddea;
   border-color: #ceddea;
-}
-
-.emotion-1:focus-visible {
-  border-color: #272728;
 }
 
 .emotion-1[disabled] {

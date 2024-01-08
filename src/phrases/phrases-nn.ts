@@ -1583,6 +1583,7 @@ const phrases = {
     confirmSetPrimary: 'Vil du gjere dette til hovedplassering?',
     jumpToResources: 'Hopp til ressurser',
     jumpToStructure: 'Hopp til struktur',
+    showLMASubject: 'Vis LMA-fag',
     swapTopicArticle: {
       failed: 'Klarte ikkje å bytte emneartikkel',
       placeholder: 'Artikkel du vil bytte til',

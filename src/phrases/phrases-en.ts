@@ -140,9 +140,14 @@ const phrases = {
     primaryConnection: 'Only show resources with primary connection to my favorite subjects',
     primaryConnectionLabel: 'Only show primary connection',
     prioritizedLabel: 'Only show prioritized',
+    lmaSubjects: 'LMA-subjects',
+    favoriteSubjects: 'Favorite subjects',
     lmaSubjectsHeading: 'Production flow in LMA-subjects',
+    favoriteSubjectsHeading: 'Production flow in favorite subjects',
     lmaSubjectsDescription:
       'Distribution of where resources in your LMA-subjects is in the workflow',
+    favoriteSubjectsDescription:
+      'Distribution of where resources in your favorite subjects is in the workflow',
     noResultsLMASubjects: 'The following statuses will not be shown',
     count: 'Count',
     countResponsible: 'Responsible count',

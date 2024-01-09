@@ -1581,6 +1581,7 @@ const phrases = {
     confirmSetPrimary: 'Do you want to make this the main location?',
     jumpToResources: 'Jump to resources',
     jumpToStructure: 'Jump to structure',
+    showLMASubject: 'Show LMA-subjects',
     swapTopicArticle: {
       failed: 'Failed to swap article',
       placeholder: 'Article to swap to',

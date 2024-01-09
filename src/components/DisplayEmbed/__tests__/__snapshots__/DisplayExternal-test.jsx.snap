@@ -120,14 +120,11 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   min-height: unset;
 }
 
-.emotion-1:hover {
+.emotion-1:hover,
+.emotion-1:focus-visible {
   color: #fff;
   background-color: #184673;
   border-color: #184673;
-}
-
-.emotion-1:focus-visible {
-  border-color: #272728;
 }
 
 .emotion-1[disabled] {
@@ -201,14 +198,11 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   min-height: unset;
 }
 
-.emotion-4:hover {
+.emotion-4:hover,
+.emotion-4:focus-visible {
   color: #fff;
   background-color: #d1372e;
   border-color: #d1372e;
-}
-
-.emotion-4:focus-visible {
-  border-color: #272728;
 }
 
 .emotion-4[disabled] {

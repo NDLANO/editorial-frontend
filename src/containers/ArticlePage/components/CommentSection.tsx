@@ -83,15 +83,19 @@ const CommentSection = ({ savedStatus }: Props) => {
         </StyledOpenCloseAll>
       ) : null}
       <StyledList>
-        {value.map((comment, index) => (
-          <Comment
-            key={'id' in comment ? comment.id : comment.generatedId}
-            setComments={setValue}
-            comments={value ?? []}
-            onDelete={onDelete}
-            index={index}
-          />
-        ))}
+        {value.map((comment, index) => {
+          const id = 'id' in comment ? comment.id : comment.generatedId;
+          return (
+            <Comment
+              key={id}
+              id={id}
+              setComments={setValue}
+              comments={value ?? []}
+              onDelete={onDelete}
+              index={index}
+            />
+          );
+        })}
       </StyledList>
     </CommentColumn>
   );

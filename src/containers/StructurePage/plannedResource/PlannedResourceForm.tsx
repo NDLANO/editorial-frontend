@@ -25,7 +25,7 @@ import FormikField from '../../../components/FormikField';
 import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
 import Spinner from '../../../components/Spinner';
 import RelevanceOption from '../../../components/Taxonomy/RelevanceOption';
-import { DRAFT_RESPONSIBLE, RESOURCE_FILTER_CORE } from '../../../constants';
+import { DRAFT_RESPONSIBLE, LAST_UPDATED_SIZE, RESOURCE_FILTER_CORE } from '../../../constants';
 import { Auth0UserData } from '../../../interfaces';
 import { useAuth0Responsibles } from '../../../modules/auth0/auth0Queries';
 import { createDraft, updateUserData } from '../../../modules/draft/draftApi';
@@ -214,7 +214,7 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
         const latestEdited = uniq(
           [createdArticle.id.toString()].concat(userData?.latestEditedArticles ?? []),
         );
-        await updateUserData({ latestEditedArticles: latestEdited.slice(0, 10) });
+        await updateUserData({ latestEditedArticles: latestEdited.slice(0, LAST_UPDATED_SIZE) });
 
         // Create node in taxonomy
         const resourceUrl = await addNodeMutation({

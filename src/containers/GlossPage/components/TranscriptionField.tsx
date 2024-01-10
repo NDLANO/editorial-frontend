@@ -8,41 +8,34 @@
 
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { Input, FieldRemoveButton } from '@ndla/forms';
-import FormikField from '../../../components/FormikField';
+import { FieldErrorMessage, InputV3, Label } from '@ndla/forms';
+import { FormControl, FormField } from '../../../components/FormField';
 
 interface Props {
   label: string;
   name: string;
   value?: string;
-  removeField: () => void;
 }
 
-const StyledTranscriptionField = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  margin: ${spacing.small} 0;
+const FieldWrapper = styled.div`
+  width: 50%;
 `;
 
-const TranscriptionField = ({ name, value, label, removeField }: Props) => {
+export const TranscriptionField = ({ name, label }: Props) => {
   const { t } = useTranslation();
   return (
-    <FormikField name={name}>
-      {({ field }) => (
-        <StyledTranscriptionField>
-          <Input
-            label={label}
-            placeholder={t('form.gloss.transcription')}
-            value={value ?? ''}
-            {...field}
-          />
-          <FieldRemoveButton onClick={removeField} />
-        </StyledTranscriptionField>
+    <FormField name={name}>
+      {({ field, meta }) => (
+        <FieldWrapper>
+          <FormControl isInvalid={!!meta.error}>
+            <Label textStyle="label-small" margin="none">
+              {label}
+            </Label>
+            <InputV3 {...field} placeholder={t('form.gloss.transcription')} />
+            <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+          </FormControl>
+        </FieldWrapper>
       )}
-    </FormikField>
+    </FormField>
   );
 };
-
-export default TranscriptionField;

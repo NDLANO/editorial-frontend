@@ -146,7 +146,8 @@ const phrases = {
     lmaSubjectsHeading: 'Produksjonsflyt i LMA-fag',
     favoriteSubjectsHeading: 'Produksjonsflyt i favorittfag',
     lmaSubjectsDescription: 'Status på ressursar i LMA-faga mine i flyten',
-    favoriteSubjectsDescription: 'Status på ressursar i favorittfaga mine i flyten',
+    favoriteSubjectsDescription:
+      'Status på ressursar i favorittfaga mine i flyten. Utgåtte fag ikkje inkludert',
     noResultsLMASubjects: 'Følgjande statusar vil ikkje visast i oversikta',
     count: 'Antall',
     countResponsible: 'Antall ansvarleg for',

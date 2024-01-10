@@ -164,6 +164,7 @@ const ArticleStatusContent = ({
             subjectIds={subjectIds || []}
             filterSubject={filterSubject}
             setFilterSubject={setFilterSubject}
+            removeArchived
           />
           <SwitchWrapper>
             <StyledSwitch

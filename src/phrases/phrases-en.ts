@@ -147,7 +147,7 @@ const phrases = {
     lmaSubjectsDescription:
       'Distribution of where resources in your LMA-subjects is in the workflow',
     favoriteSubjectsDescription:
-      'Distribution of where resources in your favorite subjects is in the workflow',
+      'Distribution of where resources in your favorite subjects is in the workflow. Archived subjects are not included',
     noResultsLMASubjects: 'The following statuses will not be shown',
     count: 'Count',
     countResponsible: 'Responsible count',

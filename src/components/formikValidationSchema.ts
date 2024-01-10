@@ -8,6 +8,7 @@
 
 import { TFunction } from 'i18next';
 import get from 'lodash/fp/get';
+import set from 'lodash/set';
 import {
   isUrl,
   isEmpty,
@@ -30,114 +31,126 @@ const EMAIL_REGEX =
 const appendError = (error: string, newError: string): string =>
   error ? `${error} \n ${newError}` : newError;
 
-const validateFormikField = <FormikValuesType, ApiTypes = any, FormikNestedValueType = {}>(
-  errors: Record<string, string> = {},
-  rules: RulesType<FormikValuesType, ApiTypes, FormikNestedValueType>,
-  ruleKey: string,
-  t: TFunction,
-  values: FormikValuesType,
-  label: string,
-  _appendErrorKey?: string,
-) => {
-  const appendErrorKey = _appendErrorKey ?? ruleKey;
+interface ValidateFormikFieldType<FormikValuesType, ApiTypes = any> {
+  errors: Record<string, string>;
+  rules: RulesType<FormikValuesType, ApiTypes>;
+  ruleKey: string;
+  t: TFunction;
+  values: FormikValuesType;
+  label: string;
+  valueKey: string;
+}
+const validateFormikField = <FormikValuesType, ApiTypes = any>({
+  errors,
+  ruleKey,
+  rules,
+  t,
+  valueKey,
+  label,
+  values,
+}: ValidateFormikFieldType<FormikValuesType, ApiTypes>) => {
+  const rule = rules[ruleKey];
 
-  const value = get(ruleKey, values);
-  if (rules[ruleKey].required && isEmpty(value)) {
-    errors[appendErrorKey] = appendError(
-      errors[appendErrorKey],
-      t('validation.isRequired', { label }),
-    );
+  const onlyValidateIfFunction = rule.onlyValidateIf;
+  if (onlyValidateIfFunction && !onlyValidateIfFunction(values)) {
+    return errors;
   }
 
-  if (rules[ruleKey].allObjectFieldsRequired) {
+  const value = get(valueKey, values);
+  if (rule.required && isEmpty(value)) {
+    const error = appendError(errors[valueKey], t('validation.isRequired', { label }));
+    set(errors, valueKey, error);
+  }
+
+  if (rule.allObjectFieldsRequired) {
     if (value.filter((v: any) => !objectHasBothField(v)).length > 0) {
-      errors[appendErrorKey] = appendError(
-        errors[appendErrorKey],
-        t('validation.bothFields', {
-          labelLowerCase: label.toLowerCase(),
-        }),
+      const error = appendError(
+        errors[valueKey],
+        t('validation.bothFields', { labelLowerCase: label.toLowerCase() }),
       );
+      set(errors, valueKey, error);
     }
   }
-  if (rules[ruleKey].dateBefore) {
+  if (rule.dateBefore) {
     const beforeDate = value;
-    const afterKey = rules[ruleKey].afterKey;
+    const afterKey = rule.afterKey;
     const afterDate = get(afterKey!, values);
     if (!validDateRange(beforeDate, afterDate)) {
-      errors[appendErrorKey] = appendError(
-        errors[appendErrorKey],
+      const error = appendError(
+        errors[valueKey],
         t('validation.dateBeforeInvalid', {
           label,
           afterLabel: t('form.validDate.to.label').toLowerCase(),
         }),
       );
+      set(errors, valueKey, error);
     }
   }
-  if (rules[ruleKey].dateAfter) {
-    const beforeKey = rules[ruleKey].beforeKey;
+  if (rule.dateAfter) {
+    const beforeKey = rule.beforeKey;
     const beforeDate = get(beforeKey!, values);
     const afterDate = value;
     if (!validDateRange(beforeDate, afterDate)) {
-      errors[appendErrorKey] = appendError(
-        errors[appendErrorKey],
+      const error = appendError(
+        errors[valueKey],
         t('validation.dateAfterInvalid', {
           label,
           beforeLabel: t('form.validDate.from.label').toLowerCase(),
         }),
       );
+      set(errors, valueKey, error);
     }
   }
 
-  if (rules[ruleKey].email) {
+  if (rule.email) {
     const email = value;
     if (!email.match(EMAIL_REGEX)) {
-      errors[appendErrorKey] = appendError(
-        errors[appendErrorKey],
-        t('validation.email', {
-          label,
-        }),
-      );
+      const error = appendError(errors[valueKey], t('validation.email', { label }));
+      set(errors, valueKey, error);
     }
   }
 
-  if (rules[ruleKey].maxSize) {
-    const maxSize = rules[ruleKey].maxSize!;
-    const fileSize = get(ruleKey, values);
+  if (rule.maxSize) {
+    const maxSize = rule.maxSize;
+    const fileSize = get(valueKey, values);
     if (fileSize > maxSize) {
-      errors[appendErrorKey] = appendError(
-        errors[appendErrorKey],
+      const error = appendError(
+        errors[valueKey],
         t('validation.maxSizeExceeded', {
           maxSize: bytesToSensibleFormat(maxSize),
           fileSize: bytesToSensibleFormat(fileSize),
         }),
       );
+      set(errors, valueKey, error);
     }
   }
 
-  const ruleMinLength = rules[ruleKey].minLength;
+  const ruleMinLength = rule.minLength;
   if (ruleMinLength && minLength(value, ruleMinLength)) {
-    errors[appendErrorKey] = appendError(
-      errors[appendErrorKey],
+    const error = appendError(
+      errors[valueKey],
       t('validation.minLength', {
         label,
         minLength: ruleMinLength,
       }),
     );
+    set(errors, valueKey, error);
   }
-  const ruleMaxLength = rules[ruleKey].maxLength;
+  const ruleMaxLength = rule.maxLength;
   if (ruleMaxLength && maxLength(value, ruleMaxLength)) {
-    errors[appendErrorKey] = appendError(
-      errors[appendErrorKey],
+    const error = appendError(
+      errors[valueKey],
       t('validation.maxLength', {
         label,
         maxLength: ruleMaxLength,
       }),
     );
+    set(errors, valueKey, error);
   }
-  const ruleMinItems = rules[ruleKey].minItems;
+  const ruleMinItems = rule.minItems;
   if (ruleMinItems && minItems(value, ruleMinItems)) {
-    errors[appendErrorKey] = appendError(
-      errors[appendErrorKey],
+    const error = appendError(
+      errors[valueKey],
       t('validation.minItems', {
         label,
         labelLowerCase: label.toLowerCase(),
@@ -145,42 +158,37 @@ const validateFormikField = <FormikValuesType, ApiTypes = any, FormikNestedValue
         count: ruleMinItems,
       }),
     );
+    set(errors, valueKey, error);
   }
-  if (rules[ruleKey].numeric && !isNumeric(value)) {
-    errors[appendErrorKey] = appendError(
-      errors[appendErrorKey],
-      t('validation.isNumeric', { label }),
-    );
+  if (rule.numeric && !isNumeric(value)) {
+    const error = appendError(errors[valueKey], t('validation.isNumeric', { label }));
+    set(errors, valueKey, error);
   }
-  if (rules[ruleKey].url && !isUrl(value)) {
-    errors[appendErrorKey] = appendError(errors[appendErrorKey], t('validation.url', { label }));
+  if (rule.url && !isUrl(value)) {
+    const error = appendError(errors[valueKey], t('validation.url', { label }));
+    set(errors, valueKey, error);
   }
-  if (rules[ruleKey].urlOrNumber && !isUrl(value) && !isNumeric(value)) {
-    errors[appendErrorKey] = appendError(
-      errors[appendErrorKey],
-      t('validation.urlOrNumber', { label }),
-    );
+  if (rule.urlOrNumber && !isUrl(value) && !isNumeric(value)) {
+    const error = appendError(errors[valueKey], t('validation.urlOrNumber', { label }));
+    set(errors, valueKey, error);
   }
 
-  const testFunction = rules[ruleKey].test;
+  const testFunction = rule.test;
   if (testFunction) {
     const testError = testFunction(values);
     if (testError) {
-      errors[appendErrorKey] = appendError(
-        errors[appendErrorKey],
+      const error = appendError(
+        errors[valueKey],
         t(`${testError.translationKey}`, testError.variables),
       );
+      set(errors, valueKey, error);
     }
-  }
-  const onlyValidateIfFunction = rules[ruleKey].onlyValidateIf;
-  if (onlyValidateIfFunction && !onlyValidateIfFunction(values)) {
-    delete errors[appendErrorKey];
   }
 
   return errors;
 };
 
-interface RuleObject<FormikValuesType, ApiType = any, FormikNestedValueType = {}> {
+interface RuleObject<FormikValuesType, ApiType = any> {
   minItems?: number;
   minLength?: number;
   maxLength?: number;
@@ -196,11 +204,12 @@ interface RuleObject<FormikValuesType, ApiType = any, FormikNestedValueType = {}
   urlOrNumber?: boolean;
   maxSize?: number;
   translationKey?: string;
+  isArray?: boolean;
   warnings?: {
     apiField?: keyof ApiType;
     languageMatch?: boolean;
   };
-  nestedValidationRules?: Record<string, RuleObject<FormikNestedValueType, ApiType>>;
+  rules?: RulesType<FormikValuesType, ApiType>;
   test?: (
     value: FormikValuesType,
   ) =>
@@ -209,14 +218,29 @@ interface RuleObject<FormikValuesType, ApiType = any, FormikNestedValueType = {}
   onlyValidateIf?: (value: FormikValuesType) => boolean;
 }
 
-export type RulesType<FormikValuesType, ApiType = any, FormikNestedValueType = {}> = Record<
+export type RulesType<FormikValuesType, ApiType = any> = Record<
   string,
-  RuleObject<FormikValuesType, ApiType, FormikNestedValueType>
+  RuleObject<FormikValuesType, ApiType>
 >;
 
-const validateFormik = <FormikValuesType, ApiTypes = any, FormikNestedValueType = {}>(
+interface ToLabelParams {
+  t: TFunction;
+  ruleKey: string;
+  translationKey?: string;
+  formType?: string;
+}
+
+const toLabel = ({ t, ruleKey, translationKey, formType }: ToLabelParams) => {
+  return translationKey
+    ? t(translationKey)
+    : formType
+      ? t(`${formType}.${ruleKey}`)
+      : t(`form.name.${ruleKey}`);
+};
+
+const validateFormik = <FormikValuesType, ApiTypes = any>(
   values: FormikValuesType,
-  rules: RulesType<FormikValuesType, ApiTypes, FormikNestedValueType>,
+  rules: RulesType<FormikValuesType, ApiTypes>,
   t: TFunction,
   formType: string | undefined = undefined,
 ) => {
@@ -224,44 +248,58 @@ const validateFormik = <FormikValuesType, ApiTypes = any, FormikNestedValueType 
   try {
     Object.keys(rules).forEach((ruleKey) => {
       const value = get(ruleKey, values);
-      const translationKey = rules[ruleKey]?.translationKey;
-      const label = translationKey
-        ? t(translationKey)
-        : formType
-          ? t(`${formType}.${ruleKey}`)
-          : t(`form.name.${ruleKey}`);
-      const nestedValidation = rules[ruleKey]?.nestedValidationRules;
+      const rule = rules[ruleKey];
 
-      if (nestedValidation) {
-        Object.keys(rules[ruleKey].nestedValidationRules!).forEach((nestedRuleKey) => {
-          const validateFormikRecursively = (val: any, formikKey?: string) => {
+      if (rule.rules && (rule.onlyValidateIf ? rule.onlyValidateIf(values) : true)) {
+        Object.keys(rule.rules).forEach((nestedRuleKey) => {
+          const validateFormikRecursively = (val: any, valueKey: string, ruleKey: string) => {
             if (Array.isArray(val)) {
               val.forEach((v, i) => {
                 // Match names used in nested formik forms
-                const currentKey = formikKey ? `${formikKey}.${i}` : `${i}`;
-                return validateFormikRecursively(v, currentKey);
+                const currentKey = `${valueKey}.${i}`;
+                return validateFormikRecursively(v, currentKey, `${ruleKey}.${nestedRuleKey}`);
               });
             } else {
-              const generatedItemKey = `${ruleKey}.${formikKey}`;
+              const generatedItemKey = `${valueKey}.${nestedRuleKey}`;
 
-              errors = {
-                ...validateFormikField(
-                  errors,
-                  rules[ruleKey].nestedValidationRules!,
-                  nestedRuleKey,
-                  t,
-                  val,
-                  label,
-                  generatedItemKey,
-                ),
-              };
+              const translationKey = rule.rules?.[nestedRuleKey]?.translationKey;
+              const label = toLabel({ t, translationKey, ruleKey, formType });
+
+              const newErrors = validateFormikField({
+                errors,
+                rules: rule.rules!,
+                ruleKey: nestedRuleKey,
+                t,
+                values,
+                label,
+                valueKey: generatedItemKey,
+              });
+
+              if (Object.keys(newErrors).length > 0) {
+                errors = {
+                  ...newErrors,
+                };
+              }
             }
           };
 
-          validateFormikRecursively(value, undefined);
+          validateFormikRecursively(value, ruleKey, ruleKey);
         });
       } else {
-        errors = { ...validateFormikField(errors, rules, ruleKey, t, values, label) };
+        const translationKey = rule?.translationKey;
+        const label = toLabel({ t, translationKey, ruleKey, formType });
+        const newErrors = validateFormikField({
+          errors,
+          rules,
+          ruleKey,
+          t,
+          values,
+          label,
+          valueKey: ruleKey,
+        });
+        if (Object.keys(newErrors).length > 0) {
+          errors = { ...newErrors };
+        }
       }
     });
   } catch (e) {
@@ -270,17 +308,18 @@ const validateFormik = <FormikValuesType, ApiTypes = any, FormikNestedValueType 
   return errors;
 };
 
-export const getWarnings = <FormikValuesType, ApiType, FormikNestedValueType = {}>(
+export const getWarnings = <FormikValuesType, ApiType>(
   values: FormikValuesType,
-  rules: RulesType<FormikValuesType, ApiType, FormikNestedValueType>,
+  rules: RulesType<FormikValuesType, ApiType>,
   t: TFunction,
   entity?: ApiType,
 ) => {
   let warnings: Record<string, string> = {};
   try {
     Object.keys(rules).forEach((ruleKey) => {
-      if (rules[ruleKey].warnings) {
-        const warningRules = rules[ruleKey].warnings;
+      const rule = rules[ruleKey];
+      if (rule.warnings) {
+        const warningRules = rule.warnings;
         if (warningRules?.languageMatch) {
           const apiField = warningRules.apiField ?? ruleKey;
           const entityField = get([apiField], entity);

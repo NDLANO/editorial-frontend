@@ -114,6 +114,8 @@ const allowedFiletypes = [
   '.xml',
   '.f3d',
   '.ino',
+  '.stp',
+  '.step',
 ];
 
 const adminAllowedFiletypes = ['.mp4'];

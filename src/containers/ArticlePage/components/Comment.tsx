@@ -6,7 +6,7 @@
  *
  */
 
-import { ChangeEvent, useMemo, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -82,25 +82,14 @@ interface Props {
   setComments: (c: CommentType[]) => void;
   onDelete: (index: number) => void;
   index: number;
-  setCommentsOpen: (commentsOpen: boolean[]) => void;
-  commentsOpen: boolean[];
 }
 
-const Comment = ({
-  comments,
-  setComments,
-  onDelete,
-  index,
-  setCommentsOpen,
-  commentsOpen,
-}: Props) => {
+const Comment = ({ comments, setComments, onDelete, index }: Props) => {
   const { t } = useTranslation();
   const comment = comments[index];
 
   const [inputValue, setInputValue] = useState(comment?.content);
   const [modalOpen, setModalOpen] = useState(false);
-
-  const open = useMemo(() => commentsOpen[index], [commentsOpen, index]);
 
   const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
     setInputValue(e.target.value);
@@ -113,11 +102,7 @@ const Comment = ({
   };
 
   const toggleOpen = (value?: boolean) => {
-    const _open = value !== undefined ? value : !open;
-    const updatedCommentsOpen: boolean[] = commentsOpen?.map((c: boolean, i: number) =>
-      i === index ? _open : c,
-    );
-    setCommentsOpen(updatedCommentsOpen);
+    const _open = value !== undefined ? value : !comment.isOpen;
     const updatedComments = comments.map((c, i) => (index === i ? { ...c, isOpen: _open } : c));
     setComments(updatedComments);
   };
@@ -131,7 +116,7 @@ const Comment = ({
     }
   };
 
-  const tooltipText = open ? t('form.hideComment') : t('form.showComment');
+  const tooltipText = comment.isOpen ? t('form.hideComment') : t('form.showComment');
   const commentId = `${'id' in comment ? comment.id : comment.generatedId}-comment-section`;
 
   return (
@@ -144,10 +129,10 @@ const Comment = ({
             aria-label={tooltipText}
             title={tooltipText}
             onClick={() => toggleOpen()}
-            aria-expanded={open}
+            aria-expanded={comment.isOpen}
             aria-controls={commentId}
           >
-            {open ? <ExpandMore /> : <RightArrow />}
+            {comment.isOpen ? <ExpandMore /> : <RightArrow />}
           </IconButtonV2>
 
           <IconButtonV2
@@ -173,7 +158,7 @@ const Comment = ({
           }}
           onBlur={() => focusUpdate(false)}
           id={commentId}
-          data-open={open}
+          data-open={comment.isOpen}
         />
       </CardContent>
 

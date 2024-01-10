@@ -27,6 +27,7 @@ export const STORED_LANGUAGE_KEY = 'language';
 
 export const REMEMBER_FAVOURITE_SUBJECTS = 'rememberFavouriteSubjects';
 export const REMEMBER_FAVORITE_NODES = 'rememberFavoriteNodes';
+export const REMEMBER_LMA_SUBJECTS = 'rememberLmaSubjects';
 export const FAVOURITES_SUBJECT_ID = 'urn:favourites';
 export const LMA_SUBJECT_ID = 'urn:lmaSubjects';
 // Relevances
@@ -70,6 +71,7 @@ export const TAXONOMY_CUSTOM_FIELD_IS_PUBLISHING = 'isPublishing';
 export const TAXONOMY_CUSTOM_FIELD_PROGRAMME_SUBJECT = 'programfag';
 
 export const MAX_IMAGE_UPLOAD_SIZE = 1024 * 1024 * 40; // 40MB.
+export const LAST_UPDATED_SIZE = 10;
 
 export const MAX_PAGE_WIDTH = 1024;
 export const MAX_FRONTPAGE_ARTICLE_WIDTH = 1400;
@@ -93,7 +95,6 @@ export const PUBLISH_DELAYED = 'PUBLISH_DELAYED';
 export const REPUBLISH = 'REPUBLISH';
 
 export const STATUS_ORDER = [
-  IMPORTED,
   PLANNED,
   IN_PROGRESS,
   EXTERNAL_REVIEW,

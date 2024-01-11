@@ -1241,6 +1241,13 @@ const phrases = {
         fullwidth: 'Størrelse: Stort',
       },
       crop: 'Lag utsnitt av biletet',
+      aspect: {
+        '4_3': '4:3',
+        '3_4': '3:4',
+        '16_9': '16:9',
+        square: 'Kvadratisk',
+        none: 'Fritt',
+      },
       focalPoint: 'Sett fokalpunkt',
       caption: {
         label: 'Biletetekst',

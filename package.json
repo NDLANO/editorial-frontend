@@ -178,7 +178,7 @@
     "react-dom": "^18.2.0",
     "react-helmet-async": "^1.3.0",
     "react-i18next": "^13.3.0",
-    "react-image-crop": "^6.0.18",
+    "react-image-crop": "^11.0.2",
     "react-router-dom": "^6.1.0",
     "serialize-javascript": "^6.0.1",
     "slate": "^0.94.1",

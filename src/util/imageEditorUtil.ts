@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
+import queryString from 'query-string';
 import { MouseEvent } from 'react';
 import config from '../config';
 import { CropUnit } from '../interfaces';
@@ -63,19 +65,29 @@ export function getCrop(transformData: TransformData) {
     transformData['upper-left-x'] === undefined ||
     transformData['upper-left-y'] === undefined ||
     transformData['lower-right-x'] === undefined ||
-    transformData['lower-right-y'] === undefined ||
-    transformData['crop-unit'] === undefined
+    transformData['lower-right-y'] === undefined
   ) {
     return undefined;
   }
-  return `cropStartX=${transformData['upper-left-x']}&cropStartY=${transformData['upper-left-y']}&cropEndX=${transformData['lower-right-x']}&cropEndY=${transformData['lower-right-y']}&cropUnit=${transformData['crop-unit']}`;
+  const params = {
+    cropStartX: transformData['upper-left-x'],
+    cropStartY: transformData['upper-left-y'],
+    cropEndX: transformData['lower-right-x'],
+    cropEndY: transformData['lower-right-y'],
+    cropUnit: transformData['crop-unit'],
+  };
+  return queryString.stringify(params);
 }
 
 export function getFocalPoint(transformData: TransformData) {
   if (transformData['focal-x'] === undefined || transformData['focal-y'] === undefined) {
     return undefined;
   }
-  return `focalX=${transformData['focal-x']}&focalY=${transformData['focal-y']}`;
+  const params = {
+    focalX: transformData['focal-x'],
+    focalY: transformData['focal-y'],
+  };
+  return queryString.stringify(params);
 }
 
 const imageWidths = [1440, 1120, 1000, 960, 800, 640, 480, 320];

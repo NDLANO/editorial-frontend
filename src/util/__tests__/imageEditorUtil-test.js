@@ -43,7 +43,21 @@ test('util/getCrop returns crop string', () => {
     'lower-right-x': 50,
     'lower-right-y': 60,
   };
-  expect(getCrop(transformData)).toBe('cropStartX=30&cropStartY=40&cropEndX=50&cropEndY=60');
+  expect(getCrop(transformData)).toBe('cropEndX=50&cropEndY=60&cropStartX=30&cropStartY=40');
+});
+
+test('util/getCrop returns crop string with unit', () => {
+  expect(typeof getCrop).toBe('function');
+  const transformData = {
+    'upper-left-x': 30,
+    'upper-left-y': 40,
+    'lower-right-x': 50,
+    'lower-right-y': 60,
+    'crop-unit': 'percent',
+  };
+  expect(getCrop(transformData)).toBe(
+    'cropEndX=50&cropEndY=60&cropStartX=30&cropStartY=40&cropUnit=percent',
+  );
 });
 
 test('util/getCrop returns crop string even if crop start x is 0', () => {
@@ -54,7 +68,7 @@ test('util/getCrop returns crop string even if crop start x is 0', () => {
     'lower-right-x': 50,
     'lower-right-y': 60,
   };
-  expect(getCrop(transformData)).toBe('cropStartX=0&cropStartY=40&cropEndX=50&cropEndY=60');
+  expect(getCrop(transformData)).toBe('cropEndX=50&cropEndY=60&cropStartX=0&cropStartY=40');
 });
 
 test('util/getCrop returns undefined if missing transform data', () => {
@@ -76,6 +90,7 @@ test('util/getSrcSets only crop', () => {
     'upper-left-y': 40,
     'lower-right-x': 50,
     'lower-right-y': 60,
+    'crop-unit': 'percent',
   };
   expect(getSrcSets(3, transformData)).toMatchSnapshot();
 });
@@ -96,6 +111,7 @@ test('util/getSrcSets crop and focal point', () => {
     'upper-left-y': 40,
     'lower-right-x': 50,
     'lower-right-y': 60,
+    'crop-unit': 'percent',
     'focal-x': 30,
     'focal-y': 40,
   };

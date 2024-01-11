@@ -48,7 +48,7 @@ const IngressField = ({
         {({ field, form: { isSubmitting } }) =>
           preview ? (
             <div className="article_introduction">
-              {parse(parseMarkdown({ inline: true, markdown: Plain.serialize(field.value) }))}
+              {parse(parseMarkdown({ markdown: Plain.serialize(field.value) }))}
             </div>
           ) : (
             <PlainTextEditor

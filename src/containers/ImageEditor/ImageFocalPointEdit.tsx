@@ -10,7 +10,7 @@ import { MouseEvent, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { colors } from '@ndla/core';
-import { ImageEmbed } from '../../interfaces';
+import { CropUnit, ImageEmbed } from '../../interfaces';
 import {
   getElementOffset,
   getClientPos,
@@ -51,6 +51,7 @@ interface Props {
     'upper-left-y'?: string;
     'lower-right-x'?: string;
     'lower-right-y'?: string;
+    'crop-unit'?: CropUnit;
   };
 }
 

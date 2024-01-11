@@ -6,11 +6,11 @@
  *
  */
 
-import { PercentCrop } from 'react-image-crop';
+import { Crop } from 'react-image-crop';
 import styled from '@emotion/styled';
 import ImageCropEdit from './ImageCropEdit';
 import ImageFocalPointEdit from './ImageFocalPointEdit';
-import { ImageEmbed } from '../../interfaces';
+import { CropUnit, ImageEmbed } from '../../interfaces';
 import { getSrcSets } from '../../util/imageEditorUtil';
 
 const StyledImg = styled.img`
@@ -23,14 +23,15 @@ interface Props {
   language: string;
   editType?: string;
   onFocalPointChange: (focalPoint: { x: number; y: number }) => void;
-  onCropComplete: (crop: PercentCrop) => void;
+  onCropComplete: (crop: Crop) => void;
   transformData?: {
+    'focal-x'?: string;
+    'focal-y'?: string;
     'upper-left-x'?: string;
     'upper-left-y'?: string;
     'lower-right-x'?: string;
     'lower-right-y'?: string;
-    'focal-x'?: string;
-    'focal-y'?: string;
+    'crop-unit'?: CropUnit;
   };
   aspect?: number;
 }

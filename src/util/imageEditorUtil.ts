@@ -7,6 +7,7 @@
  */
 import { MouseEvent } from 'react';
 import config from '../config';
+import { CropUnit } from '../interfaces';
 
 export interface TransformData {
   'focal-x'?: string;
@@ -15,6 +16,7 @@ export interface TransformData {
   'upper-left-y'?: string;
   'lower-right-x'?: string;
   'lower-right-y'?: string;
+  'crop-unit'?: CropUnit;
 }
 
 export function getElementOffset(el: HTMLImageElement) {
@@ -61,11 +63,12 @@ export function getCrop(transformData: TransformData) {
     transformData['upper-left-x'] === undefined ||
     transformData['upper-left-y'] === undefined ||
     transformData['lower-right-x'] === undefined ||
-    transformData['lower-right-y'] === undefined
+    transformData['lower-right-y'] === undefined ||
+    transformData['crop-unit'] === undefined
   ) {
     return undefined;
   }
-  return `cropStartX=${transformData['upper-left-x']}&cropStartY=${transformData['upper-left-y']}&cropEndX=${transformData['lower-right-x']}&cropEndY=${transformData['lower-right-y']}`;
+  return `cropStartX=${transformData['upper-left-x']}&cropStartY=${transformData['upper-left-y']}&cropEndX=${transformData['lower-right-x']}&cropEndY=${transformData['lower-right-y']}&cropUnit=${transformData['crop-unit']}`;
 }
 
 export function getFocalPoint(transformData: TransformData) {

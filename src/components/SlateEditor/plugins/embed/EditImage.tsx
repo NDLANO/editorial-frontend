@@ -61,6 +61,7 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus, language, allowDecor
         'upper-left-y': embed['upper-left-y'],
         'lower-right-x': embed['lower-right-x'],
         'lower-right-y': embed['lower-right-y'],
+        'crop-unit': embed['crop-unit'] || 'percent',
       },
       align: embed.align,
       size: embed.size,

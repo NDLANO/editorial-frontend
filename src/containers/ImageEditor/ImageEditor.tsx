@@ -8,11 +8,11 @@
 
 import { MouseEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { PercentCrop } from 'react-image-crop';
+import { Crop } from 'react-image-crop';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { colors } from '@ndla/core';
-import { Crop, FocalPoint } from '@ndla/icons/editor';
+import { Crop as CropIcon, FocalPoint } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
 import ImageAlignButton from './ImageAlignButton';
@@ -20,7 +20,7 @@ import ImageEditorButton from './ImageEditorButton';
 import ImageSizeButton from './ImageSizeButton';
 import ImageTransformEditor from './ImageTransformEditor';
 import ShowBylineButton from './ShowBylineButton';
-import { ImageEmbed } from '../../interfaces';
+import { CropUnit, ImageEmbed } from '../../interfaces';
 import { fetchImage } from '../../modules/image/imageApi';
 
 const StyledImageEditorMenu = styled('div')`
@@ -53,6 +53,7 @@ const defaultData = {
     'upper-left-y': undefined,
     'lower-right-x': undefined,
     'lower-right-y': undefined,
+    'crop-unit': undefined,
     'focal-x': undefined,
     'focal-y': undefined,
   },
@@ -70,6 +71,7 @@ interface Props {
           'upper-left-y'?: string;
           'lower-right-x'?: string;
           'lower-right-y'?: string;
+          'crop-unit'?: CropUnit;
         };
         align?: string;
         size?: string;
@@ -104,7 +106,7 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates, language }: 
     });
   };
 
-  const onCropComplete = (crop: PercentCrop) => {
+  const onCropComplete = (crop: Crop) => {
     const width = crop.width ?? 0;
     const height = crop.height ?? 0;
     if (width === 0) {
@@ -117,6 +119,7 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates, language }: 
           'upper-left-y': crop.y.toString(),
           'lower-right-x': (crop.x + width).toString(),
           'lower-right-y': (crop.y + height).toString(),
+          'crop-unit': crop.unit === 'px' ? 'pixel' : 'percent',
           ...defaultData.focalPoint,
         },
       });
@@ -261,7 +264,7 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates, language }: 
                 onClick={(evt: MouseEvent<HTMLButtonElement>) => onEditorTypeSet(evt, 'crop')}
                 tabIndex={-1}
               >
-                <Crop />
+                <CropIcon />
               </ImageEditorButton>
             </Tooltip>
           )}

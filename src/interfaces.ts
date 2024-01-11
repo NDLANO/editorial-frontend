@@ -100,6 +100,7 @@ export type RelatedContent = IRelatedContentLink | number;
 export type ConvertedRelatedContent = RelatedContent | IArticle;
 
 export type MessageSeverity = 'danger' | 'info' | 'success' | 'warning';
+export type CropUnit = 'percent' | 'pixel';
 export interface ImageEmbed {
   resource: 'image';
   resource_id: string;
@@ -114,6 +115,7 @@ export interface ImageEmbed {
   'lower-right-x'?: string;
   'upper-left-y'?: string;
   'upper-left-x'?: string;
+  'crop-unit'?: CropUnit;
   metaData?: any;
   'is-decorative'?: string;
   allowDecorative?: string;

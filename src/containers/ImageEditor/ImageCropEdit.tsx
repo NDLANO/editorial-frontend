@@ -7,35 +7,36 @@
  */
 
 import { useState } from 'react';
-import ReactCrop, { Crop, PercentCrop } from 'react-image-crop';
+import ReactCrop, { Crop } from 'react-image-crop';
 import config from '../../config';
-import { ImageEmbed } from '../../interfaces';
+import { CropUnit, ImageEmbed } from '../../interfaces';
 
 interface Props {
   embed: ImageEmbed;
   language: string;
-  onCropComplete: (crop: PercentCrop) => void;
+  onCropComplete: (crop: Crop) => void;
   transformData?: {
-    'focal-x'?: string;
-    'focal-y'?: string;
     'upper-left-x'?: string;
     'upper-left-y'?: string;
     'lower-right-x'?: string;
     'lower-right-y'?: string;
+    'crop-unit'?: CropUnit;
   };
   aspect?: number;
 }
 
 const ImageCropEdit = ({ embed, language, onCropComplete, transformData, aspect }: Props) => {
   const src = `${config.ndlaApiUrl}/image-api/raw/id/${embed.resource_id}?language=${language}`;
+  const unit = (cropUnit?: CropUnit) => (cropUnit === 'pixel' ? 'px' : '%');
   const [crop, setCrop] = useState<Crop | undefined>(
     transformData &&
       !!transformData['upper-left-x'] &&
       !!transformData['upper-left-y'] &&
       !!transformData['lower-right-x'] &&
-      !!transformData['lower-right-y']
+      !!transformData['lower-right-y'] &&
+      !!transformData['crop-unit']
       ? {
-          unit: '%',
+          unit: unit(transformData!['crop-unit']),
           x: parseInt(transformData!['upper-left-x']),
           y: parseInt(transformData!['upper-left-y']),
           width:
@@ -46,7 +47,7 @@ const ImageCropEdit = ({ embed, language, onCropComplete, transformData, aspect 
       : undefined,
   );
 
-  const onComplete = (crop: PercentCrop) => {
+  const onComplete = (crop: Crop) => {
     if (crop.width === 0 && crop.height === 0) {
       return;
     }
@@ -56,7 +57,7 @@ const ImageCropEdit = ({ embed, language, onCropComplete, transformData, aspect 
   return (
     <ReactCrop
       style={{ minWidth: '100%' }}
-      onComplete={(_, crop) => onComplete(crop)}
+      onComplete={(crop, _) => onComplete(crop)}
       crop={crop}
       aspect={aspect}
       onChange={(_, crop) => setCrop(crop)}

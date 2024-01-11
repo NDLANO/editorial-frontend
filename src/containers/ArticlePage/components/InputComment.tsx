@@ -86,7 +86,10 @@ const InputComment = ({ comments, setComments }: Props) => {
   const addComment = useCallback(() => {
     // We need a temporary unique id in frontend before id is generated in draft-api when comment is created
     const uid = uniqueId();
-    const updatedComments = [{ generatedId: uid, content: inputValue, isOpen: true }, ...comments];
+    const updatedComments = [
+      { generatedId: uid, content: inputValue, isOpen: true, solved: false },
+      ...comments,
+    ];
     setComments(updatedComments);
   }, [comments, inputValue, setComments]);
 
@@ -102,12 +105,12 @@ const InputComment = ({ comments, setComments }: Props) => {
     setClickedInputField(true);
   }, [clickedInputField, inputValue, t, userName]);
 
-  const onClickSmall = useCallback(() => {
+  const onCancel = useCallback(() => {
     setInputValue('');
     setClickedInputField(false);
   }, []);
 
-  const onClickMedium = useCallback(() => {
+  const onSubmit = useCallback(() => {
     addComment();
     setInputValue('');
     setClickedInputField(false);
@@ -118,9 +121,9 @@ const InputComment = ({ comments, setComments }: Props) => {
       <WrapperColumn>
         <TextAreaV2
           css={textAreaStyles}
-          label={t('form.commentField')}
-          name={t('form.commentField')}
-          placeholder={`${t('form.comment')}...`}
+          label={t('form.comment.commentField')}
+          name={t('form.comment.commentField')}
+          placeholder={`${t('form.comment.comment')}...`}
           labelHidden
           value={inputValue}
           onChange={handleInputChange}
@@ -133,7 +136,7 @@ const InputComment = ({ comments, setComments }: Props) => {
             size="xsmall"
             colorTheme="danger"
             disabled={!inputValue}
-            onClick={onClickSmall}
+            onClick={onCancel}
           >
             {t('form.abort')}
           </StyledButtonSmall>
@@ -142,9 +145,9 @@ const InputComment = ({ comments, setComments }: Props) => {
             shape="pill"
             size="xsmall"
             disabled={!inputValue}
-            onClick={onClickMedium}
+            onClick={onSubmit}
           >
-            {t('form.comment')}
+            {t('form.comment.comment')}
           </StyledButtonMedium>
         </ButtonWrapper>
       </WrapperColumn>

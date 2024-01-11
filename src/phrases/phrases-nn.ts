@@ -706,8 +706,8 @@ const phrases = {
       hide: 'Skjul kommentar',
       show: 'Vis kommentar',
       commentField: 'Kommentarfelt',
-      solve: 'Kommentaren er merket som uløyst. Merk som løyst',
-      unresolve: 'Kommentaren er merket som løyst. Merk som uløyst',
+      solve: 'Kommentaren er merka som uløyst. Merk som løyst',
+      unresolve: 'Kommentaren er merka som løyst. Merk som uløyst',
     },
     preview: {
       button: 'Forhandsvis',

@@ -9,6 +9,8 @@
 import styled from '@emotion/styled';
 import { spacing, mq } from '@ndla/core';
 
+export const GRID_GAP = '1em';
+
 export const GridContainer = styled.div<{ breakpoint?: string }>`
   ${({ breakpoint }) => breakpoint && mq.range({ from: '0px', until: breakpoint })} {
     padding: 0 ${spacing.nsmall};
@@ -20,7 +22,7 @@ export const GridContainer = styled.div<{ breakpoint?: string }>`
   ${({ breakpoint }) => mq.range({ from: breakpoint ?? '0px' })} {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
-    grid-gap: 1em;
+    grid-gap: ${GRID_GAP};
     max-width: 1400px;
     justify-self: center;
     align-self: center;

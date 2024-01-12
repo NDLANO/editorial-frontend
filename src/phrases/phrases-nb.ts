@@ -141,8 +141,13 @@ const phrases = {
     primaryConnection: 'Vis kun ressurser med primærkobling til mine favorittfag',
     primaryConnectionLabel: 'Vis kun primærkobling',
     prioritizedLabel: 'Vis kun prioriterte',
+    lmaSubjects: 'LMA-fag',
+    favoriteSubjects: 'Favorittfag',
     lmaSubjectsHeading: 'Produksjonsflyt i LMA-fag',
+    favoriteSubjectsHeading: 'Produksjonsflyt i favorittfag',
     lmaSubjectsDescription: 'Status på ressurser i mine LMA-fag i flyten',
+    favoriteSubjectsDescription:
+      'Status på ressurser i mine favorittfag i flyten. Utgåtte fag er ikke inkludert',
     noResultsLMASubjects: 'Følgende statuser vil ikke vises i oversikten',
     count: 'Antall',
     countResponsible: 'Antall ansvarlig for',

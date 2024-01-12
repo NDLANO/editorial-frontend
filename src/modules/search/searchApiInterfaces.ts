@@ -48,4 +48,5 @@ export interface MultiSearchApiQuery {
   priority?: string;
   'draft-status'?: string;
   'include-other-statuses'?: boolean;
+  'filter-inactive'?: boolean;
 }

@@ -11,8 +11,8 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { breakpoints, spacing } from '@ndla/core';
 import { HelmetWithTracker } from '@ndla/tracker';
+import ArticleStatuses from './components/ArticleStatuses';
 import LastUsedItems from './components/LastUsedItems';
-import LMASubjects from './components/LMASubjects';
 import Revisions from './components/Revisions';
 import WelcomeHeader from './components/WelcomeHeader';
 import WorkList from './components/worklist/WorkList';
@@ -35,7 +35,7 @@ export const Wrapper = styled.div`
 export const WelcomePage = () => {
   const { t } = useTranslation();
 
-  const { data } = useUserData({
+  const { data, isLoading } = useUserData({
     enabled: isValid(getAccessToken()) && getAccessTokenPersonal(),
   });
   const { ndlaId } = useSession();
@@ -63,7 +63,15 @@ export const WelcomePage = () => {
           )}
         </Column>
         <Column colStart={6}>{ndlaId && <Revisions userData={data} />}</Column>
-        <Column colEnd={6}>{ndlaId && <LMASubjects ndlaId={ndlaId} />}</Column>
+        <Column colEnd={6}>
+          {ndlaId && (
+            <ArticleStatuses
+              ndlaId={ndlaId}
+              favoriteSubjects={data?.favoriteSubjects}
+              userDataLoading={isLoading}
+            />
+          )}
+        </Column>
       </GridContainer>
 
       <Footer showLocaleSelector />

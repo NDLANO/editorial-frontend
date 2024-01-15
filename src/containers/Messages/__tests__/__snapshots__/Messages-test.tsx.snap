@@ -23,12 +23,12 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
   animation-timing-function: ease-in-out;
 }
 
-.emotion-1[data-state='open'] {
+.emotion-1[data-state="open"] {
   -webkit-animation-name: overlayFadeIn;
   animation-name: overlayFadeIn;
 }
 
-.emotion-1[data-state='closed'] {
+.emotion-1[data-state="closed"] {
   -webkit-animation-name: overlayFadeOut;
   animation-name: overlayFadeOut;
 }
@@ -57,88 +57,88 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-3[data-margin='small'] {
+  .emotion-3[data-margin="small"] {
     --margin: 24px;
   }
 }
 
-.emotion-3[data-position='top'] {
+.emotion-3[data-position="top"] {
   top: var(--margin);
   bottom: unset;
 }
 
-.emotion-3[data-position='bottom'] {
+.emotion-3[data-position="bottom"] {
   bottom: var(--margin);
   top: unset;
 }
 
-.emotion-3[data-position='left'] {
+.emotion-3[data-position="left"] {
   left: var(--margin);
   right: unset;
 }
 
-.emotion-3[data-position='right'] {
+.emotion-3[data-position="right"] {
   right: var(--margin);
   left: unset;
 }
 
-.emotion-3[data-size='full'] {
+.emotion-3[data-size="full"] {
   min-height: 100%;
   min-width: 100%;
   inset: 0;
 }
 
-.emotion-3[data-width='xsmall'],
-.emotion-3[data-size='xsmall'] {
+.emotion-3[data-width="xsmall"],
+.emotion-3[data-size="xsmall"] {
   width: 300px;
 }
 
-.emotion-3[data-width='small'],
-.emotion-3[data-size='small'] {
+.emotion-3[data-width="small"],
+.emotion-3[data-size="small"] {
   width: 500px;
 }
 
-.emotion-3[data-width='normal'],
-.emotion-3[data-size='normal'] {
+.emotion-3[data-width="normal"],
+.emotion-3[data-size="normal"] {
   width: 700px;
 }
 
-.emotion-3[data-width='large'],
-.emotion-3[data-size='large'] {
+.emotion-3[data-width="large"],
+.emotion-3[data-size="large"] {
   width: 1100px;
 }
 
-.emotion-3[data-width='full'] {
+.emotion-3[data-width="full"] {
   width: 100%;
   min-width: 100%;
   left: 0;
   right: 0;
 }
 
-.emotion-3[data-height='xsmall'] {
+.emotion-3[data-height="xsmall"] {
   height: 300px;
 }
 
-.emotion-3[data-height='small'] {
+.emotion-3[data-height="small"] {
   height: 500px;
 }
 
-.emotion-3[data-height='normal'] {
+.emotion-3[data-height="normal"] {
   height: 700px;
 }
 
-.emotion-3[data-height='large'] {
+.emotion-3[data-height="large"] {
   height: 1100px;
 }
 
-.emotion-3[data-height='full'] {
+.emotion-3[data-height="full"] {
   height: 100%;
   min-height: 100%;
   top: 0;
   bottom: 0;
 }
 
-.emotion-3[data-expands='true'] {
+.emotion-3[data-expands="true"] {
   width: -webkit-min-content;
   width: -moz-min-content;
   width: min-content;
@@ -149,72 +149,72 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
   max-height: 100%;
 }
 
-.emotion-3[data-animation-name='fade'][data-state='open'] {
+.emotion-3[data-animation-name="fade"][data-state="open"] {
   -webkit-animation-name: modalFadeIn;
   animation-name: modalFadeIn;
 }
 
-.emotion-3[data-animation-name='fade'][data-state='closed'] {
+.emotion-3[data-animation-name="fade"][data-state="closed"] {
   -webkit-animation-name: modalFadeOut;
   animation-name: modalFadeOut;
 }
 
-.emotion-3[data-animation-name='zoom'][data-state='open'] {
+.emotion-3[data-animation-name="zoom"][data-state="open"] {
   -webkit-animation-name: modalZoomIn;
   animation-name: modalZoomIn;
 }
 
-.emotion-3[data-animation-name='zoom'][data-state='closed'] {
+.emotion-3[data-animation-name="zoom"][data-state="closed"] {
   -webkit-animation-name: modalZoomOut;
   animation-name: modalZoomOut;
 }
 
-.emotion-3[data-animation-name='subtle'][data-state='open'] {
+.emotion-3[data-animation-name="subtle"][data-state="open"] {
   -webkit-animation-name: modalSubtleIn;
   animation-name: modalSubtleIn;
 }
 
-.emotion-3[data-animation-name='subtle'][data-state='closed'] {
+.emotion-3[data-animation-name="subtle"][data-state="closed"] {
   -webkit-animation-name: modalSubtleOut;
   animation-name: modalSubtleOut;
 }
 
-.emotion-3[data-animation-name='slideIn'][data-position='top'][data-state='open'] {
+.emotion-3[data-animation-name="slideIn"][data-position="top"][data-state="open"] {
   -webkit-animation-name: modalSlideTopIn;
   animation-name: modalSlideTopIn;
 }
 
-.emotion-3[data-animation-name='slideIn'][data-position='top'][data-state='closed'] {
+.emotion-3[data-animation-name="slideIn"][data-position="top"][data-state="closed"] {
   -webkit-animation-name: modalSlideTopOut;
   animation-name: modalSlideTopOut;
 }
 
-.emotion-3[data-animation-name='slideIn'][data-position='right'][data-state='open'] {
+.emotion-3[data-animation-name="slideIn"][data-position="right"][data-state="open"] {
   -webkit-animation-name: modalSlideRightIn;
   animation-name: modalSlideRightIn;
 }
 
-.emotion-3[data-animation-name='slideIn'][data-position='right'][data-state='closed'] {
+.emotion-3[data-animation-name="slideIn"][data-position="right"][data-state="closed"] {
   -webkit-animation-name: modalSlideRightOut;
   animation-name: modalSlideRightOut;
 }
 
-.emotion-3[data-animation-name='slideIn'][data-position='bottom'][data-state='open'] {
+.emotion-3[data-animation-name="slideIn"][data-position="bottom"][data-state="open"] {
   -webkit-animation-name: modalSlideBottomIn;
   animation-name: modalSlideBottomIn;
 }
 
-.emotion-3[data-animation-name='slideIn'][data-position='bottom'][data-state='closed'] {
+.emotion-3[data-animation-name="slideIn"][data-position="bottom"][data-state="closed"] {
   -webkit-animation-name: modalSlideBottomOut;
   animation-name: modalSlideBottomOut;
 }
 
-.emotion-3[data-animation-name='slideIn'][data-position='left'][data-state='open'] {
+.emotion-3[data-animation-name="slideIn"][data-position="left"][data-state="open"] {
   -webkit-animation-name: modalSlideLeftIn;
   animation-name: modalSlideLeftIn;
 }
 
-.emotion-3[data-animation-name='slideIn'][data-position='left'][data-state='closed'] {
+.emotion-3[data-animation-name="slideIn"][data-position="left"][data-state="closed"] {
   -webkit-animation-name: modalSlideLeftOut;
   animation-name: modalSlideLeftOut;
 }
@@ -626,12 +626,12 @@ exports[`Messages A single message renders correctly 1`] = `
   animation-timing-function: ease-in-out;
 }
 
-.emotion-1[data-state='open'] {
+.emotion-1[data-state="open"] {
   -webkit-animation-name: overlayFadeIn;
   animation-name: overlayFadeIn;
 }
 
-.emotion-1[data-state='closed'] {
+.emotion-1[data-state="closed"] {
   -webkit-animation-name: overlayFadeOut;
   animation-name: overlayFadeOut;
 }
@@ -660,88 +660,88 @@ exports[`Messages A single message renders correctly 1`] = `
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-3[data-margin='small'] {
+  .emotion-3[data-margin="small"] {
     --margin: 24px;
   }
 }
 
-.emotion-3[data-position='top'] {
+.emotion-3[data-position="top"] {
   top: var(--margin);
   bottom: unset;
 }
 
-.emotion-3[data-position='bottom'] {
+.emotion-3[data-position="bottom"] {
   bottom: var(--margin);
   top: unset;
 }
 
-.emotion-3[data-position='left'] {
+.emotion-3[data-position="left"] {
   left: var(--margin);
   right: unset;
 }
 
-.emotion-3[data-position='right'] {
+.emotion-3[data-position="right"] {
   right: var(--margin);
   left: unset;
 }
 
-.emotion-3[data-size='full'] {
+.emotion-3[data-size="full"] {
   min-height: 100%;
   min-width: 100%;
   inset: 0;
 }
 
-.emotion-3[data-width='xsmall'],
-.emotion-3[data-size='xsmall'] {
+.emotion-3[data-width="xsmall"],
+.emotion-3[data-size="xsmall"] {
   width: 300px;
 }
 
-.emotion-3[data-width='small'],
-.emotion-3[data-size='small'] {
+.emotion-3[data-width="small"],
+.emotion-3[data-size="small"] {
   width: 500px;
 }
 
-.emotion-3[data-width='normal'],
-.emotion-3[data-size='normal'] {
+.emotion-3[data-width="normal"],
+.emotion-3[data-size="normal"] {
   width: 700px;
 }
 
-.emotion-3[data-width='large'],
-.emotion-3[data-size='large'] {
+.emotion-3[data-width="large"],
+.emotion-3[data-size="large"] {
   width: 1100px;
 }
 
-.emotion-3[data-width='full'] {
+.emotion-3[data-width="full"] {
   width: 100%;
   min-width: 100%;
   left: 0;
   right: 0;
 }
 
-.emotion-3[data-height='xsmall'] {
+.emotion-3[data-height="xsmall"] {
   height: 300px;
 }
 
-.emotion-3[data-height='small'] {
+.emotion-3[data-height="small"] {
   height: 500px;
 }
 
-.emotion-3[data-height='normal'] {
+.emotion-3[data-height="normal"] {
   height: 700px;
 }
 
-.emotion-3[data-height='large'] {
+.emotion-3[data-height="large"] {
   height: 1100px;
 }
 
-.emotion-3[data-height='full'] {
+.emotion-3[data-height="full"] {
   height: 100%;
   min-height: 100%;
   top: 0;
   bottom: 0;
 }
 
-.emotion-3[data-expands='true'] {
+.emotion-3[data-expands="true"] {
   width: -webkit-min-content;
   width: -moz-min-content;
   width: min-content;
@@ -752,72 +752,72 @@ exports[`Messages A single message renders correctly 1`] = `
   max-height: 100%;
 }
 
-.emotion-3[data-animation-name='fade'][data-state='open'] {
+.emotion-3[data-animation-name="fade"][data-state="open"] {
   -webkit-animation-name: modalFadeIn;
   animation-name: modalFadeIn;
 }
 
-.emotion-3[data-animation-name='fade'][data-state='closed'] {
+.emotion-3[data-animation-name="fade"][data-state="closed"] {
   -webkit-animation-name: modalFadeOut;
   animation-name: modalFadeOut;
 }
 
-.emotion-3[data-animation-name='zoom'][data-state='open'] {
+.emotion-3[data-animation-name="zoom"][data-state="open"] {
   -webkit-animation-name: modalZoomIn;
   animation-name: modalZoomIn;
 }
 
-.emotion-3[data-animation-name='zoom'][data-state='closed'] {
+.emotion-3[data-animation-name="zoom"][data-state="closed"] {
   -webkit-animation-name: modalZoomOut;
   animation-name: modalZoomOut;
 }
 
-.emotion-3[data-animation-name='subtle'][data-state='open'] {
+.emotion-3[data-animation-name="subtle"][data-state="open"] {
   -webkit-animation-name: modalSubtleIn;
   animation-name: modalSubtleIn;
 }
 
-.emotion-3[data-animation-name='subtle'][data-state='closed'] {
+.emotion-3[data-animation-name="subtle"][data-state="closed"] {
   -webkit-animation-name: modalSubtleOut;
   animation-name: modalSubtleOut;
 }
 
-.emotion-3[data-animation-name='slideIn'][data-position='top'][data-state='open'] {
+.emotion-3[data-animation-name="slideIn"][data-position="top"][data-state="open"] {
   -webkit-animation-name: modalSlideTopIn;
   animation-name: modalSlideTopIn;
 }
 
-.emotion-3[data-animation-name='slideIn'][data-position='top'][data-state='closed'] {
+.emotion-3[data-animation-name="slideIn"][data-position="top"][data-state="closed"] {
   -webkit-animation-name: modalSlideTopOut;
   animation-name: modalSlideTopOut;
 }
 
-.emotion-3[data-animation-name='slideIn'][data-position='right'][data-state='open'] {
+.emotion-3[data-animation-name="slideIn"][data-position="right"][data-state="open"] {
   -webkit-animation-name: modalSlideRightIn;
   animation-name: modalSlideRightIn;
 }
 
-.emotion-3[data-animation-name='slideIn'][data-position='right'][data-state='closed'] {
+.emotion-3[data-animation-name="slideIn"][data-position="right"][data-state="closed"] {
   -webkit-animation-name: modalSlideRightOut;
   animation-name: modalSlideRightOut;
 }
 
-.emotion-3[data-animation-name='slideIn'][data-position='bottom'][data-state='open'] {
+.emotion-3[data-animation-name="slideIn"][data-position="bottom"][data-state="open"] {
   -webkit-animation-name: modalSlideBottomIn;
   animation-name: modalSlideBottomIn;
 }
 
-.emotion-3[data-animation-name='slideIn'][data-position='bottom'][data-state='closed'] {
+.emotion-3[data-animation-name="slideIn"][data-position="bottom"][data-state="closed"] {
   -webkit-animation-name: modalSlideBottomOut;
   animation-name: modalSlideBottomOut;
 }
 
-.emotion-3[data-animation-name='slideIn'][data-position='left'][data-state='open'] {
+.emotion-3[data-animation-name="slideIn"][data-position="left"][data-state="open"] {
   -webkit-animation-name: modalSlideLeftIn;
   animation-name: modalSlideLeftIn;
 }
 
-.emotion-3[data-animation-name='slideIn'][data-position='left'][data-state='closed'] {
+.emotion-3[data-animation-name="slideIn"][data-position="left"][data-state="closed"] {
   -webkit-animation-name: modalSlideLeftOut;
   animation-name: modalSlideLeftOut;
 }
@@ -1205,12 +1205,12 @@ exports[`Messages Several messages renders correctly 1`] = `
   animation-timing-function: ease-in-out;
 }
 
-.emotion-1[data-state='open'] {
+.emotion-1[data-state="open"] {
   -webkit-animation-name: overlayFadeIn;
   animation-name: overlayFadeIn;
 }
 
-.emotion-1[data-state='closed'] {
+.emotion-1[data-state="closed"] {
   -webkit-animation-name: overlayFadeOut;
   animation-name: overlayFadeOut;
 }
@@ -1239,88 +1239,88 @@ exports[`Messages Several messages renders correctly 1`] = `
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-3[data-margin='small'] {
+  .emotion-3[data-margin="small"] {
     --margin: 24px;
   }
 }
 
-.emotion-3[data-position='top'] {
+.emotion-3[data-position="top"] {
   top: var(--margin);
   bottom: unset;
 }
 
-.emotion-3[data-position='bottom'] {
+.emotion-3[data-position="bottom"] {
   bottom: var(--margin);
   top: unset;
 }
 
-.emotion-3[data-position='left'] {
+.emotion-3[data-position="left"] {
   left: var(--margin);
   right: unset;
 }
 
-.emotion-3[data-position='right'] {
+.emotion-3[data-position="right"] {
   right: var(--margin);
   left: unset;
 }
 
-.emotion-3[data-size='full'] {
+.emotion-3[data-size="full"] {
   min-height: 100%;
   min-width: 100%;
   inset: 0;
 }
 
-.emotion-3[data-width='xsmall'],
-.emotion-3[data-size='xsmall'] {
+.emotion-3[data-width="xsmall"],
+.emotion-3[data-size="xsmall"] {
   width: 300px;
 }
 
-.emotion-3[data-width='small'],
-.emotion-3[data-size='small'] {
+.emotion-3[data-width="small"],
+.emotion-3[data-size="small"] {
   width: 500px;
 }
 
-.emotion-3[data-width='normal'],
-.emotion-3[data-size='normal'] {
+.emotion-3[data-width="normal"],
+.emotion-3[data-size="normal"] {
   width: 700px;
 }
 
-.emotion-3[data-width='large'],
-.emotion-3[data-size='large'] {
+.emotion-3[data-width="large"],
+.emotion-3[data-size="large"] {
   width: 1100px;
 }
 
-.emotion-3[data-width='full'] {
+.emotion-3[data-width="full"] {
   width: 100%;
   min-width: 100%;
   left: 0;
   right: 0;
 }
 
-.emotion-3[data-height='xsmall'] {
+.emotion-3[data-height="xsmall"] {
   height: 300px;
 }
 
-.emotion-3[data-height='small'] {
+.emotion-3[data-height="small"] {
   height: 500px;
 }
 
-.emotion-3[data-height='normal'] {
+.emotion-3[data-height="normal"] {
   height: 700px;
 }
 
-.emotion-3[data-height='large'] {
+.emotion-3[data-height="large"] {
   height: 1100px;
 }
 
-.emotion-3[data-height='full'] {
+.emotion-3[data-height="full"] {
   height: 100%;
   min-height: 100%;
   top: 0;
   bottom: 0;
 }
 
-.emotion-3[data-expands='true'] {
+.emotion-3[data-expands="true"] {
   width: -webkit-min-content;
   width: -moz-min-content;
   width: min-content;
@@ -1331,72 +1331,72 @@ exports[`Messages Several messages renders correctly 1`] = `
   max-height: 100%;
 }
 
-.emotion-3[data-animation-name='fade'][data-state='open'] {
+.emotion-3[data-animation-name="fade"][data-state="open"] {
   -webkit-animation-name: modalFadeIn;
   animation-name: modalFadeIn;
 }
 
-.emotion-3[data-animation-name='fade'][data-state='closed'] {
+.emotion-3[data-animation-name="fade"][data-state="closed"] {
   -webkit-animation-name: modalFadeOut;
   animation-name: modalFadeOut;
 }
 
-.emotion-3[data-animation-name='zoom'][data-state='open'] {
+.emotion-3[data-animation-name="zoom"][data-state="open"] {
   -webkit-animation-name: modalZoomIn;
   animation-name: modalZoomIn;
 }
 
-.emotion-3[data-animation-name='zoom'][data-state='closed'] {
+.emotion-3[data-animation-name="zoom"][data-state="closed"] {
   -webkit-animation-name: modalZoomOut;
   animation-name: modalZoomOut;
 }
 
-.emotion-3[data-animation-name='subtle'][data-state='open'] {
+.emotion-3[data-animation-name="subtle"][data-state="open"] {
   -webkit-animation-name: modalSubtleIn;
   animation-name: modalSubtleIn;
 }
 
-.emotion-3[data-animation-name='subtle'][data-state='closed'] {
+.emotion-3[data-animation-name="subtle"][data-state="closed"] {
   -webkit-animation-name: modalSubtleOut;
   animation-name: modalSubtleOut;
 }
 
-.emotion-3[data-animation-name='slideIn'][data-position='top'][data-state='open'] {
+.emotion-3[data-animation-name="slideIn"][data-position="top"][data-state="open"] {
   -webkit-animation-name: modalSlideTopIn;
   animation-name: modalSlideTopIn;
 }
 
-.emotion-3[data-animation-name='slideIn'][data-position='top'][data-state='closed'] {
+.emotion-3[data-animation-name="slideIn"][data-position="top"][data-state="closed"] {
   -webkit-animation-name: modalSlideTopOut;
   animation-name: modalSlideTopOut;
 }
 
-.emotion-3[data-animation-name='slideIn'][data-position='right'][data-state='open'] {
+.emotion-3[data-animation-name="slideIn"][data-position="right"][data-state="open"] {
   -webkit-animation-name: modalSlideRightIn;
   animation-name: modalSlideRightIn;
 }
 
-.emotion-3[data-animation-name='slideIn'][data-position='right'][data-state='closed'] {
+.emotion-3[data-animation-name="slideIn"][data-position="right"][data-state="closed"] {
   -webkit-animation-name: modalSlideRightOut;
   animation-name: modalSlideRightOut;
 }
 
-.emotion-3[data-animation-name='slideIn'][data-position='bottom'][data-state='open'] {
+.emotion-3[data-animation-name="slideIn"][data-position="bottom"][data-state="open"] {
   -webkit-animation-name: modalSlideBottomIn;
   animation-name: modalSlideBottomIn;
 }
 
-.emotion-3[data-animation-name='slideIn'][data-position='bottom'][data-state='closed'] {
+.emotion-3[data-animation-name="slideIn"][data-position="bottom"][data-state="closed"] {
   -webkit-animation-name: modalSlideBottomOut;
   animation-name: modalSlideBottomOut;
 }
 
-.emotion-3[data-animation-name='slideIn'][data-position='left'][data-state='open'] {
+.emotion-3[data-animation-name="slideIn"][data-position="left"][data-state="open"] {
   -webkit-animation-name: modalSlideLeftIn;
   animation-name: modalSlideLeftIn;
 }
 
-.emotion-3[data-animation-name='slideIn'][data-position='left'][data-state='closed'] {
+.emotion-3[data-animation-name="slideIn"][data-position="left"][data-state="closed"] {
   -webkit-animation-name: modalSlideLeftOut;
   animation-name: modalSlideLeftOut;
 }
@@ -1878,12 +1878,12 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
   animation-timing-function: ease-in-out;
 }
 
-.emotion-1[data-state='open'] {
+.emotion-1[data-state="open"] {
   -webkit-animation-name: overlayFadeIn;
   animation-name: overlayFadeIn;
 }
 
-.emotion-1[data-state='closed'] {
+.emotion-1[data-state="closed"] {
   -webkit-animation-name: overlayFadeOut;
   animation-name: overlayFadeOut;
 }
@@ -1912,88 +1912,88 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-3[data-margin='small'] {
+  .emotion-3[data-margin="small"] {
     --margin: 24px;
   }
 }
 
-.emotion-3[data-position='top'] {
+.emotion-3[data-position="top"] {
   top: var(--margin);
   bottom: unset;
 }
 
-.emotion-3[data-position='bottom'] {
+.emotion-3[data-position="bottom"] {
   bottom: var(--margin);
   top: unset;
 }
 
-.emotion-3[data-position='left'] {
+.emotion-3[data-position="left"] {
   left: var(--margin);
   right: unset;
 }
 
-.emotion-3[data-position='right'] {
+.emotion-3[data-position="right"] {
   right: var(--margin);
   left: unset;
 }
 
-.emotion-3[data-size='full'] {
+.emotion-3[data-size="full"] {
   min-height: 100%;
   min-width: 100%;
   inset: 0;
 }
 
-.emotion-3[data-width='xsmall'],
-.emotion-3[data-size='xsmall'] {
+.emotion-3[data-width="xsmall"],
+.emotion-3[data-size="xsmall"] {
   width: 300px;
 }
 
-.emotion-3[data-width='small'],
-.emotion-3[data-size='small'] {
+.emotion-3[data-width="small"],
+.emotion-3[data-size="small"] {
   width: 500px;
 }
 
-.emotion-3[data-width='normal'],
-.emotion-3[data-size='normal'] {
+.emotion-3[data-width="normal"],
+.emotion-3[data-size="normal"] {
   width: 700px;
 }
 
-.emotion-3[data-width='large'],
-.emotion-3[data-size='large'] {
+.emotion-3[data-width="large"],
+.emotion-3[data-size="large"] {
   width: 1100px;
 }
 
-.emotion-3[data-width='full'] {
+.emotion-3[data-width="full"] {
   width: 100%;
   min-width: 100%;
   left: 0;
   right: 0;
 }
 
-.emotion-3[data-height='xsmall'] {
+.emotion-3[data-height="xsmall"] {
   height: 300px;
 }
 
-.emotion-3[data-height='small'] {
+.emotion-3[data-height="small"] {
   height: 500px;
 }
 
-.emotion-3[data-height='normal'] {
+.emotion-3[data-height="normal"] {
   height: 700px;
 }
 
-.emotion-3[data-height='large'] {
+.emotion-3[data-height="large"] {
   height: 1100px;
 }
 
-.emotion-3[data-height='full'] {
+.emotion-3[data-height="full"] {
   height: 100%;
   min-height: 100%;
   top: 0;
   bottom: 0;
 }
 
-.emotion-3[data-expands='true'] {
+.emotion-3[data-expands="true"] {
   width: -webkit-min-content;
   width: -moz-min-content;
   width: min-content;
@@ -2004,72 +2004,72 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
   max-height: 100%;
 }
 
-.emotion-3[data-animation-name='fade'][data-state='open'] {
+.emotion-3[data-animation-name="fade"][data-state="open"] {
   -webkit-animation-name: modalFadeIn;
   animation-name: modalFadeIn;
 }
 
-.emotion-3[data-animation-name='fade'][data-state='closed'] {
+.emotion-3[data-animation-name="fade"][data-state="closed"] {
   -webkit-animation-name: modalFadeOut;
   animation-name: modalFadeOut;
 }
 
-.emotion-3[data-animation-name='zoom'][data-state='open'] {
+.emotion-3[data-animation-name="zoom"][data-state="open"] {
   -webkit-animation-name: modalZoomIn;
   animation-name: modalZoomIn;
 }
 
-.emotion-3[data-animation-name='zoom'][data-state='closed'] {
+.emotion-3[data-animation-name="zoom"][data-state="closed"] {
   -webkit-animation-name: modalZoomOut;
   animation-name: modalZoomOut;
 }
 
-.emotion-3[data-animation-name='subtle'][data-state='open'] {
+.emotion-3[data-animation-name="subtle"][data-state="open"] {
   -webkit-animation-name: modalSubtleIn;
   animation-name: modalSubtleIn;
 }
 
-.emotion-3[data-animation-name='subtle'][data-state='closed'] {
+.emotion-3[data-animation-name="subtle"][data-state="closed"] {
   -webkit-animation-name: modalSubtleOut;
   animation-name: modalSubtleOut;
 }
 
-.emotion-3[data-animation-name='slideIn'][data-position='top'][data-state='open'] {
+.emotion-3[data-animation-name="slideIn"][data-position="top"][data-state="open"] {
   -webkit-animation-name: modalSlideTopIn;
   animation-name: modalSlideTopIn;
 }
 
-.emotion-3[data-animation-name='slideIn'][data-position='top'][data-state='closed'] {
+.emotion-3[data-animation-name="slideIn"][data-position="top"][data-state="closed"] {
   -webkit-animation-name: modalSlideTopOut;
   animation-name: modalSlideTopOut;
 }
 
-.emotion-3[data-animation-name='slideIn'][data-position='right'][data-state='open'] {
+.emotion-3[data-animation-name="slideIn"][data-position="right"][data-state="open"] {
   -webkit-animation-name: modalSlideRightIn;
   animation-name: modalSlideRightIn;
 }
 
-.emotion-3[data-animation-name='slideIn'][data-position='right'][data-state='closed'] {
+.emotion-3[data-animation-name="slideIn"][data-position="right"][data-state="closed"] {
   -webkit-animation-name: modalSlideRightOut;
   animation-name: modalSlideRightOut;
 }
 
-.emotion-3[data-animation-name='slideIn'][data-position='bottom'][data-state='open'] {
+.emotion-3[data-animation-name="slideIn"][data-position="bottom"][data-state="open"] {
   -webkit-animation-name: modalSlideBottomIn;
   animation-name: modalSlideBottomIn;
 }
 
-.emotion-3[data-animation-name='slideIn'][data-position='bottom'][data-state='closed'] {
+.emotion-3[data-animation-name="slideIn"][data-position="bottom"][data-state="closed"] {
   -webkit-animation-name: modalSlideBottomOut;
   animation-name: modalSlideBottomOut;
 }
 
-.emotion-3[data-animation-name='slideIn'][data-position='left'][data-state='open'] {
+.emotion-3[data-animation-name="slideIn"][data-position="left"][data-state="open"] {
   -webkit-animation-name: modalSlideLeftIn;
   animation-name: modalSlideLeftIn;
 }
 
-.emotion-3[data-animation-name='slideIn'][data-position='left'][data-state='closed'] {
+.emotion-3[data-animation-name="slideIn"][data-position="left"][data-state="closed"] {
   -webkit-animation-name: modalSlideLeftOut;
   animation-name: modalSlideLeftOut;
 }

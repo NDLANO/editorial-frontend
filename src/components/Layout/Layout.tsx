@@ -9,14 +9,14 @@
 import styled from '@emotion/styled';
 import { spacing, mq } from '@ndla/core';
 
-export const GRID_GAP = '1em';
+export const GRID_GAP = spacing.nsmall;
 
 export const GridContainer = styled.div<{ breakpoint?: string }>`
   ${({ breakpoint }) => breakpoint && mq.range({ from: '0px', until: breakpoint })} {
-    padding: 0 ${spacing.nsmall};
+    padding: 0 ${GRID_GAP};
     display: flex;
     flex-direction: column;
-    gap: ${spacing.nsmall};
+    gap: ${GRID_GAP};
   }
 
   ${({ breakpoint }) => mq.range({ from: breakpoint ?? '0px' })} {

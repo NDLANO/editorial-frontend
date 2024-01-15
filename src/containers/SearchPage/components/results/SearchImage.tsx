@@ -58,7 +58,7 @@ const SearchImage = ({ image, locale }: Props) => {
           fileSize={image.image.size}
           imageDimensions={image.image.dimensions}
         />
-      {license && <LicenseLink license={getLicenseByAbbreviation(license.license, locale)} />}
+        {license && <LicenseLink license={getLicenseByAbbreviation(license.license, locale)} />}
       </StyledSearchContent>
     </StyledSearchResult>
   );

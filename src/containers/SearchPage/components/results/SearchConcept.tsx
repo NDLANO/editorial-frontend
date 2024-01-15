@@ -13,10 +13,10 @@ import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 import { Concept, Globe } from '@ndla/icons/editor';
 import { getLicenseByAbbreviation } from '@ndla/licenses';
-import { LicenseByline } from '@ndla/notion';
 import { IConceptSummary } from '@ndla/types-backend/concept-api';
 import { Node } from '@ndla/types-taxonomy';
 import { Text } from '@ndla/typography';
+import { LicenseLink } from '@ndla/ui';
 import HeaderStatusInformation from '../../../../components/HeaderWithLanguage/HeaderStatusInformation';
 import { LocaleType } from '../../../../interfaces';
 import { useLicenses } from '../../../../modules/draft/draftQueries';
@@ -113,13 +113,7 @@ const SearchConcept = ({ concept, locale, subjects, editingState, responsibleNam
           </div>
         </div>
         <StyledSearchDescription>{conceptInfo}</StyledSearchDescription>
-        {license && (
-          <LicenseByline
-            licenseRights={getLicenseByAbbreviation(license.license, locale).rights}
-            locale={locale}
-            color={colors.brand.grey}
-          />
-        )}
+        {license && <LicenseLink license={getLicenseByAbbreviation(license.license, locale)} />}
         <StyledSearchBreadcrumbs style={{ marginTop: '0px' }}>
           {breadcrumbs?.map((breadcrumb) => (
             <StyledSearchBreadcrumb key={breadcrumb.id}>{breadcrumb.name}</StyledSearchBreadcrumb>

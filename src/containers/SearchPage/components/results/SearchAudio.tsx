@@ -8,11 +8,10 @@
 
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { colors } from '@ndla/core';
 import { Audio, Podcast } from '@ndla/icons/common';
 import { getLicenseByAbbreviation } from '@ndla/licenses';
-import { LicenseByline } from '@ndla/notion';
 import { IAudioSummary } from '@ndla/types-backend/audio-api';
+import { LicenseLink } from '@ndla/ui';
 import { useLicenses } from '../../../../modules/draft/draftQueries';
 import { toEditAudio, toEditPodcast } from '../../../../util/routeHelpers';
 import {
@@ -54,13 +53,7 @@ const SearchAudio = ({ audio, locale }: Props) => {
             <StyledSearchOtherLink key={lang}>{t(`languages.${lang}`)}</StyledSearchOtherLink>
           ))}
         </StyledSearchDescription>
-        {license && (
-          <LicenseByline
-            licenseRights={getLicenseByAbbreviation(license.license, locale).rights}
-            locale={locale}
-            color={colors.brand.grey}
-          />
-        )}
+        {license && <LicenseLink license={getLicenseByAbbreviation(license.license, locale)} />}
       </StyledSearchContent>
     </StyledSearchResult>
   );

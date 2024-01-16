@@ -14,7 +14,6 @@ import { PodcastSeriesFormikType } from './PodcastSeriesForm';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
 import { fetchAudio, searchAudio } from '../../../modules/audio/audioApi';
 import handleError from '../../../util/handleError';
-
 import ElementList from '../../FormikForm/components/ElementList';
 
 const PodcastEpisodes = () => {
@@ -80,7 +79,7 @@ const PodcastEpisodes = () => {
       />
       <ElementList
         elements={elements}
-        isOrderable={false}
+        isDraggable={false}
         messages={{
           dragElement: t('conceptpageForm.changeOrder'),
           removeElement: t('conceptpageForm.removeArticle'),

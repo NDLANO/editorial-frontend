@@ -101,10 +101,12 @@ const ContentField = ({ field, form }: Props) => {
     <>
       <FieldHeader title={t('form.relatedContent.articlesTitle')} />
       <ElementList
-        elements={relatedContent.filter(
-          (rc: number | IArticle | IRelatedContentLink): rc is IArticle | IRelatedContentLink =>
-            typeof rc !== 'number',
-        )}
+        elements={relatedContent
+          .filter(
+            (rc: number | IArticle | IRelatedContentLink): rc is IArticle | IRelatedContentLink =>
+              typeof rc !== 'number',
+          )
+          .map((r) => ('id' in r ? r : { ...r, isExternal: true }))}
         messages={{
           dragElement: t('form.relatedContent.changeOrder'),
           removeElement: t('form.relatedContent.removeArticle'),

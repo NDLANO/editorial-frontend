@@ -75,6 +75,10 @@ const HiddenEnvText = styled(EnvText)`
   visibility: hidden;
 `;
 
+const LinkWrapper = styled.div`
+  gap: ${spacing.small};
+`;
+
 interface EnvironmentSettings {
   color: string;
   name: string;
@@ -142,6 +146,14 @@ const Navigation = () => {
                     </StyledLogoDiv>
                     <SavedSearchDropdown onClose={closeMenu} />
                   </LeftContent>
+                  <LinkWrapper>
+                    <SafeLink target="_blank" to="https://edndla.zendesk.com/hc/no">
+                      Zendesk
+                    </SafeLink>
+                    <SafeLink target="_blank" to="https://kvalitet.ndla.no/">
+                      Kvalitaisen
+                    </SafeLink>
+                  </LinkWrapper>
                   <SessionContainer close={closeMenu} />
                 </StyledHeaderItems>
               </Column>

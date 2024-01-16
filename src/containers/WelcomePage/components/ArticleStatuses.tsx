@@ -8,8 +8,10 @@
 
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import Tabs from '@ndla/tabs';
 import ArticleStatusContent from './ArticleStatusContent';
+import { GRID_GAP } from '../../../components/Layout/Layout';
 import {
   FAVOURITES_SUBJECT_ID,
   LMA_SUBJECT_ID,
@@ -18,6 +20,10 @@ import {
 import { SUBJECT_NODE } from '../../../modules/nodes/nodeApiTypes';
 import { useNodes } from '../../../modules/nodes/nodeQueries';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
+
+const StyledWrapper = styled.div`
+  margin-top: ${GRID_GAP};
+`;
 
 interface Props {
   ndlaId: string;
@@ -86,7 +92,9 @@ const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataLoading }: Props) =
   return (
     <>
       {!!tabs.length && !lmaSubjectsLoading && !userDataLoading && (
-        <Tabs variant="rounded" tabs={tabs} />
+        <StyledWrapper>
+          <Tabs variant="rounded" tabs={tabs} />
+        </StyledWrapper>
       )}
     </>
   );

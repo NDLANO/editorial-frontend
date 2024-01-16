@@ -20,13 +20,16 @@ import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
 import GoToSearch from './GoToSearch';
 import TableComponent, { FieldElement, Prefix, TitleElement } from './TableComponent';
 import TableTitle from './TableTitle';
+import PageSizeDropdown from './worklist/PageSizeDropdown';
 import SubjectDropdown from './worklist/SubjectDropdown';
+import { defaultPageSize } from './worklist/WorkList';
 import { getWarnStatus } from '../../../components/HeaderWithLanguage/HeaderStatusInformation';
 import {
   FAVOURITES_SUBJECT_ID,
   PUBLISHED,
   STORED_SORT_OPTION_REVISION,
   Revision,
+  STORED_PAGE_SIZE_REVISION,
 } from '../../../constants';
 import { useSearch } from '../../../modules/search/searchQueries';
 import formatDate, { formatDateForBackend } from '../../../util/formatDate';
@@ -80,12 +83,21 @@ interface Props {
 type SortOptionRevision = 'title' | 'revisionDate' | 'status';
 
 const Revisions = ({ userData }: Props) => {
+  const storedPageSize = localStorage.getItem(STORED_PAGE_SIZE_REVISION);
   const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
   const [sortOption, _setSortOption] = useState<Prefix<'-', SortOptionRevision>>(
     (localStorage.getItem(STORED_SORT_OPTION_REVISION) as Prefix<'-', SortOptionRevision>) ||
       'revisionDate',
   );
   const [page, setPage] = useState(1);
+  const [pageSize, _setPageSize] = useState<SingleValue>(
+    storedPageSize
+      ? {
+          label: storedPageSize,
+          value: storedPageSize,
+        }
+      : defaultPageSize,
+  );
   const [checked, setChecked] = useState(false);
 
   const {
@@ -108,7 +120,7 @@ const Revisions = ({ userData }: Props) => {
       'revision-date-to': currentDateAddYear,
       sort: sortOption,
       page: page,
-      'page-size': 6,
+      'page-size': Number(pageSize!.value),
       language,
       fallback: true,
       'draft-status': PUBLISHED,
@@ -146,8 +158,19 @@ const Revisions = ({ userData }: Props) => {
     () =>
       checked
         ? getDataPrimaryConnectionToFavorite(data?.results)
-        : { results: data?.results, totalCount: data?.totalCount, pageSize: data?.pageSize ?? 6 },
-    [checked, data?.pageSize, data?.results, data?.totalCount, getDataPrimaryConnectionToFavorite],
+        : {
+            results: data?.results,
+            totalCount: data?.totalCount,
+            pageSize: data?.pageSize ?? Number(pageSize!.value),
+          },
+    [
+      checked,
+      data?.pageSize,
+      data?.results,
+      data?.totalCount,
+      getDataPrimaryConnectionToFavorite,
+      pageSize,
+    ],
   );
 
   const lastPage = useMemo(
@@ -217,6 +240,12 @@ const Revisions = ({ userData }: Props) => {
     localStorage.setItem(STORED_SORT_OPTION_REVISION, s);
   }, []);
 
+  const setPageSize = useCallback((p: SingleValue) => {
+    if (!p) return;
+    _setPageSize(p);
+    localStorage.setItem(STORED_PAGE_SIZE_REVISION, p.value);
+  }, []);
+
   return (
     <RevisionsWrapper>
       <StyledDashboardInfo>
@@ -229,6 +258,7 @@ const Revisions = ({ userData }: Props) => {
           />
           <ControlWrapperDashboard>
             <TopRowControls>
+              <PageSizeDropdown pageSize={pageSize} setPageSize={setPageSize} />
               <SubjectDropdown
                 subjectIds={userData?.favoriteSubjects ?? []}
                 filterSubject={filterSubject}

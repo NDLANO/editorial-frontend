@@ -67,6 +67,7 @@ const DeleteButton = ({ onDelete, index, removeElementTranslation }: DeleteButto
       aria-label={removeElementTranslation ?? t('form.relatedContent.removeArticle')}
       variant="ghost"
       colorTheme="danger"
+      data-testid="elementListItemDeleteButton"
       onClick={() => onDelete(index)}
       title={removeElementTranslation ?? t('form.relatedContent.removeArticle')}
     >

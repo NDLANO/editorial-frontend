@@ -30,7 +30,6 @@ import loadable from '@loadable/component';
 import { PageContainer } from '@ndla/ui';
 import Zendesk from './Zendesk';
 import ErrorBoundary from '../../components/ErrorBoundary';
-import config from '../../config';
 import { scheduleRenewal } from '../../util/authHelpers';
 import Navigation from '../Masthead/components/Navigation';
 import Messages from '../Messages/Messages';

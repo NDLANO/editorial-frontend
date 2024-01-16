@@ -14,23 +14,15 @@ import { IMultiSearchResult } from '@ndla/types-backend/search-api';
 import TableComponent, { FieldElement } from './TableComponent';
 import TableTitle from './TableTitle';
 import SubjectDropdown from './worklist/SubjectDropdown';
-import {
-  ARCHIVED,
-  LMA_SUBJECT_ID,
-  PUBLISHED,
-  STATUS_ORDER,
-  TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
-  UNPUBLISHED,
-} from '../../../constants';
-import { useNodes } from '../../../modules/nodes/nodeQueries';
+import { ARCHIVED, PUBLISHED, STATUS_ORDER, UNPUBLISHED } from '../../../constants';
 import { useSearch } from '../../../modules/search/searchQueries';
 import { toSearch } from '../../../util/routeHelpers';
-import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import {
   ControlWrapperDashboard,
-  StyledDashboardInfo,
   StyledLink,
+  StyledSwitch,
   StyledTopRowDashboardInfo,
+  SwitchWrapper,
 } from '../styles';
 
 const EXCLUDE_STATUSES = [PUBLISHED, UNPUBLISHED, ARCHIVED];
@@ -54,45 +46,50 @@ const getResultAggregationList = (
     const responsibleAgg = responsibleAggDataExcludeStatuses.find((r) => r.value === aggData.value);
     return { ...aggData, responsibleCount: responsibleAgg?.count ?? 0 };
   });
-
-  return resultList.sort((a, b) => STATUS_ORDER.indexOf(a.value) - STATUS_ORDER.indexOf(b.value));
+  const withMissingStatuses = STATUS_ORDER.map((s) => {
+    const aggregationData = resultList.find((r) => r.value === s);
+    return {
+      value: s,
+      count: aggregationData?.count ?? 0,
+      responsibleCount: aggregationData?.responsibleCount ?? 0,
+    };
+  });
+  return withMissingStatuses;
 };
 
 interface Props {
   ndlaId: string;
+  subjectIds: string[];
+  title: string;
+  description: string;
+  searchPageSubjectFilter: string;
 }
 
-const LMASubjects = ({ ndlaId }: Props) => {
+const ArticleStatusContent = ({
+  ndlaId,
+  subjectIds,
+  title,
+  description,
+  searchPageSubjectFilter,
+}: Props) => {
   const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
-  const { i18n, t } = useTranslation();
-  const { taxonomyVersion } = useTaxonomyVersion();
+  const [hideOnHold, setHideOnHold] = useState(false);
+  const { t } = useTranslation();
 
-  const subjectsQuery = useNodes(
-    {
-      language: i18n.language,
-      taxonomyVersion,
-      nodeType: 'SUBJECT',
-      key: TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
-      value: ndlaId,
-    },
-    { enabled: !!ndlaId },
+  const filteredSubjectIds: string[] | undefined = useMemo(
+    () => (filterSubject ? [filterSubject.value] : subjectIds),
+    [subjectIds, filterSubject],
   );
-
-  const userHasSubjectLMA = !!subjectsQuery.data?.length;
-
-  const subjectIds: string[] | undefined = useMemo(
-    () => (filterSubject ? [filterSubject.value] : subjectsQuery.data?.map((s) => s.id)),
-    [filterSubject, subjectsQuery.data],
-  );
-
   const searchQuery = useSearch(
     {
       'page-size': 0,
       'aggregate-paths': 'draftStatus.current',
-      subjects: subjectIds?.join(', '),
+      subjects: filteredSubjectIds?.join(', '),
+      'filter-inactive': true,
+      ...(hideOnHold ? { priority: 'prioritized,unspecified' } : {}),
     },
     {
-      enabled: userHasSubjectLMA,
+      enabled: !!subjectIds.length,
     },
   );
 
@@ -101,18 +98,19 @@ const LMASubjects = ({ ndlaId }: Props) => {
       'responsible-ids': ndlaId,
       'page-size': 0,
       'aggregate-paths': 'draftStatus.current',
-      subjects: subjectIds?.join(', '),
+      subjects: filteredSubjectIds?.join(', '),
+      'filter-inactive': true,
     },
     {
-      enabled: userHasSubjectLMA,
+      enabled: !!subjectIds.length,
     },
   );
 
   const error = useMemo(() => {
-    if (subjectsQuery.isError || searchQuery.isError || searchResponsibleQuery.error) {
+    if (searchQuery.isError || searchResponsibleQuery.error) {
       return t('welcomePage.errorMessage');
     }
-  }, [searchQuery.isError, searchResponsibleQuery.error, subjectsQuery.isError, t]);
+  }, [searchQuery.isError, searchResponsibleQuery.error, t]);
 
   const tableTitles = [
     { title: t('welcomePage.workList.status') },
@@ -136,7 +134,7 @@ const LMASubjects = ({ ndlaId }: Props) => {
                     page: '1',
                     sort: '-relevance',
                     'page-size': 10,
-                    subjects: LMA_SUBJECT_ID,
+                    subjects: filterSubject ? filterSubject.value : searchPageSubjectFilter,
                     'draft-status': statusData.value,
                   },
                   'content',
@@ -155,39 +153,40 @@ const LMASubjects = ({ ndlaId }: Props) => {
         ];
       }) ?? [[]]
     );
-  }, [searchQuery.data, searchResponsibleQuery.data, t]);
+  }, [filterSubject, searchPageSubjectFilter, searchQuery.data, searchResponsibleQuery.data, t]);
 
   return (
     <>
-      {userHasSubjectLMA && (
-        <StyledDashboardInfo>
-          <StyledTopRowDashboardInfo>
-            <TableTitle
-              title={t('welcomePage.lmaSubjectsHeading')}
-              description={t('welcomePage.lmaSubjectsDescription')}
-              Icon={BookOpen}
-            />
-            <ControlWrapperDashboard>
-              <SubjectDropdown
-                subjectIds={subjectIds || []}
-                filterSubject={filterSubject}
-                setFilterSubject={setFilterSubject}
-              />
-            </ControlWrapperDashboard>
-          </StyledTopRowDashboardInfo>
-          <TableComponent
-            isLoading={searchQuery.isLoading}
-            tableTitleList={tableTitles}
-            tableData={tableData}
-            error={error}
-            noResultsText={`${t('welcomePage.noResultsLMASubjects')}: ${EXCLUDE_STATUSES.map(
-              (status) => t(`form.status.actions.${status}`),
-            ).join(', ')}`}
+      <StyledTopRowDashboardInfo>
+        <TableTitle title={title} description={description} Icon={BookOpen} />
+        <ControlWrapperDashboard>
+          <SubjectDropdown
+            subjectIds={subjectIds || []}
+            filterSubject={filterSubject}
+            setFilterSubject={setFilterSubject}
+            removeArchived
           />
-        </StyledDashboardInfo>
-      )}
+          <SwitchWrapper>
+            <StyledSwitch
+              checked={hideOnHold}
+              onChange={(checked) => setHideOnHold(checked)}
+              label={t('welcomePage.workList.onHoldFilter')}
+              id="filter-on-hold-switch"
+            />
+          </SwitchWrapper>
+        </ControlWrapperDashboard>
+      </StyledTopRowDashboardInfo>
+      <TableComponent
+        isLoading={searchQuery.isLoading}
+        tableTitleList={tableTitles}
+        tableData={tableData}
+        error={error}
+        noResultsText={`${t('welcomePage.noResultsLMASubjects')}: ${EXCLUDE_STATUSES.map((status) =>
+          t(`form.status.actions.${status}`),
+        ).join(', ')}`}
+      />
     </>
   );
 };
 
-export default LMASubjects;
+export default ArticleStatusContent;

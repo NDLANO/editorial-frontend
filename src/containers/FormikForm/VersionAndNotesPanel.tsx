@@ -25,7 +25,6 @@ import Spinner from '../../components/Spinner';
 import VersionHistory from '../../components/VersionHistory/VersionHistory';
 import VersionLogTag from '../../components/VersionHistory/VersionLogTag';
 import { useSession } from '../../containers/Session/SessionProvider';
-import { FormikStatus } from '../../interfaces';
 import * as articleApi from '../../modules/article/articleApi';
 import { fetchAuth0UsersFromUserIds, SimpleUserType } from '../../modules/auth0/auth0Api';
 import { fetchDraftHistory } from '../../modules/draft/draftApi';

@@ -27,6 +27,7 @@ export const STORED_LANGUAGE_KEY = 'language';
 
 export const REMEMBER_FAVOURITE_SUBJECTS = 'rememberFavouriteSubjects';
 export const REMEMBER_FAVORITE_NODES = 'rememberFavoriteNodes';
+export const REMEMBER_LMA_SUBJECTS = 'rememberLmaSubjects';
 export const FAVOURITES_SUBJECT_ID = 'urn:favourites';
 export const LMA_SUBJECT_ID = 'urn:lmaSubjects';
 // Relevances
@@ -70,6 +71,7 @@ export const TAXONOMY_CUSTOM_FIELD_IS_PUBLISHING = 'isPublishing';
 export const TAXONOMY_CUSTOM_FIELD_PROGRAMME_SUBJECT = 'programfag';
 
 export const MAX_IMAGE_UPLOAD_SIZE = 1024 * 1024 * 40; // 40MB.
+export const LAST_UPDATED_SIZE = 50;
 
 export const MAX_PAGE_WIDTH = 1024;
 export const MAX_FRONTPAGE_ARTICLE_WIDTH = 1400;
@@ -93,7 +95,6 @@ export const PUBLISH_DELAYED = 'PUBLISH_DELAYED';
 export const REPUBLISH = 'REPUBLISH';
 
 export const STATUS_ORDER = [
-  IMPORTED,
   PLANNED,
   IN_PROGRESS,
   EXTERNAL_REVIEW,
@@ -109,6 +110,9 @@ export const STATUS_ORDER = [
 export const STORED_PAGE_SIZE = 'STORED_PAGE_SIZE';
 export const STORED_PAGE_SIZE_CONCEPT = 'STORED_PAGE_SIZE_CONCEPT';
 export const STORED_PAGE_SIZE_ON_HOLD = 'STORED_PAGE_SIZE_ON_HOLD';
+export const STORED_PAGE_SIZE_LAST_UPDATED = 'STORED_PAGE_SIZE_LAST_UPDATED';
+export const STORED_PAGE_SIZE_LAST_UPDATED_CONCEPT = 'STORED_PAGE_SIZE_LAST_UPDATED_CONCEPT';
+export const STORED_PAGE_SIZE_REVISION = 'STORED_PAGE_SIZE_REVISION';
 
 export const STORED_SORT_OPTION_WORKLIST = 'STORED_SORT_OPTION_WORKLIST';
 export const STORED_SORT_OPTION_WORKLIST_CONCEPT = 'STORED_SORT_OPTION_WORKLIST_CONCEPT';

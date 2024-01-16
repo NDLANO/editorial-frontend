@@ -6,7 +6,7 @@
  *
  */
 
-import { ComponentProps, CSSProperties, ReactNode } from 'react';
+import { ComponentProps, CSSProperties } from 'react';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import FormikField from '../../../components/FormikField';

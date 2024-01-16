@@ -45,6 +45,7 @@ interface Props {
   inModal?: boolean;
   showCheckbox?: boolean;
   checkboxAction?: (image: IImageMetaInformationV3) => void;
+  podcastFriendly?: boolean;
 }
 
 const ImageSearchAndUploader = ({
@@ -60,12 +61,20 @@ const ImageSearchAndUploader = ({
   inModal = false,
   showCheckbox,
   checkboxAction,
+  podcastFriendly,
 }: Props) => {
   const { t } = useTranslation();
   const [selectedTab, setSelectedTab] = useState<string | undefined>(undefined);
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const searchImagesWithParameters = (query?: string, page?: number) => {
-    return searchImages({ query, page, 'page-size': 16, language: language, fallback: true });
+    return searchImages({
+      query,
+      page,
+      'page-size': 16,
+      language: language,
+      fallback: true,
+      'podcast-friendly': podcastFriendly,
+    });
   };
   const imageLicenses = draftLicensesToImageLicenses(licenses ?? []);
 

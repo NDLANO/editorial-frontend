@@ -6,7 +6,6 @@
  *
  */
 
-import { SyntheticEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import FormikField from '../../../components/FormikField';
@@ -51,6 +50,7 @@ const PodcastMetaData = ({ language, onImageLoad }: Props) => {
               showRemoveButton
               onImageLoad={onImageLoad}
               language={language}
+              podcastFriendly={true}
               {...field}
             />
           );

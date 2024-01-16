@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { Editor, Transforms, Element, Path } from 'slate';
+import { Editor, Transforms, Element } from 'slate';
 import { ReactEditor } from 'slate-react';
 import styled from '@emotion/styled';
 import { CloseButton } from '@ndla/button';

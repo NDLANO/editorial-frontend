@@ -8,7 +8,7 @@
 import { Formik } from 'formik';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Descendant, Element } from 'slate';
+import { Descendant } from 'slate';
 import { IFilmFrontPageData, IMovieTheme } from '@ndla/types-backend/frontpage-api';
 import NdlaFilmAccordionPanels from './NdlaFilmAccordionPanels';
 import Field from '../../../components/Field';

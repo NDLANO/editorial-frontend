@@ -45,6 +45,7 @@ const PodcastSeriesMetaData = ({ language, onImageLoad }: Props) => {
             setFieldTouched={form.setFieldTouched}
             showRemoveButton
             language={language}
+            podcastFriendly={true}
             {...field}
           />
         )}

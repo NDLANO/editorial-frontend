@@ -82,7 +82,9 @@ const SearchConceptResults = ({ results, searchObject, addConcept, searching = t
         <StyledConceptResult key={result.id}>
           {result.glossData ? <StyledGlobe size="large" /> : <StyledConcept size="large" />}
           <StyledConceptResultHeader>
-            {result.title.title ?? t('conceptSearch.noTitle')}
+            {(result.glossData
+              ? `${t(`languages.${result.glossData.originalLanguage}`)}: ${result.glossData.gloss}`
+              : result.title.title) ?? t('conceptSearch.noTitle')}
             {(result.status.current === 'PUBLISHED' ||
               result.status.other.includes('PUBLISHED')) && (
               <Tooltip tooltip={t('form.workflow.published')}>
@@ -94,7 +96,7 @@ const SearchConceptResults = ({ results, searchObject, addConcept, searching = t
           </StyledConceptResultHeader>
           <StyledConceptContent>
             {result.glossData
-              ? `${t(`languages.${result.glossData.originalLanguage}`)}: ${result.glossData.gloss}`
+              ? result.title.title
               : result.content.content ?? t('conceptSearch.noContent')}
           </StyledConceptContent>
           <StyledButton

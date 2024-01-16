@@ -6,6 +6,7 @@
  *
  */
 
+import { useField } from 'formik';
 import { ReactNode, memo, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -15,6 +16,7 @@ import { colors, fonts, spacing } from '@ndla/core';
 import { List } from '@ndla/icons/action';
 import { Podcast } from '@ndla/icons/common';
 import { Camera, Concept, Taxonomy, SquareAudio, Globe } from '@ndla/icons/editor';
+import { Heading } from '@ndla/typography';
 import { ContentTypeBadge, constants } from '@ndla/ui';
 import HeaderStatusInformation from './HeaderStatusInformation';
 import { useMessages } from '../../containers/Messages/MessagesProvider';
@@ -22,6 +24,7 @@ import { fetchAuth0Users } from '../../modules/auth0/auth0Api';
 import * as draftApi from '../../modules/draft/draftApi';
 import handleError from '../../util/handleError';
 import { toEditArticle } from '../../util/routeHelpers';
+import { Plain } from '../../util/slatePlainSerializer';
 import Spinner from '../Spinner';
 
 export const StyledSplitter = styled.div`
@@ -43,6 +46,7 @@ const StyledTitleHeaderWrapper = styled.div`
   padding-left: ${spacing.small};
   display: flex;
   align-items: center;
+  gap: ${spacing.small};
   h1 {
     ${fonts.sizes(26, 1.1)};
     font-weight: ${fonts.weight.semibold};
@@ -171,9 +175,13 @@ const HeaderInformation = ({
     <StyledHeader>
       <StyledTitleHeaderWrapper>
         {types[type].icon}
-        <h1>
-          {title ? `${t(`${types[type].form}.title`)}: ${title}` : t(`${types[type].form}.title`)}
-        </h1>
+        {type === 'gloss' && title ? (
+          <GlossTitle />
+        ) : (
+          <Heading element="h1" headingStyle="h3" margin="none">
+            {`${t(`${types[type].form}.title`)}${title ? `: ${title}` : ''}`}
+          </Heading>
+        )}
         {(type === 'standard' || type === 'topic-article') && (
           <ButtonV2 variant="stripped" onClick={onSaveAsNew} data-testid="saveAsNew">
             {t('form.workflow.saveAsNew')}
@@ -196,6 +204,20 @@ const HeaderInformation = ({
         hasRSS={hasRSS}
       />
     </StyledHeader>
+  );
+};
+
+const GlossTitle = () => {
+  const { t } = useTranslation();
+  const [, titleField] = useField('title');
+  const [, targetLanguageField] = useField('gloss.gloss');
+
+  return (
+    <Heading element="h1" headingStyle="h3" margin="none">
+      {`${t(`${types['gloss'].form}.title`)}: ${Plain.serialize(titleField.value)}${
+        targetLanguageField.value ? `/${targetLanguageField.value}` : ''
+      }`}
+    </Heading>
   );
 };
 

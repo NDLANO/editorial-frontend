@@ -7,14 +7,10 @@
  */
 
 import sortBy from 'lodash/sortBy';
-import uniq from 'lodash/uniq';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
 import { Select, SingleValue } from '@ndla/select';
 import { useSearchNodes } from '../../../../modules/nodes/nodeQueries';
-import { useSearch } from '../../../../modules/search/searchQueries';
-import { useSession } from '../../../Session/SessionProvider';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import { DropdownWrapper } from '../../styles';
 
@@ -22,9 +18,15 @@ interface Props {
   subjectIds: string[];
   filterSubject: SingleValue | undefined;
   setFilterSubject: (fs: SingleValue) => void;
+  removeArchived?: boolean;
 }
 
-const SubjectDropdown = ({ subjectIds, filterSubject, setFilterSubject }: Props) => {
+const SubjectDropdown = ({
+  subjectIds,
+  filterSubject,
+  setFilterSubject,
+  removeArchived = false,
+}: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
 
@@ -46,13 +48,20 @@ const SubjectDropdown = ({ subjectIds, filterSubject, setFilterSubject }: Props)
   );
   const subjectContexts = useMemo(() => {
     if (subjects?.results.length) {
-      const archivedAtBottom = sortBy(
-        subjects.results,
-        (r) => r.metadata.customFields.subjectCategory === 'archive',
-      );
-      return archivedAtBottom.map((r) => ({ value: r.id, label: r.name }));
+      let updatedArchived;
+      if (removeArchived) {
+        updatedArchived = subjects.results.filter(
+          (s) => s.metadata.customFields.subjectCategory !== 'archive',
+        );
+      } else {
+        updatedArchived = sortBy(
+          subjects.results,
+          (r) => r.metadata.customFields.subjectCategory === 'archive',
+        );
+      }
+      return updatedArchived.map((r) => ({ value: r.id, label: r.name }));
     } else return [];
-  }, [subjects]);
+  }, [removeArchived, subjects]);
 
   return (
     <DropdownWrapper>

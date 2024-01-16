@@ -28,6 +28,7 @@ import { Node } from '@ndla/types-taxonomy';
 import SearchConceptResults from './SearchConceptResults';
 import ConceptForm from '../../../../containers/ConceptPage/ConceptForm/ConceptForm';
 import { ConceptType } from '../../../../containers/ConceptPage/conceptInterfaces';
+import { GlossForm } from '../../../../containers/GlossPage/components/GlossForm';
 import SearchForm from '../../../../containers/SearchPage/components/form/SearchForm';
 import { searchConcepts } from '../../../../modules/concept/conceptApi';
 import { ConceptQuery } from '../../../../modules/concept/conceptApiInterfaces';
@@ -155,25 +156,38 @@ const ConceptModalContent = ({
                 </div>
               ),
             },
-            ...conceptTypeTabs.map((ct) => ({
-              title: t(`form.${ct}.create`),
-              id: `new_${ct}`,
-              content: (
-                <ConceptForm
-                  onUpserted={addConcept}
-                  inModal
-                  onClose={onClose}
-                  subjects={subjects}
-                  upsertProps={upsertProps}
-                  language={locale}
-                  fetchConceptTags={fetchSearchTags}
-                  concept={concept}
-                  conceptArticles={conceptArticles}
-                  initialTitle={selectedText}
-                  supportedLanguages={concept?.supportedLanguages ?? [locale]}
-                  conceptType={ct}
-                />
-              ),
+            ...conceptTypeTabs.map((conceptType) => ({
+              title: t(`form.${conceptType}.create`),
+              id: `new_${conceptType}`,
+              content:
+                conceptType === 'gloss' ? (
+                  <GlossForm
+                    onUpserted={addConcept}
+                    inModal
+                    onClose={onClose}
+                    subjects={subjects}
+                    upsertProps={upsertProps}
+                    language={locale}
+                    concept={concept}
+                    conceptArticles={conceptArticles}
+                    initialTitle={selectedText}
+                    supportedLanguages={concept?.supportedLanguages ?? [locale]}
+                  />
+                ) : (
+                  <ConceptForm
+                    onUpserted={addConcept}
+                    inModal
+                    onClose={onClose}
+                    subjects={subjects}
+                    upsertProps={upsertProps}
+                    language={locale}
+                    fetchConceptTags={fetchSearchTags}
+                    concept={concept}
+                    conceptArticles={conceptArticles}
+                    initialTitle={selectedText}
+                    supportedLanguages={concept?.supportedLanguages ?? [locale]}
+                  />
+                ),
             })),
           ]}
         />

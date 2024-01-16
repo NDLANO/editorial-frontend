@@ -32,6 +32,10 @@ export default defineConfig({
       testMatch: '**/*.spec.ts',
       dependencies: ['setup'],
       use: {
+        viewport: {
+          width: 2560,
+          height: 1440,
+        },
         storageState: STORAGE_STATE,
       },
     },

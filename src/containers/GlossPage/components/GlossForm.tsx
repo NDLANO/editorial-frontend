@@ -1,0 +1,235 @@
+/**
+ * Copyright (c) 2024-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { Formik, FormikHelpers } from 'formik';
+import isEmpty from 'lodash/isEmpty';
+import { useCallback, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import {
+  IConcept,
+  IConceptSummary,
+  INewConcept,
+  IUpdatedConcept,
+} from '@ndla/types-backend/concept-api';
+import { IArticle } from '@ndla/types-backend/draft-api';
+import { Node } from '@ndla/types-taxonomy';
+import GlossDataSection from './GlossDataSection';
+import FormAccordion from '../../../components/Accordion/FormAccordion';
+import FormAccordions from '../../../components/Accordion/FormAccordions';
+import validateFormik, { RulesType, getWarnings } from '../../../components/formikValidationSchema';
+import FormWrapper from '../../../components/FormWrapper';
+import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
+import { useLicenses } from '../../../modules/draft/draftQueries';
+import { conceptFormBaseRules } from '../../ConceptPage/ConceptForm/ConceptForm';
+import ConceptFormFooter from '../../ConceptPage/ConceptForm/ConceptFormFooter';
+import { ConceptFormValues } from '../../ConceptPage/conceptInterfaces';
+import {
+  conceptApiTypeToFormType,
+  getNewConceptType,
+  getUpdatedConceptType,
+} from '../../ConceptPage/conceptTransformers';
+import { TitleField } from '../../FormikForm';
+import CopyrightFieldGroup from '../../FormikForm/CopyrightFieldGroup';
+import { MessageError, useMessages } from '../../Messages/MessagesProvider';
+import { useSession } from '../../Session/SessionProvider';
+
+interface UpdateProps {
+  onUpdate: (updatedConcept: IUpdatedConcept, revision?: number) => Promise<IConcept>;
+}
+
+interface CreateProps {
+  onCreate: (newConcept: INewConcept) => Promise<IConcept>;
+}
+
+interface Props {
+  upsertProps: CreateProps | UpdateProps;
+  concept?: IConcept;
+  conceptChanged?: boolean;
+  inModal: boolean;
+  isNewlyCreated?: boolean;
+  conceptArticles: IArticle[];
+  onClose?: () => void;
+  language: string;
+  subjects: Node[];
+  initialTitle?: string;
+  onUpserted?: (concept: IConceptSummary | IConcept) => void;
+  supportedLanguages: string[];
+}
+
+const glossRules: RulesType<ConceptFormValues, IConcept> = {
+  ...conceptFormBaseRules,
+  'gloss.gloss': {
+    required: true,
+    translationKey: 'form.gloss.gloss',
+  },
+  'gloss.wordClass': {
+    required: true,
+    translationKey: 'form.gloss.wordClass',
+  },
+  'gloss.originalLanguage': {
+    required: true,
+    translationKey: 'form.gloss.originalLanguage',
+  },
+  examples: {
+    rules: {
+      language: {
+        required: true,
+        translationKey: 'form.name.language',
+      },
+      example: {
+        required: true,
+        translationKey: 'form.gloss.example',
+      },
+    },
+  },
+};
+
+export const GlossForm = ({
+  concept,
+  conceptChanged,
+  inModal,
+  isNewlyCreated = false,
+  onClose,
+  subjects,
+  language,
+  upsertProps,
+  conceptArticles,
+  initialTitle,
+  onUpserted,
+  supportedLanguages,
+}: Props) => {
+  const [savedToServer, setSavedToServer] = useState(false);
+  const { t } = useTranslation();
+  const { applicationError } = useMessages();
+  const { data: licenses = [] } = useLicenses({ placeholderData: [] });
+  const { ndlaId } = useSession();
+
+  const handleSubmit = async (
+    values: ConceptFormValues,
+    formikHelpers: FormikHelpers<ConceptFormValues>,
+  ) => {
+    if (isEmpty(values.title)) return;
+    formikHelpers.setSubmitting(true);
+    const revision = concept?.revision;
+    const status = concept?.status;
+    const initialStatus = status?.current;
+    const newStatus = values.status?.current;
+    const statusChange = initialStatus !== newStatus;
+
+    try {
+      let savedConcept: IConcept;
+      if ('onCreate' in upsertProps) {
+        savedConcept = await upsertProps.onCreate(getNewConceptType(values, licenses, 'gloss'));
+      } else {
+        const conceptWithStatus = {
+          ...getUpdatedConceptType(values, licenses, 'gloss'),
+          ...(statusChange ? { status: newStatus } : {}),
+        };
+        savedConcept = await upsertProps.onUpdate(conceptWithStatus, revision!);
+      }
+      formikHelpers.resetForm({
+        values: conceptApiTypeToFormType(savedConcept, language, subjects, conceptArticles, ndlaId),
+      });
+      formikHelpers.setSubmitting(false);
+      setSavedToServer(true);
+      onUpserted?.(savedConcept);
+    } catch (err) {
+      applicationError(err as MessageError);
+      formikHelpers.setSubmitting(false);
+      setSavedToServer(false);
+    }
+  };
+
+  const initialValues = conceptApiTypeToFormType(
+    concept,
+    language,
+    subjects,
+    conceptArticles,
+    ndlaId,
+    initialTitle,
+    'gloss',
+  );
+
+  const initialWarnings = useMemo(
+    () => getWarnings(initialValues, glossRules, t, concept),
+    [concept, initialValues, t],
+  );
+  const initialErrors = useMemo(
+    () => validateFormik(initialValues, glossRules, t),
+    [initialValues, t],
+  );
+
+  const validate = useCallback(
+    (values: ConceptFormValues) => validateFormik(values, glossRules, t),
+    [t],
+  );
+
+  return (
+    <Formik
+      initialValues={initialValues}
+      initialErrors={initialErrors}
+      onSubmit={handleSubmit}
+      enableReinitialize
+      validateOnMount
+      validate={validate}
+      initialStatus={{ warnings: initialWarnings }}
+    >
+      {(formikProps) => (
+        <FormWrapper inModal={inModal}>
+          <HeaderWithLanguage
+            id={concept?.id}
+            language={language}
+            concept={concept}
+            status={concept?.status}
+            title={concept?.title.title ?? initialTitle}
+            type={'gloss'}
+            supportedLanguages={supportedLanguages}
+          />
+          <FormAccordions defaultOpen={['title', 'content']}>
+            <FormAccordion
+              id="title"
+              title={t('form.gloss.titleSection')}
+              hasError={!!formikProps.errors.title}
+            >
+              <TitleField />
+            </FormAccordion>
+            <FormAccordion
+              id="content"
+              title={t('form.name.content')}
+              hasError={
+                !!(
+                  formikProps.errors.gloss ||
+                  Object.keys(formikProps.errors).find((e) => e.includes('examples'))
+                )
+              }
+            >
+              <GlossDataSection glossLanguage={language} />
+            </FormAccordion>
+            <FormAccordion
+              id="copyright"
+              title={t('form.copyrightSection')}
+              hasError={!!(formikProps.errors.creators || formikProps.errors.license)}
+            >
+              <CopyrightFieldGroup enableLicenseNA={true} />
+            </FormAccordion>
+          </FormAccordions>
+          <ConceptFormFooter
+            entityStatus={concept?.status}
+            conceptChanged={!!conceptChanged}
+            inModal={inModal}
+            savedToServer={savedToServer}
+            isNewlyCreated={isNewlyCreated}
+            showSimpleFooter={!concept?.id}
+            onClose={onClose}
+            responsibleId={concept?.responsible?.responsibleId}
+          />
+        </FormWrapper>
+      )}
+    </Formik>
+  );
+};

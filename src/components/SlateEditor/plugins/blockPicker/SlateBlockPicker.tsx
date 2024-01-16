@@ -91,6 +91,8 @@ const StyledList = styled.ul`
   list-style: none;
   display: flex;
   flex-direction: column;
+  padding: 0;
+
   li {
     display: flex;
     gap: ${spacing.normal};

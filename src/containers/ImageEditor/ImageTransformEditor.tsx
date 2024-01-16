@@ -6,6 +6,7 @@
  *
  */
 
+import { PercentCrop } from 'react-image-crop';
 import styled from '@emotion/styled';
 import ImageCropEdit from './ImageCropEdit';
 import ImageFocalPointEdit from './ImageFocalPointEdit';
@@ -22,7 +23,7 @@ interface Props {
   language: string;
   editType?: string;
   onFocalPointChange: (focalPoint: { x: number; y: number }) => void;
-  onCropComplete: (crop: ReactCrop.Crop, size: ReactCrop.PixelCrop) => void;
+  onCropComplete: (crop: PercentCrop) => void;
   transformData?: {
     'upper-left-x'?: string;
     'upper-left-y'?: string;
@@ -31,6 +32,7 @@ interface Props {
     'focal-x'?: string;
     'focal-y'?: string;
   };
+  aspect?: number;
 }
 
 const ImageTransformEditor = ({
@@ -40,6 +42,7 @@ const ImageTransformEditor = ({
   onFocalPointChange,
   onCropComplete,
   transformData,
+  aspect,
 }: Props) => {
   switch (editType) {
     case 'focalPoint':
@@ -58,6 +61,7 @@ const ImageTransformEditor = ({
           language={language}
           onCropComplete={onCropComplete}
           transformData={transformData}
+          aspect={aspect}
         />
       );
     default:

@@ -7,9 +7,10 @@
  */
 
 import sortBy from 'lodash/sortBy';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Select, SingleValue } from '@ndla/select';
+import { SUBJECT_NODE } from '../../../../modules/nodes/nodeApiTypes';
 import { useSearchNodes } from '../../../../modules/nodes/nodeQueries';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import { DropdownWrapper } from '../../styles';
@@ -19,6 +20,7 @@ interface Props {
   filterSubject: SingleValue | undefined;
   setFilterSubject: (fs: SingleValue) => void;
   removeArchived?: boolean;
+  placeholder?: string;
 }
 
 const SubjectDropdown = ({
@@ -26,15 +28,17 @@ const SubjectDropdown = ({
   filterSubject,
   setFilterSubject,
   removeArchived = false,
+  placeholder,
 }: Props) => {
+  const [enableSearch, setEnableSearch] = useState(false);
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
 
-  const { data: subjects } = useSearchNodes(
+  const { data: subjects, isLoading } = useSearchNodes(
     {
       ids: subjectIds,
       taxonomyVersion,
-      nodeType: 'SUBJECT',
+      nodeType: SUBJECT_NODE,
       pageSize: subjectIds.length,
       language: i18n.language,
     },
@@ -43,7 +47,7 @@ const SubjectDropdown = ({
         ...res,
         results: sortBy(res.results, (r) => r.name),
       }),
-      enabled: !!subjectIds.length,
+      enabled: !!subjectIds.length && enableSearch,
     },
   );
   const subjectContexts = useMemo(() => {
@@ -66,9 +70,9 @@ const SubjectDropdown = ({
   return (
     <DropdownWrapper>
       <Select<false>
-        label={t('welcomePage.chooseSubject')}
+        aria-label={placeholder ?? t('welcomePage.chooseSubject')}
         options={subjectContexts}
-        placeholder={t('welcomePage.chooseSubject')}
+        placeholder={placeholder ?? t('welcomePage.chooseSubject')}
         value={filterSubject}
         onChange={setFilterSubject}
         menuPlacement="bottom"
@@ -76,7 +80,12 @@ const SubjectDropdown = ({
         outline
         isSearchable
         noOptionsMessage={() => t('form.responsible.noResults')}
+        loadingMessage={() => t('welcomePage.workList.loading')}
         isClearable
+        onFocus={() => {
+          if (!enableSearch) setEnableSearch(true);
+        }}
+        isLoading={isLoading}
       />
     </DropdownWrapper>
   );

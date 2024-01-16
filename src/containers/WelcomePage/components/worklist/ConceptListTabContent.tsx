@@ -179,7 +179,7 @@ const ConceptListTabContent = ({
           </DropdownWrapper>
           <DropdownWrapper>
             <Select<false>
-              label={t('welcomePage.chooseSubject')}
+              aria-label={t('welcomePage.chooseSubject')}
               options={subjectList}
               placeholder={t('welcomePage.chooseSubject')}
               value={filterSubject}

@@ -20,7 +20,7 @@ const PageSizeDropdown = ({ pageSize, setPageSize }: Props) => {
   return (
     <DropdownWrapper>
       <Select<false>
-        label={t('welcomePage.workList.pickPageSize')}
+        aria-label={t('welcomePage.workList.pickPageSize')}
         options={[
           { label: '6', value: '6' },
           { label: '20', value: '20' },

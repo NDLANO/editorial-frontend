@@ -45,8 +45,6 @@ const StyledLinkContainer = styled.div`
   align-items: center;
   flex-shrink: 0;
   svg {
-    height: 30px;
-    width: 30px;
     color: ${colors.brand.greyMedium};
   }
 `;
@@ -101,7 +99,7 @@ const ListElementCard = ({
       <StyledCard>
         <StyledWrapper>
           <StyledLinkContainer>
-            <Link />
+            <Link size="normal" />
           </StyledLinkContainer>
           <StyledSafeLink to={element.url} target="_blank">
             {element.title}

@@ -39,7 +39,7 @@ const PrioritySelect = ({
       ]}
       menuPlacement={menuPlacement}
       placeholder={t('editorFooter.placeholderPrioritized')}
-      label={t('editorFooter.placeholderPrioritized')}
+      aria-label={t('editorFooter.placeholderPrioritized')}
       inModal={inModal}
       value={
         priority === 'prioritized' || priority === 'on-hold'

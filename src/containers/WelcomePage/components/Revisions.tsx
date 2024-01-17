@@ -7,14 +7,13 @@
  */
 
 import addYears from 'date-fns/addYears';
-import sortBy from 'lodash/sortBy';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { mq, breakpoints, colors, spacing } from '@ndla/core';
 import { Alarm, Time } from '@ndla/icons/common';
 import Pager from '@ndla/pager';
-import { Select, SingleValue } from '@ndla/select';
+import { SingleValue } from '@ndla/select';
 import Tooltip from '@ndla/tooltip';
 import { IUserData } from '@ndla/types-backend/draft-api';
 import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
@@ -22,6 +21,7 @@ import GoToSearch from './GoToSearch';
 import TableComponent, { FieldElement, Prefix, TitleElement } from './TableComponent';
 import TableTitle from './TableTitle';
 import PageSizeDropdown from './worklist/PageSizeDropdown';
+import SubjectDropdown from './worklist/SubjectDropdown';
 import { defaultPageSize } from './worklist/WorkList';
 import { getWarnStatus } from '../../../components/HeaderWithLanguage/HeaderStatusInformation';
 import {
@@ -31,16 +31,12 @@ import {
   Revision,
   STORED_PAGE_SIZE_REVISION,
 } from '../../../constants';
-import { SUBJECT_NODE } from '../../../modules/nodes/nodeApiTypes';
-import { useSearchNodes } from '../../../modules/nodes/nodeQueries';
 import { useSearch } from '../../../modules/search/searchQueries';
 import formatDate, { formatDateForBackend } from '../../../util/formatDate';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { getExpirationDate } from '../../ArticlePage/articleTransformers';
-import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import {
   ControlWrapperDashboard,
-  DropdownWrapper,
   StyledDashboardInfo,
   StyledLink,
   StyledSwitch,
@@ -108,7 +104,6 @@ const Revisions = ({ userData }: Props) => {
     t,
     i18n: { language },
   } = useTranslation();
-  const { taxonomyVersion } = useTaxonomyVersion();
 
   const tableTitles: TitleElement<SortOptionRevision>[] = [
     { title: t('form.name.title'), sortableField: 'title', width: '40%' },
@@ -141,30 +136,6 @@ const Revisions = ({ userData }: Props) => {
       return t('welcomePage.errorMessage');
     }
   }, [t, isError]);
-
-  const { data: subjectData, isLoading: isLoadingSubjects } = useSearchNodes(
-    {
-      nodeType: SUBJECT_NODE,
-      taxonomyVersion,
-      ids: userData?.favoriteSubjects,
-      language,
-    },
-    {
-      select: (res) => ({
-        ...res,
-        results: sortBy(res.results, (r) => r.name),
-      }),
-      enabled: !!userData?.favoriteSubjects?.length,
-    },
-  );
-
-  const favoriteSubjects = useMemo(() => {
-    const archivedAtBottom = sortBy(
-      subjectData?.results,
-      (r) => r.metadata.customFields.subjectCategory === 'archive',
-    );
-    return archivedAtBottom.map((s) => ({ label: s.name, value: s.id }));
-  }, [subjectData]);
 
   const getDataPrimaryConnectionToFavorite = useCallback(
     (results: IMultiSearchSummary[] | undefined) => {
@@ -288,22 +259,13 @@ const Revisions = ({ userData }: Props) => {
           <ControlWrapperDashboard>
             <TopRowControls>
               <PageSizeDropdown pageSize={pageSize} setPageSize={setPageSize} />
-              <DropdownWrapper>
-                <Select<false>
-                  label={t('welcomePage.chooseFavoriteSubject')}
-                  options={favoriteSubjects ?? []}
-                  placeholder={t('welcomePage.chooseFavoriteSubject')}
-                  value={filterSubject}
-                  onChange={setFilterSubject}
-                  menuPlacement="bottom"
-                  small
-                  outline
-                  isLoading={isLoadingSubjects}
-                  isSearchable
-                  noOptionsMessage={() => t('form.responsible.noResults')}
-                  isClearable
-                />
-              </DropdownWrapper>
+              <SubjectDropdown
+                subjectIds={userData?.favoriteSubjects ?? []}
+                filterSubject={filterSubject}
+                setFilterSubject={setFilterSubject}
+                placeholder={t('welcomePage.chooseFavoriteSubject')}
+                removeArchived
+              />
               <GoToSearch
                 filterSubject={filterSubject?.value ?? FAVOURITES_SUBJECT_ID}
                 searchEnv="content"

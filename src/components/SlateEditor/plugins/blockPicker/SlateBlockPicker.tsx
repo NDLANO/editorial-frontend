@@ -97,7 +97,7 @@ const StyledList = styled.ul`
     display: flex;
     gap: ${spacing.normal};
     justify-content: space-between;
-    margin: 0px;
+    padding: 0px;
   }
 `;
 

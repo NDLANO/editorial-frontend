@@ -122,17 +122,17 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
               <ModalTrigger>
                 <IconButtonV2
                   colorTheme="light"
-                  aria-label={t('contactBlockForm.edit')}
-                  title={t('contactBlockForm.edit')}
+                  aria-label={t('campaignBlockForm.title')}
+                  title={t('campaignBlockForm.title')}
                   onClick={() => setIsEditing(true)}
                 >
                   <Pencil />
                 </IconButtonV2>
               </ModalTrigger>
               <StyledDeleteEmbedButton
-                aria-label={t('delete')}
+                aria-label={t('campaignBlockForm.delete')}
                 colorTheme="danger"
-                title={t('delete')}
+                title={t('campaignBlockForm.delete')}
                 data-testid="remove-campaign-block"
                 onClick={handleRemove}
               >

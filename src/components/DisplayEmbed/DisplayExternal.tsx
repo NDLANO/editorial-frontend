@@ -13,7 +13,7 @@ import { RenderElementProps } from 'slate-react';
 import './helpers/h5pResizer';
 import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
-import { Link } from '@ndla/icons/common';
+import { Pencil } from '@ndla/icons/action';
 import { DeleteForever, Expandable } from '@ndla/icons/editor';
 import DisplayExternalModal from './helpers/DisplayExternalModal';
 import SlateResourceBox from './SlateResourceBox';
@@ -259,7 +259,7 @@ const DisplayExternal = ({
               openEditEmbed(evt);
             }}
           >
-            <Link />
+            <Pencil />
           </IconButtonV2>
         )}
         <StyledDeleteEmbedButton

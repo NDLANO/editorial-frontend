@@ -22,6 +22,7 @@ import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 import { PUBLISHED } from '../../../constants';
 import { Dictionary } from '../../../interfaces';
 import { NodeResourceMeta } from '../../../modules/nodes/nodeQueries';
+import CommentIndicator from '../../WelcomePage/components/worklist/CommentIndicator';
 import AddExistingResource from '../plannedResource/AddExistingResource';
 import AddResourceModal from '../plannedResource/AddResourceModal';
 import PlannedResourceForm from '../plannedResource/PlannedResourceForm';
@@ -90,7 +91,12 @@ const ResourceBanner = ({
       : undefined;
     return resourceRevisions.concat([currentNodeRevision]);
   }, [contentMeta, currentNode.contentUri, resources]);
-
+  const lastCommentTopicArticle = useMemo(
+    () =>
+      Object.values(contentMeta).find((el) => el.articleType === 'topic-article')?.comments?.[0]
+        ?.content,
+    [contentMeta],
+  );
   const close = useCallback(() => setOpen(false), []);
 
   return (
@@ -110,6 +116,7 @@ const ResourceBanner = ({
             <PublishedText>{`${workflowCount}/${elementCount} ${t(
               'taxonomy.workflow',
             ).toLowerCase()}`}</PublishedText>
+            {lastCommentTopicArticle && <CommentIndicator comment={lastCommentTopicArticle} />}
             <ApproachingRevisionDate revisions={allRevisions} />
             {currentNode && currentNode.id && (
               <GroupResourceSwitch

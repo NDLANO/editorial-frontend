@@ -9,12 +9,13 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { Comment, ExclamationMark } from '@ndla/icons/common';
+import { ExclamationMark } from '@ndla/icons/common';
 import { Calendar } from '@ndla/icons/editor';
 import Pager from '@ndla/pager';
 import { SingleValue } from '@ndla/select';
 import Tooltip from '@ndla/tooltip';
 import { IMultiSearchResult } from '@ndla/types-backend/search-api';
+import CommentIndicator from './CommentIndicator';
 import PageSizeDropdown from './PageSizeDropdown';
 import StatusCell from './StatusCell';
 import SubjectDropdown from './SubjectDropdown';
@@ -50,17 +51,6 @@ const StyledExclamationMark = styled(ExclamationMark)`
     visibility: hidden;
   }
 `;
-
-const StyledIconWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  height: 100%;
-`;
-const StyledCommentIcon = styled(Comment)`
-  width: 20px;
-  height: 20px;
-`;
-
 interface Props {
   data: IMultiSearchResult | undefined;
   isLoading: boolean;
@@ -122,12 +112,7 @@ const WorkListTabContent = ({
                     </StyledLink>
                   </StyledTitleWrapper>
                   {res.comments?.length ? (
-                    <StyledIconWrapper>
-                      <StyledCommentIcon
-                        title={res.comments[0]?.content}
-                        aria-label={res.comments[0]?.content}
-                      />
-                    </StyledIconWrapper>
+                    <CommentIndicator comment={res.comments[0].content} />
                   ) : null}
                 </CellWrapper>
               ),

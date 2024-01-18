@@ -49,9 +49,10 @@ const StyledOpenCloseAll = styled(ButtonV2)`
 `;
 
 interface Props {
+  articleType: string;
   savedStatus?: IStatus;
 }
-const CommentSection = ({ savedStatus }: Props) => {
+const CommentSection = ({ articleType, savedStatus }: Props) => {
   const { t } = useTranslation();
 
   const [_, { value }, { setValue }] = useField<CommentType[]>('comments');
@@ -68,7 +69,9 @@ const CommentSection = ({ savedStatus }: Props) => {
   const toggleAllOpen = (allOpen: boolean) => {
     setValue(value.map((c) => ({ ...c, isOpen: allOpen })));
   };
-  const commentsHidden = RESET_COMMENTS_STATUSES.some((s) => s === savedStatus?.current);
+  const commentsHidden =
+    articleType !== 'topic-article' &&
+    RESET_COMMENTS_STATUSES.some((s) => s === savedStatus?.current);
 
   return (
     <CommentColumn data-hidden={commentsHidden} aria-hidden={commentsHidden}>

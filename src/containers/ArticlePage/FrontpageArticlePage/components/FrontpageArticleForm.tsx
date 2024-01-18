@@ -109,7 +109,7 @@ const FrontpageArticleForm = ({
               initialHTML={initialHTML}
             />
           </MainContent>
-          <CommentSection savedStatus={article?.status} />
+          <CommentSection savedStatus={article?.status} articleType="frontpage-article" />
         </FlexWrapper>
         <FormFooter
           initialHTML={initialHTML}

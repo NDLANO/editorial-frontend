@@ -1017,6 +1017,7 @@ const phrases = {
       awaiting_archiving: 'Utsatt arkivering',
       archived: 'Slettet',
       republish: 'Til republisering',
+      sum: 'Totalt',
       actions: {
         PLANNED: 'Planlagd',
         IN_PROGRESS: 'I arbeid',

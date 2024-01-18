@@ -1018,6 +1018,7 @@ const phrases = {
       awaiting_archiving: 'Delayed archivation',
       archived: 'Deleted',
       republish: 'For republishing',
+      sum: 'Total',
       actions: {
         PLANNED: 'Planned',
         IN_PROGRESS: 'In progress',

@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { BookOpen } from '@ndla/icons/common';
 import { SingleValue } from '@ndla/select';
 import { IMultiSearchResult } from '@ndla/types-backend/search-api';
+import { Text } from '@ndla/typography';
 import TableComponent, { FieldElement } from './TableComponent';
 import TableTitle from './TableTitle';
 import SubjectDropdown from './worklist/SubjectDropdown';
@@ -54,7 +55,15 @@ const getResultAggregationList = (
       responsibleCount: aggregationData?.responsibleCount ?? 0,
     };
   });
-  return withMissingStatuses;
+  const sum = withMissingStatuses.reduce(
+    (acc, cur) => {
+      acc.count += cur.count;
+      acc.responsibleCount += cur.responsibleCount;
+      return acc;
+    },
+    { value: 'SUM', count: 0, responsibleCount: 0 },
+  );
+  return [...withMissingStatuses, sum];
 };
 
 interface Props {
@@ -124,33 +133,60 @@ const ArticleStatusContent = ({
     return (
       resultList.map((statusData) => {
         const statusTitle = t(`form.status.actions.${statusData.value}`);
-        return [
-          {
-            id: `status_${statusData.value}`,
-            data: (
-              <StyledLink
-                to={toSearch(
-                  {
-                    page: '1',
-                    sort: '-relevance',
-                    'page-size': 10,
-                    subjects: filterSubject ? filterSubject.value : searchPageSubjectFilter,
-                    'draft-status': statusData.value,
-                  },
-                  'content',
-                )}
-                title={statusTitle}
-              >
-                {statusTitle}
-              </StyledLink>
-            ),
-          },
-          { id: `count_${statusData.value}`, data: statusData.count },
-          {
-            id: `responsible_${statusData.value}`,
-            data: statusData.responsibleCount,
-          },
-        ];
+        return statusData.value === 'SUM'
+          ? [
+              {
+                id: `status_${statusData.value}`,
+                data: (
+                  <Text textStyle="button" margin="none">
+                    {t('form.status.sum')}
+                  </Text>
+                ),
+              },
+              {
+                id: `count_${statusData.value}`,
+                data: (
+                  <Text textStyle="button" margin="none">
+                    {statusData.count}
+                  </Text>
+                ),
+              },
+              {
+                id: `responsible_${statusData.value}`,
+                data: (
+                  <Text textStyle="button" margin="none">
+                    {statusData.responsibleCount}
+                  </Text>
+                ),
+              },
+            ]
+          : [
+              {
+                id: `status_${statusData.value}`,
+                data: (
+                  <StyledLink
+                    to={toSearch(
+                      {
+                        page: '1',
+                        sort: '-relevance',
+                        'page-size': 10,
+                        subjects: filterSubject ? filterSubject.value : searchPageSubjectFilter,
+                        'draft-status': statusData.value,
+                      },
+                      'content',
+                    )}
+                    title={statusTitle}
+                  >
+                    {statusTitle}
+                  </StyledLink>
+                ),
+              },
+              { id: `count_${statusData.value}`, data: statusData.count },
+              {
+                id: `responsible_${statusData.value}`,
+                data: statusData.responsibleCount,
+              },
+            ];
       }) ?? [[]]
     );
   }, [filterSubject, searchPageSubjectFilter, searchQuery.data, searchResponsibleQuery.data, t]);

@@ -563,6 +563,7 @@ const phrases = {
   contactBlockForm: {
     title: 'Kontaktblokk',
     edit: 'Rediger kontaktblokk',
+    delete: 'Fjern kontaktblokk',
     blobColor: {
       green: 'Grønn',
       pink: 'Rosa',
@@ -811,7 +812,7 @@ const phrases = {
     notes: {
       heading: 'Merknader',
       add: 'Legg til merknad',
-      remove: 'Ta bort',
+      remove: 'Fjern',
       warning: 'Ein merknad må ha tekst',
       areHere: 'Du er her',
       published: 'Publisert',
@@ -835,6 +836,7 @@ const phrases = {
     editImage: 'Endre bilete',
     editOriginalImage: 'Rediger original bilete',
     editAudio: 'Endre lyd',
+    editOriginalAudio: 'Rediger original lyd',
     editPodcast: 'Endre podkast',
     editH5p: 'Endre H5P',
     resetToProd: {
@@ -901,7 +903,7 @@ const phrases = {
     concept: {
       create: 'Opprett ny forklaring',
       edit: 'Rediger forklaring',
-      remove: 'Ta bort forklaring',
+      remove: 'Fjern forklaring',
       source: 'Kjelde',
       markdown: 'Feltet støtter markdown. Bruk formatet [Tekst](https://url) for å lage lenke.',
       subjects: 'Berre fag markert som forklaringsfag vil visast i lista.',
@@ -909,8 +911,8 @@ const phrases = {
     gloss: {
       create: 'Opprett ny glose',
       edit: 'Rediger glose',
-      remove: 'Ta bort glose',
-      removeExample: 'Ta bort eksempel',
+      remove: 'Fjern glose',
+      removeExample: 'Fjern eksempel',
       source: 'Kjelde',
       markdown: 'Feltet støtter markdown. Bruk formatet [Tekst](https://url) for å lage lenke.',
       subjects: 'Berre fag markert som forklaringsfag vil visast i lista.',
@@ -1065,7 +1067,6 @@ const phrases = {
       placeholder: 'Innhald',
       figure: {
         notSupported: 'Mediatype {{mediaType}} er ikkje støtta.',
-        confirmDelete: 'Er du sikker på at du vil slette denne figuren?',
       },
       relatedArticle: {
         placeholder: 'Søk på tittel',
@@ -1196,19 +1197,19 @@ const phrases = {
     },
     rightsholders: {
       label: 'Rettighetshaver',
-      labelRemove: 'Ta bort',
+      labelRemove: 'Fjern',
       placeholder: 'Skriv namn til rettighetshaver',
       createOption: 'Opprett ny rettighetshaver',
     },
     processors: {
       label: 'Bearbeider',
-      labelRemove: 'Ta bort',
+      labelRemove: 'Fjern',
       placeholder: 'Skriv namn til bearbeider',
       createOption: 'Opprett ny bearbeider',
     },
     creators: {
       label: 'Opphavsperson',
-      labelRemove: 'Ta bort',
+      labelRemove: 'Fjern',
       placeholder: 'Skriv namn til opphavsperson',
       createOption: 'Opprett ny opphavsperson',
       description: 'Obligatorisk med minst 1 opphavsperson.',
@@ -1238,7 +1239,7 @@ const phrases = {
       file: 'Bilete',
       save: 'Lagre bilete',
       editImage: 'Rediger bilete',
-      removeImage: 'Ta bort bilete',
+      removeImage: 'Fjern bilete',
       alignment: {
         left: 'Justering: Venstrestilt',
         right: 'Justering: Høgrestilt',
@@ -1299,7 +1300,7 @@ const phrases = {
       linkedVideoButton: 'ST',
     },
     h5p: {
-      remove: 'Ta bort H5P',
+      remove: 'Fjern H5P',
       metadata: {
         alttext: 'Alt-tekst',
         save: 'Lagre',
@@ -1319,7 +1320,8 @@ const phrases = {
         label: 'Lydtekst',
         placeholder: 'Lydtekst',
       },
-      remove: 'Ta bort lydfil',
+      edit: 'Rediger lydfil',
+      remove: 'Fjern lydfil',
       sound: 'Lyd',
       speech: 'Tale',
       dragdrop: {
@@ -1328,13 +1330,13 @@ const phrases = {
         ariaLabel: 'Dra og slipp eller trykk for å laste opp lydfil',
       },
       copiedFrom:
-        'Lydfil kopieres fra {{language}}. Trykk på søppelbøtten for å fjerne den og laste opp ei ny fil.',
+        'Lydfil kopierast frå {{language}}. Trykk på søppelbøtta for å slette den og laste opp ei ny fil.',
       info: {
-        multipleFiles: 'Du kan laste opp forskjellige lydfilar for kvart språk.',
+        multipleFiles: 'Du kan laste opp forskjellige lydfiler for kvart språk.',
         changeFile: 'Fjerning og endring av eit språk vil ikkje påverke dei andre språka.',
         newLanguage:
           'Ved oppretting av eit nytt språk vil ei lydfil fra eit eksisterande språk foreslås.',
-        deleteFiles: 'Ei lydfil slettes bare når den ikkje lenger brukes i eit språk.',
+        deleteFiles: 'Ei lydfil slettes berre når den ikkje lenger brukes i eit språk.',
       },
       modal: {
         header: 'Lydfiler',
@@ -1342,7 +1344,7 @@ const phrases = {
       },
     },
     podcast: {
-      remove: 'Ta bort podkast',
+      remove: 'Fjern podkast',
     },
     external: {
       title: 'eksternt',
@@ -1374,7 +1376,7 @@ const phrases = {
       placeholder: 'Oppgi eit filnamn',
       changeName: 'Endre namn',
       changeOrder: 'Endre rekkefølgje',
-      removeFile: 'Ta bort fil',
+      removeFile: 'Fjern fil',
       missingFileTooltip:
         'Ser ikkje ut til å eksistere på serveren. Den kan ha blitt sletta frå ein annan artikkel.',
       missingFilename: 'Filtypen støttes ikke',
@@ -1439,7 +1441,7 @@ const phrases = {
       },
     },
     section: {
-      remove: 'Ta bort seksjon',
+      remove: 'Fjern seksjon',
     },
     revisions: {
       add: 'Ny revisjon',
@@ -1752,8 +1754,8 @@ const phrases = {
       moveMovieGroupUp: 'Flytt opp',
       moveMovieGroupDown: 'Flytt ned',
       changeOrder: 'Endre rekkjefølgje',
-      removeMovieFromGroup: 'Ta vekk film fra gruppe',
-      removeMovieFromSlideshow: 'Ta vekk film fra slideshow',
+      removeMovieFromGroup: 'Fjern film fra gruppe',
+      removeMovieFromSlideshow: 'Fjern film fra slideshow',
       createThemeGroup: 'Opprett gruppe',
       saveNameChanges: 'Lagre endringer',
       cancel: 'Avbryt',
@@ -2000,14 +2002,15 @@ const phrases = {
   reset: 'Tilbakestill',
   campaignBlockForm: {
     title: 'Rediger kampanjeblokk',
+    delete: 'Fjern kampanjeblokk',
     sides: {
       left: 'Venstre',
       right: 'Høgre',
     },
   },
   linkBlock: {
-    deleteBlock: 'Slett lenkeblokk',
-    delete: 'Slett lenke',
+    deleteBlock: 'Fjern lenkeblokk',
+    delete: 'Fjern lenke',
     edit: 'Rediger lenke',
     create: 'Sett inn lenke',
     chooseDate: 'Velg dato',

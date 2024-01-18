@@ -138,6 +138,17 @@ const SlateAudio = ({ element, editor, attributes, language, children }: Props) 
         ) : embed ? (
           <>
             <FigureButtons data-type={embed.embedData.type}>
+              {embed.embedData.type !== 'podcast' && (
+                <ModalTrigger>
+                  <IconButtonV2
+                    title={t('form.audio.edit')}
+                    aria-label={t('form.audio.edit')}
+                    variant="ghost"
+                  >
+                    <Pencil />
+                  </IconButtonV2>
+                </ModalTrigger>
+              )}
               {embed.embedData.type !== 'minimal' && (
                 <>
                   <SafeLinkIconButton
@@ -146,8 +157,8 @@ const SlateAudio = ({ element, editor, attributes, language, children }: Props) 
                       embed.embedData.type === 'podcast' ? 'podcast' : 'audio'
                     }-upload/${embed.embedData.resourceId}/edit/${language}`}
                     target="_blank"
-                    title={t('form.editAudio')}
-                    aria-label={t('form.editAudio')}
+                    title={t('form.editOriginalAudio')}
+                    aria-label={t('form.editOriginalAudio')}
                   >
                     <Link />
                   </SafeLinkIconButton>
@@ -161,17 +172,6 @@ const SlateAudio = ({ element, editor, attributes, language, children }: Props) 
                     <DeleteForever />
                   </StyledDeleteEmbedButton>
                 </>
-              )}
-              {embed.embedData.type !== 'podcast' && (
-                <ModalTrigger>
-                  <IconButtonV2
-                    title={t('form.audio.edit')}
-                    aria-label={t('form.audio.edit')}
-                    variant="ghost"
-                  >
-                    <Pencil />
-                  </IconButtonV2>
-                </ModalTrigger>
               )}
             </FigureButtons>
             <AudioEmbed embed={embed} />

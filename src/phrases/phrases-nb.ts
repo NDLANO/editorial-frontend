@@ -429,7 +429,7 @@ const phrases = {
     'podcast-series': 'Serie',
   },
   noEmbedMessage: {
-    deleteOnSave: 'Element av type {{type}} vil bli fjernet ved lagring.',
+    deleteOnSave: 'Element av type {{type}} vil bli slettet ved lagring.',
   },
   conceptpageForm: {
     articlesTitle: 'Relaterte artikler',
@@ -563,6 +563,7 @@ const phrases = {
   contactBlockForm: {
     title: 'Kontaktblokk',
     edit: 'Rediger kontaktblokk',
+    delete: 'Fjern kontaktblokk',
     blobColor: {
       green: 'Grønn',
       pink: 'Rosa',
@@ -800,7 +801,7 @@ const phrases = {
     concept: {
       create: 'Opprett ny forklaring',
       edit: 'Rediger forklaring',
-      remove: 'Ta bort forklaring',
+      remove: 'Fjern forklaring',
       source: 'Kilde',
       markdown: 'Feltet støtter markdown. Bruk formatet [Tekst](https://url) for å lage lenke.',
       subjects: 'Kun fag markert som forklaringsfag vil vises i lista.',
@@ -808,8 +809,8 @@ const phrases = {
     gloss: {
       create: 'Opprett ny glose',
       edit: 'Rediger glose',
-      remove: 'Ta bort glose',
-      removeExample: 'Ta bort eksempel',
+      remove: 'Fjern glose',
+      removeExample: 'Fjern eksempel',
       source: 'Kilde',
       markdown: 'Feltet støtter markdown. Bruk formatet [Tekst](https://url) for å lage lenke.',
       subjects: 'Kun fag markert som forklaringsfag vil vises i lista.',
@@ -866,7 +867,7 @@ const phrases = {
     notes: {
       heading: 'Merknader',
       add: 'Legg til merknad',
-      remove: 'Ta bort',
+      remove: 'Fjern',
       warning: 'En merknad må ha tekst',
       areHere: 'Du er her',
       published: 'Publisert',
@@ -890,6 +891,7 @@ const phrases = {
     editImage: 'Endre bilde',
     editOriginalImage: 'Rediger original bilde',
     editAudio: 'Endre lyd',
+    editOriginalAudio: 'Rediger original lyd',
     editPodcast: 'Endre podkast',
     editH5p: 'Endre H5P',
     resetToProd: {
@@ -1065,7 +1067,6 @@ const phrases = {
       placeholder: 'Innhold',
       figure: {
         notSupported: 'Mediatype {{mediaType}} er ikke støttet.',
-        confirmDelete: 'Er du sikker på at du vil slette denne figuren?',
       },
       relatedArticle: {
         placeholder: 'Søk på tittel',
@@ -1196,19 +1197,19 @@ const phrases = {
     },
     rightsholders: {
       label: 'Rettighetshaver',
-      labelRemove: 'Ta bort',
+      labelRemove: 'Fjern',
       placeholder: 'Skriv navn til rettighetshaver',
       createOption: 'Opprett ny rettighetshaver',
     },
     processors: {
       label: 'Bearbeider',
-      labelRemove: 'Ta bort',
+      labelRemove: 'Fjern',
       placeholder: 'Skriv navn til bearbeider',
       createOption: 'Opprett ny bearbeider',
     },
     creators: {
       label: 'Opphavsperson',
-      labelRemove: 'Ta bort',
+      labelRemove: 'Fjern',
       placeholder: 'Skriv navn til opphavsperson',
       createOption: 'Opprett ny opphavsperson',
       description: 'Obligatorisk med minst 1 opphavsperson.',
@@ -1238,7 +1239,7 @@ const phrases = {
       file: 'Bilde',
       save: 'Lagre bilde',
       editImage: 'Rediger bildet',
-      removeImage: 'Ta bort bilde',
+      removeImage: 'Fjern bilde',
       alignment: {
         left: 'Justering: Venstrestilt',
         right: 'Justering: Høyrestilt',
@@ -1299,7 +1300,7 @@ const phrases = {
       linkedVideoButton: 'ST',
     },
     h5p: {
-      remove: 'Ta bort H5P',
+      remove: 'Fjern H5P',
       metadata: {
         alttext: 'Alt-tekst',
         save: 'Lagre',
@@ -1319,7 +1320,8 @@ const phrases = {
         label: 'Lydtekst',
         placeholder: 'Lydtekst',
       },
-      remove: 'Ta bort lydfil',
+      edit: 'Rediger lyd',
+      remove: 'Fjern lydfil',
       sound: 'Lyd',
       speech: 'Tale',
       dragdrop: {
@@ -1328,7 +1330,7 @@ const phrases = {
         ariaLabel: 'Dra og slipp eller trykk for å laste opp lydfil',
       },
       copiedFrom:
-        'Lydfil kopieres fra {{language}}. Trykk på søppelbøtten for å fjerne den og laste opp en ny fil.',
+        'Lydfil kopieres fra {{language}}. Trykk på søppelbøtten for å slette den og laste opp en ny fil.',
       info: {
         multipleFiles: 'Du kan laste opp forskjellig lydfiler for hvert språk.',
         changeFile: 'Fjerning og endring av et språk vil ikke påvirke de andre språkene.',
@@ -1342,7 +1344,7 @@ const phrases = {
       },
     },
     podcast: {
-      remove: 'Ta bort podkast',
+      remove: 'Fjern podkast',
     },
     external: {
       title: 'eksternt',
@@ -1374,7 +1376,7 @@ const phrases = {
       placeholder: 'Oppgi et filnavn',
       changeName: 'Endre navn',
       changeOrder: 'Endre rekkefølge',
-      removeFile: 'Ta bort fil',
+      removeFile: 'Fjern fil',
       missingFileTooltip:
         'Ser ikke ut til å eksistere på serveren. Den kan ha blitt slettet fra en annen artikkel.',
       missingFilename: 'Filtypen støttes ikke',
@@ -1439,7 +1441,7 @@ const phrases = {
       },
     },
     section: {
-      remove: 'Ta bort seksjon',
+      remove: 'Fjern seksjon',
     },
     revisions: {
       add: 'Ny revisjon',
@@ -1752,8 +1754,8 @@ const phrases = {
       moveMovieGroupUp: 'Flytt opp',
       moveMovieGroupDown: 'Flytt ned',
       changeOrder: 'Endre rekkefølge',
-      removeMovieFromGroup: 'Ta vekk film fra gruppe',
-      removeMovieFromSlideshow: 'Ta vekk film fra slideshow',
+      removeMovieFromGroup: 'Fjern film fra gruppe',
+      removeMovieFromSlideshow: 'Fjern film fra slideshow',
       createThemeGroup: 'Opprett gruppe',
       saveNameChanges: 'Lagre endringer',
       cancel: 'Avbryt',
@@ -2000,14 +2002,15 @@ const phrases = {
   reset: 'Tilbakestill',
   campaignBlockForm: {
     title: 'Rediger kampanjeblokk',
+    delete: 'Fjern kampanjeblokk',
     sides: {
       left: 'Venstre',
       right: 'Høyre',
     },
   },
   linkBlock: {
-    deleteBlock: 'Slett lenkeblokk',
-    delete: 'Slett lenke',
+    deleteBlock: 'Fjenr lenkeblokk',
+    delete: 'Fjern lenke',
     edit: 'Rediger lenke',
     create: 'Sett inn lenke',
     chooseDate: 'Velg dato',

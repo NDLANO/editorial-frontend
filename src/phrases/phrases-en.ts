@@ -563,6 +563,7 @@ const phrases = {
   contactBlockForm: {
     title: 'Contact block',
     edit: 'Edit contact block',
+    delete: 'Remove contact block',
     blobColor: {
       green: 'Green',
       pink: 'Pink',
@@ -836,6 +837,7 @@ const phrases = {
     editImage: 'Edit image',
     editOriginalImage: 'Edit orginal image',
     editAudio: 'Edit audio',
+    editOriginalAudio: 'Edit orginal audio',
     editPodcast: 'Edit podcast',
     editH5p: 'Edit H5P',
     resetToProd: {
@@ -1066,7 +1068,6 @@ const phrases = {
       placeholder: 'Write here...',
       figure: {
         notSupported: 'Media type {{mediaType}} is not supported.',
-        confirmDelete: 'Are you sure that you will delete this figure?',
       },
       relatedArticle: {
         placeholder: 'Search for title',
@@ -1320,6 +1321,7 @@ const phrases = {
         label: 'Audio caption',
         placeholder: 'Audio caption',
       },
+      edit: 'Edit audio',
       remove: 'Remove audio',
       sound: 'Audio',
       speech: 'Speech',
@@ -1998,14 +2000,15 @@ const phrases = {
   reset: 'Reset',
   campaignBlockForm: {
     title: 'Edit campaign block',
+    delete: 'Remove campaign block',
     sides: {
       left: 'Left',
       right: 'Right',
     },
   },
   linkBlock: {
-    deleteBlock: 'Delete link block',
-    delete: 'Delete link',
+    deleteBlock: 'Remove link block',
+    delete: 'Remove link',
     edit: 'Edit link',
     create: 'Add new link',
     chooseDate: 'Choose date',

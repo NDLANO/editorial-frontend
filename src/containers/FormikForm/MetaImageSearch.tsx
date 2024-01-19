@@ -90,7 +90,7 @@ const MetaImageSearch = ({
     setShowImageSelect(false);
     setImage(image);
     setFieldValue(name, image.id);
-    setFieldValue('metaImageAlt', image.alttext.alttext.trim(), true);
+    setFieldValue('metaImageAlt', disableAltEditing ? '' : image.alttext.alttext.trim(), true);
     setTimeout(() => {
       setFieldTouched('metaImageAlt', true, true);
       setFieldTouched(name, true, true);

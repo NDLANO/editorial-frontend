@@ -14,7 +14,7 @@ import { ReactEditor, RenderElementProps } from 'slate-react';
 import styled from '@emotion/styled';
 import { Content, Root, Trigger } from '@radix-ui/react-popover';
 import { ButtonV2 } from '@ndla/button';
-import { colors, spacing } from '@ndla/core';
+import { colors, spacing, stackOrder } from '@ndla/core';
 import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
 import { MathmlElement } from '.';
 import EditMath, { MathMLType, emptyMathTag } from './EditMath';
@@ -38,7 +38,7 @@ const getInfoFromNode = (node: MathmlElement) => {
 
 const StyledContent = styled(Content)`
   padding: ${spacing.small};
-  z-index: 100;
+  z-index: ${stackOrder.popover};
 `;
 
 const MathWrapper = styled.span`

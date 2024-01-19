@@ -8,7 +8,7 @@
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { animations, spacing, shadows, misc } from '@ndla/core';
+import { animations, misc, shadows, spacing, stackOrder } from '@ndla/core';
 
 interface StyledOverlayProps {
   withArrow?: boolean;
@@ -16,7 +16,7 @@ interface StyledOverlayProps {
 
 export const StyledOverlay = styled.div<StyledOverlayProps>`
   position: absolute;
-  z-index: 9999;
+  z-index: ${stackOrder.modal - stackOrder.offsetSingle};
   background: #fff;
   padding: ${spacing.normal};
   box-shadow: ${shadows.levitate1};
@@ -72,6 +72,6 @@ export const StyledOverlayBackground = styled.div`
   left: 0;
   right: 0;
   background: rgba(0, 0, 0, 0.2);
-  z-index: 9998;
+  z-index: ${stackOrder.modal - stackOrder.offsetDouble};
   ${animations.fadeIn()}
 `;

@@ -11,7 +11,7 @@ import { Editor, Element, Range } from 'slate';
 import { useFocused, useSlate } from 'slate-react';
 import styled from '@emotion/styled';
 import { Portal } from '@radix-ui/react-portal';
-import { colors, spacing } from '@ndla/core';
+import { colors, spacing, stackOrder } from '@ndla/core';
 import { handleClickInline, handleClickBlock, handleClickTable } from './handleMenuClicks';
 import ToolbarButton from './ToolbarButton';
 import getCurrentBlock from '../../utils/getCurrentBlock';
@@ -59,7 +59,7 @@ const ToolbarContainer = styled.div`
   position: absolute;
   top: -10000px;
   transition: opacity 0.75s;
-  z-index: 11;
+  z-index: ${stackOrder.popover};
 `;
 
 const ToolbarButtons = styled.div`

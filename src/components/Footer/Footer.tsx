@@ -8,7 +8,7 @@
 
 import React, { ReactNode } from 'react';
 import styled from '@emotion/styled';
-import { spacing, colors } from '@ndla/core';
+import { colors, spacing, stackOrder } from '@ndla/core';
 import { MAX_PAGE_WIDTH } from '../../constants';
 
 const StyledFooter = styled.footer`
@@ -17,7 +17,7 @@ const StyledFooter = styled.footer`
   left: -10px;
   right: -10px;
   background: #fff;
-  z-index: 100;
+  z-index: ${stackOrder.banner};
   box-shadow: -10px 0 10px rgba(0, 0, 0, 0.4);
   display: flex;
   justify-content: center;

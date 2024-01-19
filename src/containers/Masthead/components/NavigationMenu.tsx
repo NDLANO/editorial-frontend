@@ -9,7 +9,7 @@
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
-import { spacing, colors } from '@ndla/core';
+import { colors, spacing, stackOrder } from '@ndla/core';
 import { List } from '@ndla/icons/action';
 import { Launch, Audio, Podcast } from '@ndla/icons/common';
 import {
@@ -51,7 +51,7 @@ const StyledMenuItem = styled.span`
 const ContentWrapper = styled.div`
   padding: ${spacing.large} 0;
   position: absolute;
-  z-index: 4;
+  z-index: ${stackOrder.banner};
   left: 0;
   right: 0;
   background: ${colors.white};

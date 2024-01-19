@@ -12,7 +12,7 @@ import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
-import { spacing, misc, colors, fonts } from '@ndla/core';
+import { colors, fonts, misc, spacing, stackOrder } from '@ndla/core';
 import MastheadSearchForm from './components/MastheadSearchForm';
 import SavedSearchItem from './components/SavedSearchItem';
 import Spinner from '../../components/Spinner';
@@ -31,7 +31,7 @@ const DropdownWrapper = styled.div`
 
 const StyledDropdown = styled.ul`
   position: absolute;
-  z-index: 3;
+  z-index: ${stackOrder.dropdown};
   background-color: ${colors.white};
   list-style: none;
   width: 100%;

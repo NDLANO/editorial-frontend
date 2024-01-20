@@ -24,7 +24,7 @@ const wrapper = (component: ReactNode) => (
 
 test('MastheadSearchForm redirects on ndla url paste with id at the end', () => {
   const historyMock = {
-    push: jest.fn(),
+    push: vi.fn(),
   };
 
   const { container } = render(
@@ -47,7 +47,7 @@ test('MastheadSearchForm redirects on ndla url paste with id at the end', () => 
 
 test('MastheadSearchForm redirects on ndla url paste with taxonomy id at the end', () => {
   const historyMock = {
-    push: jest.fn(),
+    push: vi.fn(),
   };
 
   nock('http://ndla-api')
@@ -74,7 +74,7 @@ test('MastheadSearchForm redirects on ndla url paste with taxonomy id at the end
 
 test('MastheadSearchForm redirects on old ndla url paste with new id', () => {
   const historyMock = {
-    push: jest.fn(),
+    push: vi.fn(),
   };
 
   nock('http://ndla-api').get('/draft-api/v1/drafts/external_id/4737').reply(200, { id: '123' });
@@ -99,7 +99,7 @@ test('MastheadSearchForm redirects on old ndla url paste with new id', () => {
 
 test('MastheadSearchForm invalid id at the end of the url', () => {
   const historyMock = {
-    push: jest.fn(),
+    push: vi.fn(),
   };
 
   const { container } = render(
@@ -121,7 +121,7 @@ test('MastheadSearchForm invalid id at the end of the url', () => {
 
 test('MastheadSearchForm redirects on ndla node id pasted', () => {
   const historyMock = {
-    push: jest.fn(),
+    push: vi.fn(),
   };
   nock('http://ndla-api').get('/draft-api/v1/drafts/external_id/4737').reply(200, { id: '123' });
 

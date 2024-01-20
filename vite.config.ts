@@ -11,6 +11,12 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig(({ mode }) => {
   return {
+    test: {
+      include: ['src/**/__tests__/*-test.(js|jsx|ts|tsx)'],
+      environment: 'jsdom',
+      globals: true,
+      setupFiles: './src/__tests__/vitest.setup.ts',
+    },
     plugins: [
       react({
         jsxImportSource: '@emotion/react',

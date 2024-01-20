@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
 .emotion-0 {
@@ -156,6 +156,12 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
 }
 
 .emotion-2 {
+  margin: 0 12px;
+  width: 24px;
+  height: 24px;
+}
+
+.emotion-3 {
   display: inline-block;
   fill: currentColor;
   vertical-align: middle;
@@ -165,9 +171,6 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
   flex-shrink: 0;
   width: 16px;
   height: 16px;
-  margin: 0 12px;
-  width: 24px;
-  height: 24px;
 }
 
 <div>
@@ -180,7 +183,7 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
     >
       <svg
         aria-hidden="true"
-        class="emotion-2 emotion-3"
+        class="emotion-2 emotion-3 emotion-4"
         data-icon=""
         data-license="Apache License 2.0"
         data-source="Material Design"
@@ -359,6 +362,12 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
 }
 
 .emotion-2 {
+  margin: 0 12px;
+  width: 24px;
+  height: 24px;
+}
+
+.emotion-3 {
   display: inline-block;
   fill: currentColor;
   vertical-align: middle;
@@ -368,9 +377,6 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
   flex-shrink: 0;
   width: 16px;
   height: 16px;
-  margin: 0 12px;
-  width: 24px;
-  height: 24px;
 }
 
 <div>
@@ -383,7 +389,7 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
     >
       <svg
         aria-hidden="true"
-        class="emotion-2 emotion-3"
+        class="emotion-2 emotion-3 emotion-4"
         data-icon=""
         data-license="Apache License 2.0"
         data-source="Material Design"
@@ -562,6 +568,12 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
 }
 
 .emotion-2 {
+  margin: 0 12px;
+  width: 24px;
+  height: 24px;
+}
+
+.emotion-3 {
   display: inline-block;
   fill: currentColor;
   vertical-align: middle;
@@ -571,9 +583,6 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
   flex-shrink: 0;
   width: 16px;
   height: 16px;
-  margin: 0 12px;
-  width: 24px;
-  height: 24px;
 }
 
 <div>
@@ -586,7 +595,7 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
     >
       <svg
         aria-hidden="true"
-        class="emotion-2 emotion-3"
+        class="emotion-2 emotion-3 emotion-4"
         data-icon=""
         data-license="Apache License 2.0"
         data-source="Material Design"
@@ -765,6 +774,12 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
 }
 
 .emotion-2 {
+  margin: 0 12px;
+  width: 24px;
+  height: 24px;
+}
+
+.emotion-3 {
   display: inline-block;
   fill: currentColor;
   vertical-align: middle;
@@ -774,9 +789,6 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
   flex-shrink: 0;
   width: 16px;
   height: 16px;
-  margin: 0 12px;
-  width: 24px;
-  height: 24px;
 }
 
 <div>
@@ -789,7 +801,7 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
     >
       <svg
         aria-hidden="true"
-        class="emotion-2 emotion-3"
+        class="emotion-2 emotion-3 emotion-4"
         data-icon=""
         data-license="Apache License 2.0"
         data-source="Material Design"
@@ -968,6 +980,12 @@ exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
 }
 
 .emotion-2 {
+  margin: 0 12px;
+  width: 24px;
+  height: 24px;
+}
+
+.emotion-3 {
   display: inline-block;
   fill: currentColor;
   vertical-align: middle;
@@ -977,9 +995,6 @@ exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
   flex-shrink: 0;
   width: 16px;
   height: 16px;
-  margin: 0 12px;
-  width: 24px;
-  height: 24px;
 }
 
 <div>
@@ -992,7 +1007,7 @@ exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
     >
       <svg
         aria-hidden="true"
-        class="emotion-2 emotion-3"
+        class="emotion-2 emotion-3 emotion-4"
         data-icon=""
         data-license="Apache License 2.0"
         data-source="Material Design"

@@ -226,7 +226,7 @@ export function getUniversalConfig(): ConfigType {
   }
 
   if (typeof process !== 'undefined') {
-    return process.env.BUILD_TARGET === 'server' || process.env.NODE_ENV === 'unittest'
+    return process.env.BUILD_TARGET === 'server' || process.env.NODE_ENV === 'test'
       ? getServerSideConfig()
       : window.config;
   }

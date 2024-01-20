@@ -19,7 +19,7 @@
     "types": [
       "@emotion/react",
       "@emotion/styled",
-      "jest",
+      "vitest/globals",
       "node",
       "webpack-env",
       "@testing-library/jest-dom"
@@ -29,5 +29,5 @@
     },
     "downlevelIteration": true
   },
-  "include": ["src/**/*", "custom-typings/*", "./jest.config.js"]
+  "include": ["src/**/*", "custom-typings/*"]
 }

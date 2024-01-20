@@ -21,7 +21,6 @@
       "@emotion/styled",
       "vitest/globals",
       "node",
-      "webpack-env",
       "@testing-library/jest-dom"
     ],
     "paths": {

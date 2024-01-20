@@ -6,8 +6,12 @@
  *
  */
 
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
 import { defineConfig } from '@playwright/test';
-import { join } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 export const STORAGE_STATE = join(__dirname, 'e2e/.auth/user.json');
 

@@ -24,7 +24,7 @@
     "e2e": "playwright test --ui",
     "e2e:headless": "playwright test",
     "e2e:record": "DISABLE_CSP=true RECORD_FIXTURES=true playwright test --ui",
-    "check-translations": "vitest src/phrases/__tests__/"
+    "check-translations": "vitest src/phrases/__tests__/ --run"
   },
   "engines": {
     "node": ">=20.9.0",

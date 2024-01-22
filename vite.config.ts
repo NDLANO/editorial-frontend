@@ -30,6 +30,9 @@ export default defineConfig(({ mode }) => {
       assetsDir: 'static',
       outDir: 'build/public',
     },
+    resolve: {
+      preserveSymlinks: true,
+    },
     define: {
       'process.env.NODE_ENV': JSON.stringify(mode),
     },

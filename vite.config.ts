@@ -29,6 +29,7 @@ export default defineConfig(({ mode }) => {
     build: {
       assetsDir: 'static',
       outDir: 'build/public',
+      sourcemap: true,
     },
     resolve: {
       preserveSymlinks: true,

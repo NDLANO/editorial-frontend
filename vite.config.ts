@@ -26,6 +26,10 @@ export default defineConfig(({ mode }) => {
       }),
       splitVendorChunkPlugin(),
     ],
+    build: {
+      assetsDir: 'static',
+      outDir: 'build/public',
+    },
     define: {
       'process.env.NODE_ENV': JSON.stringify(mode),
     },

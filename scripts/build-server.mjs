@@ -9,7 +9,7 @@
 import * as esbuild from 'esbuild';
 
 await esbuild.build({
-  entryPoints: ['src/server/server.ts'],
+  entryPoints: ['src/index.js'],
   bundle: true,
   format: 'esm',
   platform: 'node',
@@ -18,7 +18,8 @@ await esbuild.build({
   sourcesContent: false,
   external: ['dtrace-provider', 'vite'],
   outfile: 'build/server.mjs',
+  // Mixing ESM and CJS is still a struggle. This is a workaround for now.
   banner: {
-    js: `const require = await import('module').then($=>$.createRequire(import.meta.url));`,
+    js: `const require = createRequire(import.meta.url);`,
   },
 });

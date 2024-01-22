@@ -6,7 +6,7 @@
       "use": "@vercel/static"
     },
     {
-      "src": "build/server.js",
+      "src": "build/server.mjs",
       "use": "@vercel/node"
     }
   ],
@@ -20,7 +20,7 @@
       "src": "/(.*.(png|jpg|svg|gif))",
       "dest": "build/public/$1"
     },
-    { "src": "/(.*)", "dest": "/build/server.js" }
+    { "src": "/(.*)", "dest": "/build/server.mjs" }
   ],
   "env": {
     "NDLA_EDITORIAL_CLIENT_ID": "@ndla_editorial_client_id",

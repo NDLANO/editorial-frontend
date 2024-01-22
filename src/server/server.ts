@@ -7,6 +7,7 @@
  */
 
 import fs from 'fs/promises';
+import { join } from 'path';
 import bodyParser from 'body-parser';
 import compression from 'compression';
 import express from 'express';
@@ -19,15 +20,14 @@ import contentSecurityPolicy from './contentSecurityPolicy';
 import config from '../config';
 
 const isProduction = process.env.NODE_ENV === 'production';
-const port = process.env.PORT || 3000;
 const base = process.env.BASE || '/';
 
 const app = express();
 // Cached production assets
-const templateHtml = isProduction ? await fs.readFile('./build/client/index.html', 'utf-8') : '';
-// const ssrManifest = isProduction
-//   ? await fs.readFile('./build/client/.vite/ssr-manifest.json', 'utf-8')
-//   : undefined;
+// Vercel is particular about how it reads files. Changing this might break the build.
+const templateHtml = isProduction
+  ? await fs.readFile(join(process.cwd(), 'build', 'public', 'index.html'), 'utf-8')
+  : '';
 
 let vite: ViteDevServer | undefined;
 if (!isProduction) {
@@ -40,7 +40,7 @@ if (!isProduction) {
   app.use(vite.middlewares);
 } else {
   const sirv = (await import('sirv')).default;
-  app.use(base, sirv('./build/client', { extensions: [] }));
+  app.use(base, sirv('./build/public', { extensions: [] }));
 }
 
 const allowedBodyContentTypes = ['application/csp-report', 'application/json'];
@@ -129,13 +129,5 @@ app.get('*', async (req, res) => {
     res.status(500).end(e.stack);
   }
 });
-
-if (!config.isVercel) {
-  // Start http server
-  app.listen(port, () => {
-    // eslint-disable-next-line no-console
-    console.log(`Server started at http://localhost:${port}`);
-  });
-}
 
 export default app;

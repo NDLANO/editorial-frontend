@@ -38,4 +38,4 @@ COPY --from=builder /home/app/editorial-frontend/build build
 
 ENV NODE_ENV=production
 
-CMD ["/run-editorial-frontend.sh", "node build/server.js '|' bunyan"]
+CMD ["/run-editorial-frontend.sh", "node build/server.mjs '|' bunyan"]

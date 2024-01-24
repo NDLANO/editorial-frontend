@@ -93,6 +93,8 @@ app.use(
   }),
 );
 
+const serializedConfig = serialize(config);
+
 if (process.env.NODE_ENV === 'development') {
   // proxy js request to handle web worker crossorgin issue (only necessary under development)
   app.get('/static/js/*', proxy('http://localhost:3001'));
@@ -115,7 +117,7 @@ app.get('*', async (req, res) => {
     }
 
     const html = template
-      .replace("'__CONFIG__'", serialize(config))
+      .replace("'__CONFIG__'", serializedConfig)
       .replaceAll('__ENVIRONMENT__', process.env.NDLA_ENVIRONMENT ?? 'test');
 
     res.status(200).set({ 'Content-Type': 'text/html' }).end(html);

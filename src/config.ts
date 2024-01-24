@@ -20,6 +20,8 @@ export function getEnvironmentVariabel(
   return variabel || fallback;
 }
 
+type RuntimeType = 'test' | 'development' | 'production';
+
 const getNdlaApiUrl = (ndlaEnvironment: string): string => {
   switch (ndlaEnvironment) {
     case 'local':
@@ -163,6 +165,7 @@ export type ConfigType = {
   translateServiceUrl: string;
   isVercel: boolean;
   defaultLanguage: LocaleType;
+  runtimeType: RuntimeType;
 };
 
 const getServerSideConfig = (): ConfigType => {
@@ -217,18 +220,16 @@ const getServerSideConfig = (): ConfigType => {
       getTranslateServiceUrl(ndlaEnvironment),
     ),
     isVercel: getEnvironmentVariabel('IS_VERCEL', 'false') === 'true',
+    runtimeType: getEnvironmentVariabel('NODE_ENV', 'development') as
+      | 'test'
+      | 'development'
+      | 'production',
   };
 };
 
 export function getUniversalConfig(): ConfigType {
-  if (typeof window === 'undefined') {
+  if (typeof window === 'undefined' || process.env.NODE_ENV === 'test') {
     return getServerSideConfig();
-  }
-
-  if (typeof process !== 'undefined') {
-    return process.env.BUILD_TARGET === 'server' || process.env.NODE_ENV === 'test'
-      ? getServerSideConfig()
-      : window.config;
   }
 
   return window.config;

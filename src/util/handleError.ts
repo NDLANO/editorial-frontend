@@ -6,11 +6,13 @@
  *
  */
 
+import config from '../config';
+
 const handleError = (error: any, ...rest: any[]) => {
-  if (import.meta.env.PROD) {
+  if (config.runtimeType === 'production') {
     window.errorReporter.captureError(error);
     // No logging when unit testing
-  } else if (import.meta.env.MODE !== 'test') {
+  } else if (config.runtimeType !== 'test') {
     console.error(error, ...rest); // eslint-disable-line no-console
   }
 };

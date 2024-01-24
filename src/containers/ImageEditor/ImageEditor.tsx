@@ -193,6 +193,7 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates, language }: 
                 alignType={alignment}
                 onFieldChange={onFieldChange}
                 currentAlign={imageUpdates?.align}
+                disabled={alignment === 'left'}
               />
             ))}
           </StyledImageEditorMenu>

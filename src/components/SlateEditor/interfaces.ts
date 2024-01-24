@@ -65,6 +65,7 @@ import {
   TableHeadElement,
   TableRowElement,
 } from './plugins/table/interfaces';
+import { DisclaimerElement } from './plugins/uuDisclaimer';
 
 export type SlatePlugin = (editor: Editor) => Editor;
 
@@ -134,7 +135,8 @@ declare module 'slate' {
       | KeyFigureElement
       | ContactBlockElement
       | CampaignBlockElement
-      | LinkBlockListElement;
+      | LinkBlockListElement
+      | DisclaimerElement;
     Text: CustomTextWithMarks;
   }
 }

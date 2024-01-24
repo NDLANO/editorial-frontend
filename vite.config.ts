@@ -9,7 +9,7 @@
 import { defineConfig, splitVendorChunkPlugin } from 'vite';
 import react from '@vitejs/plugin-react';
 
-export default defineConfig(({ mode }) => {
+export default defineConfig(() => {
   return {
     test: {
       include: ['src/**/__tests__/*-test.(js|jsx|ts|tsx)'],
@@ -33,9 +33,6 @@ export default defineConfig(({ mode }) => {
     },
     resolve: {
       preserveSymlinks: true,
-    },
-    define: {
-      'process.env.NODE_ENV': JSON.stringify(mode),
     },
   };
 });

@@ -15,7 +15,7 @@
     "noEmit": false,
     "sourceMap": true,
     "skipLibCheck": true,
-    "lib": ["es2021", "esnext.asynciterable", "dom"],
+    "lib": ["es2022", "esnext.asynciterable", "dom"],
     "types": [
       "@emotion/react",
       "@emotion/styled",

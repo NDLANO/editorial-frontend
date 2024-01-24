@@ -19,8 +19,8 @@ import api from './api';
 import contentSecurityPolicy from './contentSecurityPolicy';
 import config from '../config';
 
-const isProduction = process.env.NODE_ENV === 'production';
-const base = process.env.BASE || '/';
+const isProduction = config.runtimeType === 'production';
+const base = '/';
 
 const app = express();
 // Cached production assets
@@ -55,15 +55,10 @@ app.get('*', (req, res, next) => {
   }
 });
 
-if (process.env.IS_VERCEL === 'false') {
+if (!config.isVercel) {
   app.use(compression());
 }
 app.use(express.json({ limit: '1mb' }));
-// app.use(
-//   express.static(process.env.PUBLIC_DIR, {
-//     maxAge: 1000 * 60 * 60 * 24 * 365, // One year
-//   }),
-// );
 app.use(express.json());
 
 app.use(
@@ -82,9 +77,9 @@ app.use(
       maxAge: 31536000,
       includeSubDomains: true,
     },
-    contentSecurityPolicy: process.env.DISABLE_CSP === 'true' ? null : contentSecurityPolicy,
+    contentSecurityPolicy: config.disableCSP === 'true' ? null : contentSecurityPolicy,
     frameguard:
-      process.env.NODE_ENV === 'development'
+      config.runtimeType === 'development'
         ? {
             action: 'allow-from',
             domain: '*://localhost',
@@ -95,7 +90,7 @@ app.use(
 
 const serializedConfig = serialize(config);
 
-if (process.env.NODE_ENV === 'development') {
+if (config.runtimeType === 'development') {
   // proxy js request to handle web worker crossorgin issue (only necessary under development)
   app.get('/static/js/*', proxy('http://localhost:3001'));
 }
@@ -103,11 +98,10 @@ if (process.env.NODE_ENV === 'development') {
 app.use(api);
 
 app.get('*', async (req, res) => {
-  const paths = req.url.split('/');
   try {
     const url = req.originalUrl.replace(base, '');
 
-    let template;
+    let template: string;
     if (!isProduction) {
       // Always read fresh template in development
       template = await fs.readFile('./index.html', 'utf-8');
@@ -118,7 +112,7 @@ app.get('*', async (req, res) => {
 
     const html = template
       .replace("'__CONFIG__'", serializedConfig)
-      .replaceAll('__ENVIRONMENT__', process.env.NDLA_ENVIRONMENT ?? 'test');
+      .replaceAll('__ENVIRONMENT__', config.ndlaEnvironment);
 
     res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
   } catch (e) {

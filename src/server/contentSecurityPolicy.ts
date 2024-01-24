@@ -198,6 +198,7 @@ const frameSrc = (() => {
 const fontSrc = (() => {
   const defaultFontSrc = [
     "'self'",
+    ' data:',
     'https://fonts.gstatic.com',
     'https://tagmanager.google.com',
     'https://www.wiris.net',

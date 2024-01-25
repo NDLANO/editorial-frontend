@@ -17,6 +17,7 @@ import validateFormik, { getWarnings } from '../../../../components/formikValida
 import HeaderWithLanguage from '../../../../components/HeaderWithLanguage';
 import EditorFooter from '../../../../components/SlateEditor/EditorFooter';
 import StyledForm from '../../../../components/StyledFormComponents';
+import { ARCHIVED, UNPUBLISHED } from '../../../../constants';
 import { useSession } from '../../../../containers/Session/SessionProvider';
 import { validateDraft } from '../../../../modules/draft/draftApi';
 import { useLicenses, useDraftStatusStateMachine } from '../../../../modules/draft/draftQueries';
@@ -102,7 +103,11 @@ const TopicArticleForm = ({
 
   const handleSubmit: HandleSubmitFunc<TopicArticleFormType> = useCallback(
     async (values, helpers, saveAsNew) => {
-      if (!articleTaxonomy?.length) {
+      if (
+        !articleTaxonomy?.length &&
+        values.status?.current !== ARCHIVED &&
+        values.status?.current !== UNPUBLISHED
+      ) {
         setShowTaxWarning(true);
         return;
       }

@@ -8,12 +8,19 @@
 
 import { UseQueryOptions, useQuery } from '@tanstack/react-query';
 import { IConceptSummary } from '@ndla/types-backend/concept-api';
-import { AudioMeta, ConceptListData, ConceptVisualElementMeta, H5pData } from '@ndla/types-embed';
+import {
+  AudioMeta,
+  ConceptListData,
+  ConceptVisualElementMeta,
+  H5pData,
+  UuDisclaimerData,
+} from '@ndla/types-embed';
 import {
   fetchAudioMeta,
   fetchConceptListMeta,
   fetchConceptVisualElement,
   fetchH5pMeta,
+  fetchDisclaimerMeta,
 } from './embedApi';
 import { AUDIO_EMBED } from '../../queryKeys';
 
@@ -67,6 +74,19 @@ export const useConceptListMeta = (
     retry: false,
     queryKey: ['conceptListMeta', tag, subject],
     queryFn: () => fetchConceptListMeta(concepts, language),
+    ...options,
+  });
+};
+
+export const useDisclaimerMeta = (
+  path: string,
+  url: string,
+  options?: Partial<UseQueryOptions<UuDisclaimerData>>,
+) => {
+  return useQuery<UuDisclaimerData>({
+    retry: false,
+    queryKey: ['h5pMeta', path, url],
+    queryFn: () => fetchDisclaimerMeta(path, url),
     ...options,
   });
 };

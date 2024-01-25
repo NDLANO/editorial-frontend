@@ -13,7 +13,12 @@ import { TYPE_DISCLAIMER } from './types';
 import { createEmbedTag, reduceElementDataAttributesV2 } from '../../../../util/embedTagHelpers';
 import { SlateSerializer } from '../../interfaces';
 import { NormalizerConfig, defaultBlockNormalizer } from '../../utils/defaultNormalizer';
-import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
+import {
+  afterOrBeforeTextBlockElement,
+  firstTextBlockElement,
+  lastTextBlockElement,
+  textBlockElements,
+} from '../../utils/normalizationHelpers';
 import { TYPE_NDLA_EMBED } from '../embed/types';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
 
@@ -24,12 +29,24 @@ export interface DisclaimerElement {
 }
 
 const normalizerConfig: NormalizerConfig = {
+  nodes: {
+    allowed: textBlockElements,
+    defaultType: TYPE_PARAGRAPH,
+  },
   previous: {
     allowed: afterOrBeforeTextBlockElement,
     defaultType: TYPE_PARAGRAPH,
   },
   next: {
     allowed: afterOrBeforeTextBlockElement,
+    defaultType: TYPE_PARAGRAPH,
+  },
+  firstNode: {
+    allowed: firstTextBlockElement,
+    defaultType: TYPE_PARAGRAPH,
+  },
+  lastNode: {
+    allowed: lastTextBlockElement,
     defaultType: TYPE_PARAGRAPH,
   },
 };

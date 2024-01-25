@@ -6,11 +6,15 @@
  *
  */
 
-import { ReactNode } from 'react';
+import { ReactNode, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Editor, Transforms } from 'slate';
+import { Editor, Element, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
-import { DisclaimerElement } from './types';
+import styled from '@emotion/styled';
+import { UuDisclaimerMetaData } from '@ndla/types-embed';
+import { UuDisclaimerEmbed } from '@ndla/ui';
+import { DisclaimerElement, TYPE_DISCLAIMER } from './types';
+import { useDisclaimerMeta } from '../../../../modules/embed/queries';
 
 interface Props {
   attributes: RenderElementProps['attributes'];
@@ -19,14 +23,56 @@ interface Props {
   element: DisclaimerElement;
 }
 
-const SlateDisclaimer = ({ attributes, children }: Props) => {
+const DisclaimerBlock = styled.div`
+  border: 1px solid black;
+  height: 70px:
+  width: 50px;
+`;
+
+const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
   const { t } = useTranslation();
 
-  return (
-    <div {...attributes} data-testid="slate-disclaimer">
-      {children}
-    </div>
+  const disclaimerMetaQuery = useDisclaimerMeta(element.data?.path!, element.data?.url!, {
+    enabled: !!element.data?.path,
+  });
+
+  const embed: UuDisclaimerMetaData | undefined = useMemo(
+    () =>
+      element.data
+        ? {
+            status: !!disclaimerMetaQuery.error || !disclaimerMetaQuery.data ? 'error' : 'success',
+            data: disclaimerMetaQuery.data!,
+            embedData: element.data,
+            resource: 'h5p',
+          }
+        : undefined,
+    [disclaimerMetaQuery.data, disclaimerMetaQuery.error, element.data],
   );
+
+  const onRemove = () => {
+    const path = ReactEditor.findPath(editor, element);
+    Transforms.unwrapNodes(editor, {
+      at: path,
+      match: (node) => Element.isElement(node) && node.type === TYPE_DISCLAIMER,
+    });
+    setTimeout(() => {
+      ReactEditor.focus(editor);
+      Transforms.select(editor, path);
+      Transforms.collapse(editor);
+    }, 0);
+  };
+
+  return (
+    <UuDisclaimerEmbed data-testid="slate-disclaimer" embed={element.data}>
+      {children}
+    </UuDisclaimerEmbed>
+  );
+
+  // return (
+  //   <UuDisclaimerEmbed  {...attributes} data-testid="slate-disclaimer">
+  //     {children}
+  //   </UuDisclaimerEmbed>
+  // );
 };
 
 export default SlateDisclaimer;

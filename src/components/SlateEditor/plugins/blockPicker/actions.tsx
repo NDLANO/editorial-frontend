@@ -15,6 +15,7 @@ import {
   Person,
   Podcast,
   VolumeUp,
+  WarningOutline,
 } from '@ndla/icons/common';
 import {
   ArrowExpand,
@@ -52,6 +53,7 @@ import { TYPE_KEY_FIGURE } from '../keyFigure/types';
 import { TYPE_LINK_BLOCK_LIST } from '../linkBlockList/types';
 import { TYPE_RELATED } from '../related/types';
 import { TYPE_TABLE } from '../table/types';
+import { TYPE_DISCLAIMER } from '../uuDisclaimer/types';
 
 const renderArticleInModal = (pageId: string) => <HowToHelper pageId={pageId} extraIconPadding />;
 
@@ -181,6 +183,11 @@ export const frontpageActions = commonActions.concat(
     data: { type: TYPE_LINK_BLOCK_LIST, object: 'linkBlockList' },
     icon: <Link />,
     helpIcon: renderArticleInModal('LinkBlockList'),
+  },
+  {
+    data: { type: TYPE_DISCLAIMER, object: 'disclaimer' },
+    icon: <WarningOutline />,
+    helpIcon: renderArticleInModal('Disclaimer'),
   },
 );
 

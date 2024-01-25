@@ -680,6 +680,7 @@ const phrases = {
       campaignBlock: 'Kampanjeblokk',
       linkBlockList: 'Link block',
       gloss: 'Gloss',
+      disclaimer: 'UU-Disclaimer',
     },
   },
   form: {

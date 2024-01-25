@@ -64,6 +64,8 @@ import { defaultTableBlock } from '../table/defaultBlocks';
 import { isInTableCellHeader, isTableCell } from '../table/slateHelpers';
 import { TYPE_TABLE } from '../table/types';
 import { IS_MAC } from '../toolbar/ToolbarButton';
+import { TYPE_DISCLAIMER } from '../uuDisclaimer/types';
+import { defaultDisclaimerBlock } from '../uuDisclaimer/utils';
 
 interface Props {
   editor: Editor;
@@ -359,6 +361,10 @@ const SlateBlockPicker = ({
       }
       case TYPE_GLOSS_BLOCK: {
         onInsertBlock(defaultGlossBlock());
+        break;
+      }
+      case TYPE_DISCLAIMER: {
+        onInsertBlock(defaultDisclaimerBlock(), true);
         break;
       }
       default:

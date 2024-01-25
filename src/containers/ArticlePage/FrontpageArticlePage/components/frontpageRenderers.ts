@@ -39,6 +39,7 @@ import { relatedRenderer } from '../../../../components/SlateEditor/plugins/rela
 import { sectionRenderer } from '../../../../components/SlateEditor/plugins/section/render';
 import { spanRenderer } from '../../../../components/SlateEditor/plugins/span/render';
 import { tableRenderer } from '../../../../components/SlateEditor/plugins/table/render';
+import { disclaimerRenderer } from '../../../../components/SlateEditor/plugins/uuDisclaimer/render';
 
 // Plugins are checked from last to first
 export const frontpageRenderers = (articleLanguage: string): SlatePlugin[] => [
@@ -77,4 +78,5 @@ export const frontpageRenderers = (articleLanguage: string): SlatePlugin[] => [
   blogPostRenderer,
   campaignBlockRenderer,
   linkBlockListRenderer,
+  disclaimerRenderer,
 ];

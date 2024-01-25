@@ -6,6 +6,7 @@
  *
  */
 
+import { TFunction } from 'i18next';
 import queryString from 'query-string';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -21,7 +22,11 @@ import { Node, ResourceType } from '@ndla/types-taxonomy';
 import {
   FAVOURITES_SUBJECT_ID,
   LMA_SUBJECT_ID,
+  LANGUAGE_SUBJECT_ID,
+  DESK_SUBJECT_ID,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_LANGUAGE_RESPONSIBLE,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_DESK_RESPONSIBLE,
 } from '../../../constants';
 import { SearchObjectType, SearchResultBase } from '../../../interfaces';
 import { searchAudio, searchSeries } from '../../../modules/audio/audioApi';
@@ -31,12 +36,13 @@ import { searchConcepts } from '../../../modules/concept/conceptApi';
 import { ConceptQuery } from '../../../modules/concept/conceptApiInterfaces';
 import { searchImages } from '../../../modules/image/imageApi';
 import { ImageSearchQuery } from '../../../modules/image/imageApiInterfaces';
-import { fetchNode, fetchNodes } from '../../../modules/nodes/nodeApi';
+import { fetchNode, postSearchNodes } from '../../../modules/nodes/nodeApi';
 import { search } from '../../../modules/search/searchApi';
 import { MultiSearchApiQuery } from '../../../modules/search/searchApiInterfaces';
 import { fetchResourceType } from '../../../modules/taxonomy';
 import { transformQuery } from '../../../util/searchHelpers';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
+import { customFieldsBody, getResultSubjectIdObject } from '../utils';
 
 type QueryType =
   | AudioSearchParams
@@ -62,14 +68,56 @@ export const searchTypeToFetchMapping: Record<string, SearchFetchType> = {
   content: search,
 };
 
-const getLMASubjectIds = async (taxonomyVersion: string, userId: string | undefined) => {
-  const nodes = await fetchNodes({
-    taxonomyVersion,
-    nodeType: 'SUBJECT',
-    key: TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
-    value: userId,
-  });
-  return nodes?.map((n) => n.id).join(',');
+const getSubjectFilterTranslation = (subject: string, subjectData: Node[], t: TFunction) => {
+  switch (subject) {
+    case FAVOURITES_SUBJECT_ID:
+      return t('searchForm.favourites');
+    case LMA_SUBJECT_ID:
+      return t('searchForm.LMASubjects');
+    case DESK_SUBJECT_ID:
+      return t('searchForm.deskSubjects');
+    case LANGUAGE_SUBJECT_ID:
+      return t('searchForm.languageSubjects');
+    default:
+      return subjectData?.find((s) => s.id === subject)?.name;
+  }
+};
+
+const customFieldMapping = {
+  [LMA_SUBJECT_ID]: TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
+  [DESK_SUBJECT_ID]: TAXONOMY_CUSTOM_FIELD_SUBJECT_DESK_RESPONSIBLE,
+  [LANGUAGE_SUBJECT_ID]: TAXONOMY_CUSTOM_FIELD_SUBJECT_LANGUAGE_RESPONSIBLE,
+} as const;
+
+const getSearchObject = async (
+  searchObject: SearchObjectType,
+  favoriteSubjects: string[] | undefined,
+  taxonomyVersion: string,
+  ndlaId: string | undefined,
+) => {
+  if (searchObject.subjects === FAVOURITES_SUBJECT_ID)
+    return {
+      ...searchObject,
+      subjects: favoriteSubjects?.join(','),
+    };
+  if (
+    ndlaId &&
+    (searchObject.subjects === LMA_SUBJECT_ID ||
+      searchObject.subjects === DESK_SUBJECT_ID ||
+      searchObject.subjects === LANGUAGE_SUBJECT_ID)
+  ) {
+    const nodesSearchResult = await postSearchNodes({
+      body: customFieldsBody(ndlaId),
+      taxonomyVersion,
+    });
+    const resultSubjectIdObject = getResultSubjectIdObject(ndlaId, nodesSearchResult.results);
+    const customFieldKey = customFieldMapping[searchObject.subjects];
+    return {
+      ...searchObject,
+      subjects: resultSubjectIdObject?.[customFieldKey],
+    };
+  }
+  return searchObject;
 };
 
 interface SavedSearchObjectType {
@@ -123,19 +171,12 @@ export const useSavedSearchUrl = (currentUserData: IUserData | undefined): Searc
             const searchFunction =
               searchTypeToFetchMapping[searchObject['type'] ?? 'content'] ?? search;
 
-            const searchObj =
-              searchObject.subjects === FAVOURITES_SUBJECT_ID
-                ? {
-                    ...searchObject,
-                    subjects: favoriteSubjects?.join(','),
-                  }
-                : searchObject.subjects === LMA_SUBJECT_ID
-                  ? {
-                      ...searchObject,
-                      subjects: await getLMASubjectIds(taxonomyVersion, currentUserData?.userId),
-                    }
-                  : searchObject;
-
+            const searchObj = await getSearchObject(
+              searchObject,
+              favoriteSubjects,
+              taxonomyVersion,
+              currentUserData?.userId,
+            );
             const searchResult = searchFunction({ ...searchObj, 'page-size': 0 });
 
             return searchResult;
@@ -148,7 +189,9 @@ export const useSavedSearchUrl = (currentUserData: IUserData | undefined): Searc
             (searchObject) =>
               searchObject &&
               !searchObject.includes(FAVOURITES_SUBJECT_ID) &&
-              !searchObject.includes(LMA_SUBJECT_ID),
+              !searchObject.includes(LMA_SUBJECT_ID) &&
+              !searchObject.includes(DESK_SUBJECT_ID) &&
+              !searchObject.includes(LANGUAGE_SUBJECT_ID),
           );
         const subjectData = await Promise.all(
           subjects.map((subject) =>
@@ -220,11 +263,7 @@ export const useSavedSearchUrl = (currentUserData: IUserData | undefined): Searc
       query: searchObject.query && `"${searchObject.query}"`,
       language: searchObject.language && t(`languages.${searchObject.language}`),
       subjects:
-        searchObject.subjects && searchObject.subjects === FAVOURITES_SUBJECT_ID
-          ? t('searchForm.favourites')
-          : searchObject.subjects === LMA_SUBJECT_ID
-            ? t('searchForm.LMASubjects')
-            : subjectData?.find((s) => s.id === searchObject.subjects)?.name,
+        searchObject.subjects && getSubjectFilterTranslation(searchObject.subjects, subjectData, t),
       'resource-types':
         searchObject['resource-types'] &&
         resourceTypeData?.find((r) => r.id === searchObject['resource-types'])?.name,

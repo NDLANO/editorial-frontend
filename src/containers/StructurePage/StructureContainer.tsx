@@ -20,7 +20,9 @@ import StructureBanner from './StructureBanner';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import { GridContainer, Column } from '../../components/Layout/Layout';
 import {
+  REMEMBER_DESK_SUBJECTS,
   REMEMBER_FAVORITE_NODES,
+  REMEMBER_LANGUAGE_SUBJECTS,
   REMEMBER_LMA_SUBJECTS,
   TAXONOMY_ADMIN_SCOPE,
 } from '../../constants';
@@ -31,6 +33,7 @@ import { getPathsFromUrl, removeLastItemFromUrl } from '../../util/routeHelpers'
 import Footer from '../App/components/Footer';
 import { useSession } from '../Session/SessionProvider';
 import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
+import { getResultSubjectIdObject } from '../WelcomePage/utils';
 
 const StructureWrapper = styled.ul`
   margin: 0;
@@ -53,12 +56,25 @@ const Wrapper = styled.div`
 const getNodes = (
   allNodes: Node[] | undefined = [],
   lmaSubjectIds: string[],
+  deskSubjectIds: string[],
+  languageSubjectIds: string[],
   favoriteNodeIds: string[],
   rootId: string,
 ): Node[] => {
   const filteredNodes =
-    lmaSubjectIds.length || favoriteNodeIds.length
-      ? allNodes.filter((node) => [...lmaSubjectIds, ...favoriteNodeIds, rootId].includes(node.id))
+    lmaSubjectIds.length ||
+    favoriteNodeIds.length ||
+    deskSubjectIds.length ||
+    languageSubjectIds.length
+      ? allNodes.filter((node) =>
+          [
+            ...lmaSubjectIds,
+            ...favoriteNodeIds,
+            ...deskSubjectIds,
+            ...languageSubjectIds,
+            rootId,
+          ].includes(node.id),
+        )
       : allNodes;
 
   return filteredNodes;
@@ -97,6 +113,12 @@ const StructureContainer = ({
   );
   const [showLmaSubjects, setShowLmaSubjects] = useState(
     localStorage.getItem(REMEMBER_LMA_SUBJECTS) === 'true',
+  );
+  const [showDeskSubjects, setShowDeskSubjects] = useState(
+    localStorage.getItem(REMEMBER_DESK_SUBJECTS) === 'true',
+  );
+  const [showLanguageSubjects, setShowLanguageSubjects] = useState(
+    localStorage.getItem(REMEMBER_LANGUAGE_SUBJECTS) === 'true',
   );
 
   const resourceSection = useRef<HTMLDivElement>(null);
@@ -148,20 +170,17 @@ const StructureContainer = ({
     const deleteSearch = !!params.rootId && !newPath.includes(params.rootId);
     navigate(`${rootPath}${newPath.concat(deleteSearch ? '' : search)}`);
   };
-  const lmaSubjectIds = useMemo(() => {
-    if (ndlaId) {
-      return (
-        nodesQuery.data
-          ?.filter((node) => node.metadata?.customFields?.subjectLMA === ndlaId)
-          .map((subjectLmaNode) => subjectLmaNode.id) ?? []
-      );
-    }
-    return [];
-  }, [ndlaId, nodesQuery.data]);
+
+  const resultSubjectIdObject = useMemo(
+    () => getResultSubjectIdObject(ndlaId, nodesQuery.data),
+    [ndlaId, nodesQuery.data],
+  );
 
   const nodes = getNodes(
     nodesQuery.data,
-    showLmaSubjects ? lmaSubjectIds : [],
+    showLmaSubjects ? resultSubjectIdObject.subjectLMA : [],
+    showDeskSubjects ? resultSubjectIdObject.subjectDeskResponsible : [],
+    showLanguageSubjects ? resultSubjectIdObject.subjectLanguageResponsible : [],
     showFavorites ? favoriteNodeIds : [],
     rootId,
   );
@@ -175,6 +194,16 @@ const StructureContainer = ({
     localStorage.setItem(REMEMBER_LMA_SUBJECTS, (!showLmaSubjects).toString());
     setShowLmaSubjects(!showLmaSubjects);
   }, [showLmaSubjects]);
+
+  const toggleShowDeskSubjects = useCallback(() => {
+    localStorage.setItem(REMEMBER_DESK_SUBJECTS, (!showDeskSubjects).toString());
+    setShowDeskSubjects(!showDeskSubjects);
+  }, [showDeskSubjects]);
+
+  const toggleShowLanguageSubjects = useCallback(() => {
+    localStorage.setItem(REMEMBER_LANGUAGE_SUBJECTS, (!showLanguageSubjects).toString());
+    setShowLanguageSubjects(!showLanguageSubjects);
+  }, [showLanguageSubjects]);
 
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
 
@@ -192,9 +221,15 @@ const StructureContainer = ({
               setShowFavorites={toggleShowFavorites}
               showFavorites={showFavorites}
               setShowLmaSubjects={toggleShowLmaSubjects}
+              setShowDeskSubjects={toggleShowDeskSubjects}
+              setShowLanguageSubjects={toggleShowLanguageSubjects}
               showLmaSubjects={showLmaSubjects}
+              showDeskSubjects={showDeskSubjects}
+              showLanguageSubjects={showLanguageSubjects}
               nodeType={rootNodeType}
-              hasLmaSubjects={!!lmaSubjectIds.length}
+              hasLmaSubjects={!!resultSubjectIdObject.subjectLMA.length}
+              hasDeskSubjects={!!resultSubjectIdObject.subjectDeskResponsible.length}
+              hasLanguageSubjects={!!resultSubjectIdObject.subjectLanguageResponsible.length}
             />
             <StyledStructureContainer>
               {userDataQuery.isLoading || nodesQuery.isLoading ? (

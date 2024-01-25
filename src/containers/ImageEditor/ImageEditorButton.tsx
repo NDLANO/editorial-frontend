@@ -26,14 +26,15 @@ const EditButton = styled(ButtonV2)<{ isActive: boolean }>`
 `;
 interface Props {
   isActive?: boolean;
+  disabled?: boolean;
   children: ReactNode;
   tabIndex: number;
   onClick: (evt: MouseEvent<HTMLButtonElement>) => void;
 }
 
 const ImageEditorButton = forwardRef<HTMLButtonElement, Props>(
-  ({ isActive, children, ...rest }, ref) => (
-    <EditButton variant="stripped" isActive={!!isActive} ref={ref} {...rest}>
+  ({ isActive, disabled, children, ...rest }, ref) => (
+    <EditButton variant="stripped" isActive={!!isActive} disabled={disabled} ref={ref} {...rest}>
       {children}
     </EditButton>
   ),

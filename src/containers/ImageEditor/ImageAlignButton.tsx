@@ -20,11 +20,12 @@ const icon: Record<string, JSX.Element> = {
 
 interface Props {
   currentAlign?: string;
+  disabled?: boolean;
   alignType: string;
   onFieldChange: (evt: MouseEvent<HTMLButtonElement>, field: string, value: string) => void;
 }
 
-const ImageAlignButton = ({ currentAlign, alignType, onFieldChange }: Props) => {
+const ImageAlignButton = ({ currentAlign, disabled, alignType, onFieldChange }: Props) => {
   const { t } = useTranslation();
   const onChange = (evt: MouseEvent<HTMLButtonElement>) => {
     onFieldChange(evt, 'align', alignType);
@@ -32,7 +33,12 @@ const ImageAlignButton = ({ currentAlign, alignType, onFieldChange }: Props) => 
 
   return (
     <Tooltip tooltip={t(`form.image.alignment.${alignType}`)}>
-      <ImageEditorButton tabIndex={-1} isActive={currentAlign === alignType} onClick={onChange}>
+      <ImageEditorButton
+        tabIndex={-1}
+        disabled={disabled}
+        isActive={currentAlign === alignType}
+        onClick={onChange}
+      >
         {icon[alignType]}
       </ImageEditorButton>
     </Tooltip>

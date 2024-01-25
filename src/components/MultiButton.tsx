@@ -10,7 +10,7 @@ import { ReactElement } from 'react';
 import styled from '@emotion/styled';
 import { Content, Item, Portal, Root, Trigger } from '@radix-ui/react-dropdown-menu';
 import { ButtonV2 } from '@ndla/button';
-import { colors, shadows } from '@ndla/core';
+import { colors, shadows, stackOrder } from '@ndla/core';
 import { ChevronDown } from '@ndla/icons/common';
 
 const MainButton = styled(ButtonV2)`
@@ -72,7 +72,7 @@ const MenuButton = styled(ButtonV2)`
 
 const MenuItems = styled(Content)`
   box-shadow: ${shadows.levitate1};
-  z-index: 200;
+  z-index: ${stackOrder.popover};
 `;
 
 const ToggleButton = styled(ButtonV2)`

@@ -14,7 +14,7 @@ import styled from '@emotion/styled';
 import { Popover, PopoverContent, PopoverTrigger } from '@radix-ui/react-popover';
 import { Portal } from '@radix-ui/react-portal';
 import { ButtonV2, IconButtonV2 } from '@ndla/button';
-import { shadows, colors, spacing, fonts, animations } from '@ndla/core';
+import { animations, colors, fonts, shadows, spacing, stackOrder } from '@ndla/core';
 import { Plus } from '@ndla/icons/action';
 import { Heading } from '@ndla/typography';
 import { Action, ActionData } from './actions';
@@ -76,7 +76,7 @@ interface Props {
 
 const StyledContent = styled(PopoverContent)`
   background-color: ${colors.white};
-  z-index: 10;
+  z-index: ${stackOrder.trigger};
   padding: ${spacing.normal};
   box-shadow: ${shadows.levitate1};
   ${animations.fadeInLeft(animations.durations.fast)};
@@ -123,7 +123,7 @@ const ActionButton = styled(ButtonV2)`
 
 const BlockPickerButton = styled(IconButtonV2)`
   position: absolute;
-  z-index: 15;
+  z-index: ${stackOrder.trigger + stackOrder.offsetSingle};
   border: 2px solid ${colors.brand.primary};
   height: ${spacing.large};
   width: ${spacing.large};

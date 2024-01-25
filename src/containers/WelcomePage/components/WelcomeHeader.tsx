@@ -9,7 +9,7 @@
 import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { colors, spacing, fonts, mq, breakpoints } from '@ndla/core';
+import { breakpoints, colors, fonts, mq, spacing, stackOrder } from '@ndla/core';
 import { SafeLinkButton } from '@ndla/safelink';
 import { useSession } from '../../Session/SessionProvider';
 
@@ -33,7 +33,7 @@ const StyledHeader = styled.div`
 `;
 
 const ButtonWrapper = styled.div`
-  z-index: 1;
+  z-index: ${stackOrder.offsetSingle};
 `;
 
 const StyledTitle = styled.h1`
@@ -72,7 +72,7 @@ const RightShape = styled.div`
 `;
 
 const ContentWrapper = styled.div`
-  z-index: 1;
+  z-index: ${stackOrder.offsetSingle};
   text-align: center;
 `;
 

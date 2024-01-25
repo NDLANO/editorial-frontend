@@ -9,11 +9,11 @@
 import { MouseEvent } from 'react';
 import { css, SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
-import { animations } from '@ndla/core';
+import { animations, stackOrder } from '@ndla/core';
 
 const appearances: Record<string, SerializedStyles> = {
   zIndex: css`
-    z-index: 1;
+    z-index: ${stackOrder.offsetSingle};
   `,
   absolute: css`
     position: absolute;
@@ -26,7 +26,7 @@ const appearances: Record<string, SerializedStyles> = {
   `,
   lighter: css`
     background: rgba(1, 1, 1, 0.3);
-    z-index: 3;
+    z-index: ${stackOrder.offsetDouble};
   `,
 };
 
@@ -43,7 +43,7 @@ const StyledOverlay = styled.div<{ modifiers: string | string[] }>`
   left: 0;
   height: 100vh;
   width: 100vw;
-  z-index: 3;
+  z-index: ${stackOrder.offsetDouble};
   background: rgba(0, 0, 0, 0.3);
 
   ${animations.fadeIn()}

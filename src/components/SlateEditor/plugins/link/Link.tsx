@@ -13,7 +13,7 @@ import { RenderElementProps } from 'slate-react';
 import styled from '@emotion/styled';
 import { Portal } from '@radix-ui/react-portal';
 import { ButtonV2 } from '@ndla/button';
-import { colors, spacing } from '@ndla/core';
+import { colors, spacing, stackOrder } from '@ndla/core';
 import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
 import { ContentLinkElement, LinkElement } from '.';
 import EditLink from './EditLink';
@@ -34,7 +34,7 @@ const StyledLinkMenu = styled('span')<StyledLinkMenuProps>`
   background-color: #fff;
   background-clip: padding-box;
   border: 1px solid ${colors.brand.greyLight};
-  z-index: 1;
+  z-index: ${stackOrder.offsetSingle};
 `;
 
 const fetchResourcePath = (node: ContentLinkElement, language: string, contentType: string) => {

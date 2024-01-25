@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { Root, Trigger, Close, Content, Portal } from '@radix-ui/react-popover';
 import { CloseButton, IconButtonV2 } from '@ndla/button';
-import { colors, spacing, animations } from '@ndla/core';
+import { animations, colors, spacing, stackOrder } from '@ndla/core';
 import { Settings } from '@ndla/icons/editor';
 import { Node } from '@ndla/types-taxonomy';
 import SettingsMenuDropdownType from './SettingsMenuDropdownType';
@@ -101,7 +101,7 @@ const SettingsMenu = ({ node, rootNodeId, onCurrentNodeChanged, nodeChildren }: 
 export const StyledDivWrapper = styled.div`
   position: absolute;
   ${animations.fadeIn()}
-  z-index: 2;
+  z-index: ${stackOrder.offsetDouble};
   padding: ${spacing.xsmall};
   width: 550px;
   background-color: ${colors.brand.greyLightest};

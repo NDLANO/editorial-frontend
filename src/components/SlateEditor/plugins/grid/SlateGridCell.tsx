@@ -12,7 +12,7 @@ import { Editor, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
-import { spacing, colors } from '@ndla/core';
+import { spacing, colors, stackOrder } from '@ndla/core';
 import { Pin } from '@ndla/icons/common';
 import { GridCellElement } from '.';
 
@@ -23,7 +23,7 @@ interface Props extends RenderElementProps {
 
 const StyledButton = styled(IconButtonV2)`
   position: absolute;
-  z-index: 2;
+  z-index: ${stackOrder.offsetDouble};
   top: ${spacing.xxsmall};
   right: ${spacing.xxsmall};
 `;

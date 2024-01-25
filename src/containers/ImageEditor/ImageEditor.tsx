@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { PercentCrop } from 'react-image-crop';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
-import { colors } from '@ndla/core';
+import { colors, stackOrder } from '@ndla/core';
 import { Crop, FocalPoint } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
@@ -33,7 +33,7 @@ const StyledImageEditorMenu = styled('div')`
 
 const StyledImageEditorEditMode = styled('div')`
   position: relative;
-  z-index: 99;
+  z-index: ${stackOrder.popover};
   background-color: ${colors.brand.grey};
 `;
 

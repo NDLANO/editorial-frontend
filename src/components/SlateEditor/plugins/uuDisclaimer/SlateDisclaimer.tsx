@@ -11,10 +11,12 @@ import { useTranslation } from 'react-i18next';
 import { Editor, Element, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import styled from '@emotion/styled';
+import { colors, spacing } from '@ndla/core';
 import { UuDisclaimerMetaData } from '@ndla/types-embed';
 import { UuDisclaimerEmbed } from '@ndla/ui';
 import { DisclaimerElement, TYPE_DISCLAIMER } from './types';
 import { useDisclaimerMeta } from '../../../../modules/embed/queries';
+import DeleteButton from '../../../DeleteButton';
 
 interface Props {
   attributes: RenderElementProps['attributes'];
@@ -23,18 +25,27 @@ interface Props {
   element: DisclaimerElement;
 }
 
-const DisclaimerBlock = styled.div`
-  border: 1px solid black;
-  height: 70px:
-  width: 50px;
+const DisclaimerBlockContent = styled.div`
+  border: 1px solid ${colors.brand.primary};
+  margin-top: ${spacing.small};
+  padding: ${spacing.small};
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  right: -${spacing.large};
 `;
 
 const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
   const { t } = useTranslation();
 
-  const disclaimerMetaQuery = useDisclaimerMeta(element.data?.path!, element.data?.url!, {
-    enabled: !!element.data?.path,
-  });
+  const disclaimerMetaQuery = useDisclaimerMeta();
+
+  // const disclaimerMetaQuery = useDisclaimerMeta(element.data?.path!, element.data?.url!, {
+  //   enabled: !!element.data?.path,
+  // });
 
   const embed: UuDisclaimerMetaData | undefined = useMemo(
     () =>
@@ -42,8 +53,8 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
         ? {
             status: !!disclaimerMetaQuery.error || !disclaimerMetaQuery.data ? 'error' : 'success',
             data: disclaimerMetaQuery.data!,
-            embedData: element.data,
-            resource: 'h5p',
+            embedData: { ...element.data, disclaimer: element.data?.embedData?.disclaimer },
+            resource: element.data?.resource,
           }
         : undefined,
     [disclaimerMetaQuery.data, disclaimerMetaQuery.error, element.data],
@@ -63,16 +74,26 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
   };
 
   return (
-    <UuDisclaimerEmbed data-testid="slate-disclaimer" embed={element.data}>
-      {children}
-    </UuDisclaimerEmbed>
+    <>
+      <ButtonContainer>
+        <DeleteButton aria-label={t('delete')} data-testid="remove-disclaimer" onClick={onRemove} />
+      </ButtonContainer>
+      <UuDisclaimerEmbed
+        {...attributes}
+        data-testid="slate-disclaimer"
+        embed={
+          embed ?? {
+            status: 'success',
+            resource: 'uu-disclaimer',
+            embedData: { ...element.data, disclaimer: 'This is a disclaimer' },
+            data: {},
+          }
+        }
+      >
+        <DisclaimerBlockContent>{children}</DisclaimerBlockContent>
+      </UuDisclaimerEmbed>
+    </>
   );
-
-  // return (
-  //   <UuDisclaimerEmbed  {...attributes} data-testid="slate-disclaimer">
-  //     {children}
-  //   </UuDisclaimerEmbed>
-  // );
 };
 
 export default SlateDisclaimer;

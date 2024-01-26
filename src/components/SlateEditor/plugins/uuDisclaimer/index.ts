@@ -8,7 +8,7 @@
 
 import { Descendant, Editor, Element } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
-import { EmbedData } from '@ndla/types-embed';
+import { UuDisclaimerMetaData } from '@ndla/types-embed';
 import { TYPE_DISCLAIMER } from './types';
 import { createEmbedTag, reduceElementDataAttributesV2 } from '../../../../util/embedTagHelpers';
 import { SlateSerializer } from '../../interfaces';
@@ -24,32 +24,9 @@ import { TYPE_PARAGRAPH } from '../paragraph/types';
 
 export interface DisclaimerElement {
   type: 'disclaimer-block';
-  data?: EmbedData;
+  data: UuDisclaimerMetaData;
   children: Descendant[];
 }
-
-const normalizerConfig: NormalizerConfig = {
-  nodes: {
-    allowed: textBlockElements,
-    defaultType: TYPE_PARAGRAPH,
-  },
-  previous: {
-    allowed: afterOrBeforeTextBlockElement,
-    defaultType: TYPE_PARAGRAPH,
-  },
-  next: {
-    allowed: afterOrBeforeTextBlockElement,
-    defaultType: TYPE_PARAGRAPH,
-  },
-  firstNode: {
-    allowed: firstTextBlockElement,
-    defaultType: TYPE_PARAGRAPH,
-  },
-  lastNode: {
-    allowed: lastTextBlockElement,
-    defaultType: TYPE_PARAGRAPH,
-  },
-};
 
 export const disclaimerSerializer: SlateSerializer = {
   deserialize(el: HTMLElement) {
@@ -66,15 +43,5 @@ export const disclaimerSerializer: SlateSerializer = {
 };
 
 export const disclaimerPlugin = (editor: Editor) => {
-  const { normalizeNode: nextNormalizeNode } = editor;
-
-  editor.normalizeNode = (entry) => {
-    const [node] = entry;
-    if (Element.isElement(node) && node.type === TYPE_DISCLAIMER) {
-      if (defaultBlockNormalizer(editor, entry, normalizerConfig)) return;
-    }
-    nextNormalizeNode(entry);
-  };
-
   return editor;
 };

@@ -267,15 +267,14 @@ export const fetchConceptListMeta = async (
   return { concepts: conceptsWithVisualElement };
 };
 
-export const fetchDisclaimerMeta = async (path: string, url: string): Promise<UuDisclaimerData> => {
-  const pathArr = path.split('/') || [];
-  const h5pId = pathArr[pathArr.length - 1];
-  const disclaimerLink = await fetchDisclaimerLink();
+export const fetchDisclaimerMeta = async () // path: string, // url: string
+: Promise<UuDisclaimerData> => {
+  // const pathArr = path.split('/') || [];
+  // const h5pId = pathArr[pathArr.length - 1];
+  const disclaimerLink = { text: 'Disclaimer link', href: 'https://ndla.no' };
+  // const disclaimerLink = await fetchDisclaimerLink();
 
   return {
-    disclaimerLink: {
-      text: disclaimerLink.text,
-      href: disclaimerLink.url,
-    },
+    disclaimerLink,
   };
 };

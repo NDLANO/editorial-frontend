@@ -78,15 +78,15 @@ export const useConceptListMeta = (
   });
 };
 
-export const useDisclaimerMeta = (
-  path: string,
-  url: string,
-  options?: Partial<UseQueryOptions<UuDisclaimerData>>,
-) => {
-  return useQuery<UuDisclaimerData>({
-    retry: false,
-    queryKey: ['h5pMeta', path, url],
-    queryFn: () => fetchDisclaimerMeta(path, url),
-    ...options,
-  });
-};
+export const useDisclaimerMeta = () =>
+  // path: string,
+  // url: string,
+  // options?: Partial<UseQueryOptions<UuDisclaimerData>>,
+  {
+    return useQuery<UuDisclaimerData>({
+      retry: false,
+      queryKey: ['disclaimer'],
+      queryFn: () => fetchDisclaimerMeta(),
+      // ...options,
+    });
+  };

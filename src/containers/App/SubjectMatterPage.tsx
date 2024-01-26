@@ -6,28 +6,22 @@
  *
  */
 
-import { Navigate, Route, Routes, useParams } from 'react-router-dom';
-import Spinner from '../../components/Spinner';
-import { useDraft } from '../../modules/draft/draftQueries';
-import { toEditArticle } from '../../util/routeHelpers';
-import FrontPageArticlePage from '../ArticlePage/FrontpageArticlePage/FrontpageArticlePage';
-import LearningResourcePage from '../ArticlePage/LearningResourcePage/LearningResourcePage';
-import TopicArticlePage from '../ArticlePage/TopicArticlePage/TopicArticlePage';
-import NotFoundPage from '../NotFoundPage/NotFoundPage';
-import PrivateRoute from '../PrivateRoute/PrivateRoute';
+import { Navigate, Route, Routes, useParams } from "react-router-dom";
+import Spinner from "../../components/Spinner";
+import { useDraft } from "../../modules/draft/draftQueries";
+import { toEditArticle } from "../../util/routeHelpers";
+import FrontPageArticlePage from "../ArticlePage/FrontpageArticlePage/FrontpageArticlePage";
+import LearningResourcePage from "../ArticlePage/LearningResourcePage/LearningResourcePage";
+import TopicArticlePage from "../ArticlePage/TopicArticlePage/TopicArticlePage";
+import NotFoundPage from "../NotFoundPage/NotFoundPage";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 const SubjectMatterPage = () => (
   <>
     <Routes>
       <Route path="topic-article/*" element={<PrivateRoute component={<TopicArticlePage />} />} />
-      <Route
-        path="learning-resource/*"
-        element={<PrivateRoute component={<LearningResourcePage />} />}
-      />
-      <Route
-        path="frontpage-article/*"
-        element={<PrivateRoute component={<FrontPageArticlePage />} />}
-      />
+      <Route path="learning-resource/*" element={<PrivateRoute component={<LearningResourcePage />} />} />
+      <Route path="frontpage-article/*" element={<PrivateRoute component={<FrontPageArticlePage />} />} />
       <Route path="article/:id" element={<PrivateRoute component={<GenericArticleRedirect />} />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
@@ -35,7 +29,7 @@ const SubjectMatterPage = () => (
 );
 
 const GenericArticleRedirect = () => {
-  const parsedId = Number(useParams<'id'>().id);
+  const parsedId = Number(useParams<"id">().id);
   const { data: article, error, isLoading } = useDraft({ id: parsedId }, { enabled: !!parsedId });
   if (isLoading) return <Spinner />;
   if (error || !article || !parsedId) return <NotFoundPage />;

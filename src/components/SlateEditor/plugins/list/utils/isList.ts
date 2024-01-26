@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { Element } from 'slate';
-import { TYPE_LIST } from '../types';
+import { Element } from "slate";
+import { TYPE_LIST } from "../types";
 
 export const isList = (el: Element): boolean => {
   return el.type === TYPE_LIST;

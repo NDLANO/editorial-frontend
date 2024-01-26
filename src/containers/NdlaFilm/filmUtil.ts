@@ -6,8 +6,8 @@
  *
  */
 
-import { i18n } from 'i18next';
-import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
+import { i18n } from "i18next";
+import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
 
 export const sortMoviesByIdList = (
   idList: number[],
@@ -15,20 +15,23 @@ export const sortMoviesByIdList = (
   i18n: i18n,
 ): IMultiSearchSummary[] => {
   const notFoundMovie = {
-    title: { title: i18n.t('ndlaFilm.editor.notFound'), language: i18n.language },
+    title: {
+      title: i18n.t("ndlaFilm.editor.notFound"),
+      language: i18n.language,
+    },
     supportedLanguages: [],
     metaDescription: {
-      metaDescription: '',
-      language: '',
+      metaDescription: "",
+      language: "",
     },
-    url: '',
+    url: "",
     contexts: [],
-    learningResourceType: '',
+    learningResourceType: "",
     traits: [],
     score: -1,
     highlights: [],
     paths: [],
-    lastUpdated: '',
+    lastUpdated: "",
     revisions: [],
   };
   return idList.map(

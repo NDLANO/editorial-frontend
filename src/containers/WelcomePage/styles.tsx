@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import styled from '@emotion/styled';
-import { spacing, colors, mq, breakpoints, fonts } from '@ndla/core';
-import SafeLink from '@ndla/safelink';
-import { Switch } from '@ndla/switch';
+import styled from "@emotion/styled";
+import { spacing, colors, mq, breakpoints, fonts } from "@ndla/core";
+import SafeLink from "@ndla/safelink";
+import { Switch } from "@ndla/switch";
 
 export const StyledColumnHeader = styled.div`
   display: flex;
@@ -79,7 +79,7 @@ export const StyledSwitch = styled(Switch)`
     margin-right: auto;
   }
   label {
-    font-size: ${fonts.sizes('16px')};
+    font-size: ${fonts.sizes("16px")};
     ${mq.range({ from: breakpoints.tabletWide })} {
       margin-left: auto;
     }

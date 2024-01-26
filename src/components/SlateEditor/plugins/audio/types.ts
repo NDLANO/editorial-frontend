@@ -6,13 +6,13 @@
  *
  */
 
-import { Descendant } from 'slate';
-import { AudioEmbedData } from '@ndla/types-embed';
+import { Descendant } from "slate";
+import { AudioEmbedData } from "@ndla/types-embed";
 
-export const TYPE_AUDIO = 'audio';
+export const TYPE_AUDIO = "audio";
 
 export interface AudioElement {
-  type: 'audio';
+  type: "audio";
   data?: AudioEmbedData;
   children: Descendant[];
 }

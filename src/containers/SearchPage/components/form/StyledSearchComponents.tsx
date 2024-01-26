@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import styled from '@emotion/styled';
-import { spacing, colors } from '@ndla/core';
+import styled from "@emotion/styled";
+import { spacing, colors } from "@ndla/core";
 
 export const StyledSearchResult = styled.div`
   display: flex;
@@ -48,7 +48,7 @@ export const StyledSearchTitle = styled.h1`
 export const StyledOtherLink = styled.span`
   &:not(:last-child) {
     &::after {
-      content: ' / ';
+      content: " / ";
     }
   }
 `;
@@ -83,7 +83,7 @@ export const NoShadowAnchor = styled.a`
 export const StyledSearchOtherLink = styled.span`
   &:not(:last-child) {
     &::after {
-      content: ' / ';
+      content: " / ";
     }
   }
 `;

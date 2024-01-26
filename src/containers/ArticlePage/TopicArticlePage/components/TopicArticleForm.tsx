@@ -6,38 +6,34 @@
  *
  */
 
-import { Formik, FormikHelpers, useFormikContext } from 'formik';
-import { memo, useCallback, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { IUpdatedArticle, IArticle, IStatus, ILicense } from '@ndla/types-backend/draft-api';
-import { Node } from '@ndla/types-taxonomy';
-import TopicArticleAccordionPanels from './TopicArticleAccordionPanels';
-import AlertModal from '../../../../components/AlertModal';
-import validateFormik, { getWarnings } from '../../../../components/formikValidationSchema';
-import HeaderWithLanguage from '../../../../components/HeaderWithLanguage';
-import EditorFooter from '../../../../components/SlateEditor/EditorFooter';
-import StyledForm from '../../../../components/StyledFormComponents';
-import { ARCHIVED, UNPUBLISHED } from '../../../../constants';
-import { useSession } from '../../../../containers/Session/SessionProvider';
-import { validateDraft } from '../../../../modules/draft/draftApi';
-import { useLicenses, useDraftStatusStateMachine } from '../../../../modules/draft/draftQueries';
-import { blockContentToHTML } from '../../../../util/articleContentConverter';
-import { isFormikFormDirty, topicArticleRules } from '../../../../util/formHelper';
-import { AlertModalWrapper } from '../../../FormikForm';
-import {
-  HandleSubmitFunc,
-  TopicArticleFormType,
-  useArticleFormHooks,
-} from '../../../FormikForm/articleFormHooks';
-import usePreventWindowUnload from '../../../FormikForm/preventWindowUnloadHook';
-import { TaxonomyVersionProvider } from '../../../StructureVersion/TaxonomyVersionProvider';
+import { Formik, FormikHelpers, useFormikContext } from "formik";
+import { memo, useCallback, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { IUpdatedArticle, IArticle, IStatus, ILicense } from "@ndla/types-backend/draft-api";
+import { Node } from "@ndla/types-taxonomy";
+import TopicArticleAccordionPanels from "./TopicArticleAccordionPanels";
+import AlertModal from "../../../../components/AlertModal";
+import validateFormik, { getWarnings } from "../../../../components/formikValidationSchema";
+import HeaderWithLanguage from "../../../../components/HeaderWithLanguage";
+import EditorFooter from "../../../../components/SlateEditor/EditorFooter";
+import StyledForm from "../../../../components/StyledFormComponents";
+import { ARCHIVED, UNPUBLISHED } from "../../../../constants";
+import { useSession } from "../../../../containers/Session/SessionProvider";
+import { validateDraft } from "../../../../modules/draft/draftApi";
+import { useLicenses, useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
+import { blockContentToHTML } from "../../../../util/articleContentConverter";
+import { isFormikFormDirty, topicArticleRules } from "../../../../util/formHelper";
+import { AlertModalWrapper } from "../../../FormikForm";
+import { HandleSubmitFunc, TopicArticleFormType, useArticleFormHooks } from "../../../FormikForm/articleFormHooks";
+import usePreventWindowUnload from "../../../FormikForm/preventWindowUnloadHook";
+import { TaxonomyVersionProvider } from "../../../StructureVersion/TaxonomyVersionProvider";
 import {
   draftApiTypeToTopicArticleFormType,
   getExpirationDate,
   topicArticleFormTypeToDraftApiType,
-} from '../../articleTransformers';
-import CommentSection from '../../components/CommentSection';
-import { FlexWrapper, MainContent } from '../../styles';
+} from "../../articleTransformers";
+import CommentSection from "../../components/CommentSection";
+import { FlexWrapper, MainContent } from "../../styles";
 
 interface Props {
   article?: IArticle;
@@ -66,10 +62,7 @@ const TopicArticleForm = ({
   const { t } = useTranslation();
   const { ndlaId } = useSession();
 
-  const validate = useCallback(
-    (values: TopicArticleFormType) => validateFormik(values, topicArticleRules, t),
-    [t],
-  );
+  const validate = useCallback((values: TopicArticleFormType) => validateFormik(values, topicArticleRules, t), [t]);
 
   const {
     savedToServer,
@@ -96,18 +89,11 @@ const TopicArticleForm = ({
     [article, initialValues, t],
   );
 
-  const initialErrors = useMemo(
-    () => validateFormik(initialValues, topicArticleRules, t),
-    [initialValues, t],
-  );
+  const initialErrors = useMemo(() => validateFormik(initialValues, topicArticleRules, t), [initialValues, t]);
 
   const handleSubmit: HandleSubmitFunc<TopicArticleFormType> = useCallback(
     async (values, helpers, saveAsNew) => {
-      if (
-        !articleTaxonomy?.length &&
-        values.status?.current !== ARCHIVED &&
-        values.status?.current !== UNPUBLISHED
-      ) {
+      if (!articleTaxonomy?.length && values.status?.current !== ARCHIVED && values.status?.current !== UNPUBLISHED) {
         setShowTaxWarning(true);
         return;
       }
@@ -118,7 +104,7 @@ const TopicArticleForm = ({
 
   const contexts = articleTaxonomy
     ?.flatMap((node) => node.contexts)
-    .filter((context) => !context.rootId.includes('programme'));
+    .filter((context) => !context.rootId.includes("programme"));
 
   return (
     <Formik
@@ -166,12 +152,12 @@ const TopicArticleForm = ({
           article={article}
         />
         <AlertModal
-          title={t('errorMessage.missingTaxTitle')}
-          label={t('errorMessage.missingTaxTitle')}
+          title={t("errorMessage.missingTaxTitle")}
+          label={t("errorMessage.missingTaxTitle")}
           show={showTaxWarning}
-          text={t('errorMessage.missingTax')}
+          text={t("errorMessage.missingTax")}
           onCancel={() => setShowTaxWarning(false)}
-          severity={'danger'}
+          severity={"danger"}
         />
       </StyledForm>
     </Formik>
@@ -202,7 +188,9 @@ const _FormFooter = ({
   handleSubmit,
 }: FormFooterProps) => {
   const { t } = useTranslation();
-  const statusStateMachine = useDraftStatusStateMachine({ articleId: article?.id });
+  const statusStateMachine = useDraftStatusStateMachine({
+    articleId: article?.id,
+  });
   const formik = useFormikContext<TopicArticleFormType>();
   const { values, dirty, isSubmitting, initialValues } = formik;
 
@@ -252,7 +240,7 @@ const _FormFooter = ({
         isSubmitting={isSubmitting}
         formIsDirty={formIsDirty}
         severity="danger"
-        text={t('alertModal.notSaved')}
+        text={t("alertModal.notSaved")}
       />
     </>
   );

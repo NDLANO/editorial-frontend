@@ -6,20 +6,20 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { Route, Routes } from 'react-router-dom';
-import { HelmetWithTracker } from '@ndla/tracker';
-import { OneColumn } from '@ndla/ui';
-import LogoutFederated from './LogoutFederated';
-import LogoutProviders from './LogoutProviders';
-import LogoutSession from './LogoutSession';
-import Footer from '../App/components/Footer';
+import { useTranslation } from "react-i18next";
+import { Route, Routes } from "react-router-dom";
+import { HelmetWithTracker } from "@ndla/tracker";
+import { OneColumn } from "@ndla/ui";
+import LogoutFederated from "./LogoutFederated";
+import LogoutProviders from "./LogoutProviders";
+import LogoutSession from "./LogoutSession";
+import Footer from "../App/components/Footer";
 
 const Logout = () => {
   const { t } = useTranslation();
   return (
     <>
-      <HelmetWithTracker title={t('htmlTitles.logoutPage')} />
+      <HelmetWithTracker title={t("htmlTitles.logoutPage")} />
       <OneColumn cssModifier="clear">
         <div className="u-2/3@desktop u-push-1/3@desktop">
           <Routes>

@@ -6,14 +6,14 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { Node } from 'slate';
-import { RenderElementProps } from 'slate-react';
-import EditorErrorMessage from '../../EditorErrorMessage';
-import { EmbedElements } from '../embed';
+import { useTranslation } from "react-i18next";
+import { Node } from "slate";
+import { RenderElementProps } from "slate-react";
+import EditorErrorMessage from "../../EditorErrorMessage";
+import { EmbedElements } from "../embed";
 
 interface Props {
-  attributes: RenderElementProps['attributes'];
+  attributes: RenderElementProps["attributes"];
   element: EmbedElements;
 }
 
@@ -22,7 +22,7 @@ const NoEmbedMessage = ({ attributes, element }: Props) => {
 
   const text = Node.string(element);
   const embed = element.data;
-  const msg = text.length > 0 ? text : t('noEmbedMessage.deleteOnSave', { type: embed?.resource });
+  const msg = text.length > 0 ? text : t("noEmbedMessage.deleteOnSave", { type: embed?.resource });
 
   return <EditorErrorMessage attributes={attributes} msg={msg} />;
 };

@@ -6,33 +6,33 @@
  *
  */
 
-import { useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Editor, Transforms } from 'slate';
-import { ReactEditor, useSlate } from 'slate-react';
-import { ToolbarButton } from '@radix-ui/react-toolbar';
-import { DropdownItem, DropdownMenu, DropdownTrigger } from '@ndla/dropdown-menu';
-import { ArrowDropDown } from '@ndla/icons/common';
-import UIToolbarButton from './ToolbarButton';
-import { ToolbarDropdownButton, ToolbarDropdownContent } from './toolbarDropdownComponents';
-import { getMarkValue } from '../mark';
+import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Transforms } from "slate";
+import { ReactEditor, useSlate } from "slate-react";
+import { ToolbarButton } from "@radix-ui/react-toolbar";
+import { DropdownItem, DropdownMenu, DropdownTrigger } from "@ndla/dropdown-menu";
+import { ArrowDropDown } from "@ndla/icons/common";
+import UIToolbarButton from "./ToolbarButton";
+import { ToolbarDropdownButton, ToolbarDropdownContent } from "./toolbarDropdownComponents";
+import { getMarkValue } from "../mark";
 
-export const languages = ['ar', 'de', 'en', 'es', 'fr', 'la', 'no', 'se', 'sma', 'so', 'ti', 'zh'];
+export const languages = ["ar", "de", "en", "es", "fr", "la", "no", "se", "sma", "so", "ti", "zh"];
 
 export const ToolbarLanguageOptions = () => {
   const { t } = useTranslation();
   const editor = useSlate();
-  const currentLanguage = getMarkValue(editor, 'lang');
+  const currentLanguage = getMarkValue(editor, "lang");
 
   const onClick = useCallback(
     (language: string) => {
       const sel = editor.selection;
       Transforms.select(editor, sel!);
       ReactEditor.focus(editor);
-      if (language === 'none') {
-        Editor.removeMark(editor, 'lang');
+      if (language === "none") {
+        Editor.removeMark(editor, "lang");
       } else {
-        Editor.addMark(editor, 'lang', language);
+        Editor.addMark(editor, "lang", language);
       }
     },
     [editor],
@@ -56,7 +56,7 @@ export const ToolbarLanguageOptions = () => {
       <ToolbarButton asChild>
         <DropdownTrigger asChild>
           <UIToolbarButton type="language">
-            {currentLanguage ?? t('editorToolbar.noneLanguage')}
+            {currentLanguage ?? t("editorToolbar.noneLanguage")}
             <ArrowDropDown />
           </UIToolbarButton>
         </DropdownTrigger>
@@ -64,12 +64,12 @@ export const ToolbarLanguageOptions = () => {
       <ToolbarDropdownContent side="bottom" onCloseAutoFocus={onCloseFocus} sideOffset={2}>
         <DropdownItem>
           <ToolbarDropdownButton
-            data-testid={'language-button-none'}
+            data-testid={"language-button-none"}
             size="small"
             noTitle
-            onClick={() => onClick('none')}
+            onClick={() => onClick("none")}
           >
-            {t('editorToolbar.noneLanguage')}
+            {t("editorToolbar.noneLanguage")}
           </ToolbarDropdownButton>
         </DropdownItem>
         {languages.map((option) => (

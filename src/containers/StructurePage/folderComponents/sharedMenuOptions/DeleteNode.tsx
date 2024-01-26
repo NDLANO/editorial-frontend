@@ -5,26 +5,23 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { DeleteForever } from '@ndla/icons/editor';
-import { Node, NodeChild } from '@ndla/types-taxonomy';
-import MenuItemButton from './components/MenuItemButton';
-import AlertModal from '../../../../components/AlertModal';
-import Overlay from '../../../../components/Overlay';
-import RoundIcon from '../../../../components/RoundIcon';
-import Spinner from '../../../../components/Spinner';
-import { ARCHIVED } from '../../../../constants';
-import { updateStatusDraft } from '../../../../modules/draft/draftApi';
-import { fetchNodes } from '../../../../modules/nodes/nodeApi';
-import {
-  useDeleteNodeConnectionMutation,
-  useDeleteNodeMutation,
-} from '../../../../modules/nodes/nodeMutations';
-import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
-import { EditModeHandler } from '../SettingsMenuDropdownType';
-import { StyledErrorMessage } from '../styles';
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useLocation, useNavigate } from "react-router-dom";
+import { DeleteForever } from "@ndla/icons/editor";
+import { Node, NodeChild } from "@ndla/types-taxonomy";
+import MenuItemButton from "./components/MenuItemButton";
+import AlertModal from "../../../../components/AlertModal";
+import Overlay from "../../../../components/Overlay";
+import RoundIcon from "../../../../components/RoundIcon";
+import Spinner from "../../../../components/Spinner";
+import { ARCHIVED } from "../../../../constants";
+import { updateStatusDraft } from "../../../../modules/draft/draftApi";
+import { fetchNodes } from "../../../../modules/nodes/nodeApi";
+import { useDeleteNodeConnectionMutation, useDeleteNodeMutation } from "../../../../modules/nodes/nodeMutations";
+import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
+import { EditModeHandler } from "../SettingsMenuDropdownType";
+import { StyledErrorMessage } from "../styles";
 
 interface Props {
   node: Node | NodeChild;
@@ -53,21 +50,24 @@ const DeleteNode = ({
   const deleteNodeConnectionMutation = useDeleteNodeConnectionMutation();
   const deleteNodeMutation = useDeleteNodeMutation();
 
-  const toggleDelete = () => toggleEditMode('deleteNode');
+  const toggleDelete = () => toggleEditMode("deleteNode");
 
   const onDelete = async (): Promise<void> => {
     setLoading(true);
     setError(undefined);
     toggleDelete();
     try {
-      if ('parentId' in node) {
-        await deleteNodeConnectionMutation.mutateAsync({ id: node.connectionId, taxonomyVersion });
+      if ("parentId" in node) {
+        await deleteNodeConnectionMutation.mutateAsync({
+          id: node.connectionId,
+          taxonomyVersion,
+        });
       }
-      const articleId = Number(node.contentUri?.split(':')[2]);
-      if ('parentId' in node && articleId) {
+      const articleId = Number(node.contentUri?.split(":")[2]);
+      if ("parentId" in node && articleId) {
         const topicPlacements = await fetchNodes({
           contentURI: `urn:article:${articleId}`,
-          nodeType: 'TOPIC',
+          nodeType: "TOPIC",
           language: i18n.language,
           taxonomyVersion,
         });
@@ -80,7 +80,7 @@ const DeleteNode = ({
         {
           id: node.id,
           taxonomyVersion,
-          rootId: 'parentId' in node ? rootNodeId : undefined,
+          rootId: "parentId" in node ? rootNodeId : undefined,
         },
         { onSuccess: () => setLoading(false) },
       );
@@ -88,7 +88,7 @@ const DeleteNode = ({
       onCurrentNodeChanged(undefined);
     } catch (error) {
       const e = error as Error;
-      setError(`${t('taxonomy.errorMessage')}${e.message ? `:${e.message}` : ''}`);
+      setError(`${t("taxonomy.errorMessage")}${e.message ? `:${e.message}` : ""}`);
       setLoading(false);
     }
   };
@@ -96,30 +96,28 @@ const DeleteNode = ({
     <>
       <MenuItemButton data-testid="deleteNode" disabled={disabled} onClick={toggleDelete}>
         <RoundIcon small icon={<DeleteForever />} />
-        {t('taxonomy.deleteNode')}
+        {t("taxonomy.deleteNode")}
       </MenuItemButton>
       <AlertModal
-        label={t('taxonomy.deleteNode')}
-        title={t('taxonomy.deleteNode')}
-        show={editMode === 'deleteNode'}
+        label={t("taxonomy.deleteNode")}
+        title={t("taxonomy.deleteNode")}
+        show={editMode === "deleteNode"}
         actions={[
           {
-            text: t('form.abort'),
+            text: t("form.abort"),
             onClick: toggleDelete,
           },
           {
-            text: t('alertModal.delete'),
+            text: t("alertModal.delete"),
             onClick: onDelete,
           },
         ]}
         onCancel={toggleDelete}
-        text={t('taxonomy.confirmDelete')}
+        text={t("taxonomy.confirmDelete")}
       />
       {loading && <Spinner appearance="absolute" />}
-      {loading && <Overlay modifiers={['absolute', 'white-opacity', 'zIndex']} />}
-      {error && (
-        <StyledErrorMessage data-testid="inlineEditErrorMessage">{error}</StyledErrorMessage>
-      )}
+      {loading && <Overlay modifiers={["absolute", "white-opacity", "zIndex"]} />}
+      {error && <StyledErrorMessage data-testid="inlineEditErrorMessage">{error}</StyledErrorMessage>}
     </>
   );
 };

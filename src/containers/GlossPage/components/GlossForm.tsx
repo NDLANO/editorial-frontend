@@ -6,37 +6,32 @@
  *
  */
 
-import { Formik, FormikHelpers } from 'formik';
-import isEmpty from 'lodash/isEmpty';
-import { useCallback, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import {
-  IConcept,
-  IConceptSummary,
-  INewConcept,
-  IUpdatedConcept,
-} from '@ndla/types-backend/concept-api';
-import { IArticle } from '@ndla/types-backend/draft-api';
-import { Node } from '@ndla/types-taxonomy';
-import GlossDataSection from './GlossDataSection';
-import FormAccordion from '../../../components/Accordion/FormAccordion';
-import FormAccordions from '../../../components/Accordion/FormAccordions';
-import validateFormik, { RulesType, getWarnings } from '../../../components/formikValidationSchema';
-import FormWrapper from '../../../components/FormWrapper';
-import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
-import { useLicenses } from '../../../modules/draft/draftQueries';
-import { conceptFormBaseRules } from '../../ConceptPage/ConceptForm/ConceptForm';
-import ConceptFormFooter from '../../ConceptPage/ConceptForm/ConceptFormFooter';
-import { ConceptFormValues } from '../../ConceptPage/conceptInterfaces';
+import { Formik, FormikHelpers } from "formik";
+import isEmpty from "lodash/isEmpty";
+import { useCallback, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { IConcept, IConceptSummary, INewConcept, IUpdatedConcept } from "@ndla/types-backend/concept-api";
+import { IArticle } from "@ndla/types-backend/draft-api";
+import { Node } from "@ndla/types-taxonomy";
+import GlossDataSection from "./GlossDataSection";
+import FormAccordion from "../../../components/Accordion/FormAccordion";
+import FormAccordions from "../../../components/Accordion/FormAccordions";
+import validateFormik, { RulesType, getWarnings } from "../../../components/formikValidationSchema";
+import FormWrapper from "../../../components/FormWrapper";
+import HeaderWithLanguage from "../../../components/HeaderWithLanguage";
+import { useLicenses } from "../../../modules/draft/draftQueries";
+import { conceptFormBaseRules } from "../../ConceptPage/ConceptForm/ConceptForm";
+import ConceptFormFooter from "../../ConceptPage/ConceptForm/ConceptFormFooter";
+import { ConceptFormValues } from "../../ConceptPage/conceptInterfaces";
 import {
   conceptApiTypeToFormType,
   getNewConceptType,
   getUpdatedConceptType,
-} from '../../ConceptPage/conceptTransformers';
-import { TitleField } from '../../FormikForm';
-import CopyrightFieldGroup from '../../FormikForm/CopyrightFieldGroup';
-import { MessageError, useMessages } from '../../Messages/MessagesProvider';
-import { useSession } from '../../Session/SessionProvider';
+} from "../../ConceptPage/conceptTransformers";
+import { TitleField } from "../../FormikForm";
+import CopyrightFieldGroup from "../../FormikForm/CopyrightFieldGroup";
+import { MessageError, useMessages } from "../../Messages/MessagesProvider";
+import { useSession } from "../../Session/SessionProvider";
 
 interface UpdateProps {
   onUpdate: (updatedConcept: IUpdatedConcept, revision?: number) => Promise<IConcept>;
@@ -63,27 +58,27 @@ interface Props {
 
 const glossRules: RulesType<ConceptFormValues, IConcept> = {
   ...conceptFormBaseRules,
-  'gloss.gloss': {
+  "gloss.gloss": {
     required: true,
-    translationKey: 'form.gloss.gloss',
+    translationKey: "form.gloss.gloss",
   },
-  'gloss.wordClass': {
+  "gloss.wordClass": {
     required: true,
-    translationKey: 'form.gloss.wordClass',
+    translationKey: "form.gloss.wordClass",
   },
-  'gloss.originalLanguage': {
+  "gloss.originalLanguage": {
     required: true,
-    translationKey: 'form.gloss.originalLanguage',
+    translationKey: "form.gloss.originalLanguage",
   },
   examples: {
     rules: {
       language: {
         required: true,
-        translationKey: 'form.name.language',
+        translationKey: "form.name.language",
       },
       example: {
         required: true,
-        translationKey: 'form.gloss.example',
+        translationKey: "form.gloss.example",
       },
     },
   },
@@ -109,10 +104,7 @@ export const GlossForm = ({
   const { data: licenses = [] } = useLicenses({ placeholderData: [] });
   const { ndlaId } = useSession();
 
-  const handleSubmit = async (
-    values: ConceptFormValues,
-    formikHelpers: FormikHelpers<ConceptFormValues>,
-  ) => {
+  const handleSubmit = async (values: ConceptFormValues, formikHelpers: FormikHelpers<ConceptFormValues>) => {
     if (isEmpty(values.title)) return;
     formikHelpers.setSubmitting(true);
     const revision = concept?.revision;
@@ -123,11 +115,11 @@ export const GlossForm = ({
 
     try {
       let savedConcept: IConcept;
-      if ('onCreate' in upsertProps) {
-        savedConcept = await upsertProps.onCreate(getNewConceptType(values, licenses, 'gloss'));
+      if ("onCreate" in upsertProps) {
+        savedConcept = await upsertProps.onCreate(getNewConceptType(values, licenses, "gloss"));
       } else {
         const conceptWithStatus = {
-          ...getUpdatedConceptType(values, licenses, 'gloss'),
+          ...getUpdatedConceptType(values, licenses, "gloss"),
           ...(statusChange ? { status: newStatus } : {}),
         };
         savedConcept = await upsertProps.onUpdate(conceptWithStatus, revision!);
@@ -152,22 +144,16 @@ export const GlossForm = ({
     conceptArticles,
     ndlaId,
     initialTitle,
-    'gloss',
+    "gloss",
   );
 
   const initialWarnings = useMemo(
     () => getWarnings(initialValues, glossRules, t, concept),
     [concept, initialValues, t],
   );
-  const initialErrors = useMemo(
-    () => validateFormik(initialValues, glossRules, t),
-    [initialValues, t],
-  );
+  const initialErrors = useMemo(() => validateFormik(initialValues, glossRules, t), [initialValues, t]);
 
-  const validate = useCallback(
-    (values: ConceptFormValues) => validateFormik(values, glossRules, t),
-    [t],
-  );
+  const validate = useCallback((values: ConceptFormValues) => validateFormik(values, glossRules, t), [t]);
 
   return (
     <Formik
@@ -187,32 +173,25 @@ export const GlossForm = ({
             concept={concept}
             status={concept?.status}
             title={concept?.title.title ?? initialTitle}
-            type={'gloss'}
+            type={"gloss"}
             supportedLanguages={supportedLanguages}
           />
-          <FormAccordions defaultOpen={['title', 'content']}>
-            <FormAccordion
-              id="title"
-              title={t('form.gloss.titleSection')}
-              hasError={!!formikProps.errors.title}
-            >
+          <FormAccordions defaultOpen={["title", "content"]}>
+            <FormAccordion id="title" title={t("form.gloss.titleSection")} hasError={!!formikProps.errors.title}>
               <TitleField />
             </FormAccordion>
             <FormAccordion
               id="content"
-              title={t('form.name.content')}
+              title={t("form.name.content")}
               hasError={
-                !!(
-                  formikProps.errors.gloss ||
-                  Object.keys(formikProps.errors).find((e) => e.includes('examples'))
-                )
+                !!(formikProps.errors.gloss || Object.keys(formikProps.errors).find((e) => e.includes("examples")))
               }
             >
               <GlossDataSection glossLanguage={language} />
             </FormAccordion>
             <FormAccordion
               id="copyright"
-              title={t('form.copyrightSection')}
+              title={t("form.copyrightSection")}
               hasError={!!(formikProps.errors.creators || formikProps.errors.license)}
             >
               <CopyrightFieldGroup enableLicenseNA={true} />

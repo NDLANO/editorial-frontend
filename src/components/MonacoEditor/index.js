@@ -6,4 +6,4 @@
  *
  */
 
-export { MonacoEditor as default } from './MonacoEditor';
+export { MonacoEditor as default } from "./MonacoEditor";

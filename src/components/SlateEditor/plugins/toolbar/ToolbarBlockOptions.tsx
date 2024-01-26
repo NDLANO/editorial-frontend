@@ -6,42 +6,42 @@
  *
  */
 
-import isEqual from 'lodash/isEqual';
-import { useCallback } from 'react';
-import { Editor, Element } from 'slate';
-import { useSlate, useSlateSelector } from 'slate-react';
-import { ToggleItem } from '@radix-ui/react-toolbar';
-import { StyledToggleGroup, ToolbarCategoryProps } from './SlateToolbar';
-import ToolbarButton from './ToolbarButton';
-import { BlockType } from './toolbarState';
-import toggleBlock from '../../utils/toggleBlock';
-import { toggleDefinitionList } from '../definitionList/utils/toggleDefinitionList';
-import { toggleList } from '../list/utils/toggleList';
+import isEqual from "lodash/isEqual";
+import { useCallback } from "react";
+import { Editor, Element } from "slate";
+import { useSlate, useSlateSelector } from "slate-react";
+import { ToggleItem } from "@radix-ui/react-toolbar";
+import { StyledToggleGroup, ToolbarCategoryProps } from "./SlateToolbar";
+import ToolbarButton from "./ToolbarButton";
+import { BlockType } from "./toolbarState";
+import toggleBlock from "../../utils/toggleBlock";
+import { toggleDefinitionList } from "../definitionList/utils/toggleDefinitionList";
+import { toggleList } from "../list/utils/toggleList";
 
 const getCurrentBlockValues = (editor: Editor) => {
   const [currentListBlock] =
     Editor.nodes(editor, {
-      match: (n) => Element.isElement(n) && (n.type === 'list' || n.type === 'definition-list'),
-      mode: 'highest',
+      match: (n) => Element.isElement(n) && (n.type === "list" || n.type === "definition-list"),
+      mode: "highest",
     }) ?? [];
 
   const [currentQuote] =
     Editor.nodes(editor, {
-      match: (n) => Element.isElement(n) && n.type === 'quote',
+      match: (n) => Element.isElement(n) && n.type === "quote",
     }) ?? [];
   const values: BlockType[] = [];
 
   if (currentQuote?.[0]) {
-    values.push('quote');
+    values.push("quote");
   }
 
   const node = currentListBlock?.[0];
 
   if (!Element.isElement(node)) return values;
 
-  if (node.type === 'definition-list') {
-    values.push('definition-list');
-  } else if (node.type === 'list') {
+  if (node.type === "definition-list") {
+    values.push("definition-list");
+  } else if (node.type === "list") {
     values.push(node.listType as BlockType);
   }
   return values;
@@ -53,10 +53,10 @@ export const ToolbarBlockOptions = ({ options }: ToolbarCategoryProps<BlockType>
 
   const onClick = useCallback(
     (type: BlockType) => {
-      if (type === 'definition-list') {
+      if (type === "definition-list") {
         toggleDefinitionList(editor);
-      } else if (type === 'quote') {
-        toggleBlock(editor, 'quote');
+      } else if (type === "quote") {
+        toggleBlock(editor, "quote");
       } else toggleList(editor, type);
     },
     [editor],

@@ -6,4 +6,4 @@
  *
  */
 
-export const TYPE_CAMPAIGN_BLOCK = 'campaign-block';
+export const TYPE_CAMPAIGN_BLOCK = "campaign-block";

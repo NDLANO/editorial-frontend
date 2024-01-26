@@ -6,14 +6,14 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { colors } from '@ndla/core';
-import { AlertCircle } from '@ndla/icons/editor';
-import Tooltip from '@ndla/tooltip';
-import { NodeChild } from '@ndla/types-taxonomy';
-import { IconWrapper } from './StatusIcons';
-import { getIdFromUrn } from '../../../util/taxonomyHelpers';
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { colors } from "@ndla/core";
+import { AlertCircle } from "@ndla/icons/editor";
+import Tooltip from "@ndla/tooltip";
+import { NodeChild } from "@ndla/types-taxonomy";
+import { IconWrapper } from "./StatusIcons";
+import { getIdFromUrn } from "../../../util/taxonomyHelpers";
 
 const StyledWarnIcon = styled(AlertCircle)`
   height: 24px;
@@ -22,8 +22,8 @@ const StyledWarnIcon = styled(AlertCircle)`
 `;
 
 const getArticleTypeFromId = (id?: string) => {
-  if (id?.startsWith('urn:topic:')) return 'topic-article';
-  else if (id?.startsWith('urn:resource:')) return 'standard';
+  if (id?.startsWith("urn:topic:")) return "topic-article";
+  else if (id?.startsWith("urn:resource:")) return "standard";
   return undefined;
 };
 
@@ -34,17 +34,17 @@ interface Props {
 
 const WrongTypeError = ({ resource, articleType }: Props) => {
   const { t } = useTranslation();
-  const isArticle = resource.contentUri?.startsWith('urn:article');
+  const isArticle = resource.contentUri?.startsWith("urn:article");
   if (!isArticle) return null;
 
   const expectedArticleType = getArticleTypeFromId(resource.id);
   if (expectedArticleType === articleType) return null;
 
-  const missingArticleTypeError = t('taxonomy.info.missingArticleType', {
+  const missingArticleTypeError = t("taxonomy.info.missingArticleType", {
     id: getIdFromUrn(resource.contentUri),
   });
 
-  const wrongArticleTypeError = t('taxonomy.info.wrongArticleType', {
+  const wrongArticleTypeError = t("taxonomy.info.wrongArticleType", {
     placedAs: t(`articleType.${expectedArticleType}`),
     isType: t(`articleType.${articleType}`),
   });

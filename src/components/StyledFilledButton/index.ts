@@ -6,6 +6,6 @@
  *
  */
 
-import StyledFilledButton from './StyledFilledButton';
+import StyledFilledButton from "./StyledFilledButton";
 
 export default StyledFilledButton;

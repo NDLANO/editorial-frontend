@@ -6,51 +6,51 @@
  *
  */
 
-import fs from 'fs/promises';
-import { join } from 'path';
-import bodyParser from 'body-parser';
-import compression from 'compression';
-import express from 'express';
-import proxy from 'express-http-proxy';
-import helmet from 'helmet';
-import serialize from 'serialize-javascript';
-import { ViteDevServer } from 'vite';
-import api from './api';
-import contentSecurityPolicy from './contentSecurityPolicy';
-import config from '../config';
+import fs from "fs/promises";
+import { join } from "path";
+import bodyParser from "body-parser";
+import compression from "compression";
+import express from "express";
+import proxy from "express-http-proxy";
+import helmet from "helmet";
+import serialize from "serialize-javascript";
+import { ViteDevServer } from "vite";
+import api from "./api";
+import contentSecurityPolicy from "./contentSecurityPolicy";
+import config from "../config";
 
-const isProduction = config.runtimeType === 'production';
-const base = '/';
+const isProduction = config.runtimeType === "production";
+const base = "/";
 
 const app = express();
 // Cached production assets
 // Vercel is particular about how it reads files. Changing this might break the build.
 const templateHtml = isProduction
-  ? await fs.readFile(join(process.cwd(), 'build', 'public', 'index.html'), 'utf-8')
-  : '';
+  ? await fs.readFile(join(process.cwd(), "build", "public", "index.html"), "utf-8")
+  : "";
 
 let vite: ViteDevServer | undefined;
 if (!isProduction) {
-  const { createServer } = await import('vite');
+  const { createServer } = await import("vite");
   vite = await createServer({
     server: { middlewareMode: true },
-    appType: 'custom',
+    appType: "custom",
     base,
   });
   app.use(vite.middlewares);
 } else {
-  const sirv = (await import('sirv')).default;
-  app.use(base, sirv('./build/public', { extensions: [] }));
+  const sirv = (await import("sirv")).default;
+  app.use(base, sirv("./build/public", { extensions: [] }));
 }
 
-const allowedBodyContentTypes = ['application/csp-report', 'application/json'];
+const allowedBodyContentTypes = ["application/csp-report", "application/json"];
 
 // Temporal hack to send users to prod
-app.get('*', (req, res, next) => {
-  if (!req.hostname.includes('ed.ff')) {
+app.get("*", (req, res, next) => {
+  if (!req.hostname.includes("ed.ff")) {
     next();
   } else {
-    res.set('location', `https://ed.ndla.no${req.originalUrl}`);
+    res.set("location", `https://ed.ndla.no${req.originalUrl}`);
     res.status(302).send();
   }
 });
@@ -58,14 +58,14 @@ app.get('*', (req, res, next) => {
 if (!config.isVercel) {
   app.use(compression());
 }
-app.use(express.json({ limit: '1mb' }));
+app.use(express.json({ limit: "1mb" }));
 app.use(express.json());
 
 app.use(
   bodyParser.json({
     type: (req) => {
-      const contentType = req.headers['content-type'];
-      if (typeof contentType === 'string') return allowedBodyContentTypes.includes(contentType);
+      const contentType = req.headers["content-type"];
+      if (typeof contentType === "string") return allowedBodyContentTypes.includes(contentType);
       else return false;
     },
   }),
@@ -77,12 +77,12 @@ app.use(
       maxAge: 31536000,
       includeSubDomains: true,
     },
-    contentSecurityPolicy: config.disableCSP === 'true' ? null : contentSecurityPolicy,
+    contentSecurityPolicy: config.disableCSP === "true" ? null : contentSecurityPolicy,
     frameguard:
-      config.runtimeType === 'development'
+      config.runtimeType === "development"
         ? {
-            action: 'allow-from',
-            domain: '*://localhost',
+            action: "allow-from",
+            domain: "*://localhost",
           }
         : undefined,
   }),
@@ -90,21 +90,21 @@ app.use(
 
 const serializedConfig = serialize(config);
 
-if (config.runtimeType === 'development') {
+if (config.runtimeType === "development") {
   // proxy js request to handle web worker crossorgin issue (only necessary under development)
-  app.get('/static/js/*', proxy('http://localhost:3001'));
+  app.get("/static/js/*", proxy("http://localhost:3001"));
 }
 
 app.use(api);
 
-app.get('*', async (req, res) => {
+app.get("*", async (req, res) => {
   try {
-    const url = req.originalUrl.replace(base, '');
+    const url = req.originalUrl.replace(base, "");
 
     let template: string;
     if (!isProduction) {
       // Always read fresh template in development
-      template = await fs.readFile('./index.html', 'utf-8');
+      template = await fs.readFile("./index.html", "utf-8");
       template = await vite!.transformIndexHtml(url, template);
     } else {
       template = templateHtml;
@@ -112,9 +112,9 @@ app.get('*', async (req, res) => {
 
     const html = template
       .replace("'__CONFIG__'", serializedConfig)
-      .replaceAll('__ENVIRONMENT__', config.ndlaEnvironment);
+      .replaceAll("__ENVIRONMENT__", config.ndlaEnvironment);
 
-    res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
+    res.status(200).set({ "Content-Type": "text/html" }).end(html);
   } catch (e) {
     //@ts-ignore
     vite?.ssrFixStacktrace(e);

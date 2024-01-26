@@ -6,14 +6,14 @@
  *
  */
 
-import isEqual from 'lodash/isEqual';
-import { Editor } from 'slate';
-import { useSlate, useSlateSelector } from 'slate-react';
-import { ToggleItem } from '@radix-ui/react-toolbar';
-import { StyledToggleGroup, ToolbarCategoryProps } from './SlateToolbar';
-import ToolbarButton from './ToolbarButton';
-import { MarkType } from './toolbarState';
-import { toggleMark } from '../mark/utils';
+import isEqual from "lodash/isEqual";
+import { Editor } from "slate";
+import { useSlate, useSlateSelector } from "slate-react";
+import { ToggleItem } from "@radix-ui/react-toolbar";
+import { StyledToggleGroup, ToolbarCategoryProps } from "./SlateToolbar";
+import ToolbarButton from "./ToolbarButton";
+import { MarkType } from "./toolbarState";
+import { toggleMark } from "../mark/utils";
 
 const getMarks = (editor: Editor) => {
   return Object.entries(editor.getMarks() ?? {}).reduce<string[]>((acc, [key, value]) => {

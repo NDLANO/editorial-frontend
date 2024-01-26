@@ -6,9 +6,9 @@
  *
  */
 
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { animations, misc, shadows, spacing, stackOrder } from '@ndla/core';
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { animations, misc, shadows, spacing, stackOrder } from "@ndla/core";
 
 interface StyledOverlayProps {
   withArrow?: boolean;
@@ -27,7 +27,7 @@ export const StyledOverlay = styled.div<StyledOverlayProps>`
     props.withArrow
       ? css`
           &:before {
-            content: '';
+            content: "";
             display: block;
             position: absolute;
             top: -${spacing.small};

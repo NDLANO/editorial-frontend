@@ -6,14 +6,14 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import { HelmetWithTracker } from '@ndla/tracker';
-import { IUpdatedArticle, IArticle } from '@ndla/types-backend/draft-api';
-import TopicArticleForm from './components/TopicArticleForm';
-import { convertUpdateToNewDraft } from '../../../util/articleUtil';
-import { toEditArticle } from '../../../util/routeHelpers';
-import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import { HelmetWithTracker } from "@ndla/tracker";
+import { IUpdatedArticle, IArticle } from "@ndla/types-backend/draft-api";
+import TopicArticleForm from "./components/TopicArticleForm";
+import { convertUpdateToNewDraft } from "../../../util/articleUtil";
+import { toEditArticle } from "../../../util/routeHelpers";
+import { useFetchArticleData } from "../../FormikForm/formikDraftHooks";
 
 const CreateTopicArticle = () => {
   const { t, i18n } = useTranslation();
@@ -29,7 +29,7 @@ const CreateTopicArticle = () => {
 
   return (
     <>
-      <HelmetWithTracker title={t('htmlTitles.createTopicArticlePage')} />
+      <HelmetWithTracker title={t("htmlTitles.createTopicArticlePage")} />
       <TopicArticleForm
         articleLanguage={i18n.language}
         updateArticle={createArticleAndPushRoute}

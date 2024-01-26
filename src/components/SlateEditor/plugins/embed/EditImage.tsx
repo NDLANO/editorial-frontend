@@ -6,14 +6,14 @@
  *
  */
 
-import { FormikValues } from 'formik';
-import { useCallback, useState } from 'react';
-import styled from '@emotion/styled';
-import { shadows } from '@ndla/core';
-import FigureInput from './FigureInput';
-import ImageEditor from '../../../../containers/ImageEditor/ImageEditor';
-import { ImageEmbed } from '../../../../interfaces';
-import { TransformData } from '../../../../util/imageEditorUtil';
+import { FormikValues } from "formik";
+import { useCallback, useState } from "react";
+import styled from "@emotion/styled";
+import { shadows } from "@ndla/core";
+import FigureInput from "./FigureInput";
+import ImageEditor from "../../../../containers/ImageEditor/ImageEditor";
+import { ImageEmbed } from "../../../../interfaces";
+import { TransformData } from "../../../../util/imageEditorUtil";
 
 const StyledEditorContent = styled.div`
   box-shadow: ${shadows.levitate1};
@@ -51,16 +51,16 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus, language, allowDecor
   const [state, setState] = useState<StateProps>({
     alt: embed.alt,
     caption: embed.caption,
-    isDecorative: embed['is-decorative'] === 'true',
-    border: embed['border'] === 'true',
+    isDecorative: embed["is-decorative"] === "true",
+    border: embed["border"] === "true",
     imageUpdates: {
       transformData: {
-        'focal-x': embed['focal-x'],
-        'focal-y': embed['focal-y'],
-        'upper-left-x': embed['upper-left-x'],
-        'upper-left-y': embed['upper-left-y'],
-        'lower-right-x': embed['lower-right-x'],
-        'lower-right-y': embed['lower-right-y'],
+        "focal-x": embed["focal-x"],
+        "focal-y": embed["focal-y"],
+        "upper-left-x": embed["upper-left-x"],
+        "upper-left-y": embed["upper-left-y"],
+        "lower-right-x": embed["lower-right-x"],
+        "lower-right-y": embed["lower-right-y"],
       },
       align: embed.align,
       size: embed.size,
@@ -68,7 +68,7 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus, language, allowDecor
     madeChanges: false,
   });
 
-  const onUpdatedImageSettings = (transformedData: NonNullable<StateProps['imageUpdates']>) => {
+  const onUpdatedImageSettings = (transformedData: NonNullable<StateProps["imageUpdates"]>) => {
     setState({
       ...state,
       imageUpdates: {
@@ -82,10 +82,10 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus, language, allowDecor
   const onSave = () => {
     let updatedSize = state.imageUpdates?.size;
 
-    if (state.imageUpdates?.align === 'center') {
-      updatedSize = 'full';
-      if (state.imageUpdates?.size?.includes('hide-byline')) {
-        updatedSize += '-hide-byline';
+    if (state.imageUpdates?.align === "center") {
+      updatedSize = "full";
+      if (state.imageUpdates?.size?.includes("hide-byline")) {
+        updatedSize += "-hide-byline";
       }
     }
 
@@ -94,7 +94,7 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus, language, allowDecor
       ...state.imageUpdates?.transformData,
       align: state.imageUpdates?.align,
       size: updatedSize,
-      'is-decorative': state.isDecorative?.toString(),
+      "is-decorative": state.isDecorative?.toString(),
       border: state.border?.toString(),
     });
 
@@ -120,7 +120,7 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus, language, allowDecor
     setState({
       ...state,
       isDecorative: isDecorative,
-      alt: '',
+      alt: "",
       madeChanges: true,
     });
   };

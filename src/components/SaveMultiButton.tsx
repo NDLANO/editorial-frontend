@@ -6,20 +6,20 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { Check } from '@ndla/icons/editor';
-import MultiButton from './MultiButton';
-import { saveButtonAppearances } from './SaveButton';
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { Check } from "@ndla/icons/editor";
+import MultiButton from "./MultiButton";
+import { saveButtonAppearances } from "./SaveButton";
 
-type SaveModifiers = 'save' | 'saving' | 'saved';
+type SaveModifiers = "save" | "saving" | "saved";
 
-const StyledSpan = styled('span')`
+const StyledSpan = styled("span")`
   display: flex;
   justify-content: space-evenly;
 `;
 
-const Wrapper = styled('div')`
+const Wrapper = styled("div")`
   div > button:disabled {
     ${(props: { modifier: SaveModifiers }) => {
       return saveButtonAppearances[props.modifier];
@@ -56,9 +56,9 @@ const SaveMultiButton = ({
   ...rest
 }: Props) => {
   const getModifier = (): SaveModifiers => {
-    if (isSaving) return 'saving';
-    if (showSaved) return 'saved';
-    return 'save';
+    if (isSaving) return "saving";
+    if (showSaved) return "saved";
+    return "save";
   };
 
   const { t } = useTranslation();
@@ -72,22 +72,22 @@ const SaveMultiButton = ({
           mainId={saveId}
           disabled={disabledButton}
           onClick={(value: string) => {
-            const saveAsNewVersion = value === 'saveAsNew';
+            const saveAsNewVersion = value === "saveAsNew";
             onClick(saveAsNewVersion);
           }}
-          mainButton={{ value: 'save', label: '' }}
+          mainButton={{ value: "save", label: "" }}
           secondaryButtons={
             hideSecondaryButton
               ? []
               : [
                   {
-                    label: t('form.saveAsNewVersion'),
-                    value: 'saveAsNew',
+                    label: t("form.saveAsNewVersion"),
+                    value: "saveAsNew",
                     enable: !isSaving,
                   },
                   {
-                    label: t('form.save'),
-                    value: 'save',
+                    label: t("form.save"),
+                    value: "save",
                     enable: !disabledButton,
                   },
                 ]

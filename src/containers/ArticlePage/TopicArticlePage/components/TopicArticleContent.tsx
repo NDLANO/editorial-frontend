@@ -6,33 +6,33 @@
  *
  */
 
-import { useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
-import { colors } from '@ndla/core';
-import { FieldHeader } from '@ndla/forms';
-import { Eye } from '@ndla/icons/editor';
-import Tooltip from '@ndla/tooltip';
-import LastUpdatedLine from './../../../../components/LastUpdatedLine/LastUpdatedLine';
+import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
+import { colors } from "@ndla/core";
+import { FieldHeader } from "@ndla/forms";
+import { Eye } from "@ndla/icons/editor";
+import Tooltip from "@ndla/tooltip";
+import LastUpdatedLine from "./../../../../components/LastUpdatedLine/LastUpdatedLine";
 
-import { topicArticlePlugins } from './topicArticlePlugins';
-import { topicArticleRenderers } from './topicArticleRenderers';
-import { EditMarkupLink } from '../../../../components/EditMarkupLink';
-import FormikField from '../../../../components/FormikField';
-import HowToHelper from '../../../../components/HowTo/HowToHelper';
-import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
+import { topicArticlePlugins } from "./topicArticlePlugins";
+import { topicArticleRenderers } from "./topicArticleRenderers";
+import { EditMarkupLink } from "../../../../components/EditMarkupLink";
+import FormikField from "../../../../components/FormikField";
+import HowToHelper from "../../../../components/HowTo/HowToHelper";
+import { SlatePlugin } from "../../../../components/SlateEditor/interfaces";
 import {
   createToolbarAreaOptions,
   createToolbarDefaultValues,
-} from '../../../../components/SlateEditor/plugins/toolbar/toolbarState';
-import RichTextEditor from '../../../../components/SlateEditor/RichTextEditor';
-import { DRAFT_HTML_SCOPE } from '../../../../constants';
-import { toEditMarkup } from '../../../../util/routeHelpers';
-import { IngressField, TitleField } from '../../../FormikForm';
-import { TopicArticleFormType } from '../../../FormikForm/articleFormHooks';
-import VisualElementField from '../../../FormikForm/components/VisualElementField';
-import { useSession } from '../../../Session/SessionProvider';
+} from "../../../../components/SlateEditor/plugins/toolbar/toolbarState";
+import RichTextEditor from "../../../../components/SlateEditor/RichTextEditor";
+import { DRAFT_HTML_SCOPE } from "../../../../constants";
+import { toEditMarkup } from "../../../../util/routeHelpers";
+import { IngressField, TitleField } from "../../../FormikForm";
+import { TopicArticleFormType } from "../../../FormikForm/articleFormHooks";
+import VisualElementField from "../../../FormikForm/components/VisualElementField";
+import { useSession } from "../../../Session/SessionProvider";
 
 const StyledByLineFormikField = styled(FormikField)`
   display: flex;
@@ -58,7 +58,7 @@ const StyledDiv = styled.div`
 const MarkdownButton = styled(IconButtonV2)`
   color: ${colors.brand.light};
 
-  &[data-active='true'] {
+  &[data-active="true"] {
     color: ${colors.brand.primary};
   }
 `;
@@ -83,7 +83,7 @@ const TopicArticleContent = (props: Props) => {
   const { userPermissions } = useSession();
   const [preview, setPreview] = useState(false);
   const plugins = useMemo(() => {
-    return createPlugins(language ?? '');
+    return createPlugins(language ?? "");
   }, [language]);
 
   return (
@@ -101,9 +101,9 @@ const TopicArticleContent = (props: Props) => {
               }}
             />
             <IconContainer>
-              <Tooltip tooltip={t('form.markdown.button')}>
+              <Tooltip tooltip={t("form.markdown.button")}>
                 <MarkdownButton
-                  aria-label={'form.markdown.button'}
+                  aria-label={"form.markdown.button"}
                   variant="stripped"
                   colorTheme="light"
                   data-active={preview}
@@ -112,24 +112,24 @@ const TopicArticleContent = (props: Props) => {
                   <Eye />
                 </MarkdownButton>
               </Tooltip>
-              <HowToHelper pageId="Markdown" tooltip={t('form.markdown.helpLabel')} />
+              <HowToHelper pageId="Markdown" tooltip={t("form.markdown.helpLabel")} />
             </IconContainer>
           </StyledDiv>
         )}
       </StyledByLineFormikField>
       <IngressField preview={preview} />
       <VisualElementField />
-      <FormikField name="content" label={t('form.content.label')} noBorder>
+      <FormikField name="content" label={t("form.content.label")} noBorder>
         {({ field: { value, name, onChange }, form: { isSubmitting } }) => (
           <>
-            <FieldHeader title={t('form.content.label')}>
+            <FieldHeader title={t("form.content.label")}>
               {id && userPermissions?.includes(DRAFT_HTML_SCOPE) && language && (
-                <EditMarkupLink to={toEditMarkup(id, language)} title={t('editMarkup.linkTitle')} />
+                <EditMarkupLink to={toEditMarkup(id, language)} title={t("editMarkup.linkTitle")} />
               )}
             </FieldHeader>
             <RichTextEditor
               language={language}
-              placeholder={t('form.content.placeholder')}
+              placeholder={t("form.content.placeholder")}
               value={value}
               submitted={isSubmitting}
               plugins={plugins}

@@ -5,57 +5,57 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import escapeHtml from 'escape-html';
-import compact from 'lodash/compact';
-import toArray from 'lodash/toArray';
-import { cloneElement } from 'react';
-import { renderToStaticMarkup } from 'react-dom/server';
-import { Descendant, Node, Text } from 'slate';
-import { convertFromHTML } from './convertFromHTML';
-import { parseEmbedTag, createEmbedTag, createEmbedTagV2 } from './embedTagHelpers';
-import { Plain } from './slatePlainSerializer';
-import { SlateSerializer } from '../components/SlateEditor/interfaces';
-import { asideSerializer } from '../components/SlateEditor/plugins/aside';
-import { audioSerializer } from '../components/SlateEditor/plugins/audio';
-import { blockQuoteSerializer } from '../components/SlateEditor/plugins/blockquote';
-import { blogPostSerializer } from '../components/SlateEditor/plugins/blogPost';
-import { breakSerializer } from '../components/SlateEditor/plugins/break';
-import { campaignBlockSerializer } from '../components/SlateEditor/plugins/campaignBlock';
-import { codeblockSerializer } from '../components/SlateEditor/plugins/codeBlock';
-import { blockConceptSerializer } from '../components/SlateEditor/plugins/concept/block';
-import { inlineConceptSerializer } from '../components/SlateEditor/plugins/concept/inline';
-import { conceptListSerializer } from '../components/SlateEditor/plugins/conceptList';
-import { contactBlockSerializer } from '../components/SlateEditor/plugins/contactBlock';
-import { definitionListSerializer } from '../components/SlateEditor/plugins/definitionList';
-import { detailsSerializer } from '../components/SlateEditor/plugins/details';
-import { divSerializer } from '../components/SlateEditor/plugins/div';
-import { embedSerializer } from '../components/SlateEditor/plugins/embed';
-import { defaultEmbedBlock, isSlateEmbed } from '../components/SlateEditor/plugins/embed/utils';
-import { fileSerializer } from '../components/SlateEditor/plugins/file';
-import { footnoteSerializer } from '../components/SlateEditor/plugins/footnote';
-import { framedContentSerializer } from '../components/SlateEditor/plugins/framedContent';
-import { gridSerializer } from '../components/SlateEditor/plugins/grid';
-import { h5pSerializer } from '../components/SlateEditor/plugins/h5p';
-import { headingSerializer } from '../components/SlateEditor/plugins/heading';
-import { keyFigureSerializer } from '../components/SlateEditor/plugins/keyFigure';
-import { linkSerializer } from '../components/SlateEditor/plugins/link';
-import { linkBlockListSerializer } from '../components/SlateEditor/plugins/linkBlockList';
-import { listSerializer } from '../components/SlateEditor/plugins/list';
-import { markSerializer } from '../components/SlateEditor/plugins/mark';
-import { mathmlSerializer } from '../components/SlateEditor/plugins/mathml';
-import { noEmbedSerializer } from '../components/SlateEditor/plugins/noEmbed';
-import { paragraphSerializer } from '../components/SlateEditor/plugins/paragraph';
-import { TYPE_PARAGRAPH } from '../components/SlateEditor/plugins/paragraph/types';
-import { relatedSerializer } from '../components/SlateEditor/plugins/related';
-import { sectionSerializer } from '../components/SlateEditor/plugins/section';
-import { TYPE_SECTION } from '../components/SlateEditor/plugins/section/types';
-import { spanSerializer } from '../components/SlateEditor/plugins/span';
-import { tableSerializer } from '../components/SlateEditor/plugins/table';
-import { Embed } from '../interfaces';
+import escapeHtml from "escape-html";
+import compact from "lodash/compact";
+import toArray from "lodash/toArray";
+import { cloneElement } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
+import { Descendant, Node, Text } from "slate";
+import { convertFromHTML } from "./convertFromHTML";
+import { parseEmbedTag, createEmbedTag, createEmbedTagV2 } from "./embedTagHelpers";
+import { Plain } from "./slatePlainSerializer";
+import { SlateSerializer } from "../components/SlateEditor/interfaces";
+import { asideSerializer } from "../components/SlateEditor/plugins/aside";
+import { audioSerializer } from "../components/SlateEditor/plugins/audio";
+import { blockQuoteSerializer } from "../components/SlateEditor/plugins/blockquote";
+import { blogPostSerializer } from "../components/SlateEditor/plugins/blogPost";
+import { breakSerializer } from "../components/SlateEditor/plugins/break";
+import { campaignBlockSerializer } from "../components/SlateEditor/plugins/campaignBlock";
+import { codeblockSerializer } from "../components/SlateEditor/plugins/codeBlock";
+import { blockConceptSerializer } from "../components/SlateEditor/plugins/concept/block";
+import { inlineConceptSerializer } from "../components/SlateEditor/plugins/concept/inline";
+import { conceptListSerializer } from "../components/SlateEditor/plugins/conceptList";
+import { contactBlockSerializer } from "../components/SlateEditor/plugins/contactBlock";
+import { definitionListSerializer } from "../components/SlateEditor/plugins/definitionList";
+import { detailsSerializer } from "../components/SlateEditor/plugins/details";
+import { divSerializer } from "../components/SlateEditor/plugins/div";
+import { embedSerializer } from "../components/SlateEditor/plugins/embed";
+import { defaultEmbedBlock, isSlateEmbed } from "../components/SlateEditor/plugins/embed/utils";
+import { fileSerializer } from "../components/SlateEditor/plugins/file";
+import { footnoteSerializer } from "../components/SlateEditor/plugins/footnote";
+import { framedContentSerializer } from "../components/SlateEditor/plugins/framedContent";
+import { gridSerializer } from "../components/SlateEditor/plugins/grid";
+import { h5pSerializer } from "../components/SlateEditor/plugins/h5p";
+import { headingSerializer } from "../components/SlateEditor/plugins/heading";
+import { keyFigureSerializer } from "../components/SlateEditor/plugins/keyFigure";
+import { linkSerializer } from "../components/SlateEditor/plugins/link";
+import { linkBlockListSerializer } from "../components/SlateEditor/plugins/linkBlockList";
+import { listSerializer } from "../components/SlateEditor/plugins/list";
+import { markSerializer } from "../components/SlateEditor/plugins/mark";
+import { mathmlSerializer } from "../components/SlateEditor/plugins/mathml";
+import { noEmbedSerializer } from "../components/SlateEditor/plugins/noEmbed";
+import { paragraphSerializer } from "../components/SlateEditor/plugins/paragraph";
+import { TYPE_PARAGRAPH } from "../components/SlateEditor/plugins/paragraph/types";
+import { relatedSerializer } from "../components/SlateEditor/plugins/related";
+import { sectionSerializer } from "../components/SlateEditor/plugins/section";
+import { TYPE_SECTION } from "../components/SlateEditor/plugins/section/types";
+import { spanSerializer } from "../components/SlateEditor/plugins/span";
+import { tableSerializer } from "../components/SlateEditor/plugins/table";
+import { Embed } from "../interfaces";
 
 export const sectionSplitter = (html: string) => {
-  const node = document.createElement('div');
-  node.insertAdjacentHTML('beforeend', html);
+  const node = document.createElement("div");
+  node.insertAdjacentHTML("beforeend", html);
   const sections = [];
   for (let i = 0; i < node.children.length; i += 1) {
     sections.push(node.children[i].outerHTML);
@@ -72,7 +72,7 @@ export const createEmptyValue = (): Descendant[] => [
         type: TYPE_PARAGRAPH,
         children: [
           {
-            text: '',
+            text: "",
           },
         ],
       },
@@ -164,11 +164,11 @@ const articleContentToHTML = (value: Descendant[], rules: SlateSerializer[]) => 
   const elements = value
     .map((descendant: Descendant, idx: number) => {
       const html = serialize(descendant, idx);
-      return html ? renderToStaticMarkup(html) : '';
+      return html ? renderToStaticMarkup(html) : "";
     })
-    .join('');
+    .join("");
 
-  return elements.replace(/<deleteme><\/deleteme>/g, '');
+  return elements.replace(/<deleteme><\/deleteme>/g, "");
 };
 
 const articleContentToEditorValue = (html: string, rules: SlateSerializer[]) => {
@@ -177,14 +177,14 @@ const articleContentToEditorValue = (html: string, rules: SlateSerializer[]) => 
   }
   const deserialize = (el: HTMLElement | ChildNode): Descendant | Descendant[] => {
     if (el.nodeType === 3) {
-      return { text: el.textContent || '' };
+      return { text: el.textContent || "" };
     } else if (el.nodeType !== 1) {
-      return { text: '' };
+      return { text: "" };
     }
 
     let children = Array.from(el.childNodes).flatMap(deserialize);
     if (children.length === 0) {
-      children = [{ text: '' }];
+      children = [{ text: "" }];
     }
 
     for (const rule of rules) {
@@ -203,7 +203,7 @@ const articleContentToEditorValue = (html: string, rules: SlateSerializer[]) => 
     return children;
   };
 
-  const document = new DOMParser().parseFromString(html, 'text/html');
+  const document = new DOMParser().parseFromString(html, "text/html");
   const nodes = toArray(document.body.children).map(deserialize);
   const normalizedNodes = compact(nodes.map((n) => convertFromHTML(Node.isNodeList(n) ? n[0] : n)));
   return normalizedNodes;
@@ -230,7 +230,7 @@ export function plainTextToEditorValue(text: string): Descendant[] {
 }
 
 export function editorValueToPlainText(editorValue?: Descendant[]) {
-  return editorValue ? Plain.serialize(editorValue) : '';
+  return editorValue ? Plain.serialize(editorValue) : "";
 }
 
 export function embedToEditorValue(embed?: Partial<Embed>) {
@@ -251,8 +251,8 @@ export function editorValueToEmbed(editorValue?: Descendant[]) {
 export function editorValueToEmbedTag(editorValue?: Descendant[]) {
   const embed = editorValueToEmbed(editorValue);
   if (embed) {
-    const embedTag = embed?.resource === 'audio' ? createEmbedTagV2(embed) : createEmbedTag(embed);
-    return embedTag ? renderToStaticMarkup(embedTag) : '';
+    const embedTag = embed?.resource === "audio" ? createEmbedTagV2(embed) : createEmbedTag(embed);
+    return embedTag ? renderToStaticMarkup(embedTag) : "";
   }
-  return '';
+  return "";
 }

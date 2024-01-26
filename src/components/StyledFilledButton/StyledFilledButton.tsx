@@ -6,9 +6,9 @@
  *
  */
 
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { colors, spacing, fonts, misc } from '@ndla/core';
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { colors, spacing, fonts, misc } from "@ndla/core";
 
 interface StyledFilledButtonProps {
   deletable?: boolean;

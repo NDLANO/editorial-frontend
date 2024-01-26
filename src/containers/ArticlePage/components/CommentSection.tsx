@@ -6,20 +6,20 @@
  *
  */
 
-import { useField } from 'formik';
-import { useCallback, useMemo, memo } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { spacing, fonts } from '@ndla/core';
-import { IStatus } from '@ndla/types-backend/draft-api';
-import Comment, { CommentType } from './Comment';
-import InputComment from './InputComment';
-import { ARCHIVED, PUBLISHED, UNPUBLISHED } from '../../../constants';
+import { useField } from "formik";
+import { useCallback, useMemo, memo } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { spacing, fonts } from "@ndla/core";
+import { IStatus } from "@ndla/types-backend/draft-api";
+import Comment, { CommentType } from "./Comment";
+import InputComment from "./InputComment";
+import { ARCHIVED, PUBLISHED, UNPUBLISHED } from "../../../constants";
 
 export const RESET_COMMENTS_STATUSES = [PUBLISHED, ARCHIVED, UNPUBLISHED];
 export const COMMENT_WIDTH = 220;
-export const SPACING_COMMENT = Number(spacing.small.replace('px', ''));
+export const SPACING_COMMENT = Number(spacing.small.replace("px", ""));
 
 const CommentColumn = styled.div`
   display: flex;
@@ -30,7 +30,7 @@ const CommentColumn = styled.div`
   width: 100%;
   max-width: ${COMMENT_WIDTH}px;
 
-  &[data-hidden='true'] {
+  &[data-hidden="true"] {
     visibility: hidden;
   }
 `;
@@ -44,7 +44,7 @@ const StyledList = styled.ul`
 `;
 
 const StyledOpenCloseAll = styled(ButtonV2)`
-  ${fonts.sizes('16px')};
+  ${fonts.sizes("16px")};
   margin-left: auto;
 `;
 
@@ -54,7 +54,7 @@ interface Props {
 const CommentSection = ({ savedStatus }: Props) => {
   const { t } = useTranslation();
 
-  const [_, { value }, { setValue }] = useField<CommentType[]>('comments');
+  const [_, { value }, { setValue }] = useField<CommentType[]>("comments");
   const allOpen = useMemo(() => value.every((v) => v.isOpen), [value]);
 
   const onDelete = useCallback(
@@ -79,21 +79,14 @@ const CommentSection = ({ savedStatus }: Props) => {
           onClick={() => toggleAllOpen(allOpen !== undefined ? !allOpen : true)}
           fontWeight="semibold"
         >
-          {allOpen ? t('form.hideAll') : t('form.openAll')}
+          {allOpen ? t("form.hideAll") : t("form.openAll")}
         </StyledOpenCloseAll>
       ) : null}
       <StyledList>
         {value.map((comment, index) => {
-          const id = 'id' in comment ? comment.id : comment.generatedId;
+          const id = "id" in comment ? comment.id : comment.generatedId;
           return (
-            <Comment
-              key={id}
-              id={id}
-              setComments={setValue}
-              comments={value ?? []}
-              onDelete={onDelete}
-              index={index}
-            />
+            <Comment key={id} id={id} setComments={setValue} comments={value ?? []} onDelete={onDelete} index={index} />
           );
         })}
       </StyledList>

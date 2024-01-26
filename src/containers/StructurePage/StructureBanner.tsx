@@ -6,20 +6,20 @@
  *
  */
 
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { spacing, mq, breakpoints } from '@ndla/core';
-import { Plus } from '@ndla/icons/action';
-import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
-import { Switch } from '@ndla/switch';
-import { NodeType } from '@ndla/types-taxonomy';
-import AddNodeModalContent from './AddNodeModalContent';
-import { ResourceGroupBanner, StyledShareIcon } from './styles';
-import TaxonomyLightbox from '../../components/Taxonomy/TaxonomyLightbox';
-import { TAXONOMY_ADMIN_SCOPE } from '../../constants';
-import { useSession } from '../Session/SessionProvider';
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { spacing, mq, breakpoints } from "@ndla/core";
+import { Plus } from "@ndla/icons/action";
+import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
+import { Switch } from "@ndla/switch";
+import { NodeType } from "@ndla/types-taxonomy";
+import AddNodeModalContent from "./AddNodeModalContent";
+import { ResourceGroupBanner, StyledShareIcon } from "./styles";
+import TaxonomyLightbox from "../../components/Taxonomy/TaxonomyLightbox";
+import { TAXONOMY_ADMIN_SCOPE } from "../../constants";
+import { useSession } from "../Session/SessionProvider";
 
 const FlexWrapper = styled.div`
   display: flex;
@@ -76,7 +76,7 @@ const StructureBanner = ({
     <ResourceGroupBanner>
       <FlexWrapper>
         <StyledShareIcon />
-        {t('taxonomy.editStructure')}
+        {t("taxonomy.editStructure")}
       </FlexWrapper>
       <FlexWrapper>
         <SwitchWrapper>
@@ -84,14 +84,14 @@ const StructureBanner = ({
             <StyledSwitch
               onChange={setShowLmaSubjects}
               checked={showLmaSubjects}
-              label={t('taxonomy.showLMASubject')}
+              label={t("taxonomy.showLMASubject")}
               id="lma-subject-switch"
             />
           )}
           <StyledSwitch
             onChange={setShowFavorites}
             checked={showFavorites}
-            label={t('taxonomy.favorites')}
+            label={t("taxonomy.favorites")}
             id="favorites"
             data-testid="switch-favorites"
           />
@@ -106,17 +106,16 @@ const StructureBanner = ({
                 data-testid="AddSubjectButton"
               >
                 <StyledPlusIcon />
-                {t('taxonomy.addNode', { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
+                {t("taxonomy.addNode", { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
               </AddSubjectButton>
             </ModalTrigger>
             <ModalContent position="top">
               <TaxonomyLightbox
-                title={t('taxonomy.addNode', { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
+                title={t("taxonomy.addNode", {
+                  nodeType: t(`taxonomy.nodeType.${nodeType}`),
+                })}
               >
-                <AddNodeModalContent
-                  onClose={() => setAddSubjectModalOpen(false)}
-                  nodeType={nodeType}
-                />
+                <AddNodeModalContent onClose={() => setAddSubjectModalOpen(false)} nodeType={nodeType} />
               </TaxonomyLightbox>
             </ModalContent>
           </Modal>

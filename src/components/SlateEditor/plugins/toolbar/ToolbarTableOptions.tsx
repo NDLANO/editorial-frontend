@@ -6,25 +6,25 @@
  *
  */
 
-import { Editor, Element } from 'slate';
-import { useSlate, useSlateSelector } from 'slate-react';
-import { ToggleItem } from '@radix-ui/react-toolbar';
-import { handleClickTable } from './handleMenuClicks';
-import { StyledToggleGroup, ToolbarCategoryProps } from './SlateToolbar';
-import ToolbarButton from './ToolbarButton';
-import { TableType } from './toolbarState';
+import { Editor, Element } from "slate";
+import { useSlate, useSlateSelector } from "slate-react";
+import { ToggleItem } from "@radix-ui/react-toolbar";
+import { handleClickTable } from "./handleMenuClicks";
+import { StyledToggleGroup, ToolbarCategoryProps } from "./SlateToolbar";
+import ToolbarButton from "./ToolbarButton";
+import { TableType } from "./toolbarState";
 
 const getCurrentBlockValues = (editor: Editor) => {
   const [currentTableCell] =
     Editor.nodes(editor, {
-      match: (n) => Element.isElement(n) && n.type === 'table-cell',
-      mode: 'highest',
+      match: (n) => Element.isElement(n) && n.type === "table-cell",
+      mode: "highest",
     }) ?? [];
 
   const node = currentTableCell?.[0];
-  if (!Element.isElement(node) || node.type !== 'table-cell') return '';
+  if (!Element.isElement(node) || node.type !== "table-cell") return "";
 
-  return node.data.align ?? '';
+  return node.data.align ?? "";
 };
 
 export const ToolbarTableOptions = ({ options }: ToolbarCategoryProps<TableType>) => {
@@ -38,10 +38,7 @@ export const ToolbarTableOptions = ({ options }: ToolbarCategoryProps<TableType>
     <StyledToggleGroup type="single" value={value}>
       {visibleOptions.map((type) => (
         <ToggleItem key={type.value} value={type.value} asChild disabled={type.disabled}>
-          <ToolbarButton
-            type={type.value}
-            onClick={(e) => handleClickTable(e, editor, type.value)}
-          />
+          <ToolbarButton type={type.value} onClick={(e) => handleClickTable(e, editor, type.value)} />
         </ToggleItem>
       ))}
     </StyledToggleGroup>

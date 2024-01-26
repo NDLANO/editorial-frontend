@@ -9,8 +9,8 @@
 // This is the entry point of the application.
 // The only purpose of this file is to support deploying to vercel. Removing it *will* break vercel deploys.
 
-import config from './config';
-import app from './server/server';
+import config from "./config";
+import app from "./server/server";
 
 if (!config.isVercel) {
   // Start http server

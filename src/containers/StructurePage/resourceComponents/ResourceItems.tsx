@@ -6,28 +6,25 @@
  *
  */
 
-import sortBy from 'lodash/sortBy';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { DragEndEvent } from '@dnd-kit/core';
-import styled from '@emotion/styled';
-import { useQueryClient } from '@tanstack/react-query';
-import { spacing } from '@ndla/core';
-import { DragVertical } from '@ndla/icons/editor';
-import { NodeChild } from '@ndla/types-taxonomy';
-import Resource from './Resource';
-import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
-import AlertModal from '../../../components/AlertModal';
-import DndList from '../../../components/DndList';
-import { DragHandle } from '../../../components/DraggableItem';
-import { Auth0UserData, Dictionary } from '../../../interfaces';
-import {
-  useDeleteResourceForNodeMutation,
-  usePutResourceForNodeMutation,
-} from '../../../modules/nodes/nodeMutations';
-import { NodeResourceMeta, nodeQueryKeys } from '../../../modules/nodes/nodeQueries';
-import handleError from '../../../util/handleError';
-import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
+import sortBy from "lodash/sortBy";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { DragEndEvent } from "@dnd-kit/core";
+import styled from "@emotion/styled";
+import { useQueryClient } from "@tanstack/react-query";
+import { spacing } from "@ndla/core";
+import { DragVertical } from "@ndla/icons/editor";
+import { NodeChild } from "@ndla/types-taxonomy";
+import Resource from "./Resource";
+import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
+import AlertModal from "../../../components/AlertModal";
+import DndList from "../../../components/DndList";
+import { DragHandle } from "../../../components/DraggableItem";
+import { Auth0UserData, Dictionary } from "../../../interfaces";
+import { useDeleteResourceForNodeMutation, usePutResourceForNodeMutation } from "../../../modules/nodes/nodeMutations";
+import { NodeResourceMeta, nodeQueryKeys } from "../../../modules/nodes/nodeQueries";
+import handleError from "../../../util/handleError";
+import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
 const StyledResourceItems = styled.ul`
   list-style: none;
@@ -54,15 +51,9 @@ interface Props {
 
 const isError = (error: unknown): error is Error => (error as Error).message !== undefined;
 
-const ResourceItems = ({
-  resources,
-  currentNodeId,
-  contentMeta,
-  contentMetaLoading,
-  users,
-}: Props) => {
+const ResourceItems = ({ resources, currentNodeId, contentMeta, contentMetaLoading, users }: Props) => {
   const { t, i18n } = useTranslation();
-  const [deleteId, setDeleteId] = useState<string>('');
+  const [deleteId, setDeleteId] = useState<string>("");
   const { taxonomyVersion } = useTaxonomyVersion();
 
   const qc = useQueryClient();
@@ -91,7 +82,7 @@ const ResourceItems = ({
         return r;
       } else return { ...r, rank: r.rank + 1 };
     });
-    qc.setQueryData<NodeChild[]>(compKey, sortBy(updated, ['rank']));
+    qc.setQueryData<NodeChild[]>(compKey, sortBy(updated, ["rank"]));
     return resources;
   };
 
@@ -102,7 +93,7 @@ const ResourceItems = ({
   });
 
   const onDelete = async (deleteId: string) => {
-    setDeleteId('');
+    setDeleteId("");
     await deleteNodeResource.mutateAsync(
       { id: deleteId, taxonomyVersion },
       { onSuccess: () => qc.invalidateQueries({ queryKey: compKey }) },
@@ -110,10 +101,7 @@ const ResourceItems = ({
   };
 
   const onDragEnd = async ({ active, over }: DragEndEvent) => {
-    const [source, dest] = [
-      resources[active.data.current?.index],
-      resources[over?.data.current?.index],
-    ];
+    const [source, dest] = [resources[active.data.current?.index], resources[over?.data.current?.index]];
     if (!dest || !source || source.rank === dest.rank) return;
 
     await updateNodeResource({
@@ -138,16 +126,13 @@ const ResourceItems = ({
         disabled={resources.length < 2}
         onDragEnd={onDragEnd}
         dragHandle={
-          <StyledDragHandle aria-label={t('dragAndDrop.handle')}>
+          <StyledDragHandle aria-label={t("dragAndDrop.handle")}>
             <DragVertical />
           </StyledDragHandle>
         }
         renderItem={(resource) => (
           <Resource
-            responsible={
-              users?.[contentMeta[resource.contentUri ?? '']?.responsible?.responsibleId ?? '']
-                ?.name
-            }
+            responsible={users?.[contentMeta[resource.contentUri ?? ""]?.responsible?.responsibleId ?? ""]?.name}
             currentNodeId={currentNodeId}
             resource={{
               ...resource,
@@ -161,25 +146,25 @@ const ResourceItems = ({
       />
       {deleteNodeResource.error && isError(deleteNodeResource.error) ? (
         <StyledErrorMessage data-testid="inlineEditErrorMessage">
-          {`${t('taxonomy.errorMessage')}: ${deleteNodeResource.error.message}`}
+          {`${t("taxonomy.errorMessage")}: ${deleteNodeResource.error.message}`}
         </StyledErrorMessage>
       ) : null}
       <AlertModal
-        title={t('taxonomy.deleteResource')}
-        label={t('taxonomy.deleteResource')}
+        title={t("taxonomy.deleteResource")}
+        label={t("taxonomy.deleteResource")}
         show={!!deleteId}
-        text={t('taxonomy.resource.confirmDelete')}
+        text={t("taxonomy.resource.confirmDelete")}
         actions={[
           {
-            text: t('form.abort'),
-            onClick: () => toggleDelete(''),
+            text: t("form.abort"),
+            onClick: () => toggleDelete(""),
           },
           {
-            text: t('alertModal.delete'),
+            text: t("alertModal.delete"),
             onClick: () => onDelete(deleteId!),
           },
         ]}
-        onCancel={() => toggleDelete('')}
+        onCancel={() => toggleDelete("")}
       />
     </StyledResourceItems>
   );

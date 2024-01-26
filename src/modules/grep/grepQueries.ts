@@ -6,10 +6,10 @@
  *
  */
 
-import { useQueries } from '@tanstack/react-query';
-import { fetchGrepCodeTitle } from './grepApi';
-import { GrepCode } from './grepApiInterfaces';
-import { GREP_CODE } from '../../queryKeys';
+import { useQueries } from "@tanstack/react-query";
+import { fetchGrepCodeTitle } from "./grepApi";
+import { GrepCode } from "./grepApiInterfaces";
+import { GREP_CODE } from "../../queryKeys";
 
 const grepToGrepCodeObject = (grepCode: string, grepCodeTitle: string | undefined): GrepCode => ({
   code: grepCode,

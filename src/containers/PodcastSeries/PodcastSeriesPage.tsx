@@ -6,10 +6,10 @@
  *
  */
 
-import CreatePodcastSeries from './CreatePodcastSeries';
-import EditPodcastSeries from './EditPodcastSeries';
-import ResourcePage from '../../components/ResourcePage';
-import { useSeries } from '../../modules/audio/audioQueries';
+import CreatePodcastSeries from "./CreatePodcastSeries";
+import EditPodcastSeries from "./EditPodcastSeries";
+import ResourcePage from "../../components/ResourcePage";
+import { useSeries } from "../../modules/audio/audioQueries";
 
 const PodcastSeriesPage = () => (
   <ResourcePage

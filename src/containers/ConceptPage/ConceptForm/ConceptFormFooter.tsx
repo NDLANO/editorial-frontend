@@ -6,19 +6,19 @@
  *
  */
 
-import { useFormikContext } from 'formik';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
-import { IStatus } from '@ndla/types-backend/concept-api';
-import SaveButton from '../../../components/SaveButton';
-import EditorFooter from '../../../components/SlateEditor/EditorFooter';
-import { SAVE_BUTTON_ID } from '../../../constants';
-import { useConceptStateMachine } from '../../../modules/concept/conceptQueries';
-import { isFormikFormDirty } from '../../../util/formHelper';
-import { AlertModalWrapper } from '../../FormikForm';
-import { ConceptFormValues } from '../conceptInterfaces';
+import { useFormikContext } from "formik";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { spacing } from "@ndla/core";
+import { IStatus } from "@ndla/types-backend/concept-api";
+import SaveButton from "../../../components/SaveButton";
+import EditorFooter from "../../../components/SlateEditor/EditorFooter";
+import { SAVE_BUTTON_ID } from "../../../constants";
+import { useConceptStateMachine } from "../../../modules/concept/conceptQueries";
+import { isFormikFormDirty } from "../../../util/formHelper";
+import { AlertModalWrapper } from "../../FormikForm";
+import { ConceptFormValues } from "../conceptInterfaces";
 
 interface Props {
   entityStatus?: IStatus;
@@ -65,11 +65,11 @@ const ConceptFormFooter = ({
     return (
       <ButtonContainer>
         <ButtonV2 variant="outline" onClick={onClose}>
-          {t('form.abort')}
+          {t("form.abort")}
         </ButtonV2>
         <SaveButton
           id={SAVE_BUTTON_ID}
-          type={!inModal ? 'submit' : 'button'}
+          type={!inModal ? "submit" : "button"}
           isSaving={isSubmitting}
           formIsDirty={formIsDirty}
           showSaved={savedToServer && !formIsDirty}
@@ -102,7 +102,7 @@ const ConceptFormFooter = ({
         formIsDirty={formIsDirty}
         isSubmitting={isSubmitting}
         severity="danger"
-        text={t('alertModal.notSaved')}
+        text={t("alertModal.notSaved")}
       />
     </>
   );

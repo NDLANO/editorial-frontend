@@ -6,13 +6,13 @@
  *
  */
 
-import { History, Blocker, Transition } from 'history';
-import { useContext, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { UNSAFE_NavigationContext, useNavigate, Location } from 'react-router-dom';
-import AlertModal from '../../components/AlertModal';
-import { supportedLanguages } from '../../i18n2';
-import { MessageSeverity } from '../../interfaces';
+import { History, Blocker, Transition } from "history";
+import { useContext, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { UNSAFE_NavigationContext, useNavigate, Location } from "react-router-dom";
+import AlertModal from "../../components/AlertModal";
+import { supportedLanguages } from "../../i18n2";
+import { MessageSeverity } from "../../interfaces";
 
 interface Props {
   text: string;
@@ -63,8 +63,8 @@ const AlertModalWrapper = ({ text, severity, isSubmitting, formIsDirty, onContin
   useBlocker((transition) => {
     if (shouldBlock) {
       // transition does not respect basename. Filter out basename until it is fixed.
-      const pathRegex = new RegExp(supportedLanguages.map((l) => `/${l}/`).join('|'));
-      const pathname = transition.location.pathname.replace(pathRegex, '/');
+      const pathRegex = new RegExp(supportedLanguages.map((l) => `/${l}/`).join("|"));
+      const pathname = transition.location.pathname.replace(pathRegex, "/");
       setOpenModal(true);
       setNextLocation({ ...transition.location, pathname });
     } else {
@@ -85,17 +85,17 @@ const AlertModalWrapper = ({ text, severity, isSubmitting, formIsDirty, onContin
 
   return (
     <AlertModal
-      title={t('unsavedChanges')}
-      label={t('unsavedChanges')}
+      title={t("unsavedChanges")}
+      label={t("unsavedChanges")}
       show={openModal}
       text={text}
       actions={[
         {
-          text: t('form.abort'),
+          text: t("form.abort"),
           onClick: onCancel,
         },
         {
-          text: t('alertModal.continue'),
+          text: t("alertModal.continue"),
           onClick: onWillContinue,
         },
       ]}

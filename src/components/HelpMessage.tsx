@@ -6,21 +6,13 @@
  *
  */
 
-import { ReactNode } from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
-import {
-  ModalBody,
-  ModalCloseButton,
-  ModalHeader,
-  ModalTitle,
-  Modal,
-  ModalTrigger,
-  ModalContent,
-} from '@ndla/modal';
-import { HelpIcon } from './HowTo';
+import { ReactNode } from "react";
+import { WithTranslation, withTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { spacing } from "@ndla/core";
+import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, Modal, ModalTrigger, ModalContent } from "@ndla/modal";
+import { HelpIcon } from "./HowTo";
 
 const StyledHelpIcon = styled(HelpIcon)`
   width: ${spacing.normal};
@@ -37,15 +29,15 @@ const HelpMessage = ({ children, t }: Props & WithTranslation) => (
     <ModalTrigger>
       <ButtonV2
         variant="stripped"
-        title={t('editMarkup.helpMessage.tooltip')}
-        aria-label={t('editMarkup.helpMessage.tooltip')}
+        title={t("editMarkup.helpMessage.tooltip")}
+        aria-label={t("editMarkup.helpMessage.tooltip")}
       >
         <StyledHelpIcon />
       </ButtonV2>
     </ModalTrigger>
     <ModalContent>
       <ModalHeader>
-        <ModalTitle>{t('editMarkup.helpMessage.tooltip')}</ModalTitle>
+        <ModalTitle>{t("editMarkup.helpMessage.tooltip")}</ModalTitle>
         <ModalCloseButton />
       </ModalHeader>
       <ModalBody>{children}</ModalBody>

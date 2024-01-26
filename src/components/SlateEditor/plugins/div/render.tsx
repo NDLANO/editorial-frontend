@@ -6,9 +6,9 @@
  *
  */
 
-import { Editor } from 'slate';
-import { RenderElementProps } from 'slate-react';
-import { TYPE_DIV } from './types';
+import { Editor } from "slate";
+import { RenderElementProps } from "slate-react";
+import { TYPE_DIV } from "./types";
 
 export const divRenderer = (editor: Editor) => {
   const { renderElement } = editor;

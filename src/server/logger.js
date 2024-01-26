@@ -8,14 +8,14 @@
 
 // N.B! don't import this on the client!
 
-import bunyan from 'bunyan';
-import sourceMapSupport from 'source-map-support';
+import bunyan from "bunyan";
+import sourceMapSupport from "source-map-support";
 sourceMapSupport.install();
 
 let log;
 
 if (!log) {
-  log = bunyan.createLogger({ name: 'editorial-frontend' });
+  log = bunyan.createLogger({ name: "editorial-frontend" });
 }
 
 log.logAndReturnValue = (level, msg, value) => {

@@ -6,19 +6,19 @@
  *
  */
 
-import { Fragment, useEffect } from 'react';
-import config from '../../config';
-import { fetchZendeskToken } from '../../modules/auth0/auth0Api';
-import { isAccessTokenValid } from '../../util/authHelpers';
-import { useSession } from '../Session/SessionProvider';
+import { Fragment, useEffect } from "react";
+import config from "../../config";
+import { fetchZendeskToken } from "../../modules/auth0/auth0Api";
+import { isAccessTokenValid } from "../../util/authHelpers";
+import { useSession } from "../Session/SessionProvider";
 
 const Zendesk = () => {
   const { authenticated } = useSession();
   const addScriptsToPage = async () => {
     const zendeskToken = await fetchZendeskToken();
 
-    const zeSettings = document.createElement('script');
-    zeSettings.type = 'text/javascript';
+    const zeSettings = document.createElement("script");
+    zeSettings.type = "text/javascript";
     zeSettings.innerHTML = `
           window.zESettings = {
             webWidget: {
@@ -33,8 +33,8 @@ const Zendesk = () => {
     document.body.appendChild(zeSettings);
 
     if (config.zendeskWidgetKey) {
-      const zeScript = document.createElement('script');
-      zeScript.id = 'ze-snippet';
+      const zeScript = document.createElement("script");
+      zeScript.id = "ze-snippet";
       zeScript.src = `https://static.zdassets.com/ekr/snippet.js?key=${config.zendeskWidgetKey}`;
       document.body.appendChild(zeScript);
     }

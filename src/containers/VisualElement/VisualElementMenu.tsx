@@ -6,13 +6,13 @@
  *
  */
 
-import { useState } from 'react';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { colors, spacing } from '@ndla/core';
-import { Cross, Plus } from '@ndla/icons/action';
-import { Audio } from '@ndla/icons/common';
-import { Camera, H5P, Link, Video } from '@ndla/icons/editor';
+import { useState } from "react";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { colors, spacing } from "@ndla/core";
+import { Cross, Plus } from "@ndla/icons/action";
+import { Audio } from "@ndla/icons/common";
+import { Camera, H5P, Link, Video } from "@ndla/icons/editor";
 
 const StyledButton = styled(ButtonV2)`
   border-radius: 100%;
@@ -37,9 +37,9 @@ interface Props {
   onSelect: Function;
 }
 
-export type VisualElementType = 'image' | 'video' | 'h5p' | 'url' | 'audio';
+export type VisualElementType = "image" | "video" | "h5p" | "url" | "audio";
 
-const VisualElementMenu = ({ onSelect, types = ['image', 'video', 'h5p', 'url'] }: Props) => {
+const VisualElementMenu = ({ onSelect, types = ["image", "video", "h5p", "url"] }: Props) => {
   const [isOpen, setOpen] = useState(false);
 
   const handleSelect = (type: string) => {
@@ -52,23 +52,23 @@ const VisualElementMenu = ({ onSelect, types = ['image', 'video', 'h5p', 'url'] 
   };
   const visualElementButtons = [
     {
-      type: 'image',
+      type: "image",
       component: <Camera />,
     },
     {
-      type: 'video',
+      type: "video",
       component: <Video />,
     },
     {
-      type: 'h5p',
+      type: "h5p",
       component: <H5P />,
     },
     {
-      type: 'url',
+      type: "url",
       component: <Link />,
     },
     {
-      type: 'audio',
+      type: "audio",
       component: <Audio />,
     },
   ];

@@ -6,34 +6,31 @@
  *
  */
 
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { UseQueryResult } from '@tanstack/react-query';
-import { Search } from '@ndla/icons/common';
-import Pager from '@ndla/pager';
-import { HelmetWithTracker } from '@ndla/tracker';
-import {
-  IAudioSummarySearchResult,
-  ISeriesSummarySearchResult,
-} from '@ndla/types-backend/audio-api';
-import { IConceptSearchResult } from '@ndla/types-backend/concept-api';
-import { ISearchResultV3 } from '@ndla/types-backend/image-api';
-import { IMultiSearchResult } from '@ndla/types-backend/search-api';
-import { OneColumn } from '@ndla/ui';
-import SearchForm, { parseSearchParams, SearchParams } from './components/form/SearchForm';
-import SearchList from './components/results/SearchList';
-import SearchListOptions from './components/results/SearchListOptions';
-import SearchSort from './components/sort/SearchSort';
-import SearchSaveButton from './SearchSaveButton';
-import { SearchType } from '../../interfaces';
-import { useUserData } from '../../modules/draft/draftQueries';
-import { useNodes } from '../../modules/nodes/nodeQueries';
-import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
-import { isValid } from '../../util/jwtHelper';
-import { toSearch } from '../../util/routeHelpers';
-import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useLocation, useNavigate } from "react-router-dom";
+import styled from "@emotion/styled";
+import { UseQueryResult } from "@tanstack/react-query";
+import { Search } from "@ndla/icons/common";
+import Pager from "@ndla/pager";
+import { HelmetWithTracker } from "@ndla/tracker";
+import { IAudioSummarySearchResult, ISeriesSummarySearchResult } from "@ndla/types-backend/audio-api";
+import { IConceptSearchResult } from "@ndla/types-backend/concept-api";
+import { ISearchResultV3 } from "@ndla/types-backend/image-api";
+import { IMultiSearchResult } from "@ndla/types-backend/search-api";
+import { OneColumn } from "@ndla/ui";
+import SearchForm, { parseSearchParams, SearchParams } from "./components/form/SearchForm";
+import SearchList from "./components/results/SearchList";
+import SearchListOptions from "./components/results/SearchListOptions";
+import SearchSort from "./components/sort/SearchSort";
+import SearchSaveButton from "./SearchSaveButton";
+import { SearchType } from "../../interfaces";
+import { useUserData } from "../../modules/draft/draftQueries";
+import { useNodes } from "../../modules/nodes/nodeQueries";
+import { getAccessToken, getAccessTokenPersonal } from "../../util/authHelpers";
+import { isValid } from "../../util/jwtHelper";
+import { toSearch } from "../../util/routeHelpers";
+import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 
 const StyledSearchHeader = styled.div`
   display: flex;
@@ -62,7 +59,7 @@ const SearchContainer = ({ searchHook, type }: Props) => {
   const { taxonomyVersion } = useTaxonomyVersion();
   const { data: subjectData } = useNodes({
     language: locale,
-    nodeType: 'SUBJECT',
+    nodeType: "SUBJECT",
     taxonomyVersion,
   });
 
@@ -89,7 +86,7 @@ const SearchContainer = ({ searchHook, type }: Props) => {
 
     // Remove unused/empty query params
     const newQuery = Object.entries(searchQuery).reduce((prev, [currKey, currVal]) => {
-      const validValue = currVal !== '' && currVal !== undefined;
+      const validValue = currVal !== "" && currVal !== undefined;
       return validValue ? { ...prev, [currKey]: currVal } : prev;
     }, {});
     setSearchObject(newQuery);
@@ -100,9 +97,7 @@ const SearchContainer = ({ searchHook, type }: Props) => {
     onQueryPush({ ...searchObject, sort, page: 1 });
   };
 
-  const lastPage = results?.totalCount
-    ? Math.ceil(results?.totalCount / (results.pageSize ?? 1))
-    : 1;
+  const lastPage = results?.totalCount ? Math.ceil(results?.totalCount / (results.pageSize ?? 1)) : 1;
 
   return (
     <>
@@ -139,12 +134,7 @@ const SearchContainer = ({ searchHook, type }: Props) => {
           subjects={subjects}
           error={!!searchError}
         />
-        <Pager
-          page={searchObject.page ?? 1}
-          lastPage={lastPage}
-          query={searchObject}
-          onClick={onQueryPush}
-        />
+        <Pager page={searchObject.page ?? 1} lastPage={lastPage} query={searchObject} onClick={onQueryPush} />
       </OneColumn>
     </>
   );

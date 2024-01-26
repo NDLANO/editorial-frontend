@@ -6,14 +6,14 @@
  *
  */
 
-import debounce from 'lodash/debounce';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { ButtonV2, CloseButton } from '@ndla/button';
-import { Search } from '@ndla/icons/common';
-import { ModalHeader, ModalBody } from '@ndla/modal';
-import Pager from '@ndla/pager';
-import Tabs from '@ndla/tabs';
+import debounce from "lodash/debounce";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { ButtonV2, CloseButton } from "@ndla/button";
+import { Search } from "@ndla/icons/common";
+import { ModalHeader, ModalBody } from "@ndla/modal";
+import Pager from "@ndla/pager";
+import Tabs from "@ndla/tabs";
 import {
   IConcept,
   IConceptSearchResult,
@@ -21,17 +21,17 @@ import {
   IUpdatedConcept,
   ITagsSearchResult,
   IConceptSummary,
-} from '@ndla/types-backend/concept-api';
-import { IArticle } from '@ndla/types-backend/draft-api';
+} from "@ndla/types-backend/concept-api";
+import { IArticle } from "@ndla/types-backend/draft-api";
 
-import { Node } from '@ndla/types-taxonomy';
-import SearchConceptResults from './SearchConceptResults';
-import ConceptForm from '../../../../containers/ConceptPage/ConceptForm/ConceptForm';
-import { ConceptType } from '../../../../containers/ConceptPage/conceptInterfaces';
-import { GlossForm } from '../../../../containers/GlossPage/components/GlossForm';
-import SearchForm from '../../../../containers/SearchPage/components/form/SearchForm';
-import { searchConcepts } from '../../../../modules/concept/conceptApi';
-import { ConceptQuery } from '../../../../modules/concept/conceptApiInterfaces';
+import { Node } from "@ndla/types-taxonomy";
+import SearchConceptResults from "./SearchConceptResults";
+import ConceptForm from "../../../../containers/ConceptPage/ConceptForm/ConceptForm";
+import { ConceptType } from "../../../../containers/ConceptPage/conceptInterfaces";
+import { GlossForm } from "../../../../containers/GlossPage/components/GlossForm";
+import SearchForm from "../../../../containers/SearchPage/components/form/SearchForm";
+import { searchConcepts } from "../../../../modules/concept/conceptApi";
+import { ConceptQuery } from "../../../../modules/concept/conceptApiInterfaces";
 
 interface Props {
   addConcept: (concept: IConceptSummary | IConcept) => void;
@@ -53,7 +53,7 @@ const ConceptModalContent = ({
   subjects,
   locale,
   handleRemove,
-  selectedText = '',
+  selectedText = "",
   addConcept,
   updateConcept,
   createConcept,
@@ -65,11 +65,11 @@ const ConceptModalContent = ({
   const { t } = useTranslation();
   const [searchObject, updateSearchObject] = useState<ConceptQuery>({
     page: 1,
-    sort: '-relevance',
-    'page-size': 10,
+    sort: "-relevance",
+    "page-size": 10,
     language: locale,
     query: `${selectedText}`,
-    'concept-type': conceptType,
+    "concept-type": conceptType,
   });
   const [results, setConcepts] = useState<IConceptSearchResult>({
     language: locale,
@@ -80,7 +80,7 @@ const ConceptModalContent = ({
   });
   const [searching, setSearching] = useState(false);
 
-  const conceptTypeTabs: ConceptType[] = conceptType ? [conceptType] : ['concept', 'gloss'];
+  const conceptTypeTabs: ConceptType[] = conceptType ? [conceptType] : ["concept", "gloss"];
 
   const searchConcept = useCallback(async (searchParam: ConceptQuery) => {
     if (!searching) {
@@ -110,19 +110,15 @@ const ConceptModalContent = ({
   return (
     <div>
       <ModalHeader>
-        <CloseButton title={t('dialog.close')} onClick={onClose} />
+        <CloseButton title={t("dialog.close")} onClick={onClose} />
       </ModalHeader>
       <ModalBody>
-        {concept?.id && (
-          <ButtonV2 onClick={handleRemove}>
-            {t(`form.content.${concept.conceptType}.remove`)}
-          </ButtonV2>
-        )}
+        {concept?.id && <ButtonV2 onClick={handleRemove}>{t(`form.content.${concept.conceptType}.remove`)}</ButtonV2>}
         <Tabs
           tabs={[
             {
               title: t(`searchForm.types.conceptQuery`),
-              id: 'concepts',
+              id: "concepts",
               content: (
                 <div>
                   <h2>
@@ -160,7 +156,7 @@ const ConceptModalContent = ({
               title: t(`form.${conceptType}.create`),
               id: `new_${conceptType}`,
               content:
-                conceptType === 'gloss' ? (
+                conceptType === "gloss" ? (
                   <GlossForm
                     onUpserted={addConcept}
                     inModal

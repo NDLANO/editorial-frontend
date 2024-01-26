@@ -6,38 +6,34 @@
  *
  */
 
-import { Formik, useFormikContext } from 'formik';
-import { memo, useCallback, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { IArticle, IUpdatedArticle, IStatus } from '@ndla/types-backend/draft-api';
-import { Node } from '@ndla/types-taxonomy';
-import LearningResourcePanels from './LearningResourcePanels';
-import AlertModal from '../../../../components/AlertModal';
-import validateFormik, { getWarnings } from '../../../../components/formikValidationSchema';
-import HeaderWithLanguage from '../../../../components/HeaderWithLanguage';
-import EditorFooter from '../../../../components/SlateEditor/EditorFooter';
-import StyledForm from '../../../../components/StyledFormComponents';
-import { ARCHIVED, UNPUBLISHED } from '../../../../constants';
-import { useSession } from '../../../../containers/Session/SessionProvider';
-import { validateDraft } from '../../../../modules/draft/draftApi';
-import { useLicenses, useDraftStatusStateMachine } from '../../../../modules/draft/draftQueries';
-import { blockContentToHTML } from '../../../../util/articleContentConverter';
-import { isFormikFormDirty, learningResourceRules } from '../../../../util/formHelper';
-import { AlertModalWrapper } from '../../../FormikForm';
-import {
-  HandleSubmitFunc,
-  LearningResourceFormType,
-  useArticleFormHooks,
-} from '../../../FormikForm/articleFormHooks';
-import usePreventWindowUnload from '../../../FormikForm/preventWindowUnloadHook';
-import { TaxonomyVersionProvider } from '../../../StructureVersion/TaxonomyVersionProvider';
+import { Formik, useFormikContext } from "formik";
+import { memo, useCallback, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { IArticle, IUpdatedArticle, IStatus } from "@ndla/types-backend/draft-api";
+import { Node } from "@ndla/types-taxonomy";
+import LearningResourcePanels from "./LearningResourcePanels";
+import AlertModal from "../../../../components/AlertModal";
+import validateFormik, { getWarnings } from "../../../../components/formikValidationSchema";
+import HeaderWithLanguage from "../../../../components/HeaderWithLanguage";
+import EditorFooter from "../../../../components/SlateEditor/EditorFooter";
+import StyledForm from "../../../../components/StyledFormComponents";
+import { ARCHIVED, UNPUBLISHED } from "../../../../constants";
+import { useSession } from "../../../../containers/Session/SessionProvider";
+import { validateDraft } from "../../../../modules/draft/draftApi";
+import { useLicenses, useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
+import { blockContentToHTML } from "../../../../util/articleContentConverter";
+import { isFormikFormDirty, learningResourceRules } from "../../../../util/formHelper";
+import { AlertModalWrapper } from "../../../FormikForm";
+import { HandleSubmitFunc, LearningResourceFormType, useArticleFormHooks } from "../../../FormikForm/articleFormHooks";
+import usePreventWindowUnload from "../../../FormikForm/preventWindowUnloadHook";
+import { TaxonomyVersionProvider } from "../../../StructureVersion/TaxonomyVersionProvider";
 import {
   draftApiTypeToLearningResourceFormType,
   getExpirationDate,
   learningResourceFormTypeToDraftApiType,
-} from '../../articleTransformers';
-import CommentSection from '../../components/CommentSection';
-import { FlexWrapper, MainContent } from '../../styles';
+} from "../../articleTransformers";
+import CommentSection from "../../components/CommentSection";
+import { FlexWrapper, MainContent } from "../../styles";
 
 interface Props {
   article?: IArticle;
@@ -89,20 +85,13 @@ const LearningResourceForm = ({
     ndlaId,
   });
   const contexts = useMemo(
-    () =>
-      articleTaxonomy
-        ?.flatMap((node) => node.contexts)
-        .filter((context) => !context.rootId.includes('programme')),
+    () => articleTaxonomy?.flatMap((node) => node.contexts).filter((context) => !context.rootId.includes("programme")),
     [articleTaxonomy],
   );
 
   const handleSubmit: HandleSubmitFunc<LearningResourceFormType> = useCallback(
     async (values, helpers, saveAsNew) => {
-      if (
-        !contexts?.length &&
-        values.status?.current !== ARCHIVED &&
-        values.status?.current !== UNPUBLISHED
-      ) {
+      if (!contexts?.length && values.status?.current !== ARCHIVED && values.status?.current !== UNPUBLISHED) {
         setShowTaxWarning(true);
         return;
       }
@@ -119,10 +108,7 @@ const LearningResourceForm = ({
     };
   }, [article, initialValues, t]);
 
-  const initialErrors = useMemo(
-    () => validateFormik(initialValues, learningResourceRules, t),
-    [initialValues, t],
-  );
+  const initialErrors = useMemo(() => validateFormik(initialValues, learningResourceRules, t), [initialValues, t]);
 
   return (
     <Formik
@@ -174,12 +160,12 @@ const LearningResourceForm = ({
           article={article}
         />
         <AlertModal
-          title={t('errorMessage.missingTaxTitle')}
-          label={t('errorMessage.missingTaxTitle')}
+          title={t("errorMessage.missingTaxTitle")}
+          label={t("errorMessage.missingTaxTitle")}
           show={showTaxWarning}
-          text={t('errorMessage.missingTax')}
+          text={t("errorMessage.missingTax")}
           onCancel={() => setShowTaxWarning(false)}
-          severity={'danger'}
+          severity={"danger"}
         />
       </StyledForm>
     </Formik>
@@ -205,7 +191,9 @@ const _FormFooter = ({
 }: FormFooterProps) => {
   const { t } = useTranslation();
   const { data: licenses } = useLicenses();
-  const statusStateMachine = useDraftStatusStateMachine({ articleId: article?.id });
+  const statusStateMachine = useDraftStatusStateMachine({
+    articleId: article?.id,
+  });
   const formik = useFormikContext<LearningResourceFormType>();
   const { values, dirty, isSubmitting, initialValues } = formik;
 
@@ -255,7 +243,7 @@ const _FormFooter = ({
         isSubmitting={isSubmitting}
         formIsDirty={formIsDirty}
         severity="danger"
-        text={t('alertModal.notSaved')}
+        text={t("alertModal.notSaved")}
       />
     </>
   );

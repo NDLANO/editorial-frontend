@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { Editor, Node } from 'slate';
+import { Editor, Node } from "slate";
 
 const containsVoid = (editor: Editor, node: Node) => {
   const nodes = Node.elements(node);

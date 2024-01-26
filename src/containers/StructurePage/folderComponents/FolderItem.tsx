@@ -6,23 +6,23 @@
  *
  */
 
-import { useCallback, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2, IconButtonV2 } from '@ndla/button';
-import { spacing, fonts, mq, breakpoints } from '@ndla/core';
-import { Plus } from '@ndla/icons/action';
-import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
-import Tooltip from '@ndla/tooltip';
-import { Node } from '@ndla/types-taxonomy';
-import SettingsMenu from './SettingsMenu';
-import { Row } from '../../../components';
-import Spinner from '../../../components/Spinner';
-import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
-import { getNodeTypeFromNodeId } from '../../../modules/nodes/nodeUtil';
-import AddNodeModalContent from '../AddNodeModalContent';
-import AddResourceModal from '../plannedResource/AddResourceModal';
-import PlannedResourceForm from '../plannedResource/PlannedResourceForm';
+import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2, IconButtonV2 } from "@ndla/button";
+import { spacing, fonts, mq, breakpoints } from "@ndla/core";
+import { Plus } from "@ndla/icons/action";
+import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
+import Tooltip from "@ndla/tooltip";
+import { Node } from "@ndla/types-taxonomy";
+import SettingsMenu from "./SettingsMenu";
+import { Row } from "../../../components";
+import Spinner from "../../../components/Spinner";
+import TaxonomyLightbox from "../../../components/Taxonomy/TaxonomyLightbox";
+import { getNodeTypeFromNodeId } from "../../../modules/nodes/nodeUtil";
+import AddNodeModalContent from "../AddNodeModalContent";
+import AddResourceModal from "../plannedResource/AddResourceModal";
+import PlannedResourceForm from "../plannedResource/PlannedResourceForm";
 
 const StyledResourceButton = styled(ButtonV2)`
   min-height: unset;
@@ -76,7 +76,7 @@ const FolderItem = ({
   const { t } = useTranslation();
 
   const close = useCallback(() => setOpen(false), [setOpen]);
-  const showJumpToResources = isMainActive && node.id.includes('topic');
+  const showJumpToResources = isMainActive && node.id.includes("topic");
 
   return (
     <StyledFolderWrapper data-testid="folderWrapper">
@@ -92,12 +92,7 @@ const FolderItem = ({
             <Tooltip tooltip={addChildTooltip}>
               <IconButtonContainer>
                 <ModalTrigger>
-                  <IconButtonV2
-                    size="xsmall"
-                    variant="ghost"
-                    title={addChildTooltip}
-                    aria-label={addChildTooltip}
-                  >
+                  <IconButtonV2 size="xsmall" variant="ghost" title={addChildTooltip} aria-label={addChildTooltip}>
                     <Plus />
                   </IconButtonV2>
                 </ModalTrigger>
@@ -105,18 +100,18 @@ const FolderItem = ({
             </Tooltip>
             <ModalContent
               forceOverlay
-              size={node.id.includes('topic') ? { height: 'normal', width: 'normal' } : 'normal'}
+              size={node.id.includes("topic") ? { height: "normal", width: "normal" } : "normal"}
               position="top"
             >
-              {node.id.includes('topic') || node.id.includes('subject') ? (
-                <TaxonomyLightbox title={t('taxonomy.addTopicHeader')}>
+              {node.id.includes("topic") || node.id.includes("subject") ? (
+                <TaxonomyLightbox title={t("taxonomy.addTopicHeader")}>
                   <AddResourceModal>
                     <PlannedResourceForm node={node} articleType="topic-article" onClose={close} />
                   </AddResourceModal>
                 </TaxonomyLightbox>
               ) : (
                 <TaxonomyLightbox
-                  title={t('taxonomy.addNode', {
+                  title={t("taxonomy.addNode", {
                     nodeType: t(`taxonomy.nodeType.${node.nodeType}`),
                   })}
                 >
@@ -133,13 +128,9 @@ const FolderItem = ({
         </ControlButtonsWrapper>
       )}
       {showJumpToResources && (
-        <StyledResourceButton
-          variant="outline"
-          disabled={resourcesLoading}
-          onClick={() => jumpToResources?.()}
-        >
+        <StyledResourceButton variant="outline" disabled={resourcesLoading} onClick={() => jumpToResources?.()}>
           <Row>
-            {t('taxonomy.jumpToResources')}
+            {t("taxonomy.jumpToResources")}
             {!!resourcesLoading && <Spinner appearance="small" />}
           </Row>
         </StyledResourceButton>

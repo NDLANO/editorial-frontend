@@ -6,10 +6,10 @@
  *
  */
 
-import { useQuery, UseQueryOptions } from '@tanstack/react-query';
-import { fetchAuth0Editors, fetchAuth0Responsibles, fetchAuth0Users } from './auth0Api';
-import { Auth0UserData } from '../../interfaces';
-import { AUTH0_EDITORS, AUTH0_RESPONSIBLES, AUTH0_USERS } from '../../queryKeys';
+import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { fetchAuth0Editors, fetchAuth0Responsibles, fetchAuth0Users } from "./auth0Api";
+import { Auth0UserData } from "../../interfaces";
+import { AUTH0_EDITORS, AUTH0_RESPONSIBLES, AUTH0_USERS } from "../../queryKeys";
 
 export interface Auth0Users {
   uniqueUserIds: string;
@@ -21,10 +21,7 @@ export const auth0QueryKeys = {
   responsibles: (params?: Partial<Auth0Editors>) => [AUTH0_RESPONSIBLES, params] as const,
 };
 
-export const useAuth0Users = (
-  params: Auth0Users,
-  options: Partial<UseQueryOptions<Auth0UserData[]>>,
-) =>
+export const useAuth0Users = (params: Auth0Users, options: Partial<UseQueryOptions<Auth0UserData[]>>) =>
   useQuery<Auth0UserData[]>({
     queryKey: auth0QueryKeys.users(params),
     queryFn: () => fetchAuth0Users(params.uniqueUserIds),
@@ -35,9 +32,7 @@ export interface Auth0Editors {
   permission: string;
 }
 
-export const useAuth0Editors = <ReturnType>(
-  options: Partial<UseQueryOptions<Auth0UserData[], unknown, ReturnType>>,
-) =>
+export const useAuth0Editors = <ReturnType>(options: Partial<UseQueryOptions<Auth0UserData[], unknown, ReturnType>>) =>
   useQuery<Auth0UserData[], unknown, ReturnType>({
     queryKey: auth0QueryKeys.editors,
     queryFn: () => fetchAuth0Editors(),

@@ -17,17 +17,17 @@ import {
   useEffect,
   useMemo,
   useRef,
-} from 'react';
-import { Editor, Range } from 'slate';
-import { useSlate, useSlateSelection } from 'slate-react';
-import styled from '@emotion/styled';
-import { Portal } from '@radix-ui/react-portal';
-import { ToggleGroup, Toolbar, ToolbarSeparator } from '@radix-ui/react-toolbar';
-import { colors, spacing, misc } from '@ndla/core';
-import { ToolbarBlockOptions } from './ToolbarBlockOptions';
-import { ToolbarInlineOptions } from './ToolbarInlineOptions';
-import { ToolbarLanguageOptions } from './ToolbarLanguageOptions';
-import { ToolbarMarkOptions } from './ToolbarMarkOptions';
+} from "react";
+import { Editor, Range } from "slate";
+import { useSlate, useSlateSelection } from "slate-react";
+import styled from "@emotion/styled";
+import { Portal } from "@radix-ui/react-portal";
+import { ToggleGroup, Toolbar, ToolbarSeparator } from "@radix-ui/react-toolbar";
+import { colors, spacing, misc } from "@ndla/core";
+import { ToolbarBlockOptions } from "./ToolbarBlockOptions";
+import { ToolbarInlineOptions } from "./ToolbarInlineOptions";
+import { ToolbarLanguageOptions } from "./ToolbarLanguageOptions";
+import { ToolbarMarkOptions } from "./ToolbarMarkOptions";
 import {
   getEditorAncestors,
   toolbarState,
@@ -35,9 +35,9 @@ import {
   AreaFilters,
   ToolbarValue,
   ToolbarValues,
-} from './toolbarState';
-import { ToolbarTableOptions } from './ToolbarTableOptions';
-import { ToolbarTextOptions } from './ToolbarTextOptions';
+} from "./toolbarState";
+import { ToolbarTableOptions } from "./ToolbarTableOptions";
+import { ToolbarTextOptions } from "./ToolbarTextOptions";
 
 const ToolbarContainer = styled(Toolbar)`
   left: -10000px;
@@ -75,7 +75,7 @@ export const StyledToggleGroup = styled(ToggleGroup)`
 `;
 
 export const showToolbar = (toolbar: HTMLElement) => {
-  toolbar.style.display = 'flex';
+  toolbar.style.display = "flex";
   const native = window.getSelection();
   if (!native) {
     return;
@@ -83,7 +83,7 @@ export const showToolbar = (toolbar: HTMLElement) => {
   const range = native.getRangeAt(0);
   const rect = range.getBoundingClientRect();
 
-  toolbar.style.opacity = '1';
+  toolbar.style.opacity = "1";
   const left = rect.left + window.scrollX - toolbar.offsetWidth / 2 + rect.width / 2;
 
   toolbar.style.top = `${rect.top + window.scrollY - toolbar.offsetHeight}px`;
@@ -108,7 +108,7 @@ const SlateToolbar = ({ options: toolbarOptions, areaOptions }: Props) => {
     return (
       !selection ||
       Range.isCollapsed(selection) ||
-      Editor.string(editor, selection) === '' ||
+      Editor.string(editor, selection) === "" ||
       !editor.shouldShowToolbar()
     );
   }, [editor, selection]);
@@ -116,7 +116,7 @@ const SlateToolbar = ({ options: toolbarOptions, areaOptions }: Props) => {
   useEffect(() => {
     if (!portalRef.current) return;
     if (hideToolbar) {
-      portalRef.current.removeAttribute('style');
+      portalRef.current.removeAttribute("style");
     }
     showToolbar(portalRef.current);
   });
@@ -149,28 +149,26 @@ const SlateToolbar = ({ options: toolbarOptions, areaOptions }: Props) => {
   );
 };
 
-const ToolbarRow = forwardRef<HTMLDivElement, ComponentPropsWithRef<'div'>>(
-  ({ children, ...rest }, ref) => {
-    const count = Children.count(children);
+const ToolbarRow = forwardRef<HTMLDivElement, ComponentPropsWithRef<"div">>(({ children, ...rest }, ref) => {
+  const count = Children.count(children);
 
-    // Do not draw separators for categories with only disabled and hidden options
-    const validChildren = Children.toArray(children).filter(
-      (child) =>
-        isValidElement<ToolbarCategoryProps<ToolbarValues>>(child) &&
-        !child.props.options?.every((el) => el.hidden === true),
-    );
+  // Do not draw separators for categories with only disabled and hidden options
+  const validChildren = Children.toArray(children).filter(
+    (child) =>
+      isValidElement<ToolbarCategoryProps<ToolbarValues>>(child) &&
+      !child.props.options?.every((el) => el.hidden === true),
+  );
 
-    return (
-      <StyledToolbarRow ref={ref} {...rest}>
-        {Children.map(validChildren, (child, i) => (
-          <>
-            {child}
-            {i < count && <StyledToolbarSeparator />}
-          </>
-        ))}
-      </StyledToolbarRow>
-    );
-  },
-);
+  return (
+    <StyledToolbarRow ref={ref} {...rest}>
+      {Children.map(validChildren, (child, i) => (
+        <>
+          {child}
+          {i < count && <StyledToolbarSeparator />}
+        </>
+      ))}
+    </StyledToolbarRow>
+  );
+});
 
 export default memo(SlateToolbar);

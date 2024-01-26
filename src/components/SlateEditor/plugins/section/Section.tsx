@@ -5,21 +5,21 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { ReactNode } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Editor, Transforms } from 'slate';
-import { ReactEditor, RenderElementProps } from 'slate-react';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { colors } from '@ndla/core';
-import { DeleteForever } from '@ndla/icons/editor';
-import Tooltip from '@ndla/tooltip';
-import { SectionElement } from '.';
+import { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Transforms } from "slate";
+import { ReactEditor, RenderElementProps } from "slate-react";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { colors } from "@ndla/core";
+import { DeleteForever } from "@ndla/icons/editor";
+import Tooltip from "@ndla/tooltip";
+import { SectionElement } from ".";
 
-import StyledFormContainer from '../../common/StyledFormContainer';
+import StyledFormContainer from "../../common/StyledFormContainer";
 
 interface Props {
-  attributes: RenderElementProps['attributes'];
+  attributes: RenderElementProps["attributes"];
   element: SectionElement;
   children: ReactNode;
   editor: Editor;
@@ -49,7 +49,7 @@ const Section = ({ attributes, children, element, editor }: Props) => {
       <StyledSection {...attributes}>{children}</StyledSection>
       {editor.children.length > 1 && (
         <TooltipWrapper contentEditable={false}>
-          <Tooltip tooltip={t('form.section.remove')}>
+          <Tooltip tooltip={t("form.section.remove")}>
             <ButtonV2
               contentEditable={false}
               colorTheme="danger"

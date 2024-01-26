@@ -6,22 +6,22 @@
  *
  */
 
-import { Dispatch, SetStateAction, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { colors } from '@ndla/core';
-import { Concept, Globe } from '@ndla/icons/editor';
-import { getLicenseByAbbreviation } from '@ndla/licenses';
-import { IConceptSummary } from '@ndla/types-backend/concept-api';
-import { Node } from '@ndla/types-taxonomy';
-import { Text } from '@ndla/typography';
-import { LicenseLink } from '@ndla/ui';
-import HeaderStatusInformation from '../../../../components/HeaderWithLanguage/HeaderStatusInformation';
-import { LocaleType } from '../../../../interfaces';
-import { useLicenses } from '../../../../modules/draft/draftQueries';
-import formatDate from '../../../../util/formatDate';
-import { toEditConcept, toEditGloss } from '../../../../util/routeHelpers';
+import { Dispatch, SetStateAction, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+import styled from "@emotion/styled";
+import { colors } from "@ndla/core";
+import { Concept, Globe } from "@ndla/icons/editor";
+import { getLicenseByAbbreviation } from "@ndla/licenses";
+import { IConceptSummary } from "@ndla/types-backend/concept-api";
+import { Node } from "@ndla/types-taxonomy";
+import { Text } from "@ndla/typography";
+import { LicenseLink } from "@ndla/ui";
+import HeaderStatusInformation from "../../../../components/HeaderWithLanguage/HeaderStatusInformation";
+import { LocaleType } from "../../../../interfaces";
+import { useLicenses } from "../../../../modules/draft/draftQueries";
+import formatDate from "../../../../util/formatDate";
+import { toEditConcept, toEditGloss } from "../../../../util/routeHelpers";
 import {
   NoShadowAnchor,
   StyledSearchBreadcrumb,
@@ -31,7 +31,7 @@ import {
   StyledSearchImageContainer,
   StyledSearchResult,
   StyledSearchTitle,
-} from '../form/StyledSearchComponents';
+} from "../form/StyledSearchComponents";
 
 interface Props {
   concept: IConceptSummary;
@@ -55,13 +55,11 @@ const StyledLink = styled(Link)`
   }
 `;
 
-const Title = StyledSearchTitle.withComponent('h2');
+const Title = StyledSearchTitle.withComponent("h2");
 const NoShadowLink = NoShadowAnchor.withComponent(Link);
 
 const toEditConceptPage = (concept: IConceptSummary, locale?: string) =>
-  concept.conceptType === 'concept'
-    ? toEditConcept(concept.id, locale)
-    : toEditGloss(concept.id, locale);
+  concept.conceptType === "concept" ? toEditConcept(concept.id, locale) : toEditGloss(concept.id, locale);
 
 const SearchConcept = ({ concept, locale, subjects, editingState, responsibleName }: Props) => {
   const { t } = useTranslation();
@@ -73,7 +71,7 @@ const SearchConcept = ({ concept, locale, subjects, editingState, responsibleNam
 
   const conceptInfo = concept.glossData ? concept.title.title : concept.content.content;
   const { url: metaImageSrc, alt: metaImageAlt } = concept.metaImage || {};
-  const isGloss = concept.conceptType === 'gloss';
+  const isGloss = concept.conceptType === "gloss";
   const breadcrumbs = subjects.filter((s) => concept.subjectIds?.includes(s.id));
 
   return (
@@ -95,26 +93,23 @@ const SearchConcept = ({ concept, locale, subjects, editingState, responsibleNam
             </Title>
           </FlexBoxWrapper>
           <Text element="span" textStyle="meta-text-xsmall">
-            {`${t('topicArticleForm.info.lastUpdated')} ${formatDate(concept.lastUpdated)}`}
+            {`${t("topicArticleForm.info.lastUpdated")} ${formatDate(concept.lastUpdated)}`}
           </Text>
           <div>
             {concept.supportedLanguages.map((lang) => {
               return lang !== locale ? (
-                <StyledLink
-                  key={`language_${lang}_${concept.id}`}
-                  to={toEditConceptPage(concept, lang)}
-                >
+                <StyledLink key={`language_${lang}_${concept.id}`} to={toEditConceptPage(concept, lang)}>
                   {t(`languages.${lang}`)}
                 </StyledLink>
               ) : (
-                ''
+                ""
               );
             })}
           </div>
         </div>
         <StyledSearchDescription>{conceptInfo}</StyledSearchDescription>
         {license && <LicenseLink license={getLicenseByAbbreviation(license.license, locale)} />}
-        <StyledSearchBreadcrumbs style={{ marginTop: '0px' }}>
+        <StyledSearchBreadcrumbs style={{ marginTop: "0px" }}>
           {breadcrumbs?.map((breadcrumb) => (
             <StyledSearchBreadcrumb key={breadcrumb.id}>{breadcrumb.name}</StyledSearchBreadcrumb>
           )) || <StyledSearchBreadcrumb />}
@@ -123,9 +118,7 @@ const SearchConcept = ({ concept, locale, subjects, editingState, responsibleNam
             inSearch
             type="concept"
             statusText={t(`form.status.${concept.status?.current.toLowerCase()}`)}
-            published={
-              concept.status?.current === 'PUBLISHED' || concept.status?.other.includes('PUBLISHED')
-            }
+            published={concept.status?.current === "PUBLISHED" || concept.status?.other.includes("PUBLISHED")}
             compact
             responsibleName={responsibleName}
           />

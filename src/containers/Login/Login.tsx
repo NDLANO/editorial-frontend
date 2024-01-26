@@ -6,17 +6,17 @@
  *
  */
 
-import { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Route, useNavigate, useLocation, Routes } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { HelmetWithTracker } from '@ndla/tracker';
-import { OneColumn } from '@ndla/ui';
-import LoginFailure from './LoginFailure';
-import LoginProviders from './LoginProviders';
-import LoginSuccess from './LoginSuccess';
-import Footer from '../App/components/Footer';
-import { useSession } from '../Session/SessionProvider';
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { Route, useNavigate, useLocation, Routes } from "react-router-dom";
+import styled from "@emotion/styled";
+import { HelmetWithTracker } from "@ndla/tracker";
+import { OneColumn } from "@ndla/ui";
+import LoginFailure from "./LoginFailure";
+import LoginProviders from "./LoginProviders";
+import LoginSuccess from "./LoginSuccess";
+import Footer from "../App/components/Footer";
+import { useSession } from "../Session/SessionProvider";
 
 const StyledOneColumn = styled(OneColumn)`
   flex: 1;
@@ -28,14 +28,14 @@ export const Login = () => {
   const navigate = useNavigate();
   const { authenticated } = useSession();
   useEffect(() => {
-    if (authenticated && location.hash === '' && location.pathname.startsWith('/login/')) {
-      navigate('/');
+    if (authenticated && location.hash === "" && location.pathname.startsWith("/login/")) {
+      navigate("/");
     }
   }, [authenticated, location.hash, location.pathname, navigate]);
 
   return (
     <>
-      <HelmetWithTracker title={t('htmlTitles.loginPage')} />
+      <HelmetWithTracker title={t("htmlTitles.loginPage")} />
       <StyledOneColumn cssModifier="clear">
         <div className="u-2/3@desktop u-push-1/3@desktop">
           <Routes>

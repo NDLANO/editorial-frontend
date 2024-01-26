@@ -6,9 +6,9 @@
  *
  */
 
-import { Editor } from 'slate';
-import styled from '@emotion/styled';
-import Span from '../span/Span';
+import { Editor } from "slate";
+import styled from "@emotion/styled";
+import Span from "../span/Span";
 
 const StyledCode = styled.code`
   display: inline;

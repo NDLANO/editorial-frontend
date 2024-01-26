@@ -6,20 +6,20 @@
  *
  */
 
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { useQueryClient } from '@tanstack/react-query';
-import { spacing } from '@ndla/core';
-import { Eye } from '@ndla/icons/editor';
-import { Switch } from '@ndla/switch';
-import { Node, NodeType } from '@ndla/types-taxonomy';
-import MenuItemButton from './components/MenuItemButton';
-import RoundIcon from '../../../../components/RoundIcon';
-import { useUpdateNodeMetadataMutation } from '../../../../modules/nodes/nodeMutations';
-import { nodeQueryKeys } from '../../../../modules/nodes/nodeQueries';
-import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
-import { EditModeHandler } from '../SettingsMenuDropdownType';
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { useQueryClient } from "@tanstack/react-query";
+import { spacing } from "@ndla/core";
+import { Eye } from "@ndla/icons/editor";
+import { Switch } from "@ndla/switch";
+import { Node, NodeType } from "@ndla/types-taxonomy";
+import MenuItemButton from "./components/MenuItemButton";
+import RoundIcon from "../../../../components/RoundIcon";
+import { useUpdateNodeMetadataMutation } from "../../../../modules/nodes/nodeMutations";
+import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
+import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
+import { EditModeHandler } from "../SettingsMenuDropdownType";
 
 interface Props {
   node: Node;
@@ -28,7 +28,7 @@ interface Props {
   rootNodeType?: NodeType;
 }
 
-export const DropDownWrapper = styled('div')`
+export const DropDownWrapper = styled("div")`
   display: flex;
   justify-content: space-between;
   font-size: 0.9rem;
@@ -40,7 +40,7 @@ const ToggleVisibility = ({
   node,
   editModeHandler: { toggleEditMode, editMode },
   rootNodeId,
-  rootNodeType = 'SUBJECT',
+  rootNodeType = "SUBJECT",
 }: Props) => {
   const { t, i18n } = useTranslation();
   const { name, id, metadata } = node;
@@ -69,18 +69,18 @@ const ToggleVisibility = ({
     setVisible(!visible);
   };
 
-  const toggleEditModes = () => toggleEditMode('toggleMetadataVisibility');
+  const toggleEditModes = () => toggleEditMode("toggleMetadataVisibility");
 
   return (
     <>
       <MenuItemButton data-testid="toggleVisibilityButton" onClick={toggleEditModes}>
         <RoundIcon small icon={<Eye />} />
-        {t('metadata.changeVisibility')}
+        {t("metadata.changeVisibility")}
       </MenuItemButton>
-      {editMode === 'toggleMetadataVisibility' && (
+      {editMode === "toggleMetadataVisibility" && (
         <DropDownWrapper>
-          {name} {t(`metadata.${visible ? 'visible' : 'notVisible'}`)}
-          <Switch onChange={toggleVisibility} checked={visible} label="" id={'visible'} />
+          {name} {t(`metadata.${visible ? "visible" : "notVisible"}`)}
+          <Switch onChange={toggleVisibility} checked={visible} label="" id={"visible"} />
         </DropDownWrapper>
       )}
     </>

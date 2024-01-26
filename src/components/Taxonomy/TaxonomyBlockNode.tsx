@@ -6,22 +6,17 @@
  *
  */
 
-import { useCallback, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { colors, fonts, spacing } from '@ndla/core';
-import { Check } from '@ndla/icons/editor';
-import { Node, NodeChild } from '@ndla/types-taxonomy';
-import Fade from './Fade';
-import {
-  ItemTitleButton,
-  StructureWrapper,
-  StyledItemBar,
-  StyledStructureItem,
-} from './nodeStyles';
-import { MinimalNodeChild } from '../../containers/ArticlePage/LearningResourcePage/components/LearningResourceTaxonomy';
-import { NodeChildWithChildren } from '../../modules/nodes/nodeQueries';
+import { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { colors, fonts, spacing } from "@ndla/core";
+import { Check } from "@ndla/icons/editor";
+import { Node, NodeChild } from "@ndla/types-taxonomy";
+import Fade from "./Fade";
+import { ItemTitleButton, StructureWrapper, StyledItemBar, StyledStructureItem } from "./nodeStyles";
+import { MinimalNodeChild } from "../../containers/ArticlePage/LearningResourcePage/components/LearningResourceTaxonomy";
+import { NodeChildWithChildren } from "../../modules/nodes/nodeQueries";
 
 export interface NodeWithChildren extends Node {
   childNodes?: NodeChildWithChildren[];
@@ -63,10 +58,7 @@ export const TaxonomyBlockNode = ({
 }: Props) => {
   const { t } = useTranslation();
   const isOpen = useMemo(() => openedPaths.includes(node.id), [openedPaths, node.id]);
-  const isActive = useMemo(
-    () => openedPaths[openedPaths.length - 1] === node.id,
-    [openedPaths, node.id],
-  );
+  const isActive = useMemo(() => openedPaths[openedPaths.length - 1] === node.id, [openedPaths, node.id]);
 
   const isSelected = useMemo(() => {
     return selectedNodes.some((sel) => sel.id === node.id);
@@ -91,16 +83,11 @@ export const TaxonomyBlockNode = ({
         {isSelected ? (
           <StyledChecked>
             <Check />
-            <span>{t('taxonomy.topics.addedTopic')}</span>
+            <span>{t("taxonomy.topics.addedTopic")}</span>
           </StyledChecked>
         ) : onRootSelected ? (
-          <StyledButton
-            data-select-button=""
-            variant="outline"
-            size="small"
-            onClick={() => onRootSelected(node)}
-          >
-            {t('taxonomy.topics.filestructureButton')}
+          <StyledButton data-select-button="" variant="outline" size="small" onClick={() => onRootSelected(node)}>
+            {t("taxonomy.topics.filestructureButton")}
           </StyledButton>
         ) : null}
       </ItemBar>
@@ -150,20 +137,10 @@ const StyledButton = styled(ButtonV2)`
   opacity: 0;
 `;
 
-const ChildNode = ({
-  node,
-  onSelect,
-  toggleOpen,
-  openedPaths,
-  parentActive,
-  selectedNodes,
-}: NodeItemProps) => {
+const ChildNode = ({ node, onSelect, toggleOpen, openedPaths, parentActive, selectedNodes }: NodeItemProps) => {
   const { t } = useTranslation();
   const isOpen = useMemo(() => openedPaths.includes(node.id), [openedPaths, node.id]);
-  const isActive = useMemo(
-    () => openedPaths[openedPaths.length - 1] === node.id,
-    [openedPaths, node.id],
-  );
+  const isActive = useMemo(() => openedPaths[openedPaths.length - 1] === node.id, [openedPaths, node.id]);
 
   const isSelected = useMemo(() => {
     return selectedNodes.some((sel) => sel.id === node.id);
@@ -188,11 +165,11 @@ const ChildNode = ({
         {isSelected ? (
           <StyledChecked>
             <Check />
-            <span>{t('taxonomy.topics.addedTopic')}</span>
+            <span>{t("taxonomy.topics.addedTopic")}</span>
           </StyledChecked>
         ) : (
           <StyledButton data-select-button="" variant="outline" size="small" onClick={onSelected}>
-            {t('taxonomy.topics.filestructureButton')}
+            {t("taxonomy.topics.filestructureButton")}
           </StyledButton>
         )}
       </ItemBar>

@@ -6,15 +6,15 @@
  *
  */
 
-import { MouseEvent } from 'react';
-import { Editor, Transforms } from 'slate';
-import { ReactEditor } from 'slate-react';
-import RelatedArticleBox from './RelatedArticleBox';
+import { MouseEvent } from "react";
+import { Editor, Transforms } from "slate";
+import { ReactEditor } from "slate-react";
+import RelatedArticleBox from "./RelatedArticleBox";
 
 export const relatedRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
-    if (element.type === 'related') {
+    if (element.type === "related") {
       return (
         <RelatedArticleBox
           attributes={attributes}

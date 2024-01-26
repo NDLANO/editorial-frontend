@@ -6,4 +6,4 @@
  *
  */
 
-export const TYPE_FILE = 'file';
+export const TYPE_FILE = "file";

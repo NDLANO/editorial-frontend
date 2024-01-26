@@ -6,12 +6,12 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
-import FormikField from '../../../components/FormikField';
-import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
-import { textTransformPlugin } from '../../../components/SlateEditor/plugins/textTransform';
-import { MetaImageSearch } from '../../FormikForm';
+import FormikField from "../../../components/FormikField";
+import PlainTextEditor from "../../../components/SlateEditor/PlainTextEditor";
+import { textTransformPlugin } from "../../../components/SlateEditor/plugins/textTransform";
+import { MetaImageSearch } from "../../FormikForm";
 
 interface Props {
   language?: string;
@@ -25,18 +25,13 @@ const PodcastMetaData = ({ language, onImageLoad }: Props) => {
 
   return (
     <>
-      <FormikField
-        label={t('podcastForm.fields.introduction')}
-        name="introduction"
-        maxLength={1000}
-        showMaxLength
-      >
+      <FormikField label={t("podcastForm.fields.introduction")} name="introduction" maxLength={1000} showMaxLength>
         {({ field }) => (
           <PlainTextEditor
             id={field.name}
             {...field}
-            className={'introduction'}
-            placeholder={t('podcastForm.fields.introduction')}
+            className={"introduction"}
+            placeholder={t("podcastForm.fields.introduction")}
             plugins={plugins}
           />
         )}

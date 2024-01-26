@@ -6,10 +6,10 @@
  *
  */
 
-import { IAudioMetaInformation } from '@ndla/types-backend/audio-api';
-import { IArticle, IRelatedContentLink } from '@ndla/types-backend/draft-api';
-import { AudioEmbedData, H5pEmbedData } from '@ndla/types-embed';
-import { SearchTypeValues, LOCALE_VALUES } from './constants';
+import { IAudioMetaInformation } from "@ndla/types-backend/audio-api";
+import { IArticle, IRelatedContentLink } from "@ndla/types-backend/draft-api";
+import { AudioEmbedData, H5pEmbedData } from "@ndla/types-embed";
+import { SearchTypeValues, LOCALE_VALUES } from "./constants";
 
 export interface FormikStatus {
   status?: string;
@@ -37,25 +37,25 @@ export type PartialRecord<K extends keyof any, T> = {
 };
 
 export type EditMode =
-  | 'changeSubjectName'
-  | 'deleteTopic'
-  | 'addExistingSubjectTopic'
-  | 'openCustomFields'
-  | 'toggleMetadataVisibility'
-  | 'editGrepCodes'
-  | 'moveExistingNode'
-  | 'addTopic'
-  | 'deleteSubject'
-  | 'requestPublish'
-  | 'deleteNode'
-  | 'disconnectFromParent'
-  | 'copyResources'
-  | 'cloneResources'
-  | 'copyRevisionDate'
-  | 'swapTopicArticle'
-  | 'setResourcesPrimary'
-  | 'connectExistingNode'
-  | '';
+  | "changeSubjectName"
+  | "deleteTopic"
+  | "addExistingSubjectTopic"
+  | "openCustomFields"
+  | "toggleMetadataVisibility"
+  | "editGrepCodes"
+  | "moveExistingNode"
+  | "addTopic"
+  | "deleteSubject"
+  | "requestPublish"
+  | "deleteNode"
+  | "disconnectFromParent"
+  | "copyResources"
+  | "cloneResources"
+  | "copyRevisionDate"
+  | "swapTopicArticle"
+  | "setResourcesPrimary"
+  | "connectExistingNode"
+  | "";
 
 export interface SearchResultBase<T> {
   totalCount: number;
@@ -89,39 +89,35 @@ export interface ZendeskToken {
   token: string;
 }
 
-export type TypeOfPreview =
-  | 'preview'
-  | 'previewLanguageArticle'
-  | 'previewVersion'
-  | 'previewProductionArticle';
+export type TypeOfPreview = "preview" | "previewLanguageArticle" | "previewVersion" | "previewProductionArticle";
 
 export type RelatedContent = IRelatedContentLink | number;
 
 export type ConvertedRelatedContent = RelatedContent | IArticle;
 
-export type MessageSeverity = 'danger' | 'info' | 'success' | 'warning';
+export type MessageSeverity = "danger" | "info" | "success" | "warning";
 export interface ImageEmbed {
-  resource: 'image';
+  resource: "image";
   resource_id: string;
   size?: string;
   align?: string;
   alt: string;
   caption?: string;
   url?: string;
-  'focal-x'?: string;
-  'focal-y'?: string;
-  'lower-right-y'?: string;
-  'lower-right-x'?: string;
-  'upper-left-y'?: string;
-  'upper-left-x'?: string;
+  "focal-x"?: string;
+  "focal-y"?: string;
+  "lower-right-y"?: string;
+  "lower-right-x"?: string;
+  "upper-left-y"?: string;
+  "upper-left-x"?: string;
   metaData?: any;
-  'is-decorative'?: string;
+  "is-decorative"?: string;
   allowDecorative?: string;
   border?: string;
 }
 
 export interface BrightcoveEmbed {
-  resource: 'brightcove' | 'video';
+  resource: "brightcove" | "video";
   alt?: string;
   videoid: string;
   caption: string;
@@ -133,14 +129,14 @@ export interface BrightcoveEmbed {
 }
 
 export interface H5pEmbed {
-  resource: 'h5p';
+  resource: "h5p";
   path: string;
   url?: string;
   title?: string;
 }
 
 export interface ExternalEmbed {
-  resource: 'external' | 'iframe';
+  resource: "external" | "iframe";
   url: string;
   type?: string;
   metaData?: any;
@@ -153,17 +149,11 @@ export interface ExternalEmbed {
 }
 
 export interface ErrorEmbed {
-  resource: 'error';
+  resource: "error";
   message: string;
 }
 
-export type Embed =
-  | ImageEmbed
-  | BrightcoveEmbed
-  | AudioEmbedData
-  | H5pEmbedData
-  | ExternalEmbed
-  | ErrorEmbed;
+export type Embed = ImageEmbed | BrightcoveEmbed | AudioEmbedData | H5pEmbedData | ExternalEmbed | ErrorEmbed;
 
 export interface FileFormat {
   url: string;
@@ -187,7 +177,7 @@ export interface UnsavedFile {
   type: string;
 }
 
-export interface SlateAudio extends Omit<IAudioMetaInformation, 'title'> {
+export interface SlateAudio extends Omit<IAudioMetaInformation, "title"> {
   title: string;
 }
 
@@ -228,7 +218,7 @@ export type Dictionary<T> = Record<string, T>;
 
 interface BaseApiTranslateType {
   content: string | string[];
-  type: 'text' | 'html';
+  type: "text" | "html";
   isArray: true | false;
 }
 
@@ -245,21 +235,21 @@ interface ApiTranslateTypeArray extends BaseApiTranslateType {
 export type ApiTranslateType = ApiTranslateTypeSingle | ApiTranslateTypeArray;
 
 type Keys =
-  | 'type'
-  | 'query'
-  | 'language'
-  | 'audio-type'
-  | 'draft-status'
-  | 'resource-types'
-  | 'article-types'
-  | 'context-type'
-  | 'users'
-  | 'license'
-  | 'model-released'
-  | 'responsible-ids'
-  | 'subjects'
-  | 'filter-inactive'
-  | 'concept-type';
+  | "type"
+  | "query"
+  | "language"
+  | "audio-type"
+  | "draft-status"
+  | "resource-types"
+  | "article-types"
+  | "context-type"
+  | "users"
+  | "license"
+  | "model-released"
+  | "responsible-ids"
+  | "subjects"
+  | "filter-inactive"
+  | "concept-type";
 
 export type SearchObjectType = {
   [K in Keys]?: string;

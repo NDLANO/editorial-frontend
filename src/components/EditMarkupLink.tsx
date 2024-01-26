@@ -6,10 +6,10 @@
  *
  */
 
-import { Link, useLocation } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { colors, spacing } from '@ndla/core';
-import { Code } from '@ndla/icons/editor';
+import { Link, useLocation } from "react-router-dom";
+import styled from "@emotion/styled";
+import { colors, spacing } from "@ndla/core";
+import { Code } from "@ndla/icons/editor";
 
 interface Props {
   to: string;
@@ -21,7 +21,7 @@ interface StyledLinkProps {
   inHeader: boolean;
 }
 
-const shouldForwardProp = (prop: string) => prop !== 'inHeader';
+const shouldForwardProp = (prop: string) => prop !== "inHeader";
 
 const StyledLink = styled(Link, { shouldForwardProp })<StyledLinkProps>`
   box-shadow: none;
@@ -45,7 +45,7 @@ const StyledLink = styled(Link, { shouldForwardProp })<StyledLinkProps>`
       fill: ${colors.brand.light};
     }
   }
-  &[data-in-header='true'] {
+  &[data-in-header="true"] {
     width: ${spacing.normal};
     padding-left: 0.4em;
     padding-right: 1.2em;

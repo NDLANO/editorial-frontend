@@ -6,20 +6,20 @@
  *
  */
 
-import { useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { colors, fonts, spacing } from '@ndla/core';
-import { RssFeed, Time } from '@ndla/icons/common';
-import { Check, AlertCircle } from '@ndla/icons/editor';
-import SafeLink from '@ndla/safelink';
-import { IConceptSummary } from '@ndla/types-backend/concept-api';
-import { ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
-import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
-import EmbedConnection from './EmbedInformation/EmbedConnection';
-import LearningpathConnection from './LearningpathConnection';
-import config from '../../config';
-import formatDate from '../../util/formatDate';
+import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { colors, fonts, spacing } from "@ndla/core";
+import { RssFeed, Time } from "@ndla/icons/common";
+import { Check, AlertCircle } from "@ndla/icons/editor";
+import SafeLink from "@ndla/safelink";
+import { IConceptSummary } from "@ndla/types-backend/concept-api";
+import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
+import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
+import EmbedConnection from "./EmbedInformation/EmbedConnection";
+import LearningpathConnection from "./LearningpathConnection";
+import config from "../../config";
+import formatDate from "../../util/formatDate";
 
 export const StyledSplitter = styled.div`
   width: 1px;
@@ -34,7 +34,7 @@ const StyledStatusWrapper = styled.div`
   white-space: nowrap;
 `;
 
-export const getWarnStatus = (date?: string): 'warn' | 'expired' | undefined => {
+export const getWarnStatus = (date?: string): "warn" | "expired" | undefined => {
   if (!date) return undefined;
   const parsedDate = new Date(date);
 
@@ -43,15 +43,15 @@ export const getWarnStatus = (date?: string): 'warn' | 'expired' | undefined => 
   const warnDate = new Date();
   warnDate.setDate(errorDate.getDate() + daysToWarn);
 
-  if (errorDate > parsedDate) return 'expired';
-  if (warnDate > parsedDate) return 'warn';
+  if (errorDate > parsedDate) return "expired";
+  if (warnDate > parsedDate) return "warn";
 };
 
 export const StyledTimeIcon = styled(Time)`
-  &[data-status='warn'] {
+  &[data-status="warn"] {
     fill: ${colors.tasksAndActivities.dark};
   }
-  &[data-status='expired'] {
+  &[data-status="expired"] {
     fill: ${colors.support.red};
   }
   width: 24px;
@@ -76,12 +76,12 @@ interface Props {
 }
 
 const StyledStatus = styled.p`
-  ${fonts.sizes('16', '1.1')};
+  ${fonts.sizes("16", "1.1")};
   font-weight: ${fonts.weight.semibold};
   margin: 0 ${spacing.small} 0;
   color: ${colors.brand.primary};
-  &[data-compact='true'] {
-    ${fonts.sizes('10', '1.1')};
+  &[data-compact="true"] {
+    ${fonts.sizes("10", "1.1")};
     margin: 0 ${spacing.xsmall} 0;
   }
   span {
@@ -91,13 +91,13 @@ const StyledStatus = styled.p`
 
 const StyledSmallText = styled.small`
   color: ${colors.text.light};
-  ${fonts.sizes('16', '1.1')};
+  ${fonts.sizes("16", "1.1")};
   padding-right: ${spacing.xsmall};
   font-weight: ${fonts.weight.normal};
   color: ${colors.brand.primary};
-  &[data-compact='true'] {
+  &[data-compact="true"] {
     color: #000;
-    ${fonts.sizes('9', '1.1')};
+    ${fonts.sizes("9", "1.1")};
   }
 `;
 
@@ -153,14 +153,10 @@ const HeaderStatusInformation = ({
   if (!noStatus || isNewLanguage) {
     return (
       <StyledStatusWrapper>
-        {(type === 'standard' || type === 'topic-article') && !inSearch ? (
+        {(type === "standard" || type === "topic-article") && !inSearch ? (
           <>
             <EmbedConnection id={id} type="article" articles={articles} setArticles={setArticles} />
-            <LearningpathConnection
-              id={id}
-              learningpaths={learningpaths}
-              setLearningpaths={setLearningpaths}
-            />
+            <LearningpathConnection id={id} learningpaths={learningpaths} setLearningpaths={setLearningpaths} />
             {!!expirationColor && !!expirationDate && (
               <StyledTimeIcon
                 data-status={expirationColor}
@@ -174,49 +170,45 @@ const HeaderStatusInformation = ({
               />
             )}
           </>
-        ) : (type === 'concept' || type === 'gloss') && !inSearch ? (
+        ) : (type === "concept" || type === "gloss") && !inSearch ? (
           <EmbedConnection id={id} type={type} articles={articles} setArticles={setArticles} />
         ) : null}
         {published && (
           <StyledLink
             target="_blank"
-            aria-label={t('form.workflow.published')}
-            title={t('form.workflow.published')}
-            to={`${config.ndlaFrontendDomain}/${
-              type === 'concept' || type === 'gloss' ? 'concept' : 'article'
-            }/${slug ?? id}`}
+            aria-label={t("form.workflow.published")}
+            title={t("form.workflow.published")}
+            to={`${config.ndlaFrontendDomain}/${type === "concept" || type === "gloss" ? "concept" : "article"}/${
+              slug ?? id
+            }`}
           >
             <StyledCheckIcon />
           </StyledLink>
         )}
         {multipleTaxonomy && (
           <StyledWarnIcon
-            aria-label={t('form.workflow.multipleTaxonomy')}
-            title={t('form.workflow.multipleTaxonomy')}
+            aria-label={t("form.workflow.multipleTaxonomy")}
+            title={t("form.workflow.multipleTaxonomy")}
             aria-hidden={false}
           />
         )}
         <StyledStatus data-compact={compact}>
           <span>
-            <StyledSmallText data-compact={compact}>{`${t(
-              'form.responsible.label',
-            )}:`}</StyledSmallText>
-            {responsibleName || t('form.responsible.noResponsible')}
+            <StyledSmallText data-compact={compact}>{`${t("form.responsible.label")}:`}</StyledSmallText>
+            {responsibleName || t("form.responsible.noResponsible")}
           </span>
           {noStatus ? (
-            t('form.status.new_language')
+            t("form.status.new_language")
           ) : (
             <span>
-              <StyledSmallText data-compact={compact}>
-                {t('form.workflow.statusLabel')}:
-              </StyledSmallText>
-              {isNewLanguage ? t('form.status.new_language') : statusText || t('form.status.new')}
+              <StyledSmallText data-compact={compact}>{t("form.workflow.statusLabel")}:</StyledSmallText>
+              {isNewLanguage ? t("form.status.new_language") : statusText || t("form.status.new")}
             </span>
           )}
         </StyledStatus>
       </StyledStatusWrapper>
     );
-  } else if (type === 'image') {
+  } else if (type === "image") {
     return (
       <StyledStatusWrapper>
         <EmbedConnection
@@ -229,7 +221,7 @@ const HeaderStatusInformation = ({
         />
       </StyledStatusWrapper>
     );
-  } else if (type === 'audio' || type === 'podcast') {
+  } else if (type === "audio" || type === "podcast") {
     return (
       <StyledStatusWrapper>
         <EmbedConnection
@@ -242,11 +234,11 @@ const HeaderStatusInformation = ({
         />
       </StyledStatusWrapper>
     );
-  } else if (type === 'podcast-series' && hasRSS && id !== undefined) {
+  } else if (type === "podcast-series" && hasRSS && id !== undefined) {
     return (
       <StyledStatusWrapper>
         <StyledLink target="_blank" to={`${config.ndlaFrontendDomain}/podkast/${id}/feed.xml`}>
-          <StyledRssIcon title={t('podcastSeriesForm.rss')} />
+          <StyledRssIcon title={t("podcastSeriesForm.rss")} />
         </StyledLink>
       </StyledStatusWrapper>
     );

@@ -5,14 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { HelmetWithTracker } from '@ndla/tracker';
-import { INewSubjectFrontPageData } from '@ndla/types-backend/frontpage-api';
-import SubjectpageForm from './components/SubjectpageForm';
-import { LocaleType } from '../../interfaces';
-import { toEditSubjectpage } from '../../util/routeHelpers';
-import { useFetchSubjectpageData } from '../FormikForm/formikSubjectpageHooks';
+import { useTranslation } from "react-i18next";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { HelmetWithTracker } from "@ndla/tracker";
+import { INewSubjectFrontPageData } from "@ndla/types-backend/frontpage-api";
+import SubjectpageForm from "./components/SubjectpageForm";
+import { LocaleType } from "../../interfaces";
+import { toEditSubjectpage } from "../../util/routeHelpers";
+import { useFetchSubjectpageData } from "../FormikForm/formikSubjectpageHooks";
 
 interface LocationState {
   elementName?: string;
@@ -20,7 +20,7 @@ interface LocationState {
 
 const CreateSubjectpage = () => {
   const { t } = useTranslation();
-  const params = useParams<'selectedLanguage' | 'elementId'>();
+  const params = useParams<"selectedLanguage" | "elementId">();
   const selectedLanguage = params.selectedLanguage as LocaleType;
   const elementId = params.elementId!;
   const location = useLocation();
@@ -40,7 +40,7 @@ const CreateSubjectpage = () => {
 
   return (
     <>
-      <HelmetWithTracker title={t('htmlTitles.createSubjectpage')} />
+      <HelmetWithTracker title={t("htmlTitles.createSubjectpage")} />
       <SubjectpageForm
         selectedLanguage={selectedLanguage}
         elementName={elementName}

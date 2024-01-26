@@ -6,16 +6,16 @@
  *
  */
 
-import { jsx as slatejsx } from 'slate-hyperscript';
-import { TYPE_ASIDE } from './types';
-import { defaultParagraphBlock } from '../paragraph/utils';
+import { jsx as slatejsx } from "slate-hyperscript";
+import { TYPE_ASIDE } from "./types";
+import { defaultParagraphBlock } from "../paragraph/utils";
 
 export const defaultAsideBlock = (type?: string) =>
-  slatejsx('element', { type: TYPE_ASIDE, data: { type } }, defaultParagraphBlock());
+  slatejsx("element", { type: TYPE_ASIDE, data: { type } }, defaultParagraphBlock());
 
 export const getAsideType = (el: HTMLElement): { type: string } => {
-  const asideType = el.attributes.getNamedItem('data-type')?.value;
+  const asideType = el.attributes.getNamedItem("data-type")?.value;
   return {
-    type: asideType ?? 'rightAside',
+    type: asideType ?? "rightAside",
   };
 };

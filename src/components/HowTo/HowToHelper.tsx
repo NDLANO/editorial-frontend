@@ -6,13 +6,13 @@
  *
  */
 
-import { memo } from 'react';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { spacing, colors } from '@ndla/core';
-import { ArticleInModal } from '@ndla/howto';
-import { InformationOutline } from '@ndla/icons/common';
+import { memo } from "react";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { spacing, colors } from "@ndla/core";
+import { ArticleInModal } from "@ndla/howto";
+import { InformationOutline } from "@ndla/icons/common";
 
 const extraPaddedCSS = css`
   width: calc(${spacing.normal} * 1.5);

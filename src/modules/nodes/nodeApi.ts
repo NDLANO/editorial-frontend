@@ -19,15 +19,12 @@ import {
   NodeType,
   Connection,
   Metadata,
-} from '@ndla/types-taxonomy';
-import { GetChildNodesParams, GetNodeParams, GetNodeResourcesParams } from './nodeApiTypes';
-import { taxonomyApi } from '../../config';
-import { SearchResultBase, WithTaxonomyVersion } from '../../interfaces';
-import { apiResourceUrl, httpFunctions, stringifyQuery } from '../../util/apiHelpers';
-import {
-  resolveLocation,
-  resolveVoidOrRejectWithError,
-} from '../../util/resolveJsonOrRejectWithError';
+} from "@ndla/types-taxonomy";
+import { GetChildNodesParams, GetNodeParams, GetNodeResourcesParams } from "./nodeApiTypes";
+import { taxonomyApi } from "../../config";
+import { SearchResultBase, WithTaxonomyVersion } from "../../interfaces";
+import { apiResourceUrl, httpFunctions, stringifyQuery } from "../../util/apiHelpers";
+import { resolveLocation, resolveVoidOrRejectWithError } from "../../util/resolveJsonOrRejectWithError";
 
 const baseUrl = apiResourceUrl(`${taxonomyApi}/nodes`);
 const connUrl = apiResourceUrl(`${taxonomyApi}/node-connections`);
@@ -69,10 +66,7 @@ interface ConnectionsForNodeGetParams extends WithTaxonomyVersion {
   id: string;
 }
 
-export const fetchConnectionsForNode = ({
-  id,
-  taxonomyVersion,
-}: ConnectionsForNodeGetParams): Promise<Connection[]> =>
+export const fetchConnectionsForNode = ({ id, taxonomyVersion }: ConnectionsForNodeGetParams): Promise<Connection[]> =>
   fetchAndResolve({
     url: `${baseUrl}/${id}/connections`,
     taxonomyVersion,
@@ -92,11 +86,7 @@ interface NodeMetadataPutParams extends WithTaxonomyVersion {
   id: string;
   meta: Partial<Metadata>;
 }
-export const putNodeMetadata = ({
-  id,
-  meta,
-  taxonomyVersion,
-}: NodeMetadataPutParams): Promise<Metadata> =>
+export const putNodeMetadata = ({ id, meta, taxonomyVersion }: NodeMetadataPutParams): Promise<Metadata> =>
   putAndResolve({
     body: JSON.stringify(meta),
     url: `${baseUrl}/${id}/metadata`,
@@ -124,10 +114,7 @@ interface NodeTranslationsGetParams extends WithTaxonomyVersion {
   id: string;
 }
 
-export const fetchNodeTranslations = ({
-  id,
-  taxonomyVersion,
-}: NodeTranslationsGetParams): Promise<Translation[]> =>
+export const fetchNodeTranslations = ({ id, taxonomyVersion }: NodeTranslationsGetParams): Promise<Translation[]> =>
   fetchAndResolve({ url: `${baseUrl}/${id}/translations`, taxonomyVersion });
 
 interface NodeTranslationDeleteParams extends WithTaxonomyVersion {
@@ -153,12 +140,7 @@ interface NodeTranslationPutParams extends WithTaxonomyVersion {
   body: TranslationPUT;
 }
 
-export const putNodeTranslation = ({
-  id,
-  language,
-  body,
-  taxonomyVersion,
-}: NodeTranslationPutParams): Promise<void> =>
+export const putNodeTranslation = ({ id, language, body, taxonomyVersion }: NodeTranslationPutParams): Promise<void> =>
   putAndResolve({
     url: `${baseUrl}/${id}/translations/${language}`,
     body: JSON.stringify(body),
@@ -175,17 +157,18 @@ export const fetchNodeResources = ({
   taxonomyVersion,
   ...queryParams
 }: NodeResourcesGetParams): Promise<NodeChild[]> => {
-  return fetchAndResolve({ url: `${baseUrl}/${id}/resources`, taxonomyVersion, queryParams });
+  return fetchAndResolve({
+    url: `${baseUrl}/${id}/resources`,
+    taxonomyVersion,
+    queryParams,
+  });
 };
 
 interface NodeConnectionDeleteParams extends WithTaxonomyVersion {
   id: string;
 }
 
-export const deleteNodeConnection = ({
-  id,
-  taxonomyVersion,
-}: NodeConnectionDeleteParams): Promise<void> =>
+export const deleteNodeConnection = ({ id, taxonomyVersion }: NodeConnectionDeleteParams): Promise<void> =>
   deleteAndResolve({
     url: `${connUrl}/${id}`,
     alternateResolve: resolveVoidOrRejectWithError,
@@ -197,11 +180,7 @@ interface NodeConnectionPutParams extends WithTaxonomyVersion {
   body: NodeConnectionPUT;
 }
 
-export const putNodeConnection = ({
-  id,
-  body,
-  taxonomyVersion,
-}: NodeConnectionPutParams): Promise<void> =>
+export const putNodeConnection = ({ id, body, taxonomyVersion }: NodeConnectionPutParams): Promise<void> =>
   putAndResolve({
     url: `${connUrl}/${id}`,
     body: JSON.stringify(body),
@@ -213,10 +192,7 @@ interface NodeConnectionPostParams extends WithTaxonomyVersion {
   body: NodeConnectionPOST;
 }
 
-export const postNodeConnection = ({
-  body,
-  taxonomyVersion,
-}: NodeConnectionPostParams): Promise<string> =>
+export const postNodeConnection = ({ body, taxonomyVersion }: NodeConnectionPostParams): Promise<string> =>
   postAndResolve({
     url: `${connUrl}`,
     body: JSON.stringify(body),
@@ -228,10 +204,7 @@ interface NodeResourcePostParams extends WithTaxonomyVersion {
   body: NodeResourcePOST;
 }
 
-export const postResourceForNode = ({
-  body,
-  taxonomyVersion,
-}: NodeResourcePostParams): Promise<string> =>
+export const postResourceForNode = ({ body, taxonomyVersion }: NodeResourcePostParams): Promise<string> =>
   postAndResolve({
     url: resUrl,
     body: JSON.stringify(body),
@@ -242,10 +215,7 @@ export const postResourceForNode = ({
 interface NodeResourceDeleteParams extends WithTaxonomyVersion {
   id: string;
 }
-export const deleteResourceForNode = ({
-  id,
-  taxonomyVersion,
-}: NodeResourceDeleteParams): Promise<void> =>
+export const deleteResourceForNode = ({ id, taxonomyVersion }: NodeResourceDeleteParams): Promise<void> =>
   deleteAndResolve({
     url: `${resUrl}/${id}`,
     alternateResolve: resolveVoidOrRejectWithError,
@@ -257,11 +227,7 @@ interface NodeResourcePutParams extends WithTaxonomyVersion {
   body: NodeResourcePUT;
 }
 
-export const putResourceForNode = ({
-  id,
-  body,
-  taxonomyVersion,
-}: NodeResourcePutParams): Promise<void> =>
+export const putResourceForNode = ({ id, body, taxonomyVersion }: NodeResourcePutParams): Promise<void> =>
   putAndResolve({
     url: `${resUrl}/${id}`,
     body: JSON.stringify(body),
@@ -280,7 +246,7 @@ export const publishNode = ({ id, targetId, sourceId }: PublishNodeParams) => {
   return putAndResolve({
     url: `${baseUrl}/${id}/publish${queryParams}`,
     alternateResolve: resolveVoidOrRejectWithError,
-    taxonomyVersion: 'default',
+    taxonomyVersion: "default",
   });
 };
 
@@ -293,10 +259,7 @@ interface SearchNodes extends WithTaxonomyVersion {
   query?: string;
 }
 
-export const searchNodes = ({
-  taxonomyVersion,
-  ...queryParams
-}: SearchNodes): Promise<SearchResultBase<Node>> => {
+export const searchNodes = ({ taxonomyVersion, ...queryParams }: SearchNodes): Promise<SearchResultBase<Node>> => {
   return fetchAndResolve({
     url: `${baseUrl}/search`,
     taxonomyVersion,
@@ -327,11 +290,7 @@ export interface PutResourcesPrimaryParams extends WithTaxonomyVersion {
   recursive: boolean;
 }
 
-export const putResourcesPrimary = ({
-  id,
-  recursive,
-  taxonomyVersion,
-}: PutResourcesPrimaryParams): Promise<void> => {
+export const putResourcesPrimary = ({ id, recursive, taxonomyVersion }: PutResourcesPrimaryParams): Promise<void> => {
   const queryParams = stringifyQuery({ recursive });
   return putAndResolve({
     url: `${baseUrl}/${id}/makeResourcesPrimary${queryParams}`,

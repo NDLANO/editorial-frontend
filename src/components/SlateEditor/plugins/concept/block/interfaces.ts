@@ -6,11 +6,11 @@
  *
  */
 
-import { Descendant } from 'slate';
-import { ConceptEmbedData } from '@ndla/types-embed';
+import { Descendant } from "slate";
+import { ConceptEmbedData } from "@ndla/types-embed";
 
 export interface ConceptBlockElement {
-  type: 'concept-block' | 'gloss-block';
+  type: "concept-block" | "gloss-block";
   data: ConceptEmbedData;
   isFirstEdit?: boolean;
   children: Descendant[];

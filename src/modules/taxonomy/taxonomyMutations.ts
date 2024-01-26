@@ -6,14 +6,9 @@
  *
  */
 
-import { UseMutationOptions, useMutation } from '@tanstack/react-query';
-import {
-  CreateTopicNodeConnections,
-  UpdateTaxParams,
-  createTopicNodeConnections,
-  updateTax,
-} from './taxonomyApi';
-import { WithTaxonomyVersion } from '../../interfaces';
+import { UseMutationOptions, useMutation } from "@tanstack/react-query";
+import { CreateTopicNodeConnections, UpdateTaxParams, createTopicNodeConnections, updateTax } from "./taxonomyApi";
+import { WithTaxonomyVersion } from "../../interfaces";
 
 interface UseUpdateTaxMutation extends WithTaxonomyVersion, UpdateTaxParams {}
 
@@ -21,8 +16,7 @@ export const useUpdateTaxonomyMutation = (
   options?: Partial<UseMutationOptions<void, unknown, UseUpdateTaxMutation>>,
 ) => {
   return useMutation<void, unknown, UseUpdateTaxMutation>({
-    mutationFn: ({ node, originalNode, taxonomyVersion }) =>
-      updateTax({ node, originalNode }, taxonomyVersion),
+    mutationFn: ({ node, originalNode, taxonomyVersion }) => updateTax({ node, originalNode }, taxonomyVersion),
     ...options,
   });
 };
@@ -34,7 +28,12 @@ export const useCreateTopicNodeConnectionsMutation = (
 ) => {
   return useMutation<void, unknown, UseCreateTopicNodeConnections>({
     mutationFn: ({ articleId, placements, name, taxonomyVersion }) =>
-      createTopicNodeConnections({ articleId, placements, name, taxonomyVersion }),
+      createTopicNodeConnections({
+        articleId,
+        placements,
+        name,
+        taxonomyVersion,
+      }),
     ...options,
   });
 };

@@ -5,15 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { ReactElement } from 'react';
-import { NavLink } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { UseQueryResult } from '@tanstack/react-query';
-import { spacing, colors, stackOrder } from '@ndla/core';
-import { MAX_PAGE_WIDTH } from '../../../constants';
-import { SearchType } from '../../../interfaces';
-import { SearchParams } from '../../SearchPage/components/form/SearchForm';
-import { ResultType } from '../../SearchPage/SearchContainer';
+import { ReactElement } from "react";
+import { NavLink } from "react-router-dom";
+import styled from "@emotion/styled";
+import { UseQueryResult } from "@tanstack/react-query";
+import { spacing, colors, stackOrder } from "@ndla/core";
+import { MAX_PAGE_WIDTH } from "../../../constants";
+import { SearchType } from "../../../interfaces";
+import { SearchParams } from "../../SearchPage/components/form/SearchForm";
+import { ResultType } from "../../SearchPage/SearchContainer";
 
 interface SubType {
   title: string;

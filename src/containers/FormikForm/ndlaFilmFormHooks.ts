@@ -5,15 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { FormikProps } from 'formik';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { IFilmFrontPageData } from '@ndla/types-backend/frontpage-api';
-import { FilmFormikType } from '../../containers/NdlaFilm/components/NdlaFilmForm';
-import { useUpdateFilmFrontpageMutation } from '../../modules/frontpage/filmMutations';
-import { getInitialValues, getNdlaFilmFromSlate } from '../../util/ndlaFilmHelpers';
-import { NdlaErrorPayload } from '../../util/resolveJsonOrRejectWithError';
-import { useMessages } from '../Messages/MessagesProvider';
+import { FormikProps } from "formik";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { IFilmFrontPageData } from "@ndla/types-backend/frontpage-api";
+import { FilmFormikType } from "../../containers/NdlaFilm/components/NdlaFilmForm";
+import { useUpdateFilmFrontpageMutation } from "../../modules/frontpage/filmMutations";
+import { getInitialValues, getNdlaFilmFromSlate } from "../../util/ndlaFilmHelpers";
+import { NdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
+import { useMessages } from "../Messages/MessagesProvider";
 
 export function useNdlaFilmFormHooks(filmFrontpage: IFilmFrontPageData, selectedLanguage: string) {
   const { t } = useTranslation();
@@ -38,7 +38,7 @@ export function useNdlaFilmFormHooks(filmFrontpage: IFilmFrontPageData, selected
       const err = e as NdlaErrorPayload;
       if (err?.status === 409) {
         createMessage({
-          message: t('alertModal.needToRefresh'),
+          message: t("alertModal.needToRefresh"),
           timeToLive: 0,
         });
       } else if (err?.json?.messages) {

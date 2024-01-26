@@ -6,12 +6,12 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { breakpoints, colors, fonts, mq, spacing, stackOrder } from '@ndla/core';
-import { SafeLinkButton } from '@ndla/safelink';
-import { useSession } from '../../Session/SessionProvider';
+import { useTranslation } from "react-i18next";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { breakpoints, colors, fonts, mq, spacing, stackOrder } from "@ndla/core";
+import { SafeLinkButton } from "@ndla/safelink";
+import { useSession } from "../../Session/SessionProvider";
 
 const StyledHeader = styled.div`
   width: 100%;
@@ -23,7 +23,7 @@ const StyledHeader = styled.div`
   padding: ${spacing.xsmall};
   border-radius: 10px;
 
-  ${mq.range({ until: breakpoints.mobileWide, from: '0px' })} {
+  ${mq.range({ until: breakpoints.mobileWide, from: "0px" })} {
     flex-direction: column;
     justify-content: center;
     gap: ${spacing.xsmall};
@@ -85,13 +85,11 @@ export const WelcomeHeader = () => {
       <LeftShape />
       <ContentWrapper>
         <StyledTitle>
-          {`${t('welcomePage.welcomeBack')} ${
-            userName ? `${userName}!` : t('welcomePage.welcomeText')
-          }`}
+          {`${t("welcomePage.welcomeBack")} ${userName ? `${userName}!` : t("welcomePage.welcomeText")}`}
         </StyledTitle>
       </ContentWrapper>
       <ButtonWrapper>
-        <StyledSafeLinkButton to="/structure">{t('subNavigation.structure')}</StyledSafeLinkButton>
+        <StyledSafeLinkButton to="/structure">{t("subNavigation.structure")}</StyledSafeLinkButton>
       </ButtonWrapper>
       <RightShape />
     </StyledHeader>

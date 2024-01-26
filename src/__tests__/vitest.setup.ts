@@ -6,9 +6,9 @@
  *
  */
 
-import { createSerializer } from '@emotion/jest';
-import '@testing-library/jest-dom/vitest';
-import { cleanup } from '@testing-library/react';
+import { createSerializer } from "@emotion/jest";
+import "@testing-library/jest-dom/vitest";
+import { cleanup } from "@testing-library/react";
 
 expect.addSnapshotSerializer(createSerializer());
 

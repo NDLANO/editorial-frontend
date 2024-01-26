@@ -6,21 +6,21 @@
  *
  */
 
-import { createEditor, Descendant, Editor } from 'slate';
-import { withHistory } from 'slate-history';
-import { withReact } from 'slate-react';
-import { learningResourcePlugins } from '../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins';
-import withPlugins from '../../../utils/withPlugins';
-import { TYPE_AUDIO } from '../../audio/types';
-import { TYPE_H5P } from '../../h5p/types';
-import { TYPE_PARAGRAPH } from '../../paragraph/types';
-import { TYPE_SECTION } from '../../section/types';
-import { TYPE_EMBED_IMAGE } from '../types';
+import { createEditor, Descendant, Editor } from "slate";
+import { withHistory } from "slate-history";
+import { withReact } from "slate-react";
+import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
+import withPlugins from "../../../utils/withPlugins";
+import { TYPE_AUDIO } from "../../audio/types";
+import { TYPE_H5P } from "../../h5p/types";
+import { TYPE_PARAGRAPH } from "../../paragraph/types";
+import { TYPE_SECTION } from "../../section/types";
+import { TYPE_EMBED_IMAGE } from "../types";
 
 const editor = withHistory(withReact(withPlugins(createEditor(), learningResourcePlugins)));
 
-describe('embed normalizer tests', () => {
-  test('adds paragraphs around embed', () => {
+describe("embed normalizer tests", () => {
+  test("adds paragraphs around embed", () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
@@ -29,44 +29,44 @@ describe('embed normalizer tests', () => {
             type: TYPE_EMBED_IMAGE,
             children: [
               {
-                text: '',
+                text: "",
               },
             ],
             data: {
-              resource: 'image',
-              resource_id: '123',
-              size: 'small',
-              align: 'right',
-              alt: 'test-alt',
-              caption: 'test-caption',
-              url: 'https://test.url',
+              resource: "image",
+              resource_id: "123",
+              size: "small",
+              align: "right",
+              alt: "test-alt",
+              caption: "test-caption",
+              url: "https://test.url",
             },
           },
           {
             type: TYPE_H5P,
             children: [
               {
-                text: '',
+                text: "",
               },
             ],
             data: {
-              resource: 'h5p',
-              url: 'https://test.url',
-              path: 'test/path',
+              resource: "h5p",
+              url: "https://test.url",
+              path: "test/path",
             },
           },
           {
             type: TYPE_AUDIO,
             children: [
               {
-                text: '',
+                text: "",
               },
             ],
             data: {
-              resource: 'audio',
-              resourceId: '123',
-              type: 'standard',
-              url: 'https://test.url',
+              resource: "audio",
+              resourceId: "123",
+              type: "standard",
+              url: "https://test.url",
             },
           },
         ],
@@ -79,63 +79,63 @@ describe('embed normalizer tests', () => {
         children: [
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
+            children: [{ text: "" }],
           },
           {
             type: TYPE_EMBED_IMAGE,
             children: [
               {
-                text: '',
+                text: "",
               },
             ],
             data: {
-              resource: 'image',
-              resource_id: '123',
-              size: 'small',
-              align: 'right',
-              alt: 'test-alt',
-              caption: 'test-caption',
-              url: 'https://test.url',
+              resource: "image",
+              resource_id: "123",
+              size: "small",
+              align: "right",
+              alt: "test-alt",
+              caption: "test-caption",
+              url: "https://test.url",
             },
           },
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
+            children: [{ text: "" }],
           },
           {
             type: TYPE_H5P,
             children: [
               {
-                text: '',
+                text: "",
               },
             ],
             data: {
-              resource: 'h5p',
-              url: 'https://test.url',
-              path: 'test/path',
+              resource: "h5p",
+              url: "https://test.url",
+              path: "test/path",
             },
           },
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
+            children: [{ text: "" }],
           },
           {
             type: TYPE_AUDIO,
             children: [
               {
-                text: '',
+                text: "",
               },
             ],
             data: {
-              resource: 'audio',
-              resourceId: '123',
-              type: 'standard',
-              url: 'https://test.url',
+              resource: "audio",
+              resourceId: "123",
+              type: "standard",
+              url: "https://test.url",
             },
           },
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
+            children: [{ text: "" }],
           },
         ],
       },

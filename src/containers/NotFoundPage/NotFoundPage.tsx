@@ -6,8 +6,8 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { OneColumn, ErrorMessage } from '@ndla/ui';
+import { useTranslation } from "react-i18next";
+import { OneColumn, ErrorMessage } from "@ndla/ui";
 
 const NotFound = () => {
   const { t } = useTranslation();
@@ -15,14 +15,14 @@ const NotFound = () => {
     <OneColumn cssModifier="clear">
       <ErrorMessage
         illustration={{
-          url: '/not-exist.gif',
-          altText: t('errorMessage.title'),
+          url: "/not-exist.gif",
+          altText: t("errorMessage.title"),
         }}
         messages={{
-          title: t('errorMessage.title'),
-          description: t('notFound.description'),
-          back: t('errorMessage.back'),
-          goToFrontPage: t('errorMessage.goToFrontPage'),
+          title: t("errorMessage.title"),
+          description: t("notFound.description"),
+          back: t("errorMessage.back"),
+          goToFrontPage: t("errorMessage.goToFrontPage"),
         }}
       />
     </OneColumn>

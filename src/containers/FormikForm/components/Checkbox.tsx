@@ -6,13 +6,13 @@
  *
  */
 
-import { ComponentProps, CSSProperties } from 'react';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import FormikField from '../../../components/FormikField';
+import { ComponentProps, CSSProperties } from "react";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import FormikField from "../../../components/FormikField";
 
 interface InputCheckboxProps {
-  display: CSSProperties['display'];
+  display: CSSProperties["display"];
 }
 const StyledInputCheckbox = styled.input<InputCheckboxProps>`
   appearance: checkbox !important;
@@ -22,9 +22,9 @@ const StyledInputCheckbox = styled.input<InputCheckboxProps>`
 `;
 
 interface Props extends ComponentProps<typeof FormikField> {
-  display?: CSSProperties['display'];
+  display?: CSSProperties["display"];
 }
-const Checkbox = ({ display = 'block', children, ...rest }: Props) => {
+const Checkbox = ({ display = "block", children, ...rest }: Props) => {
   return (
     <FormikField {...rest}>
       {({ field }) => (

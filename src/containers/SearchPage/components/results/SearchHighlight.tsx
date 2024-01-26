@@ -6,11 +6,11 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { fonts } from '@ndla/core';
-import Tooltip from '@ndla/tooltip';
-import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { fonts } from "@ndla/core";
+import Tooltip from "@ndla/tooltip";
+import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
 
 interface Props {
   content: IMultiSearchSummary;
@@ -39,28 +39,28 @@ const SearchHighlight = ({ content, locale }: Props) => {
     return null;
   }
 
-  const highlightsInLocale = content.highlights.filter(
-    (highlight) => highlight.field.split('.')[1] === locale,
-  );
+  const highlightsInLocale = content.highlights.filter((highlight) => highlight.field.split(".")[1] === locale);
 
   const highlightsToSearch = highlightsInLocale.length ? highlightsInLocale : content.highlights;
 
   const selectHighlights = (field: string) =>
-    highlightsToSearch.find((highlight) => highlight.field.split('.')[0] === field);
+    highlightsToSearch.find((highlight) => highlight.field.split(".")[0] === field);
 
   const selectedHighlights =
-    selectHighlights('content') ||
-    selectHighlights('embedAttributes') ||
-    selectHighlights('tags') ||
-    selectHighlights('notes') ||
-    selectHighlights('previousVersionsNotes');
+    selectHighlights("content") ||
+    selectHighlights("embedAttributes") ||
+    selectHighlights("tags") ||
+    selectHighlights("notes") ||
+    selectHighlights("previousVersionsNotes");
 
   return selectedHighlights ? (
     <StyledDiv>
-      <StyledHeading>{t('searchPage.highlights.title')}</StyledHeading>
-      <Tooltip tooltip={t(`searchPage.highlights.${selectedHighlights.field.split('.')[0]}`)}>
+      <StyledHeading>{t("searchPage.highlights.title")}</StyledHeading>
+      <Tooltip tooltip={t(`searchPage.highlights.${selectedHighlights.field.split(".")[0]}`)}>
         <StyledHighlights
-          dangerouslySetInnerHTML={{ __html: selectedHighlights.matches.join(' [...] ') }}
+          dangerouslySetInnerHTML={{
+            __html: selectedHighlights.matches.join(" [...] "),
+          }}
         />
       </Tooltip>
     </StyledDiv>

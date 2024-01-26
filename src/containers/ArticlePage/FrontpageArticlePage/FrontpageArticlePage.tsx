@@ -6,12 +6,12 @@
  *
  */
 
-import CreateFrontpageArticle from './CreateFrontpageArticle';
-import EditFrontpageArticle from './EditFrontpageArticle';
-import ResourcePage from '../../../components/ResourcePage';
-import { WideArticleEditorProvider } from '../../../components/WideArticleEditorProvider';
-import { useDraft } from '../../../modules/draft/draftQueries';
-import { articleResourcePageStyle } from '../styles';
+import CreateFrontpageArticle from "./CreateFrontpageArticle";
+import EditFrontpageArticle from "./EditFrontpageArticle";
+import ResourcePage from "../../../components/ResourcePage";
+import { WideArticleEditorProvider } from "../../../components/WideArticleEditorProvider";
+import { useDraft } from "../../../modules/draft/draftQueries";
+import { articleResourcePageStyle } from "../styles";
 
 const FrontpageArticlePage = () => (
   <WideArticleEditorProvider initialValue={false}>

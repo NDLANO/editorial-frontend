@@ -5,13 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { ReactNode } from 'react';
-import { useTranslation } from 'react-i18next';
-import { RenderLeafProps } from 'slate-react';
-import { colors } from '@ndla/core';
+import { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
+import { RenderLeafProps } from "slate-react";
+import { colors } from "@ndla/core";
 
 interface Props {
-  attributes: RenderLeafProps['attributes'];
+  attributes: RenderLeafProps["attributes"];
   children: ReactNode;
   placeholder: string;
 }
@@ -20,17 +20,17 @@ const WithPlaceHolder = ({ attributes, children, placeholder }: Props) => {
   const { t } = useTranslation();
 
   return (
-    <span style={{ position: 'relative' }}>
+    <span style={{ position: "relative" }}>
       <span {...attributes}>{children}</span>
       <span
         style={{
-          position: 'absolute',
+          position: "absolute",
           top: 0,
           opacity: 0.3,
           color: `${colors.black}`,
-          pointerEvents: 'none',
-          userSelect: 'none',
-          display: 'inline-block',
+          pointerEvents: "none",
+          userSelect: "none",
+          display: "inline-block",
         }}
         contentEditable={false}
       >

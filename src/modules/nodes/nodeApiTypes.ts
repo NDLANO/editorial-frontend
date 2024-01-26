@@ -6,13 +6,13 @@
  *
  */
 
-import { NodeType } from '@ndla/types-taxonomy';
+import { NodeType } from "@ndla/types-taxonomy";
 
-export const PROGRAMME = 'PROGRAMME';
-export const SUBJECT_NODE = 'SUBJECT';
-export const NODE = 'NODE';
-export const TOPIC_NODE = 'TOPIC';
-export const RESOURCE_NODE = 'RESOURCE';
+export const PROGRAMME = "PROGRAMME";
+export const SUBJECT_NODE = "SUBJECT";
+export const NODE = "NODE";
+export const TOPIC_NODE = "TOPIC";
+export const RESOURCE_NODE = "RESOURCE";
 
 export interface GetNodeParams {
   contentURI?: string;

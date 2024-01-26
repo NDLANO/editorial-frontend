@@ -6,19 +6,19 @@
  *
  */
 
-import { createEditor, Descendant, Editor } from 'slate';
-import { withHistory } from 'slate-history';
-import { withReact } from 'slate-react';
-import { learningResourcePlugins } from '../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins';
-import withPlugins from '../../../utils/withPlugins';
-import { TYPE_PARAGRAPH } from '../../paragraph/types';
-import { TYPE_SECTION } from '../../section/types';
-import { TYPE_FILE } from '../types';
+import { createEditor, Descendant, Editor } from "slate";
+import { withHistory } from "slate-history";
+import { withReact } from "slate-react";
+import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
+import withPlugins from "../../../utils/withPlugins";
+import { TYPE_PARAGRAPH } from "../../paragraph/types";
+import { TYPE_SECTION } from "../../section/types";
+import { TYPE_FILE } from "../types";
 
 const editor = withHistory(withReact(withPlugins(createEditor(), learningResourcePlugins)));
 
-describe('file normalizer tests', () => {
-  test('adds paragraphs around file element', () => {
+describe("file normalizer tests", () => {
+  test("adds paragraphs around file element", () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
@@ -27,7 +27,7 @@ describe('file normalizer tests', () => {
             type: TYPE_FILE,
             children: [
               {
-                text: '',
+                text: "",
               },
             ],
             data: [],
@@ -36,7 +36,7 @@ describe('file normalizer tests', () => {
             type: TYPE_FILE,
             children: [
               {
-                text: '',
+                text: "",
               },
             ],
             data: [],
@@ -45,7 +45,7 @@ describe('file normalizer tests', () => {
             type: TYPE_FILE,
             children: [
               {
-                text: '',
+                text: "",
               },
             ],
             data: [],
@@ -60,46 +60,46 @@ describe('file normalizer tests', () => {
         children: [
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
+            children: [{ text: "" }],
           },
           {
             type: TYPE_FILE,
             children: [
               {
-                text: '',
+                text: "",
               },
             ],
             data: [],
           },
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
+            children: [{ text: "" }],
           },
           {
             type: TYPE_FILE,
             children: [
               {
-                text: '',
+                text: "",
               },
             ],
             data: [],
           },
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
+            children: [{ text: "" }],
           },
           {
             type: TYPE_FILE,
             children: [
               {
-                text: '',
+                text: "",
               },
             ],
             data: [],
           },
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
+            children: [{ text: "" }],
           },
         ],
       },

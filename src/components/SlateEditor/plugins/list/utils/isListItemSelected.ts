@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { Editor, Path, Range } from 'slate';
-import { ReactEditor } from 'slate-react';
-import { ListItemElement } from '..';
+import { Editor, Path, Range } from "slate";
+import { ReactEditor } from "slate-react";
+import { ListItemElement } from "..";
 
 export const isListItemSelected = (editor: Editor, node: ListItemElement) => {
   if (!Range.isRange(editor.selection)) return false;

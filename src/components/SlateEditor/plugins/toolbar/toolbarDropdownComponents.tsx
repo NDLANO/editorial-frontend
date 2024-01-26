@@ -6,10 +6,10 @@
  *
  */
 
-import styled from '@emotion/styled';
-import { spacing, colors } from '@ndla/core';
-import { DropdownContent } from '@ndla/dropdown-menu';
-import ToolbarButton from './ToolbarButton';
+import styled from "@emotion/styled";
+import { spacing, colors } from "@ndla/core";
+import { DropdownContent } from "@ndla/dropdown-menu";
+import ToolbarButton from "./ToolbarButton";
 
 export const ToolbarDropdownContent = styled(DropdownContent)`
   padding: ${spacing.xsmall};

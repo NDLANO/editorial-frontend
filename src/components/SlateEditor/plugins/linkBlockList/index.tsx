@@ -6,14 +6,14 @@
  *
  */
 
-import { Descendant, Editor, Element } from 'slate';
-import { jsx as slatejsx } from 'slate-hyperscript';
-import { TYPE_LINK_BLOCK_LIST } from './types';
-import { createEmbedTagV2, reduceElementDataAttributesV2 } from '../../../../util/embedTagHelpers';
-import { SlateSerializer } from '../../interfaces';
-import { NormalizerConfig, defaultBlockNormalizer } from '../../utils/defaultNormalizer';
-import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
-import { TYPE_PARAGRAPH } from '../paragraph/types';
+import { Descendant, Editor, Element } from "slate";
+import { jsx as slatejsx } from "slate-hyperscript";
+import { TYPE_LINK_BLOCK_LIST } from "./types";
+import { createEmbedTagV2, reduceElementDataAttributesV2 } from "../../../../util/embedTagHelpers";
+import { SlateSerializer } from "../../interfaces";
+import { NormalizerConfig, defaultBlockNormalizer } from "../../utils/defaultNormalizer";
+import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
+import { TYPE_PARAGRAPH } from "../paragraph/types";
 
 const normalizerConfig: NormalizerConfig = {
   previous: {
@@ -27,30 +27,24 @@ const normalizerConfig: NormalizerConfig = {
 };
 
 export const defaultLinkBlockList = () =>
-  slatejsx('element', { type: TYPE_LINK_BLOCK_LIST, data: [], isFirstEdit: true }, { text: '' });
+  slatejsx("element", { type: TYPE_LINK_BLOCK_LIST, data: [], isFirstEdit: true }, { text: "" });
 
 export const linkBlockListSerializer: SlateSerializer = {
   deserialize(el) {
-    if (el.tagName.toLowerCase() !== 'nav' || el.dataset.type !== TYPE_LINK_BLOCK_LIST) return;
+    if (el.tagName.toLowerCase() !== "nav" || el.dataset.type !== TYPE_LINK_BLOCK_LIST) return;
 
     return slatejsx(
-      'element',
+      "element",
       {
         type: TYPE_LINK_BLOCK_LIST,
-        data: Array.from(el.children ?? []).map((el) =>
-          reduceElementDataAttributesV2(Array.from(el.attributes)),
-        ),
+        data: Array.from(el.children ?? []).map((el) => reduceElementDataAttributesV2(Array.from(el.attributes))),
       },
-      [{ text: '' }],
+      [{ text: "" }],
     );
   },
   serialize(node: Descendant) {
     if (!Element.isElement(node) || node.type !== TYPE_LINK_BLOCK_LIST) return;
-    return (
-      <nav data-type={TYPE_LINK_BLOCK_LIST}>
-        {node.data?.map((child) => createEmbedTagV2(child))}
-      </nav>
-    );
+    return <nav data-type={TYPE_LINK_BLOCK_LIST}>{node.data?.map((child) => createEmbedTagV2(child))}</nav>;
   },
 };
 

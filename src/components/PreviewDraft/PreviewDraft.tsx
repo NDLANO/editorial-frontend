@@ -6,33 +6,33 @@
  *
  */
 
-import parse from 'html-react-parser';
-import { useEffect, useMemo } from 'react';
-import { transform } from '@ndla/article-converter';
-import { IArticle, IDraftCopyright } from '@ndla/types-backend/draft-api';
-import { ContentTypeBadge, Article, FrontpageArticle } from '@ndla/ui';
-import config from '../../config';
-import { LocaleType } from '../../interfaces';
-import '../DisplayEmbed/helpers/h5pResizer';
-import { usePreviewArticle } from '../../modules/article/articleGqlQueries';
-import formatDate from '../../util/formatDate';
-import parseMarkdown from '../../util/parseMarkdown';
-import { articleIsWide } from '../WideArticleEditorProvider';
+import parse from "html-react-parser";
+import { useEffect, useMemo } from "react";
+import { transform } from "@ndla/article-converter";
+import { IArticle, IDraftCopyright } from "@ndla/types-backend/draft-api";
+import { ContentTypeBadge, Article, FrontpageArticle } from "@ndla/ui";
+import config from "../../config";
+import { LocaleType } from "../../interfaces";
+import "../DisplayEmbed/helpers/h5pResizer";
+import { usePreviewArticle } from "../../modules/article/articleGqlQueries";
+import formatDate from "../../util/formatDate";
+import parseMarkdown from "../../util/parseMarkdown";
+import { articleIsWide } from "../WideArticleEditorProvider";
 
 interface BaseProps {
   label: string;
   contentType?: string;
   language: string;
-  type: 'article' | 'formArticle';
+  type: "article" | "formArticle";
 }
 
 interface PreviewArticleV2Props extends BaseProps {
-  type: 'article';
+  type: "article";
   draft: IArticle;
 }
 
 interface PreviewFormArticleV2Props extends BaseProps {
-  type: 'formArticle';
+  type: "formArticle";
   draft: FormArticle;
 }
 
@@ -50,11 +50,11 @@ interface FormArticle {
 
 type Props = PreviewArticleV2Props | PreviewFormArticleV2Props;
 
-const getUpdatedLanguage = (language: string | undefined) => (language === 'nb' ? 'no' : language);
+const getUpdatedLanguage = (language: string | undefined) => (language === "nb" ? "no" : language);
 
 export const PreviewDraft = ({ type, draft: draftProp, label, contentType, language }: Props) => {
   const draft = useMemo(() => {
-    if (type === 'article') {
+    if (type === "article") {
       return {
         id: draftProp.id,
         content: draftProp.content?.content,
@@ -85,11 +85,11 @@ export const PreviewDraft = ({ type, draft: draftProp, label, contentType, langu
       articleLanguage: getUpdatedLanguage(draft.language),
     });
     return {
-      title: draft.title ?? '',
-      introduction: parse(parseMarkdown({ markdown: draft.introduction ?? '' })),
+      title: draft.title ?? "",
+      introduction: parse(parseMarkdown({ markdown: draft.introduction ?? "" })),
       content,
       copyright: draft.copyright,
-      published: draft.published ? formatDate(draft.published) : '',
+      published: draft.published ? formatDate(draft.published) : "",
       footNotes: [],
     };
   }, [transformedContent.data, draft]);
@@ -100,7 +100,7 @@ export const PreviewDraft = ({ type, draft: draftProp, label, contentType, langu
     return null;
   }
 
-  if (!!article && draftProp.articleType === 'frontpage-article') {
+  if (!!article && draftProp.articleType === "frontpage-article") {
     return <FrontpageArticle article={article} id={draft.id.toString()} isWide={isWide} />;
   }
 

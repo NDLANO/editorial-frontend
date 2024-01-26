@@ -6,20 +6,16 @@
  *
  */
 
-import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import Tabs from '@ndla/tabs';
-import ArticleStatusContent from './ArticleStatusContent';
-import { GRID_GAP } from '../../../components/Layout/Layout';
-import {
-  FAVOURITES_SUBJECT_ID,
-  LMA_SUBJECT_ID,
-  TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
-} from '../../../constants';
-import { SUBJECT_NODE } from '../../../modules/nodes/nodeApiTypes';
-import { useNodes } from '../../../modules/nodes/nodeQueries';
-import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import Tabs from "@ndla/tabs";
+import ArticleStatusContent from "./ArticleStatusContent";
+import { GRID_GAP } from "../../../components/Layout/Layout";
+import { FAVOURITES_SUBJECT_ID, LMA_SUBJECT_ID, TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA } from "../../../constants";
+import { SUBJECT_NODE } from "../../../modules/nodes/nodeApiTypes";
+import { useNodes } from "../../../modules/nodes/nodeQueries";
+import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
 const StyledWrapper = styled.div`
   margin-top: ${GRID_GAP};
@@ -54,14 +50,14 @@ const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataLoading }: Props) =
       ...(subjectIds?.length
         ? [
             {
-              title: t('welcomePage.lmaSubjects'),
-              id: 'lma-subjects',
+              title: t("welcomePage.lmaSubjects"),
+              id: "lma-subjects",
               content: (
                 <ArticleStatusContent
                   ndlaId={ndlaId}
                   subjectIds={subjectIds}
-                  title={t('welcomePage.lmaSubjectsHeading')}
-                  description={t('welcomePage.lmaSubjectsDescription')}
+                  title={t("welcomePage.lmaSubjectsHeading")}
+                  description={t("welcomePage.lmaSubjectsDescription")}
                   searchPageSubjectFilter={LMA_SUBJECT_ID}
                 />
               ),
@@ -71,14 +67,14 @@ const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataLoading }: Props) =
       ...(favoriteSubjects?.length
         ? [
             {
-              title: t('welcomePage.favoriteSubjects'),
-              id: 'favorite-subjects',
+              title: t("welcomePage.favoriteSubjects"),
+              id: "favorite-subjects",
               content: (
                 <ArticleStatusContent
                   ndlaId={ndlaId}
                   subjectIds={favoriteSubjects}
-                  title={t('welcomePage.favoriteSubjectsHeading')}
-                  description={t('welcomePage.favoriteSubjectsDescription')}
+                  title={t("welcomePage.favoriteSubjectsHeading")}
+                  description={t("welcomePage.favoriteSubjectsDescription")}
                   searchPageSubjectFilter={FAVOURITES_SUBJECT_ID}
                 />
               ),

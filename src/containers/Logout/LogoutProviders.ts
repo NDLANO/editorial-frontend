@@ -6,9 +6,9 @@
  *
  */
 
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { toLogoutSession } from '../../util/routeHelpers';
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { toLogoutSession } from "../../util/routeHelpers";
 
 const LogoutProviders = () => {
   const navigate = useNavigate();

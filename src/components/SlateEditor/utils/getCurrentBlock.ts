@@ -6,12 +6,12 @@
  *
  */
 
-import { Editor, Element, NodeEntry, Node } from 'slate';
+import { Editor, Element, NodeEntry, Node } from "slate";
 
-const getCurrentBlock = (editor: Editor, type: Element['type']): NodeEntry<Node> | undefined => {
+const getCurrentBlock = (editor: Editor, type: Element["type"]): NodeEntry<Node> | undefined => {
   const [match] = Editor.nodes(editor, {
     match: (n) => Element.isElement(n) && n.type === type,
-    mode: 'lowest',
+    mode: "lowest",
   });
   return match;
 };

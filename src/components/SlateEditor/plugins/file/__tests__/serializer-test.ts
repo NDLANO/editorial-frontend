@@ -6,49 +6,46 @@
  *
  */
 
-import { Descendant } from 'slate';
-import {
-  blockContentToEditorValue,
-  blockContentToHTML,
-} from '../../../../../util/articleContentConverter';
-import { TYPE_PARAGRAPH } from '../../paragraph/types';
-import { TYPE_SECTION } from '../../section/types';
-import { TYPE_FILE } from '../types';
+import { Descendant } from "slate";
+import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
+import { TYPE_PARAGRAPH } from "../../paragraph/types";
+import { TYPE_SECTION } from "../../section/types";
+import { TYPE_FILE } from "../types";
 
 const editor: Descendant[] = [
   {
     type: TYPE_SECTION,
     children: [
-      { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+      { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
       {
         type: TYPE_FILE,
         data: [
           {
-            resource: 'file',
-            path: '/files/resources/file1.txt',
-            type: 'txt',
-            title: 'test_txt',
-            url: 'https://api.test.ndla.no/files/resources/file1.txt',
+            resource: "file",
+            path: "/files/resources/file1.txt",
+            type: "txt",
+            title: "test_txt",
+            url: "https://api.test.ndla.no/files/resources/file1.txt",
           },
           {
-            path: '/files/resources/file2.pdf',
-            type: 'pdf',
-            title: 'test_pdf2',
-            resource: 'file',
-            url: 'https://api.test.ndla.no/files/resources/file2.pdf',
+            path: "/files/resources/file2.pdf",
+            type: "pdf",
+            title: "test_pdf2",
+            resource: "file",
+            url: "https://api.test.ndla.no/files/resources/file2.pdf",
           },
           {
-            path: '/files/resources/file3.pdf',
-            type: 'pdf',
-            title: 'test_pdf3',
-            resource: 'file',
-            display: 'block',
-            url: 'https://api.test.ndla.no/files/resources/file3.pdf',
+            path: "/files/resources/file3.pdf",
+            type: "pdf",
+            title: "test_pdf3",
+            resource: "file",
+            display: "block",
+            url: "https://api.test.ndla.no/files/resources/file3.pdf",
           },
         ],
-        children: [{ text: '' }],
+        children: [{ text: "" }],
       },
-      { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+      { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
     ],
   },
 ];
@@ -56,13 +53,13 @@ const editor: Descendant[] = [
 const html =
   '<section><div data-type="file"><ndlaembed data-resource="file" data-path="/files/resources/file1.txt" data-type="txt" data-title="test_txt" data-url="https://api.test.ndla.no/files/resources/file1.txt"></ndlaembed><ndlaembed data-path="/files/resources/file2.pdf" data-type="pdf" data-title="test_pdf2" data-resource="file" data-url="https://api.test.ndla.no/files/resources/file2.pdf"></ndlaembed><ndlaembed data-path="/files/resources/file3.pdf" data-type="pdf" data-title="test_pdf3" data-resource="file" data-display="block" data-url="https://api.test.ndla.no/files/resources/file3.pdf"></ndlaembed></div></section>';
 
-describe('file serializing tests', () => {
-  test('serializing', () => {
+describe("file serializing tests", () => {
+  test("serializing", () => {
     const res = blockContentToHTML(editor);
     expect(res).toMatch(html);
   });
 
-  test('deserializing', () => {
+  test("deserializing", () => {
     const res = blockContentToEditorValue(html);
     expect(res).toMatchObject(editor);
   });

@@ -6,35 +6,35 @@
  *
  */
 
-import { useFormikContext } from 'formik';
-import { useEffect, useState, memo } from 'react';
+import { useFormikContext } from "formik";
+import { useEffect, useState, memo } from "react";
 
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { AccordionTrigger } from '@radix-ui/react-accordion';
-import { AccordionRoot, AccordionItem, AccordionContent } from '@ndla/accordion';
-import { ButtonV2 } from '@ndla/button';
-import { spacing, colors, fonts } from '@ndla/core';
-import { ChevronRight } from '@ndla/icons/common';
-import { IArticle, IEditorNote } from '@ndla/types-backend/draft-api';
-import { Text } from '@ndla/typography';
-import AddNotesField from './AddNotesField';
-import VersionActionbuttons from './VersionActionButtons';
-import FormikField from '../../components/FormikField';
-import Spinner from '../../components/Spinner';
-import VersionHistory from '../../components/VersionHistory/VersionHistory';
-import VersionLogTag from '../../components/VersionHistory/VersionLogTag';
-import { useSession } from '../../containers/Session/SessionProvider';
-import * as articleApi from '../../modules/article/articleApi';
-import { fetchAuth0UsersFromUserIds, SimpleUserType } from '../../modules/auth0/auth0Api';
-import { fetchDraftHistory } from '../../modules/draft/draftApi';
-import formatDate from '../../util/formatDate';
-import handleError from '../../util/handleError';
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { AccordionTrigger } from "@radix-ui/react-accordion";
+import { AccordionRoot, AccordionItem, AccordionContent } from "@ndla/accordion";
+import { ButtonV2 } from "@ndla/button";
+import { spacing, colors, fonts } from "@ndla/core";
+import { ChevronRight } from "@ndla/icons/common";
+import { IArticle, IEditorNote } from "@ndla/types-backend/draft-api";
+import { Text } from "@ndla/typography";
+import AddNotesField from "./AddNotesField";
+import VersionActionbuttons from "./VersionActionButtons";
+import FormikField from "../../components/FormikField";
+import Spinner from "../../components/Spinner";
+import VersionHistory from "../../components/VersionHistory/VersionHistory";
+import VersionLogTag from "../../components/VersionHistory/VersionLogTag";
+import { useSession } from "../../containers/Session/SessionProvider";
+import * as articleApi from "../../modules/article/articleApi";
+import { fetchAuth0UsersFromUserIds, SimpleUserType } from "../../modules/auth0/auth0Api";
+import { fetchDraftHistory } from "../../modules/draft/draftApi";
+import formatDate from "../../util/formatDate";
+import handleError from "../../util/handleError";
 import {
   draftApiTypeToLearningResourceFormType,
   draftApiTypeToTopicArticleFormType,
-} from '../ArticlePage/articleTransformers';
-import { useMessages } from '../Messages/MessagesProvider';
+} from "../ArticlePage/articleTransformers";
+import { useMessages } from "../Messages/MessagesProvider";
 
 const StyledAccordionBar = styled.div`
   display: flex;
@@ -57,7 +57,7 @@ const StyledAccordionItem = styled(AccordionItem)`
   svg {
     transition: all 200ms;
   }
-  &[data-state='open'] {
+  &[data-state="open"] {
     svg[data-open-indicator] {
       transform: rotate(90deg);
     }
@@ -92,12 +92,12 @@ const VersionHistoryWrapper = styled.div`
 
 const getUser = (userId: string, allUsers: SimpleUserType[]) => {
   const user = allUsers.find((user) => user.id === userId);
-  return user?.name || '';
+  return user?.name || "";
 };
 
 interface Props {
   article: IArticle;
-  type: 'standard' | 'topic-article';
+  type: "standard" | "topic-article";
   currentLanguage: string;
 }
 
@@ -128,7 +128,7 @@ const VersionAndNotesPanel = ({ article, type, currentLanguage }: Props) => {
   useEffect(() => {
     if (versions.length) {
       const notes = versions.reduce((acc: IEditorNote[], v) => [...acc, ...v.notes], []);
-      const userIds = notes.map((note) => note.user).filter((user) => user !== 'System');
+      const userIds = notes.map((note) => note.user).filter((user) => user !== "System");
       fetchAuth0UsersFromUserIds(userIds, setUsers);
     }
   }, [versions]);
@@ -153,28 +153,30 @@ const VersionAndNotesPanel = ({ article, type, currentLanguage }: Props) => {
           editorLabels: [],
           relatedContent: [],
           revisions: [],
-          status: { current: 'PUBLISHED', other: [] },
+          status: { current: "PUBLISHED", other: [] },
           comments: [],
-          priority: 'unspecified',
+          priority: "unspecified",
           prioritized: false,
           started: false,
         };
       }
       const transform =
-        type === 'standard'
-          ? draftApiTypeToLearningResourceFormType
-          : draftApiTypeToTopicArticleFormType;
+        type === "standard" ? draftApiTypeToLearningResourceFormType : draftApiTypeToTopicArticleFormType;
       const newValues = transform(
-        { ...newArticle, status: article.status, responsible: article.responsible },
+        {
+          ...newArticle,
+          status: article.status,
+          responsible: article.responsible,
+        },
         language,
         ndlaId,
       );
 
       setValues(newValues);
-      setStatus({ ...status, status: 'revertVersion' });
+      setStatus({ ...status, status: "revertVersion" });
       createMessage({
-        message: t('form.resetToProd.success'),
-        severity: 'success',
+        message: t("form.resetToProd.success"),
+        severity: "success",
       });
     } catch (e) {
       handleError(e);
@@ -189,19 +191,18 @@ const VersionAndNotesPanel = ({ article, type, currentLanguage }: Props) => {
         {({ field, form: { errors } }) => (
           <AddNotesField
             showError={!!errors[field.name]}
-            labelAddNote={t('form.notes.add')}
-            labelRemoveNote={t('form.notes.remove')}
+            labelAddNote={t("form.notes.add")}
+            labelRemoveNote={t("form.notes.remove")}
             labelWarningNote={errors[field.name]}
             {...field}
           />
         )}
       </FormikField>
-      <StyledAccordionRoot type="multiple" defaultValue={['0']}>
+      <StyledAccordionRoot type="multiple" defaultValue={["0"]}>
         {versions.map((version, index) => {
           const isLatestVersion = index === 0;
           const published =
-            version.status.current === 'PUBLISHED' ||
-            version.status.other.some((s) => s === 'PUBLISHED');
+            version.status.current === "PUBLISHED" || version.status.other.some((s) => s === "PUBLISHED");
           return (
             <StyledAccordionItem value={index.toString()} key={index}>
               <StyledAccordionBar>
@@ -225,11 +226,9 @@ const VersionAndNotesPanel = ({ article, type, currentLanguage }: Props) => {
                     article={article}
                     currentLanguage={currentLanguage}
                   />
-                  {isLatestVersion && (
-                    <VersionLogTag color="yellow" label={t('form.notes.areHere')} />
-                  )}
+                  {isLatestVersion && <VersionLogTag color="yellow" label={t("form.notes.areHere")} />}
                   {published && (!isLatestVersion || versions.length === 1) && (
-                    <VersionLogTag color="green" label={t('form.notes.published')} />
+                    <VersionLogTag color="green" label={t("form.notes.published")} />
                   )}
                 </InfoGrouping>
               </StyledAccordionBar>

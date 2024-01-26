@@ -6,14 +6,11 @@
  *
  */
 
-import { Descendant } from 'slate';
-import {
-  blockContentToEditorValue,
-  blockContentToHTML,
-} from '../../../../../util/articleContentConverter';
-import { TYPE_PARAGRAPH } from '../../paragraph/types';
-import { TYPE_SECTION } from '../../section/types';
-import { TYPE_MATHML } from '../types';
+import { Descendant } from "slate";
+import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
+import { TYPE_PARAGRAPH } from "../../paragraph/types";
+import { TYPE_SECTION } from "../../section/types";
+import { TYPE_MATHML } from "../types";
 
 const editor: Descendant[] = [
   {
@@ -21,20 +18,19 @@ const editor: Descendant[] = [
     children: [
       {
         children: [
-          { text: '' },
+          { text: "" },
           {
             type: TYPE_MATHML,
             data: {
-              innerHTML:
-                '<math xmlns="http://www.w3.org/1998/Math/MathML"><mfrac><mn>1</mn><mn>2</mn></mfrac></math>',
+              innerHTML: '<math xmlns="http://www.w3.org/1998/Math/MathML"><mfrac><mn>1</mn><mn>2</mn></mfrac></math>',
             },
             children: [
               {
-                text: '12',
+                text: "12",
               },
             ],
           },
-          { text: '' },
+          { text: "" },
         ],
         type: TYPE_PARAGRAPH,
       },
@@ -45,13 +41,13 @@ const editor: Descendant[] = [
 const html =
   '<section><p><math><math xmlns="http://www.w3.org/1998/Math/MathML"><mfrac><mn>1</mn><mn>2</mn></mfrac></math></math></p></section>';
 
-describe('mathml serializing tests', () => {
-  test('serializing', () => {
+describe("mathml serializing tests", () => {
+  test("serializing", () => {
     const res = blockContentToHTML(editor);
     expect(res).toMatch(html);
   });
 
-  test('deserializing', () => {
+  test("deserializing", () => {
     const res = blockContentToEditorValue(html);
     expect(res).toMatchObject(editor);
   });

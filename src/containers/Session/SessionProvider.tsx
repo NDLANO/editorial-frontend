@@ -6,22 +6,20 @@
  *
  */
 
-import { Auth0DecodedHash } from 'auth0-js';
-import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Auth0DecodedHash } from "auth0-js";
+import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   clearAccessTokenFromLocalStorage,
   getAccessToken,
   getAccessTokenPersonal,
   personalAuthLogout,
   setAccessTokenInLocalStorage,
-} from '../../util/authHelpers';
-import { decodeToken, isValid } from '../../util/jwtHelper';
-import { toLogin } from '../../util/routeHelpers';
+} from "../../util/authHelpers";
+import { decodeToken, isValid } from "../../util/jwtHelper";
+import { toLogin } from "../../util/routeHelpers";
 
-const SessionContext = createContext<
-  [SessionState, Dispatch<SetStateAction<SessionState>>] | undefined
->(undefined);
+const SessionContext = createContext<[SessionState, Dispatch<SetStateAction<SessionState>>] | undefined>(undefined);
 
 interface Props {
   children: ReactNode;
@@ -63,8 +61,8 @@ export const getSessionStateFromLocalStorage = (): SessionState => {
     const decodedToken = decodeToken(token);
     return {
       user: {
-        name: decodedToken?.['https://ndla.no/user_name'],
-        ndlaId: decodedToken?.['https://ndla.no/ndla_id'],
+        name: decodedToken?.["https://ndla.no/user_name"],
+        ndlaId: decodedToken?.["https://ndla.no/ndla_id"],
         permissions: decodedToken?.permissions,
       },
       authenticated: true,
@@ -82,35 +80,32 @@ export const SessionProvider = ({ children, initialValue = initialState }: Props
 export const useSession = (): SessionProps => {
   const sessionContext = useContext(SessionContext);
   if (sessionContext === undefined) {
-    throw new Error('useSession must be used within a SessionProvider');
+    throw new Error("useSession must be used within a SessionProvider");
   }
   const [session, setSession] = sessionContext;
   const navigate = useNavigate();
 
   const setAuthenticated = (authenticated: boolean) => setSession((s) => ({ ...s, authenticated }));
-  const setUserNotRegistered = (userNotRegistered: boolean) =>
-    setSession((s) => ({ ...s, userNotRegistered }));
+  const setUserNotRegistered = (userNotRegistered: boolean) => setSession((s) => ({ ...s, userNotRegistered }));
   const setUserData = (user: UserData) => setSession((s) => ({ ...s, user }));
 
   const login = (authResult: Auth0DecodedHash) => {
     try {
-      const decoded = isValid(authResult.accessToken ?? null)
-        ? decodeToken(authResult.accessToken!)
-        : undefined;
+      const decoded = isValid(authResult.accessToken ?? null) ? decodeToken(authResult.accessToken!) : undefined;
       const permissions = decoded?.permissions ?? [];
-      const scope = decoded?.scope ?? '';
-      const combinedPermissions = [...permissions, ...scope.split(' ')];
+      const scope = decoded?.scope ?? "";
+      const combinedPermissions = [...permissions, ...scope.split(" ")];
       const uniquePermissions = [...new Set(combinedPermissions)];
 
-      if (decoded && uniquePermissions.some((permission) => permission.includes(':'))) {
+      if (decoded && uniquePermissions.some((permission) => permission.includes(":"))) {
         if (authResult.state) window.location.href = authResult.state;
         setAuthenticated(true);
         setUserData({
-          name: decoded['https://ndla.no/user_name'],
+          name: decoded["https://ndla.no/user_name"],
           permissions: uniquePermissions,
         });
         setAccessTokenInLocalStorage(authResult.accessToken!, true);
-        navigate('/', { replace: true });
+        navigate("/", { replace: true });
       } else {
         setUserNotRegistered(true);
         navigate(`${toLogin()}/failure`, { replace: true });

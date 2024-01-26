@@ -6,20 +6,20 @@
  *
  */
 
-import { ErrorMessage, useFormikContext } from 'formik';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { FieldHeader } from '@ndla/forms';
-import FormikField, { FormikFieldHelp } from '../../../components/FormikField';
-import HowToHelper from '../../../components/HowTo/HowToHelper';
-import VisualElement from '../../VisualElement/VisualElement';
-import { VisualElementType } from '../../VisualElement/VisualElementMenu';
+import { ErrorMessage, useFormikContext } from "formik";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { FieldHeader } from "@ndla/forms";
+import FormikField, { FormikFieldHelp } from "../../../components/FormikField";
+import HowToHelper from "../../../components/HowTo/HowToHelper";
+import VisualElement from "../../VisualElement/VisualElement";
+import { VisualElementType } from "../../VisualElement/VisualElementMenu";
 
 const StyledErrorPreLine = styled.span`
   white-space: pre-line;
 `;
 
-const extraErrorFields = ['visualElementCaption', 'visualElementAlt'];
+const extraErrorFields = ["visualElementCaption", "visualElementAlt"];
 
 interface Props {
   types?: VisualElementType[];
@@ -33,12 +33,12 @@ const VisualElementField = ({ types }: Props) => {
       <FormikField name="visualElement">
         {({ field }) => (
           <div>
-            <FieldHeader title={t('form.visualElement.title')}>
-              <HowToHelper pageId="VisualElement" tooltip={t('form.visualElement.helpLabel')} />
+            <FieldHeader title={t("form.visualElement.title")}>
+              <HowToHelper pageId="VisualElement" tooltip={t("form.visualElement.helpLabel")} />
             </FieldHeader>
             <>
               <VisualElement
-                label={t('form.visualElement.label')}
+                label={t("form.visualElement.label")}
                 language={formik.values.language}
                 types={types}
                 {...field}

@@ -6,14 +6,14 @@
  *
  */
 
-import { useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import { HelmetWithTracker } from '@ndla/tracker';
-import { INewConcept } from '@ndla/types-backend/concept-api';
-import ConceptForm from './ConceptForm/ConceptForm';
-import { toEditConcept } from '../../util/routeHelpers';
-import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
+import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import { HelmetWithTracker } from "@ndla/tracker";
+import { INewConcept } from "@ndla/types-backend/concept-api";
+import ConceptForm from "./ConceptForm/ConceptForm";
+import { toEditConcept } from "../../util/routeHelpers";
+import { useFetchConceptData } from "../FormikForm/formikConceptHooks";
 
 interface Props {
   inModal?: boolean;
@@ -23,10 +23,7 @@ interface Props {
 const CreateConcept = ({ inModal = false, addConceptInModal }: Props) => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
-  const { subjects, createConcept, fetchSearchTags, conceptArticles } = useFetchConceptData(
-    undefined,
-    i18n.language,
-  );
+  const { subjects, createConcept, fetchSearchTags, conceptArticles } = useFetchConceptData(undefined, i18n.language);
 
   const onCreate = useCallback(
     async (createdConcept: INewConcept) => {

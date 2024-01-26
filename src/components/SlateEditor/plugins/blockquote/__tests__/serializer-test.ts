@@ -6,13 +6,10 @@
  *
  */
 
-import { Descendant } from 'slate';
-import {
-  blockContentToEditorValue,
-  blockContentToHTML,
-} from '../../../../../util/articleContentConverter';
-import { TYPE_SECTION } from '../../section/types';
-import { TYPE_QUOTE } from '../types';
+import { Descendant } from "slate";
+import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
+import { TYPE_SECTION } from "../../section/types";
+import { TYPE_QUOTE } from "../types";
 
 const editor: Descendant[] = [
   {
@@ -20,21 +17,21 @@ const editor: Descendant[] = [
     children: [
       {
         type: TYPE_QUOTE,
-        children: [{ text: 'content' }],
+        children: [{ text: "content" }],
       },
     ],
   },
 ];
 
-const html = '<section><blockquote>content</blockquote></section>';
+const html = "<section><blockquote>content</blockquote></section>";
 
-describe('blockquote serializing tests', () => {
-  test('serializing', () => {
+describe("blockquote serializing tests", () => {
+  test("serializing", () => {
     const res = blockContentToHTML(editor);
     expect(res).toMatch(html);
   });
 
-  test('deserializing', () => {
+  test("deserializing", () => {
     const res = blockContentToEditorValue(html);
     expect(res).toEqual(editor);
   });

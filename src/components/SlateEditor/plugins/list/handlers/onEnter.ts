@@ -5,14 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { Editor, Node, Element, Range, Transforms, Path, Point } from 'slate';
+import { Editor, Node, Element, Range, Transforms, Path, Point } from "slate";
 
-import { ReactEditor } from 'slate-react';
-import { TYPE_PARAGRAPH } from '../../paragraph/types';
-import { defaultParagraphBlock } from '../../paragraph/utils';
-import { getEditorAncestors } from '../../toolbar/toolbarState';
-import { TYPE_LIST_ITEM } from '../types';
-import { defaultListItemBlock } from '../utils/defaultBlocks';
+import { ReactEditor } from "slate-react";
+import { TYPE_PARAGRAPH } from "../../paragraph/types";
+import { defaultParagraphBlock } from "../../paragraph/utils";
+import { getEditorAncestors } from "../../toolbar/toolbarState";
+import { TYPE_LIST_ITEM } from "../types";
+import { defaultListItemBlock } from "../utils/defaultBlocks";
 
 const onEnter = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEvent) => void) => {
   if (event.shiftKey || !editor.selection) return next?.(event);
@@ -39,7 +39,7 @@ const onEnter = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEv
   }
 
   // If list-item is empty, remove list item and jump out of list.
-  if (Node.string(selectedDefinitionItem) === '' && selectedDefinitionItem.children.length === 1) {
+  if (Node.string(selectedDefinitionItem) === "" && selectedDefinitionItem.children.length === 1) {
     Editor.withoutNormalizing(editor, () => {
       Transforms.unwrapNodes(editor, {
         at: selectedDefinitionItemPath,
@@ -51,9 +51,9 @@ const onEnter = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEv
     return;
   }
 
-  Transforms.unsetNodes(editor, 'serializeAsText', {
+  Transforms.unsetNodes(editor, "serializeAsText", {
     match: (node) => Element.isElement(node) && node.type === TYPE_PARAGRAPH,
-    mode: 'lowest',
+    mode: "lowest",
   });
 
   // If at end of list-item, insert a new list item.
@@ -82,7 +82,7 @@ const onEnter = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEv
   // Split current listItem at selection.
   Transforms.splitNodes(editor, {
     match: (node) => Element.isElement(node) && node.type === TYPE_LIST_ITEM,
-    mode: 'lowest',
+    mode: "lowest",
   });
   Transforms.select(editor, Editor.start(editor, Path.next(selectedDefinitionItemPath)));
 };

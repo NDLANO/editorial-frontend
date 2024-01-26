@@ -5,15 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { Editor, Element, Transforms, Path } from 'slate';
-import { ReactEditor } from 'slate-react';
+import { Editor, Element, Transforms, Path } from "slate";
+import { ReactEditor } from "slate-react";
 
-import getCurrentBlock from '../../../utils/getCurrentBlock';
-import hasNodeOfType from '../../../utils/hasNodeOfType';
-import { firstTextBlockElement } from '../../../utils/normalizationHelpers';
-import { TYPE_LIST, TYPE_LIST_ITEM } from '../types';
+import getCurrentBlock from "../../../utils/getCurrentBlock";
+import hasNodeOfType from "../../../utils/hasNodeOfType";
+import { firstTextBlockElement } from "../../../utils/normalizationHelpers";
+import { TYPE_LIST, TYPE_LIST_ITEM } from "../types";
 
-import { defaultListBlock } from '../utils/defaultBlocks';
+import { defaultListBlock } from "../utils/defaultBlocks";
 
 const onTab = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEvent) => void) => {
   if (!editor.selection) return next && next(event);
@@ -34,7 +34,7 @@ const onTab = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEven
   const [currentItemNode, currentItemPath] = listItemEntry;
   const [[currentTextBlockNode, currentTextBlockPath]] = Editor.nodes(editor, {
     match: (n) => Element.isElement(n) && firstTextBlockElement.includes(n.type),
-    mode: 'lowest',
+    mode: "lowest",
   });
 
   if (
@@ -68,7 +68,9 @@ const onTab = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEven
                 Transforms.setNodes(
                   editor,
                   { listType: currentListNode.listType },
-                  { at: [...currentItemPath, currentItemNode.children.length - 1] },
+                  {
+                    at: [...currentItemPath, currentItemNode.children.length - 1],
+                  },
                 );
               }
             }
@@ -83,10 +85,7 @@ const onTab = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEven
               // If current item contains more than one block, they should be moved as well
               if (Editor.hasPath(editor, Path.next(currentItemPath))) {
                 const anchor = Editor.start(editor, Path.next(currentItemPath));
-                const focus = Editor.end(editor, [
-                  ...currentListPath,
-                  currentListNode.children.length - 1,
-                ]);
+                const focus = Editor.end(editor, [...currentListPath, currentListNode.children.length - 1]);
                 if (anchor && focus) {
                   const childList = currentItemNode.children[currentItemNode.children.length - 1];
                   if (Element.isElement(childList) && childList.type === TYPE_LIST) {
@@ -105,16 +104,12 @@ const onTab = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEven
                     // move any following list-items of selected list to the child list.
                     Transforms.moveNodes(editor, {
                       match: (node) => Element.isElement(node) && node.type === TYPE_LIST_ITEM,
-                      mode: 'lowest',
+                      mode: "lowest",
                       at: {
                         anchor,
                         focus,
                       },
-                      to: [
-                        ...currentItemPath,
-                        currentItemNode.children.length - 1,
-                        childList.children.length,
-                      ],
+                      to: [...currentItemPath, currentItemNode.children.length - 1, childList.children.length],
                     });
                   } else {
                     // If a child list does not exist and following items exist, wrap following items in list and move it
@@ -175,10 +170,7 @@ const onTab = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEven
             const [previousNode] = Editor.node(editor, previousPath);
 
             if (Element.isElement(previousNode) && previousNode.type === TYPE_LIST_ITEM) {
-              const [lastNode, lastNodePath] = Editor.node(editor, [
-                ...previousPath,
-                previousNode.children.length - 1,
-              ]);
+              const [lastNode, lastNodePath] = Editor.node(editor, [...previousPath, previousNode.children.length - 1]);
               // If previous list item has a sublist, move current item inside it.
               if (Element.isElement(lastNode) && lastNode.type === TYPE_LIST) {
                 return Transforms.moveNodes(editor, {

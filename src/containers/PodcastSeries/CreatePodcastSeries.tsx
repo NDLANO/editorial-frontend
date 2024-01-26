@@ -6,12 +6,12 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import { INewSeries } from '@ndla/types-backend/audio-api';
-import PodcastSeriesForm from './components/PodcastSeriesForm';
-import { postSeries } from '../../modules/audio/audioApi';
-import { toEditPodcastSeries } from '../../util/routeHelpers';
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import { INewSeries } from "@ndla/types-backend/audio-api";
+import PodcastSeriesForm from "./components/PodcastSeriesForm";
+import { postSeries } from "../../modules/audio/audioApi";
+import { toEditPodcastSeries } from "../../util/routeHelpers";
 
 const CreatePodcastSeries = () => {
   const { i18n } = useTranslation();
@@ -24,12 +24,7 @@ const CreatePodcastSeries = () => {
   };
 
   return (
-    <PodcastSeriesForm
-      language={locale}
-      onUpdate={onUpdate}
-      isNewlyCreated={false}
-      supportedLanguages={[locale]}
-    />
+    <PodcastSeriesForm language={locale} onUpdate={onUpdate} isNewlyCreated={false} supportedLanguages={[locale]} />
   );
 };
 

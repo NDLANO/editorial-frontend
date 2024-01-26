@@ -6,23 +6,23 @@
  *
  */
 
-import { ArrayHelpers, FieldArray, useField } from 'formik';
-import { useCallback, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2, IconButtonV2 } from '@ndla/button';
-import { spacing, colors, fonts } from '@ndla/core';
-import { Plus } from '@ndla/icons/action';
-import { ChevronRight } from '@ndla/icons/common';
-import { DeleteForever } from '@ndla/icons/editor';
-import SafeLink from '@ndla/safelink';
-import { IArticleSummaryV2 } from '@ndla/types-backend/article-api';
-import FrontpageArticleSearch from './FrontpageArticleSearch';
-import FrontpageNodeList, { FRONTPAGE_DEPTH_LIMIT } from './FrontpageNodeList';
-import { MenuWithArticle } from './types';
-import { toEditFrontPageArticle } from '../../util/routeHelpers';
+import { ArrayHelpers, FieldArray, useField } from "formik";
+import { useCallback, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2, IconButtonV2 } from "@ndla/button";
+import { spacing, colors, fonts } from "@ndla/core";
+import { Plus } from "@ndla/icons/action";
+import { ChevronRight } from "@ndla/icons/common";
+import { DeleteForever } from "@ndla/icons/editor";
+import SafeLink from "@ndla/safelink";
+import { IArticleSummaryV2 } from "@ndla/types-backend/article-api";
+import FrontpageArticleSearch from "./FrontpageArticleSearch";
+import FrontpageNodeList, { FRONTPAGE_DEPTH_LIMIT } from "./FrontpageNodeList";
+import { MenuWithArticle } from "./types";
+import { toEditFrontPageArticle } from "../../util/routeHelpers";
 
-interface Props extends Pick<ArrayHelpers, 'remove' | 'replace'> {
+interface Props extends Pick<ArrayHelpers, "remove" | "replace"> {
   level: number;
   name: string;
   index: number;
@@ -71,7 +71,7 @@ const OpenButton = styled(ButtonV2)`
   &[hidden] {
     cursor: default;
   }
-  &[data-open='true'] {
+  &[data-open="true"] {
     svg {
       transform: rotate(90deg);
     }
@@ -109,7 +109,7 @@ const FrontpageNode = ({ name, remove, index, level, replace }: Props) => {
   );
 
   const openLabel = useMemo(
-    () => (isOpen ? t('frontpageForm.openChildren') : t('frontpageForm.closeChildren')),
+    () => (isOpen ? t("frontpageForm.openChildren") : t("frontpageForm.closeChildren")),
     [isOpen, t],
   );
 
@@ -133,18 +133,15 @@ const FrontpageNode = ({ name, remove, index, level, replace }: Props) => {
               {!!field.value.menu.length && <ChevronRight />}
             </OpenButton>
           )}
-          <TitleLink
-            to={toEditFrontPageArticle(field.value.articleId, i18n.language)}
-            target="_blank"
-          >
-            {field.value.article?.title.title ?? t('frontpageForm.failedTitle')}
+          <TitleLink to={toEditFrontPageArticle(field.value.articleId, i18n.language)} target="_blank">
+            {field.value.article?.title.title ?? t("frontpageForm.failedTitle")}
           </TitleLink>
         </TitleWrapper>
         <EditButtonWrapper>
           {!field.value.menu.length && (
             <IconButtonV2
-              aria-label={t('remove')}
-              title={t('remove')}
+              aria-label={t("remove")}
+              title={t("remove")}
               hidden={!!field.value.menu.length}
               variant="ghost"
               colorTheme="danger"
@@ -156,8 +153,8 @@ const FrontpageNode = ({ name, remove, index, level, replace }: Props) => {
           <FrontpageArticleSearch onChange={onAdd}>
             <IconButtonV2
               variant="ghost"
-              aria-label={t('frontpageForm.addArticle')}
-              title={t('frontpageForm.addArticle')}
+              aria-label={t("frontpageForm.addArticle")}
+              title={t("frontpageForm.addArticle")}
               disabled={level > FRONTPAGE_DEPTH_LIMIT - 1}
             >
               <Plus />
@@ -166,10 +163,7 @@ const FrontpageNode = ({ name, remove, index, level, replace }: Props) => {
         </EditButtonWrapper>
       </NodeContentWrapper>
       {!!field.value.menu.length && isOpen && (
-        <FieldArray
-          name={`${name}.menu`}
-          render={(props) => <FrontpageNodeList {...props} level={level + 1} />}
-        />
+        <FieldArray name={`${name}.menu`} render={(props) => <FrontpageNodeList {...props} level={level + 1} />} />
       )}
     </NodeWrapper>
   );

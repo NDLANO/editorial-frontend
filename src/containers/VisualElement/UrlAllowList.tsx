@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
 
 interface AllowListEntry {
   name: string;
@@ -33,8 +33,8 @@ const UrlAllowList = ({ allowList }: Props) => {
     <StyledTable className="c-table">
       <thead>
         <tr>
-          <th>{t('form.content.link.name')}</th>
-          <th>{t('form.content.link.domains')}</th>
+          <th>{t("form.content.link.name")}</th>
+          <th>{t("form.content.link.domains")}</th>
         </tr>
       </thead>
       <tbody>

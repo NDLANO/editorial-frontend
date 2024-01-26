@@ -6,12 +6,12 @@
  *
  */
 
-import { FieldProps, useFormikContext } from 'formik';
-import { useTranslation } from 'react-i18next';
-import { AudioFormikType } from './AudioForm';
-import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
-import FormikField from '../../../components/FormikField';
-import { fetchSearchTags } from '../../../modules/audio/audioApi';
+import { FieldProps, useFormikContext } from "formik";
+import { useTranslation } from "react-i18next";
+import { AudioFormikType } from "./AudioForm";
+import AsyncSearchTags from "../../../components/Dropdown/asyncDropdown/AsyncSearchTags";
+import FormikField from "../../../components/FormikField";
+import { fetchSearchTags } from "../../../modules/audio/audioApi";
 
 const AudioMetaData = () => {
   const {
@@ -20,12 +20,7 @@ const AudioMetaData = () => {
   const { t } = useTranslation();
   return (
     <>
-      <FormikField
-        name="tags"
-        label={t('form.tags.label')}
-        obligatory
-        description={t('form.tags.description')}
-      >
+      <FormikField name="tags" label={t("form.tags.label")} obligatory description={t("form.tags.description")}>
         {({ field, form }: FieldProps<string[], string[]>) => (
           <AsyncSearchTags
             multiSelect

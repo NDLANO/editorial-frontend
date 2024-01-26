@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { memo } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { colors } from '@ndla/core';
-import FormikField from '../../../components/FormikField/FormikField';
-import AddRevisionDateField from '../../FormikForm/AddRevisionDateField';
+import { memo } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { colors } from "@ndla/core";
+import FormikField from "../../../components/FormikField/FormikField";
+import AddRevisionDateField from "../../FormikForm/AddRevisionDateField";
 
 const ErrorField = styled.p`
   color: ${colors.support.red};
@@ -21,8 +21,8 @@ const RevisionNotes = () => {
   return (
     <FormikField
       name="revisionMeta"
-      label={t('form.name.revisions')}
-      description={t('form.revisions.description')}
+      label={t("form.name.revisions")}
+      description={t("form.revisions.description")}
       showError={false}
     >
       {({ field, form: { errors } }) => {

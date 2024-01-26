@@ -6,13 +6,13 @@
  *
  */
 
-import { MouseEventHandler, ReactNode, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { RenderElementProps } from 'slate-react';
-import styled from '@emotion/styled';
-import { FactBox } from '@ndla/ui';
-import DeleteButton from '../../../DeleteButton';
-import MoveContentButton from '../../../MoveContentButton';
+import { MouseEventHandler, ReactNode, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { RenderElementProps } from "slate-react";
+import styled from "@emotion/styled";
+import { FactBox } from "@ndla/ui";
+import DeleteButton from "../../../DeleteButton";
+import MoveContentButton from "../../../MoveContentButton";
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -28,7 +28,7 @@ interface Props {
   children: ReactNode;
   onRemoveClick?: MouseEventHandler;
   onMoveContent?: MouseEventHandler;
-  attributes: RenderElementProps['attributes'];
+  attributes: RenderElementProps["attributes"];
 }
 
 const SlateFactAside = ({ children, onRemoveClick, attributes, onMoveContent }: Props) => {
@@ -40,7 +40,7 @@ const SlateFactAside = ({ children, onRemoveClick, attributes, onMoveContent }: 
       <ButtonContainer>
         <MoveContentButton onMouseDown={onMoveContent} />
         <DeleteButton
-          aria-label={t('form.remove')}
+          aria-label={t("form.remove")}
           variant="stripped"
           onMouseDown={onRemoveClick}
           data-testid="remove-fact-aside"

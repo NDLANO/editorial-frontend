@@ -6,8 +6,7 @@
  *
  */
 
-import { jsx as slatejsx } from 'slate-hyperscript';
-import { TYPE_H5P } from './types';
+import { jsx as slatejsx } from "slate-hyperscript";
+import { TYPE_H5P } from "./types";
 
-export const defaultH5pBlock = () =>
-  slatejsx('element', { type: TYPE_H5P, isFirstEdit: true }, [{ text: '' }]);
+export const defaultH5pBlock = () => slatejsx("element", { type: TYPE_H5P, isFirstEdit: true }, [{ text: "" }]);

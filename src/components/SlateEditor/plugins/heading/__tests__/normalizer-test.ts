@@ -6,40 +6,40 @@
  *
  */
 
-import { createEditor, Descendant, Editor, Transforms } from 'slate';
-import { withHistory } from 'slate-history';
-import { withReact } from 'slate-react';
-import { learningResourcePlugins } from '../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins';
-import withPlugins from '../../../utils/withPlugins';
-import { TYPE_PARAGRAPH } from '../../paragraph/types';
-import { TYPE_SECTION } from '../../section/types';
-import { TYPE_HEADING } from '../types';
+import { createEditor, Descendant, Editor, Transforms } from "slate";
+import { withHistory } from "slate-history";
+import { withReact } from "slate-react";
+import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
+import withPlugins from "../../../utils/withPlugins";
+import { TYPE_PARAGRAPH } from "../../paragraph/types";
+import { TYPE_SECTION } from "../../section/types";
+import { TYPE_HEADING } from "../types";
 
 const editor = withHistory(withReact(withPlugins(createEditor(), learningResourcePlugins)));
 
-describe('heading normalizer tests', () => {
-  test('unwrap empty header if not selected', () => {
+describe("heading normalizer tests", () => {
+  test("unwrap empty header if not selected", () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
         children: [
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
+            children: [{ text: "" }],
           },
           {
             type: TYPE_HEADING,
             level: 2,
-            children: [{ text: '' }],
+            children: [{ text: "" }],
           },
           {
             type: TYPE_HEADING,
             level: 3,
-            children: [{ text: 'not empty' }],
+            children: [{ text: "not empty" }],
           },
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
+            children: [{ text: "" }],
           },
         ],
       },
@@ -51,20 +51,20 @@ describe('heading normalizer tests', () => {
         children: [
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
+            children: [{ text: "" }],
           },
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
+            children: [{ text: "" }],
           },
           {
             type: TYPE_HEADING,
             level: 3,
-            children: [{ text: 'not empty' }],
+            children: [{ text: "not empty" }],
           },
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
+            children: [{ text: "" }],
           },
         ],
       },
@@ -74,23 +74,23 @@ describe('heading normalizer tests', () => {
     expect(editor.children).toEqual(expectedValue);
   });
 
-  test('dont remove empty header if selected', () => {
+  test("dont remove empty header if selected", () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
         children: [
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
+            children: [{ text: "" }],
           },
           {
             type: TYPE_HEADING,
             level: 2,
-            children: [{ text: '' }],
+            children: [{ text: "" }],
           },
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
+            children: [{ text: "" }],
           },
         ],
       },
@@ -102,16 +102,16 @@ describe('heading normalizer tests', () => {
         children: [
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
+            children: [{ text: "" }],
           },
           {
             type: TYPE_HEADING,
             level: 2,
-            children: [{ text: '' }],
+            children: [{ text: "" }],
           },
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
+            children: [{ text: "" }],
           },
         ],
       },

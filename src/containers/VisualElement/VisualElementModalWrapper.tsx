@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { ReactElement, useCallback } from 'react';
-import styled from '@emotion/styled';
-import { ModalHeader, ModalBody, ModalCloseButton, Modal, ModalContent } from '@ndla/modal';
+import { ReactElement, useCallback } from "react";
+import styled from "@emotion/styled";
+import { ModalHeader, ModalBody, ModalCloseButton, Modal, ModalContent } from "@ndla/modal";
 
 interface Props {
   resource: string;
@@ -46,7 +46,7 @@ const VisualElementModalWrapper = ({ resource, children, onClose, isOpen, label 
     [onClose],
   );
 
-  if (resource === 'h5p') {
+  if (resource === "h5p") {
     return (
       <Modal open={isOpen} onOpenChange={onOpenChange}>
         <StyledModalContent size="large">

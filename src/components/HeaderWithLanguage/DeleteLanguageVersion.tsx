@@ -6,22 +6,19 @@
  *
  */
 
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { colors } from '@ndla/core';
-import { DeleteForever } from '@ndla/icons/editor';
-import { useMessages } from '../../containers/Messages/MessagesProvider';
-import {
-  deleteLanguageVersionAudio,
-  deleteLanguageVersionSeries,
-} from '../../modules/audio/audioApi';
-import { deleteLanguageVersionConcept } from '../../modules/concept/conceptApi';
-import { deleteLanguageVersion as deleteLanguageVersionDraft } from '../../modules/draft/draftApi';
-import { deleteLanguageVersionImage } from '../../modules/image/imageApi';
-import { NdlaErrorPayload } from '../../util/resolveJsonOrRejectWithError';
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { colors } from "@ndla/core";
+import { DeleteForever } from "@ndla/icons/editor";
+import { useMessages } from "../../containers/Messages/MessagesProvider";
+import { deleteLanguageVersionAudio, deleteLanguageVersionSeries } from "../../modules/audio/audioApi";
+import { deleteLanguageVersionConcept } from "../../modules/concept/conceptApi";
+import { deleteLanguageVersion as deleteLanguageVersionDraft } from "../../modules/draft/draftApi";
+import { deleteLanguageVersionImage } from "../../modules/image/imageApi";
+import { NdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
 import {
   toCreateAudioFile,
   toCreateConcept,
@@ -38,8 +35,8 @@ import {
   toEditPodcast,
   toEditPodcastSeries,
   toEditTopicArticle,
-} from '../../util/routeHelpers';
-import AlertModal from '../AlertModal';
+} from "../../util/routeHelpers";
+import AlertModal from "../AlertModal";
 
 const DeleteButton = styled(ButtonV2)`
   white-space: nowrap;
@@ -62,7 +59,7 @@ const StyledWrapper = styled.div`
   align-self: flex-start;
 `;
 
-const nonDeletableTypes = ['standard', 'topic-article', 'concept'];
+const nonDeletableTypes = ["standard", "topic-article", "concept"];
 
 interface Props {
   language: string;
@@ -91,60 +88,42 @@ const DeleteLanguageVersion = ({ id, language, supportedLanguages, type, disable
 
       try {
         switch (type) {
-          case 'audio':
+          case "audio":
             await deleteLanguageVersionAudio(id, language);
-            navigate(
-              newAfterLanguageDeletion
-                ? toCreateAudioFile()
-                : toEditAudio(id, otherSupportedLanguage!),
-            );
+            navigate(newAfterLanguageDeletion ? toCreateAudioFile() : toEditAudio(id, otherSupportedLanguage!));
             break;
-          case 'podcast':
+          case "podcast":
             await deleteLanguageVersionAudio(id, language);
-            navigate(
-              newAfterLanguageDeletion
-                ? toCreatePodcastFile()
-                : toEditPodcast(id, otherSupportedLanguage!),
-            );
+            navigate(newAfterLanguageDeletion ? toCreatePodcastFile() : toEditPodcast(id, otherSupportedLanguage!));
             break;
-          case 'podcast-series':
+          case "podcast-series":
             await deleteLanguageVersionSeries(id, language);
             navigate(
-              newAfterLanguageDeletion
-                ? toCreatePodcastSeries()
-                : toEditPodcastSeries(id, otherSupportedLanguage!),
+              newAfterLanguageDeletion ? toCreatePodcastSeries() : toEditPodcastSeries(id, otherSupportedLanguage!),
             );
             break;
-          case 'image':
+          case "image":
             await deleteLanguageVersionImage(id, language);
-            navigate(
-              newAfterLanguageDeletion ? toCreateImage() : toEditImage(id, otherSupportedLanguage!),
-            );
+            navigate(newAfterLanguageDeletion ? toCreateImage() : toEditImage(id, otherSupportedLanguage!));
             break;
-          case 'concept':
+          case "concept":
             await deleteLanguageVersionConcept(id, language);
-            navigate(
-              newAfterLanguageDeletion
-                ? toCreateConcept()
-                : toEditConcept(id, otherSupportedLanguage!),
-            );
+            navigate(newAfterLanguageDeletion ? toCreateConcept() : toEditConcept(id, otherSupportedLanguage!));
             break;
-          case 'gloss':
+          case "gloss":
             await deleteLanguageVersionConcept(id, language);
-            navigate(
-              newAfterLanguageDeletion ? toCreateGloss() : toEditGloss(id, otherSupportedLanguage!),
-            );
+            navigate(newAfterLanguageDeletion ? toCreateGloss() : toEditGloss(id, otherSupportedLanguage!));
             break;
-          case 'standard':
+          case "standard":
             await deleteLanguageVersionDraft(id, language);
             navigate(toEditLearningResource(id, otherSupportedLanguage!));
             break;
-          case 'topic-article':
+          case "topic-article":
             await deleteLanguageVersionDraft(id, language);
             navigate(toEditTopicArticle(id, otherSupportedLanguage!));
             break;
 
-          case 'frontpage-article':
+          case "frontpage-article":
             await deleteLanguageVersionDraft(id, language);
             navigate(toEditFrontPageArticle(id, otherSupportedLanguage!));
             break;
@@ -155,40 +134,32 @@ const DeleteLanguageVersion = ({ id, language, supportedLanguages, type, disable
     }
   };
 
-  if (
-    !supportedLanguages.includes(language) ||
-    (nonDeletableTypes.includes(type) && supportedLanguages.length < 2)
-  ) {
+  if (!supportedLanguages.includes(language) || (nonDeletableTypes.includes(type) && supportedLanguages.length < 2)) {
     return null;
   }
 
   return (
     <StyledWrapper>
-      <DeleteButton
-        disabled={disabled}
-        variant="ghost"
-        colorTheme="danger"
-        onClick={toggleShowDeleteWarning}
-      >
+      <DeleteButton disabled={disabled} variant="ghost" colorTheme="danger" onClick={toggleShowDeleteWarning}>
         <DeleteForever />
         <span>
-          {t('form.workflow.deleteLanguageVersion.button', {
+          {t("form.workflow.deleteLanguageVersion.button", {
             languageVersion: t(`languages.${language}`).toLowerCase(),
           })}
         </span>
       </DeleteButton>
       <AlertModal
-        title={t('form.workflow.deleteLanguageVersion.title')}
-        label={t('form.workflow.deleteLanguageVersion.title')}
+        title={t("form.workflow.deleteLanguageVersion.title")}
+        label={t("form.workflow.deleteLanguageVersion.title")}
         show={showDeleteWarning}
-        text={t('form.workflow.deleteLanguageVersion.modal')}
+        text={t("form.workflow.deleteLanguageVersion.modal")}
         actions={[
           {
-            text: t('form.abort'),
+            text: t("form.abort"),
             onClick: toggleShowDeleteWarning,
           },
           {
-            text: t('form.workflow.deleteLanguageVersion.button', {
+            text: t("form.workflow.deleteLanguageVersion.button", {
               languageVersion: t(`languages.${language}`).toLowerCase(),
             }),
             onClick: deleteLanguageVersion,

@@ -6,17 +6,17 @@
  *
  */
 
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Navigate, useParams } from 'react-router-dom';
-import { IAudioMetaInformation, IUpdatedAudioMetaInformation } from '@ndla/types-backend/audio-api';
-import PodcastForm from './components/PodcastForm';
-import { TranslateType, useTranslateToNN } from '../../components/NynorskTranslateProvider';
-import Spinner from '../../components/Spinner';
-import { updateAudio, fetchAudio } from '../../modules/audio/audioApi';
-import { createFormData } from '../../util/formDataHelper';
-import { toEditAudio } from '../../util/routeHelpers';
-import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Navigate, useParams } from "react-router-dom";
+import { IAudioMetaInformation, IUpdatedAudioMetaInformation } from "@ndla/types-backend/audio-api";
+import PodcastForm from "./components/PodcastForm";
+import { TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
+import Spinner from "../../components/Spinner";
+import { updateAudio, fetchAudio } from "../../modules/audio/audioApi";
+import { createFormData } from "../../util/formDataHelper";
+import { toEditAudio } from "../../util/routeHelpers";
+import NotFoundPage from "../NotFoundPage/NotFoundPage";
 
 interface Props {
   isNewlyCreated?: boolean;
@@ -24,29 +24,29 @@ interface Props {
 
 const translateFields: TranslateType[] = [
   {
-    field: 'manuscript.manuscript',
-    type: 'text',
+    field: "manuscript.manuscript",
+    type: "text",
   },
   {
-    field: 'title.title',
-    type: 'text',
+    field: "title.title",
+    type: "text",
   },
   {
-    field: 'podcastMeta.introduction',
-    type: 'text',
+    field: "podcastMeta.introduction",
+    type: "text",
   },
   {
-    field: 'podcastMeta.coverPhoto.altText',
-    type: 'text',
+    field: "podcastMeta.coverPhoto.altText",
+    type: "text",
   },
   {
-    field: 'tags.tags',
-    type: 'text',
+    field: "tags.tags",
+    type: "text",
   },
 ];
 
 const EditPodcast = ({ isNewlyCreated }: Props) => {
-  const params = useParams<'id' | 'selectedLanguage'>();
+  const params = useParams<"id" | "selectedLanguage">();
   const podcastId = Number(params.id);
   const podcastLanguage = params.selectedLanguage!;
   const { i18n } = useTranslation();
@@ -79,10 +79,7 @@ const EditPodcast = ({ isNewlyCreated }: Props) => {
     })();
   }, [podcast, shouldTranslate, translate]);
 
-  const onUpdate = async (
-    newPodcast: IUpdatedAudioMetaInformation,
-    podcastFile: string | Blob | undefined,
-  ) => {
+  const onUpdate = async (newPodcast: IUpdatedAudioMetaInformation, podcastFile: string | Blob | undefined) => {
     const formData = await createFormData(podcastFile, newPodcast);
     const updatedPodcast = await updateAudio(Number(podcastId!), formData);
     setPodcastWithFlag(updatedPodcast, false);
@@ -100,7 +97,7 @@ const EditPodcast = ({ isNewlyCreated }: Props) => {
     return <NotFoundPage />;
   }
 
-  if (podcast.audioType === 'standard') {
+  if (podcast.audioType === "standard") {
     return <Navigate replace to={toEditAudio(podcastId, podcastLanguage)} />;
   }
   const newLanguage = !podcast.supportedLanguages.includes(podcastLanguage);

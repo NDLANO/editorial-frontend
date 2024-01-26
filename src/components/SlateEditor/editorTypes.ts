@@ -6,7 +6,7 @@
  *
  */
 
-import { Descendant } from 'slate';
+import { Descendant } from "slate";
 
 export interface Values {
   id: number;

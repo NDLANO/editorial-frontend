@@ -6,18 +6,18 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
-import { spacing, colors, spacingUnit, fonts } from '@ndla/core';
-import { DeleteForever, Link } from '@ndla/icons/editor';
-import SafeLink from '@ndla/safelink';
-import ElementImage, { ELEMENT_HEIGHT } from './ElementImage';
-import { ExternalElementType, ListElement } from './ElementList';
-import { createGuard } from '../../../util/guards';
-import { resourceToLinkProps } from '../../../util/resourceHelpers';
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
+import { spacing, colors, spacingUnit, fonts } from "@ndla/core";
+import { DeleteForever, Link } from "@ndla/icons/editor";
+import SafeLink from "@ndla/safelink";
+import ElementImage, { ELEMENT_HEIGHT } from "./ElementImage";
+import { ExternalElementType, ListElement } from "./ElementList";
+import { createGuard } from "../../../util/guards";
+import { resourceToLinkProps } from "../../../util/resourceHelpers";
 
-const isExternal = createGuard<ExternalElementType>('isExternal');
+const isExternal = createGuard<ExternalElementType>("isExternal");
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -62,12 +62,12 @@ const DeleteButton = ({ onDelete, index, removeElementTranslation }: DeleteButto
   const { t } = useTranslation();
   return (
     <IconButtonV2
-      aria-label={removeElementTranslation ?? t('form.relatedContent.removeArticle')}
+      aria-label={removeElementTranslation ?? t("form.relatedContent.removeArticle")}
       variant="ghost"
       colorTheme="danger"
       data-testid="elementListItemDeleteButton"
       onClick={() => onDelete(index)}
-      title={removeElementTranslation ?? t('form.relatedContent.removeArticle')}
+      title={removeElementTranslation ?? t("form.relatedContent.removeArticle")}
     >
       <DeleteForever />
     </IconButtonV2>
@@ -83,14 +83,7 @@ interface Props {
   isDeletable: boolean;
 }
 
-const ListElementCard = ({
-  element,
-  onDelete,
-  index,
-  removeElementTranslation,
-  articleType,
-  isDeletable,
-}: Props) => {
+const ListElementCard = ({ element, onDelete, index, removeElementTranslation, articleType, isDeletable }: Props) => {
   const { i18n } = useTranslation();
   const isExternalElement = isExternal(element);
 
@@ -106,36 +99,22 @@ const ListElementCard = ({
           </StyledSafeLink>
         </StyledWrapper>
         {isDeletable && (
-          <DeleteButton
-            onDelete={onDelete}
-            index={index}
-            removeElementTranslation={removeElementTranslation}
-          />
+          <DeleteButton onDelete={onDelete} index={index} removeElementTranslation={removeElementTranslation} />
         )}
       </StyledCard>
     );
   }
 
-  const linkProps = resourceToLinkProps(
-    element,
-    element.articleType ?? articleType ?? 'learning-path',
-    i18n.language,
-  );
+  const linkProps = resourceToLinkProps(element, element.articleType ?? articleType ?? "learning-path", i18n.language);
 
   return (
     <StyledCard data-testid="elementListItem">
       <StyledWrapper>
         <ElementImage url={element.metaImage?.url} alt={element?.metaImage?.alt} />
-        <StyledSafeLink to={linkProps.to ? linkProps.to : linkProps.href!}>
-          {element.title?.title}
-        </StyledSafeLink>
+        <StyledSafeLink to={linkProps.to ? linkProps.to : linkProps.href!}>{element.title?.title}</StyledSafeLink>
       </StyledWrapper>
       {isDeletable && (
-        <DeleteButton
-          onDelete={onDelete}
-          index={index}
-          removeElementTranslation={removeElementTranslation}
-        />
+        <DeleteButton onDelete={onDelete} index={index} removeElementTranslation={removeElementTranslation} />
       )}
     </StyledCard>
   );

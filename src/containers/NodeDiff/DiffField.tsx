@@ -6,10 +6,10 @@
  *
  */
 
-import { ReactNode } from 'react';
-import styled from '@emotion/styled';
-import DiffSeparator from './DiffSeparator';
-import { DiffResultType } from './diffUtils';
+import { ReactNode } from "react";
+import styled from "@emotion/styled";
+import DiffSeparator from "./DiffSeparator";
+import { DiffResultType } from "./diffUtils";
 
 interface Props {
   children?: ReactNode;
@@ -19,25 +19,25 @@ interface Props {
 
 const diffTypePositionColorMap: Record<DiffResultType, { left: string; right: string }> = {
   ADDED: {
-    left: 'transparent',
-    right: 'green',
+    left: "transparent",
+    right: "green",
   },
   MODIFIED: {
-    left: 'transparent',
-    right: 'yellow',
+    left: "transparent",
+    right: "yellow",
   },
   DELETED: {
-    left: 'red',
-    right: 'transparent',
+    left: "red",
+    right: "transparent",
   },
   NONE: {
-    left: 'transparent',
-    right: 'transparent',
+    left: "transparent",
+    right: "transparent",
   },
 };
 
 interface StyledDiffInnerFieldProps {
-  position: 'left' | 'right';
+  position: "left" | "right";
   type: DiffResultType;
 }
 
@@ -49,7 +49,7 @@ const StyledDiffInnerField = styled.div<StyledDiffInnerFieldProps>`
 `;
 export const DiffInnerField = ({ children, type, left }: Props) => {
   return (
-    <StyledDiffInnerField type={type} position={left ? 'left' : 'right'}>
+    <StyledDiffInnerField type={type} position={left ? "left" : "right"}>
       <DiffSeparator type={type} />
       {children}
     </StyledDiffInnerField>

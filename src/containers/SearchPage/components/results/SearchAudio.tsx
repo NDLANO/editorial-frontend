@@ -6,14 +6,14 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-import { Audio, Podcast } from '@ndla/icons/common';
-import { getLicenseByAbbreviation } from '@ndla/licenses';
-import { IAudioSummary } from '@ndla/types-backend/audio-api';
-import { LicenseLink } from '@ndla/ui';
-import { useLicenses } from '../../../../modules/draft/draftQueries';
-import { toEditAudio, toEditPodcast } from '../../../../util/routeHelpers';
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+import { Audio, Podcast } from "@ndla/icons/common";
+import { getLicenseByAbbreviation } from "@ndla/licenses";
+import { IAudioSummary } from "@ndla/types-backend/audio-api";
+import { LicenseLink } from "@ndla/ui";
+import { useLicenses } from "../../../../modules/draft/draftQueries";
+import { toEditAudio, toEditPodcast } from "../../../../util/routeHelpers";
 import {
   StyledSearchContent,
   StyledSearchDescription,
@@ -21,7 +21,7 @@ import {
   StyledSearchOtherLink,
   StyledSearchResult,
   StyledSearchTitle,
-} from '../form/StyledSearchComponents';
+} from "../form/StyledSearchComponents";
 
 interface Props {
   audio: IAudioSummary;
@@ -34,21 +34,19 @@ const SearchAudio = ({ audio, locale }: Props) => {
   const license = licenses && licenses.find((l) => audio.license === l.license);
   return (
     <StyledSearchResult data-testid="audio-search-result">
-      <StyledSearchImageContainer>
-        {audio.audioType === 'podcast' ? <Podcast /> : <Audio />}
-      </StyledSearchImageContainer>
+      <StyledSearchImageContainer>{audio.audioType === "podcast" ? <Podcast /> : <Audio />}</StyledSearchImageContainer>
       <StyledSearchContent>
         <Link
           to={
-            audio.audioType === 'podcast'
+            audio.audioType === "podcast"
               ? toEditPodcast(audio.id, audio.title.language)
               : toEditAudio(audio.id, audio.title.language)
           }
         >
-          <StyledSearchTitle>{audio.title.title || t('audioSearch.noTitle')}</StyledSearchTitle>
+          <StyledSearchTitle>{audio.title.title || t("audioSearch.noTitle")}</StyledSearchTitle>
         </Link>
         <StyledSearchDescription>
-          {`${t('searchPage.language')}: `}
+          {`${t("searchPage.language")}: `}
           {audio.supportedLanguages?.map((lang) => (
             <StyledSearchOtherLink key={lang}>{t(`languages.${lang}`)}</StyledSearchOtherLink>
           ))}

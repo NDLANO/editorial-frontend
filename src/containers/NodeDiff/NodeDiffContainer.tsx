@@ -66,7 +66,7 @@ const filterNodes = <T,>(diff: DiffType<T>[], options: NodeOptions): DiffType<T>
   const afterNodeOption =
     options.nodeView !== "changed"
       ? diff
-      : diff.filter((d) => d.changed.diffType !== "NONE" ?? d.childrenChanged?.diffType !== "NONE");
+      : diff.filter((d) => d.changed.diffType !== "NONE" || d.childrenChanged?.diffType !== "NONE");
 
   return afterNodeOption;
 };

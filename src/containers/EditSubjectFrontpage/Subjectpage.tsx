@@ -7,14 +7,13 @@
  */
 
 import { Route, Routes } from 'react-router-dom';
-import loadable from '@loadable/component';
 import { OneColumn } from '@ndla/ui';
 
+import CreateSubjectpage from './CreateSubjectpage';
+import EditSubjectpage from './EditSubjectpage';
 import { usePreviousLocation } from '../../util/routeHelpers';
 import Footer from '../App/components/Footer';
-const EditSubjectpage = loadable(() => import('./EditSubjectpage'));
-const CreateSubjectpage = loadable(() => import('./CreateSubjectpage'));
-const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
+import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 const Subjectpage = () => {
   const previousLocation = usePreviousLocation();

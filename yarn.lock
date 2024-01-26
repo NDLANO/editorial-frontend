@@ -158,7 +158,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/helper-plugin-utils@npm:^7.22.5, @babel/helper-plugin-utils@npm:^7.8.0":
+"@babel/helper-plugin-utils@npm:^7.22.5":
   version: 7.22.5
   resolution: "@babel/helper-plugin-utils@npm:7.22.5"
   checksum: d2c4bfe2fa91058bcdee4f4e57a3f4933aed7af843acfd169cd6179fab8d13c1d636474ecabb2af107dc77462c7e893199aa26632bac1c6d7e025a17cbb9d20d
@@ -235,17 +235,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-syntax-dynamic-import@npm:^7.7.4":
-  version: 7.8.3
-  resolution: "@babel/plugin-syntax-dynamic-import@npm:7.8.3"
-  dependencies:
-    "@babel/helper-plugin-utils": "npm:^7.8.0"
-  peerDependencies:
-    "@babel/core": ^7.0.0-0
-  checksum: 9c50927bf71adf63f60c75370e2335879402648f468d0172bc912e303c6a3876927d8eb35807331b57f415392732ed05ab9b42c68ac30a936813ab549e0246c5
-  languageName: node
-  linkType: hard
-
 "@babel/plugin-transform-react-jsx-self@npm:^7.23.3":
   version: 7.23.3
   resolution: "@babel/plugin-transform-react-jsx-self@npm:7.23.3"
@@ -268,7 +257,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.12.0, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.13.10, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.19.4, @babel/runtime@npm:^7.21.0, @babel/runtime@npm:^7.22.5, @babel/runtime@npm:^7.23.2, @babel/runtime@npm:^7.4.5, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.7.6, @babel/runtime@npm:^7.7.7, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2":
+"@babel/runtime@npm:^7.12.0, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.13.10, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.19.4, @babel/runtime@npm:^7.21.0, @babel/runtime@npm:^7.22.5, @babel/runtime@npm:^7.23.2, @babel/runtime@npm:^7.4.5, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.7.6, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2":
   version: 7.23.8
   resolution: "@babel/runtime@npm:7.23.8"
   dependencies:
@@ -1172,30 +1161,6 @@ __metadata:
   version: 3.4.0
   resolution: "@juggle/resize-observer@npm:3.4.0"
   checksum: 12930242357298c6f2ad5d4ec7cf631dfb344ca7c8c830ab7f64e6ac11eb1aae486901d8d880fd08fb1b257800c160a0da3aee1e7ed9adac0ccbb9b7c5d93347
-  languageName: node
-  linkType: hard
-
-"@loadable/babel-plugin@npm:^5.15.3":
-  version: 5.15.3
-  resolution: "@loadable/babel-plugin@npm:5.15.3"
-  dependencies:
-    "@babel/plugin-syntax-dynamic-import": "npm:^7.7.4"
-  peerDependencies:
-    "@babel/core": ^7.0.0-0
-  checksum: e8daac6ba26485b1dd4bd418c341e86195894b6a7313865c9e3af1bf7c7baaca091251c70b393a5b8eaf6508baccf7cfc564c5a8169333f436c0ad7cd97a0bbd
-  languageName: node
-  linkType: hard
-
-"@loadable/component@npm:^5.15.0":
-  version: 5.15.0
-  resolution: "@loadable/component@npm:5.15.0"
-  dependencies:
-    "@babel/runtime": "npm:^7.7.7"
-    hoist-non-react-statics: "npm:^3.3.1"
-    react-is: "npm:^16.12.0"
-  peerDependencies:
-    react: ">=16.3.0"
-  checksum: 51ba8a680461f75f516fc430cdb3864f32705d9ae60395634e13b85948df890db4f1df9d6fd0e5170c2b4740a6aeed430a05542e2c4cf03b415acc9950503d63
   languageName: node
   linkType: hard
 
@@ -3072,15 +3037,6 @@ __metadata:
   dependencies:
     "@types/node": "npm:*"
   checksum: b6f01b4c655a8d1563a1c05309fe195d2b625681bd096ebc1e609e1fd9a3973222981e4550660c7809e6e1166745357d812730a6620ad10e0b04fdc98edcf92f
-  languageName: node
-  linkType: hard
-
-"@types/loadable__component@npm:^5.13.4":
-  version: 5.13.4
-  resolution: "@types/loadable__component@npm:5.13.4"
-  dependencies:
-    "@types/react": "npm:*"
-  checksum: 23ec9b0405c0dd41cae3bc786144db0316986a012f7fb7d3557bd81627ab6d0681c4a02c78a51063dc79024bf25405f491fa745e0bf7cc72cc41fafc22362cbe
   languageName: node
   linkType: hard
 
@@ -5428,8 +5384,6 @@ __metadata:
     "@fontsource/source-code-pro": "npm:^4.5.9"
     "@fontsource/source-sans-pro": "npm:^4.5.9"
     "@fontsource/source-serif-pro": "npm:^4.5.7"
-    "@loadable/babel-plugin": "npm:^5.15.3"
-    "@loadable/component": "npm:^5.15.0"
     "@ndla/accordion": "npm:^3.0.25"
     "@ndla/article-converter": "npm:^6.0.52"
     "@ndla/audio-search": "npm:^4.0.61"
@@ -5470,7 +5424,6 @@ __metadata:
     "@types/diff-match-patch": "npm:^1.0.32"
     "@types/dompurify": "npm:^3.0.3"
     "@types/express": "npm:^4.17.1"
-    "@types/loadable__component": "npm:^5.13.4"
     "@types/node": "npm:^20.9.4"
     "@types/node-fetch": "npm:^2.6.2"
     "@types/prismjs": "npm:^1.26.0"
@@ -10749,7 +10702,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-is@npm:^16.12.0, react-is@npm:^16.13.1, react-is@npm:^16.7.0, react-is@npm:^16.8.6":
+"react-is@npm:^16.13.1, react-is@npm:^16.7.0, react-is@npm:^16.8.6":
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
   checksum: 33977da7a5f1a287936a0c85639fec6ca74f4f15ef1e59a6bc20338fc73dc69555381e211f7a3529b8150a1f71e4225525b41b60b52965bda53ce7d47377ada1

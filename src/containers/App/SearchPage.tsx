@@ -10,7 +10,6 @@ import { ReactElement } from 'react';
 
 import { useTranslation } from 'react-i18next';
 import { Route, Routes } from 'react-router-dom';
-import loadable from '@loadable/component';
 import { UseQueryResult } from '@tanstack/react-query';
 import { List } from '@ndla/icons/action';
 import { SearchMedia, SearchContent, Concept, SquareAudio } from '@ndla/icons/editor';
@@ -22,10 +21,10 @@ import { useSearchImages } from '../../modules/image/imageQueries';
 import { useSearch } from '../../modules/search/searchQueries';
 import { toSearch } from '../../util/routeHelpers';
 import SubNavigation from '../Masthead/components/SubNavigation';
+import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import { SearchParams } from '../SearchPage/components/form/SearchForm';
 import SearchContainer, { ResultType } from '../SearchPage/SearchContainer';
-const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
 
 const SearchPage = () => {
   const { t } = useTranslation();

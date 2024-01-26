@@ -6,7 +6,7 @@
  *
  */
 
-import { defineConfig } from 'vite';
+import { defineConfig, splitVendorChunkPlugin } from 'vite';
 import react from '@vitejs/plugin-react';
 
 export default defineConfig(({ mode }) => {
@@ -20,7 +20,11 @@ export default defineConfig(({ mode }) => {
     plugins: [
       react({
         jsxImportSource: '@emotion/react',
+        babel: {
+          configFile: './babel.config.cjs',
+        },
       }),
+      splitVendorChunkPlugin(),
     ],
     define: {
       'process.env.NODE_ENV': JSON.stringify(mode),

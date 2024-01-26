@@ -8,13 +8,12 @@
 
 import { useTranslation } from 'react-i18next';
 import { Route, Routes } from 'react-router-dom';
-import loadable from '@loadable/component';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { OneColumn } from '@ndla/ui';
+import LogoutFederated from './LogoutFederated';
 import LogoutProviders from './LogoutProviders';
+import LogoutSession from './LogoutSession';
 import Footer from '../App/components/Footer';
-const LogoutFederated = loadable(() => import('./LogoutFederated'));
-const LogoutSession = loadable(() => import('./LogoutSession'));
 
 const Logout = () => {
   const { t } = useTranslation();

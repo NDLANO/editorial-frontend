@@ -243,6 +243,7 @@ const Revisions = ({ userData }: Props) => {
   const setPageSize = useCallback((p: SingleValue) => {
     if (!p) return;
     _setPageSize(p);
+    setPage(1);
     localStorage.setItem(STORED_PAGE_SIZE_REVISION, p.value);
   }, []);
 

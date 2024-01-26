@@ -8,29 +8,13 @@
 
 import { Descendant, Editor, Element } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
-import { UuDisclaimerEmbedData, UuDisclaimerMetaData } from '@ndla/types-embed';
 import { TYPE_DISCLAIMER } from './types';
-import {
-  createEmbedTag,
-  createEmbedTagV2,
-  reduceElementDataAttributesV2,
-} from '../../../../util/embedTagHelpers';
+import { createEmbedTagV2, reduceElementDataAttributesV2 } from '../../../../util/embedTagHelpers';
 import { SlateSerializer } from '../../interfaces';
 import { NormalizerConfig, defaultBlockNormalizer } from '../../utils/defaultNormalizer';
-import {
-  afterOrBeforeTextBlockElement,
-  firstTextBlockElement,
-  lastTextBlockElement,
-  textBlockElements,
-} from '../../utils/normalizationHelpers';
+import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
 import { TYPE_NDLA_EMBED } from '../embed/types';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
-
-export interface DisclaimerElement {
-  type: 'uu-disclaimer';
-  data: UuDisclaimerEmbedData;
-  children: Descendant[];
-}
 
 export const disclaimerSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {

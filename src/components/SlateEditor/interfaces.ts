@@ -65,7 +65,7 @@ import {
   TableHeadElement,
   TableRowElement,
 } from './plugins/table/interfaces';
-import { DisclaimerElement } from './plugins/uuDisclaimer';
+import { DisclaimerElement } from './plugins/uuDisclaimer/types';
 
 export type SlatePlugin = (editor: Editor) => Editor;
 

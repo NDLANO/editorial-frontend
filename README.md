@@ -16,7 +16,7 @@ What's in the box?
 
 - React
 - Express
-- Webpack + Babel (ES6)
+- Vite + Babel (ES6)
 
 ### Dependencies
 
@@ -88,7 +88,7 @@ Rules are configured in `./.eslintrc.js` and extends [eslint-config-react-app](h
 ## Other scripts
 
 ```
-# Create minified production ready build with webpack:
+# Create minified production ready build with vite (rollup):
 $ yarn build
 ```
 

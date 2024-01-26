@@ -39,6 +39,7 @@ import { spanPlugin } from '../../../../components/SlateEditor/plugins/span';
 import { tablePlugin } from '../../../../components/SlateEditor/plugins/table';
 import { textTransformPlugin } from '../../../../components/SlateEditor/plugins/textTransform';
 import { toolbarPlugin } from '../../../../components/SlateEditor/plugins/toolbar';
+import { disclaimerPlugin } from '../../../../components/SlateEditor/plugins/uuDisclaimer';
 
 export const learningResourcePlugins: SlatePlugin[] = [
   sectionPlugin,
@@ -77,4 +78,5 @@ export const learningResourcePlugins: SlatePlugin[] = [
   definitionListPlugin,
   listPlugin,
   gridPlugin,
+  disclaimerPlugin,
 ];

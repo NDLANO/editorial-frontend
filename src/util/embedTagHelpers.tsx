@@ -122,11 +122,12 @@ export const parseEmbedTag = (embedTag?: string): Embed | undefined => {
 const attributeRegex = /[A-Z]/g;
 
 type EmbedProps<T extends object> = {
-  [Key in keyof T]: string | undefined;
+  [Key in keyof T]: string | number | undefined;
 };
 
 export const createEmbedTagV2 = <T extends object>(
   data: EmbedProps<T>,
+  children?: JSX.Element,
 ): JSX.Element | undefined => {
   const entries = Object.entries(data ?? {});
   if (entries.length === 0) {
@@ -144,7 +145,7 @@ export const createEmbedTagV2 = <T extends object>(
     return acc;
   }, {});
 
-  return <ndlaembed {...dataSet}></ndlaembed>;
+  return <ndlaembed {...dataSet}>{children}</ndlaembed>;
 };
 
 export const createEmbedTag = (data?: { [key: string]: any }) => {

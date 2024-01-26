@@ -7,11 +7,11 @@
  */
 
 import { Descendant } from 'slate';
-import { UuDisclaimerMetaData } from '@ndla/types-embed';
+import { UuDisclaimerEmbedData, UuDisclaimerMetaData } from '@ndla/types-embed';
 export const TYPE_DISCLAIMER = 'disclaimer-block';
 
 export interface DisclaimerElement {
   type: 'disclaimer-block';
-  data: UuDisclaimerMetaData;
+  data: UuDisclaimerEmbedData;
   children: Descendant[];
 }

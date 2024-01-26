@@ -151,6 +151,11 @@ export const commonActions: Action[] = [
     icon: <Globe />,
     helpIcon: renderArticleInModal('Gloss'),
   },
+  {
+    data: { type: TYPE_DISCLAIMER, object: 'disclaimer' },
+    icon: <WarningOutline />,
+    helpIcon: renderArticleInModal('Disclaimer'),
+  },
 ];
 
 export const frontpageActions = commonActions.concat(
@@ -183,11 +188,6 @@ export const frontpageActions = commonActions.concat(
     data: { type: TYPE_LINK_BLOCK_LIST, object: 'linkBlockList' },
     icon: <Link />,
     helpIcon: renderArticleInModal('LinkBlockList'),
-  },
-  {
-    data: { type: TYPE_DISCLAIMER, object: 'disclaimer' },
-    icon: <WarningOutline />,
-    helpIcon: renderArticleInModal('Disclaimer'),
   },
 );
 

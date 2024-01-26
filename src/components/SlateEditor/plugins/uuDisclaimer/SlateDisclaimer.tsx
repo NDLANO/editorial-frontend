@@ -53,7 +53,7 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
         ? {
             status: !!disclaimerMetaQuery.error || !disclaimerMetaQuery.data ? 'error' : 'success',
             data: disclaimerMetaQuery.data!,
-            embedData: { ...element.data, disclaimer: element.data?.embedData?.disclaimer },
+            embedData: { ...element.data, disclaimer: element.data?.disclaimer },
             resource: element.data?.resource,
           }
         : undefined,

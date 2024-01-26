@@ -8,9 +8,13 @@
 
 import { Descendant, Editor, Element } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
-import { UuDisclaimerMetaData } from '@ndla/types-embed';
+import { UuDisclaimerEmbedData, UuDisclaimerMetaData } from '@ndla/types-embed';
 import { TYPE_DISCLAIMER } from './types';
-import { createEmbedTag, reduceElementDataAttributesV2 } from '../../../../util/embedTagHelpers';
+import {
+  createEmbedTag,
+  createEmbedTagV2,
+  reduceElementDataAttributesV2,
+} from '../../../../util/embedTagHelpers';
 import { SlateSerializer } from '../../interfaces';
 import { NormalizerConfig, defaultBlockNormalizer } from '../../utils/defaultNormalizer';
 import {
@@ -24,7 +28,7 @@ import { TYPE_PARAGRAPH } from '../paragraph/types';
 
 export interface DisclaimerElement {
   type: 'disclaimer-block';
-  data: UuDisclaimerMetaData;
+  data: UuDisclaimerEmbedData;
   children: Descendant[];
 }
 
@@ -38,7 +42,7 @@ export const disclaimerSerializer: SlateSerializer = {
   },
   serialize(node: Descendant) {
     if (!Element.isElement(node) || node.type !== TYPE_DISCLAIMER || !node.data) return;
-    return createEmbedTag(node.data);
+    return createEmbedTagV2(node.data);
   },
 };
 

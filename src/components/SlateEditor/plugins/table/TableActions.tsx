@@ -12,7 +12,7 @@ import { Editor, Path, Range } from "slate";
 import { ReactEditor } from "slate-react";
 import styled from "@emotion/styled";
 import { ButtonV2, IconButtonV2 } from "@ndla/button";
-import { colors, fonts } from "@ndla/core";
+import { colors, fonts, stackOrder } from "@ndla/core";
 import { Minus, Plus } from "@ndla/icons/action";
 import { AlignCenter, AlignLeft, AlignRight } from "@ndla/icons/editor";
 import EditColgroupsModal from "./EditColgroupsModal";
@@ -54,7 +54,7 @@ const StyledRightAlign = styled.div`
 const StyledWrapper = styled.div`
   display: ${(p: { show: boolean }) => (p.show ? "block;" : "none")};
   position: relative;
-  z-index: 1;
+  z-index: ${stackOrder.offsetSingle};
   user-select: none;
 `;
 

@@ -35,8 +35,8 @@ export interface CampaignBlockFormValues {
   description: string;
   descriptionLanguage: string;
   headingLevel: HeadingLevel;
-  link: string;
-  linkText: string;
+  link?: string;
+  linkText?: string;
   metaImageId?: string;
   imageSide?: CampaignBlockEmbedData["imageSide"];
   metaImageAlt?: string;
@@ -63,9 +63,11 @@ const rules: RulesType<CampaignBlockFormValues> = {
   link: {
     required: true,
     url: true,
+    onlyValidateIf: (value) => !!value.linkText || !!value.link,
   },
   linkText: {
     required: true,
+    onlyValidateIf: (value) => !!value.link,
   },
   metaImageAlt: {
     required: true,
@@ -83,8 +85,8 @@ const toInitialValues = (lang: string, initialData?: CampaignBlockEmbedData): Ca
     metaImageId: initialData?.imageId,
     imageSide: initialData?.imageSide ?? "left",
     headingLevel: initialData?.headingLevel ?? "h2",
-    link: initialData?.url ?? "",
-    linkText: initialData?.urlText ?? "",
+    link: initialData?.url,
+    linkText: initialData?.urlText,
     metaImageAlt: initialData?.alt ?? "",
     isDecorative: initialData ? initialData.alt === undefined : false,
   };

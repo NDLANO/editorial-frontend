@@ -9,11 +9,10 @@
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
-import { colors } from "@ndla/core";
 import { ImageMeta } from "@ndla/image-search";
 import { getLicenseByAbbreviation } from "@ndla/licenses";
-import { LicenseByline } from "@ndla/notion";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
+import { LicenseLink } from "@ndla/ui";
 import { useLicenses } from "../../../../modules/draft/draftQueries";
 import { toEditImage } from "../../../../util/routeHelpers";
 import {
@@ -59,13 +58,7 @@ const SearchImage = ({ image, locale }: Props) => {
           fileSize={image.image.size}
           imageDimensions={image.image.dimensions}
         />
-        {license && (
-          <LicenseByline
-            licenseRights={getLicenseByAbbreviation(license.license, locale).rights}
-            locale={locale}
-            color={colors.brand.grey}
-          />
-        )}
+        {license && <LicenseLink license={getLicenseByAbbreviation(license.license, locale)} />}
       </StyledSearchContent>
     </StyledSearchResult>
   );

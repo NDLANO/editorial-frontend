@@ -11,8 +11,8 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { INewConcept } from "@ndla/types-backend/concept-api";
+import { GlossForm } from "./components/GlossForm";
 import { toEditGloss } from "../../util/routeHelpers";
-import ConceptForm from "../ConceptPage/ConceptForm/ConceptForm";
 import { useFetchConceptData } from "../FormikForm/formikConceptHooks";
 
 interface Props {
@@ -23,7 +23,7 @@ interface Props {
 const CreateGloss = ({ inModal = false, addConceptInModal }: Props) => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
-  const { subjects, createConcept, fetchSearchTags, conceptArticles } = useFetchConceptData(undefined, i18n.language);
+  const { subjects, createConcept, conceptArticles } = useFetchConceptData(undefined, i18n.language);
 
   const onCreate = useCallback(
     async (createdConcept: INewConcept) => {
@@ -41,15 +41,13 @@ const CreateGloss = ({ inModal = false, addConceptInModal }: Props) => {
   return (
     <>
       <HelmetWithTracker title={t(`glossform.title`)} />
-      <ConceptForm
+      <GlossForm
         language={i18n.language}
         upsertProps={{ onCreate }}
-        fetchConceptTags={fetchSearchTags}
         inModal={inModal}
         subjects={subjects}
         conceptArticles={conceptArticles}
         supportedLanguages={[i18n.language]}
-        conceptType="gloss"
       />
     </>
   );

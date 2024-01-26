@@ -7,78 +7,34 @@
  */
 
 import { useField } from "formik";
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
-import { Select } from "@ndla/forms";
-import { IGlossData } from "@ndla/types-backend/concept-api";
-import TranscriptionField from "./TranscriptionField";
-import FormikField from "../../../components/FormikField";
-import { ROMANIZATION_OPTIONS } from "../glossData";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { TranscriptionField } from "./TranscriptionField";
+
+const StyledFieldWrapper = styled.div`
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: ${spacing.small};
+  width: 100%;
+`;
 
 interface Props {
   name: string;
 }
 
 const TranscriptionsField = ({ name }: Props) => {
-  const [_, { value }] = useField<IGlossData["transcriptions"]>(name);
-  const { t } = useTranslation();
+  const [, { value: originalLanguageValue }] = useField<string>("gloss.originalLanguage");
 
-  const transcriptionKeys = Object.keys(value);
-  const availableRomanizations = useMemo(
-    () => ROMANIZATION_OPTIONS.filter((option) => !transcriptionKeys.includes(option)),
-    [transcriptionKeys],
-  );
+  if (originalLanguageValue !== "zh") {
+    return null;
+  }
+
   return (
-    <FormikField name={name}>
-      {({ field }) => (
-        <>
-          {Object.entries(value).map(([key, val]) => (
-            <TranscriptionField
-              key={key}
-              label={key}
-              name={`${name}.${key}`}
-              value={val}
-              removeField={() => {
-                // Delete key from value object, keep remainingTranscriptions
-                const { [key]: _, ...remainingTranscriptions } = value;
-                field.onChange({
-                  target: {
-                    name,
-                    value: remainingTranscriptions,
-                  },
-                });
-              }}
-            />
-          ))}
-
-          {availableRomanizations.length > 0 && (
-            <Select
-              value={"placeholder"}
-              onChange={(e) =>
-                field.onChange({
-                  target: {
-                    name,
-                    value: { ...value, [e.currentTarget.value]: "" },
-                  },
-                })
-              }
-            >
-              <option value={"placeholder"}>
-                {t("form.gloss.choose", {
-                  label: t("form.gloss.romanization").toLowerCase(),
-                })}
-              </option>
-
-              {availableRomanizations.map((option, index) => (
-                <option value={option} key={index}>
-                  {option}
-                </option>
-              ))}
-            </Select>
-          )}
-        </>
-      )}
-    </FormikField>
+    <StyledFieldWrapper>
+      <TranscriptionField label="Pinyin" name={`${name}.pinyin`} />
+      <TranscriptionField label="Traditional" name={`${name}.traditional`} />
+    </StyledFieldWrapper>
   );
 };
 

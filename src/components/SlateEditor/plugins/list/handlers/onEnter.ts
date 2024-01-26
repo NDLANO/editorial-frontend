@@ -7,38 +7,29 @@
  */
 import { Editor, Node, Element, Range, Transforms, Path, Point } from "slate";
 
-import getCurrentBlock from "../../../utils/getCurrentBlock";
+import { ReactEditor } from "slate-react";
 import { TYPE_PARAGRAPH } from "../../paragraph/types";
 import { defaultParagraphBlock } from "../../paragraph/utils";
+import { getEditorAncestors } from "../../toolbar/toolbarState";
 import { TYPE_LIST_ITEM } from "../types";
 import { defaultListItemBlock } from "../utils/defaultBlocks";
 
 const onEnter = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEvent) => void) => {
   if (event.shiftKey || !editor.selection) return next?.(event);
 
-  const listItemEntry = getCurrentBlock(editor, TYPE_LIST_ITEM);
-  const paragraphEntry = getCurrentBlock(editor, TYPE_PARAGRAPH);
+  const [firstChild, secondChild] = getEditorAncestors(editor, true);
+  const selectedDefinitionItem = firstChild.type === TYPE_LIST_ITEM ? firstChild : secondChild;
 
-  if (!listItemEntry || !paragraphEntry) {
-    return next?.(event);
+  if (!selectedDefinitionItem) {
+    return;
   }
 
-  const [currentListItem, currentListItemPath] = listItemEntry;
-  const [currentParagraph, currentParagraphPath] = paragraphEntry;
+  const selectedDefinitionItemPath = ReactEditor.findPath(editor, selectedDefinitionItem);
 
   // Check that list and paragraph are of correct type.
-  if (!Element.isElement(currentListItem) || currentListItem.type !== TYPE_LIST_ITEM) {
+  if (selectedDefinitionItem.type !== TYPE_LIST_ITEM) {
     return next?.(event);
   }
-  if (!Element.isElement(currentParagraph) || currentParagraph.type !== TYPE_PARAGRAPH) {
-    return next?.(event);
-  }
-
-  // Paragraph must be a direct child of list item
-  if (!Path.isChild(currentParagraphPath, currentListItemPath)) {
-    return next?.(event);
-  }
-
   event.preventDefault();
 
   // If selection is expanded, delete selected content first.
@@ -48,13 +39,13 @@ const onEnter = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEv
   }
 
   // If list-item is empty, remove list item and jump out of list.
-  if (Node.string(currentListItem) === "" && currentListItem.children.length === 1) {
+  if (Node.string(selectedDefinitionItem) === "" && selectedDefinitionItem.children.length === 1) {
     Editor.withoutNormalizing(editor, () => {
       Transforms.unwrapNodes(editor, {
-        at: currentListItemPath,
+        at: selectedDefinitionItemPath,
       });
       Transforms.liftNodes(editor, {
-        at: currentListItemPath,
+        at: selectedDefinitionItemPath,
       });
     });
     return;
@@ -66,9 +57,9 @@ const onEnter = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEv
   });
 
   // If at end of list-item, insert a new list item.
-  const listItemEnd = Editor.end(editor, currentListItemPath);
+  const listItemEnd = Editor.end(editor, selectedDefinitionItemPath);
   if (Point.equals(listItemEnd, editor.selection.anchor)) {
-    const nextPath = Path.next(currentListItemPath);
+    const nextPath = Path.next(selectedDefinitionItemPath);
     Transforms.insertNodes(
       editor,
       { ...defaultListItemBlock(), children: [defaultParagraphBlock()] },
@@ -79,12 +70,12 @@ const onEnter = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEv
   }
 
   // If at the start of list-item, insert a new list item at current path
-  const listItemStart = Editor.start(editor, currentListItemPath);
+  const listItemStart = Editor.start(editor, selectedDefinitionItemPath);
   if (Point.equals(listItemStart, editor.selection.anchor)) {
     Transforms.insertNodes(
       editor,
       { ...defaultListItemBlock(), children: [defaultParagraphBlock()] },
-      { at: currentListItemPath },
+      { at: selectedDefinitionItemPath },
     );
     return;
   }
@@ -93,7 +84,7 @@ const onEnter = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEv
     match: (node) => Element.isElement(node) && node.type === TYPE_LIST_ITEM,
     mode: "lowest",
   });
-  Transforms.select(editor, Editor.start(editor, Path.next(currentListItemPath)));
+  Transforms.select(editor, Editor.start(editor, Path.next(selectedDefinitionItemPath)));
 };
 
 export default onEnter;

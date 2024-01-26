@@ -10,7 +10,7 @@ import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { RenderElementProps } from "slate-react";
 import styled from "@emotion/styled";
-import { colors } from "@ndla/core";
+import { colors, stackOrder } from "@ndla/core";
 import { Aside } from "@ndla/ui";
 import DeleteButton from "../../../DeleteButton";
 import MoveContentButton from "../../../MoveContentButton";
@@ -24,14 +24,14 @@ const StyledAsideType = styled.div`
   position: absolute;
   width: 100%;
   padding: 3.2px;
-  z-index: 10;
+  z-index: ${stackOrder.trigger};
 `;
 
 const StyledAside = styled(Aside)`
   > div {
     padding: 0;
   }
-  z-index: 10;
+  z-index: ${stackOrder.trigger};
 `;
 
 const ButtonContainer = styled.div`

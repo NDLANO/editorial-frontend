@@ -214,7 +214,7 @@ const PreviewCompare = ({ article, language }: ComparePreviewProps) => {
           <PreviewDraft
             type="article"
             draft={draft.data}
-            language={language}
+            language={previewLanguage}
             label={t(`articleType.${draft.data.articleType}`)}
           />
         )}

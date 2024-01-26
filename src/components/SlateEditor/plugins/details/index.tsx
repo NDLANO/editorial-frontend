@@ -6,9 +6,9 @@
  *
  */
 
-import { Element, Descendant, Editor, Path, Transforms, Node, Range, Location } from "slate";
+import { Element, Descendant, Editor, Text, Transforms, Node, Range, Location, Path } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { ReactEditor, RenderLeafProps } from "slate-react";
+import { RenderLeafProps, ReactEditor } from "slate-react";
 import { TYPE_DETAILS, TYPE_SUMMARY } from "./types";
 import WithPlaceHolder from "../../common/WithPlaceHolder";
 import { SlateSerializer } from "../../interfaces";
@@ -135,8 +135,8 @@ export const detailsSerializer: SlateSerializer = {
 export const detailsPlugin = (editor: Editor) => {
   const {
     normalizeNode: nextNormalizeNode,
+    shouldHideBlockPicker: nextShouldHideBlockPicker,
     onKeyDown: nextOnKeyDown,
-    shouldShowToolbar: nextShouldShowToolbar,
     renderLeaf,
   } = editor;
 
@@ -148,20 +148,6 @@ export const detailsPlugin = (editor: Editor) => {
     } else if (nextOnKeyDown) {
       nextOnKeyDown(event);
     }
-  };
-
-  editor.shouldShowToolbar = () => {
-    const [summaryEntry] = Editor.nodes(editor, {
-      match: (node) => Element.isElement(node) && node.type === TYPE_SUMMARY,
-    });
-
-    if (summaryEntry && Element.isElement(summaryEntry[0])) {
-      return false;
-    }
-    if (nextShouldShowToolbar) {
-      return nextShouldShowToolbar();
-    }
-    return true;
   };
 
   editor.renderLeaf = (props: RenderLeafProps) => {
@@ -179,32 +165,25 @@ export const detailsPlugin = (editor: Editor) => {
     return renderLeaf && renderLeaf(props);
   };
 
+  editor.shouldHideBlockPicker = () => {
+    const [summaryEntry] = Editor.nodes(editor, {
+      match: (node) => Element.isElement(node) && node.type === TYPE_SUMMARY,
+    });
+    if (summaryEntry && Element.isElement(summaryEntry[0])) {
+      return true;
+    }
+    return nextShouldHideBlockPicker?.();
+  };
+
   editor.normalizeNode = (entry) => {
-    const [node, path] = entry;
+    const [node] = entry;
 
     if (Element.isElement(node)) {
       if (node.type === TYPE_DETAILS) {
         if (defaultBlockNormalizer(editor, entry, detailsNormalizerConfig)) {
           return;
         }
-      }
-
-      if (node.type === TYPE_SUMMARY) {
-        for (const [child, childPath] of Node.children(editor, path)) {
-          // Unwrap elements inside summary until only the text remains.
-          if (Element.isElement(child)) {
-            Transforms.unwrapNodes(editor, { at: childPath, voids: true });
-            return;
-          }
-
-          // Remove marks if any is active
-          if (child.bold || child.code || child.italic || child.sub || child.sup || child.underlined) {
-            Transforms.unsetNodes(editor, ["bold", "code", "italic", "sub", "sup", "underlined"], {
-              at: childPath,
-            });
-            return;
-          }
-        }
+      } else if (node.type === TYPE_SUMMARY) {
         if (defaultBlockNormalizer(editor, entry, summaryNormalizerConfig)) {
           return;
         }

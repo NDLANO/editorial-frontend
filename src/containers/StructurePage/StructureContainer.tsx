@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { useEffect, useRef, useState, ReactNode } from "react";
+import { useEffect, useRef, useState, ReactNode, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
@@ -19,7 +19,7 @@ import StickyVersionSelector from "./StickyVersionSelector";
 import StructureBanner from "./StructureBanner";
 import ErrorBoundary from "../../components/ErrorBoundary";
 import { GridContainer, Column } from "../../components/Layout/Layout";
-import { REMEMBER_FAVORITE_NODES, TAXONOMY_ADMIN_SCOPE } from "../../constants";
+import { REMEMBER_FAVORITE_NODES, REMEMBER_LMA_SUBJECTS, TAXONOMY_ADMIN_SCOPE } from "../../constants";
 import { useUserData } from "../../modules/draft/draftQueries";
 import { useNodes } from "../../modules/nodes/nodeQueries";
 import { createGuard } from "../../util/guards";
@@ -45,6 +45,20 @@ const Wrapper = styled.div`
   justify-content: space-between;
   flex: 1;
 `;
+
+const getNodes = (
+  allNodes: Node[] | undefined = [],
+  lmaSubjectIds: string[],
+  favoriteNodeIds: string[],
+  rootId: string,
+): Node[] => {
+  const filteredNodes =
+    lmaSubjectIds.length || favoriteNodeIds.length
+      ? allNodes.filter((node) => [...lmaSubjectIds, ...favoriteNodeIds, rootId].includes(node.id))
+      : allNodes;
+
+  return filteredNodes;
+};
 
 interface Props {
   rootNodeType?: NodeType;
@@ -73,8 +87,9 @@ const StructureContainer = ({
   const [currentNode, setCurrentNode] = useState<Node | undefined>(undefined);
   const [shouldScroll, setShouldScroll] = useState(!!paths.length);
 
-  const { userPermissions } = useSession();
-  const [showFavorites, setShowFavorites] = useState(window.localStorage.getItem(REMEMBER_FAVORITE_NODES) === "true");
+  const { userPermissions, ndlaId } = useSession();
+  const [showFavorites, setShowFavorites] = useState(localStorage.getItem(REMEMBER_FAVORITE_NODES) === "true");
+  const [showLmaSubjects, setShowLmaSubjects] = useState(localStorage.getItem(REMEMBER_LMA_SUBJECTS) === "true");
 
   const resourceSection = useRef<HTMLDivElement>(null);
   const firstRender = useRef(true);
@@ -125,17 +140,33 @@ const StructureContainer = ({
     const deleteSearch = !!params.rootId && !newPath.includes(params.rootId);
     navigate(`${rootPath}${newPath.concat(deleteSearch ? "" : search)}`);
   };
+  const lmaSubjectIds = useMemo(() => {
+    if (ndlaId) {
+      return (
+        nodesQuery.data
+          ?.filter((node) => node.metadata?.customFields?.subjectLMA === ndlaId)
+          .map((subjectLmaNode) => subjectLmaNode.id) ?? []
+      );
+    }
+    return [];
+  }, [ndlaId, nodesQuery.data]);
 
-  const getFavoriteNodes = (nodes: Node[] = [], favoriteNodeIds: string[] = []) => {
-    return nodes.filter((node) => favoriteNodeIds.includes(node.id));
-  };
+  const nodes = getNodes(
+    nodesQuery.data,
+    showLmaSubjects ? lmaSubjectIds : [],
+    showFavorites ? favoriteNodeIds : [],
+    rootId,
+  );
 
-  const nodes = showFavorites ? getFavoriteNodes(nodesQuery.data, [...favoriteNodeIds, rootId]) : nodesQuery.data!;
-
-  const toggleShowFavorites = () => {
-    window.localStorage.setItem(REMEMBER_FAVORITE_NODES, (!showFavorites).toString());
+  const toggleShowFavorites = useCallback(() => {
+    localStorage.setItem(REMEMBER_FAVORITE_NODES, (!showFavorites).toString());
     setShowFavorites(!showFavorites);
-  };
+  }, [showFavorites]);
+
+  const toggleShowLmaSubjects = useCallback(() => {
+    localStorage.setItem(REMEMBER_LMA_SUBJECTS, (!showLmaSubjects).toString());
+    setShowLmaSubjects(!showLmaSubjects);
+  }, [showLmaSubjects]);
 
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
 
@@ -149,7 +180,14 @@ const StructureContainer = ({
         <GridContainer breakpoint={breakpoints.desktop}>
           {messageBox && <Column>{messageBox}</Column>}
           <Column colEnd={7}>
-            <StructureBanner onChange={toggleShowFavorites} checked={showFavorites} nodeType={rootNodeType} />
+            <StructureBanner
+              setShowFavorites={toggleShowFavorites}
+              showFavorites={showFavorites}
+              setShowLmaSubjects={toggleShowLmaSubjects}
+              showLmaSubjects={showLmaSubjects}
+              nodeType={rootNodeType}
+              hasLmaSubjects={!!lmaSubjectIds.length}
+            />
             <StyledStructureContainer>
               {userDataQuery.isLoading || nodesQuery.isLoading ? (
                 <Spinner />

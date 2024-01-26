@@ -86,6 +86,7 @@ export const translateDocument = async (document: Record<string, ApiTranslateTyp
       return acc;
     }, {});
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.log(e);
   }
 };

@@ -6,11 +6,10 @@
  *
  */
 
-import loadable from "@loadable/component";
+import CreateImage from "./CreateImage";
+import EditImage from "./EditImage";
 import ResourcePage from "../../components/ResourcePage";
 import { useImage } from "../../modules/image/imageQueries";
-const EditImage = loadable(() => import("./EditImage"));
-const CreateImage = loadable(() => import("./CreateImage"));
 
 const ImageUploaderPage = () => (
   <ResourcePage

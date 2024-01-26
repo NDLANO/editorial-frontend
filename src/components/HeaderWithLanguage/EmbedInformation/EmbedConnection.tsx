@@ -118,7 +118,8 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
               ...obj,
               articleType: obj.learningResourceType,
             }))}
-            isEditable={false}
+            isDeletable={false}
+            isDraggable={false}
           />
 
           {(type === "image" || type === "audio") && (
@@ -136,13 +137,9 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
                 </em>
               </p>
               <ElementList
-                elements={
-                  concepts?.map((obj) => ({
-                    ...obj,
-                    articleType: obj.conceptType,
-                  })) ?? []
-                }
-                isEditable={false}
+                elements={concepts?.map((obj) => ({ ...obj, articleType: obj.conceptType })) ?? []}
+                isDeletable={false}
+                isDraggable={false}
               />
             </>
           )}

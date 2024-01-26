@@ -11,10 +11,10 @@ import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { IUpdatedConcept } from "@ndla/types-backend/concept-api";
+import { GlossForm } from "./components/GlossForm";
 import { TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
 import Spinner from "../../components/Spinner";
 import { LocaleType } from "../../interfaces";
-import ConceptForm from "../ConceptPage/ConceptForm/ConceptForm";
 import { useFetchConceptData } from "../FormikForm/formikConceptHooks";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 
@@ -42,7 +42,7 @@ const EditGloss = ({ isNewlyCreated }: Props) => {
   const conceptId = Number(params.id);
   const selectedLanguage = params.selectedLanguage as LocaleType;
   const { t } = useTranslation();
-  const { concept, setConcept, fetchSearchTags, conceptArticles, loading, conceptChanged, subjects, updateConcept } =
+  const { concept, setConcept, conceptArticles, loading, conceptChanged, subjects, updateConcept } =
     useFetchConceptData(conceptId, selectedLanguage!);
 
   const { shouldTranslate, translate, translating } = useTranslateToNN();
@@ -74,18 +74,16 @@ const EditGloss = ({ isNewlyCreated }: Props) => {
   return (
     <>
       <HelmetWithTracker title={`${concept.title.title} ${t("htmlTitles.titleTemplate")}`} />
-      <ConceptForm
+      <GlossForm
         inModal={false}
         concept={concept}
         conceptArticles={conceptArticles}
         conceptChanged={conceptChanged || newLanguage}
-        fetchConceptTags={fetchSearchTags}
         isNewlyCreated={isNewlyCreated}
         upsertProps={{ onUpdate }}
         language={selectedLanguage!}
         subjects={subjects}
         supportedLanguages={concept.supportedLanguages}
-        conceptType="gloss"
       />
     </>
   );

@@ -6,29 +6,17 @@
  *
  */
 
+// This is the entry point of the application.
+// The only purpose of this file is to support deploying to vercel. Removing it *will* break vercel deploys.
+
 import config from "./config";
-
-let app = require("./server/server").default;
-
-if (module.hot) {
-  module.hot.accept("./server/server", function () {
-    console.log("🔁  HMR Reloading `./server/server`..."); // eslint-disable-line no-console
-    try {
-      app = require("./server/server").default;
-    } catch (error) {
-      console.error(error);
-    }
-  });
-  console.info("✅  Server-side HMR Enabled!"); // eslint-disable-line no-console
-}
+import app from "./server/server";
 
 if (!config.isVercel) {
-  app.listen(config.port, function (err) {
-    if (err) {
-      console.error(err);
-      return;
-    }
-    console.log(`> Started on port ${config.port}`); // eslint-disable-line no-console
+  // Start http server
+  app.listen(config.port, () => {
+    // eslint-disable-next-line no-console
+    console.log(`Server started at http://localhost:${config.port}`);
   });
 }
 

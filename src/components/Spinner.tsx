@@ -8,7 +8,7 @@
 
 import { keyframes, css, SerializedStyles } from "@emotion/react";
 import styled from "@emotion/styled";
-import { colors } from "@ndla/core";
+import { colors, stackOrder } from "@ndla/core";
 
 const spinnerKeyframeStyle = keyframes`
   0% {
@@ -24,7 +24,7 @@ const commonAbsoluteAndFixedStyle = css`
   top: 40%;
   left: 50%;
   right: 50%;
-  z-index: 999;
+  z-index: ${stackOrder.popover};
 `;
 
 export type SpinnerAppearance = "fixed" | "absolute" | "small";

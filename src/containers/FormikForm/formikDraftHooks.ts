@@ -9,6 +9,7 @@
 import uniq from "lodash/uniq";
 import { useState, useEffect, useCallback } from "react";
 import { INewArticle, IUpdatedArticle, IArticle } from "@ndla/types-backend/draft-api";
+import { LAST_UPDATED_SIZE } from "../../constants";
 import {
   fetchDraft,
   updateDraft,
@@ -41,7 +42,7 @@ export function useFetchArticleData(articleId: number | undefined, language: str
     const stringId = articleId.toString();
     const result = await fetchUserData();
     const latest = uniq([stringId].concat(result.latestEditedArticles ?? []));
-    const latestEditedArticles = latest.slice(0, 10);
+    const latestEditedArticles = latest.slice(0, LAST_UPDATED_SIZE);
     apiUpdateUserData({ latestEditedArticles });
   }, []);
 

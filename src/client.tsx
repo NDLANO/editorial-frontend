@@ -16,7 +16,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import ErrorReporter from "@ndla/error-reporter";
 import { i18nInstance } from "@ndla/ui";
 import Spinner from "./components/Spinner";
-import config, { ConfigType, getDefaultLanguage } from "./config";
+import config, { ConfigType } from "./config";
 import { STORED_LANGUAGE_KEY } from "./constants";
 import App from "./containers/App/App";
 import { isValidLocale } from "./i18n";
@@ -26,9 +26,6 @@ import { LocaleType } from "./interfaces";
 declare global {
   interface Window {
     h5pResizerInitialized?: boolean;
-    initialState: {
-      locale: string;
-    };
     errorReporter: any;
     config: ConfigType;
   }
@@ -64,7 +61,7 @@ const AppWrapper = ({ basename }: { basename?: string }) => {
     i18n.loadLanguages(supportedLanguages);
     i18n.loadResources(() => setLoading(false));
     const storedLanguage = window.localStorage.getItem(STORED_LANGUAGE_KEY) as LocaleType;
-    const defaultLanguage = getDefaultLanguage();
+    const defaultLanguage = config.defaultLanguage;
     if ((!basename && !storedLanguage) || (!basename && storedLanguage === defaultLanguage)) {
       i18n.changeLanguage(defaultLanguage);
     } else if (storedLanguage && isValidLocale(storedLanguage)) {
@@ -85,7 +82,7 @@ const AppWrapper = ({ basename }: { basename?: string }) => {
   // handle initial redirect if URL has wrong or missing locale prefix.
   useEffect(() => {
     const storedLanguage = window.localStorage.getItem(STORED_LANGUAGE_KEY) as LocaleType;
-    if ((!storedLanguage || storedLanguage === getDefaultLanguage()) && !basename) return;
+    if ((!storedLanguage || storedLanguage === config.defaultLanguage) && !basename) return;
     if (isValidLocale(storedLanguage) && storedLanguage === basename) {
       setBase(storedLanguage);
       return;
@@ -130,9 +127,3 @@ const renderApp = () => {
   );
 };
 renderApp();
-
-if (module.hot) {
-  module.hot.accept("./containers/App/App", () => {
-    renderApp();
-  });
-}

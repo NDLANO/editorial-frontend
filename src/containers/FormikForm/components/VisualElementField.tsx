@@ -23,9 +23,8 @@ const extraErrorFields = ["visualElementCaption", "visualElementAlt"];
 
 interface Props {
   types?: VisualElementType[];
-  isGloss?: boolean;
 }
-const VisualElementField = ({ types, isGloss = false }: Props) => {
+const VisualElementField = ({ types }: Props) => {
   const { t } = useTranslation();
   const formik = useFormikContext<{ language: string }>();
 
@@ -34,8 +33,8 @@ const VisualElementField = ({ types, isGloss = false }: Props) => {
       <FormikField name="visualElement">
         {({ field }) => (
           <div>
-            <FieldHeader title={isGloss ? t("searchForm.audioType.standard") : t("form.visualElement.title")}>
-              {!isGloss && <HowToHelper pageId="VisualElement" tooltip={t("form.visualElement.helpLabel")} />}
+            <FieldHeader title={t("form.visualElement.title")}>
+              <HowToHelper pageId="VisualElement" tooltip={t("form.visualElement.helpLabel")} />
             </FieldHeader>
             <>
               <VisualElement

@@ -7,21 +7,15 @@
  */
 
 import { Editor } from "slate";
-import styled from "@emotion/styled";
 import { OrderedList, UnOrderedList } from "@ndla/ui";
 import { TYPE_LIST, TYPE_LIST_ITEM } from "./types";
-
-const BulletedList = styled(UnOrderedList)`
-  margin: 16px 0;
-  padding: 0;
-`;
 
 export const listRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
     if (element.type === TYPE_LIST) {
       if (element.listType === "bulleted-list") {
-        return <BulletedList {...attributes}>{children}</BulletedList>;
+        return <UnOrderedList {...attributes}>{children}</UnOrderedList>;
       } else if (element.listType === "numbered-list") {
         const { start } = element.data;
         return (

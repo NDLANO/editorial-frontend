@@ -8,7 +8,9 @@
 
 import { useMemo, memo } from "react";
 import { useTranslation } from "react-i18next";
-import FormikField from "../../components/FormikField";
+import styled from "@emotion/styled";
+import { FieldErrorMessage, Label } from "@ndla/forms";
+import { FormControl, FormField } from "../../components/FormField";
 import PlainTextEditor from "../../components/SlateEditor/PlainTextEditor";
 
 import saveHotkeyPlugin from "../../components/SlateEditor/plugins/saveHotkey";
@@ -20,25 +22,37 @@ interface Props {
   type?: string;
 }
 
+const StyledFormControl = styled(FormControl)`
+  margin-top: 2rem;
+  [data-plain-text-editor] {
+    font-size: 2.11111rem;
+  }
+`;
+
 const TitleField = ({ maxLength = 256, name = "title" }: Props) => {
   const { t } = useTranslation();
 
   const plugins = useMemo(() => [textTransformPlugin, saveHotkeyPlugin], []);
 
   return (
-    <FormikField noBorder label={t("form.title.label")} name={name} title maxLength={maxLength}>
-      {({ field, form: { isSubmitting } }) => (
-        <PlainTextEditor
-          id={field.name}
-          {...field}
-          className={"title"}
-          placeholder={t("form.title.label")}
-          data-testid="learning-resource-title"
-          plugins={plugins}
-          submitted={isSubmitting}
-        />
+    <FormField name={name}>
+      {({ field, meta }) => (
+        <StyledFormControl isRequired isInvalid={!!meta.error}>
+          <Label visuallyHidden>{t("form.title.label")}</Label>
+          <PlainTextEditor
+            id={field.name}
+            {...field}
+            className="title"
+            placeholder={t("form.title.label")}
+            data-plain-text-editor=""
+            data-testid="learning-resource-title"
+            plugins={plugins}
+            maxLength={maxLength}
+          />
+          <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+        </StyledFormControl>
       )}
-    </FormikField>
+    </FormField>
   );
 };
 

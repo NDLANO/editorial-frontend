@@ -10,13 +10,15 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Pencil } from "@ndla/icons/action";
 import Pager from "@ndla/pager";
+import { SingleValue } from "@ndla/select";
 import { IArticleSummary } from "@ndla/types-backend/draft-api";
 import { SortOptionLastUsed } from "./LastUsedItems";
 import TableComponent, { FieldElement, Prefix, TitleElement } from "./TableComponent";
 import TableTitle from "./TableTitle";
+import PageSizeDropdown from "./worklist/PageSizeDropdown";
 import formatDate from "../../../util/formatDate";
 import { toEditArticle } from "../../../util/routeHelpers";
-import { StyledLink } from "../styles";
+import { StyledLink, StyledTopRowDashboardInfo, TopRowControls } from "../styles";
 
 interface Props {
   data: IArticleSummary[];
@@ -28,6 +30,8 @@ interface Props {
   error: string | undefined;
   lastPage: number;
   titles: TitleElement<SortOptionLastUsed>[];
+  pageSize: SingleValue;
+  setPageSize: (p: SingleValue) => void;
 }
 
 const LastUsedResources = ({
@@ -40,6 +44,8 @@ const LastUsedResources = ({
   error,
   lastPage,
   titles,
+  pageSize,
+  setPageSize,
 }: Props) => {
   const { t } = useTranslation();
 
@@ -61,7 +67,16 @@ const LastUsedResources = ({
 
   return (
     <>
-      <TableTitle title={t("welcomePage.lastUsed")} description={t("welcomePage.lastUsedDescription")} Icon={Pencil} />
+      <StyledTopRowDashboardInfo>
+        <TableTitle
+          title={t("welcomePage.lastUsed")}
+          description={t("welcomePage.lastUsedDescription")}
+          Icon={Pencil}
+        />
+        <TopRowControls>
+          <PageSizeDropdown pageSize={pageSize} setPageSize={setPageSize} />
+        </TopRowControls>
+      </StyledTopRowDashboardInfo>
       <TableComponent
         isLoading={isLoading}
         tableTitleList={titles}

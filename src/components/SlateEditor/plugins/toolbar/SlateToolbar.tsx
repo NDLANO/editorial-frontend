@@ -6,79 +6,76 @@
  *
  */
 
-import { createRef, memo, MouseEvent, useCallback, useEffect, useMemo } from "react";
-import { Editor, Element, Range } from "slate";
-import { useFocused, useSlate } from "slate-react";
+import {
+  Children,
+  ComponentPropsWithRef,
+  forwardRef,
+  isValidElement,
+  memo,
+  MouseEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+} from "react";
+import { Editor, Range } from "slate";
+import { useSlate, useSlateSelection } from "slate-react";
 import styled from "@emotion/styled";
 import { Portal } from "@radix-ui/react-portal";
-import { colors, spacing } from "@ndla/core";
-import { handleClickInline, handleClickBlock, handleClickTable } from "./handleMenuClicks";
-import ToolbarButton from "./ToolbarButton";
-import getCurrentBlock from "../../utils/getCurrentBlock";
-import hasNodeWithProps from "../../utils/hasNodeWithProps";
-import { TYPE_DEFINITION_LIST } from "../definitionList/types";
-import hasDefinitionListItem from "../definitionList/utils/hasDefinitionListItem";
-import { LIST_TYPES as listTypes } from "../list/types";
-import hasListItem from "../list/utils/hasListItem";
-import { isMarkActive } from "../mark";
-import { toggleMark } from "../mark/utils";
-import { hasCellAlignOfType } from "../table/slateHelpers";
-import { TYPE_TABLE_CELL } from "../table/types";
+import { ToggleGroup, Toolbar, ToolbarSeparator } from "@radix-ui/react-toolbar";
+import { colors, spacing, misc } from "@ndla/core";
+import { ToolbarBlockOptions } from "./ToolbarBlockOptions";
+import { ToolbarInlineOptions } from "./ToolbarInlineOptions";
+import { ToolbarLanguageOptions } from "./ToolbarLanguageOptions";
+import { ToolbarMarkOptions } from "./ToolbarMarkOptions";
+import {
+  getEditorAncestors,
+  toolbarState,
+  CategoryFilters,
+  AreaFilters,
+  ToolbarValue,
+  ToolbarValues,
+} from "./toolbarState";
+import { ToolbarTableOptions } from "./ToolbarTableOptions";
+import { ToolbarTextOptions } from "./ToolbarTextOptions";
 
-const topicArticleElements: { [key: string]: string[] } = {
-  mark: ["bold", "italic", "code", "sub", "sup"],
-  block: ["quote", "heading-2", "heading-3", "heading-4", "definition-list", ...listTypes],
-  inline: ["link", "mathml", "concept", "span"],
-};
-
-const learningResourceElements: { [key: string]: string[] } = {
-  mark: ["bold", "italic", "code", "sub", "sup"],
-  block: ["quote", "heading-2", "heading-3", "heading-4", "definition-list", ...listTypes],
-  inline: ["link", "mathml", "concept", "span"],
-  table: ["left", "center", "right"],
-};
-
-const specialRules: { [key: string]: Partial<Element> } = {
-  "heading-2": {
-    type: "heading",
-    level: 2,
-  },
-  "heading-3": {
-    type: "heading",
-    level: 3,
-  },
-  "heading-4": {
-    type: "heading",
-    level: 4,
-  },
-};
-
-const ToolbarContainer = styled.div`
+const ToolbarContainer = styled(Toolbar)`
   left: -10000px;
+  align-self: center;
   opacity: 0;
   position: absolute;
   top: -10000px;
   transition: opacity 0.75s;
   z-index: 11;
-`;
-
-const ToolbarButtons = styled.div`
+  border: 1px solid ${colors.brand.tertiary};
+  border-radius: ${misc.borderRadius};
   background-color: ${colors.white};
-  border-radius: ${spacing.xxsmall};
-  box-shadow: 3px 3px ${spacing.xsmall} #99999959;
-  color: ${colors.black};
-  margin: -6px 0 ${spacing.xsmall};
+  padding: ${spacing.xsmall};
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.xsmall};
 `;
 
-const ToolbarSubMenu = styled.div`
-  display: none;
-  &:not(:empty) {
-    display: inline-block;
+const StyledToolbarRow = styled.div`
+  display: flex;
+`;
+
+const StyledToolbarSeparator = styled(ToolbarSeparator)`
+  margin: 0 ${spacing.xxsmall};
+  width: 1px;
+  background-color: ${colors.brand.greyLight};
+  &:last-child {
+    display: none;
   }
 `;
 
+export const StyledToggleGroup = styled(ToggleGroup)`
+  display: flex;
+  gap: ${spacing.xxsmall};
+`;
+
 export const showToolbar = (toolbar: HTMLElement) => {
-  toolbar.style.display = "block";
+  toolbar.style.display = "flex";
   const native = window.getSelection();
   if (!native) {
     return;
@@ -93,116 +90,85 @@ export const showToolbar = (toolbar: HTMLElement) => {
   toolbar.style.left = `${left > 10 ? left : 10}px`;
 };
 
-const SlateToolbar = () => {
-  const portalRef = createRef<HTMLDivElement>();
+interface Props {
+  options: CategoryFilters;
+  areaOptions: AreaFilters;
+}
+
+export interface ToolbarCategoryProps<T extends ToolbarValues> {
+  options: ToolbarValue<T>[];
+}
+
+const SlateToolbar = ({ options: toolbarOptions, areaOptions }: Props) => {
+  const portalRef = useRef<HTMLDivElement | null>(null);
+  const selection = useSlateSelection();
   const editor = useSlate();
-  const inFocus = useFocused();
 
-  const toolbarElements = useMemo(
-    () => (window.location.pathname.includes("learning-resource") ? learningResourceElements : topicArticleElements),
-    [],
-  );
-
-  useEffect(() => {
-    const menu = portalRef.current;
-    const selection = editor.selection;
-    if (!menu) {
-      return;
-    }
-    if (
+  const hideToolbar = useMemo(() => {
+    return (
       !selection ||
-      !inFocus ||
       Range.isCollapsed(selection) ||
       Editor.string(editor, selection) === "" ||
       !editor.shouldShowToolbar()
-    ) {
-      menu.removeAttribute("style");
-      return;
-    }
+    );
+  }, [editor, selection]);
 
-    showToolbar(menu);
+  useEffect(() => {
+    if (!portalRef.current) return;
+    if (hideToolbar) {
+      portalRef.current.removeAttribute("style");
+    }
+    showToolbar(portalRef.current);
   });
 
-  const onButtonClick = useCallback(
-    (event: MouseEvent, kind: string, type: string) => {
-      if (kind === "mark") {
-        toggleMark(event, editor, type);
-      } else if (kind === "block") {
-        handleClickBlock(event, editor, type);
-      } else if (kind === "inline") {
-        handleClickInline(event, editor, type);
-      } else if (kind === "table") {
-        handleClickTable(event, editor, type);
-      }
-    },
-    [editor],
-  );
-
-  const isActiveList = useCallback(
-    (type: string) => {
-      if (type === "definition-list") {
-        const path = getCurrentBlock(editor, TYPE_DEFINITION_LIST)?.[1];
-        if (path) {
-          return hasDefinitionListItem(editor);
-        }
-        return false;
-      }
-      return hasListItem(editor, type);
-    },
-    [editor],
-  );
-
   const onMouseDown = useCallback((e: MouseEvent) => e.preventDefault(), []);
+
+  if (hideToolbar) {
+    return null;
+  }
+
+  const options = toolbarState({
+    editorAncestors: getEditorAncestors(editor),
+    options: toolbarOptions,
+    areaOptions,
+  });
 
   return (
     <Portal>
       <ToolbarContainer id="toolbarContainer" ref={portalRef} onMouseDown={onMouseDown}>
-        <ToolbarButtons>
-          {toolbarElements.mark.map((type) => (
-            <ToolbarButton
-              key={type}
-              type={type}
-              kind="mark"
-              isActive={isMarkActive(editor, type)}
-              handleOnClick={onButtonClick}
-            />
-          ))}
-          {toolbarElements.block.map((type) => (
-            <ToolbarButton
-              key={type}
-              type={type}
-              kind="block"
-              isActive={
-                type.includes("list") ? isActiveList(type) : hasNodeWithProps(editor, specialRules[type] ?? { type })
-              }
-              handleOnClick={onButtonClick}
-            />
-          ))}
-          {toolbarElements.inline.map((type) => (
-            <ToolbarButton
-              key={type}
-              type={type}
-              kind="inline"
-              isActive={hasNodeWithProps(editor, specialRules[type] ?? { type })}
-              handleOnClick={onButtonClick}
-            />
-          ))}
-
-          {getCurrentBlock(editor, TYPE_TABLE_CELL) &&
-            toolbarElements.table?.map((type, index) => (
-              <ToolbarButton
-                key={index}
-                type={type}
-                kind="table"
-                isActive={hasCellAlignOfType(editor, type)}
-                handleOnClick={onButtonClick}
-              />
-            ))}
-        </ToolbarButtons>
-        <ToolbarSubMenu id="toolbarPortal"></ToolbarSubMenu>
+        <ToolbarRow>
+          <ToolbarTextOptions options={options.text ?? []} />
+          <ToolbarLanguageOptions />
+          <ToolbarMarkOptions options={options.mark ?? []} />
+          <ToolbarBlockOptions options={options.block ?? []} />
+          <ToolbarInlineOptions options={options.inline ?? []} />
+          <ToolbarTableOptions options={options.table ?? []} />
+        </ToolbarRow>
       </ToolbarContainer>
     </Portal>
   );
 };
+
+const ToolbarRow = forwardRef<HTMLDivElement, ComponentPropsWithRef<"div">>(({ children, ...rest }, ref) => {
+  const count = Children.count(children);
+
+  // Do not draw separators for categories with only disabled and hidden options
+  const validChildren = Children.toArray(children).filter(
+    (child) =>
+      isValidElement<ToolbarCategoryProps<ToolbarValues>>(child) &&
+      !child.props.options?.every((el) => el.hidden === true),
+  );
+
+  return (
+    <StyledToolbarRow ref={ref} {...rest}>
+      {Children.map(validChildren, (child, i) => (
+        <>
+          {child}
+          {i < count && <StyledToolbarSeparator />}
+        </>
+      ))}
+    </StyledToolbarRow>
+  );
+});
 
 export default memo(SlateToolbar);

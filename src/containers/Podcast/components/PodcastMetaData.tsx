@@ -46,6 +46,7 @@ const PodcastMetaData = ({ language, onImageLoad }: Props) => {
               onImageLoad={onImageLoad}
               language={language}
               podcastFriendly={true}
+              disableAltEditing={true}
               {...field}
             />
           );

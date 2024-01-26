@@ -12,7 +12,7 @@ import { DragEndEvent } from "@dnd-kit/core";
 import styled from "@emotion/styled";
 import { Content } from "@radix-ui/react-popover";
 import { IconButtonV2 } from "@ndla/button";
-import { colors, spacing } from "@ndla/core";
+import { colors, spacing, stackOrder } from "@ndla/core";
 import { Pencil } from "@ndla/icons/action";
 import { DeleteForever } from "@ndla/icons/editor";
 import Tabs from "@ndla/tabs";
@@ -45,7 +45,7 @@ const StyledBorderDiv = styled(Content)`
   background-color: ${colors.white};
   max-height: 1100px;
   overflow-y: scroll;
-  z-index: 5;
+  z-index: ${stackOrder.popover};
 `;
 
 const StyledTabs = styled(Tabs)`

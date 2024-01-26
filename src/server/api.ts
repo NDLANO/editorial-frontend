@@ -1,20 +1,14 @@
 /**
- * Copyright (c) 2016-present, NDLA.
+ * Copyright (c) 2024-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
  */
-
-import bodyParser from "body-parser";
-import compression from "compression";
 import express from "express";
-import proxy from "express-http-proxy";
 import { GetVerificationKey, expressjwt as jwt, Request } from "express-jwt";
-import helmet from "helmet";
 import jwksRsa from "jwks-rsa";
 import prettier from "prettier";
-import { renderToString } from "react-dom/server";
 import {
   getToken,
   getBrightcoveToken,
@@ -23,16 +17,14 @@ import {
   getZendeskToken,
   getResponsibles,
 } from "./auth";
-import contentSecurityPolicy from "./contentSecurityPolicy";
-import getConditionalClassnames from "./getConditionalClassnames";
-import Html from "./Html";
+import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN } from "./httpCodes";
+import errorLogger from "./logger";
 import { translateDocument } from "./translate";
 import config from "../config";
 import { DRAFT_PUBLISH_SCOPE, DRAFT_WRITE_SCOPE } from "../constants";
-import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN } from "../httpCodes";
-import { getLocaleObject } from "../i18n";
 import { NdlaError } from "../interfaces";
-import errorLogger from "../util/logger";
+
+const router = express.Router();
 
 type NdlaUser = {
   "https://ndla.no/user_email"?: string;
@@ -40,11 +32,8 @@ type NdlaUser = {
   permissions?: string[];
 };
 
-const app = express();
-const allowedBodyContentTypes = ["application/csp-report", "application/json"];
-
 // Temporal hack to send users to prod
-app.get("*", (req, res, next) => {
+router.get("*", (req, res, next) => {
   if (!req.hostname.includes("ed.ff")) {
     next();
   } else {
@@ -53,56 +42,16 @@ app.get("*", (req, res, next) => {
   }
 });
 
-if (!config.isVercel) {
-  app.use(compression());
-}
-app.use(express.json({ limit: "1mb" }));
-app.use(
-  express.static(process.env.RAZZLE_PUBLIC_DIR as string, {
-    maxAge: 1000 * 60 * 60 * 24 * 365, // One year
-  }),
-);
-
-app.use(
-  bodyParser.json({
-    type: (req) => {
-      const contentType = req.headers["content-type"];
-      if (typeof contentType === "string") return allowedBodyContentTypes.includes(contentType);
-      else return false;
-    },
-  }),
-);
-
-app.use(
-  helmet({
-    hsts: {
-      maxAge: 31536000,
-      includeSubDomains: true,
-    },
-    contentSecurityPolicy: config.disableCSP === "true" ? null : contentSecurityPolicy,
-    frameguard:
-      process.env.NODE_ENV === "development"
-        ? {
-            action: "allow-from",
-            domain: "*://localhost",
-          }
-        : undefined,
-  }),
-);
-
-const renderHtmlString = (locale: string, userAgentString?: string, state?: { locale: string }) =>
-  renderToString(<Html lang={locale} state={state} className={getConditionalClassnames(userAgentString)} />);
-
-app.get("/robots.txt", (_, res) => {
+router.get("/robots.txt", (_, res) => {
   res.type("text/plain");
   res.send("User-agent: *\nDisallow: /");
 });
 
-app.get("/health", (_, res) => {
+router.get("/health", (_, res) => {
   res.status(OK).json({ status: OK, text: "Health check ok" });
 });
 
-app.post("/format-html", async (req, res) => {
+router.post("/format-html", async (req, res) => {
   const html = await prettier.format(req.body.html, {
     parser: "html",
     printWidth: 1000000, // Avoid inserting linebreaks for long inline texts i.e. <p>Lorem ......... ipsum</p>
@@ -110,7 +59,7 @@ app.post("/format-html", async (req, res) => {
   res.status(OK).json({ html });
 });
 
-app.get("/get_brightcove_token", (_, res) => {
+router.get("/get_brightcove_token", (_, res) => {
   getBrightcoveToken()
     .then((token) => {
       res.send(token);
@@ -118,7 +67,7 @@ app.get("/get_brightcove_token", (_, res) => {
     .catch((err) => res.status(INTERNAL_SERVER_ERROR).send(err.message));
 });
 
-app.get(
+router.get(
   "/get_zendesk_token",
   jwt({
     secret: jwksRsa.expressJwtSecret({
@@ -138,7 +87,7 @@ app.get(
   },
 );
 
-app.get(
+router.get(
   "/get_note_users",
   jwt({
     secret: jwksRsa.expressJwtSecret({
@@ -176,7 +125,7 @@ app.get(
   },
 );
 
-app.get(
+router.get(
   "/get_editors",
   jwt({
     secret: jwksRsa.expressJwtSecret({
@@ -198,7 +147,7 @@ app.get(
   },
 );
 
-app.get(
+router.get(
   "/get_responsibles",
   jwt({
     secret: jwksRsa.expressJwtSecret({
@@ -224,7 +173,7 @@ app.get(
   },
 );
 
-app.post("/csp-report", (req, res) => {
+router.post("/csp-report", (req, res) => {
   const { body } = req;
   if (body && body["csp-report"]) {
     const cspReport = body["csp-report"];
@@ -236,8 +185,7 @@ app.post("/csp-report", (req, res) => {
   }
 });
 
-app.use(express.json());
-app.post("/translate", async (req, res) => {
+router.post("/translate", async (req, res) => {
   const { body } = req;
   if (body && body["document"]) {
     const translated = await translateDocument(body["document"]);
@@ -247,18 +195,4 @@ app.post("/translate", async (req, res) => {
   }
 });
 
-if (process.env.NODE_ENV === "development") {
-  // proxy js request to handle web worker crossorgin issue (only necessary under development)
-  app.get("/static/js/*", proxy("http://localhost:3001"));
-}
-
-app.get("*", (req, res) => {
-  const paths = req.url.split("/");
-  const { abbreviation: locale } = getLocaleObject(paths[1]);
-  const userAgentString = req.headers["user-agent"];
-
-  const htmlString = renderHtmlString(locale, userAgentString, { locale });
-  res.send(`<!doctype html>\n${htmlString}`);
-});
-
-export default app;
+export default router;

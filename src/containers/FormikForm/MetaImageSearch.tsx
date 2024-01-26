@@ -30,6 +30,7 @@ interface Props {
   checkboxAction: (image: IImageMetaInformationV3) => void;
   language?: string;
   podcastFriendly?: boolean;
+  disableAltEditing?: boolean;
 }
 
 const MetaImageSearch = ({
@@ -43,6 +44,7 @@ const MetaImageSearch = ({
   checkboxAction,
   language,
   podcastFriendly,
+  disableAltEditing,
 }: Props) => {
   const { t, i18n } = useTranslation();
   const { setFieldValue } = useFormikContext();
@@ -72,7 +74,7 @@ const MetaImageSearch = ({
     setShowImageSelect(false);
     setImage(image);
     setFieldValue(name, image.id);
-    setFieldValue("metaImageAlt", image.alttext.alttext.trim(), true);
+    setFieldValue("metaImageAlt", disableAltEditing ? "" : image.alttext.alttext.trim(), true);
     setTimeout(() => {
       setFieldTouched("metaImageAlt", true, true);
       setFieldTouched(name, true, true);
@@ -136,6 +138,7 @@ const MetaImageSearch = ({
           onImageRemove={onImageRemove}
           showRemoveButton={showRemoveButton}
           onImageLoad={onImageLoad}
+          disableAltEditing={disableAltEditing}
         />
       )}
     </div>

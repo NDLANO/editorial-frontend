@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import styled from "@emotion/styled";
-import { spacing, colors } from "@ndla/core";
+import { spacing, colors, stackOrder } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
 import { DeleteForever } from "@ndla/icons/editor";
 import { H5pMetaData } from "@ndla/types-embed";
@@ -47,7 +47,7 @@ const H5pWrapper = styled.div`
 const FigureButtons = styled(StyledFigureButtons)`
   right: ${spacing.small};
   top: ${spacing.medium};
-  z-index: 1;
+  z-index: ${stackOrder.offsetSingle};
 `;
 
 const SlateH5p = ({ element, editor, attributes, language, children }: Props) => {

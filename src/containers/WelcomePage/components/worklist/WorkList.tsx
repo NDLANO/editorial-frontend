@@ -29,7 +29,7 @@ interface Props {
 }
 
 export type SortOption = "title" | "responsibleLastUpdated" | "status";
-const defaultPageSize = { label: "6", value: "6" };
+export const defaultPageSize = { label: "6", value: "6" };
 
 const WorkList = ({ ndlaId }: Props) => {
   const storedPageSize = localStorage.getItem(STORED_PAGE_SIZE);

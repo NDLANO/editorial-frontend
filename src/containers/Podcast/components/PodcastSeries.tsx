@@ -20,7 +20,7 @@ import FormikField from "../../../components/FormikField";
 import { SearchResultBase } from "../../../interfaces";
 import { searchSeries } from "../../../modules/audio/audioApi";
 import { toEditPodcastSeries } from "../../../util/routeHelpers";
-import { ElementImage } from "../../FormikForm/components/ElementListItem";
+import ElementImage from "../../FormikForm/components/ElementImage";
 
 interface SeriesType extends Omit<ISeriesSummary, "coverPhoto"> {
   metaImage: { id: string; url: string; alt: string };
@@ -71,12 +71,7 @@ const PodcastSeries = () => {
           {field.value ? (
             <PodcastSeriesElement>
               <div>
-                <ElementImage
-                  element={{
-                    ...field.value,
-                    metaImage: field.value.coverPhoto,
-                  }}
-                />
+                <ElementImage url={field.value?.coverPhoto?.url} alt={field.value?.coverPhoto?.altText} />
                 {field.value.id && (
                   <StyledSafeLink to={toEditPodcastSeries(field.value.id, i18n.language)} target="_blank">
                     {field.value.title.title}

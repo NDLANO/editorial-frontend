@@ -11,7 +11,7 @@ import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
-import { colors, spacing, fonts } from "@ndla/core";
+import { colors, fonts, spacing, stackOrder } from "@ndla/core";
 import { Menu } from "@ndla/icons/common";
 import SafeLink from "@ndla/safelink";
 import { Logo } from "@ndla/ui";
@@ -32,7 +32,7 @@ interface StyledNavigationWrapperProps {
 
 const StyledNavigationWrapper = styled.div<StyledNavigationWrapperProps>`
   position: relative;
-  z-index: 4;
+  z-index: ${stackOrder.banner};
   background: ${(props) => props.backgroundColor};
 `;
 
@@ -73,6 +73,10 @@ const EnvText = styled(FlexWrapper)`
 
 const HiddenEnvText = styled(EnvText)`
   visibility: hidden;
+`;
+
+const LinkWrapper = styled.div`
+  gap: ${spacing.small};
 `;
 
 interface EnvironmentSettings {
@@ -140,6 +144,14 @@ const Navigation = () => {
                     </StyledLogoDiv>
                     <SavedSearchDropdown onClose={closeMenu} />
                   </LeftContent>
+                  <LinkWrapper>
+                    <SafeLink target="_blank" to="https://edndla.zendesk.com/hc/no">
+                      Zendesk
+                    </SafeLink>
+                    <SafeLink target="_blank" to="https://kvalitet.ndla.no/">
+                      Kvalitaisen
+                    </SafeLink>
+                  </LinkWrapper>
                   <SessionContainer close={closeMenu} />
                 </StyledHeaderItems>
               </Column>

@@ -7,8 +7,10 @@
  */
 
 import { Editor, Element, Transforms } from "slate";
+import { ReactEditor } from "slate-react";
 import getCurrentBlock from "../../../utils/getCurrentBlock";
 import hasNodeOfType from "../../../utils/hasNodeOfType";
+import { getEditorAncestors } from "../../toolbar/toolbarState";
 import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_LIST, TYPE_DEFINITION_TERM } from "../types";
 
 const onTab = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEvent) => void) => {
@@ -26,31 +28,34 @@ const onTab = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEven
   }
 
   const [currentListNode] = listEntry;
-  const [currentItemNode, currentItemPath] = listItemEntry;
+  const [firstChild, secondChild] = getEditorAncestors(editor, true);
+
+  const selectedDefinitionItem =
+    firstChild.type === TYPE_DEFINITION_DESCRIPTION || firstChild.type === TYPE_DEFINITION_TERM
+      ? firstChild
+      : secondChild;
+
+  const selectedDefinitionItemPath = ReactEditor.findPath(editor, selectedDefinitionItem);
 
   if (Element.isElement(currentListNode) && currentListNode.type === TYPE_DEFINITION_LIST) {
     Editor.withoutNormalizing(editor, () => {
-      if (
-        event.shiftKey &&
-        Element.isElement(currentItemNode) &&
-        currentItemNode.type === TYPE_DEFINITION_DESCRIPTION
-      ) {
+      if (event.shiftKey && selectedDefinitionItem.type === TYPE_DEFINITION_DESCRIPTION) {
         Transforms.setNodes(
           editor,
           {
             type: TYPE_DEFINITION_TERM,
-            children: currentItemNode.children,
+            children: selectedDefinitionItem.children,
           },
-          { at: currentItemPath },
+          { at: selectedDefinitionItemPath },
         );
-      } else if (Element.isElement(currentItemNode) && currentItemNode.type === TYPE_DEFINITION_TERM) {
+      } else if (selectedDefinitionItem.type === TYPE_DEFINITION_TERM) {
         Transforms.setNodes(
           editor,
           {
             type: TYPE_DEFINITION_DESCRIPTION,
-            children: currentItemNode.children,
+            children: selectedDefinitionItem.children,
           },
-          { at: currentItemPath },
+          { at: selectedDefinitionItemPath },
         );
       }
     });

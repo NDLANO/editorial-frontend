@@ -10,7 +10,7 @@ import { ChangeEvent, MouseEventHandler } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
-import { spacing, colors } from "@ndla/core";
+import { colors, spacing, stackOrder } from "@ndla/core";
 import { CheckboxItem, StyledButtonWrapper, TextArea } from "@ndla/forms";
 import { isEmpty } from "../../../validators";
 import { useSlateContext } from "../../SlateContext";
@@ -20,7 +20,7 @@ export const StyledInputWrapper = styled.div`
   background: ${colors.brand.greyLightest};
   padding: ${spacing.normal};
   position: relative;
-  z-index: 20;
+  z-index: ${stackOrder.offsetSingle};
 `;
 
 interface Props {

@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
-import { spacing } from "@ndla/core";
+import { spacing, mq, breakpoints } from "@ndla/core";
 import { Plus } from "@ndla/icons/action";
 import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
 import { Switch } from "@ndla/switch";
@@ -26,17 +26,45 @@ const FlexWrapper = styled.div`
   align-items: center;
   gap: ${spacing.xsmall};
 `;
+
 const AddSubjectButton = styled(ButtonV2)`
-  margin: 0px ${spacing.small};
+  margin: 0 0 0 ${spacing.small};
+`;
+
+const StyledPlusIcon = styled(Plus)`
+  ${mq.range({ until: breakpoints.tablet })} {
+    display: none;
+  }
+`;
+
+const SwitchWrapper = styled.div`
+  display: flex;
+  gap: ${spacing.small};
+`;
+
+const StyledSwitch = styled(Switch)`
+  & button {
+    flex-shrink: 0;
+  }
 `;
 
 interface Props {
-  onChange: (checked: boolean) => void;
-  checked: boolean;
+  setShowFavorites: (checked: boolean) => void;
+  showFavorites: boolean;
+  setShowLmaSubjects: (checked: boolean) => void;
+  showLmaSubjects: boolean;
   nodeType: NodeType;
+  hasLmaSubjects: boolean;
 }
 
-const StructureBanner = ({ onChange, checked, nodeType }: Props) => {
+const StructureBanner = ({
+  setShowFavorites,
+  showFavorites,
+  setShowLmaSubjects,
+  showLmaSubjects,
+  nodeType,
+  hasLmaSubjects,
+}: Props) => {
   const [addSubjectModalOpen, setAddSubjectModalOpen] = useState(false);
 
   const { t } = useTranslation();
@@ -51,13 +79,23 @@ const StructureBanner = ({ onChange, checked, nodeType }: Props) => {
         {t("taxonomy.editStructure")}
       </FlexWrapper>
       <FlexWrapper>
-        <Switch
-          onChange={onChange}
-          checked={checked}
-          label={t("taxonomy.favorites")}
-          id={"favorites"}
-          data-testid="switch-favorites"
-        />
+        <SwitchWrapper>
+          {hasLmaSubjects && (
+            <StyledSwitch
+              onChange={setShowLmaSubjects}
+              checked={showLmaSubjects}
+              label={t("taxonomy.showLMASubject")}
+              id="lma-subject-switch"
+            />
+          )}
+          <StyledSwitch
+            onChange={setShowFavorites}
+            checked={showFavorites}
+            label={t("taxonomy.favorites")}
+            id="favorites"
+            data-testid="switch-favorites"
+          />
+        </SwitchWrapper>
 
         {isTaxonomyAdmin && (
           <Modal open={addSubjectModalOpen} onOpenChange={setAddSubjectModalOpen}>
@@ -67,10 +105,8 @@ const StructureBanner = ({ onChange, checked, nodeType }: Props) => {
                 onClick={() => setAddSubjectModalOpen(true)}
                 data-testid="AddSubjectButton"
               >
-                <Plus />{" "}
-                {t("taxonomy.addNode", {
-                  nodeType: t(`taxonomy.nodeType.${nodeType}`),
-                })}
+                <StyledPlusIcon />
+                {t("taxonomy.addNode", { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
               </AddSubjectButton>
             </ModalTrigger>
             <ModalContent position="top">

@@ -11,7 +11,9 @@ import { useMemo, useEffect, useCallback } from "react";
 import { createEditor, Descendant } from "slate";
 import { withHistory } from "slate-history";
 import { Slate, Editable, ReactEditor, withReact } from "slate-react";
+import { EditableProps } from "slate-react/dist/components/editable";
 import styled from "@emotion/styled";
+import { useFormControl } from "@ndla/forms";
 import { SlatePlugin } from "./interfaces";
 import withPlugins from "./utils/withPlugins";
 import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
@@ -28,19 +30,20 @@ const StyledPlaceholder = styled.div`
   pointer-events: none;
 `;
 
-interface Props {
+interface Props extends Omit<EditableProps, "value"> {
   id: string;
   value: Descendant[];
-  submitted: boolean;
   onChange: FormikHandlers["handleChange"];
+  submitted?: boolean;
   className?: string;
   placeholder?: string;
   plugins?: SlatePlugin[];
 }
 
-const PlainTextEditor = ({ onChange, value, submitted, id, className, placeholder, plugins, ...rest }: Props) => {
+const PlainTextEditor = ({ onChange, value, id, submitted, className, placeholder, plugins, ...rest }: Props) => {
   const _editor = useMemo(() => withHistory(withReact(createEditor())), []);
   const editor = useMemo(() => withPlugins(_editor, plugins), [_editor, plugins]);
+  const props = useFormControl({ id, readOnly: submitted, ...rest });
 
   const onBlur = useCallback(() => {
     ReactEditor.deselect(editor);
@@ -75,13 +78,11 @@ const PlainTextEditor = ({ onChange, value, submitted, id, className, placeholde
   return (
     <Slate editor={editor} initialValue={value} onChange={onSlateChange}>
       <StyledEditable
-        id={id}
         // Forcing slate field to be deselected before selecting new field.
         // Fixes a problem where slate field is not properly focused on click.
         onBlur={onBlur}
         // @ts-ignore is-hotkey and editor.onKeyDown does not have matching types
         onKeyDown={editor.onKeyDown}
-        readOnly={submitted}
         className={className}
         placeholder={placeholder}
         renderPlaceholder={({ children, attributes }) => {
@@ -89,7 +90,7 @@ const PlainTextEditor = ({ onChange, value, submitted, id, className, placeholde
           const { style, ...remainingAttributes } = attributes;
           return <StyledPlaceholder {...remainingAttributes}>{children}</StyledPlaceholder>;
         }}
-        {...rest}
+        {...props}
       />
     </Slate>
   );

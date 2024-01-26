@@ -10,7 +10,6 @@ import { ComponentType } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
 import styled from "@emotion/styled";
-import loadable from "@loadable/component";
 import { UseQueryOptions, UseQueryResult } from "@tanstack/react-query";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { NynorskTranslateProvider } from "./NynorskTranslateProvider";
@@ -22,9 +21,8 @@ import {
   MAX_DEFAULT_WIDTH_FRONTPAGE_WITH_COMMENTS,
   MAX_WIDTH_FRONTPAGE_WITH_COMMENTS,
 } from "../containers/ArticlePage/styles";
+import NotFoundPage from "../containers/NotFoundPage/NotFoundPage";
 import { usePreviousLocation } from "../util/routeHelpers";
-
-const NotFoundPage = loadable(() => import("../containers/NotFoundPage/NotFoundPage"));
 
 const Wrapper = styled.div`
   display: flex;

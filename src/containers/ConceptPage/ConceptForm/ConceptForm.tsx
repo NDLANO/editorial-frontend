@@ -15,7 +15,6 @@ import {
   IUpdatedConcept,
   ITagsSearchResult,
   IConceptSummary,
-  IGlossExample,
 } from "@ndla/types-backend/concept-api";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
@@ -30,11 +29,10 @@ import { ARCHIVED, PUBLISHED, UNPUBLISHED } from "../../../constants";
 import { useLicenses } from "../../../modules/draft/draftQueries";
 import CopyrightFieldGroup from "../../FormikForm/CopyrightFieldGroup";
 import SimpleVersionPanel from "../../FormikForm/SimpleVersionPanel";
-import GlossDataSection from "../../GlossPage/components/GlossDataSection";
 import { MessageError, useMessages } from "../../Messages/MessagesProvider";
 import { useSession } from "../../Session/SessionProvider";
 import { ConceptArticles, ConceptContent, ConceptMetaData } from "../components";
-import { ConceptFormValues, ConceptType } from "../conceptInterfaces";
+import { ConceptFormValues } from "../conceptInterfaces";
 import { conceptApiTypeToFormType, getNewConceptType, getUpdatedConceptType } from "../conceptTransformers";
 
 const STATUSES_RESPONSIBLE_NOT_REQUIRED = [PUBLISHED, ARCHIVED, UNPUBLISHED];
@@ -61,10 +59,9 @@ interface Props {
   initialTitle?: string;
   onUpserted?: (concept: IConceptSummary | IConcept) => void;
   supportedLanguages: string[];
-  conceptType?: ConceptType;
 }
 
-const conceptFormBaseRules: RulesType<ConceptFormValues, IConcept> = {
+export const conceptFormBaseRules: RulesType<ConceptFormValues, IConcept> = {
   title: {
     required: true,
     warnings: {
@@ -122,44 +119,6 @@ const conceptRules: RulesType<ConceptFormValues, IConcept> = {
   },
 };
 
-const glossRules: RulesType<ConceptFormValues, IConcept, IGlossExample> = {
-  ...conceptFormBaseRules,
-  gloss: {
-    test: (values) => {
-      if (!values.gloss?.gloss || !values.gloss?.wordClass || !values.gloss?.originalLanguage)
-        return {
-          translationKey: "form.gloss.glossMissingFields",
-        };
-    },
-  },
-  examples: {
-    nestedValidationRules: {
-      example: {
-        test: (values) => {
-          const transcriptionMissingText =
-            values?.transcriptions && Object.values(values.transcriptions).some((t) => !t);
-
-          if (!values?.example || !values?.language || transcriptionMissingText)
-            return { translationKey: "form.gloss.exampleMissingFields" };
-        },
-      },
-    },
-  },
-  transcriptions: {
-    onlyValidateIf: (values) => {
-      if (values.transcriptions) {
-        return Object.keys(values.transcriptions).length !== 0;
-      }
-      return false;
-    },
-    test: (values) => {
-      if (values.transcriptions && Object.values(values.transcriptions).includes("")) {
-        return { translationKey: "form.gloss.transcriptionMissingFields" };
-      }
-    },
-  },
-};
-
 const ConceptForm = ({
   concept,
   conceptChanged,
@@ -174,7 +133,6 @@ const ConceptForm = ({
   initialTitle,
   onUpserted,
   supportedLanguages,
-  conceptType = "concept",
 }: Props) => {
   const [savedToServer, setSavedToServer] = useState(false);
   const { t } = useTranslation();
@@ -183,11 +141,7 @@ const ConceptForm = ({
   const { ndlaId } = useSession();
 
   const handleSubmit = async (values: ConceptFormValues, formikHelpers: FormikHelpers<ConceptFormValues>) => {
-    if (
-      ((!values.subjects.length || isEmpty(values.conceptContent)) && values.conceptType === "concept") ||
-      isEmpty(values.title)
-    )
-      return;
+    if (!values.subjects.length || isEmpty(values.conceptContent) || isEmpty(values.title)) return;
     formikHelpers.setSubmitting(true);
     const revision = concept?.revision;
     const status = concept?.status;
@@ -198,10 +152,10 @@ const ConceptForm = ({
     try {
       let savedConcept: IConcept;
       if ("onCreate" in upsertProps) {
-        savedConcept = await upsertProps.onCreate(getNewConceptType(values, licenses, conceptType));
+        savedConcept = await upsertProps.onCreate(getNewConceptType(values, licenses, "concept"));
       } else {
         const conceptWithStatus = {
-          ...getUpdatedConceptType(values, licenses, conceptType),
+          ...getUpdatedConceptType(values, licenses, "concept"),
           ...(statusChange ? { status: newStatus } : {}),
         };
         savedConcept = await upsertProps.onUpdate(conceptWithStatus, revision!);
@@ -226,19 +180,16 @@ const ConceptForm = ({
     conceptArticles,
     ndlaId,
     initialTitle,
-    conceptType,
+    "concept",
   );
-
-  const isGloss = conceptType === "gloss";
-  const formRules = isGloss ? glossRules : conceptRules;
 
   const initialWarnings = useMemo(
-    () => getWarnings(initialValues, formRules, t, concept),
-    [concept, formRules, initialValues, t],
+    () => getWarnings(initialValues, conceptRules, t, concept),
+    [concept, initialValues, t],
   );
-  const initialErrors = useMemo(() => validateFormik(initialValues, formRules, t), [initialValues, t, formRules]);
+  const initialErrors = useMemo(() => validateFormik(initialValues, conceptRules, t), [initialValues, t]);
 
-  const validate = useCallback((values: ConceptFormValues) => validateFormik(values, formRules, t), [t, formRules]);
+  const validate = useCallback((values: ConceptFormValues) => validateFormik(values, conceptRules, t), [t]);
 
   return (
     <Formik
@@ -260,7 +211,7 @@ const ConceptForm = ({
               concept={concept}
               status={concept?.status}
               title={concept?.title.title ?? initialTitle}
-              type={conceptType}
+              type={"concept"}
               supportedLanguages={supportedLanguages}
             />
             <FormAccordions defaultOpen={["content"]}>
@@ -270,19 +221,8 @@ const ConceptForm = ({
                 title={t("form.contentSection")}
                 hasError={!!(errors.title || errors.conceptContent)}
               >
-                <ConceptContent isGloss={isGloss} />
+                <ConceptContent />
               </FormAccordion>
-              {isGloss && (
-                <FormAccordion
-                  id="glossData"
-                  title={t("form.gloss.gloss")}
-                  hasError={
-                    !!(errors.gloss || Object.keys(errors).find((e) => e.includes("examples")) || errors.transcriptions)
-                  }
-                >
-                  <GlossDataSection />
-                </FormAccordion>
-              )}
               <FormAccordion
                 id="copyright"
                 title={t("form.copyrightSection")}
@@ -290,25 +230,21 @@ const ConceptForm = ({
               >
                 <CopyrightFieldGroup enableLicenseNA={true} />
               </FormAccordion>
-              {!isGloss && (
-                <>
-                  <FormAccordion
-                    id="metadata"
-                    title={t("form.metadataSection")}
-                    hasError={!!(errors.tags || errors.metaImageAlt || errors.subjects)}
-                  >
-                    <ConceptMetaData
-                      fetchTags={fetchConceptTags}
-                      subjects={subjects}
-                      inModal={inModal}
-                      language={language}
-                    />
-                  </FormAccordion>
-                  <FormAccordion id="articles" title={t("form.articleSection")} hasError={!!errors.articles}>
-                    <ConceptArticles />
-                  </FormAccordion>
-                </>
-              )}
+              <FormAccordion
+                id="metadata"
+                title={t("form.metadataSection")}
+                hasError={!!(errors.tags || errors.metaImageAlt || errors.subjects)}
+              >
+                <ConceptMetaData
+                  fetchTags={fetchConceptTags}
+                  subjects={subjects}
+                  inModal={inModal}
+                  language={language}
+                />
+              </FormAccordion>
+              <FormAccordion id="articles" title={t("form.articleSection")} hasError={!!errors.articles}>
+                <ConceptArticles />
+              </FormAccordion>
               <FormAccordion id="versionNotes" title={t("form.workflowSection")} hasError={false}>
                 <SimpleVersionPanel editorNotes={concept?.editorNotes} />
               </FormAccordion>

@@ -121,8 +121,8 @@ const SlateContactBlock = ({ element, editor, attributes, children }: Props) => 
                 </IconButtonV2>
               </ModalTrigger>
               <StyledDeleteEmbedButton
-                aria-label={t("delete")}
-                title={t("delete")}
+                aria-label={t("contactBlockForm.delete")}
+                title={t("contactBlockForm.delete")}
                 colorTheme="danger"
                 onClick={handleRemove}
                 data-testid="remove-contact-block"

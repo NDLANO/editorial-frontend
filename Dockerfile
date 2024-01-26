@@ -1,5 +1,5 @@
 ### Build stage
-FROM node:20.9.0-alpine3.18 as builder
+FROM node:20.11-alpine3.18 as builder
 
 ENV HOME=/home/app
 ENV APP_PATH=$HOME/editorial-frontend
@@ -15,8 +15,7 @@ WORKDIR $APP_PATH
 RUN yarn install --immutable
 
 # Copy necessary source files for server and client build
-COPY babel.config.js tsconfig.json postcss.config.js $APP_PATH/
-COPY webpack $APP_PATH/webpack
+COPY babel.config.cjs tsconfig.json postcss.config.cjs index.html $APP_PATH/
 COPY scripts $APP_PATH/scripts
 
 COPY src $APP_PATH/src
@@ -27,7 +26,7 @@ COPY public $APP_PATH/public
 RUN yarn run build
 
 ### Run stage
-FROM node:20.9.0-alpine3.18
+FROM node:20.11-alpine3.18
 
 RUN apk add py-pip jq && pip install awscli
 COPY run-editorial-frontend.sh /
@@ -38,4 +37,4 @@ COPY --from=builder /home/app/editorial-frontend/build build
 
 ENV NODE_ENV=production
 
-CMD ["/run-editorial-frontend.sh", "node build/server.js '|' bunyan"]
+CMD ["/run-editorial-frontend.sh", "node build/server.mjs '|' bunyan"]

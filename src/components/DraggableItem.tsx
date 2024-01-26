@@ -23,7 +23,7 @@ interface Props {
 
 const StyledListElement = styled.li`
   list-style: none;
-  margin: 0;
+  padding: 0;
   display: flex;
   align-items: center;
   &[data-has-handle="false"] {

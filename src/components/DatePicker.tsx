@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { Arrow, Content, Portal, Root, Trigger } from "@radix-ui/react-popover";
 import { ButtonV2 } from "@ndla/button";
-import { colors, misc } from "@ndla/core";
+import { colors, misc, stackOrder } from "@ndla/core";
 
 interface Props {
   children: ReactNode;
@@ -24,7 +24,7 @@ interface Props {
 
 const StyledContent = styled(Content)`
   background-color: ${colors.white};
-  z-index: 100;
+  z-index: ${stackOrder.popover};
   border: 1px solid ${colors.black};
   border-radius: ${misc.borderRadius};
 `;

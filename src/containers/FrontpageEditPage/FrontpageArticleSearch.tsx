@@ -11,7 +11,7 @@ import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { Content, Portal as PopoverPortal, Root, Trigger } from "@radix-ui/react-popover";
-import { spacing, misc, colors } from "@ndla/core";
+import { colors, misc, spacing, stackOrder } from "@ndla/core";
 import { IArticleSummaryV2 } from "@ndla/types-backend/article-api";
 import { Heading } from "@ndla/typography";
 import { extractArticleIds } from "./frontpageHelpers";
@@ -32,7 +32,7 @@ const PopoverContent = styled(Content)`
   border-radius: ${misc.borderRadius};
   border: 1px solid ${colors.brand.primary};
   background: ${colors.white};
-  z-index: 100;
+  z-index: ${stackOrder.popover};
   color: ${colors.text.primary};
   padding: ${spacing.small};
 `;

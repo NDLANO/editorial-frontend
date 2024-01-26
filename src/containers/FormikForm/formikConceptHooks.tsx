@@ -11,7 +11,7 @@ import { useState, useEffect } from "react";
 import { IConcept, INewConcept, IUpdatedConcept } from "@ndla/types-backend/concept-api";
 import { IArticle, IUserData } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
-import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from "../../constants";
+import { LAST_UPDATED_SIZE, TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from "../../constants";
 import * as conceptApi from "../../modules/concept/conceptApi";
 import { fetchSearchTags } from "../../modules/concept/conceptApi";
 import { fetchDraft } from "../../modules/draft/draftApi";
@@ -72,7 +72,7 @@ export function useFetchConceptData(conceptId: number | undefined, locale: strin
   const updateUserData = async (userData?: IUserData) => {
     if (!userData || !conceptId) return;
     const latestEdited = uniq([conceptId?.toString()].concat(userData?.latestEditedConcepts ?? []));
-    const latestEditedConcepts = latestEdited.slice(0, 10);
+    const latestEditedConcepts = latestEdited.slice(0, LAST_UPDATED_SIZE);
     mutateAsync({ latestEditedConcepts });
   };
 

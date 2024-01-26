@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { css, SerializedStyles } from "@emotion/react";
 import styled from "@emotion/styled";
+import { stackOrder } from "@ndla/core";
 import { useMessages } from "./MessagesProvider";
 import AlertModal from "../../components/AlertModal";
 
@@ -27,7 +28,7 @@ const StyledMessageAlertOverlay = styled("div")`
   top: 50px;
   left: 0;
   right: 0;
-  z-index: 200;
+  z-index: ${stackOrder.modal};
   margin: 0 auto;
   ${(p: { appearance: "hidden" | "" }) => appearances[p.appearance]};
 `;

@@ -7,15 +7,27 @@
  */
 
 import { Editor, Element, Path, Transforms, Node, Range, Point } from "slate";
+import { ReactEditor } from "slate-react";
+import { getEditorAncestors } from "../../toolbar/toolbarState";
 import { TYPE_DEFINITION_TERM, TYPE_DEFINITION_DESCRIPTION } from "../types";
 import { definitionDescription, definitionTerm } from "../utils/defaultBlocks";
 
 const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown: ((e: KeyboardEvent) => void) | undefined) => {
   if ((e.shiftKey && nextOnKeyDown) || (!editor.selection && nextOnKeyDown)) {
     return nextOnKeyDown(e);
-  } else if (!editor.selection) return undefined;
+  } else if (!editor.selection) return;
 
-  const [selectedDefinitionItem, selectedDefinitionItemPath] = Editor.parent(editor, editor.selection.anchor.path);
+  const [firstChild, secondChild] = getEditorAncestors(editor, true);
+  const selectedDefinitionItem =
+    firstChild.type === TYPE_DEFINITION_DESCRIPTION || firstChild.type === TYPE_DEFINITION_TERM
+      ? firstChild
+      : secondChild;
+
+  if (!selectedDefinitionItem) {
+    return;
+  }
+
+  const selectedDefinitionItemPath = ReactEditor.findPath(editor, selectedDefinitionItem);
 
   if (
     !selectedDefinitionItem ||

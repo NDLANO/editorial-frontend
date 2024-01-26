@@ -60,7 +60,7 @@ const LearningpathConnection = ({ id, learningpaths, setLearningpaths }: Props) 
           <ModalCloseButton />
         </ModalHeader>
         <ModalBody>
-          <ElementList elements={learningpaths} isEditable={false} />
+          <ElementList elements={learningpaths} isDeletable={false} isDraggable={false} />
         </ModalBody>
       </ModalContent>
     </Modal>

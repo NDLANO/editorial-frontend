@@ -44,11 +44,7 @@ const PreviewButton = styled(IconButtonV2)`
   }
 `;
 
-interface Props {
-  isGloss: boolean;
-}
-
-const ConceptContent = ({ isGloss }: Props) => {
+const ConceptContent = () => {
   const { t } = useTranslation();
   const [preview, setPreview] = useState(false);
   const formikContext = useFormikContext<ConceptFormValues>();
@@ -76,15 +72,13 @@ const ConceptContent = ({ isGloss }: Props) => {
           <HowToHelper pageId="Markdown" tooltip={t("form.markdown.helpLabel")} />
         </IconContainer>
       </ByLine>
-      <VisualElementField types={isGloss ? ["audio"] : ["image", "video"]} isGloss={isGloss} />
-      {!isGloss && (
-        <IngressField
-          name="conceptContent"
-          maxLength={800}
-          placeholder={t("form.name.conceptContent")}
-          preview={preview}
-        />
-      )}
+      <VisualElementField types={["image", "video"]} />
+      <IngressField
+        name="conceptContent"
+        maxLength={800}
+        placeholder={t("form.name.conceptContent")}
+        preview={preview}
+      />
     </>
   );
 };

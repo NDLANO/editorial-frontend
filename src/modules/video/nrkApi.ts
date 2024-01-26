@@ -13,7 +13,7 @@ import { resolveJsonOrRejectWithError } from "../../util/resolveJsonOrRejectWith
 const corsAnywhereUrl = `${config.ndlaEnvironment === "local" ? "https://cors-anywhere.herokuapp.com/" : ""}`;
 
 const baseUrl =
-  process.env.NODE_ENV === "unittest" ? "http://nrk-api" : corsAnywhereUrl + "https://nrkno-skole-prod.kube.nrk.no";
+  config.runtimeType === "test" ? "http://nrk-api" : corsAnywhereUrl + "https://nrkno-skole-prod.kube.nrk.no";
 
 //Type inferred from API call.
 interface NRKMedia {

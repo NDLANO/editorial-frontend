@@ -7,9 +7,10 @@
  */
 
 import sortBy from "lodash/sortBy";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Select, SingleValue } from "@ndla/select";
+import { SUBJECT_NODE } from "../../../../modules/nodes/nodeApiTypes";
 import { useSearchNodes } from "../../../../modules/nodes/nodeQueries";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 import { DropdownWrapper } from "../../styles";
@@ -18,17 +19,26 @@ interface Props {
   subjectIds: string[];
   filterSubject: SingleValue | undefined;
   setFilterSubject: (fs: SingleValue) => void;
+  removeArchived?: boolean;
+  placeholder?: string;
 }
 
-const SubjectDropdown = ({ subjectIds, filterSubject, setFilterSubject }: Props) => {
+const SubjectDropdown = ({
+  subjectIds,
+  filterSubject,
+  setFilterSubject,
+  removeArchived = false,
+  placeholder,
+}: Props) => {
+  const [enableSearch, setEnableSearch] = useState(false);
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
 
-  const { data: subjects } = useSearchNodes(
+  const { data: subjects, isLoading } = useSearchNodes(
     {
       ids: subjectIds,
       taxonomyVersion,
-      nodeType: "SUBJECT",
+      nodeType: SUBJECT_NODE,
       pageSize: subjectIds.length,
       language: i18n.language,
     },
@@ -37,22 +47,27 @@ const SubjectDropdown = ({ subjectIds, filterSubject, setFilterSubject }: Props)
         ...res,
         results: sortBy(res.results, (r) => r.name),
       }),
-      enabled: !!subjectIds.length,
+      enabled: !!subjectIds.length && enableSearch,
     },
   );
   const subjectContexts = useMemo(() => {
     if (subjects?.results.length) {
-      const archivedAtBottom = sortBy(subjects.results, (r) => r.metadata.customFields.subjectCategory === "archive");
-      return archivedAtBottom.map((r) => ({ value: r.id, label: r.name }));
+      let updatedArchived;
+      if (removeArchived) {
+        updatedArchived = subjects.results.filter((s) => s.metadata.customFields.subjectCategory !== "archive");
+      } else {
+        updatedArchived = sortBy(subjects.results, (r) => r.metadata.customFields.subjectCategory === "archive");
+      }
+      return updatedArchived.map((r) => ({ value: r.id, label: r.name }));
     } else return [];
-  }, [subjects]);
+  }, [removeArchived, subjects]);
 
   return (
     <DropdownWrapper>
       <Select<false>
-        label={t("welcomePage.chooseSubject")}
+        aria-label={placeholder ?? t("welcomePage.chooseSubject")}
         options={subjectContexts}
-        placeholder={t("welcomePage.chooseSubject")}
+        placeholder={placeholder ?? t("welcomePage.chooseSubject")}
         value={filterSubject}
         onChange={setFilterSubject}
         menuPlacement="bottom"
@@ -60,7 +75,12 @@ const SubjectDropdown = ({ subjectIds, filterSubject, setFilterSubject }: Props)
         outline
         isSearchable
         noOptionsMessage={() => t("form.responsible.noResults")}
+        loadingMessage={() => t("welcomePage.workList.loading")}
         isClearable
+        onFocus={() => {
+          if (!enableSearch) setEnableSearch(true);
+        }}
+        isLoading={isLoading}
       />
     </DropdownWrapper>
   );

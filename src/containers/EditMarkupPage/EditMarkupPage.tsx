@@ -20,6 +20,7 @@ import HeaderSupportedLanguages from '../../components/HeaderWithLanguage/Header
 import HelpMessage from '../../components/HelpMessage';
 import PreviewDraftLightboxV2 from '../../components/PreviewDraft/PreviewDraftLightboxV2';
 import SaveButton from '../../components/SaveButton';
+import config from '../../config';
 import { DRAFT_HTML_SCOPE } from '../../constants';
 import { fetchDraft, updateDraft } from '../../modules/draft/draftApi';
 import { blockContentToEditorValue, blockContentToHTML } from '../../util/articleContentConverter';
@@ -43,12 +44,12 @@ declare global {
 window.MonacoEnvironment = {
   getWorkerUrl: function (moduleId: string, label: string) {
     if (label === 'html') {
-      return process.env.NODE_ENV !== 'production'
+      return config.runtimeType !== 'production'
         ? '/static/js/html.worker.js'
         : // @ts-ignore
           window.assets['html.worker.js'] ?? '';
     }
-    return process.env.NODE_ENV !== 'production'
+    return config.runtimeType !== 'production'
       ? '/static/js/editor.worker.js'
       : // @ts-ignore
         window.assets['editor.worker.js'] ?? '';

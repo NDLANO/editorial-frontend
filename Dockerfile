@@ -15,8 +15,7 @@ WORKDIR $APP_PATH
 RUN yarn install --immutable
 
 # Copy necessary source files for server and client build
-COPY babel.config.js tsconfig.json postcss.config.js $APP_PATH/
-COPY webpack $APP_PATH/webpack
+COPY babel.config.cjs tsconfig.json postcss.config.cjs index.html $APP_PATH/
 COPY scripts $APP_PATH/scripts
 
 COPY src $APP_PATH/src
@@ -38,4 +37,4 @@ COPY --from=builder /home/app/editorial-frontend/build build
 
 ENV NODE_ENV=production
 
-CMD ["/run-editorial-frontend.sh", "node build/server.js '|' bunyan"]
+CMD ["/run-editorial-frontend.sh", "node build/server.mjs '|' bunyan"]

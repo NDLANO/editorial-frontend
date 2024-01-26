@@ -7,7 +7,6 @@
  */
 
 import { createMemoryHistory } from 'history';
-import React from 'react';
 import { Router } from 'react-router-dom';
 import { act, findByTestId, fireEvent, render } from '@testing-library/react';
 import { uuid } from '@ndla/util';
@@ -15,16 +14,12 @@ import IntlWrapper from '../../../util/__tests__/IntlWrapper';
 import Messages, { MessageType } from '../Messages';
 import { MessagesProvider } from '../MessagesProvider';
 
-jest.useFakeTimers();
-
 const history = createMemoryHistory();
 
 beforeEach(() => {
-  const reload = jest.fn();
+  const reload = vi.fn();
 
-  jest
-    .spyOn(window, 'location', 'get')
-    .mockImplementation(() => ({ reload }) as unknown as Location);
+  vi.spyOn(window, 'location', 'get').mockImplementation(() => ({ reload }) as unknown as Location);
 });
 
 const wrapper = (messages: MessageType[]) => (

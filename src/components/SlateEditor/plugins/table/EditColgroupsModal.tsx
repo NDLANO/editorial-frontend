@@ -25,16 +25,17 @@ import {
   ModalContent,
 } from '@ndla/modal';
 import { TableElement } from './interfaces';
+import config from '../../../../config';
 
 window.MonacoEnvironment = {
   getWorkerUrl: function (moduleId: string, label: string) {
     if (label === 'html') {
-      return process.env.NODE_ENV !== 'production'
+      return config.runtimeType !== 'production'
         ? '/static/js/html.worker.js'
         : // @ts-ignore
           window.assets['html.worker.js'] ?? '';
     }
-    return process.env.NODE_ENV !== 'production'
+    return config.runtimeType !== 'production'
       ? '/static/js/editor.worker.js'
       : // @ts-ignore
         window.assets['editor.worker.js'] ?? '';

@@ -9,7 +9,6 @@
 import { test, expect } from '@playwright/test';
 import { mockRoute } from '../apiMock';
 import { responsiblesMock, zendeskMock } from '../mockResponses';
-import { languages } from '../../src/components/SlateEditor/plugins/span/LanguageSelector';
 
 const metaKey = process.platform === 'darwin' ? 'Meta' : 'Control';
 
@@ -193,11 +192,9 @@ test('Language label buttons are available, and labels can be set', async ({ pag
   await el.press(`${metaKey}+A`);
   const languageButton = page.getByTestId('toolbar-button-span');
   await languageButton.click();
-  for (const lang in languages) {
-    expect(page.getByTestId(`language-button-${languages[lang]}`)).toBeDefined();
-  }
-  const firstLangButton = page.getByTestId(`language-button-${languages[0]}`);
+  expect(page.getByTestId('language-button-ar')).toBeDefined();
+  const firstLangButton = page.getByTestId('language-button-ar');
   await firstLangButton.click();
   await el.press(`${metaKey}+A`);
-  await expect(page.getByTestId(`selected-language-${languages[0]}`)).toBeVisible();
+  await expect(page.getByTestId('selected-language-ar')).toBeVisible();
 });

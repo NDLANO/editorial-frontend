@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`DisplayExternal display error on fetch fail 1`] = `
 .emotion-0 {
@@ -17,7 +17,7 @@ exports[`DisplayExternal display error on fetch fail 1`] = `
 
 <div>
   <div
-    class="emotion-0"
+    class="emotion-0 emotion-1"
     contenteditable="false"
   >
     <div>
@@ -46,7 +46,7 @@ exports[`DisplayExternal renders external correctly 1`] = `
 
 <div>
   <div
-    class="emotion-0"
+    class="emotion-0 emotion-1"
     contenteditable="false"
   >
     <div>
@@ -79,7 +79,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   gap: 6px;
 }
 
-.emotion-1 {
+.emotion-2 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -120,32 +120,32 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   min-height: unset;
 }
 
-.emotion-1:hover,
-.emotion-1:focus-visible {
+.emotion-2:hover,
+.emotion-2:focus-visible {
   color: #fff;
   background-color: #184673;
   border-color: #184673;
 }
 
-.emotion-1[disabled] {
+.emotion-2[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-1:where([lang='zh'], .emotion-1[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-2:where([lang='zh'], .emotion-2[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(14px * 1.11);
   font-size: calc(0.7777777777777778rem * 1.11);
 }
 
-.emotion-1 svg {
+.emotion-2 svg {
   width: 24px;
   height: 24px;
   margin: 0;
 }
 
-.emotion-2 {
+.emotion-3 {
   display: inline-block;
   fill: currentColor;
   vertical-align: middle;
@@ -157,7 +157,23 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   height: 16px;
 }
 
-.emotion-4 {
+.emotion-5:hover,
+.emotion-5:focus,
+.emotion-5:focus-within,
+.emotion-5:focus-visible,
+.emotion-5:active {
+  background-color: #fff;
+}
+
+.emotion-5:hover svg,
+.emotion-5:focus svg,
+.emotion-5:focus-within svg,
+.emotion-5:focus-visible svg,
+.emotion-5:active svg {
+  color: #d1372e;
+}
+
+.emotion-7 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -198,52 +214,36 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   min-height: unset;
 }
 
-.emotion-4:hover,
-.emotion-4:focus-visible {
+.emotion-7:hover,
+.emotion-7:focus-visible {
   color: #fff;
   background-color: #d1372e;
   border-color: #d1372e;
 }
 
-.emotion-4[disabled] {
+.emotion-7[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-4:where([lang='zh'], .emotion-4[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-7:where([lang='zh'], .emotion-7[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(14px * 1.11);
   font-size: calc(0.7777777777777778rem * 1.11);
 }
 
-.emotion-4 svg {
+.emotion-7 svg {
   width: 24px;
   height: 24px;
   margin: 0;
 }
 
-.emotion-4:hover,
-.emotion-4:focus,
-.emotion-4:focus-within,
-.emotion-4:focus-visible,
-.emotion-4:active {
-  background-color: #fff;
-}
-
-.emotion-4:hover svg,
-.emotion-4:focus svg,
-.emotion-4:focus-within svg,
-.emotion-4:focus-visible svg,
-.emotion-4:active svg {
-  color: #d1372e;
-}
-
-.emotion-7[data-show-copy-outline='true'] {
+.emotion-10[data-show-copy-outline='true'] {
   box-shadow: rgb(32, 88, 143) 0 0 0 2px;
 }
 
-.emotion-8 {
+.emotion-12 {
   position: absolute;
   bottom: 0px;
   right: 23px;
@@ -256,18 +256,18 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
     contenteditable="false"
   >
     <div
-      class="emotion-0"
+      class="emotion-0 emotion-1"
       data-white="true"
     >
       <button
         aria-label="Rediger eksternt element"
-        class="emotion-1"
+        class="emotion-2"
         title="Rediger eksternt element"
         type="button"
       >
         <svg
           aria-hidden="true"
-          class="emotion-2 emotion-3"
+          class="emotion-3 emotion-4"
           data-icon=""
           data-license="Apache License 2.0"
           data-source="Material Design"
@@ -286,14 +286,14 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
       </button>
       <button
         aria-label="Fjern eksternt element"
-        class="emotion-4"
+        class="emotion-5 emotion-6 emotion-7"
         data-testid="remove-element"
         title="Fjern eksternt element"
         type="button"
       >
         <svg
           aria-hidden="true"
-          class="emotion-2 emotion-3"
+          class="emotion-3 emotion-4"
           data-icon=""
           data-license="Apache License 2.0"
           data-source="Material Design"
@@ -316,7 +316,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
       </button>
     </div>
     <div
-      class="emotion-7"
+      class="emotion-10 emotion-11"
       style="pointer-events: auto;"
     >
       <iframe
@@ -330,12 +330,12 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
       />
       <div
         aria-label="Endre størrelse"
-        class="emotion-8"
+        class="emotion-12 emotion-13"
         role="button"
       >
         <svg
           aria-hidden="true"
-          class="emotion-2 emotion-3"
+          class="emotion-3 emotion-4"
           data-icon=""
           data-license="Apache License 2.0"
           data-source="Material Design"

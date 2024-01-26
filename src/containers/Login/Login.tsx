@@ -10,14 +10,13 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Route, useNavigate, useLocation, Routes } from 'react-router-dom';
 import styled from '@emotion/styled';
-import loadable from '@loadable/component';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { OneColumn } from '@ndla/ui';
+import LoginFailure from './LoginFailure';
 import LoginProviders from './LoginProviders';
+import LoginSuccess from './LoginSuccess';
 import Footer from '../App/components/Footer';
 import { useSession } from '../Session/SessionProvider';
-const LoginFailure = loadable(() => import('./LoginFailure'));
-const LoginSuccess = loadable(() => import('./LoginSuccess'));
 
 const StyledOneColumn = styled(OneColumn)`
   flex: 1;

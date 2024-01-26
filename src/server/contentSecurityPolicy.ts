@@ -43,6 +43,7 @@ const connectSrc = (() => {
       'http://localhost:3100',
       'http://localhost:4000',
       'http://localhost',
+      'ws://localhost:24678/',
     ];
   }
 
@@ -197,6 +198,7 @@ const frameSrc = (() => {
 const fontSrc = (() => {
   const defaultFontSrc = [
     "'self'",
+    ' data:',
     'https://fonts.gstatic.com',
     'https://tagmanager.google.com',
     'https://www.wiris.net',

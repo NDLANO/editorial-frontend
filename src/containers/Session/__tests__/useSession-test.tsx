@@ -58,7 +58,7 @@ describe('getSessionStateFromLocalStorage', () => {
 
 describe('useSession', () => {
   test('correctly sets access token and access_token_personal on successful login', async () => {
-    const replaceSpy = jest.spyOn(history, 'replace');
+    const replaceSpy = vi.spyOn(history, 'replace');
     const expected = { hash: '', pathname: '/', search: '' };
     const { result } = renderHook(() => useSession(), {
       wrapper: createWrapper(SessionProvider, {}),

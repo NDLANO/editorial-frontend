@@ -18,13 +18,10 @@ const AUTH0_DOMAIN = config.auth0Domain;
 const NDLA_PERSONAL_CLIENT_ID = config.ndlaPersonalClientId;
 
 const locationOrigin = (() => {
-  if (process.env.NODE_ENV === 'unittest') {
+  if (config.runtimeType === 'test') {
     return 'http://ndla-frontend';
   }
 
-  if (process.env.BUILD_TARGET === 'server') {
-    return '';
-  }
   if (typeof window === 'undefined') {
     return '';
   }
@@ -46,21 +43,21 @@ const locationOrigin = (() => {
 })();
 
 export const auth0Domain = (() => {
-  if (process.env.NODE_ENV === 'unittest') {
+  if (config.runtimeType === 'test') {
     return 'http://auth-ndla';
   }
   return AUTH0_DOMAIN;
 })();
 
 export const ndlaPersonalClientId = (() => {
-  if (process.env.NODE_ENV === 'unittest') {
+  if (config.runtimeType === 'test') {
     return '123456789';
   }
   return NDLA_PERSONAL_CLIENT_ID;
 })();
 
 const apiBaseUrl = (() => {
-  if (process.env.NODE_ENV === 'unittest') {
+  if (config.runtimeType === 'test') {
     return 'http://ndla-api';
   }
 

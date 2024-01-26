@@ -11,7 +11,17 @@ import { useTranslation } from 'react-i18next';
 import { Editor, Element, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import styled from '@emotion/styled';
+import { IconButtonV2 } from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
+import { Pencil } from '@ndla/icons/action';
+import {
+  Modal,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalTitle,
+  ModalTrigger,
+} from '@ndla/modal';
 import { UuDisclaimerMetaData } from '@ndla/types-embed';
 import { UuDisclaimerEmbed } from '@ndla/ui';
 import { DisclaimerElement, TYPE_DISCLAIMER } from './types';
@@ -27,8 +37,8 @@ interface Props {
 
 const DisclaimerBlockContent = styled.div`
   border: 1px solid ${colors.brand.primary};
-  margin-top: ${spacing.small};
-  padding: ${spacing.small};
+  margin-top: ${spacing.xsmall};
+  padding: ${spacing.xsmall};
 `;
 
 const ButtonContainer = styled.div`
@@ -36,6 +46,10 @@ const ButtonContainer = styled.div`
   flex-direction: column;
   position: absolute;
   right: -${spacing.large};
+`;
+
+const StyledModalHeader = styled(ModalHeader)`
+  padding-bottom: 0px;
 `;
 
 const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
@@ -77,6 +91,29 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
     <div {...attributes}>
       <ButtonContainer>
         <DeleteButton aria-label={t('delete')} data-testid="remove-disclaimer" onClick={onRemove} />
+        <Modal>
+          <ModalTrigger>
+            <IconButtonV2
+              variant="ghost"
+              aria-label="Edit disclaimer"
+              data-testid="edit-disclaimer"
+            >
+              <Pencil />
+            </IconButtonV2>
+          </ModalTrigger>
+          <ModalContent size="small">
+            <StyledModalHeader>
+              <ModalTitle>Disclaimer</ModalTitle>
+              <ModalCloseButton />
+            </StyledModalHeader>
+            {/* <DisclaimerForm
+              data={element.data}
+              onSave={onSave}
+              onClose={onClose}
+              isEditing={isEditing}
+            /> */}
+          </ModalContent>
+        </Modal>
       </ButtonContainer>
       <UuDisclaimerEmbed
         data-testid="slate-disclaimer"

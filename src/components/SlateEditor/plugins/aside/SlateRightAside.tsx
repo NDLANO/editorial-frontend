@@ -24,14 +24,12 @@ const StyledAsideType = styled.div`
   position: absolute;
   width: 100%;
   padding: 3.2px;
-  z-index: ${stackOrder.trigger};
 `;
 
 const StyledAside = styled(Aside)`
   > div {
     padding: 0;
   }
-  z-index: ${stackOrder.trigger};
 `;
 
 const ButtonContainer = styled.div`

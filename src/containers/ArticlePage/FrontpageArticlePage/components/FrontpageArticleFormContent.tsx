@@ -39,6 +39,10 @@ import { TYPE_H5P } from '../../../../components/SlateEditor/plugins/h5p/types';
 import { TYPE_KEY_FIGURE } from '../../../../components/SlateEditor/plugins/keyFigure/types';
 import { TYPE_LINK_BLOCK_LIST } from '../../../../components/SlateEditor/plugins/linkBlockList/types';
 import { TYPE_TABLE } from '../../../../components/SlateEditor/plugins/table/types';
+import {
+  createToolbarAreaOptions,
+  createToolbarDefaultValues,
+} from '../../../../components/SlateEditor/plugins/toolbar/toolbarState';
 import RichTextEditor from '../../../../components/SlateEditor/RichTextEditor';
 import { useWideArticle } from '../../../../components/WideArticleEditorProvider';
 import { DRAFT_HTML_SCOPE } from '../../../../constants';
@@ -115,6 +119,9 @@ const actionsToShowInAreas = {
   section: actions,
   'grid-cell': [TYPE_EMBED_IMAGE, TYPE_KEY_FIGURE, TYPE_BLOGPOST],
 };
+
+const toolbarOptions = createToolbarDefaultValues();
+const toolbarAreaFilters = createToolbarAreaOptions();
 
 interface Props {
   articleLanguage: string;
@@ -234,6 +241,8 @@ const FrontpageArticleFormContent = ({ articleLanguage, initialHTML }: Props) =>
             <RichTextEditor
               language={articleLanguage}
               actions={frontpageActions}
+              toolbarOptions={toolbarOptions}
+              toolbarAreaFilters={toolbarAreaFilters}
               blockpickerOptions={{
                 actionsToShowInAreas,
               }}

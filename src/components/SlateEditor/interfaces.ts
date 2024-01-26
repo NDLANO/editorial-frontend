@@ -81,7 +81,7 @@ export type CustomEditor = {
   lastSelectedBlock?: Node;
   removeSection?: () => void;
   shouldShowToolbar: () => boolean;
-  shouldShowBlockPicker?: () => boolean;
+  shouldHideBlockPicker?: () => boolean | undefined;
   decorations?: (editor: Editor, entry: NodeEntry) => BaseRange[];
   mathjaxInitialized?: boolean;
 };

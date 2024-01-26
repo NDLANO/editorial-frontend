@@ -20,12 +20,10 @@ import { mathRenderer } from '../../../../components/SlateEditor/plugins/mathml/
 import { noEmbedRenderer } from '../../../../components/SlateEditor/plugins/noEmbed/render';
 import { paragraphRenderer } from '../../../../components/SlateEditor/plugins/paragraph/render';
 import { sectionRenderer } from '../../../../components/SlateEditor/plugins/section/render';
-import { spanRenderer } from '../../../../components/SlateEditor/plugins/span/render';
 
 // Plugins are checked from last to first
 export const topicArticleRenderers = (articleLanguage: string): SlatePlugin[] => [
   sectionRenderer,
-  spanRenderer,
   divRenderer,
   paragraphRenderer(articleLanguage),
   noEmbedRenderer,

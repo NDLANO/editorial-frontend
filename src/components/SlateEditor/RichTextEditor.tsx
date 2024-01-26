@@ -26,6 +26,7 @@ import { BlockPickerOptions, createBlockpickerOptions } from './plugins/blockPic
 import SlateBlockPicker from './plugins/blockPicker/SlateBlockPicker';
 import { onDragOver, onDragStart, onDrop } from './plugins/DND';
 import { SlateToolbar } from './plugins/toolbar';
+import { AreaFilters, CategoryFilters } from './plugins/toolbar/toolbarState';
 import { SlateProvider } from './SlateContext';
 import withPlugins from './utils/withPlugins';
 import { ArticleFormType } from '../../containers/FormikForm/articleFormHooks';
@@ -50,6 +51,8 @@ interface Props {
   language: string;
   actions?: Action[];
   blockpickerOptions?: Partial<BlockPickerOptions>;
+  toolbarOptions: CategoryFilters;
+  toolbarAreaFilters: AreaFilters;
 }
 
 const RichTextEditor = ({
@@ -61,6 +64,8 @@ const RichTextEditor = ({
   submitted,
   language,
   blockpickerOptions = {},
+  toolbarOptions,
+  toolbarAreaFilters,
 }: Props) => {
   const _editor = useMemo(() => withReact(withHistory(createEditor())), []);
   const editor = useMemo(() => withPlugins(_editor, plugins), [_editor, plugins]);
@@ -192,7 +197,7 @@ const RichTextEditor = ({
               <Spinner />
             ) : (
               <>
-                <SlateToolbar />
+                <SlateToolbar options={toolbarOptions} areaOptions={toolbarAreaFilters} />
                 <SlateBlockPicker
                   editor={editor}
                   actions={actions}

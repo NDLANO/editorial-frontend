@@ -219,8 +219,8 @@ const SlateBlockPicker = ({
       isInTableCellHeader(editor, selectedParagraphPath) ||
       // If the current paragraph contains text, return.
       Node.string(selectedParagraph) !== '' ||
-      // If `shouldShowBlockPicker` returns false, return.
-      !editor.shouldShowBlockPicker?.() ||
+      // If `shouldHideBlockPicker` returns true, hide it.
+      editor.shouldHideBlockPicker?.() ||
       illegalBlock ||
       // If the node is an element and it is not included in the allowed pick areas, return.
       (Element.isElement(node[0]) && !allowedPickAreas.includes(node[0].type))

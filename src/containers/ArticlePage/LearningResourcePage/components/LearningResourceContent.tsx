@@ -38,6 +38,10 @@ import { TYPE_FOOTNOTE } from '../../../../components/SlateEditor/plugins/footno
 import { TYPE_GRID } from '../../../../components/SlateEditor/plugins/grid/types';
 import { TYPE_H5P } from '../../../../components/SlateEditor/plugins/h5p/types';
 import { TYPE_TABLE } from '../../../../components/SlateEditor/plugins/table/types';
+import {
+  createToolbarAreaOptions,
+  createToolbarDefaultValues,
+} from '../../../../components/SlateEditor/plugins/toolbar/toolbarState';
 import RichTextEditor from '../../../../components/SlateEditor/RichTextEditor';
 import { DRAFT_HTML_SCOPE } from '../../../../constants';
 import { isFormikFormDirty } from '../../../../util/formHelper';
@@ -101,6 +105,9 @@ const actionsToShowInAreas = {
   'table-cell': [TYPE_EMBED_IMAGE],
   'grid-cell': [TYPE_EMBED_IMAGE],
 };
+
+const toolbarOptions = createToolbarDefaultValues();
+const toolbarAreaFilters = createToolbarAreaOptions();
 
 // Plugins are checked from last to first
 interface Props {
@@ -263,6 +270,8 @@ const ContentField = ({
         plugins={editorPlugins}
         data-testid="learning-resource-content"
         onChange={onSlateChange}
+        toolbarOptions={toolbarOptions}
+        toolbarAreaFilters={toolbarAreaFilters}
       />
       {!isSubmitting && <LearningResourceFootnotes footnotes={findFootnotes(value)} />}
     </>

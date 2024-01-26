@@ -26,6 +26,7 @@ import { TYPE_H5P } from '../plugins/h5p/types';
 import { TYPE_HEADING } from '../plugins/heading/types';
 import { TYPE_LIST } from '../plugins/list/types';
 import { TYPE_PARAGRAPH } from '../plugins/paragraph/types';
+import { TYPE_SPAN } from '../plugins/span/types';
 import { TYPE_TABLE } from '../plugins/table/types';
 
 export const firstTextBlockElement: Element['type'][] = [TYPE_PARAGRAPH, TYPE_HEADING, TYPE_QUOTE];
@@ -48,6 +49,7 @@ export const textBlockElements: Element['type'][] = [
   TYPE_DETAILS,
   TYPE_DEFINITION_LIST,
   TYPE_GRID,
+  TYPE_SPAN,
 ];
 
 export const lastTextBlockElement: Element['type'][] = [TYPE_PARAGRAPH];

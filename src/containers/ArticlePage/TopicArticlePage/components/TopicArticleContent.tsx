@@ -22,6 +22,10 @@ import { EditMarkupLink } from '../../../../components/EditMarkupLink';
 import FormikField from '../../../../components/FormikField';
 import HowToHelper from '../../../../components/HowTo/HowToHelper';
 import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
+import {
+  createToolbarAreaOptions,
+  createToolbarDefaultValues,
+} from '../../../../components/SlateEditor/plugins/toolbar/toolbarState';
 import RichTextEditor from '../../../../components/SlateEditor/RichTextEditor';
 import { DRAFT_HTML_SCOPE } from '../../../../constants';
 import { toEditMarkup } from '../../../../util/routeHelpers';
@@ -63,6 +67,9 @@ const createPlugins = (language: string): SlatePlugin[] => {
   // Plugins are checked from last to first
   return topicArticlePlugins.concat(topicArticleRenderers(language));
 };
+
+const toolbarOptions = createToolbarDefaultValues();
+const toolbarAreaFilters = createToolbarAreaOptions();
 
 interface Props {
   values: TopicArticleFormType;
@@ -126,6 +133,8 @@ const TopicArticleContent = (props: Props) => {
               value={value}
               submitted={isSubmitting}
               plugins={plugins}
+              toolbarOptions={toolbarOptions}
+              toolbarAreaFilters={toolbarAreaFilters}
               onChange={(value) => {
                 onChange({
                   target: {

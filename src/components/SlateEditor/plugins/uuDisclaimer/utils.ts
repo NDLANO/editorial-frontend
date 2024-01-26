@@ -11,4 +11,15 @@ import { TYPE_DISCLAIMER } from './types';
 import { defaultParagraphBlock } from '../paragraph/utils';
 
 export const defaultDisclaimerBlock = () =>
-  slatejsx('element', { type: TYPE_DISCLAIMER }, defaultParagraphBlock());
+  slatejsx(
+    'element',
+    {
+      type: TYPE_DISCLAIMER,
+      data: {
+        resource: 'uu-disclaimer',
+        disclaimer: 'Disclaimer',
+        articleId: '38462',
+      },
+    },
+    defaultParagraphBlock(),
+  );

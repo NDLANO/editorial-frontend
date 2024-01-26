@@ -14,6 +14,7 @@ export const disclaimerRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
     if (element.type === TYPE_DISCLAIMER) {
+      console.log(element.type);
       return (
         <SlateDisclaimer attributes={attributes} element={element} editor={editor}>
           {children}

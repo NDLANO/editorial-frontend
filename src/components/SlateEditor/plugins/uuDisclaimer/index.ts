@@ -27,25 +27,50 @@ import { TYPE_NDLA_EMBED } from '../embed/types';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
 
 export interface DisclaimerElement {
-  type: 'disclaimer-block';
+  type: 'uu-disclaimer';
   data: UuDisclaimerEmbedData;
   children: Descendant[];
 }
 
 export const disclaimerSerializer: SlateSerializer = {
-  deserialize(el: HTMLElement) {
+  deserialize(el: HTMLElement, children: Descendant[]) {
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const embed = el as HTMLEmbedElement;
     const embedAttributes = reduceElementDataAttributesV2(Array.from(embed.attributes));
     if (embedAttributes.resource !== TYPE_DISCLAIMER) return;
-    return slatejsx('element', { type: TYPE_DISCLAIMER, data: embedAttributes }, { text: '' });
+    return slatejsx('element', { type: TYPE_DISCLAIMER, data: embedAttributes }, children);
   },
-  serialize(node: Descendant) {
+  serialize(node: Descendant, children: JSX.Element[]) {
     if (!Element.isElement(node) || node.type !== TYPE_DISCLAIMER || !node.data) return;
-    return createEmbedTagV2(node.data);
+    return createEmbedTagV2(node.data, children);
+  },
+};
+
+const normalizerConfig: NormalizerConfig = {
+  previous: {
+    allowed: afterOrBeforeTextBlockElement,
+    defaultType: TYPE_PARAGRAPH,
+  },
+  next: {
+    allowed: afterOrBeforeTextBlockElement,
+    defaultType: TYPE_PARAGRAPH,
   },
 };
 
 export const disclaimerPlugin = (editor: Editor) => {
+  const { normalizeNode: nextNormalizeNode } = editor;
+
+  editor.normalizeNode = (entry) => {
+    const [node] = entry;
+
+    if (Element.isElement(node) && node.type === TYPE_DISCLAIMER) {
+      if (!defaultBlockNormalizer(editor, entry, normalizerConfig)) {
+        return nextNormalizeNode(entry);
+      }
+    } else {
+      nextNormalizeNode(entry);
+    }
+  };
+
   return editor;
 };

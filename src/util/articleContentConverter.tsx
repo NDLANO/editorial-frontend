@@ -51,8 +51,8 @@ import { sectionSerializer } from '../components/SlateEditor/plugins/section';
 import { TYPE_SECTION } from '../components/SlateEditor/plugins/section/types';
 import { spanSerializer } from '../components/SlateEditor/plugins/span';
 import { tableSerializer } from '../components/SlateEditor/plugins/table';
-import { Embed } from '../interfaces';
 import { disclaimerSerializer } from '../components/SlateEditor/plugins/uuDisclaimer';
+import { Embed } from '../interfaces';
 
 export const sectionSplitter = (html: string) => {
   const node = document.createElement('div');
@@ -151,7 +151,6 @@ const articleContentToHTML = (value: Descendant[], rules: SlateSerializer[]) => 
         continue;
       }
       const ret = rule.serialize(node, children);
-      node.type === 'disclaimer-block' && console.log(ret);
 
       if (ret === undefined) {
         continue;

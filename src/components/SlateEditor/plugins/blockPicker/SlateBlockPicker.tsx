@@ -364,7 +364,7 @@ const SlateBlockPicker = ({
         break;
       }
       case TYPE_DISCLAIMER: {
-        onInsertBlock(defaultDisclaimerBlock(), true);
+        onInsertBlock(defaultDisclaimerBlock());
         break;
       }
       default:

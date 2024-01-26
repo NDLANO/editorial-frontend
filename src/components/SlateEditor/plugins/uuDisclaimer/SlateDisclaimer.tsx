@@ -74,12 +74,11 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
   };
 
   return (
-    <>
+    <div {...attributes}>
       <ButtonContainer>
         <DeleteButton aria-label={t('delete')} data-testid="remove-disclaimer" onClick={onRemove} />
       </ButtonContainer>
       <UuDisclaimerEmbed
-        {...attributes}
         data-testid="slate-disclaimer"
         embed={
           embed ?? {
@@ -92,7 +91,7 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
       >
         <DisclaimerBlockContent>{children}</DisclaimerBlockContent>
       </UuDisclaimerEmbed>
-    </>
+    </div>
   );
 };
 

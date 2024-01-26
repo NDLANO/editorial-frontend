@@ -173,12 +173,14 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [] }: Props)
   const setPageSize = useCallback((p: SingleValue) => {
     if (!p) return;
     _setPageSize(p);
+    setPage(1);
     localStorage.setItem(STORED_PAGE_SIZE_LAST_UPDATED, p.value);
   }, []);
 
   const setPageSizeConcept = useCallback((p: SingleValue) => {
     if (!p) return;
     _setPageSizeConcept(p);
+    setPageConcept(1);
     localStorage.setItem(STORED_PAGE_SIZE_LAST_UPDATED_CONCEPT, p.value);
   }, []);
 

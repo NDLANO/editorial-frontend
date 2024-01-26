@@ -155,18 +155,21 @@ const WorkList = ({ ndlaId }: Props) => {
   const setPageSize = useCallback((p: SingleValue) => {
     if (!p) return;
     _setPageSize(p);
+    setPage(1);
     localStorage.setItem(STORED_PAGE_SIZE, p.value);
   }, []);
 
   const setPageSizeConcept = useCallback((p: SingleValue) => {
     if (!p) return;
     _setPageSizeConcept(p);
+    setPageConcept(1);
     localStorage.setItem(STORED_PAGE_SIZE_CONCEPT, p.value);
   }, []);
 
   const setPageSizeOnHold = useCallback((p: SingleValue) => {
     if (!p) return;
     _setPageSizeOnHold(p);
+    setPageOnHold(1);
     localStorage.setItem(STORED_PAGE_SIZE_ON_HOLD, p.value);
   }, []);
 

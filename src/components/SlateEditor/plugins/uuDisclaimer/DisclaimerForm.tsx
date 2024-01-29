@@ -6,15 +6,28 @@
  *
  */
 
+import { FieldProps, useFormikContext } from 'formik';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Descendant } from 'slate';
+import { FieldErrorMessage, Label } from '@ndla/forms';
 import SafeLink from '@ndla/safelink';
 import { Text } from '@ndla/typography';
+import { TopicArticleFormType } from '../../../../containers/FormikForm/articleFormHooks';
+import { FormControl, FormField } from '../../../FormField';
+import FormikField from '../../../FormikField';
+import PlainTextEditor from '../../PlainTextEditor';
+import saveHotkeyPlugin from '../saveHotkey';
+import { textTransformPlugin } from '../textTransform';
 
 const DISCLAIMER_EXAMPLES_LINK =
   'https://docs.google.com/spreadsheets/d/1g8cCqgS4BvaChHX4R6VR5V5Q83fvYcMrgneBJMkLWYs/edit?usp=sharing';
 
 const DisclaimerForm = () => {
   const { t } = useTranslation();
+  // const context = useFormikContext<TopicArticleFormType>();
+  // const { values } = context;
+  const plugins = useMemo(() => [textTransformPlugin, saveHotkeyPlugin], []);
 
   return (
     <div>
@@ -30,6 +43,35 @@ const DisclaimerForm = () => {
       <Text element="p" textStyle="meta-text-medium" margin="small">
         <b>{t('form.disclaimer.editorHeader')}</b>
       </Text>
+      <FormField name="disclaimerEditor">
+        {({ field, meta }) => (
+          <FormControl isRequired isInvalid={!!meta.error}>
+            <Label visuallyHidden>{t('form.title.label')}</Label>
+            <PlainTextEditor
+              id={field.name}
+              {...field}
+              className="title"
+              placeholder={t('form.title.label')}
+              data-plain-text-editor=""
+              data-testid="learning-resource-title"
+              plugins={plugins}
+              maxLength={300}
+            />
+            <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+          </FormControl>
+        )}
+      </FormField>
+      {/* <FormikField name="disclaimerEditor">
+        {({ field, form: { isSubmitting } }: FieldProps<Descendant[]>) => (
+          <PlainTextEditor
+            id={field.name}
+            {...field}
+            value={[]}
+            submitted={isSubmitting}
+            placeholder={t('subjectpageForm.description')}
+          />
+        )}
+      </FormikField> */}
     </div>
   );
 };

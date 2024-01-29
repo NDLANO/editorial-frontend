@@ -6,20 +6,20 @@
  *
  */
 
-import { Editor, Element, Path, Transforms } from 'slate';
-import { jsx as slatejsx } from 'slate-hyperscript';
-import { ReactEditor } from 'slate-react';
+import { Editor, Element, Path, Transforms } from "slate";
+import { jsx as slatejsx } from "slate-hyperscript";
+import { ReactEditor } from "slate-react";
 import {
   defaultTableCellBlock,
   defaultTableHeadBlock,
   defaultTableRowBlock,
   defaultTableBodyBlock,
   defaultTableCellHeaderBlock,
-} from './defaultBlocks';
-import { TableElement } from './interfaces';
-import { getTableAsMatrix, getTableBodyAsMatrix } from './matrix';
-import { findCellCoordinate } from './matrixHelpers';
-import { updateCell } from './slateActions';
+} from "./defaultBlocks";
+import { TableElement } from "./interfaces";
+import { getTableAsMatrix, getTableBodyAsMatrix } from "./matrix";
+import { findCellCoordinate } from "./matrixHelpers";
+import { updateCell } from "./slateActions";
 import {
   getTableBodyWidth,
   isTable,
@@ -28,9 +28,9 @@ import {
   isTableCellHeader,
   isTableHead,
   isTableRow,
-} from './slateHelpers';
-import { TYPE_TABLE_ROW, TYPE_TABLE_BODY, TYPE_TABLE_CELL_HEADER, TYPE_TABLE_HEAD } from './types';
-import getCurrentBlock from '../../utils/getCurrentBlock';
+} from "./slateHelpers";
+import { TYPE_TABLE_ROW, TYPE_TABLE_BODY, TYPE_TABLE_CELL_HEADER, TYPE_TABLE_HEAD } from "./types";
+import getCurrentBlock from "../../utils/getCurrentBlock";
 
 export const toggleRowHeaders = (editor: Editor, path: Path) => {
   const [table] = Editor.node(editor, path);
@@ -91,10 +91,7 @@ export const removeRow = (editor: Editor, path: Path) => {
       Editor.withoutNormalizing(editor, () => {
         // Loop all affected rows
         for (let rowIndex = 0; rowIndex < selectedCell.data.rowspan; rowIndex++) {
-          const currentRowPath = [
-            ...Path.parent(Path.parent(selectedCellPath)),
-            selectedRowIndex + rowIndex,
-          ];
+          const currentRowPath = [...Path.parent(Path.parent(selectedCellPath)), selectedRowIndex + rowIndex];
 
           // Loop all affected cells in row to check if any cells spans outside of the area to be removed.
           // We just want to evaluate each cell once, therefore point A and B.
@@ -114,11 +111,7 @@ export const removeRow = (editor: Editor, path: Path) => {
             }
 
             // C. If current cell exists above rows to be deleted => Reduce its rowspan
-            if (
-              selectedRowIndex > 0 &&
-              matrix[selectedRowIndex - 1][columnIndex] === cell &&
-              cell.data.rowspan
-            ) {
+            if (selectedRowIndex > 0 && matrix[selectedRowIndex - 1][columnIndex] === cell && cell.data.rowspan) {
               // Find out how much of the cell height is within the rows that will be removed.
               const reductionAmount = matrix
                 .slice(selectedRowIndex, selectedRowIndex + cell.data.rowspan)
@@ -145,9 +138,7 @@ export const removeRow = (editor: Editor, path: Path) => {
               const targetPath =
                 columnIndex === 0
                   ? [...Path.next(Path.parent(ReactEditor.findPath(editor, cell))), 0]
-                  : Path.next(
-                      ReactEditor.findPath(editor, matrix[selectedRowIndex + 1][columnIndex - 1]),
-                    );
+                  : Path.next(ReactEditor.findPath(editor, matrix[selectedRowIndex + 1][columnIndex - 1]));
 
               // iii. Reduce rowspan.
               updateCell(editor, cell, {
@@ -309,9 +300,7 @@ export const insertRow = (editor: Editor, tableElement: TableElement, path: Path
     const selectedCoordinate = findCellCoordinate(matrix, cell);
     if (selectedCoordinate) {
       const selectedRowIndex =
-        selectedCoordinate[0] +
-        matrix[selectedCoordinate[0]][selectedCoordinate[1]].data.rowspan -
-        1;
+        selectedCoordinate[0] + matrix[selectedCoordinate[0]][selectedCoordinate[1]].data.rowspan - 1;
 
       Editor.withoutNormalizing(editor, () => {
         let rowsInserted = 0;
@@ -341,13 +330,12 @@ export const insertRow = (editor: Editor, tableElement: TableElement, path: Path
           } else {
             // C. If not row is inserted yet. Insert a new row.
             if (!rowsInserted) {
-              Transforms.insertNodes(editor, slatejsx('element', { type: TYPE_TABLE_ROW }), {
+              Transforms.insertNodes(editor, slatejsx("element", { type: TYPE_TABLE_ROW }), {
                 at: newRowPath,
               });
             }
             const maybeTableHead = Editor.parent(editor, currentRowPath)[0];
-            const isInTableHead =
-              Element.isElement(maybeTableHead) && maybeTableHead.type === TYPE_TABLE_HEAD;
+            const isInTableHead = Element.isElement(maybeTableHead) && maybeTableHead.type === TYPE_TABLE_HEAD;
 
             // D. Insert new cell with matching colspan.
             Transforms.insertNodes(
@@ -393,8 +381,7 @@ export const insertColumn = (editor: Editor, tableElement: TableElement, path: P
     const selectedPath = findCellCoordinate(matrix, cell);
     if (selectedPath) {
       // Select the right edge of the cell
-      const selectedColumnIndex =
-        selectedPath[1] + matrix[selectedPath[0]][selectedPath[1]].data.colspan - 1;
+      const selectedColumnIndex = selectedPath[1] + matrix[selectedPath[0]][selectedPath[1]].data.colspan - 1;
 
       Editor.withoutNormalizing(editor, () => {
         // Evaluate selected column in all rows. Only evaluate each cell once, therefore point A.
@@ -407,11 +394,7 @@ export const insertColumn = (editor: Editor, tableElement: TableElement, path: P
           }
 
           // B. If next row contains an identical cell, extend columnspan by 1.
-          if (
-            selectedColumnIndex + 1 < row.length &&
-            cell.data.colspan &&
-            row[selectedColumnIndex + 1] === cell
-          ) {
+          if (selectedColumnIndex + 1 < row.length && cell.data.colspan && row[selectedColumnIndex + 1] === cell) {
             updateCell(editor, cell, {
               colspan: cell.data.colspan + 1,
             });
@@ -421,9 +404,7 @@ export const insertColumn = (editor: Editor, tableElement: TableElement, path: P
             Transforms.insertNodes(
               editor,
               {
-                ...(isTableCellHeader(cell)
-                  ? defaultTableCellHeaderBlock()
-                  : defaultTableCellBlock()),
+                ...(isTableCellHeader(cell) ? defaultTableCellHeaderBlock() : defaultTableCellBlock()),
                 data: {
                   ...cell.data,
                   colspan: 1,

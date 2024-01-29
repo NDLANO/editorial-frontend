@@ -6,9 +6,9 @@
  *
  */
 
-import { Editor } from 'slate';
-import NoEmbedMessage from './NoEmbedMessage';
-import { isSlateEmbedElement } from '../embed/utils';
+import { Editor } from "slate";
+import NoEmbedMessage from "./NoEmbedMessage";
+import { isSlateEmbedElement } from "../embed/utils";
 
 export const noEmbedRenderer = (editor: Editor) => {
   const { renderElement } = editor;

@@ -6,4 +6,4 @@
  *
  */
 
-export const TYPE_CONTACT_BLOCK = 'contact-block';
+export const TYPE_CONTACT_BLOCK = "contact-block";

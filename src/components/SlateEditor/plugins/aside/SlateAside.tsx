@@ -6,19 +6,19 @@
  *
  */
 
-import { ReactNode } from 'react';
-import { Editor, Element, Transforms } from 'slate';
-import { ReactEditor, RenderElementProps } from 'slate-react';
-import { AsideElement } from '.';
-import SlateFactAside from './SlateFactAside';
-import SlateRightAside from './SlateRightAside';
-import { TYPE_ASIDE } from './types';
+import { ReactNode } from "react";
+import { Editor, Element, Transforms } from "slate";
+import { ReactEditor, RenderElementProps } from "slate-react";
+import { AsideElement } from ".";
+import SlateFactAside from "./SlateFactAside";
+import SlateRightAside from "./SlateRightAside";
+import { TYPE_ASIDE } from "./types";
 
 interface Props {
   element: AsideElement;
   editor: Editor;
   children: ReactNode;
-  attributes: RenderElementProps['attributes'];
+  attributes: RenderElementProps["attributes"];
 }
 
 const SlateAside = (props: Props) => {
@@ -47,25 +47,19 @@ const SlateAside = (props: Props) => {
     setTimeout(() => {
       ReactEditor.focus(editor);
       Transforms.select(editor, path);
-      Transforms.collapse(editor, { edge: 'start' });
+      Transforms.collapse(editor, { edge: "start" });
     }, 0);
   };
 
   const type = element.data.type;
 
   switch (type) {
-    case 'rightAside':
-      return (
-        <SlateRightAside onRemoveClick={onRemoveClick} onMoveContent={onMoveContent} {...props} />
-      );
-    case 'factAside':
-      return (
-        <SlateFactAside onRemoveClick={onRemoveClick} onMoveContent={onMoveContent} {...props} />
-      );
+    case "rightAside":
+      return <SlateRightAside onRemoveClick={onRemoveClick} onMoveContent={onMoveContent} {...props} />;
+    case "factAside":
+      return <SlateFactAside onRemoveClick={onRemoveClick} onMoveContent={onMoveContent} {...props} />;
     default: {
-      return (
-        <SlateFactAside onRemoveClick={onRemoveClick} onMoveContent={onMoveContent} {...props} />
-      );
+      return <SlateFactAside onRemoveClick={onRemoveClick} onMoveContent={onMoveContent} {...props} />;
     }
   }
 };

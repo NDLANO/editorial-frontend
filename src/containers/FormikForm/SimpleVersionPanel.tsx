@@ -6,18 +6,18 @@
  *
  */
 
-import { useCallback, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { IEditorNote as IEditorNoteConcept } from '@ndla/types-backend/concept-api';
-import { IEditorNote } from '@ndla/types-backend/image-api';
-import Spinner from '../../components/Spinner';
-import VersionHistory from '../../components/VersionHistory/VersionHistory';
-import { fetchAuth0UsersFromUserIds, SimpleUserType } from '../../modules/auth0/auth0Api';
-import formatDate from '../../util/formatDate';
+import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { IEditorNote as IEditorNoteConcept } from "@ndla/types-backend/concept-api";
+import { IEditorNote } from "@ndla/types-backend/image-api";
+import Spinner from "../../components/Spinner";
+import VersionHistory from "../../components/VersionHistory/VersionHistory";
+import { fetchAuth0UsersFromUserIds, SimpleUserType } from "../../modules/auth0/auth0Api";
+import formatDate from "../../util/formatDate";
 
 const getUser = (userId: string, allUsers: SimpleUserType[]): string => {
   const user = allUsers.find((user) => user.id === userId);
-  return user?.name ?? '';
+  return user?.name ?? "";
 };
 
 interface Props {
@@ -39,7 +39,7 @@ const SimpleVersionPanel = ({ editorNotes }: Props) => {
           date: formatDate(note.timestamp),
           id: idx,
         };
-        if ('status' in note) {
+        if ("status" in note) {
           return {
             ...note,
             ...commonFields,
@@ -58,7 +58,7 @@ const SimpleVersionPanel = ({ editorNotes }: Props) => {
     let shouldUpdate = true;
     if (numNotes > 0) {
       const notes = editorNotes ?? [];
-      const userIds = notes.map((note) => note.updatedBy).filter((user) => user !== 'System');
+      const userIds = notes.map((note) => note.updatedBy).filter((user) => user !== "System");
       fetchAuth0UsersFromUserIds(userIds, setUsers).then(() => {
         if (shouldUpdate) setLoading(false);
       });

@@ -6,27 +6,27 @@
  *
  */
 
-import { useEffect, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Editor, Node } from 'slate';
-import { RenderElementProps } from 'slate-react';
-import styled from '@emotion/styled';
-import { Portal } from '@radix-ui/react-portal';
-import { ButtonV2 } from '@ndla/button';
-import { colors, spacing } from '@ndla/core';
-import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
-import { ContentLinkElement, LinkElement } from '.';
-import EditLink from './EditLink';
-import config from '../../../../config';
-import { toEditGenericArticle, toLearningpathFull } from '../../../../util/routeHelpers';
-import isNodeInCurrentSelection from '../../utils/isNodeInCurrentSelection';
+import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Node } from "slate";
+import { RenderElementProps } from "slate-react";
+import styled from "@emotion/styled";
+import { Portal } from "@radix-ui/react-portal";
+import { ButtonV2 } from "@ndla/button";
+import { colors, spacing, stackOrder } from "@ndla/core";
+import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
+import { ContentLinkElement, LinkElement } from ".";
+import EditLink from "./EditLink";
+import config from "../../../../config";
+import { toEditGenericArticle, toLearningpathFull } from "../../../../util/routeHelpers";
+import isNodeInCurrentSelection from "../../utils/isNodeInCurrentSelection";
 
 interface StyledLinkMenuProps {
   top: number;
   left: number;
 }
 
-const StyledLinkMenu = styled('span')<StyledLinkMenuProps>`
+const StyledLinkMenu = styled("span")<StyledLinkMenuProps>`
   position: absolute;
   top: ${(p) => p.top}px;
   left: ${(p) => p.left}px;
@@ -34,18 +34,18 @@ const StyledLinkMenu = styled('span')<StyledLinkMenuProps>`
   background-color: #fff;
   background-clip: padding-box;
   border: 1px solid ${colors.brand.greyLight};
-  z-index: 1;
+  z-index: ${stackOrder.offsetSingle};
 `;
 
 const fetchResourcePath = (node: ContentLinkElement, language: string, contentType: string) => {
   const id = node.data.contentId;
-  return contentType === 'learningpath'
+  return contentType === "learningpath"
     ? toLearningpathFull(id, language)
     : `${config.editorialFrontendDomain}${toEditGenericArticle(id)}`;
 };
 
 function hasHrefOrContentId(node: LinkElement | ContentLinkElement) {
-  if (node.type === 'content-link') {
+  if (node.type === "content-link") {
     return !!node.data.contentId;
   } else {
     return !!node.href;
@@ -53,7 +53,7 @@ function hasHrefOrContentId(node: LinkElement | ContentLinkElement) {
 }
 
 interface Props {
-  attributes: RenderElementProps['attributes'];
+  attributes: RenderElementProps["attributes"];
   editor: Editor;
   element: LinkElement | ContentLinkElement;
   language: string;
@@ -101,13 +101,13 @@ const Link = ({ attributes, editor, element, language, children }: Props) => {
     const setStateFromNode = async () => {
       let href;
       let checkbox;
-      if (element.type === 'content-link') {
-        const contentType = element.data.contentType || 'article';
+      if (element.type === "content-link") {
+        const contentType = element.data.contentType || "article";
         href = `${fetchResourcePath(element, language, contentType)}`;
-        checkbox = element.data.openIn === 'new-context';
+        checkbox = element.data.openIn === "new-context";
       } else {
         href = element.href;
-        checkbox = element.target === '_blank';
+        checkbox = element.target === "_blank";
       }
 
       setModel({
@@ -132,11 +132,11 @@ const Link = ({ attributes, editor, element, language, children }: Props) => {
               <Portal>
                 <StyledLinkMenu top={top} left={left}>
                   <ModalTrigger>
-                    <ButtonV2 variant="link">{t('form.content.link.change')}</ButtonV2>
-                  </ModalTrigger>{' '}
-                  | {t('form.content.link.goTo')}{' '}
+                    <ButtonV2 variant="link">{t("form.content.link.change")}</ButtonV2>
+                  </ModalTrigger>{" "}
+                  | {t("form.content.link.goTo")}{" "}
                   <a href={model?.href} target="_blank" rel="noopener noreferrer">
-                    {' '}
+                    {" "}
                     {model?.href}
                   </a>
                 </StyledLinkMenu>
@@ -146,14 +146,7 @@ const Link = ({ attributes, editor, element, language, children }: Props) => {
         )}
       </StyledLink>
       <ModalContent>
-        {model && (
-          <EditLink
-            editor={editor}
-            element={element}
-            model={model}
-            closeEditMode={toggleEditMode}
-          />
-        )}
+        {model && <EditLink editor={editor} element={element} model={model} closeEditMode={toggleEditMode} />}
       </ModalContent>
     </Modal>
   );

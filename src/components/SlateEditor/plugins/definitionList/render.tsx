@@ -6,9 +6,9 @@
  *
  */
 
-import { Editor } from 'slate';
-import { DefinitionDescription, DefinitionTerm } from '@ndla/ui';
-import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_LIST, TYPE_DEFINITION_TERM } from './types';
+import { Editor } from "slate";
+import { DefinitionDescription, DefinitionTerm } from "@ndla/ui";
+import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_LIST, TYPE_DEFINITION_TERM } from "./types";
 
 export const definitionListRenderer = (editor: Editor) => {
   const { renderElement } = editor;

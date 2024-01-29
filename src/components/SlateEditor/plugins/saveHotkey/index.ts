@@ -6,12 +6,12 @@
  *
  */
 
-import isHotkey from 'is-hotkey';
-import { Editor, Transforms } from 'slate';
-import { ReactEditor } from 'slate-react';
-import { SAVE_BUTTON_ID } from '../../../../constants';
+import isHotkey from "is-hotkey";
+import { Editor, Transforms } from "slate";
+import { ReactEditor } from "slate-react";
+import { SAVE_BUTTON_ID } from "../../../../constants";
 
-const isSaveHotkey = isHotkey('mod+s');
+const isSaveHotkey = isHotkey("mod+s");
 
 const saveHotkeyPlugin = (editor: Editor) => {
   const { onKeyDown: nextOnKeyDown } = editor;
@@ -20,7 +20,7 @@ const saveHotkeyPlugin = (editor: Editor) => {
       e.preventDefault();
       editor.lastSelection = editor.selection && { ...editor.selection };
       Transforms.collapse(editor, {
-        edge: 'end',
+        edge: "end",
       });
 
       if (editor.selection) {

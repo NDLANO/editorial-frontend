@@ -6,12 +6,12 @@
  *
  */
 
-import { ElementType } from 'react';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { spacing, colors, fonts } from '@ndla/core';
-import { InformationOutline } from '@ndla/icons/common';
-import Tooltip from '@ndla/tooltip';
+import { ElementType } from "react";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { spacing, colors, fonts } from "@ndla/core";
+import { InformationOutline } from "@ndla/icons/common";
+import Tooltip from "@ndla/tooltip";
 
 const ComponentWrapper = styled.div`
   display: flex;
@@ -27,12 +27,12 @@ const TextWrapper = styled.div`
 const StyledTitle = styled.span`
   color: ${colors.brand.primary};
   font-weight: ${fonts.weight.semibold};
-  ${fonts.sizes('22px', '27px')};
+  ${fonts.sizes("22px", "27px")};
 `;
 
 const StyledDescription = styled.div`
   font-weight: normal;
-  ${fonts.sizes('12px')};
+  ${fonts.sizes("12px")};
   color: ${colors.text.light};
 `;
 

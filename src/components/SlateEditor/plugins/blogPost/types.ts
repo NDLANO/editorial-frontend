@@ -6,13 +6,13 @@
  *
  */
 
-import { Descendant } from 'slate';
-import { BlogPostEmbedData } from '@ndla/types-embed';
+import { Descendant } from "slate";
+import { BlogPostEmbedData } from "@ndla/types-embed";
 
-export const TYPE_BLOGPOST = 'blog-post';
+export const TYPE_BLOGPOST = "blog-post";
 
 export interface BlogPostElement {
-  type: 'blog-post';
+  type: "blog-post";
   data?: BlogPostEmbedData;
   isFirstEdit?: boolean;
   children: Descendant[];

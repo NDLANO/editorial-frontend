@@ -6,10 +6,10 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { FieldErrorMessage, InputV3, Label } from '@ndla/forms';
-import { FormControl, FormField } from '../../../components/FormField';
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { FieldErrorMessage, InputV3, Label } from "@ndla/forms";
+import { FormControl, FormField } from "../../../components/FormField";
 
 interface Props {
   label: string;
@@ -31,7 +31,7 @@ export const TranscriptionField = ({ name, label }: Props) => {
             <Label textStyle="label-small" margin="none">
               {label}
             </Label>
-            <InputV3 {...field} placeholder={t('form.gloss.transcription')} />
+            <InputV3 {...field} placeholder={t("form.gloss.transcription")} />
             <FieldErrorMessage>{meta.error}</FieldErrorMessage>
           </FormControl>
         </FieldWrapper>

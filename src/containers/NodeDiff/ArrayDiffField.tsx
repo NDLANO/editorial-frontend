@@ -6,10 +6,10 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { DiffField, DiffInnerField } from './DiffField';
-import { DiffResult } from './diffUtils';
-import FieldWithTitle from './FieldWithTitle';
+import { useTranslation } from "react-i18next";
+import { DiffField, DiffInnerField } from "./DiffField";
+import { DiffResult } from "./diffUtils";
+import FieldWithTitle from "./FieldWithTitle";
 
 interface Props<T> {
   fieldName: string;

@@ -6,6 +6,6 @@
  *
  */
 
-import HeaderWithLanguage from './HeaderWithLanguage';
+import HeaderWithLanguage from "./HeaderWithLanguage";
 
 export default HeaderWithLanguage;

@@ -6,14 +6,11 @@
  *
  */
 
-import { Descendant } from 'slate';
-import {
-  blockContentToEditorValue,
-  blockContentToHTML,
-} from '../../../../../util/articleContentConverter';
-import { TYPE_PARAGRAPH } from '../../paragraph/types';
-import { TYPE_SECTION } from '../../section/types';
-import { TYPE_FOOTNOTE } from '../types';
+import { Descendant } from "slate";
+import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
+import { TYPE_PARAGRAPH } from "../../paragraph/types";
+import { TYPE_SECTION } from "../../section/types";
+import { TYPE_FOOTNOTE } from "../types";
 
 const editor: Descendant[] = [
   {
@@ -23,26 +20,26 @@ const editor: Descendant[] = [
         type: TYPE_PARAGRAPH,
         children: [
           {
-            text: 'text',
+            text: "text",
           },
           {
             type: TYPE_FOOTNOTE,
             data: {
-              title: 'test-title',
-              year: '2000',
-              resource: 'footnote',
-              authors: ['test'],
-              edition: '1',
-              publisher: 'test-publisher',
-              type: '',
+              title: "test-title",
+              year: "2000",
+              resource: "footnote",
+              authors: ["test"],
+              edition: "1",
+              publisher: "test-publisher",
+              type: "",
             },
             children: [
               {
-                text: '[#]',
+                text: "[#]",
               },
             ],
           },
-          { text: '' },
+          { text: "" },
         ],
       },
     ],
@@ -51,13 +48,13 @@ const editor: Descendant[] = [
 
 const html =
   '<section><p>text<ndlaembed data-title="test-title" data-year="2000" data-resource="footnote" data-authors="test" data-edition="1" data-publisher="test-publisher" data-type=""></ndlaembed></p></section>';
-describe('file serializing tests', () => {
-  test('serializing', () => {
+describe("file serializing tests", () => {
+  test("serializing", () => {
     const res = blockContentToHTML(editor);
     expect(res).toMatch(html);
   });
 
-  test('deserializing', () => {
+  test("deserializing", () => {
     const res = blockContentToEditorValue(html);
     expect(res).toMatchObject(editor);
   });

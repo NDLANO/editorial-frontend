@@ -6,12 +6,12 @@
  *
  */
 
-import { PercentCrop } from 'react-image-crop';
-import styled from '@emotion/styled';
-import ImageCropEdit from './ImageCropEdit';
-import ImageFocalPointEdit from './ImageFocalPointEdit';
-import { ImageEmbed } from '../../interfaces';
-import { getSrcSets } from '../../util/imageEditorUtil';
+import { PercentCrop } from "react-image-crop";
+import styled from "@emotion/styled";
+import ImageCropEdit from "./ImageCropEdit";
+import ImageFocalPointEdit from "./ImageFocalPointEdit";
+import { ImageEmbed } from "../../interfaces";
+import { getSrcSets } from "../../util/imageEditorUtil";
 
 const StyledImg = styled.img`
   min-width: -webkit-fill-available;
@@ -25,12 +25,12 @@ interface Props {
   onFocalPointChange: (focalPoint: { x: number; y: number }) => void;
   onCropComplete: (crop: PercentCrop) => void;
   transformData?: {
-    'upper-left-x'?: string;
-    'upper-left-y'?: string;
-    'lower-right-x'?: string;
-    'lower-right-y'?: string;
-    'focal-x'?: string;
-    'focal-y'?: string;
+    "upper-left-x"?: string;
+    "upper-left-y"?: string;
+    "lower-right-x"?: string;
+    "lower-right-y"?: string;
+    "focal-x"?: string;
+    "focal-y"?: string;
   };
   aspect?: number;
 }
@@ -45,7 +45,7 @@ const ImageTransformEditor = ({
   aspect,
 }: Props) => {
   switch (editType) {
-    case 'focalPoint':
+    case "focalPoint":
       return (
         <ImageFocalPointEdit
           embed={embed}
@@ -54,7 +54,7 @@ const ImageTransformEditor = ({
           onFocalPointChange={onFocalPointChange}
         />
       );
-    case 'crop':
+    case "crop":
       return (
         <ImageCropEdit
           embed={embed}
@@ -67,10 +67,7 @@ const ImageTransformEditor = ({
     default:
       return (
         <figure>
-          <StyledImg
-            alt={embed.alt}
-            srcSet={getSrcSets(embed.resource_id, transformData, language)}
-          />
+          <StyledImg alt={embed.alt} srcSet={getSrcSets(embed.resource_id, transformData, language)} />
         </figure>
       );
   }

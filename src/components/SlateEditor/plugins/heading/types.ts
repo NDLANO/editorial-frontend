@@ -6,4 +6,4 @@
  *
  */
 
-export const TYPE_HEADING = 'heading';
+export const TYPE_HEADING = "heading";

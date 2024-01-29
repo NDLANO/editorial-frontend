@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { useTranslation } from 'react-i18next';
-import VisualElementModalWrapper from '../../../containers/VisualElement/VisualElementModalWrapper';
-import VisualElementSearch from '../../../containers/VisualElement/VisualElementSearch';
-import { Embed, ExternalEmbed, H5pEmbed, WhitelistProvider } from '../../../interfaces';
-import { isEmbed } from '../../SlateEditor/plugins/blockPicker/SlateVisualElementPicker';
+import { useTranslation } from "react-i18next";
+import VisualElementModalWrapper from "../../../containers/VisualElement/VisualElementModalWrapper";
+import VisualElementSearch from "../../../containers/VisualElement/VisualElementSearch";
+import { Embed, ExternalEmbed, H5pEmbed, WhitelistProvider } from "../../../interfaces";
+import { isEmbed } from "../../SlateEditor/plugins/blockPicker/SlateVisualElementPicker";
 
 interface Props {
   src: string;
@@ -21,22 +21,14 @@ interface Props {
   allowedProvider: WhitelistProvider;
 }
 
-const DisplayExternalModal = ({
-  isEditMode,
-  allowedProvider,
-  onEditEmbed,
-  onClose,
-  type,
-  embed,
-  src,
-}: Props) => {
+const DisplayExternalModal = ({ isEditMode, allowedProvider, onEditEmbed, onClose, type, embed, src }: Props) => {
   const { t } = useTranslation();
   if (!isEditMode) {
     return null;
   }
   return (
     <VisualElementModalWrapper
-      label={t('form.external.edit', { type: 'iframe' })}
+      label={t("form.external.edit", { type: "iframe" })}
       resource={allowedProvider.name.toLowerCase()}
       isOpen={isEditMode}
       onClose={onClose}

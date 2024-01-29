@@ -6,28 +6,28 @@
  *
  */
 
-import { Descendant, Editor, Element, Path, Transforms } from 'slate';
-import { jsx as slatejsx } from 'slate-hyperscript';
-import onBackspace from './handlers/onBackspace';
-import onEnter from './handlers/onEnter';
-import onTab from './handlers/onTab';
-import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_LIST, TYPE_DEFINITION_TERM } from './types';
-import { SlateSerializer } from '../../interfaces';
-import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
-import { KEY_BACKSPACE, KEY_ENTER, KEY_TAB } from '../../utils/keys';
+import { Descendant, Editor, Element, Path, Transforms } from "slate";
+import { jsx as slatejsx } from "slate-hyperscript";
+import onBackspace from "./handlers/onBackspace";
+import onEnter from "./handlers/onEnter";
+import onTab from "./handlers/onTab";
+import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_LIST, TYPE_DEFINITION_TERM } from "./types";
+import { SlateSerializer } from "../../interfaces";
+import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
+import { KEY_BACKSPACE, KEY_ENTER, KEY_TAB } from "../../utils/keys";
 
 export interface DefinitionListElement {
-  type: 'definition-list';
+  type: "definition-list";
   children: Descendant[];
 }
 
 export interface DefinitionTermElement {
-  type: 'definition-term';
+  type: "definition-term";
   children: Descendant[];
 }
 
 export interface DefinitionDescriptionElement {
-  type: 'definition-description';
+  type: "definition-description";
   children: Descendant[];
 }
 
@@ -54,14 +54,14 @@ const normalizerDDConfig: NormalizerConfig = {
 export const definitionListSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: (Descendant | null)[]) {
     const tag = el.tagName.toLowerCase();
-    if (tag === 'dl') {
-      return slatejsx('element', { type: TYPE_DEFINITION_LIST }, children);
+    if (tag === "dl") {
+      return slatejsx("element", { type: TYPE_DEFINITION_LIST }, children);
     }
-    if (tag === 'dd') {
-      return slatejsx('element', { type: TYPE_DEFINITION_DESCRIPTION }, children);
+    if (tag === "dd") {
+      return slatejsx("element", { type: TYPE_DEFINITION_DESCRIPTION }, children);
     }
-    if (tag === 'dt') {
-      return slatejsx('element', { type: TYPE_DEFINITION_TERM }, children);
+    if (tag === "dt") {
+      return slatejsx("element", { type: TYPE_DEFINITION_TERM }, children);
     }
   },
   serialize(node: Descendant, children: JSX.Element[]) {

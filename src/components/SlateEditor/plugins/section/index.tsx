@@ -6,20 +6,19 @@
  *
  */
 
-import { Node, Element, Descendant, Editor, Text, Transforms, Range } from 'slate';
-import { jsx as slatejsx } from 'slate-hyperscript';
-import { TYPE_SECTION } from './types';
-import { SlateSerializer } from '../../interfaces';
-import { KEY_BACKSPACE, KEY_TAB } from '../../utils/keys';
-import { defaultParagraphBlock } from '../paragraph/utils';
+import { Node, Element, Descendant, Editor, Text, Transforms, Range } from "slate";
+import { jsx as slatejsx } from "slate-hyperscript";
+import { TYPE_SECTION } from "./types";
+import { SlateSerializer } from "../../interfaces";
+import { KEY_BACKSPACE, KEY_TAB } from "../../utils/keys";
+import { defaultParagraphBlock } from "../paragraph/utils";
 
 export interface SectionElement {
-  type: 'section';
+  type: "section";
   children: Descendant[];
 }
 
-export const defaultSectionBlock = () =>
-  slatejsx('element', { type: TYPE_SECTION }, defaultParagraphBlock());
+export const defaultSectionBlock = () => slatejsx("element", { type: TYPE_SECTION }, defaultParagraphBlock());
 
 export const sectionSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
@@ -27,9 +26,9 @@ export const sectionSerializer: SlateSerializer = {
     if (tag === TYPE_SECTION) {
       // Wrap single text node in section in a paragraph
       if (children.length === 1 && Text.isText(children[0])) {
-        children = [slatejsx('element', { type: 'paragraph' }, children)];
+        children = [slatejsx("element", { type: "paragraph" }, children)];
       }
-      return slatejsx('element', { type: TYPE_SECTION }, children);
+      return slatejsx("element", { type: TYPE_SECTION }, children);
     }
     return;
   },
@@ -41,16 +40,12 @@ export const sectionSerializer: SlateSerializer = {
   },
 };
 
-const onBackspace = (
-  e: KeyboardEvent,
-  editor: Editor,
-  nextOnKeyDown?: (event: KeyboardEvent) => void,
-) => {
+const onBackspace = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: KeyboardEvent) => void) => {
   if (editor.selection) {
     // Find the closest ancestor <section>-element
     const section = Editor.above(editor, {
-      match: (node) => Element.isElement(node) && node.type === 'section',
-      mode: 'lowest',
+      match: (node) => Element.isElement(node) && node.type === "section",
+      mode: "lowest",
     })?.[0];
     if (
       Element.isElement(section) &&
@@ -87,14 +82,14 @@ export const sectionPlugin = (editor: Editor) => {
   editor.normalizeNode = (entry) => {
     const [node, path] = entry;
 
-    if (Element.isElement(node) && node.type === 'section') {
+    if (Element.isElement(node) && node.type === "section") {
       // Insert empty paragraph if section has no children.
       if (node.children.length === 0) {
         Transforms.insertNodes(
           editor,
           {
-            type: 'paragraph',
-            children: [{ text: '' }],
+            type: "paragraph",
+            children: [{ text: "" }],
           },
           { at: [...path, 0] },
         );
@@ -106,7 +101,7 @@ export const sectionPlugin = (editor: Editor) => {
           Transforms.wrapNodes(
             editor,
             {
-              type: 'paragraph',
+              type: "paragraph",
               children: [],
             },
             { at: childPath },
@@ -118,12 +113,12 @@ export const sectionPlugin = (editor: Editor) => {
       // If first child is not a paragraph, insert an empty paragraph
       const firstChild = node.children[0];
       if (Element.isElement(firstChild)) {
-        if (firstChild.type !== 'paragraph') {
+        if (firstChild.type !== "paragraph") {
           Transforms.insertNodes(
             editor,
             {
-              type: 'paragraph',
-              children: [{ text: '' }],
+              type: "paragraph",
+              children: [{ text: "" }],
             },
             { at: [...path, 0] },
           );
@@ -134,12 +129,12 @@ export const sectionPlugin = (editor: Editor) => {
       // If last child is not a paragraph, insert an empty paragraph
       const lastChild = node.children[node.children.length - 1];
       if (Element.isElement(lastChild)) {
-        if (lastChild.type !== 'paragraph') {
+        if (lastChild.type !== "paragraph") {
           Transforms.insertNodes(
             editor,
             {
-              type: 'paragraph',
-              children: [{ text: '' }],
+              type: "paragraph",
+              children: [{ text: "" }],
             },
             {
               at: [...path, node.children.length],

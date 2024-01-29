@@ -6,12 +6,12 @@
  *
  */
 
-import { FieldInputProps } from 'formik';
-import { useTranslation } from 'react-i18next';
-import { FieldHeader, FieldSection, Select } from '@ndla/forms';
-import HowToHelper from '../../../components/HowTo/HowToHelper';
-import { useLicenses } from '../../../modules/draft/draftQueries';
-import { getLicensesWithTranslations } from '../../../util/licenseHelpers';
+import { FieldInputProps } from "formik";
+import { useTranslation } from "react-i18next";
+import { FieldHeader, FieldSection, Select } from "@ndla/forms";
+import HowToHelper from "../../../components/HowTo/HowToHelper";
+import { useLicenses } from "../../../modules/draft/draftQueries";
+import { getLicensesWithTranslations } from "../../../util/licenseHelpers";
 
 interface Props extends FieldInputProps<string> {
   disabled?: boolean;
@@ -22,7 +22,7 @@ interface Props extends FieldInputProps<string> {
 const LicenseField = ({
   onChange,
   onBlur,
-  name = 'license',
+  name = "license",
   value,
   disabled = false,
   width = 3 / 4,
@@ -35,13 +35,13 @@ const LicenseField = ({
 
   return (
     <>
-      <FieldHeader title={t('form.license.label')} width={width}>
-        <HowToHelper pageId="userLicense" tooltip={t('form.license.helpLabel')} />
+      <FieldHeader title={t("form.license.label")} width={width}>
+        <HowToHelper pageId="userLicense" tooltip={t("form.license.helpLabel")} />
       </FieldHeader>
       <FieldSection>
         <div>
           <Select disabled={disabled} value={value} onChange={onChange} onBlur={onBlur} name={name}>
-            {!value && <option>{t('form.license.choose')}</option>}
+            {!value && <option>{t("form.license.choose")}</option>}
             {licensesWithTranslations.map((license) => (
               <option value={license.license} key={license.license}>
                 {license.title}

@@ -6,27 +6,21 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { Editor, Transforms, Element } from 'slate';
-import { ReactEditor } from 'slate-react';
-import styled from '@emotion/styled';
-import { CloseButton } from '@ndla/button';
-import { ModalBody, ModalHeader, ModalTitle } from '@ndla/modal';
-import { LinkElement, ContentLinkElement } from '.';
-import { Model } from './Link';
-import LinkForm from './LinkForm';
-import { TYPE_CONTENT_LINK, TYPE_LINK } from './types';
-import {
-  splitLearningPathUrl,
-  splitEdPathUrl,
-  splitArticleUrl,
-  splitPlainUrl,
-  splitTaxonomyUrl,
-} from './utils';
+import { useTranslation } from "react-i18next";
+import { Editor, Transforms, Element } from "slate";
+import { ReactEditor } from "slate-react";
+import styled from "@emotion/styled";
+import { CloseButton } from "@ndla/button";
+import { ModalBody, ModalHeader, ModalTitle } from "@ndla/modal";
+import { LinkElement, ContentLinkElement } from ".";
+import { Model } from "./Link";
+import LinkForm from "./LinkForm";
+import { TYPE_CONTENT_LINK, TYPE_LINK } from "./types";
+import { splitLearningPathUrl, splitEdPathUrl, splitArticleUrl, splitPlainUrl, splitTaxonomyUrl } from "./utils";
 
 const newTabAttributes = {
-  target: '_blank',
-  rel: 'noopener noreferrer',
+  target: "_blank",
+  rel: "noopener noreferrer",
 };
 
 const StyledModalHeader = styled(ModalHeader)`
@@ -47,23 +41,19 @@ const createContentLinkData = (
     data: {
       resource: TYPE_CONTENT_LINK,
       contentId: id,
-      contentType: resourceType || 'article',
+      contentType: resourceType || "article",
       openIn,
     },
   };
 };
 
-const createLinkData = (
-  href: string,
-  targetRel: { target?: string; rel?: string },
-): Partial<LinkElement> => ({
+const createLinkData = (href: string, targetRel: { target?: string; rel?: string }): Partial<LinkElement> => ({
   type: TYPE_LINK,
   href,
   ...targetRel,
 });
 
-export const isNDLAArticleUrl = (url: string) =>
-  /^http(s)?:\/\/((.*)\.)?ndla.no\/((.*)\/)?article\/\d*/.test(url);
+export const isNDLAArticleUrl = (url: string) => /^http(s)?:\/\/((.*)\.)?ndla.no\/((.*)\/)?article\/\d*/.test(url);
 export const isNDLATaxonomyUrl = (url: string) =>
   /^http(s)?:\/\/((.*)\.)?ndla.no\/((.*)\/)?subject:(.*)\/topic(.*)/.test(url);
 export const isNDLALearningPathUrl = (url: string) =>
@@ -86,7 +76,7 @@ const getIdAndTypeFromUrl = async (href: string) => {
   } else if (isNDLAEdPathUrl(baseHref)) {
     return splitEdPathUrl(baseHref);
   }
-  return { resourceId: null, resourceType: '' };
+  return { resourceId: null, resourceType: "" };
 };
 
 interface Props {
@@ -111,7 +101,7 @@ const EditLink = ({ model, closeEditMode, editor, element }: Props) => {
   const handleSave = async ({ href, text, checkbox }: Model) => {
     const { resourceId, resourceType } = await getIdAndTypeFromUrl(href);
 
-    const targetRel = checkbox ? 'new-context' : 'current-context';
+    const targetRel = checkbox ? "new-context" : "current-context";
     ReactEditor.focus(editor);
 
     const data = resourceId
@@ -127,8 +117,7 @@ const EditLink = ({ model, closeEditMode, editor, element }: Props) => {
         { ...data },
         {
           at: path,
-          match: (node) =>
-            Element.isElement(node) && (node.type === TYPE_LINK || node.type === TYPE_CONTENT_LINK),
+          match: (node) => Element.isElement(node) && (node.type === TYPE_LINK || node.type === TYPE_CONTENT_LINK),
         },
       );
       handleChangeAndClose();
@@ -141,8 +130,7 @@ const EditLink = ({ model, closeEditMode, editor, element }: Props) => {
     ReactEditor.focus(editor);
     Transforms.unwrapNodes(editor, {
       at: path,
-      match: (node) =>
-        Element.isElement(node) && (node.type === TYPE_LINK || node.type === TYPE_CONTENT_LINK),
+      match: (node) => Element.isElement(node) && (node.type === TYPE_LINK || node.type === TYPE_CONTENT_LINK),
     });
   };
 
@@ -155,17 +143,11 @@ const EditLink = ({ model, closeEditMode, editor, element }: Props) => {
   return (
     <>
       <StyledModalHeader>
-        <ModalTitle>{t(`form.content.link.${isEdit ? 'changeTitle' : 'addTitle'}`)}</ModalTitle>
+        <ModalTitle>{t(`form.content.link.${isEdit ? "changeTitle" : "addTitle"}`)}</ModalTitle>
         <CloseButton onClick={onClose} />
       </StyledModalHeader>
       <StyledModalBody>
-        <LinkForm
-          onClose={onClose}
-          link={model}
-          isEdit={isEdit}
-          onRemove={handleRemove}
-          onSave={handleSave}
-        />
+        <LinkForm onClose={onClose} link={model} isEdit={isEdit} onRemove={handleRemove} onSave={handleSave} />
       </StyledModalBody>
     </>
   );

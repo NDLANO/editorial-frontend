@@ -6,11 +6,11 @@
  *
  */
 
-import { MouseEvent } from 'react';
-import { useTranslation } from 'react-i18next';
-import { ImageNormal, ImageSmall, ImageXsmall, ImageXxSmall } from '@ndla/icons/editor';
-import Tooltip from '@ndla/tooltip';
-import ImageEditorButton from './ImageEditorButton';
+import { MouseEvent } from "react";
+import { useTranslation } from "react-i18next";
+import { ImageNormal, ImageSmall, ImageXsmall, ImageXxSmall } from "@ndla/icons/editor";
+import Tooltip from "@ndla/tooltip";
+import ImageEditorButton from "./ImageEditorButton";
 
 const icon: Record<string, JSX.Element> = {
   xsmall: <ImageXxSmall />,
@@ -25,14 +25,14 @@ interface Props {
   currentSize?: string;
 }
 
-const ImageSizeButton = ({ currentSize = 'fullwidth', size, onFieldChange }: Props) => {
+const ImageSizeButton = ({ currentSize = "fullwidth", size, onFieldChange }: Props) => {
   const { t } = useTranslation();
   return (
     <Tooltip tooltip={t(`form.image.sizes.${size}`)}>
       <ImageEditorButton
         isActive={currentSize.startsWith(size)}
         tabIndex={-1}
-        onClick={(evt) => onFieldChange(evt, 'size', size)}
+        onClick={(evt) => onFieldChange(evt, "size", size)}
       >
         {icon[size]}
       </ImageEditorButton>

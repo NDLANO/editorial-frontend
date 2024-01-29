@@ -6,10 +6,10 @@
  *
  */
 
-import { Node, NodeType } from '@ndla/types-taxonomy';
-import SearchDropdown from './SearchDropdown';
-import { useSearchNodes } from '../../../../../modules/nodes/nodeQueries';
-import { useTaxonomyVersion } from '../../../../StructureVersion/TaxonomyVersionProvider';
+import { Node, NodeType } from "@ndla/types-taxonomy";
+import SearchDropdown from "./SearchDropdown";
+import { useSearchNodes } from "../../../../../modules/nodes/nodeQueries";
+import { useTaxonomyVersion } from "../../../../StructureVersion/TaxonomyVersionProvider";
 
 interface Props {
   placeholder: string;
@@ -22,8 +22,8 @@ const NodeSearchDropdown = ({
   placeholder,
   filter,
   onChange,
-  searchNodeType = 'TOPIC',
-  id = 'search-dropdown',
+  searchNodeType = "TOPIC",
+  id = "search-dropdown",
 }: Props) => {
   const { taxonomyVersion } = useTaxonomyVersion();
 
@@ -41,7 +41,7 @@ const NodeSearchDropdown = ({
             originalItem: r,
             id: r.id,
             name: r.name,
-            description: r.breadcrumbs?.join(' > '),
+            description: r.breadcrumbs?.join(" > "),
             disabled: !filter?.(r),
           })),
         };

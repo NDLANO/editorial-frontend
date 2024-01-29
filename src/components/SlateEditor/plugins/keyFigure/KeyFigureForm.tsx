@@ -6,19 +6,19 @@
  *
  */
 
-import { FieldProps, Formik } from 'formik';
-import { useCallback, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
-import { CheckboxItem, InputV2 } from '@ndla/forms';
-import { KeyFigureEmbedData } from '@ndla/types-embed';
-import { TYPE_KEY_FIGURE } from './types';
-import InlineImageSearch from '../../../../containers/ConceptPage/components/InlineImageSearch';
-import FormikField from '../../../FormikField';
-import validateFormik, { RulesType } from '../../../formikValidationSchema';
+import { FieldProps, Formik } from "formik";
+import { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { spacing } from "@ndla/core";
+import { CheckboxItem, InputV2 } from "@ndla/forms";
+import { KeyFigureEmbedData } from "@ndla/types-embed";
+import { TYPE_KEY_FIGURE } from "./types";
+import InlineImageSearch from "../../../../containers/ConceptPage/components/InlineImageSearch";
+import FormikField from "../../../FormikField";
+import validateFormik, { RulesType } from "../../../formikValidationSchema";
 
 interface Props {
   onSave: (data: KeyFigureEmbedData) => void;
@@ -27,7 +27,7 @@ interface Props {
 }
 
 interface KeyFigureFormValue {
-  resource: 'key-figure';
+  resource: "key-figure";
   metaImageId: string;
   title: string;
   subtitle: string;
@@ -37,10 +37,10 @@ interface KeyFigureFormValue {
 
 const toInitialValues = (initialData: KeyFigureEmbedData): KeyFigureFormValue => ({
   resource: TYPE_KEY_FIGURE,
-  metaImageId: initialData?.imageId ?? '',
-  title: initialData?.title ?? '',
-  subtitle: initialData?.subtitle ?? '',
-  metaImageAlt: initialData?.alt ?? '',
+  metaImageId: initialData?.imageId ?? "",
+  title: initialData?.title ?? "",
+  subtitle: initialData?.subtitle ?? "",
+  metaImageAlt: initialData?.alt ?? "",
   isDecorative: initialData ? initialData.alt === undefined : false,
 });
 
@@ -109,21 +109,17 @@ const KeyFigureForm = ({ onSave, initialData, onCancel }: Props) => {
       {({ dirty, isValid, handleSubmit }) => (
         <>
           <StyledFormikField name="title" showError>
-            {({ field }: FieldProps) => (
-              <InputV2 customCss={inputStyle} label={t('form.name.title')} {...field} />
-            )}
+            {({ field }: FieldProps) => <InputV2 customCss={inputStyle} label={t("form.name.title")} {...field} />}
           </StyledFormikField>
           <StyledFormikField name="subtitle" showError>
-            {({ field }: FieldProps) => (
-              <InputV2 customCss={inputStyle} label={t('form.name.subtitle')} {...field} />
-            )}
+            {({ field }: FieldProps) => <InputV2 customCss={inputStyle} label={t("form.name.subtitle")} {...field} />}
           </StyledFormikField>
           <InlineImageSearch name="metaImageId" disableAltEditing hideAltText />
           <StyledFormikField name="metaImageAlt">
             {({ field, form }: FieldProps) => (
               <>
                 {!form.values.isDecorative && form.values.metaImageId && (
-                  <InputV2 customCss={inputStyle} label={t('form.name.metaImageAlt')} {...field} />
+                  <InputV2 customCss={inputStyle} label={t("form.name.metaImageAlt")} {...field} />
                 )}
               </>
             )}
@@ -133,10 +129,12 @@ const KeyFigureForm = ({ onSave, initialData, onCancel }: Props) => {
               <>
                 {form.values.metaImageId && (
                   <CheckboxItem
-                    label={t('form.image.isDecorative')}
+                    label={t("form.image.isDecorative")}
                     checked={field.value}
                     onChange={() =>
-                      field.onChange({ target: { name: field.name, value: !field.value } })
+                      field.onChange({
+                        target: { name: field.name, value: !field.value },
+                      })
                     }
                   />
                 )}
@@ -145,15 +143,10 @@ const KeyFigureForm = ({ onSave, initialData, onCancel }: Props) => {
           </StyledFormikField>
           <ButtonContainer>
             <ButtonV2 variant="outline" onClick={onCancel}>
-              {t('cancel')}
+              {t("cancel")}
             </ButtonV2>
-            <ButtonV2
-              variant="solid"
-              disabled={!dirty || !isValid}
-              type="submit"
-              onClick={() => handleSubmit()}
-            >
-              {t('save')}
+            <ButtonV2 variant="solid" disabled={!dirty || !isValid} type="submit" onClick={() => handleSubmit()}>
+              {t("save")}
             </ButtonV2>
           </ButtonContainer>
         </>

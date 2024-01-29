@@ -6,8 +6,8 @@
  *
  */
 
-import { Editor } from 'slate';
-import { TYPE_QUOTE } from './types';
+import { Editor } from "slate";
+import { TYPE_QUOTE } from "./types";
 
 export const blockQuoteRenderer = (editor: Editor) => {
   const { renderElement } = editor;

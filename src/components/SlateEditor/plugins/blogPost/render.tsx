@@ -6,9 +6,9 @@
  *
  */
 
-import { Editor } from 'slate';
-import SlateBlogPost from './SlateBlogPost';
-import { TYPE_BLOGPOST } from './types';
+import { Editor } from "slate";
+import SlateBlogPost from "./SlateBlogPost";
+import { TYPE_BLOGPOST } from "./types";
 
 export const blogPostRenderer = (editor: Editor) => {
   const { renderElement } = editor;

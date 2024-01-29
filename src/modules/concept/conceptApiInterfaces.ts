@@ -10,7 +10,7 @@ export interface ConceptQuery {
   query?: string;
   language?: string;
   page?: number;
-  'page-size'?: number;
+  "page-size"?: number;
   ids?: string;
   sort?: string;
   fallback?: boolean;
@@ -19,8 +19,8 @@ export interface ConceptQuery {
   tags?: string;
   status?: string;
   users?: string;
-  'embed-id'?: number;
-  'embed-resource'?: string;
-  'responsible-ids'?: string;
-  'concept-type'?: string;
+  "embed-id"?: number;
+  "embed-resource"?: string;
+  "responsible-ids"?: string;
+  "concept-type"?: string;
 }

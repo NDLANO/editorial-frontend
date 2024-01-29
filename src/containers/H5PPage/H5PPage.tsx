@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { HelmetWithTracker } from '@ndla/tracker';
-import H5PElement from '../../components/H5PElement/H5PElement';
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import styled from "@emotion/styled";
+import { HelmetWithTracker } from "@ndla/tracker";
+import H5PElement from "../../components/H5PElement/H5PElement";
 
 const H5PWrapper = styled.div`
   display: flex;
@@ -23,12 +23,12 @@ const H5PPage = () => {
   const locale = i18n.language;
   return (
     <H5PWrapper>
-      <HelmetWithTracker title={t('htmlTitles.h5pPage')} />
+      <HelmetWithTracker title={t("htmlTitles.h5pPage")} />
       <H5PElement
         canReturnResources={false}
         onSelect={() => {}}
         onClose={() => {
-          navigate('/');
+          navigate("/");
         }}
         locale={locale}
       />

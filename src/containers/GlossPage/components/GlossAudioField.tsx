@@ -6,30 +6,22 @@
  *
  */
 
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import AudioSearch from '@ndla/audio-search';
-import { ButtonV2, IconButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
-import { Spinner } from '@ndla/icons';
-import { Cross } from '@ndla/icons/action';
-import { Audio } from '@ndla/icons/common';
-import {
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalTitle,
-  ModalTrigger,
-} from '@ndla/modal';
-import { AudioEmbedData } from '@ndla/types-embed';
-import { AudioPlayer } from '@ndla/ui';
-import { fetchAudio, searchAudio } from '../../../modules/audio/audioApi';
-import { AudioSearchParams } from '../../../modules/audio/audioApiInterfaces';
-import { useAudio } from '../../../modules/audio/audioQueries';
-import { onError } from '../../../util/resolveJsonOrRejectWithError';
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import AudioSearch from "@ndla/audio-search";
+import { ButtonV2, IconButtonV2 } from "@ndla/button";
+import { spacing } from "@ndla/core";
+import { Spinner } from "@ndla/icons";
+import { Cross } from "@ndla/icons/action";
+import { Audio } from "@ndla/icons/common";
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
+import { AudioEmbedData } from "@ndla/types-embed";
+import { AudioPlayer } from "@ndla/ui";
+import { fetchAudio, searchAudio } from "../../../modules/audio/audioApi";
+import { AudioSearchParams } from "../../../modules/audio/audioApiInterfaces";
+import { useAudio } from "../../../modules/audio/audioQueries";
+import { onError } from "../../../util/resolveJsonOrRejectWithError";
 
 interface Props {
   glossLanguage: string;
@@ -43,7 +35,7 @@ const AudioWrapper = styled.div`
   gap: ${spacing.small};
 `;
 
-interface LocalAudioSearchParams extends Omit<AudioSearchParams, 'audio-type' | 'page-size'> {
+interface LocalAudioSearchParams extends Omit<AudioSearchParams, "audio-type" | "page-size"> {
   audioType?: string;
   pageSize?: number;
   locale?: string;
@@ -55,8 +47,8 @@ const searchAudios = (query: LocalAudioSearchParams) => {
     page: query.page,
     query: query.query,
     sort: query.sort,
-    'page-size': 16,
-    'audio-type': query.audioType,
+    "page-size": 16,
+    "audio-type": query.audioType,
   };
   return searchAudio(correctedQuery);
 };
@@ -64,13 +56,10 @@ const searchAudios = (query: LocalAudioSearchParams) => {
 export const GlossAudioField = ({ element, onElementChange, glossLanguage }: Props) => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
-  const audioQuery = useAudio(
-    { id: parseInt(element?.resourceId!), language: glossLanguage },
-    { enabled: !!element },
-  );
+  const audioQuery = useAudio({ id: parseInt(element?.resourceId!), language: glossLanguage }, { enabled: !!element });
 
   const defaultQueryObject = {
-    query: '',
+    query: "",
     page: 1,
     pageSize: 16,
     locale: glossLanguage,
@@ -79,16 +68,12 @@ export const GlossAudioField = ({ element, onElementChange, glossLanguage }: Pro
   if (!!element && audioQuery.data) {
     return (
       <AudioWrapper>
-        <AudioPlayer
-          speech
-          src={audioQuery.data.audioFile.url}
-          title={audioQuery.data.title.title}
-        />
+        <AudioPlayer speech src={audioQuery.data.audioFile.url} title={audioQuery.data.title.title} />
         <IconButtonV2
           variant="ghost"
           colorTheme="danger"
-          aria-label={t('remove')}
-          title={t('remove')}
+          aria-label={t("remove")}
+          title={t("remove")}
           onClick={() => onElementChange(undefined)}
         >
           <Cross />
@@ -104,29 +89,29 @@ export const GlossAudioField = ({ element, onElementChange, glossLanguage }: Pro
       <ModalTrigger>
         <ButtonV2 colorTheme="light">
           <Audio />
-          {t('form.gloss.audio.button')}
+          {t("form.gloss.audio.button")}
         </ButtonV2>
       </ModalTrigger>
       <ModalContent>
         <ModalHeader>
-          <ModalTitle>{t('audioSearch.useAudio')}</ModalTitle>
+          <ModalTitle>{t("audioSearch.useAudio")}</ModalTitle>
           <ModalCloseButton />
         </ModalHeader>
         <ModalBody>
           <AudioSearch
             translations={{
-              searchPlaceholder: t('audioSearch.searchPlaceholder'),
-              searchButtonTitle: t('audioSearch.searchButtonTitle'),
-              useAudio: t('audioSearch.useAudio'),
-              noResults: t('audioSearch.noResults'),
+              searchPlaceholder: t("audioSearch.searchPlaceholder"),
+              searchButtonTitle: t("audioSearch.searchButtonTitle"),
+              useAudio: t("audioSearch.useAudio"),
+              noResults: t("audioSearch.noResults"),
             }}
             fetchAudio={(id) => fetchAudio(id, glossLanguage)}
             searchAudios={searchAudios}
             onAudioSelect={(el) => {
               onElementChange({
-                resource: 'audio',
+                resource: "audio",
                 resourceId: el.id.toString(),
-                type: 'standard',
+                type: "standard",
                 url: el.url,
               });
               setIsOpen(false);

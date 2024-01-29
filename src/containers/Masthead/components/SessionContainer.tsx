@@ -6,20 +6,20 @@
  *
  */
 
-import FocusTrapReact from 'focus-trap-react';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { colors, spacing, fonts } from '@ndla/core';
-import { PersonOutlined } from '@ndla/icons/common';
-import { StyledDropdownOverlay } from '../../../components/Dropdown';
-import Overlay from '../../../components/Overlay';
-import { styledListElement } from '../../../components/StyledListElement/StyledListElement';
-import { getAccessTokenPersonal } from '../../../util/authHelpers';
-import { toLogoutSession, toLogin } from '../../../util/routeHelpers';
-import { useSession } from '../../Session/SessionProvider';
+import FocusTrapReact from "focus-trap-react";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { colors, spacing, fonts } from "@ndla/core";
+import { PersonOutlined } from "@ndla/icons/common";
+import { StyledDropdownOverlay } from "../../../components/Dropdown";
+import Overlay from "../../../components/Overlay";
+import { styledListElement } from "../../../components/StyledListElement/StyledListElement";
+import { getAccessTokenPersonal } from "../../../util/authHelpers";
+import { toLogoutSession, toLogin } from "../../../util/routeHelpers";
+import { useSession } from "../../Session/SessionProvider";
 
 const StyledUserIcon = styled(PersonOutlined)`
   color: ${colors.brand.primary};
@@ -78,7 +78,7 @@ const SessionContainer = ({ close }: Props) => {
             }}
           >
             <div>
-              <AuthSiteNavItem logoutText={t('logoutProviders.localLogout')} onClick={toggleOpen} />
+              <AuthSiteNavItem logoutText={t("logoutProviders.localLogout")} onClick={toggleOpen} />
             </div>
           </FocusTrapReact>
           <Overlay />
@@ -95,10 +95,10 @@ const SessionContainer = ({ close }: Props) => {
           shape="pill"
         >
           <StyledUserIcon />
-          {userName?.split(' ')[0]}
+          {userName?.split(" ")[0]}
         </StyledUserButton>
       ) : (
-        <Link to={toLogin()}>{t('siteNav.login')}</Link>
+        <Link to={toLogin()}>{t("siteNav.login")}</Link>
       )}
     </div>
   );

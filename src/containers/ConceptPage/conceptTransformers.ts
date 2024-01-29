@@ -6,18 +6,18 @@
  *
  */
 
-import { IConcept, ILicense, INewConcept, IUpdatedConcept } from '@ndla/types-backend/concept-api';
-import { IArticle } from '@ndla/types-backend/draft-api';
-import { Node } from '@ndla/types-taxonomy';
-import { ConceptFormValues, ConceptType } from './conceptInterfaces';
-import { IN_PROGRESS } from '../../constants';
+import { IConcept, ILicense, INewConcept, IUpdatedConcept } from "@ndla/types-backend/concept-api";
+import { IArticle } from "@ndla/types-backend/draft-api";
+import { Node } from "@ndla/types-taxonomy";
+import { ConceptFormValues, ConceptType } from "./conceptInterfaces";
+import { IN_PROGRESS } from "../../constants";
 import {
   plainTextToEditorValue,
   editorValueToPlainText,
   embedTagToEditorValue,
   editorValueToEmbedTag,
-} from '../../util/articleContentConverter';
-import { parseImageUrl } from '../../util/formHelper';
+} from "../../util/articleContentConverter";
+import { parseImageUrl } from "../../util/formHelper";
 
 export const conceptApiTypeToFormType = (
   concept: IConcept | undefined,
@@ -25,13 +25,12 @@ export const conceptApiTypeToFormType = (
   subjects: Node[],
   articles: IArticle[],
   ndlaId: string | undefined,
-  initialTitle = '',
+  initialTitle = "",
   conceptType?: ConceptType,
 ): ConceptFormValues => {
-  const conceptSubjects =
-    subjects.filter((s) => concept?.subjectIds?.find((id) => id === s.id)) ?? [];
+  const conceptSubjects = subjects.filter((s) => concept?.subjectIds?.find((id) => id === s.id)) ?? [];
   const license = concept?.copyright?.license?.license;
-  const conceptLicense = license === 'unknown' ? undefined : license;
+  const conceptLicense = license === "unknown" ? undefined : license;
 
   // Make sure to omit the content field from concept. It will crash Slate.
   return {
@@ -44,28 +43,28 @@ export const conceptApiTypeToFormType = (
     title: plainTextToEditorValue(concept?.title?.title || initialTitle),
     language,
     subjects: conceptSubjects,
-    conceptContent: plainTextToEditorValue(concept?.content?.content || ''),
+    conceptContent: plainTextToEditorValue(concept?.content?.content || ""),
     supportedLanguages: concept?.supportedLanguages ?? [language],
     creators: concept?.copyright?.creators ?? [],
     rightsholders: concept?.copyright?.rightsholders ?? [],
     processors: concept?.copyright?.processors ?? [],
     processed: concept?.copyright?.processed ?? false,
-    source: concept?.source ?? '',
+    source: concept?.source ?? "",
     license: conceptLicense,
     metaImageId: parseImageUrl(concept?.metaImage),
-    metaImageAlt: concept?.metaImage?.alt ?? '',
+    metaImageAlt: concept?.metaImage?.alt ?? "",
     tags: concept?.tags?.tags ?? [],
     articles,
-    visualElement: embedTagToEditorValue(concept?.visualElement?.visualElement ?? ''),
+    visualElement: embedTagToEditorValue(concept?.visualElement?.visualElement ?? ""),
     origin: concept?.copyright?.origin,
     responsibleId: concept === undefined ? ndlaId : concept?.responsible?.responsibleId,
-    conceptType: conceptType || 'concept',
-    ...(conceptType === 'gloss'
+    conceptType: conceptType || "concept",
+    ...(conceptType === "gloss"
       ? {
           gloss: {
-            gloss: concept?.glossData?.gloss ?? '',
-            wordClass: concept?.glossData?.wordClass ?? '',
-            originalLanguage: concept?.glossData?.originalLanguage ?? '',
+            gloss: concept?.glossData?.gloss ?? "",
+            wordClass: concept?.glossData?.wordClass ?? "",
+            originalLanguage: concept?.glossData?.originalLanguage ?? "",
           },
           examples: concept?.glossData?.examples ?? [],
           transcriptions: concept?.glossData?.transcriptions ?? {},
@@ -101,11 +100,11 @@ export const getNewConceptType = (
   responsibleId: values.responsibleId,
   conceptType: conceptType,
   glossData:
-    conceptType === 'gloss'
+    conceptType === "gloss"
       ? {
-          gloss: values.gloss?.gloss ?? '',
-          wordClass: values.gloss?.wordClass ?? '',
-          originalLanguage: values.gloss?.originalLanguage ?? '',
+          gloss: values.gloss?.gloss ?? "",
+          wordClass: values.gloss?.wordClass ?? "",
+          originalLanguage: values.gloss?.originalLanguage ?? "",
           examples: values.examples ?? [],
           transcriptions: values.transcriptions ?? {},
         }
@@ -142,11 +141,14 @@ export const conceptFormTypeToApiType = (
       title: editorValueToPlainText(values.title),
       language: values.language,
     },
-    content: { content: editorValueToPlainText(values.conceptContent), language: values.language },
-    created: values.created ?? '',
-    updated: values.updated ?? '',
+    content: {
+      content: editorValueToPlainText(values.conceptContent),
+      language: values.language,
+    },
+    created: values.created ?? "",
+    updated: values.updated ?? "",
     metaImage: {
-      url: values.metaImage?.url ?? '',
+      url: values.metaImage?.url ?? "",
       alt: values.metaImageAlt,
       language: values.metaImage?.language ?? values.language,
     },
@@ -160,11 +162,11 @@ export const conceptFormTypeToApiType = (
     supportedLanguages: values.supportedLanguages,
     conceptType,
     glossData:
-      conceptType === 'gloss'
+      conceptType === "gloss"
         ? {
-            gloss: values.gloss?.gloss ?? '',
-            wordClass: values.gloss?.wordClass ?? '',
-            originalLanguage: values.gloss?.originalLanguage ?? '',
+            gloss: values.gloss?.gloss ?? "",
+            wordClass: values.gloss?.wordClass ?? "",
+            originalLanguage: values.gloss?.originalLanguage ?? "",
             examples: values.examples ?? [],
             transcriptions: values.transcriptions ?? {},
           }

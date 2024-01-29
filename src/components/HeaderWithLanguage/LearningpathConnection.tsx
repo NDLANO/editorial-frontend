@@ -6,25 +6,17 @@
  *
  */
 
-import { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { colors } from '@ndla/core';
-import { LearningPath } from '@ndla/icons/contentType';
-import {
-  ModalCloseButton,
-  ModalBody,
-  Modal,
-  ModalTitle,
-  ModalHeader,
-  ModalTrigger,
-  ModalContent,
-} from '@ndla/modal';
-import { ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
-import ElementList from '../../containers/FormikForm/components/ElementList';
-import { fetchLearningpathsWithArticle } from '../../modules/learningpath/learningpathApi';
-import { normalPaddingCSS } from '../HowTo';
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { colors } from "@ndla/core";
+import { LearningPath } from "@ndla/icons/contentType";
+import { ModalCloseButton, ModalBody, Modal, ModalTitle, ModalHeader, ModalTrigger, ModalContent } from "@ndla/modal";
+import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
+import ElementList from "../../containers/FormikForm/components/ElementList";
+import { fetchLearningpathsWithArticle } from "../../modules/learningpath/learningpathApi";
+import { normalPaddingCSS } from "../HowTo";
 
 interface Props {
   id?: number;
@@ -56,15 +48,15 @@ const LearningpathConnection = ({ id, learningpaths, setLearningpaths }: Props) 
       <ModalTrigger>
         <ButtonV2
           variant="stripped"
-          aria-label={t('form.learningpathConnections.sectionTitle')}
-          title={t('form.learningpathConnections.sectionTitle')}
+          aria-label={t("form.learningpathConnections.sectionTitle")}
+          title={t("form.learningpathConnections.sectionTitle")}
         >
           <LearningpathIcon css={normalPaddingCSS} />
         </ButtonV2>
       </ModalTrigger>
       <ModalContent>
         <ModalHeader>
-          <ModalTitle>{t('form.learningpathConnections.title')}</ModalTitle>
+          <ModalTitle>{t("form.learningpathConnections.title")}</ModalTitle>
           <ModalCloseButton />
         </ModalHeader>
         <ModalBody>

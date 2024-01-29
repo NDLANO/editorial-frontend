@@ -6,13 +6,13 @@
  *
  */
 
-import { ComponentProps } from 'react';
-import { useTranslation } from 'react-i18next';
-import { css, SerializedStyles } from '@emotion/react';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { colors } from '@ndla/core';
-import { Check } from '@ndla/icons/editor';
+import { ComponentProps } from "react";
+import { useTranslation } from "react-i18next";
+import { css, SerializedStyles } from "@emotion/react";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { colors } from "@ndla/core";
+import { Check } from "@ndla/icons/editor";
 
 export const saveButtonAppearances: Record<string, SerializedStyles> = {
   saved: css`
@@ -37,7 +37,7 @@ export const saveButtonAppearances: Record<string, SerializedStyles> = {
   `,
 };
 
-const StyledSpan = styled('span')`
+const StyledSpan = styled("span")`
   display: flex;
   justify-content: space-evenly;
 `;
@@ -47,7 +47,7 @@ const StyledCheck = styled(Check)`
   height: 1.45rem;
 `;
 
-const shouldForwardProp = (p: string) => p !== 'color';
+const shouldForwardProp = (p: string) => p !== "color";
 
 const StyledSaveButton = styled(ButtonV2, { shouldForwardProp })`
   &,
@@ -67,18 +67,11 @@ interface Props extends ComponentProps<typeof ButtonV2> {
   formIsDirty?: boolean;
 }
 
-const SaveButton = ({
-  isSaving,
-  showSaved,
-  defaultText,
-  formIsDirty = true,
-  disabled,
-  ...rest
-}: Props) => {
+const SaveButton = ({ isSaving, showSaved, defaultText, formIsDirty = true, disabled, ...rest }: Props) => {
   const getModifier = () => {
-    if (isSaving) return 'saving';
-    if (showSaved) return 'saved';
-    return defaultText || 'save';
+    if (isSaving) return "saving";
+    if (showSaved) return "saved";
+    return defaultText || "save";
   };
 
   const color = isSaving ? colors.support.greenLight : showSaved ? colors.support.green : undefined;

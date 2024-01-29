@@ -6,6 +6,6 @@
  *
  */
 
-export const TYPE_DEFINITION_LIST = 'definition-list';
-export const TYPE_DEFINITION_DESCRIPTION = 'definition-description';
-export const TYPE_DEFINITION_TERM = 'definition-term';
+export const TYPE_DEFINITION_LIST = "definition-list";
+export const TYPE_DEFINITION_DESCRIPTION = "definition-description";
+export const TYPE_DEFINITION_TERM = "definition-term";

@@ -6,10 +6,10 @@
  *
  */
 
-import { MouseEvent, ReactElement } from 'react';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
+import { MouseEvent, ReactElement } from "react";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { spacing } from "@ndla/core";
 
 const StyledButton = styled(ButtonV2)`
   background-color: white;
@@ -31,7 +31,7 @@ interface Props {
   actions?: {
     text: string;
     onClick: (event: MouseEvent<HTMLButtonElement>) => void;
-    'data-testid'?: string;
+    "data-testid"?: string;
   }[];
 }
 

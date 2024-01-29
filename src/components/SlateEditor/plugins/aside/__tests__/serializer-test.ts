@@ -6,34 +6,31 @@
  *
  */
 
-import { Descendant } from 'slate';
-import {
-  blockContentToEditorValue,
-  blockContentToHTML,
-} from '../../../../../util/articleContentConverter';
-import { TYPE_PARAGRAPH } from '../../paragraph/types';
-import { TYPE_SECTION } from '../../section/types';
-import { TYPE_ASIDE } from '../types';
+import { Descendant } from "slate";
+import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
+import { TYPE_PARAGRAPH } from "../../paragraph/types";
+import { TYPE_SECTION } from "../../section/types";
+import { TYPE_ASIDE } from "../types";
 
 const editor: Descendant[] = [
   {
     type: TYPE_SECTION,
     children: [
-      { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+      { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
 
       {
         type: TYPE_ASIDE,
-        data: { type: 'factAside' },
-        children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'content' }] }],
+        data: { type: "factAside" },
+        children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
       },
-      { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+      { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
 
       {
         type: TYPE_ASIDE,
-        data: { type: 'rightAside' },
-        children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'content' }] }],
+        data: { type: "rightAside" },
+        children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
       },
-      { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+      { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
     ],
   },
 ];
@@ -41,13 +38,13 @@ const editor: Descendant[] = [
 const html =
   '<section><aside data-type="factAside"><p>content</p></aside><aside data-type="rightAside"><p>content</p></aside></section>';
 
-describe('aside serializing tests', () => {
-  test('serializing', () => {
+describe("aside serializing tests", () => {
+  test("serializing", () => {
     const res = blockContentToHTML(editor);
     expect(res).toMatch(html);
   });
 
-  test('deserializing', () => {
+  test("deserializing", () => {
     const res = blockContentToEditorValue(html);
     expect(res).toEqual(editor);
   });

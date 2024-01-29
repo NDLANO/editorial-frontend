@@ -6,12 +6,12 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
-import { RemoveCircle } from '@ndla/icons/action';
-import Tooltip from '@ndla/tooltip';
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { spacing } from "@ndla/core";
+import { RemoveCircle } from "@ndla/icons/action";
+import Tooltip from "@ndla/tooltip";
 
 const StyledRemoveButton = styled(ButtonV2)`
   margin-left: ${spacing.small};
@@ -31,7 +31,7 @@ interface Props {
 const RemoveButton = ({ onClick, disabled }: Props) => {
   const { t } = useTranslation();
   return (
-    <Tooltip tooltip={t('taxonomy.removeResource')}>
+    <Tooltip tooltip={t("taxonomy.removeResource")}>
       <StyledRemoveButton onClick={onClick} variant="stripped" disabled={disabled}>
         <StyledRemoveCircle />
       </StyledRemoveButton>

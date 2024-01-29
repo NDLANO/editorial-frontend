@@ -6,9 +6,9 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { Footer, LanguageSelector, FooterText, EditorName } from '@ndla/ui';
-import { supportedLanguages } from '../../../i18n2';
+import { useTranslation } from "react-i18next";
+import { Footer, LanguageSelector, FooterText, EditorName } from "@ndla/ui";
+import { supportedLanguages } from "../../../i18n2";
 
 interface Props {
   showLocaleSelector?: boolean;
@@ -23,8 +23,8 @@ const FooterWrapper = ({ showLocaleSelector }: Props) => {
   return (
     <Footer lang={i18n.language} languageSelector={languageSelector}>
       <FooterText>
-        <EditorName title={t('footer.editorInChief')} name="Sigurd Trageton" />
-        {t('footer.info')}
+        <EditorName title={t("footer.editorInChief")} name="Sigurd Trageton" />
+        {t("footer.info")}
       </FooterText>
     </Footer>
   );

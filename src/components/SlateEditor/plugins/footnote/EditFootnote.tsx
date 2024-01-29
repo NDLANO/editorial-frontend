@@ -6,20 +6,20 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { Descendant, Editor, Transforms } from 'slate';
-import { ReactEditor } from 'slate-react';
-import styled from '@emotion/styled';
-import { CloseButton } from '@ndla/button';
-import { ModalBody, ModalHeader, ModalTitle } from '@ndla/modal';
-import { FootnoteElement } from '.';
-import FootnoteForm from './FootnoteForm';
+import { useTranslation } from "react-i18next";
+import { Descendant, Editor, Transforms } from "slate";
+import { ReactEditor } from "slate-react";
+import styled from "@emotion/styled";
+import { CloseButton } from "@ndla/button";
+import { ModalBody, ModalHeader, ModalTitle } from "@ndla/modal";
+import { FootnoteElement } from ".";
+import FootnoteForm from "./FootnoteForm";
 
 interface Props {
   closeDialog: () => void;
   onChange: () => void;
   editor: Editor;
-  existingFootnote: FootnoteElement['data'];
+  existingFootnote: FootnoteElement["data"];
   node: Descendant;
 }
 
@@ -46,13 +46,15 @@ const EditFootnote = (props: Props) => {
   const handleRemove = () => {
     const { editor, node, closeDialog } = props;
     if (node) {
-      Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, node) });
+      Transforms.removeNodes(editor, {
+        at: ReactEditor.findPath(editor, node),
+      });
       ReactEditor.focus(editor);
       closeDialog();
     }
   };
 
-  const handleSave = (data: FootnoteElement['data']) => {
+  const handleSave = (data: FootnoteElement["data"]) => {
     const { editor, node, closeDialog } = props;
     Transforms.setNodes(
       editor,
@@ -71,7 +73,7 @@ const EditFootnote = (props: Props) => {
   return (
     <>
       <StyledModalHeading>
-        <ModalTitle>{t(`form.content.footnote.${isEdit ? 'editTitle' : 'addTitle'}`)}</ModalTitle>
+        <ModalTitle>{t(`form.content.footnote.${isEdit ? "editTitle" : "addTitle"}`)}</ModalTitle>
         <CloseButton onClick={onClose} />
       </StyledModalHeading>
       <StyledModalBody>

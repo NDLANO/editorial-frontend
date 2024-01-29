@@ -6,14 +6,11 @@
  *
  */
 
-import { Descendant } from 'slate';
-import {
-  blockContentToEditorValue,
-  blockContentToHTML,
-} from '../../../../../util/articleContentConverter';
-import { TYPE_PARAGRAPH } from '../../paragraph/types';
-import { TYPE_SECTION } from '../../section/types';
-import { TYPE_LIST, TYPE_LIST_ITEM } from '../types';
+import { Descendant } from "slate";
+import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
+import { TYPE_PARAGRAPH } from "../../paragraph/types";
+import { TYPE_SECTION } from "../../section/types";
+import { TYPE_LIST, TYPE_LIST_ITEM } from "../types";
 
 const editor: Descendant[] = [
   {
@@ -21,7 +18,7 @@ const editor: Descendant[] = [
     children: [
       {
         type: TYPE_LIST,
-        listType: 'letter-list',
+        listType: "letter-list",
         data: {},
         children: [
           {
@@ -31,13 +28,13 @@ const editor: Descendant[] = [
                 type: TYPE_PARAGRAPH,
                 children: [
                   {
-                    text: 'abc',
+                    text: "abc",
                   },
                 ],
               },
               {
                 type: TYPE_LIST,
-                listType: 'numbered-list',
+                listType: "numbered-list",
                 data: {},
                 children: [
                   {
@@ -47,7 +44,7 @@ const editor: Descendant[] = [
                         type: TYPE_PARAGRAPH,
                         children: [
                           {
-                            text: '123',
+                            text: "123",
                           },
                         ],
                       },
@@ -57,7 +54,7 @@ const editor: Descendant[] = [
               },
               {
                 type: TYPE_LIST,
-                listType: 'bulleted-list',
+                listType: "bulleted-list",
                 data: {},
                 children: [
                   {
@@ -67,7 +64,7 @@ const editor: Descendant[] = [
                         type: TYPE_PARAGRAPH,
                         children: [
                           {
-                            text: 'def',
+                            text: "def",
                           },
                         ],
                       },
@@ -84,7 +81,7 @@ const editor: Descendant[] = [
                 type: TYPE_PARAGRAPH,
                 children: [
                   {
-                    text: 'ghi',
+                    text: "ghi",
                   },
                 ],
               },
@@ -99,62 +96,62 @@ const editor: Descendant[] = [
 const html =
   '<section><ol data-type="letters"><li><p>abc</p><ol><li><p>123</p></li></ol><ul><li><p>def</p></li></ul></li><li><p>ghi</p></li></ol></section>';
 
-describe('paragraph serializing tests', () => {
-  test('serializing', () => {
+describe("paragraph serializing tests", () => {
+  test("serializing", () => {
     const res = blockContentToHTML(editor);
     expect(res).toMatch(html);
   });
 
-  test('deserializing', () => {
+  test("deserializing", () => {
     const res = blockContentToEditorValue(html);
     expect(res).toEqual(editor);
   });
 
-  test('deserializing <li> with plaintext as children', () => {
+  test("deserializing <li> with plaintext as children", () => {
     const html =
       '<section><ol data-type="letters"><li>abc<strong>123</strong>def<p>paragraph</p>456</li></ol></section>';
     const expected: Descendant[] = [
       {
-        type: 'section',
+        type: "section",
         children: [
           {
-            type: 'list',
-            listType: 'letter-list',
+            type: "list",
+            listType: "letter-list",
             data: {},
             children: [
               {
-                type: 'list-item',
+                type: "list-item",
                 children: [
                   {
-                    type: 'paragraph',
+                    type: "paragraph",
                     serializeAsText: true,
                     children: [
                       {
-                        text: 'abc',
+                        text: "abc",
                       },
                       {
                         bold: true,
-                        text: '123',
+                        text: "123",
                       },
                       {
-                        text: 'def',
+                        text: "def",
                       },
                     ],
                   },
                   {
-                    type: 'paragraph',
+                    type: "paragraph",
                     children: [
                       {
-                        text: 'paragraph',
+                        text: "paragraph",
                       },
                     ],
                   },
                   {
-                    type: 'paragraph',
+                    type: "paragraph",
                     serializeAsText: true,
                     children: [
                       {
-                        text: '456',
+                        text: "456",
                       },
                     ],
                   },

@@ -5,24 +5,24 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { Formik } from 'formik';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Descendant } from 'slate';
-import { IFilmFrontPageData, IMovieTheme } from '@ndla/types-backend/frontpage-api';
-import NdlaFilmAccordionPanels from './NdlaFilmAccordionPanels';
-import Field from '../../../components/Field';
-import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
-import SimpleLanguageHeader from '../../../components/HeaderWithLanguage/SimpleLanguageHeader';
-import SaveButton from '../../../components/SaveButton';
-import { isSlateEmbed } from '../../../components/SlateEditor/plugins/embed/utils';
-import StyledForm from '../../../components/StyledFormComponents';
-import { SAVE_BUTTON_ID } from '../../../constants';
-import { isFormikFormDirty } from '../../../util/formHelper';
-import { toEditNdlaFilm } from '../../../util/routeHelpers';
-import { AlertModalWrapper } from '../../FormikForm/index';
-import { useNdlaFilmFormHooks } from '../../FormikForm/ndlaFilmFormHooks';
-import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
+import { Formik } from "formik";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Descendant } from "slate";
+import { IFilmFrontPageData, IMovieTheme } from "@ndla/types-backend/frontpage-api";
+import NdlaFilmAccordionPanels from "./NdlaFilmAccordionPanels";
+import Field from "../../../components/Field";
+import validateFormik, { RulesType } from "../../../components/formikValidationSchema";
+import SimpleLanguageHeader from "../../../components/HeaderWithLanguage/SimpleLanguageHeader";
+import SaveButton from "../../../components/SaveButton";
+import { isSlateEmbed } from "../../../components/SlateEditor/plugins/embed/utils";
+import StyledForm from "../../../components/StyledFormComponents";
+import { SAVE_BUTTON_ID } from "../../../constants";
+import { isFormikFormDirty } from "../../../util/formHelper";
+import { toEditNdlaFilm } from "../../../util/routeHelpers";
+import { AlertModalWrapper } from "../../FormikForm/index";
+import { useNdlaFilmFormHooks } from "../../FormikForm/ndlaFilmFormHooks";
+import usePreventWindowUnload from "../../FormikForm/preventWindowUnloadHook";
 
 interface Props {
   filmFrontpage: IFilmFrontPageData;
@@ -55,20 +55,15 @@ const ndlaFilmRules: RulesType<FilmFormikType> = {
     test: (values: FilmFormikType) => {
       const element = values?.visualElement[0];
       const data = isSlateEmbed(element) && element.data;
-      const badVisualElementId = data && 'resource_id' in data && data.resource_id === '';
-      return badVisualElementId
-        ? { translationKey: 'subjectpageForm.missingVisualElement' }
-        : undefined;
+      const badVisualElementId = data && "resource_id" in data && data.resource_id === "";
+      return badVisualElementId ? { translationKey: "subjectpageForm.missingVisualElement" } : undefined;
     },
   },
 };
 
 const NdlaFilmForm = ({ filmFrontpage, selectedLanguage }: Props) => {
   const { t } = useTranslation();
-  const { savedToServer, handleSubmit, initialValues } = useNdlaFilmFormHooks(
-    filmFrontpage,
-    selectedLanguage,
-  );
+  const { savedToServer, handleSubmit, initialValues } = useNdlaFilmFormHooks(filmFrontpage, selectedLanguage);
   const [unsaved, setUnsaved] = useState(false);
   usePreventWindowUnload(unsaved);
 
@@ -119,7 +114,7 @@ const NdlaFilmForm = ({ filmFrontpage, selectedLanguage }: Props) => {
               isSubmitting={isSubmitting}
               formIsDirty={formIsDirty}
               severity="danger"
-              text={t('alertModal.notSaved')}
+              text={t("alertModal.notSaved")}
             />
           </StyledForm>
         );

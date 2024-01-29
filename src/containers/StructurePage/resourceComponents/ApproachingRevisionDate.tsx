@@ -6,14 +6,14 @@
  *
  */
 
-import addYears from 'date-fns/addYears';
-import isBefore from 'date-fns/isBefore';
-import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import Tooltip from '@ndla/tooltip';
-import { IRevisionMeta } from '@ndla/types-backend/draft-api';
-import { getExpirationDate } from '../../ArticlePage/articleTransformers';
+import addYears from "date-fns/addYears";
+import isBefore from "date-fns/isBefore";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import Tooltip from "@ndla/tooltip";
+import { IRevisionMeta } from "@ndla/types-backend/draft-api";
+import { getExpirationDate } from "../../ArticlePage/articleTransformers";
 
 const Wrapper = styled.div`
   width: 24px;
@@ -57,7 +57,7 @@ const ApproachingRevisionDate = ({ revisions }: Props) => {
   );
 
   return (
-    <Tooltip tooltip={t('form.responsible.revisionDate')}>
+    <Tooltip tooltip={t("form.responsible.revisionDate")}>
       <Wrapper>
         <StyledIcon>{approachingRevision}</StyledIcon>
       </Wrapper>

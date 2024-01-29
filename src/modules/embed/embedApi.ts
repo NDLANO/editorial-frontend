@@ -6,9 +6,9 @@
  *
  */
 
-import parse from 'html-react-parser';
-import { IConceptSummary } from '@ndla/types-backend/concept-api';
-import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
+import parse from "html-react-parser";
+import { IConceptSummary } from "@ndla/types-backend/concept-api";
+import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import {
   AudioEmbedData,
   AudioMeta,
@@ -28,22 +28,14 @@ import {
   OembedEmbedData,
   OembedMetaData,
   UuDisclaimerData,
-} from '@ndla/types-embed';
-import {
-  fetchH5PInfo,
-  fetchH5pLicenseInformation,
-  fetchH5pPreviewOembed,
-} from '../../components/H5PElement/h5pApi';
-import { fetchDisclaimerLink } from '../../components/UuDisclaimer/uuDisclaimerApi';
-import { fetchExternalOembed } from '../../util/apiHelpers';
-import { reduceElementDataAttributesV2 } from '../../util/embedTagHelpers';
-import { fetchAudio } from '../audio/audioApi';
-import { fetchImage } from '../image/imageApi';
-import {
-  fetchBrightcoveSources,
-  fetchBrightcoveVideo,
-  getBrightcoveCopyright,
-} from '../video/brightcoveApi';
+} from "@ndla/types-embed";
+import { fetchH5PInfo, fetchH5pLicenseInformation, fetchH5pPreviewOembed } from "../../components/H5PElement/h5pApi";
+import { fetchDisclaimerLink } from "../../components/UuDisclaimer/uuDisclaimerApi";
+import { fetchExternalOembed } from "../../util/apiHelpers";
+import { reduceElementDataAttributesV2 } from "../../util/embedTagHelpers";
+import { fetchAudio } from "../audio/audioApi";
+import { fetchImage } from "../image/imageApi";
+import { fetchBrightcoveSources, fetchBrightcoveVideo, getBrightcoveCopyright } from "../video/brightcoveApi";
 
 export const fetchAudioMeta = async (resourceId: string, language: string): Promise<AudioMeta> => {
   const audio = await fetchAudio(parseInt(resourceId), language);
@@ -58,61 +50,52 @@ export const fetchAudioMeta = async (resourceId: string, language: string): Prom
   };
 };
 
-const fetchVisualImageMeta = async (
-  embed: ImageEmbedData,
-  language: string,
-): Promise<ImageMetaData> => {
+const fetchVisualImageMeta = async (embed: ImageEmbedData, language: string): Promise<ImageMetaData> => {
   try {
     const res = await fetchImage(embed.resourceId, language);
     return {
-      resource: 'image',
-      status: 'success',
+      resource: "image",
+      status: "success",
       data: res,
       embedData: embed,
     };
   } catch (_) {
     return {
-      resource: 'image',
-      status: 'error',
+      resource: "image",
+      status: "error",
       embedData: embed,
-      message: 'Failed to fetch image',
+      message: "Failed to fetch image",
     };
   }
 };
 
-const fetchVisualAudioMeta = async (
-  embed: AudioEmbedData,
-  language: string,
-): Promise<AudioMetaData> => {
+const fetchVisualAudioMeta = async (embed: AudioEmbedData, language: string): Promise<AudioMetaData> => {
   try {
     const res = await fetchAudioMeta(embed.resourceId, language);
     return {
-      resource: 'audio',
-      status: 'success',
+      resource: "audio",
+      status: "success",
       embedData: embed,
       data: res,
     };
   } catch (e) {
     return {
-      resource: 'audio',
-      status: 'error',
+      resource: "audio",
+      status: "error",
       embedData: embed,
-      message: 'Failed to fetch audio',
+      message: "Failed to fetch audio",
     };
   }
 };
 
-const fetchVisualIframeMeta = async (
-  embed: IframeEmbedData,
-  language: string,
-): Promise<IframeMetaData> => {
+const fetchVisualIframeMeta = async (embed: IframeEmbedData, language: string): Promise<IframeMetaData> => {
   const image = embed.imageid
     ? await fetchImage(embed.imageid, language).catch((_) => undefined)
     : await Promise.resolve(undefined);
 
   return {
-    resource: 'iframe',
-    status: 'success',
+    resource: "iframe",
+    status: "success",
     embedData: embed,
     data: {
       iframeImage: image,
@@ -125,15 +108,12 @@ const fetchVisualBrightcoveMeta = async (
   language: string,
 ): Promise<BrightcoveMetaData> => {
   try {
-    const videoId = embedData.videoid.replace('&t=', '');
-    const [video, sources] = await Promise.all([
-      fetchBrightcoveVideo(videoId),
-      fetchBrightcoveSources(videoId),
-    ]);
+    const videoId = embedData.videoid.replace("&t=", "");
+    const [video, sources] = await Promise.all([fetchBrightcoveVideo(videoId), fetchBrightcoveSources(videoId)]);
 
     return {
-      resource: 'brightcove',
-      status: 'success',
+      resource: "brightcove",
+      status: "success",
       embedData,
       data: {
         ...video,
@@ -143,10 +123,10 @@ const fetchVisualBrightcoveMeta = async (
     };
   } catch (e) {
     return {
-      resource: 'brightcove',
-      status: 'error',
+      resource: "brightcove",
+      status: "error",
       embedData,
-      message: 'Failed to fetch brightcove video',
+      message: "Failed to fetch brightcove video",
     };
   }
 };
@@ -164,23 +144,23 @@ export const fetchVisualExternalMeta = async (
     ]);
 
     return {
-      resource: 'external',
-      status: 'success',
+      resource: "external",
+      status: "success",
       embedData,
       data: { oembed, iframeImage },
     };
   } catch (e) {
     return {
-      resource: 'external',
-      status: 'error',
+      resource: "external",
+      status: "error",
       embedData,
-      message: 'Failed to fetch external oembed',
+      message: "Failed to fetch external oembed",
     };
   }
 };
 
 export const fetchH5pMeta = async (path: string, url: string): Promise<H5pData> => {
-  const pathArr = path.split('/') || [];
+  const pathArr = path.split("/") || [];
   const h5pId = pathArr[pathArr.length - 1];
   const [oembedData, h5pLicenseInformation, h5pInfo] = await Promise.all([
     // This differs from graphql. We only allow preview here
@@ -194,7 +174,7 @@ export const fetchH5pMeta = async (path: string, url: string): Promise<H5pData> 
       h5p: {
         ...h5pLicenseInformation?.h5p,
         authors: h5pLicenseInformation?.h5p.authors ?? [],
-        title: h5pInfo?.title ?? '',
+        title: h5pInfo?.title ?? "",
       },
     },
     h5pUrl: url,
@@ -206,17 +186,17 @@ export const fetchVisualH5pMeta = async (embedData: H5pEmbedData): Promise<H5pMe
   try {
     const data = await fetchH5pMeta(embedData.path, embedData.url);
     return {
-      resource: 'h5p',
-      status: 'success',
+      resource: "h5p",
+      status: "success",
       embedData,
       data,
     };
   } catch (e) {
     return {
-      resource: 'h5p',
-      status: 'error',
+      resource: "h5p",
+      status: "error",
       embedData,
-      message: 'Failed to fetch h5p',
+      message: "Failed to fetch h5p",
     };
   }
 };
@@ -226,41 +206,37 @@ export const fetchConceptVisualElement = async (
   language: string,
 ): Promise<ConceptVisualElementMeta | undefined> => {
   const parsedVisEl = parse(visualElement);
-  if (typeof parsedVisEl === 'string' || Array.isArray(parsedVisEl)) return;
+  if (typeof parsedVisEl === "string" || Array.isArray(parsedVisEl)) return;
   const attributes = Object.entries<string>(parsedVisEl.props).map(([name, value]) => ({
     name,
     value,
   }));
   const embed = reduceElementDataAttributesV2(attributes) as ConceptVisualElement;
 
-  if (embed.resource === 'image') {
+  if (embed.resource === "image") {
     return await fetchVisualImageMeta(embed, language);
-  } else if (embed.resource === 'audio') {
+  } else if (embed.resource === "audio") {
     return await fetchVisualAudioMeta(embed, language);
-  } else if (embed.resource === 'iframe') {
+  } else if (embed.resource === "iframe") {
     return await fetchVisualIframeMeta(embed, language);
-  } else if (embed.resource === 'brightcove') {
+  } else if (embed.resource === "brightcove") {
     return await fetchVisualBrightcoveMeta(embed, language);
-  } else if (embed.resource === 'external') {
+  } else if (embed.resource === "external") {
     return await fetchVisualExternalMeta(embed, language);
-  } else if (embed.resource === 'h5p') {
+  } else if (embed.resource === "h5p") {
     return await fetchVisualH5pMeta(embed);
   }
 
   return undefined;
 };
 
-export const fetchConceptListMeta = async (
-  concepts: IConceptSummary[],
-  language: string,
-): Promise<ConceptListData> => {
+export const fetchConceptListMeta = async (concepts: IConceptSummary[], language: string): Promise<ConceptListData> => {
   const conceptsWithVisualElement = await Promise.all(
     concepts.map(async (concept) => {
       if (!concept.visualElement?.visualElement) return { concept };
-      const visualElement = await fetchConceptVisualElement(
-        concept.visualElement?.visualElement,
-        language,
-      ).catch((_) => undefined);
+      const visualElement = await fetchConceptVisualElement(concept.visualElement?.visualElement, language).catch(
+        (_) => undefined,
+      );
       return { concept, visualElement };
     }),
   );
@@ -271,7 +247,7 @@ export const fetchDisclaimerMeta = async () // path: string, // url: string
 : Promise<UuDisclaimerData> => {
   // const pathArr = path.split('/') || [];
   // const h5pId = pathArr[pathArr.length - 1];
-  const disclaimerLink = { text: 'Disclaimer link', href: 'https://ndla.no' };
+  const disclaimerLink = { text: "Disclaimer link", href: "https://ndla.no" };
   // const disclaimerLink = await fetchDisclaimerLink();
 
   return {

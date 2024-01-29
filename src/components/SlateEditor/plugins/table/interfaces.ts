@@ -6,37 +6,37 @@
  *
  */
 
-import { Descendant } from 'slate';
+import { Descendant } from "slate";
 
 export interface TableElement {
-  type: 'table';
+  type: "table";
   colgroups: string;
   rowHeaders: boolean;
   children: Descendant[];
 }
 
 export interface TableCaptionElement {
-  type: 'table-caption';
+  type: "table-caption";
   children: Descendant[];
 }
 
 export interface TableHeadElement {
-  type: 'table-head';
+  type: "table-head";
   children: Descendant[];
 }
 
 export interface TableBodyElement {
-  type: 'table-body';
+  type: "table-body";
   children: Descendant[];
 }
 
 export interface TableRowElement {
-  type: 'table-row';
+  type: "table-row";
   children: Descendant[];
 }
 
 export interface TableCellElement {
-  type: 'table-cell' | 'table-cell-header';
+  type: "table-cell" | "table-cell-header";
   data: TableCellData;
   children: Descendant[];
 }
@@ -49,7 +49,7 @@ interface TableCellData {
   valign?: string;
   class?: string;
   headers?: string;
-  scope?: 'row' | 'col';
+  scope?: "row" | "col";
 }
 
 export type TableMatrix = TableCellElement[][];

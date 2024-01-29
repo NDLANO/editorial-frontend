@@ -6,28 +6,28 @@
  *
  */
 
-import { validateTranslationFiles } from '@ndla/util';
-import en from '../phrases-en';
-import nb from '../phrases-nb';
-import nn from '../phrases-nn';
+import { validateTranslationFiles } from "@ndla/util";
+import en from "../phrases-en";
+import nb from "../phrases-nb";
+import nn from "../phrases-nn";
 
-test('That all translations has all language keys', () => {
+test("That all translations has all language keys", () => {
   const anyMissing = validateTranslationFiles(
     [
       {
-        languageName: 'Norsk bokmål',
+        languageName: "Norsk bokmål",
         translationObject: nb,
       },
       {
-        languageName: 'Norsk nynorsk',
+        languageName: "Norsk nynorsk",
         translationObject: nn,
       },
       {
-        languageName: 'English',
+        languageName: "English",
         translationObject: en,
       },
     ],
-    'only-on-error',
+    "only-on-error",
   );
 
   expect(anyMissing).toBe(false);

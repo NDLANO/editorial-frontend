@@ -6,10 +6,10 @@
  *
  */
 
-import { Editor } from 'slate';
-import { SlateGrid } from './SlateGrid';
-import SlateGridCell from './SlateGridCell';
-import { TYPE_GRID, TYPE_GRID_CELL } from './types';
+import { Editor } from "slate";
+import { SlateGrid } from "./SlateGrid";
+import SlateGridCell from "./SlateGridCell";
+import { TYPE_GRID, TYPE_GRID_CELL } from "./types";
 
 export const gridRenderer = (editor: Editor) => {
   const { renderElement } = editor;

@@ -6,19 +6,19 @@
  *
  */
 
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Pencil } from '@ndla/icons/action';
-import { Node } from '@ndla/types-taxonomy';
-import AlertModal from '../../../../components/AlertModal';
-import Overlay from '../../../../components/Overlay';
-import RoundIcon from '../../../../components/RoundIcon';
-import Spinner from '../../../../components/Spinner';
-import { usePutResourcesPrimaryMutation } from '../../../../modules/nodes/nodeMutations';
-import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
-import { EditModeHandler } from '../SettingsMenuDropdownType';
-import MenuItemButton from '../sharedMenuOptions/components/MenuItemButton';
-import { StyledErrorMessage } from '../styles';
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Pencil } from "@ndla/icons/action";
+import { Node } from "@ndla/types-taxonomy";
+import AlertModal from "../../../../components/AlertModal";
+import Overlay from "../../../../components/Overlay";
+import RoundIcon from "../../../../components/RoundIcon";
+import Spinner from "../../../../components/Spinner";
+import { usePutResourcesPrimaryMutation } from "../../../../modules/nodes/nodeMutations";
+import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
+import { EditModeHandler } from "../SettingsMenuDropdownType";
+import MenuItemButton from "../sharedMenuOptions/components/MenuItemButton";
+import { StyledErrorMessage } from "../styles";
 
 interface Props {
   node: Node;
@@ -26,17 +26,13 @@ interface Props {
   editModeHandler: EditModeHandler;
 }
 
-const SetResourcesPrimary = ({
-  node,
-  recursive = false,
-  editModeHandler: { editMode, toggleEditMode },
-}: Props) => {
+const SetResourcesPrimary = ({ node, recursive = false, editModeHandler: { editMode, toggleEditMode } }: Props) => {
   const { t } = useTranslation();
   const [error, setError] = useState<string>();
   const { mutateAsync, isPending } = usePutResourcesPrimaryMutation();
   const { taxonomyVersion } = useTaxonomyVersion();
 
-  const toggleConnectedResourcesPrimary = () => toggleEditMode('setResourcesPrimary');
+  const toggleConnectedResourcesPrimary = () => toggleEditMode("setResourcesPrimary");
 
   const setConnectedResourcesPrimary = async () => {
     setError(undefined);
@@ -44,7 +40,7 @@ const SetResourcesPrimary = ({
 
     await mutateAsync(
       { taxonomyVersion, id: node.id, recursive },
-      { onError: () => setError(t('taxonomy.resourcesPrimary.error')) },
+      { onError: () => setError(t("taxonomy.resourcesPrimary.error")) },
     );
   };
 
@@ -52,36 +48,28 @@ const SetResourcesPrimary = ({
     <>
       <MenuItemButton onClick={toggleConnectedResourcesPrimary}>
         <RoundIcon small icon={<Pencil />} />
-        {recursive
-          ? t('taxonomy.resourcesPrimary.recursiveButtonText')
-          : t('taxonomy.resourcesPrimary.buttonText')}
+        {recursive ? t("taxonomy.resourcesPrimary.recursiveButtonText") : t("taxonomy.resourcesPrimary.buttonText")}
       </MenuItemButton>
       <AlertModal
-        title={t('taxonomy.resourcesPrimary.buttonText')}
-        label={t('taxonomy.resourcesPrimary.buttonText')}
-        show={editMode === 'setResourcesPrimary'}
+        title={t("taxonomy.resourcesPrimary.buttonText")}
+        label={t("taxonomy.resourcesPrimary.buttonText")}
+        show={editMode === "setResourcesPrimary"}
         actions={[
           {
-            text: t('form.abort'),
+            text: t("form.abort"),
             onClick: toggleConnectedResourcesPrimary,
           },
           {
-            text: t('alertModal.continue'),
+            text: t("alertModal.continue"),
             onClick: setConnectedResourcesPrimary,
           },
         ]}
         onCancel={toggleConnectedResourcesPrimary}
-        text={
-          recursive
-            ? t('taxonomy.resourcesPrimary.recursiveText')
-            : t('taxonomy.resourcesPrimary.text')
-        }
+        text={recursive ? t("taxonomy.resourcesPrimary.recursiveText") : t("taxonomy.resourcesPrimary.text")}
       />
       {isPending && <Spinner appearance="absolute" />}
-      {isPending && <Overlay modifiers={['absolute', 'white-opacity', 'zIndex']} />}
-      {error && (
-        <StyledErrorMessage data-testid="inlineEditErrorMessage">{error}</StyledErrorMessage>
-      )}
+      {isPending && <Overlay modifiers={["absolute", "white-opacity", "zIndex"]} />}
+      {error && <StyledErrorMessage data-testid="inlineEditErrorMessage">{error}</StyledErrorMessage>}
     </>
   );
 };

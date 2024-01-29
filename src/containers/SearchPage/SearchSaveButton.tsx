@@ -6,16 +6,16 @@
  *
  */
 
-import { parse, stringify } from 'query-string';
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { colors, fonts, spacing } from '@ndla/core';
-import { IUserData } from '@ndla/types-backend/draft-api';
-import SaveButton from '../../components/SaveButton';
-import { useUpdateUserDataMutation } from '../../modules/draft/draftQueries';
+import { parse, stringify } from "query-string";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { colors, fonts, spacing } from "@ndla/core";
+import { IUserData } from "@ndla/types-backend/draft-api";
+import SaveButton from "../../components/SaveButton";
+import { useUpdateUserDataMutation } from "../../modules/draft/draftQueries";
 
-type Error = 'alreadyExist' | 'other' | 'fetchFailed' | '';
+type Error = "alreadyExist" | "other" | "fetchFailed" | "";
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -31,14 +31,14 @@ const WarningText = styled.div`
 `;
 
 const getSavedSearchRelativeUrl = (inputValue: string) => {
-  const relativeUrl = inputValue.split('search')[1];
-  return '/search'.concat(relativeUrl);
+  const relativeUrl = inputValue.split("search")[1];
+  return "/search".concat(relativeUrl);
 };
 
 const createSearchString = (location: Location) => {
   const searchObject = parse(location.search);
   searchObject.page && delete searchObject.page;
-  return location.pathname + '?' + stringify(searchObject);
+  return location.pathname + "?" + stringify(searchObject);
 };
 
 interface Props {
@@ -48,7 +48,7 @@ interface Props {
 const SearchSaveButton = ({ userData }: Props) => {
   const { t } = useTranslation();
   const [success, setSuccess] = useState(false);
-  const [error, setError] = useState<Error>('');
+  const [error, setError] = useState<Error>("");
   const [loading, setLoading] = useState(false);
 
   const { mutateAsync } = useUpdateUserDataMutation();
@@ -56,7 +56,7 @@ const SearchSaveButton = ({ userData }: Props) => {
   const savedSearches = userData?.savedSearches ?? [];
 
   useEffect(() => {
-    setError('');
+    setError("");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [window.location.search]);
 
@@ -73,11 +73,11 @@ const SearchSaveButton = ({ userData }: Props) => {
   };
 
   const saveSearch = async () => {
-    setError('');
+    setError("");
     setLoading(true);
     const oldSearchList = savedSearches;
     if (!oldSearchList) {
-      handleFailure('fetchFailed');
+      handleFailure("fetchFailed");
       return;
     }
 
@@ -86,9 +86,9 @@ const SearchSaveButton = ({ userData }: Props) => {
     if (!oldSearchList.find((s) => s === getSavedSearchRelativeUrl(newSearch))) {
       mutateAsync({ savedSearches: newSearchList })
         .then(() => handleSuccess())
-        .catch(() => handleFailure('other'));
+        .catch(() => handleFailure("other"));
     } else {
-      handleFailure('alreadyExist');
+      handleFailure("alreadyExist");
     }
   };
 
@@ -100,13 +100,13 @@ const SearchSaveButton = ({ userData }: Props) => {
       <SaveButton
         isSaving={loading}
         showSaved={success}
-        defaultText={isSaved ? 'alreadySaved' : 'saveSearch'}
+        defaultText={isSaved ? "alreadySaved" : "saveSearch"}
         onClick={saveSearch}
         disabled={isSaved || success}
       />
       {error && (
         <WarningText>
-          <span>{t('searchPage.save.' + error)}</span>
+          <span>{t("searchPage.save." + error)}</span>
         </WarningText>
       )}
     </StyledWrapper>

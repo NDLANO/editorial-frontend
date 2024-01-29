@@ -6,29 +6,21 @@
  *
  */
 
-import { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { colors } from '@ndla/core';
-import { SubjectMaterial } from '@ndla/icons/contentType';
-import {
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  Modal,
-  ModalTitle,
-  ModalTrigger,
-  ModalContent,
-} from '@ndla/modal';
-import { IConceptSummary } from '@ndla/types-backend/concept-api';
-import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
-import ElementList from '../../../containers/FormikForm/components/ElementList';
-import { searchConcepts } from '../../../modules/concept/conceptApi';
-import { search as searchArticles } from '../../../modules/search/searchApi';
-import { normalPaddingCSS } from '../../HowTo';
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { colors } from "@ndla/core";
+import { SubjectMaterial } from "@ndla/icons/contentType";
+import { ModalHeader, ModalCloseButton, ModalBody, Modal, ModalTitle, ModalTrigger, ModalContent } from "@ndla/modal";
+import { IConceptSummary } from "@ndla/types-backend/concept-api";
+import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
+import ElementList from "../../../containers/FormikForm/components/ElementList";
+import { searchConcepts } from "../../../modules/concept/conceptApi";
+import { search as searchArticles } from "../../../modules/search/searchApi";
+import { normalPaddingCSS } from "../../HowTo";
 
-type EmbedType = 'image' | 'audio' | 'concept' | 'gloss' | 'article';
+type EmbedType = "image" | "audio" | "concept" | "gloss" | "article";
 
 interface Props {
   id?: number;
@@ -45,29 +37,23 @@ const ImageInformationIcon = styled(SubjectMaterial)`
   cursor: pointer;
 `;
 
-type SearchEmbedTypes =
-  | 'image'
-  | 'audio'
-  | 'concept'
-  | 'gloss'
-  | 'content-link'
-  | 'related-content';
+type SearchEmbedTypes = "image" | "audio" | "concept" | "gloss" | "content-link" | "related-content";
 
 const convertToSearchEmbedTypes = (embedType: EmbedType): SearchEmbedTypes[] => {
   switch (embedType) {
-    case 'article':
-      return ['content-link', 'related-content'];
-    case 'gloss':
-      return ['concept'];
+    case "article":
+      return ["content-link", "related-content"];
+    case "gloss":
+      return ["concept"];
     default:
       return [embedType];
   }
 };
 
 const searchObjects = (embedId: number, embedType: EmbedType) => ({
-  'embed-id': embedId,
-  'embed-resource': convertToSearchEmbedTypes(embedType).join(','),
-  'page-size': 50,
+  "embed-id": embedId,
+  "embed-resource": convertToSearchEmbedTypes(embedType).join(","),
+  "page-size": 50,
 });
 
 const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcepts }: Props) => {
@@ -79,7 +65,7 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
       searchArticles(searchObjects(id, type)).then((result) => {
         if (shouldUpdateState) setArticles(result.results);
       });
-      (type === 'image' || type === 'audio') &&
+      (type === "image" || type === "audio") &&
         searchConcepts(searchObjects(id, type)).then((result) => {
           if (shouldUpdateState) setConcepts?.(result.results);
         });
@@ -108,7 +94,7 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
       <ModalContent>
         <ModalHeader>
           <ModalTitle>
-            {t('form.embedConnections.title', {
+            {t("form.embedConnections.title", {
               resource: t(`form.embedConnections.type.${type}`),
             })}
           </ModalTitle>
@@ -116,11 +102,15 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
         </ModalHeader>
         <ModalBody>
           <p>
-            {t('form.embedConnections.sectionTitleArticle', {
+            {t("form.embedConnections.sectionTitleArticle", {
               resource: t(`form.embedConnections.type.${type}`),
-            })}{' '}
+            })}{" "}
             <em>
-              ({t('form.embedConnections.articles', { count: articles ? articles.length : 0 })})
+              (
+              {t("form.embedConnections.articles", {
+                count: articles ? articles.length : 0,
+              })}
+              )
             </em>
           </p>
           <ElementList
@@ -132,15 +122,15 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
             isDraggable={false}
           />
 
-          {(type === 'image' || type === 'audio') && (
+          {(type === "image" || type === "audio") && (
             <>
               <p>
-                {t('form.embedConnections.sectionTitleConcept', {
+                {t("form.embedConnections.sectionTitleConcept", {
                   resource: t(`form.embedConnections.type.${type}`),
-                })}{' '}
+                })}{" "}
                 <em>
                   (
-                  {t('form.embedConnections.concepts', {
+                  {t("form.embedConnections.concepts", {
                     count: concepts ? concepts.length : 0,
                   })}
                   )

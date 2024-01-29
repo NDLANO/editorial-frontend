@@ -6,12 +6,12 @@
  *
  */
 
-import { JwtPayload, jwtDecode as decode } from 'jwt-decode';
+import { JwtPayload, jwtDecode as decode } from "jwt-decode";
 
 interface NDLAToken extends JwtPayload {
-  'https://ndla.no/ndla_id'?: string;
-  'https://ndla.no/user_name'?: string;
-  'https://ndla.no/user_email'?: string;
+  "https://ndla.no/ndla_id"?: string;
+  "https://ndla.no/user_name"?: string;
+  "https://ndla.no/user_email"?: string;
   scope?: string;
   permissions?: string[];
 }
@@ -25,19 +25,19 @@ export function expiresIn(token: string): number {
 export function ndlaId(token?: string | null) {
   if (!token) return null;
   const decoded = decode<NDLAToken>(token);
-  return decoded['https://ndla.no/ndla_id'];
+  return decoded["https://ndla.no/ndla_id"];
 }
 
 export function ndlaUserName(token?: string | null) {
   if (!token) return null;
   const decoded = decode<NDLAToken>(token);
-  return decoded['https://ndla.no/user_name'];
+  return decoded["https://ndla.no/user_name"];
 }
 
 export function ndlaUserEmail(token?: string | null) {
   if (!token) return null;
   const decoded = decode<NDLAToken>(token);
-  return decoded['https://ndla.no/user_email'];
+  return decoded["https://ndla.no/user_email"];
 }
 
 export const decodeToken = (accessToken: string | null): NDLAToken | null => {

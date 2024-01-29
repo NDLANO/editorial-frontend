@@ -6,8 +6,8 @@
  *
  */
 
-import { jsx as slatejsx } from 'slate-hyperscript';
-import { TableElement, TableCaptionElement, TableCellElement } from './interfaces';
+import { jsx as slatejsx } from "slate-hyperscript";
+import { TableElement, TableCaptionElement, TableCellElement } from "./interfaces";
 import {
   TYPE_TABLE,
   TYPE_TABLE_CAPTION,
@@ -16,11 +16,11 @@ import {
   TYPE_TABLE_HEAD,
   TYPE_TABLE_BODY,
   TYPE_TABLE_CELL_HEADER,
-} from './types';
-import { defaultParagraphBlock } from '../paragraph/utils';
+} from "./types";
+import { defaultParagraphBlock } from "../paragraph/utils";
 
 export const defaultTableBlock = (height: number, width: number) => {
-  return slatejsx('element', { type: TYPE_TABLE, colgroups: '' }, [
+  return slatejsx("element", { type: TYPE_TABLE, colgroups: "" }, [
     defaultTableCaptionBlock(),
     defaultTableHeadBlock(width),
     defaultTableBodyBlock(height - 1, width),
@@ -28,12 +28,12 @@ export const defaultTableBlock = (height: number, width: number) => {
 };
 
 export const defaultTableCaptionBlock = () => {
-  return slatejsx('element', { type: TYPE_TABLE_CAPTION }, [{ text: '' }]) as TableCaptionElement;
+  return slatejsx("element", { type: TYPE_TABLE_CAPTION }, [{ text: "" }]) as TableCaptionElement;
 };
 
 export const defaultTableCellBlock = () => {
   return slatejsx(
-    'element',
+    "element",
     {
       type: TYPE_TABLE_CELL,
       data: {
@@ -50,7 +50,7 @@ export const defaultTableCellBlock = () => {
 
 export const defaultTableCellHeaderBlock = () => {
   return slatejsx(
-    'element',
+    "element",
     {
       type: TYPE_TABLE_CELL_HEADER,
       data: {
@@ -67,7 +67,7 @@ export const defaultTableCellHeaderBlock = () => {
 
 export const defaultTableRowBlock = (width: number, header = false) => {
   return slatejsx(
-    'element',
+    "element",
     {
       type: TYPE_TABLE_ROW,
     },
@@ -77,7 +77,7 @@ export const defaultTableRowBlock = (width: number, header = false) => {
 
 export const defaultTableHeadBlock = (width: number) => {
   return slatejsx(
-    'element',
+    "element",
     {
       type: TYPE_TABLE_HEAD,
     },
@@ -87,7 +87,7 @@ export const defaultTableHeadBlock = (width: number) => {
 
 export const defaultTableBodyBlock = (height: number, width: number) => {
   return slatejsx(
-    'element',
+    "element",
     {
       type: TYPE_TABLE_BODY,
     },

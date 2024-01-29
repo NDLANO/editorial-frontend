@@ -6,26 +6,24 @@
  *
  */
 
-import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
-import { blockQuoteRenderer } from '../../../../components/SlateEditor/plugins/blockquote/render';
-import { breakRenderer } from '../../../../components/SlateEditor/plugins/break/render';
-import { inlineConceptRenderer } from '../../../../components/SlateEditor/plugins/concept/inline/render';
-import { definitionListRenderer } from '../../../../components/SlateEditor/plugins/definitionList/render';
-import { divRenderer } from '../../../../components/SlateEditor/plugins/div/render';
-import { headingRenderer } from '../../../../components/SlateEditor/plugins/heading/render';
-import { linkRenderer } from '../../../../components/SlateEditor/plugins/link/render';
-import { listRenderer } from '../../../../components/SlateEditor/plugins/list/render';
-import { markRenderer } from '../../../../components/SlateEditor/plugins/mark/render';
-import { mathRenderer } from '../../../../components/SlateEditor/plugins/mathml/mathRenderer';
-import { noEmbedRenderer } from '../../../../components/SlateEditor/plugins/noEmbed/render';
-import { paragraphRenderer } from '../../../../components/SlateEditor/plugins/paragraph/render';
-import { sectionRenderer } from '../../../../components/SlateEditor/plugins/section/render';
-import { spanRenderer } from '../../../../components/SlateEditor/plugins/span/render';
+import { SlatePlugin } from "../../../../components/SlateEditor/interfaces";
+import { blockQuoteRenderer } from "../../../../components/SlateEditor/plugins/blockquote/render";
+import { breakRenderer } from "../../../../components/SlateEditor/plugins/break/render";
+import { inlineConceptRenderer } from "../../../../components/SlateEditor/plugins/concept/inline/render";
+import { definitionListRenderer } from "../../../../components/SlateEditor/plugins/definitionList/render";
+import { divRenderer } from "../../../../components/SlateEditor/plugins/div/render";
+import { headingRenderer } from "../../../../components/SlateEditor/plugins/heading/render";
+import { linkRenderer } from "../../../../components/SlateEditor/plugins/link/render";
+import { listRenderer } from "../../../../components/SlateEditor/plugins/list/render";
+import { markRenderer } from "../../../../components/SlateEditor/plugins/mark/render";
+import { mathRenderer } from "../../../../components/SlateEditor/plugins/mathml/mathRenderer";
+import { noEmbedRenderer } from "../../../../components/SlateEditor/plugins/noEmbed/render";
+import { paragraphRenderer } from "../../../../components/SlateEditor/plugins/paragraph/render";
+import { sectionRenderer } from "../../../../components/SlateEditor/plugins/section/render";
 
 // Plugins are checked from last to first
 export const topicArticleRenderers = (articleLanguage: string): SlatePlugin[] => [
   sectionRenderer,
-  spanRenderer,
   divRenderer,
   paragraphRenderer(articleLanguage),
   noEmbedRenderer,

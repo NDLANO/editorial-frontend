@@ -6,15 +6,15 @@
  *
  */
 
-import { Children, ReactElement, memo, useCallback, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { AccordionRoot } from '@ndla/accordion';
-import { ButtonV2 } from '@ndla/button';
-import { fonts, spacing } from '@ndla/core';
-import { Switch } from '@ndla/switch';
-import { FormAccordionProps } from './FormAccordion';
-import { useWideArticle } from '../WideArticleEditorProvider';
+import { Children, ReactElement, memo, useCallback, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { AccordionRoot } from "@ndla/accordion";
+import { ButtonV2 } from "@ndla/button";
+import { fonts, spacing } from "@ndla/core";
+import { Switch } from "@ndla/switch";
+import { FormAccordionProps } from "./FormAccordion";
+import { useWideArticle } from "../WideArticleEditorProvider";
 
 type ChildType = ReactElement<FormAccordionProps> | undefined | false;
 
@@ -44,7 +44,7 @@ const FlexWrapper = styled.div`
 const StyledSwitch = styled(Switch)`
   > label {
     font-weight: ${fonts.weight.semibold};
-    ${fonts.sizes('16px')};
+    ${fonts.sizes("16px")};
   }
   padding-right: ${spacing.small};
 `;
@@ -73,16 +73,16 @@ const FormAccordions = ({ defaultOpen, children, articleId, articleType }: Props
   return (
     <AccordionsWrapper>
       <FlexWrapper>
-        {!!articleId && articleType === 'frontpage-article' && (
+        {!!articleId && articleType === "frontpage-article" && (
           <StyledSwitch
             id={articleId}
-            label={t('frontpageArticleForm.isFrontpageArticle.toggleArticle')}
+            label={t("frontpageArticleForm.isFrontpageArticle.toggleArticle")}
             checked={isWideArticle}
             onChange={() => toggleWideArticles(articleId)}
           />
         )}
         <OpenAllButton onClick={onChangeAll} variant="ghost">
-          {allOpen ? t('accordion.closeAll') : t('accordion.openAll')}
+          {allOpen ? t("accordion.closeAll") : t("accordion.openAll")}
         </OpenAllButton>
       </FlexWrapper>
       <AccordionRoot type="multiple" value={openAccordions} onValueChange={setOpenAccordions}>

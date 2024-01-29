@@ -6,11 +6,11 @@
  *
  */
 
-import { useQuery, UseQueryOptions } from '@tanstack/react-query';
-import { Version } from '@ndla/types-taxonomy';
-import { fetchVersion, fetchVersions } from './versionApi';
-import { GetVersionsParams } from './versionApiTypes';
-import { VERSION, VERSIONS } from '../../../queryKeys';
+import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { Version } from "@ndla/types-taxonomy";
+import { fetchVersion, fetchVersions } from "./versionApi";
+import { GetVersionsParams } from "./versionApiTypes";
+import { VERSION, VERSIONS } from "../../../queryKeys";
 
 export const versionQueryKeys = {
   version: (params?: Partial<UseVersionParams>) => [VERSION, params] as const,
@@ -18,10 +18,7 @@ export const versionQueryKeys = {
 };
 
 interface UseVersionsParams extends GetVersionsParams {}
-export const useVersions = (
-  params?: UseVersionsParams,
-  options?: Partial<UseQueryOptions<Version[]>>,
-) => {
+export const useVersions = (params?: UseVersionsParams, options?: Partial<UseQueryOptions<Version[]>>) => {
   return useQuery<Version[]>({
     queryKey: versionQueryKeys.versions(params),
     queryFn: () => fetchVersions({ ...params }),
@@ -32,10 +29,7 @@ export const useVersions = (
 interface UseVersionParams {
   id: string;
 }
-export const useVersion = (
-  params: UseVersionParams,
-  options?: Partial<UseQueryOptions<Version>>,
-) => {
+export const useVersion = (params: UseVersionParams, options?: Partial<UseQueryOptions<Version>>) => {
   return useQuery<Version>({
     queryKey: [versionQueryKeys.version(params)],
     queryFn: () => fetchVersion(params),

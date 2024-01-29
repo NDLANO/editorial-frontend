@@ -6,12 +6,12 @@
  *
  */
 
-import { INewArticle, IUpdatedArticle } from '@ndla/types-backend/draft-api';
+import { INewArticle, IUpdatedArticle } from "@ndla/types-backend/draft-api";
 
 export const convertUpdateToNewDraft = (article: IUpdatedArticle): INewArticle => {
   if (!article.language || !article.title || !article.articleType) {
     // This should probably never happen, but will satisfy typescript
-    throw new Error('Error when converting `UpdatedDraftApiType` to `NewDraftApiType`');
+    throw new Error("Error when converting `UpdatedDraftApiType` to `NewDraftApiType`");
   }
 
   return {
@@ -44,9 +44,5 @@ export const nullOrUndefined = (metaImageId?: unknown | null | undefined) => {
 export const getSlugFromTitle = (title: string) => {
   const onlySingleSpace = /\s\s+/g;
   const noIllegalCharacters = /[^a-zA-Z0-9- ]/g;
-  return title
-    .replace(onlySingleSpace, ' ')
-    .replace(noIllegalCharacters, '')
-    .trim()
-    .replace(/\s/g, '-');
+  return title.replace(onlySingleSpace, " ").replace(noIllegalCharacters, "").trim().replace(/\s/g, "-");
 };

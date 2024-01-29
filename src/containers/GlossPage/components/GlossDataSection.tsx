@@ -6,17 +6,17 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { FieldErrorMessage, InputV3, Label, Select } from '@ndla/forms';
-import { Text } from '@ndla/typography';
-import { constants } from '@ndla/ui';
-import ExamplesFieldArray from './ExamplesFieldArray';
-import { GlossAudioField } from './GlossAudioField';
-import TranscriptionsField from './TranscriptionsField';
-import { FormControl, FormField } from '../../../components/FormField';
-import { LANGUAGES } from '../glossData';
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { FieldErrorMessage, InputV3, Label, Select } from "@ndla/forms";
+import { Text } from "@ndla/typography";
+import { constants } from "@ndla/ui";
+import ExamplesFieldArray from "./ExamplesFieldArray";
+import { GlossAudioField } from "./GlossAudioField";
+import TranscriptionsField from "./TranscriptionsField";
+import { FormControl, FormField } from "../../../components/FormField";
+import { LANGUAGES } from "../glossData";
 
 const {
   wordClass: { wordClass },
@@ -48,18 +48,18 @@ const GlossDataSection = ({ glossLanguage }: Props) => {
   return (
     <Wrapper>
       <Text element="h4" textStyle="label-large" margin="none">
-        {t('form.gloss.glossHeading')}
+        {t("form.gloss.glossHeading")}
       </Text>
       <FieldWrapper>
         <FormField name="gloss.originalLanguage">
           {({ field, meta }) => (
             <FormControl isRequired isInvalid={!!meta.error}>
-              <Label visuallyHidden>{t('form.gloss.originalLanguage')}</Label>
+              <Label visuallyHidden>{t("form.gloss.originalLanguage")}</Label>
               <Select {...field}>
                 {!field.value && (
                   <option>
-                    {t('form.gloss.choose', {
-                      label: t('form.gloss.originalLanguage').toLowerCase(),
+                    {t("form.gloss.choose", {
+                      label: t("form.gloss.originalLanguage").toLowerCase(),
                     })}
                   </option>
                 )}
@@ -76,12 +76,12 @@ const GlossDataSection = ({ glossLanguage }: Props) => {
         <FormField name="gloss.wordClass">
           {({ field, meta }) => (
             <FormControl isRequired isInvalid={!!meta.error}>
-              <Label visuallyHidden>{t('form.gloss.wordClass')}</Label>
+              <Label visuallyHidden>{t("form.gloss.wordClass")}</Label>
               <Select {...field}>
                 {!field.value && (
                   <option>
-                    {t('form.gloss.choose', {
-                      label: t('form.gloss.wordClass').toLowerCase(),
+                    {t("form.gloss.choose", {
+                      label: t("form.gloss.wordClass").toLowerCase(),
                     })}
                   </option>
                 )}
@@ -100,9 +100,9 @@ const GlossDataSection = ({ glossLanguage }: Props) => {
         {({ field, meta }) => (
           <StyledFormControl isRequired isInvalid={!!meta.error}>
             <Label textStyle="label-small" margin="none">
-              {t('form.gloss.gloss')}
+              {t("form.gloss.gloss")}
             </Label>
-            <InputV3 {...field} placeholder={t('form.gloss.gloss')} type="text" />
+            <InputV3 {...field} placeholder={t("form.gloss.gloss")} type="text" />
             <FieldErrorMessage>{meta.error}</FieldErrorMessage>
           </StyledFormControl>
         )}
@@ -112,10 +112,10 @@ const GlossDataSection = ({ glossLanguage }: Props) => {
         {({ field, meta }) => (
           <FormControl isInvalid={!!meta.error}>
             <Text textStyle="label-small" margin="none">
-              {t('form.name.audioFile')}
+              {t("form.name.audioFile")}
             </Text>
             <Text margin="small" textStyle="meta-text-medium">
-              {t('form.gloss.audio.helperText')}
+              {t("form.gloss.audio.helperText")}
             </Text>
             <GlossAudioField
               glossLanguage={glossLanguage}
@@ -123,8 +123,8 @@ const GlossDataSection = ({ glossLanguage }: Props) => {
               onElementChange={(data) => {
                 field.onChange({
                   target: {
-                    name: 'visualElement',
-                    value: [{ children: [{ text: '' }], data, type: 'audio' }],
+                    name: "visualElement",
+                    value: [{ children: [{ text: "" }], data, type: "audio" }],
                   },
                 });
               }}

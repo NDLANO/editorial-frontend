@@ -6,32 +6,35 @@
  *
  */
 
-import { Descendant, Editor, Element } from 'slate';
-import { jsx as slatejsx } from 'slate-hyperscript';
-import { TYPE_MATHML } from './types';
-import { onArrowDown, onArrowUp } from './utils';
-import { reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
-import { SlateSerializer } from '../../interfaces';
-import { KEY_ARROW_DOWN, KEY_ARROW_UP } from '../../utils/keys';
+import { Descendant, Editor, Element } from "slate";
+import { jsx as slatejsx } from "slate-hyperscript";
+import { TYPE_MATHML } from "./types";
+import { onArrowDown, onArrowUp } from "./utils";
+import { reduceElementDataAttributes } from "../../../../util/embedTagHelpers";
+import { SlateSerializer } from "../../interfaces";
+import { KEY_ARROW_DOWN, KEY_ARROW_UP } from "../../utils/keys";
 
 export interface MathmlElement {
-  type: 'mathml';
+  type: "mathml";
   data: { [key: string]: string };
   children: Descendant[];
 }
 
 export const mathmlSerializer: SlateSerializer = {
   deserialize(el: HTMLElement) {
-    if (el.tagName.toLowerCase() !== 'math') return;
+    if (el.tagName.toLowerCase() !== "math") return;
     return slatejsx(
-      'element',
-      { type: TYPE_MATHML, data: { ...reduceElementDataAttributes(el), innerHTML: el.innerHTML } },
+      "element",
+      {
+        type: TYPE_MATHML,
+        data: { ...reduceElementDataAttributes(el), innerHTML: el.innerHTML },
+      },
       [{ text: el.textContent }],
     );
   },
   serialize(node: Descendant) {
     if (!Element.isElement(node)) return;
-    if (node.type !== 'mathml') return;
+    if (node.type !== "mathml") return;
     const { innerHTML, ...mathAttributes } = node.data;
 
     return (

@@ -6,22 +6,22 @@
  *
  */
 
-import keyBy from 'lodash/keyBy';
-import { useMemo } from 'react';
-import styled from '@emotion/styled';
-import { breakpoints, mq } from '@ndla/core';
-import { Spinner } from '@ndla/icons';
-import { NodeChild, ResourceType } from '@ndla/types-taxonomy';
-import Resource from './Resource';
-import ResourceBanner from './ResourceBanner';
-import ResourceItems from './ResourceItems';
-import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
-import { DRAFT_RESPONSIBLE } from '../../../constants';
-import { Dictionary } from '../../../interfaces';
-import { useAuth0Responsibles } from '../../../modules/auth0/auth0Queries';
-import { NodeResourceMeta, useNodes } from '../../../modules/nodes/nodeQueries';
-import { groupResourcesByType } from '../../../util/taxonomyHelpers';
-import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
+import keyBy from "lodash/keyBy";
+import { useMemo } from "react";
+import styled from "@emotion/styled";
+import { breakpoints, mq } from "@ndla/core";
+import { Spinner } from "@ndla/icons";
+import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
+import Resource from "./Resource";
+import ResourceBanner from "./ResourceBanner";
+import ResourceItems from "./ResourceItems";
+import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
+import { DRAFT_RESPONSIBLE } from "../../../constants";
+import { Dictionary } from "../../../interfaces";
+import { useAuth0Responsibles } from "../../../modules/auth0/auth0Queries";
+import { NodeResourceMeta, useNodes } from "../../../modules/nodes/nodeQueries";
+import { groupResourcesByType } from "../../../util/taxonomyHelpers";
+import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
 const ResourceWrapper = styled.div`
   overflow-y: auto;
@@ -53,8 +53,7 @@ const ResourcesContainer = ({
   contentMetaLoading,
 }: Props) => {
   const resourceTypesWithoutMissing = useMemo(
-    () =>
-      resourceTypes.filter((rt) => rt.id !== 'missing').map((rt) => ({ id: rt.id, name: rt.name })),
+    () => resourceTypes.filter((rt) => rt.id !== "missing").map((rt) => ({ id: rt.id, name: rt.name })),
     [resourceTypes],
   );
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -98,11 +97,7 @@ const ResourcesContainer = ({
         {currentNode.name && (
           <StyledResource
             currentNodeId={currentNode.id}
-            responsible={
-              currentMeta?.responsible
-                ? users?.[currentMeta.responsible.responsibleId]?.name
-                : undefined
-            }
+            responsible={currentMeta?.responsible ? users?.[currentMeta.responsible.responsibleId]?.name : undefined}
             resource={{
               ...currentNode,
               paths,

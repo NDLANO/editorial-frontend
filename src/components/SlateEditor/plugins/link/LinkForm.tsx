@@ -6,25 +6,19 @@
  *
  */
 
-import { Formik, Form, FormikHelpers } from 'formik';
-import { useTranslation } from 'react-i18next';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { colors, spacing } from '@ndla/core';
-import {
-  isNDLAArticleUrl,
-  isNDLAEdPathUrl,
-  isNDLALearningPathUrl,
-  isNDLATaxonomyUrl,
-  isPlainId,
-} from './EditLink';
-import { Model } from './Link';
-import config from '../../../../config';
-import { Checkbox } from '../../../../containers/FormikForm';
-import FormikField from '../../../FormikField';
-import validateFormik from '../../../formikValidationSchema';
-import { isUrl } from '../../../validators';
+import { Formik, Form, FormikHelpers } from "formik";
+import { useTranslation } from "react-i18next";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { colors, spacing } from "@ndla/core";
+import { isNDLAArticleUrl, isNDLAEdPathUrl, isNDLALearningPathUrl, isNDLATaxonomyUrl, isPlainId } from "./EditLink";
+import { Model } from "./Link";
+import config from "../../../../config";
+import { Checkbox } from "../../../../containers/FormikForm";
+import FormikField from "../../../FormikField";
+import validateFormik from "../../../formikValidationSchema";
+import { isUrl } from "../../../validators";
 
 const StyledField = styled.div`
   gap: ${spacing.xsmall};
@@ -69,13 +63,13 @@ const getLinkFieldStyle = (input: string) => {
       }
     `;
   } else {
-    return '';
+    return "";
   }
 };
 
 export const getInitialValues = (link: Partial<Model> = {}): Model => ({
-  text: link.text || '',
-  href: link.href || '',
+  text: link.text || "",
+  href: link.href || "",
   checkbox: link.checkbox || false,
 });
 
@@ -100,34 +94,34 @@ const LinkForm = ({ onSave, link, isEdit, onRemove, onClose }: Props) => {
     <Formik
       initialValues={getInitialValues(link)}
       onSubmit={handleSave}
-      validate={(values) => validateFormik(values, linkValidationRules, t, 'linkForm')}
+      validate={(values) => validateFormik(values, linkValidationRules, t, "linkForm")}
     >
       {({ submitForm, values }) => (
         <Form data-testid="link_form">
           <FormikField
             name="text"
             type="text"
-            label={t('form.content.link.text')}
+            label={t("form.content.link.text")}
             // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus={true}
           />
           <FormikField
             name="href"
-            description={t('form.content.link.description', {
+            description={t("form.content.link.description", {
               url: config.ndlaFrontendDomain,
               interpolation: { escapeValue: false },
             })}
-            label={t('form.content.link.href')}
+            label={t("form.content.link.href")}
             css={getLinkFieldStyle(values.href)}
           />
-          <Checkbox name="checkbox" label={t('form.content.link.newTab')} />
+          <Checkbox name="checkbox" label={t("form.content.link.newTab")} />
           <StyledField>
-            {isEdit ? <ButtonV2 onClick={onRemove}>{t('form.content.link.remove')}</ButtonV2> : ''}
+            {isEdit ? <ButtonV2 onClick={onRemove}>{t("form.content.link.remove")}</ButtonV2> : ""}
             <ButtonV2 variant="outline" onClick={onClose}>
-              {t('form.abort')}
+              {t("form.abort")}
             </ButtonV2>
             <ButtonV2 onClick={submitForm}>
-              {isEdit ? t('form.content.link.update') : t('form.content.link.insert')}
+              {isEdit ? t("form.content.link.update") : t("form.content.link.insert")}
             </ButtonV2>
           </StyledField>
         </Form>

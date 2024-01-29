@@ -6,10 +6,10 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-import { ISeriesSummary } from '@ndla/types-backend/audio-api';
-import { toEditPodcastSeries } from '../../../../util/routeHelpers';
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+import { ISeriesSummary } from "@ndla/types-backend/audio-api";
+import { toEditPodcastSeries } from "../../../../util/routeHelpers";
 import {
   StyledSearchContent,
   StyledSearchDescription,
@@ -17,7 +17,7 @@ import {
   StyledSearchOtherLink,
   StyledSearchResult,
   StyledSearchTitle,
-} from '../form/StyledSearchComponents';
+} from "../form/StyledSearchComponents";
 
 interface Props {
   series: ISeriesSummary;
@@ -28,14 +28,14 @@ const SearchPodcastSeries = ({ series }: Props) => {
   return (
     <StyledSearchResult>
       <StyledSearchImageContainer>
-        <img src={series.coverPhoto.url + '?width=200'} alt={`${series.coverPhoto.altText}`} />
+        <img src={series.coverPhoto.url + "?width=200"} alt={`${series.coverPhoto.altText}`} />
       </StyledSearchImageContainer>
       <StyledSearchContent>
         <Link to={toEditPodcastSeries(series.id, series.title.language)}>
-          <StyledSearchTitle>{series.title.title || t('podcastSearch.noTitle')}</StyledSearchTitle>
+          <StyledSearchTitle>{series.title.title || t("podcastSearch.noTitle")}</StyledSearchTitle>
         </Link>
         <StyledSearchDescription>
-          {`${t('searchPage.language')}: `}
+          {`${t("searchPage.language")}: `}
           {series.supportedLanguages?.map((lang) => (
             <StyledSearchOtherLink key={lang}>{t(`languages.${lang}`)}</StyledSearchOtherLink>
           ))}

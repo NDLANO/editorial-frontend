@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { Editor, Element, NodeEntry, Path, Text, Transforms, Node } from 'slate';
-import { createNode } from './normalizationHelpers';
-import { ElementType } from '../interfaces';
-import { TYPE_DISCLAIMER } from '../plugins/uuDisclaimer/types';
+import { Editor, Element, NodeEntry, Path, Text, Transforms, Node } from "slate";
+import { createNode } from "./normalizationHelpers";
+import { ElementType } from "../interfaces";
+import { TYPE_DISCLAIMER } from "../plugins/uuDisclaimer/types";
 
 interface DefaultNodeRule {
   allowed: ElementType[];
@@ -115,7 +115,9 @@ const normalizeNodes = (editor: Editor, entry: NodeEntry, config: NormalizerConf
     if (nodes) {
       // a. Wrap if text
       if (Text.isText(child)) {
-        Transforms.wrapNodes(editor, createNode(nodes.defaultType), { at: [...path, index] });
+        Transforms.wrapNodes(editor, createNode(nodes.defaultType), {
+          at: [...path, index],
+        });
         return true;
         // b. Unwrap if incorrect
       } else if (!nodes.allowed.includes(child.type)) {
@@ -128,7 +130,9 @@ const normalizeNodes = (editor: Editor, entry: NodeEntry, config: NormalizerConf
   if (children.length === 0) {
     const rule = firstNode || lastNode || nodes;
     if (rule?.defaultType) {
-      Transforms.insertNodes(editor, createNode(rule.defaultType), { at: [...path, 0] });
+      Transforms.insertNodes(editor, createNode(rule.defaultType), {
+        at: [...path, 0],
+      });
       return true;
     }
   }
@@ -136,11 +140,7 @@ const normalizeNodes = (editor: Editor, entry: NodeEntry, config: NormalizerConf
   return false;
 };
 
-const normalizePrevious = (
-  editor: Editor,
-  entry: NodeEntry,
-  settings: DefaultNodeRule,
-): boolean => {
+const normalizePrevious = (editor: Editor, entry: NodeEntry, settings: DefaultNodeRule): boolean => {
   const [, path] = entry;
   const { defaultType, allowed } = settings;
 
@@ -193,7 +193,9 @@ const normalizeParent = (editor: Editor, entry: NodeEntry, settings: ParentNodeR
   // 1. If parent element is incorrect, change current node to default element
   if (!Element.isElement(parent) || !allowed.includes(parent.type)) {
     if (defaultType) {
-      Transforms.setNodes<Element>(editor, createNode(defaultType), { at: path });
+      Transforms.setNodes<Element>(editor, createNode(defaultType), {
+        at: path,
+      });
     } else {
       Transforms.unwrapNodes(editor, { at: path });
     }
@@ -203,11 +205,7 @@ const normalizeParent = (editor: Editor, entry: NodeEntry, settings: ParentNodeR
   return false;
 };
 
-export const defaultBlockNormalizer = (
-  editor: Editor,
-  entry: NodeEntry,
-  config: NormalizerConfig,
-): boolean => {
+export const defaultBlockNormalizer = (editor: Editor, entry: NodeEntry, config: NormalizerConfig): boolean => {
   const [node] = entry;
 
   if (!Element.isElement(node)) return false;

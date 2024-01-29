@@ -6,25 +6,23 @@
  *
  */
 
-import { ComponentType } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Navigate, Route, Routes, useLocation, useParams } from 'react-router-dom';
-import styled from '@emotion/styled';
-import loadable from '@loadable/component';
-import { UseQueryOptions, UseQueryResult } from '@tanstack/react-query';
-import { HelmetWithTracker } from '@ndla/tracker';
-import { NynorskTranslateProvider } from './NynorskTranslateProvider';
-import Spinner from './Spinner';
-import { useWideArticle } from './WideArticleEditorProvider';
-import { MAX_PAGE_WIDTH } from '../constants';
-import Footer from '../containers/App/components/Footer';
+import { ComponentType } from "react";
+import { useTranslation } from "react-i18next";
+import { Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
+import styled from "@emotion/styled";
+import { UseQueryOptions, UseQueryResult } from "@tanstack/react-query";
+import { HelmetWithTracker } from "@ndla/tracker";
+import { NynorskTranslateProvider } from "./NynorskTranslateProvider";
+import Spinner from "./Spinner";
+import { useWideArticle } from "./WideArticleEditorProvider";
+import { MAX_PAGE_WIDTH } from "../constants";
+import Footer from "../containers/App/components/Footer";
 import {
   MAX_DEFAULT_WIDTH_FRONTPAGE_WITH_COMMENTS,
   MAX_WIDTH_FRONTPAGE_WITH_COMMENTS,
-} from '../containers/ArticlePage/styles';
-import { usePreviousLocation } from '../util/routeHelpers';
-
-const NotFoundPage = loadable(() => import('../containers/NotFoundPage/NotFoundPage'));
+} from "../containers/ArticlePage/styles";
+import NotFoundPage from "../containers/NotFoundPage/NotFoundPage";
+import { usePreviousLocation } from "../util/routeHelpers";
 
 const Wrapper = styled.div`
   display: flex;
@@ -40,11 +38,11 @@ const PageContent = styled.div`
 
   max-width: ${MAX_PAGE_WIDTH}px;
 
-  &[data-frontpage='true'] {
+  &[data-frontpage="true"] {
     max-width: ${MAX_DEFAULT_WIDTH_FRONTPAGE_WITH_COMMENTS}px;
   }
 
-  &[data-wide='true'] {
+  &[data-wide="true"] {
     max-width: ${MAX_WIDTH_FRONTPAGE_WITH_COMMENTS}px;
   }
 `;
@@ -61,10 +59,7 @@ interface Props<T extends BaseResource> {
   CreateComponent: ComponentType;
   EditComponent: ComponentType<ResourceComponentProps>;
   className?: string;
-  useHook: (
-    params: { id: number; language?: string },
-    options?: Partial<UseQueryOptions<T>>,
-  ) => UseQueryResult<T>;
+  useHook: (params: { id: number; language?: string }, options?: Partial<UseQueryOptions<T>>) => UseQueryResult<T>;
   createUrl: string;
   titleTranslationKey?: string;
   isFrontpageArticle?: boolean;
@@ -84,11 +79,7 @@ const ResourcePage = <T extends BaseResource>({
   const { isWideArticle } = useWideArticle();
   return (
     <Wrapper>
-      <PageContent
-        className={className}
-        data-wide={isWideArticle}
-        data-frontpage={isFrontpageArticle}
-      >
+      <PageContent className={className} data-wide={isWideArticle} data-frontpage={isFrontpageArticle}>
         {titleTranslationKey && <HelmetWithTracker title={t(titleTranslationKey)} />}
         <Routes>
           <Route path="new" element={<CreateComponent />} />
@@ -112,10 +103,7 @@ const ResourcePage = <T extends BaseResource>({
 
 interface EditResourceRedirectProps<T extends BaseResource> {
   isNewlyCreated: boolean;
-  useHook: (
-    params: { id: number; language?: string },
-    options?: Partial<UseQueryOptions<T>>,
-  ) => UseQueryResult<T>;
+  useHook: (params: { id: number; language?: string }, options?: Partial<UseQueryOptions<T>>) => UseQueryResult<T>;
   Component: ComponentType<ResourceComponentProps>;
 }
 
@@ -127,16 +115,12 @@ const EditResourceRedirect = <T extends BaseResource>({
   const { i18n } = useTranslation();
   const { pathname } = useLocation();
   const locale = i18n.language;
-  const { id } = useParams<'id'>();
+  const { id } = useParams<"id">();
   const parsedId = Number(id);
-  const { data, error, isLoading } = useHook(
-    { id: parsedId, language: undefined },
-    { enabled: !!parsedId },
-  );
+  const { data, error, isLoading } = useHook({ id: parsedId, language: undefined }, { enabled: !!parsedId });
   if (isLoading) return <Spinner />;
   if (error || !data || !parsedId) return <NotFoundPage />;
-  const supportedLanguage =
-    data.supportedLanguages.find((l) => l === locale) ?? data.supportedLanguages[0];
+  const supportedLanguage = data.supportedLanguages.find((l) => l === locale) ?? data.supportedLanguages[0];
 
   return (
     <Routes>
@@ -144,10 +128,7 @@ const EditResourceRedirect = <T extends BaseResource>({
         path="/:selectedLanguage/"
         element={<EditComponentWrapper isNewlyCreated={isNewlyCreated} Component={Component} />}
       />
-      <Route
-        path="/"
-        element={<Navigate replace state={{ from: pathname }} to={supportedLanguage} />}
-      />
+      <Route path="/" element={<Navigate replace state={{ from: pathname }} to={supportedLanguage} />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
@@ -159,7 +140,7 @@ interface EditComponentWrapperProps {
 }
 
 const EditComponentWrapper = ({ isNewlyCreated, Component }: EditComponentWrapperProps) => {
-  const { selectedLanguage } = useParams<'selectedLanguage'>();
+  const { selectedLanguage } = useParams<"selectedLanguage">();
 
   return (
     <NynorskTranslateProvider>

@@ -6,12 +6,12 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { colors } from '@ndla/core';
-import { Check } from '@ndla/icons/editor';
-import { IStatus } from '@ndla/types-backend/search-api';
-import { CellWrapper } from './WorkListTabContent';
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { colors } from "@ndla/core";
+import { Check } from "@ndla/icons/editor";
+import { IStatus } from "@ndla/types-backend/search-api";
+import { CellWrapper } from "./WorkListTabContent";
 
 const IconWrapper = styled.div`
   overflow: hidden;
@@ -35,18 +35,15 @@ interface Props {
 
 const StatusCell = ({ status }: Props) => {
   const { t } = useTranslation();
-  const published = status?.current === 'PUBLISHED' || status?.other?.includes('PUBLISHED');
-  const statusTitle = status?.current ? t(`form.status.${status.current.toLowerCase()}`) : '';
+  const published = status?.current === "PUBLISHED" || status?.other?.includes("PUBLISHED");
+  const statusTitle = status?.current ? t(`form.status.${status.current.toLowerCase()}`) : "";
 
   return (
     <CellWrapper>
       <TextWrapper title={statusTitle}>{statusTitle}</TextWrapper>
       {published && (
         <IconWrapper>
-          <StyledCheckIcon
-            title={t('form.workflow.published')}
-            aria-label={t('form.workflow.published')}
-          />
+          <StyledCheckIcon title={t("form.workflow.published")} aria-label={t("form.workflow.published")} />
         </IconWrapper>
       )}
     </CellWrapper>

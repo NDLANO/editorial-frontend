@@ -6,8 +6,12 @@
  *
  */
 
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
 import { defineConfig } from '@playwright/test';
-import { join } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 export const STORAGE_STATE = join(__dirname, 'e2e/.auth/user.json');
 
@@ -29,7 +33,7 @@ export default defineConfig({
     { name: 'setup', testMatch: 'e2e/auth.setup.ts' },
     {
       name: 'specs',
-      testMatch: '**/*.spec.ts',
+      testMatch: 'e2e/**/*.spec.ts',
       dependencies: ['setup'],
       use: {
         viewport: {
@@ -44,7 +48,7 @@ export default defineConfig({
   // Automatically run against prod-build on CI for speed and accuracy.
   webServer: process.env.CI
     ? {
-        command: 'cross-env NODE_ENV=production node build/server',
+        command: 'cross-env NODE_ENV=production node build/server.mjs',
         port: 3000,
       }
     : undefined,

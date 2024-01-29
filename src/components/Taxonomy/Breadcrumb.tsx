@@ -5,13 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { Fragment, useMemo } from 'react';
-import styled from '@emotion/styled';
-import { colors, fonts } from '@ndla/core';
-import { ChevronRight } from '@ndla/icons/common';
-import SafeLink from '@ndla/safelink';
-import { Node } from '@ndla/types-taxonomy';
-import { MinimalNodeChild } from '../../containers/ArticlePage/LearningResourcePage/components/LearningResourceTaxonomy';
+import { Fragment, useMemo } from "react";
+import styled from "@emotion/styled";
+import { colors, fonts } from "@ndla/core";
+import { ChevronRight } from "@ndla/icons/common";
+import SafeLink from "@ndla/safelink";
+import { Node } from "@ndla/types-taxonomy";
+import { MinimalNodeChild } from "../../containers/ArticlePage/LearningResourcePage/components/LearningResourceTaxonomy";
 
 interface Props {
   error?: boolean;
@@ -27,25 +27,28 @@ const StyledBreadCrumb = styled.div`
 
 const StyledLink = styled(SafeLink)`
   color: ${colors.brand.primary};
-  &[data-visible='false'] {
+  &[data-visible="false"] {
     font-style: italic;
     color: ${colors.brand.grey};
   }
 `;
 
 const StyledSpan = styled.span`
-  white-space: 'nowrap';
+  white-space: "nowrap";
 `;
 
 const Breadcrumb = ({ node, error }: Props) => {
-  let url = '/structure';
+  let url = "/structure";
 
   const crumbs = useMemo(() => {
     const paths = node.path
-      .split('/')
-      .filter((id) => id && !id.includes('resource:'))
+      .split("/")
+      .filter((id) => id && !id.includes("resource:"))
       .map((id) => `urn:${id}`);
-    return paths.map((path, index) => ({ id: path, name: node.breadcrumbs[index] }));
+    return paths.map((path, index) => ({
+      id: path,
+      name: node.breadcrumbs[index],
+    }));
   }, [node.breadcrumbs, node.path]);
 
   return (

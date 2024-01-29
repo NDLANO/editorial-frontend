@@ -6,23 +6,28 @@
  *
  */
 
-import { Editor, Element, Path, Transforms, Node, Range, Point } from 'slate';
-import { TYPE_DEFINITION_TERM, TYPE_DEFINITION_DESCRIPTION } from '../types';
-import { definitionDescription, definitionTerm } from '../utils/defaultBlocks';
+import { Editor, Element, Path, Transforms, Node, Range, Point } from "slate";
+import { ReactEditor } from "slate-react";
+import { getEditorAncestors } from "../../toolbar/toolbarState";
+import { TYPE_DEFINITION_TERM, TYPE_DEFINITION_DESCRIPTION } from "../types";
+import { definitionDescription, definitionTerm } from "../utils/defaultBlocks";
 
-const onEnter = (
-  e: KeyboardEvent,
-  editor: Editor,
-  nextOnKeyDown: ((e: KeyboardEvent) => void) | undefined,
-) => {
+const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown: ((e: KeyboardEvent) => void) | undefined) => {
   if ((e.shiftKey && nextOnKeyDown) || (!editor.selection && nextOnKeyDown)) {
     return nextOnKeyDown(e);
-  } else if (!editor.selection) return undefined;
+  } else if (!editor.selection) return;
 
-  const [selectedDefinitionItem, selectedDefinitionItemPath] = Editor.parent(
-    editor,
-    editor.selection.anchor.path,
-  );
+  const [firstChild, secondChild] = getEditorAncestors(editor, true);
+  const selectedDefinitionItem =
+    firstChild.type === TYPE_DEFINITION_DESCRIPTION || firstChild.type === TYPE_DEFINITION_TERM
+      ? firstChild
+      : secondChild;
+
+  if (!selectedDefinitionItem) {
+    return;
+  }
+
+  const selectedDefinitionItemPath = ReactEditor.findPath(editor, selectedDefinitionItem);
 
   if (
     !selectedDefinitionItem ||
@@ -39,7 +44,7 @@ const onEnter = (
     Editor.deleteFragment(editor);
   }
 
-  if (Node.string(selectedDefinitionItem) === '' && selectedDefinitionItem.children.length === 1) {
+  if (Node.string(selectedDefinitionItem) === "" && selectedDefinitionItem.children.length === 1) {
     Editor.withoutNormalizing(editor, () => {
       Transforms.unwrapNodes(editor, {
         at: selectedDefinitionItemPath,
@@ -51,25 +56,18 @@ const onEnter = (
     return;
   }
 
-  Transforms.unsetNodes(editor, 'serializeAsText', {
+  Transforms.unsetNodes(editor, "serializeAsText", {
     match: (node) =>
-      Element.isElement(node) &&
-      (node.type === TYPE_DEFINITION_DESCRIPTION || node.type === TYPE_DEFINITION_TERM),
-    mode: 'lowest',
+      Element.isElement(node) && (node.type === TYPE_DEFINITION_DESCRIPTION || node.type === TYPE_DEFINITION_TERM),
+    mode: "lowest",
   });
 
   const nextPoint = Editor.after(editor, Range.end(editor.selection));
   const listItemEnd = Editor.end(editor, selectedDefinitionItemPath);
 
-  if (
-    (nextPoint && Point.equals(listItemEnd, nextPoint)) ||
-    Point.equals(listItemEnd, editor.selection.anchor)
-  ) {
+  if ((nextPoint && Point.equals(listItemEnd, nextPoint)) || Point.equals(listItemEnd, editor.selection.anchor)) {
     const nextPath = Path.next(selectedDefinitionItemPath);
-    if (
-      Element.isElement(selectedDefinitionItem) &&
-      selectedDefinitionItem.type === TYPE_DEFINITION_TERM
-    ) {
+    if (Element.isElement(selectedDefinitionItem) && selectedDefinitionItem.type === TYPE_DEFINITION_TERM) {
       Transforms.insertNodes(editor, definitionTerm(), { at: nextPath });
     } else if (
       Element.isElement(selectedDefinitionItem) &&
@@ -84,9 +82,8 @@ const onEnter = (
   // Split current listItem at selection.
   Transforms.splitNodes(editor, {
     match: (node) =>
-      Element.isElement(node) &&
-      (node.type === TYPE_DEFINITION_TERM || node.type === TYPE_DEFINITION_DESCRIPTION),
-    mode: 'lowest',
+      Element.isElement(node) && (node.type === TYPE_DEFINITION_TERM || node.type === TYPE_DEFINITION_DESCRIPTION),
+    mode: "lowest",
   });
 };
 

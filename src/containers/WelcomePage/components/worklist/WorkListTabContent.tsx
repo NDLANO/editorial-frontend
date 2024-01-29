@@ -6,21 +6,22 @@
  *
  */
 
-import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { Comment, ExclamationMark } from '@ndla/icons/common';
-import { Calendar } from '@ndla/icons/editor';
-import Pager from '@ndla/pager';
-import { SingleValue } from '@ndla/select';
-import Tooltip from '@ndla/tooltip';
-import { IMultiSearchResult } from '@ndla/types-backend/search-api';
-import PageSizeDropdown from './PageSizeDropdown';
-import StatusCell from './StatusCell';
-import SubjectDropdown from './SubjectDropdown';
-import { SortOption } from './WorkList';
-import formatDate from '../../../../util/formatDate';
-import { toEditArticle } from '../../../../util/routeHelpers';
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ExclamationMark } from "@ndla/icons/common";
+import { Calendar } from "@ndla/icons/editor";
+import Pager from "@ndla/pager";
+import { SingleValue } from "@ndla/select";
+import Tooltip from "@ndla/tooltip";
+import { IMultiSearchResult } from "@ndla/types-backend/search-api";
+import CommentIndicator from "./CommentIndicator";
+import PageSizeDropdown from "./PageSizeDropdown";
+import StatusCell from "./StatusCell";
+import SubjectDropdown from "./SubjectDropdown";
+import { SortOption } from "./WorkList";
+import formatDate from "../../../../util/formatDate";
+import { toEditArticle } from "../../../../util/routeHelpers";
 import {
   ControlWrapperDashboard,
   StyledLink,
@@ -28,10 +29,10 @@ import {
   StyledTopRowDashboardInfo,
   SwitchWrapper,
   TopRowControls,
-} from '../../styles';
-import GoToSearch from '../GoToSearch';
-import TableComponent, { FieldElement, Prefix, TitleElement } from '../TableComponent';
-import TableTitle from '../TableTitle';
+} from "../../styles";
+import GoToSearch from "../GoToSearch";
+import TableComponent, { FieldElement, Prefix, TitleElement } from "../TableComponent";
+import TableTitle from "../TableTitle";
 
 export const CellWrapper = styled.div`
   display: flex;
@@ -46,25 +47,14 @@ const StyledTitleWrapper = styled.div`
 `;
 
 const StyledExclamationMark = styled(ExclamationMark)`
-  &[aria-hidden='false'] {
+  &[aria-hidden="false"] {
     visibility: hidden;
   }
 `;
-
-const StyledIconWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  height: 100%;
-`;
-const StyledCommentIcon = styled(Comment)`
-  width: 20px;
-  height: 20px;
-`;
-
 interface Props {
   data: IMultiSearchResult | undefined;
   isLoading: boolean;
-  setSortOption: (o: Prefix<'-', SortOption>) => void;
+  setSortOption: (o: Prefix<"-", SortOption>) => void;
   sortOption: string;
   error: string | undefined;
   ndlaId: string | undefined;
@@ -92,8 +82,8 @@ const WorkListTabContent = ({
   prioritized,
   pageSize,
   setPageSize,
-  headerText = 'welcomePage.workList.heading',
-  descriptionText = 'welcomePage.workList.description',
+  headerText = "welcomePage.workList.heading",
+  descriptionText = "welcomePage.workList.description",
 }: Props) => {
   const { t } = useTranslation();
 
@@ -106,29 +96,19 @@ const WorkListTabContent = ({
               data: (
                 <CellWrapper>
                   <StyledTitleWrapper>
-                    <Tooltip tooltip={t('editorFooter.prioritized')}>
+                    <Tooltip tooltip={t("editorFooter.prioritized")}>
                       <div>
                         <StyledExclamationMark
                           aria-hidden={!!res?.prioritized}
-                          aria-label={t('editorFooter.prioritized')}
+                          aria-label={t("editorFooter.prioritized")}
                         />
                       </div>
                     </Tooltip>
-                    <StyledLink
-                      to={toEditArticle(res.id, res.learningResourceType)}
-                      title={res.title?.title}
-                    >
+                    <StyledLink to={toEditArticle(res.id, res.learningResourceType)} title={res.title?.title}>
                       {res.title?.title}
                     </StyledLink>
                   </StyledTitleWrapper>
-                  {res.comments?.length ? (
-                    <StyledIconWrapper>
-                      <StyledCommentIcon
-                        title={res.comments[0]?.content}
-                        aria-label={res.comments[0]?.content}
-                      />
-                    </StyledIconWrapper>
-                  ) : null}
+                  {res.comments?.length ? <CommentIndicator comment={res.comments[0].content} /> : null}
                 </CellWrapper>
               ),
             },
@@ -139,24 +119,22 @@ const WorkListTabContent = ({
             {
               id: `contentType_${res.id}`,
               data:
-                res.learningResourceType !== 'standard'
+                res.learningResourceType !== "standard"
                   ? t(`articleType.${res.learningResourceType}`)
-                  : res.contexts?.[0]?.resourceTypes?.map((context) => context.name).join(' - '),
+                  : res.contexts?.[0]?.resourceTypes?.map((context) => context.name).join(" - "),
             },
             {
               id: `primarySubject_${res.id}`,
-              data: res.contexts.find((context) => context.isPrimaryConnection)?.subject ?? '',
+              data: res.contexts.find((context) => context.isPrimaryConnection)?.subject ?? "",
             },
             {
               id: `topic_${res.id}`,
-              data: res.contexts.length
-                ? res.contexts[0].breadcrumbs[res.contexts[0].breadcrumbs.length - 1]
-                : '',
+              data: res.contexts.length ? res.contexts[0].breadcrumbs[res.contexts[0].breadcrumbs.length - 1] : "",
             },
             {
               id: `date_${res.id}`,
-              data: res.responsible ? formatDate(res.responsible.lastUpdated) : '',
-              width: '10%',
+              data: res.responsible ? formatDate(res.responsible.lastUpdated) : "",
+              width: "10%",
             },
           ])
         : [[]],
@@ -164,15 +142,23 @@ const WorkListTabContent = ({
   );
 
   const tableTitles: TitleElement<SortOption>[] = [
-    { title: t('welcomePage.workList.title'), sortableField: 'title', width: '30%' },
-    { title: t('welcomePage.workList.status'), sortableField: 'status', width: '10%' },
-    { title: t('welcomePage.workList.contentType') },
-    { title: t('welcomePage.workList.primarySubject') },
-    { title: t('welcomePage.workList.topicRelation') },
     {
-      title: t('welcomePage.workList.date'),
-      sortableField: 'responsibleLastUpdated',
-      width: '10%',
+      title: t("welcomePage.workList.title"),
+      sortableField: "title",
+      width: "30%",
+    },
+    {
+      title: t("welcomePage.workList.status"),
+      sortableField: "status",
+      width: "10%",
+    },
+    { title: t("welcomePage.workList.contentType") },
+    { title: t("welcomePage.workList.primarySubject") },
+    { title: t("welcomePage.workList.topicRelation") },
+    {
+      title: t("welcomePage.workList.date"),
+      sortableField: "responsibleLastUpdated",
+      width: "10%",
     },
   ];
 
@@ -193,11 +179,7 @@ const WorkListTabContent = ({
                   filterSubject={filterSubject}
                   setFilterSubject={setFilterSubject}
                 />
-                <GoToSearch
-                  ndlaId={ndlaId}
-                  filterSubject={filterSubject?.value}
-                  searchEnv="content"
-                />
+                <GoToSearch ndlaId={ndlaId} filterSubject={filterSubject?.value} searchEnv="content" />
               </>
             )}
           </TopRowControls>
@@ -209,7 +191,7 @@ const WorkListTabContent = ({
                   setPrioritized(!prioritized);
                   setPage(1);
                 }}
-                label={t('welcomePage.prioritizedLabel')}
+                label={t("welcomePage.prioritizedLabel")}
                 id="filter-prioritized-switch"
               />
             </SwitchWrapper>
@@ -223,7 +205,7 @@ const WorkListTabContent = ({
         setSortOption={setSortOption}
         sortOption={sortOption}
         error={error}
-        noResultsText={t('welcomePage.noArticles')}
+        noResultsText={t("welcomePage.noArticles")}
         minWidth="850px"
       />
       <Pager

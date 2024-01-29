@@ -6,39 +6,39 @@
  *
  */
 
-import { createEditor, Descendant, Editor } from 'slate';
-import { withHistory } from 'slate-history';
-import { withReact } from 'slate-react';
-import { learningResourcePlugins } from '../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins';
-import withPlugins from '../../../utils/withPlugins';
-import { TYPE_HEADING } from '../../heading/types';
-import { TYPE_LINK } from '../../link/types';
-import { TYPE_PARAGRAPH } from '../../paragraph/types';
-import { TYPE_SECTION } from '../../section/types';
-import { TYPE_ASIDE } from '../types';
+import { createEditor, Descendant, Editor } from "slate";
+import { withHistory } from "slate-history";
+import { withReact } from "slate-react";
+import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
+import withPlugins from "../../../utils/withPlugins";
+import { TYPE_HEADING } from "../../heading/types";
+import { TYPE_LINK } from "../../link/types";
+import { TYPE_PARAGRAPH } from "../../paragraph/types";
+import { TYPE_SECTION } from "../../section/types";
+import { TYPE_ASIDE } from "../types";
 
 const editor = withHistory(withReact(withPlugins(createEditor(), learningResourcePlugins)));
 
-describe('aside normalizer tests', () => {
-  test('adds paragraphs around aside element', () => {
+describe("aside normalizer tests", () => {
+  test("adds paragraphs around aside element", () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
         children: [
           {
             type: TYPE_ASIDE,
-            data: { type: 'factAside' },
-            children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'content' }] }],
+            data: { type: "factAside" },
+            children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
           },
           {
             type: TYPE_ASIDE,
-            data: { type: 'rightAside' },
-            children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'content' }] }],
+            data: { type: "rightAside" },
+            children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
           },
           {
             type: TYPE_ASIDE,
-            data: { type: 'rightAside' },
-            children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'content' }] }],
+            data: { type: "rightAside" },
+            children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
           },
         ],
       },
@@ -48,25 +48,25 @@ describe('aside normalizer tests', () => {
       {
         type: TYPE_SECTION,
         children: [
-          { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
           {
             type: TYPE_ASIDE,
-            data: { type: 'factAside' },
-            children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'content' }] }],
+            data: { type: "factAside" },
+            children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
           {
             type: TYPE_ASIDE,
-            data: { type: 'rightAside' },
-            children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'content' }] }],
+            data: { type: "rightAside" },
+            children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
           {
             type: TYPE_ASIDE,
-            data: { type: 'rightAside' },
-            children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'content' }] }],
+            data: { type: "rightAside" },
+            children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
         ],
       },
     ];
@@ -75,14 +75,14 @@ describe('aside normalizer tests', () => {
     expect(editor.children).toEqual(expectedValue);
   });
 
-  test('adds paragraphs to empty aside element', () => {
+  test("adds paragraphs to empty aside element", () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
         children: [
           {
             type: TYPE_ASIDE,
-            data: { type: 'factAside' },
+            data: { type: "factAside" },
             children: [],
           },
         ],
@@ -93,13 +93,13 @@ describe('aside normalizer tests', () => {
       {
         type: TYPE_SECTION,
         children: [
-          { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
           {
             type: TYPE_ASIDE,
-            data: { type: 'factAside' },
-            children: [{ type: TYPE_PARAGRAPH, children: [{ text: '' }] }],
+            data: { type: "factAside" },
+            children: [{ type: TYPE_PARAGRAPH, children: [{ text: "" }] }],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
         ],
       },
     ];
@@ -108,15 +108,15 @@ describe('aside normalizer tests', () => {
     expect(editor.children).toEqual(expectedValue);
   });
 
-  test('adds paragraph at the end of aside with only heading', () => {
+  test("adds paragraph at the end of aside with only heading", () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
         children: [
           {
             type: TYPE_ASIDE,
-            data: { type: 'factAside' },
-            children: [{ type: TYPE_HEADING, level: 1, children: [{ text: 'content' }] }],
+            data: { type: "factAside" },
+            children: [{ type: TYPE_HEADING, level: 1, children: [{ text: "content" }] }],
           },
         ],
       },
@@ -126,16 +126,16 @@ describe('aside normalizer tests', () => {
       {
         type: TYPE_SECTION,
         children: [
-          { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
           {
             type: TYPE_ASIDE,
-            data: { type: 'factAside' },
+            data: { type: "factAside" },
             children: [
-              { type: TYPE_HEADING, level: 1, children: [{ text: 'content' }] },
-              { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+              { type: TYPE_HEADING, level: 1, children: [{ text: "content" }] },
+              { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
             ],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
         ],
       },
     ];
@@ -144,19 +144,19 @@ describe('aside normalizer tests', () => {
     expect(editor.children).toEqual(expectedValue);
   });
 
-  test('unwraps content of wrong type', () => {
+  test("unwraps content of wrong type", () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
         children: [
           {
             type: TYPE_ASIDE,
-            data: { type: 'factAside' },
+            data: { type: "factAside" },
             children: [
               {
                 type: TYPE_LINK,
-                href: 'testurl',
-                children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'content' }] }],
+                href: "testurl",
+                children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
               },
             ],
           },
@@ -168,13 +168,13 @@ describe('aside normalizer tests', () => {
       {
         type: TYPE_SECTION,
         children: [
-          { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
           {
             type: TYPE_ASIDE,
-            data: { type: 'factAside' },
-            children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'content' }] }],
+            data: { type: "factAside" },
+            children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
         ],
       },
     ];

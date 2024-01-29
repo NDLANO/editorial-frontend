@@ -6,14 +6,14 @@
  *
  */
 
-import { useField } from 'formik';
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useField } from "formik";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
-import { FieldHeader } from '@ndla/forms';
-import { Node } from '@ndla/types-taxonomy';
+import { FieldHeader } from "@ndla/forms";
+import { Node } from "@ndla/types-taxonomy";
 
-import { NodeList, NodeSearchDropdown } from './nodes';
+import { NodeList, NodeSearchDropdown } from "./nodes";
 
 interface Props {
   subjects: Node[];

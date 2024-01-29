@@ -6,25 +6,25 @@
  *
  */
 
-import partition from 'lodash/partition';
-import sortBy from 'lodash/sortBy';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { colors, spacing, misc } from '@ndla/core';
-import { HelmetWithTracker } from '@ndla/tracker';
-import { Version } from '@ndla/types-taxonomy';
-import { OneColumn } from '@ndla/ui';
-import DeletePublishRequests from './components/DeletePublishRequests';
-import UIVersion from './components/Version';
-import VersionForm from './components/VersionForm';
-import VersionList from './components/VersionList';
-import { Row } from '../../components';
-import { TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH } from '../../constants';
-import { useNodes } from '../../modules/nodes/nodeQueries';
-import { useVersions } from '../../modules/taxonomy/versions/versionQueries';
-import Footer from '../App/components/Footer';
+import partition from "lodash/partition";
+import sortBy from "lodash/sortBy";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { colors, spacing, misc } from "@ndla/core";
+import { HelmetWithTracker } from "@ndla/tracker";
+import { Version } from "@ndla/types-taxonomy";
+import { OneColumn } from "@ndla/ui";
+import DeletePublishRequests from "./components/DeletePublishRequests";
+import UIVersion from "./components/Version";
+import VersionForm from "./components/VersionForm";
+import VersionList from "./components/VersionList";
+import { Row } from "../../components";
+import { TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH } from "../../constants";
+import { useNodes } from "../../modules/nodes/nodeQueries";
+import { useVersions } from "../../modules/taxonomy/versions/versionQueries";
+import Footer from "../App/components/Footer";
 
 const NewFormWrapper = styled.div`
   padding: ${spacing.normal};
@@ -44,13 +44,11 @@ const DangerZone = styled.div`
   justify-content: space-between;
 `;
 
-const getPublishedAndOther = (
-  versions: Version[],
-): { published: Version | undefined; other: Version[] } => {
-  const [published, other] = partition(versions, (v) => v.versionType === 'PUBLISHED');
+const getPublishedAndOther = (versions: Version[]): { published: Version | undefined; other: Version[] } => {
+  const [published, other] = partition(versions, (v) => v.versionType === "PUBLISHED");
   return {
     published: published[0],
-    other: sortBy(other, 'created').reverse(),
+    other: sortBy(other, "created").reverse(),
   };
 };
 
@@ -60,8 +58,8 @@ const TaxonomyVersionsPage = () => {
 
   const { data: publishRequests } = useNodes({
     key: TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH,
-    value: 'true',
-    taxonomyVersion: 'default',
+    value: "true",
+    taxonomyVersion: "default",
   });
 
   const { published, other } = getPublishedAndOther(data ?? []);
@@ -70,13 +68,11 @@ const TaxonomyVersionsPage = () => {
   return (
     <>
       <OneColumn>
-        <HelmetWithTracker title={t('htmlTitles.versionsPage')} />
-        <h1>{t('taxonomyVersions.title')}</h1>
+        <HelmetWithTracker title={t("htmlTitles.versionsPage")} />
+        <h1>{t("taxonomyVersions.title")}</h1>
         <Row alignItems="center">
-          <p>{t('taxonomyVersions.about')}</p>
-          <ButtonV2 onClick={() => setShowNewForm((prev) => !prev)}>
-            {t('taxonomyVersions.newVersionButton')}
-          </ButtonV2>
+          <p>{t("taxonomyVersions.about")}</p>
+          <ButtonV2 onClick={() => setShowNewForm((prev) => !prev)}>{t("taxonomyVersions.newVersionButton")}</ButtonV2>
         </Row>
         {showNewForm && (
           <FormSpacingWrapper>
@@ -85,15 +81,15 @@ const TaxonomyVersionsPage = () => {
             </NewFormWrapper>
           </FormSpacingWrapper>
         )}
-        <h3>{t('taxonomyVersions.publishedVersion')}</h3>
-        {published ? <UIVersion version={published} /> : t('taxonomyVersions.noPublished')}
-        <h3>{t('taxonomyVersions.otherVersions')}</h3>
+        <h3>{t("taxonomyVersions.publishedVersion")}</h3>
+        {published ? <UIVersion version={published} /> : t("taxonomyVersions.noPublished")}
+        <h3>{t("taxonomyVersions.otherVersions")}</h3>
         <VersionList versions={other} />
         {publishRequests?.length ? (
           <>
-            <h2>{t('publishRequests.deleteAll')}</h2>
+            <h2>{t("publishRequests.deleteAll")}</h2>
             <DangerZone>
-              <>{t('publishRequests.deleteAllInfo')}</>
+              <>{t("publishRequests.deleteAllInfo")}</>
               <DeletePublishRequests nodes={publishRequests} />
             </DangerZone>
           </>

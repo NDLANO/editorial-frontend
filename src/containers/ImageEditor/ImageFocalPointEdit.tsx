@@ -6,17 +6,12 @@
  *
  */
 
-import { MouseEvent, useRef, useState } from 'react';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { colors } from '@ndla/core';
-import { ImageEmbed } from '../../interfaces';
-import {
-  getElementOffset,
-  getClientPos,
-  getImageDimensions,
-  getSrcSets,
-} from '../../util/imageEditorUtil';
+import { MouseEvent, useRef, useState } from "react";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { colors } from "@ndla/core";
+import { ImageEmbed } from "../../interfaces";
+import { getElementOffset, getClientPos, getImageDimensions, getSrcSets } from "../../util/imageEditorUtil";
 
 const StyledFocalPointButton = styled(ButtonV2)`
   display: block;
@@ -25,7 +20,7 @@ const StyledFocalPointButton = styled(ButtonV2)`
   min-width: -moz-available;
 `;
 
-const StyledFocalPointMarker = styled('div')`
+const StyledFocalPointMarker = styled("div")`
   cursor: crosshair;
   position: absolute;
   background-color: ${colors.brand.secondary};
@@ -36,7 +31,7 @@ const StyledFocalPointMarker = styled('div')`
   margin-left: -5px;
   margin-top: -5px;
 `;
-const StyledFocalPointContainer = styled('div')`
+const StyledFocalPointContainer = styled("div")`
   position: relative;
 `;
 
@@ -45,12 +40,12 @@ interface Props {
   language: string;
   onFocalPointChange: (focalPoint: { x: number; y: number }) => void;
   transformData?: {
-    'focal-x'?: string;
-    'focal-y'?: string;
-    'upper-left-x'?: string;
-    'upper-left-y'?: string;
-    'lower-right-x'?: string;
-    'lower-right-y'?: string;
+    "focal-x"?: string;
+    "focal-y"?: string;
+    "upper-left-x"?: string;
+    "upper-left-y"?: string;
+    "lower-right-x"?: string;
+    "lower-right-y"?: string;
   };
 }
 
@@ -92,12 +87,8 @@ const ImageFocalPointEdit = ({ embed, language, onFocalPointChange, transformDat
     const dimensions = getImageDimensions(target);
     let x, y;
     if (transformData) {
-      x = transformData['focal-x']
-        ? (parseInt(transformData['focal-x']) / 100) * dimensions.current.width
-        : undefined;
-      y = transformData['focal-y']
-        ? (parseInt(transformData['focal-y']) / 100) * dimensions.current.height
-        : undefined;
+      x = transformData["focal-x"] ? (parseInt(transformData["focal-x"]) / 100) * dimensions.current.width : undefined;
+      y = transformData["focal-y"] ? (parseInt(transformData["focal-y"]) / 100) * dimensions.current.height : undefined;
     }
     setMarker({
       showMarker: (x !== undefined && y !== undefined) || false,
@@ -107,7 +98,7 @@ const ImageFocalPointEdit = ({ embed, language, onFocalPointChange, transformDat
   };
 
   const style = marker.showMarker
-    ? { display: 'none' }
+    ? { display: "none" }
     : {
         top: `${marker.yMarkPos}px`,
         left: `${marker.xMarkPos}px`,
@@ -117,7 +108,7 @@ const ImageFocalPointEdit = ({ embed, language, onFocalPointChange, transformDat
       <StyledFocalPointContainer>
         <StyledFocalPointButton variant="stripped" onClick={onImageClick}>
           <img
-            style={{ minWidth: 'inherit' }}
+            style={{ minWidth: "inherit" }}
             alt={embed.alt}
             ref={focalImgRef}
             onLoad={(e) => setXandY(e.target as HTMLImageElement)}

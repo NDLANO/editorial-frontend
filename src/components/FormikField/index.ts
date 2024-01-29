@@ -6,8 +6,8 @@
  *
  */
 
-import FormikField from './FormikField';
-import FormikFieldHelp from './FormikFieldHelp';
+import FormikField from "./FormikField";
+import FormikFieldHelp from "./FormikFieldHelp";
 
 export { FormikFieldHelp };
 

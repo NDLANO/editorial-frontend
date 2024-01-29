@@ -6,124 +6,120 @@
  *
  */
 
-import { LocaleType } from './interfaces';
+import { LocaleType } from "./interfaces";
 
 export function getEnvironmentVariabel(key: string, fallback: string): string;
 export function getEnvironmentVariabel(key: string, fallback: boolean): boolean;
 export function getEnvironmentVariabel(key: string, fallback?: string): string | undefined;
-export function getEnvironmentVariabel(
-  key: string,
-  fallback?: string | boolean,
-): string | boolean | undefined {
-  const env = 'env';
-  const variabel = process[env][key]; // Hack to prevent DefinePlugin replacing process.env
+export function getEnvironmentVariabel(key: string, fallback?: string | boolean): string | boolean | undefined {
+  const env = "env";
+  const variabel = process?.[env]?.[key]; // Hack to prevent DefinePlugin replacing process.env
   return variabel || fallback;
 }
 
-const ndlaEnvironment = getEnvironmentVariabel('NDLA_ENVIRONMENT', 'test');
+type RuntimeType = "test" | "development" | "production";
 
-export const getNdlaApiUrl = (env: string): string => {
-  switch (env) {
-    case 'local':
-      return 'http://api-gateway.ndla-local';
-    case 'prod':
-      return 'https://api.ndla.no';
+const getNdlaApiUrl = (ndlaEnvironment: string): string => {
+  switch (ndlaEnvironment) {
+    case "local":
+      return "http://api-gateway.ndla-local";
+    case "prod":
+      return "https://api.ndla.no";
     default:
       return `https://api.${ndlaEnvironment}.ndla.no`;
   }
 };
 
-export const ndlaBaseUrl = () => {
+const ndlaBaseUrl = (ndlaEnvironment: string) => {
   switch (ndlaEnvironment) {
-    case 'prod':
-      return 'ndla.no';
+    case "prod":
+      return "ndla.no";
     default:
       return `${ndlaEnvironment}.ndla.no`;
   }
 };
 
-const ndlaFrontendDomain = () => {
+const ndlaFrontendDomain = (ndlaEnvironment: string) => {
   switch (ndlaEnvironment) {
-    case 'local':
-      return 'http://localhost:30017';
-    case 'prod':
-      return 'https://ndla.no';
+    case "local":
+      return "http://localhost:30017";
+    case "prod":
+      return "https://ndla.no";
     default:
       return `https://${ndlaEnvironment}.ndla.no`;
   }
 };
 
-const editorialFrontendDomain = () => {
+const editorialFrontendDomain = (ndlaEnvironment: string) => {
   switch (ndlaEnvironment) {
-    case 'local':
-      return 'http://localhost:30019';
-    case 'prod':
-      return 'https://ed.ndla.no';
+    case "local":
+      return "http://localhost:30019";
+    case "prod":
+      return "https://ed.ndla.no";
     default:
       return `https://ed.${ndlaEnvironment}.ndla.no`;
   }
 };
 
-const learningpathFrontendDomain = () => {
+const learningpathFrontendDomain = (ndlaEnvironment: string) => {
   switch (ndlaEnvironment) {
-    case 'local':
-      return 'http://localhost:30007';
-    case 'prod':
-      return 'https://stier.ndla.no';
+    case "local":
+      return "http://localhost:30007";
+    case "prod":
+      return "https://stier.ndla.no";
     default:
       return `https://stier.${ndlaEnvironment}.ndla.no`;
   }
 };
 
-const h5pApiUrl = () => {
+const h5pApiUrl = (ndlaEnvironment: string) => {
   switch (ndlaEnvironment) {
-    case 'local':
-      return 'https://h5p-test.ndla.no';
-    case 'test':
-      return 'https://h5p-test.ndla.no';
-    case 'staging':
-      return 'https://h5p-staging.ndla.no';
+    case "local":
+      return "https://h5p-test.ndla.no";
+    case "test":
+      return "https://h5p-test.ndla.no";
+    case "staging":
+      return "https://h5p-staging.ndla.no";
     default:
-      return 'https://h5p.ndla.no';
+      return "https://h5p.ndla.no";
   }
 };
 
-export const getAuth0Hostname = () => {
+const getAuth0Hostname = (ndlaEnvironment: string) => {
   switch (ndlaEnvironment) {
-    case 'prod':
-      return 'ndla.eu.auth0.com';
-    case 'staging':
-      return 'ndla-staging.eu.auth0.com';
+    case "prod":
+      return "ndla.eu.auth0.com";
+    case "staging":
+      return "ndla-staging.eu.auth0.com";
     default:
-      return 'ndla-test.eu.auth0.com';
+      return "ndla-test.eu.auth0.com";
   }
 };
 
-const getTranslateServiceUrl = () => {
+const getTranslateServiceUrl = (ndlaEnvironment: string) => {
   switch (ndlaEnvironment) {
-    case 'test':
-    case 'local':
-    case 'dev':
-      return 'https://preprod.norskrobot.no:4443';
+    case "test":
+    case "local":
+    case "dev":
+      return "https://preprod.norskrobot.no:4443";
     default:
-      return 'https://ndla.norskrobot.no:4443';
+      return "https://ndla.norskrobot.no:4443";
   }
 };
 
 export const taxonomyApi = `/taxonomy/v1`;
 
 export const getZendeskWidgetSecret = () => {
-  return getEnvironmentVariabel('NDLA_ED_ZENDESK_SECRET_KEY', 'something');
+  return getEnvironmentVariabel("NDLA_ED_ZENDESK_SECRET_KEY", "something");
 };
 
-export const getDefaultLanguage = () =>
-  getEnvironmentVariabel('NDLA_DEFAULT_LANGUAGE', 'nb') as LocaleType;
+const getDefaultLanguage = () => getEnvironmentVariabel("NDLA_DEFAULT_LANGUAGE", "nb") as LocaleType;
 
-const usernamePasswordEnabled = () => {
+const usernamePasswordEnabled = (ndlaEnvironment: string) => {
   switch (ndlaEnvironment) {
-    case 'test':
-    case 'local':
-    case 'dev':
+    case "test":
+    case "local":
+    case "dev":
       return true;
     default:
       return false;
@@ -164,58 +160,63 @@ export type ConfigType = {
   h5pMetaEnabled: boolean;
   translateServiceUrl: string;
   isVercel: boolean;
+  defaultLanguage: LocaleType;
+  runtimeType: RuntimeType;
 };
 
-const config: ConfigType = {
-  ndlaEnvironment,
-  taxonomyApi,
-  componentName: getEnvironmentVariabel('npm_package_name', 'editorial-frontend'),
-  host: getEnvironmentVariabel('EDITORIAL_FRONTEND_HOST', 'localhost'),
-  port: getEnvironmentVariabel('EDITORIAL_FRONTEND_PORT', '3000'),
-  redirectPort: getEnvironmentVariabel('NDLA_REDIRECT_PORT', '3001'),
-  logEnvironment: getEnvironmentVariabel('NDLA_ENVIRONMENT', 'local'),
-  logglyApiKey: getEnvironmentVariabel('LOGGLY_API_KEY'),
-  isNdlaProdEnvironment: ndlaEnvironment === 'prod',
-  ndlaApiUrl: getEnvironmentVariabel('NDLA_API_URL', getNdlaApiUrl(ndlaEnvironment)),
-  ndlaBaseUrl: ndlaBaseUrl(),
-  ndlaFrontendDomain: getEnvironmentVariabel('FRONTEND_DOMAIN', ndlaFrontendDomain()),
-  editorialFrontendDomain: getEnvironmentVariabel('EDITORIAL_DOMAIN', editorialFrontendDomain()),
-  learningpathFrontendDomain: getEnvironmentVariabel(
-    'LEARNINGPATH_DOMAIN',
-    learningpathFrontendDomain(),
-  ),
-  ndlaPersonalClientId: getEnvironmentVariabel('NDLA_PERSONAL_CLIENT_ID', ''),
-  auth0Domain: getEnvironmentVariabel('AUTH0_DOMAIN', getAuth0Hostname()),
-  brightcoveAccountId: getEnvironmentVariabel('BRIGHTCOVE_ACCOUNT_ID', '123456789'),
-  brightcoveEdPlayerId: getEnvironmentVariabel('BRIGHTCOVE_PLAYER_ED_ID', 'Ab1234'),
-  brightcovePlayerId: getEnvironmentVariabel('BRIGHTCOVE_PLAYER_ID', 'Ab1234'),
-  brightcove360PlayerId: getEnvironmentVariabel('BRIGHTCOVE_PLAYER_360_ID', 'Ab1234'),
-  brightcoveCopyrightPlayerId: getEnvironmentVariabel('BRIGHTCOVE_PLAYER_COPYRIGHT_ID', 'Ab1234'),
-  brightcoveApiUrl: 'https://cms.api.brightcove.com',
-  brightcoveUrl: 'https://studio.brightcove.com/products/videocloud/home',
-  h5pApiUrl: getEnvironmentVariabel('H5P_API_URL', h5pApiUrl()),
-  localConverter: getEnvironmentVariabel('LOCAL_CONVERTER', 'false') === 'true',
-  checkArticleScript: getEnvironmentVariabel('CHECK_ARTICLE_SCRIPT', 'false') === 'true',
-  googleTagManagerId: getEnvironmentVariabel('NDLA_GOOGLE_TAG_MANAGER_ID'),
-  zendeskWidgetKey: getEnvironmentVariabel('NDLA_ED_ZENDESK_WIDGET_KEY'),
-  disableCSP: getEnvironmentVariabel('DISABLE_CSP', 'false'),
-  usernamePasswordEnabled: getEnvironmentVariabel(
-    'USERNAME_PASSWORD_ENABLED',
-    usernamePasswordEnabled(),
-  ),
-  h5pMetaEnabled: getEnvironmentVariabel('H5PMETA_ENABLED', false),
-  translateServiceUrl: getEnvironmentVariabel('NDKM_URL', getTranslateServiceUrl()),
-  isVercel: getEnvironmentVariabel('IS_VERCEL', 'false') === 'true',
+const getServerSideConfig = (): ConfigType => {
+  const ndlaEnvironment = getEnvironmentVariabel("NDLA_ENVIRONMENT", "test");
+  return {
+    ndlaEnvironment,
+    taxonomyApi,
+    componentName: getEnvironmentVariabel("npm_package_name", "editorial-frontend"),
+    host: getEnvironmentVariabel("EDITORIAL_FRONTEND_HOST", "localhost"),
+    port: getEnvironmentVariabel("EDITORIAL_FRONTEND_PORT", "3000"),
+    redirectPort: getEnvironmentVariabel("NDLA_REDIRECT_PORT", "3001"),
+    logEnvironment: getEnvironmentVariabel("NDLA_ENVIRONMENT", "local"),
+    logglyApiKey: getEnvironmentVariabel("LOGGLY_API_KEY"),
+    isNdlaProdEnvironment: ndlaEnvironment === "prod",
+    ndlaApiUrl: getEnvironmentVariabel("NDLA_API_URL", getNdlaApiUrl(ndlaEnvironment)),
+    ndlaBaseUrl: ndlaBaseUrl(ndlaEnvironment),
+    ndlaFrontendDomain: getEnvironmentVariabel("FRONTEND_DOMAIN", ndlaFrontendDomain(ndlaEnvironment)),
+    editorialFrontendDomain: getEnvironmentVariabel("EDITORIAL_DOMAIN", editorialFrontendDomain(ndlaEnvironment)),
+    learningpathFrontendDomain: getEnvironmentVariabel(
+      "LEARNINGPATH_DOMAIN",
+      learningpathFrontendDomain(ndlaEnvironment),
+    ),
+    defaultLanguage: getDefaultLanguage(),
+    ndlaPersonalClientId: getEnvironmentVariabel("NDLA_PERSONAL_CLIENT_ID", ""),
+    auth0Domain: getEnvironmentVariabel("AUTH0_DOMAIN", getAuth0Hostname(ndlaEnvironment)),
+    brightcoveAccountId: getEnvironmentVariabel("BRIGHTCOVE_ACCOUNT_ID", "123456789"),
+    brightcoveEdPlayerId: getEnvironmentVariabel("BRIGHTCOVE_PLAYER_ED_ID", "Ab1234"),
+    brightcovePlayerId: getEnvironmentVariabel("BRIGHTCOVE_PLAYER_ID", "Ab1234"),
+    brightcove360PlayerId: getEnvironmentVariabel("BRIGHTCOVE_PLAYER_360_ID", "Ab1234"),
+    brightcoveCopyrightPlayerId: getEnvironmentVariabel("BRIGHTCOVE_PLAYER_COPYRIGHT_ID", "Ab1234"),
+    brightcoveApiUrl: "https://cms.api.brightcove.com",
+    brightcoveUrl: "https://studio.brightcove.com/products/videocloud/home",
+    h5pApiUrl: getEnvironmentVariabel("H5P_API_URL", h5pApiUrl(ndlaEnvironment)),
+    localConverter: getEnvironmentVariabel("LOCAL_CONVERTER", "false") === "true",
+    checkArticleScript: getEnvironmentVariabel("CHECK_ARTICLE_SCRIPT", "false") === "true",
+    googleTagManagerId: getEnvironmentVariabel("NDLA_GOOGLE_TAG_MANAGER_ID"),
+    zendeskWidgetKey: getEnvironmentVariabel("NDLA_ED_ZENDESK_WIDGET_KEY"),
+    disableCSP: getEnvironmentVariabel("DISABLE_CSP", "false"),
+    usernamePasswordEnabled: getEnvironmentVariabel(
+      "USERNAME_PASSWORD_ENABLED",
+      usernamePasswordEnabled(ndlaEnvironment),
+    ),
+    h5pMetaEnabled: getEnvironmentVariabel("H5PMETA_ENABLED", false),
+    translateServiceUrl: getEnvironmentVariabel("NDKM_URL", getTranslateServiceUrl(ndlaEnvironment)),
+    isVercel: getEnvironmentVariabel("IS_VERCEL", "false") === "true",
+    runtimeType: getEnvironmentVariabel("NODE_ENV", "development") as "test" | "development" | "production",
+  };
 };
 
 export function getUniversalConfig(): ConfigType {
-  if (typeof window === 'undefined') {
-    return config;
+  if (typeof window === "undefined" || process.env.NODE_ENV === "test") {
+    return getServerSideConfig();
   }
 
-  return process.env.BUILD_TARGET === 'server' || process.env.NODE_ENV === 'unittest'
-    ? config
-    : window.config;
+  return window.config;
 }
 
 export default getUniversalConfig();

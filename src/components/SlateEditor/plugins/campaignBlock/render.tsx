@@ -6,9 +6,9 @@
  *
  */
 
-import { Editor } from 'slate';
-import SlateCampaignBlock from './SlateCampaignBlock';
-import { TYPE_CAMPAIGN_BLOCK } from './types';
+import { Editor } from "slate";
+import SlateCampaignBlock from "./SlateCampaignBlock";
+import { TYPE_CAMPAIGN_BLOCK } from "./types";
 
 export const campaignBlockRenderer = (editor: Editor) => {
   const { renderElement } = editor;

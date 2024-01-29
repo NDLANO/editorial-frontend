@@ -6,9 +6,9 @@
  *
  */
 
-import { Editor } from 'slate';
-import MathEditor from './MathEditor';
-import { TYPE_MATHML } from './types';
+import { Editor } from "slate";
+import MathEditor from "./MathEditor";
+import { TYPE_MATHML } from "./types";
 
 export const mathRenderer = (editor: Editor) => {
   const { renderElement } = editor;

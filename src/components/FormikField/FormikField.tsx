@@ -6,17 +6,17 @@
  *
  */
 
-import { Field, FieldAttributes, FormikValues, FieldProps, useFormikContext } from 'formik';
-import get from 'lodash/get';
-import { ReactElement, useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Node } from 'slate';
-import styled from '@emotion/styled';
-import FormikFieldDescription from './FormikFieldDescription';
-import FormikFieldHelp from './FormikFieldHelp';
-import FormikFieldLabel from './FormikFieldLabel';
-import FormikRemainingCharacters from './FormikRemainingCharacters';
-import { StyledField } from '../Field';
+import { Field, FieldAttributes, FormikValues, FieldProps, useFormikContext } from "formik";
+import get from "lodash/get";
+import { ReactElement, useCallback } from "react";
+import { useTranslation } from "react-i18next";
+import { Node } from "slate";
+import styled from "@emotion/styled";
+import FormikFieldDescription from "./FormikFieldDescription";
+import FormikFieldHelp from "./FormikFieldHelp";
+import FormikFieldLabel from "./FormikFieldLabel";
+import FormikRemainingCharacters from "./FormikRemainingCharacters";
+import { StyledField } from "../Field";
 
 const StyledErrorPreLine = styled.span`
   white-space: pre-line;
@@ -68,18 +68,13 @@ const FormikField = ({
 
   const getRemainingLabel = useCallback(
     (maxLength: number, remaining: number) => {
-      return t('form.remainingCharacters', { maxLength, remaining });
+      return t("form.remainingCharacters", { maxLength, remaining });
     },
     [t],
   );
 
   return (
-    <StyledField
-      data-no-border={noBorder}
-      data-right={right}
-      data-is-title={title}
-      className={className}
-    >
+    <StyledField data-no-border={noBorder} data-right={right} data-is-title={title} className={className}>
       <FormikFieldLabel label={label} name={name} noBorder={noBorder} />
       <FormikFieldDescription description={description} obligatory={obligatory} />
       <Field name={name} maxLength={maxLength} {...rest} {...fieldActions}>
@@ -107,7 +102,7 @@ const FormikField = ({
           <StyledErrorPreLine>{get(errors, name) as string}</StyledErrorPreLine>
         </FormikFieldHelp>
       )}
-      {status && status['warnings'] && (
+      {status && status["warnings"] && (
         <FormikFieldHelp warning={!!get(status.warnings, name)}>
           <StyledErrorPreLine>{get(status.warnings, name)}</StyledErrorPreLine>
         </FormikFieldHelp>

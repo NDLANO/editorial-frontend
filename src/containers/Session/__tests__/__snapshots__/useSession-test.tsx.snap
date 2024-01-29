@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`getSessionStateFromLocalStorage returns a decoded access token if everything is ok 1`] = `
+exports[`getSessionStateFromLocalStorage > returns a decoded access token if everything is ok 1`] = `
 {
   "authenticated": true,
   "user": {
@@ -14,7 +14,7 @@ exports[`getSessionStateFromLocalStorage returns a decoded access token if every
 }
 `;
 
-exports[`getSessionStateFromLocalStorage returns a default initial state if accessToken is not personal 1`] = `
+exports[`getSessionStateFromLocalStorage > returns a default initial state if accessToken is not personal 1`] = `
 {
   "authenticated": false,
   "user": {},
@@ -22,7 +22,7 @@ exports[`getSessionStateFromLocalStorage returns a default initial state if acce
 }
 `;
 
-exports[`getSessionStateFromLocalStorage returns a default initial state if token is not available in localStorage 1`] = `
+exports[`getSessionStateFromLocalStorage > returns a default initial state if token is not available in localStorage 1`] = `
 {
   "authenticated": false,
   "user": {},
@@ -30,7 +30,7 @@ exports[`getSessionStateFromLocalStorage returns a default initial state if toke
 }
 `;
 
-exports[`useSession nulls all values when logout is called 1`] = `
+exports[`useSession > nulls all values when logout is called 1`] = `
 {
   "authenticated": true,
   "login": [Function],
@@ -44,7 +44,7 @@ exports[`useSession nulls all values when logout is called 1`] = `
 }
 `;
 
-exports[`useSession nulls all values when logout is called 2`] = `
+exports[`useSession > nulls all values when logout is called 2`] = `
 {
   "authenticated": false,
   "login": [Function],
@@ -56,7 +56,7 @@ exports[`useSession nulls all values when logout is called 2`] = `
 }
 `;
 
-exports[`useSession returns initial state when called with initial values 1`] = `
+exports[`useSession > returns initial state when called with initial values 1`] = `
 {
   "authenticated": true,
   "login": [Function],
@@ -70,7 +70,7 @@ exports[`useSession returns initial state when called with initial values 1`] = 
 }
 `;
 
-exports[`useSession returns initial state when called without initial values 1`] = `
+exports[`useSession > returns initial state when called without initial values 1`] = `
 {
   "authenticated": false,
   "login": [Function],

@@ -6,19 +6,19 @@
  *
  */
 
-import { Descendant, Editor, Element } from 'slate';
-import { jsx as slatejsx } from 'slate-hyperscript';
-import { EmbedData, KeyFigureEmbedData } from '@ndla/types-embed';
-import { TYPE_KEY_FIGURE } from './types';
-import { createEmbedTagV2, reduceElementDataAttributesV2 } from '../../../../util/embedTagHelpers';
-import { SlateSerializer } from '../../interfaces';
-import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
-import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
-import { TYPE_NDLA_EMBED } from '../embed/types';
-import { TYPE_PARAGRAPH } from '../paragraph/types';
+import { Descendant, Editor, Element } from "slate";
+import { jsx as slatejsx } from "slate-hyperscript";
+import { EmbedData, KeyFigureEmbedData } from "@ndla/types-embed";
+import { TYPE_KEY_FIGURE } from "./types";
+import { createEmbedTagV2, reduceElementDataAttributesV2 } from "../../../../util/embedTagHelpers";
+import { SlateSerializer } from "../../interfaces";
+import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
+import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
+import { TYPE_NDLA_EMBED } from "../embed/types";
+import { TYPE_PARAGRAPH } from "../paragraph/types";
 
 export interface KeyFigureElement {
-  type: 'key-figure';
+  type: "key-figure";
   data: KeyFigureEmbedData;
   isFirstEdit?: boolean;
   children: Descendant[];
@@ -39,11 +39,12 @@ export const keyFigureSerializer: SlateSerializer = {
   deserialize(el: HTMLElement) {
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const embed = el as HTMLEmbedElement;
-    const embedAttributes = reduceElementDataAttributesV2(
-      Array.from(embed.attributes),
-    ) as EmbedData;
+    const embedAttributes = reduceElementDataAttributesV2(Array.from(embed.attributes)) as EmbedData;
     if (embedAttributes.resource !== TYPE_KEY_FIGURE) return;
-    return slatejsx('element', { type: TYPE_KEY_FIGURE, data: embedAttributes });
+    return slatejsx("element", {
+      type: TYPE_KEY_FIGURE,
+      data: embedAttributes,
+    });
   },
   serialize(node: Descendant) {
     if (!Element.isElement(node) || node.type !== TYPE_KEY_FIGURE || !node.data) return;

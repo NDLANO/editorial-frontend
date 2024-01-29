@@ -6,4 +6,4 @@
  *
  */
 
-export const TYPE_FRAMED_CONTENT = 'framed-content';
+export const TYPE_FRAMED_CONTENT = "framed-content";

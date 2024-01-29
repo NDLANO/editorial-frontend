@@ -6,9 +6,9 @@
  *
  */
 
-import { Descendant, Node, Element } from 'slate';
+import { Descendant, Node, Element } from "slate";
 
-export const findNodesByType = (descendants: Descendant[], ...type: Element['type'][]) => {
+export const findNodesByType = (descendants: Descendant[], ...type: Element["type"][]) => {
   const ret = descendants
     .flatMap((descendant) => Array.from(Node.elements(descendant)))
     .map(([node]) => node)

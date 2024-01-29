@@ -6,66 +6,66 @@
  *
  */
 
-export const SEARCH_AUDIO = 'searchAudio';
-export const SEARCH_CONCEPTS = 'searchConcepts';
-export const SEARCH_SERIES = 'searchSeries';
-export const SEARCH_IMAGES = 'searchImages';
-export const SEARCH = 'search';
+export const SEARCH_AUDIO = "searchAudio";
+export const SEARCH_CONCEPTS = "searchConcepts";
+export const SEARCH_SERIES = "searchSeries";
+export const SEARCH_IMAGES = "searchImages";
+export const SEARCH = "search";
 
-export const CONCEPT_STATE_MACHINE = 'conceptStateMachine';
+export const CONCEPT_STATE_MACHINE = "conceptStateMachine";
 
-export const AUTH0_USERS = 'auth0Users';
-export const AUTH0_EDITORS = 'auth0Editors';
-export const AUTH0_RESPONSIBLES = 'auth0Responsibles';
+export const AUTH0_USERS = "auth0Users";
+export const AUTH0_EDITORS = "auth0Editors";
+export const AUTH0_RESPONSIBLES = "auth0Responsibles";
 
-export const CONCEPT = 'concept';
+export const CONCEPT = "concept";
 
-export const IMAGE = 'image';
+export const IMAGE = "image";
 
-export const AUDIO = 'audio';
+export const AUDIO = "audio";
 
-export const AUDIO_EMBED = 'audio';
+export const AUDIO_EMBED = "audio";
 
-export const PODCAST_SERIES = 'podcastSeries';
+export const PODCAST_SERIES = "podcastSeries";
 
-export const DRAFT = 'draft';
-export const SEARCH_DRAFTS = 'searchDrafts';
-export const LICENSES = 'licenses';
-export const USER_DATA = 'userData';
-export const DRAFT_STATUS_STATE_MACHINE = 'draftStatusStateMachine';
+export const DRAFT = "draft";
+export const SEARCH_DRAFTS = "searchDrafts";
+export const LICENSES = "licenses";
+export const USER_DATA = "userData";
+export const DRAFT_STATUS_STATE_MACHINE = "draftStatusStateMachine";
 
-export const RESOURCE_TYPE = 'resourceType';
-export const RESOURCE_TYPES = 'resourceTypes';
+export const RESOURCE_TYPE = "resourceType";
+export const RESOURCE_TYPES = "resourceTypes";
 
-export const SUBJECTS = 'subjects';
-export const SUBJECT = 'subject';
+export const SUBJECTS = "subjects";
+export const SUBJECT = "subject";
 
-export const FILM_FRONTPAGE_QUERY = 'filmFrontpage';
-export const FILM_SLIDESHOW = 'filmSlideshow';
+export const FILM_FRONTPAGE_QUERY = "filmFrontpage";
+export const FILM_SLIDESHOW = "filmSlideshow";
 
-export const FRONTPAGE = 'frontpage';
+export const FRONTPAGE = "frontpage";
 
-export const ARTICLE = 'article';
+export const ARTICLE = "article";
 
-export const ARTICLE_SEARCH = 'articleSearch';
+export const ARTICLE_SEARCH = "articleSearch";
 
-export const NODE = 'node';
-export const NODES = 'nodes';
-export const SEARCH_NODES = 'searchNodes';
-export const CHILD_NODES_WITH_ARTICLE_TYPE = 'childNodesWithArticleType';
-export const NODE_TRANSLATIONS = 'nodeTranslations';
-export const NODE_CONNECTION = 'nodeConnection';
-export const NODE_CONNECTIONS = 'nodeConnections';
-export const CONNECTIONS_FOR_NODE = 'connectionsForNode';
-export const NODE_RESOURCES = 'resourcesForNode';
-export const RESOURCES_WITH_NODE_CONNECTION = 'resourcesWithNodeConnection';
-export const NODE_RESOURCE_STATUS_GREP_QUERY = 'nodeResourceWithStatusAndGrep';
-export const ROOT_NODE_WITH_CHILDREN = 'rootNodeWithChildren';
+export const NODE = "node";
+export const NODES = "nodes";
+export const SEARCH_NODES = "searchNodes";
+export const CHILD_NODES_WITH_ARTICLE_TYPE = "childNodesWithArticleType";
+export const NODE_TRANSLATIONS = "nodeTranslations";
+export const NODE_CONNECTION = "nodeConnection";
+export const NODE_CONNECTIONS = "nodeConnections";
+export const CONNECTIONS_FOR_NODE = "connectionsForNode";
+export const NODE_RESOURCES = "resourcesForNode";
+export const RESOURCES_WITH_NODE_CONNECTION = "resourcesWithNodeConnection";
+export const NODE_RESOURCE_STATUS_GREP_QUERY = "nodeResourceWithStatusAndGrep";
+export const ROOT_NODE_WITH_CHILDREN = "rootNodeWithChildren";
 
-export const GREP_CODE = 'grepCode';
-export const RESOURCE_META = 'resourceMeta';
+export const GREP_CODE = "grepCode";
+export const RESOURCE_META = "resourceMeta";
 
-export const VERSION = 'version';
-export const VERSIONS = 'versions';
+export const VERSION = "version";
+export const VERSIONS = "versions";
 
-export const TRANFSFORM_ARTICLE = 'transformArticle';
+export const TRANFSFORM_ARTICLE = "transformArticle";

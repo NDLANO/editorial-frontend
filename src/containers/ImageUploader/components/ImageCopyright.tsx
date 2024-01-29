@@ -6,7 +6,7 @@
  *
  */
 
-import CopyrightFieldGroup from '../../FormikForm/CopyrightFieldGroup';
+import CopyrightFieldGroup from "../../FormikForm/CopyrightFieldGroup";
 
 const ImageCopyright = () => {
   return <CopyrightFieldGroup />;

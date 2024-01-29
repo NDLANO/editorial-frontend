@@ -117,32 +117,32 @@ const SlateToolbar = ({ options: toolbarOptions, areaOptions }: Props) => {
     if (!portalRef.current) return;
     if (hideToolbar) {
       portalRef.current.removeAttribute("style");
+    } else {
+      showToolbar(portalRef.current);
     }
-    showToolbar(portalRef.current);
   });
 
   const onMouseDown = useCallback((e: MouseEvent) => e.preventDefault(), []);
 
-  if (hideToolbar) {
-    return null;
-  }
-
-  const options = toolbarState({
-    editorAncestors: getEditorAncestors(editor),
-    options: toolbarOptions,
-    areaOptions,
-  });
+  const options = useMemo(() => {
+    if (hideToolbar) return;
+    return toolbarState({
+      editorAncestors: getEditorAncestors(editor),
+      options: toolbarOptions,
+      areaOptions,
+    });
+  }, [areaOptions, editor, hideToolbar, toolbarOptions]);
 
   return (
     <Portal>
-      <ToolbarContainer id="toolbarContainer" ref={portalRef} onMouseDown={onMouseDown}>
+      <ToolbarContainer data-toolbar="" ref={portalRef} onMouseDown={onMouseDown}>
         <ToolbarRow>
-          <ToolbarTextOptions options={options.text ?? []} />
+          <ToolbarTextOptions options={options?.text ?? []} />
           <ToolbarLanguageOptions />
-          <ToolbarMarkOptions options={options.mark ?? []} />
-          <ToolbarBlockOptions options={options.block ?? []} />
-          <ToolbarInlineOptions options={options.inline ?? []} />
-          <ToolbarTableOptions options={options.table ?? []} />
+          <ToolbarMarkOptions options={options?.mark ?? []} />
+          <ToolbarBlockOptions options={options?.block ?? []} />
+          <ToolbarInlineOptions options={options?.inline ?? []} />
+          <ToolbarTableOptions options={options?.table ?? []} />
         </ToolbarRow>
       </ToolbarContainer>
     </Portal>

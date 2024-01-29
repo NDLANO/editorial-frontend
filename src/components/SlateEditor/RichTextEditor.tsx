@@ -7,7 +7,7 @@
  */
 import { useFormikContext } from "formik";
 import isEqual from "lodash/isEqual";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { FocusEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createEditor, Descendant, Editor, NodeEntry, Range, Transforms } from "slate";
 import { withHistory } from "slate-history";
 import { Slate, Editable, withReact, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
@@ -186,6 +186,16 @@ const RichTextEditor = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const onDropCallback = useCallback(onDrop(editor), []);
 
+  // Deselect selection if focus is moved to any other element than the toolbar
+  const onBlur = useCallback(
+    (e: FocusEvent<HTMLDivElement>) => {
+      if (!e.relatedTarget?.closest("[data-toolbar]")) {
+        Transforms.deselect(editor);
+      }
+    },
+    [editor],
+  );
+
   return (
     <article>
       <SlateProvider isSubmitted={submitted}>
@@ -205,6 +215,7 @@ const RichTextEditor = ({
                   />
                 )}
                 <StyledEditable
+                  onBlur={onBlur}
                   decorate={decorations}
                   // @ts-ignore is-hotkey and editor.onKeyDown does not have matching types
                   onKeyDown={editor.onKeyDown}

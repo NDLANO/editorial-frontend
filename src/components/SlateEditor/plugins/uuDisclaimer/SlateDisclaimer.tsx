@@ -24,6 +24,7 @@ import {
 } from '@ndla/modal';
 import { UuDisclaimerMetaData } from '@ndla/types-embed';
 import { UuDisclaimerEmbed } from '@ndla/ui';
+import DisclaimerForm from './DisclaimerForm';
 import { DisclaimerElement, TYPE_DISCLAIMER } from './types';
 import { useDisclaimerMeta } from '../../../../modules/embed/queries';
 import DeleteButton from '../../../DeleteButton';
@@ -101,11 +102,12 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
               <Pencil />
             </IconButtonV2>
           </ModalTrigger>
-          <ModalContent size="small">
+          <ModalContent size="normal">
             <StyledModalHeader>
-              <ModalTitle>Disclaimer</ModalTitle>
+              <ModalTitle>Universell utforming advarsel</ModalTitle>
               <ModalCloseButton />
             </StyledModalHeader>
+            <DisclaimerForm />
             {/* <DisclaimerForm
               data={element.data}
               onSave={onSave}

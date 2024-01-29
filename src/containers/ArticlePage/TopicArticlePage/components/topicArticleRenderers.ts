@@ -27,7 +27,7 @@ export const topicArticleRenderers = (articleLanguage: string): SlatePlugin[] =>
   sectionRenderer,
   spanRenderer,
   divRenderer,
-  paragraphRenderer(articleLanguage),
+  paragraphRenderer,
   noEmbedRenderer,
   linkRenderer(articleLanguage),
   headingRenderer,

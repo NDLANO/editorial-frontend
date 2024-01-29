@@ -87,7 +87,10 @@ const draftApiTypeToArticleFormType = (
     slug: article?.slug,
     responsibleId: article === undefined ? ndlaId : article?.responsible?.responsibleId,
     comments:
-      !article?.comments || (article?.status.current && RESET_COMMENTS_STATUSES.includes(article?.status.current))
+      !article?.comments ||
+      (article?.status.current &&
+        RESET_COMMENTS_STATUSES.includes(article?.status.current) &&
+        articleType !== "topic-article")
         ? []
         : article.comments,
     priority: article?.priority ?? "unspecified",

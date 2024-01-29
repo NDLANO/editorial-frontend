@@ -149,7 +149,7 @@ const LearningResourceForm = ({
               />
             </TaxonomyVersionProvider>
           </MainContent>
-          <CommentSection savedStatus={article?.status} />
+          <CommentSection savedStatus={article?.status} articleType="standard" />
         </FlexWrapper>
         <FormFooter
           initialHTML={initialHTML}

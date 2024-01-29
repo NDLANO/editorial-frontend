@@ -140,7 +140,7 @@ const TopicArticleForm = ({
               />
             </TaxonomyVersionProvider>
           </MainContent>
-          <CommentSection savedStatus={article?.status} />
+          <CommentSection savedStatus={article?.status} articleType="topic-article" />
         </FlexWrapper>
         <FormFooter
           licenses={licenses ?? []}

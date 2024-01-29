@@ -9,7 +9,7 @@
 import chunk from "lodash/chunk";
 import uniqBy from "lodash/uniqBy";
 import { useQuery, useQueryClient, UseQueryOptions } from "@tanstack/react-query";
-import { IDraftResponsible, IEditorNote, IRevisionMeta } from "@ndla/types-backend/draft-api";
+import { IComment, IDraftResponsible, IEditorNote, IRevisionMeta } from "@ndla/types-backend/draft-api";
 import { Node, NodeChild, NodeType } from "@ndla/types-taxonomy";
 import { fetchChildNodes, fetchNode, fetchNodeResources, fetchNodes, searchNodes } from "./nodeApi";
 import { GetNodeParams, GetNodeResourcesParams, RESOURCE_NODE, TOPIC_NODE } from "./nodeApiTypes";
@@ -87,6 +87,7 @@ export interface NodeResourceMeta {
   revisions?: IRevisionMeta[];
   responsible?: IDraftResponsible;
   started?: boolean;
+  comments?: IComment[];
 }
 
 export const useNodeResourceMetas = (
@@ -133,7 +134,7 @@ const fetchNodeResourceMetas = async (params: UseNodeResourceMetas): Promise<Nod
     : Promise.resolve([]);
   const [articles, learningpaths] = await Promise.all([articlesPromise, learningpathsPromise]);
   const transformedArticles: NodeResourceMeta[] = articles.map(
-    ({ status, grepCodes, articleType, id, revision, revisions, notes, responsible, started }) => ({
+    ({ status, grepCodes, articleType, id, revision, revisions, notes, responsible, started, comments }) => ({
       status,
       grepCodes,
       articleType,
@@ -143,6 +144,7 @@ const fetchNodeResourceMetas = async (params: UseNodeResourceMetas): Promise<Nod
       revisions,
       notes,
       started,
+      comments,
     }),
   );
   const transformedLearningpaths: NodeResourceMeta[] = learningpaths.map((lp) => ({

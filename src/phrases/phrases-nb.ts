@@ -1457,6 +1457,14 @@ const phrases = {
       inputPlaceholder: 'Beskrivelse av revisjonen',
       deleteTooltip: 'Fjern denne revisjonen',
     },
+    disclaimer: {
+      title: 'Universell utforming advarsel',
+      exampleHeader: 'Skriv inn hvem som vil få problemer med komponenten og med hva',
+      exampleText:
+        'F.eks. Har du utfordringer med syn eller kognisjon? Da kan du få problemer med å oppfatte og forstå dette innholdet. Du kan istedet bruke denne siden: www.ndla.eksempel.no',
+      exampleLinkText: 'Her finner du eksempelsetninger som skal brukes i fritekstfelt',
+      editorHeader: 'Skriv inn hvor brukeren finner alternativt innhold',
+    },
   },
   validation: {
     isRequired: '{{label}} er påkrevd.',

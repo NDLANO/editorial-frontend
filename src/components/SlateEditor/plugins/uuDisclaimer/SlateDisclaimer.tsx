@@ -16,6 +16,7 @@ import { colors, spacing } from '@ndla/core';
 import { Pencil } from '@ndla/icons/action';
 import {
   Modal,
+  ModalBody,
   ModalCloseButton,
   ModalContent,
   ModalHeader,
@@ -104,10 +105,12 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
           </ModalTrigger>
           <ModalContent size="normal">
             <StyledModalHeader>
-              <ModalTitle>Universell utforming advarsel</ModalTitle>
+              <ModalTitle>{t('form.disclaimer.title')}</ModalTitle>
               <ModalCloseButton />
             </StyledModalHeader>
-            <DisclaimerForm />
+            <ModalBody>
+              <DisclaimerForm />
+            </ModalBody>
             {/* <DisclaimerForm
               data={element.data}
               onSave={onSave}

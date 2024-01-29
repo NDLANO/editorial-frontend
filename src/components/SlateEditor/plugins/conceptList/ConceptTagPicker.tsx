@@ -6,22 +6,22 @@
  *
  */
 
-import { ChangeEvent, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2, CloseButton } from '@ndla/button';
-import { spacing } from '@ndla/core';
-import { Input } from '@ndla/forms';
-import { Spinner } from '@ndla/icons';
-import { ModalBody, ModalHeader } from '@ndla/modal';
-import { ConceptListEmbedData } from '@ndla/types-embed';
-import { Node } from '@ndla/types-taxonomy';
-import { Figure, BlockConcept } from '@ndla/ui';
-import { ConceptListElement } from '.';
-import { fetchAllSubjects, fetchAllTags } from '../../../../modules/concept/conceptApi';
-import { useSearchConcepts } from '../../../../modules/concept/conceptQueries';
-import { fetchNode } from '../../../../modules/nodes/nodeApi';
-import Dropdown, { DropdownItem } from '../../../Dropdown/Dropdown';
+import { ChangeEvent, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2, CloseButton } from "@ndla/button";
+import { spacing } from "@ndla/core";
+import { Input } from "@ndla/forms";
+import { Spinner } from "@ndla/icons";
+import { ModalBody, ModalHeader } from "@ndla/modal";
+import { ConceptListEmbedData } from "@ndla/types-embed";
+import { Node } from "@ndla/types-taxonomy";
+import { Figure, BlockConcept } from "@ndla/ui";
+import { ConceptListElement } from ".";
+import { fetchAllSubjects, fetchAllTags } from "../../../../modules/concept/conceptApi";
+import { useSearchConcepts } from "../../../../modules/concept/conceptQueries";
+import { fetchNode } from "../../../../modules/nodes/nodeApi";
+import Dropdown, { DropdownItem } from "../../../Dropdown/Dropdown";
 
 const TwoColumn = styled.div`
   display: flex;
@@ -55,16 +55,19 @@ const ConceptTagPicker = ({ element, onClose, language, onSave: onSaveProp }: Pr
     element.data.tag ? { name: element.data.tag, id: element.data.tag } : undefined,
   );
   const [selectedSubject, setSelectedSubject] = useState<DropdownItem | undefined>(
-    element.data.subjectId
-      ? { name: element.data.subjectId, id: element.data.subjectId }
-      : undefined,
+    element.data.subjectId ? { name: element.data.subjectId, id: element.data.subjectId } : undefined,
   );
-  const [titleInput, setTitleInput] = useState(element.data.title || '');
+  const [titleInput, setTitleInput] = useState(element.data.title || "");
   const [tags, setTags] = useState<DropdownItem[]>([]);
   const [subjects, setSubjects] = useState<DropdownItem[]>([]);
 
   const conceptSearchQuery = useSearchConcepts(
-    { subjects: selectedSubject?.id, tags: selectedTag?.id, language, 'page-size': 200 },
+    {
+      subjects: selectedSubject?.id,
+      tags: selectedTag?.id,
+      language,
+      "page-size": 200,
+    },
     { enabled: !!selectedTag?.id },
   );
 
@@ -74,10 +77,10 @@ const ConceptTagPicker = ({ element, onClose, language, onSave: onSaveProp }: Pr
 
   const onSave = () => {
     onSaveProp({
-      resource: 'concept-list',
-      tag: selectedTag?.id ?? '',
+      resource: "concept-list",
+      tag: selectedTag?.id ?? "",
       title: titleInput,
-      subjectId: selectedSubject?.id ?? '',
+      subjectId: selectedSubject?.id ?? "",
     });
   };
 
@@ -88,15 +91,15 @@ const ConceptTagPicker = ({ element, onClose, language, onSave: onSaveProp }: Pr
         fetchNode({
           id: element.data.subjectId,
           language,
-          taxonomyVersion: 'default',
+          taxonomyVersion: "default",
         })
           .then((subject) => {
             setSelectedSubject({ name: subject.name, id: subject.id });
           })
           .catch(() => {
             setSelectedSubject({
-              id: element.data.subjectId || '',
-              name: t('form.content.conceptList.subjectMissing', {
+              id: element.data.subjectId || "",
+              name: t("form.content.conceptList.subjectMissing", {
                 subjectId: element.data.subjectId,
               }),
             });
@@ -104,20 +107,16 @@ const ConceptTagPicker = ({ element, onClose, language, onSave: onSaveProp }: Pr
       }
 
       fetchAllTags(language).then((tags) => {
-        const items = tags
-          .map((tag) => ({ name: tag, id: tag }))
-          .sort((a, b) => a.name.localeCompare(b.name));
+        const items = tags.map((tag) => ({ name: tag, id: tag })).sort((a, b) => a.name.localeCompare(b.name));
         setTags(items);
       });
 
       const subjectIds: string[] = await fetchAllSubjects();
       const subjectResults = await Promise.allSettled(
-        subjectIds.map((id) => fetchNode({ id, language, taxonomyVersion: 'default' })),
+        subjectIds.map((id) => fetchNode({ id, language, taxonomyVersion: "default" })),
       );
       const subjects = (
-        subjectResults.filter((result) => result.status === 'fulfilled') as Array<
-          PromiseFulfilledResult<Node>
-        >
+        subjectResults.filter((result) => result.status === "fulfilled") as Array<PromiseFulfilledResult<Node>>
       ).map((res) => {
         const subject = res.value;
         return { name: subject.name, id: subject.id };
@@ -136,30 +135,26 @@ const ConceptTagPicker = ({ element, onClose, language, onSave: onSaveProp }: Pr
       <ModalBody>
         <TwoColumn>
           <FormInput>
-            <Input
-              value={titleInput}
-              onChange={onChangeTitleInput}
-              placeholder={t('form.name.title')}
-            />
+            <Input value={titleInput} onChange={onChangeTitleInput} placeholder={t("form.name.title")} />
             <Dropdown
               items={tags}
               onSelect={setSelectedTag}
               onReset={() => setSelectedTag(undefined)}
               selectedTag={selectedTag}
-              placeholder={t('form.categories.label')}
+              placeholder={t("form.categories.label")}
             />
             <Dropdown
               items={subjects}
               onSelect={setSelectedSubject}
               onReset={() => setSelectedSubject(undefined)}
               selectedTag={selectedSubject}
-              placeholder={t('form.name.subjects')}
+              placeholder={t("form.name.subjects")}
             />
             {conceptSearchQuery.isLoading ? (
               <Spinner />
             ) : conceptSearchQuery.data?.results.length ? (
               <div>
-                <p>{`${t('searchPage.totalCount')}: ${conceptSearchQuery.data.totalCount}`}</p>
+                <p>{`${t("searchPage.totalCount")}: ${conceptSearchQuery.data.totalCount}`}</p>
                 <Figure type="full" resizeIframe>
                   <StyledList>
                     {conceptSearchQuery.data.results?.map((concept) => (
@@ -178,11 +173,11 @@ const ConceptTagPicker = ({ element, onClose, language, onSave: onSaveProp }: Pr
                 </Figure>
               </div>
             ) : (
-              <p>{t('conceptSearch.noResults')}</p>
+              <p>{t("conceptSearch.noResults")}</p>
             )}
           </FormInput>
           <ButtonV2 onClick={onSave} disabled={!selectedTag || conceptSearchQuery.isLoading}>
-            {t('form.save')}
+            {t("form.save")}
           </ButtonV2>
         </TwoColumn>
       </ModalBody>

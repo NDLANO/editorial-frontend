@@ -6,16 +6,16 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { colors } from '@ndla/core';
-import { Taxonomy } from '@ndla/icons/editor';
-import { Node } from '@ndla/types-taxonomy';
-import MenuItemButton from './components/MenuItemButton';
-import RoundIcon from '../../../../components/RoundIcon';
-import { useTaxonomyVersion } from '../../../../containers/StructureVersion/TaxonomyVersionProvider';
-import { toNodeDiff } from '../../../../util/routeHelpers';
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+import styled from "@emotion/styled";
+import { colors } from "@ndla/core";
+import { Taxonomy } from "@ndla/icons/editor";
+import { Node } from "@ndla/types-taxonomy";
+import MenuItemButton from "./components/MenuItemButton";
+import RoundIcon from "../../../../components/RoundIcon";
+import { useTaxonomyVersion } from "../../../../containers/StructureVersion/TaxonomyVersionProvider";
+import { toNodeDiff } from "../../../../util/routeHelpers";
 
 interface Props {
   node: Node;
@@ -31,10 +31,10 @@ const ToNodeDiff = ({ node }: Props) => {
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   return (
-    <StyledLink to={toNodeDiff(node.id, taxonomyVersion, 'default')}>
+    <StyledLink to={toNodeDiff(node.id, taxonomyVersion, "default")}>
       <MenuItemButton data-testid="toNodeDiff">
         <RoundIcon small icon={<Taxonomy />} />
-        {t('diff.compareVersions')}
+        {t("diff.compareVersions")}
       </MenuItemButton>
     </StyledLink>
   );

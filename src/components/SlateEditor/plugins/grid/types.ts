@@ -6,5 +6,5 @@
  *
  */
 
-export const TYPE_GRID = 'grid';
-export const TYPE_GRID_CELL = 'grid-cell';
+export const TYPE_GRID = "grid";
+export const TYPE_GRID_CELL = "grid-cell";

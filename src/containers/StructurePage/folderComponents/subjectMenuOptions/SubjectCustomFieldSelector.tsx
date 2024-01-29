@@ -6,10 +6,10 @@
  *
  */
 
-import sortBy from 'lodash/sortBy';
-import TaxonomyMetadataDropdown from './TaxonomyMetadataDropdown';
-import { DRAFT_RESPONSIBLE } from '../../../../constants';
-import { useAuth0Responsibles } from '../../../../modules/auth0/auth0Queries';
+import sortBy from "lodash/sortBy";
+import TaxonomyMetadataDropdown from "./TaxonomyMetadataDropdown";
+import { DRAFT_RESPONSIBLE } from "../../../../constants";
+import { useAuth0Responsibles } from "../../../../modules/auth0/auth0Queries";
 
 interface Props {
   customFields: Record<string, string>;
@@ -18,12 +18,7 @@ interface Props {
   messages: Record<string, string>;
 }
 
-const SubjestCustomFieldSelector = ({
-  customFields,
-  updateCustomFields,
-  field,
-  messages,
-}: Props) => {
+const SubjestCustomFieldSelector = ({ customFields, updateCustomFields, field, messages }: Props) => {
   const { data: responsibles } = useAuth0Responsibles(
     { permission: DRAFT_RESPONSIBLE },
     {

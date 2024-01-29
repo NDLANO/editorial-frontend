@@ -6,33 +6,29 @@
  *
  */
 
-import { Formik, FormikHelpers } from 'formik';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
-import {
-  IImageMetaInformationV3,
-  INewImageMetaInformationV2,
-  ILicense,
-} from '@ndla/types-backend/image-api';
-import ImageContent from './ImageContent';
-import ImageCopyright from './ImageCopyright';
-import ImageMetaData from './ImageMetaData';
-import FormAccordion from '../../../components/Accordion/FormAccordion';
-import FormAccordions from '../../../components/Accordion/FormAccordions';
-import validateFormik, { RulesType, getWarnings } from '../../../components/formikValidationSchema';
-import FormWrapper from '../../../components/FormWrapper';
-import HeaderWithLanguage from '../../../components/HeaderWithLanguage/HeaderWithLanguage';
-import SaveButton from '../../../components/SaveButton';
-import { MAX_IMAGE_UPLOAD_SIZE, SAVE_BUTTON_ID } from '../../../constants';
-import { editorValueToPlainText } from '../../../util/articleContentConverter';
-import { isFormikFormDirty } from '../../../util/formHelper';
-import { AlertModalWrapper } from '../../FormikForm';
-import SimpleVersionPanel from '../../FormikForm/SimpleVersionPanel';
-import { imageApiTypeToFormType, ImageFormikType } from '../imageTransformers';
+import { Formik, FormikHelpers } from "formik";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { spacing } from "@ndla/core";
+import { IImageMetaInformationV3, INewImageMetaInformationV2, ILicense } from "@ndla/types-backend/image-api";
+import ImageContent from "./ImageContent";
+import ImageCopyright from "./ImageCopyright";
+import ImageMetaData from "./ImageMetaData";
+import FormAccordion from "../../../components/Accordion/FormAccordion";
+import FormAccordions from "../../../components/Accordion/FormAccordions";
+import validateFormik, { RulesType, getWarnings } from "../../../components/formikValidationSchema";
+import FormWrapper from "../../../components/FormWrapper";
+import HeaderWithLanguage from "../../../components/HeaderWithLanguage/HeaderWithLanguage";
+import SaveButton from "../../../components/SaveButton";
+import { MAX_IMAGE_UPLOAD_SIZE, SAVE_BUTTON_ID } from "../../../constants";
+import { editorValueToPlainText } from "../../../util/articleContentConverter";
+import { isFormikFormDirty } from "../../../util/formHelper";
+import { AlertModalWrapper } from "../../FormikForm";
+import SimpleVersionPanel from "../../FormikForm/SimpleVersionPanel";
+import { imageApiTypeToFormType, ImageFormikType } from "../imageTransformers";
 
 const ButtonContainer = styled.div`
   margin-top: ${spacing.small};
@@ -72,7 +68,7 @@ const imageRules: RulesType<ImageFormikType, IImageMetaInformationV3> = {
   imageFile: {
     required: true,
   },
-  'imageFile.size': {
+  "imageFile.size": {
     maxSize: MAX_IMAGE_UPLOAD_SIZE,
   },
   license: {
@@ -80,7 +76,7 @@ const imageRules: RulesType<ImageFormikType, IImageMetaInformationV3> = {
     test: (values) => {
       const authors = values.creators.concat(values.rightsholders).concat(values.processors);
       if (!values.license || authors.length > 0) return undefined;
-      return { translationKey: 'validation.noLicenseWithoutCopyrightHolder' };
+      return { translationKey: "validation.noLicenseWithoutCopyrightHolder" };
     },
   },
 };
@@ -99,15 +95,15 @@ interface Props {
 }
 
 export type ImageFormErrorFields =
-  | 'alttext'
-  | 'caption'
-  | 'creators'
-  | 'imageFile'
-  | 'license'
-  | 'processors'
-  | 'rightsholders'
-  | 'tags'
-  | 'title';
+  | "alttext"
+  | "caption"
+  | "creators"
+  | "imageFile"
+  | "license"
+  | "processors"
+  | "rightsholders"
+  | "tags"
+  | "title";
 
 const ImageForm = ({
   licenses,
@@ -190,8 +186,7 @@ const ImageForm = ({
           dirty,
           changed: isNewLanguage,
         });
-        const hasError = (errorFields: ImageFormErrorFields[]): boolean =>
-          errorFields.some((field) => !!errors[field]);
+        const hasError = (errorFields: ImageFormErrorFields[]): boolean => errorFields.some((field) => !!errors[field]);
         return (
           <FormWrapper inModal={inModal}>
             <HeaderWithLanguage
@@ -202,34 +197,34 @@ const ImageForm = ({
               type="image"
               title={image?.title.title}
             />
-            <FormAccordions defaultOpen={['content']}>
+            <FormAccordions defaultOpen={["content"]}>
               <FormAccordion
                 id="content"
-                title={t('form.contentSection')}
+                title={t("form.contentSection")}
                 className="u-4/6@desktop u-push-1/6@desktop"
-                hasError={hasError(['title', 'imageFile', 'caption', 'alttext'])}
+                hasError={hasError(["title", "imageFile", "caption", "alttext"])}
               >
                 <ImageContent />
               </FormAccordion>
               <FormAccordion
                 id="copyright"
-                title={t('form.copyrightSection')}
-                hasError={hasError(['rightsholders', 'creators', 'processors', 'license'])}
+                title={t("form.copyrightSection")}
+                hasError={hasError(["rightsholders", "creators", "processors", "license"])}
               >
                 <ImageCopyright />
               </FormAccordion>
               <FormAccordion
                 id="metadata"
-                title={t('form.metadataSection')}
-                className={'u-6/6'}
-                hasError={hasError(['tags'])}
+                title={t("form.metadataSection")}
+                className={"u-6/6"}
+                hasError={hasError(["tags"])}
               >
                 <ImageMetaData imageLanguage={language} imageTags={values.tags} />
               </FormAccordion>
               <FormAccordion
                 id="image-upload-version-history"
-                title={t('form.workflowSection')}
-                className={'u-6/6'}
+                title={t("form.workflowSection")}
+                className={"u-6/6"}
                 hasError={false}
               >
                 <SimpleVersionPanel editorNotes={image?.editorNotes} />
@@ -238,20 +233,16 @@ const ImageForm = ({
             <ButtonContainer>
               {inModal ? (
                 <ButtonV2 variant="outline" onClick={closeModal}>
-                  {t('form.abort')}
+                  {t("form.abort")}
                 </ButtonV2>
               ) : (
-                <ButtonV2
-                  variant="outline"
-                  disabled={isSubmitting || isSaving}
-                  onClick={() => navigate(-1)}
-                >
-                  {t('form.abort')}
+                <ButtonV2 variant="outline" disabled={isSubmitting || isSaving} onClick={() => navigate(-1)}>
+                  {t("form.abort")}
                 </ButtonV2>
               )}
               <SaveButton
                 id={SAVE_BUTTON_ID}
-                type={!inModal ? 'submit' : 'button'}
+                type={!inModal ? "submit" : "button"}
                 isSaving={isSubmitting || isSaving}
                 disabled={!isValid}
                 showSaved={!dirty && (isNewlyCreated || savedToServer)}
@@ -268,7 +259,7 @@ const ImageForm = ({
               isSubmitting={isSubmitting}
               severity="danger"
               formIsDirty={formIsDirty}
-              text={t('alertModal.notSaved')}
+              text={t("alertModal.notSaved")}
             />
           </FormWrapper>
         );

@@ -6,4 +6,4 @@
  *
  */
 
-export const TYPE_SPAN = 'span';
+export const TYPE_SPAN = "span";

@@ -6,20 +6,18 @@
  *
  */
 
-import { FieldProps, FormikValues } from 'formik';
-import { memo } from 'react';
-import { useTranslation } from 'react-i18next';
-import GrepCodesFieldContent from './GrepCodesFieldContent';
-import FormikField from '../../components/FormikField';
+import { FieldProps, FormikValues } from "formik";
+import { memo } from "react";
+import { useTranslation } from "react-i18next";
+import GrepCodesFieldContent from "./GrepCodesFieldContent";
+import FormikField from "../../components/FormikField";
 
 const GrepCodesField = () => {
   const { t } = useTranslation();
   return (
     <>
-      <FormikField name="grepCodes" label={t('form.grepCodes.label')}>
-        {({ field, form }: FieldProps<string[], FormikValues>) => (
-          <GrepCodesFieldContent field={field} form={form} />
-        )}
+      <FormikField name="grepCodes" label={t("form.grepCodes.label")}>
+        {({ field, form }: FieldProps<string[], FormikValues>) => <GrepCodesFieldContent field={field} form={form} />}
       </FormikField>
     </>
   );

@@ -6,33 +6,29 @@
  *
  */
 
-import { useEffect, useRef, useState, MouseEvent, ReactNode, useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Editor, Transforms } from 'slate';
-import { ReactEditor, RenderElementProps } from 'slate-react';
-import styled from '@emotion/styled';
-import { Root, Anchor, Portal } from '@radix-ui/react-popover';
-import { IconButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
-import { Pencil } from '@ndla/icons/action';
-import { DeleteForever } from '@ndla/icons/editor';
-import Tooltip from '@ndla/tooltip';
-import { RelatedContentEmbedData, RelatedContentMetaData } from '@ndla/types-embed';
-import { RelatedArticleList, RelatedContentEmbed } from '@ndla/ui';
-import { RelatedElement } from '.';
-import EditRelated from './EditRelated';
-import { useTaxonomyVersion } from '../../../../containers/StructureVersion/TaxonomyVersionProvider';
-import { fetchDraft } from '../../../../modules/draft/draftApi';
-import { fetchNodes } from '../../../../modules/nodes/nodeApi';
-import {
-  toEditFrontPageArticle,
-  toEditLearningResource,
-  toEditTopicArticle,
-} from '../../../../util/routeHelpers';
-import Overlay from '../../../Overlay';
+import { useEffect, useRef, useState, MouseEvent, ReactNode, useCallback } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Transforms } from "slate";
+import { ReactEditor, RenderElementProps } from "slate-react";
+import styled from "@emotion/styled";
+import { Root, Anchor, Portal } from "@radix-ui/react-popover";
+import { IconButtonV2 } from "@ndla/button";
+import { spacing } from "@ndla/core";
+import { Pencil } from "@ndla/icons/action";
+import { DeleteForever } from "@ndla/icons/editor";
+import Tooltip from "@ndla/tooltip";
+import { RelatedContentEmbedData, RelatedContentMetaData } from "@ndla/types-embed";
+import { RelatedArticleList, RelatedContentEmbed } from "@ndla/ui";
+import { RelatedElement } from ".";
+import EditRelated from "./EditRelated";
+import { useTaxonomyVersion } from "../../../../containers/StructureVersion/TaxonomyVersionProvider";
+import { fetchDraft } from "../../../../modules/draft/draftApi";
+import { fetchNodes } from "../../../../modules/nodes/nodeApi";
+import { toEditFrontPageArticle, toEditLearningResource, toEditTopicArticle } from "../../../../util/routeHelpers";
+import Overlay from "../../../Overlay";
 
 interface Props {
-  attributes: RenderElementProps['attributes'];
+  attributes: RenderElementProps["attributes"];
   editor: Editor;
   element: RelatedElement;
   onRemoveClick: (e: MouseEvent<HTMLButtonElement>) => void;
@@ -44,13 +40,11 @@ const ButtonWrapper = styled.div`
   gap: ${spacing.xsmall};
 `;
 
-const externalEmbedToMeta = async (
-  embedData: RelatedContentEmbedData,
-): Promise<RelatedContentMetaData> => {
+const externalEmbedToMeta = async (embedData: RelatedContentEmbedData): Promise<RelatedContentMetaData> => {
   return {
-    resource: 'related-content',
+    resource: "related-content",
     embedData,
-    status: 'success',
+    status: "success",
     data: undefined,
   };
 };
@@ -69,15 +63,15 @@ const internalEmbedToMeta = async (
 
   if (!!article && !!nodes?.length) {
     const func =
-      article.articleType === 'frontpage-article'
+      article.articleType === "frontpage-article"
         ? toEditFrontPageArticle
-        : article.articleType === 'topic-article'
+        : article.articleType === "topic-article"
           ? toEditTopicArticle
           : toEditLearningResource;
     return {
-      resource: 'related-content',
+      resource: "related-content",
       embedData,
-      status: 'success',
+      status: "success",
       data: {
         article,
         resource: {
@@ -90,19 +84,15 @@ const internalEmbedToMeta = async (
     };
   } else {
     return {
-      resource: 'related-content',
+      resource: "related-content",
       embedData,
-      status: 'error',
-      message: 'Failed to fetch data',
+      status: "error",
+      message: "Failed to fetch data",
     };
   }
 };
 
-const embedsToMeta = async (
-  embeds: RelatedContentEmbedData[],
-  language: string,
-  taxonomyVersion: string,
-) => {
+const embedsToMeta = async (embeds: RelatedContentEmbedData[], language: string, taxonomyVersion: string) => {
   const promises = embeds.map((embed) => {
     if (embed.articleId) {
       return internalEmbedToMeta(embed, language, taxonomyVersion);
@@ -139,7 +129,7 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
 
   const insertExternal = async (title: string, url: string) => {
     const newEmbed: RelatedContentEmbedData = {
-      resource: 'related-content',
+      resource: "related-content",
       title,
       url,
     };
@@ -155,12 +145,11 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
     if (exists) {
       return;
     }
-    const newEmbed: RelatedContentEmbedData = { resource: 'related-content', articleId };
-    const embed = await internalEmbedToMeta(
-      { resource: 'related-content', articleId },
-      i18n.language,
-      taxonomyVersion,
-    );
+    const newEmbed: RelatedContentEmbedData = {
+      resource: "related-content",
+      articleId,
+    };
+    const embed = await internalEmbedToMeta({ resource: "related-content", articleId }, i18n.language, taxonomyVersion);
     setEmbeds((embeds) => embeds.concat(embed));
     setNodeData(existingNodes.concat(newEmbed));
   };
@@ -206,22 +195,13 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
         data-testid="relatedWrapper"
         headingButtons={
           <ButtonWrapper>
-            <Tooltip tooltip={t('form.edit')}>
-              <StyledIconButton
-                onClick={() => setEditMode(true)}
-                aria-label={t('form.edit')}
-                variant="ghost"
-              >
+            <Tooltip tooltip={t("form.edit")}>
+              <StyledIconButton onClick={() => setEditMode(true)} aria-label={t("form.edit")} variant="ghost">
                 <Pencil />
               </StyledIconButton>
             </Tooltip>
-            <Tooltip tooltip={t('delete')}>
-              <StyledIconButton
-                onClick={deleteElement}
-                aria-label={t('delete')}
-                variant="ghost"
-                colorTheme="danger"
-              >
+            <Tooltip tooltip={t("delete")}>
+              <StyledIconButton onClick={deleteElement} aria-label={t("delete")} variant="ghost" colorTheme="danger">
                 <DeleteForever />
               </StyledIconButton>
             </Tooltip>

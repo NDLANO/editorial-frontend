@@ -6,10 +6,10 @@
  *
  */
 
-import qs from 'query-string';
-import { H5pLicenseInformation, H5pPreviewResponse } from '@ndla/types-embed';
-import config from '../../config';
-import { fetchReAuthorized, resolveJsonOrRejectWithError } from '../../util/apiHelpers';
+import qs from "query-string";
+import { H5pLicenseInformation, H5pPreviewResponse } from "@ndla/types-embed";
+import config from "../../config";
+import { fetchReAuthorized, resolveJsonOrRejectWithError } from "../../util/apiHelpers";
 
 export interface H5PInfo {
   h5pLibrary: {
@@ -22,43 +22,37 @@ export interface H5PInfo {
 }
 
 export const fetchH5PiframeUrl = (
-  locale: string = '',
+  locale: string = "",
   canReturnResources: boolean = false,
 ): Promise<{ url: string }> => {
   return fetchReAuthorized(
-    `${config.h5pApiUrl}/select?locale=${getH5pLocale(
-      locale,
-    )}&canReturnResources=${canReturnResources}`,
+    `${config.h5pApiUrl}/select?locale=${getH5pLocale(locale)}&canReturnResources=${canReturnResources}`,
     {
-      method: 'POST',
+      method: "POST",
       headers: { Authorization: `Bearer JWT-token` },
     },
   ).then((r) => resolveJsonOrRejectWithError(r));
 };
 
-export const editH5PiframeUrl = (url: string, locale: string = ''): Promise<{ url: string }> => {
+export const editH5PiframeUrl = (url: string, locale: string = ""): Promise<{ url: string }> => {
   return fetchReAuthorized(`${config.h5pApiUrl}/select/edit/byurl?locale=${getH5pLocale(locale)}`, {
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
       Authorization: `Bearer JWT-token`,
     },
-    method: 'POST',
+    method: "POST",
     body: `url=${encodeURIComponent(url)}`,
   }).then((r) => resolveJsonOrRejectWithError(r));
 };
 
 export const getH5pLocale = (language: string) => {
-  return language === 'en' ? 'en-gb' : 'nn' === language ? 'nn-no' : 'nb-no';
+  return language === "en" ? "en-gb" : "nn" === language ? "nn-no" : "nb-no";
 };
 
 export const fetchH5pPreviewOembed = async (url: string): Promise<H5pPreviewResponse> =>
-  fetch(`${config.h5pApiUrl}/oembed/preview?${qs.stringify({ url })}`).then((r) =>
-    resolveJsonOrRejectWithError(r),
-  );
+  fetch(`${config.h5pApiUrl}/oembed/preview?${qs.stringify({ url })}`).then((r) => resolveJsonOrRejectWithError(r));
 
-export const fetchH5pLicenseInformation = async (
-  resourceId: string,
-): Promise<H5pLicenseInformation | undefined> => {
+export const fetchH5pLicenseInformation = async (resourceId: string): Promise<H5pLicenseInformation | undefined> => {
   const url = `${config.h5pApiUrl}/v2/resource/${resourceId}/copyright`;
   return await fetch(url)
     .then((r) => resolveJsonOrRejectWithError<H5pLicenseInformation>(r))

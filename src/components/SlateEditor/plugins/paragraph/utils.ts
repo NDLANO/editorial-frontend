@@ -6,13 +6,13 @@
  *
  */
 
-import { Editor, Element, Node } from 'slate';
-import { jsx as slatejsx } from 'slate-hyperscript';
-import { ParagraphElement } from '.';
-import { TYPE_PARAGRAPH } from './types';
+import { Editor, Element, Node } from "slate";
+import { jsx as slatejsx } from "slate-hyperscript";
+import { ParagraphElement } from ".";
+import { TYPE_PARAGRAPH } from "./types";
 
 export const defaultParagraphBlock = () =>
-  slatejsx('element', { type: TYPE_PARAGRAPH }, { text: '' }) as ParagraphElement;
+  slatejsx("element", { type: TYPE_PARAGRAPH }, { text: "" }) as ParagraphElement;
 
 export const isParagraph = (node: Node | undefined): node is ParagraphElement => {
   return Element.isElement(node) && node.type === TYPE_PARAGRAPH;
@@ -22,7 +22,7 @@ export const getCurrentParagraph = (editor: Editor) => {
   if (!editor.selection?.anchor) return null;
   const [entry] = Editor.nodes(editor, {
     match: (node) => Element.isElement(node) && !editor.isInline(node),
-    mode: 'lowest',
+    mode: "lowest",
   });
 
   if (!entry) {

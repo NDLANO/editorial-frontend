@@ -6,20 +6,20 @@
  *
  */
 
-import { ReactNode } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Editor } from 'slate';
-import { RenderElementProps } from 'slate-react';
-import styled from '@emotion/styled';
-import { colors } from '@ndla/core';
-import { TableStyling } from '@ndla/ui';
-import { TableElement } from './interfaces';
-import { removeTable } from './slateActions';
-import DeleteButton from '../../../DeleteButton';
+import { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor } from "slate";
+import { RenderElementProps } from "slate-react";
+import styled from "@emotion/styled";
+import { colors } from "@ndla/core";
+import { TableStyling } from "@ndla/ui";
+import { TableElement } from "./interfaces";
+import { removeTable } from "./slateActions";
+import DeleteButton from "../../../DeleteButton";
 
 interface Props {
   editor: Editor;
-  attributes: RenderElementProps['attributes'];
+  attributes: RenderElementProps["attributes"];
   element: TableElement;
   children: ReactNode;
 }
@@ -89,7 +89,7 @@ const SlateTable = ({ attributes, children, element, editor }: Props) => {
           variant="stripped"
           onClick={() => removeTable(editor, element)}
           data-testid="table-remove"
-          aria-label={t('form.content.table.table-remove')}
+          aria-label={t("form.content.table.table-remove")}
           tabIndex={-1}
         />
         {children}

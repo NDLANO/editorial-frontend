@@ -6,21 +6,21 @@
  *
  */
 
-import { useCallback, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Editor, Path, Transforms } from 'slate';
-import { ReactEditor, RenderElementProps } from 'slate-react';
-import styled from '@emotion/styled';
-import { CloseButton, IconButtonV2 } from '@ndla/button';
-import { Pencil } from '@ndla/icons/action';
-import { DeleteForever } from '@ndla/icons/editor';
-import { ModalBody, ModalHeader, ModalTitle, Modal, ModalTrigger, ModalContent } from '@ndla/modal';
-import { BlogPostEmbedData } from '@ndla/types-embed';
-import { BlogPostV2 } from '@ndla/ui';
-import BlogPostForm from './BlogPostForm';
-import { BlogPostElement } from './types';
-import config from '../../../../config';
-import { StyledDeleteEmbedButton, StyledFigureButtons } from '../embed/FigureButtons';
+import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Path, Transforms } from "slate";
+import { ReactEditor, RenderElementProps } from "slate-react";
+import styled from "@emotion/styled";
+import { CloseButton, IconButtonV2 } from "@ndla/button";
+import { Pencil } from "@ndla/icons/action";
+import { DeleteForever } from "@ndla/icons/editor";
+import { ModalBody, ModalHeader, ModalTitle, Modal, ModalTrigger, ModalContent } from "@ndla/modal";
+import { BlogPostEmbedData } from "@ndla/types-embed";
+import { BlogPostV2 } from "@ndla/ui";
+import BlogPostForm from "./BlogPostForm";
+import { BlogPostElement } from "./types";
+import config from "../../../../config";
+import { StyledDeleteEmbedButton, StyledFigureButtons } from "../embed/FigureButtons";
 
 interface Props extends RenderElementProps {
   element: BlogPostElement;
@@ -60,14 +60,20 @@ const SlateBlogPost = ({ element, editor, attributes, children }: Props) => {
   const { data } = element;
 
   const handleRemove = () => {
-    Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true });
+    Transforms.removeNodes(editor, {
+      at: ReactEditor.findPath(editor, element),
+      voids: true,
+    });
   };
 
   const onClose = () => {
     setIsEditing(false);
     ReactEditor.focus(editor);
     if (element.isFirstEdit) {
-      Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true });
+      Transforms.removeNodes(editor, {
+        at: ReactEditor.findPath(editor, element),
+        voids: true,
+      });
     }
     const path = ReactEditor.findPath(editor, element);
     if (Editor.hasPath(editor, Path.next(path))) {
@@ -106,16 +112,16 @@ const SlateBlogPost = ({ element, editor, attributes, children }: Props) => {
                 <IconButtonV2
                   colorTheme="light"
                   onClick={() => setIsEditing(true)}
-                  aria-label={t('blogPostForm.title')}
-                  title={t('blogPostForm.title')}
+                  aria-label={t("blogPostForm.title")}
+                  title={t("blogPostForm.title")}
                 >
                   <Pencil />
                 </IconButtonV2>
               </ModalTrigger>
               <StyledDeleteEmbedButton
-                aria-label={t('delete')}
+                aria-label={t("delete")}
                 colorTheme="danger"
-                title={t('delete')}
+                title={t("delete")}
                 data-testid="remove-blogpost"
                 onClick={handleRemove}
               >
@@ -129,7 +135,7 @@ const SlateBlogPost = ({ element, editor, attributes, children }: Props) => {
               url={data.url}
               metaImage={{
                 url: `${imageUrl}/${data.imageId}`,
-                alt: '',
+                alt: "",
               }}
             />
           </div>
@@ -138,7 +144,7 @@ const SlateBlogPost = ({ element, editor, attributes, children }: Props) => {
       </BlogPostWrapper>
       <ModalContent>
         <StyledModalHeader>
-          <ModalTitle>{t('blogPostForm.title')}</ModalTitle>
+          <ModalTitle>{t("blogPostForm.title")}</ModalTitle>
           <CloseButton onClick={onClose} />
         </StyledModalHeader>
         <StyledModalBody>

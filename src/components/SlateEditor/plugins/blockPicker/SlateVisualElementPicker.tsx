@@ -6,39 +6,42 @@
  *
  */
 
-import { FormikContextType, useFormikContext } from 'formik';
-import { Editor, Element } from 'slate';
-import { useSlateStatic } from 'slate-react';
-import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
-import VisualElementModalWrapper from '../../../../containers/VisualElement/VisualElementModalWrapper';
-import VisualElementSearch from '../../../../containers/VisualElement/VisualElementSearch';
-import { Embed } from '../../../../interfaces';
-import getCurrentBlock from '../../utils/getCurrentBlock';
-import { defaultEmbedBlock } from '../embed/utils';
-import { defaultFileBlock } from '../file/utils';
-import { TYPE_TABLE_CELL } from '../table/types';
+import { FormikContextType, useFormikContext } from "formik";
+import { Editor, Element } from "slate";
+import { useSlateStatic } from "slate-react";
+import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
+import VisualElementModalWrapper from "../../../../containers/VisualElement/VisualElementModalWrapper";
+import VisualElementSearch from "../../../../containers/VisualElement/VisualElementSearch";
+import { Embed } from "../../../../interfaces";
+import getCurrentBlock from "../../utils/getCurrentBlock";
+import { defaultEmbedBlock } from "../embed/utils";
+import { defaultFileBlock } from "../file/utils";
+import { TYPE_TABLE_CELL } from "../table/types";
 
 export const checkboxAction = (
   image: IImageMetaInformationV3,
-  formikContext: FormikContextType<{ metaImageId?: string; metaImageAlt?: string }>,
+  formikContext: FormikContextType<{
+    metaImageId?: string;
+    metaImageAlt?: string;
+  }>,
 ) => {
   const { setFieldValue, setFieldTouched } = formikContext;
 
   if (setFieldValue && image) {
-    setFieldValue('metaImageId', image.id || '', true);
-    setFieldValue('metaImageAlt', image.alttext?.alttext.trim() || '', true);
-    setFieldTouched('metaImageAlt', true, true);
-    setFieldTouched('metaImageId', true, true);
+    setFieldValue("metaImageId", image.id || "", true);
+    setFieldValue("metaImageAlt", image.alttext?.alttext.trim() || "", true);
+    setFieldTouched("metaImageAlt", true, true);
+    setFieldTouched("metaImageId", true, true);
   }
 };
 
 const getNewEmbed = (editor: Editor, visualElement: Embed) => {
   const data = visualElement;
 
-  if (data.resource === 'image') {
+  if (data.resource === "image") {
     const tableCell = getCurrentBlock(editor, TYPE_TABLE_CELL)?.[0];
     if (tableCell) {
-      return defaultEmbedBlock({ ...data, size: 'xsmall', align: 'left' });
+      return defaultEmbedBlock({ ...data, size: "xsmall", align: "left" });
     }
   }
 
@@ -65,7 +68,10 @@ const SlateVisualElementPicker = ({
   isOpen,
   label,
 }: Props) => {
-  const formikContext = useFormikContext<{ metaImageAlt?: string; metaImageId?: string }>();
+  const formikContext = useFormikContext<{
+    metaImageAlt?: string;
+    metaImageId?: string;
+  }>();
   const { values } = formikContext;
   const editor = useSlateStatic();
 
@@ -82,12 +88,7 @@ const SlateVisualElementPicker = ({
     onVisualElementClose();
   };
   return (
-    <VisualElementModalWrapper
-      isOpen={isOpen}
-      label={label}
-      resource={resource}
-      onClose={onVisualElementClose}
-    >
+    <VisualElementModalWrapper isOpen={isOpen} label={label} resource={resource} onClose={onVisualElementClose}>
       <VisualElementSearch
         articleLanguage={articleLanguage}
         selectedResource={resource}

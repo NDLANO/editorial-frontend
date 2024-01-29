@@ -6,13 +6,13 @@
  *
  */
 
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
-import { ResourceBox } from '@ndla/ui';
-import { ExternalEmbed } from '../../interfaces';
-import { fetchImage } from '../../modules/image/imageApi';
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
+import { ResourceBox } from "@ndla/ui";
+import { ExternalEmbed } from "../../interfaces";
+import { fetchImage } from "../../modules/image/imageApi";
 
 interface Props {
   embed: ExternalEmbed;
@@ -38,18 +38,18 @@ const SlateResourceBox = ({ embed, language }: Props) => {
   }, [embed.imageid, language]);
 
   const image = {
-    src: imageMeta?.image.imageUrl || '',
-    alt: imageMeta?.alttext.alttext || '',
+    src: imageMeta?.image.imageUrl || "",
+    alt: imageMeta?.alttext.alttext || "",
   };
 
   return (
     <ResourceBoxWrapper contentEditable={false}>
       <ResourceBox
         image={image}
-        title={embed?.title || ''}
-        caption={embed.caption || ''}
+        title={embed?.title || ""}
+        caption={embed.caption || ""}
         url={embed.url}
-        buttonText={t('license.other.itemImage.ariaLabel')}
+        buttonText={t("license.other.itemImage.ariaLabel")}
       />
     </ResourceBoxWrapper>
   );

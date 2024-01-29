@@ -6,19 +6,19 @@
  *
  */
 
-import { Descendant, Editor, Element } from 'slate';
-import { ConceptListEmbedData, EmbedData } from '@ndla/types-embed';
-import { TYPE_CONCEPT_LIST } from './types';
-import { defaultConceptListBlock } from './utils';
-import { createEmbedTagV2, reduceElementDataAttributesV2 } from '../../../../util/embedTagHelpers';
-import { SlateSerializer } from '../../interfaces';
-import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
-import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
-import { TYPE_NDLA_EMBED } from '../embed/types';
-import { TYPE_PARAGRAPH } from '../paragraph/types';
+import { Descendant, Editor, Element } from "slate";
+import { ConceptListEmbedData, EmbedData } from "@ndla/types-embed";
+import { TYPE_CONCEPT_LIST } from "./types";
+import { defaultConceptListBlock } from "./utils";
+import { createEmbedTagV2, reduceElementDataAttributesV2 } from "../../../../util/embedTagHelpers";
+import { SlateSerializer } from "../../interfaces";
+import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
+import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
+import { TYPE_NDLA_EMBED } from "../embed/types";
+import { TYPE_PARAGRAPH } from "../paragraph/types";
 
 export interface ConceptListElement {
-  type: 'concept-list';
+  type: "concept-list";
   data: ConceptListEmbedData;
   isFirstEdit?: boolean;
   children: Descendant[];
@@ -39,10 +39,8 @@ export const conceptListSerializer: SlateSerializer = {
   deserialize(el: HTMLElement) {
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const embed = el as HTMLEmbedElement;
-    const embedAttributes = reduceElementDataAttributesV2(
-      Array.from(embed.attributes),
-    ) as EmbedData;
-    if (embedAttributes.resource !== 'concept-list') return;
+    const embedAttributes = reduceElementDataAttributesV2(Array.from(embed.attributes)) as EmbedData;
+    if (embedAttributes.resource !== "concept-list") return;
     return defaultConceptListBlock(embedAttributes);
   },
   serialize(node: Descendant) {

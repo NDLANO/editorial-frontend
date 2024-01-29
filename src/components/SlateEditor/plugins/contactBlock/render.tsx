@@ -6,9 +6,9 @@
  *
  */
 
-import { Editor } from 'slate';
-import SlateContactBlock from './SlateContactBlock';
-import { TYPE_CONTACT_BLOCK } from './types';
+import { Editor } from "slate";
+import SlateContactBlock from "./SlateContactBlock";
+import { TYPE_CONTACT_BLOCK } from "./types";
 
 export const contactBlockRenderer = (editor: Editor) => {
   const { renderElement } = editor;

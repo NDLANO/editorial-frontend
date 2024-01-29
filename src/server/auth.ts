@@ -6,32 +6,28 @@
  *
  */
 
-import fetch from 'cross-fetch';
-import jwt from 'jsonwebtoken';
-import { v4 as uuidv4 } from 'uuid';
-import { getEnvironmentVariabel, getUniversalConfig, getZendeskWidgetSecret } from '../config';
+import fetch from "cross-fetch";
+import jwt from "jsonwebtoken";
+import { v4 as uuidv4 } from "uuid";
+import { getEnvironmentVariabel, getUniversalConfig, getZendeskWidgetSecret } from "../config";
 
 const url = `https://${getUniversalConfig().auth0Domain}/oauth/token`;
-const editorialFrontendClientId = getEnvironmentVariabel('NDLA_EDITORIAL_CLIENT_ID');
-const editorialFrontendClientSecret = getEnvironmentVariabel('NDLA_EDITORIAL_CLIENT_SECRET');
+const editorialFrontendClientId = getEnvironmentVariabel("NDLA_EDITORIAL_CLIENT_ID");
+const editorialFrontendClientSecret = getEnvironmentVariabel("NDLA_EDITORIAL_CLIENT_SECRET");
 
-const btoa = (str: string) => Buffer.from(str.toString(), 'binary').toString('base64');
+const btoa = (str: string) => Buffer.from(str.toString(), "binary").toString("base64");
 
 const b64EncodeUnicode = (str: string) =>
-  btoa(
-    encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (match, p1) =>
-      String.fromCharCode(Number(`0x${p1}`)),
-    ),
-  );
+  btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (match, p1) => String.fromCharCode(Number(`0x${p1}`))));
 
-export const getToken = (audience = 'ndla_system') =>
+export const getToken = (audience = "ndla_system") =>
   fetch(url, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      grant_type: 'client_credentials',
+      grant_type: "client_credentials",
       client_id: `${editorialFrontendClientId}`,
       client_secret: `${editorialFrontendClientSecret}`,
       audience,
@@ -39,17 +35,17 @@ export const getToken = (audience = 'ndla_system') =>
   }).then((res) => res.json());
 
 export const getBrightcoveToken = () => {
-  const bightCoveUrl = 'https://oauth.brightcove.com/v3/access_token';
-  const clientIdSecret = `${getEnvironmentVariabel(
-    'BRIGHTCOVE_API_CLIENT_ID',
-  )}:${getEnvironmentVariabel('BRIGHTCOVE_API_CLIENT_SECRET')}`;
+  const bightCoveUrl = "https://oauth.brightcove.com/v3/access_token";
+  const clientIdSecret = `${getEnvironmentVariabel("BRIGHTCOVE_API_CLIENT_ID")}:${getEnvironmentVariabel(
+    "BRIGHTCOVE_API_CLIENT_SECRET",
+  )}`;
   return fetch(bightCoveUrl, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+      "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
       Authorization: `Basic ${b64EncodeUnicode(clientIdSecret)}`,
     },
-    body: 'grant_type=client_credentials',
+    body: "grant_type=client_credentials",
   }).then((res) => res.json());
 };
 
@@ -57,24 +53,21 @@ type ManagementToken = { access_token: string };
 
 export const fetchAuth0UsersById = (managementToken: ManagementToken, userIds: string) => {
   const query = userIds
-    .split(',')
+    .split(",")
     .map((userId) => `"${userId}"`)
-    .join(' OR ');
-  return fetch(
-    `https://${getUniversalConfig().auth0Domain}/api/v2/users?q=app_metadata.ndla_id:(${query})`,
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${managementToken.access_token}`,
-      },
+    .join(" OR ");
+  return fetch(`https://${getUniversalConfig().auth0Domain}/api/v2/users?q=app_metadata.ndla_id:(${query})`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${managementToken.access_token}`,
     },
-  ).then((res) => res.json());
+  }).then((res) => res.json());
 };
 
 async function fetchAuth0UsersByQuery(token: string, query: string, page: number) {
   return fetch(`https://${getUniversalConfig().auth0Domain}/api/v2/users?${query}&page=${page}`, {
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
   }).then((res) => res.json());

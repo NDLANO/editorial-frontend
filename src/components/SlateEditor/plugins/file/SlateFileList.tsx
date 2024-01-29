@@ -6,31 +6,24 @@
  *
  */
 
-import { TFunction } from 'i18next';
-import { ReactNode, useCallback, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Editor, Element, Transforms } from 'slate';
-import { ReactEditor, RenderElementProps } from 'slate-react';
-import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
-import { Cross, Plus } from '@ndla/icons/action';
-import {
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalTrigger,
-} from '@ndla/modal';
-import { FileList } from '@ndla/ui';
-import { FileElement } from '.';
-import DndFileList from './DndFileList';
-import { TYPE_FILE } from './types';
-import config from '../../../../config';
-import { File, UnsavedFile } from '../../../../interfaces';
-import { headFileAtRemote } from '../../../../modules/draft/draftApi';
-import FileUploader from '../../../FileUploader';
+import { TFunction } from "i18next";
+import { ReactNode, useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Element, Transforms } from "slate";
+import { ReactEditor, RenderElementProps } from "slate-react";
+import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
+import { spacing } from "@ndla/core";
+import { Cross, Plus } from "@ndla/icons/action";
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTrigger } from "@ndla/modal";
+import { FileList } from "@ndla/ui";
+import { FileElement } from ".";
+import DndFileList from "./DndFileList";
+import { TYPE_FILE } from "./types";
+import config from "../../../../config";
+import { File, UnsavedFile } from "../../../../interfaces";
+import { headFileAtRemote } from "../../../../modules/draft/draftApi";
+import FileUploader from "../../../FileUploader";
 
 const StyledSection = styled.section`
   margin-bottom: ${spacing.normal};
@@ -38,13 +31,11 @@ const StyledSection = styled.section`
 
 const formatFile = (file: File, t: TFunction): File => ({
   ...file,
-  formats: [
-    { url: file.url, fileType: file.type, tooltip: `${t(`form.file.download`)} ${file.title}` },
-  ],
+  formats: [{ url: file.url, fileType: file.type, tooltip: `${t(`form.file.download`)} ${file.title}` }],
 });
 
 interface Props {
-  attributes: RenderElementProps['attributes'];
+  attributes: RenderElementProps["attributes"];
   editor: Editor;
   element: FileElement;
   children: ReactNode;
@@ -100,7 +91,7 @@ const SlateFileList = ({ element, editor, attributes, children }: Props) => {
     setShowFileUploader(false);
     const data = files.concat(
       newFiles.map((file) => {
-        return formatFile({ ...file, url: config.ndlaApiUrl + file.path, resource: 'file' }, t);
+        return formatFile({ ...file, url: config.ndlaApiUrl + file.path, resource: "file" }, t);
       }),
     );
     onEditFileList(data);
@@ -118,8 +109,8 @@ const SlateFileList = ({ element, editor, attributes, children }: Props) => {
               <ModalTrigger>
                 <IconButtonV2
                   variant="ghost"
-                  title={t('form.file.addFile')}
-                  aria-label={t('form.file.addFile')}
+                  title={t("form.file.addFile")}
+                  aria-label={t("form.file.addFile")}
                   size="xsmall"
                 >
                   <Plus />
@@ -137,8 +128,8 @@ const SlateFileList = ({ element, editor, attributes, children }: Props) => {
             <IconButtonV2
               variant="ghost"
               colorTheme="danger"
-              title={t('form.file.removeList')}
-              aria-label={t('form.file.removeList')}
+              title={t("form.file.removeList")}
+              aria-label={t("form.file.removeList")}
               onClick={removeFileList}
               size="xsmall"
             >

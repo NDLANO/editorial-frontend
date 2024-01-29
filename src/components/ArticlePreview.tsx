@@ -6,9 +6,9 @@
  *
  */
 
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { IArticleSummaryV2 } from '@ndla/types-backend/article-api';
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { IArticleSummaryV2 } from "@ndla/types-backend/article-api";
 
 const Container = styled.div`
   padding: ${spacing.small};
@@ -53,7 +53,7 @@ const Description = styled.p`
 `;
 
 interface Props {
-  article: Pick<IArticleSummaryV2, 'title' | 'metaDescription'> & {
+  article: Pick<IArticleSummaryV2, "title" | "metaDescription"> & {
     metaUrl?: string;
   };
   imageWidth?: number;
@@ -64,7 +64,7 @@ const ArticlePreview = ({ article, imageWidth = 200 }: Props) => {
   return (
     <Container data-testid="articlePreview">
       <ImageWrapper>
-        <img src={imageUrl ?? '/placeholder.png'} alt="" />
+        <img src={imageUrl ?? "/placeholder.png"} alt="" />
       </ImageWrapper>
       <Content>
         <Title>{article.title.title}</Title>

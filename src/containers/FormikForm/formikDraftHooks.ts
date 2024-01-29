@@ -6,18 +6,18 @@
  *
  */
 
-import uniq from 'lodash/uniq';
-import { useState, useEffect, useCallback } from 'react';
-import { INewArticle, IUpdatedArticle, IArticle } from '@ndla/types-backend/draft-api';
-import { LAST_UPDATED_SIZE } from '../../constants';
+import uniq from "lodash/uniq";
+import { useState, useEffect, useCallback } from "react";
+import { INewArticle, IUpdatedArticle, IArticle } from "@ndla/types-backend/draft-api";
+import { LAST_UPDATED_SIZE } from "../../constants";
 import {
   fetchDraft,
   updateDraft,
   createDraft,
   fetchUserData,
   updateUserData as apiUpdateUserData,
-} from '../../modules/draft/draftApi';
-import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
+} from "../../modules/draft/draftApi";
+import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 
 export function useFetchArticleData(articleId: number | undefined, language: string) {
   const [article, _setArticle] = useState<IArticle | undefined>(undefined);
@@ -48,7 +48,7 @@ export function useFetchArticleData(articleId: number | undefined, language: str
 
   const updateArticle = useCallback(
     async (updatedArticle: IUpdatedArticle): Promise<IArticle> => {
-      if (!articleId) throw new Error('Received article without id when updating');
+      if (!articleId) throw new Error("Received article without id when updating");
       const savedArticle = await updateDraft(articleId, updatedArticle);
       await updateUserData(savedArticle.id);
       _setArticle(savedArticle);

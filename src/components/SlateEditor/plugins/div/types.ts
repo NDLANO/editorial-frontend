@@ -6,4 +6,4 @@
  *
  */
 
-export const TYPE_DIV = 'div';
+export const TYPE_DIV = "div";

@@ -6,15 +6,15 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { useParams, useSearchParams } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { HelmetWithTracker } from '@ndla/tracker';
-import { OneColumn } from '@ndla/ui';
-import DiffOptions from './DiffOptions';
-import NodeDiffcontainer from './NodeDiffContainer';
-import FooterWrapper from '../App/components/Footer';
+import { useTranslation } from "react-i18next";
+import { useParams, useSearchParams } from "react-router-dom";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { HelmetWithTracker } from "@ndla/tracker";
+import { OneColumn } from "@ndla/ui";
+import DiffOptions from "./DiffOptions";
+import NodeDiffcontainer from "./NodeDiffContainer";
+import FooterWrapper from "../App/components/Footer";
 
 const StyledNodeContainer = styled.div`
   display: flex;
@@ -27,14 +27,14 @@ const NodeDiffPage = () => {
   const { nodeId } = useParams();
   const [params] = useSearchParams();
   const { t } = useTranslation();
-  const originalHash = params.get('originalHash');
-  const otherHash = params.get('otherHash') ?? 'default';
+  const originalHash = params.get("originalHash");
+  const otherHash = params.get("otherHash") ?? "default";
 
   if (!originalHash || !nodeId) {
     return (
       <OneColumn>
-        <HelmetWithTracker title={t('htmlTitles.nodeDiffPage')} />
-        <h1>{t('diff.error.originalHashRequired')}</h1>
+        <HelmetWithTracker title={t("htmlTitles.nodeDiffPage")} />
+        <h1>{t("diff.error.originalHashRequired")}</h1>
       </OneColumn>
     );
   }
@@ -42,7 +42,7 @@ const NodeDiffPage = () => {
   return (
     <>
       <OneColumn>
-        <HelmetWithTracker title={t('htmlTitles.nodeDiffPage')} />
+        <HelmetWithTracker title={t("htmlTitles.nodeDiffPage")} />
         <StyledNodeContainer>
           <DiffOptions originalHash={originalHash} otherHash={otherHash} />
           <NodeDiffcontainer originalHash={originalHash} otherHash={otherHash} nodeId={nodeId} />

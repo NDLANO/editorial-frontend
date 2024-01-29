@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor, Range, Path } from 'slate';
+import { Editor, Range, Path } from "slate";
 
 export const isDefinitionListItem = (editor: Editor, path: Path) =>
   Range.isRange(editor.selection) && Range.includes(editor.selection, path.concat(0));

@@ -6,9 +6,9 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import SubjectCustomFieldSelector from './SubjectCustomFieldSelector';
-import { TAXONOMY_CUSTOM_FIELD_SUBJECT_LANGUAGE_RESPONSIBLE } from '../../../../constants';
+import { useTranslation } from "react-i18next";
+import SubjectCustomFieldSelector from "./SubjectCustomFieldSelector";
+import { TAXONOMY_CUSTOM_FIELD_SUBJECT_LANGUAGE_RESPONSIBLE } from "../../../../constants";
 
 interface Props {
   customFields: Record<string, string>;
@@ -19,8 +19,8 @@ const SubjectLanguageResponsibeSelector = ({ customFields, updateCustomFields }:
   const { t } = useTranslation();
 
   const messages = {
-    selected: t('taxonomy.metadata.placeholders.languageResponsible'),
-    title: t('taxonomy.metadata.customFields.subjectLanguageResponsible'),
+    selected: t("taxonomy.metadata.placeholders.languageResponsible"),
+    title: t("taxonomy.metadata.customFields.subjectLanguageResponsible"),
   };
   return (
     <SubjectCustomFieldSelector

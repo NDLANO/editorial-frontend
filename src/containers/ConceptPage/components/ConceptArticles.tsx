@@ -6,15 +6,15 @@
  *
  */
 
-import { useFormikContext } from 'formik';
-import { useTranslation } from 'react-i18next';
-import { FieldHeader } from '@ndla/forms';
-import { IArticle, IArticleSummary } from '@ndla/types-backend/draft-api';
-import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
-import { fetchDraft, searchDrafts } from '../../../modules/draft/draftApi';
-import handleError from '../../../util/handleError';
-import ElementList from '../../FormikForm/components/ElementList';
-import { ConceptFormValues } from '../conceptInterfaces';
+import { useFormikContext } from "formik";
+import { useTranslation } from "react-i18next";
+import { FieldHeader } from "@ndla/forms";
+import { IArticle, IArticleSummary } from "@ndla/types-backend/draft-api";
+import AsyncDropdown from "../../../components/Dropdown/asyncDropdown/AsyncDropdown";
+import { fetchDraft, searchDrafts } from "../../../modules/draft/draftApi";
+import handleError from "../../../util/handleError";
+import ElementList from "../../FormikForm/components/ElementList";
+import { ConceptFormValues } from "../conceptInterfaces";
 
 const ConceptArticles = () => {
   const { t } = useTranslation();
@@ -28,7 +28,7 @@ const ConceptArticles = () => {
       const newArticle = await fetchDraft(article.id);
       const temp = [...articles, newArticle];
       if (newArticle !== undefined) {
-        setFieldValue('articles', temp);
+        setFieldValue("articles", temp);
       }
     } catch (e) {
       handleError(e);
@@ -36,7 +36,7 @@ const ConceptArticles = () => {
   };
 
   const onUpdateElements = (articleList: IArticle[]) => {
-    setFieldValue('articles', articleList);
+    setFieldValue("articles", articleList);
   };
 
   const searchForArticles = async (input: string) => {
@@ -48,12 +48,12 @@ const ConceptArticles = () => {
 
   return (
     <>
-      <FieldHeader title={t('form.related.title')} subTitle={t('subjectpageForm.articles')} />
+      <FieldHeader title={t("form.related.title")} subTitle={t("subjectpageForm.articles")} />
       <ElementList
         elements={articles}
         messages={{
-          dragElement: t('conceptpageForm.changeOrder'),
-          removeElement: t('conceptpageForm.removeArticle'),
+          dragElement: t("conceptpageForm.changeOrder"),
+          removeElement: t("conceptpageForm.removeArticle"),
         }}
         onUpdateElements={onUpdateElements}
       />
@@ -61,7 +61,7 @@ const ConceptArticles = () => {
         selectedItems={articles}
         idField="id"
         labelField="title"
-        placeholder={t('form.content.relatedArticle.placeholder')}
+        placeholder={t("form.content.relatedArticle.placeholder")}
         apiAction={searchForArticles}
         onClick={(event: Event) => event.stopPropagation()}
         onChange={onAddArticleToList}

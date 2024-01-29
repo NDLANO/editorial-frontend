@@ -6,14 +6,14 @@
  *
  */
 
-import { getEventTransfer } from 'slate-react';
+import { getEventTransfer } from "slate-react";
 
 function pasteHandler() {
   return {
     schema: {},
     onPaste(event, editor, next) {
       const transfer = getEventTransfer(event);
-      if (transfer.type === 'fragment') {
+      if (transfer.type === "fragment") {
         return editor.insertText(transfer.text);
       }
       return next();

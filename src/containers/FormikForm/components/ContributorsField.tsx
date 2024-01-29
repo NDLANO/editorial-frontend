@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { useTranslation } from 'react-i18next';
-import Contributors from '../../../components/Contributors';
-import FormikField from '../../../components/FormikField';
+import { useTranslation } from "react-i18next";
+import Contributors from "../../../components/Contributors";
+import FormikField from "../../../components/FormikField";
 
 interface Props {
   contributorTypes: string[];
@@ -21,14 +21,10 @@ const ContributorsField = ({ contributorTypes, width }: Props) => {
       {contributorTypes.map((contributorType) => {
         const label = t(`form.${contributorType}.label`);
         return (
-          <FormikField
-            showError={false}
-            key={`formik_contributor_${contributorType}`}
-            name={contributorType}
-          >
+          <FormikField showError={false} key={`formik_contributor_${contributorType}`} name={contributorType}>
             {({ field, form }) => {
               const { errors } = form;
-              const error = errors[field.name] || '';
+              const error = errors[field.name] || "";
               return (
                 <Contributors
                   label={label}

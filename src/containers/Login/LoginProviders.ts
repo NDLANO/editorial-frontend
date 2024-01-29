@@ -6,12 +6,12 @@
  *
  */
 
-import { useEffect } from 'react';
-import { loginPersonalAccessToken } from '../../util/authHelpers';
+import { useEffect } from "react";
+import { loginPersonalAccessToken } from "../../util/authHelpers";
 
 export const LoginProviders = () => {
   useEffect(() => {
-    loginPersonalAccessToken('google-oauth2');
+    loginPersonalAccessToken("google-oauth2");
   }, []);
   return null;
 };

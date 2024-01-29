@@ -6,10 +6,10 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { DiffField, DiffInnerField } from './DiffField';
-import { DiffResult } from './diffUtils';
-import FieldWithTitle from './FieldWithTitle';
+import { useTranslation } from "react-i18next";
+import { DiffField, DiffInnerField } from "./DiffField";
+import { DiffResult } from "./diffUtils";
+import FieldWithTitle from "./FieldWithTitle";
 
 interface Props<T = string> {
   fieldName: string;
@@ -23,12 +23,12 @@ const FieldDiff = <T,>({ fieldName, result, toDisplayValue }: Props<T>) => {
     <DiffField>
       <FieldWithTitle title={t(`diff.fields.${fieldName}.title`)}>
         <DiffInnerField left type={result.diffType}>
-          {result.original != null ? toDisplayValue(result.original) : ''}
+          {result.original != null ? toDisplayValue(result.original) : ""}
         </DiffInnerField>
       </FieldWithTitle>
       <FieldWithTitle title={t(`diff.fields.${fieldName}.title`)}>
         <DiffInnerField type={result.diffType}>
-          {result.other != null ? toDisplayValue(result.other) : ''}
+          {result.other != null ? toDisplayValue(result.other) : ""}
         </DiffInnerField>
       </FieldWithTitle>
     </DiffField>

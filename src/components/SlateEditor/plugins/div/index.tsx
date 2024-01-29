@@ -6,13 +6,13 @@
  *
  */
 
-import { Editor, Element, Descendant } from 'slate';
-import { jsx as slatejsx } from 'slate-hyperscript';
-import { TYPE_DIV } from './types';
-import { SlateSerializer } from '../../interfaces';
+import { Editor, Element, Descendant } from "slate";
+import { jsx as slatejsx } from "slate-hyperscript";
+import { TYPE_DIV } from "./types";
+import { SlateSerializer } from "../../interfaces";
 
 export interface DivElement {
-  type: 'div';
+  type: "div";
   data?: {
     align?: string;
   };
@@ -21,10 +21,10 @@ export interface DivElement {
 
 export const divSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
-    if (el.tagName.toLowerCase() !== 'div') return;
+    if (el.tagName.toLowerCase() !== "div") return;
 
     return slatejsx(
-      'element',
+      "element",
       {
         type: TYPE_DIV,
       },

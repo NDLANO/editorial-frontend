@@ -6,7 +6,7 @@
  *
  */
 
-import { jsx as slatejsx } from 'slate-hyperscript';
-import { TYPE_AUDIO } from './types';
+import { jsx as slatejsx } from "slate-hyperscript";
+import { TYPE_AUDIO } from "./types";
 
-export const defaultBlogPostBlock = () => slatejsx('element', { type: TYPE_AUDIO });
+export const defaultBlogPostBlock = () => slatejsx("element", { type: TYPE_AUDIO });

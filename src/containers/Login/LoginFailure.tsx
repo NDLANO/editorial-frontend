@@ -6,19 +6,19 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-import { useSession } from '../Session/SessionProvider';
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+import { useSession } from "../Session/SessionProvider";
 
 export const LoginFailure = () => {
   const { t } = useTranslation();
   const { userNotRegistered } = useSession();
   return (
     <div>
-      <h2>{t('loginFailure.errorMessage')}</h2>
-      {userNotRegistered && <p>{t('loginFailure.userNotRegistered')}</p>}
+      <h2>{t("loginFailure.errorMessage")}</h2>
+      {userNotRegistered && <p>{t("loginFailure.userNotRegistered")}</p>}
       <p>
-        <Link to="/login">{t('loginFailure.loginLink')}</Link>
+        <Link to="/login">{t("loginFailure.loginLink")}</Link>
       </p>
     </div>
   );

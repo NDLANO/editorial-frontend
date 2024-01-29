@@ -6,29 +6,29 @@
  *
  */
 
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
-import { ISeries, INewSeries } from '@ndla/types-backend/audio-api';
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
+import { ISeries, INewSeries } from "@ndla/types-backend/audio-api";
 
-import PodcastSeriesForm from './components/PodcastSeriesForm';
-import { TranslateType, useTranslateToNN } from '../../components/NynorskTranslateProvider';
-import Spinner from '../../components/Spinner';
-import { fetchSeries, updateSeries } from '../../modules/audio/audioApi';
-import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import PodcastSeriesForm from "./components/PodcastSeriesForm";
+import { TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
+import Spinner from "../../components/Spinner";
+import { fetchSeries, updateSeries } from "../../modules/audio/audioApi";
+import NotFoundPage from "../NotFoundPage/NotFoundPage";
 
 interface Props {
   isNewlyCreated?: boolean;
 }
 
 const translateFields: TranslateType[] = [
-  { field: 'title.title', type: 'text' },
-  { field: 'description.description', type: 'text' },
-  { field: 'coverPhoto.altText', type: 'text' },
+  { field: "title.title", type: "text" },
+  { field: "description.description", type: "text" },
+  { field: "coverPhoto.altText", type: "text" },
 ];
 
 const EditPodcastSeries = ({ isNewlyCreated }: Props) => {
-  const params = useParams<'id' | 'selectedLanguage'>();
+  const params = useParams<"id" | "selectedLanguage">();
   const { i18n } = useTranslation();
   const locale = i18n.language;
   const [podcastSeries, setPodcastSeries] = useState<ISeries | undefined>(undefined);
@@ -73,8 +73,7 @@ const EditPodcastSeries = ({ isNewlyCreated }: Props) => {
     setPodcastSeries(updatedSeries);
   };
 
-  const isNewLanguage =
-    !!seriesLanguage && !podcastSeries.supportedLanguages.includes(seriesLanguage);
+  const isNewLanguage = !!seriesLanguage && !podcastSeries.supportedLanguages.includes(seriesLanguage);
 
   return (
     <PodcastSeriesForm

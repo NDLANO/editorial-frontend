@@ -6,9 +6,9 @@
  *
  */
 
-import { Editor } from 'slate';
-import BlockWrapper from './BlockWrapper';
-import { TYPE_CONCEPT_BLOCK, TYPE_GLOSS_BLOCK } from './types';
+import { Editor } from "slate";
+import BlockWrapper from "./BlockWrapper";
+import { TYPE_CONCEPT_BLOCK, TYPE_GLOSS_BLOCK } from "./types";
 
 export const blockConceptRenderer = (locale: string) => (editor: Editor) => {
   const { renderElement } = editor;

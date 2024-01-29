@@ -6,15 +6,15 @@
  *
  */
 
-import { useFormikContext } from 'formik';
-import { useTranslation } from 'react-i18next';
-import { FieldHeader } from '@ndla/forms';
-import { IAudioSummarySearchResult, IAudioSummary } from '@ndla/types-backend/audio-api';
-import { PodcastSeriesFormikType } from './PodcastSeriesForm';
-import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
-import { fetchAudio, searchAudio } from '../../../modules/audio/audioApi';
-import handleError from '../../../util/handleError';
-import ElementList from '../../FormikForm/components/ElementList';
+import { useFormikContext } from "formik";
+import { useTranslation } from "react-i18next";
+import { FieldHeader } from "@ndla/forms";
+import { IAudioSummarySearchResult, IAudioSummary } from "@ndla/types-backend/audio-api";
+import { PodcastSeriesFormikType } from "./PodcastSeriesForm";
+import AsyncDropdown from "../../../components/Dropdown/asyncDropdown/AsyncDropdown";
+import { fetchAudio, searchAudio } from "../../../modules/audio/audioApi";
+import handleError from "../../../util/handleError";
+import ElementList from "../../FormikForm/components/ElementList";
 
 const PodcastEpisodes = () => {
   const { t } = useTranslation();
@@ -25,7 +25,7 @@ const PodcastEpisodes = () => {
     try {
       const newAudio = await fetchAudio(audio.id, language);
       if (newAudio !== undefined) {
-        setFieldValue('episodes', [...episodes, newAudio]);
+        setFieldValue("episodes", [...episodes, newAudio]);
       }
     } catch (e) {
       handleError(e);
@@ -33,23 +33,20 @@ const PodcastEpisodes = () => {
   };
 
   const onUpdateElements = (eps: IAudioSummary[]) => {
-    setFieldValue('episodes', eps);
+    setFieldValue("episodes", eps);
   };
 
-  const searchForPodcasts = async (
-    input: string,
-    page?: number,
-  ): Promise<IAudioSummarySearchResult> => {
+  const searchForPodcasts = async (input: string, page?: number): Promise<IAudioSummarySearchResult> => {
     const searchResult = await searchAudio({
       query: input,
       page,
       language: language,
-      'audio-type': 'podcast',
+      "audio-type": "podcast",
     });
 
     const results = searchResult.results.map((result) => {
       const usedByOther = result.series?.id !== undefined && result.series?.id !== values.id;
-      const disabledText = usedByOther ? t('podcastSeriesForm.alreadyPartOfSeries') : undefined;
+      const disabledText = usedByOther ? t("podcastSeriesForm.alreadyPartOfSeries") : undefined;
       return {
         ...result,
         disabledText,
@@ -68,21 +65,18 @@ const PodcastEpisodes = () => {
       url: ep.podcastMeta?.coverPhoto.url,
       language,
     },
-    articleType: 'audio',
+    articleType: "audio",
   }));
 
   return (
     <>
-      <FieldHeader
-        title={t('form.podcastEpisodesSection')}
-        subTitle={t('form.podcastEpisodesTypeName')}
-      />
+      <FieldHeader title={t("form.podcastEpisodesSection")} subTitle={t("form.podcastEpisodesTypeName")} />
       <ElementList
         elements={elements}
         isDraggable={false}
         messages={{
-          dragElement: t('conceptpageForm.changeOrder'),
-          removeElement: t('conceptpageForm.removeArticle'),
+          dragElement: t("conceptpageForm.changeOrder"),
+          removeElement: t("conceptpageForm.removeArticle"),
         }}
         onUpdateElements={onUpdateElements}
       />
@@ -90,7 +84,7 @@ const PodcastEpisodes = () => {
         selectedItems={elements}
         idField="id"
         labelField="title"
-        placeholder={t('form.content.relatedArticle.placeholder')}
+        placeholder={t("form.content.relatedArticle.placeholder")}
         apiAction={searchForPodcasts}
         onClick={(event: Event) => event.stopPropagation()}
         onChange={onAddEpisodeToList}

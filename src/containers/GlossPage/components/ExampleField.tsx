@@ -6,18 +6,18 @@
  *
  */
 
-import { useField } from 'formik';
-import { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
-import { Select, InputV3, FieldErrorMessage, Label } from '@ndla/forms';
-import { Cross } from '@ndla/icons/action';
-import { IGlossExample } from '@ndla/types-backend/concept-api';
-import { Text } from '@ndla/typography';
-import { FormControl, FormField } from '../../../components/FormField';
-import { LANGUAGES } from '../glossData';
+import { useField } from "formik";
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
+import { spacing } from "@ndla/core";
+import { Select, InputV3, FieldErrorMessage, Label } from "@ndla/forms";
+import { Cross } from "@ndla/icons/action";
+import { IGlossExample } from "@ndla/types-backend/concept-api";
+import { Text } from "@ndla/typography";
+import { FormControl, FormField } from "../../../components/FormField";
+import { LANGUAGES } from "../glossData";
 
 interface Props {
   example: IGlossExample;
@@ -53,9 +53,9 @@ const ExampleField = ({ example, name, index, exampleIndex, onRemoveExample }: P
   const { t } = useTranslation();
   const labelIndex = index + 1;
   const [languageField, languageMeta, languageHelpers] = useField(`${name}.language`);
-  const [originalLanguageField] = useField('gloss.originalLanguage');
+  const [originalLanguageField] = useField("gloss.originalLanguage");
 
-  const removeLabel = t('form.gloss.examples.removeLanguageVariant', {
+  const removeLabel = t("form.gloss.examples.removeLanguageVariant", {
     language: t(`languages.${example.language}`).toLowerCase(),
     index: exampleIndex + 1,
   });
@@ -64,14 +64,14 @@ const ExampleField = ({ example, name, index, exampleIndex, onRemoveExample }: P
     if (exampleIndex === 0) {
       languageHelpers.setValue(originalLanguageField.value, true);
     } else if (!languageField.value) {
-      languageHelpers.setValue('nb', true);
+      languageHelpers.setValue("nb", true);
     }
   }, [exampleIndex, languageField.value, languageHelpers, originalLanguageField.value]);
 
   return (
     <Wrapper>
       <Text element="legend" textStyle="label-small">
-        {t('form.gloss.examples.exampleOnLanguage', {
+        {t("form.gloss.examples.exampleOnLanguage", {
           index: labelIndex,
           language: t(`languages.${languageField.value}`).toLowerCase(),
         })}
@@ -81,12 +81,12 @@ const ExampleField = ({ example, name, index, exampleIndex, onRemoveExample }: P
           {({ field, meta }) => (
             <StyledFormControl isRequired isInvalid={!!meta.error}>
               <Label textStyle="label-small" margin="none" visuallyHidden>
-                {t('form.gloss.examples.exampleTextLabel', {
+                {t("form.gloss.examples.exampleTextLabel", {
                   index: labelIndex,
                   language: t(`languages.${languageField.value}`).toLowerCase(),
                 })}
               </Label>
-              <InputV3 type="text" placeholder={t('form.gloss.example')} {...field} />
+              <InputV3 type="text" placeholder={t("form.gloss.example")} {...field} />
               <FieldErrorMessage>{meta.error}</FieldErrorMessage>
             </StyledFormControl>
           )}
@@ -95,8 +95,8 @@ const ExampleField = ({ example, name, index, exampleIndex, onRemoveExample }: P
           <Select {...languageField}>
             {!example.language && (
               <option>
-                {t('form.gloss.choose', {
-                  label: t('form.gloss.language').toLowerCase(),
+                {t("form.gloss.choose", {
+                  label: t("form.gloss.language").toLowerCase(),
                 })}
               </option>
             )}
@@ -108,12 +108,7 @@ const ExampleField = ({ example, name, index, exampleIndex, onRemoveExample }: P
           </Select>
           <FieldErrorMessage>{languageMeta.error}</FieldErrorMessage>
         </FormControl>
-        <RemoveButton
-          colorTheme="light"
-          aria-label={removeLabel}
-          title={removeLabel}
-          onClick={onRemoveExample}
-        >
+        <RemoveButton colorTheme="light" aria-label={removeLabel} title={removeLabel} onClick={onRemoveExample}>
           <Cross />
         </RemoveButton>
       </FieldWrapper>

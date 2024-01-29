@@ -6,32 +6,19 @@
  *
  */
 
-import compact from 'lodash/compact';
-import { Editor, Path, Transforms } from 'slate';
-import { ReactEditor } from 'slate-react';
-import { defaultTableRowBlock } from './defaultBlocks';
-import { TableMatrix, TableHeadElement, TableBodyElement } from './interfaces';
-import { getPrevCell, countMatrixRowCells, insertCellInMatrix } from './matrixHelpers';
-import { insertEmptyCells, updateCell, increaseTableBodyWidth } from './slateActions';
-import {
-  isTable,
-  isTableHead,
-  isTableRow,
-  isTableCell,
-  isTableBody,
-  getTableBodyWidth,
-} from './slateHelpers';
-import { TYPE_TABLE_CELL, TYPE_TABLE_CELL_HEADER } from './types';
+import compact from "lodash/compact";
+import { Editor, Path, Transforms } from "slate";
+import { ReactEditor } from "slate-react";
+import { defaultTableRowBlock } from "./defaultBlocks";
+import { TableMatrix, TableHeadElement, TableBodyElement } from "./interfaces";
+import { getPrevCell, countMatrixRowCells, insertCellInMatrix } from "./matrixHelpers";
+import { insertEmptyCells, updateCell, increaseTableBodyWidth } from "./slateActions";
+import { isTable, isTableHead, isTableRow, isTableCell, isTableBody, getTableBodyWidth } from "./slateHelpers";
+import { TYPE_TABLE_CELL, TYPE_TABLE_CELL_HEADER } from "./types";
 
 // Before placing a cell in the table matrix, make sure the cell has the required space
 // If not, add the required space by inserting empty cells.
-const normalizeCell = (
-  editor: Editor,
-  matrix: TableMatrix,
-  rowIndex: number,
-  colspan: number,
-  rowspan: number,
-) => {
+const normalizeCell = (editor: Editor, matrix: TableMatrix, rowIndex: number, colspan: number, rowspan: number) => {
   for (const [colIndex, cell] of matrix[rowIndex].entries()) {
     if (cell) {
       continue;
@@ -96,12 +83,12 @@ const normalizeRow = (
         if (isHead) {
           // i. If cell in header
           //    Make sure scope='col' and isHeader=true and type is correct
-          if (isTableCell(cell) && (cell.type !== TYPE_TABLE_CELL_HEADER || scope !== 'col')) {
+          if (isTableCell(cell) && (cell.type !== TYPE_TABLE_CELL_HEADER || scope !== "col")) {
             updateCell(
               editor,
               cell,
               {
-                scope: 'col',
+                scope: "col",
               },
               TYPE_TABLE_CELL_HEADER,
             );
@@ -127,22 +114,19 @@ const normalizeRow = (
           //    Other cells should not be a header
           if (rowHeaders) {
             if (index === 0) {
-              if (scope !== 'row' || cell.type !== TYPE_TABLE_CELL_HEADER) {
+              if (scope !== "row" || cell.type !== TYPE_TABLE_CELL_HEADER) {
                 updateCell(
                   editor,
                   cell,
                   {
-                    scope: 'row',
+                    scope: "row",
                   },
                   TYPE_TABLE_CELL_HEADER,
                 );
                 return true;
               }
             } else {
-              if (
-                (scope || cell.type === TYPE_TABLE_CELL_HEADER) &&
-                getPrevCell(matrix, rowIndex, index) !== cell
-              ) {
+              if ((scope || cell.type === TYPE_TABLE_CELL_HEADER) && getPrevCell(matrix, rowIndex, index) !== cell) {
                 updateCell(
                   editor,
                   cell,
@@ -166,11 +150,7 @@ const normalizeRow = (
 
     // Previous row is shorter
     if (lengthDiff > 0) {
-      const rowEndPath = Path.next([
-        ...tableBodyPath,
-        rowIndex - 1,
-        countMatrixRowCells(matrix, rowIndex - 1) - 1,
-      ]);
+      const rowEndPath = Path.next([...tableBodyPath, rowIndex - 1, countMatrixRowCells(matrix, rowIndex - 1) - 1]);
       insertEmptyCells(editor, rowEndPath, lengthDiff);
       return true;
 

@@ -6,21 +6,18 @@
  *
  */
 
-import sortBy from 'lodash/sortBy';
-import { useEffect, useState, MouseEvent, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Node } from '@ndla/types-taxonomy';
-import GenericSearchForm, { OnFieldChangeFunction } from './GenericSearchForm';
-import { SearchParams } from './SearchForm';
-import { SearchFormSelector } from './Selector';
-import {
-  CONCEPT_RESPONSIBLE,
-  TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
-} from '../../../../constants';
-import { useAuth0Editors, useAuth0Responsibles } from '../../../../modules/auth0/auth0Queries';
-import { useConceptStateMachine } from '../../../../modules/concept/conceptQueries';
-import { getTagName } from '../../../../util/formHelper';
-import { getResourceLanguages } from '../../../../util/resourceHelpers';
+import sortBy from "lodash/sortBy";
+import { useEffect, useState, MouseEvent, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { Node } from "@ndla/types-taxonomy";
+import GenericSearchForm, { OnFieldChangeFunction } from "./GenericSearchForm";
+import { SearchParams } from "./SearchForm";
+import { SearchFormSelector } from "./Selector";
+import { CONCEPT_RESPONSIBLE, TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from "../../../../constants";
+import { useAuth0Editors, useAuth0Responsibles } from "../../../../modules/auth0/auth0Queries";
+import { useConceptStateMachine } from "../../../../modules/concept/conceptQueries";
+import { getTagName } from "../../../../util/formHelper";
+import { getResourceLanguages } from "../../../../util/resourceHelpers";
 
 interface Props {
   search: (o: SearchParams) => void;
@@ -31,7 +28,7 @@ interface Props {
 
 const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }: Props) => {
   const { t } = useTranslation();
-  const [queryInput, setQueryInput] = useState(search.query ?? '');
+  const [queryInput, setQueryInput] = useState(search.query ?? "");
   const { data: users } = useAuth0Editors({
     select: (users) => users.map((u) => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })),
     placeholderData: [],
@@ -53,13 +50,13 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
   );
 
   const onFieldChange: OnFieldChangeFunction = (name, value, evt) => {
-    if (name === 'query' && evt) setQueryInput(evt.currentTarget.value);
+    if (name === "query" && evt) setQueryInput(evt.currentTarget.value);
     else doSearch({ ...search, [name]: value });
   };
 
   useEffect(() => {
     if (search.query !== queryInput) {
-      setQueryInput(search.query ?? '');
+      setQueryInput(search.query ?? "");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search.query]);
@@ -75,30 +72,30 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
   const handleSearch = () => doSearch({ ...search, page: 1, query: queryInput });
 
   const removeTagItem = (tag: SearchFormSelector) => {
-    if (tag.parameterName === 'query') setQueryInput('');
-    doSearch({ ...search, [tag.parameterName]: '' });
+    if (tag.parameterName === "query") setQueryInput("");
+    doSearch({ ...search, [tag.parameterName]: "" });
   };
 
   const conceptTypes = useMemo(
     () => [
-      { id: 'concept', name: t('searchForm.conceptType.concept') },
-      { id: 'gloss', name: t('searchForm.conceptType.gloss') },
+      { id: "concept", name: t("searchForm.conceptType.concept") },
+      { id: "gloss", name: t("searchForm.conceptType.gloss") },
     ],
     [t],
   );
 
   const emptySearch = (evt: MouseEvent<HTMLButtonElement>) => {
     evt.persist();
-    setQueryInput('');
+    setQueryInput("");
     doSearch({
-      query: '',
-      language: '',
-      'audio-type': '',
-      'concept-type': '',
-      license: '',
-      subjects: '',
-      users: '',
-      status: '',
+      query: "",
+      language: "",
+      "audio-type": "",
+      "concept-type": "",
+      license: "",
+      subjects: "",
+      users: "",
+      status: "",
     });
   };
 
@@ -112,50 +109,48 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
 
   const selectors: SearchFormSelector[] = [
     {
-      parameterName: 'concept-type',
-      value: getTagName(search['concept-type'], conceptTypes),
+      parameterName: "concept-type",
+      value: getTagName(search["concept-type"], conceptTypes),
       options: conceptTypes,
-      formElementType: 'dropdown',
+      formElementType: "dropdown",
       width: 25,
     },
     {
-      parameterName: 'subjects',
+      parameterName: "subjects",
       value: getTagName(search.subjects, subjects),
       options: subjects
-        .filter(
-          (s) => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === 'true',
-        )
-        .sort(sortByProperty('name')),
-      formElementType: 'dropdown',
+        .filter((s) => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === "true")
+        .sort(sortByProperty("name")),
+      formElementType: "dropdown",
       width: 25,
     },
     {
-      value: getTagName(search['responsible-ids'], responsibles),
-      parameterName: 'responsible-ids',
+      value: getTagName(search["responsible-ids"], responsibles),
+      parameterName: "responsible-ids",
       width: 25,
       options: responsibles!,
-      formElementType: 'dropdown',
+      formElementType: "dropdown",
     },
     {
-      parameterName: 'status',
+      parameterName: "status",
       value: getTagName(search.status, getConceptStatuses()),
       options: getConceptStatuses(),
       width: 25,
-      formElementType: 'dropdown',
+      formElementType: "dropdown",
     },
     {
-      parameterName: 'language',
+      parameterName: "language",
       value: getTagName(search.language, getResourceLanguages(t)),
       options: getResourceLanguages(t),
       width: 25,
-      formElementType: 'dropdown',
+      formElementType: "dropdown",
     },
     {
-      parameterName: 'users',
+      parameterName: "users",
       value: getTagName(search.users, users),
-      options: users!.sort(sortByProperty('name')),
+      options: users!.sort(sortByProperty("name")),
       width: 25,
-      formElementType: 'dropdown',
+      formElementType: "dropdown",
     },
   ];
 

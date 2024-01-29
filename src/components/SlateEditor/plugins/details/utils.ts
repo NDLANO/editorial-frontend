@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { jsx as slatejsx } from 'slate-hyperscript';
-import { TYPE_DETAILS, TYPE_SUMMARY } from './types';
-import { defaultParagraphBlock } from '../paragraph/utils';
+import { jsx as slatejsx } from "slate-hyperscript";
+import { TYPE_DETAILS, TYPE_SUMMARY } from "./types";
+import { defaultParagraphBlock } from "../paragraph/utils";
 
-export const defaultSummaryBlock = () => slatejsx('element', { type: TYPE_SUMMARY }, { text: '' });
+export const defaultSummaryBlock = () => slatejsx("element", { type: TYPE_SUMMARY }, { text: "" });
 
 export const defaultDetailsBlock = () =>
-  slatejsx('element', { type: TYPE_DETAILS }, defaultSummaryBlock(), defaultParagraphBlock());
+  slatejsx("element", { type: TYPE_DETAILS }, defaultSummaryBlock(), defaultParagraphBlock());

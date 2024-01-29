@@ -6,16 +6,16 @@
  *
  */
 
-import { KeyboardEvent, useCallback, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
-import { breakpoints, colors, fonts, mq, spacing } from '@ndla/core';
-import { CheckboxItem, FormControl, InputContainer, InputV3, Label } from '@ndla/forms';
-import { Cross, Pencil } from '@ndla/icons/action';
-import { Check, DeleteForever } from '@ndla/icons/editor';
-import { Format } from '@ndla/ui';
-import { File as FileType } from '../../../../interfaces';
+import { KeyboardEvent, useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
+import { breakpoints, colors, fonts, mq, spacing } from "@ndla/core";
+import { CheckboxItem, FormControl, InputContainer, InputV3, Label } from "@ndla/forms";
+import { Cross, Pencil } from "@ndla/icons/action";
+import { Check, DeleteForever } from "@ndla/icons/editor";
+import { Format } from "@ndla/ui";
+import { File as FileType } from "../../../../interfaces";
 
 const FormatWrapper = styled.div`
   width: 100%;
@@ -95,7 +95,7 @@ export const SlateFile = ({
 
   const onToggleRenderInline = (index: number | undefined) => {
     if (index === undefined) return;
-    onEditFile({ ...file, display: file.display === 'block' ? 'inline' : 'block' }, index);
+    onEditFile({ ...file, display: file.display === "block" ? "inline" : "block" }, index);
   };
 
   const onCommitFileName = useCallback(() => {
@@ -105,7 +105,7 @@ export const SlateFile = ({
 
   const onKeyDown = useCallback(
     (e: KeyboardEvent<HTMLInputElement>) => {
-      if (e.key === 'Enter') {
+      if (e.key === "Enter") {
         e.preventDefault();
         e.stopPropagation();
         onCommitFileName();
@@ -117,8 +117,8 @@ export const SlateFile = ({
   return (
     <File>
       {isEditMode ? (
-        <StyledFormControl id={'update-file-name'}>
-          <Label visuallyHidden>{t('form.file.changeName')}</Label>
+        <StyledFormControl id={"update-file-name"}>
+          <Label visuallyHidden>{t("form.file.changeName")}</Label>
           <StyledInputContainer>
             <InputV3
               name="file-name"
@@ -132,8 +132,8 @@ export const SlateFile = ({
               variant="ghost"
               onClick={onCommitFileName}
               size="xsmall"
-              aria-label={t('save')}
-              title={t('save')}
+              aria-label={t("save")}
+              title={t("save")}
             >
               <Check />
             </IconButtonV2>
@@ -145,7 +145,7 @@ export const SlateFile = ({
             format={{
               url: file.url,
               fileType: file.type,
-              tooltip: `${t('download')} ${file.url.split('/').pop()}`,
+              tooltip: `${t("download")} ${file.url.split("/").pop()}`,
             }}
             isPrimary
             title={file.title}
@@ -157,8 +157,8 @@ export const SlateFile = ({
       <StyledButtonWrapper>
         {isEditMode ? (
           <IconButtonV2
-            title={t('cancel')}
-            aria-label={t('form.file.changeName')}
+            title={t("cancel")}
+            aria-label={t("form.file.changeName")}
             onClick={() => setEditIndex(undefined)}
             variant="ghost"
             colorTheme="danger"
@@ -168,19 +168,19 @@ export const SlateFile = ({
           </IconButtonV2>
         ) : (
           <>
-            {file.type === 'pdf' && (
+            {file.type === "pdf" && (
               <CheckboxWrapper>
                 <CheckboxItem
-                  label={t('form.file.showPdf')}
-                  checked={file.display === 'block'}
+                  label={t("form.file.showPdf")}
+                  checked={file.display === "block"}
                   id={index}
                   onChange={onToggleRenderInline}
                 />
               </CheckboxWrapper>
             )}
             <IconButtonV2
-              title={t('form.file.changeName')}
-              aria-label={t('form.file.changeName')}
+              title={t("form.file.changeName")}
+              aria-label={t("form.file.changeName")}
               onClick={() => setEditIndex(index)}
               variant="ghost"
               size="xsmall"
@@ -190,8 +190,8 @@ export const SlateFile = ({
           </>
         )}
         <IconButtonV2
-          title={t('form.file.removeFile')}
-          aria-label={t('form.file.removeFile')}
+          title={t("form.file.removeFile")}
+          aria-label={t("form.file.removeFile")}
           onClick={() => onDeleteFile(index)}
           colorTheme="danger"
           variant="ghost"

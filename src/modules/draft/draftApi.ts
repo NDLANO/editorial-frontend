@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import queryString from 'query-string';
+import queryString from "query-string";
 import {
   ILicense,
   INewArticle,
@@ -18,19 +18,15 @@ import {
   ISearchResult,
   IUpdatedUserData,
   IUploadedFile,
-} from '@ndla/types-backend/draft-api';
-import { DraftSearchQuery } from './draftApiInterfaces';
-import { DraftStatusType, DraftStatusStateMachineType } from '../../interfaces';
-import {
-  resolveJsonOrRejectWithError,
-  apiResourceUrl,
-  fetchAuthorized,
-} from '../../util/apiHelpers';
-import { resolveVoidOrRejectWithError } from '../../util/resolveJsonOrRejectWithError';
+} from "@ndla/types-backend/draft-api";
+import { DraftSearchQuery } from "./draftApiInterfaces";
+import { DraftStatusType, DraftStatusStateMachineType } from "../../interfaces";
+import { resolveJsonOrRejectWithError, apiResourceUrl, fetchAuthorized } from "../../util/apiHelpers";
+import { resolveVoidOrRejectWithError } from "../../util/resolveJsonOrRejectWithError";
 
-const baseUrl: string = apiResourceUrl('/draft-api/v1/drafts');
-const baseFileUrl: string = apiResourceUrl('/draft-api/v1/files');
-const baseUserDataUrl: string = apiResourceUrl('/draft-api/v1/user-data');
+const baseUrl: string = apiResourceUrl("/draft-api/v1/drafts");
+const baseFileUrl: string = apiResourceUrl("/draft-api/v1/files");
+const baseUserDataUrl: string = apiResourceUrl("/draft-api/v1/user-data");
 
 export const fetchDraft = async (id: number | string, language?: string): Promise<IArticle> => {
   const query = queryString.stringify({ language });
@@ -40,56 +36,48 @@ export const fetchDraft = async (id: number | string, language?: string): Promis
 
 export const fetchDrafts = async (ids: number[], language?: string): Promise<IArticle[]> => {
   const query = queryString.stringify({
-    ids: ids.join(','),
+    ids: ids.join(","),
     language,
     fallback: true,
     page: 1,
-    'page-size': ids.length,
+    "page-size": ids.length,
   });
   return fetchAuthorized(`${baseUrl}/ids/?${query}`, {
-    method: 'GET',
+    method: "GET",
   }).then((r) => resolveJsonOrRejectWithError<[IArticle]>(r));
 };
 
-export const updateDraft = async (
-  id: number,
-  draft: IUpdatedArticle,
-  versionHash = 'default',
-): Promise<IArticle> =>
+export const updateDraft = async (id: number, draft: IUpdatedArticle, versionHash = "default"): Promise<IArticle> =>
   fetchAuthorized(`${baseUrl}/${id}`, {
-    method: 'PATCH',
+    method: "PATCH",
     headers: { VersionHash: versionHash },
     body: JSON.stringify(draft),
   }).then((r) => resolveJsonOrRejectWithError<IArticle>(r));
 
 export const createDraft = async (draft: INewArticle): Promise<IArticle> =>
   fetchAuthorized(`${baseUrl}/`, {
-    method: 'POST',
+    method: "POST",
     body: JSON.stringify(draft),
   }).then((r) => resolveJsonOrRejectWithError<IArticle>(r));
 
 export const searchDrafts = async (query: DraftSearchQuery): Promise<ISearchResult> =>
   fetchAuthorized(`${baseUrl}/search/`, {
-    method: 'POST',
+    method: "POST",
     body: JSON.stringify(query),
   }).then((r) => resolveJsonOrRejectWithError<ISearchResult>(r));
 
-export const searchAllDrafts = async (
-  ids: number[],
-  language?: string,
-  sort?: string,
-): Promise<ISearchResult> => {
+export const searchAllDrafts = async (ids: number[], language?: string, sort?: string): Promise<ISearchResult> => {
   const query = queryString.stringify({
-    ids: ids.join(','),
+    ids: ids.join(","),
     language,
     page: 1,
-    'page-size': ids.length,
+    "page-size": ids.length,
     sort,
     fallback: true,
   });
 
   return fetchAuthorized(`${baseUrl}/?${query}`, {
-    method: 'GET',
+    method: "GET",
   }).then((r) => resolveJsonOrRejectWithError<ISearchResult>(r));
 };
 
@@ -100,26 +88,22 @@ export const cloneDraft = async (
 ): Promise<IArticle> => {
   const query = queryString.stringify({
     language,
-    'copied-title-postfix': addCopyPostfixToArticleTitle,
+    "copied-title-postfix": addCopyPostfixToArticleTitle,
     fallback: true,
   });
   const url = `${baseUrl}/clone/${id}?${query}`;
-  return fetchAuthorized(url, { method: 'POST' }).then((r) =>
-    resolveJsonOrRejectWithError<IArticle>(r),
-  );
+  return fetchAuthorized(url, { method: "POST" }).then((r) => resolveJsonOrRejectWithError<IArticle>(r));
 };
 
 export const fetchDraftHistory = async (id: number, language?: string): Promise<IArticle[]> => {
   const query = queryString.stringify({ language });
-  const url = language
-    ? `${baseUrl}/${id}/history?${query}&fallback=true`
-    : `${baseUrl}/${id}/history`;
+  const url = language ? `${baseUrl}/${id}/history?${query}&fallback=true` : `${baseUrl}/${id}/history`;
   return fetchAuthorized(url).then((r) => resolveJsonOrRejectWithError<IArticle[]>(r));
 };
 
 export const deleteLanguageVersion = async (id: number, language: string): Promise<IArticle> =>
   fetchAuthorized(`${baseUrl}/${id}/language/${language}`, {
-    method: 'DELETE',
+    method: "DELETE",
   }).then((r) => resolveJsonOrRejectWithError<IArticle>(r));
 
 export const fetchNewArticleId = async (id: number): Promise<{ id: number }> => {
@@ -129,28 +113,23 @@ export const fetchNewArticleId = async (id: number): Promise<{ id: number }> => 
 
 export const validateDraft = async (id: number, draft: IUpdatedArticle): Promise<{ id: number }> =>
   fetchAuthorized(`${baseUrl}/${id}/validate/`, {
-    method: 'PUT',
+    method: "PUT",
     body: JSON.stringify(draft),
   }).then((r) => resolveJsonOrRejectWithError<{ id: number }>(r));
 
 export const updateStatusDraft = async (id: number, status: DraftStatusType): Promise<IArticle> =>
   fetchAuthorized(`${baseUrl}/${id}/status/${status}`, {
-    method: 'PUT',
+    method: "PUT",
   }).then((r) => resolveJsonOrRejectWithError<IArticle>(r));
 
 export const fetchTags = async (language: string): Promise<IArticleTag> => {
   const query = queryString.stringify({ size: 7000, language });
-  return fetchAuthorized(`${baseUrl}/tags/?${query}`).then((r) =>
-    resolveJsonOrRejectWithError<IArticleTag>(r),
-  );
+  return fetchAuthorized(`${baseUrl}/tags/?${query}`).then((r) => resolveJsonOrRejectWithError<IArticleTag>(r));
 };
 
-export const fetchSearchTags = async (
-  input: string,
-  language: string,
-): Promise<ITagsSearchResult> =>
-  fetchAuthorized(`${baseUrl}/tag-search/?language=${language}&query=${input}&fallback=true`).then(
-    (r) => resolveJsonOrRejectWithError<ITagsSearchResult>(r),
+export const fetchSearchTags = async (input: string, language: string): Promise<ITagsSearchResult> =>
+  fetchAuthorized(`${baseUrl}/tag-search/?language=${language}&query=${input}&fallback=true`).then((r) =>
+    resolveJsonOrRejectWithError<ITagsSearchResult>(r),
   );
 
 export const fetchLicenses = async (): Promise<ILicense[]> =>
@@ -166,14 +145,12 @@ export const fetchUserData = async (): Promise<IUserData> =>
 
 export const updateUserData = async (userData: IUpdatedUserData): Promise<IUserData> =>
   fetchAuthorized(`${baseUserDataUrl}`, {
-    method: 'PATCH',
+    method: "PATCH",
     body: JSON.stringify(userData),
   }).then((r) => resolveJsonOrRejectWithError<IUserData>(r));
 
-export const fetchStatusStateMachine = async (
-  id?: number,
-): Promise<DraftStatusStateMachineType> => {
-  const idParam = id ? `?articleId=${id}` : '';
+export const fetchStatusStateMachine = async (id?: number): Promise<DraftStatusStateMachineType> => {
+  const idParam = id ? `?articleId=${id}` : "";
   return fetchAuthorized(`${baseUrl}/status-state-machine/${idParam}`).then((r) =>
     resolveJsonOrRejectWithError<DraftStatusStateMachineType>(r),
   );
@@ -181,27 +158,27 @@ export const fetchStatusStateMachine = async (
 
 export const copyRevisionDates = (nodeId: string): Promise<void> => {
   return fetchAuthorized(`${baseUrl}/copyRevisionDates/${nodeId}`, {
-    method: 'POST',
+    method: "POST",
   }).then((r) => resolveVoidOrRejectWithError(r));
 };
 
 export const headFileAtRemote = async (fileUrl: string): Promise<boolean> => {
   const res = await fetch(fileUrl, {
-    method: 'HEAD',
+    method: "HEAD",
   });
   return res.status === 200;
 };
 
 export const uploadFile = async (formData: any): Promise<IUploadedFile> =>
   fetchAuthorized(`${baseFileUrl}/`, {
-    method: 'POST',
-    headers: { 'Content-Type': undefined },
+    method: "POST",
+    headers: { "Content-Type": undefined },
     body: formData,
   }).then((r) => resolveJsonOrRejectWithError<IUploadedFile>(r));
 
 export const deleteFile = async (fileUrl: string): Promise<void> => {
   const query = encodeURIComponent(fileUrl);
   fetchAuthorized(`${baseFileUrl}/?path=${query}`, {
-    method: 'DELETE',
+    method: "DELETE",
   }).then(resolveVoidOrRejectWithError);
 };

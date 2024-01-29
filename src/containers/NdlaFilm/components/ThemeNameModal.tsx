@@ -6,27 +6,19 @@
  *
  */
 
-import { ReactElement, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
-import { InputV2 } from '@ndla/forms';
-import {
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalTitle,
-  ModalTrigger,
-} from '@ndla/modal';
-import { ThemeNames } from './ThemeEditor';
+import { ReactElement, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { spacing } from "@ndla/core";
+import { InputV2 } from "@ndla/forms";
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
+import { ThemeNames } from "./ThemeEditor";
 
 const blankTheme = {
-  nb: '',
-  nn: '',
-  en: '',
+  nb: "",
+  nn: "",
+  en: "",
 };
 
 const StyledModalBody = styled(ModalBody)`
@@ -61,13 +53,7 @@ interface Props {
   createTheme?: boolean;
 }
 
-const ThemeNameModal = ({
-  initialTheme,
-  activateButton,
-  messages,
-  onSaveTheme,
-  createTheme,
-}: Props) => {
+const ThemeNameModal = ({ initialTheme, activateButton, messages, onSaveTheme, createTheme }: Props) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [newTheme, setNewTheme] = useState(initialState(initialTheme));
@@ -86,8 +72,13 @@ const ThemeNameModal = ({
               label={t(`languages.${key}`)}
               type="text"
               value={value}
-              onChange={(e) => setNewTheme((prev) => ({ ...prev, [key]: e.currentTarget.value }))}
-              placeholder={t('ndlaFilm.editor.groupNamePlaceholder', {
+              onChange={(e) =>
+                setNewTheme((prev) => ({
+                  ...prev,
+                  [key]: e.currentTarget.value,
+                }))
+              }
+              placeholder={t("ndlaFilm.editor.groupNamePlaceholder", {
                 lang: t(`languages.${key}`),
               })}
             />

@@ -6,11 +6,11 @@
  *
  */
 
-import { IArticle } from '@ndla/types-backend/draft-api';
-import { ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
-import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
-import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
-import { searchResources } from '../../../modules/search/searchApi';
+import { IArticle } from "@ndla/types-backend/draft-api";
+import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
+import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
+import AsyncDropdown from "../../../components/Dropdown/asyncDropdown/AsyncDropdown";
+import { searchResources } from "../../../modules/search/searchApi";
 
 interface Props {
   selectedElements: (IMultiSearchSummary | IArticle | ILearningPathV2)[];
@@ -35,12 +35,12 @@ const DropdownSearch = ({
     const query = {
       page: 1,
       subjects: subjectId,
-      sort: '-relevance',
-      'page-size': 10,
+      sort: "-relevance",
+      "page-size": 10,
       query: input,
-      'context-types': contextTypes,
-      'resoure-types':
-        'urn:resourcetype:documentary,urn:resourcetype:featureFilm,urn:resourcetype:series,urn:resourcetype:shortFilm',
+      "context-types": contextTypes,
+      "resoure-types":
+        "urn:resourcetype:documentary,urn:resourcetype:featureFilm,urn:resourcetype:series,urn:resourcetype:shortFilm",
     };
     const response = await searchResources(query);
     return response;
@@ -55,7 +55,7 @@ const DropdownSearch = ({
       apiAction={(input) => queryResources(input)}
       selectedItems={selectedElements.map((element) => ({
         ...element,
-        title: element.title ? element.title.title : '',
+        title: element.title ? element.title.title : "",
       }))}
       multiSelect
       placeholder={placeholder}

@@ -6,14 +6,14 @@
  *
  */
 
-import { render } from '@testing-library/react';
-import IntlWrapper from '../../../util/__tests__/IntlWrapper';
-import EditorErrorMessage from '../EditorErrorMessage';
+import { render } from "@testing-library/react";
+import IntlWrapper from "../../../util/__tests__/IntlWrapper";
+import EditorErrorMessage from "../EditorErrorMessage";
 
-test('EditorErrorMessage renders', () => {
+test("EditorErrorMessage renders", () => {
   const embed = {
-    message: 'This is error',
-    resource: 'error',
+    message: "This is error",
+    resource: "error",
   };
 
   const { container } = render(

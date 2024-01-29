@@ -6,10 +6,10 @@
  *
  */
 
-import { messagesNB, messagesEN, messagesNN } from '@ndla/ui';
-import en from './phrases/phrases-en';
-import nb from './phrases/phrases-nb';
-import nn from './phrases/phrases-nn';
+import { messagesNB, messagesEN, messagesNN } from "@ndla/ui";
+import en from "./phrases/phrases-en";
+import nb from "./phrases/phrases-nb";
+import nn from "./phrases/phrases-nn";
 
 type NestedPhrases = { [key: string]: NestedPhrases | string };
 export type FormattedMessages = { [key: string]: string };
@@ -17,14 +17,14 @@ export type FormattedMessages = { [key: string]: string };
 export const formatNestedMessages = (
   phrases: NestedPhrases,
   formattedMessages: NestedPhrases = {},
-  prefix: string = '',
+  prefix: string = "",
 ): FormattedMessages => {
   const messages = formattedMessages;
   for (const key in phrases) {
     if (Object.prototype.hasOwnProperty.call(phrases, key)) {
       const keyWithPrefix = prefix ? `${prefix}.${key}` : key;
       const value: NestedPhrases | string = phrases[key];
-      if (typeof value === 'string') {
+      if (typeof value === "string") {
         messages[keyWithPrefix] = value;
       } else {
         formatNestedMessages(value, formattedMessages, keyWithPrefix);
@@ -42,20 +42,20 @@ interface LocaleObject {
 }
 
 const NB: LocaleObject = {
-  name: 'Bokmål',
-  abbreviation: 'nb',
+  name: "Bokmål",
+  abbreviation: "nb",
   messages: formatNestedMessages({ ...messagesNB, ...nb }),
 };
 
 const NN: LocaleObject = {
-  name: 'Nynorsk',
-  abbreviation: 'nn',
+  name: "Nynorsk",
+  abbreviation: "nn",
   messages: formatNestedMessages({ ...messagesNN, ...nn }),
 };
 
 const EN: LocaleObject = {
-  name: 'English',
-  abbreviation: 'en',
+  name: "English",
+  abbreviation: "en",
   messages: formatNestedMessages({ ...messagesEN, ...en }),
 };
 

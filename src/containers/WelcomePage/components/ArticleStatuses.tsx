@@ -6,26 +6,16 @@
  *
  */
 
-import { useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import Tabs from '@ndla/tabs';
-import ArticleStatusContent from './ArticleStatusContent';
-import { GRID_GAP } from '../../../components/Layout/Layout';
-import {
-  FAVOURITES_SUBJECT_ID,
-  LMA_SUBJECT_ID,
-  LANGUAGE_SUBJECT_ID,
-  DESK_SUBJECT_ID,
-} from '../../../constants';
-import { usePostSearchNodesMutation } from '../../../modules/nodes/nodeMutations';
-import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
-import {
-  SubjectIdObject,
-  customFieldsBody,
-  defaultSubjectIdObject,
-  getResultSubjectIdObject,
-} from '../utils';
+import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import Tabs from "@ndla/tabs";
+import ArticleStatusContent from "./ArticleStatusContent";
+import { GRID_GAP } from "../../../components/Layout/Layout";
+import { FAVOURITES_SUBJECT_ID, LMA_SUBJECT_ID, LANGUAGE_SUBJECT_ID, DESK_SUBJECT_ID } from "../../../constants";
+import { usePostSearchNodesMutation } from "../../../modules/nodes/nodeMutations";
+import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
+import { SubjectIdObject, customFieldsBody, defaultSubjectIdObject, getResultSubjectIdObject } from "../utils";
 
 const StyledWrapper = styled.div`
   margin-top: ${GRID_GAP};
@@ -62,14 +52,14 @@ const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataLoading }: Props) =
         ...(subjectIdObject.subjectLMA.length
           ? [
               {
-                title: t('welcomePage.lmaSubjects'),
-                id: 'lma-subjects',
+                title: t("welcomePage.lmaSubjects"),
+                id: "lma-subjects",
                 content: (
                   <ArticleStatusContent
                     ndlaId={ndlaId}
                     subjectIds={subjectIdObject.subjectLMA}
-                    title={t('welcomePage.lmaSubjectsHeading')}
-                    description={t('welcomePage.lmaSubjectsDescription')}
+                    title={t("welcomePage.lmaSubjectsHeading")}
+                    description={t("welcomePage.lmaSubjectsDescription")}
                     searchPageSubjectFilter={LMA_SUBJECT_ID}
                   />
                 ),
@@ -79,14 +69,14 @@ const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataLoading }: Props) =
         ...(subjectIdObject.subjectDeskResponsible.length
           ? [
               {
-                title: t('welcomePage.deskSubjects'),
-                id: 'desk-subjects',
+                title: t("welcomePage.deskSubjects"),
+                id: "desk-subjects",
                 content: (
                   <ArticleStatusContent
                     ndlaId={ndlaId}
                     subjectIds={subjectIdObject.subjectDeskResponsible}
-                    title={t('welcomePage.deskSubjectsHeading')}
-                    description={t('welcomePage.deskSubjectsDescription')}
+                    title={t("welcomePage.deskSubjectsHeading")}
+                    description={t("welcomePage.deskSubjectsDescription")}
                     searchPageSubjectFilter={DESK_SUBJECT_ID}
                   />
                 ),
@@ -96,14 +86,14 @@ const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataLoading }: Props) =
         ...(subjectIdObject.subjectLanguageResponsible.length
           ? [
               {
-                title: t('welcomePage.languageSubjects'),
-                id: 'langauge-subjects',
+                title: t("welcomePage.languageSubjects"),
+                id: "langauge-subjects",
                 content: (
                   <ArticleStatusContent
                     ndlaId={ndlaId}
                     subjectIds={subjectIdObject.subjectLanguageResponsible}
-                    title={t('welcomePage.languageSubjectsHeading')}
-                    description={t('welcomePage.languageSubjectsDescription')}
+                    title={t("welcomePage.languageSubjectsHeading")}
+                    description={t("welcomePage.languageSubjectsDescription")}
                     searchPageSubjectFilter={LANGUAGE_SUBJECT_ID}
                   />
                 ),
@@ -113,14 +103,14 @@ const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataLoading }: Props) =
         ...(favoriteSubjects?.length
           ? [
               {
-                title: t('welcomePage.favoriteSubjects'),
-                id: 'favorite-subjects',
+                title: t("welcomePage.favoriteSubjects"),
+                id: "favorite-subjects",
                 content: (
                   <ArticleStatusContent
                     ndlaId={ndlaId}
                     subjectIds={favoriteSubjects}
-                    title={t('welcomePage.favoriteSubjectsHeading')}
-                    description={t('welcomePage.favoriteSubjectsDescription')}
+                    title={t("welcomePage.favoriteSubjectsHeading")}
+                    description={t("welcomePage.favoriteSubjectsDescription")}
                     searchPageSubjectFilter={FAVOURITES_SUBJECT_ID}
                   />
                 ),

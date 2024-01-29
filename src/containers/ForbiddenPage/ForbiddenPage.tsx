@@ -6,15 +6,15 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { OneColumn } from '@ndla/ui';
+import { useTranslation } from "react-i18next";
+import { OneColumn } from "@ndla/ui";
 
 const Forbidden = () => {
   const { t } = useTranslation();
   return (
     <OneColumn>
       <div>
-        <h2>403 - {t('forbiddenPage.description')}</h2>
+        <h2>403 - {t("forbiddenPage.description")}</h2>
       </div>
     </OneColumn>
   );

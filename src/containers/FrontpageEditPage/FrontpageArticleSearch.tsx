@@ -6,18 +6,18 @@
  *
  */
 
-import { useFormikContext } from 'formik';
-import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { Content, Portal as PopoverPortal, Root, Trigger } from '@radix-ui/react-popover';
-import { spacing, misc, colors } from '@ndla/core';
-import { IArticleSummaryV2 } from '@ndla/types-backend/article-api';
-import { Heading } from '@ndla/typography';
-import { extractArticleIds } from './frontpageHelpers';
-import { MenuWithArticle } from './types';
-import AsyncDropdown from '../../components/Dropdown/asyncDropdown/AsyncDropdown';
-import { searchArticles } from '../../modules/article/articleApi';
+import { useFormikContext } from "formik";
+import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { Content, Portal as PopoverPortal, Root, Trigger } from "@radix-ui/react-popover";
+import { colors, misc, spacing, stackOrder } from "@ndla/core";
+import { IArticleSummaryV2 } from "@ndla/types-backend/article-api";
+import { Heading } from "@ndla/typography";
+import { extractArticleIds } from "./frontpageHelpers";
+import { MenuWithArticle } from "./types";
+import AsyncDropdown from "../../components/Dropdown/asyncDropdown/AsyncDropdown";
+import { searchArticles } from "../../modules/article/articleApi";
 
 interface Props {
   articleId?: number;
@@ -32,7 +32,7 @@ const PopoverContent = styled(Content)`
   border-radius: ${misc.borderRadius};
   border: 1px solid ${colors.brand.primary};
   background: ${colors.white};
-  z-index: 100;
+  z-index: ${stackOrder.popover};
   color: ${colors.text.primary};
   padding: ${spacing.small};
 `;
@@ -47,10 +47,10 @@ const FrontpageArticleSearch = ({ articleId, children, onChange }: Props) => {
       setWindowHeight(window.innerHeight);
     };
 
-    window.addEventListener('resize', changeSize);
+    window.addEventListener("resize", changeSize);
 
     return () => {
-      window.removeEventListener('resize', changeSize);
+      window.removeEventListener("resize", changeSize);
     };
   });
 
@@ -60,7 +60,7 @@ const FrontpageArticleSearch = ({ articleId, children, onChange }: Props) => {
   }, [values]);
 
   const onSearch = useCallback((query: string, page?: number) => {
-    return searchArticles({ articleTypes: ['frontpage-article'], page, query });
+    return searchArticles({ articleTypes: ["frontpage-article"], page, query });
   }, []);
 
   return (
@@ -69,12 +69,12 @@ const FrontpageArticleSearch = ({ articleId, children, onChange }: Props) => {
       <PopoverPortal>
         <PopoverContent>
           <Heading element="h1" headingStyle="h3" margin="none">
-            {articleId ? t('frontpageForm.changeArticle') : t('frontpageForm.addArticle')}
+            {articleId ? t("frontpageForm.changeArticle") : t("frontpageForm.addArticle")}
           </Heading>
           <AsyncDropdown<IArticleSummaryV2>
             idField="id"
             labelField="title"
-            placeholder={t('frontpageForm.search')}
+            placeholder={t("frontpageForm.search")}
             apiAction={onSearch}
             selectedItems={selectedValues}
             disableSelected

@@ -6,27 +6,27 @@
  *
  */
 
-import { MouseEvent } from 'react';
-import { css, SerializedStyles } from '@emotion/react';
-import styled from '@emotion/styled';
-import { animations } from '@ndla/core';
+import { MouseEvent } from "react";
+import { css, SerializedStyles } from "@emotion/react";
+import styled from "@emotion/styled";
+import { animations, stackOrder } from "@ndla/core";
 
 const appearances: Record<string, SerializedStyles> = {
   zIndex: css`
-    z-index: 1;
+    z-index: ${stackOrder.offsetSingle};
   `,
   absolute: css`
     position: absolute;
     width: 100%;
     height: 100%;
   `,
-  'white-opacity': css`
+  "white-opacity": css`
     opacity: 0.8;
     background-color: white;
   `,
   lighter: css`
     background: rgba(1, 1, 1, 0.3);
-    z-index: 3;
+    z-index: ${stackOrder.offsetDouble};
   `,
 };
 
@@ -43,7 +43,7 @@ const StyledOverlay = styled.div<{ modifiers: string | string[] }>`
   left: 0;
   height: 100vh;
   width: 100vw;
-  z-index: 3;
+  z-index: ${stackOrder.offsetDouble};
   background: rgba(0, 0, 0, 0.3);
 
   ${animations.fadeIn()}
@@ -55,7 +55,7 @@ interface Props {
   modifiers?: string | string[];
 }
 
-const Overlay = ({ onExit, modifiers = '' }: Props) =>
+const Overlay = ({ onExit, modifiers = "" }: Props) =>
   onExit ? (
     <StyledOverlay onClick={onExit} modifiers={modifiers} aria-hidden="true" />
   ) : (

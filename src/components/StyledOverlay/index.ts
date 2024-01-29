@@ -6,6 +6,6 @@
  *
  */
 
-import { StyledOverlay, StyledOverlayBackground } from './StyledOverlay';
+import { StyledOverlay, StyledOverlayBackground } from "./StyledOverlay";
 
 export { StyledOverlay, StyledOverlayBackground };

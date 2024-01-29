@@ -6,11 +6,11 @@
  *
  */
 
-import { Editor, Range, Element, Transforms } from 'slate';
-import { isDefinitionListItem } from './isDefinitionListItem';
-import isOnlySelectionOfDefinitionList from './isOnlySelectionOfDefinitionList';
-import { firstTextBlockElement } from '../../../utils/normalizationHelpers';
-import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_TERM, TYPE_DEFINITION_LIST } from '../types';
+import { Editor, Range, Element, Transforms } from "slate";
+import { isDefinitionListItem } from "./isDefinitionListItem";
+import isOnlySelectionOfDefinitionList from "./isOnlySelectionOfDefinitionList";
+import { firstTextBlockElement } from "../../../utils/normalizationHelpers";
+import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_TERM, TYPE_DEFINITION_LIST } from "../types";
 
 export const toggleDefinitionList = (editor: Editor) => {
   if (!Range.isRange(editor.selection)) {
@@ -24,7 +24,7 @@ export const toggleDefinitionList = (editor: Editor) => {
         Element.isElement(node) &&
         (node.type === TYPE_DEFINITION_DESCRIPTION || node.type === TYPE_DEFINITION_TERM) &&
         isDefinitionListItem(editor, path),
-      mode: 'all',
+      mode: "all",
     });
   } else {
     Editor.withoutNormalizing(editor, () => {
@@ -39,7 +39,7 @@ export const toggleDefinitionList = (editor: Editor) => {
         {
           match: (node) => Element.isElement(node) && firstTextBlockElement.includes(node.type),
           at: Editor.unhangRange(editor, editor.selection),
-          mode: 'lowest',
+          mode: "lowest",
         },
       );
     });

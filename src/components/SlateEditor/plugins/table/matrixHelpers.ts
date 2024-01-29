@@ -6,21 +6,18 @@
  *
  */
 
-import compact from 'lodash/compact';
-import isEqual from 'lodash/isEqual';
-import uniq from 'lodash/uniq';
-import { TableCellElement, TableMatrix } from './interfaces';
-import { TYPE_TABLE_CELL_HEADER } from './types';
+import compact from "lodash/compact";
+import isEqual from "lodash/isEqual";
+import uniq from "lodash/uniq";
+import { TableCellElement, TableMatrix } from "./interfaces";
+import { TYPE_TABLE_CELL_HEADER } from "./types";
 
 export const getPrevCell = (matrix: TableMatrix, row: number, column: number) => {
   return matrix[row][column - 1];
 };
 
 // Find the matrix coordinates for a cell. Returns the coordinates for top left corner of cell.
-export const findCellCoordinate = (
-  matrix: TableMatrix,
-  targetCell: TableCellElement,
-): [number, number] | undefined => {
+export const findCellCoordinate = (matrix: TableMatrix, targetCell: TableCellElement): [number, number] | undefined => {
   for (const [rowIndex, row] of matrix.entries()) {
     for (const [cellIndex, cell] of row.entries()) {
       if (cell === targetCell) {
@@ -99,30 +96,15 @@ const normalizeRow = (row: TableCellElement[]) => {
 };
 
 // Check if previous cell in both col or row is equal
-export const previousMatrixCellIsEqualCurrent = (
-  matrix: TableMatrix,
-  rowIndex: number,
-  columnIndex: number,
-) =>
+export const previousMatrixCellIsEqualCurrent = (matrix: TableMatrix, rowIndex: number, columnIndex: number) =>
   (matrix?.[rowIndex]?.[columnIndex]?.data?.colspan > 1 &&
-    isEqual(
-      matrix?.[rowIndex]?.[columnIndex - 1]?.children,
-      matrix?.[rowIndex]?.[columnIndex]?.children,
-    )) ||
+    isEqual(matrix?.[rowIndex]?.[columnIndex - 1]?.children, matrix?.[rowIndex]?.[columnIndex]?.children)) ||
   (matrix[rowIndex][columnIndex].data.rowspan > 1 &&
-    isEqual(
-      matrix?.[rowIndex - 1]?.[columnIndex]?.children,
-      matrix?.[rowIndex]?.[columnIndex]?.children,
-    ));
+    isEqual(matrix?.[rowIndex - 1]?.[columnIndex]?.children, matrix?.[rowIndex]?.[columnIndex]?.children));
 
 // Creates an header object depending on the ID's of the header cells surrounding it.
 // If colspan or rowspan we check the corresponding neighbor cells for the headercells.
-export const getHeader = (
-  matrix: TableMatrix,
-  rowIndex: number,
-  columnIndex: number,
-  isRowHeaders: boolean,
-) => {
+export const getHeader = (matrix: TableMatrix, rowIndex: number, columnIndex: number, isRowHeaders: boolean) => {
   const { colspan, rowspan } = matrix[rowIndex][columnIndex].data;
 
   const normalizedHeaderRow = normalizeRow(matrix[0]);
@@ -131,8 +113,7 @@ export const getHeader = (
   // First header row
   // Adding all the cells in the corresponding colspan
   [...Array(colspan)].forEach(
-    (_, it) =>
-      normalizedHeaderRow[columnIndex + it] && headers.push(normalizedHeaderRow[columnIndex + it]),
+    (_, it) => normalizedHeaderRow[columnIndex + it] && headers.push(normalizedHeaderRow[columnIndex + it]),
   );
 
   // Second header row
@@ -144,23 +125,16 @@ export const getHeader = (
     const normalizedSecondHeaderRow = normalizeRow(matrix[1]);
     [...Array(colspan)].forEach(
       (_, it) =>
-        normalizedSecondHeaderRow?.[columnIndex + it] &&
-        headers.push(normalizedSecondHeaderRow[columnIndex + it]),
+        normalizedSecondHeaderRow?.[columnIndex + it] && headers.push(normalizedSecondHeaderRow[columnIndex + it]),
     );
   }
 
   // If row headers we append all row headers following the rowspan.
-  if (
-    isRowHeaders &&
-    columnIndex !== 0 &&
-    matrix?.[rowIndex]?.[columnIndex]?.type !== TYPE_TABLE_CELL_HEADER
-  ) {
-    [...Array(rowspan)].forEach(
-      (_, it) => matrix?.[rowIndex + it]?.[0] && headers.push(matrix?.[rowIndex + it]?.[0]),
-    );
+  if (isRowHeaders && columnIndex !== 0 && matrix?.[rowIndex]?.[columnIndex]?.type !== TYPE_TABLE_CELL_HEADER) {
+    [...Array(rowspan)].forEach((_, it) => matrix?.[rowIndex + it]?.[0] && headers.push(matrix?.[rowIndex + it]?.[0]));
   }
   return headers
     .map((cell) => cell?.data?.id)
     .filter((cell) => !!cell)
-    .join(' ');
+    .join(" ");
 };

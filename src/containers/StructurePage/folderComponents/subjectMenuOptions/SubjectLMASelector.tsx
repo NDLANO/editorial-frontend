@@ -6,9 +6,9 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import SubjectCustomFieldSelector from './SubjectCustomFieldSelector';
-import { TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA } from '../../../../constants';
+import { useTranslation } from "react-i18next";
+import SubjectCustomFieldSelector from "./SubjectCustomFieldSelector";
+import { TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA } from "../../../../constants";
 
 interface Props {
   customFields: Record<string, string>;
@@ -19,8 +19,8 @@ const SubjectLMASelector = ({ customFields, updateCustomFields }: Props) => {
   const { t } = useTranslation();
 
   const messages = {
-    selected: t('taxonomy.metadata.placeholders.lma'),
-    title: t('taxonomy.metadata.customFields.subjectLMA'),
+    selected: t("taxonomy.metadata.placeholders.lma"),
+    title: t("taxonomy.metadata.customFields.subjectLMA"),
   };
   return (
     <SubjectCustomFieldSelector

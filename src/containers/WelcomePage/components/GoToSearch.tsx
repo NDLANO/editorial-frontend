@@ -6,10 +6,10 @@
  *
  */
 
-import queryString from 'query-string';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { SafeLinkButton } from '@ndla/safelink';
+import queryString from "query-string";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { SafeLinkButton } from "@ndla/safelink";
 
 const StyledSafeLinkButton = styled(SafeLinkButton)`
   height: fit-content;
@@ -18,7 +18,7 @@ const StyledSafeLinkButton = styled(SafeLinkButton)`
 interface Props {
   ndlaId?: string;
   filterSubject?: string;
-  searchEnv: 'content' | 'concept';
+  searchEnv: "content" | "concept";
   revisionDateTo?: string;
 }
 
@@ -28,8 +28,8 @@ const GoToSearch = ({ ndlaId, filterSubject, searchEnv, revisionDateTo }: Props)
   const onSearch = () => {
     const query = queryString.stringify({
       subjects: filterSubject,
-      ...(ndlaId ? { 'responsible-ids': ndlaId } : {}),
-      ...(revisionDateTo ? { 'revision-date-to': revisionDateTo } : {}),
+      ...(ndlaId ? { "responsible-ids": ndlaId } : {}),
+      ...(revisionDateTo ? { "revision-date-to": revisionDateTo } : {}),
     });
 
     return `/search/${searchEnv}?${query}`;
@@ -37,7 +37,7 @@ const GoToSearch = ({ ndlaId, filterSubject, searchEnv, revisionDateTo }: Props)
 
   return (
     <StyledSafeLinkButton to={onSearch()} size="small">
-      {t('welcomePage.goToSearch')}
+      {t("welcomePage.goToSearch")}
     </StyledSafeLinkButton>
   );
 };

@@ -6,108 +6,108 @@
  *
  */
 
-import { IFilmFrontPageData } from '@ndla/types-backend/frontpage-api';
-import { TYPE_EMBED_IMAGE } from '../../components/SlateEditor/plugins/embed/types';
-import { FilmFormikType } from '../../containers/NdlaFilm/components/NdlaFilmForm';
-import { getInitialValues, getIdFromUrn, getUrnFromId } from '../ndlaFilmHelpers';
+import { IFilmFrontPageData } from "@ndla/types-backend/frontpage-api";
+import { TYPE_EMBED_IMAGE } from "../../components/SlateEditor/plugins/embed/types";
+import { FilmFormikType } from "../../containers/NdlaFilm/components/NdlaFilmForm";
+import { getInitialValues, getIdFromUrn, getUrnFromId } from "../ndlaFilmHelpers";
 
 const filmFrontPage: IFilmFrontPageData = {
-  name: 'Film',
+  name: "Film",
   about: [
     {
-      title: 'Om film',
-      description: '',
+      title: "Om film",
+      description: "",
       visualElement: {
-        type: 'image',
-        url: 'https://test.api.ndla.no/image-api/raw/id/37',
-        alt: 'Et bilde Foto.',
+        type: "image",
+        url: "https://test.api.ndla.no/image-api/raw/id/37",
+        alt: "Et bilde Foto.",
       },
-      language: 'nb',
+      language: "nb",
     },
   ],
   movieThemes: [
     {
       name: [
         {
-          name: 'eksempel 2',
-          language: 'nb',
+          name: "eksempel 2",
+          language: "nb",
         },
       ],
-      movies: ['urn:article:288'],
+      movies: ["urn:article:288"],
     },
   ],
   slideShow: [],
 };
 
 const filmFrontPageAfterTransformation: FilmFormikType = {
-  articleType: 'subjectpage',
+  articleType: "subjectpage",
   description: [
     {
       children: [
         {
-          text: '',
+          text: "",
         },
       ],
-      type: 'paragraph',
+      type: "paragraph",
     },
   ],
   themes: [
     {
       name: [
         {
-          name: 'eksempel 2',
-          language: 'nb',
+          name: "eksempel 2",
+          language: "nb",
         },
       ],
-      movies: ['urn:article:288'],
+      movies: ["urn:article:288"],
     },
   ],
-  name: 'Film',
-  language: 'nb',
-  supportedLanguages: ['nb'],
+  name: "Film",
+  language: "nb",
+  supportedLanguages: ["nb"],
   slideShow: [],
   title: [
     {
       children: [
         {
-          text: 'Om film',
+          text: "Om film",
         },
       ],
-      type: 'paragraph',
+      type: "paragraph",
     },
   ],
   visualElement: [
     {
       type: TYPE_EMBED_IMAGE,
       data: {
-        alt: 'Et bilde Foto.',
+        alt: "Et bilde Foto.",
         metaData: {
-          id: '37',
+          id: "37",
         },
-        resource: 'image',
-        resource_id: '37',
-        url: 'https://test.api.ndla.no/image-api/raw/id/37',
+        resource: "image",
+        resource_id: "37",
+        url: "https://test.api.ndla.no/image-api/raw/id/37",
       },
       children: [
         {
-          text: '',
+          text: "",
         },
       ],
     },
   ],
 };
 
-test('util/ndlaFilmHelpers getInitialValues', () => {
-  expect(getInitialValues(filmFrontPage, 'nb')).toEqual(filmFrontPageAfterTransformation);
+test("util/ndlaFilmHelpers getInitialValues", () => {
+  expect(getInitialValues(filmFrontPage, "nb")).toEqual(filmFrontPageAfterTransformation);
 });
 
 const numberId = 1987;
 const urnId = `urn:article:${numberId}`;
 
-test('util/ndlaFilmHelpers getIdFromUrn', () => {
+test("util/ndlaFilmHelpers getIdFromUrn", () => {
   expect(getIdFromUrn(urnId)).toEqual(numberId);
 });
 
-test('util/ndlaFilmHelpers getUrnFromId', () => {
+test("util/ndlaFilmHelpers getUrnFromId", () => {
   expect(getUrnFromId(numberId)).toEqual(urnId);
 });

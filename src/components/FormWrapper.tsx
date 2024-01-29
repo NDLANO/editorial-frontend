@@ -6,16 +6,16 @@
  *
  */
 
-import { Form } from 'formik';
-import { ReactNode } from 'react';
-import StyledForm from './StyledFormComponents';
+import { Form } from "formik";
+import { ReactNode } from "react";
+import StyledForm from "./StyledFormComponents";
 
 interface Props {
   inModal?: boolean;
   children: ReactNode;
 }
 
-const DivForm = StyledForm.withComponent('div');
+const DivForm = StyledForm.withComponent("div");
 
 const FormWrapper = ({ inModal, children }: Props) => {
   if (inModal) {

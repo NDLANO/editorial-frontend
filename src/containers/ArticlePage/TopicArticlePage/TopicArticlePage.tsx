@@ -6,11 +6,11 @@
  *
  */
 
-import CreateTopicArticle from './CreateTopicArticle';
-import EditTopicArticle from './EditTopicArticle';
-import ResourcePage from '../../../components/ResourcePage';
-import { useDraft } from '../../../modules/draft/draftQueries';
-import { articleResourcePageStyle } from '../styles';
+import CreateTopicArticle from "./CreateTopicArticle";
+import EditTopicArticle from "./EditTopicArticle";
+import ResourcePage from "../../../components/ResourcePage";
+import { useDraft } from "../../../modules/draft/draftQueries";
+import { articleResourcePageStyle } from "../styles";
 
 const TopicArticlePage = () => (
   <ResourcePage

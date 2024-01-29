@@ -6,17 +6,17 @@
  *
  */
 
-import sortBy from 'lodash/sortBy';
-import { memo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Spinner } from '@ndla/icons';
-import { IUpdatedArticle, IArticle } from '@ndla/types-backend/draft-api';
-import { Metadata, NodeChild } from '@ndla/types-taxonomy';
-import TaxonomyBlock from './taxonomy/TaxonomyBlock';
-import { useNodes } from '../../../../modules/nodes/nodeQueries';
-import { useAllResourceTypes } from '../../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
-import { useVersions } from '../../../../modules/taxonomy/versions/versionQueries';
-import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
+import sortBy from "lodash/sortBy";
+import { memo } from "react";
+import { useTranslation } from "react-i18next";
+import { Spinner } from "@ndla/icons";
+import { IUpdatedArticle, IArticle } from "@ndla/types-backend/draft-api";
+import { Metadata, NodeChild } from "@ndla/types-taxonomy";
+import TaxonomyBlock from "./taxonomy/TaxonomyBlock";
+import { useNodes } from "../../../../modules/nodes/nodeQueries";
+import { useAllResourceTypes } from "../../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
+import { useVersions } from "../../../../modules/taxonomy/versions/versionQueries";
+import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 
 interface Props {
   article: IArticle;
@@ -26,19 +26,11 @@ interface Props {
 }
 
 export interface MinimalNodeChild
-  extends Pick<
-    NodeChild,
-    'id' | 'relevanceId' | 'isPrimary' | 'path' | 'name' | 'connectionId' | 'breadcrumbs'
-  > {
-  metadata: Pick<Metadata, 'visible'>;
+  extends Pick<NodeChild, "id" | "relevanceId" | "isPrimary" | "path" | "name" | "connectionId" | "breadcrumbs"> {
+  metadata: Pick<Metadata, "visible">;
 }
 
-const LearningResourceTaxonomy = ({
-  article,
-  updateNotes,
-  articleLanguage,
-  hasTaxEntries,
-}: Props) => {
+const LearningResourceTaxonomy = ({ article, updateNotes, articleLanguage, hasTaxEntries }: Props) => {
   const { i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
 
@@ -50,7 +42,7 @@ const LearningResourceTaxonomy = ({
   });
 
   const subjectsQuery = useNodes(
-    { language: i18n.language, taxonomyVersion, nodeType: 'SUBJECT' },
+    { language: i18n.language, taxonomyVersion, nodeType: "SUBJECT" },
     {
       select: (subject) =>
         sortBy(
@@ -67,12 +59,7 @@ const LearningResourceTaxonomy = ({
 
   const versionsQuery = useVersions();
 
-  if (
-    nodesQuery.isLoading ||
-    subjectsQuery.isLoading ||
-    allResourceTypesQuery.isLoading ||
-    versionsQuery.isLoading
-  ) {
+  if (nodesQuery.isLoading || subjectsQuery.isLoading || allResourceTypesQuery.isLoading || versionsQuery.isLoading) {
     return <Spinner />;
   }
 

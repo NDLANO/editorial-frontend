@@ -6,4 +6,4 @@
  *
  */
 
-export const TYPE_KEY_FIGURE = 'key-figure';
+export const TYPE_KEY_FIGURE = "key-figure";

@@ -6,9 +6,9 @@
  *
  */
 
-import { Editor } from 'slate';
-import InlineConcept from './InlineWrapper';
-import { TYPE_CONCEPT_INLINE } from './types';
+import { Editor } from "slate";
+import InlineConcept from "./InlineWrapper";
+import { TYPE_CONCEPT_INLINE } from "./types";
 
 export const inlineConceptRenderer = (locale: string) => (editor: Editor) => {
   const { renderElement } = editor;

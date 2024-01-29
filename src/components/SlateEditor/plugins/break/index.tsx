@@ -6,30 +6,30 @@
  *
  */
 
-import { Editor, Element, Descendant } from 'slate';
-import { jsx as slatejsx } from 'slate-hyperscript';
-import { TYPE_BREAK } from './types';
-import { SlateSerializer } from '../../interfaces';
+import { Editor, Element, Descendant } from "slate";
+import { jsx as slatejsx } from "slate-hyperscript";
+import { TYPE_BREAK } from "./types";
+import { SlateSerializer } from "../../interfaces";
 
 export interface BreakElement {
-  type: 'br';
+  type: "br";
   children: Descendant[];
 }
 
 const allowedBreakContainers = [
-  'section',
-  'div',
-  'aside',
-  'li',
-  'blockquote',
-  'h1',
-  'h2',
-  'h3',
-  'h4',
-  'h5',
-  'h6',
-  'summary',
-  'pre',
+  "section",
+  "div",
+  "aside",
+  "li",
+  "blockquote",
+  "h1",
+  "h2",
+  "h3",
+  "h4",
+  "h5",
+  "h6",
+  "summary",
+  "pre",
 ];
 
 export const breakSerializer: SlateSerializer = {
@@ -39,14 +39,14 @@ export const breakSerializer: SlateSerializer = {
     if (el.parentElement && el.parentElement.tagName) {
       const tagName = el.parentElement.tagName.toLowerCase();
       if (allowedBreakContainers.includes(tagName)) {
-        return slatejsx('element', { type: TYPE_BREAK }, [{ text: '' }]);
+        return slatejsx("element", { type: TYPE_BREAK }, [{ text: "" }]);
       }
     }
-    return slatejsx('text', { text: '\n' });
+    return slatejsx("text", { text: "\n" });
   },
   serialize(node: Descendant) {
     if (!Element.isElement(node)) return;
-    if (node.type !== 'br') return;
+    if (node.type !== "br") return;
 
     return <br />;
   },

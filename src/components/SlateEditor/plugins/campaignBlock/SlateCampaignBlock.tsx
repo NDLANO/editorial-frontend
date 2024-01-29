@@ -6,30 +6,22 @@
  *
  */
 
-import { useCallback, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Editor, Path, Transforms } from 'slate';
-import { ReactEditor, RenderElementProps } from 'slate-react';
-import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
-import { Pencil } from '@ndla/icons/action';
-import { DeleteForever } from '@ndla/icons/editor';
-import {
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalTitle,
-  ModalTrigger,
-} from '@ndla/modal';
-import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
-import { CampaignBlockEmbedData } from '@ndla/types-embed';
-import { CampaignBlock } from '@ndla/ui';
-import { CampaignBlockElement } from '.';
-import CampaignBlockForm from './CampaignBlockForm';
-import { fetchImage } from '../../../../modules/image/imageApi';
-import { StyledDeleteEmbedButton, StyledFigureButtons } from '../embed/FigureButtons';
+import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Path, Transforms } from "slate";
+import { ReactEditor, RenderElementProps } from "slate-react";
+import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
+import { Pencil } from "@ndla/icons/action";
+import { DeleteForever } from "@ndla/icons/editor";
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
+import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
+import { CampaignBlockEmbedData } from "@ndla/types-embed";
+import { CampaignBlock } from "@ndla/ui";
+import { CampaignBlockElement } from ".";
+import CampaignBlockForm from "./CampaignBlockForm";
+import { fetchImage } from "../../../../modules/image/imageApi";
+import { StyledDeleteEmbedButton, StyledFigureButtons } from "../embed/FigureButtons";
 
 interface Props extends RenderElementProps {
   element: CampaignBlockElement;
@@ -70,7 +62,10 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
     ReactEditor.focus(editor);
     setIsEditing(false);
     if (element.isFirstEdit) {
-      Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true });
+      Transforms.removeNodes(editor, {
+        at: ReactEditor.findPath(editor, element),
+        voids: true,
+      });
     }
     const path = ReactEditor.findPath(editor, element);
     if (Editor.hasPath(editor, Path.next(path))) {
@@ -109,7 +104,10 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
 
   const handleRemove = useCallback(
     () =>
-      Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true }),
+      Transforms.removeNodes(editor, {
+        at: ReactEditor.findPath(editor, element),
+        voids: true,
+      }),
     [editor, element],
   );
 
@@ -122,17 +120,17 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
               <ModalTrigger>
                 <IconButtonV2
                   colorTheme="light"
-                  aria-label={t('campaignBlockForm.title')}
-                  title={t('campaignBlockForm.title')}
+                  aria-label={t("campaignBlockForm.title")}
+                  title={t("campaignBlockForm.title")}
                   onClick={() => setIsEditing(true)}
                 >
                   <Pencil />
                 </IconButtonV2>
               </ModalTrigger>
               <StyledDeleteEmbedButton
-                aria-label={t('campaignBlockForm.delete')}
+                aria-label={t("campaignBlockForm.delete")}
                 colorTheme="danger"
-                title={t('campaignBlockForm.delete')}
+                title={t("campaignBlockForm.delete")}
                 data-testid="remove-campaign-block"
                 onClick={handleRemove}
               >
@@ -140,22 +138,30 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
               </StyledDeleteEmbedButton>
             </StyledFigureButtons>
             <CampaignBlock
-              title={{ title: campaignBlock.title, language: campaignBlock.titleLanguage }}
+              title={{
+                title: campaignBlock.title,
+                language: campaignBlock.titleLanguage,
+              }}
               description={{
                 text: campaignBlock.description,
                 language: campaignBlock.descriptionLanguage,
               }}
               headingLevel={campaignBlock.headingLevel}
               url={{ url: campaignBlock.url, text: campaignBlock.urlText }}
-              image={image && { src: image.image.imageUrl, alt: image.alttext.alttext }}
+              image={
+                image && {
+                  src: image.image.imageUrl,
+                  alt: image.alttext.alttext,
+                }
+              }
               imageSide={campaignBlock.imageSide}
             />
           </div>
         )}
         {children}
-        <ModalContent size={{ width: 'large', height: 'full' }}>
+        <ModalContent size={{ width: "large", height: "full" }}>
           <StyledModalHeader>
-            <ModalTitle>{t('campaignBlockForm.title')}</ModalTitle>
+            <ModalTitle>{t("campaignBlockForm.title")}</ModalTitle>
             <ModalCloseButton />
           </StyledModalHeader>
           <StyledModalBody>

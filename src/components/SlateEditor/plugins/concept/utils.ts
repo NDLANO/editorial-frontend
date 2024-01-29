@@ -6,7 +6,7 @@
  *
  */
 
-import { IGlossData, IGlossExample } from '@ndla/types-backend/concept-api';
+import { IGlossData, IGlossExample } from "@ndla/types-backend/concept-api";
 
 export const generateNumbersArray = (arrayLength: number): string[] =>
   Array.from(Array(arrayLength).keys()).map((el) => el.toString());
@@ -14,10 +14,8 @@ export const generateNumbersArray = (arrayLength: number): string[] =>
 export const generateUniqueGlossLanguageArray = (glossExamples: IGlossExample[][]): string[] =>
   Array.from(new Set(glossExamples.flat().map((e) => e.language)));
 
-export const getGlossDataAttributes = (
-  glossData: IGlossData,
-): { exampleIds: string; exampleLangs: string } => ({
+export const getGlossDataAttributes = (glossData: IGlossData): { exampleIds: string; exampleLangs: string } => ({
   // Display all examples with languages as default
-  exampleIds: generateNumbersArray(glossData.examples.length).join(','),
-  exampleLangs: generateUniqueGlossLanguageArray(glossData.examples).join(','),
+  exampleIds: generateNumbersArray(glossData.examples.length).join(","),
+  exampleLangs: generateUniqueGlossLanguageArray(glossData.examples).join(","),
 });

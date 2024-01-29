@@ -5,44 +5,38 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { useTranslation } from 'react-i18next';
-import { Select, SingleValue } from '@ndla/select';
+import { useTranslation } from "react-i18next";
+import { Select, SingleValue } from "@ndla/select";
 
 const priorityMapping = {
-  prioritized: 'editorFooter.prioritized',
-  'on-hold': 'welcomePage.workList.onHold',
+  prioritized: "editorFooter.prioritized",
+  "on-hold": "welcomePage.workList.onHold",
 };
 
 interface Props {
   id: string;
   priority: string | undefined;
   updatePriority: (p: SingleValue) => void;
-  menuPlacement?: 'top' | 'bottom' | 'auto';
+  menuPlacement?: "top" | "bottom" | "auto";
   inModal?: boolean;
 }
 
-const PrioritySelect = ({
-  id,
-  priority,
-  updatePriority,
-  menuPlacement = 'top',
-  inModal = false,
-}: Props) => {
+const PrioritySelect = ({ id, priority, updatePriority, menuPlacement = "top", inModal = false }: Props) => {
   const { t } = useTranslation();
 
   return (
     <Select<false>
       id={id}
       options={[
-        { label: t(priorityMapping['prioritized']), value: 'prioritized' },
-        { label: t(priorityMapping['on-hold']), value: 'on-hold' },
+        { label: t(priorityMapping["prioritized"]), value: "prioritized" },
+        { label: t(priorityMapping["on-hold"]), value: "on-hold" },
       ]}
       menuPlacement={menuPlacement}
-      placeholder={t('editorFooter.placeholderPrioritized')}
-      aria-label={t('editorFooter.placeholderPrioritized')}
+      placeholder={t("editorFooter.placeholderPrioritized")}
+      aria-label={t("editorFooter.placeholderPrioritized")}
       inModal={inModal}
       value={
-        priority === 'prioritized' || priority === 'on-hold'
+        priority === "prioritized" || priority === "on-hold"
           ? { value: priority, label: t(priorityMapping[priority!]) }
           : null
       }

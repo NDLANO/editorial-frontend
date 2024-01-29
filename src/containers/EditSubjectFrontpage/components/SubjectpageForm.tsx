@@ -6,50 +6,47 @@
  *
  */
 
-import { Formik, FormikProps } from 'formik';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Formik, FormikProps } from "formik";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
-import { IArticle } from '@ndla/types-backend/draft-api';
+import { IArticle } from "@ndla/types-backend/draft-api";
 import {
   ISubjectPageData,
   INewSubjectFrontPageData,
   IUpdatedSubjectFrontPageData,
-} from '@ndla/types-backend/frontpage-api';
-import { ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
+} from "@ndla/types-backend/frontpage-api";
+import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
 
-import SubjectpageAccordionPanels from './SubjectpageAccordionPanels';
-import Field from '../../../components/Field';
-import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
-import SimpleLanguageHeader from '../../../components/HeaderWithLanguage/SimpleLanguageHeader';
-import SaveButton from '../../../components/SaveButton';
-import { isSlateEmbed } from '../../../components/SlateEditor/plugins/embed/utils';
-import StyledForm from '../../../components/StyledFormComponents';
-import { SAVE_BUTTON_ID } from '../../../constants';
-import { fetchNodes } from '../../../modules/nodes/nodeApi';
-import { isFormikFormDirty } from '../../../util/formHelper';
-import { NdlaErrorPayload } from '../../../util/resolveJsonOrRejectWithError';
-import { toEditSubjectpage } from '../../../util/routeHelpers';
+import SubjectpageAccordionPanels from "./SubjectpageAccordionPanels";
+import Field from "../../../components/Field";
+import validateFormik, { RulesType } from "../../../components/formikValidationSchema";
+import SimpleLanguageHeader from "../../../components/HeaderWithLanguage/SimpleLanguageHeader";
+import SaveButton from "../../../components/SaveButton";
+import { isSlateEmbed } from "../../../components/SlateEditor/plugins/embed/utils";
+import StyledForm from "../../../components/StyledFormComponents";
+import { SAVE_BUTTON_ID } from "../../../constants";
+import { fetchNodes } from "../../../modules/nodes/nodeApi";
+import { isFormikFormDirty } from "../../../util/formHelper";
+import { NdlaErrorPayload } from "../../../util/resolveJsonOrRejectWithError";
+import { toEditSubjectpage } from "../../../util/routeHelpers";
 import {
   subjectpageApiTypeToFormikType,
   SubjectPageFormikType,
   subjectpageFormikTypeToPatchType,
   subjectpageFormikTypeToPostType,
-} from '../../../util/subjectHelpers';
-import { AlertModalWrapper } from '../../FormikForm';
-import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
-import { useMessages } from '../../Messages/MessagesProvider';
-import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
+} from "../../../util/subjectHelpers";
+import { AlertModalWrapper } from "../../FormikForm";
+import usePreventWindowUnload from "../../FormikForm/preventWindowUnloadHook";
+import { useMessages } from "../../Messages/MessagesProvider";
+import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
 interface Props {
   subjectpage?: ISubjectPageData;
   editorsChoices?: (IArticle | ILearningPathV2)[];
   elementName?: string;
   createSubjectpage?: (subjectpage: INewSubjectFrontPageData) => Promise<ISubjectPageData>;
-  updateSubjectpage?: (
-    id: string | number,
-    subjectpage: IUpdatedSubjectFrontPageData,
-  ) => Promise<ISubjectPageData>;
+  updateSubjectpage?: (id: string | number, subjectpage: IUpdatedSubjectFrontPageData) => Promise<ISubjectPageData>;
   selectedLanguage: string;
   elementId: string;
   isNewlyCreated: boolean;
@@ -68,10 +65,8 @@ const subjectpageRules: RulesType<SubjectPageFormikType> = {
     test: (values: SubjectPageFormikType) => {
       const element = values?.visualElement[0];
       const data = isSlateEmbed(element) && element.data;
-      const badVisualElementId = data && 'resource_id' in data && data.resource_id === '';
-      return badVisualElementId
-        ? { translationKey: 'subjectpageForm.missingVisualElement' }
-        : undefined;
+      const badVisualElementId = data && "resource_id" in data && data.resource_id === "";
+      return badVisualElementId ? { translationKey: "subjectpageForm.missingVisualElement" } : undefined;
     },
   },
   metaDescription: {
@@ -113,23 +108,23 @@ const SubjectpageForm = ({
   const fetchTaxonomyUrns = async (choices: (IArticle | ILearningPathV2)[], language: string) => {
     const fetched = await Promise.all(
       choices.map((choice) => {
-        if ('articleType' in choice && choice.articleType === 'topic-article') {
+        if ("articleType" in choice && choice.articleType === "topic-article") {
           return fetchNodes({
             contentURI: `urn:article:${choice.id}`,
-            nodeType: 'TOPIC',
+            nodeType: "TOPIC",
             language,
             taxonomyVersion,
           });
-        } else if ('learningsteps' in choice && typeof choice.id === 'number') {
+        } else if ("learningsteps" in choice && typeof choice.id === "number") {
           return fetchNodes({
             contentURI: `urn:learningpath:${choice.id}`,
-            nodeType: 'RESOURCE',
+            nodeType: "RESOURCE",
             taxonomyVersion,
           });
         }
         return fetchNodes({
           contentURI: `urn:article:${choice.id}`,
-          nodeType: 'RESOURCE',
+          nodeType: "RESOURCE",
           language,
           taxonomyVersion,
         });
@@ -153,7 +148,10 @@ const SubjectpageForm = ({
     } catch (e) {
       const err = e as NdlaErrorPayload;
       if (err?.status === 409) {
-        createMessage({ message: t('alertModal.needToRefresh'), timeToLive: 0 });
+        createMessage({
+          message: t("alertModal.needToRefresh"),
+          timeToLive: 0,
+        });
       } else if (err?.json?.messages) {
         createMessage(formatErrorMessage(err));
       } else {
@@ -192,7 +190,7 @@ const SubjectpageForm = ({
               isSubmitting={isSubmitting}
               language={values.language}
               supportedLanguages={values.supportedLanguages!}
-              title={values.name ?? ''}
+              title={values.name ?? ""}
             />
             <SubjectpageAccordionPanels
               buildsOn={values.buildsOn}
@@ -217,7 +215,7 @@ const SubjectpageForm = ({
               isSubmitting={isSubmitting}
               formIsDirty={formIsDirty}
               severity="danger"
-              text={t('alertModal.notSaved')}
+              text={t("alertModal.notSaved")}
             />
           </StyledForm>
         );

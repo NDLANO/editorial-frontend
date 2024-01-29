@@ -5,17 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
-import { colors, fonts, spacing } from '@ndla/core';
-import { TrashCanOutline } from '@ndla/icons/action';
-import { Search } from '@ndla/icons/common';
-import Tooltip from '@ndla/tooltip';
-import { NoShadowLink } from '../../WelcomePage/components/NoShadowLink';
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
+import { colors, fonts, spacing } from "@ndla/core";
+import { TrashCanOutline } from "@ndla/icons/action";
+import { Search } from "@ndla/icons/common";
+import Tooltip from "@ndla/tooltip";
+import { NoShadowLink } from "../../WelcomePage/components/NoShadowLink";
 
 const StyledItem = styled.li`
-  ${fonts.sizes('16px')};
+  ${fonts.sizes("16px")};
   color: ${colors.brand.primary};
   padding: ${spacing.xsmall} ${spacing.xsmall};
   margin: 0;
@@ -44,7 +44,7 @@ interface Props {
   index: number;
   url: string;
 }
-const SavedSearchItem = ({ searchText = '', deleteSearch, index, url, ...rest }: Props) => {
+const SavedSearchItem = ({ searchText = "", deleteSearch, index, url, ...rest }: Props) => {
   const { t } = useTranslation();
 
   return (
@@ -53,9 +53,9 @@ const SavedSearchItem = ({ searchText = '', deleteSearch, index, url, ...rest }:
         <StyledSearch />
         {searchText}
       </StyledNoShadowLink>
-      <Tooltip tooltip={t('welcomePage.deleteSavedSearch')}>
+      <Tooltip tooltip={t("welcomePage.deleteSavedSearch")}>
         <IconButtonV2
-          aria-label={t('welcomePage.deleteSavedSearch')}
+          aria-label={t("welcomePage.deleteSavedSearch")}
           variant="ghost"
           onClick={(e) => {
             deleteSearch(index);

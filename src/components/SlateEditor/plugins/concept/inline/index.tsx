@@ -6,33 +6,30 @@
  *
  */
 
-import { Descendant, Editor, Element, Node, Range, Transforms } from 'slate';
-import { jsx as slatejsx } from 'slate-hyperscript';
-import { TYPE_CONCEPT_INLINE } from './types';
-import {
-  createEmbedTagV2,
-  reduceElementDataAttributesV2,
-} from '../../../../../util/embedTagHelpers';
-import { SlateSerializer } from '../../../interfaces';
-import hasNodeOfType from '../../../utils/hasNodeOfType';
-import { KEY_BACKSPACE } from '../../../utils/keys';
-import { TYPE_NDLA_EMBED } from '../../embed/types';
+import { Descendant, Editor, Element, Node, Range, Transforms } from "slate";
+import { jsx as slatejsx } from "slate-hyperscript";
+import { TYPE_CONCEPT_INLINE } from "./types";
+import { createEmbedTagV2, reduceElementDataAttributesV2 } from "../../../../../util/embedTagHelpers";
+import { SlateSerializer } from "../../../interfaces";
+import hasNodeOfType from "../../../utils/hasNodeOfType";
+import { KEY_BACKSPACE } from "../../../utils/keys";
+import { TYPE_NDLA_EMBED } from "../../embed/types";
 
 export const inlineConceptSerializer: SlateSerializer = {
   deserialize(el: HTMLElement) {
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const embed = el as HTMLEmbedElement;
     const embedAttributes = reduceElementDataAttributesV2(Array.from(embed.attributes));
-    if (embedAttributes.resource === 'concept' && embedAttributes.type === 'inline') {
+    if (embedAttributes.resource === "concept" && embedAttributes.type === "inline") {
       return slatejsx(
-        'element',
+        "element",
         {
           type: TYPE_CONCEPT_INLINE,
           data: embedAttributes,
         },
         [
           {
-            text: embedAttributes.linkText ? embedAttributes.linkText : 'Ukjent forklaringstekst',
+            text: embedAttributes.linkText ? embedAttributes.linkText : "Ukjent forklaringstekst",
           },
         ],
       );
@@ -50,11 +47,7 @@ export const inlineConceptSerializer: SlateSerializer = {
   },
 };
 
-const onBackspace = (
-  e: KeyboardEvent,
-  editor: Editor,
-  nextOnKeyDown?: (event: KeyboardEvent) => void,
-) => {
+const onBackspace = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: KeyboardEvent) => void) => {
   if (hasNodeOfType(editor, TYPE_CONCEPT_INLINE)) {
     if (Range.isRange(editor.selection)) {
       // Replace heading with paragraph if last character is removed
@@ -64,7 +57,7 @@ const onBackspace = (
         editor.selection.anchor.offset === 1
       ) {
         e.preventDefault();
-        editor.deleteBackward('character');
+        editor.deleteBackward("character");
         Transforms.unwrapNodes(editor, {
           match: (node) => Element.isElement(node) && node.type === TYPE_CONCEPT_INLINE,
         });

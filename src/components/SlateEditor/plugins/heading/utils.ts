@@ -6,16 +6,16 @@
  *
  */
 
-import { Editor, Transforms, Element, Range } from 'slate';
-import { HeadingElement } from '.';
-import hasNodeOfType from '../../utils/hasNodeOfType';
-import hasNodeWithProps from '../../utils/hasNodeWithProps';
+import { Editor, Transforms, Element, Range } from "slate";
+import { HeadingElement } from ".";
+import hasNodeOfType from "../../utils/hasNodeOfType";
+import hasNodeWithProps from "../../utils/hasNodeWithProps";
 
-export const toggleHeading = (editor: Editor, level: HeadingElement['level']) => {
-  const newHeadingProps: Partial<HeadingElement> = { type: 'heading', level };
+export const toggleHeading = (editor: Editor, level: HeadingElement["level"]) => {
+  const newHeadingProps: Partial<HeadingElement> = { type: "heading", level };
 
   const isIdentical = hasNodeWithProps(editor, newHeadingProps);
-  const isHeading = hasNodeOfType(editor, 'heading');
+  const isHeading = hasNodeOfType(editor, "heading");
 
   if (!Range.isRange(editor.selection)) {
     return;
@@ -26,27 +26,27 @@ export const toggleHeading = (editor: Editor, level: HeadingElement['level']) =>
       if (!Range.isRange(editor.selection)) {
         return;
       }
-      Transforms.unsetNodes(editor, ['level'], {
-        match: (node) => Element.isElement(node) && node.type === 'heading',
+      Transforms.unsetNodes(editor, ["level"], {
+        match: (node) => Element.isElement(node) && node.type === "heading",
         at: Editor.unhangRange(editor, editor.selection),
       });
       Transforms.setNodes(
         editor,
-        { type: 'paragraph' },
+        { type: "paragraph" },
         {
-          match: (node) => Element.isElement(node) && node.type === 'heading',
+          match: (node) => Element.isElement(node) && node.type === "heading",
           at: Editor.unhangRange(editor, editor.selection),
         },
       );
     });
   } else if (isHeading) {
     Transforms.setNodes(editor, newHeadingProps, {
-      match: (node) => Element.isElement(node) && node.type === 'heading',
+      match: (node) => Element.isElement(node) && node.type === "heading",
       hanging: false,
     });
   } else {
     Transforms.setNodes(editor, newHeadingProps, {
-      match: (node) => Element.isElement(node) && node.type === 'paragraph',
+      match: (node) => Element.isElement(node) && node.type === "paragraph",
       at: Editor.unhangRange(editor, editor.selection),
     });
   }

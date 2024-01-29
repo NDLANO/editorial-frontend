@@ -6,13 +6,13 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { spacing, colors } from '@ndla/core';
-import { AlertCircle } from '@ndla/icons/editor';
-import Tooltip from '@ndla/tooltip';
-import { Node } from '@ndla/types-taxonomy';
-import { getIdFromUrn } from '../../../util/taxonomyHelpers';
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { spacing, colors } from "@ndla/core";
+import { AlertCircle } from "@ndla/icons/editor";
+import Tooltip from "@ndla/tooltip";
+import { Node } from "@ndla/types-taxonomy";
+import { getIdFromUrn } from "../../../util/taxonomyHelpers";
 
 const StyledWarnIcon = styled(AlertCircle)`
   height: ${spacing.nsmall};
@@ -34,10 +34,10 @@ const StructureErrorIcon = (
   isPublished?: boolean,
 ) => {
   const { t } = useTranslation();
-  if (isRoot || node.nodeType !== 'TOPIC') return null;
-  if (articleType === 'topic-article') {
+  if (isRoot || node.nodeType !== "TOPIC") return null;
+  if (articleType === "topic-article") {
     if (!isPublished) {
-      const notPublishedWarning = t('taxonomy.info.notPublished');
+      const notPublishedWarning = t("taxonomy.info.notPublished");
 
       return (
         <Tooltip tooltip={notPublishedWarning}>
@@ -51,11 +51,11 @@ const StructureErrorIcon = (
   }
 
   if (isTaxonomyAdmin) {
-    const missingArticleTypeError = t('taxonomy.info.missingArticleType', {
+    const missingArticleTypeError = t("taxonomy.info.missingArticleType", {
       id: getIdFromUrn(node.contentUri),
     });
 
-    const wrongArticleTypeError = t('taxonomy.info.wrongArticleType', {
+    const wrongArticleTypeError = t("taxonomy.info.wrongArticleType", {
       placedAs: t(`articleType.topic-article`),
       isType: t(`articleType.standard`),
     });

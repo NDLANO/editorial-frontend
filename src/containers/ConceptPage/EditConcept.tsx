@@ -6,29 +6,29 @@
  *
  */
 
-import { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
-import { HelmetWithTracker } from '@ndla/tracker';
-import ConceptForm from './ConceptForm/ConceptForm';
-import { TranslateType, useTranslateToNN } from '../../components/NynorskTranslateProvider';
-import Spinner from '../../components/Spinner';
-import { LocaleType } from '../../interfaces';
-import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
-import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
+import { HelmetWithTracker } from "@ndla/tracker";
+import ConceptForm from "./ConceptForm/ConceptForm";
+import { TranslateType, useTranslateToNN } from "../../components/NynorskTranslateProvider";
+import Spinner from "../../components/Spinner";
+import { LocaleType } from "../../interfaces";
+import { useFetchConceptData } from "../FormikForm/formikConceptHooks";
+import NotFoundPage from "../NotFoundPage/NotFoundPage";
 
 const translateFields: TranslateType[] = [
   {
-    field: 'title.title',
-    type: 'text',
+    field: "title.title",
+    type: "text",
   },
   {
-    field: 'content.content',
-    type: 'text',
+    field: "content.content",
+    type: "text",
   },
   {
-    field: 'tags.tags',
-    type: 'text',
+    field: "tags.tags",
+    type: "text",
   },
 ];
 
@@ -37,20 +37,12 @@ interface Props {
 }
 
 const EditConcept = ({ isNewlyCreated }: Props) => {
-  const params = useParams<'id' | 'selectedLanguage'>();
+  const params = useParams<"id" | "selectedLanguage">();
   const conceptId = Number(params.id) || undefined;
   const selectedLanguage = params.selectedLanguage as LocaleType;
   const { t } = useTranslation();
-  const {
-    concept,
-    setConcept,
-    fetchSearchTags,
-    conceptArticles,
-    loading,
-    conceptChanged,
-    subjects,
-    updateConcept,
-  } = useFetchConceptData(conceptId, selectedLanguage!);
+  const { concept, setConcept, fetchSearchTags, conceptArticles, loading, conceptChanged, subjects, updateConcept } =
+    useFetchConceptData(conceptId, selectedLanguage!);
 
   const { shouldTranslate, translate, translating } = useTranslateToNN();
 
@@ -73,7 +65,7 @@ const EditConcept = ({ isNewlyCreated }: Props) => {
 
   return (
     <>
-      <HelmetWithTracker title={`${concept.title.title} ${t('htmlTitles.titleTemplate')}`} />
+      <HelmetWithTracker title={`${concept.title.title} ${t("htmlTitles.titleTemplate")}`} />
       <ConceptForm
         inModal={false}
         concept={concept}

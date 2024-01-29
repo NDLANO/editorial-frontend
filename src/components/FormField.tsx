@@ -6,21 +6,17 @@
  *
  */
 
-import { FieldHelperProps, FieldInputProps, FieldMetaProps, useField } from 'formik';
-import { ComponentProps, ReactNode, useId, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { utils } from '@ndla/core';
-import { FieldHelper, FormControlProps, FormControl as InternalFormControl } from '@ndla/forms';
-import useDebounce from '../util/useDebounce';
+import { FieldHelperProps, FieldInputProps, FieldMetaProps, useField } from "formik";
+import { ComponentProps, ReactNode, useId, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { utils } from "@ndla/core";
+import { FieldHelper, FormControlProps, FormControl as InternalFormControl } from "@ndla/forms";
+import useDebounce from "../util/useDebounce";
 
 interface FormFieldProps<T = any> {
   name: string;
-  children: (values: {
-    field: FieldInputProps<T>;
-    meta: FieldMetaProps<T>;
-    helpers: FieldHelperProps<T>;
-  }) => ReactNode;
+  children: (values: { field: FieldInputProps<T>; meta: FieldMetaProps<T>; helpers: FieldHelperProps<T> }) => ReactNode;
 }
 
 export const FormField = <T = any,>({ name, children }: FormFieldProps<T>) => {
@@ -28,7 +24,7 @@ export const FormField = <T = any,>({ name, children }: FormFieldProps<T>) => {
   return children({ field, meta, helpers });
 };
 
-export const FormControl = (props: Omit<FormControlProps, 'id'> & ComponentProps<'div'>) => {
+export const FormControl = (props: Omit<FormControlProps, "id"> & ComponentProps<"div">) => {
   const id = useId();
   return <InternalFormControl id={id} {...props} />;
 };
@@ -37,7 +33,7 @@ const HiddenSpan = styled(FieldHelper)`
   ${utils.visuallyHidden};
 `;
 
-interface Props extends ComponentProps<'div'> {
+interface Props extends ComponentProps<"div"> {
   value: number;
   maxLength: number;
   children?: ReactNode;
@@ -47,14 +43,12 @@ export const FormRemainingCharacters = ({ value, maxLength, children, ...rest }:
   const { t } = useTranslation();
   const debouncedValue = useDebounce(value, 300);
   const debouncedTranslation = useMemo(() => {
-    return t('form.remainingCharacters', { maxLength, remaining: maxLength - debouncedValue });
+    return t("form.remainingCharacters", { maxLength, remaining: maxLength - debouncedValue });
   }, [debouncedValue, maxLength, t]);
 
   return (
     <div {...rest}>
-      <span aria-hidden="true">
-        {t('form.remainingCharacters', { maxLength, remaining: maxLength - value })}
-      </span>
+      <span aria-hidden="true">{t("form.remainingCharacters", { maxLength, remaining: maxLength - value })}</span>
       <HiddenSpan aria-live="polite">{debouncedTranslation}</HiddenSpan>
     </div>
   );

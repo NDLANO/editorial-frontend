@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { Node } from '@ndla/types-taxonomy';
+import { Node } from "@ndla/types-taxonomy";
 import {
   TAXONOMY_CUSTOM_FIELD_SUBJECT_DESK_RESPONSIBLE,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_LANGUAGE_RESPONSIBLE,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
-} from '../../constants';
+} from "../../constants";
 
 export type SubjectIdObject = {
   [TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA]: string[];
@@ -24,10 +24,7 @@ export const defaultSubjectIdObject: SubjectIdObject = {
   [TAXONOMY_CUSTOM_FIELD_SUBJECT_LANGUAGE_RESPONSIBLE]: [],
 };
 
-export const getResultSubjectIdObject = (
-  ndlaId: string | undefined,
-  nodes: Node[] | undefined,
-): SubjectIdObject => {
+export const getResultSubjectIdObject = (ndlaId: string | undefined, nodes: Node[] | undefined): SubjectIdObject => {
   if (!nodes) return defaultSubjectIdObject;
   return nodes.reduce((acc, res) => {
     if (res.metadata && res.metadata.customFields) {

@@ -6,17 +6,17 @@
  *
  */
 
-import { MouseEvent, ReactElement, useCallback, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
-import { css, SerializedStyles } from '@emotion/react';
-import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
-import { spacing, colors } from '@ndla/core';
-import { Cross } from '@ndla/icons/action';
-import { Warning } from '@ndla/icons/editor';
-import { ModalHeader, Modal, ModalContent } from '@ndla/modal';
-import AlertModalFooter from './AlertModalFooter';
-import { MessageSeverity } from '../../interfaces';
+import { MouseEvent, ReactElement, useCallback, useRef } from "react";
+import { useTranslation } from "react-i18next";
+import { css, SerializedStyles } from "@emotion/react";
+import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
+import { spacing, colors } from "@ndla/core";
+import { Cross } from "@ndla/icons/action";
+import { Warning } from "@ndla/icons/editor";
+import { ModalHeader, Modal, ModalContent } from "@ndla/modal";
+import AlertModalFooter from "./AlertModalFooter";
+import { MessageSeverity } from "../../interfaces";
 
 const severities: Record<string, SerializedStyles> = {
   success: css`
@@ -58,10 +58,10 @@ const Heading = styled.h1`
   margin: 0;
   color: ${colors.white};
 
-  &[data-severity='info'] {
+  &[data-severity="info"] {
     color: ${colors.text.primary};
   }
-  &[data-severity='warning'] {
+  &[data-severity="warning"] {
     color: ${colors.text.primary};
   }
 `;
@@ -79,10 +79,10 @@ const StyledIcon = styled(Warning)`
 const CloseButton = styled(IconButtonV2)`
   svg {
     color: ${colors.white};
-    &[data-severity='info'] {
+    &[data-severity="info"] {
       color: ${colors.text.primary};
     }
-    &[data-severity='warning'] {
+    &[data-severity="warning"] {
       color: ${colors.text.primary};
     }
   }
@@ -107,21 +107,12 @@ interface Props {
   actions?: {
     text: string;
     onClick: (event: MouseEvent<HTMLButtonElement>) => void;
-    'data-testid'?: string;
+    "data-testid"?: string;
   }[];
   show?: boolean;
 }
 
-const AlertModal = ({
-  text,
-  onCancel,
-  title,
-  actions,
-  component,
-  show,
-  label,
-  severity = 'danger',
-}: Props) => {
+const AlertModal = ({ text, onCancel, title, actions, component, show, label, severity = "danger" }: Props) => {
   const { t } = useTranslation();
   const focusedElementBeforeModalRef = useRef<HTMLElement | null>(null);
 
@@ -151,7 +142,7 @@ const AlertModal = ({
             <CloseButton
               data-testid="closeAlert"
               variant="ghost"
-              aria-label={t('close')}
+              aria-label={t("close")}
               colorTheme="lighter"
               onClick={(e) => {
                 e.preventDefault();

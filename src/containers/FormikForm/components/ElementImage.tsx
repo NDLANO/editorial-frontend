@@ -6,8 +6,8 @@
  *
  */
 
-import styled from '@emotion/styled';
-import { spacing, spacingUnit } from '@ndla/core';
+import styled from "@emotion/styled";
+import { spacing, spacingUnit } from "@ndla/core";
 
 export const ELEMENT_HEIGHT = 69;
 
@@ -24,7 +24,7 @@ interface Props {
 }
 
 const ElementImage = ({ url, alt }: Props) => (
-  <StyledElementImage src={(url && `${url}?width=100`) || '/placeholder.png'} alt={alt || ''} />
+  <StyledElementImage src={(url && `${url}?width=100`) || "/placeholder.png"} alt={alt || ""} />
 );
 
 export default ElementImage;

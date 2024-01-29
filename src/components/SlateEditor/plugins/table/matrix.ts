@@ -6,10 +6,10 @@
  *
  */
 
-import { Descendant, Editor, Path } from 'slate';
-import { TableCellElement, TableMatrix } from './interfaces';
-import { insertCellInMatrix } from './matrixHelpers';
-import { isTable, isTableHead, isTableRow, isTableCell, isTableBody } from './slateHelpers';
+import { Descendant, Editor, Path } from "slate";
+import { TableCellElement, TableMatrix } from "./interfaces";
+import { insertCellInMatrix } from "./matrixHelpers";
+import { isTable, isTableHead, isTableRow, isTableCell, isTableBody } from "./slateHelpers";
 
 // Expects a perfectly normalized table. Requires path to the table body
 export const getTableBodyAsMatrix = (editor: Editor, path: Path) => {
@@ -71,6 +71,4 @@ export const getTableAsMatrix = (editor: Editor, path: Path) => {
 };
 
 export const tableContainsSpan = (table: TableMatrix) =>
-  table?.filter(
-    (row) => row?.filter((cell) => cell.data.colspan > 1 || cell.data.rowspan > 1).length >= 1,
-  ).length >= 1;
+  table?.filter((row) => row?.filter((cell) => cell.data.colspan > 1 || cell.data.rowspan > 1).length >= 1).length >= 1;

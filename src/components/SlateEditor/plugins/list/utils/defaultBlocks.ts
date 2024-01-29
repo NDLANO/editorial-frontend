@@ -5,13 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { jsx as slatejsx } from 'slate-hyperscript';
-import { TYPE_LIST, TYPE_LIST_ITEM } from '../types';
+import { jsx as slatejsx } from "slate-hyperscript";
+import { TYPE_LIST, TYPE_LIST_ITEM } from "../types";
 
 export const defaultListBlock = (listType: string) => {
-  return slatejsx('element', { type: TYPE_LIST, listType, data: {} });
+  return slatejsx("element", { type: TYPE_LIST, listType, data: {} });
 };
 
 export const defaultListItemBlock = () => {
-  return slatejsx('element', { type: TYPE_LIST_ITEM });
+  return slatejsx("element", { type: TYPE_LIST_ITEM });
 };

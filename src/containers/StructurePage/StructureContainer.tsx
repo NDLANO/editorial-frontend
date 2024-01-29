@@ -5,42 +5,42 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { useEffect, useRef, useState, ReactNode, useCallback, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { breakpoints } from '@ndla/core';
-import { Spinner } from '@ndla/icons';
-import { NodeChild, Node, NodeType } from '@ndla/types-taxonomy';
-import StructureErrorIcon from './folderComponents/StructureErrorIcon';
-import StructureResources from './resourceComponents/StructureResources';
-import RootNode from './RootNode';
-import StickyVersionSelector from './StickyVersionSelector';
-import StructureBanner from './StructureBanner';
-import ErrorBoundary from '../../components/ErrorBoundary';
-import { GridContainer, Column } from '../../components/Layout/Layout';
+import { useEffect, useRef, useState, ReactNode, useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { useLocation, useNavigate } from "react-router-dom";
+import styled from "@emotion/styled";
+import { breakpoints } from "@ndla/core";
+import { Spinner } from "@ndla/icons";
+import { NodeChild, Node, NodeType } from "@ndla/types-taxonomy";
+import StructureErrorIcon from "./folderComponents/StructureErrorIcon";
+import StructureResources from "./resourceComponents/StructureResources";
+import RootNode from "./RootNode";
+import StickyVersionSelector from "./StickyVersionSelector";
+import StructureBanner from "./StructureBanner";
+import ErrorBoundary from "../../components/ErrorBoundary";
+import { GridContainer, Column } from "../../components/Layout/Layout";
 import {
   REMEMBER_DESK_SUBJECTS,
   REMEMBER_FAVORITE_NODES,
   REMEMBER_LANGUAGE_SUBJECTS,
   REMEMBER_LMA_SUBJECTS,
   TAXONOMY_ADMIN_SCOPE,
-} from '../../constants';
-import { useUserData } from '../../modules/draft/draftQueries';
-import { useNodes } from '../../modules/nodes/nodeQueries';
-import { createGuard } from '../../util/guards';
-import { getPathsFromUrl, removeLastItemFromUrl } from '../../util/routeHelpers';
-import Footer from '../App/components/Footer';
-import { useSession } from '../Session/SessionProvider';
-import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
-import { getResultSubjectIdObject } from '../WelcomePage/utils';
+} from "../../constants";
+import { useUserData } from "../../modules/draft/draftQueries";
+import { useNodes } from "../../modules/nodes/nodeQueries";
+import { createGuard } from "../../util/guards";
+import { getPathsFromUrl, removeLastItemFromUrl } from "../../util/routeHelpers";
+import Footer from "../App/components/Footer";
+import { useSession } from "../Session/SessionProvider";
+import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
+import { getResultSubjectIdObject } from "../WelcomePage/utils";
 
 const StructureWrapper = styled.ul`
   margin: 0;
   padding: 0;
 `;
 
-const isChildNode = createGuard<NodeChild>('connectionId');
+const isChildNode = createGuard<NodeChild>("connectionId");
 
 const StyledStructureContainer = styled.div`
   position: relative;
@@ -62,18 +62,9 @@ const getNodes = (
   rootId: string,
 ): Node[] => {
   const filteredNodes =
-    lmaSubjectIds.length ||
-    favoriteNodeIds.length ||
-    deskSubjectIds.length ||
-    languageSubjectIds.length
+    lmaSubjectIds.length || favoriteNodeIds.length || deskSubjectIds.length || languageSubjectIds.length
       ? allNodes.filter((node) =>
-          [
-            ...lmaSubjectIds,
-            ...favoriteNodeIds,
-            ...deskSubjectIds,
-            ...languageSubjectIds,
-            rootId,
-          ].includes(node.id),
+          [...lmaSubjectIds, ...favoriteNodeIds, ...deskSubjectIds, ...languageSubjectIds, rootId].includes(node.id),
         )
       : allNodes;
 
@@ -89,16 +80,16 @@ interface Props {
 }
 
 const StructureContainer = ({
-  rootNodeType = 'SUBJECT',
-  childNodeTypes = ['TOPIC'],
-  rootPath = '/structure/',
+  rootNodeType = "SUBJECT",
+  childNodeTypes = ["TOPIC"],
+  rootPath = "/structure/",
   showResourceColumn = true,
   messageBox,
 }: Props) => {
   const location = useLocation();
-  const paths = location.pathname.replace(rootPath, '').split('/');
+  const paths = location.pathname.replace(rootPath, "").split("/");
   const [rootId, childId, ...rest] = paths;
-  const joinedRest = rest.join('/');
+  const joinedRest = rest.join("/");
   const children = joinedRest.length > 0 ? joinedRest : undefined;
   const params = { rootId, childId, children };
   const navigate = useNavigate();
@@ -108,17 +99,11 @@ const StructureContainer = ({
   const [shouldScroll, setShouldScroll] = useState(!!paths.length);
 
   const { userPermissions, ndlaId } = useSession();
-  const [showFavorites, setShowFavorites] = useState(
-    localStorage.getItem(REMEMBER_FAVORITE_NODES) === 'true',
-  );
-  const [showLmaSubjects, setShowLmaSubjects] = useState(
-    localStorage.getItem(REMEMBER_LMA_SUBJECTS) === 'true',
-  );
-  const [showDeskSubjects, setShowDeskSubjects] = useState(
-    localStorage.getItem(REMEMBER_DESK_SUBJECTS) === 'true',
-  );
+  const [showFavorites, setShowFavorites] = useState(localStorage.getItem(REMEMBER_FAVORITE_NODES) === "true");
+  const [showLmaSubjects, setShowLmaSubjects] = useState(localStorage.getItem(REMEMBER_LMA_SUBJECTS) === "true");
+  const [showDeskSubjects, setShowDeskSubjects] = useState(localStorage.getItem(REMEMBER_DESK_SUBJECTS) === "true");
   const [showLanguageSubjects, setShowLanguageSubjects] = useState(
-    localStorage.getItem(REMEMBER_LANGUAGE_SUBJECTS) === 'true',
+    localStorage.getItem(REMEMBER_LANGUAGE_SUBJECTS) === "true",
   );
 
   const resourceSection = useRef<HTMLDivElement>(null);
@@ -132,7 +117,7 @@ const StructureContainer = ({
     }, {}) ?? {};
   const favoriteNodeIds = Object.keys(favoriteNodes);
   // Need different filtering for programme
-  const rootOrContext = rootNodeType === 'PROGRAMME' ? { isRoot: true } : { isContext: true };
+  const rootOrContext = rootNodeType === "PROGRAMME" ? { isRoot: true } : { isContext: true };
   const nodesQuery = useNodes(
     {
       language: i18n.language,
@@ -148,7 +133,7 @@ const StructureContainer = ({
 
   useEffect(() => {
     if (currentNode && shouldScroll) {
-      document.getElementById(currentNode.id)?.scrollIntoView({ block: 'center' });
+      document.getElementById(currentNode.id)?.scrollIntoView({ block: "center" });
       setShouldScroll(false);
     }
   }, [currentNode, shouldScroll]);
@@ -164,11 +149,11 @@ const StructureContainer = ({
 
   const handleStructureToggle = (path: string) => {
     const { search } = location;
-    const currentPath = location.pathname.replace(rootPath, '');
+    const currentPath = location.pathname.replace(rootPath, "");
     const levelAbove = removeLastItemFromUrl(currentPath);
     const newPath = currentPath === path ? levelAbove : path;
     const deleteSearch = !!params.rootId && !newPath.includes(params.rootId);
-    navigate(`${rootPath}${newPath.concat(deleteSearch ? '' : search)}`);
+    navigate(`${rootPath}${newPath.concat(deleteSearch ? "" : search)}`);
   };
 
   const resultSubjectIdObject = useMemo(
@@ -207,9 +192,9 @@ const StructureContainer = ({
 
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
 
-  const addChildTooltip = childNodeTypes.includes('TOPIC')
-    ? t('taxonomy.addTopicHeader')
-    : t('taxonomy.addNode', { nodeType: t('taxonomy.nodeType.PROGRAMME') });
+  const addChildTooltip = childNodeTypes.includes("TOPIC")
+    ? t("taxonomy.addTopicHeader")
+    : t("taxonomy.addNode", { nodeType: t("taxonomy.nodeType.PROGRAMME") });
 
   return (
     <ErrorBoundary>

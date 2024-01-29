@@ -6,10 +6,10 @@
  *
  */
 
-import { FieldProps } from 'formik';
-import { useTranslation } from 'react-i18next';
-import { TextArea } from '@ndla/forms';
-import FormikField from '../../components/FormikField';
+import { FieldProps } from "formik";
+import { useTranslation } from "react-i18next";
+import { TextArea } from "@ndla/forms";
+import FormikField from "../../components/FormikField";
 
 interface Props {
   maxLength?: number;
@@ -17,14 +17,12 @@ interface Props {
   type?: string;
 }
 
-const SlugField = ({ name = 'slug' }: Props) => {
+const SlugField = ({ name = "slug" }: Props) => {
   const { t } = useTranslation();
   return (
     <>
       <FormikField name={name}>
-        {({ field }: FieldProps) => (
-          <TextArea {...field} white placeholder={t('form.slug.label')} />
-        )}
+        {({ field }: FieldProps) => <TextArea {...field} white placeholder={t("form.slug.label")} />}
       </FormikField>
     </>
   );

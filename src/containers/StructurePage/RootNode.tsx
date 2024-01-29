@@ -6,21 +6,21 @@
  *
  */
 
-import isEqual from 'lodash/isEqual';
-import partition from 'lodash/partition';
-import sortBy from 'lodash/sortBy';
-import { memo, MutableRefObject } from 'react';
-import { useTranslation } from 'react-i18next';
-import { DragEndEvent } from '@dnd-kit/core';
-import { useQueryClient } from '@tanstack/react-query';
-import { IUserData } from '@ndla/types-backend/draft-api';
-import { NodeChild, Node, NodeType } from '@ndla/types-taxonomy';
-import NodeItem, { RenderBeforeFunction } from './NodeItem';
-import { draftQueryKeys, useUpdateUserDataMutation } from '../../modules/draft/draftQueries';
-import { useUpdateNodeConnectionMutation } from '../../modules/nodes/nodeMutations';
-import { nodeQueryKeys, useChildNodesWithArticleType } from '../../modules/nodes/nodeQueries';
-import { groupChildNodes } from '../../util/taxonomyHelpers';
-import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
+import isEqual from "lodash/isEqual";
+import partition from "lodash/partition";
+import sortBy from "lodash/sortBy";
+import { memo, MutableRefObject } from "react";
+import { useTranslation } from "react-i18next";
+import { DragEndEvent } from "@dnd-kit/core";
+import { useQueryClient } from "@tanstack/react-query";
+import { IUserData } from "@ndla/types-backend/draft-api";
+import { NodeChild, Node, NodeType } from "@ndla/types-taxonomy";
+import NodeItem, { RenderBeforeFunction } from "./NodeItem";
+import { draftQueryKeys, useUpdateUserDataMutation } from "../../modules/draft/draftQueries";
+import { useUpdateNodeConnectionMutation } from "../../modules/nodes/nodeMutations";
+import { nodeQueryKeys, useChildNodesWithArticleType } from "../../modules/nodes/nodeQueries";
+import { groupChildNodes } from "../../util/taxonomyHelpers";
+import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 
 interface Props {
   node: Node;
@@ -49,7 +49,12 @@ const RootNode = ({
   const { taxonomyVersion } = useTaxonomyVersion();
   const locale = i18n.language;
   const childNodesQuery = useChildNodesWithArticleType(
-    { id: node.id, language: locale, nodeType: childNodeTypes, taxonomyVersion },
+    {
+      id: node.id,
+      language: locale,
+      nodeType: childNodeTypes,
+      taxonomyVersion,
+    },
     {
       enabled: openedPaths[0] === node.id,
       select: (childNodes) => groupChildNodes(childNodes),
@@ -70,7 +75,7 @@ const RootNode = ({
     const [toUpdate, other] = partition(prevData, (t) => t.connectionId === id);
     const updatedNode: NodeChild = { ...toUpdate[0], rank: newRank };
     const updated = other.map((t) => (t.rank >= updatedNode.rank ? { ...t, rank: t.rank + 1 } : t));
-    const newArr = sortBy([...updated, updatedNode], 'rank');
+    const newArr = sortBy([...updated, updatedNode], "rank");
     qc.setQueryData<NodeChild[]>(compKey, newArr);
     return prevData;
   };
@@ -116,7 +121,7 @@ const RootNode = ({
       rootNodeId={node.id}
       resourceSectionRef={resourceSectionRef}
       onDragEnd={onDragEnd}
-      connectionId={''}
+      connectionId={""}
       parentActive={true}
       isRoot={true}
       isFavorite={isFavorite}

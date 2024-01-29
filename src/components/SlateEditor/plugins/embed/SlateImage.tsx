@@ -6,27 +6,27 @@
  *
  */
 
-import parse from 'html-react-parser';
-import { ReactNode, useState, MouseEvent } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Editor, Path } from 'slate';
-import { RenderElementProps, useSlateStatic } from 'slate-react';
-import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
-import { Pencil } from '@ndla/icons/action';
-import { DeleteForever, Link } from '@ndla/icons/editor';
-import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
-import { SafeLinkIconButton } from '@ndla/safelink';
-import EditImage from './EditImage';
-import { StyledDeleteEmbedButton, StyledFigureButtons } from './FigureButtons';
-import { ImageEmbed } from '../../../../interfaces';
-import { getSrcSets } from '../../../../util/imageEditorUtil';
-import parseMarkdown from '../../../../util/parseMarkdown';
-import { isTable } from '../table/slateHelpers';
+import parse from "html-react-parser";
+import { ReactNode, useState, MouseEvent } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Path } from "slate";
+import { RenderElementProps, useSlateStatic } from "slate-react";
+import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
+import { Pencil } from "@ndla/icons/action";
+import { DeleteForever, Link } from "@ndla/icons/editor";
+import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
+import { SafeLinkIconButton } from "@ndla/safelink";
+import EditImage from "./EditImage";
+import { StyledDeleteEmbedButton, StyledFigureButtons } from "./FigureButtons";
+import { ImageEmbed } from "../../../../interfaces";
+import { getSrcSets } from "../../../../util/imageEditorUtil";
+import parseMarkdown from "../../../../util/parseMarkdown";
+import { isTable } from "../table/slateHelpers";
 
 interface Props {
   active?: boolean;
-  attributes: RenderElementProps['attributes'];
+  attributes: RenderElementProps["attributes"];
   embed: ImageEmbed;
   figureClass?: { className: string };
   isSelectedForCopy?: boolean;
@@ -40,7 +40,7 @@ interface Props {
 }
 
 const StyledSlateImage = styled.div`
-  &[data-border='false'] {
+  &[data-border="false"] {
     border: 2px solid rgba(209, 55, 46, 0.3);
   }
 `;
@@ -53,8 +53,8 @@ const StyledDiv = styled.div`
 `;
 
 const StyledImg = styled.img`
-  &[data-outline='true'] {
-    box-shadow: 'rgb(32, 88, 143) 0 0 0 2px';
+  &[data-outline="true"] {
+    box-shadow: "rgb(32, 88, 143) 0 0 0 2px";
   }
 `;
 
@@ -84,21 +84,21 @@ const SlateImage = ({
   const inTable = !!parentTable;
 
   const constructFigureClassName = () => {
-    const isFullWidth = embed.align === 'center';
-    const size = embed.size && ['small', 'xsmall'].includes(embed.size) ? `-${embed.size}` : '';
-    const align = embed.align && ['left', 'right'].includes(embed.align) ? `-${embed.align}` : '';
+    const isFullWidth = embed.align === "center";
+    const size = embed.size && ["small", "xsmall"].includes(embed.size) ? `-${embed.size}` : "";
+    const align = embed.align && ["left", "right"].includes(embed.align) ? `-${embed.align}` : "";
 
-    return `c-figure ${!isFullWidth ? `u-float${size}${align}` : ''}`;
+    return `c-figure ${!isFullWidth ? `u-float${size}${align}` : ""}`;
   };
 
   const transformData = () => {
     return {
-      'focal-x': embed['focal-x'],
-      'focal-y': embed['focal-y'],
-      'upper-left-x': embed['upper-left-x'],
-      'upper-left-y': embed['upper-left-y'],
-      'lower-right-x': embed['lower-right-x'],
-      'lower-right-y': embed['lower-right-y'],
+      "focal-x": embed["focal-x"],
+      "focal-y": embed["focal-y"],
+      "upper-left-x": embed["upper-left-x"],
+      "upper-left-y": embed["upper-left-y"],
+      "lower-right-x": embed["lower-right-x"],
+      "lower-right-y": embed["lower-right-y"],
     };
   };
 
@@ -108,7 +108,7 @@ const SlateImage = ({
         {...attributes}
         draggable={!visualElement && !editMode}
         className={constructFigureClassName()}
-        data-border={!!embed.alt && embed['is-decorative']}
+        data-border={!!embed.alt && embed["is-decorative"]}
       >
         <ModalContent modalMargin="none">
           <EditImage
@@ -124,8 +124,8 @@ const SlateImage = ({
             <StyledFigureButtons data-white={true}>
               <ModalTrigger>
                 <IconButtonV2
-                  aria-label={t('form.image.editImage')}
-                  title={t('form.image.editImage')}
+                  aria-label={t("form.image.editImage")}
+                  title={t("form.image.editImage")}
                   colorTheme="light"
                 >
                   <Pencil />
@@ -135,14 +135,14 @@ const SlateImage = ({
                 colorTheme="light"
                 to={`/media/image-upload/${embed.resource_id}/edit/${language}`}
                 target="_blank"
-                title={t('form.editOriginalImage')}
-                aria-label={t('form.editOriginalImage')}
+                title={t("form.editOriginalImage")}
+                aria-label={t("form.editOriginalImage")}
               >
                 <Link />
               </SafeLinkIconButton>
               <StyledDeleteEmbedButton
-                title={t('form.image.removeImage')}
-                aria-label={t('form.image.removeImage')}
+                title={t("form.image.removeImage")}
+                aria-label={t("form.image.removeImage")}
                 colorTheme="danger"
                 onClick={onRemoveClick}
                 data-testid="remove-element"
@@ -158,13 +158,13 @@ const SlateImage = ({
               }}
               sizes={
                 inTable
-                  ? '(min-width: 1024px) 180px, (min-width: 768px) 180px, 100vw'
-                  : '(min-width: 1280px) 1440px,' +
-                    '(min-width: 1024px) 1000px,' +
-                    '(min-width: 768px) 800px,' +
-                    '(min-width: 500px) 480px,' +
-                    '(min-width: 350px) 320px,' +
-                    '100vw'
+                  ? "(min-width: 1024px) 180px, (min-width: 768px) 180px, 100vw"
+                  : "(min-width: 1280px) 1440px," +
+                    "(min-width: 1024px) 1000px," +
+                    "(min-width: 768px) 800px," +
+                    "(min-width: 500px) 480px," +
+                    "(min-width: 350px) 320px," +
+                    "100vw"
               }
               srcSet={getSrcSets(embed.resource_id, transformData(), language)}
               data-outline={showCopyOutline}

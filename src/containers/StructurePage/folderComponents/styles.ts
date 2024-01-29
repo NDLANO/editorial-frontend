@@ -6,21 +6,21 @@
  *
  */
 
-import styled from '@emotion/styled';
-import { spacing, colors } from '@ndla/core';
+import styled from "@emotion/styled";
+import { spacing, colors } from "@ndla/core";
 
-export const StyledErrorMessage = styled('div')`
+export const StyledErrorMessage = styled("div")`
   color: ${colors.support.red};
   text-align: center;
 `;
 
-export const StyledMenuItemInputField = styled('input')`
+export const StyledMenuItemInputField = styled("input")`
   margin-right: calc(${spacing.small} / 2);
   max-height: ${spacing.normal};
   width: 100%;
 `;
 
-export const StyledMenuItemEditField = styled('div')`
+export const StyledMenuItemEditField = styled("div")`
   display: flex;
   align-items: center;
   margin: ${spacing.xsmall};

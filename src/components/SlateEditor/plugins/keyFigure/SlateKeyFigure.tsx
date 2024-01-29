@@ -6,30 +6,22 @@
  *
  */
 
-import { useCallback, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Editor, Path, Transforms } from 'slate';
-import { ReactEditor, RenderElementProps } from 'slate-react';
-import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
-import { Pencil } from '@ndla/icons/action';
-import { DeleteForever } from '@ndla/icons/editor';
-import {
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalTitle,
-  ModalTrigger,
-} from '@ndla/modal';
-import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
-import { KeyFigureEmbedData } from '@ndla/types-embed';
-import { KeyFigure } from '@ndla/ui';
-import { KeyFigureElement } from '.';
-import KeyFigureForm from './KeyFigureForm';
-import { fetchImage } from '../../../../modules/image/imageApi';
-import { StyledDeleteEmbedButton, StyledFigureButtons } from '../embed/FigureButtons';
+import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Path, Transforms } from "slate";
+import { ReactEditor, RenderElementProps } from "slate-react";
+import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
+import { Pencil } from "@ndla/icons/action";
+import { DeleteForever } from "@ndla/icons/editor";
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
+import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
+import { KeyFigureEmbedData } from "@ndla/types-embed";
+import { KeyFigure } from "@ndla/ui";
+import { KeyFigureElement } from ".";
+import KeyFigureForm from "./KeyFigureForm";
+import { fetchImage } from "../../../../modules/image/imageApi";
+import { StyledDeleteEmbedButton, StyledFigureButtons } from "../embed/FigureButtons";
 
 interface Props extends RenderElementProps {
   element: KeyFigureElement;
@@ -67,14 +59,20 @@ const SlateKeyFigure = ({ element, editor, attributes, children }: Props) => {
   const { data } = element;
 
   const handleRemove = () => {
-    Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true });
+    Transforms.removeNodes(editor, {
+      at: ReactEditor.findPath(editor, element),
+      voids: true,
+    });
   };
 
   const onClose = () => {
     ReactEditor.focus(editor);
     setIsEditing(false);
     if (element.isFirstEdit) {
-      Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true });
+      Transforms.removeNodes(editor, {
+        at: ReactEditor.findPath(editor, element),
+        voids: true,
+      });
     }
     const path = ReactEditor.findPath(editor, element);
     if (Editor.hasPath(editor, Path.next(path))) {
@@ -116,18 +114,14 @@ const SlateKeyFigure = ({ element, editor, attributes, children }: Props) => {
           <div contentEditable={false}>
             <StyledFigureButtons>
               <ModalTrigger>
-                <IconButtonV2
-                  colorTheme="light"
-                  aria-label={t('keyFigureForm.edit')}
-                  title={t('keyFigureForm.edit')}
-                >
+                <IconButtonV2 colorTheme="light" aria-label={t("keyFigureForm.edit")} title={t("keyFigureForm.edit")}>
                   <Pencil />
                 </IconButtonV2>
               </ModalTrigger>
               <StyledDeleteEmbedButton
                 colorTheme="danger"
-                aria-label={t('delete')}
-                title={t('delete')}
+                aria-label={t("delete")}
+                title={t("delete")}
                 data-testid="remove-key-figure"
                 onClick={handleRemove}
               >
@@ -144,7 +138,7 @@ const SlateKeyFigure = ({ element, editor, attributes, children }: Props) => {
         {children}
         <ModalContent>
           <StyledModalHeader>
-            <ModalTitle>{t('keyFigureForm.title')}</ModalTitle>
+            <ModalTitle>{t("keyFigureForm.title")}</ModalTitle>
             <ModalCloseButton />
           </StyledModalHeader>
           <StyledModalBody>

@@ -6,7 +6,7 @@
  *
  */
 
-import { Version, VersionPostPut } from '@ndla/types-taxonomy';
+import { Version, VersionPostPut } from "@ndla/types-taxonomy";
 
 export interface VersionFormType {
   name: string;
@@ -16,7 +16,7 @@ export interface VersionFormType {
 
 export const versionTypeToVersionFormType = (version?: Version): VersionFormType => {
   return {
-    name: version?.name ?? '',
+    name: version?.name ?? "",
     locked: !!version?.locked,
   };
 };

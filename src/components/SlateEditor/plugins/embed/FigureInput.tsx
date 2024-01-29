@@ -6,21 +6,21 @@
  *
  */
 
-import { ChangeEvent, MouseEventHandler } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { spacing, colors } from '@ndla/core';
-import { CheckboxItem, StyledButtonWrapper, TextArea } from '@ndla/forms';
-import { isEmpty } from '../../../validators';
-import { useSlateContext } from '../../SlateContext';
-import { useInGrid } from '../grid/GridContext';
+import { ChangeEvent, MouseEventHandler } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { colors, spacing, stackOrder } from "@ndla/core";
+import { CheckboxItem, StyledButtonWrapper, TextArea } from "@ndla/forms";
+import { isEmpty } from "../../../validators";
+import { useSlateContext } from "../../SlateContext";
+import { useInGrid } from "../grid/GridContext";
 
 export const StyledInputWrapper = styled.div`
   background: ${colors.brand.greyLightest};
   padding: ${spacing.normal};
   position: relative;
-  z-index: 20;
+  z-index: ${stackOrder.offsetSingle};
 `;
 
 interface Props {
@@ -59,46 +59,40 @@ const FigureInput = ({
       {caption !== undefined && (
         <TextArea
           name="caption"
-          label={t('form.image.caption.label')}
+          label={t("form.image.caption.label")}
           value={caption}
           onChange={onChange}
           type="text"
-          placeholder={t('form.image.caption.placeholder')}
+          placeholder={t("form.image.caption.placeholder")}
           white
         />
       )}
       {!isDecorative && (
         <TextArea
           name="alt"
-          label={t('form.image.alt.label')}
+          label={t("form.image.alt.label")}
           value={alt}
           onChange={onChange}
           type="text"
-          placeholder={t('form.image.alt.placeholder')}
+          placeholder={t("form.image.alt.placeholder")}
           white
-          warningText={!submitted && isEmpty(alt) ? t('form.image.alt.noText') : ''}
+          warningText={!submitted && isEmpty(alt) ? t("form.image.alt.noText") : ""}
         />
       )}
       {allowDecorative && (
         <CheckboxItem
-          label={t('form.image.isDecorative')}
+          label={t("form.image.isDecorative")}
           checked={isDecorative}
           onChange={() => handleCheck(!isDecorative)}
         />
       )}
-      {inGrid && (
-        <CheckboxItem
-          label={t('form.image.showBorder')}
-          checked={border}
-          onChange={onBorderChecked}
-        />
-      )}
+      {inGrid && <CheckboxItem label={t("form.image.showBorder")} checked={border} onChange={onBorderChecked} />}
       <StyledButtonWrapper paddingLeft>
         <ButtonV2 onClick={onAbort} variant="outline">
-          {t('form.abort')}
+          {t("form.abort")}
         </ButtonV2>
         <ButtonV2 disabled={!madeChanges || (isEmpty(alt) && !isDecorative)} onClick={onSave}>
-          {t('form.image.save')}
+          {t("form.image.save")}
         </ButtonV2>
       </StyledButtonWrapper>
     </StyledInputWrapper>

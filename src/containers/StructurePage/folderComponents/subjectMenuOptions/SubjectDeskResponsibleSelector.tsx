@@ -6,9 +6,9 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import SubjectCustomFieldSelector from './SubjectCustomFieldSelector';
-import { TAXONOMY_CUSTOM_FIELD_SUBJECT_DESK_RESPONSIBLE } from '../../../../constants';
+import { useTranslation } from "react-i18next";
+import SubjectCustomFieldSelector from "./SubjectCustomFieldSelector";
+import { TAXONOMY_CUSTOM_FIELD_SUBJECT_DESK_RESPONSIBLE } from "../../../../constants";
 
 interface Props {
   customFields: Record<string, string>;
@@ -19,8 +19,8 @@ const SubjectDeskResponsibeSelector = ({ customFields, updateCustomFields }: Pro
   const { t } = useTranslation();
 
   const messages = {
-    selected: t('taxonomy.metadata.placeholders.deskResponsible'),
-    title: t('taxonomy.metadata.customFields.subjectDeskResponsible'),
+    selected: t("taxonomy.metadata.placeholders.deskResponsible"),
+    title: t("taxonomy.metadata.customFields.subjectDeskResponsible"),
   };
 
   return (

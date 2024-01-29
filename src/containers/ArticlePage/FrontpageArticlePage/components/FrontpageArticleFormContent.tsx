@@ -186,7 +186,7 @@ const FrontpageArticleFormContent = ({ articleLanguage, initialHTML }: Props) =>
           </StyledDiv>
         )}
       </StyledFormikField>
-      <IngressField />
+      <IngressField articleLanguage={articleLanguage} />
       <AlertModal
         title={t("editorFooter.changeHeader")}
         label={t("editorFooter.changeHeader")}

@@ -6,6 +6,7 @@
  *
  */
 
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 import FormikField from "../../components/FormikField";
@@ -37,6 +38,7 @@ interface Props {
   maxLength?: number;
   type?: string;
   placeholder?: string;
+  articleLanguage: string;
 }
 
 const ingressPlugins: SlatePlugin[] = [
@@ -73,19 +75,20 @@ const toolbarOptions = createToolbarDefaultValues({
 
 const toolbarAreaFilters = createToolbarAreaOptions();
 
-const IngressField = ({ name = "introduction", maxLength = 300, placeholder }: Props) => {
+const IngressField = ({ name = "introduction", maxLength = 300, placeholder, articleLanguage }: Props) => {
   const { t } = useTranslation();
+  const plugins = useMemo(() => ingressPlugins.concat(learningResourceRenderers(articleLanguage)), [articleLanguage]);
   return (
     <FormikField noBorder label={t("form.introduction.label")} name={name} showMaxLength maxLength={maxLength}>
       {({ field, form: { isSubmitting } }) => (
         <RichTextEditor
           {...field}
-          language={"nb"}
+          language={articleLanguage}
           hideBlockPicker
           placeholder={placeholder || t("form.introduction.label")}
           data-testid="learning-resource-ingress"
           submitted={isSubmitting}
-          plugins={ingressPlugins.concat(learningResourceRenderers("nb"))}
+          plugins={plugins}
           onChange={(val) => field.onChange({ target: { value: val, name: field.name } })}
           toolbarOptions={toolbarOptions}
           toolbarAreaFilters={toolbarAreaFilters}

@@ -135,7 +135,7 @@ const LearningResourceContent = ({ articleLanguage, articleId, handleSubmit: _ha
           />
         )}
       </StyledFormikField>
-      <IngressField />
+      <IngressField articleLanguage={articleLanguage} />
       <AlertModal
         title={t("editorFooter.changeHeader")}
         label={t("editorFooter.changeHeader")}

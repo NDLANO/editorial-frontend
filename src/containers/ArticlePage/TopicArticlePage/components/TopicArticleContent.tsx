@@ -73,7 +73,7 @@ const TopicArticleContent = (props: Props) => {
           />
         )}
       </StyledByLineFormikField>
-      <IngressField />
+      <IngressField articleLanguage={language} />
       <VisualElementField />
       <FormikField name="content" label={t("form.content.label")} noBorder>
         {({ field: { value, name, onChange }, form: { isSubmitting } }) => (

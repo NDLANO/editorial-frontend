@@ -39,7 +39,7 @@ import {
   useStoredPageSizeHook,
   useStoredSortOptionHook,
   useStoredSubjectFilterHook,
-  useStoredToggle,
+  useStoredToggleHook,
 } from "../hooks/storedFilterHooks";
 import {
   ControlWrapperDashboard,
@@ -99,7 +99,7 @@ const Revisions = ({ userData }: Props) => {
     STORED_SORT_OPTION_REVISION,
     "revisionDate",
   );
-  const { isOn, setIsOn } = useStoredToggle(STORED_PRIMARY_CONNECTION);
+  const { isOn, setIsOn } = useStoredToggleHook(STORED_PRIMARY_CONNECTION);
   const [page, setPage] = useState(1);
 
   useEffect(() => {

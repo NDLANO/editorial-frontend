@@ -17,7 +17,7 @@ import SubjectDropdown from "./worklist/SubjectDropdown";
 import { ARCHIVED, PUBLISHED, STATUS_ORDER, UNPUBLISHED } from "../../../constants";
 import { useSearch } from "../../../modules/search/searchQueries";
 import { toSearch } from "../../../util/routeHelpers";
-import { useStoredSubjectFilterHook, useStoredToggle } from "../hooks/storedFilterHooks";
+import { useStoredSubjectFilterHook, useStoredToggleHook } from "../hooks/storedFilterHooks";
 import { ControlWrapperDashboard, StyledLink, StyledSwitch, StyledTopRowDashboardInfo, SwitchWrapper } from "../styles";
 
 const EXCLUDE_STATUSES = [PUBLISHED, UNPUBLISHED, ARCHIVED];
@@ -78,7 +78,7 @@ const ArticleStatusContent = ({
 }: Props) => {
   const { t, i18n } = useTranslation();
   const { filterSubject, setFilterSubject } = useStoredSubjectFilterHook(localStorageKey, i18n.language);
-  const { isOn: hideOnHold, setIsOn: setHideOnHold } = useStoredToggle(onHoldLocalStorageKey);
+  const { isOn: hideOnHold, setIsOn: setHideOnHold } = useStoredToggleHook(onHoldLocalStorageKey);
 
   const filteredSubjectIds: string[] | undefined = useMemo(
     () => (filterSubject ? [filterSubject.value] : subjectIds),

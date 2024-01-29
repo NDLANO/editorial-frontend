@@ -6,10 +6,10 @@
  *
  */
 
-import { useCallback, useEffect, useState } from 'react';
-import { SingleValue } from '@ndla/select';
-import { fetchNode } from '../../../modules/nodes/nodeApi';
-import { Prefix } from '../components/TableComponent';
+import { useCallback, useEffect, useState } from "react";
+import { SingleValue } from "@ndla/select";
+import { fetchNode } from "../../../modules/nodes/nodeApi";
+import { Prefix } from "../components/TableComponent";
 
 export const useStoredSubjectFilterHook = (localStorageKey: string, language: string) => {
   const [filterSubject, _setFilterSubject] = useState<SingleValue | undefined>(undefined);
@@ -21,7 +21,7 @@ export const useStoredSubjectFilterHook = (localStorageKey: string, language: st
         const node = await fetchNode({
           id: storedFilterSubject,
           language,
-          taxonomyVersion: 'default',
+          taxonomyVersion: "default",
         });
         _setFilterSubject({ label: node.name, value: storedFilterSubject });
       };
@@ -32,9 +32,7 @@ export const useStoredSubjectFilterHook = (localStorageKey: string, language: st
   const setFilterSubject = useCallback(
     (fs: SingleValue) => {
       _setFilterSubject(fs);
-      fs
-        ? localStorage.setItem(localStorageKey, fs.value)
-        : localStorage.removeItem(localStorageKey);
+      fs ? localStorage.setItem(localStorageKey, fs.value) : localStorage.removeItem(localStorageKey);
     },
     [localStorageKey],
   );
@@ -42,7 +40,7 @@ export const useStoredSubjectFilterHook = (localStorageKey: string, language: st
   return { filterSubject, setFilterSubject };
 };
 
-const defaultPageSize = { label: '6', value: '6' };
+const defaultPageSize = { label: "6", value: "6" };
 
 export const useStoredPageSizeHook = (localStorageKey: string) => {
   const storedPageSize = localStorage.getItem(localStorageKey);
@@ -69,14 +67,14 @@ export const useStoredPageSizeHook = (localStorageKey: string) => {
 
 export const useStoredSortOptionHook = <T extends string>(
   localStorageKey: string,
-  fallbackSortOption: Prefix<'-', T>,
+  fallbackSortOption: Prefix<"-", T>,
 ) => {
-  const [sortOption, _setSortOption] = useState<Prefix<'-', T>>(
+  const [sortOption, _setSortOption] = useState<Prefix<"-", T>>(
     (localStorage.getItem(localStorageKey) as T) || fallbackSortOption,
   );
 
   const setSortOption = useCallback(
-    (s: Prefix<'-', T>) => {
+    (s: Prefix<"-", T>) => {
       _setSortOption(s);
       localStorage.setItem(localStorageKey, s);
     },
@@ -86,8 +84,8 @@ export const useStoredSortOptionHook = <T extends string>(
   return { sortOption, setSortOption };
 };
 
-export const useStoredToggle = (localStorageKey: string) => {
-  const [isOn, _setIsOn] = useState(localStorage.getItem(localStorageKey) === 'true');
+export const useStoredToggleHook = (localStorageKey: string) => {
+  const [isOn, _setIsOn] = useState(localStorage.getItem(localStorageKey) === "true");
 
   const setIsOn = useCallback(
     (p: boolean) => {

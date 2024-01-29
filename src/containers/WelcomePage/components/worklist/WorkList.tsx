@@ -28,7 +28,7 @@ import {
   useStoredPageSizeHook,
   useStoredSortOptionHook,
   useStoredSubjectFilterHook,
-  useStoredToggle,
+  useStoredToggleHook,
 } from "../../hooks/storedFilterHooks";
 
 interface Props {
@@ -49,7 +49,7 @@ const WorkList = ({ ndlaId }: Props) => {
     STORED_SORT_OPTION_WORKLIST,
     "-responsibleLastUpdated",
   );
-  const { isOn: prioritized, setIsOn: setPrioritized } = useStoredToggle(STORED_PRIORITIZED);
+  const { isOn: prioritized, setIsOn: setPrioritized } = useStoredToggleHook(STORED_PRIORITIZED);
   const [page, setPage] = useState(1);
 
   // Worklist concepts

@@ -15,6 +15,10 @@ import { GRID_GAP } from '../../../components/Layout/Layout';
 import {
   FAVOURITES_SUBJECT_ID,
   LMA_SUBJECT_ID,
+  STORED_FILTER_FAVORITES,
+  STORED_FILTER_LMA_SUBJECT,
+  STORED_ON_HOLD_FAVORITES,
+  STORED_ON_HOLD_LMA_SUBJECT,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
 } from '../../../constants';
 import { SUBJECT_NODE } from '../../../modules/nodes/nodeApiTypes';
@@ -63,6 +67,8 @@ const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataLoading }: Props) =
                   title={t('welcomePage.lmaSubjectsHeading')}
                   description={t('welcomePage.lmaSubjectsDescription')}
                   searchPageSubjectFilter={LMA_SUBJECT_ID}
+                  localStorageKey={STORED_FILTER_LMA_SUBJECT}
+                  onHoldLocalStorageKey={STORED_ON_HOLD_LMA_SUBJECT}
                 />
               ),
             },
@@ -80,6 +86,8 @@ const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataLoading }: Props) =
                   title={t('welcomePage.favoriteSubjectsHeading')}
                   description={t('welcomePage.favoriteSubjectsDescription')}
                   searchPageSubjectFilter={FAVOURITES_SUBJECT_ID}
+                  localStorageKey={STORED_FILTER_FAVORITES}
+                  onHoldLocalStorageKey={STORED_ON_HOLD_FAVORITES}
                 />
               ),
             },

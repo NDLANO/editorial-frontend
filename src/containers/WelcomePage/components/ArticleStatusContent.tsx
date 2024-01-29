@@ -6,10 +6,9 @@
  *
  */
 
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BookOpen } from '@ndla/icons/common';
-import { SingleValue } from '@ndla/select';
 import { IMultiSearchResult } from '@ndla/types-backend/search-api';
 import { Text } from '@ndla/typography';
 import TableComponent, { FieldElement } from './TableComponent';
@@ -18,6 +17,7 @@ import SubjectDropdown from './worklist/SubjectDropdown';
 import { ARCHIVED, PUBLISHED, STATUS_ORDER, UNPUBLISHED } from '../../../constants';
 import { useSearch } from '../../../modules/search/searchQueries';
 import { toSearch } from '../../../util/routeHelpers';
+import { useStoredSubjectFilterHook, useStoredToggle } from '../hooks/storedFilterHooks';
 import {
   ControlWrapperDashboard,
   StyledLink,
@@ -72,6 +72,8 @@ interface Props {
   title: string;
   description: string;
   searchPageSubjectFilter: string;
+  localStorageKey: string;
+  onHoldLocalStorageKey: string;
 }
 
 const ArticleStatusContent = ({
@@ -80,10 +82,15 @@ const ArticleStatusContent = ({
   title,
   description,
   searchPageSubjectFilter,
+  localStorageKey,
+  onHoldLocalStorageKey,
 }: Props) => {
-  const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
-  const [hideOnHold, setHideOnHold] = useState(false);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const { filterSubject, setFilterSubject } = useStoredSubjectFilterHook(
+    localStorageKey,
+    i18n.language,
+  );
+  const { isOn: hideOnHold, setIsOn: setHideOnHold } = useStoredToggle(onHoldLocalStorageKey);
 
   const filteredSubjectIds: string[] | undefined = useMemo(
     () => (filterSubject ? [filterSubject.value] : subjectIds),

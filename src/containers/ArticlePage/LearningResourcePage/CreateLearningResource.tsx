@@ -6,14 +6,14 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import { HelmetWithTracker } from '@ndla/tracker';
-import { IUpdatedArticle } from '@ndla/types-backend/draft-api';
-import LearningResourceForm from './components/LearningResourceForm';
-import { convertUpdateToNewDraft } from '../../../util/articleUtil';
-import { toEditArticle } from '../../../util/routeHelpers';
-import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import { HelmetWithTracker } from "@ndla/tracker";
+import { IUpdatedArticle } from "@ndla/types-backend/draft-api";
+import LearningResourceForm from "./components/LearningResourceForm";
+import { convertUpdateToNewDraft } from "../../../util/articleUtil";
+import { toEditArticle } from "../../../util/routeHelpers";
+import { useFetchArticleData } from "../../FormikForm/formikDraftHooks";
 
 const CreateLearningResource = () => {
   const { t, i18n } = useTranslation();
@@ -29,7 +29,7 @@ const CreateLearningResource = () => {
 
   return (
     <>
-      <HelmetWithTracker title={t('htmlTitles.createLearningResourcePage')} />
+      <HelmetWithTracker title={t("htmlTitles.createLearningResourcePage")} />
       <LearningResourceForm
         updateArticle={createArticleAndPushRoute}
         articleChanged={false}

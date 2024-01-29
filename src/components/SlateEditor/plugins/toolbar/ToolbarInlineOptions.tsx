@@ -6,24 +6,23 @@
  *
  */
 
-import { useCallback } from 'react';
-import { Editor, Element } from 'slate';
-import { useSlate, useSlateSelector } from 'slate-react';
-import { ToggleItem } from '@radix-ui/react-toolbar';
-import { StyledToggleGroup, ToolbarCategoryProps } from './SlateToolbar';
-import ToolbarButton from './ToolbarButton';
-import { InlineType } from './toolbarState';
-import { insertInlineConcept } from '../concept/inline/utils';
-import { insertLink } from '../link/utils';
-import { insertMathml } from '../mathml/utils';
+import { useCallback } from "react";
+import { Editor, Element } from "slate";
+import { useSlate, useSlateSelector } from "slate-react";
+import { ToggleItem } from "@radix-ui/react-toolbar";
+import { StyledToggleGroup, ToolbarCategoryProps } from "./SlateToolbar";
+import ToolbarButton from "./ToolbarButton";
+import { InlineType } from "./toolbarState";
+import { insertInlineConcept } from "../concept/inline/utils";
+import { insertLink } from "../link/utils";
+import { insertMathml } from "../mathml/utils";
 
 const getCurrentInlineValues = (editor: Editor): InlineType | undefined => {
   const [currentBlock] =
     Editor.nodes(editor, {
       match: (n) =>
-        Element.isElement(n) &&
-        (n.type === 'concept-inline' || n.type === 'content-link' || n.type === 'mathml'),
-      mode: 'lowest',
+        Element.isElement(n) && (n.type === "concept-inline" || n.type === "content-link" || n.type === "mathml"),
+      mode: "lowest",
     }) ?? [];
 
   const node = currentBlock?.[0];
@@ -37,13 +36,13 @@ export const ToolbarInlineOptions = ({ options }: ToolbarCategoryProps<InlineTyp
 
   const onClick = useCallback(
     (type: InlineType) => {
-      if (type === 'content-link') {
+      if (type === "content-link") {
         insertLink(editor);
       }
-      if (type === 'mathml') {
+      if (type === "mathml") {
         insertMathml(editor);
       }
-      if (type === 'concept-inline') {
+      if (type === "concept-inline") {
         insertInlineConcept(editor);
       }
     },
@@ -54,7 +53,7 @@ export const ToolbarInlineOptions = ({ options }: ToolbarCategoryProps<InlineTyp
   if (!visibleOptions.length) return null;
 
   return (
-    <StyledToggleGroup type="single" value={value ?? ''}>
+    <StyledToggleGroup type="single" value={value ?? ""}>
       {visibleOptions.map((type) => (
         <ToggleItem key={type.value} value={type.value} asChild disabled={type.disabled}>
           <ToolbarButton type={type.value} onClick={() => onClick(type.value)} />

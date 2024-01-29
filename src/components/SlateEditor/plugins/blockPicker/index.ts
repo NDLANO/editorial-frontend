@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import isHotkey from 'is-hotkey';
-import { Editor } from 'slate';
-import { BLOCK_PICKER_TRIGGER_ID } from '../../../../constants';
+import isHotkey from "is-hotkey";
+import { Editor } from "slate";
+import { BLOCK_PICKER_TRIGGER_ID } from "../../../../constants";
 
-const isBlockPickerHotkey = isHotkey('mod+Enter');
+const isBlockPickerHotkey = isHotkey("mod+Enter");
 
 export const blockPickerPlugin = (editor: Editor) => {
   const { onKeyDown: nextOnKeyDown } = editor;

@@ -6,27 +6,27 @@
  *
  */
 
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { useQueryClient } from '@tanstack/react-query';
-import { spacing, colors } from '@ndla/core';
-import { Spinner } from '@ndla/icons';
-import { SubjectMaterial } from '@ndla/icons/contentType';
-import { Done } from '@ndla/icons/editor';
-import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
-import { Node } from '@ndla/types-taxonomy';
-import RoundIcon from '../../../../components/RoundIcon';
-import { fetchDraft, updateDraft } from '../../../../modules/draft/draftApi';
-import { TOPIC_NODE } from '../../../../modules/nodes/nodeApiTypes';
-import { usePutNodeMutation } from '../../../../modules/nodes/nodeMutations';
-import { nodeQueryKeys } from '../../../../modules/nodes/nodeQueries';
-import { useSearch } from '../../../../modules/search/searchQueries';
-import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
-import { EditModeHandler } from '../SettingsMenuDropdownType';
-import MenuItemButton from '../sharedMenuOptions/components/MenuItemButton';
-import SearchDropdown from '../sharedMenuOptions/components/SearchDropdown';
-import { StyledErrorMessage } from '../styles';
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { useQueryClient } from "@tanstack/react-query";
+import { spacing, colors } from "@ndla/core";
+import { Spinner } from "@ndla/icons";
+import { SubjectMaterial } from "@ndla/icons/contentType";
+import { Done } from "@ndla/icons/editor";
+import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
+import { Node } from "@ndla/types-taxonomy";
+import RoundIcon from "../../../../components/RoundIcon";
+import { fetchDraft, updateDraft } from "../../../../modules/draft/draftApi";
+import { TOPIC_NODE } from "../../../../modules/nodes/nodeApiTypes";
+import { usePutNodeMutation } from "../../../../modules/nodes/nodeMutations";
+import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
+import { useSearch } from "../../../../modules/search/searchQueries";
+import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
+import { EditModeHandler } from "../SettingsMenuDropdownType";
+import MenuItemButton from "../sharedMenuOptions/components/MenuItemButton";
+import SearchDropdown from "../sharedMenuOptions/components/SearchDropdown";
+import { StyledErrorMessage } from "../styles";
 
 interface Props {
   node: Node;
@@ -67,14 +67,10 @@ const StyledSuccessIcon = styled(Done)`
   color: ${colors.white};
 `;
 
-const SwapTopicArticle = ({
-  node,
-  rootNodeId,
-  editModeHandler: { editMode, toggleEditMode },
-}: Props) => {
+const SwapTopicArticle = ({ node, rootNodeId, editModeHandler: { editMode, toggleEditMode } }: Props) => {
   const { t, i18n } = useTranslation();
   const putNodeMutation = usePutNodeMutation();
-  const toggleEditModeFunc = () => toggleEditMode('swapTopicArticle');
+  const toggleEditModeFunc = () => toggleEditMode("swapTopicArticle");
   const [error, setError] = useState<string | undefined>(undefined);
   const { taxonomyVersion } = useTaxonomyVersion();
   const qc = useQueryClient();
@@ -105,24 +101,24 @@ const SwapTopicArticle = ({
         draft.id,
         {
           revision: draft.revision,
-          notes: draft.notes.map((n) => n.note).concat('Artikkel satt som nytt emne'),
+          notes: draft.notes.map((n) => n.note).concat("Artikkel satt som nytt emne"),
         },
         taxonomyVersion,
       );
     } catch (e) {
-      setError('taxonomy.swapTopicArticle.failed');
+      setError("taxonomy.swapTopicArticle.failed");
     }
   };
 
-  if (editMode === 'swapTopicArticle') {
+  if (editMode === "swapTopicArticle") {
     return (
       <Wrapper>
         <RoundIcon open small smallIcon icon={<SubjectMaterial />} />
         <SearchDropdown
           useQuery={useSearch}
           onChange={handleSubmit}
-          placeholder={t('taxonomy.swapTopicArticle.placeholder')}
-          params={{ 'context-types': 'topic-article', language: i18n.language }}
+          placeholder={t("taxonomy.swapTopicArticle.placeholder")}
+          params={{ "context-types": "topic-article", language: i18n.language }}
           transform={(res) => {
             return {
               ...res,
@@ -144,7 +140,7 @@ const SwapTopicArticle = ({
     <StyledMenuWrapper>
       <MenuItemButton onClick={toggleEditModeFunc}>
         <RoundIcon small icon={<SubjectMaterial />} />
-        {t('taxonomy.swapTopicArticle.info')}
+        {t("taxonomy.swapTopicArticle.info")}
       </MenuItemButton>
       <StyledActionContent>
         {putNodeMutation.isPending && (
@@ -155,12 +151,10 @@ const SwapTopicArticle = ({
         {putNodeMutation.isSuccess && (
           <MenuContent>
             <StyledSuccessIcon />
-            {t('taxonomy.swapTopicArticle.success')}
+            {t("taxonomy.swapTopicArticle.success")}
           </MenuContent>
         )}
-        {error && (
-          <StyledErrorMessage data-testid="failedToSwapTopicArticle">{t(error)}</StyledErrorMessage>
-        )}
+        {error && <StyledErrorMessage data-testid="failedToSwapTopicArticle">{t(error)}</StyledErrorMessage>}
       </StyledActionContent>
     </StyledMenuWrapper>
   );

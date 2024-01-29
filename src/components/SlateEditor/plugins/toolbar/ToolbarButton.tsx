@@ -6,12 +6,12 @@
  *
  */
 
-import { ElementType, ReactNode, forwardRef, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonProps, ButtonV2 } from '@ndla/button';
-import { colors, fonts, spacing } from '@ndla/core';
-import { Language } from '@ndla/icons/common';
+import { ElementType, ReactNode, forwardRef, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonProps, ButtonV2 } from "@ndla/button";
+import { colors, fonts, spacing } from "@ndla/core";
+import { Language } from "@ndla/icons/common";
 import {
   Bold,
   Code,
@@ -30,12 +30,12 @@ import {
   AlignCenter,
   AlignRight,
   FormatList,
-} from '@ndla/icons/editor';
+} from "@ndla/icons/editor";
 
 const StyledHeadingSpan = styled.span`
   text-align: center;
   width: ${spacing.normal};
-  ${fonts.sizes('14px', '14px')};
+  ${fonts.sizes("14px", "14px")};
 `;
 
 interface HeadingSpanProps {
@@ -58,9 +58,8 @@ const HeadingThree = ({ title }: HeadingProps) => <HeadingSpan title={title}>H3<
 const HeadingFour = ({ title }: HeadingProps) => <HeadingSpan title={title}>H4</HeadingSpan>;
 
 // Fetched from https://github.com/ianstormtaylor/is-hotkey/blob/master/src/index.js
-export const IS_MAC =
-  typeof window != 'undefined' && /Mac|iPod|iPhone|iPad/.test(window.navigator.platform);
-const options = { ctrl: IS_MAC ? 'cmd' : 'ctrl' };
+export const IS_MAC = typeof window != "undefined" && /Mac|iPod|iPhone|iPad/.test(window.navigator.platform);
+const options = { ctrl: IS_MAC ? "cmd" : "ctrl" };
 
 const icon: Record<string, ElementType> = {
   bold: Bold,
@@ -69,20 +68,20 @@ const icon: Record<string, ElementType> = {
   sub: Subscript,
   sup: Superscript,
   quote: Quote,
-  'content-link': Link,
-  'numbered-list': ListNumbered,
-  'bulleted-list': ListCircle,
-  'letter-list': ListAlphabetical,
-  'heading-1': HeadingOne,
-  'heading-2': HeadingTwo,
-  'heading-3': HeadingThree,
-  'heading-4': HeadingFour,
-  'normal-text': Paragraph,
-  'definition-list': FormatList,
+  "content-link": Link,
+  "numbered-list": ListNumbered,
+  "bulleted-list": ListCircle,
+  "letter-list": ListAlphabetical,
+  "heading-1": HeadingOne,
+  "heading-2": HeadingTwo,
+  "heading-3": HeadingThree,
+  "heading-4": HeadingFour,
+  "normal-text": Paragraph,
+  "definition-list": FormatList,
   mathml: Math,
-  'concept-inline': Concept,
+  "concept-inline": Concept,
   code: Code,
-  'code-block': Code,
+  "code-block": Code,
   language: Language,
   left: AlignLeft,
   center: AlignCenter,
@@ -98,7 +97,7 @@ const StyledButton = styled(ButtonV2)`
   color: ${colors.brand.greyDark};
   display: inline-flex;
   align-items: center;
-  &[data-state='on'] {
+  &[data-state="on"] {
     background-color: ${colors.brand.light};
     &:hover {
       color: ${colors.brand.greyDark};
@@ -106,7 +105,7 @@ const StyledButton = styled(ButtonV2)`
   }
 `;
 
-const ToolbarButton = forwardRef<HTMLButtonElement, Omit<ButtonProps, 'type'> & Props>(
+const ToolbarButton = forwardRef<HTMLButtonElement, Omit<ButtonProps, "type"> & Props>(
   ({ type, children, noTitle, ...rest }, ref) => {
     const Icon = useMemo(() => (type ? icon[type] : undefined), [type]);
     const { t } = useTranslation();

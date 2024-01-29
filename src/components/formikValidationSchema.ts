@@ -6,9 +6,9 @@
  *
  */
 
-import { TFunction } from 'i18next';
-import get from 'lodash/fp/get';
-import set from 'lodash/set';
+import { TFunction } from "i18next";
+import get from "lodash/fp/get";
+import set from "lodash/set";
 import {
   isUrl,
   isEmpty,
@@ -18,9 +18,9 @@ import {
   isNumeric,
   objectHasBothField,
   validDateRange,
-} from './validators';
-import { bytesToSensibleFormat } from '../util/fileSizeUtil';
-import handleError from '../util/handleError';
+} from "./validators";
+import { bytesToSensibleFormat } from "../util/fileSizeUtil";
+import handleError from "../util/handleError";
 
 // Taken directly from https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address
 // We don't really need spec compliance, but why not include it?
@@ -28,8 +28,7 @@ const EMAIL_REGEX =
   // eslint-disable-next-line no-useless-escape
   /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
-const appendError = (error: string, newError: string): string =>
-  error ? `${error} \n ${newError}` : newError;
+const appendError = (error: string, newError: string): string => (error ? `${error} \n ${newError}` : newError);
 
 interface ValidateFormikFieldType<FormikValuesType, ApiTypes = any> {
   errors: Record<string, string>;
@@ -58,16 +57,13 @@ const validateFormikField = <FormikValuesType, ApiTypes = any>({
 
   const value = get(valueKey, values);
   if (rule.required && isEmpty(value)) {
-    const error = appendError(errors[valueKey], t('validation.isRequired', { label }));
+    const error = appendError(errors[valueKey], t("validation.isRequired", { label }));
     set(errors, valueKey, error);
   }
 
   if (rule.allObjectFieldsRequired) {
     if (value.filter((v: any) => !objectHasBothField(v)).length > 0) {
-      const error = appendError(
-        errors[valueKey],
-        t('validation.bothFields', { labelLowerCase: label.toLowerCase() }),
-      );
+      const error = appendError(errors[valueKey], t("validation.bothFields", { labelLowerCase: label.toLowerCase() }));
       set(errors, valueKey, error);
     }
   }
@@ -78,9 +74,9 @@ const validateFormikField = <FormikValuesType, ApiTypes = any>({
     if (!validDateRange(beforeDate, afterDate)) {
       const error = appendError(
         errors[valueKey],
-        t('validation.dateBeforeInvalid', {
+        t("validation.dateBeforeInvalid", {
           label,
-          afterLabel: t('form.validDate.to.label').toLowerCase(),
+          afterLabel: t("form.validDate.to.label").toLowerCase(),
         }),
       );
       set(errors, valueKey, error);
@@ -93,9 +89,9 @@ const validateFormikField = <FormikValuesType, ApiTypes = any>({
     if (!validDateRange(beforeDate, afterDate)) {
       const error = appendError(
         errors[valueKey],
-        t('validation.dateAfterInvalid', {
+        t("validation.dateAfterInvalid", {
           label,
-          beforeLabel: t('form.validDate.from.label').toLowerCase(),
+          beforeLabel: t("form.validDate.from.label").toLowerCase(),
         }),
       );
       set(errors, valueKey, error);
@@ -105,7 +101,7 @@ const validateFormikField = <FormikValuesType, ApiTypes = any>({
   if (rule.email) {
     const email = value;
     if (!email.match(EMAIL_REGEX)) {
-      const error = appendError(errors[valueKey], t('validation.email', { label }));
+      const error = appendError(errors[valueKey], t("validation.email", { label }));
       set(errors, valueKey, error);
     }
   }
@@ -116,7 +112,7 @@ const validateFormikField = <FormikValuesType, ApiTypes = any>({
     if (fileSize > maxSize) {
       const error = appendError(
         errors[valueKey],
-        t('validation.maxSizeExceeded', {
+        t("validation.maxSizeExceeded", {
           maxSize: bytesToSensibleFormat(maxSize),
           fileSize: bytesToSensibleFormat(fileSize),
         }),
@@ -129,7 +125,7 @@ const validateFormikField = <FormikValuesType, ApiTypes = any>({
   if (ruleMinLength && minLength(value, ruleMinLength)) {
     const error = appendError(
       errors[valueKey],
-      t('validation.minLength', {
+      t("validation.minLength", {
         label,
         minLength: ruleMinLength,
       }),
@@ -140,7 +136,7 @@ const validateFormikField = <FormikValuesType, ApiTypes = any>({
   if (ruleMaxLength && maxLength(value, ruleMaxLength)) {
     const error = appendError(
       errors[valueKey],
-      t('validation.maxLength', {
+      t("validation.maxLength", {
         label,
         maxLength: ruleMaxLength,
       }),
@@ -151,7 +147,7 @@ const validateFormikField = <FormikValuesType, ApiTypes = any>({
   if (ruleMinItems && minItems(value, ruleMinItems)) {
     const error = appendError(
       errors[valueKey],
-      t('validation.minItems', {
+      t("validation.minItems", {
         label,
         labelLowerCase: label.toLowerCase(),
         minItems: ruleMinItems,
@@ -161,15 +157,15 @@ const validateFormikField = <FormikValuesType, ApiTypes = any>({
     set(errors, valueKey, error);
   }
   if (rule.numeric && !isNumeric(value)) {
-    const error = appendError(errors[valueKey], t('validation.isNumeric', { label }));
+    const error = appendError(errors[valueKey], t("validation.isNumeric", { label }));
     set(errors, valueKey, error);
   }
   if (rule.url && !isUrl(value)) {
-    const error = appendError(errors[valueKey], t('validation.url', { label }));
+    const error = appendError(errors[valueKey], t("validation.url", { label }));
     set(errors, valueKey, error);
   }
   if (rule.urlOrNumber && !isUrl(value) && !isNumeric(value)) {
-    const error = appendError(errors[valueKey], t('validation.urlOrNumber', { label }));
+    const error = appendError(errors[valueKey], t("validation.urlOrNumber", { label }));
     set(errors, valueKey, error);
   }
 
@@ -177,10 +173,7 @@ const validateFormikField = <FormikValuesType, ApiTypes = any>({
   if (testFunction) {
     const testError = testFunction(values);
     if (testError) {
-      const error = appendError(
-        errors[valueKey],
-        t(`${testError.translationKey}`, testError.variables),
-      );
+      const error = appendError(errors[valueKey], t(`${testError.translationKey}`, testError.variables));
       set(errors, valueKey, error);
     }
   }
@@ -212,16 +205,11 @@ interface RuleObject<FormikValuesType, ApiType = any> {
   rules?: RulesType<FormikValuesType, ApiType>;
   test?: (
     value: FormikValuesType,
-  ) =>
-    | { translationKey: string; variables?: { [key: string]: string | boolean | number } }
-    | undefined;
+  ) => { translationKey: string; variables?: { [key: string]: string | boolean | number } } | undefined;
   onlyValidateIf?: (value: FormikValuesType) => boolean;
 }
 
-export type RulesType<FormikValuesType, ApiType = any> = Record<
-  string,
-  RuleObject<FormikValuesType, ApiType>
->;
+export type RulesType<FormikValuesType, ApiType = any> = Record<string, RuleObject<FormikValuesType, ApiType>>;
 
 interface ToLabelParams {
   t: TFunction;
@@ -231,11 +219,7 @@ interface ToLabelParams {
 }
 
 const toLabel = ({ t, ruleKey, translationKey, formType }: ToLabelParams) => {
-  return translationKey
-    ? t(translationKey)
-    : formType
-      ? t(`${formType}.${ruleKey}`)
-      : t(`form.name.${ruleKey}`);
+  return translationKey ? t(translationKey) : formType ? t(`${formType}.${ruleKey}`) : t(`form.name.${ruleKey}`);
 };
 
 const validateFormik = <FormikValuesType, ApiTypes = any>(
@@ -323,13 +307,13 @@ export const getWarnings = <FormikValuesType, ApiType>(
         if (warningRules?.languageMatch) {
           const apiField = warningRules.apiField ?? ruleKey;
           const entityField = get([apiField], entity);
-          const fieldLanguage = get('language', entityField);
-          const formikLanguage = get('language', values);
+          const fieldLanguage = get("language", entityField);
+          const formikLanguage = get("language", values);
           if (entity && fieldLanguage && formikLanguage !== fieldLanguage) {
             const edgeCaseWarning =
               apiField !== ruleKey
                 ? {
-                    [apiField]: t('warningMessage.fieldWithWrongLanguage', {
+                    [apiField]: t("warningMessage.fieldWithWrongLanguage", {
                       language: [fieldLanguage],
                     }),
                   }
@@ -337,7 +321,9 @@ export const getWarnings = <FormikValuesType, ApiType>(
             warnings = {
               ...warnings,
               ...edgeCaseWarning,
-              [ruleKey]: t('warningMessage.fieldWithWrongLanguage', { language: [fieldLanguage] }),
+              [ruleKey]: t("warningMessage.fieldWithWrongLanguage", {
+                language: [fieldLanguage],
+              }),
             };
           }
         }

@@ -6,21 +6,18 @@
  *
  */
 
-import { ChangeEvent, useState, SyntheticEvent } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { useQueryClient } from '@tanstack/react-query';
-import { ButtonV2 } from '@ndla/button';
-import { spacing, colors } from '@ndla/core';
-import { InputV2 } from '@ndla/forms';
-import { Node, NodeType } from '@ndla/types-taxonomy';
-import {
-  useAddNodeMutation,
-  usePostNodeConnectionMutation,
-} from '../../modules/nodes/nodeMutations';
-import { nodeQueryKeys } from '../../modules/nodes/nodeQueries';
-import handleError from '../../util/handleError';
-import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
+import { ChangeEvent, useState, SyntheticEvent } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { useQueryClient } from "@tanstack/react-query";
+import { ButtonV2 } from "@ndla/button";
+import { spacing, colors } from "@ndla/core";
+import { InputV2 } from "@ndla/forms";
+import { Node, NodeType } from "@ndla/types-taxonomy";
+import { useAddNodeMutation, usePostNodeConnectionMutation } from "../../modules/nodes/nodeMutations";
+import { nodeQueryKeys } from "../../modules/nodes/nodeQueries";
+import handleError from "../../util/handleError";
+import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 
 const StyledInputField = styled(InputV2)`
   border-radius: 4px;
@@ -55,7 +52,7 @@ const AddNodeModalContent = ({ onClose, nodeType, rootId, parentNode }: Props) =
   const { taxonomyVersion } = useTaxonomyVersion();
   const qc = useQueryClient();
 
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
   const [error, setError] = useState(false);
 
   const addNode = async (name: string) => {
@@ -84,11 +81,11 @@ const AddNodeModalContent = ({ onClose, nodeType, rootId, parentNode }: Props) =
 
     try {
       const nodeUrl = await addNode(inputValue);
-      const nodeId = nodeUrl.replace('/v1/nodes/', '');
+      const nodeId = nodeUrl.replace("/v1/nodes/", "");
       if (parentNode) {
         await connectNode(parentNode.id, nodeId);
       }
-      setInputValue('');
+      setInputValue("");
       onClose();
     } catch (error) {
       handleError(error);
@@ -104,18 +101,22 @@ const AddNodeModalContent = ({ onClose, nodeType, rootId, parentNode }: Props) =
   return (
     <FormWrapper>
       <StyledInputField
-        label={t('taxonomy.newNode', { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
-        name={t('taxonomy.newNode', { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
+        label={t("taxonomy.newNode", {
+          nodeType: t(`taxonomy.nodeType.${nodeType}`),
+        })}
+        name={t("taxonomy.newNode", {
+          nodeType: t(`taxonomy.nodeType.${nodeType}`),
+        })}
         labelHidden
         type="text"
         data-testid="addSubjectInputField"
         value={inputValue}
         onChange={handleInputChange}
-        placeholder={t('taxonomy.newNodeName')}
-        error={error ? t('taxonomy.errorMessage') : undefined}
+        placeholder={t("taxonomy.newNodeName")}
+        error={error ? t("taxonomy.errorMessage") : undefined}
       />
       <ButtonV2 type="submit" onClick={handleClick} disabled={!inputValue}>
-        {t('form.save')}
+        {t("form.save")}
       </ButtonV2>
     </FormWrapper>
   );

@@ -6,27 +6,27 @@
  *
  */
 
-import isEmpty from 'lodash/isEmpty';
-import { Descendant, Editor, Element, Node, Transforms, Path } from 'slate';
-import { jsx as slatejsx } from 'slate-hyperscript';
-import { TYPE_SPAN } from './types';
-import { createProps, reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
-import { SlateSerializer } from '../../interfaces';
-import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
-import { TYPE_QUOTE } from '../blockquote/types';
-import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_TERM } from '../definitionList/types';
-import { TYPE_SUMMARY } from '../details/types';
-import { TYPE_HEADING } from '../heading/types';
+import isEmpty from "lodash/isEmpty";
+import { Descendant, Editor, Element, Node, Transforms, Path } from "slate";
+import { jsx as slatejsx } from "slate-hyperscript";
+import { TYPE_SPAN } from "./types";
+import { createProps, reduceElementDataAttributes } from "../../../../util/embedTagHelpers";
+import { SlateSerializer } from "../../interfaces";
+import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
+import { TYPE_QUOTE } from "../blockquote/types";
+import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_TERM } from "../definitionList/types";
+import { TYPE_SUMMARY } from "../details/types";
+import { TYPE_HEADING } from "../heading/types";
 
-import { TYPE_LIST_ITEM } from '../list/types';
-import { TYPE_PARAGRAPH } from '../paragraph/types';
-import { TYPE_TABLE_CELL } from '../table/types';
+import { TYPE_LIST_ITEM } from "../list/types";
+import { TYPE_PARAGRAPH } from "../paragraph/types";
+import { TYPE_TABLE_CELL } from "../table/types";
 
 export interface SpanElement {
-  type: 'span';
+  type: "span";
   data: {
     lang?: string;
-    'data-size'?: string;
+    "data-size"?: string;
   };
   children: Descendant[];
 }
@@ -49,13 +49,13 @@ const normalizerConfig: NormalizerConfig = {
 
 export const spanSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
-    if (el.tagName.toLowerCase() !== 'span') return;
+    if (el.tagName.toLowerCase() !== "span") return;
 
     const attributes = reduceElementDataAttributes(el);
 
     if (isEmpty(attributes)) return;
 
-    return slatejsx('element', { type: TYPE_SPAN, data: attributes }, children);
+    return slatejsx("element", { type: TYPE_SPAN, data: attributes }, children);
   },
   serialize(node: Descendant, children: JSX.Element[]) {
     if (!Element.isElement(node)) return;

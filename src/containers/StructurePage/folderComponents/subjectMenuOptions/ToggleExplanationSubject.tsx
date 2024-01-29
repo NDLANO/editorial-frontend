@@ -6,15 +6,15 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { DeleteForever } from '@ndla/icons/editor';
-import { Switch } from '@ndla/switch';
-import RoundIcon from '../../../../components/RoundIcon';
-import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../../../../constants';
-import CustomFieldButton from '../sharedMenuOptions/components/CustomFieldButton';
-import { StyledMenuItemEditField, StyledMenuItemInputField } from '../styles';
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { DeleteForever } from "@ndla/icons/editor";
+import { Switch } from "@ndla/switch";
+import RoundIcon from "../../../../components/RoundIcon";
+import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from "../../../../constants";
+import CustomFieldButton from "../sharedMenuOptions/components/CustomFieldButton";
+import { StyledMenuItemEditField, StyledMenuItemInputField } from "../styles";
 
 interface Props {
   customFields: Record<string, string>;
@@ -27,17 +27,13 @@ const StyledCustomFieldButton = styled(CustomFieldButton)`
 
 const ToggleExplanationSubject = ({ customFields, updateFields }: Props) => {
   const { t } = useTranslation();
-  const isToggled =
-    customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT]?.toLowerCase() === 'true';
+  const isToggled = customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT]?.toLowerCase() === "true";
 
   return (
     <>
       <StyledMenuItemEditField>
         <RoundIcon open small />
-        <StyledMenuItemInputField
-          placeholder={t('taxonomy.metadata.customFields.explanationSubject')}
-          disabled
-        />
+        <StyledMenuItemInputField placeholder={t("taxonomy.metadata.customFields.explanationSubject")} disabled />
         <Switch
           onChange={() =>
             updateFields({
@@ -47,7 +43,7 @@ const ToggleExplanationSubject = ({ customFields, updateFields }: Props) => {
           }
           checked={isToggled}
           label=""
-          id={'explanationSubject'}
+          id={"explanationSubject"}
         />
         <StyledCustomFieldButton
           onClick={() => {

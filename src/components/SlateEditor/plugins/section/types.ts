@@ -6,4 +6,4 @@
  *
  */
 
-export const TYPE_SECTION = 'section';
+export const TYPE_SECTION = "section";

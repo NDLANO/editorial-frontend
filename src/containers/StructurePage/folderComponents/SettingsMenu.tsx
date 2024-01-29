@@ -6,17 +6,17 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { Root, Trigger, Close, Content, Portal } from '@radix-ui/react-popover';
-import { CloseButton, IconButtonV2 } from '@ndla/button';
-import { animations, colors, spacing, stackOrder } from '@ndla/core';
-import { Settings } from '@ndla/icons/editor';
-import { Node } from '@ndla/types-taxonomy';
-import SettingsMenuDropdownType from './SettingsMenuDropdownType';
-import Overlay from '../../../components/Overlay';
-import RoundIcon from '../../../components/RoundIcon';
-import { getNodeTypeFromNodeId } from '../../../modules/nodes/nodeUtil';
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { Root, Trigger, Close, Content, Portal } from "@radix-ui/react-popover";
+import { CloseButton, IconButtonV2 } from "@ndla/button";
+import { animations, colors, spacing, stackOrder } from "@ndla/core";
+import { Settings } from "@ndla/icons/editor";
+import { Node } from "@ndla/types-taxonomy";
+import SettingsMenuDropdownType from "./SettingsMenuDropdownType";
+import Overlay from "../../../components/Overlay";
+import RoundIcon from "../../../components/RoundIcon";
+import { getNodeTypeFromNodeId } from "../../../modules/nodes/nodeUtil";
 
 const TitleWrapper = styled.div`
   display: flex;
@@ -91,7 +91,7 @@ const SettingsMenu = ({ node, rootNodeId, onCurrentNodeChanged, nodeChildren }: 
               />
             </StyledDivWrapper>
           </Content>
-          <Overlay modifiers={['zIndex']} />
+          <Overlay modifiers={["zIndex"]} />
         </>
       </Portal>
     </Root>

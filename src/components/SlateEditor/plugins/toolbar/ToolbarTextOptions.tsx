@@ -6,32 +6,32 @@
  *
  */
 
-import { useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Element, Editor, Transforms } from 'slate';
-import { ReactEditor, useSlate, useSlateSelector } from 'slate-react';
-import { ToolbarButton } from '@radix-ui/react-toolbar';
-import { DropdownItem, DropdownMenu, DropdownTrigger } from '@ndla/dropdown-menu';
-import { ArrowDropDown } from '@ndla/icons/common';
-import { handleTextChange } from './handleMenuClicks';
-import { ToolbarCategoryProps } from './SlateToolbar';
-import UIToolbarButton from './ToolbarButton';
-import { ToolbarDropdownButton, ToolbarDropdownContent } from './toolbarDropdownComponents';
-import { TextType } from './toolbarState';
+import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
+import { Element, Editor, Transforms } from "slate";
+import { ReactEditor, useSlate, useSlateSelector } from "slate-react";
+import { ToolbarButton } from "@radix-ui/react-toolbar";
+import { DropdownItem, DropdownMenu, DropdownTrigger } from "@ndla/dropdown-menu";
+import { ArrowDropDown } from "@ndla/icons/common";
+import { handleTextChange } from "./handleMenuClicks";
+import { ToolbarCategoryProps } from "./SlateToolbar";
+import UIToolbarButton from "./ToolbarButton";
+import { ToolbarDropdownButton, ToolbarDropdownContent } from "./toolbarDropdownComponents";
+import { TextType } from "./toolbarState";
 
 const getTextValue = (editor: Editor): TextType => {
   const [match] = editor.selection
     ? Editor.nodes(editor, {
         at: editor.selection,
         match: (n) => Element.isElement(n) && Editor.isBlock(editor, n),
-        mode: 'lowest',
+        mode: "lowest",
       })
     : [];
   const node = match?.[0];
   if (!node || !Element.isElement(node)) {
-    return 'normal-text';
+    return "normal-text";
   }
-  return node.type === 'heading' ? (`heading-${node.level}` as TextType) : 'normal-text';
+  return node.type === "heading" ? (`heading-${node.level}` as TextType) : "normal-text";
 };
 
 export const ToolbarTextOptions = ({ options }: ToolbarCategoryProps<TextType>) => {

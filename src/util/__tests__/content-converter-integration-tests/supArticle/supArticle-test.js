@@ -6,10 +6,10 @@
  *
  */
 
-import { html } from './supArticle';
-import { blockContentToEditorValue, blockContentToHTML } from '../../../articleContentConverter';
+import { html } from "./supArticle";
+import { blockContentToEditorValue, blockContentToHTML } from "../../../articleContentConverter";
 
-test('serializing article with sup tag', () => {
+test("serializing article with sup tag", () => {
   const converted = blockContentToEditorValue(html);
 
   const result = blockContentToHTML(converted);

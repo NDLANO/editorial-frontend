@@ -6,33 +6,29 @@
  *
  */
 
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { useQueryClient } from '@tanstack/react-query';
-import { spacing, colors } from '@ndla/core';
-import { Spinner } from '@ndla/icons';
-import { Copy } from '@ndla/icons/action';
-import { Done } from '@ndla/icons/editor';
-import { Node, NodeChild } from '@ndla/types-taxonomy';
-import AlertModal from '../../../../components/AlertModal';
-import RoundIcon from '../../../../components/RoundIcon';
-import { EditMode } from '../../../../interfaces';
-import { cloneDraft } from '../../../../modules/draft/draftApi';
-import { learningpathCopy } from '../../../../modules/learningpath/learningpathApi';
-import {
-  cloneNode,
-  fetchNodeResources,
-  postResourceForNode,
-} from '../../../../modules/nodes/nodeApi';
-import { nodeQueryKeys } from '../../../../modules/nodes/nodeQueries';
-import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
-import ResourceItemLink from '../../resourceComponents/ResourceItemLink';
-import { EditModeHandler } from '../SettingsMenuDropdownType';
-import MenuItemButton from '../sharedMenuOptions/components/MenuItemButton';
-import NodeSearchDropdown from '../sharedMenuOptions/components/NodeSearchDropdown';
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { useQueryClient } from "@tanstack/react-query";
+import { spacing, colors } from "@ndla/core";
+import { Spinner } from "@ndla/icons";
+import { Copy } from "@ndla/icons/action";
+import { Done } from "@ndla/icons/editor";
+import { Node, NodeChild } from "@ndla/types-taxonomy";
+import AlertModal from "../../../../components/AlertModal";
+import RoundIcon from "../../../../components/RoundIcon";
+import { EditMode } from "../../../../interfaces";
+import { cloneDraft } from "../../../../modules/draft/draftApi";
+import { learningpathCopy } from "../../../../modules/learningpath/learningpathApi";
+import { cloneNode, fetchNodeResources, postResourceForNode } from "../../../../modules/nodes/nodeApi";
+import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
+import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
+import ResourceItemLink from "../../resourceComponents/ResourceItemLink";
+import { EditModeHandler } from "../SettingsMenuDropdownType";
+import MenuItemButton from "../sharedMenuOptions/components/MenuItemButton";
+import NodeSearchDropdown from "../sharedMenuOptions/components/NodeSearchDropdown";
 
-type ActionType = Extract<EditMode, 'copyResources' | 'cloneResources'>;
+type ActionType = Extract<EditMode, "copyResources" | "cloneResources">;
 interface Props {
   currentNode: Node;
   editModeHandler: EditModeHandler;
@@ -75,11 +71,7 @@ const StyledDone = styled(Done)`
   color: green;
 `;
 
-const CopyNodeResources = ({
-  editModeHandler: { editMode, toggleEditMode },
-  currentNode,
-  type,
-}: Props) => {
+const CopyNodeResources = ({ editModeHandler: { editMode, toggleEditMode }, currentNode, type }: Props) => {
   const {
     t,
     i18n: { language },
@@ -110,13 +102,20 @@ const CopyNodeResources = ({
 
   const cloneOrCopyResources = async (node: Node, type: ActionType) => {
     prepareForAction();
-    const resources = await fetchNodeResources({ id: node.id, taxonomyVersion, language });
+    const resources = await fetchNodeResources({
+      id: node.id,
+      taxonomyVersion,
+      language,
+    });
     setTotalAmount(resources.length);
-    const action = type === 'cloneResources' ? clone : copy;
+    const action = type === "cloneResources" ? clone : copy;
     await Promise.all(resources.map(async (res) => await doAction(res, action)));
     setDone(true);
     qc.invalidateQueries({
-      queryKey: nodeQueryKeys.resources({ id: currentNode.id, taxonomyVersion }),
+      queryKey: nodeQueryKeys.resources({
+        id: currentNode.id,
+        taxonomyVersion,
+      }),
     });
   };
 
@@ -134,25 +133,39 @@ const CopyNodeResources = ({
   const copy = async ({ isPrimary, id, rank }: NodeChild): Promise<string> =>
     await postResourceForNode({
       taxonomyVersion,
-      body: { primary: isPrimary, rank, resourceId: id, nodeId: currentNode.id },
+      body: {
+        primary: isPrimary,
+        rank,
+        resourceId: id,
+        nodeId: currentNode.id,
+      },
     });
 
   const clone = async (resource: NodeChild): Promise<string> => {
     const newLocation = await _clone(resource);
-    return await copy({ ...resource, id: newLocation.replace('/v1/nodes/', '') });
+    return await copy({
+      ...resource,
+      id: newLocation.replace("/v1/nodes/", ""),
+    });
   };
 
   const _clone = async (resource: NodeChild): Promise<string> => {
-    const [, resourceType, idString] = resource.contentUri?.split(':') ?? [];
+    const [, resourceType, idString] = resource.contentUri?.split(":") ?? [];
     const id = Number(idString);
-    if (resourceType === 'article' && id) {
+    if (resourceType === "article" && id) {
       const clonedArticle = await cloneDraft(id, undefined, false);
-      const body = { contentUri: `urn:article:${clonedArticle.id}`, name: resource.name };
+      const body = {
+        contentUri: `urn:article:${clonedArticle.id}`,
+        name: resource.name,
+      };
       return await cloneNode({ id: resource.id, taxonomyVersion, body });
-    } else if (resourceType === 'learningpath' && id) {
+    } else if (resourceType === "learningpath" && id) {
       const lpBody = { title: resource.name, language };
       const clonedLp = await learningpathCopy(id, lpBody);
-      const body = { contentUri: `urn:learningpath:${clonedLp.id}`, name: resource.name };
+      const body = {
+        contentUri: `urn:learningpath:${clonedLp.id}`,
+        name: resource.name,
+      };
       return await cloneNode({ id: resource.id, taxonomyVersion, body });
     } else {
       return await cloneNode({
@@ -168,15 +181,15 @@ const CopyNodeResources = ({
       <Wrapper>
         <RoundIcon open small smallIcon icon={<Copy />} />
         <NodeSearchDropdown
-          placeholder={t('taxonomy.existingNode')}
+          placeholder={t("taxonomy.existingNode")}
           onChange={(node) => cloneOrCopyResources(node, type)}
-          searchNodeType={'TOPIC'}
+          searchNodeType={"TOPIC"}
           filter={(node) => {
             return (
               !!node.path &&
               !node.paths?.some((p) => {
-                const split = p.replace('/', '').split('/');
-                return split[split.length - 2] === currentNode.id.replace('urn:', '');
+                const split = p.replace("/", "").split("/");
+                return split[split.length - 2] === currentNode.id.replace("urn:", "");
               })
             );
           }}
@@ -185,7 +198,7 @@ const CopyNodeResources = ({
     );
   }
 
-  const prefixText = t(`taxonomy.${type}.${done ? 'done' : 'waiting'}`);
+  const prefixText = t(`taxonomy.${type}.${done ? "done" : "waiting"}`);
 
   return (
     <>
@@ -200,17 +213,15 @@ const CopyNodeResources = ({
         </StyledDiv>
       )}
       <AlertModal
-        title={t('errorMessage.description')}
-        label={t('errorMessage.description')}
+        title={t("errorMessage.description")}
+        label={t("errorMessage.description")}
         show={showAlert}
         onCancel={() => setShowAlert(false)}
         text={t(`taxonomy.${type}.error`)}
         component={failedResources.map((res, index) => (
           <LinkWrapper key={index}>
             <ResourceItemLink
-              contentType={
-                res.contentUri?.split(':')[1] === 'article' ? 'article' : 'learning-resource'
-              }
+              contentType={res.contentUri?.split(":")[1] === "article" ? "article" : "learning-resource"}
               contentUri={res.contentUri}
               name={res.name}
             />

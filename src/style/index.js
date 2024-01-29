@@ -1,3 +1,3 @@
-import { menuItemCss, dropDownContainerCSS } from './menuItem';
+import { menuItemCss, dropDownContainerCSS } from "./menuItem";
 
 export { menuItemCss, dropDownContainerCSS };

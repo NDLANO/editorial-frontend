@@ -6,8 +6,8 @@
  *
  */
 
-import { Editor } from 'slate';
-import { TYPE_HEADING } from './types';
+import { Editor } from "slate";
+import { TYPE_HEADING } from "./types";
 
 export const headingRenderer = (editor: Editor) => {
   const { renderElement } = editor;

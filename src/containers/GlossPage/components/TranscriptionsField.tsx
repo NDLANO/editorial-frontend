@@ -6,10 +6,10 @@
  *
  */
 
-import { useField } from 'formik';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { TranscriptionField } from './TranscriptionField';
+import { useField } from "formik";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { TranscriptionField } from "./TranscriptionField";
 
 const StyledFieldWrapper = styled.div`
   display: flex;
@@ -24,9 +24,9 @@ interface Props {
 }
 
 const TranscriptionsField = ({ name }: Props) => {
-  const [, { value: originalLanguageValue }] = useField<string>('gloss.originalLanguage');
+  const [, { value: originalLanguageValue }] = useField<string>("gloss.originalLanguage");
 
-  if (originalLanguageValue !== 'zh') {
+  if (originalLanguageValue !== "zh") {
     return null;
   }
 

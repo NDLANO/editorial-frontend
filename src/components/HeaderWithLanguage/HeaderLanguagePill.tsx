@@ -6,9 +6,9 @@
  *
  */
 
-import { ElementType, HTMLProps, ReactNode } from 'react';
-import { css } from '@emotion/react';
-import { colors, fonts, spacing } from '@ndla/core';
+import { ElementType, HTMLProps, ReactNode } from "react";
+import { css } from "@emotion/react";
+import { colors, fonts, spacing } from "@ndla/core";
 
 const languagePillStyle = css`
   color: ${colors.brand.primary};
@@ -30,7 +30,7 @@ const languagePillStyle = css`
     cursor: not-allowed;
     opacity: 0.6;
   }
-  &[data-current='true'] {
+  &[data-current="true"] {
     background: ${colors.brand.light};
     color: ${colors.brand.primary};
     display: flex;
@@ -50,13 +50,7 @@ interface Props extends HTMLProps<HTMLElement> {
   to?: string;
 }
 
-const LanguagePill = ({
-  children,
-  isSubmitting = false,
-  component: Component = 'div',
-  current,
-  ...rest
-}: Props) => {
+const LanguagePill = ({ children, isSubmitting = false, component: Component = "div", current, ...rest }: Props) => {
   return (
     <Component disabled={isSubmitting} data-current={current} css={languagePillStyle} {...rest}>
       {children}

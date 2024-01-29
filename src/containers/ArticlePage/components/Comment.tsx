@@ -6,17 +6,17 @@
  *
  */
 
-import { ChangeEvent, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
-import { colors, spacing, fonts, misc } from '@ndla/core';
-import { FormControl, Label, TextAreaV3 } from '@ndla/forms';
-import { TrashCanOutline, RightArrow, ExpandMore } from '@ndla/icons/action';
-import { Done } from '@ndla/icons/editor';
-import { IComment } from '@ndla/types-backend/draft-api';
-import AlertModal from '../../../components/AlertModal';
+import { ChangeEvent, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
+import { colors, spacing, fonts, misc } from "@ndla/core";
+import { FormControl, Label, TextAreaV3 } from "@ndla/forms";
+import { TrashCanOutline, RightArrow, ExpandMore } from "@ndla/icons/action";
+import { Done } from "@ndla/icons/editor";
+import { IComment } from "@ndla/types-backend/draft-api";
+import AlertModal from "../../../components/AlertModal";
 
 export const COMMENT_COLOR = colors.support.yellowLight;
 
@@ -45,7 +45,7 @@ const StyledClickableTextArea = styled(TextAreaV3)`
   ${fonts.size.text.button};
   font-weight: ${fonts.weight.light};
 
-  &[data-open='false'] {
+  &[data-open="false"] {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -66,7 +66,7 @@ const CommentCard = styled.li`
     padding: 0px ${spacing.xsmall};
   }
 
-  &[data-solved='true'] {
+  &[data-solved="true"] {
     background-color: ${colors.support.greenLight};
     textarea {
       background-color: ${colors.support.greenLight};
@@ -85,9 +85,7 @@ const TopButtonRow = styled.div`
 `;
 
 // Comment generated on frontend, we will use id from draft-api once comment is generated
-export type CommentType =
-  | { generatedId?: string; content: string; isOpen: boolean; solved: boolean }
-  | IComment;
+export type CommentType = { generatedId?: string; content: string; isOpen: boolean; solved: boolean } | IComment;
 
 interface Props {
   id: string | undefined;
@@ -121,14 +119,12 @@ const Comment = ({ id, comments, setComments, onDelete, index }: Props) => {
 
   const focusUpdate = (focus: boolean) => {
     if (!focus) {
-      const updatedComments = comments.map((c, i) =>
-        i === index ? { ...c, content: inputValue } : c,
-      );
+      const updatedComments = comments.map((c, i) => (i === index ? { ...c, content: inputValue } : c));
       setComments(updatedComments);
     }
   };
 
-  const tooltipText = comment.isOpen ? t('form.comment.hide') : t('form.comment.show');
+  const tooltipText = comment.isOpen ? t("form.comment.hide") : t("form.comment.show");
   const commentId = `${id}-comment-section`;
 
   return (
@@ -140,7 +136,7 @@ const Comment = ({ id, comments, setComments, onDelete, index }: Props) => {
             size="xsmall"
             aria-label={tooltipText}
             title={tooltipText}
-            onClick={() => updateComment(!comment.isOpen, 'isOpen')}
+            onClick={() => updateComment(!comment.isOpen, "isOpen")}
             aria-expanded={comment.isOpen}
             aria-controls={commentId}
           >
@@ -148,11 +144,11 @@ const Comment = ({ id, comments, setComments, onDelete, index }: Props) => {
           </IconButtonV2>
           <div>
             <IconButtonV2
-              variant={comment.solved ? 'solid' : 'ghost'}
+              variant={comment.solved ? "solid" : "ghost"}
               size="xsmall"
-              aria-label={comment.solved ? t('form.comment.unresolve') : t('form.comment.solve')}
-              title={comment.solved ? t('form.comment.unresolve') : t('form.comment.solve')}
-              onClick={() => updateComment(!comment.solved, 'solved')}
+              aria-label={comment.solved ? t("form.comment.unresolve") : t("form.comment.solve")}
+              title={comment.solved ? t("form.comment.unresolve") : t("form.comment.solve")}
+              onClick={() => updateComment(!comment.solved, "solved")}
               colorTheme="darker"
             >
               <Done />
@@ -160,8 +156,8 @@ const Comment = ({ id, comments, setComments, onDelete, index }: Props) => {
             <IconButtonV2
               variant="ghost"
               size="xsmall"
-              aria-label={t('form.workflow.deleteComment.title')}
-              title={t('form.workflow.deleteComment.title')}
+              aria-label={t("form.workflow.deleteComment.title")}
+              title={t("form.workflow.deleteComment.title")}
               onClick={() => setModalOpen(true)}
               colorTheme="danger"
             >
@@ -170,14 +166,14 @@ const Comment = ({ id, comments, setComments, onDelete, index }: Props) => {
           </div>
         </TopButtonRow>
         <FormControl id={`comment-${id}`}>
-          <Label visuallyHidden>{t('form.comment.commentField')}</Label>
+          <Label visuallyHidden>{t("form.comment.commentField")}</Label>
           <StyledClickableTextArea
             value={inputValue}
-            name={t('form.comment.commentField')}
+            name={t("form.comment.commentField")}
             onChange={handleInputChange}
             onFocus={() => {
               focusUpdate(true);
-              updateComment(true, 'isOpen');
+              updateComment(true, "isOpen");
             }}
             onBlur={() => focusUpdate(false)}
             id={commentId}
@@ -187,17 +183,17 @@ const Comment = ({ id, comments, setComments, onDelete, index }: Props) => {
       </CardContent>
 
       <AlertModal
-        title={t('form.workflow.deleteComment.title')}
-        label={t('form.workflow.deleteComment.title')}
+        title={t("form.workflow.deleteComment.title")}
+        label={t("form.workflow.deleteComment.title")}
         show={modalOpen}
-        text={t('form.workflow.deleteComment.modal')}
+        text={t("form.workflow.deleteComment.modal")}
         actions={[
           {
-            text: t('form.abort'),
+            text: t("form.abort"),
             onClick: () => setModalOpen(!modalOpen),
           },
           {
-            text: t('form.workflow.deleteComment.button'),
+            text: t("form.workflow.deleteComment.button"),
             onClick: handleDelete,
           },
         ]}

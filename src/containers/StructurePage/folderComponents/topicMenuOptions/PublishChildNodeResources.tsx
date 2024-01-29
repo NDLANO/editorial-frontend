@@ -6,30 +6,27 @@
  *
  */
 
-import partition from 'lodash/partition';
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { useQueryClient } from '@tanstack/react-query';
-import { colors } from '@ndla/core';
-import { Spinner } from '@ndla/icons';
-import { Done } from '@ndla/icons/editor';
-import { IArticle } from '@ndla/types-backend/draft-api';
-import { ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
-import { Node } from '@ndla/types-taxonomy';
-import AlertModal from '../../../../components/AlertModal';
-import RoundIcon from '../../../../components/RoundIcon';
-import { PUBLISHED } from '../../../../constants';
-import { fetchDrafts, updateStatusDraft } from '../../../../modules/draft/draftApi';
-import {
-  fetchLearningpaths,
-  updateStatusLearningpath,
-} from '../../../../modules/learningpath/learningpathApi';
-import { fetchNodeResources } from '../../../../modules/nodes/nodeApi';
-import { RESOURCE_META } from '../../../../queryKeys';
-import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
-import ResourceItemLink from '../../resourceComponents/ResourceItemLink';
-import MenuItemButton from '../sharedMenuOptions/components/MenuItemButton';
+import partition from "lodash/partition";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { useQueryClient } from "@tanstack/react-query";
+import { colors } from "@ndla/core";
+import { Spinner } from "@ndla/icons";
+import { Done } from "@ndla/icons/editor";
+import { IArticle } from "@ndla/types-backend/draft-api";
+import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
+import { Node } from "@ndla/types-taxonomy";
+import AlertModal from "../../../../components/AlertModal";
+import RoundIcon from "../../../../components/RoundIcon";
+import { PUBLISHED } from "../../../../constants";
+import { fetchDrafts, updateStatusDraft } from "../../../../modules/draft/draftApi";
+import { fetchLearningpaths, updateStatusLearningpath } from "../../../../modules/learningpath/learningpathApi";
+import { fetchNodeResources } from "../../../../modules/nodes/nodeApi";
+import { RESOURCE_META } from "../../../../queryKeys";
+import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
+import ResourceItemLink from "../../resourceComponents/ResourceItemLink";
+import MenuItemButton from "../sharedMenuOptions/components/MenuItemButton";
 
 interface Props {
   node: Node;
@@ -88,27 +85,26 @@ const PublishChildNodeResources = ({ node }: Props) => {
     setDone(false);
     setPublishableCount(0);
     setPublishedCount(0);
-    const nodeResources = await fetchNodeResources({ id: node.id, language, taxonomyVersion });
+    const nodeResources = await fetchNodeResources({
+      id: node.id,
+      language,
+      taxonomyVersion,
+    });
     const allResources = [{ name: node.name, contentUri: node.contentUri }, ...nodeResources];
     const withContentUri = allResources.filter((res) => !!res.contentUri);
     setPublishableCount(allResources.length);
     setShowDisplay(true);
     const [draftResources, learningpathResources] = partition(withContentUri, (res) => {
-      const [, resourceType] = res.contentUri!.split(':');
-      return resourceType === 'article';
+      const [, resourceType] = res.contentUri!.split(":");
+      return resourceType === "article";
     });
-    const draftIds = draftResources.map((res) => Number(res.contentUri!.split(':')[2]));
-    const learningpathIds = learningpathResources.map((res) =>
-      Number(res.contentUri!.split(':')[2]),
-    );
+    const draftIds = draftResources.map((res) => Number(res.contentUri!.split(":")[2]));
+    const learningpathIds = learningpathResources.map((res) => Number(res.contentUri!.split(":")[2]));
     const [drafts, learningpaths]: [IArticle[], ILearningPathV2[]] = await Promise.all([
       fetchDrafts(draftIds),
       fetchLearningpaths(learningpathIds),
     ]);
-    const [unpublishedDrafts, publishedDrafts] = partition(
-      drafts,
-      (draft) => draft.status.current !== PUBLISHED,
-    );
+    const [unpublishedDrafts, publishedDrafts] = partition(drafts, (draft) => draft.status.current !== PUBLISHED);
     const [unpublishedLearningpaths, publishedLearningpaths] = partition(
       learningpaths,
       (lp) => lp.status !== PUBLISHED,
@@ -121,7 +117,10 @@ const PublishChildNodeResources = ({ node }: Props) => {
         .then((_) => setPublishedCount((c) => c + 1))
         .catch((_) =>
           setFailedResources((prev) =>
-            prev.concat({ name: draft.title?.title ?? '', contentUri: `url:article:${draft.id}` }),
+            prev.concat({
+              name: draft.title?.title ?? "",
+              contentUri: `url:article:${draft.id}`,
+            }),
           ),
         ),
     );
@@ -130,7 +129,10 @@ const PublishChildNodeResources = ({ node }: Props) => {
         .then((_) => setPublishedCount((c) => c + 1))
         .catch((_) =>
           setFailedResources((prev) =>
-            prev.concat({ name: lp.title.title, contentUri: `url:learningpath:${lp.id}` }),
+            prev.concat({
+              name: lp.title.title,
+              contentUri: `url:learningpath:${lp.id}`,
+            }),
           ),
         ),
     );
@@ -139,13 +141,13 @@ const PublishChildNodeResources = ({ node }: Props) => {
     setDone(true);
   };
 
-  const publishText = t(`taxonomy.publish.${done ? 'done' : 'waiting'}`);
+  const publishText = t(`taxonomy.publish.${done ? "done" : "waiting"}`);
 
   return (
     <>
       <MenuItemButton onClick={() => setShowConfirmation(true)}>
         <RoundIcon small icon={<Done />} />
-        {t('taxonomy.publish.button')}
+        {t("taxonomy.publish.button")}
       </MenuItemButton>
       {showDisplay && (
         <StyledDiv>
@@ -154,17 +156,15 @@ const PublishChildNodeResources = ({ node }: Props) => {
         </StyledDiv>
       )}
       <AlertModal
-        title={t('errorMessage.description')}
-        label={t('errorMessage.description')}
+        title={t("errorMessage.description")}
+        label={t("errorMessage.description")}
         show={showAlert}
         onCancel={() => setShowAlert(false)}
-        text={t('taxonomy.publish.error')}
+        text={t("taxonomy.publish.error")}
         component={failedResources.map((res, index) => (
           <LinkWrapper key={index}>
             <ResourceItemLink
-              contentType={
-                res.contentUri?.split(':')[1] === 'article' ? 'article' : 'learning-resource'
-              }
+              contentType={res.contentUri?.split(":")[1] === "article" ? "article" : "learning-resource"}
               contentUri={res.contentUri}
               name={res.name}
             />
@@ -172,16 +172,16 @@ const PublishChildNodeResources = ({ node }: Props) => {
         ))}
       />
       <AlertModal
-        title={t('taxonomy.publish.button')}
-        label={t('taxonomy.publish.button')}
+        title={t("taxonomy.publish.button")}
+        label={t("taxonomy.publish.button")}
         show={showConfirmation}
         actions={[
           {
-            text: t('form.abort'),
+            text: t("form.abort"),
             onClick: () => setShowConfirmation(false),
           },
           {
-            text: t('taxonomy.publish.button'),
+            text: t("taxonomy.publish.button"),
             onClick: () => {
               setShowConfirmation(false);
               publishResources();
@@ -189,7 +189,7 @@ const PublishChildNodeResources = ({ node }: Props) => {
           },
         ]}
         onCancel={() => setShowConfirmation(false)}
-        text={t('taxonomy.publish.info')}
+        text={t("taxonomy.publish.info")}
       />
     </>
   );

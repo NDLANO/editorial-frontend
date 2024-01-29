@@ -6,11 +6,11 @@
  *
  */
 
-import { useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import Tabs from '@ndla/tabs';
-import ConceptListTabContent from './ConceptListTabContent';
-import WorkListTabContent from './WorkListTabContent';
+import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import Tabs from "@ndla/tabs";
+import ConceptListTabContent from "./ConceptListTabContent";
+import WorkListTabContent from "./WorkListTabContent";
 import {
   STORED_FILTER_WORKLIST,
   STORED_FILTER_WORKLIST_CONCEPT,
@@ -21,20 +21,20 @@ import {
   STORED_SORT_OPTION_WORKLIST,
   STORED_SORT_OPTION_WORKLIST_CONCEPT,
   STORED_SORT_OPTION_WORKLIST_ON_HOLD,
-} from '../../../../constants';
-import { useSearchConcepts } from '../../../../modules/concept/conceptQueries';
-import { useSearch } from '../../../../modules/search/searchQueries';
+} from "../../../../constants";
+import { useSearchConcepts } from "../../../../modules/concept/conceptQueries";
+import { useSearch } from "../../../../modules/search/searchQueries";
 import {
   useStoredPageSizeHook,
   useStoredSortOptionHook,
   useStoredSubjectFilterHook,
   useStoredToggle,
-} from '../../hooks/storedFilterHooks';
+} from "../../hooks/storedFilterHooks";
 
 interface Props {
   ndlaId: string;
 }
-export type SortOption = 'title' | 'responsibleLastUpdated' | 'status';
+export type SortOption = "title" | "responsibleLastUpdated" | "status";
 
 const WorkList = ({ ndlaId }: Props) => {
   const {
@@ -43,62 +43,66 @@ const WorkList = ({ ndlaId }: Props) => {
   } = useTranslation();
 
   // Worklist articles
-  const { filterSubject, setFilterSubject } = useStoredSubjectFilterHook(
-    STORED_FILTER_WORKLIST,
-    language,
-  );
+  const { filterSubject, setFilterSubject } = useStoredSubjectFilterHook(STORED_FILTER_WORKLIST, language);
   const { pageSize, setPageSize } = useStoredPageSizeHook(STORED_PAGE_SIZE);
   const { sortOption, setSortOption } = useStoredSortOptionHook<SortOption>(
     STORED_SORT_OPTION_WORKLIST,
-    '-responsibleLastUpdated',
+    "-responsibleLastUpdated",
   );
   const { isOn: prioritized, setIsOn: setPrioritized } = useStoredToggle(STORED_PRIORITIZED);
   const [page, setPage] = useState(1);
 
   // Worklist concepts
-  const { filterSubject: filterConceptSubject, setFilterSubject: setFilterConceptSubject } =
-    useStoredSubjectFilterHook(STORED_FILTER_WORKLIST_CONCEPT, language);
+  const { filterSubject: filterConceptSubject, setFilterSubject: setFilterConceptSubject } = useStoredSubjectFilterHook(
+    STORED_FILTER_WORKLIST_CONCEPT,
+    language,
+  );
   const { pageSize: pageSizeConcept, setPageSize: setPageSizeConcept } =
     useStoredPageSizeHook(STORED_PAGE_SIZE_CONCEPT);
-  const { sortOption: sortOptionConcepts, setSortOption: setSortOptionConcepts } =
-    useStoredSortOptionHook<SortOption>(
-      STORED_SORT_OPTION_WORKLIST_CONCEPT,
-      '-responsibleLastUpdated',
-    );
+  const { sortOption: sortOptionConcepts, setSortOption: setSortOptionConcepts } = useStoredSortOptionHook<SortOption>(
+    STORED_SORT_OPTION_WORKLIST_CONCEPT,
+    "-responsibleLastUpdated",
+  );
   const [pageConcept, setPageConcept] = useState(1);
 
   // Worklist on hold
-  const { pageSize: pageSizeOnHold, setPageSize: setPageSizeOnHold } =
-    useStoredPageSizeHook(STORED_PAGE_SIZE_ON_HOLD);
-  const { sortOption: sortOptionOnHold, setSortOption: setSortOptionOnHold } =
-    useStoredSortOptionHook<SortOption>(
-      STORED_SORT_OPTION_WORKLIST_ON_HOLD,
-      '-responsibleLastUpdated',
-    );
+  const { pageSize: pageSizeOnHold, setPageSize: setPageSizeOnHold } = useStoredPageSizeHook(STORED_PAGE_SIZE_ON_HOLD);
+  const { sortOption: sortOptionOnHold, setSortOption: setSortOptionOnHold } = useStoredSortOptionHook<SortOption>(
+    STORED_SORT_OPTION_WORKLIST_ON_HOLD,
+    "-responsibleLastUpdated",
+  );
   const [pageOnHold, setPageOnHold] = useState(1);
+
+  useEffect(() => {
+    setPage(1);
+  }, [filterSubject, pageSize]);
+
+  useEffect(() => {
+    setPageConcept(1);
+  }, [filterConceptSubject, pageSizeConcept]);
 
   const searchQuery = useSearch(
     {
-      'responsible-ids': ndlaId,
+      "responsible-ids": ndlaId,
       sort: sortOption,
-      ...(prioritized ? { priority: 'prioritized' } : { priority: 'prioritized,unspecified' }),
+      ...(prioritized ? { priority: "prioritized" } : { priority: "prioritized,unspecified" }),
       ...(filterSubject ? { subjects: filterSubject.value } : {}),
       page: page,
-      'page-size': Number(pageSize!.value),
+      "page-size": Number(pageSize!.value),
       language,
       fallback: true,
-      'aggregate-paths': 'contexts.rootId',
+      "aggregate-paths": "contexts.rootId",
     },
     { enabled: !!ndlaId },
   );
 
   const searchConceptsQuery = useSearchConcepts(
     {
-      'responsible-ids': ndlaId,
+      "responsible-ids": ndlaId,
       sort: sortOptionConcepts,
       ...(filterConceptSubject ? { subjects: filterConceptSubject.value } : {}),
       page: pageConcept,
-      'page-size': Number(pageSizeConcept!.value),
+      "page-size": Number(pageSizeConcept!.value),
       language,
       fallback: true,
     },
@@ -107,11 +111,11 @@ const WorkList = ({ ndlaId }: Props) => {
 
   const searchOnHoldQuery = useSearch(
     {
-      'responsible-ids': ndlaId,
+      "responsible-ids": ndlaId,
       sort: sortOptionOnHold,
-      priority: 'on-hold',
+      priority: "on-hold",
       page: pageOnHold,
-      'page-size': Number(pageSizeOnHold!.value),
+      "page-size": Number(pageSizeOnHold!.value),
       language,
       fallback: true,
     },
@@ -120,38 +124,30 @@ const WorkList = ({ ndlaId }: Props) => {
 
   const searchError = useMemo(() => {
     if (searchQuery.isError) {
-      return t('welcomePage.errorMessage');
+      return t("welcomePage.errorMessage");
     }
   }, [searchQuery.isError, t]);
 
   const searchConceptsError = useMemo(() => {
     if (searchConceptsQuery.isError) {
-      return t('welcomePage.errorMessage');
+      return t("welcomePage.errorMessage");
     }
   }, [searchConceptsQuery.isError, t]);
 
   const searchOnHoldError = useMemo(() => {
     if (searchOnHoldQuery.isError) {
-      return t('welcomePage.errorMessage');
+      return t("welcomePage.errorMessage");
     }
   }, [searchOnHoldQuery.isError, t]);
-
-  useEffect(() => {
-    setPage(1);
-  }, [filterSubject]);
-
-  useEffect(() => {
-    setPageConcept(1);
-  }, [filterConceptSubject]);
 
   return (
     <Tabs
       variant="rounded"
-      aria-label={t('welcomePage.workList.ariaLabel')}
+      aria-label={t("welcomePage.workList.ariaLabel")}
       tabs={[
         {
-          title: `${t('taxonomy.resources')} (${searchQuery.data?.totalCount ?? 0})`,
-          id: 'articles',
+          title: `${t("taxonomy.resources")} (${searchQuery.data?.totalCount ?? 0})`,
+          id: "articles",
           content: (
             <WorkListTabContent
               data={searchQuery.data}
@@ -171,8 +167,8 @@ const WorkList = ({ ndlaId }: Props) => {
           ),
         },
         {
-          title: `${t('welcomePage.workList.onHold')} (${searchOnHoldQuery.data?.totalCount ?? 0})`,
-          id: 'onHold',
+          title: `${t("welcomePage.workList.onHold")} (${searchOnHoldQuery.data?.totalCount ?? 0})`,
+          id: "onHold",
           content: (
             <WorkListTabContent
               data={searchOnHoldQuery.data}
@@ -190,8 +186,8 @@ const WorkList = ({ ndlaId }: Props) => {
           ),
         },
         {
-          title: `${t('form.name.concepts')} (${searchConceptsQuery.data?.totalCount ?? 0})`,
-          id: 'concepts',
+          title: `${t("form.name.concepts")} (${searchConceptsQuery.data?.totalCount ?? 0})`,
+          id: "concepts",
           content: (
             <ConceptListTabContent
               data={searchConceptsQuery.data}

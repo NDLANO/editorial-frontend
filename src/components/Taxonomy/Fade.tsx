@@ -6,9 +6,9 @@
  *
  */
 
-import { useEffect, useState, ReactNode } from 'react';
-import { css } from '@emotion/react';
-import { animations } from '@ndla/core';
+import { useEffect, useState, ReactNode } from "react";
+import { css } from "@emotion/react";
+import { animations } from "@ndla/core";
 
 type Props = {
   show?: boolean;
@@ -16,15 +16,13 @@ type Props = {
   fadeType: FadeType;
 };
 
-type FadeType = 'fadeIn' | 'fadeInTop' | 'fadeInBottom' | 'fadeInScaled';
+type FadeType = "fadeIn" | "fadeInTop" | "fadeInBottom" | "fadeInScaled";
 
-const fadeOut = (
-  fadeIn: FadeType,
-): 'fadeOutTop' | 'fadeOutBottom' | 'fadeOutScaled' | 'fadeOut' => {
-  if (fadeIn === 'fadeInTop') return 'fadeOutTop';
-  if (fadeIn === 'fadeInBottom') return 'fadeOutBottom';
-  if (fadeIn === 'fadeInScaled') return 'fadeOutScaled';
-  return 'fadeOut';
+const fadeOut = (fadeIn: FadeType): "fadeOutTop" | "fadeOutBottom" | "fadeOutScaled" | "fadeOut" => {
+  if (fadeIn === "fadeInTop") return "fadeOutTop";
+  if (fadeIn === "fadeInBottom") return "fadeOutBottom";
+  if (fadeIn === "fadeInScaled") return "fadeOutScaled";
+  return "fadeOut";
 };
 
 const Fade = ({ show = true, fadeType, children }: Props) => {

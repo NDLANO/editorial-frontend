@@ -5,27 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import {
-  createContext,
-  Dispatch,
-  ReactNode,
-  SetStateAction,
-  useCallback,
-  useContext,
-  useState,
-} from 'react';
+import { createContext, Dispatch, ReactNode, SetStateAction, useCallback, useContext, useState } from "react";
 
-import { useTranslation } from 'react-i18next';
-import { uuid } from '@ndla/util';
-import { MessageType } from './Messages';
+import { useTranslation } from "react-i18next";
+import { uuid } from "@ndla/util";
+import { MessageType } from "./Messages";
 
 interface Props {
   children?: ReactNode;
   initialValues?: MessageType[];
 }
-const MessagesContext = createContext<
-  [MessageType[], Dispatch<SetStateAction<MessageType[]>>] | undefined
->(undefined);
+const MessagesContext = createContext<[MessageType[], Dispatch<SetStateAction<MessageType[]>>] | undefined>(undefined);
 
 export interface MessagesFunctions {
   messages: MessageType[];
@@ -45,7 +35,7 @@ export interface MessageError extends Partial<Error> {
   };
 }
 
-export interface NewMessageType extends Omit<MessageType, 'id'> {
+export interface NewMessageType extends Omit<MessageType, "id"> {
   id?: string;
 }
 
@@ -53,7 +43,7 @@ const formatNewMessage = (newMessage: NewMessageType): MessageType => {
   return {
     ...newMessage,
     id: newMessage.id ?? uuid(),
-    timeToLive: typeof newMessage.timeToLive === 'undefined' ? 1500 : newMessage.timeToLive,
+    timeToLive: typeof newMessage.timeToLive === "undefined" ? 1500 : newMessage.timeToLive,
   };
 };
 
@@ -66,20 +56,18 @@ export const useMessages = () => {
   const context = useContext(MessagesContext);
   const { t } = useTranslation();
   if (context === undefined) {
-    throw new Error('useMessages can only be used witin a MessagesContext');
+    throw new Error("useMessages can only be used witin a MessagesContext");
   }
   const [messages, setMessages] = context;
 
   const errorMessageFromError = useCallback(
     (error: MessageError): string => {
-      const jsonMessage = error?.json?.messages
-        ?.map((message) => `${message.field}: ${message.message}`)
-        .join(', ');
+      const jsonMessage = error?.json?.messages?.map((message) => `${message.field}: ${message.message}`).join(", ");
       if (jsonMessage !== undefined) return jsonMessage;
 
       const errorMessages = error?.messages;
-      if (errorMessages && typeof errorMessages === 'string') return errorMessages;
-      return t('errorMessage.genericError');
+      if (errorMessages && typeof errorMessages === "string") return errorMessages;
+      return t("errorMessage.genericError");
     },
     [t],
   );
@@ -88,7 +76,7 @@ export const useMessages = () => {
     (error: MessageError): NewMessageType => {
       return {
         message: errorMessageFromError(error),
-        severity: 'danger',
+        severity: "danger",
         timeToLive: 0,
       };
     },
@@ -122,7 +110,7 @@ export const useMessages = () => {
       const maybeMessages: MessageType[] | undefined = error.json?.messages?.map((m) => ({
         id: uuid(),
         message: `${m.field}: ${m.message}`,
-        severity: 'danger',
+        severity: "danger",
         timeToLive: 0,
       }));
 

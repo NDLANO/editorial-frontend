@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-type TypeOfReturnType = 'string' | 'number' | 'object' | 'function' | 'undefined';
+type TypeOfReturnType = "string" | "number" | "object" | "function" | "undefined";
 
 interface GuardOptions {
   type?: TypeOfReturnType;
@@ -49,7 +49,5 @@ const isType = <T, S = T>(prop: keyof S, value: any, options: GuardOptions = {})
  *  ```
  */
 export const unreachable = (parameter: never): never => {
-  throw new Error(
-    `This code should be unreachable but is not, because '${parameter}' is not of 'never' type.`,
-  );
+  throw new Error(`This code should be unreachable but is not, because '${parameter}' is not of 'never' type.`);
 };

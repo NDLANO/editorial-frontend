@@ -6,12 +6,12 @@
  *
  */
 
-import { ReactElement } from 'react';
-import styled from '@emotion/styled';
-import { Content, Item, Portal, Root, Trigger } from '@radix-ui/react-dropdown-menu';
-import { ButtonV2 } from '@ndla/button';
-import { colors, shadows, stackOrder } from '@ndla/core';
-import { ChevronDown } from '@ndla/icons/common';
+import { ReactElement } from "react";
+import styled from "@emotion/styled";
+import { Content, Item, Portal, Root, Trigger } from "@radix-ui/react-dropdown-menu";
+import { ButtonV2 } from "@ndla/button";
+import { colors, shadows, stackOrder } from "@ndla/core";
+import { ChevronDown } from "@ndla/icons/common";
 
 const MainButton = styled(ButtonV2)`
   border-top-right-radius: 0;
@@ -47,7 +47,7 @@ interface Props {
   disabled?: boolean;
   large?: boolean;
   mainId?: string;
-  menuPosition?: 'top' | 'bottom';
+  menuPosition?: "top" | "bottom";
   children?: ReactElement;
 }
 
@@ -80,7 +80,7 @@ const ToggleButton = styled(ButtonV2)`
   border-bottom-left-radius: 0;
   border-left: none;
   transition: all 200ms ease;
-  &[data-state='open'] {
+  &[data-state="open"] {
     svg {
       transform: rotate(180deg);
     }
@@ -93,7 +93,7 @@ export const MultiButton = ({
   onClick,
   disabled,
   large,
-  menuPosition = 'top',
+  menuPosition = "top",
   mainId,
   children,
 }: Props) => {
@@ -105,7 +105,7 @@ export const MultiButton = ({
     <Wrapper>
       <MainButton
         id={mainId}
-        size={large ? 'large' : undefined}
+        size={large ? "large" : undefined}
         disabled={disabled}
         onClick={() => onClick(mainButton.value)}
       >
@@ -116,7 +116,7 @@ export const MultiButton = ({
           <Spacer data-disabled={disabled} />
           <Root modal={false}>
             <Trigger asChild>
-              <ToggleButton size={large ? 'large' : undefined} disabled={isDisabled}>
+              <ToggleButton size={large ? "large" : undefined} disabled={isDisabled}>
                 <ChevronDown />
               </ToggleButton>
             </Trigger>

@@ -6,16 +6,16 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { useQueryClient } from '@tanstack/react-query';
-import { spacing, colors, stackOrder } from '@ndla/core';
-import { VersionType } from '@ndla/types-taxonomy';
-import OptGroupVersionSelector from '../../components/Taxonomy/OptGroupVersionSelector';
-import { useVersions } from '../../modules/taxonomy/versions/versionQueries';
-import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { useQueryClient } from "@tanstack/react-query";
+import { spacing, colors, stackOrder } from "@ndla/core";
+import { VersionType } from "@ndla/types-taxonomy";
+import OptGroupVersionSelector from "../../components/Taxonomy/OptGroupVersionSelector";
+import { useVersions } from "../../modules/taxonomy/versions/versionQueries";
+import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 
-const versionTypeToColorMap: Record<VersionType | 'default', string> = {
+const versionTypeToColorMap: Record<VersionType | "default", string> = {
   default: colors.brand.primary,
   PUBLISHED: colors.support.green,
   BETA: colors.support.yellow,
@@ -63,13 +63,9 @@ const StickyVersionSelector = () => {
   };
 
   return (
-    <StickyDiv color={versionTypeToColorMap[currentVersion?.versionType ?? 'default']}>
-      {t('taxonomy.currentVersion')}
-      <OptGroupVersionSelector
-        versions={data}
-        currentVersion={currentVersion}
-        onVersionChanged={onVersionChanged}
-      />
+    <StickyDiv color={versionTypeToColorMap[currentVersion?.versionType ?? "default"]}>
+      {t("taxonomy.currentVersion")}
+      <OptGroupVersionSelector versions={data} currentVersion={currentVersion} onVersionChanged={onVersionChanged} />
     </StickyDiv>
   );
 };

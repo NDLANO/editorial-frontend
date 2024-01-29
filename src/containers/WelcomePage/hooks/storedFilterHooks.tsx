@@ -46,6 +46,7 @@ const defaultPageSize = { label: '6', value: '6' };
 
 export const useStoredPageSizeHook = (localStorageKey: string) => {
   const storedPageSize = localStorage.getItem(localStorageKey);
+
   const [pageSize, _setPageSize] = useState<SingleValue>(
     storedPageSize
       ? {

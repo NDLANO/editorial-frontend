@@ -9,9 +9,9 @@
 export interface ImageSearchQuery {
   query?: string;
   page?: number;
-  'page-size'?: number;
+  "page-size"?: number;
   language?: string;
   sort?: string;
   fallback?: boolean;
-  'podcast-friendly'?: boolean;
+  "podcast-friendly"?: boolean;
 }

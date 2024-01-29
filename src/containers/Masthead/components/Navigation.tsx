@@ -6,21 +6,21 @@
  *
  */
 
-import FocusTrapReact from 'focus-trap-react';
-import { useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
-import { colors, fonts, spacing, stackOrder } from '@ndla/core';
-import { Menu } from '@ndla/icons/common';
-import SafeLink from '@ndla/safelink';
-import { Logo } from '@ndla/ui';
-import NavigationMenu from './NavigationMenu';
-import SessionContainer from './SessionContainer';
-import { Column, GridContainer } from '../../../components/Layout/Layout';
-import Overlay from '../../../components/Overlay';
-import config from '../../../config';
-import SavedSearchDropdown from '../SavedSearchDropdown';
+import FocusTrapReact from "focus-trap-react";
+import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
+import { colors, fonts, spacing, stackOrder } from "@ndla/core";
+import { Menu } from "@ndla/icons/common";
+import SafeLink from "@ndla/safelink";
+import { Logo } from "@ndla/ui";
+import NavigationMenu from "./NavigationMenu";
+import SessionContainer from "./SessionContainer";
+import { Column, GridContainer } from "../../../components/Layout/Layout";
+import Overlay from "../../../components/Overlay";
+import config from "../../../config";
+import SavedSearchDropdown from "../SavedSearchDropdown";
 
 const StyledLogoDiv = styled.div`
   transform: translateY(3px);
@@ -90,12 +90,15 @@ const Navigation = () => {
 
   const envSettings = useMemo((): EnvironmentSettings => {
     switch (config.ndlaEnvironment) {
-      case 'prod':
-        return { color: colors.white, name: t('environment.production') };
-      case 'staging':
-        return { color: colors.brand.lighter, name: t('environment.staging') };
+      case "prod":
+        return { color: colors.white, name: t("environment.production") };
+      case "staging":
+        return { color: colors.brand.lighter, name: t("environment.staging") };
       default:
-        return { color: colors.assessmentResource.background, name: t('environment.test') };
+        return {
+          color: colors.assessmentResource.background,
+          name: t("environment.test"),
+        };
     }
   }, [t]);
 
@@ -127,7 +130,7 @@ const Navigation = () => {
                 <StyledHeaderItems>
                   <LeftContent>
                     <IconButtonV2
-                      aria-label={t('menu.title')}
+                      aria-label={t("menu.title")}
                       aria-expanded={open}
                       colorTheme="light"
                       onClick={toggleOpen}
@@ -135,13 +138,8 @@ const Navigation = () => {
                       <Menu />
                     </IconButtonV2>
                     <StyledLogoDiv>
-                      <SafeLink
-                        to="/"
-                        aria-label={t('logo.altText')}
-                        title={t('logo.altText')}
-                        reloadDocument
-                      >
-                        <Logo label={t('logo.altText')} />
+                      <SafeLink to="/" aria-label={t("logo.altText")} title={t("logo.altText")} reloadDocument>
+                        <Logo label={t("logo.altText")} />
                       </SafeLink>
                     </StyledLogoDiv>
                     <SavedSearchDropdown onClose={closeMenu} />
@@ -165,7 +163,7 @@ const Navigation = () => {
           {open && <NavigationMenu close={closeMenu} />}
         </StyledNavigationWrapper>
       </FocusTrapReact>
-      {open && <Overlay modifiers={'lighter'} />}
+      {open && <Overlay modifiers={"lighter"} />}
     </>
   );
 };

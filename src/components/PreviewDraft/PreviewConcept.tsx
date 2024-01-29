@@ -6,22 +6,20 @@
  *
  */
 
-import parse from 'html-react-parser';
-import { useMemo } from 'react';
-import { extractEmbedMeta } from '@ndla/article-converter';
-import { IConcept } from '@ndla/types-backend/concept-api';
-import { ConceptVisualElementMeta } from '@ndla/types-embed';
-import { ConceptNotionV2, Gloss } from '@ndla/ui';
-import { useTaxonomyVersion } from '../../containers/StructureVersion/TaxonomyVersionProvider';
-import { usePreviewArticle } from '../../modules/article/articleGqlQueries';
-import { useSearchNodes } from '../../modules/nodes/nodeQueries';
-import parseMarkdown from '../../util/parseMarkdown';
+import parse from "html-react-parser";
+import { useMemo } from "react";
+import { extractEmbedMeta } from "@ndla/article-converter";
+import { IConcept } from "@ndla/types-backend/concept-api";
+import { ConceptVisualElementMeta } from "@ndla/types-embed";
+import { ConceptNotionV2, Gloss } from "@ndla/ui";
+import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVersionProvider";
+import { usePreviewArticle } from "../../modules/article/articleGqlQueries";
+import { useSearchNodes } from "../../modules/nodes/nodeQueries";
+import parseMarkdown from "../../util/parseMarkdown";
 
-const getAudioData = (
-  visualElement?: ConceptVisualElementMeta,
-): { title: string; src?: string } => {
-  const isSuccessAudio = visualElement?.resource === 'audio' && visualElement?.status === 'success';
-  if (!isSuccessAudio) return { title: '' };
+const getAudioData = (visualElement?: ConceptVisualElementMeta): { title: string; src?: string } => {
+  const isSuccessAudio = visualElement?.resource === "audio" && visualElement?.status === "success";
+  if (!isSuccessAudio) return { title: "" };
 
   return {
     title: visualElement?.data.title.title,
@@ -44,7 +42,7 @@ const PreviewConcept = ({ concept, language }: Props) => {
 
   const parsedContent = useMemo(() => {
     if (!concept.content) return;
-    return parse(parseMarkdown({ markdown: concept.content.content }));
+    return parse(parseMarkdown({ markdown: concept.content.content, inline: true }));
   }, [concept.content]);
 
   const { data: subjects } = useSearchNodes(
@@ -54,13 +52,13 @@ const PreviewConcept = ({ concept, language }: Props) => {
     },
     { enabled: !!concept.subjectIds?.length },
   );
-  const visualElementMeta = extractEmbedMeta(data ?? '') as ConceptVisualElementMeta;
+  const visualElementMeta = extractEmbedMeta(data ?? "") as ConceptVisualElementMeta;
 
   const audioData = useMemo(() => getAudioData(visualElementMeta), [visualElementMeta]);
 
   return (
     <>
-      {concept.conceptType === 'gloss' ? (
+      {concept.conceptType === "gloss" ? (
         <Gloss title={concept.title} glossData={concept.glossData!} audio={audioData} />
       ) : (
         <ConceptNotionV2

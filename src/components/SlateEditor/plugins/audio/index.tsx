@@ -6,15 +6,15 @@
  *
  */
 
-import { Descendant, Editor, Element } from 'slate';
-import { jsx as slatejsx } from 'slate-hyperscript';
-import { TYPE_AUDIO } from './types';
-import { createEmbedTagV2, reduceElementDataAttributesV2 } from '../../../../util/embedTagHelpers';
-import { SlateSerializer } from '../../interfaces';
-import { NormalizerConfig, defaultBlockNormalizer } from '../../utils/defaultNormalizer';
-import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
-import { TYPE_NDLA_EMBED } from '../embed/types';
-import { TYPE_PARAGRAPH } from '../paragraph/types';
+import { Descendant, Editor, Element } from "slate";
+import { jsx as slatejsx } from "slate-hyperscript";
+import { TYPE_AUDIO } from "./types";
+import { createEmbedTagV2, reduceElementDataAttributesV2 } from "../../../../util/embedTagHelpers";
+import { SlateSerializer } from "../../interfaces";
+import { NormalizerConfig, defaultBlockNormalizer } from "../../utils/defaultNormalizer";
+import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
+import { TYPE_NDLA_EMBED } from "../embed/types";
+import { TYPE_PARAGRAPH } from "../paragraph/types";
 
 const normalizerConfig: NormalizerConfig = {
   previous: {
@@ -33,7 +33,7 @@ export const audioSerializer: SlateSerializer = {
     const embed = el as HTMLEmbedElement;
     const embedAttributes = reduceElementDataAttributesV2(Array.from(embed.attributes));
     if (embedAttributes.resource !== TYPE_AUDIO) return;
-    return slatejsx('element', { type: TYPE_AUDIO, data: embedAttributes }, { text: '' });
+    return slatejsx("element", { type: TYPE_AUDIO, data: embedAttributes }, { text: "" });
   },
   serialize(node: Descendant) {
     if (!Element.isElement(node) || node.type !== TYPE_AUDIO || !node.data) return;

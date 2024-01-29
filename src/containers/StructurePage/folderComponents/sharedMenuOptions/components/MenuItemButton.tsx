@@ -6,10 +6,10 @@
  *
  */
 
-import { forwardRef, ReactNode } from 'react';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
+import { forwardRef, ReactNode } from "react";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { spacing } from "@ndla/core";
 
 const StyledMenuItemButton = styled(ButtonV2)`
   display: flex;
@@ -19,7 +19,7 @@ const StyledMenuItemButton = styled(ButtonV2)`
 
 interface Props {
   children: ReactNode;
-  'data-testid'?: string;
+  "data-testid"?: string;
   onClick?: () => void;
   disabled?: boolean;
 }

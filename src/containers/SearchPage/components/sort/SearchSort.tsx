@@ -6,15 +6,15 @@
  *
  */
 
-import queryString from 'query-string';
-import { ChangeEvent, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
+import queryString from "query-string";
+import { ChangeEvent, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
 
 const customSortOptions: Record<string, string[]> = {
-  content: ['revisionDate'],
+  content: ["revisionDate"],
 };
 
 const StyledSortContainer = styled.div`
@@ -43,51 +43,40 @@ interface Props {
   type: string;
 }
 
-const SearchSort = ({
-  sort: sortProp = 'relevance',
-  order: orderProp = 'desc',
-  onSortOrderChange,
-  type,
-}: Props) => {
+const SearchSort = ({ sort: sortProp = "relevance", order: orderProp = "desc", onSortOrderChange, type }: Props) => {
   const [sort, setSort] = useState(sortProp);
   const [order, setOrder] = useState(orderProp);
   const location = useLocation();
   const { t } = useTranslation();
-  const sortOptions = [
-    'id',
-    'relevance',
-    'title',
-    'lastUpdated',
-    ...(customSortOptions[type] ?? []),
-  ];
+  const sortOptions = ["id", "relevance", "title", "lastUpdated", ...(customSortOptions[type] ?? [])];
 
   useEffect(() => {
     const { sort: sortOrder } = queryString.parse(location.search);
-    const splitSortOrder = sortOrder ? sortOrder.split('-') : '-';
+    const splitSortOrder = sortOrder ? sortOrder.split("-") : "-";
     const sort = splitSortOrder.length > 1 ? splitSortOrder[1] : splitSortOrder[0];
-    const order = splitSortOrder.length > 1 ? 'desc' : 'asc';
+    const order = splitSortOrder.length > 1 ? "desc" : "asc";
     setSort(sort);
     setOrder(order);
   }, [location]);
 
   const handleSortChange = (evt: ChangeEvent<HTMLSelectElement>) => {
-    const _order = order === 'desc' ? '-' : '';
+    const _order = order === "desc" ? "-" : "";
     const sort = evt.target.value;
     setSort(sort);
     onSortOrderChange(`${_order + sort}`);
   };
 
   const handleOrderChange = (evt: ChangeEvent<HTMLSelectElement>) => {
-    const newOrder = evt.target.value === 'desc' ? '-' : '';
+    const newOrder = evt.target.value === "desc" ? "-" : "";
     setOrder(evt.target.value);
     onSortOrderChange(`${newOrder + sort}`);
   };
 
-  const orderOptions = ['desc', 'asc'];
+  const orderOptions = ["desc", "asc"];
 
   return (
     <StyledSortContainer>
-      <StyledLabel>{t('searchForm.sorting')}</StyledLabel>
+      <StyledLabel>{t("searchForm.sorting")}</StyledLabel>
       <StyledSelect onChange={handleSortChange} value={sort}>
         {sortOptions.map((option) => (
           <option key={`sortoptions_${option}`} value={option}>
@@ -95,7 +84,7 @@ const SearchSort = ({
           </option>
         ))}
       </StyledSelect>
-      <StyledLabel>{t('searchForm.order')}</StyledLabel>
+      <StyledLabel>{t("searchForm.order")}</StyledLabel>
       <StyledSelect onChange={handleOrderChange} value={order}>
         {orderOptions.map((option) => (
           <option key={`orderoptions_${option}`} value={option}>

@@ -6,4 +6,4 @@
  *
  */
 
-export const TYPE_CONCEPT_LIST = 'concept-list';
+export const TYPE_CONCEPT_LIST = "concept-list";

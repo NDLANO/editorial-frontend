@@ -6,10 +6,10 @@
  *
  */
 
-import React, { ReactNode } from 'react';
-import styled from '@emotion/styled';
-import { colors, spacing, stackOrder } from '@ndla/core';
-import { MAX_PAGE_WIDTH } from '../../constants';
+import React, { ReactNode } from "react";
+import styled from "@emotion/styled";
+import { colors, spacing, stackOrder } from "@ndla/core";
+import { MAX_PAGE_WIDTH } from "../../constants";
 
 const StyledFooter = styled.footer`
   position: fixed;

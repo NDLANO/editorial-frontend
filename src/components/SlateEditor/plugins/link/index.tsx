@@ -6,16 +6,16 @@
  *
  */
 
-import { Descendant, Editor, Element, Text, Node, Transforms } from 'slate';
-import { jsx as slatejsx } from 'slate-hyperscript';
-import { ContentLinkEmbedData } from '@ndla/types-embed';
-import { TYPE_CONTENT_LINK, TYPE_LINK } from './types';
-import { reduceElementDataAttributesV2 } from '../../../../util/embedTagHelpers';
-import { SlateSerializer } from '../../interfaces';
-import { TYPE_NDLA_EMBED } from '../embed/types';
+import { Descendant, Editor, Element, Text, Node, Transforms } from "slate";
+import { jsx as slatejsx } from "slate-hyperscript";
+import { ContentLinkEmbedData } from "@ndla/types-embed";
+import { TYPE_CONTENT_LINK, TYPE_LINK } from "./types";
+import { reduceElementDataAttributesV2 } from "../../../../util/embedTagHelpers";
+import { SlateSerializer } from "../../interfaces";
+import { TYPE_NDLA_EMBED } from "../embed/types";
 
 export interface LinkElement {
-  type: 'link';
+  type: "link";
   href: string;
   target?: string;
   title?: string;
@@ -24,7 +24,7 @@ export interface LinkElement {
 }
 
 export interface ContentLinkElement {
-  type: 'content-link';
+  type: "content-link";
   data: ContentLinkEmbedData;
   children: Descendant[];
 }
@@ -32,16 +32,16 @@ export interface ContentLinkElement {
 export const linkSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
     const tag = el.tagName.toLowerCase();
-    if (tag === 'a') {
+    if (tag === "a") {
       const a = el as HTMLLinkElement;
       return slatejsx(
-        'element',
+        "element",
         {
           type: TYPE_LINK,
-          href: a.href ?? '#',
-          target: a.target !== '' ? a.target : undefined,
-          title: a.title !== '' ? a.title : undefined,
-          rel: a.rel !== '' ? a.rel : undefined,
+          href: a.href ?? "#",
+          target: a.target !== "" ? a.target : undefined,
+          title: a.title !== "" ? a.title : undefined,
+          rel: a.rel !== "" ? a.rel : undefined,
         },
         children,
       );
@@ -49,9 +49,9 @@ export const linkSerializer: SlateSerializer = {
     if (tag === TYPE_NDLA_EMBED) {
       const embed = el as HTMLEmbedElement;
       const embedAttributes = reduceElementDataAttributesV2(Array.from(embed.attributes));
-      if (embedAttributes.resource !== 'content-link') return;
+      if (embedAttributes.resource !== "content-link") return;
       return slatejsx(
-        'element',
+        "element",
         {
           type: TYPE_CONTENT_LINK,
           data: embedAttributes,
@@ -89,7 +89,7 @@ export const linkPlugin = (editor: Editor) => {
   const { isInline: nextIsInline, normalizeNode: nextNormalizeNode } = editor;
 
   editor.isInline = (element: Element) => {
-    if (element.type === 'link' || element.type === 'content-link') {
+    if (element.type === "link" || element.type === "content-link") {
       return true;
     } else {
       return nextIsInline(element);
@@ -99,13 +99,13 @@ export const linkPlugin = (editor: Editor) => {
   editor.normalizeNode = (entry) => {
     const [node, path] = entry;
     if (Element.isElement(node)) {
-      if (node.type === 'content-link' || node.type === 'link') {
+      if (node.type === "content-link" || node.type === "link") {
         for (const [index, child] of node.children.entries()) {
           if (!Text.isText(child)) {
             return Transforms.unwrapNodes(editor, { at: [...path, index] });
           }
         }
-        if (Node.string(node) === '') {
+        if (Node.string(node) === "") {
           return Transforms.removeNodes(editor, { at: path });
         }
       }

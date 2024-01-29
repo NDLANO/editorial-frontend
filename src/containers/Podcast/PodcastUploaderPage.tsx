@@ -6,10 +6,10 @@
  *
  */
 
-import CreatePodcast from './CreatePodcast';
-import EditPodcast from './EditPodcast';
-import ResourcePage from '../../components/ResourcePage';
-import { useAudio } from '../../modules/audio/audioQueries';
+import CreatePodcast from "./CreatePodcast";
+import EditPodcast from "./EditPodcast";
+import ResourcePage from "../../components/ResourcePage";
+import { useAudio } from "../../modules/audio/audioQueries";
 
 const PodcastUploderPage = () => (
   <ResourcePage

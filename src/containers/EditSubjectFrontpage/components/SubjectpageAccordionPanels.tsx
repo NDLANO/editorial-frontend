@@ -6,23 +6,23 @@
  *
  */
 
-import { FormikErrors } from 'formik';
-import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
+import { FormikErrors } from "formik";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 
-import { IArticle } from '@ndla/types-backend/draft-api';
-import { ILearningPathV2 } from '@ndla/types-backend/learningpath-api';
-import { Node } from '@ndla/types-taxonomy';
+import { IArticle } from "@ndla/types-backend/draft-api";
+import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
+import { Node } from "@ndla/types-taxonomy";
 
-import SubjectpageAbout from './SubjectpageAbout';
-import SubjectpageArticles from './SubjectpageArticles';
-import SubjectpageMetadata from './SubjectpageMetadata';
-import SubjectpageSubjectlinks from './SubjectpageSubjectlinks';
-import FormAccordion from '../../../components/Accordion/FormAccordion';
-import FormAccordions from '../../../components/Accordion/FormAccordions';
-import FormikField from '../../../components/FormikField';
-import { useSearchNodes } from '../../../modules/nodes/nodeQueries';
-import { SubjectPageFormikType } from '../../../util/subjectHelpers';
+import SubjectpageAbout from "./SubjectpageAbout";
+import SubjectpageArticles from "./SubjectpageArticles";
+import SubjectpageMetadata from "./SubjectpageMetadata";
+import SubjectpageSubjectlinks from "./SubjectpageSubjectlinks";
+import FormAccordion from "../../../components/Accordion/FormAccordion";
+import FormAccordions from "../../../components/Accordion/FormAccordions";
+import FormikField from "../../../components/FormikField";
+import { useSearchNodes } from "../../../modules/nodes/nodeQueries";
+import { SubjectPageFormikType } from "../../../util/subjectHelpers";
 
 interface Props {
   buildsOn: string[];
@@ -33,14 +33,7 @@ interface Props {
   leadsTo: string[];
 }
 
-const SubjectpageAccordionPanels = ({
-  buildsOn,
-  connectedTo,
-  editorsChoices,
-  elementId,
-  errors,
-  leadsTo,
-}: Props) => {
+const SubjectpageAccordionPanels = ({ buildsOn, connectedTo, editorsChoices, elementId, errors, leadsTo }: Props) => {
   const { t } = useTranslation();
 
   const subjectsLinks = buildsOn.concat(connectedTo).concat(leadsTo);
@@ -48,8 +41,8 @@ const SubjectpageAccordionPanels = ({
   const { data: nodeData } = useSearchNodes(
     {
       page: 1,
-      taxonomyVersion: 'default',
-      nodeType: 'SUBJECT',
+      taxonomyVersion: "default",
+      nodeType: "SUBJECT",
       pageSize: subjectsLinks.length,
       ids: subjectsLinks,
     },
@@ -75,53 +68,44 @@ const SubjectpageAccordionPanels = ({
   };
 
   const SubjectPageArticle = () => (
-    <SubjectpageArticles
-      editorsChoices={editorsChoices}
-      elementId={elementId}
-      fieldName={'editorsChoices'}
-    />
+    <SubjectpageArticles editorsChoices={editorsChoices} elementId={elementId} fieldName={"editorsChoices"} />
   );
 
   return (
-    <FormAccordions defaultOpen={['about']}>
+    <FormAccordions defaultOpen={["about"]}>
       <FormAccordion
         id="about"
-        title={t('subjectpageForm.about')}
+        title={t("subjectpageForm.about")}
         className="u-4/6@desktop u-push-1/6@desktop"
-        hasError={['title', 'description', 'visualElement'].some((field) => field in errors)}
+        hasError={["title", "description", "visualElement"].some((field) => field in errors)}
       >
         <SubjectpageAbout />
       </FormAccordion>
       <FormAccordion
         id="metadata"
-        title={t('subjectpageForm.metadata')}
+        title={t("subjectpageForm.metadata")}
         className="u-6/6"
-        hasError={['metaDescription', 'desktopBannerId', 'mobileBannerId'].some(
-          (field) => field in errors,
-        )}
+        hasError={["metaDescription", "desktopBannerId", "mobileBannerId"].some((field) => field in errors)}
       >
         <SubjectpageMetadata />
       </FormAccordion>
       <FormAccordion
         id="subjectlinks"
-        title={t('subjectpageForm.subjectlinks')}
+        title={t("subjectpageForm.subjectlinks")}
         className="u-6/6"
-        hasError={['connectedTo', 'buildsOn', 'leadsTo'].some((field) => field in errors)}
+        hasError={["connectedTo", "buildsOn", "leadsTo"].some((field) => field in errors)}
       >
-        <SubjectpageSubjectlinks
-          subjects={transformToNodes(connectedTo)}
-          fieldName={'connectedTo'}
-        />
-        <SubjectpageSubjectlinks subjects={transformToNodes(buildsOn)} fieldName={'buildsOn'} />
-        <SubjectpageSubjectlinks subjects={transformToNodes(leadsTo)} fieldName={'leadsTo'} />
+        <SubjectpageSubjectlinks subjects={transformToNodes(connectedTo)} fieldName={"connectedTo"} />
+        <SubjectpageSubjectlinks subjects={transformToNodes(buildsOn)} fieldName={"buildsOn"} />
+        <SubjectpageSubjectlinks subjects={transformToNodes(leadsTo)} fieldName={"leadsTo"} />
       </FormAccordion>
       <FormAccordion
         id="articles"
-        title={t('subjectpageForm.articles')}
+        title={t("subjectpageForm.articles")}
         className="u-6/6"
-        hasError={['editorsChoices'].some((field) => field in errors)}
+        hasError={["editorsChoices"].some((field) => field in errors)}
       >
-        <FormikField name={'editorsChoices'}>{SubjectPageArticle}</FormikField>
+        <FormikField name={"editorsChoices"}>{SubjectPageArticle}</FormikField>
       </FormAccordion>
     </FormAccordions>
   );

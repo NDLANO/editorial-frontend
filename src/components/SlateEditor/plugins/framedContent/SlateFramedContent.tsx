@@ -6,15 +6,15 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { Editor, Element, Transforms } from 'slate';
-import { ReactEditor, RenderElementProps } from 'slate-react';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { FramedContent } from '@ndla/ui';
-import { TYPE_FRAMED_CONTENT } from './types';
-import DeleteButton from '../../../DeleteButton';
-import MoveContentButton from '../../../MoveContentButton';
+import { useTranslation } from "react-i18next";
+import { Editor, Element, Transforms } from "slate";
+import { ReactEditor, RenderElementProps } from "slate-react";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { FramedContent } from "@ndla/ui";
+import { TYPE_FRAMED_CONTENT } from "./types";
+import DeleteButton from "../../../DeleteButton";
+import MoveContentButton from "../../../MoveContentButton";
 
 const StyledFramedContent = styled(FramedContent)`
   display: flex;
@@ -64,7 +64,7 @@ const SlateFramedContent = (props: Props & RenderElementProps) => {
     setTimeout(() => {
       ReactEditor.focus(editor);
       Transforms.select(editor, path);
-      Transforms.collapse(editor, { edge: 'start' });
+      Transforms.collapse(editor, { edge: "start" });
     }, 0);
   };
 
@@ -73,7 +73,7 @@ const SlateFramedContent = (props: Props & RenderElementProps) => {
       <ButtonContainer>
         <MoveContentButton onMouseDown={onMoveContent} />
         <DeleteButton
-          aria-label={t('form.remove')}
+          aria-label={t("form.remove")}
           tabIndex={-1}
           data-testid="remove-framedContent"
           colorTheme="danger"

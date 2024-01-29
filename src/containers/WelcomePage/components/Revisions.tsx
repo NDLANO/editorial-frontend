@@ -6,22 +6,22 @@
  *
  */
 
-import addYears from 'date-fns/addYears';
-import { memo, useCallback, useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { mq, breakpoints, colors, spacing } from '@ndla/core';
-import { Alarm, Time } from '@ndla/icons/common';
-import Pager from '@ndla/pager';
-import Tooltip from '@ndla/tooltip';
-import { IUserData } from '@ndla/types-backend/draft-api';
-import { IMultiSearchSummary } from '@ndla/types-backend/search-api';
-import GoToSearch from './GoToSearch';
-import TableComponent, { FieldElement, TitleElement } from './TableComponent';
-import TableTitle from './TableTitle';
-import PageSizeDropdown from './worklist/PageSizeDropdown';
-import SubjectDropdown from './worklist/SubjectDropdown';
-import { getWarnStatus } from '../../../components/HeaderWithLanguage/HeaderStatusInformation';
+import addYears from "date-fns/addYears";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { mq, breakpoints, colors, spacing } from "@ndla/core";
+import { Alarm, Time } from "@ndla/icons/common";
+import Pager from "@ndla/pager";
+import Tooltip from "@ndla/tooltip";
+import { IUserData } from "@ndla/types-backend/draft-api";
+import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
+import GoToSearch from "./GoToSearch";
+import TableComponent, { FieldElement, TitleElement } from "./TableComponent";
+import TableTitle from "./TableTitle";
+import PageSizeDropdown from "./worklist/PageSizeDropdown";
+import SubjectDropdown from "./worklist/SubjectDropdown";
+import { getWarnStatus } from "../../../components/HeaderWithLanguage/HeaderStatusInformation";
 import {
   FAVOURITES_SUBJECT_ID,
   PUBLISHED,
@@ -30,17 +30,17 @@ import {
   STORED_PAGE_SIZE_REVISION,
   STORED_FILTER_REVISION,
   STORED_PRIMARY_CONNECTION,
-} from '../../../constants';
-import { useSearch } from '../../../modules/search/searchQueries';
-import formatDate, { formatDateForBackend } from '../../../util/formatDate';
-import { toEditArticle } from '../../../util/routeHelpers';
-import { getExpirationDate } from '../../ArticlePage/articleTransformers';
+} from "../../../constants";
+import { useSearch } from "../../../modules/search/searchQueries";
+import formatDate, { formatDateForBackend } from "../../../util/formatDate";
+import { toEditArticle } from "../../../util/routeHelpers";
+import { getExpirationDate } from "../../ArticlePage/articleTransformers";
 import {
   useStoredPageSizeHook,
   useStoredSortOptionHook,
   useStoredSubjectFilterHook,
   useStoredToggle,
-} from '../hooks/storedFilterHooks';
+} from "../hooks/storedFilterHooks";
 import {
   ControlWrapperDashboard,
   StyledDashboardInfo,
@@ -49,7 +49,7 @@ import {
   StyledTopRowDashboardInfo,
   SwitchWrapper,
   TopRowControls,
-} from '../styles';
+} from "../styles";
 
 const RevisionsWrapper = styled.div`
   ${mq.range({ from: breakpoints.tabletWide })} {
@@ -69,24 +69,23 @@ const IconWrapper = styled.div`
 `;
 
 const StyledTimeIcon = styled(Time)`
-  &[data-status='warn'] {
+  &[data-status="warn"] {
     fill: ${colors.tasksAndActivities.dark};
   }
-  &[data-status='expired'] {
+  &[data-status="expired"] {
     fill: ${colors.support.red};
   }
   width: 20px;
   height: 20px;
 `;
 
-const getLastPage = (totalCount: number, pageSize: number) =>
-  Math.ceil(totalCount / (pageSize ?? 1));
+const getLastPage = (totalCount: number, pageSize: number) => Math.ceil(totalCount / (pageSize ?? 1));
 
 interface Props {
   userData: IUserData | undefined;
 }
 
-type SortOptionRevision = 'title' | 'revisionDate' | 'status';
+type SortOptionRevision = "title" | "revisionDate" | "status";
 
 const Revisions = ({ userData }: Props) => {
   const {
@@ -94,38 +93,43 @@ const Revisions = ({ userData }: Props) => {
     i18n: { language },
   } = useTranslation();
 
-  const { filterSubject, setFilterSubject } = useStoredSubjectFilterHook(
-    STORED_FILTER_REVISION,
-    language,
-  );
+  const { filterSubject, setFilterSubject } = useStoredSubjectFilterHook(STORED_FILTER_REVISION, language);
   const { pageSize, setPageSize } = useStoredPageSizeHook(STORED_PAGE_SIZE_REVISION);
   const { sortOption, setSortOption } = useStoredSortOptionHook<SortOptionRevision>(
     STORED_SORT_OPTION_REVISION,
-    'revisionDate',
+    "revisionDate",
   );
   const { isOn, setIsOn } = useStoredToggle(STORED_PRIMARY_CONNECTION);
   const [page, setPage] = useState(1);
 
+  useEffect(() => {
+    setPage(1);
+  }, [pageSize]);
+
   const tableTitles: TitleElement<SortOptionRevision>[] = [
-    { title: t('form.name.title'), sortableField: 'title', width: '40%' },
-    { title: t('welcomePage.workList.status'), sortableField: 'status', width: '15%' },
-    { title: t('welcomePage.workList.primarySubject') },
-    { title: t('welcomePage.revisionDate'), sortableField: 'revisionDate' },
+    { title: t("form.name.title"), sortableField: "title", width: "40%" },
+    {
+      title: t("welcomePage.workList.status"),
+      sortableField: "status",
+      width: "15%",
+    },
+    { title: t("welcomePage.workList.primarySubject") },
+    { title: t("welcomePage.revisionDate"), sortableField: "revisionDate" },
   ];
 
   const currentDateAddYear = formatDateForBackend(addYears(new Date(), 1));
 
   const { data, isLoading, isError } = useSearch(
     {
-      subjects: filterSubject ? filterSubject.value : userData?.favoriteSubjects?.join(','),
-      'revision-date-to': currentDateAddYear,
+      subjects: filterSubject ? filterSubject.value : userData?.favoriteSubjects?.join(","),
+      "revision-date-to": currentDateAddYear,
       sort: sortOption,
       page: page,
-      'page-size': Number(pageSize!.value),
+      "page-size": Number(pageSize!.value),
       language,
       fallback: true,
-      'draft-status': PUBLISHED,
-      'include-other-statuses': true,
+      "draft-status": PUBLISHED,
+      "include-other-statuses": true,
     },
     {
       enabled: !!userData?.favoriteSubjects?.length,
@@ -134,7 +138,7 @@ const Revisions = ({ userData }: Props) => {
 
   const error = useMemo(() => {
     if (isError) {
-      return t('welcomePage.errorMessage');
+      return t("welcomePage.errorMessage");
     }
   }, [t, isError]);
 
@@ -143,14 +147,16 @@ const Revisions = ({ userData }: Props) => {
       const filteredResult = results
         ?.map((r) => {
           const primarySubject = r.contexts.find((c) => c.isPrimary);
-          const isFavorite = userData?.favoriteSubjects?.some(
-            (fs) => fs === primarySubject?.rootId,
-          );
+          const isFavorite = userData?.favoriteSubjects?.some((fs) => fs === primarySubject?.rootId);
           return isFavorite ? r : undefined;
         })
         .filter((fd): fd is IMultiSearchSummary => !!fd);
 
-      return { results: filteredResult, totalCount: filteredResult?.length ?? 0, pageSize: 6 };
+      return {
+        results: filteredResult,
+        totalCount: filteredResult?.length ?? 0,
+        pageSize: 6,
+      };
     },
     [userData?.favoriteSubjects],
   );
@@ -164,19 +170,11 @@ const Revisions = ({ userData }: Props) => {
             totalCount: data?.totalCount,
             pageSize: data?.pageSize ?? Number(pageSize!.value),
           },
-    [
-      isOn,
-      data?.pageSize,
-      data?.results,
-      data?.totalCount,
-      getDataPrimaryConnectionToFavorite,
-      pageSize,
-    ],
+    [isOn, data?.pageSize, data?.results, data?.totalCount, getDataPrimaryConnectionToFavorite, pageSize],
   );
 
   const lastPage = useMemo(
-    () =>
-      filteredData.totalCount ? getLastPage(filteredData.totalCount, filteredData.pageSize) : 1,
+    () => (filteredData.totalCount ? getLastPage(filteredData.totalCount, filteredData.pageSize) : 1),
     [filteredData.pageSize, filteredData.totalCount],
   );
 
@@ -187,14 +185,12 @@ const Revisions = ({ userData }: Props) => {
   const tableData: FieldElement[][] = useMemo(
     () =>
       filteredData.results?.map((resource) => {
-        const expirationDate = resource.revisions.length
-          ? getExpirationDate({ revisions: resource.revisions })!
-          : '';
+        const expirationDate = resource.revisions.length ? getExpirationDate({ revisions: resource.revisions })! : "";
         const revisions = resource.revisions
           .filter((revision) => revision.status !== Revision.revised)
           .sort((a, b) => (a.revisionDate > b.revisionDate ? 1 : -1))
           .map((revision) => `${formatDate(revision.revisionDate)}: ${revision.note}`)
-          .join('\n');
+          .join("\n");
 
         return [
           {
@@ -219,13 +215,11 @@ const Revisions = ({ userData }: Props) => {
           },
           {
             id: `status_${resource.id}`,
-            data: resource.status?.current
-              ? t(`form.status.${resource.status.current.toLowerCase()}`)
-              : '',
+            data: resource.status?.current ? t(`form.status.${resource.status.current.toLowerCase()}`) : "",
           },
           {
             id: `primarySubject_${resource.id}`,
-            data: resource.contexts.find((context) => context.isPrimaryConnection)?.subject ?? '',
+            data: resource.contexts.find((context) => context.isPrimaryConnection)?.subject ?? "",
           },
           {
             id: `lastUpdated_${resource.id}`,
@@ -241,10 +235,10 @@ const Revisions = ({ userData }: Props) => {
       <StyledDashboardInfo>
         <StyledTopRowDashboardInfo>
           <TableTitle
-            title={t('welcomePage.revision')}
-            description={t('welcomePage.revisionDescription')}
+            title={t("welcomePage.revision")}
+            description={t("welcomePage.revisionDescription")}
             Icon={Alarm}
-            infoText={t('welcomePage.revisionInfo')}
+            infoText={t("welcomePage.revisionInfo")}
           />
           <ControlWrapperDashboard>
             <TopRowControls>
@@ -253,7 +247,7 @@ const Revisions = ({ userData }: Props) => {
                 subjectIds={userData?.favoriteSubjects ?? []}
                 filterSubject={filterSubject}
                 setFilterSubject={setFilterSubject}
-                placeholder={t('welcomePage.chooseFavoriteSubject')}
+                placeholder={t("welcomePage.chooseFavoriteSubject")}
                 removeArchived
               />
               <GoToSearch
@@ -262,7 +256,7 @@ const Revisions = ({ userData }: Props) => {
                 revisionDateTo={currentDateAddYear}
               />
             </TopRowControls>
-            <Tooltip tooltip={t('welcomePage.primaryConnection')}>
+            <Tooltip tooltip={t("welcomePage.primaryConnection")}>
               <SwitchWrapper>
                 <StyledSwitch
                   checked={isOn}
@@ -270,7 +264,7 @@ const Revisions = ({ userData }: Props) => {
                     setIsOn(!isOn);
                     setPage(1);
                   }}
-                  label={t('welcomePage.primaryConnectionLabel')}
+                  label={t("welcomePage.primaryConnectionLabel")}
                   id="filter-primary-connection-switch"
                 />
               </SwitchWrapper>
@@ -284,7 +278,7 @@ const Revisions = ({ userData }: Props) => {
           setSortOption={setSortOption}
           sortOption={sortOption}
           error={error}
-          noResultsText={t('welcomePage.emptyRevision')}
+          noResultsText={t("welcomePage.emptyRevision")}
           minWidth="500px"
         />
         <Pager

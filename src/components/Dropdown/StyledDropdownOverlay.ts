@@ -6,9 +6,9 @@
  *
  */
 
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { misc, spacing, shadows, stackOrder } from '@ndla/core';
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { misc, spacing, shadows, stackOrder } from "@ndla/core";
 
 interface Props {
   withArrow: boolean;
@@ -27,7 +27,7 @@ export const StyledDropdownOverlay = styled.div`
     props.withArrow
       ? css`
           &:before {
-            content: '';
+            content: "";
             display: block;
             position: absolute;
             top: -${spacing.small};

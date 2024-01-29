@@ -6,20 +6,17 @@
  *
  */
 
-import keyBy from 'lodash/keyBy';
-import { IArticleSummaryV2, ISearchResultV2 } from '@ndla/types-backend/article-api';
-import { IMenu } from '@ndla/types-backend/frontpage-api';
-import { MenuWithArticle } from './types';
+import keyBy from "lodash/keyBy";
+import { IArticleSummaryV2, ISearchResultV2 } from "@ndla/types-backend/article-api";
+import { IMenu } from "@ndla/types-backend/frontpage-api";
+import { MenuWithArticle } from "./types";
 
 export const extractArticleIds = (menu: IMenu): number[] => {
   const childIds = menu.menu.map((m) => extractArticleIds(m)).flat();
   return [menu.articleId].concat(childIds);
 };
 
-const _addArticlesToMenu = (
-  menu: IMenu,
-  articles: Record<number, IArticleSummaryV2>,
-): MenuWithArticle => {
+const _addArticlesToMenu = (menu: IMenu, articles: Record<number, IArticleSummaryV2>): MenuWithArticle => {
   const article = articles[menu.articleId];
   const children = menu.menu.map((m) => _addArticlesToMenu(m, articles));
   return { article: article, articleId: menu.articleId, menu: children };
@@ -33,7 +30,7 @@ export const addArticlesToAboutMenu = (menu: IMenu | undefined, articles: ISearc
 
 export const menuWithArticleToIMenu = (menu: MenuWithArticle): IMenu => {
   return {
-    articleId: typeof menu.article === 'number' ? menu.article : menu.articleId,
+    articleId: typeof menu.article === "number" ? menu.article : menu.articleId,
     menu: menu.menu.map((m) => menuWithArticleToIMenu(m)),
   };
 };

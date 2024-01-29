@@ -6,8 +6,8 @@
  *
  */
 
-import { Descendant, Editor, Range } from 'slate';
-import { ReactEditor } from 'slate-react';
+import { Descendant, Editor, Range } from "slate";
+import { ReactEditor } from "slate-react";
 
 const isNodeInCurrentSelection = (editor: Editor, node: Descendant) => {
   if (!editor.selection) {

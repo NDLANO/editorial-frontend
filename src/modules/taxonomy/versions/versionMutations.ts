@@ -6,9 +6,9 @@
  *
  */
 
-import { useMutation, UseMutationOptions } from '@tanstack/react-query';
-import { VersionPostPut } from '@ndla/types-taxonomy';
-import { deleteVersion, postVersion, publishVersion, putVersion } from './versionApi';
+import { useMutation, UseMutationOptions } from "@tanstack/react-query";
+import { VersionPostPut } from "@ndla/types-taxonomy";
+import { deleteVersion, postVersion, publishVersion, putVersion } from "./versionApi";
 
 interface UsePostVersionMutationParams {
   body: VersionPostPut;

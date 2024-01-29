@@ -6,38 +6,38 @@
  *
  */
 
-import queryString from 'query-string';
-import { Node } from '@ndla/types-taxonomy';
-import SearchAudioForm from './SearchAudioForm';
-import SearchConceptForm from './SearchConceptForm';
-import SearchContentForm from './SearchContentForm';
-import SearchImageForm from './SearchImageForm';
-import SearchPodcastSeriesForm from './SearchPodcastSeriesForm';
-import { SearchType } from '../../../../interfaces';
+import queryString from "query-string";
+import { Node } from "@ndla/types-taxonomy";
+import SearchAudioForm from "./SearchAudioForm";
+import SearchConceptForm from "./SearchConceptForm";
+import SearchContentForm from "./SearchContentForm";
+import SearchImageForm from "./SearchImageForm";
+import SearchPodcastSeriesForm from "./SearchPodcastSeriesForm";
+import { SearchType } from "../../../../interfaces";
 
 export interface SearchParams {
   query?: string;
-  'draft-status'?: string;
-  'include-other-statuses'?: boolean;
-  'resource-types'?: string;
-  'audio-type'?: string;
+  "draft-status"?: string;
+  "include-other-statuses"?: boolean;
+  "resource-types"?: string;
+  "audio-type"?: string;
   fallback?: boolean;
   language?: string;
   page?: number;
-  'page-size'?: number;
+  "page-size"?: number;
   status?: string;
   subjects?: string;
   users?: string;
   sort?: string;
   type?: string;
   license?: string;
-  'model-released'?: string;
-  'revision-date-from'?: string;
-  'revision-date-to'?: string;
-  'exclude-revision-log'?: boolean | undefined;
-  'responsible-ids'?: string;
-  'concept-type'?: string;
-  'filter-inactive'?: boolean;
+  "model-released"?: string;
+  "revision-date-from"?: string;
+  "revision-date-to"?: string;
+  "exclude-revision-log"?: boolean | undefined;
+  "responsible-ids"?: string;
+  "concept-type"?: string;
+  "filter-inactive"?: boolean;
 }
 
 export const parseSearchParams = (locationSearch: string): SearchParams => {
@@ -46,7 +46,7 @@ export const parseSearchParams = (locationSearch: string): SearchParams => {
   const parseBooleanParam = (key: string, fallback = false): boolean => {
     const value = queryStringObject[key];
     if (!value) return fallback;
-    return value === 'true';
+    return value === "true";
   };
 
   const parseNumberParam = (key: string): number | undefined => {
@@ -57,27 +57,27 @@ export const parseSearchParams = (locationSearch: string): SearchParams => {
 
   return {
     query: queryStringObject.query,
-    'draft-status': queryStringObject['draft-status'],
-    'include-other-statuses': parseBooleanParam('include-other-statuses'),
-    'resource-types': queryStringObject['resource-types'],
-    'audio-type': queryStringObject['audio-type'],
-    'concept-type': queryStringObject['concept-type'],
-    'model-released': queryStringObject['model-released'],
-    fallback: parseBooleanParam('fallback'),
+    "draft-status": queryStringObject["draft-status"],
+    "include-other-statuses": parseBooleanParam("include-other-statuses"),
+    "resource-types": queryStringObject["resource-types"],
+    "audio-type": queryStringObject["audio-type"],
+    "concept-type": queryStringObject["concept-type"],
+    "model-released": queryStringObject["model-released"],
+    fallback: parseBooleanParam("fallback"),
     language: queryStringObject.language,
     license: queryStringObject.license,
-    page: parseNumberParam('page'),
-    'page-size': parseNumberParam('page-size'),
+    page: parseNumberParam("page"),
+    "page-size": parseNumberParam("page-size"),
     sort: queryStringObject.sort,
     status: queryStringObject.status,
     subjects: queryStringObject.subjects,
     type: queryStringObject.type,
     users: queryStringObject.users,
-    'revision-date-from': queryStringObject['revision-date-from'],
-    'revision-date-to': queryStringObject['revision-date-to'],
-    'exclude-revision-log': parseBooleanParam('exclude-revision-log'),
-    'responsible-ids': queryStringObject['responsible-ids'],
-    'filter-inactive': parseBooleanParam('filter-inactive', true),
+    "revision-date-from": queryStringObject["revision-date-from"],
+    "revision-date-to": queryStringObject["revision-date-to"],
+    "exclude-revision-log": parseBooleanParam("exclude-revision-log"),
+    "responsible-ids": queryStringObject["responsible-ids"],
+    "filter-inactive": parseBooleanParam("filter-inactive", true),
   };
 };
 
@@ -92,15 +92,15 @@ interface Props {
 
 const SearchForm = ({ type, searchObject, userId, ...rest }: Props) => {
   switch (type) {
-    case 'content':
+    case "content":
       return <SearchContentForm searchObject={searchObject} userId={userId} {...rest} />;
-    case 'audio':
+    case "audio":
       return <SearchAudioForm searchObject={searchObject} {...rest} />;
-    case 'image':
+    case "image":
       return <SearchImageForm searchObject={searchObject} {...rest} />;
-    case 'concept':
+    case "concept":
       return <SearchConceptForm searchObject={searchObject} {...rest} />;
-    case 'podcast-series':
+    case "podcast-series":
       return <SearchPodcastSeriesForm searchObject={searchObject} {...rest} />;
     default:
       return <p>{`This type: ${type} is not supported`}</p>;

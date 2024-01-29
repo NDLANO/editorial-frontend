@@ -6,9 +6,9 @@
  *
  */
 
-import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
-import { colors, spacing, stackOrder } from '@ndla/core';
+import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
+import { colors, spacing, stackOrder } from "@ndla/core";
 
 export const StyledDeleteEmbedButton = styled(IconButtonV2)`
   &:hover,

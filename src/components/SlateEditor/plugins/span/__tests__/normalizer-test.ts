@@ -6,19 +6,19 @@
  *
  */
 
-import { createEditor, Descendant, Editor } from 'slate';
-import { withHistory } from 'slate-history';
-import { withReact } from 'slate-react';
-import { learningResourcePlugins } from '../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins';
-import withPlugins from '../../../utils/withPlugins';
-import { TYPE_PARAGRAPH } from '../../paragraph/types';
-import { TYPE_SECTION } from '../../section/types';
-import { TYPE_SPAN } from '../types';
+import { createEditor, Descendant, Editor } from "slate";
+import { withHistory } from "slate-history";
+import { withReact } from "slate-react";
+import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
+import withPlugins from "../../../utils/withPlugins";
+import { TYPE_PARAGRAPH } from "../../paragraph/types";
+import { TYPE_SECTION } from "../../section/types";
+import { TYPE_SPAN } from "../types";
 
 const editor = withHistory(withReact(withPlugins(createEditor(), learningResourcePlugins)));
 
-describe('span normalizer tests', () => {
-  test('Span with language remains after normalization', () => {
+describe("span normalizer tests", () => {
+  test("Span with language remains after normalization", () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
@@ -26,9 +26,13 @@ describe('span normalizer tests', () => {
           {
             type: TYPE_PARAGRAPH,
             children: [
-              { text: '' },
-              { type: TYPE_SPAN, data: { lang: 'en' }, children: [{ text: 'test' }] },
-              { text: '' },
+              { text: "" },
+              {
+                type: TYPE_SPAN,
+                data: { lang: "en" },
+                children: [{ text: "test" }],
+              },
+              { text: "" },
             ],
           },
         ],
@@ -42,9 +46,13 @@ describe('span normalizer tests', () => {
           {
             type: TYPE_PARAGRAPH,
             children: [
-              { text: '' },
-              { type: TYPE_SPAN, data: { lang: 'en' }, children: [{ text: 'test' }] },
-              { text: '' },
+              { text: "" },
+              {
+                type: TYPE_SPAN,
+                data: { lang: "en" },
+                children: [{ text: "test" }],
+              },
+              { text: "" },
             ],
           },
         ],

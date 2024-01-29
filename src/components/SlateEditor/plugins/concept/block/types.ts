@@ -6,6 +6,6 @@
  *
  */
 
-export const TYPE_CONCEPT_BLOCK = 'concept-block';
+export const TYPE_CONCEPT_BLOCK = "concept-block";
 
-export const TYPE_GLOSS_BLOCK = 'gloss-block';
+export const TYPE_GLOSS_BLOCK = "gloss-block";

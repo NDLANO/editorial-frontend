@@ -6,31 +6,31 @@
  *
  */
 
-import orderBy from 'lodash/orderBy';
-import { useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import Tabs from '@ndla/tabs';
-import { IConceptSearchResult, IConceptSummary } from '@ndla/types-backend/concept-api';
-import { IArticleSummary, ISearchResult } from '@ndla/types-backend/draft-api';
-import LastUsedConcepts from './LastUsedConcepts';
-import LastUsedResources from './LastUsedResources';
-import { Prefix, TitleElement } from './TableComponent';
+import orderBy from "lodash/orderBy";
+import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import Tabs from "@ndla/tabs";
+import { IConceptSearchResult, IConceptSummary } from "@ndla/types-backend/concept-api";
+import { IArticleSummary, ISearchResult } from "@ndla/types-backend/draft-api";
+import LastUsedConcepts from "./LastUsedConcepts";
+import LastUsedResources from "./LastUsedResources";
+import { Prefix, TitleElement } from "./TableComponent";
 import {
   STORED_PAGE_SIZE_LAST_UPDATED,
   STORED_PAGE_SIZE_LAST_UPDATED_CONCEPT,
   STORED_SORT_OPTION_LAST_USED,
   STORED_SORT_OPTION_LAST_USED_CONCEPT,
-} from '../../../constants';
-import { useSearchConcepts } from '../../../modules/concept/conceptQueries';
-import { useSearchDrafts } from '../../../modules/draft/draftQueries';
-import { useStoredPageSizeHook, useStoredSortOptionHook } from '../hooks/storedFilterHooks';
+} from "../../../constants";
+import { useSearchConcepts } from "../../../modules/concept/conceptQueries";
+import { useSearchDrafts } from "../../../modules/draft/draftQueries";
+import { useStoredPageSizeHook, useStoredSortOptionHook } from "../hooks/storedFilterHooks";
 
-export type SortOptionLastUsed = 'title' | 'lastUpdated';
+export type SortOptionLastUsed = "title" | "lastUpdated";
 
 const getLastPage = (pageSize: number, res?: ISearchResult | IConceptSearchResult) =>
   res?.results.length ? Math.ceil(res.results.length / pageSize) : 1;
 
-type SortOptionType = Prefix<'-', SortOptionLastUsed>;
+type SortOptionType = Prefix<"-", SortOptionLastUsed>;
 
 const getSortedPaginationData = <T extends IConceptSummary | IArticleSummary>(
   page: number,
@@ -38,7 +38,7 @@ const getSortedPaginationData = <T extends IConceptSummary | IArticleSummary>(
   data: T[],
   pageSize: number,
 ): T[] => {
-  const sortDesc = sortOption.charAt(0) === '-';
+  const sortDesc = sortOption.charAt(0) === "-";
   // Pagination logic. startIndex indicates start position in data.results for current page
   // currentPageElements is data to be displayed at current page
   const startIndex = page > 1 ? (page - 1) * pageSize : 0;
@@ -46,9 +46,8 @@ const getSortedPaginationData = <T extends IConceptSummary | IArticleSummary>(
 
   return orderBy(
     currentPageElements,
-    (e) =>
-      sortOption.includes('title') ? e.title?.title : 'updated' in e ? e.updated : e.lastUpdated,
-    [sortDesc ? 'desc' : 'asc'],
+    (e) => (sortOption.includes("title") ? e.title?.title : "updated" in e ? e.updated : e.lastUpdated),
+    [sortDesc ? "desc" : "asc"],
   );
 };
 interface Props {
@@ -66,7 +65,7 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [] }: Props)
   const { pageSize, setPageSize } = useStoredPageSizeHook(STORED_PAGE_SIZE_LAST_UPDATED);
   const { sortOption, setSortOption } = useStoredSortOptionHook<SortOptionLastUsed>(
     STORED_SORT_OPTION_LAST_USED,
-    '-lastUpdated',
+    "-lastUpdated",
   );
   const [page, setPage] = useState(1);
 
@@ -75,16 +74,21 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [] }: Props)
     STORED_PAGE_SIZE_LAST_UPDATED_CONCEPT,
   );
   const { sortOption: sortOptionConcept, setSortOption: setSortOptionConcept } =
-    useStoredSortOptionHook<SortOptionLastUsed>(
-      STORED_SORT_OPTION_LAST_USED_CONCEPT,
-      '-lastUpdated',
-    );
+    useStoredSortOptionHook<SortOptionLastUsed>(STORED_SORT_OPTION_LAST_USED_CONCEPT, "-lastUpdated");
   const [pageConcept, setPageConcept] = useState(1);
+
+  useEffect(() => {
+    setPage(1);
+  }, [pageSize]);
+
+  useEffect(() => {
+    setPageConcept(1);
+  }, [pageSizeConcept]);
 
   const searchDraftsQuery = useSearchDrafts(
     {
       ids: lastUsedResources!,
-      sort: '-lastUpdated',
+      sort: "-lastUpdated",
       language,
       pageSize: Number(pageSize!.value),
     },
@@ -92,7 +96,7 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [] }: Props)
   );
 
   const searchConceptsQuery = useSearchConcepts(
-    { ids: lastUsedConcepts.join(',')!, sort: '-lastUpdated', language },
+    { ids: lastUsedConcepts.join(",")!, sort: "-lastUpdated", language },
     {
       enabled: !!lastUsedConcepts.length,
     },
@@ -100,25 +104,20 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [] }: Props)
 
   const draftsError = useMemo(() => {
     if (searchDraftsQuery.isError) {
-      return t('welcomePage.errorMessage');
+      return t("welcomePage.errorMessage");
     }
   }, [searchDraftsQuery.isError, t]);
 
   const conceptsError = useMemo(() => {
     if (searchConceptsQuery.isError) {
-      return t('welcomePage.errorMessage');
+      return t("welcomePage.errorMessage");
     }
   }, [searchConceptsQuery.isError, t]);
 
   const sortedData = useMemo(
     () =>
       searchDraftsQuery.data?.results
-        ? getSortedPaginationData(
-            page,
-            sortOption,
-            searchDraftsQuery.data.results,
-            Number(pageSize!.value),
-          )
+        ? getSortedPaginationData(page, sortOption, searchDraftsQuery.data.results, Number(pageSize!.value))
         : [],
     [searchDraftsQuery.data, page, sortOption, pageSize],
   );
@@ -146,18 +145,22 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [] }: Props)
   );
 
   const tableTitles: TitleElement<SortOptionLastUsed>[] = [
-    { title: t('form.name.title'), sortableField: 'title' },
-    { title: t('welcomePage.updated'), sortableField: 'lastUpdated', width: '40%' },
+    { title: t("form.name.title"), sortableField: "title" },
+    {
+      title: t("welcomePage.updated"),
+      sortableField: "lastUpdated",
+      width: "40%",
+    },
   ];
 
   return (
     <Tabs
       variant="rounded"
-      aria-label={t('welcomePage.lastUsed')}
+      aria-label={t("welcomePage.lastUsed")}
       tabs={[
         {
-          title: `${t('taxonomy.resources')} (${searchDraftsQuery.data?.totalCount ?? 0})`,
-          id: 'articles',
+          title: `${t("taxonomy.resources")} (${searchDraftsQuery.data?.totalCount ?? 0})`,
+          id: "articles",
           content: (
             <LastUsedResources
               data={sortedData}
@@ -175,8 +178,8 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [] }: Props)
           ),
         },
         {
-          title: `${t('form.name.concepts')} (${searchConceptsQuery.data?.totalCount ?? 0})`,
-          id: 'concepts',
+          title: `${t("form.name.concepts")} (${searchConceptsQuery.data?.totalCount ?? 0})`,
+          id: "concepts",
           content: (
             <LastUsedConcepts
               data={sortedConceptsData}

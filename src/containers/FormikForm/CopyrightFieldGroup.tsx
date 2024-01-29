@@ -6,14 +6,14 @@
  *
  */
 
-import { memo } from 'react';
-import { ContributorsField } from '.';
-import LicenseField from './components/LicenseField';
-import OriginField from './components/OriginField';
-import ProcessedField from './components/ProcessedField';
-import FormikField from '../../components/FormikField';
+import { memo } from "react";
+import { ContributorsField } from ".";
+import LicenseField from "./components/LicenseField";
+import OriginField from "./components/OriginField";
+import ProcessedField from "./components/ProcessedField";
+import FormikField from "../../components/FormikField";
 
-const contributorTypes = ['creators', 'rightsholders', 'processors'];
+const contributorTypes = ["creators", "rightsholders", "processors"];
 
 interface Props {
   enableLicenseNA?: boolean;

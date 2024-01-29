@@ -6,15 +6,15 @@
  *
  */
 
-import { FieldProps } from 'formik';
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Descendant } from 'slate';
-import { Spinner } from '@ndla/icons';
-import FormikField from '../../../components/FormikField';
-import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
-import { TitleField } from '../../FormikForm';
-import VisualElementField from '../../FormikForm/components/VisualElementField';
+import { FieldProps } from "formik";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Descendant } from "slate";
+import { Spinner } from "@ndla/icons";
+import FormikField from "../../../components/FormikField";
+import PlainTextEditor from "../../../components/SlateEditor/PlainTextEditor";
+import { TitleField } from "../../FormikForm";
+import VisualElementField from "../../FormikForm/components/VisualElementField";
 
 interface Props {
   selectedLanguage?: string;
@@ -35,23 +35,17 @@ const SubjectpageAbout = ({ selectedLanguage }: Props) => {
   return (
     <>
       <TitleField />
-      <FormikField
-        noBorder
-        label={t('subjectpageForm.description')}
-        name="description"
-        showMaxLength
-        maxLength={300}
-      >
+      <FormikField noBorder label={t("subjectpageForm.description")} name="description" showMaxLength maxLength={300}>
         {({ field, form: { isSubmitting } }: FieldProps<Descendant[]>) => (
           <PlainTextEditor
             id={field.name}
             {...field}
             submitted={isSubmitting}
-            placeholder={t('subjectpageForm.description')}
+            placeholder={t("subjectpageForm.description")}
           />
         )}
       </FormikField>
-      <VisualElementField types={['image', 'video']} />
+      <VisualElementField types={["image", "video"]} />
     </>
   );
 };

@@ -6,10 +6,10 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { colors, fonts, spacing } from '@ndla/core';
-import { uuid } from '@ndla/util';
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { colors, fonts, spacing } from "@ndla/core";
+import { uuid } from "@ndla/util";
 
 const FootnoteId = styled.sup`
   text-decoration: underline;
@@ -33,9 +33,9 @@ interface FootnoteProps {
 
 const Footnote = ({ footnote, id }: FootnoteProps) => {
   const { t } = useTranslation();
-  const authors = footnote.authors.join(' ');
-  const editonLabel = t('learningResourceForm.fields.footnotes.edition');
-  const publisherLabel = t('learningResourceForm.fields.footnotes.publisher');
+  const authors = footnote.authors.join(" ");
+  const editonLabel = t("learningResourceForm.fields.footnotes.edition");
+  const publisherLabel = t("learningResourceForm.fields.footnotes.publisher");
   return (
     <li id={`${id}_cite`}>
       <FootnoteId>{id}</FootnoteId>

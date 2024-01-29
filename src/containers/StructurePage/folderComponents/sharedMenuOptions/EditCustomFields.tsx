@@ -6,13 +6,13 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { Pencil } from '@ndla/icons/action';
-import { Node } from '@ndla/types-taxonomy';
-import MenuItemButton from './components/MenuItemButton';
-import MenuItemCustomField from './components/MenuItemCustomField';
-import RoundIcon from '../../../../components/RoundIcon';
-import { EditMode } from '../../../../interfaces';
+import { useTranslation } from "react-i18next";
+import { Pencil } from "@ndla/icons/action";
+import { Node } from "@ndla/types-taxonomy";
+import MenuItemButton from "./components/MenuItemButton";
+import MenuItemCustomField from "./components/MenuItemCustomField";
+import RoundIcon from "../../../../components/RoundIcon";
+import { EditMode } from "../../../../interfaces";
 
 interface Props {
   node: Node;
@@ -25,15 +25,12 @@ const EditCustomFields = ({ node, toggleEditMode, editMode, onCurrentNodeChanged
   const { t } = useTranslation();
   return (
     <div>
-      <MenuItemButton
-        data-testid="editCustomFieldsButton"
-        onClick={() => toggleEditMode('openCustomFields')}
-      >
-        <RoundIcon small open={editMode === 'openCustomFields'} icon={<Pencil />} />
-        {t('taxonomy.metadata.customFields.alterFields')}
+      <MenuItemButton data-testid="editCustomFieldsButton" onClick={() => toggleEditMode("openCustomFields")}>
+        <RoundIcon small open={editMode === "openCustomFields"} icon={<Pencil />} />
+        {t("taxonomy.metadata.customFields.alterFields")}
       </MenuItemButton>
 
-      {editMode === 'openCustomFields' && (
+      {editMode === "openCustomFields" && (
         <MenuItemCustomField node={node} onCurrentNodeChanged={onCurrentNodeChanged} />
       )}
     </div>

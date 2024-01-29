@@ -6,37 +6,37 @@
  *
  */
 
-import { createEditor, Descendant, Editor } from 'slate';
-import { withHistory } from 'slate-history';
-import { withReact } from 'slate-react';
+import { createEditor, Descendant, Editor } from "slate";
+import { withHistory } from "slate-history";
+import { withReact } from "slate-react";
 
-import { learningResourcePlugins } from '../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins';
-import withPlugins from '../../../utils/withPlugins';
-import { TYPE_HEADING } from '../../heading/types';
-import { TYPE_LINK } from '../../link/types';
-import { TYPE_PARAGRAPH } from '../../paragraph/types';
-import { TYPE_SECTION } from '../../section/types';
-import { TYPE_FRAMED_CONTENT } from '../types';
+import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
+import withPlugins from "../../../utils/withPlugins";
+import { TYPE_HEADING } from "../../heading/types";
+import { TYPE_LINK } from "../../link/types";
+import { TYPE_PARAGRAPH } from "../../paragraph/types";
+import { TYPE_SECTION } from "../../section/types";
+import { TYPE_FRAMED_CONTENT } from "../types";
 
 const editor = withHistory(withReact(withPlugins(createEditor(), learningResourcePlugins)));
 
-describe('framedContent normalizer tests', () => {
-  test('adds paragraphs around framedContent element', () => {
+describe("framedContent normalizer tests", () => {
+  test("adds paragraphs around framedContent element", () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
         children: [
           {
             type: TYPE_FRAMED_CONTENT,
-            children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'content' }] }],
+            children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
           },
           {
             type: TYPE_FRAMED_CONTENT,
-            children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'content' }] }],
+            children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
           },
           {
             type: TYPE_FRAMED_CONTENT,
-            children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'content' }] }],
+            children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
           },
         ],
       },
@@ -46,22 +46,22 @@ describe('framedContent normalizer tests', () => {
       {
         type: TYPE_SECTION,
         children: [
-          { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
           {
             type: TYPE_FRAMED_CONTENT,
-            children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'content' }] }],
+            children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
           {
             type: TYPE_FRAMED_CONTENT,
-            children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'content' }] }],
+            children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
           {
             type: TYPE_FRAMED_CONTENT,
-            children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'content' }] }],
+            children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
         ],
       },
     ];
@@ -70,7 +70,7 @@ describe('framedContent normalizer tests', () => {
     expect(editor.children).toEqual(expectedValue);
   });
 
-  test('adds paragraph to empty framedContent element', () => {
+  test("adds paragraph to empty framedContent element", () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
@@ -87,12 +87,12 @@ describe('framedContent normalizer tests', () => {
       {
         type: TYPE_SECTION,
         children: [
-          { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
           {
             type: TYPE_FRAMED_CONTENT,
-            children: [{ type: TYPE_PARAGRAPH, children: [{ text: '' }] }],
+            children: [{ type: TYPE_PARAGRAPH, children: [{ text: "" }] }],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
         ],
       },
     ];
@@ -101,14 +101,14 @@ describe('framedContent normalizer tests', () => {
     expect(editor.children).toEqual(expectedValue);
   });
 
-  test('adds paragraph at the end of framedContent with only heading', () => {
+  test("adds paragraph at the end of framedContent with only heading", () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
         children: [
           {
             type: TYPE_FRAMED_CONTENT,
-            children: [{ type: TYPE_HEADING, level: 1, children: [{ text: 'content' }] }],
+            children: [{ type: TYPE_HEADING, level: 1, children: [{ text: "content" }] }],
           },
         ],
       },
@@ -118,15 +118,15 @@ describe('framedContent normalizer tests', () => {
       {
         type: TYPE_SECTION,
         children: [
-          { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
           {
             type: TYPE_FRAMED_CONTENT,
             children: [
-              { type: TYPE_HEADING, level: 1, children: [{ text: 'content' }] },
-              { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+              { type: TYPE_HEADING, level: 1, children: [{ text: "content" }] },
+              { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
             ],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
         ],
       },
     ];
@@ -135,7 +135,7 @@ describe('framedContent normalizer tests', () => {
     expect(editor.children).toEqual(expectedValue);
   });
 
-  test('unwraps content of wrong type', () => {
+  test("unwraps content of wrong type", () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
@@ -145,8 +145,8 @@ describe('framedContent normalizer tests', () => {
             children: [
               {
                 type: TYPE_LINK,
-                href: 'testurl',
-                children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'content' }] }],
+                href: "testurl",
+                children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
               },
             ],
           },
@@ -158,12 +158,12 @@ describe('framedContent normalizer tests', () => {
       {
         type: TYPE_SECTION,
         children: [
-          { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
           {
             type: TYPE_FRAMED_CONTENT,
-            children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'content' }] }],
+            children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
         ],
       },
     ];

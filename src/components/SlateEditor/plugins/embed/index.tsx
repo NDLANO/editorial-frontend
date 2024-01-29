@@ -6,44 +6,38 @@
  *
  */
 
-import { Editor, Descendant, Element } from 'slate';
-import { TYPE_NDLA_EMBED } from './types';
-import { defaultEmbedBlock, isSlateEmbed, isSlateEmbedElement } from './utils';
-import {
-  Embed,
-  ImageEmbed,
-  BrightcoveEmbed,
-  ErrorEmbed,
-  ExternalEmbed,
-} from '../../../../interfaces';
-import { createEmbedTag, parseEmbedTag } from '../../../../util/embedTagHelpers';
-import { SlateSerializer } from '../../interfaces';
-import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
-import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
-import { AudioElement } from '../audio/types';
-import { H5pElement } from '../h5p/types';
-import { TYPE_PARAGRAPH } from '../paragraph/types';
+import { Editor, Descendant, Element } from "slate";
+import { TYPE_NDLA_EMBED } from "./types";
+import { defaultEmbedBlock, isSlateEmbed, isSlateEmbedElement } from "./utils";
+import { Embed, ImageEmbed, BrightcoveEmbed, ErrorEmbed, ExternalEmbed } from "../../../../interfaces";
+import { createEmbedTag, parseEmbedTag } from "../../../../util/embedTagHelpers";
+import { SlateSerializer } from "../../interfaces";
+import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
+import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
+import { AudioElement } from "../audio/types";
+import { H5pElement } from "../h5p/types";
+import { TYPE_PARAGRAPH } from "../paragraph/types";
 
 export interface ImageEmbedElement {
-  type: 'image-embed';
+  type: "image-embed";
   data: ImageEmbed;
   children: Descendant[];
 }
 
 export interface BrightcoveEmbedElement {
-  type: 'brightcove-embed';
+  type: "brightcove-embed";
   data: BrightcoveEmbed;
   children: Descendant[];
 }
 
 export interface ErrorEmbedElement {
-  type: 'error-embed';
+  type: "error-embed";
   data: ErrorEmbed;
   children: Descendant[];
 }
 
 export interface ExternalEmbedElement {
-  type: 'external-embed';
+  type: "external-embed";
   data: ExternalEmbed;
   children: Descendant[];
 }

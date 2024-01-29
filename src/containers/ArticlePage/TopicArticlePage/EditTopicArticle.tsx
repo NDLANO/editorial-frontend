@@ -6,19 +6,19 @@
  *
  */
 
-import { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Navigate, useParams } from 'react-router-dom';
-import { HelmetWithTracker } from '@ndla/tracker';
-import TopicArticleForm from './components/TopicArticleForm';
-import { TranslateType, useTranslateToNN } from '../../../components/NynorskTranslateProvider';
-import Spinner from '../../../components/Spinner';
-import { LocaleType } from '../../../interfaces';
-import { useNodes } from '../../../modules/nodes/nodeQueries';
-import { toEditArticle } from '../../../util/routeHelpers';
-import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
-import NotFound from '../../NotFoundPage/NotFoundPage';
-import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { Navigate, useParams } from "react-router-dom";
+import { HelmetWithTracker } from "@ndla/tracker";
+import TopicArticleForm from "./components/TopicArticleForm";
+import { TranslateType, useTranslateToNN } from "../../../components/NynorskTranslateProvider";
+import Spinner from "../../../components/Spinner";
+import { LocaleType } from "../../../interfaces";
+import { useNodes } from "../../../modules/nodes/nodeQueries";
+import { toEditArticle } from "../../../util/routeHelpers";
+import { useFetchArticleData } from "../../FormikForm/formikDraftHooks";
+import NotFound from "../../NotFoundPage/NotFoundPage";
+import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
 interface Props {
   isNewlyCreated?: boolean;
@@ -26,29 +26,29 @@ interface Props {
 
 const translateFields: TranslateType[] = [
   {
-    field: 'title.title',
-    type: 'text',
+    field: "title.title",
+    type: "text",
   },
   {
-    field: 'metaDescription.metaDescription',
-    type: 'text',
+    field: "metaDescription.metaDescription",
+    type: "text",
   },
   {
-    field: 'introduction.introduction',
-    type: 'text',
+    field: "introduction.introduction",
+    type: "text",
   },
   {
-    field: 'content.content',
-    type: 'html',
+    field: "content.content",
+    type: "html",
   },
   {
-    field: 'tags.tags',
-    type: 'text',
+    field: "tags.tags",
+    type: "text",
   },
 ];
 
 const EditTopicArticle = ({ isNewlyCreated }: Props) => {
-  const params = useParams<'id' | 'selectedLanguage'>();
+  const params = useParams<"id" | "selectedLanguage">();
   const articleId = Number(params.id!) || undefined;
   const selectedLanguage = params.selectedLanguage as LocaleType;
   const { t } = useTranslation();
@@ -88,14 +88,14 @@ const EditTopicArticle = ({ isNewlyCreated }: Props) => {
     return <NotFound />;
   }
 
-  if (article.articleType !== 'topic-article') {
+  if (article.articleType !== "topic-article") {
     const redirectUrl = toEditArticle(article.id, article.articleType, article.title?.language);
     return <Navigate replace to={redirectUrl} />;
   }
   const newLanguage = !article.supportedLanguages.includes(selectedLanguage);
   return (
     <>
-      <HelmetWithTracker title={`${article.title?.title} ${t('htmlTitles.titleTemplate')}`} />
+      <HelmetWithTracker title={`${article.title?.title} ${t("htmlTitles.titleTemplate")}`} />
       <TopicArticleForm
         articleTaxonomy={taxonomyQuery.data}
         articleStatus={article.status}

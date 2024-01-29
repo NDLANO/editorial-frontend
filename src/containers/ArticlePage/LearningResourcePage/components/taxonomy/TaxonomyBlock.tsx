@@ -6,17 +6,17 @@
  *
  */
 
-import isEqual from 'lodash/isEqual';
-import partition from 'lodash/partition';
-import sortBy from 'lodash/sortBy';
-import { useCallback, useMemo, useState, MouseEvent, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { useQueryClient } from '@tanstack/react-query';
-import { ButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
-import { SingleValue } from '@ndla/select';
-import { IArticle, IUpdatedArticle } from '@ndla/types-backend/draft-api';
+import isEqual from "lodash/isEqual";
+import partition from "lodash/partition";
+import sortBy from "lodash/sortBy";
+import { useCallback, useMemo, useState, MouseEvent, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { useQueryClient } from "@tanstack/react-query";
+import { ButtonV2 } from "@ndla/button";
+import { spacing } from "@ndla/core";
+import { SingleValue } from "@ndla/select";
+import { IArticle, IUpdatedArticle } from "@ndla/types-backend/draft-api";
 import {
   Node,
   NodeChild,
@@ -24,24 +24,24 @@ import {
   ResourceTypeWithConnection,
   TaxonomyContext,
   Version,
-} from '@ndla/types-taxonomy';
-import TaxonomyInfo from './TaxonomyInfo';
-import { FormikFieldHelp } from '../../../../../components/FormikField';
-import SaveButton from '../../../../../components/SaveButton';
-import { NodeWithChildren } from '../../../../../components/Taxonomy/TaxonomyBlockNode';
-import TopicConnections from '../../../../../components/Taxonomy/TopicConnections';
-import { RESOURCE_TYPE_LEARNING_PATH, TAXONOMY_ADMIN_SCOPE } from '../../../../../constants';
-import { fetchChildNodes, postNode } from '../../../../../modules/nodes/nodeApi';
-import { nodeQueryKeys } from '../../../../../modules/nodes/nodeQueries';
-import { useUpdateTaxonomyMutation } from '../../../../../modules/taxonomy/taxonomyMutations';
-import handleError from '../../../../../util/handleError';
-import { groupChildNodes } from '../../../../../util/taxonomyHelpers';
-import { useSession } from '../../../../Session/SessionProvider';
-import { useTaxonomyVersion } from '../../../../StructureVersion/TaxonomyVersionProvider';
-import ResourceTypeSelect from '../../../components/ResourceTypeSelect';
-import TaxonomyConnectionErrors from '../../../components/TaxonomyConnectionErrors';
-import VersionSelect from '../../../components/VersionSelect';
-import { MinimalNodeChild } from '../LearningResourceTaxonomy';
+} from "@ndla/types-taxonomy";
+import TaxonomyInfo from "./TaxonomyInfo";
+import { FormikFieldHelp } from "../../../../../components/FormikField";
+import SaveButton from "../../../../../components/SaveButton";
+import { NodeWithChildren } from "../../../../../components/Taxonomy/TaxonomyBlockNode";
+import TopicConnections from "../../../../../components/Taxonomy/TopicConnections";
+import { RESOURCE_TYPE_LEARNING_PATH, TAXONOMY_ADMIN_SCOPE } from "../../../../../constants";
+import { fetchChildNodes, postNode } from "../../../../../modules/nodes/nodeApi";
+import { nodeQueryKeys } from "../../../../../modules/nodes/nodeQueries";
+import { useUpdateTaxonomyMutation } from "../../../../../modules/taxonomy/taxonomyMutations";
+import handleError from "../../../../../util/handleError";
+import { groupChildNodes } from "../../../../../util/taxonomyHelpers";
+import { useSession } from "../../../../Session/SessionProvider";
+import { useTaxonomyVersion } from "../../../../StructureVersion/TaxonomyVersionProvider";
+import ResourceTypeSelect from "../../../components/ResourceTypeSelect";
+import TaxonomyConnectionErrors from "../../../components/TaxonomyConnectionErrors";
+import VersionSelect from "../../../components/VersionSelect";
+import { MinimalNodeChild } from "../LearningResourceTaxonomy";
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -61,14 +61,11 @@ interface Props {
   articleLanguage: string;
 }
 
-export interface TaxNode extends Pick<Node, 'resourceTypes' | 'metadata' | 'id'> {
+export interface TaxNode extends Pick<Node, "resourceTypes" | "metadata" | "id"> {
   placements: MinimalNodeChild[];
 }
 
-export const contextToMinimalNodeChild = (
-  context: TaxonomyContext,
-  articleLanguage: string,
-): MinimalNodeChild => {
+export const contextToMinimalNodeChild = (context: TaxonomyContext, articleLanguage: string): MinimalNodeChild => {
   const crumb = context.breadcrumbs[articleLanguage] ?? Object.values(context.breadcrumbs)[0] ?? [];
   return {
     id: context.parentIds[context.parentIds.length - 1],
@@ -76,8 +73,8 @@ export const contextToMinimalNodeChild = (
     relevanceId: context.relevanceId,
     connectionId: context.connectionId,
     isPrimary: context.isPrimary,
-    path: context.path.split('/').slice(1).join('/'),
-    name: crumb[crumb.length - 1] ?? '',
+    path: context.path.split("/").slice(1).join("/"),
+    name: crumb[crumb.length - 1] ?? "",
     metadata: {
       visible: context.isVisible,
     },
@@ -86,7 +83,7 @@ export const contextToMinimalNodeChild = (
 
 export const toInitialResource = (resource: Node | undefined, language: string): TaxNode => {
   return {
-    id: resource?.id ?? '',
+    id: resource?.id ?? "",
     resourceTypes: resource?.resourceTypes ?? [],
     metadata: resource?.metadata ?? {
       grepCodes: [],
@@ -94,9 +91,7 @@ export const toInitialResource = (resource: Node | undefined, language: string):
       customFields: {},
     },
     placements: sortBy(
-      resource?.contexts
-        .filter((c) => c.rootId.includes('subject'))
-        .map((c) => contextToMinimalNodeChild(c, language)),
+      resource?.contexts.filter((c) => c.rootId.includes("subject")).map((c) => contextToMinimalNodeChild(c, language)),
       (c) => c.connectionId,
     ),
   };
@@ -120,9 +115,7 @@ const TaxonomyBlock = ({
   const [subjects, setSubjects] = useState<NodeWithChildren[]>(propSubjects);
   const [showWarning, setShowWarning] = useState<boolean>(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [workingResource, setWorkingResource] = useState<TaxNode>(
-    toInitialResource(nodes[0], i18n.language),
-  );
+  const [workingResource, setWorkingResource] = useState<TaxNode>(toInitialResource(nodes[0], i18n.language));
 
   useEffect(() => {
     setWorkingResource(toInitialResource(nodes[0], i18n.language));
@@ -132,10 +125,7 @@ const TaxonomyBlock = ({
 
   const updateTaxMutation = useUpdateTaxonomyMutation();
 
-  const [resources, topics] = useMemo(
-    () => partition(nodes, (node) => node.nodeType === 'RESOURCE'),
-    [nodes],
-  );
+  const [resources, topics] = useMemo(() => partition(nodes, (node) => node.nodeType === "RESOURCE"), [nodes]);
 
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
 
@@ -144,10 +134,7 @@ const TaxonomyBlock = ({
     [i18n.language, nodes],
   );
 
-  const isDirty = useMemo(
-    () => !isEqual(initialResource, workingResource),
-    [initialResource, workingResource],
-  );
+  const isDirty = useMemo(() => !isEqual(initialResource, workingResource), [initialResource, workingResource]);
 
   const filteredResourceTypes = useMemo(
     () =>
@@ -179,12 +166,15 @@ const TaxonomyBlock = ({
       setWorkingResource(initialResource);
       setShowWarning(false);
       updateTaxMutation.reset();
-      changeVersion('draft');
+      changeVersion("draft");
     }
   }, [changeVersion, initialResource, isDirty, showWarning, updateTaxMutation]);
 
   const removeConnection = useCallback((id: string) => {
-    setWorkingResource((r) => ({ ...r, placements: r.placements.filter((p) => p.id !== id) }));
+    setWorkingResource((r) => ({
+      ...r,
+      placements: r.placements.filter((p) => p.id !== id),
+    }));
   }, []);
 
   const updateMetadata = useCallback((visible: boolean) => {
@@ -214,13 +204,11 @@ const TaxonomyBlock = ({
           id: subjectId,
           language: i18n.language,
           taxonomyVersion,
-          nodeType: ['TOPIC'],
+          nodeType: ["TOPIC"],
           recursive: true,
         });
         const childNodes = groupChildNodes(nodes);
-        setSubjects((subjects) =>
-          subjects.map((s) => (s.id === subjectId ? { ...s, childNodes } : s)),
-        );
+        setSubjects((subjects) => subjects.map((s) => (s.id === subjectId ? { ...s, childNodes } : s)));
       } catch (err) {
         handleError(err);
       }
@@ -246,7 +234,7 @@ const TaxonomyBlock = ({
         metadata: {
           visible: node.metadata.visible,
         },
-        connectionId: '',
+        connectionId: "",
         name: node.name,
       };
       return { ...res, placements: res.placements.concat(newPlacement) };
@@ -262,12 +250,12 @@ const TaxonomyBlock = ({
         const res = await postNode({
           body: {
             contentUri: `urn:article:${article.id}`,
-            name: article.title?.title ?? '',
-            nodeType: 'RESOURCE',
+            name: article.title?.title ?? "",
+            nodeType: "RESOURCE",
           },
           taxonomyVersion,
         });
-        resourceId = res.replace('/v1/nodes/', '');
+        resourceId = res.replace("/v1/nodes/", "");
         setWorkingResource((r) => ({ ...r, id: resourceId }));
       }
 
@@ -276,7 +264,10 @@ const TaxonomyBlock = ({
         originalNode: initialResource,
         taxonomyVersion,
       });
-      await updateNotes({ revision: article.revision, notes: ['Oppdatert taksonomi.'] });
+      await updateNotes({
+        revision: article.revision,
+        notes: ["Oppdatert taksonomi."],
+      });
       await qc.invalidateQueries({
         queryKey: nodeQueryKeys.nodes({
           contentURI: `urn:article:${article.id}`,
@@ -303,7 +294,7 @@ const TaxonomyBlock = ({
 
   const onChangeSelectedResource = useCallback(
     (value: SingleValue) => {
-      const options = value?.value?.split(',') ?? [];
+      const options = value?.value?.split(",") ?? [];
       const selectedResource = resourceTypes.find((rt) => rt.id === options[0]);
 
       if (selectedResource) {
@@ -311,7 +302,7 @@ const TaxonomyBlock = ({
           {
             name: selectedResource.name,
             id: selectedResource.id,
-            connectionId: '',
+            connectionId: "",
             supportedLanguages: selectedResource.supportedLanguages,
             translations: selectedResource.translations,
           },
@@ -323,7 +314,7 @@ const TaxonomyBlock = ({
             resourceTypes.push({
               id: subType.id,
               name: subType.name,
-              connectionId: '',
+              connectionId: "",
               supportedLanguages: subType.supportedLanguages,
               translations: subType.translations,
             });
@@ -336,10 +327,10 @@ const TaxonomyBlock = ({
 
   return (
     <>
-      {!hasTaxEntries && <FormikFieldHelp error>{t('errorMessage.missingTax')}</FormikFieldHelp>}
+      {!hasTaxEntries && <FormikFieldHelp error>{t("errorMessage.missingTax")}</FormikFieldHelp>}
       {isTaxonomyAdmin && (
         <TaxonomyConnectionErrors
-          articleType={article.articleType ?? 'standard'}
+          articleType={article.articleType ?? "standard"}
           topics={topics}
           resources={resources}
         />
@@ -364,13 +355,11 @@ const TaxonomyBlock = ({
         setRelevance={setRelevance}
         getSubjectTopics={getSubjectTopics}
       />
-      {updateTaxMutation.isError && (
-        <FormikFieldHelp error>{t('errorMessage.taxonomy')}</FormikFieldHelp>
-      )}
-      {showWarning && <FormikFieldHelp error>{t('errorMessage.unsavedTaxonomy')}</FormikFieldHelp>}
+      {updateTaxMutation.isError && <FormikFieldHelp error>{t("errorMessage.taxonomy")}</FormikFieldHelp>}
+      {showWarning && <FormikFieldHelp error>{t("errorMessage.unsavedTaxonomy")}</FormikFieldHelp>}
       <ButtonContainer>
         <ButtonV2 variant="outline" disabled={!isDirty} onClick={onReset}>
-          {t('reset')}
+          {t("reset")}
         </ButtonV2>
         <SaveButton
           showSaved={updateTaxMutation.isSuccess && !isDirty}
@@ -382,7 +371,7 @@ const TaxonomyBlock = ({
         />
       </ButtonContainer>
       <FormikFieldHelp float="right" warning>
-        {t('warningMessage.taxonomy')}
+        {t("warningMessage.taxonomy")}
       </FormikFieldHelp>
     </>
   );

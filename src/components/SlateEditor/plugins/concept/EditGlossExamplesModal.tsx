@@ -6,17 +6,17 @@
  *
  */
 
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Editor } from 'slate';
-import { IconButtonV2 } from '@ndla/button';
-import { Pencil } from '@ndla/icons/action';
-import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
-import { IConcept, IConceptSummary } from '@ndla/types-backend/concept-api';
-import { ConceptMetaData } from '@ndla/types-embed';
-import { ConceptBlockElement } from './block/interfaces';
-import EditGlossExamplesModalContent from './EditGlossExamplesModalContent';
-import { ConceptInlineElement } from './inline/interfaces';
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor } from "slate";
+import { IconButtonV2 } from "@ndla/button";
+import { Pencil } from "@ndla/icons/action";
+import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
+import { IConcept, IConceptSummary } from "@ndla/types-backend/concept-api";
+import { ConceptMetaData } from "@ndla/types-embed";
+import { ConceptBlockElement } from "./block/interfaces";
+import EditGlossExamplesModalContent from "./EditGlossExamplesModalContent";
+import { ConceptInlineElement } from "./inline/interfaces";
 
 interface Props {
   concept: IConcept | IConceptSummary;
@@ -30,11 +30,11 @@ const EditGlossExamplesModal = ({ concept, editor, element, embed }: Props) => {
   const [modalOpen, setModalOpen] = useState(false);
   return (
     <Modal open={modalOpen} onOpenChange={setModalOpen}>
-      {concept.conceptType === 'gloss' && concept.glossData?.examples.length ? (
+      {concept.conceptType === "gloss" && concept.glossData?.examples.length ? (
         <ModalTrigger>
           <IconButtonV2
-            title={t('form.gloss.editExamples')}
-            aria-label={t('form.gloss.editExamples')}
+            title={t("form.gloss.editExamples")}
+            aria-label={t("form.gloss.editExamples")}
             variant="ghost"
             colorTheme="light"
           >

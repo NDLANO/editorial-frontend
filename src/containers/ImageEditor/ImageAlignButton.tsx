@@ -6,11 +6,11 @@
  *
  */
 
-import { MouseEvent } from 'react';
-import { useTranslation } from 'react-i18next';
-import { AlignLeft, AlignCenter, AlignRight } from '@ndla/icons/editor';
-import Tooltip from '@ndla/tooltip';
-import ImageEditorButton from './ImageEditorButton';
+import { MouseEvent } from "react";
+import { useTranslation } from "react-i18next";
+import { AlignLeft, AlignCenter, AlignRight } from "@ndla/icons/editor";
+import Tooltip from "@ndla/tooltip";
+import ImageEditorButton from "./ImageEditorButton";
 
 const icon: Record<string, JSX.Element> = {
   left: <AlignLeft />,
@@ -28,17 +28,12 @@ interface Props {
 const ImageAlignButton = ({ currentAlign, disabled, alignType, onFieldChange }: Props) => {
   const { t } = useTranslation();
   const onChange = (evt: MouseEvent<HTMLButtonElement>) => {
-    onFieldChange(evt, 'align', alignType);
+    onFieldChange(evt, "align", alignType);
   };
 
   return (
     <Tooltip tooltip={t(`form.image.alignment.${alignType}`)}>
-      <ImageEditorButton
-        tabIndex={-1}
-        disabled={disabled}
-        isActive={currentAlign === alignType}
-        onClick={onChange}
-      >
+      <ImageEditorButton tabIndex={-1} disabled={disabled} isActive={currentAlign === alignType} onClick={onChange}>
         {icon[alignType]}
       </ImageEditorButton>
     </Tooltip>

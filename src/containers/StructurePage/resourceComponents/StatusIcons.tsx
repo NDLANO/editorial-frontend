@@ -6,25 +6,22 @@
  *
  */
 
-import React, { ReactElement, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { colors } from '@ndla/core';
-import { AlertCircle, Check, InProgress } from '@ndla/icons/editor';
-import SafeLink from '@ndla/safelink';
-import Tooltip from '@ndla/tooltip';
-import { isApproachingRevision } from './ApproachingRevisionDate';
-import { ResourceWithNodeConnectionAndMeta } from './StructureResources';
-import WrongTypeError from './WrongTypeError';
-import {
-  getWarnStatus,
-  StyledTimeIcon,
-} from '../../../components/HeaderWithLanguage/HeaderStatusInformation';
-import config from '../../../config';
-import { PUBLISHED } from '../../../constants';
-import formatDate from '../../../util/formatDate';
-import { getExpirationDate } from '../../ArticlePage/articleTransformers';
-import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
+import React, { ReactElement, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { colors } from "@ndla/core";
+import { AlertCircle, Check, InProgress } from "@ndla/icons/editor";
+import SafeLink from "@ndla/safelink";
+import Tooltip from "@ndla/tooltip";
+import { isApproachingRevision } from "./ApproachingRevisionDate";
+import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
+import WrongTypeError from "./WrongTypeError";
+import { getWarnStatus, StyledTimeIcon } from "../../../components/HeaderWithLanguage/HeaderStatusInformation";
+import config from "../../../config";
+import { PUBLISHED } from "../../../constants";
+import formatDate from "../../../util/formatDate";
+import { getExpirationDate } from "../../ArticlePage/articleTransformers";
+import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
 const StyledCheckIcon = styled(Check)`
   height: 24px;
@@ -80,9 +77,9 @@ const StatusIcons = ({ contentMetaLoading, resource, path }: Props) => {
   return (
     <IconWrapper>
       {resource.contentMeta?.started && (
-        <Tooltip tooltip={t('taxonomy.inProgress')}>
+        <Tooltip tooltip={t("taxonomy.inProgress")}>
           <IconWrapper>
-            <StyledInProgressIcon aria-label={t('taxonomy.inProgress')} />
+            <StyledInProgressIcon aria-label={t("taxonomy.inProgress")} />
           </IconWrapper>
         </Tooltip>
       )}
@@ -106,22 +103,20 @@ const StatusIcons = ({ contentMetaLoading, resource, path }: Props) => {
           )}
         </>
       ) : null}
-      {!contentMetaLoading && (
-        <WrongTypeError resource={resource} articleType={resource.contentMeta?.articleType} />
-      )}
+      {!contentMetaLoading && <WrongTypeError resource={resource} articleType={resource.contentMeta?.articleType} />}
       {resource.contexts?.length > 1 && (
-        <Tooltip tooltip={t('form.workflow.multipleTaxonomy')}>
+        <Tooltip tooltip={t("form.workflow.multipleTaxonomy")}>
           <IconWrapper>
-            <StyledWarnIcon aria-label={t('form.workflow.multipleTaxonomy')} />
+            <StyledWarnIcon aria-label={t("form.workflow.multipleTaxonomy")} />
           </IconWrapper>
         </Tooltip>
       )}
       {(resource.contentMeta?.status?.current === PUBLISHED ||
         resource.contentMeta?.status?.other?.includes(PUBLISHED)) && (
         <PublishedWrapper path={path}>
-          <Tooltip tooltip={t('form.workflow.published')}>
+          <Tooltip tooltip={t("form.workflow.published")}>
             <CheckedWrapper>
-              <StyledCheckIcon aria-label={t('form.workflow.published')} />
+              <StyledCheckIcon aria-label={t("form.workflow.published")} />
             </CheckedWrapper>
           </Tooltip>
         </PublishedWrapper>
@@ -136,10 +131,7 @@ const PublishedWrapper = ({ path, children }: { path?: string; children: ReactEl
     return children;
   }
   return (
-    <StyledLink
-      target="_blank"
-      to={`${config.ndlaFrontendDomain}${path}?versionHash=${taxonomyVersion}`}
-    >
+    <StyledLink target="_blank" to={`${config.ndlaFrontendDomain}${path}?versionHash=${taxonomyVersion}`}>
       {children}
     </StyledLink>
   );

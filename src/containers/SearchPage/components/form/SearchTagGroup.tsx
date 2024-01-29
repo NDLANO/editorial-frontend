@@ -6,8 +6,8 @@
  *
  */
 
-import SearchTag from './SearchTag';
-import { SearchFormSelector } from './Selector';
+import SearchTag from "./SearchTag";
+import { SearchFormSelector } from "./Selector";
 
 interface Props {
   tagTypes: SearchFormSelector[];
@@ -19,9 +19,7 @@ const SearchTagGroup = ({ tagTypes, onRemoveItem }: Props) => {
     <>
       {tagTypes.map((tag) => {
         if (!tag.value) return null;
-        return (
-          <SearchTag key={`searchtag_${tag.parameterName}`} onRemoveItem={onRemoveItem} tag={tag} />
-        );
+        return <SearchTag key={`searchtag_${tag.parameterName}`} onRemoveItem={onRemoveItem} tag={tag} />;
       })}
     </>
   );

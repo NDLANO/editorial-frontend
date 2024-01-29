@@ -6,13 +6,13 @@
  *
  */
 
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { Switch } from '@ndla/switch';
-import Tooltip from '@ndla/tooltip';
-import { RESOURCE_FILTER_CORE, RESOURCE_FILTER_SUPPLEMENTARY } from '../../constants';
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { Switch } from "@ndla/switch";
+import Tooltip from "@ndla/tooltip";
+import { RESOURCE_FILTER_CORE, RESOURCE_FILTER_SUPPLEMENTARY } from "../../constants";
 
 export const StyledSwitch = styled(Switch)`
   margin-left: -${spacing.nsmall};
@@ -35,7 +35,7 @@ const RelevanceOption = ({ relevanceId, onChange }: Props) => {
   const [isOn, setIsOn] = useState((relevanceId ?? RESOURCE_FILTER_CORE) === RESOURCE_FILTER_CORE);
 
   return (
-    <Tooltip tooltip={t('form.topics.RGTooltip')}>
+    <Tooltip tooltip={t("form.topics.RGTooltip")}>
       <StyledToggleSwitch>
         <StyledSwitch
           id="toggleRelevanceId"
@@ -46,7 +46,7 @@ const RelevanceOption = ({ relevanceId, onChange }: Props) => {
             onChange(isOn ? RESOURCE_FILTER_SUPPLEMENTARY : RESOURCE_FILTER_CORE);
             setIsOn(!isOn);
           }}
-          thumbCharacter={isOn ? 'K' : 'T'}
+          thumbCharacter={isOn ? "K" : "T"}
         />
       </StyledToggleSwitch>
     </Tooltip>

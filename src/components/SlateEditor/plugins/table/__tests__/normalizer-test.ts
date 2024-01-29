@@ -6,13 +6,13 @@
  *
  */
 
-import { createEditor, Descendant, Editor } from 'slate';
-import { withHistory } from 'slate-history';
-import { withReact } from 'slate-react';
-import { learningResourcePlugins } from '../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins';
-import withPlugins from '../../../utils/withPlugins';
-import { TYPE_PARAGRAPH } from '../../paragraph/types';
-import { TYPE_SECTION } from '../../section/types';
+import { createEditor, Descendant, Editor } from "slate";
+import { withHistory } from "slate-history";
+import { withReact } from "slate-react";
+import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
+import withPlugins from "../../../utils/withPlugins";
+import { TYPE_PARAGRAPH } from "../../paragraph/types";
+import { TYPE_SECTION } from "../../section/types";
 import {
   TYPE_TABLE,
   TYPE_TABLE_CAPTION,
@@ -21,19 +21,19 @@ import {
   TYPE_TABLE_ROW,
   TYPE_TABLE_CELL,
   TYPE_TABLE_CELL_HEADER,
-} from '../types';
+} from "../types";
 
 const editor = withHistory(withReact(withPlugins(createEditor(), learningResourcePlugins)));
 
-describe('table normalizer tests', () => {
-  test('Make sure non-row element in table-head or body is wrapped in row', () => {
+describe("table normalizer tests", () => {
+  test("Make sure non-row element in table-head or body is wrapped in row", () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
         children: [
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
+            children: [{ text: "" }],
           },
           {
             type: TYPE_TABLE,
@@ -44,7 +44,7 @@ describe('table normalizer tests', () => {
                 type: TYPE_TABLE_CAPTION,
                 children: [
                   {
-                    text: '',
+                    text: "",
                   },
                 ],
               },
@@ -55,7 +55,7 @@ describe('table normalizer tests', () => {
                     type: TYPE_PARAGRAPH,
                     children: [
                       {
-                        text: '1',
+                        text: "1",
                       },
                     ],
                   },
@@ -78,7 +78,7 @@ describe('table normalizer tests', () => {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: '3',
+                                text: "3",
                               },
                             ],
                           },
@@ -95,7 +95,7 @@ describe('table normalizer tests', () => {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: '4',
+                                text: "4",
                               },
                             ],
                           },
@@ -109,7 +109,7 @@ describe('table normalizer tests', () => {
           },
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
+            children: [{ text: "" }],
           },
         ],
       },
@@ -121,7 +121,7 @@ describe('table normalizer tests', () => {
         children: [
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
+            children: [{ text: "" }],
           },
           {
             type: TYPE_TABLE,
@@ -132,7 +132,7 @@ describe('table normalizer tests', () => {
                 type: TYPE_TABLE_CAPTION,
                 children: [
                   {
-                    text: '',
+                    text: "",
                   },
                 ],
               },
@@ -147,15 +147,15 @@ describe('table normalizer tests', () => {
                         data: {
                           colspan: 1,
                           rowspan: 1,
-                          align: 'right',
-                          scope: 'col',
+                          align: "right",
+                          scope: "col",
                         },
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: '1',
+                                text: "1",
                               },
                             ],
                           },
@@ -166,7 +166,7 @@ describe('table normalizer tests', () => {
                         data: {
                           colspan: 1,
                           rowspan: 1,
-                          scope: 'col',
+                          scope: "col",
                         },
                         children: [
                           {
@@ -174,7 +174,7 @@ describe('table normalizer tests', () => {
                             serializeAsText: true,
                             children: [
                               {
-                                text: '',
+                                text: "",
                               },
                             ],
                           },
@@ -195,14 +195,14 @@ describe('table normalizer tests', () => {
                         data: {
                           colspan: 1,
                           rowspan: 1,
-                          align: 'right',
+                          align: "right",
                         },
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: '3',
+                                text: "3",
                               },
                             ],
                           },
@@ -213,14 +213,14 @@ describe('table normalizer tests', () => {
                         data: {
                           colspan: 1,
                           rowspan: 1,
-                          align: 'right',
+                          align: "right",
                         },
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: '4',
+                                text: "4",
                               },
                             ],
                           },
@@ -234,7 +234,7 @@ describe('table normalizer tests', () => {
           },
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
+            children: [{ text: "" }],
           },
         ],
       },
@@ -245,14 +245,14 @@ describe('table normalizer tests', () => {
     expect(editor.children).toEqual(expectedValue);
   });
 
-  test('Make sure non-cell element in table row is wrapped in cell', () => {
+  test("Make sure non-cell element in table row is wrapped in cell", () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
         children: [
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
+            children: [{ text: "" }],
           },
           {
             type: TYPE_TABLE,
@@ -263,7 +263,7 @@ describe('table normalizer tests', () => {
                 type: TYPE_TABLE_CAPTION,
                 children: [
                   {
-                    text: '',
+                    text: "",
                   },
                 ],
               },
@@ -277,7 +277,7 @@ describe('table normalizer tests', () => {
                         type: TYPE_PARAGRAPH,
                         children: [
                           {
-                            text: '1',
+                            text: "1",
                           },
                         ],
                       },
@@ -286,14 +286,14 @@ describe('table normalizer tests', () => {
                         data: {
                           colspan: 1,
                           rowspan: 1,
-                          align: 'right',
+                          align: "right",
                         },
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: '2',
+                                text: "2",
                               },
                             ],
                           },
@@ -320,7 +320,7 @@ describe('table normalizer tests', () => {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: '3',
+                                text: "3",
                               },
                             ],
                           },
@@ -337,7 +337,7 @@ describe('table normalizer tests', () => {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: '4',
+                                text: "4",
                               },
                             ],
                           },
@@ -351,7 +351,7 @@ describe('table normalizer tests', () => {
           },
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
+            children: [{ text: "" }],
           },
         ],
       },
@@ -363,7 +363,7 @@ describe('table normalizer tests', () => {
         children: [
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
+            children: [{ text: "" }],
           },
           {
             type: TYPE_TABLE,
@@ -374,7 +374,7 @@ describe('table normalizer tests', () => {
                 type: TYPE_TABLE_CAPTION,
                 children: [
                   {
-                    text: '',
+                    text: "",
                   },
                 ],
               },
@@ -389,15 +389,15 @@ describe('table normalizer tests', () => {
                         data: {
                           colspan: 1,
                           rowspan: 1,
-                          align: 'right',
-                          scope: 'col',
+                          align: "right",
+                          scope: "col",
                         },
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: '1',
+                                text: "1",
                               },
                             ],
                           },
@@ -408,15 +408,15 @@ describe('table normalizer tests', () => {
                         data: {
                           colspan: 1,
                           rowspan: 1,
-                          align: 'right',
-                          scope: 'col',
+                          align: "right",
+                          scope: "col",
                         },
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: '2',
+                                text: "2",
                               },
                             ],
                           },
@@ -437,14 +437,14 @@ describe('table normalizer tests', () => {
                         data: {
                           colspan: 1,
                           rowspan: 1,
-                          align: 'right',
+                          align: "right",
                         },
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: '3',
+                                text: "3",
                               },
                             ],
                           },
@@ -455,14 +455,14 @@ describe('table normalizer tests', () => {
                         data: {
                           colspan: 1,
                           rowspan: 1,
-                          align: 'right',
+                          align: "right",
                         },
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: '4',
+                                text: "4",
                               },
                             ],
                           },
@@ -476,7 +476,7 @@ describe('table normalizer tests', () => {
           },
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
+            children: [{ text: "" }],
           },
         ],
       },
@@ -487,14 +487,14 @@ describe('table normalizer tests', () => {
     expect(editor.children).toEqual(expectedValue);
   });
 
-  test('Add missing cells and caption', () => {
+  test("Add missing cells and caption", () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
         children: [
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
+            children: [{ text: "" }],
           },
           {
             type: TYPE_TABLE,
@@ -512,14 +512,14 @@ describe('table normalizer tests', () => {
                         data: {
                           colspan: 1,
                           rowspan: 1,
-                          align: 'right',
+                          align: "right",
                         },
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: '1',
+                                text: "1",
                               },
                             ],
                           },
@@ -530,14 +530,14 @@ describe('table normalizer tests', () => {
                         data: {
                           colspan: 1,
                           rowspan: 1,
-                          align: 'right',
+                          align: "right",
                         },
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: '2',
+                                text: "2",
                               },
                             ],
                           },
@@ -558,14 +558,14 @@ describe('table normalizer tests', () => {
                         data: {
                           colspan: 1,
                           rowspan: 1,
-                          align: 'right',
+                          align: "right",
                         },
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: '3',
+                                text: "3",
                               },
                             ],
                           },
@@ -579,7 +579,7 @@ describe('table normalizer tests', () => {
           },
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
+            children: [{ text: "" }],
           },
         ],
       },
@@ -591,7 +591,7 @@ describe('table normalizer tests', () => {
         children: [
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
+            children: [{ text: "" }],
           },
           {
             type: TYPE_TABLE,
@@ -602,7 +602,7 @@ describe('table normalizer tests', () => {
                 type: TYPE_TABLE_CAPTION,
                 children: [
                   {
-                    text: '',
+                    text: "",
                   },
                 ],
               },
@@ -617,15 +617,15 @@ describe('table normalizer tests', () => {
                         data: {
                           colspan: 1,
                           rowspan: 1,
-                          align: 'right',
-                          scope: 'col',
+                          align: "right",
+                          scope: "col",
                         },
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: '1',
+                                text: "1",
                               },
                             ],
                           },
@@ -636,15 +636,15 @@ describe('table normalizer tests', () => {
                         data: {
                           colspan: 1,
                           rowspan: 1,
-                          align: 'right',
-                          scope: 'col',
+                          align: "right",
+                          scope: "col",
                         },
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: '2',
+                                text: "2",
                               },
                             ],
                           },
@@ -665,14 +665,14 @@ describe('table normalizer tests', () => {
                         data: {
                           colspan: 1,
                           rowspan: 1,
-                          align: 'right',
+                          align: "right",
                         },
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: '3',
+                                text: "3",
                               },
                             ],
                           },
@@ -690,7 +690,7 @@ describe('table normalizer tests', () => {
                             serializeAsText: true,
                             children: [
                               {
-                                text: '',
+                                text: "",
                               },
                             ],
                           },
@@ -704,7 +704,7 @@ describe('table normalizer tests', () => {
           },
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
+            children: [{ text: "" }],
           },
         ],
       },
@@ -715,14 +715,14 @@ describe('table normalizer tests', () => {
     expect(editor.children).toEqual(expectedValue);
   });
 
-  test('Make sure row headers and table headers are set correctly when rowHeaders=true', () => {
+  test("Make sure row headers and table headers are set correctly when rowHeaders=true", () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
         children: [
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
+            children: [{ text: "" }],
           },
           {
             type: TYPE_TABLE,
@@ -733,7 +733,7 @@ describe('table normalizer tests', () => {
                 type: TYPE_TABLE_CAPTION,
                 children: [
                   {
-                    text: '',
+                    text: "",
                   },
                 ],
               },
@@ -748,14 +748,14 @@ describe('table normalizer tests', () => {
                         data: {
                           colspan: 1,
                           rowspan: 1,
-                          align: 'right',
+                          align: "right",
                         },
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: '1',
+                                text: "1",
                               },
                             ],
                           },
@@ -766,14 +766,14 @@ describe('table normalizer tests', () => {
                         data: {
                           colspan: 1,
                           rowspan: 1,
-                          align: 'right',
+                          align: "right",
                         },
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: '2',
+                                text: "2",
                               },
                             ],
                           },
@@ -792,17 +792,17 @@ describe('table normalizer tests', () => {
                       {
                         type: TYPE_TABLE_CELL,
                         data: {
-                          headers: '00',
+                          headers: "00",
                           colspan: 1,
                           rowspan: 2,
-                          align: 'right',
+                          align: "right",
                         },
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: '3',
+                                text: "3",
                               },
                             ],
                           },
@@ -811,17 +811,17 @@ describe('table normalizer tests', () => {
                       {
                         type: TYPE_TABLE_CELL,
                         data: {
-                          headers: '01',
+                          headers: "01",
                           colspan: 1,
                           rowspan: 1,
-                          align: 'right',
+                          align: "right",
                         },
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: '4',
+                                text: "4",
                               },
                             ],
                           },
@@ -837,14 +837,14 @@ describe('table normalizer tests', () => {
                         data: {
                           colspan: 1,
                           rowspan: 1,
-                          align: 'right',
+                          align: "right",
                         },
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: '5',
+                                text: "5",
                               },
                             ],
                           },
@@ -858,7 +858,7 @@ describe('table normalizer tests', () => {
           },
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
+            children: [{ text: "" }],
           },
         ],
       },
@@ -870,7 +870,7 @@ describe('table normalizer tests', () => {
         children: [
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
+            children: [{ text: "" }],
           },
           {
             type: TYPE_TABLE,
@@ -881,7 +881,7 @@ describe('table normalizer tests', () => {
                 type: TYPE_TABLE_CAPTION,
                 children: [
                   {
-                    text: '',
+                    text: "",
                   },
                 ],
               },
@@ -895,17 +895,17 @@ describe('table normalizer tests', () => {
                         type: TYPE_TABLE_CELL_HEADER,
                         data: {
                           colspan: 1,
-                          id: '00',
+                          id: "00",
                           rowspan: 1,
-                          scope: 'col',
-                          align: 'right',
+                          scope: "col",
+                          align: "right",
                         },
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: '1',
+                                text: "1",
                               },
                             ],
                           },
@@ -915,17 +915,17 @@ describe('table normalizer tests', () => {
                         type: TYPE_TABLE_CELL_HEADER,
                         data: {
                           colspan: 1,
-                          id: '01',
+                          id: "01",
                           rowspan: 1,
-                          scope: 'col',
-                          align: 'right',
+                          scope: "col",
+                          align: "right",
                         },
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: '2',
+                                text: "2",
                               },
                             ],
                           },
@@ -944,19 +944,19 @@ describe('table normalizer tests', () => {
                       {
                         type: TYPE_TABLE_CELL_HEADER,
                         data: {
-                          id: 'r1',
-                          headers: '00',
+                          id: "r1",
+                          headers: "00",
                           colspan: 1,
                           rowspan: 2,
-                          scope: 'row',
-                          align: 'right',
+                          scope: "row",
+                          align: "right",
                         },
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: '3',
+                                text: "3",
                               },
                             ],
                           },
@@ -965,17 +965,17 @@ describe('table normalizer tests', () => {
                       {
                         type: TYPE_TABLE_CELL,
                         data: {
-                          headers: '01 r1',
+                          headers: "01 r1",
                           colspan: 1,
                           rowspan: 1,
-                          align: 'right',
+                          align: "right",
                         },
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: '4',
+                                text: "4",
                               },
                             ],
                           },
@@ -989,17 +989,17 @@ describe('table normalizer tests', () => {
                       {
                         type: TYPE_TABLE_CELL,
                         data: {
-                          headers: '01 r1',
+                          headers: "01 r1",
                           colspan: 1,
                           rowspan: 1,
-                          align: 'right',
+                          align: "right",
                         },
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: '5',
+                                text: "5",
                               },
                             ],
                           },
@@ -1013,7 +1013,7 @@ describe('table normalizer tests', () => {
           },
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
+            children: [{ text: "" }],
           },
         ],
       },

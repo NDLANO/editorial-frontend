@@ -6,8 +6,8 @@
  *
  */
 
-import { useEffect } from 'react';
-import { useSession } from '../Session/SessionProvider';
+import { useEffect } from "react";
+import { useSession } from "../Session/SessionProvider";
 
 export const LogoutFederated = () => {
   const { logout } = useSession();

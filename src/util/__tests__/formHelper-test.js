@@ -5,25 +5,22 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import {
-  valueWithTwoImageEmbeds,
-  valueWithInlineFootnotesAndContentLinks,
-} from './slateMockValues';
-import { isFormikFormDirty } from '../formHelper';
+import { valueWithTwoImageEmbeds, valueWithInlineFootnotesAndContentLinks } from "./slateMockValues";
+import { isFormikFormDirty } from "../formHelper";
 
-test('util/formHelper isFormikFormDirty is true', () => {
+test("util/formHelper isFormikFormDirty is true", () => {
   const initialValues = {
-    someRandomField: '',
+    someRandomField: "",
   };
   const values = {
-    someRandomField: 'This is a test',
+    someRandomField: "This is a test",
   };
   expect(isFormikFormDirty({ dirty: true, values, initialValues })).toBe(true);
 });
 
-test('util/formHelper isFormDirty is false', () => {
+test("util/formHelper isFormDirty is false", () => {
   const initialValues = {
-    articleType: 'standard',
+    articleType: "standard",
     content: [valueWithTwoImageEmbeds, valueWithInlineFootnotesAndContentLinks],
   };
   const values = {
@@ -38,9 +35,9 @@ test('util/formHelper isFormDirty is false', () => {
   ).toBe(false);
 });
 
-test('util/formHelper isFormikFormDirty content sections is removed', () => {
+test("util/formHelper isFormikFormDirty content sections is removed", () => {
   const initialValues = {
-    articleType: 'standard',
+    articleType: "standard",
     content: [valueWithTwoImageEmbeds, valueWithInlineFootnotesAndContentLinks],
   };
   const values = {

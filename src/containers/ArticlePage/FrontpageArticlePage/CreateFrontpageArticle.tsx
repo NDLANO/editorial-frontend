@@ -6,14 +6,14 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import { HelmetWithTracker } from '@ndla/tracker';
-import { IUpdatedArticle } from '@ndla/types-backend/draft-api';
-import FrontpageArticleForm from './components/FrontpageArticleForm';
-import { convertUpdateToNewDraft } from '../../../util/articleUtil';
-import { toEditArticle } from '../../../util/routeHelpers';
-import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import { HelmetWithTracker } from "@ndla/tracker";
+import { IUpdatedArticle } from "@ndla/types-backend/draft-api";
+import FrontpageArticleForm from "./components/FrontpageArticleForm";
+import { convertUpdateToNewDraft } from "../../../util/articleUtil";
+import { toEditArticle } from "../../../util/routeHelpers";
+import { useFetchArticleData } from "../../FormikForm/formikDraftHooks";
 
 const CreateFrontpageArticle = () => {
   const { t, i18n } = useTranslation();
@@ -29,7 +29,7 @@ const CreateFrontpageArticle = () => {
 
   return (
     <>
-      <HelmetWithTracker title={t('htmlTitles.createFrontPageArticePage')} />
+      <HelmetWithTracker title={t("htmlTitles.createFrontPageArticePage")} />
       <FrontpageArticleForm
         updateArticle={createArticleAndPushRoute}
         articleChanged={false}

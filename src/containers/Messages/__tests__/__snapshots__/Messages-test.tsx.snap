@@ -298,11 +298,11 @@ exports[`Messages > A message is removed if the modal is closed 1`] = `
   color: #fff;
 }
 
-.emotion-12[data-severity='info'] {
+.emotion-12[data-severity="info"] {
   color: #444;
 }
 
-.emotion-12[data-severity='warning'] {
+.emotion-12[data-severity="warning"] {
   color: #444;
 }
 
@@ -310,11 +310,11 @@ exports[`Messages > A message is removed if the modal is closed 1`] = `
   color: #fff;
 }
 
-.emotion-14 svg[data-severity='info'] {
+.emotion-14 svg[data-severity="info"] {
   color: #444;
 }
 
-.emotion-14 svg[data-severity='warning'] {
+.emotion-14 svg[data-severity="warning"] {
   color: #444;
 }
 
@@ -897,11 +897,11 @@ exports[`Messages > A single message renders correctly 1`] = `
   color: #fff;
 }
 
-.emotion-12[data-severity='info'] {
+.emotion-12[data-severity="info"] {
   color: #444;
 }
 
-.emotion-12[data-severity='warning'] {
+.emotion-12[data-severity="warning"] {
   color: #444;
 }
 
@@ -909,11 +909,11 @@ exports[`Messages > A single message renders correctly 1`] = `
   color: #fff;
 }
 
-.emotion-14 svg[data-severity='info'] {
+.emotion-14 svg[data-severity="info"] {
   color: #444;
 }
 
-.emotion-14 svg[data-severity='warning'] {
+.emotion-14 svg[data-severity="warning"] {
   color: #444;
 }
 
@@ -1472,11 +1472,11 @@ exports[`Messages > Several messages renders correctly 1`] = `
   color: #fff;
 }
 
-.emotion-12[data-severity='info'] {
+.emotion-12[data-severity="info"] {
   color: #444;
 }
 
-.emotion-12[data-severity='warning'] {
+.emotion-12[data-severity="warning"] {
   color: #444;
 }
 
@@ -1484,11 +1484,11 @@ exports[`Messages > Several messages renders correctly 1`] = `
   color: #fff;
 }
 
-.emotion-14 svg[data-severity='info'] {
+.emotion-14 svg[data-severity="info"] {
   color: #444;
 }
 
-.emotion-14 svg[data-severity='warning'] {
+.emotion-14 svg[data-severity="warning"] {
   color: #444;
 }
 
@@ -2141,11 +2141,11 @@ exports[`Messages > auth0 messages provides a cancel button 1`] = `
   color: #fff;
 }
 
-.emotion-12[data-severity='info'] {
+.emotion-12[data-severity="info"] {
   color: #444;
 }
 
-.emotion-12[data-severity='warning'] {
+.emotion-12[data-severity="warning"] {
   color: #444;
 }
 
@@ -2153,11 +2153,11 @@ exports[`Messages > auth0 messages provides a cancel button 1`] = `
   color: #fff;
 }
 
-.emotion-14 svg[data-severity='info'] {
+.emotion-14 svg[data-severity="info"] {
   color: #444;
 }
 
-.emotion-14 svg[data-severity='warning'] {
+.emotion-14 svg[data-severity="warning"] {
   color: #444;
 }
 

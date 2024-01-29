@@ -6,16 +6,16 @@
  *
  */
 
-import { Diff, diff_match_patch } from 'diff-match-patch';
+import { Diff, diff_match_patch } from "diff-match-patch";
 
 const differ = new diff_match_patch();
 
 const allowedConversions = [
-  ['&#x27;', "'"],
-  ['&quot;', '"'],
+  ["&#x27;", "'"],
+  ["&quot;", '"'],
 ];
-const brWrappers = ['strong', 'em', 'u', 'code', 'sup', 'sub'];
-const tagRegexes = brWrappers.map((tag) => new RegExp(`</${tag}><${tag}>`, 'g'));
+const brWrappers = ["strong", "em", "u", "code", "sup", "sub"];
+const tagRegexes = brWrappers.map((tag) => new RegExp(`</${tag}><${tag}>`, "g"));
 
 interface Value {
   current: string;
@@ -43,12 +43,12 @@ function getValues(index: number, diffs: Diff[]) {
 
 // I.E "<h2>Oppgaver</h2> <ol>...</ol>" -> "<h2>Oppgaver</h2><ol>...</ol>"
 function allowSpaceRemovalBetweenTags({ current, next, previous }: Value) {
-  return previous[previous.length] !== '>' && current === ' ' && next[0] === '<';
+  return previous[previous.length] !== ">" && current === " " && next[0] === "<";
 }
 
 // I.E "<table><tbody>...</tbody></table>" -> "<table><thead>...</thead><tbody>...</tbody></table>"
 function allowTHeadInsertion({ current, next, previous }: Value) {
-  return previous.endsWith('<table><t') && current === 'body' && next === 'head';
+  return previous.endsWith("<table><t") && current === "body" && next === "head";
 }
 
 // I.E "<p>some "text".</p>" -> "<p>some &quot;text&quot;.</p>"
@@ -72,25 +72,25 @@ function allowQuotEntityReplacement({ current, next }: Value) {
 // I.E "<h6>...</h6>" -> "<h3>...</h3>"
 function allowHeadingConversion({ current, next, previous }: Value) {
   return (
-    (previous.endsWith('</h') || previous.endsWith('<h')) &&
-    (current === '4' || current === '5' || current === '6') &&
-    next === '3'
+    (previous.endsWith("</h") || previous.endsWith("<h")) &&
+    (current === "4" || current === "5" || current === "6") &&
+    next === "3"
   );
 }
 
 // I.E "<mo>&#xa0;</mo>" -> "<mo>&nbsp;</mo>"
 function allowSpaceReplacement({ current, next }: Value) {
-  return current === '#xa0' && next === 'nbsp';
+  return current === "#xa0" && next === "nbsp";
 }
 
 // I.E "<mo>&#xa0;</mo>" -> "<mo>&nbsp;</mo>"
 function allowStrongRemoval({ current, next, previous }: Value) {
   // I.E. <strong><math>...</math></strong> -> <math>...</math>
-  if (current === 'strong><' && next.startsWith('math')) {
+  if (current === "strong><" && next.startsWith("math")) {
     return true;
   }
   // I.E. <strong><math>...</math></strong> -> <math>...</math>
-  if (current === 'strong></' && previous.endsWith('</math></')) {
+  if (current === "strong></" && previous.endsWith("</math></")) {
     return true;
   }
   // I.E. <strong>one</strong><strong>two</strong> -> <strong>onetwo</strong>
@@ -100,12 +100,12 @@ function allowStrongRemoval({ current, next, previous }: Value) {
   return false;
 }
 function allowBrWrapping({ current }: Value) {
-  return current === 'br/';
+  return current === "br/";
 }
 
 // I.E. <br/> => <br>
 function allowSlashRemoval({ current, next }: Value) {
-  return current === '/' && next.startsWith('>');
+  return current === "/" && next.startsWith(">");
 }
 
 const removalFns = [
@@ -128,7 +128,7 @@ function isRemovalAllowed(index: number, diffs: Diff[]) {
 }
 
 const cleanUpHtml = (newHtml: string) =>
-  tagRegexes.reduce((currString, currRegExp) => currString.replace(currRegExp, ''), newHtml);
+  tagRegexes.reduce((currString, currRegExp) => currString.replace(currRegExp, ""), newHtml);
 
 export function diffHTML(oldHtml: string, newHtml: string) {
   // we remove some noise coming from Slate, ex </strong><strong>

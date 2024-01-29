@@ -6,18 +6,18 @@
  *
  */
 
-import { FormikHandlers, useFormikContext } from 'formik';
-import { useMemo, useEffect, useCallback } from 'react';
-import { createEditor, Descendant } from 'slate';
-import { withHistory } from 'slate-history';
-import { Slate, Editable, ReactEditor, withReact } from 'slate-react';
-import { EditableProps } from 'slate-react/dist/components/editable';
-import styled from '@emotion/styled';
-import { useFormControl } from '@ndla/forms';
-import { SlatePlugin } from './interfaces';
-import withPlugins from './utils/withPlugins';
-import { ArticleFormType } from '../../containers/FormikForm/articleFormHooks';
-import { FormikStatus } from '../../interfaces';
+import { FormikHandlers, useFormikContext } from "formik";
+import { useMemo, useEffect, useCallback } from "react";
+import { createEditor, Descendant } from "slate";
+import { withHistory } from "slate-history";
+import { Slate, Editable, ReactEditor, withReact } from "slate-react";
+import { EditableProps } from "slate-react/dist/components/editable";
+import styled from "@emotion/styled";
+import { useFormControl } from "@ndla/forms";
+import { SlatePlugin } from "./interfaces";
+import withPlugins from "./utils/withPlugins";
+import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
+import { FormikStatus } from "../../interfaces";
 
 const StyledEditable = styled(Editable)`
   outline: none;
@@ -30,26 +30,17 @@ const StyledPlaceholder = styled.div`
   pointer-events: none;
 `;
 
-interface Props extends Omit<EditableProps, 'value'> {
+interface Props extends Omit<EditableProps, "value"> {
   id: string;
   value: Descendant[];
-  onChange: FormikHandlers['handleChange'];
+  onChange: FormikHandlers["handleChange"];
   submitted?: boolean;
   className?: string;
   placeholder?: string;
   plugins?: SlatePlugin[];
 }
 
-const PlainTextEditor = ({
-  onChange,
-  value,
-  id,
-  submitted,
-  className,
-  placeholder,
-  plugins,
-  ...rest
-}: Props) => {
+const PlainTextEditor = ({ onChange, value, id, submitted, className, placeholder, plugins, ...rest }: Props) => {
   const _editor = useMemo(() => withHistory(withReact(createEditor())), []);
   const editor = useMemo(() => withPlugins(_editor, plugins), [_editor, plugins]);
   const props = useFormControl({ id, readOnly: submitted, ...rest });
@@ -64,7 +55,7 @@ const PlainTextEditor = ({
         target: {
           name: id,
           value: val,
-          type: 'SlateEditorValue',
+          type: "SlateEditorValue",
         },
       }),
     [id, onChange],
@@ -73,10 +64,13 @@ const PlainTextEditor = ({
   const { status, setStatus } = useFormikContext<ArticleFormType>();
 
   useEffect(() => {
-    if (status?.status === 'revertVersion') {
+    if (status?.status === "revertVersion") {
       ReactEditor.deselect(editor);
       editor.children = value;
-      setStatus((prevStatus: FormikStatus) => ({ ...prevStatus, status: undefined }));
+      setStatus((prevStatus: FormikStatus) => ({
+        ...prevStatus,
+        status: undefined,
+      }));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status]);

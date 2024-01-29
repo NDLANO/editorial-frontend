@@ -6,11 +6,11 @@
  *
  */
 
-import { HTMLAttributes, MouseEventHandler, ReactNode } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { colors } from '@ndla/core';
-import DeleteButton from '../DeleteButton';
+import { HTMLAttributes, MouseEventHandler, ReactNode } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { colors } from "@ndla/core";
+import DeleteButton from "../DeleteButton";
 
 const StyledEditorErrorMessage = styled.div`
   position: relative;
@@ -37,7 +37,7 @@ const EditorErrorMessage = ({ msg, attributes, onRemoveClick, children }: Props)
         <span>{msg}</span>
         {children}
       </div>
-      {onRemoveClick && <DeleteButton aria-label={t('form.remove')} onClick={onRemoveClick} />}
+      {onRemoveClick && <DeleteButton aria-label={t("form.remove")} onClick={onRemoveClick} />}
     </StyledEditorErrorMessage>
   );
 };

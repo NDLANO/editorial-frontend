@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import sortBy from 'lodash/sortBy';
-import { useState, useEffect, useCallback, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Select, SingleValue } from '@ndla/select';
-import { DRAFT_RESPONSIBLE } from '../../../constants';
-import { useAuth0Responsibles } from '../../../modules/auth0/auth0Queries';
+import sortBy from "lodash/sortBy";
+import { useState, useEffect, useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { Select, SingleValue } from "@ndla/select";
+import { DRAFT_RESPONSIBLE } from "../../../constants";
+import { useAuth0Responsibles } from "../../../modules/auth0/auth0Queries";
 
 interface Props {
   responsible: SingleValue;
@@ -37,11 +37,11 @@ const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId 
     },
   );
   const optionsWithGroupTitle = useMemo(
-    () => [{ label: t('form.responsible.label'), options: users ?? [] }],
+    () => [{ label: t("form.responsible.label"), options: users ?? [] }],
     [t, users],
   );
 
-  const noOptionsMessage = useMemo(() => () => t('form.responsible.noResults'), [t]);
+  const noOptionsMessage = useMemo(() => () => t("form.responsible.noResults"), [t]);
 
   const [enableRequired, setEnableRequired] = useState(false);
 
@@ -75,7 +75,7 @@ const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId 
       <Select<false>
         options={optionsWithGroupTitle}
         menuPlacement="top"
-        placeholder={t('form.responsible.choose')}
+        placeholder={t("form.responsible.choose")}
         value={responsible}
         onChange={updateResponsible}
         isLoading={isLoading}

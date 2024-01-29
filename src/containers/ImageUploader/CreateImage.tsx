@@ -6,15 +6,15 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import { IImageMetaInformationV3, INewImageMetaInformationV2 } from '@ndla/types-backend/image-api';
-import ImageForm from './components/ImageForm';
-import { draftLicensesToImageLicenses } from '../../modules/draft/draftApiUtils';
-import { useLicenses } from '../../modules/draft/draftQueries';
-import { postImage } from '../../modules/image/imageApi';
-import { createFormData } from '../../util/formDataHelper';
-import { toEditImage } from '../../util/routeHelpers';
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import { IImageMetaInformationV3, INewImageMetaInformationV2 } from "@ndla/types-backend/image-api";
+import ImageForm from "./components/ImageForm";
+import { draftLicensesToImageLicenses } from "../../modules/draft/draftApiUtils";
+import { useLicenses } from "../../modules/draft/draftQueries";
+import { postImage } from "../../modules/image/imageApi";
+import { createFormData } from "../../util/formDataHelper";
+import { toEditImage } from "../../util/routeHelpers";
 
 interface Props {
   isNewlyCreated?: boolean;
@@ -24,13 +24,7 @@ interface Props {
   inModal?: boolean;
 }
 
-const CreateImage = ({
-  isNewlyCreated,
-  editingArticle,
-  onImageCreated,
-  inModal,
-  closeModal,
-}: Props) => {
+const CreateImage = ({ isNewlyCreated, editingArticle, onImageCreated, inModal, closeModal }: Props) => {
   const { i18n } = useTranslation();
   const locale = i18n.language;
   const { data: licenses } = useLicenses({ placeholderData: [] });

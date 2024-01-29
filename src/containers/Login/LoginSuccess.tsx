@@ -6,10 +6,10 @@
  *
  */
 
-import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import { parseHash } from '../../util/authHelpers';
-import { useSession } from '../Session/SessionProvider';
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { parseHash } from "../../util/authHelpers";
+import { useSession } from "../Session/SessionProvider";
 
 export const LoginSuccess = () => {
   const location = useLocation();

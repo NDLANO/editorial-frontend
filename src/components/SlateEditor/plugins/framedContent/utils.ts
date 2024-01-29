@@ -6,8 +6,7 @@
  *
  */
 
-import { jsx as slatejsx } from 'slate-hyperscript';
-import { TYPE_FRAMED_CONTENT } from './types';
+import { jsx as slatejsx } from "slate-hyperscript";
+import { TYPE_FRAMED_CONTENT } from "./types";
 
-export const defaultFramedContentBlock = () =>
-  slatejsx('element', { type: TYPE_FRAMED_CONTENT }, [{ text: '' }]);
+export const defaultFramedContentBlock = () => slatejsx("element", { type: TYPE_FRAMED_CONTENT }, [{ text: "" }]);

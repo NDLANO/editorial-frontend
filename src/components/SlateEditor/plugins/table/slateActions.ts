@@ -6,14 +6,14 @@
  *
  */
 
-import { Editor, Path, Transforms } from 'slate';
-import { defaultTableCellBlock } from './defaultBlocks';
-import { TableBodyElement, TableCellElement, TableElement, TableHeadElement } from './interfaces';
-import { getTableAsMatrix } from './matrix';
-import { findCellCoordinate, getMatrixColumn } from './matrixHelpers';
-import { hasCellAlignOfType, isTableCell, isTableRow } from './slateHelpers';
-import { TYPE_TABLE_CELL } from './types';
-import getCurrentBlock from '../../utils/getCurrentBlock';
+import { Editor, Path, Transforms } from "slate";
+import { defaultTableCellBlock } from "./defaultBlocks";
+import { TableBodyElement, TableCellElement, TableElement, TableHeadElement } from "./interfaces";
+import { getTableAsMatrix } from "./matrix";
+import { findCellCoordinate, getMatrixColumn } from "./matrixHelpers";
+import { hasCellAlignOfType, isTableCell, isTableRow } from "./slateHelpers";
+import { TYPE_TABLE_CELL } from "./types";
+import getCurrentBlock from "../../utils/getCurrentBlock";
 
 export const insertEmptyCells = (editor: Editor, path: Path, amount: number) => {
   Transforms.insertNodes(
@@ -56,8 +56,8 @@ export const toggleCellAlign = (editor: Editor, type: string) => {
 export const updateCell = (
   editor: Editor,
   cell: TableCellElement,
-  data: Partial<TableCellElement['data']>,
-  cellType?: TableCellElement['type'],
+  data: Partial<TableCellElement["data"]>,
+  cellType?: TableCellElement["type"],
 ) => {
   Transforms.setNodes(
     editor,

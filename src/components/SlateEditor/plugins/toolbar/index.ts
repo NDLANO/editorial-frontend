@@ -6,10 +6,10 @@
  *
  */
 
-import { isKeyHotkey, isCodeHotkey } from 'is-hotkey';
-import { Editor } from 'slate';
-import { handleClickBlock, handleClickInline, handleClickText } from './handleMenuClicks';
-import SlateToolbar from './SlateToolbar';
+import { isKeyHotkey, isCodeHotkey } from "is-hotkey";
+import { Editor } from "slate";
+import { handleClickBlock, handleClickInline, handleClickText } from "./handleMenuClicks";
+import SlateToolbar from "./SlateToolbar";
 import {
   AreaFilters,
   CategoryFilters,
@@ -18,25 +18,25 @@ import {
   createToolbarDefaultValues,
   getEditorAncestors,
   toolbarState,
-} from './toolbarState';
-import { toggleMark } from '../mark/utils';
+} from "./toolbarState";
+import { toggleMark } from "../mark/utils";
 
-const isBoldHotkey = isKeyHotkey('mod+b');
-const isCodeHotKey = isKeyHotkey('mod+k');
-const isConceptBlockHotKey = isCodeHotkey('mod+alt+c');
-const isH2HotKey = isKeyHotkey('mod+2');
-const isH3HotKey = isKeyHotkey('mod+3');
-const isH4HotKey = isKeyHotkey('mod+4');
-const isItalicHotKey = isKeyHotkey('mod+i');
-const isLetteredListHotKey = isCodeHotkey('mod+alt+a');
-const isLinkHotKey = isCodeHotkey('mod+alt+l');
-const isListHotKey = isKeyHotkey('mod+l');
-const isMathHotKey = isKeyHotkey('mod+m');
-const isNumberedListHotKey = isCodeHotkey('mod+alt+1');
-const isDefinitionListHotkey = isCodeHotkey('mod+alt+d');
-const isQuoteHotKey = isCodeHotkey('mod+alt+b');
-const isSubHotKey = isCodeHotkey('mod+alt+s');
-const isSupHotKey = isCodeHotkey('mod+alt+h');
+const isBoldHotkey = isKeyHotkey("mod+b");
+const isCodeHotKey = isKeyHotkey("mod+k");
+const isConceptBlockHotKey = isCodeHotkey("mod+alt+c");
+const isH2HotKey = isKeyHotkey("mod+2");
+const isH3HotKey = isKeyHotkey("mod+3");
+const isH4HotKey = isKeyHotkey("mod+4");
+const isItalicHotKey = isKeyHotkey("mod+i");
+const isLetteredListHotKey = isCodeHotkey("mod+alt+a");
+const isLinkHotKey = isCodeHotkey("mod+alt+l");
+const isListHotKey = isKeyHotkey("mod+l");
+const isMathHotKey = isKeyHotkey("mod+m");
+const isNumberedListHotKey = isCodeHotkey("mod+alt+1");
+const isDefinitionListHotkey = isCodeHotkey("mod+alt+d");
+const isQuoteHotKey = isCodeHotkey("mod+alt+b");
+const isSubHotKey = isCodeHotkey("mod+alt+s");
+const isSupHotKey = isCodeHotkey("mod+alt+h");
 
 const toolbarPlugin = (
   editor: Editor,
@@ -61,37 +61,37 @@ const toolbarPlugin = (
       return;
     }
     if (isBoldHotkey(e)) {
-      action = { category: 'mark', value: 'bold' };
+      action = { category: "mark", value: "bold" };
     } else if (isCodeHotKey(e)) {
-      action = { category: 'mark', value: 'code' };
+      action = { category: "mark", value: "code" };
     } else if (isConceptBlockHotKey(e)) {
-      action = { category: 'inline', value: 'concept-inline' };
+      action = { category: "inline", value: "concept-inline" };
     } else if (isH2HotKey(e)) {
-      action = { category: 'text', value: 'heading-2' };
+      action = { category: "text", value: "heading-2" };
     } else if (isH3HotKey(e)) {
-      action = { category: 'text', value: 'heading-3' };
+      action = { category: "text", value: "heading-3" };
     } else if (isH4HotKey(e)) {
-      action = { category: 'text', value: 'heading-4' };
+      action = { category: "text", value: "heading-4" };
     } else if (isItalicHotKey(e)) {
-      action = { category: 'mark', value: 'italic' };
+      action = { category: "mark", value: "italic" };
     } else if (isLetteredListHotKey(e)) {
-      action = { category: 'block', value: 'letter-list' };
+      action = { category: "block", value: "letter-list" };
     } else if (isLinkHotKey(e)) {
-      action = { category: 'inline', value: 'content-link' };
+      action = { category: "inline", value: "content-link" };
     } else if (isListHotKey(e)) {
-      action = { category: 'block', value: 'bulleted-list' };
+      action = { category: "block", value: "bulleted-list" };
     } else if (isMathHotKey(e)) {
-      action = { category: 'inline', value: 'mathml' };
+      action = { category: "inline", value: "mathml" };
     } else if (isNumberedListHotKey(e)) {
-      action = { category: 'block', value: 'numbered-list' };
+      action = { category: "block", value: "numbered-list" };
     } else if (isQuoteHotKey(e)) {
-      action = { category: 'block', value: 'quote' };
+      action = { category: "block", value: "quote" };
     } else if (isSubHotKey(e)) {
-      action = { category: 'mark', value: 'sub' };
+      action = { category: "mark", value: "sub" };
     } else if (isSupHotKey(e)) {
-      action = { category: 'mark', value: 'sup' };
+      action = { category: "mark", value: "sup" };
     } else if (isDefinitionListHotkey(e)) {
-      action = { category: 'block', value: 'definition-list' };
+      action = { category: "block", value: "definition-list" };
     }
 
     if (!action || !editor.shouldShowToolbar()) {
@@ -114,13 +114,13 @@ const toolbarPlugin = (
 
     e.preventDefault();
 
-    if (action.category === 'mark') {
+    if (action.category === "mark") {
       toggleMark(e, editor, action.value);
-    } else if (action.category === 'block') {
+    } else if (action.category === "block") {
       handleClickBlock(e, editor, action.value);
-    } else if (action.category === 'inline') {
+    } else if (action.category === "inline") {
       handleClickInline(e, editor, action.value);
-    } else if (action.category === 'text') {
+    } else if (action.category === "text") {
       handleClickText(e, editor, action.value);
     } else if (nextOnKeyDown) {
       nextOnKeyDown(e);

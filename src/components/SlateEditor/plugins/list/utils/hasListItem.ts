@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { Editor, Element } from 'slate';
-import { getListItemType } from './getListItemType';
-import { isListItemPathSelected } from './isListItemSelected';
-import { TYPE_LIST_ITEM } from '../types';
+import { Editor, Element } from "slate";
+import { getListItemType } from "./getListItemType";
+import { isListItemPathSelected } from "./isListItemSelected";
+import { TYPE_LIST_ITEM } from "../types";
 
 const hasListItem = (editor: Editor, type?: string) => {
   // For all selected list elements

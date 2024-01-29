@@ -6,4 +6,4 @@
  *
  */
 
-export const TYPE_QUOTE = 'quote';
+export const TYPE_QUOTE = "quote";

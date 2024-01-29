@@ -6,10 +6,10 @@
  *
  */
 
-import CreateImage from './CreateImage';
-import EditImage from './EditImage';
-import ResourcePage from '../../components/ResourcePage';
-import { useImage } from '../../modules/image/imageQueries';
+import CreateImage from "./CreateImage";
+import EditImage from "./EditImage";
+import ResourcePage from "../../components/ResourcePage";
+import { useImage } from "../../modules/image/imageQueries";
 
 const ImageUploaderPage = () => (
   <ResourcePage

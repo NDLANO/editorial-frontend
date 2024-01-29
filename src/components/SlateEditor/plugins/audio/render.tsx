@@ -6,9 +6,9 @@
  *
  */
 
-import { Editor } from 'slate';
-import SlateAudio from './SlateAudio';
-import { TYPE_AUDIO } from './types';
+import { Editor } from "slate";
+import SlateAudio from "./SlateAudio";
+import { TYPE_AUDIO } from "./types";
 
 export const audioRenderer = (language: string) => (editor: Editor) => {
   const { renderElement } = editor;

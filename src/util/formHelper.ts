@@ -6,28 +6,28 @@
  *
  */
 
-import isEqual from 'lodash/fp/isEqual';
-import { Descendant, Node } from 'slate';
-import { IArticle, ILicense, IArticleMetaImage } from '@ndla/types-backend/draft-api';
-import { blockContentToHTML, inlineContentToHTML } from './articleContentConverter';
-import { isGrepCodeValid } from './articleUtil';
-import { diffHTML } from './diffHTML';
-import { isUserProvidedEmbedDataValid } from './embedTagHelpers';
-import { findNodesByType } from './slateHelpers';
-import { RulesType } from '../components/formikValidationSchema';
-import { EmbedElements } from '../components/SlateEditor/plugins/embed';
-import { isSlateEmbed } from '../components/SlateEditor/plugins/embed/utils';
+import isEqual from "lodash/fp/isEqual";
+import { Descendant, Node } from "slate";
+import { IArticle, ILicense, IArticleMetaImage } from "@ndla/types-backend/draft-api";
+import { blockContentToHTML, inlineContentToHTML } from "./articleContentConverter";
+import { isGrepCodeValid } from "./articleUtil";
+import { diffHTML } from "./diffHTML";
+import { isUserProvidedEmbedDataValid } from "./embedTagHelpers";
+import { findNodesByType } from "./slateHelpers";
+import { RulesType } from "../components/formikValidationSchema";
+import { EmbedElements } from "../components/SlateEditor/plugins/embed";
+import { isSlateEmbed } from "../components/SlateEditor/plugins/embed/utils";
 import {
   ArticleFormType,
   LearningResourceFormType,
   TopicArticleFormType,
   FrontpageArticleFormType,
-} from '../containers/FormikForm/articleFormHooks';
+} from "../containers/FormikForm/articleFormHooks";
 
 export const DEFAULT_LICENSE: ILicense = {
-  description: 'Creative Commons Attribution-ShareAlike 4.0 International',
-  license: 'CC-BY-SA-4.0',
-  url: 'https://creativecommons.org/licenses/by-sa/4.0/',
+  description: "Creative Commons Attribution-ShareAlike 4.0 International",
+  license: "CC-BY-SA-4.0",
+  url: "https://creativecommons.org/licenses/by-sa/4.0/",
 };
 
 const checkIfContentHasChanged = (
@@ -37,8 +37,7 @@ const checkIfContentHasChanged = (
   initialHTML?: string,
 ) => {
   if (currentValue.length !== initialContent.length) return true;
-  const toHTMLFunction =
-    type === 'standard' || type === 'frontpage-article' ? blockContentToHTML : inlineContentToHTML;
+  const toHTMLFunction = type === "standard" || type === "frontpage-article" ? blockContentToHTML : inlineContentToHTML;
   const newHTML = toHTMLFunction(currentValue);
 
   const diff = diffHTML(newHTML, initialHTML || toHTMLFunction(initialContent));
@@ -77,33 +76,26 @@ export const isFormikFormDirty = <T extends FormikFields>({
   }
   // Checking specific slate object fields if they really have changed
   const slateFields = [
-    'description',
-    'introduction',
-    'title',
-    'metaDescription',
-    'content',
-    'conceptContent',
-    'manuscript',
+    "description",
+    "introduction",
+    "title",
+    "metaDescription",
+    "content",
+    "conceptContent",
+    "manuscript",
   ];
   // and skipping fields that only changes on the server
-  const skipFields = ['revision', 'updated', 'updatePublished', 'id'];
+  const skipFields = ["revision", "updated", "updatePublished", "id"];
   const dirtyFields = [];
   Object.entries(values)
     .filter(([key]) => !skipFields.includes(key))
     .forEach(([key, value]) => {
       if (slateFields.includes(key)) {
-        if (key === 'content') {
-          if (
-            checkIfContentHasChanged(
-              values[key]!,
-              initialValues[key]!,
-              initialValues.articleType!,
-              initialHTML,
-            )
-          ) {
+        if (key === "content") {
+          if (checkIfContentHasChanged(values[key]!, initialValues[key]!, initialValues.articleType!, initialHTML)) {
             dirtyFields.push(value);
           }
-        } else if (typeof value === 'object' && !isEqual(value, initialValues[key])) {
+        } else if (typeof value === "object" && !isEqual(value, initialValues[key])) {
           dirtyFields.push(value);
         }
       } else if (!isEqual(value, initialValues[key as keyof T])) {
@@ -154,8 +146,8 @@ export const formikCommonArticleRules: RulesType<ArticleFormType, IArticle> = {
     required: false,
     test: (values) => {
       const authors = values.creators.concat(values.rightsholders).concat(values.processors);
-      if (values.license === 'N/A' || authors.length > 0) return undefined;
-      return { translationKey: 'validation.noLicenseWithoutCopyrightHolder' };
+      if (values.license === "N/A" || authors.length > 0) return undefined;
+      return { translationKey: "validation.noLicenseWithoutCopyrightHolder" };
     },
   },
   notes: {
@@ -163,7 +155,7 @@ export const formikCommonArticleRules: RulesType<ArticleFormType, IArticle> = {
     test: (values) => {
       const emptyNote = values.notes?.find((note) => note.length === 0);
       if (emptyNote !== undefined) {
-        return { translationKey: 'validation.noEmptyNote' };
+        return { translationKey: "validation.noEmptyNote" };
       }
       return undefined;
     },
@@ -172,14 +164,14 @@ export const formikCommonArticleRules: RulesType<ArticleFormType, IArticle> = {
     required: false,
     test: (values) => {
       const wrongFormat = !!values?.grepCodes?.find((value) => !isGrepCodeValid(value));
-      return wrongFormat ? { translationKey: 'validation.grepCodes' } : undefined;
+      return wrongFormat ? { translationKey: "validation.grepCodes" } : undefined;
     },
   },
   revisionMeta: {
     test: (values) => {
       const emptyNote = values.revisionMeta?.find((meta) => meta.note.length === 0);
       if (emptyNote !== undefined) {
-        return { translationKey: 'validation.noEmptyRevision' };
+        return { translationKey: "validation.noEmptyRevision" };
       }
       return undefined;
     },
@@ -188,11 +180,11 @@ export const formikCommonArticleRules: RulesType<ArticleFormType, IArticle> = {
     test: (values) => {
       const revisionItems = values.revisionMeta.length ?? 0;
       if (!revisionItems) {
-        return { translationKey: 'validation.missingRevision' };
+        return { translationKey: "validation.missingRevision" };
       }
-      const unfinishedRevision = values.revisionMeta.some((rev) => rev.status === 'needs-revision');
+      const unfinishedRevision = values.revisionMeta.some((rev) => rev.status === "needs-revision");
       if (!unfinishedRevision) {
-        return { translationKey: 'validation.unfinishedRevision' };
+        return { translationKey: "validation.unfinishedRevision" };
       }
       return undefined;
     },
@@ -215,7 +207,7 @@ export const learningResourceRules: RulesType<LearningResourceFormType, IArticle
     onlyValidateIf: (values) => !!values.metaImageId,
     warnings: {
       languageMatch: true,
-      apiField: 'metaImage',
+      apiField: "metaImage",
     },
   },
   content: {
@@ -223,21 +215,17 @@ export const learningResourceRules: RulesType<LearningResourceFormType, IArticle
     test: (values) => {
       const embeds = findNodesByType(
         values.content ?? [],
-        'image-embed',
-        'brightcove-embed',
-        'h5p',
-        'audio',
-        'error-embed',
-        'external-embed',
+        "image-embed",
+        "brightcove-embed",
+        "h5p",
+        "audio",
+        "error-embed",
+        "external-embed",
       ).map((node) => (node as EmbedElements).data);
-      const notValidEmbeds = embeds.filter(
-        (embed) => embed && !isUserProvidedEmbedDataValid(embed),
-      );
+      const notValidEmbeds = embeds.filter((embed) => embed && !isUserProvidedEmbedDataValid(embed));
       const embedsHasErrors = notValidEmbeds.length > 0;
 
-      return embedsHasErrors
-        ? { translationKey: 'learningResourceForm.validation.missingEmbedData' }
-        : undefined;
+      return embedsHasErrors ? { translationKey: "learningResourceForm.validation.missingEmbedData" } : undefined;
     },
     warnings: {
       languageMatch: true,
@@ -251,11 +239,8 @@ export const frontPageArticleRules: RulesType<FrontpageArticleFormType, IArticle
     required: true,
     onlyValidateIf: (values) => values.slug !== undefined,
     test: (values) => {
-      const containsIllegalCharacters =
-        values.slug?.replace(/[^a-zA-Z0-9-]/g, '').length !== values.slug?.length;
-      return containsIllegalCharacters
-        ? { translationKey: 'frontpageArticleForm.validation.illegalSlug' }
-        : undefined;
+      const containsIllegalCharacters = values.slug?.replace(/[^a-zA-Z0-9-]/g, "").length !== values.slug?.length;
+      return containsIllegalCharacters ? { translationKey: "frontpageArticleForm.validation.illegalSlug" } : undefined;
     },
     warnings: {
       languageMatch: true,
@@ -268,31 +253,30 @@ export const topicArticleRules: RulesType<TopicArticleFormType, IArticle> = {
   visualElementAlt: {
     required: false,
     onlyValidateIf: (values) =>
-      isSlateEmbed(values.visualElement[0]) && values.visualElement[0].data?.resource === 'image',
+      isSlateEmbed(values.visualElement[0]) && values.visualElement[0].data?.resource === "image",
   },
   visualElementCaption: {
     required: false,
     onlyValidateIf: (values) =>
       isSlateEmbed(values.visualElement[0]) &&
-      (values.visualElement[0].data?.resource === 'image' ||
-        values.visualElement[0].data?.resource === 'brightcove'),
+      (values.visualElement[0].data?.resource === "image" || values.visualElement[0].data?.resource === "brightcove"),
     warnings: {
       languageMatch: true,
-      apiField: 'visualElement',
+      apiField: "visualElement",
     },
   },
   visualElement: {
     required: false,
     test: (values) =>
-      isSlateEmbed(values.visualElement[0]) && values.visualElement[0].data?.resource !== 'image'
-        ? { translationKey: 'topicArticleForm.validation.illegalResource' }
+      isSlateEmbed(values.visualElement[0]) && values.visualElement[0].data?.resource !== "image"
+        ? { translationKey: "topicArticleForm.validation.illegalResource" }
         : undefined,
   },
   content: {
     required: false,
     test: (values) =>
-      Node.string(values.content[0]) !== '' || values.content.length > 1
-        ? { translationKey: 'topicArticleForm.validation.containsContent' }
+      Node.string(values.content[0]) !== "" || values.content.length > 1
+        ? { translationKey: "topicArticleForm.validation.containsContent" }
         : undefined,
     warnings: {
       languageMatch: true,
@@ -301,17 +285,17 @@ export const topicArticleRules: RulesType<TopicArticleFormType, IArticle> = {
   metaImageAlt: {
     warnings: {
       languageMatch: true,
-      apiField: 'metaImage',
+      apiField: "metaImage",
     },
   },
 };
 
 export const parseImageUrl = (metaImage?: IArticleMetaImage) => {
   if (!metaImage || !metaImage.url || metaImage.url.length === 0) {
-    return '';
+    return "";
   }
 
-  const splittedUrl = metaImage.url.split('/');
+  const splittedUrl = metaImage.url.split("/");
   return splittedUrl[splittedUrl.length - 1];
 };
 

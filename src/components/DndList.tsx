@@ -6,7 +6,7 @@
  *
  */
 
-import { ComponentProps, ReactElement, useCallback, useEffect, useState } from 'react';
+import { ComponentProps, ReactElement, useCallback, useEffect, useState } from "react";
 import {
   DndContext,
   DragEndEvent,
@@ -16,16 +16,16 @@ import {
   closestCenter,
   useSensor,
   useSensors,
-} from '@dnd-kit/core';
-import { restrictToParentElement, restrictToVerticalAxis } from '@dnd-kit/modifiers';
+} from "@dnd-kit/core";
+import { restrictToParentElement, restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import {
   SortableContext,
   arrayMove,
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
-} from '@dnd-kit/sortable';
-import { IconButtonV2 } from '@ndla/button';
-import DraggableItem from './DraggableItem';
+} from "@dnd-kit/sortable";
+import { IconButtonV2 } from "@ndla/button";
+import DraggableItem from "./DraggableItem";
 
 interface Props<T extends { id: UniqueIdentifier }> {
   items: T[];
@@ -74,13 +74,7 @@ const DndList = <T extends { id: UniqueIdentifier }>({
     >
       <SortableContext items={items} disabled={disabled} strategy={verticalListSortingStrategy}>
         {items.map((item, index) => (
-          <DraggableItem
-            disabled={disabled}
-            key={item.id}
-            id={item.id}
-            index={index}
-            dragHandle={dragHandle}
-          >
+          <DraggableItem disabled={disabled} key={item.id} id={item.id} index={index} dragHandle={dragHandle}>
             {renderItem(item, index)}
           </DraggableItem>
         ))}

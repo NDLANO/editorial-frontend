@@ -6,19 +6,19 @@
  *
  */
 
-import { createEditor, Descendant, Editor } from 'slate';
-import { withHistory } from 'slate-history';
-import { withReact } from 'slate-react';
-import { learningResourcePlugins } from '../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins';
-import withPlugins from '../../../utils/withPlugins';
-import { TYPE_PARAGRAPH } from '../../paragraph/types';
-import { TYPE_SECTION } from '../../section/types';
-import { TYPE_LIST, TYPE_LIST_ITEM } from '../types';
+import { createEditor, Descendant, Editor } from "slate";
+import { withHistory } from "slate-history";
+import { withReact } from "slate-react";
+import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
+import withPlugins from "../../../utils/withPlugins";
+import { TYPE_PARAGRAPH } from "../../paragraph/types";
+import { TYPE_SECTION } from "../../section/types";
+import { TYPE_LIST, TYPE_LIST_ITEM } from "../types";
 
 const editor = withHistory(withReact(withPlugins(createEditor(), learningResourcePlugins)));
 
-describe('list normalizer tests', () => {
-  test('Unwrap list item not placed inside list', () => {
+describe("list normalizer tests", () => {
+  test("Unwrap list item not placed inside list", () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
@@ -30,7 +30,7 @@ describe('list normalizer tests', () => {
                 type: TYPE_PARAGRAPH,
                 children: [
                   {
-                    text: 'abc',
+                    text: "abc",
                   },
                 ],
               },
@@ -46,7 +46,7 @@ describe('list normalizer tests', () => {
         children: [
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: 'abc' }],
+            children: [{ text: "abc" }],
           },
         ],
       },
@@ -56,21 +56,21 @@ describe('list normalizer tests', () => {
     expect(editor.children).toEqual(expectedValue);
   });
 
-  test('If listItem contains text, wrap it in paragraph.', () => {
+  test("If listItem contains text, wrap it in paragraph.", () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
         children: [
           {
             type: TYPE_LIST,
-            listType: 'letter-list',
+            listType: "letter-list",
             data: {},
             children: [
               {
                 type: TYPE_LIST_ITEM,
                 children: [
                   {
-                    text: 'abc',
+                    text: "abc",
                   },
                 ],
               },
@@ -88,13 +88,13 @@ describe('list normalizer tests', () => {
             type: TYPE_PARAGRAPH,
             children: [
               {
-                text: '',
+                text: "",
               },
             ],
           },
           {
             type: TYPE_LIST,
-            listType: 'letter-list',
+            listType: "letter-list",
             data: {},
             children: [
               {
@@ -104,7 +104,7 @@ describe('list normalizer tests', () => {
                     type: TYPE_PARAGRAPH,
                     children: [
                       {
-                        text: 'abc',
+                        text: "abc",
                       },
                     ],
                   },
@@ -116,7 +116,7 @@ describe('list normalizer tests', () => {
             type: TYPE_PARAGRAPH,
             children: [
               {
-                text: '',
+                text: "",
               },
             ],
           },
@@ -128,14 +128,14 @@ describe('list normalizer tests', () => {
     expect(editor.children).toEqual(expectedValue);
   });
 
-  test('If first child of list item is not a paragraph or heading, insert an empty paragraph.', () => {
+  test("If first child of list item is not a paragraph or heading, insert an empty paragraph.", () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
         children: [
           {
             type: TYPE_LIST,
-            listType: 'letter-list',
+            listType: "letter-list",
             data: {},
             children: [
               {
@@ -143,7 +143,7 @@ describe('list normalizer tests', () => {
                 children: [
                   {
                     type: TYPE_LIST,
-                    listType: 'letter-list',
+                    listType: "letter-list",
                     data: {},
                     children: [
                       {
@@ -153,7 +153,7 @@ describe('list normalizer tests', () => {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: '',
+                                text: "",
                               },
                             ],
                           },
@@ -177,13 +177,13 @@ describe('list normalizer tests', () => {
             type: TYPE_PARAGRAPH,
             children: [
               {
-                text: '',
+                text: "",
               },
             ],
           },
           {
             type: TYPE_LIST,
-            listType: 'letter-list',
+            listType: "letter-list",
             data: {},
             children: [
               {
@@ -193,13 +193,13 @@ describe('list normalizer tests', () => {
                     type: TYPE_PARAGRAPH,
                     children: [
                       {
-                        text: '',
+                        text: "",
                       },
                     ],
                   },
                   {
                     type: TYPE_LIST,
-                    listType: 'letter-list',
+                    listType: "letter-list",
                     data: {},
                     children: [
                       {
@@ -209,7 +209,7 @@ describe('list normalizer tests', () => {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: '',
+                                text: "",
                               },
                             ],
                           },
@@ -225,7 +225,7 @@ describe('list normalizer tests', () => {
             type: TYPE_PARAGRAPH,
             children: [
               {
-                text: '',
+                text: "",
               },
             ],
           },
@@ -237,14 +237,14 @@ describe('list normalizer tests', () => {
     expect(editor.children).toEqual(expectedValue);
   });
 
-  test('Handle changing list-items marked for listType change.', () => {
+  test("Handle changing list-items marked for listType change.", () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
         children: [
           {
             type: TYPE_LIST,
-            listType: 'letter-list',
+            listType: "letter-list",
             data: {},
             children: [
               {
@@ -252,18 +252,18 @@ describe('list normalizer tests', () => {
                 children: [
                   {
                     type: TYPE_LIST,
-                    listType: 'letter-list',
+                    listType: "letter-list",
                     data: {},
                     children: [
                       {
                         type: TYPE_LIST_ITEM,
-                        changeTo: 'numbered-list',
+                        changeTo: "numbered-list",
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: 'abc',
+                                text: "abc",
                               },
                             ],
                           },
@@ -276,7 +276,7 @@ describe('list normalizer tests', () => {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: 'def',
+                                text: "def",
                               },
                             ],
                           },
@@ -300,13 +300,13 @@ describe('list normalizer tests', () => {
             type: TYPE_PARAGRAPH,
             children: [
               {
-                text: '',
+                text: "",
               },
             ],
           },
           {
             type: TYPE_LIST,
-            listType: 'letter-list',
+            listType: "letter-list",
             data: {},
             children: [
               {
@@ -316,13 +316,13 @@ describe('list normalizer tests', () => {
                     type: TYPE_PARAGRAPH,
                     children: [
                       {
-                        text: '',
+                        text: "",
                       },
                     ],
                   },
                   {
                     type: TYPE_LIST,
-                    listType: 'numbered-list',
+                    listType: "numbered-list",
                     data: {},
                     children: [
                       {
@@ -332,7 +332,7 @@ describe('list normalizer tests', () => {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: 'abc',
+                                text: "abc",
                               },
                             ],
                           },
@@ -342,7 +342,7 @@ describe('list normalizer tests', () => {
                   },
                   {
                     type: TYPE_LIST,
-                    listType: 'letter-list',
+                    listType: "letter-list",
                     data: {},
                     children: [
                       {
@@ -352,7 +352,7 @@ describe('list normalizer tests', () => {
                             type: TYPE_PARAGRAPH,
                             children: [
                               {
-                                text: 'def',
+                                text: "def",
                               },
                             ],
                           },
@@ -368,7 +368,7 @@ describe('list normalizer tests', () => {
             type: TYPE_PARAGRAPH,
             children: [
               {
-                text: '',
+                text: "",
               },
             ],
           },
@@ -380,14 +380,14 @@ describe('list normalizer tests', () => {
     expect(editor.children).toEqual(expectedValue);
   });
 
-  test('If list is empty, remove it', () => {
+  test("If list is empty, remove it", () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
         children: [
           {
             type: TYPE_LIST,
-            listType: 'numbered-list',
+            listType: "numbered-list",
             data: {},
             children: [],
           },
@@ -401,7 +401,7 @@ describe('list normalizer tests', () => {
         children: [
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
+            children: [{ text: "" }],
           },
         ],
       },
@@ -411,16 +411,16 @@ describe('list normalizer tests', () => {
     expect(editor.children).toEqual(expectedValue);
   });
 
-  test('Force all elements in list to be list-item', () => {
+  test("Force all elements in list to be list-item", () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
         children: [
           {
             type: TYPE_LIST,
-            listType: 'numbered-list',
+            listType: "numbered-list",
             data: {},
-            children: [{ text: 'abc' }],
+            children: [{ text: "abc" }],
           },
         ],
       },
@@ -434,13 +434,13 @@ describe('list normalizer tests', () => {
             type: TYPE_PARAGRAPH,
             children: [
               {
-                text: '',
+                text: "",
               },
             ],
           },
           {
             type: TYPE_LIST,
-            listType: 'numbered-list',
+            listType: "numbered-list",
             data: {},
             children: [
               {
@@ -450,7 +450,7 @@ describe('list normalizer tests', () => {
                     type: TYPE_PARAGRAPH,
                     children: [
                       {
-                        text: 'abc',
+                        text: "abc",
                       },
                     ],
                   },
@@ -462,7 +462,7 @@ describe('list normalizer tests', () => {
             type: TYPE_PARAGRAPH,
             children: [
               {
-                text: '',
+                text: "",
               },
             ],
           },
@@ -474,7 +474,7 @@ describe('list normalizer tests', () => {
     expect(editor.children).toEqual(expectedValue);
   });
 
-  test('Merge sibling lists if identical type', () => {
+  test("Merge sibling lists if identical type", () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
@@ -483,13 +483,13 @@ describe('list normalizer tests', () => {
             type: TYPE_PARAGRAPH,
             children: [
               {
-                text: '',
+                text: "",
               },
             ],
           },
           {
             type: TYPE_LIST,
-            listType: 'letter-list',
+            listType: "letter-list",
             data: {},
             children: [
               {
@@ -499,7 +499,7 @@ describe('list normalizer tests', () => {
                     type: TYPE_PARAGRAPH,
                     children: [
                       {
-                        text: 'abc',
+                        text: "abc",
                       },
                     ],
                   },
@@ -509,7 +509,7 @@ describe('list normalizer tests', () => {
           },
           {
             type: TYPE_LIST,
-            listType: 'letter-list',
+            listType: "letter-list",
             data: {},
             children: [
               {
@@ -519,7 +519,7 @@ describe('list normalizer tests', () => {
                     type: TYPE_PARAGRAPH,
                     children: [
                       {
-                        text: 'def',
+                        text: "def",
                       },
                     ],
                   },
@@ -531,7 +531,7 @@ describe('list normalizer tests', () => {
             type: TYPE_PARAGRAPH,
             children: [
               {
-                text: '',
+                text: "",
               },
             ],
           },
@@ -547,13 +547,13 @@ describe('list normalizer tests', () => {
             type: TYPE_PARAGRAPH,
             children: [
               {
-                text: '',
+                text: "",
               },
             ],
           },
           {
             type: TYPE_LIST,
-            listType: 'letter-list',
+            listType: "letter-list",
             data: {},
             children: [
               {
@@ -563,7 +563,7 @@ describe('list normalizer tests', () => {
                     type: TYPE_PARAGRAPH,
                     children: [
                       {
-                        text: 'abc',
+                        text: "abc",
                       },
                     ],
                   },
@@ -576,7 +576,7 @@ describe('list normalizer tests', () => {
                     type: TYPE_PARAGRAPH,
                     children: [
                       {
-                        text: 'def',
+                        text: "def",
                       },
                     ],
                   },
@@ -588,7 +588,7 @@ describe('list normalizer tests', () => {
             type: TYPE_PARAGRAPH,
             children: [
               {
-                text: '',
+                text: "",
               },
             ],
           },

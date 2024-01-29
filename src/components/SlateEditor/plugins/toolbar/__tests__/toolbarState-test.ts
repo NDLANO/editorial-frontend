@@ -19,10 +19,10 @@ import {
   createToolbarDefaultValues,
   defaultAreaOptions,
   toolbarState,
-} from '../toolbarState';
+} from "../toolbarState";
 
-describe('createToolbarAreaOptions', () => {
-  test('properly merges user-defined and default options', () => {
+describe("createToolbarAreaOptions", () => {
+  test("properly merges user-defined and default options", () => {
     const res = createToolbarAreaOptions({
       heading: {
         block: {
@@ -42,7 +42,7 @@ describe('createToolbarAreaOptions', () => {
     };
     expect(res).toEqual(expected);
   });
-  test('allows user-defined options to override default options', () => {
+  test("allows user-defined options to override default options", () => {
     const res = createToolbarAreaOptions({
       heading: {
         inline: { hidden: false },
@@ -68,8 +68,8 @@ const expandedDefaultValues: CategoryFilters = {
   },
 };
 
-describe('createToolbarDefaultValues', () => {
-  test('expands top-level hidden and disabled attributes to entire category', () => {
+describe("createToolbarDefaultValues", () => {
+  test("expands top-level hidden and disabled attributes to entire category", () => {
     const res = createToolbarDefaultValues({
       block: {
         disabled: true,
@@ -87,27 +87,27 @@ describe('createToolbarDefaultValues', () => {
       ...expandedDefaultValues,
       block: {
         quote: { disabled: true },
-        'definition-list': { disabled: true },
-        'numbered-list': { disabled: true },
-        'bulleted-list': { disabled: true },
-        'letter-list': { disabled: true },
+        "definition-list": { disabled: true },
+        "numbered-list": { disabled: true },
+        "bulleted-list": { disabled: true },
+        "letter-list": { disabled: true },
       },
       text: {
-        'normal-text': { hidden: true },
-        'heading-2': { hidden: true },
-        'heading-3': { hidden: true },
-        'heading-4': { hidden: true },
+        "normal-text": { hidden: true },
+        "heading-2": { hidden: true },
+        "heading-3": { hidden: true },
+        "heading-4": { hidden: true },
       },
       inline: {
-        'content-link': { hidden: true, disabled: true },
+        "content-link": { hidden: true, disabled: true },
         mathml: { hidden: true, disabled: true },
-        'concept-inline': { hidden: true, disabled: true },
+        "concept-inline": { hidden: true, disabled: true },
       },
     };
 
     expect(res).toEqual(expanded);
   });
-  test('overrides truthy default values with falsy user values', () => {
+  test("overrides truthy default values with falsy user values", () => {
     const res = createToolbarDefaultValues({
       table: {
         hidden: false,
@@ -127,13 +127,10 @@ describe('createToolbarDefaultValues', () => {
   });
 });
 
-const allToolbarOptions: ToolbarType = Object.entries(allOptions).reduce<ToolbarType>(
-  (acc, [key, value]) => {
-    acc[key as ToolbarCategories] = Object.values(value);
-    return acc;
-  },
-  {} as ToolbarType,
-);
+const allToolbarOptions: ToolbarType = Object.entries(allOptions).reduce<ToolbarType>((acc, [key, value]) => {
+  acc[key as ToolbarCategories] = Object.values(value);
+  return acc;
+}, {} as ToolbarType);
 
 const arrayifyToolbar = (toolbar: OptionsType) => {
   return Object.entries(toolbar).reduce<ToolbarType>(
@@ -145,30 +142,30 @@ const arrayifyToolbar = (toolbar: OptionsType) => {
   );
 };
 
-describe('toolbarState', () => {
-  test('returns all options if no area options, editorAncestors and default values are provided', () => {
+describe("toolbarState", () => {
+  test("returns all options if no area options, editorAncestors and default values are provided", () => {
     const res = toolbarState({ options: {}, areaOptions: {} });
     const expected = arrayifyToolbar(allOptions);
     expect(res).toEqual(expected);
   });
 
-  test('is not affected by only providing editorAncestors', () => {
+  test("is not affected by only providing editorAncestors", () => {
     const res = toolbarState({
       options: {},
       areaOptions: {},
-      editorAncestors: [{ type: 'paragraph', children: [{ text: 'test' }] }],
+      editorAncestors: [{ type: "paragraph", children: [{ text: "test" }] }],
     });
     const expected = arrayifyToolbar(allOptions);
     expect(res).toEqual(expected);
   });
 
-  test('filters out options that are disabled or hidden due to editorAncestors', () => {
+  test("filters out options that are disabled or hidden due to editorAncestors", () => {
     const res = toolbarState({
       options: {},
       areaOptions: createToolbarAreaOptions(),
       editorAncestors: [
-        { type: 'heading', children: [], level: 1 },
-        { type: 'paragraph', children: [{ text: 'test' }] },
+        { type: "heading", children: [], level: 1 },
+        { type: "paragraph", children: [{ text: "test" }] },
       ],
     });
 
@@ -176,22 +173,22 @@ describe('toolbarState', () => {
       ...allOptions,
       inline: {
         ...allOptions.inline,
-        'content-link': { ...allOptions.inline['content-link'], hidden: true },
+        "content-link": { ...allOptions.inline["content-link"], hidden: true },
         mathml: { ...allOptions.inline.mathml, hidden: true },
-        'concept-inline': { ...allOptions.inline['concept-inline'], hidden: true },
+        "concept-inline": { ...allOptions.inline["concept-inline"], hidden: true },
       },
     };
     const expected = arrayifyToolbar(opts);
     expect(res).toEqual(expected);
   });
 
-  test('prefers areaOptions over default values', () => {
+  test("prefers areaOptions over default values", () => {
     const res = toolbarState({
       options: createToolbarDefaultValues(),
       areaOptions: createToolbarAreaOptions({ heading: { inline: { hidden: false } } }),
       editorAncestors: [
-        { type: 'heading', children: [], level: 1 },
-        { type: 'paragraph', children: [{ text: 'test' }] },
+        { type: "heading", children: [], level: 1 },
+        { type: "paragraph", children: [{ text: "test" }] },
       ],
     });
 

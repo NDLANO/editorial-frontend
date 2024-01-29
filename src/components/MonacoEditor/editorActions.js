@@ -8,20 +8,20 @@
 
 export function createFormatAction(monaco) {
   return {
-    id: 'prettier-format',
-    label: 'Format',
+    id: "prettier-format",
+    label: "Format",
 
     keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KEY_F],
 
-    contextMenuGroupId: 'modification',
+    contextMenuGroupId: "modification",
     contextMenuOrder: 1.5,
 
     run: async function (editor) {
       const model = editor.getModel();
       const data = await fetch(`/format-html`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ html: model.getValue() }),
       });
@@ -35,8 +35,8 @@ export function createFormatAction(monaco) {
 
 export function createSaveAction(monaco, onSave) {
   return {
-    id: 'save-article',
-    label: 'Save',
+    id: "save-article",
+    label: "Save",
 
     keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S],
 

@@ -6,20 +6,15 @@
  *
  */
 
-import merge from 'lodash/merge';
-import { Editor, Element, Node } from 'slate';
-import { ElementType } from '../../interfaces';
+import merge from "lodash/merge";
+import { Editor, Element, Node } from "slate";
+import { ElementType } from "../../interfaces";
 
-export type TextType = 'normal-text' | 'heading-2' | 'heading-3' | 'heading-4';
-export type MarkType = 'bold' | 'italic' | 'code' | 'sub' | 'sup';
-export type BlockType =
-  | 'quote'
-  | 'definition-list'
-  | 'numbered-list'
-  | 'bulleted-list'
-  | 'letter-list';
-export type InlineType = 'content-link' | 'mathml' | 'concept-inline';
-export type TableType = 'left' | 'center' | 'right';
+export type TextType = "normal-text" | "heading-2" | "heading-3" | "heading-4";
+export type MarkType = "bold" | "italic" | "code" | "sub" | "sup";
+export type BlockType = "quote" | "definition-list" | "numbered-list" | "bulleted-list" | "letter-list";
+export type InlineType = "content-link" | "mathml" | "concept-inline";
+export type TableType = "left" | "center" | "right";
 
 type ToolbarMap = {
   text: TextType;
@@ -58,34 +53,34 @@ export interface ToolbarValue<T extends ToolbarValues> extends ToolbarOption {
  */
 export const allOptions: OptionsType = {
   text: {
-    'normal-text': { value: 'normal-text' },
-    'heading-2': { value: 'heading-2' },
-    'heading-3': { value: 'heading-3' },
-    'heading-4': { value: 'heading-4' },
+    "normal-text": { value: "normal-text" },
+    "heading-2": { value: "heading-2" },
+    "heading-3": { value: "heading-3" },
+    "heading-4": { value: "heading-4" },
   },
   mark: {
-    bold: { value: 'bold' },
-    italic: { value: 'italic' },
-    code: { value: 'code' },
-    sub: { value: 'sub' },
-    sup: { value: 'sup' },
+    bold: { value: "bold" },
+    italic: { value: "italic" },
+    code: { value: "code" },
+    sub: { value: "sub" },
+    sup: { value: "sup" },
   },
   block: {
-    quote: { value: 'quote' },
-    'definition-list': { value: 'definition-list' },
-    'numbered-list': { value: 'numbered-list' },
-    'bulleted-list': { value: 'bulleted-list' },
-    'letter-list': { value: 'letter-list' },
+    quote: { value: "quote" },
+    "definition-list": { value: "definition-list" },
+    "numbered-list": { value: "numbered-list" },
+    "bulleted-list": { value: "bulleted-list" },
+    "letter-list": { value: "letter-list" },
   },
   inline: {
-    'content-link': { value: 'content-link' },
-    mathml: { value: 'mathml' },
-    'concept-inline': { value: 'concept-inline' },
+    "content-link": { value: "content-link" },
+    mathml: { value: "mathml" },
+    "concept-inline": { value: "concept-inline" },
   },
   table: {
-    left: { value: 'left' },
-    center: { value: 'center' },
-    right: { value: 'right' },
+    left: { value: "left" },
+    center: { value: "center" },
+    right: { value: "right" },
   },
 };
 
@@ -114,7 +109,7 @@ export const defaultAreaOptions: AreaFilters = {
   heading: {
     inline: { hidden: true },
   },
-  'table-cell': {
+  "table-cell": {
     table: { hidden: false },
   },
 };
@@ -131,10 +126,7 @@ export type ToolbarType = {
  * @example expand('text', { disabled: true, 'normal-text': { disabled: false } }, options) will set all text options to disabled, except for normal-text.
  * @example expand('block', {quote: {disabled: true}}, options) will set the quote option to disabled, leaving others untouched.
  **/
-const expand = <T extends ToolbarCategories>(
-  key: T,
-  value: AreaFilter<ToolbarMap[T]>,
-): OptionsType[T] => {
+const expand = <T extends ToolbarCategories>(key: T, value: AreaFilter<ToolbarMap[T]>): OptionsType[T] => {
   const { disabled, hidden, ...rest } = value;
   if (disabled != null || hidden != null) {
     const keys = Object.keys(allOptions[key]) as ToolbarMap[T][];
@@ -175,12 +167,12 @@ interface ToolbarStateProps {
 
 export const getEditorAncestors = (editor: Editor, reverse?: boolean): Element[] => {
   // Finds the current lowest node in the editor and creates an array of its ancestors.
-  const [lowest] = Editor.nodes(editor, { mode: 'lowest' });
+  const [lowest] = Editor.nodes(editor, { mode: "lowest" });
   const ancestorGen = Node.ancestors(editor, lowest[1], { reverse });
   const elementAncestors: Element[] = [];
   // ancestorGen is a generator, so we need to iterate over it to get the values.
   for (const ancestor of ancestorGen) {
-    if (Element.isElement(ancestor[0]) && ancestor[0].type !== 'section') {
+    if (Element.isElement(ancestor[0]) && ancestor[0].type !== "section") {
       elementAncestors.push(ancestor[0]);
     }
   }

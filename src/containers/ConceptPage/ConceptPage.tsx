@@ -6,11 +6,11 @@
  *
  */
 
-import { memo } from 'react';
-import CreateConcept from './CreateConcept';
-import EditConcept from './EditConcept';
-import ResourcePage from '../../components/ResourcePage';
-import { useConcept } from '../../modules/concept/conceptQueries';
+import { memo } from "react";
+import CreateConcept from "./CreateConcept";
+import EditConcept from "./EditConcept";
+import ResourcePage from "../../components/ResourcePage";
+import { useConcept } from "../../modules/concept/conceptQueries";
 
 const ConceptPage = () => (
   <ResourcePage

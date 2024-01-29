@@ -6,13 +6,13 @@
  *
  */
 
-import { useCallback, useState } from 'react';
-import { Editor } from 'slate';
-import { RenderElementProps, useFocused, useSelected } from 'slate-react';
-import { colors } from '@ndla/core';
-import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
-import { FootnoteElement } from '.';
-import EditFootnote from './EditFootnote';
+import { useCallback, useState } from "react";
+import { Editor } from "slate";
+import { RenderElementProps, useFocused, useSelected } from "slate-react";
+import { colors } from "@ndla/core";
+import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
+import { FootnoteElement } from ".";
+import EditFootnote from "./EditFootnote";
 
 // Todo: a -> button
 /* eslint jsx-a11y/no-static-element-interactions: 1 */
@@ -39,14 +39,14 @@ const Footnote = (props: Props) => {
         {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
         <a
           style={{
-            boxShadow: selected && focused ? `0 0 0 1px ${colors.brand.tertiary}` : 'none',
+            boxShadow: selected && focused ? `0 0 0 1px ${colors.brand.tertiary}` : "none",
           }}
           contentEditable={false}
           {...attributes}
           role="link"
           tabIndex={0}
         >
-          <sup contentEditable={false} style={{ userSelect: 'none' }}>
+          <sup contentEditable={false} style={{ userSelect: "none" }}>
             [#]
           </sup>
           {children}

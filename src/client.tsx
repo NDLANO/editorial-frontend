@@ -6,22 +6,22 @@
  *
  */
 
-import { useEffect, useRef, useState } from 'react';
-import { createRoot } from 'react-dom/client';
-import { HelmetProvider } from 'react-helmet-async';
-import { I18nextProvider, useTranslation } from 'react-i18next';
-import { BrowserRouter } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import ErrorReporter from '@ndla/error-reporter';
-import { i18nInstance } from '@ndla/ui';
-import Spinner from './components/Spinner';
-import config, { ConfigType } from './config';
-import { STORED_LANGUAGE_KEY } from './constants';
-import App from './containers/App/App';
-import { isValidLocale } from './i18n';
-import { initializeI18n, supportedLanguages } from './i18n2';
-import { LocaleType } from './interfaces';
+import { useEffect, useRef, useState } from "react";
+import { createRoot } from "react-dom/client";
+import { HelmetProvider } from "react-helmet-async";
+import { I18nextProvider, useTranslation } from "react-i18next";
+import { BrowserRouter } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import ErrorReporter from "@ndla/error-reporter";
+import { i18nInstance } from "@ndla/ui";
+import Spinner from "./components/Spinner";
+import config, { ConfigType } from "./config";
+import { STORED_LANGUAGE_KEY } from "./constants";
+import App from "./containers/App/App";
+import { isValidLocale } from "./i18n";
+import { initializeI18n, supportedLanguages } from "./i18n2";
+import { LocaleType } from "./interfaces";
 
 declare global {
   interface Window {
@@ -31,7 +31,7 @@ declare global {
   }
 }
 
-const paths = window.location.pathname.split('/');
+const paths = window.location.pathname.split("/");
 const basename = isValidLocale(paths[1]) ? `${paths[1]}` : undefined;
 
 const { logglyApiKey, logEnvironment: environment, componentName } = config;
@@ -43,17 +43,17 @@ window.errorReporter = ErrorReporter.getInstance({
 });
 
 const constructNewPath = (newLocale?: LocaleType) => {
-  const regex = new RegExp(supportedLanguages.map((l) => `/${l}/`).join('|'));
-  const path = window.location.pathname.replace(regex, '');
-  const fullPath = path.startsWith('/') ? path : `/${path}`;
-  const localePrefix = newLocale ? `/${newLocale}` : '';
+  const regex = new RegExp(supportedLanguages.map((l) => `/${l}/`).join("|"));
+  const path = window.location.pathname.replace(regex, "");
+  const fullPath = path.startsWith("/") ? path : `/${path}`;
+  const localePrefix = newLocale ? `/${newLocale}` : "";
   return `${localePrefix}${fullPath}${window.location.search}`;
 };
 
 const AppWrapper = ({ basename }: { basename?: string }) => {
   const { i18n } = useTranslation();
   const [loading, setLoading] = useState(true);
-  const [base, setBase] = useState('');
+  const [base, setBase] = useState("");
   const firstRender = useRef(true);
 
   useEffect(() => {
@@ -74,7 +74,7 @@ const AppWrapper = ({ basename }: { basename?: string }) => {
     if (firstRender.current) {
       firstRender.current = false;
     } else {
-      window.history.replaceState('', '', constructNewPath(i18n.language));
+      window.history.replaceState("", "", constructNewPath(i18n.language));
       setBase(i18n.language);
     }
   }, [i18n.language]);
@@ -87,9 +87,9 @@ const AppWrapper = ({ basename }: { basename?: string }) => {
       setBase(storedLanguage);
       return;
     }
-    if (window.location.pathname.includes('/login/success')) return;
+    if (window.location.pathname.includes("/login/success")) return;
     setBase(storedLanguage);
-    window.history.replaceState('', '', constructNewPath(storedLanguage));
+    window.history.replaceState("", "", constructNewPath(storedLanguage));
   }, [basename]);
 
   if (loading) return <Spinner />;
@@ -113,7 +113,7 @@ const queryClient = new QueryClient({
 });
 
 const renderApp = () => {
-  const container = document.getElementById('root')!;
+  const container = document.getElementById("root")!;
   const root = createRoot(container);
   root.render(
     <HelmetProvider>

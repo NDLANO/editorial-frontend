@@ -6,16 +6,16 @@
  *
  */
 
-import { FieldProps } from 'formik';
-import { useTranslation } from 'react-i18next';
-import { Input } from '@ndla/forms';
-import FormikField from '../../../components/FormikField';
+import { FieldProps } from "formik";
+import { useTranslation } from "react-i18next";
+import { Input } from "@ndla/forms";
+import FormikField from "../../../components/FormikField";
 const VersionNameField = () => {
   const { t } = useTranslation();
   return (
-    <FormikField name="name" showError label={t('taxonomyVersions.form.name.label')}>
+    <FormikField name="name" showError label={t("taxonomyVersions.form.name.label")}>
       {({ field }: FieldProps) => (
-        <Input placeholder={t('taxonomyVersions.form.name.placeholder')} type="text" {...field} />
+        <Input placeholder={t("taxonomyVersions.form.name.placeholder")} type="text" {...field} />
       )}
     </FormikField>
   );

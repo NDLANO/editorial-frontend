@@ -6,29 +6,29 @@
  *
  */
 
-import { FieldProps } from 'formik';
-import { useTranslation } from 'react-i18next';
-import { RadioButtonGroup } from '@ndla/forms';
-import FormikField from '../../../components/FormikField';
+import { FieldProps } from "formik";
+import { useTranslation } from "react-i18next";
+import { RadioButtonGroup } from "@ndla/forms";
+import FormikField from "../../../components/FormikField";
 
 const VersionLockedField = () => {
   const { t } = useTranslation();
 
   const options = [
     {
-      title: t('taxonomyVersions.form.locked.locked'),
-      value: 'true',
+      title: t("taxonomyVersions.form.locked.locked"),
+      value: "true",
     },
     {
-      title: t('taxonomyVersions.form.locked.unlocked'),
-      value: 'false',
+      title: t("taxonomyVersions.form.locked.unlocked"),
+      value: "false",
     },
   ];
   return (
-    <FormikField name="locked" label={t('taxonomyVersions.form.locked.title')}>
+    <FormikField name="locked" label={t("taxonomyVersions.form.locked.title")}>
       {({ field }: FieldProps) => (
         <RadioButtonGroup
-          label={t('taxonomyVersions.form.locked.subTitle')}
+          label={t("taxonomyVersions.form.locked.subTitle")}
           selected={field.value.toString()}
           uniqeIds
           options={options}
@@ -36,7 +36,7 @@ const VersionLockedField = () => {
             field.onChange({
               target: {
                 name: field.name,
-                value: value === 'true',
+                value: value === "true",
               },
             })
           }

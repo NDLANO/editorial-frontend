@@ -6,12 +6,12 @@
  *
  */
 
-import { useQuery, UseQueryOptions } from '@tanstack/react-query';
-import { IConcept, IConceptSearchResult } from '@ndla/types-backend/concept-api';
-import { fetchConcept, fetchStatusStateMachine, searchConcepts } from './conceptApi';
-import { ConceptQuery } from './conceptApiInterfaces';
-import { ConceptStatusStateMachineType } from '../../interfaces';
-import { CONCEPT, CONCEPT_STATE_MACHINE, SEARCH_CONCEPTS } from '../../queryKeys';
+import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { IConcept, IConceptSearchResult } from "@ndla/types-backend/concept-api";
+import { fetchConcept, fetchStatusStateMachine, searchConcepts } from "./conceptApi";
+import { ConceptQuery } from "./conceptApiInterfaces";
+import { ConceptStatusStateMachineType } from "../../interfaces";
+import { CONCEPT, CONCEPT_STATE_MACHINE, SEARCH_CONCEPTS } from "../../queryKeys";
 
 export interface UseConcept {
   id: number;
@@ -32,19 +32,14 @@ export const useConcept = (params: UseConcept, options?: Partial<UseQueryOptions
   });
 };
 
-export const useSearchConcepts = (
-  query: ConceptQuery,
-  options?: Partial<UseQueryOptions<IConceptSearchResult>>,
-) =>
+export const useSearchConcepts = (query: ConceptQuery, options?: Partial<UseQueryOptions<IConceptSearchResult>>) =>
   useQuery<IConceptSearchResult>({
     queryKey: conceptQueryKeys.searchConcepts(query),
     queryFn: () => searchConcepts(query),
     ...options,
   });
 
-export const useConceptStateMachine = (
-  options?: Partial<UseQueryOptions<ConceptStatusStateMachineType>>,
-) => {
+export const useConceptStateMachine = (options?: Partial<UseQueryOptions<ConceptStatusStateMachineType>>) => {
   return useQuery<ConceptStatusStateMachineType>({
     queryKey: conceptQueryKeys.statusStateMachine,
     queryFn: () => fetchStatusStateMachine(),

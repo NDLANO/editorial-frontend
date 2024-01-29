@@ -6,8 +6,7 @@
  *
  */
 
-import { jsx as slatejsx } from 'slate-hyperscript';
-import { TYPE_CONTACT_BLOCK } from './types';
+import { jsx as slatejsx } from "slate-hyperscript";
+import { TYPE_CONTACT_BLOCK } from "./types";
 
-export const defaultContactBlock = () =>
-  slatejsx('element', { type: TYPE_CONTACT_BLOCK, isFirstEdit: true });
+export const defaultContactBlock = () => slatejsx("element", { type: TYPE_CONTACT_BLOCK, isFirstEdit: true });

@@ -6,8 +6,8 @@
  *
  */
 
-import styled from '@emotion/styled';
-import { Comment } from '@ndla/icons/common';
+import styled from "@emotion/styled";
+import { Comment } from "@ndla/icons/common";
 
 const StyledIconWrapper = styled.div`
   display: flex;

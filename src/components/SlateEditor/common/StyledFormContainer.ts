@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import styled from '@emotion/styled';
-import { colors, spacing } from '@ndla/core';
+import styled from "@emotion/styled";
+import { colors, spacing } from "@ndla/core";
 
-const StyledFormContainer = styled('div')`
+const StyledFormContainer = styled("div")`
   margin: 0;
   padding: ${spacing.small} 0;
   border-top: 1px solid white;

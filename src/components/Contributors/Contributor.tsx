@@ -6,9 +6,9 @@
  *
  */
 
-import { FormEvent, MouseEvent } from 'react';
-import { FieldSection, FieldSplitter, Input, Select, FieldRemoveButton } from '@ndla/forms';
-import { ContributorType, ContributorFieldName } from './types';
+import { FormEvent, MouseEvent } from "react";
+import { FieldSection, FieldSplitter, Input, Select, FieldRemoveButton } from "@ndla/forms";
+import { ContributorType, ContributorFieldName } from "./types";
 
 interface ContributorTypeItem {
   translation: string;
@@ -48,23 +48,19 @@ const Contributor = ({
     <div>
       <FieldSplitter>
         <Input
-          warningText={
-            showError && (contributor.name === '' || contributor.type === '')
-              ? errorMessages[0]
-              : undefined
-          }
+          warningText={showError && (contributor.name === "" || contributor.type === "") ? errorMessages[0] : undefined}
           type="text"
           // eslint-disable-next-line jsx-a11y/no-autofocus
           autoFocus={!!contributor.focusOnMount}
           placeholder={placeholder}
           disabled={disabled}
           value={contributor.name}
-          onChange={(e) => handleContributorChange(e, 'name', index)}
+          onChange={(e) => handleContributorChange(e, "name", index)}
         />
         <Select
           value={contributor.type}
-          onChange={(e) => handleContributorChange(e, 'type', index)}
-          onBlur={(e) => handleContributorChange(e, 'type', index)}
+          onChange={(e) => handleContributorChange(e, "type", index)}
+          onBlur={(e) => handleContributorChange(e, "type", index)}
           data-testid="contributor-selector"
         >
           <option value="" />
@@ -77,9 +73,7 @@ const Contributor = ({
       </FieldSplitter>
     </div>
     <div>
-      <FieldRemoveButton onClick={(evt) => removeContributor(evt, index)}>
-        {labelRemove}
-      </FieldRemoveButton>
+      <FieldRemoveButton onClick={(evt) => removeContributor(evt, index)}>{labelRemove}</FieldRemoveButton>
     </div>
   </FieldSection>
 );

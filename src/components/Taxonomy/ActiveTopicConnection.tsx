@@ -6,14 +6,14 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { misc, spacing, fonts, colors } from '@ndla/core';
-import { Node } from '@ndla/types-taxonomy';
-import Breadcrumb from './Breadcrumb';
-import RelevanceOption from './RelevanceOption';
-import RemoveButton from './RemoveButton';
-import { MinimalNodeChild } from '../../containers/ArticlePage/LearningResourcePage/components/LearningResourceTaxonomy';
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { misc, spacing, fonts, colors } from "@ndla/core";
+import { Node } from "@ndla/types-taxonomy";
+import Breadcrumb from "./Breadcrumb";
+import RelevanceOption from "./RelevanceOption";
+import RemoveButton from "./RemoveButton";
+import { MinimalNodeChild } from "../../containers/ArticlePage/LearningResourcePage/components/LearningResourceTaxonomy";
 
 interface Props {
   removeConnection?: (id: string) => void;
@@ -44,7 +44,7 @@ const StyledPrimaryConnectionButton = styled.button`
   &:focus {
     opacity: 1;
   }
-  &[data-primary='true'] {
+  &[data-primary="true"] {
     opacity: 1;
   }
 `;
@@ -63,16 +63,10 @@ const StyledConnections = styled.div`
   }
 `;
 
-const ActiveTopicConnection = ({
-  removeConnection,
-  setPrimaryConnection,
-  setRelevance,
-  type,
-  node,
-}: Props) => {
+const ActiveTopicConnection = ({ removeConnection, setPrimaryConnection, setRelevance, type, node }: Props) => {
   const { t } = useTranslation();
 
-  if (type === 'topic-article') {
+  if (type === "topic-article") {
     return (
       <StyledConnections>
         <Breadcrumb node={node} />
@@ -83,11 +77,11 @@ const ActiveTopicConnection = ({
     <StyledConnections>
       <StyledFlexWrapper>
         <StyledPrimaryConnectionButton
-          data-primary={'isPrimary' in node ? node.isPrimary : false}
+          data-primary={"isPrimary" in node ? node.isPrimary : false}
           type="button"
           onClick={() => setPrimaryConnection?.(node.id)}
         >
-          {t('form.topics.primaryTopic')}
+          {t("form.topics.primaryTopic")}
         </StyledPrimaryConnectionButton>
         <Breadcrumb node={node} />
       </StyledFlexWrapper>

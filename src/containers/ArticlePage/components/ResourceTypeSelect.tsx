@@ -6,10 +6,10 @@
  *
  */
 
-import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Option, Select, SingleValue } from '@ndla/select';
-import { selectedResourceTypeValue } from '../../../util/taxonomyHelpers';
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { Option, Select, SingleValue } from "@ndla/select";
+import { selectedResourceTypeValue } from "../../../util/taxonomyHelpers";
 
 interface ResourceType {
   id: string;
@@ -50,20 +50,18 @@ const ResourceTypeSelect = ({
 
   const value = useMemo(
     () =>
-      resourceTypes?.length
-        ? options.find((o) => o.value === selectedResourceTypeValue(resourceTypes))
-        : undefined,
+      resourceTypes?.length ? options.find((o) => o.value === selectedResourceTypeValue(resourceTypes)) : undefined,
     [options, resourceTypes],
   );
 
   return (
     <Select
-      placeholder={t('taxonomy.resourceTypes.placeholder')}
+      placeholder={t("taxonomy.resourceTypes.placeholder")}
       options={options}
       onChange={onChangeSelectedResource}
       isMulti={false}
       value={value}
-      noOptionsMessage={() => t('form.responsible.noResults')}
+      noOptionsMessage={() => t("form.responsible.noResults")}
       isSearchable
       isClearable={isClearable}
       id="select-resource-type"

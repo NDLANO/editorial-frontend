@@ -57,9 +57,13 @@ test('can move around and place text in table', async ({ page }) => {
   expect(await page.locator('tr').count()).toEqual(2);
   await page.locator('tbody > tr > td').first().fill('Cell');
   await page.locator('thead > tr > th').first().click();
-  await page.keyboard.type('Header 1');
+  const firstHeader = page.locator('thead > tr > th').first();
+  const lastHeader = page.locator('thead > tr > th').last();
+  await firstHeader.fill('Header 1');
+  await lastHeader.focus();
+  await page.keyboard.press('End');
   await page.keyboard.press('ArrowRight');
-  await page.keyboard.type('Header 2');
+  await lastHeader.fill('Header 2');
   await expect(page.locator('thead > tr > th').first()).toHaveText('Header 1');
   await expect(page.locator('thead > tr > th').last()).toHaveText('Header 2');
   await page.getByTestId('column-add').click();

@@ -6,9 +6,9 @@
  *
  */
 
-import { Editor } from 'slate';
-import SlateH5p from './SlateH5p';
-import { TYPE_H5P } from './types';
+import { Editor } from "slate";
+import SlateH5p from "./SlateH5p";
+import { TYPE_H5P } from "./types";
 
 export const h5pRenderer = (language: string) => (editor: Editor) => {
   const { renderElement } = editor;

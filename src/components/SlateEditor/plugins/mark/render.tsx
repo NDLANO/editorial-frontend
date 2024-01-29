@@ -6,8 +6,9 @@
  *
  */
 
-import { Editor } from 'slate';
-import styled from '@emotion/styled';
+import { Editor } from "slate";
+import styled from "@emotion/styled";
+import Span from "../span/Span";
 
 const StyledCode = styled.code`
   display: inline;
@@ -20,6 +21,13 @@ export const markRenderer = (editor: Editor) => {
   const { renderLeaf } = editor;
   editor.renderLeaf = ({ attributes, children, leaf, text }) => {
     let ret;
+    if (leaf.lang) {
+      ret = (
+        <Span lang={leaf.lang} {...attributes}>
+          {ret || children}
+        </Span>
+      );
+    }
     if (leaf.bold) {
       ret = <strong {...attributes}>{ret || children}</strong>;
     }

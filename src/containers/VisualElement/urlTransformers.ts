@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import queryString from 'query-string';
-import { fetchNrkMedia } from '../../modules/video/nrkApi';
-import { urlAsATag } from '../../util/htmlHelpers';
+import queryString from "query-string";
+import { fetchNrkMedia } from "../../modules/video/nrkApi";
+import { urlAsATag } from "../../util/htmlHelpers";
 
 export interface UrlTransformer {
   domains: string[];
@@ -17,7 +17,7 @@ export interface UrlTransformer {
 
 // Fetches media-id from url and returns embed url
 const nrkTransformer: UrlTransformer = {
-  domains: ['nrk.no', 'www.nrk.no'],
+  domains: ["nrk.no", "www.nrk.no"],
   shouldTransform: (url, domains) => {
     const aTag = urlAsATag(url);
 
@@ -26,7 +26,7 @@ const nrkTransformer: UrlTransformer = {
     }
 
     const oldMediaId = queryString.parse(aTag.search).mediaId;
-    const newMediaId = Number(aTag.pathname.split('/skole-deling/')[1]);
+    const newMediaId = Number(aTag.pathname.split("/skole-deling/")[1]);
     const mediaId = newMediaId ? newMediaId : oldMediaId;
     if (mediaId) {
       return true;
@@ -36,7 +36,7 @@ const nrkTransformer: UrlTransformer = {
   transform: async (url) => {
     const aTag = urlAsATag(url);
     const oldMediaId = queryString.parse(aTag.search).mediaId;
-    const newMediaId = Number(aTag.pathname.split('/skole-deling/')[1]);
+    const newMediaId = Number(aTag.pathname.split("/skole-deling/")[1]);
     const mediaId = newMediaId ? newMediaId : oldMediaId;
     if (!mediaId) {
       return url;
@@ -55,7 +55,7 @@ const nrkTransformer: UrlTransformer = {
 
 // Replaces www-hostname with embed-hostname
 const tedTransformer: UrlTransformer = {
-  domains: ['www.ted.com'],
+  domains: ["www.ted.com"],
   shouldTransform: (url, domains) => {
     const aTag = urlAsATag(url);
 
@@ -66,29 +66,29 @@ const tedTransformer: UrlTransformer = {
   },
   transform: async (url) => {
     const obj = new URL(url);
-    obj.host = obj.host.replace(/www/, 'embed');
+    obj.host = obj.host.replace(/www/, "embed");
     return obj.href;
   },
 };
 
 // Replaces 'pen' with 'embed' in path
 const codepenTransformer: UrlTransformer = {
-  domains: ['codepen.io'],
+  domains: ["codepen.io"],
   shouldTransform: (url, domains) => {
     const aTag = urlAsATag(url);
 
     if (!domains.includes(aTag.hostname)) {
       return false;
     }
-    if (!aTag.href.includes('/pen/')) {
+    if (!aTag.href.includes("/pen/")) {
       return false;
     }
     return true;
   },
   transform: async (url) => {
     const obj = new URL(url);
-    obj.pathname = obj.pathname.replace(/pen/, 'embed');
-    const penID = obj.pathname.split('/').pop();
+    obj.pathname = obj.pathname.replace(/pen/, "embed");
+    const penID = obj.pathname.split("/").pop();
     if (penID) {
       return obj.href;
     }
@@ -98,69 +98,68 @@ const codepenTransformer: UrlTransformer = {
 
 // Ensures url ends with /embed
 const flourishTransformer: UrlTransformer = {
-  domains: ['public.flourish.studio', 'flo.uri.sh'],
+  domains: ["public.flourish.studio", "flo.uri.sh"],
   shouldTransform: (url, domains) => {
     const aTag = urlAsATag(url);
 
     if (!domains.includes(aTag.hostname)) {
       return false;
     }
-    if (aTag.href.endsWith('/embed')) {
+    if (aTag.href.endsWith("/embed")) {
       return false;
     }
     return true;
   },
   transform: async (url) => {
     const obj = new URL(url);
-    const parts = obj.pathname.split('/').filter((n) => n);
-    parts.push('embed');
-    obj.pathname = parts.join('/');
+    const parts = obj.pathname.split("/").filter((n) => n);
+    parts.push("embed");
+    obj.pathname = parts.join("/");
     return obj.href;
   },
 };
 
 // Replaces 'model' with 'embed' in path
 const sketchupTransformer: UrlTransformer = {
-  domains: ['3dwarehouse.sketchup.com'],
+  domains: ["3dwarehouse.sketchup.com"],
   shouldTransform: (url, domains) => {
     const aTag = urlAsATag(url);
 
     if (!domains.includes(aTag.hostname)) {
       return false;
     }
-    if (!aTag.href.includes('/model/')) {
+    if (!aTag.href.includes("/model/")) {
       return false;
     }
     return true;
   },
   transform: async (url) => {
     const obj = new URL(url);
-    obj.pathname = obj.pathname.replace(/model/, 'embed');
-    const parts = obj.pathname.split('/');
+    obj.pathname = obj.pathname.replace(/model/, "embed");
+    const parts = obj.pathname.split("/");
     const index =
-      parts.findIndex((part) =>
-        part.match(/\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b/),
-      ) ?? parts.length;
-    obj.pathname = parts.slice(0, index + 1).join('/');
+      parts.findIndex((part) => part.match(/\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b/)) ??
+      parts.length;
+    obj.pathname = parts.slice(0, index + 1).join("/");
     return obj.href;
   },
 };
 
 const sketcfabTransformer: UrlTransformer = {
-  domains: ['sketchfab.com'],
+  domains: ["sketchfab.com"],
   shouldTransform: (url, domains) => {
     const aTag = urlAsATag(url);
 
     if (!domains.includes(aTag.hostname)) {
       return false;
     }
-    if (!aTag.href.includes('/3d-models/')) {
+    if (!aTag.href.includes("/3d-models/")) {
       return false;
     }
     return true;
   },
   transform: async (url) => {
-    const embedId = url.split('-').pop();
+    const embedId = url.split("-").pop();
     if (embedId?.match(/\b[0-9a-f]{32}/)) {
       return `https://sketchfab.com/models/${embedId}/embed`;
     }
@@ -169,23 +168,23 @@ const sketcfabTransformer: UrlTransformer = {
 };
 
 const jeopardyLabTransformer: UrlTransformer = {
-  domains: ['jeopardylabs.com'],
+  domains: ["jeopardylabs.com"],
   shouldTransform: (url, domains) => {
     const aTag = urlAsATag(url);
 
     if (!domains.includes(aTag.hostname)) {
       return false;
     }
-    if (!aTag.href.includes('/play/')) {
+    if (!aTag.href.includes("/play/")) {
       return false;
     }
     return true;
   },
   transform: async (url) => {
-    if (url.endsWith('?embed=1')) {
+    if (url.endsWith("?embed=1")) {
       return url;
     }
-    return url.concat('?embed=1');
+    return url.concat("?embed=1");
   },
 };
 

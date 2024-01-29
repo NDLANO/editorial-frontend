@@ -6,20 +6,20 @@
  *
  */
 
-import { useField, useFormikContext } from 'formik';
-import { useCallback, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
-import { colors, spacing } from '@ndla/core';
-import { FieldHeader } from '@ndla/forms';
-import { DeleteForever } from '@ndla/icons/editor';
-import { IArticleSummaryV2, IArticleV2 } from '@ndla/types-backend/article-api';
-import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
-import { getArticle, searchArticles } from '../../../modules/article/articleApi';
-import { getUrnFromId, getIdFromUrn } from '../../../util/ndlaFilmHelpers';
-import { toEditFrontPageArticle } from '../../../util/routeHelpers';
+import { useField, useFormikContext } from "formik";
+import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
+import { colors, spacing } from "@ndla/core";
+import { FieldHeader } from "@ndla/forms";
+import { DeleteForever } from "@ndla/icons/editor";
+import { IArticleSummaryV2, IArticleV2 } from "@ndla/types-backend/article-api";
+import AsyncDropdown from "../../../components/Dropdown/asyncDropdown/AsyncDropdown";
+import { getArticle, searchArticles } from "../../../modules/article/articleApi";
+import { getUrnFromId, getIdFromUrn } from "../../../util/ndlaFilmHelpers";
+import { toEditFrontPageArticle } from "../../../util/routeHelpers";
 
 interface Props {
   fieldName: string;
@@ -54,24 +54,21 @@ const NdlaFilmArticle = ({ fieldName, onUpdateArticle }: Props) => {
   }, [field.value]);
 
   const onSearch = useCallback((query: string, page?: number) => {
-    return searchArticles({ articleTypes: ['frontpage-article'], page, query });
+    return searchArticles({ articleTypes: ["frontpage-article"], page, query });
   }, []);
 
   return (
     <>
-      <FieldHeader
-        title={t('ndlaFilm.editor.moreInfoTitle')}
-        subTitle={t('ndlaFilm.editor.moreInfoSubTitle')}
-      />
+      <FieldHeader title={t("ndlaFilm.editor.moreInfoTitle")} subTitle={t("ndlaFilm.editor.moreInfoSubTitle")} />
       {selectedArticle && (
         <ArticleElement>
           <Link to={toEditFrontPageArticle(selectedArticle.id, selectedArticle.title.language)}>
             {selectedArticle.title.title}
           </Link>
           <IconButtonV2
-            aria-label={t('ndlaFilm.editor.removeArticleFromMoreInformation')}
+            aria-label={t("ndlaFilm.editor.removeArticleFromMoreInformation")}
             variant="ghost"
-            title={t('ndlaFilm.editor.removeArticleFromMoreInformation')}
+            title={t("ndlaFilm.editor.removeArticleFromMoreInformation")}
             colorTheme="danger"
             data-testid="elementListItemDeleteButton"
             onClick={() => onUpdateArticle(field, form, null)}
@@ -83,12 +80,10 @@ const NdlaFilmArticle = ({ fieldName, onUpdateArticle }: Props) => {
       <AsyncDropdown<IArticleSummaryV2>
         idField="id"
         labelField="title"
-        placeholder={t('frontpageForm.search')}
+        placeholder={t("frontpageForm.search")}
         apiAction={onSearch}
         disableSelected
-        onChange={(article: IArticleSummaryV2) =>
-          onUpdateArticle(field, form, getUrnFromId(article.id))
-        }
+        onChange={(article: IArticleSummaryV2) => onUpdateArticle(field, form, getUrnFromId(article.id))}
         startOpen={!field.value}
         showPagination
         initialSearch={!field.value}

@@ -6,14 +6,10 @@
  *
  */
 
-import { useQuery, UseQueryOptions } from '@tanstack/react-query';
-import {
-  ISearchResultV3,
-  ISearchParams,
-  IImageMetaInformationV3,
-} from '@ndla/types-backend/image-api';
-import { fetchImage, searchImages } from './imageApi';
-import { IMAGE, SEARCH_IMAGES } from '../../queryKeys';
+import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { ISearchResultV3, ISearchParams, IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
+import { fetchImage, searchImages } from "./imageApi";
+import { IMAGE, SEARCH_IMAGES } from "../../queryKeys";
 
 export interface UseImage {
   id: number;
@@ -25,20 +21,14 @@ export const imageQueryKeys = {
   search: (params?: Partial<ISearchParams>) => [SEARCH_IMAGES, params] as const,
 };
 
-export const useImage = (
-  params: UseImage,
-  options?: Partial<UseQueryOptions<IImageMetaInformationV3>>,
-) =>
+export const useImage = (params: UseImage, options?: Partial<UseQueryOptions<IImageMetaInformationV3>>) =>
   useQuery<IImageMetaInformationV3>({
     queryKey: imageQueryKeys.image(params),
     queryFn: () => fetchImage(params.id, params.language),
     ...options,
   });
 
-export const useSearchImages = (
-  query: ISearchParams,
-  options?: Partial<UseQueryOptions<ISearchResultV3>>,
-) =>
+export const useSearchImages = (query: ISearchParams, options?: Partial<UseQueryOptions<ISearchResultV3>>) =>
   useQuery<ISearchResultV3>({
     queryKey: imageQueryKeys.search(query),
     queryFn: () => searchImages(query),

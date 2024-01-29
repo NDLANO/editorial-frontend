@@ -6,24 +6,24 @@
  *
  */
 
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { useQueryClient } from '@tanstack/react-query';
-import { IconButtonV2 } from '@ndla/button';
-import { colors, spacing } from '@ndla/core';
-import { Pencil } from '@ndla/icons/action';
-import { Launch } from '@ndla/icons/common';
-import { DeleteForever, Keyhole } from '@ndla/icons/editor';
-import SafeLink from '@ndla/safelink';
-import Tooltip from '@ndla/tooltip';
-import { Version as TaxVersion, VersionType } from '@ndla/types-taxonomy';
-import { StyledErrorMessage } from './StyledErrorMessage';
-import VersionForm from './VersionForm';
-import AlertModal from '../../../components/AlertModal';
-import config from '../../../config';
-import { useDeleteVersionMutation } from '../../../modules/taxonomy/versions/versionMutations';
-import { versionQueryKeys } from '../../../modules/taxonomy/versions/versionQueries';
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { useQueryClient } from "@tanstack/react-query";
+import { IconButtonV2 } from "@ndla/button";
+import { colors, spacing } from "@ndla/core";
+import { Pencil } from "@ndla/icons/action";
+import { Launch } from "@ndla/icons/common";
+import { DeleteForever, Keyhole } from "@ndla/icons/editor";
+import SafeLink from "@ndla/safelink";
+import Tooltip from "@ndla/tooltip";
+import { Version as TaxVersion, VersionType } from "@ndla/types-taxonomy";
+import { StyledErrorMessage } from "./StyledErrorMessage";
+import VersionForm from "./VersionForm";
+import AlertModal from "../../../components/AlertModal";
+import config from "../../../config";
+import { useDeleteVersionMutation } from "../../../modules/taxonomy/versions/versionMutations";
+import { versionQueryKeys } from "../../../modules/taxonomy/versions/versionQueries";
 
 interface Props {
   version: TaxVersion;
@@ -119,7 +119,7 @@ const Version = ({ version }: Props) => {
       qc.setQueryData<TaxVersion[]>(key, withoutDeleted);
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: key }),
-    onError: () => setError(t('taxonomyVersions.deleteError')),
+    onError: () => setError(t("taxonomyVersions.deleteError")),
   });
 
   const onDelete = async () => {
@@ -127,14 +127,14 @@ const Version = ({ version }: Props) => {
   };
 
   const deleteTooltip = version.locked
-    ? t('taxonomyVersions.deleteLocked')
-    : version.versionType === 'PUBLISHED'
-      ? t('taxonomyVersions.deletePublished')
-      : t('taxonomyVersions.delete');
+    ? t("taxonomyVersions.deleteLocked")
+    : version.versionType === "PUBLISHED"
+      ? t("taxonomyVersions.deletePublished")
+      : t("taxonomyVersions.delete");
 
   const ndlaUrl = `${config.ndlaFrontendDomain}?versionHash=${version.hash}`;
 
-  const deleteDisabled = version.locked || version.versionType === 'PUBLISHED';
+  const deleteDisabled = version.locked || version.versionType === "PUBLISHED";
   return (
     <VersionWrapper color={statusColorMap[version.versionType]} key={`version-${version.id}`}>
       {!isEditing && (
@@ -142,7 +142,7 @@ const Version = ({ version }: Props) => {
           <ContentBlock>
             <VersionTitle>{version.name}</VersionTitle>
             {version.locked && (
-              <Tooltip tooltip={t('taxonomyVersions.locked')}>
+              <Tooltip tooltip={t("taxonomyVersions.locked")}>
                 <div>
                   <StyledKeyhole />
                 </div>
@@ -153,16 +153,16 @@ const Version = ({ version }: Props) => {
             <StatusWrapper color={statusColorMap[version.versionType]}>
               <StyledText>{t(`taxonomyVersions.status.${version.versionType}`)}</StyledText>
             </StatusWrapper>
-            <Tooltip tooltip={t('taxonomyVersions.previewVersion')}>
-              <StyledLink target={'_blank'} to={ndlaUrl}>
+            <Tooltip tooltip={t("taxonomyVersions.previewVersion")}>
+              <StyledLink target={"_blank"} to={ndlaUrl}>
                 <StyledLaunch />
               </StyledLink>
             </Tooltip>
-            <Tooltip tooltip={t('taxonomyVersions.editVersionTooltip')}>
+            <Tooltip tooltip={t("taxonomyVersions.editVersionTooltip")}>
               <IconButtonV2
                 variant="ghost"
                 colorTheme="lighter"
-                aria-label={t('taxonomyVersions.editVersionTooltip')}
+                aria-label={t("taxonomyVersions.editVersionTooltip")}
                 onClick={() => setIsEditing((prev) => !prev)}
               >
                 <Pencil />
@@ -175,28 +175,24 @@ const Version = ({ version }: Props) => {
                 aria-label={deleteTooltip}
                 disabled={deleteDisabled}
                 onClick={() => (deleteDisabled ? undefined : setShowAlertModal(true))}
-                color={deleteDisabled ? undefined : 'red'}
+                color={deleteDisabled ? undefined : "red"}
               >
                 <DeleteForever />
               </IconButtonV2>
             </Tooltip>
           </ContentBlock>
           <AlertModal
-            title={t('taxonomyVersions.delete')}
-            label={t('taxonomyVersions.delete')}
+            title={t("taxonomyVersions.delete")}
+            label={t("taxonomyVersions.delete")}
             show={showAlertModal}
-            text={t(
-              `taxonomyVersions.deleteWarning${
-                version.versionType === 'PUBLISHED' ? 'Published' : ''
-              }`,
-            )}
+            text={t(`taxonomyVersions.deleteWarning${version.versionType === "PUBLISHED" ? "Published" : ""}`)}
             actions={[
               {
-                text: t('form.abort'),
+                text: t("form.abort"),
                 onClick: () => setShowAlertModal(false),
               },
               {
-                text: t('alertModal.continue'),
+                text: t("alertModal.continue"),
                 onClick: () => {
                   setShowAlertModal(false);
                   onDelete();
@@ -208,9 +204,7 @@ const Version = ({ version }: Props) => {
         </VersionContentWrapper>
       )}
       {error && <StyledErrorMessage>{error}</StyledErrorMessage>}
-      {isEditing && (
-        <VersionForm version={version} existingVersions={[]} onClose={() => setIsEditing(false)} />
-      )}
+      {isEditing && <VersionForm version={version} existingVersions={[]} onClose={() => setIsEditing(false)} />}
     </VersionWrapper>
   );
 };

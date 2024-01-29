@@ -6,11 +6,11 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { Version } from '@ndla/types-taxonomy';
-import UIVersion from './Version';
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { Version } from "@ndla/types-taxonomy";
+import UIVersion from "./Version";
 
 const StyledVersionList = styled.div`
   display: flex;
@@ -24,7 +24,7 @@ interface Props {
 const VersionList = ({ versions }: Props) => {
   const { t } = useTranslation();
   if (versions.length === 0) {
-    return <div>{t('taxonomyVersions.noOtherVersions')}</div>;
+    return <div>{t("taxonomyVersions.noOtherVersions")}</div>;
   }
   return (
     <StyledVersionList>

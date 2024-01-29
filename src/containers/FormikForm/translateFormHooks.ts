@@ -6,12 +6,12 @@
  *
  */
 
-import get from 'lodash/get';
-import merge from 'lodash/merge';
-import set from 'lodash/set';
-import { useCallback, useEffect, useState } from 'react';
-import { ApiTranslateType } from '../../interfaces';
-import { fetchNnTranslation } from '../../modules/translate/translateApi';
+import get from "lodash/get";
+import merge from "lodash/merge";
+import set from "lodash/set";
+import { useCallback, useEffect, useState } from "react";
+import { ApiTranslateType } from "../../interfaces";
+import { fetchNnTranslation } from "../../modules/translate/translateApi";
 
 /**
  * The translate service requires a json-payload with one level of fields.
@@ -25,7 +25,7 @@ import { fetchNnTranslation } from '../../modules/translate/translateApi';
 
 interface TranslateType {
   field: string;
-  type: 'text' | 'html';
+  type: "text" | "html";
 }
 
 export function useTranslateApi(
@@ -51,7 +51,7 @@ export function useTranslateApi(
       const document = await fetchNnTranslation(payload);
       const cloned = JSON.parse(JSON.stringify(element));
       Object.entries(document).forEach(([key, value]) => set(cloned, key, value));
-      setElement({ ...merge(element, cloned), language: 'nn' });
+      setElement({ ...merge(element, cloned), language: "nn" });
       setTranslating(false);
       setShouldTranslate(false);
     })();

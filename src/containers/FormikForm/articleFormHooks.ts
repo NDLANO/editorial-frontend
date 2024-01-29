@@ -6,30 +6,23 @@
  *
  */
 
-import { FormikHelpers } from 'formik';
-import { TFunction } from 'i18next';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Descendant } from 'slate';
-import {
-  IArticle,
-  ILicense,
-  IStatus,
-  IUpdatedArticle,
-  IAuthor,
-  IComment,
-} from '@ndla/types-backend/draft-api';
-import { getWarnings, RulesType } from '../../components/formikValidationSchema';
-import { PUBLISHED } from '../../constants';
-import { RelatedContent } from '../../interfaces';
-import { deleteFile } from '../../modules/draft/draftApi';
-import { useLicenses } from '../../modules/draft/draftQueries';
-import { NdlaErrorPayload } from '../../util/resolveJsonOrRejectWithError';
-import { useMessages } from '../Messages/MessagesProvider';
+import { FormikHelpers } from "formik";
+import { TFunction } from "i18next";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Descendant } from "slate";
+import { IArticle, ILicense, IStatus, IUpdatedArticle, IAuthor, IComment } from "@ndla/types-backend/draft-api";
+import { getWarnings, RulesType } from "../../components/formikValidationSchema";
+import { PUBLISHED } from "../../constants";
+import { RelatedContent } from "../../interfaces";
+import { deleteFile } from "../../modules/draft/draftApi";
+import { useLicenses } from "../../modules/draft/draftQueries";
+import { NdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
+import { useMessages } from "../Messages/MessagesProvider";
 
 const getFilePathsFromHtml = (htmlString: string): string[] => {
-  const parsed = new DOMParser().parseFromString(htmlString, 'text/html');
-  const fileNodesArr = Array.from(parsed.querySelectorAll('embed[data-resource=file]'));
-  const paths = fileNodesArr.map((e) => e.getAttribute('data-path'));
+  const parsed = new DOMParser().parseFromString(htmlString, "text/html");
+  const fileNodesArr = Array.from(parsed.querySelectorAll("embed[data-resource=file]"));
+  const paths = fileNodesArr.map((e) => e.getAttribute("data-path"));
   return paths.filter((x): x is string => x !== null);
 };
 
@@ -92,32 +85,19 @@ export interface TopicArticleFormType extends ArticleFormType {
 export interface FrontpageArticleFormType extends ArticleFormType {}
 
 type HooksInputObject<T extends ArticleFormType> = {
-  getInitialValues: (
-    article: IArticle | undefined,
-    language: string,
-    ndlaId: string | undefined,
-  ) => T;
+  getInitialValues: (article: IArticle | undefined, language: string, ndlaId: string | undefined) => T;
   article?: IArticle;
   t: TFunction;
   articleStatus?: IStatus;
   updateArticle: (art: IUpdatedArticle) => Promise<IArticle>;
   licenses?: ILicense[];
-  getArticleFromSlate: (
-    values: T,
-    initialValues: T,
-    licenses: ILicense[],
-    preview?: boolean,
-  ) => IUpdatedArticle;
+  getArticleFromSlate: (values: T, initialValues: T, licenses: ILicense[], preview?: boolean) => IUpdatedArticle;
   articleLanguage: string;
   rules?: RulesType<T, IArticle>;
   ndlaId?: string;
 };
 
-export type HandleSubmitFunc<T> = (
-  values: T,
-  formikHelpers: FormikHelpers<T>,
-  saveAsNew?: boolean,
-) => Promise<void>;
+export type HandleSubmitFunc<T> = (values: T, formikHelpers: FormikHelpers<T>, saveAsNew?: boolean) => Promise<void>;
 
 export function useArticleFormHooks<T extends ArticleFormType>({
   getInitialValues,
@@ -167,7 +147,7 @@ export function useArticleFormHooks<T extends ArticleFormType>({
           ...(statusChange ? { status: newStatus } : {}),
         });
 
-        await deleteRemovedFiles(article?.content?.content ?? '', newArticle.content ?? '');
+        await deleteRemovedFiles(article?.content?.content ?? "", newArticle.content ?? "");
 
         setSavedToServer(true);
         const newInitialValues = getInitialValues(savedArticle, articleLanguage, ndlaId);
@@ -176,12 +156,12 @@ export function useArticleFormHooks<T extends ArticleFormType>({
           const newInitialWarnings = getWarnings(newInitialValues, rules, t, savedArticle);
           formikHelpers.setStatus({ warnings: newInitialWarnings });
         }
-        formikHelpers.setFieldValue('notes', [], false);
+        formikHelpers.setFieldValue("notes", [], false);
       } catch (e) {
         const err = e as NdlaErrorPayload;
         if (err && err.status && err.status === 409) {
           createMessage({
-            message: t('alertModal.needToRefresh'),
+            message: t("alertModal.needToRefresh"),
             timeToLive: 0,
           });
         } else {
@@ -190,7 +170,7 @@ export function useArticleFormHooks<T extends ArticleFormType>({
         if (statusChange) {
           if (newStatus === PUBLISHED) {
             // if validation failed we need to set status back so it won't be saved as new status on next save
-            formikHelpers.setFieldValue('status', { current: initialStatus });
+            formikHelpers.setFieldValue("status", { current: initialStatus });
           }
         }
         setSavedToServer(false);

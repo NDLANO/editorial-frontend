@@ -6,9 +6,9 @@
  *
  */
 
-import { Editor, Element, Node, Path } from 'slate';
-import { jsx as slatejsx } from 'slate-hyperscript';
-import { defaultTableCellBlock } from './defaultBlocks';
+import { Editor, Element, Node, Path } from "slate";
+import { jsx as slatejsx } from "slate-hyperscript";
+import { defaultTableCellBlock } from "./defaultBlocks";
 import {
   TableBodyElement,
   TableCaptionElement,
@@ -16,7 +16,7 @@ import {
   TableElement,
   TableHeadElement,
   TableRowElement,
-} from './interfaces';
+} from "./interfaces";
 import {
   TYPE_TABLE,
   TYPE_TABLE_BODY,
@@ -25,7 +25,7 @@ import {
   TYPE_TABLE_CELL_HEADER,
   TYPE_TABLE_HEAD,
   TYPE_TABLE_ROW,
-} from './types';
+} from "./types";
 
 export const isTable = (node?: Node): node is TableElement => {
   return Element.isElement(node) && node.type === TYPE_TABLE;
@@ -47,8 +47,7 @@ export const isTableRow = (node?: Node): node is TableRowElement => {
 };
 
 export const isTableCell = (node?: Node): node is TableCellElement =>
-  Element.isElement(node) &&
-  (node.type === TYPE_TABLE_CELL || node.type === TYPE_TABLE_CELL_HEADER);
+  Element.isElement(node) && (node.type === TYPE_TABLE_CELL || node.type === TYPE_TABLE_CELL_HEADER);
 
 export const isTableCellHeader = (node?: Node): node is TableCellElement =>
   Element.isElement(node) && node.type === TYPE_TABLE_CELL_HEADER;
@@ -91,7 +90,7 @@ export const getTableBodyHeight = (element: TableHeadElement | TableBodyElement)
 
 export const createIdenticalRow = (element: TableRowElement) => {
   return slatejsx(
-    'element',
+    "element",
     { type: TYPE_TABLE_ROW },
     element.children.map((child) => {
       if (isTableCell(child)) {

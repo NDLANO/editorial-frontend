@@ -6,60 +6,53 @@
  *
  */
 
-import { useFormikContext } from 'formik';
-import { ReactElement, useMemo, useState, ElementType } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import {
-  ModalCloseButton,
-  ModalHeader,
-  ModalSizeType,
-  Modal,
-  ModalTrigger,
-  ModalContent,
-} from '@ndla/modal';
-import { IConcept } from '@ndla/types-backend/concept-api';
-import { IArticle } from '@ndla/types-backend/draft-api';
-import { OneColumn } from '@ndla/ui';
-import PreviewConceptComponent from './PreviewConcept';
-import PreviewDraft from './PreviewDraft';
-import { learningResourceFormTypeToDraftApiType } from '../../containers/ArticlePage/articleTransformers';
-import { ConceptFormValues } from '../../containers/ConceptPage/conceptInterfaces';
-import { conceptFormTypeToApiType } from '../../containers/ConceptPage/conceptTransformers';
-import { LearningResourceFormType } from '../../containers/FormikForm/articleFormHooks';
-import { useConcept } from '../../modules/concept/conceptQueries';
-import { useDraft, useLicenses } from '../../modules/draft/draftQueries';
+import { useFormikContext } from "formik";
+import { ReactElement, useMemo, useState, ElementType } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { ModalCloseButton, ModalHeader, ModalSizeType, Modal, ModalTrigger, ModalContent } from "@ndla/modal";
+import { IConcept } from "@ndla/types-backend/concept-api";
+import { IArticle } from "@ndla/types-backend/draft-api";
+import { OneColumn } from "@ndla/ui";
+import PreviewConceptComponent from "./PreviewConcept";
+import PreviewDraft from "./PreviewDraft";
+import { learningResourceFormTypeToDraftApiType } from "../../containers/ArticlePage/articleTransformers";
+import { ConceptFormValues } from "../../containers/ConceptPage/conceptInterfaces";
+import { conceptFormTypeToApiType } from "../../containers/ConceptPage/conceptTransformers";
+import { LearningResourceFormType } from "../../containers/FormikForm/articleFormHooks";
+import { useConcept } from "../../modules/concept/conceptQueries";
+import { useDraft, useLicenses } from "../../modules/draft/draftQueries";
 
 interface BaseProps {
-  type: 'markup' | 'version' | 'compare' | 'conceptCompare' | 'concept';
+  type: "markup" | "version" | "compare" | "conceptCompare" | "concept";
   language: string;
   activateButton: ReactElement;
 }
 
 interface MarkupPreviewProps extends BaseProps {
-  type: 'markup';
+  type: "markup";
   article: IArticle;
 }
 
 interface VersionPreviewProps extends BaseProps {
-  type: 'version';
+  type: "version";
   article: IArticle;
   customTitle?: string;
 }
 
 interface ComparePreviewProps extends BaseProps {
-  type: 'compare';
+  type: "compare";
   article: IArticle;
 }
 
 interface CompareConceptPreviewProps extends BaseProps {
-  type: 'conceptCompare';
+  type: "conceptCompare";
   concept: IConcept;
 }
 
 interface ConceptPreviewProps extends BaseProps {
-  type: 'concept';
+  type: "concept";
 }
 
 type Props =
@@ -98,7 +91,7 @@ const PreviewMarkup = ({ article, language }: MarkupPreviewProps) => {
           type="article"
           draft={article}
           language={language}
-          label={t('form.previewProductionArticle.article')}
+          label={t("form.previewProductionArticle.article")}
         />
       </OneColumn>
     </StyledPreviewWrapper>
@@ -128,9 +121,9 @@ const PreviewVersion = ({ article, language, customTitle }: VersionPreviewProps)
     return {
       id: article.id,
       articleType: article.articleType,
-      title: apiType.title ?? '',
-      content: apiType.content ?? '',
-      introduction: apiType.introduction ?? '',
+      title: apiType.title ?? "",
+      content: apiType.content ?? "",
+      introduction: apiType.introduction ?? "",
       visualElement: apiType.visualElement,
       published: apiType.published,
       copyright: apiType.copyright,
@@ -141,28 +134,20 @@ const PreviewVersion = ({ article, language, customTitle }: VersionPreviewProps)
     <TwoArticleWrapper>
       <div>
         <div className="u-4/6@desktop u-push-1/6@desktop">
-          <h2>{t('form.previewProductionArticle.current')}</h2>
+          <h2>{t("form.previewProductionArticle.current")}</h2>
         </div>
-        <PreviewDraft
-          type="formArticle"
-          draft={formArticle}
-          language={language}
-          label={article.articleType}
-        />
+        <PreviewDraft type="formArticle" draft={formArticle} language={language} label={article.articleType} />
       </div>
       <div>
         <div className="u-4/6@desktop u-push-1/6@desktop">
           <h2>
             {customTitle ??
-              t('form.previewProductionArticle.version', { revision: article.revision })}
+              t("form.previewProductionArticle.version", {
+                revision: article.revision,
+              })}
           </h2>
         </div>
-        <PreviewDraft
-          type="article"
-          draft={article}
-          language={language}
-          label={article.articleType}
-        />
+        <PreviewDraft type="article" draft={article} language={language} label={article.articleType} />
       </div>
     </TwoArticleWrapper>
   );
@@ -184,9 +169,9 @@ const PreviewCompare = ({ article, language }: ComparePreviewProps) => {
     const apiType = learningResourceFormTypeToDraftApiType(values, initialValues, licenses);
     return {
       id: article.id,
-      title: apiType.title ?? '',
-      content: apiType.content ?? '',
-      introduction: apiType.introduction ?? '',
+      title: apiType.title ?? "",
+      content: apiType.content ?? "",
+      introduction: apiType.introduction ?? "",
       visualElement: apiType.visualElement,
       published: apiType.published,
       copyright: apiType.copyright,
@@ -213,7 +198,7 @@ const PreviewCompare = ({ article, language }: ComparePreviewProps) => {
       <div>
         <PreviewTitleWrapper className="u-4/6@desktop u-push-1/6@desktop">
           <h2>
-            {t('form.previewLanguageArticle.title', {
+            {t("form.previewLanguageArticle.title", {
               language: t(`languages.${previewLanguage}`).toLowerCase(),
             })}
           </h2>
@@ -229,7 +214,7 @@ const PreviewCompare = ({ article, language }: ComparePreviewProps) => {
           <PreviewDraft
             type="article"
             draft={draft.data}
-            language={language}
+            language={previewLanguage}
             label={t(`articleType.${draft.data.articleType}`)}
           />
         )}
@@ -263,7 +248,7 @@ const PreviewConceptCompare = ({ concept, language }: CompareConceptPreviewProps
       <ConceptWrapper>
         <PreviewTitleWrapper>
           <PreviewHeading>
-            {t('form.previewLanguageArticle.title', {
+            {t("form.previewLanguageArticle.title", {
               language: t(`languages.${language}`).toLowerCase(),
             })}
           </PreviewHeading>
@@ -273,7 +258,7 @@ const PreviewConceptCompare = ({ concept, language }: CompareConceptPreviewProps
       <ConceptWrapper>
         <PreviewTitleWrapper>
           <PreviewHeading>
-            {t('form.previewLanguageArticle.title', {
+            {t("form.previewLanguageArticle.title", {
               language: t(`languages.${previewLanguage}`).toLowerCase(),
             })}
           </PreviewHeading>
@@ -285,9 +270,7 @@ const PreviewConceptCompare = ({ concept, language }: CompareConceptPreviewProps
             ))}
           </select>
         </PreviewTitleWrapper>
-        {apiConcept.data && (
-          <PreviewConceptComponent concept={apiConcept.data} language={previewLanguage} />
-        )}
+        {apiConcept.data && <PreviewConceptComponent concept={apiConcept.data} language={previewLanguage} />}
       </ConceptWrapper>
     </TwoArticleWrapper>
   );
@@ -309,7 +292,7 @@ const PreviewConcept = ({ language }: ConceptPreviewProps) => {
   );
 };
 
-const components: Record<Props['type'], ElementType> = {
+const components: Record<Props["type"], ElementType> = {
   markup: PreviewMarkup,
   compare: PreviewCompare,
   version: PreviewVersion,
@@ -320,9 +303,7 @@ const components: Record<Props['type'], ElementType> = {
 const PreviewDraftLightboxV2 = (props: Props) => {
   const Component = components[props.type];
   const size: ModalSizeType =
-    props.type === 'compare' || props.type === 'version'
-      ? 'full'
-      : { width: 'large', height: 'full' };
+    props.type === "compare" || props.type === "version" ? "full" : { width: "large", height: "full" };
   return (
     <Modal>
       <ModalTrigger>{props.activateButton}</ModalTrigger>

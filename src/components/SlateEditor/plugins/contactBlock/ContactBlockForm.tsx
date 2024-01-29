@@ -6,28 +6,28 @@
  *
  */
 
-import { FieldProps, Formik } from 'formik';
-import { useCallback, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
-import { CheckboxItem, InputV2, TextAreaV2, RadioButtonGroup } from '@ndla/forms';
-import { ContactBlockEmbedData } from '@ndla/types-embed';
-import { TYPE_CONTACT_BLOCK } from './types';
-import InlineImageSearch from '../../../../containers/ConceptPage/components/InlineImageSearch';
-import FormikField from '../../../FormikField';
-import validateFormik, { RulesType } from '../../../formikValidationSchema';
+import { FieldProps, Formik } from "formik";
+import { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { spacing } from "@ndla/core";
+import { CheckboxItem, InputV2, TextAreaV2, RadioButtonGroup } from "@ndla/forms";
+import { ContactBlockEmbedData } from "@ndla/types-embed";
+import { TYPE_CONTACT_BLOCK } from "./types";
+import InlineImageSearch from "../../../../containers/ConceptPage/components/InlineImageSearch";
+import FormikField from "../../../FormikField";
+import validateFormik, { RulesType } from "../../../formikValidationSchema";
 
 interface ContactBlockFormValues {
-  resource: 'contact-block';
+  resource: "contact-block";
   description: string;
   jobTitle: string;
   name: string;
   email: string;
-  blobColor: ContactBlockEmbedData['blobColor'];
-  blob: ContactBlockEmbedData['blob'];
+  blobColor: ContactBlockEmbedData["blobColor"];
+  blob: ContactBlockEmbedData["blob"];
   metaImageId?: string;
   metaImageAlt: string;
   isDecorative: boolean;
@@ -104,19 +104,19 @@ const inputStyle = css`
 const toInitialValues = (initialData?: ContactBlockEmbedData): ContactBlockFormValues => {
   return {
     resource: TYPE_CONTACT_BLOCK,
-    jobTitle: initialData?.jobTitle ?? '',
-    blobColor: initialData?.blobColor ?? 'green',
-    description: initialData?.description ?? '',
-    blob: initialData?.blob ?? 'pointy',
+    jobTitle: initialData?.jobTitle ?? "",
+    blobColor: initialData?.blobColor ?? "green",
+    description: initialData?.description ?? "",
+    blob: initialData?.blob ?? "pointy",
     metaImageId: initialData?.imageId,
-    name: initialData?.name ?? '',
-    email: initialData?.email ?? '',
-    metaImageAlt: initialData?.alt ?? '',
-    isDecorative: initialData?.alt === '',
+    name: initialData?.name ?? "",
+    email: initialData?.email ?? "",
+    metaImageAlt: initialData?.alt ?? "",
+    isDecorative: initialData?.alt === "",
   };
 };
-const types: ContactBlockEmbedData['blob'][] = ['pointy', 'round'];
-const colors: ContactBlockEmbedData['blobColor'][] = ['green', 'pink'];
+const types: ContactBlockEmbedData["blob"][] = ["pointy", "round"];
+const colors: ContactBlockEmbedData["blobColor"][] = ["green", "pink"];
 
 const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
   const { t } = useTranslation();
@@ -137,7 +137,7 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
         blob: values.blob,
         blobColor: values.blobColor,
         email: values.email,
-        alt: values.isDecorative ? '' : values.metaImageAlt,
+        alt: values.isDecorative ? "" : values.metaImageAlt,
       };
       onSave(newData);
     },
@@ -173,42 +173,36 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
       {({ dirty, isValid, handleSubmit }) => (
         <>
           <StyledFormikField name="name" showError>
-            {({ field }: FieldProps) => <InputV2 label={t('form.name.name')} {...field} />}
+            {({ field }: FieldProps) => <InputV2 label={t("form.name.name")} {...field} />}
           </StyledFormikField>
           <StyledFormikField name="jobTitle" showError>
-            {({ field }: FieldProps) => <StyledInput label={t('form.name.jobTitle')} {...field} />}
+            {({ field }: FieldProps) => <StyledInput label={t("form.name.jobTitle")} {...field} />}
           </StyledFormikField>
           <StyledFormikField name="email" type="email" showError>
-            {({ field }: FieldProps) => <StyledInput label={t('form.name.email')} {...field} />}
+            {({ field }: FieldProps) => <StyledInput label={t("form.name.email")} {...field} />}
           </StyledFormikField>
           <StyledFormikField name="description" showError>
-            {({ field }: FieldProps) => (
-              <StyledTextArea label={t('form.name.description')} {...field} />
-            )}
+            {({ field }: FieldProps) => <StyledTextArea label={t("form.name.description")} {...field} />}
           </StyledFormikField>
           <StyledFormikField name="blob">
             {({ field }) => (
               <RadioButtonGroup
-                label={t('form.name.blob')}
+                label={t("form.name.blob")}
                 selected={field.value}
                 uniqeIds
                 options={blobTypes}
-                onChange={(value: string) =>
-                  field.onChange({ target: { name: field.name, value: value } })
-                }
+                onChange={(value: string) => field.onChange({ target: { name: field.name, value: value } })}
               />
             )}
           </StyledFormikField>
           <StyledFormikField name="blobColor">
             {({ field }) => (
               <RadioButtonGroup
-                label={t('form.name.blobColor')}
+                label={t("form.name.blobColor")}
                 selected={field.value}
                 uniqeIds
                 options={blobColors}
-                onChange={(value: string) =>
-                  field.onChange({ target: { name: field.name, value: value } })
-                }
+                onChange={(value: string) => field.onChange({ target: { name: field.name, value: value } })}
               />
             )}
           </StyledFormikField>
@@ -217,7 +211,7 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
             {({ field, form }: FieldProps) => (
               <>
                 {!form.values.isDecorative && form.values.metaImageId && (
-                  <InputV2 customCss={inputStyle} label={t('form.name.metaImageAlt')} {...field} />
+                  <InputV2 customCss={inputStyle} label={t("form.name.metaImageAlt")} {...field} />
                 )}
               </>
             )}
@@ -227,10 +221,12 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
               <>
                 {!!form.values.metaImageId && (
                   <CheckboxItem
-                    label={t('form.image.isDecorative')}
+                    label={t("form.image.isDecorative")}
                     checked={field.value}
                     onChange={() =>
-                      field.onChange({ target: { name: field.name, value: !field.value } })
+                      field.onChange({
+                        target: { name: field.name, value: !field.value },
+                      })
                     }
                   />
                 )}
@@ -239,15 +235,10 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
           </StyledFormikField>
           <ButtonContainer>
             <ButtonV2 variant="outline" onClick={onCancel}>
-              {t('cancel')}
+              {t("cancel")}
             </ButtonV2>
-            <ButtonV2
-              variant="solid"
-              disabled={!dirty || !isValid}
-              type="submit"
-              onClick={() => handleSubmit()}
-            >
-              {t('save')}
+            <ButtonV2 variant="solid" disabled={!dirty || !isValid} type="submit" onClick={() => handleSubmit()}>
+              {t("save")}
             </ButtonV2>
           </ButtonContainer>
         </>

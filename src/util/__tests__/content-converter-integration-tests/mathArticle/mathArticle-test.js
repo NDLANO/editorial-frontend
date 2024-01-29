@@ -6,16 +6,16 @@
  *
  */
 
-import filterConsole from 'filter-console';
-import { html } from './mathArticle';
-import { blockContentToEditorValue, blockContentToHTML } from '../../../articleContentConverter';
+import filterConsole from "filter-console";
+import { html } from "./mathArticle";
+import { blockContentToEditorValue, blockContentToHTML } from "../../../articleContentConverter";
 
 let disableFilter;
 beforeEach(() => {
   // colspan is valid html. We can safely ignore this warning from react.
   disableFilter = filterConsole([
-    'Warning: Invalid DOM property `colspan`. Did you mean `colSpan`?',
-    'Warning: Invalid DOM property `rowspan`. Did you mean `rowSpan`?',
+    "Warning: Invalid DOM property `colspan`. Did you mean `colSpan`?",
+    "Warning: Invalid DOM property `rowspan`. Did you mean `rowSpan`?",
   ]);
 });
 
@@ -23,7 +23,7 @@ afterEach(() => {
   disableFilter();
 });
 
-test('serializing article with mathml tags', () => {
+test("serializing article with mathml tags", () => {
   const converted = blockContentToEditorValue(html);
 
   const result = blockContentToHTML(converted);

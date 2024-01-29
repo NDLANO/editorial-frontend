@@ -6,43 +6,36 @@
  *
  */
 
-import { lazy, Suspense, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Transforms } from 'slate';
-import { useSlateStatic } from 'slate-react';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { fonts } from '@ndla/core';
-import { Spinner } from '@ndla/icons';
-import { Pencil } from '@ndla/icons/action';
-import {
-  ModalBody,
-  ModalCloseButton,
-  ModalHeader,
-  ModalTitle,
-  Modal,
-  ModalTrigger,
-  ModalContent,
-} from '@ndla/modal';
-import { TableElement } from './interfaces';
+import { lazy, Suspense, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Transforms } from "slate";
+import { useSlateStatic } from "slate-react";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { fonts } from "@ndla/core";
+import { Spinner } from "@ndla/icons";
+import { Pencil } from "@ndla/icons/action";
+import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, Modal, ModalTrigger, ModalContent } from "@ndla/modal";
+import { TableElement } from "./interfaces";
+import config from "../../../../config";
 
 window.MonacoEnvironment = {
   getWorkerUrl: function (moduleId: string, label: string) {
-    if (label === 'html') {
-      return process.env.NODE_ENV !== 'production'
-        ? '/static/js/html.worker.js'
+    if (label === "html") {
+      return config.runtimeType !== "production"
+        ? "/static/js/html.worker.js"
         : // @ts-ignore
-          window.assets['html.worker.js'] ?? '';
+          window.assets["html.worker.js"] ?? "";
     }
-    return process.env.NODE_ENV !== 'production'
-      ? '/static/js/editor.worker.js'
+    return config.runtimeType !== "production"
+      ? "/static/js/editor.worker.js"
       : // @ts-ignore
-        window.assets['editor.worker.js'] ?? '';
+        window.assets["editor.worker.js"] ?? "";
   },
   globalAPI: true,
 };
 
-const MonacoEditor = lazy(() => import('../../../MonacoEditor'));
+const MonacoEditor = lazy(() => import("../../../MonacoEditor"));
 
 interface Props {
   element: TableElement;
@@ -57,7 +50,7 @@ const EditColgroupsModal = ({ element }: Props) => {
   const editor = useSlateStatic();
   const { t } = useTranslation();
 
-  const [colgroups, setColgroups] = useState(element.colgroups || '');
+  const [colgroups, setColgroups] = useState(element.colgroups || "");
 
   const onSave = (content: string) => {
     Transforms.setNodes(
@@ -73,34 +66,25 @@ const EditColgroupsModal = ({ element }: Props) => {
   return (
     <Modal open={open} onOpenChange={setOpen}>
       <ModalTrigger>
-        <ButtonV2
-          data-testid="edit-colgroups"
-          variant="stripped"
-          title={t('form.content.table.edit-colgroups')}
-        >
-          {t('form.content.table.colgroups')}
+        <ButtonV2 data-testid="edit-colgroups" variant="stripped" title={t("form.content.table.edit-colgroups")}>
+          {t("form.content.table.colgroups")}
           <Pencil />
         </ButtonV2>
       </ModalTrigger>
       <ModalContent size="large">
         <ModalHeader>
-          <ModalTitle>{t('form.content.table.colgroupTitle')}</ModalTitle>
+          <ModalTitle>{t("form.content.table.colgroupTitle")}</ModalTitle>
           <ModalCloseButton />
         </ModalHeader>
         <ModalBody>
           <p>
-            {t('form.content.table.colgroupInfo')}
+            {t("form.content.table.colgroupInfo")}
             <StyledCode>{'<colgroup><col><col><col style="width:200px;"></colgroup>'}</StyledCode>
           </p>
           <Suspense fallback={<Spinner />}>
-            <MonacoEditor
-              onChange={setColgroups}
-              onSave={onSave}
-              value={colgroups}
-              height={'50vh'}
-            />
+            <MonacoEditor onChange={setColgroups} onSave={onSave} value={colgroups} height={"50vh"} />
           </Suspense>
-          <ButtonV2 onClick={() => onSave(colgroups)}>{t('form.save')}</ButtonV2>
+          <ButtonV2 onClick={() => onSave(colgroups)}>{t("form.save")}</ButtonV2>
         </ModalBody>
       </ModalContent>
     </Modal>

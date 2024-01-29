@@ -6,22 +6,22 @@
  *
  */
 
-import { useFormikContext } from 'formik';
-import { memo, useCallback, useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { FileCompare } from '@ndla/icons/action';
-import { Check, Eye } from '@ndla/icons/editor';
-import { IConcept } from '@ndla/types-backend/concept-api';
-import { IArticle } from '@ndla/types-backend/draft-api';
-import DeleteLanguageVersion from './DeleteLanguageVersion';
-import { StyledSplitter } from './HeaderInformation';
-import HeaderLanguagePicker from './HeaderLanguagePicker';
-import HeaderLanguagePill from './HeaderLanguagePill';
-import HeaderSupportedLanguages from './HeaderSupportedLanguages';
-import TranslateNbToNn from './TranslateNbToNn';
-import { PUBLISHED } from '../../constants';
-import { fetchDraftHistory } from '../../modules/draft/draftApi';
+import { useFormikContext } from "formik";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { FileCompare } from "@ndla/icons/action";
+import { Check, Eye } from "@ndla/icons/editor";
+import { IConcept } from "@ndla/types-backend/concept-api";
+import { IArticle } from "@ndla/types-backend/draft-api";
+import DeleteLanguageVersion from "./DeleteLanguageVersion";
+import { StyledSplitter } from "./HeaderInformation";
+import HeaderLanguagePicker from "./HeaderLanguagePicker";
+import HeaderLanguagePill from "./HeaderLanguagePill";
+import HeaderSupportedLanguages from "./HeaderSupportedLanguages";
+import TranslateNbToNn from "./TranslateNbToNn";
+import { PUBLISHED } from "../../constants";
+import { fetchDraftHistory } from "../../modules/draft/draftApi";
 import {
   toEditAudio,
   toEditConcept,
@@ -32,10 +32,10 @@ import {
   toEditPodcast,
   toEditPodcastSeries,
   toEditTopicArticle,
-} from '../../util/routeHelpers';
-import { useIsTranslatableToNN } from '../NynorskTranslateProvider';
-import PreviewDraftLightboxV2 from '../PreviewDraft/PreviewDraftLightboxV2';
-import StyledFilledButton from '../StyledFilledButton';
+} from "../../util/routeHelpers";
+import { useIsTranslatableToNN } from "../NynorskTranslateProvider";
+import PreviewDraftLightboxV2 from "../PreviewDraft/PreviewDraftLightboxV2";
+import StyledFilledButton from "../StyledFilledButton";
 
 interface PreviewLightBoxProps {
   article?: IArticle;
@@ -44,41 +44,36 @@ interface PreviewLightBoxProps {
   currentLanguage: string;
 }
 
-const PreviewLightBox = memo(
-  ({ type, currentLanguage, article, concept }: PreviewLightBoxProps) => {
-    const { t } = useTranslation();
-    if ((type === 'concept' || type === 'gloss') && concept) {
-      return (
-        <PreviewDraftLightboxV2
-          type="conceptCompare"
-          concept={concept}
-          language={currentLanguage}
-          activateButton={
-            <StyledFilledButton type="button">
-              <FileCompare /> {t('form.previewLanguageArticle.button')}
-            </StyledFilledButton>
-          }
-        />
-      );
-    } else if (
-      (type === 'standard' || type === 'topic-article' || type === 'frontpage-article') &&
-      article
-    ) {
-      return (
-        <PreviewDraftLightboxV2
-          type="compare"
-          article={article}
-          language={currentLanguage}
-          activateButton={
-            <StyledFilledButton type="button">
-              <FileCompare /> {t('form.previewLanguageArticle.button')}
-            </StyledFilledButton>
-          }
-        />
-      );
-    } else return null;
-  },
-);
+const PreviewLightBox = memo(({ type, currentLanguage, article, concept }: PreviewLightBoxProps) => {
+  const { t } = useTranslation();
+  if ((type === "concept" || type === "gloss") && concept) {
+    return (
+      <PreviewDraftLightboxV2
+        type="conceptCompare"
+        concept={concept}
+        language={currentLanguage}
+        activateButton={
+          <StyledFilledButton type="button">
+            <FileCompare /> {t("form.previewLanguageArticle.button")}
+          </StyledFilledButton>
+        }
+      />
+    );
+  } else if ((type === "standard" || type === "topic-article" || type === "frontpage-article") && article) {
+    return (
+      <PreviewDraftLightboxV2
+        type="compare"
+        article={article}
+        language={currentLanguage}
+        activateButton={
+          <StyledFilledButton type="button">
+            <FileCompare /> {t("form.previewLanguageArticle.button")}
+          </StyledFilledButton>
+        }
+      />
+    );
+  } else return null;
+});
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -105,24 +100,24 @@ const toMapping = {
   concept: toEditConcept,
   gloss: toEditGloss,
   audio: toEditAudio,
-  'podcast-series': toEditPodcastSeries,
+  "podcast-series": toEditPodcastSeries,
   podcast: toEditPodcast,
   image: toEditImage,
-  'frontpage-article': toEditFrontPageArticle,
+  "frontpage-article": toEditFrontPageArticle,
   standard: toEditLearningResource,
-  'topic-article': toEditTopicArticle,
+  "topic-article": toEditTopicArticle,
 };
 
 const translatableTypes = [
-  'audio',
-  'concept',
-  'gloss',
-  'standard',
-  'topic-article',
-  'podcast',
-  'image',
-  'podcast-series',
-  'frontpage-article',
+  "audio",
+  "concept",
+  "gloss",
+  "standard",
+  "topic-article",
+  "podcast",
+  "image",
+  "podcast-series",
+  "frontpage-article",
 ];
 
 const HeaderActions = ({
@@ -162,25 +157,22 @@ const HeaderActions = ({
 
   const languages = useMemo(
     () => [
-      { key: 'nn', title: t('languages.nn'), include: true },
-      { key: 'en', title: t('languages.en'), include: true },
-      { key: 'nb', title: t('languages.nb'), include: true },
-      { key: 'sma', title: t('languages.sma'), include: true },
-      { key: 'se', title: t('languages.se'), include: true },
-      { key: 'und', title: t('languages.und'), include: false },
-      { key: 'de', title: t('languages.de'), include: true },
-      { key: 'es', title: t('languages.es'), include: true },
-      { key: 'zh', title: t('languages.zh'), include: true },
-      { key: 'ukr', title: t('languages.ukr'), include: true },
+      { key: "nn", title: t("languages.nn"), include: true },
+      { key: "en", title: t("languages.en"), include: true },
+      { key: "nb", title: t("languages.nb"), include: true },
+      { key: "sma", title: t("languages.sma"), include: true },
+      { key: "se", title: t("languages.se"), include: true },
+      { key: "und", title: t("languages.und"), include: false },
+      { key: "de", title: t("languages.de"), include: true },
+      { key: "es", title: t("languages.es"), include: true },
+      { key: "zh", title: t("languages.zh"), include: true },
+      { key: "ukr", title: t("languages.ukr"), include: true },
     ],
     [t],
   );
 
   const emptyLanguages = useMemo(
-    () =>
-      languages.filter(
-        (lang) => lang.key !== language && !supportedLanguages.includes(lang.key) && lang.include,
-      ),
+    () => languages.filter((lang) => lang.key !== language && !supportedLanguages.includes(lang.key) && lang.include),
     [language, languages, supportedLanguages],
   );
 
@@ -203,9 +195,9 @@ const HeaderActions = ({
         <StyledSplitter />
         <HeaderLanguagePicker id={id} emptyLanguages={emptyLanguages} editUrl={editUrl} />
         {translatableTypes.includes(type) &&
-          language === 'nb' &&
+          language === "nb" &&
           showTranslate &&
-          !supportedLanguages.includes('nn') && (
+          !supportedLanguages.includes("nn") && (
             <>
               <StyledSplitter />
               <TranslateNbToNn id={id} editUrl={editUrl} />
@@ -215,12 +207,7 @@ const HeaderActions = ({
           {!noStatus && (
             <>
               <StyledSplitter />
-              <PreviewLightBox
-                article={article}
-                concept={concept}
-                type={type}
-                currentLanguage={language}
-              />
+              <PreviewLightBox article={article} concept={concept} type={type} currentLanguage={language} />
             </>
           )}
           {lastPublishedVersion && (
@@ -230,10 +217,10 @@ const HeaderActions = ({
                 type="version"
                 article={lastPublishedVersion}
                 language={language}
-                customTitle={t('form.previewProductionArticle.published')}
+                customTitle={t("form.previewProductionArticle.published")}
                 activateButton={
                   <StyledFilledButton type="button">
-                    <Eye /> {t('form.previewVersion')}
+                    <Eye /> {t("form.previewVersion")}
                   </StyledFilledButton>
                 }
               />

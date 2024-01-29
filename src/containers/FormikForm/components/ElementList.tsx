@@ -6,14 +6,14 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { DragVertical } from '@ndla/icons/editor';
-import { IRelatedContentLink } from '@ndla/types-backend/draft-api';
-import ListElementCard from './ListElementCard';
-import DndList from '../../../components/DndList';
-import { DragHandle } from '../../../components/DraggableItem';
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { DragVertical } from "@ndla/icons/editor";
+import { IRelatedContentLink } from "@ndla/types-backend/draft-api";
+import ListElementCard from "./ListElementCard";
+import DndList from "../../../components/DndList";
+import { DragHandle } from "../../../components/DraggableItem";
 
 const StyledWrapper = styled.ul`
   margin: ${spacing.normal} 0;
@@ -65,7 +65,7 @@ const ElementList = ({
         <DndList
           items={elements.map((element, index) => ({ ...element, id: index + 1 }))}
           dragHandle={
-            <DragHandle aria-label={messages?.dragElement ?? t('dragAndDrop.handle')}>
+            <DragHandle aria-label={messages?.dragElement ?? t("dragAndDrop.handle")}>
               <DragVertical />
             </DragHandle>
           }

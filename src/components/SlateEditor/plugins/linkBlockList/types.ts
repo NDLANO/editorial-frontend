@@ -6,13 +6,13 @@
  *
  */
 
-import { Descendant } from 'slate';
-import { LinkBlockEmbedData } from '@ndla/types-embed';
+import { Descendant } from "slate";
+import { LinkBlockEmbedData } from "@ndla/types-embed";
 
-export const TYPE_LINK_BLOCK_LIST = 'link-block-list';
+export const TYPE_LINK_BLOCK_LIST = "link-block-list";
 
 export interface LinkBlockListElement {
-  type: 'link-block-list';
+  type: "link-block-list";
   data?: LinkBlockEmbedData[];
   isFirstEdit?: boolean;
   children: Descendant[];

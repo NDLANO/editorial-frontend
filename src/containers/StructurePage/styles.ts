@@ -6,9 +6,9 @@
  *
  */
 
-import styled from '@emotion/styled';
-import { colors, fonts, spacing } from '@ndla/core';
-import { Share } from '@ndla/icons/common';
+import styled from "@emotion/styled";
+import { colors, fonts, spacing } from "@ndla/core";
+import { Share } from "@ndla/icons/common";
 
 export const ResourceGroupBanner = styled.div`
   background-color: ${colors.brand.lighter};

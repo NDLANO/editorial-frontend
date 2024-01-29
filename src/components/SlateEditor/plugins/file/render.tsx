@@ -6,9 +6,9 @@
  *
  */
 
-import { Editor } from 'slate';
-import SlateFileList from './SlateFileList';
-import { TYPE_FILE } from './types';
+import { Editor } from "slate";
+import SlateFileList from "./SlateFileList";
+import { TYPE_FILE } from "./types";
 
 export const fileRenderer = (editor: Editor) => {
   const { renderElement } = editor;

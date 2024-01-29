@@ -6,9 +6,9 @@
  *
  */
 
-import { Editor } from 'slate';
-import CodeBlock from './CodeBlock';
-import { TYPE_CODEBLOCK } from './types';
+import { Editor } from "slate";
+import CodeBlock from "./CodeBlock";
+import { TYPE_CODEBLOCK } from "./types";
 
 export const codeblockRenderer = (editor: Editor) => {
   const { renderElement } = editor;

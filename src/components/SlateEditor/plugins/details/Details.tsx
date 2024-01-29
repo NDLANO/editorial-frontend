@@ -6,15 +6,15 @@
  *
  */
 
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Editor, Transforms, Element } from 'slate';
-import { ReactEditor, RenderElementProps } from 'slate-react';
-import styled from '@emotion/styled';
-import { spacing, colors } from '@ndla/core';
-import { TYPE_DETAILS } from './types';
-import DeleteButton from '../../../DeleteButton';
-import MoveContentButton from '../../../MoveContentButton';
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Transforms, Element } from "slate";
+import { ReactEditor, RenderElementProps } from "slate-react";
+import styled from "@emotion/styled";
+import { spacing, colors } from "@ndla/core";
+import { TYPE_DETAILS } from "./types";
+import DeleteButton from "../../../DeleteButton";
+import MoveContentButton from "../../../MoveContentButton";
 
 const StyledDetailsDiv = styled.div`
   padding: ${spacing.small};
@@ -28,7 +28,7 @@ const StyledDetailsDiv = styled.div`
 `;
 
 const StyledContent = styled.div<{ isOpen: boolean }>`
-  display: ${(p) => (p.isOpen ? '' : 'none')};
+  display: ${(p) => (p.isOpen ? "" : "none")};
   margin-top: calc(${spacing.small} * 1.5);
   padding-left: ${spacing.normal};
 `;
@@ -44,13 +44,13 @@ const StyledChevron = styled.div<{ isOpen: boolean }>`
   height: 100%;
   &::before {
     user-select: none;
-    content: '';
+    content: "";
     margin-left: ${spacing.normal};
     border-color: transparent ${colors.brand.primary};
     border-style: solid;
     border-width: 0.35em 0 0.35em 0.45em;
     display: block;
-    transform: ${(p) => p.isOpen && 'rotate(90deg)'};
+    transform: ${(p) => p.isOpen && "rotate(90deg)"};
   }
 `;
 
@@ -114,7 +114,7 @@ const Details = ({ children, editor, element, attributes }: Props & RenderElemen
     setTimeout(() => {
       ReactEditor.focus(editor);
       Transforms.select(editor, path);
-      Transforms.collapse(editor, { edge: 'start' });
+      Transforms.collapse(editor, { edge: "start" });
     }, 0);
   };
 
@@ -126,7 +126,7 @@ const Details = ({ children, editor, element, attributes }: Props & RenderElemen
         <MoveContentButton onMouseDown={onMoveContent} />
         <DeleteButton
           data-testid="remove-details"
-          aria-label={t('form.remove')}
+          aria-label={t("form.remove")}
           variant="stripped"
           onMouseDown={onRemoveClick}
         />

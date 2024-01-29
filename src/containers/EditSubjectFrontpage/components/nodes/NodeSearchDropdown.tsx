@@ -6,13 +6,13 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
-import { Node } from '@ndla/types-taxonomy';
+import { Node } from "@ndla/types-taxonomy";
 
-import { useSearchNodes } from '../../../../modules/nodes/nodeQueries';
-import SearchDropdown from '../../../StructurePage/folderComponents/sharedMenuOptions/components/SearchDropdown';
-import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
+import { useSearchNodes } from "../../../../modules/nodes/nodeQueries";
+import SearchDropdown from "../../../StructurePage/folderComponents/sharedMenuOptions/components/SearchDropdown";
+import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 
 interface Props {
   onChange: (t: any) => void;
@@ -29,9 +29,9 @@ const NodeSearchDropdown = ({ onChange, selectedItems, wide }: Props) => {
       selectedItems={selectedItems}
       id="search-dropdown"
       onChange={onChange}
-      placeholder={t('subjectpageForm.addSubject')}
+      placeholder={t("subjectpageForm.addSubject")}
       useQuery={useSearchNodes}
-      params={{ taxonomyVersion, nodeType: 'SUBJECT' }}
+      params={{ taxonomyVersion, nodeType: "SUBJECT" }}
       transform={(res: any) => {
         return {
           ...res,
@@ -39,7 +39,7 @@ const NodeSearchDropdown = ({ onChange, selectedItems, wide }: Props) => {
             originalItem: r,
             id: r.id,
             name: r.name,
-            description: r.breadcrumbs?.join(' > '),
+            description: r.breadcrumbs?.join(" > "),
             disabled: false,
           })),
         };

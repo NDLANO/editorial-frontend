@@ -6,16 +6,16 @@
  *
  */
 
-import { jsx as slatejsx } from 'slate-hyperscript';
-import { TYPE_GRID, TYPE_GRID_CELL } from './types';
-import { defaultParagraphBlock } from '../paragraph/utils';
+import { jsx as slatejsx } from "slate-hyperscript";
+import { TYPE_GRID, TYPE_GRID_CELL } from "./types";
+import { defaultParagraphBlock } from "../paragraph/utils";
 
 export const defaultGridCellBlock = () => {
   return slatejsx(
-    'element',
+    "element",
     {
       type: TYPE_GRID_CELL,
-      data: { parallaxCell: 'false' },
+      data: { parallaxCell: "false" },
     },
     defaultParagraphBlock(),
   );
@@ -23,10 +23,10 @@ export const defaultGridCellBlock = () => {
 
 export const defaultGridBlock = () => {
   return slatejsx(
-    'element',
+    "element",
     {
       type: TYPE_GRID,
-      data: { columns: 2, border: 'none', background: 'transparent' },
+      data: { columns: 2, border: "none", background: "transparent" },
     },
     [[defaultGridCellBlock(), defaultGridCellBlock()]],
   );

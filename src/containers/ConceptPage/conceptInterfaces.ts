@@ -6,12 +6,12 @@
  *
  */
 
-import { Descendant } from 'slate';
-import { IStatus, IAuthor, IGlossExample, IGlossData } from '@ndla/types-backend/concept-api';
-import { IArticle } from '@ndla/types-backend/draft-api';
-import { Node } from '@ndla/types-taxonomy';
+import { Descendant } from "slate";
+import { IStatus, IAuthor, IGlossExample, IGlossData } from "@ndla/types-backend/concept-api";
+import { IArticle } from "@ndla/types-backend/draft-api";
+import { Node } from "@ndla/types-taxonomy";
 
-export type ConceptType = 'concept' | 'gloss';
+export type ConceptType = "concept" | "gloss";
 
 export interface ConceptFormValues {
   id?: number;
@@ -50,5 +50,5 @@ export interface ConceptFormValues {
     originalLanguage: string;
   };
   examples?: IGlossExample[][];
-  transcriptions?: IGlossData['transcriptions'];
+  transcriptions?: IGlossData["transcriptions"];
 }

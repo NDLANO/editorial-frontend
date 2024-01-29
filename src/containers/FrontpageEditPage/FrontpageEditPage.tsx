@@ -6,37 +6,33 @@
  *
  */
 
-import { FieldArray, Formik, useField, useFormikContext } from 'formik';
-import { useCallback, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
-import { colors, misc, spacing } from '@ndla/core';
-import { Spinner } from '@ndla/icons';
-import { Pencil, Plus } from '@ndla/icons/action';
-import SafeLink from '@ndla/safelink';
-import { HelmetWithTracker } from '@ndla/tracker';
-import { IArticleSummaryV2 } from '@ndla/types-backend/article-api';
-import { Heading } from '@ndla/typography';
-import { OneColumn } from '@ndla/ui';
-import FrontpageArticleSearch from './FrontpageArticleSearch';
-import {
-  addArticlesToAboutMenu,
-  extractArticleIds,
-  menuWithArticleToIMenu,
-} from './frontpageHelpers';
-import FrontpageNodeList from './FrontpageNodeList';
-import { MenuWithArticle } from './types';
-import validateFormik, { RulesType } from '../../components/formikValidationSchema';
-import SaveButton from '../../components/SaveButton';
-import { FRONTPAGE_ADMIN_SCOPE } from '../../constants';
-import { useArticleSearch } from '../../modules/article/articleQueries';
-import { useUpdateFrontpageMutation } from '../../modules/frontpage/frontpageMutations';
-import { useFrontpage } from '../../modules/frontpage/frontpageQueries';
-import { toEditFrontPageArticle } from '../../util/routeHelpers';
-import { AlertModalWrapper } from '../FormikForm';
-import NotFound from '../NotFoundPage/NotFoundPage';
-import { useSession } from '../Session/SessionProvider';
+import { FieldArray, Formik, useField, useFormikContext } from "formik";
+import { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
+import { colors, misc, spacing } from "@ndla/core";
+import { Spinner } from "@ndla/icons";
+import { Pencil, Plus } from "@ndla/icons/action";
+import SafeLink from "@ndla/safelink";
+import { HelmetWithTracker } from "@ndla/tracker";
+import { IArticleSummaryV2 } from "@ndla/types-backend/article-api";
+import { Heading } from "@ndla/typography";
+import { OneColumn } from "@ndla/ui";
+import FrontpageArticleSearch from "./FrontpageArticleSearch";
+import { addArticlesToAboutMenu, extractArticleIds, menuWithArticleToIMenu } from "./frontpageHelpers";
+import FrontpageNodeList from "./FrontpageNodeList";
+import { MenuWithArticle } from "./types";
+import validateFormik, { RulesType } from "../../components/formikValidationSchema";
+import SaveButton from "../../components/SaveButton";
+import { FRONTPAGE_ADMIN_SCOPE } from "../../constants";
+import { useArticleSearch } from "../../modules/article/articleQueries";
+import { useUpdateFrontpageMutation } from "../../modules/frontpage/frontpageMutations";
+import { useFrontpage } from "../../modules/frontpage/frontpageQueries";
+import { toEditFrontPageArticle } from "../../util/routeHelpers";
+import { AlertModalWrapper } from "../FormikForm";
+import NotFound from "../NotFoundPage/NotFoundPage";
+import { useSession } from "../Session/SessionProvider";
 
 const FrontpageArticleWrapper = styled.div`
   display: flex;
@@ -96,10 +92,7 @@ const FrontpageEditPage = () => {
     [frontpageQuery.data],
   );
 
-  const articlesQuery = useArticleSearch(
-    { ids: articleIds.join(',') },
-    { enabled: !!articleIds.length },
-  );
+  const articlesQuery = useArticleSearch({ ids: articleIds.join(",") }, { enabled: !!articleIds.length });
 
   const transformedMenu: MenuWithArticle | undefined = useMemo(() => {
     if (frontpageQuery.isLoading || articlesQuery.isLoading || !articlesQuery.data) {
@@ -118,10 +111,7 @@ const FrontpageEditPage = () => {
     [postFrontpageMutation],
   );
 
-  const validate = useCallback(
-    (values: MenuWithArticle) => validateFormik(values, frontpageRules, t),
-    [t],
-  );
+  const validate = useCallback((values: MenuWithArticle) => validateFormik(values, frontpageRules, t), [t]);
 
   if (!userPermissions?.includes(FRONTPAGE_ADMIN_SCOPE)) {
     return <NotFound />;
@@ -129,7 +119,7 @@ const FrontpageEditPage = () => {
 
   return (
     <OneColumn>
-      <HelmetWithTracker title={t('htmlTitles.editFrontpage')} />
+      <HelmetWithTracker title={t("htmlTitles.editFrontpage")} />
       {frontpageQuery.isLoading || articlesQuery.isLoading ? (
         <Spinner />
       ) : transformedMenu ? (
@@ -143,15 +133,12 @@ const FrontpageEditPage = () => {
           {({ handleSubmit }) => (
             <form onSubmit={handleSubmit}>
               <RootFields />
-              <FieldArray
-                name="menu"
-                render={(props) => <FrontpageNodeList {...props} level={0} />}
-              />
+              <FieldArray name="menu" render={(props) => <FrontpageNodeList {...props} level={0} />} />
             </form>
           )}
         </Formik>
       ) : (
-        <p>{t('frontpageMenu.error')}</p>
+        <p>{t("frontpageMenu.error")}</p>
       )}
     </OneColumn>
   );
@@ -160,9 +147,9 @@ const FrontpageEditPage = () => {
 const RootFields = () => {
   const { t, i18n } = useTranslation();
   const { isSubmitting, dirty } = useFormikContext();
-  const [idField, , idHelpers] = useField<number>('articleId');
-  const [articleField, , articleHelpers] = useField<IArticleSummaryV2>('article');
-  const [menuField, , menuHelpers] = useField<MenuWithArticle[]>('menu');
+  const [idField, , idHelpers] = useField<number>("articleId");
+  const [articleField, , articleHelpers] = useField<IArticleSummaryV2>("article");
+  const [menuField, , menuHelpers] = useField<MenuWithArticle[]>("menu");
 
   const onAddNew = useCallback(
     (val: IArticleSummaryV2) => {
@@ -187,31 +174,28 @@ const RootFields = () => {
   return (
     <FrontpageArticleWrapper>
       <Heading element="h1" headingStyle="h3" margin="none">
-        {t('htmlTitles.editFrontpage')}
+        {t("htmlTitles.editFrontpage")}
       </Heading>
       <Wrapper>
         <ArticleTitle>
           <span>
             {articleField.value ? (
               <>
-                {t('frontpageForm.frontpageArticle')}
-                <StyledSafeLink
-                  to={toEditFrontPageArticle(articleField.value.id, i18n.language)}
-                  target="_blank"
-                >
+                {t("frontpageForm.frontpageArticle")}
+                <StyledSafeLink to={toEditFrontPageArticle(articleField.value.id, i18n.language)} target="_blank">
                   {articleField.value.title.title}
                 </StyledSafeLink>
               </>
             ) : (
-              t('frontpageForm.noFrontpageArticle')
+              t("frontpageForm.noFrontpageArticle")
             )}
           </span>
           <FrontpageArticleSearch articleId={idField.value} onChange={onChange}>
             <IconButtonV2
               colorTheme="primary"
               variant="outline"
-              aria-label={t('frontpageForm.changeFrontpageArticle')}
-              title={t('frontpageForm.changeFrontpageArticle')}
+              aria-label={t("frontpageForm.changeFrontpageArticle")}
+              title={t("frontpageForm.changeFrontpageArticle")}
             >
               <Pencil />
             </IconButtonV2>
@@ -222,14 +206,14 @@ const RootFields = () => {
             <IconButtonV2
               colorTheme="primary"
               variant="outline"
-              aria-label={t('frontpageForm.addArticleToMenu')}
-              title={t('frontpageForm.addArticleToMenu')}
+              aria-label={t("frontpageForm.addArticleToMenu")}
+              title={t("frontpageForm.addArticleToMenu")}
             >
               <Plus />
             </IconButtonV2>
           </FrontpageArticleSearch>
           <SaveButton type="submit" disabled={!dirty} isSaving={isSubmitting}>
-            {t('save')}
+            {t("save")}
           </SaveButton>
         </ButtonWrapper>
       </Wrapper>
@@ -237,7 +221,7 @@ const RootFields = () => {
         isSubmitting={isSubmitting}
         formIsDirty={dirty}
         severity="danger"
-        text={t('alertModal.notSaved')}
+        text={t("alertModal.notSaved")}
       />
     </FrontpageArticleWrapper>
   );

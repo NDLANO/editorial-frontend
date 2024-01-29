@@ -6,18 +6,18 @@
  *
  */
 
-import { format } from 'date-fns';
-import { TFunction } from 'i18next';
-import uniqueId from 'lodash/uniqueId';
-import { ChangeEvent, useCallback, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { colors, fonts, spacing, misc } from '@ndla/core';
-import { TextAreaV2 } from '@ndla/forms';
-import { COMMENT_COLOR, CommentType, textAreaStyles } from './Comment';
-import formatDate, { formatDateForBackend } from '../../../util/formatDate';
-import { useSession } from '../../Session/SessionProvider';
+import { format } from "date-fns";
+import { TFunction } from "i18next";
+import uniqueId from "lodash/uniqueId";
+import { ChangeEvent, useCallback, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { colors, fonts, spacing, misc } from "@ndla/core";
+import { TextAreaV2 } from "@ndla/forms";
+import { COMMENT_COLOR, CommentType, textAreaStyles } from "./Comment";
+import formatDate, { formatDateForBackend } from "../../../util/formatDate";
+import { useSession } from "../../Session/SessionProvider";
 
 const CommentCard = styled.div`
   max-width: inherit;
@@ -53,18 +53,14 @@ const ButtonWrapper = styled.div`
   gap: ${spacing.xsmall};
 `;
 
-export const getCommentWithInfoText = (
-  comment: string,
-  userName: string | undefined,
-  t: TFunction,
-) => {
+export const getCommentWithInfoText = (comment: string, userName: string | undefined, t: TFunction) => {
   const currentDate = new Date();
   const dateTime = formatDateForBackend(currentDate);
   const formattedDate = formatDate(dateTime);
-  const formattedTime = format(currentDate, 'HH:mm');
+  const formattedTime = format(currentDate, "HH:mm");
 
-  return `${comment}\n${t('form.workflow.addComment.createdBy')} ${userName?.split(
-    ' ',
+  return `${comment}\n${t("form.workflow.addComment.createdBy")} ${userName?.split(
+    " ",
   )[0]} (${formattedDate} - ${formattedTime})`;
 };
 
@@ -76,7 +72,7 @@ interface Props {
 const InputComment = ({ comments, setComments }: Props) => {
   const { t } = useTranslation();
   const { userName } = useSession();
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
   const [clickedInputField, setClickedInputField] = useState(false);
 
   const handleInputChange = useCallback((e: ChangeEvent<HTMLTextAreaElement>): void => {
@@ -86,10 +82,7 @@ const InputComment = ({ comments, setComments }: Props) => {
   const addComment = useCallback(() => {
     // We need a temporary unique id in frontend before id is generated in draft-api when comment is created
     const uid = uniqueId();
-    const updatedComments = [
-      { generatedId: uid, content: inputValue, isOpen: true, solved: false },
-      ...comments,
-    ];
+    const updatedComments = [{ generatedId: uid, content: inputValue, isOpen: true, solved: false }, ...comments];
     setComments(updatedComments);
   }, [comments, inputValue, setComments]);
 
@@ -106,13 +99,13 @@ const InputComment = ({ comments, setComments }: Props) => {
   }, [clickedInputField, inputValue, t, userName]);
 
   const onCancel = useCallback(() => {
-    setInputValue('');
+    setInputValue("");
     setClickedInputField(false);
   }, []);
 
   const onSubmit = useCallback(() => {
     addComment();
-    setInputValue('');
+    setInputValue("");
     setClickedInputField(false);
   }, [addComment]);
 
@@ -121,9 +114,9 @@ const InputComment = ({ comments, setComments }: Props) => {
       <WrapperColumn>
         <TextAreaV2
           css={textAreaStyles}
-          label={t('form.comment.commentField')}
-          name={t('form.comment.commentField')}
-          placeholder={`${t('form.comment.comment')}...`}
+          label={t("form.comment.commentField")}
+          name={t("form.comment.commentField")}
+          placeholder={`${t("form.comment.comment")}...`}
           labelHidden
           value={inputValue}
           onChange={handleInputChange}
@@ -131,23 +124,11 @@ const InputComment = ({ comments, setComments }: Props) => {
           ref={createComment}
         />
         <ButtonWrapper>
-          <StyledButtonSmall
-            shape="pill"
-            size="xsmall"
-            colorTheme="danger"
-            disabled={!inputValue}
-            onClick={onCancel}
-          >
-            {t('form.abort')}
+          <StyledButtonSmall shape="pill" size="xsmall" colorTheme="danger" disabled={!inputValue} onClick={onCancel}>
+            {t("form.abort")}
           </StyledButtonSmall>
-          <StyledButtonMedium
-            variant="outline"
-            shape="pill"
-            size="xsmall"
-            disabled={!inputValue}
-            onClick={onSubmit}
-          >
-            {t('form.comment.comment')}
+          <StyledButtonMedium variant="outline" shape="pill" size="xsmall" disabled={!inputValue} onClick={onSubmit}>
+            {t("form.comment.comment")}
           </StyledButtonMedium>
         </ButtonWrapper>
       </WrapperColumn>

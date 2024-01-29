@@ -6,10 +6,10 @@
  *
  */
 
-import CreateAudio from './CreateAudio';
-import EditAudio from './EditAudio';
-import ResourcePage from '../../components/ResourcePage';
-import { useAudio } from '../../modules/audio/audioQueries';
+import CreateAudio from "./CreateAudio";
+import EditAudio from "./EditAudio";
+import ResourcePage from "../../components/ResourcePage";
+import { useAudio } from "../../modules/audio/audioQueries";
 
 const AudioUploaderPage = () => (
   <ResourcePage

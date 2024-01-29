@@ -6,20 +6,20 @@
  *
  */
 
-import { FormEvent, InputHTMLAttributes, forwardRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { colors, misc, spacing, fonts } from '@ndla/core';
-import { Search } from '@ndla/icons/common';
-import { isValidLocale } from '../../../i18n';
-import { fetchNewArticleId } from '../../../modules/draft/draftApi';
-import { fetchNode } from '../../../modules/nodes/nodeApi';
-import { resolveUrls } from '../../../modules/taxonomy/taxonomyApi';
-import { isNDLAFrontendUrl } from '../../../util/htmlHelpers';
-import { toEditArticle, to404 } from '../../../util/routeHelpers';
-import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
+import { FormEvent, InputHTMLAttributes, forwardRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { colors, misc, spacing, fonts } from "@ndla/core";
+import { Search } from "@ndla/icons/common";
+import { isValidLocale } from "../../../i18n";
+import { fetchNewArticleId } from "../../../modules/draft/draftApi";
+import { fetchNode } from "../../../modules/nodes/nodeApi";
+import { resolveUrls } from "../../../modules/taxonomy/taxonomyApi";
+import { isNDLAFrontendUrl } from "../../../util/htmlHelpers";
+import { toEditArticle, to404 } from "../../../util/routeHelpers";
+import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
 const StyledForm = styled.form`
   display: flex;
@@ -87,7 +87,7 @@ export const MastheadSearchForm = forwardRef<HTMLInputElement, Props>(
     const handleNodeId = async (nodeId: number) => {
       try {
         const newArticle = await fetchNewArticleId(nodeId);
-        navigate(toEditArticle(newArticle.id, 'standard'));
+        navigate(toEditArticle(newArticle.id, "standard"));
       } catch (error) {
         navigate(to404());
       }
@@ -96,10 +96,10 @@ export const MastheadSearchForm = forwardRef<HTMLInputElement, Props>(
     const handleTaxonomyId = async (taxId: string) => {
       try {
         const taxElement = await fetchNode({ id: taxId, taxonomyVersion });
-        const arr = taxElement.contentUri?.split(':');
+        const arr = taxElement.contentUri?.split(":");
         if (arr) {
           const id = arr[arr.length - 1];
-          navigate(toEditArticle(parseInt(id), 'standard'));
+          navigate(toEditArticle(parseInt(id), "standard"));
         }
       } catch (error) {
         navigate(to404());
@@ -110,29 +110,29 @@ export const MastheadSearchForm = forwardRef<HTMLInputElement, Props>(
       // Removes search queries before split
       const ndlaUrl = frontendUrl.split(/\?/)[0];
       // Strip / from end if topic
-      const cleanUrl = ndlaUrl.endsWith('/')
-        ? ndlaUrl.replace('/subjects', '').slice(0, -1)
-        : ndlaUrl.replace('/subjects', '');
-      const splittedNdlaUrl = cleanUrl.split('/');
+      const cleanUrl = ndlaUrl.endsWith("/")
+        ? ndlaUrl.replace("/subjects", "").slice(0, -1)
+        : ndlaUrl.replace("/subjects", "");
+      const splittedNdlaUrl = cleanUrl.split("/");
 
       const urlId = splittedNdlaUrl[splittedNdlaUrl.length - 1];
 
       if (
-        !urlId.includes('urn:topic') &&
+        !urlId.includes("urn:topic") &&
         Number.isNaN(parseFloat(urlId)) &&
         !splittedNdlaUrl.find((e) => e.match(/subject:*/)) === undefined
       ) {
         return;
       }
-      setQuery('');
-      if (urlId.includes('urn:topic')) {
+      setQuery("");
+      if (urlId.includes("urn:topic")) {
         handleTopicUrl(urlId);
-      } else if (splittedNdlaUrl.includes('node')) {
+      } else if (splittedNdlaUrl.includes("node")) {
         handleNodeId(parseInt(urlId));
       } else if (splittedNdlaUrl.find((e) => e.match(/subject:*/))) {
         handleFrontendUrl(cleanUrl);
       } else {
-        navigate(toEditArticle(parseInt(urlId), 'standard'));
+        navigate(toEditArticle(parseInt(urlId), "standard"));
       }
     };
 
@@ -143,9 +143,9 @@ export const MastheadSearchForm = forwardRef<HTMLInputElement, Props>(
           language: i18n.language,
           taxonomyVersion,
         });
-        const arr = topicArticle.contentUri?.split(':') ?? [];
+        const arr = topicArticle.contentUri?.split(":") ?? [];
         const id = arr[arr.length - 1];
-        navigate(toEditArticle(parseInt(id), 'topic-article'));
+        navigate(toEditArticle(parseInt(id), "topic-article"));
       } catch {
         navigate(to404());
       }
@@ -153,14 +153,17 @@ export const MastheadSearchForm = forwardRef<HTMLInputElement, Props>(
 
     const handleFrontendUrl = async (url: string) => {
       const { pathname } = new URL(url);
-      const paths = pathname.split('/');
-      const path = isValidLocale(paths[1]) ? paths.slice(2).join('/') : pathname;
+      const paths = pathname.split("/");
+      const path = isValidLocale(paths[1]) ? paths.slice(2).join("/") : pathname;
 
       try {
-        const newArticle = await resolveUrls({ path, taxonomyVersion: 'default' });
-        const splittedUri = newArticle.contentUri.split(':');
+        const newArticle = await resolveUrls({
+          path,
+          taxonomyVersion: "default",
+        });
+        const splittedUri = newArticle.contentUri.split(":");
         const articleId = splittedUri[splittedUri.length - 1];
-        navigate(toEditArticle(parseInt(articleId), 'standard'));
+        navigate(toEditArticle(parseInt(articleId), "standard"));
       } catch {
         navigate(to404());
       }
@@ -169,8 +172,7 @@ export const MastheadSearchForm = forwardRef<HTMLInputElement, Props>(
     const handleSubmit = (evt: FormEvent) => {
       evt.preventDefault();
       const isNDLAUrl = isNDLAFrontendUrl(query);
-      const isNodeId =
-        query.length > 2 && /#\d+/g.test(query) && !Number.isNaN(parseFloat(query.substring(1)));
+      const isNodeId = query.length > 2 && /#\d+/g.test(query) && !Number.isNaN(parseFloat(query.substring(1)));
 
       const isTaxonomyId = query.length > 2 && /#urn:(resource|topic)[:\da-fA-F-]+/g.test(query);
 
@@ -197,7 +199,7 @@ export const MastheadSearchForm = forwardRef<HTMLInputElement, Props>(
           ref={ref}
           type="text"
           value={query}
-          placeholder={focused ? t('searchForm.placeholder') : t('searchPage.searchButton')}
+          placeholder={focused ? t("searchForm.placeholder") : t("searchPage.searchButton")}
           onFocus={() => {
             setFocused(true);
             setMenuOpen(true);

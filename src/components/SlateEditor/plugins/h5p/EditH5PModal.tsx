@@ -6,19 +6,19 @@
  *
  */
 
-import { useCallback, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Editor, Path, Transforms } from 'slate';
-import { ReactEditor } from 'slate-react';
-import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
-import { Link } from '@ndla/icons/common';
-import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
-import { H5pEmbedData, H5pMetaData } from '@ndla/types-embed';
-import { H5pElement } from './types';
-import config from '../../../../config';
-import { getH5pLocale } from '../../../H5PElement/h5pApi';
-import H5PElement, { OnSelectObject } from '../../../H5PElement/H5PElement';
+import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Path, Transforms } from "slate";
+import { ReactEditor } from "slate-react";
+import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
+import { Link } from "@ndla/icons/common";
+import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
+import { H5pEmbedData, H5pMetaData } from "@ndla/types-embed";
+import { H5pElement } from "./types";
+import config from "../../../../config";
+import { getH5pLocale } from "../../../H5PElement/h5pApi";
+import H5PElement, { OnSelectObject } from "../../../H5PElement/H5PElement";
 
 const StyledModalBody = styled.div`
   display: flex;
@@ -51,11 +51,9 @@ const EditH5PModal = ({ embed, language, editor, element }: Props) => {
       }
       setOpen(false);
       const cssUrl = encodeURIComponent(`${config.ndlaFrontendDomain}/static/h5p-custom-css.css`);
-      const url = `${config.h5pApiUrl}${params.path}?locale=${getH5pLocale(
-        language,
-      )}&cssUrl=${cssUrl}`;
+      const url = `${config.h5pApiUrl}${params.path}?locale=${getH5pLocale(language)}&cssUrl=${cssUrl}`;
       const embedData: H5pEmbedData = {
-        resource: 'h5p',
+        resource: "h5p",
         path: params.path,
         title: params.title,
         alt: embed?.embedData.alt,
@@ -88,7 +86,7 @@ const EditH5PModal = ({ embed, language, editor, element }: Props) => {
   return (
     <Modal open={isOpen} onOpenChange={setOpen}>
       <ModalTrigger>
-        <IconButtonV2 colorTheme="light" title={t('form.editH5p')} aria-label={t('form.editH5p')}>
+        <IconButtonV2 colorTheme="light" title={t("form.editH5p")} aria-label={t("form.editH5p")}>
           <Link />
         </IconButtonV2>
       </ModalTrigger>

@@ -6,18 +6,18 @@
  *
  */
 
-import { FieldProps, Form, Formik, FormikProps } from 'formik';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
-import { Select, Input } from '@ndla/forms';
-import { Translation } from '@ndla/types-taxonomy';
-import { Heading } from '@ndla/typography';
-import { Row } from '../../../../components';
-import FormikField from '../../../../components/FormikField';
-import validateFormik from '../../../../components/formikValidationSchema';
-import { LocaleType } from '../../../../interfaces';
+import { FieldProps, Form, Formik, FormikProps } from "formik";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { spacing } from "@ndla/core";
+import { Select, Input } from "@ndla/forms";
+import { Translation } from "@ndla/types-taxonomy";
+import { Heading } from "@ndla/typography";
+import { Row } from "../../../../components";
+import FormikField from "../../../../components/FormikField";
+import validateFormik from "../../../../components/formikValidationSchema";
+import { LocaleType } from "../../../../interfaces";
 
 const StyledFormikField = styled(FormikField)`
   margin-top: 0px;
@@ -61,7 +61,7 @@ const AddNodeTranslation = ({ onAddTranslation, availableLanguages, defaultName 
   }
 
   const onKeyDown = (event: KeyboardEvent, formik: FormikProps<FormValues>) => {
-    if (event.key === 'Enter' && formik.isValid && !formik.isSubmitting) {
+    if (event.key === "Enter" && formik.isValid && !formik.isSubmitting) {
       event.preventDefault();
       handleAddTranslation(formik);
     }
@@ -70,7 +70,7 @@ const AddNodeTranslation = ({ onAddTranslation, availableLanguages, defaultName 
   return (
     <Formik
       initialValues={{ language: availableLanguages[0], name: defaultName }}
-      validate={(values) => validateFormik(values, rules, t, 'taxonomy.changeName')}
+      validate={(values) => validateFormik(values, rules, t, "taxonomy.changeName")}
       validateOnBlur={false}
       enableReinitialize
       onSubmit={(_) => {}}
@@ -80,10 +80,10 @@ const AddNodeTranslation = ({ onAddTranslation, availableLanguages, defaultName 
         return (
           <StyledForm>
             <Heading element="h2" headingStyle="h3">
-              {t('taxonomy.changeName.addNewTranslation')}
+              {t("taxonomy.changeName.addNewTranslation")}
             </Heading>
             <Row>
-              <StyledFormikField name="language" label={t('taxonomy.changeName.language')}>
+              <StyledFormikField name="language" label={t("taxonomy.changeName.language")}>
                 {({ field }: FieldProps) => {
                   return (
                     <Select {...field}>
@@ -96,13 +96,13 @@ const AddNodeTranslation = ({ onAddTranslation, availableLanguages, defaultName 
                   );
                 }}
               </StyledFormikField>
-              <StyledFormikField name="name" label={t('taxonomy.changeName.name')}>
+              <StyledFormikField name="name" label={t("taxonomy.changeName.name")}>
                 {({ field }) => (
                   <Row>
                     <Input
                       {...field}
                       onKeyDown={(e: KeyboardEvent) => onKeyDown(e, formik)}
-                      placeholder={t('taxonomy.changeName.namePlaceholder')}
+                      placeholder={t("taxonomy.changeName.namePlaceholder")}
                       data-testid="addNodeNameTranslation"
                     />
                     <ButtonV2
@@ -110,7 +110,7 @@ const AddNodeTranslation = ({ onAddTranslation, availableLanguages, defaultName 
                       onClick={() => handleAddTranslation(formik)}
                       disabled={!isValid}
                     >
-                      {t('taxonomy.changeName.add')}
+                      {t("taxonomy.changeName.add")}
                     </ButtonV2>
                   </Row>
                 )}

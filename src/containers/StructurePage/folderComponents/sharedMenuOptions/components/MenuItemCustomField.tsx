@@ -6,15 +6,15 @@
  *
  */
 
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { spacing, colors } from '@ndla/core';
-import { Plus } from '@ndla/icons/action';
-import { Node, Metadata } from '@ndla/types-taxonomy';
-import ConstantMetaField from './ConstantMetaField';
-import CustomFieldComponent from './CustomFieldComponent';
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { spacing, colors } from "@ndla/core";
+import { Plus } from "@ndla/icons/action";
+import { Node, Metadata } from "@ndla/types-taxonomy";
+import ConstantMetaField from "./ConstantMetaField";
+import CustomFieldComponent from "./CustomFieldComponent";
 import {
   TAXONOMY_CUSTOM_FIELD_LANGUAGE,
   TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH,
@@ -25,22 +25,18 @@ import {
   TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
   TAXONOMY_CUSTOM_FIELD_PROGRAMME_SUBJECT,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
-} from '../../../../../constants';
-import { PROGRAMME, SUBJECT_NODE, TOPIC_NODE } from '../../../../../modules/nodes/nodeApiTypes';
-import { useUpdateNodeMetadataMutation } from '../../../../../modules/nodes/nodeMutations';
-import {
-  getNodeTypeFromNodeId,
-  getRootIdForNode,
-  isRootNode,
-} from '../../../../../modules/nodes/nodeUtil';
-import { useTaxonomyVersion } from '../../../../StructureVersion/TaxonomyVersionProvider';
-import SubjectCategorySelector from '../../subjectMenuOptions/SubjectCategorySelector';
-import SubjectLMASelector from '../../subjectMenuOptions/SubjectLMASelector';
-import SubjectTypeSelector from '../../subjectMenuOptions/SubjectTypeSelector';
-import TaxonomyMetadataLanguageSelector from '../../subjectMenuOptions/TaxonomyMetadataLanguageSelector';
-import ToggleExplanationSubject from '../../subjectMenuOptions/ToggleExplanationSubject';
-import ToggleProgrammeSubject from '../../subjectMenuOptions/ToggleProgrammeSubject';
-import GroupTopicResources from '../../topicMenuOptions/GroupTopicResources';
+} from "../../../../../constants";
+import { PROGRAMME, SUBJECT_NODE, TOPIC_NODE } from "../../../../../modules/nodes/nodeApiTypes";
+import { useUpdateNodeMetadataMutation } from "../../../../../modules/nodes/nodeMutations";
+import { getNodeTypeFromNodeId, getRootIdForNode, isRootNode } from "../../../../../modules/nodes/nodeUtil";
+import { useTaxonomyVersion } from "../../../../StructureVersion/TaxonomyVersionProvider";
+import SubjectCategorySelector from "../../subjectMenuOptions/SubjectCategorySelector";
+import SubjectLMASelector from "../../subjectMenuOptions/SubjectLMASelector";
+import SubjectTypeSelector from "../../subjectMenuOptions/SubjectTypeSelector";
+import TaxonomyMetadataLanguageSelector from "../../subjectMenuOptions/TaxonomyMetadataLanguageSelector";
+import ToggleExplanationSubject from "../../subjectMenuOptions/ToggleExplanationSubject";
+import ToggleProgrammeSubject from "../../subjectMenuOptions/ToggleProgrammeSubject";
+import GroupTopicResources from "../../topicMenuOptions/GroupTopicResources";
 
 interface Props {
   node: Node;
@@ -63,7 +59,7 @@ const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
   const nodeType = getNodeTypeFromNodeId(id);
   const [isOpen, setOpen] = useState<boolean>(false);
   const { taxonomyVersion } = useTaxonomyVersion();
-  const [customFields, setCustomFields] = useState<Metadata['customFields']>(metadata.customFields);
+  const [customFields, setCustomFields] = useState<Metadata["customFields"]>(metadata.customFields);
 
   const { mutateAsync: updateMetadata } = useUpdateNodeMetadataMutation();
 
@@ -88,10 +84,7 @@ const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
     TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH,
     TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
   ];
-  const filteredTopicFields = [
-    TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
-    TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH,
-  ];
+  const filteredTopicFields = [TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES, TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH];
 
   const filterHardcodedMetadataValues = () => {
     return Object.entries(customFields).filter(([taxonomyMetadataField, _]) => {
@@ -116,7 +109,10 @@ const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
       <GroupTopicResources
         node={node}
         onChanged={(partialMeta) =>
-          onCurrentNodeChanged({ ...node, metadata: { ...node.metadata, ...partialMeta } })
+          onCurrentNodeChanged({
+            ...node,
+            metadata: { ...node.metadata, ...partialMeta },
+          })
         }
       />
     </>
@@ -124,17 +120,14 @@ const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
 
   const subjectSettings = (
     <>
-      <TaxonomyMetadataLanguageSelector
-        customFields={customFields}
-        updateCustomFields={setCustomFields}
-      />
+      <TaxonomyMetadataLanguageSelector customFields={customFields} updateCustomFields={setCustomFields} />
       <SubjectLMASelector customFields={customFields} updateCustomFields={setCustomFields} />
       <SubjectCategorySelector customFields={customFields} updateCustomFields={setCustomFields} />
       <SubjectTypeSelector customFields={customFields} updateCustomFields={setCustomFields} />
       <ToggleExplanationSubject customFields={customFields} updateFields={setCustomFields} />
       <ConstantMetaField
-        keyPlaceholder={t('taxonomy.metadata.customFields.oldSubjectId')}
-        valuePlaceholder={'urn:subject:***'}
+        keyPlaceholder={t("taxonomy.metadata.customFields.oldSubjectId")}
+        valuePlaceholder={"urn:subject:***"}
         fieldKey={TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID}
         onSubmit={setCustomFields}
         initialVal={metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID]}
@@ -150,12 +143,7 @@ const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
       {filterHardcodedMetadataValues()
         .sort((a, b) => a[0].localeCompare(b[0]))
         .map(([key, value]) => (
-          <CustomFieldComponent
-            key={`unique-${key}`}
-            onSubmit={setCustomFields}
-            initialKey={key}
-            initialVal={value}
-          />
+          <CustomFieldComponent key={`unique-${key}`} onSubmit={setCustomFields} initialKey={key} initialVal={value} />
         ))}
       {isOpen ? (
         <CustomFieldComponent onSubmit={setCustomFields} onClose={() => setOpen(false)} />
@@ -168,7 +156,7 @@ const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
             onClick={() => setOpen(true)}
           >
             <Plus />
-            {t('taxonomy.metadata.customFields.addField')}
+            {t("taxonomy.metadata.customFields.addField")}
           </StyledButton>
         </StyledFilterWrapper>
       )}

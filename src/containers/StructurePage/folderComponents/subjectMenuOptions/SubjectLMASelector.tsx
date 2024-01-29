@@ -6,11 +6,11 @@
  *
  */
 
-import sortBy from 'lodash/sortBy';
-import { useTranslation } from 'react-i18next';
-import TaxonomyMetadataDropdown from './TaxonomyMetadataDropdown';
-import { DRAFT_RESPONSIBLE, TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA } from '../../../../constants';
-import { useAuth0Responsibles } from '../../../../modules/auth0/auth0Queries';
+import sortBy from "lodash/sortBy";
+import { useTranslation } from "react-i18next";
+import TaxonomyMetadataDropdown from "./TaxonomyMetadataDropdown";
+import { DRAFT_RESPONSIBLE, TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA } from "../../../../constants";
+import { useAuth0Responsibles } from "../../../../modules/auth0/auth0Queries";
 
 interface Props {
   customFields: Record<string, string>;
@@ -39,8 +39,8 @@ const SubjectLMASelector = ({ customFields, updateCustomFields }: Props) => {
       value: responsible.name,
     })) || [];
   const messages = {
-    selected: t('taxonomy.metadata.placeholders.lma'),
-    title: t('taxonomy.metadata.customFields.subjectLMA'),
+    selected: t("taxonomy.metadata.placeholders.lma"),
+    title: t("taxonomy.metadata.customFields.subjectLMA"),
   };
   return (
     <TaxonomyMetadataDropdown

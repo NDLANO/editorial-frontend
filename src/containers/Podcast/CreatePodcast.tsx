@@ -6,23 +6,20 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import { INewAudioMetaInformation } from '@ndla/types-backend/audio-api';
-import PodcastForm from './components/PodcastForm';
-import { postAudio } from '../../modules/audio/audioApi';
-import { createFormData } from '../../util/formDataHelper';
-import { toEditPodcast } from '../../util/routeHelpers';
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import { INewAudioMetaInformation } from "@ndla/types-backend/audio-api";
+import PodcastForm from "./components/PodcastForm";
+import { postAudio } from "../../modules/audio/audioApi";
+import { createFormData } from "../../util/formDataHelper";
+import { toEditPodcast } from "../../util/routeHelpers";
 
 const CreatePodcast = () => {
   const { i18n } = useTranslation();
   const locale = i18n.language;
   const navigate = useNavigate();
 
-  const onCreatePodcast = async (
-    newPodcast: INewAudioMetaInformation,
-    podcastFile: string | Blob | undefined,
-  ) => {
+  const onCreatePodcast = async (newPodcast: INewAudioMetaInformation, podcastFile: string | Blob | undefined) => {
     const formData = await createFormData(podcastFile, newPodcast);
     const createdPodcast = await postAudio(formData);
     navigate(toEditPodcast(createdPodcast.id, newPodcast.language));

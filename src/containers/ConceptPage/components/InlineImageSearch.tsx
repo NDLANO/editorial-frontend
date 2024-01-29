@@ -6,20 +6,20 @@
  *
  */
 
-import { useFormikContext } from 'formik';
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
-import { FieldHeader } from '@ndla/forms';
-import ImageSearch from '@ndla/image-search';
-import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
-import HowToHelper from '../../../components/HowTo/HowToHelper';
-import { LocaleType } from '../../../interfaces';
-import { fetchImage, searchImages, onError } from '../../../modules/image/imageApi';
-import MetaImageField from '../../FormikForm/components/MetaImageField';
-import { ConceptFormValues } from '../conceptInterfaces';
+import { useFormikContext } from "formik";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { spacing } from "@ndla/core";
+import { FieldHeader } from "@ndla/forms";
+import ImageSearch from "@ndla/image-search";
+import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
+import HowToHelper from "../../../components/HowTo/HowToHelper";
+import { LocaleType } from "../../../interfaces";
+import { fetchImage, searchImages, onError } from "../../../modules/image/imageApi";
+import MetaImageField from "../../FormikForm/components/MetaImageField";
+import { ConceptFormValues } from "../conceptInterfaces";
 
 const StyledTitleDiv = styled.div`
   margin-bottom: ${spacing.small};
@@ -38,7 +38,7 @@ const InlineImageSearch = ({ name, disableAltEditing, hideAltText }: Props) => {
   const locale: LocaleType = i18n.language;
   const fetchImageWithLocale = (id: number) => fetchImage(id, locale);
   const searchImagesWithParameters = (query?: string, page?: number) => {
-    return searchImages({ query, page, 'page-size': 16 });
+    return searchImages({ query, page, "page-size": 16 });
   };
 
   useEffect(() => {
@@ -59,7 +59,7 @@ const InlineImageSearch = ({ name, disableAltEditing, hideAltText }: Props) => {
         image={image}
         onImageRemove={() => {
           setFieldValue(name, undefined);
-          setFieldValue('metaImageAlt', undefined, true);
+          setFieldValue("metaImageAlt", undefined, true);
           setImage(undefined);
         }}
         showRemoveButton
@@ -68,31 +68,31 @@ const InlineImageSearch = ({ name, disableAltEditing, hideAltText }: Props) => {
   }
   return (
     <>
-      <FieldHeader title={t('form.metaImage.title')}>
-        <HowToHelper pageId="MetaImage" tooltip={t('form.metaImage.helpLabel')} />
+      <FieldHeader title={t("form.metaImage.title")}>
+        <HowToHelper pageId="MetaImage" tooltip={t("form.metaImage.helpLabel")} />
       </FieldHeader>
 
       <ImageSearch
         fetchImage={fetchImageWithLocale}
         searchImages={searchImagesWithParameters}
         locale={locale}
-        searchPlaceholder={t('imageSearch.placeholder')}
-        searchButtonTitle={t('imageSearch.buttonTitle')}
-        useImageTitle={t('imageSearch.useImage')}
+        searchPlaceholder={t("imageSearch.placeholder")}
+        searchButtonTitle={t("imageSearch.buttonTitle")}
+        useImageTitle={t("imageSearch.useImage")}
         onImageSelect={(image: IImageMetaInformationV3) => {
           setFieldValue(name, image.id);
-          setFieldValue('metaImageAlt', image.alttext.alttext.trim(), true);
+          setFieldValue("metaImageAlt", image.alttext.alttext.trim(), true);
           setImage(image);
           setTimeout(() => {
-            setFieldTouched('metaImageAlt', true, true);
+            setFieldTouched("metaImageAlt", true, true);
             setFieldTouched(name, true, true);
           }, 0);
         }}
         noResults={
           <>
-            <StyledTitleDiv>{t('imageSearch.noResultsText')}</StyledTitleDiv>
+            <StyledTitleDiv>{t("imageSearch.noResultsText")}</StyledTitleDiv>
             <ButtonV2 type="submit" variant="outline">
-              {t('imageSearch.noResultsButtonText')}
+              {t("imageSearch.noResultsButtonText")}
             </ButtonV2>
           </>
         }

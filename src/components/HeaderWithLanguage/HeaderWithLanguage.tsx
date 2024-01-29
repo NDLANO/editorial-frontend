@@ -6,17 +6,17 @@
  *
  */
 
-import { memo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { Check } from '@ndla/icons/editor';
-import { IConcept } from '@ndla/types-backend/concept-api';
-import { IArticle, IStatus } from '@ndla/types-backend/draft-api';
-import { TaxonomyContext } from '@ndla/types-taxonomy';
-import HeaderActions from './HeaderActions';
-import HeaderInformation from './HeaderInformation';
-import HeaderLanguagePill from './HeaderLanguagePill';
+import { memo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { Check } from "@ndla/icons/editor";
+import { IConcept } from "@ndla/types-backend/concept-api";
+import { IArticle, IStatus } from "@ndla/types-backend/draft-api";
+import { TaxonomyContext } from "@ndla/types-taxonomy";
+import HeaderActions from "./HeaderActions";
+import HeaderInformation from "./HeaderInformation";
+import HeaderLanguagePill from "./HeaderLanguagePill";
 
 export const StyledLanguageWrapper = styled.div`
   padding-left: ${spacing.small};
@@ -26,15 +26,15 @@ export const StyledLanguageWrapper = styled.div`
 `;
 
 export type FormHeaderType =
-  | 'image'
-  | 'audio'
-  | 'topic-article'
-  | 'standard'
-  | 'concept'
-  | 'gloss'
-  | 'podcast'
-  | 'podcast-series'
-  | 'frontpage-article';
+  | "image"
+  | "audio"
+  | "topic-article"
+  | "standard"
+  | "concept"
+  | "gloss"
+  | "podcast"
+  | "podcast-series"
+  | "frontpage-article";
 
 interface Props {
   title?: string;
@@ -71,12 +71,10 @@ const HeaderWithLanguage = ({
   const [hasConnections, setHasConnections] = useState(true);
 
   const isNewLanguage = !!id && !supportedLanguages.includes(language);
-  const statusText = status?.current ? t(`form.status.${status.current.toLowerCase()}`) : '';
-  const published = status?.current === 'PUBLISHED' || status?.other?.includes('PUBLISHED');
-  const isArticle = type === 'standard' || type === 'topic-article' || type === 'frontpage-article';
-  const responsible = isArticle
-    ? article?.responsible?.responsibleId
-    : concept?.responsible?.responsibleId;
+  const statusText = status?.current ? t(`form.status.${status.current.toLowerCase()}`) : "";
+  const published = status?.current === "PUBLISHED" || status?.other?.includes("PUBLISHED");
+  const isArticle = type === "standard" || type === "topic-article" || type === "frontpage-article";
+  const responsible = isArticle ? article?.responsible?.responsibleId : concept?.responsible?.responsibleId;
 
   return (
     <header>

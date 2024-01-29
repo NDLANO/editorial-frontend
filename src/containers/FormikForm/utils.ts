@@ -6,13 +6,13 @@
  *
  */
 
-import { FormikContextType } from 'formik';
-import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
-import { ArticleFormType } from './articleFormHooks';
-import { defaultEmbedBlock } from '../../components/SlateEditor/plugins/embed/utils';
-import { ImageEmbed } from '../../interfaces';
-import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
-import { ConceptFormValues } from '../ConceptPage/conceptInterfaces';
+import { FormikContextType } from "formik";
+import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
+import { ArticleFormType } from "./articleFormHooks";
+import { defaultEmbedBlock } from "../../components/SlateEditor/plugins/embed/utils";
+import { ImageEmbed } from "../../interfaces";
+import { convertFieldWithFallback } from "../../util/convertFieldWithFallback";
+import { ConceptFormValues } from "../ConceptPage/conceptInterfaces";
 
 export const onSaveAsVisualElement = <T extends ArticleFormType>(
   image: IImageMetaInformationV3,
@@ -22,16 +22,16 @@ export const onSaveAsVisualElement = <T extends ArticleFormType>(
 
   if (image) {
     const visualElement: ImageEmbed = {
-      resource: 'image',
+      resource: "image",
       resource_id: image.id,
-      size: 'full',
-      align: '',
-      alt: convertFieldWithFallback(image as Object, 'alttext', ''),
-      caption: convertFieldWithFallback(image as Object, 'caption', '') || '',
+      size: "full",
+      align: "",
+      alt: convertFieldWithFallback(image as Object, "alttext", ""),
+      caption: convertFieldWithFallback(image as Object, "caption", "") || "",
     };
-    setFieldValue('visualElement', [defaultEmbedBlock(visualElement)]);
+    setFieldValue("visualElement", [defaultEmbedBlock(visualElement)]);
     setTimeout(() => {
-      setFieldTouched('visualElement', true, false);
+      setFieldTouched("visualElement", true, false);
     }, 0);
   }
 };

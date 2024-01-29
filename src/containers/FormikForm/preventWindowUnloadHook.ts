@@ -6,17 +6,17 @@
  *
  */
 
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
 const usePreventWindowUnload = (preventDefault: boolean) => {
   useEffect(() => {
     if (preventDefault) {
       const handleBeforeUnload = (event: BeforeUnloadEvent) => {
         event.preventDefault();
-        return (event.returnValue = '');
+        return (event.returnValue = "");
       };
-      window.addEventListener('beforeunload', handleBeforeUnload);
-      return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+      window.addEventListener("beforeunload", handleBeforeUnload);
+      return () => window.removeEventListener("beforeunload", handleBeforeUnload);
     }
   }, [preventDefault]);
 };

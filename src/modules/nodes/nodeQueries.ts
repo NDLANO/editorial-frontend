@@ -6,21 +6,16 @@
  *
  */
 
-import chunk from 'lodash/chunk';
-import uniqBy from 'lodash/uniqBy';
-import { useQuery, useQueryClient, UseQueryOptions } from '@tanstack/react-query';
-import {
-  IComment,
-  IDraftResponsible,
-  IEditorNote,
-  IRevisionMeta,
-} from '@ndla/types-backend/draft-api';
-import { Node, NodeChild, NodeType } from '@ndla/types-taxonomy';
-import { fetchChildNodes, fetchNode, fetchNodeResources, fetchNodes, searchNodes } from './nodeApi';
-import { GetNodeParams, GetNodeResourcesParams, RESOURCE_NODE, TOPIC_NODE } from './nodeApiTypes';
-import { PUBLISHED } from '../../constants';
-import { NodeTree } from '../../containers/NodeDiff/diffUtils';
-import { SearchResultBase, WithTaxonomyVersion } from '../../interfaces';
+import chunk from "lodash/chunk";
+import uniqBy from "lodash/uniqBy";
+import { useQuery, useQueryClient, UseQueryOptions } from "@tanstack/react-query";
+import { IComment, IDraftResponsible, IEditorNote, IRevisionMeta } from "@ndla/types-backend/draft-api";
+import { Node, NodeChild, NodeType } from "@ndla/types-taxonomy";
+import { fetchChildNodes, fetchNode, fetchNodeResources, fetchNodes, searchNodes } from "./nodeApi";
+import { GetNodeParams, GetNodeResourcesParams, RESOURCE_NODE, TOPIC_NODE } from "./nodeApiTypes";
+import { PUBLISHED } from "../../constants";
+import { NodeTree } from "../../containers/NodeDiff/diffUtils";
+import { SearchResultBase, WithTaxonomyVersion } from "../../interfaces";
 import {
   CHILD_NODES_WITH_ARTICLE_TYPE,
   NODE,
@@ -29,9 +24,9 @@ import {
   RESOURCES_WITH_NODE_CONNECTION,
   ROOT_NODE_WITH_CHILDREN,
   SEARCH_NODES,
-} from '../../queryKeys';
-import { fetchDrafts } from '../draft/draftApi';
-import { fetchLearningpaths } from '../learningpath/learningpathApi';
+} from "../../queryKeys";
+import { fetchDrafts } from "../draft/draftApi";
+import { fetchLearningpaths } from "../learningpath/learningpathApi";
 
 export const nodeQueryKeys = {
   nodes: (params?: Partial<UseNodesParams>) => [NODES, params] as const,
@@ -66,7 +61,10 @@ export const useNode = (params: UseNodeParams, options?: Partial<UseQueryOptions
     queryFn: () => fetchNode(params),
     placeholderData: qc
       .getQueryData<Node[]>(
-        nodeQueryKeys.nodes({ taxonomyVersion: params.taxonomyVersion, language: params.language }),
+        nodeQueryKeys.nodes({
+          taxonomyVersion: params.taxonomyVersion,
+          language: params.language,
+        }),
       )
       ?.find((s) => s.id === params.id),
     ...options,
@@ -113,13 +111,13 @@ const partitionByContentUri = (contentUris: (string | undefined)[]) => {
     .filter((uri) => !!uri)
     .reduce<ContentUriPartition>(
       (acc, curr) => {
-        const split = curr!.split(':');
+        const split = curr!.split(":");
         const type = split[1];
         const id = parseInt(split[2]);
         if (!id) return acc;
-        if (type === 'article') {
+        if (type === "article") {
           acc.articleIds = acc.articleIds.concat(id);
-        } else if (type === 'learningpath') {
+        } else if (type === "learningpath") {
           acc.learningpathIds = acc.learningpathIds.concat(id);
         }
         return acc;
@@ -128,30 +126,15 @@ const partitionByContentUri = (contentUris: (string | undefined)[]) => {
     );
 };
 
-const fetchNodeResourceMetas = async (
-  params: UseNodeResourceMetas,
-): Promise<NodeResourceMeta[]> => {
+const fetchNodeResourceMetas = async (params: UseNodeResourceMetas): Promise<NodeResourceMeta[]> => {
   const { articleIds, learningpathIds } = partitionByContentUri(params.ids);
-  const articlesPromise = articleIds.length
-    ? fetchDrafts(articleIds, params.language)
-    : Promise.resolve([]);
+  const articlesPromise = articleIds.length ? fetchDrafts(articleIds, params.language) : Promise.resolve([]);
   const learningpathsPromise = learningpathIds.length
     ? fetchLearningpaths(learningpathIds, params.language)
     : Promise.resolve([]);
   const [articles, learningpaths] = await Promise.all([articlesPromise, learningpathsPromise]);
   const transformedArticles: NodeResourceMeta[] = articles.map(
-    ({
-      status,
-      grepCodes,
-      articleType,
-      id,
-      revision,
-      revisions,
-      notes,
-      responsible,
-      started,
-      comments,
-    }) => ({
+    ({ status, grepCodes, articleType, id, revision, revisions, notes, responsible, started, comments }) => ({
       status,
       grepCodes,
       articleType,
@@ -203,8 +186,8 @@ const fetchChildNodesWithArticleType = async ({
   if (childNodes.length === 0) return [];
 
   const childIds = childNodes
-    .filter((n) => n.contentUri?.includes('urn:article'))
-    .map((n) => Number(n.contentUri?.split(':').pop()))
+    .filter((n) => n.contentUri?.includes("urn:article"))
+    .map((n) => Number(n.contentUri?.split(":").pop()))
     .filter((id) => !!id);
 
   const chunks = chunk(childIds, 250);
@@ -222,7 +205,7 @@ const fetchChildNodesWithArticleType = async ({
   }, {});
 
   return childNodes.map((node) => {
-    const draftId = Number(node.contentUri?.split(':').pop());
+    const draftId = Number(node.contentUri?.split(":").pop());
     const articleType = articleTypeMap[draftId];
     const isPublished = isPublishedMap[draftId];
     return { ...node, articleType, isPublished };
@@ -247,11 +230,7 @@ interface NodeTreeGetParams extends WithTaxonomyVersion {
   language: string;
 }
 
-const fetchNodeTree = async ({
-  id,
-  language,
-  taxonomyVersion,
-}: NodeTreeGetParams): Promise<NodeTree> => {
+const fetchNodeTree = async ({ id, language, taxonomyVersion }: NodeTreeGetParams): Promise<NodeTree> => {
   const [root, children] = await Promise.all([
     fetchNode({ id, language, taxonomyVersion }),
     fetchChildNodesWithArticleType({
@@ -284,7 +263,10 @@ const fetchNodeTree = async ({
       resources: resourcesForNodeIdMap[child.id] ?? [],
     }));
   return {
-    root: { ...childOrRegularRoot, resources: resourcesForNodeIdMap[root.id] ?? [] },
+    root: {
+      ...childOrRegularRoot,
+      resources: resourcesForNodeIdMap[root.id] ?? [],
+    },
     children: childrenWithResources,
   };
 };
@@ -330,10 +312,7 @@ interface UseSearchNodes extends WithTaxonomyVersion {
   query?: string;
 }
 
-export const useSearchNodes = (
-  params: UseSearchNodes,
-  options?: Partial<UseQueryOptions<SearchResultBase<Node>>>,
-) => {
+export const useSearchNodes = (params: UseSearchNodes, options?: Partial<UseQueryOptions<SearchResultBase<Node>>>) => {
   return useQuery<SearchResultBase<Node>>({
     queryKey: nodeQueryKeys.search(params),
     queryFn: () => searchNodes(params),

@@ -6,17 +6,14 @@
  *
  */
 
-import { IAudioMetaInformation, ISeries, ICopyright } from '@ndla/types-backend/audio-api';
-import { plainTextToEditorValue } from './articleContentConverter';
-import { DEFAULT_LICENSE } from './formHelper';
-import { AudioFormikType } from '../containers/AudioUploader/components/AudioForm';
-import { PodcastSeriesFormikType } from '../containers/PodcastSeries/components/PodcastSeriesForm';
-import { PodcastFormValues } from '../modules/audio/audioApiInterfaces';
+import { IAudioMetaInformation, ISeries, ICopyright } from "@ndla/types-backend/audio-api";
+import { plainTextToEditorValue } from "./articleContentConverter";
+import { DEFAULT_LICENSE } from "./formHelper";
+import { AudioFormikType } from "../containers/AudioUploader/components/AudioForm";
+import { PodcastSeriesFormikType } from "../containers/PodcastSeries/components/PodcastSeriesForm";
+import { PodcastFormValues } from "../modules/audio/audioApiInterfaces";
 
-export const audioApiTypeToFormType = (
-  audio: IAudioMetaInformation | undefined,
-  language: string,
-): AudioFormikType => {
+export const audioApiTypeToFormType = (audio: IAudioMetaInformation | undefined, language: string): AudioFormikType => {
   const copyright: ICopyright = audio?.copyright ?? {
     creators: [],
     processors: [],
@@ -25,15 +22,15 @@ export const audioApiTypeToFormType = (
     processed: false,
   };
   const license = audio?.copyright.license.license;
-  const audioLicense = !license || license === 'unknown' ? DEFAULT_LICENSE.license : license;
+  const audioLicense = !license || license === "unknown" ? DEFAULT_LICENSE.license : license;
 
   return {
     ...audio,
-    title: plainTextToEditorValue(audio?.title?.title ?? ''),
-    manuscript: plainTextToEditorValue(audio?.manuscript?.manuscript ?? ''),
+    title: plainTextToEditorValue(audio?.title?.title ?? ""),
+    manuscript: plainTextToEditorValue(audio?.manuscript?.manuscript ?? ""),
     tags: audio?.tags.tags ?? [],
     ...copyright,
-    origin: audio?.copyright.origin ?? '',
+    origin: audio?.copyright.origin ?? "",
     license: audioLicense,
     audioFile: audio?.audioFile ? { storedFile: audio.audioFile } : {},
     language,
@@ -47,25 +44,22 @@ export const audioApiTypeToPodcastFormType = (
 ): PodcastFormValues => {
   return {
     ...audioApiTypeToFormType(audio, language),
-    introduction: plainTextToEditorValue(audio?.podcastMeta?.introduction || ''),
+    introduction: plainTextToEditorValue(audio?.podcastMeta?.introduction || ""),
     coverPhotoId: audio?.podcastMeta?.coverPhoto.id,
     metaImageAlt: audio?.podcastMeta?.coverPhoto.altText,
-    filepath: '',
+    filepath: "",
     series: audio?.series ?? null,
   };
 };
 
-export const podcastSeriesTypeToFormType = (
-  series: ISeries | undefined,
-  language: string,
-): PodcastSeriesFormikType => {
+export const podcastSeriesTypeToFormType = (series: ISeries | undefined, language: string): PodcastSeriesFormikType => {
   return {
     ...series,
     language,
     coverPhotoId: series?.coverPhoto.id,
     metaImageAlt: series?.coverPhoto.altText,
-    title: plainTextToEditorValue(series?.title.title ?? ''),
-    description: plainTextToEditorValue(series?.description.description ?? ''),
+    title: plainTextToEditorValue(series?.title.title ?? ""),
+    description: plainTextToEditorValue(series?.description.description ?? ""),
     episodes: series?.episodes ?? [],
     supportedLanguages: series?.supportedLanguages ?? [language],
     hasRSS: series?.hasRSS,

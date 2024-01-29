@@ -6,4 +6,4 @@
  *
  */
 
-export const TYPE_CODEBLOCK = 'code-block';
+export const TYPE_CODEBLOCK = "code-block";

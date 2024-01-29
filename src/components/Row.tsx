@@ -6,12 +6,12 @@
  *
  */
 
-import { ReactNode } from 'react';
-import styled from '@emotion/styled';
-import { spacing as styledSpacing } from '@ndla/core';
-import { AlignItemsType, JustifyContentType } from '../style/styleInterfaces';
+import { ReactNode } from "react";
+import styled from "@emotion/styled";
+import { spacing as styledSpacing } from "@ndla/core";
+import { AlignItemsType, JustifyContentType } from "../style/styleInterfaces";
 
-const StyledRow = styled('div')<Props>`
+const StyledRow = styled("div")<Props>`
   display: grid;
   grid-auto-flow: column;
   grid-gap: ${(p) => (p.spacing ? styledSpacing[p.spacing] : styledSpacing.normal)};
@@ -26,7 +26,7 @@ interface Props {
   justifyContent?: JustifyContentType;
 }
 
-export const Row = ({ spacing = 'normal', alignItems, justifyContent, children }: Props) => (
+export const Row = ({ spacing = "normal", alignItems, justifyContent, children }: Props) => (
   <StyledRow spacing={spacing} alignItems={alignItems} justifyContent={justifyContent}>
     {children}
   </StyledRow>

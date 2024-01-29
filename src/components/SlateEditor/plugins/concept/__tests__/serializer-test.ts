@@ -6,14 +6,11 @@
  *
  */
 
-import { Descendant } from 'slate';
-import {
-  blockContentToEditorValue,
-  blockContentToHTML,
-} from '../../../../../util/articleContentConverter';
-import { TYPE_PARAGRAPH } from '../../paragraph/types';
-import { TYPE_SECTION } from '../../section/types';
-import { TYPE_CONCEPT_INLINE } from '../inline/types';
+import { Descendant } from "slate";
+import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
+import { TYPE_PARAGRAPH } from "../../paragraph/types";
+import { TYPE_SECTION } from "../../section/types";
+import { TYPE_CONCEPT_INLINE } from "../inline/types";
 
 const editor: Descendant[] = [
   {
@@ -22,18 +19,18 @@ const editor: Descendant[] = [
       {
         type: TYPE_PARAGRAPH,
         children: [
-          { text: '' },
+          { text: "" },
           {
             type: TYPE_CONCEPT_INLINE,
             data: {
-              contentId: '123',
-              linkText: 'my concept',
-              resource: 'concept',
-              type: 'inline',
+              contentId: "123",
+              linkText: "my concept",
+              resource: "concept",
+              type: "inline",
             },
-            children: [{ text: 'my concept' }],
+            children: [{ text: "my concept" }],
           },
-          { text: '' },
+          { text: "" },
         ],
       },
     ],
@@ -43,13 +40,13 @@ const editor: Descendant[] = [
 const html =
   '<section><p><ndlaembed data-content-id="123" data-link-text="my concept" data-resource="concept" data-type="inline"></ndlaembed></p></section>';
 
-describe('concept serializing tests', () => {
-  test('serializing', () => {
+describe("concept serializing tests", () => {
+  test("serializing", () => {
     const res = blockContentToHTML(editor);
     expect(res).toMatch(html);
   });
 
-  test('deserializing', () => {
+  test("deserializing", () => {
     const res = blockContentToEditorValue(html);
     expect(res).toEqual(editor);
   });

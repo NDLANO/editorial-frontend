@@ -6,12 +6,12 @@
  *
  */
 
-import styled from '@emotion/styled';
-import { ButtonV2, CloseButton } from '@ndla/button';
-import { spacing, colors, fonts } from '@ndla/core';
-import { BookOpen } from '@ndla/icons/common';
-import { ModalCloseButton, ModalTitle } from '@ndla/modal';
-import Spinner from '../Spinner';
+import styled from "@emotion/styled";
+import { ButtonV2, CloseButton } from "@ndla/button";
+import { spacing, colors, fonts } from "@ndla/core";
+import { BookOpen } from "@ndla/icons/common";
+import { ModalCloseButton, ModalTitle } from "@ndla/modal";
+import Spinner from "../Spinner";
 
 const StyledHeader = styled.div`
   background: ${colors.brand.lighter};
@@ -73,7 +73,7 @@ interface Props {
   actions?: {
     text: string;
     onClick: () => void;
-    'data-testid'?: string;
+    "data-testid"?: string;
     loading?: boolean;
   }[];
 }
@@ -96,7 +96,7 @@ const TaxonomyLightbox = ({ children, title, actions = [] }: Props) => {
         {children}
         <StyledWrapper>
           {actions.map((a, i) => (
-            <ButtonV2 key={i} onClick={a.onClick} data-testid={a['data-testid']}>
+            <ButtonV2 key={i} onClick={a.onClick} data-testid={a["data-testid"]}>
               {a.loading ? <Spinner appearance="small" /> : a.text}
             </ButtonV2>
           ))}

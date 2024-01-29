@@ -6,10 +6,10 @@
  *
  */
 
-import { ReactNode } from 'react';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { colors } from '@ndla/core';
+import { ReactNode } from "react";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { colors } from "@ndla/core";
 
 const StyledCustomFieldButton = styled(ButtonV2)`
   &,
@@ -29,7 +29,7 @@ interface Props {
   disabled?: boolean;
   onClick: () => void;
   children: ReactNode;
-  'data-testid'?: string;
+  "data-testid"?: string;
 }
 
 const CustomFieldButton = ({ children, ...rest }: Props) => {

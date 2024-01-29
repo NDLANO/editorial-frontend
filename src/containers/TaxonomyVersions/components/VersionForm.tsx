@@ -6,36 +6,36 @@
  *
  */
 
-import { Formik, FormikHelpers } from 'formik';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { useQueryClient } from '@tanstack/react-query';
-import { ButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
-import { Version } from '@ndla/types-taxonomy';
-import { StyledErrorMessage } from './StyledErrorMessage';
-import VersionLockedField from './VersionLockedField';
-import VersionNameField from './VersionNameField';
-import VersionSourceField from './VersionSourceField';
-import { Row } from '../../../components';
-import AlertModal from '../../../components/AlertModal';
-import Field from '../../../components/Field';
-import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
-import SaveButton from '../../../components/SaveButton';
-import Fade from '../../../components/Taxonomy/Fade';
+import { Formik, FormikHelpers } from "formik";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { useQueryClient } from "@tanstack/react-query";
+import { ButtonV2 } from "@ndla/button";
+import { spacing } from "@ndla/core";
+import { Version } from "@ndla/types-taxonomy";
+import { StyledErrorMessage } from "./StyledErrorMessage";
+import VersionLockedField from "./VersionLockedField";
+import VersionNameField from "./VersionNameField";
+import VersionSourceField from "./VersionSourceField";
+import { Row } from "../../../components";
+import AlertModal from "../../../components/AlertModal";
+import Field from "../../../components/Field";
+import validateFormik, { RulesType } from "../../../components/formikValidationSchema";
+import SaveButton from "../../../components/SaveButton";
+import Fade from "../../../components/Taxonomy/Fade";
 import {
   usePostVersionMutation,
   usePublishVersionMutation,
   usePutVersionMutation,
-} from '../../../modules/taxonomy/versions/versionMutations';
-import { versionQueryKeys } from '../../../modules/taxonomy/versions/versionQueries';
+} from "../../../modules/taxonomy/versions/versionMutations";
+import { versionQueryKeys } from "../../../modules/taxonomy/versions/versionQueries";
 import {
   VersionFormType,
   versionFormTypeToVersionPostType,
   versionFormTypeToVersionPutType,
   versionTypeToVersionFormType,
-} from '../versionTransformers';
+} from "../versionTransformers";
 
 interface Props {
   version?: Version;
@@ -73,18 +73,18 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
       setError(undefined);
       await qc.cancelQueries({ queryKey: versionsKey });
       const optimisticVersion: Version = {
-        id: '',
-        versionType: 'BETA',
+        id: "",
+        versionType: "BETA",
         name: body.name,
-        hash: '',
+        hash: "",
         locked: !!body.locked,
-        created: '',
+        created: "",
       };
       const existingVersions = qc.getQueryData<Version[]>(versionsKey) ?? [];
       qc.setQueryData<Version[]>(versionsKey, existingVersions.concat(optimisticVersion));
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: versionsKey }),
-    onError: () => setError(t('taxonomyVersions.postError')),
+    onError: () => setError(t("taxonomyVersions.postError")),
   });
 
   const versionPutMutation = usePutVersionMutation({
@@ -104,7 +104,7 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
       qc.setQueryData<Version[]>(versionsKey, newVersions);
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: versionsKey }),
-    onError: () => setError(t('taxonomyVersions.putError')),
+    onError: () => setError(t("taxonomyVersions.putError")),
   });
 
   const publishVersionMutation = usePublishVersionMutation({
@@ -114,13 +114,13 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
       const existingVersions = qc.getQueryData<Version[]>(versionsKey) ?? [];
       const updatedVersions: Version[] = existingVersions.map((version) => {
         if (version.id === id) {
-          return { ...version, versionType: 'PUBLISHED' };
+          return { ...version, versionType: "PUBLISHED" };
         } else return version;
       });
       qc.setQueryData<Version[]>(versionsKey, updatedVersions);
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: versionsKey }),
-    onError: () => setError(t('taxonomyVersions.publishError')),
+    onError: () => setError(t("taxonomyVersions.publishError")),
   });
 
   const onPublish = async () => {
@@ -156,24 +156,22 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
         {({ isSubmitting, isValid, dirty, handleSubmit }) => {
           return (
             <>
-              <StyledTitle>
-                {t(`taxonomyVersions.${!version ? 'newVersionTitle' : 'editVersionTitle'}`)}
-              </StyledTitle>
+              <StyledTitle>{t(`taxonomyVersions.${!version ? "newVersionTitle" : "editVersionTitle"}`)}</StyledTitle>
               <VersionNameField />
               {!version && <VersionSourceField existingVersions={existingVersions} />}
-              {version?.versionType !== 'PUBLISHED' && <VersionLockedField />}
+              {version?.versionType !== "PUBLISHED" && <VersionLockedField />}
               {error && <StyledErrorMessage>{error}</StyledErrorMessage>}
               <Row>
                 <Field>
-                  {version && version.versionType === 'BETA' && (
+                  {version && version.versionType === "BETA" && (
                     <ButtonV2 disabled={dirty} onClick={() => setShowAlertModal(true)}>
-                      {t('taxonomyVersions.publishButton')}
+                      {t("taxonomyVersions.publishButton")}
                     </ButtonV2>
                   )}
                 </Field>
                 <ButtonContainer>
                   <ButtonV2 variant="outline" onClick={onClose}>
-                    {t('form.abort')}
+                    {t("form.abort")}
                   </ButtonV2>
                   <SaveButton
                     isSaving={isSubmitting}
@@ -184,17 +182,17 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
                 </ButtonContainer>
               </Row>
               <AlertModal
-                title={t('taxonomyVersions.publishTitle')}
-                label={t('taxonomyVersions.publishTitle')}
+                title={t("taxonomyVersions.publishTitle")}
+                label={t("taxonomyVersions.publishTitle")}
                 show={showAlertModal}
-                text={t('taxonomyVersions.publishWarning')}
+                text={t("taxonomyVersions.publishWarning")}
                 actions={[
                   {
-                    text: t('form.abort'),
+                    text: t("form.abort"),
                     onClick: () => setShowAlertModal(false),
                   },
                   {
-                    text: t('alertModal.continue'),
+                    text: t("alertModal.continue"),
                     onClick: () => {
                       setShowAlertModal(false);
                       onPublish();

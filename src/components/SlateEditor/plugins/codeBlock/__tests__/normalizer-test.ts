@@ -6,19 +6,19 @@
  *
  */
 
-import { createEditor, Descendant, Editor } from 'slate';
-import { withHistory } from 'slate-history';
-import { withReact } from 'slate-react';
-import { learningResourcePlugins } from '../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins';
-import withPlugins from '../../../utils/withPlugins';
-import { TYPE_PARAGRAPH } from '../../paragraph/types';
-import { TYPE_SECTION } from '../../section/types';
-import { TYPE_CODEBLOCK } from '../types';
+import { createEditor, Descendant, Editor } from "slate";
+import { withHistory } from "slate-history";
+import { withReact } from "slate-react";
+import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
+import withPlugins from "../../../utils/withPlugins";
+import { TYPE_PARAGRAPH } from "../../paragraph/types";
+import { TYPE_SECTION } from "../../section/types";
+import { TYPE_CODEBLOCK } from "../types";
 
 const editor = withHistory(withReact(withPlugins(createEditor(), learningResourcePlugins)));
 
-describe('codeblock normalizer tests', () => {
-  test('adds paragraphs around codeblock', () => {
+describe("codeblock normalizer tests", () => {
+  test("adds paragraphs around codeblock", () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
@@ -26,34 +26,34 @@ describe('codeblock normalizer tests', () => {
           {
             type: TYPE_CODEBLOCK,
             data: {
-              codeContent: 'print(1)',
-              codeFormat: 'python',
-              resource: 'code-block',
-              title: 'tittel',
+              codeContent: "print(1)",
+              codeFormat: "python",
+              resource: "code-block",
+              title: "tittel",
             },
-            children: [{ text: '' }],
+            children: [{ text: "" }],
             isFirstEdit: false,
           },
           {
             type: TYPE_CODEBLOCK,
             data: {
-              codeContent: 'print(1)',
-              codeFormat: 'python',
-              resource: 'code-block',
-              title: 'tittel',
+              codeContent: "print(1)",
+              codeFormat: "python",
+              resource: "code-block",
+              title: "tittel",
             },
-            children: [{ text: '' }],
+            children: [{ text: "" }],
             isFirstEdit: false,
           },
           {
             type: TYPE_CODEBLOCK,
             data: {
-              codeContent: 'print(1)',
-              codeFormat: 'python',
-              resource: 'code-block',
-              title: 'tittel',
+              codeContent: "print(1)",
+              codeFormat: "python",
+              resource: "code-block",
+              title: "tittel",
             },
-            children: [{ text: '' }],
+            children: [{ text: "" }],
             isFirstEdit: false,
           },
         ],
@@ -64,43 +64,43 @@ describe('codeblock normalizer tests', () => {
       {
         type: TYPE_SECTION,
         children: [
-          { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
           {
             type: TYPE_CODEBLOCK,
             data: {
-              codeContent: 'print(1)',
-              codeFormat: 'python',
-              resource: 'code-block',
-              title: 'tittel',
+              codeContent: "print(1)",
+              codeFormat: "python",
+              resource: "code-block",
+              title: "tittel",
             },
-            children: [{ text: '' }],
+            children: [{ text: "" }],
             isFirstEdit: false,
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
           {
             type: TYPE_CODEBLOCK,
             data: {
-              codeContent: 'print(1)',
-              codeFormat: 'python',
-              resource: 'code-block',
-              title: 'tittel',
+              codeContent: "print(1)",
+              codeFormat: "python",
+              resource: "code-block",
+              title: "tittel",
             },
-            children: [{ text: '' }],
+            children: [{ text: "" }],
             isFirstEdit: false,
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
           {
             type: TYPE_CODEBLOCK,
             data: {
-              codeContent: 'print(1)',
-              codeFormat: 'python',
-              resource: 'code-block',
-              title: 'tittel',
+              codeContent: "print(1)",
+              codeFormat: "python",
+              resource: "code-block",
+              title: "tittel",
             },
-            children: [{ text: '' }],
+            children: [{ text: "" }],
             isFirstEdit: false,
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+          { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
         ],
       },
     ];

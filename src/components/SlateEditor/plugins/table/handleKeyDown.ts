@@ -6,31 +6,15 @@
  *
  */
 
-import { Editor, NodeEntry, Path, Point, Range, Transforms } from 'slate';
-import { ReactEditor } from 'slate-react';
-import {
-  TableBodyElement,
-  TableCellElement,
-  TableElement,
-  TableHeadElement,
-  TableRowElement,
-} from './interfaces';
-import { getTableAsMatrix } from './matrix';
-import { findCellCoordinate } from './matrixHelpers';
-import {
-  createIdenticalRow,
-  isTableBody,
-  isTableCell,
-  isTableHead,
-  isTableRow,
-} from './slateHelpers';
-import { KEY_ARROW_DOWN, KEY_ARROW_UP, KEY_BACKSPACE, KEY_DELETE, KEY_TAB } from '../../utils/keys';
+import { Editor, NodeEntry, Path, Point, Range, Transforms } from "slate";
+import { ReactEditor } from "slate-react";
+import { TableBodyElement, TableCellElement, TableElement, TableHeadElement, TableRowElement } from "./interfaces";
+import { getTableAsMatrix } from "./matrix";
+import { findCellCoordinate } from "./matrixHelpers";
+import { createIdenticalRow, isTableBody, isTableCell, isTableHead, isTableRow } from "./slateHelpers";
+import { KEY_ARROW_DOWN, KEY_ARROW_UP, KEY_BACKSPACE, KEY_DELETE, KEY_TAB } from "../../utils/keys";
 
-export const handleTableKeydown = (
-  event: KeyboardEvent,
-  editor: Editor,
-  tableEntry: NodeEntry<TableElement>,
-) => {
+export const handleTableKeydown = (event: KeyboardEvent, editor: Editor, tableEntry: NodeEntry<TableElement>) => {
   if (editor.selection) {
     const [cellEntry] = Editor.nodes(editor, {
       at: editor.selection.anchor.path,
@@ -90,12 +74,8 @@ export const handleTableKeydown = (
   }
 };
 
-const handleBackspaceClick = (
-  event: KeyboardEvent,
-  editor: Editor,
-  cellEntry: NodeEntry<TableCellElement>,
-) => {
-  const firstCellPoint = Editor.point(editor, cellEntry[1], { edge: 'start' });
+const handleBackspaceClick = (event: KeyboardEvent, editor: Editor, cellEntry: NodeEntry<TableCellElement>) => {
+  const firstCellPoint = Editor.point(editor, cellEntry[1], { edge: "start" });
 
   // Prevent action if at start of cell
   if (editor.selection && Range.isCollapsed(editor.selection)) {
@@ -105,12 +85,8 @@ const handleBackspaceClick = (
   }
 };
 
-const handleDeleteClick = (
-  event: KeyboardEvent,
-  editor: Editor,
-  cellEntry: NodeEntry<TableCellElement>,
-) => {
-  const lastCellPoint = Editor.point(editor, cellEntry[1], { edge: 'end' });
+const handleDeleteClick = (event: KeyboardEvent, editor: Editor, cellEntry: NodeEntry<TableCellElement>) => {
+  const lastCellPoint = Editor.point(editor, cellEntry[1], { edge: "end" });
 
   // Prevent action if at end of cell
   if (editor.selection && Range.isCollapsed(editor.selection)) {
@@ -133,10 +109,7 @@ const moveLeft = (
   const cellPath = cellEntry[1];
 
   // A. If a previous cell exists, move to it.
-  if (
-    (Path.hasPrevious(cellPath) || Path.hasPrevious(rowPath) || Path.hasPrevious(bodyPath)) &&
-    editor.selection
-  ) {
+  if ((Path.hasPrevious(cellPath) || Path.hasPrevious(rowPath) || Path.hasPrevious(bodyPath)) && editor.selection) {
     Transforms.select(editor, Editor.start(editor, cellEntry[1]));
     Transforms.move(editor, { reverse: true });
     Transforms.select(editor, Editor.range(editor, editor.selection.anchor.path));
@@ -148,8 +121,8 @@ const moveLeft = (
     const targetPath = [...tablePath, 0, 0];
     Transforms.insertNodes(editor, createIdenticalRow(row), { at: targetPath });
     Transforms.select(editor, {
-      anchor: Editor.point(editor, targetPath, { edge: 'end' }),
-      focus: Editor.point(editor, targetPath, { edge: 'end' }),
+      anchor: Editor.point(editor, targetPath, { edge: "end" }),
+      focus: Editor.point(editor, targetPath, { edge: "end" }),
     });
   }
 };
@@ -171,9 +144,7 @@ const moveRight = (
 
   // A. If next cell exists, move to it.
   if (
-    (Editor.hasPath(editor, nextPath) ||
-      Editor.hasPath(editor, nextRowPath) ||
-      Editor.hasPath(editor, nextBodyPath)) &&
+    (Editor.hasPath(editor, nextPath) || Editor.hasPath(editor, nextRowPath) || Editor.hasPath(editor, nextBodyPath)) &&
     editor.selection
   ) {
     Transforms.select(editor, Editor.end(editor, cellEntry[1]));
@@ -182,23 +153,21 @@ const moveRight = (
     return;
   }
 
-  const TableEndPoint = Editor.point(editor, tablePath, { edge: 'end' });
+  const TableEndPoint = Editor.point(editor, tablePath, { edge: "end" });
 
   // B. If at last cell in table, insert new identical row.
   if (Path.isDescendant(TableEndPoint.path, cellPath)) {
-    Transforms.insertNodes(editor, createIdenticalRow(row), { at: nextRowPath });
+    Transforms.insertNodes(editor, createIdenticalRow(row), {
+      at: nextRowPath,
+    });
     Transforms.select(editor, {
-      anchor: Editor.point(editor, nextRowPath, { edge: 'start' }),
-      focus: Editor.point(editor, nextRowPath, { edge: 'start' }),
+      anchor: Editor.point(editor, nextRowPath, { edge: "start" }),
+      focus: Editor.point(editor, nextRowPath, { edge: "start" }),
     });
   }
 };
 
-const moveDown = (
-  editor: Editor,
-  tableEntry: NodeEntry<TableElement>,
-  cellEntry: NodeEntry<TableCellElement>,
-) => {
+const moveDown = (editor: Editor, tableEntry: NodeEntry<TableElement>, cellEntry: NodeEntry<TableCellElement>) => {
   const tablePath = tableEntry[1];
 
   const [cell, cellPath] = cellEntry;
@@ -213,21 +182,27 @@ const moveDown = (
       // A. If cell exist below, move to it.
       if (nextCell) {
         const nextCellPath = ReactEditor.findPath(editor, nextCell);
-        const nextCellPoint = Editor.point(editor, nextCellPath, { edge: 'start' });
+        const nextCellPoint = Editor.point(editor, nextCellPath, {
+          edge: "start",
+        });
         return Transforms.select(editor, {
           anchor: nextCellPoint,
           focus: nextCellPoint,
         });
         // B. If cell exist to the right. Move to it.
       } else if (Editor.hasPath(editor, Path.next(cellPath))) {
-        const nextCellPoint = Editor.point(editor, Path.next(cellPath), { edge: 'start' });
+        const nextCellPoint = Editor.point(editor, Path.next(cellPath), {
+          edge: "start",
+        });
         return Transforms.select(editor, {
           anchor: nextCellPoint,
           focus: nextCellPoint,
         });
         // C. Move out of table.
       } else {
-        const nextPoint = Editor.point(editor, Path.next(tablePath), { edge: 'end' });
+        const nextPoint = Editor.point(editor, Path.next(tablePath), {
+          edge: "end",
+        });
         return Transforms.select(editor, {
           anchor: nextPoint,
           focus: nextPoint,
@@ -237,11 +212,7 @@ const moveDown = (
   }
 };
 
-const moveUp = (
-  editor: Editor,
-  tableEntry: NodeEntry<TableElement>,
-  cellEntry: NodeEntry<TableCellElement>,
-) => {
+const moveUp = (editor: Editor, tableEntry: NodeEntry<TableElement>, cellEntry: NodeEntry<TableCellElement>) => {
   const tablePath = tableEntry[1];
 
   const [cell, cellPath] = cellEntry;
@@ -255,21 +226,25 @@ const moveUp = (
       if (matrixPath[0] > 0) {
         const previousCell = matrix[matrixPath[0] - 1]?.[matrixPath[1]];
         const previousCellPath = ReactEditor.findPath(editor, previousCell);
-        const previousCellPoint = Editor.point(editor, previousCellPath, { edge: 'start' });
+        const previousCellPoint = Editor.point(editor, previousCellPath, {
+          edge: "start",
+        });
         return Transforms.select(editor, {
           anchor: previousCellPoint,
           focus: previousCellPoint,
         });
         // B. If cell exist to the left, move to it.
       } else if (Path.hasPrevious(cellPath) && Editor.hasPath(editor, Path.previous(cellPath))) {
-        const previousCellPoint = Editor.point(editor, Path.previous(cellPath), { edge: 'start' });
+        const previousCellPoint = Editor.point(editor, Path.previous(cellPath), { edge: "start" });
         return Transforms.select(editor, {
           anchor: previousCellPoint,
           focus: previousCellPoint,
         });
         // C. Move out of table
       } else if (Path.hasPrevious(tablePath)) {
-        const previousPoint = Editor.point(editor, Path.previous(tablePath), { edge: 'end' });
+        const previousPoint = Editor.point(editor, Path.previous(tablePath), {
+          edge: "end",
+        });
         return Transforms.select(editor, {
           anchor: previousPoint,
           focus: previousPoint,

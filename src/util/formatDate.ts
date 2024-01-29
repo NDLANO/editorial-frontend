@@ -6,15 +6,15 @@
  *
  */
 
-import format from 'date-fns/format';
-import parseISO from 'date-fns/parseISO';
+import format from "date-fns/format";
+import parseISO from "date-fns/parseISO";
 
-const NORWEGIAN_FORMAT = 'dd.MM.yyyy';
+const NORWEGIAN_FORMAT = "dd.MM.yyyy";
 
 export default function formatDate(date: string | number): string {
-  if (!date) return '';
+  if (!date) return "";
 
-  if (typeof date === 'string') {
+  if (typeof date === "string") {
     const parsedDate = parseISO(date);
     return format(parsedDate, NORWEGIAN_FORMAT);
   }
@@ -23,5 +23,5 @@ export default function formatDate(date: string | number): string {
 }
 
 export function formatDateForBackend(date: Date): string {
-  return date.toISOString().split('.').shift() + 'Z';
+  return date.toISOString().split(".").shift() + "Z";
 }

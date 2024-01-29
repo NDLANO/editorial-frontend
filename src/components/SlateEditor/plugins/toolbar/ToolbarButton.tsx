@@ -6,11 +6,12 @@
  *
  */
 
-import { ElementType, MouseEvent, ReactNode, memo, useCallback, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { colors, fonts } from '@ndla/core';
-import { Language } from '@ndla/icons/common';
+import { ElementType, ReactNode, forwardRef, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonProps, ButtonV2 } from "@ndla/button";
+import { colors, fonts, spacing } from "@ndla/core";
+import { Language } from "@ndla/icons/common";
 import {
   Bold,
   Code,
@@ -29,10 +30,12 @@ import {
   AlignCenter,
   AlignRight,
   FormatList,
-} from '@ndla/icons/editor';
+} from "@ndla/icons/editor";
 
 const StyledHeadingSpan = styled.span`
-  ${fonts.sizes('14px', '14px')};
+  text-align: center;
+  width: ${spacing.normal};
+  ${fonts.sizes("14px", "14px")};
 `;
 
 interface HeadingSpanProps {
@@ -48,15 +51,15 @@ interface HeadingProps {
   title: string;
 }
 
+const Paragraph = ({ title }: HeadingProps) => <HeadingSpan title={title}>P</HeadingSpan>;
 const HeadingOne = ({ title }: HeadingProps) => <HeadingSpan title={title}>H1</HeadingSpan>;
 const HeadingTwo = ({ title }: HeadingProps) => <HeadingSpan title={title}>H2</HeadingSpan>;
 const HeadingThree = ({ title }: HeadingProps) => <HeadingSpan title={title}>H3</HeadingSpan>;
 const HeadingFour = ({ title }: HeadingProps) => <HeadingSpan title={title}>H4</HeadingSpan>;
 
 // Fetched from https://github.com/ianstormtaylor/is-hotkey/blob/master/src/index.js
-export const IS_MAC =
-  typeof window != 'undefined' && /Mac|iPod|iPhone|iPad/.test(window.navigator.platform);
-const options = { ctrl: IS_MAC ? 'cmd' : 'ctrl' };
+export const IS_MAC = typeof window != "undefined" && /Mac|iPod|iPhone|iPad/.test(window.navigator.platform);
+const options = { ctrl: IS_MAC ? "cmd" : "ctrl" };
 
 const icon: Record<string, ElementType> = {
   bold: Bold,
@@ -65,96 +68,62 @@ const icon: Record<string, ElementType> = {
   sub: Subscript,
   sup: Superscript,
   quote: Quote,
-  link: Link,
-  'numbered-list': ListNumbered,
-  'bulleted-list': ListCircle,
-  'letter-list': ListAlphabetical,
-  'heading-1': HeadingOne,
-  'heading-2': HeadingTwo,
-  'heading-3': HeadingThree,
-  'heading-4': HeadingFour,
-  'definition-list': FormatList,
+  "content-link": Link,
+  "numbered-list": ListNumbered,
+  "bulleted-list": ListCircle,
+  "letter-list": ListAlphabetical,
+  "heading-1": HeadingOne,
+  "heading-2": HeadingTwo,
+  "heading-3": HeadingThree,
+  "heading-4": HeadingFour,
+  "normal-text": Paragraph,
+  "definition-list": FormatList,
   mathml: Math,
-  concept: Concept,
+  "concept-inline": Concept,
   code: Code,
-  'code-block': Code,
-  span: Language,
+  "code-block": Code,
+  language: Language,
   left: AlignLeft,
   center: AlignCenter,
   right: AlignRight,
 };
 
-const StyledToolbarButton = styled.button`
-  display: inline-block;
-  background: ${colors.white};
-  cursor: pointer;
-  padding: 8px 0.5rem 8px 0.5rem;
-  border-width: 0px;
-  border-top-width: 1px;
-  border-bottom-width: 1px;
-  border-left-width: 1px;
-  border-style: solid;
-  border-color: ${colors.brand.greyLighter};
-  &[data-active='true'] {
-    background: ${colors.brand.lightest};
-    border-width: 1px;
-    border-color: ${colors.brand.tertiary};
-  }
-
-  :first-of-type {
-    border-left-width: 1px;
-    border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px;
-  }
-  :last-child {
-    border-right-width: 1px;
-    border-top-right-radius: 4px;
-    border-bottom-right-radius: 4px;
-  }
-
-  :hover {
-    background: ${colors.brand.lightest};
-  }
-`;
-
-const ToolbarIcon = styled.span`
-  vertical-align: text-bottom;
-  line-height: 1;
-  letter-spacing: normal;
-  text-transform: none;
-  display: inline-block;
-  white-space: nowrap;
-  word-wrap: normal;
-  direction: ltr;
-`;
-
 interface Props {
-  isActive: boolean;
-  type: string;
-  kind: string;
-  handleOnClick: (event: MouseEvent, kind: string, type: string) => void;
+  type?: string;
+  noTitle?: boolean;
 }
 
-const ToolbarButton = ({ isActive, type, kind, handleOnClick }: Props) => {
-  const Icon = useMemo(() => icon[type], [type]);
-  const { t } = useTranslation();
+const StyledButton = styled(ButtonV2)`
+  color: ${colors.brand.greyDark};
+  display: inline-flex;
+  align-items: center;
+  &[data-state="on"] {
+    background-color: ${colors.brand.light};
+    &:hover {
+      color: ${colors.brand.greyDark};
+    }
+  }
+`;
 
-  const onClick = useCallback(
-    (e: MouseEvent) => handleOnClick(e, kind, type),
-    [handleOnClick, kind, type],
-  );
+const ToolbarButton = forwardRef<HTMLButtonElement, Omit<ButtonProps, "type"> & Props>(
+  ({ type, children, noTitle, ...rest }, ref) => {
+    const Icon = useMemo(() => (type ? icon[type] : undefined), [type]);
+    const { t } = useTranslation();
 
-  return (
-    <StyledToolbarButton
-      onClick={onClick}
-      data-testid={`toolbar-button-${type}`}
-      data-active={isActive}
-    >
-      <ToolbarIcon>
-        <Icon title={t(`editorToolbar.${type}`, options)} />
-      </ToolbarIcon>
-    </StyledToolbarButton>
-  );
-};
+    return (
+      <StyledButton
+        size="xsmall"
+        ref={ref}
+        variant="ghost"
+        data-testid={`toolbar-button-${type}`}
+        title={noTitle ? undefined : t(`editorToolbar.${type}`, options)}
+        {...rest}
+      >
+        {Icon && <Icon />}
+        {children}
+      </StyledButton>
+    );
+  },
+);
 
-export default memo(ToolbarButton);
+export default ToolbarButton;

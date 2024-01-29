@@ -5,13 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { useTranslation } from 'react-i18next';
-import CheckboxSelector from './CheckboxSelector';
-import { OnFieldChangeFunction } from './GenericSearchForm';
-import { SearchParams } from './SearchForm';
-import ObjectSelector from '../../../../components/ObjectSelector';
-import { unreachable } from '../../../../util/guards';
-import InlineDatePicker from '../../../FormikForm/components/InlineDatePicker';
+import { useTranslation } from "react-i18next";
+import CheckboxSelector from "./CheckboxSelector";
+import { OnFieldChangeFunction } from "./GenericSearchForm";
+import { SearchParams } from "./SearchForm";
+import ObjectSelector from "../../../../components/ObjectSelector";
+import { unreachable } from "../../../../util/guards";
+import InlineDatePicker from "../../../FormikForm/components/InlineDatePicker";
 
 interface SearchFormSelectorBase {
   parameterName: keyof SearchParams;
@@ -21,7 +21,9 @@ interface SearchFormSelectorBase {
 
 /** These types are to extract keys of a specific type from SearchParams */
 type RSP = Required<SearchParams>;
-type SearchParamsWithOnlyType<P> = { [k in keyof RSP]: RSP[k] extends P ? k : never }[keyof RSP];
+type SearchParamsWithOnlyType<P> = {
+  [k in keyof RSP]: RSP[k] extends P ? k : never;
+}[keyof RSP];
 type SearchParamsOfType<O> = { [k in SearchParamsWithOnlyType<O>]: O };
 
 export type SearchFormSelector =
@@ -32,28 +34,28 @@ export type SearchFormSelector =
   | TextInputSelectorType;
 
 interface CheckboxSelectorType extends SearchFormSelectorBase {
-  formElementType: 'check-box';
+  formElementType: "check-box";
   parameterName: keyof SearchParamsOfType<boolean>;
 }
 
 interface CheckboxReverseSelectorType extends SearchFormSelectorBase {
-  formElementType: 'check-box-reverse';
+  formElementType: "check-box-reverse";
   parameterName: keyof SearchParamsOfType<boolean>;
 }
 
 interface ObjectSelectorType extends SearchFormSelectorBase {
-  formElementType: 'dropdown';
+  formElementType: "dropdown";
   options: { id: string; name: string }[];
   parameterName: keyof SearchParamsOfType<string>;
 }
 
 interface DatePickerSelectorType extends SearchFormSelectorBase {
-  formElementType: 'date-picker';
+  formElementType: "date-picker";
   parameterName: keyof SearchParamsOfType<string>;
 }
 
 export interface TextInputSelectorType extends SearchFormSelectorBase {
-  formElementType: 'text-input';
+  formElementType: "text-input";
 }
 
 interface SelectorProps {
@@ -66,7 +68,7 @@ interface SelectorProps {
 const Selector = ({ formType, selector, onFieldChange, searchObject }: SelectorProps) => {
   const { t } = useTranslation();
   switch (selector.formElementType) {
-    case 'text-input':
+    case "text-input":
       return (
         <input
           name={selector.parameterName}
@@ -75,18 +77,18 @@ const Selector = ({ formType, selector, onFieldChange, searchObject }: SelectorP
           onChange={(e) => onFieldChange(selector.parameterName, e.currentTarget.value, e)}
         />
       );
-    case 'date-picker': {
+    case "date-picker": {
       const datePickerValue = searchObject[selector.parameterName];
       return (
         <InlineDatePicker
           name={selector.parameterName}
           onChange={(e) => onFieldChange(selector.parameterName, e.currentTarget.value, e)}
           placeholder={t(`searchForm.types.${selector.parameterName}`)}
-          value={datePickerValue ?? ''}
+          value={datePickerValue ?? ""}
         />
       );
     }
-    case 'check-box': {
+    case "check-box": {
       const checkboxValue = searchObject[selector.parameterName];
       return (
         <CheckboxSelector
@@ -96,7 +98,7 @@ const Selector = ({ formType, selector, onFieldChange, searchObject }: SelectorP
         />
       );
     }
-    case 'check-box-reverse': {
+    case "check-box-reverse": {
       const checkboxValue = searchObject[selector.parameterName];
       return (
         <CheckboxSelector
@@ -106,12 +108,12 @@ const Selector = ({ formType, selector, onFieldChange, searchObject }: SelectorP
         />
       );
     }
-    case 'dropdown': {
+    case "dropdown": {
       const dropdownValue = searchObject[selector.parameterName];
       return (
         <ObjectSelector
           name={selector.parameterName}
-          value={dropdownValue ?? ''}
+          value={dropdownValue ?? ""}
           options={selector.options}
           idKey="id"
           labelKey="name"

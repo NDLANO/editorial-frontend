@@ -6,14 +6,14 @@
  *
  */
 
-import sortBy from 'lodash/sortBy';
-import { useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Select, SingleValue } from '@ndla/select';
-import { SUBJECT_NODE } from '../../../../modules/nodes/nodeApiTypes';
-import { useSearchNodes } from '../../../../modules/nodes/nodeQueries';
-import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
-import { DropdownWrapper } from '../../styles';
+import sortBy from "lodash/sortBy";
+import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Select, SingleValue } from "@ndla/select";
+import { SUBJECT_NODE } from "../../../../modules/nodes/nodeApiTypes";
+import { useSearchNodes } from "../../../../modules/nodes/nodeQueries";
+import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
+import { DropdownWrapper } from "../../styles";
 
 interface Props {
   subjectIds: string[];
@@ -54,14 +54,9 @@ const SubjectDropdown = ({
     if (subjects?.results.length) {
       let updatedArchived;
       if (removeArchived) {
-        updatedArchived = subjects.results.filter(
-          (s) => s.metadata.customFields.subjectCategory !== 'archive',
-        );
+        updatedArchived = subjects.results.filter((s) => s.metadata.customFields.subjectCategory !== "archive");
       } else {
-        updatedArchived = sortBy(
-          subjects.results,
-          (r) => r.metadata.customFields.subjectCategory === 'archive',
-        );
+        updatedArchived = sortBy(subjects.results, (r) => r.metadata.customFields.subjectCategory === "archive");
       }
       return updatedArchived.map((r) => ({ value: r.id, label: r.name }));
     } else return [];
@@ -70,17 +65,17 @@ const SubjectDropdown = ({
   return (
     <DropdownWrapper>
       <Select<false>
-        aria-label={placeholder ?? t('welcomePage.chooseSubject')}
+        aria-label={placeholder ?? t("welcomePage.chooseSubject")}
         options={subjectContexts}
-        placeholder={placeholder ?? t('welcomePage.chooseSubject')}
+        placeholder={placeholder ?? t("welcomePage.chooseSubject")}
         value={filterSubject}
         onChange={setFilterSubject}
         menuPlacement="bottom"
         small
         outline
         isSearchable
-        noOptionsMessage={() => t('form.responsible.noResults')}
-        loadingMessage={() => t('welcomePage.workList.loading')}
+        noOptionsMessage={() => t("form.responsible.noResults")}
+        loadingMessage={() => t("welcomePage.workList.loading")}
         isClearable
         onFocus={() => {
           if (!enableSearch) setEnableSearch(true);

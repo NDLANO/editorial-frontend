@@ -6,22 +6,22 @@
  *
  */
 
-import { FieldProps, FormikHelpers, FormikValues } from 'formik';
-import { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { FormPill } from '@ndla/forms';
-import AsyncDropdown from '../../components/Dropdown/asyncDropdown/AsyncDropdown';
-import { FormikFieldHelp } from '../../components/FormikField';
-import FormikFieldDescription from '../../components/FormikField/FormikFieldDescription';
-import { fetchGrepCodes } from '../../modules/draft/draftApi';
-import { fetchGrepCodeTitle } from '../../modules/grep/grepApi';
-import { isGrepCodeValid } from '../../util/articleUtil';
+import { FieldProps, FormikHelpers, FormikValues } from "formik";
+import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { FormPill } from "@ndla/forms";
+import AsyncDropdown from "../../components/Dropdown/asyncDropdown/AsyncDropdown";
+import { FormikFieldHelp } from "../../components/FormikField";
+import FormikFieldDescription from "../../components/FormikField/FormikFieldDescription";
+import { fetchGrepCodes } from "../../modules/draft/draftApi";
+import { fetchGrepCodeTitle } from "../../modules/grep/grepApi";
+import { isGrepCodeValid } from "../../util/articleUtil";
 
 interface Props {
-  field: FieldProps<string[]>['field'];
+  field: FieldProps<string[]>["field"];
   form: {
-    setFieldTouched: FormikHelpers<FormikValues>['setFieldTouched'];
+    setFieldTouched: FormikHelpers<FormikValues>["setFieldTouched"];
   };
 }
 
@@ -65,7 +65,7 @@ const GrepCodesFieldContent = ({ field, form }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const updateFormik = (formikField: Props['field'], newData: string[]) => {
+  const updateFormik = (formikField: Props["field"], newData: string[]) => {
     formikField.onChange({
       target: {
         name: formikField.name,
@@ -96,7 +96,7 @@ const GrepCodesFieldContent = ({ field, form }: Props) => {
     const newGrepCodes = input
       ? input
           .toUpperCase()
-          .split(',')
+          .split(",")
           .map((grepCode) => grepCode.trim())
       : [];
     const newGrepCodeNames = await fetchGrepCodeTitles(newGrepCodes);
@@ -106,7 +106,7 @@ const GrepCodesFieldContent = ({ field, form }: Props) => {
       field,
       temp.map((c) => c.code),
     );
-    form.setFieldTouched('grepCodes', true, true);
+    form.setFieldTouched("grepCodes", true, true);
   };
 
   const removeGrepCode = (index: string) => {
@@ -116,27 +116,25 @@ const GrepCodesFieldContent = ({ field, form }: Props) => {
       field,
       reduced_array.map((c) => c.code),
     );
-    form.setFieldTouched('grepCodes', true, true);
+    form.setFieldTouched("grepCodes", true, true);
   };
 
   const isTitleTooLong = (title: string | undefined | null) => {
-    return title ? (title.length >= 110 ? `${title.slice(0, 110)}...` : title) : '';
+    return title ? (title.length >= 110 ? `${title.slice(0, 110)}...` : title) : "";
   };
 
   return (
     <>
-      <FormikFieldDescription description={t('form.grepCodes.description')} />
+      <FormikFieldDescription description={t("form.grepCodes.description")} />
       {!!failedGrepCodes.length && (
         <FormikFieldHelp error>
-          <StyledErrorPreLine>
-            {`${t('errorMessage.grepCodes')}${failedGrepCodes.join(', ')}`}
-          </StyledErrorPreLine>
+          <StyledErrorPreLine>{`${t("errorMessage.grepCodes")}${failedGrepCodes.join(", ")}`}</StyledErrorPreLine>
         </FormikFieldHelp>
       )}
       <AsyncDropdown
         idField="title"
         labelField="title"
-        placeholder={t('form.grepCodes.placeholder')}
+        placeholder={t("form.grepCodes.placeholder")}
         apiAction={searchForGrepCodes}
         onClick={(e: Event) => e.stopPropagation()}
         onChange={(c: GrepCode) => createNewGrepCodes(c.code)}
@@ -151,12 +149,7 @@ const GrepCodesFieldContent = ({ field, form }: Props) => {
       />
 
       {grepCodes.map((grepCode, index) => (
-        <FormPill
-          id={index.toString()}
-          label={isTitleTooLong(grepCode.title)}
-          onClick={removeGrepCode}
-          key={index}
-        />
+        <FormPill id={index.toString()} label={isTitleTooLong(grepCode.title)} onClick={removeGrepCode} key={index} />
       ))}
     </>
   );

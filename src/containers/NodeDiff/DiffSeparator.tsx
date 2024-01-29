@@ -6,17 +6,17 @@
  *
  */
 
-import { DiffResultType } from './diffUtils';
+import { DiffResultType } from "./diffUtils";
 
 interface Props {
   type: DiffResultType;
 }
 
 const typeToSeparatorMap: Record<DiffResultType, string> = {
-  ADDED: '+',
-  DELETED: '-',
-  MODIFIED: '~',
-  NONE: '',
+  ADDED: "+",
+  DELETED: "-",
+  MODIFIED: "~",
+  NONE: "",
 };
 
 const DiffSeparator = ({ type }: Props) => {

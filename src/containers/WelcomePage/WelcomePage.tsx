@@ -6,22 +6,22 @@
  *
  */
 
-import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { breakpoints, spacing } from '@ndla/core';
-import { HelmetWithTracker } from '@ndla/tracker';
-import ArticleStatuses from './components/ArticleStatuses';
-import LastUsedItems from './components/LastUsedItems';
-import Revisions from './components/Revisions';
-import WelcomeHeader from './components/WelcomeHeader';
-import WorkList from './components/worklist/WorkList';
-import { GridContainer, Column } from '../../components/Layout/Layout';
-import { useUserData } from '../../modules/draft/draftQueries';
-import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
-import { isValid } from '../../util/jwtHelper';
-import Footer from '../App/components/Footer';
-import { useSession } from '../Session/SessionProvider';
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { breakpoints, spacing } from "@ndla/core";
+import { HelmetWithTracker } from "@ndla/tracker";
+import ArticleStatuses from "./components/ArticleStatuses";
+import LastUsedItems from "./components/LastUsedItems";
+import Revisions from "./components/Revisions";
+import WelcomeHeader from "./components/WelcomeHeader";
+import WorkList from "./components/worklist/WorkList";
+import { GridContainer, Column } from "../../components/Layout/Layout";
+import { useUserData } from "../../modules/draft/draftQueries";
+import { getAccessToken, getAccessTokenPersonal } from "../../util/authHelpers";
+import { isValid } from "../../util/jwtHelper";
+import Footer from "../App/components/Footer";
+import { useSession } from "../Session/SessionProvider";
 
 export const Wrapper = styled.div`
   display: flex;
@@ -44,12 +44,12 @@ export const WelcomePage = () => {
     () => data?.latestEditedArticles?.map((a) => Number(a)) ?? [],
     [data?.latestEditedArticles],
   );
-  localStorage.setItem('lastPath', '');
+  localStorage.setItem("lastPath", "");
 
   return (
     <Wrapper>
       <GridContainer breakpoint={breakpoints.desktop}>
-        <HelmetWithTracker title={t('htmlTitles.welcomePage')} />
+        <HelmetWithTracker title={t("htmlTitles.welcomePage")} />
         <Column>
           <WelcomeHeader />
         </Column>
@@ -57,15 +57,8 @@ export const WelcomePage = () => {
         <Column colEnd={6}>
           {ndlaId && (
             <>
-              <LastUsedItems
-                lastUsedResources={lastUsedResources}
-                lastUsedConcepts={data?.latestEditedConcepts}
-              />
-              <ArticleStatuses
-                ndlaId={ndlaId}
-                favoriteSubjects={data?.favoriteSubjects}
-                userDataLoading={isLoading}
-              />
+              <LastUsedItems lastUsedResources={lastUsedResources} lastUsedConcepts={data?.latestEditedConcepts} />
+              <ArticleStatuses ndlaId={ndlaId} favoriteSubjects={data?.favoriteSubjects} userDataLoading={isLoading} />
             </>
           )}
         </Column>

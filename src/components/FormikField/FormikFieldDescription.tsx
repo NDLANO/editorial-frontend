@@ -6,8 +6,8 @@
  *
  */
 
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
 
 const StyledFormikDescriptionBlock = styled.span`
   display: flex;
@@ -21,7 +21,7 @@ const obligatoryDescriptionStyle = css`
 const StyledFormikDescription = styled.p`
   margin: 0.2em 0;
   font-size: 0.75em;
-  ${(p: Props) => (p.obligatory ? obligatoryDescriptionStyle : '')};
+  ${(p: Props) => (p.obligatory ? obligatoryDescriptionStyle : "")};
 `;
 
 interface Props {

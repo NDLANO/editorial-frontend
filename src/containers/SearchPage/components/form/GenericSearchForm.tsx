@@ -6,15 +6,15 @@
  *
  */
 
-import { FormEvent, MouseEvent } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
-import { SearchParams } from './SearchForm';
-import SearchTagGroup from './SearchTagGroup';
-import Selector, { SearchFormSelector, TextInputSelectorType } from './Selector';
-import { DateChangedEvent } from '../../../FormikForm/components/InlineDatePicker';
+import { FormEvent, MouseEvent } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { spacing } from "@ndla/core";
+import { SearchParams } from "./SearchForm";
+import SearchTagGroup from "./SearchTagGroup";
+import Selector, { SearchFormSelector, TextInputSelectorType } from "./Selector";
+import { DateChangedEvent } from "../../../FormikForm/components/InlineDatePicker";
 
 type FormEvents = FormEvent<HTMLInputElement> | FormEvent<HTMLSelectElement>;
 type FieldChangedEvent = FormEvents | DateChangedEvent;
@@ -91,9 +91,9 @@ const GenericSearchForm = ({
   const { t } = useTranslation();
 
   const baseQuery: TextInputSelectorType = {
-    parameterName: 'query',
-    width: type === 'content' || type === 'concept' ? 25 : 50,
-    formElementType: 'text-input',
+    parameterName: "query",
+    width: type === "content" || type === "concept" ? 25 : 50,
+    formElementType: "text-input",
   };
 
   const selectors: SearchFormSelector[] = [{ ...baseQuery, value: query }, ...baseSelectors];
@@ -115,25 +115,17 @@ const GenericSearchForm = ({
     >
       {selectors.map((selector) => {
         return (
-          <StyledField
-            key={`search-form-field-${selector.parameterName}`}
-            width={selector.width ?? 50}
-          >
-            <Selector
-              searchObject={searchObject}
-              selector={selector}
-              onFieldChange={onFieldChange}
-              formType={type}
-            />
+          <StyledField key={`search-form-field-${selector.parameterName}`} width={selector.width ?? 50}>
+            <Selector searchObject={searchObject} selector={selector} onFieldChange={onFieldChange} formType={type} />
           </StyledField>
         );
       })}
       <ButtonContainer>
         <StyledButton onClick={emptySearch} variant="outline">
-          {t('searchForm.empty')}
+          {t("searchForm.empty")}
         </StyledButton>
         <StyledButton type="submit" onClick={onSubmit}>
-          {t('searchForm.btn')}
+          {t("searchForm.btn")}
         </StyledButton>
       </ButtonContainer>
       <StyledTagline>

@@ -6,8 +6,8 @@
  *
  */
 
-import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from 'react';
-import { TAXONOMY_VERSION_DEFAULT } from '../../constants';
+import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from "react";
+import { TAXONOMY_VERSION_DEFAULT } from "../../constants";
 
 const TaxonomyVersionContext = createContext<
   [string | undefined, Dispatch<SetStateAction<string | undefined>>] | undefined
@@ -19,11 +19,7 @@ interface Props {
 
 export const TaxonomyVersionProvider = ({ children }: Props) => {
   const versionState = useState<string | undefined>(undefined);
-  return (
-    <TaxonomyVersionContext.Provider value={versionState}>
-      {children}
-    </TaxonomyVersionContext.Provider>
-  );
+  return <TaxonomyVersionContext.Provider value={versionState}>{children}</TaxonomyVersionContext.Provider>;
 };
 
 export interface TaxonomyVersion {
@@ -35,9 +31,7 @@ export const useTaxonomyVersion = (): TaxonomyVersion => {
   const versionContext = useContext(TaxonomyVersionContext);
   const changeVersion = (newHash: string) => {
     if (!versionContext) {
-      throw new Error(
-        'You cannot change the taxonomy version without having a TaxonomyVersionProvider present!',
-      );
+      throw new Error("You cannot change the taxonomy version without having a TaxonomyVersionProvider present!");
     }
     versionContext[1](newHash);
   };

@@ -6,26 +6,26 @@
  *
  */
 
-import { useField } from 'formik';
-import { ReactNode, memo, useCallback, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { colors, fonts, spacing } from '@ndla/core';
-import { List } from '@ndla/icons/action';
-import { Podcast } from '@ndla/icons/common';
-import { Camera, Concept, Taxonomy, SquareAudio, Globe } from '@ndla/icons/editor';
-import { Heading } from '@ndla/typography';
-import { ContentTypeBadge, constants } from '@ndla/ui';
-import HeaderStatusInformation from './HeaderStatusInformation';
-import { useMessages } from '../../containers/Messages/MessagesProvider';
-import { fetchAuth0Users } from '../../modules/auth0/auth0Api';
-import * as draftApi from '../../modules/draft/draftApi';
-import handleError from '../../util/handleError';
-import { toEditArticle } from '../../util/routeHelpers';
-import { Plain } from '../../util/slatePlainSerializer';
-import Spinner from '../Spinner';
+import { useField } from "formik";
+import { ReactNode, memo, useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { colors, fonts, spacing } from "@ndla/core";
+import { List } from "@ndla/icons/action";
+import { Podcast } from "@ndla/icons/common";
+import { Camera, Concept, Taxonomy, SquareAudio, Globe } from "@ndla/icons/editor";
+import { Heading } from "@ndla/typography";
+import { ContentTypeBadge, constants } from "@ndla/ui";
+import HeaderStatusInformation from "./HeaderStatusInformation";
+import { useMessages } from "../../containers/Messages/MessagesProvider";
+import { fetchAuth0Users } from "../../modules/auth0/auth0Api";
+import * as draftApi from "../../modules/draft/draftApi";
+import handleError from "../../util/handleError";
+import { toEditArticle } from "../../util/routeHelpers";
+import { Plain } from "../../util/slatePlainSerializer";
+import Spinner from "../Spinner";
 
 export const StyledSplitter = styled.div`
   width: 1px;
@@ -59,44 +59,44 @@ const { contentTypes } = constants;
 
 const types: Record<string, { form: string; icon: ReactNode }> = {
   standard: {
-    form: 'learningResourceForm',
+    form: "learningResourceForm",
     icon: <ContentTypeBadge type={contentTypes.SUBJECT_MATERIAL} background size="small" />,
   },
-  'topic-article': {
-    form: 'topicArticleForm',
+  "topic-article": {
+    form: "topicArticleForm",
     icon: <ContentTypeBadge type={contentTypes.TOPIC} background size="small" />,
   },
   subjectpage: {
-    form: 'subjectpageForm',
+    form: "subjectpageForm",
     icon: <ContentTypeBadge type={contentTypes.SUBJECT} background size="small" />,
   },
-  'frontpage-article': {
-    form: 'frontpageArticleForm',
+  "frontpage-article": {
+    form: "frontpageArticleForm",
     icon: <ContentTypeBadge type={contentTypes.SUBJECT} background size="small" />,
   },
-  image: { form: 'imageForm', icon: <Camera /> },
+  image: { form: "imageForm", icon: <Camera /> },
   audio: {
-    form: 'audioForm',
+    form: "audioForm",
     icon: <SquareAudio />,
   },
   podcast: {
-    form: 'podcastForm',
+    form: "podcastForm",
     icon: <Podcast />,
   },
-  'podcast-series': {
-    form: 'podcastSeriesForm',
+  "podcast-series": {
+    form: "podcastSeriesForm",
     icon: <List />,
   },
   concept: {
-    form: 'conceptform',
+    form: "conceptform",
     icon: <Concept />,
   },
   gloss: {
-    form: 'glossform',
+    form: "glossform",
     icon: <Globe />,
   },
   programme: {
-    form: 'programmepageForm',
+    form: "programmepageForm",
     icon: <Taxonomy />,
   },
 };
@@ -155,8 +155,8 @@ const HeaderInformation = ({
     try {
       if (formIsDirty) {
         createMessage({
-          translationKey: 'form.mustSaveFirst',
-          severity: 'danger',
+          translationKey: "form.mustSaveFirst",
+          severity: "danger",
           timeToLive: 0,
         });
       } else {
@@ -175,16 +175,16 @@ const HeaderInformation = ({
     <StyledHeader>
       <StyledTitleHeaderWrapper>
         {types[type].icon}
-        {type === 'gloss' && title ? (
+        {type === "gloss" && title ? (
           <GlossTitle />
         ) : (
           <Heading element="h1" headingStyle="h3" margin="none">
-            {`${t(`${types[type].form}.title`)}${title ? `: ${title}` : ''}`}
+            {`${t(`${types[type].form}.title`)}${title ? `: ${title}` : ""}`}
           </Heading>
         )}
-        {(type === 'standard' || type === 'topic-article') && (
+        {(type === "standard" || type === "topic-article") && (
           <ButtonV2 variant="stripped" onClick={onSaveAsNew} data-testid="saveAsNew">
-            {t('form.workflow.saveAsNew')}
+            {t("form.workflow.saveAsNew")}
             {loading && <Spinner appearance="absolute" />}
           </ButtonV2>
         )}
@@ -209,13 +209,13 @@ const HeaderInformation = ({
 
 const GlossTitle = () => {
   const { t } = useTranslation();
-  const [, titleField] = useField('title');
-  const [, targetLanguageField] = useField('gloss.gloss');
+  const [, titleField] = useField("title");
+  const [, targetLanguageField] = useField("gloss.gloss");
 
   return (
     <Heading element="h1" headingStyle="h3" margin="none">
-      {`${t(`${types['gloss'].form}.title`)}: ${Plain.serialize(titleField.value)}${
-        targetLanguageField.value ? `/${targetLanguageField.value}` : ''
+      {`${t(`${types["gloss"].form}.title`)}: ${Plain.serialize(titleField.value)}${
+        targetLanguageField.value ? `/${targetLanguageField.value}` : ""
       }`}
     </Heading>
   );

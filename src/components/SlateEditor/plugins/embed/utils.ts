@@ -6,27 +6,16 @@
  *
  */
 
-import { Element, Node } from 'slate';
-import { jsx as slatejsx } from 'slate-hyperscript';
-import {
-  BrightcoveEmbedElement,
-  EmbedElements,
-  ErrorEmbedElement,
-  ExternalEmbedElement,
-  ImageEmbedElement,
-} from '.';
-import {
-  TYPE_EMBED_BRIGHTCOVE,
-  TYPE_EMBED_ERROR,
-  TYPE_EMBED_EXTERNAL,
-  TYPE_EMBED_IMAGE,
-} from './types';
-import { Embed } from '../../../../interfaces';
-import { AudioElement, TYPE_AUDIO } from '../audio/types';
-import { H5pElement, TYPE_H5P } from '../h5p/types';
+import { Element, Node } from "slate";
+import { jsx as slatejsx } from "slate-hyperscript";
+import { BrightcoveEmbedElement, EmbedElements, ErrorEmbedElement, ExternalEmbedElement, ImageEmbedElement } from ".";
+import { TYPE_EMBED_BRIGHTCOVE, TYPE_EMBED_ERROR, TYPE_EMBED_EXTERNAL, TYPE_EMBED_IMAGE } from "./types";
+import { Embed } from "../../../../interfaces";
+import { AudioElement, TYPE_AUDIO } from "../audio/types";
+import { H5pElement, TYPE_H5P } from "../h5p/types";
 
 export const defaultEmbedBlock = (data: Partial<Embed>) =>
-  slatejsx('element', { type: defineTypeOfEmbed(data?.resource), data }, { text: '' });
+  slatejsx("element", { type: defineTypeOfEmbed(data?.resource), data }, { text: "" });
 
 export const isSlateEmbed = (
   node: Node,
@@ -49,15 +38,15 @@ export const isSlateEmbed = (
 };
 
 export const defineTypeOfEmbed = (type?: string) => {
-  if (type === 'video' || type === 'brightcove') {
+  if (type === "video" || type === "brightcove") {
     return TYPE_EMBED_BRIGHTCOVE;
-  } else if (type === 'external' || type === 'iframe') {
+  } else if (type === "external" || type === "iframe") {
     return TYPE_EMBED_EXTERNAL;
-  } else if (type === 'h5p') {
+  } else if (type === "h5p") {
     return TYPE_H5P;
-  } else if (type === 'image') {
+  } else if (type === "image") {
     return TYPE_EMBED_IMAGE;
-  } else if (type === 'audio') {
+  } else if (type === "audio") {
     return TYPE_AUDIO;
   } else if (type === undefined) {
     return TYPE_EMBED_ERROR;
@@ -65,8 +54,7 @@ export const defineTypeOfEmbed = (type?: string) => {
   return type;
 };
 
-export const isSlateEmbedElement = (element: Element): element is EmbedElements =>
-  isEmbedType(element.type);
+export const isSlateEmbedElement = (element: Element): element is EmbedElements => isEmbedType(element.type);
 
 export const isEmbedType = (type: string) =>
   type === TYPE_EMBED_BRIGHTCOVE ||

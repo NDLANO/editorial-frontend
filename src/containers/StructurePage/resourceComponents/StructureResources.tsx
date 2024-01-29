@@ -6,21 +6,21 @@
  *
  */
 
-import { TFunction } from 'i18next';
-import keyBy from 'lodash/keyBy';
-import { memo, RefObject } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { NodeChild, ResourceType } from '@ndla/types-taxonomy';
-import ResourcesContainer from './ResourcesContainer';
+import { TFunction } from "i18next";
+import keyBy from "lodash/keyBy";
+import { memo, RefObject } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
+import ResourcesContainer from "./ResourcesContainer";
 import {
   NodeResourceMeta,
   useNodeResourceMetas,
   useResourcesWithNodeConnection,
-} from '../../../modules/nodes/nodeQueries';
-import { useAllResourceTypes } from '../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
-import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
+} from "../../../modules/nodes/nodeQueries";
+import { useAllResourceTypes } from "../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
+import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
 const StickyContainer = styled.div`
   position: sticky;
@@ -38,8 +38,8 @@ interface Props {
 }
 
 const getMissingResourceType = (t: TFunction): ResourceType & { disabled?: boolean } => ({
-  id: 'missing',
-  name: t('taxonomy.missingResourceType'),
+  id: "missing",
+  name: t("taxonomy.missingResourceType"),
   disabled: true,
   supportedLanguages: [],
   translations: [],
@@ -47,10 +47,10 @@ const getMissingResourceType = (t: TFunction): ResourceType & { disabled?: boole
 });
 
 const missingObject = {
-  id: 'missing',
-  name: '',
-  connectionId: '',
-  parentId: '',
+  id: "missing",
+  name: "",
+  connectionId: "",
+  parentId: "",
   supportedLanguages: [],
   translations: [],
 };
@@ -62,7 +62,7 @@ const withMissing = (r: NodeChild): NodeChild => ({
 const StructureResources = ({ currentChildNode, resourceRef, setCurrentNode }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
-  const grouped = currentChildNode?.metadata?.customFields['topic-resources'] ?? 'grouped';
+  const grouped = currentChildNode?.metadata?.customFields["topic-resources"] ?? "grouped";
 
   const { data: nodeResources } = useResourcesWithNodeConnection(
     {
@@ -73,8 +73,7 @@ const StructureResources = ({ currentChildNode, resourceRef, setCurrentNode }: P
       taxonomyVersion,
     },
     {
-      select: (resources) =>
-        resources.map((r) => (r.resourceTypes.length > 0 ? r : withMissing(r))),
+      select: (resources) => resources.map((r) => (r.resourceTypes.length > 0 ? r : withMissing(r))),
       placeholderData: [],
     },
   );
@@ -109,7 +108,7 @@ const StructureResources = ({ currentChildNode, resourceRef, setCurrentNode }: P
         resourceTypes={resourceTypes ?? []}
         currentNode={currentChildNode}
         contentMeta={keyedMetas}
-        grouped={grouped === 'grouped'}
+        grouped={grouped === "grouped"}
         setCurrentNode={setCurrentNode}
         contentMetaLoading={contentMetaLoading}
       />

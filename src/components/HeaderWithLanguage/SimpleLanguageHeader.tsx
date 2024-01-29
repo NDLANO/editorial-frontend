@@ -6,13 +6,13 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { Check } from '@ndla/icons/editor';
-import HeaderInformation, { StyledSplitter } from './HeaderInformation';
-import HeaderLanguagePicker from './HeaderLanguagePicker';
-import HeaderLanguagePill from './HeaderLanguagePill';
-import HeaderSupportedLanguages from './HeaderSupportedLanguages';
-import { StyledLanguageWrapper } from './HeaderWithLanguage';
+import { useTranslation } from "react-i18next";
+import { Check } from "@ndla/icons/editor";
+import HeaderInformation, { StyledSplitter } from "./HeaderInformation";
+import HeaderLanguagePicker from "./HeaderLanguagePicker";
+import HeaderLanguagePill from "./HeaderLanguagePill";
+import HeaderSupportedLanguages from "./HeaderSupportedLanguages";
+import { StyledLanguageWrapper } from "./HeaderWithLanguage";
 
 interface Props {
   articleType: string;
@@ -37,15 +37,15 @@ const SimpleLanguageHeader = ({
   const isNewLanguage = !!id && !supportedLanguages.includes(language);
 
   const languages = [
-    { key: 'nn', title: t('languages.nn'), include: true },
-    { key: 'en', title: t('languages.en'), include: true },
-    { key: 'nb', title: t('languages.nb'), include: true },
-    { key: 'sma', title: t('languages.sma'), include: true },
-    { key: 'se', title: t('languages.se'), include: true },
-    { key: 'und', title: t('languages.und'), include: false },
-    { key: 'de', title: t('languages.de'), include: true },
-    { key: 'es', title: t('languages.es'), include: true },
-    { key: 'ukr', title: t('languages.ukr'), include: false },
+    { key: "nn", title: t("languages.nn"), include: true },
+    { key: "en", title: t("languages.en"), include: true },
+    { key: "nb", title: t("languages.nb"), include: true },
+    { key: "sma", title: t("languages.sma"), include: true },
+    { key: "se", title: t("languages.se"), include: true },
+    { key: "und", title: t("languages.und"), include: false },
+    { key: "de", title: t("languages.de"), include: true },
+    { key: "es", title: t("languages.es"), include: true },
+    { key: "ukr", title: t("languages.ukr"), include: false },
   ];
   const emptyLanguages = languages.filter(
     (lang) => lang.key !== language && !supportedLanguages.includes(lang.key) && lang.include,

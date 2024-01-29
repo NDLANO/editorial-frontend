@@ -5,26 +5,23 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import isBefore from 'date-fns/isBefore';
-import sortBy from 'lodash/sortBy';
-import { Fragment, useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { spacing, colors, fonts } from '@ndla/core';
-import { Spinner } from '@ndla/icons';
-import { ChevronRight } from '@ndla/icons/common';
-import { SafeLinkButton } from '@ndla/safelink';
-import { Node } from '@ndla/types-taxonomy';
-import { OneColumn } from '@ndla/ui';
-import NodeIconType from '../../components/NodeIconType';
-import {
-  TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH,
-  TAXONOMY_CUSTOM_FIELD_IS_PUBLISHING,
-} from '../../constants';
-import { useNodes } from '../../modules/nodes/nodeQueries';
-import { useVersions } from '../../modules/taxonomy/versions/versionQueries';
-import { toNodeDiff, toStructure } from '../../util/routeHelpers';
-import Footer from '../App/components/Footer';
+import isBefore from "date-fns/isBefore";
+import sortBy from "lodash/sortBy";
+import { Fragment, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { spacing, colors, fonts } from "@ndla/core";
+import { Spinner } from "@ndla/icons";
+import { ChevronRight } from "@ndla/icons/common";
+import { SafeLinkButton } from "@ndla/safelink";
+import { Node } from "@ndla/types-taxonomy";
+import { OneColumn } from "@ndla/ui";
+import NodeIconType from "../../components/NodeIconType";
+import { TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH, TAXONOMY_CUSTOM_FIELD_IS_PUBLISHING } from "../../constants";
+import { useNodes } from "../../modules/nodes/nodeQueries";
+import { useVersions } from "../../modules/taxonomy/versions/versionQueries";
+import { toNodeDiff, toStructure } from "../../util/routeHelpers";
+import Footer from "../App/components/Footer";
 
 const ErrorMessage = styled.p`
   color: ${colors.support.red};
@@ -70,7 +67,7 @@ const StyledTitleColumn = styled.div`
   flex-direction: column;
 `;
 
-const StyledBreadCrumb = styled('div')`
+const StyledBreadCrumb = styled("div")`
   flex-grow: 1;
   flex-direction: row;
   font-style: italic;
@@ -81,45 +78,42 @@ const PublishRequestsContainer = () => {
   const [error, setError] = useState<string | undefined>();
   const { t } = useTranslation();
   const nodesQuery = useNodes({
-    taxonomyVersion: 'default',
+    taxonomyVersion: "default",
     key: TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH,
-    value: 'true',
+    value: "true",
   });
 
-  const sorted = useMemo(
-    () => sortBy(nodesQuery?.data, (n) => n.breadcrumbs?.join('')),
-    [nodesQuery],
-  );
+  const sorted = useMemo(() => sortBy(nodesQuery?.data, (n) => n.breadcrumbs?.join("")), [nodesQuery]);
 
   const versionsQuery = useVersions();
 
   useEffect(() => {
     if (versionsQuery.isSuccess && versionsQuery.data?.length === 0) {
-      setError('publishRequests.errors.noVersions');
+      setError("publishRequests.errors.noVersions");
     }
   }, [versionsQuery.data?.length, versionsQuery.isSuccess]);
 
-  const publishedVersion = versionsQuery.data?.filter((v) => v.versionType === 'PUBLISHED')?.[0];
+  const publishedVersion = versionsQuery.data?.filter((v) => v.versionType === "PUBLISHED")?.[0];
   const betaVersions = versionsQuery.data
-    ?.filter((v) => v.versionType === 'BETA')
+    ?.filter((v) => v.versionType === "BETA")
     .sort((a, b) => (isBefore(new Date(a.created), new Date(b.created)) ? 1 : -1));
 
   const otherVersion = betaVersions?.[0] || publishedVersion || versionsQuery.data?.[0];
 
   const onCompare = (node: Node) => {
     if (!otherVersion) {
-      setError('publishRequests.errors.noVersions');
-      return '';
+      setError("publishRequests.errors.noVersions");
+      return "";
     }
-    return toNodeDiff(node.id, otherVersion.hash, 'default');
+    return toNodeDiff(node.id, otherVersion.hash, "default");
   };
 
   return (
     <>
       <OneColumn>
-        <h1>{t('publishRequests.title')}</h1>
+        <h1>{t("publishRequests.title")}</h1>
         {error && <ErrorMessage>{t(error)}</ErrorMessage>}
-        <h3>{`${t('publishRequests.numberRequests')}: ${sorted?.length ?? 0}`}</h3>
+        <h3>{`${t("publishRequests.numberRequests")}: ${sorted?.length ?? 0}`}</h3>
         <StyledRequestList>
           {sorted?.map((node, i) => (
             <StyledNodeContainer key={`node-request-${i}`}>
@@ -137,7 +131,7 @@ const PublishRequestsContainer = () => {
                   </StyledBreadCrumb>
                   <StyledTitleRow>
                     <NodeIconType node={node} />
-                    {node.metadata.customFields[TAXONOMY_CUSTOM_FIELD_IS_PUBLISHING] === 'true' && (
+                    {node.metadata.customFields[TAXONOMY_CUSTOM_FIELD_IS_PUBLISHING] === "true" && (
                       <StyledSpinner size="nsmall" />
                     )}
                     {node.name}
@@ -145,11 +139,9 @@ const PublishRequestsContainer = () => {
                 </StyledTitleColumn>
               </StyledTitleRow>
               <StyledButtonRow>
-                <SafeLinkButton to={toStructure(node.path)}>
-                  {t('publishRequests.showInStructure')}
-                </SafeLinkButton>
+                <SafeLinkButton to={toStructure(node.path)}>{t("publishRequests.showInStructure")}</SafeLinkButton>
                 <SafeLinkButton to={onCompare(node)} disabled={!otherVersion || !!error}>
-                  {t('publishRequests.compare')}
+                  {t("publishRequests.compare")}
                 </SafeLinkButton>
               </StyledButtonRow>
             </StyledNodeContainer>

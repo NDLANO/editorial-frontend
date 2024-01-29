@@ -6,10 +6,10 @@
  *
  */
 
-import { Editor, Transforms, Element, Range } from 'slate';
-import { jsx as slatejsx } from 'slate-hyperscript';
-import { TYPE_CONCEPT_INLINE } from './types';
-import hasNodeOfType from '../../../utils/hasNodeOfType';
+import { Editor, Transforms, Element, Range } from "slate";
+import { jsx as slatejsx } from "slate-hyperscript";
+import { TYPE_CONCEPT_INLINE } from "./types";
+import hasNodeOfType from "../../../utils/hasNodeOfType";
 
 export const insertInlineConcept = (editor: Editor) => {
   if (hasNodeOfType(editor, TYPE_CONCEPT_INLINE)) {
@@ -28,21 +28,29 @@ export const insertInlineConcept = (editor: Editor) => {
     const rightSpaces = text.length - text.trimEnd().length;
 
     if (leftSpaces) {
-      Transforms.move(editor, { distance: leftSpaces, unit: 'offset', edge: 'start' });
+      Transforms.move(editor, {
+        distance: leftSpaces,
+        unit: "offset",
+        edge: "start",
+      });
     }
 
     if (rightSpaces) {
       Transforms.move(editor, {
         distance: rightSpaces,
-        unit: 'offset',
-        edge: 'end',
+        unit: "offset",
+        edge: "end",
         reverse: true,
       });
     }
 
     Transforms.wrapNodes(
       editor,
-      slatejsx('element', { type: TYPE_CONCEPT_INLINE, isFirstEdit: true, data: {} }),
+      slatejsx("element", {
+        type: TYPE_CONCEPT_INLINE,
+        isFirstEdit: true,
+        data: {},
+      }),
       {
         at: Editor.unhangRange(editor, editor.selection),
         split: true,

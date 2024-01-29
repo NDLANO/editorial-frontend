@@ -5,22 +5,22 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { useField, useFormikContext } from 'formik';
-import { useCallback, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { ButtonV2 } from '@ndla/button';
-import { FieldHeader } from '@ndla/forms';
-import { ModalBody, Modal, ModalTrigger, ModalContent } from '@ndla/modal';
-import { IImageMetaInformationV3 } from '@ndla/types-backend/image-api';
-import SubjectpageBannerImage from './SubjectpageBannerImage';
-import ImageSearchAndUploader from '../../../components/ImageSearchAndUploader';
-import { ImageEmbed } from '../../../interfaces';
-import { fetchImage, onError, searchImages } from '../../../modules/image/imageApi';
-import { SubjectPageFormikType } from '../../../util/subjectHelpers';
+import { useField, useFormikContext } from "formik";
+import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { ButtonV2 } from "@ndla/button";
+import { FieldHeader } from "@ndla/forms";
+import { ModalBody, Modal, ModalTrigger, ModalContent } from "@ndla/modal";
+import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
+import SubjectpageBannerImage from "./SubjectpageBannerImage";
+import ImageSearchAndUploader from "../../../components/ImageSearchAndUploader";
+import { ImageEmbed } from "../../../interfaces";
+import { fetchImage, onError, searchImages } from "../../../modules/image/imageApi";
+import { SubjectPageFormikType } from "../../../util/subjectHelpers";
 
 interface Props {
   title: string;
-  fieldName: 'desktopBannerId' | 'mobileBannerId';
+  fieldName: "desktopBannerId" | "mobileBannerId";
 }
 
 const SubjectpageBanner = ({ title, fieldName }: Props) => {
@@ -66,7 +66,7 @@ const SubjectpageBanner = ({ title, fieldName }: Props) => {
       {image && <SubjectpageBannerImage image={image} onImageSelectOpen={onImageSelectOpen} />}
       {!image && (
         <ModalTrigger>
-          <ButtonV2>{t('subjectpageForm.addBanner')}</ButtonV2>
+          <ButtonV2>{t("subjectpageForm.addBanner")}</ButtonV2>
         </ModalTrigger>
       )}
       <ModalContent size="large">

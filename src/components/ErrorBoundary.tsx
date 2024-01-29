@@ -6,9 +6,9 @@
  *
  */
 
-import { PureComponent, ReactNode } from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
-import handleError from '../util/handleError';
+import { PureComponent, ReactNode } from "react";
+import { WithTranslation, withTranslation } from "react-i18next";
+import handleError from "../util/handleError";
 
 interface Props {
   children: ReactNode;
@@ -36,7 +36,7 @@ class ErrorBoundary extends PureComponent<Props & WithTranslation, State> {
     if (error)
       return (
         <div>
-          <h1>{t('errorMessage.title')}</h1>
+          <h1>{t("errorMessage.title")}</h1>
           <div>{error.message}</div>
         </div>
       );

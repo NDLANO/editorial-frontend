@@ -6,19 +6,19 @@
  *
  */
 
-import { createEditor, Descendant, Editor } from 'slate';
-import { withHistory } from 'slate-history';
-import { withReact } from 'slate-react';
-import { learningResourcePlugins } from '../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins';
-import withPlugins from '../../../utils/withPlugins';
-import { TYPE_PARAGRAPH } from '../../paragraph/types';
-import { TYPE_SECTION } from '../../section/types';
-import { TYPE_LINK, TYPE_CONTENT_LINK } from '../types';
+import { createEditor, Descendant, Editor } from "slate";
+import { withHistory } from "slate-history";
+import { withReact } from "slate-react";
+import { learningResourcePlugins } from "../../../../../containers/ArticlePage/LearningResourcePage/components/learningResourcePlugins";
+import withPlugins from "../../../utils/withPlugins";
+import { TYPE_PARAGRAPH } from "../../paragraph/types";
+import { TYPE_SECTION } from "../../section/types";
+import { TYPE_LINK, TYPE_CONTENT_LINK } from "../types";
 
 const editor = withHistory(withReact(withPlugins(createEditor(), learningResourcePlugins)));
 
-describe('link normalizer tests', () => {
-  test('Remove any elements in links', () => {
+describe("link normalizer tests", () => {
+  test("Remove any elements in links", () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
@@ -26,18 +26,18 @@ describe('link normalizer tests', () => {
           {
             type: TYPE_PARAGRAPH,
             children: [
-              { text: '' },
+              { text: "" },
               {
                 type: TYPE_LINK,
-                href: 'test-url',
+                href: "test-url",
                 children: [
                   {
                     type: TYPE_PARAGRAPH,
-                    children: [{ text: 'illegal block' }],
+                    children: [{ text: "illegal block" }],
                   },
                 ],
               },
-              { text: '' },
+              { text: "" },
             ],
           },
         ],
@@ -51,13 +51,13 @@ describe('link normalizer tests', () => {
           {
             type: TYPE_PARAGRAPH,
             children: [
-              { text: '' },
+              { text: "" },
               {
                 type: TYPE_LINK,
-                href: 'test-url',
-                children: [{ text: 'illegal block' }],
+                href: "test-url",
+                children: [{ text: "illegal block" }],
               },
-              { text: '' },
+              { text: "" },
             ],
           },
         ],
@@ -68,7 +68,7 @@ describe('link normalizer tests', () => {
     expect(editor.children).toEqual(expectedValue);
   });
 
-  test('content link text keeps styling', () => {
+  test("content link text keeps styling", () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
@@ -76,18 +76,18 @@ describe('link normalizer tests', () => {
           {
             type: TYPE_PARAGRAPH,
             children: [
-              { text: '' },
+              { text: "" },
               {
                 type: TYPE_CONTENT_LINK,
                 data: {
                   resource: TYPE_CONTENT_LINK,
-                  contentId: '123',
-                  contentType: 'article',
-                  openIn: 'current-context',
+                  contentId: "123",
+                  contentType: "article",
+                  openIn: "current-context",
                 },
-                children: [{ bold: true, italic: true, text: 'content' }],
+                children: [{ bold: true, italic: true, text: "content" }],
               },
-              { text: '' },
+              { text: "" },
             ],
           },
         ],
@@ -101,18 +101,18 @@ describe('link normalizer tests', () => {
           {
             type: TYPE_PARAGRAPH,
             children: [
-              { text: '' },
+              { text: "" },
               {
                 type: TYPE_CONTENT_LINK,
                 data: {
                   resource: TYPE_CONTENT_LINK,
-                  contentId: '123',
-                  contentType: 'article',
-                  openIn: 'current-context',
+                  contentId: "123",
+                  contentType: "article",
+                  openIn: "current-context",
                 },
-                children: [{ bold: true, italic: true, text: 'content' }],
+                children: [{ bold: true, italic: true, text: "content" }],
               },
-              { text: '' },
+              { text: "" },
             ],
           },
         ],
@@ -123,7 +123,7 @@ describe('link normalizer tests', () => {
     expect(editor.children).toEqual(expectedValue);
   });
 
-  test('Remove empty links', () => {
+  test("Remove empty links", () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
@@ -131,32 +131,32 @@ describe('link normalizer tests', () => {
           {
             type: TYPE_PARAGRAPH,
             children: [
-              { text: '' },
+              { text: "" },
               {
                 type: TYPE_LINK,
-                href: 'test-url',
+                href: "test-url",
                 children: [
                   {
-                    text: '',
+                    text: "",
                   },
                 ],
               },
-              { text: '' },
+              { text: "" },
               {
                 type: TYPE_CONTENT_LINK,
                 data: {
                   resource: TYPE_CONTENT_LINK,
-                  contentType: 'test',
-                  contentId: '123',
-                  openIn: 'test',
+                  contentType: "test",
+                  contentId: "123",
+                  openIn: "test",
                 },
                 children: [
                   {
-                    text: '',
+                    text: "",
                   },
                 ],
               },
-              { text: '' },
+              { text: "" },
             ],
           },
         ],
@@ -169,7 +169,7 @@ describe('link normalizer tests', () => {
         children: [
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
+            children: [{ text: "" }],
           },
         ],
       },

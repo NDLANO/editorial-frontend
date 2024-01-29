@@ -6,4 +6,4 @@
  *
  */
 
-export const TYPE_BREAK = 'br';
+export const TYPE_BREAK = "br";

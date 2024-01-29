@@ -6,13 +6,13 @@
  *
  */
 
-import { useCallback, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { DragVertical } from '@ndla/icons/editor';
-import { SlateFile } from './SlateFile';
-import { File as FileType } from '../../../../interfaces';
-import DndList from '../../../DndList';
-import { DragHandle } from '../../../DraggableItem';
+import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { DragVertical } from "@ndla/icons/editor";
+import { SlateFile } from "./SlateFile";
+import { File as FileType } from "../../../../interfaces";
+import DndList from "../../../DndList";
+import { DragHandle } from "../../../DraggableItem";
 
 interface Props {
   files: FileType[];
@@ -42,7 +42,7 @@ const DndFileList = ({ files, onEditFileList, onDeleteFile, missingFilePaths = [
         onEditFileList(newArray);
       }}
       dragHandle={
-        <DragHandle aria-label={t('form.file.changeOrder')} title={t('form.file.changeOrder')}>
+        <DragHandle aria-label={t("form.file.changeOrder")} title={t("form.file.changeOrder")}>
           <DragVertical />
         </DragHandle>
       }

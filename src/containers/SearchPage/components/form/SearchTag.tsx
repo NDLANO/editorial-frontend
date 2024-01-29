@@ -6,14 +6,14 @@
  *
  */
 
-import { MouseEvent } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { CloseButton } from '@ndla/button';
-import { colors, spacing } from '@ndla/core';
-import { SearchFormSelector } from './Selector';
-import formatDate from '../../../../util/formatDate';
-import { unreachable } from '../../../../util/guards';
+import { MouseEvent } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { CloseButton } from "@ndla/button";
+import { colors, spacing } from "@ndla/core";
+import { SearchFormSelector } from "./Selector";
+import formatDate from "../../../../util/formatDate";
+import { unreachable } from "../../../../util/guards";
 
 const StyledDl = styled.dl`
   display: flex;
@@ -58,8 +58,7 @@ const SearchTagContent = ({
   tagValue: string | number | boolean | undefined;
 }) => {
   const { t } = useTranslation();
-  const isCheckboxTag =
-    tag.formElementType === 'check-box' || tag.formElementType === 'check-box-reverse';
+  const isCheckboxTag = tag.formElementType === "check-box" || tag.formElementType === "check-box-reverse";
 
   return (
     <>
@@ -78,21 +77,19 @@ const SearchTag = ({ tag, onRemoveItem }: Props) => {
     onRemoveItem(tag);
   };
 
-  const searchParamsFormatter = (
-    selector: SearchFormSelector,
-  ): string | number | boolean | undefined => {
+  const searchParamsFormatter = (selector: SearchFormSelector): string | number | boolean | undefined => {
     switch (selector.formElementType) {
-      case 'date-picker':
+      case "date-picker":
         if (selector.value) return formatDate(selector.value);
         break;
-      case 'check-box':
-        if (selector.value === 'true') return t(`searchForm.tagType.${selector.parameterName}`);
+      case "check-box":
+        if (selector.value === "true") return t(`searchForm.tagType.${selector.parameterName}`);
         break;
-      case 'check-box-reverse':
-        if (selector.value === 'false') return t(`searchForm.tagType.${selector.parameterName}`);
+      case "check-box-reverse":
+        if (selector.value === "false") return t(`searchForm.tagType.${selector.parameterName}`);
         break;
-      case 'dropdown':
-      case 'text-input':
+      case "dropdown":
+      case "text-input":
         return selector.value;
       default:
         unreachable(selector);

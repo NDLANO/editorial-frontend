@@ -6,15 +6,15 @@
  *
  */
 
-import FocusTrapReact from 'focus-trap-react';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-import { Plus } from '@ndla/icons/action';
-import { StyledDropdownOverlay } from '../Dropdown';
-import Overlay from '../Overlay';
-import StyledFilledButton from '../StyledFilledButton';
-import { styledListElement } from '../StyledListElement/StyledListElement';
+import FocusTrapReact from "focus-trap-react";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+import { Plus } from "@ndla/icons/action";
+import { StyledDropdownOverlay } from "../Dropdown";
+import Overlay from "../Overlay";
+import StyledFilledButton from "../StyledFilledButton";
+import { styledListElement } from "../StyledListElement/StyledListElement";
 
 const LanguagePicker = ({ id, emptyLanguages, editUrl }: Props) => {
   const { t } = useTranslation();
@@ -23,7 +23,7 @@ const LanguagePicker = ({ id, emptyLanguages, editUrl }: Props) => {
     <div>
       {emptyLanguages.length > 0 && (
         <StyledFilledButton type="button" onClick={() => setDisplay(true)}>
-          <Plus /> {t('form.variant.create')}
+          <Plus /> {t("form.variant.create")}
         </StyledFilledButton>
       )}
       {display && (

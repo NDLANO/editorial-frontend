@@ -6,13 +6,13 @@
  *
  */
 
-import { Descendant } from 'slate';
-import { ISeries } from '@ndla/types-backend/audio-api';
-import { AudioFormikType } from '../../containers/AudioUploader/components/AudioForm';
+import { Descendant } from "slate";
+import { ISeries } from "@ndla/types-backend/audio-api";
+import { AudioFormikType } from "../../containers/AudioUploader/components/AudioForm";
 
 export interface PodcastFormValues extends AudioFormikType {
-  filepath: '';
-  audioType?: 'podcast';
+  filepath: "";
+  audioType?: "podcast";
   introduction: Descendant[];
   coverPhotoId?: string;
   metaImageAlt?: string;
@@ -22,8 +22,8 @@ export interface PodcastFormValues extends AudioFormikType {
 }
 
 export interface AudioSearchParams {
-  'audio-type'?: string;
-  'page-size'?: number;
+  "audio-type"?: string;
+  "page-size"?: number;
   language?: string;
   page?: number;
   query?: string;
@@ -33,6 +33,6 @@ export interface AudioSearchParams {
 export interface SeriesSearchParams {
   query?: string;
   page?: number;
-  'page-size'?: number;
+  "page-size"?: number;
   language?: string;
 }

@@ -6,41 +6,41 @@
  *
  */
 
-import { FieldArray, Formik, FormikProps } from 'formik';
-import { useCallback, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { useQueryClient } from '@tanstack/react-query';
+import { FieldArray, Formik, FormikProps } from "formik";
+import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { useQueryClient } from "@tanstack/react-query";
 
-import { ButtonV2, CloseButton } from '@ndla/button';
-import { spacing } from '@ndla/core';
-import { Input } from '@ndla/forms';
-import { Pencil } from '@ndla/icons/action';
-import { ModalHeader, ModalBody, Modal, ModalTitle, ModalContent, ModalTrigger } from '@ndla/modal';
-import { Translation, Node, NodeType } from '@ndla/types-taxonomy';
-import AddNodeTranslation from './AddNodeTranslation';
-import { Row } from '../../../../components';
-import DeleteButton from '../../../../components/DeleteButton';
-import UIField from '../../../../components/Field';
-import FormikField from '../../../../components/FormikField';
-import validateFormik, { RulesType } from '../../../../components/formikValidationSchema';
-import RoundIcon from '../../../../components/RoundIcon';
-import SaveButton from '../../../../components/SaveButton';
-import Spinner from '../../../../components/Spinner';
-import StyledForm from '../../../../components/StyledFormComponents';
-import { subjectpageLanguages } from '../../../../i18n2';
+import { ButtonV2, CloseButton } from "@ndla/button";
+import { spacing } from "@ndla/core";
+import { Input } from "@ndla/forms";
+import { Pencil } from "@ndla/icons/action";
+import { ModalHeader, ModalBody, Modal, ModalTitle, ModalContent, ModalTrigger } from "@ndla/modal";
+import { Translation, Node, NodeType } from "@ndla/types-taxonomy";
+import AddNodeTranslation from "./AddNodeTranslation";
+import { Row } from "../../../../components";
+import DeleteButton from "../../../../components/DeleteButton";
+import UIField from "../../../../components/Field";
+import FormikField from "../../../../components/FormikField";
+import validateFormik, { RulesType } from "../../../../components/formikValidationSchema";
+import RoundIcon from "../../../../components/RoundIcon";
+import SaveButton from "../../../../components/SaveButton";
+import Spinner from "../../../../components/Spinner";
+import StyledForm from "../../../../components/StyledFormComponents";
+import { subjectpageLanguages } from "../../../../i18n2";
 import {
   useDeleteNodeTranslationMutation,
   usePutNodeMutation,
   useUpdateNodeTranslationMutation,
-} from '../../../../modules/nodes/nodeMutations';
-import { nodeQueryKeys, useNode } from '../../../../modules/nodes/nodeQueries';
-import { isFormikFormDirty } from '../../../../util/formHelper';
-import handleError from '../../../../util/handleError';
-import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
-import { EditModeHandler } from '../SettingsMenuDropdownType';
-import MenuItemButton from '../sharedMenuOptions/components/MenuItemButton';
-import { StyledErrorMessage } from '../styles';
+} from "../../../../modules/nodes/nodeMutations";
+import { nodeQueryKeys, useNode } from "../../../../modules/nodes/nodeQueries";
+import { isFormikFormDirty } from "../../../../util/formHelper";
+import handleError from "../../../../util/handleError";
+import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
+import { EditModeHandler } from "../SettingsMenuDropdownType";
+import MenuItemButton from "../sharedMenuOptions/components/MenuItemButton";
+import { StyledErrorMessage } from "../styles";
 
 const StyledDeleteButton = styled(DeleteButton)`
   text-align: center;
@@ -98,23 +98,23 @@ const ChangeNodeName = ({ editModeHandler: { editMode, toggleEditMode }, node }:
   const onModalChange = useCallback(
     (open: boolean) => {
       if (open) {
-        toggleEditMode('changeSubjectName');
-      } else toggleEditMode('');
+        toggleEditMode("changeSubjectName");
+      } else toggleEditMode("");
     },
     [toggleEditMode],
   );
 
   const onClose = useCallback(() => {
-    toggleEditMode('');
+    toggleEditMode("");
   }, [toggleEditMode]);
 
   return (
     <>
-      <Modal open={editMode === 'changeSubjectName'} onOpenChange={onModalChange}>
+      <Modal open={editMode === "changeSubjectName"} onOpenChange={onModalChange}>
         <ModalTrigger>
           <MenuItemButton data-testid="changeNodeNameButton">
             <RoundIcon small icon={<Pencil />} />
-            {t('taxonomy.changeName.buttonTitle')}
+            {t("taxonomy.changeName.buttonTitle")}
           </MenuItemButton>
         </ModalTrigger>
         <ModalContent>
@@ -131,9 +131,9 @@ interface ModalProps {
   nodeType?: NodeType;
 }
 
-const ChangeNodeNameContent = ({ onClose, node, nodeType = 'SUBJECT' }: ModalProps) => {
+const ChangeNodeNameContent = ({ onClose, node, nodeType = "SUBJECT" }: ModalProps) => {
   const { t } = useTranslation();
-  const [updateError, setUpdateError] = useState('');
+  const [updateError, setUpdateError] = useState("");
   const [saved, setSaved] = useState(false);
   const { taxonomyVersion } = useTaxonomyVersion();
   const qc = useQueryClient();
@@ -163,7 +163,11 @@ const ChangeNodeNameContent = ({ onClose, node, nodeType = 'SUBJECT' }: ModalPro
 
     if (formik.initialValues.name !== formik.values.name) {
       promises.push(() =>
-        putNodeMutation.mutateAsync({ id, taxonomyVersion, name: formik.values.name }),
+        putNodeMutation.mutateAsync({
+          id,
+          taxonomyVersion,
+          name: formik.values.name,
+        }),
       );
     }
 
@@ -188,7 +192,7 @@ const ChangeNodeNameContent = ({ onClose, node, nodeType = 'SUBJECT' }: ModalPro
     } catch (e) {
       console.error(e);
       handleError(e);
-      setUpdateError(t('taxonomy.changeName.updateError'));
+      setUpdateError(t("taxonomy.changeName.updateError"));
       await qc.invalidateQueries({
         queryKey: nodeQueryKeys.nodes({ nodeType: nodeType, taxonomyVersion }),
       });
@@ -218,7 +222,7 @@ const ChangeNodeNameContent = ({ onClose, node, nodeType = 'SUBJECT' }: ModalPro
   }
 
   if (nodeWithoutTranslationsQuery.isError || !nodeWithoutTranslationsQuery.data) {
-    return <StyledErrorMessage>{t('taxonomy.changeName.loadError')}</StyledErrorMessage>;
+    return <StyledErrorMessage>{t("taxonomy.changeName.loadError")}</StyledErrorMessage>;
   }
 
   const initialValues = {
@@ -229,17 +233,15 @@ const ChangeNodeNameContent = ({ onClose, node, nodeType = 'SUBJECT' }: ModalPro
   return (
     <>
       <ModalHeader>
-        <ModalTitle>{t('taxonomy.changeName.title')}</ModalTitle>
-        <CloseButton title={t('dialog.close')} data-testid="close-modal-button" onClick={onClose} />
+        <ModalTitle>{t("taxonomy.changeName.title")}</ModalTitle>
+        <CloseButton title={t("dialog.close")} data-testid="close-modal-button" onClick={onClose} />
       </ModalHeader>
       <StyledModalBody>
         <Formik
           initialValues={initialValues}
           onSubmit={(_, __) => {}}
           validate={(values) => {
-            const errors = values.translations.map((translation) =>
-              validateFormik(translation, rules, t),
-            );
+            const errors = values.translations.map((translation) => validateFormik(translation, rules, t));
 
             const nameErrors = validateFormik(
               { name: values.name },
@@ -250,10 +252,7 @@ const ChangeNodeNameContent = ({ onClose, node, nodeType = 'SUBJECT' }: ModalPro
               },
               t,
             );
-            if (
-              errors.some((err) => Object.keys(err).length > 0) ||
-              Object.keys(nameErrors).length > 0
-            ) {
+            if (errors.some((err) => Object.keys(err).length > 0) || Object.keys(nameErrors).length > 0) {
               return { translations: errors, ...nameErrors };
             }
           }}
@@ -261,10 +260,7 @@ const ChangeNodeNameContent = ({ onClose, node, nodeType = 'SUBJECT' }: ModalPro
         >
           {(formik) => {
             const { values, dirty, isSubmitting, isValid } = formik;
-            const takenLanguages = values.translations.reduce(
-              (prev, curr) => ({ ...prev, [curr.language]: '' }),
-              {},
-            );
+            const takenLanguages = values.translations.reduce((prev, curr) => ({ ...prev, [curr.language]: "" }), {});
             const availableLanguages = subjectpageLanguages.filter(
               (trans) => !Object.prototype.hasOwnProperty.call(takenLanguages, trans),
             );
@@ -275,29 +271,26 @@ const ChangeNodeNameContent = ({ onClose, node, nodeType = 'SUBJECT' }: ModalPro
             });
 
             if (formIsDirty) {
-              setUpdateError('');
+              setUpdateError("");
               setSaved(false);
             }
             return (
               <StyledForm data-testid="edit-node-name-form">
-                <StyledFormikField name="name" label={t('taxonomy.changeName.defaultName')}>
+                <StyledFormikField name="name" label={t("taxonomy.changeName.defaultName")}>
                   {({ field }) => <Input {...field} />}
                 </StyledFormikField>
-                {values.translations.length === 0 && <>{t('taxonomy.changeName.noTranslations')}</>}
+                {values.translations.length === 0 && <>{t("taxonomy.changeName.noTranslations")}</>}
                 <FieldArray name="translations">
                   {({ push, remove }) => (
                     <>
                       {values.translations.map((trans, i) => (
                         <Row key={i}>
-                          <StyledFormikField
-                            name={`translations.${i}.name`}
-                            label={t(`languages.${trans.language}`)}
-                          >
+                          <StyledFormikField name={`translations.${i}.name`} label={t(`languages.${trans.language}`)}>
                             {({ field }) => (
                               <InputRow>
                                 <Input {...field} data-testid={`subjectName_${trans.language}`} />
                                 <StyledDeleteButton
-                                  aria-label={t('form.remove')}
+                                  aria-label={t("form.remove")}
                                   onClick={() => remove(i)}
                                   data-testid={`subjectName_${trans.language}_delete`}
                                 />
@@ -316,9 +309,7 @@ const ChangeNodeNameContent = ({ onClose, node, nodeType = 'SUBJECT' }: ModalPro
                 </FieldArray>
                 <StyledUIField right noBorder>
                   <Row justifyContent="end">
-                    <StyledCancelButton onClick={onClose}>
-                      {t('taxonomy.changeName.cancel')}
-                    </StyledCancelButton>
+                    <StyledCancelButton onClick={onClose}>{t("taxonomy.changeName.cancel")}</StyledCancelButton>
                     <SaveButton
                       data-testid="saveNodeTranslationsButton"
                       size="large"

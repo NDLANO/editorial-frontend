@@ -6,7 +6,7 @@
  *
  */
 
-import { Range, Editor, Element, Path } from 'slate';
+import { Range, Editor, Element, Path } from "slate";
 
 const hasNodeOfType = (editor: Editor, type: string, path?: Path) => {
   if (path) {

@@ -6,11 +6,12 @@
  *
  */
 
-import { SyntheticEvent } from 'react';
-import { Editor } from 'slate';
-import { isMarkActive } from './index';
+import { MouseEvent } from "react";
+import { Editor } from "slate";
+import { isMarkActive } from "./index";
+import { MarkType } from "../toolbar/toolbarState";
 
-export const toggleMark = (event: SyntheticEvent, editor: Editor, format: string) => {
+export const toggleMark = (event: KeyboardEvent | MouseEvent<HTMLButtonElement>, editor: Editor, format: MarkType) => {
   event.preventDefault();
   const isActive = isMarkActive(editor, format);
 

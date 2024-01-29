@@ -6,19 +6,19 @@
  *
  */
 
-import Downshift, { GetItemPropsOptions } from 'downshift';
-import { useState } from 'react';
+import Downshift, { GetItemPropsOptions } from "downshift";
+import { useState } from "react";
 
-import styled from '@emotion/styled';
-import { UseQueryOptions, UseQueryResult } from '@tanstack/react-query';
+import styled from "@emotion/styled";
+import { UseQueryOptions, UseQueryResult } from "@tanstack/react-query";
 //@ts-ignore
-import { Input, DropdownMenu } from '@ndla/forms';
-import { Spinner } from '@ndla/icons';
-import { Search } from '@ndla/icons/common';
-import { Node } from '@ndla/types-taxonomy';
+import { Input, DropdownMenu } from "@ndla/forms";
+import { Spinner } from "@ndla/icons";
+import { Search } from "@ndla/icons/common";
+import { Node } from "@ndla/types-taxonomy";
 
-import { SearchResultBase } from '../../../../../interfaces';
-import useDebounce from '../../../../../util/useDebounce';
+import { SearchResultBase } from "../../../../../interfaces";
+import useDebounce from "../../../../../util/useDebounce";
 
 const DropdownWrapper = styled.div`
   position: relative;
@@ -46,10 +46,7 @@ interface BaseParams {
 
 interface Props<ParamType extends BaseParams, InnerType, ApiType, Type = ApiType> {
   onChange: (value: InnerType) => void;
-  useQuery: (
-    params: ParamType,
-    options?: Partial<UseQueryOptions<ApiType>>,
-  ) => UseQueryResult<Type>;
+  useQuery: (params: ParamType, options?: Partial<UseQueryOptions<ApiType>>) => UseQueryResult<Type>;
   params?: ParamType;
   options?: Partial<UseQueryOptions<ApiType>>;
   transform: (value: Type) => SearchResultBase<DropdownItem<InnerType>>;
@@ -80,7 +77,7 @@ const SearchDropdown = <ParamType extends BaseParams, InnerType, ApiType, Type>(
   maxRender,
   pageSize = 10,
 }: Props<ParamType, InnerType, ApiType, Type>) => {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [page, setPage] = useState<number>(1);
   const debouncedQuery = useDebounce(query);
   const allParams: ParamType = {
@@ -108,12 +105,12 @@ const SearchDropdown = <ParamType extends BaseParams, InnerType, ApiType, Type>(
     if (item) {
       onChange(item.originalItem);
     }
-    setQuery('');
+    setQuery("");
   };
 
   return (
     <Downshift
-      onInputValueChange={(query) => setQuery(query ?? '')}
+      onInputValueChange={(query) => setQuery(query ?? "")}
       inputValue={query}
       itemToString={(e: DropdownItem<Type>) => e?.name}
       onChange={handleOnChange}

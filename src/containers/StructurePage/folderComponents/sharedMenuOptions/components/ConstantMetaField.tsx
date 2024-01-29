@@ -6,14 +6,14 @@
  *
  */
 
-import { useState, KeyboardEvent } from 'react';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { DeleteForever, Done } from '@ndla/icons/editor';
-import { Metadata } from '@ndla/types-taxonomy';
-import CustomFieldButton from './CustomFieldButton';
-import RoundIcon from '../../../../../components/RoundIcon';
-import { StyledMenuItemEditField, StyledMenuItemInputField } from '../../styles';
+import { useState, KeyboardEvent } from "react";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { DeleteForever, Done } from "@ndla/icons/editor";
+import { Metadata } from "@ndla/types-taxonomy";
+import CustomFieldButton from "./CustomFieldButton";
+import RoundIcon from "../../../../../components/RoundIcon";
+import { StyledMenuItemEditField, StyledMenuItemInputField } from "../../styles";
 
 interface Props {
   fieldKey: string;
@@ -32,7 +32,7 @@ const ConstantMetaField = ({
   onSubmit,
   keyPlaceholder,
   valuePlaceholder,
-  initialVal = '',
+  initialVal = "",
   dataTestid,
   fieldKey,
 }: Props) => {
@@ -42,20 +42,23 @@ const ConstantMetaField = ({
     const newPair: Record<string, string> = {};
     if (initialVal !== currentVal && !!currentVal) {
       newPair[fieldKey] = currentVal;
-      onSubmit((prevState: Metadata['customFields']) => ({ ...prevState, ...newPair }));
+      onSubmit((prevState: Metadata["customFields"]) => ({
+        ...prevState,
+        ...newPair,
+      }));
     }
   };
 
   const handleDelete = () => {
-    onSubmit((prevState: Metadata['customFields']) => {
+    onSubmit((prevState: Metadata["customFields"]) => {
       delete prevState[fieldKey];
       return { ...prevState };
     });
-    setCurrentVal('');
+    setCurrentVal("");
   };
 
   const handleKeyPress = (e: KeyboardEvent) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleSubmit();
     }
   };
@@ -72,7 +75,7 @@ const ConstantMetaField = ({
         onChange={(e) => setCurrentVal(e.target.value)}
         onKeyDown={handleKeyPress}
       />
-      <CustomFieldButton onClick={handleSubmit} data-testid={'CustomFieldSaveButton'}>
+      <CustomFieldButton onClick={handleSubmit} data-testid={"CustomFieldSaveButton"}>
         <Done size="small" />
       </CustomFieldButton>
       <StyledCustomFieldButton onClick={handleDelete}>

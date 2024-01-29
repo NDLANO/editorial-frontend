@@ -6,4 +6,4 @@
  *
  */
 
-export const TYPE_MATHML = 'mathml';
+export const TYPE_MATHML = "mathml";

@@ -6,12 +6,12 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { CheckboxItem } from '@ndla/forms';
-import FormikField from '../../../components/FormikField';
-import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
-import { textTransformPlugin } from '../../../components/SlateEditor/plugins/textTransform';
-import { MetaImageSearch, TitleField } from '../../FormikForm';
+import { useTranslation } from "react-i18next";
+import { CheckboxItem } from "@ndla/forms";
+import FormikField from "../../../components/FormikField";
+import PlainTextEditor from "../../../components/SlateEditor/PlainTextEditor";
+import { textTransformPlugin } from "../../../components/SlateEditor/plugins/textTransform";
+import { MetaImageSearch, TitleField } from "../../FormikForm";
 
 interface Props {
   language?: string;
@@ -26,11 +26,11 @@ const PodcastSeriesMetaData = ({ language, onImageLoad }: Props) => {
     <>
       <TitleField />
 
-      <FormikField name="description" label={t('podcastSeriesForm.description')}>
+      <FormikField name="description" label={t("podcastSeriesForm.description")}>
         {({ field }) => (
           <PlainTextEditor
             id={field.name}
-            placeholder={t('podcastSeriesForm.description')}
+            placeholder={t("podcastSeriesForm.description")}
             {...field}
             plugins={plugins}
           />
@@ -46,6 +46,7 @@ const PodcastSeriesMetaData = ({ language, onImageLoad }: Props) => {
             showRemoveButton
             language={language}
             podcastFriendly={true}
+            disableAltEditing={true}
             {...field}
           />
         )}
@@ -54,7 +55,7 @@ const PodcastSeriesMetaData = ({ language, onImageLoad }: Props) => {
       <FormikField name="hasRSS">
         {({ field }) => (
           <CheckboxItem
-            label={t('podcastSeriesForm.hasRSS')}
+            label={t("podcastSeriesForm.hasRSS")}
             checked={field.value}
             onChange={() =>
               field.onChange({

@@ -5,32 +5,29 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { Element } from 'slate';
-import { jsx as slatejsx } from 'slate-hyperscript';
-import { ElementType } from '../interfaces';
-import { TYPE_ASIDE } from '../plugins/aside/types';
-import { TYPE_AUDIO } from '../plugins/audio/types';
-import { TYPE_QUOTE } from '../plugins/blockquote/types';
-import { TYPE_CODEBLOCK } from '../plugins/codeBlock/types';
-import { TYPE_DEFINITION_LIST } from '../plugins/definitionList/types';
-import { TYPE_DETAILS } from '../plugins/details/types';
-import {
-  TYPE_EMBED_BRIGHTCOVE,
-  TYPE_EMBED_ERROR,
-  TYPE_EMBED_EXTERNAL,
-} from '../plugins/embed/types';
-import { TYPE_FILE } from '../plugins/file/types';
-import { TYPE_FRAMED_CONTENT } from '../plugins/framedContent/types';
-import { TYPE_GRID } from '../plugins/grid/types';
-import { TYPE_H5P } from '../plugins/h5p/types';
-import { TYPE_HEADING } from '../plugins/heading/types';
-import { TYPE_LIST } from '../plugins/list/types';
-import { TYPE_PARAGRAPH } from '../plugins/paragraph/types';
-import { TYPE_TABLE } from '../plugins/table/types';
+import { Element } from "slate";
+import { jsx as slatejsx } from "slate-hyperscript";
+import { ElementType } from "../interfaces";
+import { TYPE_ASIDE } from "../plugins/aside/types";
+import { TYPE_AUDIO } from "../plugins/audio/types";
+import { TYPE_QUOTE } from "../plugins/blockquote/types";
+import { TYPE_CODEBLOCK } from "../plugins/codeBlock/types";
+import { TYPE_DEFINITION_LIST } from "../plugins/definitionList/types";
+import { TYPE_DETAILS } from "../plugins/details/types";
+import { TYPE_EMBED_BRIGHTCOVE, TYPE_EMBED_ERROR, TYPE_EMBED_EXTERNAL } from "../plugins/embed/types";
+import { TYPE_FILE } from "../plugins/file/types";
+import { TYPE_FRAMED_CONTENT } from "../plugins/framedContent/types";
+import { TYPE_GRID } from "../plugins/grid/types";
+import { TYPE_H5P } from "../plugins/h5p/types";
+import { TYPE_HEADING } from "../plugins/heading/types";
+import { TYPE_LIST } from "../plugins/list/types";
+import { TYPE_PARAGRAPH } from "../plugins/paragraph/types";
+import { TYPE_SPAN } from "../plugins/span/types";
+import { TYPE_TABLE } from "../plugins/table/types";
 
-export const firstTextBlockElement: Element['type'][] = [TYPE_PARAGRAPH, TYPE_HEADING, TYPE_QUOTE];
+export const firstTextBlockElement: Element["type"][] = [TYPE_PARAGRAPH, TYPE_HEADING, TYPE_QUOTE];
 
-export const textBlockElements: Element['type'][] = [
+export const textBlockElements: Element["type"][] = [
   TYPE_PARAGRAPH,
   TYPE_HEADING,
   TYPE_LIST,
@@ -48,11 +45,12 @@ export const textBlockElements: Element['type'][] = [
   TYPE_DETAILS,
   TYPE_DEFINITION_LIST,
   TYPE_GRID,
+  TYPE_SPAN,
 ];
 
-export const lastTextBlockElement: Element['type'][] = [TYPE_PARAGRAPH];
+export const lastTextBlockElement: Element["type"][] = [TYPE_PARAGRAPH];
 
-export const afterOrBeforeTextBlockElement: Element['type'][] = [TYPE_PARAGRAPH, TYPE_HEADING];
+export const afterOrBeforeTextBlockElement: Element["type"][] = [TYPE_PARAGRAPH, TYPE_HEADING];
 
 export const createNode = (type: ElementType, attributes?: Partial<Element>) =>
-  slatejsx('element', { ...attributes, type });
+  slatejsx("element", { ...attributes, type });

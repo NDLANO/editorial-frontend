@@ -6,16 +6,16 @@
  *
  */
 
-import { FieldArrayRenderProps, useField } from 'formik';
-import { ComponentType, useCallback, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { DragEndEvent } from '@dnd-kit/core';
-import styled from '@emotion/styled';
-import { DragVertical } from '@ndla/icons/editor';
-import FrontpageNode from './FrontpageNode';
-import { MenuWithArticle } from './types';
-import DndList from '../../components/DndList';
-import { DragHandle } from '../../components/DraggableItem';
+import { FieldArrayRenderProps, useField } from "formik";
+import { ComponentType, useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { DragEndEvent } from "@dnd-kit/core";
+import styled from "@emotion/styled";
+import { DragVertical } from "@ndla/icons/editor";
+import FrontpageNode from "./FrontpageNode";
+import { MenuWithArticle } from "./types";
+import DndList from "../../components/DndList";
+import { DragHandle } from "../../components/DraggableItem";
 
 interface Props extends FieldArrayRenderProps {
   level: number;
@@ -58,7 +58,7 @@ const FrontpageNodeList: ComponentType<Props> = ({ name, replace, remove, level,
         disabled={menuField.value.length < FRONTPAGE_DEPTH_LIMIT}
         onDragEnd={onDragEnd}
         dragHandle={
-          <StyledDragHandle aria-label={t('dragAndDrop.handle')}>
+          <StyledDragHandle aria-label={t("dragAndDrop.handle")}>
             <DragVertical />
           </StyledDragHandle>
         }

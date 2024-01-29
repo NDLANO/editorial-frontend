@@ -6,19 +6,19 @@
  *
  */
 
-import { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Navigate, useParams } from 'react-router-dom';
-import { HelmetWithTracker } from '@ndla/tracker';
-import LearningResourceForm from './components/LearningResourceForm';
-import { TranslateType, useTranslateToNN } from '../../../components/NynorskTranslateProvider';
-import Spinner from '../../../components/Spinner';
-import { LocaleType } from '../../../interfaces';
-import { useNodes } from '../../../modules/nodes/nodeQueries';
-import { toEditArticle } from '../../../util/routeHelpers';
-import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
-import NotFound from '../../NotFoundPage/NotFoundPage';
-import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { Navigate, useParams } from "react-router-dom";
+import { HelmetWithTracker } from "@ndla/tracker";
+import LearningResourceForm from "./components/LearningResourceForm";
+import { TranslateType, useTranslateToNN } from "../../../components/NynorskTranslateProvider";
+import Spinner from "../../../components/Spinner";
+import { LocaleType } from "../../../interfaces";
+import { useNodes } from "../../../modules/nodes/nodeQueries";
+import { toEditArticle } from "../../../util/routeHelpers";
+import { useFetchArticleData } from "../../FormikForm/formikDraftHooks";
+import NotFound from "../../NotFoundPage/NotFoundPage";
+import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
 interface Props {
   isNewlyCreated?: boolean;
@@ -26,30 +26,30 @@ interface Props {
 
 const translateFields: TranslateType[] = [
   {
-    field: 'title.title',
-    type: 'text',
+    field: "title.title",
+    type: "text",
   },
   {
-    field: 'metaDescription.metaDescription',
-    type: 'text',
+    field: "metaDescription.metaDescription",
+    type: "text",
   },
   {
-    field: 'introduction.introduction',
-    type: 'text',
+    field: "introduction.introduction",
+    type: "text",
   },
   {
-    field: 'content.content',
-    type: 'html',
+    field: "content.content",
+    type: "html",
   },
   {
-    field: 'tags.tags',
-    type: 'text',
+    field: "tags.tags",
+    type: "text",
   },
 ];
 
 const EditLearningResource = ({ isNewlyCreated }: Props) => {
   const { t } = useTranslation();
-  const params = useParams<'selectedLanguage' | 'id'>();
+  const params = useParams<"selectedLanguage" | "id">();
   const selectedLanguage = params.selectedLanguage as LocaleType;
   const articleId = Number(params.id!) || undefined;
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -87,14 +87,14 @@ const EditLearningResource = ({ isNewlyCreated }: Props) => {
     return <NotFound />;
   }
 
-  if (article.articleType !== 'standard') {
+  if (article.articleType !== "standard") {
     const replaceUrl = toEditArticle(article.id, article.articleType, selectedLanguage);
     return <Navigate replace to={replaceUrl} />;
   }
   const newLanguage = !article.supportedLanguages.includes(selectedLanguage);
   return (
     <>
-      <HelmetWithTracker title={`${article.title?.title} ${t('htmlTitles.titleTemplate')}`} />
+      <HelmetWithTracker title={`${article.title?.title} ${t("htmlTitles.titleTemplate")}`} />
       <LearningResourceForm
         articleLanguage={selectedLanguage}
         articleTaxonomy={taxonomyQuery.data}

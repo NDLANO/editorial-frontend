@@ -6,10 +6,10 @@
  *
  */
 
-import isEmpty from 'lodash/isEmpty';
-import { Descendant } from 'slate';
-import { ILicense, IUpdatedArticle, IArticle, IRevisionMeta } from '@ndla/types-backend/draft-api';
-import { ARCHIVED, PUBLISHED, UNPUBLISHED, Revision } from '../../constants';
+import isEmpty from "lodash/isEmpty";
+import { Descendant } from "slate";
+import { ILicense, IUpdatedArticle, IArticle, IRevisionMeta } from "@ndla/types-backend/draft-api";
+import { ARCHIVED, PUBLISHED, UNPUBLISHED, Revision } from "../../constants";
 import {
   editorValueToEmbedTag,
   editorValueToPlainText,
@@ -19,21 +19,17 @@ import {
   plainTextToEditorValue,
   inlineContentToEditorValue,
   inlineContentToHTML,
-} from '../../util/articleContentConverter';
-import { getSlugFromTitle, nullOrUndefined } from '../../util/articleUtil';
-import { DEFAULT_LICENSE, parseImageUrl } from '../../util/formHelper';
+} from "../../util/articleContentConverter";
+import { getSlugFromTitle, nullOrUndefined } from "../../util/articleUtil";
+import { DEFAULT_LICENSE, parseImageUrl } from "../../util/formHelper";
 import {
   ArticleFormType,
   LearningResourceFormType,
   TopicArticleFormType,
   FrontpageArticleFormType,
-} from '../FormikForm/articleFormHooks';
+} from "../FormikForm/articleFormHooks";
 
-const getPublishedDate = (
-  values: ArticleFormType,
-  initialValues: ArticleFormType,
-  preview: boolean = false,
-) => {
+const getPublishedDate = (values: ArticleFormType, initialValues: ArticleFormType, preview: boolean = false) => {
   if (isEmpty(values.published)) {
     return undefined;
   }
@@ -58,18 +54,18 @@ const draftApiTypeToArticleFormType = (
   contentFunc: (html: string) => Descendant[],
 ): ArticleFormType => {
   const license = article?.copyright?.license?.license;
-  const articleLicense = !license || license === 'unknown' ? DEFAULT_LICENSE.license : license;
+  const articleLicense = !license || license === "unknown" ? DEFAULT_LICENSE.license : license;
   return {
     articleType,
-    content: contentFunc(article?.content?.content ?? ''),
+    content: contentFunc(article?.content?.content ?? ""),
     creators: article?.copyright?.creators ?? [],
     id: article?.id,
-    introduction: plainTextToEditorValue(article?.introduction?.introduction ?? ''),
+    introduction: plainTextToEditorValue(article?.introduction?.introduction ?? ""),
     language,
     license: articleLicense,
     origin: article?.copyright?.origin,
-    metaDescription: plainTextToEditorValue(article?.metaDescription?.metaDescription ?? ''),
-    metaImageAlt: article?.metaImage?.alt ?? '',
+    metaDescription: plainTextToEditorValue(article?.metaDescription?.metaDescription ?? ""),
+    metaImageAlt: article?.metaImage?.alt ?? "",
     metaImageId: parseImageUrl(article?.metaImage),
     notes: [],
     processors: article?.copyright?.processors ?? [],
@@ -80,12 +76,12 @@ const draftApiTypeToArticleFormType = (
     status: article?.status,
     supportedLanguages: article?.supportedLanguages ?? [],
     tags: article?.tags?.tags ?? [],
-    title: plainTextToEditorValue(article?.title?.title ?? ''),
+    title: plainTextToEditorValue(article?.title?.title ?? ""),
     updatePublished: false,
     updated: article?.updated,
     grepCodes: article?.grepCodes ?? [],
     conceptIds: article?.conceptIds ?? [],
-    availability: article?.availability ?? 'everyone',
+    availability: article?.availability ?? "everyone",
     relatedContent: article?.relatedContent ?? [],
     revisionMeta: article?.revisions ?? [],
     slug: article?.slug,
@@ -94,10 +90,10 @@ const draftApiTypeToArticleFormType = (
       !article?.comments ||
       (article?.status.current &&
         RESET_COMMENTS_STATUSES.includes(article?.status.current) &&
-        articleType !== 'topic-article')
+        articleType !== "topic-article")
         ? []
         : article.comments,
-    priority: article?.priority ?? 'unspecified',
+    priority: article?.priority ?? "unspecified",
   };
 };
 
@@ -107,13 +103,7 @@ export const draftApiTypeToLearningResourceFormType = (
   ndlaId: string | undefined,
 ): LearningResourceFormType => {
   return {
-    ...draftApiTypeToArticleFormType(
-      article,
-      language,
-      'standard',
-      ndlaId,
-      blockContentToEditorValue,
-    ),
+    ...draftApiTypeToArticleFormType(article, language, "standard", ndlaId, blockContentToEditorValue),
   };
 };
 
@@ -123,13 +113,7 @@ export const draftApiTypeToFrontpageArticleFormType = (
   ndlaId: string | undefined,
 ): FrontpageArticleFormType => {
   return {
-    ...draftApiTypeToArticleFormType(
-      article,
-      language,
-      'frontpage-article',
-      ndlaId,
-      blockContentToEditorValue,
-    ),
+    ...draftApiTypeToArticleFormType(article, language, "frontpage-article", ndlaId, blockContentToEditorValue),
   };
 };
 
@@ -139,14 +123,8 @@ export const draftApiTypeToTopicArticleFormType = (
   ndlaId: string | undefined,
 ): TopicArticleFormType => {
   return {
-    ...draftApiTypeToArticleFormType(
-      article,
-      language,
-      'topic-article',
-      ndlaId,
-      inlineContentToEditorValue,
-    ),
-    visualElement: embedTagToEditorValue(article?.visualElement?.visualElement ?? ''),
+    ...draftApiTypeToArticleFormType(article, language, "topic-article", ndlaId, inlineContentToEditorValue),
+    visualElement: embedTagToEditorValue(article?.visualElement?.visualElement ?? ""),
   };
 };
 
@@ -157,11 +135,11 @@ export const learningResourceFormTypeToDraftApiType = (
   preview = false,
 ): IUpdatedArticle => {
   const metaImage = article.metaImageId
-    ? { id: article.metaImageId, alt: article.metaImageAlt ?? '' }
+    ? { id: article.metaImageId, alt: article.metaImageAlt ?? "" }
     : nullOrUndefined(article.metaImageId);
   return {
     revision: 0,
-    articleType: 'standard',
+    articleType: "standard",
     content: blockContentToHTML(article.content),
     copyright: {
       license: licenses.find((lic) => lic.license === article.license),
@@ -176,7 +154,7 @@ export const learningResourceFormTypeToDraftApiType = (
     metaImage,
     metaDescription: editorValueToPlainText(article.metaDescription),
     notes: article.notes,
-    published: getPublishedDate(article, initialValues, preview) ?? '',
+    published: getPublishedDate(article, initialValues, preview) ?? "",
     tags: article.tags,
     title: editorValueToPlainText(article.title),
     grepCodes: article.grepCodes,
@@ -186,7 +164,7 @@ export const learningResourceFormTypeToDraftApiType = (
     revisionMeta: article.revisionMeta,
     responsibleId: article.responsibleId,
     comments: article.comments,
-    priority: article.priority ?? 'unspecified',
+    priority: article.priority ?? "unspecified",
   };
 };
 
@@ -197,12 +175,12 @@ export const frontpageArticleFormTypeToDraftApiType = (
   preview = false,
 ): IUpdatedArticle => {
   const metaImage = article.metaImageId
-    ? { id: article.metaImageId, alt: article.metaImageAlt ?? '' }
+    ? { id: article.metaImageId, alt: article.metaImageAlt ?? "" }
     : nullOrUndefined(article.metaImageId);
   return {
     revision: 0,
     slug: article.slug || getSlugFromTitle(editorValueToPlainText(article.title)),
-    articleType: 'frontpage-article',
+    articleType: "frontpage-article",
     content: blockContentToHTML(article.content),
     copyright: {
       origin: article.origin,
@@ -217,7 +195,7 @@ export const frontpageArticleFormTypeToDraftApiType = (
     metaImage,
     metaDescription: editorValueToPlainText(article.metaDescription),
     notes: article.notes,
-    published: getPublishedDate(article, initialValues, preview) ?? '',
+    published: getPublishedDate(article, initialValues, preview) ?? "",
     tags: article.tags,
     title: editorValueToPlainText(article.title),
     grepCodes: article.grepCodes,
@@ -227,7 +205,7 @@ export const frontpageArticleFormTypeToDraftApiType = (
     revisionMeta: article.revisionMeta,
     responsibleId: article.responsibleId,
     comments: article.comments,
-    priority: article.priority ?? 'unspecified',
+    priority: article.priority ?? "unspecified",
   };
 };
 
@@ -238,7 +216,7 @@ export const topicArticleFormTypeToDraftApiType = (
   preview = false,
 ): IUpdatedArticle => {
   const metaImage = article.metaImageId
-    ? { id: article.metaImageId, alt: article.metaImageAlt ?? '' }
+    ? { id: article.metaImageId, alt: article.metaImageAlt ?? "" }
     : nullOrUndefined(article.metaImageId);
 
   const copyright = {
@@ -254,7 +232,7 @@ export const topicArticleFormTypeToDraftApiType = (
     revision: article.revision ?? 0,
     language: article.language,
     title: editorValueToPlainText(article.title),
-    published: getPublishedDate(article, initialValues, preview) ?? '',
+    published: getPublishedDate(article, initialValues, preview) ?? "",
     content: inlineContentToHTML(article.content),
     tags: article.tags,
     introduction: editorValueToPlainText(article.introduction),
@@ -271,7 +249,7 @@ export const topicArticleFormTypeToDraftApiType = (
     revisionMeta: article.revisionMeta,
     responsibleId: article.responsibleId,
     comments: article.comments,
-    priority: article.priority ?? 'unspecified',
+    priority: article.priority ?? "unspecified",
   };
 };
 

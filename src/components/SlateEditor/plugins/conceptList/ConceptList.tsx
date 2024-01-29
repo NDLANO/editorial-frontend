@@ -6,34 +6,34 @@
  *
  */
 
-import { ReactNode, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Editor, Transforms } from 'slate';
-import { RenderElementProps, ReactEditor, useSelected } from 'slate-react';
-import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
-import { colors } from '@ndla/core';
-import { Pencil } from '@ndla/icons/action';
-import { DeleteForever } from '@ndla/icons/editor';
-import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
-import { ConceptListEmbedData, ConceptListMetaData } from '@ndla/types-embed';
-import { ConceptListEmbed } from '@ndla/ui';
-import { ConceptListElement } from '.';
-import ConceptTagPicker from './ConceptTagPicker';
-import { useSearchConcepts } from '../../../../modules/concept/conceptQueries';
-import { useConceptListMeta } from '../../../../modules/embed/queries';
+import { ReactNode, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Transforms } from "slate";
+import { RenderElementProps, ReactEditor, useSelected } from "slate-react";
+import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
+import { colors } from "@ndla/core";
+import { Pencil } from "@ndla/icons/action";
+import { DeleteForever } from "@ndla/icons/editor";
+import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
+import { ConceptListEmbedData, ConceptListMetaData } from "@ndla/types-embed";
+import { ConceptListEmbed } from "@ndla/ui";
+import { ConceptListElement } from ".";
+import ConceptTagPicker from "./ConceptTagPicker";
+import { useSearchConcepts } from "../../../../modules/concept/conceptQueries";
+import { useConceptListMeta } from "../../../../modules/embed/queries";
 
 interface Props {
   element: ConceptListElement;
   language: string;
   editor: Editor;
-  attributes: RenderElementProps['attributes'];
+  attributes: RenderElementProps["attributes"];
   children: ReactNode;
 }
 
 const StyledWrapper = styled.div`
   position: relative;
-  &[data-selected='true'] {
+  &[data-selected="true"] {
     outline: 2px solid ${colors.brand.primary};
   }
 `;
@@ -54,7 +54,12 @@ const ConceptList = ({ element, language, editor, attributes, children }: Props)
   const { t } = useTranslation();
 
   const conceptsQuery = useSearchConcepts(
-    { subjects: element.data?.subjectId, tags: element.data?.tag, language, 'page-size': 200 },
+    {
+      subjects: element.data?.subjectId,
+      tags: element.data?.tag,
+      language,
+      "page-size": 200,
+    },
     { enabled: !!element.data?.tag },
   );
 
@@ -69,8 +74,8 @@ const ConceptList = ({ element, language, editor, attributes, children }: Props)
   const embed: ConceptListMetaData | undefined = useMemo(() => {
     if (!element.data || !conceptsQuery.data) return;
     return {
-      resource: 'concept-list',
-      status: 'success',
+      resource: "concept-list",
+      status: "success",
       embedData: element.data,
       data: conceptListQuery.data ?? {
         concepts: conceptsQuery.data.results.map((c) => ({ concept: c })),
@@ -81,7 +86,10 @@ const ConceptList = ({ element, language, editor, attributes, children }: Props)
   const onClose = () => {
     ReactEditor.focus(editor);
     if (element.isFirstEdit) {
-      Transforms.removeNodes(editor, { at: [], match: (node) => element === node });
+      Transforms.removeNodes(editor, {
+        at: [],
+        match: (node) => element === node,
+      });
     }
     setEditMode(false);
   };
@@ -97,7 +105,10 @@ const ConceptList = ({ element, language, editor, attributes, children }: Props)
   };
 
   const onRemoveClick = () => {
-    Transforms.removeNodes(editor, { at: [], match: (node) => element === node });
+    Transforms.removeNodes(editor, {
+      at: [],
+      match: (node) => element === node,
+    });
   };
 
   return (
@@ -106,8 +117,8 @@ const ConceptList = ({ element, language, editor, attributes, children }: Props)
         <div contentEditable={false}>
           <ButtonContainer>
             <IconButtonV2
-              aria-label={t('form.conceptList.remove')}
-              title={t('form.conceptList.remove')}
+              aria-label={t("form.conceptList.remove")}
+              title={t("form.conceptList.remove")}
               variant="ghost"
               colorTheme="danger"
               onClick={onRemoveClick}
@@ -116,8 +127,8 @@ const ConceptList = ({ element, language, editor, attributes, children }: Props)
             </IconButtonV2>
             <ModalTrigger>
               <IconButtonV2
-                aria-label={t('form.conceptList.edit')}
-                title={t('form.conceptList.edit')}
+                aria-label={t("form.conceptList.edit")}
+                title={t("form.conceptList.edit")}
                 variant="ghost"
                 colorTheme="light"
               >
@@ -129,7 +140,7 @@ const ConceptList = ({ element, language, editor, attributes, children }: Props)
         </div>
         {children}
       </StyledWrapper>
-      <ModalContent size={{ height: 'large', width: 'large' }}>
+      <ModalContent size={{ height: "large", width: "large" }}>
         <ConceptTagPicker element={element} onClose={onClose} language={language} onSave={onSave} />
       </ModalContent>
     </Modal>

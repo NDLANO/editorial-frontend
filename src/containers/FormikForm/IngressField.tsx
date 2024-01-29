@@ -37,7 +37,7 @@ const IngressField = ({ name = "introduction", maxLength = 300, placeholder, pre
         {({ field, form: { isSubmitting } }) =>
           preview ? (
             <div className="article_introduction">
-              {parse(parseMarkdown({ markdown: Plain.serialize(field.value) }))}
+              {parse(parseMarkdown({ markdown: Plain.serialize(field.value), inline: true }))}
             </div>
           ) : (
             <PlainTextEditor

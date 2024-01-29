@@ -133,6 +133,10 @@ const SlateToolbar = ({ options: toolbarOptions, areaOptions }: Props) => {
     });
   }, [areaOptions, editor, hideToolbar, toolbarOptions]);
 
+  if (hideToolbar) {
+    return null;
+  }
+
   return (
     <Portal>
       <ToolbarContainer data-toolbar="" ref={portalRef} onMouseDown={onMouseDown}>

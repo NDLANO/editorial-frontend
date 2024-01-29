@@ -33,7 +33,6 @@ interface Props {
   maxLength?: number;
   type?: string;
   placeholder?: string;
-  articleLanguage: string;
 }
 
 const ingressPlugins: SlatePlugin[] = [
@@ -67,14 +66,13 @@ const toolbarOptions = createToolbarDefaultValues({
 
 const toolbarAreaFilters = createToolbarAreaOptions();
 
-const IngressField = ({ name = "introduction", maxLength = 300, placeholder, articleLanguage }: Props) => {
+const IngressField = ({ name = "introduction", maxLength = 300, placeholder }: Props) => {
   const { t } = useTranslation();
   return (
     <FormikField noBorder label={t("form.introduction.label")} name={name} showMaxLength maxLength={maxLength}>
       {({ field, form: { isSubmitting } }) => (
         <RichTextEditor
           {...field}
-          language={articleLanguage}
           hideBlockPicker
           placeholder={placeholder || t("form.introduction.label")}
           data-testid="learning-resource-ingress"

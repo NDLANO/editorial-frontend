@@ -19,7 +19,7 @@ const ConceptContent = () => {
   const { t } = useTranslation();
   const formikContext = useFormikContext<ConceptFormValues>();
   const {
-    values: { creators, updated, language },
+    values: { creators, updated },
   } = formikContext;
 
   return (
@@ -27,12 +27,7 @@ const ConceptContent = () => {
       <TitleField />
       <LastUpdatedLine onChange={() => {}} creators={creators} published={updated} />
       <VisualElementField types={["image", "video"]} />
-      <IngressField
-        name="conceptContent"
-        maxLength={800}
-        placeholder={t("form.name.conceptContent")}
-        articleLanguage={language}
-      />
+      <IngressField name="conceptContent" maxLength={800} placeholder={t("form.name.conceptContent")} />
     </>
   );
 };

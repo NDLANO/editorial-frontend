@@ -68,7 +68,7 @@ interface Props {
   allowedPickAreas: Element["type"][];
   illegalAreas: Element["type"][];
   actionsToShowInAreas: { [key: string]: string[] };
-  articleLanguage: string;
+  articleLanguage?: string;
 }
 
 const StyledContent = styled(PopoverContent)`

@@ -11,6 +11,7 @@ import { FocusEvent, useCallback, useEffect, useMemo, useRef, useState } from "r
 import { createEditor, Descendant, Editor, NodeEntry, Range, Transforms } from "slate";
 import { withHistory } from "slate-history";
 import { Slate, Editable, withReact, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
+import { EditableProps } from "slate-react/dist/components/editable";
 import styled from "@emotion/styled";
 import { fonts } from "@ndla/core";
 import { SlatePlugin } from "./interfaces";
@@ -35,13 +36,13 @@ const StyledEditable = styled(Editable)`
   outline: none;
 `;
 
-interface Props {
+interface Props extends Omit<EditableProps, "value" | "onChange"> {
   value: Descendant[];
   onChange: (descendant: Descendant[]) => void;
   placeholder?: string;
   plugins?: SlatePlugin[];
   submitted: boolean;
-  language: string;
+  language?: string;
   actions?: Action[];
   blockpickerOptions?: Partial<BlockPickerOptions>;
   toolbarOptions: CategoryFilters;
@@ -61,6 +62,7 @@ const RichTextEditor = ({
   toolbarOptions,
   toolbarAreaFilters,
   hideBlockPicker,
+  ...rest
 }: Props) => {
   const _editor = useMemo(() => withReact(withHistory(createEditor())), []);
   const editor = useMemo(() => withPlugins(_editor, plugins), [_editor, plugins]);
@@ -215,6 +217,7 @@ const RichTextEditor = ({
                   />
                 )}
                 <StyledEditable
+                  {...rest}
                   onBlur={onBlur}
                   decorate={decorations}
                   // @ts-ignore is-hotkey and editor.onKeyDown does not have matching types

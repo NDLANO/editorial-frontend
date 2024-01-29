@@ -6,15 +6,30 @@
  *
  */
 
-import { useMemo, memo } from "react";
+import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
+import { fonts } from "@ndla/core";
 import { FieldErrorMessage, Label } from "@ndla/forms";
 import { FormControl, FormField } from "../../components/FormField";
-import PlainTextEditor from "../../components/SlateEditor/PlainTextEditor";
 
+import { SlatePlugin } from "../../components/SlateEditor/interfaces";
+import { breakPlugin } from "../../components/SlateEditor/plugins/break";
+import { breakRenderer } from "../../components/SlateEditor/plugins/break/render";
+import { markPlugin } from "../../components/SlateEditor/plugins/mark";
+import { markRenderer } from "../../components/SlateEditor/plugins/mark/render";
+import { paragraphPlugin } from "../../components/SlateEditor/plugins/paragraph";
+import { paragraphRenderer } from "../../components/SlateEditor/plugins/paragraph/render";
 import saveHotkeyPlugin from "../../components/SlateEditor/plugins/saveHotkey";
+import { sectionRenderer } from "../../components/SlateEditor/plugins/section/render";
+import { spanPlugin } from "../../components/SlateEditor/plugins/span";
 import { textTransformPlugin } from "../../components/SlateEditor/plugins/textTransform";
+import { toolbarPlugin } from "../../components/SlateEditor/plugins/toolbar";
+import {
+  createToolbarAreaOptions,
+  createToolbarDefaultValues,
+} from "../../components/SlateEditor/plugins/toolbar/toolbarState";
+import RichTextEditor from "../../components/SlateEditor/RichTextEditor";
 
 interface Props {
   maxLength?: number;
@@ -24,29 +39,62 @@ interface Props {
 
 const StyledFormControl = styled(FormControl)`
   margin-top: 2rem;
-  [data-plain-text-editor] {
+  [data-title] {
     font-size: 2.11111rem;
+    font-family: ${fonts.sans};
   }
 `;
 
+const titlePlugins: SlatePlugin[] = [
+  spanPlugin,
+  paragraphPlugin,
+  toolbarPlugin,
+  textTransformPlugin,
+  breakPlugin,
+  saveHotkeyPlugin,
+  markPlugin,
+];
+
+const titleRenderers: SlatePlugin[] = [sectionRenderer, paragraphRenderer, markRenderer, breakRenderer];
+
+const plugins = titlePlugins.concat(titleRenderers);
+
+const toolbarOptions = createToolbarDefaultValues({
+  text: {
+    hidden: true,
+  },
+  mark: {
+    code: {
+      hidden: true,
+    },
+  },
+  block: { hidden: true },
+  inline: {
+    hidden: true,
+  },
+});
+
+const toolbarAreaFilters = createToolbarAreaOptions();
+
 const TitleField = ({ maxLength = 256, name = "title" }: Props) => {
   const { t } = useTranslation();
-
-  const plugins = useMemo(() => [textTransformPlugin, saveHotkeyPlugin], []);
 
   return (
     <FormField name={name}>
       {({ field, meta }) => (
         <StyledFormControl isRequired isInvalid={!!meta.error}>
           <Label visuallyHidden>{t("form.title.label")}</Label>
-          <PlainTextEditor
-            id={field.name}
+          <RichTextEditor
             {...field}
-            className="title"
+            hideBlockPicker
+            submitted={false}
             placeholder={t("form.title.label")}
-            data-plain-text-editor=""
+            data-title=""
             data-testid="learning-resource-title"
             plugins={plugins}
+            onChange={(val) => field.onChange({ target: { value: val, name: field.name } })}
+            toolbarOptions={toolbarOptions}
+            toolbarAreaFilters={toolbarAreaFilters}
             maxLength={maxLength}
           />
           <FieldErrorMessage>{meta.error}</FieldErrorMessage>

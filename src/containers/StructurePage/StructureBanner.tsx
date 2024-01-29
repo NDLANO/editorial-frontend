@@ -42,6 +42,12 @@ const SwitchWrapper = styled.div`
   gap: ${spacing.small};
 `;
 
+const CustomFilterSwitchWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+`;
+
 const StyledSwitch = styled(Switch)`
   & button {
     flex-shrink: 0;
@@ -52,18 +58,30 @@ interface Props {
   setShowFavorites: (checked: boolean) => void;
   showFavorites: boolean;
   setShowLmaSubjects: (checked: boolean) => void;
+  setShowDeskSubjects: (checked: boolean) => void;
+  setShowLanguageSubjects: (checked: boolean) => void;
   showLmaSubjects: boolean;
+  showDeskSubjects: boolean;
+  showLanguageSubjects: boolean;
   nodeType: NodeType;
   hasLmaSubjects: boolean;
+  hasDeskSubjects: boolean;
+  hasLanguageSubjects: boolean;
 }
 
 const StructureBanner = ({
   setShowFavorites,
   showFavorites,
   setShowLmaSubjects,
+  setShowDeskSubjects,
+  setShowLanguageSubjects,
   showLmaSubjects,
+  showDeskSubjects,
+  showLanguageSubjects,
   nodeType,
   hasLmaSubjects,
+  hasDeskSubjects,
+  hasLanguageSubjects,
 }: Props) => {
   const [addSubjectModalOpen, setAddSubjectModalOpen] = useState(false);
 
@@ -80,14 +98,32 @@ const StructureBanner = ({
       </FlexWrapper>
       <FlexWrapper>
         <SwitchWrapper>
-          {hasLmaSubjects && (
-            <StyledSwitch
-              onChange={setShowLmaSubjects}
-              checked={showLmaSubjects}
-              label={t("taxonomy.showLMASubject")}
-              id="lma-subject-switch"
-            />
-          )}
+          <CustomFilterSwitchWrapper>
+            {hasLmaSubjects && (
+              <StyledSwitch
+                onChange={setShowLmaSubjects}
+                checked={showLmaSubjects}
+                label={t("taxonomy.showLMASubject")}
+                id="lma-subject-switch"
+              />
+            )}
+            {hasDeskSubjects && (
+              <StyledSwitch
+                onChange={setShowDeskSubjects}
+                checked={showDeskSubjects}
+                label={t("taxonomy.showDeskSubject")}
+                id="desk-subject-switch"
+              />
+            )}
+            {hasLanguageSubjects && (
+              <StyledSwitch
+                onChange={setShowLanguageSubjects}
+                checked={showLanguageSubjects}
+                label={t("taxonomy.showLanguageSubject")}
+                id="language-subject-switch"
+              />
+            )}
+          </CustomFilterSwitchWrapper>
           <StyledSwitch
             onChange={setShowFavorites}
             checked={showFavorites}

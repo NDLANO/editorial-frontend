@@ -6,23 +6,19 @@
  *
  */
 
-import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 import FormikField from "../../components/FormikField";
 import { SlatePlugin } from "../../components/SlateEditor/interfaces";
 
-import { blockQuotePlugin } from "../../components/SlateEditor/plugins/blockquote";
 import { breakPlugin } from "../../components/SlateEditor/plugins/break";
-import { definitionListPlugin } from "../../components/SlateEditor/plugins/definitionList";
-import { divPlugin } from "../../components/SlateEditor/plugins/div";
-import { headingPlugin } from "../../components/SlateEditor/plugins/heading";
-import { linkPlugin } from "../../components/SlateEditor/plugins/link";
-import { listPlugin } from "../../components/SlateEditor/plugins/list";
+import { breakRenderer } from "../../components/SlateEditor/plugins/break/render";
 import { markPlugin } from "../../components/SlateEditor/plugins/mark";
-import { mathmlPlugin } from "../../components/SlateEditor/plugins/mathml";
+import { markRenderer } from "../../components/SlateEditor/plugins/mark/render";
 import { paragraphPlugin } from "../../components/SlateEditor/plugins/paragraph";
+import { paragraphRenderer } from "../../components/SlateEditor/plugins/paragraph/render";
 import saveHotkeyPlugin from "../../components/SlateEditor/plugins/saveHotkey";
+import { sectionRenderer } from "../../components/SlateEditor/plugins/section/render";
 import { spanPlugin } from "../../components/SlateEditor/plugins/span";
 import { textTransformPlugin } from "../../components/SlateEditor/plugins/textTransform";
 import { toolbarPlugin } from "../../components/SlateEditor/plugins/toolbar";
@@ -31,7 +27,6 @@ import {
   createToolbarDefaultValues,
 } from "../../components/SlateEditor/plugins/toolbar/toolbarState";
 import RichTextEditor from "../../components/SlateEditor/RichTextEditor";
-import { learningResourceRenderers } from "../ArticlePage/LearningResourcePage/components/learningResourceRenderers";
 
 interface Props {
   name?: string;
@@ -43,20 +38,17 @@ interface Props {
 
 const ingressPlugins: SlatePlugin[] = [
   spanPlugin,
-  divPlugin,
   paragraphPlugin,
-  blockQuotePlugin,
-  linkPlugin,
-  headingPlugin,
-  mathmlPlugin,
   toolbarPlugin,
   textTransformPlugin,
   breakPlugin,
   saveHotkeyPlugin,
   markPlugin,
-  definitionListPlugin,
-  listPlugin,
 ];
+
+const ingressRenderers: SlatePlugin[] = [sectionRenderer, paragraphRenderer, markRenderer, breakRenderer];
+
+const plugins = ingressPlugins.concat(ingressRenderers);
 
 const toolbarOptions = createToolbarDefaultValues({
   text: {
@@ -77,7 +69,6 @@ const toolbarAreaFilters = createToolbarAreaOptions();
 
 const IngressField = ({ name = "introduction", maxLength = 300, placeholder, articleLanguage }: Props) => {
   const { t } = useTranslation();
-  const plugins = useMemo(() => ingressPlugins.concat(learningResourceRenderers(articleLanguage)), [articleLanguage]);
   return (
     <FormikField noBorder label={t("form.introduction.label")} name={name} showMaxLength maxLength={maxLength}>
       {({ field, form: { isSubmitting } }) => (

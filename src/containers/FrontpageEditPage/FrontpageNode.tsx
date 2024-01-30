@@ -14,7 +14,7 @@ import { ButtonV2, IconButtonV2 } from "@ndla/button";
 import { spacing, colors, fonts } from "@ndla/core";
 import { Plus } from "@ndla/icons/action";
 import { ChevronRight } from "@ndla/icons/common";
-import { DeleteForever } from "@ndla/icons/editor";
+import { DeleteForever, Eye } from "@ndla/icons/editor";
 import SafeLink from "@ndla/safelink";
 import { IArticleSummaryV2 } from "@ndla/types-backend/article-api";
 import FrontpageArticleSearch from "./FrontpageArticleSearch";
@@ -90,6 +90,14 @@ const FrontpageNode = ({ name, remove, index, level, replace }: Props) => {
 
   const onRemove = useCallback(() => remove(index), [index, remove]);
 
+  const onHide = useCallback(() => {
+    const updatedExisting: MenuWithArticle = {
+      ...field.value,
+      hideLevel: !field.value.hideLevel,
+    };
+    replace(index, updatedExisting);
+  }, []);
+
   const onAdd = useCallback(
     (val: IArticleSummaryV2) => {
       const newMenu: MenuWithArticle = {
@@ -138,6 +146,9 @@ const FrontpageNode = ({ name, remove, index, level, replace }: Props) => {
           </TitleLink>
         </TitleWrapper>
         <EditButtonWrapper>
+          <IconButtonV2 aria-label={t("hide")} title={t("hide")} variant="ghost" onClick={onHide}>
+            <Eye />
+          </IconButtonV2>
           {!field.value.menu.length && (
             <IconButtonV2
               aria-label={t("remove")}

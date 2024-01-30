@@ -7,21 +7,21 @@
  */
 import { Node } from "@ndla/types-taxonomy";
 import {
-  TAXONOMY_CUSTOM_FIELD_SUBJECT_DESK_RESPONSIBLE,
-  TAXONOMY_CUSTOM_FIELD_SUBJECT_LANGUAGE_RESPONSIBLE,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_DA,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_SA,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
 } from "../../constants";
 
 export type SubjectIdObject = {
   [TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA]: string[];
-  [TAXONOMY_CUSTOM_FIELD_SUBJECT_DESK_RESPONSIBLE]: string[];
-  [TAXONOMY_CUSTOM_FIELD_SUBJECT_LANGUAGE_RESPONSIBLE]: string[];
+  [TAXONOMY_CUSTOM_FIELD_SUBJECT_DA]: string[];
+  [TAXONOMY_CUSTOM_FIELD_SUBJECT_SA]: string[];
 };
 
 export const defaultSubjectIdObject: SubjectIdObject = {
   [TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA]: [],
-  [TAXONOMY_CUSTOM_FIELD_SUBJECT_DESK_RESPONSIBLE]: [],
-  [TAXONOMY_CUSTOM_FIELD_SUBJECT_LANGUAGE_RESPONSIBLE]: [],
+  [TAXONOMY_CUSTOM_FIELD_SUBJECT_DA]: [],
+  [TAXONOMY_CUSTOM_FIELD_SUBJECT_SA]: [],
 };
 
 export const getResultSubjectIdObject = (ndlaId: string | undefined, nodes: Node[] | undefined): SubjectIdObject => {
@@ -34,12 +34,12 @@ export const getResultSubjectIdObject = (ndlaId: string | undefined, nodes: Node
         acc.subjectLMA.push(res.id);
       }
 
-      if (customFields.subjectDeskResponsible === ndlaId) {
-        acc.subjectDeskResponsible.push(res.id);
+      if (customFields.subjectDA === ndlaId) {
+        acc.subjectDA.push(res.id);
       }
 
-      if (customFields.subjectLanguageResponsible === ndlaId) {
-        acc.subjectLanguageResponsible.push(res.id);
+      if (customFields.subjectSA === ndlaId) {
+        acc.subjectSA.push(res.id);
       }
     }
 
@@ -51,7 +51,7 @@ export const customFieldsBody = (ndlaId: string) => ({
   pageSize: 300,
   customFields: {
     [TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA]: ndlaId,
-    [TAXONOMY_CUSTOM_FIELD_SUBJECT_LANGUAGE_RESPONSIBLE]: ndlaId,
-    [TAXONOMY_CUSTOM_FIELD_SUBJECT_DESK_RESPONSIBLE]: ndlaId,
+    [TAXONOMY_CUSTOM_FIELD_SUBJECT_DA]: ndlaId,
+    [TAXONOMY_CUSTOM_FIELD_SUBJECT_SA]: ndlaId,
   },
 });

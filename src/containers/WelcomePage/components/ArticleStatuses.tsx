@@ -12,7 +12,7 @@ import styled from "@emotion/styled";
 import Tabs from "@ndla/tabs";
 import ArticleStatusContent from "./ArticleStatusContent";
 import { GRID_GAP } from "../../../components/Layout/Layout";
-import { FAVOURITES_SUBJECT_ID, LMA_SUBJECT_ID, LANGUAGE_SUBJECT_ID, DESK_SUBJECT_ID } from "../../../constants";
+import { FAVOURITES_SUBJECT_ID, LMA_SUBJECT_ID, SA_SUBJECT_ID, DA_SUBJECT_ID } from "../../../constants";
 import { usePostSearchNodesMutation } from "../../../modules/nodes/nodeMutations";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { SubjectIdObject, customFieldsBody, defaultSubjectIdObject, getResultSubjectIdObject } from "../utils";
@@ -66,35 +66,35 @@ const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataLoading }: Props) =
               },
             ]
           : []),
-        ...(subjectIdObject.subjectDeskResponsible.length
+        ...(subjectIdObject.subjectDA.length
           ? [
               {
-                title: t("welcomePage.deskSubjects"),
+                title: t("welcomePage.daSubjects"),
                 id: "desk-subjects",
                 content: (
                   <ArticleStatusContent
                     ndlaId={ndlaId}
-                    subjectIds={subjectIdObject.subjectDeskResponsible}
-                    title={t("welcomePage.deskSubjectsHeading")}
-                    description={t("welcomePage.deskSubjectsDescription")}
-                    searchPageSubjectFilter={DESK_SUBJECT_ID}
+                    subjectIds={subjectIdObject.subjectDA}
+                    title={t("welcomePage.daSubjectsHeading")}
+                    description={t("welcomePage.daSubjectsDescription")}
+                    searchPageSubjectFilter={DA_SUBJECT_ID}
                   />
                 ),
               },
             ]
           : []),
-        ...(subjectIdObject.subjectLanguageResponsible.length
+        ...(subjectIdObject.subjectSA.length
           ? [
               {
-                title: t("welcomePage.languageSubjects"),
+                title: t("welcomePage.saSubjects"),
                 id: "langauge-subjects",
                 content: (
                   <ArticleStatusContent
                     ndlaId={ndlaId}
-                    subjectIds={subjectIdObject.subjectLanguageResponsible}
-                    title={t("welcomePage.languageSubjectsHeading")}
-                    description={t("welcomePage.languageSubjectsDescription")}
-                    searchPageSubjectFilter={LANGUAGE_SUBJECT_ID}
+                    subjectIds={subjectIdObject.subjectSA}
+                    title={t("welcomePage.saSubjectsHeading")}
+                    description={t("welcomePage.saSubjectsDescription")}
+                    searchPageSubjectFilter={SA_SUBJECT_ID}
                   />
                 ),
               },

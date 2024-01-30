@@ -20,9 +20,9 @@ import StructureBanner from "./StructureBanner";
 import ErrorBoundary from "../../components/ErrorBoundary";
 import { GridContainer, Column } from "../../components/Layout/Layout";
 import {
-  REMEMBER_DESK_SUBJECTS,
+  REMEMBER_DA_SUBJECTS,
   REMEMBER_FAVORITE_NODES,
-  REMEMBER_LANGUAGE_SUBJECTS,
+  REMEMBER_SA_SUBJECTS,
   REMEMBER_LMA_SUBJECTS,
   TAXONOMY_ADMIN_SCOPE,
 } from "../../constants";
@@ -56,15 +56,15 @@ const Wrapper = styled.div`
 const getNodes = (
   allNodes: Node[] | undefined = [],
   lmaSubjectIds: string[],
-  deskSubjectIds: string[],
-  languageSubjectIds: string[],
+  daSubjectIds: string[],
+  saSubjectIds: string[],
   favoriteNodeIds: string[],
   rootId: string,
 ): Node[] => {
   const filteredNodes =
-    lmaSubjectIds.length || favoriteNodeIds.length || deskSubjectIds.length || languageSubjectIds.length
+    lmaSubjectIds.length || favoriteNodeIds.length || daSubjectIds.length || saSubjectIds.length
       ? allNodes.filter((node) =>
-          [...lmaSubjectIds, ...favoriteNodeIds, ...deskSubjectIds, ...languageSubjectIds, rootId].includes(node.id),
+          [...lmaSubjectIds, ...favoriteNodeIds, ...daSubjectIds, ...saSubjectIds, rootId].includes(node.id),
         )
       : allNodes;
 
@@ -101,10 +101,8 @@ const StructureContainer = ({
   const { userPermissions, ndlaId } = useSession();
   const [showFavorites, setShowFavorites] = useState(localStorage.getItem(REMEMBER_FAVORITE_NODES) === "true");
   const [showLmaSubjects, setShowLmaSubjects] = useState(localStorage.getItem(REMEMBER_LMA_SUBJECTS) === "true");
-  const [showDeskSubjects, setShowDeskSubjects] = useState(localStorage.getItem(REMEMBER_DESK_SUBJECTS) === "true");
-  const [showLanguageSubjects, setShowLanguageSubjects] = useState(
-    localStorage.getItem(REMEMBER_LANGUAGE_SUBJECTS) === "true",
-  );
+  const [showDaSubjects, setShowDaSubjects] = useState(localStorage.getItem(REMEMBER_DA_SUBJECTS) === "true");
+  const [showSaSubjects, setShowSaSubjects] = useState(localStorage.getItem(REMEMBER_SA_SUBJECTS) === "true");
 
   const resourceSection = useRef<HTMLDivElement>(null);
   const firstRender = useRef(true);
@@ -164,8 +162,8 @@ const StructureContainer = ({
   const nodes = getNodes(
     nodesQuery.data,
     showLmaSubjects ? resultSubjectIdObject.subjectLMA : [],
-    showDeskSubjects ? resultSubjectIdObject.subjectDeskResponsible : [],
-    showLanguageSubjects ? resultSubjectIdObject.subjectLanguageResponsible : [],
+    showDaSubjects ? resultSubjectIdObject.subjectDA : [],
+    showSaSubjects ? resultSubjectIdObject.subjectSA : [],
     showFavorites ? favoriteNodeIds : [],
     rootId,
   );
@@ -180,15 +178,15 @@ const StructureContainer = ({
     setShowLmaSubjects(!showLmaSubjects);
   }, [showLmaSubjects]);
 
-  const toggleShowDeskSubjects = useCallback(() => {
-    localStorage.setItem(REMEMBER_DESK_SUBJECTS, (!showDeskSubjects).toString());
-    setShowDeskSubjects(!showDeskSubjects);
-  }, [showDeskSubjects]);
+  const toggleShowDaSubjects = useCallback(() => {
+    localStorage.setItem(REMEMBER_DA_SUBJECTS, (!showDaSubjects).toString());
+    setShowDaSubjects(!showDaSubjects);
+  }, [showDaSubjects]);
 
-  const toggleShowLanguageSubjects = useCallback(() => {
-    localStorage.setItem(REMEMBER_LANGUAGE_SUBJECTS, (!showLanguageSubjects).toString());
-    setShowLanguageSubjects(!showLanguageSubjects);
-  }, [showLanguageSubjects]);
+  const toggleShowSaSubjects = useCallback(() => {
+    localStorage.setItem(REMEMBER_SA_SUBJECTS, (!showSaSubjects).toString());
+    setShowSaSubjects(!showSaSubjects);
+  }, [showSaSubjects]);
 
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
 
@@ -206,15 +204,15 @@ const StructureContainer = ({
               setShowFavorites={toggleShowFavorites}
               showFavorites={showFavorites}
               setShowLmaSubjects={toggleShowLmaSubjects}
-              setShowDeskSubjects={toggleShowDeskSubjects}
-              setShowLanguageSubjects={toggleShowLanguageSubjects}
+              setShowDaSubjects={toggleShowDaSubjects}
+              setShowSaSubjects={toggleShowSaSubjects}
               showLmaSubjects={showLmaSubjects}
-              showDeskSubjects={showDeskSubjects}
-              showLanguageSubjects={showLanguageSubjects}
+              showDaSubjects={showDaSubjects}
+              showSaSubjects={showSaSubjects}
               nodeType={rootNodeType}
               hasLmaSubjects={!!resultSubjectIdObject.subjectLMA.length}
-              hasDeskSubjects={!!resultSubjectIdObject.subjectDeskResponsible.length}
-              hasLanguageSubjects={!!resultSubjectIdObject.subjectLanguageResponsible.length}
+              hasDaSubjects={!!resultSubjectIdObject.subjectDA.length}
+              hasSaSubjects={!!resultSubjectIdObject.subjectSA.length}
             />
             <StyledStructureContainer>
               {userDataQuery.isLoading || nodesQuery.isLoading ? (

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { useEffect, useRef, useState, ReactNode, useCallback, useMemo } from "react";
+import { useEffect, useRef, useState, ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
@@ -33,6 +33,7 @@ import { getPathsFromUrl, removeLastItemFromUrl } from "../../util/routeHelpers"
 import Footer from "../App/components/Footer";
 import { useSession } from "../Session/SessionProvider";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
+import { useStoredToggleHook } from "../WelcomePage/hooks/storedFilterHooks";
 import { getResultSubjectIdObject } from "../WelcomePage/utils";
 
 const StructureWrapper = styled.ul`
@@ -99,12 +100,10 @@ const StructureContainer = ({
   const [shouldScroll, setShouldScroll] = useState(!!paths.length);
 
   const { userPermissions, ndlaId } = useSession();
-  const [showFavorites, setShowFavorites] = useState(localStorage.getItem(REMEMBER_FAVORITE_NODES) === "true");
-  const [showLmaSubjects, setShowLmaSubjects] = useState(localStorage.getItem(REMEMBER_LMA_SUBJECTS) === "true");
-  const [showDeskSubjects, setShowDeskSubjects] = useState(localStorage.getItem(REMEMBER_DESK_SUBJECTS) === "true");
-  const [showLanguageSubjects, setShowLanguageSubjects] = useState(
-    localStorage.getItem(REMEMBER_LANGUAGE_SUBJECTS) === "true",
-  );
+  const { isOn: showFavorites, setIsOn: setShowFavorites } = useStoredToggleHook(REMEMBER_FAVORITE_NODES);
+  const { isOn: showLmaSubjects, setIsOn: setShowLmaSubjects } = useStoredToggleHook(REMEMBER_LMA_SUBJECTS);
+  const { isOn: showDaSubjects, setIsOn: setShowDaSubjects } = useStoredToggleHook(REMEMBER_DESK_SUBJECTS);
+  const { isOn: showSaSubjects, setIsOn: setShowSaSubjects } = useStoredToggleHook(REMEMBER_LANGUAGE_SUBJECTS);
 
   const resourceSection = useRef<HTMLDivElement>(null);
   const firstRender = useRef(true);
@@ -164,31 +163,11 @@ const StructureContainer = ({
   const nodes = getNodes(
     nodesQuery.data,
     showLmaSubjects ? resultSubjectIdObject.subjectLMA : [],
-    showDeskSubjects ? resultSubjectIdObject.subjectDeskResponsible : [],
-    showLanguageSubjects ? resultSubjectIdObject.subjectLanguageResponsible : [],
+    showDaSubjects ? resultSubjectIdObject.subjectDeskResponsible : [],
+    showSaSubjects ? resultSubjectIdObject.subjectLanguageResponsible : [],
     showFavorites ? favoriteNodeIds : [],
     rootId,
   );
-
-  const toggleShowFavorites = useCallback(() => {
-    localStorage.setItem(REMEMBER_FAVORITE_NODES, (!showFavorites).toString());
-    setShowFavorites(!showFavorites);
-  }, [showFavorites]);
-
-  const toggleShowLmaSubjects = useCallback(() => {
-    localStorage.setItem(REMEMBER_LMA_SUBJECTS, (!showLmaSubjects).toString());
-    setShowLmaSubjects(!showLmaSubjects);
-  }, [showLmaSubjects]);
-
-  const toggleShowDeskSubjects = useCallback(() => {
-    localStorage.setItem(REMEMBER_DESK_SUBJECTS, (!showDeskSubjects).toString());
-    setShowDeskSubjects(!showDeskSubjects);
-  }, [showDeskSubjects]);
-
-  const toggleShowLanguageSubjects = useCallback(() => {
-    localStorage.setItem(REMEMBER_LANGUAGE_SUBJECTS, (!showLanguageSubjects).toString());
-    setShowLanguageSubjects(!showLanguageSubjects);
-  }, [showLanguageSubjects]);
 
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
 
@@ -203,14 +182,14 @@ const StructureContainer = ({
           {messageBox && <Column>{messageBox}</Column>}
           <Column colEnd={7}>
             <StructureBanner
-              setShowFavorites={toggleShowFavorites}
+              setShowFavorites={setShowFavorites}
               showFavorites={showFavorites}
-              setShowLmaSubjects={toggleShowLmaSubjects}
-              setShowDeskSubjects={toggleShowDeskSubjects}
-              setShowLanguageSubjects={toggleShowLanguageSubjects}
+              setShowLmaSubjects={setShowLmaSubjects}
+              setShowDeskSubjects={setShowDaSubjects}
+              setShowLanguageSubjects={setShowSaSubjects}
               showLmaSubjects={showLmaSubjects}
-              showDeskSubjects={showDeskSubjects}
-              showLanguageSubjects={showLanguageSubjects}
+              showDeskSubjects={showDaSubjects}
+              showLanguageSubjects={showSaSubjects}
               nodeType={rootNodeType}
               hasLmaSubjects={!!resultSubjectIdObject.subjectLMA.length}
               hasDeskSubjects={!!resultSubjectIdObject.subjectDeskResponsible.length}

@@ -21,7 +21,7 @@ interface Props extends FieldArrayRenderProps {
   level: number;
 }
 
-export const FRONTPAGE_DEPTH_LIMIT = 2;
+export const FRONTPAGE_DEPTH_LIMIT = 3;
 
 const StyledList = styled.ul`
   list-style: none;

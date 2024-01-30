@@ -31,6 +31,8 @@ import { useUpdateNodeMetadataMutation } from "../../../../../modules/nodes/node
 import { getNodeTypeFromNodeId, getRootIdForNode, isRootNode } from "../../../../../modules/nodes/nodeUtil";
 import { useTaxonomyVersion } from "../../../../StructureVersion/TaxonomyVersionProvider";
 import SubjectCategorySelector from "../../subjectMenuOptions/SubjectCategorySelector";
+import SubjectDeskResponsibeSelector from "../../subjectMenuOptions/SubjectDeskResponsibleSelector";
+import SubjectLanguageResponsibeSelector from "../../subjectMenuOptions/SubjectLanguageResponsibleSelector";
 import SubjectLMASelector from "../../subjectMenuOptions/SubjectLMASelector";
 import SubjectTypeSelector from "../../subjectMenuOptions/SubjectTypeSelector";
 import TaxonomyMetadataLanguageSelector from "../../subjectMenuOptions/TaxonomyMetadataLanguageSelector";
@@ -122,6 +124,8 @@ const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
     <>
       <TaxonomyMetadataLanguageSelector customFields={customFields} updateCustomFields={setCustomFields} />
       <SubjectLMASelector customFields={customFields} updateCustomFields={setCustomFields} />
+      <SubjectLanguageResponsibeSelector customFields={customFields} updateCustomFields={setCustomFields} />
+      <SubjectDeskResponsibeSelector customFields={customFields} updateCustomFields={setCustomFields} />
       <SubjectCategorySelector customFields={customFields} updateCustomFields={setCustomFields} />
       <SubjectTypeSelector customFields={customFields} updateCustomFields={setCustomFields} />
       <ToggleExplanationSubject customFields={customFields} updateFields={setCustomFields} />

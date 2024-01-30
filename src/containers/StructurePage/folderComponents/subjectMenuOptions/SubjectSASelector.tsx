@@ -8,28 +8,28 @@
 
 import { useTranslation } from "react-i18next";
 import SubjectCustomFieldSelector from "./SubjectCustomFieldSelector";
-import { TAXONOMY_CUSTOM_FIELD_SUBJECT_LANGUAGE_RESPONSIBLE } from "../../../../constants";
+import { TAXONOMY_CUSTOM_FIELD_SUBJECT_SA } from "../../../../constants";
 
 interface Props {
   customFields: Record<string, string>;
   updateCustomFields: (newFields: Record<string, string>) => void;
 }
 
-const SubjectLanguageResponsibeSelector = ({ customFields, updateCustomFields }: Props) => {
+const SubjectSASelector = ({ customFields, updateCustomFields }: Props) => {
   const { t } = useTranslation();
 
   const messages = {
-    selected: t("taxonomy.metadata.placeholders.languageResponsible"),
-    title: t("taxonomy.metadata.customFields.subjectLanguageResponsible"),
+    selected: t("taxonomy.metadata.placeholders.sa"),
+    title: t("taxonomy.metadata.customFields.subjectSA"),
   };
   return (
     <SubjectCustomFieldSelector
       customFields={customFields}
       updateCustomFields={updateCustomFields}
-      field={TAXONOMY_CUSTOM_FIELD_SUBJECT_LANGUAGE_RESPONSIBLE}
+      field={TAXONOMY_CUSTOM_FIELD_SUBJECT_SA}
       messages={messages}
     />
   );
 };
 
-export default SubjectLanguageResponsibeSelector;
+export default SubjectSASelector;

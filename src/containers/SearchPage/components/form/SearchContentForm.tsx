@@ -15,14 +15,14 @@ import GenericSearchForm, { OnFieldChangeFunction } from "./GenericSearchForm";
 import { SearchParams } from "./SearchForm";
 import { SearchFormSelector } from "./Selector";
 import {
-  DESK_SUBJECT_ID,
+  DA_SUBJECT_ID,
   DRAFT_RESPONSIBLE,
   FAVOURITES_SUBJECT_ID,
-  LANGUAGE_SUBJECT_ID,
+  SA_SUBJECT_ID,
   LMA_SUBJECT_ID,
-  TAXONOMY_CUSTOM_FIELD_SUBJECT_DESK_RESPONSIBLE,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_SA,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
-  TAXONOMY_CUSTOM_FIELD_SUBJECT_LANGUAGE_RESPONSIBLE,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_DA,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
 } from "../../../../constants";
 import { useAuth0Editors, useAuth0Responsibles } from "../../../../modules/auth0/auth0Queries";
@@ -178,16 +178,12 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
     const favoriteSubject: Node = generateSubjectNode(FAVOURITES_SUBJECT_ID, "searchForm.favourites", t);
 
     const userHasLMASubjects = userHasCustomField(subjects, userId, TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA);
-    const userHasLanguageSubjects = userHasCustomField(
-      subjects,
-      userId,
-      TAXONOMY_CUSTOM_FIELD_SUBJECT_LANGUAGE_RESPONSIBLE,
-    );
-    const userHasDeskSubjects = userHasCustomField(subjects, userId, TAXONOMY_CUSTOM_FIELD_SUBJECT_DESK_RESPONSIBLE);
+    const userHasSASubjects = userHasCustomField(subjects, userId, TAXONOMY_CUSTOM_FIELD_SUBJECT_SA);
+    const userHasDASubjects = userHasCustomField(subjects, userId, TAXONOMY_CUSTOM_FIELD_SUBJECT_DA);
 
     const LMAsubjects: Node = generateSubjectNode(LMA_SUBJECT_ID, "searchForm.LMASubjects", t);
-    const languageSubjects: Node = generateSubjectNode(LANGUAGE_SUBJECT_ID, "searchForm.languageSubjects", t);
-    const deskSubjects: Node = generateSubjectNode(DESK_SUBJECT_ID, "searchForm.deskSubjects", t);
+    const SASubjects: Node = generateSubjectNode(SA_SUBJECT_ID, "searchForm.SASubjects", t);
+    const DASubjects: Node = generateSubjectNode(DA_SUBJECT_ID, "searchForm.DASubjects", t);
 
     const filteredAndSortedSubjects = subjects
       .filter((s) => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== "true")
@@ -195,8 +191,8 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
     return [
       favoriteSubject,
       ...(userHasLMASubjects ? [LMAsubjects] : []),
-      ...(userHasLanguageSubjects ? [languageSubjects] : []),
-      ...(userHasDeskSubjects ? [deskSubjects] : []),
+      ...(userHasSASubjects ? [SASubjects] : []),
+      ...(userHasDASubjects ? [DASubjects] : []),
     ].concat(filteredAndSortedSubjects);
   }, [subjects, t, userId]);
 

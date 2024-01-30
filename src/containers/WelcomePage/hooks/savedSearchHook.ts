@@ -19,11 +19,11 @@ import { Node, ResourceType } from "@ndla/types-taxonomy";
 import {
   FAVOURITES_SUBJECT_ID,
   LMA_SUBJECT_ID,
-  LANGUAGE_SUBJECT_ID,
-  DESK_SUBJECT_ID,
+  SA_SUBJECT_ID,
+  DA_SUBJECT_ID,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
-  TAXONOMY_CUSTOM_FIELD_SUBJECT_LANGUAGE_RESPONSIBLE,
-  TAXONOMY_CUSTOM_FIELD_SUBJECT_DESK_RESPONSIBLE,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_SA,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_DA,
 } from "../../../constants";
 import { SearchObjectType, SearchResultBase } from "../../../interfaces";
 import { searchAudio, searchSeries } from "../../../modules/audio/audioApi";
@@ -66,10 +66,10 @@ const getSubjectFilterTranslation = (subject: string, subjectData: Node[], t: TF
       return t("searchForm.favourites");
     case LMA_SUBJECT_ID:
       return t("searchForm.LMASubjects");
-    case DESK_SUBJECT_ID:
-      return t("searchForm.deskSubjects");
-    case LANGUAGE_SUBJECT_ID:
-      return t("searchForm.languageSubjects");
+    case DA_SUBJECT_ID:
+      return t("searchForm.DASubjects");
+    case SA_SUBJECT_ID:
+      return t("searchForm.SASubjects");
     default:
       return subjectData?.find((s) => s.id === subject)?.name;
   }
@@ -77,8 +77,8 @@ const getSubjectFilterTranslation = (subject: string, subjectData: Node[], t: TF
 
 const customFieldMapping = {
   [LMA_SUBJECT_ID]: TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
-  [DESK_SUBJECT_ID]: TAXONOMY_CUSTOM_FIELD_SUBJECT_DESK_RESPONSIBLE,
-  [LANGUAGE_SUBJECT_ID]: TAXONOMY_CUSTOM_FIELD_SUBJECT_LANGUAGE_RESPONSIBLE,
+  [DA_SUBJECT_ID]: TAXONOMY_CUSTOM_FIELD_SUBJECT_DA,
+  [SA_SUBJECT_ID]: TAXONOMY_CUSTOM_FIELD_SUBJECT_SA,
 } as const;
 
 const getSearchObject = async (
@@ -95,8 +95,8 @@ const getSearchObject = async (
   if (
     ndlaId &&
     (searchObject.subjects === LMA_SUBJECT_ID ||
-      searchObject.subjects === DESK_SUBJECT_ID ||
-      searchObject.subjects === LANGUAGE_SUBJECT_ID)
+      searchObject.subjects === DA_SUBJECT_ID ||
+      searchObject.subjects === SA_SUBJECT_ID)
   ) {
     const nodesSearchResult = await postSearchNodes({
       body: customFieldsBody(ndlaId),
@@ -181,8 +181,8 @@ export const useSavedSearchUrl = (currentUserData: IUserData | undefined): Searc
               searchObject &&
               !searchObject.includes(FAVOURITES_SUBJECT_ID) &&
               !searchObject.includes(LMA_SUBJECT_ID) &&
-              !searchObject.includes(DESK_SUBJECT_ID) &&
-              !searchObject.includes(LANGUAGE_SUBJECT_ID),
+              !searchObject.includes(DA_SUBJECT_ID) &&
+              !searchObject.includes(SA_SUBJECT_ID),
           );
         const subjectData = await Promise.all(
           subjects.map((subject) =>

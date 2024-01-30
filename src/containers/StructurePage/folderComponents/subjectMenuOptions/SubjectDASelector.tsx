@@ -8,29 +8,29 @@
 
 import { useTranslation } from "react-i18next";
 import SubjectCustomFieldSelector from "./SubjectCustomFieldSelector";
-import { TAXONOMY_CUSTOM_FIELD_SUBJECT_DESK_RESPONSIBLE } from "../../../../constants";
+import { TAXONOMY_CUSTOM_FIELD_SUBJECT_DA } from "../../../../constants";
 
 interface Props {
   customFields: Record<string, string>;
   updateCustomFields: (newFields: Record<string, string>) => void;
 }
 
-const SubjectDeskResponsibeSelector = ({ customFields, updateCustomFields }: Props) => {
+const SubjectDASelector = ({ customFields, updateCustomFields }: Props) => {
   const { t } = useTranslation();
 
   const messages = {
-    selected: t("taxonomy.metadata.placeholders.deskResponsible"),
-    title: t("taxonomy.metadata.customFields.subjectDeskResponsible"),
+    selected: t("taxonomy.metadata.placeholders.da"),
+    title: t("taxonomy.metadata.customFields.subjectDA"),
   };
 
   return (
     <SubjectCustomFieldSelector
       customFields={customFields}
       updateCustomFields={updateCustomFields}
-      field={TAXONOMY_CUSTOM_FIELD_SUBJECT_DESK_RESPONSIBLE}
+      field={TAXONOMY_CUSTOM_FIELD_SUBJECT_DA}
       messages={messages}
     />
   );
 };
 
-export default SubjectDeskResponsibeSelector;
+export default SubjectDASelector;

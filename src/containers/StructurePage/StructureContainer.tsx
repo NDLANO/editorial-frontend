@@ -20,9 +20,9 @@ import StructureBanner from "./StructureBanner";
 import ErrorBoundary from "../../components/ErrorBoundary";
 import { GridContainer, Column } from "../../components/Layout/Layout";
 import {
-  REMEMBER_DESK_SUBJECTS,
+  REMEMBER_DA_SUBJECTS,
   REMEMBER_FAVORITE_NODES,
-  REMEMBER_LANGUAGE_SUBJECTS,
+  REMEMBER_SA_SUBJECTS,
   REMEMBER_LMA_SUBJECTS,
   TAXONOMY_ADMIN_SCOPE,
 } from "../../constants";
@@ -57,15 +57,15 @@ const Wrapper = styled.div`
 const getNodes = (
   allNodes: Node[] | undefined = [],
   lmaSubjectIds: string[],
-  deskSubjectIds: string[],
-  languageSubjectIds: string[],
+  daSubjectIds: string[],
+  saSubjectIds: string[],
   favoriteNodeIds: string[],
   rootId: string,
 ): Node[] => {
   const filteredNodes =
-    lmaSubjectIds.length || favoriteNodeIds.length || deskSubjectIds.length || languageSubjectIds.length
+    lmaSubjectIds.length || favoriteNodeIds.length || daSubjectIds.length || saSubjectIds.length
       ? allNodes.filter((node) =>
-          [...lmaSubjectIds, ...favoriteNodeIds, ...deskSubjectIds, ...languageSubjectIds, rootId].includes(node.id),
+          [...lmaSubjectIds, ...favoriteNodeIds, ...daSubjectIds, ...saSubjectIds, rootId].includes(node.id),
         )
       : allNodes;
 
@@ -102,8 +102,8 @@ const StructureContainer = ({
   const { userPermissions, ndlaId } = useSession();
   const { isOn: showFavorites, setIsOn: setShowFavorites } = useStoredToggleHook(REMEMBER_FAVORITE_NODES);
   const { isOn: showLmaSubjects, setIsOn: setShowLmaSubjects } = useStoredToggleHook(REMEMBER_LMA_SUBJECTS);
-  const { isOn: showDaSubjects, setIsOn: setShowDaSubjects } = useStoredToggleHook(REMEMBER_DESK_SUBJECTS);
-  const { isOn: showSaSubjects, setIsOn: setShowSaSubjects } = useStoredToggleHook(REMEMBER_LANGUAGE_SUBJECTS);
+  const { isOn: showDaSubjects, setIsOn: setShowDaSubjects } = useStoredToggleHook(REMEMBER_DA_SUBJECTS);
+  const { isOn: showSaSubjects, setIsOn: setShowSaSubjects } = useStoredToggleHook(REMEMBER_SA_SUBJECTS);
 
   const resourceSection = useRef<HTMLDivElement>(null);
   const firstRender = useRef(true);
@@ -163,8 +163,8 @@ const StructureContainer = ({
   const nodes = getNodes(
     nodesQuery.data,
     showLmaSubjects ? resultSubjectIdObject.subjectLMA : [],
-    showDaSubjects ? resultSubjectIdObject.subjectDeskResponsible : [],
-    showSaSubjects ? resultSubjectIdObject.subjectLanguageResponsible : [],
+    showDaSubjects ? resultSubjectIdObject.subjectDA : [],
+    showSaSubjects ? resultSubjectIdObject.subjectSA : [],
     showFavorites ? favoriteNodeIds : [],
     rootId,
   );
@@ -185,15 +185,15 @@ const StructureContainer = ({
               setShowFavorites={setShowFavorites}
               showFavorites={showFavorites}
               setShowLmaSubjects={setShowLmaSubjects}
-              setShowDeskSubjects={setShowDaSubjects}
-              setShowLanguageSubjects={setShowSaSubjects}
+              setShowDaSubjects={setShowDaSubjects}
+              setShowSaSubjects={setShowSaSubjects}
               showLmaSubjects={showLmaSubjects}
-              showDeskSubjects={showDaSubjects}
-              showLanguageSubjects={showSaSubjects}
+              showDaSubjects={showDaSubjects}
+              showSaSubjects={showSaSubjects}
               nodeType={rootNodeType}
               hasLmaSubjects={!!resultSubjectIdObject.subjectLMA.length}
-              hasDeskSubjects={!!resultSubjectIdObject.subjectDeskResponsible.length}
-              hasLanguageSubjects={!!resultSubjectIdObject.subjectLanguageResponsible.length}
+              hasDaSubjects={!!resultSubjectIdObject.subjectDA.length}
+              hasSaSubjects={!!resultSubjectIdObject.subjectSA.length}
             />
             <StyledStructureContainer>
               {userDataQuery.isLoading || nodesQuery.isLoading ? (

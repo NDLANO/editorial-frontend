@@ -58,30 +58,30 @@ interface Props {
   setShowFavorites: (checked: boolean) => void;
   showFavorites: boolean;
   setShowLmaSubjects: (checked: boolean) => void;
-  setShowDeskSubjects: (checked: boolean) => void;
-  setShowLanguageSubjects: (checked: boolean) => void;
+  setShowDaSubjects: (checked: boolean) => void;
+  setShowSaSubjects: (checked: boolean) => void;
   showLmaSubjects: boolean;
-  showDeskSubjects: boolean;
-  showLanguageSubjects: boolean;
+  showDaSubjects: boolean;
+  showSaSubjects: boolean;
   nodeType: NodeType;
   hasLmaSubjects: boolean;
-  hasDeskSubjects: boolean;
-  hasLanguageSubjects: boolean;
+  hasDaSubjects: boolean;
+  hasSaSubjects: boolean;
 }
 
 const StructureBanner = ({
   setShowFavorites,
   showFavorites,
   setShowLmaSubjects,
-  setShowDeskSubjects,
-  setShowLanguageSubjects,
+  setShowDaSubjects,
+  setShowSaSubjects,
   showLmaSubjects,
-  showDeskSubjects,
-  showLanguageSubjects,
+  showDaSubjects,
+  showSaSubjects,
   nodeType,
   hasLmaSubjects,
-  hasDeskSubjects,
-  hasLanguageSubjects,
+  hasDaSubjects,
+  hasSaSubjects,
 }: Props) => {
   const [addSubjectModalOpen, setAddSubjectModalOpen] = useState(false);
 
@@ -107,19 +107,19 @@ const StructureBanner = ({
                 id="lma-subject-switch"
               />
             )}
-            {hasDeskSubjects && (
+            {hasDaSubjects && (
               <StyledSwitch
-                onChange={setShowDeskSubjects}
-                checked={showDeskSubjects}
-                label={t("taxonomy.showDeskSubject")}
+                onChange={setShowDaSubjects}
+                checked={showDaSubjects}
+                label={t("taxonomy.showDASubject")}
                 id="desk-subject-switch"
               />
             )}
-            {hasLanguageSubjects && (
+            {hasSaSubjects && (
               <StyledSwitch
-                onChange={setShowLanguageSubjects}
-                checked={showLanguageSubjects}
-                label={t("taxonomy.showLanguageSubject")}
+                onChange={setShowSaSubjects}
+                checked={showSaSubjects}
+                label={t("taxonomy.showSASubject")}
                 id="language-subject-switch"
               />
             )}

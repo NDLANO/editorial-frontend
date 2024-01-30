@@ -13,9 +13,9 @@ import Tabs from "@ndla/tabs";
 import ArticleStatusContent from "./ArticleStatusContent";
 import { GRID_GAP } from "../../../components/Layout/Layout";
 import {
-  DESK_SUBJECT_ID,
+  DA_SUBJECT_ID,
   FAVOURITES_SUBJECT_ID,
-  LANGUAGE_SUBJECT_ID,
+  SA_SUBJECT_ID,
   LMA_SUBJECT_ID,
   STORED_FILTER_DA_SUBJECT,
   STORED_FILTER_FAVORITES,
@@ -81,18 +81,18 @@ const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataLoading }: Props) =
               },
             ]
           : []),
-        ...(subjectIdObject.subjectDeskResponsible.length
+        ...(subjectIdObject.subjectDA.length
           ? [
               {
-                title: t("welcomePage.deskSubjects"),
+                title: t("welcomePage.daSubjects"),
                 id: "desk-subjects",
                 content: (
                   <ArticleStatusContent
                     ndlaId={ndlaId}
-                    subjectIds={subjectIdObject.subjectDeskResponsible}
-                    title={t("welcomePage.deskSubjectsHeading")}
-                    description={t("welcomePage.deskSubjectsDescription")}
-                    searchPageSubjectFilter={DESK_SUBJECT_ID}
+                    subjectIds={subjectIdObject.subjectDA}
+                    title={t("welcomePage.daSubjectsHeading")}
+                    description={t("welcomePage.daSubjectsDescription")}
+                    searchPageSubjectFilter={DA_SUBJECT_ID}
                     localStorageKey={STORED_FILTER_DA_SUBJECT}
                     onHoldLocalStorageKey={STORED_ON_HOLD_DA_SUBJECT}
                   />
@@ -100,18 +100,18 @@ const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataLoading }: Props) =
               },
             ]
           : []),
-        ...(subjectIdObject.subjectLanguageResponsible.length
+        ...(subjectIdObject.subjectSA.length
           ? [
               {
-                title: t("welcomePage.languageSubjects"),
+                title: t("welcomePage.saSubjects"),
                 id: "langauge-subjects",
                 content: (
                   <ArticleStatusContent
                     ndlaId={ndlaId}
-                    subjectIds={subjectIdObject.subjectLanguageResponsible}
-                    title={t("welcomePage.languageSubjectsHeading")}
-                    description={t("welcomePage.languageSubjectsDescription")}
-                    searchPageSubjectFilter={LANGUAGE_SUBJECT_ID}
+                    subjectIds={subjectIdObject.subjectSA}
+                    title={t("welcomePage.saSubjectsHeading")}
+                    description={t("welcomePage.saSubjectsDescription")}
+                    searchPageSubjectFilter={SA_SUBJECT_ID}
                     localStorageKey={STORED_FILTER_SA_SUBJECT}
                     onHoldLocalStorageKey={STORED_ON_HOLD_SA_SUBJECT}
                   />

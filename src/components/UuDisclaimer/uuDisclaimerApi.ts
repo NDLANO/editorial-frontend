@@ -6,19 +6,17 @@
  *
  */
 
-import { getNdlaApiUrl } from '../../config';
-import { fetchReAuthorized } from '../../util/apiHelpers';
+import { getNdlaApiUrl } from "../../config";
+import { fetchReAuthorized } from "../../util/apiHelpers";
 
 export const fetchDisclaimerLink = (
-  locale: string = '',
+  locale: string = "",
   canReturnResources: boolean = false,
 ): Promise<{ text: string; href: string }> => {
   return fetchReAuthorized(
-    `${getNdlaApiUrl}/select?locale=${getH5pLocale(
-      locale,
-    )}&canReturnResources=${canReturnResources}`,
+    `${getNdlaApiUrl}/select?locale=${getH5pLocale(locale)}&canReturnResources=${canReturnResources}`,
     {
-      method: 'POST',
+      method: "POST",
       headers: { Authorization: `Bearer JWT-token` },
     },
   ).then((r) => resolveJsonOrRejectWithError(r));

@@ -6,32 +6,24 @@
  *
  */
 
-import { ReactNode, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Editor, Element, Transforms } from 'slate';
-import { ReactEditor, RenderElementProps } from 'slate-react';
-import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
-import { colors, spacing } from '@ndla/core';
-import { Pencil } from '@ndla/icons/action';
-import {
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalTitle,
-  ModalTrigger,
-} from '@ndla/modal';
-import { UuDisclaimerMetaData } from '@ndla/types-embed';
-import { UuDisclaimerEmbed } from '@ndla/ui';
-import DisclaimerForm from './DisclaimerForm';
-import { DisclaimerElement, TYPE_DISCLAIMER } from './types';
-import { useDisclaimerMeta } from '../../../../modules/embed/queries';
-import DeleteButton from '../../../DeleteButton';
+import { ReactNode, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Element, Transforms } from "slate";
+import { ReactEditor, RenderElementProps } from "slate-react";
+import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
+import { colors, spacing } from "@ndla/core";
+import { Pencil } from "@ndla/icons/action";
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
+import { UuDisclaimerMetaData } from "@ndla/types-embed";
+import { UuDisclaimerEmbed } from "@ndla/ui";
+import DisclaimerForm from "./DisclaimerForm";
+import { DisclaimerElement, TYPE_DISCLAIMER } from "./types";
+import { useDisclaimerMeta } from "../../../../modules/embed/queries";
+import DeleteButton from "../../../DeleteButton";
 
 interface Props {
-  attributes: RenderElementProps['attributes'];
+  attributes: RenderElementProps["attributes"];
   children: ReactNode;
   editor: Editor;
   element: DisclaimerElement;
@@ -56,24 +48,25 @@ const StyledModalHeader = styled(ModalHeader)`
 
 const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
   const { t } = useTranslation();
+  const { data } = element;
 
   const disclaimerMetaQuery = useDisclaimerMeta();
 
-  // const disclaimerMetaQuery = useDisclaimerMeta(element.data?.path!, element.data?.url!, {
+  // const disclaimerMetaQuery = useDisclaimerMeta(data?.path!, element.data?.url!, {
   //   enabled: !!element.data?.path,
   // });
 
   const embed: UuDisclaimerMetaData | undefined = useMemo(
     () =>
-      element.data
+      data
         ? {
-            status: !!disclaimerMetaQuery.error || !disclaimerMetaQuery.data ? 'error' : 'success',
+            status: !!disclaimerMetaQuery.error || !disclaimerMetaQuery.data ? "error" : "success",
             data: disclaimerMetaQuery.data!,
-            embedData: { ...element.data, disclaimer: element.data?.disclaimer },
-            resource: element.data?.resource,
+            embedData: { ...data, disclaimer: data?.disclaimer },
+            resource: data?.resource,
           }
         : undefined,
-    [disclaimerMetaQuery.data, disclaimerMetaQuery.error, element.data],
+    [disclaimerMetaQuery.data, disclaimerMetaQuery.error, data],
   );
 
   const onRemove = () => {
@@ -92,24 +85,20 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
   return (
     <div {...attributes}>
       <ButtonContainer>
-        <DeleteButton aria-label={t('delete')} data-testid="remove-disclaimer" onClick={onRemove} />
+        <DeleteButton aria-label={t("delete")} data-testid="remove-disclaimer" onClick={onRemove} />
         <Modal>
           <ModalTrigger>
-            <IconButtonV2
-              variant="ghost"
-              aria-label="Edit disclaimer"
-              data-testid="edit-disclaimer"
-            >
+            <IconButtonV2 variant="ghost" aria-label="Edit disclaimer" data-testid="edit-disclaimer">
               <Pencil />
             </IconButtonV2>
           </ModalTrigger>
           <ModalContent size="normal">
             <StyledModalHeader>
-              <ModalTitle>{t('form.disclaimer.title')}</ModalTitle>
+              <ModalTitle>{t("form.disclaimer.title")}</ModalTitle>
               <ModalCloseButton />
             </StyledModalHeader>
             <ModalBody>
-              <DisclaimerForm />
+              <DisclaimerForm initialData={embed?.embedData} />
             </ModalBody>
             {/* <DisclaimerForm
               data={element.data}
@@ -124,9 +113,9 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
         data-testid="slate-disclaimer"
         embed={
           embed ?? {
-            status: 'success',
-            resource: 'uu-disclaimer',
-            embedData: { ...element.data, disclaimer: 'This is a disclaimer' },
+            status: "success",
+            resource: "uu-disclaimer",
+            embedData: { ...data, disclaimer: "This is a disclaimer" },
             data: {},
           }
         }

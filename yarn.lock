@@ -1183,9 +1183,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/accordion@npm:^3.0.25":
-  version: 3.0.25
-  resolution: "@ndla/accordion@npm:3.0.25"
+"@ndla/accordion@portal:/home/rauboti/projects/ndla/frontend-packages/packages/ndla-accordion::locator=editorial-frontend%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@ndla/accordion@portal:/home/rauboti/projects/ndla/frontend-packages/packages/ndla-accordion::locator=editorial-frontend%40workspace%3A."
   dependencies:
     "@ndla/button": "npm:^12.0.30"
     "@ndla/core": "npm:^4.4.0"
@@ -1197,13 +1197,12 @@ __metadata:
     react: ">= 16.8.0"
     react-dom: ">= 16.8.0"
     react-i18next: ^13.3.0
-  checksum: 383a9801c84cf664c4cd31461f24c410080bec13b44d47ed1dcdad0936e6fd140828eb809e8f6735a7b8af85d12e72a8cf43dcfd513de2e41be6f51e9e28ed52
   languageName: node
   linkType: soft
 
-"@ndla/article-converter@npm:^6.0.52":
-  version: 6.0.52
-  resolution: "@ndla/article-converter@npm:6.0.52"
+"@ndla/article-converter@portal:/home/rauboti/projects/ndla/frontend-packages/packages/article-converter::locator=editorial-frontend%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@ndla/article-converter@portal:/home/rauboti/projects/ndla/frontend-packages/packages/article-converter::locator=editorial-frontend%40workspace%3A."
   dependencies:
     "@ndla/code": "npm:^5.0.35"
     "@ndla/ui": "npm:^50.9.6"
@@ -1217,13 +1216,12 @@ __metadata:
     react-dom: ">= 16.8.0"
     react-i18next: ^13.3.0
     react-router-dom: ">= 6.0.0"
-  checksum: 00deaf2f83fe49d2c95a536e0bc80b643a34dc58cad049560033c074eaa8eea561ea929a8cc7a9aef2d80a24359f539945b77344de069eca0cd22ae7d6938ace
   languageName: node
   linkType: soft
 
-"@ndla/audio-search@npm:^4.0.61":
-  version: 4.0.61
-  resolution: "@ndla/audio-search@npm:4.0.61"
+"@ndla/audio-search@portal:/home/rauboti/projects/ndla/frontend-packages/packages/ndla-audio-search::locator=editorial-frontend%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@ndla/audio-search@portal:/home/rauboti/projects/ndla/frontend-packages/packages/ndla-audio-search::locator=editorial-frontend%40workspace%3A."
   dependencies:
     "@ndla/button": "npm:^12.0.30"
     "@ndla/licenses": "npm:^7.2.5"
@@ -1233,13 +1231,12 @@ __metadata:
     "@emotion/react": ^11.10.4
     react: ">= 16.8.0"
     react-bem-helper: ^1.4.1
-  checksum: 6c1adabadc349d993a3bfe1b12b1d4002a082c87ea53dc883014490edd94c1b0e0461c95dd600ea4bad3d1130d6d285a3aed73100d09f5eddec0c1b8726617ee
   languageName: node
   linkType: soft
 
-"@ndla/button@npm:^12.0.30":
-  version: 12.0.30
-  resolution: "@ndla/button@npm:12.0.30"
+"@ndla/button@portal:/home/rauboti/projects/ndla/frontend-packages/packages/button::locator=editorial-frontend%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@ndla/button@portal:/home/rauboti/projects/ndla/frontend-packages/packages/button::locator=editorial-frontend%40workspace%3A."
   dependencies:
     "@ndla/core": "npm:^4.4.0"
     "@ndla/dropdown-menu": "npm:^1.0.28"
@@ -1251,13 +1248,12 @@ __metadata:
     react: ">= 16.8.0"
     react-dom: ">= 16.8.0"
     react-i18next: ^13.3.0
-  checksum: 853b0c714950281cd73fbad8a6700ffae0e1ecc5bc90917838fd687bec98883fd66ec6877e7732f87fc1e63e1945d898dfe93e066a6668d356004bc68f1ebb67
   languageName: node
   linkType: soft
 
-"@ndla/carousel@npm:^4.0.30":
-  version: 4.0.30
-  resolution: "@ndla/carousel@npm:4.0.30"
+"@ndla/carousel@portal:/home/rauboti/projects/ndla/frontend-packages/packages/carousel::locator=editorial-frontend%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@ndla/carousel@portal:/home/rauboti/projects/ndla/frontend-packages/packages/carousel::locator=editorial-frontend%40workspace%3A."
   dependencies:
     "@ndla/core": "npm:^4.4.0"
     "@ndla/icons": "npm:^5.0.9"
@@ -1265,13 +1261,12 @@ __metadata:
     "@emotion/react": ^11.10.4
     "@emotion/styled": ^11.10.4
     react: ">= 16.8.0"
-  checksum: 2b3d51c0c66f8673112094d112bb177bffd51b82a3d222fecd84629747520cd2e3b550c0b11217255895f222bbe513370ee3d49cb97f226dbb1a20cd068ef9d5
   languageName: node
   linkType: soft
 
-"@ndla/code@npm:^5.0.35":
-  version: 5.0.35
-  resolution: "@ndla/code@npm:5.0.35"
+"@ndla/code@portal:/home/rauboti/projects/ndla/frontend-packages/packages/ndla-code::locator=editorial-frontend%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@ndla/code@portal:/home/rauboti/projects/ndla/frontend-packages/packages/ndla-code::locator=editorial-frontend%40workspace%3A."
   dependencies:
     "@ndla/button": "npm:^12.0.30"
     "@ndla/core": "npm:^4.4.0"
@@ -1284,25 +1279,23 @@ __metadata:
     react: ">= 16.8.0"
     react-dom: ">= 16.8.0"
     react-i18next: ^13.3.0
-  checksum: d021d2a4801de90dab89b13beeb37b9ceedbc72cf2bc71bb49b25da3bfadee786bbe0268a170fc8d51aa28c98a9f7da81d49883d70225bb37bd6b9fc8dd5a454
   languageName: node
   linkType: soft
 
-"@ndla/core@npm:^4.4.0":
-  version: 4.4.0
-  resolution: "@ndla/core@npm:4.4.0"
+"@ndla/core@portal:/home/rauboti/projects/ndla/frontend-packages/packages/core::locator=editorial-frontend%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@ndla/core@portal:/home/rauboti/projects/ndla/frontend-packages/packages/core::locator=editorial-frontend%40workspace%3A."
   dependencies:
     inuitcss: "npm:6.0.0"
     sass-mq: "npm:^5.0.1"
   peerDependencies:
     "@emotion/react": ^11.10.4
-  checksum: f8a23c5e06703cead8504adf72d7d2eb4c5fab326de8d64e959799be7d654c54aed9377997edb6b136e9e8307d47240c53e4ad43bfd2f03e580b218fa5c78254
   languageName: node
   linkType: soft
 
-"@ndla/dropdown-menu@npm:^1.0.28":
-  version: 1.0.28
-  resolution: "@ndla/dropdown-menu@npm:1.0.28"
+"@ndla/dropdown-menu@portal:/home/rauboti/projects/ndla/frontend-packages/packages/dropdown-menu::locator=editorial-frontend%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@ndla/dropdown-menu@portal:/home/rauboti/projects/ndla/frontend-packages/packages/dropdown-menu::locator=editorial-frontend%40workspace%3A."
   dependencies:
     "@ndla/core": "npm:^4.4.0"
     "@radix-ui/react-dropdown-menu": "npm:^2.0.6"
@@ -1311,7 +1304,6 @@ __metadata:
     "@emotion/styled": ^11.10.4
     react: ">= 16.8.0"
     react-dom: ">= 16.8.0"
-  checksum: b8dee4a1905b1b90da91ffc0d3e33ef6d1e0831b421a66a2b893d741516edcbd5dcd528e75ba3fc66dda76a8372e8f3346903d1d910280be59fca61f2850e96e
   languageName: node
   linkType: soft
 
@@ -1324,9 +1316,9 @@ __metadata:
   languageName: node
   linkType: soft
 
-"@ndla/forms@npm:^5.2.21":
-  version: 5.2.21
-  resolution: "@ndla/forms@npm:5.2.21"
+"@ndla/forms@portal:/home/rauboti/projects/ndla/frontend-packages/packages/ndla-forms::locator=editorial-frontend%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@ndla/forms@portal:/home/rauboti/projects/ndla/frontend-packages/packages/ndla-forms::locator=editorial-frontend%40workspace%3A."
   dependencies:
     "@ndla/core": "npm:^4.4.0"
     "@ndla/icons": "npm:^5.0.9"
@@ -1340,7 +1332,6 @@ __metadata:
     react: ">= 16.8.0"
     react-dom: ">= 16.8.0"
     react-i18next: ^13.3.0
-  checksum: 112f6f40769ed79c4cd265697a9768bd16e4a6ba28a9c4637ee2a5b458cf4449c6470b8097202568472aa417588393d71cb0c993bdd6f75c663bcd4a9261287a
   languageName: node
   linkType: soft
 
@@ -1356,9 +1347,9 @@ __metadata:
   languageName: node
   linkType: soft
 
-"@ndla/howto@npm:^4.1.64":
-  version: 4.1.64
-  resolution: "@ndla/howto@npm:4.1.64"
+"@ndla/howto@portal:/home/rauboti/projects/ndla/frontend-packages/packages/ndla-howto::locator=editorial-frontend%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@ndla/howto@portal:/home/rauboti/projects/ndla/frontend-packages/packages/ndla-howto::locator=editorial-frontend%40workspace%3A."
   dependencies:
     "@ndla/button": "npm:^12.0.30"
     "@ndla/core": "npm:^4.4.0"
@@ -1378,26 +1369,24 @@ __metadata:
     react-dom: ">= 16.8.0"
     react-i18next: ">= 13.0.0"
     react-router-dom: ">= 6.0.0"
-  checksum: 535e2205f05b7fae6a777f67ea3367b10094d6d5fac9032c878744931772fe9622542ca85410013f0e4e481716e6fba25bd93bb36d283f30d627cd25e6d08dea
   languageName: node
   linkType: soft
 
-"@ndla/icons@npm:^5.0.9":
-  version: 5.0.9
-  resolution: "@ndla/icons@npm:5.0.9"
+"@ndla/icons@portal:/home/rauboti/projects/ndla/frontend-packages/packages/ndla-icons::locator=editorial-frontend%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@ndla/icons@portal:/home/rauboti/projects/ndla/frontend-packages/packages/ndla-icons::locator=editorial-frontend%40workspace%3A."
   dependencies:
     "@ndla/core": "npm:^4.4.0"
   peerDependencies:
     "@emotion/react": ^11.10.4
     "@emotion/styled": ^11.10.4
     react: ">= 16.8.0"
-  checksum: 064039cbba381ea7fa1e3e7f7e9c9a1b3bd8da024711118aa89ee38cf168f31fe5852370930500f891b06438ad6f3348611991a63f46bb26773c9d0812dc9efd
   languageName: node
   linkType: soft
 
-"@ndla/image-search@npm:^6.0.161":
-  version: 6.0.161
-  resolution: "@ndla/image-search@npm:6.0.161"
+"@ndla/image-search@portal:/home/rauboti/projects/ndla/frontend-packages/packages/ndla-image-search::locator=editorial-frontend%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@ndla/image-search@portal:/home/rauboti/projects/ndla/frontend-packages/packages/ndla-image-search::locator=editorial-frontend%40workspace%3A."
   dependencies:
     "@ndla/button": "npm:^12.0.30"
     "@ndla/core": "npm:^4.4.0"
@@ -1416,7 +1405,6 @@ __metadata:
     react-dom: ">= 16.8.0"
     react-i18next: ">= 13.0.0"
     react-router-dom: ">= 6.0.0"
-  checksum: ca7fceda84a5264454aeff6b096abd1ba732e9188446f452bd721ccf22b6cc9f8ce0a55723ee599e2aac610735488f135f3e1377024927d903f2fc4a3084e856
   languageName: node
   linkType: soft
 
@@ -1426,9 +1414,9 @@ __metadata:
   languageName: node
   linkType: soft
 
-"@ndla/modal@npm:^5.0.29":
-  version: 5.0.29
-  resolution: "@ndla/modal@npm:5.0.29"
+"@ndla/modal@portal:/home/rauboti/projects/ndla/frontend-packages/packages/ndla-modal::locator=editorial-frontend%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@ndla/modal@portal:/home/rauboti/projects/ndla/frontend-packages/packages/ndla-modal::locator=editorial-frontend%40workspace%3A."
   dependencies:
     "@ndla/core": "npm:^4.4.0"
     "@ndla/icons": "npm:^5.0.9"
@@ -1439,13 +1427,12 @@ __metadata:
     react: ">= 16.8.0"
     react-dom: ">= 16.8.0"
     react-i18next: ^13.3.0
-  checksum: f425ad0775f540c4ed11c0da44465b7b65fdca441df797c5dc4be303d7b55c0894d41d323bb31f3544ac54a6864d8cf9ad404bc008dec249ee8e545c456a90ae
   languageName: node
   linkType: soft
 
-"@ndla/notion@npm:^6.0.30":
-  version: 6.0.30
-  resolution: "@ndla/notion@npm:6.0.30"
+"@ndla/notion@portal:/home/rauboti/projects/ndla/frontend-packages/packages/ndla-notion::locator=editorial-frontend%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@ndla/notion@portal:/home/rauboti/projects/ndla/frontend-packages/packages/ndla-notion::locator=editorial-frontend%40workspace%3A."
   dependencies:
     "@ndla/core": "npm:^4.4.0"
     "@ndla/icons": "npm:^5.0.9"
@@ -1456,13 +1443,12 @@ __metadata:
     "@emotion/styled": ^11.10.4
     react: ">= 16.8.0"
     react-i18next: ^13.3.0
-  checksum: 2f6e03af8e238f73d87f03009db2a74525c58de96555ad65f9cc1f5db16f394c4c89565ceae6497bdfdc8bdcd6307d98b2fe1d121712a5226defe99847815df6
   languageName: node
   linkType: soft
 
-"@ndla/pager@npm:^2.2.55":
-  version: 2.2.55
-  resolution: "@ndla/pager@npm:2.2.55"
+"@ndla/pager@portal:/home/rauboti/projects/ndla/frontend-packages/packages/ndla-pager::locator=editorial-frontend%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@ndla/pager@portal:/home/rauboti/projects/ndla/frontend-packages/packages/ndla-pager::locator=editorial-frontend%40workspace%3A."
   dependencies:
     "@ndla/core": "npm:^4.4.0"
     "@ndla/safelink": "npm:^4.1.55"
@@ -1470,13 +1456,12 @@ __metadata:
     "@emotion/react": ^11.10.4
     "@emotion/styled": ^11.10.4
     react: ">= 16.8.0"
-  checksum: 4001fb6ce13aec8a08a8f2e46013f1a4028582ca0aa36a43c7ab05ab683b440d443bd453e1262068c596abc5b2d95aef3fb6b5449b5c2cfe5368ee16a50a012a
   languageName: node
   linkType: soft
 
-"@ndla/safelink@npm:^4.1.55":
-  version: 4.1.55
-  resolution: "@ndla/safelink@npm:4.1.55"
+"@ndla/safelink@portal:/home/rauboti/projects/ndla/frontend-packages/packages/safelink::locator=editorial-frontend%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@ndla/safelink@portal:/home/rauboti/projects/ndla/frontend-packages/packages/safelink::locator=editorial-frontend%40workspace%3A."
   dependencies:
     "@ndla/button": "npm:^12.0.30"
     "@ndla/icons": "npm:^5.0.9"
@@ -1485,7 +1470,6 @@ __metadata:
     "@emotion/styled": ^11.10.4
     react: ">= 16.8.0"
     react-router-dom: ^6.3.0
-  checksum: 5761042cfa2bec25d59f99ba276b5f5217fca9dcdbc5025633f9b3744d1a220bedc64d02a2a0f5d7a83d81e6552120560470d8728ec4c3a2e46caa0b090ca932
   languageName: node
   linkType: soft
 
@@ -1503,9 +1487,9 @@ __metadata:
   languageName: node
   linkType: soft
 
-"@ndla/select@npm:^3.3.4":
-  version: 3.3.4
-  resolution: "@ndla/select@npm:3.3.4"
+"@ndla/select@portal:/home/rauboti/projects/ndla/frontend-packages/packages/select::locator=editorial-frontend%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@ndla/select@portal:/home/rauboti/projects/ndla/frontend-packages/packages/select::locator=editorial-frontend%40workspace%3A."
   dependencies:
     "@ndla/core": "npm:^4.4.0"
     "@ndla/icons": "npm:^5.0.9"
@@ -1515,13 +1499,12 @@ __metadata:
     "@emotion/styled": ^11.10.4
     react: ">= 16.8.0"
     react-i18next: ^13.3.0
-  checksum: fec58f6cf7edad5982385ee46ec99405d0c2413ade3004e0ac1b52f7506f741250911c23dcc20452a7d47e4eb7b83f1b82eb9cce039a1379d93ce930287c3413
   languageName: node
   linkType: soft
 
-"@ndla/switch@npm:^1.1.34":
-  version: 1.1.34
-  resolution: "@ndla/switch@npm:1.1.34"
+"@ndla/switch@portal:/home/rauboti/projects/ndla/frontend-packages/packages/switch::locator=editorial-frontend%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@ndla/switch@portal:/home/rauboti/projects/ndla/frontend-packages/packages/switch::locator=editorial-frontend%40workspace%3A."
   dependencies:
     "@ndla/core": "npm:^4.4.0"
     "@radix-ui/react-switch": "npm:^1.0.3"
@@ -1530,13 +1513,12 @@ __metadata:
     "@emotion/styled": ^11.10.4
     react: ">= 16.8.0"
     react-dom: ">= 16.8.0"
-  checksum: 32241d26f0604c1ceef81e9cfde4a06904f75ec2850c7fd34e33dac6dfcfe0ee6d07dd62943f98b16658b0edeaa6b6f421ff75b29ac6ff113152976c40b3bf5c
   languageName: node
   linkType: soft
 
-"@ndla/tabs@npm:^3.2.14":
-  version: 3.2.14
-  resolution: "@ndla/tabs@npm:3.2.14"
+"@ndla/tabs@portal:/home/rauboti/projects/ndla/frontend-packages/packages/ndla-tabs::locator=editorial-frontend%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@ndla/tabs@portal:/home/rauboti/projects/ndla/frontend-packages/packages/ndla-tabs::locator=editorial-frontend%40workspace%3A."
   dependencies:
     "@ndla/core": "npm:^4.4.0"
     "@radix-ui/react-tabs": "npm:^1.0.4"
@@ -1544,13 +1526,12 @@ __metadata:
     "@emotion/react": ^11.10.4
     react: ">= 16.8.0"
     react-dom: ">= 16.8.0"
-  checksum: 20e9816676d0f24c488a58781d0bbc8ce040d227ef3bf708b61a9a895808fd15e478c883722628a49df6ddc0954dc63d77e84fe0daf62c485a0fedee68e51149
   languageName: node
   linkType: soft
 
-"@ndla/tooltip@npm:^6.0.16":
-  version: 6.0.16
-  resolution: "@ndla/tooltip@npm:6.0.16"
+"@ndla/tooltip@portal:/home/rauboti/projects/ndla/frontend-packages/packages/tooltip::locator=editorial-frontend%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@ndla/tooltip@portal:/home/rauboti/projects/ndla/frontend-packages/packages/tooltip::locator=editorial-frontend%40workspace%3A."
   dependencies:
     "@ndla/core": "npm:^4.4.0"
     "@radix-ui/react-tooltip": "npm:^1.0.7"
@@ -1560,7 +1541,6 @@ __metadata:
     react: ">= 16.8.0"
     react-dom: ">= 16.8.0"
     react-i18next: ^13.3.0
-  checksum: 9b662a63f695e1447693df9af46970093af356a9e8e95901f528c471ff79d324d6c135d88ebd96dfe9420ee3adbe7876411400d322648b493bd53ae4c9884616
   languageName: node
   linkType: soft
 
@@ -1597,22 +1577,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/typography@npm:^0.4.11":
-  version: 0.4.11
-  resolution: "@ndla/typography@npm:0.4.11"
+"@ndla/typography@portal:/home/rauboti/projects/ndla/frontend-packages/packages/typography::locator=editorial-frontend%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@ndla/typography@portal:/home/rauboti/projects/ndla/frontend-packages/packages/typography::locator=editorial-frontend%40workspace%3A."
   dependencies:
     "@ndla/core": "npm:^4.4.0"
     "@ndla/util": "npm:^4.0.4"
   peerDependencies:
     "@emotion/react": ^11.10.4
     react: ">= 16.8.0"
-  checksum: ca70d8b1d1c13563814a1f5fd0ef0db7a1beeeac1638f40cd7de7022f1f15dfd5a26ba346f516d0fa1bbaf3d8caeb1498e3d27f33ca4512ce61e4c9ac29ab4c7
   languageName: node
   linkType: soft
 
-"@ndla/ui@npm:^50.9.6":
-  version: 50.9.6
-  resolution: "@ndla/ui@npm:50.9.6"
+"@ndla/ui@portal:/home/rauboti/projects/ndla/frontend-packages/packages/ndla-ui::locator=editorial-frontend%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@ndla/ui@portal:/home/rauboti/projects/ndla/frontend-packages/packages/ndla-ui::locator=editorial-frontend%40workspace%3A."
   dependencies:
     "@ndla/accordion": "npm:^3.0.25"
     "@ndla/button": "npm:^12.0.30"
@@ -1650,7 +1629,6 @@ __metadata:
     react-dom: ">= 16.8.0"
     react-i18next: ^13.3.0
     react-router-dom: "> 6.0.0"
-  checksum: 490e853398fd96557496e2e13bb8d64085d3acc4e7c082b7db846a90cb77169cbdc0eef29e0e055ce111c3c4b703931aa1b912d2aad79c33fa0b5ea463c77f00
   languageName: node
   linkType: soft
 
@@ -1662,9 +1640,9 @@ __metadata:
   languageName: node
   linkType: soft
 
-"@ndla/video-search@npm:^5.0.13":
-  version: 5.0.13
-  resolution: "@ndla/video-search@npm:5.0.13"
+"@ndla/video-search@portal:/home/rauboti/projects/ndla/frontend-packages/packages/ndla-video-search::locator=editorial-frontend%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@ndla/video-search@portal:/home/rauboti/projects/ndla/frontend-packages/packages/ndla-video-search::locator=editorial-frontend%40workspace%3A."
   dependencies:
     "@ndla/button": "npm:^12.0.30"
     "@ndla/core": "npm:^4.4.0"
@@ -1678,7 +1656,6 @@ __metadata:
     "@emotion/styled": ^11.10.4
     react: ">= 16.8.0"
     react-dom: ">= 16.8.0"
-  checksum: 68a416aca306ad7e32fe703b07682a747ebc7f282078c66d87f7ffa37c10de8b8f755103e4311857e7395233635dfdd7897f613b949e6c7f9011414d175c012d
   languageName: node
   linkType: soft
 
@@ -6125,9 +6102,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-ndla@npm:^5.0.1":
-  version: 5.0.1
-  resolution: "eslint-config-ndla@npm:5.0.1"
+"eslint-config-ndla@portal:/home/rauboti/projects/ndla/frontend-packages/packages/eslint-config-ndla::locator=editorial-frontend%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "eslint-config-ndla@portal:/home/rauboti/projects/ndla/frontend-packages/packages/eslint-config-ndla::locator=editorial-frontend%40workspace%3A."
   dependencies:
     "@babel/eslint-parser": "npm:^7.23.3"
     "@typescript-eslint/eslint-plugin": "npm:^6.13.2"

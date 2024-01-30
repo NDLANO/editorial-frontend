@@ -25,6 +25,8 @@ import {
   TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
   TAXONOMY_CUSTOM_FIELD_PROGRAMME_SUBJECT,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_SA,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_DA,
 } from "../../../../../constants";
 import { PROGRAMME, SUBJECT_NODE, TOPIC_NODE } from "../../../../../modules/nodes/nodeApiTypes";
 import { useUpdateNodeMetadataMutation } from "../../../../../modules/nodes/nodeMutations";
@@ -85,6 +87,8 @@ const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
     TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
     TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH,
     TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
+    TAXONOMY_CUSTOM_FIELD_SUBJECT_SA,
+    TAXONOMY_CUSTOM_FIELD_SUBJECT_DA,
   ];
   const filteredTopicFields = [TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES, TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH];
 

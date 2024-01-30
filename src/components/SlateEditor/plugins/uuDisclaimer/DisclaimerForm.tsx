@@ -17,6 +17,8 @@ import { plainTextToEditorValue } from "../../../../util/articleContentConverter
 import FormikField from "../../../FormikField";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
 import PlainTextEditor from "../../PlainTextEditor";
+import saveHotkeyPlugin from "../saveHotkey";
+import { textTransformPlugin } from "../textTransform";
 
 const DISCLAIMER_EXAMPLES_LINK =
   "https://docs.google.com/spreadsheets/d/1g8cCqgS4BvaChHX4R6VR5V5Q83fvYcMrgneBJMkLWYs/edit?usp=sharing";
@@ -67,14 +69,18 @@ const DisclaimerForm = ({ initialData }: DisclaimerFormProps) => {
             <b>{t("form.disclaimer.editorHeader")}</b>
           </Text>
           <FormikField name="disclaimerEditor" showError>
-            {({ field, form: { isSubmitting } }: FieldProps<Descendant[]>) => (
-              <PlainTextEditor
-                id={field.name}
-                {...field}
-                placeholder={t("form.title.label")}
-                submitted={isSubmitting}
-              />
-            )}
+            {({ field, form: { isSubmitting } }: FieldProps<Descendant[]>) => {
+              console.log(field);
+              return (
+                <PlainTextEditor
+                  id={field.name}
+                  {...field}
+                  placeholder={t("form.title.label")}
+                  submitted={isSubmitting}
+                  value={initialValues.disclaimer}
+                />
+              );
+            }}
           </FormikField>
         </>
       )}

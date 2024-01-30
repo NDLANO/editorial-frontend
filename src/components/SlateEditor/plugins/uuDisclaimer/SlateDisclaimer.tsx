@@ -6,7 +6,8 @@
  *
  */
 
-import { ReactNode, useMemo, useState } from "react";
+import { FormikValues } from "formik";
+import { ReactNode, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
@@ -14,7 +15,7 @@ import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
 import { colors, spacing } from "@ndla/core";
 import { Pencil } from "@ndla/icons/action";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
+import { Modal, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
 import { UuDisclaimerMetaData } from "@ndla/types-embed";
 import { UuDisclaimerEmbed } from "@ndla/ui";
 import DisclaimerForm from "./DisclaimerForm";
@@ -50,12 +51,7 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
   const { t } = useTranslation();
   const { data } = element;
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-
   const disclaimerMetaQuery = useDisclaimerMeta();
-
-  // const disclaimerMetaQuery = useDisclaimerMeta(data?.path!, element.data?.url!, {
-  //   enabled: !!element.data?.path,
-  // });
 
   const embed: UuDisclaimerMetaData | undefined = useMemo(
     () =>
@@ -83,6 +79,14 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
     }, 0);
   };
 
+  const onSaveDisclaimerText = useCallback(
+    (values: FormikValues) => {
+      console.log(values);
+      setModalOpen(false);
+    },
+    [setModalOpen],
+  );
+
   return (
     <div {...attributes}>
       <ButtonContainer>
@@ -98,7 +102,7 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
               <ModalTitle>{t("form.disclaimer.title")}</ModalTitle>
               <ModalCloseButton />
             </StyledModalHeader>
-            <DisclaimerForm initialData={embed?.embedData} onOpenChange={setModalOpen} />
+            <DisclaimerForm initialData={embed?.embedData} onOpenChange={setModalOpen} onSave={onSaveDisclaimerText} />
           </ModalContent>
         </Modal>
       </ButtonContainer>

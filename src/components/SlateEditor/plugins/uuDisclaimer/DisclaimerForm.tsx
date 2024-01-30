@@ -6,7 +6,7 @@
  *
  */
 
-import { FieldProps, Formik } from "formik";
+import { FieldProps, Form, Formik, FormikValues } from "formik";
 import { Dispatch, SetStateAction, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
@@ -28,6 +28,7 @@ const DISCLAIMER_EXAMPLES_LINK =
 interface DisclaimerFormProps {
   initialData?: UuDisclaimerEmbedData;
   onOpenChange: Dispatch<SetStateAction<boolean>>;
+  onSave: (values: FormikValues) => void;
 }
 
 interface DisclaimerFormValues {
@@ -74,7 +75,7 @@ const toInitialValues = (data?: UuDisclaimerEmbedData): DisclaimerFormValues => 
   };
 };
 
-const DisclaimerForm = ({ initialData, onOpenChange }: DisclaimerFormProps) => {
+const DisclaimerForm = ({ initialData, onOpenChange, onSave }: DisclaimerFormProps) => {
   const { t } = useTranslation();
   const initialValues = useMemo(() => toInitialValues(initialData), [initialData]);
   const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
@@ -83,44 +84,46 @@ const DisclaimerForm = ({ initialData, onOpenChange }: DisclaimerFormProps) => {
     <Formik
       initialValues={initialValues}
       initialErrors={initialErrors}
-      onSubmit={() => console.log("submitting")}
+      onSubmit={onSave}
       validateOnMount
       validate={(values) => validateFormik(values, rules, t)}
     >
       {() => (
-        <StyledModalBody>
-          <Text element="p" textStyle="meta-text-medium" margin="small">
-            <b>{t("form.disclaimer.exampleHeader")}</b>
-          </Text>
-          <Text element="p" textStyle="meta-text-small" margin="none">
-            {t("form.disclaimer.exampleText")}
-          </Text>
-          <Text element="p" textStyle="meta-text-small">
-            <SafeLink to={DISCLAIMER_EXAMPLES_LINK}>{t("form.disclaimer.exampleLinkText")}</SafeLink>
-          </Text>
-          <Text element="p" textStyle="meta-text-medium" margin="none">
-            <b>{t("form.disclaimer.editorHeader")}</b>
-          </Text>
-          <StyledFormikField name="disclaimerEditor" showError>
-            {({ field, form: { isSubmitting } }: FieldProps<Descendant[]>) => (
-              <StyledPlainTextEditor
-                id={field.name}
-                {...field}
-                submitted={isSubmitting}
-                tabIndex={0}
-                value={initialValues.disclaimer}
-              />
-            )}
-          </StyledFormikField>
-          <DisclaimerActions>
-            <ButtonV2 onClick={() => onOpenChange(false)} variant="outline">
-              Avbryt
-            </ButtonV2>
-            <ButtonV2 onClick={() => console.log("cancel")} variant="solid">
-              Lagre
-            </ButtonV2>
-          </DisclaimerActions>
-        </StyledModalBody>
+        <Form>
+          <StyledModalBody>
+            <Text element="p" textStyle="meta-text-medium" margin="small">
+              <b>{t("form.disclaimer.exampleHeader")}</b>
+            </Text>
+            <Text element="p" textStyle="meta-text-small" margin="none">
+              {t("form.disclaimer.exampleText")}
+            </Text>
+            <Text element="p" textStyle="meta-text-small">
+              <SafeLink to={DISCLAIMER_EXAMPLES_LINK}>{t("form.disclaimer.exampleLinkText")}</SafeLink>
+            </Text>
+            <Text element="p" textStyle="meta-text-medium" margin="none">
+              <b>{t("form.disclaimer.editorHeader")}</b>
+            </Text>
+            <StyledFormikField name="disclaimerEditor" showError>
+              {({ field, form: { isSubmitting } }: FieldProps<Descendant[]>) => (
+                <StyledPlainTextEditor
+                  id={field.name}
+                  {...field}
+                  submitted={isSubmitting}
+                  tabIndex={0}
+                  value={initialValues.disclaimer}
+                />
+              )}
+            </StyledFormikField>
+            <DisclaimerActions>
+              <ButtonV2 onClick={() => onOpenChange(false)} variant="outline">
+                {t("form.abort")}
+              </ButtonV2>
+              <ButtonV2 type="submit" variant="solid">
+                {t("form.save")}
+              </ButtonV2>
+            </DisclaimerActions>
+          </StyledModalBody>
+        </Form>
       )}
     </Formik>
   );

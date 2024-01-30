@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactNode, useMemo } from "react";
+import { ReactNode, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
@@ -49,6 +49,7 @@ const StyledModalHeader = styled(ModalHeader)`
 const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
   const { t } = useTranslation();
   const { data } = element;
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   const disclaimerMetaQuery = useDisclaimerMeta();
 
@@ -86,7 +87,7 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
     <div {...attributes}>
       <ButtonContainer>
         <DeleteButton aria-label={t("delete")} data-testid="remove-disclaimer" onClick={onRemove} />
-        <Modal>
+        <Modal open={modalOpen} onOpenChange={setModalOpen}>
           <ModalTrigger>
             <IconButtonV2 variant="ghost" aria-label="Edit disclaimer" data-testid="edit-disclaimer">
               <Pencil />
@@ -97,15 +98,7 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
               <ModalTitle>{t("form.disclaimer.title")}</ModalTitle>
               <ModalCloseButton />
             </StyledModalHeader>
-
-            <DisclaimerForm initialData={embed?.embedData} />
-
-            {/* <DisclaimerForm
-              data={element.data}
-              onSave={onSave}
-              onClose={onClose}
-              isEditing={isEditing}
-            /> */}
+            <DisclaimerForm initialData={embed?.embedData} onOpenChange={setModalOpen} />
           </ModalContent>
         </Modal>
       </ButtonContainer>

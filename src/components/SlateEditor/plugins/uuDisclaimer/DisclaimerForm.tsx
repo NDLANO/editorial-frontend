@@ -7,7 +7,7 @@
  */
 
 import { FieldProps, Formik } from "formik";
-import { useMemo } from "react";
+import { Dispatch, SetStateAction, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
 import styled from "@emotion/styled";
@@ -27,6 +27,7 @@ const DISCLAIMER_EXAMPLES_LINK =
 
 interface DisclaimerFormProps {
   initialData?: UuDisclaimerEmbedData;
+  onOpenChange: Dispatch<SetStateAction<boolean>>;
 }
 
 interface DisclaimerFormValues {
@@ -73,7 +74,7 @@ const toInitialValues = (data?: UuDisclaimerEmbedData): DisclaimerFormValues => 
   };
 };
 
-const DisclaimerForm = ({ initialData }: DisclaimerFormProps) => {
+const DisclaimerForm = ({ initialData, onOpenChange }: DisclaimerFormProps) => {
   const { t } = useTranslation();
   const initialValues = useMemo(() => toInitialValues(initialData), [initialData]);
   const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
@@ -105,7 +106,6 @@ const DisclaimerForm = ({ initialData }: DisclaimerFormProps) => {
               <StyledPlainTextEditor
                 id={field.name}
                 {...field}
-                // placeholder={t("form.title.label")}
                 submitted={isSubmitting}
                 tabIndex={0}
                 value={initialValues.disclaimer}
@@ -113,7 +113,7 @@ const DisclaimerForm = ({ initialData }: DisclaimerFormProps) => {
             )}
           </StyledFormikField>
           <DisclaimerActions>
-            <ButtonV2 onClick={() => console.log("cancel")} variant="outline">
+            <ButtonV2 onClick={() => onOpenChange(false)} variant="outline">
               Avbryt
             </ButtonV2>
             <ButtonV2 onClick={() => console.log("cancel")} variant="solid">

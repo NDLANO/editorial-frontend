@@ -10,6 +10,10 @@ import { FieldProps, Formik } from "formik";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { colors, misc, spacing } from "@ndla/core";
+import { ModalBody } from "@ndla/modal";
 import SafeLink from "@ndla/safelink";
 import { UuDisclaimerEmbedData } from "@ndla/types-embed";
 import { Text } from "@ndla/typography";
@@ -29,6 +33,36 @@ interface DisclaimerFormValues {
   resource: "uu-disclaimer";
   disclaimer: Descendant[];
 }
+
+const StyledFormikField = styled(FormikField)`
+  margin: 0;
+`;
+
+const StyledPlainTextEditor = styled(PlainTextEditor)`
+  border: 1px solid ${colors.brand.grey};
+  border-radius: ${misc.borderRadius};
+  min-height: ${spacing.xxlarge};
+  outline: none;
+  padding: ${spacing.small};
+  transition-duration: outline-color 100ms ease;
+  outline: 2px solid transparent;
+
+  &:focus {
+    outline-color: ${colors.brand.primary};
+  }
+`;
+
+const StyledModalBody = styled(ModalBody)`
+  padding: ${spacing.normal};
+`;
+
+const DisclaimerActions = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: ${spacing.xsmall};
+  padding: ${spacing.normal} 0 0;
+`;
 
 const rules: RulesType<DisclaimerFormValues> = {};
 
@@ -53,7 +87,7 @@ const DisclaimerForm = ({ initialData }: DisclaimerFormProps) => {
       validate={(values) => validateFormik(values, rules, t)}
     >
       {() => (
-        <>
+        <StyledModalBody>
           <Text element="p" textStyle="meta-text-medium" margin="small">
             <b>{t("form.disclaimer.exampleHeader")}</b>
           </Text>
@@ -63,21 +97,30 @@ const DisclaimerForm = ({ initialData }: DisclaimerFormProps) => {
           <Text element="p" textStyle="meta-text-small">
             <SafeLink to={DISCLAIMER_EXAMPLES_LINK}>{t("form.disclaimer.exampleLinkText")}</SafeLink>
           </Text>
-          <Text element="p" textStyle="meta-text-medium" margin="small">
+          <Text element="p" textStyle="meta-text-medium" margin="none">
             <b>{t("form.disclaimer.editorHeader")}</b>
           </Text>
-          <FormikField name="disclaimerEditor" showError>
+          <StyledFormikField name="disclaimerEditor" showError>
             {({ field, form: { isSubmitting } }: FieldProps<Descendant[]>) => (
-              <PlainTextEditor
+              <StyledPlainTextEditor
                 id={field.name}
                 {...field}
-                placeholder={t("form.title.label")}
+                // placeholder={t("form.title.label")}
                 submitted={isSubmitting}
+                tabIndex={0}
                 value={initialValues.disclaimer}
               />
             )}
-          </FormikField>
-        </>
+          </StyledFormikField>
+          <DisclaimerActions>
+            <ButtonV2 onClick={() => console.log("cancel")} variant="outline">
+              Avbryt
+            </ButtonV2>
+            <ButtonV2 onClick={() => console.log("cancel")} variant="solid">
+              Lagre
+            </ButtonV2>
+          </DisclaimerActions>
+        </StyledModalBody>
       )}
     </Formik>
   );

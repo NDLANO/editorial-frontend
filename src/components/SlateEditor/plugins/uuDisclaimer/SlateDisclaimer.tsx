@@ -97,9 +97,9 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
               <ModalTitle>{t("form.disclaimer.title")}</ModalTitle>
               <ModalCloseButton />
             </StyledModalHeader>
-            <ModalBody>
-              <DisclaimerForm initialData={embed?.embedData} />
-            </ModalBody>
+
+            <DisclaimerForm initialData={embed?.embedData} />
+
             {/* <DisclaimerForm
               data={element.data}
               onSave={onSave}

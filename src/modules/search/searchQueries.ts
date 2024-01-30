@@ -12,12 +12,12 @@ import { IMultiSearchResult } from "@ndla/types-backend/search-api";
 import { search } from "./searchApi";
 import { MultiSearchApiQuery } from "./searchApiInterfaces";
 import {
-  DESK_SUBJECT_ID,
+  DA_SUBJECT_ID,
   FAVOURITES_SUBJECT_ID,
-  LANGUAGE_SUBJECT_ID,
+  SA_SUBJECT_ID,
   LMA_SUBJECT_ID,
-  TAXONOMY_CUSTOM_FIELD_SUBJECT_DESK_RESPONSIBLE,
-  TAXONOMY_CUSTOM_FIELD_SUBJECT_LANGUAGE_RESPONSIBLE,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_DA,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_SA,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
 } from "../../constants";
 import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVersionProvider";
@@ -44,10 +44,10 @@ const getActualQuery = (query: UseSearch, favoriteSubjects: string[] | undefined
     subjects = favoriteSubjects?.join(",");
   } else if (query.subjects === LMA_SUBJECT_ID) {
     subjects = subjectIdObject[TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA].join(",");
-  } else if (query.subjects === LANGUAGE_SUBJECT_ID) {
-    subjects = subjectIdObject[TAXONOMY_CUSTOM_FIELD_SUBJECT_LANGUAGE_RESPONSIBLE].join(",");
-  } else if (query.subjects === DESK_SUBJECT_ID) {
-    subjects = subjectIdObject[TAXONOMY_CUSTOM_FIELD_SUBJECT_DESK_RESPONSIBLE].join(",");
+  } else if (query.subjects === SA_SUBJECT_ID) {
+    subjects = subjectIdObject[TAXONOMY_CUSTOM_FIELD_SUBJECT_SA].join(",");
+  } else if (query.subjects === DA_SUBJECT_ID) {
+    subjects = subjectIdObject[TAXONOMY_CUSTOM_FIELD_SUBJECT_DA].join(",");
   } else {
     subjects = query.subjects;
   }
@@ -77,11 +77,11 @@ export const useSearch = (query: UseSearch, options?: Partial<UseQueryOptions<IM
 
   useEffect(() => {
     const isLMASubjects = query.subjects === LMA_SUBJECT_ID;
-    const isDeskSubjects = query.subjects === DESK_SUBJECT_ID;
-    const isLanguageSubjects = query.subjects === LANGUAGE_SUBJECT_ID;
+    const isDASubjects = query.subjects === DA_SUBJECT_ID;
+    const isSASubjects = query.subjects === SA_SUBJECT_ID;
 
     const updateSubjectId = async () => {
-      if (!data?.userId || (!isLMASubjects && !isDeskSubjects && !isLanguageSubjects)) return [];
+      if (!data?.userId || (!isLMASubjects && !isDASubjects && !isSASubjects)) return [];
       const nodesSearchResult = await postSearchNodes({
         body: customFieldsBody(data.userId),
         taxonomyVersion,

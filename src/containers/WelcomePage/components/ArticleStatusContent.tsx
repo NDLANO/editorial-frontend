@@ -118,8 +118,8 @@ const ArticleStatusContent = ({
 
   const tableTitles = [
     { title: t("welcomePage.workList.status") },
-    { title: t("welcomePage.count") },
-    { title: t("welcomePage.countResponsible") },
+    { title: t("welcomePage.count"), width: "20%" },
+    { title: t("welcomePage.countResponsible"), width: "35%" },
   ];
 
   const tableData: FieldElement[][] = useMemo(() => {

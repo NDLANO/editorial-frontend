@@ -6,19 +6,19 @@
  *
  */
 
-import { jsx as slatejsx } from 'slate-hyperscript';
-import { TYPE_DISCLAIMER } from './types';
-import { defaultParagraphBlock } from '../paragraph/utils';
+import { jsx as slatejsx } from "slate-hyperscript";
+import { TYPE_DISCLAIMER } from "./types";
+import { defaultParagraphBlock } from "../paragraph/utils";
 
 export const defaultDisclaimerBlock = () =>
   slatejsx(
-    'element',
+    "element",
     {
       type: TYPE_DISCLAIMER,
       data: {
-        resource: 'uu-disclaimer',
-        disclaimer: 'Disclaimer',
-        articleId: '38462',
+        resource: "uu-disclaimer",
+        disclaimer: "Default disclaimer",
+        articleId: "38462",
       },
     },
     defaultParagraphBlock(),

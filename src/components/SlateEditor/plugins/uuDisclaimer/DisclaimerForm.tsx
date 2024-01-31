@@ -103,7 +103,7 @@ const DisclaimerForm = ({ initialData, onOpenChange, onSave }: DisclaimerFormPro
             <Text element="p" textStyle="meta-text-medium" margin="none">
               <b>{t("form.disclaimer.editorHeader")}</b>
             </Text>
-            <StyledFormikField name="disclaimerEditor" showError>
+            <StyledFormikField name="disclaimer" showError>
               {({ field, form: { isSubmitting } }: FieldProps<Descendant[]>) => (
                 <StyledPlainTextEditor
                   id={field.name}

@@ -37,37 +37,33 @@ interface Props {
 export type SortOption = "title" | "responsibleLastUpdated" | "status";
 
 const WorkList = ({ ndlaId }: Props) => {
-  const {
-    t,
-    i18n: { language },
-  } = useTranslation();
+  const { t, i18n } = useTranslation();
 
-  // Worklist articles
-  const { filterSubject, setFilterSubject } = useStoredSubjectFilterHook(STORED_FILTER_WORKLIST, language);
-  const { pageSize, setPageSize } = useStoredPageSizeHook(STORED_PAGE_SIZE);
-  const { sortOption, setSortOption } = useStoredSortOptionHook<SortOption>(
+  // Worklist articles state handling
+  const [filterSubject, setFilterSubject] = useStoredSubjectFilterHook(STORED_FILTER_WORKLIST, i18n.language);
+  const [pageSize, setPageSize] = useStoredPageSizeHook(STORED_PAGE_SIZE);
+  const [sortOption, setSortOption] = useStoredSortOptionHook<SortOption>(
     STORED_SORT_OPTION_WORKLIST,
     "-responsibleLastUpdated",
   );
-  const { isOn: prioritized, setIsOn: setPrioritized } = useStoredToggleHook(STORED_PRIORITIZED);
+  const [prioritized, setPrioritized] = useStoredToggleHook(STORED_PRIORITIZED);
   const [page, setPage] = useState(1);
 
-  // Worklist concepts
-  const { filterSubject: filterConceptSubject, setFilterSubject: setFilterConceptSubject } = useStoredSubjectFilterHook(
+  // Worklist concepts state handling
+  const [filterConceptSubject, setFilterConceptSubject] = useStoredSubjectFilterHook(
     STORED_FILTER_WORKLIST_CONCEPT,
-    language,
+    i18n.language,
   );
-  const { pageSize: pageSizeConcept, setPageSize: setPageSizeConcept } =
-    useStoredPageSizeHook(STORED_PAGE_SIZE_CONCEPT);
-  const { sortOption: sortOptionConcepts, setSortOption: setSortOptionConcepts } = useStoredSortOptionHook<SortOption>(
+  const [pageSizeConcept, setPageSizeConcept] = useStoredPageSizeHook(STORED_PAGE_SIZE_CONCEPT);
+  const [sortOptionConcepts, setSortOptionConcepts] = useStoredSortOptionHook<SortOption>(
     STORED_SORT_OPTION_WORKLIST_CONCEPT,
     "-responsibleLastUpdated",
   );
   const [pageConcept, setPageConcept] = useState(1);
 
-  // Worklist on hold
-  const { pageSize: pageSizeOnHold, setPageSize: setPageSizeOnHold } = useStoredPageSizeHook(STORED_PAGE_SIZE_ON_HOLD);
-  const { sortOption: sortOptionOnHold, setSortOption: setSortOptionOnHold } = useStoredSortOptionHook<SortOption>(
+  // Worklist on hold state handling
+  const [pageSizeOnHold, setPageSizeOnHold] = useStoredPageSizeHook(STORED_PAGE_SIZE_ON_HOLD);
+  const [sortOptionOnHold, setSortOptionOnHold] = useStoredSortOptionHook<SortOption>(
     STORED_SORT_OPTION_WORKLIST_ON_HOLD,
     "-responsibleLastUpdated",
   );
@@ -89,7 +85,7 @@ const WorkList = ({ ndlaId }: Props) => {
       ...(filterSubject ? { subjects: filterSubject.value } : {}),
       page: page,
       "page-size": Number(pageSize!.value),
-      language,
+      language: i18n.language,
       fallback: true,
     },
     { enabled: !!ndlaId },
@@ -102,7 +98,7 @@ const WorkList = ({ ndlaId }: Props) => {
       ...(filterConceptSubject ? { subjects: filterConceptSubject.value } : {}),
       page: pageConcept,
       "page-size": Number(pageSizeConcept!.value),
-      language,
+      language: i18n.language,
       fallback: true,
     },
     { enabled: !!ndlaId },
@@ -115,7 +111,7 @@ const WorkList = ({ ndlaId }: Props) => {
       priority: "on-hold",
       page: pageOnHold,
       "page-size": Number(pageSizeOnHold!.value),
-      language,
+      language: i18n.language,
       fallback: true,
     },
     { enabled: !!ndlaId },

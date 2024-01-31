@@ -88,6 +88,7 @@ const WorkListTabContent = ({
 }: Props) => {
   const { t } = useTranslation();
 
+  // Separated request to not update subjects when filtered subject changes
   const searchQuery = useSearch(
     {
       "responsible-ids": ndlaId,

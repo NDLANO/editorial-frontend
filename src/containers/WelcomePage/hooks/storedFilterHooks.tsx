@@ -11,7 +11,12 @@ import { SingleValue } from "@ndla/select";
 import { fetchNode } from "../../../modules/nodes/nodeApi";
 import { Prefix } from "../components/TableComponent";
 
-export const useStoredSubjectFilterHook = (localStorageKey: string, language: string) => {
+type ReturnStateType<T> = [T, (v: T) => void];
+
+export const useStoredSubjectFilterHook = (
+  localStorageKey: string,
+  language: string,
+): ReturnStateType<SingleValue | undefined> => {
   const [filterSubject, _setFilterSubject] = useState<SingleValue | undefined>(undefined);
   const storedFilterSubject = localStorage.getItem(localStorageKey);
 
@@ -30,19 +35,19 @@ export const useStoredSubjectFilterHook = (localStorageKey: string, language: st
   }, [language, storedFilterSubject]);
 
   const setFilterSubject = useCallback(
-    (fs: SingleValue) => {
+    (fs: SingleValue | undefined) => {
       _setFilterSubject(fs);
       fs ? localStorage.setItem(localStorageKey, fs.value) : localStorage.removeItem(localStorageKey);
     },
     [localStorageKey],
   );
 
-  return { filterSubject, setFilterSubject };
+  return [filterSubject, setFilterSubject];
 };
 
 const defaultPageSize = { label: "6", value: "6" };
 
-export const useStoredPageSizeHook = (localStorageKey: string) => {
+export const useStoredPageSizeHook = (localStorageKey: string): ReturnStateType<SingleValue> => {
   const storedPageSize = localStorage.getItem(localStorageKey);
 
   const [pageSize, _setPageSize] = useState<SingleValue>(
@@ -62,13 +67,13 @@ export const useStoredPageSizeHook = (localStorageKey: string) => {
     [localStorageKey],
   );
 
-  return { pageSize, setPageSize };
+  return [pageSize, setPageSize];
 };
 
 export const useStoredSortOptionHook = <T extends string>(
   localStorageKey: string,
   fallbackSortOption: Prefix<"-", T>,
-) => {
+): ReturnStateType<Prefix<"-", T>> => {
   const [sortOption, _setSortOption] = useState<Prefix<"-", T>>(
     (localStorage.getItem(localStorageKey) as T) || fallbackSortOption,
   );
@@ -81,18 +86,17 @@ export const useStoredSortOptionHook = <T extends string>(
     [localStorageKey],
   );
 
-  return { sortOption, setSortOption };
+  return [sortOption, setSortOption];
 };
+export const useStoredToggleHook = (localStorageKey: string): ReturnStateType<boolean> => {
+  const [value, _setValue] = useState(localStorage.getItem(localStorageKey) === "true");
 
-export const useStoredToggleHook = (localStorageKey: string) => {
-  const [isOn, _setIsOn] = useState(localStorage.getItem(localStorageKey) === "true");
-
-  const setIsOn = useCallback(
+  const setValue = useCallback(
     (p: boolean) => {
-      _setIsOn(p);
+      _setValue(p);
       localStorage.setItem(localStorageKey, p.toString());
     },
     [localStorageKey],
   );
-  return { isOn, setIsOn };
+  return [value, setValue];
 };

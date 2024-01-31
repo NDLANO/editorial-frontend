@@ -93,13 +93,13 @@ const Revisions = ({ userData }: Props) => {
     i18n: { language },
   } = useTranslation();
 
-  const { filterSubject, setFilterSubject } = useStoredSubjectFilterHook(STORED_FILTER_REVISION, language);
-  const { pageSize, setPageSize } = useStoredPageSizeHook(STORED_PAGE_SIZE_REVISION);
-  const { sortOption, setSortOption } = useStoredSortOptionHook<SortOptionRevision>(
+  const [filterSubject, setFilterSubject] = useStoredSubjectFilterHook(STORED_FILTER_REVISION, language);
+  const [pageSize, setPageSize] = useStoredPageSizeHook(STORED_PAGE_SIZE_REVISION);
+  const [sortOption, setSortOption] = useStoredSortOptionHook<SortOptionRevision>(
     STORED_SORT_OPTION_REVISION,
     "revisionDate",
   );
-  const { isOn, setIsOn } = useStoredToggleHook(STORED_PRIMARY_CONNECTION);
+  const [onlyShowPrimaryConnection, setOnlyShowPrimaryConnection] = useStoredToggleHook(STORED_PRIMARY_CONNECTION);
   const [page, setPage] = useState(1);
 
   useEffect(() => {
@@ -163,14 +163,21 @@ const Revisions = ({ userData }: Props) => {
 
   const filteredData = useMemo(
     () =>
-      isOn
+      onlyShowPrimaryConnection
         ? getDataPrimaryConnectionToFavorite(data?.results)
         : {
             results: data?.results,
             totalCount: data?.totalCount,
             pageSize: data?.pageSize ?? Number(pageSize!.value),
           },
-    [isOn, data?.pageSize, data?.results, data?.totalCount, getDataPrimaryConnectionToFavorite, pageSize],
+    [
+      onlyShowPrimaryConnection,
+      data?.pageSize,
+      data?.results,
+      data?.totalCount,
+      getDataPrimaryConnectionToFavorite,
+      pageSize,
+    ],
   );
 
   const lastPage = useMemo(
@@ -259,9 +266,9 @@ const Revisions = ({ userData }: Props) => {
             <Tooltip tooltip={t("welcomePage.primaryConnection")}>
               <SwitchWrapper>
                 <StyledSwitch
-                  checked={isOn}
+                  checked={onlyShowPrimaryConnection}
                   onChange={() => {
-                    setIsOn(!isOn);
+                    setOnlyShowPrimaryConnection(!onlyShowPrimaryConnection);
                     setPage(1);
                   }}
                   label={t("welcomePage.primaryConnectionLabel")}

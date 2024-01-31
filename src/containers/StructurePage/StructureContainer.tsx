@@ -100,10 +100,10 @@ const StructureContainer = ({
   const [shouldScroll, setShouldScroll] = useState(!!paths.length);
 
   const { userPermissions, ndlaId } = useSession();
-  const { isOn: showFavorites, setIsOn: setShowFavorites } = useStoredToggleHook(REMEMBER_FAVORITE_NODES);
-  const { isOn: showLmaSubjects, setIsOn: setShowLmaSubjects } = useStoredToggleHook(REMEMBER_LMA_SUBJECTS);
-  const { isOn: showDaSubjects, setIsOn: setShowDaSubjects } = useStoredToggleHook(REMEMBER_DA_SUBJECTS);
-  const { isOn: showSaSubjects, setIsOn: setShowSaSubjects } = useStoredToggleHook(REMEMBER_SA_SUBJECTS);
+  const [showFavorites, setShowFavorites] = useStoredToggleHook(REMEMBER_FAVORITE_NODES);
+  const [showLmaSubjects, setShowLmaSubjects] = useStoredToggleHook(REMEMBER_LMA_SUBJECTS);
+  const [showDaSubjects, setShowDaSubjects] = useStoredToggleHook(REMEMBER_DA_SUBJECTS);
+  const [showSaSubjects, setShowSaSubjects] = useStoredToggleHook(REMEMBER_SA_SUBJECTS);
 
   const resourceSection = useRef<HTMLDivElement>(null);
   const firstRender = useRef(true);

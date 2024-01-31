@@ -61,20 +61,20 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [] }: Props)
     i18n: { language },
   } = useTranslation();
 
-  // Articles
-  const { pageSize, setPageSize } = useStoredPageSizeHook(STORED_PAGE_SIZE_LAST_UPDATED);
-  const { sortOption, setSortOption } = useStoredSortOptionHook<SortOptionLastUsed>(
+  // Last used articles state handling
+  const [pageSize, setPageSize] = useStoredPageSizeHook(STORED_PAGE_SIZE_LAST_UPDATED);
+  const [sortOption, setSortOption] = useStoredSortOptionHook<SortOptionLastUsed>(
     STORED_SORT_OPTION_LAST_USED,
     "-lastUpdated",
   );
   const [page, setPage] = useState(1);
 
-  // Concepts
-  const { pageSize: pageSizeConcept, setPageSize: setPageSizeConcept } = useStoredPageSizeHook(
-    STORED_PAGE_SIZE_LAST_UPDATED_CONCEPT,
+  // Last used concepts state handling
+  const [pageSizeConcept, setPageSizeConcept] = useStoredPageSizeHook(STORED_PAGE_SIZE_LAST_UPDATED_CONCEPT);
+  const [sortOptionConcept, setSortOptionConcept] = useStoredSortOptionHook<SortOptionLastUsed>(
+    STORED_SORT_OPTION_LAST_USED_CONCEPT,
+    "-lastUpdated",
   );
-  const { sortOption: sortOptionConcept, setSortOption: setSortOptionConcept } =
-    useStoredSortOptionHook<SortOptionLastUsed>(STORED_SORT_OPTION_LAST_USED_CONCEPT, "-lastUpdated");
   const [pageConcept, setPageConcept] = useState(1);
 
   useEffect(() => {

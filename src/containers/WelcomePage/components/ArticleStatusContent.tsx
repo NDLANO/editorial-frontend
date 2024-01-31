@@ -77,8 +77,8 @@ const ArticleStatusContent = ({
   onHoldLocalStorageKey,
 }: Props) => {
   const { t, i18n } = useTranslation();
-  const { filterSubject, setFilterSubject } = useStoredSubjectFilterHook(localStorageKey, i18n.language);
-  const { isOn: hideOnHold, setIsOn: setHideOnHold } = useStoredToggleHook(onHoldLocalStorageKey);
+  const [filterSubject, setFilterSubject] = useStoredSubjectFilterHook(localStorageKey, i18n.language);
+  const [hideOnHold, setHideOnHold] = useStoredToggleHook(onHoldLocalStorageKey);
 
   const filteredSubjectIds: string[] | undefined = useMemo(
     () => (filterSubject ? [filterSubject.value] : subjectIds),

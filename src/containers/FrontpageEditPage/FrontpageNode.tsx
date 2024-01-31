@@ -83,6 +83,12 @@ const EditButtonWrapper = styled.div`
   align-self: flex-end;
 `;
 
+const HideButton = styled(IconButtonV2)`
+  &[data-hidden="true"] {
+    color: ${colors.brand.greyLight};
+  }
+`;
+
 const FrontpageNode = ({ name, remove, index, level, replace }: Props) => {
   const [isOpen, setIsOpen] = useState(true);
   const [field] = useField<MenuWithArticle>(name);
@@ -96,7 +102,7 @@ const FrontpageNode = ({ name, remove, index, level, replace }: Props) => {
       hideLevel: !field.value.hideLevel,
     };
     replace(index, updatedExisting);
-  }, []);
+  }, [field.value, index, replace]);
 
   const onAdd = useCallback(
     (val: IArticleSummaryV2) => {
@@ -146,9 +152,17 @@ const FrontpageNode = ({ name, remove, index, level, replace }: Props) => {
           </TitleLink>
         </TitleWrapper>
         <EditButtonWrapper>
-          <IconButtonV2 aria-label={t("hide")} title={t("hide")} variant="ghost" onClick={onHide}>
-            <Eye />
-          </IconButtonV2>
+          {level > 0 && (
+            <HideButton
+              data-hidden={field.value.hideLevel}
+              aria-label={t("hide")}
+              title={t("hide")}
+              variant="ghost"
+              onClick={onHide}
+            >
+              <Eye />
+            </HideButton>
+          )}
           {!field.value.menu.length && (
             <IconButtonV2
               aria-label={t("remove")}

@@ -6,53 +6,92 @@
  *
  */
 
-import parse from "html-react-parser";
-import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 import FormikField from "../../components/FormikField";
-import StyledFormContainer from "../../components/SlateEditor/common/StyledFormContainer";
-import PlainTextEditor from "../../components/SlateEditor/PlainTextEditor";
+import { SlatePlugin } from "../../components/SlateEditor/interfaces";
 
+import { blockQuotePlugin } from "../../components/SlateEditor/plugins/blockquote";
+import { breakPlugin } from "../../components/SlateEditor/plugins/break";
+import { definitionListPlugin } from "../../components/SlateEditor/plugins/definitionList";
+import { divPlugin } from "../../components/SlateEditor/plugins/div";
+import { headingPlugin } from "../../components/SlateEditor/plugins/heading";
+import { linkPlugin } from "../../components/SlateEditor/plugins/link";
+import { listPlugin } from "../../components/SlateEditor/plugins/list";
+import { markPlugin } from "../../components/SlateEditor/plugins/mark";
+import { mathmlPlugin } from "../../components/SlateEditor/plugins/mathml";
+import { paragraphPlugin } from "../../components/SlateEditor/plugins/paragraph";
 import saveHotkeyPlugin from "../../components/SlateEditor/plugins/saveHotkey";
+import { spanPlugin } from "../../components/SlateEditor/plugins/span";
 import { textTransformPlugin } from "../../components/SlateEditor/plugins/textTransform";
-import parseMarkdown from "../../util/parseMarkdown";
-import { Plain } from "../../util/slatePlainSerializer";
+import { toolbarPlugin } from "../../components/SlateEditor/plugins/toolbar";
+import {
+  createToolbarAreaOptions,
+  createToolbarDefaultValues,
+} from "../../components/SlateEditor/plugins/toolbar/toolbarState";
+import RichTextEditor from "../../components/SlateEditor/RichTextEditor";
+import { learningResourceRenderers } from "../ArticlePage/LearningResourcePage/components/learningResourceRenderers";
 
 interface Props {
   name?: string;
   maxLength?: number;
   type?: string;
   placeholder?: string;
-  preview?: boolean;
 }
 
-const IngressField = ({ name = "introduction", maxLength = 300, placeholder, preview = false }: Props) => {
-  const plugins = useMemo(() => [textTransformPlugin, saveHotkeyPlugin], []);
+const ingressPlugins: SlatePlugin[] = [
+  spanPlugin,
+  divPlugin,
+  paragraphPlugin,
+  blockQuotePlugin,
+  linkPlugin,
+  headingPlugin,
+  mathmlPlugin,
+  toolbarPlugin,
+  textTransformPlugin,
+  breakPlugin,
+  saveHotkeyPlugin,
+  markPlugin,
+  definitionListPlugin,
+  listPlugin,
+];
 
+const toolbarOptions = createToolbarDefaultValues({
+  text: {
+    hidden: true,
+  },
+  mark: {
+    code: {
+      hidden: true,
+    },
+  },
+  block: { hidden: true },
+  inline: {
+    hidden: true,
+  },
+});
+
+const toolbarAreaFilters = createToolbarAreaOptions();
+
+const IngressField = ({ name = "introduction", maxLength = 300, placeholder }: Props) => {
   const { t } = useTranslation();
   return (
-    <StyledFormContainer>
-      <FormikField noBorder label={t("form.introduction.label")} name={name} showMaxLength maxLength={maxLength}>
-        {({ field, form: { isSubmitting } }) =>
-          preview ? (
-            <div className="article_introduction">
-              {parse(parseMarkdown({ markdown: Plain.serialize(field.value), inline: true }))}
-            </div>
-          ) : (
-            <PlainTextEditor
-              id={field.name}
-              {...field}
-              placeholder={placeholder || t("form.introduction.label")}
-              className="article_introduction"
-              data-testid="learning-resource-ingress"
-              submitted={isSubmitting}
-              plugins={plugins}
-            />
-          )
-        }
-      </FormikField>
-    </StyledFormContainer>
+    <FormikField noBorder label={t("form.introduction.label")} name={name} showMaxLength maxLength={maxLength}>
+      {({ field, form: { isSubmitting } }) => (
+        <RichTextEditor
+          {...field}
+          language={"nb"}
+          hideBlockPicker
+          placeholder={placeholder || t("form.introduction.label")}
+          data-testid="learning-resource-ingress"
+          submitted={isSubmitting}
+          plugins={ingressPlugins.concat(learningResourceRenderers("nb"))}
+          onChange={(val) => field.onChange({ target: { value: val, name: field.name } })}
+          toolbarOptions={toolbarOptions}
+          toolbarAreaFilters={toolbarAreaFilters}
+        />
+      )}
+    </FormikField>
   );
 };
 

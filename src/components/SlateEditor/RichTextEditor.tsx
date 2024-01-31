@@ -46,6 +46,7 @@ interface Props {
   blockpickerOptions?: Partial<BlockPickerOptions>;
   toolbarOptions: CategoryFilters;
   toolbarAreaFilters: AreaFilters;
+  hideBlockPicker?: boolean;
 }
 
 const RichTextEditor = ({
@@ -59,6 +60,7 @@ const RichTextEditor = ({
   blockpickerOptions = {},
   toolbarOptions,
   toolbarAreaFilters,
+  hideBlockPicker,
 }: Props) => {
   const _editor = useMemo(() => withReact(withHistory(createEditor())), []);
   const editor = useMemo(() => withPlugins(_editor, plugins), [_editor, plugins]);
@@ -194,12 +196,14 @@ const RichTextEditor = ({
             ) : (
               <>
                 <SlateToolbar options={toolbarOptions} areaOptions={toolbarAreaFilters} />
-                <SlateBlockPicker
-                  editor={editor}
-                  actions={actions}
-                  articleLanguage={language}
-                  {...createBlockpickerOptions(blockpickerOptions)}
-                />
+                {!hideBlockPicker && (
+                  <SlateBlockPicker
+                    editor={editor}
+                    actions={actions}
+                    articleLanguage={language}
+                    {...createBlockpickerOptions(blockpickerOptions)}
+                  />
+                )}
                 <StyledEditable
                   decorate={decorations}
                   // @ts-ignore is-hotkey and editor.onKeyDown does not have matching types

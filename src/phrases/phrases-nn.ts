@@ -952,8 +952,8 @@ const phrases = {
       displayOnGloss: "Vis dette dømet på glosekortet",
       titleSection: "Norsk omsetjing",
       audio: {
-        helperText: "Legg til ei lydfil til glosen.",
-        button: "Legg til lydfil",
+        helperText: "Legg til lyd fra lyd-api til glosen.",
+        button: "Legg til lyd",
       },
       examples: {
         title: "Eksemplar på bruk av glosen",

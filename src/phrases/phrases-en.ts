@@ -953,7 +953,7 @@ const phrases = {
       displayOnGloss: "Show this example",
       titleSection: "Norwegian translation",
       audio: {
-        helperText: "Add an audio from audio-api to the gloss.",
+        helperText: "Add audio from audio-api to the gloss.",
         button: "Add audio",
       },
       examples: {

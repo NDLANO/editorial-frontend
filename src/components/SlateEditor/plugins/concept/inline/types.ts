@@ -7,3 +7,5 @@
  */
 
 export const TYPE_CONCEPT_INLINE = "concept-inline";
+
+export const TYPE_GLOSS_INLINE = "gloss-inline";

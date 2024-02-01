@@ -22,7 +22,7 @@ import { IConcept, IConceptSummary } from "@ndla/types-backend/concept-api";
 import { ConceptEmbedData, ConceptMetaData } from "@ndla/types-embed";
 import { ConceptEmbed, InlineConcept } from "@ndla/ui";
 import { ConceptInlineElement } from "./interfaces";
-import { TYPE_CONCEPT_INLINE } from "./types";
+import { TYPE_CONCEPT_INLINE, TYPE_GLOSS_INLINE } from "./types";
 import { PUBLISHED } from "../../../../../constants";
 import { useFetchConceptData } from "../../../../../containers/FormikForm/formikConceptHooks";
 import { useConceptVisualElement } from "../../../../../modules/embed/queries";
@@ -129,7 +129,8 @@ const InlineWrapper = (props: Props) => {
         { data },
         {
           at: path,
-          match: (node) => Element.isElement(node) && node.type === TYPE_CONCEPT_INLINE,
+          match: (node) =>
+            Element.isElement(node) && (node.type === TYPE_CONCEPT_INLINE || node.type === TYPE_GLOSS_INLINE),
         },
       );
     }
@@ -140,7 +141,8 @@ const InlineWrapper = (props: Props) => {
     const path = ReactEditor.findPath(editor, element);
     Transforms.unwrapNodes(editor, {
       at: path,
-      match: (node) => Element.isElement(node) && node.type === TYPE_CONCEPT_INLINE,
+      match: (node) =>
+        Element.isElement(node) && (node.type === TYPE_CONCEPT_INLINE || node.type === TYPE_GLOSS_INLINE),
     });
   };
 
@@ -240,6 +242,7 @@ const InlineWrapper = (props: Props) => {
           createConcept={createConcept}
           updateConcept={updateConcept}
           conceptArticles={conceptArticles}
+          conceptType={element.type === "gloss-inline" ? "gloss" : "concept"}
         />
       </ModalContent>
     </Modal>

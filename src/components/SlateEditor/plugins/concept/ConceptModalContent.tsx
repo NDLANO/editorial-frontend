@@ -45,7 +45,7 @@ interface Props {
   subjects: Node[];
   updateConcept: (id: number, updatedConcept: IUpdatedConcept) => Promise<IConcept>;
   conceptArticles: IArticle[];
-  conceptType?: ConceptType;
+  conceptType: ConceptType;
 }
 
 const ConceptModalContent = ({
@@ -80,7 +80,7 @@ const ConceptModalContent = ({
   });
   const [searching, setSearching] = useState(false);
 
-  const conceptTypeTabs: ConceptType[] = conceptType ? [conceptType] : ["concept", "gloss"];
+  const conceptTypeTabs: ConceptType[] = [conceptType];
 
   const searchConcept = useCallback(async (searchParam: ConceptQuery) => {
     if (!searching) {
@@ -117,7 +117,7 @@ const ConceptModalContent = ({
         <Tabs
           tabs={[
             {
-              title: t(`searchForm.types.conceptQuery`),
+              title: conceptType === "concept" ? t(`searchForm.types.conceptQuery`) : t("searchForm.types.glossQuery"),
               id: "concepts",
               content: (
                 <div>

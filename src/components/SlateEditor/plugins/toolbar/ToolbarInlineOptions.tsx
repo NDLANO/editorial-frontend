@@ -13,7 +13,7 @@ import { ToggleItem } from "@radix-ui/react-toolbar";
 import { StyledToggleGroup, ToolbarCategoryProps } from "./SlateToolbar";
 import ToolbarButton from "./ToolbarButton";
 import { InlineType } from "./toolbarState";
-import { insertInlineConcept } from "../concept/inline/utils";
+import { insertInlineConcept, insertInlineGloss } from "../concept/inline/utils";
 import { insertLink } from "../link/utils";
 import { insertMathml } from "../mathml/utils";
 
@@ -44,6 +44,9 @@ export const ToolbarInlineOptions = ({ options }: ToolbarCategoryProps<InlineTyp
       }
       if (type === "concept-inline") {
         insertInlineConcept(editor);
+      }
+      if (type === "gloss-inline") {
+        insertInlineGloss(editor);
       }
     },
     [editor],

@@ -12,7 +12,7 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
 import { colors, spacing, fonts, misc } from "@ndla/core";
-import { FormControl, Label, TextAreaV3 } from "@ndla/forms";
+import { TextAreaV2 } from "@ndla/forms";
 import { TrashCanOutline, RightArrow, ExpandMore } from "@ndla/icons/action";
 import { Done } from "@ndla/icons/editor";
 import { IComment } from "@ndla/types-backend/draft-api";
@@ -33,26 +33,26 @@ export const textAreaStyles = css`
     margin: 0px;
     padding: 0 ${spacing.xxsmall};
   }
+`;
+
+const StyledClickableTextArea = styled(TextAreaV2)<{ solved: boolean }>`
+  ${textAreaStyles};
+  background-color: ${(p) => (p.solved ? colors.support.greenLight : COMMENT_COLOR)};
+  border: 1px solid transparent;
   &:active,
   &:focus-visible {
     border: 1px solid ${colors.brand.primary};
   }
-`;
-
-const StyledClickableTextArea = styled(TextAreaV3)`
-  ${textAreaStyles};
-  border: 1px solid transparent;
-  ${fonts.size.text.button};
-  font-weight: ${fonts.weight.light};
-
-  &[data-open="false"] {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-height: 30px;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
+  textarea {
+    &[data-open="false"] {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-height: 30px;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+    }
   }
 `;
 
@@ -61,16 +61,11 @@ const CommentCard = styled.li`
   border-radius: ${misc.borderRadius};
   padding: ${spacing.xsmall};
   margin-bottom: ${spacing.small};
+  ${fonts.size.text.button};
   background-color: ${COMMENT_COLOR};
-  textarea {
-    padding: 0px ${spacing.xsmall};
-  }
 
   &[data-solved="true"] {
     background-color: ${colors.support.greenLight};
-    textarea {
-      background-color: ${colors.support.greenLight};
-    }
   }
 `;
 
@@ -165,21 +160,21 @@ const Comment = ({ id, comments, setComments, onDelete, index }: Props) => {
             </IconButtonV2>
           </div>
         </TopButtonRow>
-        <FormControl id={`comment-${id}`}>
-          <Label visuallyHidden>{t("form.comment.commentField")}</Label>
-          <StyledClickableTextArea
-            value={inputValue}
-            name={t("form.comment.commentField")}
-            onChange={handleInputChange}
-            onFocus={() => {
-              focusUpdate(true);
-              updateComment(true, "isOpen");
-            }}
-            onBlur={() => focusUpdate(false)}
-            id={commentId}
-            data-open={comment.isOpen}
-          />
-        </FormControl>
+        <StyledClickableTextArea
+          value={inputValue}
+          label={t("form.comment.commentField")}
+          name={t("form.comment.commentField")}
+          labelHidden
+          onChange={handleInputChange}
+          onFocus={() => {
+            focusUpdate(true);
+            updateComment(true, "isOpen");
+          }}
+          onBlur={() => focusUpdate(false)}
+          id={commentId}
+          data-open={comment.isOpen}
+          solved={comment.solved}
+        />
       </CardContent>
 
       <AlertModal

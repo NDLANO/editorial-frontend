@@ -953,8 +953,8 @@ const phrases = {
       displayOnGloss: "Show this example",
       titleSection: "Norwegian translation",
       audio: {
-        helperText: "Add an audio file to the gloss.",
-        button: "Add an audio file",
+        helperText: "Add an audio from audio-api to the gloss.",
+        button: "Add audio",
       },
       examples: {
         title: "Examples of gloss usage",

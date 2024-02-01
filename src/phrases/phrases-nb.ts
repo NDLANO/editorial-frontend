@@ -850,8 +850,8 @@ const phrases = {
       displayOnGloss: "Vis dette eksempelet på glosekortet",
       titleSection: "Norsk oversettelse",
       audio: {
-        helperText: "Legg til en lydfil til glosen.",
-        button: "Legg til lydfil",
+        helperText: "Legg til lyd fra lyd-api til glosen.",
+        button: "Legg til lyd",
       },
       examples: {
         title: "Eksempler på bruk av glosen",

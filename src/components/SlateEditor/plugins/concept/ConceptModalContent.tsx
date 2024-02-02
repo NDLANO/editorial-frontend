@@ -117,7 +117,7 @@ const ConceptModalContent = ({
         <Tabs
           tabs={[
             {
-              title: conceptType === "concept" ? t(`searchForm.types.conceptQuery`) : t("searchForm.types.glossQuery"),
+              title: t(`searchForm.types.${conceptType}Query`),
               id: "concepts",
               content: (
                 <div>

@@ -19,7 +19,6 @@ import {
   plainTextToEditorValue,
   inlineContentToEditorValue,
   inlineContentToHTML,
-  createNoop,
 } from "../../util/articleContentConverter";
 import { getSlugFromTitle, nullOrUndefined } from "../../util/articleUtil";
 import { DEFAULT_LICENSE, parseImageUrl } from "../../util/formHelper";

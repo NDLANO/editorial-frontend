@@ -15,10 +15,15 @@ import GenericSearchForm, { OnFieldChangeFunction } from "./GenericSearchForm";
 import { SearchParams } from "./SearchForm";
 import { SearchFormSelector } from "./Selector";
 import {
+  DA_SUBJECT_ID,
   DRAFT_RESPONSIBLE,
   FAVOURITES_SUBJECT_ID,
+  SA_SUBJECT_ID,
   LMA_SUBJECT_ID,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_SA,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_DA,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
 } from "../../../../constants";
 import { useAuth0Editors, useAuth0Responsibles } from "../../../../modules/auth0/auth0Queries";
 import { useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
@@ -48,6 +53,9 @@ const generateSubjectNode = (id: string, name: string, t: TFunction): Node => ({
     visible: true,
   },
 });
+
+const userHasCustomField = (subjects: Node[], ndlaId: string | undefined, customField: string) =>
+  subjects.some((s) => s.metadata.customFields?.[customField] === ndlaId);
 
 interface Props {
   search: (o: SearchParams) => void;
@@ -169,14 +177,23 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
   const sortedSubjects = useMemo(() => {
     const favoriteSubject: Node = generateSubjectNode(FAVOURITES_SUBJECT_ID, "searchForm.favourites", t);
 
-    const userHasLMASubjects = subjects.some((s) => s.metadata.customFields?.subjectLMA === userId);
+    const userHasLMASubjects = userHasCustomField(subjects, userId, TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA);
+    const userHasSASubjects = userHasCustomField(subjects, userId, TAXONOMY_CUSTOM_FIELD_SUBJECT_SA);
+    const userHasDASubjects = userHasCustomField(subjects, userId, TAXONOMY_CUSTOM_FIELD_SUBJECT_DA);
 
     const LMAsubjects: Node = generateSubjectNode(LMA_SUBJECT_ID, "searchForm.LMASubjects", t);
+    const SASubjects: Node = generateSubjectNode(SA_SUBJECT_ID, "searchForm.SASubjects", t);
+    const DASubjects: Node = generateSubjectNode(DA_SUBJECT_ID, "searchForm.DASubjects", t);
 
     const filteredAndSortedSubjects = subjects
       .filter((s) => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== "true")
       .sort(sortByProperty("name"));
-    return [favoriteSubject, ...(userHasLMASubjects ? [LMAsubjects] : [])].concat(filteredAndSortedSubjects);
+    return [
+      favoriteSubject,
+      ...(userHasLMASubjects ? [LMAsubjects] : []),
+      ...(userHasSASubjects ? [SASubjects] : []),
+      ...(userHasDASubjects ? [DASubjects] : []),
+    ].concat(filteredAndSortedSubjects);
   }, [subjects, t, userId]);
 
   const selectors: SearchFormSelector[] = [

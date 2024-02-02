@@ -27,9 +27,13 @@ export const STORED_LANGUAGE_KEY = "language";
 
 export const REMEMBER_FAVOURITE_SUBJECTS = "rememberFavouriteSubjects";
 export const REMEMBER_FAVORITE_NODES = "rememberFavoriteNodes";
-export const REMEMBER_LMA_SUBJECTS = "rememberLmaSubjects";
+export const REMEMBER_LMA_SUBJECTS = "rememberLMASubjects";
+export const REMEMBER_DA_SUBJECTS = "rememberDASubjects";
+export const REMEMBER_SA_SUBJECTS = "rememberSASubjects";
 export const FAVOURITES_SUBJECT_ID = "urn:favourites";
 export const LMA_SUBJECT_ID = "urn:lmaSubjects";
+export const SA_SUBJECT_ID = "urn:saSubjects";
+export const DA_SUBJECT_ID = "urn:daSubjects";
 // Relevances
 export const RESOURCE_FILTER_CORE = "urn:relevance:core";
 export const RESOURCE_FILTER_SUPPLEMENTARY = "urn:relevance:supplementary";
@@ -66,6 +70,8 @@ export const TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID = "old-subject-id";
 export const TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY = "subjectCategory";
 export const TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE = "subjectType";
 export const TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA = "subjectLMA";
+export const TAXONOMY_CUSTOM_FIELD_SUBJECT_SA = "subjectSA";
+export const TAXONOMY_CUSTOM_FIELD_SUBJECT_DA = "subjectDA";
 export const TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH = "requestPublish";
 export const TAXONOMY_CUSTOM_FIELD_IS_PUBLISHING = "isPublishing";
 export const TAXONOMY_CUSTOM_FIELD_PROGRAMME_SUBJECT = "programfag";

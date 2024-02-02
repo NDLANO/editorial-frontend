@@ -19,7 +19,13 @@ import StickyVersionSelector from "./StickyVersionSelector";
 import StructureBanner from "./StructureBanner";
 import ErrorBoundary from "../../components/ErrorBoundary";
 import { GridContainer, Column } from "../../components/Layout/Layout";
-import { REMEMBER_FAVORITE_NODES, REMEMBER_LMA_SUBJECTS, TAXONOMY_ADMIN_SCOPE } from "../../constants";
+import {
+  REMEMBER_DA_SUBJECTS,
+  REMEMBER_FAVORITE_NODES,
+  REMEMBER_SA_SUBJECTS,
+  REMEMBER_LMA_SUBJECTS,
+  TAXONOMY_ADMIN_SCOPE,
+} from "../../constants";
 import { useUserData } from "../../modules/draft/draftQueries";
 import { useNodes } from "../../modules/nodes/nodeQueries";
 import { createGuard } from "../../util/guards";
@@ -27,6 +33,7 @@ import { getPathsFromUrl, removeLastItemFromUrl } from "../../util/routeHelpers"
 import Footer from "../App/components/Footer";
 import { useSession } from "../Session/SessionProvider";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
+import { getResultSubjectIdObject } from "../WelcomePage/utils";
 
 const StructureWrapper = styled.ul`
   margin: 0;
@@ -49,12 +56,16 @@ const Wrapper = styled.div`
 const getNodes = (
   allNodes: Node[] | undefined = [],
   lmaSubjectIds: string[],
+  daSubjectIds: string[],
+  saSubjectIds: string[],
   favoriteNodeIds: string[],
   rootId: string,
 ): Node[] => {
   const filteredNodes =
-    lmaSubjectIds.length || favoriteNodeIds.length
-      ? allNodes.filter((node) => [...lmaSubjectIds, ...favoriteNodeIds, rootId].includes(node.id))
+    lmaSubjectIds.length || favoriteNodeIds.length || daSubjectIds.length || saSubjectIds.length
+      ? allNodes.filter((node) =>
+          [...lmaSubjectIds, ...favoriteNodeIds, ...daSubjectIds, ...saSubjectIds, rootId].includes(node.id),
+        )
       : allNodes;
 
   return filteredNodes;
@@ -90,6 +101,8 @@ const StructureContainer = ({
   const { userPermissions, ndlaId } = useSession();
   const [showFavorites, setShowFavorites] = useState(localStorage.getItem(REMEMBER_FAVORITE_NODES) === "true");
   const [showLmaSubjects, setShowLmaSubjects] = useState(localStorage.getItem(REMEMBER_LMA_SUBJECTS) === "true");
+  const [showDaSubjects, setShowDaSubjects] = useState(localStorage.getItem(REMEMBER_DA_SUBJECTS) === "true");
+  const [showSaSubjects, setShowSaSubjects] = useState(localStorage.getItem(REMEMBER_SA_SUBJECTS) === "true");
 
   const resourceSection = useRef<HTMLDivElement>(null);
   const firstRender = useRef(true);
@@ -140,20 +153,17 @@ const StructureContainer = ({
     const deleteSearch = !!params.rootId && !newPath.includes(params.rootId);
     navigate(`${rootPath}${newPath.concat(deleteSearch ? "" : search)}`);
   };
-  const lmaSubjectIds = useMemo(() => {
-    if (ndlaId) {
-      return (
-        nodesQuery.data
-          ?.filter((node) => node.metadata?.customFields?.subjectLMA === ndlaId)
-          .map((subjectLmaNode) => subjectLmaNode.id) ?? []
-      );
-    }
-    return [];
-  }, [ndlaId, nodesQuery.data]);
+
+  const resultSubjectIdObject = useMemo(
+    () => getResultSubjectIdObject(ndlaId, nodesQuery.data),
+    [ndlaId, nodesQuery.data],
+  );
 
   const nodes = getNodes(
     nodesQuery.data,
-    showLmaSubjects ? lmaSubjectIds : [],
+    showLmaSubjects ? resultSubjectIdObject.subjectLMA : [],
+    showDaSubjects ? resultSubjectIdObject.subjectDA : [],
+    showSaSubjects ? resultSubjectIdObject.subjectSA : [],
     showFavorites ? favoriteNodeIds : [],
     rootId,
   );
@@ -167,6 +177,16 @@ const StructureContainer = ({
     localStorage.setItem(REMEMBER_LMA_SUBJECTS, (!showLmaSubjects).toString());
     setShowLmaSubjects(!showLmaSubjects);
   }, [showLmaSubjects]);
+
+  const toggleShowDaSubjects = useCallback(() => {
+    localStorage.setItem(REMEMBER_DA_SUBJECTS, (!showDaSubjects).toString());
+    setShowDaSubjects(!showDaSubjects);
+  }, [showDaSubjects]);
+
+  const toggleShowSaSubjects = useCallback(() => {
+    localStorage.setItem(REMEMBER_SA_SUBJECTS, (!showSaSubjects).toString());
+    setShowSaSubjects(!showSaSubjects);
+  }, [showSaSubjects]);
 
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
 
@@ -184,9 +204,15 @@ const StructureContainer = ({
               setShowFavorites={toggleShowFavorites}
               showFavorites={showFavorites}
               setShowLmaSubjects={toggleShowLmaSubjects}
+              setShowDaSubjects={toggleShowDaSubjects}
+              setShowSaSubjects={toggleShowSaSubjects}
               showLmaSubjects={showLmaSubjects}
+              showDaSubjects={showDaSubjects}
+              showSaSubjects={showSaSubjects}
               nodeType={rootNodeType}
-              hasLmaSubjects={!!lmaSubjectIds.length}
+              hasLmaSubjects={!!resultSubjectIdObject.subjectLMA.length}
+              hasDaSubjects={!!resultSubjectIdObject.subjectDA.length}
+              hasSaSubjects={!!resultSubjectIdObject.subjectSA.length}
             />
             <StyledStructureContainer>
               {userDataQuery.isLoading || nodesQuery.isLoading ? (

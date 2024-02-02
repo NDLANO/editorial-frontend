@@ -25,13 +25,17 @@ import {
   TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
   TAXONOMY_CUSTOM_FIELD_PROGRAMME_SUBJECT,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_SA,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_DA,
 } from "../../../../../constants";
 import { PROGRAMME, SUBJECT_NODE, TOPIC_NODE } from "../../../../../modules/nodes/nodeApiTypes";
 import { useUpdateNodeMetadataMutation } from "../../../../../modules/nodes/nodeMutations";
 import { getNodeTypeFromNodeId, getRootIdForNode, isRootNode } from "../../../../../modules/nodes/nodeUtil";
 import { useTaxonomyVersion } from "../../../../StructureVersion/TaxonomyVersionProvider";
 import SubjectCategorySelector from "../../subjectMenuOptions/SubjectCategorySelector";
+import SubjectDASelector from "../../subjectMenuOptions/SubjectDASelector";
 import SubjectLMASelector from "../../subjectMenuOptions/SubjectLMASelector";
+import SubjectSASelector from "../../subjectMenuOptions/SubjectSASelector";
 import SubjectTypeSelector from "../../subjectMenuOptions/SubjectTypeSelector";
 import TaxonomyMetadataLanguageSelector from "../../subjectMenuOptions/TaxonomyMetadataLanguageSelector";
 import ToggleExplanationSubject from "../../subjectMenuOptions/ToggleExplanationSubject";
@@ -83,6 +87,8 @@ const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
     TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
     TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH,
     TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
+    TAXONOMY_CUSTOM_FIELD_SUBJECT_SA,
+    TAXONOMY_CUSTOM_FIELD_SUBJECT_DA,
   ];
   const filteredTopicFields = [TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES, TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH];
 
@@ -122,6 +128,8 @@ const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
     <>
       <TaxonomyMetadataLanguageSelector customFields={customFields} updateCustomFields={setCustomFields} />
       <SubjectLMASelector customFields={customFields} updateCustomFields={setCustomFields} />
+      <SubjectSASelector customFields={customFields} updateCustomFields={setCustomFields} />
+      <SubjectDASelector customFields={customFields} updateCustomFields={setCustomFields} />
       <SubjectCategorySelector customFields={customFields} updateCustomFields={setCustomFields} />
       <SubjectTypeSelector customFields={customFields} updateCustomFields={setCustomFields} />
       <ToggleExplanationSubject customFields={customFields} updateFields={setCustomFields} />

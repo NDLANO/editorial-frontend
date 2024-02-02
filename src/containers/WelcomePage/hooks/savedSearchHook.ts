@@ -6,6 +6,7 @@
  *
  */
 
+import { TFunction } from "i18next";
 import queryString from "query-string";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -15,7 +16,15 @@ import { IUserData } from "@ndla/types-backend/draft-api";
 import { ISearchResultV3 } from "@ndla/types-backend/image-api";
 import { IMultiSearchResult } from "@ndla/types-backend/search-api";
 import { Node, ResourceType } from "@ndla/types-taxonomy";
-import { FAVOURITES_SUBJECT_ID, LMA_SUBJECT_ID, TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA } from "../../../constants";
+import {
+  FAVOURITES_SUBJECT_ID,
+  LMA_SUBJECT_ID,
+  SA_SUBJECT_ID,
+  DA_SUBJECT_ID,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_SA,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_DA,
+} from "../../../constants";
 import { SearchObjectType, SearchResultBase } from "../../../interfaces";
 import { searchAudio, searchSeries } from "../../../modules/audio/audioApi";
 import { AudioSearchParams, SeriesSearchParams } from "../../../modules/audio/audioApiInterfaces";
@@ -24,12 +33,13 @@ import { searchConcepts } from "../../../modules/concept/conceptApi";
 import { ConceptQuery } from "../../../modules/concept/conceptApiInterfaces";
 import { searchImages } from "../../../modules/image/imageApi";
 import { ImageSearchQuery } from "../../../modules/image/imageApiInterfaces";
-import { fetchNode, fetchNodes } from "../../../modules/nodes/nodeApi";
+import { fetchNode, postSearchNodes } from "../../../modules/nodes/nodeApi";
 import { search } from "../../../modules/search/searchApi";
 import { MultiSearchApiQuery } from "../../../modules/search/searchApiInterfaces";
 import { fetchResourceType } from "../../../modules/taxonomy";
 import { transformQuery } from "../../../util/searchHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
+import { customFieldsBody, getResultSubjectIdObject } from "../utils";
 
 type QueryType = AudioSearchParams | ConceptQuery | ImageSearchQuery | SeriesSearchParams | MultiSearchApiQuery;
 
@@ -50,14 +60,56 @@ export const searchTypeToFetchMapping: Record<string, SearchFetchType> = {
   content: search,
 };
 
-const getLMASubjectIds = async (taxonomyVersion: string, userId: string | undefined) => {
-  const nodes = await fetchNodes({
-    taxonomyVersion,
-    nodeType: "SUBJECT",
-    key: TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
-    value: userId,
-  });
-  return nodes?.map((n) => n.id).join(",");
+const getSubjectFilterTranslation = (subject: string, subjectData: Node[], t: TFunction) => {
+  switch (subject) {
+    case FAVOURITES_SUBJECT_ID:
+      return t("searchForm.favourites");
+    case LMA_SUBJECT_ID:
+      return t("searchForm.LMASubjects");
+    case DA_SUBJECT_ID:
+      return t("searchForm.DASubjects");
+    case SA_SUBJECT_ID:
+      return t("searchForm.SASubjects");
+    default:
+      return subjectData?.find((s) => s.id === subject)?.name;
+  }
+};
+
+const customFieldMapping = {
+  [LMA_SUBJECT_ID]: TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
+  [DA_SUBJECT_ID]: TAXONOMY_CUSTOM_FIELD_SUBJECT_DA,
+  [SA_SUBJECT_ID]: TAXONOMY_CUSTOM_FIELD_SUBJECT_SA,
+} as const;
+
+const getSearchObject = async (
+  searchObject: SearchObjectType,
+  favoriteSubjects: string[] | undefined,
+  taxonomyVersion: string,
+  ndlaId: string | undefined,
+) => {
+  if (searchObject.subjects === FAVOURITES_SUBJECT_ID)
+    return {
+      ...searchObject,
+      subjects: favoriteSubjects?.join(","),
+    };
+  if (
+    ndlaId &&
+    (searchObject.subjects === LMA_SUBJECT_ID ||
+      searchObject.subjects === DA_SUBJECT_ID ||
+      searchObject.subjects === SA_SUBJECT_ID)
+  ) {
+    const nodesSearchResult = await postSearchNodes({
+      body: customFieldsBody(ndlaId),
+      taxonomyVersion,
+    });
+    const resultSubjectIdObject = getResultSubjectIdObject(ndlaId, nodesSearchResult.results);
+    const customFieldKey = customFieldMapping[searchObject.subjects];
+    return {
+      ...searchObject,
+      subjects: resultSubjectIdObject?.[customFieldKey],
+    };
+  }
+  return searchObject;
 };
 
 interface SavedSearchObjectType {
@@ -110,23 +162,13 @@ export const useSavedSearchUrl = (currentUserData: IUserData | undefined): Searc
           searchObjects.map(async (searchObject) => {
             const searchFunction = searchTypeToFetchMapping[searchObject["type"] ?? "content"] ?? search;
 
-            const searchObj =
-              searchObject.subjects === FAVOURITES_SUBJECT_ID
-                ? {
-                    ...searchObject,
-                    subjects: favoriteSubjects?.join(","),
-                  }
-                : searchObject.subjects === LMA_SUBJECT_ID
-                  ? {
-                      ...searchObject,
-                      subjects: await getLMASubjectIds(taxonomyVersion, currentUserData?.userId),
-                    }
-                  : searchObject;
-
-            const searchResult = searchFunction({
-              ...searchObj,
-              "page-size": 0,
-            });
+            const searchObj = await getSearchObject(
+              searchObject,
+              favoriteSubjects,
+              taxonomyVersion,
+              currentUserData?.userId,
+            );
+            const searchResult = searchFunction({ ...searchObj, "page-size": 0 });
 
             return searchResult;
           }),
@@ -136,7 +178,11 @@ export const useSavedSearchUrl = (currentUserData: IUserData | undefined): Searc
           .map((searchObject) => searchObject["subjects"])
           .filter(
             (searchObject) =>
-              searchObject && !searchObject.includes(FAVOURITES_SUBJECT_ID) && !searchObject.includes(LMA_SUBJECT_ID),
+              searchObject &&
+              !searchObject.includes(FAVOURITES_SUBJECT_ID) &&
+              !searchObject.includes(LMA_SUBJECT_ID) &&
+              !searchObject.includes(DA_SUBJECT_ID) &&
+              !searchObject.includes(SA_SUBJECT_ID),
           );
         const subjectData = await Promise.all(
           subjects.map((subject) =>
@@ -210,12 +256,7 @@ export const useSavedSearchUrl = (currentUserData: IUserData | undefined): Searc
       type: searchObject.type && t(`searchTypes.${searchObject.type}`),
       query: searchObject.query && `"${searchObject.query}"`,
       language: searchObject.language && t(`languages.${searchObject.language}`),
-      subjects:
-        searchObject.subjects && searchObject.subjects === FAVOURITES_SUBJECT_ID
-          ? t("searchForm.favourites")
-          : searchObject.subjects === LMA_SUBJECT_ID
-            ? t("searchForm.LMASubjects")
-            : subjectData?.find((s) => s.id === searchObject.subjects)?.name,
+      subjects: searchObject.subjects && getSubjectFilterTranslation(searchObject.subjects, subjectData, t),
       "resource-types":
         searchObject["resource-types"] && resourceTypeData?.find((r) => r.id === searchObject["resource-types"])?.name,
       "audio-type": searchObject["audio-type"] && searchObject["audio-type"],

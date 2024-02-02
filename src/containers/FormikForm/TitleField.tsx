@@ -92,6 +92,7 @@ const TitleField = ({ maxLength = 256, name = "title" }: Props) => {
           <Label visuallyHidden>{t("form.title.label")}</Label>
           <RichTextEditor
             {...field}
+            testId="title-editor"
             additionalOnKeyDown={onKeyDown}
             hideBlockPicker
             submitted={false}

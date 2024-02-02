@@ -49,6 +49,7 @@ interface Props extends Omit<EditableProps, "value" | "onChange" | "onKeyDown"> 
   toolbarAreaFilters: AreaFilters;
   additionalOnKeyDown?: (event: KeyboardEvent<HTMLDivElement>) => boolean;
   hideBlockPicker?: boolean;
+  testId?: string;
 }
 
 const RichTextEditor = ({
@@ -59,6 +60,7 @@ const RichTextEditor = ({
   actions = commonActions,
   submitted,
   language,
+  testId = "slate-editor",
   blockpickerOptions = {},
   toolbarOptions,
   toolbarAreaFilters,
@@ -217,7 +219,7 @@ const RichTextEditor = ({
   return (
     <article>
       <SlateProvider isSubmitted={submitted}>
-        <StyledSlateWrapper data-testid="slate-editor">
+        <StyledSlateWrapper data-testid={testId}>
           <Slate editor={editor} initialValue={value} onChange={onChange}>
             {isFirstNormalize ? (
               <Spinner />

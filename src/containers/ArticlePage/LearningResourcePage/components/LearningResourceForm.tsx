@@ -21,7 +21,6 @@ import { ARCHIVED, UNPUBLISHED } from "../../../../constants";
 import { useSession } from "../../../../containers/Session/SessionProvider";
 import { validateDraft } from "../../../../modules/draft/draftApi";
 import { useLicenses, useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
-import { blockContentToHTML } from "../../../../util/articleContentConverter";
 import { isFormikFormDirty, learningResourceRules } from "../../../../util/formHelper";
 import { AlertModalWrapper } from "../../../FormikForm";
 import { HandleSubmitFunc, LearningResourceFormType, useArticleFormHooks } from "../../../FormikForm/articleFormHooks";
@@ -100,8 +99,6 @@ const LearningResourceForm = ({
     [_handleSubmit, contexts?.length],
   );
 
-  const initialHTML = useMemo(() => blockContentToHTML(initialValues.content), [initialValues]);
-
   const initialWarnings = useMemo(() => {
     return {
       warnings: getWarnings(initialValues, learningResourceRules, t, article),
@@ -145,14 +142,12 @@ const LearningResourceForm = ({
                 taxonomy={articleTaxonomy}
                 updateNotes={updateArticle}
                 contexts={contexts}
-                initialHTML={initialHTML}
               />
             </TaxonomyVersionProvider>
           </MainContent>
           <CommentSection savedStatus={article?.status} articleType="standard" />
         </FlexWrapper>
         <FormFooter
-          initialHTML={initialHTML}
           articleChanged={!!articleChanged}
           isNewlyCreated={isNewlyCreated}
           savedToServer={savedToServer}
@@ -173,7 +168,6 @@ const LearningResourceForm = ({
 };
 
 interface FormFooterProps {
-  initialHTML: string;
   articleChanged: boolean;
   article?: IArticle;
   isNewlyCreated: boolean;
@@ -181,14 +175,7 @@ interface FormFooterProps {
   handleSubmit: HandleSubmitFunc<LearningResourceFormType>;
 }
 
-const _FormFooter = ({
-  initialHTML,
-  articleChanged,
-  article,
-  isNewlyCreated,
-  savedToServer,
-  handleSubmit,
-}: FormFooterProps) => {
+const _FormFooter = ({ articleChanged, article, isNewlyCreated, savedToServer, handleSubmit }: FormFooterProps) => {
   const { t } = useTranslation();
   const { data: licenses } = useLicenses();
   const statusStateMachine = useDraftStatusStateMachine({
@@ -204,9 +191,8 @@ const _FormFooter = ({
         initialValues,
         dirty,
         changed: articleChanged,
-        initialHTML,
       }),
-    [articleChanged, dirty, initialHTML, initialValues, values],
+    [articleChanged, dirty, initialValues, values],
   );
 
   const onSave = useCallback(

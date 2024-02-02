@@ -114,10 +114,9 @@ const toolbarAreaFilters = createToolbarAreaOptions();
 
 interface Props {
   articleLanguage: string;
-  initialHTML: string;
 }
 
-const FrontpageArticleFormContent = ({ articleLanguage, initialHTML }: Props) => {
+const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
   const { userPermissions } = useSession();
   const { t } = useTranslation();
   const { isWideArticle } = useWideArticle();
@@ -136,9 +135,8 @@ const FrontpageArticleFormContent = ({ articleLanguage, initialHTML }: Props) =>
         values,
         initialValues,
         dirty,
-        initialHTML,
       }),
-    [values, initialValues, dirty, initialHTML],
+    [values, initialValues, dirty],
   );
 
   const [isNormalizedOnLoad, setIsNormalizedOnLoad] = useState(isFormikDirty);

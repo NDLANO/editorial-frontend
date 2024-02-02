@@ -20,7 +20,6 @@ import { noopRenderer } from "../../components/SlateEditor/plugins/noop/render";
 import { paragraphPlugin } from "../../components/SlateEditor/plugins/paragraph";
 import { paragraphRenderer } from "../../components/SlateEditor/plugins/paragraph/render";
 import saveHotkeyPlugin from "../../components/SlateEditor/plugins/saveHotkey";
-import { sectionRenderer } from "../../components/SlateEditor/plugins/section/render";
 import { spanPlugin } from "../../components/SlateEditor/plugins/span";
 import { textTransformPlugin } from "../../components/SlateEditor/plugins/textTransform";
 import { toolbarPlugin } from "../../components/SlateEditor/plugins/toolbar";
@@ -48,7 +47,7 @@ const ingressPlugins: SlatePlugin[] = [
   noopPlugin,
 ];
 
-const ingressRenderers: SlatePlugin[] = [noopRenderer, sectionRenderer, paragraphRenderer, markRenderer, breakRenderer];
+const ingressRenderers: SlatePlugin[] = [noopRenderer, paragraphRenderer, markRenderer, breakRenderer];
 
 const plugins = ingressPlugins.concat(ingressRenderers);
 
@@ -76,6 +75,7 @@ const IngressField = ({ name = "introduction", maxLength = 300, placeholder }: P
       {({ field, form: { isSubmitting } }) => (
         <RichTextEditor
           {...field}
+          testId="ingress-editor"
           hideBlockPicker
           placeholder={placeholder || t("form.introduction.label")}
           data-testid="learning-resource-ingress"

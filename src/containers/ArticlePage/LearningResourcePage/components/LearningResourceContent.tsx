@@ -83,10 +83,9 @@ interface Props {
   articleLanguage: string;
   articleId?: number;
   handleSubmit: HandleSubmitFunc<LearningResourceFormType>;
-  initialHTML: string;
 }
 
-const LearningResourceContent = ({ articleLanguage, articleId, handleSubmit: _handleSubmit, initialHTML }: Props) => {
+const LearningResourceContent = ({ articleLanguage, articleId, handleSubmit: _handleSubmit }: Props) => {
   const { t } = useTranslation();
   const [creatorsField] = useField<IAuthor[]>("creators");
 
@@ -98,9 +97,8 @@ const LearningResourceContent = ({ articleLanguage, articleId, handleSubmit: _ha
         values,
         initialValues,
         dirty,
-        initialHTML,
       }),
-    [values, initialValues, dirty, initialHTML],
+    [values, initialValues, dirty],
   );
 
   const [isNormalizedOnLoad, setIsNormalizedOnLoad] = useState(isFormikDirty);

@@ -23,6 +23,7 @@ import { ConceptEmbed } from "@ndla/ui";
 import { ConceptBlockElement } from "./interfaces";
 import { TYPE_CONCEPT_BLOCK } from "./types";
 import { PUBLISHED } from "../../../../../constants";
+import { ConceptType } from "../../../../../containers/ConceptPage/conceptInterfaces";
 import { useFetchConceptData } from "../../../../../containers/FormikForm/formikConceptHooks";
 import { useConceptVisualElement } from "../../../../../modules/embed/queries";
 import parseMarkdown from "../../../../../util/parseMarkdown";
@@ -33,7 +34,6 @@ import { getGlossDataAttributes } from "../utils";
 const getConceptDataAttributes = ({ id, conceptType, glossData }: IConceptSummary | IConcept): ConceptEmbedData => ({
   contentId: id.toString(),
   resource: "concept",
-  conceptType: conceptType as ConceptEmbedData["conceptType"],
   type: "block",
   linkText: "",
   ...(conceptType === "gloss" && glossData?.examples.length ? getGlossDataAttributes(glossData) : {}),
@@ -127,6 +127,8 @@ const BlockWrapper = ({ element, locale, editor, attributes, children }: Props) 
     }
   }, [editor, element]);
 
+  const fallbackConceptType = element.type === "concept-block" ? "concept" : "gloss";
+
   return (
     <Modal open={isEditing} onOpenChange={setIsEditing}>
       <StyledWrapper {...attributes} data-solid-border={isSelected} draggable={true}>
@@ -151,7 +153,7 @@ const BlockWrapper = ({ element, locale, editor, attributes, children }: Props) 
             concept={concept}
             subjects={subjects}
             handleRemove={handleRemove}
-            conceptType={element.data.conceptType}
+            conceptType={(concept?.conceptType ?? fallbackConceptType) as ConceptType}
             {...conceptHooks}
           />
         </ModalContent>

@@ -8,11 +8,11 @@
 
 import { Editor, Transforms, Element, Range } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { ConceptEmbedData } from "@ndla/types-embed";
 import { TYPE_CONCEPT_INLINE } from "./types";
+import { ConceptType } from "../../../../../containers/ConceptPage/conceptInterfaces";
 import hasNodeOfType from "../../../utils/hasNodeOfType";
 
-export const insertInlineConcept = (editor: Editor, conceptType: ConceptEmbedData["conceptType"] = "concept") => {
+export const insertInlineConcept = (editor: Editor, conceptType: ConceptType) => {
   if (hasNodeOfType(editor, TYPE_CONCEPT_INLINE)) {
     Transforms.unwrapNodes(editor, {
       match: (node) => Element.isElement(node) && node.type === TYPE_CONCEPT_INLINE,
@@ -50,7 +50,8 @@ export const insertInlineConcept = (editor: Editor, conceptType: ConceptEmbedDat
       slatejsx("element", {
         type: TYPE_CONCEPT_INLINE,
         isFirstEdit: true,
-        data: { conceptType: conceptType },
+        conceptType: conceptType,
+        data: {},
       }),
       {
         at: Editor.unhangRange(editor, editor.selection),

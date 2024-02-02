@@ -104,7 +104,7 @@ export function handleClickInline(event: Event, editor: Editor, type: InlineType
       insertMathml(editor);
     }
     if (type === "concept-inline") {
-      insertInlineConcept(editor);
+      insertInlineConcept(editor, "concept");
     }
     if (type === "gloss-inline") {
       insertInlineConcept(editor, "gloss");

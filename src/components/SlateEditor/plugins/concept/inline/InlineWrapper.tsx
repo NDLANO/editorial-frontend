@@ -24,6 +24,7 @@ import { ConceptEmbed, InlineConcept } from "@ndla/ui";
 import { ConceptInlineElement } from "./interfaces";
 import { TYPE_CONCEPT_INLINE } from "./types";
 import { PUBLISHED } from "../../../../../constants";
+import { ConceptType } from "../../../../../containers/ConceptPage/conceptInterfaces";
 import { useFetchConceptData } from "../../../../../containers/FormikForm/formikConceptHooks";
 import { useConceptVisualElement } from "../../../../../modules/embed/queries";
 import parseMarkdown from "../../../../../util/parseMarkdown";
@@ -35,7 +36,6 @@ const getConceptDataAttributes = (concept: IConcept | IConceptSummary, title: st
   contentId: concept.id.toString(),
   linkText: title,
   resource: "concept",
-  conceptType: concept.conceptType as ConceptEmbedData["conceptType"],
   type: "inline",
   ...(concept.conceptType === "gloss" && concept.glossData?.examples.length
     ? getGlossDataAttributes(concept.glossData)
@@ -241,7 +241,7 @@ const InlineWrapper = (props: Props) => {
           createConcept={createConcept}
           updateConcept={updateConcept}
           conceptArticles={conceptArticles}
-          conceptType={element.data.conceptType}
+          conceptType={(concept?.conceptType ?? element.conceptType) as ConceptType}
         />
       </ModalContent>
     </Modal>

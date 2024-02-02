@@ -43,7 +43,7 @@ export const ToolbarInlineOptions = ({ options }: ToolbarCategoryProps<InlineTyp
         insertMathml(editor);
       }
       if (type === "concept-inline") {
-        insertInlineConcept(editor);
+        insertInlineConcept(editor, "concept");
       }
       if (type === "gloss-inline") {
         insertInlineConcept(editor, "gloss");

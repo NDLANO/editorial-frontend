@@ -7,10 +7,8 @@
  */
 
 import { jsx as slatejsx } from "slate-hyperscript";
-import { ConceptEmbedData } from "@ndla/types-embed";
+import { ConceptBlockElement } from "./interfaces";
 import { TYPE_CONCEPT_BLOCK } from "./types";
 
-export const defaultConceptBlock = (conceptType: ConceptEmbedData["conceptType"] = "concept") =>
-  slatejsx("element", { type: TYPE_CONCEPT_BLOCK, data: { conceptType: conceptType }, isFirstEdit: true }, [
-    { text: "" },
-  ]);
+export const defaultConceptBlock = (conceptType: ConceptBlockElement["conceptType"] = "concept") =>
+  slatejsx("element", { type: TYPE_CONCEPT_BLOCK, data: {}, isFirstEdit: true, conceptType }, [{ text: "" }]);

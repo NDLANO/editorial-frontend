@@ -20,7 +20,7 @@ export interface NoopElement {
 export const noopSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
     if (el.tagName.toLowerCase() !== "div") return;
-    if (el.attributes.getNamedItem("data-type")?.value === "noop") {
+    if (el.attributes.getNamedItem("data-noop")?.value === "true") {
       return slatejsx("element", { type: TYPE_NOOP }, children);
     }
   },

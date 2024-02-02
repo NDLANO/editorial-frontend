@@ -36,10 +36,10 @@ import formatDate, { formatDateForBackend } from "../../../util/formatDate";
 import { toEditArticle } from "../../../util/routeHelpers";
 import { getExpirationDate } from "../../ArticlePage/articleTransformers";
 import {
-  useStoredPageSizeHook,
-  useStoredSortOptionHook,
-  useStoredSubjectFilterHook,
-  useStoredToggleHook,
+  useLocalStoragePageSizeState,
+  useLocalStorageSortOptionState,
+  useLocalStorageSubjectFilterState,
+  useLocalStorageBooleanState,
 } from "../hooks/storedFilterHooks";
 import {
   ControlWrapperDashboard,
@@ -93,13 +93,14 @@ const Revisions = ({ userData }: Props) => {
     i18n: { language },
   } = useTranslation();
 
-  const [filterSubject, setFilterSubject] = useStoredSubjectFilterHook(STORED_FILTER_REVISION, language);
-  const [pageSize, setPageSize] = useStoredPageSizeHook(STORED_PAGE_SIZE_REVISION);
-  const [sortOption, setSortOption] = useStoredSortOptionHook<SortOptionRevision>(
+  const [filterSubject, setFilterSubject] = useLocalStorageSubjectFilterState(STORED_FILTER_REVISION, language);
+  const [pageSize, setPageSize] = useLocalStoragePageSizeState(STORED_PAGE_SIZE_REVISION);
+  const [sortOption, setSortOption] = useLocalStorageSortOptionState<SortOptionRevision>(
     STORED_SORT_OPTION_REVISION,
     "revisionDate",
   );
-  const [onlyShowPrimaryConnection, setOnlyShowPrimaryConnection] = useStoredToggleHook(STORED_PRIMARY_CONNECTION);
+  const [onlyShowPrimaryConnection, setOnlyShowPrimaryConnection] =
+    useLocalStorageBooleanState(STORED_PRIMARY_CONNECTION);
   const [page, setPage] = useState(1);
 
   useEffect(() => {

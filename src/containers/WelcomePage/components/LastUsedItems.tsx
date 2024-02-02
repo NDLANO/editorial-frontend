@@ -23,7 +23,7 @@ import {
 } from "../../../constants";
 import { useSearchConcepts } from "../../../modules/concept/conceptQueries";
 import { useSearchDrafts } from "../../../modules/draft/draftQueries";
-import { useStoredPageSizeHook, useStoredSortOptionHook } from "../hooks/storedFilterHooks";
+import { useLocalStoragePageSizeState, useLocalStorageSortOptionState } from "../hooks/storedFilterHooks";
 
 export type SortOptionLastUsed = "title" | "lastUpdated";
 
@@ -62,16 +62,16 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [] }: Props)
   } = useTranslation();
 
   // Last used articles state handling
-  const [pageSize, setPageSize] = useStoredPageSizeHook(STORED_PAGE_SIZE_LAST_UPDATED);
-  const [sortOption, setSortOption] = useStoredSortOptionHook<SortOptionLastUsed>(
+  const [pageSize, setPageSize] = useLocalStoragePageSizeState(STORED_PAGE_SIZE_LAST_UPDATED);
+  const [sortOption, setSortOption] = useLocalStorageSortOptionState<SortOptionLastUsed>(
     STORED_SORT_OPTION_LAST_USED,
     "-lastUpdated",
   );
   const [page, setPage] = useState(1);
 
   // Last used concepts state handling
-  const [pageSizeConcept, setPageSizeConcept] = useStoredPageSizeHook(STORED_PAGE_SIZE_LAST_UPDATED_CONCEPT);
-  const [sortOptionConcept, setSortOptionConcept] = useStoredSortOptionHook<SortOptionLastUsed>(
+  const [pageSizeConcept, setPageSizeConcept] = useLocalStoragePageSizeState(STORED_PAGE_SIZE_LAST_UPDATED_CONCEPT);
+  const [sortOptionConcept, setSortOptionConcept] = useLocalStorageSortOptionState<SortOptionLastUsed>(
     STORED_SORT_OPTION_LAST_USED_CONCEPT,
     "-lastUpdated",
   );

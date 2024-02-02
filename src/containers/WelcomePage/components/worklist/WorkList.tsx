@@ -25,10 +25,10 @@ import {
 import { useSearchConcepts } from "../../../../modules/concept/conceptQueries";
 import { useSearch } from "../../../../modules/search/searchQueries";
 import {
-  useStoredPageSizeHook,
-  useStoredSortOptionHook,
-  useStoredSubjectFilterHook,
-  useStoredToggleHook,
+  useLocalStoragePageSizeState,
+  useLocalStorageSortOptionState,
+  useLocalStorageSubjectFilterState,
+  useLocalStorageBooleanState,
 } from "../../hooks/storedFilterHooks";
 
 interface Props {
@@ -40,30 +40,30 @@ const WorkList = ({ ndlaId }: Props) => {
   const { t, i18n } = useTranslation();
 
   // Worklist articles state handling
-  const [filterSubject, setFilterSubject] = useStoredSubjectFilterHook(STORED_FILTER_WORKLIST, i18n.language);
-  const [pageSize, setPageSize] = useStoredPageSizeHook(STORED_PAGE_SIZE);
-  const [sortOption, setSortOption] = useStoredSortOptionHook<SortOption>(
+  const [filterSubject, setFilterSubject] = useLocalStorageSubjectFilterState(STORED_FILTER_WORKLIST, i18n.language);
+  const [pageSize, setPageSize] = useLocalStoragePageSizeState(STORED_PAGE_SIZE);
+  const [sortOption, setSortOption] = useLocalStorageSortOptionState<SortOption>(
     STORED_SORT_OPTION_WORKLIST,
     "-responsibleLastUpdated",
   );
-  const [prioritized, setPrioritized] = useStoredToggleHook(STORED_PRIORITIZED);
+  const [prioritized, setPrioritized] = useLocalStorageBooleanState(STORED_PRIORITIZED);
   const [page, setPage] = useState(1);
 
   // Worklist concepts state handling
-  const [filterConceptSubject, setFilterConceptSubject] = useStoredSubjectFilterHook(
+  const [filterConceptSubject, setFilterConceptSubject] = useLocalStorageSubjectFilterState(
     STORED_FILTER_WORKLIST_CONCEPT,
     i18n.language,
   );
-  const [pageSizeConcept, setPageSizeConcept] = useStoredPageSizeHook(STORED_PAGE_SIZE_CONCEPT);
-  const [sortOptionConcepts, setSortOptionConcepts] = useStoredSortOptionHook<SortOption>(
+  const [pageSizeConcept, setPageSizeConcept] = useLocalStoragePageSizeState(STORED_PAGE_SIZE_CONCEPT);
+  const [sortOptionConcepts, setSortOptionConcepts] = useLocalStorageSortOptionState<SortOption>(
     STORED_SORT_OPTION_WORKLIST_CONCEPT,
     "-responsibleLastUpdated",
   );
   const [pageConcept, setPageConcept] = useState(1);
 
   // Worklist on hold state handling
-  const [pageSizeOnHold, setPageSizeOnHold] = useStoredPageSizeHook(STORED_PAGE_SIZE_ON_HOLD);
-  const [sortOptionOnHold, setSortOptionOnHold] = useStoredSortOptionHook<SortOption>(
+  const [pageSizeOnHold, setPageSizeOnHold] = useLocalStoragePageSizeState(STORED_PAGE_SIZE_ON_HOLD);
+  const [sortOptionOnHold, setSortOptionOnHold] = useLocalStorageSortOptionState<SortOption>(
     STORED_SORT_OPTION_WORKLIST_ON_HOLD,
     "-responsibleLastUpdated",
   );

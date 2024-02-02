@@ -33,7 +33,7 @@ import { getPathsFromUrl, removeLastItemFromUrl } from "../../util/routeHelpers"
 import Footer from "../App/components/Footer";
 import { useSession } from "../Session/SessionProvider";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
-import { useStoredToggleHook } from "../WelcomePage/hooks/storedFilterHooks";
+import { useLocalStorageBooleanState } from "../WelcomePage/hooks/storedFilterHooks";
 import { getResultSubjectIdObject } from "../WelcomePage/utils";
 
 const StructureWrapper = styled.ul`
@@ -100,10 +100,10 @@ const StructureContainer = ({
   const [shouldScroll, setShouldScroll] = useState(!!paths.length);
 
   const { userPermissions, ndlaId } = useSession();
-  const [showFavorites, setShowFavorites] = useStoredToggleHook(REMEMBER_FAVORITE_NODES);
-  const [showLmaSubjects, setShowLmaSubjects] = useStoredToggleHook(REMEMBER_LMA_SUBJECTS);
-  const [showDaSubjects, setShowDaSubjects] = useStoredToggleHook(REMEMBER_DA_SUBJECTS);
-  const [showSaSubjects, setShowSaSubjects] = useStoredToggleHook(REMEMBER_SA_SUBJECTS);
+  const [showFavorites, setShowFavorites] = useLocalStorageBooleanState(REMEMBER_FAVORITE_NODES);
+  const [showLmaSubjects, setShowLmaSubjects] = useLocalStorageBooleanState(REMEMBER_LMA_SUBJECTS);
+  const [showDaSubjects, setShowDaSubjects] = useLocalStorageBooleanState(REMEMBER_DA_SUBJECTS);
+  const [showSaSubjects, setShowSaSubjects] = useLocalStorageBooleanState(REMEMBER_SA_SUBJECTS);
 
   const resourceSection = useRef<HTMLDivElement>(null);
   const firstRender = useRef(true);

@@ -13,7 +13,7 @@ import { Prefix } from "../components/TableComponent";
 
 type ReturnStateType<T> = [T, (v: T) => void];
 
-export const useStoredSubjectFilterHook = (
+export const useLocalStorageSubjectFilterState = (
   localStorageKey: string,
   language: string,
 ): ReturnStateType<SingleValue | undefined> => {
@@ -47,7 +47,7 @@ export const useStoredSubjectFilterHook = (
 
 const defaultPageSize = { label: "6", value: "6" };
 
-export const useStoredPageSizeHook = (localStorageKey: string): ReturnStateType<SingleValue> => {
+export const useLocalStoragePageSizeState = (localStorageKey: string): ReturnStateType<SingleValue> => {
   const storedPageSize = localStorage.getItem(localStorageKey);
 
   const [pageSize, _setPageSize] = useState<SingleValue>(
@@ -70,7 +70,7 @@ export const useStoredPageSizeHook = (localStorageKey: string): ReturnStateType<
   return [pageSize, setPageSize];
 };
 
-export const useStoredSortOptionHook = <T extends string>(
+export const useLocalStorageSortOptionState = <T extends string>(
   localStorageKey: string,
   fallbackSortOption: Prefix<"-", T>,
 ): ReturnStateType<Prefix<"-", T>> => {
@@ -88,7 +88,7 @@ export const useStoredSortOptionHook = <T extends string>(
 
   return [sortOption, setSortOption];
 };
-export const useStoredToggleHook = (localStorageKey: string): ReturnStateType<boolean> => {
+export const useLocalStorageBooleanState = (localStorageKey: string): ReturnStateType<boolean> => {
   const [value, _setValue] = useState(localStorage.getItem(localStorageKey) === "true");
 
   const setValue = useCallback(

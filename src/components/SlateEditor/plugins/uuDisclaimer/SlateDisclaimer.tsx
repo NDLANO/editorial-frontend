@@ -81,7 +81,6 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
 
   const onSaveDisclaimerText = useCallback(
     (values: FormikValues) => {
-      console.log(values);
       setModalOpen(false);
     },
     [setModalOpen],

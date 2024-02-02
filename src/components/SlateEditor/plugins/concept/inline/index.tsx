@@ -8,7 +8,7 @@
 
 import { Descendant, Editor, Element, Node, Range, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { TYPE_CONCEPT_INLINE, TYPE_GLOSS_INLINE } from "./types";
+import { TYPE_CONCEPT_INLINE } from "./types";
 import { createEmbedTagV2, reduceElementDataAttributesV2 } from "../../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../../interfaces";
 import hasNodeOfType from "../../../utils/hasNodeOfType";
@@ -24,7 +24,7 @@ export const inlineConceptSerializer: SlateSerializer = {
       return slatejsx(
         "element",
         {
-          type: embedAttributes.conceptType === "concept" ? TYPE_CONCEPT_INLINE : TYPE_GLOSS_INLINE,
+          type: TYPE_CONCEPT_INLINE,
           data: embedAttributes,
         },
         [
@@ -36,7 +36,7 @@ export const inlineConceptSerializer: SlateSerializer = {
     }
   },
   serialize(node: Descendant) {
-    if (!Element.isElement(node) || (node.type !== TYPE_CONCEPT_INLINE && node.type !== TYPE_GLOSS_INLINE)) return;
+    if (!Element.isElement(node) || node.type !== TYPE_CONCEPT_INLINE) return;
 
     const data = {
       ...node.data,
@@ -48,7 +48,7 @@ export const inlineConceptSerializer: SlateSerializer = {
 };
 
 const onBackspace = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: KeyboardEvent) => void) => {
-  if (hasNodeOfType(editor, TYPE_CONCEPT_INLINE) || hasNodeOfType(editor, TYPE_GLOSS_INLINE)) {
+  if (hasNodeOfType(editor, TYPE_CONCEPT_INLINE)) {
     if (Range.isRange(editor.selection)) {
       // Replace heading with paragraph if last character is removed
       if (
@@ -59,8 +59,7 @@ const onBackspace = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: K
         e.preventDefault();
         editor.deleteBackward("character");
         Transforms.unwrapNodes(editor, {
-          match: (node) =>
-            Element.isElement(node) && (node.type === TYPE_CONCEPT_INLINE || node.type === TYPE_GLOSS_INLINE),
+          match: (node) => Element.isElement(node) && node.type === TYPE_CONCEPT_INLINE,
         });
         return;
       }
@@ -73,7 +72,7 @@ export const inlineConceptPlugin = (editor: Editor) => {
   const { isInline: nextIsInline, onKeyDown: nextOnKeyDown } = editor;
 
   editor.isInline = (element: Element) => {
-    if (element.type === TYPE_CONCEPT_INLINE || element.type === TYPE_GLOSS_INLINE) {
+    if (element.type === TYPE_CONCEPT_INLINE) {
       return true;
     } else {
       return nextIsInline(element);

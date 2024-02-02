@@ -8,12 +8,12 @@
 
 import { Editor } from "slate";
 import BlockWrapper from "./BlockWrapper";
-import { TYPE_CONCEPT_BLOCK, TYPE_GLOSS_BLOCK } from "./types";
+import { TYPE_CONCEPT_BLOCK } from "./types";
 
 export const blockConceptRenderer = (locale: string) => (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
-    if (element.type === TYPE_CONCEPT_BLOCK || element.type === TYPE_GLOSS_BLOCK) {
+    if (element.type === TYPE_CONCEPT_BLOCK) {
       return (
         <BlockWrapper attributes={attributes} element={element} editor={editor} locale={locale}>
           {children}

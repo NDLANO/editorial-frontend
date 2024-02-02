@@ -12,6 +12,6 @@ import { ConceptEmbedData } from "@ndla/types-embed";
 export interface ConceptInlineElement {
   type: "concept-inline" | "gloss-inline";
   data: ConceptEmbedData;
-  isFirstEdit?: boolean;
   children: Descendant[];
+  isFirstEdit?: boolean;
 }

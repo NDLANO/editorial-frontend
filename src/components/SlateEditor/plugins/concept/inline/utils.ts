@@ -8,10 +8,11 @@
 
 import { Editor, Transforms, Element, Range } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { TYPE_CONCEPT_INLINE, TYPE_GLOSS_INLINE } from "./types";
+import { ConceptEmbedData } from "@ndla/types-embed";
+import { TYPE_CONCEPT_INLINE } from "./types";
 import hasNodeOfType from "../../../utils/hasNodeOfType";
 
-export const insertInlineConcept = (editor: Editor) => {
+export const insertInlineConcept = (editor: Editor, conceptType: ConceptEmbedData["conceptType"] = "concept") => {
   if (hasNodeOfType(editor, TYPE_CONCEPT_INLINE)) {
     Transforms.unwrapNodes(editor, {
       match: (node) => Element.isElement(node) && node.type === TYPE_CONCEPT_INLINE,
@@ -49,55 +50,7 @@ export const insertInlineConcept = (editor: Editor) => {
       slatejsx("element", {
         type: TYPE_CONCEPT_INLINE,
         isFirstEdit: true,
-        data: {},
-      }),
-      {
-        at: Editor.unhangRange(editor, editor.selection),
-        split: true,
-      },
-    );
-  }
-};
-
-export const insertInlineGloss = (editor: Editor) => {
-  if (hasNodeOfType(editor, TYPE_GLOSS_INLINE)) {
-    Transforms.unwrapNodes(editor, {
-      match: (node) => Element.isElement(node) && node.type === TYPE_GLOSS_INLINE,
-      voids: true,
-    });
-    return;
-  }
-  if (Range.isRange(editor.selection) && !Range.isCollapsed(editor.selection)) {
-    const unhangedRange = Editor.unhangRange(editor, editor.selection);
-    Transforms.select(editor, unhangedRange);
-
-    const text = Editor.string(editor, unhangedRange);
-    const leftSpaces = text.length - text.trimStart().length;
-    const rightSpaces = text.length - text.trimEnd().length;
-
-    if (leftSpaces) {
-      Transforms.move(editor, {
-        distance: leftSpaces,
-        unit: "offset",
-        edge: "start",
-      });
-    }
-
-    if (rightSpaces) {
-      Transforms.move(editor, {
-        distance: rightSpaces,
-        unit: "offset",
-        edge: "end",
-        reverse: true,
-      });
-    }
-
-    Transforms.wrapNodes(
-      editor,
-      slatejsx("element", {
-        type: TYPE_GLOSS_INLINE,
-        isFirstEdit: true,
-        data: {},
+        data: { conceptType: conceptType },
       }),
       {
         at: Editor.unhangRange(editor, editor.selection),

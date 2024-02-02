@@ -6,9 +6,9 @@
  *
  */
 
-import { Editor } from 'slate';
-import SlateDisclaimer from './SlateDisclaimer';
-import { TYPE_DISCLAIMER } from './types';
+import { Editor } from "slate";
+import SlateDisclaimer from "./SlateDisclaimer";
+import { TYPE_DISCLAIMER } from "./types";
 
 export const disclaimerRenderer = (editor: Editor) => {
   const { renderElement } = editor;

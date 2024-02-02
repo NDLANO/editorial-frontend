@@ -6,15 +6,15 @@
  *
  */
 
-import { Descendant, Editor, Element } from 'slate';
-import { jsx as slatejsx } from 'slate-hyperscript';
-import { TYPE_DISCLAIMER } from './types';
-import { createEmbedTagV2, reduceElementDataAttributesV2 } from '../../../../util/embedTagHelpers';
-import { SlateSerializer } from '../../interfaces';
-import { NormalizerConfig, defaultBlockNormalizer } from '../../utils/defaultNormalizer';
-import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
-import { TYPE_NDLA_EMBED } from '../embed/types';
-import { TYPE_PARAGRAPH } from '../paragraph/types';
+import { Descendant, Editor, Element } from "slate";
+import { jsx as slatejsx } from "slate-hyperscript";
+import { TYPE_DISCLAIMER } from "./types";
+import { createEmbedTagV2, reduceElementDataAttributesV2 } from "../../../../util/embedTagHelpers";
+import { SlateSerializer } from "../../interfaces";
+import { NormalizerConfig, defaultBlockNormalizer } from "../../utils/defaultNormalizer";
+import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
+import { TYPE_NDLA_EMBED } from "../embed/types";
+import { TYPE_PARAGRAPH } from "../paragraph/types";
 
 export const disclaimerSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
@@ -22,7 +22,7 @@ export const disclaimerSerializer: SlateSerializer = {
     const embed = el as HTMLEmbedElement;
     const embedAttributes = reduceElementDataAttributesV2(Array.from(embed.attributes));
     if (embedAttributes.resource !== TYPE_DISCLAIMER) return;
-    return slatejsx('element', { type: TYPE_DISCLAIMER, data: embedAttributes }, children);
+    return slatejsx("element", { type: TYPE_DISCLAIMER, data: embedAttributes }, children);
   },
   serialize(node: Descendant, children: JSX.Element[]) {
     if (!Element.isElement(node) || node.type !== TYPE_DISCLAIMER || !node.data) return;

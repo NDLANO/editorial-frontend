@@ -6,12 +6,12 @@
  *
  */
 
-import { Descendant } from 'slate';
-import { UuDisclaimerEmbedData } from '@ndla/types-embed';
-export const TYPE_DISCLAIMER = 'uu-disclaimer';
+import { Descendant } from "slate";
+import { UuDisclaimerEmbedData } from "@ndla/types-embed";
+export const TYPE_DISCLAIMER = "uu-disclaimer";
 
 export interface DisclaimerElement {
-  type: 'uu-disclaimer';
+  type: "uu-disclaimer";
   data: UuDisclaimerEmbedData;
   children: Descendant[];
 }

@@ -127,8 +127,6 @@ const BlockWrapper = ({ element, locale, editor, attributes, children }: Props) 
     }
   }, [editor, element]);
 
-  const fallbackConceptType = element.type === "concept-block" ? "concept" : "gloss";
-
   return (
     <Modal open={isEditing} onOpenChange={setIsEditing}>
       <StyledWrapper {...attributes} data-solid-border={isSelected} draggable={true}>
@@ -153,7 +151,7 @@ const BlockWrapper = ({ element, locale, editor, attributes, children }: Props) 
             concept={concept}
             subjects={subjects}
             handleRemove={handleRemove}
-            conceptType={(concept?.conceptType ?? fallbackConceptType) as ConceptType}
+            conceptType={(concept?.conceptType ?? element.conceptType) as ConceptType}
             {...conceptHooks}
           />
         </ModalContent>

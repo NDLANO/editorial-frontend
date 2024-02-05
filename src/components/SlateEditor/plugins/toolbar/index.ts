@@ -23,7 +23,8 @@ import { toggleMark } from "../mark/utils";
 
 const isBoldHotkey = isKeyHotkey("mod+b");
 const isCodeHotKey = isKeyHotkey("mod+k");
-const isConceptBlockHotKey = isCodeHotkey("mod+alt+c");
+const isConceptHotKey = isCodeHotkey("mod+alt+c");
+const isGlossHotKey = isCodeHotkey("mod+alt+g");
 const isH2HotKey = isKeyHotkey("mod+2");
 const isH3HotKey = isKeyHotkey("mod+3");
 const isH4HotKey = isKeyHotkey("mod+4");
@@ -64,8 +65,10 @@ const toolbarPlugin = (
       action = { category: "mark", value: "bold" };
     } else if (isCodeHotKey(e)) {
       action = { category: "mark", value: "code" };
-    } else if (isConceptBlockHotKey(e)) {
+    } else if (isConceptHotKey(e)) {
       action = { category: "inline", value: "concept-inline" };
+    } else if (isGlossHotKey(e)) {
+      action = { category: "inline", value: "gloss-inline" };
     } else if (isH2HotKey(e)) {
       action = { category: "text", value: "heading-2" };
     } else if (isH3HotKey(e)) {

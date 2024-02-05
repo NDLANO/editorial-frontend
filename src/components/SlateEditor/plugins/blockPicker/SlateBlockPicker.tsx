@@ -32,7 +32,7 @@ import { defaultCampaignBlock } from "../campaignBlock/utils";
 import { TYPE_CODEBLOCK } from "../codeBlock/types";
 import { defaultCodeblockBlock } from "../codeBlock/utils";
 import { TYPE_CONCEPT_BLOCK, TYPE_GLOSS_BLOCK } from "../concept/block/types";
-import { defaultConceptBlock, defaultGlossBlock } from "../concept/block/utils";
+import { defaultConceptBlock } from "../concept/block/utils";
 import { TYPE_CONCEPT_LIST } from "../conceptList/types";
 import { defaultConceptListBlock } from "../conceptList/utils";
 import { TYPE_CONTACT_BLOCK } from "../contactBlock/types";
@@ -350,7 +350,7 @@ const SlateBlockPicker = ({
         break;
       }
       case TYPE_GLOSS_BLOCK: {
-        onInsertBlock(defaultGlossBlock());
+        onInsertBlock(defaultConceptBlock("gloss"));
         break;
       }
       default:

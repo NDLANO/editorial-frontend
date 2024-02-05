@@ -21,8 +21,9 @@ import { IConcept, IConceptSummary } from "@ndla/types-backend/concept-api";
 import { ConceptEmbedData, ConceptMetaData } from "@ndla/types-embed";
 import { ConceptEmbed } from "@ndla/ui";
 import { ConceptBlockElement } from "./interfaces";
-import { TYPE_CONCEPT_BLOCK, TYPE_GLOSS_BLOCK } from "./types";
+import { TYPE_CONCEPT_BLOCK } from "./types";
 import { PUBLISHED } from "../../../../../constants";
+import { ConceptType } from "../../../../../containers/ConceptPage/conceptInterfaces";
 import { useFetchConceptData } from "../../../../../containers/FormikForm/formikConceptHooks";
 import { useConceptVisualElement } from "../../../../../modules/embed/queries";
 import parseMarkdown from "../../../../../util/parseMarkdown";
@@ -93,8 +94,7 @@ const BlockWrapper = ({ element, locale, editor, attributes, children }: Props) 
         { data },
         {
           at: path,
-          match: (node) =>
-            Element.isElement(node) && (node.type === TYPE_CONCEPT_BLOCK || node.type === TYPE_GLOSS_BLOCK),
+          match: (node) => Element.isElement(node) && node.type === TYPE_CONCEPT_BLOCK,
         },
       );
     },
@@ -151,7 +151,7 @@ const BlockWrapper = ({ element, locale, editor, attributes, children }: Props) 
             concept={concept}
             subjects={subjects}
             handleRemove={handleRemove}
-            conceptType={element.type === "gloss-block" ? "gloss" : "concept"}
+            conceptType={(concept?.conceptType ?? element.conceptType) as ConceptType}
             {...conceptHooks}
           />
         </ModalContent>

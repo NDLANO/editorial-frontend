@@ -273,6 +273,7 @@ const phrases = {
     placeholder: "Search articles",
     types: {
       conceptQuery: "Search for concept",
+      glossQuery: "Search for gloss",
       contentQuery: "Search for content",
       audioQuery: "Search for audio files",
       podcastSeriesQuery: "Search for podcast series",
@@ -637,6 +638,7 @@ const phrases = {
     code: "Inline code\n({{ctrl}}+k)",
     "code-block": "Code",
     "concept-inline": "Concept\n({{ctrl}}+alt+c)",
+    "gloss-inline": "Gloss\n({{ctrl}}+alt+g)",
     footnote: "Footnote\n({{ctrl}}+alt+f)",
     language: `Language`,
     noneLanguage: "None",

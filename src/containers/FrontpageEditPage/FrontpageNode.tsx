@@ -103,7 +103,6 @@ const FrontpageNode = ({ name, remove, index, level, replace }: Props) => {
     };
     replace(index, updatedExisting);
   }, [field.value, index, replace]);
-
   const onAdd = useCallback(
     (val: IArticleSummaryV2) => {
       const newMenu: MenuWithArticle = {
@@ -154,7 +153,7 @@ const FrontpageNode = ({ name, remove, index, level, replace }: Props) => {
         <EditButtonWrapper>
           {level > 0 && (
             <HideButton
-              data-hidden={field.value.hideLevel}
+              data-hidden={field.value.hideLevel || false}
               aria-label={t("hide")}
               title={t("hide")}
               variant="ghost"

@@ -272,6 +272,7 @@ const phrases = {
     placeholder: "Søk etter artikler, aktiviteter eller oppgaver",
     types: {
       conceptQuery: "Søk på forklaringar",
+      glossQuery: "Søk på glose",
       contentQuery: "Søk på innhald",
       audioQuery: "Søk på lydfiler",
       podcastSeriesQuery: "Søk på podkastserier",
@@ -636,6 +637,7 @@ const phrases = {
     code: "Kode\n({{ctrl}}+k)",
     "code-block": "Kodeblokk",
     "concept-inline": "Forklaring\n({{ctrl}}+alt+c)",
+    "gloss-inline": "Glose\n({{ctrl}}+alt+g)",
     footnote: "Fotnote\n({{ctrl}}+alt+f)",
     language: `Språk`,
     noneLanguage: "Ingen",
@@ -952,8 +954,8 @@ const phrases = {
       displayOnGloss: "Vis dette dømet på glosekortet",
       titleSection: "Norsk omsetjing",
       audio: {
-        helperText: "Legg til ei lydfil til glosen.",
-        button: "Legg til lydfil",
+        helperText: "Legg til lyd fra lyd-api til glosen.",
+        button: "Legg til lyd",
       },
       examples: {
         title: "Eksemplar på bruk av glosen",

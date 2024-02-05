@@ -12,7 +12,20 @@ import styled from "@emotion/styled";
 import Tabs from "@ndla/tabs";
 import ArticleStatusContent from "./ArticleStatusContent";
 import { GRID_GAP } from "../../../components/Layout/Layout";
-import { FAVOURITES_SUBJECT_ID, LMA_SUBJECT_ID, SA_SUBJECT_ID, DA_SUBJECT_ID } from "../../../constants";
+import {
+  DA_SUBJECT_ID,
+  FAVOURITES_SUBJECT_ID,
+  SA_SUBJECT_ID,
+  LMA_SUBJECT_ID,
+  STORED_FILTER_DA_SUBJECT,
+  STORED_FILTER_FAVORITES,
+  STORED_FILTER_LMA_SUBJECT,
+  STORED_FILTER_SA_SUBJECT,
+  STORED_ON_HOLD_DA_SUBJECT,
+  STORED_ON_HOLD_FAVORITES,
+  STORED_ON_HOLD_LMA_SUBJECT,
+  STORED_ON_HOLD_SA_SUBJECT,
+} from "../../../constants";
 import { usePostSearchNodesMutation } from "../../../modules/nodes/nodeMutations";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { SubjectIdObject, customFieldsBody, defaultSubjectIdObject, getResultSubjectIdObject } from "../utils";
@@ -61,6 +74,8 @@ const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataLoading }: Props) =
                     title={t("welcomePage.lmaSubjectsHeading")}
                     description={t("welcomePage.lmaSubjectsDescription")}
                     searchPageSubjectFilter={LMA_SUBJECT_ID}
+                    localStorageKey={STORED_FILTER_LMA_SUBJECT}
+                    onHoldLocalStorageKey={STORED_ON_HOLD_LMA_SUBJECT}
                   />
                 ),
               },
@@ -78,6 +93,8 @@ const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataLoading }: Props) =
                     title={t("welcomePage.daSubjectsHeading")}
                     description={t("welcomePage.daSubjectsDescription")}
                     searchPageSubjectFilter={DA_SUBJECT_ID}
+                    localStorageKey={STORED_FILTER_DA_SUBJECT}
+                    onHoldLocalStorageKey={STORED_ON_HOLD_DA_SUBJECT}
                   />
                 ),
               },
@@ -95,6 +112,8 @@ const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataLoading }: Props) =
                     title={t("welcomePage.saSubjectsHeading")}
                     description={t("welcomePage.saSubjectsDescription")}
                     searchPageSubjectFilter={SA_SUBJECT_ID}
+                    localStorageKey={STORED_FILTER_SA_SUBJECT}
+                    onHoldLocalStorageKey={STORED_ON_HOLD_SA_SUBJECT}
                   />
                 ),
               },
@@ -112,6 +131,8 @@ const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataLoading }: Props) =
                     title={t("welcomePage.favoriteSubjectsHeading")}
                     description={t("welcomePage.favoriteSubjectsDescription")}
                     searchPageSubjectFilter={FAVOURITES_SUBJECT_ID}
+                    localStorageKey={STORED_FILTER_FAVORITES}
+                    onHoldLocalStorageKey={STORED_ON_HOLD_FAVORITES}
                   />
                 ),
               },

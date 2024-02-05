@@ -30,6 +30,7 @@ import {
   AlignCenter,
   AlignRight,
   FormatList,
+  Globe,
 } from "@ndla/icons/editor";
 
 const StyledHeadingSpan = styled.span`
@@ -80,6 +81,7 @@ const icon: Record<string, ElementType> = {
   "definition-list": FormatList,
   mathml: Math,
   "concept-inline": Concept,
+  "gloss-inline": Globe,
   code: Code,
   "code-block": Code,
   language: Language,

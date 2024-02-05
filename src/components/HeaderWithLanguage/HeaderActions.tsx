@@ -158,17 +158,17 @@ const HeaderActions = ({
   const languages = useMemo(
     () => [
       { key: "nn", title: t("languages.nn"), include: true },
-      { key: "en", title: t("languages.en"), include: true },
+      { key: "en", title: t("languages.en"), include: type !== "gloss" },
       { key: "nb", title: t("languages.nb"), include: true },
-      { key: "sma", title: t("languages.sma"), include: true },
-      { key: "se", title: t("languages.se"), include: true },
+      { key: "sma", title: t("languages.sma"), include: type !== "gloss" },
+      { key: "se", title: t("languages.se"), include: type !== "gloss" },
       { key: "und", title: t("languages.und"), include: false },
-      { key: "de", title: t("languages.de"), include: true },
-      { key: "es", title: t("languages.es"), include: true },
-      { key: "zh", title: t("languages.zh"), include: true },
-      { key: "ukr", title: t("languages.ukr"), include: true },
+      { key: "de", title: t("languages.de"), include: type !== "gloss" },
+      { key: "es", title: t("languages.es"), include: type !== "gloss" },
+      { key: "zh", title: t("languages.zh"), include: type !== "gloss" },
+      { key: "ukr", title: t("languages.ukr"), include: type !== "gloss" },
     ],
-    [t],
+    [t, type],
   );
 
   const emptyLanguages = useMemo(

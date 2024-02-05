@@ -24,6 +24,7 @@ import { ConceptEmbed, InlineConcept } from "@ndla/ui";
 import { ConceptInlineElement } from "./interfaces";
 import { TYPE_CONCEPT_INLINE } from "./types";
 import { PUBLISHED } from "../../../../../constants";
+import { ConceptType } from "../../../../../containers/ConceptPage/conceptInterfaces";
 import { useFetchConceptData } from "../../../../../containers/FormikForm/formikConceptHooks";
 import { useConceptVisualElement } from "../../../../../modules/embed/queries";
 import parseMarkdown from "../../../../../util/parseMarkdown";
@@ -240,6 +241,7 @@ const InlineWrapper = (props: Props) => {
           createConcept={createConcept}
           updateConcept={updateConcept}
           conceptArticles={conceptArticles}
+          conceptType={(concept?.conceptType ?? element.conceptType) as ConceptType}
         />
       </ModalContent>
     </Modal>

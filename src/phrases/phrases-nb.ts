@@ -272,6 +272,7 @@ const phrases = {
     placeholder: "Søk etter artikler, aktiviteter eller oppgaver",
     types: {
       conceptQuery: "Søk på forklaring",
+      glossQuery: "Søk på glose",
       contentQuery: "Søk på innhold",
       audioQuery: "Søk på lydfiler",
       podcastSeriesQuery: "Søk på podkastserier",
@@ -636,6 +637,7 @@ const phrases = {
     code: "Kode\n({{ctrl}}+k)",
     "code-block": "Kodeblokk",
     "concept-inline": "Forklaring\n({{ctrl}}+alt+c)",
+    "gloss-inline": "Glose\n({{ctrl}}+alt+g)",
     footnote: "Fotnote\n({{ctrl}}+alt+f)",
     language: `Språk`,
     noneLanguage: "Ingen",
@@ -850,8 +852,8 @@ const phrases = {
       displayOnGloss: "Vis dette eksempelet på glosekortet",
       titleSection: "Norsk oversettelse",
       audio: {
-        helperText: "Legg til en lydfil til glosen.",
-        button: "Legg til lydfil",
+        helperText: "Legg til lyd fra lyd-api til glosen.",
+        button: "Legg til lyd",
       },
       examples: {
         title: "Eksempler på bruk av glosen",

@@ -28,7 +28,6 @@ const DISCLAIMER_EXAMPLES_LINK =
 interface DisclaimerFormProps {
   initialData?: UuDisclaimerEmbedData;
   onOpenChange: Dispatch<SetStateAction<boolean>>;
-  // onSave: (newDisclaimer: string) => void;
   onSave: (values: UuDisclaimerEmbedData) => void;
 }
 
@@ -83,11 +82,14 @@ const DisclaimerForm = ({ initialData, onOpenChange, onSave }: DisclaimerFormPro
 
   const onSubmit = useCallback(
     (values: FormikValues) => {
-      onSave(values.disclaimer);
-      // onSave(editorValueToPlainText(values.disclaimer));
+      onSave({
+        resource: "uu-disclaimer",
+        articleId: initialData?.articleId,
+        disclaimer: editorValueToPlainText(values.disclaimer),
+      });
       onOpenChange(false);
     },
-    [onOpenChange, onSave],
+    [initialData?.articleId, onOpenChange, onSave],
   );
 
   return (

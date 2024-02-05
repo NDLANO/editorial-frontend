@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
+import { ReactNode, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
@@ -50,7 +50,6 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
   const { t } = useTranslation();
   const { data } = element;
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  // const [embed, setEmbed] = useState<UuDisclaimerMetaData | undefined>(undefined);
   const disclaimerMetaQuery = useDisclaimerMeta();
 
   const embed: UuDisclaimerMetaData | undefined = useMemo(
@@ -79,22 +78,8 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
     }, 0);
   };
   const onSaveDisclaimerText = useCallback(
-    // (newDisclaimer: string) => {
     (values: UuDisclaimerEmbedData) => {
-      console.log(values);
       setModalOpen(false);
-      // const newData: UuDisclaimerMetaData = {
-      //   status: !!disclaimerMetaQuery.error || !disclaimerMetaQuery.data ? "error" : "success",
-      //   data: disclaimerMetaQuery.data!,
-      //   embedData: { ...data, disclaimer: newDisclaimer },
-      //   resource: data?.resource,
-      // };
-      // setEmbed({
-      //   status: !!disclaimerMetaQuery.error || !disclaimerMetaQuery.data ? "error" : "success",
-      //   data: disclaimerMetaQuery.data!,
-      //   embedData: { ...data, disclaimer: newDisclaimer },
-      //   resource: data?.resource,
-      // });
       ReactEditor.focus(editor);
       const path = ReactEditor.findPath(editor, element);
       Transforms.setNodes(
@@ -113,19 +98,6 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
     },
     [setModalOpen, editor, element],
   );
-
-  // useEffect(() => {
-  //   if (data) {
-  //     setEmbed({
-  //       status: !!disclaimerMetaQuery.error || !disclaimerMetaQuery.data ? "error" : "success",
-  //       data: disclaimerMetaQuery.data!,
-  //       embedData: { ...data, disclaimer: data?.disclaimer },
-  //       resource: data?.resource,
-  //     });
-  //   } else {
-  //     setEmbed(undefined);
-  //   }
-  // }, [data, disclaimerMetaQuery.error, disclaimerMetaQuery.data]);
 
   return (
     <div {...attributes}>

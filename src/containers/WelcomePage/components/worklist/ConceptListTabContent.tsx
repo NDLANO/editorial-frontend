@@ -15,7 +15,7 @@ import { Select, SingleValue } from "@ndla/select";
 import { IConceptSearchResult, IConceptSummary, IStatus } from "@ndla/types-backend/concept-api";
 import PageSizeDropdown from "./PageSizeDropdown";
 import StatusCell from "./StatusCell";
-import { SortOption } from "./WorkList";
+import { SortOptionConceptList } from "./WorkList";
 import { searchNodes } from "../../../../modules/nodes/nodeApi";
 import formatDate from "../../../../util/formatDate";
 import { toEditConcept, toEditGloss } from "../../../../util/routeHelpers";
@@ -29,7 +29,7 @@ interface Props {
   data: IConceptSearchResult | undefined;
   filterSubject: SingleValue | undefined;
   isLoading: boolean;
-  setSortOption: (o: Prefix<"-", SortOption>) => void;
+  setSortOption: (o: Prefix<"-", SortOptionConceptList>) => void;
   sortOption: string;
   error: string | undefined;
   setFilterSubject: (fs: SingleValue) => void;
@@ -140,7 +140,7 @@ const ConceptListTabContent = ({
     [conceptData],
   );
 
-  const tableTitles: TitleElement<SortOption>[] = [
+  const tableTitles: TitleElement<SortOptionConceptList>[] = [
     {
       title: t("welcomePage.workList.title"),
       sortableField: "title",
@@ -151,8 +151,8 @@ const ConceptListTabContent = ({
       sortableField: "status",
       width: "20%",
     },
-    { title: t("welcomePage.workList.contentType"), width: "20%" },
-    { title: t("welcomePage.workList.conceptSubject"), width: "20%" },
+    { title: t("welcomePage.workList.contentType"), width: "20%", sortableField: "conceptTypeName" },
+    { title: t("welcomePage.workList.conceptSubject"), width: "20%", sortableField: "subjectName" },
     {
       title: t("welcomePage.workList.date"),
       sortableField: "responsibleLastUpdated",

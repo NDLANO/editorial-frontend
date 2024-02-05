@@ -13,16 +13,14 @@ import styled from "@emotion/styled";
 import { mq, breakpoints, colors, spacing } from "@ndla/core";
 import { Alarm, Time } from "@ndla/icons/common";
 import Pager from "@ndla/pager";
-import { SingleValue } from "@ndla/select";
 import Tooltip from "@ndla/tooltip";
 import { IUserData } from "@ndla/types-backend/draft-api";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
 import GoToSearch from "./GoToSearch";
-import TableComponent, { FieldElement, Prefix, TitleElement } from "./TableComponent";
+import TableComponent, { FieldElement, TitleElement } from "./TableComponent";
 import TableTitle from "./TableTitle";
 import PageSizeDropdown from "./worklist/PageSizeDropdown";
 import SubjectDropdown from "./worklist/SubjectDropdown";
-import { defaultPageSize } from "./worklist/WorkList";
 import { getWarnStatus } from "../../../components/HeaderWithLanguage/HeaderStatusInformation";
 import {
   FAVOURITES_SUBJECT_ID,
@@ -30,11 +28,19 @@ import {
   STORED_SORT_OPTION_REVISION,
   Revision,
   STORED_PAGE_SIZE_REVISION,
+  STORED_FILTER_REVISION,
+  STORED_PRIMARY_CONNECTION,
 } from "../../../constants";
 import { useSearch } from "../../../modules/search/searchQueries";
 import formatDate, { formatDateForBackend } from "../../../util/formatDate";
 import { toEditArticle } from "../../../util/routeHelpers";
 import { getExpirationDate } from "../../ArticlePage/articleTransformers";
+import {
+  useLocalStoragePageSizeState,
+  useLocalStorageSortOptionState,
+  useLocalStorageSubjectFilterState,
+  useLocalStorageBooleanState,
+} from "../hooks/storedFilterHooks";
 import {
   ControlWrapperDashboard,
   StyledDashboardInfo,
@@ -82,26 +88,24 @@ interface Props {
 type SortOptionRevision = "title" | "revisionDate" | "status";
 
 const Revisions = ({ userData }: Props) => {
-  const storedPageSize = localStorage.getItem(STORED_PAGE_SIZE_REVISION);
-  const [filterSubject, setFilterSubject] = useState<SingleValue | undefined>(undefined);
-  const [sortOption, _setSortOption] = useState<Prefix<"-", SortOptionRevision>>(
-    (localStorage.getItem(STORED_SORT_OPTION_REVISION) as Prefix<"-", SortOptionRevision>) || "revisionDate",
-  );
-  const [page, setPage] = useState(1);
-  const [pageSize, _setPageSize] = useState<SingleValue>(
-    storedPageSize
-      ? {
-          label: storedPageSize,
-          value: storedPageSize,
-        }
-      : defaultPageSize,
-  );
-  const [checked, setChecked] = useState(false);
-
   const {
     t,
     i18n: { language },
   } = useTranslation();
+
+  const [filterSubject, setFilterSubject] = useLocalStorageSubjectFilterState(STORED_FILTER_REVISION, language);
+  const [pageSize, setPageSize] = useLocalStoragePageSizeState(STORED_PAGE_SIZE_REVISION);
+  const [sortOption, setSortOption] = useLocalStorageSortOptionState<SortOptionRevision>(
+    STORED_SORT_OPTION_REVISION,
+    "revisionDate",
+  );
+  const [onlyShowPrimaryConnection, setOnlyShowPrimaryConnection] =
+    useLocalStorageBooleanState(STORED_PRIMARY_CONNECTION);
+  const [page, setPage] = useState(1);
+
+  useEffect(() => {
+    setPage(1);
+  }, [pageSize]);
 
   const tableTitles: TitleElement<SortOptionRevision>[] = [
     { title: t("form.name.title"), sortableField: "title", width: "40%" },
@@ -160,14 +164,21 @@ const Revisions = ({ userData }: Props) => {
 
   const filteredData = useMemo(
     () =>
-      checked
+      onlyShowPrimaryConnection
         ? getDataPrimaryConnectionToFavorite(data?.results)
         : {
             results: data?.results,
             totalCount: data?.totalCount,
             pageSize: data?.pageSize ?? Number(pageSize!.value),
           },
-    [checked, data?.pageSize, data?.results, data?.totalCount, getDataPrimaryConnectionToFavorite, pageSize],
+    [
+      onlyShowPrimaryConnection,
+      data?.pageSize,
+      data?.results,
+      data?.totalCount,
+      getDataPrimaryConnectionToFavorite,
+      pageSize,
+    ],
   );
 
   const lastPage = useMemo(
@@ -227,18 +238,6 @@ const Revisions = ({ userData }: Props) => {
     [filteredData, t],
   );
 
-  const setSortOption = useCallback((s: Prefix<"-", SortOptionRevision>) => {
-    _setSortOption(s);
-    localStorage.setItem(STORED_SORT_OPTION_REVISION, s);
-  }, []);
-
-  const setPageSize = useCallback((p: SingleValue) => {
-    if (!p) return;
-    _setPageSize(p);
-    setPage(1);
-    localStorage.setItem(STORED_PAGE_SIZE_REVISION, p.value);
-  }, []);
-
   return (
     <RevisionsWrapper>
       <StyledDashboardInfo>
@@ -268,9 +267,9 @@ const Revisions = ({ userData }: Props) => {
             <Tooltip tooltip={t("welcomePage.primaryConnection")}>
               <SwitchWrapper>
                 <StyledSwitch
-                  checked={checked}
+                  checked={onlyShowPrimaryConnection}
                   onChange={() => {
-                    setChecked(!checked);
+                    setOnlyShowPrimaryConnection(!onlyShowPrimaryConnection);
                     setPage(1);
                   }}
                   label={t("welcomePage.primaryConnectionLabel")}

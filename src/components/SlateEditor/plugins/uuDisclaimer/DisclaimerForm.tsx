@@ -7,7 +7,7 @@
  */
 
 import { FieldProps, Form, Formik, FormikValues } from "formik";
-import { Dispatch, SetStateAction, useMemo } from "react";
+import { Dispatch, SetStateAction, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
 import styled from "@emotion/styled";
@@ -17,7 +17,7 @@ import { ModalBody } from "@ndla/modal";
 import SafeLink from "@ndla/safelink";
 import { UuDisclaimerEmbedData } from "@ndla/types-embed";
 import { Text } from "@ndla/typography";
-import { plainTextToEditorValue } from "../../../../util/articleContentConverter";
+import { plainTextToEditorValue, editorValueToPlainText } from "../../../../util/articleContentConverter";
 import FormikField from "../../../FormikField";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
 import PlainTextEditor from "../../PlainTextEditor";
@@ -28,7 +28,7 @@ const DISCLAIMER_EXAMPLES_LINK =
 interface DisclaimerFormProps {
   initialData?: UuDisclaimerEmbedData;
   onOpenChange: Dispatch<SetStateAction<boolean>>;
-  onSave: (values: FormikValues) => void;
+  onSave: (newDisclaimer: string) => void;
 }
 
 interface DisclaimerFormValues {
@@ -80,11 +80,19 @@ const DisclaimerForm = ({ initialData, onOpenChange, onSave }: DisclaimerFormPro
   const initialValues = useMemo(() => toInitialValues(initialData), [initialData]);
   const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
 
+  const onSubmit = useCallback(
+    (values: FormikValues) => {
+      onSave(editorValueToPlainText(values.disclaimer));
+      onOpenChange(false);
+    },
+    [onOpenChange, onSave],
+  );
+
   return (
     <Formik
       initialValues={initialValues}
       initialErrors={initialErrors}
-      onSubmit={onSave}
+      onSubmit={onSubmit}
       validateOnMount
       validate={(values) => validateFormik(values, rules, t)}
     >

@@ -2051,6 +2051,7 @@ const phrases = {
     openChildren: "Vis barn",
     closeChildren: "Skjul barn",
   },
+  hide: "Skjul",
 };
 
 export default phrases;

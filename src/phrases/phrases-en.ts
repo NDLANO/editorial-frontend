@@ -2052,6 +2052,7 @@ const phrases = {
     openChildren: "Show children",
     closeChildren: "Hide children",
   },
+  hide: "Hide",
 };
 
 export default phrases;

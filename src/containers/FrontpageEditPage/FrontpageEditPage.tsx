@@ -100,14 +100,12 @@ const FrontpageEditPage = () => {
     }
     return addArticlesToAboutMenu(frontpageQuery.data, articlesQuery.data);
   }, [articlesQuery.data, articlesQuery.isLoading, frontpageQuery.data, frontpageQuery.isLoading]);
-  console.log(transformedMenu);
   const postFrontpageMutation = useUpdateFrontpageMutation();
 
   const onSubmit = useCallback(
     async (values: MenuWithArticle) => {
       if (!values.articleId) return;
-      console.log(values);
-      // await postFrontpageMutation.mutateAsync(menuWithArticleToIMenu(values));
+      await postFrontpageMutation.mutateAsync(menuWithArticleToIMenu(values));
     },
     [postFrontpageMutation],
   );
@@ -171,7 +169,6 @@ const RootFields = () => {
     },
     [articleHelpers, idHelpers],
   );
-  console.log(menuField.value, "menuField.value");
   return (
     <FrontpageArticleWrapper>
       <Heading element="h1" headingStyle="h3" margin="none">

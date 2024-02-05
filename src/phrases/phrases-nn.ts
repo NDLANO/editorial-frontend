@@ -2052,8 +2052,9 @@ const phrases = {
     failedTitle: "Klarte ikkje vise tittel",
     openChildren: "Vis barn",
     closeChildren: "Skjul barn",
+    hide: "Skjul",
+    show: "Vis",
   },
-  hide: "Skjul",
 };
 
 export default phrases;

@@ -2053,8 +2053,9 @@ const phrases = {
     failedTitle: "Failed to show title",
     openChildren: "Show children",
     closeChildren: "Hide children",
+    hide: "Hided",
+    show: "Show",
   },
-  hide: "Hide",
 };
 
 export default phrases;

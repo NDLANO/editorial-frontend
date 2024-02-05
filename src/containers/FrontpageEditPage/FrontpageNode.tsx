@@ -153,9 +153,9 @@ const FrontpageNode = ({ name, remove, index, level, replace }: Props) => {
         <EditButtonWrapper>
           {level > 0 && (
             <HideButton
-              data-hidden={field.value.hideLevel || false}
-              aria-label={t("hide")}
-              title={t("hide")}
+              data-hidden={field.value.hideLevel}
+              aria-label={field.value.hideLevel ? t("frontpageForm.show") : t("frontpageForm.hide")}
+              title={field.value.hideLevel ? t("frontpageForm.show") : t("frontpageForm.hide")}
               variant="ghost"
               onClick={onHide}
             >

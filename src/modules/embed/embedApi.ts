@@ -27,10 +27,8 @@ import {
   ImageMetaData,
   OembedEmbedData,
   OembedMetaData,
-  UuDisclaimerData,
 } from "@ndla/types-embed";
 import { fetchH5PInfo, fetchH5pLicenseInformation, fetchH5pPreviewOembed } from "../../components/H5PElement/h5pApi";
-import { fetchDisclaimerLink } from "../../components/UuDisclaimer/uuDisclaimerApi";
 import { fetchExternalOembed } from "../../util/apiHelpers";
 import { reduceElementDataAttributesV2 } from "../../util/embedTagHelpers";
 import { fetchAudio } from "../audio/audioApi";
@@ -241,16 +239,4 @@ export const fetchConceptListMeta = async (concepts: IConceptSummary[], language
     }),
   );
   return { concepts: conceptsWithVisualElement };
-};
-
-export const fetchDisclaimerMeta = async () // path: string, // url: string
-: Promise<UuDisclaimerData> => {
-  // const pathArr = path.split('/') || [];
-  // const h5pId = pathArr[pathArr.length - 1];
-  const disclaimerLink = { text: "Disclaimer link", href: "https://ndla.no" };
-  // const disclaimerLink = await fetchDisclaimerLink();
-
-  return {
-    disclaimerLink,
-  };
 };

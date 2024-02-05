@@ -19,7 +19,6 @@ import { UuDisclaimerEmbedData, UuDisclaimerMetaData } from "@ndla/types-embed";
 import { UuDisclaimerEmbed } from "@ndla/ui";
 import DisclaimerForm from "./DisclaimerForm";
 import { DisclaimerElement, TYPE_DISCLAIMER } from "./types";
-import { useDisclaimerMeta } from "../../../../modules/embed/queries";
 import DeleteButton from "../../../DeleteButton";
 
 interface Props {
@@ -50,19 +49,18 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
   const { t } = useTranslation();
   const { data } = element;
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const disclaimerMetaQuery = useDisclaimerMeta();
 
   const embed: UuDisclaimerMetaData | undefined = useMemo(
     () =>
       data
         ? {
-            status: !!disclaimerMetaQuery.error || !disclaimerMetaQuery.data ? "error" : "success",
-            data: disclaimerMetaQuery.data!,
+            status: "success",
+            data: { disclaimerLink: { text: "Disclaimer link", href: "https://ndla.no" } },
             embedData: { ...data, disclaimer: data?.disclaimer },
             resource: data?.resource,
           }
         : undefined,
-    [disclaimerMetaQuery.data, disclaimerMetaQuery.error, data],
+    [data],
   );
 
   const onRemove = () => {

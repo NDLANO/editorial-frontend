@@ -23,6 +23,7 @@ import { SlateToolbar } from "./plugins/toolbar";
 import { AreaFilters, CategoryFilters } from "./plugins/toolbar/toolbarState";
 import { SlateProvider } from "./SlateContext";
 import withPlugins from "./utils/withPlugins";
+import { BLOCK_PICKER_TRIGGER_ID } from "../../constants";
 import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
 import { FormikStatus } from "../../interfaces";
 import Spinner from "../Spinner";
@@ -195,9 +196,9 @@ const RichTextEditor = ({
   // Deselect selection if focus is moved to any other element than the toolbar
   const onBlur = useCallback(
     (e: FocusEvent<HTMLDivElement>) => {
-      if (!e.relatedTarget?.closest("[data-toolbar]")) {
-        Transforms.deselect(editor);
-      }
+      if (e.relatedTarget?.id === BLOCK_PICKER_TRIGGER_ID) return;
+      if (e.relatedTarget?.closest("[data-toolbar]")) return;
+      Transforms.deselect(editor);
     },
     [editor],
   );

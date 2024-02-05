@@ -51,6 +51,7 @@ interface Props extends Omit<EditableProps, "value" | "onChange" | "onKeyDown"> 
   additionalOnKeyDown?: (event: KeyboardEvent<HTMLDivElement>) => boolean;
   hideBlockPicker?: boolean;
   testId?: string;
+  hideToolbar?: boolean;
 }
 
 const RichTextEditor = ({
@@ -67,6 +68,7 @@ const RichTextEditor = ({
   toolbarAreaFilters,
   hideBlockPicker,
   additionalOnKeyDown,
+  hideToolbar,
   ...rest
 }: Props) => {
   const _editor = useMemo(() => withReact(withHistory(createEditor())), []);
@@ -226,7 +228,7 @@ const RichTextEditor = ({
               <Spinner />
             ) : (
               <>
-                <SlateToolbar options={toolbarOptions} areaOptions={toolbarAreaFilters} />
+                <SlateToolbar options={toolbarOptions} areaOptions={toolbarAreaFilters} hideToolbar={hideToolbar} />
                 {!hideBlockPicker && (
                   <SlateBlockPicker
                     editor={editor}

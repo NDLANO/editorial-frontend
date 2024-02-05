@@ -6,7 +6,7 @@
  *
  */
 
-import { KeyboardEvent, memo, useCallback } from "react";
+import { KeyboardEvent, memo, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { fonts } from "@ndla/core";
@@ -34,6 +34,7 @@ interface Props {
   maxLength?: number;
   name?: string;
   type?: string;
+  hideToolbar?: boolean;
 }
 
 const StyledFormControl = styled(FormControl)`
@@ -47,7 +48,6 @@ const StyledFormControl = styled(FormControl)`
 const titlePlugins: SlatePlugin[] = [
   spanPlugin,
   paragraphPlugin,
-  toolbarPlugin,
   textTransformPlugin,
   saveHotkeyPlugin,
   markPlugin,
@@ -56,7 +56,7 @@ const titlePlugins: SlatePlugin[] = [
 
 const titleRenderers: SlatePlugin[] = [sectionRenderer, paragraphRenderer, markRenderer];
 
-const plugins = titlePlugins.concat(titleRenderers);
+const basePlugins = titlePlugins.concat(titleRenderers);
 
 const toolbarOptions = createToolbarDefaultValues({
   text: {
@@ -75,8 +75,12 @@ const toolbarOptions = createToolbarDefaultValues({
 
 const toolbarAreaFilters = createToolbarAreaOptions();
 
-const TitleField = ({ maxLength = 256, name = "title" }: Props) => {
+const TitleField = ({ maxLength = 256, name = "title", hideToolbar }: Props) => {
   const { t } = useTranslation();
+  const plugins = useMemo(() => {
+    if (hideToolbar) return basePlugins;
+    return basePlugins.concat(toolbarPlugin);
+  }, [hideToolbar]);
 
   const onKeyDown = useCallback((e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key === "Enter") {
@@ -104,6 +108,7 @@ const TitleField = ({ maxLength = 256, name = "title" }: Props) => {
             toolbarOptions={toolbarOptions}
             toolbarAreaFilters={toolbarAreaFilters}
             maxLength={maxLength}
+            hideToolbar={hideToolbar}
           />
           <FieldErrorMessage>{meta.error}</FieldErrorMessage>
         </StyledFormControl>

@@ -44,7 +44,7 @@ const ImageContent = () => {
   const imgSrc = values.filepath || `${values.imageFile}?width=600&ts=${timestamp}`;
   return (
     <>
-      <TitleField />
+      <TitleField hideToolbar />
       {!values.imageFile && (
         <UploadDropZone
           name="imageFile"

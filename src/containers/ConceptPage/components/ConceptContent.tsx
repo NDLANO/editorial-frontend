@@ -24,7 +24,7 @@ const ConceptContent = () => {
 
   return (
     <>
-      <TitleField />
+      <TitleField hideToolbar />
       <LastUpdatedLine onChange={() => {}} creators={creators} published={updated} />
       <VisualElementField types={["image", "video"]} />
       <IngressField name="conceptContent" maxLength={800} placeholder={t("form.name.conceptContent")} />

@@ -24,7 +24,7 @@ const PodcastSeriesMetaData = ({ language, onImageLoad }: Props) => {
   const plugins = [textTransformPlugin];
   return (
     <>
-      <TitleField />
+      <TitleField hideToolbar />
 
       <FormikField name="description" label={t("podcastSeriesForm.description")}>
         {({ field }) => (

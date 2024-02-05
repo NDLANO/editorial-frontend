@@ -62,7 +62,7 @@ const AudioContent = <T extends AudioFormikType | PodcastFormValues>({ handleSub
 
   return (
     <>
-      <TitleField />
+      <TitleField hideToolbar />
       <FormikField noBorder name="audioFile" label={t("form.audio.file")}>
         {() => (
           <>

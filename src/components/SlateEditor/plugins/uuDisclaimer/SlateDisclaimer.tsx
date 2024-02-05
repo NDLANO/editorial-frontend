@@ -6,11 +6,9 @@
  *
  */
 
-import { FormikValues } from "formik";
-import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
+import { ReactNode, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Transforms } from "slate";
-import { jsx as slatejsx } from "slate-hyperscript";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
@@ -54,19 +52,6 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [embed, setEmbed] = useState<UuDisclaimerMetaData | undefined>(undefined);
   const disclaimerMetaQuery = useDisclaimerMeta();
-
-  // const embed: UuDisclaimerMetaData | undefined = useMemo(
-  //   () =>
-  //     data
-  //       ? {
-  //           status: !!disclaimerMetaQuery.error || !disclaimerMetaQuery.data ? "error" : "success",
-  //           data: disclaimerMetaQuery.data!,
-  //           embedData: { ...data, disclaimer: data?.disclaimer },
-  //           resource: data?.resource,
-  //         }
-  //       : undefined,
-  //   [disclaimerMetaQuery.data, disclaimerMetaQuery.error, data],
-  // );
 
   const onRemove = () => {
     const path = ReactEditor.findPath(editor, element);

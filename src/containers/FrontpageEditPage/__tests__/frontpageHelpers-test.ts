@@ -12,6 +12,7 @@ describe("extractArticleIds", () => {
   it("should return a single value for a menu with no children", () => {
     const menu: IMenu = {
       articleId: 1,
+      hideLevel: false,
       menu: [],
     };
     expect(extractArticleIds(menu)).toEqual([1]);
@@ -19,13 +20,16 @@ describe("extractArticleIds", () => {
   it("should handle nested values", () => {
     const menu: IMenu = {
       articleId: 1,
+      hideLevel: false,
       menu: [
         {
           articleId: 2,
+          hideLevel: false,
           menu: [],
         },
         {
           articleId: 3,
+          hideLevel: false,
           menu: [],
         },
       ],
@@ -35,32 +39,37 @@ describe("extractArticleIds", () => {
   it("should handle deeply nested values", () => {
     const menu: IMenu = {
       articleId: 1,
+      hideLevel: false,
       menu: [
         {
           articleId: 2,
+          hideLevel: false,
           menu: [
             {
               articleId: 3,
+              hideLevel: false,
               menu: [
-                { articleId: 4, menu: [] },
-                { articleId: 5, menu: [] },
+                { articleId: 4, hideLevel: false, menu: [] },
+                { articleId: 5, hideLevel: false, menu: [] },
               ],
             },
           ],
         },
         {
           articleId: 6,
+          hideLevel: false,
           menu: [
             {
               articleId: 7,
+              hideLevel: false,
               menu: [],
             },
             {
               articleId: 8,
-
+              hideLevel: false,
               menu: [
-                { articleId: 9, menu: [] },
-                { articleId: 10, menu: [] },
+                { articleId: 9, hideLevel: false, menu: [] },
+                { articleId: 10, hideLevel: false, menu: [] },
               ],
             },
           ],

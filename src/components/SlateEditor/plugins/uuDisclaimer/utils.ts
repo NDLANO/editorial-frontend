@@ -17,8 +17,7 @@ export const defaultDisclaimerBlock = () =>
       type: TYPE_DISCLAIMER,
       data: {
         resource: "uu-disclaimer",
-        disclaimer: "Default disclaimer",
-        articleId: "38462",
+        disclaimer: "",
       },
     },
     defaultParagraphBlock(),

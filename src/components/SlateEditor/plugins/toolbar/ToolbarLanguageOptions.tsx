@@ -8,31 +8,57 @@
 
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Transforms } from "slate";
-import { ReactEditor, useSlate } from "slate-react";
+import { Editor, Element, Transforms } from "slate";
+import { ReactEditor, useSlate, useSlateSelector } from "slate-react";
 import { ToolbarButton } from "@radix-ui/react-toolbar";
 import { DropdownItem, DropdownMenu, DropdownTrigger } from "@ndla/dropdown-menu";
 import { ArrowDropDown } from "@ndla/icons/common";
 import UIToolbarButton from "./ToolbarButton";
 import { ToolbarDropdownButton, ToolbarDropdownContent } from "./toolbarDropdownComponents";
-import { getMarkValue } from "../mark";
+import hasNodeOfType from "../../utils/hasNodeOfType";
+import { defaultSpanBlock } from "../span/utils";
 
 export const languages = ["ar", "de", "en", "es", "fr", "la", "no", "se", "sma", "so", "ti", "zh"];
+
+const getCurrentLanguage = (editor: Editor) => {
+  const [currentBlock] =
+    Editor.nodes(editor, {
+      match: (n) => Element.isElement(n) && n.type === "span",
+      mode: "lowest",
+    }) ?? [];
+  const node = currentBlock?.[0];
+  if (!Element.isElement(node) || node.type !== "span") return;
+  return node.data.lang;
+};
 
 export const ToolbarLanguageOptions = () => {
   const { t } = useTranslation();
   const editor = useSlate();
-  const currentLanguage = getMarkValue(editor, "lang");
+  const currentLanguage = useSlateSelector(getCurrentLanguage);
 
   const onClick = useCallback(
     (language: string) => {
       const sel = editor.selection;
       Transforms.select(editor, sel!);
       ReactEditor.focus(editor);
-      if (language === "none") {
-        Editor.removeMark(editor, "lang");
+      const wrappedInSpan = hasNodeOfType(editor, "span");
+      if (wrappedInSpan && language === "none") {
+        Transforms.unwrapNodes(editor, {
+          match: (node) => Element.isElement(node) && node.type === "span",
+        });
+      } else if (language === "none") {
+        return;
+      } else if (!wrappedInSpan) {
+        Transforms.wrapNodes(editor, defaultSpanBlock({ lang: language }), {
+          at: Editor.unhangRange(editor, editor.selection!),
+          split: true,
+        });
       } else {
-        Editor.addMark(editor, "lang", language);
+        Transforms.setNodes(
+          editor,
+          { data: { lang: language } },
+          { match: (n) => Element.isElement(n) && n.type === "span" },
+        );
       }
     },
     [editor],

@@ -29,7 +29,6 @@ export interface CustomTextWithMarks {
   underlined?: boolean;
   sup?: boolean;
   sub?: boolean;
-  lang?: string;
 }
 
 const marks: { [key: string]: string } = {
@@ -39,14 +38,10 @@ const marks: { [key: string]: string } = {
   u: "underlined",
   sup: "sup",
   sub: "sub",
-  lang: "span",
 };
 
 export const markSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
-    if (el.tagName.toLowerCase() === "span" && el.lang) {
-      return slatejsx("text", { lang: el.lang }, children);
-    }
     if (!Object.keys(marks).includes(el.tagName.toLowerCase())) return;
     return children.map((child) =>
       Text.isText(child) ? slatejsx("text", { [marks[el.tagName.toLowerCase()]]: true }, child) : child,
@@ -61,9 +56,6 @@ export const markSerializer: SlateSerializer = {
       array.push(text);
       return array;
     }, []);
-    if (node.lang) {
-      ret = <span lang={node.lang}>{children}</span>;
-    }
     if (node.bold) {
       ret = <strong>{ret || children}</strong>;
     }
@@ -95,8 +87,8 @@ export const markPlugin = (editor: Editor) => {
   editor.normalizeNode = (entry) => {
     const [node, path] = entry;
     if (Text.isText(node) && node.text === "") {
-      if (node.lang || node.bold || node.code || node.italic || node.sub || node.sup || node.underlined) {
-        Transforms.unsetNodes(editor, ["lang", "bold", "code", "italic", "sub", "sup", "underlined"], {
+      if (node.bold || node.code || node.italic || node.sub || node.sup || node.underlined) {
+        Transforms.unsetNodes(editor, ["bold", "code", "italic", "sub", "sup", "underlined"], {
           at: path,
         });
         return;

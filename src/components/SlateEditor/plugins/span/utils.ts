@@ -10,4 +10,5 @@ import { jsx as slatejsx } from "slate-hyperscript";
 import { SpanElement } from ".";
 import { TYPE_SPAN } from "./types";
 
-export const defaultSpanBlock = () => slatejsx("element", { type: TYPE_SPAN, data: {} }, { text: "" }) as SpanElement;
+export const defaultSpanBlock = (data: SpanElement["data"] = {}) =>
+  slatejsx("element", { type: TYPE_SPAN, data }, { text: "" }) as SpanElement;

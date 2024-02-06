@@ -14,7 +14,6 @@ describe("extractArticleIds", () => {
       articleId: 1,
       hideLevel: false,
       menu: [],
-      hideLevel: false,
     };
     expect(extractArticleIds(menu)).toEqual([1]);
   });
@@ -27,16 +26,13 @@ describe("extractArticleIds", () => {
           articleId: 2,
           hideLevel: false,
           menu: [],
-          hideLevel: false,
         },
         {
           articleId: 3,
           hideLevel: false,
           menu: [],
-          hideLevel: false,
         },
       ],
-      hideLevel: false,
     };
     expect(extractArticleIds(menu)).toEqual([1, 2, 3]);
   });
@@ -56,10 +52,8 @@ describe("extractArticleIds", () => {
                 { articleId: 4, hideLevel: false, menu: [] },
                 { articleId: 5, hideLevel: false, menu: [] },
               ],
-              hideLevel: false,
             },
           ],
-          hideLevel: false,
         },
         {
           articleId: 6,
@@ -69,7 +63,6 @@ describe("extractArticleIds", () => {
               articleId: 7,
               hideLevel: false,
               menu: [],
-              hideLevel: false,
             },
             {
               articleId: 8,
@@ -78,13 +71,10 @@ describe("extractArticleIds", () => {
                 { articleId: 9, hideLevel: false, menu: [] },
                 { articleId: 10, hideLevel: false, menu: [] },
               ],
-              hideLevel: false,
             },
           ],
-          hideLevel: false,
         },
       ],
-      hideLevel: false,
     };
     expect(extractArticleIds(menu)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
   });

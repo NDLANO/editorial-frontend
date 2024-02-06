@@ -20,6 +20,7 @@ import PageSizeDropdown from "./PageSizeDropdown";
 import StatusCell from "./StatusCell";
 import SubjectDropdown from "./SubjectDropdown";
 import { SortOption } from "./WorkList";
+import { useSearch } from "../../../../modules/search/searchQueries";
 import formatDate from "../../../../util/formatDate";
 import { toEditArticle } from "../../../../util/routeHelpers";
 import {
@@ -86,6 +87,17 @@ const WorkListTabContent = ({
   descriptionText = "welcomePage.workList.description",
 }: Props) => {
   const { t } = useTranslation();
+
+  // Separated request to not update subjects when filtered subject changes
+  const searchQuery = useSearch(
+    {
+      "responsible-ids": ndlaId,
+      "page-size": 0,
+      fallback: true,
+      "aggregate-paths": "contexts.rootId",
+    },
+    { enabled: !!ndlaId },
+  );
 
   const tableData: FieldElement[][] = useMemo(
     () =>
@@ -163,7 +175,7 @@ const WorkListTabContent = ({
   ];
 
   const lastPage = data?.totalCount ? Math.ceil(data?.totalCount / (data.pageSize ?? 1)) : 1;
-  const subjectIds = data?.aggregations.flatMap((a) => a.values.map((v) => v.value));
+  const subjectIds = searchQuery.data?.aggregations.flatMap((a) => a.values.map((v) => v.value));
 
   return (
     <>
@@ -175,7 +187,7 @@ const WorkListTabContent = ({
             {setFilterSubject && (
               <>
                 <SubjectDropdown
-                  subjectIds={subjectIds || []}
+                  subjectIds={subjectIds ?? []}
                   filterSubject={filterSubject}
                   setFilterSubject={setFilterSubject}
                 />

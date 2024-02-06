@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { useEffect, useRef, useState, ReactNode, useCallback, useMemo } from "react";
+import { useEffect, useRef, useState, ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
@@ -33,6 +33,7 @@ import { getPathsFromUrl, removeLastItemFromUrl } from "../../util/routeHelpers"
 import Footer from "../App/components/Footer";
 import { useSession } from "../Session/SessionProvider";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
+import { useLocalStorageBooleanState } from "../WelcomePage/hooks/storedFilterHooks";
 import { getResultSubjectIdObject } from "../WelcomePage/utils";
 
 const StructureWrapper = styled.ul`
@@ -99,10 +100,10 @@ const StructureContainer = ({
   const [shouldScroll, setShouldScroll] = useState(!!paths.length);
 
   const { userPermissions, ndlaId } = useSession();
-  const [showFavorites, setShowFavorites] = useState(localStorage.getItem(REMEMBER_FAVORITE_NODES) === "true");
-  const [showLmaSubjects, setShowLmaSubjects] = useState(localStorage.getItem(REMEMBER_LMA_SUBJECTS) === "true");
-  const [showDaSubjects, setShowDaSubjects] = useState(localStorage.getItem(REMEMBER_DA_SUBJECTS) === "true");
-  const [showSaSubjects, setShowSaSubjects] = useState(localStorage.getItem(REMEMBER_SA_SUBJECTS) === "true");
+  const [showFavorites, setShowFavorites] = useLocalStorageBooleanState(REMEMBER_FAVORITE_NODES);
+  const [showLmaSubjects, setShowLmaSubjects] = useLocalStorageBooleanState(REMEMBER_LMA_SUBJECTS);
+  const [showDaSubjects, setShowDaSubjects] = useLocalStorageBooleanState(REMEMBER_DA_SUBJECTS);
+  const [showSaSubjects, setShowSaSubjects] = useLocalStorageBooleanState(REMEMBER_SA_SUBJECTS);
 
   const resourceSection = useRef<HTMLDivElement>(null);
   const firstRender = useRef(true);
@@ -168,26 +169,6 @@ const StructureContainer = ({
     rootId,
   );
 
-  const toggleShowFavorites = useCallback(() => {
-    localStorage.setItem(REMEMBER_FAVORITE_NODES, (!showFavorites).toString());
-    setShowFavorites(!showFavorites);
-  }, [showFavorites]);
-
-  const toggleShowLmaSubjects = useCallback(() => {
-    localStorage.setItem(REMEMBER_LMA_SUBJECTS, (!showLmaSubjects).toString());
-    setShowLmaSubjects(!showLmaSubjects);
-  }, [showLmaSubjects]);
-
-  const toggleShowDaSubjects = useCallback(() => {
-    localStorage.setItem(REMEMBER_DA_SUBJECTS, (!showDaSubjects).toString());
-    setShowDaSubjects(!showDaSubjects);
-  }, [showDaSubjects]);
-
-  const toggleShowSaSubjects = useCallback(() => {
-    localStorage.setItem(REMEMBER_SA_SUBJECTS, (!showSaSubjects).toString());
-    setShowSaSubjects(!showSaSubjects);
-  }, [showSaSubjects]);
-
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
 
   const addChildTooltip = childNodeTypes.includes("TOPIC")
@@ -201,11 +182,11 @@ const StructureContainer = ({
           {messageBox && <Column>{messageBox}</Column>}
           <Column colEnd={7}>
             <StructureBanner
-              setShowFavorites={toggleShowFavorites}
+              setShowFavorites={setShowFavorites}
               showFavorites={showFavorites}
-              setShowLmaSubjects={toggleShowLmaSubjects}
-              setShowDaSubjects={toggleShowDaSubjects}
-              setShowSaSubjects={toggleShowSaSubjects}
+              setShowLmaSubjects={setShowLmaSubjects}
+              setShowDaSubjects={setShowDaSubjects}
+              setShowSaSubjects={setShowSaSubjects}
               showLmaSubjects={showLmaSubjects}
               showDaSubjects={showDaSubjects}
               showSaSubjects={showSaSubjects}

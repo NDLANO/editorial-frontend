@@ -102,6 +102,7 @@ describe("createToolbarDefaultValues", () => {
         "content-link": { hidden: true, disabled: true },
         mathml: { hidden: true, disabled: true },
         "concept-inline": { hidden: true, disabled: true },
+        "gloss-inline": { hidden: true, disabled: true },
       },
     };
 
@@ -176,6 +177,7 @@ describe("toolbarState", () => {
         "content-link": { ...allOptions.inline["content-link"], hidden: true },
         mathml: { ...allOptions.inline.mathml, hidden: true },
         "concept-inline": { ...allOptions.inline["concept-inline"], hidden: true },
+        "gloss-inline": { ...allOptions.inline["gloss-inline"], hidden: true },
       },
     };
     const expected = arrayifyToolbar(opts);

@@ -13,7 +13,7 @@ import { ElementType } from "../../interfaces";
 export type TextType = "normal-text" | "heading-2" | "heading-3" | "heading-4";
 export type MarkType = "bold" | "italic" | "code" | "sub" | "sup";
 export type BlockType = "quote" | "definition-list" | "numbered-list" | "bulleted-list" | "letter-list";
-export type InlineType = "content-link" | "mathml" | "concept-inline";
+export type InlineType = "content-link" | "mathml" | "concept-inline" | "gloss-inline";
 export type TableType = "left" | "center" | "right";
 
 type ToolbarMap = {
@@ -76,6 +76,7 @@ export const allOptions: OptionsType = {
     "content-link": { value: "content-link" },
     mathml: { value: "mathml" },
     "concept-inline": { value: "concept-inline" },
+    "gloss-inline": { value: "gloss-inline" },
   },
   table: {
     left: { value: "left" },

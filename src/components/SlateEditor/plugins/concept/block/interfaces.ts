@@ -12,6 +12,7 @@ import { ConceptEmbedData } from "@ndla/types-embed";
 export interface ConceptBlockElement {
   type: "concept-block" | "gloss-block";
   data: ConceptEmbedData;
-  isFirstEdit?: boolean;
   children: Descendant[];
+  conceptType?: "concept" | "gloss";
+  isFirstEdit?: boolean;
 }

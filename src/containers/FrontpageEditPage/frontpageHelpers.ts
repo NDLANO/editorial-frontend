@@ -8,10 +8,10 @@
 
 import keyBy from "lodash/keyBy";
 import { IArticleSummaryV2, ISearchResultV2 } from "@ndla/types-backend/article-api";
-import { IMenu } from "@ndla/types-backend/frontpage-api";
+import { IFrontPage, IMenu } from "@ndla/types-backend/frontpage-api";
 import { MenuWithArticle } from "./types";
 
-export const extractArticleIds = (menu: IMenu): number[] => {
+export const extractArticleIds = (menu: MenuWithArticle): number[] => {
   const childIds = menu.menu.map((m) => extractArticleIds(m)).flat();
   return [menu.articleId].concat(childIds);
 };
@@ -19,18 +19,28 @@ export const extractArticleIds = (menu: IMenu): number[] => {
 const _addArticlesToMenu = (menu: IMenu, articles: Record<number, IArticleSummaryV2>): MenuWithArticle => {
   const article = articles[menu.articleId];
   const children = menu.menu.map((m) => _addArticlesToMenu(m, articles));
-  return { article: article, articleId: menu.articleId, menu: children };
+  return { article: article, articleId: menu.articleId, menu: children, hideLevel: menu.hideLevel ?? false };
 };
 
-export const addArticlesToAboutMenu = (menu: IMenu | undefined, articles: ISearchResultV2) => {
-  if (!menu) return { articleId: -1, menu: [] };
+export const addArticlesToAboutMenu = (frontPage: IFrontPage | undefined, articles: ISearchResultV2) => {
+  if (!frontPage) return { articleId: -1, menu: [] };
   const keyedArticles = keyBy(articles.results, (a) => a.id);
-  return _addArticlesToMenu(menu, keyedArticles);
+  const menuWithArticles = frontPage.menu.map((m) => _addArticlesToMenu(m, keyedArticles));
+  return {
+    ...frontPage,
+    menu: menuWithArticles,
+  };
 };
 
-export const menuWithArticleToIMenu = (menu: MenuWithArticle): IMenu => {
+const _menuWithArticleToIMenu = (menu: MenuWithArticle): IMenu => {
+  const hideLevel = !!menu.hideLevel;
+  const children = menu.menu.map((m) => _menuWithArticleToIMenu(m));
+  return { articleId: menu.articleId, menu: children, hideLevel: hideLevel };
+};
+
+export const menuWithArticleToIMenu = (menu: MenuWithArticle): IFrontPage => {
   return {
     articleId: typeof menu.article === "number" ? menu.article : menu.articleId,
-    menu: menu.menu.map((m) => menuWithArticleToIMenu(m)),
+    menu: menu.menu.map((m) => _menuWithArticleToIMenu(m)),
   };
 };

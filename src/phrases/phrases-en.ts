@@ -2053,6 +2053,8 @@ const phrases = {
     failedTitle: "Failed to show title",
     openChildren: "Show children",
     closeChildren: "Hide children",
+    hide: "Hide",
+    show: "Show",
   },
 };
 

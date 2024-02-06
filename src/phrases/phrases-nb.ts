@@ -2052,6 +2052,8 @@ const phrases = {
     failedTitle: "Klarte ikke vise tittel",
     openChildren: "Vis barn",
     closeChildren: "Skjul barn",
+    hide: "Skjul",
+    show: "Vis",
   },
 };
 

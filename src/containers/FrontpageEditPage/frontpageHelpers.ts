@@ -16,7 +16,7 @@ export const extractArticleIds = (menu: MenuWithArticle): number[] => {
   return [menu.articleId].concat(childIds);
 };
 
-const _addArticlesToMenu = (menu: IMenu | IFrontPage, articles: Record<number, IArticleSummaryV2>): MenuWithArticle => {
+const _addArticlesToMenu = (menu: IMenu, articles: Record<number, IArticleSummaryV2>): MenuWithArticle => {
   const article = articles[menu.articleId];
   const children = menu.menu.map((m) => _addArticlesToMenu(m, articles));
   return { article: article, articleId: menu.articleId, menu: children, hideLevel: menu.hideLevel ?? false };

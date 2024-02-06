@@ -1468,6 +1468,8 @@ const phrases = {
       deleteTooltip: "Fjern denne revisjonen",
     },
     disclaimer: {
+      default:
+        "Dette innhaldet er ikkje universelt utforma, og noken brukarar kan difor ha problem med å oppfatte og forstå det.",
       title: "Universell utforming åtvaring",
       exampleHeader: "Skriv inn kven som vil få problem med komponenten og med kva",
       exampleText:

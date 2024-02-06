@@ -50,17 +50,27 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
   const { data } = element;
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
+  const disclaimerText: string = useMemo(() => {
+    if (typeof data?.disclaimer === "string") {
+      return data?.disclaimer;
+    }
+    return t("form.disclaimer.default");
+  }, [data?.disclaimer, t]);
+
   const embed: UuDisclaimerMetaData | undefined = useMemo(
     () =>
       data
         ? {
             status: "success",
             data: { disclaimerLink: { text: "Disclaimer link", href: "https://ndla.no" } },
-            embedData: { ...data, disclaimer: data?.disclaimer },
+            embedData: {
+              ...data,
+              disclaimer: disclaimerText,
+            },
             resource: data?.resource,
           }
         : undefined,
-    [data],
+    [data, disclaimerText],
   );
 
   const onRemove = () => {

@@ -1471,6 +1471,8 @@ const phrases = {
       deleteTooltip: "Remove this revision",
     },
     disclaimer: {
+      default:
+        "This content is not accessibel, and some users can potentially have difficulties perceiving and understanding it.",
       title: "Accessability warning",
       exampleHeader: "Write down who will experience issues with the component, and with what",
       exampleText:

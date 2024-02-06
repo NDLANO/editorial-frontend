@@ -50,27 +50,14 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
   const { data } = element;
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
-  const disclaimerText: string = useMemo(() => {
-    if (typeof data?.disclaimer === "string") {
-      return data?.disclaimer;
-    }
-    return t("form.disclaimer.default");
-  }, [data?.disclaimer, t]);
-
-  const embed: UuDisclaimerMetaData | undefined = useMemo(
-    () =>
-      data
-        ? {
-            status: "success",
-            data: { disclaimerLink: { text: "Disclaimer link", href: "https://ndla.no" } },
-            embedData: {
-              ...data,
-              disclaimer: disclaimerText,
-            },
-            resource: data?.resource,
-          }
-        : undefined,
-    [data, disclaimerText],
+  const embed: UuDisclaimerMetaData = useMemo(
+    () => ({
+      status: "success",
+      data: { disclaimerLink: { text: "Disclaimer link", href: "https://ndla.no" } },
+      embedData: data,
+      resource: data?.resource,
+    }),
+    [data],
   );
 
   const onRemove = () => {
@@ -126,17 +113,7 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
           </ModalContent>
         </Modal>
       </ButtonContainer>
-      <UuDisclaimerEmbed
-        data-testid="slate-disclaimer"
-        embed={
-          embed ?? {
-            status: "success",
-            resource: "uu-disclaimer",
-            embedData: { ...data, disclaimer: "This is a disclaimer" },
-            data: {},
-          }
-        }
-      >
+      <UuDisclaimerEmbed data-testid="slate-disclaimer" embed={embed}>
         <DisclaimerBlockContent>{children}</DisclaimerBlockContent>
       </UuDisclaimerEmbed>
     </div>

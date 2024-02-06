@@ -356,7 +356,7 @@ const SlateBlockPicker = ({
         break;
       }
       case TYPE_DISCLAIMER: {
-        onInsertBlock(defaultDisclaimerBlock());
+        onInsertBlock(defaultDisclaimerBlock(t("form.disclaimer.default")));
         break;
       }
       default:

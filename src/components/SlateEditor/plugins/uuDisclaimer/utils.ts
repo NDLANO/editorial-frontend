@@ -10,14 +10,16 @@ import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_DISCLAIMER } from "./types";
 import { defaultParagraphBlock } from "../paragraph/utils";
 
-export const defaultDisclaimerBlock = () =>
-  slatejsx(
+export const defaultDisclaimerBlock = (defaultDisclaimerText: string) => {
+  return slatejsx(
     "element",
     {
       type: TYPE_DISCLAIMER,
       data: {
         resource: "uu-disclaimer",
+        disclaimer: defaultDisclaimerText,
       },
     },
     defaultParagraphBlock(),
   );
+};

@@ -118,6 +118,7 @@ const DisclaimerForm = ({ initialData, onOpenChange, onSave }: DisclaimerFormPro
             <StyledFormikField name="disclaimer" showError>
               {({ field, form: { isSubmitting } }: FieldProps<Descendant[]>) => (
                 <StyledPlainTextEditor
+                  aria-label={t("form.disclaimer.editorHeader")}
                   id={field.name}
                   {...field}
                   submitted={isSubmitting}

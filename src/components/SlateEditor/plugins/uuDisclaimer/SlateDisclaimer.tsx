@@ -53,7 +53,7 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
   const embed: UuDisclaimerMetaData = useMemo(
     () => ({
       status: "success",
-      data: { disclaimerLink: { text: "Disclaimer link", href: "https://ndla.no" } },
+      data: {},
       embedData: data,
       resource: data?.resource,
     }),

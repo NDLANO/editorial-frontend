@@ -80,7 +80,7 @@ const DisclaimerForm = ({ initialData, onOpenChange, onSave }: DisclaimerFormPro
   const initialValues = useMemo(() => toInitialValues(initialData), [initialData]);
   const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
 
-  const onSubmit = useCallback(
+  const handleSubmit = useCallback(
     (values: FormikValues) => {
       onSave({
         resource: "uu-disclaimer",
@@ -96,7 +96,7 @@ const DisclaimerForm = ({ initialData, onOpenChange, onSave }: DisclaimerFormPro
     <Formik
       initialValues={initialValues}
       initialErrors={initialErrors}
-      onSubmit={onSubmit}
+      onSubmit={handleSubmit}
       validateOnMount
       validate={(values) => validateFormik(values, rules, t)}
     >

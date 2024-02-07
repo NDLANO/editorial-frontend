@@ -79,7 +79,7 @@ const TitleField = ({ maxLength = 256, name = "title", hideToolbar }: Props) => 
   const { t } = useTranslation();
   const plugins = useMemo(() => {
     if (hideToolbar) return basePlugins;
-    return basePlugins.concat(toolbarPlugin);
+    return basePlugins.concat(toolbarPlugin(toolbarOptions, toolbarAreaFilters));
   }, [hideToolbar]);
 
   const onKeyDown = useCallback((e: KeyboardEvent<HTMLDivElement>) => {

@@ -36,21 +36,6 @@ interface Props {
   placeholder?: string;
 }
 
-const ingressPlugins: SlatePlugin[] = [
-  spanPlugin,
-  paragraphPlugin,
-  toolbarPlugin,
-  textTransformPlugin,
-  breakPlugin,
-  saveHotkeyPlugin,
-  markPlugin,
-  noopPlugin,
-];
-
-const ingressRenderers: SlatePlugin[] = [noopRenderer, paragraphRenderer, markRenderer, breakRenderer];
-
-const plugins = ingressPlugins.concat(ingressRenderers);
-
 const toolbarOptions = createToolbarDefaultValues({
   text: {
     hidden: true,
@@ -67,6 +52,21 @@ const toolbarOptions = createToolbarDefaultValues({
 });
 
 const toolbarAreaFilters = createToolbarAreaOptions();
+
+const ingressPlugins: SlatePlugin[] = [
+  spanPlugin,
+  paragraphPlugin,
+  toolbarPlugin(toolbarOptions, toolbarAreaFilters),
+  textTransformPlugin,
+  breakPlugin,
+  saveHotkeyPlugin,
+  markPlugin,
+  noopPlugin,
+];
+
+const ingressRenderers: SlatePlugin[] = [noopRenderer, paragraphRenderer, markRenderer, breakRenderer];
+
+const plugins = ingressPlugins.concat(ingressRenderers);
 
 const IngressField = ({ name = "introduction", maxLength = 300, placeholder }: Props) => {
   const { t } = useTranslation();

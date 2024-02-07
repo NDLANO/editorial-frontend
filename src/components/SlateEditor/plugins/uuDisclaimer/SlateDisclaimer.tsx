@@ -20,6 +20,7 @@ import { UuDisclaimerEmbed } from "@ndla/ui";
 import DisclaimerForm from "./DisclaimerForm";
 import { DisclaimerElement, TYPE_DISCLAIMER } from "./types";
 import DeleteButton from "../../../DeleteButton";
+import MoveContentButton from "../../../MoveContentButton";
 
 interface Props {
   attributes: RenderElementProps["attributes"];
@@ -60,7 +61,20 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
     [data],
   );
 
-  const onRemove = () => {
+  const handleDelete = () => {
+    const path = ReactEditor.findPath(editor, element);
+    Transforms.removeNodes(editor, {
+      at: path,
+      match: (node) => Element.isElement(node) && node.type === TYPE_DISCLAIMER,
+    });
+    setTimeout(() => {
+      ReactEditor.focus(editor);
+      Transforms.select(editor, path);
+      Transforms.collapse(editor);
+    }, 0);
+  };
+
+  const handleRemoveDisclaimer = () => {
     const path = ReactEditor.findPath(editor, element);
     Transforms.unwrapNodes(editor, {
       at: path,
@@ -72,6 +86,7 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
       Transforms.collapse(editor);
     }, 0);
   };
+
   const onSaveDisclaimerText = useCallback(
     (values: UuDisclaimerEmbedData) => {
       setModalOpen(false);
@@ -97,7 +112,7 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
   return (
     <div data-testid="slate-disclaimer-block" {...attributes}>
       <ButtonContainer>
-        <DeleteButton aria-label={t("delete")} data-testid="remove-disclaimer" onClick={onRemove} />
+        <DeleteButton aria-label={t("delete")} data-testid="remove-disclaimer" onClick={handleDelete} />
         <Modal open={modalOpen} onOpenChange={setModalOpen}>
           <ModalTrigger>
             <IconButtonV2 variant="ghost" aria-label="Edit disclaimer" data-testid="edit-disclaimer">
@@ -112,6 +127,7 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
             <DisclaimerForm initialData={embed?.embedData} onOpenChange={setModalOpen} onSave={onSaveDisclaimerText} />
           </ModalContent>
         </Modal>
+        <MoveContentButton aria-label={t("move")} data-testid="move-disclaimer" onMouseDown={handleRemoveDisclaimer} />
       </ButtonContainer>
       <UuDisclaimerEmbed embed={embed}>
         <DisclaimerBlockContent data-testid="slate-disclaimer-content">{children}</DisclaimerBlockContent>

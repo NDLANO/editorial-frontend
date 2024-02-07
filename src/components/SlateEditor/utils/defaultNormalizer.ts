@@ -5,10 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { Editor, Element, NodeEntry, Path, Text, Transforms, Node } from "slate";
+import { Editor, Element, NodeEntry, Path, Text, Transforms } from "slate";
 import { createNode } from "./normalizationHelpers";
 import { ElementType } from "../interfaces";
-import { TYPE_DISCLAIMER } from "../plugins/uuDisclaimer/types";
 
 interface DefaultNodeRule {
   allowed: ElementType[];

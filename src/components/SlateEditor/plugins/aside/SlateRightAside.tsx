@@ -24,6 +24,7 @@ const StyledAsideType = styled.div`
   position: absolute;
   width: 100%;
   padding: 3.2px;
+  z-index: ${stackOrder.offsetSingle};
 `;
 
 const StyledAside = styled(Aside)`

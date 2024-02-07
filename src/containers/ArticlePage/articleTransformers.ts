@@ -197,7 +197,7 @@ export const frontpageArticleFormTypeToDraftApiType = (
     notes: article.notes,
     published: getPublishedDate(article, initialValues, preview) ?? "",
     tags: article.tags,
-    title: editorValueToPlainText(article.title),
+    title: inlineContentToHTML(article.title),
     grepCodes: article.grepCodes,
     conceptIds: article.conceptIds,
     availability: article.availability,

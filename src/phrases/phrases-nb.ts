@@ -1470,6 +1470,7 @@ const phrases = {
       deleteTooltip: "Fjern denne revisjonen",
     },
     disclaimer: {
+      edit: "Endre advarselstekst",
       default:
         "Dette innholdet er ikke universelt utformet, og noen brukere kan derfor ha problemer med å oppfatte og forstå det.",
       title: "Universell utforming advarsel",

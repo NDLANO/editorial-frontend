@@ -1473,6 +1473,7 @@ const phrases = {
       deleteTooltip: "Remove this revision",
     },
     disclaimer: {
+      edit: "Edit disclaimer text",
       default:
         "This content is not accessible, and some users can potentially have difficulties perceiving and understanding it.",
       title: "Accessability warning",

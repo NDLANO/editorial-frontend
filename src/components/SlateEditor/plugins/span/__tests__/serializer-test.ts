@@ -15,7 +15,12 @@ import { TYPE_SPAN } from "../types";
 const editor: Descendant[] = [
   {
     type: TYPE_SECTION,
-    children: [{ type: TYPE_PARAGRAPH, children: [{ text: "test", lang: "en" }] }],
+    children: [
+      {
+        type: TYPE_PARAGRAPH,
+        children: [{ text: "" }, { type: TYPE_SPAN, data: { lang: "en" }, children: [{ text: "test" }] }, { text: "" }],
+      },
+    ],
   },
 ];
 

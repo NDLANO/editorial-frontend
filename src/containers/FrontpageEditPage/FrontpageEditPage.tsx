@@ -100,7 +100,6 @@ const FrontpageEditPage = () => {
     }
     return addArticlesToAboutMenu(frontpageQuery.data, articlesQuery.data);
   }, [articlesQuery.data, articlesQuery.isLoading, frontpageQuery.data, frontpageQuery.isLoading]);
-
   const postFrontpageMutation = useUpdateFrontpageMutation();
 
   const onSubmit = useCallback(
@@ -170,7 +169,6 @@ const RootFields = () => {
     },
     [articleHelpers, idHelpers],
   );
-
   return (
     <FrontpageArticleWrapper>
       <Heading element="h1" headingStyle="h3" margin="none">

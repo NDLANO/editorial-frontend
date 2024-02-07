@@ -272,6 +272,7 @@ const phrases = {
     placeholder: "Søk etter artikler, aktiviteter eller oppgaver",
     types: {
       conceptQuery: "Søk på forklaring",
+      glossQuery: "Søk på glose",
       contentQuery: "Søk på innhold",
       audioQuery: "Søk på lydfiler",
       podcastSeriesQuery: "Søk på podkastserier",
@@ -636,6 +637,7 @@ const phrases = {
     code: "Kode\n({{ctrl}}+k)",
     "code-block": "Kodeblokk",
     "concept-inline": "Forklaring\n({{ctrl}}+alt+c)",
+    "gloss-inline": "Glose\n({{ctrl}}+alt+g)",
     footnote: "Fotnote\n({{ctrl}}+alt+f)",
     language: `Språk`,
     noneLanguage: "Ingen",
@@ -2050,6 +2052,8 @@ const phrases = {
     failedTitle: "Klarte ikke vise tittel",
     openChildren: "Vis barn",
     closeChildren: "Skjul barn",
+    hide: "Skjul",
+    show: "Vis",
   },
 };
 

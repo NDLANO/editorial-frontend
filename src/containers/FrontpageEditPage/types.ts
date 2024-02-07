@@ -12,4 +12,5 @@ export interface MenuWithArticle {
   articleId: number;
   article?: IArticleSummaryV2;
   menu: MenuWithArticle[];
+  hideLevel?: boolean;
 }

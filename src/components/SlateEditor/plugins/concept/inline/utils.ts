@@ -9,9 +9,10 @@
 import { Editor, Transforms, Element, Range } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_CONCEPT_INLINE } from "./types";
+import { ConceptType } from "../../../../../containers/ConceptPage/conceptInterfaces";
 import hasNodeOfType from "../../../utils/hasNodeOfType";
 
-export const insertInlineConcept = (editor: Editor) => {
+export const insertInlineConcept = (editor: Editor, conceptType: ConceptType) => {
   if (hasNodeOfType(editor, TYPE_CONCEPT_INLINE)) {
     Transforms.unwrapNodes(editor, {
       match: (node) => Element.isElement(node) && node.type === TYPE_CONCEPT_INLINE,
@@ -49,6 +50,7 @@ export const insertInlineConcept = (editor: Editor) => {
       slatejsx("element", {
         type: TYPE_CONCEPT_INLINE,
         isFirstEdit: true,
+        conceptType: conceptType,
         data: {},
       }),
       {

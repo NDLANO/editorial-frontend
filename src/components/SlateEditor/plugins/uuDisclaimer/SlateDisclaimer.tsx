@@ -112,7 +112,7 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
   return (
     <div data-testid="slate-disclaimer-block" {...attributes}>
       <ButtonContainer>
-        <DeleteButton aria-label={t("delete")} data-testid="remove-disclaimer" onClick={handleDelete} />
+        <DeleteButton aria-label={t("delete")} data-testid="delete-disclaimer" onClick={handleDelete} />
         <Modal open={modalOpen} onOpenChange={setModalOpen}>
           <ModalTrigger>
             <IconButtonV2 variant="ghost" aria-label="Edit disclaimer" data-testid="edit-disclaimer">
@@ -127,7 +127,11 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
             <DisclaimerForm initialData={embed?.embedData} onOpenChange={setModalOpen} onSave={onSaveDisclaimerText} />
           </ModalContent>
         </Modal>
-        <MoveContentButton aria-label={t("move")} data-testid="move-disclaimer" onMouseDown={handleRemoveDisclaimer} />
+        <MoveContentButton
+          aria-label={t("move")}
+          data-testid="remove-disclaimer"
+          onMouseDown={handleRemoveDisclaimer}
+        />
       </ButtonContainer>
       <UuDisclaimerEmbed embed={embed}>
         <DisclaimerBlockContent data-testid="slate-disclaimer-content">{children}</DisclaimerBlockContent>

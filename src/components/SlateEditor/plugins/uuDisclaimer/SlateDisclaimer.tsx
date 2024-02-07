@@ -95,7 +95,7 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
   );
 
   return (
-    <div {...attributes}>
+    <div data-testid="slate-disclaimer-block" {...attributes}>
       <ButtonContainer>
         <DeleteButton aria-label={t("delete")} data-testid="remove-disclaimer" onClick={onRemove} />
         <Modal open={modalOpen} onOpenChange={setModalOpen}>
@@ -113,8 +113,8 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
           </ModalContent>
         </Modal>
       </ButtonContainer>
-      <UuDisclaimerEmbed data-testid="slate-disclaimer" embed={embed}>
-        <DisclaimerBlockContent>{children}</DisclaimerBlockContent>
+      <UuDisclaimerEmbed embed={embed}>
+        <DisclaimerBlockContent data-testid="slate-disclaimer-content">{children}</DisclaimerBlockContent>
       </UuDisclaimerEmbed>
     </div>
   );

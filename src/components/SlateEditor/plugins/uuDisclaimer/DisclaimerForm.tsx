@@ -6,19 +6,20 @@
  *
  */
 
-import { FieldProps, Form, Formik, FormikValues } from "formik";
+import { Form, Formik, FormikValues } from "formik";
 import { Dispatch, SetStateAction, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { colors, misc, spacing } from "@ndla/core";
+import { Label } from "@ndla/forms";
 import { ModalBody } from "@ndla/modal";
 import SafeLink from "@ndla/safelink";
 import { UuDisclaimerEmbedData } from "@ndla/types-embed";
 import { Text } from "@ndla/typography";
 import { plainTextToEditorValue, editorValueToPlainText } from "../../../../util/articleContentConverter";
-import FormikField from "../../../FormikField";
+import { FormControl, FormField } from "../../../FormField";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
 import PlainTextEditor from "../../PlainTextEditor";
 
@@ -36,7 +37,7 @@ interface DisclaimerFormValues {
   disclaimer: Descendant[];
 }
 
-const StyledFormikField = styled(FormikField)`
+const StyledFormField = styled(FormField)`
   margin: 0;
 `;
 
@@ -114,19 +115,19 @@ const DisclaimerForm = ({ initialData, onOpenChange, onSave }: DisclaimerFormPro
             <Text element="p" textStyle="meta-text-medium" margin="none">
               <b>{t("form.disclaimer.editorHeader")}</b>
             </Text>
-            <StyledFormikField name="disclaimer" showError>
-              {({ field, form: { isSubmitting } }: FieldProps<Descendant[]>) => (
-                <StyledPlainTextEditor
-                  data-testid="disclaimer-editor"
-                  aria-label={t("form.disclaimer.editorHeader")}
-                  id={field.name}
-                  {...field}
-                  submitted={isSubmitting}
-                  tabIndex={0}
-                  value={initialValues.disclaimer}
-                />
+            <StyledFormField name="disclaimer">
+              {({ field }) => (
+                <FormControl>
+                  <Label visuallyHidden>{t("form.disclaimer.editorHeader")}</Label>
+                  <StyledPlainTextEditor
+                    data-testid="disclaimer-editor"
+                    id={field.name}
+                    {...field}
+                    value={initialValues.disclaimer}
+                  />
+                </FormControl>
               )}
-            </StyledFormikField>
+            </StyledFormField>
             <DisclaimerActions>
               <ButtonV2 onClick={() => onOpenChange(false)} variant="outline">
                 {t("form.abort")}

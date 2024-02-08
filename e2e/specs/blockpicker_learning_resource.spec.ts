@@ -122,6 +122,13 @@ test("adds and removes image", async ({ page }) => {
   await expect(page.getByTestId("remove-element")).toHaveCount(0);
 });
 
+test("adds and removes disclaimer", async ({ page }) => {
+  await page.getByTestId("create-disclaimer").click();
+  await expect(page.getByTestId("delete-disclaimer")).toBeVisible();
+  await page.getByTestId("delete-disclaimer").click();
+  await expect(page.getByTestId("delete-disclaimer")).toHaveCount(0);
+});
+
 test("opens and closes video", async ({ page }) => {
   const brightcoveToken = mockRoute({
     page,
@@ -198,11 +205,4 @@ test("opens and closes related content", async ({ page }) => {
   await expect(page.getByTestId("editRelated")).toBeVisible();
   await page.getByTestId("close-related-button").click();
   await expect(page.getByTestId("styled-article-modal")).toHaveCount(0);
-});
-
-test("adds and removes disclaimer", async ({ page }) => {
-  await page.getByTestId("create-disclaimer").click();
-  await expect(page.getByTestId("delete-disclaimer")).toBeVisible();
-  await page.getByTestId("delete-disclaimer").click();
-  expect(page.getByTestId("delete-disclaimer")).not.toBeAttached();
 });

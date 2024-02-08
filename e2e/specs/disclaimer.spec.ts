@@ -101,5 +101,5 @@ test("delete disclaimer with content", async ({ page }) => {
   await expect(page.getByTestId("remove-element")).toBeVisible();
   await expect(page.getByTestId("delete-disclaimer")).toBeVisible();
   await page.getByTestId("delete-disclaimer").click();
-  expect(page.getByTestId("remove-element")).not.toBeAttached();
+  await expect(page.getByTestId("remove-element")).toHaveCount(0);
 });

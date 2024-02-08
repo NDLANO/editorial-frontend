@@ -48,17 +48,16 @@ const StyledModalHeader = styled(ModalHeader)`
 
 const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
   const { t } = useTranslation();
-  const { data } = element;
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   const embed: UuDisclaimerMetaData = useMemo(
     () => ({
       status: "success",
       data: {},
-      embedData: data,
-      resource: data?.resource,
+      embedData: element.data,
+      resource: element.data?.resource,
     }),
-    [data],
+    [element.data],
   );
 
   const handleDelete = () => {

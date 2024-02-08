@@ -84,12 +84,11 @@ const DisclaimerForm = ({ initialData, onOpenChange, onSave }: DisclaimerFormPro
     (values: FormikValues) => {
       onSave({
         resource: "uu-disclaimer",
-        articleId: initialData?.articleId,
         disclaimer: editorValueToPlainText(values.disclaimer),
       });
       onOpenChange(false);
     },
-    [initialData?.articleId, onOpenChange, onSave],
+    [onOpenChange, onSave],
   );
 
   return (

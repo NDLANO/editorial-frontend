@@ -17,15 +17,8 @@ interface Props extends ComponentProps<typeof IconButtonV2> {}
 export const MoveContentButton = ({ onMouseDown, ...rest }: Props) => {
   const { t } = useTranslation();
   return (
-    <Tooltip tooltip={rest["aria-label" ?? t("learningResourceForm.fields.rightAside.moveContent")]}>
-      <IconButtonV2
-        contentEditable={false}
-        tabIndex={-1}
-        variant="ghost"
-        onMouseDown={onMouseDown}
-        {...rest}
-        aria-label={rest["aria-label" ?? t("learningResourceForm.fields.rightAside.moveContent")]}
-      >
+    <Tooltip tooltip={rest["aria-label" ?? ""]}>
+      <IconButtonV2 contentEditable={false} tabIndex={-1} variant="ghost" onMouseDown={onMouseDown} {...rest}>
         <ChevronLeft />
       </IconButtonV2>
     </Tooltip>

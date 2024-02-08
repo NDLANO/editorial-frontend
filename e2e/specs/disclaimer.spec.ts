@@ -80,12 +80,26 @@ test("add content to disclaimer", async ({ page }) => {
   await expect(page.getByTestId("remove-element")).toBeVisible();
 });
 
-test("keep content when deleting disclaimer", async ({ page }) => {
+test("move content out of disclaimer", async ({ page }) => {
   await page.getByTestId("slate-disclaimer-content").click();
   await page.getByTestId("slate-block-picker").click();
   await page.getByTestId("create-image").click();
   await page.getByTestId("select-image-from-list").first().click();
   await page.getByTestId("use-image").click();
-  await page.getByTestId("remove-disclaimer").click();
   await expect(page.getByTestId("remove-element")).toBeVisible();
+  await expect(page.getByTestId("move-disclaimer")).toBeAttached();
+  await page.getByTestId("move-disclaimer").click();
+  await expect(page.getByTestId("remove-element")).toBeVisible();
+});
+
+test("delete disclaimer with content", async ({ page }) => {
+  await page.getByTestId("slate-disclaimer-content").click();
+  await page.getByTestId("slate-block-picker").click();
+  await page.getByTestId("create-image").click();
+  await page.getByTestId("select-image-from-list").first().click();
+  await page.getByTestId("use-image").click();
+  await expect(page.getByTestId("remove-element")).toBeVisible();
+  await expect(page.getByTestId("delete-disclaimer")).toBeVisible();
+  await page.getByTestId("delete-disclaimer").click();
+  expect(page.getByTestId("remove-element")).not.toBeAttached();
 });

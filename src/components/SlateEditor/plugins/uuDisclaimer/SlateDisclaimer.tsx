@@ -127,11 +127,7 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
             <DisclaimerForm initialData={embed?.embedData} onOpenChange={setModalOpen} onSave={onSaveDisclaimerText} />
           </ModalContent>
         </Modal>
-        <MoveContentButton
-          aria-label={t("move")}
-          data-testid="remove-disclaimer"
-          onMouseDown={handleRemoveDisclaimer}
-        />
+        <MoveContentButton aria-label={t("move")} data-testid="move-disclaimer" onMouseDown={handleRemoveDisclaimer} />
       </ButtonContainer>
       <UuDisclaimerEmbed embed={embed}>
         <DisclaimerBlockContent data-testid="slate-disclaimer-content">{children}</DisclaimerBlockContent>

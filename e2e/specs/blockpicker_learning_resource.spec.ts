@@ -202,7 +202,7 @@ test("opens and closes related content", async ({ page }) => {
 
 test("adds and removes disclaimer", async ({ page }) => {
   await page.getByTestId("create-disclaimer").click();
-  await expect(page.getByTestId("remove-disclaimer")).toBeVisible();
-  await page.getByTestId("remove-disclaimer").click();
-  await expect(page.getByTestId("remove-disclaimer")).toHaveCount(0);
+  await expect(page.getByTestId("delete-disclaimer")).toBeVisible();
+  await page.getByTestId("delete-disclaimer").click();
+  expect(page.getByTestId("delete-disclaimer")).not.toBeAttached();
 });

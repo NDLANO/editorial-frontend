@@ -16,7 +16,7 @@ interface Props {
   onMouseDown?: MouseEventHandler;
 }
 
-const MoveContentButton = ({ onMouseDown }: Props) => {
+export const MoveContentButton = ({ onMouseDown, ...rest }: Props) => {
   const { t } = useTranslation();
   return (
     <Tooltip tooltip={t("learningResourceForm.fields.rightAside.moveContent")}>
@@ -26,6 +26,7 @@ const MoveContentButton = ({ onMouseDown }: Props) => {
         aria-label={t("learningResourceForm.fields.rightAside.moveContent")}
         variant="ghost"
         onMouseDown={onMouseDown}
+        {...rest}
       >
         <ChevronLeft />
       </IconButtonV2>

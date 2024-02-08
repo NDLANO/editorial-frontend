@@ -115,7 +115,7 @@ export const parseEmbedTag = (embedTag?: string): Embed | undefined => {
 const attributeRegex = /[A-Z]/g;
 
 type EmbedProps<T extends object> = {
-  [Key in keyof T]: string | undefined;
+  [Key in keyof T]: string | number | undefined;
 };
 
 export const createEmbedTagV2 = <T extends object>(

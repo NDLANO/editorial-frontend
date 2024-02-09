@@ -12,7 +12,7 @@ import { TYPE_DISCLAIMER } from "./types";
 import { createEmbedTagV2, reduceElementDataAttributesV2 } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 import { NormalizerConfig, defaultBlockNormalizer } from "../../utils/defaultNormalizer";
-import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
+import { afterOrBeforeTextBlockElement, firstTextBlockElement } from "../../utils/normalizationHelpers";
 import { TYPE_NDLA_EMBED } from "../embed/types";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
 
@@ -37,6 +37,10 @@ const normalizerConfig: NormalizerConfig = {
   },
   next: {
     allowed: afterOrBeforeTextBlockElement,
+    defaultType: TYPE_PARAGRAPH,
+  },
+  firstNode: {
+    allowed: firstTextBlockElement,
     defaultType: TYPE_PARAGRAPH,
   },
 };

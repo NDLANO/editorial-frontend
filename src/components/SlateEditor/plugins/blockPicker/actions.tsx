@@ -146,6 +146,7 @@ export const commonActions: Action[] = [
     data: { type: TYPE_DISCLAIMER, object: "disclaimer" },
     icon: <WarningOutline />,
     helpIcon: renderArticleInModal("Disclaimer"),
+    requiredScope: DRAFT_ADMIN_SCOPE,
   },
 ];
 

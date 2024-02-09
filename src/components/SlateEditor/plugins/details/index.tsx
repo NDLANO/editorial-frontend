@@ -155,7 +155,12 @@ export const detailsPlugin = (editor: Editor) => {
     const path = ReactEditor.findPath(editor, text);
 
     const [parent] = Editor.node(editor, Path.parent(path));
-    if (Element.isElement(parent) && parent.type === TYPE_SUMMARY && Node.string(leaf) === "") {
+    if (
+      Element.isElement(parent) &&
+      parent.type === TYPE_SUMMARY &&
+      Node.string(leaf) === "" &&
+      parent.children.length < 2 // When a word is wrapped with language, number of children will be higher than 1
+    ) {
       return (
         <WithPlaceHolder attributes={attributes} placeholder="form.name.title">
           {children}

@@ -51,6 +51,7 @@ import { sectionSerializer } from "../components/SlateEditor/plugins/section";
 import { TYPE_SECTION } from "../components/SlateEditor/plugins/section/types";
 import { spanSerializer } from "../components/SlateEditor/plugins/span";
 import { tableSerializer } from "../components/SlateEditor/plugins/table";
+import { disclaimerSerializer } from "../components/SlateEditor/plugins/uuDisclaimer";
 import { Embed } from "../interfaces";
 
 export const sectionSplitter = (html: string) => {
@@ -97,6 +98,7 @@ const extendedRules: SlateSerializer[] = [
   inlineConceptSerializer,
   blockConceptSerializer,
   asideSerializer,
+  disclaimerSerializer,
   fileSerializer,
   detailsSerializer,
   tableSerializer,

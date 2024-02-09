@@ -52,7 +52,10 @@ const SlateRightAside = ({ children, onRemoveClick, onMoveContent, attributes }:
       <StyledAsideType contentEditable={false}>
         {t("learningResourceForm.fields.rightAside.title")}
         <ButtonContainer>
-          <MoveContentButton onMouseDown={onMoveContent} />
+          <MoveContentButton
+            onMouseDown={onMoveContent}
+            aria-label={t("learningResourceForm.fields.rightAside.moveContent")}
+          />
           <DeleteButton
             aria-label={t("learningResourceForm.fields.rightAside.delete")}
             variant="stripped"

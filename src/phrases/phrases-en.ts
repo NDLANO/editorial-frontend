@@ -696,6 +696,7 @@ const phrases = {
       campaignBlock: "Kampanjeblokk",
       linkBlockList: "Link block",
       gloss: "Gloss",
+      disclaimer: "Accessability disclaimer",
     },
   },
   form: {
@@ -1470,6 +1471,17 @@ const phrases = {
       switchTooltip: "Whether the article is revised or not.",
       inputPlaceholder: "Description of the revision",
       deleteTooltip: "Remove this revision",
+    },
+    disclaimer: {
+      edit: "Edit disclaimer text",
+      default:
+        "This content is not accessible, and some users can potentially have difficulties perceiving and understanding it.",
+      title: "Accessability warning",
+      exampleHeader: "Write down who will experience issues with the component, and with what",
+      exampleText:
+        "E.g. Do you have issues with sight or cognition? Then you may experience issues perceiving and understanding this content. You can alternatively use this page: www.ndla.eksempel.no",
+      exampleLinkText: "You can find example sentences for use in multiline textfields here",
+      editorHeader: "Write down where the user can find alternative content",
     },
   },
   validation: {

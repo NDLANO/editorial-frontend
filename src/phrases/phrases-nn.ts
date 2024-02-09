@@ -695,6 +695,7 @@ const phrases = {
       campaignBlock: "Kampanjeblokk",
       linkBlockList: "Lenkeblokk",
       gloss: "Glose",
+      disclaimer: "UU-åtvaring",
     },
   },
   form: {
@@ -1467,6 +1468,17 @@ const phrases = {
       switchTooltip: "I kva grad artikkelen er revidert eller ikkje.",
       inputPlaceholder: "Beskrivelse av revisjonen",
       deleteTooltip: "Fjern denne revisjonen",
+    },
+    disclaimer: {
+      edit: "Endre åtvaringstekst",
+      default:
+        "Dette innhaldet er ikkje universelt utforma, og noken brukarar kan difor ha problem med å oppfatte og forstå det.",
+      title: "Universell utforming åtvaring",
+      exampleHeader: "Skriv inn kven som vil få problem med komponenten og med kva",
+      exampleText:
+        "T.d. Har du utfordringar med syn eller kognisjon? Då kan du få problem med å oppfatte og forstå dette innhaldet. Du kan istaden nytte denne sida: www.ndla.eksempel.no",
+      exampleLinkText: "Her finn du eksempelsetningar som skal brukast i fritekstfelt",
+      editorHeader: "Skriv inn kor brukaren finn alternativt innhald",
     },
   },
   validation: {

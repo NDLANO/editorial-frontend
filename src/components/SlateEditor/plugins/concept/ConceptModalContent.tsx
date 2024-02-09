@@ -77,6 +77,7 @@ const ConceptModalContent = ({
     pageSize: 10,
     results: [],
     totalCount: 0,
+    aggregations: [],
   });
   const [searching, setSearching] = useState(false);
 

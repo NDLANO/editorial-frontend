@@ -38,7 +38,10 @@ const SlateFactAside = ({ children, onRemoveClick, attributes, onMoveContent }: 
   return (
     <div>
       <ButtonContainer>
-        <MoveContentButton onMouseDown={onMoveContent} />
+        <MoveContentButton
+          onMouseDown={onMoveContent}
+          aria-label={t("learningResourceForm.fields.rightAside.moveContent")}
+        />
         <DeleteButton
           aria-label={t("form.remove")}
           variant="stripped"

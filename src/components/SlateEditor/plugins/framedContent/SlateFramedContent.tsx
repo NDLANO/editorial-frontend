@@ -71,7 +71,10 @@ const SlateFramedContent = (props: Props & RenderElementProps) => {
   return (
     <StyledFramedContent draggable {...attributes}>
       <ButtonContainer>
-        <MoveContentButton onMouseDown={onMoveContent} />
+        <MoveContentButton
+          onMouseDown={onMoveContent}
+          aria-label={t("learningResourceForm.fields.rightAside.moveContent")}
+        />
         <DeleteButton
           aria-label={t("form.remove")}
           tabIndex={-1}

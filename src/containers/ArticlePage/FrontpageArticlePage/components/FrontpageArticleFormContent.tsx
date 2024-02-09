@@ -43,6 +43,7 @@ import {
   createToolbarAreaOptions,
   createToolbarDefaultValues,
 } from "../../../../components/SlateEditor/plugins/toolbar/toolbarState";
+import { TYPE_DISCLAIMER } from "../../../../components/SlateEditor/plugins/uuDisclaimer/types";
 import RichTextEditor from "../../../../components/SlateEditor/RichTextEditor";
 import { useWideArticle } from "../../../../components/WideArticleEditorProvider";
 import { DRAFT_HTML_SCOPE } from "../../../../constants";
@@ -106,6 +107,7 @@ const actions = [
   TYPE_KEY_FIGURE,
   TYPE_CAMPAIGN_BLOCK,
   TYPE_LINK_BLOCK_LIST,
+  TYPE_DISCLAIMER,
 ].concat(visualElements);
 
 const actionsToShowInAreas = {

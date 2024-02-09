@@ -123,7 +123,10 @@ const Details = ({ children, editor, element, attributes }: Props & RenderElemen
   return (
     <StyledDetailsDiv {...attributes} draggable>
       <ButtonContainer>
-        <MoveContentButton onMouseDown={onMoveContent} />
+        <MoveContentButton
+          onMouseDown={onMoveContent}
+          aria-label={t("learningResourceForm.fields.rightAside.moveContent")}
+        />
         <DeleteButton
           data-testid="remove-details"
           aria-label={t("form.remove")}

@@ -155,12 +155,7 @@ export const detailsPlugin = (editor: Editor) => {
     const path = ReactEditor.findPath(editor, text);
 
     const [parent] = Editor.node(editor, Path.parent(path));
-    if (
-      Element.isElement(parent) &&
-      parent.type === TYPE_SUMMARY &&
-      Node.string(leaf) === "" &&
-      Node.string(parent) === ""
-    ) {
+    if (Element.isElement(parent) && parent.type === TYPE_SUMMARY && Node.string(parent) === "") {
       return (
         <WithPlaceHolder attributes={attributes} placeholder="form.name.title">
           {children}

@@ -159,7 +159,7 @@ export const detailsPlugin = (editor: Editor) => {
       Element.isElement(parent) &&
       parent.type === TYPE_SUMMARY &&
       Node.string(leaf) === "" &&
-      parent.children.length < 2 // When a word is wrapped with language, number of children will be higher than 1
+      Node.string(parent) === ""
     ) {
       return (
         <WithPlaceHolder attributes={attributes} placeholder="form.name.title">

@@ -151,7 +151,7 @@ export const detailsPlugin = (editor: Editor) => {
   };
 
   editor.renderLeaf = (props: RenderLeafProps) => {
-    const { attributes, children, leaf, text } = props;
+    const { attributes, children, text } = props;
     const path = ReactEditor.findPath(editor, text);
 
     const [parent] = Editor.node(editor, Path.parent(path));

@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
-import { colors, misc, spacing } from "@ndla/core";
+import { colors, fonts, misc, spacing } from "@ndla/core";
 import { Label } from "@ndla/forms";
 import { ModalBody } from "@ndla/modal";
 import SafeLink from "@ndla/safelink";
@@ -67,6 +67,10 @@ const DisclaimerActions = styled.div`
   padding: ${spacing.normal} 0 0;
 `;
 
+const StyledText = styled(Text)`
+  ${fonts.size.text.label.small}
+`;
+
 const rules: RulesType<DisclaimerFormValues> = {};
 
 const toInitialValues = (data?: UuDisclaimerEmbedData): DisclaimerFormValues => {
@@ -103,22 +107,19 @@ const DisclaimerForm = ({ initialData, onOpenChange, onSave }: DisclaimerFormPro
       {() => (
         <Form>
           <StyledModalBody>
-            <Text element="p" textStyle="meta-text-medium" margin="small">
-              <b>{t("form.disclaimer.exampleHeader")}</b>
-            </Text>
-            <Text element="p" textStyle="meta-text-small" margin="none">
+            <StyledText element="p" textStyle="label-small" margin="small">
+              {t("form.disclaimer.exampleHeader")}
+            </StyledText>
+            <StyledText element="p" textStyle="meta-text-small" margin="none">
               {t("form.disclaimer.exampleText")}
-            </Text>
-            <Text element="p" textStyle="meta-text-small">
+            </StyledText>
+            <StyledText element="p" textStyle="meta-text-small">
               <SafeLink to={DISCLAIMER_EXAMPLES_LINK}>{t("form.disclaimer.exampleLinkText")}</SafeLink>
-            </Text>
-            <Text element="p" textStyle="meta-text-medium" margin="none">
-              <b>{t("form.disclaimer.editorHeader")}</b>
-            </Text>
+            </StyledText>
             <StyledFormField name="disclaimer">
               {({ field }) => (
                 <FormControl>
-                  <Label visuallyHidden>{t("form.disclaimer.editorHeader")}</Label>
+                  <Label textStyle="label-small">{t("form.disclaimer.editorHeader")}</Label>
                   <StyledPlainTextEditor
                     data-testid="disclaimer-editor"
                     id={field.name}

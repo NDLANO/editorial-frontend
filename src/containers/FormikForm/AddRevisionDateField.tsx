@@ -148,26 +148,26 @@ const AddRevisionDateField = ({ formikField, showError }: Props) => {
                     />
                   </StyledDatePickerWrapper>
                 </Tooltip>
-                <Tooltip tooltip={t("form.revisions.switchTooltip")}>
-                  <div>
-                    <StyledSwitch
-                      checked={revisionMeta.status === Revision.revised}
-                      onChange={(c) => {
-                        const status = c ? Revision.revised : Revision.needsRevision;
-                        editRevision((old) => ({ ...old, status }));
-                        if (status === Revision.revised) {
-                          createMessage({
-                            translationKey: "form.revisions.reminder",
-                            severity: "info",
-                            timeToLive: 0,
-                          });
-                        }
-                      }}
-                      label={""}
-                      id={`revision_switch_${index}`}
-                    />
-                  </div>
-                </Tooltip>
+                <div>
+                  <StyledSwitch
+                    aria-label={t("form.revisions.switchTooltip")}
+                    checked={revisionMeta.status === Revision.revised}
+                    onChange={(c) => {
+                      const status = c ? Revision.revised : Revision.needsRevision;
+                      editRevision((old) => ({ ...old, status }));
+                      if (status === Revision.revised) {
+                        createMessage({
+                          translationKey: "form.revisions.reminder",
+                          severity: "info",
+                          timeToLive: 0,
+                        });
+                      }
+                    }}
+                    label={""}
+                    id={`revision_switch_${index}`}
+                    title={t("form.revisions.switchTooltip")}
+                  />
+                </div>
                 <StyledRemoveButton
                   aria-label={t("form.revisions.deleteTooltip")}
                   data-visible={true}

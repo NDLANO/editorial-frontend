@@ -13,7 +13,6 @@ import styled from "@emotion/styled";
 import { mq, breakpoints, colors, spacing } from "@ndla/core";
 import { Alarm, Time } from "@ndla/icons/common";
 import Pager from "@ndla/pager";
-import Tooltip from "@ndla/tooltip";
 import { IUserData } from "@ndla/types-backend/draft-api";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
 import GoToSearch from "./GoToSearch";
@@ -264,19 +263,19 @@ const Revisions = ({ userData }: Props) => {
                 revisionDateTo={currentDateAddYear}
               />
             </TopRowControls>
-            <Tooltip tooltip={t("welcomePage.primaryConnection")}>
-              <SwitchWrapper>
-                <StyledSwitch
-                  checked={onlyShowPrimaryConnection}
-                  onChange={() => {
-                    setOnlyShowPrimaryConnection(!onlyShowPrimaryConnection);
-                    setPage(1);
-                  }}
-                  label={t("welcomePage.primaryConnectionLabel")}
-                  id="filter-primary-connection-switch"
-                />
-              </SwitchWrapper>
-            </Tooltip>
+            <SwitchWrapper>
+              <StyledSwitch
+                aria-label={t("welcomePage.primaryConnection")}
+                checked={onlyShowPrimaryConnection}
+                onChange={() => {
+                  setOnlyShowPrimaryConnection(!onlyShowPrimaryConnection);
+                  setPage(1);
+                }}
+                label={t("welcomePage.primaryConnectionLabel")}
+                id="filter-primary-connection-switch"
+                title={t("welcomePage.primaryConnection")}
+              />
+            </SwitchWrapper>
           </ControlWrapperDashboard>
         </StyledTopRowDashboardInfo>
         <TableComponent

@@ -11,7 +11,6 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { spacing, colors, fonts } from "@ndla/core";
 import { InformationOutline } from "@ndla/icons/common";
-import Tooltip from "@ndla/tooltip";
 
 const ComponentWrapper = styled.div`
   display: flex;
@@ -71,11 +70,9 @@ const TableComponent = ({ title, description, Icon, infoText }: Props) => {
         <ComponentWrapper>
           <StyledTitle>{title}</StyledTitle>
           {infoText && (
-            <Tooltip tooltip={infoText}>
-              <div>
-                <InformationOutline />
-              </div>
-            </Tooltip>
+            <div>
+              <InformationOutline aria-label={infoText} title={infoText} />
+            </div>
           )}
         </ComponentWrapper>
         <StyledDescription>{description}</StyledDescription>

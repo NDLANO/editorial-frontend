@@ -15,7 +15,6 @@ import { ButtonV2 } from "@ndla/button";
 import { colors, spacing } from "@ndla/core";
 import { Input, FieldRemoveButton } from "@ndla/forms";
 import { Switch } from "@ndla/switch";
-import Tooltip from "@ndla/tooltip";
 import { ArticleFormType } from "./articleFormHooks";
 import InlineDatePicker from "./components/InlineDatePicker";
 import { Revision } from "../../constants";

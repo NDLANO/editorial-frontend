@@ -16,7 +16,6 @@ import { Pencil } from "@ndla/icons/action";
 import { Launch } from "@ndla/icons/common";
 import { DeleteForever, Keyhole } from "@ndla/icons/editor";
 import SafeLink from "@ndla/safelink";
-import Tooltip from "@ndla/tooltip";
 import { Version as TaxVersion, VersionType } from "@ndla/types-taxonomy";
 import { StyledErrorMessage } from "./StyledErrorMessage";
 import VersionForm from "./VersionForm";
@@ -142,22 +141,21 @@ const Version = ({ version }: Props) => {
           <ContentBlock>
             <VersionTitle>{version.name}</VersionTitle>
             {version.locked && (
-              <Tooltip tooltip={t("taxonomyVersions.locked")}>
-                <div>
-                  <StyledKeyhole />
-                </div>
-              </Tooltip>
+              <div>
+                <StyledKeyhole aria-label={t("taxonomyVersions.locked")} title={t("taxonomyVersions.locked")} />
+              </div>
             )}
           </ContentBlock>
           <ContentBlock>
             <StatusWrapper color={statusColorMap[version.versionType]}>
               <StyledText>{t(`taxonomyVersions.status.${version.versionType}`)}</StyledText>
             </StatusWrapper>
-            <Tooltip tooltip={t("taxonomyVersions.previewVersion")}>
-              <StyledLink target={"_blank"} to={ndlaUrl}>
-                <StyledLaunch />
-              </StyledLink>
-            </Tooltip>
+            <StyledLink target={"_blank"} to={ndlaUrl}>
+              <StyledLaunch
+                aria-label={t("taxonomyVersions.previewVersion")}
+                title={t("taxonomyVersions.previewVersion")}
+              />
+            </StyledLink>
             <IconButtonV2
               variant="ghost"
               colorTheme="lighter"

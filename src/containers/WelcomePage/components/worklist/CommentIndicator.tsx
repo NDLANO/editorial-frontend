@@ -8,7 +8,6 @@
 
 import styled from "@emotion/styled";
 import { Comment } from "@ndla/icons/common";
-import Tooltip from "@ndla/tooltip";
 
 const StyledIconWrapper = styled.div`
   display: flex;
@@ -25,10 +24,8 @@ interface Props {
 }
 
 const CommentIndicator = ({ comment }: Props) => (
-  <Tooltip tooltip={comment} delayDuration={0}>
-    <StyledIconWrapper>
-      <StyledCommentIcon aria-label={comment} />
-    </StyledIconWrapper>
-  </Tooltip>
+  <StyledIconWrapper>
+    <StyledCommentIcon aria-label={comment} title={comment} />
+  </StyledIconWrapper>
 );
 export default CommentIndicator;

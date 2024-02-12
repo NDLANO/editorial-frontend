@@ -13,7 +13,6 @@ import { ExclamationMark } from "@ndla/icons/common";
 import { Calendar } from "@ndla/icons/editor";
 import Pager from "@ndla/pager";
 import { SingleValue } from "@ndla/select";
-import Tooltip from "@ndla/tooltip";
 import { IMultiSearchResult } from "@ndla/types-backend/search-api";
 import CommentIndicator from "./CommentIndicator";
 import PageSizeDropdown from "./PageSizeDropdown";
@@ -108,14 +107,13 @@ const WorkListTabContent = ({
               data: (
                 <CellWrapper>
                   <StyledTitleWrapper>
-                    <Tooltip tooltip={t("editorFooter.prioritized")}>
-                      <div>
-                        <StyledExclamationMark
-                          aria-hidden={!!res?.prioritized}
-                          aria-label={t("editorFooter.prioritized")}
-                        />
-                      </div>
-                    </Tooltip>
+                    <div>
+                      <StyledExclamationMark
+                        aria-hidden={!!res?.prioritized}
+                        aria-label={t("editorFooter.prioritized")}
+                        title={t("editorFooter.prioritized")}
+                      />
+                    </div>
                     <StyledLink to={toEditArticle(res.id, res.learningResourceType)} title={res.title?.title}>
                       {res.title?.title}
                     </StyledLink>

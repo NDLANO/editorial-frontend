@@ -11,7 +11,6 @@ import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing, colors } from "@ndla/core";
 import { Concept, Check, Globe } from "@ndla/icons/editor";
-import Tooltip from "@ndla/tooltip";
 import { IConceptSummary } from "@ndla/types-backend/concept-api";
 import { ConceptQuery } from "../../../../modules/concept/conceptApiInterfaces";
 import Spinner from "../../../Spinner";
@@ -84,11 +83,9 @@ const SearchConceptResults = ({ results, searchObject, addConcept, searching = t
               ? `${t(`languages.${result.glossData.originalLanguage}`)}: ${result.glossData.gloss}`
               : result.title.title) ?? t("conceptSearch.noTitle")}
             {(result.status.current === "PUBLISHED" || result.status.other.includes("PUBLISHED")) && (
-              <Tooltip tooltip={t("form.workflow.published")}>
-                <div>
-                  <StyledCheckIcon />
-                </div>
-              </Tooltip>
+              <div>
+                <StyledCheckIcon aria-label={t("form.workflow.published")} title={t("form.workflow.published")} />
+              </div>
             )}
           </StyledConceptResultHeader>
           <StyledConceptContent>

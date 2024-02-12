@@ -21,6 +21,7 @@ import { paragraphPlugin } from "../../components/SlateEditor/plugins/paragraph"
 import { paragraphRenderer } from "../../components/SlateEditor/plugins/paragraph/render";
 import saveHotkeyPlugin from "../../components/SlateEditor/plugins/saveHotkey";
 import { spanPlugin } from "../../components/SlateEditor/plugins/span";
+import { spanRenderer } from "../../components/SlateEditor/plugins/span/render";
 import { textTransformPlugin } from "../../components/SlateEditor/plugins/textTransform";
 import { toolbarPlugin } from "../../components/SlateEditor/plugins/toolbar";
 import {
@@ -64,7 +65,7 @@ const ingressPlugins: SlatePlugin[] = [
   noopPlugin,
 ];
 
-const ingressRenderers: SlatePlugin[] = [noopRenderer, paragraphRenderer, markRenderer, breakRenderer];
+const ingressRenderers: SlatePlugin[] = [noopRenderer, paragraphRenderer, markRenderer, breakRenderer, spanRenderer];
 
 const plugins = ingressPlugins.concat(ingressRenderers);
 

@@ -17,11 +17,13 @@ import { SlatePlugin } from "../../components/SlateEditor/interfaces";
 import { markPlugin } from "../../components/SlateEditor/plugins/mark";
 import { markRenderer } from "../../components/SlateEditor/plugins/mark/render";
 import { noopPlugin } from "../../components/SlateEditor/plugins/noop";
+import { noopRenderer } from "../../components/SlateEditor/plugins/noop/render";
 import { paragraphPlugin } from "../../components/SlateEditor/plugins/paragraph";
 import { paragraphRenderer } from "../../components/SlateEditor/plugins/paragraph/render";
 import saveHotkeyPlugin from "../../components/SlateEditor/plugins/saveHotkey";
 import { sectionRenderer } from "../../components/SlateEditor/plugins/section/render";
 import { spanPlugin } from "../../components/SlateEditor/plugins/span";
+import { spanRenderer } from "../../components/SlateEditor/plugins/span/render";
 import { textTransformPlugin } from "../../components/SlateEditor/plugins/textTransform";
 import { toolbarPlugin } from "../../components/SlateEditor/plugins/toolbar";
 import {
@@ -54,7 +56,7 @@ const titlePlugins: SlatePlugin[] = [
   noopPlugin,
 ];
 
-const titleRenderers: SlatePlugin[] = [sectionRenderer, paragraphRenderer, markRenderer];
+const titleRenderers: SlatePlugin[] = [sectionRenderer, paragraphRenderer, markRenderer, noopRenderer, spanRenderer];
 
 const basePlugins = titlePlugins.concat(titleRenderers);
 

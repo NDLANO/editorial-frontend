@@ -11,6 +11,7 @@ import sortBy from "lodash/sortBy";
 import uniq from "lodash/uniq";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Descendant } from "slate";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
@@ -23,6 +24,8 @@ import { Node } from "@ndla/types-taxonomy";
 import PlannedResourceSelect from "./PlannedResourceSelect";
 import FormikField from "../../../components/FormikField";
 import validateFormik, { RulesType } from "../../../components/formikValidationSchema";
+import { TYPE_DIV } from "../../../components/SlateEditor/plugins/div/types";
+import { TYPE_PARAGRAPH } from "../../../components/SlateEditor/plugins/paragraph/types";
 import Spinner from "../../../components/Spinner";
 import RelevanceOption from "../../../components/Taxonomy/RelevanceOption";
 import { DRAFT_RESPONSIBLE, LAST_UPDATED_SIZE, RESOURCE_FILTER_CORE } from "../../../constants";
@@ -39,8 +42,9 @@ import {
 import { nodeQueryKeys } from "../../../modules/nodes/nodeQueries";
 import { getRootIdForNode } from "../../../modules/nodes/nodeUtil";
 import { useAllResourceTypes } from "../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
+import { inlineContentToHTML } from "../../../util/articleContentConverter";
 import { convertUpdateToNewDraft } from "../../../util/articleUtil";
-import { getCommentWithInfoText } from "../../ArticlePage/components/InputComment";
+import { getCommentInfoText } from "../../ArticlePage/components/InputComment";
 import PrioritySelect from "../../FormikForm/components/PrioritySelect";
 import { useSession } from "../../Session/SessionProvider";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
@@ -200,10 +204,20 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
     async (values: PlannedResourceFormikType) => {
       try {
         setError(undefined);
-        const comment = values.comments && getCommentWithInfoText(values.comments, userName, t);
+        const infoText = getCommentInfoText(userName, t);
+
+        const slateComment: Descendant[] = [
+          {
+            type: TYPE_DIV,
+            children: [
+              { type: TYPE_PARAGRAPH, children: [{ text: values.comments }] },
+              { type: TYPE_PARAGRAPH, children: [{ text: infoText }] },
+            ],
+          },
+        ];
         const plannedResource: IUpdatedArticle = {
           title: values.title,
-          comments: comment ? [{ content: comment, isOpen: true }] : [],
+          comments: [{ content: inlineContentToHTML(slateComment), isOpen: true }],
           language: i18n.language,
           articleType: values.articleType,
           responsibleId: values.responsible,

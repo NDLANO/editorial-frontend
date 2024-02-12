@@ -27,6 +27,7 @@ import {
   LearningResourceFormType,
   TopicArticleFormType,
   FrontpageArticleFormType,
+  SlateCommentType,
 } from "../FormikForm/articleFormHooks";
 
 const getPublishedDate = (values: ArticleFormType, initialValues: ArticleFormType, preview: boolean = false) => {
@@ -45,6 +46,20 @@ const getPublishedDate = (values: ArticleFormType, initialValues: ArticleFormTyp
 };
 
 export const RESET_COMMENTS_STATUSES = [PUBLISHED, ARCHIVED, UNPUBLISHED];
+
+const getCommentsDraftApiToArticleFormType = (
+  article: IArticle | undefined,
+  articleType: string,
+): SlateCommentType[] => {
+  if (!article?.comments) return [];
+  if (
+    article?.status.current &&
+    RESET_COMMENTS_STATUSES.includes(article?.status.current) &&
+    articleType !== "topic-article"
+  )
+    return [];
+  return article.comments.map((c) => ({ ...c, content: inlineContentToEditorValue(c.content, true) }));
+};
 
 const draftApiTypeToArticleFormType = (
   article: IArticle | undefined,
@@ -86,13 +101,7 @@ const draftApiTypeToArticleFormType = (
     revisionMeta: article?.revisions ?? [],
     slug: article?.slug,
     responsibleId: article === undefined ? ndlaId : article?.responsible?.responsibleId,
-    comments:
-      !article?.comments ||
-      (article?.status.current &&
-        RESET_COMMENTS_STATUSES.includes(article?.status.current) &&
-        articleType !== "topic-article")
-        ? []
-        : article.comments,
+    comments: getCommentsDraftApiToArticleFormType(article, articleType),
     priority: article?.priority ?? "unspecified",
   };
 };
@@ -163,7 +172,7 @@ export const learningResourceFormTypeToDraftApiType = (
     relatedContent: article.relatedContent,
     revisionMeta: article.revisionMeta,
     responsibleId: article.responsibleId,
-    comments: article.comments,
+    comments: article.comments?.map((c) => ({ ...c, content: inlineContentToHTML(c.content) })),
     priority: article.priority ?? "unspecified",
   };
 };
@@ -204,7 +213,7 @@ export const frontpageArticleFormTypeToDraftApiType = (
     relatedContent: article.relatedContent,
     revisionMeta: article.revisionMeta,
     responsibleId: article.responsibleId,
-    comments: article.comments,
+    comments: article.comments?.map((c) => ({ ...c, content: inlineContentToHTML(c.content) })),
     priority: article.priority ?? "unspecified",
   };
 };
@@ -248,7 +257,7 @@ export const topicArticleFormTypeToDraftApiType = (
     relatedContent: article.relatedContent,
     revisionMeta: article.revisionMeta,
     responsibleId: article.responsibleId,
-    comments: article.comments,
+    comments: article.comments?.map((c) => ({ ...c, content: inlineContentToHTML(c.content) })),
     priority: article.priority ?? "unspecified",
   };
 };

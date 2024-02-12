@@ -52,6 +52,8 @@ interface Props extends Omit<EditableProps, "value" | "onChange" | "onKeyDown"> 
   hideBlockPicker?: boolean;
   testId?: string;
   hideToolbar?: boolean;
+  receiveInitialFocus?: boolean;
+  hideSpinner?: boolean;
 }
 
 const RichTextEditor = ({
@@ -69,6 +71,8 @@ const RichTextEditor = ({
   hideBlockPicker,
   additionalOnKeyDown,
   hideToolbar,
+  receiveInitialFocus,
+  hideSpinner,
   ...rest
 }: Props) => {
   const _editor = useMemo(() => withReact(withHistory(createEditor())), []);
@@ -77,6 +81,14 @@ const RichTextEditor = ({
   const prevSubmitted = useRef(submitted);
 
   const { status, setStatus } = useFormikContext<ArticleFormType>();
+
+  useEffect(() => {
+    if (receiveInitialFocus) {
+      setTimeout(() => {
+        ReactEditor.focus(editor);
+      }, 0);
+    }
+  }, [editor, receiveInitialFocus]);
 
   useEffect(() => {
     Editor.normalize(editor, { force: true });
@@ -201,8 +213,9 @@ const RichTextEditor = ({
       if (e.relatedTarget?.id === BLOCK_PICKER_TRIGGER_ID) return;
       if (e.relatedTarget?.closest("[data-toolbar]")) return;
       Transforms.deselect(editor);
+      rest.onBlur?.(e);
     },
-    [editor],
+    [editor, rest],
   );
 
   const handleKeyDown = useCallback(
@@ -224,7 +237,7 @@ const RichTextEditor = ({
       <SlateProvider isSubmitted={submitted}>
         <StyledSlateWrapper data-testid={testId}>
           <Slate editor={editor} initialValue={value} onChange={onChange}>
-            {isFirstNormalize ? (
+            {isFirstNormalize && !hideSpinner ? (
               <Spinner />
             ) : (
               <>

@@ -6,53 +6,44 @@
  *
  */
 
-import { ChangeEvent, useState } from "react";
+import { FieldInputProps } from "formik";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { css } from "@emotion/react";
+import { Descendant } from "slate";
 import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
 import { colors, spacing, fonts, misc } from "@ndla/core";
-import { TextAreaV2 } from "@ndla/forms";
+import { FormControl, Label } from "@ndla/forms";
 import { TrashCanOutline, RightArrow, ExpandMore } from "@ndla/icons/action";
 import { Done } from "@ndla/icons/editor";
-import { IComment } from "@ndla/types-backend/draft-api";
+import { plugins, toolbarAreaFilters, toolbarOptions } from "./commentToolbarUtils";
+import { COMMENT_COLOR, formControlStyles, slateContentStyles } from "./styles";
 import AlertModal from "../../../components/AlertModal";
+import RichTextEditor from "../../../components/SlateEditor/RichTextEditor";
+import { inlineContentToHTML } from "../../../util/articleContentConverter";
+import { SlateCommentType } from "../../FormikForm/articleFormHooks";
 
-export const COMMENT_COLOR = colors.support.yellowLight;
-
-export const textAreaStyles = css`
-  width: 100%;
-  border: 1px solid ${colors.brand.neutral7};
-  min-height: 25px;
-  background-color: ${COMMENT_COLOR};
-
-  input,
-  textarea {
-    ${fonts.size.text.button};
-    font-weight: ${fonts.weight.light};
-    margin: 0px;
-    padding: 0 ${spacing.xxsmall};
-  }
+const StyledFormControl = styled(FormControl)`
+  ${formControlStyles}
 `;
 
-const StyledClickableTextArea = styled(TextAreaV2)<{ solved: boolean }>`
-  ${textAreaStyles};
-  background-color: ${(p) => (p.solved ? colors.support.greenLight : COMMENT_COLOR)};
+const StyledTextArea = styled.div`
+  ${slateContentStyles};
+  background-color: ${COMMENT_COLOR};
+  font-family: ${fonts.sans};
+  font-weight: ${fonts.weight.light};
+  padding: 0 ${spacing.xxsmall};
+  ${fonts.size.text.button};
   border: 1px solid transparent;
-  &:active,
-  &:focus-visible {
-    border: 1px solid ${colors.brand.primary};
-  }
-  textarea {
-    &[data-open="false"] {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-height: 30px;
-      display: -webkit-box;
-      -webkit-line-clamp: 1;
-      -webkit-box-orient: vertical;
-    }
+
+  &[data-open="false"] {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 30px;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
   }
 `;
 
@@ -66,6 +57,9 @@ const CommentCard = styled.li`
 
   &[data-solved="true"] {
     background-color: ${colors.support.greenLight};
+    [data-comment] {
+      background-color: ${colors.support.greenLight};
+    }
   }
 `;
 
@@ -80,43 +74,36 @@ const TopButtonRow = styled.div`
 `;
 
 // Comment generated on frontend, we will use id from draft-api once comment is generated
-export type CommentType = { generatedId?: string; content: string; isOpen: boolean; solved: boolean } | IComment;
+export type CommentType =
+  | { generatedId?: string; content: Descendant[]; isOpen: boolean; solved: boolean }
+  | SlateCommentType;
 
 interface Props {
   id: string | undefined;
-  comments: CommentType[];
-  setComments: (c: CommentType[]) => void;
-  onDelete: (index: number) => void;
+  field: FieldInputProps<CommentType[]>;
   index: number;
+  isSubmitting: boolean;
 }
 
-const Comment = ({ id, comments, setComments, onDelete, index }: Props) => {
+const Comment = ({ id, index, isSubmitting, field }: Props) => {
   const { t } = useTranslation();
-  const comment = comments[index];
+  const { value, onChange, name } = field;
+  const comment = value[index];
 
-  const [inputValue, setInputValue] = useState(comment?.content);
+  const [inputValue, setInputValue] = useState<Descendant[]>(comment.content);
   const [modalOpen, setModalOpen] = useState(false);
-
-  const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
-    setInputValue(e.target.value);
-  };
+  const [isFocused, setIsFocused] = useState(false);
 
   const handleDelete = () => {
     if (index === undefined) return;
-    onDelete?.(index);
+    const updatedList = value.filter((_, i) => i !== index);
+    onChange({ target: { value: updatedList, name: name } });
     setModalOpen(false);
   };
 
-  const updateComment = (value: boolean, field: keyof CommentType) => {
-    const updatedComments = comments.map((c, i) => (index === i ? { ...c, [field]: value } : c));
-    setComments(updatedComments);
-  };
-
-  const focusUpdate = (focus: boolean) => {
-    if (!focus) {
-      const updatedComments = comments.map((c, i) => (i === index ? { ...c, content: inputValue } : c));
-      setComments(updatedComments);
-    }
+  const updateComment = (updateValue: boolean | Descendant[], field: keyof CommentType) => {
+    const updatedComments = value.map((c, i) => (index === i ? { ...c, [field]: updateValue } : c));
+    onChange({ target: { value: updatedComments, name: "comments" } });
   };
 
   const tooltipText = comment.isOpen ? t("form.comment.hide") : t("form.comment.show");
@@ -160,21 +147,39 @@ const Comment = ({ id, comments, setComments, onDelete, index }: Props) => {
             </IconButtonV2>
           </div>
         </TopButtonRow>
-        <StyledClickableTextArea
-          value={inputValue}
-          label={t("form.comment.commentField")}
-          name={t("form.comment.commentField")}
-          labelHidden
-          onChange={handleInputChange}
-          onFocus={() => {
-            focusUpdate(true);
-            updateComment(true, "isOpen");
-          }}
-          onBlur={() => focusUpdate(false)}
-          id={commentId}
-          data-open={comment.isOpen}
-          solved={comment.solved}
-        />
+        <StyledFormControl id={`comment-${id}`}>
+          <Label visuallyHidden>{t("form.comment.commentField")}</Label>
+          {isFocused ? (
+            <RichTextEditor
+              value={comment.content ?? []}
+              hideBlockPicker
+              submitted={isSubmitting}
+              plugins={plugins}
+              onChange={setInputValue}
+              onBlur={() => updateComment(inputValue, "content")}
+              onFocus={() => updateComment(true, "isOpen")}
+              toolbarOptions={toolbarOptions}
+              toolbarAreaFilters={toolbarAreaFilters}
+              data-open={comment.isOpen}
+              data-comment=""
+              receiveInitialFocus
+              hideSpinner
+            />
+          ) : (
+            <StyledTextArea
+              dangerouslySetInnerHTML={{ __html: inlineContentToHTML(comment.content) }}
+              onFocus={() => {
+                setInputValue(comment.content);
+                updateComment(true, "isOpen");
+                setIsFocused(true);
+              }}
+              role="textbox"
+              tabIndex={0}
+              data-open={comment.isOpen}
+              data-comment=""
+            />
+          )}
+        </StyledFormControl>
       </CardContent>
 
       <AlertModal

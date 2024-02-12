@@ -34,7 +34,15 @@ import {
 interface Props {
   ndlaId: string;
 }
-export type SortOption = "title" | "responsibleLastUpdated" | "status";
+export type SortOptionWorkList =
+  | "title"
+  | "responsibleLastUpdated"
+  | "status"
+  | "resourceType"
+  | "parentTopicName"
+  | "primaryRoot";
+
+export type SortOptionConceptList = "title" | "responsibleLastUpdated" | "status" | "subject" | "conceptType";
 
 const WorkList = ({ ndlaId }: Props) => {
   const { t, i18n } = useTranslation();
@@ -42,7 +50,7 @@ const WorkList = ({ ndlaId }: Props) => {
   // Worklist articles state handling
   const [filterSubject, setFilterSubject] = useLocalStorageSubjectFilterState(STORED_FILTER_WORKLIST, i18n.language);
   const [pageSize, setPageSize] = useLocalStoragePageSizeState(STORED_PAGE_SIZE);
-  const [sortOption, setSortOption] = useLocalStorageSortOptionState<SortOption>(
+  const [sortOption, setSortOption] = useLocalStorageSortOptionState<SortOptionWorkList>(
     STORED_SORT_OPTION_WORKLIST,
     "-responsibleLastUpdated",
   );
@@ -55,7 +63,7 @@ const WorkList = ({ ndlaId }: Props) => {
     i18n.language,
   );
   const [pageSizeConcept, setPageSizeConcept] = useLocalStoragePageSizeState(STORED_PAGE_SIZE_CONCEPT);
-  const [sortOptionConcepts, setSortOptionConcepts] = useLocalStorageSortOptionState<SortOption>(
+  const [sortOptionConcepts, setSortOptionConcepts] = useLocalStorageSortOptionState<SortOptionConceptList>(
     STORED_SORT_OPTION_WORKLIST_CONCEPT,
     "-responsibleLastUpdated",
   );
@@ -63,7 +71,7 @@ const WorkList = ({ ndlaId }: Props) => {
 
   // Worklist on hold state handling
   const [pageSizeOnHold, setPageSizeOnHold] = useLocalStoragePageSizeState(STORED_PAGE_SIZE_ON_HOLD);
-  const [sortOptionOnHold, setSortOptionOnHold] = useLocalStorageSortOptionState<SortOption>(
+  const [sortOptionOnHold, setSortOptionOnHold] = useLocalStorageSortOptionState<SortOptionWorkList>(
     STORED_SORT_OPTION_WORKLIST_ON_HOLD,
     "-responsibleLastUpdated",
   );

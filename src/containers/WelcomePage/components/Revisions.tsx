@@ -85,7 +85,7 @@ interface Props {
   userData: IUserData | undefined;
 }
 
-type SortOptionRevision = "title" | "revisionDate" | "status";
+type SortOptionRevision = "title" | "revisionDate" | "status" | "primaryRoot";
 
 const Revisions = ({ userData }: Props) => {
   const {
@@ -114,7 +114,7 @@ const Revisions = ({ userData }: Props) => {
       sortableField: "status",
       width: "15%",
     },
-    { title: t("welcomePage.workList.primarySubject") },
+    { title: t("welcomePage.workList.primarySubject"), sortableField: "primaryRoot" },
     { title: t("welcomePage.revisionDate"), sortableField: "revisionDate" },
   ];
 
@@ -227,7 +227,7 @@ const Revisions = ({ userData }: Props) => {
           },
           {
             id: `primarySubject_${resource.id}`,
-            data: resource.contexts.find((context) => context.isPrimaryConnection)?.subject ?? "",
+            data: resource.primaryRootName,
           },
           {
             id: `lastUpdated_${resource.id}`,

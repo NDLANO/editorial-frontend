@@ -8,7 +8,7 @@
 
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { IArticleSummaryV2, IArticleTitle } from "@ndla/types-backend/article-api";
+import { IArticleTitle } from "@ndla/types-backend/article-api";
 import { IMetaDescription } from "@ndla/types-backend/search-api";
 
 const Container = styled.div`

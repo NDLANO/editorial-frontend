@@ -134,20 +134,20 @@ const AddRevisionDateField = ({ formikField, showError }: Props) => {
                 />
               </InputWrapper>
               <VerticalCenter>
-                <Tooltip tooltip={t("form.revisions.datePickerTooltip")}>
-                  <StyledDatePickerWrapper>
-                    <InlineDatePicker
-                      value={revisionMeta.revisionDate}
-                      name={`revision_date_${index}`}
-                      onChange={(date) =>
-                        editRevision((old) => ({
-                          ...old,
-                          revisionDate: date.currentTarget.value,
-                        }))
-                      }
-                    />
-                  </StyledDatePickerWrapper>
-                </Tooltip>
+                <StyledDatePickerWrapper>
+                  <InlineDatePicker
+                    aria-label={t("form.revisions.datePickerTooltip")}
+                    value={revisionMeta.revisionDate}
+                    name={`revision_date_${index}`}
+                    onChange={(date) =>
+                      editRevision((old) => ({
+                        ...old,
+                        revisionDate: date.currentTarget.value,
+                      }))
+                    }
+                    title={t("form.revisions.datePickerTooltip")}
+                  />
+                </StyledDatePickerWrapper>
                 <div>
                   <StyledSwitch
                     aria-label={t("form.revisions.switchTooltip")}

@@ -13,7 +13,6 @@ import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { colors } from "@ndla/core";
 import { DeleteForever } from "@ndla/icons/editor";
-import Tooltip from "@ndla/tooltip";
 import { SectionElement } from ".";
 
 import StyledFormContainer from "../../common/StyledFormContainer";

@@ -16,7 +16,6 @@ import { IconButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { Pencil } from "@ndla/icons/action";
 import { DeleteForever } from "@ndla/icons/editor";
-import Tooltip from "@ndla/tooltip";
 import { RelatedContentEmbedData, RelatedContentMetaData } from "@ndla/types-embed";
 import { RelatedArticleList, RelatedContentEmbed } from "@ndla/ui";
 import { RelatedElement } from ".";

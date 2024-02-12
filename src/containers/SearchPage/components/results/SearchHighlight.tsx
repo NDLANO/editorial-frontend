@@ -9,7 +9,6 @@
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { fonts } from "@ndla/core";
-import Tooltip from "@ndla/tooltip";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
 
 interface Props {
@@ -56,13 +55,12 @@ const SearchHighlight = ({ content, locale }: Props) => {
   return selectedHighlights ? (
     <StyledDiv>
       <StyledHeading>{t("searchPage.highlights.title")}</StyledHeading>
-      <Tooltip tooltip={t(`searchPage.highlights.${selectedHighlights.field.split(".")[0]}`)}>
-        <StyledHighlights
-          dangerouslySetInnerHTML={{
-            __html: selectedHighlights.matches.join(" [...] "),
-          }}
-        />
-      </Tooltip>
+      <StyledHighlights
+        title={t(`searchPage.highlights.${selectedHighlights.field.split(".")[0]}`)}
+        dangerouslySetInnerHTML={{
+          __html: selectedHighlights.matches.join(" [...] "),
+        }}
+      />
     </StyledDiv>
   ) : null;
 };

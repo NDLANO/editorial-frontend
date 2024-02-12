@@ -12,7 +12,6 @@ import styled from "@emotion/styled";
 import { colors } from "@ndla/core";
 import { AlertCircle, Check, InProgress } from "@ndla/icons/editor";
 import SafeLink from "@ndla/safelink";
-import Tooltip from "@ndla/tooltip";
 import { isApproachingRevision } from "./ApproachingRevisionDate";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
 import WrongTypeError from "./WrongTypeError";

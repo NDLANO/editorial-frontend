@@ -11,10 +11,11 @@ import { useTranslation } from "react-i18next";
 import { Editor, Transforms, Element } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import styled from "@emotion/styled";
-import { spacing, colors } from "@ndla/core";
+import { spacing, colors, fonts } from "@ndla/core";
 import { TYPE_DETAILS } from "./types";
 import DeleteButton from "../../../DeleteButton";
 import MoveContentButton from "../../../MoveContentButton";
+import { ExpandableBox, ExpandableBoxSummary } from "@ndla/ui";
 
 const StyledDetailsDiv = styled.div`
   padding: ${spacing.small};
@@ -61,6 +62,16 @@ const StyledSummary = styled.summary`
   padding: 0;
   cursor: inherit;
   display: block;
+`;
+
+const StyledExpendabelBox = styled(ExpandableBoxSummary)`
+  span {
+    & > * {
+      display: inline;
+      font-size: ${fonts.size.text.metaText.medium};
+      font-weight: ${fonts.weight.normal};
+    }
+  }
 `;
 
 const ButtonContainer = styled.div`
@@ -119,6 +130,7 @@ const Details = ({ children, editor, element, attributes }: Props & RenderElemen
   };
 
   const [summaryNode, ...contentNodes] = children;
+  console.log(summaryNode);
 
   return (
     <StyledDetailsDiv {...attributes} draggable>
@@ -134,13 +146,17 @@ const Details = ({ children, editor, element, attributes }: Props & RenderElemen
           onMouseDown={onRemoveClick}
         />
       </ButtonContainer>
-      <StyledRow>
+      {/* <StyledRow>
         <div contentEditable={false}>
           <StyledChevron isOpen={isOpen} onClick={toggleOpen} />
         </div>
         <StyledSummary>{summaryNode}</StyledSummary>
       </StyledRow>
-      <StyledContent isOpen={isOpen}>{contentNodes}</StyledContent>
+      <StyledContent isOpen={isOpen}>{contentNodes}</StyledContent> */}
+      <ExpandableBox>
+        <StyledExpendabelBox>{summaryNode}</StyledExpendabelBox>
+        {contentNodes}
+      </ExpandableBox>
     </StyledDetailsDiv>
   );
 };

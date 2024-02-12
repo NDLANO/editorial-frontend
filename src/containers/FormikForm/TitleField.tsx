@@ -6,7 +6,7 @@
  *
  */
 
-import { memo } from "react";
+import { KeyboardEvent, memo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { fonts } from "@ndla/core";
@@ -14,10 +14,9 @@ import { FieldErrorMessage, Label } from "@ndla/forms";
 import { FormControl, FormField } from "../../components/FormField";
 
 import { SlatePlugin } from "../../components/SlateEditor/interfaces";
-import { breakPlugin } from "../../components/SlateEditor/plugins/break";
-import { breakRenderer } from "../../components/SlateEditor/plugins/break/render";
 import { markPlugin } from "../../components/SlateEditor/plugins/mark";
 import { markRenderer } from "../../components/SlateEditor/plugins/mark/render";
+import { noopPlugin } from "../../components/SlateEditor/plugins/noop";
 import { paragraphPlugin } from "../../components/SlateEditor/plugins/paragraph";
 import { paragraphRenderer } from "../../components/SlateEditor/plugins/paragraph/render";
 import saveHotkeyPlugin from "../../components/SlateEditor/plugins/saveHotkey";
@@ -50,12 +49,12 @@ const titlePlugins: SlatePlugin[] = [
   paragraphPlugin,
   toolbarPlugin,
   textTransformPlugin,
-  breakPlugin,
   saveHotkeyPlugin,
   markPlugin,
+  noopPlugin,
 ];
 
-const titleRenderers: SlatePlugin[] = [sectionRenderer, paragraphRenderer, markRenderer, breakRenderer];
+const titleRenderers: SlatePlugin[] = [sectionRenderer, paragraphRenderer, markRenderer];
 
 const plugins = titlePlugins.concat(titleRenderers);
 
@@ -79,6 +78,13 @@ const toolbarAreaFilters = createToolbarAreaOptions();
 const TitleField = ({ maxLength = 256, name = "title" }: Props) => {
   const { t } = useTranslation();
 
+  const onKeyDown = useCallback((e: KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      return false;
+    } else return true;
+  }, []);
+
   return (
     <FormField name={name}>
       {({ field, meta }) => (
@@ -86,6 +92,7 @@ const TitleField = ({ maxLength = 256, name = "title" }: Props) => {
           <Label visuallyHidden>{t("form.title.label")}</Label>
           <RichTextEditor
             {...field}
+            additionalOnKeyDown={onKeyDown}
             hideBlockPicker
             submitted={false}
             placeholder={t("form.title.label")}

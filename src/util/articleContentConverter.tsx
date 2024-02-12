@@ -44,6 +44,8 @@ import { listSerializer } from "../components/SlateEditor/plugins/list";
 import { markSerializer } from "../components/SlateEditor/plugins/mark";
 import { mathmlSerializer } from "../components/SlateEditor/plugins/mathml";
 import { noEmbedSerializer } from "../components/SlateEditor/plugins/noEmbed";
+import { noopSerializer } from "../components/SlateEditor/plugins/noop";
+import { TYPE_NOOP } from "../components/SlateEditor/plugins/noop/types";
 import { paragraphSerializer } from "../components/SlateEditor/plugins/paragraph";
 import { TYPE_PARAGRAPH } from "../components/SlateEditor/plugins/paragraph/types";
 import { relatedSerializer } from "../components/SlateEditor/plugins/related";
@@ -81,8 +83,11 @@ export const createEmptyValue = (): Descendant[] => [
   },
 ];
 
+export const createNoop = (): Descendant[] => [{ type: TYPE_NOOP, children: [{ text: "" }] }];
+
 // Rules are checked from first to last
 const extendedRules: SlateSerializer[] = [
+  noopSerializer,
   paragraphSerializer,
   sectionSerializer,
   breakSerializer,
@@ -120,6 +125,7 @@ const extendedRules: SlateSerializer[] = [
 
 // Rules are checked from first to last
 const commonRules: SlateSerializer[] = [
+  noopSerializer,
   paragraphSerializer,
   sectionSerializer,
   breakSerializer,
@@ -173,9 +179,14 @@ const articleContentToHTML = (value: Descendant[], rules: SlateSerializer[]) => 
   return elements.replace(/<deleteme><\/deleteme>/g, "");
 };
 
-const articleContentToEditorValue = (html: string, rules: SlateSerializer[]) => {
+const articleContentToEditorValue = (
+  html: string,
+  rules: SlateSerializer[],
+  emptyValue: () => Descendant[] = createEmptyValue,
+  noop?: boolean,
+) => {
   if (!html) {
-    return createEmptyValue();
+    return emptyValue();
   }
   const deserialize = (el: HTMLElement | ChildNode): Descendant | Descendant[] => {
     if (el.nodeType === 3) {
@@ -205,7 +216,7 @@ const articleContentToEditorValue = (html: string, rules: SlateSerializer[]) => 
     return children;
   };
 
-  const document = new DOMParser().parseFromString(html, "text/html");
+  const document = new DOMParser().parseFromString(noop ? `<div data-noop="true">${html}</div>` : html, "text/html");
   const nodes = toArray(document.body.children).map(deserialize);
   const normalizedNodes = compact(nodes.map((n) => convertFromHTML(Node.isNodeList(n) ? n[0] : n)));
   return normalizedNodes;
@@ -219,8 +230,8 @@ export function blockContentToHTML(contentValues: Descendant[]) {
   return articleContentToHTML(contentValues, extendedRules);
 }
 
-export function inlineContentToEditorValue(html: string) {
-  return articleContentToEditorValue(html, commonRules);
+export function inlineContentToEditorValue(html: string, wrapper?: () => Descendant[], noop?: boolean) {
+  return articleContentToEditorValue(html, commonRules, wrapper, noop);
 }
 
 export function inlineContentToHTML(value: Descendant[]) {

@@ -7,7 +7,7 @@
  */
 import { useFormikContext } from "formik";
 import isEqual from "lodash/isEqual";
-import { FocusEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { FocusEvent, KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createEditor, Descendant, Editor, NodeEntry, Range, Transforms } from "slate";
 import { withHistory } from "slate-history";
 import { Slate, Editable, withReact, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
@@ -36,7 +36,7 @@ const StyledEditable = styled(Editable)`
   outline: none;
 `;
 
-interface Props extends Omit<EditableProps, "value" | "onChange"> {
+interface Props extends Omit<EditableProps, "value" | "onChange" | "onKeyDown"> {
   value: Descendant[];
   onChange: (descendant: Descendant[]) => void;
   placeholder?: string;
@@ -47,6 +47,7 @@ interface Props extends Omit<EditableProps, "value" | "onChange"> {
   blockpickerOptions?: Partial<BlockPickerOptions>;
   toolbarOptions: CategoryFilters;
   toolbarAreaFilters: AreaFilters;
+  additionalOnKeyDown?: (event: KeyboardEvent<HTMLDivElement>) => boolean;
   hideBlockPicker?: boolean;
 }
 
@@ -62,6 +63,7 @@ const RichTextEditor = ({
   toolbarOptions,
   toolbarAreaFilters,
   hideBlockPicker,
+  additionalOnKeyDown,
   ...rest
 }: Props) => {
   const _editor = useMemo(() => withReact(withHistory(createEditor())), []);
@@ -198,6 +200,20 @@ const RichTextEditor = ({
     [editor],
   );
 
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent<HTMLDivElement>) => {
+      let allowEditorKeyDown = true;
+      if (additionalOnKeyDown) {
+        allowEditorKeyDown = additionalOnKeyDown(e);
+      }
+      if (allowEditorKeyDown) {
+        // @ts-ignore is-hotkey and editor.onKeyDown does not have matching types
+        editor.onKeyDown(e);
+      }
+    },
+    [additionalOnKeyDown, editor],
+  );
+
   return (
     <article>
       <SlateProvider isSubmitted={submitted}>
@@ -220,8 +236,7 @@ const RichTextEditor = ({
                   {...rest}
                   onBlur={onBlur}
                   decorate={decorations}
-                  // @ts-ignore is-hotkey and editor.onKeyDown does not have matching types
-                  onKeyDown={editor.onKeyDown}
+                  onKeyDown={handleKeyDown}
                   placeholder={placeholder}
                   renderElement={renderElement}
                   renderLeaf={renderLeaf}

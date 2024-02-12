@@ -15,6 +15,8 @@ import { breakPlugin } from "../../components/SlateEditor/plugins/break";
 import { breakRenderer } from "../../components/SlateEditor/plugins/break/render";
 import { markPlugin } from "../../components/SlateEditor/plugins/mark";
 import { markRenderer } from "../../components/SlateEditor/plugins/mark/render";
+import { noopPlugin } from "../../components/SlateEditor/plugins/noop";
+import { noopRenderer } from "../../components/SlateEditor/plugins/noop/render";
 import { paragraphPlugin } from "../../components/SlateEditor/plugins/paragraph";
 import { paragraphRenderer } from "../../components/SlateEditor/plugins/paragraph/render";
 import saveHotkeyPlugin from "../../components/SlateEditor/plugins/saveHotkey";
@@ -43,9 +45,10 @@ const ingressPlugins: SlatePlugin[] = [
   breakPlugin,
   saveHotkeyPlugin,
   markPlugin,
+  noopPlugin,
 ];
 
-const ingressRenderers: SlatePlugin[] = [sectionRenderer, paragraphRenderer, markRenderer, breakRenderer];
+const ingressRenderers: SlatePlugin[] = [noopRenderer, sectionRenderer, paragraphRenderer, markRenderer, breakRenderer];
 
 const plugins = ingressPlugins.concat(ingressRenderers);
 

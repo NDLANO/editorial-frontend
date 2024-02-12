@@ -8,7 +8,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { CloudUploadOutline } from "@ndla/icons/editor";
-import Tooltip from "@ndla/tooltip";
 import { Node } from "@ndla/types-taxonomy";
 import MenuItemButton from "./components/MenuItemButton";
 import RoundIcon from "../../../../components/RoundIcon";
@@ -50,26 +49,23 @@ const RequestNodePublish = ({ node, rootNodeId }: Props) => {
   };
 
   const { t } = useTranslation();
-  const button = (
+  const buttonText = t(
+    hasRequested
+      ? "taxonomy.metadata.customFields.cancelPublishRequest"
+      : "taxonomy.metadata.customFields.requestPublish",
+  );
+  return (
     <MenuItemButton
+      aria-label={taxonomyVersion !== "default" ? t("taxonomy.metadata.customFields.requestVersionError") : buttonText}
       data-testid="requestPublish"
       onClick={togglePublish}
       disabled={taxonomyVersion !== "default" || metadata.customFields.isPublishing === "true"}
+      title={taxonomyVersion !== "default" ? t("taxonomy.metadata.customFields.requestVersionError") : undefined}
     >
       <RoundIcon small icon={<CloudUploadOutline />} />
-      {t(
-        hasRequested
-          ? "taxonomy.metadata.customFields.cancelPublishRequest"
-          : "taxonomy.metadata.customFields.requestPublish",
-      )}
+      {buttonText}
     </MenuItemButton>
   );
-
-  if (taxonomyVersion === "default") {
-    return button;
-  }
-
-  return <Tooltip tooltip={t("taxonomy.metadata.customFields.requestVersionError")}>{button}</Tooltip>;
 };
 
 export default RequestNodePublish;

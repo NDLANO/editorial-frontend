@@ -22,6 +22,7 @@ interface Props {
   "data-testid"?: string;
   onClick?: () => void;
   disabled?: boolean;
+  title?: string;
 }
 
 const MenuItemButton = forwardRef<HTMLButtonElement, Props>(({ children, ...rest }, ref) => (

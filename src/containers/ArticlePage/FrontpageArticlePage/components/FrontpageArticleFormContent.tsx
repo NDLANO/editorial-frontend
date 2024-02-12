@@ -14,7 +14,6 @@ import { IconButtonV2 } from "@ndla/button";
 import { colors } from "@ndla/core";
 import { FieldHeader } from "@ndla/forms";
 import { Eye, Link } from "@ndla/icons/editor";
-import Tooltip from "@ndla/tooltip";
 import { frontpagePlugins } from "./frontpagePlugins";
 import { frontpageRenderers } from "./frontpageRenderers";
 import AlertModal from "../../../../components/AlertModal";
@@ -180,29 +179,27 @@ const FrontpageArticleFormContent = ({ articleLanguage, initialHTML }: Props) =>
             />
             <IconContainer>
               {slug && (
-                <Tooltip tooltip={t("form.slug.edit")}>
-                  <StyledIconButton
-                    aria-label={t("form.slug.edit")}
-                    variant="stripped"
-                    colorTheme="light"
-                    data-active={editSlug}
-                    onClick={() => setEditSlug(!editSlug)}
-                  >
-                    <Link />
-                  </StyledIconButton>
-                </Tooltip>
-              )}
-              <Tooltip tooltip={t("form.markdown.button")}>
                 <StyledIconButton
-                  aria-label={t("form.markdown.button")}
+                  aria-label={t("form.slug.edit")}
                   variant="stripped"
                   colorTheme="light"
-                  data-active={preview}
-                  onClick={() => setPreview(!preview)}
+                  data-active={editSlug}
+                  onClick={() => setEditSlug(!editSlug)}
+                  title={t("form.slug.edit")}
                 >
-                  <Eye />
+                  <Link />
                 </StyledIconButton>
-              </Tooltip>
+              )}
+              <StyledIconButton
+                aria-label={t("form.markdown.button")}
+                variant="stripped"
+                colorTheme="light"
+                data-active={preview}
+                onClick={() => setPreview(!preview)}
+                title={t("form.markdown.button")}
+              >
+                <Eye />
+              </StyledIconButton>
               <HowToHelper pageId="Markdown" tooltip={t("form.markdown.helpLabel")} />
             </IconContainer>
           </StyledDiv>

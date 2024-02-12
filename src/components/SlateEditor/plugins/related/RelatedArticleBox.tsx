@@ -195,16 +195,24 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
         data-testid="relatedWrapper"
         headingButtons={
           <ButtonWrapper>
-            <Tooltip tooltip={t("form.edit")}>
-              <StyledIconButton onClick={() => setEditMode(true)} aria-label={t("form.edit")} variant="ghost">
-                <Pencil />
-              </StyledIconButton>
-            </Tooltip>
-            <Tooltip tooltip={t("delete")}>
-              <StyledIconButton onClick={deleteElement} aria-label={t("delete")} variant="ghost" colorTheme="danger">
-                <DeleteForever />
-              </StyledIconButton>
-            </Tooltip>
+            <StyledIconButton
+              onClick={() => setEditMode(true)}
+              aria-label={t("form.edit")}
+              variant="ghost"
+              title={t("form.edit")}
+            >
+              <Pencil />
+            </StyledIconButton>
+
+            <StyledIconButton
+              onClick={deleteElement}
+              aria-label={t("delete")}
+              variant="ghost"
+              colorTheme="danger"
+              title={t("delete")}
+            >
+              <DeleteForever />
+            </StyledIconButton>
           </ButtonWrapper>
         }
       >

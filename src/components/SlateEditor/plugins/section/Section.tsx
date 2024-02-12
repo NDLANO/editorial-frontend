@@ -29,7 +29,7 @@ const StyledSection = styled.section`
   position: relative;
 `;
 
-const TooltipWrapper = styled.div`
+const ButtonWrapper = styled.div`
   display: none;
   ${StyledFormContainer}:hover &,
   ${StyledFormContainer}:focus & {
@@ -48,21 +48,21 @@ const Section = ({ attributes, children, element, editor }: Props) => {
     <StyledFormContainer>
       <StyledSection {...attributes}>{children}</StyledSection>
       {editor.children.length > 1 && (
-        <TooltipWrapper contentEditable={false}>
-          <Tooltip tooltip={t("form.section.remove")}>
-            <ButtonV2
-              contentEditable={false}
-              colorTheme="danger"
-              variant="stripped"
-              onClick={() => {
-                const path = ReactEditor.findPath(editor, element);
-                Transforms.removeNodes(editor, { at: path });
-              }}
-            >
-              <DeleteForever />
-            </ButtonV2>
-          </Tooltip>
-        </TooltipWrapper>
+        <ButtonWrapper contentEditable={false}>
+          <ButtonV2
+            aria-label={t("form.section.remove")}
+            contentEditable={false}
+            colorTheme="danger"
+            variant="stripped"
+            onClick={() => {
+              const path = ReactEditor.findPath(editor, element);
+              Transforms.removeNodes(editor, { at: path });
+            }}
+            title={t("form.section.remove")}
+          >
+            <DeleteForever />
+          </ButtonV2>
+        </ButtonWrapper>
       )}
     </StyledFormContainer>
   );

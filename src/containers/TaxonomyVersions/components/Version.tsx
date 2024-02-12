@@ -158,28 +158,26 @@ const Version = ({ version }: Props) => {
                 <StyledLaunch />
               </StyledLink>
             </Tooltip>
-            <Tooltip tooltip={t("taxonomyVersions.editVersionTooltip")}>
-              <IconButtonV2
-                variant="ghost"
-                colorTheme="lighter"
-                aria-label={t("taxonomyVersions.editVersionTooltip")}
-                onClick={() => setIsEditing((prev) => !prev)}
-              >
-                <Pencil />
-              </IconButtonV2>
-            </Tooltip>
-            <Tooltip tooltip={deleteTooltip}>
-              <IconButtonV2
-                variant="ghost"
-                colorTheme="danger"
-                aria-label={deleteTooltip}
-                disabled={deleteDisabled}
-                onClick={() => (deleteDisabled ? undefined : setShowAlertModal(true))}
-                color={deleteDisabled ? undefined : "red"}
-              >
-                <DeleteForever />
-              </IconButtonV2>
-            </Tooltip>
+            <IconButtonV2
+              variant="ghost"
+              colorTheme="lighter"
+              aria-label={t("taxonomyVersions.editVersionTooltip")}
+              onClick={() => setIsEditing((prev) => !prev)}
+              title={t("taxonomyVersions.editVersionTooltip")}
+            >
+              <Pencil />
+            </IconButtonV2>
+            <IconButtonV2
+              variant="ghost"
+              colorTheme="danger"
+              aria-label={deleteTooltip}
+              disabled={deleteDisabled}
+              onClick={() => (deleteDisabled ? undefined : setShowAlertModal(true))}
+              color={deleteDisabled ? undefined : "red"}
+              title={deleteTooltip}
+            >
+              <DeleteForever />
+            </IconButtonV2>
           </ContentBlock>
           <AlertModal
             title={t("taxonomyVersions.delete")}

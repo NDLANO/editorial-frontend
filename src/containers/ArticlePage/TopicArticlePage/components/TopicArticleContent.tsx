@@ -13,7 +13,6 @@ import { IconButtonV2 } from "@ndla/button";
 import { colors } from "@ndla/core";
 import { FieldHeader } from "@ndla/forms";
 import { Eye } from "@ndla/icons/editor";
-import Tooltip from "@ndla/tooltip";
 import LastUpdatedLine from "./../../../../components/LastUpdatedLine/LastUpdatedLine";
 
 import { topicArticlePlugins } from "./topicArticlePlugins";
@@ -101,17 +100,16 @@ const TopicArticleContent = (props: Props) => {
               }}
             />
             <IconContainer>
-              <Tooltip tooltip={t("form.markdown.button")}>
-                <MarkdownButton
-                  aria-label={"form.markdown.button"}
-                  variant="stripped"
-                  colorTheme="light"
-                  data-active={preview}
-                  onClick={() => setPreview(!preview)}
-                >
-                  <Eye />
-                </MarkdownButton>
-              </Tooltip>
+              <MarkdownButton
+                aria-label={"form.markdown.button"}
+                variant="stripped"
+                colorTheme="light"
+                data-active={preview}
+                onClick={() => setPreview(!preview)}
+                title={t("form.markdown.button")}
+              >
+                <Eye />
+              </MarkdownButton>
               <HowToHelper pageId="Markdown" tooltip={t("form.markdown.helpLabel")} />
             </IconContainer>
           </StyledDiv>

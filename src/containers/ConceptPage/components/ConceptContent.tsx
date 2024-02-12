@@ -13,7 +13,6 @@ import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
 import { colors } from "@ndla/core";
 import { Eye } from "@ndla/icons/editor";
-import Tooltip from "@ndla/tooltip";
 
 import HowToHelper from "../../../components/HowTo/HowToHelper";
 import LastUpdatedLine from "../../../components/LastUpdatedLine/LastUpdatedLine";
@@ -58,17 +57,16 @@ const ConceptContent = () => {
       <ByLine>
         <LastUpdatedLine onChange={() => {}} creators={creators} published={updated} />
         <IconContainer>
-          <Tooltip tooltip={t("form.markdown.button")}>
-            <PreviewButton
-              aria-label={t("form.markdown.button")}
-              variant="stripped"
-              colorTheme="light"
-              data-active={preview}
-              onClick={() => setPreview(!preview)}
-            >
-              <Eye />
-            </PreviewButton>
-          </Tooltip>
+          <PreviewButton
+            aria-label={t("form.markdown.button")}
+            variant="stripped"
+            colorTheme="light"
+            data-active={preview}
+            onClick={() => setPreview(!preview)}
+            title={t("form.markdown.button")}
+          >
+            <Eye />
+          </PreviewButton>
           <HowToHelper pageId="Markdown" tooltip={t("form.markdown.helpLabel")} />
         </IconContainer>
       </ByLine>

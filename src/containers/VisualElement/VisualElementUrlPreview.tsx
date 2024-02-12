@@ -16,7 +16,6 @@ import { Link as LinkIcon } from "@ndla/icons/common";
 import { DeleteForever } from "@ndla/icons/editor";
 import { ModalBody, ModalCloseButton, Modal, ModalHeader, ModalTitle, ModalTrigger, ModalContent } from "@ndla/modal";
 import { SafeLinkIconButton } from "@ndla/safelink";
-import Tooltip from "@ndla/tooltip";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 
 import UrlAllowList from "./UrlAllowList";
@@ -361,28 +360,26 @@ const VisualElementUrlPreview = ({
                 {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
                 <img src={image?.image.imageUrl} alt={image?.alttext.alttext} />
                 <div>
-                  <Tooltip tooltip={t("form.metaImage.remove")}>
-                    <IconButtonV2
-                      aria-label={t("form.metaImage.remove")}
-                      variant="ghost"
-                      colorTheme="danger"
-                      onClick={() => setImage(undefined)}
-                      data-testid="remove-element"
-                    >
-                      <DeleteForever />
-                    </IconButtonV2>
-                  </Tooltip>
-                  <Tooltip tooltip={t("imageEditor.editImage")}>
-                    <SafeLinkIconButton
-                      variant="ghost"
-                      colorTheme="light"
-                      to={`/media/image-upload/${image.id}/edit/${language}`}
-                      target="_blank"
-                      aria-label={t("form.editOriginalImage")}
-                    >
-                      <LinkIcon />
-                    </SafeLinkIconButton>
-                  </Tooltip>
+                  <IconButtonV2
+                    aria-label={t("form.metaImage.remove")}
+                    variant="ghost"
+                    colorTheme="danger"
+                    onClick={() => setImage(undefined)}
+                    data-testid="remove-element"
+                    title={t("form.metaImage.remove")}
+                  >
+                    <DeleteForever />
+                  </IconButtonV2>
+                  <SafeLinkIconButton
+                    variant="ghost"
+                    colorTheme="light"
+                    to={`/media/image-upload/${image.id}/edit/${language}`}
+                    target="_blank"
+                    aria-label={t("form.editOriginalImage")}
+                    title={t("imageEditor.editImage")}
+                  >
+                    <LinkIcon />
+                  </SafeLinkIconButton>
                 </div>
               </ImageWrapper>
             ) : (

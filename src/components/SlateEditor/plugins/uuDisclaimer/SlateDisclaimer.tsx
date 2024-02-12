@@ -114,7 +114,12 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
         <DeleteButton aria-label={t("delete")} data-testid="delete-disclaimer" onClick={handleDelete} />
         <Modal open={modalOpen} onOpenChange={setModalOpen}>
           <ModalTrigger>
-            <IconButtonV2 variant="ghost" aria-label={t("form.disclaimer.edit")} data-testid="edit-disclaimer">
+            <IconButtonV2
+              variant="ghost"
+              aria-label={t("form.disclaimer.edit")}
+              data-testid="edit-disclaimer"
+              title={t("form.disclaimer.edit")}
+            >
               <Pencil />
             </IconButtonV2>
           </ModalTrigger>

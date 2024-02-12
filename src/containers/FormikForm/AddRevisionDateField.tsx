@@ -168,17 +168,24 @@ const AddRevisionDateField = ({ formikField, showError }: Props) => {
                     />
                   </div>
                 </Tooltip>
-                <Tooltip tooltip={t("form.revisions.deleteTooltip")}>
-                  <div>
-                    <StyledRemoveButton data-visible={true} onClick={() => removeRevision(index)} />
-                  </div>
-                </Tooltip>
+                <StyledRemoveButton
+                  aria-label={t("form.revisions.deleteTooltip")}
+                  data-visible={true}
+                  onClick={() => removeRevision(index)}
+                  title={t("form.revisions.deleteTooltip")}
+                />
               </VerticalCenter>
             </Wrapper>
           </div>
         );
       })}
-      <ButtonV2 variant="outline" onClick={addRevision} data-testid="addRevision">
+      <ButtonV2
+        aria-label={t("form.revisions.add")}
+        variant="outline"
+        onClick={addRevision}
+        data-testid="addRevision"
+        title={t("form.revisions.add")}
+      >
         {t("form.revisions.add")}
       </ButtonV2>
     </>

@@ -151,8 +151,8 @@ const ConceptListTabContent = ({
       sortableField: "status",
       width: "20%",
     },
-    { title: t("welcomePage.workList.contentType"), width: "20%", sortableField: "conceptTypeName" },
-    { title: t("welcomePage.workList.conceptSubject"), width: "20%", sortableField: "subjectName" },
+    { title: t("welcomePage.workList.contentType"), width: "20%", sortableField: "conceptType" },
+    { title: t("welcomePage.workList.conceptSubject"), width: "20%", sortableField: "subject" },
     {
       title: t("welcomePage.workList.date"),
       sortableField: "responsibleLastUpdated",

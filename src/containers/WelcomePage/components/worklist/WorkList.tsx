@@ -42,7 +42,7 @@ export type SortOptionWorkList =
   | "parentTopicName"
   | "primaryRoot";
 
-export type SortOptionConceptList = "title" | "responsibleLastUpdated" | "status" | "subjectName" | "conceptTypeName";
+export type SortOptionConceptList = "title" | "responsibleLastUpdated" | "status" | "subject" | "conceptType";
 
 const WorkList = ({ ndlaId }: Props) => {
   const { t, i18n } = useTranslation();

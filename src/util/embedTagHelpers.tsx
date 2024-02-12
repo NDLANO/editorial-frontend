@@ -6,6 +6,7 @@
  *
  */
 import isObject from "lodash/fp/isObject";
+import { ReactNode } from "react";
 import { TYPE_AUDIO } from "../components/SlateEditor/plugins/audio/types";
 import { TYPE_NDLA_EMBED } from "../components/SlateEditor/plugins/embed/types";
 import { isEmpty } from "../components/validators";
@@ -117,7 +118,10 @@ type EmbedProps<T extends object> = {
   [Key in keyof T]: string | undefined;
 };
 
-export const createEmbedTagV2 = <T extends object>(data: EmbedProps<T>): JSX.Element | undefined => {
+export const createEmbedTagV2 = <T extends object>(
+  data: EmbedProps<T>,
+  children?: ReactNode[],
+): JSX.Element | undefined => {
   const entries = Object.entries(data ?? {});
   if (entries.length === 0) {
     return undefined;
@@ -134,7 +138,7 @@ export const createEmbedTagV2 = <T extends object>(data: EmbedProps<T>): JSX.Ele
     return acc;
   }, {});
 
-  return <ndlaembed {...dataSet}></ndlaembed>;
+  return <ndlaembed {...dataSet}>{children}</ndlaembed>;
 };
 
 export const createEmbedTag = (data?: { [key: string]: any }) => {

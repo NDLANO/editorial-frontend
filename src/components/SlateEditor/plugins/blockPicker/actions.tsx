@@ -7,7 +7,7 @@
  */
 import { Element } from "slate";
 import { List } from "@ndla/icons/action";
-import { Announcement, Download, Insights, Link, Person, Podcast, VolumeUp } from "@ndla/icons/common";
+import { Announcement, Download, Insights, Link, Person, Podcast, VolumeUp, WarningOutline } from "@ndla/icons/common";
 import {
   ArrowExpand,
   BlogPost,
@@ -44,6 +44,7 @@ import { TYPE_KEY_FIGURE } from "../keyFigure/types";
 import { TYPE_LINK_BLOCK_LIST } from "../linkBlockList/types";
 import { TYPE_RELATED } from "../related/types";
 import { TYPE_TABLE } from "../table/types";
+import { TYPE_DISCLAIMER } from "../uuDisclaimer/types";
 
 const renderArticleInModal = (pageId: string) => <HowToHelper pageId={pageId} extraIconPadding />;
 
@@ -140,6 +141,12 @@ export const commonActions: Action[] = [
     data: { type: TYPE_GLOSS_BLOCK, object: "gloss" },
     icon: <Globe />,
     helpIcon: renderArticleInModal("Gloss"),
+  },
+  {
+    data: { type: TYPE_DISCLAIMER, object: "disclaimer" },
+    icon: <WarningOutline />,
+    helpIcon: renderArticleInModal("Disclaimer"),
+    requiredScope: DRAFT_ADMIN_SCOPE,
   },
 ];
 

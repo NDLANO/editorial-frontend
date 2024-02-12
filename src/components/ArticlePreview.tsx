@@ -54,11 +54,7 @@ const Description = styled.p`
 `;
 
 interface Props {
-  article: {
-    title: Omit<IArticleTitle, "htmlTitle">;
-    metaDescription?: IMetaDescription;
-    metaUrl?: string;
-  };
+  article: { title: Omit<IArticleTitle, "htmlTitle">; metaDescription: IMetaDescription; metaUrl?: string };
   imageWidth?: number;
 }
 

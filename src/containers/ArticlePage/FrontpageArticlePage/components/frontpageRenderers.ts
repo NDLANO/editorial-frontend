@@ -42,23 +42,23 @@ import { tableRenderer } from "../../../../components/SlateEditor/plugins/table/
 import { disclaimerRenderer } from "../../../../components/SlateEditor/plugins/uuDisclaimer/render";
 
 // Plugins are checked from last to first
-export const frontpageRenderers = (articleLanguage: string): SlatePlugin[] => [
+export const frontpageRenderers: SlatePlugin[] = [
   sectionRenderer,
   spanRenderer,
   divRenderer,
   paragraphRenderer,
   footnoteRenderer,
-  embedRenderer(articleLanguage),
-  audioRenderer(articleLanguage),
-  h5pRenderer(articleLanguage),
+  embedRenderer(),
+  audioRenderer,
+  h5pRenderer,
   framedContentRenderer,
   asideRenderer,
   detailsRenderer,
   blockQuoteRenderer,
-  linkRenderer(articleLanguage),
-  conceptListRenderer(articleLanguage),
-  inlineConceptRenderer(articleLanguage),
-  blockConceptRenderer(articleLanguage),
+  linkRenderer,
+  conceptListRenderer,
+  inlineConceptRenderer,
+  blockConceptRenderer,
   headingRenderer,
   // // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
   // // Blockquote and editList actions need to be triggered before paragraph action, else

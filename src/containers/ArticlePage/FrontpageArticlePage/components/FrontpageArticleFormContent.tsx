@@ -115,15 +115,12 @@ interface Props {
   articleLanguage: string;
 }
 
+const editorPlugins = frontpagePlugins.concat(frontpageRenderers);
+
 const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
   const { userPermissions } = useSession();
   const { t } = useTranslation();
   const { isWideArticle } = useWideArticle();
-
-  const editorPlugins = useMemo(
-    () => frontpagePlugins.concat(frontpageRenderers(articleLanguage ?? "")),
-    [articleLanguage],
-  );
 
   const { dirty, initialValues, values } = useFormikContext<FrontpageArticleFormType>();
   const { slug, id, creators, published, language } = values;

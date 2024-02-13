@@ -10,12 +10,12 @@ import { Editor } from "slate";
 import ConceptList from "./ConceptList";
 import { TYPE_CONCEPT_LIST } from "./types";
 
-export const conceptListRenderer = (language: string) => (editor: Editor) => {
+export const conceptListRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
     if (element.type === TYPE_CONCEPT_LIST) {
       return (
-        <ConceptList attributes={attributes} element={element} language={language} editor={editor}>
+        <ConceptList attributes={attributes} element={element} editor={editor}>
           {children}
         </ConceptList>
       );

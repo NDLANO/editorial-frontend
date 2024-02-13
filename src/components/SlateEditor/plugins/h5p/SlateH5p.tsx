@@ -21,12 +21,12 @@ import EditMetadataModal from "./EditMetadataModal";
 import { H5pElement } from "./types";
 import config from "../../../../config";
 import { useH5pMeta } from "../../../../modules/embed/queries";
+import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import { StyledDeleteEmbedButton, StyledFigureButtons } from "../embed/FigureButtons";
 
 interface Props extends RenderElementProps {
   element: H5pElement;
   editor: Editor;
-  language: string;
 }
 
 const H5pWrapper = styled.div`
@@ -50,9 +50,10 @@ const FigureButtons = styled(StyledFigureButtons)`
   z-index: ${stackOrder.offsetSingle};
 `;
 
-const SlateH5p = ({ element, editor, attributes, language, children }: Props) => {
+const SlateH5p = ({ element, editor, attributes, children }: Props) => {
   const { t } = useTranslation();
   const isSelected = useSelected();
+  const language = useArticleLanguage();
 
   const h5pMetaQuery = useH5pMeta(element.data?.path!, element.data?.url!, {
     enabled: !!element.data?.path,

@@ -78,7 +78,7 @@ export const ToolbarLanguageOptions = () => {
   );
 
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <ToolbarButton asChild>
         <DropdownTrigger asChild>
           <UIToolbarButton type="language">
@@ -87,7 +87,7 @@ export const ToolbarLanguageOptions = () => {
           </UIToolbarButton>
         </DropdownTrigger>
       </ToolbarButton>
-      <ToolbarDropdownContent side="bottom" onCloseAutoFocus={onCloseFocus} sideOffset={2}>
+      <ToolbarDropdownContent side="bottom" onCloseAutoFocus={onCloseFocus} sideOffset={2} portal={false}>
         <DropdownItem>
           <ToolbarDropdownButton
             data-testid={"language-button-none"}

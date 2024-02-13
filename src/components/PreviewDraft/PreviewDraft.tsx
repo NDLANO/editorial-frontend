@@ -59,8 +59,8 @@ export const PreviewDraft = ({ type, draft: draftProp, label, contentType, langu
         id: draftProp.id,
         content: draftProp.content?.content,
         visualElement: draftProp.visualElement?.visualElement,
-        title: draftProp.title?.title,
-        introduction: draftProp.introduction?.introduction,
+        title: draftProp.title?.htmlTitle,
+        introduction: draftProp.introduction?.htmlIntroduction,
         published: draftProp.published,
         copyright: draftProp.copyright,
         language: draftProp.title?.language ?? language,
@@ -85,7 +85,7 @@ export const PreviewDraft = ({ type, draft: draftProp, label, contentType, langu
       articleLanguage: getUpdatedLanguage(draft.language),
     });
     return {
-      title: draft.title ?? "",
+      title: parse(draft.title ?? ""),
       introduction: parse(parseMarkdown({ markdown: draft.introduction ?? "", inline: true })),
       content,
       copyright: draft.copyright,

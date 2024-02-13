@@ -46,7 +46,7 @@ export const frontpageRenderers = (articleLanguage: string): SlatePlugin[] => [
   sectionRenderer,
   spanRenderer,
   divRenderer,
-  paragraphRenderer(articleLanguage),
+  paragraphRenderer,
   footnoteRenderer,
   embedRenderer(articleLanguage),
   audioRenderer(articleLanguage),

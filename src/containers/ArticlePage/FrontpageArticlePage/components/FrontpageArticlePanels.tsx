@@ -20,10 +20,9 @@ import RevisionNotes from "../../components/RevisionNotes";
 interface Props {
   article?: IArticle;
   articleLanguage: string;
-  initialHTML: string;
 }
 
-const FrontpageArticlePanels = ({ article, articleLanguage, initialHTML }: Props) => {
+const FrontpageArticlePanels = ({ article, articleLanguage }: Props) => {
   const { t } = useTranslation();
   const { errors } = useFormikContext<FrontpageArticleFormType>();
   const { isWideArticle } = useWideArticle();
@@ -42,7 +41,7 @@ const FrontpageArticlePanels = ({ article, articleLanguage, initialHTML }: Props
         wide={isWideArticle}
         isFrontpageArticle={article?.articleType === "frontpage-article"}
       >
-        <FrontpageArticleFormContent initialHTML={initialHTML} articleLanguage={articleLanguage} />
+        <FrontpageArticleFormContent articleLanguage={articleLanguage} />
       </FormAccordion>
       <FormAccordion
         id={"frontpage-article-copyright"}

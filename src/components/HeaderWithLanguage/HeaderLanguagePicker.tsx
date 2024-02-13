@@ -6,54 +6,51 @@
  *
  */
 
-import FocusTrapReact from "focus-trap-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import styled from "@emotion/styled";
+import { DropdownMenuArrow } from "@radix-ui/react-dropdown-menu";
+import { spacing, colors } from "@ndla/core";
+import { DropdownItem, DropdownContent, DropdownMenu, DropdownTrigger } from "@ndla/dropdown-menu";
 import { Plus } from "@ndla/icons/action";
-import { StyledDropdownOverlay } from "../Dropdown";
 import Overlay from "../Overlay";
 import StyledFilledButton from "../StyledFilledButton";
 import { styledListElement } from "../StyledListElement/StyledListElement";
 
+const StyledDropdownContent = styled(DropdownContent)`
+  padding: ${spacing.normal};
+`;
+
+const StyledArrow = styled(DropdownMenuArrow)`
+  fill: ${colors.white};
+`;
+
 const LanguagePicker = ({ id, emptyLanguages, editUrl }: Props) => {
   const { t } = useTranslation();
-  const [display, setDisplay] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <div>
-      {emptyLanguages.length > 0 && (
-        <StyledFilledButton type="button" onClick={() => setDisplay(true)}>
-          <Plus /> {t("form.variant.create")}
-        </StyledFilledButton>
-      )}
-      {display && (
-        <>
-          <FocusTrapReact
-            active
-            focusTrapOptions={{
-              onDeactivate: () => {
-                setDisplay(false);
-              },
-              clickOutsideDeactivates: true,
-              escapeDeactivates: true,
-            }}
-          >
-            <StyledDropdownOverlay withArrow>
-              {emptyLanguages.map((language) => (
-                <Link
-                  css={styledListElement}
-                  key={language.key}
-                  to={editUrl(id, language.key)}
-                  onClick={() => setDisplay(false)}
-                >
-                  {language.title}
-                </Link>
-              ))}
-            </StyledDropdownOverlay>
-          </FocusTrapReact>
-          <Overlay modifiers="zIndex" />
-        </>
-      )}
+      <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
+        {!!emptyLanguages.length && (
+          <DropdownTrigger asChild>
+            <StyledFilledButton type="button">
+              <Plus /> {t("form.variant.create")}
+            </StyledFilledButton>
+          </DropdownTrigger>
+        )}
+        <StyledDropdownContent>
+          <StyledArrow width={20} height={10} />
+          {emptyLanguages.map((language) => (
+            <DropdownItem key={language.key} asChild>
+              <Link css={styledListElement} to={editUrl(id, language.key)}>
+                {language.title}
+              </Link>
+            </DropdownItem>
+          ))}
+        </StyledDropdownContent>
+      </DropdownMenu>
+      {isOpen && <Overlay modifiers={["zIndex", "absolute"]} />}
     </div>
   );
 };

@@ -152,7 +152,7 @@ const Navigation = () => {
                       Kvalitaisen
                     </SafeLink>
                   </LinkWrapper>
-                  <SessionContainer close={closeMenu} />
+                  <SessionContainer />
                 </StyledHeaderItems>
               </Column>
             </GridContainer>

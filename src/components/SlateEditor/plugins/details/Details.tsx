@@ -6,7 +6,6 @@
  *
  */
 
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Transforms, Element } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
@@ -48,12 +47,7 @@ interface Props {
 }
 
 const Details = ({ children, editor, element, attributes }: Props & RenderElementProps) => {
-  const [isOpen, setIsOpen] = useState(true);
   const { t } = useTranslation();
-  const toggleOpen = () => {
-    setIsOpen(!isOpen);
-  };
-
   const onRemoveClick = () => {
     const path = ReactEditor.findPath(editor, element);
     Transforms.removeNodes(editor, {

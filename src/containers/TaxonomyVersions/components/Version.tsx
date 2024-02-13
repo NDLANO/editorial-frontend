@@ -97,7 +97,7 @@ const StyledLaunch = styled(Launch)`
 const StyledKeyhole = styled(Keyhole)`
   margin-left: ${spacing.xxsmall};
   height: 30px;
-  width: 100%;
+  width: 30px;
   color: ${colors.brand.primary};
 `;
 
@@ -141,9 +141,7 @@ const Version = ({ version }: Props) => {
           <ContentBlock>
             <VersionTitle>{version.name}</VersionTitle>
             {version.locked && (
-              <div>
-                <StyledKeyhole aria-label={t("taxonomyVersions.locked")} title={t("taxonomyVersions.locked")} />
-              </div>
+              <StyledKeyhole aria-label={t("taxonomyVersions.locked")} title={t("taxonomyVersions.locked")} />
             )}
           </ContentBlock>
           <ContentBlock>

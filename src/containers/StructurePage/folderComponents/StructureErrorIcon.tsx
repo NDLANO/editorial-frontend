@@ -38,11 +38,7 @@ const StructureErrorIcon = (
     if (!isPublished) {
       const notPublishedWarning = t("taxonomy.info.notPublished");
 
-      return (
-        <div>
-          <StyledAlertIcon aria-label={notPublishedWarning} title={notPublishedWarning} />
-        </div>
-      );
+      return <StyledAlertIcon aria-label={notPublishedWarning} title={notPublishedWarning} />;
     }
     return null;
   }
@@ -59,11 +55,7 @@ const StructureErrorIcon = (
 
     const error = !articleType ? missingArticleTypeError : wrongArticleTypeError;
 
-    return (
-      <div>
-        <StyledWarnIcon aria-label={error} title={error} />
-      </div>
-    );
+    return <StyledWarnIcon aria-label={error} title={error} />;
   }
   return null;
 };

@@ -36,11 +36,7 @@ const NodeIconType = ({ node }: Props) => {
 
   const Icon = nodeType === SUBJECT_NODE ? StyledMenuBook : StyledSubject;
 
-  return (
-    <div>
-      <Icon aria-label={t(`diff.nodeTypeTooltips.${nodeType}`)} title={t(`diff.nodeTypeTooltips.${nodeType}`)} />
-    </div>
-  );
+  return <Icon aria-label={t(`diff.nodeTypeTooltips.${nodeType}`)} title={t(`diff.nodeTypeTooltips.${nodeType}`)} />;
 };
 
 export default NodeIconType;

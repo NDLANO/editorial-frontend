@@ -36,6 +36,7 @@ const StyledGlobe = styled(Globe)`
 `;
 
 const StyledConceptResultHeader = styled.h1`
+  align-items: center;
   display: flex;
   grid-column: 2 / 2;
   grid-row: 1 / 1;
@@ -83,9 +84,7 @@ const SearchConceptResults = ({ results, searchObject, addConcept, searching = t
               ? `${t(`languages.${result.glossData.originalLanguage}`)}: ${result.glossData.gloss}`
               : result.title.title) ?? t("conceptSearch.noTitle")}
             {(result.status.current === "PUBLISHED" || result.status.other.includes("PUBLISHED")) && (
-              <div>
-                <StyledCheckIcon aria-label={t("form.workflow.published")} title={t("form.workflow.published")} />
-              </div>
+              <StyledCheckIcon aria-label={t("form.workflow.published")} title={t("form.workflow.published")} />
             )}
           </StyledConceptResultHeader>
           <StyledConceptContent>

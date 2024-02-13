@@ -107,13 +107,11 @@ const WorkListTabContent = ({
               data: (
                 <CellWrapper>
                   <StyledTitleWrapper>
-                    <div>
-                      <StyledExclamationMark
-                        aria-hidden={!!res?.prioritized}
-                        aria-label={t("editorFooter.prioritized")}
-                        title={t("editorFooter.prioritized")}
-                      />
-                    </div>
+                    <StyledExclamationMark
+                      aria-hidden={!!res?.prioritized}
+                      aria-label={t("editorFooter.prioritized")}
+                      title={t("editorFooter.prioritized")}
+                    />
                     <StyledLink to={toEditArticle(res.id, res.learningResourceType)} title={res.title?.title}>
                       {res.title?.title}
                     </StyledLink>

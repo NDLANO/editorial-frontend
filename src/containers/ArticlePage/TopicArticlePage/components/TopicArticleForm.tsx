@@ -21,7 +21,6 @@ import { ARCHIVED, UNPUBLISHED } from "../../../../constants";
 import { useSession } from "../../../../containers/Session/SessionProvider";
 import { validateDraft } from "../../../../modules/draft/draftApi";
 import { useLicenses, useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
-import { blockContentToHTML } from "../../../../util/articleContentConverter";
 import { isFormikFormDirty, topicArticleRules } from "../../../../util/formHelper";
 import { AlertModalWrapper } from "../../../FormikForm";
 import { HandleSubmitFunc, TopicArticleFormType, useArticleFormHooks } from "../../../FormikForm/articleFormHooks";
@@ -81,8 +80,6 @@ const TopicArticleForm = ({
     rules: topicArticleRules,
     ndlaId,
   });
-
-  const initialHTML = useMemo(() => blockContentToHTML(initialValues.content), [initialValues]);
 
   const initialWarnings = useMemo(
     () => getWarnings(initialValues, topicArticleRules, t, article),
@@ -144,7 +141,6 @@ const TopicArticleForm = ({
         </FlexWrapper>
         <FormFooter
           licenses={licenses ?? []}
-          initialHTML={initialHTML}
           articleChanged={!!articleChanged}
           isNewlyCreated={isNewlyCreated}
           savedToServer={savedToServer}
@@ -165,7 +161,6 @@ const TopicArticleForm = ({
 };
 
 interface FormFooterProps {
-  initialHTML: string;
   articleChanged: boolean;
   article?: IArticle;
   isNewlyCreated: boolean;
@@ -179,7 +174,6 @@ interface FormFooterProps {
 }
 
 const _FormFooter = ({
-  initialHTML,
   articleChanged,
   article,
   isNewlyCreated,
@@ -201,9 +195,8 @@ const _FormFooter = ({
         initialValues,
         dirty,
         changed: articleChanged,
-        initialHTML,
       }),
-    [articleChanged, dirty, initialHTML, initialValues, values],
+    [articleChanged, dirty, initialValues, values],
   );
 
   const onSave = useCallback(

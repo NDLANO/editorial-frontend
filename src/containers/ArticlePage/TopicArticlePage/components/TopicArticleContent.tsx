@@ -6,20 +6,16 @@
  *
  */
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
-import { colors } from "@ndla/core";
 import { FieldHeader } from "@ndla/forms";
-import { Eye } from "@ndla/icons/editor";
 import LastUpdatedLine from "./../../../../components/LastUpdatedLine/LastUpdatedLine";
 
 import { topicArticlePlugins } from "./topicArticlePlugins";
 import { topicArticleRenderers } from "./topicArticleRenderers";
 import { EditMarkupLink } from "../../../../components/EditMarkupLink";
 import FormikField from "../../../../components/FormikField";
-import HowToHelper from "../../../../components/HowTo/HowToHelper";
 import { SlatePlugin } from "../../../../components/SlateEditor/interfaces";
 import {
   createToolbarAreaOptions,
@@ -40,28 +36,6 @@ const StyledByLineFormikField = styled(FormikField)`
   justify-content: space-between;
 `;
 
-const IconContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 64px;
-`;
-
-const StyledDiv = styled.div`
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-const MarkdownButton = styled(IconButtonV2)`
-  color: ${colors.brand.light};
-
-  &[data-active="true"] {
-    color: ${colors.brand.primary};
-  }
-`;
-
 const createPlugins = (language: string): SlatePlugin[] => {
   // Plugins are checked from last to first
   return topicArticlePlugins.concat(topicArticleRenderers(language));
@@ -80,7 +54,6 @@ const TopicArticleContent = (props: Props) => {
     values: { id, language, creators, published },
   } = props;
   const { userPermissions } = useSession();
-  const [preview, setPreview] = useState(false);
   const plugins = useMemo(() => {
     return createPlugins(language ?? "");
   }, [language]);
@@ -90,32 +63,17 @@ const TopicArticleContent = (props: Props) => {
       <TitleField />
       <StyledByLineFormikField name="published">
         {({ field, form }) => (
-          <StyledDiv>
-            <LastUpdatedLine
-              creators={creators}
-              published={published}
-              allowEdit={true}
-              onChange={(date) => {
-                form.setFieldValue(field.name, date);
-              }}
-            />
-            <IconContainer>
-              <MarkdownButton
-                aria-label={"form.markdown.button"}
-                variant="stripped"
-                colorTheme="light"
-                data-active={preview}
-                onClick={() => setPreview(!preview)}
-                title={t("form.markdown.button")}
-              >
-                <Eye />
-              </MarkdownButton>
-              <HowToHelper pageId="Markdown" tooltip={t("form.markdown.helpLabel")} />
-            </IconContainer>
-          </StyledDiv>
+          <LastUpdatedLine
+            creators={creators}
+            published={published}
+            allowEdit={true}
+            onChange={(date) => {
+              form.setFieldValue(field.name, date);
+            }}
+          />
         )}
       </StyledByLineFormikField>
-      <IngressField preview={preview} />
+      <IngressField />
       <VisualElementField />
       <FormikField name="content" label={t("form.content.label")} noBorder>
         {({ field: { value, name, onChange }, form: { isSubmitting } }) => (

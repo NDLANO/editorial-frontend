@@ -70,7 +70,7 @@ export const learningResourcePlugins: SlatePlugin[] = [
   blockPickerPlugin,
   dndPlugin,
   // pasteHandler(),
-  toolbarPlugin,
+  toolbarPlugin(),
   textTransformPlugin,
   breakPlugin,
   saveHotkeyPlugin,

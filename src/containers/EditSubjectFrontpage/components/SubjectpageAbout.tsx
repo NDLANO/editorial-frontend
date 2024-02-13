@@ -34,7 +34,7 @@ const SubjectpageAbout = ({ selectedLanguage }: Props) => {
   }
   return (
     <>
-      <TitleField />
+      <TitleField hideToolbar />
       <FormikField noBorder label={t("subjectpageForm.description")} name="description" showMaxLength maxLength={300}>
         {({ field, form: { isSubmitting } }: FieldProps<Descendant[]>) => (
           <PlainTextEditor

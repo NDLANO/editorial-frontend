@@ -13,13 +13,12 @@ import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
 import { colors } from "@ndla/core";
 import { FieldHeader } from "@ndla/forms";
-import { Eye, Link } from "@ndla/icons/editor";
+import { Link } from "@ndla/icons/editor";
 import { frontpagePlugins } from "./frontpagePlugins";
 import { frontpageRenderers } from "./frontpageRenderers";
 import AlertModal from "../../../../components/AlertModal";
 import { EditMarkupLink } from "../../../../components/EditMarkupLink";
 import FormikField from "../../../../components/FormikField";
-import HowToHelper from "../../../../components/HowTo/HowToHelper";
 import LastUpdatedLine from "../../../../components/LastUpdatedLine/LastUpdatedLine";
 import { TYPE_AUDIO } from "../../../../components/SlateEditor/plugins/audio/types";
 import { frontpageActions } from "../../../../components/SlateEditor/plugins/blockPicker/actions";
@@ -58,12 +57,6 @@ const StyledFormikField = styled(FormikField)`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-`;
-
-const IconContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 `;
 
 const StyledDiv = styled.div`
@@ -120,10 +113,9 @@ const toolbarAreaFilters = createToolbarAreaOptions();
 
 interface Props {
   articleLanguage: string;
-  initialHTML: string;
 }
 
-const FrontpageArticleFormContent = ({ articleLanguage, initialHTML }: Props) => {
+const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
   const { userPermissions } = useSession();
   const { t } = useTranslation();
   const { isWideArticle } = useWideArticle();
@@ -142,9 +134,8 @@ const FrontpageArticleFormContent = ({ articleLanguage, initialHTML }: Props) =>
         values,
         initialValues,
         dirty,
-        initialHTML,
       }),
-    [values, initialValues, dirty, initialHTML],
+    [values, initialValues, dirty],
   );
 
   const [isNormalizedOnLoad, setIsNormalizedOnLoad] = useState(isFormikDirty);
@@ -160,7 +151,6 @@ const FrontpageArticleFormContent = ({ articleLanguage, initialHTML }: Props) =>
     }, 100);
   }, [isFormikDirty, isTouched]);
 
-  const [preview, setPreview] = useState(false);
   const [editSlug, setEditSlug] = useState(false);
 
   return (
@@ -177,35 +167,22 @@ const FrontpageArticleFormContent = ({ articleLanguage, initialHTML }: Props) =>
                 form.setFieldValue(field.name, date);
               }}
             />
-            <IconContainer>
-              {slug && (
-                <StyledIconButton
-                  aria-label={t("form.slug.edit")}
-                  variant="stripped"
-                  colorTheme="light"
-                  data-active={editSlug}
-                  onClick={() => setEditSlug(!editSlug)}
-                  title={t("form.slug.edit")}
-                >
-                  <Link />
-                </StyledIconButton>
-              )}
+            {slug && (
               <StyledIconButton
-                aria-label={t("form.markdown.button")}
+                aria-label={t("form.slug.edit")}
                 variant="stripped"
                 colorTheme="light"
-                data-active={preview}
-                onClick={() => setPreview(!preview)}
-                title={t("form.markdown.button")}
+                data-active={editSlug}
+                onClick={() => setEditSlug(!editSlug)}
+                title={t("form.slug.edit")}
               >
-                <Eye />
+                <Link />
               </StyledIconButton>
-              <HowToHelper pageId="Markdown" tooltip={t("form.markdown.helpLabel")} />
-            </IconContainer>
+            )}
           </StyledDiv>
         )}
       </StyledFormikField>
-      <IngressField preview={preview} />
+      <IngressField />
       <AlertModal
         title={t("editorFooter.changeHeader")}
         label={t("editorFooter.changeHeader")}

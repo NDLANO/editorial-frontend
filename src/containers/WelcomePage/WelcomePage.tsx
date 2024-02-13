@@ -64,7 +64,6 @@ export const WelcomePage = () => {
         </Column>
         <Column colStart={6}>{ndlaId && <Revisions userData={data} />}</Column>
       </GridContainer>
-
       <Footer showLocaleSelector />
     </Wrapper>
   );

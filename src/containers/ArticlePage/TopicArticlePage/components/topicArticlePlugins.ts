@@ -45,7 +45,7 @@ export const topicArticlePlugins: SlatePlugin[] = [
   mathmlPlugin,
   markPlugin,
   dndPlugin,
-  toolbarPlugin,
+  toolbarPlugin(),
   textTransformPlugin,
   breakPlugin,
   saveHotkeyPlugin,

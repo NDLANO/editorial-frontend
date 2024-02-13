@@ -18,7 +18,7 @@ import CommentIndicator from "./CommentIndicator";
 import PageSizeDropdown from "./PageSizeDropdown";
 import StatusCell from "./StatusCell";
 import SubjectDropdown from "./SubjectDropdown";
-import { SortOption } from "./WorkList";
+import { SortOptionWorkList } from "./WorkList";
 import { useSearch } from "../../../../modules/search/searchQueries";
 import formatDate from "../../../../util/formatDate";
 import { toEditArticle } from "../../../../util/routeHelpers";
@@ -54,7 +54,7 @@ const StyledExclamationMark = styled(ExclamationMark)`
 interface Props {
   data: IMultiSearchResult | undefined;
   isLoading: boolean;
-  setSortOption: (o: Prefix<"-", SortOption>) => void;
+  setSortOption: (o: Prefix<"-", SortOptionWorkList>) => void;
   sortOption: string;
   error: string | undefined;
   ndlaId: string | undefined;
@@ -126,18 +126,15 @@ const WorkListTabContent = ({
             },
             {
               id: `contentType_${res.id}`,
-              data:
-                res.learningResourceType !== "standard"
-                  ? t(`articleType.${res.learningResourceType}`)
-                  : res.contexts?.[0]?.resourceTypes?.map((context) => context.name).join(" - "),
+              data: res.resourceTypeName,
             },
             {
               id: `primarySubject_${res.id}`,
-              data: res.contexts.find((context) => context.isPrimaryConnection)?.subject ?? "",
+              data: res.primaryRootName,
             },
             {
               id: `topic_${res.id}`,
-              data: res.contexts.length ? res.contexts[0].breadcrumbs[res.contexts[0].breadcrumbs.length - 1] : "",
+              data: res.parentTopicName,
             },
             {
               id: `date_${res.id}`,
@@ -149,7 +146,7 @@ const WorkListTabContent = ({
     [data, t],
   );
 
-  const tableTitles: TitleElement<SortOption>[] = [
+  const tableTitles: TitleElement<SortOptionWorkList>[] = [
     {
       title: t("welcomePage.workList.title"),
       sortableField: "title",
@@ -160,9 +157,9 @@ const WorkListTabContent = ({
       sortableField: "status",
       width: "10%",
     },
-    { title: t("welcomePage.workList.contentType") },
-    { title: t("welcomePage.workList.primarySubject") },
-    { title: t("welcomePage.workList.topicRelation") },
+    { title: t("welcomePage.workList.contentType"), sortableField: "resourceType" },
+    { title: t("welcomePage.workList.primarySubject"), sortableField: "primaryRoot" },
+    { title: t("welcomePage.workList.topicRelation"), sortableField: "parentTopicName" },
     {
       title: t("welcomePage.workList.date"),
       sortableField: "responsibleLastUpdated",

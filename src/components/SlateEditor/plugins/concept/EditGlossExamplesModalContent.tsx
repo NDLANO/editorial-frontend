@@ -64,6 +64,7 @@ interface Props {
   element: ConceptBlockElement | ConceptInlineElement;
   embed: ConceptMetaData;
   close: () => void;
+  locale: string;
 }
 
 const onCheckboxChange = (value: string, updateFunction: (val: string[]) => void, selectedElements: string[]): void => {
@@ -86,7 +87,27 @@ const getInitialStateSelectedLanguages = (exampleLangs: string | undefined, exam
   else return [];
 };
 
-const EditGlossExamplesModalContent = ({ originalLanguage, examples, editor, element, embed, close }: Props) => {
+const getLanguageWithConfigurations = (
+  examples: IGlossExample[][],
+  locale: string,
+): { lang: string; isDisabled: boolean }[] => {
+  const languages = generateUniqueGlossLanguageArray(examples);
+  return languages.map((langCode) => {
+    // If the locale is "nb" and the language is "nn" or vice versa, the checkbox should be disabled
+    const isDisabled = (locale === "nb" && langCode === "nn") || (locale === "nn" && langCode === "nb");
+    return { lang: langCode, isDisabled: isDisabled };
+  });
+};
+
+const EditGlossExamplesModalContent = ({
+  originalLanguage,
+  examples,
+  editor,
+  element,
+  embed,
+  close,
+  locale,
+}: Props) => {
   const { t } = useTranslation();
   const [selectedExamples, setSelectedExamples] = useState<string[]>(
     getInitialStateSelectedExamples(embed.embedData.exampleIds, examples),
@@ -96,7 +117,7 @@ const EditGlossExamplesModalContent = ({ originalLanguage, examples, editor, ele
     getInitialStateSelectedLanguages(embed.embedData.exampleLangs, examples),
   );
 
-  const languages = useMemo(() => generateUniqueGlossLanguageArray(examples), [examples]);
+  const languageWithConfigurations = getLanguageWithConfigurations(examples, locale);
 
   const saveGlossUpdates = () => {
     Transforms.setNodes(
@@ -160,15 +181,17 @@ const EditGlossExamplesModalContent = ({ originalLanguage, examples, editor, ele
             {t("form.gloss.editExamplesLanguage")}
           </Text>
           <CheckboxGroupWrapper>
-            {languages.map((lang, index) => (
+            {languageWithConfigurations.map((lang, index) => (
               <CheckboxItem
-                label={t(`languages.${lang}`)}
-                checked={selectedLanguages.includes(lang)}
+                label={t(`languages.${lang.lang}`)}
+                checked={!lang.isDisabled && selectedLanguages.includes(lang.lang)}
                 id={index}
-                key={lang}
+                key={lang.lang}
+                disabled={lang.isDisabled}
+                aria-disabled={lang.isDisabled}
                 onChange={(v) => {
                   if (v === undefined) return;
-                  onCheckboxChange(languages[v], setSelectedLanguages, selectedLanguages);
+                  onCheckboxChange(languageWithConfigurations[v].lang, setSelectedLanguages, selectedLanguages);
                 }}
               />
             ))}

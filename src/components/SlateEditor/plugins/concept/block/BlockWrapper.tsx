@@ -212,7 +212,7 @@ const ConceptButtonContainer = ({ concept, handleRemove, language, editor, eleme
       >
         <DeleteForever />
       </IconButtonV2>
-      <EditGlossExamplesModal concept={concept} editor={editor} element={element} embed={embed} />
+      <EditGlossExamplesModal concept={concept} editor={editor} element={element} embed={embed} locale={language} />
       <SafeLinkIconButton
         arial-label={t(`form.${concept?.conceptType}.edit`)}
         title={t(`form.${concept?.conceptType}.edit`)}

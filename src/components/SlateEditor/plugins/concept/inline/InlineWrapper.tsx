@@ -211,7 +211,13 @@ const InlineWrapper = (props: Props) => {
                   <DeleteForever />
                 </IconButtonV2>
                 {concept && (
-                  <EditGlossExamplesModal concept={concept} editor={editor} element={element} embed={embed} />
+                  <EditGlossExamplesModal
+                    concept={concept}
+                    editor={editor}
+                    element={element}
+                    embed={embed}
+                    locale={locale}
+                  />
                 )}
                 <SafeLinkIconButton
                   to={`/${concept?.conceptType}/${concept?.id}/edit/${concept?.content?.language}`}

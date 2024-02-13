@@ -12,8 +12,10 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { CheckboxItem, RadioButtonGroup } from "@ndla/forms";
+import { CheckboxItem, Label, RadioButtonGroup } from "@ndla/forms";
 import { GridType } from "@ndla/ui";
+import { CheckboxWrapper } from "../../../Form/styles";
+import { FormControl, FormField } from "../../../FormField";
 import FormikField from "../../../FormikField";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
 
@@ -140,22 +142,28 @@ const GridForm = ({ initialData, onSave, onCancel }: Props) => {
               />
             )}
           </StyledFormikField>
-          <StyledFormikField name="border">
-            {({ field }: FieldProps) => (
-              <CheckboxItem
-                label={t("form.name.border")}
-                checked={field.value}
-                onChange={() =>
-                  field.onChange({
-                    target: {
-                      name: field.name,
-                      value: !field.value,
-                    },
-                  })
-                }
-              />
+          <FormField name="border">
+            {({ field }) => (
+              <FormControl>
+                <CheckboxWrapper>
+                  <CheckboxItem
+                    checked={field.value}
+                    onCheckedChange={() =>
+                      field.onChange({
+                        target: {
+                          name: field.name,
+                          value: !field.value,
+                        },
+                      })
+                    }
+                  />
+                  <Label margin="none" textStyle="label-small">
+                    {t("form.name.border")}
+                  </Label>
+                </CheckboxWrapper>
+              </FormControl>
             )}
-          </StyledFormikField>
+          </FormField>
           <ButtonContainer>
             <ButtonV2 variant="outline" onClick={onCancel}>
               {t("cancel")}

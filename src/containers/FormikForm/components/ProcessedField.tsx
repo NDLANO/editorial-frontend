@@ -8,8 +8,9 @@
 
 import { useField } from "formik";
 import { useTranslation } from "react-i18next";
-import { CheckboxItem, FieldHeader } from "@ndla/forms";
-import FormikField from "../../../components/FormikField";
+import { CheckboxItem, FieldHeader, Label } from "@ndla/forms";
+import { CheckboxWrapper } from "../../../components/Form/styles";
+import { FormControl, FormField } from "../../../components/FormField";
 
 const ProcessedField = () => {
   const { t } = useTranslation();
@@ -17,23 +18,28 @@ const ProcessedField = () => {
   return (
     <>
       <FieldHeader title={t("form.processed.label")} width={3 / 4} />
-      <FormikField name="processed">
+      <FormField name="processed">
         {({ field }) => (
-          <CheckboxItem
-            label={t("form.processed.description")}
-            checked={field.value}
-            disabled={!originField.value?.length && !field.value}
-            onChange={() =>
-              field.onChange({
-                target: {
-                  name: field.name,
-                  value: !field.value,
-                },
-              })
-            }
-          />
+          <FormControl isDisabled={!originField.value?.length && !field.value}>
+            <CheckboxWrapper>
+              <CheckboxItem
+                checked={field.value}
+                onCheckedChange={() =>
+                  field.onChange({
+                    target: {
+                      name: field.name,
+                      value: !field.value,
+                    },
+                  })
+                }
+              />
+              <Label margin="none" textStyle="label-small">
+                {t("form.processed.description")}
+              </Label>
+            </CheckboxWrapper>
+          </FormControl>
         )}
-      </FormikField>
+      </FormField>
       {!originField.value?.length && <span>{t("form.processed.disabledCause")}</span>}
     </>
   );

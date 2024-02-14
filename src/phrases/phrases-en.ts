@@ -477,7 +477,7 @@ const phrases = {
     visualElementCopyright: "Origin",
     removeVisualElement: "Remove element",
     info: {
-      lastUpdated: "Last updated: ",
+      lastUpdated: "Last revised: ",
     },
     title: "Topic",
     fields: {

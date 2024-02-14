@@ -476,7 +476,7 @@ const phrases = {
     visualElementCopyright: "Opphav",
     removeVisualElement: "Fjern element",
     info: {
-      lastUpdated: "Sist oppdatert: ",
+      lastUpdated: "Sist faglig vurdert: ",
     },
     title: "Emne",
     fields: {

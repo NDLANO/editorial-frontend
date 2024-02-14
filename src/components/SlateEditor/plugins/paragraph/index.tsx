@@ -15,6 +15,7 @@ import { SlateSerializer } from "../../interfaces";
 import containsVoid from "../../utils/containsVoid";
 import { KEY_ENTER } from "../../utils/keys";
 import { TYPE_BREAK } from "../break/types";
+import { TYPE_SUMMARY } from "../details/types";
 import { TYPE_LIST_ITEM } from "../list/types";
 import { TYPE_NOOP } from "../noop/types";
 import { TYPE_TABLE_CELL } from "../table/types";
@@ -126,9 +127,14 @@ export const paragraphPlugin = (editor: Editor) => {
         parentNode.type !== TYPE_TABLE_CELL &&
         parentNode.type !== TYPE_LIST_ITEM &&
         parentNode.type !== TYPE_NOOP &&
+        parentNode.type !== TYPE_SUMMARY &&
         node.serializeAsText
       ) {
         return Transforms.unsetNodes(editor, "serializeAsText", { at: path });
+      }
+
+      if (Element.isElement(parentNode) && parentNode.type === TYPE_SUMMARY && !node.serializeAsText) {
+        return Transforms.setNodes(editor, { type: TYPE_PARAGRAPH, serializeAsText: true }, { at: path });
       }
 
       // If two paragraphs are direct siblings, make sure both will be rendered with <p>-tag
@@ -152,10 +158,13 @@ export const paragraphPlugin = (editor: Editor) => {
           });
         }
       }
-    }
 
-    // Unwrap block element children. Only text allowed.
-    if (Element.isElement(node) && node.type === TYPE_PARAGRAPH) {
+      if (Element.isElement(parentNode) && parentNode.type === "heading") {
+        Transforms.unwrapNodes(editor, { at: path });
+        return;
+      }
+
+      // Unwrap block element children. Only text allowed.
       for (const [child, childPath] of Node.children(editor, path)) {
         if (Element.isElement(child) && !editor.isInline(child)) {
           Transforms.unwrapNodes(editor, { at: childPath });

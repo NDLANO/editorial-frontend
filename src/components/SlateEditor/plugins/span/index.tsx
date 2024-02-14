@@ -7,7 +7,7 @@
  */
 
 import isEmpty from "lodash/isEmpty";
-import { Descendant, Editor, Element } from "slate";
+import { Descendant, Editor, Element, Node, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_SPAN } from "./types";
 import { createProps, reduceElementDataAttributes } from "../../../../util/embedTagHelpers";
@@ -52,7 +52,6 @@ const normalizerConfig: NormalizerConfig = {
 export const spanSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
     if (el.tagName.toLowerCase() !== "span") return;
-
     const attributes = reduceElementDataAttributes(el);
 
     if (isEmpty(attributes)) return;
@@ -60,9 +59,8 @@ export const spanSerializer: SlateSerializer = {
     return slatejsx("element", { type: TYPE_SPAN, data: attributes }, children);
   },
   serialize(node: Descendant, children: JSX.Element[]) {
-    if (!Element.isElement(node)) return;
-    if (node.type !== TYPE_SPAN) return;
-    if (!Object.keys(node.data ?? {}).length) {
+    if (!Element.isElement(node) || node.type !== TYPE_SPAN) return;
+    if (!Object.keys(node.data).length) {
       return <>{children}</>;
     }
 
@@ -83,9 +81,13 @@ export const spanPlugin = (editor: Editor) => {
   };
 
   editor.normalizeNode = (entry) => {
-    const [node] = entry;
+    const [node, path] = entry;
 
     if (Element.isElement(node) && node.type === TYPE_SPAN) {
+      if (Node.string(node) === "") {
+        return Transforms.removeNodes(editor, { at: path });
+      }
+
       if (defaultBlockNormalizer(editor, entry, normalizerConfig)) {
         return;
       }

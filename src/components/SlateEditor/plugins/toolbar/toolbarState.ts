@@ -105,7 +105,6 @@ export const defaultValues: CategoryFilters = {
 export const defaultAreaOptions: AreaFilters = {
   summary: {
     inline: { disabled: true },
-    block: { disabled: true },
   },
   heading: {
     inline: { hidden: true },

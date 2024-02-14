@@ -6,17 +6,17 @@
  *
  */
 
-import FocusTrapReact from "focus-trap-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
+import { DropdownMenuArrow } from "@radix-ui/react-dropdown-menu";
 import { ButtonV2 } from "@ndla/button";
 import { colors, spacing, fonts } from "@ndla/core";
+import { DropdownItem, DropdownContent, DropdownMenu, DropdownTrigger } from "@ndla/dropdown-menu";
 import { PersonOutlined } from "@ndla/icons/common";
-import { StyledDropdownOverlay } from "../../../components/Dropdown";
+import { SafeLinkButton } from "@ndla/safelink";
 import Overlay from "../../../components/Overlay";
-import { styledListElement } from "../../../components/StyledListElement/StyledListElement";
 import { getAccessTokenPersonal } from "../../../util/authHelpers";
 import { toLogoutSession, toLogin } from "../../../util/routeHelpers";
 import { useSession } from "../../Session/SessionProvider";
@@ -37,69 +37,50 @@ const StyledUserButton = styled(ButtonV2)`
   }
 `;
 
-interface AuthSiteNavItemProps {
-  logoutText: string;
-  onClick: () => void;
-}
+const StyledDropdownContent = styled(DropdownContent)`
+  padding: ${spacing.normal};
+`;
 
-const AuthSiteNavItem = ({ logoutText, onClick }: AuthSiteNavItemProps) => (
-  <StyledDropdownOverlay withArrow>
-    <Link css={styledListElement} to={toLogoutSession()} onClick={onClick}>
-      {logoutText}
-    </Link>
-  </StyledDropdownOverlay>
-);
+const StyledArrow = styled(DropdownMenuArrow)`
+  fill: ${colors.white};
+`;
 
-interface Props {
-  close: () => void;
-}
-
-const SessionContainer = ({ close }: Props) => {
+const SessionContainer = () => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const { userName, authenticated } = useSession();
 
-  const toggleOpen = (newOpen?: boolean) => setOpen((prevOpen) => newOpen ?? !prevOpen);
-
   const isAccessTokenPersonal = getAccessTokenPersonal();
+
+  if (authenticated && isAccessTokenPersonal) {
+    return (
+      <>
+        <DropdownMenu open={open} onOpenChange={setOpen}>
+          {!!authenticated && isAccessTokenPersonal && (
+            <DropdownTrigger asChild>
+              <StyledUserButton variant="ghost" colorTheme="lighter" shape="pill">
+                <StyledUserIcon />
+                {userName?.split(" ")[0]}
+              </StyledUserButton>
+            </DropdownTrigger>
+          )}
+          <StyledDropdownContent>
+            <StyledArrow width={20} height={10} />
+            <DropdownItem asChild>
+              <SafeLinkButton colorTheme="light" shape="sharp" to={toLogoutSession()}>
+                {t("logoutProviders.localLogout")}
+              </SafeLinkButton>
+            </DropdownItem>
+          </StyledDropdownContent>
+        </DropdownMenu>
+        {open && <Overlay modifiers={["zIndex"]} />}
+      </>
+    );
+  }
 
   return (
     <div>
-      {open && (
-        <>
-          <FocusTrapReact
-            active
-            focusTrapOptions={{
-              onDeactivate: () => {
-                toggleOpen(false);
-              },
-              clickOutsideDeactivates: true,
-              escapeDeactivates: true,
-            }}
-          >
-            <div>
-              <AuthSiteNavItem logoutText={t("logoutProviders.localLogout")} onClick={toggleOpen} />
-            </div>
-          </FocusTrapReact>
-          <Overlay />
-        </>
-      )}
-      {authenticated && isAccessTokenPersonal ? (
-        <StyledUserButton
-          onClick={() => {
-            toggleOpen();
-            close();
-          }}
-          variant="ghost"
-          colorTheme="lighter"
-          shape="pill"
-        >
-          <StyledUserIcon />
-          {userName?.split(" ")[0]}
-        </StyledUserButton>
-      ) : (
-        <Link to={toLogin()}>{t("siteNav.login")}</Link>
-      )}
+      <Link to={toLogin()}>{t("siteNav.login")}</Link>
     </div>
   );
 };

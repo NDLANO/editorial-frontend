@@ -293,7 +293,7 @@ describe("details normalizer tests", () => {
             children: [
               {
                 type: TYPE_SUMMARY,
-                children: [{ type: TYPE_PARAGRAPH, children: [{ text: "title" }] }],
+                children: [{ type: TYPE_PARAGRAPH, serializeAsText: true, children: [{ text: "title" }] }],
               },
               { type: TYPE_PARAGRAPH, children: [{ text: "content" }] },
             ],

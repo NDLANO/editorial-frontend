@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { ISingleResourceStats } from "@ndla/types-backend/myndla-api";
 import { fetchResourceStats } from "./myndlaApi";

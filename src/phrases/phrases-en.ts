@@ -477,7 +477,7 @@ const phrases = {
     visualElementCopyright: "Origin",
     removeVisualElement: "Remove element",
     info: {
-      lastUpdated: "Last revised: ",
+      lastUpdated: "Last revised",
     },
     title: "Topic",
     fields: {
@@ -1799,8 +1799,11 @@ const phrases = {
   modal: {
     closeModal: "Close",
   },
-  conceptform: {
+  conceptForm: {
     title: "Concept",
+    info: {
+      lastUpdated: "Last updated",
+    },
   },
   glossform: {
     title: "Gloss",

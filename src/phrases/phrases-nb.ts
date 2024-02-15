@@ -476,7 +476,7 @@ const phrases = {
     visualElementCopyright: "Opphav",
     removeVisualElement: "Fjern element",
     info: {
-      lastUpdated: "Sist faglig vurdert: ",
+      lastUpdated: "Sist faglig vurdert",
     },
     title: "Emne",
     fields: {
@@ -1796,8 +1796,11 @@ const phrases = {
   modal: {
     closeModal: "Lukk",
   },
-  conceptform: {
+  conceptForm: {
     title: "Forklaring",
+    info: {
+      lastUpdated: "Sist oppdatert",
+    },
   },
   glossform: {
     title: "Glose",

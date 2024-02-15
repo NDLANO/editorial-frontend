@@ -93,7 +93,7 @@ const SearchConcept = ({ concept, locale, subjects, editingState, responsibleNam
             </Title>
           </FlexBoxWrapper>
           <Text element="span" textStyle="meta-text-xsmall">
-            {`${t("topicArticleForm.info.lastUpdated")} ${formatDate(concept.lastUpdated)}`}
+            {`${t("conceptForm.info.lastUpdated")} ${formatDate(concept.lastUpdated)}`}
           </Text>
           <div>
             {concept.supportedLanguages.map((lang) => {

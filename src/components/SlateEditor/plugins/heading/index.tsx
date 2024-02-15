@@ -54,10 +54,7 @@ export const headingSerializer: SlateSerializer = {
 
 const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: KeyboardEvent) => void) => {
   if (Range.isRange(editor.selection)) {
-    const [[_, path]] = Editor.nodes(editor, {
-      at: Editor.unhangRange(editor, editor.selection),
-      match: (node) => Element.isElement(node) && node.type === TYPE_HEADING,
-    });
+    const [_heading, path] = Editor.parent(editor, Editor.unhangRange(editor, editor.selection));
     const [parent] = Editor.parent(editor, path);
     if (Element.isElement(parent) && parent.type === TYPE_SUMMARY) {
       return nextOnKeyDown?.(e);

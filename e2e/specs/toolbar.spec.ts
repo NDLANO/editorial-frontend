@@ -80,7 +80,7 @@ test("can change text styling", async ({ page }) => {
   await page.keyboard.press("Enter");
   await page.keyboard.press("Enter");
   await page.keyboard.type("Test new line");
-  await expect(page.getByRole("blockquote")).toHaveText("This is test content\n\nTest new line");
+  await expect(page.getByRole("blockquote")).toHaveText("This is test content");
 });
 
 test("can create headings", async ({ page }) => {

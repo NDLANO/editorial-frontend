@@ -193,7 +193,7 @@ const HeaderStatusInformation = ({
             aria-hidden={false}
           />
         )}
-        <HeaderFavoriteStatus id={id} type={type} />
+        {inSearch || <HeaderFavoriteStatus id={id} type={type} />}
         <StyledStatus data-compact={compact}>
           <span>
             <StyledSmallText data-compact={compact}>{`${t("form.responsible.label")}:`}</StyledSmallText>

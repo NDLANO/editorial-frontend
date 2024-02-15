@@ -60,7 +60,7 @@ export const spanSerializer: SlateSerializer = {
   },
   serialize(node: Descendant, children: JSX.Element[]) {
     if (!Element.isElement(node) || node.type !== TYPE_SPAN) return;
-    if (!Object.keys(node.data).length) {
+    if (!Object.keys(node.data ?? {}).length) {
       return <>{children}</>;
     }
 

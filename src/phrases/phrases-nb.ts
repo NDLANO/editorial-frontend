@@ -1412,6 +1412,10 @@ const phrases = {
       sectionTitle: "Bruk av artikkelen i læringsstier",
       title: "Læringsstier som inneholder denne artikkelen",
     },
+    myNdla: {
+      noFavorites: "Ingen har favorittmerket ressursen.",
+      numFavorites: "Ressursen har blitt favorittmerket {{num}} ganger.",
+    },
     embedConnections: {
       type: {
         image: "bildet",
@@ -2033,7 +2037,7 @@ const phrases = {
     },
   },
   linkBlock: {
-    deleteBlock: "Fjenr lenkeblokk",
+    deleteBlock: "Fjern lenkeblokk",
     delete: "Fjern lenke",
     edit: "Rediger lenke",
     create: "Sett inn lenke",

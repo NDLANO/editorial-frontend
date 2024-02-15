@@ -1412,6 +1412,10 @@ const phrases = {
       sectionTitle: "Bruk av artikkelen i læringsstiar",
       title: "Læringsstiar som inneheld denne artikkelen",
     },
+    myNdla: {
+      noFavorites: "Ingen har favorittmerka ressursen.",
+      numFavorites: "Ressursen har vorte favorittmerka {{num}} gonger.",
+    },
     embedConnections: {
       type: {
         image: "biletet",

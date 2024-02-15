@@ -1415,6 +1415,10 @@ const phrases = {
       sectionTitle: "Uses of the article in learningpaths",
       title: "Learningpaths containing this article",
     },
+    myNdla: {
+      noFavorites: "No one has favorited the resource.",
+      numFavorites: "The resource has been favorited {{num}} times.",
+    },
     embedConnections: {
       type: {
         image: "image",

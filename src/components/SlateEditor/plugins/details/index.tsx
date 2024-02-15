@@ -23,6 +23,7 @@ import {
   textBlockElements,
 } from "../../utils/normalizationHelpers";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
+import { TYPE_SPAN } from "../span/types";
 
 export interface DetailsElement {
   type: "details";
@@ -116,9 +117,10 @@ const onBackspace = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: K
 export const detailsSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
     if (el.tagName.toLowerCase() === "summary") {
-      const childs = !Element.isElement(children[0])
-        ? slatejsx("element", { type: TYPE_PARAGRAPH, serializeAsText: true }, children)
-        : children;
+      const childs =
+        !Element.isElement(children?.[0]) || children?.[0].type === TYPE_SPAN
+          ? slatejsx("element", { type: TYPE_PARAGRAPH, serializeAsText: true }, children)
+          : children;
 
       return slatejsx("element", { type: TYPE_SUMMARY }, childs);
     } else if (el.tagName.toLowerCase() === "details") {

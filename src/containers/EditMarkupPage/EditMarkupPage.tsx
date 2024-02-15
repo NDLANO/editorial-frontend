@@ -174,6 +174,8 @@ const EditMarkupPage = () => {
         content,
         revision: draft?.revision ?? 1,
         language,
+        metaImage: undefined,
+        responsibleId: undefined,
       });
       setDraft(updatedDraft);
       setStatus("saved");

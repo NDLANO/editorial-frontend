@@ -858,12 +858,10 @@ const phrases = {
     editPodcast: "Edit podcast",
     editH5p: "Edit H5P",
     resetToProd: {
-      button: "Reset to prod",
-      modal: "Do you want to reset the draft as it is on the ndla frontpage?",
       success: "Content is reset, press save to save changes",
     },
-    resetToVersion: "Reset to version",
-    previewVersion: "Compare with published",
+    resetToVersion: "Reset language variant from version",
+    previewVersion: "Compare article with version",
     variant: {
       create: "Create variant",
       translate: "Translate to Nynorsk",

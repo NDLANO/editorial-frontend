@@ -13,7 +13,7 @@ import { animations, stackOrder } from "@ndla/core";
 
 const appearances: Record<string, SerializedStyles> = {
   zIndex: css`
-    z-index: ${stackOrder.offsetSingle};
+    z-index: ${stackOrder.dropdown - stackOrder.offsetSingle};
   `,
   absolute: css`
     position: absolute;

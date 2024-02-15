@@ -159,11 +159,6 @@ export const paragraphPlugin = (editor: Editor) => {
         }
       }
 
-      if (Element.isElement(parentNode) && parentNode.type === "heading") {
-        Transforms.unwrapNodes(editor, { at: path });
-        return;
-      }
-
       // Unwrap block element children. Only text allowed.
       for (const [child, childPath] of Node.children(editor, path)) {
         if (Element.isElement(child) && !editor.isInline(child)) {

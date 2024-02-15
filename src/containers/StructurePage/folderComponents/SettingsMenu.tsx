@@ -47,6 +47,10 @@ const StyledIconButton = styled(IconButtonV2)`
   }
 `;
 
+const StyledContent = styled(Content)`
+  z-index: ${stackOrder.dropdown};
+`;
+
 interface Props {
   node: Node;
   rootNodeId: string;
@@ -72,7 +76,7 @@ const SettingsMenu = ({ node, rootNodeId, onCurrentNodeChanged, nodeChildren }: 
       </Trigger>
       <Portal>
         <>
-          <Content side="right" sideOffset={10} asChild>
+          <StyledContent side="right" sideOffset={10} asChild>
             <StyledDivWrapper data-testid="settings-menu-modal">
               <Header>
                 <TitleWrapper>
@@ -90,7 +94,7 @@ const SettingsMenu = ({ node, rootNodeId, onCurrentNodeChanged, nodeChildren }: 
                 nodeChildren={nodeChildren}
               />
             </StyledDivWrapper>
-          </Content>
+          </StyledContent>
           <Overlay modifiers={["zIndex"]} />
         </>
       </Portal>
@@ -101,7 +105,6 @@ const SettingsMenu = ({ node, rootNodeId, onCurrentNodeChanged, nodeChildren }: 
 export const StyledDivWrapper = styled.div`
   position: absolute;
   ${animations.fadeIn()}
-  z-index: ${stackOrder.offsetDouble};
   padding: ${spacing.xsmall};
   width: 550px;
   background-color: ${colors.brand.greyLightest};

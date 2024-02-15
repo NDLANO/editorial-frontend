@@ -16,7 +16,6 @@ import { colors, spacing, stackOrder } from "@ndla/core";
 import { Pencil } from "@ndla/icons/action";
 import { DeleteForever } from "@ndla/icons/editor";
 import Tabs from "@ndla/tabs";
-import Tooltip from "@ndla/tooltip";
 import { RelatedContentEmbedData, RelatedContentMetaData } from "@ndla/types-embed";
 import { Heading } from "@ndla/typography";
 import { RelatedContentEmbed } from "@ndla/ui";
@@ -153,17 +152,16 @@ const EditRelated = forwardRef<HTMLDivElement, Props>(
           <Heading element="h3" headingStyle="list-title">
             {t("form.related.title")}
           </Heading>
-          <Tooltip tooltip={t("form.remove")}>
-            <IconButtonV2
-              data-testid="close-related-button"
-              aria-label={t("form.remove")}
-              variant="ghost"
-              colorTheme="danger"
-              onClick={onRemoveClick}
-            >
-              <DeleteForever />
-            </IconButtonV2>
-          </Tooltip>
+          <IconButtonV2
+            data-testid="close-related-button"
+            aria-label={t("form.remove")}
+            variant="ghost"
+            colorTheme="danger"
+            onClick={onRemoveClick}
+            title={t("form.remove")}
+          >
+            <DeleteForever />
+          </IconButtonV2>
         </HeadingWrapper>
         <p>{t("form.related.subtitle")}</p>
         <StyledUl>
@@ -179,30 +177,28 @@ const EditRelated = forwardRef<HTMLDivElement, Props>(
                 <RelatedContentEmbed embed={embed} />
                 <ButtonWrapper>
                   {!embed.embedData.articleId && (
-                    <Tooltip tooltip={t("form.content.relatedArticle.changeExternal")}>
-                      <IconButtonV2
-                        aria-label={t("form.content.relatedArticle.changeExternal")}
-                        variant="ghost"
-                        colorTheme="light"
-                        onClick={() => {
-                          setExternalToEdit({ ...embed, index });
-                          setCurrentTab("externalArticle");
-                        }}
-                      >
-                        <Pencil />
-                      </IconButtonV2>
-                    </Tooltip>
-                  )}
-                  <Tooltip tooltip={t("form.content.relatedArticle.removeExternal")}>
                     <IconButtonV2
-                      aria-label={t("form.content.relatedArticle.removeExternal")}
+                      aria-label={t("form.content.relatedArticle.changeExternal")}
                       variant="ghost"
-                      colorTheme="danger"
-                      onClick={(e) => deleteRelatedArticle(e, embed, index)}
+                      colorTheme="light"
+                      onClick={() => {
+                        setExternalToEdit({ ...embed, index });
+                        setCurrentTab("externalArticle");
+                      }}
+                      title={t("form.content.relatedArticle.changeExternal")}
                     >
-                      <DeleteForever />
+                      <Pencil />
                     </IconButtonV2>
-                  </Tooltip>
+                  )}
+                  <IconButtonV2
+                    aria-label={t("form.content.relatedArticle.removeExternal")}
+                    variant="ghost"
+                    colorTheme="danger"
+                    onClick={(e) => deleteRelatedArticle(e, embed, index)}
+                    title={t("form.content.relatedArticle.removeExternal")}
+                  >
+                    <DeleteForever />
+                  </IconButtonV2>
                 </ButtonWrapper>
               </RelatedArticleWrapper>
             )}

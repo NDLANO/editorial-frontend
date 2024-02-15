@@ -11,7 +11,6 @@ import isBefore from "date-fns/isBefore";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import Tooltip from "@ndla/tooltip";
 import { IRevisionMeta } from "@ndla/types-backend/draft-api";
 import { getExpirationDate } from "../../ArticlePage/articleTransformers";
 
@@ -57,11 +56,11 @@ const ApproachingRevisionDate = ({ revisions }: Props) => {
   );
 
   return (
-    <Tooltip tooltip={t("form.responsible.revisionDate")}>
-      <Wrapper>
-        <StyledIcon>{approachingRevision}</StyledIcon>
-      </Wrapper>
-    </Tooltip>
+    <Wrapper>
+      <StyledIcon aria-label={t("form.responsible.revisionDate")} title={t("form.responsible.revisionDate")}>
+        {approachingRevision}
+      </StyledIcon>
+    </Wrapper>
   );
 };
 

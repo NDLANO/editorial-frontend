@@ -16,7 +16,6 @@ import { Pencil } from "@ndla/icons/action";
 import { Launch } from "@ndla/icons/common";
 import { DeleteForever, Keyhole } from "@ndla/icons/editor";
 import SafeLink from "@ndla/safelink";
-import Tooltip from "@ndla/tooltip";
 import { Version as TaxVersion, VersionType } from "@ndla/types-taxonomy";
 import { StyledErrorMessage } from "./StyledErrorMessage";
 import VersionForm from "./VersionForm";
@@ -98,7 +97,7 @@ const StyledLaunch = styled(Launch)`
 const StyledKeyhole = styled(Keyhole)`
   margin-left: ${spacing.xxsmall};
   height: 30px;
-  width: 100%;
+  width: 30px;
   color: ${colors.brand.primary};
 `;
 
@@ -142,44 +141,39 @@ const Version = ({ version }: Props) => {
           <ContentBlock>
             <VersionTitle>{version.name}</VersionTitle>
             {version.locked && (
-              <Tooltip tooltip={t("taxonomyVersions.locked")}>
-                <div>
-                  <StyledKeyhole />
-                </div>
-              </Tooltip>
+              <StyledKeyhole aria-label={t("taxonomyVersions.locked")} title={t("taxonomyVersions.locked")} />
             )}
           </ContentBlock>
           <ContentBlock>
             <StatusWrapper color={statusColorMap[version.versionType]}>
               <StyledText>{t(`taxonomyVersions.status.${version.versionType}`)}</StyledText>
             </StatusWrapper>
-            <Tooltip tooltip={t("taxonomyVersions.previewVersion")}>
-              <StyledLink target={"_blank"} to={ndlaUrl}>
-                <StyledLaunch />
-              </StyledLink>
-            </Tooltip>
-            <Tooltip tooltip={t("taxonomyVersions.editVersionTooltip")}>
-              <IconButtonV2
-                variant="ghost"
-                colorTheme="lighter"
-                aria-label={t("taxonomyVersions.editVersionTooltip")}
-                onClick={() => setIsEditing((prev) => !prev)}
-              >
-                <Pencil />
-              </IconButtonV2>
-            </Tooltip>
-            <Tooltip tooltip={deleteTooltip}>
-              <IconButtonV2
-                variant="ghost"
-                colorTheme="danger"
-                aria-label={deleteTooltip}
-                disabled={deleteDisabled}
-                onClick={() => (deleteDisabled ? undefined : setShowAlertModal(true))}
-                color={deleteDisabled ? undefined : "red"}
-              >
-                <DeleteForever />
-              </IconButtonV2>
-            </Tooltip>
+            <StyledLink target={"_blank"} to={ndlaUrl}>
+              <StyledLaunch
+                aria-label={t("taxonomyVersions.previewVersion")}
+                title={t("taxonomyVersions.previewVersion")}
+              />
+            </StyledLink>
+            <IconButtonV2
+              variant="ghost"
+              colorTheme="lighter"
+              aria-label={t("taxonomyVersions.editVersionTooltip")}
+              onClick={() => setIsEditing((prev) => !prev)}
+              title={t("taxonomyVersions.editVersionTooltip")}
+            >
+              <Pencil />
+            </IconButtonV2>
+            <IconButtonV2
+              variant="ghost"
+              colorTheme="danger"
+              aria-label={deleteTooltip}
+              disabled={deleteDisabled}
+              onClick={() => (deleteDisabled ? undefined : setShowAlertModal(true))}
+              color={deleteDisabled ? undefined : "red"}
+              title={deleteTooltip}
+            >
+              <DeleteForever />
+            </IconButtonV2>
           </ContentBlock>
           <AlertModal
             title={t("taxonomyVersions.delete")}

@@ -12,7 +12,6 @@ import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
 import { ButtonV2 } from "@ndla/button";
 import { colors, spacing, breakpoints, fonts } from "@ndla/core";
-import Tooltip from "@ndla/tooltip";
 import { NodeConnectionPUT, NodeChild } from "@ndla/types-taxonomy";
 import { ContentTypeBadge } from "@ndla/ui";
 import GrepCodesModal from "./GrepCodesModal";
@@ -178,11 +177,15 @@ const Resource = ({ resource, onDelete, currentNodeId, contentMetaLoading, respo
       <StyledCard>
         <BadgeWrapper>
           {contentType && (
-            <Tooltip tooltip={contentTypeName}>
-              <StyledResourceIcon key="img">
-                <ContentTypeBadge background type={iconType} size="x-small" />
-              </StyledResourceIcon>
-            </Tooltip>
+            <StyledResourceIcon key="img">
+              <ContentTypeBadge
+                aria-label={contentTypeName}
+                background
+                type={iconType}
+                size="x-small"
+                title={contentTypeName}
+              />
+            </StyledResourceIcon>
           )}
         </BadgeWrapper>
         <ContentWrapper>

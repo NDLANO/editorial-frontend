@@ -126,9 +126,8 @@ exports[`EditorErrorMessage renders 1`] = `
       aria-label="Fjern"
       class="emotion-2"
       contenteditable="false"
-      data-state="closed"
       data-testid="close-related-button"
-      data-trigger="true"
+      title="Fjern"
       type="button"
     >
       <svg

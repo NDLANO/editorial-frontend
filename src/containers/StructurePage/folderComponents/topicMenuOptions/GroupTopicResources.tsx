@@ -7,10 +7,8 @@
  */
 
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
 import { Switch } from "@ndla/switch";
-import Tooltip from "@ndla/tooltip";
 import { Node, Metadata } from "@ndla/types-taxonomy";
 import RoundIcon from "../../../../components/RoundIcon";
 import {
@@ -29,10 +27,6 @@ interface Props {
   hideIcon?: boolean;
   onChanged?: (newMeta: Partial<Metadata>) => void;
 }
-
-const StyledTooltip = styled(Tooltip)`
-  display: flex;
-`;
 
 const GroupTopicResources = ({ node, hideIcon, onChanged }: Props) => {
   const { t, i18n } = useTranslation();
@@ -73,17 +67,17 @@ const GroupTopicResources = ({ node, hideIcon, onChanged }: Props) => {
     <StyledMenuItemEditField>
       {hideIcon || <RoundIcon open small />}
       <StyledMenuItemInputField placeholder={t("taxonomy.metadata.customFields.resourceGroupPlaceholder")} disabled />
-      <StyledTooltip tooltip={t("taxonomy.metadata.customFields.RGTooltip")}>
-        <div>
-          <Switch
-            id="group-topic-resources"
-            checked={isGrouped}
-            label=""
-            onChange={updateMetadata}
-            thumbCharacter={isGrouped ? "G" : "U"}
-          />
-        </div>
-      </StyledTooltip>
+      <div>
+        <Switch
+          aria-label={t("taxonomy.metadata.customFields.RGTooltip")}
+          id="group-topic-resources"
+          checked={isGrouped}
+          label=""
+          onChange={updateMetadata}
+          thumbCharacter={isGrouped ? "G" : "U"}
+          title={t("taxonomy.metadata.customFields.RGTooltip")}
+        />
+      </div>
     </StyledMenuItemEditField>
   );
 };

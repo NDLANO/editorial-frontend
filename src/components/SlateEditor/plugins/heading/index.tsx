@@ -13,6 +13,7 @@ import { TYPE_HEADING } from "./types";
 import { SlateSerializer } from "../../interfaces";
 import hasNodeOfType from "../../utils/hasNodeOfType";
 import { KEY_BACKSPACE, KEY_ENTER } from "../../utils/keys";
+import { TYPE_SUMMARY } from "../details/types";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
 
 export interface HeadingElement {
@@ -52,12 +53,23 @@ export const headingSerializer: SlateSerializer = {
 };
 
 const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: KeyboardEvent) => void) => {
+  if (Range.isRange(editor.selection)) {
+    const [[_, path]] = Editor.nodes(editor, {
+      at: Editor.unhangRange(editor, editor.selection),
+      match: (node) => Element.isElement(node) && node.type === TYPE_HEADING,
+    });
+    const [parent] = Editor.parent(editor, path);
+    if (Element.isElement(parent) && parent.type === TYPE_SUMMARY) {
+      return nextOnKeyDown?.(e);
+    }
+  }
+
   if (hasNodeOfType(editor, TYPE_HEADING)) {
     e.preventDefault();
     Transforms.insertNodes(editor, slatejsx("element", { type: TYPE_PARAGRAPH }, [{ text: "" }]));
     return;
   }
-  return nextOnKeyDown && nextOnKeyDown(e);
+  return nextOnKeyDown?.(e);
 };
 
 const onBackspace = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: KeyboardEvent) => void) => {

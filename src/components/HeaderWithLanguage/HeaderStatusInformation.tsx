@@ -152,6 +152,7 @@ const HeaderStatusInformation = ({
   const expirationColor = useMemo(() => getWarnStatus(expirationDate), [expirationDate]);
 
   if (!noStatus || isNewLanguage) {
+    const showFavoritedIcon = type !== "frontpage-article" && !inSearch;
     return (
       <StyledStatusWrapper>
         {(type === "standard" || type === "topic-article") && !inSearch ? (
@@ -193,7 +194,7 @@ const HeaderStatusInformation = ({
             aria-hidden={false}
           />
         )}
-        {inSearch || <HeaderFavoriteStatus id={id} type={type} />}
+        {showFavoritedIcon && <HeaderFavoriteStatus id={id} type={type} />}
         <StyledStatus data-compact={compact}>
           <span>
             <StyledSmallText data-compact={compact}>{`${t("form.responsible.label")}:`}</StyledSmallText>

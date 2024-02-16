@@ -85,7 +85,7 @@ const WorkListTabContent = ({
   headerText = "welcomePage.workList.heading",
   descriptionText = "welcomePage.workList.description",
 }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   // Separated request to not update subjects when filtered subject changes
   const searchQuery = useSearch(
@@ -94,6 +94,7 @@ const WorkListTabContent = ({
       "page-size": 0,
       fallback: true,
       "aggregate-paths": "contexts.rootId",
+      language: i18n.language,
     },
     { enabled: !!ndlaId },
   );

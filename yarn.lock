@@ -5592,7 +5592,6 @@ __metadata:
     postcss-preset-env: "npm:7.8.2"
     prettier: "npm:^3.1.1"
     prismjs: "npm:^1.29.0"
-    process: "npm:^0.11.10"
     prop-types: "npm:^15.7.2"
     query-string: "npm:^5.1.1"
     react: "npm:^18.2.0"
@@ -10521,13 +10520,6 @@ __metadata:
   version: 3.0.0
   resolution: "proc-log@npm:3.0.0"
   checksum: 10c0/f66430e4ff947dbb996058f6fd22de2c66612ae1a89b097744e17fb18a4e8e7a86db99eda52ccf15e53f00b63f4ec0b0911581ff2aac0355b625c8eac509b0dc
-  languageName: node
-  linkType: hard
-
-"process@npm:^0.11.10":
-  version: 0.11.10
-  resolution: "process@npm:0.11.10"
-  checksum: 10c0/40c3ce4b7e6d4b8c3355479df77aeed46f81b279818ccdc500124e6a5ab882c0cc81ff7ea16384873a95a74c4570b01b120f287abbdd4c877931460eca6084b3
   languageName: node
   linkType: hard
 

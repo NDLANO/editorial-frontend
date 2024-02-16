@@ -6,8 +6,7 @@
  *
  */
 
-import { Editor, NodeEntry } from "slate";
-import { Element } from "slate";
+import { Editor, NodeEntry, Element } from "slate";
 import { NormalizerConfig, defaultBlockNormalizer } from "../utils/defaultNormalizer";
 
 interface Props {
@@ -52,7 +51,8 @@ const createPluginFactory =
         const normalized = normalize?.reduceRight((acc, { description, normalize }) => {
           const isNormalized = normalize(entry);
           if (process.env.DEBUG_SLATE && isNormalized) {
-            console.log(`[NORMALIZING] ${type} with method: ${description}`);
+            /* eslint-disable-next-line */
+            console.debug(`[NORMALIZING] ${type} with method: ${description}`);
           }
           return acc && isNormalized;
         }, false);
@@ -65,11 +65,11 @@ const createPluginFactory =
 
     editor.onKeyDown = (e) => {
       if (onKeyDown?.[e.key]) {
-        const { method, description } = onKeyDown?.[e.key];
+        const { method, description } = onKeyDown[e.key];
         if (process.env.DEBUG_SLATE) {
-          console.log(`[KEYBOARDEVENT] ${type} with method: ${description}`);
+          /* eslint-disable-next-line */
+          console.debug(`[KEYBOARDEVENT] ${type} with method: ${description}`);
         }
-
         method(e);
       }
       return nextOnKeyDown?.(e);

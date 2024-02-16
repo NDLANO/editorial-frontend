@@ -6,7 +6,7 @@
  *
  */
 
-import { useCallback } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Transforms } from "slate";
 import { ReactEditor, useSlate, useSlateSelector } from "slate-react";
@@ -35,9 +35,21 @@ export const ToolbarLanguageOptions = () => {
   const { t } = useTranslation();
   const editor = useSlate();
   const currentLanguage = useSlateSelector(getCurrentLanguage);
+  const [open, setOpen] = useState(false);
+  const [scrollDropdown, setScrollDropdown] = useState(false);
+
+  const handleOpenDropdown = () => {
+    setOpen(true);
+    if (window.innerHeight - 75 < languages.length * 32) {
+      setScrollDropdown(true);
+    } else {
+      setScrollDropdown(false);
+    }
+  };
 
   const onClick = useCallback(
     (language: string) => {
+      setOpen(false);
       const sel = editor.selection;
       Transforms.select(editor, sel!);
       ReactEditor.focus(editor);
@@ -78,8 +90,8 @@ export const ToolbarLanguageOptions = () => {
   );
 
   return (
-    <DropdownMenu modal={false}>
-      <ToolbarButton asChild>
+    <DropdownMenu modal={false} open={open}>
+      <ToolbarButton asChild onClick={handleOpenDropdown}>
         <DropdownTrigger asChild>
           <UIToolbarButton type="language">
             {currentLanguage ?? t("editorToolbar.noneLanguage")}
@@ -87,7 +99,13 @@ export const ToolbarLanguageOptions = () => {
           </UIToolbarButton>
         </DropdownTrigger>
       </ToolbarButton>
-      <ToolbarDropdownContent side="bottom" onCloseAutoFocus={onCloseFocus} sideOffset={2} portal={false}>
+      <ToolbarDropdownContent
+        side="bottom"
+        onCloseAutoFocus={onCloseFocus}
+        sideOffset={2}
+        portal={false}
+        data-dropdown-scroll={scrollDropdown}
+      >
         <DropdownItem>
           <ToolbarDropdownButton
             data-testid={"language-button-none"}

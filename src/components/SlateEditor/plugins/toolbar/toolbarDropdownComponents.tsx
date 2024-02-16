@@ -16,6 +16,11 @@ export const ToolbarDropdownContent = styled(DropdownContent)`
   flex: 1;
   align-items: flex-start;
   border: 1px solid ${colors.brand.tertiary};
+
+  &[data-dropdown-scroll="true"] {
+    max-height: 150px;
+    overflow: scroll;
+  }
 `;
 
 export const ToolbarDropdownButton = styled(ToolbarButton)`

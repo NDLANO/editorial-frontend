@@ -6,8 +6,8 @@
  *
  */
 
-import process from "process";
-import { Editor, NodeEntry, Element, Node, NodeInterface } from "slate";
+import { Editor, NodeEntry, Element, Node } from "slate";
+import config from "../../../config";
 import { NormalizerConfig, defaultBlockNormalizer } from "../utils/defaultNormalizer";
 
 interface Props<T extends Node = Node> {
@@ -26,7 +26,7 @@ interface Normalize<T extends Node = Node> {
 
 type KeyDown = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: KeyboardEvent) => void) => void;
 
-const createPluginFactory =
+export const createPluginFactory =
   <T extends Node = Node>({ normalize, isVoid, type, onKeyDown, isInline, normalizerConfig }: Props<T>) =>
   (editor: Editor) => {
     const {
@@ -45,7 +45,7 @@ const createPluginFactory =
         const defaultNormalized = normalizerConfig ? defaultBlockNormalizer(editor, entry, normalizerConfig) : false;
         const normalized = normalize?.reduceRight((acc, { description, normalize }) => {
           const isNormalized = normalize(entry as NodeEntry<T>, editor);
-          if (process.env.DEBUG_SLATE && isNormalized) {
+          if (config.debugSlate && isNormalized) {
             /* eslint-disable-next-line */
             console.debug(`[NORMALIZING] ${type} with method: ${description}`);
           }
@@ -60,7 +60,7 @@ const createPluginFactory =
 
     editor.onKeyDown = (e) => {
       if (onKeyDown?.[e.key]) {
-        if (process.env.DEBUG_SLATE) {
+        if (config.debugSlate) {
           /* eslint-disable-next-line */
           console.debug(`[KEYBOARDEVENT] ${type} with keyboardkey: ${e.key}`);
         }
@@ -71,5 +71,3 @@ const createPluginFactory =
 
     return editor;
   };
-
-export default createPluginFactory;

@@ -17,7 +17,7 @@ import { KEY_ENTER } from "../../utils/keys";
 import { TYPE_BREAK } from "../break/types";
 import { TYPE_LIST_ITEM } from "../list/types";
 import { TYPE_NOOP } from "../noop/types";
-import createPluginFactory from "../PluginFactory";
+import { createPluginFactory } from "../PluginFactory";
 import { TYPE_TABLE_CELL } from "../table/types";
 
 export interface ParagraphElement {
@@ -145,7 +145,7 @@ export const paragraphPlugin = createPluginFactory<ParagraphElement>({
       },
     },
     {
-      description: "Unrwap sibling paragraphs if either has serializeAsText",
+      description: "Unwrap sibling paragraphs if either has serializeAsText",
       normalize: ([node, path], editor) => {
         if (Editor.hasPath(editor, Path.next(path))) {
           const [nextNode] = Editor.node(editor, Path.next(path));

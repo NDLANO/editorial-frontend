@@ -10,12 +10,12 @@ import { Editor } from "slate";
 import InlineConcept from "./InlineWrapper";
 import { TYPE_CONCEPT_INLINE } from "./types";
 
-export const inlineConceptRenderer = (locale: string) => (editor: Editor) => {
+export const inlineConceptRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
     if (element.type === TYPE_CONCEPT_INLINE) {
       return (
-        <InlineConcept element={element} attributes={attributes} editor={editor} locale={locale}>
+        <InlineConcept element={element} attributes={attributes} editor={editor}>
           {children}
         </InlineConcept>
       );

@@ -41,14 +41,13 @@ const VisualElement = ({
   const plugins = useMemo(() => {
     return [
       audioPlugin(true),
-      audioRenderer(language),
+      audioRenderer,
       h5pPlugin(true),
-      h5pRenderer(language),
+      h5pRenderer,
       embedPlugin(true),
-      embedRenderer(language, allowDecorative),
+      embedRenderer(allowDecorative),
     ];
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedResource]);
+  }, [allowDecorative]);
 
   return (
     <VisualElementEditor

@@ -7,7 +7,7 @@
  */
 
 import { FormikHandlers, useFormikContext } from "formik";
-import { useMemo, useEffect, useCallback } from "react";
+import { useEffect, useCallback, useState } from "react";
 import { createEditor, Descendant } from "slate";
 import { withHistory } from "slate-history";
 import { Slate, Editable, ReactEditor, withReact } from "slate-react";
@@ -41,8 +41,7 @@ interface Props extends Omit<EditableProps, "value"> {
 }
 
 const PlainTextEditor = ({ onChange, value, id, submitted, className, placeholder, plugins, ...rest }: Props) => {
-  const _editor = useMemo(() => withHistory(withReact(createEditor())), []);
-  const editor = useMemo(() => withPlugins(_editor, plugins), [_editor, plugins]);
+  const [editor] = useState(() => withPlugins(withHistory(withReact(createEditor())), plugins));
   const props = useFormControl({ id, readOnly: submitted, ...rest });
 
   const onBlur = useCallback(() => {

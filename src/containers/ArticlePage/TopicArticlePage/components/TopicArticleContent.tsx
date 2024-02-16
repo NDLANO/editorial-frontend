@@ -6,7 +6,6 @@
  *
  */
 
-import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { FieldHeader } from "@ndla/forms";
@@ -16,7 +15,6 @@ import { topicArticlePlugins } from "./topicArticlePlugins";
 import { topicArticleRenderers } from "./topicArticleRenderers";
 import { EditMarkupLink } from "../../../../components/EditMarkupLink";
 import FormikField from "../../../../components/FormikField";
-import { SlatePlugin } from "../../../../components/SlateEditor/interfaces";
 import {
   createToolbarAreaOptions,
   createToolbarDefaultValues,
@@ -36,10 +34,7 @@ const StyledByLineFormikField = styled(FormikField)`
   justify-content: space-between;
 `;
 
-const createPlugins = (language: string): SlatePlugin[] => {
-  // Plugins are checked from last to first
-  return topicArticlePlugins.concat(topicArticleRenderers(language));
-};
+const plugins = topicArticlePlugins.concat(topicArticleRenderers);
 
 const toolbarOptions = createToolbarDefaultValues();
 const toolbarAreaFilters = createToolbarAreaOptions();
@@ -54,9 +49,6 @@ const TopicArticleContent = (props: Props) => {
     values: { id, language, creators, published },
   } = props;
   const { userPermissions } = useSession();
-  const plugins = useMemo(() => {
-    return createPlugins(language ?? "");
-  }, [language]);
 
   return (
     <>

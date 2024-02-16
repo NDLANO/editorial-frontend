@@ -160,6 +160,8 @@ interface ContentFieldProps extends FieldProps<Descendant[]> {
   articleLanguage: string;
 }
 
+const editorPlugins = learningResourcePlugins.concat(learningResourceRenderers);
+
 const ContentField = ({ articleId, field: { name, onChange, value }, articleLanguage }: ContentFieldProps) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
@@ -177,11 +179,6 @@ const ContentField = ({ articleId, field: { name, onChange, value }, articleLang
       });
     },
     [onChange, name],
-  );
-
-  const editorPlugins = useMemo(
-    () => learningResourcePlugins.concat(learningResourceRenderers(articleLanguage)),
-    [articleLanguage],
   );
 
   return (

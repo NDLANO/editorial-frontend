@@ -19,6 +19,7 @@ import { ContentLinkElement, LinkElement } from ".";
 import EditLink from "./EditLink";
 import config from "../../../../config";
 import { toEditGenericArticle, toLearningpathFull } from "../../../../util/routeHelpers";
+import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import isNodeInCurrentSelection from "../../utils/isNodeInCurrentSelection";
 
 interface StyledLinkMenuProps {
@@ -56,7 +57,6 @@ interface Props {
   attributes: RenderElementProps["attributes"];
   editor: Editor;
   element: LinkElement | ContentLinkElement;
-  language: string;
   children: JSX.Element;
 }
 
@@ -71,11 +71,12 @@ const StyledLink = styled.a`
   cursor: text;
 `;
 
-const Link = ({ attributes, editor, element, language, children }: Props) => {
+const Link = ({ attributes, editor, element, children }: Props) => {
   const linkRef = useRef<HTMLAnchorElement>(null);
   const [model, setModel] = useState<Model | undefined>();
   const startOpen = useRef(!hasHrefOrContentId(element));
   const [editMode, setEditMode] = useState(!hasHrefOrContentId(element));
+  const language = useArticleLanguage();
 
   const { t } = useTranslation();
 

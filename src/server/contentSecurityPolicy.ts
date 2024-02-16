@@ -44,6 +44,7 @@ const connectSrc = (() => {
       "http://localhost:4000",
       "http://localhost",
       "ws://localhost:24678/",
+      "http://localhost:24678",
     ];
   }
 

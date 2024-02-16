@@ -6,30 +6,28 @@
  *
  */
 
-import { Editor, NodeEntry, Element } from "slate";
+import process from "process";
+import { Editor, NodeEntry, Element, Node, NodeInterface } from "slate";
 import { NormalizerConfig, defaultBlockNormalizer } from "../utils/defaultNormalizer";
 
-interface Props {
+interface Props<T extends Node = Node> {
   type: Element["type"];
-  normalize?: Normalize[];
+  normalize?: Normalize<T>[];
   normalizerConfig?: NormalizerConfig;
   onKeyDown?: Record<string, KeyDown>;
   isInline?: boolean;
   isVoid?: boolean;
 }
 
-interface Normalize {
+interface Normalize<T extends Node = Node> {
   description: string;
-  normalize: (e: NodeEntry) => boolean;
+  normalize(e: NodeEntry<T>, editor: Editor): boolean;
 }
 
-interface KeyDown {
-  method: (e: KeyboardEvent) => void;
-  description: string;
-}
+type KeyDown = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: KeyboardEvent) => void) => void;
 
 const createPluginFactory =
-  ({ normalize, isVoid, type, onKeyDown, isInline, normalizerConfig }: Props) =>
+  <T extends Node = Node>({ normalize, isVoid, type, onKeyDown, isInline, normalizerConfig }: Props<T>) =>
   (editor: Editor) => {
     const {
       isVoid: nextIsVoid,
@@ -44,20 +42,17 @@ const createPluginFactory =
     editor.normalizeNode = (entry) => {
       const [node] = entry;
       if (Element.isElement(node) && node.type === type) {
-        if (normalizerConfig) {
-          if (defaultBlockNormalizer(editor, entry, normalizerConfig)) return;
-        }
-
+        const defaultNormalized = normalizerConfig ? defaultBlockNormalizer(editor, entry, normalizerConfig) : false;
         const normalized = normalize?.reduceRight((acc, { description, normalize }) => {
-          const isNormalized = normalize(entry);
+          const isNormalized = normalize(entry as NodeEntry<T>, editor);
           if (process.env.DEBUG_SLATE && isNormalized) {
             /* eslint-disable-next-line */
             console.debug(`[NORMALIZING] ${type} with method: ${description}`);
           }
-          return acc && isNormalized;
+          return acc || isNormalized;
         }, false);
 
-        if (normalized) return;
+        if (normalized || defaultNormalized) return;
       }
 
       return nextNormalizeNode?.(entry);
@@ -65,12 +60,11 @@ const createPluginFactory =
 
     editor.onKeyDown = (e) => {
       if (onKeyDown?.[e.key]) {
-        const { method, description } = onKeyDown[e.key];
         if (process.env.DEBUG_SLATE) {
           /* eslint-disable-next-line */
-          console.debug(`[KEYBOARDEVENT] ${type} with method: ${description}`);
+          console.debug(`[KEYBOARDEVENT] ${type} with keyboardkey: ${e.key}`);
         }
-        method(e);
+        onKeyDown[e.key](e, editor, nextOnKeyDown);
       }
       return nextOnKeyDown?.(e);
     };

@@ -17,6 +17,7 @@ import { KEY_ENTER } from "../../utils/keys";
 import { TYPE_BREAK } from "../break/types";
 import { TYPE_LIST_ITEM } from "../list/types";
 import { TYPE_NOOP } from "../noop/types";
+import createPluginFactory from "../PluginFactory";
 import { TYPE_TABLE_CELL } from "../table/types";
 
 export interface ParagraphElement {
@@ -103,69 +104,74 @@ export const paragraphSerializer: SlateSerializer = {
   },
 };
 
-export const paragraphPlugin = (editor: Editor) => {
-  const { onKeyDown, normalizeNode } = editor;
-
-  editor.onKeyDown = (e: KeyboardEvent) => {
-    if (e.key === KEY_ENTER) {
-      onEnter(e, editor, onKeyDown);
-    } else if (onKeyDown) {
-      onKeyDown(e);
-    }
-  };
-
-  editor.normalizeNode = (entry) => {
-    const [node, path] = entry;
-
-    if (Element.isElement(node) && node.type === TYPE_PARAGRAPH) {
-      const [parentNode] = Editor.node(editor, Path.parent(path));
-
-      // If paragraph is not in a list or table, make sure it will be rendered with <p>-tag
-      if (
-        Element.isElement(parentNode) &&
-        parentNode.type !== TYPE_TABLE_CELL &&
-        parentNode.type !== TYPE_LIST_ITEM &&
-        parentNode.type !== TYPE_NOOP &&
-        node.serializeAsText
-      ) {
-        return Transforms.unsetNodes(editor, "serializeAsText", { at: path });
-      }
-
-      // If two paragraphs are direct siblings, make sure both will be rendered with <p>-tag
-      if (Path.hasPrevious(path)) {
-        const [previousNode] = Editor.node(editor, Path.previous(path));
-        if (isParagraph(previousNode) && (previousNode.serializeAsText || node.serializeAsText)) {
-          return Transforms.unsetNodes(editor, "serializeAsText", {
-            at: Path.parent(path),
-            mode: "all",
-            match: isParagraph,
-          });
+export const paragraphPlugin = createPluginFactory<ParagraphElement>({
+  type: TYPE_PARAGRAPH,
+  onKeyDown: {
+    [KEY_ENTER]: onEnter,
+  },
+  normalize: [
+    {
+      description: "Pargraph should be rendered as plaintext",
+      normalize: ([node, path], editor) => {
+        const [parentNode] = Editor.node(editor, Path.parent(path));
+        if (
+          Element.isElement(parentNode) &&
+          parentNode.type !== TYPE_TABLE_CELL &&
+          parentNode.type !== TYPE_LIST_ITEM &&
+          parentNode.type !== TYPE_NOOP &&
+          node.serializeAsText
+        ) {
+          Transforms.unsetNodes(editor, "serializeAsText", { at: path });
+          return true;
         }
-      }
-      if (Editor.hasPath(editor, Path.next(path))) {
-        const [nextNode] = Editor.node(editor, Path.next(path));
-        if (isParagraph(nextNode) && (nextNode.serializeAsText || node.serializeAsText)) {
-          return Transforms.unsetNodes(editor, "serializeAsText", {
-            at: Path.parent(path),
-            mode: "all",
-            match: isParagraph,
-          });
+        return false;
+      },
+    },
+    {
+      description: "Merge two paragraphs if direct siblings",
+      normalize: ([node, path], editor) => {
+        if (Path.hasPrevious(path)) {
+          const [previousNode] = Editor.node(editor, Path.previous(path));
+          if (isParagraph(previousNode) && (previousNode.serializeAsText || node.serializeAsText)) {
+            Transforms.unsetNodes(editor, "serializeAsText", {
+              at: Path.parent(path),
+              mode: "all",
+              match: isParagraph,
+            });
+            return true;
+          }
         }
-      }
-    }
-
-    // Unwrap block element children. Only text allowed.
-    if (Element.isElement(node) && node.type === TYPE_PARAGRAPH) {
-      for (const [child, childPath] of Node.children(editor, path)) {
-        if (Element.isElement(child) && !editor.isInline(child)) {
-          Transforms.unwrapNodes(editor, { at: childPath });
-          return;
+        return false;
+      },
+    },
+    {
+      description: "Unrwap sibling paragraphs if either has serializeAsText",
+      normalize: ([node, path], editor) => {
+        if (Editor.hasPath(editor, Path.next(path))) {
+          const [nextNode] = Editor.node(editor, Path.next(path));
+          if (isParagraph(nextNode) && (nextNode.serializeAsText || node.serializeAsText)) {
+            Transforms.unsetNodes(editor, "serializeAsText", {
+              at: Path.parent(path),
+              mode: "all",
+              match: isParagraph,
+            });
+            return true;
+          }
         }
-      }
-    }
-
-    normalizeNode(entry);
-  };
-
-  return editor;
-};
+        return false;
+      },
+    },
+    {
+      description: "Unwrap block element children",
+      normalize: ([_node, path], editor) => {
+        for (const [child, childPath] of Node.children(editor, path)) {
+          if (Element.isElement(child) && !editor.isInline(child)) {
+            Transforms.unwrapNodes(editor, { at: childPath });
+            return true;
+          }
+        }
+        return false;
+      },
+    },
+  ],
+});

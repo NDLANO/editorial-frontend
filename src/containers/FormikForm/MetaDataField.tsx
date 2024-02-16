@@ -6,6 +6,7 @@
  *
  */
 
+import { FieldProps } from "formik";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
@@ -46,7 +47,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
       </FormikField>
       {userPermissions?.includes(DRAFT_ADMIN_SCOPE) && (
         <FormikField name="availability" label={t("form.availability.label")}>
-          {({ field }) => <AvailabilityField field={field} />}
+          {({ field }: FieldProps) => <AvailabilityField field={field} />}
         </FormikField>
       )}
       <FormikField

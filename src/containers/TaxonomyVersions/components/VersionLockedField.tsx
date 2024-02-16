@@ -8,7 +8,14 @@
 
 import { FieldProps } from "formik";
 import { useTranslation } from "react-i18next";
-import { RadioButtonGroup } from "@ndla/forms";
+import { RadioButtonItem } from "@ndla/forms";
+import {
+  StyledFieldset,
+  StyledFormControl,
+  StyledLabel,
+  StyledRadioButtonGroup,
+  StyledText,
+} from "../../../components/Form/styles";
 import FormikField from "../../../components/FormikField";
 
 const VersionLockedField = () => {
@@ -27,20 +34,32 @@ const VersionLockedField = () => {
   return (
     <FormikField name="locked" label={t("taxonomyVersions.form.locked.title")}>
       {({ field }: FieldProps) => (
-        <RadioButtonGroup
-          label={t("taxonomyVersions.form.locked.subTitle")}
-          selected={field.value.toString()}
-          uniqeIds
-          options={options}
-          onChange={(value) =>
-            field.onChange({
-              target: {
-                name: field.name,
-                value: value === "true",
-              },
-            })
-          }
-        />
+        <StyledFieldset>
+          <StyledText margin="none" textStyle="label-small" element="legend">
+            {t("taxonomyVersions.form.locked.subTitle")}
+          </StyledText>
+          <StyledRadioButtonGroup
+            onValueChange={(value: string) =>
+              field.onChange({
+                target: {
+                  name: field.name,
+                  value: value,
+                },
+              })
+            }
+            orientation="horizontal"
+            defaultValue={field.value.toString()}
+          >
+            {options.map((option) => (
+              <StyledFormControl id={option.value} key={option.value}>
+                <RadioButtonItem value={option.value} />
+                <StyledLabel margin="none" textStyle="label-small" data-label="">
+                  {option.title}
+                </StyledLabel>
+              </StyledFormControl>
+            ))}
+          </StyledRadioButtonGroup>
+        </StyledFieldset>
       )}
     </FormikField>
   );

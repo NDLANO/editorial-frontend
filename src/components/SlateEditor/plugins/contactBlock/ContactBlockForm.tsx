@@ -13,11 +13,17 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { CheckboxItem, InputV2, TextAreaV2, RadioButtonGroup, Label } from "@ndla/forms";
+import { CheckboxItem, InputV2, TextAreaV2, Label, RadioButtonItem } from "@ndla/forms";
 import { ContactBlockEmbedData } from "@ndla/types-embed";
 import { TYPE_CONTACT_BLOCK } from "./types";
 import InlineImageSearch from "../../../../containers/ConceptPage/components/InlineImageSearch";
-import { CheckboxWrapper } from "../../../Form/styles";
+import {
+  CheckboxWrapper,
+  StyledFieldset,
+  StyledFormControl,
+  StyledRadioButtonGroup,
+  StyledText,
+} from "../../../Form/styles";
 import { FormControl } from "../../../FormField";
 import FormikField from "../../../FormikField";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
@@ -186,28 +192,66 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
           <StyledFormikField name="description" showError>
             {({ field }: FieldProps) => <StyledTextArea label={t("form.name.description")} {...field} />}
           </StyledFormikField>
-          <StyledFormikField name="blob">
-            {({ field }) => (
-              <RadioButtonGroup
-                label={t("form.name.blob")}
-                selected={field.value}
-                uniqeIds
-                options={blobTypes}
-                onChange={(value: string) => field.onChange({ target: { name: field.name, value: value } })}
-              />
+          <Field name="blob">
+            {({ field }: FieldProps) => (
+              <StyledFieldset>
+                <StyledText margin="none" textStyle="label-small" element="legend">
+                  {t("form.name.blob")}
+                </StyledText>
+                <StyledRadioButtonGroup
+                  onValueChange={(value: string) =>
+                    field.onChange({
+                      target: {
+                        name: field.name,
+                        value: value,
+                      },
+                    })
+                  }
+                  orientation="horizontal"
+                  defaultValue={field.value}
+                >
+                  {blobTypes.map((option) => (
+                    <StyledFormControl id={option.value} key={option.value}>
+                      <RadioButtonItem value={option.value} />
+                      <Label margin="none" textStyle="label-small">
+                        {option.title}
+                      </Label>
+                    </StyledFormControl>
+                  ))}
+                </StyledRadioButtonGroup>
+              </StyledFieldset>
             )}
-          </StyledFormikField>
-          <StyledFormikField name="blobColor">
-            {({ field }) => (
-              <RadioButtonGroup
-                label={t("form.name.blobColor")}
-                selected={field.value}
-                uniqeIds
-                options={blobColors}
-                onChange={(value: string) => field.onChange({ target: { name: field.name, value: value } })}
-              />
+          </Field>
+          <Field name="blobColor">
+            {({ field }: FieldProps) => (
+              <StyledFieldset>
+                <StyledText margin="none" textStyle="label-small" element="legend">
+                  {t("form.name.blobColor")}
+                </StyledText>
+                <StyledRadioButtonGroup
+                  onValueChange={(value: string) =>
+                    field.onChange({
+                      target: {
+                        name: field.name,
+                        value: value,
+                      },
+                    })
+                  }
+                  orientation="horizontal"
+                  defaultValue={field.value}
+                >
+                  {blobColors.map((option) => (
+                    <StyledFormControl id={option.value} key={option.value}>
+                      <RadioButtonItem value={option.value} />
+                      <Label margin="none" textStyle="label-small">
+                        {option.title}
+                      </Label>
+                    </StyledFormControl>
+                  ))}
+                </StyledRadioButtonGroup>
+              </StyledFieldset>
             )}
-          </StyledFormikField>
+          </Field>
           <InlineImageSearch name="metaImageId" disableAltEditing hideAltText />
           <StyledFormikField name="metaImageAlt">
             {({ field, form }: FieldProps) => (

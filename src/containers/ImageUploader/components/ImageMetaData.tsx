@@ -8,8 +8,9 @@
 
 import { FieldInputProps, FieldProps } from "formik";
 import { useTranslation } from "react-i18next";
-import { RadioButtonGroup } from "@ndla/forms";
+import { RadioButtonItem } from "@ndla/forms";
 import AsyncSearchTags from "../../../components/Dropdown/asyncDropdown/AsyncSearchTags";
+import { StyledFormControl, StyledLabel, StyledRadioButtonGroup } from "../../../components/Form/styles";
 import FormikField from "../../../components/FormikField";
 import { fetchSearchTags } from "../../../modules/image/imageApi";
 
@@ -43,24 +44,27 @@ const ImageMetaData = ({ imageTags, imageLanguage }: Props) => {
           const options = ["yes", "not-applicable", "no", "not-set"];
           const defaultValue = "not-set";
           return (
-            <>
-              <RadioButtonGroup
-                selected={field.value ?? defaultValue}
-                uniqeIds
-                options={options.map((value) => ({
-                  title: t(`form.modelReleased.${value}`),
-                  value,
-                }))}
-                onChange={(value: string) =>
-                  field.onChange({
-                    target: {
-                      name: field.name,
-                      value: value,
-                    },
-                  })
-                }
-              />
-            </>
+            <StyledRadioButtonGroup
+              onValueChange={(value: string) =>
+                field.onChange({
+                  target: {
+                    name: field.name,
+                    value: value,
+                  },
+                })
+              }
+              orientation="horizontal"
+              defaultValue={field.value ?? defaultValue}
+            >
+              {options.map((option) => (
+                <StyledFormControl id={option} key={option}>
+                  <RadioButtonItem value={option} />
+                  <StyledLabel margin="none" textStyle="label-small" data-label="">
+                    {t(`form.modelReleased.${option}`)}
+                  </StyledLabel>
+                </StyledFormControl>
+              ))}
+            </StyledRadioButtonGroup>
           );
         }}
       </FormikField>

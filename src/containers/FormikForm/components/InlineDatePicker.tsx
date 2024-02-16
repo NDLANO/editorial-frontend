@@ -32,6 +32,7 @@ interface Props {
   onChange: (event: DateChangedEvent) => void;
   value?: string;
   placeholder?: string;
+  title?: string;
 }
 
 const StyledButton = styled(ButtonV2)`
@@ -68,7 +69,7 @@ const StyledButton = styled(ButtonV2)`
   }
 `;
 
-const InlineDatePicker = ({ onChange, value, name, placeholder }: Props) => {
+const InlineDatePicker = ({ onChange, value, name, placeholder, title }: Props) => {
   const dateValue = useMemo(() => (value ? new Date(value) : undefined), [value]);
   const displayValue = useMemo(() => (dateValue ? format(dateValue, "dd/MM/yyyy") : undefined), [dateValue]);
   const onValueChange = useCallback(
@@ -89,7 +90,7 @@ const InlineDatePicker = ({ onChange, value, name, placeholder }: Props) => {
 
   return (
     <DatePicker onChange={onValueChange} value={dateValue}>
-      <StyledButton variant="stripped" data-has-value={!!displayValue}>
+      <StyledButton variant="stripped" data-has-value={!!displayValue} title={title}>
         {displayValue ?? placeholder}
         <Calendar />
       </StyledButton>

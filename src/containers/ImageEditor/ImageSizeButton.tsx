@@ -9,7 +9,6 @@
 import { MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { ImageNormal, ImageSmall, ImageXsmall, ImageXxSmall } from "@ndla/icons/editor";
-import Tooltip from "@ndla/tooltip";
 import ImageEditorButton from "./ImageEditorButton";
 
 const icon: Record<string, JSX.Element> = {
@@ -28,15 +27,15 @@ interface Props {
 const ImageSizeButton = ({ currentSize = "fullwidth", size, onFieldChange }: Props) => {
   const { t } = useTranslation();
   return (
-    <Tooltip tooltip={t(`form.image.sizes.${size}`)}>
-      <ImageEditorButton
-        isActive={currentSize.startsWith(size)}
-        tabIndex={-1}
-        onClick={(evt) => onFieldChange(evt, "size", size)}
-      >
-        {icon[size]}
-      </ImageEditorButton>
-    </Tooltip>
+    <ImageEditorButton
+      aria-label={t(`form.image.sizes.${size}`)}
+      isActive={currentSize.startsWith(size)}
+      tabIndex={-1}
+      onClick={(evt) => onFieldChange(evt, "size", size)}
+      title={t(`form.image.sizes.${size}`)}
+    >
+      {icon[size]}
+    </ImageEditorButton>
   );
 };
 

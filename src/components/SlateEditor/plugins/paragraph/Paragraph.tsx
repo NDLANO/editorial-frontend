@@ -10,14 +10,11 @@ import { Editor } from "slate";
 import { RenderElementProps } from "slate-react";
 import styled from "@emotion/styled";
 import { ParagraphElement } from ".";
-import { BlockPickerOptions } from "../blockPicker/options";
 
 interface Props {
   attributes: RenderElementProps["attributes"];
   element: ParagraphElement;
   children: ReactNode;
-  language?: string;
-  blockpickerOptions?: BlockPickerOptions;
   editor: Editor;
 }
 

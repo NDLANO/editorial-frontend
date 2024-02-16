@@ -11,7 +11,9 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { colors, spacing, stackOrder } from "@ndla/core";
-import { CheckboxItem, StyledButtonWrapper, TextArea } from "@ndla/forms";
+import { CheckboxItem, Label, StyledButtonWrapper, TextArea } from "@ndla/forms";
+import { CheckboxWrapper } from "../../../Form/styles";
+import { FormControl } from "../../../FormField";
 import { isEmpty } from "../../../validators";
 import { useSlateContext } from "../../SlateContext";
 import { useInGrid } from "../grid/GridContext";
@@ -80,13 +82,25 @@ const FigureInput = ({
         />
       )}
       {allowDecorative && (
-        <CheckboxItem
-          label={t("form.image.isDecorative")}
-          checked={isDecorative}
-          onChange={() => handleCheck(!isDecorative)}
-        />
+        <FormControl>
+          <CheckboxWrapper>
+            <CheckboxItem checked={isDecorative} onCheckedChange={() => handleCheck(!isDecorative)} />
+            <Label margin="none" textStyle="label-small">
+              {t("form.image.isDecorative")}
+            </Label>
+          </CheckboxWrapper>
+        </FormControl>
       )}
-      {inGrid && <CheckboxItem label={t("form.image.showBorder")} checked={border} onChange={onBorderChecked} />}
+      {inGrid && (
+        <FormControl>
+          <CheckboxWrapper>
+            <CheckboxItem checked={border} onCheckedChange={onBorderChecked} />
+            <Label margin="none" textStyle="label-small">
+              {t("form.image.showBorder")}
+            </Label>
+          </CheckboxWrapper>
+        </FormControl>
+      )}
       <StyledButtonWrapper paddingLeft>
         <ButtonV2 onClick={onAbort} variant="outline">
           {t("form.abort")}

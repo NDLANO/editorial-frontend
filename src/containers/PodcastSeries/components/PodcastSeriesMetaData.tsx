@@ -7,7 +7,9 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { CheckboxItem } from "@ndla/forms";
+import { CheckboxItem, Label } from "@ndla/forms";
+import { CheckboxWrapper } from "../../../components/Form/styles";
+import { FormControl, FormField } from "../../../components/FormField";
 import FormikField from "../../../components/FormikField";
 import PlainTextEditor from "../../../components/SlateEditor/PlainTextEditor";
 import { textTransformPlugin } from "../../../components/SlateEditor/plugins/textTransform";
@@ -24,7 +26,7 @@ const PodcastSeriesMetaData = ({ language, onImageLoad }: Props) => {
   const plugins = [textTransformPlugin];
   return (
     <>
-      <TitleField />
+      <TitleField hideToolbar />
 
       <FormikField name="description" label={t("podcastSeriesForm.description")}>
         {({ field }) => (
@@ -52,22 +54,28 @@ const PodcastSeriesMetaData = ({ language, onImageLoad }: Props) => {
         )}
       </FormikField>
 
-      <FormikField name="hasRSS">
+      <FormField name="hasRSS">
         {({ field }) => (
-          <CheckboxItem
-            label={t("podcastSeriesForm.hasRSS")}
-            checked={field.value}
-            onChange={() =>
-              field.onChange({
-                target: {
-                  name: field.name,
-                  value: !field.value,
-                },
-              })
-            }
-          />
+          <FormControl>
+            <CheckboxWrapper>
+              <CheckboxItem
+                checked={field.value}
+                onCheckedChange={() =>
+                  field.onChange({
+                    target: {
+                      name: field.name,
+                      value: !field.value,
+                    },
+                  })
+                }
+              />
+              <Label margin="none" textStyle="label-small">
+                {t("podcastSeriesForm.hasRSS")}
+              </Label>
+            </CheckboxWrapper>
+          </FormControl>
         )}
-      </FormikField>
+      </FormField>
     </>
   );
 };

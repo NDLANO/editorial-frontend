@@ -6,6 +6,7 @@
  *
  */
 
+import { Node as SlateNode } from "slate";
 import { IConcept, ILicense, INewConcept, IUpdatedConcept } from "@ndla/types-backend/concept-api";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
@@ -16,6 +17,8 @@ import {
   editorValueToPlainText,
   embedTagToEditorValue,
   editorValueToEmbedTag,
+  blockContentToHTML,
+  inlineContentToEditorValue,
 } from "../../util/articleContentConverter";
 import { parseImageUrl } from "../../util/formHelper";
 
@@ -43,7 +46,7 @@ export const conceptApiTypeToFormType = (
     title: plainTextToEditorValue(concept?.title?.title || initialTitle),
     language,
     subjects: conceptSubjects,
-    conceptContent: plainTextToEditorValue(concept?.content?.content || ""),
+    conceptContent: inlineContentToEditorValue(concept?.content?.htmlContent || "", true),
     supportedLanguages: concept?.supportedLanguages ?? [language],
     creators: concept?.copyright?.creators ?? [],
     rightsholders: concept?.copyright?.rightsholders ?? [],
@@ -83,7 +86,7 @@ export const getNewConceptType = (
 ): INewConcept => ({
   language: values.language,
   title: editorValueToPlainText(values.title),
-  content: editorValueToPlainText(values.conceptContent),
+  content: blockContentToHTML(values.conceptContent),
   copyright: {
     license: licenses.find((license) => license.license === values.license),
     origin: values.origin,
@@ -142,7 +145,8 @@ export const conceptFormTypeToApiType = (
       language: values.language,
     },
     content: {
-      content: editorValueToPlainText(values.conceptContent),
+      htmlContent: blockContentToHTML(values.conceptContent),
+      content: values.conceptContent.map((n) => SlateNode.string(n)).join(""),
       language: values.language,
     },
     created: values.created ?? "",

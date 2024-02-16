@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2023-present, NDLA.
+ * Copyright (c) 2024-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -7,18 +7,13 @@
  */
 
 import { Editor } from "slate";
-import Paragraph from "./Paragraph";
-import { TYPE_PARAGRAPH } from "./types";
 
-export const paragraphRenderer = (editor: Editor) => {
+export const noopRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
-    if (element.type === TYPE_PARAGRAPH) {
-      return (
-        <Paragraph attributes={attributes} element={element} editor={editor}>
-          {children}
-        </Paragraph>
-      );
+    if (element.type === "noop") {
+      // We just have to render something. If not, this can create a paragraph within a paragraph.
+      return <div {...attributes}>{children}</div>;
     } else return renderElement?.({ attributes, children, element });
   };
   return editor;

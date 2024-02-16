@@ -12,7 +12,6 @@ import styled from "@emotion/styled";
 import { colors } from "@ndla/core";
 import { AlertCircle, Check, InProgress } from "@ndla/icons/editor";
 import SafeLink from "@ndla/safelink";
-import Tooltip from "@ndla/tooltip";
 import { isApproachingRevision } from "./ApproachingRevisionDate";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
 import WrongTypeError from "./WrongTypeError";
@@ -74,51 +73,46 @@ const StatusIcons = ({ contentMetaLoading, resource, path }: Props) => {
   });
   const expirationColor = getWarnStatus(expirationDate);
 
+  const expirationText = useMemo(() => {
+    if (expirationColor && expirationDate) {
+      return t(`form.workflow.expiration.${expirationColor}`, {
+        date: formatDate(expirationDate),
+      });
+    }
+    return undefined;
+  }, [expirationColor, expirationDate, t]);
+
   return (
     <IconWrapper>
       {resource.contentMeta?.started && (
-        <Tooltip tooltip={t("taxonomy.inProgress")}>
-          <IconWrapper>
-            <StyledInProgressIcon aria-label={t("taxonomy.inProgress")} />
-          </IconWrapper>
-        </Tooltip>
+        <IconWrapper>
+          <StyledInProgressIcon aria-label={t("taxonomy.inProgress")} title={t("taxonomy.inProgress")} />
+        </IconWrapper>
       )}
       {approachingRevision ? (
         <>
           {expirationColor && expirationDate && (
-            <Tooltip
-              tooltip={t(`form.workflow.expiration.${expirationColor}`, {
-                date: formatDate(expirationDate),
-              })}
-            >
-              <TimeIconWrapper>
-                <StyledTimeIcon
-                  data-status={expirationColor}
-                  aria-label={t(`form.workflow.expiration.${expirationColor}`, {
-                    date: formatDate(expirationDate),
-                  })}
-                />
-              </TimeIconWrapper>
-            </Tooltip>
+            <TimeIconWrapper>
+              <StyledTimeIcon data-status={expirationColor} aria-label={expirationText} title={expirationText} />
+            </TimeIconWrapper>
           )}
         </>
       ) : null}
       {!contentMetaLoading && <WrongTypeError resource={resource} articleType={resource.contentMeta?.articleType} />}
       {resource.contexts?.length > 1 && (
-        <Tooltip tooltip={t("form.workflow.multipleTaxonomy")}>
-          <IconWrapper>
-            <StyledWarnIcon aria-label={t("form.workflow.multipleTaxonomy")} />
-          </IconWrapper>
-        </Tooltip>
+        <IconWrapper>
+          <StyledWarnIcon
+            aria-label={t("form.workflow.multipleTaxonomy")}
+            title={t("form.workflow.multipleTaxonomy")}
+          />
+        </IconWrapper>
       )}
       {(resource.contentMeta?.status?.current === PUBLISHED ||
         resource.contentMeta?.status?.other?.includes(PUBLISHED)) && (
         <PublishedWrapper path={path}>
-          <Tooltip tooltip={t("form.workflow.published")}>
-            <CheckedWrapper>
-              <StyledCheckIcon aria-label={t("form.workflow.published")} />
-            </CheckedWrapper>
-          </Tooltip>
+          <CheckedWrapper>
+            <StyledCheckIcon aria-label={t("form.workflow.published")} title={t("form.workflow.published")} />
+          </CheckedWrapper>
         </PublishedWrapper>
       )}
     </IconWrapper>

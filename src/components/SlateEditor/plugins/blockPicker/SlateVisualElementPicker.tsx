@@ -52,7 +52,7 @@ export const isEmbed = (visualElement: Embed | DOMStringMap[]): visualElement is
   (visualElement as Embed)?.resource !== undefined;
 
 interface Props {
-  articleLanguage: string;
+  articleLanguage?: string;
   resource: string;
   onVisualElementClose: () => void;
   onInsertBlock: (block: Element, selectBlock?: boolean) => void;

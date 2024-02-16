@@ -19,7 +19,6 @@ import { useWideArticle } from "../../../../components/WideArticleEditorProvider
 import { useSession } from "../../../../containers/Session/SessionProvider";
 import { validateDraft } from "../../../../modules/draft/draftApi";
 import { useLicenses, useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
-import { blockContentToHTML } from "../../../../util/articleContentConverter";
 import { frontPageArticleRules, isFormikFormDirty } from "../../../../util/formHelper";
 import { AlertModalWrapper } from "../../../FormikForm";
 import { FrontpageArticleFormType, HandleSubmitFunc, useArticleFormHooks } from "../../../FormikForm/articleFormHooks";
@@ -66,8 +65,6 @@ const FrontpageArticleForm = ({
     ndlaId,
   });
 
-  const initialHTML = useMemo(() => blockContentToHTML(initialValues.content), [initialValues]);
-
   const initialWarnings = getWarnings(initialValues, frontPageArticleRules, t, article);
   const initialErrors = useMemo(() => validateFormik(initialValues, frontPageArticleRules, t), [initialValues, t]);
 
@@ -95,12 +92,11 @@ const FrontpageArticleForm = ({
         />
         <FlexWrapper>
           <MainContent data-wide={isWideArticle}>
-            <FrontpageArticlePanels articleLanguage={articleLanguage} article={article} initialHTML={initialHTML} />
+            <FrontpageArticlePanels articleLanguage={articleLanguage} article={article} />
           </MainContent>
           <CommentSection savedStatus={article?.status} articleType="frontpage-article" />
         </FlexWrapper>
         <FormFooter
-          initialHTML={initialHTML}
           articleChanged={!!articleChanged}
           isNewlyCreated={isNewlyCreated}
           savedToServer={savedToServer}
@@ -113,7 +109,6 @@ const FrontpageArticleForm = ({
 };
 
 interface FormFooterProps {
-  initialHTML: string;
   articleChanged: boolean;
   article?: IArticle;
   isNewlyCreated: boolean;
@@ -121,14 +116,7 @@ interface FormFooterProps {
   handleSubmit: HandleSubmitFunc<FrontpageArticleFormType>;
 }
 
-const _FormFooter = ({
-  initialHTML,
-  articleChanged,
-  article,
-  isNewlyCreated,
-  savedToServer,
-  handleSubmit,
-}: FormFooterProps) => {
+const _FormFooter = ({ articleChanged, article, isNewlyCreated, savedToServer, handleSubmit }: FormFooterProps) => {
   const { t } = useTranslation();
   const { data: licenses } = useLicenses();
   const statusStateMachine = useDraftStatusStateMachine({
@@ -144,9 +132,8 @@ const _FormFooter = ({
         initialValues,
         dirty,
         changed: articleChanged,
-        initialHTML,
       }),
-    [articleChanged, dirty, initialHTML, initialValues, values],
+    [articleChanged, dirty, initialValues, values],
   );
 
   const onSave = useCallback(

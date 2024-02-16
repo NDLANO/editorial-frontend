@@ -31,8 +31,5 @@ export default defineConfig(() => {
       outDir: 'build/public',
       sourcemap: true,
     },
-    resolve: {
-      preserveSymlinks: true,
-    },
   };
 });

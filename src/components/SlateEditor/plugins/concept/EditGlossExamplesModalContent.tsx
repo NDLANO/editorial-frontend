@@ -6,14 +6,14 @@
  *
  */
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Transforms } from "slate";
 import { ReactEditor } from "slate-react";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { fonts, spacing } from "@ndla/core";
-import { CheckboxItem } from "@ndla/forms";
+import { CheckboxItem, Label } from "@ndla/forms";
 import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle } from "@ndla/modal";
 import { IGlossExample } from "@ndla/types-backend/concept-api";
 import { ConceptMetaData } from "@ndla/types-embed";
@@ -22,6 +22,8 @@ import { GlossExample } from "@ndla/ui";
 import { ConceptBlockElement } from "./block/interfaces";
 import { ConceptInlineElement } from "./inline/interfaces";
 import { generateNumbersArray, generateUniqueGlossLanguageArray } from "./utils";
+import { CheckboxWrapper } from "../../../Form/styles";
+import { FormControl } from "../../../FormField";
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -46,12 +48,9 @@ const FlexWrapper = styled.div`
 
 const StyledCheckboxWrapper = styled.div`
   margin-top: ${spacing.small};
-  & label {
-    font-weight: ${fonts.weight.semibold};
-  }
 `;
 
-const StyledModalBody = styled(ModalBody)`
+const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
   gap: ${spacing.normal};
@@ -143,67 +142,78 @@ const EditGlossExamplesModalContent = ({
         <ModalTitle>{t("form.gloss.editExamplesHeading")}</ModalTitle>
         <ModalCloseButton />
       </ModalHeader>
-      <StyledModalBody>
-        <FlexWrapper>
-          {examples.map((glossExample, index) => (
-            <div key={`edit-gloss-example-${index}`}>
-              <div>
-                {glossExample.map((example, innerIndex) => (
-                  <GlossExample
-                    key={`edit-gloss-example${index}-${innerIndex}`}
-                    example={example}
-                    originalLanguage={originalLanguage}
-                    index={innerIndex}
-                    isStandalone
-                  />
-                ))}
-              </div>
+      <ModalBody>
+        <StyledForm>
+          <FlexWrapper>
+            {examples.map((glossExample, index) => (
+              <div key={`edit-gloss-example-${index}`}>
+                <div>
+                  {glossExample.map((example, innerIndex) => (
+                    <GlossExample
+                      key={`edit-gloss-example-${index}-${innerIndex}`}
+                      example={example}
+                      originalLanguage={originalLanguage}
+                      index={innerIndex}
+                      isStandalone
+                    />
+                  ))}
+                </div>
 
-              <StyledCheckboxWrapper>
-                <CheckboxItem
-                  label={t("form.gloss.displayOnGloss")}
-                  checked={selectedExamples.includes(index.toString())}
-                  id={index}
-                  onChange={(v) => {
-                    if (v === undefined) return;
-                    onCheckboxChange(v.toString(), setSelectedExamples, selectedExamples);
-                  }}
-                />
-              </StyledCheckboxWrapper>
-            </div>
-          ))}
-        </FlexWrapper>
-        <div>
-          <Text textStyle="label-large" margin="none">
-            {t("form.name.language")}
-          </Text>
-          <Text textStyle="content-alt" margin="none">
-            {t("form.gloss.editExamplesLanguage")}
-          </Text>
-          <CheckboxGroupWrapper>
-            {languageWithConfigurations.map((lang, index) => (
-              <CheckboxItem
-                label={t(`languages.${lang.lang}`)}
-                checked={!lang.isDisabled && selectedLanguages.includes(lang.lang)}
-                id={index}
-                key={lang.lang}
-                disabled={lang.isDisabled}
-                aria-disabled={lang.isDisabled}
-                onChange={(v) => {
-                  if (v === undefined) return;
-                  onCheckboxChange(languageWithConfigurations[v].lang, setSelectedLanguages, selectedLanguages);
-                }}
-              />
+                <StyledCheckboxWrapper>
+                  <FormControl>
+                    <CheckboxWrapper>
+                      <CheckboxItem
+                        checked={selectedExamples.includes(index.toString())}
+                        onCheckedChange={() =>
+                          onCheckboxChange(index.toString(), setSelectedExamples, selectedExamples)
+                        }
+                      />
+                      <Label margin="none" textStyle="label-small">
+                        {t("form.gloss.displayOnGloss")}
+                      </Label>
+                    </CheckboxWrapper>
+                  </FormControl>
+                </StyledCheckboxWrapper>
+              </div>
             ))}
-          </CheckboxGroupWrapper>
-        </div>
-        <ButtonWrapper>
-          <ButtonV2 onClick={close} variant="outline">
-            {t("form.abort")}
-          </ButtonV2>
-          <ButtonV2 onClick={saveGlossUpdates}>{t("form.save")}</ButtonV2>
-        </ButtonWrapper>
-      </StyledModalBody>
+          </FlexWrapper>
+          <div>
+            <Text textStyle="label-large" margin="none">
+              {t("form.name.language")}
+            </Text>
+            <Text textStyle="content-alt" margin="none">
+              {t("form.gloss.editExamplesLanguage")}
+            </Text>
+            <CheckboxGroupWrapper>
+              {languageWithConfigurations.map((lang, index) => (
+                <FormControl key={lang.lang} isDisabled={lang.isDisabled}>
+                  <CheckboxWrapper>
+                    <CheckboxItem
+                      checked={!lang.isDisabled && selectedLanguages.includes(lang.lang)}
+                      onCheckedChange={() =>
+                        onCheckboxChange(
+                          languageWithConfigurations[index].lang,
+                          setSelectedLanguages,
+                          selectedLanguages,
+                        )
+                      }
+                    />
+                    <Label margin="none" textStyle="label-small">
+                      {t(`languages.${lang.lang}`)}
+                    </Label>
+                  </CheckboxWrapper>
+                </FormControl>
+              ))}
+            </CheckboxGroupWrapper>
+          </div>
+          <ButtonWrapper>
+            <ButtonV2 onClick={close} variant="outline">
+              {t("form.abort")}
+            </ButtonV2>
+            <ButtonV2 onClick={saveGlossUpdates}>{t("form.save")}</ButtonV2>
+          </ButtonWrapper>
+        </StyledForm>
+      </ModalBody>
     </>
   );
 };

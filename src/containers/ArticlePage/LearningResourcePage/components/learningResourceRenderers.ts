@@ -42,7 +42,7 @@ export const learningResourceRenderers = (articleLanguage: string): SlatePlugin[
     sectionRenderer,
     spanRenderer,
     divRenderer,
-    paragraphRenderer(articleLanguage),
+    paragraphRenderer,
     footnoteRenderer,
     audioRenderer(articleLanguage),
     h5pRenderer(articleLanguage),

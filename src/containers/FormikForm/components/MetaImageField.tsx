@@ -13,7 +13,6 @@ import { IconButtonV2 } from "@ndla/button";
 import { Link } from "@ndla/icons/common";
 import { DeleteForever } from "@ndla/icons/editor";
 import { SafeLinkIconButton } from "@ndla/safelink";
-import Tooltip from "@ndla/tooltip";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import FormikField from "../../../components/FormikField";
 import MetaInformation from "../../../components/MetaInformation";
@@ -45,28 +44,26 @@ const MetaImageField = ({ image, onImageRemove, onImageLoad, disableAltEditing, 
   const alt = convertFieldWithFallback<"alttext">(image, "alttext", "");
   const imageAction = (
     <>
-      <Tooltip tooltip={t("form.image.removeImage")}>
-        <IconButtonV2
-          aria-label={t("form.image.removeImage")}
-          colorTheme="danger"
-          variant="ghost"
-          onClick={onImageRemove}
-          tabIndex={-1}
-          data-testid="remove-element"
-        >
-          <DeleteForever />
-        </IconButtonV2>
-      </Tooltip>
-      <Tooltip tooltip={t("form.image.editImage")}>
-        <SafeLinkIconButton
-          variant="ghost"
-          colorTheme="light"
-          to={`/media/image-upload/${image.id}/edit/${image.title.language}`}
-          target="_blank"
-        >
-          <Link />
-        </SafeLinkIconButton>
-      </Tooltip>
+      <IconButtonV2
+        aria-label={t("form.image.removeImage")}
+        colorTheme="danger"
+        variant="ghost"
+        onClick={onImageRemove}
+        tabIndex={-1}
+        data-testid="remove-element"
+        title={t("form.image.removeImage")}
+      >
+        <DeleteForever />
+      </IconButtonV2>
+      <SafeLinkIconButton
+        variant="ghost"
+        colorTheme="light"
+        to={`/media/image-upload/${image.id}/edit/${image.title.language}`}
+        target="_blank"
+        title={t("form.image.editImage")}
+      >
+        <Link />
+      </SafeLinkIconButton>
     </>
   );
   const metaInformationTranslations = {

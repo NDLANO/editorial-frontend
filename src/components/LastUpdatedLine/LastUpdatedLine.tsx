@@ -30,14 +30,16 @@ interface Props {
   allowEdit?: boolean;
   published?: string;
   onChange: (date: string) => void;
+  contentType?: "topicArticle" | "concept";
 }
 
-const LastUpdatedLine = ({ creators, published, onChange, allowEdit = false }: Props) => {
+const LastUpdatedLine = ({ creators, published, onChange, allowEdit = false, contentType = "topicArticle" }: Props) => {
   const { t } = useTranslation();
+  const dateLabel = t(`${contentType}Form.info.lastUpdated`);
   return (
     <StyledLastUpdatedLine>
       {creators.map((creator) => creator.name).join(", ")}
-      {published ? ` - ${t("topicArticleForm.info.lastUpdated")}` : ""}
+      {published ? ` - ${dateLabel}: ` : ""}
       {published && (allowEdit ? <DateEdit onChange={onChange} published={published} /> : formatDate(published))}
     </StyledLastUpdatedLine>
   );

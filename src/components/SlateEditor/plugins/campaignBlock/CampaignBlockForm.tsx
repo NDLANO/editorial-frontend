@@ -6,19 +6,21 @@
  *
  */
 
-import { FieldProps, Formik } from "formik";
+import { Field, FieldProps, Formik } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { CheckboxItem, InputV2, TextAreaV2, RadioButtonGroup } from "@ndla/forms";
+import { CheckboxItem, InputV2, TextAreaV2, RadioButtonGroup, Label } from "@ndla/forms";
 import { CampaignBlockEmbedData } from "@ndla/types-embed";
 import { HeadingLevel } from "@ndla/typography";
 import { TYPE_CAMPAIGN_BLOCK } from "./types";
 import InlineImageSearch from "../../../../containers/ConceptPage/components/InlineImageSearch";
 import { frontpageLanguages } from "../../../../i18n2";
+import { CheckboxWrapper } from "../../../Form/styles";
+import { FormControl } from "../../../FormField";
 import FormikField from "../../../FormikField";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
 
@@ -246,23 +248,29 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
               </>
             )}
           </StyledFormikField>
-          <StyledFormikField name="isDecorative">
+          <Field name="isDecorative">
             {({ field, form }: FieldProps) => (
               <>
                 {form.values.metaImageId && (
-                  <CheckboxItem
-                    label={t("form.image.isDecorative")}
-                    checked={field.value}
-                    onChange={() =>
-                      field.onChange({
-                        target: { name: field.name, value: !field.value },
-                      })
-                    }
-                  />
+                  <FormControl>
+                    <CheckboxWrapper>
+                      <CheckboxItem
+                        checked={field.value}
+                        onCheckedChange={() =>
+                          field.onChange({
+                            target: { name: field.name, value: !field.value },
+                          })
+                        }
+                      />
+                      <Label margin="none" textStyle="label-small">
+                        {t("form.image.isDecorative")}
+                      </Label>
+                    </CheckboxWrapper>
+                  </FormControl>
                 )}
               </>
             )}
-          </StyledFormikField>
+          </Field>
           <ButtonContainer>
             <ButtonV2 variant="outline" onClick={onCancel}>
               {t("cancel")}

@@ -64,7 +64,7 @@ export const ToolbarTextOptions = ({ options }: ToolbarCategoryProps<TextType>) 
   if (!visibleOptions.length) return null;
 
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <ToolbarButton asChild>
         <DropdownTrigger asChild>
           <UIToolbarButton type={type} data-testid="toolbar-button-text">
@@ -73,7 +73,7 @@ export const ToolbarTextOptions = ({ options }: ToolbarCategoryProps<TextType>) 
           </UIToolbarButton>
         </DropdownTrigger>
       </ToolbarButton>
-      <ToolbarDropdownContent side="bottom" onCloseAutoFocus={onCloseFocus} sideOffset={2}>
+      <ToolbarDropdownContent side="bottom" onCloseAutoFocus={onCloseFocus} sideOffset={2} portal={false}>
         {visibleOptions.map((option) => (
           <DropdownItem
             key={option.value}

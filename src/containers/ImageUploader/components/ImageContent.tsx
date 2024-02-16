@@ -15,7 +15,6 @@ import { UploadDropZone, TextArea } from "@ndla/forms";
 import { DeleteForever } from "@ndla/icons/editor";
 import { ImageMeta } from "@ndla/image-search";
 import SafeLink from "@ndla/safelink";
-import Tooltip from "@ndla/tooltip";
 import FormikField from "../../../components/FormikField";
 import { TitleField } from "../../FormikForm";
 import { ImageFormikType } from "../imageTransformers";
@@ -44,7 +43,7 @@ const ImageContent = () => {
   const imgSrc = values.filepath || `${values.imageFile}?width=600&ts=${timestamp}`;
   return (
     <>
-      <TitleField />
+      <TitleField hideToolbar />
       {!values.imageFile && (
         <UploadDropZone
           name="imageFile"
@@ -69,16 +68,15 @@ const ImageContent = () => {
       )}
       {values.imageFile && (
         <StyledDeleteButtonContainer>
-          <Tooltip tooltip={t("form.image.removeImage")}>
-            <IconButtonV2
-              aria-label={t("form.image.removeImage")}
-              variant="ghost"
-              colorTheme="danger"
-              onClick={() => setFieldValue("imageFile", undefined)}
-            >
-              <DeleteForever />
-            </IconButtonV2>
-          </Tooltip>
+          <IconButtonV2
+            aria-label={t("form.image.removeImage")}
+            variant="ghost"
+            colorTheme="danger"
+            onClick={() => setFieldValue("imageFile", undefined)}
+            title={t("form.image.removeImage")}
+          >
+            <DeleteForever />
+          </IconButtonV2>
         </StyledDeleteButtonContainer>
       )}
       {values.imageFile && (

@@ -129,7 +129,7 @@ const EditGlossExamplesModalContent = ({ originalLanguage, examples, editor, ele
                 <div>
                   {glossExample.map((example, innerIndex) => (
                     <GlossExample
-                      key={`edit-gloss-example${index}-${innerIndex}`}
+                      key={`edit-gloss-example-${index}-${innerIndex}`}
                       example={example}
                       originalLanguage={originalLanguage}
                       index={innerIndex}

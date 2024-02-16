@@ -10,7 +10,6 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 import { HeartOutline } from "@ndla/icons/action";
-import Tooltip from "@ndla/tooltip";
 import { Text } from "@ndla/typography";
 import { useResourceStats } from "../../modules/myndla/myndlaQueries";
 
@@ -56,19 +55,16 @@ const HeaderFavoriteStatus = ({ id, type }: Props) => {
 
   if (!favoriteMakesSense || isError || isLoading || !data) return null;
 
+  const tooltipText =
+    data.favourites === 0 ? t("form.myNdla.noFavorites") : t("form.myNdla.numFavorites", { num: data.favourites });
+
   return (
-    <Tooltip
-      tooltip={
-        data.favourites === 0 ? t("form.myNdla.noFavorites") : t("form.myNdla.numFavorites", { num: data.favourites })
-      }
-    >
-      <Wrapper>
-        <StyledHeartOutline />
-        <Text margin="none" textStyle="label-small">
-          {data.favourites}
-        </Text>
-      </Wrapper>
-    </Tooltip>
+    <Wrapper title={tooltipText} aria-label={tooltipText}>
+      <StyledHeartOutline />
+      <Text margin="none" textStyle="label-small">
+        {data.favourites}
+      </Text>
+    </Wrapper>
   );
 };
 

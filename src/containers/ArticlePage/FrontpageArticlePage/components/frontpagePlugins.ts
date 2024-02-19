@@ -77,7 +77,7 @@ export const frontpagePlugins: SlatePlugin[] = [
   keyFigurePlugin,
   blockPickerPlugin,
   dndPlugin,
-  toolbarPlugin,
+  toolbarPlugin(),
   textTransformPlugin,
   breakPlugin,
   saveHotkeyPlugin,

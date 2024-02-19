@@ -130,6 +130,8 @@ const TopicTaxonomyBlock = ({
         revision: article.revision,
         language: article.title?.language,
         notes: ["Oppdatert taksonomi."],
+        metaImage: undefined,
+        responsibleId: undefined,
       });
       await qc.invalidateQueries({
         queryKey: nodeQueryKeys.nodes({

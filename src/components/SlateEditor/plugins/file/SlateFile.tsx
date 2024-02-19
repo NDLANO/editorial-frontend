@@ -11,11 +11,12 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
 import { breakpoints, colors, fonts, mq, spacing } from "@ndla/core";
-import { CheckboxItem, FormControl, InputContainer, InputV3, Label } from "@ndla/forms";
+import { CheckboxItem, InputContainer, InputV3, Label } from "@ndla/forms";
 import { Cross, Pencil } from "@ndla/icons/action";
 import { Check, DeleteForever } from "@ndla/icons/editor";
 import { Format } from "@ndla/ui";
 import { File as FileType } from "../../../../interfaces";
+import { FormControl } from "../../../FormField";
 
 const FormatWrapper = styled.div`
   width: 100%;
@@ -33,9 +34,11 @@ const StyledButtonWrapper = styled.div`
   align-items: center;
 `;
 
-const CheckboxWrapper = styled.div`
+const CheckboxFormControl = styled(FormControl)`
   display: flex;
+  flex-direction: row;
   align-items: center;
+  gap: ${spacing.xsmall};
   margin-right: ${spacing.normal};
   & label {
     font-size: ${fonts.size.text.button};
@@ -93,8 +96,7 @@ export const SlateFile = ({
     if (isEditMode) setFileName(file.title);
   }, [file, isEditMode]);
 
-  const onToggleRenderInline = (index: number | undefined) => {
-    if (index === undefined) return;
+  const onToggleRenderInline = () => {
     onEditFile({ ...file, display: file.display === "block" ? "inline" : "block" }, index);
   };
 
@@ -169,14 +171,12 @@ export const SlateFile = ({
         ) : (
           <>
             {file.type === "pdf" && (
-              <CheckboxWrapper>
-                <CheckboxItem
-                  label={t("form.file.showPdf")}
-                  checked={file.display === "block"}
-                  id={index}
-                  onChange={onToggleRenderInline}
-                />
-              </CheckboxWrapper>
+              <CheckboxFormControl>
+                <CheckboxItem checked={file.display === "block"} onCheckedChange={onToggleRenderInline} />
+                <Label margin="none" textStyle="label-small">
+                  {t("form.file.showPdf")}
+                </Label>
+              </CheckboxFormControl>
             )}
             <IconButtonV2
               title={t("form.file.changeName")}

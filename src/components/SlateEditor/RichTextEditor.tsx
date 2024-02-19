@@ -7,12 +7,14 @@
  */
 import { useFormikContext } from "formik";
 import isEqual from "lodash/isEqual";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { FocusEvent, KeyboardEvent, useCallback, useEffect, useRef, useState } from "react";
 import { createEditor, Descendant, Editor, NodeEntry, Range, Transforms } from "slate";
 import { withHistory } from "slate-history";
 import { Slate, Editable, withReact, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
+import { EditableProps } from "slate-react/dist/components/editable";
 import styled from "@emotion/styled";
 import { fonts } from "@ndla/core";
+import { ArticleLanguageProvider } from "./ArticleLanguageProvider";
 import { SlatePlugin } from "./interfaces";
 import { Action, commonActions } from "./plugins/blockPicker/actions";
 import { BlockPickerOptions, createBlockpickerOptions } from "./plugins/blockPicker/options";
@@ -22,6 +24,7 @@ import { SlateToolbar } from "./plugins/toolbar";
 import { AreaFilters, CategoryFilters } from "./plugins/toolbar/toolbarState";
 import { SlateProvider } from "./SlateContext";
 import withPlugins from "./utils/withPlugins";
+import { BLOCK_PICKER_TRIGGER_ID } from "../../constants";
 import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
 import { FormikStatus } from "../../interfaces";
 import Spinner from "../Spinner";
@@ -35,17 +38,21 @@ const StyledEditable = styled(Editable)`
   outline: none;
 `;
 
-interface Props {
+interface Props extends Omit<EditableProps, "value" | "onChange" | "onKeyDown"> {
   value: Descendant[];
   onChange: (descendant: Descendant[]) => void;
   placeholder?: string;
   plugins?: SlatePlugin[];
   submitted: boolean;
-  language: string;
+  language?: string;
   actions?: Action[];
   blockpickerOptions?: Partial<BlockPickerOptions>;
   toolbarOptions: CategoryFilters;
   toolbarAreaFilters: AreaFilters;
+  additionalOnKeyDown?: (event: KeyboardEvent<HTMLDivElement>) => boolean;
+  hideBlockPicker?: boolean;
+  testId?: string;
+  hideToolbar?: boolean;
 }
 
 const RichTextEditor = ({
@@ -56,12 +63,16 @@ const RichTextEditor = ({
   actions = commonActions,
   submitted,
   language,
+  testId = "slate-editor",
   blockpickerOptions = {},
   toolbarOptions,
   toolbarAreaFilters,
+  hideBlockPicker,
+  additionalOnKeyDown,
+  hideToolbar,
+  ...rest
 }: Props) => {
-  const _editor = useMemo(() => withReact(withHistory(createEditor())), []);
-  const editor = useMemo(() => withPlugins(_editor, plugins), [_editor, plugins]);
+  const [editor] = useState(() => withPlugins(withReact(withHistory(createEditor())), plugins));
   const [isFirstNormalize, setIsFirstNormalize] = useState(true);
   const prevSubmitted = useRef(submitted);
 
@@ -184,39 +195,68 @@ const RichTextEditor = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const onDropCallback = useCallback(onDrop(editor), []);
 
+  // Deselect selection if focus is moved to any other element than the toolbar
+  const onBlur = useCallback(
+    (e: FocusEvent<HTMLDivElement>) => {
+      if (e.relatedTarget?.id === BLOCK_PICKER_TRIGGER_ID) return;
+      if (e.relatedTarget?.closest("[data-toolbar]")) return;
+      Transforms.deselect(editor);
+    },
+    [editor],
+  );
+
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent<HTMLDivElement>) => {
+      let allowEditorKeyDown = true;
+      if (additionalOnKeyDown) {
+        allowEditorKeyDown = additionalOnKeyDown(e);
+      }
+      if (allowEditorKeyDown) {
+        // @ts-ignore is-hotkey and editor.onKeyDown does not have matching types
+        editor.onKeyDown(e);
+      }
+    },
+    [additionalOnKeyDown, editor],
+  );
+
   return (
     <article>
-      <SlateProvider isSubmitted={submitted}>
-        <StyledSlateWrapper data-testid="slate-editor">
-          <Slate editor={editor} initialValue={value} onChange={onChange}>
-            {isFirstNormalize ? (
-              <Spinner />
-            ) : (
-              <>
-                <SlateToolbar options={toolbarOptions} areaOptions={toolbarAreaFilters} />
-                <SlateBlockPicker
-                  editor={editor}
-                  actions={actions}
-                  articleLanguage={language}
-                  {...createBlockpickerOptions(blockpickerOptions)}
-                />
-                <StyledEditable
-                  decorate={decorations}
-                  // @ts-ignore is-hotkey and editor.onKeyDown does not have matching types
-                  onKeyDown={editor.onKeyDown}
-                  placeholder={placeholder}
-                  renderElement={renderElement}
-                  renderLeaf={renderLeaf}
-                  readOnly={submitted}
-                  onDragStart={onDragStartCallback}
-                  onDragOver={onDragOverCallback}
-                  onDrop={onDropCallback}
-                />
-              </>
-            )}
-          </Slate>
-        </StyledSlateWrapper>
-      </SlateProvider>
+      <ArticleLanguageProvider language={language}>
+        <SlateProvider isSubmitted={submitted}>
+          <StyledSlateWrapper data-testid={testId}>
+            <Slate editor={editor} initialValue={value} onChange={onChange}>
+              {isFirstNormalize ? (
+                <Spinner />
+              ) : (
+                <>
+                  <SlateToolbar options={toolbarOptions} areaOptions={toolbarAreaFilters} hideToolbar={hideToolbar} />
+                  {!hideBlockPicker && (
+                    <SlateBlockPicker
+                      editor={editor}
+                      actions={actions}
+                      articleLanguage={language}
+                      {...createBlockpickerOptions(blockpickerOptions)}
+                    />
+                  )}
+                  <StyledEditable
+                    {...rest}
+                    onBlur={onBlur}
+                    decorate={decorations}
+                    onKeyDown={handleKeyDown}
+                    placeholder={placeholder}
+                    renderElement={renderElement}
+                    renderLeaf={renderLeaf}
+                    readOnly={submitted}
+                    onDragStart={onDragStartCallback}
+                    onDragOver={onDragOverCallback}
+                    onDrop={onDropCallback}
+                  />
+                </>
+              )}
+            </Slate>
+          </StyledSlateWrapper>
+        </SlateProvider>
+      </ArticleLanguageProvider>
     </article>
   );
 };

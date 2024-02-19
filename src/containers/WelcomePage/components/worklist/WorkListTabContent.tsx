@@ -13,7 +13,6 @@ import { ExclamationMark } from "@ndla/icons/common";
 import { Calendar } from "@ndla/icons/editor";
 import Pager from "@ndla/pager";
 import { SingleValue } from "@ndla/select";
-import Tooltip from "@ndla/tooltip";
 import { IMultiSearchResult } from "@ndla/types-backend/search-api";
 import CommentIndicator from "./CommentIndicator";
 import PageSizeDropdown from "./PageSizeDropdown";
@@ -86,7 +85,7 @@ const WorkListTabContent = ({
   headerText = "welcomePage.workList.heading",
   descriptionText = "welcomePage.workList.description",
 }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   // Separated request to not update subjects when filtered subject changes
   const searchQuery = useSearch(
@@ -95,6 +94,7 @@ const WorkListTabContent = ({
       "page-size": 0,
       fallback: true,
       "aggregate-paths": "contexts.rootId",
+      language: i18n.language,
     },
     { enabled: !!ndlaId },
   );
@@ -108,14 +108,11 @@ const WorkListTabContent = ({
               data: (
                 <CellWrapper>
                   <StyledTitleWrapper>
-                    <Tooltip tooltip={t("editorFooter.prioritized")}>
-                      <div>
-                        <StyledExclamationMark
-                          aria-hidden={!!res?.prioritized}
-                          aria-label={t("editorFooter.prioritized")}
-                        />
-                      </div>
-                    </Tooltip>
+                    <StyledExclamationMark
+                      aria-hidden={!!res?.prioritized}
+                      aria-label={t("editorFooter.prioritized")}
+                      title={t("editorFooter.prioritized")}
+                    />
                     <StyledLink to={toEditArticle(res.id, res.learningResourceType)} title={res.title?.title}>
                       {res.title?.title}
                     </StyledLink>

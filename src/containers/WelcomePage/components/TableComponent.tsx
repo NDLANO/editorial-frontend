@@ -13,7 +13,6 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { spacing, colors, fonts } from "@ndla/core";
 import { ExpandLess, ExpandMore } from "@ndla/icons/action";
-import Tooltip from "@ndla/tooltip";
 import Spinner from "../../../components/Spinner";
 
 const TableWrapper = styled.div`
@@ -150,26 +149,26 @@ const TableComponent = <T extends string>({
 
                   {setSortOption && (
                     <SortArrowWrapper>
-                      <Tooltip tooltip={t("welcomePage.workList.sortAsc")}>
-                        <ContentWrapper>
-                          <ExpandLess
-                            role="button"
-                            onClick={() => setSortOption(tableTitle.sortableField!)}
-                            css={orderButtonStyle(!tableTitle.sortableField || sortOption === tableTitle.sortableField)}
-                          />
-                        </ContentWrapper>
-                      </Tooltip>
-                      <Tooltip tooltip={t("welcomePage.workList.sortDesc")}>
-                        <ContentWrapper>
-                          <ExpandMore
-                            role="button"
-                            onClick={() => setSortOption(`-${tableTitle.sortableField!}`!)}
-                            css={orderButtonStyle(
-                              !tableTitle.sortableField || sortOption === `-${tableTitle.sortableField}`,
-                            )}
-                          />
-                        </ContentWrapper>
-                      </Tooltip>
+                      <ContentWrapper>
+                        <ExpandLess
+                          aria-label={t("welcomePage.workList.sortAsc")}
+                          role="button"
+                          onClick={() => setSortOption(tableTitle.sortableField!)}
+                          css={orderButtonStyle(!tableTitle.sortableField || sortOption === tableTitle.sortableField)}
+                          title={t("welcomePage.workList.sortAsc")}
+                        />
+                      </ContentWrapper>
+                      <ContentWrapper>
+                        <ExpandMore
+                          aria-label={t("welcomePage.workList.sortDesc")}
+                          role="button"
+                          onClick={() => setSortOption(`-${tableTitle.sortableField!}`!)}
+                          css={orderButtonStyle(
+                            !tableTitle.sortableField || sortOption === `-${tableTitle.sortableField}`,
+                          )}
+                          title={t("welcomePage.workList.sortDesc")}
+                        />
+                      </ContentWrapper>
                     </SortArrowWrapper>
                   )}
                 </TableTitleComponent>

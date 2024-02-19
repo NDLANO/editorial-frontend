@@ -11,16 +11,17 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2, IconButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { FieldHeader, FieldSection, Input, CheckboxItem, FieldRemoveButton, TextArea } from "@ndla/forms";
+import { FieldHeader, FieldSection, Input, CheckboxItem, FieldRemoveButton, TextArea, Label } from "@ndla/forms";
 import { Link as LinkIcon } from "@ndla/icons/common";
 import { DeleteForever } from "@ndla/icons/editor";
 import { ModalBody, ModalCloseButton, Modal, ModalHeader, ModalTitle, ModalTrigger, ModalContent } from "@ndla/modal";
 import { SafeLinkIconButton } from "@ndla/safelink";
-import Tooltip from "@ndla/tooltip";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 
 import UrlAllowList from "./UrlAllowList";
 import { urlTransformers } from "./urlTransformers";
+import { CheckboxWrapper } from "../../components/Form/styles";
+import { FormControl } from "../../components/FormField";
 import { HelpIcon, normalPaddingCSS } from "../../components/HowTo";
 import ImageSearchAndUploader from "../../components/ImageSearchAndUploader";
 import { EXTERNAL_WHITELIST_PROVIDERS, DRAFT_ADMIN_SCOPE } from "../../constants";
@@ -59,10 +60,6 @@ const StyledPreviewWrapper = styled("div")`
 
 const RemoveButtonWrapper = styled.div`
   margin-left: auto;
-`;
-
-const CheckboxWrapper = styled.div`
-  display: flex;
 `;
 
 const FullscreenFormWrapper = styled.div`
@@ -345,13 +342,14 @@ const VisualElementUrlPreview = ({
         </StyledButtonWrapper>
       )}
       {userPermissions?.includes(DRAFT_ADMIN_SCOPE) && (
-        <CheckboxWrapper>
-          <CheckboxItem
-            checked={showFullscreen}
-            onChange={() => setShowFullscreen((prev) => !prev)}
-            label={t("form.content.link.fullscreen")}
-          />
-        </CheckboxWrapper>
+        <FormControl>
+          <CheckboxWrapper>
+            <CheckboxItem checked={showFullscreen} onCheckedChange={() => setShowFullscreen((prev) => !prev)} />
+            <Label margin="none" textStyle="label-small">
+              {t("form.content.link.fullscreen")}
+            </Label>
+          </CheckboxWrapper>
+        </FormControl>
       )}
       {showFullscreen ? (
         <FullscreenFormWrapper>
@@ -361,28 +359,26 @@ const VisualElementUrlPreview = ({
                 {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
                 <img src={image?.image.imageUrl} alt={image?.alttext.alttext} />
                 <div>
-                  <Tooltip tooltip={t("form.metaImage.remove")}>
-                    <IconButtonV2
-                      aria-label={t("form.metaImage.remove")}
-                      variant="ghost"
-                      colorTheme="danger"
-                      onClick={() => setImage(undefined)}
-                      data-testid="remove-element"
-                    >
-                      <DeleteForever />
-                    </IconButtonV2>
-                  </Tooltip>
-                  <Tooltip tooltip={t("imageEditor.editImage")}>
-                    <SafeLinkIconButton
-                      variant="ghost"
-                      colorTheme="light"
-                      to={`/media/image-upload/${image.id}/edit/${language}`}
-                      target="_blank"
-                      aria-label={t("form.editOriginalImage")}
-                    >
-                      <LinkIcon />
-                    </SafeLinkIconButton>
-                  </Tooltip>
+                  <IconButtonV2
+                    aria-label={t("form.metaImage.remove")}
+                    variant="ghost"
+                    colorTheme="danger"
+                    onClick={() => setImage(undefined)}
+                    data-testid="remove-element"
+                    title={t("form.metaImage.remove")}
+                  >
+                    <DeleteForever />
+                  </IconButtonV2>
+                  <SafeLinkIconButton
+                    variant="ghost"
+                    colorTheme="light"
+                    to={`/media/image-upload/${image.id}/edit/${language}`}
+                    target="_blank"
+                    aria-label={t("form.editOriginalImage")}
+                    title={t("imageEditor.editImage")}
+                  >
+                    <LinkIcon />
+                  </SafeLinkIconButton>
                 </div>
               </ImageWrapper>
             ) : (

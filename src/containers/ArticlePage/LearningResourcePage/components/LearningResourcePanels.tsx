@@ -31,18 +31,9 @@ interface Props {
   handleSubmit: HandleSubmitFunc<LearningResourceFormType>;
   articleLanguage: string;
   contexts?: TaxonomyContext[];
-  initialHTML: string;
 }
 
-const LearningResourcePanels = ({
-  article,
-  taxonomy,
-  updateNotes,
-  articleLanguage,
-  contexts,
-  handleSubmit,
-  initialHTML,
-}: Props) => {
+const LearningResourcePanels = ({ article, taxonomy, updateNotes, articleLanguage, contexts, handleSubmit }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const { errors } = useFormikContext<LearningResourceFormType>();
@@ -60,7 +51,6 @@ const LearningResourcePanels = ({
           articleLanguage={articleLanguage}
           articleId={article?.id}
           handleSubmit={handleSubmit}
-          initialHTML={initialHTML}
         />
       </FormAccordion>
       {!!article && !!taxonomy && !!userPermissions?.includes(TAXONOMY_WRITE_SCOPE) && (

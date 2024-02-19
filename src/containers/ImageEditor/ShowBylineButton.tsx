@@ -9,7 +9,6 @@
 import { MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { Copyright, Publicdomain } from "@ndla/icons/licenses";
-import Tooltip from "@ndla/tooltip";
 import ImageEditorButton from "./ImageEditorButton";
 
 const icon = {
@@ -37,11 +36,15 @@ const ShowBylineButton = ({ currentSize, onFieldChange, show }: Props) => {
   };
 
   return (
-    <Tooltip tooltip={t(`form.image.byline.${show ? "show" : "hide"}`)}>
-      <ImageEditorButton tabIndex={-1} isActive={isActive} onClick={onChange}>
-        {icon[show ? "show" : "hide"]}
-      </ImageEditorButton>
-    </Tooltip>
+    <ImageEditorButton
+      aria-label={t(`form.image.byline.${show ? "show" : "hide"}`)}
+      tabIndex={-1}
+      isActive={isActive}
+      onClick={onChange}
+      title={t(`form.image.byline.${show ? "show" : "hide"}`)}
+    >
+      {icon[show ? "show" : "hide"]}
+    </ImageEditorButton>
   );
 };
 

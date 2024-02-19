@@ -11,7 +11,6 @@ import { IconButtonV2 } from "@ndla/button";
 import { colors, fonts, spacing } from "@ndla/core";
 import { TrashCanOutline } from "@ndla/icons/action";
 import { Search } from "@ndla/icons/common";
-import Tooltip from "@ndla/tooltip";
 import { NoShadowLink } from "../../WelcomePage/components/NoShadowLink";
 
 const StyledItem = styled.li`
@@ -53,20 +52,19 @@ const SavedSearchItem = ({ searchText = "", deleteSearch, index, url, ...rest }:
         <StyledSearch />
         {searchText}
       </StyledNoShadowLink>
-      <Tooltip tooltip={t("welcomePage.deleteSavedSearch")}>
-        <IconButtonV2
-          aria-label={t("welcomePage.deleteSavedSearch")}
-          variant="ghost"
-          onClick={(e) => {
-            deleteSearch(index);
-            e.stopPropagation();
-          }}
-          size="xsmall"
-          colorTheme="danger"
-        >
-          <StyledTrashCanOutline />
-        </IconButtonV2>
-      </Tooltip>
+      <IconButtonV2
+        aria-label={t("welcomePage.deleteSavedSearch")}
+        variant="ghost"
+        onClick={(e) => {
+          deleteSearch(index);
+          e.stopPropagation();
+        }}
+        size="xsmall"
+        colorTheme="danger"
+        title={t("welcomePage.deleteSavedSearch")}
+      >
+        <StyledTrashCanOutline />
+      </IconButtonV2>
     </StyledItem>
   );
 };

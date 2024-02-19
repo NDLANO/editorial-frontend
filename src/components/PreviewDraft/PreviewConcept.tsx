@@ -42,7 +42,7 @@ const PreviewConcept = ({ concept, language }: Props) => {
 
   const parsedContent = useMemo(() => {
     if (!concept.content) return;
-    return parse(parseMarkdown({ markdown: concept.content.content, inline: true }));
+    return parse(parseMarkdown({ markdown: concept.content.htmlContent, inline: true }));
   }, [concept.content]);
 
   const { data: subjects } = useSearchNodes(

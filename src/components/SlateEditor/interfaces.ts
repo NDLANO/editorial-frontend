@@ -35,6 +35,7 @@ import { LinkBlockListElement } from "./plugins/linkBlockList/types";
 import { ListElement, ListItemElement } from "./plugins/list";
 import { CustomTextWithMarks } from "./plugins/mark";
 import { MathmlElement } from "./plugins/mathml";
+import { NoopElement } from "./plugins/noop";
 import { ParagraphElement } from "./plugins/paragraph";
 import { RelatedElement } from "./plugins/related";
 import { SectionElement } from "./plugins/section";
@@ -118,7 +119,8 @@ declare module "slate" {
       | ContactBlockElement
       | CampaignBlockElement
       | LinkBlockListElement
-      | DisclaimerElement;
+      | DisclaimerElement
+      | NoopElement;
     Text: CustomTextWithMarks;
   }
 }

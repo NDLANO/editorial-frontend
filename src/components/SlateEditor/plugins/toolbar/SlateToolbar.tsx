@@ -93,13 +93,14 @@ export const showToolbar = (toolbar: HTMLElement) => {
 interface Props {
   options: CategoryFilters;
   areaOptions: AreaFilters;
+  hideToolbar?: boolean;
 }
 
 export interface ToolbarCategoryProps<T extends ToolbarValues> {
   options: ToolbarValue<T>[];
 }
 
-const SlateToolbar = ({ options: toolbarOptions, areaOptions }: Props) => {
+const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideToolbarProp }: Props) => {
   const portalRef = useRef<HTMLDivElement | null>(null);
   const selection = useSlateSelection();
   const editor = useSlate();
@@ -107,42 +108,47 @@ const SlateToolbar = ({ options: toolbarOptions, areaOptions }: Props) => {
   const hideToolbar = useMemo(() => {
     return (
       !selection ||
+      hideToolbarProp ||
       Range.isCollapsed(selection) ||
       Editor.string(editor, selection) === "" ||
       !editor.shouldShowToolbar()
     );
-  }, [editor, selection]);
+  }, [hideToolbarProp, editor, selection]);
 
   useEffect(() => {
     if (!portalRef.current) return;
     if (hideToolbar) {
       portalRef.current.removeAttribute("style");
+    } else {
+      showToolbar(portalRef.current);
     }
-    showToolbar(portalRef.current);
   });
 
   const onMouseDown = useCallback((e: MouseEvent) => e.preventDefault(), []);
+
+  const options = useMemo(() => {
+    if (hideToolbar) return;
+    return toolbarState({
+      editorAncestors: getEditorAncestors(editor),
+      options: toolbarOptions,
+      areaOptions,
+    });
+  }, [areaOptions, editor, hideToolbar, toolbarOptions]);
 
   if (hideToolbar) {
     return null;
   }
 
-  const options = toolbarState({
-    editorAncestors: getEditorAncestors(editor),
-    options: toolbarOptions,
-    areaOptions,
-  });
-
   return (
     <Portal>
-      <ToolbarContainer id="toolbarContainer" ref={portalRef} onMouseDown={onMouseDown}>
+      <ToolbarContainer data-toolbar="" ref={portalRef} onMouseDown={onMouseDown}>
         <ToolbarRow>
-          <ToolbarTextOptions options={options.text ?? []} />
+          <ToolbarTextOptions options={options?.text ?? []} />
           <ToolbarLanguageOptions />
-          <ToolbarMarkOptions options={options.mark ?? []} />
-          <ToolbarBlockOptions options={options.block ?? []} />
-          <ToolbarInlineOptions options={options.inline ?? []} />
-          <ToolbarTableOptions options={options.table ?? []} />
+          <ToolbarMarkOptions options={options?.mark ?? []} />
+          <ToolbarBlockOptions options={options?.block ?? []} />
+          <ToolbarInlineOptions options={options?.inline ?? []} />
+          <ToolbarTableOptions options={options?.table ?? []} />
         </ToolbarRow>
       </ToolbarContainer>
     </Portal>

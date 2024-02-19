@@ -8,10 +8,11 @@
 
 import { FormikHandlers } from "formik";
 import isEqual from "lodash/isEqual";
-import { useEffect, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { Descendant, createEditor } from "slate";
 import { withHistory } from "slate-history";
 import { Slate, Editable, withReact, RenderElementProps } from "slate-react";
+import { ArticleLanguageProvider } from "./ArticleLanguageProvider";
 import { SlatePlugin } from "./interfaces";
 import { SlateProvider } from "./SlateContext";
 import withPlugins from "./utils/withPlugins";
@@ -30,8 +31,7 @@ interface Props {
 }
 
 const VisualElementEditor = ({ name, value, plugins, onChange, types, language }: Props) => {
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const editor = useMemo(() => withHistory(withReact(withPlugins(createEditor(), plugins))), []);
+  const [editor] = useState(() => withHistory(withReact(withPlugins(createEditor(), plugins))));
 
   const renderElement = (elementProps: RenderElementProps) => {
     const { attributes, children } = elementProps;
@@ -55,27 +55,29 @@ const VisualElementEditor = ({ name, value, plugins, onChange, types, language }
 
   return (
     <SlateProvider>
-      <Slate
-        editor={editor}
-        initialValue={value}
-        onChange={(val: Descendant[]) => {
-          onChange({
-            target: {
-              name,
-              value: val,
-            },
-          });
-        }}
-      >
-        <VisualElementPicker editor={editor} types={types} language={language} />
-        <Editable
-          readOnly={true}
-          renderElement={renderElement}
-          onDragStart={(e) => {
-            e.stopPropagation();
+      <ArticleLanguageProvider language={language}>
+        <Slate
+          editor={editor}
+          initialValue={value}
+          onChange={(val: Descendant[]) => {
+            onChange({
+              target: {
+                name,
+                value: val,
+              },
+            });
           }}
-        />
-      </Slate>
+        >
+          <VisualElementPicker editor={editor} types={types} language={language} />
+          <Editable
+            readOnly={true}
+            renderElement={renderElement}
+            onDragStart={(e) => {
+              e.stopPropagation();
+            }}
+          />
+        </Slate>
+      </ArticleLanguageProvider>
     </SlateProvider>
   );
 };

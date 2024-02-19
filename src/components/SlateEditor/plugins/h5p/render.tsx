@@ -10,12 +10,12 @@ import { Editor } from "slate";
 import SlateH5p from "./SlateH5p";
 import { TYPE_H5P } from "./types";
 
-export const h5pRenderer = (language: string) => (editor: Editor) => {
+export const h5pRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
     if (element.type === TYPE_H5P) {
       return (
-        <SlateH5p attributes={attributes} editor={editor} element={element} language={language}>
+        <SlateH5p attributes={attributes} editor={editor} element={element}>
           {children}
         </SlateH5p>
       );

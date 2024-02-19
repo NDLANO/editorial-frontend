@@ -10,7 +10,6 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { spacing, colors } from "@ndla/core";
 import { AlertCircle } from "@ndla/icons/editor";
-import Tooltip from "@ndla/tooltip";
 import { Node } from "@ndla/types-taxonomy";
 import { getIdFromUrn } from "../../../util/taxonomyHelpers";
 
@@ -39,13 +38,7 @@ const StructureErrorIcon = (
     if (!isPublished) {
       const notPublishedWarning = t("taxonomy.info.notPublished");
 
-      return (
-        <Tooltip tooltip={notPublishedWarning}>
-          <div>
-            <StyledAlertIcon />
-          </div>
-        </Tooltip>
-      );
+      return <StyledAlertIcon aria-label={notPublishedWarning} title={notPublishedWarning} />;
     }
     return null;
   }
@@ -62,13 +55,7 @@ const StructureErrorIcon = (
 
     const error = !articleType ? missingArticleTypeError : wrongArticleTypeError;
 
-    return (
-      <Tooltip tooltip={error}>
-        <div>
-          <StyledWarnIcon />
-        </div>
-      </Tooltip>
-    );
+    return <StyledWarnIcon aria-label={error} title={error} />;
   }
   return null;
 };

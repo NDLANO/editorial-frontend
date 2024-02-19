@@ -102,6 +102,8 @@ const SwapTopicArticle = ({ node, rootNodeId, editModeHandler: { editMode, toggl
         {
           revision: draft.revision,
           notes: draft.notes.map((n) => n.note).concat("Artikkel satt som nytt emne"),
+          metaImage: undefined,
+          responsibleId: undefined,
         },
         taxonomyVersion,
       );

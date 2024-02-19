@@ -267,6 +267,8 @@ const TaxonomyBlock = ({
       await updateNotes({
         revision: article.revision,
         notes: ["Oppdatert taksonomi."],
+        metaImage: undefined,
+        responsibleId: undefined,
       });
       await qc.invalidateQueries({
         queryKey: nodeQueryKeys.nodes({

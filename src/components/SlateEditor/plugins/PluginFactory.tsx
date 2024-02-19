@@ -6,23 +6,27 @@
  *
  */
 
-import { Editor, NodeEntry, Element, Node } from "slate";
+import { Editor, NodeEntry, Element } from "slate";
 import config from "../../../config";
 import { NormalizerConfig, defaultBlockNormalizer } from "../utils/defaultNormalizer";
 
-interface Props<T extends Node = Node> extends Plugin<T> {}
+type ElementType = Element["type"];
 
-interface Plugin<T extends Node = Node, Type extends Element["type"] = Element["type"]> {
-  type: Type;
-  normalize?: Normalize<T>[];
+type MappedPlugins = {
+  [K in ElementType]: Plugin<K>;
+};
+
+interface Plugin<T extends ElementType = ElementType> {
+  type: T;
+  normalize?: Normalize<Extract<Element, { type: T }>>[];
   normalizerConfig?: NormalizerConfig;
   onKeyDown?: Record<string, KeyDown>;
   isInline?: boolean;
   isVoid?: boolean;
-  childPlugins?: Plugin<Extract<Node, { type: Type }>>[];
+  childPlugins?: MappedPlugins[ElementType][];
 }
 
-interface Normalize<T extends Node = Node> {
+interface Normalize<T extends Element> {
   description: string;
   normalize(e: NodeEntry<T>, editor: Editor): boolean;
 }
@@ -30,7 +34,7 @@ interface Normalize<T extends Node = Node> {
 type KeyDown = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: KeyboardEvent) => void) => void;
 
 export const createPluginFactory =
-  <T extends Node = Node>({ normalize, isVoid, type, onKeyDown, isInline, normalizerConfig }: Props<T>) =>
+  <T extends ElementType>({ normalize, isVoid, type, onKeyDown, isInline, normalizerConfig }: Plugin<T>) =>
   (editor: Editor) => {
     const {
       isVoid: nextIsVoid,
@@ -47,7 +51,7 @@ export const createPluginFactory =
       if (Element.isElement(node) && node.type === type) {
         const defaultNormalized = normalizerConfig ? defaultBlockNormalizer(editor, entry, normalizerConfig) : false;
         const normalized = normalize?.reduceRight((acc, { description, normalize }) => {
-          const isNormalized = normalize(entry as NodeEntry<T>, editor);
+          const isNormalized = normalize(entry as NodeEntry<Extract<Element, { type: T }>>, editor);
           if (config.debugSlate && isNormalized) {
             /* eslint-disable-next-line */
             console.debug(`[NORMALIZING] ${type} with method: ${description}`);

@@ -133,10 +133,6 @@ export const paragraphPlugin = (editor: Editor) => {
         return Transforms.unsetNodes(editor, "serializeAsText", { at: path });
       }
 
-      if (Element.isElement(parentNode) && parentNode.type === TYPE_SUMMARY && !node.serializeAsText) {
-        return Transforms.setNodes(editor, { type: TYPE_PARAGRAPH, serializeAsText: true }, { at: path });
-      }
-
       // If two paragraphs are direct siblings, make sure both will be rendered with <p>-tag
       if (Path.hasPrevious(path)) {
         const [previousNode] = Editor.node(editor, Path.previous(path));

@@ -182,7 +182,7 @@ export const detailsPlugin = (editor: Editor) => {
   };
 
   editor.normalizeNode = (entry) => {
-    const [node] = entry;
+    const [node, path] = entry;
 
     if (Element.isElement(node)) {
       if (node.type === TYPE_DETAILS) {
@@ -193,6 +193,13 @@ export const detailsPlugin = (editor: Editor) => {
       if (node.type === TYPE_SUMMARY) {
         if (defaultBlockNormalizer(editor, entry, summaryNormalizerConfig)) {
           return;
+        }
+        if (
+          Element.isElement(node.children?.[0]) &&
+          node.children[0]?.type === TYPE_PARAGRAPH &&
+          !node.children[0].serializeAsText
+        ) {
+          return Transforms.setNodes(editor, { type: TYPE_PARAGRAPH, serializeAsText: true }, { at: [...path, 0] });
         }
       }
     }

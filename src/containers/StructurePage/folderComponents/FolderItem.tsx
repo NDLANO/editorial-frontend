@@ -13,7 +13,6 @@ import { ButtonV2, IconButtonV2 } from "@ndla/button";
 import { spacing, fonts, mq, breakpoints } from "@ndla/core";
 import { Plus } from "@ndla/icons/action";
 import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
-import Tooltip from "@ndla/tooltip";
 import { Node } from "@ndla/types-taxonomy";
 import SettingsMenu from "./SettingsMenu";
 import { Row } from "../../../components";
@@ -89,15 +88,13 @@ const FolderItem = ({
             nodeChildren={nodeChildren}
           />
           <Modal open={open} onOpenChange={setOpen} modal={false}>
-            <Tooltip tooltip={addChildTooltip}>
-              <IconButtonContainer>
-                <ModalTrigger>
-                  <IconButtonV2 size="xsmall" variant="ghost" title={addChildTooltip} aria-label={addChildTooltip}>
-                    <Plus />
-                  </IconButtonV2>
-                </ModalTrigger>
-              </IconButtonContainer>
-            </Tooltip>
+            <IconButtonContainer>
+              <ModalTrigger>
+                <IconButtonV2 size="xsmall" variant="ghost" title={addChildTooltip} aria-label={addChildTooltip}>
+                  <Plus />
+                </IconButtonV2>
+              </ModalTrigger>
+            </IconButtonContainer>
             <ModalContent
               forceOverlay
               size={node.id.includes("topic") ? { height: "normal", width: "normal" } : "normal"}

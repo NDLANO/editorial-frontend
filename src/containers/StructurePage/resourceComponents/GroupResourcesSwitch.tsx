@@ -11,7 +11,6 @@ import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
 import { spacing } from "@ndla/core";
 import { Switch } from "@ndla/switch";
-import Tooltip from "@ndla/tooltip";
 import { Node, Metadata } from "@ndla/types-taxonomy";
 import {
   TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE,
@@ -72,17 +71,17 @@ const GroupResourceSwitch = ({ node, onChanged }: Props) => {
   };
 
   return (
-    <Tooltip tooltip={t("taxonomy.metadata.customFields.RGTooltip")}>
-      <div>
-        <StyledSwitch
-          id="group-resources"
-          checked={grouped}
-          label=""
-          onChange={updateMetadata}
-          thumbCharacter={grouped ? "G" : "U"}
-        />
-      </div>
-    </Tooltip>
+    <div>
+      <StyledSwitch
+        aria-label={t("taxonomy.metadata.customFields.RGTooltip")}
+        id="group-resources"
+        checked={grouped}
+        label=""
+        onChange={updateMetadata}
+        thumbCharacter={grouped ? "G" : "U"}
+        title={t("taxonomy.metadata.customFields.RGTooltip")}
+      />
+    </div>
   );
 };
 

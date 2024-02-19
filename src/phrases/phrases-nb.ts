@@ -476,7 +476,7 @@ const phrases = {
     visualElementCopyright: "Opphav",
     removeVisualElement: "Fjern element",
     info: {
-      lastUpdated: "Sist faglig vurdert: ",
+      lastUpdated: "Sist faglig vurdert",
     },
     title: "Emne",
     fields: {
@@ -1412,6 +1412,10 @@ const phrases = {
       sectionTitle: "Bruk av artikkelen i læringsstier",
       title: "Læringsstier som inneholder denne artikkelen",
     },
+    myNdla: {
+      noFavorites: "Ingen har favorittmerket ressursen.",
+      numFavorites: "Ressursen har blitt favorittmerket {{num}} ganger.",
+    },
     embedConnections: {
       type: {
         image: "bildet",
@@ -1796,8 +1800,11 @@ const phrases = {
   modal: {
     closeModal: "Lukk",
   },
-  conceptform: {
+  conceptForm: {
     title: "Forklaring",
+    info: {
+      lastUpdated: "Sist oppdatert",
+    },
   },
   glossform: {
     title: "Glose",
@@ -2033,7 +2040,7 @@ const phrases = {
     },
   },
   linkBlock: {
-    deleteBlock: "Fjenr lenkeblokk",
+    deleteBlock: "Fjern lenkeblokk",
     delete: "Fjern lenke",
     edit: "Rediger lenke",
     create: "Sett inn lenke",

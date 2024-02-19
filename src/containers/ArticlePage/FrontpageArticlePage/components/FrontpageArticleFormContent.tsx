@@ -14,7 +14,6 @@ import { IconButtonV2 } from "@ndla/button";
 import { colors } from "@ndla/core";
 import { FieldHeader } from "@ndla/forms";
 import { Link } from "@ndla/icons/editor";
-import Tooltip from "@ndla/tooltip";
 import { frontpagePlugins } from "./frontpagePlugins";
 import { frontpageRenderers } from "./frontpageRenderers";
 import AlertModal from "../../../../components/AlertModal";
@@ -116,15 +115,12 @@ interface Props {
   articleLanguage: string;
 }
 
+const editorPlugins = frontpagePlugins.concat(frontpageRenderers);
+
 const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
   const { userPermissions } = useSession();
   const { t } = useTranslation();
   const { isWideArticle } = useWideArticle();
-
-  const editorPlugins = useMemo(
-    () => frontpagePlugins.concat(frontpageRenderers(articleLanguage ?? "")),
-    [articleLanguage],
-  );
 
   const { dirty, initialValues, values } = useFormikContext<FrontpageArticleFormType>();
   const { slug, id, creators, published, language } = values;
@@ -169,17 +165,16 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
               }}
             />
             {slug && (
-              <Tooltip tooltip={t("form.slug.edit")}>
-                <StyledIconButton
-                  aria-label={t("form.slug.edit")}
-                  variant="stripped"
-                  colorTheme="light"
-                  data-active={editSlug}
-                  onClick={() => setEditSlug(!editSlug)}
-                >
-                  <Link />
-                </StyledIconButton>
-              </Tooltip>
+              <StyledIconButton
+                aria-label={t("form.slug.edit")}
+                variant="stripped"
+                colorTheme="light"
+                data-active={editSlug}
+                onClick={() => setEditSlug(!editSlug)}
+                title={t("form.slug.edit")}
+              >
+                <Link />
+              </StyledIconButton>
             )}
           </StyledDiv>
         )}

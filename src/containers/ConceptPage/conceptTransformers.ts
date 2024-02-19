@@ -118,10 +118,14 @@ export const getUpdatedConceptType = (
   values: ConceptFormValues,
   licenses: ILicense[],
   conceptType: ConceptType,
-): IUpdatedConcept => ({
-  ...getNewConceptType(values, licenses, conceptType),
-  metaImage: metaImageFromForm(values) ?? null,
-});
+): IUpdatedConcept => {
+  const newConcept = getNewConceptType(values, licenses, conceptType);
+  return {
+    ...newConcept,
+    responsibleId: newConcept.responsibleId,
+    metaImage: metaImageFromForm(values) ?? null,
+  };
+};
 
 export const conceptFormTypeToApiType = (
   values: ConceptFormValues,

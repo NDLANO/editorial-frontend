@@ -23,4 +23,5 @@ export interface ConceptQuery {
   "embed-resource"?: string;
   "responsible-ids"?: string;
   "concept-type"?: string;
+  "aggregate-paths"?: string;
 }

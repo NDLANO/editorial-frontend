@@ -18,7 +18,6 @@ import { Link } from "@ndla/icons/common";
 import { DeleteForever } from "@ndla/icons/editor";
 import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
 import { SafeLinkIconButton } from "@ndla/safelink";
-import Tooltip from "@ndla/tooltip";
 import { Figure } from "@ndla/ui";
 import { breakpoints } from "@ndla/util";
 import EditVideo, { toVideoEmbedFormValues, brightcoveEmbedFormRules } from "./EditVideo";
@@ -213,11 +212,14 @@ const SlateVideo = ({
                 <Link />
               </SafeLinkIconButton>
               {linkedVideoId && (
-                <Tooltip tooltip={linkedVideoTooltip}>
-                  <IconButtonV2 aria-label={linkedVideoTooltip} colorTheme="light" onClick={switchEmbedSource}>
-                    <StyledText>{t("form.video.linkedVideoButton")}</StyledText>
-                  </IconButtonV2>
-                </Tooltip>
+                <IconButtonV2
+                  aria-label={linkedVideoTooltip}
+                  colorTheme="light"
+                  onClick={switchEmbedSource}
+                  title={linkedVideoTooltip}
+                >
+                  <StyledText>{t("form.video.linkedVideoButton")}</StyledText>
+                </IconButtonV2>
               )}
             </>
           )}

@@ -15,7 +15,6 @@ import { colors, spacing } from "@ndla/core";
 import { FieldHeader } from "@ndla/forms";
 import { InformationOutline } from "@ndla/icons/common";
 import { AlertCircle } from "@ndla/icons/editor";
-import Tooltip from "@ndla/tooltip";
 import { Node } from "@ndla/types-taxonomy";
 import { toStructure } from "../../../util/routeHelpers";
 
@@ -87,11 +86,12 @@ const TaxonomyConnectionErrors = ({ topics, resources, articleType }: Props) => 
   return (
     <>
       <FieldHeader title={t("taxonomy.info.wrongConnections")} subTitle={t("taxonomy.info.wrongConnectionsSubTitle")}>
-        <Tooltip tooltip={t("taxonomy.info.canBeFixedInDatabase")}>
-          <div>
-            <HelpIcon />
-          </div>
-        </Tooltip>
+        <div>
+          <HelpIcon
+            aria-label={t("taxonomy.info.canBeFixedInDatabase")}
+            title={t("taxonomy.info.canBeFixedInDatabase")}
+          />
+        </div>
       </FieldHeader>
       {wrongConnections.map((taxonomyElement) => {
         const visibility = taxonomyElement.metadata ? taxonomyElement.metadata.visible : true;
@@ -99,14 +99,12 @@ const TaxonomyConnectionErrors = ({ topics, resources, articleType }: Props) => 
 
         return (
           <TaxonomyInfoDiv key={taxonomyElement.id}>
-            <Tooltip tooltip={wrongTooltip}>
-              <LinkWrapper path={taxonomyElement.path}>
-                <StyledId isVisible={visibility}>
-                  <StyledWarnIcon title={wrongTooltip} />
-                  {errorElement}
-                </StyledId>
-              </LinkWrapper>
-            </Tooltip>
+            <LinkWrapper path={taxonomyElement.path}>
+              <StyledId isVisible={visibility}>
+                <StyledWarnIcon aria-label={wrongTooltip} title={wrongTooltip} />
+                {errorElement}
+              </StyledId>
+            </LinkWrapper>
           </TaxonomyInfoDiv>
         );
       })}

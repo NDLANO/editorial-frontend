@@ -99,7 +99,7 @@ const GrepCodeContent = ({ codes, draftId, revision, currentNodeId, contentUri }
   const onUpdateGrepCodes = useCallback(
     async (grepCodes: string[]) => {
       await updateDraft.mutateAsync(
-        { id: draftId, body: { grepCodes, revision } },
+        { id: draftId, body: { grepCodes, revision, metaImage: undefined, responsibleId: undefined } },
         {
           onSuccess: (data) => {
             qc.cancelQueries({ queryKey: key });

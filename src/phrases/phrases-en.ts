@@ -477,7 +477,7 @@ const phrases = {
     visualElementCopyright: "Origin",
     removeVisualElement: "Remove element",
     info: {
-      lastUpdated: "Last revised: ",
+      lastUpdated: "Last revised",
     },
     title: "Topic",
     fields: {
@@ -1415,6 +1415,10 @@ const phrases = {
       sectionTitle: "Uses of the article in learningpaths",
       title: "Learningpaths containing this article",
     },
+    myNdla: {
+      noFavorites: "No one has favorited the resource.",
+      numFavorites: "The resource has been favorited {{num}} times.",
+    },
     embedConnections: {
       type: {
         image: "image",
@@ -1799,8 +1803,11 @@ const phrases = {
   modal: {
     closeModal: "Close",
   },
-  conceptform: {
+  conceptForm: {
     title: "Concept",
+    info: {
+      lastUpdated: "Last updated",
+    },
   },
   glossform: {
     title: "Gloss",

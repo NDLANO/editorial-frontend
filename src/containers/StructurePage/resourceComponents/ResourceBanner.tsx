@@ -13,7 +13,6 @@ import { spacing, fonts } from "@ndla/core";
 import { Plus } from "@ndla/icons/action";
 import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
 import Tabs from "@ndla/tabs";
-import Tooltip from "@ndla/tooltip";
 import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
 import ApproachingRevisionDate from "./ApproachingRevisionDate";
 import GroupResourceSwitch from "./GroupResourcesSwitch";
@@ -121,13 +120,16 @@ const ResourceBanner = ({ title, contentMeta, currentNode, onCurrentNodeChanged,
           <StyledShareIcon />
           {title}
           <Modal open={open} onOpenChange={setOpen} modal={false}>
-            <Tooltip tooltip={t("taxonomy.addResource")}>
-              <ModalTrigger>
-                <IconButtonV2 size="xsmall" variant="ghost" aria-label={t("taxonomy.addResource")}>
-                  <Plus />
-                </IconButtonV2>
-              </ModalTrigger>
-            </Tooltip>
+            <ModalTrigger>
+              <IconButtonV2
+                size="xsmall"
+                variant="ghost"
+                aria-label={t("taxonomy.addResource")}
+                title={t("taxonomy.addResource")}
+              >
+                <Plus />
+              </IconButtonV2>
+            </ModalTrigger>
             <ModalContent size={{ width: "normal", height: "large" }} position="top" forceOverlay>
               <TaxonomyLightbox title={t("taxonomy.addResource")}>
                 <AddResourceModal>

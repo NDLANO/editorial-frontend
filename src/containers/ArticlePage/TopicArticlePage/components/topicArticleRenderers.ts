@@ -23,13 +23,13 @@ import { sectionRenderer } from "../../../../components/SlateEditor/plugins/sect
 import { spanRenderer } from "../../../../components/SlateEditor/plugins/span/render";
 
 // Plugins are checked from last to first
-export const topicArticleRenderers = (articleLanguage: string): SlatePlugin[] => [
+export const topicArticleRenderers: SlatePlugin[] = [
   sectionRenderer,
   spanRenderer,
   divRenderer,
   paragraphRenderer,
   noEmbedRenderer,
-  linkRenderer(articleLanguage),
+  linkRenderer,
   headingRenderer,
   // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
   // Blockquote and editList actions need to be triggered before paragraph action, else
@@ -37,7 +37,7 @@ export const topicArticleRenderers = (articleLanguage: string): SlatePlugin[] =>
   blockQuoteRenderer,
   definitionListRenderer,
   listRenderer,
-  inlineConceptRenderer(articleLanguage),
+  inlineConceptRenderer,
   mathRenderer,
   markRenderer,
   breakRenderer,

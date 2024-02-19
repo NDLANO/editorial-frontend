@@ -13,7 +13,6 @@ import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { colors, stackOrder } from "@ndla/core";
 import { Crop, FocalPoint } from "@ndla/icons/editor";
-import Tooltip from "@ndla/tooltip";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import ImageAlignButton from "./ImageAlignButton";
 import ImageEditorButton from "./ImageEditorButton";
@@ -235,40 +234,47 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates, language }: 
         />
         <StyledImageEditorMenu>
           {isModifiable() && (
-            <Tooltip tooltip={t("form.image.focalPoint")}>
-              <ImageEditorButton
-                tabIndex={-1}
-                isActive={embed["focal-x"] !== undefined}
-                onClick={(evt: MouseEvent<HTMLButtonElement>) => onEditorTypeSet(evt, "focalPoint")}
-              >
-                <FocalPoint />
-              </ImageEditorButton>
-            </Tooltip>
+            <ImageEditorButton
+              aria-label={t("form.image.focalPoint")}
+              tabIndex={-1}
+              isActive={embed["focal-x"] !== undefined}
+              onClick={(evt: MouseEvent<HTMLButtonElement>) => onEditorTypeSet(evt, "focalPoint")}
+              title={t("form.image.focalPoint")}
+            >
+              <FocalPoint />
+            </ImageEditorButton>
           )}
           {imageCancelButtonNeeded && (
-            <ButtonV2 onClick={(evt: MouseEvent<HTMLButtonElement>) => onRemoveData(evt, editType)} variant="stripped">
+            <ButtonV2
+              aria-label={t(`imageEditor.remove.${editType}`)}
+              onClick={(evt: MouseEvent<HTMLButtonElement>) => onRemoveData(evt, editType)}
+              variant="stripped"
+              title={t(`imageEditor.remove.${editType}`)}
+            >
               {t(`imageEditor.remove.${editType}`)}
             </ButtonV2>
           )}
           {isModifiable() && (
-            <Tooltip tooltip={t("form.image.crop")}>
-              <ImageEditorButton
-                isActive={embed["upper-left-x"] !== undefined}
-                onClick={(evt: MouseEvent<HTMLButtonElement>) => onEditorTypeSet(evt, "crop")}
-                tabIndex={-1}
-              >
-                <Crop />
-              </ImageEditorButton>
-            </Tooltip>
+            <ImageEditorButton
+              aria-label={t("form.image.crop")}
+              isActive={embed["upper-left-x"] !== undefined}
+              onClick={(evt: MouseEvent<HTMLButtonElement>) => onEditorTypeSet(evt, "crop")}
+              tabIndex={-1}
+              title={t("form.image.crop")}
+            >
+              <Crop />
+            </ImageEditorButton>
           )}
         </StyledImageEditorMenu>
         {editType === "crop" && (
           <StyledImageEditorMenu>
             {aspects.map(({ aspect: aspectValue, label }) => (
               <ImageEditorButton
+                aria-label={label}
                 key={label}
                 onClick={(evt: MouseEvent<HTMLButtonElement>) => onAspectSet(evt, aspectValue)}
                 tabIndex={-1}
+                title={label}
               >
                 {label}
               </ImageEditorButton>

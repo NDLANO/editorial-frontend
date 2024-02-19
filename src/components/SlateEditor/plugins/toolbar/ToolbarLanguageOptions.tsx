@@ -18,6 +18,9 @@ import { ToolbarDropdownButton, ToolbarDropdownContent } from "./toolbarDropdown
 import hasNodeOfType from "../../utils/hasNodeOfType";
 import { defaultSpanBlock } from "../span/utils";
 
+const LANGUAGE_BUTTON_HEIGHT = 32;
+const BOTTOM_TOOLBAR_HEIGHT = 75;
+
 export const languages = ["ar", "de", "en", "es", "fr", "la", "no", "se", "sma", "so", "ti", "zh"];
 
 const getCurrentLanguage = (editor: Editor) => {
@@ -40,7 +43,7 @@ export const ToolbarLanguageOptions = () => {
 
   const handleOpenDropdown = () => {
     setOpen(true);
-    if (window.innerHeight - 75 < languages.length * 32) {
+    if (window.innerHeight - BOTTOM_TOOLBAR_HEIGHT < languages.length * LANGUAGE_BUTTON_HEIGHT) {
       setScrollDropdown(true);
     } else {
       setScrollDropdown(false);

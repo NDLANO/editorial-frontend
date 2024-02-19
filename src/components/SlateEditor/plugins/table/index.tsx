@@ -18,10 +18,10 @@ import {
   defaultTableHeadBlock,
   defaultTableRowBlock,
 } from "./defaultBlocks";
-import { handleTableKeydown } from "./handleKeyDown";
+import { handleTableKeydown, onDelete, onDown, onEnter, onTab, onUp } from "./handleKeyDown";
 import { TableElement } from "./interfaces";
 import { getTableAsMatrix, tableContainsSpan } from "./matrix";
-import { getHeader, previousMatrixCellIsEqualCurrent } from "./matrixHelpers";
+import { getHeader, previousMatrixCellIsEqualCurrent, setHeadersOnCell } from "./matrixHelpers";
 import { normalizeTableBodyAsMatrix } from "./matrixNormalizer";
 import { updateCell } from "./slateActions";
 import {
@@ -50,6 +50,7 @@ import { KEY_ARROW_DOWN, KEY_ARROW_UP, KEY_BACKSPACE, KEY_DELETE, KEY_ENTER, KEY
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
 import { defaultParagraphBlock } from "../paragraph/utils";
+import { createPluginFactory } from "../PluginFactory";
 
 const validKeys = [KEY_ARROW_UP, KEY_ARROW_DOWN, KEY_TAB, KEY_BACKSPACE, KEY_DELETE];
 
@@ -201,113 +202,143 @@ export const tableSerializer: SlateSerializer = {
   },
 };
 
+export const tablePlugin = createPluginFactory<TableElement>({
+  type: TYPE_TABLE,
+  onKeyDown: {
+    [KEY_ENTER]: onEnter,
+    [KEY_ARROW_DOWN]: onDown,
+    [KEY_ARROW_UP]: onUp,
+    [KEY_DELETE]: onDelete,
+    [KEY_TAB]: onTab,
+  },
+  normalizerConfig: normalizerConfig,
+  normalize: [
+    {
+      description: "First item bust be caption",
+      normalize: ([node, path], editor) => {
+        if (isTable(node)) {
+          if (!isTableCaption(node.children[0])) {
+            Transforms.insertNodes(editor, defaultTableCaptionBlock(), {
+              at: [...path, 0],
+            });
+            return true;
+          }
+        }
+        return false;
+      },
+    },
+    {
+      description: "Second item must be tableHead or tableBody",
+      normalize: ([node, path], editor) => {
+        if (isTable(node)) {
+          if (!isTableHead(node.children[1]) && !isTableBody(node.children[1])) {
+            Transforms.insertNodes(editor, defaultTableHeadBlock(0), {
+              at: [...path, 1],
+            });
+            return true;
+          }
+        }
+        return false;
+      },
+    },
+    {
+      description: "Make sure table contains the correct nodes",
+      normalize: ([node, path], editor) => {
+        for (const [index, child] of node.children.entries()) {
+          // Caption can't be placed at any other index than 0. Otherwise: Remote it.
+          if (index !== 0 && isTableCaption(child)) {
+            Transforms.removeNodes(editor, { at: [...path, index] });
+            return true;
+          }
+
+          // Consecutive items must be tableBody. Otherwise: Wrap as tableBody.
+          if (index === 1 && !isTableHead(child) && !isTableBody(child)) {
+            Transforms.wrapNodes(editor, defaultTableBodyBlock(1, 0), {
+              at: [...path, index],
+            });
+            return true;
+          }
+        }
+        return false;
+      },
+    },
+    {
+      description: "Make sure head and body have same length",
+      normalize: ([node, path], editor) => {
+        for (const [index, child] of node.children.entries()) {
+          if (isTableHead(child) || isTableBody(child)) {
+            return normalizeTableBodyAsMatrix(editor, child, [...path, index]);
+          }
+        }
+        return false;
+      },
+    },
+    {
+      description: "Assure headers and id elements are set on tables",
+      normalize: ([node, path], editor) => {
+        const matrix = getTableAsMatrix(editor, path);
+        if (
+          matrix &&
+          (tableContainsSpan(matrix ?? []) || node.rowHeaders || matrix?.[1]?.[1]?.type === TYPE_TABLE_CELL_HEADER)
+        ) {
+          return setHeadersOnCell(matrix, node, path, editor);
+        }
+        return false;
+      },
+    },
+  ],
+  childPlugins: [
+    {
+      type: TYPE_TABLE_CELL,
+      normalize: [
+        {
+          description: "",
+          normalize: ([node, path], editor) => {
+            if (isTableCell(node)) {
+              if (!Element.isElementList(node.children)) {
+                Transforms.wrapNodes(
+                  editor,
+                  { ...defaultParagraphBlock(), serializeAsText: true },
+                  {
+                    at: path,
+                    match: (n) => n !== node,
+                  },
+                );
+                return true;
+              }
+            }
+            return false;
+          },
+        },
+      ],
+    },
+    {
+      type: TYPE_TABLE_ROW,
+      normalize: [
+        {
+          description: "row should only contain cell elements",
+          normalize: ([node, path], editor) => {
+            for (const [index, cell] of node.children.entries()) {
+              if (!isTableCell(cell)) {
+                Transforms.wrapNodes(editor, defaultTableCellBlock(), {
+                  at: [...path, index],
+                });
+                return true;
+              }
+            }
+            return false;
+          },
+        },
+      ],
+    },
+  ],
+});
+
 export const tablePlugin = (editor: Editor) => {
   const { normalizeNode, onKeyDown } = editor;
 
   editor.normalizeNode = (entry) => {
     const [node, path] = entry;
-    // A. Table normalizer
-    if (isTable(node)) {
-      const tableChildren = node.children;
-
-      // i. First item must be a caption. Otherwise: Insert one.
-      if (!isTableCaption(tableChildren[0])) {
-        return Transforms.insertNodes(editor, defaultTableCaptionBlock(), {
-          at: [...path, 0],
-        });
-      }
-
-      // ii. Second item must be tableHead or tableBody. Otherwise: Insert tableHead.
-      if (!isTableHead(tableChildren[1]) && !isTableBody(tableChildren[1])) {
-        return Transforms.insertNodes(editor, defaultTableHeadBlock(0), {
-          at: [...path, 1],
-        });
-      }
-
-      // iii. Make sure table contains the correct caption, tableHead and tableBody nodes.
-      for (const [index, child] of node.children.entries()) {
-        // Caption can't be placed at any other index than 0. Otherwise: Remote it.
-        if (index !== 0 && isTableCaption(child)) {
-          return Transforms.removeNodes(editor, { at: [...path, index] });
-        }
-
-        // Consecutive items must be tableBody. Otherwise: Wrap as tableBody.
-        if (index === 1 && !isTableHead(child) && !isTableBody(child)) {
-          return Transforms.wrapNodes(editor, defaultTableBodyBlock(1, 0), {
-            at: [...path, index],
-          });
-        }
-      }
-
-      // iv. Normalize each tableBody using matrix convertion for help.
-      for (const [index, child] of node.children.entries()) {
-        if (isTableHead(child) || isTableBody(child)) {
-          if (normalizeTableBodyAsMatrix(editor, child, [...path, index])) {
-            return;
-          }
-        }
-      }
-      // v. Add surrounding paragraphs. Must be last since the table itself is not altered.
-      if (defaultBlockNormalizer(editor, entry, normalizerConfig)) {
-        return;
-      }
-
-      // Normalize headers and id. For each row check that id and headers are set accordingly.
-      // We have a maximum of rows of header elements in thead and only 1 column max for rowheaders
-      const matrix = getTableAsMatrix(editor, path);
-      if (tableContainsSpan(matrix ?? []) || node.rowHeaders || matrix?.[1]?.[1]?.type === TYPE_TABLE_CELL_HEADER) {
-        matrix?.forEach((row, rowIndex) => {
-          row.forEach((cell, cellIndex) => {
-            const result = Editor.nodes(editor, {
-              at: path,
-              match: (node) => equals(node, cell),
-            });
-            const [maybeNode] = result;
-
-            // If the previous cell in column and row direction is not equal we can normalize the proper cell.
-            // Table matrix isn't a direct repsentation of the HTML table so read comments for `getTableAsMatrix`
-            if (maybeNode?.[1] && !previousMatrixCellIsEqualCurrent(matrix, rowIndex, cellIndex)) {
-              const [_, cellPath] = maybeNode;
-              const [parent] = Editor.node(editor, Path.parent(Path.parent(cellPath)));
-              const headers = !((node.rowHeaders && cellIndex === 0) || rowIndex === 0)
-                ? getHeader(matrix, rowIndex, cellIndex, node.rowHeaders)
-                : undefined;
-
-              if (isTableHead(parent)) {
-                // If first row we add only a double digit id based on the cellIndex
-                if (rowIndex === 0 && cell.data.id !== `0${cellIndex}` && cell.type === TYPE_TABLE_CELL_HEADER) {
-                  return updateCell(editor, cell, { id: `0${cellIndex}` }, TYPE_TABLE_CELL_HEADER);
-                }
-
-                // Second head row need to have a id combined with the previous cell and headers are set to the standard ruleset
-                if (
-                  rowIndex === 1 &&
-                  matrix?.[1]?.[1]?.type === TYPE_TABLE_CELL_HEADER &&
-                  (cell.data.id !== `0${cellIndex}1${cellIndex}` || (!!headers && headers !== cell.data.headers))
-                ) {
-                  return updateCell(
-                    editor,
-                    cell,
-                    { id: `0${cellIndex}1${cellIndex}`, headers: headers },
-                    TYPE_TABLE_CELL_HEADER,
-                  );
-                }
-              }
-              if (isTableBody(parent)) {
-                // If rowheaders need to set ID on the first cell of each row in the body.
-                if (node.rowHeaders && cellIndex === 0 && cell.data.id !== `r${rowIndex}`) {
-                  return updateCell(editor, cell, { id: `r${rowIndex}` }, TYPE_TABLE_CELL_HEADER);
-                }
-                // Adds headers to the cell
-                if (!!headers && cell.type === TYPE_TABLE_CELL && headers !== cell.data.headers) {
-                  return updateCell(editor, cell, { headers: headers });
-                }
-              }
-            }
-          });
-        });
-      }
-    }
 
     // B. TableHead and TableBody normalizer
     if (isTableHead(node) || isTableBody(node)) {
@@ -324,7 +355,7 @@ export const tablePlugin = (editor: Editor) => {
     }
 
     // C. TableCell normalizer
-    if (isTableCell(node) || isTableCellHeader(node)) {
+    if (isTableCell(node)) {
       // Cells should only contain elements. If not, wrap content in paragraph
       if (!Element.isElementList(node.children)) {
         return Transforms.wrapNodes(
@@ -407,24 +438,12 @@ export const tablePlugin = (editor: Editor) => {
         return onKeyDown?.(event);
       }
       const [tableNode, tablePath] = entry;
-
       if (tablePath && tableNode && editor.selection && Path.isDescendant(editor.selection.anchor.path, tablePath)) {
-        if (tableNode) {
-          return handleTableKeydown(event, editor, [tableNode, tablePath] as NodeEntry<TableElement>);
-        }
+        return handleTableKeydown(event, editor);
       }
     }
     // Prevent enter from functioning in caption
     if (event.key === KEY_ENTER) {
-      const entry = getCurrentBlock(editor, TYPE_TABLE_CAPTION);
-      if (!entry) {
-        return onKeyDown?.(event);
-      }
-      const [captionNode] = entry;
-
-      if (captionNode) {
-        return event.preventDefault();
-      }
     }
     onKeyDown?.(event);
   };

@@ -10,13 +10,16 @@ import { Editor, NodeEntry, Element, Node } from "slate";
 import config from "../../../config";
 import { NormalizerConfig, defaultBlockNormalizer } from "../utils/defaultNormalizer";
 
-interface Props<T extends Node = Node> {
-  type: Element["type"];
+interface Props<T extends Node = Node> extends Plugin<T> {}
+
+interface Plugin<T extends Node = Node, Type extends Element["type"] = Element["type"]> {
+  type: Type;
   normalize?: Normalize<T>[];
   normalizerConfig?: NormalizerConfig;
   onKeyDown?: Record<string, KeyDown>;
   isInline?: boolean;
   isVoid?: boolean;
+  childPlugins?: Plugin<Extract<Node, { type: Type }>>[];
 }
 
 interface Normalize<T extends Node = Node> {

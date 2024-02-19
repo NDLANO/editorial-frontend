@@ -33,10 +33,7 @@ const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: Keybo
   const currentParagraph = getCurrentParagraph(editor);
 
   if (!currentParagraph) {
-    if (nextOnKeyDown) {
-      return nextOnKeyDown(e);
-    }
-    return;
+    return nextOnKeyDown?.(e);
   }
   e.preventDefault();
   /**

@@ -11,72 +11,53 @@ import { ReactEditor } from "slate-react";
 import { TableBodyElement, TableCellElement, TableElement, TableHeadElement, TableRowElement } from "./interfaces";
 import { getTableAsMatrix } from "./matrix";
 import { findCellCoordinate } from "./matrixHelpers";
-import { createIdenticalRow, isTableBody, isTableCell, isTableHead, isTableRow } from "./slateHelpers";
-import { KEY_ARROW_DOWN, KEY_ARROW_UP, KEY_BACKSPACE, KEY_DELETE, KEY_TAB } from "../../utils/keys";
+import { createIdenticalRow, isTable, isTableBody, isTableCell, isTableHead } from "./slateHelpers";
+import getCurrentBlock from "../../utils/getCurrentBlock";
+import { TYPE_TABLE_CAPTION } from "./types";
 
-export const handleTableKeydown = (event: KeyboardEvent, editor: Editor, tableEntry: NodeEntry<TableElement>) => {
-  if (editor.selection) {
-    const [cellEntry] = Editor.nodes(editor, {
-      at: editor.selection.anchor.path,
-      match: (node) => isTableCell(node),
-    });
-    if (!cellEntry) {
-      return;
-    }
-    const [rowEntry] = Editor.nodes(editor, {
-      at: editor.selection.anchor.path,
-      match: (node) => isTableRow(node),
-    });
-    if (!rowEntry) {
-      return;
-    }
-    const [bodyEntry] = Editor.nodes(editor, {
-      at: editor.selection.anchor.path,
-      match: (node) => isTableHead(node) || isTableBody(node),
-    });
-    if (!bodyEntry) {
-      return;
-    }
+const getTableCell = (editor: Editor) => {
+  const [cellEntry] = Editor.nodes<TableCellElement>(editor, {
+    at: editor?.selection?.anchor.path,
+    match: (node) => isTableCell(node),
+  });
 
-    switch (event.key) {
-      case KEY_ARROW_DOWN:
-        event.preventDefault();
-        return moveDown(editor, tableEntry, cellEntry as NodeEntry<TableCellElement>);
-      case KEY_ARROW_UP:
-        event.preventDefault();
-        return moveUp(editor, tableEntry, cellEntry as NodeEntry<TableCellElement>);
-      case KEY_TAB:
-        event.preventDefault();
-        if (event.shiftKey) {
-          return moveLeft(
-            editor,
-            tableEntry,
-            bodyEntry as NodeEntry<TableHeadElement | TableBodyElement>,
-            rowEntry as NodeEntry<TableRowElement>,
-            cellEntry as NodeEntry<TableCellElement>,
-          );
-        }
-        return moveRight(
-          editor,
-          tableEntry,
-          bodyEntry as NodeEntry<TableHeadElement | TableBodyElement>,
-          rowEntry as NodeEntry<TableRowElement>,
-          cellEntry as NodeEntry<TableCellElement>,
-        );
-      case KEY_BACKSPACE:
-        return handleBackspaceClick(event, editor, cellEntry as NodeEntry<TableCellElement>);
-      case KEY_DELETE:
-        return handleDeleteClick(event, editor, cellEntry as NodeEntry<TableCellElement>);
-
-      default:
-        return;
-    }
-  }
+  return !!cellEntry ? cellEntry : undefined;
 };
 
-const handleBackspaceClick = (event: KeyboardEvent, editor: Editor, cellEntry: NodeEntry<TableCellElement>) => {
-  const firstCellPoint = Editor.point(editor, cellEntry[1], { edge: "start" });
+const getTableBody = (editor: Editor) => {
+  const [cellEntry] = Editor.nodes<TableBodyElement | TableHeadElement>(editor, {
+    at: editor?.selection?.anchor.path,
+    match: (node) => isTableBody(node) || isTableHead(node),
+  });
 
+  return cellEntry;
+};
+
+const getTable = (editor: Editor) => {
+  const [cellEntry] = Editor.nodes<TableElement>(editor, {
+    at: editor?.selection?.anchor.path,
+    match: isTable,
+  });
+
+  return cellEntry;
+};
+
+const getTableRow = (editor: Editor) => {
+  const [cellEntry] = Editor.nodes<TableRowElement>(editor, {
+    at: editor?.selection?.anchor.path,
+    match: isTableCell,
+  });
+
+  return cellEntry;
+};
+
+export const onBackspace = (event: KeyboardEvent, editor: Editor) => {
+  const cell = getTableCell(editor);
+  if (!cell) return;
+
+  const [_cellNode, cellPath] = cell;
+
+  const firstCellPoint = Editor.point(editor, cellPath, { edge: "start" });
   // Prevent action if at start of cell
   if (editor.selection && Range.isCollapsed(editor.selection)) {
     if (Point.equals(editor.selection.anchor, firstCellPoint)) {
@@ -85,8 +66,13 @@ const handleBackspaceClick = (event: KeyboardEvent, editor: Editor, cellEntry: N
   }
 };
 
-const handleDeleteClick = (event: KeyboardEvent, editor: Editor, cellEntry: NodeEntry<TableCellElement>) => {
-  const lastCellPoint = Editor.point(editor, cellEntry[1], { edge: "end" });
+export const onDelete = (event: KeyboardEvent, editor: Editor) => {
+  const cell = getTableCell(editor);
+  if (!cell) return;
+
+  const [_cellNode, cellPath] = cell;
+
+  const lastCellPoint = Editor.point(editor, cellPath, { edge: "end" });
 
   // Prevent action if at end of cell
   if (editor.selection && Range.isCollapsed(editor.selection)) {
@@ -96,21 +82,31 @@ const handleDeleteClick = (event: KeyboardEvent, editor: Editor, cellEntry: Node
   }
 };
 
-const moveLeft = (
-  editor: Editor,
-  tableEntry: NodeEntry<TableElement>,
-  bodyEntry: NodeEntry<TableBodyElement | TableHeadElement>,
-  rowEntry: NodeEntry<TableRowElement>,
-  cellEntry: NodeEntry<TableCellElement>,
-) => {
-  const tablePath = tableEntry[1];
-  const bodyPath = bodyEntry[1];
-  const [row, rowPath] = rowEntry;
-  const cellPath = cellEntry[1];
+export const onTab = (event: KeyboardEvent, editor: Editor) => {
+  const cell = getTableCell(editor);
+  const table = getTable(editor);
+  const body = getTableBody(editor);
+  const row = getTableRow(editor);
+
+  if (!cell || !table || !body || !row) return;
+
+  const [_cellNode, cellPath] = cell;
+  const [_bodyNode, bodyPath] = body;
+  const [_tableNode, tablePath] = table;
+  event.preventDefault();
+
+  if (event.shiftKey) {
+    return onLeft(editor, cellPath, bodyPath, tablePath, row);
+  }
+  return onRight(editor, cellPath, bodyPath, tablePath, row);
+};
+
+const onLeft = (editor: Editor, cellPath: Path, bodyPath: Path, tablePath: Path, row: NodeEntry<TableRowElement>) => {
+  const [rowNode, rowPath] = row;
 
   // A. If a previous cell exists, move to it.
   if ((Path.hasPrevious(cellPath) || Path.hasPrevious(rowPath) || Path.hasPrevious(bodyPath)) && editor.selection) {
-    Transforms.select(editor, Editor.start(editor, cellEntry[1]));
+    Transforms.select(editor, Editor.start(editor, cellPath));
     Transforms.move(editor, { reverse: true });
     Transforms.select(editor, Editor.range(editor, editor.selection.anchor.path));
     return;
@@ -119,7 +115,7 @@ const moveLeft = (
   // B. If at first cell in table, insert new identical row.
   if (Path.equals([...tablePath, 0, 0, 0], cellPath)) {
     const targetPath = [...tablePath, 0, 0];
-    Transforms.insertNodes(editor, createIdenticalRow(row), { at: targetPath });
+    Transforms.insertNodes(editor, createIdenticalRow(rowNode), { at: targetPath });
     Transforms.select(editor, {
       anchor: Editor.point(editor, targetPath, { edge: "end" }),
       focus: Editor.point(editor, targetPath, { edge: "end" }),
@@ -127,17 +123,9 @@ const moveLeft = (
   }
 };
 
-const moveRight = (
-  editor: Editor,
-  tableEntry: NodeEntry<TableElement>,
-  bodyEntry: NodeEntry<TableBodyElement | TableHeadElement>,
-  rowEntry: NodeEntry<TableRowElement>,
-  cellEntry: NodeEntry<TableCellElement>,
-) => {
-  const tablePath = tableEntry[1];
-  const bodyPath = bodyEntry[1];
-  const [row, rowPath] = rowEntry;
-  const cellPath = cellEntry[1];
+const onRight = (editor: Editor, cellPath: Path, bodyPath: Path, tablePath: Path, row: NodeEntry<TableRowElement>) => {
+  const [rowNode, rowPath] = row;
+
   const nextPath = Path.next(cellPath);
   const nextRowPath = Path.next(rowPath);
   const nextBodyPath = Path.next(bodyPath);
@@ -147,7 +135,7 @@ const moveRight = (
     (Editor.hasPath(editor, nextPath) || Editor.hasPath(editor, nextRowPath) || Editor.hasPath(editor, nextBodyPath)) &&
     editor.selection
   ) {
-    Transforms.select(editor, Editor.end(editor, cellEntry[1]));
+    Transforms.select(editor, Editor.end(editor, cellPath));
     Transforms.move(editor);
     Transforms.select(editor, Editor.range(editor, editor.selection.anchor.path));
     return;
@@ -157,7 +145,7 @@ const moveRight = (
 
   // B. If at last cell in table, insert new identical row.
   if (Path.isDescendant(TableEndPoint.path, cellPath)) {
-    Transforms.insertNodes(editor, createIdenticalRow(row), {
+    Transforms.insertNodes(editor, createIdenticalRow(rowNode), {
       at: nextRowPath,
     });
     Transforms.select(editor, {
@@ -167,17 +155,22 @@ const moveRight = (
   }
 };
 
-const moveDown = (editor: Editor, tableEntry: NodeEntry<TableElement>, cellEntry: NodeEntry<TableCellElement>) => {
-  const tablePath = tableEntry[1];
+export const onDown = (event: KeyboardEvent, editor: Editor) => {
+  const cell = getTableCell(editor);
+  const table = getTable(editor);
 
-  const [cell, cellPath] = cellEntry;
+  if (!cell || !table) return;
 
+  const [cellNode, cellPath] = cell;
+  const [_tableNode, tablePath] = table;
+
+  event.preventDefault();
   const matrix = getTableAsMatrix(editor, tablePath);
 
   if (matrix) {
-    const matrixPath = findCellCoordinate(matrix, cell);
+    const matrixPath = findCellCoordinate(matrix, cellNode);
     if (matrixPath) {
-      const nextCell = matrix[matrixPath[0] + cell.data.rowspan]?.[matrixPath[1]];
+      const nextCell = matrix[matrixPath[0] + cellNode.data.rowspan]?.[matrixPath[1]];
 
       // A. If cell exist below, move to it.
       if (nextCell) {
@@ -212,15 +205,20 @@ const moveDown = (editor: Editor, tableEntry: NodeEntry<TableElement>, cellEntry
   }
 };
 
-const moveUp = (editor: Editor, tableEntry: NodeEntry<TableElement>, cellEntry: NodeEntry<TableCellElement>) => {
-  const tablePath = tableEntry[1];
+export const onUp = (event: KeyboardEvent, editor: Editor) => {
+  const cell = getTableCell(editor);
+  const table = getTable(editor);
 
-  const [cell, cellPath] = cellEntry;
+  if (!cell || !table) return;
 
+  const [cellNode, cellPath] = cell;
+  const [_tableNode, tablePath] = table;
+
+  event.preventDefault();
   const matrix = getTableAsMatrix(editor, tablePath);
 
   if (matrix) {
-    const matrixPath = findCellCoordinate(matrix, cell);
+    const matrixPath = findCellCoordinate(matrix, cellNode);
     if (matrixPath) {
       // A. If cell exist above, move to it.
       if (matrixPath[0] > 0) {
@@ -251,5 +249,17 @@ const moveUp = (editor: Editor, tableEntry: NodeEntry<TableElement>, cellEntry: 
         });
       }
     }
+  }
+};
+
+export const onEnter = (event: KeyboardEvent, editor: Editor, onKeyDown?: (e: KeyboardEvent) => void) => {
+  const entry = getCurrentBlock(editor, TYPE_TABLE_CAPTION);
+  if (!entry) {
+    return onKeyDown?.(event);
+  }
+  const [captionNode] = entry;
+
+  if (captionNode) {
+    return event.preventDefault();
   }
 };

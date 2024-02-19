@@ -9,8 +9,12 @@
 import compact from "lodash/compact";
 import isEqual from "lodash/isEqual";
 import uniq from "lodash/uniq";
-import { TableCellElement, TableMatrix } from "./interfaces";
-import { TYPE_TABLE_CELL_HEADER } from "./types";
+import { TableCellElement, TableElement, TableMatrix } from "./interfaces";
+import { TYPE_TABLE_CELL, TYPE_TABLE_CELL_HEADER } from "./types";
+import { Editor, NodeEntry, Path } from "slate";
+import { equals } from "lodash/fp";
+import { updateCell } from "./slateActions";
+import { isTableHead, isTableBody } from "./slateHelpers";
 
 export const getPrevCell = (matrix: TableMatrix, row: number, column: number) => {
   return matrix[row][column - 1];
@@ -137,4 +141,57 @@ export const getHeader = (matrix: TableMatrix, rowIndex: number, columnIndex: nu
     .map((cell) => cell?.data?.id)
     .filter((cell) => !!cell)
     .join(" ");
+};
+
+export const setHeadersOnCell = (matrix: TableMatrix, node: TableElement, path: Path, editor: Editor) => {
+  matrix?.forEach((row, rowIndex) => {
+    row.forEach((cell, cellIndex) => {
+      const result = Editor.nodes(editor, {
+        at: path,
+        match: (node) => equals(node, cell),
+      });
+      const [maybeNode] = result;
+
+      // If the previous cell in column and row direction is not equal we can normalize the proper cell.
+      // Table matrix isn't a direct repsentation of the HTML table so read comments for `getTableAsMatrix`
+      if (maybeNode?.[1] && !previousMatrixCellIsEqualCurrent(matrix, rowIndex, cellIndex)) {
+        const [_, cellPath] = maybeNode;
+        const [parent] = Editor.node(editor, Path.parent(Path.parent(cellPath)));
+        const headers = !((node.rowHeaders && cellIndex === 0) || rowIndex === 0)
+          ? getHeader(matrix, rowIndex, cellIndex, node.rowHeaders)
+          : undefined;
+
+        if (isTableHead(parent)) {
+          // If first row we add only a double digit id based on the cellIndex
+          if (rowIndex === 0 && cell.data.id !== `0${cellIndex}` && cell.type === TYPE_TABLE_CELL_HEADER) {
+            updateCell(editor, cell, { id: `0${cellIndex}` }, TYPE_TABLE_CELL_HEADER);
+            return true;
+          }
+
+          // Second head row need to have a id combined with the previous cell and headers are set to the standard ruleset
+          if (
+            rowIndex === 1 &&
+            matrix?.[1]?.[1]?.type === TYPE_TABLE_CELL_HEADER &&
+            (cell.data.id !== `0${cellIndex}1${cellIndex}` || (!!headers && headers !== cell.data.headers))
+          ) {
+            updateCell(editor, cell, { id: `0${cellIndex}1${cellIndex}`, headers: headers }, TYPE_TABLE_CELL_HEADER);
+            return true;
+          }
+        }
+        if (isTableBody(parent)) {
+          // If rowheaders need to set ID on the first cell of each row in the body.
+          if (node.rowHeaders && cellIndex === 0 && cell.data.id !== `r${rowIndex}`) {
+            updateCell(editor, cell, { id: `r${rowIndex}` }, TYPE_TABLE_CELL_HEADER);
+            return true;
+          }
+          // Adds headers to the cell
+          if (!!headers && cell.type === TYPE_TABLE_CELL && headers !== cell.data.headers) {
+            updateCell(editor, cell, { headers: headers });
+            return true;
+          }
+        }
+      }
+    });
+  });
+  return true;
 };

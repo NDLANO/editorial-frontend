@@ -19,6 +19,7 @@ import { definitionListRenderer } from "../../../../components/SlateEditor/plugi
 import { detailsRenderer } from "../../../../components/SlateEditor/plugins/details/render";
 import { divRenderer } from "../../../../components/SlateEditor/plugins/div/render";
 import { embedRenderer } from "../../../../components/SlateEditor/plugins/embed/render";
+import { externalRenderer } from "../../../../components/SlateEditor/plugins/external/render";
 import { fileRenderer } from "../../../../components/SlateEditor/plugins/file/render";
 import { footnoteRenderer } from "../../../../components/SlateEditor/plugins/footnote/render";
 import { framedContentRenderer } from "../../../../components/SlateEditor/plugins/framedContent/render";
@@ -45,6 +46,7 @@ export const learningResourceRenderers: SlatePlugin[] = [
   footnoteRenderer,
   audioRenderer,
   h5pRenderer,
+  externalRenderer,
   embedRenderer(),
   framedContentRenderer,
   asideRenderer,

@@ -23,6 +23,7 @@ import { DefinitionDescriptionElement, DefinitionListElement, DefinitionTermElem
 import { DetailsElement, SummaryElement } from "./plugins/details";
 import { DivElement } from "./plugins/div";
 import { BrightcoveEmbedElement, ErrorEmbedElement, ExternalEmbedElement, ImageEmbedElement } from "./plugins/embed";
+import { ExternalElement, IframeElement } from "./plugins/external/types";
 import { FileElement } from "./plugins/file";
 import { FootnoteElement } from "./plugins/footnote";
 import { FramedContentElement } from "./plugins/framedContent";
@@ -120,7 +121,9 @@ declare module "slate" {
       | CampaignBlockElement
       | LinkBlockListElement
       | DisclaimerElement
-      | NoopElement;
+      | NoopElement
+      | ExternalElement
+      | IframeElement;
     Text: CustomTextWithMarks;
   }
 }

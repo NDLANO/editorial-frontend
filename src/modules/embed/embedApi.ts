@@ -21,12 +21,12 @@ import {
   H5pData,
   H5pEmbedData,
   H5pMetaData,
+  IframeData,
   IframeEmbedData,
-  IframeMetaData,
   ImageEmbedData,
   ImageMetaData,
+  OembedData,
   OembedEmbedData,
-  OembedMetaData,
 } from "@ndla/types-embed";
 import { fetchH5PInfo, fetchH5pLicenseInformation, fetchH5pPreviewOembed } from "../../components/H5PElement/h5pApi";
 import { fetchExternalOembed } from "../../util/apiHelpers";
@@ -86,19 +86,11 @@ const fetchVisualAudioMeta = async (embed: AudioEmbedData, language: string): Pr
   }
 };
 
-const fetchVisualIframeMeta = async (embed: IframeEmbedData, language: string): Promise<IframeMetaData> => {
+export const fetchIframeMeta = async (embed: IframeEmbedData, language: string): Promise<IframeData> => {
   const image = embed.imageid
     ? await fetchImage(embed.imageid, language).catch((_) => undefined)
     : await Promise.resolve(undefined);
-
-  return {
-    resource: "iframe",
-    status: "success",
-    embedData: embed,
-    data: {
-      iframeImage: image,
-    },
-  };
+  return { iframeImage: image };
 };
 
 const fetchVisualBrightcoveMeta = async (
@@ -129,32 +121,14 @@ const fetchVisualBrightcoveMeta = async (
   }
 };
 
-export const fetchVisualExternalMeta = async (
-  embedData: OembedEmbedData,
-  language: string,
-): Promise<OembedMetaData> => {
-  try {
-    const [oembed, iframeImage] = await Promise.all([
-      fetchExternalOembed(embedData.url),
-      embedData.imageid
-        ? fetchImage(embedData.imageid, language).catch(undefined)
-        : Promise.resolve<undefined>(undefined),
-    ]);
-
-    return {
-      resource: "external",
-      status: "success",
-      embedData,
-      data: { oembed, iframeImage },
-    };
-  } catch (e) {
-    return {
-      resource: "external",
-      status: "error",
-      embedData,
-      message: "Failed to fetch external oembed",
-    };
-  }
+export const fetchExternalMeta = async (embedData: OembedEmbedData, language: string): Promise<OembedData> => {
+  const [oembed, iframeImage] = await Promise.all([
+    fetchExternalOembed(embedData.url),
+    embedData.imageid
+      ? fetchImage(embedData.imageid, language).catch(undefined)
+      : Promise.resolve<undefined>(undefined),
+  ]);
+  return { oembed, iframeImage };
 };
 
 export const fetchH5pMeta = async (path: string, url: string): Promise<H5pData> => {
@@ -216,11 +190,27 @@ export const fetchConceptVisualElement = async (
   } else if (embed.resource === "audio") {
     return await fetchVisualAudioMeta(embed, language);
   } else if (embed.resource === "iframe") {
-    return await fetchVisualIframeMeta(embed, language);
+    const data = await fetchIframeMeta(embed, language);
+    return { resource: "iframe", status: "success", embedData: embed, data };
   } else if (embed.resource === "brightcove") {
     return await fetchVisualBrightcoveMeta(embed, language);
   } else if (embed.resource === "external") {
-    return await fetchVisualExternalMeta(embed, language);
+    try {
+      const data = await fetchExternalMeta(embed, language);
+      return {
+        resource: "external",
+        status: "success",
+        embedData: embed,
+        data,
+      };
+    } catch (e) {
+      return {
+        resource: "external",
+        status: "error",
+        embedData: embed,
+        message: "Failed to fetch external oembed",
+      };
+    }
   } else if (embed.resource === "h5p") {
     return await fetchVisualH5pMeta(embed);
   }
@@ -239,4 +229,15 @@ export const fetchConceptListMeta = async (concepts: IConceptSummary[], language
     }),
   );
   return { concepts: conceptsWithVisualElement };
+};
+
+export const fetchExternal = async (
+  embedData: OembedEmbedData | IframeEmbedData,
+  language: string,
+): Promise<OembedData | IframeData> => {
+  if (embedData.resource === "iframe") {
+    return await fetchIframeMeta(embedData, language);
+  } else {
+    return await fetchExternalMeta(embedData, language);
+  }
 };

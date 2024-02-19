@@ -39,7 +39,9 @@ import { TYPE_CONTACT_BLOCK } from "../contactBlock/types";
 import { defaultContactBlock } from "../contactBlock/utils";
 import { TYPE_DETAILS } from "../details/types";
 import { defaultDetailsBlock } from "../details/utils";
-import { TYPE_EMBED_BRIGHTCOVE, TYPE_EMBED_ERROR, TYPE_EMBED_EXTERNAL, TYPE_EMBED_IMAGE } from "../embed/types";
+import { TYPE_EMBED_BRIGHTCOVE, TYPE_EMBED_ERROR, TYPE_EMBED_IMAGE } from "../embed/types";
+import { TYPE_EXTERNAL } from "../external/types";
+import { defaultExternalBlock } from "../external/utils";
 import { TYPE_FILE } from "../file/types";
 import { TYPE_FRAMED_CONTENT } from "../framedContent/types";
 import { defaultFramedContentBlock } from "../framedContent/utils";
@@ -302,10 +304,13 @@ const SlateBlockPicker = ({
         onInsertBlock(defaultH5pBlock());
         break;
       }
+      case TYPE_EXTERNAL: {
+        onInsertBlock(defaultExternalBlock());
+        break;
+      }
       case TYPE_FILE:
       case TYPE_EMBED_IMAGE:
       case TYPE_EMBED_ERROR:
-      case TYPE_EMBED_EXTERNAL:
       case TYPE_EMBED_BRIGHTCOVE: {
         setVisualElementPickerOpen(true);
         setType(data.object);

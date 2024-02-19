@@ -9,7 +9,7 @@
 import { Editor, Descendant, Element } from "slate";
 import { TYPE_NDLA_EMBED } from "./types";
 import { defaultEmbedBlock, isSlateEmbed, isSlateEmbedElement } from "./utils";
-import { Embed, ImageEmbed, BrightcoveEmbed, ErrorEmbed, ExternalEmbed } from "../../../../interfaces";
+import { Embed, ImageEmbed, BrightcoveEmbed, ErrorEmbed } from "../../../../interfaces";
 import { createEmbedTag, parseEmbedTag } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
@@ -36,19 +36,7 @@ export interface ErrorEmbedElement {
   children: Descendant[];
 }
 
-export interface ExternalEmbedElement {
-  type: "external-embed";
-  data: ExternalEmbed;
-  children: Descendant[];
-}
-
-export type EmbedElements =
-  | ImageEmbedElement
-  | H5pElement
-  | BrightcoveEmbedElement
-  | ErrorEmbedElement
-  | ExternalEmbedElement
-  | AudioElement;
+export type EmbedElements = ImageEmbedElement | H5pElement | BrightcoveEmbedElement | ErrorEmbedElement | AudioElement;
 
 const normalizerConfig: NormalizerConfig = {
   previous: {

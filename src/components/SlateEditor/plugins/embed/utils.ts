@@ -8,7 +8,7 @@
 
 import { Element, Node } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { BrightcoveEmbedElement, EmbedElements, ErrorEmbedElement, ExternalEmbedElement, ImageEmbedElement } from ".";
+import { BrightcoveEmbedElement, EmbedElements, ErrorEmbedElement, ImageEmbedElement } from ".";
 import { TYPE_EMBED_BRIGHTCOVE, TYPE_EMBED_ERROR, TYPE_EMBED_IMAGE } from "./types";
 import { Embed } from "../../../../interfaces";
 import { AudioElement, TYPE_AUDIO } from "../audio/types";
@@ -19,13 +19,7 @@ export const defaultEmbedBlock = (data: Partial<Embed>) =>
 
 export const isSlateEmbed = (
   node: Node,
-): node is
-  | H5pElement
-  | ImageEmbedElement
-  | AudioElement
-  | ErrorEmbedElement
-  | ExternalEmbedElement
-  | BrightcoveEmbedElement => {
+): node is H5pElement | ImageEmbedElement | AudioElement | ErrorEmbedElement | BrightcoveEmbedElement => {
   return (
     Element.isElement(node) &&
     (node.type === TYPE_EMBED_BRIGHTCOVE ||

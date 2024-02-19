@@ -123,13 +123,10 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
   const onSave = useCallback(
     (data: OembedEmbedData | IframeEmbedData) => {
       setIsEditing(false);
-      const properties = {
-        data: data,
-        isFirstEdit: false,
-      };
       ReactEditor.focus(editor);
       const path = ReactEditor.findPath(editor, element);
-      Transforms.setNodes(editor, properties, { at: path });
+      // Slate doesn't like us wanting to update either an oembed node or an iframe node.
+      Transforms.setNodes(editor, { isFirstEdit: false, data: data as OembedEmbedData }, { at: path });
       if (Editor.hasPath(editor, Path.next(path))) {
         setTimeout(() => {
           Transforms.select(editor, Path.next(path));

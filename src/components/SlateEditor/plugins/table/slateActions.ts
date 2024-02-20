@@ -8,7 +8,13 @@
 
 import { Editor, Path, Transforms } from "slate";
 import { defaultTableCellBlock } from "./defaultBlocks";
-import { TableBodyElement, TableCellElement, TableElement, TableHeadElement } from "./interfaces";
+import {
+  TableBodyElement,
+  TableCellElement,
+  TableElement,
+  TableHeadElement,
+  TableHeaderCellElement,
+} from "./interfaces";
 import { getTableAsMatrix } from "./matrix";
 import { findCellCoordinate, getMatrixColumn } from "./matrixHelpers";
 import { hasCellAlignOfType, isTableCell, isTableRow } from "./slateHelpers";
@@ -55,9 +61,9 @@ export const toggleCellAlign = (editor: Editor, type: string) => {
 
 export const updateCell = (
   editor: Editor,
-  cell: TableCellElement,
+  cell: TableCellElement | TableHeaderCellElement,
   data: Partial<TableCellElement["data"]>,
-  cellType?: TableCellElement["type"],
+  cellType?: TableCellElement["type"] | TableHeaderCellElement["type"],
 ) => {
   Transforms.setNodes(
     editor,

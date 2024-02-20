@@ -36,11 +36,15 @@ export interface TableRowElement {
 }
 
 export interface TableCellElement {
-  type: "table-cell" | "table-cell-header";
+  type: "table-cell";
   data: TableCellData;
   children: Descendant[];
 }
-
+export interface TableHeaderCellElement {
+  type: "table-cell-header";
+  data: TableCellData;
+  children: Descendant[];
+}
 interface TableCellData {
   id?: string;
   rowspan: number;
@@ -52,4 +56,4 @@ interface TableCellData {
   scope?: "row" | "col";
 }
 
-export type TableMatrix = TableCellElement[][];
+export type TableMatrix = (TableCellElement | TableHeaderCellElement)[][];

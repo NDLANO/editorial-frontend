@@ -12,8 +12,8 @@ import { TableBodyElement, TableCellElement, TableElement, TableHeadElement, Tab
 import { getTableAsMatrix } from "./matrix";
 import { findCellCoordinate } from "./matrixHelpers";
 import { createIdenticalRow, isTable, isTableBody, isTableCell, isTableHead } from "./slateHelpers";
-import getCurrentBlock from "../../utils/getCurrentBlock";
 import { TYPE_TABLE_CAPTION } from "./types";
+import getCurrentBlock from "../../utils/getCurrentBlock";
 
 const getTableCell = (editor: Editor) => {
   const [cellEntry] = Editor.nodes<TableCellElement>(editor, {
@@ -21,7 +21,7 @@ const getTableCell = (editor: Editor) => {
     match: (node) => isTableCell(node),
   });
 
-  return !!cellEntry ? cellEntry : undefined;
+  return cellEntry ? cellEntry : undefined;
 };
 
 const getTableBody = (editor: Editor) => {

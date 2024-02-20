@@ -17,7 +17,7 @@ import { KEY_ENTER } from "../../utils/keys";
 import { TYPE_BREAK } from "../break/types";
 import { TYPE_LIST_ITEM } from "../list/types";
 import { TYPE_NOOP } from "../noop/types";
-import { createPluginFactory } from "../PluginFactory";
+import { createPlugin, createPluginFactory } from "../PluginFactory";
 import { TYPE_TABLE_CELL } from "../table/types";
 
 export interface ParagraphElement {
@@ -101,7 +101,7 @@ export const paragraphSerializer: SlateSerializer = {
   },
 };
 
-export const paragraphPlugin = createPluginFactory<ParagraphElement>({
+export const paragraphPlugin = createPlugin<ParagraphElement["type"]>({
   type: TYPE_PARAGRAPH,
   onKeyDown: {
     [KEY_ENTER]: onEnter,

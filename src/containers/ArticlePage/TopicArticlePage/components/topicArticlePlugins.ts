@@ -31,7 +31,7 @@ export const topicArticlePlugins: SlatePlugin[] = [
   sectionPlugin,
   spanPlugin,
   divPlugin,
-  paragraphPlugin,
+  ...paragraphPlugin,
   noEmbedPlugin,
   linkPlugin,
   headingPlugin,

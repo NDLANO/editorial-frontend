@@ -50,6 +50,10 @@ export const createPluginFactory =
       const [node] = entry;
       if (Element.isElement(node) && node.type === type) {
         const defaultNormalized = normalizerConfig ? defaultBlockNormalizer(editor, entry, normalizerConfig) : false;
+        if (config.debugSlate && defaultNormalized) {
+          /* eslint-disable-next-line */
+          console.debug(`[NORMALIZING] ${type} with method: DEFAULT BLOCK NORMALIZER `);
+        }
         const normalized = normalize?.reduceRight((acc, { description, normalize }) => {
           const isNormalized = normalize(entry as NodeEntry<Extract<Element, { type: T }>>, editor);
           if (config.debugSlate && isNormalized) {
@@ -78,3 +82,11 @@ export const createPluginFactory =
 
     return editor;
   };
+
+export const createPlugin = <T extends ElementType>(data: Plugin<T>) => {
+  const plugins: any[] = [data];
+  if (data.childPlugins) {
+    data.childPlugins.forEach((plg) => plugins.push(plg));
+  }
+  return plugins.map(createPluginFactory);
+};

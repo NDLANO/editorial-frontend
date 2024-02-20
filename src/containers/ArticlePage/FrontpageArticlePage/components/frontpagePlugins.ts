@@ -51,7 +51,7 @@ export const frontpagePlugins: SlatePlugin[] = [
   sectionPlugin,
   spanPlugin,
   divPlugin,
-  paragraphPlugin,
+  ...paragraphPlugin,
   footnotePlugin,
   embedPlugin(),
   audioPlugin(),
@@ -68,13 +68,13 @@ export const frontpagePlugins: SlatePlugin[] = [
   // // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
   // // Blockquote and editList actions need to be triggered before paragraph action, else
   // // unwrapping (jumping out of block) will not work.
-  tablePlugin,
+  ...tablePlugin,
   relatedPlugin,
   filePlugin,
   mathmlPlugin,
   contactBlockPlugin,
   codeblockPlugin,
-  keyFigurePlugin,
+  ...keyFigurePlugin,
   blockPickerPlugin,
   dndPlugin,
   toolbarPlugin(),

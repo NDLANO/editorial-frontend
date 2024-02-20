@@ -8,7 +8,7 @@
 
 import equals from "lodash/fp/equals";
 import { renderToStaticMarkup } from "react-dom/server";
-import { Descendant, Editor, Element, Node, NodeEntry, Path, Text, Transforms } from "slate";
+import { Descendant, Editor, Element, Node, Path, Text, Transforms } from "slate";
 import { HistoryEditor } from "slate-history";
 import { jsx as slatejsx } from "slate-hyperscript";
 import {
@@ -16,23 +16,14 @@ import {
   defaultTableCaptionBlock,
   defaultTableCellBlock,
   defaultTableHeadBlock,
-  defaultTableRowBlock,
 } from "./defaultBlocks";
-import { handleTableKeydown, onDelete, onDown, onEnter, onTab, onUp } from "./handleKeyDown";
+import { onDelete, onDown, onEnter, onTab, onUp } from "./handleKeyDown";
 import { TableElement } from "./interfaces";
 import { getTableAsMatrix, tableContainsSpan } from "./matrix";
-import { getHeader, previousMatrixCellIsEqualCurrent, setHeadersOnCell } from "./matrixHelpers";
+import { setHeadersOnCell } from "./matrixHelpers";
 import { normalizeTableBodyAsMatrix } from "./matrixNormalizer";
 import { updateCell } from "./slateActions";
-import {
-  isTable,
-  isTableBody,
-  isTableCaption,
-  isTableCell,
-  isTableCellHeader,
-  isTableHead,
-  isTableRow,
-} from "./slateHelpers";
+import { isTable, isTableBody, isTableCaption, isTableCell, isTableHead } from "./slateHelpers";
 import {
   TYPE_TABLE,
   TYPE_TABLE_HEAD,
@@ -44,15 +35,12 @@ import {
 } from "./types";
 import { reduceElementDataAttributes, removeEmptyElementDataAttributes } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
-import { NormalizerConfig, defaultBlockNormalizer } from "../../utils/defaultNormalizer";
-import getCurrentBlock from "../../utils/getCurrentBlock";
-import { KEY_ARROW_DOWN, KEY_ARROW_UP, KEY_BACKSPACE, KEY_DELETE, KEY_ENTER, KEY_TAB } from "../../utils/keys";
+import { NormalizerConfig } from "../../utils/defaultNormalizer";
+import { KEY_ARROW_DOWN, KEY_ARROW_UP, KEY_DELETE, KEY_ENTER, KEY_TAB } from "../../utils/keys";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
 import { defaultParagraphBlock } from "../paragraph/utils";
-import { createPluginFactory } from "../PluginFactory";
-
-const validKeys = [KEY_ARROW_UP, KEY_ARROW_DOWN, KEY_TAB, KEY_BACKSPACE, KEY_DELETE];
+import { createPlugin } from "../PluginFactory";
 
 const normalizerConfig: NormalizerConfig = {
   previous: {
@@ -202,7 +190,7 @@ export const tableSerializer: SlateSerializer = {
   },
 };
 
-export const tablePlugin = createPluginFactory<TableElement>({
+export const tablePlugin = createPlugin<TableElement["type"]>({
   type: TYPE_TABLE,
   onKeyDown: {
     [KEY_ENTER]: onEnter,
@@ -216,13 +204,11 @@ export const tablePlugin = createPluginFactory<TableElement>({
     {
       description: "First item bust be caption",
       normalize: ([node, path], editor) => {
-        if (isTable(node)) {
-          if (!isTableCaption(node.children[0])) {
-            Transforms.insertNodes(editor, defaultTableCaptionBlock(), {
-              at: [...path, 0],
-            });
-            return true;
-          }
+        if (!isTableCaption(node.children[0])) {
+          Transforms.insertNodes(editor, defaultTableCaptionBlock(), {
+            at: [...path, 0],
+          });
+          return true;
         }
         return false;
       },
@@ -230,13 +216,11 @@ export const tablePlugin = createPluginFactory<TableElement>({
     {
       description: "Second item must be tableHead or tableBody",
       normalize: ([node, path], editor) => {
-        if (isTable(node)) {
-          if (!isTableHead(node.children[1]) && !isTableBody(node.children[1])) {
-            Transforms.insertNodes(editor, defaultTableHeadBlock(0), {
-              at: [...path, 1],
-            });
-            return true;
-          }
+        if (!isTableHead(node.children[1]) && !isTableBody(node.children[1])) {
+          Transforms.insertNodes(editor, defaultTableHeadBlock(0), {
+            at: [...path, 1],
+          });
+          return true;
         }
         return false;
       },
@@ -292,20 +276,28 @@ export const tablePlugin = createPluginFactory<TableElement>({
       type: TYPE_TABLE_CELL,
       normalize: [
         {
-          description: "",
+          description: "Cells should only contain elements",
           normalize: ([node, path], editor) => {
-            if (isTableCell(node)) {
-              if (!Element.isElementList(node.children)) {
-                Transforms.wrapNodes(
-                  editor,
-                  { ...defaultParagraphBlock(), serializeAsText: true },
-                  {
-                    at: path,
-                    match: (n) => n !== node,
-                  },
-                );
-                return true;
-              }
+            if (!Element.isElementList(node.children)) {
+              Transforms.wrapNodes(
+                editor,
+                { ...defaultParagraphBlock(), serializeAsText: true },
+                {
+                  at: path,
+                  match: (n) => n !== node,
+                },
+              );
+              return true;
+            }
+            return false;
+          },
+        },
+        {
+          description: "Numbers need to be right aligned default",
+          normalize: ([node, _path], editor) => {
+            if (!isNaN(Number(Node.string(node))) && !node?.data?.align && Node.string(node) !== "") {
+              HistoryEditor.withoutSaving(editor, () => updateCell(editor, node, { align: "right" }));
+              return true;
             }
             return false;
           },
@@ -329,124 +321,59 @@ export const tablePlugin = createPluginFactory<TableElement>({
             return false;
           },
         },
+        {
+          description: "Make sure cell headers are sett correctly",
+          normalize: ([node, path], editor) => {
+            const [body, bodyPath] = Editor.node(editor, Path.parent(path));
+            const [table] = Editor.node(editor, Path.parent(bodyPath));
+            if (isTableHead(body) && isTable(table)) {
+              for (const [, cell] of node.children.entries()) {
+                if (isTableCell(cell)) {
+                  HistoryEditor.withoutSaving(editor, () => {
+                    updateCell(
+                      editor,
+                      cell,
+                      {
+                        scope: "col",
+                      },
+                      TYPE_TABLE_CELL_HEADER,
+                    );
+                  });
+                  return true;
+                }
+              }
+            }
+            return false;
+          },
+        },
+      ],
+    },
+    {
+      type: TYPE_TABLE_CAPTION,
+      normalize: [
+        {
+          description: "Unwrap caption if not text",
+          normalize: ([node, path], editor) => {
+            for (const [index, child] of node.children.entries()) {
+              // i. Unwrap if not text
+              if (!Text.isText(child)) {
+                Transforms.unwrapNodes(editor, {
+                  at: [...path, index],
+                });
+                return true;
+                // ii. Remove styling on text
+              } else if (child.bold || child.code || child.italic || child.sub || child.sup || child.underlined) {
+                Transforms.unsetNodes(editor, ["bold", "code", "italic", "sub", "sup", "underlined"], {
+                  at: path,
+                  match: (node) => Text.isText(node),
+                });
+                return true;
+              }
+            }
+            return false;
+          },
+        },
       ],
     },
   ],
 });
-
-export const tablePlugin = (editor: Editor) => {
-  const { normalizeNode, onKeyDown } = editor;
-
-  editor.normalizeNode = (entry) => {
-    const [node, path] = entry;
-
-    // B. TableHead and TableBody normalizer
-    if (isTableHead(node) || isTableBody(node)) {
-      const bodyNodes = node.children;
-
-      // If head or body contains non-row element, wrap it in row element
-      for (const [index, child] of bodyNodes.entries()) {
-        if (!Element.isElement(child) || child.type !== TYPE_TABLE_ROW) {
-          return Transforms.wrapNodes(editor, defaultTableRowBlock(0), {
-            at: [...path, index],
-          });
-        }
-      }
-    }
-
-    // C. TableCell normalizer
-    if (isTableCell(node)) {
-      // Cells should only contain elements. If not, wrap content in paragraph
-      if (!Element.isElementList(node.children)) {
-        return Transforms.wrapNodes(
-          editor,
-          { ...defaultParagraphBlock(), serializeAsText: true },
-          {
-            at: path,
-            match: (n) => n !== node,
-          },
-        );
-      }
-
-      // Numbers need to be right aligned default
-      if (!isNaN(Number(Node.string(node))) && !node.data?.align && Node.string(node) !== "") {
-        return HistoryEditor.withoutSaving(editor, () => updateCell(editor, node, { align: "right" }));
-      }
-    }
-
-    // D. TableRow normalizer
-    if (isTableRow(node)) {
-      // i. Row should only contain cell elements. If not, wrap element in cell
-      for (const [index, cell] of node.children.entries()) {
-        if (!isTableCell(cell)) {
-          return Transforms.wrapNodes(editor, defaultTableCellBlock(), {
-            at: [...path, index],
-          });
-        }
-      }
-
-      const [body, bodyPath] = Editor.node(editor, Path.parent(path));
-      const [table] = Editor.node(editor, Path.parent(bodyPath));
-
-      // ii. Make sure cells in TableHead are set to TYPE_TABLE_CELL_HEADER.
-      //     Cells in TableBody will not be altered if rowHeaders=true on Table.
-      if (isTableHead(body) && isTable(table)) {
-        for (const [, cell] of node.children.entries()) {
-          if (isTableCell(cell) && cell.type !== TYPE_TABLE_CELL_HEADER) {
-            return HistoryEditor.withoutSaving(editor, () => {
-              updateCell(
-                editor,
-                cell,
-                {
-                  scope: "col",
-                },
-                TYPE_TABLE_CELL_HEADER,
-              );
-            });
-          }
-        }
-      }
-    }
-
-    // E. TableCaption normalizer
-    if (isTableCaption(node)) {
-      for (const [index, child] of node.children.entries()) {
-        // i. Unwrap if not text
-        if (!Text.isText(child)) {
-          return Transforms.unwrapNodes(editor, {
-            at: [...path, index],
-          });
-          // ii. Remove styling on text
-        } else if (child.bold || child.code || child.italic || child.sub || child.sup || child.underlined) {
-          Transforms.unsetNodes(editor, ["bold", "code", "italic", "sub", "sup", "underlined"], {
-            at: path,
-            match: (node) => Text.isText(node),
-          });
-          return;
-        }
-      }
-    }
-
-    normalizeNode(entry);
-  };
-
-  editor.onKeyDown = (event) => {
-    // Navigation with arrows and tab
-    if (validKeys.includes(event.key)) {
-      const entry = getCurrentBlock(editor, TYPE_TABLE);
-      if (!entry) {
-        return onKeyDown?.(event);
-      }
-      const [tableNode, tablePath] = entry;
-      if (tablePath && tableNode && editor.selection && Path.isDescendant(editor.selection.anchor.path, tablePath)) {
-        return handleTableKeydown(event, editor);
-      }
-    }
-    // Prevent enter from functioning in caption
-    if (event.key === KEY_ENTER) {
-    }
-    onKeyDown?.(event);
-  };
-
-  return editor;
-};

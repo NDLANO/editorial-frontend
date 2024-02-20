@@ -16,7 +16,7 @@ import { NormalizerConfig } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
 import { TYPE_NDLA_EMBED } from "../embed/types";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
-import { createPluginFactory } from "../PluginFactory";
+import { createPlugin, createPluginFactory } from "../PluginFactory";
 
 export interface KeyFigureElement {
   type: "key-figure";
@@ -53,7 +53,7 @@ export const keyFigureSerializer: SlateSerializer = {
   },
 };
 
-export const keyFigurePlugin = createPluginFactory<KeyFigureElement>({
+export const keyFigurePlugin = createPlugin<KeyFigureElement["type"]>({
   normalizerConfig: normalizerConfig,
   type: TYPE_KEY_FIGURE,
   isVoid: true,

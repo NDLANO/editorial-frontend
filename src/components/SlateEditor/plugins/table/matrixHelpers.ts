@@ -7,14 +7,14 @@
  */
 
 import compact from "lodash/compact";
+import { equals } from "lodash/fp";
 import isEqual from "lodash/isEqual";
 import uniq from "lodash/uniq";
-import { TableCellElement, TableElement, TableMatrix } from "./interfaces";
-import { TYPE_TABLE_CELL, TYPE_TABLE_CELL_HEADER } from "./types";
 import { Editor, NodeEntry, Path } from "slate";
-import { equals } from "lodash/fp";
+import { TableCellElement, TableElement, TableHeaderCellElement, TableMatrix } from "./interfaces";
 import { updateCell } from "./slateActions";
-import { isTableHead, isTableBody } from "./slateHelpers";
+import { isTableHead, isTableBody, isTableCellHeader } from "./slateHelpers";
+import { TYPE_TABLE_CELL, TYPE_TABLE_CELL_HEADER } from "./types";
 
 export const getPrevCell = (matrix: TableMatrix, row: number, column: number) => {
   return matrix[row][column - 1];
@@ -93,8 +93,8 @@ export const insertCellInMatrix = (
   insertCellHelper(matrix, cell, rowIndex, rowspan, rowLength, rowLength + colspan);
 };
 
-const normalizeRow = (row: TableCellElement[]) => {
-  const cells: TableCellElement[] = [];
+const normalizeRow = (row: (TableHeaderCellElement | TableCellElement)[]) => {
+  const cells: (TableCellElement | TableHeaderCellElement)[] = [];
   row.forEach((cell) => [...Array(cell?.data?.colspan)].forEach((_) => cells.push(cell)));
   return cells;
 };
@@ -111,8 +111,8 @@ export const previousMatrixCellIsEqualCurrent = (matrix: TableMatrix, rowIndex: 
 export const getHeader = (matrix: TableMatrix, rowIndex: number, columnIndex: number, isRowHeaders: boolean) => {
   const { colspan, rowspan } = matrix[rowIndex][columnIndex].data;
 
-  const normalizedHeaderRow = normalizeRow(matrix[0]);
-  const headers: TableCellElement[] = [];
+  const normalizedHeaderRow: TableHeaderCellElement[] = normalizeRow(matrix[0]).filter(isTableCellHeader);
+  const headers: TableHeaderCellElement[] = [];
 
   // First header row
   // Adding all the cells in the corresponding colspan
@@ -126,7 +126,7 @@ export const getHeader = (matrix: TableMatrix, rowIndex: number, columnIndex: nu
     matrix?.[1]?.[1]?.type === TYPE_TABLE_CELL_HEADER &&
     matrix?.[rowIndex]?.[columnIndex].type !== TYPE_TABLE_CELL_HEADER
   ) {
-    const normalizedSecondHeaderRow = normalizeRow(matrix[1]);
+    const normalizedSecondHeaderRow = normalizeRow(matrix[1]).filter(isTableCellHeader);
     [...Array(colspan)].forEach(
       (_, it) =>
         normalizedSecondHeaderRow?.[columnIndex + it] && headers.push(normalizedSecondHeaderRow[columnIndex + it]),
@@ -135,7 +135,9 @@ export const getHeader = (matrix: TableMatrix, rowIndex: number, columnIndex: nu
 
   // If row headers we append all row headers following the rowspan.
   if (isRowHeaders && columnIndex !== 0 && matrix?.[rowIndex]?.[columnIndex]?.type !== TYPE_TABLE_CELL_HEADER) {
-    [...Array(rowspan)].forEach((_, it) => matrix?.[rowIndex + it]?.[0] && headers.push(matrix?.[rowIndex + it]?.[0]));
+    [...Array(rowspan)].forEach(
+      (_, it) => matrix?.[rowIndex + it]?.[0] && headers.push(matrix?.[rowIndex + it]?.[0] as TableHeaderCellElement),
+    );
   }
   return headers
     .map((cell) => cell?.data?.id)

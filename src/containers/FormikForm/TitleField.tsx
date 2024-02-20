@@ -49,7 +49,7 @@ const StyledFormControl = styled(FormControl)`
 
 const titlePlugins: SlatePlugin[] = [
   spanPlugin,
-  paragraphPlugin,
+  ...paragraphPlugin,
   textTransformPlugin,
   saveHotkeyPlugin,
   markPlugin,

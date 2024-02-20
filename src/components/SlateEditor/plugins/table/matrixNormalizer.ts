@@ -83,7 +83,7 @@ const normalizeRow = (
         if (isHead) {
           // i. If cell in header
           //    Make sure scope='col' and isHeader=true and type is correct
-          if (isTableCell(cell) && (cell.type !== TYPE_TABLE_CELL_HEADER || scope !== "col")) {
+          if (isTableCell(cell) && scope !== "col") {
             updateCell(
               editor,
               cell,

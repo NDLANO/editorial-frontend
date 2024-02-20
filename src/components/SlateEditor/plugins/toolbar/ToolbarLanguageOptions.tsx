@@ -6,7 +6,7 @@
  *
  */
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Transforms } from "slate";
 import { ReactEditor, useSlate, useSlateSelector } from "slate-react";
@@ -17,9 +17,6 @@ import UIToolbarButton from "./ToolbarButton";
 import { ToolbarDropdownButton, ToolbarDropdownContent } from "./toolbarDropdownComponents";
 import hasNodeOfType from "../../utils/hasNodeOfType";
 import { defaultSpanBlock } from "../span/utils";
-
-const LANGUAGE_BUTTON_HEIGHT = 32;
-const BOTTOM_TOOLBAR_HEIGHT = 75;
 
 export const languages = ["ar", "de", "en", "es", "fr", "la", "no", "se", "sma", "so", "ti", "zh"];
 
@@ -38,21 +35,9 @@ export const ToolbarLanguageOptions = () => {
   const { t } = useTranslation();
   const editor = useSlate();
   const currentLanguage = useSlateSelector(getCurrentLanguage);
-  const [open, setOpen] = useState(false);
-  const [scrollDropdown, setScrollDropdown] = useState(false);
-
-  const handleOpenDropdown = () => {
-    setOpen(true);
-    if (window.innerHeight - BOTTOM_TOOLBAR_HEIGHT < languages.length * LANGUAGE_BUTTON_HEIGHT) {
-      setScrollDropdown(true);
-    } else {
-      setScrollDropdown(false);
-    }
-  };
 
   const onClick = useCallback(
     (language: string) => {
-      setOpen(false);
       const sel = editor.selection;
       Transforms.select(editor, sel!);
       ReactEditor.focus(editor);
@@ -93,8 +78,8 @@ export const ToolbarLanguageOptions = () => {
   );
 
   return (
-    <DropdownMenu modal={false} open={open}>
-      <ToolbarButton asChild onClick={handleOpenDropdown}>
+    <DropdownMenu modal={false}>
+      <ToolbarButton asChild>
         <DropdownTrigger asChild>
           <UIToolbarButton type="language">
             {currentLanguage ?? t("editorToolbar.noneLanguage")}
@@ -102,13 +87,7 @@ export const ToolbarLanguageOptions = () => {
           </UIToolbarButton>
         </DropdownTrigger>
       </ToolbarButton>
-      <ToolbarDropdownContent
-        side="bottom"
-        onCloseAutoFocus={onCloseFocus}
-        sideOffset={2}
-        portal={false}
-        data-dropdown-scroll={scrollDropdown}
-      >
+      <ToolbarDropdownContent side="bottom" onCloseAutoFocus={onCloseFocus} sideOffset={2} portal={false}>
         <DropdownItem>
           <ToolbarDropdownButton
             data-testid={"language-button-none"}

@@ -144,7 +144,7 @@ const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideT
       <ToolbarContainer data-toolbar="" ref={portalRef} onMouseDown={onMouseDown}>
         <ToolbarRow>
           <ToolbarTextOptions options={options?.text ?? []} />
-          <ToolbarLanguageOptions />
+          <ToolbarLanguageOptions options={options?.languages ?? []} />
           <ToolbarMarkOptions options={options?.mark ?? []} />
           <ToolbarBlockOptions options={options?.block ?? []} />
           <ToolbarInlineOptions options={options?.inline ?? []} />

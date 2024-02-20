@@ -121,7 +121,6 @@ export const detailsSerializer: SlateSerializer = {
         !Element.isElement(children?.[0]) || children?.[0].type === TYPE_SPAN
           ? slatejsx("element", { type: TYPE_PARAGRAPH, serializeAsText: true }, children)
           : children;
-
       return slatejsx("element", { type: TYPE_SUMMARY }, childs);
     } else if (el.tagName.toLowerCase() === "details") {
       return slatejsx("element", { type: TYPE_DETAILS }, children);
@@ -194,11 +193,8 @@ export const detailsPlugin = (editor: Editor) => {
         if (defaultBlockNormalizer(editor, entry, summaryNormalizerConfig)) {
           return;
         }
-        if (
-          Element.isElement(node.children?.[0]) &&
-          node.children[0]?.type === TYPE_PARAGRAPH &&
-          !node.children[0].serializeAsText
-        ) {
+
+        if (node.children?.[0] && Element.isElement(node.children?.[0]) && node.children?.[0].type === TYPE_PARAGRAPH) {
           return Transforms.setNodes(editor, { type: TYPE_PARAGRAPH, serializeAsText: true }, { at: [...path, 0] });
         }
       }

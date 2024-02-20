@@ -126,8 +126,8 @@ export const paragraphPlugin = (editor: Editor) => {
         Element.isElement(parentNode) &&
         parentNode.type !== TYPE_TABLE_CELL &&
         parentNode.type !== TYPE_LIST_ITEM &&
-        parentNode.type !== TYPE_NOOP &&
         parentNode.type !== TYPE_SUMMARY &&
+        parentNode.type !== TYPE_NOOP &&
         node.serializeAsText
       ) {
         return Transforms.unsetNodes(editor, "serializeAsText", { at: path });

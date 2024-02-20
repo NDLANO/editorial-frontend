@@ -26,6 +26,7 @@ import { urlTransformers } from "../../../../containers/VisualElement/urlTransfo
 import { WhitelistProvider } from "../../../../interfaces";
 import { fetchExternalOembed } from "../../../../util/apiHelpers";
 import { getIframeSrcFromHtmlString, urlDomain } from "../../../../util/htmlHelpers";
+import { getStartTime, getStopTime, getYoutubeEmbedUrl, removeYoutubeTimeStamps } from "../../../../util/videoUtil";
 import { CheckboxWrapper } from "../../../Form/styles";
 import { FormControl, FormField } from "../../../FormField";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
@@ -96,6 +97,14 @@ const IframeWrapper = styled.div`
   }
 `;
 
+const TimeWrapper = styled.div`
+  display: flex;
+  gap: ${spacing.small};
+  div {
+    width: 100%;
+  }
+`;
+
 interface Props {
   initialData?: OembedEmbedData | IframeEmbedData;
   onSave: (data: OembedEmbedData | IframeEmbedData) => void;
@@ -112,6 +121,8 @@ interface ExternalFormValues {
   metaImageId?: string;
   caption: string;
   height: string;
+  startTime?: string;
+  stopTime?: string;
 }
 
 const getWhitelistedProvider = (url: string): WhitelistProvider | undefined => {
@@ -141,17 +152,27 @@ const rules: RulesType<ExternalFormValues> = {
 };
 
 const toInitialValues = (initialData?: OembedEmbedData | IframeEmbedData): ExternalFormValues => {
+  let url = initialData?.url,
+    startTime,
+    stopTime;
+  if (url?.includes("youtube")) {
+    startTime = getStartTime(url);
+    stopTime = getStopTime(url);
+    url = removeYoutubeTimeStamps(url);
+  }
   return {
     resource: initialData?.resource ?? "iframe",
-    url: initialData?.url ?? "",
+    url: url ?? "",
     title: initialData?.title ?? "",
-    validUrl: initialData?.url ?? "",
+    validUrl: url ?? "",
     isFullscreen: initialData?.type === "fullscreen",
     isDecorative: initialData?.alt === "",
     metaImageAlt: initialData?.alt ?? "",
     metaImageId: initialData?.imageid ?? "",
     height: initialData?.height ?? "486px",
     caption: initialData?.caption ?? "",
+    startTime: startTime ?? "",
+    stopTime: stopTime ?? "",
   };
 };
 
@@ -162,10 +183,13 @@ export const ExternalEmbedForm = ({ initialData, onSave }: Props) => {
 
   const onSubmit = useCallback(
     (values: ExternalFormValues) => {
+      const url = values.validUrl.includes("youtube")
+        ? getYoutubeEmbedUrl(values.validUrl, values.startTime, values.stopTime)
+        : values.validUrl;
       if (values.resource === "external") {
         onSave({
           resource: "external",
-          url: values.validUrl,
+          url,
           type: values.isFullscreen ? "fullscreen" : "external",
           caption: values.caption,
           imageid: values.metaImageId,
@@ -175,7 +199,7 @@ export const ExternalEmbedForm = ({ initialData, onSave }: Props) => {
       } else {
         onSave({
           resource: "iframe",
-          url: values.validUrl,
+          url,
           type: values.isFullscreen ? "fullscreen" : "iframe",
           caption: values.caption,
           imageid: values.metaImageId,
@@ -277,6 +301,30 @@ const InnerForm = () => {
         <IframeWrapper>
           <iframe src={values.validUrl} title={values.title} height="350px" frameBorder="0" />
         </IframeWrapper>
+      )}
+      {values.validUrl?.includes("youtube.com") && (
+        <TimeWrapper>
+          <FormField name="startTime">
+            {({ field }) => (
+              <FormControl>
+                <Label textStyle="label-small" margin="none">
+                  {t("form.video.time.start")}
+                </Label>
+                <InputV3 {...field} placeholder="h:m:s" />
+              </FormControl>
+            )}
+          </FormField>
+          <FormField name="stopTime">
+            {({ field }) => (
+              <FormControl>
+                <Label textStyle="label-small" margin="none">
+                  {t("form.video.time.stop")}
+                </Label>
+                <InputV3 {...field} placeholder="h:m:s" />
+              </FormControl>
+            )}
+          </FormField>
+        </TimeWrapper>
       )}
       {userPermissions?.includes(DRAFT_ADMIN_SCOPE) && (
         <FormField name="isFullscreen">

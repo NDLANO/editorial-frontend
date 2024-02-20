@@ -24,6 +24,7 @@ import { ConceptInlineElement } from "./inline/interfaces";
 import { generateNumbersArray, generateUniqueGlossLanguageArray } from "./utils";
 import { CheckboxWrapper } from "../../../Form/styles";
 import { FormControl } from "../../../FormField";
+import { useArticleLanguage } from "../../ArticleLanguageProvider";
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -63,7 +64,6 @@ interface Props {
   element: ConceptBlockElement | ConceptInlineElement;
   embed: ConceptMetaData;
   close: () => void;
-  locale: string;
 }
 
 const onCheckboxChange = (value: string, updateFunction: (val: string[]) => void, selectedElements: string[]): void => {
@@ -98,16 +98,9 @@ const getLanguageWithConfigurations = (
   });
 };
 
-const EditGlossExamplesModalContent = ({
-  originalLanguage,
-  examples,
-  editor,
-  element,
-  embed,
-  close,
-  locale,
-}: Props) => {
+const EditGlossExamplesModalContent = ({ originalLanguage, examples, editor, element, embed, close }: Props) => {
   const { t } = useTranslation();
+  const locale = useArticleLanguage();
   const [selectedExamples, setSelectedExamples] = useState<string[]>(
     getInitialStateSelectedExamples(embed.embedData.exampleIds, examples),
   );

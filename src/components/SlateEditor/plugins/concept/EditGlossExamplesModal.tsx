@@ -23,10 +23,9 @@ interface Props {
   editor: Editor;
   element: ConceptBlockElement | ConceptInlineElement;
   embed: ConceptMetaData;
-  locale: string;
 }
 
-const EditGlossExamplesModal = ({ concept, editor, element, embed, locale }: Props) => {
+const EditGlossExamplesModal = ({ concept, editor, element, embed }: Props) => {
   const { t } = useTranslation();
   const [modalOpen, setModalOpen] = useState(false);
   return (
@@ -51,7 +50,6 @@ const EditGlossExamplesModal = ({ concept, editor, element, embed, locale }: Pro
           element={element}
           embed={embed}
           close={() => setModalOpen(false)}
-          locale={locale}
         />
       </ModalContent>
     </Modal>

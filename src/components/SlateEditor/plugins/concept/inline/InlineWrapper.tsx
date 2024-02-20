@@ -28,6 +28,7 @@ import { ConceptType } from "../../../../../containers/ConceptPage/conceptInterf
 import { useFetchConceptData } from "../../../../../containers/FormikForm/formikConceptHooks";
 import { useConceptVisualElement } from "../../../../../modules/embed/queries";
 import parseMarkdown from "../../../../../util/parseMarkdown";
+import { useArticleLanguage } from "../../../ArticleLanguageProvider";
 import ConceptModalContent from "../ConceptModalContent";
 import EditGlossExamplesModal from "../EditGlossExamplesModal";
 import { getGlossDataAttributes } from "../utils";
@@ -44,7 +45,6 @@ const getConceptDataAttributes = (concept: IConcept | IConceptSummary, title: st
 
 interface Props {
   element: ConceptInlineElement;
-  locale: string;
   editor: Editor;
   attributes: RenderElementProps["attributes"];
   children: ReactNode;
@@ -81,9 +81,10 @@ const HiddenChildren = styled.div`
 
 const InlineWrapper = (props: Props) => {
   const { t } = useTranslation();
-  const { children, element, locale, editor, attributes } = props;
+  const { children, element, editor, attributes } = props;
   const nodeText = Node.string(element).trim();
   const [isEditing, setIsEditing] = useState(element.isFirstEdit);
+  const locale = useArticleLanguage();
   const { concept, subjects, loading, fetchSearchTags, conceptArticles, createConcept, updateConcept } =
     useFetchConceptData(parseInt(element.data.contentId), locale);
 

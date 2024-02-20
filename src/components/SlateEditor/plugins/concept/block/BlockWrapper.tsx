@@ -27,6 +27,7 @@ import { ConceptType } from "../../../../../containers/ConceptPage/conceptInterf
 import { useFetchConceptData } from "../../../../../containers/FormikForm/formikConceptHooks";
 import { useConceptVisualElement } from "../../../../../modules/embed/queries";
 import parseMarkdown from "../../../../../util/parseMarkdown";
+import { useArticleLanguage } from "../../../ArticleLanguageProvider";
 import ConceptModalContent from "../ConceptModalContent";
 import EditGlossExamplesModal from "../EditGlossExamplesModal";
 import { getGlossDataAttributes } from "../utils";
@@ -41,7 +42,6 @@ const getConceptDataAttributes = ({ id, conceptType, glossData }: IConceptSummar
 
 interface Props {
   element: ConceptBlockElement;
-  locale: string;
   editor: Editor;
   attributes: RenderElementProps["attributes"];
   children: ReactNode;
@@ -54,8 +54,9 @@ const StyledWrapper = styled.div`
   }
 `;
 
-const BlockWrapper = ({ element, locale, editor, attributes, children }: Props) => {
+const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
   const isSelected = useSelected();
+  const locale = useArticleLanguage();
   const [isEditing, setIsEditing] = useState(element.isFirstEdit);
   const { concept, subjects, loading, ...conceptHooks } = useFetchConceptData(parseInt(element.data.contentId), locale);
 

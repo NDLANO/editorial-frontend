@@ -25,12 +25,12 @@ import AudioEmbedForm from "./AudioEmbedForm";
 import { AudioElement } from "./types";
 import { useAudioMeta } from "../../../../modules/embed/queries";
 import parseMarkdown from "../../../../util/parseMarkdown";
+import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import { StyledDeleteEmbedButton, StyledFigureButtons } from "../embed/FigureButtons";
 
 interface Props extends RenderElementProps {
   element: AudioElement;
   editor: Editor;
-  language: string;
 }
 
 const AudioWrapper = styled.div`
@@ -61,10 +61,11 @@ const FigureButtons = styled(StyledFigureButtons)`
   }
 `;
 
-const SlateAudio = ({ element, editor, attributes, language, children }: Props) => {
+const SlateAudio = ({ element, editor, attributes, children }: Props) => {
   const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
   const isSelected = useSelected();
+  const language = useArticleLanguage();
 
   const audioMetaQuery = useAudioMeta(element.data?.resourceId!, language, {
     enabled: !!parseInt(element.data?.resourceId ?? ""),

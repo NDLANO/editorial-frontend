@@ -22,10 +22,10 @@ import { ConceptListElement } from ".";
 import ConceptTagPicker from "./ConceptTagPicker";
 import { useSearchConcepts } from "../../../../modules/concept/conceptQueries";
 import { useConceptListMeta } from "../../../../modules/embed/queries";
+import { useArticleLanguage } from "../../ArticleLanguageProvider";
 
 interface Props {
   element: ConceptListElement;
-  language: string;
   editor: Editor;
   attributes: RenderElementProps["attributes"];
   children: ReactNode;
@@ -48,10 +48,11 @@ const ButtonContainer = styled.div`
   transform: translateX(100%);
 `;
 
-const ConceptList = ({ element, language, editor, attributes, children }: Props) => {
+const ConceptList = ({ element, editor, attributes, children }: Props) => {
   const [editMode, setEditMode] = useState<boolean>(!!element.isFirstEdit);
   const isSelected = useSelected();
   const { t } = useTranslation();
+  const language = useArticleLanguage();
 
   const conceptsQuery = useSearchConcepts(
     {

@@ -15,7 +15,6 @@ import { ButtonV2 } from "@ndla/button";
 import { colors, spacing } from "@ndla/core";
 import { Input, FieldRemoveButton } from "@ndla/forms";
 import { Switch } from "@ndla/switch";
-import Tooltip from "@ndla/tooltip";
 import { ArticleFormType } from "./articleFormHooks";
 import InlineDatePicker from "./components/InlineDatePicker";
 import { Revision } from "../../constants";
@@ -134,51 +133,58 @@ const AddRevisionDateField = ({ formikField, showError }: Props) => {
                 />
               </InputWrapper>
               <VerticalCenter>
-                <Tooltip tooltip={t("form.revisions.datePickerTooltip")}>
-                  <StyledDatePickerWrapper>
-                    <InlineDatePicker
-                      value={revisionMeta.revisionDate}
-                      name={`revision_date_${index}`}
-                      onChange={(date) =>
-                        editRevision((old) => ({
-                          ...old,
-                          revisionDate: date.currentTarget.value,
-                        }))
+                <StyledDatePickerWrapper>
+                  <InlineDatePicker
+                    aria-label={t("form.revisions.datePickerTooltip")}
+                    value={revisionMeta.revisionDate}
+                    name={`revision_date_${index}`}
+                    onChange={(date) =>
+                      editRevision((old) => ({
+                        ...old,
+                        revisionDate: date.currentTarget.value,
+                      }))
+                    }
+                    title={t("form.revisions.datePickerTooltip")}
+                  />
+                </StyledDatePickerWrapper>
+                <div>
+                  <StyledSwitch
+                    aria-label={t("form.revisions.switchTooltip")}
+                    checked={revisionMeta.status === Revision.revised}
+                    onChange={(c) => {
+                      const status = c ? Revision.revised : Revision.needsRevision;
+                      editRevision((old) => ({ ...old, status }));
+                      if (status === Revision.revised) {
+                        createMessage({
+                          translationKey: "form.revisions.reminder",
+                          severity: "info",
+                          timeToLive: 0,
+                        });
                       }
-                    />
-                  </StyledDatePickerWrapper>
-                </Tooltip>
-                <Tooltip tooltip={t("form.revisions.switchTooltip")}>
-                  <div>
-                    <StyledSwitch
-                      checked={revisionMeta.status === Revision.revised}
-                      onChange={(c) => {
-                        const status = c ? Revision.revised : Revision.needsRevision;
-                        editRevision((old) => ({ ...old, status }));
-                        if (status === Revision.revised) {
-                          createMessage({
-                            translationKey: "form.revisions.reminder",
-                            severity: "info",
-                            timeToLive: 0,
-                          });
-                        }
-                      }}
-                      label={""}
-                      id={`revision_switch_${index}`}
-                    />
-                  </div>
-                </Tooltip>
-                <Tooltip tooltip={t("form.revisions.deleteTooltip")}>
-                  <div>
-                    <StyledRemoveButton data-visible={true} onClick={() => removeRevision(index)} />
-                  </div>
-                </Tooltip>
+                    }}
+                    label={""}
+                    id={`revision_switch_${index}`}
+                    title={t("form.revisions.switchTooltip")}
+                  />
+                </div>
+                <StyledRemoveButton
+                  aria-label={t("form.revisions.deleteTooltip")}
+                  data-visible={true}
+                  onClick={() => removeRevision(index)}
+                  title={t("form.revisions.deleteTooltip")}
+                />
               </VerticalCenter>
             </Wrapper>
           </div>
         );
       })}
-      <ButtonV2 variant="outline" onClick={addRevision} data-testid="addRevision">
+      <ButtonV2
+        aria-label={t("form.revisions.add")}
+        variant="outline"
+        onClick={addRevision}
+        data-testid="addRevision"
+        title={t("form.revisions.add")}
+      >
         {t("form.revisions.add")}
       </ButtonV2>
     </>

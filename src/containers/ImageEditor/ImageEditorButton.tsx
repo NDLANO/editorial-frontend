@@ -30,6 +30,7 @@ interface Props {
   children: ReactNode;
   tabIndex: number;
   onClick: (evt: MouseEvent<HTMLButtonElement>) => void;
+  title?: string;
 }
 
 const ImageEditorButton = forwardRef<HTMLButtonElement, Props>(({ isActive, disabled, children, ...rest }, ref) => (

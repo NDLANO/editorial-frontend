@@ -26,13 +26,21 @@ export default defineConfig(() => {
       }),
       splitVendorChunkPlugin(),
     ],
+    resolve: {
+      dedupe: [
+        "react-router",
+        "react-router-dom",
+        "react-helmet-async",
+        "i18next",
+        "react-i18next",
+        "@emotion/react",
+        "@emotion/styled",
+      ],
+    },
     build: {
       assetsDir: 'static',
       outDir: 'build/public',
       sourcemap: true,
-    },
-    resolve: {
-      preserveSymlinks: true,
     },
   };
 });

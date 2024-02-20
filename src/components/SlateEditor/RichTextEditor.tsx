@@ -7,13 +7,14 @@
  */
 import { useFormikContext } from "formik";
 import isEqual from "lodash/isEqual";
-import { FocusEvent, KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { FocusEvent, KeyboardEvent, useCallback, useEffect, useRef, useState } from "react";
 import { createEditor, Descendant, Editor, NodeEntry, Range, Transforms } from "slate";
 import { withHistory } from "slate-history";
 import { Slate, Editable, withReact, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
 import { EditableProps } from "slate-react/dist/components/editable";
 import styled from "@emotion/styled";
 import { fonts } from "@ndla/core";
+import { ArticleLanguageProvider } from "./ArticleLanguageProvider";
 import { SlatePlugin } from "./interfaces";
 import { Action, commonActions } from "./plugins/blockPicker/actions";
 import { BlockPickerOptions, createBlockpickerOptions } from "./plugins/blockPicker/options";
@@ -75,8 +76,7 @@ const RichTextEditor = ({
   hideSpinner,
   ...rest
 }: Props) => {
-  const _editor = useMemo(() => withReact(withHistory(createEditor())), []);
-  const editor = useMemo(() => withPlugins(_editor, plugins), [_editor, plugins]);
+  const [editor] = useState(() => withPlugins(withReact(withHistory(createEditor())), plugins));
   const [isFirstNormalize, setIsFirstNormalize] = useState(true);
   const prevSubmitted = useRef(submitted);
 
@@ -234,40 +234,42 @@ const RichTextEditor = ({
 
   return (
     <article>
-      <SlateProvider isSubmitted={submitted}>
-        <StyledSlateWrapper data-testid={testId}>
-          <Slate editor={editor} initialValue={value} onChange={onChange}>
-            {isFirstNormalize && !hideSpinner ? (
-              <Spinner />
-            ) : (
-              <>
-                <SlateToolbar options={toolbarOptions} areaOptions={toolbarAreaFilters} hideToolbar={hideToolbar} />
-                {!hideBlockPicker && (
-                  <SlateBlockPicker
-                    editor={editor}
-                    actions={actions}
-                    articleLanguage={language}
-                    {...createBlockpickerOptions(blockpickerOptions)}
+      <ArticleLanguageProvider language={language}>
+        <SlateProvider isSubmitted={submitted}>
+          <StyledSlateWrapper data-testid={testId}>
+            <Slate editor={editor} initialValue={value} onChange={onChange}>
+              {isFirstNormalize && !hideSpinner ? (
+                <Spinner />
+              ) : (
+                <>
+                  <SlateToolbar options={toolbarOptions} areaOptions={toolbarAreaFilters} hideToolbar={hideToolbar} />
+                  {!hideBlockPicker && (
+                    <SlateBlockPicker
+                      editor={editor}
+                      actions={actions}
+                      articleLanguage={language}
+                      {...createBlockpickerOptions(blockpickerOptions)}
+                    />
+                  )}
+                  <StyledEditable
+                    {...rest}
+                    onBlur={onBlur}
+                    decorate={decorations}
+                    onKeyDown={handleKeyDown}
+                    placeholder={placeholder}
+                    renderElement={renderElement}
+                    renderLeaf={renderLeaf}
+                    readOnly={submitted}
+                    onDragStart={onDragStartCallback}
+                    onDragOver={onDragOverCallback}
+                    onDrop={onDropCallback}
                   />
-                )}
-                <StyledEditable
-                  {...rest}
-                  onBlur={onBlur}
-                  decorate={decorations}
-                  onKeyDown={handleKeyDown}
-                  placeholder={placeholder}
-                  renderElement={renderElement}
-                  renderLeaf={renderLeaf}
-                  readOnly={submitted}
-                  onDragStart={onDragStartCallback}
-                  onDragOver={onDragOverCallback}
-                  onDrop={onDropCallback}
-                />
-              </>
-            )}
-          </Slate>
-        </StyledSlateWrapper>
-      </SlateProvider>
+                </>
+              )}
+            </Slate>
+          </StyledSlateWrapper>
+        </SlateProvider>
+      </ArticleLanguageProvider>
     </article>
   );
 };

@@ -10,18 +10,23 @@ import { ComponentProps } from "react";
 import { useTranslation } from "react-i18next";
 import { IconButtonV2 } from "@ndla/button";
 import { ChevronLeft } from "@ndla/icons/common";
-import Tooltip from "@ndla/tooltip";
 
 interface Props extends ComponentProps<typeof IconButtonV2> {}
 
 export const MoveContentButton = ({ onMouseDown, ...rest }: Props) => {
   const { t } = useTranslation();
   return (
-    <Tooltip tooltip={rest["aria-label" ?? ""]}>
-      <IconButtonV2 contentEditable={false} tabIndex={-1} variant="ghost" onMouseDown={onMouseDown} {...rest}>
-        <ChevronLeft />
-      </IconButtonV2>
-    </Tooltip>
+    <IconButtonV2
+      contentEditable={false}
+      tabIndex={-1}
+      variant="ghost"
+      onMouseDown={onMouseDown}
+      title={rest["aria-label" ?? ""]}
+      {...rest}
+      aria-label={rest["aria-label" ?? ""]}
+    >
+      <ChevronLeft />
+    </IconButtonV2>
   );
 };
 

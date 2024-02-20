@@ -15,7 +15,6 @@ import { IconButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { UploadDropZone, FieldHeader } from "@ndla/forms";
 import { DeleteForever } from "@ndla/icons/editor";
-import Tooltip from "@ndla/tooltip";
 import AudioCopyInfo from "./AudioCopyInfo";
 import AudioFileInfoModal from "./AudioFileInfoModal";
 import { AudioFormikType } from "./AudioForm";
@@ -72,17 +71,16 @@ const AudioContent = <T extends AudioFormikType | PodcastFormValues>({ handleSub
             {playerObject ? (
               <PlayerWrapper>
                 <AudioPlayer audio={playerObject} />
-                <Tooltip tooltip={t("form.audio.remove")}>
-                  <IconButtonV2
-                    variant="ghost"
-                    colorTheme="danger"
-                    aria-label={t("form.audio.remove")}
-                    onClick={() => setFieldValue("audioFile", {})}
-                    tabIndex={-1}
-                  >
-                    <DeleteForever />
-                  </IconButtonV2>
-                </Tooltip>
+                <IconButtonV2
+                  variant="ghost"
+                  colorTheme="danger"
+                  aria-label={t("form.audio.remove")}
+                  onClick={() => setFieldValue("audioFile", {})}
+                  tabIndex={-1}
+                  title={t("form.audio.remove")}
+                >
+                  <DeleteForever />
+                </IconButtonV2>
               </PlayerWrapper>
             ) : (
               <UploadDropZone

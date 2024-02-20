@@ -223,6 +223,7 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
           responsibleId: values.responsible,
           revision: 0,
           priority: values.priority,
+          metaImage: undefined,
         };
         const createdArticle = await createDraft(convertUpdateToNewDraft(plannedResource));
 

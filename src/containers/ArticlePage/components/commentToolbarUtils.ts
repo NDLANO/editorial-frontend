@@ -50,7 +50,7 @@ const commentRenderers: SlatePlugin[] = [
   paragraphRenderer,
   markRenderer,
   breakRenderer,
-  linkRenderer("nb"),
+  linkRenderer,
   listRenderer,
 ];
 

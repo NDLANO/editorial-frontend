@@ -11,13 +11,22 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { spacing, colors, fonts } from "@ndla/core";
 import { InformationOutline } from "@ndla/icons/common";
-import Tooltip from "@ndla/tooltip";
 
-const ComponentWrapper = styled.div`
+const componentWrapperStyles = css`
   display: flex;
   flex-direction: row;
   gap: ${spacing.xsmall};
 `;
+
+const ComponentWrapper = styled.div`
+  ${componentWrapperStyles}
+`;
+
+const TitleWrapper = styled.div`
+  align-items: center;
+  ${componentWrapperStyles}
+`;
+
 const TextWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -68,16 +77,10 @@ const TableComponent = ({ title, description, Icon, infoText }: Props) => {
         <Icon css={iconStyles} />
       </StyledIconWrapper>
       <TextWrapper>
-        <ComponentWrapper>
+        <TitleWrapper>
           <StyledTitle>{title}</StyledTitle>
-          {infoText && (
-            <Tooltip tooltip={infoText}>
-              <div>
-                <InformationOutline />
-              </div>
-            </Tooltip>
-          )}
-        </ComponentWrapper>
+          {infoText && <InformationOutline aria-label={infoText} title={infoText} />}
+        </TitleWrapper>
         <StyledDescription>{description}</StyledDescription>
       </TextWrapper>
     </ComponentWrapper>

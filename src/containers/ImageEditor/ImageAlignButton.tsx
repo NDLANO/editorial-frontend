@@ -9,7 +9,6 @@
 import { MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { AlignLeft, AlignCenter, AlignRight } from "@ndla/icons/editor";
-import Tooltip from "@ndla/tooltip";
 import ImageEditorButton from "./ImageEditorButton";
 
 const icon: Record<string, JSX.Element> = {
@@ -32,11 +31,16 @@ const ImageAlignButton = ({ currentAlign, disabled, alignType, onFieldChange }: 
   };
 
   return (
-    <Tooltip tooltip={t(`form.image.alignment.${alignType}`)}>
-      <ImageEditorButton tabIndex={-1} disabled={disabled} isActive={currentAlign === alignType} onClick={onChange}>
-        {icon[alignType]}
-      </ImageEditorButton>
-    </Tooltip>
+    <ImageEditorButton
+      aria-label={t(`form.image.alignment.${alignType}`)}
+      tabIndex={-1}
+      disabled={disabled}
+      isActive={currentAlign === alignType}
+      onClick={onChange}
+      title={t(`form.image.alignment.${alignType}`)}
+    >
+      {icon[alignType]}
+    </ImageEditorButton>
   );
 };
 

@@ -88,21 +88,30 @@ test('can create headings', async ({ page }) => {
   await el.click();
   await el.getByRole('textbox').fill('text to style');
   await el.press(`${metaKey}+A`);
-  const button = page.getByTestId('toolbar-button-text');
+  let button = page.getByTestId('toolbar-button-text');
   await button.click();
   const h2Button = page.getByTestId('text-option-heading-2');
   await h2Button.click();
   await expect(page.locator('h2').getByText('text to style')).toBeVisible();
-  await el.press(`${metaKey}+A`);
+  await page.getByTestId('slate-editor').focus()
+  await page.getByTestId('slate-editor').press(`${metaKey}+A`)
+  button = page.getByTestId('toolbar-button-text');
   await expect(button).toBeVisible();
   await button.click();
   const h3Button = page.getByTestId('text-option-heading-3');
   await h3Button.click();
   await expect(page.locator('h3').getByText('text to style')).toBeVisible();
+  await page.getByTestId('slate-editor').focus()
+  await page.getByTestId('slate-editor').press(`${metaKey}+A`)
+  button = page.getByTestId('toolbar-button-text');
   await button.click();
   const h4Button = page.getByTestId('text-option-heading-4');
   await h4Button.click();
   await expect(page.locator('h4').getByText('text to style')).toBeVisible();
+  await page.getByTestId('slate-editor').focus()
+  await page.getByTestId('slate-editor').press(`${metaKey}+A`)
+  await el.press(`${metaKey}+A`);
+  button = page.getByTestId('toolbar-button-text');
   await button.click();
   const normalTextButton = page.getByTestId('text-option-normal-text');
   await normalTextButton.click();

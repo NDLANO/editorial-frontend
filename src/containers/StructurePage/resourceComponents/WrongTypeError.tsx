@@ -10,7 +10,6 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { colors } from "@ndla/core";
 import { AlertCircle } from "@ndla/icons/editor";
-import Tooltip from "@ndla/tooltip";
 import { NodeChild } from "@ndla/types-taxonomy";
 import { IconWrapper } from "./StatusIcons";
 import { getIdFromUrn } from "../../../util/taxonomyHelpers";
@@ -52,11 +51,9 @@ const WrongTypeError = ({ resource, articleType }: Props) => {
   const errorText = articleType ? wrongArticleTypeError : missingArticleTypeError;
 
   return (
-    <Tooltip tooltip={errorText}>
-      <IconWrapper>
-        <StyledWarnIcon title={undefined} aria-label={errorText} />
-      </IconWrapper>
-    </Tooltip>
+    <IconWrapper>
+      <StyledWarnIcon title={errorText} aria-label={errorText} />
+    </IconWrapper>
   );
 };
 

@@ -60,6 +60,7 @@ export const toolbarOptions = createToolbarDefaultValues({
   text: {
     hidden: true,
   },
+  languages: { hidden: true },
   mark: {
     code: {
       hidden: true,

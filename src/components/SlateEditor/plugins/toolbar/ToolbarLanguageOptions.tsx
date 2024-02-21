@@ -13,12 +13,12 @@ import { ReactEditor, useSlate, useSlateSelector } from "slate-react";
 import { ToolbarButton } from "@radix-ui/react-toolbar";
 import { DropdownItem, DropdownMenu, DropdownTrigger } from "@ndla/dropdown-menu";
 import { ArrowDropDown } from "@ndla/icons/common";
+import { ToolbarCategoryProps } from "./SlateToolbar";
 import UIToolbarButton from "./ToolbarButton";
 import { ToolbarDropdownButton, ToolbarDropdownContent } from "./toolbarDropdownComponents";
+import { LanguageType } from "./toolbarState";
 import hasNodeOfType from "../../utils/hasNodeOfType";
 import { defaultSpanBlock } from "../span/utils";
-
-export const languages = ["ar", "de", "en", "es", "fr", "la", "no", "se", "sma", "so", "ti", "zh"];
 
 const getCurrentLanguage = (editor: Editor) => {
   const [currentBlock] =
@@ -31,7 +31,7 @@ const getCurrentLanguage = (editor: Editor) => {
   return node.data.lang;
 };
 
-export const ToolbarLanguageOptions = () => {
+export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<LanguageType>) => {
   const { t } = useTranslation();
   const editor = useSlate();
   const currentLanguage = useSlateSelector(getCurrentLanguage);
@@ -77,6 +77,9 @@ export const ToolbarLanguageOptions = () => {
     [editor],
   );
 
+  const visibleOptions = options.filter((option) => !option.hidden);
+  if (!visibleOptions.length) return null;
+
   return (
     <DropdownMenu modal={false}>
       <ToolbarButton asChild>
@@ -98,15 +101,16 @@ export const ToolbarLanguageOptions = () => {
             {t("editorToolbar.noneLanguage")}
           </ToolbarDropdownButton>
         </DropdownItem>
-        {languages.map((option) => (
-          <DropdownItem key={option}>
+        {visibleOptions.map((option) => (
+          <DropdownItem key={option.value}>
             <ToolbarDropdownButton
-              data-testid={`language-button-${option}`}
+              data-testid={`language-button-${option.value}`}
               size="small"
               noTitle
-              onClick={() => onClick(option)}
+              disabled={option.disabled}
+              onClick={() => onClick(option.value)}
             >
-              {t(`languages.${option}`)}
+              {t(`languages.${option.value}`)}
             </ToolbarDropdownButton>
           </DropdownItem>
         ))}

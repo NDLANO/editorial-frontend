@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Transforms, Element } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import styled from "@emotion/styled";
-import { spacing, colors } from "@ndla/core";
+import { spacing, colors, fonts } from "@ndla/core";
 import { TYPE_DETAILS } from "./types";
 import DeleteButton from "../../../DeleteButton";
 import MoveContentButton from "../../../MoveContentButton";
@@ -61,6 +61,13 @@ const StyledSummary = styled.summary`
   padding: 0;
   cursor: inherit;
   display: block;
+  span {
+    & > * {
+      display: inline;
+      font-size: ${fonts.size.text.metaText.medium};
+      font-weight: ${fonts.weight.normal};
+    }
+  }
 `;
 
 const ButtonContainer = styled.div`

@@ -22,7 +22,8 @@ import { ContactBlockElement } from "./plugins/contactBlock";
 import { DefinitionDescriptionElement, DefinitionListElement, DefinitionTermElement } from "./plugins/definitionList";
 import { DetailsElement, SummaryElement } from "./plugins/details";
 import { DivElement } from "./plugins/div";
-import { BrightcoveEmbedElement, ErrorEmbedElement, ExternalEmbedElement, ImageEmbedElement } from "./plugins/embed";
+import { BrightcoveEmbedElement, ErrorEmbedElement, ImageEmbedElement } from "./plugins/embed";
+import { ExternalElement, IframeElement } from "./plugins/external/types";
 import { FileElement } from "./plugins/file";
 import { FootnoteElement } from "./plugins/footnote";
 import { FramedContentElement } from "./plugins/framedContent";
@@ -103,7 +104,6 @@ declare module "slate" {
       | BrightcoveEmbedElement
       | AudioElement
       | ErrorEmbedElement
-      | ExternalEmbedElement
       | H5pElement
       | FramedContentElement
       | DivElement
@@ -120,7 +120,9 @@ declare module "slate" {
       | CampaignBlockElement
       | LinkBlockListElement
       | DisclaimerElement
-      | NoopElement;
+      | NoopElement
+      | ExternalElement
+      | IframeElement;
     Text: CustomTextWithMarks;
   }
 }

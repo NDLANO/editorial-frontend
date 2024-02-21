@@ -26,11 +26,8 @@ import { TYPE_BLOGPOST } from "../../../../components/SlateEditor/plugins/blogPo
 import { TYPE_CAMPAIGN_BLOCK } from "../../../../components/SlateEditor/plugins/campaignBlock/types";
 import { TYPE_CODEBLOCK } from "../../../../components/SlateEditor/plugins/codeBlock/types";
 import { TYPE_CONTACT_BLOCK } from "../../../../components/SlateEditor/plugins/contactBlock/types";
-import {
-  TYPE_EMBED_BRIGHTCOVE,
-  TYPE_EMBED_EXTERNAL,
-  TYPE_EMBED_IMAGE,
-} from "../../../../components/SlateEditor/plugins/embed/types";
+import { TYPE_EMBED_BRIGHTCOVE, TYPE_EMBED_IMAGE } from "../../../../components/SlateEditor/plugins/embed/types";
+import { TYPE_EXTERNAL } from "../../../../components/SlateEditor/plugins/external/types";
 import { TYPE_FILE } from "../../../../components/SlateEditor/plugins/file/types";
 import { TYPE_GRID } from "../../../../components/SlateEditor/plugins/grid/types";
 import { TYPE_H5P } from "../../../../components/SlateEditor/plugins/h5p/types";
@@ -87,7 +84,7 @@ const StyledIconButton = styled(IconButtonV2)`
   }
 `;
 
-const visualElements = [TYPE_H5P, TYPE_EMBED_BRIGHTCOVE, TYPE_AUDIO, TYPE_EMBED_EXTERNAL, TYPE_EMBED_IMAGE];
+const visualElements = [TYPE_H5P, TYPE_EMBED_BRIGHTCOVE, TYPE_AUDIO, TYPE_EXTERNAL, TYPE_EMBED_IMAGE];
 
 const actions = [
   TYPE_TABLE,
@@ -115,15 +112,12 @@ interface Props {
   articleLanguage: string;
 }
 
+const editorPlugins = frontpagePlugins.concat(frontpageRenderers);
+
 const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
   const { userPermissions } = useSession();
   const { t } = useTranslation();
   const { isWideArticle } = useWideArticle();
-
-  const editorPlugins = useMemo(
-    () => frontpagePlugins.concat(frontpageRenderers(articleLanguage ?? "")),
-    [articleLanguage],
-  );
 
   const { dirty, initialValues, values } = useFormikContext<FrontpageArticleFormType>();
   const { slug, id, creators, published, language } = values;

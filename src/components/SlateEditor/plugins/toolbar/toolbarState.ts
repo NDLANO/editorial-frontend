@@ -10,11 +10,14 @@ import merge from "lodash/merge";
 import { Editor, Element, Node } from "slate";
 import { ElementType } from "../../interfaces";
 
+export const languages = ["ar", "de", "en", "es", "fr", "la", "no", "se", "sma", "so", "ti", "zh"] as const;
+
 export type TextType = "normal-text" | "heading-2" | "heading-3" | "heading-4";
 export type MarkType = "bold" | "italic" | "code" | "sub" | "sup";
 export type BlockType = "quote" | "definition-list" | "numbered-list" | "bulleted-list" | "letter-list";
 export type InlineType = "content-link" | "mathml" | "concept-inline" | "gloss-inline";
 export type TableType = "left" | "center" | "right";
+export type LanguageType = (typeof languages)[number];
 
 type ToolbarMap = {
   text: TextType;
@@ -22,6 +25,7 @@ type ToolbarMap = {
   block: BlockType;
   inline: InlineType;
   table: TableType;
+  languages: LanguageType;
 };
 
 export type ToolbarCategories = keyof ToolbarMap;
@@ -83,6 +87,13 @@ export const allOptions: OptionsType = {
     center: { value: "center" },
     right: { value: "right" },
   },
+  languages: languages.reduce(
+    (acc, lang) => {
+      acc[lang] = { value: lang };
+      return acc;
+    },
+    {} as Record<LanguageType, ToolbarValue<LanguageType>>,
+  ),
 };
 
 export type CategoryFilters = {
@@ -208,7 +219,7 @@ export const toolbarState = ({
       acc[curr[0] as ToolbarCategories] = Object.values(curr[1]);
       return acc;
     },
-    { text: [], mark: [], block: [], inline: [], table: [] },
+    { text: [], mark: [], block: [], inline: [], table: [], languages: [] },
   );
   return toolbar;
 };

@@ -6,7 +6,7 @@
  *
  */
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Transforms } from "slate";
 import { ReactEditor } from "slate-react";
@@ -24,6 +24,7 @@ import { ConceptInlineElement } from "./inline/interfaces";
 import { generateNumbersArray, generateUniqueGlossLanguageArray } from "./utils";
 import { CheckboxWrapper } from "../../../Form/styles";
 import { FormControl } from "../../../FormField";
+import { useArticleLanguage } from "../../ArticleLanguageProvider";
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -85,8 +86,21 @@ const getInitialStateSelectedLanguages = (exampleLangs: string | undefined, exam
   else return [];
 };
 
+const getLanguageWithConfigurations = (
+  examples: IGlossExample[][],
+  locale: string,
+): { lang: string; isDisabled: boolean }[] => {
+  const languages = generateUniqueGlossLanguageArray(examples);
+  return languages.map((langCode) => {
+    // If the locale is "nb" and the language is "nn" or vice versa, the checkbox should be disabled
+    const isDisabled = (locale === "nb" && langCode === "nn") || (locale === "nn" && langCode === "nb");
+    return { lang: langCode, isDisabled: isDisabled };
+  });
+};
+
 const EditGlossExamplesModalContent = ({ originalLanguage, examples, editor, element, embed, close }: Props) => {
   const { t } = useTranslation();
+  const locale = useArticleLanguage();
   const [selectedExamples, setSelectedExamples] = useState<string[]>(
     getInitialStateSelectedExamples(embed.embedData.exampleIds, examples),
   );
@@ -95,7 +109,7 @@ const EditGlossExamplesModalContent = ({ originalLanguage, examples, editor, ele
     getInitialStateSelectedLanguages(embed.embedData.exampleLangs, examples),
   );
 
-  const languages = useMemo(() => generateUniqueGlossLanguageArray(examples), [examples]);
+  const languageWithConfigurations = getLanguageWithConfigurations(examples, locale);
 
   const saveGlossUpdates = () => {
     Transforms.setNodes(
@@ -164,17 +178,21 @@ const EditGlossExamplesModalContent = ({ originalLanguage, examples, editor, ele
               {t("form.gloss.editExamplesLanguage")}
             </Text>
             <CheckboxGroupWrapper>
-              {languages.map((lang, index) => (
-                <FormControl key={lang}>
+              {languageWithConfigurations.map((lang, index) => (
+                <FormControl key={lang.lang} isDisabled={lang.isDisabled}>
                   <CheckboxWrapper>
                     <CheckboxItem
-                      checked={selectedLanguages.includes(lang)}
+                      checked={!lang.isDisabled && selectedLanguages.includes(lang.lang)}
                       onCheckedChange={() =>
-                        onCheckboxChange(languages[index], setSelectedLanguages, selectedLanguages)
+                        onCheckboxChange(
+                          languageWithConfigurations[index].lang,
+                          setSelectedLanguages,
+                          selectedLanguages,
+                        )
                       }
                     />
                     <Label margin="none" textStyle="label-small">
-                      {t(`languages.${lang}`)}
+                      {t(`languages.${lang.lang}`)}
                     </Label>
                   </CheckboxWrapper>
                 </FormControl>

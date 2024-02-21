@@ -14,7 +14,8 @@ import { TYPE_QUOTE } from "../plugins/blockquote/types";
 import { TYPE_CODEBLOCK } from "../plugins/codeBlock/types";
 import { TYPE_DEFINITION_LIST } from "../plugins/definitionList/types";
 import { TYPE_DETAILS } from "../plugins/details/types";
-import { TYPE_EMBED_BRIGHTCOVE, TYPE_EMBED_ERROR, TYPE_EMBED_EXTERNAL } from "../plugins/embed/types";
+import { TYPE_EMBED_BRIGHTCOVE, TYPE_EMBED_ERROR } from "../plugins/embed/types";
+import { TYPE_EXTERNAL } from "../plugins/external/types";
 import { TYPE_FILE } from "../plugins/file/types";
 import { TYPE_FRAMED_CONTENT } from "../plugins/framedContent/types";
 import { TYPE_GRID } from "../plugins/grid/types";
@@ -35,7 +36,7 @@ export const textBlockElements: Element["type"][] = [
   TYPE_TABLE,
   TYPE_AUDIO,
   TYPE_EMBED_BRIGHTCOVE,
-  TYPE_EMBED_EXTERNAL,
+  TYPE_EXTERNAL,
   TYPE_EMBED_ERROR,
   TYPE_H5P,
   TYPE_FILE,

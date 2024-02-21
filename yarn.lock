@@ -1583,17 +1583,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/types-backend@npm:^0.2.50":
-  version: 0.2.50
-  resolution: "@ndla/types-backend@npm:0.2.50"
-  checksum: 10c0/82e18af457d7f51943cc519064206cfc425d97576dabf6cf16acf80b9f640e57970392109386b7fdba0873c3554ea8130efa90e7f502bbb52293f4c133a3a5bb
+"@ndla/types-backend@npm:^0.2.53":
+  version: 0.2.53
+  resolution: "@ndla/types-backend@npm:0.2.53"
+  checksum: 10c0/e9915c23d9bffcd18469bb72ed7a78980fc7da2c65b22974f49f9f5513ab19973a9a525f582f77b68543b7a8dbca8fa0e95ee74a95b1a9a853ec5fcf9c0a7722
   languageName: node
   linkType: hard
 
-"@ndla/types-embed@npm:^4.0.15":
-  version: 4.0.15
-  resolution: "@ndla/types-embed@npm:4.0.15"
-  checksum: 10c0/e25d11d980f4cebf4027a618551e3428a4277595fcc5df67a9c5f866e993af10c47c036b80b72902b4668ed7f0a83552e30287aff19f06eaca22d213d09ed2c1
+"@ndla/types-embed@npm:^4.0.19":
+  version: 4.0.19
+  resolution: "@ndla/types-embed@npm:4.0.19"
+  checksum: 10c0/55e11693d865de82ffdfd49331ef48a99c5486dfc0269925fb9c6e5b0c18cd9616d390076a53a06ee090778bdb42156c537a8f131144c8ac2e2c9c503f5cd76e
   languageName: node
   linkType: hard
 
@@ -1755,14 +1755,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@playwright/test@npm:^1.39.0":
-  version: 1.39.0
-  resolution: "@playwright/test@npm:1.39.0"
+"@playwright/test@npm:^1.41.2":
+  version: 1.41.2
+  resolution: "@playwright/test@npm:1.41.2"
   dependencies:
-    playwright: "npm:1.39.0"
+    playwright: "npm:1.41.2"
   bin:
     playwright: cli.js
-  checksum: 10c0/d808ca36f0a411ae09eece19fc93fcbd048541253c6c9e341fc9488613395bb94ebf65ad64e920d6be0fb20e887cf317c532a45d2c30e1804d6842e55c1fe6e9
+  checksum: 10c0/071fe307e7e46f550e8608ce3c2c207b7cfbda37b39f3dcbe3875eaa18e79f2a768a5795a8cfe21df9361ec63594de0359f5542dd3a3a7f6625300a98452a344
   languageName: node
   linkType: hard
 
@@ -5520,14 +5520,14 @@ __metadata:
     "@ndla/tabs": "npm:^3.2.15"
     "@ndla/tooltip": "npm:^6.0.18"
     "@ndla/tracker": "npm:^5.0.6"
-    "@ndla/types-backend": "npm:^0.2.50"
-    "@ndla/types-embed": "npm:^4.0.15"
+    "@ndla/types-backend": "npm:^0.2.53"
+    "@ndla/types-embed": "npm:^4.0.19"
     "@ndla/types-taxonomy": "npm:^1.0.22"
     "@ndla/typography": "npm:^0.4.12"
     "@ndla/ui": "npm:^50.9.20"
     "@ndla/util": "npm:^4.0.4"
     "@ndla/video-search": "npm:^5.0.23"
-    "@playwright/test": "npm:^1.39.0"
+    "@playwright/test": "npm:^1.41.2"
     "@radix-ui/react-accordion": "npm:^1.1.2"
     "@radix-ui/react-popover": "npm:^1.0.3"
     "@radix-ui/react-portal": "npm:^1.0.3"
@@ -5592,7 +5592,6 @@ __metadata:
     postcss-preset-env: "npm:7.8.2"
     prettier: "npm:^3.1.1"
     prismjs: "npm:^1.29.0"
-    process: "npm:^0.11.10"
     prop-types: "npm:^15.7.2"
     query-string: "npm:^5.1.1"
     react: "npm:^18.2.0"
@@ -9936,27 +9935,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"playwright-core@npm:1.39.0":
-  version: 1.39.0
-  resolution: "playwright-core@npm:1.39.0"
+"playwright-core@npm:1.41.2":
+  version: 1.41.2
+  resolution: "playwright-core@npm:1.41.2"
   bin:
     playwright-core: cli.js
-  checksum: 10c0/dbd719ae77ae84a43f831beb89514ca5cca62840a2f0cce445645002ac045c256c19b5f4f3cf9a7aa205428a1571e9e8d946ff1937cc316033ea58090c549a76
+  checksum: 10c0/1e80a24b0e93dd5aa643fb926d23c055f2c1a0a1e711c0d798edcfd8c3e46a6716d4ca59d72ed076191e6c713d09a0f14387d96e60f5221abd4ff65aef1ac3b3
   languageName: node
   linkType: hard
 
-"playwright@npm:1.39.0":
-  version: 1.39.0
-  resolution: "playwright@npm:1.39.0"
+"playwright@npm:1.41.2":
+  version: 1.41.2
+  resolution: "playwright@npm:1.41.2"
   dependencies:
     fsevents: "npm:2.3.2"
-    playwright-core: "npm:1.39.0"
+    playwright-core: "npm:1.41.2"
   dependenciesMeta:
     fsevents:
       optional: true
   bin:
     playwright: cli.js
-  checksum: 10c0/b55adb3453a9c2a02fe61dbcbd5fcb0cbae1038ea6115158c7933d203ae5b62a13cb294905d6661836751a5825bc2cfdc71b67988082ec47ac6930ca744af724
+  checksum: 10c0/1b487387c1bc003291a9dbd098e8e3c6a31efbb4d7a2ce4f2bf9d5e7f9fbf4a406352ab70e5266eab9a2a858bd42d8955343ea30c0286c3912e81984aa0220a3
   languageName: node
   linkType: hard
 
@@ -10521,13 +10520,6 @@ __metadata:
   version: 3.0.0
   resolution: "proc-log@npm:3.0.0"
   checksum: 10c0/f66430e4ff947dbb996058f6fd22de2c66612ae1a89b097744e17fb18a4e8e7a86db99eda52ccf15e53f00b63f4ec0b0911581ff2aac0355b625c8eac509b0dc
-  languageName: node
-  linkType: hard
-
-"process@npm:^0.11.10":
-  version: 0.11.10
-  resolution: "process@npm:0.11.10"
-  checksum: 10c0/40c3ce4b7e6d4b8c3355479df77aeed46f81b279818ccdc500124e6a5ab882c0cc81ff7ea16384873a95a74c4570b01b120f287abbdd4c877931460eca6084b3
   languageName: node
   linkType: hard
 

@@ -12,7 +12,7 @@ import { TYPE_AUDIO } from "../../audio/types";
 import { TYPE_H5P } from "../../h5p/types";
 import { TYPE_PARAGRAPH } from "../../paragraph/types";
 import { TYPE_SECTION } from "../../section/types";
-import { TYPE_EMBED_BRIGHTCOVE, TYPE_EMBED_EXTERNAL, TYPE_EMBED_IMAGE } from "../types";
+import { TYPE_EMBED_BRIGHTCOVE, TYPE_EMBED_IMAGE } from "../types";
 
 describe("embed image serializing tests", () => {
   const editorWithImage: Descendant[] = [
@@ -95,43 +95,6 @@ describe("embed brightcove video serializing tests", () => {
   test("deserializing", () => {
     const res = blockContentToEditorValue(htmlWithBrightcove);
     expect(res).toEqual(editorWithBrightcove);
-  });
-});
-
-describe("embed youtube video serializing tests", () => {
-  const editorWithYotube: Descendant[] = [
-    {
-      children: [
-        { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
-
-        {
-          type: TYPE_EMBED_EXTERNAL,
-          data: {
-            resource: "external",
-            url: "https://www.youtube.com/watch?v=testurl",
-            title: "test title",
-          },
-          children: [
-            {
-              text: "",
-            },
-          ],
-        },
-        { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
-      ],
-      type: "section",
-    },
-  ];
-  const htmlWithYoutube =
-    '<section><ndlaembed data-resource="external" data-url="https://www.youtube.com/watch?v=testurl" data-title="test title"></ndlaembed></section>';
-  test("serializing", () => {
-    const res = blockContentToHTML(editorWithYotube);
-    expect(res).toMatch(htmlWithYoutube);
-  });
-
-  test("deserializing", () => {
-    const res = blockContentToEditorValue(htmlWithYoutube);
-    expect(res).toEqual(editorWithYotube);
   });
 });
 

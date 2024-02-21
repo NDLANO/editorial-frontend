@@ -7,7 +7,7 @@
  */
 
 import { format } from "date-fns";
-import { FieldInputProps } from "formik";
+import { FieldArrayRenderProps } from "formik";
 import { TFunction } from "i18next";
 import uniqueId from "lodash/uniqueId";
 import { useCallback, useState } from "react";
@@ -17,7 +17,6 @@ import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { colors, spacing, misc } from "@ndla/core";
 import { FormControl, Label, TextAreaV3 } from "@ndla/forms";
-import { CommentType } from "./Comment";
 import { plugins, toolbarAreaFilters, toolbarOptions } from "./commentToolbarUtils";
 import { COMMENT_COLOR, formControlStyles, textAreaStyles } from "./styles";
 import { TYPE_DIV } from "../../../components/SlateEditor/plugins/div/types";
@@ -83,12 +82,11 @@ export const getCommentInfoText = (userName: string | undefined, t: TFunction): 
 const emptyParagraph: Descendant = { type: TYPE_PARAGRAPH, children: [{ text: "" }] };
 
 interface Props {
-  field: FieldInputProps<CommentType[]>;
   isSubmitting: boolean;
+  arrayHelpers: FieldArrayRenderProps;
 }
 
-const InputComment = ({ field, isSubmitting }: Props) => {
-  const { value, onChange, name } = field;
+const InputComment = ({ isSubmitting, arrayHelpers }: Props) => {
   const { t } = useTranslation();
   const { userName } = useSession();
   const [inputValue, setInputValue] = useState<Descendant[]>([emptyParagraph]);
@@ -97,9 +95,8 @@ const InputComment = ({ field, isSubmitting }: Props) => {
   const addComment = useCallback(() => {
     // We need a temporary unique id in frontend before id is generated in draft-api when comment is created
     const uid = uniqueId();
-    const updatedComments = [{ generatedId: uid, content: inputValue, isOpen: true, solved: false }, ...value];
-    onChange({ target: { value: updatedComments, name: name } });
-  }, [inputValue, value, onChange, name]);
+    arrayHelpers.insert(0, { generatedId: uid, content: inputValue, isOpen: true, solved: false });
+  }, [arrayHelpers, inputValue]);
 
   const handleFocus = useCallback(() => {
     if (!isFocused) {
@@ -142,8 +139,8 @@ const InputComment = ({ field, isSubmitting }: Props) => {
               toolbarOptions={toolbarOptions}
               toolbarAreaFilters={toolbarAreaFilters}
               data-comment=""
-              receiveInitialFocus
               hideSpinner
+              receiveInitialFocus
             />
           ) : (
             <StyledTextArea

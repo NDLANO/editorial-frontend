@@ -6,7 +6,7 @@
  *
  */
 
-import { FieldInputProps } from "formik";
+import { FieldArrayRenderProps, FieldInputProps } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
@@ -17,34 +17,13 @@ import { FormControl, Label } from "@ndla/forms";
 import { TrashCanOutline, RightArrow, ExpandMore } from "@ndla/icons/action";
 import { Done } from "@ndla/icons/editor";
 import { plugins, toolbarAreaFilters, toolbarOptions } from "./commentToolbarUtils";
-import { COMMENT_COLOR, formControlStyles, slateContentStyles } from "./styles";
+import { COMMENT_COLOR, formControlStyles } from "./styles";
 import AlertModal from "../../../components/AlertModal";
 import RichTextEditor from "../../../components/SlateEditor/RichTextEditor";
-import { inlineContentToHTML } from "../../../util/articleContentConverter";
 import { SlateCommentType } from "../../FormikForm/articleFormHooks";
 
 const StyledFormControl = styled(FormControl)`
   ${formControlStyles}
-`;
-
-const StyledTextArea = styled.div`
-  ${slateContentStyles};
-  background-color: ${COMMENT_COLOR};
-  font-family: ${fonts.sans};
-  font-weight: ${fonts.weight.light};
-  padding: 0 ${spacing.xxsmall};
-  ${fonts.size.text.button};
-  border: 1px solid transparent;
-
-  &[data-open="false"] {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-height: 30px;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-  }
 `;
 
 const CommentCard = styled.li`
@@ -80,37 +59,32 @@ export type CommentType =
 
 interface Props {
   id: string | undefined;
-  field: FieldInputProps<CommentType[]>;
+  field: FieldInputProps<CommentType>;
   index: number;
   isSubmitting: boolean;
+  arrayHelpers: FieldArrayRenderProps;
 }
 
-const Comment = ({ id, index, isSubmitting, field }: Props) => {
+const Comment = ({ id, index, isSubmitting, field, arrayHelpers }: Props) => {
   const { t } = useTranslation();
-  const { value, onChange, name } = field;
-  const comment = value[index];
-
-  const [inputValue, setInputValue] = useState<Descendant[]>(comment.content);
+  const [inputValue, setInputValue] = useState<Descendant[]>(field.value.content);
   const [modalOpen, setModalOpen] = useState(false);
-  const [isFocused, setIsFocused] = useState(false);
 
   const handleDelete = () => {
     if (index === undefined) return;
-    const updatedList = value.filter((_, i) => i !== index);
-    onChange({ target: { value: updatedList, name: name } });
+    arrayHelpers.remove(index);
     setModalOpen(false);
   };
 
-  const updateComment = (updateValue: boolean | Descendant[], field: keyof CommentType) => {
-    const updatedComments = value.map((c, i) => (index === i ? { ...c, [field]: updateValue } : c));
-    onChange({ target: { value: updatedComments, name: "comments" } });
+  const updateComment = (updateValue: boolean | Descendant[], updateField: keyof CommentType) => {
+    arrayHelpers.replace(index, { ...field.value, [updateField]: updateValue });
   };
 
-  const tooltipText = comment.isOpen ? t("form.comment.hide") : t("form.comment.show");
+  const tooltipText = field.value.isOpen ? t("form.comment.hide") : t("form.comment.show");
   const commentId = `${id}-comment-section`;
 
   return (
-    <CommentCard data-solved={comment.solved}>
+    <CommentCard data-solved={field.value.solved}>
       <CardContent>
         <TopButtonRow>
           <IconButtonV2
@@ -118,19 +92,19 @@ const Comment = ({ id, index, isSubmitting, field }: Props) => {
             size="xsmall"
             aria-label={tooltipText}
             title={tooltipText}
-            onClick={() => updateComment(!comment.isOpen, "isOpen")}
-            aria-expanded={comment.isOpen}
+            onClick={() => updateComment(!field.value.isOpen, "isOpen")}
+            aria-expanded={field.value.isOpen}
             aria-controls={commentId}
           >
-            {comment.isOpen ? <ExpandMore /> : <RightArrow />}
+            {field.value.isOpen ? <ExpandMore /> : <RightArrow />}
           </IconButtonV2>
           <div>
             <IconButtonV2
-              variant={comment.solved ? "solid" : "ghost"}
+              variant={field.value.solved ? "solid" : "ghost"}
               size="xsmall"
-              aria-label={comment.solved ? t("form.comment.unresolve") : t("form.comment.solve")}
-              title={comment.solved ? t("form.comment.unresolve") : t("form.comment.solve")}
-              onClick={() => updateComment(!comment.solved, "solved")}
+              aria-label={field.value.solved ? t("form.comment.unresolve") : t("form.comment.solve")}
+              title={field.value.solved ? t("form.comment.unresolve") : t("form.comment.solve")}
+              onClick={() => updateComment(!field.value.solved, "solved")}
               colorTheme="darker"
             >
               <Done />
@@ -149,36 +123,19 @@ const Comment = ({ id, index, isSubmitting, field }: Props) => {
         </TopButtonRow>
         <StyledFormControl id={`comment-${id}`}>
           <Label visuallyHidden>{t("form.comment.commentField")}</Label>
-          {isFocused ? (
-            <RichTextEditor
-              value={comment.content ?? []}
-              hideBlockPicker
-              submitted={isSubmitting}
-              plugins={plugins}
-              onChange={setInputValue}
-              onBlur={() => updateComment(inputValue, "content")}
-              onFocus={() => updateComment(true, "isOpen")}
-              toolbarOptions={toolbarOptions}
-              toolbarAreaFilters={toolbarAreaFilters}
-              data-open={comment.isOpen}
-              data-comment=""
-              receiveInitialFocus
-              hideSpinner
-            />
-          ) : (
-            <StyledTextArea
-              dangerouslySetInnerHTML={{ __html: inlineContentToHTML(comment.content) }}
-              onFocus={() => {
-                setInputValue(comment.content);
-                updateComment(true, "isOpen");
-                setIsFocused(true);
-              }}
-              role="textbox"
-              tabIndex={0}
-              data-open={comment.isOpen}
-              data-comment=""
-            />
-          )}
+          <RichTextEditor
+            value={field.value.content ?? []}
+            hideBlockPicker
+            submitted={isSubmitting}
+            plugins={plugins}
+            onChange={setInputValue}
+            onClick={() => updateComment(true, "isOpen")}
+            onBlur={() => updateComment(inputValue, "content")}
+            toolbarOptions={toolbarOptions}
+            toolbarAreaFilters={toolbarAreaFilters}
+            data-open={field.value.isOpen}
+            data-comment=""
+          />
         </StyledFormControl>
       </CardContent>
 

@@ -83,12 +83,10 @@ const RichTextEditor = ({
   const { status, setStatus } = useFormikContext<ArticleFormType>();
 
   useEffect(() => {
-    if (receiveInitialFocus) {
-      setTimeout(() => {
-        ReactEditor.focus(editor);
-      }, 0);
+    if (receiveInitialFocus && !isFirstNormalize) {
+      ReactEditor.focus(editor);
     }
-  }, [editor, receiveInitialFocus]);
+  }, [editor, isFirstNormalize, receiveInitialFocus]);
 
   useEffect(() => {
     Editor.normalize(editor, { force: true });

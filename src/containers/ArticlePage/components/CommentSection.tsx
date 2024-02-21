@@ -6,7 +6,7 @@
  *
  */
 
-import { FieldProps } from "formik";
+import { FastField, FieldArray, FieldProps, useField, useFormikContext } from "formik";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
@@ -15,7 +15,6 @@ import { spacing, fonts } from "@ndla/core";
 import { IStatus } from "@ndla/types-backend/draft-api";
 import Comment, { CommentType } from "./Comment";
 import InputComment from "./InputComment";
-import FormikField from "../../../components/FormikField";
 import { ARCHIVED, PUBLISHED, UNPUBLISHED } from "../../../constants";
 
 export const RESET_COMMENTS_STATUSES = [PUBLISHED, ARCHIVED, UNPUBLISHED];
@@ -45,13 +44,8 @@ const StyledList = styled.ul`
 `;
 
 const StyledOpenCloseAll = styled(ButtonV2)`
-  ${fonts.sizes("16px")};
+  ${fonts.size.text.button}
   margin-left: auto;
-`;
-
-const StyledFormikField = styled(FormikField)`
-  margin: 0;
-  width: 100%;
 `;
 
 interface Props {
@@ -60,6 +54,8 @@ interface Props {
 }
 const CommentSection = ({ articleType, savedStatus }: Props) => {
   const { t } = useTranslation();
+  const [_, { value }] = useField<CommentType[]>("comments");
+  const { isSubmitting } = useFormikContext();
   const allOpen = (value: CommentType[]) => value.every((v) => v.isOpen);
 
   const commentsHidden =
@@ -67,36 +63,45 @@ const CommentSection = ({ articleType, savedStatus }: Props) => {
 
   return (
     <CommentColumn data-hidden={commentsHidden} aria-hidden={commentsHidden}>
-      <StyledFormikField noBorder label={t("form.introduction.label")} name="comments" showMaxLength>
-        {({ field, form: { isSubmitting } }: FieldProps<CommentType[]>) => (
+      <FieldArray
+        name="comments"
+        render={(arrayHelpers) => (
           <>
-            <InputComment field={field} isSubmitting={isSubmitting} />
-            {field.value.length ? (
+            <InputComment arrayHelpers={arrayHelpers} isSubmitting={isSubmitting} />
+            {value.length ? (
               <StyledOpenCloseAll
                 variant="stripped"
                 onClick={() => {
-                  const open = allOpen(field.value) !== undefined ? !allOpen(field.value) : true;
-                  field.onChange({
-                    target: {
-                      value: field.value.map((c) => ({ ...c, isOpen: open })),
-                      name: field.name,
-                    },
-                  });
+                  const open = allOpen(value) !== undefined ? !allOpen(value) : true;
+                  value.forEach((v, i) => (v.isOpen !== open ? arrayHelpers.replace(i, { ...v, isOpen: open }) : null));
                 }}
                 fontWeight="semibold"
               >
-                {allOpen(field.value) ? t("form.hideAll") : t("form.openAll")}
+                {allOpen(value) ? t("form.hideAll") : t("form.openAll")}
               </StyledOpenCloseAll>
             ) : null}
             <StyledList>
-              {field.value.map((comment, index) => {
+              {value.map((comment, index) => {
                 const id = "id" in comment ? comment.id : comment.generatedId;
-                return <Comment key={id} id={id} field={field} index={index} isSubmitting={isSubmitting} />;
+                return (
+                  <FastField key={`comments.${index}`} name={`comments.${index}`}>
+                    {({ field }: FieldProps) => (
+                      <Comment
+                        key={id}
+                        id={id}
+                        field={field}
+                        index={index}
+                        isSubmitting={isSubmitting}
+                        arrayHelpers={arrayHelpers}
+                      />
+                    )}
+                  </FastField>
+                );
               })}
             </StyledList>
           </>
         )}
-      </StyledFormikField>
+      />
     </CommentColumn>
   );
 };

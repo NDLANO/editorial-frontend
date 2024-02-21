@@ -8,8 +8,23 @@
 
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { IConceptSummary } from "@ndla/types-backend/concept-api";
-import { AudioMeta, ConceptListData, ConceptVisualElementMeta, H5pData } from "@ndla/types-embed";
-import { fetchAudioMeta, fetchConceptListMeta, fetchConceptVisualElement, fetchH5pMeta } from "./embedApi";
+import {
+  AudioMeta,
+  ConceptListData,
+  ConceptVisualElementMeta,
+  H5pData,
+  IframeData,
+  IframeEmbedData,
+  OembedData,
+  OembedEmbedData,
+} from "@ndla/types-embed";
+import {
+  fetchAudioMeta,
+  fetchConceptListMeta,
+  fetchConceptVisualElement,
+  fetchExternal,
+  fetchH5pMeta,
+} from "./embedApi";
 import { AUDIO_EMBED } from "../../queryKeys";
 
 export const useAudioMeta = (resourceId: string, language: string, options?: Partial<UseQueryOptions<AudioMeta>>) => {
@@ -54,6 +69,19 @@ export const useConceptListMeta = (
     retry: false,
     queryKey: ["conceptListMeta", tag, subject],
     queryFn: () => fetchConceptListMeta(concepts, language),
+    ...options,
+  });
+};
+
+export const useExternalEmbed = (
+  embedData: OembedEmbedData | IframeEmbedData,
+  language: string,
+  options?: Partial<UseQueryOptions<IframeData | OembedData>>,
+) => {
+  return useQuery<IframeData | OembedData>({
+    retry: false,
+    queryKey: ["externalEmbed", embedData?.url, embedData?.imageid, language],
+    queryFn: () => fetchExternal(embedData, language),
     ...options,
   });
 };

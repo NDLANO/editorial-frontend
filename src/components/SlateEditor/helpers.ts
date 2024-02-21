@@ -12,7 +12,8 @@ import { TYPE_CAMPAIGN_BLOCK } from "./plugins/campaignBlock/types";
 import { TYPE_CODEBLOCK } from "./plugins/codeBlock/types";
 import { TYPE_CONCEPT_INLINE } from "./plugins/concept/inline/types";
 import { TYPE_DETAILS } from "./plugins/details/types";
-import { TYPE_EMBED_BRIGHTCOVE, TYPE_EMBED_ERROR, TYPE_EMBED_EXTERNAL, TYPE_EMBED_IMAGE } from "./plugins/embed/types";
+import { TYPE_EMBED_BRIGHTCOVE, TYPE_EMBED_ERROR, TYPE_EMBED_IMAGE } from "./plugins/embed/types";
+import { TYPE_EXTERNAL } from "./plugins/external/types";
 import { TYPE_FILE } from "./plugins/file/types";
 import { TYPE_FOOTNOTE } from "./plugins/footnote/types";
 import { TYPE_FRAMED_CONTENT } from "./plugins/framedContent/types";
@@ -35,7 +36,7 @@ export const blocks = [
   TYPE_AUDIO,
   TYPE_EMBED_BRIGHTCOVE,
   TYPE_EMBED_ERROR,
-  TYPE_EMBED_EXTERNAL,
+  TYPE_EXTERNAL,
   TYPE_H5P,
   TYPE_EMBED_IMAGE,
   TYPE_FILE,

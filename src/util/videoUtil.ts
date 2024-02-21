@@ -36,11 +36,10 @@ export const getYoutubeEmbedUrl = (url: string, start?: string, stop?: string) =
 };
 
 export const addYoutubeTimeStamps = (url: string, start?: string, stop?: string) => {
-  const [baseUrl, query] = url.split("?");
-  const params = queryString.parse(query);
+  const [baseUrl] = url.split("?");
 
-  const startSeconds = start ? calcSecondsFromHMS(start) : params.start;
-  const stopSeconds = stop ? calcSecondsFromHMS(stop) : params.stop;
+  const startSeconds = start ? calcSecondsFromHMS(start) : undefined;
+  const stopSeconds = stop ? calcSecondsFromHMS(stop) : undefined;
 
   const updatedQuery = queryString.stringify({
     ...(startSeconds && { start: startSeconds }),
@@ -57,6 +56,17 @@ export const getStartTime = (url: string) => {
 export const getStopTime = (url: string) => {
   const params = queryString.parse(url.split("?")[1]);
   return toHMS(params.end);
+};
+
+export const removeYoutubeTimeStamps = (url: string) => {
+  const [baseUrl, params] = url.split("?");
+  const newParams = new URLSearchParams(params);
+  newParams.delete("start");
+  newParams.delete("end");
+  if (newParams.size) {
+    return `${baseUrl}?${newParams.toString()}`;
+  }
+  return baseUrl;
 };
 
 export const removeParams = (url: string) => {

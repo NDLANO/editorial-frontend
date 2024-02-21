@@ -12,6 +12,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Element, Transforms } from "slate";
 import VisualElementMenu, { VisualElementType } from "./VisualElementMenu";
 import SlateVisualElementPicker from "../../components/SlateEditor/plugins/blockPicker/SlateVisualElementPicker";
+import { defaultExternalBlock } from "../../components/SlateEditor/plugins/external/utils";
 import { defaultH5pBlock } from "../../components/SlateEditor/plugins/h5p/utils";
 import { isEmpty } from "../../components/validators";
 
@@ -38,6 +39,9 @@ const VisualElementPicker = ({ editor, language, types }: Props) => {
   const onSelect = (visualElement: string) => {
     if (visualElement === "h5p") {
       onInsertBlock(defaultH5pBlock());
+      return;
+    } else if (visualElement === "external" || visualElement === "url") {
+      onInsertBlock(defaultExternalBlock());
       return;
     }
     setSelectedResource(visualElement);

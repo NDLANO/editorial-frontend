@@ -14,7 +14,6 @@ import { EmbedElements } from ".";
 import SlateImage from "./SlateImage";
 import SlateVideo from "./SlateVideo";
 import { isSlateEmbed } from "./utils";
-import DisplayExternal from "../../../DisplayEmbed/DisplayExternal";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import EditorErrorMessage from "../../EditorErrorMessage";
 
@@ -89,36 +88,6 @@ const SlateFigure = ({ attributes, editor, element, children, allowDecorative = 
         >
           {children}
         </SlateVideo>
-      );
-    case "external":
-    case "iframe":
-      if (embed.url?.includes("youtu")) {
-        return (
-          <SlateVideo
-            attributes={attributes}
-            embed={embed}
-            onRemoveClick={onRemoveClick}
-            saveEmbedUpdates={saveEmbedUpdates}
-            active={isActive()}
-            isSelectedForCopy={isSelected}
-          >
-            {children}
-          </SlateVideo>
-        );
-      }
-      return (
-        <DisplayExternal
-          attributes={attributes}
-          onRemoveClick={onRemoveClick}
-          embed={embed}
-          language={language}
-          active={isActive()}
-          isSelectedForCopy={isSelected}
-          pathToEmbed={pathToEmbed}
-          editor={editor}
-        >
-          {children}
-        </DisplayExternal>
       );
     case "error":
       return (

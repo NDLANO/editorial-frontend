@@ -23,10 +23,10 @@ import { breakpoints } from "@ndla/util";
 import EditVideo, { toVideoEmbedFormValues, brightcoveEmbedFormRules } from "./EditVideo";
 import { StyledDeleteEmbedButton, StyledFigureButtons } from "./FigureButtons";
 import config from "../../../../config";
-import { ExternalEmbed, BrightcoveEmbed } from "../../../../interfaces";
+import { BrightcoveEmbed } from "../../../../interfaces";
 import { fetchBrightcoveVideo } from "../../../../modules/video/brightcoveApi";
 import parseMarkdown from "../../../../util/parseMarkdown";
-import { addBrightCoveTimeStampVideoid, getBrightCoveStartTime, getYoutubeEmbedUrl } from "../../../../util/videoUtil";
+import { addBrightCoveTimeStampVideoid, getBrightCoveStartTime } from "../../../../util/videoUtil";
 import validateFormik from "../../../formikValidationSchema";
 import { isNumeric } from "../../../validators";
 
@@ -64,7 +64,7 @@ export const SlateVideoWrapper = styled("div", {
 
 interface Props {
   attributes: RenderElementProps["attributes"];
-  embed: BrightcoveEmbed | ExternalEmbed;
+  embed: BrightcoveEmbed;
   onRemoveClick: (event: MouseEvent) => void;
   saveEmbedUpdates: (change: { [x: string]: string }) => void;
   active: boolean;
@@ -72,7 +72,7 @@ interface Props {
   children: ReactNode;
 }
 
-const isBrightcove = (embed: BrightcoveEmbed | ExternalEmbed | undefined): embed is BrightcoveEmbed => {
+const isBrightcove = (embed: BrightcoveEmbed | undefined): embed is BrightcoveEmbed => {
   return !!embed && "videoid" in embed;
 };
 
@@ -134,7 +134,7 @@ const SlateVideo = ({
   const [linkedVideoId, setLinkedVideoId] = useState<string | undefined>();
 
   useEffect(() => {
-    if (!editMode && embed.resource === "brightcove") {
+    if (!editMode) {
       _setHasError(!!Object.keys(validateFormik(toVideoEmbedFormValues(embed), brightcoveEmbedFormRules, t)).length);
     }
   }, [editMode, embed, t]);
@@ -154,17 +154,11 @@ const SlateVideo = ({
   }, [(embed as BrightcoveEmbed).videoid]);
 
   const getUrl = (getLinkedVideo: boolean) => {
-    if (embed.resource === "brightcove") {
-      const { account, videoid } = embed;
+    const { account, videoid } = embed;
 
-      const startTime = getBrightCoveStartTime(videoid);
-      const id = getLinkedVideo && linkedVideoId ? addBrightCoveTimeStampVideoid(linkedVideoId, startTime) : videoid;
-      return `https://players.brightcove.net/${account}/${config.brightcoveEdPlayerId}_default/index.html?videoId=${id}`;
-    } else if (embed.resource === "external") {
-      const { url } = embed;
-      return url.includes("embed") ? url : getYoutubeEmbedUrl(url);
-    }
-    return "";
+    const startTime = getBrightCoveStartTime(videoid);
+    const id = getLinkedVideo && linkedVideoId ? addBrightCoveTimeStampVideoid(linkedVideoId, startTime) : videoid;
+    return `https://players.brightcove.net/${account}/${config.brightcoveEdPlayerId}_default/index.html?videoId=${id}`;
   };
 
   const toggleEditModus = () => {
@@ -183,7 +177,7 @@ const SlateVideo = ({
 
   return (
     <div draggable {...attributes} contentEditable={false}>
-      <Figure id={"videoid" in embed ? embed.videoid : embed.url}>
+      <Figure id={embed.videoid}>
         <StyledFigureButtons data-white={true}>
           <Modal open={editMode} onOpenChange={setEditMode}>
             <ModalTrigger>
@@ -201,27 +195,23 @@ const SlateVideo = ({
               />
             </ModalContent>
           </Modal>
-          {embed.resource === "brightcove" && (
-            <>
-              <SafeLinkIconButton
-                title={t("form.video.brightcove")}
-                aria-label={t("form.video.brightcove")}
-                colorTheme="light"
-                to={`https://studio.brightcove.com/products/videocloud/media/videos/${embed.videoid.split("&t=")[0]}`}
-              >
-                <Link />
-              </SafeLinkIconButton>
-              {linkedVideoId && (
-                <IconButtonV2
-                  aria-label={linkedVideoTooltip}
-                  colorTheme="light"
-                  onClick={switchEmbedSource}
-                  title={linkedVideoTooltip}
-                >
-                  <StyledText>{t("form.video.linkedVideoButton")}</StyledText>
-                </IconButtonV2>
-              )}
-            </>
+          <SafeLinkIconButton
+            title={t("form.video.brightcove")}
+            aria-label={t("form.video.brightcove")}
+            colorTheme="light"
+            to={`https://studio.brightcove.com/products/videocloud/media/videos/${embed.videoid.split("&t=")[0]}`}
+          >
+            <Link />
+          </SafeLinkIconButton>
+          {linkedVideoId && (
+            <IconButtonV2
+              aria-label={linkedVideoTooltip}
+              colorTheme="light"
+              onClick={switchEmbedSource}
+              title={linkedVideoTooltip}
+            >
+              <StyledText>{t("form.video.linkedVideoButton")}</StyledText>
+            </IconButtonV2>
           )}
           <StyledDeleteEmbedButton
             title={t("form.video.remove")}

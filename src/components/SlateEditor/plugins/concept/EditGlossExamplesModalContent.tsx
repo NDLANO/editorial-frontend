@@ -133,7 +133,7 @@ const EditGlossExamplesModalContent = ({ originalLanguage, examples, editor, ele
                       example={example}
                       originalLanguage={originalLanguage}
                       index={innerIndex}
-                      isStandalone
+                      lastExampleIndex={glossExample.length}
                     />
                   ))}
                 </div>

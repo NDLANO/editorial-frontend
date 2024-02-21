@@ -7,7 +7,7 @@
  */
 
 import { IAudioMetaInformation, ISeries, ICopyright } from "@ndla/types-backend/audio-api";
-import { plainTextToEditorValue } from "./articleContentConverter";
+import { inlineContentToEditorValue, plainTextToEditorValue } from "./articleContentConverter";
 import { DEFAULT_LICENSE } from "./formHelper";
 import { AudioFormikType } from "../containers/AudioUploader/components/AudioForm";
 import { PodcastSeriesFormikType } from "../containers/PodcastSeries/components/PodcastSeriesForm";
@@ -27,7 +27,7 @@ export const audioApiTypeToFormType = (audio: IAudioMetaInformation | undefined,
   return {
     ...audio,
     title: plainTextToEditorValue(audio?.title?.title ?? ""),
-    manuscript: plainTextToEditorValue(audio?.manuscript?.manuscript ?? ""),
+    manuscript: inlineContentToEditorValue(audio?.manuscript?.manuscript ?? "", true),
     tags: audio?.tags.tags ?? [],
     ...copyright,
     origin: audio?.copyright.origin ?? "",

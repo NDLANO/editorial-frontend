@@ -7,7 +7,7 @@
  */
 
 import { jsx as slatejsx } from "slate-hyperscript";
-import { TableElement, TableCaptionElement, TableCellElement } from "./interfaces";
+import { TableElement, TableCaptionElement, TableCellElement, TableHeaderCellElement } from "./interfaces";
 import {
   TYPE_TABLE,
   TYPE_TABLE_CAPTION,
@@ -62,7 +62,7 @@ export const defaultTableCellHeaderBlock = () => {
       ...defaultParagraphBlock(),
       serializeAsText: true,
     },
-  ) as TableCellElement;
+  ) as TableHeaderCellElement;
 };
 
 export const defaultTableRowBlock = (width: number, header = false) => {

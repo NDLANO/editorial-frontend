@@ -49,21 +49,23 @@ export const createPluginFactory =
     editor.normalizeNode = (entry) => {
       const [node] = entry;
       if (Element.isElement(node) && node.type === type) {
-        const defaultNormalized = normalizerConfig ? defaultBlockNormalizer(editor, entry, normalizerConfig) : false;
-        if (config.debugSlate && defaultNormalized) {
-          /* eslint-disable-next-line */
-          console.debug(`[NORMALIZING] ${type} with method: DEFAULT BLOCK NORMALIZER `);
-        }
-        const normalized = normalize?.reduceRight((acc, { description, normalize }) => {
-          const isNormalized = normalize(entry as NodeEntry<Extract<Element, { type: T }>>, editor);
-          if (config.debugSlate && isNormalized) {
+        if (normalizerConfig && defaultBlockNormalizer(editor, entry, normalizerConfig)) {
+          if (config.debugSlate) {
             /* eslint-disable-next-line */
-            console.debug(`[NORMALIZING] ${type} with method: ${description}`);
+            console.debug(`[NORMALIZING] ${type} with method: DEFAULT BLOCK NORMALIZER `);
           }
-          return acc || isNormalized;
-        }, false);
+          return;
+        }
+        const normalized = normalize?.find(({ normalize }) =>
+          normalize(entry as NodeEntry<Extract<Element, { type: T }>>, editor),
+        );
 
-        if (normalized || defaultNormalized) return;
+        if (normalized) {
+          if (config.debugSlate) {
+            /* eslint-disable-next-line */
+            console.debug(`[NORMALIZING] ${type} with method: ${normalized.description}`);
+          }
+        }
       }
 
       return nextNormalizeNode?.(entry);

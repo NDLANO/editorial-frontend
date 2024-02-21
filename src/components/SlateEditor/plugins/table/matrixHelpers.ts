@@ -10,7 +10,7 @@ import compact from "lodash/compact";
 import { equals } from "lodash/fp";
 import isEqual from "lodash/isEqual";
 import uniq from "lodash/uniq";
-import { Editor, NodeEntry, Path } from "slate";
+import { Editor, Path } from "slate";
 import { TableCellElement, TableElement, TableHeaderCellElement, TableMatrix } from "./interfaces";
 import { updateCell } from "./slateActions";
 import { isTableHead, isTableBody, isTableCellHeader } from "./slateHelpers";
@@ -21,7 +21,10 @@ export const getPrevCell = (matrix: TableMatrix, row: number, column: number) =>
 };
 
 // Find the matrix coordinates for a cell. Returns the coordinates for top left corner of cell.
-export const findCellCoordinate = (matrix: TableMatrix, targetCell: TableCellElement): [number, number] | undefined => {
+export const findCellCoordinate = (
+  matrix: TableMatrix,
+  targetCell: TableCellElement | TableHeaderCellElement,
+): [number, number] | undefined => {
   for (const [rowIndex, row] of matrix.entries()) {
     for (const [cellIndex, cell] of row.entries()) {
       if (cell === targetCell) {
@@ -45,7 +48,7 @@ export const countMatrixRowCells = (matrix: TableMatrix, rowIndex: number): numb
 
 const insertCellHelper = (
   matrix: TableMatrix,
-  cell: TableCellElement,
+  cell: TableCellElement | TableHeaderCellElement,
   rowIndex: number,
   rowspan: number,
   colStart: number,
@@ -72,7 +75,7 @@ export const insertCellInMatrix = (
   rowIndex: number,
   colspan: number,
   rowspan: number,
-  cell: TableCellElement,
+  cell: TableCellElement | TableHeaderCellElement,
 ) => {
   const rowLength = matrix[rowIndex].length;
   // A. If row has no elements => Place cell at start of the row.
@@ -157,7 +160,7 @@ export const setHeadersOnCell = (matrix: TableMatrix, node: TableElement, path: 
       // If the previous cell in column and row direction is not equal we can normalize the proper cell.
       // Table matrix isn't a direct repsentation of the HTML table so read comments for `getTableAsMatrix`
       if (maybeNode?.[1] && !previousMatrixCellIsEqualCurrent(matrix, rowIndex, cellIndex)) {
-        const [_, cellPath] = maybeNode;
+        const [_cell, cellPath] = maybeNode;
         const [parent] = Editor.node(editor, Path.parent(Path.parent(cellPath)));
         const headers = !((node.rowHeaders && cellIndex === 0) || rowIndex === 0)
           ? getHeader(matrix, rowIndex, cellIndex, node.rowHeaders)
@@ -195,5 +198,5 @@ export const setHeadersOnCell = (matrix: TableMatrix, node: TableElement, path: 
       }
     });
   });
-  return true;
+  return false;
 };

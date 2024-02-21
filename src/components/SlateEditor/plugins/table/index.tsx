@@ -8,13 +8,14 @@
 
 import equals from "lodash/fp/equals";
 import { renderToStaticMarkup } from "react-dom/server";
-import { Descendant, Editor, Element, Node, Path, Text, Transforms } from "slate";
+import { Descendant, Editor, Element, Node, NodeEntry, Path, Text, Transforms } from "slate";
 import { HistoryEditor } from "slate-history";
 import { jsx as slatejsx } from "slate-hyperscript";
 import {
   defaultTableBodyBlock,
   defaultTableCaptionBlock,
   defaultTableCellBlock,
+  defaultTableCellHeaderBlock,
   defaultTableHeadBlock,
 } from "./defaultBlocks";
 import { onDelete, onDown, onEnter, onTab, onUp } from "./handleKeyDown";
@@ -23,7 +24,15 @@ import { getTableAsMatrix, tableContainsSpan } from "./matrix";
 import { setHeadersOnCell } from "./matrixHelpers";
 import { normalizeTableBodyAsMatrix } from "./matrixNormalizer";
 import { updateCell } from "./slateActions";
-import { isTable, isTableBody, isTableCaption, isTableCell, isTableHead } from "./slateHelpers";
+import {
+  isInTableCellHeader,
+  isTable,
+  isTableBody,
+  isTableCaption,
+  isTableCell,
+  isTableCellHeader,
+  isTableHead,
+} from "./slateHelpers";
 import {
   TYPE_TABLE,
   TYPE_TABLE_HEAD,
@@ -251,7 +260,9 @@ export const tablePlugin = createPlugin<TableElement["type"]>({
       normalize: ([node, path], editor) => {
         for (const [index, child] of node.children.entries()) {
           if (isTableHead(child) || isTableBody(child)) {
-            return normalizeTableBodyAsMatrix(editor, child, [...path, index]);
+            if (normalizeTableBodyAsMatrix(editor, child, [...path, index])) {
+              return true;
+            }
           }
         }
         return false;
@@ -273,46 +284,20 @@ export const tablePlugin = createPlugin<TableElement["type"]>({
   ],
   childPlugins: [
     {
-      type: TYPE_TABLE_CELL,
-      normalize: [
-        {
-          description: "Cells should only contain elements",
-          normalize: ([node, path], editor) => {
-            if (!Element.isElementList(node.children)) {
-              Transforms.wrapNodes(
-                editor,
-                { ...defaultParagraphBlock(), serializeAsText: true },
-                {
-                  at: path,
-                  match: (n) => n !== node,
-                },
-              );
-              return true;
-            }
-            return false;
-          },
-        },
-        {
-          description: "Numbers need to be right aligned default",
-          normalize: ([node, _path], editor) => {
-            if (!isNaN(Number(Node.string(node))) && !node?.data?.align && Node.string(node) !== "") {
-              HistoryEditor.withoutSaving(editor, () => updateCell(editor, node, { align: "right" }));
-              return true;
-            }
-            return false;
-          },
-        },
-      ],
-    },
-    {
       type: TYPE_TABLE_ROW,
       normalize: [
         {
           description: "row should only contain cell elements",
           normalize: ([node, path], editor) => {
+            const [table] = Editor.parent(editor, Path.parent(path)) as NodeEntry<TableElement>;
+            const [parent] = Editor.parent(editor, path) as NodeEntry<Element>;
             for (const [index, cell] of node.children.entries()) {
-              if (!isTableCell(cell)) {
-                Transforms.wrapNodes(editor, defaultTableCellBlock(), {
+              if (!isTableCell(cell) && !isTableCellHeader(cell)) {
+                const defaultCell =
+                  (index === 0 && table.rowHeaders) || parent.type === TYPE_TABLE_HEAD
+                    ? defaultTableCellHeaderBlock()
+                    : defaultTableCellBlock();
+                Transforms.wrapNodes(editor, defaultCell, {
                   at: [...path, index],
                 });
                 return true;
@@ -322,11 +307,10 @@ export const tablePlugin = createPlugin<TableElement["type"]>({
           },
         },
         {
-          description: "Make sure cell headers are sett correctly",
+          description: "Make sure cell headers are set correctly",
           normalize: ([node, path], editor) => {
-            const [body, bodyPath] = Editor.node(editor, Path.parent(path));
-            const [table] = Editor.node(editor, Path.parent(bodyPath));
-            if (isTableHead(body) && isTable(table)) {
+            const [body] = Editor.node(editor, Path.parent(path));
+            if (isTableHead(body)) {
               for (const [, cell] of node.children.entries()) {
                 if (isTableCell(cell)) {
                   HistoryEditor.withoutSaving(editor, () => {
@@ -369,6 +353,70 @@ export const tablePlugin = createPlugin<TableElement["type"]>({
                 });
                 return true;
               }
+            }
+            return false;
+          },
+        },
+      ],
+    },
+    {
+      type: TYPE_TABLE_CELL,
+      normalize: [
+        {
+          description: "Cells should only contain elements",
+          normalize: ([node, path], editor) => {
+            if (!Element.isElementList(node.children)) {
+              Transforms.wrapNodes(
+                editor,
+                { ...defaultParagraphBlock(), serializeAsText: true },
+                {
+                  at: path,
+                  match: (n) => n !== node,
+                },
+              );
+              return true;
+            }
+            return false;
+          },
+        },
+        {
+          description: "Numbers need to be right aligned default",
+          normalize: ([node, _path], editor) => {
+            if (!isNaN(Number(Node.string(node))) && !node?.data?.align && Node.string(node) !== "") {
+              HistoryEditor.withoutSaving(editor, () => updateCell(editor, node, { align: "right" }));
+              return true;
+            }
+            return false;
+          },
+        },
+      ],
+    },
+    {
+      type: TYPE_TABLE_CELL_HEADER,
+      normalize: [
+        {
+          description: "Cells should only contain elements",
+          normalize: ([node, path], editor) => {
+            if (!Element.isElementList(node.children)) {
+              Transforms.wrapNodes(
+                editor,
+                { ...defaultParagraphBlock(), serializeAsText: true },
+                {
+                  at: path,
+                  match: (n) => n !== node,
+                },
+              );
+              return true;
+            }
+            return false;
+          },
+        },
+        {
+          description: "Numbers need to be right aligned default",
+          normalize: ([node, _path], editor) => {
+            if (!isNaN(Number(Node.string(node))) && !node?.data?.align && Node.string(node) !== "") {
+              HistoryEditor.withoutSaving(editor, () => updateCell(editor, node, { align: "right" }));
+              return true;
             }
             return false;
           },

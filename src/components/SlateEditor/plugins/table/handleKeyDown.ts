@@ -8,17 +8,32 @@
 
 import { Editor, NodeEntry, Path, Point, Range, Transforms } from "slate";
 import { ReactEditor } from "slate-react";
-import { TableBodyElement, TableCellElement, TableElement, TableHeadElement, TableRowElement } from "./interfaces";
+import {
+  TableBodyElement,
+  TableCellElement,
+  TableElement,
+  TableHeadElement,
+  TableHeaderCellElement,
+  TableRowElement,
+} from "./interfaces";
 import { getTableAsMatrix } from "./matrix";
 import { findCellCoordinate } from "./matrixHelpers";
-import { createIdenticalRow, isTable, isTableBody, isTableCell, isTableHead } from "./slateHelpers";
+import {
+  createIdenticalRow,
+  isTable,
+  isTableBody,
+  isTableCell,
+  isTableCellHeader,
+  isTableHead,
+  isTableRow,
+} from "./slateHelpers";
 import { TYPE_TABLE_CAPTION } from "./types";
 import getCurrentBlock from "../../utils/getCurrentBlock";
 
 const getTableCell = (editor: Editor) => {
-  const [cellEntry] = Editor.nodes<TableCellElement>(editor, {
+  const [cellEntry] = Editor.nodes<TableCellElement | TableHeaderCellElement>(editor, {
     at: editor?.selection?.anchor.path,
-    match: (node) => isTableCell(node),
+    match: (node) => isTableCell(node) || isTableCellHeader(node),
   });
 
   return cellEntry ? cellEntry : undefined;
@@ -45,7 +60,7 @@ const getTable = (editor: Editor) => {
 const getTableRow = (editor: Editor) => {
   const [cellEntry] = Editor.nodes<TableRowElement>(editor, {
     at: editor?.selection?.anchor.path,
-    match: isTableCell,
+    match: isTableRow,
   });
 
   return cellEntry;

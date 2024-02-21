@@ -17,7 +17,7 @@ import {
 } from "./interfaces";
 import { getTableAsMatrix } from "./matrix";
 import { findCellCoordinate, getMatrixColumn } from "./matrixHelpers";
-import { hasCellAlignOfType, isTableCell, isTableRow } from "./slateHelpers";
+import { hasCellAlignOfType, isTableCell, isTableCellHeader, isTableRow } from "./slateHelpers";
 import { TYPE_TABLE_CELL } from "./types";
 import getCurrentBlock from "../../utils/getCurrentBlock";
 
@@ -51,8 +51,8 @@ export const toggleCellAlign = (editor: Editor, type: string) => {
   const newAlign = hasCellAlignOfType(editor, type) ? undefined : type;
 
   Editor.withoutNormalizing(editor, () => {
-    for (const [cell] of Editor.nodes<TableCellElement>(editor, {
-      match: (node) => isTableCell(node),
+    for (const [cell] of Editor.nodes<TableCellElement | TableHeaderCellElement>(editor, {
+      match: (node) => isTableCell(node) || isTableCellHeader(node),
     })) {
       updateCell(editor, cell, { align: newAlign });
     }
@@ -86,7 +86,7 @@ export const updateCell = (
 export const alignColumn = (editor: Editor, tablePath: Path, align: string) => {
   const cellElement = getCurrentBlock(editor, TYPE_TABLE_CELL)?.[0];
 
-  if (!isTableCell(cellElement)) {
+  if (!isTableCell(cellElement) || !isTableCellHeader(cellElement)) {
     return;
   }
 

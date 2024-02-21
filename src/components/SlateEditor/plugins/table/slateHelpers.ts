@@ -56,7 +56,7 @@ export const isTableCellHeader = (node?: Node): node is TableHeaderCellElement =
 export const hasCellAlignOfType = (editor: Editor, type: string) => {
   // For all selected table cells
   for (const [cell] of Editor.nodes<TableCellElement>(editor, {
-    match: (node) => isTableCell(node),
+    match: (node) => isTableCell(node) || isTableCellHeader(node),
   })) {
     if (cell.data.align === type) {
       return true;
@@ -68,7 +68,7 @@ export const hasCellAlignOfType = (editor: Editor, type: string) => {
 export const countCells = (row: TableRowElement, stop?: number) => {
   return row.children
     .map((child) => {
-      if (!isTableCell(child)) {
+      if (!isTableCell(child) && !isTableCellHeader(child)) {
         return 0;
       }
       return child.data.colspan;
@@ -94,7 +94,7 @@ export const createIdenticalRow = (element: TableRowElement) => {
     "element",
     { type: TYPE_TABLE_ROW },
     element.children.map((child) => {
-      if (isTableCell(child)) {
+      if (isTableCell(child) || isTableCellHeader(child)) {
         return {
           ...defaultTableCellBlock(),
           data: {

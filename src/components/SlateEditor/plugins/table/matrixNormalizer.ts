@@ -13,7 +13,15 @@ import { defaultTableRowBlock } from "./defaultBlocks";
 import { TableMatrix, TableHeadElement, TableBodyElement } from "./interfaces";
 import { getPrevCell, countMatrixRowCells, insertCellInMatrix } from "./matrixHelpers";
 import { insertEmptyCells, updateCell, increaseTableBodyWidth } from "./slateActions";
-import { isTable, isTableHead, isTableRow, isTableCell, isTableBody, getTableBodyWidth } from "./slateHelpers";
+import {
+  isTable,
+  isTableHead,
+  isTableRow,
+  isTableCell,
+  isTableBody,
+  getTableBodyWidth,
+  isTableCellHeader,
+} from "./slateHelpers";
 import { TYPE_TABLE_CELL, TYPE_TABLE_CELL_HEADER } from "./types";
 
 // Before placing a cell in the table matrix, make sure the cell has the required space
@@ -83,7 +91,7 @@ const normalizeRow = (
         if (isHead) {
           // i. If cell in header
           //    Make sure scope='col' and isHeader=true and type is correct
-          if (isTableCell(cell) && scope !== "col") {
+          if (isTableCell(cell) || scope !== "col") {
             updateCell(
               editor,
               cell,
@@ -97,7 +105,7 @@ const normalizeRow = (
         } else {
           // i. If table does not have headers on rows
           //    Make sure cells in body has scope=undefined and isHeader=false
-          if (!rowHeaders && (scope || cell.type === TYPE_TABLE_CELL_HEADER)) {
+          if (!rowHeaders && (scope || isTableCellHeader(cell))) {
             updateCell(
               editor,
               cell,
@@ -114,7 +122,7 @@ const normalizeRow = (
           //    Other cells should not be a header
           if (rowHeaders) {
             if (index === 0) {
-              if (scope !== "row" || cell.type !== TYPE_TABLE_CELL_HEADER) {
+              if (scope !== "row" || isTableCell(cell)) {
                 updateCell(
                   editor,
                   cell,
@@ -126,7 +134,7 @@ const normalizeRow = (
                 return true;
               }
             } else {
-              if ((scope || cell.type === TYPE_TABLE_CELL_HEADER) && getPrevCell(matrix, rowIndex, index) !== cell) {
+              if ((scope || isTableCellHeader(cell)) && getPrevCell(matrix, rowIndex, index) !== cell) {
                 updateCell(
                   editor,
                   cell,
@@ -189,10 +197,9 @@ export const normalizeTableBodyAsMatrix = (
     if (!matrix[rowIndex]) {
       matrix[rowIndex] = [];
     }
-
     // A. Insert all cells in a each row into a matrix. Normalize if needed.
     for (const cell of row.children) {
-      if (!isTableCell(cell)) {
+      if (!isTableCell(cell) && !isTableCellHeader(cell)) {
         return false;
       }
 

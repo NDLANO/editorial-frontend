@@ -81,6 +81,7 @@ const TopicArticleContent = (props: Props) => {
               value={value}
               submitted={isSubmitting}
               plugins={plugins}
+              hideBlockPicker
               toolbarOptions={toolbarOptions}
               toolbarAreaFilters={toolbarAreaFilters}
               onChange={(value) => {

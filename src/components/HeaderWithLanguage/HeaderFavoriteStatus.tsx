@@ -9,11 +9,11 @@
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { HeartOutline } from "@ndla/icons/action";
+import { Heart } from "@ndla/icons/action";
 import { Text } from "@ndla/typography";
 import { useResourceStats } from "../../modules/myndla/myndlaQueries";
 
-const StyledHeartOutline = styled(HeartOutline)`
+const StyledHeartOutline = styled(Heart)`
   width: ${spacing.normal};
   height: ${spacing.normal};
 `;

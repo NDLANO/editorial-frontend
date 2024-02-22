@@ -23,6 +23,7 @@ import {
   textBlockElements,
 } from "../../utils/normalizationHelpers";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
+import { TYPE_SPAN } from "../span/types";
 
 export interface DetailsElement {
   type: "details";
@@ -73,7 +74,7 @@ const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: Keybo
     });
     return;
   }
-  return nextOnKeyDown && nextOnKeyDown(e);
+  return nextOnKeyDown?.(e);
 };
 
 const onBackspace = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: KeyboardEvent) => void) => {
@@ -110,13 +111,17 @@ const onBackspace = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: K
       }
     }
   }
-  return nextOnKeyDown && nextOnKeyDown(e);
+  return nextOnKeyDown?.(e);
 };
 
 export const detailsSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
     if (el.tagName.toLowerCase() === "summary") {
-      return slatejsx("element", { type: TYPE_SUMMARY }, children);
+      const childs =
+        !Element.isElement(children?.[0]) || children?.[0].type === TYPE_SPAN
+          ? slatejsx("element", { type: TYPE_PARAGRAPH, serializeAsText: true }, children)
+          : children;
+      return slatejsx("element", { type: TYPE_SUMMARY }, childs);
     } else if (el.tagName.toLowerCase() === "details") {
       return slatejsx("element", { type: TYPE_DETAILS }, children);
     }
@@ -154,7 +159,7 @@ export const detailsPlugin = (editor: Editor) => {
     const { attributes, children, text } = props;
     const path = ReactEditor.findPath(editor, text);
 
-    const [parent] = Editor.node(editor, Path.parent(path));
+    const [parent] = Editor.node(editor, Path.parent(Path.parent(path)));
     if (Element.isElement(parent) && parent.type === TYPE_SUMMARY && Node.string(parent) === "") {
       return (
         <WithPlaceHolder attributes={attributes} placeholder="form.name.title">
@@ -162,7 +167,7 @@ export const detailsPlugin = (editor: Editor) => {
         </WithPlaceHolder>
       );
     }
-    return renderLeaf && renderLeaf(props);
+    return renderLeaf?.(props);
   };
 
   editor.shouldHideBlockPicker = () => {
@@ -176,16 +181,21 @@ export const detailsPlugin = (editor: Editor) => {
   };
 
   editor.normalizeNode = (entry) => {
-    const [node] = entry;
+    const [node, path] = entry;
 
     if (Element.isElement(node)) {
       if (node.type === TYPE_DETAILS) {
         if (defaultBlockNormalizer(editor, entry, detailsNormalizerConfig)) {
           return;
         }
-      } else if (node.type === TYPE_SUMMARY) {
+      }
+      if (node.type === TYPE_SUMMARY) {
         if (defaultBlockNormalizer(editor, entry, summaryNormalizerConfig)) {
           return;
+        }
+
+        if (node.children?.[0] && Element.isElement(node.children?.[0]) && node.children?.[0].type === TYPE_PARAGRAPH) {
+          return Transforms.setNodes(editor, { type: TYPE_PARAGRAPH, serializeAsText: true }, { at: [...path, 0] });
         }
       }
     }

@@ -59,7 +59,7 @@ const ComparePage = () => {
       <HeaderWrapper>
         <HeaderInformation language={language} noStatus type="compare" isNewLanguage={false} />
       </HeaderWrapper>
-      <Formik className={{ width: "100%" }} initialValues={initialValues} onSubmit={handleSubmit}>
+      <Formik initialValues={initialValues} onSubmit={handleSubmit}>
         {(_data) => (
           <StyledForm>
             <PreviewCompare article={article} language={language} type="compare" />

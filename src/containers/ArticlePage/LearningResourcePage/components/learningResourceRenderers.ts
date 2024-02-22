@@ -19,6 +19,7 @@ import { definitionListRenderer } from "../../../../components/SlateEditor/plugi
 import { detailsRenderer } from "../../../../components/SlateEditor/plugins/details/render";
 import { divRenderer } from "../../../../components/SlateEditor/plugins/div/render";
 import { embedRenderer } from "../../../../components/SlateEditor/plugins/embed/render";
+import { externalRenderer } from "../../../../components/SlateEditor/plugins/external/render";
 import { fileRenderer } from "../../../../components/SlateEditor/plugins/file/render";
 import { footnoteRenderer } from "../../../../components/SlateEditor/plugins/footnote/render";
 import { framedContentRenderer } from "../../../../components/SlateEditor/plugins/framedContent/render";
@@ -37,38 +38,37 @@ import { tableRenderer } from "../../../../components/SlateEditor/plugins/table/
 import { disclaimerRenderer } from "../../../../components/SlateEditor/plugins/uuDisclaimer/render";
 
 // Plugins are checked from last to first
-export const learningResourceRenderers = (articleLanguage: string): SlatePlugin[] => {
-  return [
-    sectionRenderer,
-    spanRenderer,
-    divRenderer,
-    paragraphRenderer,
-    footnoteRenderer,
-    audioRenderer(articleLanguage),
-    h5pRenderer(articleLanguage),
-    embedRenderer(articleLanguage),
-    framedContentRenderer,
-    asideRenderer,
-    detailsRenderer,
-    blockQuoteRenderer,
-    linkRenderer(articleLanguage),
-    conceptListRenderer(articleLanguage),
-    inlineConceptRenderer(articleLanguage),
-    blockConceptRenderer(articleLanguage),
-    headingRenderer,
-    // // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
-    // // Blockquote and editList actions need to be triggered before paragraph action, else
-    // // unwrapping (jumping out of block) will not work.
-    tableRenderer,
-    relatedRenderer,
-    fileRenderer,
-    mathRenderer,
-    codeblockRenderer,
-    breakRenderer,
-    markRenderer,
-    definitionListRenderer,
-    listRenderer,
-    gridRenderer,
-    disclaimerRenderer,
-  ];
-};
+export const learningResourceRenderers: SlatePlugin[] = [
+  sectionRenderer,
+  spanRenderer,
+  divRenderer,
+  paragraphRenderer,
+  footnoteRenderer,
+  audioRenderer,
+  h5pRenderer,
+  externalRenderer,
+  embedRenderer(),
+  framedContentRenderer,
+  asideRenderer,
+  detailsRenderer,
+  blockQuoteRenderer,
+  linkRenderer,
+  conceptListRenderer,
+  inlineConceptRenderer,
+  blockConceptRenderer,
+  headingRenderer,
+  // // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
+  // // Blockquote and editList actions need to be triggered before paragraph action, else
+  // // unwrapping (jumping out of block) will not work.
+  tableRenderer,
+  relatedRenderer,
+  fileRenderer,
+  mathRenderer,
+  codeblockRenderer,
+  breakRenderer,
+  markRenderer,
+  definitionListRenderer,
+  listRenderer,
+  gridRenderer,
+  disclaimerRenderer,
+];

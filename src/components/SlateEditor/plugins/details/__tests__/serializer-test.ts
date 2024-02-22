@@ -21,7 +21,10 @@ const editor: Descendant[] = [
       {
         type: TYPE_DETAILS,
         children: [
-          { type: TYPE_SUMMARY, children: [{ text: "title" }] },
+          {
+            type: TYPE_SUMMARY,
+            children: [{ type: TYPE_PARAGRAPH, serializeAsText: true, children: [{ text: "title" }] }],
+          },
           { type: TYPE_PARAGRAPH, children: [{ text: "content" }] },
         ],
       },

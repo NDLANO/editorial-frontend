@@ -69,11 +69,9 @@ const IconWrapper = styled.div`
 
 const StyledTimeIcon = styled(Time)`
   &[data-status="warn"] {
-    fill: ${colors.tasksAndActivities.dark};
+    visibility: hidden;
   }
-  &[data-status="expired"] {
-    fill: ${colors.support.red};
-  }
+  fill: ${colors.support.red};
   width: 20px;
   height: 20px;
 `;
@@ -199,6 +197,8 @@ const Revisions = ({ userData }: Props) => {
           .map((revision) => `${formatDate(revision.revisionDate)}: ${revision.note}`)
           .join("\n");
 
+        const warnStatus = getWarnStatus(expirationDate);
+
         return [
           {
             id: `title_${resource.id}`,
@@ -206,9 +206,10 @@ const Revisions = ({ userData }: Props) => {
               <StyledTitle>
                 <IconWrapper>
                   <StyledTimeIcon
-                    data-status={getWarnStatus(expirationDate)}
+                    data-status={warnStatus}
                     title={revisions}
                     aria-label={revisions}
+                    aria-hidden={warnStatus === "warn"}
                   />
                 </IconWrapper>
                 <StyledLink

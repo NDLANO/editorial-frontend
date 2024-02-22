@@ -24,6 +24,7 @@ import {
 } from "../../utils/normalizationHelpers";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
 import { createPlugin } from "../PluginFactory";
+import { TYPE_SPAN } from "../span/types";
 
 export interface DetailsElement {
   type: "details";
@@ -117,7 +118,11 @@ const onBackspace = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: K
 export const detailsSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
     if (el.tagName.toLowerCase() === "summary") {
-      return slatejsx("element", { type: TYPE_SUMMARY }, children);
+      const childs =
+        !Element.isElement(children?.[0]) || children?.[0].type === TYPE_SPAN
+          ? slatejsx("element", { type: TYPE_PARAGRAPH, serializeAsText: true }, children)
+          : children;
+      return slatejsx("element", { type: TYPE_SUMMARY }, childs);
     } else if (el.tagName.toLowerCase() === "details") {
       return slatejsx("element", { type: TYPE_DETAILS }, children);
     }
@@ -138,7 +143,8 @@ export const detailsPlugin = createPlugin<DetailsElement["type"]>({
   normalizerConfig: detailsNormalizerConfig,
   renderLeaf: ({ attributes, children, text }, editor) => {
     const path = ReactEditor.findPath(editor, text);
-    const [parent] = Editor.node(editor, Path.parent(path));
+
+    const [parent] = Editor.node(editor, Path.parent(Path.parent(path)));
     if (Element.isElement(parent) && parent.type === TYPE_SUMMARY && Node.string(parent) === "") {
       return (
         <WithPlaceHolder attributes={attributes} placeholder="form.name.title">
@@ -163,6 +169,22 @@ export const detailsPlugin = createPlugin<DetailsElement["type"]>({
         return !!summaryEntry;
       },
       normalizerConfig: summaryNormalizerConfig,
+      normalize: [
+        {
+          description: "Assure that paragraphs should serialize as plaintext",
+          normalize: ([node, path], editor) => {
+            if (
+              node.children?.[0] &&
+              Element.isElement(node.children?.[0]) &&
+              node.children?.[0].type === TYPE_PARAGRAPH
+            ) {
+              Transforms.setNodes(editor, { type: TYPE_PARAGRAPH, serializeAsText: true }, { at: [...path, 0] });
+              return true;
+            }
+            return false;
+          },
+        },
+      ],
     },
   ],
 });

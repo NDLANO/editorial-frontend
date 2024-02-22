@@ -23,7 +23,7 @@ import { useSlate, useSlateSelection } from "slate-react";
 import styled from "@emotion/styled";
 import { Portal } from "@radix-ui/react-portal";
 import { ToggleGroup, Toolbar, ToolbarSeparator } from "@radix-ui/react-toolbar";
-import { colors, spacing, misc } from "@ndla/core";
+import { colors, spacing, misc, stackOrder } from "@ndla/core";
 import { ToolbarBlockOptions } from "./ToolbarBlockOptions";
 import { ToolbarInlineOptions } from "./ToolbarInlineOptions";
 import { ToolbarLanguageOptions } from "./ToolbarLanguageOptions";
@@ -46,7 +46,7 @@ const ToolbarContainer = styled(Toolbar)`
   position: absolute;
   top: -10000px;
   transition: opacity 0.75s;
-  z-index: 11;
+  z-index: ${stackOrder.popover};
   border: 1px solid ${colors.brand.tertiary};
   border-radius: ${misc.borderRadius};
   background-color: ${colors.white};
@@ -144,7 +144,7 @@ const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideT
       <ToolbarContainer data-toolbar="" ref={portalRef} onMouseDown={onMouseDown}>
         <ToolbarRow>
           <ToolbarTextOptions options={options?.text ?? []} />
-          <ToolbarLanguageOptions />
+          <ToolbarLanguageOptions options={options?.languages ?? []} />
           <ToolbarMarkOptions options={options?.mark ?? []} />
           <ToolbarBlockOptions options={options?.block ?? []} />
           <ToolbarInlineOptions options={options?.inline ?? []} />

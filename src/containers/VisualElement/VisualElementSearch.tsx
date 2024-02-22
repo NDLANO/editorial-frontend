@@ -13,12 +13,10 @@ import { IAudioSummary } from "@ndla/types-backend/audio-api";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import { BrightcoveApiType } from "@ndla/types-embed";
 import VideoSearch from "@ndla/video-search";
-import VisualElementUrlPreview from "./VisualElementUrlPreview";
 import FileUploader from "../../components/FileUploader";
 import ImageSearchAndUploader from "../../components/ImageSearchAndUploader";
 import config from "../../config";
-import { EXTERNAL_WHITELIST_PROVIDERS } from "../../constants";
-import { Embed, ExternalEmbed, H5pEmbed } from "../../interfaces";
+import { Embed } from "../../interfaces";
 import { fetchAudio, searchAudio } from "../../modules/audio/audioApi";
 import { AudioSearchParams } from "../../modules/audio/audioApiInterfaces";
 import { fetchImage, searchImages } from "../../modules/image/imageApi";
@@ -32,14 +30,11 @@ const titles = (t: TFunction, resource: string) => ({
 
 interface Props {
   selectedResource: string;
-  selectedResourceUrl?: string;
-  selectedResourceType?: string;
   handleVisualElementChange: (returnType: Embed | DOMStringMap[]) => void;
   articleLanguage?: string;
   closeModal: () => void;
   showCheckbox?: boolean;
   checkboxAction?: (image: IImageMetaInformationV3) => void;
-  embed?: H5pEmbed | ExternalEmbed;
 }
 
 interface LocalAudioSearchParams extends Omit<AudioSearchParams, "audio-type" | "page-size"> {
@@ -63,20 +58,14 @@ const searchAudios = (query: LocalAudioSearchParams) => {
 
 const VisualElementSearch = ({
   selectedResource,
-  selectedResourceUrl,
-  selectedResourceType,
   handleVisualElementChange,
   articleLanguage,
   closeModal,
   showCheckbox: showMetaImageCheckbox,
   checkboxAction: onSaveAsMetaImage,
-  embed,
 }: Props) => {
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
-  const [allowedUrlResource] = EXTERNAL_WHITELIST_PROVIDERS.map((provider) => provider.name).filter(
-    (name) => name === selectedResource,
-  );
   switch (selectedResource) {
     case "image":
       return (
@@ -178,20 +167,6 @@ const VisualElementSearch = ({
           }
           onError={onError}
           queryObject={defaultQueryObject}
-        />
-      );
-    }
-    // URL-editable embed resources
-    case "url":
-    case allowedUrlResource: {
-      return (
-        <VisualElementUrlPreview
-          resource={allowedUrlResource}
-          selectedResourceUrl={selectedResourceUrl}
-          selectedResourceType={selectedResourceType}
-          onUrlSave={handleVisualElementChange}
-          articleLanguage={articleLanguage}
-          embed={embed?.resource === "external" || embed?.resource === "iframe" ? embed : undefined}
         />
       );
     }

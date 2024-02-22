@@ -14,14 +14,13 @@ import { EmbedElements } from ".";
 import SlateImage from "./SlateImage";
 import SlateVideo from "./SlateVideo";
 import { isSlateEmbed } from "./utils";
-import DisplayExternal from "../../../DisplayEmbed/DisplayExternal";
+import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import EditorErrorMessage from "../../EditorErrorMessage";
 
 interface Props {
   attributes: RenderElementProps["attributes"];
   editor: Editor;
   element: EmbedElements;
-  language: string;
   children: ReactNode;
   allowDecorative?: boolean;
 }
@@ -32,9 +31,10 @@ interface ChangesProp {
   [x: string]: string;
 }
 
-const SlateFigure = ({ attributes, editor, element, language, children, allowDecorative = true }: Props) => {
+const SlateFigure = ({ attributes, editor, element, children, allowDecorative = true }: Props) => {
   const embed = element.data;
   const { t } = useTranslation();
+  const language = useArticleLanguage();
 
   const saveEmbedUpdates = (updates: ChangesProp) => {
     Transforms.setNodes(editor, { data: { ...embed, ...updates } }, { at: ReactEditor.findPath(editor, element) });
@@ -88,36 +88,6 @@ const SlateFigure = ({ attributes, editor, element, language, children, allowDec
         >
           {children}
         </SlateVideo>
-      );
-    case "external":
-    case "iframe":
-      if (embed.url?.includes("youtu")) {
-        return (
-          <SlateVideo
-            attributes={attributes}
-            embed={embed}
-            onRemoveClick={onRemoveClick}
-            saveEmbedUpdates={saveEmbedUpdates}
-            active={isActive()}
-            isSelectedForCopy={isSelected}
-          >
-            {children}
-          </SlateVideo>
-        );
-      }
-      return (
-        <DisplayExternal
-          attributes={attributes}
-          onRemoveClick={onRemoveClick}
-          embed={embed}
-          language={language}
-          active={isActive()}
-          isSelectedForCopy={isSelected}
-          pathToEmbed={pathToEmbed}
-          editor={editor}
-        >
-          {children}
-        </DisplayExternal>
       );
     case "error":
       return (

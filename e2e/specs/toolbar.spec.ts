@@ -6,212 +6,219 @@
  *
  */
 
-import { test, expect } from '@playwright/test';
-import { mockRoute } from '../apiMock';
-import { responsiblesMock, zendeskMock } from '../mockResponses';
+import { test, expect } from "@playwright/test";
+import { mockRoute } from "../apiMock";
+import { responsiblesMock, zendeskMock } from "../mockResponses";
 
-const metaKey = process.platform === 'darwin' ? 'Meta' : 'Control';
+const metaKey = process.platform === "darwin" ? "Meta" : "Control";
 
 test.beforeEach(async ({ page }) => {
   const zendesk = await mockRoute({
     page,
-    path: '**/get_zendesk_token',
-    fixture: 'toolbar_zendesk_token',
+    path: "**/get_zendesk_token",
+    fixture: "toolbar_zendesk_token",
     overrideValue: JSON.stringify(zendeskMock),
   });
 
   const responsibles = await mockRoute({
     page,
-    path: '**/get_responsibles?permission=drafts:responsible',
-    fixture: 'toolbar_responsibles',
+    path: "**/get_responsibles?permission=drafts:responsible",
+    fixture: "toolbar_responsibles",
     overrideValue: JSON.stringify(responsiblesMock),
   });
 
   const licenses = await mockRoute({
     page,
-    path: '**/draft-api/v1/drafts/licenses/',
-    fixture: 'toolbar_licenses',
+    path: "**/draft-api/v1/drafts/licenses/",
+    fixture: "toolbar_licenses",
   });
 
   const statuses = await mockRoute({
     page,
-    path: '**/draft-api/v1/drafts/status-state-machine/',
-    fixture: 'toolbar_status_state_machine',
+    path: "**/draft-api/v1/drafts/status-state-machine/",
+    fixture: "toolbar_status_state_machine",
   });
 
-  await page.goto('/subject-matter/learning-resource/new');
+  await page.goto("/subject-matter/learning-resource/new");
 
   await Promise.all([zendesk, responsibles, licenses, statuses]);
 });
 
-test('can change text styling', async ({ page }) => {
-  const el = page.getByTestId('slate-editor');
+test("can change text styling", async ({ page }) => {
+  const el = page.getByTestId("slate-editor");
   await el.click();
-  await el.getByRole('textbox').fill('text to style');
+  await el.getByRole("textbox").fill("text to style");
   await el.press(`${metaKey}+A`);
-  const bold = page.getByTestId('toolbar-button-bold');
+  const bold = page.getByTestId("toolbar-button-bold");
   await bold.waitFor();
   await bold.click();
-  await expect(bold).toHaveAttribute('data-state', 'on');
+  await expect(bold).toHaveAttribute("data-state", "on");
   await bold.click();
-  const italic = page.getByTestId('toolbar-button-italic');
+  const italic = page.getByTestId("toolbar-button-italic");
   await italic.click();
-  await expect(italic).toHaveAttribute('data-state', 'on');
+  await expect(italic).toHaveAttribute("data-state", "on");
   await italic.click();
-  const code = page.getByTestId('toolbar-button-code');
+  const code = page.getByTestId("toolbar-button-code");
   await code.click();
-  await expect(code).toHaveAttribute('data-state', 'on');
+  await expect(code).toHaveAttribute("data-state", "on");
   await code.click();
-  const sub = page.getByTestId('toolbar-button-sub');
+  const sub = page.getByTestId("toolbar-button-sub");
   await sub.click();
-  await expect(sub).toHaveAttribute('data-state', 'on');
+  await expect(sub).toHaveAttribute("data-state", "on");
   await sub.click();
-  const sup = page.getByTestId('toolbar-button-sup');
+  const sup = page.getByTestId("toolbar-button-sup");
   await sup.click();
-  await expect(sup).toHaveAttribute('data-state', 'on');
+  await expect(sup).toHaveAttribute("data-state", "on");
   await sup.click();
-  await el.getByRole('textbox').fill('This is test content');
+  await el.getByRole("textbox").fill("This is test content");
   await el.press(`${metaKey}+A`);
-  const quote = page.getByTestId('toolbar-button-quote');
+  const quote = page.getByTestId("toolbar-button-quote");
   await quote.click();
-  await expect(quote).toHaveAttribute('data-state', 'on');
-  await page.keyboard.press('ArrowRight');
-  await page.keyboard.press('End');
-  await page.keyboard.press('Enter');
-  await page.keyboard.press('Enter');
-  await page.keyboard.type('Test new line');
-  await expect(page.getByRole('blockquote')).toHaveText('This is test content');
+  await expect(quote).toHaveAttribute("data-state", "on");
+  await page.keyboard.press("ArrowRight");
+  await page.keyboard.press("End");
+  await page.keyboard.press("Enter");
+  await page.keyboard.press("Enter");
+  await page.keyboard.type("Test new line");
+  await expect(page.getByRole("blockquote")).toHaveText("This is test content");
 });
 
-test('can create headings', async ({ page }) => {
-  const el = page.getByTestId('slate-editor');
+test("can create headings", async ({ page }) => {
+  const el = page.getByTestId("slate-editor");
   await el.click();
-  await el.getByRole('textbox').fill('text to style');
+  await el.getByRole("textbox").fill("text to style");
   await el.press(`${metaKey}+A`);
-  const button = page.getByTestId('toolbar-button-text');
+  let button = page.getByTestId("toolbar-button-text");
   await button.click();
-  const h2Button = page.getByTestId('text-option-heading-2');
+  const h2Button = page.getByTestId("text-option-heading-2");
   await h2Button.click();
-  await expect(page.locator('h2').getByText('text to style')).toBeVisible();
-  await el.press(`${metaKey}+A`);
+  await expect(page.locator("h2").getByText("text to style")).toBeVisible();
+  await page.getByTestId("slate-editor").focus();
+  await page.getByTestId("slate-editor").press(`${metaKey}+A`);
+  button = page.getByTestId("toolbar-button-text");
   await expect(button).toBeVisible();
   await button.click();
-  const h3Button = page.getByTestId('text-option-heading-3');
+  const h3Button = page.getByTestId("text-option-heading-3");
   await h3Button.click();
-  await expect(page.locator('h3').getByText('text to style')).toBeVisible();
+  await expect(page.locator("h3").getByText("text to style")).toBeVisible();
+  await page.getByTestId("slate-editor").focus();
+  await page.getByTestId("slate-editor").press(`${metaKey}+A`);
+  button = page.getByTestId("toolbar-button-text");
   await button.click();
-  const h4Button = page.getByTestId('text-option-heading-4');
+  const h4Button = page.getByTestId("text-option-heading-4");
   await h4Button.click();
-  await expect(page.locator('h4').getByText('text to style')).toBeVisible();
+  await expect(page.locator("h4").getByText("text to style")).toBeVisible();
+  await page.getByTestId("slate-editor").focus();
+  await page.getByTestId("slate-editor").press(`${metaKey}+A`);
+  await el.press(`${metaKey}+A`);
+  button = page.getByTestId("toolbar-button-text");
   await button.click();
-  const normalTextButton = page.getByTestId('text-option-normal-text');
+  const normalTextButton = page.getByTestId("text-option-normal-text");
   await normalTextButton.click();
-  await expect(page.locator('p').getByText('text to style')).toBeVisible();
+  await expect(page.locator("p").getByText("text to style")).toBeVisible();
 });
 
-test('can create a valid link', async ({ page }) => {
-  const el = page.getByTestId('slate-editor');
+test("can create a valid link", async ({ page }) => {
+  const el = page.getByTestId("slate-editor");
   await el.click();
-  await el.getByRole('textbox').fill('This is a test link');
+  await el.getByRole("textbox").fill("This is a test link");
   await el.press(`${metaKey}+A`);
-  await expect(page.getByTestId('toolbar-button-content-link')).toBeAttached();
-  await expect(page.getByTestId('toolbar-button-content-link')).toBeVisible();
-  const link = page.getByTestId('toolbar-button-content-link');
+  await expect(page.getByTestId("toolbar-button-content-link")).toBeAttached();
+  await expect(page.getByTestId("toolbar-button-content-link")).toBeVisible();
+  const link = page.getByTestId("toolbar-button-content-link");
   expect(link).toBeVisible();
   await link.click();
-  await page.locator('input[name="href"]').fill('http://www.vg.no');
-  await page.getByText('Sett inn lenke').click();
-  await expect(page.getByText('Legg til lenke')).toHaveCount(0);
+  await page.locator('input[name="href"]').fill("http://www.vg.no");
+  await page.getByText("Sett inn lenke").click();
+  await expect(page.getByText("Legg til lenke")).toHaveCount(0);
   await expect(page.locator('a[href="http://www.vg.no"][data-slate-node="element"]')).toBeVisible();
-  await expect(page.locator('a[href="http://www.vg.no"][data-slate-node="element"]')).toHaveText(
-    'This is a test link',
-  );
+  await expect(page.locator('a[href="http://www.vg.no"][data-slate-node="element"]')).toHaveText("This is a test link");
 });
 
-test('All lists work properly', async ({ page }) => {
-  const el = page.getByTestId('slate-editor');
+test("All lists work properly", async ({ page }) => {
+  const el = page.getByTestId("slate-editor");
   await el.click();
-  await el.type('First item in the list');
+  await el.type("First item in the list");
   await el.press(`${metaKey}+A`);
-  const numberedList = page.getByTestId('toolbar-button-numbered-list');
+  const numberedList = page.getByTestId("toolbar-button-numbered-list");
   await numberedList.waitFor();
   await numberedList.click();
-  await expect(numberedList).toHaveAttribute('data-state', 'on');
-  await expect(page.getByRole('listitem')).toHaveCount(1);
-  await el.press('ArrowRight');
-  await el.press('End');
-  await el.press('Enter');
-  await el.type('Second item in the list');
-  await expect(page.getByRole('listitem')).toHaveCount(2);
+  await expect(numberedList).toHaveAttribute("data-state", "on");
+  await expect(page.getByRole("listitem")).toHaveCount(1);
+  await el.press("ArrowRight");
+  await el.press("End");
+  await el.press("Enter");
+  await el.type("Second item in the list");
+  await expect(page.getByRole("listitem")).toHaveCount(2);
   await el.press(`${metaKey}+A`);
-  const bulletList = page.getByTestId('toolbar-button-bulleted-list');
+  const bulletList = page.getByTestId("toolbar-button-bulleted-list");
   await bulletList.click();
-  await expect(bulletList).toHaveAttribute('data-state', 'on');
-  await expect(page.locator('ul > li')).toHaveCount(2);
+  await expect(bulletList).toHaveAttribute("data-state", "on");
+  await expect(page.locator("ul > li")).toHaveCount(2);
   await el.press(`${metaKey}+A`);
-  const letterList = page.getByTestId('toolbar-button-letter-list');
+  const letterList = page.getByTestId("toolbar-button-letter-list");
   await letterList.click();
-  await expect(letterList).toHaveAttribute('data-state', 'on');
-  await expect(page.locator('ol > li')).toHaveCount(2);
+  await expect(letterList).toHaveAttribute("data-state", "on");
+  await expect(page.locator("ol > li")).toHaveCount(2);
 });
 
-test('Definition list work properly', async ({ page }) => {
-  const el = page.getByTestId('slate-editor');
+test("Definition list work properly", async ({ page }) => {
+  const el = page.getByTestId("slate-editor");
   await el.click();
-  await el.type('Definition term');
+  await el.type("Definition term");
   await el.press(`${metaKey}+A`);
-  const definitionList = page.getByTestId('toolbar-button-definition-list');
+  const definitionList = page.getByTestId("toolbar-button-definition-list");
   await definitionList.waitFor();
   await definitionList.click();
-  await expect(definitionList).toHaveAttribute('data-state', 'on');
-  await expect(page.locator('dl > dt')).toHaveCount(1);
-  await el.press('ArrowRight');
-  await el.press('End');
-  await el.press('Enter');
-  await el.press('Tab');
-  await el.type('Definition description');
-  await expect(page.locator('dl > dd')).toHaveCount(1);
+  await expect(definitionList).toHaveAttribute("data-state", "on");
+  await expect(page.locator("dl > dt")).toHaveCount(1);
+  await el.press("ArrowRight");
+  await el.press("End");
+  await el.press("Enter");
+  await el.press("Tab");
+  await el.type("Definition description");
+  await expect(page.locator("dl > dd")).toHaveCount(1);
 });
 
-test('Selecting multiple paragraphs gives multiple terms', async ({ page }) => {
-  const el = page.getByTestId('slate-editor');
+test("Selecting multiple paragraphs gives multiple terms", async ({ page }) => {
+  const el = page.getByTestId("slate-editor");
   await el.click();
-  await el.type('Definition term 1');
-  await el.press('Enter');
-  await el.type('Definition term 2');
-  await el.press('Enter');
-  await el.type('Definition term 3');
-  await el.press('Enter');
+  await el.type("Definition term 1");
+  await el.press("Enter");
+  await el.type("Definition term 2");
+  await el.press("Enter");
+  await el.type("Definition term 3");
+  await el.press("Enter");
   await el.press(`${metaKey}+A`);
-  const definitionList = page.getByTestId('toolbar-button-definition-list');
+  const definitionList = page.getByTestId("toolbar-button-definition-list");
   await definitionList.waitFor();
   await definitionList.click();
-  await expect(definitionList).toHaveAttribute('data-state', 'on');
-  await expect(page.locator('dl > dt')).toHaveCount(3);
+  await expect(definitionList).toHaveAttribute("data-state", "on");
+  await expect(page.locator("dl > dt")).toHaveCount(3);
 });
 
-test('Creates math', async ({ page }) => {
-  const el = page.getByTestId('slate-editor');
+test("Creates math", async ({ page }) => {
+  const el = page.getByTestId("slate-editor");
   await el.click();
-  await el.getByRole('textbox').fill('1+1');
+  await el.getByRole("textbox").fill("1+1");
   await el.press(`${metaKey}+A`);
-  const mathButton = page.getByTestId('toolbar-button-mathml');
+  const mathButton = page.getByTestId("toolbar-button-mathml");
   await mathButton.waitFor();
   await mathButton.click();
-  await expect(page.getByTestId('math')).toBeVisible();
+  await expect(page.getByTestId("math")).toBeVisible();
 });
 
-test('Language label buttons are available, and labels can be set', async ({ page }) => {
-  const el = page.getByTestId('slate-editor');
+test("Language label buttons are available, and labels can be set", async ({ page }) => {
+  const el = page.getByTestId("slate-editor");
   await el.click();
-  await el.getByRole('textbox').fill('Hello');
+  await el.getByRole("textbox").fill("Hello");
   await el.press(`${metaKey}+A`);
-  const languageButton = page.getByTestId('toolbar-button-language');
+  const languageButton = page.getByTestId("toolbar-button-language");
   await languageButton.click();
-  expect(page.getByTestId('language-button-ar')).toBeDefined();
-  const firstLangButton = page.getByTestId('language-button-ar');
+  expect(page.getByTestId("language-button-ar")).toBeDefined();
+  const firstLangButton = page.getByTestId("language-button-ar");
   await firstLangButton.click();
   await el.press(`${metaKey}+A`);
-  await expect(page.getByTestId('toolbar-button-language')).toHaveText('ar');
+  await expect(page.getByTestId("toolbar-button-language")).toHaveText("ar");
   expect(page.locator('span[lang="ar"]')).toBeDefined();
 });

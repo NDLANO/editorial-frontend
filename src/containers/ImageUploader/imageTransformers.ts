@@ -17,7 +17,7 @@ export interface ImageFormikType {
   title: Descendant[];
   alttext: string;
   caption: string;
-  imageFile?: string;
+  imageFile?: string | Blob;
   tags: string[];
   creators: IAuthor[];
   processors: IAuthor[];

@@ -9,12 +9,12 @@
 import { Editor } from "slate";
 import Link from "./Link";
 
-export const linkRenderer = (language: string) => (editor: Editor) => {
+export const linkRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
     if (element.type === "link" || element.type === "content-link") {
       return (
-        <Link element={element} attributes={attributes} editor={editor} language={language}>
+        <Link element={element} attributes={attributes} editor={editor}>
           {children}
         </Link>
       );

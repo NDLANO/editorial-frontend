@@ -19,6 +19,7 @@ import { ContentLinkElement, LinkElement } from ".";
 import EditLink from "./EditLink";
 import config from "../../../../config";
 import { toEditGenericArticle, toLearningpathFull } from "../../../../util/routeHelpers";
+import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import isNodeInCurrentSelection from "../../utils/isNodeInCurrentSelection";
 
 interface StyledLinkMenuProps {
@@ -26,7 +27,7 @@ interface StyledLinkMenuProps {
   left: number;
 }
 
-const StyledLinkMenu = styled("span")<StyledLinkMenuProps>`
+const StyledLinkMenu = styled.div<StyledLinkMenuProps>`
   position: absolute;
   top: ${(p) => p.top}px;
   left: ${(p) => p.left}px;
@@ -56,7 +57,6 @@ interface Props {
   attributes: RenderElementProps["attributes"];
   editor: Editor;
   element: LinkElement | ContentLinkElement;
-  language: string;
   children: JSX.Element;
 }
 
@@ -71,11 +71,13 @@ const StyledLink = styled.a`
   cursor: text;
 `;
 
-const Link = ({ attributes, editor, element, language, children }: Props) => {
+const Link = ({ attributes, editor, element, children }: Props) => {
   const linkRef = useRef<HTMLAnchorElement>(null);
   const [model, setModel] = useState<Model | undefined>();
   const startOpen = useRef(!hasHrefOrContentId(element));
   const [editMode, setEditMode] = useState(!hasHrefOrContentId(element));
+  const [isLinkSelected, setIsLinkSelected] = useState(false);
+  const language = useArticleLanguage();
 
   const { t } = useTranslation();
 
@@ -119,30 +121,30 @@ const Link = ({ attributes, editor, element, language, children }: Props) => {
     setStateFromNode();
   }, [element, language]);
 
+  useEffect(() => {
+    if (!editor.selection) return;
+    setIsLinkSelected(isNodeInCurrentSelection(editor, element));
+  }, [editor, editor.selection, element]);
+
   const { top, left } = getMenuPosition();
-  const isInline = isNodeInCurrentSelection(editor, element);
 
   return (
     <Modal defaultOpen={startOpen.current} open={editMode} onOpenChange={toggleEditMode}>
       <StyledLink {...attributes} href={model?.href} ref={linkRef}>
         {children}
-        {model && (
-          <>
-            {isInline && (
-              <Portal>
-                <StyledLinkMenu top={top} left={left}>
-                  <ModalTrigger>
-                    <ButtonV2 variant="link">{t("form.content.link.change")}</ButtonV2>
-                  </ModalTrigger>{" "}
-                  | {t("form.content.link.goTo")}{" "}
-                  <a href={model?.href} target="_blank" rel="noopener noreferrer">
-                    {" "}
-                    {model?.href}
-                  </a>
-                </StyledLinkMenu>
-              </Portal>
-            )}
-          </>
+        {model && isLinkSelected && (
+          <Portal>
+            <StyledLinkMenu top={top} left={left}>
+              <ModalTrigger>
+                <ButtonV2 variant="link">{t("form.content.link.change")}</ButtonV2>
+              </ModalTrigger>{" "}
+              | {t("form.content.link.goTo")}{" "}
+              <a href={model?.href} target="_blank" rel="noopener noreferrer">
+                {" "}
+                {model?.href}
+              </a>
+            </StyledLinkMenu>
+          </Portal>
         )}
       </StyledLink>
       <ModalContent>

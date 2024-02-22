@@ -8,8 +8,8 @@
 
 import { Element, Node } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { BrightcoveEmbedElement, EmbedElements, ErrorEmbedElement, ExternalEmbedElement, ImageEmbedElement } from ".";
-import { TYPE_EMBED_BRIGHTCOVE, TYPE_EMBED_ERROR, TYPE_EMBED_EXTERNAL, TYPE_EMBED_IMAGE } from "./types";
+import { BrightcoveEmbedElement, EmbedElements, ErrorEmbedElement, ImageEmbedElement } from ".";
+import { TYPE_EMBED_BRIGHTCOVE, TYPE_EMBED_ERROR, TYPE_EMBED_IMAGE } from "./types";
 import { Embed } from "../../../../interfaces";
 import { AudioElement, TYPE_AUDIO } from "../audio/types";
 import { H5pElement, TYPE_H5P } from "../h5p/types";
@@ -19,18 +19,11 @@ export const defaultEmbedBlock = (data: Partial<Embed>) =>
 
 export const isSlateEmbed = (
   node: Node,
-): node is
-  | H5pElement
-  | ImageEmbedElement
-  | AudioElement
-  | ErrorEmbedElement
-  | ExternalEmbedElement
-  | BrightcoveEmbedElement => {
+): node is H5pElement | ImageEmbedElement | AudioElement | ErrorEmbedElement | BrightcoveEmbedElement => {
   return (
     Element.isElement(node) &&
     (node.type === TYPE_EMBED_BRIGHTCOVE ||
       node.type === TYPE_EMBED_ERROR ||
-      node.type === TYPE_EMBED_EXTERNAL ||
       node.type === TYPE_H5P ||
       node.type === TYPE_EMBED_IMAGE ||
       node.type === TYPE_AUDIO)
@@ -40,8 +33,6 @@ export const isSlateEmbed = (
 export const defineTypeOfEmbed = (type?: string) => {
   if (type === "video" || type === "brightcove") {
     return TYPE_EMBED_BRIGHTCOVE;
-  } else if (type === "external" || type === "iframe") {
-    return TYPE_EMBED_EXTERNAL;
   } else if (type === "h5p") {
     return TYPE_H5P;
   } else if (type === "image") {
@@ -57,7 +48,4 @@ export const defineTypeOfEmbed = (type?: string) => {
 export const isSlateEmbedElement = (element: Element): element is EmbedElements => isEmbedType(element.type);
 
 export const isEmbedType = (type: string) =>
-  type === TYPE_EMBED_BRIGHTCOVE ||
-  type === TYPE_EMBED_ERROR ||
-  type === TYPE_EMBED_IMAGE ||
-  type === TYPE_EMBED_EXTERNAL;
+  type === TYPE_EMBED_BRIGHTCOVE || type === TYPE_EMBED_ERROR || type === TYPE_EMBED_IMAGE;

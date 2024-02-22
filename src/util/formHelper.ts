@@ -215,7 +215,7 @@ export const learningResourceRules: RulesType<LearningResourceFormType, IArticle
         "h5p",
         "audio",
         "error-embed",
-        "external-embed",
+        "external",
       ).map((node) => (node as EmbedElements).data);
       const notValidEmbeds = embeds.filter((embed) => embed && !isUserProvidedEmbedDataValid(embed));
       const embedsHasErrors = notValidEmbeds.length > 0;

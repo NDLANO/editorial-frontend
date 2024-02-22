@@ -23,11 +23,8 @@ import LastUpdatedLine from "../../../../components/LastUpdatedLine/LastUpdatedL
 import { TYPE_AUDIO } from "../../../../components/SlateEditor/plugins/audio/types";
 import { learningResourceActions } from "../../../../components/SlateEditor/plugins/blockPicker/actions";
 import { TYPE_CODEBLOCK } from "../../../../components/SlateEditor/plugins/codeBlock/types";
-import {
-  TYPE_EMBED_BRIGHTCOVE,
-  TYPE_EMBED_EXTERNAL,
-  TYPE_EMBED_IMAGE,
-} from "../../../../components/SlateEditor/plugins/embed/types";
+import { TYPE_EMBED_BRIGHTCOVE, TYPE_EMBED_IMAGE } from "../../../../components/SlateEditor/plugins/embed/types";
+import { TYPE_EXTERNAL } from "../../../../components/SlateEditor/plugins/external/types";
 import { TYPE_FILE } from "../../../../components/SlateEditor/plugins/file/types";
 import { FootnoteElement } from "../../../../components/SlateEditor/plugins/footnote";
 import { TYPE_FOOTNOTE } from "../../../../components/SlateEditor/plugins/footnote/types";
@@ -64,7 +61,7 @@ const findFootnotes = (content: Descendant[]): FootnoteType[] =>
     .filter((footnote) => Object.keys(footnote.data).length > 0)
     .map((footnoteElement) => footnoteElement.data);
 
-const visualElements = [TYPE_H5P, TYPE_EMBED_BRIGHTCOVE, TYPE_AUDIO, TYPE_EMBED_EXTERNAL, TYPE_EMBED_IMAGE];
+const visualElements = [TYPE_H5P, TYPE_EMBED_BRIGHTCOVE, TYPE_AUDIO, TYPE_EXTERNAL, TYPE_EMBED_IMAGE];
 
 const actions = [TYPE_TABLE, TYPE_CODEBLOCK, TYPE_FILE, TYPE_GRID].concat(visualElements);
 const actionsToShowInAreas = {
@@ -160,6 +157,8 @@ interface ContentFieldProps extends FieldProps<Descendant[]> {
   articleLanguage: string;
 }
 
+const editorPlugins = learningResourcePlugins.concat(learningResourceRenderers);
+
 const ContentField = ({ articleId, field: { name, onChange, value }, articleLanguage }: ContentFieldProps) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
@@ -177,11 +176,6 @@ const ContentField = ({ articleId, field: { name, onChange, value }, articleLang
       });
     },
     [onChange, name],
-  );
-
-  const editorPlugins = useMemo(
-    () => learningResourcePlugins.concat(learningResourceRenderers(articleLanguage)),
-    [articleLanguage],
   );
 
   return (

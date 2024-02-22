@@ -135,25 +135,12 @@ export interface H5pEmbed {
   title?: string;
 }
 
-export interface ExternalEmbed {
-  resource: "external" | "iframe";
-  url: string;
-  type?: string;
-  metaData?: any;
-  caption?: string;
-  title?: string;
-  width?: string;
-  height?: string;
-  imageid?: string;
-  alt?: string;
-}
-
 export interface ErrorEmbed {
   resource: "error";
   message: string;
 }
 
-export type Embed = ImageEmbed | BrightcoveEmbed | AudioEmbedData | H5pEmbedData | ExternalEmbed | ErrorEmbed;
+export type Embed = ImageEmbed | BrightcoveEmbed | AudioEmbedData | H5pEmbedData | ErrorEmbed;
 
 export interface FileFormat {
   url: string;

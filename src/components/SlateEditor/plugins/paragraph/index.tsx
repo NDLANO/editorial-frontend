@@ -15,6 +15,7 @@ import { SlateSerializer } from "../../interfaces";
 import containsVoid from "../../utils/containsVoid";
 import { KEY_ENTER } from "../../utils/keys";
 import { TYPE_BREAK } from "../break/types";
+import { TYPE_SUMMARY } from "../details/types";
 import { TYPE_LIST_ITEM } from "../list/types";
 import { TYPE_NOOP } from "../noop/types";
 import { createPlugin, createPluginFactory } from "../PluginFactory";
@@ -115,6 +116,7 @@ export const paragraphPlugin = createPlugin<ParagraphElement["type"]>({
           Element.isElement(parentNode) &&
           parentNode.type !== TYPE_TABLE_CELL &&
           parentNode.type !== TYPE_LIST_ITEM &&
+          parentNode.type !== TYPE_SUMMARY &&
           parentNode.type !== TYPE_NOOP &&
           node.serializeAsText
         ) {

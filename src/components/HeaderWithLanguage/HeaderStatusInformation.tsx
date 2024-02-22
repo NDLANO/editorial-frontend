@@ -17,6 +17,7 @@ import { IConceptSummary } from "@ndla/types-backend/concept-api";
 import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
 import EmbedConnection from "./EmbedInformation/EmbedConnection";
+import HeaderFavoriteStatus from "./HeaderFavoriteStatus";
 import LearningpathConnection from "./LearningpathConnection";
 import config from "../../config";
 import formatDate from "../../util/formatDate";
@@ -151,6 +152,7 @@ const HeaderStatusInformation = ({
   const expirationColor = useMemo(() => getWarnStatus(expirationDate), [expirationDate]);
 
   if (!noStatus || isNewLanguage) {
+    const showFavoritedIcon = type !== "frontpage-article" && !inSearch;
     return (
       <StyledStatusWrapper>
         {(type === "standard" || type === "topic-article") && !inSearch ? (
@@ -192,6 +194,7 @@ const HeaderStatusInformation = ({
             aria-hidden={false}
           />
         )}
+        {showFavoritedIcon && <HeaderFavoriteStatus id={id} type={type} />}
         <StyledStatus data-compact={compact}>
           <span>
             <StyledSmallText data-compact={compact}>{`${t("form.responsible.label")}:`}</StyledSmallText>

@@ -12,6 +12,8 @@ import { audioPlugin } from "../../components/SlateEditor/plugins/audio";
 import { audioRenderer } from "../../components/SlateEditor/plugins/audio/render";
 import { EmbedElements, embedPlugin } from "../../components/SlateEditor/plugins/embed";
 import { embedRenderer } from "../../components/SlateEditor/plugins/embed/render";
+import { externalPlugin } from "../../components/SlateEditor/plugins/external";
+import { externalRenderer } from "../../components/SlateEditor/plugins/external/render";
 import { h5pPlugin } from "../../components/SlateEditor/plugins/h5p";
 import { h5pRenderer } from "../../components/SlateEditor/plugins/h5p/render";
 import VisualElementEditor from "../../components/SlateEditor/VisualElementEditor";
@@ -41,14 +43,15 @@ const VisualElement = ({
   const plugins = useMemo(() => {
     return [
       audioPlugin(true),
-      audioRenderer(language),
+      audioRenderer,
       h5pPlugin(true),
-      h5pRenderer(language),
+      h5pRenderer,
+      externalPlugin(true),
+      externalRenderer,
       embedPlugin(true),
-      embedRenderer(language, allowDecorative),
+      embedRenderer(allowDecorative),
     ];
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedResource]);
+  }, [allowDecorative]);
 
   return (
     <VisualElementEditor

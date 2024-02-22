@@ -32,6 +32,10 @@ const HeaderWrapper = styled.div`
   max-width: 1024px;
 `;
 
+const StyledForm = styled(Form)`
+  width: 100%;
+`;
+
 const ComparePage = () => {
   const params = useParams<"draftId" | "language">();
   const draftId = Number(params.draftId!);
@@ -55,11 +59,11 @@ const ComparePage = () => {
       <HeaderWrapper>
         <HeaderInformation language={language} noStatus type="compare" isNewLanguage={false} />
       </HeaderWrapper>
-      <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+      <Formik className={{ width: "100%" }} initialValues={initialValues} onSubmit={handleSubmit}>
         {(_data) => (
-          <Form>
+          <StyledForm>
             <PreviewCompare article={article} language={language} type="compare" />
-          </Form>
+          </StyledForm>
         )}
       </Formik>
     </PageContainer>

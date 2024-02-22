@@ -31,6 +31,7 @@ const phrases = {
     publishRequestsPage: `Publiseringsforespørsler ${titleTemplate}`,
     nodeDiffPage: `Samanlikne nodar ${titleTemplate}`,
     editFrontpage: "Rediger forside",
+    comparePage: `Samanlikne versjonar ${titleTemplate}`,
     search: {
       "podcast-series": `Søk podkastserier ${titleTemplate}`,
       audio: `Søk lydfiler ${titleTemplate}`,
@@ -630,6 +631,9 @@ const phrases = {
   keyFigureForm: {
     title: "Nykeltal",
     edit: "Rediger nykeltal",
+  },
+  compareForm: {
+    title: "Samanlikne versjonar",
   },
   editorToolbar: {
     bold: "Feit\n({{ctrl}}+b)",

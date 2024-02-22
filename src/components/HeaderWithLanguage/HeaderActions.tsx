@@ -10,8 +10,11 @@ import { useFormikContext } from "formik";
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
+import { colors, fonts, misc, spacing } from "@ndla/core";
 import { FileCompare } from "@ndla/icons/action";
+import { Launch } from "@ndla/icons/common";
 import { Check, Eye } from "@ndla/icons/editor";
+import { SafeLinkButton } from "@ndla/safelink";
 import { IConcept } from "@ndla/types-backend/concept-api";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import DeleteLanguageVersion from "./DeleteLanguageVersion";
@@ -23,6 +26,7 @@ import TranslateNbToNn from "./TranslateNbToNn";
 import { PUBLISHED } from "../../constants";
 import { fetchDraftHistory } from "../../modules/draft/draftApi";
 import {
+  toCompareLanguage,
   toEditAudio,
   toEditConcept,
   toEditFrontPageArticle,
@@ -61,16 +65,10 @@ const PreviewLightBox = memo(({ type, currentLanguage, article, concept }: Previ
     );
   } else if ((type === "standard" || type === "topic-article" || type === "frontpage-article") && article) {
     return (
-      <PreviewDraftLightboxV2
-        type="compare"
-        article={article}
-        language={currentLanguage}
-        activateButton={
-          <StyledFilledButton type="button">
-            <FileCompare /> {t("form.previewLanguageArticle.button")}
-          </StyledFilledButton>
-        }
-      />
+      <StyledSafeLinkButton variant="link" to={toCompareLanguage(article.id, currentLanguage)} target="_blank">
+        {t("form.previewLanguageArticle.button")}
+        <Launch />
+      </StyledSafeLinkButton>
     );
   } else return null;
 });
@@ -82,6 +80,20 @@ const StyledWrapper = styled.div`
 const StyledGroup = styled.div`
   display: flex;
   align-items: center;
+`;
+const StyledSafeLinkButton = styled(SafeLinkButton)`
+  border-radius: ${misc.borderRadius};
+  box-shadow: none;
+  font-family: ${fonts.sans};
+  ${fonts.sizes(16, 1.1)};
+  font-weight: ${fonts.weight.semibold};
+  text-decoration: none;
+  padding: ${spacing.xsmall} ${spacing.small};
+  &:focus,
+  &:hover {
+    color: #fff;
+    background: ${colors.brand.primary};
+  }
 `;
 
 interface Props {

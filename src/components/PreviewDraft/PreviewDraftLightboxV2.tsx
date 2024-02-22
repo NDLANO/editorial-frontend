@@ -27,7 +27,7 @@ import { useDraft, useLicenses } from "../../modules/draft/draftQueries";
 interface BaseProps {
   type: "markup" | "version" | "compare" | "conceptCompare" | "concept";
   language: string;
-  activateButton: ReactElement;
+  activateButton?: ReactElement;
 }
 
 interface MarkupPreviewProps extends BaseProps {
@@ -157,7 +157,7 @@ const PreviewTitleWrapper = styled.div`
   height: 90px;
 `;
 
-const PreviewCompare = ({ article, language }: ComparePreviewProps) => {
+export const PreviewCompare = ({ article, language }: ComparePreviewProps) => {
   const [previewLanguage, setPreviewLanguage] = useState<string>(
     article.supportedLanguages.find((l) => l !== language) ?? article.supportedLanguages[0]!,
   );

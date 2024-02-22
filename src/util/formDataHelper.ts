@@ -22,7 +22,9 @@ export const createFormData = (
     if (metadata) {
       form.append("metadata", JSON.stringify(metadata));
     }
-    if (file) {
+    // If the file is a string, it is a URL to existing data, that didn't change
+    // and we don't want to send it to the server
+    if (file && typeof file !== "string") {
       form.append("file", file);
     }
     resolve(form);

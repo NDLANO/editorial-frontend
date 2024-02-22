@@ -7,7 +7,7 @@
  */
 
 import { FieldArrayRenderProps, FieldInputProps } from "formik";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
 import styled from "@emotion/styled";
@@ -76,9 +76,13 @@ const Comment = ({ id, index, isSubmitting, field, arrayHelpers }: Props) => {
     setModalOpen(false);
   };
 
-  const updateComment = (updateField: keyof CommentType, updateValue: boolean | Descendant[]) => {
-    arrayHelpers.replace(index, { ...field.value, [updateField]: updateValue });
-  };
+  const updateComment = useCallback(
+    (updateField: keyof CommentType, updateValue: boolean | Descendant[]) => {
+      arrayHelpers.replace(index, { ...field.value, [updateField]: updateValue });
+    },
+    [arrayHelpers, field.value, index],
+  );
+  const updateContentOnBlur = useCallback(() => updateComment("content", inputValue), [inputValue, updateComment]);
 
   const tooltipText = field.value.isOpen ? t("form.comment.hide") : t("form.comment.show");
   const commentId = `${id}-comment-section`;
@@ -130,7 +134,7 @@ const Comment = ({ id, index, isSubmitting, field, arrayHelpers }: Props) => {
             plugins={plugins}
             onChange={setInputValue}
             onClick={() => updateComment("isOpen", true)}
-            onBlur={() => updateComment("content", inputValue)}
+            onBlur={updateContentOnBlur}
             toolbarOptions={toolbarOptions}
             toolbarAreaFilters={toolbarAreaFilters}
             data-open={field.value.isOpen}

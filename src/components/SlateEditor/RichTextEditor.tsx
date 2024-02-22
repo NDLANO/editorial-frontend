@@ -74,6 +74,7 @@ const RichTextEditor = ({
   hideToolbar,
   receiveInitialFocus,
   hideSpinner,
+  onBlur: onBlurProp,
   ...rest
 }: Props) => {
   const [editor] = useState(() => withPlugins(withReact(withHistory(createEditor())), plugins));
@@ -211,9 +212,9 @@ const RichTextEditor = ({
       if (e.relatedTarget?.id === BLOCK_PICKER_TRIGGER_ID) return;
       if (e.relatedTarget?.closest("[data-toolbar]")) return;
       Transforms.deselect(editor);
-      rest.onBlur?.(e);
+      if (onBlurProp) onBlurProp(e);
     },
-    [editor, rest],
+    [editor, onBlurProp],
   );
 
   const handleKeyDown = useCallback(

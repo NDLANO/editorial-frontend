@@ -7,6 +7,7 @@
  */
 
 import { Editor, NodeEntry, Element } from "slate";
+import { RenderLeafProps } from "slate-react";
 import config from "../../../config";
 import { NormalizerConfig, defaultBlockNormalizer } from "../utils/defaultNormalizer";
 
@@ -23,6 +24,8 @@ interface Plugin<T extends ElementType = ElementType> {
   onKeyDown?: Record<string, KeyDown>;
   isInline?: boolean;
   isVoid?: boolean;
+  shouldHideBlockPicker?: (editor: Editor) => boolean;
+  renderLeaf?: (props: RenderLeafProps, editor: Editor) => JSX.Element | undefined;
   childPlugins?: MappedPlugins[ElementType][];
 }
 
@@ -34,17 +37,30 @@ interface Normalize<T extends Element> {
 type KeyDown = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: KeyboardEvent) => void) => void;
 
 export const createPluginFactory =
-  <T extends ElementType>({ normalize, isVoid, type, onKeyDown, isInline, normalizerConfig }: Plugin<T>) =>
+  <T extends ElementType>({
+    normalize,
+    isVoid,
+    type,
+    onKeyDown,
+    isInline,
+    normalizerConfig,
+    renderLeaf,
+    shouldHideBlockPicker,
+  }: Plugin<T>) =>
   (editor: Editor) => {
     const {
       isVoid: nextIsVoid,
       normalizeNode: nextNormalizeNode,
       isInline: nextIsInline,
       onKeyDown: nextOnKeyDown,
+      renderLeaf: nextRenderLeaf,
+      shouldHideBlockPicker: nextShouldHideBlockPicker,
     } = editor;
 
     editor.isVoid = (e) => (e.type === type ? !!isVoid : nextIsVoid?.(e));
     editor.isInline = (e) => (e.type === type ? !!isInline : nextIsInline?.(e));
+    editor.renderLeaf = (props) => renderLeaf?.(props, editor) ?? nextRenderLeaf?.(props);
+    editor.shouldHideBlockPicker = () => shouldHideBlockPicker?.(editor) ?? nextShouldHideBlockPicker?.();
 
     editor.normalizeNode = (entry) => {
       const [node] = entry;

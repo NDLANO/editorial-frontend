@@ -23,6 +23,7 @@ import {
   textBlockElements,
 } from "../../utils/normalizationHelpers";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
+import { createPlugin } from "../PluginFactory";
 
 export interface DetailsElement {
   type: "details";
@@ -73,7 +74,7 @@ const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: Keybo
     });
     return;
   }
-  return nextOnKeyDown && nextOnKeyDown(e);
+  return nextOnKeyDown?.(e);
 };
 
 const onBackspace = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: KeyboardEvent) => void) => {
@@ -110,7 +111,7 @@ const onBackspace = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: K
       }
     }
   }
-  return nextOnKeyDown && nextOnKeyDown(e);
+  return nextOnKeyDown?.(e);
 };
 
 export const detailsSerializer: SlateSerializer = {
@@ -132,28 +133,11 @@ export const detailsSerializer: SlateSerializer = {
   },
 };
 
-export const detailsPlugin = (editor: Editor) => {
-  const {
-    normalizeNode: nextNormalizeNode,
-    shouldHideBlockPicker: nextShouldHideBlockPicker,
-    onKeyDown: nextOnKeyDown,
-    renderLeaf,
-  } = editor;
-
-  editor.onKeyDown = (event) => {
-    if (event.key === KEY_ENTER) {
-      onEnter(event, editor, nextOnKeyDown);
-    } else if (event.key === KEY_BACKSPACE) {
-      onBackspace(event, editor, nextOnKeyDown);
-    } else if (nextOnKeyDown) {
-      nextOnKeyDown(event);
-    }
-  };
-
-  editor.renderLeaf = (props: RenderLeafProps) => {
-    const { attributes, children, text } = props;
+export const detailsPlugin = createPlugin<DetailsElement["type"]>({
+  type: TYPE_DETAILS,
+  normalizerConfig: detailsNormalizerConfig,
+  renderLeaf: ({ attributes, children, text }, editor) => {
     const path = ReactEditor.findPath(editor, text);
-
     const [parent] = Editor.node(editor, Path.parent(path));
     if (Element.isElement(parent) && parent.type === TYPE_SUMMARY && Node.string(parent) === "") {
       return (
@@ -162,35 +146,23 @@ export const detailsPlugin = (editor: Editor) => {
         </WithPlaceHolder>
       );
     }
-    return renderLeaf && renderLeaf(props);
-  };
+    return undefined;
+  },
 
-  editor.shouldHideBlockPicker = () => {
-    const [summaryEntry] = Editor.nodes(editor, {
-      match: (node) => Element.isElement(node) && node.type === TYPE_SUMMARY,
-    });
-    if (summaryEntry && Element.isElement(summaryEntry[0])) {
-      return true;
-    }
-    return nextShouldHideBlockPicker?.();
-  };
-
-  editor.normalizeNode = (entry) => {
-    const [node] = entry;
-
-    if (Element.isElement(node)) {
-      if (node.type === TYPE_DETAILS) {
-        if (defaultBlockNormalizer(editor, entry, detailsNormalizerConfig)) {
-          return;
-        }
-      } else if (node.type === TYPE_SUMMARY) {
-        if (defaultBlockNormalizer(editor, entry, summaryNormalizerConfig)) {
-          return;
-        }
-      }
-    }
-
-    nextNormalizeNode(entry);
-  };
-  return editor;
-};
+  onKeyDown: {
+    [KEY_ENTER]: onEnter,
+    [KEY_BACKSPACE]: onBackspace,
+  },
+  childPlugins: [
+    {
+      type: TYPE_SUMMARY,
+      shouldHideBlockPicker: (editor) => {
+        const [summaryEntry] = Editor.nodes<SummaryElement>(editor, {
+          match: (node) => Element.isElement(node) && node.type === TYPE_SUMMARY,
+        });
+        return !!summaryEntry;
+      },
+      normalizerConfig: summaryNormalizerConfig,
+    },
+  ],
+});

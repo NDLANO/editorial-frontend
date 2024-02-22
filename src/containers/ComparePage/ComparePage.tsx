@@ -35,8 +35,8 @@ const HeaderWrapper = styled.div`
 const ComparePage = () => {
   const params = useParams<"draftId" | "language">();
   const draftId = Number(params.draftId!);
-  const { data: article, isLoading } = useDraft({ id: draftId });
   const language = params.language!;
+  const { data: article, isLoading } = useDraft({ id: draftId, language: language });
   const { t } = useTranslation();
   const { initialValues, handleSubmit } = useArticleFormHooks<LearningResourceFormType>({
     getInitialValues: draftApiTypeToLearningResourceFormType,

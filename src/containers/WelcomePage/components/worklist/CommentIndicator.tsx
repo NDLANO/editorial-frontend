@@ -6,11 +6,10 @@
  *
  */
 
-import { Node } from "slate";
 import styled from "@emotion/styled";
 import { Comment } from "@ndla/icons/common";
 import Tooltip from "@ndla/tooltip";
-import { inlineContentToEditorValue } from "../../../../util/articleContentConverter";
+import { stripInlineContentHtmlTags } from "../../../../util/formHelper";
 
 const StyledIconWrapper = styled.div`
   display: flex;
@@ -27,10 +26,7 @@ interface Props {
 }
 
 const CommentIndicator = ({ comment }: Props) => {
-  // Removes all html-tags from the comment
-  const strippedComment = inlineContentToEditorValue(comment)
-    .map((n) => Node.string(n))
-    .join("");
+  const strippedComment = stripInlineContentHtmlTags(comment);
 
   return (
     <Tooltip tooltip={strippedComment} delayDuration={0}>

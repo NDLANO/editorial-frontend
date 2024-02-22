@@ -30,7 +30,7 @@ import {
   createToolbarDefaultValues,
 } from "../../../components/SlateEditor/plugins/toolbar/toolbarState";
 
-const commentPlugins: SlatePlugin[] = [
+export const plugins: SlatePlugin[] = [
   sectionPlugin,
   spanPlugin,
   paragraphPlugin,
@@ -42,9 +42,6 @@ const commentPlugins: SlatePlugin[] = [
   noopPlugin,
   linkPlugin,
   listPlugin,
-];
-
-const commentRenderers: SlatePlugin[] = [
   sectionRenderer,
   noopRenderer,
   paragraphRenderer,
@@ -53,8 +50,6 @@ const commentRenderers: SlatePlugin[] = [
   linkRenderer,
   listRenderer,
 ];
-
-export const plugins = commentPlugins.concat(commentRenderers);
 
 export const toolbarOptions = createToolbarDefaultValues({
   text: {

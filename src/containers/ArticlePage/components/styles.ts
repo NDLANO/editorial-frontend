@@ -13,7 +13,7 @@ export const COMMENT_COLOR = colors.support.yellowLight;
 export const textAreaStyles = css`
   width: 100%;
   border-radius: ${misc.borderRadius};
-  min-height: 25px;
+  min-height: ${spacing.normal};
   background-color: ${COMMENT_COLOR};
   font-family: ${fonts.sans};
   font-weight: ${fonts.weight.light};

@@ -76,7 +76,7 @@ const Comment = ({ id, index, isSubmitting, field, arrayHelpers }: Props) => {
     setModalOpen(false);
   };
 
-  const updateComment = (updateValue: boolean | Descendant[], updateField: keyof CommentType) => {
+  const updateComment = (updateField: keyof CommentType, updateValue: boolean | Descendant[]) => {
     arrayHelpers.replace(index, { ...field.value, [updateField]: updateValue });
   };
 
@@ -92,7 +92,7 @@ const Comment = ({ id, index, isSubmitting, field, arrayHelpers }: Props) => {
             size="xsmall"
             aria-label={tooltipText}
             title={tooltipText}
-            onClick={() => updateComment(!field.value.isOpen, "isOpen")}
+            onClick={() => updateComment("isOpen", !field.value.isOpen)}
             aria-expanded={field.value.isOpen}
             aria-controls={commentId}
           >
@@ -104,7 +104,7 @@ const Comment = ({ id, index, isSubmitting, field, arrayHelpers }: Props) => {
               size="xsmall"
               aria-label={field.value.solved ? t("form.comment.unresolve") : t("form.comment.solve")}
               title={field.value.solved ? t("form.comment.unresolve") : t("form.comment.solve")}
-              onClick={() => updateComment(!field.value.solved, "solved")}
+              onClick={() => updateComment("solved", !field.value.solved)}
               colorTheme="darker"
             >
               <Done />
@@ -129,8 +129,8 @@ const Comment = ({ id, index, isSubmitting, field, arrayHelpers }: Props) => {
             submitted={isSubmitting}
             plugins={plugins}
             onChange={setInputValue}
-            onClick={() => updateComment(true, "isOpen")}
-            onBlur={() => updateComment(inputValue, "content")}
+            onClick={() => updateComment("isOpen", true)}
+            onBlur={() => updateComment("content", inputValue)}
             toolbarOptions={toolbarOptions}
             toolbarAreaFilters={toolbarAreaFilters}
             data-open={field.value.isOpen}

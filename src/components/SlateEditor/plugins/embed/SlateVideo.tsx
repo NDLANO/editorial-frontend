@@ -41,6 +41,10 @@ export const StyledVideo = styled.iframe`
   border: 0px;
 `;
 
+const StyledModalContent = styled(ModalContent)`
+  overflow: visible;
+`;
+
 interface SlateVideoWrapperProps {
   showOutline?: boolean;
   hasError?: boolean;
@@ -185,7 +189,7 @@ const SlateVideo = ({
                 <Pencil />
               </IconButtonV2>
             </ModalTrigger>
-            <ModalContent>
+            <StyledModalContent>
               <EditVideo
                 embed={embed}
                 close={toggleEditModus}
@@ -193,7 +197,7 @@ const SlateVideo = ({
                 saveEmbedUpdates={saveEmbedUpdates}
                 setHasError={setHasError}
               />
-            </ModalContent>
+            </StyledModalContent>
           </Modal>
           <SafeLinkIconButton
             title={t("form.video.brightcove")}

@@ -21,7 +21,6 @@ import {
 import { Editor, Range } from "slate";
 import { useSlate, useSlateSelection } from "slate-react";
 import styled from "@emotion/styled";
-import { Portal } from "@radix-ui/react-portal";
 import { ToggleGroup, Toolbar, ToolbarSeparator } from "@radix-ui/react-toolbar";
 import { colors, spacing, misc, stackOrder } from "@ndla/core";
 import { ToolbarBlockOptions } from "./ToolbarBlockOptions";
@@ -40,17 +39,16 @@ import { ToolbarTableOptions } from "./ToolbarTableOptions";
 import { ToolbarTextOptions } from "./ToolbarTextOptions";
 
 const ToolbarContainer = styled(Toolbar)`
-  left: -10000px;
+  position: absolute;
   align-self: center;
   opacity: 0;
-  position: absolute;
-  top: -10000px;
   transition: opacity 0.75s;
   z-index: ${stackOrder.modal - stackOrder.offsetSingle};
   border: 1px solid ${colors.brand.tertiary};
   border-radius: ${misc.borderRadius};
   background-color: ${colors.white};
   padding: ${spacing.xsmall};
+  overflow: visible;
   display: flex;
   flex-direction: column;
   gap: ${spacing.xsmall};
@@ -74,7 +72,7 @@ export const StyledToggleGroup = styled(ToggleGroup)`
   gap: ${spacing.xxsmall};
 `;
 
-export const showToolbar = (toolbar: HTMLElement) => {
+const showToolbar = (toolbar: HTMLElement, editorWrapper: HTMLElement) => {
   toolbar.style.display = "flex";
   const native = window.getSelection();
   if (!native) {
@@ -82,12 +80,16 @@ export const showToolbar = (toolbar: HTMLElement) => {
   }
   const range = native.getRangeAt(0);
   const rect = range.getBoundingClientRect();
-
+  const editorRect = editorWrapper.getBoundingClientRect();
   toolbar.style.opacity = "1";
-  const left = rect.left + window.scrollX - toolbar.offsetWidth / 2 + rect.width / 2;
 
-  toolbar.style.top = `${rect.top + window.scrollY - toolbar.offsetHeight}px`;
-  toolbar.style.left = `${left > 10 ? left : 10}px`;
+  const left =
+    rect.left < toolbar.offsetWidth / 2
+      ? 10 - editorRect.left
+      : +-editorRect.left + rect.left + rect.width / 2 - toolbar.offsetWidth / 2;
+
+  toolbar.style.top = `${rect.top - editorRect.top - toolbar.offsetHeight}px`;
+  toolbar.style.left = `${left}px`;
 };
 
 interface Props {
@@ -104,6 +106,7 @@ const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideT
   const portalRef = useRef<HTMLDivElement | null>(null);
   const selection = useSlateSelection();
   const editor = useSlate();
+  const editorWrapper = useRef<HTMLDivElement | null>(null);
 
   const hideToolbar = useMemo(() => {
     return (
@@ -117,10 +120,13 @@ const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideT
 
   useEffect(() => {
     if (!portalRef.current) return;
+    if (!editorWrapper.current) {
+      editorWrapper.current = portalRef.current.closest("[data-editor]") as HTMLDivElement;
+    }
     if (hideToolbar) {
       portalRef.current.removeAttribute("style");
     } else {
-      showToolbar(portalRef.current);
+      showToolbar(portalRef.current, editorWrapper.current!);
     }
   });
 
@@ -140,18 +146,16 @@ const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideT
   }
 
   return (
-    <Portal>
-      <ToolbarContainer data-toolbar="" ref={portalRef} onMouseDown={onMouseDown}>
-        <ToolbarRow>
-          <ToolbarTextOptions options={options?.text ?? []} />
-          <ToolbarLanguageOptions options={options?.languages ?? []} />
-          <ToolbarMarkOptions options={options?.mark ?? []} />
-          <ToolbarBlockOptions options={options?.block ?? []} />
-          <ToolbarInlineOptions options={options?.inline ?? []} />
-          <ToolbarTableOptions options={options?.table ?? []} />
-        </ToolbarRow>
-      </ToolbarContainer>
-    </Portal>
+    <ToolbarContainer data-toolbar="" ref={portalRef} onMouseDown={onMouseDown}>
+      <ToolbarRow>
+        <ToolbarTextOptions options={options?.text ?? []} />
+        <ToolbarLanguageOptions options={options?.languages ?? []} />
+        <ToolbarMarkOptions options={options?.mark ?? []} />
+        <ToolbarBlockOptions options={options?.block ?? []} />
+        <ToolbarInlineOptions options={options?.inline ?? []} />
+        <ToolbarTableOptions options={options?.table ?? []} />
+      </ToolbarRow>
+    </ToolbarContainer>
   );
 };
 

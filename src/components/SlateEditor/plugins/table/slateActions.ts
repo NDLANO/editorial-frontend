@@ -8,16 +8,10 @@
 
 import { Editor, Path, Transforms } from "slate";
 import { defaultTableCellBlock } from "./defaultBlocks";
-import {
-  TableBodyElement,
-  TableCellElement,
-  TableElement,
-  TableHeadElement,
-  TableHeaderCellElement,
-} from "./interfaces";
+import { TableBodyElement, TableCellElement, TableElement, TableHeadElement } from "./interfaces";
 import { getTableAsMatrix } from "./matrix";
 import { findCellCoordinate, getMatrixColumn } from "./matrixHelpers";
-import { hasCellAlignOfType, isTableCell, isTableCellHeader, isTableRow } from "./slateHelpers";
+import { hasCellAlignOfType, isTableCell, isTableRow } from "./slateHelpers";
 import { TYPE_TABLE_CELL } from "./types";
 import getCurrentBlock from "../../utils/getCurrentBlock";
 
@@ -51,8 +45,8 @@ export const toggleCellAlign = (editor: Editor, type: string) => {
   const newAlign = hasCellAlignOfType(editor, type) ? undefined : type;
 
   Editor.withoutNormalizing(editor, () => {
-    for (const [cell] of Editor.nodes<TableCellElement | TableHeaderCellElement>(editor, {
-      match: (node) => isTableCell(node) || isTableCellHeader(node),
+    for (const [cell] of Editor.nodes<TableCellElement>(editor, {
+      match: (node) => isTableCell(node),
     })) {
       updateCell(editor, cell, { align: newAlign });
     }
@@ -61,9 +55,9 @@ export const toggleCellAlign = (editor: Editor, type: string) => {
 
 export const updateCell = (
   editor: Editor,
-  cell: TableCellElement | TableHeaderCellElement,
+  cell: TableCellElement,
   data: Partial<TableCellElement["data"]>,
-  cellType?: TableCellElement["type"] | TableHeaderCellElement["type"],
+  cellType?: TableCellElement["type"],
 ) => {
   Transforms.setNodes(
     editor,
@@ -86,7 +80,7 @@ export const updateCell = (
 export const alignColumn = (editor: Editor, tablePath: Path, align: string) => {
   const cellElement = getCurrentBlock(editor, TYPE_TABLE_CELL)?.[0];
 
-  if (!isTableCell(cellElement) || !isTableCellHeader(cellElement)) {
+  if (!isTableCell(cellElement)) {
     return;
   }
 

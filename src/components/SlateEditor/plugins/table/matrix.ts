@@ -7,16 +7,16 @@
  */
 
 import { Descendant, Editor, Path } from "slate";
-import { TableMatrix } from "./interfaces";
+import { TableCellElement, TableMatrix } from "./interfaces";
 import { insertCellInMatrix } from "./matrixHelpers";
-import { isTable, isTableHead, isTableRow, isTableCell, isTableBody, isTableCellHeader } from "./slateHelpers";
+import { isTable, isTableHead, isTableRow, isTableCell, isTableBody } from "./slateHelpers";
 
 // Expects a perfectly normalized table. Requires path to the table body
 export const getTableBodyAsMatrix = (editor: Editor, path: Path) => {
   if (!Editor.hasPath(editor, path)) return;
   const [tableBody] = Editor.node(editor, path);
   if (!isTableHead(tableBody) && !isTableBody(tableBody)) return;
-  const matrix: TableMatrix = [];
+  const matrix: TableCellElement[][] = [];
 
   // Build up a matrix one row at a time.
   tableBody.children.forEach((row, rowIndex) => {
@@ -26,7 +26,7 @@ export const getTableBodyAsMatrix = (editor: Editor, path: Path) => {
     }
 
     for (const cell of row.children) {
-      if (!isTableCell(cell) && !isTableCellHeader(cell)) return;
+      if (!isTableCell(cell)) return;
 
       const colspan = cell.data.colspan;
       const rowspan = cell.data.rowspan;
@@ -59,7 +59,7 @@ export const getTableAsMatrix = (editor: Editor, path: Path) => {
       }
 
       for (const cell of row.children) {
-        if (!isTableCell(cell) && !isTableCellHeader(cell)) return;
+        if (!isTableCell(cell)) return;
 
         const colspan = cell.data.colspan;
         const rowspan = cell.data.rowspan;

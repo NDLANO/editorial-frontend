@@ -15,7 +15,6 @@ import {
   TableCellElement,
   TableElement,
   TableHeadElement,
-  TableHeaderCellElement,
   TableRowElement,
 } from "./interfaces";
 import {
@@ -48,15 +47,15 @@ export const isTableRow = (node?: Node): node is TableRowElement => {
 };
 
 export const isTableCell = (node?: Node): node is TableCellElement =>
-  Element.isElement(node) && node.type === TYPE_TABLE_CELL;
+  Element.isElement(node) && (node.type === TYPE_TABLE_CELL || node.type === TYPE_TABLE_CELL_HEADER);
 
-export const isTableCellHeader = (node?: Node): node is TableHeaderCellElement =>
+export const isTableCellHeader = (node?: Node): node is TableCellElement =>
   Element.isElement(node) && node.type === TYPE_TABLE_CELL_HEADER;
 
 export const hasCellAlignOfType = (editor: Editor, type: string) => {
   // For all selected table cells
   for (const [cell] of Editor.nodes<TableCellElement>(editor, {
-    match: (node) => isTableCell(node) || isTableCellHeader(node),
+    match: (node) => isTableCell(node),
   })) {
     if (cell.data.align === type) {
       return true;
@@ -68,7 +67,7 @@ export const hasCellAlignOfType = (editor: Editor, type: string) => {
 export const countCells = (row: TableRowElement, stop?: number) => {
   return row.children
     .map((child) => {
-      if (!isTableCell(child) && !isTableCellHeader(child)) {
+      if (!isTableCell(child)) {
         return 0;
       }
       return child.data.colspan;
@@ -94,7 +93,7 @@ export const createIdenticalRow = (element: TableRowElement) => {
     "element",
     { type: TYPE_TABLE_ROW },
     element.children.map((child) => {
-      if (isTableCell(child) || isTableCellHeader(child)) {
+      if (isTableCell(child)) {
         return {
           ...defaultTableCellBlock(),
           data: {

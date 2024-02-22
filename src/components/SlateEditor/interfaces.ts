@@ -46,7 +46,6 @@ import {
   TableCellElement,
   TableElement,
   TableHeadElement,
-  TableHeaderCellElement,
   TableRowElement,
 } from "./plugins/table/interfaces";
 import { DisclaimerElement } from "./plugins/uuDisclaimer/types";
@@ -97,7 +96,6 @@ declare module "slate" {
       | TableCaptionElement
       | TableRowElement
       | TableCellElement
-      | TableHeaderCellElement
       | TableHeadElement
       | TableBodyElement
       | RelatedElement

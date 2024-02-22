@@ -371,7 +371,7 @@ export const insertColumn = (editor: Editor, tableElement: TableElement, path: P
 
   const [cellEntry] = Editor.nodes(editor, {
     at: path,
-    match: (node) => isTableCell(node) || isTableCellHeader(node),
+    match: (node) => isTableCell(node),
   });
   const [cell] = cellEntry;
 
@@ -431,7 +431,7 @@ export const removeColumn = (editor: Editor, tableElement: TableElement, path: P
 
   const [cellEntry] = Editor.nodes(editor, {
     at: path,
-    match: (node) => isTableCell(node) || isTableCellHeader(node),
+    match: (node) => isTableCell(node),
   });
   const [cell] = cellEntry;
 
@@ -445,7 +445,7 @@ export const removeColumn = (editor: Editor, tableElement: TableElement, path: P
     }
   }
 
-  if (matrix && (isTableCell(cell) || isTableCellHeader(cell))) {
+  if (matrix && isTableCell(cell)) {
     const selectedPath = findCellCoordinate(matrix, cell);
     if (selectedPath) {
       const [, selectedColumnIndex] = selectedPath;

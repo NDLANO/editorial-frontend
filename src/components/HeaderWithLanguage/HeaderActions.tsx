@@ -48,6 +48,31 @@ interface PreviewLightBoxProps {
   currentLanguage: string;
 }
 
+const StyledWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`;
+
+const StyledGroup = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const StyledSafeLinkButton = styled(SafeLinkButton)`
+  border-radius: ${misc.borderRadius};
+  box-shadow: none;
+  font-family: ${fonts.sans};
+  ${fonts.sizes(16, 1.1)};
+  font-weight: ${fonts.weight.semibold};
+  text-decoration: none;
+  padding: ${spacing.xsmall} ${spacing.small};
+  &:focus,
+  &:hover {
+    color: #fff;
+    background: ${colors.brand.primary};
+  }
+`;
+
 const PreviewLightBox = memo(({ type, currentLanguage, article, concept }: PreviewLightBoxProps) => {
   const { t } = useTranslation();
   if ((type === "concept" || type === "gloss") && concept) {
@@ -72,29 +97,6 @@ const PreviewLightBox = memo(({ type, currentLanguage, article, concept }: Previ
     );
   } else return null;
 });
-
-const StyledWrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-`;
-const StyledGroup = styled.div`
-  display: flex;
-  align-items: center;
-`;
-const StyledSafeLinkButton = styled(SafeLinkButton)`
-  border-radius: ${misc.borderRadius};
-  box-shadow: none;
-  font-family: ${fonts.sans};
-  ${fonts.sizes(16, 1.1)};
-  font-weight: ${fonts.weight.semibold};
-  text-decoration: none;
-  padding: ${spacing.xsmall} ${spacing.small};
-  &:focus,
-  &:hover {
-    color: #fff;
-    background: ${colors.brand.primary};
-  }
-`;
 
 interface Props {
   id: number;

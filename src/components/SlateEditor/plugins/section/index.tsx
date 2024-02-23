@@ -11,6 +11,8 @@ import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_SECTION } from "./types";
 import { SlateSerializer } from "../../interfaces";
 import { KEY_BACKSPACE, KEY_TAB } from "../../utils/keys";
+import { TYPE_HEADING } from "../heading/types";
+import { TYPE_PARAGRAPH } from "../paragraph/types";
 import { defaultParagraphBlock } from "../paragraph/utils";
 
 export interface SectionElement {
@@ -113,7 +115,7 @@ export const sectionPlugin = (editor: Editor) => {
       // If first child is not a paragraph, insert an empty paragraph
       const firstChild = node.children[0];
       if (Element.isElement(firstChild)) {
-        if (firstChild.type !== "paragraph") {
+        if (firstChild.type !== TYPE_PARAGRAPH && firstChild.type !== TYPE_HEADING) {
           Transforms.insertNodes(
             editor,
             {

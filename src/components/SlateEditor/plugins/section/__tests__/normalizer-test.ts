@@ -66,7 +66,7 @@ describe("section normalizer tests", () => {
     expect(editor.children).toEqual(expectedValue);
   });
 
-  test("adds paragraph to start and end of section", () => {
+  test("adds paragraph to the end of the section", () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
@@ -84,10 +84,6 @@ describe("section normalizer tests", () => {
       {
         type: TYPE_SECTION,
         children: [
-          {
-            type: TYPE_PARAGRAPH,
-            children: [{ text: "" }],
-          },
           {
             type: TYPE_HEADING,
             level: 1,

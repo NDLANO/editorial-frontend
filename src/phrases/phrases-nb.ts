@@ -632,9 +632,6 @@ const phrases = {
     edit: "Rediger Nøkkeltall",
     title: "Nøkkeltall",
   },
-  compareForm: {
-    title: "Sammenlign versjoner",
-  },
   editorToolbar: {
     bold: "Fet\n({{ctrl}}+b)",
     "bulleted-list": "Punktliste\n({{ctrl}}+l)",

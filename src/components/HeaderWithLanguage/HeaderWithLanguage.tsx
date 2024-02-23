@@ -34,8 +34,7 @@ export type FormHeaderType =
   | "gloss"
   | "podcast"
   | "podcast-series"
-  | "frontpage-article"
-  | "compare";
+  | "frontpage-article";
 
 interface Props {
   title?: string;

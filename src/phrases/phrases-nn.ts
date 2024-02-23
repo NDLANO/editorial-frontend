@@ -632,9 +632,6 @@ const phrases = {
     title: "Nykeltal",
     edit: "Rediger nykeltal",
   },
-  compareForm: {
-    title: "Samanlikne versjonar",
-  },
   editorToolbar: {
     bold: "Feit\n({{ctrl}}+b)",
     "bulleted-list": "Punktliste\n({{ctrl}}+l)",

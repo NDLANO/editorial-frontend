@@ -120,7 +120,6 @@ const toMapping = {
   "frontpage-article": toEditFrontPageArticle,
   standard: toEditLearningResource,
   "topic-article": toEditTopicArticle,
-  compare: toCompareLanguage,
 };
 
 const translatableTypes = [
@@ -133,7 +132,6 @@ const translatableTypes = [
   "image",
   "podcast-series",
   "frontpage-article",
-  "compare",
 ];
 
 const HeaderActions = ({

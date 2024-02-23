@@ -15,7 +15,7 @@ import { ButtonV2 } from "@ndla/button";
 import { colors, fonts, spacing } from "@ndla/core";
 import { List } from "@ndla/icons/action";
 import { Podcast } from "@ndla/icons/common";
-import { Camera, Concept, Taxonomy, SquareAudio, Globe, Eye } from "@ndla/icons/editor";
+import { Camera, Concept, Taxonomy, SquareAudio, Globe } from "@ndla/icons/editor";
 import { Heading } from "@ndla/typography";
 import { ContentTypeBadge, constants } from "@ndla/ui";
 import HeaderStatusInformation from "./HeaderStatusInformation";
@@ -98,10 +98,6 @@ const types: Record<string, { form: string; icon: ReactNode }> = {
   programme: {
     form: "programmepageForm",
     icon: <Taxonomy />,
-  },
-  compare: {
-    form: "compareForm",
-    icon: <Eye />,
   },
 };
 

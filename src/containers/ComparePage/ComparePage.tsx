@@ -9,9 +9,7 @@
 import { Formik, Form } from "formik";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
-import styled from "@emotion/styled";
 import { HelmetWithTracker } from "@ndla/tracker";
-import HeaderInformation from "../../components/HeaderWithLanguage/HeaderInformation";
 import { PreviewCompare } from "../../components/PreviewDraft/PreviewDraftLightboxV2";
 import Spinner from "../../components/Spinner";
 import {
@@ -20,21 +18,6 @@ import {
 } from "../../containers/ArticlePage/articleTransformers";
 import { LearningResourceFormType, useArticleFormHooks } from "../../containers/FormikForm/articleFormHooks";
 import { useDraft } from "../../modules/draft/draftQueries";
-
-const PageContainer = styled.main`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const HeaderWrapper = styled.div`
-  width: 100%;
-  max-width: 1024px;
-`;
-
-const StyledForm = styled(Form)`
-  width: 100%;
-`;
 
 const ComparePage = () => {
   const params = useParams<"draftId" | "language">();
@@ -54,19 +37,16 @@ const ComparePage = () => {
   if (!article || isLoading) return <Spinner />;
 
   return (
-    <PageContainer>
+    <>
       <HelmetWithTracker title={t("htmlTitles.comparePage")} />
-      <HeaderWrapper>
-        <HeaderInformation language={language} noStatus type="compare" isNewLanguage={false} />
-      </HeaderWrapper>
       <Formik initialValues={initialValues} onSubmit={handleSubmit}>
         {(_data) => (
-          <StyledForm>
+          <Form>
             <PreviewCompare article={article} language={language} type="compare" />
-          </StyledForm>
+          </Form>
         )}
       </Formik>
-    </PageContainer>
+    </>
   );
 };
 

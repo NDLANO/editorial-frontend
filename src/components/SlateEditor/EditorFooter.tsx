@@ -93,6 +93,10 @@ const StyledFooter = styled.div`
   margin-left: auto;
 `;
 
+const StyledSafeLinkButton = styled(SafeLinkButton)`
+  white-space: nowrap;
+`;
+
 const STATUSES_RESET_RESPONSIBLE = [ARCHIVED, UNPUBLISHED];
 
 function EditorFooter<T extends FormValues>({
@@ -164,9 +168,9 @@ function EditorFooter<T extends FormValues>({
       const targetLanguage = selectedLanguage === "nb" ? "nn" : "nb";
       const buttonText = t("languages.change", { language: t(`languages.${targetLanguage}`) });
       return (
-        <SafeLinkButton aria-label={buttonText} variant="link" to={editUrl(articleId, targetLanguage)}>
+        <StyledSafeLinkButton aria-label={buttonText} variant="link" to={editUrl(articleId, targetLanguage)}>
           {buttonText}
-        </SafeLinkButton>
+        </StyledSafeLinkButton>
       );
     } else {
       return undefined;

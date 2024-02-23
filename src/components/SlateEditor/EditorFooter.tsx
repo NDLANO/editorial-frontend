@@ -214,22 +214,6 @@ function EditorFooter<T extends FormValues>({
     [onSaveClick, status?.value, updateResponsible],
   );
 
-  // const onValidateClick = useCallback(async () => {
-  //   if (!values.id || !isArticle) {
-  //     return;
-  //   }
-
-  //   try {
-  //     await validateEntity?.();
-  //     createMessage({
-  //       translationKey: "form.validationOk",
-  //       severity: "success",
-  //     });
-  //   } catch (error) {
-  //     catchError(error, createMessage);
-  //   }
-  // }, [catchError, createMessage, isArticle, validateEntity, values.id]);
-
   const updateStatus = useCallback(
     async (status: SingleValue) => {
       try {
@@ -308,11 +292,6 @@ function EditorFooter<T extends FormValues>({
               {languageButton}
             </>
           )}
-          {/* {values.id && isArticle && (
-            <ButtonV2 variant="link" onClick={onValidateClick}>
-              {t("form.validate")}
-            </ButtonV2>
-          )} */}
         </div>
 
         <StyledFooterControls>

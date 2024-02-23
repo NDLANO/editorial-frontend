@@ -228,7 +228,10 @@ const _FormFooter = ({
         isConcept={false}
         hideSecondaryButton={false}
         responsibleId={article?.responsible?.responsibleId}
-        alternativeLanguages={article?.supportedLanguages}
+        articleId={article?.id}
+        articleType={article?.articleType}
+        selectedLanguage={article?.content?.language}
+        supportedLanguages={article?.supportedLanguages}
       />
       <AlertModalWrapper
         isSubmitting={isSubmitting}

@@ -7,13 +7,13 @@
  */
 
 import { useFormikContext } from "formik";
-import { memo, useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { colors, spacing } from "@ndla/core";
 import { Launch } from "@ndla/icons/common";
-import { SafeLinkButton } from "@ndla/safelink";
+import SafeLink, { SafeLinkButton } from "@ndla/safelink";
 import { SingleValue } from "@ndla/select";
 import { IStatus as ConceptStatus } from "@ndla/types-backend/concept-api";
 import { IStatus as DraftStatus } from "@ndla/types-backend/draft-api";
@@ -25,7 +25,18 @@ import StatusSelect from "../../containers/FormikForm/components/StatusSelect";
 import { NewMessageType, useMessages } from "../../containers/Messages/MessagesProvider";
 import { useSession } from "../../containers/Session/SessionProvider";
 import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from "../../interfaces";
-import { toPreviewDraft } from "../../util/routeHelpers";
+import {
+  toEditAudio,
+  toEditConcept,
+  toEditFrontPageArticle,
+  toEditGloss,
+  toEditImage,
+  toEditLearningResource,
+  toEditPodcast,
+  toEditPodcastSeries,
+  toEditTopicArticle,
+  toPreviewDraft,
+} from "../../util/routeHelpers";
 import Footer from "../Footer/Footer";
 import PreviewDraftLightboxV2 from "../PreviewDraft/PreviewDraftLightboxV2";
 import SaveMultiButton from "../SaveMultiButton";
@@ -44,7 +55,10 @@ interface Props {
   isNewlyCreated: boolean;
   hasErrors?: boolean;
   responsibleId?: string;
-  alternativeLanguages?: string[];
+  articleId?: number;
+  articleType?: string;
+  selectedLanguage?: string;
+  supportedLanguages?: string[];
 }
 
 interface FormValues {
@@ -95,7 +109,10 @@ function EditorFooter<T extends FormValues>({
   isNewlyCreated,
   hasErrors,
   responsibleId,
-  alternativeLanguages,
+  articleId,
+  articleType,
+  selectedLanguage,
+  supportedLanguages,
 }: Props) {
   const [status, setStatus] = useState<SingleValue>(null);
   const [responsible, setResponsible] = useState<SingleValue>(null);
@@ -109,6 +126,52 @@ function EditorFooter<T extends FormValues>({
   const [newStatus, setNewStatus] = useState<SingleValue>(null);
 
   const articleOrConcept = isArticle || isConcept;
+
+  const editUrl = useCallback(
+    (id: number, locale: string) => {
+      switch (articleType) {
+        case "concept":
+          return toEditConcept(id, locale);
+        case "gloss":
+          return toEditGloss(id, locale);
+        case "audio":
+          return toEditAudio(id, locale);
+        case "podcast-series":
+          return toEditPodcastSeries(id, locale);
+        case "podcast":
+          return toEditPodcast(id, locale);
+        case "image":
+          return toEditImage(id, locale);
+        case "frontpage-article":
+          return toEditFrontPageArticle(id, locale);
+        case "standard":
+          return toEditLearningResource(id, locale);
+        case "topic-article":
+          return toEditTopicArticle(id, locale);
+        default:
+          return "";
+      }
+    },
+    [articleType],
+  );
+
+  const languageButton = useMemo(() => {
+    if (selectedLanguage === "nb" && supportedLanguages?.includes("nn") && articleId) {
+      return (
+        <SafeLinkButton variant="link" to={editUrl(articleId, "nn")}>
+          Bytt til nynorsk
+        </SafeLinkButton>
+      );
+    } else if (selectedLanguage === "nn" && supportedLanguages?.includes("nb") && articleId) {
+      return (
+        <SafeLinkButton variant="link" to={editUrl(articleId, "nb")}>
+          Bytt til bokmål
+        </SafeLinkButton>
+      );
+    } else {
+      return undefined;
+    }
+  }, [articleId, editUrl, selectedLanguage, supportedLanguages]);
 
   useEffect(() => {
     if (newStatus?.value === PUBLISHED) {
@@ -151,21 +214,21 @@ function EditorFooter<T extends FormValues>({
     [onSaveClick, status?.value, updateResponsible],
   );
 
-  const onValidateClick = useCallback(async () => {
-    if (!values.id || !isArticle) {
-      return;
-    }
+  // const onValidateClick = useCallback(async () => {
+  //   if (!values.id || !isArticle) {
+  //     return;
+  //   }
 
-    try {
-      await validateEntity?.();
-      createMessage({
-        translationKey: "form.validationOk",
-        severity: "success",
-      });
-    } catch (error) {
-      catchError(error, createMessage);
-    }
-  }, [catchError, createMessage, isArticle, validateEntity, values.id]);
+  //   try {
+  //     await validateEntity?.();
+  //     createMessage({
+  //       translationKey: "form.validationOk",
+  //       severity: "success",
+  //     });
+  //   } catch (error) {
+  //     catchError(error, createMessage);
+  //   }
+  // }, [catchError, createMessage, isArticle, validateEntity, values.id]);
 
   const updateStatus = useCallback(
     async (status: SingleValue) => {
@@ -239,12 +302,17 @@ function EditorFooter<T extends FormValues>({
               <Launch />
             </SafeLinkButton>
           )}
-          <StyledLine />
-          {values.id && isArticle && (
+          {languageButton && (
+            <>
+              <StyledLine />
+              {languageButton}
+            </>
+          )}
+          {/* {values.id && isArticle && (
             <ButtonV2 variant="link" onClick={onValidateClick}>
               {t("form.validate")}
             </ButtonV2>
-          )}
+          )} */}
         </div>
 
         <StyledFooterControls>

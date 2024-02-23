@@ -156,22 +156,22 @@ function EditorFooter<T extends FormValues>({
   );
 
   const languageButton = useMemo(() => {
-    if (selectedLanguage === "nb" && supportedLanguages?.includes("nn") && articleId) {
+    if (
+      ((selectedLanguage === "nb" && supportedLanguages?.includes("nn")) ||
+        (selectedLanguage === "nn" && supportedLanguages?.includes("nb"))) &&
+      articleId
+    ) {
+      const targetLanguage = selectedLanguage === "nb" ? "nn" : "nb";
+      const buttonText = t("languages.change", { language: t(`languages.${targetLanguage}`) });
       return (
-        <SafeLinkButton variant="link" to={editUrl(articleId, "nn")}>
-          Bytt til nynorsk
-        </SafeLinkButton>
-      );
-    } else if (selectedLanguage === "nn" && supportedLanguages?.includes("nb") && articleId) {
-      return (
-        <SafeLinkButton variant="link" to={editUrl(articleId, "nb")}>
-          Bytt til bokmål
+        <SafeLinkButton aria-label={buttonText} variant="link" to={editUrl(articleId, targetLanguage)}>
+          {buttonText}
         </SafeLinkButton>
       );
     } else {
       return undefined;
     }
-  }, [articleId, editUrl, selectedLanguage, supportedLanguages]);
+  }, [articleId, editUrl, selectedLanguage, supportedLanguages, t]);
 
   useEffect(() => {
     if (newStatus?.value === PUBLISHED) {

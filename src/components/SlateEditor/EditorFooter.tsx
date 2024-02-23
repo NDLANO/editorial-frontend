@@ -44,6 +44,7 @@ interface Props {
   isNewlyCreated: boolean;
   hasErrors?: boolean;
   responsibleId?: string;
+  alternativeLanguages?: string[];
 }
 
 interface FormValues {
@@ -94,6 +95,7 @@ function EditorFooter<T extends FormValues>({
   isNewlyCreated,
   hasErrors,
   responsibleId,
+  alternativeLanguages,
 }: Props) {
   const [status, setStatus] = useState<SingleValue>(null);
   const [responsible, setResponsible] = useState<SingleValue>(null);

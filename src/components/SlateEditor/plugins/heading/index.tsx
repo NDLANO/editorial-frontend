@@ -52,12 +52,31 @@ export const headingSerializer: SlateSerializer = {
 };
 
 const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: KeyboardEvent) => void) => {
-  if (hasNodeOfType(editor, TYPE_HEADING)) {
-    e.preventDefault();
-    Transforms.insertNodes(editor, slatejsx("element", { type: TYPE_PARAGRAPH }, [{ text: "" }]));
+  if (!Range.isRange(editor.selection) || !editor.selection) return nextOnKeyDown?.(e);
+  const [entry] = Editor.nodes<HeadingElement>(editor, {
+    match: (node) => Element.isElement(node) && node.type === TYPE_HEADING,
+    at: editor.selection,
+  });
+
+  if (!entry) return nextOnKeyDown?.(e);
+
+  const [currentHeading] = entry;
+  e.preventDefault();
+
+  if (editor.selection?.anchor.offset !== Node.string(currentHeading).length && editor.selection?.anchor.offset !== 0) {
+    Transforms.splitNodes(editor, {
+      match: (node) => Element.isElement(node) && node.type === TYPE_HEADING,
+    });
     return;
   }
-  return nextOnKeyDown?.(e);
+
+  if (editor.selection.anchor.offset === 0) {
+    return Transforms.insertNodes(editor, slatejsx("element", { type: TYPE_PARAGRAPH }, [{ text: "" }]), {
+      at: editor.selection,
+    });
+  }
+
+  return Transforms.insertNodes(editor, slatejsx("element", { type: TYPE_PARAGRAPH }, [{ text: "" }]));
 };
 
 const onBackspace = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: KeyboardEvent) => void) => {

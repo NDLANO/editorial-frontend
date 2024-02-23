@@ -69,9 +69,21 @@ const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: Keybo
     editor.selection?.anchor.offset !== Node.string(currentParagraph).length &&
     editor.selection?.anchor.offset !== 0
   ) {
-    return editor.splitNodes({ match: (node) => isParagraph(node) });
+    return Transforms.splitNodes(editor, { match: (node) => isParagraph(node) });
   }
-  return editor.insertNode({
+
+  if (editor.selection?.anchor.offset === 0) {
+    return Transforms.insertNodes(
+      editor,
+      {
+        type: TYPE_PARAGRAPH,
+        children: [{ text: "" }],
+      },
+      { at: editor.selection },
+    );
+  }
+
+  return Transforms.insertNodes(editor, {
     type: TYPE_PARAGRAPH,
     children: [{ text: "" }],
   });

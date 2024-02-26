@@ -6,12 +6,13 @@
  *
  */
 
-import { Descendant, Editor, Element, Text, Node, Transforms } from "slate";
+import { Descendant, Editor, Element, Text, Node, Transforms, Path, Range } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { ContentLinkEmbedData } from "@ndla/types-embed";
 import { TYPE_CONTENT_LINK, TYPE_LINK } from "./types";
 import { reduceElementDataAttributesV2 } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
+import { KEY_ARROW_RIGHT } from "../../utils/keys";
 import { TYPE_NDLA_EMBED } from "../embed/types";
 
 export interface LinkElement {
@@ -86,7 +87,27 @@ export const linkSerializer: SlateSerializer = {
 };
 
 export const linkPlugin = (editor: Editor) => {
-  const { isInline: nextIsInline, normalizeNode: nextNormalizeNode } = editor;
+  const { isInline: nextIsInline, normalizeNode: nextNormalizeNode, onKeyDown: nextOnKeyDown } = editor;
+
+  editor.onKeyDown = (e) => {
+    if (e.key === KEY_ARROW_RIGHT) {
+      if (editor.selection) {
+        const [entry] = Editor.nodes<ContentLinkElement | LinkElement>(editor, {
+          at: Editor.unhangRange(editor, editor.selection),
+          match: (n) => Element.isElement(n) && (n.type === "link" || n.type === "content-link"),
+        });
+        if (entry) {
+          const [node, path] = entry;
+          if (Node.string(node).length - 1 === editor.selection.anchor.offset) {
+            Transforms.select(editor, Path.next(path));
+            Transforms.collapse(editor, { edge: "start" });
+            return;
+          }
+        }
+      }
+    }
+    return nextOnKeyDown?.(e);
+  };
 
   editor.isInline = (element: Element) => {
     if (element.type === "link" || element.type === "content-link") {

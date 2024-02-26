@@ -13,7 +13,7 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { CheckboxItem, InputV2, TextAreaV2, RadioButtonGroup, Label, RadioButtonItem } from "@ndla/forms";
+import { CheckboxItem, InputV2, TextAreaV2, Label, RadioButtonItem, RadioButtonGroup } from "@ndla/forms";
 import { CampaignBlockEmbedData } from "@ndla/types-embed";
 import { HeadingLevel } from "@ndla/typography";
 import { TYPE_CAMPAIGN_BLOCK } from "./types";
@@ -21,10 +21,10 @@ import InlineImageSearch from "../../../../containers/ConceptPage/components/Inl
 import { frontpageLanguages } from "../../../../i18n2";
 import {
   CheckboxWrapper,
+  RadioButtonWrapper,
   StyledFieldset,
   StyledFormControl,
-  StyledRadioButtonGroup,
-  StyledText,
+  StyledLegend,
 } from "../../../Form/styles";
 import { FormControl } from "../../../FormField";
 import FormikField from "../../../FormikField";
@@ -235,11 +235,8 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
           </UrlWrapper>
           <Field name="imageSide">
             {({ field }: FieldProps) => (
-              <StyledFieldset>
-                <StyledText margin="none" textStyle="label-small" element="legend">
-                  {t("form.name.sides")}
-                </StyledText>
-                <StyledRadioButtonGroup
+              <StyledFormControl id="image-placement">
+                <RadioButtonGroup
                   onValueChange={(value: string) =>
                     field.onChange({
                       target: {
@@ -250,17 +247,23 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
                   }
                   orientation="horizontal"
                   defaultValue={field.value}
+                  asChild
                 >
-                  {imagePlacementOptions.map((option) => (
-                    <StyledFormControl id={option.value} key={option.value}>
-                      <RadioButtonItem value={option.value} />
-                      <Label margin="none" textStyle="label-small">
-                        {option.title}
-                      </Label>
-                    </StyledFormControl>
-                  ))}
-                </StyledRadioButtonGroup>
-              </StyledFieldset>
+                  <StyledFieldset>
+                    <StyledLegend margin="none" textStyle="label-small">
+                      {t("form.name.sides")}
+                    </StyledLegend>
+                    {imagePlacementOptions.map((value) => (
+                      <RadioButtonWrapper key={value.value}>
+                        <RadioButtonItem id={`placement-${value.value}`} value={value.value} />
+                        <Label htmlFor={`placement-${value.value}`} margin="none" textStyle="label-small">
+                          {value.title}
+                        </Label>
+                      </RadioButtonWrapper>
+                    ))}
+                  </StyledFieldset>
+                </RadioButtonGroup>
+              </StyledFormControl>
             )}
           </Field>
           <InlineImageSearch name="metaImageId" disableAltEditing hideAltText />

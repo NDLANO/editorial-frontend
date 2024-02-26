@@ -6,13 +6,15 @@
  *
  */
 
-import { FieldProps } from "formik";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
+import { Label } from "@ndla/forms";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import { MetaImageSearch } from ".";
 import AvailabilityField from "./components/AvailabilityField";
 import AsyncSearchTags from "../../components/Dropdown/asyncDropdown/AsyncSearchTags";
+import { StyledLabel } from "../../components/Form/styles";
+import { FormField } from "../../components/FormField";
 import FormikField from "../../components/FormikField";
 import PlainTextEditor from "../../components/SlateEditor/PlainTextEditor";
 import { textTransformPlugin } from "../../components/SlateEditor/plugins/textTransform";
@@ -46,9 +48,16 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
         )}
       </FormikField>
       {userPermissions?.includes(DRAFT_ADMIN_SCOPE) && (
-        <FormikField name="availability" label={t("form.availability.label")}>
-          {({ field }: FieldProps) => <AvailabilityField field={field} />}
-        </FormikField>
+        <FormField name="availability">
+          {({ field }) => (
+            <>
+              <StyledLabel textStyle="ingress" margin="small">
+                {t("form.availability.label")}
+              </StyledLabel>
+              <AvailabilityField field={field} />
+            </>
+          )}
+        </FormField>
       )}
       <FormikField
         name="metaDescription"

@@ -8,9 +8,10 @@
 
 import { FieldInputProps, FieldProps } from "formik";
 import { useTranslation } from "react-i18next";
-import { RadioButtonItem } from "@ndla/forms";
+import { FormControl, Label, Legend, RadioButtonGroup, RadioButtonItem } from "@ndla/forms";
 import AsyncSearchTags from "../../../components/Dropdown/asyncDropdown/AsyncSearchTags";
-import { StyledFormControl, StyledLabel, StyledRadioButtonGroup } from "../../../components/Form/styles";
+import { RadioButtonWrapper, StyledFieldset, StyledLabel } from "../../../components/Form/styles";
+import { FormField } from "../../../components/FormField";
 import FormikField from "../../../components/FormikField";
 import { fetchSearchTags } from "../../../modules/image/imageApi";
 
@@ -35,39 +36,48 @@ const ImageMetaData = ({ imageTags, imageLanguage }: Props) => {
           />
         )}
       </FormikField>
-      <FormikField
-        name="modelReleased"
-        label={t("form.modelReleased.label")}
-        description={t("form.modelReleased.description")}
-      >
+      <FormField name="modelReleased">
         {({ field }: { field: FieldInputProps<string> }) => {
           const options = ["yes", "not-applicable", "no", "not-set"];
           const defaultValue = "not-set";
           return (
-            <StyledRadioButtonGroup
-              onValueChange={(value: string) =>
-                field.onChange({
-                  target: {
-                    name: field.name,
-                    value: value,
-                  },
-                })
-              }
-              orientation="horizontal"
-              defaultValue={field.value ?? defaultValue}
-            >
-              {options.map((option) => (
-                <StyledFormControl id={option} key={option}>
-                  <RadioButtonItem value={option} />
-                  <StyledLabel margin="none" textStyle="label-small" data-label="">
-                    {t(`form.modelReleased.${option}`)}
-                  </StyledLabel>
-                </StyledFormControl>
-              ))}
-            </StyledRadioButtonGroup>
+            <>
+              <StyledLabel textStyle="ingress" margin="small">
+                {t("form.modelReleased.label")}
+              </StyledLabel>
+              <FormControl id="model-released">
+                <RadioButtonGroup
+                  onValueChange={(value: string) =>
+                    field.onChange({
+                      target: {
+                        name: field.name,
+                        value: value,
+                      },
+                    })
+                  }
+                  orientation="horizontal"
+                  defaultValue={field.value ?? defaultValue}
+                  asChild
+                >
+                  <StyledFieldset>
+                    <Legend margin="none" textStyle="label-small">
+                      {t("form.modelReleased.description")}
+                    </Legend>
+                    {options.map((option) => (
+                      <RadioButtonWrapper key={option}>
+                        <RadioButtonItem id={`model-released-${option}`} value={option} />
+                        <Label htmlFor={`model-released-${option}`} margin="none" textStyle="label-small">
+                          {t(`form.modelReleased.${option}`)}
+                        </Label>
+                      </RadioButtonWrapper>
+                    ))}
+                  </StyledFieldset>
+                </RadioButtonGroup>
+              </FormControl>
+            </>
           );
         }}
-      </FormikField>
+      </FormField>
     </>
   );
 };

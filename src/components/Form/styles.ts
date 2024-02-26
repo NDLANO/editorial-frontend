@@ -7,9 +7,8 @@
  */
 
 import styled from "@emotion/styled";
-import { colors, fonts, spacing } from "@ndla/core";
-import { FormControl, Label, RadioButtonGroup } from "@ndla/forms";
-import { Text } from "@ndla/typography";
+import { colors, spacing } from "@ndla/core";
+import { Fieldset, FormControl, Label, Legend } from "@ndla/forms";
 
 export const CheckboxWrapper = styled.div`
   display: flex;
@@ -19,36 +18,25 @@ export const CheckboxWrapper = styled.div`
 `;
 
 // Radio button styles
-export const StyledFieldset = styled.fieldset`
-  border: 0;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  gap: ${spacing.medium};
-  margin: ${spacing.small} 0;
+export const StyledFormControl = styled(FormControl)`
+  margin-top: ${spacing.small};
 `;
 
-export const StyledFormControl = styled(FormControl)`
+export const RadioButtonWrapper = styled.div`
   display: flex;
-  flex-direction: row;
   align-items: center;
   gap: ${spacing.small};
   color: ${colors.brand.primary};
 `;
-
-export const StyledRadioButtonGroup = styled(RadioButtonGroup)`
+export const StyledFieldset = styled(Fieldset)`
   display: flex;
-  flex-direction: row;
-  gap: ${spacing.normal};
+  gap: ${spacing.small};
 `;
 
-export const StyledText = styled(Text)`
+export const StyledLegend = styled(Legend)`
   float: left;
 `;
 
 export const StyledLabel = styled(Label)`
-  // Custom styling needed when component is wrapped in FormikField component to override label styling coming from StyledField
-  &[data-label] {
-    font-size: ${fonts.size.text.label.small};
-  }
+  display: inline-block;
 `;

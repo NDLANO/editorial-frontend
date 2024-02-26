@@ -6,17 +6,10 @@
  *
  */
 
-import { FieldProps } from "formik";
 import { useTranslation } from "react-i18next";
-import { RadioButtonItem } from "@ndla/forms";
-import {
-  StyledFieldset,
-  StyledFormControl,
-  StyledLabel,
-  StyledRadioButtonGroup,
-  StyledText,
-} from "../../../components/Form/styles";
-import FormikField from "../../../components/FormikField";
+import { FormControl, Label, RadioButtonGroup, RadioButtonItem } from "@ndla/forms";
+import { RadioButtonWrapper, StyledFieldset, StyledLabel, StyledLegend } from "../../../components/Form/styles";
+import { FormField } from "../../../components/FormField";
 
 const VersionLockedField = () => {
   const { t } = useTranslation();
@@ -32,36 +25,44 @@ const VersionLockedField = () => {
     },
   ];
   return (
-    <FormikField name="locked" label={t("taxonomyVersions.form.locked.title")}>
-      {({ field }: FieldProps) => (
-        <StyledFieldset>
-          <StyledText margin="none" textStyle="label-small" element="legend">
-            {t("taxonomyVersions.form.locked.subTitle")}
-          </StyledText>
-          <StyledRadioButtonGroup
-            onValueChange={(value: string) =>
-              field.onChange({
-                target: {
-                  name: field.name,
-                  value: value,
-                },
-              })
-            }
-            orientation="horizontal"
-            defaultValue={field.value.toString()}
-          >
-            {options.map((option) => (
-              <StyledFormControl id={option.value} key={option.value}>
-                <RadioButtonItem value={option.value} />
-                <StyledLabel margin="none" textStyle="label-small" data-label="">
-                  {option.title}
-                </StyledLabel>
-              </StyledFormControl>
-            ))}
-          </StyledRadioButtonGroup>
-        </StyledFieldset>
+    <FormField name="locked">
+      {({ field }) => (
+        <>
+          <StyledLabel textStyle="ingress" margin="small">
+            {t("taxonomyVersions.form.locked.title")}
+          </StyledLabel>
+          <FormControl id="locked-value">
+            <RadioButtonGroup
+              onValueChange={(value: string) =>
+                field.onChange({
+                  target: {
+                    name: field.name,
+                    value: value,
+                  },
+                })
+              }
+              orientation="horizontal"
+              defaultValue={field.value.toString()}
+              asChild
+            >
+              <StyledFieldset>
+                <StyledLegend margin="none" textStyle="label-small">
+                  {t("taxonomyVersions.form.locked.subTitle")}
+                </StyledLegend>
+                {options.map((option) => (
+                  <RadioButtonWrapper key={option.value}>
+                    <RadioButtonItem id={`locked-${option.value}`} value={option.value} />
+                    <Label htmlFor={`locked-${option.value}`} margin="none" textStyle="label-small">
+                      {option.title}
+                    </Label>
+                  </RadioButtonWrapper>
+                ))}
+              </StyledFieldset>
+            </RadioButtonGroup>
+          </FormControl>
+        </>
       )}
-    </FormikField>
+    </FormField>
   );
 };
 export default VersionLockedField;

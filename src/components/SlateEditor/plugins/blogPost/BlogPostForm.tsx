@@ -13,11 +13,11 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { InputV2, Label, RadioButtonItem } from "@ndla/forms";
+import { InputV2, Label, RadioButtonGroup, RadioButtonItem } from "@ndla/forms";
 import { BlogPostEmbedData } from "@ndla/types-embed";
 import InlineImageSearch from "../../../../containers/ConceptPage/components/InlineImageSearch";
 import { frontpageLanguages } from "../../../../i18n2";
-import { StyledFieldset, StyledFormControl, StyledRadioButtonGroup, StyledText } from "../../../Form/styles";
+import { RadioButtonWrapper, StyledFieldset, StyledFormControl, StyledLegend } from "../../../Form/styles";
 import FormikField from "../../../FormikField";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
 
@@ -199,11 +199,8 @@ const SizeField = ({ field }: SizeFieldProps) => {
   const availabilityValues: string[] = ["normal", "large"];
 
   return (
-    <StyledFieldset>
-      <StyledText margin="none" textStyle="label-small" element="legend">
-        {t("form.name.size")}
-      </StyledText>
-      <StyledRadioButtonGroup
+    <StyledFormControl id="image-size">
+      <RadioButtonGroup
         onValueChange={(value: string) =>
           field.onChange({
             target: {
@@ -214,17 +211,23 @@ const SizeField = ({ field }: SizeFieldProps) => {
         }
         orientation="horizontal"
         defaultValue={field.value}
+        asChild
       >
-        {availabilityValues.map((value) => (
-          <StyledFormControl id={value} key={value}>
-            <RadioButtonItem value={value} />
-            <Label margin="none" textStyle="label-small">
-              {t(`blogPostForm.sizes.${value}`)}
-            </Label>
-          </StyledFormControl>
-        ))}
-      </StyledRadioButtonGroup>
-    </StyledFieldset>
+        <StyledFieldset>
+          <StyledLegend margin="none" textStyle="label-small">
+            {t("form.name.size")}
+          </StyledLegend>
+          {availabilityValues.map((value) => (
+            <RadioButtonWrapper key={value}>
+              <RadioButtonItem id={`size-${value}`} value={value} />
+              <Label htmlFor={`size-${value}`} margin="none" textStyle="label-small">
+                {t(`blogPostForm.sizes.${value}`)}
+              </Label>
+            </RadioButtonWrapper>
+          ))}
+        </StyledFieldset>
+      </RadioButtonGroup>
+    </StyledFormControl>
   );
 };
 

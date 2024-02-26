@@ -8,14 +8,8 @@
 
 import { FieldInputProps } from "formik";
 import { useTranslation } from "react-i18next";
-import { RadioButtonItem } from "@ndla/forms";
-import {
-  StyledFieldset,
-  StyledFormControl,
-  StyledRadioButtonGroup,
-  StyledText,
-  StyledLabel,
-} from "../../../components/Form/styles";
+import { FormControl, Label, RadioButtonGroup, RadioButtonItem } from "@ndla/forms";
+import { StyledFieldset, RadioButtonWrapper, StyledLegend } from "../../../components/Form/styles";
 
 interface Props {
   field: FieldInputProps<string>;
@@ -26,11 +20,8 @@ const AvailabilityField = ({ field }: Props) => {
   const availabilityValues: string[] = ["everyone", "teacher"];
 
   return (
-    <StyledFieldset>
-      <StyledText margin="none" textStyle="label-small" element="legend">
-        {t("form.availability.description")}
-      </StyledText>
-      <StyledRadioButtonGroup
+    <FormControl id="availability">
+      <RadioButtonGroup
         onValueChange={(value: string) =>
           field.onChange({
             target: {
@@ -41,17 +32,23 @@ const AvailabilityField = ({ field }: Props) => {
         }
         orientation="horizontal"
         defaultValue={field.value}
+        asChild
       >
-        {availabilityValues.map((value) => (
-          <StyledFormControl id={value} key={value}>
-            <RadioButtonItem value={value} />
-            <StyledLabel margin="none" textStyle="label-small" data-label="">
-              {t(`form.availability.${value}`)}
-            </StyledLabel>
-          </StyledFormControl>
-        ))}
-      </StyledRadioButtonGroup>
-    </StyledFieldset>
+        <StyledFieldset>
+          <StyledLegend margin="none" textStyle="label-small">
+            {t("form.availability.description")}
+          </StyledLegend>
+          {availabilityValues.map((value) => (
+            <RadioButtonWrapper key={value}>
+              <RadioButtonItem id={`availability-${value}`} value={value} />
+              <Label htmlFor={`availability-${value}`} margin="none" textStyle="label-small">
+                {t(`form.availability.${value}`)}
+              </Label>
+            </RadioButtonWrapper>
+          ))}
+        </StyledFieldset>
+      </RadioButtonGroup>
+    </FormControl>
   );
 };
 

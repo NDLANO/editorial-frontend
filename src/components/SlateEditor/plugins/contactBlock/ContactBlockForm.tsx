@@ -13,16 +13,16 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { CheckboxItem, InputV2, TextAreaV2, Label, RadioButtonItem } from "@ndla/forms";
+import { CheckboxItem, InputV2, TextAreaV2, Label, RadioButtonItem, RadioButtonGroup } from "@ndla/forms";
 import { ContactBlockEmbedData } from "@ndla/types-embed";
 import { TYPE_CONTACT_BLOCK } from "./types";
 import InlineImageSearch from "../../../../containers/ConceptPage/components/InlineImageSearch";
 import {
   CheckboxWrapper,
+  RadioButtonWrapper,
   StyledFieldset,
   StyledFormControl,
-  StyledRadioButtonGroup,
-  StyledText,
+  StyledLegend,
 } from "../../../Form/styles";
 import { FormControl } from "../../../FormField";
 import FormikField from "../../../FormikField";
@@ -194,11 +194,8 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
           </StyledFormikField>
           <Field name="blob">
             {({ field }: FieldProps) => (
-              <StyledFieldset>
-                <StyledText margin="none" textStyle="label-small" element="legend">
-                  {t("form.name.blob")}
-                </StyledText>
-                <StyledRadioButtonGroup
+              <StyledFormControl id="blob-type">
+                <RadioButtonGroup
                   onValueChange={(value: string) =>
                     field.onChange({
                       target: {
@@ -209,26 +206,29 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
                   }
                   orientation="horizontal"
                   defaultValue={field.value}
+                  asChild
                 >
-                  {blobTypes.map((option) => (
-                    <StyledFormControl id={option.value} key={option.value}>
-                      <RadioButtonItem value={option.value} />
-                      <Label margin="none" textStyle="label-small">
-                        {option.title}
-                      </Label>
-                    </StyledFormControl>
-                  ))}
-                </StyledRadioButtonGroup>
-              </StyledFieldset>
+                  <StyledFieldset>
+                    <StyledLegend margin="none" textStyle="label-small">
+                      {t("form.name.blob")}
+                    </StyledLegend>
+                    {blobTypes.map((value) => (
+                      <RadioButtonWrapper key={value.value}>
+                        <RadioButtonItem id={`blob-type-${value.value}`} value={value.value} />
+                        <Label htmlFor={`blob-type-${value.value}`} margin="none" textStyle="label-small">
+                          {value.title}
+                        </Label>
+                      </RadioButtonWrapper>
+                    ))}
+                  </StyledFieldset>
+                </RadioButtonGroup>
+              </StyledFormControl>
             )}
           </Field>
           <Field name="blobColor">
             {({ field }: FieldProps) => (
-              <StyledFieldset>
-                <StyledText margin="none" textStyle="label-small" element="legend">
-                  {t("form.name.blobColor")}
-                </StyledText>
-                <StyledRadioButtonGroup
+              <StyledFormControl id="blob-color">
+                <RadioButtonGroup
                   onValueChange={(value: string) =>
                     field.onChange({
                       target: {
@@ -239,17 +239,23 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
                   }
                   orientation="horizontal"
                   defaultValue={field.value}
+                  asChild
                 >
-                  {blobColors.map((option) => (
-                    <StyledFormControl id={option.value} key={option.value}>
-                      <RadioButtonItem value={option.value} />
-                      <Label margin="none" textStyle="label-small">
-                        {option.title}
-                      </Label>
-                    </StyledFormControl>
-                  ))}
-                </StyledRadioButtonGroup>
-              </StyledFieldset>
+                  <StyledFieldset>
+                    <StyledLegend margin="none" textStyle="label-small">
+                      {t("form.name.blobColor")}
+                    </StyledLegend>
+                    {blobColors.map((value) => (
+                      <RadioButtonWrapper key={value.value}>
+                        <RadioButtonItem id={`blob-color-${value.value}`} value={value.value} />
+                        <Label htmlFor={`blob-color-${value.value}`} margin="none" textStyle="label-small">
+                          {value.title}
+                        </Label>
+                      </RadioButtonWrapper>
+                    ))}
+                  </StyledFieldset>
+                </RadioButtonGroup>
+              </StyledFormControl>
             )}
           </Field>
           <InlineImageSearch name="metaImageId" disableAltEditing hideAltText />

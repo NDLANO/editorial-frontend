@@ -38,7 +38,7 @@ const StyledEditable = styled(Editable)`
   outline: none;
 `;
 
-interface Props extends Omit<EditableProps, "value" | "onChange" | "onKeyDown"> {
+export interface RichTextEditorProps extends Omit<EditableProps, "value" | "onChange" | "onKeyDown"> {
   value: Descendant[];
   onChange: (descendant: Descendant[]) => void;
   placeholder?: string;
@@ -76,7 +76,7 @@ const RichTextEditor = ({
   hideSpinner,
   onBlur: onBlurProp,
   ...rest
-}: Props) => {
+}: RichTextEditorProps) => {
   const [editor] = useState(() => withPlugins(withReact(withHistory(createEditor())), plugins));
   const [isFirstNormalize, setIsFirstNormalize] = useState(true);
   const prevSubmitted = useRef(submitted);
@@ -235,7 +235,7 @@ const RichTextEditor = ({
     <article>
       <ArticleLanguageProvider language={language}>
         <SlateProvider isSubmitted={submitted}>
-          <StyledSlateWrapper data-testid={testId}>
+          <StyledSlateWrapper data-testid={testId} data-editor="">
             <Slate editor={editor} initialValue={value} onChange={onChange}>
               {isFirstNormalize && !hideSpinner ? (
                 <Spinner />

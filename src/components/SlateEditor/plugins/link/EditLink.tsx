@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { Editor, Transforms, Element } from "slate";
+import { Editor, Transforms, Element, Path } from "slate";
 import { ReactEditor } from "slate-react";
 import styled from "@emotion/styled";
 import { CloseButton } from "@ndla/button";
@@ -102,7 +102,6 @@ const EditLink = ({ model, closeEditMode, editor, element }: Props) => {
     const { resourceId, resourceType } = await getIdAndTypeFromUrl(href);
 
     const targetRel = checkbox ? "new-context" : "current-context";
-    ReactEditor.focus(editor);
 
     const data = resourceId
       ? createContentLinkData(resourceId, resourceType, targetRel)
@@ -135,6 +134,9 @@ const EditLink = ({ model, closeEditMode, editor, element }: Props) => {
   };
 
   const handleChangeAndClose = () => {
+    ReactEditor.focus(editor);
+    Transforms.select(editor, Path.next(ReactEditor.findPath(editor, element)));
+    Transforms.collapse(editor, { edge: "start" });
     closeEditMode();
   };
 

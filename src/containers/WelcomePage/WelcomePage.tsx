@@ -14,6 +14,7 @@ import { HelmetWithTracker } from "@ndla/tracker";
 import ArticleStatuses from "./components/ArticleStatuses";
 import LastUsedItems from "./components/LastUsedItems";
 import Revisions from "./components/Revisions";
+import SubjectView from "./components/SubjectView";
 import WelcomeHeader from "./components/WelcomeHeader";
 import WorkList from "./components/worklist/WorkList";
 import { GridContainer, Column } from "../../components/Layout/Layout";
@@ -62,7 +63,14 @@ export const WelcomePage = () => {
             </>
           )}
         </Column>
-        <Column colStart={6}>{ndlaId && <Revisions userData={data} />}</Column>
+        <Column colStart={6}>
+          {ndlaId && (
+            <>
+              <Revisions userData={data} />
+              <SubjectView userData={data} />
+            </>
+          )}
+        </Column>
       </GridContainer>
       <Footer showLocaleSelector />
     </Wrapper>

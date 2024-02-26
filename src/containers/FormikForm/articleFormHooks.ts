@@ -34,6 +34,8 @@ const deleteRemovedFiles = async (oldArticleContent: string, newArticleContent: 
   return Promise.all(pathsToDelete.map((path) => deleteFile(path)));
 };
 
+export type SlateCommentType = Omit<IComment, "content"> & { content: Descendant[] };
+
 export interface ArticleFormType {
   articleType: string;
   availability: string;
@@ -70,7 +72,7 @@ export interface ArticleFormType {
   // This field is only used for error checking in revisions
   revisionError?: string;
   slug?: string;
-  comments?: IComment[];
+  comments?: (Omit<IComment, "content"> & { content: Descendant[] })[];
   priority: string;
   processed: boolean;
   origin?: string;

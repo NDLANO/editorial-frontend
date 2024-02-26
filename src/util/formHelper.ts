@@ -9,7 +9,7 @@
 import isEqual from "lodash/fp/isEqual";
 import { Descendant, Node } from "slate";
 import { IArticle, ILicense, IArticleMetaImage } from "@ndla/types-backend/draft-api";
-import { blockContentToHTML, inlineContentToHTML } from "./articleContentConverter";
+import { blockContentToHTML, inlineContentToEditorValue, inlineContentToHTML } from "./articleContentConverter";
 import { isGrepCodeValid } from "./articleUtil";
 import { diffHTML } from "./diffHTML";
 import { isUserProvidedEmbedDataValid } from "./embedTagHelpers";
@@ -297,3 +297,8 @@ export const parseImageUrl = (metaImage?: IArticleMetaImage) => {
 export const getTagName = (id: string | undefined, data: { id: string; name: string }[] = []) => {
   return id ? data.find((entry) => entry.id === id)?.name : undefined;
 };
+
+export const stripInlineContentHtmlTags = (html: string): string =>
+  inlineContentToEditorValue(html)
+    .map((n) => Node.string(n))
+    .join("");

@@ -6,7 +6,7 @@
  *
  */
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import styled from "@emotion/styled";
@@ -60,14 +60,12 @@ const PreviewTitleWrapper = styled.div`
 `;
 
 const ComparePage = () => {
+  const { t } = useTranslation();
   const params = useParams<"draftId" | "language">();
   const draftId = Number(params.draftId!);
   const language = params.language!;
   const { data: article, isLoading } = useDraft({ id: draftId, language: language });
-  const [previewLanguage, setPreviewLanguage] = useState<string>(
-    article?.supportedLanguages.find((l) => l !== language) ?? article?.supportedLanguages[0]!,
-  );
-  const { t } = useTranslation();
+  const [previewLanguage, setPreviewLanguage] = useState<string>(article?.supportedLanguages[0]!);
   const { initialValues } = useArticleFormHooks<LearningResourceFormType>({
     getInitialValues: draftApiTypeToLearningResourceFormType,
     article,
@@ -90,6 +88,10 @@ const ComparePage = () => {
       copyright: apiType.copyright,
     };
   }, [initialValues, licenses, article?.id]);
+
+  useEffect(() => {
+    setPreviewLanguage(article?.supportedLanguages.find((l) => l !== language) ?? article?.supportedLanguages[0]!);
+  }, [article, language]);
 
   if (!article || isLoading) return <Spinner />;
 

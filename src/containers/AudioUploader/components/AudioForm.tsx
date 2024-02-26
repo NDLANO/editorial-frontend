@@ -32,7 +32,7 @@ import HeaderWithLanguage from "../../../components/HeaderWithLanguage";
 import SaveButton from "../../../components/SaveButton";
 import { SAVE_BUTTON_ID } from "../../../constants";
 import { useLicenses } from "../../../modules/draft/draftQueries";
-import { editorValueToPlainText } from "../../../util/articleContentConverter";
+import { editorValueToPlainText, inlineContentToHTML } from "../../../util/articleContentConverter";
 import { audioApiTypeToFormType } from "../../../util/audioHelpers";
 import { DEFAULT_LICENSE, isFormikFormDirty } from "../../../util/formHelper";
 import { AlertModalWrapper } from "../../FormikForm";
@@ -144,7 +144,7 @@ const AudioForm = ({
       actions.setSubmitting(true);
       const audioMetaData: INewAudioMetaInformation = {
         title: editorValueToPlainText(values.title),
-        manuscript: editorValueToPlainText(values.manuscript),
+        manuscript: inlineContentToHTML(values.manuscript),
         language: values.language,
         tags: values.tags,
         audioType: "standard",

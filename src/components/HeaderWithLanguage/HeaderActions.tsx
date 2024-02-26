@@ -17,6 +17,7 @@ import { Check, Eye } from "@ndla/icons/editor";
 import { SafeLinkButton } from "@ndla/safelink";
 import { IConcept } from "@ndla/types-backend/concept-api";
 import { IArticle } from "@ndla/types-backend/draft-api";
+import { Text } from "@ndla/typography";
 import DeleteLanguageVersion from "./DeleteLanguageVersion";
 import { StyledSplitter } from "./HeaderInformation";
 import HeaderLanguagePicker from "./HeaderLanguagePicker";
@@ -51,15 +52,12 @@ const StyledGroup = styled.div`
 const StyledSafeLinkButton = styled(SafeLinkButton)`
   border-radius: ${misc.borderRadius};
   box-shadow: none;
-  font-family: ${fonts.sans};
-  ${fonts.sizes(16, 1.1)};
-  font-weight: ${fonts.weight.semibold};
-  text-decoration: none;
-  padding: ${spacing.xsmall} ${spacing.small};
+  padding: ${spacing.xxsmall} ${spacing.small};
   &:focus,
   &:hover {
-    color: #fff;
+    color: ${colors.white};
     background: ${colors.brand.primary};
+    transform: translate(1px, 1px);
   }
 `;
 
@@ -81,7 +79,9 @@ const PreviewLightBox = memo(({ type, currentLanguage, article, concept }: Previ
   } else if ((type === "standard" || type === "topic-article" || type === "frontpage-article") && article) {
     return (
       <StyledSafeLinkButton variant="link" to={toCompareLanguage(article.id, currentLanguage)} target="_blank">
-        {t("form.previewLanguageArticle.button")}
+        <Text textStyle="button" margin="none">
+          {t("form.previewLanguageArticle.button")}
+        </Text>
         <Launch />
       </StyledSafeLinkButton>
     );
@@ -183,13 +183,13 @@ const HeaderActions = ({
               <TranslateNbToNn id={id} editUrl={editUrl} />
             </>
           )}
+        {!noStatus && (
+          <>
+            <StyledSplitter />
+            <PreviewLightBox article={article} concept={concept} type={type} currentLanguage={language} />
+          </>
+        )}
         <StyledGroup>
-          {!noStatus && (
-            <>
-              <StyledSplitter />
-              <PreviewLightBox article={article} concept={concept} type={type} currentLanguage={language} />
-            </>
-          )}
           {lastPublishedVersion && (
             <>
               <StyledSplitter />

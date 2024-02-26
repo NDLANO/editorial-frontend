@@ -12,10 +12,25 @@ import styled from "@emotion/styled";
 import { fonts } from "@ndla/core";
 import { AudioFormikType } from "./AudioForm";
 import FormikField from "../../../components/FormikField";
-import PlainTextEditor from "../../../components/SlateEditor/PlainTextEditor";
+import { SlatePlugin } from "../../../components/SlateEditor/interfaces";
+import { breakPlugin } from "../../../components/SlateEditor/plugins/break";
+import { breakRenderer } from "../../../components/SlateEditor/plugins/break/render";
+import { markPlugin } from "../../../components/SlateEditor/plugins/mark";
+import { markRenderer } from "../../../components/SlateEditor/plugins/mark/render";
+import { noopPlugin } from "../../../components/SlateEditor/plugins/noop";
+import { noopRenderer } from "../../../components/SlateEditor/plugins/noop/render";
+import { paragraphPlugin } from "../../../components/SlateEditor/plugins/paragraph";
+import { paragraphRenderer } from "../../../components/SlateEditor/plugins/paragraph/render";
+import saveHotkeyPlugin from "../../../components/SlateEditor/plugins/saveHotkey";
+import { spanPlugin } from "../../../components/SlateEditor/plugins/span";
+import { spanRenderer } from "../../../components/SlateEditor/plugins/span/render";
 import { textTransformPlugin } from "../../../components/SlateEditor/plugins/textTransform";
-
-const plugins = [textTransformPlugin];
+import { toolbarPlugin } from "../../../components/SlateEditor/plugins/toolbar";
+import {
+  createToolbarAreaOptions,
+  createToolbarDefaultValues,
+} from "../../../components/SlateEditor/plugins/toolbar/toolbarState";
+import RichTextEditor from "../../../components/SlateEditor/RichTextEditor";
 
 const StyledFormikField = styled(FormikField)`
   label {
@@ -24,7 +39,39 @@ const StyledFormikField = styled(FormikField)`
   }
 `;
 
-const StyledPlainTextEditor = styled(PlainTextEditor)`
+const toolbarOptions = createToolbarDefaultValues({
+  text: {
+    hidden: true,
+  },
+  mark: {
+    code: {
+      hidden: true,
+    },
+  },
+  block: { hidden: true },
+  inline: {
+    hidden: true,
+  },
+});
+
+const toolbarAreaFilters = createToolbarAreaOptions();
+
+const manuscriptPlugins: SlatePlugin[] = [
+  spanPlugin,
+  paragraphPlugin,
+  toolbarPlugin(toolbarOptions, toolbarAreaFilters),
+  textTransformPlugin,
+  breakPlugin,
+  saveHotkeyPlugin,
+  markPlugin,
+  noopPlugin,
+];
+
+const manuscriptRenderers: SlatePlugin[] = [noopRenderer, paragraphRenderer, markRenderer, breakRenderer, spanRenderer];
+
+const plugins = manuscriptPlugins.concat(manuscriptRenderers);
+
+const StyledRichTextEditor = styled(RichTextEditor)`
   white-space: pre-wrap;
   ${fonts.sizes("16px", "30px")};
   font-family: ${fonts.sans};
@@ -35,12 +82,16 @@ const AudioManuscript = () => {
 
   return (
     <StyledFormikField label={t("podcastForm.fields.manuscript")} name="manuscript">
-      {({ field }) => (
-        <StyledPlainTextEditor
-          id={field.name}
+      {({ field, form: { isSubmitting } }) => (
+        <StyledRichTextEditor
           {...field}
+          hideBlockPicker
           placeholder={t("podcastForm.fields.manuscript")}
+          submitted={isSubmitting}
           plugins={plugins}
+          onChange={(val) => field.onChange({ target: { value: val, name: field.name } })}
+          toolbarOptions={toolbarOptions}
+          toolbarAreaFilters={toolbarAreaFilters}
         />
       )}
     </StyledFormikField>

@@ -23,20 +23,10 @@ import HeaderLanguagePicker from "./HeaderLanguagePicker";
 import HeaderLanguagePill from "./HeaderLanguagePill";
 import HeaderSupportedLanguages from "./HeaderSupportedLanguages";
 import TranslateNbToNn from "./TranslateNbToNn";
+import { createEditUrl, toMapping, translatableTypes } from "./util";
 import { PUBLISHED } from "../../constants";
 import { fetchDraftHistory } from "../../modules/draft/draftApi";
-import {
-  toCompareLanguage,
-  toEditAudio,
-  toEditConcept,
-  toEditFrontPageArticle,
-  toEditGloss,
-  toEditImage,
-  toEditLearningResource,
-  toEditPodcast,
-  toEditPodcastSeries,
-  toEditTopicArticle,
-} from "../../util/routeHelpers";
+import { toCompareLanguage } from "../../util/routeHelpers";
 import { useIsTranslatableToNN } from "../NynorskTranslateProvider";
 import PreviewDraftLightboxV2 from "../PreviewDraft/PreviewDraftLightboxV2";
 import StyledFilledButton from "../StyledFilledButton";
@@ -110,30 +100,6 @@ interface Props {
   supportedLanguages?: string[];
 }
 
-const toMapping = {
-  concept: toEditConcept,
-  gloss: toEditGloss,
-  audio: toEditAudio,
-  "podcast-series": toEditPodcastSeries,
-  podcast: toEditPodcast,
-  image: toEditImage,
-  "frontpage-article": toEditFrontPageArticle,
-  standard: toEditLearningResource,
-  "topic-article": toEditTopicArticle,
-};
-
-const translatableTypes = [
-  "audio",
-  "concept",
-  "gloss",
-  "standard",
-  "topic-article",
-  "podcast",
-  "image",
-  "podcast-series",
-  "frontpage-article",
-];
-
 const HeaderActions = ({
   isNewLanguage,
   noStatus,
@@ -153,7 +119,7 @@ const HeaderActions = ({
 
   const editUrl = useCallback(
     (id: number, locale: string) => {
-      return toMapping[type](id, locale);
+      return createEditUrl(id, locale, type);
     },
     [type],
   );

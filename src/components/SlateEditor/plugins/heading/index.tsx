@@ -57,7 +57,7 @@ const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: Keybo
     Transforms.insertNodes(editor, slatejsx("element", { type: TYPE_PARAGRAPH }, [{ text: "" }]));
     return;
   }
-  return nextOnKeyDown && nextOnKeyDown(e);
+  return nextOnKeyDown?.(e);
 };
 
 const onBackspace = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: KeyboardEvent) => void) => {

@@ -6,54 +6,24 @@
  *
  */
 
-import { ChangeEvent, useState } from "react";
+import { FieldArrayRenderProps, FieldInputProps } from "formik";
+import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { css } from "@emotion/react";
+import { Descendant } from "slate";
 import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
 import { colors, spacing, fonts, misc } from "@ndla/core";
-import { TextAreaV2 } from "@ndla/forms";
+import { FormControl, Label } from "@ndla/forms";
 import { TrashCanOutline, RightArrow, ExpandMore } from "@ndla/icons/action";
 import { Done } from "@ndla/icons/editor";
-import { IComment } from "@ndla/types-backend/draft-api";
+import { plugins, toolbarAreaFilters, toolbarOptions } from "./commentToolbarUtils";
+import { COMMENT_COLOR, formControlStyles } from "./styles";
 import AlertModal from "../../../components/AlertModal";
+import RichTextEditor from "../../../components/SlateEditor/RichTextEditor";
+import { SlateCommentType } from "../../FormikForm/articleFormHooks";
 
-export const COMMENT_COLOR = colors.support.yellowLight;
-
-export const textAreaStyles = css`
-  width: 100%;
-  border: 1px solid ${colors.brand.neutral7};
-  min-height: 25px;
-  background-color: ${COMMENT_COLOR};
-
-  input,
-  textarea {
-    ${fonts.size.text.button};
-    font-weight: ${fonts.weight.light};
-    margin: 0px;
-    padding: 0 ${spacing.xxsmall};
-  }
-`;
-
-const StyledClickableTextArea = styled(TextAreaV2)<{ solved: boolean }>`
-  ${textAreaStyles};
-  background-color: ${(p) => (p.solved ? colors.support.greenLight : COMMENT_COLOR)};
-  border: 1px solid transparent;
-  &:active,
-  &:focus-visible {
-    border: 1px solid ${colors.brand.primary};
-  }
-  textarea {
-    &[data-open="false"] {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-height: 30px;
-      display: -webkit-box;
-      -webkit-line-clamp: 1;
-      -webkit-box-orient: vertical;
-    }
-  }
+const StyledFormControl = styled(FormControl)`
+  ${formControlStyles}
 `;
 
 const CommentCard = styled.li`
@@ -66,6 +36,9 @@ const CommentCard = styled.li`
 
   &[data-solved="true"] {
     background-color: ${colors.support.greenLight};
+    [data-comment] {
+      background-color: ${colors.support.greenLight};
+    }
   }
 `;
 
@@ -80,50 +53,42 @@ const TopButtonRow = styled.div`
 `;
 
 // Comment generated on frontend, we will use id from draft-api once comment is generated
-export type CommentType = { generatedId?: string; content: string; isOpen: boolean; solved: boolean } | IComment;
+export type CommentType =
+  | { generatedId?: string; content: Descendant[]; isOpen: boolean; solved: boolean }
+  | SlateCommentType;
 
 interface Props {
   id: string | undefined;
-  comments: CommentType[];
-  setComments: (c: CommentType[]) => void;
-  onDelete: (index: number) => void;
+  field: FieldInputProps<CommentType>;
   index: number;
+  isSubmitting: boolean;
+  arrayHelpers: FieldArrayRenderProps;
 }
 
-const Comment = ({ id, comments, setComments, onDelete, index }: Props) => {
+const Comment = ({ id, index, isSubmitting, field, arrayHelpers }: Props) => {
   const { t } = useTranslation();
-  const comment = comments[index];
-
-  const [inputValue, setInputValue] = useState(comment?.content);
+  const [inputValue, setInputValue] = useState<Descendant[]>(field.value.content);
   const [modalOpen, setModalOpen] = useState(false);
-
-  const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
-    setInputValue(e.target.value);
-  };
 
   const handleDelete = () => {
     if (index === undefined) return;
-    onDelete?.(index);
+    arrayHelpers.remove(index);
     setModalOpen(false);
   };
 
-  const updateComment = (value: boolean, field: keyof CommentType) => {
-    const updatedComments = comments.map((c, i) => (index === i ? { ...c, [field]: value } : c));
-    setComments(updatedComments);
-  };
+  const updateComment = useCallback(
+    (updateField: keyof CommentType, updateValue: boolean | Descendant[]) => {
+      arrayHelpers.replace(index, { ...field.value, [updateField]: updateValue });
+    },
+    [arrayHelpers, field.value, index],
+  );
+  const updateContentOnBlur = useCallback(() => updateComment("content", inputValue), [inputValue, updateComment]);
 
-  const focusUpdate = (focus: boolean) => {
-    if (!focus) {
-      const updatedComments = comments.map((c, i) => (i === index ? { ...c, content: inputValue } : c));
-      setComments(updatedComments);
-    }
-  };
-
-  const tooltipText = comment.isOpen ? t("form.comment.hide") : t("form.comment.show");
+  const tooltipText = field.value.isOpen ? t("form.comment.hide") : t("form.comment.show");
   const commentId = `${id}-comment-section`;
 
   return (
-    <CommentCard data-solved={comment.solved}>
+    <CommentCard data-solved={field.value.solved}>
       <CardContent>
         <TopButtonRow>
           <IconButtonV2
@@ -131,19 +96,19 @@ const Comment = ({ id, comments, setComments, onDelete, index }: Props) => {
             size="xsmall"
             aria-label={tooltipText}
             title={tooltipText}
-            onClick={() => updateComment(!comment.isOpen, "isOpen")}
-            aria-expanded={comment.isOpen}
+            onClick={() => updateComment("isOpen", !field.value.isOpen)}
+            aria-expanded={field.value.isOpen}
             aria-controls={commentId}
           >
-            {comment.isOpen ? <ExpandMore /> : <RightArrow />}
+            {field.value.isOpen ? <ExpandMore /> : <RightArrow />}
           </IconButtonV2>
           <div>
             <IconButtonV2
-              variant={comment.solved ? "solid" : "ghost"}
+              variant={field.value.solved ? "solid" : "ghost"}
               size="xsmall"
-              aria-label={comment.solved ? t("form.comment.unresolve") : t("form.comment.solve")}
-              title={comment.solved ? t("form.comment.unresolve") : t("form.comment.solve")}
-              onClick={() => updateComment(!comment.solved, "solved")}
+              aria-label={field.value.solved ? t("form.comment.unresolve") : t("form.comment.solve")}
+              title={field.value.solved ? t("form.comment.unresolve") : t("form.comment.solve")}
+              onClick={() => updateComment("solved", !field.value.solved)}
               colorTheme="darker"
             >
               <Done />
@@ -160,21 +125,22 @@ const Comment = ({ id, comments, setComments, onDelete, index }: Props) => {
             </IconButtonV2>
           </div>
         </TopButtonRow>
-        <StyledClickableTextArea
-          value={inputValue}
-          label={t("form.comment.commentField")}
-          name={t("form.comment.commentField")}
-          labelHidden
-          onChange={handleInputChange}
-          onFocus={() => {
-            focusUpdate(true);
-            updateComment(true, "isOpen");
-          }}
-          onBlur={() => focusUpdate(false)}
-          id={commentId}
-          data-open={comment.isOpen}
-          solved={comment.solved}
-        />
+        <StyledFormControl id={`comment-${id}`}>
+          <Label visuallyHidden>{t("form.comment.commentField")}</Label>
+          <RichTextEditor
+            value={field.value.content ?? []}
+            hideBlockPicker
+            submitted={isSubmitting}
+            plugins={plugins}
+            onChange={setInputValue}
+            onClick={() => updateComment("isOpen", true)}
+            onBlur={updateContentOnBlur}
+            toolbarOptions={toolbarOptions}
+            toolbarAreaFilters={toolbarAreaFilters}
+            data-open={field.value.isOpen}
+            data-comment=""
+          />
+        </StyledFormControl>
       </CardContent>
 
       <AlertModal

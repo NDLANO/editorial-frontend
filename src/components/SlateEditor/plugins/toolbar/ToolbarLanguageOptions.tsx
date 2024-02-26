@@ -54,11 +54,13 @@ export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<Languag
           split: true,
         });
       } else {
-        Transforms.setNodes(
-          editor,
-          { data: { lang: language } },
-          { match: (n) => Element.isElement(n) && n.type === "span" },
-        );
+        Transforms.unwrapNodes(editor, {
+          match: (n) => Element.isElement(n) && n.type === "span",
+        });
+        Transforms.wrapNodes(editor, defaultSpanBlock({ lang: language }), {
+          at: Editor.unhangRange(editor, editor.selection!),
+          split: true,
+        });
       }
     },
     [editor],

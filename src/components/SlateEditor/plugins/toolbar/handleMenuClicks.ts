@@ -28,7 +28,7 @@ import { toggleCellAlign } from "../table/slateActions";
 
 type TextElements = ParagraphElement | HeadingElement | SpanElement;
 const defaultValueState: Partial<Record<Element["type"], Partial<TextElements>>> = {
-  summary: { type: TYPE_SPAN },
+  summary: { type: TYPE_PARAGRAPH, serializeAsText: true },
 };
 
 const parseHeadingLevel = (type: string) => parseInt(type.replace("heading-", "")) as 1 | 2 | 3 | 4 | 5 | 6;

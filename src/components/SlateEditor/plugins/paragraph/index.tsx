@@ -15,6 +15,7 @@ import { SlateSerializer } from "../../interfaces";
 import containsVoid from "../../utils/containsVoid";
 import { KEY_ENTER } from "../../utils/keys";
 import { TYPE_BREAK } from "../break/types";
+import { TYPE_SUMMARY } from "../details/types";
 import { TYPE_LIST_ITEM } from "../list/types";
 import { TYPE_NOOP } from "../noop/types";
 import { TYPE_TABLE_CELL } from "../table/types";
@@ -125,6 +126,7 @@ export const paragraphPlugin = (editor: Editor) => {
         Element.isElement(parentNode) &&
         parentNode.type !== TYPE_TABLE_CELL &&
         parentNode.type !== TYPE_LIST_ITEM &&
+        parentNode.type !== TYPE_SUMMARY &&
         parentNode.type !== TYPE_NOOP &&
         node.serializeAsText
       ) {
@@ -152,10 +154,8 @@ export const paragraphPlugin = (editor: Editor) => {
           });
         }
       }
-    }
 
-    // Unwrap block element children. Only text allowed.
-    if (Element.isElement(node) && node.type === TYPE_PARAGRAPH) {
+      // Unwrap block element children. Only text allowed.
       for (const [child, childPath] of Node.children(editor, path)) {
         if (Element.isElement(child) && !editor.isInline(child)) {
           Transforms.unwrapNodes(editor, { at: childPath });

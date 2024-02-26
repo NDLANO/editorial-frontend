@@ -9,14 +9,19 @@
 import { FieldProps, Form, Formik, FormikProps } from "formik";
 import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { Descendant } from "slate";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { Input, TextArea } from "@ndla/forms";
+import { Input } from "@ndla/forms";
 import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle } from "@ndla/modal";
+import { Text } from "@ndla/typography";
 import { SlateVideoWrapper, StyledVideo } from "./SlateVideo";
+import { InlineField } from "../../../../containers/FormikForm/InlineField";
 import { BrightcoveEmbed } from "../../../../interfaces";
+import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
+import parseMarkdown from "../../../../util/parseMarkdown";
 import { addBrightCoveTimeStampVideoid, getBrightCoveStartTime } from "../../../../util/videoUtil";
 import FormikField from "../../../FormikField";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
@@ -42,7 +47,7 @@ const StyledFormikField = styled(FormikField)`
 
 interface FormValues {
   alttext: string;
-  caption: string;
+  caption: Descendant[];
   videoid?: string;
   startTime: string;
   resource: BrightcoveEmbed["resource"];
@@ -51,7 +56,7 @@ interface FormValues {
 export const toVideoEmbedFormValues = (embed: BrightcoveEmbed): FormValues => {
   return {
     alttext: embed.alt ?? "",
-    caption: embed.caption ?? "",
+    caption: inlineContentToEditorValue(parseMarkdown({ markdown: embed.caption ?? "", inline: true }), true),
     startTime: getBrightCoveStartTime(embed.videoid),
     resource: embed.resource,
   };
@@ -75,7 +80,7 @@ const EditVideo = ({ embed, saveEmbedUpdates, activeSrc, close, setHasError }: P
   const handleSave = (values: FormValues) => {
     saveEmbedUpdates({
       alt: values.alttext,
-      caption: values.caption,
+      caption: inlineContentToHTML(values.caption),
       videoid: addBrightCoveTimeStampVideoid(embed.videoid, values.startTime),
     });
     close();
@@ -137,13 +142,18 @@ const VideoEmbedForm = ({ setHasError, close, isValid, dirty }: VideoEmbedFormPr
   return (
     <Form>
       <StyledFormikField name="caption">
-        {({ field }) => (
-          <TextArea
-            {...field}
-            white
-            label={t("form.video.caption.label")}
-            placeholder={t("form.video.caption.placeholder")}
-          />
+        {({ field, form: { isSubmitting } }) => (
+          <>
+            <Text textStyle="label-small" margin="none">
+              {t("form.video.caption.label")}
+            </Text>
+            <InlineField
+              {...field}
+              placeholder={t("form.video.caption.placeholder")}
+              submitted={isSubmitting}
+              onChange={(val) => field.onChange({ target: { value: val, name: field.name } })}
+            />
+          </>
         )}
       </StyledFormikField>
       <StyledInputTimeWrapper>

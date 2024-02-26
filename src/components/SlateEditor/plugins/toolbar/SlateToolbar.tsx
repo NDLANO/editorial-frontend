@@ -46,7 +46,7 @@ const ToolbarContainer = styled(Toolbar)`
   position: absolute;
   top: -10000px;
   transition: opacity 0.75s;
-  z-index: ${stackOrder.popover};
+  z-index: ${stackOrder.modal - stackOrder.offsetSingle};
   border: 1px solid ${colors.brand.tertiary};
   border-radius: ${misc.borderRadius};
   background-color: ${colors.white};

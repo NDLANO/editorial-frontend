@@ -194,6 +194,7 @@ export const EXTERNAL_WHITELIST_PROVIDERS: WhitelistProvider[] = [
   { name: "Facebook", url: ["www.facebook.com", "fb.watch"] },
   { name: "Sketchfab", url: ["sketchfab.com"] },
   { name: "JeopardyLabs", url: ["jeopardylabs.com"] },
+  { name: "Brightcove", url: ["players.brightcove.net"] },
 ];
 
 export const SearchTypeValues = [

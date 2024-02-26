@@ -168,8 +168,9 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
 
   const providerName =
     embed?.resource === "external" && embed?.status === "success" ? embed.data.oembed.providerName : undefined;
+
   const [allowedProvider] = EXTERNAL_WHITELIST_PROVIDERS.filter((whitelistProvider) => {
-    return element.type === "iframe" && embed?.embedData.url
+    return embed?.resource === "iframe" && embed?.embedData.url
       ? urlOrigin(embed.embedData.url)
       : whitelistProvider.name === providerName;
   });

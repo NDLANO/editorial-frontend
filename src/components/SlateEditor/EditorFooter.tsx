@@ -7,7 +7,7 @@
  */
 
 import { useFormikContext } from "formik";
-import { memo, useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
@@ -27,6 +27,7 @@ import { useSession } from "../../containers/Session/SessionProvider";
 import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from "../../interfaces";
 import { toPreviewDraft } from "../../util/routeHelpers";
 import Footer from "../Footer/Footer";
+import { createEditUrl, TranslatableType, translatableTypes } from "../HeaderWithLanguage/util";
 import PreviewDraftLightboxV2 from "../PreviewDraft/PreviewDraftLightboxV2";
 import SaveMultiButton from "../SaveMultiButton";
 
@@ -44,6 +45,10 @@ interface Props {
   isNewlyCreated: boolean;
   hasErrors?: boolean;
   responsibleId?: string;
+  articleId?: number;
+  articleType?: string;
+  selectedLanguage?: string;
+  supportedLanguages?: string[];
 }
 
 interface FormValues {
@@ -78,6 +83,10 @@ const StyledFooter = styled.div`
   margin-left: auto;
 `;
 
+const StyledSafeLinkButton = styled(SafeLinkButton)`
+  white-space: nowrap;
+`;
+
 const STATUSES_RESET_RESPONSIBLE = [ARCHIVED, UNPUBLISHED];
 
 function EditorFooter<T extends FormValues>({
@@ -94,6 +103,10 @@ function EditorFooter<T extends FormValues>({
   isNewlyCreated,
   hasErrors,
   responsibleId,
+  articleId,
+  articleType,
+  selectedLanguage,
+  supportedLanguages,
 }: Props) {
   const [status, setStatus] = useState<SingleValue>(null);
   const [responsible, setResponsible] = useState<SingleValue>(null);
@@ -107,6 +120,30 @@ function EditorFooter<T extends FormValues>({
   const [newStatus, setNewStatus] = useState<SingleValue>(null);
 
   const articleOrConcept = isArticle || isConcept;
+
+  const languageButton = useMemo(() => {
+    if (
+      ((selectedLanguage === "nb" && supportedLanguages?.includes("nn")) ||
+        (selectedLanguage === "nn" && supportedLanguages?.includes("nb"))) &&
+      articleId &&
+      articleType &&
+      translatableTypes.includes(articleType as TranslatableType)
+    ) {
+      const targetLanguage = selectedLanguage === "nb" ? "nn" : "nb";
+      const buttonText = t("languages.change", { language: t(`languages.${targetLanguage}`) });
+      return (
+        <StyledSafeLinkButton
+          aria-label={buttonText}
+          variant="link"
+          to={createEditUrl(articleId, targetLanguage, articleType as TranslatableType)}
+        >
+          {buttonText}
+        </StyledSafeLinkButton>
+      );
+    } else {
+      return undefined;
+    }
+  }, [articleId, articleType, selectedLanguage, supportedLanguages, t]);
 
   useEffect(() => {
     if (newStatus?.value === PUBLISHED) {
@@ -148,22 +185,6 @@ function EditorFooter<T extends FormValues>({
     },
     [onSaveClick, status?.value, updateResponsible],
   );
-
-  const onValidateClick = useCallback(async () => {
-    if (!values.id || !isArticle) {
-      return;
-    }
-
-    try {
-      await validateEntity?.();
-      createMessage({
-        translationKey: "form.validationOk",
-        severity: "success",
-      });
-    } catch (error) {
-      catchError(error, createMessage);
-    }
-  }, [catchError, createMessage, isArticle, validateEntity, values.id]);
 
   const updateStatus = useCallback(
     async (status: SingleValue) => {
@@ -237,11 +258,11 @@ function EditorFooter<T extends FormValues>({
               <Launch />
             </SafeLinkButton>
           )}
-          <StyledLine />
-          {values.id && isArticle && (
-            <ButtonV2 variant="link" onClick={onValidateClick}>
-              {t("form.validate")}
-            </ButtonV2>
+          {languageButton && (
+            <>
+              <StyledLine />
+              {languageButton}
+            </>
           )}
         </div>
 

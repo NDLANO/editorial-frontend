@@ -36,12 +36,15 @@ const StyledHeader = styled(AccordionHeader)`
 `;
 
 const StyledItem = styled(AccordionItem)`
-  overflow: hidden;
   border-radius: ${misc.borderRadius};
   background-color: ${colors.white};
 
   &:focus-visible {
     border: 2px solid ${colors.support.red};
+  }
+
+  & > div {
+    overflow: unset;
   }
 
   &[data-error="true"] {

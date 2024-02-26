@@ -6,8 +6,8 @@
  *
  */
 
-import { useField } from "formik";
-import { useCallback, useMemo, memo } from "react";
+import { FastField, FieldArray, FieldProps, useField, useFormikContext } from "formik";
+import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
@@ -44,7 +44,7 @@ const StyledList = styled.ul`
 `;
 
 const StyledOpenCloseAll = styled(ButtonV2)`
-  ${fonts.sizes("16px")};
+  ${fonts.size.text.button}
   margin-left: auto;
 `;
 
@@ -54,44 +54,54 @@ interface Props {
 }
 const CommentSection = ({ articleType, savedStatus }: Props) => {
   const { t } = useTranslation();
+  const [_, { value }] = useField<CommentType[]>("comments");
+  const { isSubmitting } = useFormikContext();
+  const allOpen = (value: CommentType[]) => value.every((v) => v.isOpen);
 
-  const [_, { value }, { setValue }] = useField<CommentType[]>("comments");
-  const allOpen = useMemo(() => value.every((v) => v.isOpen), [value]);
-
-  const onDelete = useCallback(
-    (index: number) => {
-      const updatedList = value.filter((_, i) => i !== index);
-      setValue(updatedList);
-    },
-    [value, setValue],
-  );
-
-  const toggleAllOpen = (allOpen: boolean) => {
-    setValue(value.map((c) => ({ ...c, isOpen: allOpen })));
-  };
   const commentsHidden =
     articleType !== "topic-article" && RESET_COMMENTS_STATUSES.some((s) => s === savedStatus?.current);
 
   return (
     <CommentColumn data-hidden={commentsHidden} aria-hidden={commentsHidden}>
-      <InputComment comments={value ?? []} setComments={setValue} />
-      {value.length ? (
-        <StyledOpenCloseAll
-          variant="stripped"
-          onClick={() => toggleAllOpen(allOpen !== undefined ? !allOpen : true)}
-          fontWeight="semibold"
-        >
-          {allOpen ? t("form.hideAll") : t("form.openAll")}
-        </StyledOpenCloseAll>
-      ) : null}
-      <StyledList>
-        {value.map((comment, index) => {
-          const id = "id" in comment ? comment.id : comment.generatedId;
-          return (
-            <Comment key={id} id={id} setComments={setValue} comments={value ?? []} onDelete={onDelete} index={index} />
-          );
-        })}
-      </StyledList>
+      <FieldArray
+        name="comments"
+        render={(arrayHelpers) => (
+          <>
+            <InputComment arrayHelpers={arrayHelpers} isSubmitting={isSubmitting} />
+            {value.length ? (
+              <StyledOpenCloseAll
+                variant="stripped"
+                onClick={() => {
+                  const open = allOpen(value) !== undefined ? !allOpen(value) : true;
+                  value.forEach((v, i) => (v.isOpen !== open ? arrayHelpers.replace(i, { ...v, isOpen: open }) : null));
+                }}
+                fontWeight="semibold"
+              >
+                {allOpen(value) ? t("form.hideAll") : t("form.openAll")}
+              </StyledOpenCloseAll>
+            ) : null}
+            <StyledList>
+              {value.map((comment, index) => {
+                const id = "id" in comment ? comment.id : comment.generatedId;
+                return (
+                  <FastField key={`comments.${index}`} name={`comments.${index}`}>
+                    {({ field }: FieldProps) => (
+                      <Comment
+                        key={id}
+                        id={id}
+                        field={field}
+                        index={index}
+                        isSubmitting={isSubmitting}
+                        arrayHelpers={arrayHelpers}
+                      />
+                    )}
+                  </FastField>
+                );
+              })}
+            </StyledList>
+          </>
+        )}
+      />
     </CommentColumn>
   );
 };

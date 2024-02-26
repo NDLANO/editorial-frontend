@@ -21,7 +21,7 @@ const onEnter = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEv
   const selectedDefinitionItem = firstChild.type === TYPE_LIST_ITEM ? firstChild : secondChild;
 
   if (!selectedDefinitionItem) {
-    return;
+    return next?.(event);
   }
 
   const selectedDefinitionItemPath = ReactEditor.findPath(editor, selectedDefinitionItem);

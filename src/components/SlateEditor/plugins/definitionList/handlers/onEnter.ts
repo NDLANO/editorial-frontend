@@ -24,7 +24,7 @@ const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown: ((e: KeyboardE
       : secondChild;
 
   if (!selectedDefinitionItem) {
-    return;
+    return nextOnKeyDown?.(e);
   }
 
   const selectedDefinitionItemPath = ReactEditor.findPath(editor, selectedDefinitionItem);

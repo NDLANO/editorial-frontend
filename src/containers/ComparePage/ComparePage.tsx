@@ -66,14 +66,7 @@ const ComparePage = () => {
   const language = params.language!;
   const { data: article, isLoading } = useDraft({ id: draftId, language: language });
   const [previewLanguage, setPreviewLanguage] = useState<string>(article?.supportedLanguages[0]!);
-  const { initialValues } = useArticleFormHooks<LearningResourceFormType>({
-    getInitialValues: draftApiTypeToLearningResourceFormType,
-    article,
-    t,
-    updateArticle: () => Promise.resolve(article!),
-    getArticleFromSlate: learningResourceFormTypeToDraftApiType,
-    articleLanguage: language,
-  });
+  const initialValues = draftApiTypeToLearningResourceFormType(article, language, undefined);
   const draft = useDraft({ id: article?.id!, language: previewLanguage });
   const { data: licenses = [] } = useLicenses();
   const formArticle = useMemo(() => {

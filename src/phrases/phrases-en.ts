@@ -157,7 +157,10 @@ const phrases = {
     noResultsLMASubjects: "The following statuses will not be shown",
     count: "Count",
     countResponsible: "Responsible count",
-    subjectView: "Subject view",
+    favoritesSubjectView: "Subject view favorite subjects",
+    lmaSubjectView: "Subject view  LMA-subjects",
+    daSubjectView: "Subject view  DA-subjects",
+    saSubjectView: "Subject view  SA-subjects",
     subjectViewDescription: "Overview of resources that have not been revised in over 5 years.",
     workList: {
       heading: "My tasks",

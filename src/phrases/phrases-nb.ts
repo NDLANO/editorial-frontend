@@ -156,7 +156,10 @@ const phrases = {
     noResultsLMASubjects: "Følgende statuser vil ikke vises i oversikten",
     count: "Antall",
     countResponsible: "Antall ansvarlig for",
-    subjectView: "Fagoversikt",
+    favoritesSubjectView: "Fagoversikt favorittfag",
+    lmaSubjectView: "Fagoversikt LMA-fag",
+    daSubjectView: "Fagoversikt DA-fag",
+    saSubjectView: "Fagoversikt SA-fag",
     subjectViewDescription: "Oversikt over ressurser det er mer enn 5 år siden ble sist faglig sjekket",
     workList: {
       heading: "Mine arbeidsoppgaver",

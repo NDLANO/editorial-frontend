@@ -6,7 +6,7 @@
  *
  */
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import Tabs from "@ndla/tabs";
@@ -26,9 +26,7 @@ import {
   STORED_ON_HOLD_LMA_SUBJECT,
   STORED_ON_HOLD_SA_SUBJECT,
 } from "../../../constants";
-import { usePostSearchNodesMutation } from "../../../modules/nodes/nodeMutations";
-import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
-import { SubjectIdObject, customFieldsBody, defaultSubjectIdObject, getResultSubjectIdObject } from "../utils";
+import { SubjectIdObject } from "../utils";
 
 const StyledWrapper = styled.div`
   margin-top: ${GRID_GAP};
@@ -38,26 +36,12 @@ interface Props {
   ndlaId: string;
   favoriteSubjects: string[] | undefined;
   userDataLoading: boolean;
+  subjectIdObject: SubjectIdObject;
+  isPending: boolean;
 }
 
-const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataLoading }: Props) => {
-  const [subjectIdObject, setSubjectIdObject] = useState<SubjectIdObject>(defaultSubjectIdObject);
+const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataLoading, subjectIdObject, isPending }: Props) => {
   const { t } = useTranslation();
-  const { taxonomyVersion } = useTaxonomyVersion();
-  const { mutateAsync: postSearchNodes, isPending } = usePostSearchNodesMutation();
-
-  useEffect(() => {
-    const updateSubjectIds = async () => {
-      const nodesSearchResult = await postSearchNodes({
-        body: customFieldsBody(ndlaId),
-        taxonomyVersion,
-      });
-      const resultSubjectIdObject = getResultSubjectIdObject(ndlaId, nodesSearchResult.results);
-
-      setSubjectIdObject(resultSubjectIdObject);
-    };
-    updateSubjectIds();
-  }, [ndlaId, postSearchNodes, taxonomyVersion]);
 
   const tabs = useMemo(() => {
     if (!isPending) {

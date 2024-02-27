@@ -6,7 +6,7 @@
  *
  */
 
-import { Formik, FieldProps, Field } from "formik";
+import { Formik } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
@@ -14,15 +14,8 @@ import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { CheckboxItem, Label, RadioButtonGroup, RadioButtonItem } from "@ndla/forms";
 import { GridType } from "@ndla/ui";
-import {
-  CheckboxWrapper,
-  RadioButtonWrapper,
-  StyledFieldset,
-  StyledFormControl,
-  StyledLegend,
-} from "../../../Form/styles";
+import { CheckboxWrapper, RadioButtonWrapper, FieldsetRow, StyledFormControl, LeftLegend } from "../../../Form/styles";
 import { FormControl, FormField } from "../../../FormField";
-import FormikField from "../../../FormikField";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
 
 interface GridFormValues {
@@ -59,10 +52,6 @@ interface Props {
   onSave: (data: GridType) => void;
   onCancel: () => void;
 }
-
-const StyledFormikField = styled(FormikField)`
-  margin: 0px;
-`;
 
 const columns: GridType["columns"][] = ["2", "4", "2x2"];
 const backgrounds: GridType["background"][] = ["transparent", "white"];
@@ -112,9 +101,9 @@ const GridForm = ({ initialData, onSave, onCancel }: Props) => {
     >
       {({ dirty, isValid, handleSubmit }) => (
         <>
-          <Field name="columns">
-            {({ field }: FieldProps) => (
-              <StyledFormControl id="column-option">
+          <FormField name="columns">
+            {({ field }) => (
+              <StyledFormControl>
                 <RadioButtonGroup
                   onValueChange={(value: string) =>
                     field.onChange({
@@ -128,10 +117,10 @@ const GridForm = ({ initialData, onSave, onCancel }: Props) => {
                   defaultValue={field.value.toString()}
                   asChild
                 >
-                  <StyledFieldset>
-                    <StyledLegend margin="none" textStyle="label-small">
+                  <FieldsetRow>
+                    <LeftLegend margin="none" textStyle="label-small">
                       {t("form.name.columns")}
-                    </StyledLegend>
+                    </LeftLegend>
                     {columnOptions.map((value) => (
                       <RadioButtonWrapper key={value.value}>
                         <RadioButtonItem id={`column-${value.value}`} value={value.value} />
@@ -140,13 +129,13 @@ const GridForm = ({ initialData, onSave, onCancel }: Props) => {
                         </Label>
                       </RadioButtonWrapper>
                     ))}
-                  </StyledFieldset>
+                  </FieldsetRow>
                 </RadioButtonGroup>
               </StyledFormControl>
             )}
-          </Field>
-          <Field name="background">
-            {({ field }: FieldProps) => (
+          </FormField>
+          <FormField name="background">
+            {({ field }) => (
               <StyledFormControl id="background-color">
                 <RadioButtonGroup
                   onValueChange={(value: string) =>
@@ -161,10 +150,10 @@ const GridForm = ({ initialData, onSave, onCancel }: Props) => {
                   defaultValue={field.value}
                   asChild
                 >
-                  <StyledFieldset>
-                    <StyledLegend margin="none" textStyle="label-small">
+                  <FieldsetRow>
+                    <LeftLegend margin="none" textStyle="label-small">
                       {t("form.name.background")}
-                    </StyledLegend>
+                    </LeftLegend>
                     {backgroundOptions.map((value) => (
                       <RadioButtonWrapper key={value.value}>
                         <RadioButtonItem id={`background-${value.value}`} value={value.value} />
@@ -173,11 +162,11 @@ const GridForm = ({ initialData, onSave, onCancel }: Props) => {
                         </Label>
                       </RadioButtonWrapper>
                     ))}
-                  </StyledFieldset>
+                  </FieldsetRow>
                 </RadioButtonGroup>
               </StyledFormControl>
             )}
-          </Field>
+          </FormField>
           <FormField name="border">
             {({ field }) => (
               <FormControl>

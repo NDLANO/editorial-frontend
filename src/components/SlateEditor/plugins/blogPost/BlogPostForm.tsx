@@ -17,7 +17,8 @@ import { InputV2, Label, RadioButtonGroup, RadioButtonItem } from "@ndla/forms";
 import { BlogPostEmbedData } from "@ndla/types-embed";
 import InlineImageSearch from "../../../../containers/ConceptPage/components/InlineImageSearch";
 import { frontpageLanguages } from "../../../../i18n2";
-import { RadioButtonWrapper, StyledFieldset, StyledFormControl, StyledLegend } from "../../../Form/styles";
+import { RadioButtonWrapper, FieldsetRow, StyledFormControl, LeftLegend } from "../../../Form/styles";
+import { FormField } from "../../../FormField";
 import FormikField from "../../../FormikField";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
 
@@ -163,9 +164,7 @@ const BlogPostForm = ({ initialData, onSave, onCancel }: Props) => {
           <StyledFormikField name="link" showError>
             {({ field }: FieldProps) => <InputV2 customCss={inputStyle} label={t("form.name.link")} {...field} />}
           </StyledFormikField>
-          <Field name="size" showError>
-            {({ field }: FieldProps) => <SizeField field={field} />}
-          </Field>
+          <FormField name="size">{({ field }) => <SizeField field={field} />}</FormField>
           <InlineImageSearch name="metaImageId" disableAltEditing hideAltText />
           <StyledFormikField name="metaImageAlt">
             {({ field, form }: FieldProps) => (
@@ -199,7 +198,7 @@ const SizeField = ({ field }: SizeFieldProps) => {
   const availabilityValues: string[] = ["normal", "large"];
 
   return (
-    <StyledFormControl id="image-size">
+    <StyledFormControl>
       <RadioButtonGroup
         onValueChange={(value: string) =>
           field.onChange({
@@ -213,10 +212,10 @@ const SizeField = ({ field }: SizeFieldProps) => {
         defaultValue={field.value}
         asChild
       >
-        <StyledFieldset>
-          <StyledLegend margin="none" textStyle="label-small">
+        <FieldsetRow>
+          <LeftLegend margin="none" textStyle="label-small">
             {t("form.name.size")}
-          </StyledLegend>
+          </LeftLegend>
           {availabilityValues.map((value) => (
             <RadioButtonWrapper key={value}>
               <RadioButtonItem id={`size-${value}`} value={value} />
@@ -225,7 +224,7 @@ const SizeField = ({ field }: SizeFieldProps) => {
               </Label>
             </RadioButtonWrapper>
           ))}
-        </StyledFieldset>
+        </FieldsetRow>
       </RadioButtonGroup>
     </StyledFormControl>
   );

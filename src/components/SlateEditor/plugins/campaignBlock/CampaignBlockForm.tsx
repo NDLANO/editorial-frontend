@@ -19,14 +19,8 @@ import { HeadingLevel } from "@ndla/typography";
 import { TYPE_CAMPAIGN_BLOCK } from "./types";
 import InlineImageSearch from "../../../../containers/ConceptPage/components/InlineImageSearch";
 import { frontpageLanguages } from "../../../../i18n2";
-import {
-  CheckboxWrapper,
-  RadioButtonWrapper,
-  StyledFieldset,
-  StyledFormControl,
-  StyledLegend,
-} from "../../../Form/styles";
-import { FormControl } from "../../../FormField";
+import { CheckboxWrapper, RadioButtonWrapper, FieldsetRow, StyledFormControl, LeftLegend } from "../../../Form/styles";
+import { FormControl, FormField } from "../../../FormField";
 import FormikField from "../../../FormikField";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
 
@@ -134,7 +128,7 @@ const UrlWrapper = styled.div`
   gap: ${spacing.small};
 `;
 
-const placement: CampaignBlockEmbedData["imageSide"][] = ["left", "right"];
+const placements: CampaignBlockEmbedData["imageSide"][] = ["left", "right"];
 
 const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
   const { t, i18n } = useTranslation();
@@ -164,7 +158,7 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
 
   const imagePlacementOptions = useMemo(
     () =>
-      placement.map((value) => ({
+      placements.map((value) => ({
         title: t(`campaignBlockForm.sides.${value}`),
         value: value!,
       })),
@@ -233,9 +227,9 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
               {({ field }: FieldProps) => <InputV2 customCss={inputStyle} label={t("form.name.linkText")} {...field} />}
             </StyledUrlFormikField>
           </UrlWrapper>
-          <Field name="imageSide">
-            {({ field }: FieldProps) => (
-              <StyledFormControl id="image-placement">
+          <FormField name="imageSide">
+            {({ field }) => (
+              <StyledFormControl>
                 <RadioButtonGroup
                   onValueChange={(value: string) =>
                     field.onChange({
@@ -249,10 +243,10 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
                   defaultValue={field.value}
                   asChild
                 >
-                  <StyledFieldset>
-                    <StyledLegend margin="none" textStyle="label-small">
+                  <FieldsetRow>
+                    <LeftLegend margin="none" textStyle="label-small">
                       {t("form.name.sides")}
-                    </StyledLegend>
+                    </LeftLegend>
                     {imagePlacementOptions.map((value) => (
                       <RadioButtonWrapper key={value.value}>
                         <RadioButtonItem id={`placement-${value.value}`} value={value.value} />
@@ -261,11 +255,11 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
                         </Label>
                       </RadioButtonWrapper>
                     ))}
-                  </StyledFieldset>
+                  </FieldsetRow>
                 </RadioButtonGroup>
               </StyledFormControl>
             )}
-          </Field>
+          </FormField>
           <InlineImageSearch name="metaImageId" disableAltEditing hideAltText />
           <StyledFormikField name="metaImageAlt">
             {({ field, form }: FieldProps) => (

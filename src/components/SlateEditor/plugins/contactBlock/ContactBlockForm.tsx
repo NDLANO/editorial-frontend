@@ -17,14 +17,8 @@ import { CheckboxItem, InputV2, TextAreaV2, Label, RadioButtonItem, RadioButtonG
 import { ContactBlockEmbedData } from "@ndla/types-embed";
 import { TYPE_CONTACT_BLOCK } from "./types";
 import InlineImageSearch from "../../../../containers/ConceptPage/components/InlineImageSearch";
-import {
-  CheckboxWrapper,
-  RadioButtonWrapper,
-  StyledFieldset,
-  StyledFormControl,
-  StyledLegend,
-} from "../../../Form/styles";
-import { FormControl } from "../../../FormField";
+import { CheckboxWrapper, RadioButtonWrapper, FieldsetRow, StyledFormControl, LeftLegend } from "../../../Form/styles";
+import { FormControl, FormField } from "../../../FormField";
 import FormikField from "../../../FormikField";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
 
@@ -192,9 +186,9 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
           <StyledFormikField name="description" showError>
             {({ field }: FieldProps) => <StyledTextArea label={t("form.name.description")} {...field} />}
           </StyledFormikField>
-          <Field name="blob">
-            {({ field }: FieldProps) => (
-              <StyledFormControl id="blob-type">
+          <FormField name="blob">
+            {({ field }) => (
+              <StyledFormControl>
                 <RadioButtonGroup
                   onValueChange={(value: string) =>
                     field.onChange({
@@ -208,10 +202,10 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
                   defaultValue={field.value}
                   asChild
                 >
-                  <StyledFieldset>
-                    <StyledLegend margin="none" textStyle="label-small">
+                  <FieldsetRow>
+                    <LeftLegend margin="none" textStyle="label-small">
                       {t("form.name.blob")}
-                    </StyledLegend>
+                    </LeftLegend>
                     {blobTypes.map((value) => (
                       <RadioButtonWrapper key={value.value}>
                         <RadioButtonItem id={`blob-type-${value.value}`} value={value.value} />
@@ -220,14 +214,14 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
                         </Label>
                       </RadioButtonWrapper>
                     ))}
-                  </StyledFieldset>
+                  </FieldsetRow>
                 </RadioButtonGroup>
               </StyledFormControl>
             )}
-          </Field>
-          <Field name="blobColor">
-            {({ field }: FieldProps) => (
-              <StyledFormControl id="blob-color">
+          </FormField>
+          <FormField name="blobColor">
+            {({ field }) => (
+              <StyledFormControl>
                 <RadioButtonGroup
                   onValueChange={(value: string) =>
                     field.onChange({
@@ -241,10 +235,10 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
                   defaultValue={field.value}
                   asChild
                 >
-                  <StyledFieldset>
-                    <StyledLegend margin="none" textStyle="label-small">
+                  <FieldsetRow>
+                    <LeftLegend margin="none" textStyle="label-small">
                       {t("form.name.blobColor")}
-                    </StyledLegend>
+                    </LeftLegend>
                     {blobColors.map((value) => (
                       <RadioButtonWrapper key={value.value}>
                         <RadioButtonItem id={`blob-color-${value.value}`} value={value.value} />
@@ -253,11 +247,11 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
                         </Label>
                       </RadioButtonWrapper>
                     ))}
-                  </StyledFieldset>
+                  </FieldsetRow>
                 </RadioButtonGroup>
               </StyledFormControl>
             )}
-          </Field>
+          </FormField>
           <InlineImageSearch name="metaImageId" disableAltEditing hideAltText />
           <StyledFormikField name="metaImageAlt">
             {({ field, form }: FieldProps) => (

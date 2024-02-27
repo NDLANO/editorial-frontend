@@ -7,8 +7,8 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { FormControl, Label, RadioButtonGroup, RadioButtonItem } from "@ndla/forms";
-import { RadioButtonWrapper, StyledFieldset, StyledLabel, StyledLegend } from "../../../components/Form/styles";
+import { Label, RadioButtonGroup, RadioButtonItem } from "@ndla/forms";
+import { RadioButtonWrapper, FieldsetRow, LeftLegend, StyledFormControl } from "../../../components/Form/styles";
 import { FormField } from "../../../components/FormField";
 
 const VersionLockedField = () => {
@@ -27,40 +27,35 @@ const VersionLockedField = () => {
   return (
     <FormField name="locked">
       {({ field }) => (
-        <>
-          <StyledLabel textStyle="ingress" margin="small">
-            {t("taxonomyVersions.form.locked.title")}
-          </StyledLabel>
-          <FormControl id="locked-value">
-            <RadioButtonGroup
-              onValueChange={(value: string) =>
-                field.onChange({
-                  target: {
-                    name: field.name,
-                    value: value,
-                  },
-                })
-              }
-              orientation="horizontal"
-              defaultValue={field.value.toString()}
-              asChild
-            >
-              <StyledFieldset>
-                <StyledLegend margin="none" textStyle="label-small">
-                  {t("taxonomyVersions.form.locked.subTitle")}
-                </StyledLegend>
-                {options.map((option) => (
-                  <RadioButtonWrapper key={option.value}>
-                    <RadioButtonItem id={`locked-${option.value}`} value={option.value} />
-                    <Label htmlFor={`locked-${option.value}`} margin="none" textStyle="label-small">
-                      {option.title}
-                    </Label>
-                  </RadioButtonWrapper>
-                ))}
-              </StyledFieldset>
-            </RadioButtonGroup>
-          </FormControl>
-        </>
+        <StyledFormControl>
+          <RadioButtonGroup
+            onValueChange={(value: string) =>
+              field.onChange({
+                target: {
+                  name: field.name,
+                  value: value,
+                },
+              })
+            }
+            orientation="horizontal"
+            defaultValue={field.value.toString()}
+            asChild
+          >
+            <FieldsetRow>
+              <LeftLegend margin="none" textStyle="label-small">
+                {t("taxonomyVersions.form.locked.subTitle")}
+              </LeftLegend>
+              {options.map((option) => (
+                <RadioButtonWrapper key={option.value}>
+                  <RadioButtonItem id={`locked-${option.value}`} value={option.value} />
+                  <Label htmlFor={`locked-${option.value}`} margin="none" textStyle="label-small">
+                    {option.title}
+                  </Label>
+                </RadioButtonWrapper>
+              ))}
+            </FieldsetRow>
+          </RadioButtonGroup>
+        </StyledFormControl>
       )}
     </FormField>
   );

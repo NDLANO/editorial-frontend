@@ -8,7 +8,8 @@
 
 import styled from "@emotion/styled";
 import { colors, spacing } from "@ndla/core";
-import { Fieldset, FormControl, Label, Legend } from "@ndla/forms";
+import { Fieldset, Legend } from "@ndla/forms";
+import { FormControl } from "../FormField";
 
 export const CheckboxWrapper = styled.div`
   display: flex;
@@ -28,15 +29,11 @@ export const RadioButtonWrapper = styled.div`
   gap: ${spacing.small};
   color: ${colors.brand.primary};
 `;
-export const StyledFieldset = styled(Fieldset)`
+export const FieldsetRow = styled(Fieldset)`
   display: flex;
   gap: ${spacing.small};
 `;
 
-export const StyledLegend = styled(Legend)`
+export const LeftLegend = styled(Legend)`
   float: left;
-`;
-
-export const StyledLabel = styled(Label)`
-  display: inline-block;
 `;

@@ -802,6 +802,7 @@ const phrases = {
     },
     previewProductionArticle: {
       button: "Compare current version with old version",
+      buttonDisabled: "Article is identical to the published version",
       version: "Version {{revision}}",
       current: "Current version",
       published: "Published version",

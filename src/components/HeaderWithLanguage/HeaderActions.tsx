@@ -193,7 +193,20 @@ const HeaderActions = ({
                 language={language}
                 customTitle={t("form.previewProductionArticle.published")}
                 activateButton={
-                  <StyledFilledButton type="button" disabled={isIdenticalToPublished}>
+                  <StyledFilledButton
+                    aria-label={
+                      isIdenticalToPublished
+                        ? t("form.previewProductionArticle.buttonDisabled")
+                        : t("form.previewProductionArticle.button")
+                    }
+                    type="button"
+                    disabled={isIdenticalToPublished}
+                    title={
+                      isIdenticalToPublished
+                        ? t("form.previewProductionArticle.buttonDisabled")
+                        : t("form.previewProductionArticle.button")
+                    }
+                  >
                     <Eye /> {t("form.previewVersion")}
                   </StyledFilledButton>
                 }

@@ -8,7 +8,8 @@
 
 import { FieldInputProps } from "formik";
 import { useTranslation } from "react-i18next";
-import { RadioButtonGroup } from "@ndla/forms";
+import { Label, RadioButtonGroup, RadioButtonItem } from "@ndla/forms";
+import { FieldsetRow, RadioButtonWrapper, LeftLegend, StyledFormControl } from "../../../components/Form/styles";
 
 interface Props {
   field: FieldInputProps<string>;
@@ -19,23 +20,35 @@ const AvailabilityField = ({ field }: Props) => {
   const availabilityValues: string[] = ["everyone", "teacher"];
 
   return (
-    <RadioButtonGroup
-      label={t("form.availability.description")}
-      selected={field.value}
-      uniqeIds
-      options={availabilityValues.map((value) => ({
-        title: t(`form.availability.${value}`),
-        value: value,
-      }))}
-      onChange={(value: string) =>
-        field.onChange({
-          target: {
-            name: field.name,
-            value: value,
-          },
-        })
-      }
-    />
+    <StyledFormControl>
+      <RadioButtonGroup
+        onValueChange={(value: string) =>
+          field.onChange({
+            target: {
+              name: field.name,
+              value: value,
+            },
+          })
+        }
+        orientation="horizontal"
+        defaultValue={field.value}
+        asChild
+      >
+        <FieldsetRow>
+          <LeftLegend margin="none" textStyle="label-small">
+            {t("form.availability.description")}
+          </LeftLegend>
+          {availabilityValues.map((value) => (
+            <RadioButtonWrapper key={value}>
+              <RadioButtonItem id={`availability-${value}`} value={value} />
+              <Label htmlFor={`availability-${value}`} margin="none" textStyle="label-small">
+                {t(`form.availability.${value}`)}
+              </Label>
+            </RadioButtonWrapper>
+          ))}
+        </FieldsetRow>
+      </RadioButtonGroup>
+    </StyledFormControl>
   );
 };
 

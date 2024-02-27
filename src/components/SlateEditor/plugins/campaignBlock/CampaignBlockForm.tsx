@@ -13,14 +13,14 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { CheckboxItem, InputV2, TextAreaV2, RadioButtonGroup, Label } from "@ndla/forms";
+import { CheckboxItem, InputV2, TextAreaV2, Label, RadioButtonItem, RadioButtonGroup } from "@ndla/forms";
 import { CampaignBlockEmbedData } from "@ndla/types-embed";
 import { HeadingLevel } from "@ndla/typography";
 import { TYPE_CAMPAIGN_BLOCK } from "./types";
 import InlineImageSearch from "../../../../containers/ConceptPage/components/InlineImageSearch";
 import { frontpageLanguages } from "../../../../i18n2";
-import { CheckboxWrapper } from "../../../Form/styles";
-import { FormControl } from "../../../FormField";
+import { CheckboxWrapper, RadioButtonWrapper, FieldsetRow, StyledFormControl, LeftLegend } from "../../../Form/styles";
+import { FormControl, FormField } from "../../../FormField";
 import FormikField from "../../../FormikField";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
 
@@ -128,7 +128,7 @@ const UrlWrapper = styled.div`
   gap: ${spacing.small};
 `;
 
-const sides: CampaignBlockEmbedData["imageSide"][] = ["left", "right"];
+const placements: CampaignBlockEmbedData["imageSide"][] = ["left", "right"];
 
 const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
   const { t, i18n } = useTranslation();
@@ -156,9 +156,9 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
 
   const onValidate = useCallback((values: CampaignBlockFormValues) => validateFormik(values, rules, t), [t]);
 
-  const imageSides = useMemo(
+  const imagePlacementOptions = useMemo(
     () =>
-      sides.map((value) => ({
+      placements.map((value) => ({
         title: t(`campaignBlockForm.sides.${value}`),
         value: value!,
       })),
@@ -227,17 +227,39 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
               {({ field }: FieldProps) => <InputV2 customCss={inputStyle} label={t("form.name.linkText")} {...field} />}
             </StyledUrlFormikField>
           </UrlWrapper>
-          <StyledFormikField name="imageSide">
+          <FormField name="imageSide">
             {({ field }) => (
-              <RadioButtonGroup
-                label={t("form.name.sides")}
-                selected={field.value}
-                uniqeIds
-                options={imageSides}
-                onChange={(value: string) => field.onChange({ target: { name: field.name, value: value } })}
-              />
+              <StyledFormControl>
+                <RadioButtonGroup
+                  onValueChange={(value: string) =>
+                    field.onChange({
+                      target: {
+                        name: field.name,
+                        value: value,
+                      },
+                    })
+                  }
+                  orientation="horizontal"
+                  defaultValue={field.value}
+                  asChild
+                >
+                  <FieldsetRow>
+                    <LeftLegend margin="none" textStyle="label-small">
+                      {t("form.name.sides")}
+                    </LeftLegend>
+                    {imagePlacementOptions.map((value) => (
+                      <RadioButtonWrapper key={value.value}>
+                        <RadioButtonItem id={`placement-${value.value}`} value={value.value} />
+                        <Label htmlFor={`placement-${value.value}`} margin="none" textStyle="label-small">
+                          {value.title}
+                        </Label>
+                      </RadioButtonWrapper>
+                    ))}
+                  </FieldsetRow>
+                </RadioButtonGroup>
+              </StyledFormControl>
             )}
-          </StyledFormikField>
+          </FormField>
           <InlineImageSearch name="metaImageId" disableAltEditing hideAltText />
           <StyledFormikField name="metaImageAlt">
             {({ field, form }: FieldProps) => (

@@ -6,17 +6,19 @@
  *
  */
 
-import { FieldProps, Formik, FieldInputProps } from "formik";
+import { FieldProps, Formik, FieldInputProps, Field } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { InputV2, RadioButtonGroup } from "@ndla/forms";
+import { InputV2, Label, RadioButtonGroup, RadioButtonItem } from "@ndla/forms";
 import { BlogPostEmbedData } from "@ndla/types-embed";
 import InlineImageSearch from "../../../../containers/ConceptPage/components/InlineImageSearch";
 import { frontpageLanguages } from "../../../../i18n2";
+import { RadioButtonWrapper, FieldsetRow, StyledFormControl, LeftLegend } from "../../../Form/styles";
+import { FormField } from "../../../FormField";
 import FormikField from "../../../FormikField";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
 
@@ -162,9 +164,7 @@ const BlogPostForm = ({ initialData, onSave, onCancel }: Props) => {
           <StyledFormikField name="link" showError>
             {({ field }: FieldProps) => <InputV2 customCss={inputStyle} label={t("form.name.link")} {...field} />}
           </StyledFormikField>
-          <StyledFormikField name="size" showError>
-            {({ field }: FieldProps) => <SizeField field={field} />}
-          </StyledFormikField>
+          <FormField name="size">{({ field }) => <SizeField field={field} />}</FormField>
           <InlineImageSearch name="metaImageId" disableAltEditing hideAltText />
           <StyledFormikField name="metaImageAlt">
             {({ field, form }: FieldProps) => (
@@ -198,23 +198,35 @@ const SizeField = ({ field }: SizeFieldProps) => {
   const availabilityValues: string[] = ["normal", "large"];
 
   return (
-    <RadioButtonGroup
-      label={t("form.name.size")}
-      selected={field.value}
-      uniqeIds
-      options={availabilityValues.map((value) => ({
-        title: t(`blogPostForm.sizes.${value}`),
-        value: value,
-      }))}
-      onChange={(value: string) =>
-        field.onChange({
-          target: {
-            name: field.name,
-            value: value,
-          },
-        })
-      }
-    />
+    <StyledFormControl>
+      <RadioButtonGroup
+        onValueChange={(value: string) =>
+          field.onChange({
+            target: {
+              name: field.name,
+              value: value,
+            },
+          })
+        }
+        orientation="horizontal"
+        defaultValue={field.value}
+        asChild
+      >
+        <FieldsetRow>
+          <LeftLegend margin="none" textStyle="label-small">
+            {t("form.name.size")}
+          </LeftLegend>
+          {availabilityValues.map((value) => (
+            <RadioButtonWrapper key={value}>
+              <RadioButtonItem id={`size-${value}`} value={value} />
+              <Label htmlFor={`size-${value}`} margin="none" textStyle="label-small">
+                {t(`blogPostForm.sizes.${value}`)}
+              </Label>
+            </RadioButtonWrapper>
+          ))}
+        </FieldsetRow>
+      </RadioButtonGroup>
+    </StyledFormControl>
   );
 };
 

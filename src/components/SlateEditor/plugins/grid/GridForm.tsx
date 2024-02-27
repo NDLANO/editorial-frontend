@@ -6,17 +6,16 @@
  *
  */
 
-import { Formik, FieldProps } from "formik";
+import { Formik } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { CheckboxItem, Label, RadioButtonGroup } from "@ndla/forms";
+import { CheckboxItem, Label, RadioButtonGroup, RadioButtonItem } from "@ndla/forms";
 import { GridType } from "@ndla/ui";
-import { CheckboxWrapper } from "../../../Form/styles";
+import { CheckboxWrapper, RadioButtonWrapper, FieldsetRow, StyledFormControl, LeftLegend } from "../../../Form/styles";
 import { FormControl, FormField } from "../../../FormField";
-import FormikField from "../../../FormikField";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
 
 interface GridFormValues {
@@ -54,10 +53,6 @@ interface Props {
   onCancel: () => void;
 }
 
-const StyledFormikField = styled(FormikField)`
-  margin: 0px;
-`;
-
 const columns: GridType["columns"][] = ["2", "4", "2x2"];
 const backgrounds: GridType["background"][] = ["transparent", "white"];
 
@@ -78,7 +73,7 @@ const GridForm = ({ initialData, onSave, onCancel }: Props) => {
     [onSave],
   );
 
-  const columnsOptions = useMemo(
+  const columnOptions = useMemo(
     () =>
       columns.map((value) => ({
         title: value.toString(),
@@ -106,42 +101,72 @@ const GridForm = ({ initialData, onSave, onCancel }: Props) => {
     >
       {({ dirty, isValid, handleSubmit }) => (
         <>
-          <StyledFormikField name="columns">
-            {({ field }: FieldProps) => (
-              <RadioButtonGroup
-                label={t("form.name.columns")}
-                selected={field.value.toString()}
-                uniqeIds
-                options={columnsOptions}
-                onChange={(value: string) =>
-                  field.onChange({
-                    target: {
-                      name: field.name,
-                      value: value.toString(),
-                    },
-                  })
-                }
-              />
+          <FormField name="columns">
+            {({ field }) => (
+              <StyledFormControl>
+                <RadioButtonGroup
+                  onValueChange={(value: string) =>
+                    field.onChange({
+                      target: {
+                        name: field.name,
+                        value: value,
+                      },
+                    })
+                  }
+                  orientation="horizontal"
+                  defaultValue={field.value.toString()}
+                  asChild
+                >
+                  <FieldsetRow>
+                    <LeftLegend margin="none" textStyle="label-small">
+                      {t("form.name.columns")}
+                    </LeftLegend>
+                    {columnOptions.map((value) => (
+                      <RadioButtonWrapper key={value.value}>
+                        <RadioButtonItem id={`column-${value.value}`} value={value.value} />
+                        <Label htmlFor={`column-${value.value}`} margin="none" textStyle="label-small">
+                          {value.title}
+                        </Label>
+                      </RadioButtonWrapper>
+                    ))}
+                  </FieldsetRow>
+                </RadioButtonGroup>
+              </StyledFormControl>
             )}
-          </StyledFormikField>
-          <StyledFormikField name="background">
-            {({ field }: FieldProps) => (
-              <RadioButtonGroup
-                label={t("form.name.background")}
-                selected={field.value}
-                uniqeIds
-                options={backgroundOptions}
-                onChange={(value: string) =>
-                  field.onChange({
-                    target: {
-                      name: field.name,
-                      value: value,
-                    },
-                  })
-                }
-              />
+          </FormField>
+          <FormField name="background">
+            {({ field }) => (
+              <StyledFormControl id="background-color">
+                <RadioButtonGroup
+                  onValueChange={(value: string) =>
+                    field.onChange({
+                      target: {
+                        name: field.name,
+                        value: value,
+                      },
+                    })
+                  }
+                  orientation="horizontal"
+                  defaultValue={field.value}
+                  asChild
+                >
+                  <FieldsetRow>
+                    <LeftLegend margin="none" textStyle="label-small">
+                      {t("form.name.background")}
+                    </LeftLegend>
+                    {backgroundOptions.map((value) => (
+                      <RadioButtonWrapper key={value.value}>
+                        <RadioButtonItem id={`background-${value.value}`} value={value.value} />
+                        <Label htmlFor={`background-${value.value}`} margin="none" textStyle="label-small">
+                          {value.title}
+                        </Label>
+                      </RadioButtonWrapper>
+                    ))}
+                  </FieldsetRow>
+                </RadioButtonGroup>
+              </StyledFormControl>
             )}
-          </StyledFormikField>
+          </FormField>
           <FormField name="border">
             {({ field }) => (
               <FormControl>

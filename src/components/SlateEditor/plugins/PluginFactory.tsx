@@ -88,12 +88,15 @@ export const createPluginFactory =
     };
 
     editor.onKeyDown = (e) => {
-      if (onKeyDown?.[e.key]) {
-        if (config.debugSlate) {
-          /* eslint-disable-next-line */
-          console.debug(`[KEYBOARDEVENT] ${type} with keyboardkey: ${e.key}`);
+      const [entry] = Editor.nodes(editor, { match: (node) => Element.isElement(node) && node.type === type });
+      if (entry) {
+        if (onKeyDown?.[e.key]) {
+          if (config.debugSlate) {
+            /* eslint-disable-next-line */
+            console.debug(`[KEYBOARDEVENT] ${type} with keyboardkey: ${e.key}`);
+          }
+          onKeyDown[e.key](e, editor, nextOnKeyDown);
         }
-        onKeyDown[e.key](e, editor, nextOnKeyDown);
       }
       return nextOnKeyDown?.(e);
     };

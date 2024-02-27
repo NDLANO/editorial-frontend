@@ -50,15 +50,17 @@ const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: Keybo
    spacing (i.e two images).
    */
   if (Node.string(currentParagraph) === "" && !containsVoid(editor, currentParagraph)) {
-    editor.insertNode({
-      type: TYPE_BREAK,
-      children: [{ text: "" }],
-    });
+    Transforms.insertNodes(editor, [
+      {
+        type: TYPE_BREAK,
+        children: [{ text: "" }],
+      },
 
-    editor.insertNode({
-      type: TYPE_PARAGRAPH,
-      children: [{ text: "" }],
-    });
+      {
+        type: TYPE_PARAGRAPH,
+        children: [{ text: "" }],
+      },
+    ]);
     return;
   }
 

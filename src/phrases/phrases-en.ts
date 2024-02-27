@@ -1488,6 +1488,11 @@ const phrases = {
       exampleLinkText: "You can find example sentences for use in multiline textfields here",
       editorHeader: "Write down where the user can find alternative content",
     },
+    copyright: {
+      title: "Edit license",
+      edit: "Edit license",
+      add: "Add licensed content",
+    },
   },
   validation: {
     isRequired: "{{label}} is required.",

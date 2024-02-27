@@ -26,6 +26,7 @@ import { blockConceptSerializer } from "../components/SlateEditor/plugins/concep
 import { inlineConceptSerializer } from "../components/SlateEditor/plugins/concept/inline";
 import { conceptListSerializer } from "../components/SlateEditor/plugins/conceptList";
 import { contactBlockSerializer } from "../components/SlateEditor/plugins/contactBlock";
+import { copyrightSerializer } from "../components/SlateEditor/plugins/copyright";
 import { definitionListSerializer } from "../components/SlateEditor/plugins/definitionList";
 import { detailsSerializer } from "../components/SlateEditor/plugins/details";
 import { divSerializer } from "../components/SlateEditor/plugins/div";
@@ -119,6 +120,7 @@ const extendedRules: SlateSerializer[] = [
   audioSerializer,
   h5pSerializer,
   externalSerializer,
+  copyrightSerializer,
   embedSerializer,
   framedContentSerializer,
   divSerializer,

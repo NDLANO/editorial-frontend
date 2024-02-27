@@ -1485,6 +1485,11 @@ const phrases = {
       exampleLinkText: "Her finn du eksempelsetningar som skal brukast i fritekstfelt",
       editorHeader: "Skriv inn kor brukaren finn alternativt innhald",
     },
+    copyright: {
+      title: "Rediger lisens",
+      edit: "Rediger lisens",
+      add: "Legg til lisensiert innhold",
+    },
   },
   validation: {
     isRequired: "{{label}} er påkrevd.",

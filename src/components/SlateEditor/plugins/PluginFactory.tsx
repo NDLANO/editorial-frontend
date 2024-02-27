@@ -21,7 +21,7 @@ interface Plugin<T extends ElementType = ElementType> {
   type: T;
   normalize?: Normalize<Extract<Element, { type: T }>>[];
   normalizerConfig?: NormalizerConfig;
-  onKeyDown?: Record<string, KeyDown>;
+  onKeyDown?: Record<string, KeyDown<T>>;
   isInline?: boolean;
   isVoid?: boolean;
   shouldHideBlockPicker?: (editor: Editor) => boolean;
@@ -34,7 +34,11 @@ interface Normalize<T extends Element> {
   normalize(e: NodeEntry<T>, editor: Editor): boolean;
 }
 
-type KeyDown = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: KeyboardEvent) => void) => void;
+export type KeyDown<T extends ElementType> = (
+  e: KeyboardEvent,
+  editor: Editor,
+  event: NodeEntry<Extract<Element, { type: T }>>,
+) => boolean;
 
 export const createPluginFactory =
   <T extends ElementType>({
@@ -90,12 +94,12 @@ export const createPluginFactory =
     editor.onKeyDown = (e) => {
       const [entry] = Editor.nodes(editor, { match: (node) => Element.isElement(node) && node.type === type });
       if (entry) {
-        if (onKeyDown?.[e.key]) {
+        if (onKeyDown?.[e.key](e, editor, entry as NodeEntry<Extract<Element, { type: T }>>)) {
           if (config.debugSlate) {
             /* eslint-disable-next-line */
             console.debug(`[KEYBOARDEVENT] ${type} with keyboardkey: ${e.key}`);
           }
-          onKeyDown[e.key](e, editor, nextOnKeyDown);
+          return;
         }
       }
       return nextOnKeyDown?.(e);

@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor, Node, Element, Descendant, Text, Path, Transforms } from "slate";
+import { Editor, Node, Element, Descendant, Text, Path, Transforms, NodeEntry } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_PARAGRAPH } from "./types";
 import { isParagraph } from "./utils";
@@ -18,7 +18,7 @@ import { TYPE_BREAK } from "../break/types";
 import { TYPE_SUMMARY } from "../details/types";
 import { TYPE_LIST_ITEM } from "../list/types";
 import { TYPE_NOOP } from "../noop/types";
-import { createPlugin, createPluginFactory } from "../PluginFactory";
+import { KeyDown, createPlugin, createPluginFactory } from "../PluginFactory";
 import { TYPE_TABLE_CELL } from "../table/types";
 
 export interface ParagraphElement {
@@ -30,19 +30,13 @@ export interface ParagraphElement {
   children: Descendant[];
 }
 
-const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: KeyboardEvent) => void) => {
-  if (!editor.selection) return nextOnKeyDown?.(e);
-  const [entry] = Editor.nodes<ParagraphElement>(editor, {
-    match: (node) => isParagraph(node) && !editor.isInline(node),
-    mode: "lowest",
-  });
-
-  if (!entry) {
-    return nextOnKeyDown?.(e);
-  }
+const onEnter: KeyDown<ParagraphElement["type"]> = (e, editor, entry) => {
   e.preventDefault();
 
   const [currentParagraph] = entry;
+  if (editor.isInline(currentParagraph)) {
+    return false;
+  }
   /**
    If the user types enter in an empty paragraph we transform the paragraph to a <br>.
    This enables us to filter out unnecessary empty <p> tags on save. We insert empty p tags
@@ -55,28 +49,20 @@ const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: Keybo
         type: TYPE_BREAK,
         children: [{ text: "" }],
       },
-
       {
         type: TYPE_PARAGRAPH,
         children: [{ text: "" }],
       },
     ]);
-    return;
-  }
-
-  if (e.shiftKey === true) {
-    return editor.insertText("\n");
-  }
-
-  if (
+  } else if (e.shiftKey === true) {
+    editor.insertText("\n");
+  } else if (
     editor.selection?.anchor.offset !== Node.string(currentParagraph).length &&
     editor.selection?.anchor.offset !== 0
   ) {
-    return Transforms.splitNodes(editor, { match: (node) => isParagraph(node) });
-  }
-
-  if (editor.selection?.anchor.offset === 0) {
-    return Transforms.insertNodes(
+    Transforms.splitNodes(editor, { match: (node) => isParagraph(node) });
+  } else if (editor.selection?.anchor.offset === 0) {
+    Transforms.insertNodes(
       editor,
       {
         type: TYPE_PARAGRAPH,
@@ -84,12 +70,13 @@ const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: Keybo
       },
       { at: editor.selection },
     );
+  } else {
+    Transforms.insertNodes(editor, {
+      type: TYPE_PARAGRAPH,
+      children: [{ text: "" }],
+    });
   }
-
-  return Transforms.insertNodes(editor, {
-    type: TYPE_PARAGRAPH,
-    children: [{ text: "" }],
-  });
+  return true;
 };
 
 export const paragraphSerializer: SlateSerializer = {

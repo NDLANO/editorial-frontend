@@ -23,7 +23,7 @@ import {
   textBlockElements,
 } from "../../utils/normalizationHelpers";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
-import { createPlugin } from "../PluginFactory";
+import { KeyDown, createPlugin } from "../PluginFactory";
 import { TYPE_SPAN } from "../span/types";
 
 export interface DetailsElement {
@@ -66,53 +66,40 @@ const summaryNormalizerConfig: NormalizerConfig = {
   },
 };
 
-const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: KeyboardEvent) => void) => {
-  if (hasNodeOfType(editor, TYPE_SUMMARY)) {
-    e.preventDefault();
-    Transforms.splitNodes(editor, {
-      match: (node) => Element.isElement(node) && node.type === TYPE_SUMMARY,
-      always: true,
-    });
-    return;
-  }
-  return nextOnKeyDown?.(e);
+const onEnter: KeyDown<SummaryElement["type"]> = (e, editor) => {
+  e.preventDefault();
+  Transforms.splitNodes(editor, {
+    match: (node) => Element.isElement(node) && node.type === TYPE_SUMMARY,
+    always: true,
+  });
+  return true;
 };
 
-const onBackspace = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: KeyboardEvent) => void) => {
-  if (
-    hasNodeOfType(editor, TYPE_DETAILS) &&
-    Location.isLocation(editor.selection) &&
-    Range.isCollapsed(editor.selection)
-  ) {
-    const detailsEntry = getCurrentBlock(editor, TYPE_DETAILS);
-    if (detailsEntry) {
-      const [detailsNode, detailsPath] = detailsEntry;
+const onBackspace: KeyDown<DetailsElement["type"]> = (e, editor, entry) => {
+  if (Location.isLocation(editor.selection) && Range.isCollapsed(editor.selection)) {
+    const [detailsNode, detailsPath] = entry;
+    if (detailsNode) {
+      const summaryEntry = getCurrentBlock(editor, TYPE_SUMMARY);
 
-      if (detailsNode) {
-        const summaryEntry = getCurrentBlock(editor, TYPE_SUMMARY);
-
-        if (summaryEntry?.length) {
-          const [summaryNode] = summaryEntry;
-          if (Node.string(detailsNode).length > 0 && Node.string(summaryNode) === "") {
-            e.preventDefault();
-            Transforms.move(editor, { reverse: true });
-            return;
-          }
-        }
-        if (
-          Node.string(detailsNode) === "" &&
-          Element.isElement(detailsNode) &&
-          !containsVoid(editor, detailsNode) &&
-          detailsNode.children.length === 2
-        ) {
+      if (summaryEntry?.length) {
+        const [summaryNode] = summaryEntry;
+        if (Node.string(detailsNode).length > 0 && Node.string(summaryNode) === "") {
           e.preventDefault();
-          Transforms.removeNodes(editor, { at: detailsPath });
-          return;
+          Transforms.move(editor, { reverse: true });
+          return true;
         }
+      } else if (
+        Node.string(detailsNode) === "" &&
+        !containsVoid(editor, detailsNode) &&
+        detailsNode.children.length === 2
+      ) {
+        e.preventDefault();
+        Transforms.removeNodes(editor, { at: detailsPath });
+        return true;
       }
     }
   }
-  return nextOnKeyDown?.(e);
+  return false;
 };
 
 export const detailsSerializer: SlateSerializer = {
@@ -156,7 +143,6 @@ export const detailsPlugin = createPlugin<DetailsElement["type"]>({
   },
 
   onKeyDown: {
-    [KEY_ENTER]: onEnter,
     [KEY_BACKSPACE]: onBackspace,
   },
   childPlugins: [
@@ -167,6 +153,9 @@ export const detailsPlugin = createPlugin<DetailsElement["type"]>({
           match: (node) => Element.isElement(node) && node.type === TYPE_SUMMARY,
         });
         return !!summaryEntry;
+      },
+      onKeyDown: {
+        [KEY_ENTER]: onEnter,
       },
       normalizerConfig: summaryNormalizerConfig,
       normalize: [

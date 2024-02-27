@@ -78,6 +78,7 @@ interface Props {
   id: number;
   isNewLanguage: boolean;
   article?: IArticle;
+  articleHistory: IArticle[] | undefined;
   concept?: IConcept;
   noStatus: boolean;
   disableDelete: boolean;
@@ -94,12 +95,10 @@ const HeaderActions = ({
   language,
   disableDelete,
   article,
+  articleHistory,
   concept,
   supportedLanguages = [],
 }: Props) => {
-  const [lastPublishedVersion, setLastPublishedVersion] = useState<IArticle>();
-  const [isIdenticalToPublished, setIsIdenticalToPublished] = useState(true);
-
   const { t } = useTranslation();
   const { isSubmitting } = useFormikContext();
   const showTranslate = useIsTranslatableToNN();
@@ -111,23 +110,15 @@ const HeaderActions = ({
     [type],
   );
 
-  useEffect(() => {
-    const getVersions = async (article: IArticle) => {
-      const versions = await fetchDraftHistory(article.id, article.title?.language);
-      const publishedVersion = versions.find((v) => v.status.current === PUBLISHED);
-      if (publishedVersion) {
-        setLastPublishedVersion(publishedVersion);
-        setIsIdenticalToPublished(
-          publishedVersion.content?.content === article.content?.content &&
-            publishedVersion.title?.title === article.title?.title &&
-            publishedVersion.introduction?.introduction === article.introduction?.introduction,
-        );
-      }
-    };
-    if (article) {
-      getVersions(article);
-    }
-  }, [article]);
+  const lastPublishedVersion = articleHistory?.find((v) => v.status.current === PUBLISHED);
+  let isIdenticalToPublished = false;
+  if(lastPublishedVersion) {
+    isIdenticalToPublished = (
+      lastPublishedVersion.content?.content === article?.content?.content &&
+      lastPublishedVersion.title?.title === article?.title?.title &&
+      lastPublishedVersion.introduction?.introduction === article?.introduction?.introduction
+    );
+  }
 
   const languages = useMemo(
     () => [

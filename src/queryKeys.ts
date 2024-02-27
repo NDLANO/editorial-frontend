@@ -30,6 +30,7 @@ export const AUDIO_EMBED = "audio";
 export const PODCAST_SERIES = "podcastSeries";
 
 export const DRAFT = "draft";
+export const DRAFT_HISTORY = "draftHistory";
 export const SEARCH_DRAFTS = "searchDrafts";
 export const LICENSES = "licenses";
 export const USER_DATA = "userData";

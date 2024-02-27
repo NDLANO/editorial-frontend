@@ -26,6 +26,7 @@ import RevisionNotes from "../../components/RevisionNotes";
 
 interface Props {
   article?: IArticle;
+  articleHistory: IArticle[] | undefined;
   taxonomy?: Node[];
   updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
   handleSubmit: HandleSubmitFunc<LearningResourceFormType>;
@@ -33,7 +34,15 @@ interface Props {
   contexts?: TaxonomyContext[];
 }
 
-const LearningResourcePanels = ({ article, taxonomy, updateNotes, articleLanguage, contexts, handleSubmit }: Props) => {
+const LearningResourcePanels = ({
+  article,
+  articleHistory,
+  taxonomy,
+  updateNotes,
+  articleLanguage,
+  contexts,
+  handleSubmit,
+}: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const { errors } = useFormikContext<LearningResourceFormType>();
@@ -118,7 +127,12 @@ const LearningResourcePanels = ({ article, taxonomy, updateNotes, articleLanguag
           hasError={!!errors.notes}
           data-testid={"learning-resource-workflow"}
         >
-          <VersionAndNotesPanel article={article} type="standard" currentLanguage={articleLanguage} />
+          <VersionAndNotesPanel
+            article={article}
+            articleHistory={articleHistory}
+            type="standard"
+            currentLanguage={articleLanguage}
+          />
         </FormAccordion>
       )}
     </FormAccordions>

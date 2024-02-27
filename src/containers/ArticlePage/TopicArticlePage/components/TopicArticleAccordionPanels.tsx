@@ -25,12 +25,19 @@ import RevisionNotes from "../../components/RevisionNotes";
 
 interface Props {
   article?: IArticle;
+  articleHistory: IArticle[] | undefined;
   updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
   articleLanguage: string;
   hasTaxonomyEntries: boolean;
 }
 
-const TopicArticleAccordionPanels = ({ article, updateNotes, articleLanguage, hasTaxonomyEntries }: Props) => {
+const TopicArticleAccordionPanels = ({
+  article,
+  articleHistory,
+  updateNotes,
+  articleLanguage,
+  hasTaxonomyEntries,
+}: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const formikContext = useFormikContext<TopicArticleFormType>();
@@ -114,7 +121,12 @@ const TopicArticleAccordionPanels = ({ article, updateNotes, articleLanguage, ha
           className={"u-6/6"}
           hasError={!!errors.notes}
         >
-          <VersionAndNotesPanel article={article} type="topic-article" currentLanguage={values.language} />
+          <VersionAndNotesPanel
+            article={article}
+            articleHistory={articleHistory}
+            type="topic-article"
+            currentLanguage={values.language}
+          />
         </FormAccordion>
       )}
     </FormAccordions>

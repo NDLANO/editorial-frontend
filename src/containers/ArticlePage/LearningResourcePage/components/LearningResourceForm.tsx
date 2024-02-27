@@ -9,6 +9,7 @@
 import { Formik, useFormikContext } from "formik";
 import { memo, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { UseQueryResult } from "@tanstack/react-query";
 import { IArticle, IUpdatedArticle, IStatus } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import LearningResourcePanels from "./LearningResourcePanels";
@@ -18,13 +19,13 @@ import HeaderWithLanguage from "../../../../components/HeaderWithLanguage";
 import EditorFooter from "../../../../components/SlateEditor/EditorFooter";
 import StyledForm from "../../../../components/StyledFormComponents";
 import { ARCHIVED, UNPUBLISHED } from "../../../../constants";
-import { useSession } from "../../../../containers/Session/SessionProvider";
 import { validateDraft } from "../../../../modules/draft/draftApi";
 import { useLicenses, useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
 import { isFormikFormDirty, learningResourceRules } from "../../../../util/formHelper";
 import { AlertModalWrapper } from "../../../FormikForm";
 import { HandleSubmitFunc, LearningResourceFormType, useArticleFormHooks } from "../../../FormikForm/articleFormHooks";
 import usePreventWindowUnload from "../../../FormikForm/preventWindowUnloadHook";
+import { useSession } from "../../../Session/SessionProvider";
 import { TaxonomyVersionProvider } from "../../../StructureVersion/TaxonomyVersionProvider";
 import {
   draftApiTypeToLearningResourceFormType,
@@ -36,6 +37,7 @@ import { FlexWrapper, MainContent } from "../../styles";
 
 interface Props {
   article?: IArticle;
+  articleHistory?: UseQueryResult<IArticle[]>;
   articleTaxonomy?: Node[];
   articleStatus?: IStatus;
   supportedLanguages: string[];
@@ -54,6 +56,7 @@ const LearningResourceForm = ({
   supportedLanguages,
   articleChanged,
   articleLanguage,
+  articleHistory,
 }: Props) => {
   const [showTaxWarning, setShowTaxWarning] = useState(false);
   const { t } = useTranslation();
@@ -77,6 +80,7 @@ const LearningResourceForm = ({
     article,
     t,
     articleStatus,
+    articleHistory,
     updateArticle,
     getArticleFromSlate: learningResourceFormTypeToDraftApiType,
     articleLanguage,
@@ -125,6 +129,7 @@ const LearningResourceForm = ({
           language={articleLanguage}
           article={article}
           status={article?.status}
+          articleHistory={articleHistory?.data}
           supportedLanguages={supportedLanguages}
           taxonomy={contexts}
           title={article?.title?.title}
@@ -139,6 +144,7 @@ const LearningResourceForm = ({
                 handleSubmit={handleSubmit}
                 articleLanguage={articleLanguage}
                 article={article}
+                articleHistory={articleHistory?.data}
                 taxonomy={articleTaxonomy}
                 updateNotes={updateArticle}
                 contexts={contexts}

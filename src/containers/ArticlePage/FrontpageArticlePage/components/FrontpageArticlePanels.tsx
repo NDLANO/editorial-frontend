@@ -19,10 +19,11 @@ import RevisionNotes from "../../components/RevisionNotes";
 
 interface Props {
   article?: IArticle;
+  articleHistory: IArticle[] | undefined;
   articleLanguage: string;
 }
 
-const FrontpageArticlePanels = ({ article, articleLanguage }: Props) => {
+const FrontpageArticlePanels = ({ article, articleHistory, articleLanguage }: Props) => {
   const { t } = useTranslation();
   const { errors } = useFormikContext<FrontpageArticleFormType>();
   const { isWideArticle } = useWideArticle();
@@ -74,7 +75,12 @@ const FrontpageArticlePanels = ({ article, articleLanguage }: Props) => {
           className={"u-6/6"}
           hasError={!!errors.notes}
         >
-          <VersionAndNotesPanel article={article} type="standard" currentLanguage={articleLanguage} />
+          <VersionAndNotesPanel
+            article={article}
+            articleHistory={articleHistory}
+            type="standard"
+            currentLanguage={articleLanguage}
+          />
         </FormAccordion>
       )}
     </FormAccordions>

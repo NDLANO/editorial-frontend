@@ -14,6 +14,7 @@ import TopicArticleForm from "./components/TopicArticleForm";
 import { TranslateType, useTranslateToNN } from "../../../components/NynorskTranslateProvider";
 import Spinner from "../../../components/Spinner";
 import { LocaleType } from "../../../interfaces";
+import { useDraftHistory } from "../../../modules/draft/draftQueries";
 import { useNodes } from "../../../modules/nodes/nodeQueries";
 import { toEditArticle } from "../../../util/routeHelpers";
 import { useFetchArticleData } from "../../FormikForm/formikDraftHooks";
@@ -53,7 +54,7 @@ const EditTopicArticle = ({ isNewlyCreated }: Props) => {
   const selectedLanguage = params.selectedLanguage as LocaleType;
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
-  const { loading, article, setArticle, articleChanged, updateArticle } = useFetchArticleData(
+  const { loading, article, setArticle, articleChanged, updateArticle, articleHistory } = useFetchArticleData(
     articleId,
     selectedLanguage,
   );
@@ -102,6 +103,7 @@ const EditTopicArticle = ({ isNewlyCreated }: Props) => {
         articleLanguage={selectedLanguage}
         articleChanged={articleChanged || newLanguage}
         article={article}
+        articleHistory={articleHistory}
         isNewlyCreated={!!isNewlyCreated}
         updateArticle={updateArticle}
         supportedLanguages={article.supportedLanguages}

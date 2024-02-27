@@ -98,6 +98,7 @@ const HeaderActions = ({
   supportedLanguages = [],
 }: Props) => {
   const [lastPublishedVersion, setLastPublishedVersion] = useState<IArticle>();
+  const [isIdenticalToPublished, setIsIdenticalToPublished] = useState(true);
 
   const { t } = useTranslation();
   const { isSubmitting } = useFormikContext();
@@ -114,7 +115,13 @@ const HeaderActions = ({
     const getVersions = async (article: IArticle) => {
       const versions = await fetchDraftHistory(article.id, article.title?.language);
       const publishedVersion = versions.find((v) => v.status.current === PUBLISHED);
-      if (publishedVersion) setLastPublishedVersion(publishedVersion);
+      if (publishedVersion) {
+        setLastPublishedVersion(publishedVersion);
+        setIsIdenticalToPublished(publishedVersion.content?.content === article.content?.content);
+        // console.log(publishedVersion.content?.content);
+        // console.log(article.content?.content);
+        // console.log("Alike?", publishedVersion.content?.content === article.content?.content);
+      }
     };
     if (article) {
       getVersions(article);
@@ -141,6 +148,8 @@ const HeaderActions = ({
     () => languages.filter((lang) => lang.key !== language && !supportedLanguages.includes(lang.key) && lang.include),
     [language, languages, supportedLanguages],
   );
+
+  const enableCompareWithPublished = useMemo(() => {}, []);
 
   return (
     <>

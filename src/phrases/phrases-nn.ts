@@ -725,6 +725,7 @@ const phrases = {
     saveAsCopySuccess: "Ny artikkel lagret",
     openAll: "Opne alle",
     hideAll: "Lukk alle",
+    unpublishedChanges: "(Endra sidan publisering)",
     comment: {
       comment: "Kommenter",
       hide: "Skjul kommentar",

@@ -20,6 +20,7 @@ import { TopicArticleFormType } from "../../../FormikForm/articleFormHooks";
 import GrepCodesField from "../../../FormikForm/GrepCodesField";
 import { onSaveAsVisualElement } from "../../../FormikForm/utils";
 import { useSession } from "../../../Session/SessionProvider";
+import PanelTitle from "../../components/PanelTitle";
 import RelatedContentFieldGroup from "../../components/RelatedContentFieldGroup";
 import RevisionNotes from "../../components/RevisionNotes";
 
@@ -47,7 +48,14 @@ const TopicArticleAccordionPanels = ({
     <FormAccordions defaultOpen={["topic-article-content"]}>
       <FormAccordion
         id={"topic-article-content"}
-        title={t("form.contentSection")}
+        title={
+          <PanelTitle
+            title={t("form.contentSection")}
+            article={article}
+            articleHistory={articleHistory}
+            fieldsToIndicatedChangesFor={["title", "introduction", "content", "visualElement"]}
+          />
+        }
         className="u-10/12 u-push-1/12"
         hasError={!!(errors.title || errors.introduction || errors.content || errors.visualElement)}
       >
@@ -70,7 +78,14 @@ const TopicArticleAccordionPanels = ({
       )}
       <FormAccordion
         id={"topic-article-copyright"}
-        title={t("form.copyrightSection")}
+        title={
+          <PanelTitle
+            title={t("form.copyrightSection")}
+            article={article}
+            articleHistory={articleHistory}
+            fieldsToIndicatedChangesFor={["copyright"]}
+          />
+        }
         className={"u-6/6"}
         hasError={!!(errors.creators || errors.rightsholders || errors.processors || errors.license)}
       >

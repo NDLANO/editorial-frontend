@@ -15,6 +15,7 @@ import FormAccordions from "../../../../components/Accordion/FormAccordions";
 import { useWideArticle } from "../../../../components/WideArticleEditorProvider";
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from "../../../FormikForm";
 import { FrontpageArticleFormType } from "../../../FormikForm/articleFormHooks";
+import PanelTitle from "../../components/PanelTitle";
 import RevisionNotes from "../../components/RevisionNotes";
 
 interface Props {
@@ -36,7 +37,14 @@ const FrontpageArticlePanels = ({ article, articleHistory, articleLanguage }: Pr
     >
       <FormAccordion
         id={"frontpage-article-content"}
-        title={t("form.contentSection")}
+        title={
+          <PanelTitle
+            title={t("form.contentSection")}
+            article={article}
+            articleHistory={articleHistory}
+            fieldsToIndicatedChangesFor={["title", "introduction", "content"]}
+          />
+        }
         className="u-10/12 u-push-1/12"
         hasError={!!(errors.title || errors.introduction || errors.content)}
         wide={isWideArticle}
@@ -46,7 +54,14 @@ const FrontpageArticlePanels = ({ article, articleHistory, articleLanguage }: Pr
       </FormAccordion>
       <FormAccordion
         id={"frontpage-article-copyright"}
-        title={t("form.copyrightSection")}
+        title={
+          <PanelTitle
+            title={t("form.copyrightSection")}
+            article={article}
+            articleHistory={articleHistory}
+            fieldsToIndicatedChangesFor={["copyright"]}
+          />
+        }
         className={"u-6/6"}
         hasError={!!(errors.creators || errors.rightsholders || errors.processors || errors.license)}
       >

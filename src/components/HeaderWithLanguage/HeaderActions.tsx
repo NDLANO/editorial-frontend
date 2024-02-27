@@ -22,7 +22,6 @@ import HeaderSupportedLanguages from "./HeaderSupportedLanguages";
 import TranslateNbToNn from "./TranslateNbToNn";
 import { createEditUrl, toMapping, translatableTypes } from "./util";
 import { PUBLISHED } from "../../constants";
-import { fetchDraftHistory } from "../../modules/draft/draftApi";
 import { useIsTranslatableToNN } from "../NynorskTranslateProvider";
 import PreviewDraftLightboxV2 from "../PreviewDraft/PreviewDraftLightboxV2";
 import StyledFilledButton from "../StyledFilledButton";
@@ -110,15 +109,20 @@ const HeaderActions = ({
     [type],
   );
 
-  const lastPublishedVersion = articleHistory?.find((v) => v.status.current === PUBLISHED);
-  let isIdenticalToPublished = false;
-  if(lastPublishedVersion) {
-    isIdenticalToPublished = (
-      lastPublishedVersion.content?.content === article?.content?.content &&
-      lastPublishedVersion.title?.title === article?.title?.title &&
-      lastPublishedVersion.introduction?.introduction === article?.introduction?.introduction
-    );
-  }
+  const lastPublishedVersion = useMemo(
+    () => articleHistory?.find((v) => v.status.current === PUBLISHED),
+    [articleHistory],
+  );
+  const isIdenticalToPublished = useMemo(() => {
+    if (lastPublishedVersion) {
+      return (
+        lastPublishedVersion.content?.content === article?.content?.content &&
+        lastPublishedVersion.title?.title === article?.title?.title &&
+        lastPublishedVersion.introduction?.introduction === article?.introduction?.introduction
+      );
+    }
+    return false;
+  }, [article, lastPublishedVersion]);
 
   const languages = useMemo(
     () => [

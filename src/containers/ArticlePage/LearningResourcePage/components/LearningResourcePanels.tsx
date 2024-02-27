@@ -16,11 +16,12 @@ import LearningResourceTaxonomy from "./LearningResourceTaxonomy";
 import FormAccordion from "../../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../../components/Accordion/FormAccordions";
 import config from "../../../../config";
-import { TAXONOMY_WRITE_SCOPE } from "../../../../constants";
+import { PUBLISHED, TAXONOMY_WRITE_SCOPE } from "../../../../constants";
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from "../../../FormikForm";
 import { HandleSubmitFunc, LearningResourceFormType } from "../../../FormikForm/articleFormHooks";
 import GrepCodesField from "../../../FormikForm/GrepCodesField";
 import { useSession } from "../../../Session/SessionProvider";
+import PanelTitle from "../../components/PanelTitle";
 import RelatedContentFieldGroup from "../../components/RelatedContentFieldGroup";
 import RevisionNotes from "../../components/RevisionNotes";
 
@@ -52,7 +53,14 @@ const LearningResourcePanels = ({
     <FormAccordions defaultOpen={defaultOpen}>
       <FormAccordion
         id={"learning-resource-content"}
-        title={t("form.contentSection")}
+        title={
+          <PanelTitle
+            title={t("form.contentSection")}
+            article={article}
+            articleHistory={articleHistory}
+            fieldsToIndicatedChangesFor={["content", "title", "introduction"]}
+          />
+        }
         className="u-10/12 u-push-1/12"
         hasError={!!(errors.title || errors.introduction || errors.content)}
       >
@@ -79,7 +87,14 @@ const LearningResourcePanels = ({
       )}
       <FormAccordion
         id={"learning-resource-copyright"}
-        title={t("form.copyrightSection")}
+        title={
+          <PanelTitle
+            title={t("form.copyrightSection")}
+            article={article}
+            articleHistory={articleHistory}
+            fieldsToIndicatedChangesFor={["copyright"]}
+          />
+        }
         className={"u-6/6"}
         hasError={!!(errors.creators || errors.rightsholders || errors.processors || errors.license)}
       >

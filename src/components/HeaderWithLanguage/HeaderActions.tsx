@@ -117,10 +117,11 @@ const HeaderActions = ({
       const publishedVersion = versions.find((v) => v.status.current === PUBLISHED);
       if (publishedVersion) {
         setLastPublishedVersion(publishedVersion);
-        setIsIdenticalToPublished(publishedVersion.content?.content === article.content?.content);
-        // console.log(publishedVersion.content?.content);
-        // console.log(article.content?.content);
-        // console.log("Alike?", publishedVersion.content?.content === article.content?.content);
+        setIsIdenticalToPublished(
+          publishedVersion.content?.content === article.content?.content &&
+            publishedVersion.title?.title === article.title?.title &&
+            publishedVersion.introduction?.introduction === article.introduction?.introduction,
+        );
       }
     };
     if (article) {
@@ -148,8 +149,6 @@ const HeaderActions = ({
     () => languages.filter((lang) => lang.key !== language && !supportedLanguages.includes(lang.key) && lang.include),
     [language, languages, supportedLanguages],
   );
-
-  const enableCompareWithPublished = useMemo(() => {}, []);
 
   return (
     <>
@@ -194,7 +193,7 @@ const HeaderActions = ({
                 language={language}
                 customTitle={t("form.previewProductionArticle.published")}
                 activateButton={
-                  <StyledFilledButton type="button">
+                  <StyledFilledButton type="button" disabled={isIdenticalToPublished}>
                     <Eye /> {t("form.previewVersion")}
                   </StyledFilledButton>
                 }

@@ -94,12 +94,14 @@ export const createPluginFactory =
     editor.onKeyDown = (e) => {
       const [entry] = Editor.nodes(editor, { match: (node) => Element.isElement(node) && node.type === type });
       if (entry) {
-        if (onKeyDown?.[e.key](e, editor, entry as NodeEntry<Extract<Element, { type: T }>>)) {
-          if (config.debugSlate) {
-            /* eslint-disable-next-line */
-            console.debug(`[KEYBOARDEVENT] ${type} with keyboardkey: ${e.key}`);
+        if (onKeyDown?.[e.key]) {
+          if (onKeyDown?.[e.key](e, editor, entry as NodeEntry<Extract<Element, { type: T }>>)) {
+            if (config.debugSlate) {
+              /* eslint-disable-next-line */
+              console.debug(`[KEYBOARDEVENT] ${type} with keyboardkey: ${e.key}`);
+            }
+            return;
           }
-          return;
         }
       }
       return nextOnKeyDown?.(e);

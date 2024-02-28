@@ -802,7 +802,7 @@ const phrases = {
     },
     previewProductionArticle: {
       button: "Sammenlign gjeldende versjon med sist publiserte versjon",
-      buttonDisabled: "Artikkelinnholdet er identisk med den publiserte versjonen",
+      buttonDisabled: "Artikkelinnholdet er identisk med den sist publiserte versjonen",
       version: "Versjon {{revision}}",
       current: "Gjeldende versjon",
       published: "Publisert versjon",

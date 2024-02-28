@@ -800,8 +800,8 @@ const phrases = {
       transcription: "Transkripsjon",
     },
     previewProductionArticle: {
-      button: "Samanlikn gjeldande versjon med gamal versjon",
-      buttonDisabled: "Artikkel er identisk med publisert versjon",
+      button: "Samanlikn gjeldande versjon med sist publiserte versjon",
+      buttonDisabled: "Artikkelinnhaldet er identisk med publisert versjon",
       version: "Versjon {{revision}}",
       current: "Gjeldende versjon",
       published: "Publisert versjon",

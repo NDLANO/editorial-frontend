@@ -6,10 +6,10 @@
  *
  */
 
-import { FieldProps } from "formik";
 import { useTranslation } from "react-i18next";
-import { RadioButtonGroup } from "@ndla/forms";
-import FormikField from "../../../components/FormikField";
+import { Label, RadioButtonGroup, RadioButtonItem } from "@ndla/forms";
+import { RadioButtonWrapper, FieldsetRow, LeftLegend, StyledFormControl } from "../../../components/Form/styles";
+import { FormField } from "../../../components/FormField";
 
 const VersionLockedField = () => {
   const { t } = useTranslation();
@@ -25,24 +25,39 @@ const VersionLockedField = () => {
     },
   ];
   return (
-    <FormikField name="locked" label={t("taxonomyVersions.form.locked.title")}>
-      {({ field }: FieldProps) => (
-        <RadioButtonGroup
-          label={t("taxonomyVersions.form.locked.subTitle")}
-          selected={field.value.toString()}
-          uniqeIds
-          options={options}
-          onChange={(value) =>
-            field.onChange({
-              target: {
-                name: field.name,
-                value: value === "true",
-              },
-            })
-          }
-        />
+    <FormField name="locked">
+      {({ field }) => (
+        <StyledFormControl>
+          <RadioButtonGroup
+            onValueChange={(value: string) =>
+              field.onChange({
+                target: {
+                  name: field.name,
+                  value: value,
+                },
+              })
+            }
+            orientation="horizontal"
+            defaultValue={field.value.toString()}
+            asChild
+          >
+            <FieldsetRow>
+              <LeftLegend margin="none" textStyle="label-small">
+                {t("taxonomyVersions.form.locked.subTitle")}
+              </LeftLegend>
+              {options.map((option) => (
+                <RadioButtonWrapper key={option.value}>
+                  <RadioButtonItem id={`locked-${option.value}`} value={option.value} />
+                  <Label htmlFor={`locked-${option.value}`} margin="none" textStyle="label-small">
+                    {option.title}
+                  </Label>
+                </RadioButtonWrapper>
+              ))}
+            </FieldsetRow>
+          </RadioButtonGroup>
+        </StyledFormControl>
       )}
-    </FormikField>
+    </FormField>
   );
 };
 export default VersionLockedField;

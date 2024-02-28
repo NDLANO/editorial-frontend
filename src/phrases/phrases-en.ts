@@ -801,7 +801,8 @@ const phrases = {
       transcription: "Transcription",
     },
     previewProductionArticle: {
-      button: "Compare current version with old version",
+      button: "Compare current version with last published version",
+      buttonDisabled: "The article content is identical to the last published version",
       version: "Version {{revision}}",
       current: "Current version",
       published: "Published version",

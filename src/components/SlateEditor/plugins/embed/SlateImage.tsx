@@ -32,7 +32,7 @@ interface Props {
   isSelectedForCopy?: boolean;
   language: string;
   onRemoveClick: (event: MouseEvent) => void;
-  saveEmbedUpdates: (change: { [x: string]: string }) => void;
+  saveEmbedUpdates: (change: { [x: string]: string | undefined }) => void;
   visualElement: boolean;
   children: ReactNode;
   pathToEmbed: Path;
@@ -93,12 +93,12 @@ const SlateImage = ({
 
   const transformData = () => {
     return {
-      "focal-x": embed["focal-x"],
-      "focal-y": embed["focal-y"],
-      "upper-left-x": embed["upper-left-x"],
-      "upper-left-y": embed["upper-left-y"],
-      "lower-right-x": embed["lower-right-x"],
-      "lower-right-y": embed["lower-right-y"],
+      focalX: embed["focal-x"],
+      focalY: embed["focal-y"],
+      upperLeftX: embed["upper-left-x"],
+      upperLeftY: embed["upper-left-y"],
+      lowerRightX: embed["lower-right-x"],
+      lowerRightY: embed["lower-right-y"],
     };
   };
 

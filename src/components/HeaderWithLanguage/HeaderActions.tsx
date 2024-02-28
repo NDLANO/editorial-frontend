@@ -98,6 +98,7 @@ const HeaderActions = ({
   supportedLanguages = [],
 }: Props) => {
   const [lastPublishedVersion, setLastPublishedVersion] = useState<IArticle>();
+  const [isIdenticalToPublished, setIsIdenticalToPublished] = useState(true);
 
   const { t } = useTranslation();
   const { isSubmitting } = useFormikContext();
@@ -114,7 +115,14 @@ const HeaderActions = ({
     const getVersions = async (article: IArticle) => {
       const versions = await fetchDraftHistory(article.id, article.title?.language);
       const publishedVersion = versions.find((v) => v.status.current === PUBLISHED);
-      if (publishedVersion) setLastPublishedVersion(publishedVersion);
+      if (publishedVersion) {
+        setLastPublishedVersion(publishedVersion);
+        setIsIdenticalToPublished(
+          publishedVersion.content?.content === article.content?.content &&
+            publishedVersion.title?.title === article.title?.title &&
+            publishedVersion.introduction?.introduction === article.introduction?.introduction,
+        );
+      }
     };
     if (article) {
       getVersions(article);
@@ -185,7 +193,20 @@ const HeaderActions = ({
                 language={language}
                 customTitle={t("form.previewProductionArticle.published")}
                 activateButton={
-                  <StyledFilledButton type="button">
+                  <StyledFilledButton
+                    aria-label={
+                      isIdenticalToPublished
+                        ? t("form.previewProductionArticle.buttonDisabled")
+                        : t("form.previewProductionArticle.button")
+                    }
+                    type="button"
+                    disabled={isIdenticalToPublished}
+                    title={
+                      isIdenticalToPublished
+                        ? t("form.previewProductionArticle.buttonDisabled")
+                        : t("form.previewProductionArticle.button")
+                    }
+                  >
                     <Eye /> {t("form.previewVersion")}
                   </StyledFilledButton>
                 }

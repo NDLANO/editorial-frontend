@@ -23,6 +23,7 @@ import parseMarkdown from "../../../../util/parseMarkdown";
 import { CheckboxWrapper } from "../../../Form/styles";
 import { FormControl, FormField } from "../../../FormField";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
+import { RichTextIndicator } from "../../RichTextIndicator";
 import { useInGrid } from "../grid/GridContext";
 
 interface Props {
@@ -165,6 +166,7 @@ const EditImageForm = ({
         <div>
           <Text textStyle="label-small" margin="none">
             {t("form.image.caption.label")}
+            <RichTextIndicator />
           </Text>
           <FormField name="caption">
             {({ field, helpers }) => (

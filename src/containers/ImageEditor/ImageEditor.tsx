@@ -108,7 +108,7 @@ type StateProp = "crop" | "focalPoint" | "none";
 
 const ImageEditor = ({ language }: Props) => {
   const { t } = useTranslation();
-  const { values, setValues } = useFormikContext<ImageEditFormValues>();
+  const { values, setValues, setFieldValue } = useFormikContext<ImageEditFormValues>();
   const [editType, setEditType] = useState<StateProp>("none");
   const [aspect, setAspect] = useState<string>("none");
 
@@ -213,7 +213,16 @@ const ImageEditor = ({ language }: Props) => {
         <StyledImageEditorMenu>
           <FormField name="size">
             {({ field, helpers }) => (
-              <StyledToggleGroup type="single" value={field.value} onValueChange={helpers.setValue}>
+              <StyledToggleGroup
+                type="single"
+                value={field.value}
+                onValueChange={(val) => {
+                  helpers.setValue(val);
+                  if (val !== "medium") {
+                    setFieldValue("hideByline", false);
+                  }
+                }}
+              >
                 {sizes.map(({ value, children }) => (
                   <StyledToggleGroupItem
                     key={value}

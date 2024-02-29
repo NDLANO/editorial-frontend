@@ -8,8 +8,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Node } from "slate";
-import { ReactEditor, RenderElementProps } from "slate-react";
+import { Editor, Node, Transforms } from "slate";
+import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import styled from "@emotion/styled";
 import { Portal } from "@radix-ui/react-portal";
 import { ButtonV2 } from "@ndla/button";
@@ -20,7 +20,7 @@ import EditLink from "./EditLink";
 import config from "../../../../config";
 import { toEditGenericArticle, toLearningpathFull } from "../../../../util/routeHelpers";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
-import isNodeInCurrentSelection from "../../utils/isNodeInCurrentSelection";
+import { getEditorAncestors } from "../toolbar/toolbarState";
 
 interface StyledLinkMenuProps {
   top: number;
@@ -71,14 +71,19 @@ const StyledLink = styled.a`
   cursor: text;
 `;
 
+const StyledSpan = styled.span`
+  font-size: 0;
+`;
+
+const InlineChromiumBugfix = () => <StyledSpan contentEditable={false}>{String.fromCodePoint(160)}</StyledSpan>;
+
 const Link = ({ attributes, editor, element, children }: Props) => {
   const linkRef = useRef<HTMLAnchorElement>(null);
   const [model, setModel] = useState<Model | undefined>();
   const startOpen = useRef(!hasHrefOrContentId(element));
   const [editMode, setEditMode] = useState(!hasHrefOrContentId(element));
-  const [isLinkSelected, setIsLinkSelected] = useState(false);
   const language = useArticleLanguage();
-
+  const selected = useSelected();
   const { t } = useTranslation();
 
   const getMenuPosition = () => {
@@ -121,26 +126,22 @@ const Link = ({ attributes, editor, element, children }: Props) => {
     setStateFromNode();
   }, [element, language]);
 
-  useEffect(() => {
-    if (!editor.selection) return;
-    setIsLinkSelected(isNodeInCurrentSelection(editor, element));
-  }, [editor, editor.selection, element]);
-
   const { top, left } = getMenuPosition();
 
   return (
     <Modal defaultOpen={startOpen.current} open={editMode} onOpenChange={toggleEditMode}>
       <StyledLink {...attributes} href={model?.href} ref={linkRef}>
+        <InlineChromiumBugfix />
         {children}
-        {model && isLinkSelected && (
+        <InlineChromiumBugfix />
+        {model && selected && (
           <Portal>
             <StyledLinkMenu top={top} left={left}>
               <ModalTrigger>
                 <ButtonV2 variant="link">{t("form.content.link.change")}</ButtonV2>
-              </ModalTrigger>{" "}
-              | {t("form.content.link.goTo")}{" "}
+              </ModalTrigger>
+              &nbsp;|&nbsp;{t("form.content.link.goTo")}{" "}
               <a href={model?.href} target="_blank" rel="noopener noreferrer">
-                {" "}
                 {model?.href}
               </a>
             </StyledLinkMenu>

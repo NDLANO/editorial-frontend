@@ -6,8 +6,9 @@
  *
  */
 
+import { isKeyHotkey } from "is-hotkey";
 import isEmpty from "lodash/isEmpty";
-import { Descendant, Editor, Element, Node, Transforms } from "slate";
+import { Descendant, Editor, Element, Node, Transforms, Range } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_SPAN } from "./types";
 import { createProps, reduceElementDataAttributes } from "../../../../util/embedTagHelpers";
@@ -17,7 +18,6 @@ import { TYPE_QUOTE } from "../blockquote/types";
 import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_TERM } from "../definitionList/types";
 import { TYPE_SUMMARY } from "../details/types";
 import { TYPE_HEADING } from "../heading/types";
-
 import { TYPE_LIST_ITEM } from "../list/types";
 import { TYPE_NOOP } from "../noop/types";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
@@ -71,7 +71,7 @@ export const spanSerializer: SlateSerializer = {
 };
 
 export const spanPlugin = (editor: Editor) => {
-  const { isInline: nextIsInline, normalizeNode } = editor;
+  const { isInline: nextIsInline, normalizeNode, onKeyDown: nextOnKeyDown } = editor;
 
   editor.isInline = (element) => {
     if (element.type === TYPE_SPAN) {
@@ -96,5 +96,48 @@ export const spanPlugin = (editor: Editor) => {
     normalizeNode(entry);
   };
 
+  editor.onKeyDown = (event) => {
+    if (!editor.selection) return nextOnKeyDown?.(event);
+
+    const [entry] = Editor.nodes<SpanElement>(editor, {
+      match: (node) => Element.isElement(node) && node.type === "span",
+      at: editor.selection,
+      mode: "lowest",
+    });
+
+    if (editor.selection && Range.isCollapsed(editor.selection) && entry) {
+      const [_span, path] = entry;
+
+      const reverse = isKeyHotkey("left", event);
+
+      const isAtEnd = Editor.isEnd(
+        editor,
+        { path: editor.selection.anchor.path, offset: editor.selection.anchor.offset + 1 },
+        path,
+      );
+
+      const isAtStart = Editor.isStart(
+        editor,
+        { path: editor.selection.anchor.path, offset: editor.selection.anchor.offset - 1 },
+        path,
+      );
+
+      // Span/language block is focused until editor-selection is at the start or end of the link block,
+      // so we need to force move the cursor to the next block by jumping 2 offsets when 1 step
+      // before the start or end of the link block.
+      const distance = (isAtEnd && !reverse) || (isAtStart && reverse) ? 2 : 1;
+
+      if (isKeyHotkey("left", event) || isKeyHotkey("right", event)) {
+        event.preventDefault();
+        Transforms.move(editor, {
+          unit: "offset",
+          reverse,
+          distance,
+        });
+        return;
+      }
+    }
+    return nextOnKeyDown?.(event);
+  };
   return editor;
 };

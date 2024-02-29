@@ -15,7 +15,7 @@ import FormAccordions from "../../../../components/Accordion/FormAccordions";
 import { useWideArticle } from "../../../../components/WideArticleEditorProvider";
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from "../../../FormikForm";
 import { FrontpageArticleFormType } from "../../../FormikForm/articleFormHooks";
-import PanelTitle from "../../components/PanelTitle";
+import PanelTitleWithChangeIndicator from "../../components/PanelTitleWithChangeIndicator";
 import RevisionNotes from "../../components/RevisionNotes";
 
 interface Props {
@@ -38,7 +38,7 @@ const FrontpageArticlePanels = ({ article, articleHistory, articleLanguage }: Pr
       <FormAccordion
         id={"frontpage-article-content"}
         title={
-          <PanelTitle
+          <PanelTitleWithChangeIndicator
             title={t("form.contentSection")}
             article={article}
             articleHistory={articleHistory}
@@ -55,7 +55,7 @@ const FrontpageArticlePanels = ({ article, articleHistory, articleLanguage }: Pr
       <FormAccordion
         id={"frontpage-article-copyright"}
         title={
-          <PanelTitle
+          <PanelTitleWithChangeIndicator
             title={t("form.copyrightSection")}
             article={article}
             articleHistory={articleHistory}

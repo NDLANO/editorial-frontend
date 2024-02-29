@@ -38,7 +38,12 @@ interface PanelTitleProps {
   fieldsToIndicatedChangesFor: (keyof IArticle)[];
 }
 
-const PanelTitle = ({ title, fieldsToIndicatedChangesFor, article, articleHistory }: PanelTitleProps) => {
+const PanelTitleWithChangeIndicator = ({
+  title,
+  fieldsToIndicatedChangesFor,
+  article,
+  articleHistory,
+}: PanelTitleProps) => {
   const { t } = useTranslation();
   const hasChanges = useMemo(() => {
     const lastPublishedVersion = articleHistory?.find((a) => a.status.current === PUBLISHED);
@@ -59,4 +64,4 @@ const PanelTitle = ({ title, fieldsToIndicatedChangesFor, article, articleHistor
   return title;
 };
 
-export default PanelTitle;
+export default PanelTitleWithChangeIndicator;

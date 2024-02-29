@@ -20,7 +20,7 @@ import { TopicArticleFormType } from "../../../FormikForm/articleFormHooks";
 import GrepCodesField from "../../../FormikForm/GrepCodesField";
 import { onSaveAsVisualElement } from "../../../FormikForm/utils";
 import { useSession } from "../../../Session/SessionProvider";
-import PanelTitle from "../../components/PanelTitle";
+import PanelTitleWithChangeIndicator from "../../components/PanelTitleWithChangeIndicator";
 import RelatedContentFieldGroup from "../../components/RelatedContentFieldGroup";
 import RevisionNotes from "../../components/RevisionNotes";
 
@@ -49,7 +49,7 @@ const TopicArticleAccordionPanels = ({
       <FormAccordion
         id={"topic-article-content"}
         title={
-          <PanelTitle
+          <PanelTitleWithChangeIndicator
             title={t("form.contentSection")}
             article={article}
             articleHistory={articleHistory}
@@ -79,7 +79,7 @@ const TopicArticleAccordionPanels = ({
       <FormAccordion
         id={"topic-article-copyright"}
         title={
-          <PanelTitle
+          <PanelTitleWithChangeIndicator
             title={t("form.copyrightSection")}
             article={article}
             articleHistory={articleHistory}

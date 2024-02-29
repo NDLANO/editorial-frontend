@@ -138,7 +138,7 @@ test("can create a valid link", async ({ page }) => {
 test("All lists work properly", async ({ page }) => {
   const el = page.getByTestId("slate-editor");
   await el.click();
-  await el.type("First item in the list");
+  await page.keyboard.type("First item in the list");
   await el.press(`${metaKey}+A`);
   const numberedList = page.getByTestId("toolbar-button-numbered-list");
   await numberedList.waitFor();
@@ -148,7 +148,7 @@ test("All lists work properly", async ({ page }) => {
   await el.press("ArrowRight");
   await el.press("End");
   await el.press("Enter");
-  await el.type("Second item in the list");
+  await page.keyboard.type("Second item in the list");
   await expect(page.getByRole("listitem")).toHaveCount(2);
   await el.press(`${metaKey}+A`);
   const bulletList = page.getByTestId("toolbar-button-bulleted-list");
@@ -165,7 +165,7 @@ test("All lists work properly", async ({ page }) => {
 test("Definition list work properly", async ({ page }) => {
   const el = page.getByTestId("slate-editor");
   await el.click();
-  await el.type("Definition term");
+  await page.keyboard.type("Definition term");
   await el.press(`${metaKey}+A`);
   const definitionList = page.getByTestId("toolbar-button-definition-list");
   await definitionList.waitFor();
@@ -176,18 +176,18 @@ test("Definition list work properly", async ({ page }) => {
   await el.press("End");
   await el.press("Enter");
   await el.press("Tab");
-  await el.type("Definition description");
+  await page.keyboard.type("Definition description");
   await expect(page.locator("dl > dd")).toHaveCount(1);
 });
 
 test("Selecting multiple paragraphs gives multiple terms", async ({ page }) => {
   const el = page.getByTestId("slate-editor");
   await el.click();
-  await el.type("Definition term 1");
+  await page.keyboard.type("Definition term 1");
   await el.press("Enter");
-  await el.type("Definition term 2");
+  await page.keyboard.type("Definition term 2");
   await el.press("Enter");
-  await el.type("Definition term 3");
+  await page.keyboard.type("Definition term 3");
   await el.press("Enter");
   await el.press(`${metaKey}+A`);
   const definitionList = page.getByTestId("toolbar-button-definition-list");

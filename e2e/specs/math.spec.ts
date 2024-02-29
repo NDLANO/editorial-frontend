@@ -6,107 +6,105 @@
  *
  */
 
-import { test, expect } from '@playwright/test';
-import { mockRoute } from '../apiMock';
-import { responsiblesMock, zendeskMock } from '../mockResponses';
+import { test, expect } from "@playwright/test";
+import { mockRoute } from "../apiMock";
+import { responsiblesMock, zendeskMock } from "../mockResponses";
 
-const metaKey = process.platform === 'darwin' ? 'Meta' : 'Control';
+const metaKey = process.platform === "darwin" ? "Meta" : "Control";
 
 test.beforeEach(async ({ page }) => {
   const zendesk = await mockRoute({
     page,
-    path: '**/get_zendesk_token',
-    fixture: 'math_zendesk_token',
+    path: "**/get_zendesk_token",
+    fixture: "math_zendesk_token",
     overrideValue: JSON.stringify(zendeskMock),
   });
 
   const responsibles = await mockRoute({
     page,
-    path: '**/get_responsibles?permission=drafts:responsible',
-    fixture: 'math_responsibles',
+    path: "**/get_responsibles?permission=drafts:responsible",
+    fixture: "math_responsibles",
     overrideValue: JSON.stringify(responsiblesMock),
   });
 
   const licenses = await mockRoute({
     page,
-    path: '**/draft-api/v1/drafts/licenses/',
-    fixture: 'math_licenses',
+    path: "**/draft-api/v1/drafts/licenses/",
+    fixture: "math_licenses",
   });
 
   const statuses = await mockRoute({
     page,
-    path: '**/draft-api/v1/drafts/status-state-machine/',
-    fixture: 'math_status_state_machine',
+    path: "**/draft-api/v1/drafts/status-state-machine/",
+    fixture: "math_status_state_machine",
   });
 
   const wirisEditor = mockRoute({
     page,
-    path: 'https://www.wiris.net/client/editor/tick?httpstatus=true',
-    fixture: 'math_wiris_editor',
+    path: "https://www.wiris.net/client/editor/tick?httpstatus=true",
+    fixture: "math_wiris_editor",
   });
 
   const wirisTick = mockRoute({
     page,
-    path: 'https://www.wiris.net/client/editor/mathml2internal?httpstatus=true',
-    fixture: 'math_ml_internal',
+    path: "https://www.wiris.net/client/editor/mathml2internal?httpstatus=true",
+    fixture: "math_ml_internal",
   });
 
   const wirisHand = mockRoute({
     page,
-    path: 'https://www.wiris.net/client/hand/hand.js?httpstatus=true',
-    fixture: 'math_hand',
+    path: "https://www.wiris.net/client/hand/hand.js?httpstatus=true",
+    fixture: "math_hand",
   });
 
-  await page.goto('/subject-matter/learning-resource/new');
+  await page.goto("/subject-matter/learning-resource/new");
 
   await Promise.all([zendesk, responsibles, licenses, statuses, wirisEditor, wirisHand, wirisTick]);
 
-  const el = page.getByTestId('slate-editor');
+  const el = page.getByTestId("slate-editor");
   await el.click();
-  await el.type('111+1');
+  await page.keyboard.type("111+1");
   await el.press(`${metaKey}+A`);
-  await page.getByTestId('toolbar-button-mathml').click();
+  await page.getByTestId("toolbar-button-mathml").click();
 });
 
-test('editor is visible', async ({ page }) => {
-  const mathEditor = page.getByTestId('modal-body').getByRole('application');
+test("editor is visible", async ({ page }) => {
+  const mathEditor = page.getByTestId("modal-body").getByRole("application");
   await mathEditor.waitFor();
   await expect(mathEditor).toBeVisible();
 });
 
-test('contains text from slate editor', async ({ page }) => {
-  const mathEditor = page.getByTestId('modal-body').getByRole('application');
+test("contains text from slate editor", async ({ page }) => {
+  const mathEditor = page.getByTestId("modal-body").getByRole("application");
   await mathEditor.waitFor();
   await mathEditor.locator('[class="wrs_container"]').waitFor();
-  expect((await mathEditor.locator('[class="wrs_container"]').textContent())?.slice(1)).toEqual(
-    '111+1',
-  );
+  expect((await mathEditor.locator('[class="wrs_container"]').textContent())?.slice(1)).toEqual("111+1");
 });
 
-test('can change text and save', async ({ page }) => {
-  const mathEditor = page.getByTestId('modal-body').getByRole('application');
+test("can change text and save", async ({ page }) => {
+  const mathEditor = page.getByTestId("modal-body").getByRole("application");
   await mathEditor.waitFor();
-  await mathEditor.locator('[class="wrs_focusElementContainer"]').getByRole('textbox').click();
-  await page.keyboard.type('=112');
-  await page.getByTestId('save-math').click();
-  expect(await page.getByTestId('math').textContent()).toEqual('111+1=112');
+  await mathEditor.locator('[class="wrs_focusElementContainer"]').getByRole("textbox").click();
+  await page.keyboard.type("=112");
+  await page.getByTestId("save-math").click();
+  expect(await page.getByTestId("math").textContent()).toEqual("111+1=112");
 });
 
-test('can change preview when preview button pressed', async ({ page }) => {
-  const mathEditor = page.getByTestId('modal-body').getByRole('application');
+test("can change preview when preview button pressed", async ({ page }) => {
+  const mathEditor = page.getByTestId("modal-body").getByRole("application");
   await mathEditor.waitFor();
-  expect(await page.getByTestId('preview-math-text').textContent()).toEqual('111+1');
-  await mathEditor.locator('[class="wrs_focusElementContainer"]').getByRole('textbox').click();
-  await page.keyboard.type('=112');
-  await page.getByTestId('preview-math').click();
-  expect(await page.getByTestId('preview-math-text').textContent()).toEqual('111+1=112');
+  expect(await page.getByTestId("preview-math-text").textContent()).toEqual("111+1");
+  await mathEditor.locator('[class="wrs_focusElementContainer"]').getByRole("textbox").click();
+  await page.keyboard.type("=112");
+  await page.getByTestId("preview-math").click();
+  expect(await page.getByTestId("preview-math-text").textContent()).toEqual("111+1=112");
 });
 
-test('can provide modal when leaving unchecked edits', async ({ page }) => {
-  const mathEditor = page.getByTestId('modal-body').getByRole('application');
+test("can provide modal when leaving unchecked edits", async ({ page }) => {
+  const mathEditor = page.getByTestId("modal-body").getByRole("application");
   await mathEditor.waitFor();
-  await mathEditor.locator('[class="wrs_focusElementContainer"]').getByRole('textbox').click();
-  await page.keyboard.type('=112');
-  await page.getByTestId('abort-math').click();
-  await expect(page.getByTestId('alert-modal')).toBeVisible();
+  await mathEditor.locator('[class="wrs_focusElementContainer"]').getByRole("textbox").click();
+  await page.keyboard.type("=112");
+  await page.getByTestId("abort-math").click();
+  await expect(page.getByTestId("alert-modal")).toBeVisible();
 });

@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import isEqual from "lodash/fp/isEqual";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";

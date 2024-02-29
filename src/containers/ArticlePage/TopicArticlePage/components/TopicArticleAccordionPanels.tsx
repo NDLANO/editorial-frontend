@@ -7,6 +7,7 @@
  */
 
 import { useFormikContext } from "formik";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { IUpdatedArticle, IArticle } from "@ndla/types-backend/draft-api";
 import TopicArticleContent from "./TopicArticleContent";
@@ -42,6 +43,11 @@ const TopicArticleAccordionPanels = ({
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const formikContext = useFormikContext<TopicArticleFormType>();
+  const contentTitleFields = useMemo<(keyof IArticle)[]>(
+    () => ["title", "introduction", "content", "visualElement"],
+    [],
+  );
+  const copyrightFields = useMemo<(keyof IArticle)[]>(() => ["copyright"], []);
 
   const { values, errors } = formikContext;
   return (
@@ -53,7 +59,7 @@ const TopicArticleAccordionPanels = ({
             title={t("form.contentSection")}
             article={article}
             articleHistory={articleHistory}
-            fieldsToIndicatedChangesFor={["title", "introduction", "content", "visualElement"]}
+            fieldsToIndicatedChangesFor={contentTitleFields}
           />
         }
         className="u-10/12 u-push-1/12"
@@ -83,7 +89,7 @@ const TopicArticleAccordionPanels = ({
             title={t("form.copyrightSection")}
             article={article}
             articleHistory={articleHistory}
-            fieldsToIndicatedChangesFor={["copyright"]}
+            fieldsToIndicatedChangesFor={copyrightFields}
           />
         }
         className={"u-6/6"}

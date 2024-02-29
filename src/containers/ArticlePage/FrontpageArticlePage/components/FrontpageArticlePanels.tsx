@@ -7,6 +7,7 @@
  */
 
 import { useFormikContext } from "formik";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import FrontpageArticleFormContent from "./FrontpageArticleFormContent";
@@ -29,6 +30,9 @@ const FrontpageArticlePanels = ({ article, articleHistory, articleLanguage }: Pr
   const { errors } = useFormikContext<FrontpageArticleFormType>();
   const { isWideArticle } = useWideArticle();
 
+  const contentTitleFields = useMemo<(keyof IArticle)[]>(() => ["title", "introduction", "content"], []);
+  const copyrightFields = useMemo<(keyof IArticle)[]>(() => ["copyright"], []);
+
   return (
     <FormAccordions
       defaultOpen={["frontpage-article-content"]}
@@ -42,7 +46,7 @@ const FrontpageArticlePanels = ({ article, articleHistory, articleLanguage }: Pr
             title={t("form.contentSection")}
             article={article}
             articleHistory={articleHistory}
-            fieldsToIndicatedChangesFor={["title", "introduction", "content"]}
+            fieldsToIndicatedChangesFor={contentTitleFields}
           />
         }
         className="u-10/12 u-push-1/12"
@@ -59,7 +63,7 @@ const FrontpageArticlePanels = ({ article, articleHistory, articleLanguage }: Pr
             title={t("form.copyrightSection")}
             article={article}
             articleHistory={articleHistory}
-            fieldsToIndicatedChangesFor={["copyright"]}
+            fieldsToIndicatedChangesFor={copyrightFields}
           />
         }
         className={"u-6/6"}

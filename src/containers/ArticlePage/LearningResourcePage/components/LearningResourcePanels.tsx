@@ -49,6 +49,9 @@ const LearningResourcePanels = ({
   const { errors } = useFormikContext<LearningResourceFormType>();
   const defaultOpen = useMemo(() => ["learning-resource-content"], []);
 
+  const contentTitleFields = useMemo<(keyof IArticle)[]>(() => ["title", "introduction", "content"], []);
+  const copyrightFields = useMemo<(keyof IArticle)[]>(() => ["copyright"], []);
+
   return (
     <FormAccordions defaultOpen={defaultOpen}>
       <FormAccordion
@@ -58,7 +61,7 @@ const LearningResourcePanels = ({
             title={t("form.contentSection")}
             article={article}
             articleHistory={articleHistory}
-            fieldsToIndicatedChangesFor={["content", "title", "introduction"]}
+            fieldsToIndicatedChangesFor={contentTitleFields}
           />
         }
         className="u-10/12 u-push-1/12"
@@ -92,7 +95,7 @@ const LearningResourcePanels = ({
             title={t("form.copyrightSection")}
             article={article}
             articleHistory={articleHistory}
-            fieldsToIndicatedChangesFor={["copyright"]}
+            fieldsToIndicatedChangesFor={copyrightFields}
           />
         }
         className={"u-6/6"}

@@ -242,7 +242,7 @@ const PodcastForm = ({
                 <FormAccordion
                   id="podcast-upload-content"
                   title={t("form.contentSection")}
-                  className="u-4/6@desktop u-push-1/6@desktop"
+                  className="u-10/12 u-push-1/12"
                   hasError={["title", "audioFile"].some((field) => field in errors)}
                 >
                   <AudioContent handleSubmit={handleSubmit} />

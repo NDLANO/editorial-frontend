@@ -85,7 +85,6 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus, language, allowDecor
   const initialValues = useMemo(() => toImageEmbedFormValues(embed), [embed]);
 
   const handleSave = (values: ImageEditFormValues) => {
-    const size = values.align === "center" ? "full" : values.size;
     saveEmbedUpdates({
       resource: "image",
       resource_id: embed.resource_id,
@@ -100,7 +99,7 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus, language, allowDecor
       "lower-right-x": values.lowerRightX,
       "lower-right-y": values.lowerRightY,
       align: values.align,
-      size: values.hideByline ? `${size}-hide-byline` : size,
+      size: values.hideByline ? `${values.size}-hide-byline` : values.size,
     });
     setEditModus(false);
   };

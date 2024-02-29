@@ -193,7 +193,16 @@ const ImageEditor = ({ language }: Props) => {
       <StyledImageEditorMenu>
         <FormField name="align">
           {({ field, helpers }) => (
-            <StyledToggleGroup type="single" value={field.value} onValueChange={helpers.setValue}>
+            <StyledToggleGroup
+              type="single"
+              value={field.value}
+              onValueChange={(val) => {
+                helpers.setValue(val);
+                if (val === "center") {
+                  setFieldValue("size", "full");
+                }
+              }}
+            >
               {alignments.map(({ value, children }) => (
                 <StyledToggleGroupItem
                   key={value}

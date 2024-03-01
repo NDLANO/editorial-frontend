@@ -6,13 +6,15 @@
  *
  */
 
+import { isKeyHotkey } from "is-hotkey";
 import { Descendant, Editor, Element, Node, Range, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
+import { ConceptInlineElement } from "./interfaces";
 import { TYPE_CONCEPT_INLINE } from "./types";
 import { createEmbedTagV2, reduceElementDataAttributesV2 } from "../../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../../interfaces";
 import hasNodeOfType from "../../../utils/hasNodeOfType";
-import { KEY_BACKSPACE } from "../../../utils/keys";
+import { KEY_ARROW_LEFT, KEY_ARROW_RIGHT, KEY_BACKSPACE, KEY_ENTER } from "../../../utils/keys";
 import { TYPE_NDLA_EMBED } from "../../embed/types";
 
 export const inlineConceptSerializer: SlateSerializer = {
@@ -80,11 +82,37 @@ export const inlineConceptPlugin = (editor: Editor) => {
   };
 
   editor.onKeyDown = (e: KeyboardEvent) => {
+    if (!editor.selection) return nextOnKeyDown?.(e);
+    const [entry] = Editor.nodes<ConceptInlineElement>(editor, {
+      match: (node) => Element.isElement(node) && node.type === "concept-inline",
+      at: editor.selection,
+      mode: "lowest",
+    });
     if (e.key === KEY_BACKSPACE) {
-      onBackspace(e, editor, nextOnKeyDown);
-    } else if (nextOnKeyDown) {
-      nextOnKeyDown(e);
+      return onBackspace(e, editor, nextOnKeyDown);
     }
+
+    if ((e.key === KEY_ARROW_RIGHT || e.key === KEY_ARROW_LEFT) && entry) {
+      const reverse = isKeyHotkey("left", e);
+      // Link block is focused until editor-selection is at the start or end of the link block,
+      // so we need to force move the cursor to the next block by jumping 2 offsets when 1 step
+      // before the start or end of the link block.
+      if (isKeyHotkey("left", e) || isKeyHotkey("right", e)) {
+        e.preventDefault();
+        Transforms.move(editor, {
+          unit: "offset",
+          reverse,
+          distance: 1,
+        });
+        return;
+      }
+    }
+    if (e.key === KEY_ENTER && entry) {
+      e.preventDefault();
+      return;
+    }
+
+    nextOnKeyDown?.(e);
   };
 
   return editor;

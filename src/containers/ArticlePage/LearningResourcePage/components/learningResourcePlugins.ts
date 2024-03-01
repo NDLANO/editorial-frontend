@@ -16,6 +16,7 @@ import { codeblockPlugin } from "../../../../components/SlateEditor/plugins/code
 import { blockConceptPlugin } from "../../../../components/SlateEditor/plugins/concept/block";
 import { inlineConceptPlugin } from "../../../../components/SlateEditor/plugins/concept/inline";
 import { conceptListPlugin } from "../../../../components/SlateEditor/plugins/conceptList";
+import { copyrightPlugin } from "../../../../components/SlateEditor/plugins/copyright";
 import { definitionListPlugin } from "../../../../components/SlateEditor/plugins/definitionList";
 import { detailsPlugin } from "../../../../components/SlateEditor/plugins/details";
 import { divPlugin } from "../../../../components/SlateEditor/plugins/div";
@@ -81,4 +82,5 @@ export const learningResourcePlugins: SlatePlugin[] = [
   listPlugin,
   gridPlugin,
   disclaimerPlugin,
+  copyrightPlugin,
 ];

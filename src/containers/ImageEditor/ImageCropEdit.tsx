@@ -6,43 +6,36 @@
  *
  */
 
+import { useFormikContext } from "formik";
 import { useState } from "react";
 import ReactCrop, { Crop, PercentCrop } from "react-image-crop";
+import { ImageEditFormValues } from "../../components/SlateEditor/plugins/embed/EditImage";
 import config from "../../config";
-import { ImageEmbed } from "../../interfaces";
 
 interface Props {
-  embed: ImageEmbed;
   language: string;
   onCropComplete: (crop: PercentCrop) => void;
-  transformData?: {
-    "focal-x"?: string;
-    "focal-y"?: string;
-    "upper-left-x"?: string;
-    "upper-left-y"?: string;
-    "lower-right-x"?: string;
-    "lower-right-y"?: string;
-  };
   aspect?: number;
 }
 
-const ImageCropEdit = ({ embed, language, onCropComplete, transformData, aspect }: Props) => {
-  const src = `${config.ndlaApiUrl}/image-api/raw/id/${embed.resource_id}?language=${language}`;
-  const [crop, setCrop] = useState<Crop | undefined>(
-    transformData &&
-      !!transformData["upper-left-x"] &&
-      !!transformData["upper-left-y"] &&
-      !!transformData["lower-right-x"] &&
-      !!transformData["lower-right-y"]
-      ? {
-          unit: "%",
-          x: parseInt(transformData!["upper-left-x"]),
-          y: parseInt(transformData!["upper-left-y"]),
-          width: parseInt(transformData!["lower-right-x"]) - parseInt(transformData!["upper-left-x"]),
-          height: parseInt(transformData!["lower-right-y"]) - parseInt(transformData!["upper-left-y"]),
-        }
-      : undefined,
-  );
+const getCrop = (data: ImageEditFormValues): Crop | undefined => {
+  if (data.upperLeftX && data.upperLeftY && data.lowerRightX && data.lowerRightY) {
+    const upperLeftX = parseInt(data.upperLeftX);
+    const upperLeftY = parseInt(data.upperLeftY);
+    return {
+      unit: "%",
+      x: upperLeftX,
+      y: upperLeftY,
+      width: parseInt(data.lowerRightX) - upperLeftX,
+      height: parseInt(data.lowerRightY) - upperLeftY,
+    };
+  }
+};
+
+const ImageCropEdit = ({ language, onCropComplete, aspect }: Props) => {
+  const { values } = useFormikContext<ImageEditFormValues>();
+  const src = `${config.ndlaApiUrl}/image-api/raw/id/${values.resourceId}?language=${language}`;
+  const [crop, setCrop] = useState<Crop | undefined>(getCrop(values));
 
   const onComplete = (crop: PercentCrop) => {
     if (crop.width === 0 && crop.height === 0) {

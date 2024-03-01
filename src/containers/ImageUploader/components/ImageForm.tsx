@@ -13,7 +13,12 @@ import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { IImageMetaInformationV3, INewImageMetaInformationV2, ILicense } from "@ndla/types-backend/image-api";
+import {
+  IImageMetaInformationV3,
+  INewImageMetaInformationV2,
+  ILicense,
+  IUpdateImageMetaInformation,
+} from "@ndla/types-backend/image-api";
 import ImageContent from "./ImageContent";
 import ImageCopyright from "./ImageCopyright";
 import ImageMetaData from "./ImageMetaData";
@@ -84,7 +89,7 @@ const imageRules: RulesType<ImageFormikType, IImageMetaInformationV3> = {
 interface Props {
   image?: IImageMetaInformationV3;
   licenses: ILicense[];
-  onSubmitFunc: (imageMetadata: INewImageMetaInformationV2, image: string | Blob) => void;
+  onSubmitFunc: (imageMetadata: INewImageMetaInformationV2 & IUpdateImageMetaInformation, image: string | Blob) => void;
   inModal?: boolean;
   isNewlyCreated?: boolean;
   closeModal?: () => void;
@@ -144,7 +149,7 @@ const ImageForm = ({
     }
 
     actions.setSubmitting(true);
-    const imageMetaData: INewImageMetaInformationV2 = {
+    const imageMetaData: INewImageMetaInformationV2 & IUpdateImageMetaInformation = {
       title: editorValueToPlainText(values.title),
       alttext: values.alttext,
       caption: values.caption,

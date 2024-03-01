@@ -8,7 +8,8 @@
 
 import { useField } from "formik";
 import { useTranslation } from "react-i18next";
-import { CheckboxItem, FieldHeader, Label } from "@ndla/forms";
+import { CheckboxItem, FieldHelper, Label } from "@ndla/forms";
+import { Text } from "@ndla/typography";
 import { CheckboxWrapper } from "../../../components/Form/styles";
 import { FormControl, FormField } from "../../../components/FormField";
 
@@ -17,10 +18,17 @@ const ProcessedField = () => {
   const [originField] = useField<string>("origin");
   return (
     <>
-      <FieldHeader title={t("form.processed.label")} width={3 / 4} />
+      <Text textStyle="label-large" margin="small">
+        {t("form.processed.label")}
+      </Text>
       <FormField name="processed">
         {({ field }) => (
           <FormControl isDisabled={!originField.value?.length && !field.value}>
+            {!originField.value?.length && (
+              <FieldHelper>
+                <span>{t("form.processed.disabledCause")}</span>
+              </FieldHelper>
+            )}
             <CheckboxWrapper>
               <CheckboxItem
                 checked={field.value}
@@ -40,7 +48,6 @@ const ProcessedField = () => {
           </FormControl>
         )}
       </FormField>
-      {!originField.value?.length && <span>{t("form.processed.disabledCause")}</span>}
     </>
   );
 };

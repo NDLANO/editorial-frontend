@@ -798,6 +798,7 @@ const phrases = {
       date: "Dato",
       sides: "Kva for ei side biletet skal vises på",
       transcription: "Transkripsjon",
+      type: "Type",
     },
     previewProductionArticle: {
       button: "Samanlikn gjeldande versjon med sist publiserte versjon",

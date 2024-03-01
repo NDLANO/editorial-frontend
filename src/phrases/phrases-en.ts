@@ -799,6 +799,7 @@ const phrases = {
       date: "Date",
       sides: "Image side",
       transcription: "Transcription",
+      type: "Type",
     },
     previewProductionArticle: {
       button: "Compare current version with last published version",

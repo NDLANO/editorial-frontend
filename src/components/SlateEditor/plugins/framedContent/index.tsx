@@ -17,6 +17,7 @@ import {
   lastTextBlockElement,
   textBlockElements,
 } from "../../utils/normalizationHelpers";
+import { TYPE_COPYRIGHT } from "../copyright/types";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
 
 export interface FramedContentElement {
@@ -26,7 +27,7 @@ export interface FramedContentElement {
 
 const normalizerConfig: NormalizerConfig = {
   nodes: {
-    allowed: textBlockElements,
+    allowed: textBlockElements.concat(TYPE_COPYRIGHT),
     defaultType: TYPE_PARAGRAPH,
   },
   previous: {
@@ -38,11 +39,11 @@ const normalizerConfig: NormalizerConfig = {
     defaultType: TYPE_PARAGRAPH,
   },
   firstNode: {
-    allowed: firstTextBlockElement,
+    allowed: firstTextBlockElement.concat(TYPE_COPYRIGHT),
     defaultType: TYPE_PARAGRAPH,
   },
   lastNode: {
-    allowed: lastTextBlockElement,
+    allowed: lastTextBlockElement.concat(TYPE_COPYRIGHT),
     defaultType: TYPE_PARAGRAPH,
   },
 };

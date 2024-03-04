@@ -25,6 +25,7 @@ import parseMarkdown from "../../../../util/parseMarkdown";
 import { addBrightCoveTimeStampVideoid, getBrightCoveStartTime } from "../../../../util/videoUtil";
 import FormikField from "../../../FormikField";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
+import { RichTextIndicator } from "../../RichTextIndicator";
 
 interface Props {
   embed: BrightcoveEmbed;
@@ -146,6 +147,7 @@ const VideoEmbedForm = ({ setHasError, close, isValid, dirty }: VideoEmbedFormPr
           <>
             <Text textStyle="label-small" margin="none">
               {t("form.video.caption.label")}
+              <RichTextIndicator />
             </Text>
             <InlineField
               {...field}

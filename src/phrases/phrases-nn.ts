@@ -799,9 +799,11 @@ const phrases = {
       date: "Dato",
       sides: "Kva for ei side biletet skal vises på",
       transcription: "Transkripsjon",
+      type: "Type",
     },
     previewProductionArticle: {
-      button: "Samanlikn gjeldande versjon med gamal versjon",
+      button: "Samanlikn gjeldande versjon med sist publiserte versjon",
+      buttonDisabled: "Artikkelinnhaldet er identisk med sist publiserte versjon",
       version: "Versjon {{revision}}",
       current: "Gjeldende versjon",
       published: "Publisert versjon",
@@ -1484,6 +1486,11 @@ const phrases = {
         "T.d. Har du utfordringar med syn eller kognisjon? Då kan du få problem med å oppfatte og forstå dette innhaldet. Du kan istaden nytte denne sida: www.ndla.eksempel.no",
       exampleLinkText: "Her finn du eksempelsetningar som skal brukast i fritekstfelt",
       editorHeader: "Skriv inn kor brukaren finn alternativt innhald",
+    },
+    copyright: {
+      title: "Rediger lisens",
+      edit: "Rediger lisens",
+      add: "Legg til lisensiert innhold",
     },
   },
   validation: {

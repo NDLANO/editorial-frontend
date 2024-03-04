@@ -65,7 +65,6 @@ const PreviewConcept = ({ concept, language }: Props) => {
           title={concept.title}
           content={parsedContent}
           visualElement={visualElementMeta}
-          metaImage={concept.metaImage}
           copyright={concept.copyright}
           tags={concept.tags?.tags}
           subjects={subjects?.results?.map((res) => res.name)}

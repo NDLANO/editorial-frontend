@@ -12,6 +12,7 @@ import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import { MetaImageSearch } from ".";
 import AvailabilityField from "./components/AvailabilityField";
 import AsyncSearchTags from "../../components/Dropdown/asyncDropdown/AsyncSearchTags";
+import { FormField } from "../../components/FormField";
 import FormikField from "../../components/FormikField";
 import PlainTextEditor from "../../components/SlateEditor/PlainTextEditor";
 import { textTransformPlugin } from "../../components/SlateEditor/plugins/textTransform";
@@ -45,9 +46,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
         )}
       </FormikField>
       {userPermissions?.includes(DRAFT_ADMIN_SCOPE) && (
-        <FormikField name="availability" label={t("form.availability.label")}>
-          {({ field }) => <AvailabilityField field={field} />}
-        </FormikField>
+        <FormField name="availability">{({ field }) => <AvailabilityField field={field} />}</FormField>
       )}
       <FormikField
         name="metaDescription"

@@ -28,7 +28,7 @@ import {
 } from "../../components/SlateEditor/plugins/toolbar/toolbarState";
 import RichTextEditor, { RichTextEditorProps } from "../../components/SlateEditor/RichTextEditor";
 
-interface Props extends RichTextEditorProps {}
+interface Props extends Omit<RichTextEditorProps, "toolbarOptions" | "toolbarAreaFilters"> {}
 
 const toolbarOptions = createToolbarDefaultValues({
   text: {

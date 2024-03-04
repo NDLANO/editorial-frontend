@@ -93,7 +93,7 @@ const ComparePage = () => {
       <HelmetWithTracker title={t("htmlTitles.comparePage")} />
       <TwoArticleWrapper>
         <div>
-          <PreviewTitleWrapper className="u-4/6@desktop u-push-1/6@desktop">
+          <PreviewTitleWrapper className="u-10/12 u-push-1/12">
             <h2>
               {t(`form.previewLanguageArticle.title`, {
                 language: t(`languages.${language}`).toLowerCase(),
@@ -108,7 +108,7 @@ const ComparePage = () => {
           />
         </div>
         <div>
-          <PreviewTitleWrapper className="u-4/6@desktop u-push-1/6@desktop">
+          <PreviewTitleWrapper className="u-10/12 u-push-1/12">
             <h2>
               {t("form.previewLanguageArticle.title", {
                 language: t(`languages.${previewLanguage}`).toLowerCase(),

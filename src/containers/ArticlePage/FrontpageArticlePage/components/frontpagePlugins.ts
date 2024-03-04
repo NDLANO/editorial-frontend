@@ -19,6 +19,7 @@ import { blockConceptPlugin } from "../../../../components/SlateEditor/plugins/c
 import { inlineConceptPlugin } from "../../../../components/SlateEditor/plugins/concept/inline";
 import { conceptListPlugin } from "../../../../components/SlateEditor/plugins/conceptList";
 import { contactBlockPlugin } from "../../../../components/SlateEditor/plugins/contactBlock";
+import { copyrightPlugin } from "../../../../components/SlateEditor/plugins/copyright";
 import { definitionListPlugin } from "../../../../components/SlateEditor/plugins/definitionList";
 import { detailsPlugin } from "../../../../components/SlateEditor/plugins/details";
 import { divPlugin } from "../../../../components/SlateEditor/plugins/div";
@@ -91,4 +92,5 @@ export const frontpagePlugins: SlatePlugin[] = [
   campaignBlockPlugin,
   linkBlockListPlugin,
   disclaimerPlugin,
+  copyrightPlugin,
 ];

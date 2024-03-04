@@ -6,283 +6,313 @@
  *
  */
 
-import { MouseEvent, useEffect, useState } from "react";
+import { useFormikContext } from "formik";
+import { MouseEvent, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { PercentCrop } from "react-image-crop";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { colors, stackOrder } from "@ndla/core";
-import { Crop, FocalPoint } from "@ndla/icons/editor";
-import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
-import ImageAlignButton from "./ImageAlignButton";
-import ImageEditorButton from "./ImageEditorButton";
-import ImageSizeButton from "./ImageSizeButton";
+import { ToggleGroup, ToggleGroupItem } from "@radix-ui/react-toggle-group";
+import { colors, spacing } from "@ndla/core";
+import {
+  AlignCenter,
+  AlignLeft,
+  AlignRight,
+  Crop,
+  FocalPoint,
+  ImageSmall,
+  ImageXsmall,
+  ImageXxSmall,
+} from "@ndla/icons/editor";
+import { Copyright, Publicdomain } from "@ndla/icons/licenses";
 import ImageTransformEditor from "./ImageTransformEditor";
-import ShowBylineButton from "./ShowBylineButton";
-import { ImageEmbed } from "../../interfaces";
-import { fetchImage } from "../../modules/image/imageApi";
+import { FormField } from "../../components/FormField";
+import { ImageEditFormValues } from "../../components/SlateEditor/plugins/embed/EditImage";
+import { useImage } from "../../modules/image/imageQueries";
 
-const StyledImageEditorMenu = styled("div")`
+const StyledImageEditorMenu = styled.div`
   color: white;
   background-color: black;
-  padding: 0.5rem;
+  padding: ${spacing.small};
   display: flex;
   justify-content: space-between;
+  width: 100%;
 `;
 
-const StyledImageEditorEditMode = styled("div")`
+const StyledImageEditorEditMode = styled.div`
   position: relative;
-  z-index: ${stackOrder.popover};
   background-color: ${colors.brand.grey};
 `;
 
-const alignments = ["left", "center", "right"];
+const StyledToggleGroupItem = styled(ToggleGroupItem)`
+  all: unset;
+  transition: color 200ms ease;
+  color: ${colors.brand.grey};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &:focus-visible,
+  &:hover,
+  &[data-state="on"] {
+    cursor: pointer;
+    color: ${colors.white};
+  }
+  &[disabled] {
+    color: ${colors.brand.primary};
+    cursor: not-allowed;
+  }
+`;
 
-const sizes = ["xsmall", "small", "medium"];
+const alignments = [
+  { value: "left", children: <AlignLeft /> },
+  { value: "center", children: <AlignCenter /> },
+  { value: "right", children: <AlignRight /> },
+] as const;
 
-const bylineOptions = ["hide", "show"];
+const sizes = [
+  { value: "xsmall", children: <ImageXxSmall /> },
+  { value: "small", children: <ImageXsmall /> },
+  { value: "medium", children: <ImageSmall /> },
+] as const;
 
-const defaultData = {
+const bylineOptions = [
+  { value: "hide", children: <Publicdomain /> },
+  { value: "show", children: <Copyright /> },
+] as const;
+
+const defaultData: Record<string, Partial<ImageEditFormValues>> = {
   focalPoint: {
-    "focal-x": undefined,
-    "focal-y": undefined,
+    focalX: undefined,
+    focalY: undefined,
   },
   crop: {
-    "upper-left-x": undefined,
-    "upper-left-y": undefined,
-    "lower-right-x": undefined,
-    "lower-right-y": undefined,
-    "focal-x": undefined,
-    "focal-y": undefined,
+    upperLeftX: undefined,
+    upperLeftY: undefined,
+    lowerRightX: undefined,
+    lowerRightY: undefined,
+    focalX: undefined,
+    focalY: undefined,
   },
 };
 
 interface Props {
-  embed: ImageEmbed;
-  onUpdatedImageSettings: Function;
-  imageUpdates:
-    | {
-        transformData: {
-          "focal-x"?: string;
-          "focal-y"?: string;
-          "upper-left-x"?: string;
-          "upper-left-y"?: string;
-          "lower-right-x"?: string;
-          "lower-right-y"?: string;
-        };
-        align?: string;
-        size?: string;
-      }
-    | undefined;
   language: string;
 }
 
-type StateProp = "crop" | "focalPoint" | undefined;
+const StyledToggleGroup = styled(ToggleGroup)`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+`;
 
-const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates, language }: Props) => {
+type StateProp = "crop" | "focalPoint" | "none";
+
+const ImageEditor = ({ language }: Props) => {
   const { t } = useTranslation();
-  const [editType, setEditType] = useState<StateProp>(undefined);
-  const [aspect, setAspect] = useState<number | undefined>(undefined);
-  const [image, setImage] = useState<IImageMetaInformationV3 | undefined>(undefined);
+  const { values, setValues, setFieldValue } = useFormikContext<ImageEditFormValues>();
+  const [editType, setEditType] = useState<StateProp>("none");
+  const [aspect, setAspect] = useState<string>("none");
 
-  useEffect(() => {
-    const getImage = async () => {
-      const img = await fetchImage(embed.resource_id, language);
-      setImage(img);
-    };
-    getImage();
-  }, [embed, language]);
-
-  const onFocalPointChange = (focalPoint: { x: number; y: number }) => {
-    onUpdatedImageSettings({
-      transformData: {
-        ...imageUpdates?.transformData,
-        "focal-x": focalPoint.x.toString(),
-        "focal-y": focalPoint.y.toString(),
-      },
-    });
-  };
-
-  const onCropComplete = (crop: PercentCrop) => {
-    const width = crop.width ?? 0;
-    const height = crop.height ?? 0;
-    if (width === 0) {
-      setEditType(undefined);
-      onUpdatedImageSettings({ transformData: defaultData.crop });
-    } else {
-      onUpdatedImageSettings({
-        transformData: {
-          "upper-left-x": crop.x.toString(),
-          "upper-left-y": crop.y.toString(),
-          "lower-right-x": (crop.x + width).toString(),
-          "lower-right-y": (crop.y + height).toString(),
-          ...defaultData.focalPoint,
-        },
-      });
-    }
-  };
-
-  const onFieldChange = (evt: MouseEvent<HTMLButtonElement>, field: string, value: string) => {
-    evt.stopPropagation();
-    onUpdatedImageSettings({ [field]: value });
-  };
-
-  const onEditorTypeSet = (evt: MouseEvent<HTMLButtonElement>, type: StateProp) => {
-    setEditType(type);
-  };
-
-  const onAspectSet = (evt: MouseEvent<HTMLButtonElement>, type: number | undefined) => {
-    setAspect(type);
-  };
-
-  const onRemoveData = (evt: MouseEvent<HTMLButtonElement>, field: StateProp) => {
-    evt.stopPropagation();
-    setEditType(undefined);
-    onUpdatedImageSettings({
-      transformData: {
-        ...imageUpdates?.transformData,
-        ...defaultData[field as NonNullable<StateProp>],
-      },
-    });
-  };
-
-  const isModifiable = () => {
-    if (image) {
-      return !(image.copyright.license.license.includes("ND") || image.image.contentType.includes("svg"));
-    }
-  };
+  const imageQuery = useImage(
+    { id: parseInt(values.resourceId), language },
+    { enabled: !!parseInt(values.resourceId) },
+  );
 
   const aspects = [
     {
-      aspect: 3 / 4,
+      aspect: "0.75",
       label: t("form.image.aspect.3_4"),
     },
     {
-      aspect: 4 / 3,
+      aspect: (4 / 3).toString(),
       label: t("form.image.aspect.4_3"),
     },
     {
-      aspect: 16 / 9,
+      aspect: (16 / 9).toString(),
       label: t("form.image.aspect.16_9"),
     },
     {
-      aspect: 1,
+      aspect: "1",
       label: t("form.image.aspect.square"),
     },
     {
-      aspect: undefined,
+      aspect: "none",
       label: t("form.image.aspect.none"),
     },
   ];
 
-  const imageCancelButtonNeeded =
-    (editType === "focalPoint" && imageUpdates?.transformData["focal-x"]) ||
-    (editType === "crop" && imageUpdates?.transformData["upper-left-x"]);
+  const onCancelMode = useCallback(
+    (e: MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation();
+      setValues({ ...values, ...defaultData[editType] });
+      setEditType("none");
+    },
+    [editType, setValues, values],
+  );
+
+  const onFocalPointChange = useCallback(
+    (focalPoint: { x: number; y: number }) => {
+      setValues({ ...values, focalX: focalPoint.x.toString(), focalY: focalPoint.y.toString() });
+    },
+    [setValues, values],
+  );
+
+  const onCropComplete = useCallback(
+    (crop: PercentCrop) => {
+      const width = crop.width ?? 0;
+      const height = crop.height ?? 0;
+      if (width === 0) {
+        setEditType("none");
+        setValues({ ...values, ...defaultData.crop });
+      } else {
+        setValues({
+          ...values,
+          upperLeftX: crop.x.toString(),
+          upperLeftY: crop.y.toString(),
+          lowerRightX: (crop.x + width).toString(),
+          lowerRightY: (crop.y + height).toString(),
+          ...defaultData.focalPoint,
+        });
+      }
+    },
+    [setValues, values],
+  );
+
+  const isModifiable = useMemo(() => {
+    const image = imageQuery.data;
+    if (image) {
+      return !(image.copyright.license.license.includes("ND") || image.image.contentType.includes("svg"));
+    }
+  }, [imageQuery.data]);
+
+  const imageCancelButtonNeeded = useMemo(() => {
+    return (editType === "focalPoint" && !!values.focalX) || (editType === "crop" && !!values.upperLeftX);
+  }, [editType, values.focalX, values.upperLeftX]);
 
   return (
-    <div>
-      <StyledImageEditorEditMode>
-        <div>
-          <StyledImageEditorMenu>
-            {alignments.map((alignment) => (
-              <ImageAlignButton
-                key={`align_${alignment}`}
-                alignType={alignment}
-                onFieldChange={onFieldChange}
-                currentAlign={imageUpdates?.align}
-                disabled={alignment === "left"}
-              />
-            ))}
-          </StyledImageEditorMenu>
-          {imageUpdates?.align === "left" || imageUpdates?.align === "right" ? (
-            <StyledImageEditorMenu>
-              {sizes.map((size) => (
-                <ImageSizeButton
-                  key={`size_${size}`}
-                  size={size}
-                  onFieldChange={onFieldChange}
-                  currentSize={imageUpdates?.size}
-                />
+    <StyledImageEditorEditMode>
+      <StyledImageEditorMenu>
+        <FormField name="align">
+          {({ field, helpers }) => (
+            <StyledToggleGroup
+              type="single"
+              value={field.value}
+              onValueChange={(val) => {
+                helpers.setValue(val);
+                if (val === "center") {
+                  setFieldValue("size", "full");
+                }
+              }}
+            >
+              {alignments.map(({ value, children }) => (
+                <StyledToggleGroupItem
+                  key={value}
+                  value={value}
+                  disabled={value === "left"}
+                  aria-label={t(`form.image.alignment.${value}`)}
+                  title={t(`form.image.alignment.${value}`)}
+                >
+                  {children}
+                </StyledToggleGroupItem>
               ))}
-            </StyledImageEditorMenu>
-          ) : (
-            ""
+            </StyledToggleGroup>
           )}
-          {imageUpdates?.size?.startsWith("full") || imageUpdates?.size?.startsWith("medium") ? (
-            <StyledImageEditorMenu>
-              {bylineOptions.map((option) => (
-                <ShowBylineButton
-                  key={option}
-                  show={option === "show"}
-                  currentSize={imageUpdates.size}
-                  onFieldChange={onFieldChange}
-                />
-              ))}
-            </StyledImageEditorMenu>
-          ) : (
-            ""
-          )}
-        </div>
-        <ImageTransformEditor
-          onFocalPointChange={onFocalPointChange}
-          onCropComplete={onCropComplete}
-          embed={embed}
-          transformData={imageUpdates?.transformData}
-          editType={editType}
-          aspect={aspect}
-          language={language}
-        />
+        </FormField>
+      </StyledImageEditorMenu>
+      {values.align === "left" || values.align === "right" ? (
         <StyledImageEditorMenu>
-          {isModifiable() && (
-            <ImageEditorButton
+          <FormField name="size">
+            {({ field, helpers }) => (
+              <StyledToggleGroup
+                type="single"
+                value={field.value}
+                onValueChange={(val) => {
+                  helpers.setValue(val);
+                  if (val !== "medium") {
+                    setFieldValue("hideByline", false);
+                  }
+                }}
+              >
+                {sizes.map(({ value, children }) => (
+                  <StyledToggleGroupItem
+                    key={value}
+                    value={value}
+                    aria-label={t(`form.image.sizes.${value}`)}
+                    title={t(`form.image.sizes.${value}`)}
+                  >
+                    {children}
+                  </StyledToggleGroupItem>
+                ))}
+              </StyledToggleGroup>
+            )}
+          </FormField>
+        </StyledImageEditorMenu>
+      ) : null}
+      {values.size?.startsWith("full") || values.size?.startsWith("medium") ? (
+        <StyledImageEditorMenu>
+          <FormField name="hideByline">
+            {({ field, helpers }) => (
+              <StyledToggleGroup
+                type="single"
+                value={field.value ? "hide" : "show"}
+                onValueChange={(val) => helpers.setValue(val === "hide")}
+              >
+                {bylineOptions.map(({ value, children }) => (
+                  <StyledToggleGroupItem
+                    key={value}
+                    value={value}
+                    aria-label={t(`form.image.byline.${value}`)}
+                    title={t(`form.image.byline.${value}`)}
+                  >
+                    {children}
+                  </StyledToggleGroupItem>
+                ))}
+              </StyledToggleGroup>
+            )}
+          </FormField>
+        </StyledImageEditorMenu>
+      ) : null}
+      <ImageTransformEditor
+        language={language}
+        editType={editType}
+        aspect={aspect === "none" ? undefined : parseFloat(aspect)}
+        onCropComplete={onCropComplete}
+        onFocalPointChange={onFocalPointChange}
+      />
+      <StyledImageEditorMenu>
+        <StyledToggleGroup type="single" value={editType} onValueChange={(val) => setEditType(val as StateProp)}>
+          {isModifiable && (
+            <StyledToggleGroupItem
+              value="focalPoint"
               aria-label={t("form.image.focalPoint")}
-              tabIndex={-1}
-              isActive={embed["focal-x"] !== undefined}
-              onClick={(evt: MouseEvent<HTMLButtonElement>) => onEditorTypeSet(evt, "focalPoint")}
               title={t("form.image.focalPoint")}
             >
               <FocalPoint />
-            </ImageEditorButton>
+            </StyledToggleGroupItem>
           )}
           {imageCancelButtonNeeded && (
-            <ButtonV2
-              aria-label={t(`imageEditor.remove.${editType}`)}
-              onClick={(evt: MouseEvent<HTMLButtonElement>) => onRemoveData(evt, editType)}
-              variant="stripped"
-              title={t(`imageEditor.remove.${editType}`)}
-            >
+            <StyledToggleGroupItem value="none" onClick={onCancelMode}>
               {t(`imageEditor.remove.${editType}`)}
-            </ButtonV2>
+            </StyledToggleGroupItem>
           )}
-          {isModifiable() && (
-            <ImageEditorButton
-              aria-label={t("form.image.crop")}
-              isActive={embed["upper-left-x"] !== undefined}
-              onClick={(evt: MouseEvent<HTMLButtonElement>) => onEditorTypeSet(evt, "crop")}
-              tabIndex={-1}
-              title={t("form.image.crop")}
-            >
+          {isModifiable && (
+            <StyledToggleGroupItem value="crop" aria-label={t("form.image.crop")} title={t("form.image.crop")}>
               <Crop />
-            </ImageEditorButton>
+            </StyledToggleGroupItem>
           )}
-        </StyledImageEditorMenu>
-        {editType === "crop" && (
-          <StyledImageEditorMenu>
-            {aspects.map(({ aspect: aspectValue, label }) => (
-              <ImageEditorButton
-                aria-label={label}
-                key={label}
-                onClick={(evt: MouseEvent<HTMLButtonElement>) => onAspectSet(evt, aspectValue)}
-                tabIndex={-1}
-                title={label}
-              >
+        </StyledToggleGroup>
+      </StyledImageEditorMenu>
+      {editType === "crop" && (
+        <StyledImageEditorMenu>
+          <StyledToggleGroup type="single" value={aspect} onValueChange={setAspect}>
+            {aspects.map(({ label, aspect }) => (
+              <StyledToggleGroupItem key={label} value={aspect} aria-label={label} title={label}>
                 {label}
-              </ImageEditorButton>
+              </StyledToggleGroupItem>
             ))}
-          </StyledImageEditorMenu>
-        )}
-      </StyledImageEditorEditMode>
-    </div>
+          </StyledToggleGroup>
+        </StyledImageEditorMenu>
+      )}
+    </StyledImageEditorEditMode>
   );
 };
 

@@ -36,7 +36,7 @@ const FrontpageArticlePanels = ({ article, articleLanguage }: Props) => {
       <FormAccordion
         id={"frontpage-article-content"}
         title={t("form.contentSection")}
-        className={"u-4/6@desktop u-push-1/6@desktop"}
+        className="u-10/12 u-push-1/12"
         hasError={!!(errors.title || errors.introduction || errors.content)}
         wide={isWideArticle}
         isFrontpageArticle={article?.articleType === "frontpage-article"}

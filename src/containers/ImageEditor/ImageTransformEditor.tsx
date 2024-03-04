@@ -6,11 +6,12 @@
  *
  */
 
+import { useFormikContext } from "formik";
 import { PercentCrop } from "react-image-crop";
 import styled from "@emotion/styled";
 import ImageCropEdit from "./ImageCropEdit";
 import ImageFocalPointEdit from "./ImageFocalPointEdit";
-import { ImageEmbed } from "../../interfaces";
+import { ImageEditFormValues } from "../../components/SlateEditor/plugins/embed/EditImage";
 import { getSrcSets } from "../../util/imageEditorUtil";
 
 const StyledImg = styled.img`
@@ -19,55 +20,24 @@ const StyledImg = styled.img`
 `;
 
 interface Props {
-  embed: ImageEmbed;
   language: string;
   editType?: string;
   onFocalPointChange: (focalPoint: { x: number; y: number }) => void;
   onCropComplete: (crop: PercentCrop) => void;
-  transformData?: {
-    "upper-left-x"?: string;
-    "upper-left-y"?: string;
-    "lower-right-x"?: string;
-    "lower-right-y"?: string;
-    "focal-x"?: string;
-    "focal-y"?: string;
-  };
   aspect?: number;
 }
 
-const ImageTransformEditor = ({
-  embed,
-  language,
-  editType,
-  onFocalPointChange,
-  onCropComplete,
-  transformData,
-  aspect,
-}: Props) => {
+const ImageTransformEditor = ({ language, editType, onFocalPointChange, onCropComplete, aspect }: Props) => {
+  const { values } = useFormikContext<ImageEditFormValues>();
   switch (editType) {
     case "focalPoint":
-      return (
-        <ImageFocalPointEdit
-          embed={embed}
-          language={language}
-          transformData={transformData}
-          onFocalPointChange={onFocalPointChange}
-        />
-      );
+      return <ImageFocalPointEdit language={language} onFocalPointChange={onFocalPointChange} />;
     case "crop":
-      return (
-        <ImageCropEdit
-          embed={embed}
-          language={language}
-          onCropComplete={onCropComplete}
-          transformData={transformData}
-          aspect={aspect}
-        />
-      );
+      return <ImageCropEdit language={language} onCropComplete={onCropComplete} aspect={aspect} />;
     default:
       return (
         <figure>
-          <StyledImg alt={embed.alt} srcSet={getSrcSets(embed.resource_id, transformData, language)} />
+          <StyledImg alt={values.alt} srcSet={getSrcSets(values.resourceId, values, language)} />
         </figure>
       );
   }

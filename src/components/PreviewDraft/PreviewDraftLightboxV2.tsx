@@ -123,13 +123,13 @@ const PreviewVersion = ({ article, language, customTitle }: VersionPreviewProps)
   return (
     <TwoArticleWrapper>
       <div>
-        <div className="u-4/6@desktop u-push-1/6@desktop">
+        <div className="u-10/12 u-push-1/12">
           <h2>{t("form.previewProductionArticle.current")}</h2>
         </div>
         <PreviewDraft type="formArticle" draft={formArticle} language={language} label={article.articleType} />
       </div>
       <div>
-        <div className="u-4/6@desktop u-push-1/6@desktop">
+        <div className="u-10/12 u-push-1/12">
           <h2>
             {customTitle ??
               t("form.previewProductionArticle.version", {

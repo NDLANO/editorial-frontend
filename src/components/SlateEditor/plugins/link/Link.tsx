@@ -9,7 +9,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Node } from "slate";
-import { RenderElementProps } from "slate-react";
+import { ReactEditor, RenderElementProps } from "slate-react";
 import styled from "@emotion/styled";
 import { Portal } from "@radix-ui/react-portal";
 import { ButtonV2 } from "@ndla/button";
@@ -147,7 +147,12 @@ const Link = ({ attributes, editor, element, children }: Props) => {
           </Portal>
         )}
       </StyledLink>
-      <ModalContent>
+      <ModalContent
+        onCloseAutoFocus={(e) => {
+          e.preventDefault();
+          ReactEditor.focus(editor);
+        }}
+      >
         {model && <EditLink editor={editor} element={element} model={model} closeEditMode={toggleEditMode} />}
       </ModalContent>
     </Modal>

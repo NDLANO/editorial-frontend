@@ -799,9 +799,11 @@ const phrases = {
       date: "Date",
       sides: "Image side",
       transcription: "Transcription",
+      type: "Type",
     },
     previewProductionArticle: {
-      button: "Compare current version with old version",
+      button: "Compare current version with last published version",
+      buttonDisabled: "The article content is identical to the last published version",
       version: "Version {{revision}}",
       current: "Current version",
       published: "Published version",
@@ -1486,6 +1488,11 @@ const phrases = {
         "E.g. Do you have issues with sight or cognition? Then you may experience issues perceiving and understanding this content. You can alternatively use this page: www.ndla.eksempel.no",
       exampleLinkText: "You can find example sentences for use in multiline textfields here",
       editorHeader: "Write down where the user can find alternative content",
+    },
+    copyright: {
+      title: "Edit license",
+      edit: "Edit license",
+      add: "Add licensed content",
     },
   },
   validation: {

@@ -9,7 +9,7 @@
 import { Editor, Node, Element, Descendant, Text, Path, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_PARAGRAPH } from "./types";
-import { getCurrentParagraph, isParagraph } from "./utils";
+import { isParagraph } from "./utils";
 import { reduceElementDataAttributes } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 import containsVoid from "../../utils/containsVoid";
@@ -30,15 +30,18 @@ export interface ParagraphElement {
 }
 
 const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: KeyboardEvent) => void) => {
-  const currentParagraph = getCurrentParagraph(editor);
+  if (!editor.selection) return nextOnKeyDown?.(e);
+  const [entry] = Editor.nodes<ParagraphElement>(editor, {
+    match: (node) => isParagraph(node) && !editor.isInline(node),
+    mode: "lowest",
+  });
 
-  if (!currentParagraph) {
-    if (nextOnKeyDown) {
-      return nextOnKeyDown(e);
-    }
-    return;
+  if (!entry) {
+    return nextOnKeyDown?.(e);
   }
   e.preventDefault();
+
+  const [currentParagraph, currentPath] = entry;
   /**
    If the user types enter in an empty paragraph we transform the paragraph to a <br>.
    This enables us to filter out unnecessary empty <p> tags on save. We insert empty p tags
@@ -62,7 +65,25 @@ const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: Keybo
     return editor.insertText("\n");
   }
 
-  return editor.insertNode({
+  if (
+    editor.selection?.anchor.offset !== Node.string(currentParagraph).length &&
+    editor.selection?.anchor.offset !== 0
+  ) {
+    return Transforms.splitNodes(editor, { match: (node) => isParagraph(node) });
+  }
+
+  if (editor.selection?.anchor.offset === 0) {
+    return Transforms.insertNodes(
+      editor,
+      {
+        type: TYPE_PARAGRAPH,
+        children: [{ text: "" }],
+      },
+      { at: editor.selection },
+    );
+  }
+
+  return Transforms.insertNodes(editor, {
     type: TYPE_PARAGRAPH,
     children: [{ text: "" }],
   });

@@ -18,6 +18,7 @@ import { blockConceptRenderer } from "../../../../components/SlateEditor/plugins
 import { inlineConceptRenderer } from "../../../../components/SlateEditor/plugins/concept/inline/render";
 import { conceptListRenderer } from "../../../../components/SlateEditor/plugins/conceptList/render";
 import { contactBlockRenderer } from "../../../../components/SlateEditor/plugins/contactBlock/render";
+import { copyrightRenderer } from "../../../../components/SlateEditor/plugins/copyright/render";
 import { definitionListRenderer } from "../../../../components/SlateEditor/plugins/definitionList/render";
 import { detailsRenderer } from "../../../../components/SlateEditor/plugins/details/render";
 import { divRenderer } from "../../../../components/SlateEditor/plugins/div/render";
@@ -81,4 +82,5 @@ export const frontpageRenderers: SlatePlugin[] = [
   campaignBlockRenderer,
   linkBlockListRenderer,
   disclaimerRenderer,
+  copyrightRenderer,
 ];

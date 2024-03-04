@@ -35,7 +35,7 @@ describe("<AvailabilityField />", () => {
     act(() => {
       fireEvent.click(teachersRadio);
     });
-    expect(teachersRadio).not.toBeChecked();
-    expect(allRadio).toBeChecked();
+    expect(teachersRadio).toBeChecked();
+    expect(allRadio).not.toBeChecked();
   });
 });

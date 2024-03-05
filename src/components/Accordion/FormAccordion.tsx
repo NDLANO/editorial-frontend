@@ -50,7 +50,6 @@ const StyledHeader = styled(AccordionHeader)`
 `;
 
 const StyledItem = styled(AccordionItem)`
-  border-radius: ${misc.borderRadius};
   background-color: ${colors.white};
 
   &:focus-visible {

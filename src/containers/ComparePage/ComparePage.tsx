@@ -66,21 +66,18 @@ const ComparePage = () => {
   const language = params.language!;
   const { data: article, isLoading } = useDraft({ id: draftId, language: language });
   const [previewLanguage, setPreviewLanguage] = useState<string>(article?.supportedLanguages[0]!);
-  const initialValues = draftApiTypeToLearningResourceFormType(article, language, undefined);
   const draft = useDraft({ id: article?.id!, language: previewLanguage });
-  const { data: licenses = [] } = useLicenses();
   const formArticle = useMemo(() => {
-    const apiType = learningResourceFormTypeToDraftApiType(initialValues, initialValues, licenses);
     return {
       id: article?.id!,
-      title: apiType.title ?? "",
-      content: apiType.content ?? "",
-      introduction: apiType.introduction ?? "",
-      visualElement: apiType.visualElement,
-      published: apiType.published,
-      copyright: apiType.copyright,
+      title: article?.title?.title ?? "",
+      content: article?.content?.content ?? "",
+      introduction: article?.introduction?.introduction ?? "",
+      visualElement: article?.visualElement?.visualElement ?? "",
+      published: article?.published,
+      copyright: article?.copyright,
     };
-  }, [initialValues, licenses, article?.id]);
+  }, [article]);
 
   useEffect(() => {
     setPreviewLanguage(article?.supportedLanguages.find((l) => l !== language) ?? article?.supportedLanguages[0]!);

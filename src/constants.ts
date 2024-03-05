@@ -39,8 +39,6 @@ export const RESOURCE_FILTER_SUPPLEMENTARY = "urn:relevance:supplementary";
 
 export const NDLA_FILM_SUBJECT = "urn:subject:20";
 
-export const ARTICLE_EXTERNAL = "external";
-
 export const DRAFT_ADMIN_SCOPE = "drafts:admin";
 export const DRAFT_WRITE_SCOPE = "drafts:write";
 export const DRAFT_HTML_SCOPE = "drafts:html";

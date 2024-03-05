@@ -50,7 +50,9 @@ const StyledHeader = styled(AccordionHeader)`
 `;
 
 const StyledItem = styled(AccordionItem)`
+  border-radius: ${misc.borderRadius};
   background-color: ${colors.white};
+  overflow: hidden;
 
   &:focus-visible {
     border: 2px solid ${colors.support.red};

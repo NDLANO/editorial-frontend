@@ -26,7 +26,6 @@ import HeaderSupportedLanguages from "./HeaderSupportedLanguages";
 import TranslateNbToNn from "./TranslateNbToNn";
 import { createEditUrl, toMapping, translatableTypes } from "./util";
 import { PUBLISHED } from "../../constants";
-import { fetchDraftHistory } from "../../modules/draft/draftApi";
 import { toCompareLanguage } from "../../util/routeHelpers";
 import { useIsTranslatableToNN } from "../NynorskTranslateProvider";
 import PreviewDraftLightboxV2 from "../PreviewDraft/PreviewDraftLightboxV2";
@@ -92,6 +91,7 @@ interface Props {
   id: number;
   isNewLanguage: boolean;
   article?: IArticle;
+  articleHistory: IArticle[] | undefined;
   concept?: IConcept;
   noStatus: boolean;
   disableDelete: boolean;
@@ -108,12 +108,10 @@ const HeaderActions = ({
   language,
   disableDelete,
   article,
+  articleHistory,
   concept,
   supportedLanguages = [],
 }: Props) => {
-  const [lastPublishedVersion, setLastPublishedVersion] = useState<IArticle>();
-  const [isIdenticalToPublished, setIsIdenticalToPublished] = useState(true);
-
   const { t } = useTranslation();
   const { isSubmitting } = useFormikContext();
   const showTranslate = useIsTranslatableToNN();
@@ -125,23 +123,20 @@ const HeaderActions = ({
     [type],
   );
 
-  useEffect(() => {
-    const getVersions = async (article: IArticle) => {
-      const versions = await fetchDraftHistory(article.id, article.title?.language);
-      const publishedVersion = versions.find((v) => v.status.current === PUBLISHED);
-      if (publishedVersion) {
-        setLastPublishedVersion(publishedVersion);
-        setIsIdenticalToPublished(
-          publishedVersion.content?.content === article.content?.content &&
-            publishedVersion.title?.title === article.title?.title &&
-            publishedVersion.introduction?.introduction === article.introduction?.introduction,
-        );
-      }
-    };
-    if (article) {
-      getVersions(article);
+  const lastPublishedVersion = useMemo(
+    () => articleHistory?.find((v) => v.status.current === PUBLISHED),
+    [articleHistory],
+  );
+  const isIdenticalToPublished = useMemo(() => {
+    if (lastPublishedVersion) {
+      return (
+        lastPublishedVersion.content?.content === article?.content?.content &&
+        lastPublishedVersion.title?.title === article?.title?.title &&
+        lastPublishedVersion.introduction?.introduction === article?.introduction?.introduction
+      );
     }
-  }, [article]);
+    return false;
+  }, [article, lastPublishedVersion]);
 
   const languages = useMemo(
     () => [

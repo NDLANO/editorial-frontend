@@ -726,6 +726,7 @@ const phrases = {
     saveAsCopySuccess: "New article saved",
     openAll: "Open all",
     hideAll: "Hide all",
+    unpublishedChanges: "(Changed since last publish)",
     comment: {
       comment: "Comment",
       hide: "Hide comment",

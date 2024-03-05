@@ -17,6 +17,7 @@ import {
   fetchUserData,
   updateUserData as apiUpdateUserData,
 } from "../../modules/draft/draftApi";
+import { useDraftHistory } from "../../modules/draft/draftQueries";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 
 export function useFetchArticleData(articleId: number | undefined, language: string) {
@@ -24,6 +25,7 @@ export function useFetchArticleData(articleId: number | undefined, language: str
   const [articleChanged, setArticleChanged] = useState(false);
   const [loading, setLoading] = useState(true);
   const { taxonomyVersion } = useTaxonomyVersion();
+  const articleHistory = useDraftHistory({ id: articleId!, language: language }, { enabled: !!articleId });
 
   useEffect(() => {
     const fetchArticle = async () => {
@@ -76,6 +78,7 @@ export function useFetchArticleData(articleId: number | undefined, language: str
 
   return {
     article,
+    articleHistory,
     setArticle,
     articleChanged,
     updateArticle,

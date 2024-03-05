@@ -10,7 +10,7 @@ import { IArticle } from "@ndla/types-backend/draft-api";
 import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
 import AsyncDropdown from "../../../components/Dropdown/asyncDropdown/AsyncDropdown";
-import { postSearch } from "../../../modules/search/searchApi";
+import { searchResources } from "../../../modules/search/searchApi";
 import { maybeUndefinedFilterList } from "../../../util/searchHelpers";
 
 interface Props {
@@ -43,7 +43,7 @@ const DropdownSearch = ({
       resoureTypes:
         "urn:resourcetype:documentary,urn:resourcetype:featureFilm,urn:resourcetype:series,urn:resourcetype:shortFilm",
     };
-    const response = await postSearch(query);
+    const response = await searchResources(query);
     return response;
   };
 

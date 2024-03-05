@@ -15,7 +15,7 @@ import { fetchFilmFrontpage } from "./frontpageApi";
 import { sortMoviesByIdList } from "../../containers/NdlaFilm/filmUtil";
 import { FILM_FRONTPAGE_QUERY, FILM_SLIDESHOW } from "../../queryKeys";
 import { getIdFromUrn } from "../../util/ndlaFilmHelpers";
-import { postSearch } from "../search/searchApi";
+import { searchResources } from "../search/searchApi";
 
 export const filmQueryKeys = {
   filmFrontpage: [FILM_FRONTPAGE_QUERY],
@@ -44,11 +44,11 @@ export interface UseMovies {
 export const useMoviesQuery = (params: UseMovies, options: Partial<UseQueryOptions<IMultiSearchResult>> = {}) => {
   const { i18n } = useTranslation();
   const movieIds = params.movieUrns.map((urn) => Number(getIdFromUrn(urn))).filter((id) => !isNaN(id));
-  const ids = sortBy(movieIds);
+  const ids = sortBy(movieIds).join(",");
 
   return useQuery<IMultiSearchResult>({
     queryKey: filmQueryKeys.movies(params),
-    queryFn: () => postSearch({ ...slideshowArticlesQueryObject, ids: ids }),
+    queryFn: () => searchResources({ ...slideshowArticlesQueryObject, ids: ids }),
     select: (res) => ({
       ...res,
       results: sortMoviesByIdList(movieIds, res.results, i18n),

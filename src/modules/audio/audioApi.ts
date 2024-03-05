@@ -14,6 +14,8 @@ import {
   ISeries,
   INewSeries,
   ITagsSearchResult,
+  ISeriesSearchParams,
+  ISearchParams,
 } from "@ndla/types-backend/audio-api";
 import { AudioSearchParams, SeriesSearchParams } from "./audioApiInterfaces";
 import { apiResourceUrl, fetchAuthorized, resolveJsonOrRejectWithError } from "../../util/apiHelpers";
@@ -47,6 +49,11 @@ export const searchAudio = (query: AudioSearchParams): Promise<IAudioSummarySear
   fetchAuthorized(`${baseUrl}/?${queryString.stringify(query)}`).then((r) =>
     resolveJsonOrRejectWithError<IAudioSummarySearchResult>(r),
   );
+
+export const postSearchAudio = async (body: ISearchParams): Promise<IAudioSummarySearchResult> => {
+  const response = await fetchAuthorized(`${baseUrl}/search/`, { method: "POST", body: JSON.stringify(body) });
+  return resolveJsonOrRejectWithError(response);
+};
 
 export const deleteLanguageVersionAudio = (audioId: number, locale: string): Promise<IAudioMetaInformation | void> =>
   fetchAuthorized(`${baseUrl}/${audioId}/language/${locale}`, {
@@ -87,4 +94,9 @@ export const searchSeries = (query: SeriesSearchParams): Promise<ISeriesSummaryS
   return fetchAuthorized(`${seriesBaseUrl}/?${queryString.stringify(query)}`).then((r) =>
     resolveJsonOrRejectWithError<ISeriesSummarySearchResult>(r),
   );
+};
+
+export const postSearchSeries = async (body: ISeriesSearchParams): Promise<ISeriesSummarySearchResult> => {
+  const response = await fetchAuthorized(`${seriesBaseUrl}/search/`, { method: "POST", body: JSON.stringify(body) });
+  return resolveJsonOrRejectWithError(response);
 };

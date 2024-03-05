@@ -267,7 +267,7 @@ export const searchNodes = ({ taxonomyVersion, ...queryParams }: SearchNodes): P
   });
 };
 
-export interface PostSearchNodes extends WithTaxonomyVersion {
+interface PostSearchNodes extends WithTaxonomyVersion {
   body?: {
     pageSize?: number;
     customFields?: Record<string, string>;

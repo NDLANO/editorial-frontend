@@ -9,6 +9,7 @@
 import queryString from "query-string";
 import {
   IConcept,
+  IDraftConceptSearchParams,
   IConceptSearchResult,
   INewConcept,
   ITagsSearchResult,
@@ -75,3 +76,11 @@ export const searchConcepts = async (query: ConceptQuery): Promise<IConceptSearc
   fetchAuthorized(`${draftConceptUrl}/?${queryString.stringify(query)}`).then((r) =>
     resolveJsonOrRejectWithError<IConceptSearchResult>(r),
   );
+
+export const postSearchConcepts = async (body: IDraftConceptSearchParams): Promise<IConceptSearchResult> => {
+  const response = await fetchAuthorized(`${draftConceptUrl}/search/`, {
+    method: "POST",
+    body: JSON.stringify(body),
+  });
+  return resolveJsonOrRejectWithError(response);
+};

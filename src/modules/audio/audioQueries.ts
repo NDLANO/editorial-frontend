@@ -12,8 +12,10 @@ import {
   IAudioSummarySearchResult,
   ISeriesSummarySearchResult,
   ISeries,
+  ISeriesSearchParams,
+  ISearchParams as IAudioSearchParams,
 } from "@ndla/types-backend/audio-api";
-import { fetchAudio, fetchSeries, searchAudio, searchSeries } from "./audioApi";
+import { fetchAudio, fetchSeries, postSearchAudio, postSearchSeries } from "./audioApi";
 import { AudioSearchParams, SeriesSearchParams } from "./audioApiInterfaces";
 import { AUDIO, PODCAST_SERIES, SEARCH_AUDIO, SEARCH_SERIES } from "../../queryKeys";
 
@@ -49,21 +51,24 @@ export const useSeries = (params: UseSeries, options?: Partial<UseQueryOptions<I
   });
 
 export const useSearchSeries = (
-  query: SeriesSearchParams,
+  query: ISeriesSearchParams,
   options?: Partial<UseQueryOptions<ISeriesSummarySearchResult>>,
-) =>
-  useQuery<ISeriesSummarySearchResult>({
+) => {
+  // const searchBody = toSearchBody(query);
+  return useQuery<ISeriesSummarySearchResult>({
     queryKey: audioQueryKeys.podcastSeriesSearch(query),
-    queryFn: () => searchSeries(query),
+    queryFn: () => postSearchSeries(query),
     ...options,
   });
+};
 
 export const useSearchAudio = (
-  query: AudioSearchParams,
+  query: IAudioSearchParams,
   options?: Partial<UseQueryOptions<IAudioSummarySearchResult>>,
-) =>
-  useQuery<IAudioSummarySearchResult>({
+) => {
+  return useQuery<IAudioSummarySearchResult>({
     queryKey: audioQueryKeys.search(query),
-    queryFn: () => searchAudio(query),
+    queryFn: () => postSearchAudio(query),
     ...options,
   });
+};

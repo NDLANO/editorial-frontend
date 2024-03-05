@@ -28,16 +28,13 @@ export interface MultiSearchApiQuery {
   language?: string;
   ids?: CommaSeparatedList;
   "resource-types"?: CommaSeparatedList;
-  levels?: CommaSeparatedList;
   license?: string;
   query?: string;
   sort?: string;
   fallback?: boolean;
   subjects?: CommaSeparatedList;
   "language-filter"?: CommaSeparatedList;
-  "context-filters"?: CommaSeparatedList;
   "article-types"?: CommaSeparatedList;
-  "search-context"?: string;
   "grep-codes"?: CommaSeparatedList;
   "embed-id"?: number;
   "embed-resource"?: string;

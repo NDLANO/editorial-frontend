@@ -7,7 +7,7 @@
  */
 
 import queryString from "query-string";
-import { IGroupSearchResult, IMultiSearchResult } from "@ndla/types-backend/search-api";
+import { IDraftSearchParams, IGroupSearchResult, IMultiSearchResult } from "@ndla/types-backend/search-api";
 import { MultiSearchApiQuery } from "./searchApiInterfaces";
 import { resolveJsonOrRejectWithError, apiResourceUrl, fetchAuthorized } from "../../util/apiHelpers";
 import { transformQuery } from "../../util/searchHelpers";
@@ -17,6 +17,11 @@ const groupUrl = apiResourceUrl("/search-api/v1/search/group/");
 
 export const search = async (query: MultiSearchApiQuery): Promise<IMultiSearchResult> => {
   const response = await fetchAuthorized(`${baseUrl}/editorial/?${queryString.stringify(transformQuery(query))}`);
+  return resolveJsonOrRejectWithError(response);
+};
+
+export const postSearch = async (body: IDraftSearchParams): Promise<IMultiSearchResult> => {
+  const response = await fetchAuthorized(`${baseUrl}/editorial/`, { method: "POST", body: JSON.stringify(body) });
   return resolveJsonOrRejectWithError(response);
 };
 

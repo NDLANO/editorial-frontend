@@ -32,12 +32,14 @@ import ConceptModalContent from "../ConceptModalContent";
 import EditGlossExamplesModal from "../EditGlossExamplesModal";
 import { getGlossDataAttributes } from "../utils";
 
-const getConceptDataAttributes = ({ id, conceptType, glossData }: IConceptSummary | IConcept): ConceptEmbedData => ({
-  contentId: id.toString(),
+const getConceptDataAttributes = (concept: IConceptSummary | IConcept, locale: string): ConceptEmbedData => ({
+  contentId: concept.id.toString(),
   resource: "concept",
   type: "block",
   linkText: "",
-  ...(conceptType === "gloss" && glossData?.examples.length ? getGlossDataAttributes(glossData) : {}),
+  ...(concept.conceptType === "gloss" && concept.glossData?.examples.length
+    ? getGlossDataAttributes(concept.glossData, locale)
+    : {}),
 });
 
 interface Props {
@@ -88,7 +90,7 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
   const addConcept = useCallback(
     (addedConcept: IConceptSummary | IConcept) => {
       setIsEditing(false);
-      const data = getConceptDataAttributes(addedConcept);
+      const data = getConceptDataAttributes(addedConcept, locale);
       const path = ReactEditor.findPath(editor, element);
       Transforms.setNodes(
         editor,
@@ -99,7 +101,7 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
         },
       );
     },
-    [setIsEditing, editor, element],
+    [locale, editor, element],
   );
 
   const handleRemove = useCallback(
@@ -141,7 +143,7 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
               element={element}
               embed={embed}
             />
-            <ConceptEmbed embed={embed} />
+            <ConceptEmbed embed={embed} lang={locale === "nb" ? "no" : locale} />
           </div>
         )}
         <ModalContent size={{ width: "large", height: "large" }}>

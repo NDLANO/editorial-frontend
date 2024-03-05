@@ -7,6 +7,10 @@
  */
 
 import queryString from "query-string";
+import { ISeriesSearchParams, ISearchParams as IAudioSearchParams } from "@ndla/types-backend/audio-api";
+import { IDraftConceptSearchParams } from "@ndla/types-backend/concept-api";
+import { ISearchParams as IImageSearchParams } from "@ndla/types-backend/image-api";
+import { IDraftSearchParams } from "@ndla/types-backend/search-api";
 import { Node } from "@ndla/types-taxonomy";
 import SearchAudioForm from "./SearchAudioForm";
 import SearchConceptForm from "./SearchConceptForm";
@@ -20,6 +24,7 @@ export interface SearchParams {
   "draft-status"?: string;
   "include-other-statuses"?: boolean;
   "resource-types"?: string;
+  "article-types"?: string;
   "audio-type"?: string;
   fallback?: boolean;
   language?: string;
@@ -29,7 +34,6 @@ export interface SearchParams {
   subjects?: string;
   users?: string;
   sort?: string;
-  type?: string;
   license?: string;
   "model-released"?: string;
   "revision-date-from"?: string;
@@ -40,7 +44,15 @@ export interface SearchParams {
   "filter-inactive"?: boolean;
 }
 
-export const parseSearchParams = (locationSearch: string): SearchParams => {
+export type SearchParamsBody = IDraftConceptSearchParams &
+  IDraftSearchParams &
+  IImageSearchParams &
+  IAudioSearchParams &
+  ISeriesSearchParams;
+
+type ReturnType<T> = T extends true ? SearchParamsBody : SearchParams;
+
+export const parseSearchParams = <T extends boolean>(locationSearch: string, parseAsSearchBody: T): ReturnType<T> => {
   const queryStringObject: Record<string, string | undefined> = queryString.parse(locationSearch);
 
   const parseBooleanParam = (key: string, fallback = false): boolean => {
@@ -55,30 +67,36 @@ export const parseSearchParams = (locationSearch: string): SearchParams => {
     return parseInt(value, 10);
   };
 
-  return {
-    query: queryStringObject.query,
-    "draft-status": queryStringObject["draft-status"],
-    "include-other-statuses": parseBooleanParam("include-other-statuses"),
-    "resource-types": queryStringObject["resource-types"],
-    "audio-type": queryStringObject["audio-type"],
-    "concept-type": queryStringObject["concept-type"],
-    "model-released": queryStringObject["model-released"],
-    fallback: parseBooleanParam("fallback"),
-    language: queryStringObject.language,
-    license: queryStringObject.license,
-    page: parseNumberParam("page"),
-    "page-size": parseNumberParam("page-size"),
-    sort: queryStringObject.sort,
-    status: queryStringObject.status,
-    subjects: queryStringObject.subjects,
-    type: queryStringObject.type,
-    users: queryStringObject.users,
-    "revision-date-from": queryStringObject["revision-date-from"],
-    "revision-date-to": queryStringObject["revision-date-to"],
-    "exclude-revision-log": parseBooleanParam("exclude-revision-log"),
-    "responsible-ids": queryStringObject["responsible-ids"],
-    "filter-inactive": parseBooleanParam("filter-inactive", true),
+  const searchBodyKeyMapping: Record<keyof SearchParams, { key: keyof SearchParamsBody; data: unknown }> = {
+    "draft-status": { key: "draftStatus", data: queryStringObject["draft-status"]?.split(",") },
+    "include-other-statuses": { key: "includeOtherStatuses", data: parseBooleanParam("include-other-statuses") },
+    "resource-types": { key: "resourceTypes", data: queryStringObject["resource-types"]?.split(",") },
+    "audio-type": { key: "audioType", data: queryStringObject["audio-type"] },
+    "concept-type": { key: "conceptType", data: queryStringObject["concept-type"] },
+    "model-released": { key: "modelReleased", data: queryStringObject["model-released"]?.split(",") },
+    "page-size": { key: "pageSize", data: parseNumberParam("page-size") },
+    "revision-date-from": { key: "revisionDateFrom", data: queryStringObject["revision-date-from"] },
+    "revision-date-to": { key: "revisionDateTo", data: queryStringObject["revision-date-to"] },
+    "exclude-revision-log": { key: "excludeRevisionLog", data: parseBooleanParam("exclude-revision-log") },
+    "responsible-ids": { key: "responsibleIds", data: queryStringObject["responsible-ids"]?.split(",") },
+    "filter-inactive": { key: "filterInactive", data: parseBooleanParam("filter-inactive", true) },
+    query: { key: "query", data: queryStringObject.query },
+    language: { key: "language", data: queryStringObject.language },
+    page: { key: "page", data: parseNumberParam("page") },
+    "article-types": { key: "articleTypes", data: queryStringObject["article-types"] },
+    fallback: { key: "fallback", data: parseBooleanParam("fallback") },
+    status: { key: "status", data: queryStringObject.status?.split(",") },
+    sort: { key: "sort", data: queryStringObject.sort },
+    subjects: { key: "subjects", data: queryStringObject.subjects?.split(",") },
+    users: { key: "users", data: queryStringObject.users?.split(",") },
+    license: { key: "license", data: queryStringObject.license },
   };
+  return Object.entries(searchBodyKeyMapping).reduce((result, [key, val]) => {
+    if (!val.data) return result;
+    const updatedKey = parseAsSearchBody ? val.key : key;
+    const updatedVal = val.data;
+    return { ...result, [updatedKey]: updatedVal };
+  }, {});
 };
 
 interface Props {

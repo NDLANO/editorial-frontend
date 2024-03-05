@@ -67,13 +67,13 @@ const SearchContainer = ({ searchHook, type }: Props) => {
     enabled: isValid(getAccessToken()) && getAccessTokenPersonal(),
   });
 
-  const [searchObject, setSearchObject] = useState(parseSearchParams(location.search));
+  const [searchObject, setSearchObject] = useState(parseSearchParams(location.search, false));
   const { data: results, isLoading: isSearching, error: searchError } = searchHook(searchObject);
   const nextPage = (searchObject?.page ?? 1) + 1;
   // preload next page.
   searchHook({ ...searchObject, page: nextPage });
   useEffect(() => {
-    setSearchObject(parseSearchParams(location.search));
+    setSearchObject(parseSearchParams(location.search, false));
   }, [location.search]);
 
   const subjects = subjectData ?? [];

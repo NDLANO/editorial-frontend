@@ -127,7 +127,8 @@ const SearchDropdown = ({ onClose }: Props) => {
   const onSearchQuerySubmit = (searchQuery: string) => {
     const matched = location.pathname.split("/").find((v) => !!pathToTypeMapping[v]);
     const type = matched ? pathToTypeMapping[matched] : pathToTypeMapping.default;
-    const oldParams = type === "content" ? parseSearchParams(location.search) : queryString.parse(location.search);
+    const oldParams =
+      type === "content" ? parseSearchParams(location.search, false) : queryString.parse(location.search);
     const sort = type === "content" || type === "concept" ? "-lastUpdated" : "-relevance";
 
     const newParams = {

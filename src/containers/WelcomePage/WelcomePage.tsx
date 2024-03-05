@@ -44,6 +44,12 @@ export const WelcomePage = () => {
     () => data?.latestEditedArticles?.map((a) => Number(a)) ?? [],
     [data?.latestEditedArticles],
   );
+
+  const lastUsedConcepts = useMemo(
+    () => data?.latestEditedConcepts?.map((a) => Number(a)) ?? [],
+    [data?.latestEditedConcepts],
+  );
+
   localStorage.setItem("lastPath", "");
 
   return (
@@ -57,7 +63,7 @@ export const WelcomePage = () => {
         <Column colEnd={6}>
           {ndlaId && (
             <>
-              <LastUsedItems lastUsedResources={lastUsedResources} lastUsedConcepts={data?.latestEditedConcepts} />
+              <LastUsedItems lastUsedResources={lastUsedResources} lastUsedConcepts={lastUsedConcepts} />
               <ArticleStatuses ndlaId={ndlaId} favoriteSubjects={data?.favoriteSubjects} userDataLoading={isLoading} />
             </>
           )}

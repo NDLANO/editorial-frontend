@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { FieldHeader } from "@ndla/forms";
 import { IConcept, IConceptSummary } from "@ndla/types-backend/concept-api";
 import AsyncDropdown from "../../../components/Dropdown/asyncDropdown/AsyncDropdown";
-import { fetchConcept, searchConcepts } from "../../../modules/concept/conceptApi";
+import { fetchConcept, postSearchConcepts } from "../../../modules/concept/conceptApi";
 import handleError from "../../../util/handleError";
 import { ArticleFormType } from "../../FormikForm/articleFormHooks";
 import ElementList from "../../FormikForm/components/ElementList";
@@ -70,7 +70,7 @@ const ConceptsField = ({ field, form }: Props) => {
   };
 
   const searchForConcepts = async (query: string, page?: number) => {
-    return searchConcepts({
+    return postSearchConcepts({
       query,
       page,
       language: i18n.language,

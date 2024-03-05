@@ -119,15 +119,15 @@ const Revisions = ({ userData }: Props) => {
 
   const { data, isLoading, isError } = useSearch(
     {
-      subjects: filterSubject ? filterSubject.value : userData?.favoriteSubjects?.join(","),
-      "revision-date-to": currentDateAddYear,
+      subjects: filterSubject ? [filterSubject.value] : userData?.favoriteSubjects,
+      revisionDateTo: currentDateAddYear,
       sort: sortOption,
       page: page,
-      "page-size": Number(pageSize!.value),
+      pageSize: Number(pageSize!.value),
       language,
       fallback: true,
-      "draft-status": PUBLISHED,
-      "include-other-statuses": true,
+      draftStatus: [PUBLISHED],
+      includeOtherStatuses: true,
     },
     {
       enabled: !!userData?.favoriteSubjects?.length,

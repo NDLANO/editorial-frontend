@@ -9,7 +9,7 @@
 import { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
 import AudioSearch from "@ndla/audio-search";
-import { IAudioSummary } from "@ndla/types-backend/audio-api";
+import { IAudioSummary, ISearchParams } from "@ndla/types-backend/audio-api";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import { BrightcoveApiType } from "@ndla/types-embed";
 import VideoSearch from "@ndla/video-search";
@@ -17,9 +17,8 @@ import FileUploader from "../../components/FileUploader";
 import ImageSearchAndUploader from "../../components/ImageSearchAndUploader";
 import config from "../../config";
 import { Embed } from "../../interfaces";
-import { fetchAudio, searchAudio } from "../../modules/audio/audioApi";
-import { AudioSearchParams } from "../../modules/audio/audioApiInterfaces";
-import { fetchImage, searchImages } from "../../modules/image/imageApi";
+import { fetchAudio, postSearchAudio } from "../../modules/audio/audioApi";
+import { fetchImage, postSearchImages } from "../../modules/image/imageApi";
 import { searchVideos, VideoSearchQuery } from "../../modules/video/brightcoveApi";
 import { convertFieldWithFallback } from "../../util/convertFieldWithFallback";
 import { NdlaErrorPayload, onError } from "../../util/resolveJsonOrRejectWithError";
@@ -37,23 +36,21 @@ interface Props {
   checkboxAction?: (image: IImageMetaInformationV3) => void;
 }
 
-interface LocalAudioSearchParams extends Omit<AudioSearchParams, "audio-type" | "page-size"> {
-  audioType?: string;
-  pageSize?: number;
+interface LocalAudioSearchParams extends ISearchParams {
   locale?: string;
 }
 
 const searchAudios = (query: LocalAudioSearchParams) => {
   // AudioSearch passes values that are not accepted by the API. They must be altered to have the correct key.
-  const correctedQuery: AudioSearchParams = {
+  const correctedQuery: ISearchParams = {
     language: query.language ?? query.locale,
     page: query.page,
     query: query.query,
     sort: query.sort,
-    "page-size": 16,
-    "audio-type": query.audioType,
+    pageSize: 16,
+    audioType: query.audioType,
   };
-  return searchAudio(correctedQuery);
+  return postSearchAudio(correctedQuery);
 };
 
 const VisualElementSearch = ({
@@ -75,7 +72,7 @@ const VisualElementSearch = ({
           language={articleLanguage}
           closeModal={closeModal}
           fetchImage={(id) => fetchImage(id, articleLanguage)}
-          searchImages={searchImages}
+          searchImages={postSearchImages}
           onError={onError}
           onImageSelect={(image) =>
             handleVisualElementChange({

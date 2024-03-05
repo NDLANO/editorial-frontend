@@ -7,6 +7,7 @@
  */
 
 import debounce from "lodash/debounce";
+import queryString from "query-string";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ButtonV2, CloseButton } from "@ndla/button";
@@ -29,8 +30,8 @@ import SearchConceptResults from "./SearchConceptResults";
 import ConceptForm from "../../../../containers/ConceptPage/ConceptForm/ConceptForm";
 import { ConceptType } from "../../../../containers/ConceptPage/conceptInterfaces";
 import { GlossForm } from "../../../../containers/GlossPage/components/GlossForm";
-import SearchForm from "../../../../containers/SearchPage/components/form/SearchForm";
-import { searchConcepts } from "../../../../modules/concept/conceptApi";
+import SearchForm, { parseSearchParams } from "../../../../containers/SearchPage/components/form/SearchForm";
+import { postSearchConcepts } from "../../../../modules/concept/conceptApi";
 import { ConceptQuery } from "../../../../modules/concept/conceptApiInterfaces";
 
 interface Props {
@@ -86,7 +87,8 @@ const ConceptModalContent = ({
   const searchConcept = useCallback(async (searchParam: ConceptQuery) => {
     if (!searching) {
       setSearching(true);
-      const concepts = await searchConcepts(searchParam);
+      const searchBody = parseSearchParams(queryString.stringify(searchParam), true);
+      const concepts = await postSearchConcepts(searchBody);
       setConcepts(concepts);
       setSearching(false);
     }

@@ -26,7 +26,7 @@ import {
   STORED_ON_HOLD_LMA_SUBJECT,
   STORED_ON_HOLD_SA_SUBJECT,
 } from "../../../constants";
-import { usePostSearchNodesMutation } from "../../../modules/nodes/nodeMutations";
+import { usePostSearchNodes } from "../../../modules/nodes/nodeQueries";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { SubjectIdObject, customFieldsBody, defaultSubjectIdObject, getResultSubjectIdObject } from "../utils";
 
@@ -44,23 +44,18 @@ const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataLoading }: Props) =
   const [subjectIdObject, setSubjectIdObject] = useState<SubjectIdObject>(defaultSubjectIdObject);
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
-  const { mutateAsync: postSearchNodes, isPending } = usePostSearchNodesMutation();
+
+  const searchQuery = usePostSearchNodes({ ...customFieldsBody(ndlaId), taxonomyVersion });
 
   useEffect(() => {
-    const updateSubjectIds = async () => {
-      const nodesSearchResult = await postSearchNodes({
-        body: customFieldsBody(ndlaId),
-        taxonomyVersion,
-      });
-      const resultSubjectIdObject = getResultSubjectIdObject(ndlaId, nodesSearchResult.results);
+    if (!searchQuery.data) return;
+    const resultSubjectIdObject = getResultSubjectIdObject(ndlaId, searchQuery.data.results);
 
-      setSubjectIdObject(resultSubjectIdObject);
-    };
-    updateSubjectIds();
-  }, [ndlaId, postSearchNodes, taxonomyVersion]);
+    setSubjectIdObject(resultSubjectIdObject);
+  }, [ndlaId, searchQuery.data, taxonomyVersion]);
 
   const tabs = useMemo(() => {
-    if (!isPending) {
+    if (!searchQuery.isLoading) {
       return [
         ...(subjectIdObject.subjectLMA.length
           ? [
@@ -141,7 +136,15 @@ const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataLoading }: Props) =
       ];
     }
     return [];
-  }, [isPending, subjectIdObject, t, ndlaId, favoriteSubjects]);
+  }, [
+    searchQuery.isLoading,
+    subjectIdObject.subjectLMA,
+    subjectIdObject.subjectDA,
+    subjectIdObject.subjectSA,
+    t,
+    ndlaId,
+    favoriteSubjects,
+  ]);
 
   return (
     <>

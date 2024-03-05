@@ -16,9 +16,10 @@ import { Spinner } from "@ndla/icons";
 import { Cross } from "@ndla/icons/action";
 import { Audio } from "@ndla/icons/common";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
+import { ISearchParams } from "@ndla/types-backend/audio-api";
 import { AudioEmbedData } from "@ndla/types-embed";
 import { AudioPlayer } from "@ndla/ui";
-import { fetchAudio, searchAudio } from "../../../modules/audio/audioApi";
+import { fetchAudio, postSearchAudio } from "../../../modules/audio/audioApi";
 import { AudioSearchParams } from "../../../modules/audio/audioApiInterfaces";
 import { useAudio } from "../../../modules/audio/audioQueries";
 import { onError } from "../../../util/resolveJsonOrRejectWithError";
@@ -35,22 +36,20 @@ const AudioWrapper = styled.div`
   gap: ${spacing.small};
 `;
 
-interface LocalAudioSearchParams extends Omit<AudioSearchParams, "audio-type" | "page-size"> {
-  audioType?: string;
-  pageSize?: number;
+interface LocalAudioSearchParams extends ISearchParams {
   locale?: string;
 }
 const searchAudios = (query: LocalAudioSearchParams) => {
   // AudioSearch passes values that are not accepted by the API. They must be altered to have the correct key.
-  const correctedQuery: AudioSearchParams = {
+  const correctedSearchBody: ISearchParams = {
     language: query.language ?? query.locale,
     page: query.page,
     query: query.query,
     sort: query.sort,
-    "page-size": 16,
-    "audio-type": query.audioType,
+    pageSize: 16,
+    audioType: query.audioType,
   };
-  return searchAudio(correctedQuery);
+  return postSearchAudio(correctedSearchBody);
 };
 
 export const GlossAudioField = ({ element, onElementChange, glossLanguage }: Props) => {

@@ -24,6 +24,7 @@ import {
 } from "../../../../constants";
 import { useSearchConcepts } from "../../../../modules/concept/conceptQueries";
 import { useSearch } from "../../../../modules/search/searchQueries";
+import { maybeUndefinedFilterList } from "../../../../util/searchHelpers";
 import {
   useLocalStoragePageSizeState,
   useLocalStorageSortOptionState,
@@ -103,7 +104,7 @@ const WorkList = ({ ndlaId }: Props) => {
     {
       responsibleIds: [ndlaId],
       sort: sortOptionConcepts,
-      ...(filterConceptSubject ? { subjects: [filterConceptSubject.value] } : {}),
+      ...maybeUndefinedFilterList("subjects", [filterConceptSubject?.value]),
       page: pageConcept,
       pageSize: Number(pageSizeConcept!.value),
       language: i18n.language,

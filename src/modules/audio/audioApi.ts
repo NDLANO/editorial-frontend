@@ -6,7 +6,6 @@
  *
  */
 
-import queryString from "query-string";
 import {
   IAudioMetaInformation,
   IAudioSummarySearchResult,
@@ -17,7 +16,6 @@ import {
   ISeriesSearchParams,
   ISearchParams,
 } from "@ndla/types-backend/audio-api";
-import { AudioSearchParams, SeriesSearchParams } from "./audioApiInterfaces";
 import { apiResourceUrl, fetchAuthorized, resolveJsonOrRejectWithError } from "../../util/apiHelpers";
 import { resolveJsonOrVoidOrRejectWithError } from "../../util/resolveJsonOrRejectWithError";
 
@@ -44,11 +42,6 @@ export const updateAudio = (id: number, formData: FormData): Promise<IAudioMetaI
     headers: { "Content-Type": undefined }, // Without this we're missing a boundary: https://stackoverflow.com/questions/39280438/fetch-missing-boundary-in-multipart-form-data-post
     body: formData,
   }).then((r) => resolveJsonOrRejectWithError<IAudioMetaInformation>(r));
-
-export const searchAudio = (query: AudioSearchParams): Promise<IAudioSummarySearchResult> =>
-  fetchAuthorized(`${baseUrl}/?${queryString.stringify(query)}`).then((r) =>
-    resolveJsonOrRejectWithError<IAudioSummarySearchResult>(r),
-  );
 
 export const postSearchAudio = async (body: ISearchParams): Promise<IAudioSummarySearchResult> => {
   const response = await fetchAuthorized(`${baseUrl}/search/`, { method: "POST", body: JSON.stringify(body) });
@@ -89,12 +82,6 @@ export const updateSeries = (id: number, newSeries: INewSeries): Promise<ISeries
     method: "PUT",
     body: JSON.stringify(newSeries),
   }).then((r) => resolveJsonOrRejectWithError<ISeries>(r));
-
-export const searchSeries = (query: SeriesSearchParams): Promise<ISeriesSummarySearchResult> => {
-  return fetchAuthorized(`${seriesBaseUrl}/?${queryString.stringify(query)}`).then((r) =>
-    resolveJsonOrRejectWithError<ISeriesSummarySearchResult>(r),
-  );
-};
 
 export const postSearchSeries = async (body: ISeriesSearchParams): Promise<ISeriesSummarySearchResult> => {
   const response = await fetchAuthorized(`${seriesBaseUrl}/search/`, { method: "POST", body: JSON.stringify(body) });

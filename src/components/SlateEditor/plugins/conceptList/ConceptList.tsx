@@ -22,6 +22,7 @@ import { ConceptListElement } from ".";
 import ConceptTagPicker from "./ConceptTagPicker";
 import { useSearchConcepts } from "../../../../modules/concept/conceptQueries";
 import { useConceptListMeta } from "../../../../modules/embed/queries";
+import { maybeUndefinedFilterList } from "../../../../util/searchHelpers";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
 
 interface Props {
@@ -56,8 +57,8 @@ const ConceptList = ({ element, editor, attributes, children }: Props) => {
 
   const conceptsQuery = useSearchConcepts(
     {
-      ...(element.data?.subjectId ? { subjects: [element.data.subjectId] } : {}),
-      ...(element.data?.tag ? { tags: [element.data.tag] } : {}),
+      ...maybeUndefinedFilterList("subjects", [element.data.subjectId]),
+      ...maybeUndefinedFilterList("tags", [element.data.tag]),
       language,
       pageSize: 200,
     },

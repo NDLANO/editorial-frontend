@@ -20,7 +20,6 @@ import { ISearchParams } from "@ndla/types-backend/audio-api";
 import { AudioEmbedData } from "@ndla/types-embed";
 import { AudioPlayer } from "@ndla/ui";
 import { fetchAudio, postSearchAudio } from "../../../modules/audio/audioApi";
-import { AudioSearchParams } from "../../../modules/audio/audioApiInterfaces";
 import { useAudio } from "../../../modules/audio/audioQueries";
 import { onError } from "../../../util/resolveJsonOrRejectWithError";
 

@@ -24,15 +24,16 @@ import {
   IConceptSummary,
 } from "@ndla/types-backend/concept-api";
 import { IArticle } from "@ndla/types-backend/draft-api";
-
 import { Node } from "@ndla/types-taxonomy";
 import SearchConceptResults from "./SearchConceptResults";
 import ConceptForm from "../../../../containers/ConceptPage/ConceptForm/ConceptForm";
 import { ConceptType } from "../../../../containers/ConceptPage/conceptInterfaces";
 import { GlossForm } from "../../../../containers/GlossPage/components/GlossForm";
-import SearchForm, { parseSearchParams } from "../../../../containers/SearchPage/components/form/SearchForm";
+import SearchForm, {
+  SearchParams,
+  parseSearchParams,
+} from "../../../../containers/SearchPage/components/form/SearchForm";
 import { postSearchConcepts } from "../../../../modules/concept/conceptApi";
-import { ConceptQuery } from "../../../../modules/concept/conceptApiInterfaces";
 
 interface Props {
   addConcept: (concept: IConceptSummary | IConcept) => void;
@@ -64,7 +65,7 @@ const ConceptModalContent = ({
   conceptType,
 }: Props) => {
   const { t } = useTranslation();
-  const [searchObject, updateSearchObject] = useState<ConceptQuery>({
+  const [searchObject, updateSearchObject] = useState<SearchParams>({
     page: 1,
     sort: "-relevance",
     "page-size": 10,
@@ -84,7 +85,7 @@ const ConceptModalContent = ({
 
   const conceptTypeTabs: ConceptType[] = [conceptType];
 
-  const searchConcept = useCallback(async (searchParam: ConceptQuery) => {
+  const searchConcept = useCallback(async (searchParam: SearchParams) => {
     if (!searching) {
       setSearching(true);
       const searchBody = parseSearchParams(queryString.stringify(searchParam), true);
@@ -106,7 +107,7 @@ const ConceptModalContent = ({
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const debouncedSearchConcept = useMemo(
-    () => debounce((params: ConceptQuery) => searchConcept(params), 400),
+    () => debounce((params: SearchParams) => searchConcept(params), 400),
     [searchConcept],
   );
 

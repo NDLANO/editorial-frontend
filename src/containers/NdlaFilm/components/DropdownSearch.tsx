@@ -10,14 +10,15 @@ import { IArticle } from "@ndla/types-backend/draft-api";
 import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
 import AsyncDropdown from "../../../components/Dropdown/asyncDropdown/AsyncDropdown";
-import { searchResources } from "../../../modules/search/searchApi";
+import { postSearch } from "../../../modules/search/searchApi";
+import { maybeUndefinedFilterList } from "../../../util/searchHelpers";
 
 interface Props {
   selectedElements: (IMultiSearchSummary | IArticle | ILearningPathV2)[];
   onChange: Function;
   placeholder: string;
   subjectId?: string;
-  contextTypes?: string;
+  contextTypes?: string[];
   clearInputField?: boolean;
   onClick?: (event: Event) => void;
 }
@@ -34,15 +35,15 @@ const DropdownSearch = ({
   const queryResources = async (input: string) => {
     const query = {
       page: 1,
-      subjects: subjectId,
+      ...maybeUndefinedFilterList("subjects", [subjectId]),
       sort: "-relevance",
-      "page-size": 10,
+      pageSize: 10,
       query: input,
-      "context-types": contextTypes,
-      "resoure-types":
+      contextTypes: contextTypes,
+      resoureTypes:
         "urn:resourcetype:documentary,urn:resourcetype:featureFilm,urn:resourcetype:series,urn:resourcetype:shortFilm",
     };
-    const response = await searchResources(query);
+    const response = await postSearch(query);
     return response;
   };
 

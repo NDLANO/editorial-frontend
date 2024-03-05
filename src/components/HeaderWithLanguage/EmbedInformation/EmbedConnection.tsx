@@ -17,7 +17,7 @@ import { IConceptSummary } from "@ndla/types-backend/concept-api";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
 import ElementList from "../../../containers/FormikForm/components/ElementList";
 import { postSearchConcepts } from "../../../modules/concept/conceptApi";
-import { postSearch as searchArticles } from "../../../modules/search/searchApi";
+import { postSearch } from "../../../modules/search/searchApi";
 import { normalPaddingCSS } from "../../HowTo";
 
 type EmbedType = "image" | "audio" | "concept" | "gloss" | "article";
@@ -62,7 +62,7 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
   useEffect(() => {
     let shouldUpdateState = true;
     if (id) {
-      searchArticles(searchObjects(id, type)).then((result) => {
+      postSearch(searchObjects(id, type)).then((result) => {
         if (shouldUpdateState) setArticles(result.results);
       });
       (type === "image" || type === "audio") &&

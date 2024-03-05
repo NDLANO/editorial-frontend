@@ -12,7 +12,7 @@ import { ButtonV2 } from "@ndla/button";
 import { spacing, colors } from "@ndla/core";
 import { Concept, Check, Globe } from "@ndla/icons/editor";
 import { IConceptSummary } from "@ndla/types-backend/concept-api";
-import { ConceptQuery } from "../../../../modules/concept/conceptApiInterfaces";
+import { SearchParams } from "../../../../containers/SearchPage/components/form/SearchForm";
 import Spinner from "../../../Spinner";
 
 const StyledConceptResult = styled.div`
@@ -64,7 +64,7 @@ const StyledCheckIcon = styled(Check)`
 `;
 
 interface Props {
-  searchObject: ConceptQuery;
+  searchObject: SearchParams;
   results: IConceptSummary[];
   addConcept: (concept: IConceptSummary) => void;
   searching?: boolean;

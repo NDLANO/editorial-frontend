@@ -6,7 +6,6 @@
  *
  */
 
-import queryString from "query-string";
 import {
   IConcept,
   IDraftConceptSearchParams,
@@ -15,7 +14,6 @@ import {
   ITagsSearchResult,
   IUpdatedConcept,
 } from "@ndla/types-backend/concept-api";
-import { ConceptQuery } from "./conceptApiInterfaces";
 import { ConceptStatusStateMachineType } from "../../interfaces";
 import { resolveJsonOrRejectWithError, apiResourceUrl, fetchAuthorized } from "../../util/apiHelpers";
 
@@ -71,11 +69,6 @@ export const updateConceptStatus = async (id: number, status: string): Promise<I
   fetchAuthorized(`${draftConceptUrl}/${id}/status/${status}`, {
     method: "PUT",
   }).then((r) => resolveJsonOrRejectWithError<IConcept>(r));
-
-export const searchConcepts = async (query: ConceptQuery): Promise<IConceptSearchResult> =>
-  fetchAuthorized(`${draftConceptUrl}/?${queryString.stringify(query)}`).then((r) =>
-    resolveJsonOrRejectWithError<IConceptSearchResult>(r),
-  );
 
 export const postSearchConcepts = async (body: IDraftConceptSearchParams): Promise<IConceptSearchResult> => {
   const response = await fetchAuthorized(`${draftConceptUrl}/search/`, {

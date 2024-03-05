@@ -6,6 +6,8 @@
  *
  */
 
+import { SearchParamsBody } from "../containers/SearchPage/components/form/SearchForm";
+
 export const transformQuery = ({ "resource-types": resourceTypes, ...rest }: any) => {
   const query = { ...rest };
 
@@ -21,3 +23,6 @@ export const transformQuery = ({ "resource-types": resourceTypes, ...rest }: any
 
   return query;
 };
+
+export const maybeUndefinedFilterList = (key: keyof SearchParamsBody, data: (string | undefined)[] | undefined) =>
+  data?.filter((el) => el)?.length ? { [key]: data } : {};

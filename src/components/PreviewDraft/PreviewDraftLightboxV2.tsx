@@ -22,12 +22,12 @@ import { ConceptFormValues } from "../../containers/ConceptPage/conceptInterface
 import { conceptFormTypeToApiType } from "../../containers/ConceptPage/conceptTransformers";
 import { LearningResourceFormType } from "../../containers/FormikForm/articleFormHooks";
 import { useConcept } from "../../modules/concept/conceptQueries";
-import { useDraft, useLicenses } from "../../modules/draft/draftQueries";
+import { useLicenses } from "../../modules/draft/draftQueries";
 
 interface BaseProps {
-  type: "markup" | "version" | "compare" | "conceptCompare" | "concept";
+  type: "markup" | "version" | "conceptCompare" | "concept";
   language: string;
-  activateButton: ReactElement;
+  activateButton?: ReactElement;
 }
 
 interface MarkupPreviewProps extends BaseProps {
@@ -41,11 +41,6 @@ interface VersionPreviewProps extends BaseProps {
   customTitle?: string;
 }
 
-interface ComparePreviewProps extends BaseProps {
-  type: "compare";
-  article: IArticle;
-}
-
 interface CompareConceptPreviewProps extends BaseProps {
   type: "conceptCompare";
   concept: IConcept;
@@ -55,12 +50,7 @@ interface ConceptPreviewProps extends BaseProps {
   type: "concept";
 }
 
-type Props =
-  | MarkupPreviewProps
-  | VersionPreviewProps
-  | ComparePreviewProps
-  | CompareConceptPreviewProps
-  | ConceptPreviewProps;
+type Props = MarkupPreviewProps | VersionPreviewProps | CompareConceptPreviewProps | ConceptPreviewProps;
 
 const StyledPreviewWrapper = styled.div`
   width: 100%;
@@ -157,72 +147,6 @@ const PreviewTitleWrapper = styled.div`
   height: 90px;
 `;
 
-const PreviewCompare = ({ article, language }: ComparePreviewProps) => {
-  const [previewLanguage, setPreviewLanguage] = useState<string>(
-    article.supportedLanguages.find((l) => l !== language) ?? article.supportedLanguages[0]!,
-  );
-  const draft = useDraft({ id: article.id, language: previewLanguage });
-  const { t } = useTranslation();
-  const { values, initialValues } = useFormikContext<LearningResourceFormType>();
-  const { data: licenses = [] } = useLicenses();
-  const formArticle = useMemo(() => {
-    const apiType = learningResourceFormTypeToDraftApiType(values, initialValues, licenses);
-    return {
-      id: article.id,
-      title: apiType.title ?? "",
-      content: apiType.content ?? "",
-      introduction: apiType.introduction ?? "",
-      visualElement: apiType.visualElement,
-      published: apiType.published,
-      copyright: apiType.copyright,
-    };
-  }, [values, initialValues, licenses, article.id]);
-
-  return (
-    <TwoArticleWrapper>
-      <div>
-        <PreviewTitleWrapper className="u-10/12 u-push-1/12">
-          <h2>
-            {t(`form.previewLanguageArticle.title`, {
-              language: t(`languages.${language}`).toLowerCase(),
-            })}
-          </h2>
-        </PreviewTitleWrapper>
-        <PreviewDraft
-          type="formArticle"
-          draft={formArticle}
-          language={language}
-          label={t(`articleType.${article.articleType}`)}
-        />
-      </div>
-      <div>
-        <PreviewTitleWrapper className="u-10/12 u-push-1/12">
-          <h2>
-            {t("form.previewLanguageArticle.title", {
-              language: t(`languages.${previewLanguage}`).toLowerCase(),
-            })}
-          </h2>
-          <select onChange={(evt) => setPreviewLanguage(evt.target.value)} value={previewLanguage}>
-            {article.supportedLanguages.map((language) => (
-              <option key={language} value={language}>
-                {t(`languages.${language}`)}
-              </option>
-            ))}
-          </select>
-        </PreviewTitleWrapper>
-        {draft.data && (
-          <PreviewDraft
-            type="article"
-            draft={draft.data}
-            language={previewLanguage}
-            label={t(`articleType.${draft.data.articleType}`)}
-          />
-        )}
-      </div>
-    </TwoArticleWrapper>
-  );
-};
-
 const ConceptWrapper = styled.div`
   padding: 0 ${spacing.normal} ${spacing.normal} ${spacing.normal};
 `;
@@ -294,7 +218,6 @@ const PreviewConcept = ({ language }: ConceptPreviewProps) => {
 
 const components: Record<Props["type"], ElementType> = {
   markup: PreviewMarkup,
-  compare: PreviewCompare,
   version: PreviewVersion,
   conceptCompare: PreviewConceptCompare,
   concept: PreviewConcept,
@@ -302,8 +225,7 @@ const components: Record<Props["type"], ElementType> = {
 
 const PreviewDraftLightboxV2 = (props: Props) => {
   const Component = components[props.type];
-  const size: ModalSizeType =
-    props.type === "compare" || props.type === "version" ? "full" : { width: "large", height: "full" };
+  const size: ModalSizeType = props.type === "version" ? "full" : { width: "large", height: "full" };
   return (
     <Modal>
       <ModalTrigger>{props.activateButton}</ModalTrigger>

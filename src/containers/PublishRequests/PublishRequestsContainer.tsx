@@ -21,7 +21,7 @@ import { TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH, TAXONOMY_CUSTOM_FIELD_IS_PUBLISH
 import { useNodes } from "../../modules/nodes/nodeQueries";
 import { useVersions } from "../../modules/taxonomy/versions/versionQueries";
 import { toNodeDiff, toStructure } from "../../util/routeHelpers";
-import Footer from "../App/components/Footer";
+import Footer from "../App/components/FooterWrapper";
 
 const ErrorMessage = styled.p`
   color: ${colors.support.red};

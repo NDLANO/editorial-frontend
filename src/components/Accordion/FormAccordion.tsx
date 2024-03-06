@@ -13,7 +13,7 @@ import { colors, misc, spacing } from "@ndla/core";
 
 export interface FormAccordionProps {
   children: ReactNode;
-  title: string;
+  title: ReactNode;
   hasError: boolean;
   className?: string;
   id: string;
@@ -33,11 +33,26 @@ const StyledHeader = styled(AccordionHeader)`
   &:focus-visible {
     outline: 2px solid ${colors.support.red};
   }
+
+  &:hover {
+    text-decoration: none;
+
+    // Underline normal string headers
+    > div:not(:has(*)) {
+      text-decoration: underline;
+    }
+
+    // Use data-underline to determine which parts of header should be underlined
+    > div > [data-underline=""] {
+      text-decoration: underline;
+    }
+  }
 `;
 
 const StyledItem = styled(AccordionItem)`
   border-radius: ${misc.borderRadius};
   background-color: ${colors.white};
+  overflow: hidden;
 
   &:focus-visible {
     border: 2px solid ${colors.support.red};

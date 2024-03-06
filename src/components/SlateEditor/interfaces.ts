@@ -19,6 +19,7 @@ import { ConceptBlockElement } from "./plugins/concept/block/interfaces";
 import { ConceptInlineElement } from "./plugins/concept/inline/interfaces";
 import { ConceptListElement } from "./plugins/conceptList";
 import { ContactBlockElement } from "./plugins/contactBlock";
+import { CopyrightElement } from "./plugins/copyright/types";
 import { DefinitionDescriptionElement, DefinitionListElement, DefinitionTermElement } from "./plugins/definitionList";
 import { DetailsElement, SummaryElement } from "./plugins/details";
 import { DivElement } from "./plugins/div";
@@ -122,7 +123,8 @@ declare module "slate" {
       | DisclaimerElement
       | NoopElement
       | ExternalElement
-      | IframeElement;
+      | IframeElement
+      | CopyrightElement;
     Text: CustomTextWithMarks;
   }
 }

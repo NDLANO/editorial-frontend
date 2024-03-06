@@ -14,7 +14,7 @@ import { HelmetWithTracker } from "@ndla/tracker";
 import { OneColumn } from "@ndla/ui";
 import DiffOptions from "./DiffOptions";
 import NodeDiffcontainer from "./NodeDiffContainer";
-import FooterWrapper from "../App/components/Footer";
+import FooterWrapper from "../App/components/FooterWrapper";
 
 const StyledNodeContainer = styled.div`
   display: flex;

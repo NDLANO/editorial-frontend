@@ -28,7 +28,7 @@ interface Props {
 interface ChangesProp {
   // This way we can use generic name as the variable name.
   // The name can vary depending on which component uses this function.
-  [x: string]: string;
+  [x: string]: string | undefined;
 }
 
 const SlateFigure = ({ attributes, editor, element, children, allowDecorative = true }: Props) => {

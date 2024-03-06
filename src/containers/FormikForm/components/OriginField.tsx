@@ -7,20 +7,23 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { FieldHeader, InputV2 } from "@ndla/forms";
-import FormikField from "../../../components/FormikField";
+import { FieldErrorMessage, InputV3, Label } from "@ndla/forms";
+import { FormControl, FormField } from "../../../components/FormField";
 
 const OriginField = () => {
   const { t } = useTranslation();
   return (
-    <>
-      <FieldHeader title={t("form.origin.label")} width={3 / 4} />
-      <FormikField name="origin">
-        {({ field }) => (
-          <InputV2 customCss={{ width: "75%" }} label={t("form.origin.label")} labelHidden={true} {...field}></InputV2>
-        )}
-      </FormikField>
-    </>
+    <FormField name="origin">
+      {({ field, meta }) => (
+        <FormControl isDisabled={!!meta.error}>
+          <Label textStyle="label-small" margin="small">
+            {t("form.origin.label")}
+          </Label>
+          <InputV3 {...field}></InputV3>
+          <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+        </FormControl>
+      )}
+    </FormField>
   );
 };
 

@@ -129,13 +129,40 @@ export const formikCommonArticleRules: RulesType<ArticleFormType, IArticle> = {
     },
   },
   creators: {
-    allObjectFieldsRequired: true,
+    rules: {
+      name: {
+        required: true,
+        translationKey: "form.name.name",
+      },
+      type: {
+        required: true,
+        translationKey: "form.name.type",
+      },
+    },
   },
   processors: {
-    allObjectFieldsRequired: true,
+    rules: {
+      name: {
+        required: true,
+        translationKey: "form.name.name",
+      },
+      type: {
+        required: true,
+        translationKey: "form.name.type",
+      },
+    },
   },
   rightsholders: {
-    allObjectFieldsRequired: true,
+    rules: {
+      name: {
+        required: true,
+        translationKey: "form.name.name",
+      },
+      type: {
+        required: true,
+        translationKey: "form.name.type",
+      },
+    },
   },
   license: {
     required: false,

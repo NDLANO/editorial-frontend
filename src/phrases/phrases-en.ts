@@ -31,6 +31,7 @@ const phrases = {
     publishRequestsPage: `Publish Requests ${titleTemplate}`,
     nodeDiffPage: `Compare Nodes ${titleTemplate}`,
     editFrontpage: "Edit front page",
+    comparePage: `Compare versions ${titleTemplate}`,
     search: {
       "podcast-series": `Search podcast series ${titleTemplate}`,
       audio: `Search audio files ${titleTemplate}`,
@@ -638,7 +639,6 @@ const phrases = {
     title: "Key figure",
     edit: "Edit key figure",
   },
-
   editorToolbar: {
     bold: "Bold\n({{ctrl}}+b)",
     "bulleted-list": "Bulleted list\n({{ctrl}}+l)",

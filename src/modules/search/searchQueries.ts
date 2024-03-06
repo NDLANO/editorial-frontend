@@ -6,14 +6,13 @@
  *
  */
 
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { IDraftSearchParams, IMultiSearchResult } from "@ndla/types-backend/search-api";
 import { postSearch } from "./searchApi";
-import { DA_SUBJECT_ID, FAVOURITES_SUBJECT_ID, SA_SUBJECT_ID, LMA_SUBJECT_ID } from "../../constants";
+import { DA_SUBJECT_ID, SA_SUBJECT_ID, LMA_SUBJECT_ID } from "../../constants";
 import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVersionProvider";
 import {
-  SubjectIdObject,
   customFieldsBody,
   defaultSubjectIdObject,
   getResultSubjectIdObject,
@@ -34,8 +33,6 @@ export interface UseSearch extends IDraftSearchParams {
 }
 
 export const useSearch = (query: UseSearch, options?: Partial<UseQueryOptions<IMultiSearchResult>>) => {
-  const [subjectIdObject, setSubjectIdObject] = useState<SubjectIdObject>(defaultSubjectIdObject);
-
   const { taxonomyVersion } = useTaxonomyVersion();
 
   const { data, isLoading } = useUserData({
@@ -51,10 +48,9 @@ export const useSearch = (query: UseSearch, options?: Partial<UseQueryOptions<IM
     { enabled: !!data?.userId && (isLMASubjects || isDASubjects || isSASubjects) },
   );
 
-  useEffect(() => {
-    if (!data?.userId || !searchNodesQuery.data) return;
-    const resultSubjectIdObject = getResultSubjectIdObject(data.userId, searchNodesQuery.data.results);
-    setSubjectIdObject(resultSubjectIdObject);
+  const subjectIdObject = useMemo(() => {
+    if (!data?.userId || !searchNodesQuery.data) return defaultSubjectIdObject;
+    return getResultSubjectIdObject(data.userId, searchNodesQuery.data.results);
   }, [data?.userId, searchNodesQuery.data]);
 
   const actualQuery = getSubjectsIdsQuery(query, data?.favoriteSubjects, subjectIdObject);

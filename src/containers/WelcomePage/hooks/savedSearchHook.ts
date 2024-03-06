@@ -32,13 +32,7 @@ import { postSearch } from "../../../modules/search/searchApi";
 import { fetchResourceType } from "../../../modules/taxonomy";
 import { SearchParamsBody, parseSearchParams } from "../../SearchPage/components/form/SearchForm";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
-import {
-  SubjectIdObject,
-  customFieldsBody,
-  defaultSubjectIdObject,
-  getResultSubjectIdObject,
-  getSubjectsIdsQuery,
-} from "../utils";
+import { customFieldsBody, defaultSubjectIdObject, getResultSubjectIdObject, getSubjectsIdsQuery } from "../utils";
 
 type QueryType =
   | IAudioSearchParams
@@ -102,7 +96,6 @@ export const useSavedSearchUrl = (currentUserData: IUserData | undefined): Searc
   const [subjectData, setSubjectData] = useState<Node[]>([]);
   const [resourceTypeData, setResourceTypeData] = useState<ResourceType[]>([]);
   const [searchResultData, setSearchResultData] = useState<SearchResultBase<any>[]>([]);
-  const [subjectIdObject, setSubjectIdObject] = useState<SubjectIdObject>(defaultSubjectIdObject);
   const [dataFetchLoading, setDataFetchLoading] = useState(false);
   const [dataFetchError, setDataFetchError] = useState(false);
 
@@ -110,12 +103,10 @@ export const useSavedSearchUrl = (currentUserData: IUserData | undefined): Searc
     { ...customFieldsBody(currentUserData?.userId ?? ""), taxonomyVersion },
     { enabled: !!currentUserData?.userId },
   );
-
-  useEffect(() => {
-    if (!currentUserData?.userId || !searchQuery.data) return;
-    const resultSubjectIdObject = getResultSubjectIdObject(currentUserData.userId, searchQuery.data.results);
-    setSubjectIdObject(resultSubjectIdObject);
-  }, [currentUserData?.userId, searchQuery.data, taxonomyVersion]);
+  const subjectIdObject = useMemo(() => {
+    if (!currentUserData?.userId || !searchQuery.data) return defaultSubjectIdObject;
+    return getResultSubjectIdObject(currentUserData.userId, searchQuery.data.results);
+  }, [currentUserData?.userId, searchQuery.data]);
 
   const searchObjects = useMemo(
     () =>

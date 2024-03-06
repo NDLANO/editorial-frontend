@@ -91,7 +91,10 @@ export const parseSearchParams = <T extends boolean>(locationSearch: string, par
     users: { key: "users", data: queryStringObject.users?.split(",") },
     license: { key: "license", data: queryStringObject.license },
   };
-  return Object.entries(searchBodyKeyMapping).reduce((result, [key, val]) => {
+
+  return (
+    Object.entries(searchBodyKeyMapping) as Array<[keyof SearchParams, { key: keyof SearchParamsBody; data: unknown }]>
+  ).reduce((result, [key, val]) => {
     if (!val.data) return result;
     const updatedKey = parseAsSearchBody ? val.key : key;
     const updatedVal = val.data;

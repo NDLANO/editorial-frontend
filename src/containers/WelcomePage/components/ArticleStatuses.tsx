@@ -6,7 +6,7 @@
  *
  */
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import Tabs from "@ndla/tabs";
@@ -28,7 +28,7 @@ import {
 } from "../../../constants";
 import { usePostSearchNodes } from "../../../modules/nodes/nodeQueries";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
-import { SubjectIdObject, customFieldsBody, defaultSubjectIdObject, getResultSubjectIdObject } from "../utils";
+import { customFieldsBody, defaultSubjectIdObject, getResultSubjectIdObject } from "../utils";
 
 const StyledWrapper = styled.div`
   margin-top: ${GRID_GAP};
@@ -41,18 +41,14 @@ interface Props {
 }
 
 const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataLoading }: Props) => {
-  const [subjectIdObject, setSubjectIdObject] = useState<SubjectIdObject>(defaultSubjectIdObject);
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
 
   const searchQuery = usePostSearchNodes({ ...customFieldsBody(ndlaId), taxonomyVersion });
-
-  useEffect(() => {
-    if (!searchQuery.data) return;
-    const resultSubjectIdObject = getResultSubjectIdObject(ndlaId, searchQuery.data.results);
-
-    setSubjectIdObject(resultSubjectIdObject);
-  }, [ndlaId, searchQuery.data, taxonomyVersion]);
+  const subjectIdObject = useMemo(() => {
+    if (!searchQuery.data) return defaultSubjectIdObject;
+    return getResultSubjectIdObject(ndlaId, searchQuery.data.results);
+  }, [ndlaId, searchQuery.data]);
 
   const tabs = useMemo(() => {
     if (!searchQuery.isLoading) {

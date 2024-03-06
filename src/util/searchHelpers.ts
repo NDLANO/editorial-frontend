@@ -6,8 +6,6 @@
  *
  */
 
-import { SearchParamsBody } from "../containers/SearchPage/components/form/SearchForm";
-
 export const transformQuery = ({ "resource-types": resourceTypes, ...rest }: any) => {
   const query = { ...rest };
 

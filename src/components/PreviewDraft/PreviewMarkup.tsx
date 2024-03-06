@@ -5,15 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+import { ReactElement } from "react";
 import { useTranslation } from "react-i18next";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import { OneColumn } from "@ndla/ui";
 import PreviewDraft from "./PreviewDraft";
-import { PreviewBaseProps, StyledPreviewWrapper } from "./PreviewDraftLightboxV2";
+import { StyledPreviewWrapper } from "./TwoArticleWrapper";
 
-export interface MarkupPreviewProps extends PreviewBaseProps {
+export interface MarkupPreviewProps {
   type: "markup";
   article: IArticle;
+  language: string;
+  activateButton?: ReactElement;
 }
 
 export const PreviewMarkup = ({ article, language }: MarkupPreviewProps) => {

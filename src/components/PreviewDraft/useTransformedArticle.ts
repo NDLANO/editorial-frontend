@@ -14,7 +14,6 @@ import { FormArticle } from "./PreviewDraft";
 import config from "../../config";
 import { usePreviewArticle } from "../../modules/article/articleGqlQueries";
 import formatDate from "../../util/formatDate";
-import parseMarkdown from "../../util/parseMarkdown";
 
 export const getUpdatedLanguage = (language: string | undefined) => (language === "nb" ? "no" : language);
 
@@ -30,7 +29,7 @@ export const useTransformedArticle = ({ draft, language }: { draft: FormArticle;
     });
     return {
       title: parse(draft.title ?? ""),
-      introduction: parse(parseMarkdown({ markdown: draft.introduction ?? "", inline: true })),
+      introduction: parse(draft.introduction ?? ""),
       content,
       copyright: draft.copyright,
       published: draft.published ? formatDate(draft.published) : "",

@@ -7,13 +7,13 @@
  */
 
 import { useFormikContext } from "formik";
-import { useMemo, useState } from "react";
+import { ReactElement, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { IConcept } from "@ndla/types-backend/concept-api";
 import { ConceptWrapper } from "./PreviewConcept";
 import PreviewConceptComponent from "./PreviewConceptComponent";
-import { PreviewBaseProps, TwoArticleWrapper } from "./PreviewDraftLightboxV2";
+import { TwoArticleWrapper } from "./TwoArticleWrapper";
 import { ConceptFormValues } from "../../containers/ConceptPage/conceptInterfaces";
 import { conceptFormTypeToApiType } from "../../containers/ConceptPage/conceptTransformers";
 import { useConcept } from "../../modules/concept/conceptQueries";
@@ -27,9 +27,11 @@ const PreviewTitleWrapper = styled.div`
   height: 90px;
 `;
 
-export interface CompareConceptPreviewProps extends PreviewBaseProps {
+export interface CompareConceptPreviewProps {
   type: "conceptCompare";
   concept: IConcept;
+  language: string;
+  activateButton?: ReactElement;
 }
 
 export const PreviewConceptCompare = ({ concept, language }: CompareConceptPreviewProps) => {

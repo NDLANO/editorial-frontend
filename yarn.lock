@@ -3450,7 +3450,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:^18.0.0, @types/react-dom@npm:^18.2.22":
+"@types/react-dom@npm:^18.0.0":
+  version: 18.2.5
+  resolution: "@types/react-dom@npm:18.2.5"
+  dependencies:
+    "@types/react": "npm:*"
+  checksum: 10c0/7f438f695c91735ff16e6465573a4378fabad6709d99dd08bee4932967ca7e4ccc26dc248f4b88569529885bbca9b1aca0075bee7b833bfa932a558c49d2a066
+  languageName: node
+  linkType: hard
+
+"@types/react-dom@npm:^18.2.22":
   version: 18.2.22
   resolution: "@types/react-dom@npm:18.2.22"
   dependencies:
@@ -5839,6 +5848,7 @@ __metadata:
     helmet: "npm:^3.20.0"
     history: "npm:^5.1.0"
     html-react-parser: "npm:^5.1.8"
+    htmldiff-js: "npm:^1.0.5"
     i18next: "npm:^23.5.1"
     is-hotkey: "npm:^0.2.0"
     jsdom: "npm:^24.0.0"
@@ -7932,6 +7942,13 @@ __metadata:
   version: 3.2.0
   resolution: "html-tags@npm:3.2.0"
   checksum: 10c0/fc8ac525e193354bf51b64f0e32a729a2e222b6c0f34cedab0259a35ddc5b7e31ddb556b516ea1a5725339a1085098a5f47ff385a3fa50291523d426b54012da
+  languageName: node
+  linkType: hard
+
+"htmldiff-js@npm:^1.0.5":
+  version: 1.0.5
+  resolution: "htmldiff-js@npm:1.0.5"
+  checksum: 10c0/5219049c66140d63450d72f7f43bfdccb350ed85291f42666144cb13808b34d16cb5a8844a3caa9825f383e1b42e3f833d7580e2498c7a137ec8cf018c987262
   languageName: node
   linkType: hard
 

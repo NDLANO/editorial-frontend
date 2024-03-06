@@ -7,11 +7,10 @@
  */
 
 import { useFormikContext } from "formik";
-import { useMemo } from "react";
+import { ReactElement, useMemo } from "react";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 import PreviewConceptComponent from "./PreviewConceptComponent";
-import { PreviewBaseProps } from "./PreviewDraftLightboxV2";
 import { ConceptFormValues } from "../../containers/ConceptPage/conceptInterfaces";
 import { conceptFormTypeToApiType } from "../../containers/ConceptPage/conceptTransformers";
 import { useLicenses } from "../../modules/draft/draftQueries";
@@ -20,8 +19,10 @@ export const ConceptWrapper = styled.div`
   padding: 0 ${spacing.normal} ${spacing.normal} ${spacing.normal};
 `;
 
-export interface ConceptPreviewProps extends PreviewBaseProps {
+export interface ConceptPreviewProps {
   type: "concept";
+  language: string;
+  activateButton?: ReactElement;
 }
 
 export const PreviewConcept = ({ language }: ConceptPreviewProps) => {

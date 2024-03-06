@@ -7,8 +7,13 @@
  */
 
 import { useFormikContext } from "formik";
-import { useMemo } from "react";
+import parse from "html-react-parser";
+import { ReactElement, useMemo, useState, useCallback } from "react";
+import { renderToString } from "react-dom/server";
 import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { Switch } from "@ndla/switch";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import { FormArticle, toFormArticle } from "./PreviewDraft";
 import { PreviewBaseProps, TwoArticleWrapper } from "./PreviewDraftLightboxV2";
@@ -17,6 +22,7 @@ import { useTransformedArticle } from "./useTransformedArticle";
 import { learningResourceFormTypeToDraftApiType } from "../../containers/ArticlePage/articleTransformers";
 import { LearningResourceFormType } from "../../containers/FormikForm/articleFormHooks";
 import { useLicenses } from "../../modules/draft/draftQueries";
+import { getDiff } from "../../util/diffHTML";
 
 export interface VersionPreviewProps extends PreviewBaseProps {
   type: "version";
@@ -24,7 +30,14 @@ export interface VersionPreviewProps extends PreviewBaseProps {
   customTitle?: string;
 }
 
+const SwitchWrapper = styled.div`
+  display: flex;
+  margin-right: ${spacing.xxlarge};
+  justify-content: end;
+`;
+
 export const PreviewVersion = ({ article, language, customTitle }: VersionPreviewProps) => {
+  const [diffEnable, setDiffEnable] = useState(true);
   const { t } = useTranslation();
   const { values, initialValues } = useFormikContext<LearningResourceFormType>();
   const { data: licenses = [] } = useLicenses();
@@ -44,13 +57,66 @@ export const PreviewVersion = ({ article, language, customTitle }: VersionPrevie
     copyright: apiType.copyright,
   };
 
+  const TwoArticleWrapperWithDiff = styled(TwoArticleWrapper)`
+    del.diffmod,
+    ins.diffmod {
+      text-decoration: none;
+      background-color: #ffffac;
+      font-size: 18px;
+    }
+
+    .diffins:has(img, div, figure, picture),
+    .diffmod:has(div, img, figure, picture) {
+      padding: 5px;
+    }
+
+    .diffins {
+      background-color: #bdf6bd;
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    del.diffdel {
+      background-color: #ffa2a2;
+      text-decoration: none;
+      font-size: 18px;
+    }
+  `;
+
   const publishedArticle = toFormArticle(article, language);
   const publishedTransformed = useTransformedArticle({ draft: publishedArticle, language });
   const currentTransformed = useTransformedArticle({ draft: formArticle, language });
+  const currentStr = useMemo(
+    () => renderToString(currentTransformed.article?.content as ReactElement),
+    [currentTransformed],
+  );
+  const publishStr = useMemo(
+    () => renderToString(publishedTransformed.article?.content as ReactElement),
+    [publishedTransformed],
+  );
+
+  const { oldDiff, newDiff } = useMemo(() => {
+    if (diffEnable) return getDiff(publishStr, currentStr);
+    return { oldDiff: publishStr, newDiff: currentStr };
+  }, [publishStr, currentStr, diffEnable]);
+
+  const changeDiff = useCallback(() => {
+    setDiffEnable((p) => !p);
+  }, [setDiffEnable]);
+
+  if (diffEnable) {
+    if (publishedTransformed?.article?.content && currentTransformed?.article?.content) {
+      publishedTransformed.article.content = parse(oldDiff);
+      currentTransformed.article.content = parse(newDiff);
+    }
+  }
 
   return (
     <>
-      <TwoArticleWrapper>
+      <SwitchWrapper>
+        <Switch onChange={changeDiff} checked={diffEnable} label={t("Marker forskjeller")} id={"favorites"} />
+      </SwitchWrapper>
+      <TwoArticleWrapperWithDiff>
         <div>
           <div className="u-10/12 u-push-1/12">
             <h2>
@@ -68,7 +134,7 @@ export const PreviewVersion = ({ article, language, customTitle }: VersionPrevie
           </div>
           <TransformedPreviewDraft {...currentTransformed} label={article.articleType} />
         </div>
-      </TwoArticleWrapper>
+      </TwoArticleWrapperWithDiff>
     </>
   );
 };

@@ -10,10 +10,14 @@ import { useFormikContext } from "formik";
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
+import { colors, fonts, misc, spacing } from "@ndla/core";
 import { FileCompare } from "@ndla/icons/action";
+import { Launch } from "@ndla/icons/common";
 import { Check, Eye } from "@ndla/icons/editor";
+import { SafeLinkButton } from "@ndla/safelink";
 import { IConcept } from "@ndla/types-backend/concept-api";
 import { IArticle } from "@ndla/types-backend/draft-api";
+import { Text } from "@ndla/typography";
 import DeleteLanguageVersion from "./DeleteLanguageVersion";
 import { StyledSplitter } from "./HeaderInformation";
 import HeaderLanguagePicker from "./HeaderLanguagePicker";
@@ -22,7 +26,7 @@ import HeaderSupportedLanguages from "./HeaderSupportedLanguages";
 import TranslateNbToNn from "./TranslateNbToNn";
 import { createEditUrl, toMapping, translatableTypes } from "./util";
 import { PUBLISHED } from "../../constants";
-import { fetchDraftHistory } from "../../modules/draft/draftApi";
+import { toCompareLanguage } from "../../util/routeHelpers";
 import { useIsTranslatableToNN } from "../NynorskTranslateProvider";
 import PreviewDraftLightboxV2 from "../PreviewDraft/PreviewDraftLightboxV2";
 import StyledFilledButton from "../StyledFilledButton";
@@ -33,6 +37,28 @@ interface PreviewLightBoxProps {
   type: string;
   currentLanguage: string;
 }
+
+const StyledWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`;
+
+const StyledGroup = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const StyledSafeLinkButton = styled(SafeLinkButton)`
+  border-radius: ${misc.borderRadius};
+  box-shadow: none;
+  padding: ${spacing.xxsmall} ${spacing.small};
+  &:focus,
+  &:hover {
+    color: ${colors.white};
+    background: ${colors.brand.primary};
+    transform: translate(1px, 1px);
+  }
+`;
 
 const PreviewLightBox = memo(({ type, currentLanguage, article, concept }: PreviewLightBoxProps) => {
   const { t } = useTranslation();
@@ -51,33 +77,21 @@ const PreviewLightBox = memo(({ type, currentLanguage, article, concept }: Previ
     );
   } else if ((type === "standard" || type === "topic-article" || type === "frontpage-article") && article) {
     return (
-      <PreviewDraftLightboxV2
-        type="compare"
-        article={article}
-        language={currentLanguage}
-        activateButton={
-          <StyledFilledButton type="button">
-            <FileCompare /> {t("form.previewLanguageArticle.button")}
-          </StyledFilledButton>
-        }
-      />
+      <StyledSafeLinkButton variant="link" to={toCompareLanguage(article.id, currentLanguage)} target="_blank">
+        <Text textStyle="button" margin="none">
+          {t("form.previewLanguageArticle.button")}
+        </Text>
+        <Launch />
+      </StyledSafeLinkButton>
     );
   } else return null;
 });
-
-const StyledWrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-`;
-const StyledGroup = styled.div`
-  display: flex;
-  align-items: center;
-`;
 
 interface Props {
   id: number;
   isNewLanguage: boolean;
   article?: IArticle;
+  articleHistory: IArticle[] | undefined;
   concept?: IConcept;
   noStatus: boolean;
   disableDelete: boolean;
@@ -94,12 +108,10 @@ const HeaderActions = ({
   language,
   disableDelete,
   article,
+  articleHistory,
   concept,
   supportedLanguages = [],
 }: Props) => {
-  const [lastPublishedVersion, setLastPublishedVersion] = useState<IArticle>();
-  const [isIdenticalToPublished, setIsIdenticalToPublished] = useState(true);
-
   const { t } = useTranslation();
   const { isSubmitting } = useFormikContext();
   const showTranslate = useIsTranslatableToNN();
@@ -111,23 +123,20 @@ const HeaderActions = ({
     [type],
   );
 
-  useEffect(() => {
-    const getVersions = async (article: IArticle) => {
-      const versions = await fetchDraftHistory(article.id, article.title?.language);
-      const publishedVersion = versions.find((v) => v.status.current === PUBLISHED);
-      if (publishedVersion) {
-        setLastPublishedVersion(publishedVersion);
-        setIsIdenticalToPublished(
-          publishedVersion.content?.content === article.content?.content &&
-            publishedVersion.title?.title === article.title?.title &&
-            publishedVersion.introduction?.introduction === article.introduction?.introduction,
-        );
-      }
-    };
-    if (article) {
-      getVersions(article);
+  const lastPublishedVersion = useMemo(
+    () => articleHistory?.find((v) => v.status.current === PUBLISHED),
+    [articleHistory],
+  );
+  const isIdenticalToPublished = useMemo(() => {
+    if (lastPublishedVersion) {
+      return (
+        lastPublishedVersion.content?.content === article?.content?.content &&
+        lastPublishedVersion.title?.title === article?.title?.title &&
+        lastPublishedVersion.introduction?.introduction === article?.introduction?.introduction
+      );
     }
-  }, [article]);
+    return false;
+  }, [article, lastPublishedVersion]);
 
   const languages = useMemo(
     () => [
@@ -177,13 +186,13 @@ const HeaderActions = ({
               <TranslateNbToNn id={id} editUrl={editUrl} />
             </>
           )}
+        {!noStatus && (
+          <>
+            <StyledSplitter />
+            <PreviewLightBox article={article} concept={concept} type={type} currentLanguage={language} />
+          </>
+        )}
         <StyledGroup>
-          {!noStatus && (
-            <>
-              <StyledSplitter />
-              <PreviewLightBox article={article} concept={concept} type={type} currentLanguage={language} />
-            </>
-          )}
           {lastPublishedVersion && (
             <>
               <StyledSplitter />

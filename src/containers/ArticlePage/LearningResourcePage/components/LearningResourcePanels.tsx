@@ -16,16 +16,18 @@ import LearningResourceTaxonomy from "./LearningResourceTaxonomy";
 import FormAccordion from "../../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../../components/Accordion/FormAccordions";
 import config from "../../../../config";
-import { TAXONOMY_WRITE_SCOPE } from "../../../../constants";
+import { PUBLISHED, TAXONOMY_WRITE_SCOPE } from "../../../../constants";
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from "../../../FormikForm";
 import { HandleSubmitFunc, LearningResourceFormType } from "../../../FormikForm/articleFormHooks";
 import GrepCodesField from "../../../FormikForm/GrepCodesField";
 import { useSession } from "../../../Session/SessionProvider";
+import PanelTitleWithChangeIndicator from "../../components/PanelTitleWithChangeIndicator";
 import RelatedContentFieldGroup from "../../components/RelatedContentFieldGroup";
 import RevisionNotes from "../../components/RevisionNotes";
 
 interface Props {
   article?: IArticle;
+  articleHistory: IArticle[] | undefined;
   taxonomy?: Node[];
   updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
   handleSubmit: HandleSubmitFunc<LearningResourceFormType>;
@@ -33,17 +35,35 @@ interface Props {
   contexts?: TaxonomyContext[];
 }
 
-const LearningResourcePanels = ({ article, taxonomy, updateNotes, articleLanguage, contexts, handleSubmit }: Props) => {
+const LearningResourcePanels = ({
+  article,
+  articleHistory,
+  taxonomy,
+  updateNotes,
+  articleLanguage,
+  contexts,
+  handleSubmit,
+}: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const { errors } = useFormikContext<LearningResourceFormType>();
   const defaultOpen = useMemo(() => ["learning-resource-content"], []);
 
+  const contentTitleFields = useMemo<(keyof IArticle)[]>(() => ["title", "introduction", "content"], []);
+  const copyrightFields = useMemo<(keyof IArticle)[]>(() => ["copyright"], []);
+
   return (
     <FormAccordions defaultOpen={defaultOpen}>
       <FormAccordion
         id={"learning-resource-content"}
-        title={t("form.contentSection")}
+        title={
+          <PanelTitleWithChangeIndicator
+            title={t("form.contentSection")}
+            article={article}
+            articleHistory={articleHistory}
+            fieldsToIndicatedChangesFor={contentTitleFields}
+          />
+        }
         className="u-10/12 u-push-1/12"
         hasError={!!(errors.title || errors.introduction || errors.content)}
       >
@@ -70,7 +90,14 @@ const LearningResourcePanels = ({ article, taxonomy, updateNotes, articleLanguag
       )}
       <FormAccordion
         id={"learning-resource-copyright"}
-        title={t("form.copyrightSection")}
+        title={
+          <PanelTitleWithChangeIndicator
+            title={t("form.copyrightSection")}
+            article={article}
+            articleHistory={articleHistory}
+            fieldsToIndicatedChangesFor={copyrightFields}
+          />
+        }
         className={"u-6/6"}
         hasError={!!(errors.creators || errors.rightsholders || errors.processors || errors.license)}
       >
@@ -118,7 +145,12 @@ const LearningResourcePanels = ({ article, taxonomy, updateNotes, articleLanguag
           hasError={!!errors.notes}
           data-testid={"learning-resource-workflow"}
         >
-          <VersionAndNotesPanel article={article} type="standard" currentLanguage={articleLanguage} />
+          <VersionAndNotesPanel
+            article={article}
+            articleHistory={articleHistory}
+            type="standard"
+            currentLanguage={articleLanguage}
+          />
         </FormAccordion>
       )}
     </FormAccordions>

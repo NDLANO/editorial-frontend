@@ -7,6 +7,7 @@
  */
 
 import { useFormikContext } from "formik";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import FrontpageArticleFormContent from "./FrontpageArticleFormContent";
@@ -15,17 +16,22 @@ import FormAccordions from "../../../../components/Accordion/FormAccordions";
 import { useWideArticle } from "../../../../components/WideArticleEditorProvider";
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from "../../../FormikForm";
 import { FrontpageArticleFormType } from "../../../FormikForm/articleFormHooks";
+import PanelTitleWithChangeIndicator from "../../components/PanelTitleWithChangeIndicator";
 import RevisionNotes from "../../components/RevisionNotes";
 
 interface Props {
   article?: IArticle;
+  articleHistory: IArticle[] | undefined;
   articleLanguage: string;
 }
 
-const FrontpageArticlePanels = ({ article, articleLanguage }: Props) => {
+const FrontpageArticlePanels = ({ article, articleHistory, articleLanguage }: Props) => {
   const { t } = useTranslation();
   const { errors } = useFormikContext<FrontpageArticleFormType>();
   const { isWideArticle } = useWideArticle();
+
+  const contentTitleFields = useMemo<(keyof IArticle)[]>(() => ["title", "introduction", "content"], []);
+  const copyrightFields = useMemo<(keyof IArticle)[]>(() => ["copyright"], []);
 
   return (
     <FormAccordions
@@ -35,7 +41,14 @@ const FrontpageArticlePanels = ({ article, articleLanguage }: Props) => {
     >
       <FormAccordion
         id={"frontpage-article-content"}
-        title={t("form.contentSection")}
+        title={
+          <PanelTitleWithChangeIndicator
+            title={t("form.contentSection")}
+            article={article}
+            articleHistory={articleHistory}
+            fieldsToIndicatedChangesFor={contentTitleFields}
+          />
+        }
         className="u-10/12 u-push-1/12"
         hasError={!!(errors.title || errors.introduction || errors.content)}
         wide={isWideArticle}
@@ -45,7 +58,14 @@ const FrontpageArticlePanels = ({ article, articleLanguage }: Props) => {
       </FormAccordion>
       <FormAccordion
         id={"frontpage-article-copyright"}
-        title={t("form.copyrightSection")}
+        title={
+          <PanelTitleWithChangeIndicator
+            title={t("form.copyrightSection")}
+            article={article}
+            articleHistory={articleHistory}
+            fieldsToIndicatedChangesFor={copyrightFields}
+          />
+        }
         className={"u-6/6"}
         hasError={!!(errors.creators || errors.rightsholders || errors.processors || errors.license)}
       >
@@ -74,7 +94,12 @@ const FrontpageArticlePanels = ({ article, articleLanguage }: Props) => {
           className={"u-6/6"}
           hasError={!!errors.notes}
         >
-          <VersionAndNotesPanel article={article} type="standard" currentLanguage={articleLanguage} />
+          <VersionAndNotesPanel
+            article={article}
+            articleHistory={articleHistory}
+            type="standard"
+            currentLanguage={articleLanguage}
+          />
         </FormAccordion>
       )}
     </FormAccordions>

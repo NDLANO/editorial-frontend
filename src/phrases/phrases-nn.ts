@@ -31,6 +31,7 @@ const phrases = {
     publishRequestsPage: `Publiseringsforespørsler ${titleTemplate}`,
     nodeDiffPage: `Samanlikne nodar ${titleTemplate}`,
     editFrontpage: "Rediger forside",
+    comparePage: `Samanlikne versjonar ${titleTemplate}`,
     search: {
       "podcast-series": `Søk podkastserier ${titleTemplate}`,
       audio: `Søk lydfiler ${titleTemplate}`,
@@ -725,6 +726,7 @@ const phrases = {
     saveAsCopySuccess: "Ny artikkel lagret",
     openAll: "Opne alle",
     hideAll: "Lukk alle",
+    unpublishedChanges: "(Endra sidan siste publisering)",
     comment: {
       comment: "Kommenter",
       hide: "Skjul kommentar",

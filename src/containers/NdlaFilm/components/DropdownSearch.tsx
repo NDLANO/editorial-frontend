@@ -11,7 +11,6 @@ import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
 import AsyncDropdown from "../../../components/Dropdown/asyncDropdown/AsyncDropdown";
 import { searchResources } from "../../../modules/search/searchApi";
-import { maybeUndefinedFilterList } from "../../../util/searchHelpers";
 
 interface Props {
   selectedElements: (IMultiSearchSummary | IArticle | ILearningPathV2)[];
@@ -35,7 +34,7 @@ const DropdownSearch = ({
   const queryResources = async (input: string) => {
     const query = {
       page: 1,
-      ...maybeUndefinedFilterList("subjects", [subjectId]),
+      subjects: subjectId,
       sort: "-relevance",
       pageSize: 10,
       query: input,

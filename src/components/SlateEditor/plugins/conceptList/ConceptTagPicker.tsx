@@ -21,7 +21,6 @@ import { ConceptListElement } from ".";
 import { fetchAllSubjects, fetchAllTags } from "../../../../modules/concept/conceptApi";
 import { useSearchConcepts } from "../../../../modules/concept/conceptQueries";
 import { fetchNode } from "../../../../modules/nodes/nodeApi";
-import { maybeUndefinedFilterList } from "../../../../util/searchHelpers";
 import Dropdown, { DropdownItem } from "../../../Dropdown/Dropdown";
 
 const TwoColumn = styled.div`
@@ -64,8 +63,8 @@ const ConceptTagPicker = ({ element, onClose, language, onSave: onSaveProp }: Pr
 
   const conceptSearchQuery = useSearchConcepts(
     {
-      ...maybeUndefinedFilterList("subjects", [selectedSubject?.id]),
-      ...maybeUndefinedFilterList("tags", [selectedTag?.id]),
+      ...(selectedSubject?.id ? { subjects: [selectedSubject.id] } : {}),
+      ...(selectedTag?.id ? { tags: [selectedTag.id] } : {}),
       language,
       pageSize: 200,
     },

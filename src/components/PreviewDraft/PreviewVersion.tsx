@@ -12,7 +12,7 @@ import { ReactElement, useMemo, useState, useCallback } from "react";
 import { renderToString } from "react-dom/server";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
+import { colors, spacing } from "@ndla/core";
 import { Switch } from "@ndla/switch";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import { FormArticle, toFormArticle } from "./PreviewDraft";
@@ -60,7 +60,7 @@ export const PreviewVersion = ({ article, language, customTitle }: VersionPrevie
   const TwoArticleWrapperWithDiff = styled(TwoArticleWrapper)`
     del.diffmod,
     ins.diffmod {
-      background-color: #ffffac;
+      background-color: ${colors.support.yellow};
       text-decoration: none;
       display: inline-block;
     }
@@ -71,13 +71,13 @@ export const PreviewVersion = ({ article, language, customTitle }: VersionPrevie
     }
 
     .diffins {
-      background-color: #bdf6bd;
+      background-color: ${colors.support.greenLight};
       text-decoration: none;
       display: inline-block;
     }
 
     del.diffdel {
-      background-color: #ffa2a2;
+      background-color: ${colors.support.redLight};
       text-decoration: none;
       display: inline-block;
     }

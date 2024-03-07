@@ -130,7 +130,7 @@ function EditorFooter<T extends FormValues>({
       translatableTypes.includes(articleType as TranslatableType)
     ) {
       const targetLanguage = selectedLanguage === "nb" ? "nn" : "nb";
-      const buttonText = t("languages.change", { language: t(`languages.${targetLanguage}`) });
+      const buttonText = t(`languages.${targetLanguage}`);
       return (
         <StyledSafeLinkButton
           aria-label={buttonText}

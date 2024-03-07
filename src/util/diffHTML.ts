@@ -137,7 +137,7 @@ function removeNoise(html: string): string {
   return cleanUpHtml(cleanUpHtml(html));
 }
 
-export function getDiff(oldHtml: string, newHtml: string) {
+export function getDiff(oldHtml: string, newHtml: string): [string, string] {
   const unifiedDiff = HtmlDiff.execute(oldHtml, newHtml) as string;
   const parser = new DOMParser();
   const parsedOldHtml = parser.parseFromString(unifiedDiff, "text/html");
@@ -147,7 +147,7 @@ export function getDiff(oldHtml: string, newHtml: string) {
 
   const oldDiff = parsedOldHtml.documentElement.outerHTML;
   const newDiff = parsedNewHtml.documentElement.outerHTML;
-  return { oldDiff, newDiff };
+  return [oldDiff, newDiff];
 }
 
 export function diffHTML(oldHtml: string, newHtml: string) {

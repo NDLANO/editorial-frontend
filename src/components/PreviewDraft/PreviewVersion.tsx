@@ -87,28 +87,46 @@ export const PreviewVersion = ({ article, language, customTitle }: VersionPrevie
   const publishedArticle = toFormArticle(article, language);
   const publishedTransformed = useTransformedArticle({ draft: publishedArticle, language });
   const currentTransformed = useTransformedArticle({ draft: formArticle, language });
-  const currentStr = useMemo(
-    () => renderToString(currentTransformed.article?.content as ReactElement),
-    [currentTransformed],
-  );
-  const publishStr = useMemo(
-    () => renderToString(publishedTransformed.article?.content as ReactElement),
-    [publishedTransformed],
-  );
+  const currentObj = useMemo(() => {
+    if (!diffEnable) return null;
+    return {
+      title: renderToString(currentTransformed.article?.title as ReactElement),
+      introduction: renderToString(currentTransformed.article?.introduction as ReactElement),
+      content: renderToString(currentTransformed.article?.content as ReactElement),
+    };
+  }, [diffEnable, currentTransformed]);
+  const publishObj = useMemo(() => {
+    if (!diffEnable) return null;
+    return {
+      title: renderToString(publishedTransformed.article?.title as ReactElement),
+      introduction: renderToString(publishedTransformed.article?.introduction as ReactElement),
+      content: renderToString(publishedTransformed.article?.content as ReactElement),
+    };
+  }, [diffEnable, publishedTransformed]);
 
-  const { oldDiff, newDiff } = useMemo(() => {
-    if (diffEnable) return getDiff(publishStr, currentStr);
-    return { oldDiff: publishStr, newDiff: currentStr };
-  }, [publishStr, currentStr, diffEnable]);
+  const diffObj = useMemo(() => {
+    if (publishObj && currentObj) {
+      const [oldTitle, newTitle] = getDiff(publishObj.title, currentObj.title);
+      const [oldIntroduction, newIntroduction] = getDiff(publishObj.introduction, currentObj.introduction);
+      const [oldContent, newContent] = getDiff(publishObj.content, currentObj.content);
+      return { oldTitle, newTitle, oldIntroduction, newIntroduction, oldContent, newContent };
+    }
+    return null;
+  }, [currentObj, publishObj]);
 
   const changeDiff = useCallback(() => {
     setDiffEnable((p) => !p);
   }, [setDiffEnable]);
 
-  if (diffEnable) {
-    if (publishedTransformed?.article?.content && currentTransformed?.article?.content) {
-      publishedTransformed.article.content = parse(oldDiff);
-      currentTransformed.article.content = parse(newDiff);
+  if (diffEnable && diffObj) {
+    if (publishedTransformed.article && currentTransformed.article) {
+      publishedTransformed.article.title = parse(diffObj.oldTitle);
+      publishedTransformed.article.introduction = parse(diffObj.oldIntroduction);
+      publishedTransformed.article.content = parse(diffObj.oldContent);
+
+      currentTransformed.article.title = parse(diffObj.newTitle);
+      currentTransformed.article.introduction = parse(diffObj.newIntroduction);
+      currentTransformed.article.content = parse(diffObj.newContent);
     }
   }
 

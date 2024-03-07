@@ -23,40 +23,6 @@ export interface PreviewBaseProps {
 
 type Props = MarkupPreviewProps | VersionPreviewProps | CompareConceptPreviewProps | ConceptPreviewProps;
 
-export const StyledPreviewWrapper = styled.div`
-  width: 100%;
-  max-width: 100%;
-  display: inline-flex;
-  justify-content: center;
-  & .c-article {
-    padding: 0;
-    margin-top: 20px;
-    line-height: unset;
-    font-family: unset;
-    > section {
-      width: unset !important;
-      left: unset !important;
-    }
-    & .c-article__header {
-      margin-bottom: unset;
-    }
-  }
-`;
-
-export const TwoArticleWrapper = styled(StyledPreviewWrapper)`
-  > div {
-    margin: 0 2.5%;
-    width: 40%;
-    > h2 {
-      margin: 0;
-      margin-left: ${spacing.large};
-    }
-    > article {
-      max-width: unset;
-    }
-  }
-`;
-
 const components: Record<Props["type"], ElementType> = {
   markup: PreviewMarkup,
   version: PreviewVersion,

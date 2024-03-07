@@ -16,13 +16,14 @@ import { colors, spacing } from "@ndla/core";
 import { Switch } from "@ndla/switch";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import { FormArticle, toFormArticle } from "./PreviewDraft";
-import { PreviewBaseProps, TwoArticleWrapper } from "./PreviewDraftLightboxV2";
+import { PreviewBaseProps } from "./PreviewDraftLightboxV2";
 import { TransformedPreviewDraft } from "./TransformedPreviewDraft";
 import { useTransformedArticle } from "./useTransformedArticle";
 import { learningResourceFormTypeToDraftApiType } from "../../containers/ArticlePage/articleTransformers";
 import { LearningResourceFormType } from "../../containers/FormikForm/articleFormHooks";
 import { useLicenses } from "../../modules/draft/draftQueries";
 import { getDiff } from "../../util/diffHTML";
+import { TwoArticleWrapper } from "./TwoArticleWrapper";
 
 export interface VersionPreviewProps extends PreviewBaseProps {
   type: "version";
@@ -34,6 +35,33 @@ const SwitchWrapper = styled.div`
   display: flex;
   margin-right: ${spacing.xxlarge};
   justify-content: end;
+`;
+
+const TwoArticleWrapperWithDiff = styled(TwoArticleWrapper)`
+  del.diffmod,
+  ins.diffmod,
+  ins.mod {
+    background-color: ${colors.support.yellow};
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .diffins:has(img, div, figure, picture),
+  .diffmod:has(div, img, figure, picture) {
+    padding: 5px;
+  }
+
+  .diffins {
+    background-color: ${colors.support.greenLight};
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  del.diffdel {
+    background-color: ${colors.support.redLight};
+    text-decoration: none;
+    display: inline-block;
+  }
 `;
 
 export const PreviewVersion = ({ article, language, customTitle }: VersionPreviewProps) => {
@@ -56,33 +84,6 @@ export const PreviewVersion = ({ article, language, customTitle }: VersionPrevie
     published: apiType.published,
     copyright: apiType.copyright,
   };
-
-  const TwoArticleWrapperWithDiff = styled(TwoArticleWrapper)`
-    del.diffmod,
-    ins.diffmod,
-    ins.mod {
-      background-color: ${colors.support.yellow};
-      text-decoration: none;
-      display: inline-block;
-    }
-
-    .diffins:has(img, div, figure, picture),
-    .diffmod:has(div, img, figure, picture) {
-      padding: 5px;
-    }
-
-    .diffins {
-      background-color: ${colors.support.greenLight};
-      text-decoration: none;
-      display: inline-block;
-    }
-
-    del.diffdel {
-      background-color: ${colors.support.redLight};
-      text-decoration: none;
-      display: inline-block;
-    }
-  `;
 
   const publishedArticle = toFormArticle(article, language);
   const publishedTransformed = useTransformedArticle({ draft: publishedArticle, language });

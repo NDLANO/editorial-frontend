@@ -9,7 +9,8 @@ import { useTranslation } from "react-i18next";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import { OneColumn } from "@ndla/ui";
 import PreviewDraft from "./PreviewDraft";
-import { PreviewBaseProps, StyledPreviewWrapper } from "./PreviewDraftLightboxV2";
+import { PreviewBaseProps } from "./PreviewDraftLightboxV2";
+import { StyledPreviewWrapper } from "./TwoArticleWrapper";
 
 export interface MarkupPreviewProps extends PreviewBaseProps {
   type: "markup";

@@ -8,11 +8,11 @@
 
 import { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
-import AudioSearch from "@ndla/audio-search";
+import { AudioSearch } from "@ndla/audio-search";
 import { IAudioSummary } from "@ndla/types-backend/audio-api";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import { BrightcoveApiType } from "@ndla/types-embed";
-import VideoSearch from "@ndla/video-search";
+import { VideoSearch } from "@ndla/video-search";
 import FileUploader from "../../components/FileUploader";
 import ImageSearchAndUploader from "../../components/ImageSearchAndUploader";
 import config from "../../config";

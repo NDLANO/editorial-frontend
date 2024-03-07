@@ -13,7 +13,7 @@ import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { FieldHeader } from "@ndla/forms";
-import ImageSearch from "@ndla/image-search";
+import { ImageSearch } from "@ndla/image-search";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import HowToHelper from "../../../components/HowTo/HowToHelper";
 import { LocaleType } from "../../../interfaces";

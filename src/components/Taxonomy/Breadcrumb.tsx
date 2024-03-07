@@ -9,7 +9,7 @@ import { Fragment, useMemo } from "react";
 import styled from "@emotion/styled";
 import { colors, fonts } from "@ndla/core";
 import { ChevronRight } from "@ndla/icons/common";
-import SafeLink from "@ndla/safelink";
+import { SafeLink } from "@ndla/safelink";
 import { Node } from "@ndla/types-taxonomy";
 import { MinimalNodeChild } from "../../containers/ArticlePage/LearningResourcePage/components/LearningResourceTaxonomy";
 

@@ -12,7 +12,7 @@ import { IconButtonV2 } from "@ndla/button";
 import { colors, fonts, spacing } from "@ndla/core";
 import { FieldHeader } from "@ndla/forms";
 import { DeleteForever } from "@ndla/icons/editor";
-import SafeLink from "@ndla/safelink";
+import { SafeLink } from "@ndla/safelink";
 import { ISeriesSummary } from "@ndla/types-backend/audio-api";
 import { Text } from "@ndla/typography";
 import AsyncDropdown from "../../../components/Dropdown/asyncDropdown/AsyncDropdown";

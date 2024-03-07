@@ -60,9 +60,9 @@ export const PreviewVersion = ({ article, language, customTitle }: VersionPrevie
   const TwoArticleWrapperWithDiff = styled(TwoArticleWrapper)`
     del.diffmod,
     ins.diffmod {
-      text-decoration: none;
       background-color: #ffffac;
-      font-size: 18px;
+      text-decoration: none;
+      display: inline-block;
     }
 
     .diffins:has(img, div, figure, picture),
@@ -73,13 +73,13 @@ export const PreviewVersion = ({ article, language, customTitle }: VersionPrevie
     .diffins {
       background-color: #bdf6bd;
       text-decoration: none;
-      font-size: 18px;
+      display: inline-block;
     }
 
     del.diffdel {
       background-color: #ffa2a2;
       text-decoration: none;
-      font-size: 18px;
+      display: inline-block;
     }
   `;
 

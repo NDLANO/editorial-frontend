@@ -810,6 +810,7 @@ const phrases = {
       current: "Gjeldende versjon",
       published: "Publisert versjon",
       article: "Artikkel",
+      enableDiff: "Marker forskjeller",
     },
     previewLanguageArticle: {
       button: "Sammenlign språkversjoner",

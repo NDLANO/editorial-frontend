@@ -18,12 +18,12 @@ import { IArticle } from "@ndla/types-backend/draft-api";
 import { FormArticle, toFormArticle } from "./PreviewDraft";
 import { PreviewBaseProps } from "./PreviewDraftLightboxV2";
 import { TransformedPreviewDraft } from "./TransformedPreviewDraft";
+import { TwoArticleWrapper } from "./TwoArticleWrapper";
 import { useTransformedArticle } from "./useTransformedArticle";
 import { learningResourceFormTypeToDraftApiType } from "../../containers/ArticlePage/articleTransformers";
 import { LearningResourceFormType } from "../../containers/FormikForm/articleFormHooks";
 import { useLicenses } from "../../modules/draft/draftQueries";
 import { getDiff } from "../../util/diffHTML";
-import { TwoArticleWrapper } from "./TwoArticleWrapper";
 
 export interface VersionPreviewProps extends PreviewBaseProps {
   type: "version";

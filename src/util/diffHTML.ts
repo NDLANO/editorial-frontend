@@ -143,7 +143,7 @@ export function getDiff(oldHtml: string, newHtml: string): [string, string] {
   const parsedOldHtml = parser.parseFromString(unifiedDiff, "text/html");
   const parsedNewHtml = parser.parseFromString(unifiedDiff, "text/html");
   parsedNewHtml.querySelectorAll("del").forEach((el) => el.remove());
-  parsedOldHtml.querySelectorAll("ins").forEach((el) => el.remove());
+  parsedOldHtml.querySelectorAll("ins:not(.mod)").forEach((el) => el.remove());
 
   const oldDiff = parsedOldHtml.documentElement.outerHTML;
   const newDiff = parsedNewHtml.documentElement.outerHTML;

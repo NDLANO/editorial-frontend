@@ -809,6 +809,7 @@ const phrases = {
       current: "Current version",
       published: "Published version",
       article: "Article",
+      enableDiff: "Highlight differences",
     },
     previewLanguageArticle: {
       button: "Compare language versions",

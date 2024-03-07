@@ -114,7 +114,12 @@ export const PreviewVersion = ({ article, language, customTitle }: VersionPrevie
   return (
     <>
       <SwitchWrapper>
-        <Switch onChange={changeDiff} checked={diffEnable} label={t("Marker forskjeller")} id={"favorites"} />
+        <Switch
+          onChange={changeDiff}
+          checked={diffEnable}
+          label={t("form.previewProductionArticle.enableDiff")}
+          id={"diff"}
+        />
       </SwitchWrapper>
       <TwoArticleWrapperWithDiff>
         <div>

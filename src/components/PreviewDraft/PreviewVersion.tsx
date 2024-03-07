@@ -59,7 +59,8 @@ export const PreviewVersion = ({ article, language, customTitle }: VersionPrevie
 
   const TwoArticleWrapperWithDiff = styled(TwoArticleWrapper)`
     del.diffmod,
-    ins.diffmod {
+    ins.diffmod,
+    ins.mod {
       background-color: ${colors.support.yellow};
       text-decoration: none;
       display: inline-block;

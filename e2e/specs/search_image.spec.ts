@@ -6,15 +6,9 @@
  *
  */
 
-import { test, expect } from '@playwright/test';
-import { mockRoute, mockWaitResponse } from '../apiMock';
-import {
-  copyrightMock,
-  editorMock,
-  responsiblesMock,
-  userDataMock,
-  zendeskMock,
-} from '../mockResponses';
+import { test, expect } from "@playwright/test";
+import { mockRoute, mockWaitResponse } from "../apiMock";
+import { copyrightMock, editorMock, responsiblesMock, userDataMock, zendeskMock } from "../mockResponses";
 
 const imageCopyrightMock = (val: any) =>
   JSON.stringify({
@@ -25,148 +19,151 @@ const imageCopyrightMock = (val: any) =>
 test.beforeEach(async ({ page }) => {
   const licenses = mockRoute({
     page,
-    path: '**/draft-api/v1/drafts/licenses/',
-    fixture: 'search_image_licenses',
+    path: "**/draft-api/v1/drafts/licenses/",
+    fixture: "search_image_licenses",
   });
 
   const subjects = mockRoute({
     page,
-    path: '**/taxonomy/v1/nodes?language=nb&nodeType=SUBJECT',
-    fixture: 'search_image_subjects',
+    path: "**/taxonomy/v1/nodes?language=nb&nodeType=SUBJECT",
+    fixture: "search_image_subjects",
   });
 
   const getEditors = mockRoute({
     page,
-    path: '**/get_editors',
-    fixture: 'search_image_get_editors',
+    path: "**/get_editors",
+    fixture: "search_image_get_editors",
     overrideValue: JSON.stringify(editorMock),
   });
 
-  const searchimage = mockRoute({
-    page,
-    path: '**/image-api/v3/images/?exclude-revision-log=false&fallback=false&filter-inactive=true&include-other-statuses=false&page=1&page-size=10&sort=-relevance',
-    fixture: 'search_image_search',
-    overrideValue: imageCopyrightMock,
-  });
+  const baseBody = { pageSize: 10, filterInactive: true, sort: "-relevance" };
 
-  const searchNextPage = mockRoute({
+  const searchImage = mockRoute({
     page,
-    path: '**/image-api/v3/images/?exclude-revision-log=false&fallback=false&filter-inactive=true&include-other-statuses=false&page=2&page-size=10&sort=-relevance',
-    fixture: 'search_image_next_search',
+    path: "**/image-api/v3/images/search/",
+    fixture: "search_image_search",
     overrideValue: imageCopyrightMock,
+    postData: [
+      { name: "default_1", data: { ...baseBody, page: 1 } },
+      { name: "default_2", data: { ...baseBody, page: 2 } },
+      { name: "query_1", data: { ...baseBody, page: 1, query: "Test" } },
+      {
+        name: "query_2",
+        data: { ...baseBody, page: 2, query: "Test" },
+      },
+      {
+        name: "model_released_1",
+        data: { ...baseBody, page: 1, modelReleased: ["yes"] },
+      },
+      {
+        name: "model_released_2",
+        data: { ...baseBody, page: 1, modelReleased: ["yes"] },
+      },
+      {
+        name: "language_1",
+        data: { ...baseBody, page: 1, language: "nb" },
+      },
+      {
+        name: "language_2",
+        data: { ...baseBody, page: 2, language: "nb" },
+      },
+      {
+        name: "license_1",
+        data: { ...baseBody, page: 1, license: "CC0-1.0" },
+      },
+      {
+        name: "license_2",
+        data: { ...baseBody, page: 2, license: "CC0-1.0" },
+      },
+    ],
   });
 
   const zendesk = mockRoute({
     page,
-    path: '**/get_zendesk_token',
-    fixture: 'search_image_zendesk_token',
+    path: "**/get_zendesk_token",
+    fixture: "search_image_zendesk_token",
     overrideValue: JSON.stringify(zendeskMock),
   });
 
   const noteUsers = mockRoute({
     page,
-    path: '**/get_note_users?*',
-    fixture: 'search_image_note_users',
+    path: "**/get_note_users?*",
+    fixture: "search_image_note_users",
   });
 
   const userData = mockRoute({
     page,
-    path: '**/draft-api/v1/user-data',
-    fixture: 'search_image_user_data',
+    path: "**/draft-api/v1/user-data",
+    fixture: "search_image_user_data",
     overrideValue: JSON.stringify(userDataMock),
   });
 
   const responsibles = mockRoute({
     page,
-    path: '**/get_responsibles*',
-    fixture: 'search_image_responsibles',
+    path: "**/get_responsibles*",
+    fixture: "search_image_responsibles",
     overrideValue: JSON.stringify(responsiblesMock),
   });
 
   const statusStateMachine = mockRoute({
     page,
-    path: '**/image-api/v3/drafts/status-state-machine/',
-    fixture: 'search_image_status_state_machine',
+    path: "**/image-api/v3/drafts/status-state-machine/",
+    fixture: "search_image_status_state_machine",
   });
 
-  await page.goto('/search/image?page=1&page-size=10&sort=-relevance');
+  await page.goto("/search/image?page=1&page-size=10&sort=-relevance");
 
   await Promise.all([
     licenses,
     statusStateMachine,
-    searchimage,
+    searchImage,
     subjects,
     noteUsers,
     responsibles,
     zendesk,
     userData,
-    searchNextPage,
     getEditors,
   ]);
 });
 
-test.afterEach(async ({ page }) => await mockWaitResponse(page, '**/image-api/v3/images/**'));
+test.afterEach(async ({ page }) => await mockWaitResponse(page, "**/image-api/v3/images/search/"));
 
-const totalSearchCount = '67343';
+const totalSearchCount = "68176";
 
-test('Can use text input', async ({ page }) => {
-  await mockRoute({
-    page,
-    path: '**/image-api/v3/images/?exclude-revision-log=false&fallback=false&filter-inactive=true&include-other-statuses=false&page=*&page-size=10&query=Test&sort=-relevance*',
-    fixture: 'search_image_query_search',
-    overrideValue: imageCopyrightMock,
-  });
-  await page.locator('input[name="query"]').fill('Test');
-  await page.getByRole('button', { name: 'Søk', exact: true }).click();
-  await page.getByTestId('image-search-result').first().waitFor();
-  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('402');
+test("Can use text input", async ({ page }) => {
+  await page.locator('input[name="query"]').fill("Test");
+  await page.getByRole("button", { name: "Søk", exact: true }).click();
+  await page.getByTestId("image-search-result").first().waitFor();
+  expect(await page.getByTestId("searchTotalCount").innerText()).toEqual("410");
   await page.locator('input[name="query"]').clear();
-  await page.getByRole('button', { name: 'Søk', exact: true }).click();
-  await page.getByTestId('image-search-result').first().waitFor();
-  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual(totalSearchCount);
+  await page.getByRole("button", { name: "Søk", exact: true }).click();
+  await page.getByTestId("image-search-result").first().waitFor();
+  expect(await page.getByTestId("searchTotalCount").innerText()).toEqual(totalSearchCount);
 });
 
-test('Can use model released dropdown', async ({ page }) => {
-  await mockRoute({
-    page,
-    path: '**/image-api/v3/images/?exclude-revision-log=false&fallback=false&filter-inactive=true&include-other-statuses=false&model-released=yes&page=*&page-size=10&sort=-relevance',
-    fixture: 'search_image_model_released_search',
-    overrideValue: imageCopyrightMock,
-  });
+test("Can use model released dropdown", async ({ page }) => {
   await page.locator('select[name="model-released"]').selectOption({ index: 1 });
-  await page.getByTestId('image-search-result').first().waitFor();
-  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('1671');
+  await page.getByTestId("image-search-result").first().waitFor();
+  expect(await page.getByTestId("searchTotalCount").innerText()).toEqual("1677");
   await page.locator('select[name="model-released"]').selectOption({ index: 0 });
-  await page.getByTestId('image-search-result').first().waitFor();
-  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual(totalSearchCount);
+  await page.getByTestId("image-search-result").first().waitFor();
+  expect(await page.getByTestId("searchTotalCount").innerText()).toEqual(totalSearchCount);
 });
 
-test('Can use language dropdown', async ({ page }) => {
-  await mockRoute({
-    page,
-    path: '**/image-api/v3/images/?exclude-revision-log=false&fallback=false&filter-inactive=true&include-other-statuses=false&language=nb&page=*&page-size=10&sort=-relevance',
-    fixture: 'search_image_lang_search',
-    overrideValue: imageCopyrightMock,
-  });
+test("Can use language dropdown", async ({ page }) => {
   await page.locator('select[name="language"]').selectOption({ index: 1 });
-  await page.getByTestId('image-search-result').first().waitFor();
-  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('24764');
+  await page.getByTestId("image-search-result").first().waitFor();
+  expect(await page.getByTestId("searchTotalCount").innerText()).toEqual("24814");
   await page.locator('select[name="language"]').selectOption({ index: 0 });
-  await page.getByTestId('image-search-result').first().waitFor();
-  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual(totalSearchCount);
+  await page.getByTestId("image-search-result").first().waitFor();
+  expect(await page.getByTestId("searchTotalCount").innerText()).toEqual(totalSearchCount);
 });
 
-test('Can use license dropdown', async ({ page }) => {
-  await mockRoute({
-    page,
-    path: '**/image-api/v3/images/?exclude-revision-log=false&fallback=false&filter-inactive=true&include-other-statuses=false&license=CC0-1.0&page=*&page-size=10&sort=-relevance',
-    fixture: 'search_image_license_search',
-    overrideValue: imageCopyrightMock,
-  });
+test("Can use license dropdown", async ({ page }) => {
   await page.locator('select[name="license"]').selectOption({ index: 1 });
-  await page.getByTestId('image-search-result').first().waitFor();
-  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual('840');
+  await page.getByTestId("image-search-result").first().waitFor();
+  expect(await page.getByTestId("searchTotalCount").innerText()).toEqual("844");
   await page.locator('select[name="license"]').selectOption({ index: 0 });
-  await page.getByTestId('image-search-result').first().waitFor();
-  expect(await page.getByTestId('searchTotalCount').innerText()).toEqual(totalSearchCount);
+  await page.getByTestId("image-search-result").first().waitFor();
+  expect(await page.getByTestId("searchTotalCount").innerText()).toEqual(totalSearchCount);
 });

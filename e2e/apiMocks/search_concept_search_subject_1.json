@@ -1,0 +1,482 @@
+{
+  "totalCount": 369,
+  "page": 1,
+  "pageSize": 10,
+  "language": "*",
+  "results": [
+    {
+      "id": 4146,
+      "title": { "title": "tittelfelt", "language": "nb" },
+      "content": {
+        "content": "Et tittelfelt inneholder detaljer som i tillegg til den tekniske tegningen skal gi en operatør nok informasjon til å lage delen. Tittelfeltet kan også inneholde mer detaljerte beskrivelser som revisjoner av tegninger, endringer, erstatninger med mer.",
+        "htmlContent": "Et tittelfelt inneholder detaljer som i tillegg til den tekniske tegningen skal gi en operatør nok informasjon til å lage delen. Tittelfeltet kan også inneholde mer detaljerte beskrivelser som revisjoner av tegninger, endringer, erstatninger med mer.",
+        "language": "nb"
+      },
+      "metaImage": {
+        "url": "https://api.test.ndla.no/image-api/raw/id/50398",
+        "alt": "Tegning av en dreid del",
+        "language": "nb"
+      },
+      "subjectIds": ["urn:subject:11", "urn:subject:28", "urn:subject:6"],
+      "supportedLanguages": ["nb", "nn"],
+      "lastUpdated": "2023-05-04T12:22:54.000Z",
+      "created": "2022-05-30T14:02:52.000Z",
+      "status": { "current": "IN_PROGRESS", "other": ["PUBLISHED"] },
+      "updatedBy": [
+        "yYX4KLQb-LLDC26jhucYW78T",
+        "455VO7UP9CLDSUU5TLugvgnc",
+        "4iOxWUcXV8La8_gC32Up9H0J",
+        "hd5ZL5Lm4kKkumWgN2gjy9wx"
+      ],
+      "license": "CC-BY-SA-4.0",
+      "copyright": {
+        "license": {
+          "license": "CC-BY-NC-ND-4.0",
+          "description": "Creative Commons Attribution-NonCommercial-NoDerivs 4.0 International",
+          "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/"
+        },
+        "origin": "Test User",
+        "creators": [
+          { "type": "Writer", "name": "Test writer" },
+          { "type": "writer", "name": "Test writeerrr" }
+        ],
+        "processors": [],
+        "rightsholders": []
+      },
+      "visualElement": {
+        "visualElement": "<ndlaembed data-resource=\"image\" data-resource_id=\"50398\" data-size=\"full\" data-align=\"\" data-alt=\"Arbeidstegning av dreid komponent. Illustrasjon.\" data-caption=\"Teknisk tegning. I denne tegningen vises tegningsnummer, målestokk, posisjonsnummer (1,2 og så videre, dersom det er flere deler på samme side), dimensjoner, antall i en serie, hvem som har tegnet delen, hvilket materiale som skal benyttes, toleranse og kontrolldata.\" data-url=\"https://api.test.ndla.no/image-api/v2/images/50398\"></ndlaembed>",
+        "language": "nb"
+      },
+      "articleIds": [],
+      "responsible": { "responsibleId": "Gxfx7B-MXoFdgVZZ6p611C6w", "lastUpdated": "2023-03-21T08:43:40.000Z" },
+      "conceptType": "concept",
+      "subjectName": "Bygg og anlegg - Teknologi- og industri - Brønnfag",
+      "conceptTypeName": "Forklaring"
+    },
+    {
+      "id": 4079,
+      "title": { "title": "trykkluftforsynt åndedrettsvern", "language": "nb" },
+      "content": {
+        "content": "Et trykkluftforsynt åndedrettsvern gir overtrykk fra trykkluftsystemet i en ansiktsmaske. Lufta fra en kompressor er ofte kald, og en luftvarmer bør installeres i tillegg til trykkregulatoren og pustefilteret. Overtrykket leder sveiserøyk eller lakkstøv bort fra ansiktet.",
+        "htmlContent": "Et trykkluftforsynt åndedrettsvern gir overtrykk fra trykkluftsystemet i en ansiktsmaske. Lufta fra en kompressor er ofte kald, og en luftvarmer bør installeres i tillegg til trykkregulatoren og pustefilteret. Overtrykket leder sveiserøyk eller lakkstøv bort fra ansiktet.",
+        "language": "nb"
+      },
+      "metaImage": {
+        "url": "https://api.test.ndla.no/image-api/raw/id/63765",
+        "alt": "Firedelt visning av et trykkluftforsynt åndedrettsvern: A er forfilter med manometer, B er pusteluftfilter med spiralslange, C er pusteluftslange, og D er tilsatssett for sprøytepistol. Illustrasjon.",
+        "language": "nb"
+      },
+      "tags": { "tags": ["Sveising::", "Mekanikk::", "Lakkering::"], "language": "nb" },
+      "subjectIds": ["urn:subject:11", "urn:subject:28", "urn:subject:6"],
+      "supportedLanguages": ["nb", "nn"],
+      "lastUpdated": "2023-03-21T09:26:30.000Z",
+      "created": "2022-05-19T12:48:52.000Z",
+      "status": { "current": "IN_PROGRESS", "other": ["PUBLISHED"] },
+      "updatedBy": [
+        "yYX4KLQb-LLDC26jhucYW78T",
+        "duPRnOc6DnREJF0G3Zbn27C2",
+        "455VO7UP9CLDSUU5TLugvgnc",
+        "K6RUfqTbKglm-QHBD7XxXwa4",
+        "Gxfx7B-MXoFdgVZZ6p611C6w"
+      ],
+      "license": "CC-BY-SA-4.0",
+      "copyright": {
+        "license": {
+          "license": "CC-BY-NC-ND-4.0",
+          "description": "Creative Commons Attribution-NonCommercial-NoDerivs 4.0 International",
+          "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/"
+        },
+        "origin": "Test User",
+        "creators": [
+          { "type": "Writer", "name": "Test writer" },
+          { "type": "writer", "name": "Test writeerrr" }
+        ],
+        "processors": [],
+        "rightsholders": []
+      },
+      "visualElement": {
+        "visualElement": "<ndlaembed data-resource=\"image\" data-resource_id=\"63765\" data-size=\"full\" data-align=\"\" data-alt=\"Firedelt visning av et trykkluftforsynt åndedrettsvern: A er forfilter med manometer, B er pusteluftfilter med spiralslange, C er pusteluftslange, og D er tilsatssett for sprøytepistol. Illustrasjon.\" data-caption=\"Trykkluftforsynt åndedrettsvern\" data-url=\"https://api.test.ndla.no/image-api/v2/images/63765\"></ndlaembed>",
+        "language": "nb"
+      },
+      "articleIds": [],
+      "responsible": { "responsibleId": "Gxfx7B-MXoFdgVZZ6p611C6w", "lastUpdated": "2023-03-21T08:37:20.000Z" },
+      "conceptType": "concept",
+      "subjectName": "Bygg og anlegg - Teknologi- og industri - Brønnfag",
+      "conceptTypeName": "Forklaring"
+    },
+    {
+      "id": 2420,
+      "title": { "title": "arbeidsstreng", "language": "nb" },
+      "content": {
+        "content": "Arbeidsstrengen kalles \"toolstring\" eller \"workstring\" på engelsk. Utstyr som skal inn i en brønn, må festes til en arbeidsstreng på overflaten. Hvilken type arbeidsstreng vi skal bruke, velger vi ut fra lengden og vinkelen på brønnen. I tillegg ser vi på hva som gjør jobben raskest. Til boring og når vi skal føre tungt utstyr langt inn i brønnen, bruker vi en borestreng som består av mange ulike typer borerør. Når vi skal kjøre lett utstyr, kan vi bruke mekanisk kabel (\"wireline\") til jobben. Dersom vi trenger en brønntraktor, eller dersom utstyret skal samle inn informasjon, bruker vi en elektrisk kabel som sender signalene direkte til overflaten. Vi bruker kveilerør (\"coiled tubing\") eller borerør når vi har behov for å sirkulere væske i brønnen.",
+        "htmlContent": "Arbeidsstrengen kalles \"toolstring\" eller \"workstring\" på engelsk. Utstyr som skal inn i en brønn, må festes til en arbeidsstreng på overflaten. Hvilken type arbeidsstreng vi skal bruke, velger vi ut fra lengden og vinkelen på brønnen. I tillegg ser vi på hva som gjør jobben raskest. Til boring og når vi skal føre tungt utstyr langt inn i brønnen, bruker vi en borestreng som består av mange ulike typer borerør. Når vi skal kjøre lett utstyr, kan vi bruke mekanisk kabel (\"wireline\") til jobben. Dersom vi trenger en brønntraktor, eller dersom utstyret skal samle inn informasjon, bruker vi en elektrisk kabel som sender signalene direkte til overflaten. Vi bruker kveilerør (\"coiled tubing\") eller borerør når vi har behov for å sirkulere væske i brønnen.",
+        "language": "nb"
+      },
+      "metaImage": {
+        "url": "https://api.test.ndla.no/image-api/raw/id/53925",
+        "alt": "Skissen viser tre ulike arbeidsstrenger i en brønn. De holder verktøy fra overflaten. Fra venstre: borerør, kabel og kveilerør. Illustrasjon.",
+        "language": "nb"
+      },
+      "tags": { "tags": ["Nedihullsutstyr::"], "language": "nb" },
+      "subjectIds": ["urn:subject:6"],
+      "supportedLanguages": ["nb", "nn"],
+      "lastUpdated": "2022-12-08T19:02:01.000Z",
+      "created": "2020-12-10T07:45:30.000Z",
+      "status": { "current": "END_CONTROL", "other": ["PUBLISHED"] },
+      "updatedBy": [
+        "KBAJskRqPXZUv9LFjAbz8btB",
+        "fFJdhmAbXvoHcph2vw2HfD_1",
+        "TQ4PTLdcsPWRhfNxGVfRAlt9",
+        "455VO7UP9CLDSUU5TLugvgnc"
+      ],
+      "license": "CC-BY-SA-4.0",
+      "copyright": {
+        "license": {
+          "license": "CC-BY-NC-ND-4.0",
+          "description": "Creative Commons Attribution-NonCommercial-NoDerivs 4.0 International",
+          "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/"
+        },
+        "origin": "Test User",
+        "creators": [
+          { "type": "Writer", "name": "Test writer" },
+          { "type": "writer", "name": "Test writeerrr" }
+        ],
+        "processors": [],
+        "rightsholders": []
+      },
+      "articleIds": [],
+      "conceptType": "concept",
+      "subjectName": "Brønnfag",
+      "conceptTypeName": "Forklaring"
+    },
+    {
+      "id": 4148,
+      "title": { "title": "toleranse", "language": "nb" },
+      "content": {
+        "content": "Toleranse er avstanden mellom største og minste tillatte mål. Toleranser er ofte er knyttet til standarder og klassifiseringer som DIN (Deutsches Institut für Normung), ISO (International Organization for Standardization) eller NS (Norsk Standard). For mekanisk arbeid er toleranser oppgitt i tittelfeltet på arbeidstegninger. Du kan også finne dem i verkstedhåndboka eller i andre pålitelige kilder.",
+        "htmlContent": "Toleranse er avstanden mellom største og minste tillatte mål. Toleranser er ofte er knyttet til standarder og klassifiseringer som DIN (Deutsches Institut für Normung), ISO (International Organization for Standardization) eller NS (Norsk Standard). For mekanisk arbeid er toleranser oppgitt i tittelfeltet på arbeidstegninger. Du kan også finne dem i verkstedhåndboka eller i andre pålitelige kilder.",
+        "language": "nb"
+      },
+      "metaImage": {
+        "url": "https://api.test.ndla.no/image-api/raw/id/15800",
+        "alt": "Interaktivitet mellom toleranse og pasninger. Illustrasjon.",
+        "language": "nb"
+      },
+      "tags": { "tags": ["Teknisk tegning:Mekanikk:Tegningsforståelse:"], "language": "nb" },
+      "subjectIds": ["urn:subject:28", "urn:subject:6"],
+      "supportedLanguages": ["nb", "nn"],
+      "lastUpdated": "2022-12-07T07:26:15.000Z",
+      "created": "2022-05-30T14:24:02.000Z",
+      "status": { "current": "LANGUAGE", "other": [] },
+      "updatedBy": [
+        "yYX4KLQb-LLDC26jhucYW78T",
+        "duPRnOc6DnREJF0G3Zbn27C2",
+        "455VO7UP9CLDSUU5TLugvgnc",
+        "TQ4PTLdcsPWRhfNxGVfRAlt9"
+      ],
+      "license": "CC-BY-SA-4.0",
+      "copyright": {
+        "license": {
+          "license": "CC-BY-NC-ND-4.0",
+          "description": "Creative Commons Attribution-NonCommercial-NoDerivs 4.0 International",
+          "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/"
+        },
+        "origin": "Test User",
+        "creators": [
+          { "type": "Writer", "name": "Test writer" },
+          { "type": "writer", "name": "Test writeerrr" }
+        ],
+        "processors": [],
+        "rightsholders": []
+      },
+      "visualElement": {
+        "visualElement": "<ndlaembed data-resource=\"image\" data-resource_id=\"15800\" data-size=\"full\" data-align=\"\" data-alt=\"Toleranse og pasninger. Illustrasjon.\" data-caption=\"Klaring mellom boring og aksling\" data-upper-left-x=\"20.407608695652176\" data-upper-left-y=\"47.81737435008665\" data-lower-right-x=\"84.03079710144928\" data-lower-right-y=\"79.35983535528595\" data-url=\"https://api.test.ndla.no/image-api/v2/images/15800\"></ndlaembed>",
+        "language": "nb"
+      },
+      "articleIds": [],
+      "conceptType": "concept",
+      "subjectName": "Teknologi- og industri - Brønnfag",
+      "conceptTypeName": "Forklaring"
+    },
+    {
+      "id": 4108,
+      "title": { "title": "CNC-styrt dreiebenk", "language": "nb" },
+      "content": {
+        "content": "CNC (Computer Numerical Control) innebærer at maskinen opereres ved hjelp av data. Den er med andre ord programmert. Programmer kan endres, lagres og mates inn i maskinen flere ganger. En datastyrt dreiebenk kan for eksempel programmeres til å gjennomføre dreieoperasjoner i alle koordinater, spenne til og fra arbeidsstykker, skifte verktøy og levere spesifiserte antall.",
+        "htmlContent": "CNC (Computer Numerical Control) innebærer at maskinen opereres ved hjelp av data. Den er med andre ord programmert. Programmer kan endres, lagres og mates inn i maskinen flere ganger. En datastyrt dreiebenk kan for eksempel programmeres til å gjennomføre dreieoperasjoner i alle koordinater, spenne til og fra arbeidsstykker, skifte verktøy og levere spesifiserte antall.",
+        "language": "nb"
+      },
+      "metaImage": {
+        "url": "https://api.test.ndla.no/image-api/raw/id/26103",
+        "alt": "Metallarbeider justerer kontrollene på en CNC-dreiebenk. Foto.",
+        "language": "nb"
+      },
+      "tags": { "tags": ["Mekanikk:Maskinering:Sponfraskillende", "CNC::"], "language": "nb" },
+      "subjectIds": ["urn:subject:28", "urn:subject:6"],
+      "supportedLanguages": ["nb", "nn"],
+      "lastUpdated": "2022-12-05T19:28:48.000Z",
+      "created": "2022-05-23T14:43:07.000Z",
+      "status": { "current": "END_CONTROL", "other": ["PUBLISHED"] },
+      "updatedBy": [
+        "yYX4KLQb-LLDC26jhucYW78T",
+        "duPRnOc6DnREJF0G3Zbn27C2",
+        "TQ4PTLdcsPWRhfNxGVfRAlt9",
+        "455VO7UP9CLDSUU5TLugvgnc"
+      ],
+      "license": "CC-BY-SA-4.0",
+      "copyright": {
+        "license": {
+          "license": "CC-BY-NC-ND-4.0",
+          "description": "Creative Commons Attribution-NonCommercial-NoDerivs 4.0 International",
+          "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/"
+        },
+        "origin": "Test User",
+        "creators": [
+          { "type": "Writer", "name": "Test writer" },
+          { "type": "writer", "name": "Test writeerrr" }
+        ],
+        "processors": [],
+        "rightsholders": []
+      },
+      "visualElement": {
+        "visualElement": "<ndlaembed data-resource=\"image\" data-resource_id=\"26103\" data-size=\"full\" data-align=\"\" data-alt=\"Metallarbeider justerer kontrollene på en CNC-dreiebenk. Foto. \" data-caption=\"\" data-url=\"https://api.test.ndla.no/image-api/v2/images/26103\"></ndlaembed>",
+        "language": "nb"
+      },
+      "articleIds": [],
+      "conceptType": "concept",
+      "subjectName": "Teknologi- og industri - Brønnfag",
+      "conceptTypeName": "Forklaring"
+    },
+    {
+      "id": 1456,
+      "title": { "title": "brannslukkingsapparat", "language": "nb" },
+      "content": {
+        "content": "Til å slukke brann brukes det ofte et håndholdt brannslukningsapparat. Det mest vanlige middelet i en håndslukker er pulver, skum og CO2. Det er viktig at du bruker riktig slukkemiddel ut fra hva som brenner. Slukkemidler har forskjellig merking, avhengig av hva de kan brukes til. Pulverapparat kan som regel brukes til å slukke brann i både faste materialer, væsker og gass, og de merkes derfor ABC.",
+        "htmlContent": "Til å slukke brann brukes det ofte et håndholdt brannslukningsapparat. Det mest vanlige middelet i en håndslukker er pulver, skum og CO2. Det er viktig at du bruker riktig slukkemiddel ut fra hva som brenner. Slukkemidler har forskjellig merking, avhengig av hva de kan brukes til. Pulverapparat kan som regel brukes til å slukke brann i både faste materialer, væsker og gass, og de merkes derfor ABC.",
+        "language": "nb"
+      },
+      "metaImage": {
+        "url": "https://api.test.ndla.no/image-api/raw/id/47405",
+        "alt": "Brannslukker. Foto.",
+        "language": "nb"
+      },
+      "tags": { "tags": ["HMS:Utstyr:"], "language": "nb" },
+      "subjectIds": ["urn:subject:11", "urn:subject:16", "urn:subject:28", "urn:subject:36", "urn:subject:6"],
+      "supportedLanguages": ["nb", "nn"],
+      "lastUpdated": "2022-12-04T19:39:03.000Z",
+      "created": "2020-06-29T12:23:59.000Z",
+      "status": { "current": "PUBLISHED", "other": [] },
+      "updatedBy": [
+        "e1awjNLhy-Ce6wv_nzyimUdp",
+        "sPHJn0BEtfxw2d2DUpIuS3iY",
+        "eEIRDzflTh9oUp_3CgpuIMOg",
+        "TQ4PTLdcsPWRhfNxGVfRAlt9",
+        "4iOxWUcXV8La8_gC32Up9H0J",
+        "yEUxMHlvZdtj6jJr89oDWIO8",
+        "TkyOvaqZuta5UvxJohZCowpP",
+        "455VO7UP9CLDSUU5TLugvgnc",
+        "K6RUfqTbKglm-QHBD7XxXwa4"
+      ],
+      "license": "CC-BY-SA-4.0",
+      "copyright": {
+        "license": {
+          "license": "CC-BY-NC-ND-4.0",
+          "description": "Creative Commons Attribution-NonCommercial-NoDerivs 4.0 International",
+          "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/"
+        },
+        "origin": "Test User",
+        "creators": [
+          { "type": "Writer", "name": "Test writer" },
+          { "type": "writer", "name": "Test writeerrr" }
+        ],
+        "processors": [],
+        "rightsholders": []
+      },
+      "visualElement": {
+        "visualElement": "<ndlaembed data-resource=\"image\" data-resource_id=\"47405\" data-size=\"full\" data-align=\"\" data-alt=\"Brannslukkingsapparat som henger på veggen. Foto.\" data-caption=\"Brannslukkingsapparat med pulver\" data-url=\"https://api.test.ndla.no/image-api/v2/images/47405\"></ndlaembed>",
+        "language": "nb"
+      },
+      "articleIds": [20936],
+      "conceptType": "concept",
+      "subjectName": "Teknologi- og industri - Transport og logistikk - Brønnfag - Bygg og anlegg - Elektro og data",
+      "conceptTypeName": "Forklaring"
+    },
+    {
+      "id": 4141,
+      "title": { "title": "målelinje", "language": "nb" },
+      "content": {
+        "content": "Målelinjen kan kjennes ved at den alltid har en pil i en eller to ender. Den viser avstanden mellom deler på tegningen som er anvist med en målegrenselinje. Mål er gitt i millimeter dersom ikke annet er oppgitt.",
+        "htmlContent": "Målelinjen kan kjennes ved at den alltid har en pil i en eller to ender. Den viser avstanden mellom deler på tegningen som er anvist med en målegrenselinje. Mål er gitt i millimeter dersom ikke annet er oppgitt.",
+        "language": "nb"
+      },
+      "metaImage": {
+        "url": "https://api.test.ndla.no/image-api/raw/id/50398",
+        "alt": "Tegning av en dreid del. Illustrasjon.",
+        "language": "nb"
+      },
+      "tags": { "tags": ["Teknisk tegning:Mekanikk:Tegningsforståelse:"], "language": "nb" },
+      "subjectIds": ["urn:subject:11", "urn:subject:28", "urn:subject:6"],
+      "supportedLanguages": ["nb", "nn"],
+      "lastUpdated": "2022-12-02T12:53:33.000Z",
+      "created": "2022-05-30T13:30:53.000Z",
+      "status": { "current": "END_CONTROL", "other": [] },
+      "updatedBy": ["yYX4KLQb-LLDC26jhucYW78T", "455VO7UP9CLDSUU5TLugvgnc"],
+      "license": "CC-BY-SA-4.0",
+      "copyright": {
+        "license": {
+          "license": "CC-BY-NC-ND-4.0",
+          "description": "Creative Commons Attribution-NonCommercial-NoDerivs 4.0 International",
+          "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/"
+        },
+        "origin": "Test User",
+        "creators": [
+          { "type": "Writer", "name": "Test writer" },
+          { "type": "writer", "name": "Test writeerrr" }
+        ],
+        "processors": [],
+        "rightsholders": []
+      },
+      "visualElement": {
+        "visualElement": "<ndlaembed data-resource=\"image\" data-resource_id=\"50398\" data-size=\"full\" data-align=\"\" data-alt=\"Arbeidstegning av dreid komponent. Illustrasjon.\" data-caption=\"Teknisk tegning. Deltegningen til venstre viser målelinjer på 9, 20, 10 og 10.\" data-url=\"https://api.test.ndla.no/image-api/v2/images/50398\"></ndlaembed>",
+        "language": "nb"
+      },
+      "articleIds": [],
+      "conceptType": "concept",
+      "subjectName": "Bygg og anlegg - Teknologi- og industri - Brønnfag",
+      "conceptTypeName": "Forklaring"
+    },
+    {
+      "id": 4139,
+      "title": { "title": "senterlinje", "language": "nb" },
+      "content": {
+        "content": "Ei senterlinje består av strek–prikk–strek og så videre, og skal vise hvor senter på komponenten er. Linja beskriver et element som er speilvendt og likt på begge sider. En komponent som er dreid, har alltid ei senterlinje dersom det ikke er utført annet arbeid på komponenten.",
+        "htmlContent": "Ei senterlinje består av strek–prikk–strek og så videre, og skal vise hvor senter på komponenten er. Linja beskriver et element som er speilvendt og likt på begge sider. En komponent som er dreid, har alltid ei senterlinje dersom det ikke er utført annet arbeid på komponenten.",
+        "language": "nb"
+      },
+      "metaImage": {
+        "url": "https://api.test.ndla.no/image-api/raw/id/50398",
+        "alt": "Arbeidstegning av dreid komponent. Illustrasjon.",
+        "language": "nb"
+      },
+      "tags": { "tags": ["Tegningsforståelse::"], "language": "nb" },
+      "subjectIds": ["urn:subject:11", "urn:subject:28", "urn:subject:6"],
+      "supportedLanguages": ["nb", "nn"],
+      "lastUpdated": "2022-11-21T14:24:03.000Z",
+      "created": "2022-05-30T13:19:49.000Z",
+      "status": { "current": "PUBLISHED", "other": [] },
+      "updatedBy": ["yYX4KLQb-LLDC26jhucYW78T", "duPRnOc6DnREJF0G3Zbn27C2", "TQ4PTLdcsPWRhfNxGVfRAlt9"],
+      "license": "CC-BY-SA-4.0",
+      "copyright": {
+        "license": {
+          "license": "CC-BY-NC-ND-4.0",
+          "description": "Creative Commons Attribution-NonCommercial-NoDerivs 4.0 International",
+          "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/"
+        },
+        "origin": "Test User",
+        "creators": [
+          { "type": "Writer", "name": "Test writer" },
+          { "type": "writer", "name": "Test writeerrr" }
+        ],
+        "processors": [],
+        "rightsholders": []
+      },
+      "visualElement": {
+        "visualElement": "<ndlaembed data-resource=\"image\" data-resource_id=\"64047\" data-size=\"full\" data-align=\"\" data-alt=\"Arbeidstegning av dreid komponent. Illustrasjon.\" data-caption=\"Arbeidstegning av dreid komponent. Den horisontale linja på midten av tegningen er et eksempel på ei senterlinje.\" data-url=\"https://api.test.ndla.no/image-api/v2/images/64047\"></ndlaembed>",
+        "language": "nb"
+      },
+      "articleIds": [],
+      "conceptType": "concept",
+      "subjectName": "Bygg og anlegg - Teknologi- og industri - Brønnfag",
+      "conceptTypeName": "Forklaring"
+    },
+    {
+      "id": 4142,
+      "title": { "title": "målegrenselinje", "language": "nb" },
+      "content": {
+        "content": "Ei målegrenselinje viser hvilke punkt målelinja angir avstanden mellom. Den skal tegnes med tynn strek fra et hjørne, et senter eller et annet punkt det er behov for å målsette. Målegrenselinjer eller andre linjer bør ikke krysse hverandre.",
+        "htmlContent": "Ei målegrenselinje viser hvilke punkt målelinja angir avstanden mellom. Den skal tegnes med tynn strek fra et hjørne, et senter eller et annet punkt det er behov for å målsette. Målegrenselinjer eller andre linjer bør ikke krysse hverandre.",
+        "language": "nb"
+      },
+      "metaImage": {
+        "url": "https://api.test.ndla.no/image-api/raw/id/50398",
+        "alt": "Arbeidstegning av dreid komponent. Illustrasjon.",
+        "language": "nb"
+      },
+      "tags": { "tags": ["Tegningsforståelse::"], "language": "nb" },
+      "subjectIds": ["urn:subject:11", "urn:subject:28", "urn:subject:6"],
+      "supportedLanguages": ["nb", "nn"],
+      "lastUpdated": "2022-11-21T14:23:06.000Z",
+      "created": "2022-05-30T13:37:12.000Z",
+      "status": { "current": "PUBLISHED", "other": [] },
+      "updatedBy": ["yYX4KLQb-LLDC26jhucYW78T", "duPRnOc6DnREJF0G3Zbn27C2", "TQ4PTLdcsPWRhfNxGVfRAlt9"],
+      "license": "CC-BY-SA-4.0",
+      "copyright": {
+        "license": {
+          "license": "CC-BY-NC-ND-4.0",
+          "description": "Creative Commons Attribution-NonCommercial-NoDerivs 4.0 International",
+          "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/"
+        },
+        "origin": "Test User",
+        "creators": [
+          { "type": "Writer", "name": "Test writer" },
+          { "type": "writer", "name": "Test writeerrr" }
+        ],
+        "processors": [],
+        "rightsholders": []
+      },
+      "visualElement": {
+        "visualElement": "<ndlaembed data-resource=\"image\" data-resource_id=\"50398\" data-size=\"full\" data-align=\"\" data-alt=\"Arbeidstegning av dreid komponent. Illustrasjon.\" data-caption=\"Teknisk tegning. Deltegningen til venstre viser målegrenselinjer i forbindelse med målene 9, 20, 10 og 10. \" data-url=\"https://api.test.ndla.no/image-api/v2/images/50398\"></ndlaembed>",
+        "language": "nb"
+      },
+      "articleIds": [],
+      "conceptType": "concept",
+      "subjectName": "Bygg og anlegg - Teknologi- og industri - Brønnfag",
+      "conceptTypeName": "Forklaring"
+    },
+    {
+      "id": 4140,
+      "title": { "title": "konturlinje", "language": "nb" },
+      "content": {
+        "content": "Ei konturlinje beskriver det absolutte yttermålet på en komponent eller et element av en komponent. Konturlinja skal være tykkere enn de andre linjene på tegningen.",
+        "htmlContent": "Ei konturlinje beskriver det absolutte yttermålet på en komponent eller et element av en komponent. Konturlinja skal være tykkere enn de andre linjene på tegningen.",
+        "language": "nb"
+      },
+      "metaImage": {
+        "url": "https://api.test.ndla.no/image-api/raw/id/50398",
+        "alt": "Arbeidstegning av dreid komponent. Illustrasjon.",
+        "language": "nb"
+      },
+      "tags": { "tags": ["Tegningsforståelse::"], "language": "nb" },
+      "subjectIds": ["urn:subject:11", "urn:subject:28", "urn:subject:6"],
+      "supportedLanguages": ["nb", "nn"],
+      "lastUpdated": "2022-11-21T14:21:50.000Z",
+      "created": "2022-05-30T13:25:41.000Z",
+      "status": { "current": "PUBLISHED", "other": [] },
+      "updatedBy": ["yYX4KLQb-LLDC26jhucYW78T", "duPRnOc6DnREJF0G3Zbn27C2", "TQ4PTLdcsPWRhfNxGVfRAlt9"],
+      "license": "CC-BY-SA-4.0",
+      "copyright": {
+        "license": {
+          "license": "CC-BY-NC-ND-4.0",
+          "description": "Creative Commons Attribution-NonCommercial-NoDerivs 4.0 International",
+          "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/"
+        },
+        "origin": "Test User",
+        "creators": [
+          { "type": "Writer", "name": "Test writer" },
+          { "type": "writer", "name": "Test writeerrr" }
+        ],
+        "processors": [],
+        "rightsholders": []
+      },
+      "visualElement": {
+        "visualElement": "<ndlaembed data-resource=\"image\" data-resource_id=\"50398\" data-size=\"full\" data-align=\"\" data-alt=\"Arbeidstegning av dreid komponent. Illustrasjon.\" data-caption=\"Arbeidstegning av dreid komponent. Konturlinjene viser yttergrensene for hver flate. \" data-url=\"https://api.test.ndla.no/image-api/v2/images/50398\"></ndlaembed>",
+        "language": "nb"
+      },
+      "articleIds": [],
+      "conceptType": "concept",
+      "subjectName": "Bygg og anlegg - Teknologi- og industri - Brønnfag",
+      "conceptTypeName": "Forklaring"
+    }
+  ],
+  "aggregations": []
+}

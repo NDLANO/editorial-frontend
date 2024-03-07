@@ -8,7 +8,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import Tabs from "@ndla/tabs";
+import { Tabs } from "@ndla/tabs";
 import ConceptListTabContent from "./ConceptListTabContent";
 import WorkListTabContent from "./WorkListTabContent";
 import {

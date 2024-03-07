@@ -12,7 +12,7 @@ import styled from "@emotion/styled";
 import { colors, fonts, spacing } from "@ndla/core";
 import { RssFeed, Time } from "@ndla/icons/common";
 import { Check, AlertCircle } from "@ndla/icons/editor";
-import SafeLink from "@ndla/safelink";
+import { SafeLink } from "@ndla/safelink";
 import { IConceptSummary } from "@ndla/types-backend/concept-api";
 import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";

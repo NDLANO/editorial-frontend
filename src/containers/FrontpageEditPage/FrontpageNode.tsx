@@ -15,7 +15,7 @@ import { spacing, colors, fonts } from "@ndla/core";
 import { Plus } from "@ndla/icons/action";
 import { ChevronRight } from "@ndla/icons/common";
 import { DeleteForever, Eye } from "@ndla/icons/editor";
-import SafeLink from "@ndla/safelink";
+import { SafeLink } from "@ndla/safelink";
 import { IArticleSummaryV2 } from "@ndla/types-backend/article-api";
 import FrontpageArticleSearch from "./FrontpageArticleSearch";
 import FrontpageNodeList, { FRONTPAGE_DEPTH_LIMIT } from "./FrontpageNodeList";

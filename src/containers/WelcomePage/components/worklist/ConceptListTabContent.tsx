@@ -9,7 +9,7 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Calendar } from "@ndla/icons/editor";
-import Pager from "@ndla/pager";
+import { Pager } from "@ndla/pager";
 import { SingleValue } from "@ndla/select";
 import { IConceptSearchResult } from "@ndla/types-backend/concept-api";
 import PageSizeDropdown from "./PageSizeDropdown";

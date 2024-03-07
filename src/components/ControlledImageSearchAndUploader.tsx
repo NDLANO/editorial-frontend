@@ -11,8 +11,8 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import ImageSearch from "@ndla/image-search";
-import Tabs from "@ndla/tabs";
+import { ImageSearch } from "@ndla/image-search";
+import { Tabs } from "@ndla/tabs";
 import {
   IImageMetaInformationV3,
   IUpdateImageMetaInformation,

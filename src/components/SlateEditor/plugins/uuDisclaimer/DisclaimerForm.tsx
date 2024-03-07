@@ -15,7 +15,7 @@ import { ButtonV2 } from "@ndla/button";
 import { colors, fonts, misc, spacing } from "@ndla/core";
 import { Label } from "@ndla/forms";
 import { ModalBody } from "@ndla/modal";
-import SafeLink from "@ndla/safelink";
+import { SafeLink } from "@ndla/safelink";
 import { UuDisclaimerEmbedData } from "@ndla/types-embed";
 import { Text } from "@ndla/typography";
 import { plainTextToEditorValue, editorValueToPlainText } from "../../../../util/articleContentConverter";

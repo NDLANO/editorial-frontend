@@ -11,7 +11,7 @@ import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
 import { spacing, colors, spacingUnit, fonts } from "@ndla/core";
 import { DeleteForever, Link } from "@ndla/icons/editor";
-import SafeLink from "@ndla/safelink";
+import { SafeLink } from "@ndla/safelink";
 import ElementImage, { ELEMENT_HEIGHT } from "./ElementImage";
 import { ExternalElementType, ListElement } from "./ElementList";
 import { createGuard } from "../../../util/guards";

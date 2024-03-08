@@ -171,13 +171,7 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
     if (!selectedItem) {
       return;
     }
-    setInputValue(
-      labelField
-        ? itemToString(selectedItem, labelField)
-        : typeof selectedItem.title === "string"
-          ? selectedItem.title
-          : selectedItem?.title?.title ?? "",
-    );
+    setInputValue(labelField ? itemToString(selectedItem, labelField) : selectedItem.title);
     onChange(selectedItem.originalItem);
 
     if (children || clearInputField) {

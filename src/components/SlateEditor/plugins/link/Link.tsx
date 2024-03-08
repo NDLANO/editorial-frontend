@@ -8,7 +8,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Node, Transforms } from "slate";
+import { Editor, Node } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import styled from "@emotion/styled";
 import { Portal } from "@radix-ui/react-portal";
@@ -20,7 +20,6 @@ import EditLink from "./EditLink";
 import config from "../../../../config";
 import { toEditGenericArticle, toLearningpathFull } from "../../../../util/routeHelpers";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
-import { getEditorAncestors } from "../toolbar/toolbarState";
 
 interface StyledLinkMenuProps {
   top: number;
@@ -70,12 +69,6 @@ const StyledLink = styled.a`
   color: ${colors.brand.primary};
   cursor: text;
 `;
-
-const StyledSpan = styled.span`
-  font-size: 0;
-`;
-
-const InlineChromiumBugfix = () => <StyledSpan contentEditable={false}>{String.fromCodePoint(160)}</StyledSpan>;
 
 const Link = ({ attributes, editor, element, children }: Props) => {
   const linkRef = useRef<HTMLAnchorElement>(null);
@@ -131,16 +124,14 @@ const Link = ({ attributes, editor, element, children }: Props) => {
   return (
     <Modal defaultOpen={startOpen.current} open={editMode} onOpenChange={toggleEditMode}>
       <StyledLink {...attributes} href={model?.href} ref={linkRef}>
-        <InlineChromiumBugfix />
         {children}
-        <InlineChromiumBugfix />
         {model && selected && (
           <Portal>
             <StyledLinkMenu top={top} left={left}>
               <ModalTrigger>
                 <ButtonV2 variant="link">{t("form.content.link.change")}</ButtonV2>
-              </ModalTrigger>
-              &nbsp;|&nbsp;{t("form.content.link.goTo")}{" "}
+              </ModalTrigger>{" "}
+              | {t("form.content.link.goTo")}{" "}
               <a href={model?.href} target="_blank" rel="noopener noreferrer">
                 {model?.href}
               </a>

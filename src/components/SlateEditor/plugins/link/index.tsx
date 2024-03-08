@@ -6,8 +6,7 @@
  *
  */
 
-import { isKeyHotkey } from "is-hotkey";
-import { Descendant, Editor, Element, Text, Node, Transforms, Range } from "slate";
+import { Descendant, Editor, Element, Text, Node, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { ContentLinkEmbedData } from "@ndla/types-embed";
 import { TYPE_CONTENT_LINK, TYPE_LINK } from "./types";
@@ -87,51 +86,7 @@ export const linkSerializer: SlateSerializer = {
 };
 
 export const linkPlugin = (editor: Editor) => {
-  const { isInline: nextIsInline, normalizeNode: nextNormalizeNode, onKeyDown: nextOnKeyDown } = editor;
-
-  editor.onKeyDown = (event) => {
-    if (!editor.selection) return nextOnKeyDown?.(event);
-
-    const [entry] = Editor.nodes<LinkElement | ContentLinkElement>(editor, {
-      match: (node) => Element.isElement(node) && (node.type === "link" || node.type === "content-link"),
-      at: editor.selection,
-      mode: "lowest",
-    });
-
-    if (editor.selection && Range.isCollapsed(editor.selection) && entry) {
-      const [_link, path] = entry;
-
-      const reverse = isKeyHotkey("left", event);
-
-      const isAtEnd = Editor.isEnd(
-        editor,
-        { path: editor.selection.anchor.path, offset: editor.selection.anchor.offset + 1 },
-        path,
-      );
-
-      const isAtStart = Editor.isStart(
-        editor,
-        { path: editor.selection.anchor.path, offset: editor.selection.anchor.offset - 1 },
-        path,
-      );
-
-      // Link block is focused until editor-selection is at the start or end of the link block,
-      // so we need to force move the cursor to the next block by jumping 2 offsets when 1 step
-      // before the start or end of the link block.
-      const distance = (isAtEnd && !reverse) || (isAtStart && reverse) ? 2 : 1;
-
-      if (isKeyHotkey("left", event) || isKeyHotkey("right", event)) {
-        event.preventDefault();
-        Transforms.move(editor, {
-          unit: "offset",
-          reverse,
-          distance,
-        });
-        return;
-      }
-    }
-    return nextOnKeyDown?.(event);
-  };
+  const { isInline: nextIsInline, normalizeNode: nextNormalizeNode } = editor;
 
   editor.isInline = (element: Element) => {
     if (element.type === "link" || element.type === "content-link") {

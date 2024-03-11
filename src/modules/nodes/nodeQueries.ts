@@ -11,7 +11,7 @@ import uniqBy from "lodash/uniqBy";
 import { useQuery, useQueryClient, UseQueryOptions } from "@tanstack/react-query";
 import { IComment, IDraftResponsible, IEditorNote, IRevisionMeta } from "@ndla/types-backend/draft-api";
 import { Node, NodeChild, NodeType } from "@ndla/types-taxonomy";
-import { fetchChildNodes, fetchNode, fetchNodeResources, fetchNodes, searchNodes } from "./nodeApi";
+import { fetchChildNodes, fetchNode, fetchNodeResources, fetchNodes, postSearchNodes, searchNodes } from "./nodeApi";
 import { GetNodeParams, GetNodeResourcesParams, RESOURCE_NODE, TOPIC_NODE } from "./nodeApiTypes";
 import { PUBLISHED } from "../../constants";
 import { NodeTree } from "../../containers/NodeDiff/diffUtils";
@@ -332,7 +332,7 @@ export const usePostSearchNodes = (
 ) => {
   return useQuery<SearchResultBase<Node>>({
     queryKey: nodeQueryKeys.postSearch(body),
-    queryFn: () => searchNodes(body),
+    queryFn: () => postSearchNodes(body),
     ...options,
   });
 };

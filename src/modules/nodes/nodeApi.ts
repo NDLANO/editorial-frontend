@@ -274,7 +274,7 @@ interface PostSearchNodes extends WithTaxonomyVersion {
   };
 }
 
-export const postSearchNodes = ({ taxonomyVersion, body }: PostSearchNodes): Promise<SearchResultBase<Node>> => {
+export const postSearchNodes = ({ taxonomyVersion, ...body }: PostSearchNodes): Promise<SearchResultBase<Node>> => {
   return postAndResolve({
     url: `${baseUrl}/search`,
     body: JSON.stringify(body),

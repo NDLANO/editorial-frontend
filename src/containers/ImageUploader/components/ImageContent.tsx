@@ -14,7 +14,7 @@ import { animations, spacing, colors } from "@ndla/core";
 import { UploadDropZone, TextArea } from "@ndla/forms";
 import { DeleteForever } from "@ndla/icons/editor";
 import { ImageMeta } from "@ndla/image-search";
-import SafeLink from "@ndla/safelink";
+import { SafeLink } from "@ndla/safelink";
 import FormikField from "../../../components/FormikField";
 import { TitleField } from "../../FormikForm";
 import { ImageFormikType } from "../imageTransformers";

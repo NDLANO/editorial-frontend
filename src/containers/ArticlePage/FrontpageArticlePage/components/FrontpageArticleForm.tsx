@@ -9,6 +9,7 @@
 import { Formik, useFormikContext } from "formik";
 import { memo, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { UseQueryResult } from "@tanstack/react-query";
 import { IArticle, IUpdatedArticle, IStatus } from "@ndla/types-backend/draft-api";
 import FrontpageArticlePanels from "./FrontpageArticlePanels";
 import validateFormik, { getWarnings } from "../../../../components/formikValidationSchema";
@@ -16,13 +17,13 @@ import HeaderWithLanguage from "../../../../components/HeaderWithLanguage";
 import EditorFooter from "../../../../components/SlateEditor/EditorFooter";
 import StyledForm from "../../../../components/StyledFormComponents";
 import { useWideArticle } from "../../../../components/WideArticleEditorProvider";
-import { useSession } from "../../../../containers/Session/SessionProvider";
 import { validateDraft } from "../../../../modules/draft/draftApi";
 import { useLicenses, useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
 import { frontPageArticleRules, isFormikFormDirty } from "../../../../util/formHelper";
 import { AlertModalWrapper } from "../../../FormikForm";
 import { FrontpageArticleFormType, HandleSubmitFunc, useArticleFormHooks } from "../../../FormikForm/articleFormHooks";
 import usePreventWindowUnload from "../../../FormikForm/preventWindowUnloadHook";
+import { useSession } from "../../../Session/SessionProvider";
 import {
   draftApiTypeToFrontpageArticleFormType,
   frontpageArticleFormTypeToDraftApiType,
@@ -33,6 +34,7 @@ import { FlexWrapper, MainContent } from "../../styles";
 
 interface Props {
   article?: IArticle;
+  articleHistory?: UseQueryResult<IArticle[]>;
   articleStatus?: IStatus;
   isNewlyCreated: boolean;
   articleChanged: boolean;
@@ -43,6 +45,7 @@ interface Props {
 
 const FrontpageArticleForm = ({
   article,
+  articleHistory,
   articleStatus,
   isNewlyCreated = false,
   updateArticle,
@@ -56,6 +59,7 @@ const FrontpageArticleForm = ({
   const { savedToServer, formikRef, initialValues, handleSubmit } = useArticleFormHooks<FrontpageArticleFormType>({
     getInitialValues: draftApiTypeToFrontpageArticleFormType,
     article,
+    articleHistory,
     t,
     articleStatus,
     updateArticle,
@@ -84,6 +88,7 @@ const FrontpageArticleForm = ({
           id={article?.id}
           title={article?.title?.title}
           article={article}
+          articleHistory={articleHistory?.data}
           language={articleLanguage}
           supportedLanguages={supportedLanguages}
           status={article?.status}
@@ -92,7 +97,11 @@ const FrontpageArticleForm = ({
         />
         <FlexWrapper>
           <MainContent data-wide={isWideArticle}>
-            <FrontpageArticlePanels articleLanguage={articleLanguage} article={article} />
+            <FrontpageArticlePanels
+              articleLanguage={articleLanguage}
+              article={article}
+              articleHistory={articleHistory?.data}
+            />
           </MainContent>
           <CommentSection savedStatus={article?.status} articleType="frontpage-article" />
         </FlexWrapper>

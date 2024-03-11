@@ -15,7 +15,7 @@ import { IconButtonV2 } from "@ndla/button";
 import { colors, spacing, stackOrder } from "@ndla/core";
 import { Pencil } from "@ndla/icons/action";
 import { DeleteForever } from "@ndla/icons/editor";
-import Tabs from "@ndla/tabs";
+import { Tabs } from "@ndla/tabs";
 import { RelatedContentEmbedData, RelatedContentMetaData } from "@ndla/types-embed";
 import { Heading } from "@ndla/typography";
 import { RelatedContentEmbed } from "@ndla/ui";

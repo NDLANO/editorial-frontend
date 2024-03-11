@@ -137,13 +137,16 @@ test('can enter title, ingress, content and responsible then save', async ({ pag
 
 test('Can add all contributors', async ({ page }) => {
   await page.getByRole('heading').getByRole('button').getByText('Lisens og bruker').click();
+  const fieldSets = await page.getByTestId('contributor-fieldset').all();
   const contributorValues = ['originator', 'rightsholder', 'processor'];
   let index = 0;
-  for (const contrib of await page.getByTestId('addContributor').all()) {
-    await contrib.click();
+  for (const fieldSet of fieldSets) {
+    await fieldSet.getByTestId('addContributor').click();
     await page.keyboard.type('Test user');
-    await page.getByTestId('contributor-selector').last().selectOption(contributorValues[index]);
-    index === 0 && expect(page.getByTestId('contributor-selector').first()).toHaveValue('writer');
+    const lastSelect = fieldSet.getByTestId('contributor-selector').last();
+    await lastSelect.selectOption(contributorValues[index]);
+    await expect(lastSelect).not.toHaveAttribute('aria-invalid');
+    await expect(lastSelect).toHaveValue(contributorValues[index]);
     index++;
   }
 });

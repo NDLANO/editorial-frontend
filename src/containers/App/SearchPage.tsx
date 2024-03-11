@@ -13,7 +13,7 @@ import { Route, Routes } from "react-router-dom";
 import { UseQueryResult } from "@tanstack/react-query";
 import { List } from "@ndla/icons/action";
 import { SearchMedia, SearchContent, Concept, SquareAudio } from "@ndla/icons/editor";
-import Footer from "./components/Footer";
+import Footer from "./components/FooterWrapper";
 import { SearchType } from "../../interfaces";
 import { useSearchAudio, useSearchSeries } from "../../modules/audio/audioQueries";
 import { useSearchConcepts } from "../../modules/concept/conceptQueries";

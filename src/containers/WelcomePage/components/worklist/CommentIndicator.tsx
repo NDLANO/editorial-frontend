@@ -8,7 +8,7 @@
 
 import styled from "@emotion/styled";
 import { Comment } from "@ndla/icons/common";
-import Tooltip from "@ndla/tooltip";
+import { Tooltip } from "@ndla/tooltip";
 import { stripInlineContentHtmlTags } from "../../../../util/formHelper";
 
 const StyledIconWrapper = styled.div`

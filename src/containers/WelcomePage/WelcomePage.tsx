@@ -20,7 +20,7 @@ import { GridContainer, Column } from "../../components/Layout/Layout";
 import { useUserData } from "../../modules/draft/draftQueries";
 import { getAccessToken, getAccessTokenPersonal } from "../../util/authHelpers";
 import { isValid } from "../../util/jwtHelper";
-import Footer from "../App/components/Footer";
+import Footer from "../App/components/FooterWrapper";
 import { useSession } from "../Session/SessionProvider";
 
 export const Wrapper = styled.div`

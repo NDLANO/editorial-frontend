@@ -13,7 +13,7 @@ import { OneColumn } from "@ndla/ui";
 import LogoutFederated from "./LogoutFederated";
 import LogoutProviders from "./LogoutProviders";
 import LogoutSession from "./LogoutSession";
-import Footer from "../App/components/Footer";
+import Footer from "../App/components/FooterWrapper";
 
 const Logout = () => {
   const { t } = useTranslation();

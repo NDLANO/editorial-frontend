@@ -13,8 +13,8 @@ import { useTranslation } from "react-i18next";
 import { ButtonV2, CloseButton } from "@ndla/button";
 import { Search } from "@ndla/icons/common";
 import { ModalHeader, ModalBody } from "@ndla/modal";
-import Pager from "@ndla/pager";
-import Tabs from "@ndla/tabs";
+import { Pager } from "@ndla/pager";
+import { Tabs } from "@ndla/tabs";
 import {
   IConcept,
   IConceptSearchResult,

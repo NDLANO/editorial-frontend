@@ -43,6 +43,7 @@ interface Props {
   taxonomy?: TaxonomyContext[];
   noStatus?: boolean;
   article?: IArticle;
+  articleHistory?: IArticle[];
   supportedLanguages: string[];
   concept?: IConcept;
   type: FormHeaderType;
@@ -56,6 +57,7 @@ const HeaderWithLanguage = ({
   type,
   taxonomy = [],
   article,
+  articleHistory,
   hasRSS,
   id,
   concept,
@@ -98,6 +100,7 @@ const HeaderWithLanguage = ({
         {id ? (
           <HeaderActions
             id={id}
+            articleHistory={articleHistory}
             language={language}
             supportedLanguages={supportedLanguages}
             disableDelete={(hasConnections || isArticle) && supportedLanguages.length === 1}

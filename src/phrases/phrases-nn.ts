@@ -31,6 +31,7 @@ const phrases = {
     publishRequestsPage: `Publiseringsforespørsler ${titleTemplate}`,
     nodeDiffPage: `Samanlikne nodar ${titleTemplate}`,
     editFrontpage: "Rediger forside",
+    comparePage: `Samanlikne versjonar ${titleTemplate}`,
     search: {
       "podcast-series": `Søk podkastserier ${titleTemplate}`,
       audio: `Søk lydfiler ${titleTemplate}`,
@@ -725,6 +726,7 @@ const phrases = {
     saveAsCopySuccess: "Ny artikkel lagret",
     openAll: "Opne alle",
     hideAll: "Lukk alle",
+    unpublishedChanges: "(Endra sidan siste publisering)",
     comment: {
       comment: "Kommenter",
       hide: "Skjul kommentar",
@@ -798,6 +800,7 @@ const phrases = {
       date: "Dato",
       sides: "Kva for ei side biletet skal vises på",
       transcription: "Transkripsjon",
+      type: "Type",
     },
     previewProductionArticle: {
       button: "Samanlikn gjeldande versjon med sist publiserte versjon",
@@ -1484,6 +1487,11 @@ const phrases = {
         "T.d. Har du utfordringar med syn eller kognisjon? Då kan du få problem med å oppfatte og forstå dette innhaldet. Du kan istaden nytte denne sida: www.ndla.eksempel.no",
       exampleLinkText: "Her finn du eksempelsetningar som skal brukast i fritekstfelt",
       editorHeader: "Skriv inn kor brukaren finn alternativt innhald",
+    },
+    copyright: {
+      title: "Rediger lisens",
+      edit: "Rediger lisens",
+      add: "Legg til lisensiert innhold",
     },
   },
   validation: {

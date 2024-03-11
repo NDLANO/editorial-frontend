@@ -9,7 +9,7 @@
 import orderBy from "lodash/orderBy";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import Tabs from "@ndla/tabs";
+import { Tabs } from "@ndla/tabs";
 import { IConceptSearchResult, IConceptSummary } from "@ndla/types-backend/concept-api";
 import { IArticleSummary, ISearchResult } from "@ndla/types-backend/draft-api";
 import LastUsedConcepts from "./LastUsedConcepts";

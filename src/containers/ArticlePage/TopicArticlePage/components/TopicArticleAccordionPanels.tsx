@@ -7,6 +7,7 @@
  */
 
 import { useFormikContext } from "formik";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { IUpdatedArticle, IArticle } from "@ndla/types-backend/draft-api";
 import TopicArticleContent from "./TopicArticleContent";
@@ -20,27 +21,47 @@ import { TopicArticleFormType } from "../../../FormikForm/articleFormHooks";
 import GrepCodesField from "../../../FormikForm/GrepCodesField";
 import { onSaveAsVisualElement } from "../../../FormikForm/utils";
 import { useSession } from "../../../Session/SessionProvider";
+import PanelTitleWithChangeIndicator from "../../components/PanelTitleWithChangeIndicator";
 import RelatedContentFieldGroup from "../../components/RelatedContentFieldGroup";
 import RevisionNotes from "../../components/RevisionNotes";
 
 interface Props {
   article?: IArticle;
+  articleHistory: IArticle[] | undefined;
   updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
   articleLanguage: string;
   hasTaxonomyEntries: boolean;
 }
 
-const TopicArticleAccordionPanels = ({ article, updateNotes, articleLanguage, hasTaxonomyEntries }: Props) => {
+const TopicArticleAccordionPanels = ({
+  article,
+  articleHistory,
+  updateNotes,
+  articleLanguage,
+  hasTaxonomyEntries,
+}: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const formikContext = useFormikContext<TopicArticleFormType>();
+  const contentTitleFields = useMemo<(keyof IArticle)[]>(
+    () => ["title", "introduction", "content", "visualElement"],
+    [],
+  );
+  const copyrightFields = useMemo<(keyof IArticle)[]>(() => ["copyright"], []);
 
   const { values, errors } = formikContext;
   return (
     <FormAccordions defaultOpen={["topic-article-content"]}>
       <FormAccordion
         id={"topic-article-content"}
-        title={t("form.contentSection")}
+        title={
+          <PanelTitleWithChangeIndicator
+            title={t("form.contentSection")}
+            article={article}
+            articleHistory={articleHistory}
+            fieldsToIndicatedChangesFor={contentTitleFields}
+          />
+        }
         className="u-10/12 u-push-1/12"
         hasError={!!(errors.title || errors.introduction || errors.content || errors.visualElement)}
       >
@@ -63,7 +84,14 @@ const TopicArticleAccordionPanels = ({ article, updateNotes, articleLanguage, ha
       )}
       <FormAccordion
         id={"topic-article-copyright"}
-        title={t("form.copyrightSection")}
+        title={
+          <PanelTitleWithChangeIndicator
+            title={t("form.copyrightSection")}
+            article={article}
+            articleHistory={articleHistory}
+            fieldsToIndicatedChangesFor={copyrightFields}
+          />
+        }
         className={"u-6/6"}
         hasError={!!(errors.creators || errors.rightsholders || errors.processors || errors.license)}
       >
@@ -114,7 +142,12 @@ const TopicArticleAccordionPanels = ({ article, updateNotes, articleLanguage, ha
           className={"u-6/6"}
           hasError={!!errors.notes}
         >
-          <VersionAndNotesPanel article={article} type="topic-article" currentLanguage={values.language} />
+          <VersionAndNotesPanel
+            article={article}
+            articleHistory={articleHistory}
+            type="topic-article"
+            currentLanguage={values.language}
+          />
         </FormAccordion>
       )}
     </FormAccordions>

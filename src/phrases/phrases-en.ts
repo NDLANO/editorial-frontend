@@ -31,6 +31,7 @@ const phrases = {
     publishRequestsPage: `Publish Requests ${titleTemplate}`,
     nodeDiffPage: `Compare Nodes ${titleTemplate}`,
     editFrontpage: "Edit front page",
+    comparePage: `Compare versions ${titleTemplate}`,
     search: {
       "podcast-series": `Search podcast series ${titleTemplate}`,
       audio: `Search audio files ${titleTemplate}`,
@@ -631,7 +632,6 @@ const phrases = {
     title: "Key figure",
     edit: "Edit key figure",
   },
-
   editorToolbar: {
     bold: "Bold\n({{ctrl}}+b)",
     "bulleted-list": "Bulleted list\n({{ctrl}}+l)",
@@ -726,6 +726,7 @@ const phrases = {
     saveAsCopySuccess: "New article saved",
     openAll: "Open all",
     hideAll: "Hide all",
+    unpublishedChanges: "(Changed since last publish)",
     comment: {
       comment: "Comment",
       hide: "Hide comment",
@@ -799,6 +800,7 @@ const phrases = {
       date: "Date",
       sides: "Image side",
       transcription: "Transcription",
+      type: "Type",
     },
     previewProductionArticle: {
       button: "Compare current version with last published version",
@@ -1487,6 +1489,11 @@ const phrases = {
         "E.g. Do you have issues with sight or cognition? Then you may experience issues perceiving and understanding this content. You can alternatively use this page: www.ndla.eksempel.no",
       exampleLinkText: "You can find example sentences for use in multiline textfields here",
       editorHeader: "Write down where the user can find alternative content",
+    },
+    copyright: {
+      title: "Edit license",
+      edit: "Edit license",
+      add: "Add licensed content",
     },
   },
   validation: {

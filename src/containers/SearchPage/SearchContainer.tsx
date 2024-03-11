@@ -12,7 +12,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { UseQueryResult } from "@tanstack/react-query";
 import { Search } from "@ndla/icons/common";
-import Pager from "@ndla/pager";
+import { Pager } from "@ndla/pager";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { IAudioSummarySearchResult, ISeriesSummarySearchResult } from "@ndla/types-backend/audio-api";
 import { IConceptSearchResult } from "@ndla/types-backend/concept-api";

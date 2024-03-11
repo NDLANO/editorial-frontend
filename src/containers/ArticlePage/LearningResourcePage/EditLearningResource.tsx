@@ -14,6 +14,7 @@ import LearningResourceForm from "./components/LearningResourceForm";
 import { TranslateType, useTranslateToNN } from "../../../components/NynorskTranslateProvider";
 import Spinner from "../../../components/Spinner";
 import { LocaleType } from "../../../interfaces";
+import { useDraftHistory } from "../../../modules/draft/draftQueries";
 import { useNodes } from "../../../modules/nodes/nodeQueries";
 import { toEditArticle } from "../../../util/routeHelpers";
 import { useFetchArticleData } from "../../FormikForm/formikDraftHooks";
@@ -64,7 +65,7 @@ const EditLearningResource = ({ isNewlyCreated }: Props) => {
       enabled: !!params.selectedLanguage && !!params.id,
     },
   );
-  const { loading, article, setArticle, articleChanged, updateArticle } = useFetchArticleData(
+  const { loading, article, setArticle, articleChanged, updateArticle, articleHistory } = useFetchArticleData(
     articleId,
     selectedLanguage,
   );
@@ -99,6 +100,7 @@ const EditLearningResource = ({ isNewlyCreated }: Props) => {
         articleLanguage={selectedLanguage}
         articleTaxonomy={taxonomyQuery.data}
         article={article}
+        articleHistory={articleHistory}
         articleStatus={article.status}
         articleChanged={articleChanged || newLanguage}
         isNewlyCreated={!!isNewlyCreated}

@@ -15,10 +15,11 @@ import {
   fetchUserData,
   updateUserData,
   searchAllDrafts,
+  fetchDraftHistory,
 } from "./draftApi";
 import { DraftSearchQuery } from "./draftApiInterfaces";
 import { DraftStatusStateMachineType } from "../../interfaces";
-import { DRAFT, DRAFT_STATUS_STATE_MACHINE, LICENSES, USER_DATA, SEARCH_DRAFTS } from "../../queryKeys";
+import { DRAFT, DRAFT_STATUS_STATE_MACHINE, LICENSES, USER_DATA, SEARCH_DRAFTS, DRAFT_HISTORY } from "../../queryKeys";
 
 export interface UseDraft {
   id: number;
@@ -26,8 +27,14 @@ export interface UseDraft {
   responsibleId?: string;
 }
 
+export interface UseDraftHistory {
+  id: number;
+  language?: string;
+}
+
 export const draftQueryKeys = {
   draft: (params?: Partial<UseDraft>) => [DRAFT, params] as const,
+  draftHistory: (params?: Partial<UseDraftHistory>) => [DRAFT_HISTORY, params] as const,
   search: (params?: Partial<DraftSearchQuery>) => [SEARCH_DRAFTS, params] as const,
   licenses: [LICENSES] as const,
   userData: [USER_DATA] as const,
@@ -46,6 +53,14 @@ export const useDraft = (params: UseDraft, options?: Partial<UseQueryOptions<IAr
 interface UseSearchDrafts extends DraftSearchQuery {
   ids: number[];
 }
+
+export const useDraftHistory = (params: UseDraftHistory, options?: Partial<UseQueryOptions<IArticle[]>>) => {
+  return useQuery<IArticle[]>({
+    queryKey: draftQueryKeys.draft(params),
+    queryFn: () => fetchDraftHistory(params.id, params.language),
+    ...options,
+  });
+};
 
 export const useSearchDrafts = (params: UseSearchDrafts, options?: Partial<UseQueryOptions<ISearchResult>>) => {
   return useQuery<ISearchResult>({

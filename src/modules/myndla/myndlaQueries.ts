@@ -20,8 +20,11 @@ export const myndlaQueryKeys = {
   resourceStats: (params?: Partial<UseResourceStats>) => [MYNDLA_RESOURCE_STATS, params] as const,
 };
 
-export const useResourceStats = (params: UseResourceStats, options?: Partial<UseQueryOptions<ISingleResourceStats>>) =>
-  useQuery<ISingleResourceStats>({
+export const useResourceStats = (
+  params: UseResourceStats,
+  options?: Partial<UseQueryOptions<ISingleResourceStats[]>>,
+) =>
+  useQuery<ISingleResourceStats[]>({
     queryKey: myndlaQueryKeys.resourceStats(params),
     queryFn: () => fetchResourceStats(params.resourceTypes, params.resourceIds),
     ...options,

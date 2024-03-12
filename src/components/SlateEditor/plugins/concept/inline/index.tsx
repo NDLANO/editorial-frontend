@@ -8,7 +8,6 @@
 
 import { Descendant, Editor, Element, Node, Range, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { ConceptInlineElement } from "./interfaces";
 import { TYPE_CONCEPT_INLINE } from "./types";
 import { createEmbedTagV2, reduceElementDataAttributesV2 } from "../../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../../interfaces";
@@ -83,19 +82,6 @@ export const inlineConceptPlugin = (editor: Editor) => {
     if (!editor.selection) return nextOnKeyDown?.(e);
     if (e.key === KEY_BACKSPACE) {
       return onBackspace(e, editor, nextOnKeyDown);
-    }
-
-    if (e.key === KEY_ENTER) {
-      const [entry] = Editor.nodes<ConceptInlineElement>(editor, {
-        match: (node) => Element.isElement(node) && node.type === "concept-inline",
-        at: editor.selection,
-        mode: "lowest",
-      });
-
-      if (entry) {
-        e.preventDefault();
-        return;
-      }
     }
 
     nextOnKeyDown?.(e);

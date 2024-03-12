@@ -114,9 +114,9 @@ const InlineWrapper = (props: Props) => {
     const data = getConceptDataAttributes(addedConcept, nodeText);
     if (element) {
       const path = ReactEditor.findPath(editor, element);
-      Transforms.setNodes(
+      Transforms.setNodes<ConceptInlineElement>(
         editor,
-        { data },
+        { data, isFirstEdit: false },
         {
           at: path,
           match: (node) => Element.isElement(node) && node.type === TYPE_CONCEPT_INLINE,
@@ -142,11 +142,11 @@ const InlineWrapper = (props: Props) => {
     }
   };
 
-  if (!embed) return children;
-
   return (
     <Modal open={isEditing}>
-      {embed.status === "error" ? (
+      {!embed ? (
+        children
+      ) : embed.status === "error" ? (
         <ConceptEmbed embed={embed} />
       ) : (
         <InlineConcept

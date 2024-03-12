@@ -45,24 +45,24 @@ const HeaderFavoriteStatus = ({ id, type }: Props) => {
   const { t } = useTranslation();
   const { isLoading, isError, data } = useResourceStats(
     {
-      resourceId: id?.toString() ?? "",
-      resourceType: resourceType ?? "",
+      resourceIds: id?.toString() ?? "",
+      resourceTypes: resourceType ?? "",
     },
     {
       enabled: favoriteMakesSense,
     },
   );
+  if (!favoriteMakesSense || isError || isLoading || !data?.length) return null;
 
-  if (!favoriteMakesSense || isError || isLoading || !data) return null;
-
+  const stats = data.find((d) => (d.id = id));
   const tooltipText =
-    data.favourites === 0 ? t("form.myNdla.noFavorites") : t("form.myNdla.numFavorites", { num: data.favourites });
+    stats.favourites === 0 ? t("form.myNdla.noFavorites") : t("form.myNdla.numFavorites", { num: data.favourites });
 
   return (
     <Wrapper title={tooltipText} aria-label={tooltipText}>
       <StyledHeartOutline />
       <Text margin="none" textStyle="label-small">
-        {data.favourites}
+        {stats.favourites}
       </Text>
     </Wrapper>
   );

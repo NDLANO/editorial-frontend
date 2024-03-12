@@ -37,7 +37,14 @@ test.beforeEach(async ({ page }) => {
     overrideValue: JSON.stringify(editorMock),
   });
 
-  const baseBody = { pageSize: 10, filterInactive: true, sort: "-lastUpdated" };
+  const baseBody = {
+    pageSize: 10,
+    filterInactive: true,
+    sort: "-lastUpdated",
+    includeOtherStatuses: false,
+    fallback: false,
+    excludeRevisionLog: false,
+  };
 
   const searchConcept = mockRoute({
     page,

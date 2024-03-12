@@ -23,7 +23,14 @@ test.beforeEach(async ({ page }) => {
     fixture: "search_audio_all_subjects",
   });
 
-  const baseBody = { pageSize: 10, filterInactive: true, sort: "-relevance" };
+  const baseBody = {
+    pageSize: 10,
+    filterInactive: true,
+    sort: "-relevance",
+    incldeOtherStatuses: false,
+    fallback: false,
+    excludeRevisionLog: false,
+  };
 
   const searchAudio = mockRoute({
     page,
@@ -70,7 +77,7 @@ test.beforeEach(async ({ page }) => {
   await Promise.all([licenses, allSubjects, searchAudio, zendesk, notesUser, userData]);
 });
 
-const totalSearchCount = "3299";
+const totalSearchCount = "3300";
 
 test.afterEach(async ({ page }) => mockWaitResponse(page, "**/audio-api/v1/audio/search/"));
 

@@ -43,7 +43,14 @@ test.beforeEach(async ({ page }) => {
     overrideValue: () => JSON.stringify(editorMock),
   });
 
-  const baseBody = { pageSize: 10, filterInactive: true, sort: "-lastUpdated" };
+  const baseBody = {
+    pageSize: 10,
+    filterInactive: true,
+    sort: "-lastUpdated",
+    includeOtherStatuses: false,
+    fallback: false,
+    excludeRevisionLog: false,
+  };
 
   const searchContent = mockRoute({
     page,
@@ -145,8 +152,30 @@ test.beforeEach(async ({ page }) => {
           resourceTypes: ["urn:resourcetype:workAssignment"],
         },
       },
-      { name: "filter_inactive_1", data: { pageSize: 10, page: 1, filterInactive: false, sort: "-lastUpdated" } },
-      { name: "filter_inactive_2", data: { pageSize: 10, page: 2, filterInactive: false, sort: "-lastUpdated" } },
+      {
+        name: "filter_inactive_1",
+        data: {
+          pageSize: 10,
+          page: 1,
+          filterInactive: false,
+          sort: "-lastUpdated",
+          includeOtherStatuses: false,
+          fallback: false,
+          excludeRevisionLog: false,
+        },
+      },
+      {
+        name: "filter_inactive_2",
+        data: {
+          pageSize: 10,
+          page: 2,
+          filterInactive: false,
+          sort: "-lastUpdated",
+          includeOtherStatuses: false,
+          fallback: false,
+          excludeRevisionLog: false,
+        },
+      },
       {
         name: "exclude_revision_1",
         data: {
@@ -216,7 +245,7 @@ test.beforeEach(async ({ page }) => {
   ]);
 });
 
-const searchTotalCount = "21481";
+const searchTotalCount = "21487";
 
 test.afterEach(async ({ page }) => await mockWaitResponse(page, "**/search-api/v1/search/editorial/"));
 
@@ -224,7 +253,7 @@ test("Can use text input", async ({ page }) => {
   await page.locator('input[name="query"]').fill("Test");
   await page.getByRole("button", { name: "Søk", exact: true }).click();
   await page.getByTestId("content-search-result").first().waitFor();
-  expect(await page.getByTestId("searchTotalCount").innerText()).toEqual("1416");
+  expect(await page.getByTestId("searchTotalCount").innerText()).toEqual("1422");
   await page.locator('input[name="query"]').clear();
   await page.getByRole("button", { name: "Søk", exact: true }).click();
   await page.getByTestId("content-search-result").first().waitFor();
@@ -234,7 +263,7 @@ test("Can use text input", async ({ page }) => {
 test("Can use status dropdown", async ({ page }) => {
   await page.locator('select[name="draft-status"]').selectOption({ label: "Publisert" });
   await page.getByTestId("content-search-result").first().waitFor();
-  expect(await page.getByTestId("searchTotalCount").innerText()).toEqual("17876");
+  expect(await page.getByTestId("searchTotalCount").innerText()).toEqual("17877");
   await page.locator('select[name="draft-status"]').selectOption({ index: 0 });
   await page.getByTestId("content-search-result").first().waitFor();
   expect(await page.getByTestId("searchTotalCount").innerText()).toEqual(searchTotalCount);
@@ -243,7 +272,7 @@ test("Can use status dropdown", async ({ page }) => {
 test("Can use language dropdown", async ({ page }) => {
   await page.locator('select[name="language"]').selectOption({ index: 1 });
   await page.getByTestId("content-search-result").first().waitFor();
-  expect(await page.getByTestId("searchTotalCount").innerText()).toEqual("19211");
+  expect(await page.getByTestId("searchTotalCount").innerText()).toEqual("19217");
   await page.locator('select[name="language"]').selectOption({ index: 0 });
   await page.getByTestId("content-search-result").first().waitFor();
   expect(await page.getByTestId("searchTotalCount").innerText()).toEqual(searchTotalCount);
@@ -288,7 +317,7 @@ test("Can use content type dropdown", async ({ page }) => {
 test("Can use inactive checkbox", async ({ page }) => {
   await page.locator('input[id="checkbox-filter-inactive"]').click();
   await page.getByTestId("content-search-result").first().waitFor();
-  expect(await page.getByTestId("searchTotalCount").innerText()).toEqual("37435");
+  expect(await page.getByTestId("searchTotalCount").innerText()).toEqual("37442");
   await page.locator('input[id="checkbox-filter-inactive"]').click();
   await page.getByTestId("content-search-result").first().waitFor();
   expect(await page.getByTestId("searchTotalCount").innerText()).toEqual(searchTotalCount);

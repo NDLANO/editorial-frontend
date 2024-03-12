@@ -36,7 +36,14 @@ test.beforeEach(async ({ page }) => {
     overrideValue: JSON.stringify(editorMock),
   });
 
-  const baseBody = { pageSize: 10, filterInactive: true, sort: "-relevance" };
+  const baseBody = {
+    pageSize: 10,
+    filterInactive: true,
+    sort: "-relevance",
+    includeOtherStatuses: false,
+    fallback: false,
+    excludeRevisionLog: false,
+  };
 
   const searchImage = mockRoute({
     page,

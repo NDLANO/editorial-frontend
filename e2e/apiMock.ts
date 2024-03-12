@@ -7,7 +7,8 @@
  */
 
 import { readFile, writeFile, mkdir } from "fs/promises";
-import { Page } from "@playwright/test";
+import isEqual from "lodash/isEqual.js";
+import { Page, Route } from "@playwright/test";
 const mockDir = "e2e/apiMocks/";
 
 type PostDataMock = {
@@ -15,15 +16,33 @@ type PostDataMock = {
   data: Record<string, any>;
 };
 
+type OverrideValue = string | ((value: string) => string);
 interface MockRoute {
   page: Page;
   path: string | RegExp;
   fixture: string;
-  overrideValue?: string | ((value: string) => string);
+  overrideValue?: OverrideValue;
   postData?: PostDataMock[];
   status?: number;
   overrideRoute?: boolean;
 }
+
+const evaluateHttpMethods = ["GET", "POST"];
+
+const writeToFile = async (responseText: string, fixtureName: string, overrideValue?: OverrideValue) => {
+  const override = overrideValue
+    ? typeof overrideValue === "string"
+      ? overrideValue
+      : overrideValue(responseText)
+    : undefined;
+  await mkdir(mockDir, { recursive: true });
+  await writeFile(fixtureName, override ?? responseText, {
+    flag: "w",
+  });
+};
+
+const getResponseText = async (route: Route): Promise<string> =>
+  evaluateHttpMethods.includes(route.request().method()) ? await (await route.fetch()).text() : "";
 
 export const mockRoute = async ({
   page,
@@ -39,49 +58,37 @@ export const mockRoute = async ({
   }
 
   return await page.route(path, async (route) => {
-    const method = route.request().method();
-    if (method === "GET" || method === "POST") {
+    if (route.request().method() === "POST") {
+      const isExternal = path.toString().includes("http");
+      const requestPostData = isExternal ? route.request().postData() ?? "" : route.request().postDataJSON() ?? {};
+      const result = postData?.find(({ data }) => isEqual(data, requestPostData));
+      const fixtureName = result ? `${mockDir}${fixture}_${result.name}.json` : `${mockDir}${fixture}.json`;
+
       if (process.env.RECORD_FIXTURES === "true") {
-        const response = await route.fetch();
+        const responseText = await getResponseText(route);
+        await writeToFile(responseText, fixtureName, overrideValue);
 
-        let fixtureName = `${mockDir}${fixture}.json`;
-        if (method === "POST") {
-          const requestPostData = route.request().postDataJSON() ?? {};
-          const result = postData?.find(
-            ({ data }) => Object.entries(data).sort().toString() === Object.entries(requestPostData).sort().toString(),
-          );
-          if (!result) return;
-          fixtureName = `${mockDir}${fixture}_${result.name}.json`;
-        }
-
-        const text = await response.text();
-        const override = overrideValue
-          ? typeof overrideValue === "string"
-            ? overrideValue
-            : overrideValue(text)
-          : undefined;
-        await mkdir(mockDir, { recursive: true });
-        await writeFile(fixtureName, override ?? text, {
-          flag: "w",
-        });
-        return route.fulfill({ body: text, status });
+        return route.fulfill({ body: responseText, status });
       } else {
         try {
-          if (method === "POST") {
-            const requestPostData = route.request().postDataJSON() ?? {};
-            const result = postData?.find(
-              ({ data }) =>
-                Object.entries(data).sort().toString() === Object.entries(requestPostData).sort().toString(),
-            );
-            if (result) {
-              const res = await readFile(`${mockDir}${fixture}_${result.name}.json`, "utf8");
-              return route.fulfill({ body: res, status });
-            }
-          } else if (method === "GET") {
-            const res = await readFile(`${mockDir}${fixture}.json`, "utf8");
-            return route.fulfill({ body: res, status });
-          }
+          const res = await readFile(fixtureName, "utf8");
+          return route.fulfill({ body: res, status });
         } catch (e) {
+          route.abort();
+        }
+      }
+    } else {
+      const fixtureName = `${mockDir}${fixture}.json`;
+      if (process.env.RECORD_FIXTURES === "true") {
+        const responseText = await getResponseText(route);
+        await writeToFile(responseText, fixtureName, overrideValue);
+
+        return route.fulfill({ body: responseText, status });
+      } else {
+        try {
+          const res = await readFile(fixtureName, "utf8");
+          return route.fulfill({ body: res, status });
+        } catch {
           route.abort();
         }
       }

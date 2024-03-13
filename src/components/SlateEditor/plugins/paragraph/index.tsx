@@ -41,7 +41,7 @@ const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: Keybo
   }
   e.preventDefault();
 
-  const [currentParagraph, currentPath] = entry;
+  const [currentParagraph, currentParagraphPath] = entry;
   /**
    If the user types enter in an empty paragraph we transform the paragraph to a <br>.
    This enables us to filter out unnecessary empty <p> tags on save. We insert empty p tags
@@ -66,13 +66,14 @@ const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: Keybo
   }
 
   if (
-    editor.selection?.anchor.offset !== Node.string(currentParagraph).length &&
-    editor.selection?.anchor.offset !== 0
+    editor.selection &&
+    !Editor.isEnd(editor, editor.selection.anchor, currentParagraphPath) &&
+    !Editor.isStart(editor, editor.selection.anchor, currentParagraphPath)
   ) {
-    return Transforms.splitNodes(editor, { match: (node) => isParagraph(node) });
+    return Transforms.splitNodes(editor, { match: (node) => isParagraph(node), at: editor.selection });
   }
 
-  if (editor.selection?.anchor.offset === 0) {
+  if (Editor.isStart(editor, editor.selection.anchor, currentParagraphPath)) {
     return Transforms.insertNodes(
       editor,
       {

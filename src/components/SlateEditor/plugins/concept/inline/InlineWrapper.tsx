@@ -14,7 +14,6 @@ import { ReactEditor, RenderElementProps } from "slate-react";
 import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
 import { colors, spacing } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
 import { AlertCircle, Check, DeleteForever, Link } from "@ndla/icons/editor";
 import { Modal, ModalContent } from "@ndla/modal";
 import { SafeLinkIconButton } from "@ndla/safelink";
@@ -68,17 +67,6 @@ const StyledIconWrapper = styled.div`
   }
 `;
 
-const ConceptWrapper = styled.div`
-  position: relative;
-  display: inline;
-`;
-
-const HiddenChildren = styled.div`
-  position: absolute;
-  left: 0;
-  display: none;
-`;
-
 const InlineWrapper = (props: Props) => {
   const { t } = useTranslation();
   const { children, element, editor, attributes } = props;
@@ -126,9 +114,9 @@ const InlineWrapper = (props: Props) => {
     const data = getConceptDataAttributes(addedConcept, nodeText);
     if (element) {
       const path = ReactEditor.findPath(editor, element);
-      Transforms.setNodes(
+      Transforms.setNodes<ConceptInlineElement>(
         editor,
-        { data },
+        { data, isFirstEdit: false },
         {
           at: path,
           match: (node) => Element.isElement(node) && node.type === TYPE_CONCEPT_INLINE,
@@ -156,79 +144,73 @@ const InlineWrapper = (props: Props) => {
 
   return (
     <Modal open={isEditing}>
-      <ConceptWrapper {...attributes}>
-        {/* Without a hidden clone of children, inserting a new concept will crash the app, as ConceptEmbed won't render it yet*/}
-        <HiddenChildren>{children}</HiddenChildren>
-        {!embed ? (
-          <Spinner />
-        ) : embed.status === "error" ? (
-          <ConceptEmbed embed={embed} />
-        ) : (
-          <InlineConcept
-            title={embed.data.concept.title}
-            content={parsedContent}
-            metaImage={embed.data.concept.metaImage}
-            copyright={embed.data.concept.copyright}
-            source={embed.data.concept.source}
-            visualElement={embed.data.visualElement}
-            // This is where we expect children to exist, but it only exists after data has been fetched.
-            linkText={children}
-            conceptType={embed.data.concept.conceptType}
-            glossData={embed.data.concept.glossData}
-            exampleIds={embed.embedData.exampleIds}
-            exampleLangs={embed.embedData.exampleLangs}
-            headerButtons={
-              <>
-                {concept?.status.current === PUBLISHED ||
-                  (concept?.status.other.includes(PUBLISHED) && (
-                    <StyledIconWrapper
-                      data-color="green"
-                      aria-label={t("form.workflow.published")}
-                      title={t("form.workflow.published")}
-                    >
-                      <Check />
-                    </StyledIconWrapper>
-                  ))}
-                {concept?.status.current !== PUBLISHED && (
+      {!embed ? (
+        children
+      ) : embed.status === "error" ? (
+        <ConceptEmbed embed={embed} />
+      ) : (
+        <InlineConcept
+          title={embed.data.concept.title}
+          content={parsedContent}
+          metaImage={embed.data.concept.metaImage}
+          copyright={embed.data.concept.copyright}
+          source={embed.data.concept.source}
+          visualElement={embed.data.visualElement}
+          // This is where we expect children to exist, but it only exists after data has been fetched.
+          linkText={children}
+          conceptType={embed.data.concept.conceptType}
+          glossData={embed.data.concept.glossData}
+          exampleIds={embed.embedData.exampleIds}
+          exampleLangs={embed.embedData.exampleLangs}
+          headerButtons={
+            <>
+              {concept?.status.current === PUBLISHED ||
+                (concept?.status.other.includes(PUBLISHED) && (
                   <StyledIconWrapper
-                    data-color="red"
-                    aria-label={t("form.workflow.currentStatus", {
-                      status: t(`form.status.${concept?.status.current.toLowerCase()}`),
-                    })}
-                    title={t("form.workflow.currentStatus", {
-                      status: t(`form.status.${concept?.status.current.toLowerCase()}`),
-                    })}
+                    data-color="green"
+                    aria-label={t("form.workflow.published")}
+                    title={t("form.workflow.published")}
                   >
-                    <AlertCircle />
+                    <Check />
                   </StyledIconWrapper>
-                )}
-                <IconButtonV2
-                  colorTheme="danger"
-                  variant="ghost"
-                  onClick={handleRemove}
-                  aria-label={t(`form.${concept?.conceptType}.remove`)}
-                  title={t(`form.${concept?.conceptType}.remove`)}
+                ))}
+              {concept?.status.current !== PUBLISHED && (
+                <StyledIconWrapper
+                  data-color="red"
+                  aria-label={t("form.workflow.currentStatus", {
+                    status: t(`form.status.${concept?.status.current.toLowerCase()}`),
+                  })}
+                  title={t("form.workflow.currentStatus", {
+                    status: t(`form.status.${concept?.status.current.toLowerCase()}`),
+                  })}
                 >
-                  <DeleteForever />
-                </IconButtonV2>
-                {concept && (
-                  <EditGlossExamplesModal concept={concept} editor={editor} element={element} embed={embed} />
-                )}
-                <SafeLinkIconButton
-                  to={`/${concept?.conceptType}/${concept?.id}/edit/${concept?.content?.language}`}
-                  target="_blank"
-                  colorTheme="lighter"
-                  variant="ghost"
-                  title={t(`form.${concept?.conceptType}.edit`)}
-                  aria-label={t(`form.${concept?.conceptType}.edit`)}
-                >
-                  <Link />
-                </SafeLinkIconButton>
-              </>
-            }
-          />
-        )}
-      </ConceptWrapper>
+                  <AlertCircle />
+                </StyledIconWrapper>
+              )}
+              <IconButtonV2
+                colorTheme="danger"
+                variant="ghost"
+                onClick={handleRemove}
+                aria-label={t(`form.${concept?.conceptType}.remove`)}
+                title={t(`form.${concept?.conceptType}.remove`)}
+              >
+                <DeleteForever />
+              </IconButtonV2>
+              {concept && <EditGlossExamplesModal concept={concept} editor={editor} element={element} embed={embed} />}
+              <SafeLinkIconButton
+                to={`/${concept?.conceptType}/${concept?.id}/edit/${concept?.content?.language}`}
+                target="_blank"
+                colorTheme="lighter"
+                variant="ghost"
+                title={t(`form.${concept?.conceptType}.edit`)}
+                aria-label={t(`form.${concept?.conceptType}.edit`)}
+              >
+                <Link />
+              </SafeLinkIconButton>
+            </>
+          }
+        />
+      )}
       <ModalContent size={{ width: "large", height: "large" }}>
         <ConceptModalContent
           onClose={onClose}

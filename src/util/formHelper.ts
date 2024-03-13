@@ -326,6 +326,6 @@ export const getTagName = (id: string | undefined, data: { id: string; name: str
 };
 
 export const stripInlineContentHtmlTags = (html: string): string =>
-  inlineContentToEditorValue(html)
+  inlineContentToEditorValue(html, true)
     .map((n) => Node.string(n))
     .join("");

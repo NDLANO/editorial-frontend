@@ -6,7 +6,6 @@
  *
  */
 
-import queryString from "query-string";
 import {
   IImageMetaInformationV3,
   IUpdateImageMetaInformation,

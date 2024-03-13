@@ -7,6 +7,7 @@
  */
 
 import { TFunction } from "i18next";
+import queryString from "query-string";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -30,6 +31,7 @@ import { fetchNode } from "../../../modules/nodes/nodeApi";
 import { usePostSearchNodes } from "../../../modules/nodes/nodeQueries";
 import { postSearch } from "../../../modules/search/searchApi";
 import { fetchResourceType } from "../../../modules/taxonomy";
+import { transformQuery } from "../../../util/searchHelpers";
 import { SearchParamsBody, parseSearchParams } from "../../SearchPage/components/form/SearchForm";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { customFieldsBody, defaultSubjectIdObject, getResultSubjectIdObject, getSubjectsIdsQuery } from "../utils";
@@ -112,15 +114,16 @@ export const useSavedSearchUrl = (currentUserData: IUserData | undefined): Searc
     () =>
       searchText?.map((st) => {
         const [searchUrl, searchParams] = st.split("?");
+        const transformedQuery = transformQuery(queryString.parse(searchParams));
+        const searchObject = parseSearchParams(queryString.stringify(transformedQuery), true);
 
-        const searchObject = parseSearchParams(searchParams, true);
         const searchObjectWithType = { ...searchObject, type: searchUrl.replace("/search/", "") };
 
-        if (searchObjectWithType["users"]) {
-          searchObjectWithType["users"] = searchObjectWithType["users"].map((u) => u.replaceAll('"', ""));
+        if (searchObjectWithType.users) {
+          searchObjectWithType.users = searchObjectWithType["users"].map((u) => u.replaceAll('"', ""));
         }
-        if (searchObjectWithType["type"] === "content" && searchObject["language"]) {
-          searchObjectWithType["language"] = i18n.language;
+        if (searchObjectWithType.type === "content" && searchObject["language"]) {
+          searchObjectWithType.language = i18n.language;
         }
         return searchObjectWithType as SearchObjectType;
       }) ?? [],

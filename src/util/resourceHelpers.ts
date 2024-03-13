@@ -89,7 +89,7 @@ export const resourceToLinkProps = (
   content: {
     id: number;
     supportedLanguages?: string[];
-    contexts?: { learningResourceType: string }[];
+    contexts?: { contextType: string }[];
   },
   contentType: string | undefined,
   locale: string,
@@ -128,6 +128,6 @@ export const resourceToLinkProps = (
   }
 
   return {
-    to: toEditArticle(content.id, content?.contexts?.[0]?.learningResourceType || "standard", languageOrDefault),
+    to: toEditArticle(content.id, content?.contexts?.[0]?.contextType || "standard", languageOrDefault),
   };
 };

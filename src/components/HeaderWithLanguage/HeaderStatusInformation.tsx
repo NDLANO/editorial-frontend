@@ -214,6 +214,7 @@ const HeaderStatusInformation = ({
   } else if (type === "image") {
     return (
       <StyledStatusWrapper>
+        {!inSearch && <HeaderFavoriteStatus id={id} type={type} />}
         <EmbedConnection
           id={id}
           type="image"
@@ -227,6 +228,7 @@ const HeaderStatusInformation = ({
   } else if (type === "audio" || type === "podcast") {
     return (
       <StyledStatusWrapper>
+        {!inSearch && <HeaderFavoriteStatus id={id} type="audio" />}
         <EmbedConnection
           id={id}
           type="audio"

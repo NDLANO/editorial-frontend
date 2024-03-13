@@ -86,7 +86,7 @@ export const isFormikFormDirty = <T extends FormikFields>({
     .filter(([key]) => !skipFields.includes(key))
     .forEach(([key, value]) => {
       if (slateFields.includes(key)) {
-        if (key === "content" || key === "title" || key === "introduction") {
+        if (key === "content" || key === "title" || key === "introduction" || key === "conceptContent") {
           if (checkIfContentHasChanged(values[key]!, initialValues[key]!, initialValues.articleType!)) {
             dirtyFields.push(value);
           }

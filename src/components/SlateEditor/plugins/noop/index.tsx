@@ -6,11 +6,12 @@
  *
  */
 
-import { Descendant, Editor, Element, Transforms } from "slate";
+import { Descendant, Editor, Element, Transforms, Text } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_NOOP } from "./types";
 import { SlateSerializer } from "../../interfaces";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
+import { isParagraph } from "../paragraph/utils";
 
 export interface NoopElement {
   type: "noop";
@@ -31,33 +32,41 @@ export const noopSerializer: SlateSerializer = {
 };
 
 export const noopPlugin = (editor: Editor) => {
-  const { normalizeNode: nextNormalizeNode, onKeyDown: nextOnKeyDown } = editor;
+  const { normalizeNode: nextNormalizeNode } = editor;
 
   editor.normalizeNode = (entry) => {
-    const [node] = entry;
+    const [node, path] = entry;
 
-    // If the noop only contains a single paragraph, unwrap it and save it as plain text instead
-    if (
-      Element.isElement(node) &&
-      node.type === TYPE_NOOP &&
-      node.children.length === 1 &&
-      Element.isElement(node.children[0]) &&
-      node.children[0].type === TYPE_PARAGRAPH
-    ) {
-      Transforms.unwrapNodes(editor, { match: (node) => Element.isElement(node) && node.type === TYPE_PARAGRAPH });
-      return;
+    if (Element.isElement(node) && node.type === TYPE_NOOP) {
+      if (node?.children.length === 1) {
+        const child = node.children[0];
+        if (Text.isText(child)) {
+          Transforms.wrapNodes(editor, slatejsx("element", { type: TYPE_PARAGRAPH, serializeAsText: true }, child), {
+            at: [...path, 0],
+          });
+          return;
+        }
+        if (isParagraph(child) && !child.serializeAsText) {
+          Transforms.setNodes(
+            editor,
+            { type: TYPE_PARAGRAPH, serializeAsText: true },
+            { at: path, match: (n) => isParagraph(n) },
+          );
+        }
+        return;
+      }
+
+      if (node?.children.length > 1) {
+        Transforms.setNodes(
+          editor,
+          { type: TYPE_PARAGRAPH, serializeAsText: false },
+          { at: path, match: (n) => isParagraph(n) },
+        );
+        return;
+      }
     }
-    return nextNormalizeNode(entry);
-  };
 
-  editor.onKeyDown = (e) => {
-    if (e.key !== "Enter") return nextOnKeyDown?.(e);
-    const [match] = Editor.nodes(editor, {
-      match: (node) =>
-        Element.isElement(node) && node.type === "noop" && node.children.every((child) => !Element.isElement(child)),
-    });
-    if (!match) return nextOnKeyDown?.(e);
-    Transforms.setNodes(editor, { type: "paragraph" });
+    return nextNormalizeNode(entry);
   };
 
   return editor;

@@ -11,7 +11,10 @@ import { resolveJsonOrRejectWithError, apiResourceUrl, fetchAuthorized } from ".
 
 const statsUrl = apiResourceUrl("/myndla-api/v1/stats");
 
-export const fetchResourceStats = async (resourceType: string, resourceId: string): Promise<ISingleResourceStats> => {
-  const response = await fetchAuthorized(`${statsUrl}/favorites/${resourceType}/${resourceId}`);
+export const fetchResourceStats = async (
+  resourceTypes: string,
+  resourceIds: string,
+): Promise<ISingleResourceStats[]> => {
+  const response = await fetchAuthorized(`${statsUrl}/favorites/${resourceTypes}/${resourceIds}`);
   return resolveJsonOrRejectWithError(response);
 };

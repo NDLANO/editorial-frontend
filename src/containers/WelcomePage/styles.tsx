@@ -7,7 +7,7 @@
  */
 import styled from "@emotion/styled";
 import { spacing, colors, mq, breakpoints, fonts } from "@ndla/core";
-import SafeLink from "@ndla/safelink";
+import { SafeLink } from "@ndla/safelink";
 import { Switch } from "@ndla/switch";
 
 export const StyledColumnHeader = styled.div`

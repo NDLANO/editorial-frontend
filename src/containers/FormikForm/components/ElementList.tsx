@@ -26,7 +26,7 @@ export interface ElementType {
   metaImage?: { alt?: string; url?: string };
   title?: { title: string; language: string };
   supportedLanguages?: string[];
-  contexts?: { learningResourceType: string }[];
+  contexts?: { contextType: string }[];
 }
 
 export type ExternalElementType = IRelatedContentLink & { isExternal?: boolean };

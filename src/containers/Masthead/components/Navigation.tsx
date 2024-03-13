@@ -13,7 +13,7 @@ import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
 import { colors, fonts, spacing, stackOrder } from "@ndla/core";
 import { Menu } from "@ndla/icons/common";
-import SafeLink from "@ndla/safelink";
+import { SafeLink } from "@ndla/safelink";
 import { Logo } from "@ndla/ui";
 import NavigationMenu from "./NavigationMenu";
 import SessionContainer from "./SessionContainer";

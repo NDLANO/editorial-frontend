@@ -9,7 +9,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { mq, breakpoints } from "@ndla/core";
-import Tabs from "@ndla/tabs";
+import { Tabs } from "@ndla/tabs";
 import SubjectViewContent from "./SubjectViewContent";
 import { GRID_GAP } from "../../../components/Layout/Layout";
 import {

@@ -33,7 +33,7 @@ const getResourceType = (type: string | undefined) => {
     case "standard":
     case "topic-article":
     case "frontpage-article":
-      return "article";
+      return "article,multidiciplinary";
     default:
       return type;
   }
@@ -62,10 +62,10 @@ const HeaderFavoriteStatus = ({ id, type }: Props) => {
 
   return (
     <Wrapper title={tooltipText} aria-label={tooltipText}>
-      <StyledHeartOutline />
       <Text margin="none" textStyle="label-small">
         {resourceStats?.favourites}
       </Text>
+      <StyledHeartOutline />
     </Wrapper>
   );
 };

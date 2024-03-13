@@ -120,7 +120,7 @@ const phrases = {
     emptyConcepts: "Ingen forklaringer ...",
     emptyRevision: "Ingen ressurser i favorittfag som trenger revisjon ...",
     emptySavedSearch: "Ingen lagrede søk",
-    emptySubjectView: "Ingen ressurser som det er mer enn 5 år siden ble sist faglig sjekket ...",
+    emptySubjectView: "Ingen ressurser som det er mer enn 5 år siden ble sist faglig vurdert ...",
     guidelines: "Retningslinjer",
     mustBeSearch: "Lenken må være til et søk",
     lastUsed: "Sist redigert",
@@ -161,7 +161,7 @@ const phrases = {
     lmaSubjectView: "Fagoversikt LMA-fag",
     daSubjectView: "Fagoversikt DA-fag",
     saSubjectView: "Fagoversikt SA-fag",
-    subjectViewDescription: "Oversikt over ressurser det er mer enn 5 år siden ble sist faglig sjekket",
+    subjectViewDescription: "Oversikt over ressurser det er mer enn 5 år siden ble sist faglig vurdert",
     workList: {
       heading: "Mine arbeidsoppgaver",
       description: "Ressurser hvor du står som ansvarlig",

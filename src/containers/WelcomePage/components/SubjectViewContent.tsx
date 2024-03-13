@@ -6,14 +6,18 @@
  *
  */
 import { subYears } from "date-fns";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Heart } from "@ndla/icons/action";
 import { BookOpen } from "@ndla/icons/common";
-import Pager from "@ndla/pager";
+import { Pager } from "@ndla/pager";
+import { ISingleResourceStats } from "@ndla/types-backend/myndla-api";
 import TableComponent, { FieldElement, TitleElement } from "./TableComponent";
 import TableTitle from "./TableTitle";
 import PageSizeDropdown from "./worklist/PageSizeDropdown";
+import { CellWrapper } from "./worklist/WorkListTabContent";
 import { PUBLISHED } from "../../../constants";
+import { fetchResourceStats } from "../../../modules/myndla/myndlaApi";
 import { useSearch } from "../../../modules/search/searchQueries";
 import formatDate, { formatDateForBackend } from "../../../util/formatDate";
 import { toEditArticle } from "../../../util/routeHelpers";
@@ -44,6 +48,7 @@ const SubjectViewContent = ({
     "published",
   );
   const [pageSize, setPageSize] = useLocalStoragePageSizeState(localStoragePageSizeKey);
+  const [favoriteStats, setFavoriteStats] = useState<ISingleResourceStats[]>([]);
   const currentDateSubtractYear = formatDateForBackend(subYears(new Date(), 5));
 
   const { data, isLoading, isError } = useSearch(
@@ -64,6 +69,20 @@ const SubjectViewContent = ({
     },
   );
 
+  useEffect(() => {
+    setPage(1);
+  }, [pageSize]);
+
+  useEffect(() => {
+    const resourceIds = data?.results.map((r) => r.id) ?? [];
+    if (!resourceIds.length) return;
+    const fetchFavorites = async () => {
+      const stats = await fetchResourceStats("article,multidiciplinary", resourceIds.join(","));
+      setFavoriteStats(stats);
+    };
+    fetchFavorites();
+  }, [data]);
+
   const error = useMemo(() => {
     if (isError) {
       return t("welcomePage.errorMessage");
@@ -71,7 +90,7 @@ const SubjectViewContent = ({
   }, [t, isError]);
 
   const tableTitles: TitleElement<SortOptionSubjectView>[] = [
-    { title: t("form.name.title"), sortableField: "title", width: "40%" },
+    { title: t("form.name.title"), sortableField: "title", width: "45%" },
     {
       title: t("welcomePage.workList.status"),
       sortableField: "status",
@@ -85,16 +104,29 @@ const SubjectViewContent = ({
     () =>
       data
         ? data.results?.map((resource) => {
+            const favoriteCount = favoriteStats.find((f) => f.id === resource.id.toString())?.favourites;
+            const tooltipText =
+              favoriteCount === 0
+                ? t("form.myNdla.noFavorites")
+                : t("form.myNdla.numFavorites", { num: favoriteCount });
+
             return [
               {
                 id: `title_${resource.id}`,
                 data: (
-                  <StyledLink
-                    to={toEditArticle(resource.id, resource.learningResourceType)}
-                    title={resource.title?.title}
-                  >
-                    {resource.title?.title}
-                  </StyledLink>
+                  <CellWrapper>
+                    <StyledLink
+                      to={toEditArticle(resource.id, resource.learningResourceType)}
+                      title={resource.title?.title}
+                    >
+                      {resource.title?.title}
+                    </StyledLink>
+                    {favoriteCount !== undefined && (
+                      <div title={tooltipText} aria-label={tooltipText}>
+                        {favoriteCount} <Heart />
+                      </div>
+                    )}
+                  </CellWrapper>
                 ),
               },
               {
@@ -112,7 +144,7 @@ const SubjectViewContent = ({
             ];
           })
         : [[]],
-    [data, t],
+    [data, favoriteStats, t],
   );
 
   const lastPage = data?.totalCount ? Math.ceil(data?.totalCount / (data.pageSize ?? 1)) : 1;

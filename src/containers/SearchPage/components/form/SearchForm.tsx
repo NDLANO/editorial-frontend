@@ -52,6 +52,17 @@ export type SearchParamsBody = IDraftConceptSearchParams &
 
 type ReturnType<T> = T extends true ? SearchParamsBody : SearchParams;
 
+type MappingType = {
+  [K in keyof SearchParamsBody]: {
+    key: K;
+    data: SearchParamsBody[K];
+  };
+}[keyof SearchParamsBody];
+
+type SearchBodyKeyMapping = {
+  [k in keyof SearchParams]: MappingType;
+};
+
 export const parseSearchParams = <T extends boolean>(locationSearch: string, parseAsSearchBody: T): ReturnType<T> => {
   const queryStringObject: Record<string, string | undefined> = queryString.parse(locationSearch);
 
@@ -67,7 +78,7 @@ export const parseSearchParams = <T extends boolean>(locationSearch: string, par
     return parseInt(value, 10);
   };
 
-  const searchBodyKeyMapping: Record<keyof SearchParams, { key: keyof SearchParamsBody; data: unknown }> = {
+  const searchBodyKeyMapping: SearchBodyKeyMapping = {
     "draft-status": { key: "draftStatus", data: queryStringObject["draft-status"]?.split(",") },
     "include-other-statuses": { key: "includeOtherStatuses", data: parseBooleanParam("include-other-statuses") },
     "resource-types": { key: "resourceTypes", data: queryStringObject["resource-types"]?.split(",") },
@@ -83,24 +94,25 @@ export const parseSearchParams = <T extends boolean>(locationSearch: string, par
     query: { key: "query", data: queryStringObject.query },
     language: { key: "language", data: queryStringObject.language },
     page: { key: "page", data: parseNumberParam("page") },
-    "article-types": { key: "articleTypes", data: queryStringObject["article-types"] },
+    "article-types": { key: "articleTypes", data: queryStringObject["article-types"]?.split(",") },
     fallback: { key: "fallback", data: parseBooleanParam("fallback") },
     status: { key: "status", data: queryStringObject.status?.split(",") },
     sort: { key: "sort", data: queryStringObject.sort },
     subjects: { key: "subjects", data: queryStringObject.subjects?.split(",") },
     users: { key: "users", data: queryStringObject.users?.split(",") },
     license: { key: "license", data: queryStringObject.license },
-  };
+  } as const;
 
-  return (
-    Object.entries(searchBodyKeyMapping) as Array<[keyof SearchParams, { key: keyof SearchParamsBody; data: unknown }]>
-  ).reduce((result, [key, val]) => {
-    if (val.data === undefined) return result;
-    const updatedKey = parseAsSearchBody ? val.key : key;
-    const updatedVal = parseAsSearchBody || !Array.isArray(val.data) ? val.data : queryStringObject[key];
-
-    return { ...result, [updatedKey]: updatedVal };
-  }, {});
+  return Object.entries(searchBodyKeyMapping).reduce(
+    (acc, [key, val]) => {
+      if (val.data === undefined) return acc;
+      const updatedKey = parseAsSearchBody ? val.key : key;
+      const updatedVal = parseAsSearchBody || !Array.isArray(val.data) ? val.data : queryStringObject[key];
+      acc[updatedKey] = updatedVal;
+      return acc;
+    },
+    {} as Record<string, any>,
+  ) as SearchParamsBody;
 };
 
 interface Props {

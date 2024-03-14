@@ -62,6 +62,9 @@ const InlineFieldWrapper = styled.div`
   border: 1px solid ${colors.brand.primary};
   border-radius: ${misc.borderRadius};
   padding: ${spacing.small};
+  p {
+    margin: 0px;
+  }
 `;
 
 const renderers: SlatePlugin[] = [noopRenderer, paragraphRenderer, markRenderer, breakRenderer, spanRenderer];

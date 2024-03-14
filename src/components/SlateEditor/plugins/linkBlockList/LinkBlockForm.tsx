@@ -6,21 +6,25 @@
  *
  */
 
-import { FieldProps, Formik } from "formik";
+import { Form, Formik } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { css } from "@emotion/react";
+import { Descendant } from "slate";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
-import { spacing, fonts } from "@ndla/core";
-import { InputV2 } from "@ndla/forms";
+import { spacing } from "@ndla/core";
+import { FieldErrorMessage, InputV3, Label } from "@ndla/forms";
 import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle } from "@ndla/modal";
 import { LinkBlockEmbedData } from "@ndla/types-embed";
+import { Text } from "@ndla/typography";
 import InlineDatePicker from "../../../../containers/FormikForm/components/InlineDatePicker";
-import { supportedLanguages } from "../../../../i18n2";
+import { InlineField } from "../../../../containers/FormikForm/InlineField";
+import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
 import { formatDateForBackend } from "../../../../util/formatDate";
-import FormikField from "../../../FormikField";
+import parseMarkdown from "../../../../util/parseMarkdown";
+import { FormControl, FormField } from "../../../FormField";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
+import { RichTextIndicator } from "../../RichTextIndicator";
 
 interface Props {
   embed?: LinkBlockEmbedData;
@@ -28,15 +32,15 @@ interface Props {
   onSave: (embed: LinkBlockEmbedData) => void;
 }
 
-interface LinkBlockFormValues extends Omit<LinkBlockEmbedData, "date"> {
+interface LinkBlockFormValues extends Omit<LinkBlockEmbedData, "date" | "title"> {
   date?: Date;
+  title: Descendant[];
 }
 
-const toInitialValues = (initialData: LinkBlockEmbedData | undefined, language: string): LinkBlockFormValues => {
+const toInitialValues = (initialData: LinkBlockEmbedData | undefined): LinkBlockFormValues => {
   return {
     resource: "link-block",
-    title: initialData?.title ?? "",
-    language: initialData?.language ?? language,
+    title: inlineContentToEditorValue(parseMarkdown({ markdown: initialData?.title ?? "", inline: true }), true),
     date: initialData?.date ? new Date(initialData.date) : undefined,
     url: initialData?.url ?? "",
   };
@@ -49,13 +53,10 @@ const ButtonContainer = styled.div`
   gap: ${spacing.small};
 `;
 
-const StyledFormikField = styled(FormikField)`
-  margin: 0px;
-`;
-
-const inputStyle = css`
+const StyledForm = styled(Form)`
   display: flex;
   flex-direction: column;
+  gap: ${spacing.small};
 `;
 
 const DateWrapper = styled.div`
@@ -63,25 +64,12 @@ const DateWrapper = styled.div`
   gap: ${spacing.xsmall};
 `;
 
-const FieldWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.xsmall};
-  margin-top: ${spacing.small};
-  label {
-    font-weight: ${fonts.weight.semibold};
-  }
-`;
-
 const LinkBlockForm = ({ embed, existingEmbeds, onSave }: Props) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const rules: RulesType<LinkBlockFormValues> = useMemo(() => {
     return {
       title: {
-        required: true,
-      },
-      language: {
         required: true,
       },
       date: {
@@ -107,20 +95,19 @@ const LinkBlockForm = ({ embed, existingEmbeds, onSave }: Props) => {
   );
 
   const onFormSaved = useCallback(
-    ({ date, title, url, language }: LinkBlockFormValues) => {
+    ({ date, title, url }: LinkBlockFormValues) => {
       const embed = {
         resource: "link-block",
-        title,
+        title: inlineContentToHTML(title),
         date: date ? formatDateForBackend(new Date(date)) : "",
         url,
-        language,
       } as const;
       onSave(embed);
     },
     [onSave],
   );
 
-  const initialValues = useMemo(() => toInitialValues(embed, i18n.language), [embed, i18n.language]);
+  const initialValues = useMemo(() => toInitialValues(embed), [embed]);
   const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t, rules]);
 
   return (
@@ -137,49 +124,62 @@ const LinkBlockForm = ({ embed, existingEmbeds, onSave }: Props) => {
           onSubmit={onFormSaved}
           validate={validate}
         >
-          {({ dirty, isValid, handleSubmit }) => (
-            <>
-              <StyledFormikField name="title" showError>
-                {({ field }: FieldProps) => <InputV2 {...field} customCss={inputStyle} label={t("form.name.title")} />}
-              </StyledFormikField>
-              <StyledFormikField name="language">
-                {({ field }: FieldProps) => (
-                  <FieldWrapper>
-                    <label htmlFor="language">{t("form.name.language")}</label>
-                    <select {...field} title={t("blogPostForm.languageExplanation")}>
-                      {supportedLanguages.map((lang) => (
-                        <option value={lang} key={lang}>
-                          {t(`languages.${lang}`)}
-                        </option>
-                      ))}
-                    </select>
-                  </FieldWrapper>
-                )}
-              </StyledFormikField>
-              <StyledFormikField name="url" showError>
-                {({ field }: FieldProps) => <InputV2 label={t("form.name.url")} customCss={inputStyle} {...field} />}
-              </StyledFormikField>
-              <StyledFormikField name="date">
-                {({ field, form }: FieldProps) => (
-                  <FieldWrapper>
-                    <label>{t("form.name.date")}</label>
-                    <DateWrapper>
-                      <InlineDatePicker placeholder={t("linkBlock.chooseDate")} {...field} />
-                      <ButtonV2 onClick={() => form.setFieldValue("date", "")}>{t("reset")}</ButtonV2>
-                    </DateWrapper>
-                  </FieldWrapper>
-                )}
-              </StyledFormikField>
-              <ButtonContainer>
-                <ModalCloseButton>
-                  <ButtonV2 variant="outline">{t("cancel")}</ButtonV2>
-                </ModalCloseButton>
-                <ButtonV2 variant="solid" disabled={!dirty || !isValid} type="submit" onClick={() => handleSubmit()}>
-                  {t("save")}
-                </ButtonV2>
-              </ButtonContainer>
-            </>
-          )}
+          {({ dirty, isValid, isSubmitting }) => {
+            return (
+              <StyledForm>
+                <Text textStyle="label-small" margin="none">
+                  {t("form.name.title")}
+                  <RichTextIndicator />
+                </Text>
+                <FormField name="title">
+                  {({ field, helpers, meta }) => (
+                    <FormControl isInvalid={!!meta.error}>
+                      <InlineField
+                        {...field}
+                        placeholder={t("form.name.title")}
+                        submitted={isSubmitting}
+                        onChange={helpers.setValue}
+                      />
+                      <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                    </FormControl>
+                  )}
+                </FormField>
+                <FormField name="url">
+                  {({ field, meta }) => (
+                    <FormControl isInvalid={!!meta.error}>
+                      <Label margin="none" textStyle="label-small">
+                        {t("form.name.url")}
+                      </Label>
+                      <InputV3 {...field} />
+                      <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                    </FormControl>
+                  )}
+                </FormField>
+                <FormField name="date">
+                  {({ field, meta, helpers }) => (
+                    <FormControl isInvalid={!!meta.error}>
+                      <Label margin="none" textStyle="label-small">
+                        {t("form.name.date")}
+                      </Label>
+                      <DateWrapper>
+                        <InlineDatePicker placeholder={t("linkBlock.chooseDate")} {...field} />
+                        <ButtonV2 onClick={() => helpers.setValue("")}>{t("reset")}</ButtonV2>
+                      </DateWrapper>
+                      <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                    </FormControl>
+                  )}
+                </FormField>
+                <ButtonContainer>
+                  <ModalCloseButton>
+                    <ButtonV2 variant="outline">{t("cancel")}</ButtonV2>
+                  </ModalCloseButton>
+                  <ButtonV2 variant="solid" disabled={!dirty || !isValid} type="submit">
+                    {t("save")}
+                  </ButtonV2>
+                </ButtonContainer>
+              </StyledForm>
+            );
+          }}
         </Formik>
       </ModalBody>
     </>

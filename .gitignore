@@ -19,3 +19,4 @@ scripts/.cache/
 /playwright/.cache/
 /e2e/.auth/
 /.yarn/
+/.swc/

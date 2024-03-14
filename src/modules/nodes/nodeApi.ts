@@ -268,10 +268,8 @@ export const searchNodes = ({ taxonomyVersion, ...queryParams }: SearchNodes): P
 };
 
 interface PostSearchNodes extends WithTaxonomyVersion {
-  body?: {
-    pageSize?: number;
-    customFields?: Record<string, string>;
-  };
+  pageSize?: number;
+  customFields?: Record<string, string>;
 }
 
 export const postSearchNodes = ({ taxonomyVersion, ...body }: PostSearchNodes): Promise<SearchResultBase<Node>> => {

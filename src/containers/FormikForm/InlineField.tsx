@@ -59,11 +59,16 @@ const inlinePlugins: SlatePlugin[] = [
 ];
 
 const InlineFieldWrapper = styled.div`
-  border: 1px solid ${colors.brand.primary};
+  border: 1px solid ${colors.brand.grey};
   border-radius: ${misc.borderRadius};
-  padding: ${spacing.small};
+  background-color: ${colors.brand.greyLightest};
+  margin: ${spacing.small};
   p {
     margin: 0px;
+  }
+  &:focus-within {
+    border-color: ${colors.brand.primary};
+    border-width: 2px;
   }
 `;
 

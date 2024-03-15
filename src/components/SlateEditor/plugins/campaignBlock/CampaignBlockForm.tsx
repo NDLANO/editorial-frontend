@@ -6,23 +6,26 @@
  *
  */
 
-import { Field, FieldProps, Formik } from "formik";
+import { Form, Formik } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { css } from "@emotion/react";
+import { Descendant, Node } from "slate";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { CheckboxItem, InputV2, TextAreaV2, Label, RadioButtonItem, RadioButtonGroup } from "@ndla/forms";
+import { CheckboxItem, Label, RadioButtonItem, RadioButtonGroup, FieldErrorMessage, InputV3 } from "@ndla/forms";
 import { CampaignBlockEmbedData } from "@ndla/types-embed";
-import { HeadingLevel } from "@ndla/typography";
+import { HeadingLevel, Text } from "@ndla/typography";
 import { TYPE_CAMPAIGN_BLOCK } from "./types";
 import InlineImageSearch from "../../../../containers/ConceptPage/components/InlineImageSearch";
-import { frontpageLanguages } from "../../../../i18n2";
+import { InlineField } from "../../../../containers/FormikForm/InlineField";
+import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
+import parseMarkdown from "../../../../util/parseMarkdown";
+import { FormRemainingCharacters } from "../../../Form/FormRemainingCharacters";
 import { CheckboxWrapper, RadioButtonWrapper, FieldsetRow, StyledFormControl, LeftLegend } from "../../../Form/styles";
 import { FormControl, FormField } from "../../../FormField";
-import FormikField from "../../../FormikField";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
+import { RichTextIndicator } from "../../RichTextIndicator";
 
 interface Props {
   initialData?: CampaignBlockEmbedData;
@@ -32,13 +35,11 @@ interface Props {
 
 export interface CampaignBlockFormValues {
   resource: "campaign-block";
-  title: string;
-  titleLanguage: string;
-  description: string;
-  descriptionLanguage: string;
+  title: Descendant[];
+  description: Descendant[];
   headingLevel: HeadingLevel;
   link?: string;
-  linkText?: string;
+  linkText?: Descendant[];
   metaImageId?: string;
   imageSide?: CampaignBlockEmbedData["imageSide"];
   metaImageAlt?: string;
@@ -49,15 +50,9 @@ const rules: RulesType<CampaignBlockFormValues> = {
   title: {
     required: true,
   },
-  titleLanguage: {
-    required: true,
-  },
   description: {
     required: true,
     maxLength: 250,
-  },
-  descriptionLanguage: {
-    required: true,
   },
   headingLevel: {
     required: true,
@@ -77,44 +72,23 @@ const rules: RulesType<CampaignBlockFormValues> = {
   },
 };
 
-const toInitialValues = (lang: string, initialData?: CampaignBlockEmbedData): CampaignBlockFormValues => {
+const toInitialValues = (initialData?: CampaignBlockEmbedData): CampaignBlockFormValues => {
   return {
     resource: TYPE_CAMPAIGN_BLOCK,
-    title: initialData?.title ?? "",
-    titleLanguage: initialData?.titleLanguage ?? lang,
-    description: initialData?.description ?? "",
-    descriptionLanguage: initialData?.descriptionLanguage ?? lang,
+    title: inlineContentToEditorValue(parseMarkdown({ markdown: initialData?.title ?? "", inline: true }), true),
+    description: inlineContentToEditorValue(
+      parseMarkdown({ markdown: initialData?.description ?? "", inline: true }),
+      true,
+    ),
     metaImageId: initialData?.imageId,
     imageSide: initialData?.imageSide ?? "left",
     headingLevel: initialData?.headingLevel ?? "h2",
     link: initialData?.url,
-    linkText: initialData?.urlText,
+    linkText: inlineContentToEditorValue(parseMarkdown({ markdown: initialData?.urlText ?? "", inline: true }), true),
     metaImageAlt: initialData?.alt ?? "",
     isDecorative: initialData ? initialData.alt === undefined : false,
   };
 };
-
-const inputStyle = css`
-  display: flex;
-  flex-direction: column;
-  & > label {
-    white-space: nowrap;
-  }
-`;
-
-const StyledFormikField = styled(FormikField)`
-  margin: 0px;
-`;
-
-const StyledUrlFormikField = styled(FormikField)`
-  margin: 0px;
-  flex: 1;
-`;
-
-const StyledSelect = styled.select`
-  background-color: transparent;
-  border: none;
-`;
 
 const ButtonContainer = styled.div`
   margin-top: ${spacing.small};
@@ -126,13 +100,22 @@ const ButtonContainer = styled.div`
 const UrlWrapper = styled.div`
   display: flex;
   gap: ${spacing.small};
+  > * {
+    flex: 1;
+  }
+`;
+
+const StyledForm = styled(Form)`
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.small};
 `;
 
 const placements: CampaignBlockEmbedData["imageSide"][] = ["left", "right"];
 
 const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
-  const { t, i18n } = useTranslation();
-  const initialValues = useMemo(() => toInitialValues(i18n.language, initialData), [initialData, i18n.language]);
+  const { t } = useTranslation();
+  const initialValues = useMemo(() => toInitialValues(initialData), [initialData]);
   const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
 
   const onSubmit = useCallback(
@@ -140,13 +123,11 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
       onSave({
         resource: TYPE_CAMPAIGN_BLOCK,
         headingLevel: values.headingLevel,
-        title: values.title,
-        titleLanguage: values.titleLanguage,
-        description: values.description,
-        descriptionLanguage: values.descriptionLanguage,
+        title: inlineContentToHTML(values.title),
+        description: inlineContentToHTML(values.description),
         imageSide: values.imageSide,
         url: values.link,
-        urlText: values.linkText,
+        urlText: inlineContentToHTML(values.linkText),
         imageId: values.metaImageId,
         alt: values.isDecorative ? undefined : values.metaImageAlt,
       });
@@ -173,72 +154,85 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
       validateOnMount
       validate={onValidate}
     >
-      {({ dirty, isValid, handleSubmit }) => (
-        <>
-          <StyledFormikField name="title" showError>
-            {({ field }: FieldProps) => (
-              <InputV2
-                customCss={inputStyle}
-                label={t("form.name.title")}
-                {...field}
-                after={
-                  <StyledFormikField name="titleLanguage">
-                    {({ field }: FieldProps) => (
-                      <StyledSelect {...field} title={t("blogPostForm.languageExplanation")}>
-                        {frontpageLanguages.map((lang) => (
-                          <option value={lang} key={lang}>
-                            {t(`languages.${lang}`)}
-                          </option>
-                        ))}
-                      </StyledSelect>
-                    )}
-                  </StyledFormikField>
-                }
-              />
-            )}
-          </StyledFormikField>
-          <StyledFormikField name="description" showError maxLength={250} showMaxLength>
-            {({ field }: FieldProps) => (
-              <TextAreaV2
-                customCss={inputStyle}
-                label={t("form.name.description")}
-                {...field}
-                after={
-                  <StyledFormikField name="descriptionLanguage">
-                    {({ field }: FieldProps) => (
-                      <StyledSelect {...field} title={t("blogPostForm.languageExplanation")}>
-                        {frontpageLanguages.map((lang) => (
-                          <option value={lang} key={lang}>
-                            {t(`languages.${lang}`)}
-                          </option>
-                        ))}
-                      </StyledSelect>
-                    )}
-                  </StyledFormikField>
-                }
-              />
-            )}
-          </StyledFormikField>
+      {({ dirty, isValid, isSubmitting, values }) => (
+        <StyledForm>
+          <div>
+            <Text textStyle="label-small" margin="none">
+              {t("form.name.title")}
+              <RichTextIndicator />
+            </Text>
+            <FormField name="title">
+              {({ field, helpers, meta }) => (
+                <FormControl isInvalid={!!meta.error}>
+                  <InlineField
+                    {...field}
+                    placeholder={t("form.name.title")}
+                    submitted={isSubmitting}
+                    onChange={helpers.setValue}
+                  />
+                  <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                </FormControl>
+              )}
+            </FormField>
+          </div>
+          <div>
+            <Text textStyle="label-small" margin="none">
+              {t("form.name.description")}
+              <RichTextIndicator />
+            </Text>
+            <FormField name="description">
+              {({ field, helpers, meta }) => (
+                <FormControl isInvalid={!!meta.error}>
+                  <InlineField
+                    {...field}
+                    maxLength={250}
+                    placeholder={t("form.name.description")}
+                    submitted={isSubmitting}
+                    onChange={helpers.setValue}
+                  />
+                  <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                  <FormRemainingCharacters value={Node.string(field.value[0]).length} maxLength={250} />
+                </FormControl>
+              )}
+            </FormField>
+          </div>
           <UrlWrapper>
-            <StyledUrlFormikField name="link" showError>
-              {({ field }: FieldProps) => <InputV2 customCss={inputStyle} label={t("form.name.link")} {...field} />}
-            </StyledUrlFormikField>
-            <StyledUrlFormikField name="linkText" showError>
-              {({ field }: FieldProps) => <InputV2 customCss={inputStyle} label={t("form.name.linkText")} {...field} />}
-            </StyledUrlFormikField>
+            <FormField name="link">
+              {({ field, meta }) => (
+                <FormControl isInvalid={!!meta.error}>
+                  <Label margin="none" textStyle="label-small">
+                    {t("form.name.link")}
+                  </Label>
+                  <InputV3 {...field} placeholder={t("form.name.link")} />
+                  <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                </FormControl>
+              )}
+            </FormField>
+            <div>
+              <Text textStyle="label-small" margin="none">
+                {t("form.name.linkText")}
+                <RichTextIndicator />
+              </Text>
+              <FormField name="linkText">
+                {({ field, helpers, meta }) => (
+                  <FormControl isInvalid={!!meta.error}>
+                    <InlineField
+                      {...field}
+                      placeholder={t("form.name.linkText")}
+                      submitted={isSubmitting}
+                      onChange={helpers.setValue}
+                    />
+                    <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                  </FormControl>
+                )}
+              </FormField>
+            </div>
           </UrlWrapper>
           <FormField name="imageSide">
-            {({ field }) => (
+            {({ field, helpers }) => (
               <StyledFormControl>
                 <RadioButtonGroup
-                  onValueChange={(value: string) =>
-                    field.onChange({
-                      target: {
-                        name: field.name,
-                        value: value,
-                      },
-                    })
-                  }
+                  onValueChange={(value: string) => helpers.setValue(value)}
                   orientation="horizontal"
                   defaultValue={field.value}
                   asChild
@@ -261,47 +255,43 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
             )}
           </FormField>
           <InlineImageSearch name="metaImageId" disableAltEditing hideAltText />
-          <StyledFormikField name="metaImageAlt">
-            {({ field, form }: FieldProps) => (
-              <>
-                {!form.values.isDecorative && form.values.metaImageId && (
-                  <InputV2 customCss={inputStyle} label={t("form.name.metaImageAlt")} {...field} />
-                )}
-              </>
-            )}
-          </StyledFormikField>
-          <Field name="isDecorative">
-            {({ field, form }: FieldProps) => (
-              <>
-                {form.values.metaImageId && (
-                  <FormControl>
-                    <CheckboxWrapper>
-                      <CheckboxItem
-                        checked={field.value}
-                        onCheckedChange={() =>
-                          field.onChange({
-                            target: { name: field.name, value: !field.value },
-                          })
-                        }
-                      />
-                      <Label margin="none" textStyle="label-small">
-                        {t("form.image.isDecorative")}
-                      </Label>
-                    </CheckboxWrapper>
-                  </FormControl>
-                )}
-              </>
-            )}
-          </Field>
+          {!values.isDecorative && !!values.metaImageId && (
+            <FormField name="metaImageAlt">
+              {({ field, meta }) => (
+                <FormControl isInvalid={!!meta.error}>
+                  <Label margin="none" textStyle="label-small">
+                    {t("form.name.metaImageAlt")}
+                  </Label>
+                  <InputV3 {...field} />
+                  <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                </FormControl>
+              )}
+            </FormField>
+          )}
+          {!!values.metaImageId && (
+            <FormField name="isDecorative">
+              {({ field, meta, helpers }) => (
+                <FormControl isInvalid={!!meta.error}>
+                  <CheckboxWrapper>
+                    <CheckboxItem checked={field.value} onCheckedChange={helpers.setValue} />
+                    <Label margin="none" textStyle="label-small">
+                      {t("form.image.isDecorative")}
+                    </Label>
+                  </CheckboxWrapper>
+                  <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                </FormControl>
+              )}
+            </FormField>
+          )}
           <ButtonContainer>
             <ButtonV2 variant="outline" onClick={onCancel}>
               {t("cancel")}
             </ButtonV2>
-            <ButtonV2 variant="solid" disabled={!dirty || !isValid} type="submit" onClick={() => handleSubmit()}>
+            <ButtonV2 variant="solid" disabled={!dirty || !isValid} type="submit">
               {t("save")}
             </ButtonV2>
           </ButtonContainer>
-        </>
+        </StyledForm>
       )}
     </Formik>
   );

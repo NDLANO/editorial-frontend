@@ -88,7 +88,7 @@ const ArticleStatusContent = ({
     {
       "page-size": 0,
       "aggregate-paths": "draftStatus.current",
-      subjects: filteredSubjectIds?.join(", "),
+      subjects: filteredSubjectIds?.join(","),
       "filter-inactive": true,
       ...(hideOnHold ? { priority: "prioritized,unspecified" } : {}),
     },
@@ -102,7 +102,7 @@ const ArticleStatusContent = ({
       "responsible-ids": ndlaId,
       "page-size": 0,
       "aggregate-paths": "draftStatus.current",
-      subjects: filteredSubjectIds?.join(", "),
+      subjects: filteredSubjectIds?.join(","),
       "filter-inactive": true,
     },
     {

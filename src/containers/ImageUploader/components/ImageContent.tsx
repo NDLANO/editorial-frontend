@@ -79,9 +79,9 @@ const ImageContent = () => {
           </IconButtonV2>
         </StyledDeleteButtonContainer>
       )}
-      {values.imageFile && typeof values.imageFile === "string" && (
+      {values.imageFile && (
         <>
-          <SafeLink target="_blank" to={values.imageFile}>
+          <SafeLink target="_blank" to={values.imageFile.toString()}>
             <StyledImage src={imgSrc} alt="" />
           </SafeLink>
           <ImageMeta

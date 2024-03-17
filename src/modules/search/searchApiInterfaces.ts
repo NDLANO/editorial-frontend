@@ -49,4 +49,6 @@ export interface MultiSearchApiQuery {
   "draft-status"?: string;
   "include-other-statuses"?: boolean;
   "filter-inactive"?: boolean;
+  "published-date-to"?: string;
+  "published-date-from"?: string;
 }

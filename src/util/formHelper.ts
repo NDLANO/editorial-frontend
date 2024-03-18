@@ -68,9 +68,17 @@ export const isFormikFormDirty = <T extends FormikFields>({
     return changed;
   }
 
-  const htmlField = ["content", "title", "introduction", "conceptContent", "caption"];
   // Checking specific slate object fields if they really have changed
-  const slateFields = [...htmlField, "description", "metaDescription", "manuscript"];
+  const slateFields = [
+    "content",
+    "title",
+    "introduction",
+    "description",
+    "metaDescription",
+    "manuscript",
+    "conceptContent",
+    "caption",
+  ];
   // and skipping fields that only changes on the server
   const skipFields = ["revision", "updated", "updatePublished", "id"];
   const dirtyFields = [];
@@ -78,7 +86,7 @@ export const isFormikFormDirty = <T extends FormikFields>({
     .filter(([key]) => !skipFields.includes(key))
     .forEach(([key, value]) => {
       if (slateFields.includes(key)) {
-        if (htmlField.includes(key)) {
+        if (Array.isArray(value) && value.length > 0 && Node.isNodeList(value)) {
           if (checkIfContentHasChanged(values[key]!, initialValues[key]!, initialValues.articleType!)) {
             dirtyFields.push(value);
           }

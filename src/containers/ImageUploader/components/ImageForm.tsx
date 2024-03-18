@@ -49,6 +49,11 @@ const imageRules: RulesType<ImageFormikType, IImageMetaInformationV3> = {
       languageMatch: true,
     },
   },
+  caption: {
+    warnings: {
+      languageMatch: true,
+    },
+  },
   alttext: {
     required: true,
     warnings: {

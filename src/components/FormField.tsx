@@ -53,3 +53,7 @@ export const FormRemainingCharacters = ({ value, maxLength, children, ...rest }:
     </div>
   );
 };
+
+export const FieldWarning = styled(FieldHelper)`
+  color: #8c8c00;
+`;

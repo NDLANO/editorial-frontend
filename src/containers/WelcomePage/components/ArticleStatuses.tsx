@@ -6,7 +6,7 @@
  *
  */
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { Tabs } from "@ndla/tabs";
@@ -26,9 +26,9 @@ import {
   STORED_ON_HOLD_LMA_SUBJECT,
   STORED_ON_HOLD_SA_SUBJECT,
 } from "../../../constants";
-import { usePostSearchNodesMutation } from "../../../modules/nodes/nodeMutations";
+import { usePostSearchNodes } from "../../../modules/nodes/nodeQueries";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
-import { SubjectIdObject, customFieldsBody, defaultSubjectIdObject, getResultSubjectIdObject } from "../utils";
+import { customFieldsBody, defaultSubjectIdObject, getResultSubjectIdObject } from "../utils";
 
 const StyledWrapper = styled.div`
   margin-top: ${GRID_GAP};
@@ -41,26 +41,17 @@ interface Props {
 }
 
 const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataLoading }: Props) => {
-  const [subjectIdObject, setSubjectIdObject] = useState<SubjectIdObject>(defaultSubjectIdObject);
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
-  const { mutateAsync: postSearchNodes, isPending } = usePostSearchNodesMutation();
 
-  useEffect(() => {
-    const updateSubjectIds = async () => {
-      const nodesSearchResult = await postSearchNodes({
-        body: customFieldsBody(ndlaId),
-        taxonomyVersion,
-      });
-      const resultSubjectIdObject = getResultSubjectIdObject(ndlaId, nodesSearchResult.results);
-
-      setSubjectIdObject(resultSubjectIdObject);
-    };
-    updateSubjectIds();
-  }, [ndlaId, postSearchNodes, taxonomyVersion]);
+  const searchQuery = usePostSearchNodes({ ...customFieldsBody(ndlaId), taxonomyVersion });
+  const subjectIdObject = useMemo(() => {
+    if (!searchQuery.data) return defaultSubjectIdObject;
+    return getResultSubjectIdObject(ndlaId, searchQuery.data.results);
+  }, [ndlaId, searchQuery.data]);
 
   const tabs = useMemo(() => {
-    if (!isPending) {
+    if (!searchQuery.isLoading) {
       return [
         ...(subjectIdObject.subjectLMA.length
           ? [
@@ -141,7 +132,15 @@ const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataLoading }: Props) =
       ];
     }
     return [];
-  }, [isPending, subjectIdObject, t, ndlaId, favoriteSubjects]);
+  }, [
+    searchQuery.isLoading,
+    subjectIdObject.subjectLMA,
+    subjectIdObject.subjectDA,
+    subjectIdObject.subjectSA,
+    t,
+    ndlaId,
+    favoriteSubjects,
+  ]);
 
   return (
     <>

@@ -26,8 +26,6 @@ import {
   postNode,
   postNodeConnection,
   postResourceForNode,
-  postSearchNodes,
-  PostSearchNodes,
   publishNode,
   putNode,
   putNodeConnection,
@@ -39,7 +37,7 @@ import {
   PutResourcesPrimaryParams,
 } from "./nodeApi";
 import { nodeQueryKeys } from "./nodeQueries";
-import { SearchResultBase, WithTaxonomyVersion } from "../../interfaces";
+import { WithTaxonomyVersion } from "../../interfaces";
 import handleError from "../../util/handleError";
 import { createResourceResourceType, ResourceResourceTypePostParams } from "../taxonomy/resourcetypes";
 
@@ -311,17 +309,6 @@ export const usePutResourcesPrimaryMutation = (
 ) => {
   return useMutation<void, unknown, PutResourcesPrimaryParams>({
     mutationFn: (params) => putResourcesPrimary(params),
-    ...options,
-  });
-};
-
-type UsePostSearchNodesMutation = PostSearchNodes;
-
-export const usePostSearchNodesMutation = (
-  options?: Partial<UseMutationOptions<SearchResultBase<Node>, unknown, UsePostSearchNodesMutation>>,
-) => {
-  return useMutation<SearchResultBase<Node>, unknown, PostSearchNodes>({
-    mutationFn: ({ body, taxonomyVersion }) => postSearchNodes({ body, taxonomyVersion }),
     ...options,
   });
 };

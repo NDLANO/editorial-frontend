@@ -17,7 +17,7 @@ import { ImageSearch } from "@ndla/image-search";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import HowToHelper from "../../../components/HowTo/HowToHelper";
 import { LocaleType } from "../../../interfaces";
-import { fetchImage, searchImages, onError } from "../../../modules/image/imageApi";
+import { fetchImage, postSearchImages, onError } from "../../../modules/image/imageApi";
 import MetaImageField from "../../FormikForm/components/MetaImageField";
 import { ConceptFormValues } from "../conceptInterfaces";
 
@@ -38,7 +38,7 @@ const InlineImageSearch = ({ name, disableAltEditing, hideAltText }: Props) => {
   const locale: LocaleType = i18n.language;
   const fetchImageWithLocale = (id: number) => fetchImage(id, locale);
   const searchImagesWithParameters = (query?: string, page?: number) => {
-    return searchImages({ query, page, "page-size": 16 });
+    return postSearchImages({ query, page, pageSize: 16 });
   };
 
   useEffect(() => {

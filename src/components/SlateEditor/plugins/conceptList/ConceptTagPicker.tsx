@@ -63,10 +63,10 @@ const ConceptTagPicker = ({ element, onClose, language, onSave: onSaveProp }: Pr
 
   const conceptSearchQuery = useSearchConcepts(
     {
-      subjects: selectedSubject?.id,
-      tags: selectedTag?.id,
+      ...(selectedSubject?.id ? { subjects: [selectedSubject.id] } : {}),
+      ...(selectedTag?.id ? { tags: [selectedTag.id] } : {}),
       language,
-      "page-size": 200,
+      pageSize: 200,
     },
     { enabled: !!selectedTag?.id },
   );

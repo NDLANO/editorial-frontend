@@ -68,7 +68,7 @@ export const ThemeMovies = ({ movies, onMoviesUpdated, placeholder }: Props) => 
         selectedElements={apiMovies}
         onChange={(movie: IMultiSearchSummary) => onAddMovieToTheme(movie)}
         subjectId={NDLA_FILM_SUBJECT}
-        contextTypes={"standard"}
+        contextTypes={["standard"]}
         placeholder={placeholder}
         clearInputField
       />

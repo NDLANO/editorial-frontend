@@ -17,7 +17,7 @@ interface Props {
   onChange: Function;
   placeholder: string;
   subjectId?: string;
-  contextTypes?: string;
+  contextTypes?: string[];
   clearInputField?: boolean;
   onClick?: (event: Event) => void;
 }
@@ -36,10 +36,10 @@ const DropdownSearch = ({
       page: 1,
       subjects: subjectId,
       sort: "-relevance",
-      "page-size": 10,
+      pageSize: 10,
       query: input,
-      "context-types": contextTypes,
-      "resoure-types":
+      contextTypes: contextTypes,
+      resoureTypes:
         "urn:resourcetype:documentary,urn:resourcetype:featureFilm,urn:resourcetype:series,urn:resourcetype:shortFilm",
     };
     const response = await searchResources(query);

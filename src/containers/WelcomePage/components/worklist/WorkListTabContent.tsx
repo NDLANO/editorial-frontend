@@ -57,7 +57,7 @@ interface Props {
   setSortOption: (o: Prefix<"-", SortOptionWorkList>) => void;
   sortOption: string;
   error: string | undefined;
-  ndlaId: string | undefined;
+  ndlaId: string;
   setPage: (page: number) => void;
   pageSize: SingleValue;
   setPageSize: (p: SingleValue) => void;
@@ -90,10 +90,10 @@ const WorkListTabContent = ({
   // Separated request to not update subjects when filtered subject changes
   const searchQuery = useSearch(
     {
-      "responsible-ids": ndlaId,
-      "page-size": 0,
+      responsibleIds: [ndlaId],
+      pageSize: 0,
       fallback: true,
-      "aggregate-paths": "contexts.rootId",
+      aggregatePaths: ["contexts.rootId"],
       language: i18n.language,
     },
     { enabled: !!ndlaId },

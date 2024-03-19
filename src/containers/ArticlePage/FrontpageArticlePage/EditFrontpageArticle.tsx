@@ -25,12 +25,20 @@ const translateFields: TranslateType[] = [
     type: "text",
   },
   {
+    field: "title.htmlTitle",
+    type: "html",
+  },
+  {
     field: "metaDescription.metaDescription",
     type: "text",
   },
   {
     field: "introduction.introduction",
     type: "text",
+  },
+  {
+    field: "introduction.htmlIntroduction",
+    type: "html",
   },
   {
     field: "content.content",

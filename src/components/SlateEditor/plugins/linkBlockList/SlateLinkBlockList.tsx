@@ -189,7 +189,7 @@ const SlateLinkBlock = ({ link, onSave, onDelete, allEmbeds, index }: SlateLinkB
 
   return (
     <LinkBlockWrapper>
-      <LinkBlock title={link.title} url={link.url} language={link.language} date={link.date} />
+      <LinkBlock title={link.title} url={link.url} date={link.date} />
       <Modal open={open} onOpenChange={setOpen}>
         <ModalTrigger>
           <IconButtonV2 aria-label={t("linkBlock.edit")} title={t("linkBlock.edit")}>

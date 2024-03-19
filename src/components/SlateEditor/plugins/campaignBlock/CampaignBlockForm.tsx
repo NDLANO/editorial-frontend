@@ -127,7 +127,7 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
         description: inlineContentToHTML(values.description),
         imageSide: values.imageSide,
         url: values.link,
-        urlText: inlineContentToHTML(values.linkText),
+        urlText: inlineContentToHTML(values.linkText ?? []),
         imageId: values.metaImageId,
         alt: values.isDecorative ? undefined : values.metaImageAlt,
       });

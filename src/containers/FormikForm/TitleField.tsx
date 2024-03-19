@@ -6,12 +6,13 @@
  *
  */
 
+import { useFormikContext } from "formik";
 import { KeyboardEvent, memo, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { fonts } from "@ndla/core";
 import { FieldErrorMessage, Label } from "@ndla/forms";
-import { FormControl, FormField } from "../../components/FormField";
+import { FieldWarning, FormControl, FormField } from "../../components/FormField";
 
 import { SlatePlugin } from "../../components/SlateEditor/interfaces";
 import { markPlugin } from "../../components/SlateEditor/plugins/mark";
@@ -78,6 +79,7 @@ const toolbarOptions = createToolbarDefaultValues({
 const toolbarAreaFilters = createToolbarAreaOptions();
 
 const TitleField = ({ maxLength = 256, name = "title", hideToolbar }: Props) => {
+  const { status } = useFormikContext();
   const { t } = useTranslation();
   const plugins = useMemo(() => {
     if (hideToolbar) return basePlugins;
@@ -112,6 +114,7 @@ const TitleField = ({ maxLength = 256, name = "title", hideToolbar }: Props) => 
             maxLength={maxLength}
             hideToolbar={hideToolbar}
           />
+          {status.warnings?.[name] && <FieldWarning>{status.warnings[name]}</FieldWarning>}
           <FieldErrorMessage>{meta.error}</FieldErrorMessage>
         </StyledFormControl>
       )}

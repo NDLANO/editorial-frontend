@@ -114,7 +114,7 @@ const TitleField = ({ maxLength = 256, name = "title", hideToolbar }: Props) => 
             maxLength={maxLength}
             hideToolbar={hideToolbar}
           />
-          {status.warnings?.[name] && <FieldWarning>{status.warnings[name]}</FieldWarning>}
+          {status?.warnings?.[name] && <FieldWarning>{status.warnings[name]}</FieldWarning>}
           <FieldErrorMessage>{meta.error}</FieldErrorMessage>
         </StyledFormControl>
       )}

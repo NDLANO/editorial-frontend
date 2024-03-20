@@ -21,6 +21,7 @@ import InlineDatePicker from "../../../../containers/FormikForm/components/Inlin
 import { InlineField } from "../../../../containers/FormikForm/InlineField";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
 import { formatDateForBackend } from "../../../../util/formatDate";
+import { isFormikFormDirty } from "../../../../util/formHelper";
 import parseMarkdown from "../../../../util/parseMarkdown";
 import { FormControl, FormField } from "../../../FormField";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
@@ -124,7 +125,7 @@ const LinkBlockForm = ({ embed, existingEmbeds, onSave }: Props) => {
           onSubmit={onFormSaved}
           validate={validate}
         >
-          {({ dirty, isValid, isSubmitting }) => {
+          {({ dirty, isValid, isSubmitting, values }) => {
             return (
               <StyledForm>
                 <Text textStyle="label-small" margin="none">
@@ -173,7 +174,11 @@ const LinkBlockForm = ({ embed, existingEmbeds, onSave }: Props) => {
                   <ModalCloseButton>
                     <ButtonV2 variant="outline">{t("cancel")}</ButtonV2>
                   </ModalCloseButton>
-                  <ButtonV2 variant="solid" disabled={!dirty || !isValid} type="submit">
+                  <ButtonV2
+                    variant="solid"
+                    disabled={!isFormikFormDirty({ values, initialValues, dirty }) || !isValid}
+                    type="submit"
+                  >
                     {t("save")}
                   </ButtonV2>
                 </ButtonContainer>

@@ -20,6 +20,7 @@ import { TYPE_KEY_FIGURE } from "./types";
 import InlineImageSearch from "../../../../containers/ConceptPage/components/InlineImageSearch";
 import { InlineField } from "../../../../containers/FormikForm/InlineField";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
+import { isFormikFormDirty } from "../../../../util/formHelper";
 import parseMarkdown from "../../../../util/parseMarkdown";
 import { CheckboxWrapper } from "../../../Form/styles";
 import { FormControl, FormField } from "../../../FormField";
@@ -178,7 +179,11 @@ const KeyFigureForm = ({ onSave, initialData, onCancel }: Props) => {
             <ButtonV2 variant="outline" onClick={onCancel}>
               {t("cancel")}
             </ButtonV2>
-            <ButtonV2 variant="solid" disabled={!dirty || !isValid} type="submit">
+            <ButtonV2
+              variant="solid"
+              disabled={!isFormikFormDirty({ values, initialValues, dirty }) || !isValid}
+              type="submit"
+            >
               {t("save")}
             </ButtonV2>
           </ButtonContainer>

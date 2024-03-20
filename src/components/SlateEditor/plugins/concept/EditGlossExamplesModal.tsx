@@ -35,8 +35,8 @@ const EditGlossExamplesModal = ({ concept, editor, element, embed }: Props) => {
   const locale = useArticleLanguage();
   const isNewArticleLanguage = useIsNewArticleLanguage();
 
-  // When new language version of article is created, we want to automatically update gloss language based on article language:
-  // if article langauge is "nb", update to "nb" and vice versa
+  // When new language version of article is created, we want to automatically update gloss language when article language is "nb" or "nn"
+  // We only update gloss language automatically once, to not overwrite changes made in the gloss examples update modal
   const embedDataLangsShouldAutoUpdate = useRef((locale === "nb" || locale === "nn") && isNewArticleLanguage);
 
   useEffect(() => {
@@ -47,11 +47,8 @@ const EditGlossExamplesModal = ({ concept, editor, element, embed }: Props) => {
         editor,
         {
           data: {
-            ...element.data,
-            ...{
-              ...embed.embedData,
-              ...getGlossDataAttributes(concept.glossData, locale, ["exampleIds"]),
-            },
+            ...embed.embedData,
+            ...getGlossDataAttributes(concept.glossData, locale, ["exampleIds"]),
           },
         },
         { at: ReactEditor.findPath(editor, element) },

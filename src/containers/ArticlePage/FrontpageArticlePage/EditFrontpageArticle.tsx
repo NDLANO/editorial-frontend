@@ -12,6 +12,7 @@ import { Navigate, useParams } from "react-router-dom";
 import { HelmetWithTracker } from "@ndla/tracker";
 import FrontpageArticleForm from "./components/FrontpageArticleForm";
 import { TranslateType, useTranslateToNN } from "../../../components/NynorskTranslateProvider";
+import { isNewArticleLanguage } from "../../../components/SlateEditor/IsNewArticleLanguageProvider";
 import Spinner from "../../../components/Spinner";
 import { useWideArticle, articleIsWide } from "../../../components/WideArticleEditorProvider";
 import { LocaleType } from "../../../interfaces";
@@ -91,7 +92,7 @@ const EditFrontpageArticle = ({ isNewlyCreated }: Props) => {
     const replaceUrl = toEditArticle(article.id, article.articleType, selectedLanguage);
     return <Navigate replace to={replaceUrl} />;
   }
-  const newLanguage = !article.supportedLanguages.includes(selectedLanguage);
+  const newLanguage = isNewArticleLanguage(selectedLanguage, article);
 
   return (
     <>

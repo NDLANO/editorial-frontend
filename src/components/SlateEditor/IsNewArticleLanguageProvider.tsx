@@ -11,13 +11,15 @@ import { IArticle } from "@ndla/types-backend/draft-api";
 const IsNewArticleLanguageContext = createContext<boolean>(false);
 
 interface Props {
-  value: boolean;
+  locale: string;
+  article?: IArticle;
   children?: ReactNode;
 }
 
-export const IsNewArticleLanguageProvider = ({ value, children }: Props) => (
-  <IsNewArticleLanguageContext.Provider value={value}>{children}</IsNewArticleLanguageContext.Provider>
-);
+export const IsNewArticleLanguageProvider = ({ locale, article, children }: Props) => {
+  const value = isNewArticleLanguage(locale, article);
+  return <IsNewArticleLanguageContext.Provider value={value}>{children}</IsNewArticleLanguageContext.Provider>;
+};
 
 export const useIsNewArticleLanguage = () => {
   const context = useContext(IsNewArticleLanguageContext);
@@ -25,5 +27,5 @@ export const useIsNewArticleLanguage = () => {
 };
 
 export const isNewArticleLanguage = (locale: string, article?: IArticle) => {
-  return locale !== article?.content?.language;
+  return !article?.supportedLanguages.includes(locale);
 };

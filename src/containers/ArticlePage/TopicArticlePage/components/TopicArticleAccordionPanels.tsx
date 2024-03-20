@@ -14,10 +14,6 @@ import TopicArticleContent from "./TopicArticleContent";
 import TopicArticleTaxonomy from "./TopicArticleTaxonomy";
 import FormAccordion from "../../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../../components/Accordion/FormAccordions";
-import {
-  IsNewArticleLanguageProvider,
-  isNewArticleLanguage,
-} from "../../../../components/SlateEditor/IsNewArticleLanguageProvider";
 import config from "../../../../config";
 import { TAXONOMY_WRITE_SCOPE } from "../../../../constants";
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from "../../../FormikForm";
@@ -69,9 +65,7 @@ const TopicArticleAccordionPanels = ({
         className="u-10/12 u-push-1/12"
         hasError={!!(errors.title || errors.introduction || errors.content || errors.visualElement)}
       >
-        <IsNewArticleLanguageProvider isNewArticleLanguage={isNewArticleLanguage(articleLanguage, article)}>
-          <TopicArticleContent values={values} />
-        </IsNewArticleLanguageProvider>
+        <TopicArticleContent values={values} />
       </FormAccordion>
       {article && !!userPermissions?.includes(TAXONOMY_WRITE_SCOPE) && (
         <FormAccordion

@@ -24,20 +24,21 @@ export const getGlossDataAttributes = (
   locale: string,
   excludeKeys: (keyof GlossDataAttributes)[] = [],
 ): GlossDataAttributes => {
+  const exampleIds = generateNumbersArray(glossData.examples.length).join(",");
   // If the locale is "nb" and the language is "nn" or vice versa, the language should be filtered out
+  const exampleLangs = generateUniqueGlossLanguageArray(glossData.examples)
+    .filter((lang) => {
+      if (locale === "nb") return lang !== "nn";
+      if (locale === "nn") return lang !== "nb";
+      return true;
+    })
+    .join(",");
+
   return {
-    ...(!excludeKeys.includes("exampleIds")
-      ? { exampleIds: generateNumbersArray(glossData.examples.length).join(",") }
-      : {}),
+    ...(!excludeKeys.includes("exampleIds") ? { exampleIds: exampleIds } : {}),
     ...(!excludeKeys.includes("exampleLangs")
       ? {
-          exampleLangs: generateUniqueGlossLanguageArray(glossData.examples)
-            .filter((lang) => {
-              if (locale === "nb") return lang !== "nn";
-              if (locale === "nn") return lang !== "nb";
-              return true;
-            })
-            .join(","),
+          exampleLangs: exampleLangs,
         }
       : {}),
   };

@@ -71,7 +71,11 @@ const LearningResourcePanels = ({
         className="u-10/12 u-push-1/12"
         hasError={!!(errors.title || errors.introduction || errors.content)}
       >
-        <IsNewArticleLanguageProvider isNewArticleLanguage={isNewArticleLanguage(articleLanguage, article)}>
+        <IsNewArticleLanguageProvider
+          value={
+            (articleLanguage === "nb" || articleLanguage === "nn") && isNewArticleLanguage(articleLanguage, article)
+          }
+        >
           <LearningResourceContent
             articleLanguage={articleLanguage}
             articleId={article?.id}

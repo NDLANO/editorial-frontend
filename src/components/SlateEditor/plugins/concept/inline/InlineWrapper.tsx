@@ -93,7 +93,7 @@ const InlineWrapper = (props: Props) => {
     if (!element.data || !concept) return undefined;
 
     // When new language version of article is created, we want to automatically update gloss language based on article language:
-    // if article langauge is "nb", update to "nn" and vice versa
+    // if article langauge is "nb", update to "nb" and vice versa
     const embedData =
       isNewArticleLanguage && concept.glossData && !languageIsUpdatedFromModal
         ? { ...element.data, ...getGlossDataAttributes(concept.glossData, locale, ["exampleIds"]) }

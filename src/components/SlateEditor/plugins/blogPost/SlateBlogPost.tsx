@@ -129,7 +129,7 @@ const SlateBlogPost = ({ element, editor, attributes, children }: Props) => {
               </StyledDeleteEmbedButton>
             </StyledFigureButtons>
             <BlogPostV2
-              title={{ title: data.title, language: data.language }}
+              title={data.title}
               author={data.author}
               size={data.size}
               url={data.url}

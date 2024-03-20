@@ -28,6 +28,7 @@ import { useFetchConceptData } from "../../../../../containers/FormikForm/formik
 import { useConceptVisualElement } from "../../../../../modules/embed/queries";
 import parseMarkdown from "../../../../../util/parseMarkdown";
 import { useArticleLanguage } from "../../../ArticleLanguageProvider";
+import { useIsNewArticleLanguage } from "../../../IsNewArticleLanguageProvider";
 import ConceptModalContent from "../ConceptModalContent";
 import EditGlossExamplesModal from "../EditGlossExamplesModal";
 import { getGlossDataAttributes } from "../utils";
@@ -59,7 +60,9 @@ const StyledWrapper = styled.div`
 const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
   const isSelected = useSelected();
   const locale = useArticleLanguage();
+  const isNewArticleLanguage = useIsNewArticleLanguage();
   const [isEditing, setIsEditing] = useState(element.isFirstEdit);
+  const [languageIsUpdatedFromModal, setLanguageIsUpdatedFromModal] = useState(false);
   const { concept, subjects, loading, ...conceptHooks } = useFetchConceptData(parseInt(element.data.contentId), locale);
 
   const visualElementQuery = useConceptVisualElement(concept?.id!, concept?.visualElement?.visualElement!, locale, {
@@ -68,6 +71,14 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
 
   const embed: ConceptMetaData | undefined = useMemo(() => {
     if (!element.data || !concept) return undefined;
+
+    // When new language version of article is created, we want to automatically update gloss language based on article language:
+    // if article langauge is "nb", update to "nn" and vice versa
+    const embedData =
+      isNewArticleLanguage && concept.glossData && !languageIsUpdatedFromModal
+        ? { ...element.data, ...getGlossDataAttributes(concept.glossData, locale, ["exampleIds"]) }
+        : element.data;
+
     return {
       status: !concept && !loading ? "error" : "success",
       data: {
@@ -82,10 +93,18 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
         },
         visualElement: visualElementQuery.data,
       },
-      embedData: element.data,
+      embedData: embedData,
       resource: "concept",
     };
-  }, [element.data, concept, loading, visualElementQuery.data]);
+  }, [
+    element.data,
+    concept,
+    isNewArticleLanguage,
+    locale,
+    languageIsUpdatedFromModal,
+    loading,
+    visualElementQuery.data,
+  ]);
 
   const addConcept = useCallback(
     (addedConcept: IConceptSummary | IConcept) => {
@@ -142,6 +161,7 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
               editor={editor}
               element={element}
               embed={embed}
+              setLanguageIsUpdatedFromModal={setLanguageIsUpdatedFromModal}
             />
             <ConceptEmbed embed={embed} lang={locale === "nb" ? "no" : locale} />
           </div>
@@ -171,6 +191,7 @@ interface ButtonContainerProps {
   editor: Editor;
   element: ConceptBlockElement;
   embed: ConceptMetaData;
+  setLanguageIsUpdatedFromModal: (v: boolean) => void;
 }
 
 const ButtonContainer = styled.div`
@@ -200,7 +221,15 @@ const IconWrapper = styled.div`
   }
 `;
 
-const ConceptButtonContainer = ({ concept, handleRemove, language, editor, element, embed }: ButtonContainerProps) => {
+const ConceptButtonContainer = ({
+  concept,
+  handleRemove,
+  language,
+  editor,
+  element,
+  embed,
+  setLanguageIsUpdatedFromModal,
+}: ButtonContainerProps) => {
   const { t } = useTranslation();
   const translatedCurrent = t(`form.status.${concept?.status.current?.toLowerCase()}`);
 
@@ -215,7 +244,13 @@ const ConceptButtonContainer = ({ concept, handleRemove, language, editor, eleme
       >
         <DeleteForever />
       </IconButtonV2>
-      <EditGlossExamplesModal concept={concept} editor={editor} element={element} embed={embed} />
+      <EditGlossExamplesModal
+        concept={concept}
+        editor={editor}
+        element={element}
+        embed={embed}
+        setLanguageIsUpdatedFromModal={setLanguageIsUpdatedFromModal}
+      />
       <SafeLinkIconButton
         arial-label={t(`form.${concept?.conceptType}.edit`)}
         title={t(`form.${concept?.conceptType}.edit`)}

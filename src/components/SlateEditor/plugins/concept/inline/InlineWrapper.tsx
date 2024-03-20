@@ -29,6 +29,7 @@ import { useFetchConceptData } from "../../../../../containers/FormikForm/formik
 import { useConceptVisualElement } from "../../../../../modules/embed/queries";
 import parseMarkdown from "../../../../../util/parseMarkdown";
 import { useArticleLanguage } from "../../../ArticleLanguageProvider";
+import { useIsNewArticleLanguage } from "../../../IsNewArticleLanguageProvider";
 import ConceptModalContent from "../ConceptModalContent";
 import EditGlossExamplesModal from "../EditGlossExamplesModal";
 import { getGlossDataAttributes } from "../utils";
@@ -88,7 +89,9 @@ const InlineWrapper = (props: Props) => {
   const { children, element, editor, attributes } = props;
   const nodeText = Node.string(element).trim();
   const [isEditing, setIsEditing] = useState(element.isFirstEdit);
+  const [languageIsUpdatedFromModal, setLanguageIsUpdatedFromModal] = useState(false);
   const locale = useArticleLanguage();
+  const isNewArticleLanguage = useIsNewArticleLanguage();
   const { concept, subjects, loading, fetchSearchTags, conceptArticles, createConcept, updateConcept } =
     useFetchConceptData(parseInt(element.data.contentId), locale);
 
@@ -100,13 +103,29 @@ const InlineWrapper = (props: Props) => {
     // This will be in an error state until the data is either fetched or fails, allowing
     // us to show normal text while loading. If the data is fetched, ConceptEmbed automatically updates.
     if (!element.data || !concept) return undefined;
+
+    // When new language version of article is created, we want to automatically update gloss language based on article language:
+    // if article langauge is "nb", update to "nn" and vice versa
+    const embedData =
+      isNewArticleLanguage && concept.glossData && !languageIsUpdatedFromModal
+        ? { ...element.data, ...getGlossDataAttributes(concept.glossData, locale, ["exampleIds"]) }
+        : element.data;
+
     return {
       status: !concept && !loading ? "error" : "success",
       data: { concept, visualElement: visualElementQuery.data },
-      embedData: element.data,
+      embedData: embedData,
       resource: "concept",
     };
-  }, [concept, element.data, loading, visualElementQuery.data]);
+  }, [
+    concept,
+    element.data,
+    isNewArticleLanguage,
+    languageIsUpdatedFromModal,
+    loading,
+    locale,
+    visualElementQuery.data,
+  ]);
 
   const parsedContent = useMemo(() => {
     if (embed?.status === "success" && !!embed.data.concept.content) {
@@ -216,7 +235,13 @@ const InlineWrapper = (props: Props) => {
                   <DeleteForever />
                 </IconButtonV2>
                 {concept && (
-                  <EditGlossExamplesModal concept={concept} editor={editor} element={element} embed={embed} />
+                  <EditGlossExamplesModal
+                    concept={concept}
+                    editor={editor}
+                    element={element}
+                    embed={embed}
+                    setLanguageIsUpdatedFromModal={setLanguageIsUpdatedFromModal}
+                  />
                 )}
                 <SafeLinkIconButton
                   to={`/${concept?.conceptType}/${concept?.id}/edit/${concept?.content?.language}`}

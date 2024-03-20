@@ -15,6 +15,10 @@ import LearningResourceContent from "./LearningResourceContent";
 import LearningResourceTaxonomy from "./LearningResourceTaxonomy";
 import FormAccordion from "../../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../../components/Accordion/FormAccordions";
+import {
+  IsNewArticleLanguageProvider,
+  isNewArticleLanguage,
+} from "../../../../components/SlateEditor/IsNewArticleLanguageProvider";
 import config from "../../../../config";
 import { PUBLISHED, TAXONOMY_WRITE_SCOPE } from "../../../../constants";
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from "../../../FormikForm";
@@ -67,11 +71,13 @@ const LearningResourcePanels = ({
         className="u-10/12 u-push-1/12"
         hasError={!!(errors.title || errors.introduction || errors.content)}
       >
-        <LearningResourceContent
-          articleLanguage={articleLanguage}
-          articleId={article?.id}
-          handleSubmit={handleSubmit}
-        />
+        <IsNewArticleLanguageProvider isNewArticleLanguage={isNewArticleLanguage(articleLanguage, article)}>
+          <LearningResourceContent
+            articleLanguage={articleLanguage}
+            articleId={article?.id}
+            handleSubmit={handleSubmit}
+          />
+        </IsNewArticleLanguageProvider>
       </FormAccordion>
       {!!article && !!taxonomy && !!userPermissions?.includes(TAXONOMY_WRITE_SCOPE) && (
         <FormAccordion

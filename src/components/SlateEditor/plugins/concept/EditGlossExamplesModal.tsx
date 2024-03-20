@@ -23,9 +23,10 @@ interface Props {
   editor: Editor;
   element: ConceptBlockElement | ConceptInlineElement;
   embed: ConceptMetaData;
+  setLanguageIsUpdatedFromModal: (v: boolean) => void;
 }
 
-const EditGlossExamplesModal = ({ concept, editor, element, embed }: Props) => {
+const EditGlossExamplesModal = ({ concept, editor, element, embed, setLanguageIsUpdatedFromModal }: Props) => {
   const { t } = useTranslation();
   const [modalOpen, setModalOpen] = useState(false);
   return (
@@ -50,6 +51,7 @@ const EditGlossExamplesModal = ({ concept, editor, element, embed }: Props) => {
           element={element}
           embed={embed}
           close={() => setModalOpen(false)}
+          setLanguageIsUpdatedFromModal={setLanguageIsUpdatedFromModal}
         />
       </ModalContent>
     </Modal>

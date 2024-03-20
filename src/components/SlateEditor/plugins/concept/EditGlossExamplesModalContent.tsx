@@ -63,7 +63,6 @@ interface Props {
   element: ConceptBlockElement | ConceptInlineElement;
   embed: ConceptMetaData;
   close: () => void;
-  setLanguageIsUpdatedFromModal: (v: boolean) => void;
 }
 
 const onCheckboxChange = (value: string, updateFunction: (val: string[]) => void, selectedElements: string[]): void => {
@@ -80,15 +79,7 @@ const getInitialStateSelectedExamples = (exampleIds: string | undefined, example
   else return [];
 };
 
-const EditGlossExamplesModalContent = ({
-  originalLanguage,
-  examples,
-  editor,
-  element,
-  embed,
-  close,
-  setLanguageIsUpdatedFromModal,
-}: Props) => {
+const EditGlossExamplesModalContent = ({ originalLanguage, examples, editor, element, embed, close }: Props) => {
   const { t } = useTranslation();
   const languages = generateUniqueGlossLanguageArray(examples);
   const [selectedExamples, setSelectedExamples] = useState<string[]>(
@@ -99,7 +90,6 @@ const EditGlossExamplesModalContent = ({
   );
 
   const saveGlossUpdates = () => {
-    setLanguageIsUpdatedFromModal(true);
     Transforms.setNodes(
       editor,
       {

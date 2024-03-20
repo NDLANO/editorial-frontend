@@ -97,18 +97,22 @@ const Link = ({ attributes, editor, element, children }: Props) => {
     };
   };
 
+  const focusEditor = useCallback(() => {
+    if (editorSelection) {
+      ReactEditor.focus(editor);
+      setTimeout(() => Transforms.select(editor, editorSelection), 0);
+    }
+  }, [editor, editorSelection]);
+
   const toggleEditMode = useCallback(
     (open: boolean) => {
-      if (!open && editorSelection) {
-        ReactEditor.focus(editor);
-        setTimeout(() => Transforms.select(editor, editorSelection), 0);
+      if (!open) {
+        focusEditor();
       }
       setEditMode(open);
     },
-    [editor, editorSelection],
+    [focusEditor],
   );
-
-  const closeModal = useCallback(() => toggleEditMode(false), [toggleEditMode]);
 
   useEffect(() => {
     const setStateFromNode = async () => {
@@ -162,18 +166,15 @@ const Link = ({ attributes, editor, element, children }: Props) => {
         )}
       </StyledLink>
       <ModalContent
-        onEscapeKeyDown={(e) => {
-          e.stopPropagation();
-        }}
+        onEscapeKeyDown={(e) => e.stopPropagation()}
         onCloseAutoFocus={(e) => {
           e.preventDefault();
-          if (editorSelection) {
-            ReactEditor.focus(editor);
-            setTimeout(() => Transforms.select(editor, editorSelection), 0);
-          }
+          focusEditor();
         }}
       >
-        {model && <EditLink editor={editor} element={element} model={model} closeEditMode={closeModal} />}
+        {model && (
+          <EditLink editor={editor} element={element} model={model} closeEditMode={() => toggleEditMode(false)} />
+        )}
       </ModalContent>
     </Modal>
   );

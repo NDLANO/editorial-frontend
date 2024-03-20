@@ -58,10 +58,19 @@ const inlinePlugins: SlatePlugin[] = [
   noopPlugin,
 ];
 
-const InlineFieldWrapper = styled.div`
-  border: 1px solid ${colors.brand.primary};
+const StyledInlineField = styled(RichTextEditor)`
+  border: 1px solid ${colors.brand.grey};
   border-radius: ${misc.borderRadius};
-  padding: ${spacing.small};
+  background-color: ${colors.brand.greyLightest};
+  min-height: ${spacing.large} !important;
+  padding: 10px;
+  p {
+    margin: 0px;
+  }
+  &:focus-within {
+    border-color: ${colors.brand.primary};
+    border-width: 2px;
+  }
 `;
 
 const renderers: SlatePlugin[] = [noopRenderer, paragraphRenderer, markRenderer, breakRenderer, spanRenderer];
@@ -70,16 +79,14 @@ const plugins = inlinePlugins.concat(renderers);
 
 export const InlineField = ({ ...rest }: Props) => {
   return (
-    <InlineFieldWrapper>
-      <RichTextEditor
-        testId="caption-editor"
-        data-testid={"caption-field"}
-        {...rest}
-        hideBlockPicker
-        plugins={plugins}
-        toolbarOptions={toolbarOptions}
-        toolbarAreaFilters={toolbarAreaFilters}
-      />
-    </InlineFieldWrapper>
+    <StyledInlineField
+      testId="caption-editor"
+      data-testid={"caption-field"}
+      {...rest}
+      hideBlockPicker
+      plugins={plugins}
+      toolbarOptions={toolbarOptions}
+      toolbarAreaFilters={toolbarAreaFilters}
+    />
   );
 };

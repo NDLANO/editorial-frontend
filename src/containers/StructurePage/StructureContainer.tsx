@@ -30,7 +30,7 @@ import { useUserData } from "../../modules/draft/draftQueries";
 import { useNodes } from "../../modules/nodes/nodeQueries";
 import { createGuard } from "../../util/guards";
 import { getPathsFromUrl, removeLastItemFromUrl } from "../../util/routeHelpers";
-import Footer from "../App/components/Footer";
+import Footer from "../App/components/FooterWrapper";
 import { useSession } from "../Session/SessionProvider";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 import { useLocalStorageBooleanState } from "../WelcomePage/hooks/storedFilterHooks";

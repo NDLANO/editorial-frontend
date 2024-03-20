@@ -20,7 +20,7 @@ import { GridContainer, Column } from "../../components/Layout/Layout";
 import { useUserData } from "../../modules/draft/draftQueries";
 import { getAccessToken, getAccessTokenPersonal } from "../../util/authHelpers";
 import { isValid } from "../../util/jwtHelper";
-import Footer from "../App/components/Footer";
+import Footer from "../App/components/FooterWrapper";
 import { useSession } from "../Session/SessionProvider";
 
 export const Wrapper = styled.div`
@@ -44,6 +44,12 @@ export const WelcomePage = () => {
     () => data?.latestEditedArticles?.map((a) => Number(a)) ?? [],
     [data?.latestEditedArticles],
   );
+
+  const lastUsedConcepts = useMemo(
+    () => data?.latestEditedConcepts?.map((a) => Number(a)) ?? [],
+    [data?.latestEditedConcepts],
+  );
+
   localStorage.setItem("lastPath", "");
 
   return (
@@ -57,7 +63,7 @@ export const WelcomePage = () => {
         <Column colEnd={6}>
           {ndlaId && (
             <>
-              <LastUsedItems lastUsedResources={lastUsedResources} lastUsedConcepts={data?.latestEditedConcepts} />
+              <LastUsedItems lastUsedResources={lastUsedResources} lastUsedConcepts={lastUsedConcepts} />
               <ArticleStatuses ndlaId={ndlaId} favoriteSubjects={data?.favoriteSubjects} userDataLoading={isLoading} />
             </>
           )}

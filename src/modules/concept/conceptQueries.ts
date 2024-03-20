@@ -7,9 +7,8 @@
  */
 
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
-import { IConcept, IConceptSearchResult } from "@ndla/types-backend/concept-api";
-import { fetchConcept, fetchStatusStateMachine, searchConcepts } from "./conceptApi";
-import { ConceptQuery } from "./conceptApiInterfaces";
+import { IConcept, IDraftConceptSearchParams, IConceptSearchResult } from "@ndla/types-backend/concept-api";
+import { fetchConcept, fetchStatusStateMachine, postSearchConcepts } from "./conceptApi";
 import { ConceptStatusStateMachineType } from "../../interfaces";
 import { CONCEPT, CONCEPT_STATE_MACHINE, SEARCH_CONCEPTS } from "../../queryKeys";
 
@@ -20,7 +19,7 @@ export interface UseConcept {
 
 export const conceptQueryKeys = {
   concept: (params?: Partial<UseConcept>) => [CONCEPT, params] as const,
-  searchConcepts: (params?: Partial<ConceptQuery>) => [SEARCH_CONCEPTS, params] as const,
+  searchConcepts: (params?: Partial<IDraftConceptSearchParams>) => [SEARCH_CONCEPTS, params] as const,
   statusStateMachine: [CONCEPT_STATE_MACHINE] as const,
 };
 
@@ -32,12 +31,16 @@ export const useConcept = (params: UseConcept, options?: Partial<UseQueryOptions
   });
 };
 
-export const useSearchConcepts = (query: ConceptQuery, options?: Partial<UseQueryOptions<IConceptSearchResult>>) =>
-  useQuery<IConceptSearchResult>({
+export const useSearchConcepts = (
+  query: IDraftConceptSearchParams,
+  options?: Partial<UseQueryOptions<IConceptSearchResult>>,
+) => {
+  return useQuery<IConceptSearchResult>({
     queryKey: conceptQueryKeys.searchConcepts(query),
-    queryFn: () => searchConcepts(query),
+    queryFn: () => postSearchConcepts(query),
     ...options,
   });
+};
 
 export const useConceptStateMachine = (options?: Partial<UseQueryOptions<ConceptStatusStateMachineType>>) => {
   return useQuery<ConceptStatusStateMachineType>({

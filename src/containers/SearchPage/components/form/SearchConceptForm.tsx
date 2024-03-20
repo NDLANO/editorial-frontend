@@ -96,6 +96,7 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
       subjects: "",
       users: "",
       status: "",
+      "responsible-ids": "",
     });
   };
 

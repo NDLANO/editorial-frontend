@@ -12,17 +12,20 @@ import { fetchResourceStats } from "./myndlaApi";
 import { MYNDLA_RESOURCE_STATS } from "../../queryKeys";
 
 export interface UseResourceStats {
-  resourceType: string;
-  resourceId: string;
+  resourceTypes: string;
+  resourceIds: string;
 }
 
 export const myndlaQueryKeys = {
   resourceStats: (params?: Partial<UseResourceStats>) => [MYNDLA_RESOURCE_STATS, params] as const,
 };
 
-export const useResourceStats = (params: UseResourceStats, options?: Partial<UseQueryOptions<ISingleResourceStats>>) =>
-  useQuery<ISingleResourceStats>({
+export const useResourceStats = (
+  params: UseResourceStats,
+  options?: Partial<UseQueryOptions<ISingleResourceStats[]>>,
+) =>
+  useQuery<ISingleResourceStats[]>({
     queryKey: myndlaQueryKeys.resourceStats(params),
-    queryFn: () => fetchResourceStats(params.resourceType, params.resourceId),
+    queryFn: () => fetchResourceStats(params.resourceTypes, params.resourceIds),
     ...options,
   });

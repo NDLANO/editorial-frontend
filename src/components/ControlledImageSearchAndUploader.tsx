@@ -11,19 +11,19 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import ImageSearch from "@ndla/image-search";
-import Tabs from "@ndla/tabs";
+import { ImageSearch } from "@ndla/image-search";
+import { Tabs } from "@ndla/tabs";
 import {
   IImageMetaInformationV3,
   IUpdateImageMetaInformation,
   ISearchResultV3,
   INewImageMetaInformationV2,
+  ISearchParams,
 } from "@ndla/types-backend/image-api";
 import EditorErrorMessage from "./SlateEditor/EditorErrorMessage";
 import ImageForm from "../containers/ImageUploader/components/ImageForm";
 import { draftLicensesToImageLicenses } from "../modules/draft/draftApiUtils";
 import { useLicenses } from "../modules/draft/draftQueries";
-import { ImageSearchQuery } from "../modules/image/imageApiInterfaces";
 
 const StyledTitleDiv = styled.div`
   margin-bottom: ${spacing.small};
@@ -35,7 +35,7 @@ interface Props {
   language?: string;
   closeModal: () => void;
   onError: (err: Error & Response) => void;
-  searchImages: (queryObject: ImageSearchQuery) => Promise<ISearchResultV3>;
+  searchImages: (queryObject: ISearchParams) => Promise<ISearchResultV3>;
   fetchImage: (id: number) => Promise<IImageMetaInformationV3>;
   image?: IImageMetaInformationV3;
   updateImage: (
@@ -71,10 +71,10 @@ const ImageSearchAndUploader = ({
     return searchImages({
       query,
       page,
-      "page-size": 16,
+      pageSize: 16,
       language: language,
       fallback: true,
-      "podcast-friendly": podcastFriendly,
+      podcastFriendly: podcastFriendly,
     });
   };
   const imageLicenses = draftLicensesToImageLicenses(licenses ?? []);

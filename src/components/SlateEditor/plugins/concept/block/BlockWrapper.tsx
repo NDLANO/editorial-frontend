@@ -163,7 +163,7 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
               embed={embed}
               setLanguageIsUpdatedFromModal={setLanguageIsUpdatedFromModal}
             />
-            <ConceptEmbed embed={embed} lang={locale === "nb" ? "no" : locale} />
+            <ConceptEmbed embed={embed} />
           </div>
         )}
         <ModalContent size={{ width: "large", height: "large" }}>

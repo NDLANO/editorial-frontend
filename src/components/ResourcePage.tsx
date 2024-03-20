@@ -16,7 +16,7 @@ import { NynorskTranslateProvider } from "./NynorskTranslateProvider";
 import Spinner from "./Spinner";
 import { useWideArticle } from "./WideArticleEditorProvider";
 import { MAX_PAGE_WIDTH } from "../constants";
-import Footer from "../containers/App/components/Footer";
+import Footer from "../containers/App/components/FooterWrapper";
 import {
   MAX_DEFAULT_WIDTH_FRONTPAGE_WITH_COMMENTS,
   MAX_WIDTH_FRONTPAGE_WITH_COMMENTS,

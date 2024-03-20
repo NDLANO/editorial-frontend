@@ -12,7 +12,7 @@ import { OneColumn } from "@ndla/ui";
 import CreateSubjectpage from "./CreateSubjectpage";
 import EditSubjectpage from "./EditSubjectpage";
 import { usePreviousLocation } from "../../util/routeHelpers";
-import Footer from "../App/components/Footer";
+import Footer from "../App/components/FooterWrapper";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 
 const Subjectpage = () => {

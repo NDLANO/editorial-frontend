@@ -6,11 +6,11 @@
  *
  */
 
-@import '../../node_modules/@ndla/ui/lib/all.css';
-@import '../../node_modules/react-day-picker/dist/style.css';
-@import '../../node_modules/react-image-crop/dist/ReactCrop.css';
-@import './content-block.css';
-@import './form.css';
+@import "../../node_modules/@ndla/ui/lib/all.css";
+@import "../../node_modules/react-day-picker/dist/style.css";
+@import "../../node_modules/react-image-crop/dist/ReactCrop.css";
+@import "./content-block.css";
+@import "./form.css";
 
 /* DatePicker styling */
 .rdp-months {
@@ -36,31 +36,13 @@
 
 /* Should be moved to Article component in @ndla/ui */
 /* stylelint-disable-next-line */
-mjx-container.MathJax[jax='CHTML'][display='true'] {
+mjx-container.MathJax[jax="CHTML"][display="true"] {
   display: inline-flex !important;
   overflow-x: hidden;
   overflow-y: hidden;
   padding: 1px 4px;
   margin: 0;
   max-width: -webkit-stretch;
-}
-
-/* Override @ndla/ui styles */
-.c-article {
-  font-family: var(--font-serif);
-}
-
-.article_introduction {
-  margin-top: var(--spacing--small);
-}
-
-.c-hero {
-  margin-bottom: 0;
-}
-
-a.c-button {
-  display: block;
-  text-align: center;
 }
 
 .c-figure {

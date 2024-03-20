@@ -14,7 +14,7 @@ import { IconButtonV2 } from "@ndla/button";
 import { colors, misc, spacing } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
 import { Pencil, Plus } from "@ndla/icons/action";
-import SafeLink from "@ndla/safelink";
+import { SafeLink } from "@ndla/safelink";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { IArticleSummaryV2 } from "@ndla/types-backend/article-api";
 import { Heading } from "@ndla/typography";

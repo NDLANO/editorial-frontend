@@ -86,7 +86,7 @@ export const isFormikFormDirty = <T extends FormikFields>({
     .filter(([key]) => !skipFields.includes(key))
     .forEach(([key, value]) => {
       if (slateFields.includes(key)) {
-        if (key === "content" || key === "title" || key === "introduction") {
+        if (key === "content" || key === "title" || key === "introduction" || key === "conceptContent") {
           if (checkIfContentHasChanged(values[key]!, initialValues[key]!, initialValues.articleType!)) {
             dirtyFields.push(value);
           }
@@ -326,6 +326,6 @@ export const getTagName = (id: string | undefined, data: { id: string; name: str
 };
 
 export const stripInlineContentHtmlTags = (html: string): string =>
-  inlineContentToEditorValue(html)
+  inlineContentToEditorValue(html, true)
     .map((n) => Node.string(n))
     .join("");

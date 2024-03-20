@@ -12,7 +12,7 @@ import { UseQueryResult } from "@tanstack/react-query";
 import { spacing, colors, stackOrder } from "@ndla/core";
 import { MAX_PAGE_WIDTH } from "../../../constants";
 import { SearchType } from "../../../interfaces";
-import { SearchParams } from "../../SearchPage/components/form/SearchForm";
+import { SearchParamsBody } from "../../SearchPage/components/form/SearchForm";
 import { ResultType } from "../../SearchPage/SearchContainer";
 
 interface SubType {
@@ -21,7 +21,7 @@ interface SubType {
   url: string;
   icon: ReactElement;
   path: string;
-  searchHook: (query: SearchParams) => UseQueryResult<ResultType>;
+  searchHook: (query: SearchParamsBody) => UseQueryResult<ResultType>;
 }
 
 const Container = styled.div`

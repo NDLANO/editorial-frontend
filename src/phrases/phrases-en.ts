@@ -1004,7 +1004,10 @@ const phrases = {
         createdBy: "Created by",
         warn: "Remember to add a comment",
         description: "You have changed responsible without adding a comment!",
+        add: "Add new comment",
+        label: "Write down comment",
       },
+      updateComment: "Update comment",
     },
     status: {
       new: "New - unsaved",

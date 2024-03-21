@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonProps, ButtonV2 } from "@ndla/button";
 import { colors, fonts, spacing } from "@ndla/core";
-import { Language } from "@ndla/icons/common";
+import { Language, Comment } from "@ndla/icons/common";
 import {
   Bold,
   Code,
@@ -79,6 +79,7 @@ const icon: Record<string, ElementType> = {
   "heading-4": HeadingFour,
   "normal-text": Paragraph,
   "definition-list": FormatList,
+  comment: Comment,
   mathml: Math,
   "concept-inline": Concept,
   "gloss-inline": Globe,

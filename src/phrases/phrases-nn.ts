@@ -1004,7 +1004,10 @@ const phrases = {
         createdBy: "Oppretta av",
         warn: "Hugs å legge til kommentar",
         description: "Du har endra ansvarleg uten å legge til kommentar!",
+        add: "Legg til ny kommentar",
+        label: "Skriv inn kommentar",
       },
+      updateComment: "Oppdater kommentar",
     },
     status: {
       new: "Ny - Ikke lagret",

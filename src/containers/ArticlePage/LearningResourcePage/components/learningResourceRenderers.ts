@@ -12,6 +12,7 @@ import { audioRenderer } from "../../../../components/SlateEditor/plugins/audio/
 import { blockQuoteRenderer } from "../../../../components/SlateEditor/plugins/blockquote/render";
 import { breakRenderer } from "../../../../components/SlateEditor/plugins/break/render";
 import { codeblockRenderer } from "../../../../components/SlateEditor/plugins/codeBlock/render";
+import { commentRenderer } from "../../../../components/SlateEditor/plugins/comment/render";
 import { blockConceptRenderer } from "../../../../components/SlateEditor/plugins/concept/block/render";
 import { inlineConceptRenderer } from "../../../../components/SlateEditor/plugins/concept/inline/render";
 import { conceptListRenderer } from "../../../../components/SlateEditor/plugins/conceptList/render";
@@ -57,6 +58,7 @@ export const learningResourceRenderers: SlatePlugin[] = [
   conceptListRenderer,
   inlineConceptRenderer,
   blockConceptRenderer,
+  commentRenderer,
   headingRenderer,
   // // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
   // // Blockquote and editList actions need to be triggered before paragraph action, else

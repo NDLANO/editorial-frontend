@@ -1201,12 +1201,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/article-converter@npm:^6.3.0":
-  version: 6.3.0
-  resolution: "@ndla/article-converter@npm:6.3.0"
+"@ndla/article-converter@npm:^6.3.1":
+  version: 6.3.1
+  resolution: "@ndla/article-converter@npm:6.3.1"
   dependencies:
-    "@ndla/code": "npm:^5.0.51"
-    "@ndla/ui": "npm:^50.13.0"
+    "@ndla/code": "npm:^5.0.52"
+    "@ndla/ui": "npm:^50.13.1"
     html-react-parser: "npm:^5.1.8"
     lodash: "npm:^4.17.20"
   peerDependencies:
@@ -1217,7 +1217,7 @@ __metadata:
     react-dom: ">= 16.8.0"
     react-i18next: ^13.3.0
     react-router-dom: ">= 6.0.0"
-  checksum: 10c0/eb626e553edaa51ae638d807a76dd9c984ed412679425972daa1064c0e1a1c8651fa4cd734af5c69a5868db9cbf0571b59538ab9f7e9a00108319a80ce564af4
+  checksum: 10c0/20d605d1df5dcbb9c745d4c8c24fc54fd67ad6353578cc10874f3699234f0fa58d2fd6800db2456b1881d811a0441d4ec478c7f02d2400e29d5c22b77ed2745e
   languageName: node
   linkType: hard
 
@@ -1268,7 +1268,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/code@npm:^5.0.51, @ndla/code@npm:^5.0.52":
+"@ndla/code@npm:^5.0.52":
   version: 5.0.52
   resolution: "@ndla/code@npm:5.0.52"
   dependencies:
@@ -1616,7 +1616,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/ui@npm:^50.13.0, @ndla/ui@npm:^50.13.1":
+"@ndla/ui@npm:^50.13.1":
   version: 50.13.1
   resolution: "@ndla/ui@npm:50.13.1"
   dependencies:
@@ -5563,7 +5563,7 @@ __metadata:
     "@fontsource/source-sans-pro": "npm:^4.5.9"
     "@fontsource/source-serif-pro": "npm:^4.5.7"
     "@ndla/accordion": "npm:^3.0.37"
-    "@ndla/article-converter": "npm:^6.3.0"
+    "@ndla/article-converter": "npm:^6.3.1"
     "@ndla/audio-search": "npm:^5.0.3"
     "@ndla/button": "npm:^12.0.40"
     "@ndla/code": "npm:^5.0.52"

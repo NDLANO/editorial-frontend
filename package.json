@@ -87,7 +87,7 @@
     "@fontsource/source-sans-pro": "^4.5.9",
     "@fontsource/source-serif-pro": "^4.5.7",
     "@ndla/accordion": "^3.0.37",
-    "@ndla/article-converter": "^6.3.0",
+    "@ndla/article-converter": "^6.3.1",
     "@ndla/audio-search": "^5.0.3",
     "@ndla/button": "^12.0.40",
     "@ndla/code": "^5.0.52",

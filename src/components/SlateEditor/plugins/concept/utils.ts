@@ -14,8 +14,32 @@ export const generateNumbersArray = (arrayLength: number): string[] =>
 export const generateUniqueGlossLanguageArray = (glossExamples: IGlossExample[][]): string[] =>
   Array.from(new Set(glossExamples.flat().map((e) => e.language)));
 
-export const getGlossDataAttributes = (glossData: IGlossData): { exampleIds: string; exampleLangs: string } => ({
-  // Display all examples with languages as default
-  exampleIds: generateNumbersArray(glossData.examples.length).join(","),
-  exampleLangs: generateUniqueGlossLanguageArray(glossData.examples).join(","),
-});
+interface GlossDataAttributes {
+  exampleIds?: string;
+  exampleLangs?: string;
+}
+
+export const getGlossDataAttributes = (
+  glossData: IGlossData,
+  locale: string,
+  excludeKeys: (keyof GlossDataAttributes)[] = [],
+): GlossDataAttributes => {
+  const exampleIds = generateNumbersArray(glossData.examples.length).join(",");
+  // If the locale is "nb" and the language is "nn" or vice versa, the language should be filtered out
+  const exampleLangs = generateUniqueGlossLanguageArray(glossData.examples)
+    .filter((lang) => {
+      if (locale === "nb") return lang !== "nn";
+      if (locale === "nn") return lang !== "nb";
+      return true;
+    })
+    .join(",");
+
+  return {
+    ...(!excludeKeys.includes("exampleIds") ? { exampleIds: exampleIds } : {}),
+    ...(!excludeKeys.includes("exampleLangs")
+      ? {
+          exampleLangs: exampleLangs,
+        }
+      : {}),
+  };
+};

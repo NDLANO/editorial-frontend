@@ -32,13 +32,17 @@ import ConceptModalContent from "../ConceptModalContent";
 import EditGlossExamplesModal from "../EditGlossExamplesModal";
 import { getGlossDataAttributes } from "../utils";
 
-const getConceptDataAttributes = (concept: IConcept | IConceptSummary, title: string): ConceptEmbedData => ({
+const getConceptDataAttributes = (
+  concept: IConcept | IConceptSummary,
+  title: string,
+  locale: string,
+): ConceptEmbedData => ({
   contentId: concept.id.toString(),
   linkText: title,
   resource: "concept",
   type: "inline",
   ...(concept.conceptType === "gloss" && concept.glossData?.examples.length
-    ? getGlossDataAttributes(concept.glossData)
+    ? getGlossDataAttributes(concept.glossData, locale)
     : {}),
 });
 
@@ -84,6 +88,7 @@ const InlineWrapper = (props: Props) => {
     // This will be in an error state until the data is either fetched or fails, allowing
     // us to show normal text while loading. If the data is fetched, ConceptEmbed automatically updates.
     if (!element.data || !concept) return undefined;
+
     return {
       status: !concept && !loading ? "error" : "success",
       data: { concept, visualElement: visualElementQuery.data },
@@ -111,7 +116,7 @@ const InlineWrapper = (props: Props) => {
   const addConcept = (addedConcept: IConceptSummary | IConcept) => {
     setIsEditing(false);
     handleSelectionChange(true);
-    const data = getConceptDataAttributes(addedConcept, nodeText);
+    const data = getConceptDataAttributes(addedConcept, nodeText, locale);
     if (element) {
       const path = ReactEditor.findPath(editor, element);
       Transforms.setNodes<ConceptInlineElement>(

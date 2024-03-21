@@ -59,7 +59,7 @@ const inlinePlugins: SlatePlugin[] = [
 ];
 
 const StyledInlineField = styled(RichTextEditor)`
-  border: 1px solid ${colors.brand.grey};
+  outline: 1px solid ${colors.brand.grey};
   border-radius: ${misc.borderRadius};
   background-color: ${colors.brand.greyLightest};
   min-height: ${spacing.large} !important;
@@ -68,8 +68,9 @@ const StyledInlineField = styled(RichTextEditor)`
     margin: 0px;
   }
   &:focus-within {
-    border-color: ${colors.brand.primary};
-    border-width: 2px;
+    outline-color: ${colors.brand.primary};
+    outline-offset: -1px;
+    outline-width: 2px;
   }
 `;
 

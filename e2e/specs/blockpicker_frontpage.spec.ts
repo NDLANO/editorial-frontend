@@ -97,7 +97,8 @@ test('adds and removes keyfigure', async ({ page }) => {
 test('adds and removes blogpost', async ({ page }) => {
   await page.getByTestId('create-blogPost').click();
   await expect(page.getByRole('button', { name: 'Lagre', exact: true })).toBeDisabled();
-  await page.locator("input[name='title']").fill('test');
+  const modal = page.locator('div[role="dialog"]')
+  await modal.locator("div[name='title']").fill('test');
   await page.locator("input[name='author']").fill('test');
   await page.locator("input[name='link']").fill('https://test.test');
   await page.getByTestId('select-image-from-list').first().click();

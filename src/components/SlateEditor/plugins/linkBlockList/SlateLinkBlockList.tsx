@@ -165,6 +165,7 @@ interface SlateLinkBlockProps {
 }
 
 const LinkBlockWrapper = styled.div`
+  position: relative;
   display: flex;
   width: 100%;
   align-items: center;
@@ -172,6 +173,14 @@ const LinkBlockWrapper = styled.div`
     width: 100%;
   }
   gap: ${spacing.small};
+`;
+
+const ButtonWrapper = styled.div`
+  position: absolute;
+  right: -${spacing.large};
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.xsmall};
 `;
 
 const SlateLinkBlock = ({ link, onSave, onDelete, allEmbeds, index }: SlateLinkBlockProps) => {
@@ -191,24 +200,26 @@ const SlateLinkBlock = ({ link, onSave, onDelete, allEmbeds, index }: SlateLinkB
   return (
     <LinkBlockWrapper>
       <LinkBlock title={link.title} url={link.url} date={link.date} />
-      <Modal open={open} onOpenChange={setOpen}>
-        <ModalTrigger>
-          <IconButtonV2 aria-label={t("linkBlock.edit")} title={t("linkBlock.edit")}>
-            <Pencil />
-          </IconButtonV2>
-        </ModalTrigger>
-        <ModalContent>
-          <LinkBlockForm embed={link} onSave={onSaveElement} existingEmbeds={otherEmbeds} />
-        </ModalContent>
-      </Modal>
-      <StyledDeleteEmbedButton
-        colorTheme="danger"
-        aria-label={t("linkBlock.delete")}
-        title={t("linkBlock.delete")}
-        onClick={() => onDelete(index)}
-      >
-        <DeleteForever />
-      </StyledDeleteEmbedButton>
+      <ButtonWrapper>
+        <Modal open={open} onOpenChange={setOpen}>
+          <ModalTrigger>
+            <IconButtonV2 aria-label={t("linkBlock.edit")} title={t("linkBlock.edit")}>
+              <Pencil />
+            </IconButtonV2>
+          </ModalTrigger>
+          <ModalContent>
+            <LinkBlockForm embed={link} onSave={onSaveElement} existingEmbeds={otherEmbeds} />
+          </ModalContent>
+        </Modal>
+        <StyledDeleteEmbedButton
+          colorTheme="danger"
+          aria-label={t("linkBlock.delete")}
+          title={t("linkBlock.delete")}
+          onClick={() => onDelete(index)}
+        >
+          <DeleteForever />
+        </StyledDeleteEmbedButton>
+      </ButtonWrapper>
     </LinkBlockWrapper>
   );
 };

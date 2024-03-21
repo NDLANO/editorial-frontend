@@ -11,26 +11,29 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
 import { ButtonV2 } from "@ndla/button";
-import { spacing, colors } from "@ndla/core";
-import { InputV2 } from "@ndla/forms";
+import { spacing } from "@ndla/core";
+import { FieldErrorMessage, InputV3, Label } from "@ndla/forms";
 import { Node, NodeType } from "@ndla/types-taxonomy";
+import { FormControl } from "../../components/FormField";
 import { useAddNodeMutation, usePostNodeConnectionMutation } from "../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../modules/nodes/nodeQueries";
 import handleError from "../../util/handleError";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
-
-const StyledInputField = styled(InputV2)`
-  border-radius: 4px;
-  ::placeholder {
-    color: ${colors.brand.neutral7};
-  }
-`;
 
 const FormWrapper = styled.form`
   display: flex;
   justify-content: space-between;
   width: 100%;
   gap: ${spacing.medium};
+`;
+
+const StyledFormControl = styled(FormControl)`
+  width: 100%;
+`;
+
+const InputWrapper = styled.div`
+  display: flex;
+  gap: ${spacing.normal};
 `;
 
 interface Props {
@@ -100,24 +103,22 @@ const AddNodeModalContent = ({ onClose, nodeType, rootId, parentNode }: Props) =
 
   return (
     <FormWrapper>
-      <StyledInputField
-        label={t("taxonomy.newNode", {
-          nodeType: t(`taxonomy.nodeType.${nodeType}`),
-        })}
-        name={t("taxonomy.newNode", {
-          nodeType: t(`taxonomy.nodeType.${nodeType}`),
-        })}
-        labelHidden
-        type="text"
-        data-testid="addSubjectInputField"
-        value={inputValue}
-        onChange={handleInputChange}
-        placeholder={t("taxonomy.newNodeName")}
-        error={error ? t("taxonomy.errorMessage") : undefined}
-      />
-      <ButtonV2 type="submit" onClick={handleClick} disabled={!inputValue}>
-        {t("form.save")}
-      </ButtonV2>
+      <StyledFormControl isRequired isInvalid={error}>
+        <Label visuallyHidden>{t("taxonomy.newNode", { nodeType: t(`taxonomy.nodetype.${nodeType}`) })}</Label>
+        <InputWrapper>
+          <InputV3
+            type="text"
+            data-testid="addSubjectInputField"
+            value={inputValue}
+            onChange={handleInputChange}
+            placeholder={t("taxonomy.newNodeName")}
+          />
+          <ButtonV2 type="submit" onClick={handleClick} disabled={!inputValue}>
+            {t("form.save")}
+          </ButtonV2>
+        </InputWrapper>
+        <FieldErrorMessage>{t("taxonomy.errorMessage")}</FieldErrorMessage>
+      </StyledFormControl>
     </FormWrapper>
   );
 };

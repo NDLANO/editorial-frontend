@@ -11,13 +11,13 @@ import { ChangeEvent, Ref, useCallback, useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 //@ts-ignore
-import { DropdownMenu, InputV2 } from "@ndla/forms";
+import { DropdownMenu, InputContainer, InputV3, Label } from "@ndla/forms";
 import { Spinner } from "@ndla/icons";
 import { Search } from "@ndla/icons/common";
-import { inputWrapperStyles } from "../../../containers/StructurePage/plannedResource/PlannedResourceForm";
 import { SearchResultBase } from "../../../interfaces";
 import { convertFieldWithFallback } from "../../../util/convertFieldWithFallback";
 import { itemToString } from "../../../util/downShiftHelpers";
+import { FormControl } from "../../FormField";
 
 const IconWrapper = styled.div`
   padding: 0 ${spacing.small};
@@ -61,7 +61,6 @@ interface Props<ApiType> {
   removeItem?: (id: string) => void;
   initialSearch?: boolean;
   label?: string;
-  white?: boolean;
   menuHeight?: number;
   maxRender?: number;
   pageSize?: number;
@@ -107,7 +106,6 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
   removeItem,
   initialSearch = true,
   label,
-  white = false,
   menuHeight,
   maxRender,
   pageSize = 10,
@@ -248,16 +246,17 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
             {children ? (
               children({ selectedItems, removeItem, ...inpProps })
             ) : (
-              <InputV2
-                {...(inpProps as InputPropsOptionsRef)}
-                customCss={inputWrapperStyles}
-                name="search-input-field"
-                label={label ?? placeholder}
-                labelHidden={!label}
-                data-testid={"dropdown-input"}
-                after={<IconWrapper>{loading ? <StyledSpinner size="normal" /> : <Search />}</IconWrapper>}
-                white={white}
-              />
+              <FormControl>
+                {label && (
+                  <Label textStyle="label-small" margin="none">
+                    {label ?? placeholder}
+                  </Label>
+                )}
+                <InputContainer>
+                  <InputV3 {...(inpProps as InputPropsOptionsRef)} data-testid={"dropdown-input"} />
+                  <IconWrapper>{loading ? <StyledSpinner size="normal" /> : <Search />}</IconWrapper>
+                </InputContainer>
+              </FormControl>
             )}
             <DropdownMenu
               idField={idField}

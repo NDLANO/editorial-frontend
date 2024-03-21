@@ -20,6 +20,7 @@ import { LinkBlockEmbedData } from "@ndla/types-embed";
 import { LinkBlock, LinkBlockSection } from "@ndla/ui";
 import LinkBlockForm from "./LinkBlockForm";
 import { LinkBlockListElement } from "./types";
+import { StyledDeleteEmbedButton } from "../embed/FigureButtons";
 
 interface Props {
   attributes: RenderElementProps["attributes"];
@@ -130,14 +131,14 @@ const SlateLinkBlockList = ({ attributes, editor, element, children }: Props) =>
             <LinkBlockForm onSave={onSaveNewElement} existingEmbeds={element.data ?? []} />
           </ModalContent>
         </Modal>
-        <IconButtonV2
+        <StyledDeleteEmbedButton
           aria-label={t("linkBlock.deleteBlock")}
           title={t("linkBlock.deleteBlock")}
           colorTheme="danger"
           onClick={handleRemove}
         >
           <DeleteForever />
-        </IconButtonV2>
+        </StyledDeleteEmbedButton>
       </HeaderWrapper>
       <LinkBlockSection>
         {element.data?.map((el, index) => (
@@ -200,14 +201,14 @@ const SlateLinkBlock = ({ link, onSave, onDelete, allEmbeds, index }: SlateLinkB
           <LinkBlockForm embed={link} onSave={onSaveElement} existingEmbeds={otherEmbeds} />
         </ModalContent>
       </Modal>
-      <IconButtonV2
+      <StyledDeleteEmbedButton
         colorTheme="danger"
         aria-label={t("linkBlock.delete")}
         title={t("linkBlock.delete")}
         onClick={() => onDelete(index)}
       >
         <DeleteForever />
-      </IconButtonV2>
+      </StyledDeleteEmbedButton>
     </LinkBlockWrapper>
   );
 };

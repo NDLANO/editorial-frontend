@@ -6,13 +6,14 @@
  *
  */
 
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { Input } from "@ndla/forms";
+import { FieldErrorMessage, InputV3, Label } from "@ndla/forms";
+import { FormControl } from "../../../components/FormField";
 
 const StyledContent = styled.div`
   display: flex;
@@ -65,22 +66,32 @@ const ContentLink = ({ onAddLink, initialTitle = "", initialUrl = "" }: Props) =
 
   return (
     <StyledContent>
-      <Input
-        warningText={showError && isEmpty(title) ? t("form.relatedContent.link.missingTitle") : undefined}
-        data-testid="addExternalTitleInput"
-        type="text"
-        placeholder={t("form.relatedContent.link.titlePlaceholder")}
-        value={title}
-        onChange={(e: ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
-      />
-      <Input
-        warningText={showError && !isUrl(url) ? t("form.relatedContent.link.missingUrl") : undefined}
-        data-testid="addExternalUrlInput"
-        type="text"
-        placeholder={t("form.relatedContent.link.urlPlaceholder")}
-        value={url}
-        onChange={(e: ChangeEvent<HTMLInputElement>) => setUrl(e.target.value)}
-      />
+      <FormControl isRequired isInvalid={showError && isEmpty(title)}>
+        <Label textStyle="label-small" margin="none">
+          {t("form.name.title")}
+        </Label>
+        <InputV3
+          data-testid="addExternalTitleInput"
+          type="text"
+          placeholder={t("form.relatedContent.link.titlePlaceholder")}
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        <FieldErrorMessage>{t("form.relatedContent.link.missingTitle")}</FieldErrorMessage>
+      </FormControl>
+      <FormControl isRequired isInvalid={showError && !isUrl(url)}>
+        <Label textStyle="label-small" margin="none">
+          {t("form.name.url")}
+        </Label>
+        <InputV3
+          data-testid="addExternalUrlInput"
+          type="text"
+          placeholder={t("form.relatedContent.link.urlPlaceholder")}
+          value={url}
+          onChange={(e) => setUrl(e.target.value)}
+        />
+        <FieldErrorMessage>{t("form.relatedContent.link.missingUrl")}</FieldErrorMessage>
+      </FormControl>
       <StyledSaveButton onClick={handleSubmit}>{t("save")}</StyledSaveButton>
     </StyledContent>
   );

@@ -6,22 +6,19 @@
  *
  */
 
-import { FieldProps, Form, Formik, FormikProps } from "formik";
+import { Form, Formik, FormikProps } from "formik";
+import { KeyboardEvent } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { Select, Input } from "@ndla/forms";
+import { Select, InputV3, Label, FieldErrorMessage } from "@ndla/forms";
 import { Translation } from "@ndla/types-taxonomy";
 import { Heading } from "@ndla/typography";
 import { Row } from "../../../../components";
-import FormikField from "../../../../components/FormikField";
+import { FormControl, FormField } from "../../../../components/FormField";
 import validateFormik from "../../../../components/formikValidationSchema";
 import { LocaleType } from "../../../../interfaces";
-
-const StyledFormikField = styled(FormikField)`
-  margin-top: 0px;
-`;
 
 const StyledForm = styled(Form)`
   display: flex;
@@ -60,7 +57,7 @@ const AddNodeTranslation = ({ onAddTranslation, availableLanguages, defaultName 
     return null;
   }
 
-  const onKeyDown = (event: KeyboardEvent, formik: FormikProps<FormValues>) => {
+  const onKeyDown = (event: KeyboardEvent<HTMLInputElement>, formik: FormikProps<FormValues>) => {
     if (event.key === "Enter" && formik.isValid && !formik.isSubmitting) {
       event.preventDefault();
       handleAddTranslation(formik);
@@ -83,38 +80,50 @@ const AddNodeTranslation = ({ onAddTranslation, availableLanguages, defaultName 
               {t("taxonomy.changeName.addNewTranslation")}
             </Heading>
             <Row>
-              <StyledFormikField name="language" label={t("taxonomy.changeName.language")}>
-                {({ field }: FieldProps) => {
+              <FormField name="language">
+                {({ field, meta }) => {
                   return (
-                    <Select {...field}>
-                      {availableLanguages.map((lang) => (
-                        <option value={lang} key={lang}>
-                          {t(`languages.${lang}`)}
-                        </option>
-                      ))}
-                    </Select>
+                    <FormControl isRequired isInvalid={!!meta.error}>
+                      <Label margin="none" textStyle="label-small">
+                        {t("taxonomy.changeName.language")}
+                      </Label>
+                      <Select {...field}>
+                        {availableLanguages.map((lang) => (
+                          <option value={lang} key={lang}>
+                            {t(`languages.${lang}`)}
+                          </option>
+                        ))}
+                      </Select>
+                    </FormControl>
                   );
                 }}
-              </StyledFormikField>
-              <StyledFormikField name="name" label={t("taxonomy.changeName.name")}>
-                {({ field }) => (
-                  <Row>
-                    <Input
-                      {...field}
-                      onKeyDown={(e: KeyboardEvent) => onKeyDown(e, formik)}
-                      placeholder={t("taxonomy.changeName.namePlaceholder")}
-                      data-testid="addNodeNameTranslation"
-                    />
-                    <ButtonV2
-                      data-testid="addNodeNameTranslationButton"
-                      onClick={() => handleAddTranslation(formik)}
-                      disabled={!isValid}
-                    >
-                      {t("taxonomy.changeName.add")}
-                    </ButtonV2>
-                  </Row>
+              </FormField>
+              <FormField name="name">
+                {({ field, meta }) => (
+                  <FormControl isRequired isInvalid={!!meta.error}>
+                    <Label margin="none" textStyle="label-small">
+                      {t("taxonomy.changeName.name")}
+                    </Label>
+                    <Row>
+                      <InputV3
+                        {...field}
+                        type="text"
+                        onKeyDown={(e) => onKeyDown(e, formik)}
+                        placeholder={t("taxonomy.changeName.namePlaceholder")}
+                        data-testid="addNodeNameTranslation"
+                      />
+                      <ButtonV2
+                        data-testid="addNodeNameTranslationButton"
+                        onClick={() => handleAddTranslation(formik)}
+                        disabled={!isValid}
+                      >
+                        {t("taxonomy.changeName.add")}
+                      </ButtonV2>
+                    </Row>
+                    <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                  </FormControl>
                 )}
-              </StyledFormikField>
+              </FormField>
             </Row>
           </StyledForm>
         );

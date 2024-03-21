@@ -8,15 +8,15 @@
 
 import addYears from "date-fns/addYears";
 import { FieldInputProps } from "formik";
-import { FormEvent } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { colors, spacing } from "@ndla/core";
-import { Input, FieldRemoveButton } from "@ndla/forms";
+import { FieldRemoveButton, InputV3, FieldErrorMessage } from "@ndla/forms";
 import { Switch } from "@ndla/switch";
 import { ArticleFormType } from "./articleFormHooks";
 import InlineDatePicker from "./components/InlineDatePicker";
+import { FormControl } from "../../components/FormField";
 import { Revision } from "../../constants";
 import { formatDateForBackend } from "../../util/formatDate";
 import { useMessages } from "../Messages/MessagesProvider";
@@ -115,22 +115,23 @@ const AddRevisionDateField = ({ formikField, showError }: Props) => {
           <div key={`revision_${index}`}>
             <Wrapper>
               <InputWrapper>
-                <Input
-                  warningText={showError && revisionMeta.note === "" ? t("validation.noEmptyRevision") : ""}
-                  placeholder={t("form.revisions.inputPlaceholder")}
-                  type="text"
-                  // eslint-disable-next-line jsx-a11y/no-autofocus
-                  autoFocus
-                  value={revisionMeta.note}
-                  data-testid="revisionInput"
-                  onChange={(e: FormEvent<HTMLInputElement>) => {
-                    editRevision((old) => ({
-                      ...old,
-                      note: e.currentTarget.value,
-                    }));
-                  }}
-                  white
-                />
+                <FormControl isRequired isInvalid={showError && revisionMeta.note === ""}>
+                  <InputV3
+                    placeholder={t("form.revisions.inputPlaceholder")}
+                    type="text"
+                    // eslint-disable-next-line jsx-a11y/no-autofocus
+                    autoFocus
+                    value={revisionMeta.note}
+                    data-testid="revisionInput"
+                    onChange={(e) => {
+                      editRevision((old) => ({
+                        ...old,
+                        note: e.currentTarget.value,
+                      }));
+                    }}
+                  />
+                  <FieldErrorMessage>{t("validation.noEmptyRevision")}</FieldErrorMessage>
+                </FormControl>
               </InputWrapper>
               <VerticalCenter>
                 <StyledDatePickerWrapper>

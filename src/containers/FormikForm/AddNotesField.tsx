@@ -55,6 +55,7 @@ const AddNotesField = ({
     newNotes[index] = evt.currentTarget.value;
     onNotesChange(newNotes);
   };
+
   return (
     <Field>
       {value.map((note, index) => (

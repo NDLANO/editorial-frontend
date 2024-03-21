@@ -6,15 +6,16 @@
  *
  */
 
-import { FieldProps } from "formik";
 import { useTranslation } from "react-i18next";
+import { FieldErrorMessage, Label } from "@ndla/forms";
 import { Select, SingleValue, Option } from "@ndla/select";
-import { StyledFormikField, StyledLabel } from "./PlannedResourceForm";
+import { FormControl, FormField } from "../../../components/FormField";
 
 interface Props {
   label: string;
   fieldName: string;
   id: string;
+  isRequired?: boolean;
   placeholder: string;
   options: Option[];
   defaultValue?: Option;
@@ -23,10 +24,12 @@ interface Props {
 const PlannedResourceSelect = ({ label, fieldName, id, placeholder, options = [], defaultValue }: Props) => {
   const { t } = useTranslation();
   return (
-    <StyledFormikField name={fieldName}>
-      {({ field }: FieldProps) => (
-        <>
-          <StyledLabel htmlFor={id}>{t(label)}</StyledLabel>
+    <FormField name={fieldName}>
+      {({ meta, helpers }) => (
+        <FormControl isInvalid={!!meta.error}>
+          <Label textStyle="label-small" margin="none">
+            {t(label)}
+          </Label>
           <Select<false>
             id={id}
             options={options}
@@ -37,15 +40,12 @@ const PlannedResourceSelect = ({ label, fieldName, id, placeholder, options = []
             matchFrom="any"
             defaultValue={defaultValue}
             noOptionsMessage={() => t("form.responsible.noResults")}
-            onChange={(value: SingleValue) =>
-              field.onChange({
-                target: { name: field.name, value: value?.value },
-              })
-            }
+            onChange={(value: SingleValue) => helpers.setValue(value?.value)}
           />
-        </>
+          <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+        </FormControl>
       )}
-    </StyledFormikField>
+    </FormField>
   );
 };
 

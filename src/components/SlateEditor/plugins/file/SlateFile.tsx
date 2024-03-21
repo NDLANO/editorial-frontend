@@ -6,7 +6,7 @@
  *
  */
 
-import { KeyboardEvent, useCallback, useEffect, useState } from "react";
+import { KeyboardEvent, MouseEvent, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
@@ -100,20 +100,26 @@ export const SlateFile = ({
     onEditFile({ ...file, display: file.display === "block" ? "inline" : "block" }, index);
   };
 
-  const onCommitFileName = useCallback(() => {
-    onEditFile({ ...file, title: fileName }, index);
-    setEditIndex(undefined);
-  }, [file, fileName, index, onEditFile, setEditIndex]);
+  const onCommitFileName = useCallback(
+    (e: MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+      e.stopPropagation();
+      onEditFile({ ...file, title: fileName }, index);
+      setEditIndex(undefined);
+    },
+    [file, fileName, index, onEditFile, setEditIndex],
+  );
 
   const onKeyDown = useCallback(
     (e: KeyboardEvent<HTMLInputElement>) => {
       if (e.key === "Enter") {
         e.preventDefault();
         e.stopPropagation();
-        onCommitFileName();
+        onEditFile({ ...file, title: fileName }, index);
+        setEditIndex(undefined);
       }
     },
-    [onCommitFileName],
+    [file, fileName, index, onEditFile, setEditIndex],
   );
 
   return (
@@ -126,12 +132,14 @@ export const SlateFile = ({
               name="file-name"
               value={fileName}
               onKeyDown={onKeyDown}
-              onChange={(e) => setFileName(e.target.value)}
+              onChange={(e) => setFileName(e.currentTarget.value)}
               // eslint-disable-next-line jsx-a11y/no-autofocus
               autoFocus
             />
             <IconButtonV2
               variant="ghost"
+              type="button"
+              onMouseDown={(e) => e.preventDefault()}
               onClick={onCommitFileName}
               size="xsmall"
               aria-label={t("save")}

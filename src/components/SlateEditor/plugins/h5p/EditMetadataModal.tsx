@@ -6,18 +6,19 @@
  *
  */
 
-import { ChangeEvent, useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor } from "slate-react";
 import styled from "@emotion/styled";
 import { ButtonV2, IconButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { TextAreaV2 } from "@ndla/forms";
+import { Label, TextAreaV3 } from "@ndla/forms";
 import { Pencil } from "@ndla/icons/action";
 import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
 import { H5pEmbedData, H5pMetaData } from "@ndla/types-embed";
 import { H5pElement } from "./types";
+import { FormControl } from "../../../FormField";
 import FormikFieldDescription from "../../../FormikField/FormikFieldDescription";
 
 const StyledModalBody = styled.div`
@@ -82,15 +83,17 @@ const EditMetadataModal = ({ embed, editor, element }: Props) => {
             <label>{t("form.h5p.metadata.edit")}</label>
             <FormikFieldDescription description={t("form.h5p.metadata.description")} />
           </div>
-          <TextAreaV2
-            name="alt"
-            label={t("form.h5p.metadata.alttext")}
-            value={alttext}
-            onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setAlttext(e.target.value)}
-            type="text"
-            placeholder={t("form.h5p.metadata.alttext")}
-            white
-          />
+          <FormControl>
+            <Label textStyle="label-small" margin="none">
+              {t("form.h5p.metadata.alttext")}
+            </Label>
+            <TextAreaV3
+              name="alt"
+              value={alttext}
+              onChange={(e) => setAlttext(e.target.value)}
+              placeholder={t("form.h5p.metadata.alttext")}
+            />
+          </FormControl>
           <ButtonWrapper>
             <ButtonV2 onClick={onCancel}>{t("form.h5p.metadata.cancel")}</ButtonV2>
             <ButtonV2 onClick={onSaveMetadata} disabled={alttext === embed?.embedData.alt}>

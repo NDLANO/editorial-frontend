@@ -7,9 +7,12 @@
  */
 
 import { FormEvent, MouseEvent } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
-import { FieldSection, Input, FieldRemoveButton } from "@ndla/forms";
-import Field from "../../components/Field";
+import { spacing } from "@ndla/core";
+import { FieldRemoveButton, Label, InputV3, FieldErrorMessage } from "@ndla/forms";
+import { FormControl } from "../../components/FormField";
 
 interface Props {
   name: string;
@@ -22,6 +25,26 @@ interface Props {
   showError?: boolean;
 }
 
+const NoteWrapper = styled.li`
+  display: flex;
+  gap: ${spacing.small};
+  margin: 0;
+  padding: 0;
+`;
+
+const NotesContainer = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.small};
+  align-items: flex-start;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  div {
+    width: 100%;
+  }
+`;
+
 const AddNotesField = ({
   name,
   placeholder,
@@ -32,6 +55,7 @@ const AddNotesField = ({
   value,
   showError,
 }: Props) => {
+  const { t } = useTranslation();
   const onNotesChange = (newContributors: string[]) => {
     onChange({
       target: {
@@ -55,32 +79,31 @@ const AddNotesField = ({
     newNotes[index] = evt.currentTarget.value;
     onNotesChange(newNotes);
   };
+
   return (
-    <Field>
+    <NotesContainer>
       {value.map((note, index) => (
-        <FieldSection key={`notes_${index}`}>
-          <div>
-            <Input
-              warningText={showError && note === "" ? labelWarningNote : ""}
+        <FormControl key={`note-${index}`} isInvalid={showError && note === ""}>
+          <Label visuallyHidden>{`${t("form.notes.history.note")} ${index + 1}`}</Label>
+          <NoteWrapper>
+            <InputV3
               type="text"
               // eslint-disable-next-line jsx-a11y/no-autofocus
               autoFocus
               placeholder={placeholder}
               value={note}
               data-testid="notesInput"
-              onChange={(e: FormEvent<HTMLInputElement>) => handleNoteChange(e, index)}
-              white
+              onChange={(e) => handleNoteChange(e, index)}
             />
-          </div>
-          <div>
             <FieldRemoveButton onClick={(evt) => removeNote(evt, index)}>{labelRemoveNote}</FieldRemoveButton>
-          </div>
-        </FieldSection>
+          </NoteWrapper>
+          <FieldErrorMessage>{labelWarningNote}</FieldErrorMessage>
+        </FormControl>
       ))}
       <ButtonV2 variant="outline" onClick={addNote} data-testid="addNote">
         {labelAddNote}
       </ButtonV2>
-    </Field>
+    </NotesContainer>
   );
 };
 

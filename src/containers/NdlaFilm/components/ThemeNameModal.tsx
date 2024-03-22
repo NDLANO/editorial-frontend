@@ -11,9 +11,10 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { InputV2 } from "@ndla/forms";
+import { InputV3, Label } from "@ndla/forms";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
 import { ThemeNames } from "./ThemeEditor";
+import { FormControl } from "../../../components/FormField";
 
 const blankTheme = {
   nb: "",
@@ -66,22 +67,22 @@ const ThemeNameModal = ({ initialTheme, activateButton, messages, onSaveTheme, c
         </ModalHeader>
         <StyledModalBody>
           {Object.entries(newTheme).map(([key, value]) => (
-            <InputV2
-              key={key}
-              name={key}
-              label={t(`languages.${key}`)}
-              type="text"
-              value={value}
-              onChange={(e) =>
-                setNewTheme((prev) => ({
-                  ...prev,
-                  [key]: e.currentTarget.value,
-                }))
-              }
-              placeholder={t("ndlaFilm.editor.groupNamePlaceholder", {
-                lang: t(`languages.${key}`),
-              })}
-            />
+            <FormControl key={key}>
+              <Label>{t(`languages.${key}`)}</Label>
+              <InputV3
+                type="text"
+                value={value}
+                onChange={(e) => {
+                  setNewTheme((prev) => ({
+                    ...prev,
+                    [key]: e.currentTarget.value,
+                  }));
+                }}
+                placeholder={t("ndlaFilm.editor.groupNamePlaceholder", {
+                  lang: t(`languages.${key}`),
+                })}
+              />
+            </FormControl>
           ))}
           <ButtonWrapper>
             <ModalCloseButton>

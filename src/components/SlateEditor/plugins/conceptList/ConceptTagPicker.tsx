@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2, CloseButton } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { Input } from "@ndla/forms";
+import { InputV3 } from "@ndla/forms";
 import { Spinner } from "@ndla/icons";
 import { ModalBody, ModalHeader } from "@ndla/modal";
 import { ConceptListEmbedData } from "@ndla/types-embed";
@@ -135,7 +135,7 @@ const ConceptTagPicker = ({ element, onClose, language, onSave: onSaveProp }: Pr
       <ModalBody>
         <TwoColumn>
           <FormInput>
-            <Input value={titleInput} onChange={onChangeTitleInput} placeholder={t("form.name.title")} />
+            <InputV3 value={titleInput} onChange={onChangeTitleInput} placeholder={t("form.name.title")} />
             <Dropdown
               items={tags}
               onSelect={setSelectedTag}

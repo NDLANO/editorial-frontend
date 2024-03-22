@@ -304,7 +304,6 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
           showPagination
           initialSearch={false}
           label={t("form.content.relatedArticle.placeholder")}
-          white
         />
       )}
       {previewLoading ? <Spinner /> : preview && <ArticlePreview article={preview} />}

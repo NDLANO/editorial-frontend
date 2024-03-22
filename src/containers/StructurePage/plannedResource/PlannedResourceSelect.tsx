@@ -7,6 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
 import { FieldErrorMessage, Label } from "@ndla/forms";
 import { Select, SingleValue, Option } from "@ndla/select";
 import { FormControl, FormField } from "../../../components/FormField";
@@ -21,29 +22,35 @@ interface Props {
   defaultValue?: Option;
 }
 
+const SelectWrapper = styled.div`
+  position: relative;
+`;
+
 const PlannedResourceSelect = ({ label, fieldName, id, placeholder, options = [], defaultValue }: Props) => {
   const { t } = useTranslation();
   return (
     <FormField name={fieldName}>
       {({ meta, helpers }) => (
-        <FormControl isInvalid={!!meta.error}>
-          <Label textStyle="label-small" margin="none">
-            {t(label)}
-          </Label>
-          <Select<false>
-            id={id}
-            options={options}
-            placeholder={t(placeholder)}
-            required
-            inModal
-            isSearchable
-            matchFrom="any"
-            defaultValue={defaultValue}
-            noOptionsMessage={() => t("form.responsible.noResults")}
-            onChange={(value: SingleValue) => helpers.setValue(value?.value)}
-          />
-          <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-        </FormControl>
+        <SelectWrapper>
+          <FormControl isInvalid={!!meta.error}>
+            <Label textStyle="label-small" margin="none">
+              {t(label)}
+            </Label>
+            <Select<false>
+              id={id}
+              options={options}
+              placeholder={t(placeholder)}
+              required
+              inModal
+              isSearchable
+              matchFrom="any"
+              defaultValue={defaultValue}
+              noOptionsMessage={() => t("form.responsible.noResults")}
+              onChange={(value: SingleValue) => helpers.setValue(value?.value)}
+            />
+            <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+          </FormControl>
+        </SelectWrapper>
       )}
     </FormField>
   );

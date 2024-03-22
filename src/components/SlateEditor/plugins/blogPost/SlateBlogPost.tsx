@@ -31,7 +31,7 @@ const BlogPostWrapper = styled.div`
   display: flex;
   height: 100%;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   div[contenteditable] {
     height: 100%;
   }

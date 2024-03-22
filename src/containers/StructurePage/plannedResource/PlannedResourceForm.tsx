@@ -12,7 +12,6 @@ import uniq from "lodash/uniq";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
 import { ButtonV2 } from "@ndla/button";
@@ -73,15 +72,6 @@ export const StyledFormikField = styled(FormikField)`
 
 export const ErrorMessage = styled.div`
   color: ${colors.support.red};
-`;
-
-export const inputWrapperStyles = css`
-  flex-direction: column;
-  label {
-    padding: 0;
-    ${fonts.sizes("16px")};
-    white-space: nowrap;
-  }
 `;
 
 export const ButtonWrapper = styled.div`

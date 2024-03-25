@@ -639,6 +639,7 @@ const phrases = {
     "code-block": "Code",
     "concept-inline": "Concept\n({{ctrl}}+alt+c)",
     "gloss-inline": "Gloss\n({{ctrl}}+alt+g)",
+    "comment-inline": "Comment",
     footnote: "Footnote\n({{ctrl}}+alt+f)",
     language: `Language`,
     noneLanguage: "None",

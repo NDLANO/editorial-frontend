@@ -119,7 +119,7 @@ const CommentEmbed = ({ embed, onSave, children, onRemove, commentType }: Props)
             {children}
           </CommentButton>
         ) : (
-          <BlockCommentWrapper>
+          <BlockCommentWrapper contentEditable={false}>
             {embed.embedData.isStandalone !== "true" && children}
             <BlockComment>{parse(embed?.embedData?.text ?? "")}</BlockComment>
           </BlockCommentWrapper>

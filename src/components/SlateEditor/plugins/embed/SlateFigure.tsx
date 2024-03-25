@@ -38,7 +38,7 @@ export const FigureInfo = styled.div`
   margin-bottom: ${spacing.small};
   font-family: ${fonts.sans};
   color: ${colors.text.primary};
-  ${fonts.sizes("16px", "24px")};
+  ${fonts.size.text.metaText.medium};
   white-space: normal;
   ${mq.range({ from: breakpoints.tablet })} {
     flex: 2;

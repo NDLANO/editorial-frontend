@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { mq, breakpoints, colors, spacing } from "@ndla/core";
 import { Alarm, Time } from "@ndla/icons/common";
-import Pager from "@ndla/pager";
+import { Pager } from "@ndla/pager";
 import { IUserData } from "@ndla/types-backend/draft-api";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
 import GoToSearch from "./GoToSearch";
@@ -119,15 +119,15 @@ const Revisions = ({ userData }: Props) => {
 
   const { data, isLoading, isError } = useSearch(
     {
-      subjects: filterSubject ? filterSubject.value : userData?.favoriteSubjects?.join(","),
-      "revision-date-to": currentDateAddYear,
+      subjects: filterSubject ? [filterSubject.value] : userData?.favoriteSubjects,
+      revisionDateTo: currentDateAddYear,
       sort: sortOption,
       page: page,
-      "page-size": Number(pageSize!.value),
+      pageSize: Number(pageSize!.value),
       language,
       fallback: true,
-      "draft-status": PUBLISHED,
-      "include-other-statuses": true,
+      draftStatus: [PUBLISHED],
+      includeOtherStatuses: true,
     },
     {
       enabled: !!userData?.favoriteSubjects?.length,

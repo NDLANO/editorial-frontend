@@ -6,10 +6,10 @@
  *
  */
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Node } from "slate";
-import { ReactEditor, RenderElementProps } from "slate-react";
+import { BaseSelection, Editor, Node, Transforms } from "slate";
+import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import styled from "@emotion/styled";
 import { Portal } from "@radix-ui/react-portal";
 import { ButtonV2 } from "@ndla/button";
@@ -20,7 +20,6 @@ import EditLink from "./EditLink";
 import config from "../../../../config";
 import { toEditGenericArticle, toLearningpathFull } from "../../../../util/routeHelpers";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
-import isNodeInCurrentSelection from "../../utils/isNodeInCurrentSelection";
 
 interface StyledLinkMenuProps {
   top: number;
@@ -36,6 +35,9 @@ const StyledLinkMenu = styled.div<StyledLinkMenuProps>`
   background-clip: padding-box;
   border: 1px solid ${colors.brand.greyLight};
   z-index: ${stackOrder.offsetSingle};
+  &[data-visible="false"] {
+    display: none;
+  }
 `;
 
 const fetchResourcePath = (node: ContentLinkElement, language: string, contentType: string) => {
@@ -76,9 +78,9 @@ const Link = ({ attributes, editor, element, children }: Props) => {
   const [model, setModel] = useState<Model | undefined>();
   const startOpen = useRef(!hasHrefOrContentId(element));
   const [editMode, setEditMode] = useState(!hasHrefOrContentId(element));
-  const [isLinkSelected, setIsLinkSelected] = useState(false);
+  const [editorSelection, setEditorSelection] = useState<BaseSelection | undefined>(undefined);
   const language = useArticleLanguage();
-
+  const selected = useSelected();
   const { t } = useTranslation();
 
   const getMenuPosition = () => {
@@ -95,9 +97,22 @@ const Link = ({ attributes, editor, element, children }: Props) => {
     };
   };
 
-  const toggleEditMode = () => {
-    setEditMode((prev) => !prev);
-  };
+  const focusEditor = useCallback(() => {
+    if (editorSelection) {
+      ReactEditor.focus(editor);
+      setTimeout(() => Transforms.select(editor, editorSelection), 0);
+    }
+  }, [editor, editorSelection]);
+
+  const toggleEditMode = useCallback(
+    (open: boolean) => {
+      if (!open) {
+        focusEditor();
+      }
+      setEditMode(open);
+    },
+    [focusEditor],
+  );
 
   useEffect(() => {
     const setStateFromNode = async () => {
@@ -121,26 +136,29 @@ const Link = ({ attributes, editor, element, children }: Props) => {
     setStateFromNode();
   }, [element, language]);
 
-  useEffect(() => {
-    if (!editor.selection) return;
-    setIsLinkSelected(isNodeInCurrentSelection(editor, element));
-  }, [editor, editor.selection, element]);
-
   const { top, left } = getMenuPosition();
 
   return (
     <Modal defaultOpen={startOpen.current} open={editMode} onOpenChange={toggleEditMode}>
       <StyledLink {...attributes} href={model?.href} ref={linkRef}>
         {children}
-        {model && isLinkSelected && (
-          <Portal>
-            <StyledLinkMenu top={top} left={left}>
+        {model && (
+          <Portal asChild>
+            <StyledLinkMenu
+              top={top}
+              left={left}
+              data-visible={selected}
+              onMouseDown={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setEditorSelection(editor.selection);
+              }}
+            >
               <ModalTrigger>
                 <ButtonV2 variant="link">{t("form.content.link.change")}</ButtonV2>
               </ModalTrigger>{" "}
               | {t("form.content.link.goTo")}{" "}
               <a href={model?.href} target="_blank" rel="noopener noreferrer">
-                {" "}
                 {model?.href}
               </a>
             </StyledLinkMenu>
@@ -148,12 +166,15 @@ const Link = ({ attributes, editor, element, children }: Props) => {
         )}
       </StyledLink>
       <ModalContent
+        onEscapeKeyDown={(e) => e.stopPropagation()}
         onCloseAutoFocus={(e) => {
           e.preventDefault();
-          ReactEditor.focus(editor);
+          focusEditor();
         }}
       >
-        {model && <EditLink editor={editor} element={element} model={model} closeEditMode={toggleEditMode} />}
+        {model && (
+          <EditLink editor={editor} element={element} model={model} closeEditMode={() => toggleEditMode(false)} />
+        )}
       </ModalContent>
     </Modal>
   );

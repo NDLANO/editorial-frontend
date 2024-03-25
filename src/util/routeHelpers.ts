@@ -150,6 +150,10 @@ export function toPreviewDraft(draftId: number, language: string) {
   return `/preview/${draftId}/${language}`;
 }
 
+export function toCompareLanguage(draftId: number, language: string) {
+  return `/compare/${draftId}/${language}`;
+}
+
 export function toStructure(path: string) {
   const urnPath = path
     .split("/")

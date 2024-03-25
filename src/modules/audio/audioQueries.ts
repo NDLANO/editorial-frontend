@@ -12,9 +12,10 @@ import {
   IAudioSummarySearchResult,
   ISeriesSummarySearchResult,
   ISeries,
+  ISeriesSearchParams,
+  ISearchParams as IAudioSearchParams,
 } from "@ndla/types-backend/audio-api";
-import { fetchAudio, fetchSeries, searchAudio, searchSeries } from "./audioApi";
-import { AudioSearchParams, SeriesSearchParams } from "./audioApiInterfaces";
+import { fetchAudio, fetchSeries, postSearchAudio, postSearchSeries } from "./audioApi";
 import { AUDIO, PODCAST_SERIES, SEARCH_AUDIO, SEARCH_SERIES } from "../../queryKeys";
 
 export interface UseAudio {
@@ -24,9 +25,9 @@ export interface UseAudio {
 
 export const audioQueryKeys = {
   audio: (params?: Partial<UseAudio>) => [AUDIO, params] as const,
-  search: (params?: Partial<AudioSearchParams>) => [SEARCH_AUDIO, params] as const,
+  search: (params?: Partial<IAudioSearchParams>) => [SEARCH_AUDIO, params] as const,
   podcastSeries: (params?: Partial<UseSeries>) => [PODCAST_SERIES, params] as const,
-  podcastSeriesSearch: (params?: Partial<SeriesSearchParams>) => [SEARCH_SERIES, params] as const,
+  podcastSeriesSearch: (params?: Partial<ISeriesSearchParams>) => [SEARCH_SERIES, params] as const,
 };
 
 export const useAudio = (params: UseAudio, options?: Partial<UseQueryOptions<IAudioMetaInformation>>) =>
@@ -49,21 +50,23 @@ export const useSeries = (params: UseSeries, options?: Partial<UseQueryOptions<I
   });
 
 export const useSearchSeries = (
-  query: SeriesSearchParams,
+  query: ISeriesSearchParams,
   options?: Partial<UseQueryOptions<ISeriesSummarySearchResult>>,
-) =>
-  useQuery<ISeriesSummarySearchResult>({
+) => {
+  return useQuery<ISeriesSummarySearchResult>({
     queryKey: audioQueryKeys.podcastSeriesSearch(query),
-    queryFn: () => searchSeries(query),
+    queryFn: () => postSearchSeries(query),
     ...options,
   });
+};
 
 export const useSearchAudio = (
-  query: AudioSearchParams,
+  query: IAudioSearchParams,
   options?: Partial<UseQueryOptions<IAudioSummarySearchResult>>,
-) =>
-  useQuery<IAudioSummarySearchResult>({
+) => {
+  return useQuery<IAudioSummarySearchResult>({
     queryKey: audioQueryKeys.search(query),
-    queryFn: () => searchAudio(query),
+    queryFn: () => postSearchAudio(query),
     ...options,
   });
+};

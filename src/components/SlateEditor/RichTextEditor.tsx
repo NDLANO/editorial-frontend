@@ -8,7 +8,7 @@
 import { useFormikContext } from "formik";
 import isEqual from "lodash/isEqual";
 import { FocusEvent, KeyboardEvent, useCallback, useEffect, useRef, useState } from "react";
-import { createEditor, Descendant, Editor, NodeEntry, Range, Transforms } from "slate";
+import { createEditor, Descendant, Editor, NodeEntry, Range, Transforms, Element } from "slate";
 import { withHistory } from "slate-history";
 import { Slate, Editable, withReact, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
 import { EditableProps } from "slate-react/dist/components/editable";
@@ -23,6 +23,7 @@ import { onDragOver, onDragStart, onDrop } from "./plugins/DND";
 import { SlateToolbar } from "./plugins/toolbar";
 import { AreaFilters, CategoryFilters } from "./plugins/toolbar/toolbarState";
 import { SlateProvider } from "./SlateContext";
+import { KEY_ARROW_LEFT, KEY_ARROW_RIGHT } from "./utils/keys";
 import withPlugins from "./utils/withPlugins";
 import { BLOCK_PICKER_TRIGGER_ID } from "../../constants";
 import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
@@ -219,6 +220,22 @@ const RichTextEditor = ({
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent<HTMLDivElement>) => {
+      if (editor.selection && Range.isCollapsed(editor.selection) && !e.shiftKey) {
+        const [parent] = Editor.parent(editor, editor.selection);
+        if (Element.isElement(parent) && editor.isInline(parent)) {
+          if (e.key === KEY_ARROW_LEFT) {
+            e.preventDefault();
+            Transforms.move(editor, { unit: "offset", reverse: true });
+            return;
+          }
+          if (e.key === KEY_ARROW_RIGHT) {
+            e.preventDefault();
+            Transforms.move(editor, { unit: "offset" });
+            return;
+          }
+        }
+      }
+
       let allowEditorKeyDown = true;
       if (additionalOnKeyDown) {
         allowEditorKeyDown = additionalOnKeyDown(e);
@@ -235,7 +252,7 @@ const RichTextEditor = ({
     <article>
       <ArticleLanguageProvider language={language}>
         <SlateProvider isSubmitted={submitted}>
-          <StyledSlateWrapper data-testid={testId} data-editor="">
+          <StyledSlateWrapper data-testid={testId}>
             <Slate editor={editor} initialValue={value} onChange={onChange}>
               {isFirstNormalize && !hideSpinner ? (
                 <Spinner />

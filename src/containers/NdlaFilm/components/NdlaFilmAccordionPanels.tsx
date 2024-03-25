@@ -61,7 +61,7 @@ const SubjectpageAccordionPanels = ({ errors, selectedLanguage }: ComponentProps
       <FormAccordion
         id="about"
         title={t("subjectpageForm.about")}
-        className="u-4/6@desktop u-push-1/6@desktop"
+        className="u-10/12 u-push-1/12"
         hasError={["title", "description", "visualElement"].some((field) => field in errors)}
       >
         <SubjectpageAbout selectedLanguage={selectedLanguage} />

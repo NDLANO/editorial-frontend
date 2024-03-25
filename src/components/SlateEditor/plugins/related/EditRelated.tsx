@@ -15,12 +15,12 @@ import { IconButtonV2 } from "@ndla/button";
 import { colors, spacing, stackOrder } from "@ndla/core";
 import { Pencil } from "@ndla/icons/action";
 import { DeleteForever } from "@ndla/icons/editor";
-import Tabs from "@ndla/tabs";
+import { Tabs } from "@ndla/tabs";
 import { RelatedContentEmbedData, RelatedContentMetaData } from "@ndla/types-embed";
 import { Heading } from "@ndla/typography";
 import { RelatedContentEmbed } from "@ndla/ui";
 import ContentLink from "../../../../containers/ArticlePage/components/ContentLink";
-import { search } from "../../../../modules/search/searchApi";
+import { postSearch } from "../../../../modules/search/searchApi";
 import DndList from "../../../DndList";
 import AsyncDropdown from "../../../Dropdown/asyncDropdown/AsyncDropdown";
 
@@ -89,10 +89,10 @@ const EditRelated = forwardRef<HTMLDivElement, Props>(
     const [windowHeight, setWindowHeight] = useState<number>(window.innerHeight);
 
     const searchForArticles = async (query: string, page: number | undefined) => {
-      return search({
+      return postSearch({
         query,
         page,
-        "context-types": "standard",
+        contextTypes: ["standard"],
       });
     };
 

@@ -16,9 +16,8 @@ export const RESOURCE_TYPE_LEARNING_PATH = "urn:resourcetype:learningPath";
 export const RESOURCE_TYPE_SUBJECT_MATERIAL = "urn:resourcetype:subjectMaterial";
 export const RESOURCE_TYPE_TASKS_AND_ACTIVITIES = "urn:resourcetype:tasksAndActivities";
 export const RESOURCE_TYPE_ASSESSMENT_RESOURCES = "urn:resourcetype:reviewResource";
-export const RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES = "urn:resourcetype:externalResource";
 export const RESOURCE_TYPE_SOURCE_MATERIAL = "urn:resourcetype:SourceMaterial";
-export const RESOURCE_TYPE_CONCEPT = "urn:resourcetype:concept"; // Not yet added to @ndla/ui
+export const RESOURCE_TYPE_CONCEPT = "urn:resourcetype:concept";
 
 export const ITUNES_STANDARD_MINIMUM_WIDTH = 1400;
 export const ITUNES_STANDARD_MAXIMUM_WIDTH = 3000;
@@ -39,8 +38,6 @@ export const RESOURCE_FILTER_CORE = "urn:relevance:core";
 export const RESOURCE_FILTER_SUPPLEMENTARY = "urn:relevance:supplementary";
 
 export const NDLA_FILM_SUBJECT = "urn:subject:20";
-
-export const ARTICLE_EXTERNAL = "external-learning-resources";
 
 export const DRAFT_ADMIN_SCOPE = "drafts:admin";
 export const DRAFT_WRITE_SCOPE = "drafts:write";
@@ -194,6 +191,7 @@ export const EXTERNAL_WHITELIST_PROVIDERS: WhitelistProvider[] = [
   { name: "Facebook", url: ["www.facebook.com", "fb.watch"] },
   { name: "Sketchfab", url: ["sketchfab.com"] },
   { name: "JeopardyLabs", url: ["jeopardylabs.com"] },
+  { name: "Brightcove", url: ["players.brightcove.net"] },
 ];
 
 export const SearchTypeValues = [

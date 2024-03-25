@@ -30,6 +30,7 @@ export const AUDIO_EMBED = "audio";
 export const PODCAST_SERIES = "podcastSeries";
 
 export const DRAFT = "draft";
+export const DRAFT_HISTORY = "draftHistory";
 export const SEARCH_DRAFTS = "searchDrafts";
 export const LICENSES = "licenses";
 export const USER_DATA = "userData";
@@ -53,6 +54,7 @@ export const ARTICLE_SEARCH = "articleSearch";
 export const NODE = "node";
 export const NODES = "nodes";
 export const SEARCH_NODES = "searchNodes";
+export const POST_SEARCH_NODES = "postSearchNodes";
 export const CHILD_NODES_WITH_ARTICLE_TYPE = "childNodesWithArticleType";
 export const NODE_TRANSLATIONS = "nodeTranslations";
 export const NODE_CONNECTION = "nodeConnection";

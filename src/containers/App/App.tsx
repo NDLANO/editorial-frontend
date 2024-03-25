@@ -33,6 +33,7 @@ import SubjectMatterPage from "./SubjectMatterPage";
 import Zendesk from "./Zendesk";
 import ErrorBoundary from "../../components/ErrorBoundary";
 import { scheduleRenewal } from "../../util/authHelpers";
+import ComparePage from "../ComparePage/ComparePage";
 import ConceptPage from "../ConceptPage/ConceptPage";
 import EditMarkupPage from "../EditMarkupPage/EditMarkupPage";
 import Subjectpage from "../EditSubjectFrontpage/Subjectpage";
@@ -90,6 +91,7 @@ const App = () => {
                   <Route path="/concept/*" element={<PrivateRoute component={<ConceptPage />} />} />
                   <Route path="/gloss/*" element={<PrivateRoute component={<GlossPage />} />} />
                   <Route path="/preview/:draftId/:language/*" element={<PreviewDraftPage />} />
+                  <Route path="/compare/:draftId/:language/*" element={<ComparePage />} />
                   <Route path="/media/*" element={<PrivateRoute component={<MediaPage />} />} />
                   <Route path="/film/*" element={<PrivateRoute component={<NdlaFilm />} />} />
                   <Route path="/h5p/*" element={<PrivateRoute component={<H5PPage />} />} />

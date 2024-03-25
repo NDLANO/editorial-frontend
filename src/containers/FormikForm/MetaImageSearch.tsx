@@ -16,7 +16,7 @@ import { IImageMetaInformationV3, IUpdateImageMetaInformation } from "@ndla/type
 import MetaImageField from "./components/MetaImageField";
 import ImageSearchAndUploader from "../../components/ControlledImageSearchAndUploader";
 import HowToHelper from "../../components/HowTo/HowToHelper";
-import { postImage, updateImage, searchImages, fetchImage, onError } from "../../modules/image/imageApi";
+import { postImage, updateImage, postSearchImages, fetchImage, onError } from "../../modules/image/imageApi";
 import { createFormData } from "../../util/formDataHelper";
 
 interface Props {
@@ -121,7 +121,7 @@ const MetaImageSearch = ({
               language={language}
               closeModal={onImageSelectClose}
               fetchImage={(id) => fetchImage(id, language)}
-              searchImages={searchImages}
+              searchImages={postSearchImages}
               onError={onError}
               updateImage={onImageUpdate}
               image={image}

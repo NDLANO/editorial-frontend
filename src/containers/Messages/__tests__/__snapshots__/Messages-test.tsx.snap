@@ -8,7 +8,7 @@ exports[`Messages > A message is removed if the modal is closed 1`] = `
   top: 50px;
   left: 0;
   right: 0;
-  z-index: 400;
+  z-index: 500;
   margin: 0 auto;
 }
 
@@ -16,7 +16,7 @@ exports[`Messages > A message is removed if the modal is closed 1`] = `
   position: fixed;
   inset: 0;
   background: rgba(1, 1, 1, 0.3);
-  z-index: 399;
+  z-index: 499;
   -webkit-animation-duration: var(--duration);
   animation-duration: var(--duration);
   -webkit-animation-timing-function: ease-in-out;
@@ -38,7 +38,7 @@ exports[`Messages > A message is removed if the modal is closed 1`] = `
   position: fixed;
   inset: 0;
   margin: auto;
-  z-index: 400;
+  z-index: 500;
   height: -webkit-min-content;
   height: -moz-min-content;
   height: min-content;
@@ -583,7 +583,7 @@ exports[`Messages > A message is removed if the modal is closed 2`] = `
   top: 50px;
   left: 0;
   right: 0;
-  z-index: 400;
+  z-index: 500;
   margin: 0 auto;
   display: none;
 }
@@ -607,7 +607,7 @@ exports[`Messages > A single message renders correctly 1`] = `
   top: 50px;
   left: 0;
   right: 0;
-  z-index: 400;
+  z-index: 500;
   margin: 0 auto;
 }
 
@@ -615,7 +615,7 @@ exports[`Messages > A single message renders correctly 1`] = `
   position: fixed;
   inset: 0;
   background: rgba(1, 1, 1, 0.3);
-  z-index: 399;
+  z-index: 499;
   -webkit-animation-duration: var(--duration);
   animation-duration: var(--duration);
   -webkit-animation-timing-function: ease-in-out;
@@ -637,7 +637,7 @@ exports[`Messages > A single message renders correctly 1`] = `
   position: fixed;
   inset: 0;
   margin: auto;
-  z-index: 400;
+  z-index: 500;
   height: -webkit-min-content;
   height: -moz-min-content;
   height: min-content;
@@ -1182,7 +1182,7 @@ exports[`Messages > Several messages renders correctly 1`] = `
   top: 50px;
   left: 0;
   right: 0;
-  z-index: 400;
+  z-index: 500;
   margin: 0 auto;
 }
 
@@ -1190,7 +1190,7 @@ exports[`Messages > Several messages renders correctly 1`] = `
   position: fixed;
   inset: 0;
   background: rgba(1, 1, 1, 0.3);
-  z-index: 399;
+  z-index: 499;
   -webkit-animation-duration: var(--duration);
   animation-duration: var(--duration);
   -webkit-animation-timing-function: ease-in-out;
@@ -1212,7 +1212,7 @@ exports[`Messages > Several messages renders correctly 1`] = `
   position: fixed;
   inset: 0;
   margin: auto;
-  z-index: 400;
+  z-index: 500;
   height: -webkit-min-content;
   height: -moz-min-content;
   height: min-content;
@@ -1851,7 +1851,7 @@ exports[`Messages > auth0 messages provides a cancel button 1`] = `
   top: 50px;
   left: 0;
   right: 0;
-  z-index: 400;
+  z-index: 500;
   margin: 0 auto;
 }
 
@@ -1859,7 +1859,7 @@ exports[`Messages > auth0 messages provides a cancel button 1`] = `
   position: fixed;
   inset: 0;
   background: rgba(1, 1, 1, 0.3);
-  z-index: 399;
+  z-index: 499;
   -webkit-animation-duration: var(--duration);
   animation-duration: var(--duration);
   -webkit-animation-timing-function: ease-in-out;
@@ -1881,7 +1881,7 @@ exports[`Messages > auth0 messages provides a cancel button 1`] = `
   position: fixed;
   inset: 0;
   margin: auto;
-  z-index: 400;
+  z-index: 500;
   height: -webkit-min-content;
   height: -moz-min-content;
   height: min-content;
@@ -2518,7 +2518,7 @@ exports[`Messages > auth0 messages provides a cancel button 2`] = `
   top: 50px;
   left: 0;
   right: 0;
-  z-index: 400;
+  z-index: 500;
   margin: 0 auto;
   display: none;
 }

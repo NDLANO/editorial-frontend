@@ -11,7 +11,7 @@ import uniqBy from "lodash/uniqBy";
 import { useQuery, useQueryClient, UseQueryOptions } from "@tanstack/react-query";
 import { IComment, IDraftResponsible, IEditorNote, IRevisionMeta } from "@ndla/types-backend/draft-api";
 import { Node, NodeChild, NodeType } from "@ndla/types-taxonomy";
-import { fetchChildNodes, fetchNode, fetchNodeResources, fetchNodes, searchNodes } from "./nodeApi";
+import { fetchChildNodes, fetchNode, fetchNodeResources, fetchNodes, postSearchNodes, searchNodes } from "./nodeApi";
 import { GetNodeParams, GetNodeResourcesParams, RESOURCE_NODE, TOPIC_NODE } from "./nodeApiTypes";
 import { PUBLISHED } from "../../constants";
 import { NodeTree } from "../../containers/NodeDiff/diffUtils";
@@ -21,6 +21,7 @@ import {
   NODE,
   NODE_RESOURCES,
   NODES,
+  POST_SEARCH_NODES,
   RESOURCES_WITH_NODE_CONNECTION,
   ROOT_NODE_WITH_CHILDREN,
   SEARCH_NODES,
@@ -32,6 +33,7 @@ export const nodeQueryKeys = {
   nodes: (params?: Partial<UseNodesParams>) => [NODES, params] as const,
   node: (params?: Partial<UseNodeParams>) => [NODE, params] as const,
   search: (params?: Partial<UseSearchNodes>) => [SEARCH_NODES, params] as const,
+  postSearch: (params?: Partial<UseSearchNodes>) => [POST_SEARCH_NODES, params] as const,
   tree: (params?: Partial<UseNodeTree>) => [ROOT_NODE_WITH_CHILDREN, params] as const,
   resources: (params?: Partial<UseResourcesWithNodeConnectionParams>) =>
     [RESOURCES_WITH_NODE_CONNECTION, params] as const,
@@ -316,6 +318,21 @@ export const useSearchNodes = (params: UseSearchNodes, options?: Partial<UseQuer
   return useQuery<SearchResultBase<Node>>({
     queryKey: nodeQueryKeys.search(params),
     queryFn: () => searchNodes(params),
+    ...options,
+  });
+};
+
+interface UsePostSearchNodes extends WithTaxonomyVersion {
+  pageSize?: number;
+  customFields?: Record<string, string>;
+}
+export const usePostSearchNodes = (
+  body: UsePostSearchNodes,
+  options?: Partial<UseQueryOptions<SearchResultBase<Node>>>,
+) => {
+  return useQuery<SearchResultBase<Node>>({
+    queryKey: nodeQueryKeys.postSearch(body),
+    queryFn: () => postSearchNodes(body),
     ...options,
   });
 };

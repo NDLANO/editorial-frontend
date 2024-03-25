@@ -6,51 +6,42 @@
  *
  */
 
-import { FieldInputProps } from "formik";
 import { useTranslation } from "react-i18next";
-import { FieldHeader, FieldSection, Select } from "@ndla/forms";
-import HowToHelper from "../../../components/HowTo/HowToHelper";
+import { FieldErrorMessage, Label, Select } from "@ndla/forms";
+import { FormControl, FormField } from "../../../components/FormField";
 import { useLicenses } from "../../../modules/draft/draftQueries";
 import { getLicensesWithTranslations } from "../../../util/licenseHelpers";
 
-interface Props extends FieldInputProps<string> {
-  disabled?: boolean;
+interface Props {
+  name?: string;
   enableLicenseNA?: boolean;
-  width?: number;
 }
 
-const LicenseField = ({
-  onChange,
-  onBlur,
-  name = "license",
-  value,
-  disabled = false,
-  width = 3 / 4,
-  enableLicenseNA,
-}: Props) => {
+const LicenseField = ({ name = "license", enableLicenseNA }: Props) => {
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
   const licensesWithTranslations = getLicensesWithTranslations(licenses!, locale, enableLicenseNA);
 
   return (
-    <>
-      <FieldHeader title={t("form.license.label")} width={width}>
-        <HowToHelper pageId="userLicense" tooltip={t("form.license.helpLabel")} />
-      </FieldHeader>
-      <FieldSection>
-        <div>
-          <Select disabled={disabled} value={value} onChange={onChange} onBlur={onBlur} name={name}>
-            {!value && <option>{t("form.license.choose")}</option>}
+    <FormField name={name}>
+      {({ field, meta }) => (
+        <FormControl isInvalid={!!meta.error}>
+          <Label textStyle="label-small" margin="small">
+            {t("form.license.label")}
+          </Label>
+          <Select {...field}>
+            {!field.value && <option>{t("form.license.choose")}</option>}
             {licensesWithTranslations.map((license) => (
               <option value={license.license} key={license.license}>
                 {license.title}
               </option>
             ))}
           </Select>
-        </div>
-      </FieldSection>
-    </>
+          <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+        </FormControl>
+      )}
+    </FormField>
   );
 };
 

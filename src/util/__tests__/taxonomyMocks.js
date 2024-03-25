@@ -116,22 +116,14 @@ export const resourceTypesMock = [
     ],
   },
   {
-    id: "urn:resourcetype:externalResource",
-    name: "Ekstern læringsressurs",
-    subtypes: [
-      {
-        id: "urn:resourcetype:externalLink",
-        name: "Ekstern lenke",
-      },
-      {
-        id: "urn:resourcetype:sharedLearningResource",
-        name: "Delt læringsressurs",
-      },
-    ],
-  },
-  {
     id: "urn:resourcetype:concept",
     name: "Forklaring",
+    subtypes: [
+      {
+        id: "urn:resourcetype:conceptArticle",
+        name: "Forklaringsartikkel",
+      },
+    ],
   },
 ];
 
@@ -258,18 +250,11 @@ export const flattenedResourceTypes = [
     typeName: "Kildemateriale",
   },
   {
-    id: "urn:resourcetype:externalLink",
-    name: "Ekstern lenke",
-    typeId: "urn:resourcetype:externalResource",
-    typeName: "Ekstern læringsressurs",
+    id: "urn:resourcetype:conceptArticle",
+    name: "Forklaringsartikkel",
+    typeId: "urn:resourcetype:concept",
+    typeName: "Forklaring",
   },
-  {
-    id: "urn:resourcetype:sharedLearningResource",
-    name: "Delt læringsressurs",
-    typeId: "urn:resourcetype:externalResource",
-    typeName: "Ekstern læringsressurs",
-  },
-  { id: "urn:resourcetype:concept", name: "Forklaring" },
   { id: "topic-article", name: "Emne" },
   { id: "frontpage-article", name: "Forsideartikkel" },
 ];

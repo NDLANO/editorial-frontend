@@ -12,7 +12,7 @@ import { FieldHeader } from "@ndla/forms";
 import { IAudioSummarySearchResult, IAudioSummary } from "@ndla/types-backend/audio-api";
 import { PodcastSeriesFormikType } from "./PodcastSeriesForm";
 import AsyncDropdown from "../../../components/Dropdown/asyncDropdown/AsyncDropdown";
-import { fetchAudio, searchAudio } from "../../../modules/audio/audioApi";
+import { fetchAudio, postSearchAudio } from "../../../modules/audio/audioApi";
 import handleError from "../../../util/handleError";
 import ElementList from "../../FormikForm/components/ElementList";
 
@@ -37,11 +37,11 @@ const PodcastEpisodes = () => {
   };
 
   const searchForPodcasts = async (input: string, page?: number): Promise<IAudioSummarySearchResult> => {
-    const searchResult = await searchAudio({
+    const searchResult = await postSearchAudio({
       query: input,
       page,
       language: language,
-      "audio-type": "podcast",
+      audioType: "podcast",
     });
 
     const results = searchResult.results.map((result) => {

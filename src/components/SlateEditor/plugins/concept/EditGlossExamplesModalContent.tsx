@@ -24,7 +24,6 @@ import { ConceptInlineElement } from "./inline/interfaces";
 import { generateNumbersArray, generateUniqueGlossLanguageArray } from "./utils";
 import { CheckboxWrapper } from "../../../Form/styles";
 import { FormControl } from "../../../FormField";
-import { useArticleLanguage } from "../../ArticleLanguageProvider";
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -80,36 +79,15 @@ const getInitialStateSelectedExamples = (exampleIds: string | undefined, example
   else return [];
 };
 
-const getInitialStateSelectedLanguages = (exampleLangs: string | undefined, examples: IGlossExample[][]): string[] => {
-  if (exampleLangs) return exampleLangs.split(",");
-  else if (exampleLangs === undefined) return generateUniqueGlossLanguageArray(examples);
-  else return [];
-};
-
-const getLanguageWithConfigurations = (
-  examples: IGlossExample[][],
-  locale: string,
-): { lang: string; isDisabled: boolean }[] => {
-  const languages = generateUniqueGlossLanguageArray(examples);
-  return languages.map((langCode) => {
-    // If the locale is "nb" and the language is "nn" or vice versa, the checkbox should be disabled
-    const isDisabled = (locale === "nb" && langCode === "nn") || (locale === "nn" && langCode === "nb");
-    return { lang: langCode, isDisabled: isDisabled };
-  });
-};
-
 const EditGlossExamplesModalContent = ({ originalLanguage, examples, editor, element, embed, close }: Props) => {
   const { t } = useTranslation();
-  const locale = useArticleLanguage();
+  const languages = generateUniqueGlossLanguageArray(examples);
   const [selectedExamples, setSelectedExamples] = useState<string[]>(
     getInitialStateSelectedExamples(embed.embedData.exampleIds, examples),
   );
-
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>(
-    getInitialStateSelectedLanguages(embed.embedData.exampleLangs, examples),
+    embed.embedData.exampleLangs?.split(",") ?? languages,
   );
-
-  const languageWithConfigurations = getLanguageWithConfigurations(examples, locale);
 
   const saveGlossUpdates = () => {
     Transforms.setNodes(
@@ -138,37 +116,41 @@ const EditGlossExamplesModalContent = ({ originalLanguage, examples, editor, ele
       <ModalBody>
         <StyledForm>
           <FlexWrapper>
-            {examples.map((glossExample, index) => (
-              <div key={`edit-gloss-example-${index}`}>
-                <div>
-                  {glossExample.map((example, innerIndex) => (
-                    <GlossExample
-                      key={`edit-gloss-example-${index}-${innerIndex}`}
-                      example={example}
-                      originalLanguage={originalLanguage}
-                      index={innerIndex}
-                      isStandalone
-                    />
-                  ))}
-                </div>
-
-                <StyledCheckboxWrapper>
-                  <FormControl>
-                    <CheckboxWrapper>
-                      <CheckboxItem
-                        checked={selectedExamples.includes(index.toString())}
-                        onCheckedChange={() =>
-                          onCheckboxChange(index.toString(), setSelectedExamples, selectedExamples)
-                        }
+            {examples.map((glossExample, index) => {
+              const filtered = glossExample.filter((e) => selectedLanguages.includes(e.language));
+              return (
+                <div key={`edit-gloss-example-${index}`}>
+                  <div>
+                    {filtered.map((example, innerIndex) => (
+                      <GlossExample
+                        key={`edit-gloss-example-${index}-${innerIndex}`}
+                        example={example}
+                        originalLanguage={originalLanguage}
+                        index={innerIndex}
+                        isStandalone
                       />
-                      <Label margin="none" textStyle="label-small">
-                        {t("form.gloss.displayOnGloss")}
-                      </Label>
-                    </CheckboxWrapper>
-                  </FormControl>
-                </StyledCheckboxWrapper>
-              </div>
-            ))}
+                    ))}
+                  </div>
+
+                  <StyledCheckboxWrapper>
+                    <FormControl>
+                      <CheckboxWrapper>
+                        <CheckboxItem
+                          checked={selectedExamples.includes(index.toString())}
+                          onCheckedChange={() =>
+                            onCheckboxChange(index.toString(), setSelectedExamples, selectedExamples)
+                          }
+                          disabled={selectedLanguages.length === 0}
+                        />
+                        <Label margin="none" textStyle="label-small">
+                          {t("form.gloss.displayOnGloss")}
+                        </Label>
+                      </CheckboxWrapper>
+                    </FormControl>
+                  </StyledCheckboxWrapper>
+                </div>
+              );
+            })}
           </FlexWrapper>
           <div>
             <Text textStyle="label-large" margin="none">
@@ -178,21 +160,17 @@ const EditGlossExamplesModalContent = ({ originalLanguage, examples, editor, ele
               {t("form.gloss.editExamplesLanguage")}
             </Text>
             <CheckboxGroupWrapper>
-              {languageWithConfigurations.map((lang, index) => (
-                <FormControl key={lang.lang} isDisabled={lang.isDisabled}>
+              {languages.map((lang, index) => (
+                <FormControl key={lang}>
                   <CheckboxWrapper>
                     <CheckboxItem
-                      checked={!lang.isDisabled && selectedLanguages.includes(lang.lang)}
+                      checked={selectedLanguages.includes(lang)}
                       onCheckedChange={() =>
-                        onCheckboxChange(
-                          languageWithConfigurations[index].lang,
-                          setSelectedLanguages,
-                          selectedLanguages,
-                        )
+                        onCheckboxChange(languages[index], setSelectedLanguages, selectedLanguages)
                       }
                     />
                     <Label margin="none" textStyle="label-small">
-                      {t(`languages.${lang.lang}`)}
+                      {t(`languages.${lang}`)}
                     </Label>
                   </CheckboxWrapper>
                 </FormControl>

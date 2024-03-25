@@ -31,9 +31,11 @@ export interface ParagraphElement {
 }
 
 const onEnter: KeyDown<ParagraphElement["type"]> = (e, editor, entry) => {
+  if (!editor.selection) return false;
   e.preventDefault();
 
-  const [currentParagraph] = entry;
+  const [currentParagraph, currentParagraphPath] = entry;
+
   if (editor.isInline(currentParagraph)) {
     return false;
   }
@@ -44,24 +46,33 @@ const onEnter: KeyDown<ParagraphElement["type"]> = (e, editor, entry) => {
    spacing (i.e two images).
    */
   if (Node.string(currentParagraph) === "" && !containsVoid(editor, currentParagraph)) {
-    Transforms.insertNodes(editor, [
-      {
-        type: TYPE_BREAK,
-        children: [{ text: "" }],
-      },
-      {
-        type: TYPE_PARAGRAPH,
-        children: [{ text: "" }],
-      },
-    ]);
-  } else if (e.shiftKey === true) {
+    editor.insertNode({
+      type: TYPE_BREAK,
+      children: [{ text: "" }],
+    });
+
+    editor.insertNode({
+      type: TYPE_PARAGRAPH,
+      children: [{ text: "" }],
+    });
+    return true;
+  }
+
+  if (e.shiftKey === true) {
     editor.insertText("\n");
-  } else if (
-    editor.selection?.anchor.offset !== Node.string(currentParagraph).length &&
-    editor.selection?.anchor.offset !== 0
+    return true;
+  }
+
+  if (
+    editor.selection &&
+    !Editor.isEnd(editor, editor.selection.anchor, currentParagraphPath) &&
+    !Editor.isStart(editor, editor.selection.anchor, currentParagraphPath)
   ) {
-    Transforms.splitNodes(editor, { match: (node) => isParagraph(node) });
-  } else if (editor.selection?.anchor.offset === 0) {
+    Transforms.splitNodes(editor, { match: (node) => isParagraph(node), at: editor.selection });
+    return true;
+  }
+
+  if (Editor.isStart(editor, editor.selection.anchor, currentParagraphPath)) {
     Transforms.insertNodes(
       editor,
       {
@@ -70,13 +81,14 @@ const onEnter: KeyDown<ParagraphElement["type"]> = (e, editor, entry) => {
       },
       { at: editor.selection },
     );
+    return true;
   } else {
     Transforms.insertNodes(editor, {
       type: TYPE_PARAGRAPH,
       children: [{ text: "" }],
     });
+    return true;
   }
-  return true;
 };
 
 export const paragraphSerializer: SlateSerializer = {

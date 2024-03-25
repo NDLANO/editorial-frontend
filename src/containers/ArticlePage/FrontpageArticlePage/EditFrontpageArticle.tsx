@@ -12,6 +12,7 @@ import { Navigate, useParams } from "react-router-dom";
 import { HelmetWithTracker } from "@ndla/tracker";
 import FrontpageArticleForm from "./components/FrontpageArticleForm";
 import { TranslateType, useTranslateToNN } from "../../../components/NynorskTranslateProvider";
+import { isNewArticleLanguage } from "../../../components/SlateEditor/IsNewArticleLanguageProvider";
 import Spinner from "../../../components/Spinner";
 import { useWideArticle, articleIsWide } from "../../../components/WideArticleEditorProvider";
 import { LocaleType } from "../../../interfaces";
@@ -25,12 +26,20 @@ const translateFields: TranslateType[] = [
     type: "text",
   },
   {
+    field: "title.htmlTitle",
+    type: "html",
+  },
+  {
     field: "metaDescription.metaDescription",
     type: "text",
   },
   {
     field: "introduction.introduction",
     type: "text",
+  },
+  {
+    field: "introduction.htmlIntroduction",
+    type: "html",
   },
   {
     field: "content.content",
@@ -50,7 +59,7 @@ const EditFrontpageArticle = ({ isNewlyCreated }: Props) => {
   const params = useParams<"selectedLanguage" | "id">();
   const selectedLanguage = params.selectedLanguage as LocaleType;
   const articleId = Number(params.id!) || undefined;
-  const { loading, article, setArticle, articleChanged, updateArticle } = useFetchArticleData(
+  const { loading, article, setArticle, articleChanged, updateArticle, articleHistory } = useFetchArticleData(
     articleId,
     selectedLanguage,
   );
@@ -83,7 +92,7 @@ const EditFrontpageArticle = ({ isNewlyCreated }: Props) => {
     const replaceUrl = toEditArticle(article.id, article.articleType, selectedLanguage);
     return <Navigate replace to={replaceUrl} />;
   }
-  const newLanguage = !article.supportedLanguages.includes(selectedLanguage);
+  const newLanguage = isNewArticleLanguage(selectedLanguage, article);
 
   return (
     <>
@@ -91,6 +100,7 @@ const EditFrontpageArticle = ({ isNewlyCreated }: Props) => {
       <FrontpageArticleForm
         articleLanguage={selectedLanguage}
         article={article}
+        articleHistory={articleHistory}
         articleStatus={article.status}
         articleChanged={articleChanged || newLanguage}
         isNewlyCreated={!!isNewlyCreated}

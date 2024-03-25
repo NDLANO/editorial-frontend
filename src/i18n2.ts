@@ -13,7 +13,6 @@ import nb from "./phrases/phrases-nb";
 import nn from "./phrases/phrases-nn";
 
 export const supportedLanguages: LocaleType[] = ["nb", "nn", "en"];
-export const frontpageLanguages: LocaleType[] = ["nb", "nn", "en", "se"];
 export const subjectpageLanguages: LocaleType[] = ["nb", "nn", "en", "se", "sma"];
 
 export const initializeI18n = (i18n: i18n): void => {

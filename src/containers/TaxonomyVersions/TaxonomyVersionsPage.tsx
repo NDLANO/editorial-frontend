@@ -24,7 +24,7 @@ import { Row } from "../../components";
 import { TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH } from "../../constants";
 import { useNodes } from "../../modules/nodes/nodeQueries";
 import { useVersions } from "../../modules/taxonomy/versions/versionQueries";
-import Footer from "../App/components/Footer";
+import Footer from "../App/components/FooterWrapper";
 
 const NewFormWrapper = styled.div`
   padding: ${spacing.normal};

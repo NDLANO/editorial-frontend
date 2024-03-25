@@ -9,7 +9,7 @@
 import orderBy from "lodash/orderBy";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import Tabs from "@ndla/tabs";
+import { Tabs } from "@ndla/tabs";
 import { IConceptSearchResult, IConceptSummary } from "@ndla/types-backend/concept-api";
 import { IArticleSummary, ISearchResult } from "@ndla/types-backend/draft-api";
 import LastUsedConcepts from "./LastUsedConcepts";
@@ -52,7 +52,7 @@ const getSortedPaginationData = <T extends IConceptSummary | IArticleSummary>(
 };
 interface Props {
   lastUsedResources?: number[];
-  lastUsedConcepts?: string[];
+  lastUsedConcepts?: number[];
 }
 
 const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [] }: Props) => {
@@ -96,7 +96,7 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [] }: Props)
   );
 
   const searchConceptsQuery = useSearchConcepts(
-    { ids: lastUsedConcepts.join(",")!, sort: "-lastUpdated", language },
+    { ids: lastUsedConcepts, sort: "-lastUpdated", language },
     {
       enabled: !!lastUsedConcepts.length,
     },

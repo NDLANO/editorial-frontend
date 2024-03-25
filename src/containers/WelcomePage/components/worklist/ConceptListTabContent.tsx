@@ -9,7 +9,7 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Calendar } from "@ndla/icons/editor";
-import Pager from "@ndla/pager";
+import { Pager } from "@ndla/pager";
 import { SingleValue } from "@ndla/select";
 import { IConceptSearchResult } from "@ndla/types-backend/concept-api";
 import PageSizeDropdown from "./PageSizeDropdown";
@@ -31,7 +31,7 @@ interface Props {
   sortOption: string;
   error: string | undefined;
   setFilterSubject: (fs: SingleValue) => void;
-  ndlaId: string | undefined;
+  ndlaId: string;
   setPageConcept: (page: number) => void;
   pageSizeConcept: SingleValue;
   setPageSizeConcept: (p: SingleValue) => void;
@@ -55,10 +55,10 @@ const ConceptListTabContent = ({
   // Separated request to not update subjects when filtered subject changes
   const searchQuery = useSearchConcepts(
     {
-      "responsible-ids": ndlaId,
-      "page-size": 0,
+      responsibleIds: [ndlaId],
+      pageSize: 0,
       fallback: true,
-      "aggregate-paths": "subjectIds",
+      aggregatePaths: ["subjectIds"],
       language: i18n.language,
     },
     { enabled: !!ndlaId },

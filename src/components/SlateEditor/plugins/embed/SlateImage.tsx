@@ -19,6 +19,7 @@ import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import EditImage from "./EditImage";
 import { StyledDeleteEmbedButton, StyledFigureButtons } from "./FigureButtons";
+import { CaptionButton, FigureInfo, StyledFigcaption } from "./SlateFigure";
 import { ImageEmbed } from "../../../../interfaces";
 import { getSrcSets } from "../../../../util/imageEditorUtil";
 import parseMarkdown from "../../../../util/parseMarkdown";
@@ -42,13 +43,6 @@ interface Props {
 const StyledSlateImage = styled.div`
   &[data-border="false"] {
     border: 2px solid rgba(209, 55, 46, 0.3);
-  }
-`;
-
-const StyledDiv = styled.div`
-  p {
-    margin: 0;
-    text-align: center;
   }
 `;
 
@@ -89,6 +83,10 @@ const SlateImage = ({
     const align = embed.align && ["left", "right"].includes(embed.align) ? `-${embed.align}` : "";
 
     return `c-figure ${!isFullWidth ? `u-float${size}${align}` : ""}`;
+  };
+
+  const toggleEditMode = () => {
+    setEditMode(!editMode);
   };
 
   const transformData = () => {
@@ -154,7 +152,7 @@ const SlateImage = ({
               alt={embed.alt}
               onClick={(e) => {
                 e.stopPropagation();
-                setEditMode(true);
+                toggleEditMode();
               }}
               sizes={
                 inTable
@@ -169,11 +167,13 @@ const SlateImage = ({
               srcSet={getSrcSets(embed.resource_id, transformData(), language)}
               data-outline={showCopyOutline}
             />
-            <figcaption className="c-figure__caption" contentEditable={false}>
-              <StyledDiv className="c-figure__info">
-                {embed.caption && parse(parseMarkdown({ markdown: embed.caption, inline: true }))}
-              </StyledDiv>
-            </figcaption>
+            <CaptionButton variant="stripped" onClick={toggleEditMode}>
+              <StyledFigcaption>
+                <FigureInfo>
+                  {embed.caption && parse(parseMarkdown({ markdown: embed.caption, inline: true }))}
+                </FigureInfo>
+              </StyledFigcaption>
+            </CaptionButton>
           </figure>
         )}
         {children}

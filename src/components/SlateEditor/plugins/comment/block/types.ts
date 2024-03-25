@@ -6,4 +6,4 @@
  *
  */
 
-export const TYPE_COMMENT = 'comment';
+export const TYPE_COMMENT_BLOCK = "comment-block";

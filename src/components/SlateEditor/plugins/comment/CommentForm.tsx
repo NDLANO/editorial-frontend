@@ -60,17 +60,20 @@ interface Props {
   onClose: () => void;
   labelText: string;
   labelVisuallyHidden?: boolean;
+  commentType: "block" | "inline";
 }
 
 interface CommentFormValues {
   resource: "comment";
   text: Descendant[];
+  isStandalone: string;
 }
 
 const toInitialValues = (data?: CommentEmbedData): CommentFormValues => {
   return {
     resource: "comment",
     text: inlineContentToEditorValue(data?.text ?? "", true),
+    isStandalone: data?.isStandalone === "true" ? "true" : "false",
   };
 };
 
@@ -80,14 +83,18 @@ const rules: RulesType<CommentFormValues> = {
   },
 };
 
-const CommentForm = ({ initialData, onSave, onClose, labelText, labelVisuallyHidden = false }: Props) => {
+const CommentForm = ({ initialData, onSave, onClose, labelText, labelVisuallyHidden = false, commentType }: Props) => {
   const { t } = useTranslation();
   const initialValues = useMemo(() => toInitialValues(initialData), [initialData]);
   const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
   const onSubmit = (values: CommentFormValues) => {
-    onSave({ resource: "comment", text: inlineContentToHTML(values.text) });
+    onSave({
+      resource: "comment",
+      text: inlineContentToHTML(values.text),
+      type: commentType,
+      isStandalone: values?.isStandalone.toString(),
+    });
   };
-
   return (
     <Formik
       initialValues={initialValues}

@@ -7,9 +7,13 @@
  */
 import { Descendant } from "slate";
 import { CommentEmbedData } from "@ndla/types-embed";
+import { TYPE_COMMENT_BLOCK } from "./block/types";
+import { TYPE_COMMENT_INLINE } from "./inline/types";
 
-export interface CommentElement {
-  type: "comment";
+type CommentTypes = typeof TYPE_COMMENT_INLINE | typeof TYPE_COMMENT_BLOCK;
+
+export interface CommentElement<T extends CommentTypes> {
+  type: T;
   data: CommentEmbedData;
   children: Descendant[];
   isFirstEdit?: boolean;

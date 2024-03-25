@@ -6,26 +6,26 @@
  *
  */
 
-import { ReactNode, useMemo, useState } from "react";
+import { ReactNode, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { CloseButton } from "@ndla/button";
 import { Modal, ModalBody, ModalContent, ModalHeader, ModalTitle } from "@ndla/modal";
 import { CommentEmbedData, CommentMetaData } from "@ndla/types-embed";
-import CommentEmbed from "./CommentEmbed";
-import CommentForm from "./CommentForm";
-import { CommentElement } from "./interfaces";
-import { TYPE_COMMENT } from "./types";
+import { TYPE_COMMENT_BLOCK } from "./types";
+import CommentEmbed from "../CommentEmbed";
+import CommentForm from "../CommentForm";
+import { CommentElement } from "../interfaces";
 
 interface Props {
   attributes: RenderElementProps["attributes"];
   editor: Editor;
-  element: CommentElement;
+  element: CommentElement<"comment-block">;
   children: ReactNode;
 }
 
-const SlateComment = ({ attributes, editor, element, children }: Props) => {
+const SlateCommentBlock = ({ attributes, editor, element, children }: Props) => {
   const { t } = useTranslation();
   const [modalOpen, setModalOpen] = useState(element.isFirstEdit);
 
@@ -38,48 +38,47 @@ const SlateComment = ({ attributes, editor, element, children }: Props) => {
     };
   }, [element]);
 
-  const handleSelectionChange = (isNew: boolean) => {
-    ReactEditor.focus(editor);
-    if (isNew) {
-      Transforms.select(editor, Path.next(ReactEditor.findPath(editor, element)));
-      Transforms.collapse(editor, { edge: "start" });
-    } else {
-      Transforms.select(editor, ReactEditor.findPath(editor, element));
-    }
-  };
-
-  const addComment = (values: CommentEmbedData) => {
-    setModalOpen(false);
-    handleSelectionChange(true);
-    if (element) {
+  const addComment = useCallback(
+    (values: CommentEmbedData) => {
+      setModalOpen(false);
       const path = ReactEditor.findPath(editor, element);
       Transforms.setNodes(
         editor,
-        { data: values, isFirstEdit: false },
+        { data: values },
         {
           at: path,
-          match: (node) => Element.isElement(node) && node.type === TYPE_COMMENT,
+          match: (node) => Element.isElement(node) && node.type === TYPE_COMMENT_BLOCK,
         },
       );
-    }
-  };
+    },
+    [editor, element],
+  );
 
-  const handleRemove = () => {
-    handleSelectionChange(false);
+  const handleRemove = useCallback(
+    () =>
+      Transforms.unwrapNodes(editor, {
+        at: ReactEditor.findPath(editor, element),
+        voids: true,
+      }),
+    [editor, element],
+  );
+
+  const onClose = useCallback(() => {
+    ReactEditor.focus(editor);
+    setModalOpen(false);
+    if (element.isFirstEdit) {
+      Transforms.unwrapNodes(editor, {
+        at: ReactEditor.findPath(editor, element),
+        voids: true,
+      });
+    }
     const path = ReactEditor.findPath(editor, element);
-    Transforms.unwrapNodes(editor, {
-      at: path,
-      match: (node) => Element.isElement(node) && node.type === TYPE_COMMENT,
-    });
-  };
-
-  const onClose = () => {
-    if (!element.data.text) {
-      handleRemove();
-    } else {
-      handleSelectionChange(false);
+    if (Editor.hasPath(editor, Path.next(path))) {
+      setTimeout(() => {
+        Transforms.select(editor, Path.next(path));
+      }, 0);
     }
-  };
+  }, [editor, element]);
 
   return (
     <Modal open={modalOpen} onOpenChange={setModalOpen}>
@@ -94,14 +93,15 @@ const SlateComment = ({ attributes, editor, element, children }: Props) => {
             onSave={addComment}
             onClose={onClose}
             labelText={t("form.workflow.addComment.label")}
+            commentType="block"
           />
         </ModalBody>
       </ModalContent>
-      <CommentEmbed embed={embed} onSave={addComment} onClose={onClose} onRemove={handleRemove}>
+      <CommentEmbed embed={embed} onSave={addComment} onRemove={handleRemove} commentType="block">
         {children}
       </CommentEmbed>
     </Modal>
   );
 };
 
-export default SlateComment;
+export default SlateCommentBlock;

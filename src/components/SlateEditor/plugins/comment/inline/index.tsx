@@ -8,33 +8,37 @@
 
 import { Descendant, Editor, Element, Transforms, Range } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { TYPE_COMMENT } from "./types";
-import { createEmbedTagV2, reduceElementDataAttributesV2 } from "../../../../util/embedTagHelpers";
-import { SlateSerializer } from "../../interfaces";
-import hasNodeOfType from "../../utils/hasNodeOfType";
-import { KEY_BACKSPACE } from "../../utils/keys";
-import { TYPE_NDLA_EMBED } from "../embed/types";
+import { TYPE_COMMENT_INLINE } from "./types";
+import { createEmbedTagV2, reduceElementDataAttributesV2 } from "../../../../../util/embedTagHelpers";
+import { SlateSerializer } from "../../../interfaces";
+import hasNodeOfType from "../../../utils/hasNodeOfType";
+import { KEY_BACKSPACE } from "../../../utils/keys";
+import { TYPE_NDLA_EMBED } from "../../embed/types";
 
-export const commentSerializer: SlateSerializer = {
-  deserialize(el: HTMLElement) {
+export const commentInlineSerializer: SlateSerializer = {
+  deserialize(el: HTMLElement, children: Descendant[]) {
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const embed = el as HTMLEmbedElement;
     const embedAttributes = reduceElementDataAttributesV2(Array.from(embed.attributes));
-    if (embedAttributes.resource === "comment") {
-      return slatejsx("element", {
-        type: TYPE_COMMENT,
-        data: embedAttributes,
-      });
+    if (embedAttributes.resource === "comment" && embedAttributes.type === "inline") {
+      return slatejsx(
+        "element",
+        {
+          type: TYPE_COMMENT_INLINE,
+          data: embedAttributes,
+        },
+        children,
+      );
     }
   },
   serialize(node: Descendant, children: JSX.Element[]) {
-    if (!Element.isElement(node) || node.type !== TYPE_COMMENT || !node.data) return;
+    if (!Element.isElement(node) || node.type !== TYPE_COMMENT_INLINE || !node.data) return;
     return createEmbedTagV2(node.data, children);
   },
 };
 
 const onBackspace = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: KeyboardEvent) => void) => {
-  if (hasNodeOfType(editor, TYPE_COMMENT)) {
+  if (hasNodeOfType(editor, TYPE_COMMENT_INLINE)) {
     if (Range.isRange(editor.selection)) {
       // Replace heading with paragraph if last character is removed
       if (
@@ -45,7 +49,7 @@ const onBackspace = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: K
         e.preventDefault();
         editor.deleteBackward("character");
         Transforms.unwrapNodes(editor, {
-          match: (node) => Element.isElement(node) && node.type === TYPE_COMMENT,
+          match: (node) => Element.isElement(node) && node.type === TYPE_COMMENT_INLINE,
         });
         return;
       }
@@ -54,11 +58,11 @@ const onBackspace = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: K
   return nextOnKeyDown?.(e);
 };
 
-export const commentPlugin = (editor: Editor) => {
+export const commentInlinePlugin = (editor: Editor) => {
   const { isInline: nextIsInline, onKeyDown: nextOnKeyDown } = editor;
 
   editor.isInline = (element: Element) => {
-    if (element.type === TYPE_COMMENT) {
+    if (element.type === TYPE_COMMENT_INLINE) {
       return true;
     }
     return nextIsInline(element);

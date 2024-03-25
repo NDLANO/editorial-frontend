@@ -22,7 +22,8 @@ import { blogPostSerializer } from "../components/SlateEditor/plugins/blogPost";
 import { breakSerializer } from "../components/SlateEditor/plugins/break";
 import { campaignBlockSerializer } from "../components/SlateEditor/plugins/campaignBlock";
 import { codeblockSerializer } from "../components/SlateEditor/plugins/codeBlock";
-import { commentSerializer } from "../components/SlateEditor/plugins/comment";
+import { commentBlockSerializer } from "../components/SlateEditor/plugins/comment/block";
+import { commentInlineSerializer } from "../components/SlateEditor/plugins/comment/inline";
 import { blockConceptSerializer } from "../components/SlateEditor/plugins/concept/block";
 import { inlineConceptSerializer } from "../components/SlateEditor/plugins/concept/inline";
 import { conceptListSerializer } from "../components/SlateEditor/plugins/conceptList";
@@ -105,7 +106,8 @@ const extendedRules: SlateSerializer[] = [
   conceptListSerializer,
   inlineConceptSerializer,
   blockConceptSerializer,
-  commentSerializer,
+  commentInlineSerializer,
+  commentBlockSerializer,
   asideSerializer,
   disclaimerSerializer,
   fileSerializer,
@@ -144,7 +146,7 @@ const commonRules: SlateSerializer[] = [
   footnoteSerializer,
   mathmlSerializer,
   inlineConceptSerializer,
-  commentSerializer,
+  commentInlineSerializer,
   noEmbedSerializer,
   divSerializer,
   spanSerializer,

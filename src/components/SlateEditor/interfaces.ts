@@ -126,7 +126,8 @@ declare module "slate" {
       | ExternalElement
       | IframeElement
       | CopyrightElement
-      | CommentElement;
+      | CommentElement<"comment-inline">
+      | CommentElement<"comment-block">;
     Text: CustomTextWithMarks;
   }
 }

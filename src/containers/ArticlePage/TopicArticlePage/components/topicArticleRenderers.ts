@@ -9,7 +9,8 @@
 import { SlatePlugin } from "../../../../components/SlateEditor/interfaces";
 import { blockQuoteRenderer } from "../../../../components/SlateEditor/plugins/blockquote/render";
 import { breakRenderer } from "../../../../components/SlateEditor/plugins/break/render";
-import { commentRenderer } from "../../../../components/SlateEditor/plugins/comment/render";
+import { commentBlockRenderer } from "../../../../components/SlateEditor/plugins/comment/block/render";
+import { commentInlineRenderer } from "../../../../components/SlateEditor/plugins/comment/inline/render";
 import { inlineConceptRenderer } from "../../../../components/SlateEditor/plugins/concept/inline/render";
 import { definitionListRenderer } from "../../../../components/SlateEditor/plugins/definitionList/render";
 import { divRenderer } from "../../../../components/SlateEditor/plugins/div/render";
@@ -39,7 +40,8 @@ export const topicArticleRenderers: SlatePlugin[] = [
   definitionListRenderer,
   listRenderer,
   inlineConceptRenderer,
-  commentRenderer,
+  commentInlineRenderer,
+  commentBlockRenderer,
   mathRenderer,
   markRenderer,
   breakRenderer,

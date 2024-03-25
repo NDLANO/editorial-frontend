@@ -5,15 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { Editor, Transforms, Element, Range } from "slate";
+import { Editor, Transforms, Element, Range, Path } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { TYPE_COMMENT } from "./types";
-import hasNodeOfType from "../../utils/hasNodeOfType";
+import { TYPE_COMMENT_INLINE } from "./types";
+import hasNodeOfType from "../../../utils/hasNodeOfType";
 
 export const insertComment = (editor: Editor) => {
-  if (hasNodeOfType(editor, TYPE_COMMENT)) {
+  if (hasNodeOfType(editor, TYPE_COMMENT_INLINE)) {
     Transforms.unwrapNodes(editor, {
-      match: (node) => Element.isElement(node) && node.type === TYPE_COMMENT,
+      match: (node) => Element.isElement(node) && node.type === TYPE_COMMENT_INLINE,
       voids: true,
     });
     return;
@@ -38,8 +38,7 @@ export const insertComment = (editor: Editor) => {
         reverse: true,
       });
     }
-
-    Transforms.wrapNodes(editor, slatejsx("element", { type: TYPE_COMMENT, isFirstEdit: true, data: {} }), {
+    Transforms.wrapNodes(editor, slatejsx("element", { type: TYPE_COMMENT_INLINE, isFirstEdit: true }), {
       at: Editor.unhangRange(editor, editor.selection),
       split: true,
     });

@@ -697,6 +697,7 @@ const phrases = {
       linkBlockList: "Link block",
       gloss: "Gloss",
       disclaimer: "Accessability disclaimer",
+      comment: "Kommentar",
     },
   },
   form: {
@@ -734,6 +735,8 @@ const phrases = {
       commentField: "Comment field",
       solve: "The comment is marked as unresolved. Mark as solved",
       unresolve: "The comment is marked as resolved. Mark as unresolved",
+      add: "Add new comment",
+      alreadyExists: "Comment is already added",
     },
     preview: {
       button: "Preview",

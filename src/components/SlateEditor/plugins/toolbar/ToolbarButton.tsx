@@ -79,7 +79,7 @@ const icon: Record<string, ElementType> = {
   "heading-4": HeadingFour,
   "normal-text": Paragraph,
   "definition-list": FormatList,
-  comment: Comment,
+  "comment-inline": Comment,
   mathml: Math,
   "concept-inline": Concept,
   "gloss-inline": Globe,

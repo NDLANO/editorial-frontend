@@ -7,17 +7,17 @@
  */
 
 import { Editor } from "slate";
-import SlateComment from "./SlateComment";
-import { TYPE_COMMENT } from "./types";
+import SlateCommentInline from "./SlateCommentInline";
+import { TYPE_COMMENT_INLINE } from "./types";
 
-export const commentRenderer = (editor: Editor) => {
+export const commentInlineRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
-    if (element.type === TYPE_COMMENT) {
+    if (element.type === TYPE_COMMENT_INLINE) {
       return (
-        <SlateComment element={element} attributes={attributes} editor={editor}>
+        <SlateCommentInline element={element} attributes={attributes} editor={editor}>
           {children}
-        </SlateComment>
+        </SlateCommentInline>
       );
     } else return renderElement?.({ attributes, children, element });
   };

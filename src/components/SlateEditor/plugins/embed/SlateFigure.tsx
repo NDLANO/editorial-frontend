@@ -10,6 +10,9 @@ import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Transforms, Path } from "slate";
 import { RenderElementProps, ReactEditor, useSelected } from "slate-react";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { colors, fonts, spacing, mq, breakpoints } from "@ndla/core";
 import { EmbedElements } from ".";
 import SlateImage from "./SlateImage";
 import SlateVideo from "./SlateVideo";
@@ -30,6 +33,33 @@ interface ChangesProp {
   // The name can vary depending on which component uses this function.
   [x: string]: string | undefined;
 }
+
+export const FigureInfo = styled.div`
+  margin-bottom: ${spacing.small};
+  font-family: ${fonts.sans};
+  color: ${colors.text.primary};
+  ${fonts.sizes("16px", "24px")};
+  white-space: normal;
+  ${mq.range({ from: breakpoints.tablet })} {
+    flex: 2;
+    margin-bottom: ${spacing.small};
+  }
+  p {
+    margin: 0;
+  }
+`;
+
+export const CaptionButton = styled(ButtonV2)`
+  width: 100%;
+`;
+
+export const StyledFigcaption = styled.figcaption`
+  background-color: ${colors.white};
+  width: 100%;
+  padding: ${spacing.small};
+  display: block;
+  border-bottom: 1px solid ${colors.brand.greyLight};
+`;
 
 const SlateFigure = ({ attributes, editor, element, children, allowDecorative = true }: Props) => {
   const embed = element.data;

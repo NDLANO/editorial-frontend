@@ -1044,6 +1044,7 @@ const phrases = {
       archived: "Slettet",
       republish: "Til republisering",
       sum: "Totalt",
+      private: "Privat",
       actions: {
         PLANNED: "Planlagd",
         IN_PROGRESS: "I arbeid",

@@ -87,12 +87,12 @@ const WorkList = ({ ndlaId }: Props) => {
 
   const searchQuery = useSearch(
     {
-      "responsible-ids": ndlaId,
+      responsibleIds: [ndlaId],
       sort: sortOption,
-      ...(prioritized ? { priority: "prioritized" } : { priority: "prioritized,unspecified" }),
-      ...(filterSubject ? { subjects: filterSubject.value } : {}),
+      ...(prioritized ? { priority: ["prioritized"] } : { priority: ["prioritized", "unspecified"] }),
+      ...(filterSubject ? { subjects: [filterSubject.value] } : {}),
       page: page,
-      "page-size": Number(pageSize!.value),
+      pageSize: Number(pageSize!.value),
       language: i18n.language,
       fallback: true,
     },
@@ -101,11 +101,11 @@ const WorkList = ({ ndlaId }: Props) => {
 
   const searchConceptsQuery = useSearchConcepts(
     {
-      "responsible-ids": ndlaId,
+      responsibleIds: [ndlaId],
       sort: sortOptionConcepts,
-      ...(filterConceptSubject ? { subjects: filterConceptSubject.value } : {}),
+      ...(filterConceptSubject ? { subjects: [filterConceptSubject.value] } : {}),
       page: pageConcept,
-      "page-size": Number(pageSizeConcept!.value),
+      pageSize: Number(pageSizeConcept!.value),
       language: i18n.language,
       fallback: true,
     },
@@ -114,11 +114,11 @@ const WorkList = ({ ndlaId }: Props) => {
 
   const searchOnHoldQuery = useSearch(
     {
-      "responsible-ids": ndlaId,
+      responsibleIds: [ndlaId],
       sort: sortOptionOnHold,
-      priority: "on-hold",
+      priority: ["on-hold"],
       page: pageOnHold,
-      "page-size": Number(pageSizeOnHold!.value),
+      pageSize: Number(pageSizeOnHold!.value),
       language: i18n.language,
       fallback: true,
     },

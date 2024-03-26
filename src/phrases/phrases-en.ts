@@ -1044,6 +1044,7 @@ const phrases = {
       archived: "Deleted",
       republish: "For republishing",
       sum: "Total",
+      private: "Private",
       actions: {
         PLANNED: "Planned",
         IN_PROGRESS: "In progress",

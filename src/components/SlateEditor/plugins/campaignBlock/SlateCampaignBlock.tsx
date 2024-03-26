@@ -138,14 +138,8 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
               </StyledDeleteEmbedButton>
             </StyledFigureButtons>
             <CampaignBlock
-              title={{
-                title: campaignBlock.title,
-                language: campaignBlock.titleLanguage,
-              }}
-              description={{
-                text: campaignBlock.description,
-                language: campaignBlock.descriptionLanguage,
-              }}
+              title={campaignBlock.title}
+              description={campaignBlock.description}
               headingLevel={campaignBlock.headingLevel}
               url={{ url: campaignBlock.url, text: campaignBlock.urlText }}
               image={

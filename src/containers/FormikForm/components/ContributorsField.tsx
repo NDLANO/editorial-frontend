@@ -113,7 +113,7 @@ const Contributor = ({ type, onAddNew, onRemove }: ContributorProps) => {
                 <Label margin="none" textStyle="label-small">
                   {t("form.name.type")}
                 </Label>
-                <Select {...field} data-testid="contributor-selector">
+                <Select {...field} value={field.value.toLowerCase()} data-testid="contributor-selector">
                   <option value="" />
                   {contributorTypeItems.map((item: ContributorTypeItem) => (
                     <option value={item.type} key={item.type}>

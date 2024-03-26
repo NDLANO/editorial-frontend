@@ -131,8 +131,8 @@ const HeaderActions = ({
     if (lastPublishedVersion) {
       return (
         lastPublishedVersion.content?.content === article?.content?.content &&
-        lastPublishedVersion.title?.title === article?.title?.title &&
-        lastPublishedVersion.introduction?.introduction === article?.introduction?.introduction
+        lastPublishedVersion.title?.htmlTitle === article?.title?.htmlTitle &&
+        lastPublishedVersion.introduction?.htmlIntroduction === article?.introduction?.htmlIntroduction
       );
     }
     return false;

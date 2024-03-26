@@ -16,8 +16,8 @@ import { ModalHeader, ModalCloseButton, ModalBody, Modal, ModalTitle, ModalTrigg
 import { IConceptSummary } from "@ndla/types-backend/concept-api";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
 import ElementList from "../../../containers/FormikForm/components/ElementList";
-import { searchConcepts } from "../../../modules/concept/conceptApi";
-import { search as searchArticles } from "../../../modules/search/searchApi";
+import { postSearchConcepts } from "../../../modules/concept/conceptApi";
+import { postSearch } from "../../../modules/search/searchApi";
 import { normalPaddingCSS } from "../../HowTo";
 
 type EmbedType = "image" | "audio" | "concept" | "gloss" | "article";
@@ -51,9 +51,9 @@ const convertToSearchEmbedTypes = (embedType: EmbedType): SearchEmbedTypes[] => 
 };
 
 const searchObjects = (embedId: number, embedType: EmbedType) => ({
-  "embed-id": embedId,
-  "embed-resource": convertToSearchEmbedTypes(embedType).join(","),
-  "page-size": 50,
+  embedId: embedId.toString(),
+  embedResource: convertToSearchEmbedTypes(embedType),
+  pageSize: 50,
 });
 
 const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcepts }: Props) => {
@@ -62,11 +62,11 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
   useEffect(() => {
     let shouldUpdateState = true;
     if (id) {
-      searchArticles(searchObjects(id, type)).then((result) => {
+      postSearch(searchObjects(id, type)).then((result) => {
         if (shouldUpdateState) setArticles(result.results);
       });
       (type === "image" || type === "audio") &&
-        searchConcepts(searchObjects(id, type)).then((result) => {
+        postSearchConcepts(searchObjects(id, type)).then((result) => {
           if (shouldUpdateState) setConcepts?.(result.results);
         });
     }

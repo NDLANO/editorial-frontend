@@ -6,9 +6,10 @@
  *
  */
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor } from "slate";
+import { Editor, Transforms } from "slate";
+import { ReactEditor } from "slate-react";
 import { IconButtonV2 } from "@ndla/button";
 import { Pencil } from "@ndla/icons/action";
 import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
@@ -17,6 +18,9 @@ import { ConceptMetaData } from "@ndla/types-embed";
 import { ConceptBlockElement } from "./block/interfaces";
 import EditGlossExamplesModalContent from "./EditGlossExamplesModalContent";
 import { ConceptInlineElement } from "./inline/interfaces";
+import { getGlossDataAttributes } from "./utils";
+import { useArticleLanguage } from "../../ArticleLanguageProvider";
+import { useIsNewArticleLanguage } from "../../IsNewArticleLanguageProvider";
 
 interface Props {
   concept: IConcept | IConceptSummary;
@@ -28,6 +32,31 @@ interface Props {
 const EditGlossExamplesModal = ({ concept, editor, element, embed }: Props) => {
   const { t } = useTranslation();
   const [modalOpen, setModalOpen] = useState(false);
+  const locale = useArticleLanguage();
+  const isNewArticleLanguage = useIsNewArticleLanguage();
+
+  // When new language version of article is created, we want to automatically update gloss language when article language is "nb" or "nn"
+  // We only update gloss language automatically once, to not overwrite changes made in the gloss examples update modal
+  const embedDataLangsShouldAutoUpdate = useRef((locale === "nb" || locale === "nn") && isNewArticleLanguage);
+
+  useEffect(() => {
+    if (!concept?.glossData) return;
+
+    if (embedDataLangsShouldAutoUpdate.current) {
+      Transforms.setNodes(
+        editor,
+        {
+          data: {
+            ...embed.embedData,
+            ...getGlossDataAttributes(concept.glossData, locale, ["exampleIds"]),
+          },
+        },
+        { at: ReactEditor.findPath(editor, element) },
+      );
+    }
+    embedDataLangsShouldAutoUpdate.current = false;
+  }, [concept.glossData, editor, element, embed.embedData, isNewArticleLanguage, locale]);
+
   return (
     <Modal open={modalOpen} onOpenChange={setModalOpen}>
       {concept.conceptType === "gloss" && concept.glossData?.examples.length ? (

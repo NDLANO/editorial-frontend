@@ -52,7 +52,7 @@ const getSortedPaginationData = <T extends IConceptSummary | IArticleSummary>(
 };
 interface Props {
   lastUsedResources?: number[];
-  lastUsedConcepts?: string[];
+  lastUsedConcepts?: number[];
 }
 
 const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [] }: Props) => {
@@ -96,7 +96,7 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [] }: Props)
   );
 
   const searchConceptsQuery = useSearchConcepts(
-    { ids: lastUsedConcepts.join(",")!, sort: "-lastUpdated", language },
+    { ids: lastUsedConcepts, sort: "-lastUpdated", language },
     {
       enabled: !!lastUsedConcepts.length,
     },

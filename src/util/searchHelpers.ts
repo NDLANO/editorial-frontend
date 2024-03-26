@@ -6,6 +6,8 @@
  *
  */
 
+import { SearchParamsBody } from "../containers/SearchPage/components/form/SearchForm";
+
 export const transformQuery = ({ "resource-types": resourceTypes, ...rest }: any) => {
   const query = { ...rest };
 
@@ -20,4 +22,19 @@ export const transformQuery = ({ "resource-types": resourceTypes, ...rest }: any
   }
 
   return query;
+};
+
+const getArticleTypesField = (resourceTypes?: string[]) => {
+  if (!resourceTypes?.length) {
+    return {};
+  }
+  if (resourceTypes?.includes("topic-article") || resourceTypes?.includes("frontpage-article"))
+    return { articleTypes: resourceTypes };
+  else return { resourceTypes: resourceTypes };
+};
+
+export const transformSearchBody = ({ resourceTypes, ...searchBody }: SearchParamsBody) => {
+  const articleTypes = getArticleTypesField(resourceTypes);
+
+  return { ...searchBody, ...articleTypes };
 };

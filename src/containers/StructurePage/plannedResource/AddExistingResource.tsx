@@ -30,7 +30,7 @@ import {
 import { fetchNodes } from "../../../modules/nodes/nodeApi";
 import { usePostResourceForNodeMutation } from "../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys, useNodes } from "../../../modules/nodes/nodeQueries";
-import { search } from "../../../modules/search/searchApi";
+import { postSearch } from "../../../modules/search/searchApi";
 import { resolveUrls } from "../../../modules/taxonomy/taxonomyApi";
 import handleError from "../../../util/handleError";
 import { getResourceIdFromPath } from "../../../util/routeHelpers";
@@ -167,9 +167,9 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
         verificationStatus: "CREATED_BY_NDLA",
       });
     } else {
-      const res = await search({
+      const res = await postSearch({
         ...baseQuery,
-        "resource-types": selectedType,
+        resourceTypes: [selectedType],
       });
       return res ?? emptySearchResults;
     }

@@ -120,7 +120,7 @@ const SwapTopicArticle = ({ node, rootNodeId, editModeHandler: { editMode, toggl
           useQuery={useSearch}
           onChange={handleSubmit}
           placeholder={t("taxonomy.swapTopicArticle.placeholder")}
-          params={{ "context-types": "topic-article", language: i18n.language }}
+          params={{ contextTypes: ["topic-article"], language: i18n.language }}
           transform={(res) => {
             return {
               ...res,

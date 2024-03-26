@@ -7,134 +7,128 @@
  */
 
 import { readFile, writeFile, mkdir } from "fs/promises";
-import isEqual from "lodash/isEqual.js";
-import { Page, Route } from "@playwright/test";
+import { test as Ptest } from "@playwright/test";
+import {
+  brightcoveTokenMock,
+  copyrightMock,
+  editorMock,
+  getNoteUsersMock,
+  responsiblesMock,
+  userDataMock,
+  zendeskMock,
+} from "./mockResponses";
+
 const mockDir = "e2e/apiMocks/";
 
-type PostDataMock = {
-  name: string;
-  data: Record<string, any>;
-};
+const localHostRegex = "http://localhost:3000/(?!@)((?!/).)+";
+const apiTestRegex = "https://api.test.ndla.no/.*";
+const mathjax = "https://www.wiris.net/.*";
+const brightCoveRegex = "https://(.*).brightcove.(com|net)/(.+/)?([^/]+)";
 
-type OverrideValue = string | ((value: string) => string);
-interface MockRoute {
-  page: Page;
-  path: string | RegExp;
-  fixture: string;
-  overrideValue?: OverrideValue;
-  postData?: PostDataMock[];
-  status?: number;
-  overrideRoute?: boolean;
+interface ExtendParams {
+  harCheckpoint: () => Promise<void>;
 }
+const regex = new RegExp(`^(${localHostRegex}|${apiTestRegex}|${mathjax}|${brightCoveRegex})$`);
 
-const evaluateHttpMethods = ["GET", "POST"];
+export const test = Ptest.extend<ExtendParams>({
+  harCheckpoint: [
+    async ({ context, page }, use) => {
+      let checkpointIndex = 0;
 
-const writeToFile = async (responseText: string, fixtureName: string, overrideValue?: OverrideValue) => {
-  const override = overrideValue
-    ? typeof overrideValue === "string"
-      ? overrideValue
-      : overrideValue(responseText)
-    : undefined;
-  await mkdir(mockDir, { recursive: true });
-  await writeFile(fixtureName, override ?? responseText, {
-    flag: "w",
-  });
-};
+      await context.route(
+        regex,
+        async (route, request) =>
+          await route.fallback({
+            headers: {
+              ...request.headers(),
+              "X-Playwright-Checkpoint": `${checkpointIndex}`,
+            },
+          }),
+      );
+      process.env.RECORD_FIXTURES !== "true" &&
+        (await page.setExtraHTTPHeaders({
+          "X-Playwright-Checkpoint": `${checkpointIndex}`,
+        }));
 
-const getResponseText = async (route: Route): Promise<string> =>
-  evaluateHttpMethods.includes(route.request().method()) ? await (await route.fetch()).text() : "";
+      await use(async () => {
+        checkpointIndex += 1;
+        process.env.RECORD_FIXTURES !== "true" &&
+          (await page.setExtraHTTPHeaders({
+            "X-Playwright-Checkpoint": `${checkpointIndex}`,
+          }));
+      });
+    },
+    { auto: true, scope: "test" },
+  ],
+  page: async ({ page }, use, testInfo) => {
+    await page.routeFromHAR(`${mockDir}${testInfo.titlePath}.har`, {
+      update: process.env.RECORD_FIXTURES === "true",
+      updateMode: "minimal",
+      url: regex,
+      updateContent: "embed",
+    });
 
-export const mockRoute = async ({
-  page,
-  path,
-  fixture,
-  overrideValue,
-  overrideRoute,
-  postData,
-  status = 200,
-}: MockRoute) => {
-  if (overrideRoute) {
-    await page.unroute(path);
-  }
+    await use(page);
 
-  return await page.route(path, async (route) => {
-    if (route.request().method() === "POST") {
-      const isExternal = path.toString().includes("http");
-      const requestPostData = isExternal ? route.request().postData() ?? "" : route.request().postDataJSON() ?? {};
-      const result = postData?.find(({ data }) => isEqual(data, requestPostData));
-      const fixtureName = result ? `${mockDir}${fixture}_${result.name}.json` : `${mockDir}${fixture}.json`;
+    await page.close();
+  },
+  context: async ({ context }, use, testInfo) => {
+    await use(context);
+    await context.close();
+    process.env.RECORD_FIXTURES === "true" && (await removeSensitiveData(`${mockDir}${testInfo.titlePath}.har`));
+  },
+});
 
-      if (process.env.RECORD_FIXTURES === "true") {
-        const responseText = await getResponseText(route);
-        await writeToFile(responseText, fixtureName, overrideValue);
+const urlsToReplace = [
+  {
+    url: "get_zendesk_token",
+    value: zendeskMock,
+  },
+  {
+    url: "get_responsibles",
+    value: responsiblesMock,
+  },
+  {
+    url: "draft-api/v1/user-data",
+    value: userDataMock,
+  },
+  {
+    url: "get_note_users",
+    value: getNoteUsersMock,
+  },
+  {
+    url: "get_brightcove_token",
+    value: brightcoveTokenMock,
+  },
+  {
+    url: "get_editors",
+    value: editorMock,
+  },
+];
 
-        return route.fulfill({ body: responseText, status });
-      } else {
-        try {
-          const res = await readFile(fixtureName, "utf8");
-          return route.fulfill({ body: res, status });
-        } catch (e) {
-          route.abort();
-        }
-      }
-    } else {
-      const fixtureName = `${mockDir}${fixture}.json`;
-      if (process.env.RECORD_FIXTURES === "true") {
-        const responseText = await getResponseText(route);
-        await writeToFile(responseText, fixtureName, overrideValue);
-
-        return route.fulfill({ body: responseText, status });
-      } else {
-        try {
-          const res = await readFile(fixtureName, "utf8");
-          return route.fulfill({ body: res, status });
-        } catch {
-          route.abort();
-        }
-      }
+const removeSensitiveData = async (fileName: string) => {
+  const data = JSON.parse(await readFile(fileName, "utf8"));
+  data["log"]["entries"].forEach((entry: any, index: number) => {
+    const val = urlsToReplace.find(({ url }) => entry["request"]["url"].includes(url));
+    if (val) {
+      data["log"]["entries"][index]["response"]["content"]["text"] = JSON.stringify(val.value);
     }
   });
-};
 
-interface GraphqlMockRoute {
-  page: Page;
-  operationNames: string[];
-  fixture: string;
-  overrideRoute?: boolean;
-}
-
-export const mockGraphqlRoute = async ({ page, operationNames, fixture, overrideRoute }: GraphqlMockRoute) => {
-  if (overrideRoute) {
-    await page.unroute("**/graphql-api/graphql");
-  }
-
-  return await page.route("**/graphql-api/graphql", async (route) => {
-    if (process.env.RECORD_FIXTURES === "true") {
-      const body = await route.request().postDataJSON();
-      const res = await route.fetch();
-      if (operationNames.includes(body.operationName)) {
-        await mkdir(mockDir, { recursive: true });
-        await writeFile(`${mockDir}${fixture}_${body.operationName}.json`, await res.text(), {
-          flag: "w",
-        });
-        return route.fulfill({ contentType: "application/json", body: await res.text() });
-      }
-    } else {
-      const body = await route.request().postDataJSON();
-      if (operationNames.includes(body.operationName)) {
-        try {
-          const res = await readFile(`${mockDir}${fixture}_${body.operationName}.json`, "utf-8");
-          return route.fulfill({ contentType: "application/json", body: res });
-        } catch (e) {
-          route.abort();
-        }
-      }
-    }
-  });
-};
-
-export const mockWaitResponse = async (page: Page, url: string) => {
-  if (process.env.RECORD_FIXTURES === "true") {
-    await page.waitForResponse(url);
-  }
+  const result = JSON.stringify(data)
+    .replaceAll(/\\"license\\":{.*?}/g, `\\"license\\":${JSON.stringify(copyrightMock.license).replace(/["]/g, '\\"')}`)
+    .replaceAll(
+      /\\"creators\\":\[.*?\]/g,
+      `\\"creators\\":${JSON.stringify(copyrightMock.creators).replace(/["]/g, '\\"')}`,
+    )
+    .replaceAll(
+      /\\"processors\\":\[.*?\]/g,
+      `\\"processors\\":${JSON.stringify(copyrightMock.processors).replace(/["]/g, '\\"')}`,
+    )
+    .replaceAll(
+      /\\"rightsholders\\":\[.*?\]/g,
+      `\\"rightsholders\\":${JSON.stringify(copyrightMock.rightsholders).replace(/["]/g, '\\"')}`,
+    )
+    .replaceAll(/"Bearer (.*?)"/g, '""');
+  await writeFile(fileName, result, "utf8");
 };

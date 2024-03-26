@@ -6,55 +6,10 @@
  *
  */
 
-import { test, expect } from "@playwright/test";
-import { mockRoute } from "../apiMock";
-import { copyrightMock, responsiblesMock, zendeskMock } from "../mockResponses";
+import { expect } from "@playwright/test";
+import { test } from "../apiMock";
 
 test.beforeEach(async ({ page }) => {
-  const zendesk = await mockRoute({
-    page,
-    path: "**/get_zendesk_token",
-    fixture: "disclaimer_zendesk_token",
-    overrideValue: JSON.stringify(zendeskMock),
-  });
-
-  const responsibles = await mockRoute({
-    page,
-    path: "**/get_responsibles?permission=drafts:responsible",
-    fixture: "disclaimer_responsibles",
-    overrideValue: JSON.stringify(responsiblesMock),
-  });
-
-  const licenses = await mockRoute({
-    page,
-    path: "**/draft-api/v1/drafts/licenses/",
-    fixture: "disclaimer_licenses",
-  });
-
-  const statuses = await mockRoute({
-    page,
-    path: "**/draft-api/v1/drafts/status-state-machine/",
-    fixture: "disclaimer_status_state_machine",
-  });
-  const images = mockRoute({
-    page,
-    path: "**/image-api/v3/images/?fallback=true&language=nb&page=1&page-size=16",
-    fixture: "disclaimer_images",
-    overrideValue: (val) =>
-      JSON.stringify({
-        ...JSON.parse(val),
-        results: JSON.parse(val).results.map((image) => ({ ...image, copyright: copyrightMock })),
-      }),
-  });
-  const image = mockRoute({
-    page,
-    path: "**/image-api/v3/images/63415?language=nb",
-    fixture: "disclaimer_image",
-    overrideValue: (val) => JSON.stringify({ ...JSON.parse(val), copyright: copyrightMock }),
-  });
-
-  await Promise.all([zendesk, responsibles, licenses, statuses, images, image]);
-
   await page.goto("/subject-matter/learning-resource/new");
   await page.getByTestId("slate-editor").click();
   await page.mouse.wheel(0, 50);

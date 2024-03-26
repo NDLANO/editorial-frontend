@@ -22,7 +22,6 @@ const editor: Descendant[] = [
         data: {
           resource: "blog-post",
           imageId: "123",
-          language: "nb",
           title: "Min bloggpost",
           size: "large",
           author: "Ola Nordmann",
@@ -36,7 +35,7 @@ const editor: Descendant[] = [
 ];
 
 const html =
-  '<section><ndlaembed data-resource="blog-post" data-image-id="123" data-language="nb" data-title="Min bloggpost" data-size="large" data-author="Ola Nordmann" data-url="https://ndla.no"></ndlaembed></section>';
+  '<section><ndlaembed data-resource="blog-post" data-image-id="123" data-title="Min bloggpost" data-size="large" data-author="Ola Nordmann" data-url="https://ndla.no"></ndlaembed></section>';
 
 describe("blogPost serializing tests", () => {
   test("serializing", () => {

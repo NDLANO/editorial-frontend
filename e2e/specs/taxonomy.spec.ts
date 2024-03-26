@@ -10,7 +10,7 @@ import { expect } from "@playwright/test";
 import { test } from "../apiMock";
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("/structure");
+  await page.goto("/structure/");
   await page.getByTestId("structure").waitFor();
 });
 

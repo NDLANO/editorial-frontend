@@ -83,7 +83,7 @@ test("Can use content type dropdown", async ({ page }) => {
 test("Can use inactive checkbox", async ({ page }) => {
   await page.locator('input[id="checkbox-filter-inactive"]').click();
   await page.getByTestId("content-search-result").first().waitFor();
-  expect(await page.getByTestId("searchTotalCount").innerText()).toEqual("37452");
+  expect(await page.getByTestId("searchTotalCount").innerText()).toEqual("37453");
   await page.locator('input[id="checkbox-filter-inactive"]').click();
   await page.getByTestId("content-search-result").first().waitFor();
   expect(await page.getByTestId("searchTotalCount").innerText()).toEqual(searchTotalCount);

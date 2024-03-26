@@ -35,6 +35,8 @@ export const test = Ptest.extend<ExtendParams>({
     async ({ context, page }, use) => {
       let checkpointIndex = 0;
 
+      // Appending the checkpoint index to the request headers
+      // Only appended for the stored headers in the HAR file
       await context.route(
         regex,
         async (route, request) =>
@@ -45,11 +47,14 @@ export const test = Ptest.extend<ExtendParams>({
             },
           }),
       );
+
+      // Appending the checkpoint index to the request headers
       process.env.RECORD_FIXTURES !== "true" &&
         (await page.setExtraHTTPHeaders({
           "X-Playwright-Checkpoint": `${checkpointIndex}`,
         }));
 
+      // Appending the new checkpoint index to the request headers
       await use(async () => {
         checkpointIndex += 1;
         process.env.RECORD_FIXTURES !== "true" &&
@@ -61,7 +66,8 @@ export const test = Ptest.extend<ExtendParams>({
     { auto: true, scope: "test" },
   ],
   page: async ({ page }, use, testInfo) => {
-    await page.routeFromHAR(`${mockDir}${testInfo.titlePath}.har`, {
+    // Creating the API mocking for the wanted API's 
+    await page.routeFromHAR(`${mockDir}${testInfo.titlePath[0].split("/")[1]},${testInfo.title}.har`, {
       update: process.env.RECORD_FIXTURES === "true",
       updateMode: "minimal",
       url: regex,
@@ -75,7 +81,9 @@ export const test = Ptest.extend<ExtendParams>({
   context: async ({ context }, use, testInfo) => {
     await use(context);
     await context.close();
-    process.env.RECORD_FIXTURES === "true" && (await removeSensitiveData(`${mockDir}${testInfo.titlePath}.har`));
+    // Removing sensitive data from the HAR file after saving. Har files are saved on close. 
+    process.env.RECORD_FIXTURES === "true" &&
+      (await removeSensitiveData(`${mockDir}${testInfo.titlePath[0].split("/")[1]},${testInfo.title}.har`));
   },
 });
 

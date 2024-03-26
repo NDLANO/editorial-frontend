@@ -35,8 +35,9 @@ test("adds and removes grid", async ({ page }) => {
 test("adds and removes keyfigure", async ({ page }) => {
   await page.getByTestId("create-keyFigure").click();
   await expect(page.getByRole("button", { name: "Lagre", exact: true })).toBeDisabled();
-  await page.locator("input[name='title']").fill("test");
-  await page.locator("input[name='subtitle']").fill("test");
+  const modal = page.locator('div[role="dialog"]');
+  await modal.locator("div[name='title']").fill("test");
+  await modal.locator("div[name='subtitle']").fill("test");
   await page.getByTestId("select-image-from-list").first().click();
   await page.getByTestId("use-image").click();
   await expect(page.getByRole("button", { name: "Lagre", exact: true })).toBeEnabled();
@@ -49,7 +50,8 @@ test("adds and removes keyfigure", async ({ page }) => {
 test("adds and removes blogpost", async ({ page }) => {
   await page.getByTestId("create-blogPost").click();
   await expect(page.getByRole("button", { name: "Lagre", exact: true })).toBeDisabled();
-  await page.locator("input[name='title']").fill("test");
+  const modal = page.locator('div[role="dialog"]');
+  await modal.locator("div[name='title']").fill("test");
   await page.locator("input[name='author']").fill("test");
   await page.locator("input[name='link']").fill("https://test.test");
   await page.getByTestId("select-image-from-list").first().click();
@@ -80,10 +82,11 @@ test("adds and removes contactblock", async ({ page }) => {
 test("adds and removes campaignblock", async ({ page }) => {
   await page.getByTestId("create-campaignBlock").click();
   await expect(page.getByRole("button", { name: "Lagre", exact: true })).toBeDisabled();
-  await page.locator("input[name='title']").fill("test");
-  await page.locator("textarea[name='description']").fill("test");
+  const modal = page.locator('div[role="dialog"]');
+  await modal.locator("div[name='title']").fill("test");
+  await modal.locator("div[name='description']").fill("test");
   await page.locator("input[name='link']").fill("https://test.test");
-  await page.locator("input[name='linkText']").fill("Test page");
+  await modal.locator("div[name='linkText']").fill("Test page");
   await page.getByTestId("select-image-from-list").first().click();
   await page.getByTestId("use-image").click();
   await expect(page.getByRole("button", { name: "Lagre", exact: true })).toBeEnabled();

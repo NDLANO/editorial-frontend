@@ -21,6 +21,7 @@ import { SlateVideoWrapper, StyledVideo } from "./SlateVideo";
 import { InlineField } from "../../../../containers/FormikForm/InlineField";
 import { BrightcoveEmbed } from "../../../../interfaces";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
+import { isFormikFormDirty } from "../../../../util/formHelper";
 import parseMarkdown from "../../../../util/parseMarkdown";
 import { addBrightCoveTimeStampVideoid, getBrightCoveStartTime } from "../../../../util/videoUtil";
 import FormikField from "../../../FormikField";
@@ -133,12 +134,18 @@ const timeInputCss = css`
   }
 `;
 
-const VideoEmbedForm = ({ setHasError, close, isValid, dirty }: VideoEmbedFormProps) => {
+const VideoEmbedForm = ({ setHasError, close, isValid, dirty, initialValues, values }: VideoEmbedFormProps) => {
   const { t } = useTranslation();
 
   useEffect(() => {
     setHasError(!isValid);
   }, [isValid, setHasError]);
+
+  const formIsDirty = isFormikFormDirty({
+    values: values,
+    initialValues: initialValues,
+    dirty,
+  });
 
   return (
     <Form>
@@ -173,7 +180,7 @@ const VideoEmbedForm = ({ setHasError, close, isValid, dirty }: VideoEmbedFormPr
       </StyledInputTimeWrapper>
       <ButtonWrapper>
         <ButtonV2 onClick={close}>{t("form.abort")}</ButtonV2>
-        <ButtonV2 disabled={!isValid || !dirty} type="submit">
+        <ButtonV2 disabled={!isValid || !formIsDirty} type="submit">
           {t("form.save")}
         </ButtonV2>
       </ButtonWrapper>

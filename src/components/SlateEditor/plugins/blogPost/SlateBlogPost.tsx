@@ -31,7 +31,7 @@ const BlogPostWrapper = styled.div`
   display: flex;
   height: 100%;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   div[contenteditable] {
     height: 100%;
   }
@@ -129,7 +129,7 @@ const SlateBlogPost = ({ element, editor, attributes, children }: Props) => {
               </StyledDeleteEmbedButton>
             </StyledFigureButtons>
             <BlogPostV2
-              title={{ title: data.title, language: data.language }}
+              title={data.title}
               author={data.author}
               size={data.size}
               url={data.url}

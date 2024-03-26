@@ -48,7 +48,7 @@ export default defineConfig({
   // Automatically run against prod-build on CI for speed and accuracy.
   webServer: process.env.CI
     ? {
-        command: "yarn start",
+        command: "cross-env NODE_ENV=production node build/server.mjs",
         port: 3000,
       }
     : undefined,

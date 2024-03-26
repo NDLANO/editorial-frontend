@@ -10,12 +10,15 @@ import queryString from "query-string";
 import { IDraftSearchParams, IMultiSearchResult } from "@ndla/types-backend/search-api";
 import { MultiSearchApiQuery } from "./searchApiInterfaces";
 import { resolveJsonOrRejectWithError, apiResourceUrl, fetchAuthorized } from "../../util/apiHelpers";
-import { transformQuery } from "../../util/searchHelpers";
+import { transformQuery, transformSearchBody } from "../../util/searchHelpers";
 
 const baseUrl = apiResourceUrl("/search-api/v1/search");
 
 export const postSearch = async (body: IDraftSearchParams): Promise<IMultiSearchResult> => {
-  const response = await fetchAuthorized(`${baseUrl}/editorial/`, { method: "POST", body: JSON.stringify(body) });
+  const response = await fetchAuthorized(`${baseUrl}/editorial/`, {
+    method: "POST",
+    body: JSON.stringify(transformSearchBody(body)),
+  });
   return resolveJsonOrRejectWithError(response);
 };
 

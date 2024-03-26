@@ -13,6 +13,7 @@ import { ToggleItem } from "@radix-ui/react-toolbar";
 import { StyledToggleGroup, ToolbarCategoryProps } from "./SlateToolbar";
 import ToolbarButton from "./ToolbarButton";
 import { InlineType } from "./toolbarState";
+import { insertComment } from "../comment/inline/utils";
 import { insertInlineConcept } from "../concept/inline/utils";
 import { insertLink } from "../link/utils";
 import { insertMathml } from "../mathml/utils";
@@ -21,7 +22,11 @@ const getCurrentInlineValues = (editor: Editor): InlineType | undefined => {
   const [currentBlock] =
     Editor.nodes(editor, {
       match: (n) =>
-        Element.isElement(n) && (n.type === "concept-inline" || n.type === "content-link" || n.type === "mathml"),
+        Element.isElement(n) &&
+        (n.type === "concept-inline" ||
+          n.type === "content-link" ||
+          n.type === "mathml" ||
+          n.type === "comment-inline"),
       mode: "lowest",
     }) ?? [];
 
@@ -47,6 +52,9 @@ export const ToolbarInlineOptions = ({ options }: ToolbarCategoryProps<InlineTyp
       }
       if (type === "gloss-inline") {
         insertInlineConcept(editor, "gloss");
+      }
+      if (type === "comment-inline") {
+        insertComment(editor);
       }
     },
     [editor],

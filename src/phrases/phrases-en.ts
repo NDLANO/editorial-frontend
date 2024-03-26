@@ -639,6 +639,7 @@ const phrases = {
     "code-block": "Code",
     "concept-inline": "Concept\n({{ctrl}}+alt+c)",
     "gloss-inline": "Gloss\n({{ctrl}}+alt+g)",
+    "comment-inline": "Comment",
     footnote: "Footnote\n({{ctrl}}+alt+f)",
     language: `Language`,
     noneLanguage: "None",
@@ -697,6 +698,7 @@ const phrases = {
       linkBlockList: "Link block",
       gloss: "Gloss",
       disclaimer: "Accessability disclaimer",
+      comment: "Kommentar",
     },
   },
   form: {
@@ -1004,7 +1006,10 @@ const phrases = {
         createdBy: "Created by",
         warn: "Remember to add a comment",
         description: "You have changed responsible without adding a comment!",
+        add: "Add new comment",
+        label: "Write down comment",
       },
+      updateComment: "Update comment",
     },
     status: {
       new: "New - unsaved",

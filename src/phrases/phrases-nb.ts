@@ -639,6 +639,7 @@ const phrases = {
     "code-block": "Kodeblokk",
     "concept-inline": "Forklaring\n({{ctrl}}+alt+c)",
     "gloss-inline": "Glose\n({{ctrl}}+alt+g)",
+    "comment-inline": "Kommentar",
     footnote: "Fotnote\n({{ctrl}}+alt+f)",
     language: `Språk`,
     noneLanguage: "Ingen",
@@ -697,6 +698,7 @@ const phrases = {
       linkBlockList: "Lenkeblokk",
       gloss: "Glose",
       disclaimer: "UU-advarsel",
+      comment: "Kommentar",
     },
   },
   form: {
@@ -1004,7 +1006,10 @@ const phrases = {
         createdBy: "Opprettet av",
         warn: "Husk å legge til kommentar",
         description: "Du har endret ansvarlig uten å legge til kommentar!",
+        add: "Legg til ny kommentar",
+        label: "Skriv inn kommentar",
       },
+      updateComment: "Oppdater kommentar",
     },
     status: {
       new: "Ny - Ikke lagret",

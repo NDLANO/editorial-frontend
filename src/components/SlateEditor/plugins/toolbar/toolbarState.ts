@@ -15,7 +15,7 @@ export const languages = ["ar", "de", "en", "es", "fr", "la", "no", "se", "sma",
 export type TextType = "normal-text" | "heading-2" | "heading-3" | "heading-4";
 export type MarkType = "bold" | "italic" | "code" | "sub" | "sup";
 export type BlockType = "quote" | "definition-list" | "numbered-list" | "bulleted-list" | "letter-list";
-export type InlineType = "content-link" | "mathml" | "concept-inline" | "gloss-inline";
+export type InlineType = "content-link" | "mathml" | "concept-inline" | "gloss-inline" | "comment-inline";
 export type TableType = "left" | "center" | "right";
 export type LanguageType = (typeof languages)[number];
 
@@ -81,6 +81,7 @@ export const allOptions: OptionsType = {
     mathml: { value: "mathml" },
     "concept-inline": { value: "concept-inline" },
     "gloss-inline": { value: "gloss-inline" },
+    "comment-inline": { value: "comment-inline" },
   },
   table: {
     left: { value: "left" },
@@ -119,7 +120,12 @@ export const defaultAreaOptions: AreaFilters = {
     block: { disabled: true },
   },
   heading: {
-    inline: { hidden: true },
+    inline: {
+      "content-link": { hidden: true },
+      mathml: { hidden: true },
+      "concept-inline": { hidden: true },
+      "gloss-inline": { hidden: true },
+    },
   },
   "table-cell": {
     table: { hidden: false },

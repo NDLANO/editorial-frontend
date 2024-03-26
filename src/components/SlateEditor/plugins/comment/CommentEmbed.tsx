@@ -34,6 +34,7 @@ const CommentButton = styled.span`
 const StyledContent = styled(Content)`
   padding: ${spacing.normal};
   min-width: 350px;
+  max-width: 700px;
   background-color: ${colors.white};
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
   animation-duration: 300ms;

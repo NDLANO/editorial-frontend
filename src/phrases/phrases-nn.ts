@@ -736,8 +736,6 @@ const phrases = {
       commentField: "Kommentarfelt",
       solve: "Kommentaren er merka som uløyst. Merk som løyst",
       unresolve: "Kommentaren er merka som løyst. Merk som uløyst",
-      add: "Legg til kommentar",
-      alreadyExists: "Kommentar er allereie lagt til",
     },
     preview: {
       button: "Forhandsvis",

@@ -15,7 +15,6 @@ import { Cross, TrashCanOutline } from "@ndla/icons/action";
 import { CommentEmbedData, CommentMetaData } from "@ndla/types-embed";
 import { Heading } from "@ndla/typography";
 import CommentForm from "./CommentForm";
-import { slateContentStyles } from "../../../../containers/ArticlePage/components/styles";
 
 const CommentButton = styled.span`
   display: inline;
@@ -66,24 +65,13 @@ const ContentWrapper = styled.div`
   }
 `;
 
-const BlockCommentWrapper = styled.div`
-  border: 2px solid ${colors.support.yellowLight};
-  cursor: pointer;
-  &:focus,
-  &:hover,
-  &:active,
-  &[data-open="true"] {
-    border-color: ${colors.support.yellow};
-  }
-`;
-
 const BlockComment = styled.div`
-  ${slateContentStyles};
   background: ${colors.support.yellowLight};
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   max-height: 25px;
+  cursor: pointer;
   &:focus,
   &:hover,
   &:active,
@@ -116,9 +104,7 @@ const CommentEmbed = ({ embed, onSave, children, onRemove, commentType }: Props)
             {children}
           </CommentButton>
         ) : (
-          <BlockCommentWrapper contentEditable={false}>
-            <BlockComment contentEditable={false}>{embed?.embedData?.text ?? ""}</BlockComment>
-          </BlockCommentWrapper>
+          <BlockComment contentEditable={false}>{embed?.embedData?.text ?? ""}</BlockComment>
         )}
       </Trigger>
       <Portal>

@@ -15,16 +15,11 @@ import { ButtonV2 } from "@ndla/button";
 import { colors, fonts, misc, spacing } from "@ndla/core";
 import { Label } from "@ndla/forms";
 import { CommentEmbedData } from "@ndla/types-embed";
-import {
-  plugins,
-  toolbarAreaFilters,
-  toolbarOptions,
-} from "../../../../containers/ArticlePage/components/commentToolbarUtils";
 import { slateContentStyles } from "../../../../containers/ArticlePage/components/styles";
-import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
+import { editorValueToPlainText, plainTextToEditorValue } from "../../../../util/articleContentConverter";
 import { FormControl, FormField } from "../../../FormField";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
-import RichTextEditor from "../../RichTextEditor";
+import PlainTextEditor from "../../PlainTextEditor";
 
 const StyledFormControl = styled(FormControl)`
   [data-comment] {
@@ -34,7 +29,7 @@ const StyledFormControl = styled(FormControl)`
   }
 `;
 
-const StyledRichTextEditor = styled(RichTextEditor)`
+const StyledPlainTextEditor = styled(PlainTextEditor)`
   border-radius: ${misc.borderRadius};
   min-height: ${spacing.xxlarge};
   outline: 1px solid transparent;
@@ -66,14 +61,12 @@ interface Props {
 interface CommentFormValues {
   resource: "comment";
   text: Descendant[];
-  isStandalone: string;
 }
 
 const toInitialValues = (data?: CommentEmbedData): CommentFormValues => {
   return {
     resource: "comment",
-    text: inlineContentToEditorValue(data?.text ?? "", true),
-    isStandalone: data?.isStandalone === "true" ? "true" : "false",
+    text: plainTextToEditorValue(data?.text ?? ""),
   };
 };
 
@@ -90,9 +83,8 @@ const CommentForm = ({ initialData, onSave, onClose, labelText, labelVisuallyHid
   const onSubmit = (values: CommentFormValues) => {
     onSave({
       resource: "comment",
-      text: inlineContentToHTML(values.text),
+      text: editorValueToPlainText(values.text),
       type: commentType,
-      isStandalone: values?.isStandalone.toString(),
     });
   };
   return (
@@ -105,30 +97,14 @@ const CommentForm = ({ initialData, onSave, onClose, labelText, labelVisuallyHid
       {() => (
         <Form>
           <FormField name="text">
-            {({ field: { name, value, onChange }, meta }) => {
+            {({ field, meta }) => {
               return (
                 <>
                   <StyledFormControl isRequired>
                     <Label visuallyHidden={labelVisuallyHidden} textStyle="label-small" margin="none">
                       {labelText}
                     </Label>
-                    <StyledRichTextEditor
-                      value={value ?? []}
-                      hideBlockPicker
-                      submitted={false}
-                      plugins={plugins}
-                      onChange={(value) =>
-                        onChange({
-                          target: {
-                            value,
-                            name,
-                          },
-                        })
-                      }
-                      toolbarOptions={toolbarOptions}
-                      toolbarAreaFilters={toolbarAreaFilters}
-                      data-comment=""
-                    />
+                    <StyledPlainTextEditor id={field.name} {...field} value={initialValues.text} />
                   </StyledFormControl>
                   <CommentActions>
                     <ButtonV2 onClick={onClose} variant="outline">

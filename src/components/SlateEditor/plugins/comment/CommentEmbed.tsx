@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import parse from "html-react-parser";
 import { ReactNode, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
@@ -84,9 +83,6 @@ const BlockComment = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   max-height: 25px;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
   &:focus,
   &:hover,
   &:active,
@@ -120,8 +116,7 @@ const CommentEmbed = ({ embed, onSave, children, onRemove, commentType }: Props)
           </CommentButton>
         ) : (
           <BlockCommentWrapper contentEditable={false}>
-            {embed.embedData.isStandalone !== "true" && children}
-            <BlockComment>{parse(embed?.embedData?.text ?? "")}</BlockComment>
+            <BlockComment contentEditable={false}>{embed?.embedData?.text ?? ""}</BlockComment>
           </BlockCommentWrapper>
         )}
       </Trigger>

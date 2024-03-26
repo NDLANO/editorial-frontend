@@ -13,7 +13,6 @@ import { blockPickerPlugin } from "../../../../components/SlateEditor/plugins/bl
 import { blockQuotePlugin } from "../../../../components/SlateEditor/plugins/blockquote";
 import { breakPlugin } from "../../../../components/SlateEditor/plugins/break";
 import { codeblockPlugin } from "../../../../components/SlateEditor/plugins/codeBlock";
-import { commentBlockPlugin } from "../../../../components/SlateEditor/plugins/comment/block";
 import { commentInlinePlugin } from "../../../../components/SlateEditor/plugins/comment/inline";
 import { blockConceptPlugin } from "../../../../components/SlateEditor/plugins/concept/block";
 import { inlineConceptPlugin } from "../../../../components/SlateEditor/plugins/concept/inline";
@@ -62,7 +61,6 @@ export const learningResourcePlugins: SlatePlugin[] = [
   inlineConceptPlugin,
   blockConceptPlugin,
   commentInlinePlugin,
-  commentBlockPlugin,
   headingPlugin,
   asidePlugin,
   detailsPlugin,

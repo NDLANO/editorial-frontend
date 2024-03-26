@@ -9,7 +9,6 @@
 import { SlatePlugin } from "../../../../components/SlateEditor/interfaces";
 import { blockQuotePlugin } from "../../../../components/SlateEditor/plugins/blockquote";
 import { breakPlugin } from "../../../../components/SlateEditor/plugins/break";
-import { commentBlockPlugin } from "../../../../components/SlateEditor/plugins/comment/block";
 import { commentInlinePlugin } from "../../../../components/SlateEditor/plugins/comment/inline";
 import { inlineConceptPlugin } from "../../../../components/SlateEditor/plugins/concept/inline";
 import { definitionListPlugin } from "../../../../components/SlateEditor/plugins/definitionList";
@@ -45,7 +44,6 @@ export const topicArticlePlugins: SlatePlugin[] = [
   listPlugin,
   inlineConceptPlugin,
   commentInlinePlugin,
-  commentBlockPlugin,
   mathmlPlugin,
   markPlugin,
   dndPlugin,

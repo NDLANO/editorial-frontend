@@ -22,7 +22,6 @@ import { StyledDeleteEmbedButton, StyledFigureButtons } from "./FigureButtons";
 import { ImageEmbed } from "../../../../interfaces";
 import { getSrcSets } from "../../../../util/imageEditorUtil";
 import parseMarkdown from "../../../../util/parseMarkdown";
-import AddCommentButton from "../../AddCommentButton";
 import { isTable } from "../table/slateHelpers";
 
 interface Props {
@@ -123,7 +122,6 @@ const SlateImage = ({
         {!visualElement && (
           <figure {...figureClass} contentEditable={false}>
             <StyledFigureButtons data-white={true}>
-              <AddCommentButton editor={editor} pathToEmbed={pathToEmbed} />
               <ModalTrigger>
                 <IconButtonV2
                   aria-label={t("form.image.editImage")}

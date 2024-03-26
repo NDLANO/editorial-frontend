@@ -6,60 +6,14 @@
  *
  */
 
-import { test, expect } from "@playwright/test";
-import { mockRoute } from "../apiMock";
-import { responsiblesMock, zendeskMock } from "../mockResponses";
+import { expect } from "@playwright/test";
+import { test } from "../apiMock";
 
 const metaKey = process.platform === "darwin" ? "Meta" : "Control";
 
+
 test.beforeEach(async ({ page }) => {
-  const zendesk = await mockRoute({
-    page,
-    path: "**/get_zendesk_token",
-    fixture: "math_zendesk_token",
-    overrideValue: JSON.stringify(zendeskMock),
-  });
-
-  const responsibles = await mockRoute({
-    page,
-    path: "**/get_responsibles?permission=drafts:responsible",
-    fixture: "math_responsibles",
-    overrideValue: JSON.stringify(responsiblesMock),
-  });
-
-  const licenses = await mockRoute({
-    page,
-    path: "**/draft-api/v1/drafts/licenses/",
-    fixture: "math_licenses",
-  });
-
-  const statuses = await mockRoute({
-    page,
-    path: "**/draft-api/v1/drafts/status-state-machine/",
-    fixture: "math_status_state_machine",
-  });
-
-  const wirisEditor = mockRoute({
-    page,
-    path: "https://www.wiris.net/client/editor/tick?httpstatus=true",
-    fixture: "math_wiris_editor",
-  });
-
-  const wirisTick = mockRoute({
-    page,
-    path: "https://www.wiris.net/client/editor/mathml2internal?httpstatus=true",
-    fixture: "math_ml_internal",
-  });
-
-  const wirisHand = mockRoute({
-    page,
-    path: "https://www.wiris.net/client/hand/hand.js?httpstatus=true",
-    fixture: "math_hand",
-  });
-
   await page.goto("/subject-matter/learning-resource/new");
-
-  await Promise.all([zendesk, responsibles, licenses, statuses, wirisEditor, wirisHand, wirisTick]);
 
   const el = page.getByTestId("slate-editor");
   await el.click();

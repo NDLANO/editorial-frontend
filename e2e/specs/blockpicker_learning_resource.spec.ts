@@ -6,39 +6,12 @@
  *
  */
 
-import { test, expect } from "@playwright/test";
-import { mockRoute } from "../apiMock";
-import { brightcoveTokenMock, copyrightMock, responsiblesMock, zendeskMock } from "../mockResponses";
+import { expect } from "@playwright/test";
+import { test } from "../apiMock";
+
+
 test.beforeEach(async ({ page }) => {
-  const zendesk = mockRoute({
-    page,
-    path: "**/get_zendesk_token",
-    fixture: "blockpicker_zendesk_token",
-    overrideValue: JSON.stringify(zendeskMock),
-  });
-
-  const responsibles = mockRoute({
-    page,
-    path: "**/get_responsibles?permission=drafts:responsible",
-    fixture: "blockpicker_responsibles",
-    overrideValue: JSON.stringify(responsiblesMock),
-  });
-
-  const licenses = mockRoute({
-    page,
-    path: "**/draft-api/v1/drafts/licenses/",
-    fixture: "blockpicker_licenses",
-  });
-
-  const statuses = mockRoute({
-    page,
-    path: "**/draft-api/v1/drafts/status-state-machine/",
-    fixture: "blockpicker_status_state_machine",
-  });
-
   await page.goto("/subject-matter/learning-resource/new");
-
-  await Promise.all([zendesk, responsibles, licenses, statuses]);
   await page.getByTestId("slate-editor").click();
   await page.getByTestId("slate-block-picker").click();
   await expect(page.getByTestId("slate-block-picker-menu")).toBeVisible();
@@ -97,23 +70,6 @@ test("adds and removes code-block", async ({ page }) => {
 });
 
 test("adds and removes image", async ({ page }) => {
-  const images = mockRoute({
-    page,
-    path: "**/image-api/v3/images/?fallback=true&language=nb&page=1&page-size=16",
-    fixture: "blockpicker_images",
-    overrideValue: (val) =>
-      JSON.stringify({
-        ...JSON.parse(val),
-        results: JSON.parse(val).results.map((image) => ({ ...image, copyright: copyrightMock })),
-      }),
-  });
-  const image = mockRoute({
-    page,
-    path: "**/image-api/v3/images/63415?language=nb",
-    fixture: "blockpicker_image",
-    overrideValue: (val) => JSON.stringify({ ...JSON.parse(val), copyright: copyrightMock }),
-  });
-  await Promise.all([images, image]);
   await page.getByTestId("create-image").click();
   await page.getByTestId("select-image-from-list").first().click();
   await page.getByTestId("use-image").click();
@@ -130,28 +86,6 @@ test("adds and removes disclaimer", async ({ page }) => {
 });
 
 test("opens and closes video", async ({ page }) => {
-  const brightcoveToken = mockRoute({
-    page,
-    path: "**/get_brightcove_token",
-    fixture: "brightcove_token",
-    overrideValue: JSON.stringify(brightcoveTokenMock),
-  });
-  const brightcoveVideos = mockRoute({
-    page,
-    path: "**/v1/accounts/*/videos/?limit=10&offset=0&q=",
-    fixture: "brightcove_videos",
-  });
-  const brightcoveVideo = mockRoute({
-    page,
-    path: "**/v1/accounts/*/videos/6320387876112",
-    fixture: "brightcove_video",
-  });
-  const brightcovePlayback = mockRoute({
-    page,
-    path: "**/playback/v1/accounts/*/videos/6317543916112",
-    fixture: "brightcove_playback",
-  });
-  await Promise.all([brightcoveToken, brightcoveVideos, brightcoveVideo, brightcovePlayback]);
   await page.getByTestId("create-video").click();
   await page.getByText("Bruk video").first().click();
   await expect(page.getByTestId("remove-element")).toBeVisible();
@@ -160,18 +94,6 @@ test("opens and closes video", async ({ page }) => {
 });
 
 test("opens and closes audio", async ({ page }) => {
-  const audios = mockRoute({
-    page,
-    path: "**/audio-api/v1/audio/?audio-type=standard&language=nb&page=1&page-size=16&query=",
-    fixture: "blockpicker_audios",
-  });
-
-  const reusedAudio = mockRoute({
-    page,
-    path: "**/audio-api/v1/audio/*?language=nb",
-    fixture: "blockpicker_any_audio",
-  });
-  await Promise.all([audios, reusedAudio]);
   await page.getByTestId("create-audio").click();
   await expect(page.getByTestId("modal-header")).toBeVisible();
   await page.getByRole("button").getByText("Velg lyd").first().click();
@@ -196,11 +118,6 @@ test("opens and closes url", async ({ page }) => {
 });
 
 test("opens and closes related content", async ({ page }) => {
-  await mockRoute({
-    page,
-    path: "**/search-api/v1/search/editorial/*",
-    fixture: "blockpicker_related_content",
-  });
   await page.getByTestId("create-related").click();
   await expect(page.getByTestId("editRelated")).toBeVisible();
   await page.getByTestId("close-related-button").click();

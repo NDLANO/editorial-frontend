@@ -44,7 +44,7 @@ import { toolbarPlugin } from "../../../../components/SlateEditor/plugins/toolba
 import { disclaimerPlugin } from "../../../../components/SlateEditor/plugins/uuDisclaimer";
 
 export const learningResourcePlugins: SlatePlugin[] = [
-  sectionPlugin,
+  ...sectionPlugin,
   spanPlugin,
   divPlugin,
   ...paragraphPlugin,

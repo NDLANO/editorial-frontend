@@ -50,7 +50,7 @@ import { disclaimerPlugin } from "../../../../components/SlateEditor/plugins/uuD
 
 // Plugins are checked from last to first
 export const frontpagePlugins: SlatePlugin[] = [
-  sectionPlugin,
+  ...sectionPlugin,
   spanPlugin,
   divPlugin,
   ...paragraphPlugin,

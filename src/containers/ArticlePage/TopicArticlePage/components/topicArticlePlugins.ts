@@ -39,7 +39,7 @@ export const topicArticlePlugins: SlatePlugin[] = [
   // Blockquote and editList actions need to be triggered before paragraph action, else
   // unwrapping (jumping out of block) will not work.
   blockQuotePlugin,
-  definitionListPlugin,
+  ...definitionListPlugin,
   listPlugin,
   inlineConceptPlugin,
   mathmlPlugin,

@@ -85,7 +85,7 @@ export const frontpagePlugins: SlatePlugin[] = [
   breakPlugin,
   saveHotkeyPlugin,
   markPlugin,
-  definitionListPlugin,
+  ...definitionListPlugin,
   listPlugin,
   gridPlugin,
   blogPostPlugin,

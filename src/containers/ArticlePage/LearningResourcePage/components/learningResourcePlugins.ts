@@ -78,7 +78,7 @@ export const learningResourcePlugins: SlatePlugin[] = [
   breakPlugin,
   saveHotkeyPlugin,
   markPlugin,
-  definitionListPlugin,
+  ...definitionListPlugin,
   listPlugin,
   gridPlugin,
   disclaimerPlugin,

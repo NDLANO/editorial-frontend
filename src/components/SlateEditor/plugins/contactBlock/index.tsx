@@ -6,16 +6,17 @@
  *
  */
 
-import { Descendant, Editor, Element } from "slate";
+import { Descendant, Element } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { ContactBlockEmbedData } from "@ndla/types-embed";
 import { TYPE_CONTACT_BLOCK } from "./types";
 import { createEmbedTagV2, reduceElementDataAttributesV2 } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
-import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
+import { NormalizerConfig } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
 import { TYPE_NDLA_EMBED } from "../embed/types";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
+import { createPlugin } from "../PluginFactory";
 
 export interface ContactBlockElement {
   type: "contact-block";
@@ -49,20 +50,7 @@ export const contactBlockSerializer: SlateSerializer = {
   },
 };
 
-export const contactBlockPlugin = (editor: Editor) => {
-  const { normalizeNode: nextNormalizeNode, isVoid: nextIsVoid } = editor;
-
-  editor.normalizeNode = (entry) => {
-    const [node] = entry;
-    if (Element.isElement(node) && node.type === TYPE_CONTACT_BLOCK) {
-      if (defaultBlockNormalizer(editor, entry, normalizerConfig)) {
-        return;
-      }
-    }
-    nextNormalizeNode(entry);
-  };
-
-  editor.isVoid = (element) => (element.type === TYPE_CONTACT_BLOCK ? true : nextIsVoid(element));
-
-  return editor;
-};
+export const contactBlockPlugin = createPlugin<ContactBlockElement["type"]>({
+  type: TYPE_CONTACT_BLOCK,
+  normalizerConfig,
+});

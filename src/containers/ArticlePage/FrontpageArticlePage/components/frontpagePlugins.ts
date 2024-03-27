@@ -75,7 +75,7 @@ export const frontpagePlugins: SlatePlugin[] = [
   relatedPlugin,
   filePlugin,
   mathmlPlugin,
-  contactBlockPlugin,
+  ...contactBlockPlugin,
   codeblockPlugin,
   ...keyFigurePlugin,
   blockPickerPlugin,

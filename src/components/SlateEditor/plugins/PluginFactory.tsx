@@ -85,6 +85,7 @@ export const createPluginFactory =
             /* eslint-disable-next-line */
             console.debug(`[NORMALIZING] ${type} with method: ${normalized.description}`);
           }
+          return;
         }
       }
 

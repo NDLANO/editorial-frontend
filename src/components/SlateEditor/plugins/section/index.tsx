@@ -6,7 +6,7 @@
  *
  */
 
-import { Node, Element, Descendant, Editor, Text, Transforms, Range } from "slate";
+import { Node, Element, Descendant, Editor, Text, Transforms, Range, NodeEntry } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_SECTION } from "./types";
 import { SlateSerializer } from "../../interfaces";
@@ -14,6 +14,7 @@ import { KEY_BACKSPACE, KEY_TAB } from "../../utils/keys";
 import { TYPE_HEADING } from "../heading/types";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
 import { defaultParagraphBlock } from "../paragraph/utils";
+import { createPlugin } from "../PluginFactory";
 
 export interface SectionElement {
   type: "section";
@@ -42,112 +43,108 @@ export const sectionSerializer: SlateSerializer = {
   },
 };
 
-const onBackspace = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: KeyboardEvent) => void) => {
-  if (editor.selection) {
-    // Find the closest ancestor <section>-element
-    const section = Editor.above(editor, {
-      match: (node) => Element.isElement(node) && node.type === "section",
-      mode: "lowest",
-    })?.[0];
-    if (
-      Element.isElement(section) &&
-      section.children.length === 1 &&
-      Node.string(section).length === 0 &&
-      Range.isCollapsed(editor.selection) &&
-      editor.selection.anchor.offset === 0
-    ) {
-      if (editor.removeSection) {
-        e.preventDefault();
-        editor.removeSection();
-        return;
-      }
+const onBackspace = (e: KeyboardEvent, editor: Editor, entry: NodeEntry) => {
+  if (!editor.selection) return false;
+  // Find the closest ancestor <section>-element
+  const section = Editor.above(editor, {
+    match: (node) => Element.isElement(node) && node.type === "section",
+    mode: "lowest",
+  })?.[0];
+  if (
+    Element.isElement(section) &&
+    section.children.length === 1 &&
+    Node.string(section).length === 0 &&
+    Range.isCollapsed(editor.selection) &&
+    editor.selection.anchor.offset === 0
+  ) {
+    if (editor.removeSection) {
+      e.preventDefault();
+      editor.removeSection();
+      return true;
     }
   }
-  if (nextOnKeyDown) {
-    nextOnKeyDown(e);
-  }
+  return false;
 };
 
-export const sectionPlugin = (editor: Editor) => {
-  const { normalizeNode: nextNormalizeNode, onKeyDown: nextOnKeyDown } = editor;
-
-  editor.onKeyDown = (e: KeyboardEvent) => {
-    if (e.key === KEY_BACKSPACE) {
-      onBackspace(e, editor, nextOnKeyDown);
-    } else if (e.key === KEY_TAB) {
-      e.preventDefault();
-    } else if (nextOnKeyDown) {
-      nextOnKeyDown(e);
-    }
-  };
-
-  editor.normalizeNode = (entry) => {
-    const [node, path] = entry;
-
-    if (Element.isElement(node) && node.type === "section") {
-      // Insert empty paragraph if section has no children.
-      if (node.children.length === 0) {
-        Transforms.insertNodes(
-          editor,
-          {
-            type: "paragraph",
-            children: [{ text: "" }],
-          },
-          { at: [...path, 0] },
-        );
-        return;
-      }
-      // If section contains text, wrap it in paragraph.
-      for (const [child, childPath] of Node.children(editor, path)) {
-        if (Text.isText(child)) {
-          Transforms.wrapNodes(
-            editor,
-            {
-              type: "paragraph",
-              children: [],
-            },
-            { at: childPath },
-          );
-          return;
-        }
-      }
-
-      // If first child is not a paragraph, insert an empty paragraph
-      const firstChild = node.children[0];
-      if (Element.isElement(firstChild)) {
-        if (firstChild.type !== TYPE_PARAGRAPH && firstChild.type !== TYPE_HEADING) {
+export const sectionPlugin = createPlugin<SectionElement["type"]>({
+  type: TYPE_SECTION,
+  normalize: [
+    {
+      description: "Insert empty paragraph if section has no children",
+      normalize: ([node, path], editor) => {
+        if (node.children.length === 0) {
           Transforms.insertNodes(
             editor,
             {
-              type: "paragraph",
+              type: TYPE_PARAGRAPH,
               children: [{ text: "" }],
             },
             { at: [...path, 0] },
           );
-          return;
+          return true;
         }
-      }
-
-      // If last child is not a paragraph, insert an empty paragraph
-      const lastChild = node.children[node.children.length - 1];
-      if (Element.isElement(lastChild)) {
-        if (lastChild.type !== "paragraph") {
+        return false;
+      },
+    },
+    {
+      description: "Wrap text in paragraph",
+      normalize: ([_node, path], editor) => {
+        for (const [child, childPath] of Node.children(editor, path)) {
+          if (Text.isText(child)) {
+            Transforms.wrapNodes(
+              editor,
+              {
+                type: TYPE_PARAGRAPH,
+                children: [],
+              },
+              { at: childPath },
+            );
+            return true;
+          }
+        }
+        return false;
+      },
+    },
+    {
+      description: "Insert empty paragraph if first child is not a paragraph",
+      normalize: ([node, path], editor) => {
+        const firstChild = node.children[0];
+        if (Element.isElement(firstChild) && firstChild.type !== TYPE_PARAGRAPH && firstChild.type !== TYPE_HEADING) {
           Transforms.insertNodes(
             editor,
             {
-              type: "paragraph",
+              type: TYPE_PARAGRAPH,
+              children: [{ text: "" }],
+            },
+            { at: [...path, 0] },
+          );
+          return true;
+        }
+        return false;
+      },
+    },
+    {
+      description: "Insert empty paragraph if last child is not a paragraph",
+      normalize: ([node, path], editor) => {
+        const lastChild = node.children[node.children.length - 1];
+        if (Element.isElement(lastChild) && lastChild.type !== "paragraph") {
+          Transforms.insertNodes(
+            editor,
+            {
+              type: TYPE_PARAGRAPH,
               children: [{ text: "" }],
             },
             {
               at: [...path, node.children.length],
             },
           );
-          return;
+          return true;
         }
-      }
-    }
-    nextNormalizeNode(entry);
-  };
-
-  return editor;
-};
+        return false;
+      },
+    },
+  ],
+  onKeyDown: {
+    [KEY_BACKSPACE]: onBackspace,
+  },
+});

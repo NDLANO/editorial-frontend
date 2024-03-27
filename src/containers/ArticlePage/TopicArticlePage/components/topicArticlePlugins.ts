@@ -28,7 +28,7 @@ import { toolbarPlugin } from "../../../../components/SlateEditor/plugins/toolba
 
 // Plugins are checked from last to first
 export const topicArticlePlugins: SlatePlugin[] = [
-  sectionPlugin,
+  ...sectionPlugin,
   spanPlugin,
   divPlugin,
   ...paragraphPlugin,

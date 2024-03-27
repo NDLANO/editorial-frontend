@@ -55,7 +55,7 @@ export const learningResourcePlugins: SlatePlugin[] = [
   embedPlugin(),
   framedContentPlugin,
   blockQuotePlugin,
-  linkPlugin,
+  ...linkPlugin,
   conceptListPlugin,
   inlineConceptPlugin,
   blockConceptPlugin,

@@ -29,7 +29,7 @@ interface Plugin<T extends ElementType = ElementType> {
   childPlugins?: MappedPlugins[ElementType][];
 }
 
-interface Normalize<T extends Element> {
+export interface Normalize<T extends Element> {
   description: string;
   normalize(e: NodeEntry<T>, editor: Editor): boolean;
 }

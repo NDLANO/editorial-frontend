@@ -61,7 +61,7 @@ export const frontpagePlugins: SlatePlugin[] = [
   h5pPlugin(),
   framedContentPlugin,
   blockQuotePlugin,
-  linkPlugin,
+  ...linkPlugin,
   conceptListPlugin,
   inlineConceptPlugin,
   blockConceptPlugin,

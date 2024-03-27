@@ -33,7 +33,7 @@ import {
 export const plugins: SlatePlugin[] = [
   sectionPlugin,
   spanPlugin,
-  paragraphPlugin,
+  ...paragraphPlugin,
   toolbarPlugin(),
   textTransformPlugin,
   breakPlugin,

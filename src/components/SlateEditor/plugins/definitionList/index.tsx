@@ -13,8 +13,9 @@ import onEnter from "./handlers/onEnter";
 import onTab from "./handlers/onTab";
 import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_LIST, TYPE_DEFINITION_TERM } from "./types";
 import { SlateSerializer } from "../../interfaces";
-import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
+import { NormalizerConfig } from "../../utils/defaultNormalizer";
 import { KEY_BACKSPACE, KEY_ENTER, KEY_TAB } from "../../utils/keys";
+import { createPlugin } from "../PluginFactory";
 
 export interface DefinitionListElement {
   type: "definition-list";
@@ -78,51 +79,47 @@ export const definitionListSerializer: SlateSerializer = {
   },
 };
 
-export const definitionListPlugin = (editor: Editor) => {
-  const { normalizeNode: nextNormalizeNode, onKeyDown: nextOnKeyDown } = editor;
-
-  editor.onKeyDown = (e: KeyboardEvent) => {
-    if (e.key === KEY_ENTER) {
-      onEnter(e, editor, nextOnKeyDown);
-    } else if (e.key === KEY_BACKSPACE) {
-      onBackspace(e, editor, nextOnKeyDown);
-    } else if (e.key === KEY_TAB) {
-      onTab(e, editor, nextOnKeyDown);
-    } else if (nextOnKeyDown) {
-      nextOnKeyDown(e);
-    }
-  };
-
-  editor.normalizeNode = (entry) => {
-    const [node, nodepath] = entry;
-
-    if (Element.isElement(node) && node.type === TYPE_DEFINITION_LIST) {
-      // Merge list with previous list if identical type
-      if (Path.hasPrevious(nodepath)) {
-        const previousPath = Path.previous(nodepath);
-        if (Editor.hasPath(editor, previousPath)) {
-          const [prevNode] = Editor.node(editor, previousPath);
-          if (Element.isElement(prevNode) && prevNode.type === TYPE_DEFINITION_LIST) {
-            return Transforms.mergeNodes(editor, {
-              at: nodepath,
-            });
+export const definitionListPlugin = createPlugin<DefinitionListElement["type"]>({
+  type: TYPE_DEFINITION_LIST,
+  normalizerConfig: normalizerDLConfig,
+  normalize: [
+    {
+      description: "Merge definition lists if they are next to each other",
+      normalize: ([_node, path], editor) => {
+        if (Path.hasPrevious(path)) {
+          const previousPath = Path.previous(path);
+          if (Editor.hasPath(editor, previousPath)) {
+            const [prevNode] = Editor.node(editor, previousPath);
+            if (Element.isElement(prevNode) && prevNode.type === TYPE_DEFINITION_LIST) {
+              Transforms.mergeNodes(editor, {
+                at: path,
+              });
+              return true;
+            }
           }
         }
-      }
-
-      if (defaultBlockNormalizer(editor, entry, normalizerDLConfig)) {
-        return;
-      }
-    } else if (Element.isElement(node) && node.type === TYPE_DEFINITION_TERM) {
-      if (defaultBlockNormalizer(editor, entry, normalizerDTConfig)) {
-        return;
-      }
-    } else if (Element.isElement(node) && node.type === TYPE_DEFINITION_DESCRIPTION) {
-      if (defaultBlockNormalizer(editor, entry, normalizerDDConfig)) {
-        return;
-      }
-    }
-    nextNormalizeNode(entry);
-  };
-  return editor;
-};
+        return false;
+      },
+    },
+  ],
+  childPlugins: [
+    {
+      type: TYPE_DEFINITION_TERM,
+      normalizerConfig: normalizerDTConfig,
+      onKeyDown: {
+        [KEY_ENTER]: onEnter,
+        [KEY_TAB]: onTab,
+        [KEY_BACKSPACE]: onBackspace,
+      },
+    },
+    {
+      type: TYPE_DEFINITION_DESCRIPTION,
+      normalizerConfig: normalizerDDConfig,
+      onKeyDown: {
+        [KEY_ENTER]: onEnter,
+        [KEY_TAB]: onTab,
+        [KEY_BACKSPACE]: onBackspace,
+      },
+    },
+  ],
+});

@@ -40,7 +40,7 @@ export const topicArticlePlugins: SlatePlugin[] = [
   // unwrapping (jumping out of block) will not work.
   blockQuotePlugin,
   ...definitionListPlugin,
-  listPlugin,
+  ...listPlugin,
   inlineConceptPlugin,
   mathmlPlugin,
   markPlugin,

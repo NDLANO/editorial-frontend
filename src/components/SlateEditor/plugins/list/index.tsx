@@ -22,6 +22,7 @@ import { TYPE_FOOTNOTE } from "../footnote/types";
 import { TYPE_LINK, TYPE_CONTENT_LINK } from "../link/types";
 import { TYPE_MATHML } from "../mathml/types";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
+import { createPlugin } from "../PluginFactory";
 
 export interface ListElement {
   type: "list";
@@ -142,129 +143,156 @@ export const listSerializer: SlateSerializer = {
   },
 };
 
-export const listPlugin = (editor: Editor) => {
-  const { onKeyDown, normalizeNode } = editor;
-
-  editor.normalizeNode = (entry) => {
-    const [node, path] = entry;
-
-    if (Element.isElement(node) && node.type === TYPE_LIST_ITEM) {
-      // If listItem is not placed insine list, unwrap it.
-      const [parentNode] = Editor.node(editor, Path.parent(path));
-      if (Element.isElement(parentNode) && parentNode.type !== TYPE_LIST) {
-        return Transforms.unwrapNodes(editor, { at: path });
-      }
-
-      // If listItem contains text, wrap it in paragraph.
-      for (const [child, childPath] of Node.children(editor, path)) {
-        if (Text.isText(child)) {
-          Transforms.wrapNodes(
-            editor,
-            {
-              type: TYPE_PARAGRAPH,
-              children: [{ text: "" }],
-            },
-            { at: childPath },
-          );
-          return;
+export const listPlugin = createPlugin<ListElement["type"]>({
+  type: TYPE_LIST,
+  normalize: [
+    {
+      description: "If list is empty or zero-length text element, remove it",
+      normalize: ([node, path], editor) => {
+        if (node.children.length === 0 || (Text.isTextList(node.children) && Node.string(node) === "")) {
+          Transforms.removeNodes(editor, { at: path });
+          return true;
         }
-      }
-
-      // If first child is not a paragraph, heading or quote, insert an empty paragraph
-      const firstChild = node.children[0];
-      if (Element.isElement(firstChild)) {
-        if (!firstTextBlockElement.includes(firstChild.type)) {
-          Transforms.insertNodes(
-            editor,
-            {
-              type: TYPE_PARAGRAPH,
-              children: [{ text: "" }],
-            },
-            { at: [...path, 0] },
-          );
-          return;
+        return false;
+      },
+    },
+    {
+      description: "If list contains elements of other type than list-item, wrap it",
+      normalize: ([_node, path], editor) => {
+        for (const [child, childPath] of Node.children(editor, path)) {
+          if (!Element.isElement(child) || child.type !== TYPE_LIST_ITEM) {
+            Transforms.wrapNodes(
+              editor,
+              {
+                type: TYPE_LIST_ITEM,
+                children: [],
+              },
+              { at: childPath },
+            );
+            return true;
+          }
         }
-      }
+        return false;
+      },
+    },
+    {
+      description: "Merge list with previous list if identical type",
+      normalize: ([node, path], editor) => {
+        if (Path.hasPrevious(path)) {
+          const prevPath = Path.previous(path);
+          if (Editor.hasPath(editor, prevPath)) {
+            const [prevNode] = Editor.node(editor, prevPath);
 
-      // Handle changing list-items marked for listType change
-      if (node.changeTo) {
-        const changeTo = node.changeTo;
-        Editor.withoutNormalizing(editor, () => {
-          Transforms.unsetNodes(editor, ["changeTo"], { at: path });
-          Transforms.wrapNodes(editor, defaultListBlock(changeTo), {
-            at: path,
-          });
-          Transforms.liftNodes(editor, { at: path });
-        });
-        return;
-      }
-    }
-    if (Element.isElement(node) && node.type === TYPE_LIST) {
-      // If list is empty or zero-length text element, remove it
-      if (node.children.length === 0 || (Text.isTextList(node.children) && Node.string(node) === "")) {
-        return Transforms.removeNodes(editor, { at: path });
-      }
-
-      // If list contains elements of other type than list-item, wrap it
-      for (const [child, childPath] of Node.children(editor, path)) {
-        if (!Element.isElement(child) || child.type !== TYPE_LIST_ITEM) {
-          Transforms.wrapNodes(
-            editor,
-            {
-              type: TYPE_LIST_ITEM,
-              children: [],
-            },
-            { at: childPath },
-          );
-          return;
-        }
-      }
-      // Merge list with previous list if identical type
-      if (Path.hasPrevious(path)) {
-        const prevPath = Path.previous(path);
-        if (Editor.hasPath(editor, prevPath)) {
-          const [prevNode] = Editor.node(editor, prevPath);
-
-          if (Element.isElement(prevNode) && prevNode.type === TYPE_LIST) {
-            if (node.listType === prevNode.listType) {
-              return Transforms.mergeNodes(editor, {
-                at: path,
-              });
+            if (Element.isElement(prevNode) && prevNode.type === TYPE_LIST) {
+              if (node.listType === prevNode.listType) {
+                Transforms.mergeNodes(editor, {
+                  at: path,
+                });
+                return true;
+              }
             }
           }
         }
-      }
+        return false;
+      },
+    },
+    {
+      description: "Merge list with next list if identical type",
+      normalize: ([node, path], editor) => {
+        const nextPath = Path.next(path);
+        if (Editor.hasPath(editor, nextPath)) {
+          const [nextNode] = Editor.node(editor, nextPath);
 
-      // Merge list with next list if identical type
-      const nextPath = Path.next(path);
-      if (Editor.hasPath(editor, nextPath)) {
-        const [nextNode] = Editor.node(editor, nextPath);
-
-        if (Element.isElement(nextNode) && nextNode.type === TYPE_LIST) {
-          if (node.listType === nextNode.listType && nextNode.children.length > 0) {
-            return Transforms.mergeNodes(editor, {
-              at: nextPath,
-            });
+          if (Element.isElement(nextNode) && nextNode.type === TYPE_LIST) {
+            if (node.listType === nextNode.listType && nextNode.children.length > 0) {
+              Transforms.mergeNodes(editor, {
+                at: nextPath,
+              });
+              return true;
+            }
           }
         }
-      }
-    }
-
-    normalizeNode(entry);
-  };
-
-  editor.onKeyDown = (event: KeyboardEvent) => {
-    switch (event.key) {
-      case KEY_ENTER:
-        return onEnter(event, editor, onKeyDown);
-      case KEY_TAB:
-        return onTab(event, editor, onKeyDown);
-      case KEY_BACKSPACE:
-        return onBackspace(event, editor, onKeyDown);
-      default:
-        if (onKeyDown) return onKeyDown(event);
-        else return undefined;
-    }
-  };
-  return editor;
-};
+        return false;
+      },
+    },
+  ],
+  childPlugins: [
+    {
+      type: TYPE_LIST_ITEM,
+      onKeyDown: {
+        [KEY_BACKSPACE]: onBackspace,
+        [KEY_ENTER]: onEnter,
+        [KEY_TAB]: onTab,
+      },
+      normalize: [
+        {
+          description: "If listItem is not placed insine list, unwrap it",
+          normalize: ([_node, path], editor) => {
+            const [parentNode] = Editor.node(editor, Path.parent(path));
+            if (Element.isElement(parentNode) && parentNode.type !== TYPE_LIST) {
+              Transforms.unwrapNodes(editor, { at: path });
+              return true;
+            }
+            return false;
+          },
+        },
+        {
+          description: "If listItem contains text, wrap it in paragraph.",
+          normalize: ([_node, path], editor) => {
+            for (const [child, childPath] of Node.children(editor, path)) {
+              if (Text.isText(child)) {
+                Transforms.wrapNodes(
+                  editor,
+                  {
+                    type: TYPE_PARAGRAPH,
+                    children: [{ text: "" }],
+                  },
+                  { at: childPath },
+                );
+                return true;
+              }
+            }
+            return false;
+          },
+        },
+        {
+          description: "If first child is not a paragraph, heading or quote, insert an empty paragraph",
+          normalize: ([node, path], editor) => {
+            const firstChild = node.children[0];
+            if (Element.isElement(firstChild)) {
+              if (!firstTextBlockElement.includes(firstChild.type)) {
+                Transforms.insertNodes(
+                  editor,
+                  {
+                    type: TYPE_PARAGRAPH,
+                    children: [{ text: "" }],
+                  },
+                  { at: [...path, 0] },
+                );
+                return true;
+              }
+            }
+            return false;
+          },
+        },
+        {
+          description: "Handle changing list-items marked for listType change",
+          normalize: ([node, path], editor) => {
+            if (node.changeTo) {
+              const changeTo = node.changeTo;
+              Editor.withoutNormalizing(editor, () => {
+                Transforms.unsetNodes(editor, ["changeTo"], { at: path });
+                Transforms.wrapNodes(editor, defaultListBlock(changeTo), {
+                  at: path,
+                });
+                Transforms.liftNodes(editor, { at: path });
+              });
+              return true;
+            }
+            return false;
+          },
+        },
+      ],
+    },
+  ],
+});

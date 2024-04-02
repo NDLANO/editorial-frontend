@@ -79,7 +79,7 @@ export const learningResourcePlugins: SlatePlugin[] = [
   saveHotkeyPlugin,
   markPlugin,
   ...definitionListPlugin,
-  listPlugin,
+  ...listPlugin,
   gridPlugin,
   disclaimerPlugin,
   copyrightPlugin,

@@ -21,7 +21,7 @@ import {
 const mockDir = "e2e/apiMocks/";
 
 const localHostRegex = "http://localhost:3000/(?!@)((?!/).)+";
-const apiTestRegex = "https://api.test.ndla.no/.*";
+const apiTestRegex = "https://api.test.ndla.no/(?!image-api/raw.*).*";
 const mathjax = "https://www.wiris.net/.*";
 const brightCoveRegex = "https://(.*).brightcove.(com|net)/(.+/)?([^/]+)";
 
@@ -66,7 +66,7 @@ export const test = Ptest.extend<ExtendParams>({
     { auto: true, scope: "test" },
   ],
   page: async ({ page }, use, testInfo) => {
-    // Creating the API mocking for the wanted API's 
+    // Creating the API mocking for the wanted API's
     await page.routeFromHAR(`${mockDir}${testInfo.titlePath[0].split("/")[1]},${testInfo.title}.har`, {
       update: process.env.RECORD_FIXTURES === "true",
       updateMode: "minimal",
@@ -81,7 +81,7 @@ export const test = Ptest.extend<ExtendParams>({
   context: async ({ context }, use, testInfo) => {
     await use(context);
     await context.close();
-    // Removing sensitive data from the HAR file after saving. Har files are saved on close. 
+    // Removing sensitive data from the HAR file after saving. Har files are saved on close.
     process.env.RECORD_FIXTURES === "true" &&
       (await removeSensitiveData(`${mockDir}${testInfo.titlePath[0].split("/")[1]},${testInfo.title}.har`));
   },

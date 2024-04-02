@@ -31,7 +31,7 @@ import {
 } from "../../../components/SlateEditor/plugins/toolbar/toolbarState";
 
 export const plugins: SlatePlugin[] = [
-  sectionPlugin,
+  ...sectionPlugin,
   spanPlugin,
   ...paragraphPlugin,
   toolbarPlugin(),
@@ -40,8 +40,8 @@ export const plugins: SlatePlugin[] = [
   saveHotkeyPlugin,
   markPlugin,
   noopPlugin,
-  linkPlugin,
-  listPlugin,
+  ...linkPlugin,
+  ...listPlugin,
   sectionRenderer,
   noopRenderer,
   paragraphRenderer,

@@ -17,6 +17,7 @@ export const STORAGE_STATE = join(__dirname, "e2e/.auth/user.json");
 
 export default defineConfig({
   testDir: "./e2e",
+  fullyParallel: true,
   maxFailures: process.env.CI ? 10 : undefined,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,

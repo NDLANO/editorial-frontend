@@ -7,7 +7,7 @@
  */
 
 import { readFile, writeFile, mkdir } from "fs/promises";
-import { test as Ptest } from "@playwright/test";
+import { test as Ptest, TestInfo } from "@playwright/test";
 import {
   brightcoveTokenMock,
   copyrightMock,
@@ -29,6 +29,11 @@ interface ExtendParams {
   harCheckpoint: () => Promise<void>;
 }
 const regex = new RegExp(`^(${localHostRegex}|${apiTestRegex}|${mathjax}|${brightCoveRegex})$`);
+
+const mockFile = ({ titlePath, title: test_name }: TestInfo) => {
+  const SPEC_NAME = titlePath[0].split("/")[1];
+  return `${mockDir}${SPEC_NAME}_${test_name}.har`;
+};
 
 export const test = Ptest.extend<ExtendParams>({
   harCheckpoint: [
@@ -67,7 +72,7 @@ export const test = Ptest.extend<ExtendParams>({
   ],
   page: async ({ page }, use, testInfo) => {
     // Creating the API mocking for the wanted API's
-    await page.routeFromHAR(`${mockDir}${testInfo.titlePath[0].split("/")[1]},${testInfo.title}.har`, {
+    await page.routeFromHAR(mockFile(testInfo), {
       update: process.env.RECORD_FIXTURES === "true",
       updateMode: "minimal",
       url: regex,
@@ -82,8 +87,7 @@ export const test = Ptest.extend<ExtendParams>({
     await use(context);
     await context.close();
     // Removing sensitive data from the HAR file after saving. Har files are saved on close.
-    process.env.RECORD_FIXTURES === "true" &&
-      (await removeSensitiveData(`${mockDir}${testInfo.titlePath[0].split("/")[1]},${testInfo.title}.har`));
+    process.env.RECORD_FIXTURES === "true" && (await removeSensitiveData(mockFile(testInfo)));
   },
 });
 

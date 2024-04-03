@@ -22,7 +22,6 @@ import { InlineField } from "../../../../containers/FormikForm/InlineField";
 import { BrightcoveEmbed } from "../../../../interfaces";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
 import { isFormikFormDirty } from "../../../../util/formHelper";
-import parseMarkdown from "../../../../util/parseMarkdown";
 import { addBrightCoveTimeStampVideoid, getBrightCoveStartTime } from "../../../../util/videoUtil";
 import FormikField from "../../../FormikField";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
@@ -58,7 +57,7 @@ interface FormValues {
 export const toVideoEmbedFormValues = (embed: BrightcoveEmbed): FormValues => {
   return {
     alttext: embed.alt ?? "",
-    caption: inlineContentToEditorValue(parseMarkdown({ markdown: embed.caption ?? "", inline: true }), true),
+    caption: inlineContentToEditorValue(embed.caption ?? "", true),
     startTime: getBrightCoveStartTime(embed.videoid),
     resource: embed.resource,
   };

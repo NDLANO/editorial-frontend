@@ -22,7 +22,6 @@ import { StyledDeleteEmbedButton, StyledFigureButtons } from "./FigureButtons";
 import { CaptionButton, FigureInfo, StyledFigcaption } from "./SlateFigure";
 import { ImageEmbed } from "../../../../interfaces";
 import { getSrcSets } from "../../../../util/imageEditorUtil";
-import parseMarkdown from "../../../../util/parseMarkdown";
 import { isTable } from "../table/slateHelpers";
 
 interface Props {
@@ -169,9 +168,7 @@ const SlateImage = ({
             />
             <CaptionButton variant="stripped" onClick={toggleEditMode}>
               <StyledFigcaption>
-                <FigureInfo>
-                  {embed.caption && parse(parseMarkdown({ markdown: embed.caption, inline: true }))}
-                </FigureInfo>
+                <FigureInfo>{embed.caption && parse(embed.caption)}</FigureInfo>
               </StyledFigcaption>
             </CaptionButton>
           </figure>

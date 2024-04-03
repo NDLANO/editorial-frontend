@@ -16,7 +16,6 @@ import { LocaleType } from "../../interfaces";
 import "../DisplayEmbed/helpers/h5pResizer";
 import { usePreviewArticle } from "../../modules/article/articleGqlQueries";
 import formatDate from "../../util/formatDate";
-import parseMarkdown from "../../util/parseMarkdown";
 import { articleIsWide } from "../WideArticleEditorProvider";
 
 interface BaseProps {
@@ -86,7 +85,7 @@ export const PreviewDraft = ({ type, draft: draftProp, label, contentType, langu
     });
     return {
       title: parse(draft.title ?? ""),
-      introduction: parse(parseMarkdown({ markdown: draft.introduction ?? "", inline: true })),
+      introduction: parse(draft.introduction ?? ""),
       content,
       copyright: draft.copyright,
       published: draft.published ? formatDate(draft.published) : "",

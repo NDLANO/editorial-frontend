@@ -25,7 +25,6 @@ import { CaptionButton, FigureInfo, StyledFigcaption } from "./SlateFigure";
 import config from "../../../../config";
 import { BrightcoveEmbed } from "../../../../interfaces";
 import { fetchBrightcoveVideo } from "../../../../modules/video/brightcoveApi";
-import parseMarkdown from "../../../../util/parseMarkdown";
 import { addBrightCoveTimeStampVideoid, getBrightCoveStartTime } from "../../../../util/videoUtil";
 import validateFormik from "../../../formikValidationSchema";
 import { isNumeric } from "../../../validators";
@@ -214,7 +213,7 @@ const SlateVideo = ({
         </SlateVideoWrapper>
         <CaptionButton variant="stripped" onClick={toggleEditModus}>
           <StyledFigcaption>
-            <FigureInfo>{parse(parseMarkdown({ markdown: embed.caption ?? "", inline: true }))}</FigureInfo>
+            <FigureInfo>{parse(embed.caption ?? "")}</FigureInfo>
           </StyledFigcaption>
         </CaptionButton>
       </Figure>

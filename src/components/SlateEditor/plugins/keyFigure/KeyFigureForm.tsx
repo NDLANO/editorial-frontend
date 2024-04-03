@@ -21,7 +21,6 @@ import InlineImageSearch from "../../../../containers/ConceptPage/components/Inl
 import { InlineField } from "../../../../containers/FormikForm/InlineField";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
 import { isFormikFormDirty } from "../../../../util/formHelper";
-import parseMarkdown from "../../../../util/parseMarkdown";
 import { CheckboxWrapper } from "../../../Form/styles";
 import { FormControl, FormField } from "../../../FormField";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
@@ -45,8 +44,8 @@ interface KeyFigureFormValue {
 const toInitialValues = (initialData: KeyFigureEmbedData): KeyFigureFormValue => ({
   resource: TYPE_KEY_FIGURE,
   metaImageId: initialData?.imageId ?? "",
-  title: inlineContentToEditorValue(parseMarkdown({ markdown: initialData?.title ?? "", inline: true }), true),
-  subtitle: inlineContentToEditorValue(parseMarkdown({ markdown: initialData?.subtitle ?? "", inline: true }), true),
+  title: inlineContentToEditorValue(initialData?.title ?? "", true),
+  subtitle: inlineContentToEditorValue(initialData?.subtitle, true),
   metaImageAlt: initialData?.alt ?? "",
   isDecorative: initialData ? initialData.alt === undefined : false,
 });

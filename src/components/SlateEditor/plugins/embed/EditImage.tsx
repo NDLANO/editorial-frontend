@@ -20,7 +20,6 @@ import ImageEditor from "../../../../containers/ImageEditor/ImageEditor";
 import { ImageEmbed } from "../../../../interfaces";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
 import { isFormikFormDirty } from "../../../../util/formHelper";
-import parseMarkdown from "../../../../util/parseMarkdown";
 import { CheckboxWrapper } from "../../../Form/styles";
 import { FormControl, FormField } from "../../../FormField";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
@@ -56,7 +55,7 @@ const toImageEmbedFormValues = (embed: ImageEmbed): ImageEditFormValues => {
   return {
     resourceId: embed.resource_id,
     alt: embed.alt,
-    caption: inlineContentToEditorValue(parseMarkdown({ markdown: embed.caption ?? "", inline: true }), true),
+    caption: inlineContentToEditorValue(embed.caption ?? "", true),
     isDecorative: embed["is-decorative"] === "true",
     border: embed.border === "true",
     focalX: embed["focal-x"],

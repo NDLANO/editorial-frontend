@@ -15,7 +15,6 @@ import { ConceptNotionV2, Gloss } from "@ndla/ui";
 import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVersionProvider";
 import { usePreviewArticle } from "../../modules/article/articleGqlQueries";
 import { useSearchNodes } from "../../modules/nodes/nodeQueries";
-import parseMarkdown from "../../util/parseMarkdown";
 
 const getAudioData = (visualElement?: ConceptVisualElementMeta): { title: string; src?: string } => {
   const isSuccessAudio = visualElement?.resource === "audio" && visualElement?.status === "success";
@@ -42,7 +41,7 @@ const PreviewConcept = ({ concept, language }: Props) => {
 
   const parsedContent = useMemo(() => {
     if (!concept.content) return;
-    return parse(parseMarkdown({ markdown: concept.content.htmlContent, inline: true }));
+    return parse(concept.content.htmlContent);
   }, [concept.content]);
 
   const { data: subjects } = useSearchNodes(

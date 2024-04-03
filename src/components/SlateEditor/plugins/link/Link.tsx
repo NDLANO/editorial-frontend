@@ -10,6 +10,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { BaseSelection, Editor, Node, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { Portal } from "@radix-ui/react-portal";
 import { ButtonV2 } from "@ndla/button";
@@ -20,6 +21,7 @@ import EditLink from "./EditLink";
 import config from "../../../../config";
 import { toEditGenericArticle, toLearningpathFull } from "../../../../util/routeHelpers";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
+import { InlineBugfix } from "../../utils/InlineBugFix";
 
 interface StyledLinkMenuProps {
   top: number;
@@ -141,7 +143,9 @@ const Link = ({ attributes, editor, element, children }: Props) => {
   return (
     <Modal defaultOpen={startOpen.current} open={editMode} onOpenChange={toggleEditMode}>
       <StyledLink {...attributes} href={model?.href} ref={linkRef}>
+        <InlineBugfix />
         {children}
+        <InlineBugfix />
         {model && (
           <Portal asChild>
             <StyledLinkMenu

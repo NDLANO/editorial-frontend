@@ -221,18 +221,15 @@ const RichTextEditor = ({
   const handleKeyDown = useCallback(
     (e: KeyboardEvent<HTMLDivElement>) => {
       if (editor.selection && Range.isCollapsed(editor.selection) && !e.shiftKey) {
-        const [parent] = Editor.parent(editor, editor.selection);
-        if (Element.isElement(parent) && editor.isInline(parent)) {
-          if (e.key === KEY_ARROW_LEFT) {
-            e.preventDefault();
-            Transforms.move(editor, { unit: "offset", reverse: true });
-            return;
-          }
-          if (e.key === KEY_ARROW_RIGHT) {
-            e.preventDefault();
-            Transforms.move(editor, { unit: "offset" });
-            return;
-          }
+        if (e.key === KEY_ARROW_LEFT) {
+          e.preventDefault();
+          Transforms.move(editor, { unit: "offset", reverse: true });
+          return;
+        }
+        if (e.key === KEY_ARROW_RIGHT) {
+          e.preventDefault();
+          Transforms.move(editor, { unit: "offset" });
+          return;
         }
       }
 

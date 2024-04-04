@@ -14,7 +14,7 @@ import { useQueryClient } from "@tanstack/react-query";
 
 import { ButtonV2, CloseButton } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { Input } from "@ndla/forms";
+import { FieldErrorMessage, InputV3, Label } from "@ndla/forms";
 import { Pencil } from "@ndla/icons/action";
 import { ModalHeader, ModalBody, Modal, ModalTitle, ModalContent, ModalTrigger } from "@ndla/modal";
 import { Translation, Node, NodeType } from "@ndla/types-taxonomy";
@@ -22,7 +22,7 @@ import AddNodeTranslation from "./AddNodeTranslation";
 import { Row } from "../../../../components";
 import DeleteButton from "../../../../components/DeleteButton";
 import UIField from "../../../../components/Field";
-import FormikField from "../../../../components/FormikField";
+import { FormControl, FormField } from "../../../../components/FormField";
 import validateFormik, { RulesType } from "../../../../components/formikValidationSchema";
 import RoundIcon from "../../../../components/RoundIcon";
 import SaveButton from "../../../../components/SaveButton";
@@ -67,10 +67,6 @@ const StyledCancelButton = styled(ButtonV2)`
 
 const StyledUIField = styled(UIField)`
   margin-right: 0px;
-`;
-
-const StyledFormikField = styled(FormikField)`
-  margin-top: 0px;
 `;
 
 interface FormikTranslationFormValues {
@@ -276,27 +272,41 @@ const ChangeNodeNameContent = ({ onClose, node, nodeType = "SUBJECT" }: ModalPro
             }
             return (
               <StyledForm data-testid="edit-node-name-form">
-                <StyledFormikField name="name" label={t("taxonomy.changeName.defaultName")}>
-                  {({ field }) => <Input {...field} />}
-                </StyledFormikField>
+                <FormField name="name">
+                  {({ field, meta }) => (
+                    <FormControl isRequired isInvalid={!!meta.error}>
+                      <Label margin="none" textStyle="label-small">
+                        {t("taxonomy.changeName.defaultName")}
+                      </Label>
+                      <InputV3 {...field} />
+                      <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                    </FormControl>
+                  )}
+                </FormField>
                 {values.translations.length === 0 && <>{t("taxonomy.changeName.noTranslations")}</>}
                 <FieldArray name="translations">
                   {({ push, remove }) => (
                     <>
                       {values.translations.map((trans, i) => (
                         <Row key={i}>
-                          <StyledFormikField name={`translations.${i}.name`} label={t(`languages.${trans.language}`)}>
-                            {({ field }) => (
-                              <InputRow>
-                                <Input {...field} data-testid={`subjectName_${trans.language}`} />
-                                <StyledDeleteButton
-                                  aria-label={t("form.remove")}
-                                  onClick={() => remove(i)}
-                                  data-testid={`subjectName_${trans.language}_delete`}
-                                />
-                              </InputRow>
+                          <FormField name={`translations.${i}.name`}>
+                            {({ field, meta }) => (
+                              <FormControl isRequired isInvalid={!!meta.error}>
+                                <Label margin="none" textStyle="label-small">
+                                  {t(`languages.${trans.language}`)}
+                                </Label>
+                                <InputRow>
+                                  <InputV3 {...field} data-testid={`subjectName_${trans.language}`} />
+                                  <StyledDeleteButton
+                                    aria-label={t("form.remove")}
+                                    onClick={() => remove(i)}
+                                    data-testid={`subjectName_${trans.language}_delete`}
+                                  />
+                                </InputRow>
+                                <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                              </FormControl>
                             )}
-                          </StyledFormikField>
+                          </FormField>
                         </Row>
                       ))}
                       <AddNodeTranslation

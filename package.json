@@ -35,7 +35,7 @@
     "@emotion/babel-plugin": "11.11.0",
     "@emotion/eslint-plugin": "11.11.0",
     "@emotion/jest": "11.11.0",
-    "@ndla/scripts": "^2.0.5",
+    "@ndla/scripts": "^2.1.2",
     "@ndla/types-backend": "^0.2.67",
     "@ndla/types-embed": "^4.1.3",
     "@ndla/types-taxonomy": "^1.0.22",

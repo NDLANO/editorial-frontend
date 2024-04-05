@@ -10,7 +10,8 @@ import debounce from "lodash/debounce";
 import queryString from "query-string";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ButtonV2, CloseButton } from "@ndla/button";
+import { ButtonV2, IconButtonV2 } from "@ndla/button";
+import { Cross } from "@ndla/icons/action";
 import { Search } from "@ndla/icons/common";
 import { ModalHeader, ModalBody } from "@ndla/modal";
 import { Pager } from "@ndla/pager";
@@ -114,7 +115,9 @@ const ConceptModalContent = ({
   return (
     <div>
       <ModalHeader>
-        <CloseButton title={t("dialog.close")} onClick={onClose} />
+        <IconButtonV2 variant="ghost" title={t("dialog.close")} aria-label={t("dialog.close")} onClick={onClose}>
+          <Cross />
+        </IconButtonV2>
       </ModalHeader>
       <ModalBody>
         {concept?.id && <ButtonV2 onClick={handleRemove}>{t(`form.content.${concept.conceptType}.remove`)}</ButtonV2>}

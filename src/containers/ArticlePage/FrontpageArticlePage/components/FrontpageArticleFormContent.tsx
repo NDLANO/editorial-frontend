@@ -26,7 +26,7 @@ import { TYPE_BLOGPOST } from "../../../../components/SlateEditor/plugins/blogPo
 import { TYPE_CAMPAIGN_BLOCK } from "../../../../components/SlateEditor/plugins/campaignBlock/types";
 import { TYPE_CODEBLOCK } from "../../../../components/SlateEditor/plugins/codeBlock/types";
 import { TYPE_CONTACT_BLOCK } from "../../../../components/SlateEditor/plugins/contactBlock/types";
-import { TYPE_EMBED_BRIGHTCOVE, TYPE_EMBED_IMAGE } from "../../../../components/SlateEditor/plugins/embed/types";
+import { TYPE_EMBED_IMAGE } from "../../../../components/SlateEditor/plugins/embed/types";
 import { TYPE_EXTERNAL } from "../../../../components/SlateEditor/plugins/external/types";
 import { TYPE_FILE } from "../../../../components/SlateEditor/plugins/file/types";
 import { TYPE_GRID } from "../../../../components/SlateEditor/plugins/grid/types";
@@ -39,6 +39,7 @@ import {
   createToolbarDefaultValues,
 } from "../../../../components/SlateEditor/plugins/toolbar/toolbarState";
 import { TYPE_DISCLAIMER } from "../../../../components/SlateEditor/plugins/uuDisclaimer/types";
+import { TYPE_EMBED_BRIGHTCOVE } from "../../../../components/SlateEditor/plugins/video/types";
 import RichTextEditor from "../../../../components/SlateEditor/RichTextEditor";
 import { useWideArticle } from "../../../../components/WideArticleEditorProvider";
 import { DRAFT_HTML_SCOPE } from "../../../../constants";

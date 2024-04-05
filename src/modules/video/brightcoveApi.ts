@@ -38,6 +38,14 @@ export const fetchBrightcoveVideo = (videoId: string) =>
     resolveJsonOrRejectWithError<BrightcoveApiType>(r),
   );
 
+export const fetchBrightcoveMetadata = async (videoId: string) => {
+  const [sources, brightcoveData] = await Promise.all([fetchBrightcoveSources(videoId), fetchBrightcoveVideo(videoId)]);
+  return {
+    ...brightcoveData,
+    sources,
+  };
+};
+
 export interface VideoSearchQuery extends BrightcoveQueryParams {
   start?: number;
 }

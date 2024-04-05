@@ -23,7 +23,7 @@ import LastUpdatedLine from "../../../../components/LastUpdatedLine/LastUpdatedL
 import { TYPE_AUDIO } from "../../../../components/SlateEditor/plugins/audio/types";
 import { learningResourceActions } from "../../../../components/SlateEditor/plugins/blockPicker/actions";
 import { TYPE_CODEBLOCK } from "../../../../components/SlateEditor/plugins/codeBlock/types";
-import { TYPE_EMBED_BRIGHTCOVE, TYPE_EMBED_IMAGE } from "../../../../components/SlateEditor/plugins/embed/types";
+import { TYPE_EMBED_IMAGE } from "../../../../components/SlateEditor/plugins/embed/types";
 import { TYPE_EXTERNAL } from "../../../../components/SlateEditor/plugins/external/types";
 import { TYPE_FILE } from "../../../../components/SlateEditor/plugins/file/types";
 import { FootnoteElement } from "../../../../components/SlateEditor/plugins/footnote";
@@ -35,6 +35,7 @@ import {
   createToolbarAreaOptions,
   createToolbarDefaultValues,
 } from "../../../../components/SlateEditor/plugins/toolbar/toolbarState";
+import { TYPE_EMBED_BRIGHTCOVE } from "../../../../components/SlateEditor/plugins/video/types";
 import RichTextEditor from "../../../../components/SlateEditor/RichTextEditor";
 import { DRAFT_HTML_SCOPE } from "../../../../constants";
 import { isFormikFormDirty } from "../../../../util/formHelper";

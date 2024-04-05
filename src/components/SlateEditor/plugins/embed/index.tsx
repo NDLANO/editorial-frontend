@@ -17,16 +17,11 @@ import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers"
 import { AudioElement } from "../audio/types";
 import { H5pElement } from "../h5p/types";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
+import { BrightcoveEmbedElement } from "../video/types";
 
 export interface ImageEmbedElement {
   type: "image-embed";
   data: ImageEmbed;
-  children: Descendant[];
-}
-
-export interface BrightcoveEmbedElement {
-  type: "brightcove-embed";
-  data: BrightcoveEmbed;
   children: Descendant[];
 }
 

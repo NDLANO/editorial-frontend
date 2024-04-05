@@ -10,6 +10,9 @@ import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { IConceptSummary } from "@ndla/types-backend/concept-api";
 import {
   AudioMeta,
+  BrightcoveApiType,
+  BrightcoveData,
+  BrightcoveMetaData,
   ConceptListData,
   ConceptVisualElementMeta,
   H5pData,
@@ -26,6 +29,15 @@ import {
   fetchH5pMeta,
 } from "./embedApi";
 import { AUDIO_EMBED } from "../../queryKeys";
+import { fetchBrightcoveMetadata } from "../video/brightcoveApi";
+
+export const useBrightcoveMeta = (resourceId: string, options?: Partial<UseQueryOptions<BrightcoveData>>) => {
+  return useQuery<BrightcoveData>({
+    queryKey: ["brightcoveMeta", resourceId],
+    queryFn: () => fetchBrightcoveMetadata(resourceId),
+    ...options,
+  });
+};
 
 export const useAudioMeta = (resourceId: string, language: string, options?: Partial<UseQueryOptions<AudioMeta>>) => {
   return useQuery<AudioMeta>({

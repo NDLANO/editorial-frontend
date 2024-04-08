@@ -23,7 +23,7 @@ import { onDragOver, onDragStart, onDrop } from "./plugins/DND";
 import { SlateToolbar } from "./plugins/toolbar";
 import { AreaFilters, CategoryFilters } from "./plugins/toolbar/toolbarState";
 import { SlateProvider } from "./SlateContext";
-import { KEY_ARROW_LEFT, KEY_ARROW_RIGHT } from "./utils/keys";
+import { KEY_ARROW_LEFT, KEY_ARROW_RIGHT, KEY_TAB } from "./utils/keys";
 import withPlugins from "./utils/withPlugins";
 import { BLOCK_PICKER_TRIGGER_ID } from "../../constants";
 import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
@@ -220,6 +220,9 @@ const RichTextEditor = ({
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent<HTMLDivElement>) => {
+      if (e.key === KEY_TAB) {
+        return;
+      }
       if (editor.selection && Range.isCollapsed(editor.selection) && !e.shiftKey) {
         if (e.key === KEY_ARROW_LEFT) {
           e.preventDefault();

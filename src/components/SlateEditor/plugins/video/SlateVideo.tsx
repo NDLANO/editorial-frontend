@@ -90,6 +90,19 @@ const SlateVideo = ({ attributes, element, editor, children }: Props) => {
     <VideoWrapper {...attributes} data-selected={isSelected} data-error={hasError}>
       <div contentEditable={false}>
         <StyledFigureButtons>
+          {embed && (
+            <>
+              <EditVideo embed={embed} editor={editor} element={element} setHasError={setHasError} />
+              <SafeLinkIconButton
+                title={t("form.video.brightcove")}
+                aria-label={t("form.video.brightcove")}
+                colorTheme="light"
+                to={`https://studio.brightcove.com/products/videocloud/media/videos/${embed.embedData.videoid}`}
+              >
+                <Link />
+              </SafeLinkIconButton>
+            </>
+          )}
           <StyledDeleteEmbedButton
             aria-label={t("form.video.remove")}
             title={t("form.video.remove")}
@@ -99,19 +112,6 @@ const SlateVideo = ({ attributes, element, editor, children }: Props) => {
           >
             <DeleteForever />
           </StyledDeleteEmbedButton>
-          {embed && (
-            <>
-              <SafeLinkIconButton
-                title={t("form.video.brightcove")}
-                aria-label={t("form.video.brightcove")}
-                colorTheme="light"
-                to={`https://studio.brightcove.com/products/videocloud/media/videos/${embed.embedData.videoid}`}
-              >
-                <Link />
-              </SafeLinkIconButton>
-              <EditVideo embed={embed} editor={editor} element={element} setHasError={setHasError} />
-            </>
-          )}
         </StyledFigureButtons>
         {!embed || brightcoveQuery.isLoading ? <Spinner /> : <BrightcoveEmbed embed={embed} />}
       </div>

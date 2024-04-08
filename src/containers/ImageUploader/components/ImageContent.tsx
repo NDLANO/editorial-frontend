@@ -6,15 +6,16 @@
  *
  */
 
-import { FieldProps, useFormikContext } from "formik";
+import { useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
 import { animations, spacing, colors } from "@ndla/core";
-import { UploadDropZone, TextArea } from "@ndla/forms";
+import { UploadDropZone, TextAreaV3, Label, FieldErrorMessage } from "@ndla/forms";
 import { DeleteForever } from "@ndla/icons/editor";
 import { ImageMeta } from "@ndla/image-search";
 import { SafeLink } from "@ndla/safelink";
+import { FormControl, FormField } from "../../../components/FormField";
 import FormikField from "../../../components/FormikField";
 import { TitleField } from "../../FormikForm";
 import { ImageFormikType } from "../imageTransformers";
@@ -33,10 +34,16 @@ const StyledDeleteButtonContainer = styled.div`
   flex-direction: row;
 `;
 
+const TextFieldWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.small};
+`;
+
 const ImageContent = () => {
   const { t } = useTranslation();
   const formikContext = useFormikContext<ImageFormikType>();
-  const { values, errors, setFieldValue } = formikContext;
+  const { values, setFieldValue } = formikContext;
 
   // We use the timestamp to avoid caching of the `imageFile` url in the browser
   const timestamp = new Date().getTime();
@@ -79,9 +86,9 @@ const ImageContent = () => {
           </IconButtonV2>
         </StyledDeleteButtonContainer>
       )}
-      {values.imageFile && typeof values.imageFile === "string" && (
+      {values.imageFile && (
         <>
-          <SafeLink target="_blank" to={values.imageFile}>
+          <SafeLink target="_blank" to={values.imageFile.toString()}>
             <StyledImage src={imgSrc} alt="" />
           </SafeLink>
           <ImageMeta
@@ -94,28 +101,30 @@ const ImageContent = () => {
       <FormikField name="imageFile.size" showError={true}>
         {(_) => <></>}
       </FormikField>
-      <FormikField name="caption" showError={false}>
-        {({ field }: FieldProps) => (
-          <TextArea
-            placeholder={t("form.image.caption.placeholder")}
-            label={t("form.image.caption.label")}
-            type="text"
-            warningText={errors["caption"]}
-            {...field}
-          />
-        )}
-      </FormikField>
-      <FormikField name="alttext" showError={false}>
-        {({ field }: FieldProps) => (
-          <TextArea
-            placeholder={t("form.image.alt.placeholder")}
-            label={t("form.image.alt.label")}
-            type="text"
-            warningText={errors["alttext"]}
-            {...field}
-          />
-        )}
-      </FormikField>
+      <TextFieldWrapper>
+        <FormField name="caption">
+          {({ field, meta }) => (
+            <FormControl isInvalid={!!meta.error}>
+              <Label margin="none" textStyle="label-small">
+                {t("form.image.caption.label")}
+              </Label>
+              <TextAreaV3 placeholder={t("form.image.caption.placeholder")} {...field} />
+              <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+            </FormControl>
+          )}
+        </FormField>
+        <FormField name="alttext">
+          {({ field, meta }) => (
+            <FormControl isInvalid={!!meta.error}>
+              <Label textStyle="label-small" margin="none">
+                {t("form.image.alt.label")}
+              </Label>
+              <TextAreaV3 placeholder={t("form.image.alt.placeholder")} {...field} />
+              <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+            </FormControl>
+          )}
+        </FormField>
+      </TextFieldWrapper>
     </>
   );
 };

@@ -82,7 +82,7 @@ const showToolbar = (toolbar: HTMLElement, modalRef: HTMLElement | null) => {
   const range = native.getRangeAt(0);
   const rect = range.getBoundingClientRect();
   toolbar.style.opacity = "1";
-  toolbar.style.zIndex = `${modalRef ? stackOrder.popover : stackOrder.modal - stackOrder.offsetSingle}`;
+  toolbar.style.zIndex = `${modalRef ? stackOrder.modal + stackOrder.popover : stackOrder.popover}`;
 
   const left = rect.left < toolbar.offsetWidth / 2 ? 10 : rect.left + rect.width / 2 - toolbar.offsetWidth / 2;
 

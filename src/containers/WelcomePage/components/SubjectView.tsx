@@ -34,14 +34,14 @@ interface Props {
   favoriteSubjects: string[] | undefined;
   userDataLoading: boolean;
   subjectIdObject: SubjectIdObject;
-  isPending: boolean;
+  isLoading: boolean;
 }
 
-const SubjectView = ({ favoriteSubjects, userDataLoading, subjectIdObject, isPending }: Props) => {
+const SubjectView = ({ favoriteSubjects, userDataLoading, subjectIdObject, isLoading }: Props) => {
   const { t } = useTranslation();
 
   const tabs = useMemo(() => {
-    if (!isPending) {
+    if (!isLoading) {
       return [
         ...(subjectIdObject.subjectLMA.length
           ? [
@@ -116,7 +116,7 @@ const SubjectView = ({ favoriteSubjects, userDataLoading, subjectIdObject, isPen
     return [];
   }, [
     favoriteSubjects,
-    isPending,
+    isLoading,
     subjectIdObject.subjectDA,
     subjectIdObject.subjectLMA,
     subjectIdObject.subjectSA,

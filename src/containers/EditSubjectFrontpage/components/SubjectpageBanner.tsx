@@ -15,7 +15,7 @@ import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import SubjectpageBannerImage from "./SubjectpageBannerImage";
 import ImageSearchAndUploader from "../../../components/ImageSearchAndUploader";
 import { ImageEmbed } from "../../../interfaces";
-import { fetchImage, onError, searchImages } from "../../../modules/image/imageApi";
+import { fetchImage, onError, postSearchImages } from "../../../modules/image/imageApi";
 import { SubjectPageFormikType } from "../../../util/subjectHelpers";
 
 interface Props {
@@ -77,7 +77,7 @@ const SubjectpageBanner = ({ title, fieldName }: Props) => {
             language={values.language}
             closeModal={onImageSelectClose}
             fetchImage={(id) => fetchImage(id, values.language)}
-            searchImages={searchImages}
+            searchImages={postSearchImages}
             onError={onError}
             onImageSelect={onImageChange}
           />

@@ -26,18 +26,19 @@ import { PUBLISHED } from "../../../../../constants";
 import { ConceptType } from "../../../../../containers/ConceptPage/conceptInterfaces";
 import { useFetchConceptData } from "../../../../../containers/FormikForm/formikConceptHooks";
 import { useConceptVisualElement } from "../../../../../modules/embed/queries";
-import parseMarkdown from "../../../../../util/parseMarkdown";
 import { useArticleLanguage } from "../../../ArticleLanguageProvider";
 import ConceptModalContent from "../ConceptModalContent";
 import EditGlossExamplesModal from "../EditGlossExamplesModal";
 import { getGlossDataAttributes } from "../utils";
 
-const getConceptDataAttributes = ({ id, conceptType, glossData }: IConceptSummary | IConcept): ConceptEmbedData => ({
-  contentId: id.toString(),
+const getConceptDataAttributes = (concept: IConceptSummary | IConcept, locale: string): ConceptEmbedData => ({
+  contentId: concept.id.toString(),
   resource: "concept",
   type: "block",
   linkText: "",
-  ...(conceptType === "gloss" && glossData?.examples.length ? getGlossDataAttributes(glossData) : {}),
+  ...(concept.conceptType === "gloss" && concept.glossData?.examples.length
+    ? getGlossDataAttributes(concept.glossData, locale)
+    : {}),
 });
 
 interface Props {
@@ -66,6 +67,7 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
 
   const embed: ConceptMetaData | undefined = useMemo(() => {
     if (!element.data || !concept) return undefined;
+
     return {
       status: !concept && !loading ? "error" : "success",
       data: {
@@ -74,7 +76,7 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
           content: concept.content
             ? {
                 ...concept.content,
-                content: parseMarkdown({ markdown: concept.content.content }),
+                content: concept.content.content,
               }
             : undefined,
         },
@@ -88,7 +90,7 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
   const addConcept = useCallback(
     (addedConcept: IConceptSummary | IConcept) => {
       setIsEditing(false);
-      const data = getConceptDataAttributes(addedConcept);
+      const data = getConceptDataAttributes(addedConcept, locale);
       const path = ReactEditor.findPath(editor, element);
       Transforms.setNodes(
         editor,
@@ -99,7 +101,7 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
         },
       );
     },
-    [setIsEditing, editor, element],
+    [locale, editor, element],
   );
 
   const handleRemove = useCallback(

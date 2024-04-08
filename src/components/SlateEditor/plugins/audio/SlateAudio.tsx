@@ -24,7 +24,6 @@ import { AudioEmbed } from "@ndla/ui";
 import AudioEmbedForm from "./AudioEmbedForm";
 import { AudioElement } from "./types";
 import { useAudioMeta } from "../../../../modules/embed/queries";
-import parseMarkdown from "../../../../util/parseMarkdown";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import { StyledDeleteEmbedButton, StyledFigureButtons } from "../embed/FigureButtons";
 
@@ -80,9 +79,7 @@ const SlateAudio = ({ element, editor, attributes, children }: Props) => {
               manuscript: audioMetaQuery.data?.manuscript
                 ? {
                     ...audioMetaQuery.data.manuscript,
-                    manuscript: parseMarkdown({
-                      markdown: audioMetaQuery.data.manuscript.manuscript,
-                    }),
+                    manuscript: audioMetaQuery.data.manuscript.manuscript,
                   }
                 : undefined,
             },

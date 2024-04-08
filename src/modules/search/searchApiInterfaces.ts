@@ -10,17 +10,6 @@
  *  simulate an array: ie 'item1,item2,item3' */
 type CommaSeparatedList = string;
 
-export interface GroupSearchSummary {
-  id: number;
-  url: string;
-  title: {
-    title: string;
-    language: string;
-  };
-  paths: string[];
-  summaryType: "groupsearch";
-}
-
 export interface MultiSearchApiQuery {
   page?: number;
   "page-size"?: number;

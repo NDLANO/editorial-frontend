@@ -69,6 +69,7 @@ const StyledSearch = styled(Search)`
   margin: 0 ${spacing.small};
   width: 24px;
   height: 24px;
+  color: ${colors.brand.primary};
 `;
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
@@ -191,7 +192,7 @@ export const MastheadSearchForm = forwardRef<HTMLInputElement, Props>(
     return (
       <StyledForm onSubmit={handleSubmit}>
         <ButtonV2 type="submit" variant="stripped">
-          <StyledSearch color={colors.brand.primary} />
+          <StyledSearch />
         </ButtonV2>
 
         <input

@@ -26,7 +26,9 @@ import {
   STORED_ON_HOLD_LMA_SUBJECT,
   STORED_ON_HOLD_SA_SUBJECT,
 } from "../../../constants";
-import { SubjectIdObject } from "../utils";
+import { usePostSearchNodes } from "../../../modules/nodes/nodeQueries";
+import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
+import { SubjectIdObject, customFieldsBody } from "../utils";
 
 const StyledWrapper = styled.div`
   margin-top: ${GRID_GAP};
@@ -37,14 +39,16 @@ interface Props {
   favoriteSubjects: string[] | undefined;
   userDataLoading: boolean;
   subjectIdObject: SubjectIdObject;
-  isPending: boolean;
 }
 
-const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataLoading, subjectIdObject, isPending }: Props) => {
+const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataLoading, subjectIdObject }: Props) => {
   const { t } = useTranslation();
+  const { taxonomyVersion } = useTaxonomyVersion();
+
+  const searchQuery = usePostSearchNodes({ ...customFieldsBody(ndlaId), taxonomyVersion });
 
   const tabs = useMemo(() => {
-    if (!isPending) {
+    if (!searchQuery.isLoading) {
       return [
         ...(subjectIdObject.subjectLMA.length
           ? [
@@ -125,7 +129,15 @@ const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataLoading, subjectIdO
       ];
     }
     return [];
-  }, [isPending, subjectIdObject, t, ndlaId, favoriteSubjects]);
+  }, [
+    searchQuery.isLoading,
+    subjectIdObject.subjectLMA,
+    subjectIdObject.subjectDA,
+    subjectIdObject.subjectSA,
+    t,
+    ndlaId,
+    favoriteSubjects,
+  ]);
 
   return (
     <>

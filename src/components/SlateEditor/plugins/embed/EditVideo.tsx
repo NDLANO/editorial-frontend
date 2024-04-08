@@ -6,24 +6,23 @@
  *
  */
 
-import { FieldProps, Form, Formik, FormikProps } from "formik";
+import { Form, Formik, FormikProps, useFormikContext } from "formik";
 import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { Input } from "@ndla/forms";
+import { FieldErrorMessage, InputV3, Label } from "@ndla/forms";
 import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle } from "@ndla/modal";
 import { Text } from "@ndla/typography";
 import { SlateVideoWrapper, StyledVideo } from "./SlateVideo";
 import { InlineField } from "../../../../containers/FormikForm/InlineField";
 import { BrightcoveEmbed } from "../../../../interfaces";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
-import parseMarkdown from "../../../../util/parseMarkdown";
+import { isFormikFormDirty } from "../../../../util/formHelper";
 import { addBrightCoveTimeStampVideoid, getBrightCoveStartTime } from "../../../../util/videoUtil";
-import FormikField from "../../../FormikField";
+import { FormControl, FormField } from "../../../FormField";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
 import { RichTextIndicator } from "../../RichTextIndicator";
 
@@ -42,8 +41,10 @@ const ButtonWrapper = styled.div`
   padding-top: ${spacing.small};
 `;
 
-const StyledFormikField = styled(FormikField)`
-  margin-top: ${spacing.small};
+const StyledForm = styled(Form)`
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.small};
 `;
 
 interface FormValues {
@@ -57,7 +58,7 @@ interface FormValues {
 export const toVideoEmbedFormValues = (embed: BrightcoveEmbed): FormValues => {
   return {
     alttext: embed.alt ?? "",
-    caption: inlineContentToEditorValue(parseMarkdown({ markdown: embed.caption ?? "", inline: true }), true),
+    caption: inlineContentToEditorValue(embed.caption ?? "", true),
     startTime: getBrightCoveStartTime(embed.videoid),
     resource: embed.resource,
   };
@@ -120,30 +121,34 @@ interface VideoEmbedFormProps extends FormikProps<FormValues> {
   close: () => void;
 }
 
-const StyledInputTimeWrapper = styled.div`
+const StyledFormControl = styled(FormControl)`
   display: flex;
-  flex-flow: row;
-`;
-
-const timeInputCss = css`
-  width: 120px;
-  margin-right: ${spacing.small};
-  label {
-    width: auto;
+  flex-direction: row;
+  align-items: center;
+  gap: ${spacing.small};
+  input {
+    width: 120px;
   }
 `;
 
-const VideoEmbedForm = ({ setHasError, close, isValid, dirty }: VideoEmbedFormProps) => {
+const VideoEmbedForm = ({ setHasError, close, isValid, dirty, initialValues, values }: VideoEmbedFormProps) => {
   const { t } = useTranslation();
+  const { isSubmitting } = useFormikContext();
 
   useEffect(() => {
     setHasError(!isValid);
   }, [isValid, setHasError]);
 
+  const formIsDirty = isFormikFormDirty({
+    values: values,
+    initialValues: initialValues,
+    dirty,
+  });
+
   return (
-    <Form>
-      <StyledFormikField name="caption">
-        {({ field, form: { isSubmitting } }) => (
+    <StyledForm>
+      <FormField name="caption">
+        {({ field }) => (
           <>
             <Text textStyle="label-small" margin="none">
               {t("form.video.caption.label")}
@@ -157,27 +162,25 @@ const VideoEmbedForm = ({ setHasError, close, isValid, dirty }: VideoEmbedFormPr
             />
           </>
         )}
-      </StyledFormikField>
-      <StyledInputTimeWrapper>
-        <StyledFormikField name="startTime">
-          {({ field }: FieldProps) => (
-            <Input
-              {...field}
-              label={t("form.video.time.start")}
-              placeholder={t("form.video.time.hms")}
-              white
-              customCss={timeInputCss}
-            />
-          )}
-        </StyledFormikField>
-      </StyledInputTimeWrapper>
+      </FormField>
+      <FormField name="startTime">
+        {({ field, meta }) => (
+          <StyledFormControl isInvalid={!!meta.error}>
+            <Label textStyle="label-small" margin="none">
+              {t("form.video.time.start")}
+            </Label>
+            <InputV3 {...field} placeholder={t("form.video.time.hms")} />
+            <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+          </StyledFormControl>
+        )}
+      </FormField>
       <ButtonWrapper>
         <ButtonV2 onClick={close}>{t("form.abort")}</ButtonV2>
-        <ButtonV2 disabled={!isValid || !dirty} type="submit">
+        <ButtonV2 disabled={!isValid || !formIsDirty} type="submit">
           {t("form.save")}
         </ButtonV2>
       </ButtonWrapper>
-    </Form>
+    </StyledForm>
   );
 };
 

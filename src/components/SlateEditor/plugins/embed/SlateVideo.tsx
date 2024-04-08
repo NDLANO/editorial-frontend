@@ -11,21 +11,20 @@ import { ReactNode, useEffect, useState, MouseEvent, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { RenderElementProps } from "slate-react";
 import styled from "@emotion/styled";
-import { ButtonV2, IconButtonV2 } from "@ndla/button";
-import { colors, spacing, fonts, mq } from "@ndla/core";
+import { IconButtonV2 } from "@ndla/button";
+import { colors, fonts } from "@ndla/core";
 import { Pencil } from "@ndla/icons/action";
 import { Link } from "@ndla/icons/common";
 import { DeleteForever } from "@ndla/icons/editor";
 import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { Figure } from "@ndla/ui";
-import { breakpoints } from "@ndla/util";
 import EditVideo, { toVideoEmbedFormValues, brightcoveEmbedFormRules } from "./EditVideo";
 import { StyledDeleteEmbedButton, StyledFigureButtons } from "./FigureButtons";
+import { CaptionButton, FigureInfo, StyledFigcaption } from "./SlateFigure";
 import config from "../../../../config";
 import { BrightcoveEmbed } from "../../../../interfaces";
 import { fetchBrightcoveVideo } from "../../../../modules/video/brightcoveApi";
-import parseMarkdown from "../../../../util/parseMarkdown";
 import { addBrightCoveTimeStampVideoid, getBrightCoveStartTime } from "../../../../util/videoUtil";
 import validateFormik from "../../../formikValidationSchema";
 import { isNumeric } from "../../../validators";
@@ -39,10 +38,6 @@ export const StyledVideo = styled.iframe`
   right: 0px;
   bottom: 0px;
   border: 0px;
-`;
-
-const StyledModalContent = styled(ModalContent)`
-  overflow: visible;
 `;
 
 interface SlateVideoWrapperProps {
@@ -79,34 +74,6 @@ interface Props {
 const isBrightcove = (embed: BrightcoveEmbed | undefined): embed is BrightcoveEmbed => {
   return !!embed && "videoid" in embed;
 };
-
-const FigureInfo = styled.div`
-  max-width: 650px;
-  margin-bottom: ${spacing.small};
-  font-family: ${fonts.sans};
-  color: ${colors.text.primary};
-  ${fonts.sizes("16px", "24px")};
-  white-space: normal;
-  ${mq.range({ from: breakpoints.tablet })} {
-    flex: 2;
-    margin-bottom: ${spacing.small};
-  }
-  p {
-    margin: 0;
-  }
-`;
-
-const CaptionButton = styled(ButtonV2)`
-  width: 100%;
-`;
-
-const StyledFigcaption = styled.figcaption`
-  background-color: ${colors.white};
-  width: 100%;
-  padding: ${spacing.small};
-  display: block;
-  border-bottom: 1px solid ${colors.brand.greyLight};
-`;
 
 const StyledText = styled.p`
   width: 26px;
@@ -189,7 +156,7 @@ const SlateVideo = ({
                 <Pencil />
               </IconButtonV2>
             </ModalTrigger>
-            <StyledModalContent>
+            <ModalContent>
               <EditVideo
                 embed={embed}
                 close={toggleEditModus}
@@ -197,7 +164,7 @@ const SlateVideo = ({
                 saveEmbedUpdates={saveEmbedUpdates}
                 setHasError={setHasError}
               />
-            </StyledModalContent>
+            </ModalContent>
           </Modal>
           <SafeLinkIconButton
             title={t("form.video.brightcove")}
@@ -246,7 +213,7 @@ const SlateVideo = ({
         </SlateVideoWrapper>
         <CaptionButton variant="stripped" onClick={toggleEditModus}>
           <StyledFigcaption>
-            <FigureInfo>{parse(parseMarkdown({ markdown: embed.caption ?? "", inline: true }))}</FigureInfo>
+            <FigureInfo>{parse(embed.caption ?? "")}</FigureInfo>
           </StyledFigcaption>
         </CaptionButton>
       </Figure>

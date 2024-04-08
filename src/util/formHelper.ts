@@ -67,30 +67,15 @@ export const isFormikFormDirty = <T extends FormikFields>({
   if (!dirty) {
     return changed;
   }
-  // Checking specific slate object fields if they really have changed
-  const slateFields = [
-    "description",
-    "introduction",
-    "title",
-    "metaDescription",
-    "content",
-    "title",
-    "introduction",
-    "conceptContent",
-    "manuscript",
-  ];
-  // and skipping fields that only changes on the server
+
+  // Skipping fields that only changes on the server
   const skipFields = ["revision", "updated", "updatePublished", "id"];
   const dirtyFields = [];
   Object.entries(values)
     .filter(([key]) => !skipFields.includes(key))
     .forEach(([key, value]) => {
-      if (slateFields.includes(key)) {
-        if (key === "content" || key === "title" || key === "introduction") {
-          if (checkIfContentHasChanged(values[key]!, initialValues[key]!, initialValues.articleType!)) {
-            dirtyFields.push(value);
-          }
-        } else if (typeof value === "object" && !isEqual(value, initialValues[key])) {
+      if (Array.isArray(value) && value.length > 0 && Node.isNodeList(value)) {
+        if (checkIfContentHasChanged(values[key]!, initialValues[key]!, initialValues.articleType!)) {
           dirtyFields.push(value);
         }
       } else if (!isEqual(value, initialValues[key as keyof T])) {
@@ -326,6 +311,6 @@ export const getTagName = (id: string | undefined, data: { id: string; name: str
 };
 
 export const stripInlineContentHtmlTags = (html: string): string =>
-  inlineContentToEditorValue(html)
+  inlineContentToEditorValue(html, true)
     .map((n) => Node.string(n))
     .join("");

@@ -60,17 +60,21 @@ const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: Keybo
 
   if (!entry) return nextOnKeyDown?.(e);
 
-  const [currentHeading] = entry;
+  const [_currentHeading, currentHeadingPath] = entry;
   e.preventDefault();
 
-  if (editor.selection?.anchor.offset !== Node.string(currentHeading).length && editor.selection?.anchor.offset !== 0) {
+  if (
+    !Editor.isEnd(editor, editor.selection.anchor, currentHeadingPath) &&
+    !Editor.isStart(editor, editor.selection.anchor, currentHeadingPath)
+  ) {
     Transforms.splitNodes(editor, {
       match: (node) => Element.isElement(node) && node.type === TYPE_HEADING,
+      at: editor.selection,
     });
     return;
   }
 
-  if (editor.selection.anchor.offset === 0) {
+  if (Editor.isStart(editor, editor.selection.anchor, currentHeadingPath)) {
     return Transforms.insertNodes(editor, slatejsx("element", { type: TYPE_PARAGRAPH }, [{ text: "" }]), {
       at: editor.selection,
     });

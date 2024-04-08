@@ -13,9 +13,8 @@ import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { ImageSearch } from "@ndla/image-search";
 import { Tabs } from "@ndla/tabs";
-import { IImageMetaInformationV3, ISearchResultV3 } from "@ndla/types-backend/image-api";
+import { IImageMetaInformationV3, ISearchParams, ISearchResultV3 } from "@ndla/types-backend/image-api";
 import CreateImage from "../containers/ImageUploader/CreateImage";
-import { ImageSearchQuery } from "../modules/image/imageApiInterfaces";
 
 const StyledTitleDiv = styled.div`
   margin-bottom: ${spacing.small};
@@ -28,7 +27,7 @@ interface Props {
   language?: string;
   closeModal: () => void;
   onError: (err: any) => void;
-  searchImages: (query: ImageSearchQuery) => Promise<ISearchResultV3>;
+  searchImages: (query: ISearchParams) => Promise<ISearchResultV3>;
   fetchImage: (id: number) => Promise<IImageMetaInformationV3>;
   showCheckbox?: boolean;
   checkboxAction?: (image: IImageMetaInformationV3) => void;
@@ -53,7 +52,7 @@ const ImageSearchAndUploader = ({
     return searchImages({
       query,
       page,
-      "page-size": 16,
+      pageSize: 16,
       language: language,
       fallback: true,
     });

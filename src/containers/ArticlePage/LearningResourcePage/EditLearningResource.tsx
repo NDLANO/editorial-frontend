@@ -12,6 +12,7 @@ import { Navigate, useParams } from "react-router-dom";
 import { HelmetWithTracker } from "@ndla/tracker";
 import LearningResourceForm from "./components/LearningResourceForm";
 import { TranslateType, useTranslateToNN } from "../../../components/NynorskTranslateProvider";
+import { isNewArticleLanguage } from "../../../components/SlateEditor/IsNewArticleLanguageProvider";
 import Spinner from "../../../components/Spinner";
 import { LocaleType } from "../../../interfaces";
 import { useDraftHistory } from "../../../modules/draft/draftQueries";
@@ -31,12 +32,20 @@ const translateFields: TranslateType[] = [
     type: "text",
   },
   {
+    field: "title.htmlTitle",
+    type: "html",
+  },
+  {
     field: "metaDescription.metaDescription",
     type: "text",
   },
   {
     field: "introduction.introduction",
     type: "text",
+  },
+  {
+    field: "introduction.htmlIntroduction",
+    type: "html",
   },
   {
     field: "content.content",
@@ -92,7 +101,7 @@ const EditLearningResource = ({ isNewlyCreated }: Props) => {
     const replaceUrl = toEditArticle(article.id, article.articleType, selectedLanguage);
     return <Navigate replace to={replaceUrl} />;
   }
-  const newLanguage = !article.supportedLanguages.includes(selectedLanguage);
+  const newLanguage = isNewArticleLanguage(selectedLanguage, article);
   return (
     <>
       <HelmetWithTracker title={`${article.title?.title} ${t("htmlTitles.titleTemplate")}`} />

@@ -9,6 +9,7 @@
 import FormData from "form-data";
 import fetch from "node-fetch";
 import queryString from "query-string";
+import errorLogger from "./logger";
 import config, { getEnvironmentVariabel } from "../config";
 import { ApiTranslateType } from "../interfaces";
 
@@ -86,7 +87,6 @@ export const translateDocument = async (document: Record<string, ApiTranslateTyp
       return acc;
     }, {});
   } catch (e) {
-    // eslint-disable-next-line no-console
-    console.log(e);
+    errorLogger.error(e);
   }
 };

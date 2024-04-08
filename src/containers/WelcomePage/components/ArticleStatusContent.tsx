@@ -80,17 +80,17 @@ const ArticleStatusContent = ({
   const [filterSubject, setFilterSubject] = useLocalStorageSubjectFilterState(localStorageKey, i18n.language);
   const [hideOnHold, setHideOnHold] = useLocalStorageBooleanState(onHoldLocalStorageKey);
 
-  const filteredSubjectIds: string[] | undefined = useMemo(
+  const filteredSubjectIds: string[] = useMemo(
     () => (filterSubject ? [filterSubject.value] : subjectIds),
     [subjectIds, filterSubject],
   );
   const searchQuery = useSearch(
     {
-      "page-size": 0,
-      "aggregate-paths": "draftStatus.current",
-      subjects: filteredSubjectIds?.join(", "),
-      "filter-inactive": true,
-      ...(hideOnHold ? { priority: "prioritized,unspecified" } : {}),
+      pageSize: 0,
+      aggregatePaths: ["draftStatus.current"],
+      subjects: filteredSubjectIds,
+      filterInactive: true,
+      ...(hideOnHold ? { priority: ["prioritized", "unspecified"] } : {}),
     },
     {
       enabled: !!subjectIds.length,
@@ -99,11 +99,11 @@ const ArticleStatusContent = ({
 
   const searchResponsibleQuery = useSearch(
     {
-      "responsible-ids": ndlaId,
-      "page-size": 0,
-      "aggregate-paths": "draftStatus.current",
-      subjects: filteredSubjectIds?.join(", "),
-      "filter-inactive": true,
+      responsibleIds: [ndlaId],
+      pageSize: 0,
+      aggregatePaths: ["draftStatus.current"],
+      subjects: filteredSubjectIds,
+      filterInactive: true,
     },
     {
       enabled: !!subjectIds.length,

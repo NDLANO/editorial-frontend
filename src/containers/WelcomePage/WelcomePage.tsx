@@ -6,7 +6,7 @@
  *
  */
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { breakpoints, spacing } from "@ndla/core";
@@ -17,10 +17,10 @@ import Revisions from "./components/Revisions";
 import SubjectView from "./components/SubjectView";
 import WelcomeHeader from "./components/WelcomeHeader";
 import WorkList from "./components/worklist/WorkList";
-import { SubjectIdObject, customFieldsBody, defaultSubjectIdObject, getResultSubjectIdObject } from "./utils";
+import { customFieldsBody, defaultSubjectIdObject, getResultSubjectIdObject } from "./utils";
 import { GridContainer, Column } from "../../components/Layout/Layout";
 import { useUserData } from "../../modules/draft/draftQueries";
-import { usePostSearchNodesMutation } from "../../modules/nodes/nodeMutations";
+import { usePostSearchNodes } from "../../modules/nodes/nodeQueries";
 import { getAccessToken, getAccessTokenPersonal } from "../../util/authHelpers";
 import { isValid } from "../../util/jwtHelper";
 import Footer from "../App/components/FooterWrapper";
@@ -39,22 +39,18 @@ export const Wrapper = styled.div`
 export const WelcomePage = () => {
   const { taxonomyVersion } = useTaxonomyVersion();
   const { ndlaId } = useSession();
-  const { mutateAsync: postSearchNodes, isPending } = usePostSearchNodesMutation();
-  const [subjectIdObject, setSubjectIdObject] = useState<SubjectIdObject>(defaultSubjectIdObject);
+  const searchQuery = usePostSearchNodes(
+    {
+      ...customFieldsBody(ndlaId ?? ""),
+      taxonomyVersion,
+    },
+    { enabled: !!ndlaId },
+  );
 
-  useEffect(() => {
-    if (!ndlaId) return;
-    const updateSubjectIds = async () => {
-      const nodesSearchResult = await postSearchNodes({
-        body: customFieldsBody(ndlaId),
-        taxonomyVersion,
-      });
-      const resultSubjectIdObject = getResultSubjectIdObject(ndlaId, nodesSearchResult.results);
-
-      setSubjectIdObject(resultSubjectIdObject);
-    };
-    updateSubjectIds();
-  }, [ndlaId, postSearchNodes, taxonomyVersion]);
+  const subjectIdObject = useMemo(() => {
+    if (!searchQuery.data) return defaultSubjectIdObject;
+    return getResultSubjectIdObject(ndlaId, searchQuery.data.results);
+  }, [ndlaId, searchQuery.data]);
 
   const { t } = useTranslation();
 
@@ -66,6 +62,12 @@ export const WelcomePage = () => {
     () => data?.latestEditedArticles?.map((a) => Number(a)) ?? [],
     [data?.latestEditedArticles],
   );
+
+  const lastUsedConcepts = useMemo(
+    () => data?.latestEditedConcepts?.map((a) => Number(a)) ?? [],
+    [data?.latestEditedConcepts],
+  );
+
   localStorage.setItem("lastPath", "");
 
   return (
@@ -79,13 +81,12 @@ export const WelcomePage = () => {
         <Column colEnd={6}>
           {ndlaId && (
             <>
-              <LastUsedItems lastUsedResources={lastUsedResources} lastUsedConcepts={data?.latestEditedConcepts} />
+              <LastUsedItems lastUsedResources={lastUsedResources} lastUsedConcepts={lastUsedConcepts} />
               <ArticleStatuses
                 ndlaId={ndlaId}
                 favoriteSubjects={data?.favoriteSubjects}
                 userDataLoading={isLoading}
                 subjectIdObject={subjectIdObject}
-                isPending={isPending}
               />
             </>
           )}
@@ -98,7 +99,7 @@ export const WelcomePage = () => {
                 userDataLoading={isLoading}
                 favoriteSubjects={data?.favoriteSubjects}
                 subjectIdObject={subjectIdObject}
-                isPending={isPending}
+                isLoading={searchQuery.isLoading}
               />
             </>
           )}

@@ -53,16 +53,16 @@ const SubjectViewContent = ({
 
   const { data, isLoading, isError } = useSearch(
     {
-      subjects: subjectIds.join(","),
-      "published-date-to": currentDateSubtractYear,
+      subjects: subjectIds,
+      publishedDateTo: currentDateSubtractYear,
       sort: sortOption,
       page: page,
-      "page-size": Number(pageSize!.value),
+      pageSize: Number(pageSize!.value),
       language: i18n.language,
       fallback: true,
-      "filter-inactive": true,
-      "draft-status": PUBLISHED,
-      "include-other-statuses": true,
+      filterInactive: true,
+      draftStatus: [PUBLISHED],
+      includeOtherStatuses: true,
     },
     {
       enabled: !!subjectIds.length,

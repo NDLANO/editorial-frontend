@@ -19,7 +19,7 @@ import { InlineField } from "../../../../containers/FormikForm/InlineField";
 import ImageEditor from "../../../../containers/ImageEditor/ImageEditor";
 import { ImageEmbed } from "../../../../interfaces";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
-import parseMarkdown from "../../../../util/parseMarkdown";
+import { isFormikFormDirty } from "../../../../util/formHelper";
 import { CheckboxWrapper } from "../../../Form/styles";
 import { FormControl, FormField } from "../../../FormField";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
@@ -55,7 +55,7 @@ const toImageEmbedFormValues = (embed: ImageEmbed): ImageEditFormValues => {
   return {
     resourceId: embed.resource_id,
     alt: embed.alt,
-    caption: inlineContentToEditorValue(parseMarkdown({ markdown: embed.caption ?? "", inline: true }), true),
+    caption: inlineContentToEditorValue(embed.caption ?? "", true),
     isDecorative: embed["is-decorative"] === "true",
     border: embed.border === "true",
     focalX: embed["focal-x"],
@@ -155,9 +155,15 @@ const EditImageForm = ({
   dirty,
   allowDecorative,
   close,
+  initialValues,
 }: EditImageFormProps) => {
   const { t } = useTranslation();
   const inGrid = useInGrid();
+  const formIsDirty = isFormikFormDirty({
+    values,
+    initialValues,
+    dirty,
+  });
   return (
     <Form>
       <ImageEditor language={language} />
@@ -231,7 +237,7 @@ const EditImageForm = ({
           <ButtonV2 onClick={close} variant="outline">
             {t("form.abort")}
           </ButtonV2>
-          <ButtonV2 disabled={!dirty || !isValid} type="submit">
+          <ButtonV2 disabled={!formIsDirty || !isValid} type="submit">
             {t("form.image.save")}
           </ButtonV2>
         </ButtonWrapper>

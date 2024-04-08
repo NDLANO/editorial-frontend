@@ -9,11 +9,11 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2, CloseButton } from "@ndla/button";
+import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { Input } from "@ndla/forms";
+import { InputV3 } from "@ndla/forms";
 import { Spinner } from "@ndla/icons";
-import { ModalBody, ModalHeader } from "@ndla/modal";
+import { ModalBody, ModalCloseButton, ModalHeader } from "@ndla/modal";
 import { ConceptListEmbedData } from "@ndla/types-embed";
 import { Node } from "@ndla/types-taxonomy";
 import { Figure, BlockConcept } from "@ndla/ui";
@@ -44,12 +44,11 @@ const StyledList = styled.ul`
 
 interface Props {
   element: ConceptListElement;
-  onClose: () => void;
   onSave: (embed: ConceptListEmbedData) => void;
   language: string;
 }
 
-const ConceptTagPicker = ({ element, onClose, language, onSave: onSaveProp }: Props) => {
+const ConceptTagPicker = ({ element, language, onSave: onSaveProp }: Props) => {
   const { t } = useTranslation();
   const [selectedTag, setSelectedTag] = useState<DropdownItem | undefined>(
     element.data.tag ? { name: element.data.tag, id: element.data.tag } : undefined,
@@ -130,12 +129,12 @@ const ConceptTagPicker = ({ element, onClose, language, onSave: onSaveProp }: Pr
   return (
     <div>
       <ModalHeader>
-        <CloseButton onClick={onClose} />
+        <ModalCloseButton />
       </ModalHeader>
       <ModalBody>
         <TwoColumn>
           <FormInput>
-            <Input value={titleInput} onChange={onChangeTitleInput} placeholder={t("form.name.title")} />
+            <InputV3 value={titleInput} onChange={onChangeTitleInput} placeholder={t("form.name.title")} />
             <Dropdown
               items={tags}
               onSelect={setSelectedTag}

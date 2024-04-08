@@ -142,7 +142,7 @@ const ConceptList = ({ element, editor, attributes, children }: Props) => {
         {children}
       </StyledWrapper>
       <ModalContent size={{ height: "large", width: "large" }}>
-        <ConceptTagPicker element={element} onClose={onClose} language={language} onSave={onSave} />
+        <ConceptTagPicker element={element} language={language} onSave={onSave} />
       </ModalContent>
     </Modal>
   );

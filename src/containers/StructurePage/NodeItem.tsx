@@ -46,6 +46,13 @@ interface RoundIconProps {
   type?: "button" | "reset" | "submit";
 }
 
+const StyledStar = styled(Star)`
+  color: ${colors.brand.greyDark};
+  &[data-favorite="true"] {
+    color: ${colors.favoriteColor};
+  }
+`;
+
 const RoundIcon = ({ smallIcon, ...rest }: RoundIconProps & Omit<HTMLProps<HTMLButtonElement>, "as">) => (
   <StyledIcon {...rest}>{smallIcon}</StyledIcon>
 );
@@ -160,9 +167,7 @@ const NodeItem = ({
         {isRoot && (
           <RoundIcon
             onClick={toggleFavorite}
-            smallIcon={
-              <Star color={isFavorite ? colors.favoriteColor : colors.brand.greyDark} data-testid="star-icon" />
-            }
+            smallIcon={<StyledStar data-favorite={isFavorite} data-testid="star-icon" />}
             data-testid="favourite-subject"
           />
         )}

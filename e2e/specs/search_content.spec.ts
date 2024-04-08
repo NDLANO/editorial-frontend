@@ -13,7 +13,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto("/search/content?page=1&page-size=10&sort=-lastUpdated");
 });
 
-const searchTotalCount = "21494";
+const searchTotalCount = "21495";
 
 test("Can use text input", async ({ page }) => {
   await page.locator('input[name="query"]').fill("Test");
@@ -29,7 +29,7 @@ test("Can use text input", async ({ page }) => {
 test("Can use status dropdown", async ({ page }) => {
   await page.locator('select[name="draft-status"]').selectOption({ label: "Publisert" });
   await page.getByTestId("content-search-result").first().waitFor();
-  expect(await page.getByTestId("searchTotalCount").innerText()).toEqual("17871");
+  expect(await page.getByTestId("searchTotalCount").innerText()).toEqual("17870");
   await page.locator('select[name="draft-status"]').selectOption({ index: 0 });
   await page.getByTestId("content-search-result").first().waitFor();
   expect(await page.getByTestId("searchTotalCount").innerText()).toEqual(searchTotalCount);
@@ -38,7 +38,7 @@ test("Can use status dropdown", async ({ page }) => {
 test("Can use language dropdown", async ({ page }) => {
   await page.locator('select[name="language"]').selectOption({ index: 1 });
   await page.getByTestId("content-search-result").first().waitFor();
-  expect(await page.getByTestId("searchTotalCount").innerText()).toEqual("19224");
+  expect(await page.getByTestId("searchTotalCount").innerText()).toEqual("19228");
   await page.locator('select[name="language"]').selectOption({ index: 0 });
   await page.getByTestId("content-search-result").first().waitFor();
   expect(await page.getByTestId("searchTotalCount").innerText()).toEqual(searchTotalCount);
@@ -83,7 +83,7 @@ test("Can use content type dropdown", async ({ page }) => {
 test("Can use inactive checkbox", async ({ page }) => {
   await page.locator('input[id="checkbox-filter-inactive"]').click();
   await page.getByTestId("content-search-result").first().waitFor();
-  expect(await page.getByTestId("searchTotalCount").innerText()).toEqual("37453");
+  expect(await page.getByTestId("searchTotalCount").innerText()).toEqual("37452");
   await page.locator('input[id="checkbox-filter-inactive"]').click();
   await page.getByTestId("content-search-result").first().waitFor();
   expect(await page.getByTestId("searchTotalCount").innerText()).toEqual(searchTotalCount);

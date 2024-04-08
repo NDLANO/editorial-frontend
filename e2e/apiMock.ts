@@ -6,7 +6,7 @@
  *
  */
 
-import { readFile, writeFile, mkdir } from "fs/promises";
+import { readFile, writeFile } from "fs/promises";
 import { test as Ptest, TestInfo } from "@playwright/test";
 import {
   brightcoveTokenMock,
@@ -32,7 +32,7 @@ const regex = new RegExp(`^(${localHostRegex}|${apiTestRegex}|${mathjax}|${brigh
 
 const mockFile = ({ titlePath, title: test_name }: TestInfo) => {
   const SPEC_NAME = titlePath[0].split("/")[1];
-  return `${mockDir}${SPEC_NAME}_${test_name}.har`;
+  return `${mockDir}${SPEC_NAME}_${test_name.replace(/ /g, "_")}.har`;
 };
 
 export const test = Ptest.extend<ExtendParams>({

@@ -20,13 +20,13 @@ test.beforeEach(async ({ page }) => {
 test("adds and removes grid", async ({ page }) => {
   await page.mouse.wheel(0, 50);
   await page.getByTestId("create-grid").click();
-  expect(await page.getByTestId("slate-grid-cell").count()).toEqual(2);
+  await expect(page.getByTestId("slate-grid-cell")).toHaveCount(2);
   await page.getByTestId("slate-grid-cell").first().click();
   await page.getByTestId("slate-block-picker").click();
   await expect(page.getByTestId("create-keyFigure")).toBeVisible();
   await expect(page.getByTestId("create-image")).toBeVisible();
   await expect(page.getByTestId("create-blogPost")).toBeVisible();
-  expect(await page.getByTestId("slate-block-picker-menu").getByRole("button").count()).toEqual(6);
+  await expect(page.getByTestId("slate-block-picker-menu").getByRole("button")).toHaveCount(6);
   await expect(page.getByTestId("remove-grid")).toBeVisible();
   await page.getByTestId("remove-grid").click();
   await expect(page.getByTestId("remove-grid")).toHaveCount(0);

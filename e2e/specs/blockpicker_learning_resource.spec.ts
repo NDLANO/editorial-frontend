@@ -9,7 +9,6 @@
 import { expect } from "@playwright/test";
 import { test } from "../apiMock";
 
-
 test.beforeEach(async ({ page }) => {
   await page.goto("/subject-matter/learning-resource/new");
   await page.getByTestId("slate-editor").click();
@@ -51,7 +50,7 @@ test("adds and removes grid", async ({ page }) => {
   await expect(page.getByTestId("remove-grid")).toBeVisible();
   await page.getByTestId("slate-grid-cell").first().click();
   await page.getByTestId("slate-block-picker").click();
-  expect(await page.getByTestId("slate-block-picker-menu").getByRole("button").count()).toEqual(2);
+  await expect(page.getByTestId("slate-block-picker-menu").getByRole("button")).toHaveCount(2);
   await page.getByTestId("remove-grid").click();
   await expect(page.getByTestId("remove-grid")).toHaveCount(0);
 });

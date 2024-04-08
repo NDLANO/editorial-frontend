@@ -154,9 +154,9 @@ test("opens and closes video", async ({ page }) => {
   await Promise.all([brightcoveToken, brightcoveVideos, brightcoveVideo, brightcovePlayback]);
   await page.getByTestId("create-video").click();
   await page.getByText("Bruk video").first().click();
-  await expect(page.getByTestId("remove-element")).toBeVisible();
-  await page.getByTestId("remove-element").click();
-  await expect(page.getByTestId("remove-element")).toHaveCount(0);
+  await expect(page.getByTestId("remove-video-element")).toBeVisible();
+  await page.getByTestId("remove-video-element").click();
+  await expect(page.getByTestId("remove-video-element")).toHaveCount(0);
 });
 
 test("opens and closes audio", async ({ page }) => {

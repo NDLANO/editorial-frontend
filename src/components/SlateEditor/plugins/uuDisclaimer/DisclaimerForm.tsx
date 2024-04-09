@@ -76,6 +76,13 @@ const StyledText = styled(Text)`
   ${fonts.size.text.label.small}
 `;
 
+const SelectedArticle = styled.div`
+  align-items: center;
+  display: flex;
+  gap: ${spacing.xsmall};
+  margin-top: ${spacing.small};
+`;
+
 const rules: RulesType<DisclaimerFormValues> = {
   disclaimer: {
     required: true,
@@ -174,14 +181,14 @@ const DisclaimerForm = ({ initialData, onOpenChange, onSave }: DisclaimerFormPro
                     apiAction={searchForArticles}
                     onClick={(e) => e.stopPropagation()}
                     onChange={(selected) => {
-                      field.onChange({ target: { value: selected.id.toString() } });
+                      field.onChange({ target: { value: selected.id.toString(), name: field.name } });
                       setSelectedArticle(selected);
                     }}
                     showPagination
                     menuHeight={windowHeight * 0.3}
                   />
                   {selectedArticle && (
-                    <div>
+                    <SelectedArticle>
                       <SafeLink to={""}>{selectedArticle.title.title}</SafeLink>
                       <IconButtonV2
                         aria-label={t("form.disclaimer.removeArticle")}
@@ -190,12 +197,13 @@ const DisclaimerForm = ({ initialData, onOpenChange, onSave }: DisclaimerFormPro
                         colorTheme="danger"
                         data-testid="disclaimerArticleDeleteButton"
                         onClick={() => {
+                          field.onChange({ target: { value: "", name: field.name } });
                           setSelectedArticle(undefined);
                         }}
                       >
                         <DeleteForever />
                       </IconButtonV2>
-                    </div>
+                    </SelectedArticle>
                   )}
                 </FormControl>
               )}

@@ -1488,7 +1488,7 @@ const phrases = {
         "T.d. Har du utfordringar med syn eller kognisjon? Då kan du få problem med å oppfatte og forstå dette innhaldet. Du kan istaden nytte denne sida: www.ndla.eksempel.no",
       exampleLinkText: "Her finn du eksempelsetningar som skal brukast i fritekstfelt",
       editorHeader: "Skriv inn kor brukaren finn alternativt innhald",
-      articleId: "Artikkel med relatert innhald",
+      articleId: "Artikkel med alternativt innhald",
       removeArticle: "Fjern artikkel",
     },
     copyright: {

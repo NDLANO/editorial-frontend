@@ -20,9 +20,11 @@ import { Action, commonActions } from "./plugins/blockPicker/actions";
 import { BlockPickerOptions, createBlockpickerOptions } from "./plugins/blockPicker/options";
 import SlateBlockPicker from "./plugins/blockPicker/SlateBlockPicker";
 import { onDragOver, onDragStart, onDrop } from "./plugins/DND";
+import { TYPE_PARAGRAPH } from "./plugins/paragraph/types";
 import { SlateToolbar } from "./plugins/toolbar";
 import { AreaFilters, CategoryFilters } from "./plugins/toolbar/toolbarState";
 import { SlateProvider } from "./SlateContext";
+import getCurrentBlock from "./utils/getCurrentBlock";
 import { KEY_ARROW_LEFT, KEY_ARROW_RIGHT, KEY_TAB } from "./utils/keys";
 import withPlugins from "./utils/withPlugins";
 import { BLOCK_PICKER_TRIGGER_ID } from "../../constants";
@@ -220,9 +222,10 @@ const RichTextEditor = ({
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent<HTMLDivElement>) => {
-      if (e.key === KEY_TAB) {
-        return;
-      }
+      const [selectedParagraph] = getCurrentBlock(editor, TYPE_PARAGRAPH) || [];
+
+      if (e.key === KEY_TAB && selectedParagraph) return;
+
       if (editor.selection && Range.isCollapsed(editor.selection) && !e.shiftKey) {
         if (e.key === KEY_ARROW_LEFT) {
           e.preventDefault();

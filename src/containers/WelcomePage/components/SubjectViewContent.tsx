@@ -5,83 +5,93 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { subYears } from "date-fns";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Heart } from "@ndla/icons/action";
-import { BookOpen } from "@ndla/icons/common";
+import styled from "@emotion/styled";
+import { BookOpen, InformationOutline } from "@ndla/icons/common";
 import { Pager } from "@ndla/pager";
-import { ISingleResourceStats } from "@ndla/types-backend/myndla-api";
+import { getCurrentPageData } from "./LastUsedItems";
 import TableComponent, { FieldElement, TitleElement } from "./TableComponent";
 import TableTitle from "./TableTitle";
 import PageSizeDropdown from "./worklist/PageSizeDropdown";
-import { CellWrapper } from "./worklist/WorkListTabContent";
-import { PUBLISHED } from "../../../constants";
-import { fetchResourceStats } from "../../../modules/myndla/myndlaApi";
-import { useSearch } from "../../../modules/search/searchQueries";
-import formatDate, { formatDateForBackend } from "../../../util/formatDate";
-import { toEditArticle } from "../../../util/routeHelpers";
+import { SUBJECT_NODE } from "../../../modules/nodes/nodeApiTypes";
+import { useSearchNodes } from "../../../modules/nodes/nodeQueries";
+import { useSearchSubjectStats } from "../../../modules/search/searchQueries";
+import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { useLocalStoragePageSizeState, useLocalStorageSortOptionState } from "../hooks/storedFilterHooks";
-import { ControlWrapperDashboard, StyledLink, StyledTopRowDashboardInfo, TopRowControls } from "../styles";
+import { ControlWrapperDashboard, StyledTopRowDashboardInfo, TopRowControls } from "../styles";
+import { SubjectData } from "../utils";
 
-interface Props {
-  subjectIds: string[];
+const StyledTableHeader = styled.span`
+  white-space: nowrap;
+`;
+
+interface CellHeaderProps {
   title: string;
   description: string;
-  localStorageSortKey: string;
+}
+
+const CellHeader = ({ title, description }: CellHeaderProps) => (
+  <StyledTableHeader>
+    {title} <InformationOutline aria-label={description} title={description} />
+  </StyledTableHeader>
+);
+
+interface BaseProps {
+  title: string;
+  description: string;
   localStoragePageSizeKey: string;
+}
+
+interface FavoriteProps extends BaseProps {
+  isFavoriteTab: true;
+  subjects: string[];
+}
+interface SubjectProps extends BaseProps {
+  isFavoriteTab: false;
+  subjects: SubjectData[];
 }
 
 type SortOptionSubjectView = "title" | "published" | "status" | "primaryRoot";
 
 const SubjectViewContent = ({
-  subjectIds,
+  subjects,
+  isFavoriteTab,
   title,
   description,
-  localStorageSortKey,
   localStoragePageSizeKey,
-}: Props) => {
+}: FavoriteProps | SubjectProps) => {
   const { t, i18n } = useTranslation();
+  const { taxonomyVersion } = useTaxonomyVersion();
   const [page, setPage] = useState(1);
-  const [sortOption, setSortOption] = useLocalStorageSortOptionState<SortOptionSubjectView>(
-    localStorageSortKey,
-    "published",
-  );
   const [pageSize, setPageSize] = useLocalStoragePageSizeState(localStoragePageSizeKey);
-  const [favoriteStats, setFavoriteStats] = useState<ISingleResourceStats[]>([]);
-  const currentDateSubtractYear = formatDateForBackend(subYears(new Date(), 5));
 
-  const { data, isLoading, isError } = useSearch(
+  const { data: favoriteSubjects } = useSearchNodes(
     {
-      subjects: subjectIds,
-      publishedDateTo: currentDateSubtractYear,
-      sort: sortOption,
-      page: page,
-      pageSize: Number(pageSize!.value),
+      ids: isFavoriteTab ? subjects : [],
+      taxonomyVersion,
+      nodeType: SUBJECT_NODE,
+      pageSize: subjects.length,
       language: i18n.language,
-      fallback: true,
-      filterInactive: true,
-      draftStatus: [PUBLISHED],
-      includeOtherStatuses: true,
     },
     {
-      enabled: !!subjectIds.length,
+      enabled: isFavoriteTab,
     },
   );
 
+  const subjectIds = isFavoriteTab ? subjects : subjects.map((s) => s.id);
+
+  const currentPageSubjectIds = useMemo(() => {
+    return getCurrentPageData(page, subjectIds, Number(pageSize!.value));
+  }, [page, pageSize, subjectIds]);
+
+  const { data, isLoading, isError } = useSearchSubjectStats(
+    { subjects: currentPageSubjectIds },
+    { enabled: !!currentPageSubjectIds.length },
+  );
   useEffect(() => {
     setPage(1);
   }, [pageSize]);
-
-  useEffect(() => {
-    const resourceIds = data?.results.map((r) => r.id) ?? [];
-    if (!resourceIds.length) return;
-    const fetchFavorites = async () => {
-      const stats = await fetchResourceStats("article,multidiciplinary", resourceIds.join(","));
-      setFavoriteStats(stats);
-    };
-    fetchFavorites();
-  }, [data]);
 
   const error = useMemo(() => {
     if (isError) {
@@ -90,64 +100,74 @@ const SubjectViewContent = ({
   }, [t, isError]);
 
   const tableTitles: TitleElement<SortOptionSubjectView>[] = [
-    { title: t("form.name.title"), sortableField: "title", width: "45%" },
+    { title: t("form.name.title"), width: "25%" },
     {
-      title: t("welcomePage.workList.status"),
-      sortableField: "status",
+      title: (
+        <CellHeader
+          title={t("welcomePage.subjectView.heart")}
+          description={t("welcomePage.subjectView.heartDescription")}
+        />
+      ),
       width: "15%",
     },
-    { title: t("welcomePage.workList.primarySubject"), sortableField: "primaryRoot" },
-    { title: t("welcomePage.workList.lastUpdated"), sortableField: "published" },
+    {
+      title: (
+        <CellHeader
+          title={t("welcomePage.subjectView.flow")}
+          description={t("welcomePage.subjectView.flowDescription")}
+        />
+      ),
+      width: "10%",
+    },
+    {
+      title: (
+        <CellHeader
+          title={t("welcomePage.subjectView.old")}
+          description={t("welcomePage.subjectView.oldDescription")}
+        />
+      ),
+    },
+    {
+      title: (
+        <CellHeader
+          title={t("welcomePage.subjectView.revision")}
+          description={t("welcomePage.subjectView.revisionDescription")}
+        />
+      ),
+    },
+    {
+      title: (
+        <CellHeader
+          title={t("welcomePage.subjectView.published")}
+          description={t("welcomePage.subjectView.publishedDescription")}
+        />
+      ),
+    },
   ];
 
   const tableData: FieldElement[][] = useMemo(
     () =>
       data
-        ? data.results?.map((resource) => {
-            const favoriteCount = favoriteStats.find((f) => f.id === resource.id.toString())?.favourites;
-            const tooltipText =
-              favoriteCount === 0
-                ? t("form.myNdla.noFavorites")
-                : t("form.myNdla.numFavorites", { num: favoriteCount });
-
+        ? data?.subjects.map((stats) => {
             return [
               {
-                id: `title_${resource.id}`,
-                data: (
-                  <CellWrapper>
-                    <StyledLink
-                      to={toEditArticle(resource.id, resource.learningResourceType)}
-                      title={resource.title?.title}
-                    >
-                      {resource.title?.title}
-                    </StyledLink>
-                    {favoriteCount !== undefined && (
-                      <div title={tooltipText} aria-label={tooltipText}>
-                        {favoriteCount} <Heart />
-                      </div>
-                    )}
-                  </CellWrapper>
-                ),
+                id: `title_${stats.subjectId}`,
+                data: isFavoriteTab
+                  ? favoriteSubjects?.results.find((s) => s.id === stats.subjectId)?.name
+                  : subjects.find((s) => s.id === stats.subjectId)?.name,
               },
-              {
-                id: `status_${resource.id}`,
-                data: resource.status?.current ? t(`form.status.${resource.status.current.toLowerCase()}`) : "",
-              },
-              {
-                id: `primarySubject_${resource.id}`,
-                data: resource.primaryRootName,
-              },
-              {
-                id: `lastUpdated_${resource.id}`,
-                data: formatDate(resource.published ?? ""),
-              },
+              { id: `favorites_${stats.subjectId}`, data: stats.favoritedCount },
+              { id: `flow_${stats.subjectId}`, data: stats.flowCount },
+              { id: `old_${stats.subjectId}`, data: stats.oldArticleCount },
+              { id: `revision_${stats.subjectId}`, data: stats.revisionCount },
+              { id: `publish_${stats.subjectId}`, data: stats.publishedArticleCount },
             ];
           })
         : [[]],
-    [data, favoriteStats, t],
+    [data, favoriteSubjects?.results, isFavoriteTab, subjects],
   );
 
-  const lastPage = data?.totalCount ? Math.ceil(data?.totalCount / (data.pageSize ?? 1)) : 1;
+  const lastPage = subjectIds.length ? Math.ceil(subjectIds.length / Number(pageSize!.value)) : 1;
 
   return (
     <>
@@ -163,14 +183,11 @@ const SubjectViewContent = ({
         isLoading={isLoading}
         tableTitleList={tableTitles}
         tableData={tableData}
-        setSortOption={setSortOption}
-        sortOption={sortOption}
         error={error}
-        noResultsText={t("welcomePage.emptySubjectView")}
-        minWidth="500px"
+        minWidth="650px"
       />
       <Pager
-        page={data?.page ?? 1}
+        page={page ?? 1}
         lastPage={lastPage}
         query={{}}
         onClick={(el) => setPage(el.page)}

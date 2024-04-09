@@ -17,10 +17,6 @@ import {
   STORED_PAGE_SIZE_SUBJECT_VIEW_FAVORITES,
   STORED_PAGE_SIZE_SUBJECT_VIEW_LMA,
   STORED_PAGE_SIZE_SUBJECT_VIEW_SA,
-  STORED_SORT_OPTION_SUBJECT_VIEW_DA,
-  STORED_SORT_OPTION_SUBJECT_VIEW_FAVORITES,
-  STORED_SORT_OPTION_SUBJECT_VIEW_LMA,
-  STORED_SORT_OPTION_SUBJECT_VIEW_SA,
 } from "../../../constants";
 import { SubjectIdObject } from "../utils";
 
@@ -50,10 +46,10 @@ const SubjectView = ({ favoriteSubjects, userDataLoading, subjectIdObject, isLoa
                 id: "lma-subject-view",
                 content: (
                   <SubjectViewContent
-                    subjectIds={subjectIdObject.subjectLMA}
-                    title={t("welcomePage.lmaSubjectView")}
-                    description={t("welcomePage.subjectViewDescription")}
-                    localStorageSortKey={STORED_SORT_OPTION_SUBJECT_VIEW_LMA}
+                    subjects={subjectIdObject.subjectLMA}
+                    isFavoriteTab={false}
+                    title={t("welcomePage.subjectView.lma")}
+                    description={t("welcomePage.subjectView.description")}
                     localStoragePageSizeKey={STORED_PAGE_SIZE_SUBJECT_VIEW_LMA}
                   />
                 ),
@@ -67,10 +63,10 @@ const SubjectView = ({ favoriteSubjects, userDataLoading, subjectIdObject, isLoa
                 id: "da-subject-view",
                 content: (
                   <SubjectViewContent
-                    subjectIds={subjectIdObject.subjectDA}
-                    title={t("welcomePage.daSubjectView")}
-                    description={t("welcomePage.subjectViewDescription")}
-                    localStorageSortKey={STORED_SORT_OPTION_SUBJECT_VIEW_DA}
+                    subjects={subjectIdObject.subjectDA}
+                    isFavoriteTab={false}
+                    title={t("welcomePage.subjectView.da")}
+                    description={t("welcomePage.subjectView.description")}
                     localStoragePageSizeKey={STORED_PAGE_SIZE_SUBJECT_VIEW_DA}
                   />
                 ),
@@ -84,10 +80,10 @@ const SubjectView = ({ favoriteSubjects, userDataLoading, subjectIdObject, isLoa
                 id: "sa-subject-view",
                 content: (
                   <SubjectViewContent
-                    subjectIds={subjectIdObject.subjectSA}
-                    title={t("welcomePage.saSubjectView")}
-                    description={t("welcomePage.subjectViewDescription")}
-                    localStorageSortKey={STORED_SORT_OPTION_SUBJECT_VIEW_SA}
+                    subjects={subjectIdObject.subjectSA}
+                    isFavoriteTab={false}
+                    title={t("welcomePage.subjectView.sa")}
+                    description={t("welcomePage.subjectView.description")}
                     localStoragePageSizeKey={STORED_PAGE_SIZE_SUBJECT_VIEW_SA}
                   />
                 ),
@@ -101,10 +97,10 @@ const SubjectView = ({ favoriteSubjects, userDataLoading, subjectIdObject, isLoa
                 id: "favorite-subject-view",
                 content: (
                   <SubjectViewContent
-                    subjectIds={favoriteSubjects}
-                    title={t("welcomePage.favoritesSubjectView")}
-                    description={t("welcomePage.subjectViewDescription")}
-                    localStorageSortKey={STORED_SORT_OPTION_SUBJECT_VIEW_FAVORITES}
+                    subjects={favoriteSubjects}
+                    isFavoriteTab={true}
+                    title={t("welcomePage.subjectView.favorites")}
+                    description={t("welcomePage.subjectView.description")}
                     localStoragePageSizeKey={STORED_PAGE_SIZE_SUBJECT_VIEW_FAVORITES}
                   />
                 ),

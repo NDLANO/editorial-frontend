@@ -58,7 +58,7 @@ const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataLoading, subjectIdO
                 content: (
                   <ArticleStatusContent
                     ndlaId={ndlaId}
-                    subjectIds={subjectIdObject.subjectLMA}
+                    subjectIds={subjectIdObject.subjectLMA.map((s) => s.id)}
                     title={t("welcomePage.lmaSubjectsHeading")}
                     description={t("welcomePage.lmaSubjectsDescription")}
                     searchPageSubjectFilter={LMA_SUBJECT_ID}
@@ -77,7 +77,7 @@ const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataLoading, subjectIdO
                 content: (
                   <ArticleStatusContent
                     ndlaId={ndlaId}
-                    subjectIds={subjectIdObject.subjectDA}
+                    subjectIds={subjectIdObject.subjectDA.map((s) => s.id)}
                     title={t("welcomePage.daSubjectsHeading")}
                     description={t("welcomePage.daSubjectsDescription")}
                     searchPageSubjectFilter={DA_SUBJECT_ID}
@@ -96,7 +96,7 @@ const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataLoading, subjectIdO
                 content: (
                   <ArticleStatusContent
                     ndlaId={ndlaId}
-                    subjectIds={subjectIdObject.subjectSA}
+                    subjectIds={subjectIdObject.subjectSA.map((s) => s.id)}
                     title={t("welcomePage.saSubjectsHeading")}
                     description={t("welcomePage.saSubjectsDescription")}
                     searchPageSubjectFilter={SA_SUBJECT_ID}

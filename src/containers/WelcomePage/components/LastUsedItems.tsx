@@ -32,6 +32,14 @@ const getLastPage = (pageSize: number, res?: ISearchResult | IConceptSearchResul
 
 type SortOptionType = Prefix<"-", SortOptionLastUsed>;
 
+export const getCurrentPageData = <T,>(page: number, data: T[], pageSize: number): T[] => {
+  // Pagination logic. startIndex indicates start position in data for current page
+  // currentPageElements is data to be displayed at current page
+  const startIndex = page > 1 ? (page - 1) * pageSize : 0;
+  const currentPageElements = data.slice(startIndex, startIndex + pageSize);
+  return currentPageElements;
+};
+
 const getSortedPaginationData = <T extends IConceptSummary | IArticleSummary>(
   page: number,
   sortOption: SortOptionType,
@@ -39,10 +47,7 @@ const getSortedPaginationData = <T extends IConceptSummary | IArticleSummary>(
   pageSize: number,
 ): T[] => {
   const sortDesc = sortOption.charAt(0) === "-";
-  // Pagination logic. startIndex indicates start position in data.results for current page
-  // currentPageElements is data to be displayed at current page
-  const startIndex = page > 1 ? (page - 1) * pageSize : 0;
-  const currentPageElements = data.slice(startIndex, startIndex + pageSize);
+  const currentPageElements = getCurrentPageData(page, data, pageSize);
 
   return orderBy(
     currentPageElements,

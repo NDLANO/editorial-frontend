@@ -62,10 +62,10 @@ const HeaderFavoriteStatus = ({ id, type }: Props) => {
 
   return (
     <Wrapper title={tooltipText} aria-label={tooltipText}>
+      <StyledHeartOutline />
       <Text margin="none" textStyle="label-small">
         {resourceStats?.favourites}
       </Text>
-      <StyledHeartOutline />
     </Wrapper>
   );
 };

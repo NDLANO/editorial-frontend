@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactNode, useCallback, useMemo, useState } from "react";
+import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
@@ -50,19 +50,36 @@ const StyledModalHeader = styled(ModalHeader)`
 const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
   const { t } = useTranslation();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [embed, setEmbed] = useState<UuDisclaimerMetaData>({
+    status: "success",
+    data: {},
+    embedData: element.data,
+    resource: element.data.resource,
+  });
 
-  const embed: UuDisclaimerMetaData = useMemo(() => {
-    const disclaimerLink = element.data.articleId
-      ? getArticle(Number(element.data.articleId))
-          .then((article) => ({ disclaimerLink: { text: article.title.title, href: `/article/${article.id}` } }))
-          .catch((_) => ({}))
-      : {};
-    return {
-      status: "success",
-      data: disclaimerLink,
-      embedData: element.data,
-      resource: element.data?.resource,
+  useEffect(() => {
+    const initDisclaimerLink = async () => {
+      if (element.data.articleId) {
+        const response = await getArticle(Number(element.data.articleId));
+
+        setEmbed((prevState) => ({
+          ...prevState,
+          data: {
+            disclaimerLink: { text: response.title.title, href: `/article/${response.id}` },
+            embedData: element.data,
+            resource: element.data.resource,
+          },
+        }));
+      } else {
+        setEmbed((prevState) => ({
+          ...prevState,
+          data: {},
+          embedData: element.data,
+          resource: element.data.resource,
+        }));
+      }
     };
+    initDisclaimerLink();
   }, [element.data]);
 
   const handleDelete = () => {

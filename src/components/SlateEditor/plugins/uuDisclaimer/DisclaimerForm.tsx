@@ -7,18 +7,22 @@
  */
 
 import { Form, Formik, FormikValues } from "formik";
-import { Dispatch, SetStateAction, useCallback, useMemo } from "react";
+import { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
+import { ButtonV2, IconButtonV2 } from "@ndla/button";
 import { colors, fonts, misc, spacing } from "@ndla/core";
-import { Label } from "@ndla/forms";
+import { Label, FieldErrorMessage } from "@ndla/forms";
+import { DeleteForever } from "@ndla/icons/editor";
 import { ModalBody } from "@ndla/modal";
 import { SafeLink } from "@ndla/safelink";
+import { IArticleSummaryV2, IArticleV2 } from "@ndla/types-backend/article-api";
 import { UuDisclaimerEmbedData } from "@ndla/types-embed";
 import { Text } from "@ndla/typography";
+import { getArticle, searchArticles } from "../../../../modules/article/articleApi";
 import { plainTextToEditorValue, editorValueToPlainText } from "../../../../util/articleContentConverter";
+import AsyncDropdown from "../../../Dropdown/asyncDropdown/AsyncDropdown";
 import { FormControl, FormField } from "../../../FormField";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
 import PlainTextEditor from "../../PlainTextEditor";
@@ -34,6 +38,7 @@ interface DisclaimerFormProps {
 
 interface DisclaimerFormValues {
   resource: "uu-disclaimer";
+  articleId?: string;
   disclaimer: Descendant[];
 }
 
@@ -71,12 +76,17 @@ const StyledText = styled(Text)`
   ${fonts.size.text.label.small}
 `;
 
-const rules: RulesType<DisclaimerFormValues> = {};
+const rules: RulesType<DisclaimerFormValues> = {
+  disclaimer: {
+    required: true,
+  },
+};
 
 const toInitialValues = (data?: UuDisclaimerEmbedData): DisclaimerFormValues => {
   return {
     resource: "uu-disclaimer",
     disclaimer: plainTextToEditorValue(data?.disclaimer ?? ""),
+    articleId: data?.articleId,
   };
 };
 
@@ -84,12 +94,34 @@ const DisclaimerForm = ({ initialData, onOpenChange, onSave }: DisclaimerFormPro
   const { t } = useTranslation();
   const initialValues = useMemo(() => toInitialValues(initialData), [initialData]);
   const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
+  const [windowHeight, setWindowHeight] = useState<number>(window.innerHeight);
+  const [selectedArticle, setSelectedArticle] = useState<undefined | IArticleV2 | IArticleSummaryV2>(undefined);
+
+  useEffect(() => {
+    const initSelectedArticle = async () => {
+      if (initialValues.articleId) {
+        const response = await getArticle(Number(initialValues.articleId));
+        setSelectedArticle(response);
+      } else {
+        setSelectedArticle(undefined);
+      }
+    };
+    initSelectedArticle();
+  }, [initialValues.articleId]);
+
+  const searchForArticles = async (query: string, page: number | undefined) => {
+    return searchArticles({
+      query,
+      page,
+    });
+  };
 
   const handleSubmit = useCallback(
     (values: FormikValues) => {
       onSave({
         resource: "uu-disclaimer",
         disclaimer: editorValueToPlainText(values.disclaimer),
+        articleId: values.articleId,
       });
       onOpenChange(false);
     },
@@ -117,7 +149,7 @@ const DisclaimerForm = ({ initialData, onOpenChange, onSave }: DisclaimerFormPro
               <SafeLink to={DISCLAIMER_EXAMPLES_LINK}>{t("form.disclaimer.exampleLinkText")}</SafeLink>
             </StyledText>
             <StyledFormField name="disclaimer">
-              {({ field }) => (
+              {({ field, meta }) => (
                 <FormControl>
                   <Label textStyle="label-small">{t("form.disclaimer.editorHeader")}</Label>
                   <StyledPlainTextEditor
@@ -126,6 +158,45 @@ const DisclaimerForm = ({ initialData, onOpenChange, onSave }: DisclaimerFormPro
                     {...field}
                     value={initialValues.disclaimer}
                   />
+                  <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                </FormControl>
+              )}
+            </StyledFormField>
+            <StyledFormField name="articleId">
+              {({ field }) => (
+                <FormControl>
+                  <Label textStyle="label-small">{t("form.disclaimer.articleId")}</Label>
+                  <AsyncDropdown
+                    clearInputField
+                    idField="id"
+                    labelField="title"
+                    placeholder={t("form.content.relatedArticle.placeholder")}
+                    apiAction={searchForArticles}
+                    onClick={(e) => e.stopPropagation()}
+                    onChange={(selected) => {
+                      field.onChange({ target: { value: selected.id.toString() } });
+                      setSelectedArticle(selected);
+                    }}
+                    showPagination
+                    menuHeight={windowHeight * 0.3}
+                  />
+                  {selectedArticle && (
+                    <div>
+                      <SafeLink to={""}>{selectedArticle.title.title}</SafeLink>
+                      <IconButtonV2
+                        aria-label={t("form.disclaimer.removeArticle")}
+                        variant="ghost"
+                        title={t("form.disclaimer.removeArticle")}
+                        colorTheme="danger"
+                        data-testid="disclaimerArticleDeleteButton"
+                        onClick={() => {
+                          setSelectedArticle(undefined);
+                        }}
+                      >
+                        <DeleteForever />
+                      </IconButtonV2>
+                    </div>
+                  )}
                 </FormControl>
               )}
             </StyledFormField>

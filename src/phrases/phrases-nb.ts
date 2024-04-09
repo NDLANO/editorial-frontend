@@ -1488,6 +1488,8 @@ const phrases = {
         "F.eks. Har du utfordringer med syn eller kognisjon? Da kan du få problemer med å oppfatte og forstå dette innholdet. Du kan istedet bruke denne siden: www.ndla.eksempel.no",
       exampleLinkText: "Her finner du eksempelsetninger som skal brukes i fritekstfelt",
       editorHeader: "Skriv inn hvor brukeren finner alternativt innhold",
+      articleId: "Artikkel med alternativt innhold",
+      removeArticle: "Fjern artikkel",
     },
     copyright: {
       title: "Rediger lisens",

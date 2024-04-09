@@ -19,6 +19,7 @@ import { UuDisclaimerEmbedData, UuDisclaimerMetaData } from "@ndla/types-embed";
 import { UuDisclaimerEmbed } from "@ndla/ui";
 import DisclaimerForm from "./DisclaimerForm";
 import { DisclaimerElement, TYPE_DISCLAIMER } from "./types";
+import { getArticle } from "../../../../modules/article/articleApi";
 import DeleteButton from "../../../DeleteButton";
 import MoveContentButton from "../../../MoveContentButton";
 
@@ -50,15 +51,19 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
   const { t } = useTranslation();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
-  const embed: UuDisclaimerMetaData = useMemo(
-    () => ({
+  const embed: UuDisclaimerMetaData = useMemo(() => {
+    const disclaimerLink = element.data.articleId
+      ? getArticle(Number(element.data.articleId))
+          .then((article) => ({ disclaimerLink: { text: article.title.title, href: `/article/${article.id}` } }))
+          .catch((_) => ({}))
+      : {};
+    return {
       status: "success",
-      data: {},
+      data: disclaimerLink,
       embedData: element.data,
       resource: element.data?.resource,
-    }),
-    [element.data],
-  );
+    };
+  }, [element.data]);
 
   const handleDelete = () => {
     const path = ReactEditor.findPath(editor, element);

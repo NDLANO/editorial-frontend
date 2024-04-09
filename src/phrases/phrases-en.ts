@@ -1547,7 +1547,6 @@ const phrases = {
   },
   warningMessage: {
     fieldWithWrongLanguage: "This value is fetched from language code: {{language}}",
-    taxonomy: "All taxonomy changes require partial publishing",
   },
   notFound: {
     description: "The page cannot be found",

@@ -8,7 +8,7 @@
 
 import { IAudioMetaInformation } from "@ndla/types-backend/audio-api";
 import { IArticle, IRelatedContentLink } from "@ndla/types-backend/draft-api";
-import { AudioEmbedData, H5pEmbedData } from "@ndla/types-embed";
+import { AudioEmbedData, BrightcoveEmbedData, H5pEmbedData } from "@ndla/types-embed";
 import { SearchTypeValues, LOCALE_VALUES } from "./constants";
 
 export interface FormikStatus {
@@ -116,18 +116,6 @@ export interface ImageEmbed {
   border?: string;
 }
 
-export interface BrightcoveEmbed {
-  resource: "brightcove" | "video";
-  alt?: string;
-  videoid: string;
-  caption: string;
-  url?: string;
-  account: string;
-  player: string;
-  title: string;
-  metaData?: any;
-}
-
 export interface H5pEmbed {
   resource: "h5p";
   path: string;
@@ -140,7 +128,7 @@ export interface ErrorEmbed {
   message: string;
 }
 
-export type Embed = ImageEmbed | BrightcoveEmbed | AudioEmbedData | H5pEmbedData | ErrorEmbed;
+export type Embed = ImageEmbed | BrightcoveEmbedData | AudioEmbedData | H5pEmbedData | ErrorEmbed;
 
 export interface FileFormat {
   url: string;

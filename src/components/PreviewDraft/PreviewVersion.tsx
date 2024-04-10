@@ -108,10 +108,10 @@ export const PreviewVersion = ({ article, language, customTitle }: VersionPrevie
 
   const diffObj = useMemo(() => {
     if (publishObj && currentObj) {
-      const [oldTitle, newTitle] = getDiff(publishObj.title, currentObj.title);
-      const [oldIntroduction, newIntroduction] = getDiff(publishObj.introduction, currentObj.introduction);
-      const [oldContent, newContent] = getDiff(publishObj.content, currentObj.content);
-      return { oldTitle, newTitle, oldIntroduction, newIntroduction, oldContent, newContent };
+      const titleDiff = getDiff(publishObj.title, currentObj.title);
+      const introductionDiff = getDiff(publishObj.introduction, currentObj.introduction);
+      const contentDiff = getDiff(publishObj.content, currentObj.content);
+      return { titleDiff, introductionDiff, contentDiff };
     }
     return null;
   }, [currentObj, publishObj]);
@@ -122,13 +122,9 @@ export const PreviewVersion = ({ article, language, customTitle }: VersionPrevie
 
   if (diffEnable && diffObj) {
     if (publishedTransformed.article && currentTransformed.article) {
-      publishedTransformed.article.title = parse(diffObj.oldTitle);
-      publishedTransformed.article.introduction = parse(diffObj.oldIntroduction);
-      publishedTransformed.article.content = parse(diffObj.oldContent);
-
-      currentTransformed.article.title = parse(diffObj.newTitle);
-      currentTransformed.article.introduction = parse(diffObj.newIntroduction);
-      currentTransformed.article.content = parse(diffObj.newContent);
+      currentTransformed.article.title = parse(diffObj.titleDiff);
+      currentTransformed.article.introduction = parse(diffObj.introductionDiff);
+      currentTransformed.article.content = parse(diffObj.contentDiff);
     }
   }
 

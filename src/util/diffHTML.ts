@@ -137,17 +137,13 @@ function removeNoise(html: string): string {
   return cleanUpHtml(cleanUpHtml(html));
 }
 
-export function getDiff(oldHtml: string, newHtml: string): [string, string] {
+export function getDiff(oldHtml: string, newHtml: string): string {
   const unifiedDiff = HtmlDiff.execute(oldHtml, newHtml) as string;
   const parser = new DOMParser();
-  const parsedOldHtml = parser.parseFromString(unifiedDiff, "text/html");
-  const parsedNewHtml = parser.parseFromString(unifiedDiff, "text/html");
-  parsedNewHtml.querySelectorAll("del").forEach((el) => el.remove());
-  parsedOldHtml.querySelectorAll("ins:not(.mod)").forEach((el) => el.remove());
+  const parsedDiff = parser.parseFromString(unifiedDiff, "text/html");
+  parsedDiff.querySelectorAll("del.diffmod").forEach((el) => el.remove());
 
-  const oldDiff = parsedOldHtml.documentElement.outerHTML;
-  const newDiff = parsedNewHtml.documentElement.outerHTML;
-  return [oldDiff, newDiff];
+  return parsedDiff.documentElement.outerHTML;
 }
 
 export function diffHTML(oldHtml: string, newHtml: string) {

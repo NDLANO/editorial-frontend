@@ -34,7 +34,11 @@ const mockFile = ({ titlePath, title: test_name }: TestInfo) => {
   const SPEC_NAME = titlePath[0].split("/")[1];
   return `${mockDir}${SPEC_NAME}_${test_name.replace(/ /g, "_")}.har`;
 };
-
+/**
+ * Extending the playwright test object with a checkpoint function.
+ * The checkpoint function helps us differentiate between subsequent
+ * requests, and allows us to more easily mock recurring calls.
+ */
 export const test = Ptest.extend<ExtendParams>({
   harCheckpoint: [
     async ({ context, page }, use) => {
@@ -128,19 +132,19 @@ const removeSensitiveData = async (fileName: string) => {
   });
 
   const result = JSON.stringify(data)
-    .replaceAll(/\\"license\\":{.*?}/g, `\\"license\\":${JSON.stringify(copyrightMock.license).replace(/["]/g, '\\"')}`)
-    .replaceAll(
+    .replace(/\\"license\\":{.*?}/g, `\\"license\\":${JSON.stringify(copyrightMock.license).replace(/["]/g, '\\"')}`)
+    .replace(
       /\\"creators\\":\[.*?\]/g,
       `\\"creators\\":${JSON.stringify(copyrightMock.creators).replace(/["]/g, '\\"')}`,
     )
-    .replaceAll(
+    .replace(
       /\\"processors\\":\[.*?\]/g,
       `\\"processors\\":${JSON.stringify(copyrightMock.processors).replace(/["]/g, '\\"')}`,
     )
-    .replaceAll(
+    .replace(
       /\\"rightsholders\\":\[.*?\]/g,
       `\\"rightsholders\\":${JSON.stringify(copyrightMock.rightsholders).replace(/["]/g, '\\"')}`,
     )
-    .replaceAll(/"Bearer (.*?)"/g, '""');
+    .replace(/"Bearer (.*?)"/g, '""');
   await writeFile(fileName, result, "utf8");
 };

@@ -44,7 +44,7 @@ test("adds and removes keyfigure", async ({ page }) => {
   await page.getByRole("button", { name: "Lagre", exact: true }).click();
   await expect(page.getByTestId("slate-key-figure")).toBeVisible();
   await page.getByTestId("remove-key-figure").click();
-  expect(await page.getByTestId("slate-key-figure").count()).toEqual(0);
+  await expect(page.getByTestId("slate-key-figure")).toHaveCount(0);
 });
 
 test("adds and removes blogpost", async ({ page }) => {
@@ -60,7 +60,7 @@ test("adds and removes blogpost", async ({ page }) => {
   await page.getByRole("button", { name: "Lagre", exact: true }).click();
   await expect(page.getByTestId("slate-blog-post")).toBeVisible();
   await page.getByTestId("remove-blogpost").click();
-  expect(await page.getByTestId("slate-blog-post").count()).toEqual(0);
+  await expect(page.getByTestId("slate-blog-post")).toHaveCount(0);
 });
 
 test("adds and removes contactblock", async ({ page }) => {
@@ -76,7 +76,7 @@ test("adds and removes contactblock", async ({ page }) => {
   await page.getByRole("button", { name: "Lagre", exact: true }).click();
   await expect(page.getByTestId("slate-contact-block")).toBeVisible();
   await page.getByTestId("remove-contact-block").click();
-  expect(await page.getByTestId("slate-contact-block").count()).toEqual(0);
+  await expect(page.getByTestId("slate-contact-block")).toHaveCount(0);
 });
 
 test("adds and removes campaignblock", async ({ page }) => {
@@ -93,5 +93,5 @@ test("adds and removes campaignblock", async ({ page }) => {
   await page.getByRole("button", { name: "Lagre", exact: true }).click();
   await expect(page.getByTestId("slate-campaign-block")).toBeVisible();
   await page.getByTestId("remove-campaign-block").click();
-  expect(await page.getByTestId("slate-campaign-block").count()).toEqual(0);
+  await expect(page.getByTestId("slate-campaign-block")).toHaveCount(0);
 });

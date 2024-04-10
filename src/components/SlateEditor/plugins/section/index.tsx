@@ -74,8 +74,6 @@ export const sectionPlugin = (editor: Editor) => {
   editor.onKeyDown = (e: KeyboardEvent) => {
     if (e.key === KEY_BACKSPACE) {
       onBackspace(e, editor, nextOnKeyDown);
-    } else if (e.key === KEY_TAB) {
-      e.preventDefault();
     } else if (nextOnKeyDown) {
       nextOnKeyDown(e);
     }

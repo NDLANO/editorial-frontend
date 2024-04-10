@@ -12,7 +12,7 @@ import { Editor, Element, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
-import { colors, spacing } from "@ndla/core";
+import { colors, spacing, stackOrder } from "@ndla/core";
 import { Pencil } from "@ndla/icons/action";
 import { Modal, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
 import { UuDisclaimerEmbedData, UuDisclaimerMetaData } from "@ndla/types-embed";
@@ -40,6 +40,7 @@ const ButtonContainer = styled.div`
   flex-direction: column;
   position: absolute;
   right: -${spacing.large};
+  z-index: ${stackOrder.offsetSingle};
 `;
 
 const StyledModalHeader = styled(ModalHeader)`

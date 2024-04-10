@@ -14,7 +14,6 @@ import { getEditorAncestors } from "../../toolbar/toolbarState";
 import { TYPE_DEFINITION_DESCRIPTION, TYPE_DEFINITION_LIST, TYPE_DEFINITION_TERM } from "../types";
 
 const onTab = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEvent) => void) => {
-  event.preventDefault();
   const isDefinition = hasNodeOfType(editor, TYPE_DEFINITION_LIST);
   if (!isDefinition || !editor.selection) {
     return next?.(event);
@@ -26,6 +25,7 @@ const onTab = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEven
   if (!listEntry || !listItemEntry) {
     return next?.(event);
   }
+  event.preventDefault();
 
   const [currentListNode] = listEntry;
   const [firstChild, secondChild] = getEditorAncestors(editor, true);

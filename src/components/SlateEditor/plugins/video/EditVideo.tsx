@@ -7,23 +7,20 @@
  */
 
 import { Form, Formik, FormikProps, useFormikContext } from "formik";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Descendant, Editor, Path, Transforms, Element } from "slate";
-import { ReactEditor } from "slate-react";
+import { Descendant } from "slate";
 import styled from "@emotion/styled";
-import { ButtonV2, IconButtonV2 } from "@ndla/button";
+import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { FieldErrorMessage, InputV3, Label } from "@ndla/forms";
-import { Pencil } from "@ndla/icons/action";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
-import { BrightcoveEmbedData, BrightcoveMetaData } from "@ndla/types-embed";
+import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle } from "@ndla/modal";
+import { BrightcoveEmbedData } from "@ndla/types-embed";
 import { Text } from "@ndla/typography";
 import { VideoWrapper } from "./SlateVideo";
-import { BrightcoveEmbedElement, TYPE_EMBED_BRIGHTCOVE } from "./types";
 import config from "../../../../config";
 import { InlineField } from "../../../../containers/FormikForm/InlineField";
-import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
+import { inlineContentToEditorValue } from "../../../../util/articleContentConverter";
 import { isFormikFormDirty } from "../../../../util/formHelper";
 import { addBrightCoveTimeStampVideoid, getBrightCoveStartTime } from "../../../../util/videoUtil";
 import { FormControl, FormField } from "../../../FormField";
@@ -31,9 +28,9 @@ import validateFormik, { RulesType } from "../../../formikValidationSchema";
 import { RichTextIndicator } from "../../RichTextIndicator";
 
 interface Props {
-  embed: BrightcoveMetaData;
-  editor: Editor;
-  element: BrightcoveEmbedElement;
+  embed: BrightcoveEmbedData;
+  onSave: (values: FormValues) => void;
+  onClose: () => void;
   setHasError: (hasError: boolean) => void;
 }
 
@@ -55,10 +52,10 @@ const StyledVideo = styled.iframe`
   aspect-ratio: 16/9;
 `;
 
-interface FormValues {
+export interface FormValues {
   alttext: string;
   caption: Descendant[];
-  videoid?: string;
+  videoid: string;
   startTime: string;
   resource: BrightcoveEmbedData["resource"];
 }
@@ -69,6 +66,7 @@ export const toVideoEmbedFormValues = (embed: BrightcoveEmbedData): FormValues =
     caption: inlineContentToEditorValue(embed.caption ?? "", true),
     startTime: getBrightCoveStartTime(embed.videoid),
     resource: embed.resource,
+    videoid: embed.videoid,
   };
 };
 
@@ -82,78 +80,37 @@ export const brightcoveEmbedFormRules: RulesType<FormValues> = {
   },
 };
 
-const EditVideo = ({ embed, editor, element, setHasError }: Props) => {
+const activeSrc = ({ account, videoid }: BrightcoveEmbedData) => {
+  const startTime = getBrightCoveStartTime(videoid);
+  const id = addBrightCoveTimeStampVideoid(videoid, startTime);
+  return `https://players.brightcove.net/${account}/${config.brightcoveEdPlayerId}_default/index.html?videoId=${id}`;
+};
+
+const EditVideo = ({ onSave, setHasError, embed, onClose }: Props) => {
   const { t } = useTranslation();
-
-  const [open, setOpen] = useState(false);
-
-  const onClose = () => {
-    setOpen(false);
-    ReactEditor.focus(editor);
-    const path = ReactEditor.findPath(editor, element);
-    if (Editor.hasPath(editor, Path.next(path))) {
-      setTimeout(() => {
-        Transforms.select(editor, Path.next(path));
-      }, 0);
-    }
-  };
-
-  const activeSrc = (embed: BrightcoveMetaData) => {
-    const { account, videoid } = embed.embedData;
-    const startTime = getBrightCoveStartTime(videoid);
-    const id = addBrightCoveTimeStampVideoid(videoid, startTime);
-    return `https://players.brightcove.net/${account}/${config.brightcoveEdPlayerId}_default/index.html?videoId=${id}`;
-  };
-
-  const initialValues = useMemo(() => toVideoEmbedFormValues(embed?.embedData), [embed]);
-
-  const onSave = (values: FormValues) => {
-    Transforms.setNodes(
-      editor,
-      {
-        data: {
-          ...embed.embedData,
-          alt: values.alttext,
-          caption: inlineContentToHTML(values.caption),
-          videoid: addBrightCoveTimeStampVideoid(embed?.embedData?.videoid, values.startTime),
-        },
-      },
-      {
-        match: (node) => Element.isElement(node) && node.type === TYPE_EMBED_BRIGHTCOVE,
-        at: ReactEditor.findPath(editor, element),
-      },
-    );
-    onClose();
-  };
+  const initialValues = useMemo(() => toVideoEmbedFormValues(embed), [embed]);
 
   return (
-    <Modal open={open} onOpenChange={setOpen}>
-      <ModalTrigger>
-        <IconButtonV2 aria-label={t("form.video.editVideo")} title={t("form.video.editVideo")} colorTheme="light">
-          <Pencil />
-        </IconButtonV2>
-      </ModalTrigger>
-      <ModalContent>
-        <ModalHeader>
-          <ModalTitle>{t("form.video.editVideo")}</ModalTitle>
-          <ModalCloseButton />
-        </ModalHeader>
-        <ModalBody>
-          <VideoWrapper>
-            <StyledVideo title={`Video: ${embed.embedData.title}`} src={activeSrc(embed)} allowFullScreen />
-          </VideoWrapper>
-          <Formik
-            initialValues={initialValues}
-            validate={(values) => validateFormik(values, brightcoveEmbedFormRules, t)}
-            validateOnBlur={false}
-            validateOnMount
-            onSubmit={onSave}
-          >
-            {(field) => <VideoEmbedForm {...field} setHasError={setHasError} close={() => setOpen(false)} />}
-          </Formik>
-        </ModalBody>
-      </ModalContent>
-    </Modal>
+    <>
+      <ModalHeader>
+        <ModalTitle>{t("form.video.editVideo")}</ModalTitle>
+        <ModalCloseButton />
+      </ModalHeader>
+      <ModalBody>
+        <VideoWrapper>
+          <StyledVideo title={`Video: ${embed?.title}`} src={activeSrc(embed)} allowFullScreen />
+        </VideoWrapper>
+      </ModalBody>
+      <Formik
+        initialValues={initialValues}
+        validate={(values) => validateFormik(values, brightcoveEmbedFormRules, t)}
+        validateOnBlur={false}
+        validateOnMount
+        onSubmit={onSave}
+      >
+        {(field) => <VideoEmbedForm {...field} setHasError={setHasError} close={onClose} />}
+      </Formik>
+    </>
   );
 };
 interface VideoEmbedFormProps extends FormikProps<FormValues> {

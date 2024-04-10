@@ -22,24 +22,9 @@ import { useBrightcoveMeta } from "../../../../modules/embed/queries";
 import Spinner from "../../../Spinner";
 import { StyledDeleteEmbedButton, StyledFigureButtons } from "../embed/FigureButtons";
 
-export const StyledVideo = styled.iframe`
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
-  border: 0px;
-`;
-
 export const VideoWrapper = styled.div`
   position: relative;
   display: block;
-  height: 0;
-  padding: 0;
-  overflow: hidden;
-  padding-bottom: 56.25%;
   border-style: solid;
   border-width: 2px;
   border-color: transparent;
@@ -61,9 +46,13 @@ interface Props extends RenderElementProps {
 const SlateVideo = ({ attributes, element, editor, children }: Props) => {
   const [hasError, setHasError] = useState(false);
 
-  const { t } = useTranslation();
+  const {
+    t,
+    i18n: { language },
+  } = useTranslation();
+
   const isSelected = useSelected();
-  const brightcoveQuery = useBrightcoveMeta(element.data?.videoid.split("&t=")[0]!);
+  const brightcoveQuery = useBrightcoveMeta(element.data?.videoid.split("&t=")[0]!, language);
 
   const removeVideo = useCallback(() => {
     ReactEditor.focus(editor);
@@ -87,34 +76,32 @@ const SlateVideo = ({ attributes, element, editor, children }: Props) => {
   );
 
   return (
-    <VideoWrapper {...attributes} data-selected={isSelected} data-error={hasError}>
-      <div contentEditable={false}>
-        <StyledFigureButtons>
-          {embed && (
-            <>
-              <EditVideo embed={embed} editor={editor} element={element} setHasError={setHasError} />
-              <SafeLinkIconButton
-                title={t("form.video.brightcove")}
-                aria-label={t("form.video.brightcove")}
-                colorTheme="light"
-                to={`https://studio.brightcove.com/products/videocloud/media/videos/${embed.embedData.videoid}`}
-              >
-                <Link />
-              </SafeLinkIconButton>
-            </>
-          )}
-          <StyledDeleteEmbedButton
-            aria-label={t("form.video.remove")}
-            title={t("form.video.remove")}
-            colorTheme="danger"
-            onClick={removeVideo}
-            data-testid="remove-video-element"
-          >
-            <DeleteForever />
-          </StyledDeleteEmbedButton>
-        </StyledFigureButtons>
-        {!embed || brightcoveQuery.isLoading ? <Spinner /> : <BrightcoveEmbed embed={embed} />}
-      </div>
+    <VideoWrapper {...attributes} data-selected={isSelected} data-error={hasError} contentEditable={false}>
+      <StyledFigureButtons>
+        {embed && (
+          <>
+            <EditVideo embed={embed} editor={editor} element={element} setHasError={setHasError} />
+            <SafeLinkIconButton
+              title={t("form.video.brightcove")}
+              aria-label={t("form.video.brightcove")}
+              colorTheme="light"
+              to={`https://studio.brightcove.com/products/videocloud/media/videos/${embed.embedData.videoid}`}
+            >
+              <Link />
+            </SafeLinkIconButton>
+          </>
+        )}
+        <StyledDeleteEmbedButton
+          aria-label={t("form.video.remove")}
+          title={t("form.video.remove")}
+          colorTheme="danger"
+          onClick={removeVideo}
+          data-testid="remove-video-element"
+        >
+          <DeleteForever />
+        </StyledDeleteEmbedButton>
+      </StyledFigureButtons>
+      {!embed || brightcoveQuery.isLoading ? <Spinner /> : <BrightcoveEmbed embed={embed} />}
       {children}
     </VideoWrapper>
   );

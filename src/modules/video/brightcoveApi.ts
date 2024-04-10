@@ -38,10 +38,11 @@ export const fetchBrightcoveVideo = (videoId: string) =>
     resolveJsonOrRejectWithError<BrightcoveApiType>(r),
   );
 
-export const fetchBrightcoveMetadata = async (videoId: string) => {
+export const fetchBrightcoveMetadata = async (videoId: string, language: string = "nb") => {
   const [sources, brightcoveData] = await Promise.all([fetchBrightcoveSources(videoId), fetchBrightcoveVideo(videoId)]);
   return {
     ...brightcoveData,
+    copyright: getBrightcoveCopyright(brightcoveData.custom_fields, language),
     sources,
   };
 };

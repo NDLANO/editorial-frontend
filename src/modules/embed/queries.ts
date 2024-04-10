@@ -31,10 +31,14 @@ import {
 import { AUDIO_EMBED } from "../../queryKeys";
 import { fetchBrightcoveMetadata } from "../video/brightcoveApi";
 
-export const useBrightcoveMeta = (resourceId: string, options?: Partial<UseQueryOptions<BrightcoveData>>) => {
+export const useBrightcoveMeta = (
+  resourceId: string,
+  language: string,
+  options?: Partial<UseQueryOptions<BrightcoveData>>,
+) => {
   return useQuery<BrightcoveData>({
     queryKey: ["brightcoveMeta", resourceId],
-    queryFn: () => fetchBrightcoveMetadata(resourceId),
+    queryFn: () => fetchBrightcoveMetadata(resourceId, language),
     ...options,
   });
 };

@@ -19,7 +19,7 @@ import { Pencil } from "@ndla/icons/action";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
 import { BrightcoveEmbedData, BrightcoveMetaData } from "@ndla/types-embed";
 import { Text } from "@ndla/typography";
-import { StyledVideo, VideoWrapper } from "./SlateVideo";
+import { VideoWrapper } from "./SlateVideo";
 import { BrightcoveEmbedElement, TYPE_EMBED_BRIGHTCOVE } from "./types";
 import config from "../../../../config";
 import { InlineField } from "../../../../containers/FormikForm/InlineField";
@@ -48,6 +48,11 @@ const StyledForm = styled(Form)`
   display: flex;
   flex-direction: column;
   gap: ${spacing.small};
+`;
+
+const StyledVideo = styled.iframe`
+  width: 100%;
+  aspect-ratio: 16/9;
 `;
 
 interface FormValues {

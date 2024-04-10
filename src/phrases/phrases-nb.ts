@@ -1545,7 +1545,6 @@ const phrases = {
   },
   warningMessage: {
     fieldWithWrongLanguage: "Dette feltet er hentet fra språkkode: {{language}}",
-    taxonomy: "Alle taksonomiendringer krever delpublisering",
   },
   notFound: {
     description: "Denne siden finnes ikke.",

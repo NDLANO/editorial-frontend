@@ -32,8 +32,9 @@ const regex = new RegExp(`^(${localHostRegex}|${apiTestRegex}|${mathjax}|${brigh
 
 const mockFile = ({ titlePath, title: test_name }: TestInfo) => {
   const SPEC_NAME = titlePath[0].split("/")[1];
-  return `${mockDir}${SPEC_NAME}_${test_name.replace(/ /g, "_")}.har`;
+  return `${mockDir}${SPEC_NAME}_${test_name.replace(/\s/g, "_")}.har`;
 };
+
 /**
  * Extending the playwright test object with a checkpoint function.
  * The checkpoint function helps us differentiate between subsequent
@@ -58,10 +59,11 @@ export const test = Ptest.extend<ExtendParams>({
       );
 
       // Appending the checkpoint index to the request headers
-      process.env.RECORD_FIXTURES !== "true" &&
-        (await page.setExtraHTTPHeaders({
+      if (process.env.RECORD_FIXTURES === "true") {
+        await page.setExtraHTTPHeaders({
           "X-Playwright-Checkpoint": `${checkpointIndex}`,
-        }));
+        });
+      }
 
       // Appending the new checkpoint index to the request headers
       await use(async () => {
@@ -90,8 +92,11 @@ export const test = Ptest.extend<ExtendParams>({
   context: async ({ context }, use, testInfo) => {
     await use(context);
     await context.close();
+
     // Removing sensitive data from the HAR file after saving. Har files are saved on close.
-    process.env.RECORD_FIXTURES === "true" && (await removeSensitiveData(mockFile(testInfo)));
+    if (process.env.RECORD_FIXTURES === "true") {
+      await removeSensitiveData(mockFile(testInfo));
+    }
   },
 });
 
@@ -124,10 +129,10 @@ const urlsToReplace = [
 
 const removeSensitiveData = async (fileName: string) => {
   const data = JSON.parse(await readFile(fileName, "utf8"));
-  data["log"]["entries"].forEach((entry: any, index: number) => {
-    const val = urlsToReplace.find(({ url }) => entry["request"]["url"].includes(url));
+  data.log.entries.forEach((entry: any, index: number) => {
+    const val = urlsToReplace.find(({ url }) => entry?.request?.url.includes(url));
     if (val) {
-      data["log"]["entries"][index]["response"]["content"]["text"] = JSON.stringify(val.value);
+      data.log.entries[index].response.content.text = JSON.stringify(val.value);
     }
   });
 

@@ -46,13 +46,10 @@ interface Props extends RenderElementProps {
 const SlateVideo = ({ attributes, element, editor, children }: Props) => {
   const [hasError, setHasError] = useState(false);
 
-  const {
-    t,
-    i18n: { language },
-  } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const isSelected = useSelected();
-  const brightcoveQuery = useBrightcoveMeta(element.data?.videoid.split("&t=")[0]!, language);
+  const brightcoveQuery = useBrightcoveMeta(element.data?.videoid.split("&t=")[0]!, i18n.language);
 
   const removeVideo = useCallback(() => {
     ReactEditor.focus(editor);

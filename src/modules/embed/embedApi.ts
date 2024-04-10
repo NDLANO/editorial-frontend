@@ -48,6 +48,15 @@ export const fetchAudioMeta = async (resourceId: string, language: string): Prom
   };
 };
 
+export const fetchBrightcoveMeta = async (videoId: string, language: string) => {
+  const [sources, brightcoveData] = await Promise.all([fetchBrightcoveSources(videoId), fetchBrightcoveVideo(videoId)]);
+  return {
+    ...brightcoveData,
+    copyright: getBrightcoveCopyright(brightcoveData.custom_fields, language),
+    sources,
+  };
+};
+
 const fetchVisualImageMeta = async (embed: ImageEmbedData, language: string): Promise<ImageMetaData> => {
   try {
     const res = await fetchImage(embed.resourceId, language);

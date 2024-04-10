@@ -26,6 +26,7 @@ export const isSlateEmbed = (
     (node.type === TYPE_EMBED_ERROR ||
       node.type === TYPE_EMBED_IMAGE ||
       node.type === TYPE_AUDIO ||
+      node.type === TYPE_H5P ||
       node.type === TYPE_EMBED_BRIGHTCOVE)
   );
 };

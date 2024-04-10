@@ -23,13 +23,14 @@ import {
 } from "@ndla/types-embed";
 import {
   fetchAudioMeta,
+  fetchBrightcoveMeta,
   fetchConceptListMeta,
   fetchConceptVisualElement,
   fetchExternal,
   fetchH5pMeta,
 } from "./embedApi";
 import { AUDIO_EMBED } from "../../queryKeys";
-import { fetchBrightcoveMetadata } from "../video/brightcoveApi";
+import {} from "../video/brightcoveApi";
 
 export const useBrightcoveMeta = (
   resourceId: string,
@@ -38,7 +39,7 @@ export const useBrightcoveMeta = (
 ) => {
   return useQuery<BrightcoveData>({
     queryKey: ["brightcoveMeta", resourceId],
-    queryFn: () => fetchBrightcoveMetadata(resourceId, language),
+    queryFn: () => fetchBrightcoveMeta(resourceId, language),
     ...options,
   });
 };

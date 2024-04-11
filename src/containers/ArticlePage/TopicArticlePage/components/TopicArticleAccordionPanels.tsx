@@ -15,7 +15,7 @@ import TopicArticleTaxonomy from "./TopicArticleTaxonomy";
 import FormAccordion from "../../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../../components/Accordion/FormAccordions";
 import config from "../../../../config";
-import { TAXONOMY_WRITE_SCOPE } from "../../../../constants";
+import { PUBLISHED, TAXONOMY_WRITE_SCOPE } from "../../../../constants";
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from "../../../FormikForm";
 import { TopicArticleFormType } from "../../../FormikForm/articleFormHooks";
 import GrepCodesField from "../../../FormikForm/GrepCodesField";
@@ -43,25 +43,37 @@ const TopicArticleAccordionPanels = ({
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const formikContext = useFormikContext<TopicArticleFormType>();
-  const contentTitleFields = useMemo<(keyof IArticle)[]>(
-    () => ["title", "introduction", "content", "visualElement"],
-    [],
+  const lastPublishedVersion = articleHistory?.find((a) => a.status.current === PUBLISHED);
+
+  const contentTitleCompareData = useMemo(
+    () => [
+      { current: article?.title?.title, published: lastPublishedVersion?.title?.title, isHtml: true },
+      { current: article?.content?.content, published: lastPublishedVersion?.content?.content, isHtml: true },
+      {
+        current: article?.introduction?.introduction,
+        published: lastPublishedVersion?.introduction?.introduction,
+        isHtml: true,
+      },
+      {
+        current: article?.visualElement?.visualElement,
+        published: lastPublishedVersion?.visualElement?.visualElement,
+        isHtml: true,
+      },
+    ],
+    [article, lastPublishedVersion],
   );
-  const copyrightFields = useMemo<(keyof IArticle)[]>(() => ["copyright"], []);
+
+  const copyrightCompareData = useMemo(
+    () => [{ current: article?.copyright, published: lastPublishedVersion?.copyright, isHtml: false as const }],
+    [article?.copyright, lastPublishedVersion?.copyright],
+  );
 
   const { values, errors } = formikContext;
   return (
     <FormAccordions defaultOpen={["topic-article-content"]}>
       <FormAccordion
         id={"topic-article-content"}
-        title={
-          <PanelTitleWithChangeIndicator
-            title={t("form.contentSection")}
-            article={article}
-            articleHistory={articleHistory}
-            fieldsToIndicatedChangesFor={contentTitleFields}
-          />
-        }
+        title={<PanelTitleWithChangeIndicator title={t("form.contentSection")} compareData={contentTitleCompareData} />}
         className="u-10/12 u-push-1/12"
         hasError={!!(errors.title || errors.introduction || errors.content || errors.visualElement)}
       >
@@ -84,14 +96,7 @@ const TopicArticleAccordionPanels = ({
       )}
       <FormAccordion
         id={"topic-article-copyright"}
-        title={
-          <PanelTitleWithChangeIndicator
-            title={t("form.copyrightSection")}
-            article={article}
-            articleHistory={articleHistory}
-            fieldsToIndicatedChangesFor={copyrightFields}
-          />
-        }
+        title={<PanelTitleWithChangeIndicator title={t("form.copyrightSection")} compareData={copyrightCompareData} />}
         className={"u-6/6"}
         hasError={!!(errors.creators || errors.rightsholders || errors.processors || errors.license)}
       >

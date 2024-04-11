@@ -6,23 +6,34 @@
  *
  */
 
-import isEqual from "lodash/fp/isEqual";
+import isEqual from "lodash/isEqual";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { colors } from "@ndla/core";
-import { IArticle } from "@ndla/types-backend/draft-api";
 import { Text } from "@ndla/typography";
-import { PUBLISHED } from "../../../constants";
+import { removeCommentTags } from "../../../util/compareHTMLHelpers";
 
-const contentPanelChanges = (
-  current: IArticle | undefined,
-  lastPublished: IArticle | undefined,
-  fields: (keyof IArticle)[],
-): boolean => {
-  if (current === undefined || lastPublished === undefined) return false;
-  for (const field of fields) {
-    if (!isEqual(current[field], lastPublished[field])) return true;
+interface HtmlCompareObject {
+  current: string | undefined;
+  published: string | undefined;
+  isHtml: true;
+}
+interface CompareObject {
+  current: any;
+  published: any;
+  isHtml: false;
+}
+
+const contentPanelChanges = (compareData: (HtmlCompareObject | CompareObject)[]): boolean => {
+  for (const compareObject of compareData) {
+    if (compareObject.isHtml) {
+      const currentWithoutComments = compareObject.current ? removeCommentTags(compareObject.current) : "";
+      const publishedWithoutComments = compareObject.published ? removeCommentTags(compareObject.published) : "";
+      if (!isEqual(currentWithoutComments, publishedWithoutComments)) return true;
+    } else {
+      if (!isEqual(compareObject.current, compareObject.published)) return true;
+    }
   }
   return false;
 };
@@ -33,22 +44,12 @@ const StyledText = styled(Text)`
 
 interface PanelTitleProps {
   title: string;
-  article: IArticle | undefined;
-  articleHistory: IArticle[] | undefined;
-  fieldsToIndicatedChangesFor: (keyof IArticle)[];
+  compareData: (HtmlCompareObject | CompareObject)[];
 }
 
-const PanelTitleWithChangeIndicator = ({
-  title,
-  fieldsToIndicatedChangesFor,
-  article,
-  articleHistory,
-}: PanelTitleProps) => {
+const PanelTitleWithChangeIndicator = ({ title, compareData }: PanelTitleProps) => {
   const { t } = useTranslation();
-  const hasChanges = useMemo(() => {
-    const lastPublishedVersion = articleHistory?.find((a) => a.status.current === PUBLISHED);
-    return contentPanelChanges(article, lastPublishedVersion, fieldsToIndicatedChangesFor);
-  }, [article, articleHistory, fieldsToIndicatedChangesFor]);
+  const hasChanges = useMemo(() => contentPanelChanges(compareData), [compareData]);
 
   if (hasChanges) {
     return (

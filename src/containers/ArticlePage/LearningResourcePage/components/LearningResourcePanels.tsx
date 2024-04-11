@@ -17,7 +17,7 @@ import FormAccordion from "../../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../../components/Accordion/FormAccordions";
 import { IsNewArticleLanguageProvider } from "../../../../components/SlateEditor/IsNewArticleLanguageProvider";
 import config from "../../../../config";
-import { TAXONOMY_WRITE_SCOPE } from "../../../../constants";
+import { PUBLISHED, TAXONOMY_WRITE_SCOPE } from "../../../../constants";
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from "../../../FormikForm";
 import { HandleSubmitFunc, LearningResourceFormType } from "../../../FormikForm/articleFormHooks";
 import GrepCodesField from "../../../FormikForm/GrepCodesField";
@@ -50,21 +50,30 @@ const LearningResourcePanels = ({
   const { errors } = useFormikContext<LearningResourceFormType>();
   const defaultOpen = useMemo(() => ["learning-resource-content"], []);
 
-  const contentTitleFields = useMemo<(keyof IArticle)[]>(() => ["title", "introduction", "content"], []);
-  const copyrightFields = useMemo<(keyof IArticle)[]>(() => ["copyright"], []);
+  const lastPublishedVersion = articleHistory?.find((a) => a.status.current === PUBLISHED);
+
+  const contentTitleCompareData = useMemo(
+    () => [
+      { current: article?.title?.title, published: lastPublishedVersion?.title?.title, isHtml: true },
+      { current: article?.content?.content, published: lastPublishedVersion?.content?.content, isHtml: true },
+      {
+        current: article?.introduction?.introduction,
+        published: lastPublishedVersion?.introduction?.introduction,
+        isHtml: true,
+      },
+    ],
+    [article, lastPublishedVersion],
+  );
+  const copyrightCompareData = useMemo(
+    () => [{ current: article?.copyright, published: lastPublishedVersion?.copyright, isHtml: false as const }],
+    [article?.copyright, lastPublishedVersion?.copyright],
+  );
 
   return (
     <FormAccordions defaultOpen={defaultOpen}>
       <FormAccordion
         id={"learning-resource-content"}
-        title={
-          <PanelTitleWithChangeIndicator
-            title={t("form.contentSection")}
-            article={article}
-            articleHistory={articleHistory}
-            fieldsToIndicatedChangesFor={contentTitleFields}
-          />
-        }
+        title={<PanelTitleWithChangeIndicator title={t("form.contentSection")} compareData={contentTitleCompareData} />}
         className="u-10/12 u-push-1/12"
         hasError={!!(errors.title || errors.introduction || errors.content)}
       >
@@ -93,14 +102,7 @@ const LearningResourcePanels = ({
       )}
       <FormAccordion
         id={"learning-resource-copyright"}
-        title={
-          <PanelTitleWithChangeIndicator
-            title={t("form.copyrightSection")}
-            article={article}
-            articleHistory={articleHistory}
-            fieldsToIndicatedChangesFor={copyrightFields}
-          />
-        }
+        title={<PanelTitleWithChangeIndicator title={t("form.copyrightSection")} compareData={copyrightCompareData} />}
         className={"u-6/6"}
         hasError={!!(errors.creators || errors.rightsholders || errors.processors || errors.license)}
       >

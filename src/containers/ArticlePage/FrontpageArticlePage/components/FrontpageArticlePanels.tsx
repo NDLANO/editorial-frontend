@@ -14,6 +14,7 @@ import FrontpageArticleFormContent from "./FrontpageArticleFormContent";
 import FormAccordion from "../../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../../components/Accordion/FormAccordions";
 import { useWideArticle } from "../../../../components/WideArticleEditorProvider";
+import { PUBLISHED } from "../../../../constants";
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from "../../../FormikForm";
 import { FrontpageArticleFormType } from "../../../FormikForm/articleFormHooks";
 import PanelTitleWithChangeIndicator from "../../components/PanelTitleWithChangeIndicator";
@@ -30,8 +31,23 @@ const FrontpageArticlePanels = ({ article, articleHistory, articleLanguage }: Pr
   const { errors } = useFormikContext<FrontpageArticleFormType>();
   const { isWideArticle } = useWideArticle();
 
-  const contentTitleFields = useMemo<(keyof IArticle)[]>(() => ["title", "introduction", "content"], []);
-  const copyrightFields = useMemo<(keyof IArticle)[]>(() => ["copyright"], []);
+  const lastPublishedVersion = articleHistory?.find((a) => a.status.current === PUBLISHED);
+  const contentTitleCompareData = useMemo(
+    () => [
+      { current: article?.title?.title, published: lastPublishedVersion?.title?.title, isHtml: true },
+      { current: article?.content?.content, published: lastPublishedVersion?.content?.content, isHtml: true },
+      {
+        current: article?.introduction?.introduction,
+        published: lastPublishedVersion?.introduction?.introduction,
+        isHtml: true,
+      },
+    ],
+    [article, lastPublishedVersion],
+  );
+  const copyrightCompareData = useMemo(
+    () => [{ current: article?.copyright, published: lastPublishedVersion?.copyright, isHtml: false as const }],
+    [article?.copyright, lastPublishedVersion?.copyright],
+  );
 
   return (
     <FormAccordions
@@ -41,14 +57,7 @@ const FrontpageArticlePanels = ({ article, articleHistory, articleLanguage }: Pr
     >
       <FormAccordion
         id={"frontpage-article-content"}
-        title={
-          <PanelTitleWithChangeIndicator
-            title={t("form.contentSection")}
-            article={article}
-            articleHistory={articleHistory}
-            fieldsToIndicatedChangesFor={contentTitleFields}
-          />
-        }
+        title={<PanelTitleWithChangeIndicator title={t("form.contentSection")} compareData={contentTitleCompareData} />}
         className="u-10/12 u-push-1/12"
         hasError={!!(errors.title || errors.introduction || errors.content)}
         wide={isWideArticle}
@@ -58,14 +67,7 @@ const FrontpageArticlePanels = ({ article, articleHistory, articleLanguage }: Pr
       </FormAccordion>
       <FormAccordion
         id={"frontpage-article-copyright"}
-        title={
-          <PanelTitleWithChangeIndicator
-            title={t("form.copyrightSection")}
-            article={article}
-            articleHistory={articleHistory}
-            fieldsToIndicatedChangesFor={copyrightFields}
-          />
-        }
+        title={<PanelTitleWithChangeIndicator title={t("form.copyrightSection")} compareData={copyrightCompareData} />}
         className={"u-6/6"}
         hasError={!!(errors.creators || errors.rightsholders || errors.processors || errors.license)}
       >

@@ -26,6 +26,7 @@ import HeaderSupportedLanguages from "./HeaderSupportedLanguages";
 import TranslateNbToNn from "./TranslateNbToNn";
 import { createEditUrl, toMapping, translatableTypes } from "./util";
 import { PUBLISHED } from "../../constants";
+import { removeCommentTags } from "../../util/compareHTMLHelpers";
 import { toCompareLanguage } from "../../util/routeHelpers";
 import { useIsTranslatableToNN } from "../NynorskTranslateProvider";
 import PreviewDraftLightboxV2 from "../PreviewDraft/PreviewDraftLightboxV2";
@@ -87,6 +88,11 @@ const PreviewLightBox = memo(({ type, currentLanguage, article, concept }: Previ
   } else return null;
 });
 
+const hasContentChanged = (current: string | undefined, published: string | undefined): boolean => {
+  const currentContent = current ? removeCommentTags(current) : "";
+  const lastPublishedContent = published ? removeCommentTags(published) : "";
+  return currentContent !== lastPublishedContent;
+};
 interface Props {
   id: number;
   isNewLanguage: boolean;
@@ -129,11 +135,19 @@ const HeaderActions = ({
   );
   const isIdenticalToPublished = useMemo(() => {
     if (lastPublishedVersion) {
-      return (
-        lastPublishedVersion.content?.content === article?.content?.content &&
-        lastPublishedVersion.title?.htmlTitle === article?.title?.htmlTitle &&
-        lastPublishedVersion.introduction?.htmlIntroduction === article?.introduction?.htmlIntroduction
+      const contentChanged = hasContentChanged(article?.content?.content, lastPublishedVersion.content?.content);
+      if (contentChanged) return false;
+
+      const titleChanged = hasContentChanged(article?.title?.title, lastPublishedVersion.title?.title);
+      if (titleChanged) return false;
+
+      const introductionChanged = hasContentChanged(
+        article?.introduction?.introduction,
+        lastPublishedVersion.introduction?.introduction,
       );
+      if (introductionChanged) return false;
+
+      return true;
     }
     return false;
   }, [article, lastPublishedVersion]);

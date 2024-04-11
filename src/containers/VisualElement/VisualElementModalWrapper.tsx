@@ -9,7 +9,7 @@
 import { ReactElement, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ModalHeader, ModalBody, ModalCloseButton, Modal, ModalContent, ModalTitle } from "@ndla/modal";
+import { ModalHeader, ModalBody, ModalCloseButton, Modal, ModalContent } from "@ndla/modal";
 
 interface Props {
   resource: string;
@@ -63,7 +63,6 @@ const VisualElementModalWrapper = ({ resource, children, onClose, isOpen, label 
     <Modal open={isOpen} onOpenChange={onOpenChange}>
       <StyledVisualElementModalContent aria-label={label} size="large">
         <ModalHeader>
-          {resource === "video" && <ModalTitle>{t(`form.visualElement.video`)}</ModalTitle>}
           <ModalCloseButton />
         </ModalHeader>
         <ModalBody>{children}</ModalBody>

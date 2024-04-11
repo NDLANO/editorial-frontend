@@ -52,9 +52,6 @@ const StyledVideo = styled.iframe`
   aspect-ratio: 16/9;
 `;
 
-const Wrapper = styled.div`
-  padding: 0 24px 48px;
-`;
 export interface FormValues {
   alttext: string;
   caption: Descendant[];

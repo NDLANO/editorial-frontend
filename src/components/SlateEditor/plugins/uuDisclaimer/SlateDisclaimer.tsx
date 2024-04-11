@@ -66,9 +66,9 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
           ...prevState,
           data: {
             disclaimerLink: { text: response.title.title, href: `/article/${response.id}` },
-            embedData: element.data,
-            resource: element.data.resource,
           },
+          embedData: element.data,
+          resource: element.data.resource,
         }));
       } else {
         setEmbed((prevState) => ({

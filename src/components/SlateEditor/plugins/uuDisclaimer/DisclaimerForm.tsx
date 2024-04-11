@@ -106,12 +106,9 @@ const DisclaimerForm = ({ initialData, onOpenChange, onSave }: DisclaimerFormPro
 
   useEffect(() => {
     const initSelectedArticle = async () => {
-      if (initialValues.articleId) {
-        const response = await getArticle(Number(initialValues.articleId));
-        setSelectedArticle(response);
-      } else {
-        setSelectedArticle(undefined);
-      }
+      let response: IArticleV2 | undefined = undefined;
+      initialValues.articleId && (response = await getArticle(Number(initialValues.articleId)));
+      setSelectedArticle(response ?? undefined);
     };
     initSelectedArticle();
   }, [initialValues.articleId]);

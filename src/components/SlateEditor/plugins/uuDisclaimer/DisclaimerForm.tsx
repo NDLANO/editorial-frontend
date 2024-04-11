@@ -22,6 +22,7 @@ import { UuDisclaimerEmbedData } from "@ndla/types-embed";
 import { Text } from "@ndla/typography";
 import { getArticle, searchArticles } from "../../../../modules/article/articleApi";
 import { plainTextToEditorValue, editorValueToPlainText } from "../../../../util/articleContentConverter";
+import { toEditFrontPageArticle, toEditLearningResource, toEditTopicArticle } from "../../../../util/routeHelpers";
 import AsyncDropdown from "../../../Dropdown/asyncDropdown/AsyncDropdown";
 import { FormControl, FormField } from "../../../FormField";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
@@ -98,7 +99,7 @@ const toInitialValues = (data?: UuDisclaimerEmbedData): DisclaimerFormValues => 
 };
 
 const DisclaimerForm = ({ initialData, onOpenChange, onSave }: DisclaimerFormProps) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const initialValues = useMemo(() => toInitialValues(initialData), [initialData]);
   const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
   const [windowHeight, setWindowHeight] = useState<number>(window.innerHeight);
@@ -119,6 +120,13 @@ const DisclaimerForm = ({ initialData, onOpenChange, onSave }: DisclaimerFormPro
       page,
     });
   };
+
+  const pathingFunction =
+    selectedArticle?.articleType === "frontpage-article"
+      ? toEditFrontPageArticle
+      : selectedArticle?.articleType === "topic-article"
+        ? toEditTopicArticle
+        : toEditLearningResource;
 
   const handleSubmit = useCallback(
     (values: FormikValues) => {
@@ -189,7 +197,9 @@ const DisclaimerForm = ({ initialData, onOpenChange, onSave }: DisclaimerFormPro
                     />
                     {selectedArticle && (
                       <SelectedArticle>
-                        <SafeLink to={""}>{selectedArticle.title.title}</SafeLink>
+                        <SafeLink to={pathingFunction(selectedArticle.id, i18n.language)} target="_blank">
+                          {selectedArticle.title.title}
+                        </SafeLink>
                         <IconButtonV2
                           aria-label={t("form.disclaimer.removeArticle")}
                           variant="ghost"

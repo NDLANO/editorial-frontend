@@ -170,43 +170,44 @@ const DisclaimerForm = ({ initialData, onOpenChange, onSave }: DisclaimerFormPro
               )}
             </StyledFormField>
             <StyledFormField name="articleId">
-              {({ field }) => (
-                <FormControl>
-                  <Label textStyle="label-small">{t("form.disclaimer.articleId")}</Label>
-                  <AsyncDropdown
-                    clearInputField
-                    idField="id"
-                    labelField="title"
-                    placeholder={t("form.content.relatedArticle.placeholder")}
-                    apiAction={searchForArticles}
-                    onClick={(e) => e.stopPropagation()}
-                    onChange={(selected) => {
-                      field.onChange({ target: { value: selected.id.toString(), name: field.name } });
-                      setSelectedArticle(selected);
-                    }}
-                    showPagination
-                    menuHeight={windowHeight * 0.3}
-                  />
-                  {selectedArticle && (
-                    <SelectedArticle>
-                      <SafeLink to={""}>{selectedArticle.title.title}</SafeLink>
-                      <IconButtonV2
-                        aria-label={t("form.disclaimer.removeArticle")}
-                        variant="ghost"
-                        title={t("form.disclaimer.removeArticle")}
-                        colorTheme="danger"
-                        data-testid="disclaimerArticleDeleteButton"
-                        onClick={() => {
-                          field.onChange({ target: { value: "", name: field.name } });
-                          setSelectedArticle(undefined);
-                        }}
-                      >
-                        <DeleteForever />
-                      </IconButtonV2>
-                    </SelectedArticle>
-                  )}
-                </FormControl>
-              )}
+              {({ field }) => {
+                const handleChange = (selected: IArticleSummaryV2 | undefined) => {
+                  field.onChange({ target: { value: selected?.id.toString() ?? "", name: field.name } });
+                  setSelectedArticle(selected);
+                };
+
+                return (
+                  <FormControl>
+                    <Label textStyle="label-small">{t("form.disclaimer.articleId")}</Label>
+                    <AsyncDropdown
+                      clearInputField
+                      idField="id"
+                      labelField="title"
+                      placeholder={t("form.content.relatedArticle.placeholder")}
+                      apiAction={searchForArticles}
+                      onClick={(e) => e.stopPropagation()}
+                      onChange={handleChange}
+                      showPagination
+                      menuHeight={windowHeight * 0.3}
+                    />
+                    {selectedArticle && (
+                      <SelectedArticle>
+                        <SafeLink to={""}>{selectedArticle.title.title}</SafeLink>
+                        <IconButtonV2
+                          aria-label={t("form.disclaimer.removeArticle")}
+                          variant="ghost"
+                          title={t("form.disclaimer.removeArticle")}
+                          colorTheme="danger"
+                          data-testid="disclaimerArticleDeleteButton"
+                          onClick={() => handleChange(undefined)}
+                        >
+                          <DeleteForever />
+                        </IconButtonV2>
+                      </SelectedArticle>
+                    )}
+                  </FormControl>
+                );
+              }}
             </StyledFormField>
             <DisclaimerActions>
               <ButtonV2 onClick={() => onOpenChange(false)} variant="outline">

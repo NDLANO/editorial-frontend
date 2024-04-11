@@ -15,6 +15,7 @@ import { IconButtonV2 } from "@ndla/button";
 import { colors, spacing } from "@ndla/core";
 import { Pencil } from "@ndla/icons/action";
 import { Modal, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
+import { IArticleV2 } from "@ndla/types-backend/article-api";
 import { UuDisclaimerEmbedData, UuDisclaimerMetaData } from "@ndla/types-embed";
 import { UuDisclaimerEmbed } from "@ndla/ui";
 import DisclaimerForm from "./DisclaimerForm";
@@ -59,25 +60,15 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
 
   useEffect(() => {
     const initDisclaimerLink = async () => {
-      if (element.data.articleId) {
-        const response = await getArticle(Number(element.data.articleId));
+      let response: IArticleV2 | undefined = undefined;
+      element.data.articleId && (response = await getArticle(Number(element.data.articleId)));
 
-        setEmbed((prevState) => ({
-          ...prevState,
-          data: {
-            disclaimerLink: { text: response.title.title, href: `/article/${response.id}` },
-          },
-          embedData: element.data,
-          resource: element.data.resource,
-        }));
-      } else {
-        setEmbed((prevState) => ({
-          ...prevState,
-          data: {},
-          embedData: element.data,
-          resource: element.data.resource,
-        }));
-      }
+      setEmbed((prevState) => ({
+        ...prevState,
+        data: response ? { disclaimerLink: { text: response.title.title, href: `/article/${response.id}` } } : {},
+        embedData: element.data,
+        resource: element.data.resource,
+      }));
     };
     initDisclaimerLink();
   }, [element.data]);

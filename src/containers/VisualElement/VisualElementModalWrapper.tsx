@@ -5,9 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import { ReactElement, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ModalHeader, ModalBody, ModalCloseButton, Modal, ModalContent } from "@ndla/modal";
+import { ModalHeader, ModalBody, ModalCloseButton, Modal, ModalContent, ModalTitle } from "@ndla/modal";
 
 interface Props {
   resource: string;
@@ -37,6 +39,7 @@ const StyledModalBody = styled.div`
 `;
 
 const VisualElementModalWrapper = ({ resource, children, onClose, isOpen, label }: Props) => {
+  const { t } = useTranslation();
   const onOpenChange = useCallback(
     (open: boolean) => {
       if (!open) {
@@ -60,6 +63,7 @@ const VisualElementModalWrapper = ({ resource, children, onClose, isOpen, label 
     <Modal open={isOpen} onOpenChange={onOpenChange}>
       <StyledVisualElementModalContent aria-label={label} size="large">
         <ModalHeader>
+          {resource === "video" && <ModalTitle>{t(`form.visualElement.video`)}</ModalTitle>}
           <ModalCloseButton />
         </ModalHeader>
         <ModalBody>{children}</ModalBody>

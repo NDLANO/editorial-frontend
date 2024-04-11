@@ -52,6 +52,9 @@ const StyledVideo = styled.iframe`
   aspect-ratio: 16/9;
 `;
 
+const Wrapper = styled.div`
+  padding: 0 24px 48px;
+`;
 export interface FormValues {
   alttext: string;
   caption: Descendant[];
@@ -100,16 +103,16 @@ const EditVideo = ({ onSave, setHasError, embed, onClose }: Props) => {
         <VideoWrapper>
           <StyledVideo title={`Video: ${embed?.title}`} src={activeSrc(embed)} allowFullScreen />
         </VideoWrapper>
+        <Formik
+          initialValues={initialValues}
+          validate={(values) => validateFormik(values, brightcoveEmbedFormRules, t)}
+          validateOnBlur={false}
+          validateOnMount
+          onSubmit={onSave}
+        >
+          {(field) => <VideoEmbedForm {...field} setHasError={setHasError} close={onClose} />}
+        </Formik>
       </ModalBody>
-      <Formik
-        initialValues={initialValues}
-        validate={(values) => validateFormik(values, brightcoveEmbedFormRules, t)}
-        validateOnBlur={false}
-        validateOnMount
-        onSubmit={onSave}
-      >
-        {(field) => <VideoEmbedForm {...field} setHasError={setHasError} close={onClose} />}
-      </Formik>
     </>
   );
 };

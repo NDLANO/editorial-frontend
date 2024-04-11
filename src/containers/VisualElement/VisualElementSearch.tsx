@@ -6,7 +6,6 @@
  *
  */
 
-import { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
 import { AudioSearch } from "@ndla/audio-search";
 import { IAudioSummary, ISearchParams } from "@ndla/types-backend/audio-api";
@@ -22,10 +21,6 @@ import { fetchImage, postSearchImages } from "../../modules/image/imageApi";
 import { searchVideos, VideoSearchQuery } from "../../modules/video/brightcoveApi";
 import { convertFieldWithFallback } from "../../util/convertFieldWithFallback";
 import { NdlaErrorPayload, onError } from "../../util/resolveJsonOrRejectWithError";
-
-const titles = (t: TFunction, resource: string) => ({
-  [resource]: t(`form.visualElement.${resource.toLowerCase()}`),
-});
 
 interface Props {
   selectedResource: string;
@@ -105,7 +100,6 @@ const VisualElementSearch = ({
 
       return (
         <>
-          <h2>{titles(t, selectedResource)[selectedResource]}</h2>
           <VideoSearch
             searchVideos={(query: VideoSearchQuery) => searchVideos(query)}
             locale={locale}

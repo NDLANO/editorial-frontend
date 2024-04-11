@@ -29,8 +29,7 @@ import {
   fetchExternal,
   fetchH5pMeta,
 } from "./embedApi";
-import { AUDIO_EMBED } from "../../queryKeys";
-import {} from "../video/brightcoveApi";
+import { AUDIO_EMBED, BRIGHTCOVE_EMBED } from "../../queryKeys";
 
 export const useBrightcoveMeta = (
   resourceId: string,
@@ -38,7 +37,7 @@ export const useBrightcoveMeta = (
   options?: Partial<UseQueryOptions<BrightcoveData>>,
 ) => {
   return useQuery<BrightcoveData>({
-    queryKey: ["brightcoveMeta", resourceId],
+    queryKey: [BRIGHTCOVE_EMBED, resourceId],
     queryFn: () => fetchBrightcoveMeta(resourceId, language),
     ...options,
   });

@@ -108,17 +108,12 @@ const fetchVisualBrightcoveMeta = async (
 ): Promise<BrightcoveMetaData> => {
   try {
     const videoId = embedData.videoid.replace("&t=", "");
-    const [video, sources] = await Promise.all([fetchBrightcoveVideo(videoId), fetchBrightcoveSources(videoId)]);
-
+    const data = await fetchBrightcoveMeta(videoId, language);
     return {
       resource: "brightcove",
       status: "success",
       embedData,
-      data: {
-        ...video,
-        copyright: getBrightcoveCopyright(video.custom_fields, language),
-        sources,
-      },
+      data,
     };
   } catch (e) {
     return {

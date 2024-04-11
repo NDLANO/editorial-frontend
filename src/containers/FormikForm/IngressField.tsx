@@ -13,6 +13,8 @@ import { SlatePlugin } from "../../components/SlateEditor/interfaces";
 
 import { breakPlugin } from "../../components/SlateEditor/plugins/break";
 import { breakRenderer } from "../../components/SlateEditor/plugins/break/render";
+import { commentInlinePlugin } from "../../components/SlateEditor/plugins/comment/inline";
+import { commentInlineRenderer } from "../../components/SlateEditor/plugins/comment/inline/render";
 import { markPlugin } from "../../components/SlateEditor/plugins/mark";
 import { markRenderer } from "../../components/SlateEditor/plugins/mark/render";
 import { noopPlugin } from "../../components/SlateEditor/plugins/noop";
@@ -48,7 +50,10 @@ const toolbarOptions = createToolbarDefaultValues({
   },
   block: { hidden: true },
   inline: {
-    hidden: true,
+    "content-link": { hidden: true },
+    mathml: { hidden: true },
+    "concept-inline": { hidden: true },
+    "gloss-inline": { hidden: true },
   },
 });
 
@@ -63,9 +68,17 @@ const ingressPlugins: SlatePlugin[] = [
   saveHotkeyPlugin,
   markPlugin,
   noopPlugin,
+  commentInlinePlugin,
 ];
 
-const ingressRenderers: SlatePlugin[] = [noopRenderer, paragraphRenderer, markRenderer, breakRenderer, spanRenderer];
+const ingressRenderers: SlatePlugin[] = [
+  noopRenderer,
+  paragraphRenderer,
+  markRenderer,
+  breakRenderer,
+  spanRenderer,
+  commentInlineRenderer,
+];
 
 const plugins = ingressPlugins.concat(ingressRenderers);
 

@@ -20,6 +20,7 @@ import { UuDisclaimerEmbedData, UuDisclaimerMetaData } from "@ndla/types-embed";
 import { UuDisclaimerEmbed } from "@ndla/ui";
 import DisclaimerForm from "./DisclaimerForm";
 import { DisclaimerElement, TYPE_DISCLAIMER } from "./types";
+import config from "../../../../config";
 import { getArticle } from "../../../../modules/article/articleApi";
 import DeleteButton from "../../../DeleteButton";
 import MoveContentButton from "../../../MoveContentButton";
@@ -65,7 +66,14 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
 
       setEmbed((prevState) => ({
         ...prevState,
-        data: response ? { disclaimerLink: { text: response.title.title, href: `/article/${response.id}` } } : {},
+        data: response
+          ? {
+              disclaimerLink: {
+                text: response.title.title,
+                href: `${config.ndlaFrontendDomain}/article/${response.id}`,
+              },
+            }
+          : {},
         embedData: element.data,
         resource: element.data.resource,
       }));
@@ -122,7 +130,7 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
   );
 
   return (
-    <div data-testid="slate-disclaimer-block" {...attributes}>
+    <div data-testid="slate-disclaimer-block" {...attributes} contentEditable="false">
       <ButtonContainer>
         <DeleteButton aria-label={t("delete")} data-testid="delete-disclaimer" onClick={handleDelete} />
         <Modal open={modalOpen} onOpenChange={setModalOpen}>

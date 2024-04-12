@@ -50,10 +50,8 @@ const toolbarOptions = createToolbarDefaultValues({
   },
   block: { hidden: true },
   inline: {
-    "content-link": { hidden: true },
-    mathml: { hidden: true },
-    "concept-inline": { hidden: true },
-    "gloss-inline": { hidden: true },
+    hidden: true,
+    "comment-inline": { hidden: false },
   },
 });
 

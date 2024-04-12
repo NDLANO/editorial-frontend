@@ -120,12 +120,7 @@ export const defaultAreaOptions: AreaFilters = {
     block: { disabled: true },
   },
   heading: {
-    inline: {
-      "content-link": { hidden: true },
-      mathml: { hidden: true },
-      "concept-inline": { hidden: true },
-      "gloss-inline": { hidden: true },
-    },
+    inline: { hidden: true, "comment-inline": { hidden: false } },
   },
   "table-cell": {
     table: { hidden: false },

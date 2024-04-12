@@ -37,79 +37,74 @@ const SubjectView = ({ favoriteSubjects, userDataLoading, subjectIdObject, isLoa
   const { t } = useTranslation();
 
   const tabs = useMemo(() => {
-    if (!isLoading) {
-      return [
-        ...(subjectIdObject.subjectLMA.length
-          ? [
-              {
-                title: t("welcomePage.lmaSubjects"),
-                id: "lma-subject-view",
-                content: (
-                  <SubjectViewContent
-                    subjects={subjectIdObject.subjectLMA}
-                    isFavoriteTab={false}
-                    title={t("welcomePage.subjectView.lma")}
-                    description={t("welcomePage.subjectView.description")}
-                    localStoragePageSizeKey={STORED_PAGE_SIZE_SUBJECT_VIEW_LMA}
-                  />
-                ),
-              },
-            ]
-          : []),
-        ...(subjectIdObject.subjectDA.length
-          ? [
-              {
-                title: t("welcomePage.daSubjects"),
-                id: "da-subject-view",
-                content: (
-                  <SubjectViewContent
-                    subjects={subjectIdObject.subjectDA}
-                    isFavoriteTab={false}
-                    title={t("welcomePage.subjectView.da")}
-                    description={t("welcomePage.subjectView.description")}
-                    localStoragePageSizeKey={STORED_PAGE_SIZE_SUBJECT_VIEW_DA}
-                  />
-                ),
-              },
-            ]
-          : []),
-        ...(subjectIdObject.subjectSA.length
-          ? [
-              {
-                title: t("welcomePage.saSubjects"),
-                id: "sa-subject-view",
-                content: (
-                  <SubjectViewContent
-                    subjects={subjectIdObject.subjectSA}
-                    isFavoriteTab={false}
-                    title={t("welcomePage.subjectView.sa")}
-                    description={t("welcomePage.subjectView.description")}
-                    localStoragePageSizeKey={STORED_PAGE_SIZE_SUBJECT_VIEW_SA}
-                  />
-                ),
-              },
-            ]
-          : []),
-        ...(favoriteSubjects?.length
-          ? [
-              {
-                title: t("welcomePage.favoriteSubjects"),
-                id: "favorite-subject-view",
-                content: (
-                  <SubjectViewContent
-                    subjects={favoriteSubjects}
-                    isFavoriteTab={true}
-                    title={t("welcomePage.subjectView.favorites")}
-                    description={t("welcomePage.subjectView.description")}
-                    localStoragePageSizeKey={STORED_PAGE_SIZE_SUBJECT_VIEW_FAVORITES}
-                  />
-                ),
-              },
-            ]
-          : []),
-      ];
+    if (isLoading) return [];
+
+    const tabsList = [];
+
+    if (subjectIdObject.subjectLMA.length) {
+      tabsList.push({
+        title: t("welcomePage.lmaSubjects"),
+        id: "lma-subject-view",
+        content: (
+          <SubjectViewContent
+            subjects={subjectIdObject.subjectLMA}
+            isFavoriteTab={false}
+            title={t("welcomePage.subjectView.lma")}
+            description={t("welcomePage.subjectView.description")}
+            localStoragePageSizeKey={STORED_PAGE_SIZE_SUBJECT_VIEW_LMA}
+          />
+        ),
+      });
     }
-    return [];
+
+    if (subjectIdObject.subjectDA.length) {
+      tabsList.push({
+        title: t("welcomePage.daSubjects"),
+        id: "da-subject-view",
+        content: (
+          <SubjectViewContent
+            subjects={subjectIdObject.subjectDA}
+            isFavoriteTab={false}
+            title={t("welcomePage.subjectView.da")}
+            description={t("welcomePage.subjectView.description")}
+            localStoragePageSizeKey={STORED_PAGE_SIZE_SUBJECT_VIEW_DA}
+          />
+        ),
+      });
+    }
+
+    if (subjectIdObject.subjectSA.length) {
+      tabsList.push({
+        title: t("welcomePage.saSubjects"),
+        id: "sa-subject-view",
+        content: (
+          <SubjectViewContent
+            subjects={subjectIdObject.subjectSA}
+            isFavoriteTab={false}
+            title={t("welcomePage.subjectView.sa")}
+            description={t("welcomePage.subjectView.description")}
+            localStoragePageSizeKey={STORED_PAGE_SIZE_SUBJECT_VIEW_SA}
+          />
+        ),
+      });
+    }
+
+    if (favoriteSubjects?.length) {
+      tabsList.push({
+        title: t("welcomePage.favoriteSubjects"),
+        id: "favorite-subject-view",
+        content: (
+          <SubjectViewContent
+            subjects={favoriteSubjects}
+            isFavoriteTab={true}
+            title={t("welcomePage.subjectView.favorites")}
+            description={t("welcomePage.subjectView.description")}
+            localStoragePageSizeKey={STORED_PAGE_SIZE_SUBJECT_VIEW_FAVORITES}
+          />
+        ),
+      });
+    }
+    return tabsList;
   }, [
     favoriteSubjects,
     isLoading,
@@ -119,14 +114,12 @@ const SubjectView = ({ favoriteSubjects, userDataLoading, subjectIdObject, isLoa
     t,
   ]);
 
+  if (!tabs.length || userDataLoading) return null;
+
   return (
-    <>
-      {!!tabs.length && !userDataLoading && (
-        <StyledWrapper>
-          <Tabs variant="rounded" tabs={tabs} />
-        </StyledWrapper>
-      )}
-    </>
+    <StyledWrapper>
+      <Tabs variant="rounded" tabs={tabs} />
+    </StyledWrapper>
   );
 };
 export default SubjectView;

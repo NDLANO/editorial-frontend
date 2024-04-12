@@ -37,7 +37,7 @@ export const getCurrentPageData = <T,>(page: number, data: T[], pageSize: number
   // currentPageElements is data to be displayed at current page
   const startIndex = page > 1 ? (page - 1) * pageSize : 0;
   const currentPageElements = data.slice(startIndex, startIndex + pageSize);
-  return currentPageElements;
+  return currentPageElements ?? [];
 };
 
 const getSortedPaginationData = <T extends IConceptSummary | IArticleSummary>(

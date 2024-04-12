@@ -48,87 +48,83 @@ const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataLoading, subjectIdO
   const searchQuery = usePostSearchNodes({ ...customFieldsBody(ndlaId), taxonomyVersion });
 
   const tabs = useMemo(() => {
-    if (!searchQuery.isLoading) {
-      return [
-        ...(subjectIdObject.subjectLMA.length
-          ? [
-              {
-                title: t("welcomePage.lmaSubjects"),
-                id: "lma-subjects",
-                content: (
-                  <ArticleStatusContent
-                    ndlaId={ndlaId}
-                    subjectIds={subjectIdObject.subjectLMA.map((s) => s.id)}
-                    title={t("welcomePage.lmaSubjectsHeading")}
-                    description={t("welcomePage.lmaSubjectsDescription")}
-                    searchPageSubjectFilter={LMA_SUBJECT_ID}
-                    localStorageKey={STORED_FILTER_LMA_SUBJECT}
-                    onHoldLocalStorageKey={STORED_ON_HOLD_LMA_SUBJECT}
-                  />
-                ),
-              },
-            ]
-          : []),
-        ...(subjectIdObject.subjectDA.length
-          ? [
-              {
-                title: t("welcomePage.daSubjects"),
-                id: "desk-subjects",
-                content: (
-                  <ArticleStatusContent
-                    ndlaId={ndlaId}
-                    subjectIds={subjectIdObject.subjectDA.map((s) => s.id)}
-                    title={t("welcomePage.daSubjectsHeading")}
-                    description={t("welcomePage.daSubjectsDescription")}
-                    searchPageSubjectFilter={DA_SUBJECT_ID}
-                    localStorageKey={STORED_FILTER_DA_SUBJECT}
-                    onHoldLocalStorageKey={STORED_ON_HOLD_DA_SUBJECT}
-                  />
-                ),
-              },
-            ]
-          : []),
-        ...(subjectIdObject.subjectSA.length
-          ? [
-              {
-                title: t("welcomePage.saSubjects"),
-                id: "langauge-subjects",
-                content: (
-                  <ArticleStatusContent
-                    ndlaId={ndlaId}
-                    subjectIds={subjectIdObject.subjectSA.map((s) => s.id)}
-                    title={t("welcomePage.saSubjectsHeading")}
-                    description={t("welcomePage.saSubjectsDescription")}
-                    searchPageSubjectFilter={SA_SUBJECT_ID}
-                    localStorageKey={STORED_FILTER_SA_SUBJECT}
-                    onHoldLocalStorageKey={STORED_ON_HOLD_SA_SUBJECT}
-                  />
-                ),
-              },
-            ]
-          : []),
-        ...(favoriteSubjects?.length
-          ? [
-              {
-                title: t("welcomePage.favoriteSubjects"),
-                id: "favorite-subjects",
-                content: (
-                  <ArticleStatusContent
-                    ndlaId={ndlaId}
-                    subjectIds={favoriteSubjects}
-                    title={t("welcomePage.favoriteSubjectsHeading")}
-                    description={t("welcomePage.favoriteSubjectsDescription")}
-                    searchPageSubjectFilter={FAVOURITES_SUBJECT_ID}
-                    localStorageKey={STORED_FILTER_FAVORITES}
-                    onHoldLocalStorageKey={STORED_ON_HOLD_FAVORITES}
-                  />
-                ),
-              },
-            ]
-          : []),
-      ];
+    if (searchQuery.isLoading) return [];
+
+    const tabsList = [];
+
+    if (subjectIdObject.subjectLMA.length) {
+      tabsList.push({
+        title: t("welcomePage.lmaSubjects"),
+        id: "lma-subjects",
+        content: (
+          <ArticleStatusContent
+            ndlaId={ndlaId}
+            subjectIds={subjectIdObject.subjectLMA.map((s) => s.id)}
+            title={t("welcomePage.lmaSubjectsHeading")}
+            description={t("welcomePage.lmaSubjectsDescription")}
+            searchPageSubjectFilter={LMA_SUBJECT_ID}
+            localStorageKey={STORED_FILTER_LMA_SUBJECT}
+            onHoldLocalStorageKey={STORED_ON_HOLD_LMA_SUBJECT}
+          />
+        ),
+      });
     }
-    return [];
+
+    if (subjectIdObject.subjectDA.length) {
+      tabsList.push({
+        title: t("welcomePage.daSubjects"),
+        id: "desk-subjects",
+        content: (
+          <ArticleStatusContent
+            ndlaId={ndlaId}
+            subjectIds={subjectIdObject.subjectDA.map((s) => s.id)}
+            title={t("welcomePage.daSubjectsHeading")}
+            description={t("welcomePage.daSubjectsDescription")}
+            searchPageSubjectFilter={DA_SUBJECT_ID}
+            localStorageKey={STORED_FILTER_DA_SUBJECT}
+            onHoldLocalStorageKey={STORED_ON_HOLD_DA_SUBJECT}
+          />
+        ),
+      });
+    }
+
+    if (subjectIdObject.subjectSA.length) {
+      tabsList.push({
+        title: t("welcomePage.saSubjects"),
+        id: "langauge-subjects",
+        content: (
+          <ArticleStatusContent
+            ndlaId={ndlaId}
+            subjectIds={subjectIdObject.subjectSA.map((s) => s.id)}
+            title={t("welcomePage.saSubjectsHeading")}
+            description={t("welcomePage.saSubjectsDescription")}
+            searchPageSubjectFilter={SA_SUBJECT_ID}
+            localStorageKey={STORED_FILTER_SA_SUBJECT}
+            onHoldLocalStorageKey={STORED_ON_HOLD_SA_SUBJECT}
+          />
+        ),
+      });
+    }
+
+    if (favoriteSubjects?.length) {
+      tabsList.push({
+        title: t("welcomePage.favoriteSubjects"),
+        id: "favorite-subjects",
+        content: (
+          <ArticleStatusContent
+            ndlaId={ndlaId}
+            subjectIds={favoriteSubjects}
+            title={t("welcomePage.favoriteSubjectsHeading")}
+            description={t("welcomePage.favoriteSubjectsDescription")}
+            searchPageSubjectFilter={FAVOURITES_SUBJECT_ID}
+            localStorageKey={STORED_FILTER_FAVORITES}
+            onHoldLocalStorageKey={STORED_ON_HOLD_FAVORITES}
+          />
+        ),
+      });
+    }
+
+    return tabsList;
   }, [
     searchQuery.isLoading,
     subjectIdObject.subjectLMA,
@@ -139,14 +135,12 @@ const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataLoading, subjectIdO
     favoriteSubjects,
   ]);
 
+  if (!tabs.length || userDataLoading) return null;
+
   return (
-    <>
-      {!!tabs.length && !userDataLoading && (
-        <StyledWrapper>
-          <Tabs variant="rounded" tabs={tabs} />
-        </StyledWrapper>
-      )}
-    </>
+    <StyledWrapper>
+      <Tabs variant="rounded" tabs={tabs} />
+    </StyledWrapper>
   );
 };
 

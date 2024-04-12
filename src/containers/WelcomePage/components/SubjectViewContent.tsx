@@ -17,9 +17,10 @@ import PageSizeDropdown from "./worklist/PageSizeDropdown";
 import { SUBJECT_NODE } from "../../../modules/nodes/nodeApiTypes";
 import { useSearchNodes } from "../../../modules/nodes/nodeQueries";
 import { useSearchSubjectStats } from "../../../modules/search/searchQueries";
+import { toSearch } from "../../../util/routeHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
-import { useLocalStoragePageSizeState, useLocalStorageSortOptionState } from "../hooks/storedFilterHooks";
-import { ControlWrapperDashboard, StyledTopRowDashboardInfo, TopRowControls } from "../styles";
+import { useLocalStoragePageSizeState } from "../hooks/storedFilterHooks";
+import { ControlWrapperDashboard, StyledLink, StyledTopRowDashboardInfo, TopRowControls } from "../styles";
 import { SubjectData } from "../utils";
 
 const StyledTableHeader = styled.span`
@@ -145,27 +146,40 @@ const SubjectViewContent = ({
     },
   ];
 
-  const tableData: FieldElement[][] = useMemo(
-    () =>
-      data
-        ? data?.subjects.map((stats) => {
-            return [
-              {
-                id: `title_${stats.subjectId}`,
-                data: isFavoriteTab
-                  ? favoriteSubjects?.results.find((s) => s.id === stats.subjectId)?.name
-                  : subjects.find((s) => s.id === stats.subjectId)?.name,
-              },
-              { id: `favorites_${stats.subjectId}`, data: stats.favoritedCount },
-              { id: `flow_${stats.subjectId}`, data: stats.flowCount },
-              { id: `old_${stats.subjectId}`, data: stats.oldArticleCount },
-              { id: `revision_${stats.subjectId}`, data: stats.revisionCount },
-              { id: `publish_${stats.subjectId}`, data: stats.publishedArticleCount },
-            ];
-          })
-        : [[]],
-    [data, favoriteSubjects?.results, isFavoriteTab, subjects],
-  );
+  const tableData: FieldElement[][] = useMemo(() => {
+    if (!data) return [[]];
+    return data.subjects.map((stats) => {
+      const subjectName = isFavoriteTab
+        ? favoriteSubjects?.results.find((s) => s.id === stats.subjectId)?.name
+        : subjects.find((s) => s.id === stats.subjectId)?.name;
+      if (!subjectName) return [];
+      return [
+        {
+          id: `title_${stats.subjectId}`,
+          data: (
+            <StyledLink
+              to={toSearch(
+                {
+                  page: "1",
+                  sort: "-relevance",
+                  "page-size": 10,
+                  subjects: stats.subjectId,
+                },
+                "content",
+              )}
+            >
+              {subjectName}
+            </StyledLink>
+          ),
+        },
+        { id: `favorites_${stats.subjectId}`, data: stats.favoritedCount },
+        { id: `flow_${stats.subjectId}`, data: stats.flowCount },
+        { id: `old_${stats.subjectId}`, data: stats.oldArticleCount },
+        { id: `revision_${stats.subjectId}`, data: stats.revisionCount },
+        { id: `publish_${stats.subjectId}`, data: stats.publishedArticleCount },
+      ];
+    });
+  }, [data, favoriteSubjects?.results, isFavoriteTab, subjects]);
 
   const lastPage = subjectIds.length ? Math.ceil(subjectIds.length / Number(pageSize!.value)) : 1;
 
@@ -182,7 +196,7 @@ const SubjectViewContent = ({
       <TableComponent
         isLoading={isLoading}
         tableTitleList={tableTitles}
-        tableData={tableData}
+        tableData={tableData.filter((el) => el.length > 0)}
         error={error}
         minWidth="650px"
       />

@@ -34,7 +34,6 @@ const StyledPlainTextEditor = styled(PlainTextEditor)`
   min-height: ${spacing.xxlarge};
   outline: 1px solid transparent;
   border: 1px solid ${colors.brand.primary};
-  outline: 1px solid transparent;
   padding: ${spacing.xsmall};
   &:active,
   &:focus-visible {

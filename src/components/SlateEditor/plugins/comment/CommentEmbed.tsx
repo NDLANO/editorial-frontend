@@ -12,8 +12,9 @@ import { Root, Trigger, Content, Arrow, Portal } from "@radix-ui/react-popover";
 import { IconButtonV2 } from "@ndla/button";
 import { colors, spacing, stackOrder } from "@ndla/core";
 import { Cross, TrashCanOutline } from "@ndla/icons/action";
+import { Comment } from "@ndla/icons/common";
 import { CommentEmbedData, CommentMetaData } from "@ndla/types-embed";
-import { Heading } from "@ndla/typography";
+import { Text, Heading } from "@ndla/typography";
 import CommentForm from "./CommentForm";
 
 const CommentButton = styled.span`
@@ -67,17 +68,25 @@ const ContentWrapper = styled.div`
 
 const BlockComment = styled.div`
   background: ${colors.support.yellowLight};
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-height: 25px;
   cursor: pointer;
+  color: ${colors.brand.grey};
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  gap: ${spacing.xsmall};
+  padding: ${spacing.xxsmall} ${spacing.xsmall};
   &:focus,
   &:hover,
   &:active,
   &[data-open="true"] {
     background: ${colors.support.yellow};
   }
+`;
+
+const CommentText = styled(Text)`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 interface Props {
@@ -104,7 +113,12 @@ const CommentEmbed = ({ embed, onSave, children, onRemove, commentType }: Props)
             {children}
           </CommentButton>
         ) : (
-          <BlockComment contentEditable={false}>{embed?.embedData?.text ?? ""}</BlockComment>
+          <BlockComment contentEditable={false}>
+            <Comment />
+            <CommentText textStyle="button" margin="none">
+              {embed?.embedData?.text ?? ""}
+            </CommentText>
+          </BlockComment>
         )}
       </Trigger>
       <Portal>

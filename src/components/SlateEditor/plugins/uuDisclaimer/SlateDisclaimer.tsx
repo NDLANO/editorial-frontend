@@ -20,6 +20,7 @@ import { UuDisclaimerEmbedData, UuDisclaimerMetaData } from "@ndla/types-embed";
 import { UuDisclaimerEmbed } from "@ndla/ui";
 import DisclaimerForm from "./DisclaimerForm";
 import { DisclaimerElement, TYPE_DISCLAIMER } from "./types";
+import { toEditPage } from "./utils";
 import config from "../../../../config";
 import { getArticle } from "../../../../modules/article/articleApi";
 import DeleteButton from "../../../DeleteButton";
@@ -50,7 +51,7 @@ const StyledModalHeader = styled(ModalHeader)`
 `;
 
 const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [embed, setEmbed] = useState<UuDisclaimerMetaData>({
     status: "success",
@@ -70,7 +71,7 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
           ? {
               disclaimerLink: {
                 text: response.title.title,
-                href: `${config.ndlaFrontendDomain}/article/${response.id}`,
+                href: toEditPage(response.articleType, response.id, i18n.language),
               },
             }
           : {},
@@ -79,7 +80,7 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
       }));
     };
     initDisclaimerLink();
-  }, [element.data]);
+  }, [element.data, i18n.language]);
 
   const handleDelete = () => {
     const path = ReactEditor.findPath(editor, element);

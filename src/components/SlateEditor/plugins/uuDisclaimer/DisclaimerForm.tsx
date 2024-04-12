@@ -20,9 +20,9 @@ import { SafeLink } from "@ndla/safelink";
 import { IArticleSummaryV2, IArticleV2 } from "@ndla/types-backend/article-api";
 import { UuDisclaimerEmbedData } from "@ndla/types-embed";
 import { Text } from "@ndla/typography";
+import { toEditPage } from "./utils";
 import { getArticle, searchArticles } from "../../../../modules/article/articleApi";
 import { plainTextToEditorValue, editorValueToPlainText } from "../../../../util/articleContentConverter";
-import { toEditFrontPageArticle, toEditLearningResource, toEditTopicArticle } from "../../../../util/routeHelpers";
 import AsyncDropdown from "../../../Dropdown/asyncDropdown/AsyncDropdown";
 import { FormControl, FormField } from "../../../FormField";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
@@ -121,13 +121,6 @@ const DisclaimerForm = ({ initialData, onOpenChange, onSave }: DisclaimerFormPro
     });
   };
 
-  const pathingFunction =
-    selectedArticle?.articleType === "frontpage-article"
-      ? toEditFrontPageArticle
-      : selectedArticle?.articleType === "topic-article"
-        ? toEditTopicArticle
-        : toEditLearningResource;
-
   const handleSubmit = useCallback(
     (values: FormikValues) => {
       onSave({
@@ -197,7 +190,10 @@ const DisclaimerForm = ({ initialData, onOpenChange, onSave }: DisclaimerFormPro
                     />
                     {selectedArticle && (
                       <SelectedArticle>
-                        <SafeLink to={pathingFunction(selectedArticle.id, i18n.language)} target="_blank">
+                        <SafeLink
+                          to={toEditPage(selectedArticle.articleType, selectedArticle.id, i18n.language)}
+                          target="_blank"
+                        >
                           {selectedArticle.title.title}
                         </SafeLink>
                         <IconButtonV2

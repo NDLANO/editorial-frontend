@@ -1,4 +1,14 @@
-export const valueWithTwoImageEmbeds = {
+/**
+ * Copyright (c) 2017-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { Descendant } from "slate";
+
+export const valueWithTwoImageEmbeds: Descendant = {
   type: "section",
   children: [
     {
@@ -11,7 +21,7 @@ export const valueWithTwoImageEmbeds = {
         caption: "",
         url: "https://test.api.ndla.no/image-api/v3/images/3",
       },
-      type: "ndlaembed",
+      type: "image-embed",
       children: [
         {
           text: " ",
@@ -55,7 +65,7 @@ export const valueWithTwoImageEmbeds = {
           captions: [{ caption: "Guinness is good for you", language: "nb" }],
         },
       },
-      type: "ndlaembed",
+      type: "image-embed",
       children: [
         {
           text: " ",

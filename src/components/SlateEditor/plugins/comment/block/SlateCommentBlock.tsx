@@ -29,7 +29,8 @@ const SlateCommentBlock = ({ attributes, editor, element, children }: Props) => 
   const { t } = useTranslation();
   const [modalOpen, setModalOpen] = useState(element.isFirstEdit);
 
-  const embed: CommentMetaData = useMemo(() => {
+  const embed: CommentMetaData | undefined = useMemo(() => {
+    if (!element.data.text) return undefined;
     return {
       status: "success",
       embedData: element.data,
@@ -44,7 +45,7 @@ const SlateCommentBlock = ({ attributes, editor, element, children }: Props) => 
       const path = ReactEditor.findPath(editor, element);
       Transforms.setNodes(
         editor,
-        { data: values },
+        { data: values, isFirstEdit: false },
         {
           at: path,
           match: (node) => Element.isElement(node) && node.type === TYPE_COMMENT_BLOCK,
@@ -97,9 +98,11 @@ const SlateCommentBlock = ({ attributes, editor, element, children }: Props) => 
           />
         </ModalBody>
       </ModalContent>
-      <CommentEmbed embed={embed} onSave={addComment} onRemove={handleRemove} commentType="block">
-        {children}
-      </CommentEmbed>
+      {embed && (
+        <CommentEmbed embed={embed} onSave={addComment} onRemove={handleRemove} commentType="block">
+          {children}
+        </CommentEmbed>
+      )}
     </Modal>
   );
 };

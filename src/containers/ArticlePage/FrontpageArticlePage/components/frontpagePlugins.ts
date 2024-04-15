@@ -15,6 +15,7 @@ import { blogPostPlugin } from "../../../../components/SlateEditor/plugins/blogP
 import { breakPlugin } from "../../../../components/SlateEditor/plugins/break";
 import { campaignBlockPlugin } from "../../../../components/SlateEditor/plugins/campaignBlock";
 import { codeblockPlugin } from "../../../../components/SlateEditor/plugins/codeBlock";
+import { commentBlockPlugin } from "../../../../components/SlateEditor/plugins/comment/block";
 import { commentInlinePlugin } from "../../../../components/SlateEditor/plugins/comment/inline";
 import { blockConceptPlugin } from "../../../../components/SlateEditor/plugins/concept/block";
 import { inlineConceptPlugin } from "../../../../components/SlateEditor/plugins/concept/inline";
@@ -67,6 +68,7 @@ export const frontpagePlugins: SlatePlugin[] = [
   inlineConceptPlugin,
   blockConceptPlugin,
   commentInlinePlugin,
+  commentBlockPlugin,
   headingPlugin,
   asidePlugin,
   detailsPlugin,

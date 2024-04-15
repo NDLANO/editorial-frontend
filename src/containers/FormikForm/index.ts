@@ -7,7 +7,6 @@
  */
 import AddNotesField from "./AddNotesField";
 import AlertModalWrapper from "./AlertModalWrapper";
-import Checkbox from "./components/Checkbox";
 import ContributorsField from "./components/ContributorsField";
 import LicenseField from "./components/LicenseField";
 import CopyrightFieldGroup from "./CopyrightFieldGroup";
@@ -28,7 +27,6 @@ export {
   AddNotesField,
   LicenseField,
   MetaImageSearch,
-  Checkbox,
   ContributorsField,
   MetaDataField,
   LearningpathConnection,

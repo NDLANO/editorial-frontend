@@ -25,7 +25,8 @@ export const IMAGE = "image";
 
 export const AUDIO = "audio";
 
-export const AUDIO_EMBED = "audio";
+export const AUDIO_EMBED = "audioEmbed";
+export const BRIGHTCOVE_EMBED = "brightcoveEmbed";
 
 export const PODCAST_SERIES = "podcastSeries";
 

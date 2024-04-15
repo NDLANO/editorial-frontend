@@ -15,11 +15,12 @@ import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { FieldErrorMessage, InputV3, Label } from "@ndla/forms";
 import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle } from "@ndla/modal";
+import { BrightcoveEmbedData } from "@ndla/types-embed";
 import { Text } from "@ndla/typography";
-import { SlateVideoWrapper, StyledVideo } from "./SlateVideo";
+import { VideoWrapper } from "./SlateVideo";
+import config from "../../../../config";
 import { InlineField } from "../../../../containers/FormikForm/InlineField";
-import { BrightcoveEmbed } from "../../../../interfaces";
-import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
+import { inlineContentToEditorValue } from "../../../../util/articleContentConverter";
 import { isFormikFormDirty } from "../../../../util/formHelper";
 import { addBrightCoveTimeStampVideoid, getBrightCoveStartTime } from "../../../../util/videoUtil";
 import { FormControl, FormField } from "../../../FormField";
@@ -27,10 +28,9 @@ import validateFormik, { RulesType } from "../../../formikValidationSchema";
 import { RichTextIndicator } from "../../RichTextIndicator";
 
 interface Props {
-  embed: BrightcoveEmbed;
-  saveEmbedUpdates: (change: { [x: string]: string }) => void;
-  activeSrc: string;
-  close: () => void;
+  embed: BrightcoveEmbedData;
+  onSave: (values: FormValues) => void;
+  onClose: () => void;
   setHasError: (hasError: boolean) => void;
 }
 
@@ -47,20 +47,26 @@ const StyledForm = styled(Form)`
   gap: ${spacing.small};
 `;
 
-interface FormValues {
+const StyledVideo = styled.iframe`
+  width: 100%;
+  aspect-ratio: 16/9;
+`;
+
+export interface FormValues {
   alttext: string;
   caption: Descendant[];
-  videoid?: string;
+  videoid: string;
   startTime: string;
-  resource: BrightcoveEmbed["resource"];
+  resource: BrightcoveEmbedData["resource"];
 }
 
-export const toVideoEmbedFormValues = (embed: BrightcoveEmbed): FormValues => {
+export const toVideoEmbedFormValues = (embed: BrightcoveEmbedData): FormValues => {
   return {
     alttext: embed.alt ?? "",
     caption: inlineContentToEditorValue(embed.caption ?? "", true),
     startTime: getBrightCoveStartTime(embed.videoid),
     resource: embed.resource,
+    videoid: embed.videoid,
   };
 };
 
@@ -74,19 +80,15 @@ export const brightcoveEmbedFormRules: RulesType<FormValues> = {
   },
 };
 
-const EditVideo = ({ embed, saveEmbedUpdates, activeSrc, close, setHasError }: Props) => {
+const activeSrc = ({ account, videoid }: BrightcoveEmbedData) => {
+  const startTime = getBrightCoveStartTime(videoid);
+  const id = addBrightCoveTimeStampVideoid(videoid, startTime);
+  return `https://players.brightcove.net/${account}/${config.brightcoveEdPlayerId}_default/index.html?videoId=${id}`;
+};
+
+const EditVideo = ({ onSave, setHasError, embed, onClose }: Props) => {
   const { t } = useTranslation();
-
   const initialValues = useMemo(() => toVideoEmbedFormValues(embed), [embed]);
-
-  const handleSave = (values: FormValues) => {
-    saveEmbedUpdates({
-      alt: values.alttext,
-      caption: inlineContentToHTML(values.caption),
-      videoid: addBrightCoveTimeStampVideoid(embed.videoid, values.startTime),
-    });
-    close();
-  };
 
   return (
     <>
@@ -95,22 +97,17 @@ const EditVideo = ({ embed, saveEmbedUpdates, activeSrc, close, setHasError }: P
         <ModalCloseButton />
       </ModalHeader>
       <ModalBody>
-        <SlateVideoWrapper>
-          <StyledVideo
-            title={`Video: ${embed.metaData ? embed.metaData.name : ""}`}
-            frameBorder="0"
-            src={activeSrc}
-            allowFullScreen
-          />
-        </SlateVideoWrapper>
+        <VideoWrapper>
+          <StyledVideo title={`Video: ${embed?.title}`} src={activeSrc(embed)} allowFullScreen />
+        </VideoWrapper>
         <Formik
           initialValues={initialValues}
           validate={(values) => validateFormik(values, brightcoveEmbedFormRules, t)}
           validateOnBlur={false}
           validateOnMount
-          onSubmit={handleSave}
+          onSubmit={onSave}
         >
-          {(formik) => <VideoEmbedForm {...formik} setHasError={setHasError} close={close} />}
+          {(field) => <VideoEmbedForm {...field} setHasError={setHasError} close={onClose} />}
         </Formik>
       </ModalBody>
     </>

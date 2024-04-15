@@ -26,7 +26,7 @@ const VisualElementPicker = ({ editor, language, types }: Props) => {
   const { t } = useTranslation();
   const onInsertBlock = (block: Element) => {
     Editor.withoutNormalizing(editor, () => {
-      Transforms.insertNodes(editor, block, { at: [0] });
+      Transforms.insertNodes(editor, block);
     });
   };
 

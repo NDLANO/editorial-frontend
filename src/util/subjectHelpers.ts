@@ -14,9 +14,10 @@ import {
   IUpdatedSubjectFrontPageData,
 } from "@ndla/types-backend/frontpage-api";
 import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
+import { BrightcoveEmbedData } from "@ndla/types-embed";
 import { editorValueToEmbed, editorValueToPlainText, plainTextToEditorValue } from "./articleContentConverter";
 import { convertVisualElement } from "./ndlaFilmHelpers";
-import { BrightcoveEmbed, ImageEmbed } from "../interfaces";
+import { ImageEmbed } from "../interfaces";
 
 export const getIdFromUrn = (urnId: string | undefined) => urnId?.replace("urn:frontpage:", "");
 
@@ -52,7 +53,7 @@ export const subjectpageFormikTypeToPostType = (
   values: SubjectPageFormikType,
   editorsChoicesUrns?: string[],
 ): INewSubjectFrontPageData => {
-  const visualElement = editorValueToEmbed(values.visualElement)! as ImageEmbed | BrightcoveEmbed;
+  const visualElement = editorValueToEmbed(values.visualElement)! as ImageEmbed | BrightcoveEmbedData;
   const alt = visualElement.resource === "image" ? visualElement.alt : visualElement.caption;
   const id = visualElement.resource === "image" ? visualElement.resource_id : visualElement.videoid;
   return {

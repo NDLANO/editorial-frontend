@@ -11,11 +11,11 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
 import { DropdownMenuArrow } from "@radix-ui/react-dropdown-menu";
+import { ButtonV2 } from "@ndla/button";
 import { spacing, colors } from "@ndla/core";
 import { DropdownItem, DropdownContent, DropdownMenu, DropdownTrigger } from "@ndla/dropdown-menu";
 import { Plus } from "@ndla/icons/action";
 import Overlay from "../Overlay";
-import StyledFilledButton from "../StyledFilledButton";
 import { styledListElement } from "../StyledListElement/StyledListElement";
 
 const StyledDropdownContent = styled(DropdownContent)`
@@ -34,9 +34,9 @@ const LanguagePicker = ({ id, emptyLanguages, editUrl }: Props) => {
       <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
         {!!emptyLanguages.length && (
           <DropdownTrigger asChild>
-            <StyledFilledButton type="button">
+            <ButtonV2 size="small" variant="ghost">
               <Plus /> {t("form.variant.create")}
-            </StyledFilledButton>
+            </ButtonV2>
           </DropdownTrigger>
         )}
         <StyledDropdownContent>

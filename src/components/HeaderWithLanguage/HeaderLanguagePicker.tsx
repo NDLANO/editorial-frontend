@@ -8,15 +8,14 @@
 
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
 import { DropdownMenuArrow } from "@radix-ui/react-dropdown-menu";
 import { ButtonV2 } from "@ndla/button";
 import { spacing, colors } from "@ndla/core";
 import { DropdownItem, DropdownContent, DropdownMenu, DropdownTrigger } from "@ndla/dropdown-menu";
 import { Plus } from "@ndla/icons/action";
+import { SafeLinkButton } from "@ndla/safelink";
 import Overlay from "../Overlay";
-import { styledListElement } from "../StyledListElement/StyledListElement";
 
 const StyledDropdownContent = styled(DropdownContent)`
   padding: ${spacing.normal};
@@ -24,6 +23,10 @@ const StyledDropdownContent = styled(DropdownContent)`
 
 const StyledArrow = styled(DropdownMenuArrow)`
   fill: ${colors.white};
+`;
+
+const StyledSafeLinkButton = styled(SafeLinkButton)`
+  justify-content: flex-start;
 `;
 
 const LanguagePicker = ({ id, emptyLanguages, editUrl }: Props) => {
@@ -43,9 +46,9 @@ const LanguagePicker = ({ id, emptyLanguages, editUrl }: Props) => {
           <StyledArrow width={20} height={10} />
           {emptyLanguages.map((language) => (
             <DropdownItem key={language.key} asChild>
-              <Link css={styledListElement} to={editUrl(id, language.key)}>
+              <StyledSafeLinkButton shape="sharp" colorTheme="light" variant="ghost" to={editUrl(id, language.key)}>
                 {language.title}
-              </Link>
+              </StyledSafeLinkButton>
             </DropdownItem>
           ))}
         </StyledDropdownContent>

@@ -5625,7 +5625,7 @@ __metadata:
     history: "npm:^5.1.0"
     html-react-parser: "npm:^5.1.8"
     i18next: "npm:^23.5.1"
-    is-hotkey: "npm:^0.1.4"
+    is-hotkey: "npm:^0.2.0"
     jsdom: "npm:^24.0.0"
     jwks-rsa: "npm:^3.1.0"
     jwt-decode: "npm:^4.0.0"
@@ -8116,13 +8116,6 @@ __metadata:
   version: 1.0.4
   resolution: "is-hexadecimal@npm:1.0.4"
   checksum: 10c0/ec4c64e5624c0f240922324bc697e166554f09d3ddc7633fc526084502626445d0a871fbd8cae52a9844e83bd0bb414193cc5a66806d7b2867907003fc70c5ea
-  languageName: node
-  linkType: hard
-
-"is-hotkey@npm:^0.1.4":
-  version: 0.1.8
-  resolution: "is-hotkey@npm:0.1.8"
-  checksum: 10c0/5aca28f98b9ffff45d9141d26024ffbc33d2d7c8163144d4bd8eccc9330e3299fb7761e962517b7729f6bf9e95f248654aa8b0fccf16478baecddb428a5923fd
   languageName: node
   linkType: hard
 

@@ -152,7 +152,7 @@ const HeaderStatusInformation = ({
   }, [learningpaths, articles, concepts, setHasConnections]);
 
   const expirationColor = useMemo(() => getWarnStatus(expirationDate), [expirationDate]);
-  const showFavoritedIcon = type === "standard" ? true : type !== "frontpage-article" && !inSearch;
+  const hideFavoritedIcon = type === "frontpage-article" || type === "image" || type === "audio" || type === "concept";
   if (!noStatus || isNewLanguage) {
     return (
       <StyledStatusWrapper>
@@ -195,7 +195,7 @@ const HeaderStatusInformation = ({
             aria-hidden={false}
           />
         )}
-        {showFavoritedIcon && <HeaderFavoriteStatus id={id} type={type} favoriteCount={favoriteCount} />}
+        {!hideFavoritedIcon && <HeaderFavoriteStatus id={id} type={type} favoriteCount={favoriteCount} />}
         <StyledStatus data-compact={compact}>
           <span>
             <StyledSmallText data-compact={compact}>{`${t("form.responsible.label")}:`}</StyledSmallText>

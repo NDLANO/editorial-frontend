@@ -14,7 +14,7 @@ import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 
 const customSortOptions: Record<string, string[]> = {
-  content: ["revisionDate"],
+  content: ["revisionDate", "favorited"],
 };
 
 const StyledSortContainer = styled.div`

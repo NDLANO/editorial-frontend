@@ -1346,6 +1346,7 @@ const phrases = {
       },
       edit: "Rediger lydfil",
       remove: "Fjern lydfil",
+      chooseAudioType: "Velg lydtype",
       sound: "Lyd",
       speech: "Tale",
       dragdrop: {

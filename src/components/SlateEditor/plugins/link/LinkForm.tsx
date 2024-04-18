@@ -8,17 +8,23 @@
 
 import { Formik, Form, FormikHelpers } from "formik";
 import { useTranslation } from "react-i18next";
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { colors, spacing } from "@ndla/core";
+import { CheckboxItem, FieldErrorMessage, FieldHelper, InputV3, Label } from "@ndla/forms";
 import { isNDLAArticleUrl, isNDLAEdPathUrl, isNDLALearningPathUrl, isNDLATaxonomyUrl, isPlainId } from "./EditLink";
 import { Model } from "./Link";
 import config from "../../../../config";
-import { Checkbox } from "../../../../containers/FormikForm";
-import FormikField from "../../../FormikField";
+import { CheckboxWrapper } from "../../../Form/styles";
+import { FormControl, FormField } from "../../../FormField";
 import validateFormik from "../../../formikValidationSchema";
 import { isUrl } from "../../../validators";
+
+const StyledForm = styled(Form)`
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.small};
+`;
 
 const StyledField = styled.div`
   gap: ${spacing.xsmall};
@@ -31,41 +37,14 @@ const linkValidationRules = {
   href: { required: true, urlOrNumber: true },
 };
 
-const getLinkFieldStyle = (input: string) => {
-  if (
-    isNDLAArticleUrl(input) ||
-    isNDLAEdPathUrl(input) ||
-    isNDLALearningPathUrl(input) ||
-    isNDLATaxonomyUrl(input) ||
-    isPlainId(input)
-  ) {
-    return css`
-      input {
-        background-color: ${colors.brand.light};
-      }
-      input:-webkit-autofill,
-      input:-webkit-autofill:hover,
-      input:-webkit-autofill:focus,
-      input:-webkit-autofill:active {
-        box-shadow: 0 0 0 30px ${colors.brand.light} inset;
-      }
-    `;
-  } else if (isUrl(input)) {
-    return css`
-      input {
-        background-color: ${colors.tasksAndActivities.background};
-      }
-      input:-webkit-autofill,
-      input:-webkit-autofill:hover,
-      input:-webkit-autofill:focus,
-      input:-webkit-autofill:active {
-        box-shadow: 0 0 0 30px ${colors.tasksAndActivities.background} inset;
-      }
-    `;
-  } else {
-    return "";
+const StyledInput = styled(InputV3)`
+  &[data-type="external"] {
+    background-color: ${colors.tasksAndActivities.background};
   }
-};
+  &[data-type="internal"] {
+    background-color: ${colors.brand.light};
+  }
+`;
 
 export const getInitialValues = (link: Partial<Model> = {}): Model => ({
   text: link.text || "",
@@ -80,6 +59,20 @@ interface Props {
   onRemove: () => void;
   onClose: () => void;
 }
+
+const getLinkType = (href: string) => {
+  if (
+    isNDLAArticleUrl(href) ||
+    isNDLAEdPathUrl(href) ||
+    isNDLALearningPathUrl(href) ||
+    isNDLATaxonomyUrl(href) ||
+    isPlainId(href)
+  ) {
+    return "internal";
+  } else if (isUrl(href)) {
+    return "external";
+  } else return "";
+};
 
 const LinkForm = ({ onSave, link, isEdit, onRemove, onClose }: Props) => {
   const { t } = useTranslation();
@@ -96,35 +89,60 @@ const LinkForm = ({ onSave, link, isEdit, onRemove, onClose }: Props) => {
       onSubmit={handleSave}
       validate={(values) => validateFormik(values, linkValidationRules, t, "linkForm")}
     >
-      {({ submitForm, values }) => (
-        <Form data-testid="link_form">
-          <FormikField
-            name="text"
-            type="text"
-            label={t("form.content.link.text")}
-            // eslint-disable-next-line jsx-a11y/no-autofocus
-            autoFocus={true}
-          />
-          <FormikField
-            name="href"
-            description={t("form.content.link.description", {
-              url: config.ndlaFrontendDomain,
-              interpolation: { escapeValue: false },
-            })}
-            label={t("form.content.link.href")}
-            css={getLinkFieldStyle(values.href)}
-          />
-          <Checkbox name="checkbox" label={t("form.content.link.newTab")} />
+      {({ submitForm }) => (
+        <StyledForm data-testid="link_form" onSubmit={submitForm}>
+          <FormField name="text">
+            {({ field, meta }) => (
+              <FormControl isRequired isInvalid={!!meta.error}>
+                <Label textStyle="label-small" margin="none">
+                  {t("form.content.link.text")}
+                </Label>
+                <InputV3
+                  // eslint-disable-next-line jsx-a11y/no-autofocus
+                  autoFocus
+                  {...field}
+                />
+                <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+              </FormControl>
+            )}
+          </FormField>
+          <FormField name="href">
+            {({ field, meta }) => (
+              <FormControl isRequired isInvalid={!!meta.error}>
+                <Label textStyle="label-small" margin="none">
+                  {t("form.content.link.href")}
+                </Label>
+                <FieldHelper margin="none">
+                  {t("form.content.link.description", {
+                    url: config.ndlaFrontendDomain,
+                    interpolation: { escapeValue: false },
+                  })}
+                </FieldHelper>
+                <StyledInput data-type={getLinkType(field.value)} {...field} />
+                <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+              </FormControl>
+            )}
+          </FormField>
+          <FormField name="checkbox">
+            {({ field, meta, helpers }) => (
+              <FormControl isInvalid={!!meta.error}>
+                <CheckboxWrapper>
+                  <CheckboxItem checked={field.value} onCheckedChange={helpers.setValue} />
+                  <Label margin="none" textStyle="label-small">
+                    {t("form.content.link.newTab")}
+                  </Label>
+                </CheckboxWrapper>
+              </FormControl>
+            )}
+          </FormField>
           <StyledField>
             {isEdit ? <ButtonV2 onClick={onRemove}>{t("form.content.link.remove")}</ButtonV2> : ""}
             <ButtonV2 variant="outline" onClick={onClose}>
               {t("form.abort")}
             </ButtonV2>
-            <ButtonV2 onClick={submitForm}>
-              {isEdit ? t("form.content.link.update") : t("form.content.link.insert")}
-            </ButtonV2>
+            <ButtonV2 type="submit">{isEdit ? t("form.content.link.update") : t("form.content.link.insert")}</ButtonV2>
           </StyledField>
-        </Form>
+        </StyledForm>
       )}
     </Formik>
   );

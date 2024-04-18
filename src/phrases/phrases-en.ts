@@ -1346,6 +1346,7 @@ const phrases = {
       },
       edit: "Edit audio",
       remove: "Remove audio",
+      chooseAudioType: "Choose audio type",
       sound: "Audio",
       speech: "Speech",
       dragdrop: {

@@ -14,7 +14,6 @@ import VisualElementMenu, { VisualElementType } from "./VisualElementMenu";
 import SlateVisualElementPicker from "../../components/SlateEditor/plugins/blockPicker/SlateVisualElementPicker";
 import { defaultExternalBlock } from "../../components/SlateEditor/plugins/external/utils";
 import { defaultH5pBlock } from "../../components/SlateEditor/plugins/h5p/utils";
-import { isEmpty } from "../../components/validators";
 
 interface Props {
   editor: Editor;
@@ -46,10 +45,6 @@ const VisualElementPicker = ({ editor, language, types }: Props) => {
     }
     setSelectedResource(visualElement);
   };
-
-  if (!isEmpty(editor.children)) {
-    return null;
-  }
 
   return (
     <div contentEditable={false}>

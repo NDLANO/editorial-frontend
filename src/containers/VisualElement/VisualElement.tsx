@@ -17,6 +17,7 @@ import { externalRenderer } from "../../components/SlateEditor/plugins/external/
 import { h5pPlugin } from "../../components/SlateEditor/plugins/h5p";
 import { h5pRenderer } from "../../components/SlateEditor/plugins/h5p/render";
 import { videoPlugin } from "../../components/SlateEditor/plugins/video";
+import { videoRenderer } from "../../components/SlateEditor/plugins/video/render";
 import VisualElementEditor from "../../components/SlateEditor/VisualElementEditor";
 import { VisualElementType } from "../../containers/VisualElement/VisualElementMenu";
 
@@ -49,6 +50,7 @@ const VisualElement = ({
       h5pRenderer,
       externalPlugin(true),
       videoPlugin(true),
+      videoRenderer,
       externalRenderer,
       embedPlugin(true),
       embedRenderer(allowDecorative),

@@ -340,6 +340,7 @@ const phrases = {
       title: "Tittel",
       lastUpdated: "Sist oppdatert",
       revisionDate: "Neste revisjon",
+      favorited: "Favorittmarkeringer",
     },
     resultError: "Noe gikk feil med innlasting av type: {{type}}",
     favourites: "Mine favorittfag",

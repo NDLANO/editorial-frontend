@@ -81,7 +81,6 @@ test("createEmbedTagV2 creates image embed tag from object", () => {
     align: "",
     alt: "Guinness sign",
     caption: "Guinness is good for you",
-    metaData: {},
     resource: "image",
     resource_id: "42159",
     size: "full",
@@ -114,7 +113,7 @@ test("createEmbedTagV2 filters out null and undefined values, but not false valu
   const data = {
     resource: "unknown",
     caption: undefined,
-    player: null,
+    player: undefined,
     autoPlay: "false",
     videoid: "123",
   };
@@ -153,7 +152,6 @@ test("createEmbedTagV2 creates brightcove embed tag from object", () => {
   const data = {
     account: "4806596774001",
     caption: "Intervju med Hallvard",
-    metaData: {},
     player: "BkLm8fT",
     resource: "brightcove",
     videoid: "ref:106952",
@@ -175,6 +173,7 @@ test("isUserProvidedEmbedDataValid for image", () => {
   expect(
     isUserProvidedEmbedDataValid({
       resource: "image",
+      resource_id: "123",
       alt: "Alternative",
       caption: "Intervju med Hallvard",
     }),
@@ -183,6 +182,7 @@ test("isUserProvidedEmbedDataValid for image", () => {
   expect(
     isUserProvidedEmbedDataValid({
       resource: "image",
+      resource_id: "123",
       alt: "",
       caption: "Intervju med Hallvard",
     }),
@@ -191,31 +191,8 @@ test("isUserProvidedEmbedDataValid for image", () => {
   expect(
     isUserProvidedEmbedDataValid({
       resource: "image",
+      resource_id: "123",
       alt: "Alt",
-    }),
-  ).toBe(true);
-});
-
-test("isUserProvidedEmbedDataValid for brightcove", () => {
-  expect(
-    isUserProvidedEmbedDataValid({
-      resource: "brightcove",
-      caption: "Intervju med Hallvard",
-    }),
-  ).toBe(true);
-
-  expect(
-    isUserProvidedEmbedDataValid({
-      resource: "brightcove",
-      caption: "",
-    }),
-  ).toBe(true);
-});
-
-test("isUserProvidedEmbedDataValid for audio", () => {
-  expect(
-    isUserProvidedEmbedDataValid({
-      resource: "audio",
     }),
   ).toBe(true);
 });

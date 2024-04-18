@@ -15,7 +15,6 @@ import { DropdownMenu, InputContainer, InputV3, Label } from "@ndla/forms";
 import { Spinner } from "@ndla/icons";
 import { Search } from "@ndla/icons/common";
 import { SearchResultBase } from "../../../interfaces";
-import { convertFieldWithFallback } from "../../../util/convertFieldWithFallback";
 import { itemToString } from "../../../util/downShiftHelpers";
 import { FormControl } from "../../FormField";
 
@@ -132,8 +131,10 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
       setTotalCount(apiOutput.totalCount ?? 1);
       const transformedItems: ItemValues<ApiType>[] = apiOutput.results.map((item) => ({
         ...item,
-        title: convertFieldWithFallback<"title">(item, "title", ""),
-        description: convertFieldWithFallback<"metaDescription">(item, "metaDescription", ""),
+        title: (typeof item.title === "string" ? item.title : item.title?.title) ?? "",
+        description:
+          (typeof item.metaDescription === "string" ? item.metaDescription : item.metaDescription?.metaDescription) ??
+          "",
         image: item.metaImage && `${item.metaImage.url}?width=60`,
         alt: item.metaImage?.alt,
         originalItem: item,

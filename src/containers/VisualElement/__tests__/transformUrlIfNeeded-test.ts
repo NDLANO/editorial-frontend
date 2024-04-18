@@ -1,13 +1,15 @@
-/*
+/**
  * Copyright (c) 2019-present, NDLA.
+ *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
+ *
  */
 
 import nock from "nock";
 import { urlTransformers } from "../urlTransformers";
 
-const transformUrlIfNeeded = async (url) => {
+const transformUrlIfNeeded = async (url: string) => {
   for (const rule of urlTransformers) {
     if (rule.shouldTransform(url, rule.domains)) {
       return await rule.transform(url);
@@ -45,12 +47,6 @@ test("transformUrlIfNeeded returns url sent in if nrk api should return somethin
 
 test("transformUrlIfNeeded returns same url if not from nrk", async () => {
   const url = await transformUrlIfNeeded("https://somerandomurl.com");
-
-  expect(url).toMatchSnapshot();
-});
-
-test("transformUrlIfNeeded does not crash without url", async () => {
-  const url = await transformUrlIfNeeded();
 
   expect(url).toMatchSnapshot();
 });

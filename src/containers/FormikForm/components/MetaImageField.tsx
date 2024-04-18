@@ -16,7 +16,6 @@ import { SafeLinkIconButton } from "@ndla/safelink";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import FormikField from "../../../components/FormikField";
 import MetaInformation from "../../../components/MetaInformation";
-import { convertFieldWithFallback } from "../../../util/convertFieldWithFallback";
 
 const MetaImageContainer = styled.div`
   display: flex;
@@ -40,8 +39,8 @@ interface Props {
 const MetaImageField = ({ image, onImageRemove, onImageLoad, disableAltEditing, hideAltText }: Props) => {
   const { t } = useTranslation();
   const copyright = image.copyright.creators.map((creator) => creator.name).join(", ");
-  const title = convertFieldWithFallback<"title">(image, "title", "");
-  const alt = convertFieldWithFallback<"alttext">(image, "alttext", "");
+  const title = image.title.title ?? "";
+  const alt = image.alttext.alttext ?? "";
   const imageAction = (
     <>
       <IconButtonV2

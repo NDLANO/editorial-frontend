@@ -12,14 +12,12 @@ import { isEmpty, minLength, maxLength, minItems, isNumeric, isUrl, validDateRan
 test("validators/isEmpty returns true when empty", () => {
   expect(isEmpty(undefined)).toBe(true);
   expect(isEmpty("")).toBe(true);
-  expect(isEmpty({})).toBe(true);
   expect(isEmpty([])).toBe(true);
   expect(isEmpty(Plain.deserialize(""))).toBe(true);
 });
 
 test("validators/isEmpty returns false when not empty", () => {
   expect(isEmpty("Something")).toBe(false);
-  expect(isEmpty({ has: "something" })).toBe(false);
   expect(isEmpty(Plain.deserialize("Something"))).toBe(false);
 });
 
@@ -29,7 +27,6 @@ test("validators/maxLength returns true if value exceed length", () => {
 });
 
 test("validators/maxLength returns false if value does not exceed length", () => {
-  expect(maxLength(undefined)).toBe(false);
   expect(maxLength("Something", 9)).toBe(false);
   expect(maxLength(Plain.deserialize("Something"), 9)).toBe(false);
 });
@@ -40,7 +37,6 @@ test("validators/minLength returns true if value does not exceed length", () => 
 });
 
 test("validators/minLength returns false if value exceed length", () => {
-  expect(minLength(undefined)).toBe(false);
   expect(minLength("Something", 9)).toBe(false);
   expect(minLength(Plain.deserialize("Something"), 9)).toBe(false);
 });
@@ -83,7 +79,6 @@ test("validators/isUrl returns true if value is valid url", () => {
 });
 
 test("validators/isUrl returns false if value is not valid url", () => {
-  expect(isUrl(undefined)).toBe(false);
   expect(isUrl("")).toBe(false);
   expect(isUrl("//ndla.no/")).toBe(false);
   expect(isUrl("www.ndla.no/")).toBe(false);

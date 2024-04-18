@@ -6,47 +6,46 @@
  *
  */
 
-export function createFormatAction(monaco) {
+import { editor, KeyMod, KeyCode } from "monaco-editor/esm/vs/editor/editor.api";
+
+export const createFormatAction = (): editor.IActionDescriptor => {
   return {
     id: "prettier-format",
     label: "Format",
 
-    keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KEY_F],
+    keybindings: [KeyMod.CtrlCmd | KeyMod.Shift | KeyCode.KeyF],
 
     contextMenuGroupId: "modification",
     contextMenuOrder: 1.5,
 
-    run: async function (editor) {
+    run: async (editor) => {
       const model = editor.getModel();
+      if (!model) return;
       const data = await fetch(`/format-html`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ html: model.getValue() }),
+        body: JSON.stringify({ html: model.getValue() ?? "" }),
       });
       const { html } = await data.json();
       model.setValue(html);
 
-      return null;
+      return;
     },
   };
-}
+};
 
-export function createSaveAction(monaco, onSave) {
+export const createSaveAction = (onSave: (value: string) => void): editor.IActionDescriptor => {
   return {
     id: "save-article",
     label: "Save",
 
-    keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S],
+    keybindings: [KeyMod.CtrlCmd | KeyCode.KeyS],
 
-    contextMenuGroupId: null,
+    contextMenuGroupId: undefined,
     contextMenuOrder: 0,
 
-    run: async function (editor) {
-      await onSave(editor.getValue());
-
-      return null;
-    },
+    run: async (editor) => onSave(editor.getValue()),
   };
-}
+};

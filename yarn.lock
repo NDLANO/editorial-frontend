@@ -5343,7 +5343,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debug@npm:^3.0.1, debug@npm:^3.2.7":
+"debug@npm:^3.2.7":
   version: 3.2.7
   resolution: "debug@npm:3.2.7"
   dependencies:
@@ -5802,7 +5802,6 @@ __metadata:
     eslint: "npm:^8.57.0"
     eslint-config-ndla: "npm:^5.0.3"
     express: "npm:^4.19.2"
-    express-http-proxy: "npm:^1.5.1"
     express-jwt: "npm:^8.4.1"
     filter-console: "npm:^0.1.1"
     focus-trap-react: "npm:^8.9.2"
@@ -5820,7 +5819,7 @@ __metadata:
     jwks-rsa: "npm:^3.1.0"
     jwt-decode: "npm:^4.0.0"
     lodash: "npm:^4.17.21"
-    monaco-editor: "npm:0.23.0"
+    monaco-editor: "npm:0.47.0"
     nock: "npm:^13.5.4"
     postcss: "npm:^8.4.19"
     postcss-focus: "npm:^5.0.1"
@@ -6102,7 +6101,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"es6-promise@npm:^4.1.1, es6-promise@npm:^4.2.8":
+"es6-promise@npm:^4.2.8":
   version: 4.2.8
   resolution: "es6-promise@npm:4.2.8"
   checksum: 10c0/2373d9c5e9a93bdd9f9ed32ff5cb6dd3dd785368d1c21e9bbbfd07d16345b3774ae260f2bd24c8f836a6903f432b4151e7816a7fa8891ccb4e1a55a028ec42c3
@@ -6879,17 +6878,6 @@ __metadata:
   version: 3.1.1
   resolution: "exponential-backoff@npm:3.1.1"
   checksum: 10c0/160456d2d647e6019640bd07111634d8c353038d9fa40176afb7cd49b0548bdae83b56d05e907c2cce2300b81cae35d800ef92fefb9d0208e190fa3b7d6bb579
-  languageName: node
-  linkType: hard
-
-"express-http-proxy@npm:^1.5.1":
-  version: 1.5.1
-  resolution: "express-http-proxy@npm:1.5.1"
-  dependencies:
-    debug: "npm:^3.0.1"
-    es6-promise: "npm:^4.1.1"
-    raw-body: "npm:^2.3.0"
-  checksum: 10c0/bb3cff72ff4031248582e9d4125207cd8bdfd7a55ef8bc6e1a3f5eda7d01f40880de97d624edc71c3a4e06771fc274b61f6697063405daadd8d7f7b444addb7b
   languageName: node
   linkType: hard
 
@@ -9533,10 +9521,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"monaco-editor@npm:0.23.0":
-  version: 0.23.0
-  resolution: "monaco-editor@npm:0.23.0"
-  checksum: 10c0/accafd028c0193384bb8f803aaba95c995ac3dbff4b3c50e2e499d66380869ad267c09bf6357c1b077f0b1c5744e412a672347db700cc287a21647973ab4b728
+"monaco-editor@npm:0.47.0":
+  version: 0.47.0
+  resolution: "monaco-editor@npm:0.47.0"
+  checksum: 10c0/bbe4fc284a7803e4ed0fa69b6e31c41ef6f5d259722e8a876ce2850b7139e68eff3a6435306e11eff848db8662b818e40f9cafc6f7a53d4a4551fed362d5dc02
   languageName: node
   linkType: hard
 
@@ -11045,7 +11033,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"raw-body@npm:2.5.2, raw-body@npm:^2.3.0":
+"raw-body@npm:2.5.2":
   version: 2.5.2
   resolution: "raw-body@npm:2.5.2"
   dependencies:

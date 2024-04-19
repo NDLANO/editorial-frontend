@@ -89,61 +89,59 @@ const LinkForm = ({ onSave, link, isEdit, onRemove, onClose }: Props) => {
       onSubmit={handleSave}
       validate={(values) => validateFormik(values, linkValidationRules, t, "linkForm")}
     >
-      {({ submitForm }) => (
-        <StyledForm data-testid="link_form" onSubmit={submitForm}>
-          <FormField name="text">
-            {({ field, meta }) => (
-              <FormControl isRequired isInvalid={!!meta.error}>
-                <Label textStyle="label-small" margin="none">
-                  {t("form.content.link.text")}
+      <StyledForm data-testid="link_form">
+        <FormField name="text">
+          {({ field, meta }) => (
+            <FormControl isRequired isInvalid={!!meta.error}>
+              <Label textStyle="label-small" margin="none">
+                {t("form.content.link.text")}
+              </Label>
+              <InputV3
+                // eslint-disable-next-line jsx-a11y/no-autofocus
+                autoFocus
+                {...field}
+              />
+              <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+            </FormControl>
+          )}
+        </FormField>
+        <FormField name="href">
+          {({ field, meta }) => (
+            <FormControl isRequired isInvalid={!!meta.error}>
+              <Label textStyle="label-small" margin="none">
+                {t("form.content.link.href")}
+              </Label>
+              <FieldHelper margin="none">
+                {t("form.content.link.description", {
+                  url: config.ndlaFrontendDomain,
+                  interpolation: { escapeValue: false },
+                })}
+              </FieldHelper>
+              <StyledInput data-type={getLinkType(field.value)} {...field} />
+              <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+            </FormControl>
+          )}
+        </FormField>
+        <FormField name="checkbox">
+          {({ field, meta, helpers }) => (
+            <FormControl isInvalid={!!meta.error}>
+              <CheckboxWrapper>
+                <CheckboxItem checked={field.value} onCheckedChange={helpers.setValue} />
+                <Label margin="none" textStyle="label-small">
+                  {t("form.content.link.newTab")}
                 </Label>
-                <InputV3
-                  // eslint-disable-next-line jsx-a11y/no-autofocus
-                  autoFocus
-                  {...field}
-                />
-                <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-              </FormControl>
-            )}
-          </FormField>
-          <FormField name="href">
-            {({ field, meta }) => (
-              <FormControl isRequired isInvalid={!!meta.error}>
-                <Label textStyle="label-small" margin="none">
-                  {t("form.content.link.href")}
-                </Label>
-                <FieldHelper margin="none">
-                  {t("form.content.link.description", {
-                    url: config.ndlaFrontendDomain,
-                    interpolation: { escapeValue: false },
-                  })}
-                </FieldHelper>
-                <StyledInput data-type={getLinkType(field.value)} {...field} />
-                <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-              </FormControl>
-            )}
-          </FormField>
-          <FormField name="checkbox">
-            {({ field, meta, helpers }) => (
-              <FormControl isInvalid={!!meta.error}>
-                <CheckboxWrapper>
-                  <CheckboxItem checked={field.value} onCheckedChange={helpers.setValue} />
-                  <Label margin="none" textStyle="label-small">
-                    {t("form.content.link.newTab")}
-                  </Label>
-                </CheckboxWrapper>
-              </FormControl>
-            )}
-          </FormField>
-          <StyledField>
-            {isEdit ? <ButtonV2 onClick={onRemove}>{t("form.content.link.remove")}</ButtonV2> : ""}
-            <ButtonV2 variant="outline" onClick={onClose}>
-              {t("form.abort")}
-            </ButtonV2>
-            <ButtonV2 type="submit">{isEdit ? t("form.content.link.update") : t("form.content.link.insert")}</ButtonV2>
-          </StyledField>
-        </StyledForm>
-      )}
+              </CheckboxWrapper>
+            </FormControl>
+          )}
+        </FormField>
+        <StyledField>
+          {isEdit ? <ButtonV2 onClick={onRemove}>{t("form.content.link.remove")}</ButtonV2> : ""}
+          <ButtonV2 variant="outline" onClick={onClose}>
+            {t("form.abort")}
+          </ButtonV2>
+          <ButtonV2 type="submit">{isEdit ? t("form.content.link.update") : t("form.content.link.insert")}</ButtonV2>
+        </StyledField>
+      </StyledForm>
     </Formik>
   );
 };

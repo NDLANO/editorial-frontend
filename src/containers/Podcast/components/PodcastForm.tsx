@@ -29,7 +29,7 @@ import Spinner from "../../../components/Spinner";
 import { SAVE_BUTTON_ID } from "../../../constants";
 import { PodcastFormValues } from "../../../modules/audio/audioApiInterfaces";
 import { useLicenses } from "../../../modules/draft/draftQueries";
-import { editorValueToPlainText } from "../../../util/articleContentConverter";
+import { editorValueToPlainText, inlineContentToHTML } from "../../../util/articleContentConverter";
 import { audioApiTypeToPodcastFormType } from "../../../util/audioHelpers";
 import { isFormikFormDirty } from "../../../util/formHelper";
 import handleError from "../../../util/handleError";
@@ -150,7 +150,7 @@ const PodcastForm = ({
     actions.setSubmitting(true);
     const podcastMetaData: INewAudioMetaInformation = {
       title: values.title ? editorValueToPlainText(values.title) : "",
-      manuscript: values.manuscript ? editorValueToPlainText(values.manuscript) : "",
+      manuscript: values.manuscript ? inlineContentToHTML(values.manuscript) : "",
       tags: values.tags,
       audioType: "podcast",
       language: values.language,

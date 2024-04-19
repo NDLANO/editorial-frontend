@@ -26,7 +26,6 @@ import { PUBLISHED } from "../../../../../constants";
 import { ConceptType } from "../../../../../containers/ConceptPage/conceptInterfaces";
 import { useFetchConceptData } from "../../../../../containers/FormikForm/formikConceptHooks";
 import { useConceptVisualElement } from "../../../../../modules/embed/queries";
-import parseMarkdown from "../../../../../util/parseMarkdown";
 import { useArticleLanguage } from "../../../ArticleLanguageProvider";
 import ConceptModalContent from "../ConceptModalContent";
 import EditGlossExamplesModal from "../EditGlossExamplesModal";
@@ -73,7 +72,7 @@ const StyledIconWrapper = styled.div`
 
 const InlineWrapper = (props: Props) => {
   const { t } = useTranslation();
-  const { children, element, editor, attributes } = props;
+  const { children, element, editor } = props;
   const nodeText = Node.string(element).trim();
   const [isEditing, setIsEditing] = useState(element.isFirstEdit);
   const locale = useArticleLanguage();
@@ -99,7 +98,7 @@ const InlineWrapper = (props: Props) => {
 
   const parsedContent = useMemo(() => {
     if (embed?.status === "success" && !!embed.data.concept.content) {
-      return parse(parseMarkdown({ markdown: embed.data.concept.content.content }));
+      return parse(embed.data.concept.content.content);
     }
   }, [embed]);
 

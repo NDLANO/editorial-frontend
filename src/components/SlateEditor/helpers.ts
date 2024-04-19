@@ -13,7 +13,7 @@ import { TYPE_CODEBLOCK } from "./plugins/codeBlock/types";
 import { TYPE_COMMENT_INLINE } from "./plugins/comment/inline/types";
 import { TYPE_CONCEPT_INLINE } from "./plugins/concept/inline/types";
 import { TYPE_DETAILS } from "./plugins/details/types";
-import { TYPE_EMBED_BRIGHTCOVE, TYPE_EMBED_ERROR, TYPE_EMBED_IMAGE } from "./plugins/embed/types";
+import { TYPE_EMBED_ERROR, TYPE_EMBED_IMAGE } from "./plugins/embed/types";
 import { TYPE_EXTERNAL } from "./plugins/external/types";
 import { TYPE_FILE } from "./plugins/file/types";
 import { TYPE_FOOTNOTE } from "./plugins/footnote/types";
@@ -26,6 +26,7 @@ import { TYPE_MATHML } from "./plugins/mathml/types";
 import { TYPE_RELATED } from "./plugins/related/types";
 import { TYPE_SPAN } from "./plugins/span/types";
 import { TYPE_TABLE } from "./plugins/table/types";
+import { TYPE_EMBED_BRIGHTCOVE } from "./plugins/video/types";
 
 export const inlines = [
   TYPE_CONCEPT_INLINE,

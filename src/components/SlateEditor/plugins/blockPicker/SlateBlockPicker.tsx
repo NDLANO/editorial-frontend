@@ -41,7 +41,7 @@ import { TYPE_CONTACT_BLOCK } from "../contactBlock/types";
 import { defaultContactBlock } from "../contactBlock/utils";
 import { TYPE_DETAILS } from "../details/types";
 import { defaultDetailsBlock } from "../details/utils";
-import { TYPE_EMBED_BRIGHTCOVE, TYPE_EMBED_ERROR, TYPE_EMBED_IMAGE } from "../embed/types";
+import { TYPE_EMBED_ERROR, TYPE_EMBED_IMAGE } from "../embed/types";
 import { TYPE_EXTERNAL } from "../external/types";
 import { defaultExternalBlock } from "../external/utils";
 import { TYPE_FILE } from "../file/types";
@@ -65,6 +65,7 @@ import { TYPE_TABLE } from "../table/types";
 import { IS_MAC } from "../toolbar/ToolbarButton";
 import { TYPE_DISCLAIMER } from "../uuDisclaimer/types";
 import { defaultDisclaimerBlock } from "../uuDisclaimer/utils";
+import { TYPE_EMBED_BRIGHTCOVE } from "../video/types";
 
 interface Props {
   editor: Editor;
@@ -241,7 +242,8 @@ const SlateBlockPicker = ({
     if (Location.isLocation(editor.selection)) {
       setLastActiveSelection(editor.selection);
     }
-  }, [editor.selection]);
+    !editor.selection && lastActiveSelection && (editor.selection = lastActiveSelection);
+  }, [editor, editor.selection, lastActiveSelection]);
 
   const onOpenChange = useCallback(
     (open: boolean) => {
@@ -310,10 +312,14 @@ const SlateBlockPicker = ({
         onInsertBlock(defaultExternalBlock());
         break;
       }
+      case TYPE_EMBED_BRIGHTCOVE: {
+        setVisualElementPickerOpen(true);
+        setType(data.object);
+        break;
+      }
       case TYPE_FILE:
       case TYPE_EMBED_IMAGE:
-      case TYPE_EMBED_ERROR:
-      case TYPE_EMBED_BRIGHTCOVE: {
+      case TYPE_EMBED_ERROR: {
         setVisualElementPickerOpen(true);
         setType(data.object);
         break;

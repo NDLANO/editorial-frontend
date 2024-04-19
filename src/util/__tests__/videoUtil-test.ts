@@ -45,8 +45,8 @@ test("util/addBrightCovetimeStampSrc return brightCove url with timestamp", () =
   const start = "10"; // 10 seconds
   const faulty = "asdasda";
   expect(addBrightCovetimeStampSrc(url, start)).toBe(`${url}&t=${start}s`);
-  expect(addBrightCovetimeStampSrc(url, "")).toBe(`${url}`);
-  expect(addBrightCovetimeStampSrc(url, faulty)).toBe(`${url}&t=0s`);
+  expect(addBrightCovetimeStampSrc(url, "")).toBe(url);
+  expect(addBrightCovetimeStampSrc(url, faulty)).toBe(url);
 });
 
 test("util/addBrightCoveTimeStampVideoid return brightCove videoid with timestamp", () => {
@@ -55,8 +55,8 @@ test("util/addBrightCoveTimeStampVideoid return brightCove videoid with timestam
   const start = "10"; // 10 seconds
   const faulty = "asdasda";
   expect(addBrightCoveTimeStampVideoid(videoid, start)).toBe(`${videoid}&t=${start}s`);
-  expect(addBrightCoveTimeStampVideoid(videoid, "")).toBe(`${videoid}&t=`);
-  expect(addBrightCoveTimeStampVideoid(videoid, faulty)).toBe(`${videoid}&t=0s`);
+  expect(addBrightCoveTimeStampVideoid(videoid, "")).toBe(videoid);
+  expect(addBrightCoveTimeStampVideoid(videoid, faulty)).toBe(videoid);
 });
 
 test("util/getBrightCoveStartTime return brightCove videoid with timestamp", () => {

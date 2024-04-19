@@ -7,17 +7,16 @@
  */
 
 import { useFormikContext } from "formik";
-import { memo, useCallback, useEffect, useMemo, useState } from "react";
+import { memo, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { colors, fonts, misc, spacing } from "@ndla/core";
+import { ButtonV2 } from "@ndla/button";
 import { FileCompare } from "@ndla/icons/action";
 import { Launch } from "@ndla/icons/common";
 import { Check, Eye } from "@ndla/icons/editor";
 import { SafeLinkButton } from "@ndla/safelink";
 import { IConcept } from "@ndla/types-backend/concept-api";
 import { IArticle } from "@ndla/types-backend/draft-api";
-import { Text } from "@ndla/typography";
 import DeleteLanguageVersion from "./DeleteLanguageVersion";
 import { StyledSplitter } from "./HeaderInformation";
 import HeaderLanguagePicker from "./HeaderLanguagePicker";
@@ -30,7 +29,6 @@ import { removeCommentTags } from "../../util/compareHTMLHelpers";
 import { toCompareLanguage } from "../../util/routeHelpers";
 import { useIsTranslatableToNN } from "../NynorskTranslateProvider";
 import PreviewDraftLightboxV2 from "../PreviewDraft/PreviewDraftLightboxV2";
-import StyledFilledButton from "../StyledFilledButton";
 
 interface PreviewLightBoxProps {
   article?: IArticle;
@@ -41,24 +39,13 @@ interface PreviewLightBoxProps {
 
 const StyledWrapper = styled.div`
   display: flex;
+  align-items: center;
   flex-wrap: wrap;
 `;
 
 const StyledGroup = styled.div`
   display: flex;
   align-items: center;
-`;
-
-const StyledSafeLinkButton = styled(SafeLinkButton)`
-  border-radius: ${misc.borderRadius};
-  box-shadow: none;
-  padding: ${spacing.xxsmall} ${spacing.small};
-  &:focus,
-  &:hover {
-    color: ${colors.white};
-    background: ${colors.brand.primary};
-    transform: translate(1px, 1px);
-  }
 `;
 
 const PreviewLightBox = memo(({ type, currentLanguage, article, concept }: PreviewLightBoxProps) => {
@@ -70,20 +57,18 @@ const PreviewLightBox = memo(({ type, currentLanguage, article, concept }: Previ
         concept={concept}
         language={currentLanguage}
         activateButton={
-          <StyledFilledButton type="button">
+          <ButtonV2 size="small" colorTheme="light">
             <FileCompare /> {t("form.previewLanguageArticle.button")}
-          </StyledFilledButton>
+          </ButtonV2>
         }
       />
     );
   } else if ((type === "standard" || type === "topic-article" || type === "frontpage-article") && article) {
     return (
-      <StyledSafeLinkButton variant="link" to={toCompareLanguage(article.id, currentLanguage)} target="_blank">
-        <Text textStyle="button" margin="none">
-          {t("form.previewLanguageArticle.button")}
-        </Text>
+      <SafeLinkButton size="small" variant="ghost" to={toCompareLanguage(article.id, currentLanguage)} target="_blank">
+        {t("form.previewLanguageArticle.button")}
         <Launch />
-      </StyledSafeLinkButton>
+      </SafeLinkButton>
     );
   } else return null;
 });
@@ -216,13 +201,14 @@ const HeaderActions = ({
                 language={language}
                 customTitle={t("form.previewProductionArticle.published")}
                 activateButton={
-                  <StyledFilledButton
+                  <ButtonV2
+                    variant="ghost"
+                    size="small"
                     aria-label={
                       isIdenticalToPublished
                         ? t("form.previewProductionArticle.buttonDisabled")
                         : t("form.previewProductionArticle.button")
                     }
-                    type="button"
                     disabled={isIdenticalToPublished}
                     title={
                       isIdenticalToPublished
@@ -231,7 +217,7 @@ const HeaderActions = ({
                     }
                   >
                     <Eye /> {t("form.previewVersion")}
-                  </StyledFilledButton>
+                  </ButtonV2>
                 }
               />
             </>

@@ -24,7 +24,7 @@ interface Props {
 
 const StyledContent = styled(Content)`
   background-color: ${colors.white};
-  z-index: ${stackOrder.popover};
+  z-index: ${stackOrder.popover + stackOrder.modal};
   border: 1px solid ${colors.black};
   border-radius: ${misc.borderRadius};
 `;

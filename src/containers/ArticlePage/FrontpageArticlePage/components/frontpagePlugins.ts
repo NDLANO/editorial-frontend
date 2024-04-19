@@ -49,6 +49,7 @@ import { tablePlugin } from "../../../../components/SlateEditor/plugins/table";
 import { textTransformPlugin } from "../../../../components/SlateEditor/plugins/textTransform";
 import { toolbarPlugin } from "../../../../components/SlateEditor/plugins/toolbar";
 import { disclaimerPlugin } from "../../../../components/SlateEditor/plugins/uuDisclaimer";
+import { videoPlugin } from "../../../../components/SlateEditor/plugins/video";
 
 // Plugins are checked from last to first
 export const frontpagePlugins: SlatePlugin[] = [
@@ -61,6 +62,7 @@ export const frontpagePlugins: SlatePlugin[] = [
   embedPlugin(),
   audioPlugin(),
   h5pPlugin(),
+  videoPlugin(),
   framedContentPlugin,
   blockQuotePlugin,
   linkPlugin,

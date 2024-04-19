@@ -44,6 +44,7 @@ import { tablePlugin } from "../../../../components/SlateEditor/plugins/table";
 import { textTransformPlugin } from "../../../../components/SlateEditor/plugins/textTransform";
 import { toolbarPlugin } from "../../../../components/SlateEditor/plugins/toolbar";
 import { disclaimerPlugin } from "../../../../components/SlateEditor/plugins/uuDisclaimer";
+import { videoPlugin } from "../../../../components/SlateEditor/plugins/video";
 
 export const learningResourcePlugins: SlatePlugin[] = [
   sectionPlugin,
@@ -54,6 +55,7 @@ export const learningResourcePlugins: SlatePlugin[] = [
   audioPlugin(),
   h5pPlugin(),
   externalPlugin(),
+  videoPlugin(),
   embedPlugin(),
   framedContentPlugin,
   blockQuotePlugin,
@@ -76,7 +78,6 @@ export const learningResourcePlugins: SlatePlugin[] = [
   codeblockPlugin,
   blockPickerPlugin,
   dndPlugin,
-  // pasteHandler(),
   toolbarPlugin(),
   textTransformPlugin,
   breakPlugin,

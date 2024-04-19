@@ -8,7 +8,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { BaseSelection, Editor, Node, Transforms } from "slate";
+import { BaseSelection, Editor, Node, Transforms, Element } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import styled from "@emotion/styled";
 import { Portal } from "@radix-ui/react-portal";
@@ -17,9 +17,11 @@ import { colors, spacing, stackOrder } from "@ndla/core";
 import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
 import { ContentLinkElement, LinkElement } from ".";
 import EditLink from "./EditLink";
+import { TYPE_CONTENT_LINK, TYPE_LINK } from "./types";
 import config from "../../../../config";
 import { toEditGenericArticle, toLearningpathFull } from "../../../../util/routeHelpers";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
+import { InlineBugfix } from "../../utils/InlineBugFix";
 
 interface StyledLinkMenuProps {
   top: number;
@@ -114,6 +116,14 @@ const Link = ({ attributes, editor, element, children }: Props) => {
     [focusEditor],
   );
 
+  const handleRemove = () => {
+    Transforms.unwrapNodes(editor, {
+      match: (node) => Element.isElement(node) && (node.type === TYPE_LINK || node.type === TYPE_CONTENT_LINK),
+      mode: "lowest",
+    });
+    ReactEditor.focus(editor);
+  };
+
   useEffect(() => {
     const setStateFromNode = async () => {
       let href;
@@ -141,7 +151,9 @@ const Link = ({ attributes, editor, element, children }: Props) => {
   return (
     <Modal defaultOpen={startOpen.current} open={editMode} onOpenChange={toggleEditMode}>
       <StyledLink {...attributes} href={model?.href} ref={linkRef}>
+        <InlineBugfix />
         {children}
+        <InlineBugfix />
         {model && (
           <Portal asChild>
             <StyledLinkMenu
@@ -168,12 +180,21 @@ const Link = ({ attributes, editor, element, children }: Props) => {
       <ModalContent
         onEscapeKeyDown={(e) => e.stopPropagation()}
         onCloseAutoFocus={(e) => {
+          if (!model?.href) {
+            handleRemove();
+          }
           e.preventDefault();
           focusEditor();
         }}
       >
         {model && (
-          <EditLink editor={editor} element={element} model={model} closeEditMode={() => toggleEditMode(false)} />
+          <EditLink
+            editor={editor}
+            element={element}
+            model={model}
+            closeEditMode={() => toggleEditMode(false)}
+            handleRemove={handleRemove}
+          />
         )}
       </ModalContent>
     </Modal>

@@ -9,8 +9,9 @@
 import { MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { CloseButton } from "@ndla/button";
+import { IconButtonV2 } from "@ndla/button";
 import { colors, spacing } from "@ndla/core";
+import { Cross } from "@ndla/icons/action";
 import { SearchFormSelector } from "./Selector";
 import formatDate from "../../../../util/formatDate";
 import { unreachable } from "../../../../util/guards";
@@ -19,7 +20,6 @@ const StyledDl = styled.dl`
   display: flex;
   flex-direction: row;
   align-items: center;
-  height: 1.9rem;
   width: auto;
   border-radius: 1px;
   background-color: ${colors.background.dark};
@@ -103,7 +103,9 @@ const SearchTag = ({ tag, onRemoveItem }: Props) => {
   return (
     <StyledDl>
       <SearchTagContent tag={tag} tagValue={tagValue} />
-      <CloseButton onClick={onRemove} />
+      <IconButtonV2 aria-label={t("remove")} variant="ghost" title={t("remove")} onClick={onRemove} size="small">
+        <Cross />
+      </IconButtonV2>
     </StyledDl>
   );
 };

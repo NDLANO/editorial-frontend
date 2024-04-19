@@ -340,6 +340,7 @@ const phrases = {
       title: "Tittel",
       lastUpdated: "Sist oppdatert",
       revisionDate: "Neste revisjon",
+      favorited: "Favorittmarkeringer",
     },
     resultError: "Noe gikk feil med innlasting av type: {{type}}",
     favourites: "Mine favorittfag",
@@ -1351,6 +1352,7 @@ const phrases = {
       },
       edit: "Rediger lyd",
       remove: "Fjern lydfil",
+      chooseAudioType: "Velg lydtype",
       sound: "Lyd",
       speech: "Tale",
       dragdrop: {
@@ -1551,7 +1553,6 @@ const phrases = {
   },
   warningMessage: {
     fieldWithWrongLanguage: "Dette feltet er hentet fra språkkode: {{language}}",
-    taxonomy: "Alle taksonomiendringer krever delpublisering",
   },
   notFound: {
     description: "Denne siden finnes ikke.",

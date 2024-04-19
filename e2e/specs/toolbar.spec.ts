@@ -6,42 +6,13 @@
  *
  */
 
-import { test, expect } from "@playwright/test";
-import { mockRoute } from "../apiMock";
-import { responsiblesMock, zendeskMock } from "../mockResponses";
+import { expect } from "@playwright/test";
+import { test } from "../apiMock";
 
 const metaKey = process.platform === "darwin" ? "Meta" : "Control";
 
 test.beforeEach(async ({ page }) => {
-  const zendesk = await mockRoute({
-    page,
-    path: "**/get_zendesk_token",
-    fixture: "toolbar_zendesk_token",
-    overrideValue: JSON.stringify(zendeskMock),
-  });
-
-  const responsibles = await mockRoute({
-    page,
-    path: "**/get_responsibles?permission=drafts:responsible",
-    fixture: "toolbar_responsibles",
-    overrideValue: JSON.stringify(responsiblesMock),
-  });
-
-  const licenses = await mockRoute({
-    page,
-    path: "**/draft-api/v1/drafts/licenses/",
-    fixture: "toolbar_licenses",
-  });
-
-  const statuses = await mockRoute({
-    page,
-    path: "**/draft-api/v1/drafts/status-state-machine/",
-    fixture: "toolbar_status_state_machine",
-  });
-
   await page.goto("/subject-matter/learning-resource/new");
-
-  await Promise.all([zendesk, responsibles, licenses, statuses]);
 });
 
 test("can change text styling", async ({ page }) => {

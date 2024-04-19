@@ -22,7 +22,6 @@ import { InlineField } from "../../../../containers/FormikForm/InlineField";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
 import { formatDateForBackend } from "../../../../util/formatDate";
 import { isFormikFormDirty } from "../../../../util/formHelper";
-import parseMarkdown from "../../../../util/parseMarkdown";
 import { FormControl, FormField } from "../../../FormField";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
 import { RichTextIndicator } from "../../RichTextIndicator";
@@ -41,7 +40,7 @@ interface LinkBlockFormValues extends Omit<LinkBlockEmbedData, "date" | "title">
 const toInitialValues = (initialData: LinkBlockEmbedData | undefined): LinkBlockFormValues => {
   return {
     resource: "link-block",
-    title: inlineContentToEditorValue(parseMarkdown({ markdown: initialData?.title ?? "", inline: true }), true),
+    title: inlineContentToEditorValue(initialData?.title ?? "", true),
     date: initialData?.date ? new Date(initialData.date) : undefined,
     url: initialData?.url ?? "",
   };

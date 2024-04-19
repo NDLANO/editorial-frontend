@@ -341,6 +341,7 @@ const phrases = {
       title: "Title",
       lastUpdated: "Last updated",
       revisionDate: "Next revision",
+      favorited: "Favorite marks",
     },
     resultError: "Something went wrong with type: {{type}}",
     favourites: "My favourite subjects",
@@ -1351,6 +1352,7 @@ const phrases = {
       },
       edit: "Edit audio",
       remove: "Remove audio",
+      chooseAudioType: "Choose audio type",
       sound: "Audio",
       speech: "Speech",
       dragdrop: {
@@ -1553,7 +1555,6 @@ const phrases = {
   },
   warningMessage: {
     fieldWithWrongLanguage: "This value is fetched from language code: {{language}}",
-    taxonomy: "All taxonomy changes require partial publishing",
   },
   notFound: {
     description: "The page cannot be found",

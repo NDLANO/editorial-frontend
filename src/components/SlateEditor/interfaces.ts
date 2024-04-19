@@ -24,7 +24,7 @@ import { CopyrightElement } from "./plugins/copyright/types";
 import { DefinitionDescriptionElement, DefinitionListElement, DefinitionTermElement } from "./plugins/definitionList";
 import { DetailsElement, SummaryElement } from "./plugins/details";
 import { DivElement } from "./plugins/div";
-import { BrightcoveEmbedElement, ErrorEmbedElement, ImageEmbedElement } from "./plugins/embed";
+import { ErrorEmbedElement, ImageEmbedElement } from "./plugins/embed";
 import { ExternalElement, IframeElement } from "./plugins/external/types";
 import { FileElement } from "./plugins/file";
 import { FootnoteElement } from "./plugins/footnote";
@@ -52,6 +52,7 @@ import {
   TableRowElement,
 } from "./plugins/table/interfaces";
 import { DisclaimerElement } from "./plugins/uuDisclaimer/types";
+import { BrightcoveEmbedElement } from "./plugins/video/types";
 
 export type SlatePlugin = (editor: Editor) => Editor;
 

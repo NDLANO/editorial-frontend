@@ -11,8 +11,8 @@ import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import styled from "@emotion/styled";
-import { CloseButton, IconButtonV2 } from "@ndla/button";
-import { Pencil } from "@ndla/icons/action";
+import { IconButtonV2 } from "@ndla/button";
+import { Cross, Pencil } from "@ndla/icons/action";
 import { DeleteForever } from "@ndla/icons/editor";
 import { ModalBody, ModalHeader, ModalTitle, Modal, ModalTrigger, ModalContent } from "@ndla/modal";
 import { BlogPostEmbedData } from "@ndla/types-embed";
@@ -145,7 +145,9 @@ const SlateBlogPost = ({ element, editor, attributes, children }: Props) => {
       <ModalContent>
         <StyledModalHeader>
           <ModalTitle>{t("blogPostForm.title")}</ModalTitle>
-          <CloseButton onClick={onClose} />
+          <IconButtonV2 variant="ghost" aria-label={t("close")} title={t("close")} onClick={onClose}>
+            <Cross />
+          </IconButtonV2>
         </StyledModalHeader>
         <StyledModalBody>
           <BlogPostForm onSave={onSave} initialData={data} onCancel={onClose} />

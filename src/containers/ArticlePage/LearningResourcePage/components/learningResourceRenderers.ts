@@ -39,6 +39,7 @@ import { sectionRenderer } from "../../../../components/SlateEditor/plugins/sect
 import { spanRenderer } from "../../../../components/SlateEditor/plugins/span/render";
 import { tableRenderer } from "../../../../components/SlateEditor/plugins/table/render";
 import { disclaimerRenderer } from "../../../../components/SlateEditor/plugins/uuDisclaimer/render";
+import { videoRenderer } from "../../../../components/SlateEditor/plugins/video/render";
 
 // Plugins are checked from last to first
 export const learningResourceRenderers: SlatePlugin[] = [
@@ -49,6 +50,7 @@ export const learningResourceRenderers: SlatePlugin[] = [
   footnoteRenderer,
   audioRenderer,
   h5pRenderer,
+  videoRenderer,
   externalRenderer,
   embedRenderer(),
   framedContentRenderer,

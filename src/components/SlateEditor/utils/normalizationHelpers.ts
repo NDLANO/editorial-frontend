@@ -15,7 +15,7 @@ import { TYPE_CODEBLOCK } from "../plugins/codeBlock/types";
 import { TYPE_COMMENT_BLOCK } from "../plugins/comment/block/types";
 import { TYPE_DEFINITION_LIST } from "../plugins/definitionList/types";
 import { TYPE_DETAILS } from "../plugins/details/types";
-import { TYPE_EMBED_BRIGHTCOVE, TYPE_EMBED_ERROR } from "../plugins/embed/types";
+import { TYPE_EMBED_ERROR } from "../plugins/embed/types";
 import { TYPE_EXTERNAL } from "../plugins/external/types";
 import { TYPE_FILE } from "../plugins/file/types";
 import { TYPE_FRAMED_CONTENT } from "../plugins/framedContent/types";
@@ -26,6 +26,7 @@ import { TYPE_LIST } from "../plugins/list/types";
 import { TYPE_PARAGRAPH } from "../plugins/paragraph/types";
 import { TYPE_SPAN } from "../plugins/span/types";
 import { TYPE_TABLE } from "../plugins/table/types";
+import { TYPE_EMBED_BRIGHTCOVE } from "../plugins/video/types";
 
 export const firstTextBlockElement: Element["type"][] = [TYPE_PARAGRAPH, TYPE_HEADING, TYPE_QUOTE];
 

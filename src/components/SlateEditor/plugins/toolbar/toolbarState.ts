@@ -122,6 +122,9 @@ export const defaultAreaOptions: AreaFilters = {
   heading: {
     inline: { hidden: true, "comment-inline": { hidden: false } },
   },
+  table: {
+    text: { hidden: true },
+  },
   "table-cell": {
     table: { hidden: false },
   },

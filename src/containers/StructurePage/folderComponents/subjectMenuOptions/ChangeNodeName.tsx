@@ -12,17 +12,17 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
 
-import { ButtonV2, CloseButton } from "@ndla/button";
+import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { Input } from "@ndla/forms";
+import { FieldErrorMessage, InputV3, Label } from "@ndla/forms";
 import { Pencil } from "@ndla/icons/action";
-import { ModalHeader, ModalBody, Modal, ModalTitle, ModalContent, ModalTrigger } from "@ndla/modal";
+import { ModalHeader, ModalBody, Modal, ModalTitle, ModalContent, ModalTrigger, ModalCloseButton } from "@ndla/modal";
 import { Translation, Node, NodeType } from "@ndla/types-taxonomy";
 import AddNodeTranslation from "./AddNodeTranslation";
 import { Row } from "../../../../components";
 import DeleteButton from "../../../../components/DeleteButton";
 import UIField from "../../../../components/Field";
-import FormikField from "../../../../components/FormikField";
+import { FormControl, FormField } from "../../../../components/FormField";
 import validateFormik, { RulesType } from "../../../../components/formikValidationSchema";
 import RoundIcon from "../../../../components/RoundIcon";
 import SaveButton from "../../../../components/SaveButton";
@@ -69,10 +69,6 @@ const StyledUIField = styled(UIField)`
   margin-right: 0px;
 `;
 
-const StyledFormikField = styled(FormikField)`
-  margin-top: 0px;
-`;
-
 interface FormikTranslationFormValues {
   translations: Translation[];
   name: string;
@@ -104,10 +100,6 @@ const ChangeNodeName = ({ editModeHandler: { editMode, toggleEditMode }, node }:
     [toggleEditMode],
   );
 
-  const onClose = useCallback(() => {
-    toggleEditMode("");
-  }, [toggleEditMode]);
-
   return (
     <>
       <Modal open={editMode === "changeSubjectName"} onOpenChange={onModalChange}>
@@ -118,7 +110,7 @@ const ChangeNodeName = ({ editModeHandler: { editMode, toggleEditMode }, node }:
           </MenuItemButton>
         </ModalTrigger>
         <ModalContent>
-          <ChangeNodeNameContent node={node} onClose={onClose} />
+          <ChangeNodeNameContent node={node} />
         </ModalContent>
       </Modal>
     </>
@@ -126,12 +118,11 @@ const ChangeNodeName = ({ editModeHandler: { editMode, toggleEditMode }, node }:
 };
 
 interface ModalProps {
-  onClose: () => void;
   node: Node;
   nodeType?: NodeType;
 }
 
-const ChangeNodeNameContent = ({ onClose, node, nodeType = "SUBJECT" }: ModalProps) => {
+const ChangeNodeNameContent = ({ node, nodeType = "SUBJECT" }: ModalProps) => {
   const { t } = useTranslation();
   const [updateError, setUpdateError] = useState("");
   const [saved, setSaved] = useState(false);
@@ -234,7 +225,7 @@ const ChangeNodeNameContent = ({ onClose, node, nodeType = "SUBJECT" }: ModalPro
     <>
       <ModalHeader>
         <ModalTitle>{t("taxonomy.changeName.title")}</ModalTitle>
-        <CloseButton title={t("dialog.close")} data-testid="close-modal-button" onClick={onClose} />
+        <ModalCloseButton />
       </ModalHeader>
       <StyledModalBody>
         <Formik
@@ -276,27 +267,41 @@ const ChangeNodeNameContent = ({ onClose, node, nodeType = "SUBJECT" }: ModalPro
             }
             return (
               <StyledForm data-testid="edit-node-name-form">
-                <StyledFormikField name="name" label={t("taxonomy.changeName.defaultName")}>
-                  {({ field }) => <Input {...field} />}
-                </StyledFormikField>
+                <FormField name="name">
+                  {({ field, meta }) => (
+                    <FormControl isRequired isInvalid={!!meta.error}>
+                      <Label margin="none" textStyle="label-small">
+                        {t("taxonomy.changeName.defaultName")}
+                      </Label>
+                      <InputV3 {...field} />
+                      <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                    </FormControl>
+                  )}
+                </FormField>
                 {values.translations.length === 0 && <>{t("taxonomy.changeName.noTranslations")}</>}
                 <FieldArray name="translations">
                   {({ push, remove }) => (
                     <>
                       {values.translations.map((trans, i) => (
                         <Row key={i}>
-                          <StyledFormikField name={`translations.${i}.name`} label={t(`languages.${trans.language}`)}>
-                            {({ field }) => (
-                              <InputRow>
-                                <Input {...field} data-testid={`subjectName_${trans.language}`} />
-                                <StyledDeleteButton
-                                  aria-label={t("form.remove")}
-                                  onClick={() => remove(i)}
-                                  data-testid={`subjectName_${trans.language}_delete`}
-                                />
-                              </InputRow>
+                          <FormField name={`translations.${i}.name`}>
+                            {({ field, meta }) => (
+                              <FormControl isRequired isInvalid={!!meta.error}>
+                                <Label margin="none" textStyle="label-small">
+                                  {t(`languages.${trans.language}`)}
+                                </Label>
+                                <InputRow>
+                                  <InputV3 {...field} data-testid={`subjectName_${trans.language}`} />
+                                  <StyledDeleteButton
+                                    aria-label={t("form.remove")}
+                                    onClick={() => remove(i)}
+                                    data-testid={`subjectName_${trans.language}_delete`}
+                                  />
+                                </InputRow>
+                                <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                              </FormControl>
                             )}
-                          </StyledFormikField>
+                          </FormField>
                         </Row>
                       ))}
                       <AddNodeTranslation
@@ -309,7 +314,9 @@ const ChangeNodeNameContent = ({ onClose, node, nodeType = "SUBJECT" }: ModalPro
                 </FieldArray>
                 <StyledUIField right noBorder>
                   <Row justifyContent="end">
-                    <StyledCancelButton onClick={onClose}>{t("taxonomy.changeName.cancel")}</StyledCancelButton>
+                    <ModalCloseButton>
+                      <StyledCancelButton>{t("taxonomy.changeName.cancel")}</StyledCancelButton>
+                    </ModalCloseButton>
                     <SaveButton
                       data-testid="saveNodeTranslationsButton"
                       size="large"

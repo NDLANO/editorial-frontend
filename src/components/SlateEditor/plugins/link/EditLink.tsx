@@ -10,7 +10,8 @@ import { useTranslation } from "react-i18next";
 import { Editor, Transforms, Element, Path } from "slate";
 import { ReactEditor } from "slate-react";
 import styled from "@emotion/styled";
-import { CloseButton } from "@ndla/button";
+import { IconButtonV2 } from "@ndla/button";
+import { Cross } from "@ndla/icons/action";
 import { ModalBody, ModalHeader, ModalTitle } from "@ndla/modal";
 import { LinkElement, ContentLinkElement } from ".";
 import { Model } from "./Link";
@@ -84,18 +85,17 @@ interface Props {
   closeEditMode: () => void;
   editor: Editor;
   element: LinkElement | ContentLinkElement;
+  handleRemove: () => void;
 }
 
-const EditLink = ({ model, closeEditMode, editor, element }: Props) => {
+const EditLink = ({ model, closeEditMode, editor, element, handleRemove }: Props) => {
   const { t } = useTranslation();
 
   const onClose = () => {
-    ReactEditor.focus(editor);
-    if (!model.href) {
-      handleRemove();
-    } else {
-      handleChangeAndClose();
+    if (model.href) {
+      handleChange();
     }
+    closeEditMode();
   };
 
   const handleSave = async ({ href, text, checkbox }: Model) => {
@@ -119,25 +119,15 @@ const EditLink = ({ model, closeEditMode, editor, element }: Props) => {
           match: (node) => Element.isElement(node) && (node.type === TYPE_LINK || node.type === TYPE_CONTENT_LINK),
         },
       );
-      handleChangeAndClose();
+      handleChange();
+      closeEditMode();
     }
   };
 
-  const handleRemove = () => {
-    const path = ReactEditor.findPath(editor, element);
-
-    ReactEditor.focus(editor);
-    Transforms.unwrapNodes(editor, {
-      at: path,
-      match: (node) => Element.isElement(node) && (node.type === TYPE_LINK || node.type === TYPE_CONTENT_LINK),
-    });
-  };
-
-  const handleChangeAndClose = () => {
+  const handleChange = () => {
     ReactEditor.focus(editor);
     Transforms.select(editor, Path.next(ReactEditor.findPath(editor, element)));
     Transforms.collapse(editor, { edge: "start" });
-    closeEditMode();
   };
 
   const isEdit = model && model.href !== undefined;
@@ -146,7 +136,9 @@ const EditLink = ({ model, closeEditMode, editor, element }: Props) => {
     <>
       <StyledModalHeader>
         <ModalTitle>{t(`form.content.link.${isEdit ? "changeTitle" : "addTitle"}`)}</ModalTitle>
-        <CloseButton onClick={onClose} />
+        <IconButtonV2 variant="ghost" aria-label={t("close")} title={t("close")} onClick={onClose}>
+          <Cross />
+        </IconButtonV2>
       </StyledModalHeader>
       <StyledModalBody>
         <LinkForm onClose={onClose} link={model} isEdit={isEdit} onRemove={handleRemove} onSave={handleSave} />

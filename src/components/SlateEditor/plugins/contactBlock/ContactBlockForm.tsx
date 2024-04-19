@@ -6,20 +6,26 @@
  *
  */
 
-import { Field, FieldProps, Formik } from "formik";
+import { Form, Formik } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { CheckboxItem, InputV2, TextAreaV2, Label, RadioButtonItem, RadioButtonGroup } from "@ndla/forms";
+import {
+  CheckboxItem,
+  Label,
+  RadioButtonItem,
+  RadioButtonGroup,
+  FieldErrorMessage,
+  InputV3,
+  TextAreaV3,
+} from "@ndla/forms";
 import { ContactBlockEmbedData } from "@ndla/types-embed";
 import { TYPE_CONTACT_BLOCK } from "./types";
 import InlineImageSearch from "../../../../containers/ConceptPage/components/InlineImageSearch";
 import { CheckboxWrapper, RadioButtonWrapper, FieldsetRow, StyledFormControl, LeftLegend } from "../../../Form/styles";
 import { FormControl, FormField } from "../../../FormField";
-import FormikField from "../../../FormikField";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
 
 interface ContactBlockFormValues {
@@ -76,31 +82,8 @@ interface Props {
   onCancel: () => void;
 }
 
-const StyledInput = styled(InputV2)`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-`;
-
-const StyledTextArea = styled(TextAreaV2)`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 130px;
-`;
-
-const StyledFormikField = styled(FormikField)`
-  margin: 0px;
-  padding-bottom: ${spacing.small};
-`;
-
-const inputStyle = css`
-  display: flex;
-  flex-direction: column;
-
-  & > label {
-    white-space: nowrap;
-  }
+const StyledTextArea = styled(TextAreaV3)`
+  min-height: ${spacing.xlarge};
 `;
 
 const toInitialValues = (initialData?: ContactBlockEmbedData): ContactBlockFormValues => {
@@ -172,32 +155,57 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
       validateOnMount
       validate={(values) => validateFormik(values, rules, t)}
     >
-      {({ dirty, isValid, handleSubmit }) => (
-        <>
-          <StyledFormikField name="name" showError>
-            {({ field }: FieldProps) => <InputV2 label={t("form.name.name")} {...field} />}
-          </StyledFormikField>
-          <StyledFormikField name="jobTitle" showError>
-            {({ field }: FieldProps) => <StyledInput label={t("form.name.jobTitle")} {...field} />}
-          </StyledFormikField>
-          <StyledFormikField name="email" type="email" showError>
-            {({ field }: FieldProps) => <StyledInput label={t("form.name.email")} {...field} />}
-          </StyledFormikField>
-          <StyledFormikField name="description" showError>
-            {({ field }: FieldProps) => <StyledTextArea label={t("form.name.description")} {...field} />}
-          </StyledFormikField>
+      {({ dirty, isValid, values }) => (
+        <Form>
+          <FormField name="name">
+            {({ field, meta }) => (
+              <FormControl isInvalid={!!meta.error}>
+                <Label margin="none" textStyle="label-small">
+                  {t("form.name.name")}
+                </Label>
+                <InputV3 {...field} />
+                <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+              </FormControl>
+            )}
+          </FormField>
+          <FormField name="jobTitle">
+            {({ field, meta }) => (
+              <FormControl isInvalid={!!meta.error}>
+                <Label margin="none" textStyle="label-small">
+                  {t("form.name.jobTitle")}
+                </Label>
+                <InputV3 {...field} />
+                <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+              </FormControl>
+            )}
+          </FormField>
+          <FormField name="email">
+            {({ field, meta }) => (
+              <FormControl isInvalid={!!meta.error}>
+                <Label margin="none" textStyle="label-small">
+                  {t("form.name.email")}
+                </Label>
+                <InputV3 {...field} type="email" />
+                <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+              </FormControl>
+            )}
+          </FormField>
+          <FormField name="description">
+            {({ field, meta }) => (
+              <FormControl isInvalid={!!meta.error}>
+                <Label margin="none" textStyle="label-small">
+                  {t("form.name.description")}
+                </Label>
+                <StyledTextArea {...field} />
+                <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+              </FormControl>
+            )}
+          </FormField>
           <FormField name="blob">
-            {({ field }) => (
+            {({ field, helpers }) => (
               <StyledFormControl>
                 <RadioButtonGroup
-                  onValueChange={(value: string) =>
-                    field.onChange({
-                      target: {
-                        name: field.name,
-                        value: value,
-                      },
-                    })
-                  }
+                  onValueChange={helpers.setValue}
                   orientation="horizontal"
                   defaultValue={field.value}
                   asChild
@@ -220,17 +228,10 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
             )}
           </FormField>
           <FormField name="blobColor">
-            {({ field }) => (
+            {({ field, helpers }) => (
               <StyledFormControl>
                 <RadioButtonGroup
-                  onValueChange={(value: string) =>
-                    field.onChange({
-                      target: {
-                        name: field.name,
-                        value: value,
-                      },
-                    })
-                  }
+                  onValueChange={helpers.setValue}
                   orientation="horizontal"
                   defaultValue={field.value}
                   asChild
@@ -253,47 +254,42 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
             )}
           </FormField>
           <InlineImageSearch name="metaImageId" disableAltEditing hideAltText />
-          <StyledFormikField name="metaImageAlt">
-            {({ field, form }: FieldProps) => (
-              <>
-                {!form.values.isDecorative && form.values.metaImageId && (
-                  <InputV2 customCss={inputStyle} label={t("form.name.metaImageAlt")} {...field} />
-                )}
-              </>
-            )}
-          </StyledFormikField>
-          <Field name="isDecorative">
-            {({ field, form }: FieldProps) => (
-              <>
-                {!!form.values.metaImageId && (
-                  <FormControl>
-                    <CheckboxWrapper>
-                      <CheckboxItem
-                        checked={field.value}
-                        onCheckedChange={() =>
-                          field.onChange({
-                            target: { name: field.name, value: !field.value },
-                          })
-                        }
-                      />
-                      <Label margin="none" textStyle="label-small">
-                        {t("form.image.isDecorative")}
-                      </Label>
-                    </CheckboxWrapper>
-                  </FormControl>
-                )}
-              </>
-            )}
-          </Field>
+          {!values.isDecorative && !!values.metaImageId && (
+            <FormField name="metaImageAlt">
+              {({ field, meta }) => (
+                <FormControl isInvalid={!!meta.error}>
+                  <Label margin="none" textStyle="label-small">
+                    {t("form.name.metaImageAlt")}
+                  </Label>
+                  <InputV3 {...field} />
+                  <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                </FormControl>
+              )}
+            </FormField>
+          )}
+          {!!values.metaImageId && (
+            <FormField name="isDecorative">
+              {({ field, meta, helpers }) => (
+                <FormControl isInvalid={!!meta.error}>
+                  <CheckboxWrapper>
+                    <Label margin="none" textStyle="label-small">
+                      {t("form.image.isDecorative")}
+                    </Label>
+                    <CheckboxItem checked={field.value} onCheckedChange={helpers.setValue} />
+                  </CheckboxWrapper>
+                </FormControl>
+              )}
+            </FormField>
+          )}
           <ButtonContainer>
             <ButtonV2 variant="outline" onClick={onCancel}>
               {t("cancel")}
             </ButtonV2>
-            <ButtonV2 variant="solid" disabled={!dirty || !isValid} type="submit" onClick={() => handleSubmit()}>
+            <ButtonV2 variant="solid" disabled={!dirty || !isValid} type="submit">
               {t("save")}
             </ButtonV2>
           </ButtonContainer>
-        </>
+        </Form>
       )}
     </Formik>
   );

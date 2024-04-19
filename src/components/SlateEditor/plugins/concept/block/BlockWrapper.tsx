@@ -26,7 +26,6 @@ import { PUBLISHED } from "../../../../../constants";
 import { ConceptType } from "../../../../../containers/ConceptPage/conceptInterfaces";
 import { useFetchConceptData } from "../../../../../containers/FormikForm/formikConceptHooks";
 import { useConceptVisualElement } from "../../../../../modules/embed/queries";
-import parseMarkdown from "../../../../../util/parseMarkdown";
 import { useArticleLanguage } from "../../../ArticleLanguageProvider";
 import ConceptModalContent from "../ConceptModalContent";
 import EditGlossExamplesModal from "../EditGlossExamplesModal";
@@ -77,7 +76,7 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
           content: concept.content
             ? {
                 ...concept.content,
-                content: parseMarkdown({ markdown: concept.content.content }),
+                content: concept.content.content,
               }
             : undefined,
         },

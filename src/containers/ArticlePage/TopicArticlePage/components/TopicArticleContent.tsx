@@ -7,13 +7,13 @@
  */
 
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
 import { FieldHeader } from "@ndla/forms";
 import LastUpdatedLine from "./../../../../components/LastUpdatedLine/LastUpdatedLine";
 
 import { topicArticlePlugins } from "./topicArticlePlugins";
 import { topicArticleRenderers } from "./topicArticleRenderers";
 import { EditMarkupLink } from "../../../../components/EditMarkupLink";
+import { FormField } from "../../../../components/FormField";
 import FormikField from "../../../../components/FormikField";
 import {
   createToolbarAreaOptions,
@@ -27,13 +27,6 @@ import { TopicArticleFormType } from "../../../FormikForm/articleFormHooks";
 import VisualElementField from "../../../FormikForm/components/VisualElementField";
 import { useSession } from "../../../Session/SessionProvider";
 
-const StyledByLineFormikField = styled(FormikField)`
-  display: flex;
-  margin-top: 0;
-  align-items: center;
-  justify-content: space-between;
-`;
-
 const plugins = topicArticlePlugins.concat(topicArticleRenderers);
 
 const toolbarOptions = createToolbarDefaultValues();
@@ -46,25 +39,18 @@ interface Props {
 const TopicArticleContent = (props: Props) => {
   const { t } = useTranslation();
   const {
-    values: { id, language, creators, published },
+    values: { id, language, creators },
   } = props;
   const { userPermissions } = useSession();
 
   return (
     <>
       <TitleField />
-      <StyledByLineFormikField name="published">
-        {({ field, form }) => (
-          <LastUpdatedLine
-            creators={creators}
-            published={published}
-            allowEdit={true}
-            onChange={(date) => {
-              form.setFieldValue(field.name, date);
-            }}
-          />
+      <FormField name="published">
+        {({ field, helpers }) => (
+          <LastUpdatedLine creators={creators} published={field.value} allowEdit={true} onChange={helpers.setValue} />
         )}
-      </StyledByLineFormikField>
+      </FormField>
       <IngressField />
       <VisualElementField />
       <FormikField name="content" label={t("form.content.label")} noBorder>

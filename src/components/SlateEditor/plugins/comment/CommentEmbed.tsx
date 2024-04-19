@@ -17,7 +17,7 @@ import { CommentEmbedData, CommentMetaData } from "@ndla/types-embed";
 import { Text, Heading } from "@ndla/typography";
 import CommentForm from "./CommentForm";
 
-const CommentButton = styled.span`
+const InlineComment = styled.span`
   display: inline;
   span {
     background: ${colors.support.yellowLight};
@@ -59,7 +59,8 @@ const CommentHeader = styled.div`
   border-bottom: 2px solid ${colors.brand.tertiary};
 `;
 
-const BlockComment = styled.div`
+const BlockCommentButton = styled.button`
+  all: unset;
   background: ${colors.support.yellowLight};
   cursor: pointer;
   color: ${colors.brand.grey};
@@ -68,6 +69,7 @@ const BlockComment = styled.div`
   align-items: center;
   gap: ${spacing.xsmall};
   padding: ${spacing.xxsmall} ${spacing.xsmall};
+  width: 100%;
   &:focus,
   &:hover,
   &[data-open="true"] {
@@ -101,16 +103,16 @@ const CommentEmbed = ({ embed, onSave, children, onRemove, commentType }: Props)
     <Root open={isOpen} onOpenChange={setIsOpen}>
       <Trigger asChild type={undefined}>
         {commentType === "inline" ? (
-          <CommentButton role="button" tabIndex={0}>
+          <InlineComment role="button" tabIndex={0}>
             {children}
-          </CommentButton>
+          </InlineComment>
         ) : (
-          <BlockComment contentEditable={false}>
+          <BlockCommentButton type="button">
             <Comment />
             <CommentText textStyle="button" margin="none">
               {embed?.embedData?.text ?? ""}
             </CommentText>
-          </BlockComment>
+          </BlockCommentButton>
         )}
       </Trigger>
       <Portal>

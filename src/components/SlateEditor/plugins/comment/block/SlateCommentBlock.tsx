@@ -16,12 +16,12 @@ import { CommentEmbedData, CommentMetaData } from "@ndla/types-embed";
 import { TYPE_COMMENT_BLOCK } from "./types";
 import CommentEmbed from "../CommentEmbed";
 import CommentForm from "../CommentForm";
-import { CommentElement } from "../interfaces";
+import { CommentBlockElement } from "../interfaces";
 
 interface Props {
   attributes: RenderElementProps["attributes"];
   editor: Editor;
-  element: CommentElement<"comment-block">;
+  element: CommentBlockElement;
   children: ReactNode;
 }
 
@@ -30,7 +30,7 @@ const SlateCommentBlock = ({ attributes, editor, element, children }: Props) => 
   const [modalOpen, setModalOpen] = useState(element.isFirstEdit);
 
   const embed: CommentMetaData | undefined = useMemo(() => {
-    if (!element.data.text) return undefined;
+    if (!element.data?.text) return undefined;
     return {
       status: "success",
       embedData: element.data,

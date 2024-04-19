@@ -8,14 +8,11 @@
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_COMMENT_BLOCK } from "./types";
 
-export const defaultStandaloneCommentBlock = () => {
+export const defaultCommentBlock = () => {
   return slatejsx(
     "element",
     {
       type: TYPE_COMMENT_BLOCK,
-      data: {
-        resource: "comment",
-      },
       isFirstEdit: true,
     },
     [{ text: "" }],

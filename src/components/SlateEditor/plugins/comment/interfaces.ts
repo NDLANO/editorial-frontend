@@ -10,10 +10,15 @@ import { CommentEmbedData } from "@ndla/types-embed";
 import { TYPE_COMMENT_BLOCK } from "./block/types";
 import { TYPE_COMMENT_INLINE } from "./inline/types";
 
-type CommentTypes = typeof TYPE_COMMENT_INLINE | typeof TYPE_COMMENT_BLOCK;
+export interface CommentInlineElement {
+  type: typeof TYPE_COMMENT_INLINE;
+  data: CommentEmbedData;
+  children: Descendant[];
+  isFirstEdit?: boolean;
+}
 
-export interface CommentElement<T extends CommentTypes> {
-  type: T;
+export interface CommentBlockElement {
+  type: typeof TYPE_COMMENT_BLOCK;
   data: CommentEmbedData;
   children: Descendant[];
   isFirstEdit?: boolean;

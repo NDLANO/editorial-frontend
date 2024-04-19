@@ -16,12 +16,12 @@ import { CommentEmbedData, CommentMetaData } from "@ndla/types-embed";
 import { TYPE_COMMENT_INLINE } from "./types";
 import CommentEmbed from "../CommentEmbed";
 import CommentForm from "../CommentForm";
-import { CommentElement } from "../interfaces";
+import { CommentInlineElement } from "../interfaces";
 
 interface Props {
   attributes: RenderElementProps["attributes"];
   editor: Editor;
-  element: CommentElement<"comment-inline">;
+  element: CommentInlineElement;
   children: ReactNode;
 }
 

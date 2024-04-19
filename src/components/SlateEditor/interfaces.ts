@@ -15,7 +15,7 @@ import { BlogPostElement } from "./plugins/blogPost/types";
 import { BreakElement } from "./plugins/break";
 import { CampaignBlockElement } from "./plugins/campaignBlock";
 import { CodeblockElement } from "./plugins/codeBlock";
-import { CommentElement } from "./plugins/comment/interfaces";
+import { CommentBlockElement, CommentInlineElement } from "./plugins/comment/interfaces";
 import { ConceptBlockElement } from "./plugins/concept/block/interfaces";
 import { ConceptInlineElement } from "./plugins/concept/inline/interfaces";
 import { ConceptListElement } from "./plugins/conceptList";
@@ -126,8 +126,8 @@ declare module "slate" {
       | ExternalElement
       | IframeElement
       | CopyrightElement
-      | CommentElement<"comment-inline">
-      | CommentElement<"comment-block">;
+      | CommentInlineElement
+      | CommentBlockElement;
     Text: CustomTextWithMarks;
   }
 }

@@ -117,9 +117,10 @@ const Link = ({ attributes, editor, element, children }: Props) => {
   );
 
   const handleRemove = () => {
+    const path = ReactEditor.findPath(editor, element);
     Transforms.unwrapNodes(editor, {
       match: (node) => Element.isElement(node) && (node.type === TYPE_LINK || node.type === TYPE_CONTENT_LINK),
-      mode: "lowest",
+      at: path,
     });
     ReactEditor.focus(editor);
   };

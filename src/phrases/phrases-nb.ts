@@ -804,6 +804,7 @@ const phrases = {
       sides: "Hvilken side bildet skal vises på",
       transcription: "Transkripsjon",
       type: "Type",
+      text: "Kommentar",
     },
     previewProductionArticle: {
       button: "Sammenlign gjeldende versjon med sist publiserte versjon",

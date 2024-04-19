@@ -12,22 +12,13 @@ import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
-import { colors, fonts, misc, spacing } from "@ndla/core";
-import { Label } from "@ndla/forms";
+import { colors, misc, spacing } from "@ndla/core";
+import { FieldErrorMessage, Label } from "@ndla/forms";
 import { CommentEmbedData } from "@ndla/types-embed";
-import { slateContentStyles } from "../../../../containers/ArticlePage/components/styles";
 import { editorValueToPlainText, plainTextToEditorValue } from "../../../../util/articleContentConverter";
 import { FormControl, FormField } from "../../../FormField";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
 import PlainTextEditor from "../../PlainTextEditor";
-
-const StyledFormControl = styled(FormControl)`
-  [data-comment] {
-    ${slateContentStyles};
-    padding: 0 ${spacing.xxsmall};
-    font-family: ${fonts.sans};
-  }
-`;
 
 const StyledPlainTextEditor = styled(PlainTextEditor)`
   border-radius: ${misc.borderRadius};
@@ -100,12 +91,13 @@ const CommentForm = ({ initialData, onSave, onClose, labelText, labelVisuallyHid
             {({ field, meta }) => {
               return (
                 <>
-                  <StyledFormControl isRequired>
+                  <FormControl isRequired isInvalid={!!meta.error}>
                     <Label visuallyHidden={labelVisuallyHidden} textStyle="label-small" margin="none">
                       {labelText}
                     </Label>
                     <StyledPlainTextEditor id={field.name} {...field} value={initialValues.text} />
-                  </StyledFormControl>
+                  </FormControl>
+                  <FieldErrorMessage>{meta.error}</FieldErrorMessage>
                   <CommentActions>
                     <ButtonV2 onClick={onClose} variant="outline">
                       {t("form.abort")}

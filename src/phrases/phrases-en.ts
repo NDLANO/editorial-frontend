@@ -698,7 +698,7 @@ const phrases = {
       linkBlockList: "Link block",
       gloss: "Gloss",
       disclaimer: "Accessability disclaimer",
-      comment: "Kommentar",
+      comment: "Comment",
     },
   },
   form: {
@@ -803,6 +803,7 @@ const phrases = {
       sides: "Image side",
       transcription: "Transcription",
       type: "Type",
+      text: "Comment",
     },
     previewProductionArticle: {
       button: "Compare current version with last published version",

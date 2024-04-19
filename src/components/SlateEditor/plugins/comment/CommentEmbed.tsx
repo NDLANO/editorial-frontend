@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { Root, Trigger, Content, Arrow, Portal } from "@radix-ui/react-popover";
 import { IconButtonV2 } from "@ndla/button";
-import { colors, spacing, stackOrder } from "@ndla/core";
+import { colors, spacing, animations } from "@ndla/core";
 import { Cross, TrashCanOutline } from "@ndla/icons/action";
 import { Comment } from "@ndla/icons/common";
 import { CommentEmbedData, CommentMetaData } from "@ndla/types-embed";
@@ -37,8 +37,7 @@ const StyledContent = styled(Content)`
   max-width: 700px;
   background-color: ${colors.white};
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
-  animation-duration: 300ms;
-  animation-name: animateIn;
+  ${animations.fadeIn(animations.durations.fast)}
   display: flex;
   flex-direction: column;
   gap: ${spacing.small};
@@ -60,12 +59,6 @@ const CommentHeader = styled.div`
   border-bottom: 2px solid ${colors.brand.tertiary};
 `;
 
-const ContentWrapper = styled.div`
-  div[data-radix-popper-content-wrapper] {
-    z-index: ${stackOrder.popover} !important;
-  }
-`;
-
 const BlockComment = styled.div`
   background: ${colors.support.yellowLight};
   cursor: pointer;
@@ -77,7 +70,6 @@ const BlockComment = styled.div`
   padding: ${spacing.xxsmall} ${spacing.xsmall};
   &:focus,
   &:hover,
-  &:active,
   &[data-open="true"] {
     background: ${colors.support.yellow};
   }
@@ -122,52 +114,50 @@ const CommentEmbed = ({ embed, onSave, children, onRemove, commentType }: Props)
         )}
       </Trigger>
       <Portal>
-        <ContentWrapper>
-          <StyledContent className="PopoverContent" sideOffset={5}>
-            <CommentHeader>
-              <Heading headingStyle="h4" element="h1" margin="none">
-                {t("taxonomy.comment")}
-              </Heading>
-              <div>
-                <IconButtonV2
-                  variant="ghost"
-                  size="xsmall"
-                  aria-label={t("form.workflow.deleteComment.title")}
-                  title={t("form.workflow.deleteComment.title")}
-                  onClick={() => onRemove()}
-                  colorTheme="danger"
-                >
-                  <TrashCanOutline />
-                </IconButtonV2>
-                <IconButtonV2
-                  variant="ghost"
-                  size="xsmall"
-                  aria-label={t("modal.closeModal")}
-                  title={t("modal.closeModal")}
-                  onClick={() => {
-                    setIsOpen(false);
-                  }}
-                >
-                  <Cross />
-                </IconButtonV2>
-              </div>
-            </CommentHeader>
-            <CommentForm
-              initialData={embed.embedData}
-              onSave={(data) => {
-                setIsOpen(false);
-                onSave(data);
-              }}
-              onClose={() => {
-                setIsOpen(false);
-              }}
-              labelText={t("form.workflow.updateComment")}
-              labelVisuallyHidden
-              commentType={commentType}
-            />
-            <StyledArrow />
-          </StyledContent>
-        </ContentWrapper>
+        <StyledContent sideOffset={5}>
+          <CommentHeader>
+            <Heading headingStyle="h4" element="h1" margin="none">
+              {t("form.comment.comment")}
+            </Heading>
+            <div>
+              <IconButtonV2
+                variant="ghost"
+                size="xsmall"
+                aria-label={t("form.workflow.deleteComment.title")}
+                title={t("form.workflow.deleteComment.title")}
+                onClick={onRemove}
+                colorTheme="danger"
+              >
+                <TrashCanOutline />
+              </IconButtonV2>
+              <IconButtonV2
+                variant="ghost"
+                size="xsmall"
+                aria-label={t("modal.closeModal")}
+                title={t("modal.closeModal")}
+                onClick={() => {
+                  setIsOpen(false);
+                }}
+              >
+                <Cross />
+              </IconButtonV2>
+            </div>
+          </CommentHeader>
+          <CommentForm
+            initialData={embed.embedData}
+            onSave={(data) => {
+              setIsOpen(false);
+              onSave(data);
+            }}
+            onClose={() => {
+              setIsOpen(false);
+            }}
+            labelText={t("form.workflow.updateComment")}
+            labelVisuallyHidden
+            commentType={commentType}
+          />
+          <StyledArrow />
+        </StyledContent>
       </Portal>
     </Root>
   );

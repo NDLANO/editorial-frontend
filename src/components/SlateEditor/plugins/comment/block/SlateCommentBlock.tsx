@@ -30,7 +30,7 @@ const SlateCommentBlock = ({ attributes, editor, element, children }: Props) => 
   const [modalOpen, setModalOpen] = useState(element.isFirstEdit);
 
   const embed: CommentMetaData | undefined = useMemo(() => {
-    if (!element.data?.text) return undefined;
+    if (!element.data) return undefined;
     return {
       status: "success",
       embedData: element.data,

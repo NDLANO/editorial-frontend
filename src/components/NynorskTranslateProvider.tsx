@@ -68,7 +68,7 @@ export const useTranslateToNN = () => {
           // the entire html string and reencode it using an xmlSerializer.
           const parsed =
             type === "html" && !isArray
-              ? xmlSerializer.serializeToString(domParser.parseFromString(content, "text/html").body.firstChild!)
+              ? xmlSerializer.serializeToString(domParser.parseFromString(content, "text/html").body!)
               : content;
           acc[field] = { content: parsed, type, isArray };
         }
@@ -85,6 +85,7 @@ export const useTranslateToNN = () => {
                 .replace(/\sxmlns=".*?"/g, "")
                 .replace(/&?lt;/g, "<")
                 .replace(/&?gt;/g, ">")
+                .replace(/<\/?body>/g, "")
             : value;
         set(cloned, key, parsed);
       });

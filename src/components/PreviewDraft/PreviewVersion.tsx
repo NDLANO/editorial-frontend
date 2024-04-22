@@ -49,6 +49,7 @@ const TwoArticleWrapperWithDiff = styled(TwoArticleWrapper)`
 
   .diffins:has(img, div, figure, picture),
   .diffmod:has(div, img, figure, picture) {
+    // Add some padding to show the diff outline on block elements
     padding: 5px;
   }
 

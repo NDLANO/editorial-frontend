@@ -8,8 +8,13 @@
 
 import { useMemo } from "react";
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
-import { IDraftSearchParams, IMultiSearchResult } from "@ndla/types-backend/search-api";
-import { postSearch } from "./searchApi";
+import {
+  IDraftSearchParams,
+  IMultiSearchResult,
+  ISubjectAggregations,
+  ISubjectAggsInput,
+} from "@ndla/types-backend/search-api";
+import { postSearch, searchSubjectStats } from "./searchApi";
 import { DA_SUBJECT_ID, SA_SUBJECT_ID, LMA_SUBJECT_ID } from "../../constants";
 import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVersionProvider";
 import {
@@ -18,7 +23,7 @@ import {
   getResultSubjectIdObject,
   getSubjectsIdsQuery,
 } from "../../containers/WelcomePage/utils";
-import { SEARCH } from "../../queryKeys";
+import { SEARCH, SEARCH_SUBJECT_STATS } from "../../queryKeys";
 import { getAccessToken, getAccessTokenPersonal } from "../../util/authHelpers";
 import { isValid } from "../../util/jwtHelper";
 import { useUserData } from "../draft/draftQueries";
@@ -26,6 +31,7 @@ import { usePostSearchNodes } from "../nodes/nodeQueries";
 
 export const searchQueryKeys = {
   search: (params?: Partial<IDraftSearchParams>) => [SEARCH, params] as const,
+  searchSubjectStats: (params?: Partial<ISubjectAggsInput>) => [SEARCH_SUBJECT_STATS, params] as const,
 };
 
 export interface UseSearch extends IDraftSearchParams {
@@ -60,5 +66,16 @@ export const useSearch = (query: UseSearch, options?: Partial<UseQueryOptions<IM
     queryFn: () => postSearch(actualQuery),
     ...options,
     enabled: options?.enabled && !isLoading && !searchNodesQuery.isLoading,
+  });
+};
+
+export const useSearchSubjectStats = (
+  body: ISubjectAggsInput,
+  options?: Partial<UseQueryOptions<ISubjectAggregations>>,
+) => {
+  return useQuery<ISubjectAggregations>({
+    queryKey: searchQueryKeys.searchSubjectStats(body),
+    queryFn: () => searchSubjectStats(body),
+    ...options,
   });
 };

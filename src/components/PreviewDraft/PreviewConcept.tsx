@@ -22,7 +22,6 @@ export const ConceptWrapper = styled.div`
 export interface ConceptPreviewProps {
   type: "concept";
   language: string;
-  activateButton?: ReactElement;
 }
 
 export const PreviewConcept = ({ language }: ConceptPreviewProps) => {

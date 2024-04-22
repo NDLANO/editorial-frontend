@@ -31,7 +31,6 @@ export interface CompareConceptPreviewProps {
   type: "conceptCompare";
   concept: IConcept;
   language: string;
-  activateButton?: ReactElement;
 }
 
 export const PreviewConceptCompare = ({ concept, language }: CompareConceptPreviewProps) => {

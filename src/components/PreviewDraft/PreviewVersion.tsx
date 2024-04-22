@@ -29,7 +29,6 @@ export interface VersionPreviewProps {
   article: IArticle;
   customTitle?: string;
   language: string;
-  activateButton?: ReactElement;
 }
 
 const SwitchWrapper = styled.div`

@@ -6,14 +6,18 @@
  *
  */
 
-import { ElementType } from "react";
+import { ElementType, ReactElement } from "react";
 import { ModalCloseButton, ModalHeader, ModalSizeType, Modal, ModalTrigger, ModalContent } from "@ndla/modal";
 import { ConceptPreviewProps, PreviewConcept } from "./PreviewConcept";
 import { CompareConceptPreviewProps, PreviewConceptCompare } from "./PreviewConceptCompare";
 import { MarkupPreviewProps, PreviewMarkup } from "./PreviewMarkup";
 import { PreviewVersion, VersionPreviewProps } from "./PreviewVersion";
 
-type Props = MarkupPreviewProps | VersionPreviewProps | CompareConceptPreviewProps | ConceptPreviewProps;
+type PreviewProps = MarkupPreviewProps | VersionPreviewProps | CompareConceptPreviewProps | ConceptPreviewProps;
+
+type Props = PreviewProps & {
+  activateButton: ReactElement;
+};
 
 const components: Record<Props["type"], ElementType> = {
   markup: PreviewMarkup,

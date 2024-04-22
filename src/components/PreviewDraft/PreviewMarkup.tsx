@@ -16,7 +16,6 @@ export interface MarkupPreviewProps {
   type: "markup";
   article: IArticle;
   language: string;
-  activateButton?: ReactElement;
 }
 
 export const PreviewMarkup = ({ article, language }: MarkupPreviewProps) => {

@@ -66,7 +66,7 @@ const TwoArticleWrapperWithDiff = styled(TwoArticleWrapper)`
 `;
 
 export const PreviewVersion = ({ article, language, customTitle }: VersionPreviewProps) => {
-  const [diffEnable, setDiffEnable] = useState(true);
+  const [diffEnable, setDiffEnable] = useState(false);
   const { t } = useTranslation();
   const { values, initialValues } = useFormikContext<LearningResourceFormType>();
   const { data: licenses = [] } = useLicenses();

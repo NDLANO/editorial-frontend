@@ -9,7 +9,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { BaseSelection, Editor, Node, Transforms, Element } from "slate";
-import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
+import { ReactEditor, RenderElementProps } from "slate-react";
 import styled from "@emotion/styled";
 import { Portal } from "@radix-ui/react-portal";
 import { ButtonV2 } from "@ndla/button";
@@ -81,8 +81,8 @@ const Link = ({ attributes, editor, element, children }: Props) => {
   const startOpen = useRef(!hasHrefOrContentId(element));
   const [editMode, setEditMode] = useState(!hasHrefOrContentId(element));
   const [editorSelection, setEditorSelection] = useState<BaseSelection | undefined>(undefined);
+  const [selected, setSelected] = useState<boolean>(false);
   const language = useArticleLanguage();
-  const selected = useSelected();
   const { t } = useTranslation();
 
   const getMenuPosition = () => {
@@ -146,6 +146,27 @@ const Link = ({ attributes, editor, element, children }: Props) => {
     };
     setStateFromNode();
   }, [element, language]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      setSelected(false);
+      const targetNode = event.target as Node | null;
+      if (targetNode instanceof HTMLElement && linkRef.current && linkRef.current.contains(targetNode)) {
+        setSelected(true);
+      }
+    };
+    const handleEscapeKeyPress = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setSelected(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEscapeKeyPress);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscapeKeyPress);
+    };
+  }, [setSelected, selected]);
 
   const { top, left } = getMenuPosition();
 

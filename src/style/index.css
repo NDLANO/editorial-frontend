@@ -45,14 +45,6 @@ mjx-container.MathJax[jax="CHTML"][display="true"] {
   max-width: -webkit-stretch;
 }
 
-.c-figure {
-  display: flow-root;
-
-  &__byline .c-license-icons__list {
-    margin-top: 0;
-  }
-}
-
 .ReactCrop {
   margin-bottom: -6px;
 

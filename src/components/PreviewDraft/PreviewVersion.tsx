@@ -15,7 +15,7 @@ import styled from "@emotion/styled";
 import { colors, spacing } from "@ndla/core";
 import { Switch } from "@ndla/switch";
 import { IArticle } from "@ndla/types-backend/draft-api";
-import { FormArticle, toFormArticle } from "./PreviewDraft";
+import { toFormArticle } from "./PreviewDraft";
 import { TransformedPreviewDraft } from "./TransformedPreviewDraft";
 import { TwoArticleWrapper } from "./TwoArticleWrapper";
 import { useTransformedArticle } from "./useTransformedArticle";

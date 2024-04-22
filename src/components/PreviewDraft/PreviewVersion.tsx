@@ -75,20 +75,9 @@ export const PreviewVersion = ({ article, language, customTitle }: VersionPrevie
     [initialValues, licenses, values],
   );
 
-  const formArticle: FormArticle = {
-    id: article.id,
-    articleType: article.articleType,
-    title: apiType.title ?? "",
-    content: apiType.content ?? "",
-    introduction: apiType.introduction ?? "",
-    visualElement: apiType.visualElement,
-    published: apiType.published,
-    copyright: apiType.copyright,
-  };
-
   const publishedArticle = toFormArticle(article, language);
   const publishedTransformed = useTransformedArticle({ draft: publishedArticle, language });
-  const currentTransformed = useTransformedArticle({ draft: formArticle, language });
+  const currentTransformed = useTransformedArticle({ draft: { ...apiType, id: article.id }, language });
   const currentObj = useMemo(() => {
     if (!diffEnable) return null;
     return {
@@ -120,13 +109,22 @@ export const PreviewVersion = ({ article, language, customTitle }: VersionPrevie
     setDiffEnable((p) => !p);
   }, [setDiffEnable]);
 
-  if (diffEnable && diffObj) {
-    if (publishedTransformed.article && currentTransformed.article) {
-      currentTransformed.article.title = parse(diffObj.titleDiff);
-      currentTransformed.article.introduction = parse(diffObj.introductionDiff);
-      currentTransformed.article.content = parse(diffObj.contentDiff);
+  const transformedWithDiff = useMemo(() => {
+    if (diffEnable && diffObj) {
+      if (publishedTransformed.article && currentTransformed.article) {
+        return {
+          ...currentTransformed,
+          article: {
+            ...currentTransformed.article,
+            title: parse(diffObj.titleDiff),
+            introduction: parse(diffObj.introductionDiff),
+            content: parse(diffObj.contentDiff),
+          },
+        };
+      }
     }
-  }
+    return currentTransformed;
+  }, [currentTransformed, diffEnable, diffObj, publishedTransformed]);
 
   return (
     <>
@@ -154,7 +152,7 @@ export const PreviewVersion = ({ article, language, customTitle }: VersionPrevie
           <div className="u-10/12 u-push-1/12">
             <h2>{t("form.previewProductionArticle.current")}</h2>
           </div>
-          <TransformedPreviewDraft {...currentTransformed} label={article.articleType} />
+          <TransformedPreviewDraft {...transformedWithDiff} label={article.articleType} />
         </div>
       </TwoArticleWrapperWithDiff>
     </>

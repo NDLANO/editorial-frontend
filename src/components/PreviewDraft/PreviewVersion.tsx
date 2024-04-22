@@ -110,18 +110,16 @@ export const PreviewVersion = ({ article, language, customTitle }: VersionPrevie
   }, [setDiffEnable]);
 
   const transformedWithDiff = useMemo(() => {
-    if (diffEnable && diffObj) {
-      if (publishedTransformed.article && currentTransformed.article) {
-        return {
-          ...currentTransformed,
-          article: {
-            ...currentTransformed.article,
-            title: parse(diffObj.titleDiff),
-            introduction: parse(diffObj.introductionDiff),
-            content: parse(diffObj.contentDiff),
-          },
-        };
-      }
+    if (diffEnable && diffObj && publishedTransformed.article && currentTransformed.article) {
+      return {
+        ...currentTransformed,
+        article: {
+          ...currentTransformed.article,
+          title: parse(diffObj.titleDiff),
+          introduction: parse(diffObj.introductionDiff),
+          content: parse(diffObj.contentDiff),
+        },
+      };
     }
     return currentTransformed;
   }, [currentTransformed, diffEnable, diffObj, publishedTransformed]);

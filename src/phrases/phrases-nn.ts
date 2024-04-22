@@ -828,6 +828,8 @@ const phrases = {
       published: "Publisert versjon",
       article: "Artikkel",
       enableDiff: "Marker forskjeller",
+      diffInfo:
+        "Markerer forskjellar i den upubliserte versjonen. Sletta tekst vil markerast med raudt, endra tekst med gult og ny tekst med grønt. Bilete og blokkelement vil visast med ei ramme rundt, men visninga kan vera noko mangelfull for nokre element.",
     },
     previewLanguageArticle: {
       button: "Samanlikn språkversjonar",

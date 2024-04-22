@@ -13,6 +13,7 @@ import { renderToString } from "react-dom/server";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { colors, spacing } from "@ndla/core";
+import { InformationOutline } from "@ndla/icons/common";
 import { Switch } from "@ndla/switch";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import { toFormArticle } from "./PreviewDraft";
@@ -34,7 +35,9 @@ export interface VersionPreviewProps {
 const SwitchWrapper = styled.div`
   display: flex;
   margin-right: ${spacing.xxlarge};
-  justify-content: end;
+  justify-content: flex-end;
+  align-items: center;
+  gap: ${spacing.xsmall};
 `;
 
 const TwoArticleWrapperWithDiff = styled(TwoArticleWrapper)`
@@ -127,6 +130,11 @@ export const PreviewVersion = ({ article, language, customTitle }: VersionPrevie
   return (
     <>
       <SwitchWrapper>
+        <InformationOutline
+          ariaHidden={false}
+          aria-label={t("form.previewProductionArticle.diffInfo")}
+          title={t("form.previewProductionArticle.diffInfo")}
+        />
         <Switch
           onChange={changeDiff}
           checked={diffEnable}

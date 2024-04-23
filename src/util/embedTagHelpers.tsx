@@ -155,7 +155,7 @@ export const createEmbedTag = (data?: { [key: string]: any }) => {
 
 export const isUserProvidedEmbedDataValid = (embed: Embed) => {
   if (embed.resource === "image") {
-    const isDecorative = embed["is-decorative"] === "true";
+    const isDecorative = embed.isDecorative === "true";
     return isDecorative || (!isDecorative && !isEmpty(embed.alt));
   }
   return true;

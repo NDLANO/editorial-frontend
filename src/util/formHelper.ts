@@ -219,7 +219,7 @@ export const learningResourceRules: RulesType<LearningResourceFormType, IArticle
     test: (values) => {
       const embeds = findNodesByType(
         values.content ?? [],
-        "image-embed",
+        "image",
         "brightcove-embed",
         "h5p",
         "audio",

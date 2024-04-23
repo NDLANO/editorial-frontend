@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2023-present, NDLA.
+ * Copyright (c) 2024-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -7,19 +7,20 @@
  */
 
 import { Editor } from "slate";
-import SlateFigure from "./SlateFigure";
-import { isSlateEmbedElement } from "./utils";
+import SlateImage from "./SlateImage";
+import { TYPE_IMAGE } from "./types";
 
-export const embedRenderer = (editor: Editor) => {
+export const imageRenderer = (allowDecorative: boolean) => (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
-    if (isSlateEmbedElement(element)) {
+    if (element.type === TYPE_IMAGE) {
       return (
-        <SlateFigure attributes={attributes} editor={editor} element={element}>
+        <SlateImage attributes={attributes} editor={editor} element={element} allowDecorative={allowDecorative}>
           {children}
-        </SlateFigure>
+        </SlateImage>
       );
     } else return renderElement?.({ attributes, children, element });
   };
+
   return editor;
 };

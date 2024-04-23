@@ -24,10 +24,10 @@ import {
   ImageXxSmall,
 } from "@ndla/icons/editor";
 import { Copyright, Publicdomain } from "@ndla/icons/licenses";
+import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import ImageTransformEditor from "./ImageTransformEditor";
 import { FormField } from "../../components/FormField";
-import { ImageEditFormValues } from "../../components/SlateEditor/plugins/embed/EditImage";
-import { useImage } from "../../modules/image/imageQueries";
+import { ImageEmbedFormValues } from "../../components/SlateEditor/plugins/image/ImageEmbedForm";
 
 const StyledImageEditorMenu = styled.div`
   color: white;
@@ -79,7 +79,7 @@ const bylineOptions = [
   { value: "show", children: <Copyright /> },
 ] as const;
 
-const defaultData: Record<string, Partial<ImageEditFormValues>> = {
+const defaultData: Record<string, Partial<ImageEmbedFormValues>> = {
   focalPoint: {
     focalX: undefined,
     focalY: undefined,
@@ -96,6 +96,7 @@ const defaultData: Record<string, Partial<ImageEditFormValues>> = {
 
 interface Props {
   language: string;
+  image: IImageMetaInformationV3;
 }
 
 const StyledToggleGroup = styled(ToggleGroup)`
@@ -106,16 +107,11 @@ const StyledToggleGroup = styled(ToggleGroup)`
 
 type StateProp = "crop" | "focalPoint" | "none";
 
-const ImageEditor = ({ language }: Props) => {
+const ImageEditor = ({ language, image }: Props) => {
   const { t } = useTranslation();
-  const { values, setValues, setFieldValue } = useFormikContext<ImageEditFormValues>();
+  const { values, setValues, setFieldValue } = useFormikContext<ImageEmbedFormValues>();
   const [editType, setEditType] = useState<StateProp>("none");
   const [aspect, setAspect] = useState<string>("none");
-
-  const imageQuery = useImage(
-    { id: parseInt(values.resourceId), language },
-    { enabled: !!parseInt(values.resourceId) },
-  );
 
   const aspects = [
     {
@@ -178,11 +174,10 @@ const ImageEditor = ({ language }: Props) => {
   );
 
   const isModifiable = useMemo(() => {
-    const image = imageQuery.data;
     if (image) {
       return !(image.copyright.license.license.includes("ND") || image.image.contentType.includes("svg"));
     }
-  }, [imageQuery.data]);
+  }, [image]);
 
   const imageCancelButtonNeeded = useMemo(() => {
     return (editType === "focalPoint" && !!values.focalX) || (editType === "crop" && !!values.upperLeftX);
@@ -275,6 +270,7 @@ const ImageEditor = ({ language }: Props) => {
         language={language}
         editType={editType}
         aspect={aspect === "none" ? undefined : parseFloat(aspect)}
+        image={image}
         onCropComplete={onCropComplete}
         onFocalPointChange={onFocalPointChange}
       />

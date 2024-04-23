@@ -11,7 +11,8 @@ import { MouseEvent, useRef, useState } from "react";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { colors } from "@ndla/core";
-import { ImageEditFormValues } from "../../components/SlateEditor/plugins/embed/EditImage";
+import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
+import { ImageEmbedFormValues } from "../../components/SlateEditor/plugins/image/ImageEmbedForm";
 import { getElementOffset, getClientPos, getImageDimensions, getSrcSets } from "../../util/imageEditorUtil";
 
 const StyledFocalPointButton = styled(ButtonV2)`
@@ -39,6 +40,7 @@ const StyledFocalPointContainer = styled("div")`
 interface Props {
   language: string;
   onFocalPointChange: (focalPoint: { x: number; y: number }) => void;
+  image: IImageMetaInformationV3;
 }
 
 type Marker = {
@@ -47,8 +49,8 @@ type Marker = {
   showMarker: boolean;
 };
 
-const ImageFocalPointEdit = ({ language, onFocalPointChange }: Props) => {
-  const { values } = useFormikContext<ImageEditFormValues>();
+const ImageFocalPointEdit = ({ language, onFocalPointChange, image }: Props) => {
+  const { values } = useFormikContext<ImageEmbedFormValues>();
   const focalImgRef = useRef<HTMLImageElement | null>(null);
   const [marker, setMarker] = useState<Marker>({
     showMarker: false,
@@ -102,7 +104,7 @@ const ImageFocalPointEdit = ({ language, onFocalPointChange }: Props) => {
             alt={values.alt}
             ref={focalImgRef}
             onLoad={(e) => setXandY(e.target as HTMLImageElement)}
-            srcSet={getSrcSets(values.resourceId, values, language)}
+            srcSet={getSrcSets(image.id, values, language)}
           />
         </StyledFocalPointButton>
         <StyledFocalPointMarker style={style} />

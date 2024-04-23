@@ -173,7 +173,7 @@ test("isUserProvidedEmbedDataValid for image", () => {
   expect(
     isUserProvidedEmbedDataValid({
       resource: "image",
-      resource_id: "123",
+      resourceId: "123",
       alt: "Alternative",
       caption: "Intervju med Hallvard",
     }),
@@ -182,7 +182,7 @@ test("isUserProvidedEmbedDataValid for image", () => {
   expect(
     isUserProvidedEmbedDataValid({
       resource: "image",
-      resource_id: "123",
+      resourceId: "123",
       alt: "",
       caption: "Intervju med Hallvard",
     }),
@@ -191,7 +191,7 @@ test("isUserProvidedEmbedDataValid for image", () => {
   expect(
     isUserProvidedEmbedDataValid({
       resource: "image",
-      resource_id: "123",
+      resourceId: "123",
       alt: "Alt",
     }),
   ).toBe(true);

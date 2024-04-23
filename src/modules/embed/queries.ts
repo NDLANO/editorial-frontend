@@ -8,11 +8,10 @@
 
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { IConceptSummary } from "@ndla/types-backend/concept-api";
+import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import {
   AudioMeta,
-  BrightcoveApiType,
   BrightcoveData,
-  BrightcoveMetaData,
   ConceptListData,
   ConceptVisualElementMeta,
   H5pData,
@@ -29,7 +28,8 @@ import {
   fetchExternal,
   fetchH5pMeta,
 } from "./embedApi";
-import { AUDIO_EMBED, BRIGHTCOVE_EMBED } from "../../queryKeys";
+import { AUDIO_EMBED, BRIGHTCOVE_EMBED, IMAGE_EMBED } from "../../queryKeys";
+import { fetchImage } from "../image/imageApi";
 
 export const useBrightcoveMeta = (
   resourceId: string,
@@ -47,6 +47,18 @@ export const useAudioMeta = (resourceId: string, language: string, options?: Par
   return useQuery<AudioMeta>({
     queryKey: [AUDIO_EMBED, resourceId, language],
     queryFn: () => fetchAudioMeta(resourceId, language),
+    ...options,
+  });
+};
+
+export const useImageMeta = (
+  resourceId: string,
+  language: string,
+  options?: Partial<UseQueryOptions<IImageMetaInformationV3>>,
+) => {
+  return useQuery<IImageMetaInformationV3>({
+    queryKey: [IMAGE_EMBED, resourceId, language],
+    queryFn: () => fetchImage(resourceId, language),
     ...options,
   });
 };

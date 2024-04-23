@@ -69,8 +69,6 @@ export const TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE = "subjectType";
 export const TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA = "subjectLMA";
 export const TAXONOMY_CUSTOM_FIELD_SUBJECT_SA = "subjectSA";
 export const TAXONOMY_CUSTOM_FIELD_SUBJECT_DA = "subjectDA";
-export const TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH = "requestPublish";
-export const TAXONOMY_CUSTOM_FIELD_IS_PUBLISHING = "isPublishing";
 export const TAXONOMY_CUSTOM_FIELD_PROGRAMME_SUBJECT = "programfag";
 
 export const MAX_IMAGE_UPLOAD_SIZE = 1024 * 1024 * 40; // 40MB.

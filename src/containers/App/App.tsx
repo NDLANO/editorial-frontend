@@ -51,7 +51,6 @@ import NodeDiffPage from "../NodeDiff/NodeDiffPage";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import PreviewDraftPage from "../PreviewDraftPage/PreviewDraftPage";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
-import PublishRequestsPage from "../PublishRequests/PublishRequestsPage";
 import { getSessionStateFromLocalStorage, SessionProvider } from "../Session/SessionProvider";
 import ProgrammePage from "../StructurePage/ProgrammePage";
 import StructurePage from "../StructurePage/StructurePage";
@@ -98,7 +97,6 @@ const App = () => {
                   <Route path="/structure/*" element={<PrivateRoute component={<StructurePage />} />} />
                   <Route path="/programme/*" element={<PrivateRoute component={<ProgrammePage />} />} />
                   <Route path="/taxonomyVersions/*" element={<PrivateRoute component={<TaxonomyVersionsPage />} />} />
-                  <Route path="/publishRequests/*" element={<PrivateRoute component={<PublishRequestsPage />} />} />
                   <Route path="/nodeDiff/:nodeId" element={<PrivateRoute component={<NodeDiffPage />} />} />
                   <Route path="/frontpage/" element={<PrivateRoute component={<FrontpageEditPage />} />} />
                   <Route path="/forbidden" element={<ForbiddenPage />} />

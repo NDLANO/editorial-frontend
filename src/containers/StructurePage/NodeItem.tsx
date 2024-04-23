@@ -26,7 +26,7 @@ import {
   StyledItemBar,
   StyledStructureItem,
 } from "../../components/Taxonomy/nodeStyles";
-import { TAXONOMY_ADMIN_SCOPE, TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH } from "../../constants";
+import { TAXONOMY_ADMIN_SCOPE } from "../../constants";
 import { NodeChildWithChildren } from "../../modules/nodes/nodeQueries";
 import { createGuard } from "../../util/guards";
 import { nodePathToUrnPath } from "../../util/taxonomyHelpers";
@@ -159,7 +159,6 @@ const NodeItem = ({
   };
 
   const nodeTypeIcon = useMemo(() => getNodeIcon(item.nodeType), [item.nodeType]);
-  const publishing = item.metadata.customFields[TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH] === "true";
 
   return (
     <StyledStructureItem connectionId={connectionId} id={item.id} key={path} greyedOut={!parentActive && !isActive}>
@@ -185,15 +184,6 @@ const NodeItem = ({
           <IconWrapper title={t(nodeTypeIcon.title)} aria-label={t(nodeTypeIcon.title)}>
             {nodeTypeIcon.icon}
           </IconWrapper>
-          {publishing && (
-            <IconWrapper
-              data-color="green"
-              title={t("diff.fields.requestPublish.title")}
-              aria-label={t("diff.fields.requestPublish.title")}
-            >
-              <CloudUploadOutline />
-            </IconWrapper>
-          )}
           {item.name}
         </ItemTitleButton>
         {isActive && (

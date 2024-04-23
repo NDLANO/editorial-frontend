@@ -15,6 +15,7 @@ interface Props extends ComponentProps<typeof IconButtonV2> {}
 export const DeleteButton = ({ children, ...rest }: Props) => (
   <IconButtonV2
     colorTheme="danger"
+    tabIndex={-1}
     variant="ghost"
     contentEditable={false}
     data-testid="close-related-button"

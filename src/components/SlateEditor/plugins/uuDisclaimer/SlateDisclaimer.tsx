@@ -116,6 +116,7 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
           <ModalTrigger>
             <IconButtonV2
               variant="ghost"
+              tabIndex={-1}
               aria-label={t("form.disclaimer.edit")}
               data-testid="edit-disclaimer"
               title={t("form.disclaimer.edit")}

@@ -8,7 +8,7 @@
 import { useFormikContext } from "formik";
 import isEqual from "lodash/isEqual";
 import { FocusEvent, KeyboardEvent, useCallback, useEffect, useRef, useState } from "react";
-import { createEditor, Descendant, Editor, NodeEntry, Range, Transforms, Element } from "slate";
+import { createEditor, Descendant, Editor, Node, NodeEntry, Path, Range, Transforms } from "slate";
 import { withHistory } from "slate-history";
 import { Slate, Editable, withReact, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
 import { EditableProps } from "slate-react/dist/components/editable";
@@ -20,11 +20,17 @@ import { Action, commonActions } from "./plugins/blockPicker/actions";
 import { BlockPickerOptions, createBlockpickerOptions } from "./plugins/blockPicker/options";
 import SlateBlockPicker from "./plugins/blockPicker/SlateBlockPicker";
 import { onDragOver, onDragStart, onDrop } from "./plugins/DND";
+import { TYPE_GRID_CELL } from "./plugins/grid/types";
+import { TYPE_HEADING } from "./plugins/heading/types";
 import { TYPE_PARAGRAPH } from "./plugins/paragraph/types";
+import { TYPE_TABLE_CELL } from "./plugins/table/types";
 import { SlateToolbar } from "./plugins/toolbar";
 import { AreaFilters, CategoryFilters } from "./plugins/toolbar/toolbarState";
+import { TYPE_DISCLAIMER } from "./plugins/uuDisclaimer/types";
 import { SlateProvider } from "./SlateContext";
 import getCurrentBlock from "./utils/getCurrentBlock";
+import { getNextParagraph, manualTypes } from "./utils/getNextParagraph";
+import getNodeByPath from "./utils/getNodeByPath";
 import { KEY_ARROW_LEFT, KEY_ARROW_RIGHT, KEY_TAB } from "./utils/keys";
 import withPlugins from "./utils/withPlugins";
 import { BLOCK_PICKER_TRIGGER_ID } from "../../constants";
@@ -222,9 +228,61 @@ const RichTextEditor = ({
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent<HTMLDivElement>) => {
-      const [selectedParagraph] = getCurrentBlock(editor, TYPE_PARAGRAPH) || [];
+      if (e.key === KEY_TAB) {
+        const [selectedElement] =
+          getCurrentBlock(editor, TYPE_PARAGRAPH) || getCurrentBlock(editor, TYPE_HEADING) || [];
+        if (!selectedElement) return;
 
-      if (e.key === KEY_TAB && selectedParagraph) return;
+        let path = ReactEditor.findPath(editor, selectedElement!);
+        if (!Editor.after(editor, path, { unit: "block", voids: false })) return; // If there is no block after the current block, move out from the editor
+        e.preventDefault();
+        let nodeToMoveTo: Descendant[] | Node | null = null;
+
+        while (!nodeToMoveTo) {
+          const nextPath = Path.next(path);
+          const nextNode = getNodeByPath(editor.children, nextPath);
+
+          if (!nextNode) {
+            const parent = Editor.parent(editor, nextPath);
+            path = parent[1];
+            if ("type" in parent[0]) {
+              if (parent[0].type === TYPE_DISCLAIMER) {
+                nodeToMoveTo = getNodeByPath(editor.children, Path.next(path));
+              } else if (parent[0].type === TYPE_GRID_CELL || parent[0].type === TYPE_TABLE_CELL) {
+                const sibling = getNodeByPath(editor.children, Path.next(path));
+                if (sibling) {
+                  const [paragraphNode] = getCurrentBlock(editor, TYPE_PARAGRAPH, Path.next(path)) || [];
+                  nodeToMoveTo = paragraphNode!;
+                } else {
+                  const parentParent = Editor.parent(editor, path);
+                  path = parentParent[1];
+                  nodeToMoveTo = Editor.next(editor, { at: parentParent[1], mode: "highest" })?.[0]!;
+                }
+              }
+            } else {
+              nodeToMoveTo = parent[0];
+            }
+          } else if (Array.isArray(nextNode)) {
+            nodeToMoveTo = nextNode;
+          } else if (!("type" in nextNode)) {
+            path = ReactEditor.findPath(editor, nextNode);
+          } else if (Editor.isVoid(editor, nextNode)) {
+            path = nextPath;
+          } else if (manualTypes.includes(nextNode.type)) {
+            nodeToMoveTo = getNextParagraph(editor, nextNode) || null;
+          } else {
+            nodeToMoveTo = nextNode;
+          }
+        }
+
+        if ("type" in nodeToMoveTo) {
+          if (Editor.isVoid(editor, nodeToMoveTo)) Transforms.move(editor, { unit: "offset" });
+          Transforms.select(editor, ReactEditor.findPath(editor, nodeToMoveTo));
+          Transforms.collapse(editor);
+          ReactEditor.focus(editor);
+          return;
+        }
+      }
 
       if (editor.selection && Range.isCollapsed(editor.selection) && !e.shiftKey) {
         if (e.key === KEY_ARROW_LEFT) {

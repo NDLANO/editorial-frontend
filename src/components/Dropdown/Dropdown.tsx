@@ -87,6 +87,7 @@ const Dropdown = ({ onSelect, selectedTag, onReset, items, placeholder }: Props)
           <DropdownContainer {...getRootProps()}>
             <DropdownInput
               idField={"id"}
+              //@ts-ignore
               labelField={"name"}
               multiSelect
               {...getInputProps({
@@ -109,6 +110,7 @@ const Dropdown = ({ onSelect, selectedTag, onReset, items, placeholder }: Props)
               maxRender={1000}
               hideTotalSearchCount
               positionAbsolute
+              highlightedIndex={undefined}
             />
           </DropdownContainer>
         );

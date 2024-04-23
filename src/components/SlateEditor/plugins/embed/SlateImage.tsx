@@ -17,6 +17,7 @@ import { Pencil } from "@ndla/icons/action";
 import { DeleteForever, Link } from "@ndla/icons/editor";
 import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
 import { SafeLinkIconButton } from "@ndla/safelink";
+import { Figure } from "@ndla/ui";
 import EditImage from "./EditImage";
 import { StyledDeleteEmbedButton, StyledFigureButtons } from "./FigureButtons";
 import { CaptionButton, FigureInfo, StyledFigcaption } from "./SlateFigure";
@@ -28,7 +29,6 @@ interface Props {
   active?: boolean;
   attributes: RenderElementProps["attributes"];
   embed: ImageEmbed;
-  figureClass?: { className: string };
   isSelectedForCopy?: boolean;
   language: string;
   onRemoveClick: (event: MouseEvent) => void;
@@ -55,7 +55,6 @@ const SlateImage = ({
   active,
   attributes,
   embed,
-  figureClass,
   isSelectedForCopy,
   language,
   onRemoveClick,
@@ -81,7 +80,7 @@ const SlateImage = ({
     const size = embed.size && ["small", "xsmall"].includes(embed.size) ? `-${embed.size}` : "";
     const align = embed.align && ["left", "right"].includes(embed.align) ? `-${embed.align}` : "";
 
-    return `c-figure ${!isFullWidth ? `u-float${size}${align}` : ""}`;
+    return !isFullWidth ? `u-float${size}${align}` : "";
   };
 
   const toggleEditMode = () => {
@@ -104,7 +103,6 @@ const SlateImage = ({
       <StyledSlateImage
         {...attributes}
         draggable={!visualElement && !editMode}
-        className={constructFigureClassName()}
         data-border={!!embed.alt && embed["is-decorative"]}
       >
         <ModalContent modalMargin="none">
@@ -117,7 +115,7 @@ const SlateImage = ({
           />
         </ModalContent>
         {!visualElement && (
-          <figure {...figureClass} contentEditable={false}>
+          <Figure className={constructFigureClassName()} contentEditable={false}>
             <StyledFigureButtons data-white={true}>
               <ModalTrigger>
                 <IconButtonV2
@@ -171,7 +169,7 @@ const SlateImage = ({
                 <FigureInfo>{embed.caption && parse(embed.caption)}</FigureInfo>
               </StyledFigcaption>
             </CaptionButton>
-          </figure>
+          </Figure>
         )}
         {children}
       </StyledSlateImage>

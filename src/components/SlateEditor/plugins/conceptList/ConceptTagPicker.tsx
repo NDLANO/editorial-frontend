@@ -154,7 +154,7 @@ const ConceptTagPicker = ({ element, language, onSave: onSaveProp }: Props) => {
             ) : conceptSearchQuery.data?.results.length ? (
               <div>
                 <p>{`${t("searchPage.totalCount")}: ${conceptSearchQuery.data.totalCount}`}</p>
-                <Figure type="full" resizeIframe>
+                <Figure type="full">
                   <StyledList>
                     {conceptSearchQuery.data.results?.map((concept) => (
                       <li key={concept.id}>

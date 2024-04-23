@@ -7,7 +7,7 @@
  */
 import Downshift, { GetInputPropsOptions, StateChangeOptions } from "downshift";
 import debounce from "lodash/debounce";
-import { ChangeEvent, Ref, useCallback, useEffect, useState } from "react";
+import { ChangeEvent, FocusEvent, KeyboardEvent, Ref, useCallback, useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 //@ts-ignore
@@ -47,9 +47,9 @@ interface Props<ApiType> {
     selectedItems: object[];
     value: string;
     removeItem?: (tag: string) => void;
-    onBlur?: (event: Event) => void;
+    onBlur?: (event: FocusEvent<HTMLInputElement>) => void;
     onChange?: (evt: ChangeEvent<HTMLInputElement>) => void;
-    onKeyDown: (event: KeyboardEvent) => void;
+    onKeyDown: (event: KeyboardEvent<HTMLInputElement>) => void;
   }) => JSX.Element;
   clearInputField?: boolean;
   customCreateButtonText?: string;
@@ -272,11 +272,10 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
               onCreate={onCreate && handleCreate}
               customCreateButtonText={customCreateButtonText}
               hideTotalSearchCount={hideTotalSearchCount}
-              page={showPagination && page}
+              page={showPagination ? page : undefined}
               handlePageChange={handlePageChange}
               menuHeight={menuHeight}
               maxRender={maxRender ? maxRender : pageSize}
-              pageSize={pageSize}
             />
           </div>
         );

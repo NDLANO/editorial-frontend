@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import FrontpageArticleFormContent from "./FrontpageArticleFormContent";
 import FormAccordion from "../../../../components/Accordion/FormAccordion";
-import FormAccordions from "../../../../components/Accordion/FormAccordions";
+import FormAccordionsWithComments from "../../../../components/Accordion/FormAccordionsWithComments";
 import { useWideArticle } from "../../../../components/WideArticleEditorProvider";
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from "../../../FormikForm";
 import { FrontpageArticleFormType } from "../../../FormikForm/articleFormHooks";
@@ -34,10 +34,10 @@ const FrontpageArticlePanels = ({ article, articleHistory, articleLanguage }: Pr
   const copyrightFields = useMemo<(keyof IArticle)[]>(() => ["copyright"], []);
 
   return (
-    <FormAccordions
+    <FormAccordionsWithComments
       defaultOpen={["frontpage-article-content"]}
       articleId={article?.id}
-      articleType={article?.articleType}
+      articleType="frontpage-article"
     >
       <FormAccordion
         id={"frontpage-article-content"}
@@ -102,7 +102,7 @@ const FrontpageArticlePanels = ({ article, articleHistory, articleLanguage }: Pr
           />
         </FormAccordion>
       )}
-    </FormAccordions>
+    </FormAccordionsWithComments>
   );
 };
 

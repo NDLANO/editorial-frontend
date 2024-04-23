@@ -32,8 +32,6 @@ import {
   getExpirationDate,
   learningResourceFormTypeToDraftApiType,
 } from "../../articleTransformers";
-import CommentSection from "../../components/CommentSection";
-import { FlexWrapper, MainContent } from "../../styles";
 
 interface Props {
   article?: IArticle;
@@ -136,23 +134,18 @@ const LearningResourceForm = ({
           type="standard"
           expirationDate={getExpirationDate(article)}
         />
-        <FlexWrapper>
-          <MainContent>
-            <TaxonomyVersionProvider>
-              <LearningResourcePanels
-                // Formik does not allow for invalid form submissions through their handleSubmit function, so we have to bypass formik
-                handleSubmit={handleSubmit}
-                articleLanguage={articleLanguage}
-                article={article}
-                articleHistory={articleHistory?.data}
-                taxonomy={articleTaxonomy}
-                updateNotes={updateArticle}
-                contexts={contexts}
-              />
-            </TaxonomyVersionProvider>
-          </MainContent>
-          <CommentSection savedStatus={article?.status} articleType="standard" />
-        </FlexWrapper>
+        <TaxonomyVersionProvider>
+          <LearningResourcePanels
+            // Formik does not allow for invalid form submissions through their handleSubmit function, so we have to bypass formik
+            handleSubmit={handleSubmit}
+            articleLanguage={articleLanguage}
+            article={article}
+            articleHistory={articleHistory?.data}
+            taxonomy={articleTaxonomy}
+            updateNotes={updateArticle}
+            contexts={contexts}
+          />
+        </TaxonomyVersionProvider>
         <FormFooter
           articleChanged={!!articleChanged}
           isNewlyCreated={isNewlyCreated}

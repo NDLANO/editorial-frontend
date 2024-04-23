@@ -14,7 +14,7 @@ import { Node, TaxonomyContext } from "@ndla/types-taxonomy";
 import LearningResourceContent from "./LearningResourceContent";
 import LearningResourceTaxonomy from "./LearningResourceTaxonomy";
 import FormAccordion from "../../../../components/Accordion/FormAccordion";
-import FormAccordions from "../../../../components/Accordion/FormAccordions";
+import FormAccordionsWithComments from "../../../../components/Accordion/FormAccordionsWithComments";
 import { IsNewArticleLanguageProvider } from "../../../../components/SlateEditor/IsNewArticleLanguageProvider";
 import config from "../../../../config";
 import { TAXONOMY_WRITE_SCOPE } from "../../../../constants";
@@ -54,7 +54,7 @@ const LearningResourcePanels = ({
   const copyrightFields = useMemo<(keyof IArticle)[]>(() => ["copyright"], []);
 
   return (
-    <FormAccordions defaultOpen={defaultOpen}>
+    <FormAccordionsWithComments defaultOpen={defaultOpen} articleType="standard" articleStatus={article?.status}>
       <FormAccordion
         id={"learning-resource-content"}
         title={
@@ -156,7 +156,7 @@ const LearningResourcePanels = ({
           />
         </FormAccordion>
       )}
-    </FormAccordions>
+    </FormAccordionsWithComments>
   );
 };
 

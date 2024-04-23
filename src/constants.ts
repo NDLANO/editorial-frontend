@@ -78,7 +78,6 @@ export const LAST_UPDATED_SIZE = 50;
 
 export const MAX_PAGE_WIDTH = 1024;
 export const MAX_FRONTPAGE_ARTICLE_WIDTH = 1400;
-export const DEFAULT_FRONTPAGE_ARTICLE_WIDTH = 1073;
 
 export const LOCALE_VALUES = ["nb", "nn", "en", "se", "sma"] as const;
 
@@ -136,6 +135,7 @@ export const STORED_ON_HOLD_LMA_SUBJECT = "STORED_ON_HOLD_LMA_SUBJECT";
 export const STORED_ON_HOLD_DA_SUBJECT = "STORED_ON_HOLD_DA_SUBJECT";
 export const STORED_ON_HOLD_SA_SUBJECT = "STORED_ON_HOLD_SA_SUBJECT";
 export const STORED_ON_HOLD_FAVORITES = "STORED_ON_HOLD_FAVORITES";
+export const STORED_HIDE_COMMENTS = "STORED_HIDE_COMMENTS";
 
 export const EXTERNAL_WHITELIST_PROVIDERS: WhitelistProvider[] = [
   { name: "H5P", url: ["h5p"] },

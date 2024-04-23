@@ -14,7 +14,7 @@ import { ChildType } from "./FormAccordionsWithComments";
 
 interface Props {
   openAccordions: string[];
-  setOpenAccordions: (v: string[]) => void;
+  setOpenAccordions: (values: string[]) => void;
   childs: ChildType | ChildType[];
 }
 
@@ -26,13 +26,13 @@ const OpenAllButton = ({ openAccordions, setOpenAccordions, childs }: Props) => 
   const { t } = useTranslation();
 
   const accordionChildren = useMemo(
-    () => Children.map(childs, (c) => (!c ? false : c?.props?.id))?.filter(Boolean) ?? [],
+    () => Children.map(childs, (c) => (c ? c.props?.id : false))?.filter(Boolean) ?? [],
     [childs],
   );
 
   const allOpen = useMemo(
     () => accordionChildren.length === openAccordions.length,
-    [accordionChildren, openAccordions.length],
+    [accordionChildren.length, openAccordions.length],
   );
 
   const onChangeAll = useCallback(() => {

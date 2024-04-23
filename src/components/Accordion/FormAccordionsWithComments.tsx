@@ -55,7 +55,7 @@ const CommentWrapper = styled.div`
 const StyledSwitch = styled(Switch)`
   > label {
     font-weight: ${fonts.weight.semibold};
-    font-size: ${fonts.size.text.button};
+    ${fonts.size.text.button};
   }
   min-height: 40px;
   display: flex;

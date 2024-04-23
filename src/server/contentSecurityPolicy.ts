@@ -178,6 +178,7 @@ const frameSrc = (() => {
     "fb.watch",
     "sketchfab.com",
     "jeopardylabs.com",
+    "*.uio.no",
   ];
   if (process.env.NODE_ENV === "development") {
     return [

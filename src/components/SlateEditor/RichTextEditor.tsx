@@ -19,6 +19,7 @@ import { SlatePlugin } from "./interfaces";
 import { Action, commonActions } from "./plugins/blockPicker/actions";
 import { BlockPickerOptions, createBlockpickerOptions } from "./plugins/blockPicker/options";
 import SlateBlockPicker from "./plugins/blockPicker/SlateBlockPicker";
+import { TYPE_DEFINITION_LIST } from "./plugins/definitionList/types";
 import { onDragOver, onDragStart, onDrop } from "./plugins/DND";
 import { TYPE_GRID_CELL } from "./plugins/grid/types";
 import { TYPE_HEADING } from "./plugins/heading/types";
@@ -228,11 +229,8 @@ const RichTextEditor = ({
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent<HTMLDivElement>) => {
-      if (e.key === KEY_TAB) {
-        const [selectedElement] =
-          getCurrentBlock(editor, TYPE_PARAGRAPH) || getCurrentBlock(editor, TYPE_HEADING) || [];
-        if (!selectedElement) return;
-
+      const [selectedElement] = getCurrentBlock(editor, TYPE_PARAGRAPH) || getCurrentBlock(editor, TYPE_HEADING) || [];
+      if (e.key === KEY_TAB && selectedElement) {
         let path = ReactEditor.findPath(editor, selectedElement!);
         if (!Editor.after(editor, path, { unit: "block", voids: false })) return; // If there is no block after the current block, move out from the editor
         e.preventDefault();
@@ -266,7 +264,7 @@ const RichTextEditor = ({
             nodeToMoveTo = nextNode;
           } else if (!("type" in nextNode)) {
             path = ReactEditor.findPath(editor, nextNode);
-          } else if (Editor.isVoid(editor, nextNode)) {
+          } else if (Editor.isVoid(editor, nextNode) || nextNode.type === TYPE_DEFINITION_LIST) {
             path = nextPath;
           } else if (manualTypes.includes(nextNode.type)) {
             nodeToMoveTo = getNextParagraph(editor, nextNode) || null;

@@ -11,6 +11,7 @@ import toArray from "lodash/toArray";
 import { cloneElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { Descendant, Node, Text } from "slate";
+import { AudioEmbedData, ImageEmbedData } from "@ndla/types-embed";
 import { convertFromHTML } from "./convertFromHTML";
 import { parseEmbedTag, createEmbedTag, createEmbedTagV2 } from "./embedTagHelpers";
 import { Plain } from "./slatePlainSerializer";
@@ -265,7 +266,10 @@ export function editorValueToEmbed(editorValue?: Descendant[]) {
 export function editorValueToEmbedTag(editorValue?: Descendant[]) {
   const embed = editorValueToEmbed(editorValue);
   if (embed) {
-    const embedTag = embed?.resource === "audio" ? createEmbedTagV2(embed) : createEmbedTag(embed);
+    const embedTag =
+      embed?.resource === "audio" || embed?.resource === "image"
+        ? createEmbedTagV2<ImageEmbedData | AudioEmbedData>(embed)
+        : createEmbedTag(embed);
     return embedTag ? renderToStaticMarkup(embedTag) : "";
   }
   return "";

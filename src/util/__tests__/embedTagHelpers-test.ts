@@ -23,7 +23,7 @@ test("parseEmbedTag parses image embed tag to object", () => {
       data-resource="image"
       data-alt="Guinness sign"
       data-caption="Guinness is good for you" data-resource_id="42159"
-      data-id="0"
+      data-resource_id="0"
       data-url="https://api.ndla.no/image-api/v3/images/42159"></ndlaembed>`,
   );
   expect(obj).toMatchSnapshot();

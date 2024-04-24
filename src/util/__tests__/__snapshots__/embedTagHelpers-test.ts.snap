@@ -100,7 +100,7 @@ exports[`parseEmbedTag parses image embed tag to object 1`] = `
   "alt": "Guinness sign",
   "caption": "Guinness is good for you",
   "resource": "image",
-  "resource_id": "42159",
+  "resourceId": "42159",
   "size": "full",
   "url": "https://api.ndla.no/image-api/v3/images/42159",
 }

@@ -9,6 +9,7 @@ import isObject from "lodash/fp/isObject";
 import { ReactNode } from "react";
 import { TYPE_AUDIO } from "../components/SlateEditor/plugins/audio/types";
 import { TYPE_NDLA_EMBED } from "../components/SlateEditor/plugins/embed/types";
+import { TYPE_IMAGE } from "../components/SlateEditor/plugins/image/types";
 import { isEmpty } from "../components/validators";
 import { Dictionary, Embed } from "../interfaces";
 
@@ -103,10 +104,12 @@ export const parseEmbedTag = (embedTag?: string): Embed | undefined => {
   if (embedElements.length !== 1) {
     return undefined;
   }
-  const isAudioType = embedElements[0].getAttribute("data-resource") === TYPE_AUDIO;
-  const obj = isAudioType
-    ? reduceElementDataAttributesV2(Array.from(embedElements[0].attributes))
-    : reduceElementDataAttributes(embedElements[0]);
+
+  const resource = embedElements[0].getAttribute("data-resource");
+  const obj =
+    resource === TYPE_AUDIO || resource === TYPE_IMAGE
+      ? reduceElementDataAttributesV2(Array.from(embedElements[0].attributes))
+      : reduceElementDataAttributes(embedElements[0]);
   delete obj.id;
 
   return obj as unknown as Embed;

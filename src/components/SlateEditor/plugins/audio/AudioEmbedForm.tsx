@@ -6,19 +6,19 @@
  *
  */
 
-import { FieldProps, Form, Formik, useFormikContext } from "formik";
-import { useCallback, useMemo, MouseEvent } from "react";
+import { Form, Formik, useFormikContext } from "formik";
+import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
+import { FieldErrorMessage, Label, Select } from "@ndla/forms";
 import { ModalBody, ModalHeader, ModalTitle } from "@ndla/modal";
 import { IAudioMetaInformation } from "@ndla/types-backend/audio-api";
 import { AudioEmbedData } from "@ndla/types-embed";
 import { AudioPlayer } from "@ndla/ui";
-import FormikField from "../../../FormikField";
+import { FormControl, FormField } from "../../../FormField";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
-import ObjectSelector from "../../../ObjectSelector";
 
 interface Props {
   embed: AudioEmbedData;
@@ -26,6 +26,12 @@ interface Props {
   onCancel: () => void;
   onSave: (embed: AudioEmbedData) => void;
 }
+
+const StyledForm = styled(Form)`
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.normal};
+`;
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -92,39 +98,31 @@ const EmbedForm = ({ onCancel, audio }: EmbedFormProps) => {
   const { t } = useTranslation();
   const { isValid, dirty, values } = useFormikContext<FormValues>();
   return (
-    <Form>
-      <FormikField name="type">
-        {({ field }: FieldProps) => (
-          <ObjectSelector
-            onClick={(evt: MouseEvent) => evt.stopPropagation()}
-            onChange={field.onChange}
-            onBlur={field.onChange}
-            key="type"
-            name="type"
-            labelKey="label"
-            idKey="id"
-            value={field.value}
-            options={[
-              {
-                id: "standard",
-                label: t("form.audio.sound"),
-              },
-              {
-                id: "minimal",
-                label: t("form.audio.speech"),
-              },
-            ]}
-          />
+    <StyledForm>
+      <FormField name="type">
+        {({ field, meta }) => (
+          <FormControl isRequired isInvalid={!!meta.error}>
+            <Label textStyle="label-small" margin="none">
+              {t("form.audio.chooseAudioType")}
+            </Label>
+            <Select {...field}>
+              <option value="standard">{t("form.audio.sound")}</option>
+              <option value="minimal">{t("form.audio.speech")}</option>
+            </Select>
+            <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+          </FormControl>
         )}
-      </FormikField>
-      <AudioPlayer src={audio.audioFile.url} title={audio.title.title} speech={values.type === "minimal"} />
+      </FormField>
+      <div>
+        <AudioPlayer src={audio.audioFile.url} title={audio.title.title} speech={values.type === "minimal"} />
+      </div>
       <ButtonWrapper>
         <ButtonV2 onClick={onCancel}>{t("form.abort")}</ButtonV2>
         <ButtonV2 disabled={!isValid || !dirty} type="submit">
           {t("form.save")}
         </ButtonV2>
       </ButtonWrapper>
-    </Form>
+    </StyledForm>
   );
 };
 

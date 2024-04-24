@@ -372,9 +372,6 @@ const TaxonomyBlock = ({
           formIsDirty={isDirty}
         />
       </ButtonContainer>
-      <FormikFieldHelp float="right" warning>
-        {t("warningMessage.taxonomy")}
-      </FormikFieldHelp>
     </>
   );
 };

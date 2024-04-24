@@ -113,12 +113,13 @@ const AsyncSearchTags = ({
         {({ selectedItems, value, removeItem, onBlur, onChange, onKeyDown }) => (
           <DropdownInput
             multiSelect
+            //@ts-ignore
             idField={"title"}
             labelField={"title"}
             values={selectedItems}
             data-testid="multiselect"
             value={value}
-            removeItem={removeItem}
+            removeItem={removeItem!}
             onBlur={onBlur}
             onChange={onChange}
             onKeyDown={onKeyDown}

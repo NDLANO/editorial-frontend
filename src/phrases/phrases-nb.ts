@@ -178,6 +178,23 @@ const phrases = {
       onHoldFilter: "Ikke tell parkerte",
       loading: "Laster...",
     },
+    subjectView: {
+      lma: "Fagoversikt LMA-fag",
+      da: "Fagoversikt DA-fag",
+      sa: "Fagoversikt SA-fag",
+      favorites: "Fagoversikt favorittfag",
+      description: "Oversikt over statistikk knyttet til ressurser i dine fag",
+      heart: "Hjerter",
+      heartDescription: "Antall favorittmarkerte ressurser",
+      flow: "I flyt",
+      flowDescription: "Antall ressurser i flyt",
+      old: "Utdaterte",
+      oldDescription: "Antall ressurser det er mer enn 5 år siden ble sist faglig vurdert",
+      revision: "Revisjoner",
+      revisionDescription: "Antall ressurser med utløpt revisjonsdato",
+      published: "Publisert",
+      publishedDescription: "Antall publiserte ressurser",
+    },
     welcomeBack: "Velkommen",
   },
   searchPage: {
@@ -340,6 +357,7 @@ const phrases = {
       title: "Tittel",
       lastUpdated: "Sist oppdatert",
       revisionDate: "Neste revisjon",
+      favorited: "Favorittmarkeringer",
     },
     resultError: "Noe gikk feil med innlasting av type: {{type}}",
     favourites: "Mine favorittfag",
@@ -1345,6 +1363,7 @@ const phrases = {
       },
       edit: "Rediger lyd",
       remove: "Fjern lydfil",
+      chooseAudioType: "Velg lydtype",
       sound: "Lyd",
       speech: "Tale",
       dragdrop: {
@@ -1488,6 +1507,8 @@ const phrases = {
         "F.eks. Har du utfordringer med syn eller kognisjon? Da kan du få problemer med å oppfatte og forstå dette innholdet. Du kan istedet bruke denne siden: www.ndla.eksempel.no",
       exampleLinkText: "Her finner du eksempelsetninger som skal brukes i fritekstfelt",
       editorHeader: "Skriv inn hvor brukeren finner alternativt innhold",
+      articleId: "Artikkel med alternativt innhold",
+      removeArticle: "Fjern artikkel",
     },
     copyright: {
       title: "Rediger lisens",
@@ -1545,7 +1566,6 @@ const phrases = {
   },
   warningMessage: {
     fieldWithWrongLanguage: "Dette feltet er hentet fra språkkode: {{language}}",
-    taxonomy: "Alle taksonomiendringer krever delpublisering",
   },
   notFound: {
     description: "Denne siden finnes ikke.",

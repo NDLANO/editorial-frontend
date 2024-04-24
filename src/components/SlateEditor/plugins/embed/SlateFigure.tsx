@@ -15,7 +15,6 @@ import { ButtonV2 } from "@ndla/button";
 import { colors, fonts, spacing, mq, breakpoints } from "@ndla/core";
 import { EmbedElements } from ".";
 import SlateImage from "./SlateImage";
-import SlateVideo from "./SlateVideo";
 import { isSlateEmbed } from "./utils";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import EditorErrorMessage from "../../EditorErrorMessage";
@@ -105,19 +104,6 @@ const SlateFigure = ({ attributes, editor, element, children, allowDecorative = 
         >
           {children}
         </SlateImage>
-      );
-    case "brightcove":
-      return (
-        <SlateVideo
-          attributes={attributes}
-          embed={embed}
-          onRemoveClick={onRemoveClick}
-          saveEmbedUpdates={saveEmbedUpdates}
-          active={isActive()}
-          isSelectedForCopy={isSelected}
-        >
-          {children}
-        </SlateVideo>
       );
     case "error":
       return (

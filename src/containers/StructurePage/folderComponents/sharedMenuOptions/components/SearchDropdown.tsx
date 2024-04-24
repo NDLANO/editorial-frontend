@@ -138,7 +138,6 @@ const SearchDropdown = <ParamType extends BaseParams, InnerType, ApiType, Type>(
               selectedItems={selectedItems}
               multiSelect={isMultiSelect}
               maxRender={maxRender ? maxRender : pageSize}
-              pageSize={pageSize}
             />
           </DropdownWrapper>
         );

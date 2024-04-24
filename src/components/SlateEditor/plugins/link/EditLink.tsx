@@ -85,18 +85,17 @@ interface Props {
   closeEditMode: () => void;
   editor: Editor;
   element: LinkElement | ContentLinkElement;
+  handleRemove: () => void;
 }
 
-const EditLink = ({ model, closeEditMode, editor, element }: Props) => {
+const EditLink = ({ model, closeEditMode, editor, element, handleRemove }: Props) => {
   const { t } = useTranslation();
 
   const onClose = () => {
-    ReactEditor.focus(editor);
-    if (!model.href) {
-      handleRemove();
-    } else {
-      handleChangeAndClose();
+    if (model.href) {
+      handleChange();
     }
+    closeEditMode();
   };
 
   const handleSave = async ({ href, text, checkbox }: Model) => {
@@ -120,25 +119,15 @@ const EditLink = ({ model, closeEditMode, editor, element }: Props) => {
           match: (node) => Element.isElement(node) && (node.type === TYPE_LINK || node.type === TYPE_CONTENT_LINK),
         },
       );
-      handleChangeAndClose();
+      handleChange();
+      closeEditMode();
     }
   };
 
-  const handleRemove = () => {
-    const path = ReactEditor.findPath(editor, element);
-
-    ReactEditor.focus(editor);
-    Transforms.unwrapNodes(editor, {
-      at: path,
-      match: (node) => Element.isElement(node) && (node.type === TYPE_LINK || node.type === TYPE_CONTENT_LINK),
-    });
-  };
-
-  const handleChangeAndClose = () => {
+  const handleChange = () => {
     ReactEditor.focus(editor);
     Transforms.select(editor, Path.next(ReactEditor.findPath(editor, element)));
     Transforms.collapse(editor, { edge: "start" });
-    closeEditMode();
   };
 
   const isEdit = model && model.href !== undefined;

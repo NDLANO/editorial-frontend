@@ -20,7 +20,6 @@ import HeaderSupportedLanguages from "../../components/HeaderWithLanguage/Header
 import HelpMessage from "../../components/HelpMessage";
 import PreviewDraftLightboxV2 from "../../components/PreviewDraft/PreviewDraftLightboxV2";
 import SaveButton from "../../components/SaveButton";
-import config from "../../config";
 import { DRAFT_HTML_SCOPE } from "../../constants";
 import { fetchDraft, updateDraft } from "../../modules/draft/draftApi";
 import { blockContentToEditorValue, blockContentToHTML } from "../../util/articleContentConverter";
@@ -31,31 +30,6 @@ import { AlertModalWrapper } from "../FormikForm";
 import { useMessages } from "../Messages/MessagesProvider";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import { getSessionStateFromLocalStorage } from "../Session/SessionProvider";
-
-declare global {
-  interface Window {
-    MonacoEnvironment: {
-      getWorkerUrl: (moduleId: string, label: string) => string;
-      globalAPI: boolean;
-    };
-  }
-}
-
-window.MonacoEnvironment = {
-  getWorkerUrl: function (moduleId: string, label: string) {
-    if (label === "html") {
-      return config.runtimeType !== "production"
-        ? "/static/js/html.worker.js"
-        : // @ts-ignore
-          window.assets["html.worker.js"] ?? "";
-    }
-    return config.runtimeType !== "production"
-      ? "/static/js/editor.worker.js"
-      : // @ts-ignore
-        window.assets["editor.worker.js"] ?? "";
-  },
-  globalAPI: true,
-};
 
 const MonacoEditor = lazy(() => import("../../components/MonacoEditor"));
 
@@ -222,6 +196,7 @@ const EditMarkupPage = () => {
         <MonacoEditor
           key={draft && draft.content ? draft.id + draft.revision + "-" + draft.content.language : "draft"}
           value={draft?.content?.content ?? ""}
+          size="large"
           onChange={handleChange}
           onSave={saveChanges}
         />

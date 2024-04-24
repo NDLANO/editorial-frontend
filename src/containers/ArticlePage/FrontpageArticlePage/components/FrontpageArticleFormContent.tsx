@@ -18,6 +18,7 @@ import { frontpagePlugins } from "./frontpagePlugins";
 import { frontpageRenderers } from "./frontpageRenderers";
 import AlertModal from "../../../../components/AlertModal";
 import { EditMarkupLink } from "../../../../components/EditMarkupLink";
+import { FormField } from "../../../../components/FormField";
 import FormikField from "../../../../components/FormikField";
 import LastUpdatedLine from "../../../../components/LastUpdatedLine/LastUpdatedLine";
 import { TYPE_AUDIO } from "../../../../components/SlateEditor/plugins/audio/types";
@@ -26,7 +27,7 @@ import { TYPE_BLOGPOST } from "../../../../components/SlateEditor/plugins/blogPo
 import { TYPE_CAMPAIGN_BLOCK } from "../../../../components/SlateEditor/plugins/campaignBlock/types";
 import { TYPE_CODEBLOCK } from "../../../../components/SlateEditor/plugins/codeBlock/types";
 import { TYPE_CONTACT_BLOCK } from "../../../../components/SlateEditor/plugins/contactBlock/types";
-import { TYPE_EMBED_BRIGHTCOVE, TYPE_EMBED_IMAGE } from "../../../../components/SlateEditor/plugins/embed/types";
+import { TYPE_EMBED_IMAGE } from "../../../../components/SlateEditor/plugins/embed/types";
 import { TYPE_EXTERNAL } from "../../../../components/SlateEditor/plugins/external/types";
 import { TYPE_FILE } from "../../../../components/SlateEditor/plugins/file/types";
 import { TYPE_GRID } from "../../../../components/SlateEditor/plugins/grid/types";
@@ -39,6 +40,7 @@ import {
   createToolbarDefaultValues,
 } from "../../../../components/SlateEditor/plugins/toolbar/toolbarState";
 import { TYPE_DISCLAIMER } from "../../../../components/SlateEditor/plugins/uuDisclaimer/types";
+import { TYPE_EMBED_BRIGHTCOVE } from "../../../../components/SlateEditor/plugins/video/types";
 import RichTextEditor from "../../../../components/SlateEditor/RichTextEditor";
 import { useWideArticle } from "../../../../components/WideArticleEditorProvider";
 import { DRAFT_HTML_SCOPE } from "../../../../constants";
@@ -47,14 +49,6 @@ import { toCreateFrontPageArticle, toEditMarkup } from "../../../../util/routeHe
 import { IngressField, TitleField, SlugField } from "../../../FormikForm";
 import { FrontpageArticleFormType } from "../../../FormikForm/articleFormHooks";
 import { useSession } from "../../../Session/SessionProvider";
-
-const StyledFormikField = styled(FormikField)`
-  display: flex;
-  margin-top: 0;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-`;
 
 const StyledDiv = styled.div`
   display: flex;
@@ -120,7 +114,7 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
   const { isWideArticle } = useWideArticle();
 
   const { dirty, initialValues, values } = useFormikContext<FrontpageArticleFormType>();
-  const { slug, id, creators, published, language } = values;
+  const { slug, id, creators, language } = values;
 
   const isFormikDirty = useMemo(
     () =>
@@ -150,32 +144,25 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
   return (
     <StyledContentWrapper data-wide={isWideArticle}>
       {editSlug && slug !== undefined ? <SlugField /> : <TitleField />}
-      <StyledFormikField name="published">
-        {({ field, form }) => (
-          <StyledDiv>
-            <LastUpdatedLine
-              creators={creators}
-              published={published}
-              allowEdit={true}
-              onChange={(date) => {
-                form.setFieldValue(field.name, date);
-              }}
-            />
-            {slug && (
-              <StyledIconButton
-                aria-label={t("form.slug.edit")}
-                variant="stripped"
-                colorTheme="light"
-                data-active={editSlug}
-                onClick={() => setEditSlug(!editSlug)}
-                title={t("form.slug.edit")}
-              >
-                <Link />
-              </StyledIconButton>
-            )}
-          </StyledDiv>
+      <StyledDiv>
+        <FormField name="published">
+          {({ field, helpers }) => (
+            <LastUpdatedLine creators={creators} published={field.value} allowEdit={true} onChange={helpers.setValue} />
+          )}
+        </FormField>
+        {slug && (
+          <StyledIconButton
+            aria-label={t("form.slug.edit")}
+            variant="stripped"
+            colorTheme="light"
+            data-active={editSlug}
+            onClick={() => setEditSlug(!editSlug)}
+            title={t("form.slug.edit")}
+          >
+            <Link />
+          </StyledIconButton>
         )}
-      </StyledFormikField>
+      </StyledDiv>
       <IngressField />
       <AlertModal
         title={t("editorFooter.changeHeader")}

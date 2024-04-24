@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactNode, useCallback, useMemo, useState } from "react";
+import { ReactNode, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
@@ -15,10 +15,14 @@ import { IconButtonV2 } from "@ndla/button";
 import { colors, spacing } from "@ndla/core";
 import { Pencil } from "@ndla/icons/action";
 import { Modal, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
+import { IArticleV2 } from "@ndla/types-backend/article-api";
 import { UuDisclaimerEmbedData, UuDisclaimerMetaData } from "@ndla/types-embed";
 import { UuDisclaimerEmbed } from "@ndla/ui";
 import DisclaimerForm from "./DisclaimerForm";
 import { DisclaimerElement, TYPE_DISCLAIMER } from "./types";
+import { toEditPage } from "./utils";
+import config from "../../../../config";
+import { getArticle } from "../../../../modules/article/articleApi";
 import DeleteButton from "../../../DeleteButton";
 import MoveContentButton from "../../../MoveContentButton";
 
@@ -47,18 +51,36 @@ const StyledModalHeader = styled(ModalHeader)`
 `;
 
 const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [embed, setEmbed] = useState<UuDisclaimerMetaData>({
+    status: "success",
+    data: {},
+    embedData: element.data,
+    resource: element.data.resource,
+  });
 
-  const embed: UuDisclaimerMetaData = useMemo(
-    () => ({
-      status: "success",
-      data: {},
-      embedData: element.data,
-      resource: element.data?.resource,
-    }),
-    [element.data],
-  );
+  useEffect(() => {
+    const initDisclaimerLink = async () => {
+      let response: IArticleV2 | undefined = undefined;
+      element.data.articleId && (response = await getArticle(Number(element.data.articleId)));
+
+      setEmbed((prevState) => ({
+        ...prevState,
+        data: response
+          ? {
+              disclaimerLink: {
+                text: response.title.title,
+                href: toEditPage(response.articleType, response.id, i18n.language),
+              },
+            }
+          : {},
+        embedData: element.data,
+        resource: element.data.resource,
+      }));
+    };
+    initDisclaimerLink();
+  }, [element.data, i18n.language]);
 
   const handleDelete = () => {
     const path = ReactEditor.findPath(editor, element);
@@ -109,7 +131,7 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
   );
 
   return (
-    <div data-testid="slate-disclaimer-block" {...attributes}>
+    <div data-testid="slate-disclaimer-block" {...attributes} contentEditable="false">
       <ButtonContainer>
         <DeleteButton aria-label={t("delete")} data-testid="delete-disclaimer" onClick={handleDelete} />
         <Modal open={modalOpen} onOpenChange={setModalOpen}>

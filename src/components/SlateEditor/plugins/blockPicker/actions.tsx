@@ -35,7 +35,7 @@ import { TYPE_CONCEPT_BLOCK, TYPE_GLOSS_BLOCK } from "../concept/block/types";
 import { TYPE_CONCEPT_LIST } from "../conceptList/types";
 import { TYPE_CONTACT_BLOCK } from "../contactBlock/types";
 import { TYPE_DETAILS } from "../details/types";
-import { TYPE_EMBED_BRIGHTCOVE, TYPE_EMBED_IMAGE } from "../embed/types";
+import { TYPE_EMBED_IMAGE } from "../embed/types";
 import { TYPE_EXTERNAL } from "../external/types";
 import { TYPE_FILE } from "../file/types";
 import { TYPE_FRAMED_CONTENT } from "../framedContent/types";
@@ -46,6 +46,7 @@ import { TYPE_LINK_BLOCK_LIST } from "../linkBlockList/types";
 import { TYPE_RELATED } from "../related/types";
 import { TYPE_TABLE } from "../table/types";
 import { TYPE_DISCLAIMER } from "../uuDisclaimer/types";
+import { TYPE_EMBED_BRIGHTCOVE } from "../video/types";
 
 const renderArticleInModal = (pageId: string) => <HowToHelper pageId={pageId} extraIconPadding />;
 

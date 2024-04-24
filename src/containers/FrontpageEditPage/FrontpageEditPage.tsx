@@ -102,6 +102,10 @@ const FrontpageEditPage = () => {
   }, [articlesQuery.data, articlesQuery.isLoading, frontpageQuery.data, frontpageQuery.isLoading]);
   const postFrontpageMutation = useUpdateFrontpageMutation();
 
+  const initialFrontpageArticle = useMemo(() => {
+    return articlesQuery.data?.results.find((article) => article.id === frontpageQuery.data?.articleId);
+  }, [articlesQuery.data?.results, frontpageQuery.data?.articleId]);
+
   const onSubmit = useCallback(
     async (values: MenuWithArticle) => {
       if (!values.articleId) return;
@@ -123,7 +127,7 @@ const FrontpageEditPage = () => {
         <Spinner />
       ) : transformedMenu ? (
         <Formik
-          initialValues={transformedMenu}
+          initialValues={{ ...transformedMenu, article: initialFrontpageArticle }}
           onSubmit={onSubmit}
           validate={validate}
           validateOnMount

@@ -9,7 +9,7 @@
 import { Editor, Descendant, Element } from "slate";
 import { TYPE_NDLA_EMBED } from "./types";
 import { defaultEmbedBlock, isSlateEmbed, isSlateEmbedElement } from "./utils";
-import { Embed, ImageEmbed, BrightcoveEmbed, ErrorEmbed } from "../../../../interfaces";
+import { Embed, ImageEmbed, ErrorEmbed } from "../../../../interfaces";
 import { createEmbedTag, parseEmbedTag } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
@@ -17,16 +17,11 @@ import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers"
 import { AudioElement } from "../audio/types";
 import { H5pElement } from "../h5p/types";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
+import { BrightcoveEmbedElement } from "../video/types";
 
 export interface ImageEmbedElement {
   type: "image-embed";
   data: ImageEmbed;
-  children: Descendant[];
-}
-
-export interface BrightcoveEmbedElement {
-  type: "brightcove-embed";
-  data: BrightcoveEmbed;
   children: Descendant[];
 }
 

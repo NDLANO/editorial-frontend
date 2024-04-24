@@ -77,7 +77,7 @@ export const addBrightCoveTimeStampVideoid = (videoid: string, start: string) =>
   const [baseVideoid] = videoid.split("&t=");
   const startSeconds = start ? `${calcSecondsFromHMS(start)}s` : ``;
 
-  return `${baseVideoid}&t=${startSeconds}`;
+  return startSeconds === "" || startSeconds === "0s" ? baseVideoid : `${baseVideoid}&t=${startSeconds}`;
 };
 
 export const addBrightCovetimeStampSrc = (src: string, start: string) => {

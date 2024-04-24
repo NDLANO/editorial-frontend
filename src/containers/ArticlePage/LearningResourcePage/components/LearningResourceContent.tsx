@@ -18,12 +18,13 @@ import { learningResourcePlugins } from "./learningResourcePlugins";
 import { learningResourceRenderers } from "./learningResourceRenderers";
 import AlertModal from "../../../../components/AlertModal";
 import { EditMarkupLink } from "../../../../components/EditMarkupLink";
+import { FormField } from "../../../../components/FormField";
 import FormikField from "../../../../components/FormikField";
 import LastUpdatedLine from "../../../../components/LastUpdatedLine/LastUpdatedLine";
 import { TYPE_AUDIO } from "../../../../components/SlateEditor/plugins/audio/types";
 import { learningResourceActions } from "../../../../components/SlateEditor/plugins/blockPicker/actions";
 import { TYPE_CODEBLOCK } from "../../../../components/SlateEditor/plugins/codeBlock/types";
-import { TYPE_EMBED_BRIGHTCOVE, TYPE_EMBED_IMAGE } from "../../../../components/SlateEditor/plugins/embed/types";
+import { TYPE_EMBED_IMAGE } from "../../../../components/SlateEditor/plugins/embed/types";
 import { TYPE_EXTERNAL } from "../../../../components/SlateEditor/plugins/external/types";
 import { TYPE_FILE } from "../../../../components/SlateEditor/plugins/file/types";
 import { FootnoteElement } from "../../../../components/SlateEditor/plugins/footnote";
@@ -35,6 +36,7 @@ import {
   createToolbarAreaOptions,
   createToolbarDefaultValues,
 } from "../../../../components/SlateEditor/plugins/toolbar/toolbarState";
+import { TYPE_EMBED_BRIGHTCOVE } from "../../../../components/SlateEditor/plugins/video/types";
 import RichTextEditor from "../../../../components/SlateEditor/RichTextEditor";
 import { DRAFT_HTML_SCOPE } from "../../../../constants";
 import { isFormikFormDirty } from "../../../../util/formHelper";
@@ -43,13 +45,6 @@ import { findNodesByType } from "../../../../util/slateHelpers";
 import { IngressField, TitleField } from "../../../FormikForm";
 import { HandleSubmitFunc, LearningResourceFormType } from "../../../FormikForm/articleFormHooks";
 import { useSession } from "../../../Session/SessionProvider";
-
-const StyledFormikField = styled(FormikField)`
-  display: flex;
-  margin-top: 0;
-  align-items: center;
-  justify-content: space-between;
-`;
 
 const StyledContentDiv = styled(FormikField)`
   position: static;
@@ -118,18 +113,16 @@ const LearningResourceContent = ({ articleLanguage, articleId, handleSubmit: _ha
   return (
     <>
       <TitleField />
-      <StyledFormikField name="published">
-        {({ field, form }) => (
+      <FormField name="published">
+        {({ field, helpers }) => (
           <LastUpdatedLine
             creators={creatorsField.value}
             published={field.value}
             allowEdit={true}
-            onChange={(date) => {
-              form.setFieldValue(field.name, date);
-            }}
+            onChange={helpers.setValue}
           />
         )}
-      </StyledFormikField>
+      </FormField>
       <IngressField />
       <AlertModal
         title={t("editorFooter.changeHeader")}

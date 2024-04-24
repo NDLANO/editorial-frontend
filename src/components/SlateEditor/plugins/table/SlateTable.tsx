@@ -52,8 +52,7 @@ const StyledTable = styled.table`
       }
     }
   }
-
-  .c-figure {
+  figure {
     float: unset;
   }
 

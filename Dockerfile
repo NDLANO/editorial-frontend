@@ -1,5 +1,5 @@
 ### Build stage
-FROM node:20.11-alpine3.18 as builder
+FROM node:20.12.1-alpine3.18 as builder
 
 ENV HOME=/home/app
 ENV APP_PATH=$HOME/editorial-frontend
@@ -26,7 +26,7 @@ COPY public $APP_PATH/public
 RUN yarn run build
 
 ### Run stage
-FROM node:20.11-alpine3.18
+FROM node:20.12.1-alpine3.18
 
 RUN apk add py-pip jq && pip install awscli
 COPY run-editorial-frontend.sh /
@@ -37,4 +37,4 @@ COPY --from=builder /home/app/editorial-frontend/build build
 
 ENV NODE_ENV=production
 
-CMD ["/run-editorial-frontend.sh", "node build/server.mjs '|' bunyan"]
+CMD ["/run-editorial-frontend.sh", "node build/server.mjs"]

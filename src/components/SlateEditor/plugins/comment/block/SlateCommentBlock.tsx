@@ -10,8 +10,7 @@ import { ReactNode, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
-import { CloseButton } from "@ndla/button";
-import { Modal, ModalBody, ModalContent, ModalHeader, ModalTitle } from "@ndla/modal";
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle } from "@ndla/modal";
 import { CommentEmbedData, CommentMetaData } from "@ndla/types-embed";
 import { TYPE_COMMENT_BLOCK } from "./types";
 import CommentEmbed from "../CommentEmbed";
@@ -64,35 +63,40 @@ const SlateCommentBlock = ({ attributes, editor, element, children }: Props) => 
     [editor, element],
   );
 
-  const onClose = useCallback(() => {
-    ReactEditor.focus(editor);
-    setModalOpen(false);
-    if (element.isFirstEdit) {
-      Transforms.unwrapNodes(editor, {
-        at: ReactEditor.findPath(editor, element),
-        voids: true,
-      });
-    }
-    const path = ReactEditor.findPath(editor, element);
-    if (Editor.hasPath(editor, Path.next(path))) {
-      setTimeout(() => {
-        Transforms.select(editor, Path.next(path));
-      }, 0);
-    }
-  }, [editor, element]);
+  const onOpenChange = useCallback(
+    (open: boolean) => {
+      setModalOpen(open);
+      if (open === false) {
+        ReactEditor.focus(editor);
+        if (element.isFirstEdit) {
+          Transforms.unwrapNodes(editor, {
+            at: ReactEditor.findPath(editor, element),
+            voids: true,
+          });
+        }
+        const path = ReactEditor.findPath(editor, element);
+        if (Editor.hasPath(editor, Path.next(path))) {
+          setTimeout(() => {
+            Transforms.select(editor, Path.next(path));
+          }, 0);
+        }
+      }
+    },
+    [editor, element],
+  );
 
   return (
-    <Modal open={modalOpen} onOpenChange={setModalOpen}>
+    <Modal open={modalOpen} onOpenChange={onOpenChange}>
       <ModalContent>
         <ModalHeader>
           <ModalTitle>{t("form.workflow.addComment.add")}</ModalTitle>
-          <CloseButton onClick={onClose} />
+          <ModalCloseButton />
         </ModalHeader>
         <ModalBody>
           <CommentForm
             initialData={embed?.embedData}
             onSave={addComment}
-            onClose={onClose}
+            onOpenChange={onOpenChange}
             labelText={t("form.workflow.addComment.label")}
             commentType="block"
           />

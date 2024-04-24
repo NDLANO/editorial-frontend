@@ -10,8 +10,7 @@ import { ReactNode, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
-import { CloseButton } from "@ndla/button";
-import { Modal, ModalBody, ModalContent, ModalHeader, ModalTitle } from "@ndla/modal";
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle } from "@ndla/modal";
 import { CommentEmbedData, CommentMetaData } from "@ndla/types-embed";
 import { TYPE_COMMENT_INLINE } from "./types";
 import CommentEmbed from "../CommentEmbed";
@@ -73,26 +72,28 @@ const SlateCommentInline = ({ attributes, editor, element, children }: Props) =>
     });
   };
 
-  const onClose = () => {
-    if (!element.data?.text) {
-      handleRemove();
-    } else {
-      handleSelectionChange(false);
-    }
+  const onOpenChange = (open: boolean) => {
+    setModalOpen(open);
+    if (open === false)
+      if (!element.data?.text) {
+        handleRemove();
+      } else {
+        handleSelectionChange(false);
+      }
   };
 
   return (
-    <Modal open={modalOpen} onOpenChange={setModalOpen}>
+    <Modal open={modalOpen} onOpenChange={onOpenChange}>
       <ModalContent>
         <ModalHeader>
           <ModalTitle>{t("form.workflow.addComment.add")}</ModalTitle>
-          <CloseButton onClick={onClose} />
+          <ModalCloseButton />
         </ModalHeader>
         <ModalBody>
           <CommentForm
             initialData={embed?.embedData}
             onSave={addComment}
-            onClose={onClose}
+            onOpenChange={onOpenChange}
             labelText={t("form.workflow.addComment.label")}
             commentType="inline"
           />

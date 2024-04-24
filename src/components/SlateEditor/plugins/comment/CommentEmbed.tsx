@@ -151,9 +151,7 @@ const CommentEmbed = ({ embed, onSave, children, onRemove, commentType }: Props)
               setIsOpen(false);
               onSave(data);
             }}
-            onClose={() => {
-              setIsOpen(false);
-            }}
+            onOpenChange={setIsOpen}
             labelText={t("form.workflow.updateComment")}
             labelVisuallyHidden
             commentType={commentType}

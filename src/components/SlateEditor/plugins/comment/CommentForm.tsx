@@ -43,7 +43,7 @@ const CommentActions = styled.div`
 interface Props {
   initialData: CommentEmbedData | undefined;
   onSave: (data: CommentEmbedData) => void;
-  onClose: () => void;
+  onOpenChange: (open: boolean) => void;
   labelText: string;
   labelVisuallyHidden?: boolean;
   commentType: "block" | "inline";
@@ -67,7 +67,14 @@ const rules: RulesType<CommentFormValues> = {
   },
 };
 
-const CommentForm = ({ initialData, onSave, onClose, labelText, labelVisuallyHidden = false, commentType }: Props) => {
+const CommentForm = ({
+  initialData,
+  onSave,
+  onOpenChange,
+  labelText,
+  labelVisuallyHidden = false,
+  commentType,
+}: Props) => {
   const { t } = useTranslation();
   const initialValues = useMemo(() => toInitialValues(initialData), [initialData]);
   const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
@@ -78,6 +85,7 @@ const CommentForm = ({ initialData, onSave, onClose, labelText, labelVisuallyHid
       type: commentType,
     });
   };
+
   return (
     <Formik
       initialValues={initialValues}
@@ -99,7 +107,7 @@ const CommentForm = ({ initialData, onSave, onClose, labelText, labelVisuallyHid
                   </FormControl>
                   <FieldErrorMessage>{meta.error}</FieldErrorMessage>
                   <CommentActions>
-                    <ButtonV2 onClick={onClose} variant="outline">
+                    <ButtonV2 onClick={() => onOpenChange(false)} variant="outline">
                       {t("form.abort")}
                     </ButtonV2>
                     <ButtonV2 type="submit" variant="solid" data-testid="disclaimer-save" disabled={!!meta.error}>

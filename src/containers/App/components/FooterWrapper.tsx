@@ -6,10 +6,12 @@
  *
  */
 
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 import { Footer, LanguageSelector, FooterText, EditorName } from "@ndla/ui";
+import { constructNewPath } from "../../../i18n";
 import { supportedLanguages } from "../../../i18n2";
 
 interface Props {
@@ -29,12 +31,16 @@ const LanguageSelectorWrapper = styled.div`
 const FooterWrapper = ({ showLocaleSelector }: Props) => {
   const { t, i18n } = useTranslation();
 
+  const onChangeLanguage = useCallback((lang: string) => {
+    window.location.href = constructNewPath(window.location.pathname, lang);
+  }, []);
+
   return (
     <FooterContainer>
       <Footer lang={i18n.language}>
         {showLocaleSelector && (
           <LanguageSelectorWrapper>
-            <LanguageSelector locales={supportedLanguages} onSelect={i18n.changeLanguage} inverted />
+            <LanguageSelector locales={supportedLanguages} onSelect={onChangeLanguage} inverted />
           </LanguageSelectorWrapper>
         )}
         <FooterText>

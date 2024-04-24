@@ -7,6 +7,8 @@
  */
 
 import { messagesNB, messagesEN, messagesNN } from "@ndla/ui";
+import { supportedLanguages } from "./i18n2";
+import { LocaleType } from "./interfaces";
 import en from "./phrases/phrases-en";
 import nb from "./phrases/phrases-nb";
 import nn from "./phrases/phrases-nn";
@@ -68,6 +70,14 @@ export const getLocaleObject = (localeAbbreviation: string): LocaleObject => {
   return locale || NB; // defaults to NB
 };
 
-export const isValidLocale = (localeAbbreviation: string): boolean => {
+export const isValidLocale = (localeAbbreviation: string): localeAbbreviation is LocaleType => {
   return appLocales.find((l) => l.abbreviation === localeAbbreviation) !== undefined;
+};
+
+export const constructNewPath = (pathname: string, newLocale?: string) => {
+  const regex = new RegExp(`\\/(${supportedLanguages.join("|")})($|\\/)`, "");
+  const path = pathname.replace(regex, "");
+  const fullPath = path.startsWith("/") ? path : `/${path}`;
+  const localePrefix = newLocale ? `/${newLocale}` : "";
+  return `${localePrefix}${fullPath}`;
 };

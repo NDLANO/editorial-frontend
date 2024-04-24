@@ -732,6 +732,7 @@ const phrases = {
       comment: "Kommenter",
       hide: "Skjul kommentar",
       hideComments: "Skjul kommentarar",
+      showComments: "Vis kommentarar",
       show: "Vis kommentar",
       commentField: "Kommentarfelt",
       solve: "Kommentaren er merka som uløyst. Merk som løyst",

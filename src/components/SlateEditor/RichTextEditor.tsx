@@ -233,7 +233,10 @@ const RichTextEditor = ({
       const [selectedElement] = getCurrentBlock(editor, TYPE_PARAGRAPH) || getCurrentBlock(editor, TYPE_HEADING) || [];
       if (e.key === KEY_TAB && selectedElement) {
         let path = ReactEditor.findPath(editor, selectedElement!);
-        if (!Editor.after(editor, path, { unit: "block", voids: false })) return; // If there is no block after the current block, move out from the editor
+
+        if (!e.shiftKey && !Editor.after(editor, path)) return; // If there is no block after the current block, and shift is not pressed, move out from the editor
+        if (e.shiftKey && !Editor.before(editor, path)) return; // If there is no block before the current block and shift is pressed, move out from the editor
+
         e.preventDefault();
         let nodeToMoveTo: Descendant[] | Node | null = null;
 

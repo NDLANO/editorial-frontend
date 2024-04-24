@@ -11,7 +11,7 @@ import { Path } from "slate";
 const getNextPath = (path: Path, previous?: boolean): Path => {
   const workingPath = [...path];
   while (workingPath[workingPath.length - 1] === 0) workingPath.pop();
-  return previous ? Path.previous(workingPath) : Path.next(path);
+  return previous ? (workingPath.length !== 0 ? Path.previous(workingPath) : []) : Path.next(path);
 };
 
 export default getNextPath;

@@ -40,7 +40,7 @@ export const commentInlineSerializer: SlateSerializer = {
 const onBackspace = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: KeyboardEvent) => void) => {
   if (hasNodeOfType(editor, TYPE_COMMENT_INLINE)) {
     if (Range.isRange(editor.selection)) {
-      // Replace heading with paragraph if last character is removed
+      // Replace comment with paragraph if last character is removed
       if (
         Range.isCollapsed(editor.selection) &&
         Editor.string(editor, editor.selection.anchor.path).length === 1 &&

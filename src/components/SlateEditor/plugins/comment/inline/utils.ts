@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import { Editor, Transforms, Element, Range, Path } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_COMMENT_INLINE } from "./types";
@@ -19,25 +20,6 @@ export const insertComment = (editor: Editor) => {
     return;
   }
   if (Range.isRange(editor.selection) && !Range.isCollapsed(editor.selection)) {
-    const unhangedRange = Editor.unhangRange(editor, editor.selection);
-    Transforms.select(editor, unhangedRange);
-
-    const text = Editor.string(editor, unhangedRange);
-    const leftSpaces = text.length - text.trimStart().length;
-    const rightSpaces = text.length - text.trimEnd().length;
-
-    if (leftSpaces) {
-      Transforms.move(editor, { distance: leftSpaces, unit: "offset", edge: "start" });
-    }
-
-    if (rightSpaces) {
-      Transforms.move(editor, {
-        distance: rightSpaces,
-        unit: "offset",
-        edge: "end",
-        reverse: true,
-      });
-    }
     Transforms.wrapNodes(editor, slatejsx("element", { type: TYPE_COMMENT_INLINE, isFirstEdit: true }), {
       at: Editor.unhangRange(editor, editor.selection),
       split: true,

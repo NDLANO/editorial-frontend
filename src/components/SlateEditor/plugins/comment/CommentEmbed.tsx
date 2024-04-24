@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { Root, Trigger, Content, Arrow, Portal } from "@radix-ui/react-popover";
 import { IconButtonV2 } from "@ndla/button";
-import { colors, spacing, animations } from "@ndla/core";
+import { colors, spacing, animations, stackOrder } from "@ndla/core";
 import { Cross, TrashCanOutline } from "@ndla/icons/action";
 import { Comment } from "@ndla/icons/common";
 import { CommentEmbedData, CommentMetaData } from "@ndla/types-embed";
@@ -41,7 +41,7 @@ const StyledContent = styled(Content)`
   display: flex;
   flex-direction: column;
   gap: ${spacing.small};
-
+  z-index: ${stackOrder.popover};
   &[data-state="closed"] {
     display: none;
   }
@@ -68,7 +68,7 @@ const BlockCommentButton = styled.button`
   display: flex;
   align-items: center;
   gap: ${spacing.xsmall};
-  padding: ${spacing.xxsmall} ${spacing.xsmall};
+  padding: ${spacing.xxsmall} 0px ${spacing.xxsmall} ${spacing.xxsmall};
   width: 100%;
   &:focus,
   &:hover,
@@ -81,6 +81,7 @@ const CommentText = styled(Text)`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  padding-right: ${spacing.xxsmall};
 `;
 
 interface Props {
@@ -107,7 +108,7 @@ const CommentEmbed = ({ embed, onSave, children, onRemove, commentType }: Props)
             {children}
           </InlineComment>
         ) : (
-          <BlockCommentButton type="button">
+          <BlockCommentButton type="button" contentEditable={false}>
             <Comment />
             <CommentText textStyle="button" margin="none">
               {embed?.embedData?.text ?? ""}
@@ -116,7 +117,7 @@ const CommentEmbed = ({ embed, onSave, children, onRemove, commentType }: Props)
         )}
       </Trigger>
       <Portal>
-        <StyledContent sideOffset={5}>
+        <StyledContent>
           <CommentHeader>
             <Heading headingStyle="h4" element="h1" margin="none">
               {t("form.comment.comment")}

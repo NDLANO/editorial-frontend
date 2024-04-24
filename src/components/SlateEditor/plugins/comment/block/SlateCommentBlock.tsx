@@ -38,7 +38,7 @@ const SlateCommentBlock = ({ attributes, editor, element, children }: Props) => 
     };
   }, [element]);
 
-  const addComment = useCallback(
+  const onUpdateComment = useCallback(
     (values: CommentEmbedData) => {
       setModalOpen(false);
       const path = ReactEditor.findPath(editor, element);
@@ -54,7 +54,7 @@ const SlateCommentBlock = ({ attributes, editor, element, children }: Props) => 
     [editor, element],
   );
 
-  const handleRemove = useCallback(
+  const onRemove = useCallback(
     () =>
       Transforms.unwrapNodes(editor, {
         at: ReactEditor.findPath(editor, element),
@@ -68,12 +68,6 @@ const SlateCommentBlock = ({ attributes, editor, element, children }: Props) => 
       setModalOpen(open);
       if (open === false) {
         ReactEditor.focus(editor);
-        if (element.isFirstEdit) {
-          Transforms.unwrapNodes(editor, {
-            at: ReactEditor.findPath(editor, element),
-            voids: true,
-          });
-        }
         const path = ReactEditor.findPath(editor, element);
         if (Editor.hasPath(editor, Path.next(path))) {
           setTimeout(() => {
@@ -95,7 +89,7 @@ const SlateCommentBlock = ({ attributes, editor, element, children }: Props) => 
         <ModalBody>
           <CommentForm
             initialData={embed?.embedData}
-            onSave={addComment}
+            onSave={onUpdateComment}
             onOpenChange={onOpenChange}
             labelText={t("form.workflow.addComment.label")}
             commentType="block"
@@ -103,7 +97,7 @@ const SlateCommentBlock = ({ attributes, editor, element, children }: Props) => 
         </ModalBody>
       </ModalContent>
       {embed && (
-        <CommentEmbed embed={embed} onSave={addComment} onRemove={handleRemove} commentType="block">
+        <CommentEmbed embed={embed} onSave={onUpdateComment} onRemove={onRemove} commentType="block">
           {children}
         </CommentEmbed>
       )}

@@ -37,19 +37,19 @@ const SlateCommentInline = ({ attributes, editor, element, children }: Props) =>
     };
   }, [element.data]);
 
-  const handleSelectionChange = (isNew: boolean) => {
+  const handleSelectionChange = (isRemoved: boolean) => {
     ReactEditor.focus(editor);
-    if (isNew) {
+    if (isRemoved) {
+      Transforms.select(editor, ReactEditor.findPath(editor, element));
+    } else {
       Transforms.select(editor, Path.next(ReactEditor.findPath(editor, element)));
       Transforms.collapse(editor, { edge: "start" });
-    } else {
-      Transforms.select(editor, ReactEditor.findPath(editor, element));
     }
   };
 
-  const addComment = (values: CommentEmbedData) => {
+  const onUpdateComment = (values: CommentEmbedData) => {
     setModalOpen(false);
-    handleSelectionChange(true);
+    handleSelectionChange(false);
     if (element) {
       const path = ReactEditor.findPath(editor, element);
       Transforms.setNodes(
@@ -63,8 +63,8 @@ const SlateCommentInline = ({ attributes, editor, element, children }: Props) =>
     }
   };
 
-  const handleRemove = () => {
-    handleSelectionChange(false);
+  const onRemove = () => {
+    handleSelectionChange(true);
     const path = ReactEditor.findPath(editor, element);
     Transforms.unwrapNodes(editor, {
       at: path,
@@ -74,12 +74,13 @@ const SlateCommentInline = ({ attributes, editor, element, children }: Props) =>
 
   const onOpenChange = (open: boolean) => {
     setModalOpen(open);
-    if (open === false)
+    if (open === false) {
       if (!element.data?.text) {
-        handleRemove();
+        onRemove();
       } else {
         handleSelectionChange(false);
       }
+    }
   };
 
   return (
@@ -92,14 +93,14 @@ const SlateCommentInline = ({ attributes, editor, element, children }: Props) =>
         <ModalBody>
           <CommentForm
             initialData={embed?.embedData}
-            onSave={addComment}
+            onSave={onUpdateComment}
             onOpenChange={onOpenChange}
             labelText={t("form.workflow.addComment.label")}
             commentType="inline"
           />
         </ModalBody>
       </ModalContent>
-      <CommentEmbed embed={embed} onSave={addComment} onRemove={handleRemove} commentType="inline">
+      <CommentEmbed embed={embed} onSave={onUpdateComment} onRemove={onRemove} commentType="inline">
         {children}
       </CommentEmbed>
     </Modal>

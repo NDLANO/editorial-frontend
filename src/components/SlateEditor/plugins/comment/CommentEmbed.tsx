@@ -69,6 +69,7 @@ const BlockCommentButton = styled.button`
   align-items: center;
   gap: ${spacing.xsmall};
   padding: ${spacing.xxsmall} 0px ${spacing.xxsmall} ${spacing.xxsmall};
+  margin: ${spacing.xxsmall} 0px;
   width: 100%;
   &:focus,
   &:hover,

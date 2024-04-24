@@ -1763,9 +1763,6 @@ const phrases = {
     missingResourceType: "Mangler ressurstype",
     metadata: {
       customFields: {
-        cancelPublishRequest: "Avbryt forespørjing om delvis publisering av struktur",
-        requestPublish: "Be om delvis publisering av struktur",
-        requestVersionError: "Publiseringsforespørjingar kan bare opprettes fra Draft",
         alterFields: "Legg til/endra metadata",
         addField: "Nytt metadata felt",
         languagePlaceholder: "Visningsspråk ndla.no",

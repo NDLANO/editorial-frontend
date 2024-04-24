@@ -1764,9 +1764,6 @@ const phrases = {
     missingResourceType: "Missing resource type",
     metadata: {
       customFields: {
-        cancelPublishRequest: "Cancel request for partial structure publication",
-        requestPublish: "Request partial publication of structure",
-        requestVersionError: "Publish requests can only be made from Draft",
         alterFields: "Add/change metadata",
         addField: "New metadata field",
         languagePlaceholder: "Ndla.no interface language",

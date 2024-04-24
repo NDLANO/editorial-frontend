@@ -13,7 +13,7 @@ import styled from "@emotion/styled";
 import { colors, spacing } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
 import { Subject } from "@ndla/icons/contentType";
-import { CloudUploadOutline, DragVertical, Star, SubjectMatter, Taxonomy } from "@ndla/icons/editor";
+import { DragVertical, Star, SubjectMatter, Taxonomy } from "@ndla/icons/editor";
 import { NodeChild, Node, NodeType } from "@ndla/types-taxonomy";
 import FolderItem from "./folderComponents/FolderItem";
 import DndList from "../../components/DndList";

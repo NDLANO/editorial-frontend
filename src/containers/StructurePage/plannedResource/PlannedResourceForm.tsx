@@ -7,6 +7,7 @@
  */
 
 import { FieldProps, Formik } from "formik";
+import { TFunction } from "i18next";
 import sortBy from "lodash/sortBy";
 import uniq from "lodash/uniq";
 import { useCallback, useMemo, useState } from "react";
@@ -128,6 +129,21 @@ const formatUserList = (users: Auth0UserData[]) =>
     label: u.name,
   }));
 
+const getSlateComment = (userName: string | undefined, t: TFunction, formikComment: string): Descendant[] => {
+  if (!formikComment) return [];
+  const infoText = getCommentInfoText(userName, t);
+  const slateComment: Descendant[] = [
+    {
+      type: TYPE_DIV,
+      children: [
+        { type: TYPE_PARAGRAPH, children: [{ text: formikComment }] },
+        { type: TYPE_PARAGRAPH, children: [{ text: infoText }] },
+      ],
+    },
+  ];
+  return slateComment;
+};
+
 interface Props {
   articleType: string;
   node: Node | undefined;
@@ -195,20 +211,10 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
     async (values: PlannedResourceFormikType) => {
       try {
         setError(undefined);
-        const infoText = getCommentInfoText(userName, t);
-
-        const slateComment: Descendant[] = [
-          {
-            type: TYPE_DIV,
-            children: [
-              { type: TYPE_PARAGRAPH, children: [{ text: values.comments }] },
-              { type: TYPE_PARAGRAPH, children: [{ text: infoText }] },
-            ],
-          },
-        ];
+        const slateComment = getSlateComment(userName, t, values.comments);
         const plannedResource: IUpdatedArticle = {
           title: values.title,
-          comments: [{ content: inlineContentToHTML(slateComment), isOpen: true }],
+          comments: slateComment.length ? [{ content: inlineContentToHTML(slateComment), isOpen: true }] : [],
           language: i18n.language,
           articleType: values.articleType,
           responsibleId: values.responsible,

@@ -105,7 +105,7 @@ export interface FieldElement {
 export type Prefix<P extends string, S extends string> = `${P}${S}` | S;
 
 export interface TitleElement<T extends string> {
-  title: string;
+  title: ReactNode;
   sortableField?: T;
   width?: string;
 }
@@ -147,7 +147,7 @@ const TableComponent = <T extends string>({
                 <TableTitleComponent>
                   {tableTitle.title}
 
-                  {setSortOption && (
+                  {setSortOption && tableTitle.sortableField && (
                     <SortArrowWrapper>
                       <ContentWrapper>
                         <ExpandLess

@@ -162,9 +162,9 @@ const StructureContainer = ({
 
   const nodes = getNodes(
     nodesQuery.data,
-    showLmaSubjects ? resultSubjectIdObject.subjectLMA : [],
-    showDaSubjects ? resultSubjectIdObject.subjectDA : [],
-    showSaSubjects ? resultSubjectIdObject.subjectSA : [],
+    showLmaSubjects ? resultSubjectIdObject.subjectLMA.map((s) => s.id) : [],
+    showDaSubjects ? resultSubjectIdObject.subjectDA.map((s) => s.id) : [],
+    showSaSubjects ? resultSubjectIdObject.subjectSA.map((s) => s.id) : [],
     showFavorites ? favoriteNodeIds : [],
     rootId,
   );

@@ -25,7 +25,7 @@ interface Props {
 const translateFields: TranslateType[] = [
   {
     field: "manuscript.manuscript",
-    type: "text",
+    type: "html",
   },
   {
     field: "title.title",

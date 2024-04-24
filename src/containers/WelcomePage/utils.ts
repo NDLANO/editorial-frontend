@@ -17,10 +17,15 @@ import {
 } from "../../constants";
 import { SearchParamsBody } from "../SearchPage/components/form/SearchForm";
 
+export interface SubjectData {
+  id: string;
+  name: string;
+}
+
 export type SubjectIdObject = {
-  [TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA]: string[];
-  [TAXONOMY_CUSTOM_FIELD_SUBJECT_DA]: string[];
-  [TAXONOMY_CUSTOM_FIELD_SUBJECT_SA]: string[];
+  [TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA]: SubjectData[];
+  [TAXONOMY_CUSTOM_FIELD_SUBJECT_DA]: SubjectData[];
+  [TAXONOMY_CUSTOM_FIELD_SUBJECT_SA]: SubjectData[];
 };
 
 export const defaultSubjectIdObject: SubjectIdObject = {
@@ -31,25 +36,32 @@ export const defaultSubjectIdObject: SubjectIdObject = {
 
 export const getResultSubjectIdObject = (ndlaId: string | undefined, nodes: Node[] | undefined): SubjectIdObject => {
   if (!nodes) return defaultSubjectIdObject;
-  return nodes.reduce((acc, res) => {
-    if (res.metadata && res.metadata.customFields) {
-      const customFields = res.metadata.customFields;
+  const result = nodes.reduce(
+    (acc, res) => {
+      if (res.metadata && res.metadata.customFields) {
+        const customFields = res.metadata.customFields;
 
-      if (customFields.subjectLMA === ndlaId) {
-        acc.subjectLMA.push(res.id);
+        if (customFields.subjectLMA === ndlaId) {
+          acc.subjectLMA.push({ id: res.id, name: res.name });
+        }
+
+        if (customFields.subjectDA === ndlaId) {
+          acc.subjectDA.push({ id: res.id, name: res.name });
+        }
+
+        if (customFields.subjectSA === ndlaId) {
+          acc.subjectSA.push({ id: res.id, name: res.name });
+        }
       }
-
-      if (customFields.subjectDA === ndlaId) {
-        acc.subjectDA.push(res.id);
-      }
-
-      if (customFields.subjectSA === ndlaId) {
-        acc.subjectSA.push(res.id);
-      }
-    }
-
-    return acc;
-  }, defaultSubjectIdObject);
+      return acc;
+    },
+    {
+      [TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA]: [],
+      [TAXONOMY_CUSTOM_FIELD_SUBJECT_DA]: [],
+      [TAXONOMY_CUSTOM_FIELD_SUBJECT_SA]: [],
+    } as SubjectIdObject,
+  );
+  return result;
 };
 
 export const customFieldsBody = (ndlaId: string) => ({
@@ -73,11 +85,11 @@ export const getSubjectsIdsQuery = (
   if (query.subjects.join("") === FAVOURITES_SUBJECT_ID) {
     subjects = favoriteSubjects;
   } else if (query.subjects.join("") === LMA_SUBJECT_ID) {
-    subjects = subjectIdObject[TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA];
+    subjects = subjectIdObject[TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA].map((s) => s.id);
   } else if (query.subjects.join("") === SA_SUBJECT_ID) {
-    subjects = subjectIdObject[TAXONOMY_CUSTOM_FIELD_SUBJECT_SA];
+    subjects = subjectIdObject[TAXONOMY_CUSTOM_FIELD_SUBJECT_SA].map((s) => s.id);
   } else if (query.subjects.join("") === DA_SUBJECT_ID) {
-    subjects = subjectIdObject[TAXONOMY_CUSTOM_FIELD_SUBJECT_DA];
+    subjects = subjectIdObject[TAXONOMY_CUSTOM_FIELD_SUBJECT_DA].map((s) => s.id);
   } else {
     subjects = query.subjects;
   }

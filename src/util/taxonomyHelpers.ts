@@ -48,6 +48,8 @@ const flattenResourceTypesAndAddContextTypes = (data: ResourceType[] = [], t: (k
     name: t("contextTypes.frontpage"),
     id: "frontpage-article",
   });
+  resourceTypes.push({ name: t("contextTypes.concept"), id: "concept" });
+  resourceTypes.push({ name: t("contextTypes.gloss"), id: "gloss" });
   return resourceTypes;
 };
 

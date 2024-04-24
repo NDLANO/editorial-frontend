@@ -1799,6 +1799,8 @@ const phrases = {
   contextTypes: {
     topic: "Emne",
     frontpage: "Om-NDLA-artikkel",
+    concept: "Forklaring",
+    gloss: "Glose",
   },
   ndlaFilm: {
     editor: {

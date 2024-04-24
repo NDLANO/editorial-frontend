@@ -1800,6 +1800,8 @@ const phrases = {
   contextTypes: {
     topic: "Topic",
     frontpage: "About-NDLA article",
+    concept: "Concept",
+    gloss: "Gloss",
   },
   ndlaFilm: {
     editor: {

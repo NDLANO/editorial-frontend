@@ -185,9 +185,7 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
     const SASubjects: Node = generateSubjectNode(SA_SUBJECT_ID, "searchForm.SASubjects", t);
     const DASubjects: Node = generateSubjectNode(DA_SUBJECT_ID, "searchForm.DASubjects", t);
 
-    const filteredAndSortedSubjects = subjects
-      .filter((s) => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== "true")
-      .sort(sortByProperty("name"));
+    const filteredAndSortedSubjects = subjects.sort(sortByProperty("name"));
     return [
       favoriteSubject,
       ...(userHasLMASubjects ? [LMAsubjects] : []),

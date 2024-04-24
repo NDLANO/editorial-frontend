@@ -10,7 +10,9 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
 import { fonts } from "@ndla/core";
+import { Concept, Globe } from "@ndla/icons/editor";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
+import { Node } from "@ndla/types-taxonomy";
 import { ContentTypeBadge } from "@ndla/ui";
 import SearchContentLanguage from "./SearchContentLanguage";
 import SearchHighlight from "./SearchHighlight";
@@ -54,6 +56,7 @@ interface Props {
   content: IMultiSearchSummary;
   locale: string;
   responsibleName?: string;
+  subjects: Node[];
 }
 
 interface ContentType {
@@ -62,13 +65,46 @@ interface ContentType {
 
 const Title = StyledSearchTitle.withComponent("h2");
 const NoShadowLink = NoShadowAnchor.withComponent(Link);
+const MetaImageComponent = ({ content, locale }: { content: IMultiSearchSummary; locale: string }) => {
+  const { url, alt } = content.metaImage || {};
+  const imageUrl = url ? `${url}?width=200&language=${locale}` : null;
 
-const SearchContent = ({ content, locale, responsibleName }: Props) => {
+  if (!imageUrl) {
+    if (content.learningResourceType === "gloss") return <Globe size="large" />;
+    if (content.learningResourceType === "concept") return <Concept size="large" />;
+    return <img src={"/placeholder.png"} alt={alt} />;
+  }
+
+  return <img src={imageUrl} alt={alt} />;
+};
+
+const SubjectBreadcrumb = ({ content, subjects }: { content: IMultiSearchSummary; subjects: Node[] }) => {
+  if (content.learningResourceType === "gloss" || content.learningResourceType === "concept") {
+    const breadcrumbs = subjects.filter((s) => content.conceptSubjectIds?.includes(s.id));
+    return (
+      <>
+        {breadcrumbs?.map((breadcrumb) => (
+          <StyledSearchBreadcrumb key={breadcrumb.id}>{breadcrumb.name}</StyledSearchBreadcrumb>
+        )) || <StyledSearchBreadcrumb />}
+      </>
+    );
+  }
+
+  if (content.contexts && content.contexts.length > 0 && content.contexts[0].breadcrumbs) {
+    return content.contexts[0].breadcrumbs.map((breadcrumb) => (
+      <StyledSearchBreadcrumb key={breadcrumb} style={{ marginTop: "auto", marginBottom: "auto" }}>
+        {breadcrumb}
+      </StyledSearchBreadcrumb>
+    ));
+  } else {
+    return <StyledSearchBreadcrumb style={{ marginRight: 0 }} />;
+  }
+};
+
+const SearchContent = ({ content, locale, subjects, responsibleName }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
-  const { contexts, metaImage } = content;
-  const { url, alt } = metaImage || {};
-  const imageUrl = url ? `${url}?width=200&language=${locale}` : "/placeholder.png";
+  const { contexts } = content;
   let resourceType: ContentType | undefined;
   if ((contexts[0]?.resourceTypes?.length ?? 0) > 0) {
     resourceType = getContentTypeFromResourceTypes(contexts[0].resourceTypes);
@@ -114,7 +150,7 @@ const SearchContent = ({ content, locale, responsibleName }: Props) => {
   return (
     <StyledSearchResult data-testid="content-search-result">
       <StyledSearchImageContainer>
-        <img src={imageUrl} alt={alt} />
+        <MetaImageComponent content={content} locale={locale} />
       </StyledSearchImageContainer>
       <StyledSearchContent>
         <div>
@@ -144,15 +180,7 @@ const SearchContent = ({ content, locale, responsibleName }: Props) => {
         {metaDescription !== "" && <DescriptionTitle>{t("form.name.metaDescription")}</DescriptionTitle>}
         <StyledSearchDescription>{metaDescription}</StyledSearchDescription>
         <StyledSearchBreadcrumbs style={{ marginTop: "-25px" }}>
-          {contexts && contexts.length > 0 && contexts[0].breadcrumbs ? (
-            contexts[0].breadcrumbs.map((breadcrumb) => (
-              <StyledSearchBreadcrumb key={breadcrumb} style={{ marginTop: "auto", marginBottom: "auto" }}>
-                {breadcrumb}
-              </StyledSearchBreadcrumb>
-            ))
-          ) : (
-            <StyledSearchBreadcrumb style={{ marginRight: 0 }} />
-          )}
+          <SubjectBreadcrumb content={content} subjects={subjects} />
           <HeaderStatusInformation
             id={content.id}
             statusText={statusType()}

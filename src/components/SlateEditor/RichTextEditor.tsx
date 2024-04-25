@@ -8,7 +8,7 @@
 import { useFormikContext } from "formik";
 import isEqual from "lodash/isEqual";
 import { FocusEvent, KeyboardEvent, useCallback, useEffect, useRef, useState } from "react";
-import { createEditor, Descendant, Editor, Node, NodeEntry, Range, Transforms } from "slate";
+import { createEditor, Descendant, Editor, Node, NodeEntry, Path, Range, Transforms } from "slate";
 import { withHistory } from "slate-history";
 import { Slate, Editable, withReact, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
 import { EditableProps } from "slate-react/dist/components/editable";
@@ -233,7 +233,6 @@ const RichTextEditor = ({
       const [selectedElement] = getCurrentBlock(editor, TYPE_PARAGRAPH) || getCurrentBlock(editor, TYPE_HEADING) || [];
       if (e.key === KEY_TAB && selectedElement) {
         let path = ReactEditor.findPath(editor, selectedElement!);
-
         if (!e.shiftKey && !Editor.after(editor, path)) return; // If there is no block after the current block, and shift is not pressed, move out from the editor
         if (e.shiftKey && !Editor.before(editor, path)) return; // If there is no block before the current block and shift is pressed, move out from the editor
 
@@ -242,16 +241,16 @@ const RichTextEditor = ({
 
         while (!nodeToMoveTo) {
           const nextPath = getNextPath(path, e.shiftKey);
-          const nextNode = getNodeByPath(editor.children, nextPath);
+          const nextNode = getNodeByPath(editor, nextPath);
 
           if (!nextNode) {
             const parent = Editor.parent(editor, nextPath);
             path = parent[1];
             if ("type" in parent[0]) {
               if (parent[0].type === TYPE_DISCLAIMER) {
-                nodeToMoveTo = getNodeByPath(editor.children, getNextPath(path, e.shiftKey));
+                nodeToMoveTo = getNodeByPath(editor, getNextPath(path, e.shiftKey));
               } else if (parent[0].type === TYPE_GRID_CELL || parent[0].type === TYPE_TABLE_CELL) {
-                const sibling = getNodeByPath(editor.children, getNextPath(path, e.shiftKey));
+                const sibling = getNodeByPath(editor, getNextPath(path, e.shiftKey));
                 if (sibling) {
                   const [paragraphNode] = getCurrentBlock(editor, TYPE_PARAGRAPH, getNextPath(path, e.shiftKey)) || [];
                   nodeToMoveTo = paragraphNode!;

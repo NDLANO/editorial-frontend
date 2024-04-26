@@ -7,7 +7,7 @@
  */
 
 import { useFormikContext } from "formik";
-import { MouseEvent, useRef, useState } from "react";
+import { MouseEvent, ReactEventHandler, useRef, useState } from "react";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { colors } from "@ndla/core";
@@ -78,10 +78,10 @@ const ImageFocalPointEdit = ({ language, onFocalPointChange, image }: Props) => 
     }
   };
 
-  const setXandY = (target: HTMLImageElement) => {
-    const dimensions = getImageDimensions(target);
-    const x = values.focalX ? (parseInt(values.focalX) / 100) * dimensions.current.width : undefined;
-    const y = values.focalY ? (parseInt(values.focalY) / 100) * dimensions.current.height : undefined;
+  const setXandY: ReactEventHandler<HTMLImageElement> = (event) => {
+    const dimensions = getImageDimensions(event.currentTarget);
+    const x = values.focalX ? (parseFloat(values.focalX) / 100) * dimensions.current.width : undefined;
+    const y = values.focalY ? (parseFloat(values.focalY) / 100) * dimensions.current.height : undefined;
     setMarker({
       showMarker: (x !== undefined && y !== undefined) || false,
       xMarkPos: x,
@@ -89,7 +89,7 @@ const ImageFocalPointEdit = ({ language, onFocalPointChange, image }: Props) => 
     });
   };
 
-  const style = marker.showMarker
+  const style = !marker.showMarker
     ? { display: "none" }
     : {
         top: `${marker.yMarkPos}px`,
@@ -103,7 +103,7 @@ const ImageFocalPointEdit = ({ language, onFocalPointChange, image }: Props) => 
             style={{ minWidth: "inherit" }}
             alt={values.alt}
             ref={focalImgRef}
-            onLoad={(e) => setXandY(e.target as HTMLImageElement)}
+            onLoad={setXandY}
             srcSet={getSrcSets(image.id, values, language)}
           />
         </StyledFocalPointButton>

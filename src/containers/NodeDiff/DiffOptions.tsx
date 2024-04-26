@@ -15,7 +15,6 @@ import { ContentLoader } from "@ndla/ui";
 import { Row } from "../../components";
 import ObjectSelector from "../../components/ObjectSelector";
 import OptGroupVersionSelector from "../../components/Taxonomy/OptGroupVersionSelector";
-import { TAXONOMY_ADMIN_SCOPE } from "../../constants";
 import { useVersions } from "../../modules/taxonomy/versions/versionQueries";
 import { useSession } from "../Session/SessionProvider";
 
@@ -131,11 +130,6 @@ const DiffOptions = ({ originalHash, otherHash }: Props) => {
       <Row alignItems="center" spacing="small">
         <span>{t("diff.options.about")}</span>
       </Row>
-      {!!userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) && (
-        <Row alignItems="center" spacing="small">
-          <span>{t("diff.options.admin")}</span>
-        </Row>
-      )}
       <StyledOptionRow>
         <StyledDiffOption>
           <strong>{t("diff.options.originalHashLabel")}</strong>

@@ -17,7 +17,6 @@ import ConstantMetaField from "./ConstantMetaField";
 import CustomFieldComponent from "./CustomFieldComponent";
 import {
   TAXONOMY_CUSTOM_FIELD_LANGUAGE,
-  TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
@@ -85,12 +84,11 @@ const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
     TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID,
     TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
     TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
-    TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH,
     TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
     TAXONOMY_CUSTOM_FIELD_SUBJECT_SA,
     TAXONOMY_CUSTOM_FIELD_SUBJECT_DA,
   ];
-  const filteredTopicFields = [TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES, TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH];
+  const filteredTopicFields = [TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES];
 
   const filterHardcodedMetadataValues = () => {
     return Object.entries(customFields).filter(([taxonomyMetadataField, _]) => {

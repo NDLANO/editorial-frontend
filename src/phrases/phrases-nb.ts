@@ -28,7 +28,6 @@ const phrases = {
     podcastUploaderPage: `Podkastepisode ${titleTemplate}`,
     podcastSeriesPage: `Podkastserie ${titleTemplate}`,
     h5pPage: `H5P ${titleTemplate}`,
-    publishRequestsPage: `Publiseringsforespørsler ${titleTemplate}`,
     nodeDiffPage: `Sammenlign noder ${titleTemplate}`,
     editFrontpage: "Rediger forside",
     comparePage: `Sammenlign versjoner ${titleTemplate}`,
@@ -250,7 +249,6 @@ const phrases = {
     structure: "Strukturredigering",
     programme: "Rediger utdanningsprogram",
     taxonomyVersions: "Taksonomiversjoner",
-    publishRequests: "Publiseringsforespørsler",
     searchContent: "Søk innhold",
     searchAudio: "Søk lyd",
     searchPodcastSeries: "Søk serie",
@@ -1764,9 +1762,6 @@ const phrases = {
     missingResourceType: "Mangler ressurstype",
     metadata: {
       customFields: {
-        cancelPublishRequest: "Avbryt forespørsel om delvis publisering av struktur",
-        requestPublish: "Be om delpublisering av struktur",
-        requestVersionError: "Publiseringsforespørsler kan bare opprettes fra Draft",
         alterFields: "Legg til/endre metadata",
         addField: "Nytt metadata felt",
         languagePlaceholder: "Visningsspråk ndla.no",
@@ -1908,28 +1903,7 @@ const phrases = {
       },
     },
   },
-  publishRequests: {
-    title: "Publiseringsforespørsler",
-    nodePublished: "Noden har blitt publisert!",
-    showInStructure: "Vis i struktur",
-    compare: "Sammenlign",
-    deleteAll: "Slett publiseringsforespørsler",
-    deleteAllInfo:
-      "Er du sikker på at du ønsker å slette alle publiseringsforespørsler? Denne handlingen kan ikke angres.",
-    errors: {
-      noPublishedVersion: "Klarte ikke finne publisert versjon",
-      noVersions: "Klarte ikke finne versjoner",
-    },
-    numberRequests: "Antall publiseringsforespørsler",
-  },
   diff: {
-    published:
-      "Nodepubliseringen har startet. Dette kan ta litt tid. Prosessen er fullført når denne siden viser at de to versjonene er like",
-    publishing: "Publiserer node...",
-    publish: "Publiser node",
-    publishWarning:
-      "Er du sikker på at du ønsker å publisere denne noden? Alle endringer vil bli tilgjengelige i målversjonen når publiseringen er ferdig",
-    publishError: "Publisering av node feilet",
     equalNodes: "Disse nodene er like!",
     defaultVersion: "Draft",
     compareVersions: "Sammenlign versjoner",
@@ -1941,8 +1915,6 @@ const phrases = {
     },
     options: {
       about: "Denne siden lar deg sammenligne et nodetre i to forskjellige versjoner.",
-      admin:
-        "Du kan publisere nodetreet mellom versjonene. Du kan publisere nye, og oppdatere eksisterende noder til målversjonen, men ikke slette dem. Sletting må skje i den enkelte versjonen. Endringer høyere oppe i strukturen tas ikke hensyn til.",
       originalHashLabel: "Målversjon",
       otherHashLabel: "Kildeversjon",
       viewLabel: "Visningstype",

@@ -26,7 +26,6 @@ import {
   postNode,
   postNodeConnection,
   postResourceForNode,
-  publishNode,
   putNode,
   putNodeConnection,
   putNodeMetadata,
@@ -276,21 +275,6 @@ export const usePutResourceForNodeMutation = (
 ) => {
   return useMutation<void, unknown, UsePutResourceForNodeMutation>({
     mutationFn: ({ id, body, taxonomyVersion }) => putResourceForNode({ id, body, taxonomyVersion }),
-    ...options,
-  });
-};
-
-interface UsePublishNodeMutation {
-  id: string;
-  targetId: string;
-  sourceId?: string;
-}
-
-export const usePublishNodeMutation = (
-  options?: Partial<UseMutationOptions<void, unknown, UsePublishNodeMutation>>,
-) => {
-  return useMutation<void, unknown, UsePublishNodeMutation>({
-    mutationFn: ({ id, targetId, sourceId }) => publishNode({ id, targetId, sourceId }),
     ...options,
   });
 };

@@ -28,7 +28,6 @@ const phrases = {
     podcastUploaderPage: `Podcast episode ${titleTemplate}`,
     podcastSeriesPage: `Podcast series ${titleTemplate}`,
     h5pPage: `H5P ${titleTemplate}`,
-    publishRequestsPage: `Publish Requests ${titleTemplate}`,
     nodeDiffPage: `Compare Nodes ${titleTemplate}`,
     editFrontpage: "Edit front page",
     comparePage: `Compare versions ${titleTemplate}`,
@@ -251,7 +250,6 @@ const phrases = {
     structure: "Structure",
     programme: "Programmes",
     taxonomyVersions: "Taxonomy Versions",
-    publishRequests: "Publish Requests",
     searchContent: "Search content",
     searchAudio: "Search audio",
     searchPodcastSeries: "Search series",
@@ -1766,9 +1764,6 @@ const phrases = {
     missingResourceType: "Missing resource type",
     metadata: {
       customFields: {
-        cancelPublishRequest: "Cancel request for partial structure publication",
-        requestPublish: "Request partial publication of structure",
-        requestVersionError: "Publish requests can only be made from Draft",
         alterFields: "Add/change metadata",
         addField: "New metadata field",
         languagePlaceholder: "Ndla.no interface language",
@@ -1910,27 +1905,7 @@ const phrases = {
       },
     },
   },
-  publishRequests: {
-    title: "Publish Requests",
-    nodePublished: "The node has been published!",
-    showInStructure: "Show in structure",
-    compare: "Compare",
-    deleteAll: "Remove publish requests",
-    deleteAllInfo: "Are you sure you want to remove all publish requests? This action cannot be undone.",
-    errors: {
-      noPublishedVersion: "Failed to find a published version",
-      noVersions: "Failed to find other versions",
-    },
-    numberRequests: "Number of publication request",
-  },
   diff: {
-    published:
-      "Node publishing has started! This will take a while. The process is completed once the two versions of this node are marked as identical",
-    publishing: "Publishing node...",
-    publish: "Publish node",
-    publishWarning:
-      "Are you sure you want to publish this node? All the changes will be available in the targeted version after the publishing have completed",
-    publishError: "Failed to publish node",
     equalNodes: "These nodes are equal!",
     defaultVersion: "Draft",
     compareVersions: "Compare versions",
@@ -1942,8 +1917,6 @@ const phrases = {
     },
     options: {
       about: "This page enables you to compare a node-tree between two different versions.",
-      admin:
-        "You can publish the node-tree between versions. You can publish new, and update existing nodes to the target version, but not delete them. Deleting nodes need to be done in the specific version. Changes further up in the structure is disregarded.",
       originalHashLabel: "Target version",
       otherHashLabel: "Source version",
       viewLabel: "View type",

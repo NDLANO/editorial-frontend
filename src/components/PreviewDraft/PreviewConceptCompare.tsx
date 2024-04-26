@@ -14,7 +14,7 @@ import { IConcept } from "@ndla/types-backend/concept-api";
 import { Heading } from "@ndla/typography";
 import { ConceptWrapper } from "./PreviewConcept";
 import PreviewConceptComponent from "./PreviewConceptComponent";
-import { TwoArticleWrapper } from "./TwoArticleWrapper";
+import { TwoArticleWrapper } from "./styles";
 import { ConceptFormValues } from "../../containers/ConceptPage/conceptInterfaces";
 import { conceptFormTypeToApiType } from "../../containers/ConceptPage/conceptTransformers";
 import { useConcept } from "../../modules/concept/conceptQueries";

@@ -8,7 +8,7 @@
 
 import { useFormikContext } from "formik";
 import parse from "html-react-parser";
-import { ReactElement, useMemo, useState, useCallback } from "react";
+import { ReactElement, useMemo, useState } from "react";
 import { renderToString } from "react-dom/server";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
@@ -17,8 +17,8 @@ import { InformationOutline } from "@ndla/icons/common";
 import { Switch } from "@ndla/switch";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import { toFormArticle } from "./PreviewDraft";
+import { TwoArticleWrapper } from "./styles";
 import { TransformedPreviewDraft } from "./TransformedPreviewDraft";
-import { TwoArticleWrapper } from "./TwoArticleWrapper";
 import { useTransformedArticle } from "./useTransformedArticle";
 import { learningResourceFormTypeToDraftApiType } from "../../containers/ArticlePage/articleTransformers";
 import { LearningResourceFormType } from "../../containers/FormikForm/articleFormHooks";
@@ -127,7 +127,7 @@ export const PreviewVersion = ({ article, language, customTitle }: VersionPrevie
     <>
       <SwitchWrapper>
         <InformationOutline
-          ariaHidden={false}
+          aria-hidden={false}
           aria-label={t("form.previewProductionArticle.diffInfo")}
           title={t("form.previewProductionArticle.diffInfo")}
         />

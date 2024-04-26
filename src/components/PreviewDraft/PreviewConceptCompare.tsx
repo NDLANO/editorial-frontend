@@ -7,10 +7,11 @@
  */
 
 import { useFormikContext } from "formik";
-import { ReactElement, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { IConcept } from "@ndla/types-backend/concept-api";
+import { Heading } from "@ndla/typography";
 import { ConceptWrapper } from "./PreviewConcept";
 import PreviewConceptComponent from "./PreviewConceptComponent";
 import { TwoArticleWrapper } from "./TwoArticleWrapper";
@@ -18,10 +19,6 @@ import { ConceptFormValues } from "../../containers/ConceptPage/conceptInterface
 import { conceptFormTypeToApiType } from "../../containers/ConceptPage/conceptTransformers";
 import { useConcept } from "../../modules/concept/conceptQueries";
 import { useLicenses } from "../../modules/draft/draftQueries";
-
-const PreviewHeading = styled.h2`
-  margin: 0;
-`;
 
 const PreviewTitleWrapper = styled.div`
   height: 90px;
@@ -49,21 +46,21 @@ export const PreviewConceptCompare = ({ concept, language }: CompareConceptPrevi
     <TwoArticleWrapper>
       <ConceptWrapper>
         <PreviewTitleWrapper>
-          <PreviewHeading>
+          <Heading element="h2" headingStyle="h2" margin="none">
             {t("form.previewLanguageArticle.title", {
               language: t(`languages.${language}`).toLowerCase(),
             })}
-          </PreviewHeading>
+          </Heading>
         </PreviewTitleWrapper>
         <PreviewConceptComponent concept={formConcept} language={language} />
       </ConceptWrapper>
       <ConceptWrapper>
         <PreviewTitleWrapper>
-          <PreviewHeading>
+          <Heading element="h2" headingStyle="h2" margin="none">
             {t("form.previewLanguageArticle.title", {
               language: t(`languages.${previewLanguage}`).toLowerCase(),
             })}
-          </PreviewHeading>
+          </Heading>
           <select onChange={(evt) => setPreviewLanguage(evt.target.value)} value={previewLanguage}>
             {concept.supportedLanguages.map((language) => (
               <option key={language} value={language}>

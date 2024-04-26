@@ -13,7 +13,6 @@ import { ISearchParams as IImageSearchParams } from "@ndla/types-backend/image-a
 import { IDraftSearchParams } from "@ndla/types-backend/search-api";
 import { Node } from "@ndla/types-taxonomy";
 import SearchAudioForm from "./SearchAudioForm";
-import SearchConceptForm from "./SearchConceptForm";
 import SearchContentForm from "./SearchContentForm";
 import SearchImageForm from "./SearchImageForm";
 import SearchPodcastSeriesForm from "./SearchPodcastSeriesForm";
@@ -132,8 +131,6 @@ const SearchForm = ({ type, searchObject, userId, ...rest }: Props) => {
       return <SearchAudioForm searchObject={searchObject} {...rest} />;
     case "image":
       return <SearchImageForm searchObject={searchObject} {...rest} />;
-    case "concept":
-      return <SearchConceptForm searchObject={searchObject} {...rest} />;
     case "podcast-series":
       return <SearchPodcastSeriesForm searchObject={searchObject} {...rest} />;
     default:

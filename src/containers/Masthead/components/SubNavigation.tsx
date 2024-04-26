@@ -36,7 +36,9 @@ const ItemsWrapper = styled.div`
   display: flex;
   margin: 0 auto;
   text-align: center;
+  justify-content: space-between;
   height: 10rem;
+  gap: 2rem;
   flex-flow: row;
   max-width: ${MAX_PAGE_WIDTH}px;
   width: 100%;
@@ -62,7 +64,6 @@ const StyledNavLink = styled(NavLink)`
   display: block;
   text-align: center;
   color: ${colors.brand.primary};
-  margin-right: 2rem;
   box-shadow: none;
   width: 8.5rem;
   font-size: 14px;
@@ -73,6 +74,10 @@ const StyledNavLink = styled(NavLink)`
       background-color: ${colors.brand.primary};
       color: white;
     }
+  }
+  svg {
+    width: 3rem;
+    height: 3rem;
   }
   & > * {
     margin: 0 auto;

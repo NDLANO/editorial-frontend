@@ -108,10 +108,6 @@ export const PreviewVersion = ({ article, language, customTitle }: VersionPrevie
     return null;
   }, [currentObj, publishObj]);
 
-  const changeDiff = useCallback(() => {
-    setDiffEnable((p) => !p);
-  }, [setDiffEnable]);
-
   const transformedWithDiff = useMemo(() => {
     if (diffEnable && diffObj && publishedTransformed.article && currentTransformed.article) {
       return {
@@ -136,7 +132,7 @@ export const PreviewVersion = ({ article, language, customTitle }: VersionPrevie
           title={t("form.previewProductionArticle.diffInfo")}
         />
         <Switch
-          onChange={changeDiff}
+          onChange={() => setDiffEnable((p) => !p)}
           checked={diffEnable}
           label={t("form.previewProductionArticle.enableDiff")}
           id={"diff"}

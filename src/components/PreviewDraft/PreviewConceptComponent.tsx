@@ -55,23 +55,21 @@ const PreviewConceptComponent = ({ concept, language }: Props) => {
 
   const audioData = useMemo(() => getAudioData(visualElementMeta), [visualElementMeta]);
 
+  if (concept.conceptType === "gloss") {
+    return <Gloss title={concept.title} glossData={concept.glossData!} audio={audioData} />;
+  }
+
   return (
-    <>
-      {concept.conceptType === "gloss" ? (
-        <Gloss title={concept.title} glossData={concept.glossData!} audio={audioData} />
-      ) : (
-        <ConceptNotionV2
-          title={concept.title}
-          content={parsedContent}
-          visualElement={visualElementMeta}
-          copyright={concept.copyright}
-          tags={concept.tags?.tags}
-          subjects={subjects?.results?.map((res) => res.name)}
-          conceptType={concept.conceptType}
-          previewAlt
-        />
-      )}
-    </>
+    <ConceptNotionV2
+      title={concept.title}
+      content={parsedContent}
+      visualElement={visualElementMeta}
+      copyright={concept.copyright}
+      tags={concept.tags?.tags}
+      subjects={subjects?.results?.map((res) => res.name)}
+      conceptType={concept.conceptType}
+      previewAlt
+    />
   );
 };
 

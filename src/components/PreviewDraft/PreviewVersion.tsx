@@ -83,11 +83,13 @@ export const PreviewVersion = ({ article, language, customTitle }: VersionPrevie
     draft: publishedArticle,
     language,
     previewAlt: true,
+    useDraftConcepts: true,
   });
   const currentTransformed = useTransformedArticle({
     draft: { ...apiType, id: article.id },
     language,
     previewAlt: true,
+    useDraftConcepts: true,
   });
   const currentObj = useMemo(() => {
     if (!diffEnable) return null;

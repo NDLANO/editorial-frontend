@@ -21,10 +21,11 @@ export type UseTranslationOptions = {
   draft: FormArticle;
   language: string;
   previewAlt: boolean;
+  useDraftConcepts: boolean;
 };
 
-export const useTransformedArticle = ({ draft, language, previewAlt }: UseTranslationOptions) => {
-  const transformedContent = usePreviewArticle(draft.content!, language, draft.visualElement);
+export const useTransformedArticle = ({ draft, language, previewAlt, useDraftConcepts }: UseTranslationOptions) => {
+  const transformedContent = usePreviewArticle(draft.content!, language, draft.visualElement, useDraftConcepts);
 
   const article: undefined | ArticleType = useMemo(() => {
     if (!transformedContent.data) return;

@@ -33,7 +33,7 @@ export const commentBlockSerializer: SlateSerializer = {
     const embed = el as HTMLEmbedElement;
     const embedAttributes = reduceElementDataAttributesV2(Array.from(embed.attributes));
     if (embedAttributes.resource === "comment" && embedAttributes.type === "block") {
-      return slatejsx("element", { type: TYPE_COMMENT_BLOCK, data: embedAttributes });
+      return slatejsx("element", { type: TYPE_COMMENT_BLOCK, data: embedAttributes }, [{ text: "" }]);
     }
   },
   serialize(node: Descendant) {

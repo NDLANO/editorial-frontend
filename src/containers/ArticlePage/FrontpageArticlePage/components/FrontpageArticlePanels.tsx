@@ -14,10 +14,9 @@ import FrontpageArticleFormContent from "./FrontpageArticleFormContent";
 import FormAccordion from "../../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../../components/Accordion/FormAccordions";
 import { useWideArticle } from "../../../../components/WideArticleEditorProvider";
-import { PUBLISHED } from "../../../../constants";
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from "../../../FormikForm";
 import { FrontpageArticleFormType } from "../../../FormikForm/articleFormHooks";
-import PanelTitleWithChangeIndicator from "../../components/PanelTitleWithChangeIndicator";
+import PanelTitleWithChangeIndicator, { FlatArticleKeys } from "../../components/PanelTitleWithChangeIndicator";
 import RevisionNotes from "../../components/RevisionNotes";
 
 interface Props {
@@ -31,23 +30,11 @@ const FrontpageArticlePanels = ({ article, articleHistory, articleLanguage }: Pr
   const { errors } = useFormikContext<FrontpageArticleFormType>();
   const { isWideArticle } = useWideArticle();
 
-  const lastPublishedVersion = articleHistory?.find((a) => a.status.current === PUBLISHED);
-  const contentTitleCompareData = useMemo(
-    () => [
-      { current: article?.title?.title, published: lastPublishedVersion?.title?.title, isHtml: true },
-      { current: article?.content?.content, published: lastPublishedVersion?.content?.content, isHtml: true },
-      {
-        current: article?.introduction?.introduction,
-        published: lastPublishedVersion?.introduction?.introduction,
-        isHtml: true,
-      },
-    ],
-    [article, lastPublishedVersion],
+  const contentTitleFields = useMemo<FlatArticleKeys[]>(
+    () => ["title.title", "introduction.introduction", "content.content"],
+    [],
   );
-  const copyrightCompareData = useMemo(
-    () => [{ current: article?.copyright, published: lastPublishedVersion?.copyright, isHtml: false as const }],
-    [article?.copyright, lastPublishedVersion?.copyright],
-  );
+  const copyrightFields = useMemo<FlatArticleKeys[]>(() => ["copyright"], []);
 
   return (
     <FormAccordions
@@ -57,7 +44,14 @@ const FrontpageArticlePanels = ({ article, articleHistory, articleLanguage }: Pr
     >
       <FormAccordion
         id={"frontpage-article-content"}
-        title={<PanelTitleWithChangeIndicator title={t("form.contentSection")} compareData={contentTitleCompareData} />}
+        title={
+          <PanelTitleWithChangeIndicator
+            title={t("form.contentSection")}
+            article={article}
+            articleHistory={articleHistory}
+            fieldsToIndicatedChangesFor={contentTitleFields}
+          />
+        }
         className="u-10/12 u-push-1/12"
         hasError={!!(errors.title || errors.introduction || errors.content)}
         wide={isWideArticle}
@@ -67,7 +61,14 @@ const FrontpageArticlePanels = ({ article, articleHistory, articleLanguage }: Pr
       </FormAccordion>
       <FormAccordion
         id={"frontpage-article-copyright"}
-        title={<PanelTitleWithChangeIndicator title={t("form.copyrightSection")} compareData={copyrightCompareData} />}
+        title={
+          <PanelTitleWithChangeIndicator
+            title={t("form.copyrightSection")}
+            article={article}
+            articleHistory={articleHistory}
+            fieldsToIndicatedChangesFor={copyrightFields}
+          />
+        }
         className={"u-6/6"}
         hasError={!!(errors.creators || errors.rightsholders || errors.processors || errors.license)}
       >

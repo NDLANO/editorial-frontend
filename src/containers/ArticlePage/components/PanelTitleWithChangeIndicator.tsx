@@ -6,34 +6,47 @@
  *
  */
 
-import isEqual from "lodash/isEqual";
+import isEqual from "lodash/fp/isEqual";
+import get from "lodash/get";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { colors } from "@ndla/core";
+import { IArticle } from "@ndla/types-backend/draft-api";
 import { Text } from "@ndla/typography";
+import { PUBLISHED } from "../../../constants";
 import { removeCommentTags } from "../../../util/compareHTMLHelpers";
 
-interface HtmlCompareObject {
-  current: string | undefined;
-  published: string | undefined;
-  isHtml: true;
-}
-interface CompareObject {
-  current: any;
-  published: any;
-  isHtml: false;
-}
+// https://stackoverflow.com/a/68404823
+// Creates a string union type based on all nested keys in T with dot notation. E.g. NestedKeys<{a: {b: string}; b: number}> = "b" | "a.b"
+type DotPrefix<T extends string> = T extends "" ? "" : `.${T}`;
+type NestedKeys<InputObject> = (
+  InputObject extends object
+    ? { [Key in Exclude<keyof InputObject, symbol>]: `${Key}${DotPrefix<NestedKeys<InputObject[Key]>>}` }[Exclude<
+        keyof InputObject,
+        symbol
+      >]
+    : ""
+) extends infer Result
+  ? Extract<Result, string>
+  : never;
 
-const contentPanelChanges = (compareData: (HtmlCompareObject | CompareObject)[]): boolean => {
-  for (const compareObject of compareData) {
-    if (compareObject.isHtml) {
-      const currentWithoutComments = compareObject.current ? removeCommentTags(compareObject.current) : "";
-      const publishedWithoutComments = compareObject.published ? removeCommentTags(compareObject.published) : "";
-      if (!isEqual(currentWithoutComments, publishedWithoutComments)) return true;
-    } else {
-      if (!isEqual(compareObject.current, compareObject.published)) return true;
-    }
+export type FlatArticleKeys = NestedKeys<IArticle>;
+
+const contentPanelChanges = (
+  current: IArticle | undefined,
+  lastPublished: IArticle | undefined,
+  fields: FlatArticleKeys[],
+): boolean => {
+  if (current === undefined || lastPublished === undefined) return false;
+  for (const field of fields) {
+    const currentField = get(current, field, "");
+    const lastPublishedField = get(lastPublished, field, "");
+
+    const currentWithoutComments = removeCommentTags(currentField.toString());
+    const publishedWithoutComments = removeCommentTags(lastPublishedField.toString());
+
+    if (!isEqual(currentWithoutComments, publishedWithoutComments)) return true;
   }
   return false;
 };
@@ -44,12 +57,22 @@ const StyledText = styled(Text)`
 
 interface PanelTitleProps {
   title: string;
-  compareData: (HtmlCompareObject | CompareObject)[];
+  article: IArticle | undefined;
+  articleHistory: IArticle[] | undefined;
+  fieldsToIndicatedChangesFor: FlatArticleKeys[];
 }
 
-const PanelTitleWithChangeIndicator = ({ title, compareData }: PanelTitleProps) => {
+const PanelTitleWithChangeIndicator = ({
+  title,
+  fieldsToIndicatedChangesFor,
+  article,
+  articleHistory,
+}: PanelTitleProps) => {
   const { t } = useTranslation();
-  const hasChanges = useMemo(() => contentPanelChanges(compareData), [compareData]);
+  const hasChanges = useMemo(() => {
+    const lastPublishedVersion = articleHistory?.find((a) => a.status.current === PUBLISHED);
+    return contentPanelChanges(article, lastPublishedVersion, fieldsToIndicatedChangesFor);
+  }, [article, articleHistory, fieldsToIndicatedChangesFor]);
 
   if (hasChanges) {
     return (

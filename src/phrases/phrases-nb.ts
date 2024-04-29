@@ -826,6 +826,9 @@ const phrases = {
       current: "Gjeldende versjon",
       published: "Publisert versjon",
       article: "Artikkel",
+      enableDiff: "Marker forskjeller",
+      diffInfo:
+        "Markerer forskjeller i den upubliserte versjonen. Slettet tekst vil markeres med rødt, endret tekst med gult og ny tekst med grønt. Bilder og blokkelementer vil vises med en ramme rundt, men visningen kan være noe mangelfull for noen elementer.",
     },
     previewLanguageArticle: {
       button: "Sammenlign språkversjoner",

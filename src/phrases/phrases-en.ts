@@ -825,6 +825,9 @@ const phrases = {
       current: "Current version",
       published: "Published version",
       article: "Article",
+      enableDiff: "Highlight differences",
+      diffInfo:
+        "Highlights the differences in the unpublished version. Deleted text will be marked in red, changed text in yellow and new text in green. Images and block elements will be displayed with a frame around them, but the display may be somewhat incomplete for some elements.",
     },
     previewLanguageArticle: {
       button: "Compare language versions",

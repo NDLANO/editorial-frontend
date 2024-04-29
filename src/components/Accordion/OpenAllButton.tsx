@@ -15,19 +15,19 @@ import { ChildType } from "./FormAccordionsWithComments";
 interface Props {
   openAccordions: string[];
   setOpenAccordions: (values: string[]) => void;
-  childs: ChildType | ChildType[];
+  formAccordionChildren: ChildType | ChildType[];
 }
 
 const StyledButton = styled(ButtonV2)`
   align-self: flex-end;
 `;
 
-const OpenAllButton = ({ openAccordions, setOpenAccordions, childs }: Props) => {
+const OpenAllButton = ({ openAccordions, setOpenAccordions, formAccordionChildren }: Props) => {
   const { t } = useTranslation();
 
   const accordionChildren = useMemo(
-    () => Children.map(childs, (c) => (c ? c.props?.id : false))?.filter(Boolean) ?? [],
-    [childs],
+    () => Children.map(formAccordionChildren, (c) => (c ? c.props?.id : false))?.filter(Boolean) ?? [],
+    [formAccordionChildren],
   );
 
   const allOpen = useMemo(

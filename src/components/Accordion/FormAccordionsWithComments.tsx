@@ -92,7 +92,11 @@ const FormAccordionsWithComments = ({ defaultOpen, children, articleId, articleT
               onChange={() => toggleWideArticles(articleId)}
             />
           )}
-          <OpenAllButton openAccordions={openAccordions} setOpenAccordions={setOpenAccordions} childs={children} />
+          <OpenAllButton
+            openAccordions={openAccordions}
+            setOpenAccordions={setOpenAccordions}
+            formAccordionChildren={children}
+          />
         </FormControls>
         {!disableComments && (
           <CommentWrapper>

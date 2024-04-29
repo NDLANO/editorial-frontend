@@ -41,7 +41,11 @@ const FormAccordions = ({ defaultOpen, children }: Props) => {
   return (
     <AccordionsWrapper>
       <FlexWrapper>
-        <OpenAllButton openAccordions={openAccordions} setOpenAccordions={setOpenAccordions} childs={children} />
+        <OpenAllButton
+          openAccordions={openAccordions}
+          setOpenAccordions={setOpenAccordions}
+          formAccordionChildren={children}
+        />
       </FlexWrapper>
       <MainContent>
         <AccordionRoot type="multiple" value={openAccordions} onValueChange={setOpenAccordions}>

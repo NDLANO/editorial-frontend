@@ -16,8 +16,8 @@ import { SlateSerializer } from "../../interfaces";
 import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
 import { TYPE_BLOGPOST } from "../blogPost/types";
-import { TYPE_EMBED_IMAGE } from "../embed/types";
 import { TYPE_HEADING } from "../heading/types";
+import { TYPE_IMAGE } from "../image/types";
 import { TYPE_KEY_FIGURE } from "../keyFigure/types";
 import { TYPE_LIST } from "../list/types";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
@@ -53,7 +53,7 @@ const normalizerConfig: NormalizerConfig = {
 
 const normalizerConfigGridCell: NormalizerConfig = {
   nodes: {
-    allowed: [TYPE_KEY_FIGURE, TYPE_BLOGPOST, TYPE_PARAGRAPH, TYPE_EMBED_IMAGE, TYPE_HEADING, TYPE_LIST],
+    allowed: [TYPE_KEY_FIGURE, TYPE_BLOGPOST, TYPE_PARAGRAPH, TYPE_IMAGE, TYPE_HEADING, TYPE_LIST],
     defaultType: TYPE_PARAGRAPH,
   },
 };

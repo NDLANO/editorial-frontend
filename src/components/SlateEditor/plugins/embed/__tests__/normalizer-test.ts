@@ -13,9 +13,9 @@ import { learningResourcePlugins } from "../../../../../containers/ArticlePage/L
 import withPlugins from "../../../utils/withPlugins";
 import { TYPE_AUDIO } from "../../audio/types";
 import { TYPE_H5P } from "../../h5p/types";
+import { TYPE_IMAGE } from "../../image/types";
 import { TYPE_PARAGRAPH } from "../../paragraph/types";
 import { TYPE_SECTION } from "../../section/types";
-import { TYPE_EMBED_IMAGE } from "../types";
 
 const editor = withHistory(withReact(withPlugins(createEditor(), learningResourcePlugins)));
 
@@ -26,7 +26,7 @@ describe("embed normalizer tests", () => {
         type: TYPE_SECTION,
         children: [
           {
-            type: TYPE_EMBED_IMAGE,
+            type: TYPE_IMAGE,
             children: [
               {
                 text: "",
@@ -34,7 +34,7 @@ describe("embed normalizer tests", () => {
             ],
             data: {
               resource: "image",
-              resource_id: "123",
+              resourceId: "123",
               size: "small",
               align: "right",
               alt: "test-alt",
@@ -82,7 +82,7 @@ describe("embed normalizer tests", () => {
             children: [{ text: "" }],
           },
           {
-            type: TYPE_EMBED_IMAGE,
+            type: TYPE_IMAGE,
             children: [
               {
                 text: "",
@@ -90,7 +90,7 @@ describe("embed normalizer tests", () => {
             ],
             data: {
               resource: "image",
-              resource_id: "123",
+              resourceId: "123",
               size: "small",
               align: "right",
               alt: "test-alt",

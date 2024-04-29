@@ -19,20 +19,14 @@ import { SlatePlugin } from "./interfaces";
 import { Action, commonActions } from "./plugins/blockPicker/actions";
 import { BlockPickerOptions, createBlockpickerOptions } from "./plugins/blockPicker/options";
 import SlateBlockPicker from "./plugins/blockPicker/SlateBlockPicker";
-import { TYPE_DEFINITION_LIST } from "./plugins/definitionList/types";
 import { onDragOver, onDragStart, onDrop } from "./plugins/DND";
-import { TYPE_GRID_CELL } from "./plugins/grid/types";
 import { TYPE_HEADING } from "./plugins/heading/types";
 import { TYPE_PARAGRAPH } from "./plugins/paragraph/types";
-import { TYPE_TABLE_CELL } from "./plugins/table/types";
 import { SlateToolbar } from "./plugins/toolbar";
 import { AreaFilters, CategoryFilters } from "./plugins/toolbar/toolbarState";
-import { TYPE_DISCLAIMER } from "./plugins/uuDisclaimer/types";
 import { SlateProvider } from "./SlateContext";
 import getCurrentBlock from "./utils/getCurrentBlock";
-import { getNextParagraph, manualTypes } from "./utils/getNextParagraph";
-import getNextPath from "./utils/getNextPath";
-import getNodeByPath from "./utils/getNodeByPath";
+import getNextNode from "./utils/getNextNode";
 import { KEY_ARROW_LEFT, KEY_ARROW_RIGHT, KEY_TAB } from "./utils/keys";
 import withPlugins from "./utils/withPlugins";
 import { BLOCK_PICKER_TRIGGER_ID } from "../../constants";
@@ -232,49 +226,14 @@ const RichTextEditor = ({
     (e: KeyboardEvent<HTMLDivElement>) => {
       const [selectedElement] = getCurrentBlock(editor, TYPE_PARAGRAPH) || getCurrentBlock(editor, TYPE_HEADING) || [];
       if (e.key === KEY_TAB && selectedElement) {
-        let path = ReactEditor.findPath(editor, selectedElement!);
+        const path = ReactEditor.findPath(editor, selectedElement!);
         if (!e.shiftKey && !Editor.after(editor, path)) return; // If there is no block after the current block, and shift is not pressed, move out from the editor
         if (e.shiftKey && !Editor.before(editor, path)) return; // If there is no block before the current block and shift is pressed, move out from the editor
 
         e.preventDefault();
         let nodeToMoveTo: Descendant[] | Node | null = null;
 
-        while (!nodeToMoveTo) {
-          const nextPath = getNextPath(path, e.shiftKey);
-          const nextNode = getNodeByPath(editor, nextPath);
-
-          if (!nextNode) {
-            const parent = Editor.parent(editor, nextPath);
-            path = parent[1];
-            if ("type" in parent[0]) {
-              if (parent[0].type === TYPE_DISCLAIMER) {
-                nodeToMoveTo = getNodeByPath(editor, getNextPath(path, e.shiftKey));
-              } else if (parent[0].type === TYPE_GRID_CELL || parent[0].type === TYPE_TABLE_CELL) {
-                const sibling = getNodeByPath(editor, getNextPath(path, e.shiftKey));
-                if (sibling) {
-                  const [paragraphNode] = getCurrentBlock(editor, TYPE_PARAGRAPH, getNextPath(path, e.shiftKey)) || [];
-                  nodeToMoveTo = paragraphNode!;
-                } else {
-                  const parentParent = Editor.parent(editor, path);
-                  path = parentParent[1];
-                  nodeToMoveTo = Editor.next(editor, { at: parentParent[1], mode: "highest" })?.[0]!;
-                }
-              }
-            } else {
-              nodeToMoveTo = parent[0];
-            }
-          } else if (Array.isArray(nextNode)) {
-            nodeToMoveTo = nextNode;
-          } else if (!("type" in nextNode)) {
-            path = ReactEditor.findPath(editor, nextNode);
-          } else if (Editor.isVoid(editor, nextNode) || nextNode.type === TYPE_DEFINITION_LIST) {
-            path = nextPath;
-          } else if (manualTypes.includes(nextNode.type)) {
-            nodeToMoveTo = getNextParagraph(editor, nextNode) || null;
-          } else {
-            nodeToMoveTo = nextNode;
-          }
-        }
+        nodeToMoveTo = getNextNode(editor, path, e.shiftKey);
 
         if ("type" in nodeToMoveTo) {
           if (Editor.isVoid(editor, nodeToMoveTo)) Transforms.move(editor, { unit: "offset" });

@@ -6,11 +6,11 @@
  *
  */
 import { MouseEvent } from "react";
-import { ImageEditFormValues } from "../components/SlateEditor/plugins/embed/EditImage";
+import { ImageEmbedFormValues } from "../components/SlateEditor/plugins/image/ImageEmbedForm";
 import config from "../config";
 
 type Transform = Pick<
-  ImageEditFormValues,
+  ImageEmbedFormValues,
   "focalX" | "focalY" | "upperLeftX" | "upperLeftY" | "lowerRightX" | "lowerRightY"
 >;
 

@@ -24,7 +24,7 @@ import { CopyrightElement } from "./plugins/copyright/types";
 import { DefinitionDescriptionElement, DefinitionListElement, DefinitionTermElement } from "./plugins/definitionList";
 import { DetailsElement, SummaryElement } from "./plugins/details";
 import { DivElement } from "./plugins/div";
-import { ErrorEmbedElement, ImageEmbedElement } from "./plugins/embed";
+import { ErrorEmbedElement } from "./plugins/embed";
 import { ExternalElement, IframeElement } from "./plugins/external/types";
 import { FileElement } from "./plugins/file";
 import { FootnoteElement } from "./plugins/footnote";
@@ -32,6 +32,7 @@ import { FramedContentElement } from "./plugins/framedContent";
 import { GridCellElement, GridElement } from "./plugins/grid";
 import { H5pElement } from "./plugins/h5p/types";
 import { HeadingElement } from "./plugins/heading";
+import { ImageElement } from "./plugins/image/types";
 import { KeyFigureElement } from "./plugins/keyFigure";
 import { ContentLinkElement, LinkElement } from "./plugins/link";
 import { LinkBlockListElement } from "./plugins/linkBlockList/types";
@@ -103,9 +104,9 @@ declare module "slate" {
       | TableHeadElement
       | TableBodyElement
       | RelatedElement
-      | ImageEmbedElement
       | BrightcoveEmbedElement
       | AudioElement
+      | ImageElement
       | ErrorEmbedElement
       | H5pElement
       | FramedContentElement

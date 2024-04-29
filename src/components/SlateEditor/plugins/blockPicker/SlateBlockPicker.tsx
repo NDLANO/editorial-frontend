@@ -41,7 +41,7 @@ import { TYPE_CONTACT_BLOCK } from "../contactBlock/types";
 import { defaultContactBlock } from "../contactBlock/utils";
 import { TYPE_DETAILS } from "../details/types";
 import { defaultDetailsBlock } from "../details/utils";
-import { TYPE_EMBED_ERROR, TYPE_EMBED_IMAGE } from "../embed/types";
+import { TYPE_EMBED_ERROR } from "../embed/types";
 import { TYPE_EXTERNAL } from "../external/types";
 import { defaultExternalBlock } from "../external/utils";
 import { TYPE_FILE } from "../file/types";
@@ -51,6 +51,7 @@ import { TYPE_GRID } from "../grid/types";
 import { defaultGridBlock } from "../grid/utils";
 import { TYPE_H5P } from "../h5p/types";
 import { defaultH5pBlock } from "../h5p/utils";
+import { TYPE_IMAGE } from "../image/types";
 import { TYPE_KEY_FIGURE } from "../keyFigure/types";
 import { defaultKeyFigureBlock } from "../keyFigure/utils";
 import { defaultLinkBlockList } from "../linkBlockList";
@@ -317,8 +318,12 @@ const SlateBlockPicker = ({
         setType(data.object);
         break;
       }
+      case TYPE_IMAGE: {
+        setVisualElementPickerOpen(true);
+        setType(data.object);
+        break;
+      }
       case TYPE_FILE:
-      case TYPE_EMBED_IMAGE:
       case TYPE_EMBED_ERROR: {
         setVisualElementPickerOpen(true);
         setType(data.object);

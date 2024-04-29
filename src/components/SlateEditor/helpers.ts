@@ -13,13 +13,14 @@ import { TYPE_CODEBLOCK } from "./plugins/codeBlock/types";
 import { TYPE_COMMENT_INLINE } from "./plugins/comment/inline/types";
 import { TYPE_CONCEPT_INLINE } from "./plugins/concept/inline/types";
 import { TYPE_DETAILS } from "./plugins/details/types";
-import { TYPE_EMBED_ERROR, TYPE_EMBED_IMAGE } from "./plugins/embed/types";
+import { TYPE_EMBED_ERROR } from "./plugins/embed/types";
 import { TYPE_EXTERNAL } from "./plugins/external/types";
 import { TYPE_FILE } from "./plugins/file/types";
 import { TYPE_FOOTNOTE } from "./plugins/footnote/types";
 import { TYPE_FRAMED_CONTENT } from "./plugins/framedContent/types";
 import { TYPE_GRID } from "./plugins/grid/types";
 import { TYPE_H5P } from "./plugins/h5p/types";
+import { TYPE_IMAGE } from "./plugins/image/types";
 import { TYPE_KEY_FIGURE } from "./plugins/keyFigure/types";
 import { TYPE_LINK, TYPE_CONTENT_LINK } from "./plugins/link/types";
 import { TYPE_MATHML } from "./plugins/mathml/types";
@@ -48,7 +49,7 @@ export const blocks = [
   TYPE_EMBED_ERROR,
   TYPE_EXTERNAL,
   TYPE_H5P,
-  TYPE_EMBED_IMAGE,
+  TYPE_IMAGE,
   TYPE_FILE,
   TYPE_RELATED,
   TYPE_TABLE,
@@ -56,5 +57,4 @@ export const blocks = [
   TYPE_GRID,
   TYPE_KEY_FIGURE,
   TYPE_CAMPAIGN_BLOCK,
-  TYPE_EMBED_IMAGE,
 ];

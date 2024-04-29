@@ -11,8 +11,6 @@ import { Fragment, ReactNode, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 import styled from "@emotion/styled";
-import { useQueryClient } from "@tanstack/react-query";
-import { ButtonV2 } from "@ndla/button";
 import { spacing, fonts } from "@ndla/core";
 import { ChevronRight } from "@ndla/icons/common";
 import { NodeChild, Node } from "@ndla/types-taxonomy";
@@ -20,12 +18,7 @@ import { ContentLoader, MessageBox } from "@ndla/ui";
 import { diffTrees, DiffType, DiffTypeWithChildren, RootDiffType } from "./diffUtils";
 import NodeDiff from "./NodeDiff";
 import { RootNode } from "./TreeNode";
-import AlertModal from "../../components/AlertModal";
-import { TAXONOMY_ADMIN_SCOPE } from "../../constants";
-import { usePublishNodeMutation } from "../../modules/nodes/nodeMutations";
-import { nodeQueryKeys, useNodeTree } from "../../modules/nodes/nodeQueries";
-import { fetchVersions } from "../../modules/taxonomy/versions/versionApi";
-import { useSession } from "../Session/SessionProvider";
+import { useNodeTree } from "../../modules/nodes/nodeQueries";
 
 interface Props {
   originalHash: string;
@@ -43,11 +36,6 @@ const DiffContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${spacing.small};
-`;
-
-const PublishButton = styled(ButtonV2)`
-  align-self: flex-end;
-  margin-right: ${spacing.small};
 `;
 
 interface NodeOptions {
@@ -77,21 +65,6 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
   const { t, i18n } = useTranslation();
   const [selectedNode, setSelectedNode] = useState<RootDiffType | DiffTypeWithChildren | undefined>(undefined);
   const [error, setError] = useState<string | undefined>(undefined);
-  const [showAlertModal, setShowAlertModal] = useState(false);
-  const [hasPublished, setHasPublished] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const { userPermissions } = useSession();
-  const qc = useQueryClient();
-
-  const publishNodeMutation = usePublishNodeMutation({
-    onSettled: () =>
-      qc.invalidateQueries({
-        queryKey: nodeQueryKeys.tree({
-          id: nodeId,
-          taxonomyVersion: originalHash,
-        }),
-      }),
-  });
 
   useEffect(() => {
     setSelectedNode(undefined);
@@ -136,37 +109,6 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
     }
   }, [defaultQuery.data, defaultQuery.isLoading, otherQuery.data, otherQuery.isLoading]);
 
-  const onPublish = async (node: Node) => {
-    setHasPublished(false);
-    if (!userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) || originalHash === "default") {
-      setIsLoading(false);
-      return;
-    }
-    setIsLoading(true);
-    const targetVersions = await fetchVersions({ hash: originalHash });
-    const sourceVersions = otherHash !== "default" ? await fetchVersions({ hash: otherHash }) : undefined;
-    if (targetVersions.length !== 1 || (sourceVersions && sourceVersions.length !== 1)) {
-      setIsLoading(false);
-      setError("diff.publishError");
-      return;
-    }
-
-    const targetVersion = targetVersions[0];
-    const sourceVersion = sourceVersions?.[0];
-
-    await publishNodeMutation.mutateAsync(
-      { id: node.id, targetId: targetVersion.id, sourceId: sourceVersion?.id },
-      {
-        onSuccess: () => setHasPublished(true),
-        onError: () => {
-          setHasPublished(false);
-          setError("diff.publishError");
-        },
-      },
-    );
-    setIsLoading(false);
-  };
-
   const shownNodes = Math.max(
     (defaultQuery.data?.children.length ?? 0) + 1,
     (otherQuery.data?.children.length ?? 0) + 1,
@@ -197,15 +139,8 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
     diff.root.changed.diffType === "NONE" &&
     diff.root.resourcesChanged?.diffType === "NONE" &&
     diff.root.childrenChanged?.diffType === "NONE";
-  const publishable = !equal && userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) && originalHash !== "default";
-  const isPublishing = isLoading || otherQuery.data?.root.metadata.customFields["isPublishing"] === "true";
   return (
     <DiffContainer id="diffContainer">
-      {publishable && (
-        <PublishButton onClick={() => setShowAlertModal(true)} disabled={isPublishing}>
-          {t(`diff.${isPublishing ? "publishing" : "publish"}`)}
-        </PublishButton>
-      )}
       <StyledBreadCrumb>
         {defaultQuery.data?.root?.breadcrumbs?.map((path, index, arr) => {
           return (
@@ -216,7 +151,6 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
           );
         })}
       </StyledBreadCrumb>
-      {hasPublished && <MessageBox>{t("diff.published")}</MessageBox>}
       {equal && <MessageBox>{t("diff.equalNodes")}</MessageBox>}
       {error && <MessageBox>{t(error)}</MessageBox>}
       {view === "tree" && <RootNode tree={diff} onNodeSelected={setSelectedNode} selectedNode={selectedNode} />}
@@ -231,28 +165,6 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
           ))}
         </StyledNodeList>
       )}
-      <AlertModal
-        title={t("diff.publish")}
-        label={t("diff.publish")}
-        show={showAlertModal}
-        text={t("diff.publishWarning")}
-        actions={[
-          {
-            text: t("form.abort"),
-            onClick: () => setShowAlertModal(false),
-          },
-          {
-            text: t("alertModal.continue"),
-            onClick: () => {
-              setShowAlertModal(false);
-              if (otherQuery.data?.root) {
-                onPublish(otherQuery.data.root);
-              }
-            },
-          },
-        ]}
-        onCancel={() => setShowAlertModal(false)}
-      />
     </DiffContainer>
   );
 };

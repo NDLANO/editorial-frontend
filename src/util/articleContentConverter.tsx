@@ -11,6 +11,7 @@ import toArray from "lodash/toArray";
 import { cloneElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { Descendant, Node, Text } from "slate";
+import { AudioEmbedData, ImageEmbedData } from "@ndla/types-embed";
 import { convertFromHTML } from "./convertFromHTML";
 import { parseEmbedTag, createEmbedTag, createEmbedTagV2 } from "./embedTagHelpers";
 import { Plain } from "./slatePlainSerializer";
@@ -41,6 +42,7 @@ import { framedContentSerializer } from "../components/SlateEditor/plugins/frame
 import { gridSerializer } from "../components/SlateEditor/plugins/grid";
 import { h5pSerializer } from "../components/SlateEditor/plugins/h5p";
 import { headingSerializer } from "../components/SlateEditor/plugins/heading";
+import { imageSerializer } from "../components/SlateEditor/plugins/image";
 import { keyFigureSerializer } from "../components/SlateEditor/plugins/keyFigure";
 import { linkSerializer } from "../components/SlateEditor/plugins/link";
 import { linkBlockListSerializer } from "../components/SlateEditor/plugins/linkBlockList";
@@ -122,6 +124,7 @@ const extendedRules: SlateSerializer[] = [
   campaignBlockSerializer,
   linkBlockListSerializer,
   audioSerializer,
+  imageSerializer,
   h5pSerializer,
   externalSerializer,
   copyrightSerializer,
@@ -268,7 +271,10 @@ export function editorValueToEmbed(editorValue?: Descendant[]) {
 export function editorValueToEmbedTag(editorValue?: Descendant[]) {
   const embed = editorValueToEmbed(editorValue);
   if (embed) {
-    const embedTag = embed?.resource === "audio" ? createEmbedTagV2(embed) : createEmbedTag(embed);
+    const embedTag =
+      embed?.resource === "audio" || embed?.resource === "image"
+        ? createEmbedTagV2<ImageEmbedData | AudioEmbedData>(embed)
+        : createEmbedTag(embed);
     return embedTag ? renderToStaticMarkup(embedTag) : "";
   }
   return "";

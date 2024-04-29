@@ -26,7 +26,6 @@ import { DiffTypePill } from "./TreeNode";
 import NodeIconType from "../../components/NodeIconType";
 import {
   TAXONOMY_CUSTOM_FIELD_LANGUAGE,
-  TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID,
@@ -150,13 +149,6 @@ const NodeDiff = ({ node, isRoot }: Props) => {
                   fieldName="topic-resources"
                   result={customFields["topic-resources"]}
                   toDisplayValue={(v) => v}
-                />
-              )}
-              {customFields[TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH] && (
-                <FieldDiff
-                  fieldName="requestPublish"
-                  result={customFields[TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH]}
-                  toDisplayValue={(v) => t(`diff.fields.requestPublish.${v === "true" ? "true" : "false"}`)}
                 />
               )}
               {customFields[TAXONOMY_CUSTOM_FIELD_LANGUAGE] && (

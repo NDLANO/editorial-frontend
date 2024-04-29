@@ -32,6 +32,7 @@ import { framedContentRenderer } from "../../../../components/SlateEditor/plugin
 import { gridRenderer } from "../../../../components/SlateEditor/plugins/grid/render";
 import { h5pRenderer } from "../../../../components/SlateEditor/plugins/h5p/render";
 import { headingRenderer } from "../../../../components/SlateEditor/plugins/heading/render";
+import { imageRenderer } from "../../../../components/SlateEditor/plugins/image/render";
 import { keyFigureRenderer } from "../../../../components/SlateEditor/plugins/keyFigure/render";
 import { linkRenderer } from "../../../../components/SlateEditor/plugins/link/render";
 import { linkBlockListRenderer } from "../../../../components/SlateEditor/plugins/linkBlockList/render";
@@ -54,8 +55,9 @@ export const frontpageRenderers: SlatePlugin[] = [
   paragraphRenderer,
   footnoteRenderer,
   externalRenderer,
-  embedRenderer(),
+  embedRenderer,
   audioRenderer,
+  imageRenderer(true),
   h5pRenderer,
   videoRenderer,
   framedContentRenderer,

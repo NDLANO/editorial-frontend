@@ -8,11 +8,12 @@
 
 import { Element, Node } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { EmbedElements, ErrorEmbedElement, ImageEmbedElement } from ".";
-import { TYPE_EMBED_ERROR, TYPE_EMBED_IMAGE } from "./types";
+import { EmbedElements, ErrorEmbedElement } from ".";
+import { TYPE_EMBED_ERROR } from "./types";
 import { Embed } from "../../../../interfaces";
 import { AudioElement, TYPE_AUDIO } from "../audio/types";
 import { H5pElement, TYPE_H5P } from "../h5p/types";
+import { ImageElement, TYPE_IMAGE } from "../image/types";
 import { BrightcoveEmbedElement, TYPE_EMBED_BRIGHTCOVE } from "../video/types";
 
 export const defaultEmbedBlock = (data: Partial<Embed>) =>
@@ -20,11 +21,11 @@ export const defaultEmbedBlock = (data: Partial<Embed>) =>
 
 export const isSlateEmbed = (
   node: Node,
-): node is H5pElement | ImageEmbedElement | AudioElement | ErrorEmbedElement | BrightcoveEmbedElement => {
+): node is H5pElement | ImageElement | AudioElement | ErrorEmbedElement | BrightcoveEmbedElement => {
   return (
     Element.isElement(node) &&
     (node.type === TYPE_EMBED_ERROR ||
-      node.type === TYPE_EMBED_IMAGE ||
+      node.type === TYPE_IMAGE ||
       node.type === TYPE_AUDIO ||
       node.type === TYPE_H5P ||
       node.type === TYPE_EMBED_BRIGHTCOVE)
@@ -37,7 +38,7 @@ export const defineTypeOfEmbed = (type?: string) => {
   } else if (type === "h5p") {
     return TYPE_H5P;
   } else if (type === "image") {
-    return TYPE_EMBED_IMAGE;
+    return TYPE_IMAGE;
   } else if (type === "audio") {
     return TYPE_AUDIO;
   } else if (type === undefined) {
@@ -48,4 +49,4 @@ export const defineTypeOfEmbed = (type?: string) => {
 
 export const isSlateEmbedElement = (element: Element): element is EmbedElements => isEmbedType(element.type);
 
-export const isEmbedType = (type: string) => type === TYPE_EMBED_ERROR || type === TYPE_EMBED_IMAGE;
+export const isEmbedType = (type: string) => type === TYPE_EMBED_ERROR;

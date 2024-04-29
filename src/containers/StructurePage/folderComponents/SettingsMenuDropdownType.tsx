@@ -15,7 +15,6 @@ import DisconnectFromParent from "./sharedMenuOptions/DisconnectFromParent";
 import EditCustomFields from "./sharedMenuOptions/EditCustomFields";
 import EditGrepCodes from "./sharedMenuOptions/EditGrepCodes";
 import MoveExistingNode from "./sharedMenuOptions/MoveExistingNode";
-import RequestNodePublish from "./sharedMenuOptions/RequestNodePublish";
 import ToggleVisibility from "./sharedMenuOptions/ToggleVisibility";
 import ToNodeDiff from "./sharedMenuOptions/ToNodeDiff";
 import ChangeNodeName from "./subjectMenuOptions/ChangeNodeName";
@@ -114,7 +113,6 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
         <ToggleVisibility node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
         {isTaxonomyAdmin && <EditGrepCodes node={node} editModeHandler={editModeHandler} />}
         {isTaxonomyAdmin && <EditSubjectpageOption node={node} />}
-        <RequestNodePublish node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
         <ToNodeDiff node={node} />
         {isTaxonomyAdmin && (
           <DeleteNode
@@ -143,7 +141,6 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
         )}
         <MoveExistingNode editModeHandler={editModeHandler} currentNode={node} />
         <ToggleVisibility node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
-        <RequestNodePublish node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
         <ToNodeDiff node={node} />
         {false && <CopyRevisionDate node={node} editModeHandler={editModeHandler} />}
         {isTaxonomyAdmin && (

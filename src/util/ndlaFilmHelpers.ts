@@ -53,7 +53,7 @@ export const convertVisualElement = (visualElement: IVisualElement): Descendant[
           data: {
             url: visualElement.url,
             resource: visualElement.type,
-            resource_id: id,
+            resourceId: id,
             alt: visualElement.alt,
             metaData: {
               id: id,
@@ -77,7 +77,7 @@ export const convertVisualElement = (visualElement: IVisualElement): Descendant[
         data: {
           url: visualElement.url,
           resource: visualElement.type,
-          resource_id: id,
+          resourceId: id,
           caption: visualElement.alt,
           metaData: {
             id: id,

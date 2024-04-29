@@ -14,14 +14,14 @@ export const valueWithTwoImageEmbeds: Descendant = {
     {
       data: {
         resource: "image",
-        resource_id: "3",
+        resourceId: "3",
         size: "fullbredde",
         align: "",
         alt: "Mann med maske ved datamaskin. Foto.",
         caption: "",
         url: "https://test.api.ndla.no/image-api/v3/images/3",
       },
-      type: "image-embed",
+      type: "image",
       children: [
         {
           text: " ",
@@ -39,7 +39,7 @@ export const valueWithTwoImageEmbeds: Descendant = {
     {
       data: {
         resource: "image",
-        resource_id: "42159",
+        resourceId: "42159",
         size: "fullbredde",
         align: "",
         alt: "",
@@ -65,7 +65,7 @@ export const valueWithTwoImageEmbeds: Descendant = {
           captions: [{ caption: "Guinness is good for you", language: "nb" }],
         },
       },
-      type: "image-embed",
+      type: "image",
       children: [
         {
           text: " ",

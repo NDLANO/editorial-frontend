@@ -224,23 +224,44 @@ const RichTextEditor = ({
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent<HTMLDivElement>) => {
+      const getElementByType = (parent: HTMLElement, type: string): HTMLElement | null => {
+        if (parent.children.length > 0) {
+          for (let i = 0; i < parent.children.length; i++) {
+            const child = parent.children[i] as HTMLElement;
+            if (child.tagName.toLowerCase() === type) {
+              return child;
+            }
+            if (child.children.length > 0) {
+              const nextChild = getElementByType(child, type);
+              if (nextChild) {
+                return nextChild;
+              }
+            }
+          }
+        }
+        return null;
+      };
+
       const [selectedElement] = getCurrentBlock(editor, TYPE_PARAGRAPH) || getCurrentBlock(editor, TYPE_HEADING) || [];
       if (e.key === KEY_TAB && selectedElement) {
         const path = ReactEditor.findPath(editor, selectedElement!);
         if (!e.shiftKey && !Editor.after(editor, path)) return; // If there is no block after the current block, and shift is not pressed, move out from the editor
         if (e.shiftKey && !Editor.before(editor, path)) return; // If there is no block before the current block and shift is pressed, move out from the editor
 
-        e.preventDefault();
         let nodeToMoveTo: Descendant[] | Node | null = null;
 
         nodeToMoveTo = getNextNode(editor, path, e.shiftKey);
 
         if ("type" in nodeToMoveTo) {
-          if (Editor.isVoid(editor, nodeToMoveTo)) Transforms.move(editor, { unit: "offset" });
-          Transforms.select(editor, ReactEditor.findPath(editor, nodeToMoveTo));
-          Transforms.collapse(editor);
-          ReactEditor.focus(editor);
+          const element = getElementByType(e.target as HTMLElement, "button");
+          element?.focus();
           return;
+          e.preventDefault();
+          // if (Editor.isVoid(editor, nodeToMoveTo)) Transforms.move(editor, { unit: "offset" });
+          // Transforms.select(editor, ReactEditor.findPath(editor, nodeToMoveTo));
+          // Transforms.collapse(editor);
+          // ReactEditor.focus(editor);
+          // return;
         }
       }
 

@@ -34,16 +34,16 @@ describe("inline comment serializing tests", () => {
     },
   ];
 
-  const html =
+  const htmlInline =
     '<section><p>This is a <ndlaembed data-resource="comment" data-type="inline" data-text="Comment text">comment</ndlaembed></p></section>';
 
   test("serializing", () => {
     const res = blockContentToHTML(editor);
-    expect(res).toMatch(html);
+    expect(res).toMatch(htmlInline);
   });
 
   test("deserializing", () => {
-    const res = blockContentToEditorValue(html);
+    const res = blockContentToEditorValue(htmlInline);
     expect(res).toEqual(editor);
   });
 });
@@ -53,19 +53,19 @@ describe("block comment serializing tests", () => {
     {
       type: TYPE_COMMENT_BLOCK,
       data: { resource: "comment", type: "block", text: "Comment text" },
-      children: [],
+      children: [{ text: "" }],
     },
   ];
 
-  const html = '<ndlaembed data-resource="comment" data-type="block" data-text="Comment text"></ndlaembed>';
+  const htmlBlock = '<ndlaembed data-resource="comment" data-type="block" data-text="Comment text"></ndlaembed>';
 
   test("serializing", () => {
     const res = blockContentToHTML(editor);
-    expect(res).toMatch(html);
+    expect(res).toMatch(htmlBlock);
   });
 
   test("deserializing", () => {
-    const res = blockContentToEditorValue(html);
+    const res = blockContentToEditorValue(htmlBlock);
     expect(res).toEqual(editor);
   });
 });

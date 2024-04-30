@@ -138,10 +138,11 @@ export const WelcomeHeader = () => {
 
   useEffect(() => {
     (async () => {
+      if (!userName) return;
       const favoriteResource = await getFavoriteResource(i18n.language);
       setFavoriteResource(favoriteResource);
     })();
-  }, [i18n.language]);
+  }, [i18n.language, userName]);
 
   return (
     <StyledHeader>
@@ -150,7 +151,7 @@ export const WelcomeHeader = () => {
         <StyledTitle>
           {`${t("welcomePage.welcomeBack")} ${userName ? `${userName}!` : t("welcomePage.welcomeText")}`}
         </StyledTitle>
-        {favoriteResource && (
+        {userName && favoriteResource && (
           <Text margin="none" textStyle="label-small">
             {t("welcomePage.lastFavorited")}
             <SafeLink to={favoriteResource.path} title={favoriteResource.title}>

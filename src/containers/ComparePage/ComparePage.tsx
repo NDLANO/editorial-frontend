@@ -75,9 +75,9 @@ const ComparePage = () => {
   const formArticle = useMemo(() => {
     return {
       id: article?.id!,
-      title: article?.title?.title ?? "",
+      title: article?.title?.htmlTitle ?? "",
       content: article?.content?.content ?? "",
-      introduction: article?.introduction?.introduction ?? "",
+      introduction: article?.introduction?.htmlIntroduction ?? "",
       visualElement: article?.visualElement?.visualElement ?? "",
       published: article?.published,
       copyright: article?.copyright,

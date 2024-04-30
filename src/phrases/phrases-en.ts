@@ -746,6 +746,8 @@ const phrases = {
     comment: {
       comment: "Comment",
       hide: "Hide comment",
+      hideComments: "Hide comments",
+      showComments: "Show comments",
       show: "Show comment",
       commentField: "Comment field",
       solve: "The comment is marked as unresolved. Mark as solved",

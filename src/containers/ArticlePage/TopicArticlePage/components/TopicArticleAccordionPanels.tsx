@@ -13,7 +13,7 @@ import { IUpdatedArticle, IArticle } from "@ndla/types-backend/draft-api";
 import TopicArticleContent from "./TopicArticleContent";
 import TopicArticleTaxonomy from "./TopicArticleTaxonomy";
 import FormAccordion from "../../../../components/Accordion/FormAccordion";
-import FormAccordions from "../../../../components/Accordion/FormAccordions";
+import FormAccordionsWithComments from "../../../../components/Accordion/FormAccordionsWithComments";
 import config from "../../../../config";
 import { TAXONOMY_WRITE_SCOPE } from "../../../../constants";
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from "../../../FormikForm";
@@ -51,7 +51,11 @@ const TopicArticleAccordionPanels = ({
 
   const { values, errors } = formikContext;
   return (
-    <FormAccordions defaultOpen={["topic-article-content"]}>
+    <FormAccordionsWithComments
+      defaultOpen={["topic-article-content"]}
+      articleType="topic-article"
+      articleStatus={article?.status}
+    >
       <FormAccordion
         id={"topic-article-content"}
         title={
@@ -150,7 +154,7 @@ const TopicArticleAccordionPanels = ({
           />
         </FormAccordion>
       )}
-    </FormAccordions>
+    </FormAccordionsWithComments>
   );
 };
 

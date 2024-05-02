@@ -151,7 +151,7 @@ export const WelcomeHeader = () => {
         <StyledTitle>
           {`${t("welcomePage.welcomeBack")} ${userName ? `${userName}!` : t("welcomePage.welcomeText")}`}
         </StyledTitle>
-        {userName && favoriteResource && (
+        {favoriteResource && (
           <Text margin="none" textStyle="label-small">
             {t("welcomePage.lastFavorited")}
             <SafeLink to={favoriteResource.path} title={favoriteResource.title}>

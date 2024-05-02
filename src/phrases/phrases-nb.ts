@@ -111,7 +111,7 @@ const phrases = {
     change: "Bytt til {{language}} versjon",
   },
   welcomePage: {
-    lastFavorited: "Siste favorittmarkerte ressurs: ",
+    lastFavorited: "Siste hjertemarkerte ressurs: ",
     addSearch: "Legg til nytt søk",
     deleteSavedSearch: "Slett lagret søk",
     deleteSearch: "Slett søk",

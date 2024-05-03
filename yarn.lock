@@ -5822,7 +5822,6 @@ __metadata:
     express: "npm:^4.19.2"
     express-jwt: "npm:^8.4.1"
     filter-console: "npm:^0.1.1"
-    focus-trap-react: "npm:^8.9.2"
     form-data: "npm:^4.0.0"
     formik: "npm:^2.4.5"
     graphql: "npm:^16.8.1"
@@ -7147,28 +7146,6 @@ __metadata:
   version: 1.1.0
   resolution: "fn.name@npm:1.1.0"
   checksum: 10c0/8ad62aa2d4f0b2a76d09dba36cfec61c540c13a0fd72e5d94164e430f987a7ce6a743112bbeb14877c810ef500d1f73d7f56e76d029d2e3413f20d79e3460a9a
-  languageName: node
-  linkType: hard
-
-"focus-trap-react@npm:^8.9.2":
-  version: 8.9.2
-  resolution: "focus-trap-react@npm:8.9.2"
-  dependencies:
-    focus-trap: "npm:^6.7.3"
-  peerDependencies:
-    prop-types: ^15.8.1
-    react: ">=16.0.0"
-    react-dom: ">=16.0.0"
-  checksum: 10c0/c830adc1e339f2a3e42cdff574c6d1ac14cd06252091f5cb55ac2b932b2d65de25c200fe6c38fb89d95abb6cace47427a287007540e1066698d51d7c87651328
-  languageName: node
-  linkType: hard
-
-"focus-trap@npm:^6.7.3":
-  version: 6.9.4
-  resolution: "focus-trap@npm:6.9.4"
-  dependencies:
-    tabbable: "npm:^5.3.3"
-  checksum: 10c0/f01986dac9f21b1091444b75125cf98e230c4263f5e8900b5264f68a1b6d7e35910fb42bbfa70cc9a7d98d7f9fd9d9303f4cb37bd09f35e076a82f51236807d1
   languageName: node
   linkType: hard
 
@@ -12625,13 +12602,6 @@ __metadata:
   version: 3.2.4
   resolution: "symbol-tree@npm:3.2.4"
   checksum: 10c0/dfbe201ae09ac6053d163578778c53aa860a784147ecf95705de0cd23f42c851e1be7889241495e95c37cabb058edb1052f141387bef68f705afc8f9dd358509
-  languageName: node
-  linkType: hard
-
-"tabbable@npm:^5.3.2, tabbable@npm:^5.3.3":
-  version: 5.3.3
-  resolution: "tabbable@npm:5.3.3"
-  checksum: 10c0/c6cb54be76ecff7d0132fed77ff11cedf76a2ce320f55e350f70d8f68998227e72bc3f8b1ee5e7b02dbe4b4c2ef7b6fa43c3aea7cfa82ef06e7d23746df97a35
   languageName: node
   linkType: hard
 

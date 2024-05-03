@@ -35,8 +35,8 @@ const StyledMenuItem = styled.span`
 `;
 
 const ContentWrapper = styled.div`
+  position: relative;
   padding: ${spacing.large} 0;
-  position: absolute;
   z-index: ${stackOrder.banner};
   left: 0;
   right: 0;

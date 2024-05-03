@@ -111,6 +111,7 @@ const phrases = {
     change: "Change to {{language}} version",
   },
   welcomePage: {
+    lastFavorited: "Last favorited resource: ",
     addSearch: "Add new search",
     deleteSavedSearch: "Delete saved search",
     deleteSearch: "Delete search",

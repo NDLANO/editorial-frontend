@@ -17,13 +17,20 @@ import formatDate from "../../util/formatDate";
 
 export const getUpdatedLanguage = (language: string | undefined) => (language === "nb" ? "no" : language);
 
-export const useTransformedArticle = ({ draft, language }: { draft: FormArticle; language: string }) => {
-  const transformedContent = usePreviewArticle(draft.content!, language, draft.visualElement);
+export type UseTranslationOptions = {
+  draft: FormArticle;
+  language: string;
+  previewAlt: boolean;
+  useDraftConcepts: boolean;
+};
+
+export const useTransformedArticle = ({ draft, language, previewAlt, useDraftConcepts }: UseTranslationOptions) => {
+  const transformedContent = usePreviewArticle(draft.content!, language, draft.visualElement, useDraftConcepts);
 
   const article: undefined | ArticleType = useMemo(() => {
     if (!transformedContent.data) return;
     const content = transform(transformedContent.data, {
-      previewAlt: true,
+      previewAlt,
       frontendDomain: config.ndlaFrontendDomain,
       articleLanguage: getUpdatedLanguage(draft.language),
     });
@@ -35,7 +42,7 @@ export const useTransformedArticle = ({ draft, language }: { draft: FormArticle;
       published: draft.published ? formatDate(draft.published) : "",
       footNotes: [],
     };
-  }, [transformedContent.data, draft]);
+  }, [transformedContent.data, draft, previewAlt]);
 
   return { article, draft };
 };

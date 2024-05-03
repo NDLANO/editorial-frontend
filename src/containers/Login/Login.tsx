@@ -36,7 +36,7 @@ export const Login = () => {
   return (
     <>
       <HelmetWithTracker title={t("htmlTitles.loginPage")} />
-      <StyledOneColumn cssModifier="clear">
+      <StyledOneColumn>
         <div className="u-2/3@desktop u-push-1/3@desktop">
           <Routes>
             <Route path="success/*" element={<LoginSuccess />} />

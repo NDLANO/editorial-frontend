@@ -12,7 +12,7 @@ import { OneColumn, ErrorMessage } from "@ndla/ui";
 const NotFound = () => {
   const { t } = useTranslation();
   return (
-    <OneColumn cssModifier="clear">
+    <OneColumn>
       <ErrorMessage
         illustration={{
           url: "/not-exist.gif",

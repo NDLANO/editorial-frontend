@@ -21,9 +21,10 @@ import { TopicArticleFormType } from "../../../FormikForm/articleFormHooks";
 import GrepCodesField from "../../../FormikForm/GrepCodesField";
 import { onSaveAsVisualElement } from "../../../FormikForm/utils";
 import { useSession } from "../../../Session/SessionProvider";
-import PanelTitleWithChangeIndicator, { FlatArticleKeys } from "../../components/PanelTitleWithChangeIndicator";
+import PanelTitleWithChangeIndicator from "../../components/PanelTitleWithChangeIndicator";
 import RelatedContentFieldGroup from "../../components/RelatedContentFieldGroup";
 import RevisionNotes from "../../components/RevisionNotes";
+import { FlatArticleKeys } from "../../components/types";
 
 interface Props {
   article?: IArticle;

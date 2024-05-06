@@ -16,8 +16,9 @@ import FormAccordions from "../../../../components/Accordion/FormAccordions";
 import { useWideArticle } from "../../../../components/WideArticleEditorProvider";
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from "../../../FormikForm";
 import { FrontpageArticleFormType } from "../../../FormikForm/articleFormHooks";
-import PanelTitleWithChangeIndicator, { FlatArticleKeys } from "../../components/PanelTitleWithChangeIndicator";
+import PanelTitleWithChangeIndicator from "../../components/PanelTitleWithChangeIndicator";
 import RevisionNotes from "../../components/RevisionNotes";
+import { FlatArticleKeys } from "../../components/types";
 
 interface Props {
   article?: IArticle;

@@ -22,9 +22,10 @@ import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from "../../
 import { HandleSubmitFunc, LearningResourceFormType } from "../../../FormikForm/articleFormHooks";
 import GrepCodesField from "../../../FormikForm/GrepCodesField";
 import { useSession } from "../../../Session/SessionProvider";
-import PanelTitleWithChangeIndicator, { FlatArticleKeys } from "../../components/PanelTitleWithChangeIndicator";
+import PanelTitleWithChangeIndicator from "../../components/PanelTitleWithChangeIndicator";
 import RelatedContentFieldGroup from "../../components/RelatedContentFieldGroup";
 import RevisionNotes from "../../components/RevisionNotes";
+import { FlatArticleKeys } from "../../components/types";
 
 interface Props {
   article?: IArticle;

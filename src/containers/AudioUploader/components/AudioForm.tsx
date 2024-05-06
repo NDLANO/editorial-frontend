@@ -220,7 +220,6 @@ const AudioForm = ({
               <FormAccordion
                 id="podcast-upload-podcastmanus"
                 title={t("podcastForm.fields.manuscript")}
-                className={"u-6/6"}
                 hasError={[].some((field) => field in errors)}
               >
                 <AudioManuscript />
@@ -234,7 +233,6 @@ const AudioForm = ({
               </FormAccordion>
               <FormAccordion
                 id="audio-upload-metadataSection"
-                className={"u-6/6"}
                 title={t("form.metadataSection")}
                 hasError={hasError(["tags"])}
               >

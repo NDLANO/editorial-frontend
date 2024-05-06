@@ -72,7 +72,6 @@ const SubjectpageAccordionPanels = ({ errors, selectedLanguage }: ComponentProps
       <FormAccordion
         id="slideshow"
         title={t("ndlaFilm.editor.slideshowHeader")}
-        className="u-6/6"
         hasError={["metaDescription", "mobileBannerId"].some((field) => field in errors)}
       >
         <FormikField name={"slideShow"}>
@@ -82,7 +81,6 @@ const SubjectpageAccordionPanels = ({ errors, selectedLanguage }: ComponentProps
       <FormAccordion
         id="themes"
         title={t("ndlaFilm.editor.movieGroupHeader")}
-        className="u-6/6"
         hasError={["editorsChoices"].some((field) => field in errors)}
       >
         <FormikField name={"themes"}>

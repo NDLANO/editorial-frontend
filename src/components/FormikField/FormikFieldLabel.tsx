@@ -6,11 +6,17 @@
  *
  */
 
+import styled from "@emotion/styled";
+
 interface Props {
   name: string;
   label?: string;
   noBorder?: boolean;
 }
+
+const StyledLabel = styled.label`
+  display: none !important;
+`;
 
 const FormikFieldLabel = ({ label, noBorder, name }: Props) => {
   if (!label) {
@@ -19,13 +25,7 @@ const FormikFieldLabel = ({ label, noBorder, name }: Props) => {
   if (!noBorder) {
     return <label htmlFor={name}>{label}</label>;
   }
-  return (
-    <>
-      <label className="u-hidden" htmlFor={name}>
-        {label}
-      </label>
-    </>
-  );
+  return <StyledLabel htmlFor={name}>{label}</StyledLabel>;
 };
 
 export default FormikFieldLabel;

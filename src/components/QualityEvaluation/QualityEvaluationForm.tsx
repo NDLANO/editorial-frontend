@@ -1,0 +1,197 @@
+/**
+ * Copyright (c) 2024-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { Form, Formik, useField } from "formik";
+import { CSSProperties, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { Item, Indicator } from "@radix-ui/react-radio-group";
+import { ButtonV2 } from "@ndla/button";
+import { colors, spacing, fonts, misc } from "@ndla/core";
+import { FieldErrorMessage, Fieldset, InputV3, Label, Legend, RadioButtonGroup } from "@ndla/forms";
+import { IQualityEvaluation } from "@ndla/types-backend/draft-api";
+import { FormControl, FormField } from "../FormField";
+import validateFormik, { RulesType } from "../formikValidationSchema";
+
+const qualityEvaluationOptions: { value: number; color: string }[] = [
+  { value: 1, color: colors.support.green },
+  { value: 2, color: "#C3D060" },
+  { value: 3, color: colors.support.yellow },
+  { value: 4, color: "#CF9065" },
+  { value: 5, color: colors.assessmentResource.dark },
+];
+
+const StyledFieldset = styled(Fieldset)`
+  display: flex;
+  gap: ${spacing.xsmall};
+  align-items: center;
+`;
+
+// Color needed in order for wcag contrast reqirements to be met
+const blackContrastColor = "#000";
+
+export const gradeItemStyles = css`
+  padding: 0px ${spacing.nsmall};
+  background-color: var(--item-color);
+  font-weight: ${fonts.weight.semibold};
+  border-radius: ${misc.borderRadius};
+  color: ${blackContrastColor};
+  ${fonts.size.text.content};
+`;
+
+const StyledItem = styled(Item)`
+  all: unset;
+  ${gradeItemStyles};
+  &:hover,
+  &:focus-visible,
+  &[data-state="checked"] {
+    cursor: pointer;
+    box-shadow: 0 0 0 2px ${blackContrastColor};
+    border-radius: ${misc.borderRadius};
+  }
+`;
+
+const ButtonContainer = styled.div`
+  margin-top: ${spacing.small};
+  display: flex;
+  justify-content: space-between;
+`;
+
+const RightButtonswrapper = styled.div`
+  display: flex;
+  gap: ${spacing.xsmall};
+`;
+
+const StyledForm = styled(Form)`
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.small};
+`;
+
+interface Props {
+  qualityEvaluation: IQualityEvaluation | undefined;
+  setOpen: (open: boolean) => void;
+}
+
+export interface QualityEvaluationFormValues {
+  grade?: number;
+  note?: string;
+}
+
+const rules: RulesType<QualityEvaluationFormValues> = {
+  grade: {
+    required: true,
+  },
+  note: { required: true },
+};
+
+const toInitialValues = (initialData?: QualityEvaluationFormValues): QualityEvaluationFormValues => {
+  return {
+    grade: initialData?.grade,
+    note: initialData?.note ?? "",
+  };
+};
+
+const QualityEvaluation = ({ qualityEvaluation, setOpen }: Props) => {
+  const { t } = useTranslation();
+  const [qualityEvaluationField, , helpers] = useField<QualityEvaluationFormValues>("qualityEvaluation");
+
+  const initialValues = useMemo(
+    () => toInitialValues(qualityEvaluationField.value ?? qualityEvaluation),
+    [qualityEvaluation, qualityEvaluationField.value],
+  );
+  const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
+
+  const onSubmit = (values: QualityEvaluationFormValues) => {
+    helpers.setValue(values);
+    setOpen(false);
+  };
+
+  const onDelete = () => {
+    helpers.setValue({ grade: undefined, note: undefined });
+    setOpen(false);
+  };
+  return (
+    <Formik
+      initialValues={initialValues}
+      initialErrors={initialErrors}
+      validate={(values) => validateFormik(values, rules, t)}
+      onSubmit={onSubmit}
+    >
+      {({ dirty, isValid, values }) => (
+        <StyledForm>
+          <FormField name="grade">
+            {({ meta, helpers }) => (
+              <FormControl isInvalid={!!meta.error} isRequired>
+                <RadioButtonGroup
+                  orientation="horizontal"
+                  defaultValue={values.grade?.toString()}
+                  onValueChange={(v) => helpers.setValue(Number(v))}
+                  asChild
+                >
+                  <StyledFieldset>
+                    <Legend margin="none" textStyle="label-small">
+                      {t("qualityEvaluationForm.title")}
+                    </Legend>
+                    {qualityEvaluationOptions.map(({ value, color }) => (
+                      <div key={value}>
+                        <StyledItem
+                          id={`quality-${value}`}
+                          value={value.toString()}
+                          data-color-value={value}
+                          style={{ "--item-color": color } as CSSProperties}
+                        >
+                          <Indicator forceMount>{value}</Indicator>
+                        </StyledItem>
+                        <Label htmlFor={`quality-${value}`} visuallyHidden>
+                          {value}
+                        </Label>
+                      </div>
+                    ))}
+                  </StyledFieldset>
+                </RadioButtonGroup>
+                <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+              </FormControl>
+            )}
+          </FormField>
+          <FormField name="note">
+            {({ field, meta }) => (
+              <FormControl isInvalid={!!meta.error} isRequired>
+                <Label margin="none" textStyle="label-small">
+                  {t("qualityEvaluationForm.note")}
+                </Label>
+                <InputV3 {...field} />
+                <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+              </FormControl>
+            )}
+          </FormField>
+          <ButtonContainer>
+            <div>
+              {qualityEvaluationField.value?.grade && (
+                <ButtonV2 variant="outline" colorTheme="danger" onClick={onDelete}>
+                  {t("qualityEvaluationForm.delete")}
+                </ButtonV2>
+              )}
+            </div>
+            <RightButtonswrapper>
+              <ButtonV2 variant="outline" onClick={() => setOpen(false)}>
+                {t("form.abort")}
+              </ButtonV2>
+              <ButtonV2 disabled={!dirty || !isValid} type="submit">
+                {t("form.save")}
+              </ButtonV2>
+            </RightButtonswrapper>
+          </ButtonContainer>
+        </StyledForm>
+      )}
+    </Formik>
+  );
+};
+
+export default QualityEvaluation;

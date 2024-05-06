@@ -649,6 +649,16 @@ const phrases = {
     title: "Nykeltal",
     edit: "Rediger nykeltal",
   },
+  qualityEvaluation: {
+    title: "Kvalitetsvurdering",
+    unavailable: "Ikkje satt",
+    modalTitle: "Oppdater kvalitetsvurdering",
+    description:
+      "Legg inn ei kvalitetsvurdering av artikkelen med ei beskriving av den valde graderinga. Skalaen er som følgjer: 1 = svært bra, 2 = bra, 3 = middels, 4 = dårlege, 5 = svært dårlege.",
+    edit: "Rediger kvalitetsvurdering",
+    delete: "Slett",
+    note: "Notat",
+  },
   editorToolbar: {
     bold: "Feit\n({{ctrl}}+b)",
     "bulleted-list": "Punktliste\n({{ctrl}}+l)",
@@ -820,6 +830,8 @@ const phrases = {
       sides: "Kva for ei side biletet skal vises på",
       transcription: "Transkripsjon",
       type: "Type",
+      grade: "Gradering",
+      note: "Notat",
     },
     previewProductionArticle: {
       button: "Samanlikn gjeldande versjon med sist publiserte versjon",

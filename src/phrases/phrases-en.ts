@@ -649,6 +649,16 @@ const phrases = {
     title: "Key figure",
     edit: "Edit key figure",
   },
+  qualityEvaluation: {
+    title: "Quality evaluation",
+    unavailable: "Not specified",
+    modalTitle: "Update quality evaluation",
+    description:
+      "Provide a quality assessment of the article with a description of the chosen rating. The scale is as follows: 1 = very good, 2 = good, 3 = average, 4 = poor, 5 = very poor.",
+    edit: "Edit quality evaluation",
+    delete: "Delete",
+    note: "Note",
+  },
   editorToolbar: {
     bold: "Bold\n({{ctrl}}+b)",
     "bulleted-list": "Bulleted list\n({{ctrl}}+l)",
@@ -820,6 +830,8 @@ const phrases = {
       sides: "Image side",
       transcription: "Transcription",
       type: "Type",
+      grade: "Grade",
+      note: "Note",
     },
     previewProductionArticle: {
       button: "Compare current version with last published version",

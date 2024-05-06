@@ -649,6 +649,16 @@ const phrases = {
     edit: "Rediger Nøkkeltall",
     title: "Nøkkeltall",
   },
+  qualityEvaluationForm: {
+    title: "Kvalitetsvurdering",
+    unavailable: "Ikke satt",
+    modalTitle: "Oppdater kvalitetsvurdering",
+    description:
+      "Legg inn en kvalitetsvurdering av artikkelen med en beskrivelse av den valgte graderingen. Skalaen er som følger: 1 = svært bra, 2 = bra, 3 = middels, 4 = dårlig, 5 = svært dårlig.",
+    edit: "Rediger kvalitetsvurdering",
+    delete: "Slett",
+    note: "Notat",
+  },
   editorToolbar: {
     bold: "Fet\n({{ctrl}}+b)",
     "bulleted-list": "Punktliste\n({{ctrl}}+l)",
@@ -821,6 +831,8 @@ const phrases = {
       sides: "Hvilken side bildet skal vises på",
       transcription: "Transkripsjon",
       type: "Type",
+      grade: "Gradering",
+      note: "Notat",
     },
     previewProductionArticle: {
       button: "Sammenlign gjeldende versjon med sist publiserte versjon",

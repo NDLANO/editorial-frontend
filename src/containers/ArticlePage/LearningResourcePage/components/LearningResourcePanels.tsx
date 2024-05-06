@@ -54,7 +54,12 @@ const LearningResourcePanels = ({
   const copyrightFields = useMemo<(keyof IArticle)[]>(() => ["copyright"], []);
 
   return (
-    <FormAccordionsWithComments defaultOpen={defaultOpen} articleType="standard" articleStatus={article?.status}>
+    <FormAccordionsWithComments
+      defaultOpen={defaultOpen}
+      articleType="standard"
+      articleStatus={article?.status}
+      qualityEvaluation={article?.qualityEvaluation}
+    >
       <FormAccordion
         id={"learning-resource-content"}
         title={

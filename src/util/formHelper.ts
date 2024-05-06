@@ -202,6 +202,8 @@ export const formikCommonArticleRules: RulesType<ArticleFormType, IArticle> = {
   prioritized: {
     required: false,
   },
+  "qualityEvaluation.grade": { required: false },
+  "qualityEvaluation.note": { required: false },
 };
 
 export const learningResourceRules: RulesType<LearningResourceFormType, IArticle> = {

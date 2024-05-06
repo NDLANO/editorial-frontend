@@ -13,12 +13,14 @@ import { AccordionRoot } from "@ndla/accordion";
 import { fonts, spacing } from "@ndla/core";
 import { Switch } from "@ndla/switch";
 import { IStatus } from "@ndla/types-backend/concept-api";
+import { IQualityEvaluation } from "@ndla/types-backend/draft-api";
 import { FormAccordionProps } from "./FormAccordion";
 import OpenAllButton from "./OpenAllButton";
 import { ARCHIVED, PUBLISHED, STORED_HIDE_COMMENTS, UNPUBLISHED } from "../../constants";
 import CommentSection, { COMMENT_WIDTH, SPACING_COMMENT } from "../../containers/ArticlePage/components/CommentSection";
 import { MainContent } from "../../containers/ArticlePage/styles";
 import { useLocalStorageBooleanState } from "../../containers/WelcomePage/hooks/storedFilterHooks";
+import QualityEvaluation from "../QualityEvaluation/QualityEvaluation";
 import { useWideArticle } from "../WideArticleEditorProvider";
 
 export type ChildType = ReactElement<FormAccordionProps> | undefined | false;
@@ -26,6 +28,7 @@ export type ChildType = ReactElement<FormAccordionProps> | undefined | false;
 interface Props {
   defaultOpen: string[];
   children: ChildType | ChildType[];
+  qualityEvaluation: IQualityEvaluation | undefined;
   articleId?: number;
   articleType?: string;
   articleStatus?: IStatus;
@@ -39,6 +42,11 @@ const ContentWrapper = styled.div`
 
 const FlexWrapper = styled.div`
   display: flex;
+`;
+
+const RightFlexWrapper = styled.div`
+  display: flex;
+  gap: ${spacing.small};
 `;
 
 const CommentWrapper = styled.div`
@@ -64,10 +72,18 @@ const StyledSwitch = styled(Switch)`
 
 const FormControls = styled(MainContent)`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  padding-left: ${spacing.small};
 `;
 
-const FormAccordionsWithComments = ({ defaultOpen, children, articleId, articleType, articleStatus }: Props) => {
+const FormAccordionsWithComments = ({
+  defaultOpen,
+  children,
+  articleId,
+  articleType,
+  articleStatus,
+  qualityEvaluation,
+}: Props) => {
   const { t } = useTranslation();
   const { toggleWideArticles, isWideArticle } = useWideArticle();
 
@@ -84,19 +100,22 @@ const FormAccordionsWithComments = ({ defaultOpen, children, articleId, articleT
     <ContentWrapper>
       <FlexWrapper>
         <FormControls data-wide={isWideArticle}>
-          {!!articleId && articleType === "frontpage-article" && (
-            <StyledSwitch
-              id={articleId}
-              label={t("frontpageArticleForm.isFrontpageArticle.toggleArticle")}
-              checked={isWideArticle}
-              onChange={() => toggleWideArticles(articleId)}
+          <QualityEvaluation qualityEvaluation={qualityEvaluation} />
+          <RightFlexWrapper>
+            {!!articleId && articleType === "frontpage-article" && (
+              <StyledSwitch
+                id={articleId}
+                label={t("frontpageArticleForm.isFrontpageArticle.toggleArticle")}
+                checked={isWideArticle}
+                onChange={() => toggleWideArticles(articleId)}
+              />
+            )}
+            <OpenAllButton
+              openAccordions={openAccordions}
+              setOpenAccordions={setOpenAccordions}
+              formAccordionChildren={children}
             />
-          )}
-          <OpenAllButton
-            openAccordions={openAccordions}
-            setOpenAccordions={setOpenAccordions}
-            formAccordionChildren={children}
-          />
+          </RightFlexWrapper>
         </FormControls>
         {!disableComments && (
           <CommentWrapper>

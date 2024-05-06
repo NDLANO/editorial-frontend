@@ -27,7 +27,7 @@ const editor: Descendant[] = [
 
       {
         type: TYPE_ASIDE,
-        data: { type: "rightAside" },
+        data: { type: "factAside" },
         children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
       },
       { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
@@ -36,7 +36,7 @@ const editor: Descendant[] = [
 ];
 
 const html =
-  '<section><aside data-type="factAside"><p>content</p></aside><aside data-type="rightAside"><p>content</p></aside></section>';
+  '<section><aside data-type="factAside"><p>content</p></aside><aside data-type="factAside"><p>content</p></aside></section>';
 
 describe("aside serializing tests", () => {
   test("serializing", () => {

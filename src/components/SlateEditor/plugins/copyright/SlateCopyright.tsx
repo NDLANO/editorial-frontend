@@ -156,7 +156,7 @@ const SlateCopyright = ({ attributes, children, element, editor }: Props) => {
           </ModalContent>
         </Modal>
         <MoveContentButton
-          aria-label={t("learningResourceForm.fields.rightAside.moveContent")}
+          aria-label={t("form.moveContent")}
           data-testid="move-copyright"
           onMouseDown={handleRemoveCopyright}
         />

@@ -634,11 +634,6 @@ const phrases = {
       missingEmbedData: "One or more included video, image, or audio elements is missing caption or alternative text.",
     },
     fields: {
-      rightAside: {
-        title: "Right column",
-        moveContent: "Move content into the text",
-        delete: "Delete right aside",
-      },
       footnotes: {
         edition: "Edition",
         publisher: "Publisher",
@@ -744,6 +739,7 @@ const phrases = {
     openAll: "Open all",
     hideAll: "Hide all",
     unpublishedChanges: "(Changed since last publish)",
+    moveContent: "Move content into the text",
     comment: {
       comment: "Comment",
       hide: "Hide comment",

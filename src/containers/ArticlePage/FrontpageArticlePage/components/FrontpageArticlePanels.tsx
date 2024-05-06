@@ -49,7 +49,6 @@ const FrontpageArticlePanels = ({ article, articleHistory, articleLanguage }: Pr
             fieldsToIndicatedChangesFor={contentTitleFields}
           />
         }
-        className="u-10/12 u-push-1/12"
         hasError={!!(errors.title || errors.introduction || errors.content)}
         wide={isWideArticle}
         isFrontpageArticle={article?.articleType === "frontpage-article"}

@@ -23,9 +23,8 @@ import HeaderLanguagePicker from "./HeaderLanguagePicker";
 import HeaderLanguagePill from "./HeaderLanguagePill";
 import HeaderSupportedLanguages from "./HeaderSupportedLanguages";
 import TranslateNbToNn from "./TranslateNbToNn";
-import { createEditUrl, toMapping, translatableTypes } from "./util";
+import { createEditUrl, hasArticleFieldsChanged, toMapping, translatableTypes } from "./util";
 import { PUBLISHED } from "../../constants";
-import { removeCommentTags } from "../../util/compareHTMLHelpers";
 import { toCompareLanguage } from "../../util/routeHelpers";
 import { useIsTranslatableToNN } from "../NynorskTranslateProvider";
 import PreviewDraftLightboxV2 from "../PreviewDraft/PreviewDraftLightboxV2";
@@ -73,11 +72,6 @@ const PreviewLightBox = memo(({ type, currentLanguage, article, concept }: Previ
   } else return null;
 });
 
-const hasContentChanged = (current: string | undefined, published: string | undefined): boolean => {
-  const currentContent = current ? removeCommentTags(current) : "";
-  const lastPublishedContent = published ? removeCommentTags(published) : "";
-  return currentContent !== lastPublishedContent;
-};
 interface Props {
   id: number;
   isNewLanguage: boolean;
@@ -118,23 +112,13 @@ const HeaderActions = ({
     () => articleHistory?.find((v) => v.status.current === PUBLISHED),
     [articleHistory],
   );
-  const isIdenticalToPublished = useMemo(() => {
-    if (lastPublishedVersion) {
-      const contentChanged = hasContentChanged(article?.content?.content, lastPublishedVersion.content?.content);
-      if (contentChanged) return false;
 
-      const titleChanged = hasContentChanged(article?.title?.title, lastPublishedVersion.title?.title);
-      if (titleChanged) return false;
-
-      const introductionChanged = hasContentChanged(
-        article?.introduction?.introduction,
-        lastPublishedVersion.introduction?.introduction,
-      );
-      if (introductionChanged) return false;
-
-      return true;
-    }
-    return false;
+  const hasChanges = useMemo(() => {
+    return hasArticleFieldsChanged(article, lastPublishedVersion, [
+      "title.title",
+      "content.content",
+      "introduction.introduction",
+    ]);
   }, [article, lastPublishedVersion]);
 
   const languages = useMemo(
@@ -205,15 +189,15 @@ const HeaderActions = ({
                     variant="ghost"
                     size="small"
                     aria-label={
-                      isIdenticalToPublished
-                        ? t("form.previewProductionArticle.buttonDisabled")
-                        : t("form.previewProductionArticle.button")
+                      hasChanges
+                        ? t("form.previewProductionArticle.button")
+                        : t("form.previewProductionArticle.buttonDisabled")
                     }
-                    disabled={isIdenticalToPublished}
+                    disabled={!hasChanges}
                     title={
-                      isIdenticalToPublished
-                        ? t("form.previewProductionArticle.buttonDisabled")
-                        : t("form.previewProductionArticle.button")
+                      hasChanges
+                        ? t("form.previewProductionArticle.button")
+                        : t("form.previewProductionArticle.buttonDisabled")
                     }
                   >
                     <Eye /> {t("form.previewVersion")}

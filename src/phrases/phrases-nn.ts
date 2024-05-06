@@ -634,11 +634,6 @@ const phrases = {
         "Ein eller fleire inkluderte lyd-, bilete-, eller videoelementer mangler beskrivende tekst eller alternativ tekst.",
     },
     fields: {
-      rightAside: {
-        title: "Høgrespalte",
-        moveContent: "Flytt innhald inn i teksten",
-        delete: "Slett høgrespalte",
-      },
       footnotes: {
         edition: "Utgåve",
         publisher: "Utgjevar",
@@ -744,6 +739,7 @@ const phrases = {
     openAll: "Opne alle",
     hideAll: "Lukk alle",
     unpublishedChanges: "(Endra sidan siste publisering)",
+    moveContent: "Flytt innhald inn i teksten",
     comment: {
       comment: "Kommenter",
       hide: "Skjul kommentar",

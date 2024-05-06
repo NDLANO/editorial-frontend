@@ -11,7 +11,6 @@ import { Editor, Element, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { AsideElement } from ".";
 import SlateFactAside from "./SlateFactAside";
-import SlateRightAside from "./SlateRightAside";
 import { TYPE_ASIDE } from "./types";
 
 interface Props {
@@ -51,17 +50,7 @@ const SlateAside = (props: Props) => {
     }, 0);
   };
 
-  const type = element.data.type;
-
-  switch (type) {
-    case "rightAside":
-      return <SlateRightAside onRemoveClick={onRemoveClick} onMoveContent={onMoveContent} {...props} />;
-    case "factAside":
-      return <SlateFactAside onRemoveClick={onRemoveClick} onMoveContent={onMoveContent} {...props} />;
-    default: {
-      return <SlateFactAside onRemoveClick={onRemoveClick} onMoveContent={onMoveContent} {...props} />;
-    }
-  }
+  return <SlateFactAside onRemoveClick={onRemoveClick} onMoveContent={onMoveContent} {...props} />;
 };
 
 export default SlateAside;

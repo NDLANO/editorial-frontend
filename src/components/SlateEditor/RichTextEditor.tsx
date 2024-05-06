@@ -19,6 +19,7 @@ import { SlatePlugin } from "./interfaces";
 import { Action, commonActions } from "./plugins/blockPicker/actions";
 import { BlockPickerOptions, createBlockpickerOptions } from "./plugins/blockPicker/options";
 import SlateBlockPicker from "./plugins/blockPicker/SlateBlockPicker";
+import { TYPE_DEFINITION_LIST } from "./plugins/definitionList/types";
 import { onDragOver, onDragStart, onDrop } from "./plugins/DND";
 import { TYPE_HEADING } from "./plugins/heading/types";
 import { TYPE_PARAGRAPH } from "./plugins/paragraph/types";
@@ -243,26 +244,45 @@ const RichTextEditor = ({
       };
 
       const [selectedElement] = getCurrentBlock(editor, TYPE_PARAGRAPH) || getCurrentBlock(editor, TYPE_HEADING) || [];
-      if (e.key === KEY_TAB && selectedElement) {
+      const [definitionListBlock] = getCurrentBlock(editor, TYPE_DEFINITION_LIST) || [];
+
+      if (e.key === KEY_TAB && selectedElement && !definitionListBlock) {
         const path = ReactEditor.findPath(editor, selectedElement!);
         if (!e.shiftKey && !Editor.after(editor, path)) return; // If there is no block after the current block, and shift is not pressed, move out from the editor
         if (e.shiftKey && !Editor.before(editor, path)) return; // If there is no block before the current block and shift is pressed, move out from the editor
 
-        let nodeToMoveTo: Descendant[] | Node | null = null;
+        let target = e.target as HTMLElement;
+        if (target.parentNode instanceof HTMLElement) {
+          let nextElement = target.parentNode.nextElementSibling as HTMLElement | null;
 
-        nodeToMoveTo = getNextNode(editor, path, e.shiftKey);
-
-        if ("type" in nodeToMoveTo) {
-          const element = getElementByType(e.target as HTMLElement, "button");
-          element?.focus();
-          return;
-          e.preventDefault();
-          // if (Editor.isVoid(editor, nodeToMoveTo)) Transforms.move(editor, { unit: "offset" });
-          // Transforms.select(editor, ReactEditor.findPath(editor, nodeToMoveTo));
-          // Transforms.collapse(editor);
-          // ReactEditor.focus(editor);
-          // return;
+          while (!nextElement) {
+            // Keeps looking until it finds the next focusable element
+            target = target.parentNode as HTMLElement;
+            if (target.parentNode instanceof HTMLElement) {
+              const el = target.parentNode.nextElementSibling as HTMLElement | null;
+              if (el) {
+                const button = getElementByType(el, "button");
+                button?.focus();
+                nextElement = button === document.activeElement ? el : null;
+              }
+            }
+          }
         }
+
+        // let nodeToMoveTo: Descendant[] | Node | null = null;
+        // nodeToMoveTo = getNextNode(editor, path, e.shiftKey);
+
+        // if ("type" in nodeToMoveTo) {
+        //   const element = getElementByType(e.target as HTMLElement, "button");
+        //   // element?.focus();
+        //   return;
+        //   e.preventDefault();
+        //   // if (Editor.isVoid(editor, nodeToMoveTo)) Transforms.move(editor, { unit: "offset" });
+        //   // Transforms.select(editor, ReactEditor.findPath(editor, nodeToMoveTo));
+        //   // Transforms.collapse(editor);
+        //   // ReactEditor.focus(editor);
+        //   // return;
+        // }
       }
 
       if (editor.selection && Range.isCollapsed(editor.selection) && !e.shiftKey) {

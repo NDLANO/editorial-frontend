@@ -7,6 +7,7 @@
  */
 import { ReactNode, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { RenderElementProps } from "slate-react";
 import styled from "@emotion/styled";
 import { Root, Trigger, Content, Arrow, Portal } from "@radix-ui/react-popover";
 import { IconButtonV2 } from "@ndla/button";
@@ -91,9 +92,10 @@ interface Props {
   onRemove: () => void;
   children?: ReactNode;
   commentType: "block" | "inline";
+  attributes: RenderElementProps["attributes"];
 }
 
-const CommentEmbed = ({ embed, onSave, children, onRemove, commentType }: Props) => {
+const CommentEmbed = ({ embed, onSave, children, onRemove, commentType, attributes }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const { t } = useTranslation();
 
@@ -105,11 +107,11 @@ const CommentEmbed = ({ embed, onSave, children, onRemove, commentType }: Props)
     <Root open={isOpen} onOpenChange={setIsOpen}>
       <Trigger asChild type={undefined}>
         {commentType === "inline" ? (
-          <InlineComment role="button" tabIndex={0}>
+          <InlineComment role="button" tabIndex={0} {...attributes}>
             {children}
           </InlineComment>
         ) : (
-          <BlockCommentButton type="button" contentEditable={false}>
+          <BlockCommentButton type="button" contentEditable={false} {...attributes}>
             <Comment />
             <CommentText textStyle="button" margin="none">
               {embed?.embedData?.text ?? ""}

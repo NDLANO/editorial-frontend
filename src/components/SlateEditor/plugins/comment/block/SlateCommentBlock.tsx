@@ -97,7 +97,13 @@ const SlateCommentBlock = ({ attributes, editor, element, children }: Props) => 
         </ModalBody>
       </ModalContent>
       {embed && (
-        <CommentEmbed embed={embed} onSave={onUpdateComment} onRemove={onRemove} commentType="block">
+        <CommentEmbed
+          embed={embed}
+          onSave={onUpdateComment}
+          onRemove={onRemove}
+          commentType="block"
+          attributes={attributes}
+        >
           {children}
         </CommentEmbed>
       )}

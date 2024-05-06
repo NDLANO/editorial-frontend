@@ -104,8 +104,8 @@ const CommentForm = ({
                       {labelText}
                     </Label>
                     <StyledPlainTextEditor id={field.name} {...field} value={initialValues.text} />
+                    <FieldErrorMessage>{meta.error}</FieldErrorMessage>
                   </FormControl>
-                  <FieldErrorMessage>{meta.error}</FieldErrorMessage>
                   <CommentActions>
                     <ButtonV2 onClick={() => onOpenChange(false)} variant="outline">
                       {t("form.abort")}

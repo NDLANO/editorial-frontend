@@ -38,22 +38,20 @@ export const commentInlineSerializer: SlateSerializer = {
 };
 
 const onBackspace = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: KeyboardEvent) => void) => {
-  if (hasNodeOfType(editor, TYPE_COMMENT_INLINE)) {
-    if (Range.isRange(editor.selection)) {
-      // Replace comment with paragraph if last character is removed
-      if (
-        Range.isCollapsed(editor.selection) &&
-        Editor.string(editor, editor.selection.anchor.path).length === 1 &&
-        editor.selection.anchor.offset === 1
-      ) {
-        e.preventDefault();
-        editor.deleteBackward("character");
-        Transforms.unwrapNodes(editor, {
-          match: (node) => Element.isElement(node) && node.type === TYPE_COMMENT_INLINE,
-        });
-        return;
-      }
-    }
+  // Replace comment with paragraph if last character is removed
+  if (
+    hasNodeOfType(editor, TYPE_COMMENT_INLINE) &&
+    Range.isRange(editor.selection) &&
+    Range.isCollapsed(editor.selection) &&
+    Editor.string(editor, editor.selection.anchor.path).length === 1 &&
+    editor.selection.anchor.offset === 1
+  ) {
+    e.preventDefault();
+    editor.deleteBackward("character");
+    Transforms.unwrapNodes(editor, {
+      match: (node) => Element.isElement(node) && node.type === TYPE_COMMENT_INLINE,
+    });
+    return;
   }
   return nextOnKeyDown?.(e);
 };

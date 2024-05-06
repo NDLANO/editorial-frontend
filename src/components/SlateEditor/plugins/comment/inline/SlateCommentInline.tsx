@@ -100,7 +100,13 @@ const SlateCommentInline = ({ attributes, editor, element, children }: Props) =>
           />
         </ModalBody>
       </ModalContent>
-      <CommentEmbed embed={embed} onSave={onUpdateComment} onRemove={onRemove} commentType="inline">
+      <CommentEmbed
+        embed={embed}
+        onSave={onUpdateComment}
+        onRemove={onRemove}
+        commentType="inline"
+        attributes={attributes}
+      >
         {children}
       </CommentEmbed>
     </Modal>

@@ -113,7 +113,7 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
     }
   }, [embed]);
 
-  const onOpenChange = useCallback(
+  const onClose = useCallback(
     (open?: boolean) => {
       setIsEditing(!!open);
       ReactEditor.focus(editor);
@@ -145,8 +145,9 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
           Transforms.select(editor, Path.next(path));
         }, 0);
       }
+      onClose();
     },
-    [editor, element],
+    [editor, element, onClose],
   );
 
   const handleRemove = useCallback(
@@ -185,7 +186,7 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
 
   return (
     <div {...attributes}>
-      <Modal open={isEditing} onOpenChange={onOpenChange}>
+      <Modal open={isEditing} onOpenChange={setIsEditing}>
         {!!embed && (
           <ExternalWrapper ref={wrapperRef} contentEditable={false}>
             <StyledFigureButtons>

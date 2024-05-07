@@ -243,11 +243,11 @@ const RichTextEditor = ({
         return null;
       };
 
-      const [selectedElement] = getCurrentBlock(editor, TYPE_PARAGRAPH) || getCurrentBlock(editor, TYPE_HEADING) || [];
+      const selectedElement = getCurrentBlock(editor, TYPE_PARAGRAPH) || getCurrentBlock(editor, TYPE_HEADING) || [];
       const [definitionListBlock] = getCurrentBlock(editor, TYPE_DEFINITION_LIST) || [];
 
-      if (e.key === KEY_TAB && selectedElement && !definitionListBlock) {
-        const path = ReactEditor.findPath(editor, selectedElement!);
+      if (e.key === KEY_TAB && selectedElement && selectedElement.length > 0 && !definitionListBlock) {
+        const path = ReactEditor.findPath(editor, selectedElement[0]!);
         if (!e.shiftKey && !Editor.after(editor, path)) return; // If there is no block after the current block, and shift is not pressed, move out from the editor
         if (e.shiftKey && !Editor.before(editor, path)) return; // If there is no block before the current block and shift is pressed, move out from the editor
 

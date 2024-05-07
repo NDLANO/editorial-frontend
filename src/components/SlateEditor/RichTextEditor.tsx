@@ -22,6 +22,7 @@ import SlateBlockPicker from "./plugins/blockPicker/SlateBlockPicker";
 import { TYPE_DEFINITION_LIST } from "./plugins/definitionList/types";
 import { onDragOver, onDragStart, onDrop } from "./plugins/DND";
 import { TYPE_HEADING } from "./plugins/heading/types";
+import { TYPE_LIST } from "./plugins/list/types";
 import { TYPE_PARAGRAPH } from "./plugins/paragraph/types";
 import { SlateToolbar } from "./plugins/toolbar";
 import { AreaFilters, CategoryFilters } from "./plugins/toolbar/toolbarState";
@@ -244,9 +245,9 @@ const RichTextEditor = ({
       };
 
       const selectedElement = getCurrentBlock(editor, TYPE_PARAGRAPH) || getCurrentBlock(editor, TYPE_HEADING) || [];
-      const [definitionListBlock] = getCurrentBlock(editor, TYPE_DEFINITION_LIST) || [];
+      const [listBlock] = getCurrentBlock(editor, TYPE_DEFINITION_LIST) || getCurrentBlock(editor, TYPE_LIST) || [];
 
-      if (e.key === KEY_TAB && selectedElement && selectedElement.length > 0 && !definitionListBlock) {
+      if (e.key === KEY_TAB && selectedElement && selectedElement.length > 0 && !listBlock) {
         const path = ReactEditor.findPath(editor, selectedElement[0]!);
         if (!e.shiftKey && !Editor.after(editor, path)) return; // If there is no block after the current block, and shift is not pressed, move out from the editor
         if (e.shiftKey && !Editor.before(editor, path)) return; // If there is no block before the current block and shift is pressed, move out from the editor

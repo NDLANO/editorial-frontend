@@ -49,7 +49,6 @@ const FrontpageArticlePanels = ({ article, articleHistory, articleLanguage }: Pr
             fieldsToIndicatedChangesFor={contentTitleFields}
           />
         }
-        className="u-10/12 u-push-1/12"
         hasError={!!(errors.title || errors.introduction || errors.content)}
         wide={isWideArticle}
         isFrontpageArticle={article?.articleType === "frontpage-article"}
@@ -66,7 +65,6 @@ const FrontpageArticlePanels = ({ article, articleHistory, articleLanguage }: Pr
             fieldsToIndicatedChangesFor={copyrightFields}
           />
         }
-        className={"u-6/6"}
         hasError={!!(errors.creators || errors.rightsholders || errors.processors || errors.license)}
       >
         <CopyrightFieldGroup />
@@ -74,7 +72,6 @@ const FrontpageArticlePanels = ({ article, articleHistory, articleLanguage }: Pr
       <FormAccordion
         id={"frontpage-article-metadata"}
         title={t("form.metadataSection")}
-        className={"u-6/6"}
         hasError={!!(errors.metaDescription || errors.metaImageAlt || errors.tags)}
       >
         <MetaDataField articleLanguage={articleLanguage} />
@@ -82,18 +79,12 @@ const FrontpageArticlePanels = ({ article, articleHistory, articleLanguage }: Pr
       <FormAccordion
         id={"frontpage-article-revisions"}
         title={t("form.name.revisions")}
-        className={"u-6/6"}
         hasError={!!errors.revisionMeta || !!errors.revisionError}
       >
         <RevisionNotes />
       </FormAccordion>
       {article && (
-        <FormAccordion
-          id={"frontpage-article-workflow"}
-          title={t("form.workflowSection")}
-          className={"u-6/6"}
-          hasError={!!errors.notes}
-        >
+        <FormAccordion id={"frontpage-article-workflow"} title={t("form.workflowSection")} hasError={!!errors.notes}>
           <VersionAndNotesPanel
             article={article}
             articleHistory={articleHistory}

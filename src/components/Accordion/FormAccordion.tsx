@@ -79,9 +79,9 @@ const HeaderWrapper = styled.div`
 `;
 
 const StyledAccordionContent = styled(AccordionContent)`
+  width: 100%;
   &[data-frontpage="true"] {
     background-color: ${colors.background.lightBlue};
-    width: 100% !important;
     inset: unset !important;
 
     display: flex;
@@ -90,15 +90,7 @@ const StyledAccordionContent = styled(AccordionContent)`
   }
 `;
 
-const FormAccordion = ({
-  children,
-  title,
-  hasError,
-  id,
-  className = "u-6/6",
-  wide,
-  isFrontpageArticle,
-}: FormAccordionProps) => {
+const FormAccordion = ({ children, title, hasError, id, className, wide, isFrontpageArticle }: FormAccordionProps) => {
   return (
     <StyledItem value={id} data-error={hasError}>
       <StyledHeader data-error={hasError}>

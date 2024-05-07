@@ -72,12 +72,7 @@ const TopicArticleAccordionPanels = ({
         <TopicArticleContent values={values} />
       </FormAccordion>
       {article && !!userPermissions?.includes(TAXONOMY_WRITE_SCOPE) && (
-        <FormAccordion
-          id={"topic-article-taxonomy"}
-          title={t("form.taxonomySection")}
-          className={"u-6/6"}
-          hasError={!hasTaxonomyEntries}
-        >
+        <FormAccordion id={"topic-article-taxonomy"} title={t("form.taxonomySection")} hasError={!hasTaxonomyEntries}>
           <TopicArticleTaxonomy
             article={article}
             updateNotes={updateNotes}
@@ -96,7 +91,6 @@ const TopicArticleAccordionPanels = ({
             fieldsToIndicatedChangesFor={copyrightFields}
           />
         }
-        className={"u-6/6"}
         hasError={!!(errors.creators || errors.rightsholders || errors.processors || errors.license)}
       >
         <CopyrightFieldGroup enableLicenseNA />
@@ -104,7 +98,6 @@ const TopicArticleAccordionPanels = ({
       <FormAccordion
         id={"topic-article-metadata"}
         title={t("form.metadataSection")}
-        className={"u-6/6"}
         hasError={!!(errors.metaDescription || errors.tags)}
       >
         <MetaDataField
@@ -113,19 +106,13 @@ const TopicArticleAccordionPanels = ({
           checkboxAction={(image) => onSaveAsVisualElement(image, formikContext)}
         />
       </FormAccordion>
-      <FormAccordion
-        id={"topic-article-grepCodes"}
-        title={t("form.name.grepCodes")}
-        className={"u-6/6"}
-        hasError={!!errors.grepCodes}
-      >
+      <FormAccordion id={"topic-article-grepCodes"} title={t("form.name.grepCodes")} hasError={!!errors.grepCodes}>
         <GrepCodesField />
       </FormAccordion>
       {config.ndlaEnvironment === "test" && (
         <FormAccordion
           id={"learning-resource-related"}
           title={t("form.name.relatedContent")}
-          className={"u-6/6"}
           hasError={!!(errors.conceptIds || errors.relatedContent)}
         >
           <RelatedContentFieldGroup />
@@ -134,18 +121,12 @@ const TopicArticleAccordionPanels = ({
       <FormAccordion
         id={"topic-article-revisions"}
         title={t("form.name.revisions")}
-        className={"u-6/6"}
         hasError={!!errors.revisionMeta || !!errors.revisionError}
       >
         <RevisionNotes />
       </FormAccordion>
       {article && (
-        <FormAccordion
-          id={"topic-article-workflow"}
-          title={t("form.workflowSection")}
-          className={"u-6/6"}
-          hasError={!!errors.notes}
-        >
+        <FormAccordion id={"topic-article-workflow"} title={t("form.workflowSection")} hasError={!!errors.notes}>
           <VersionAndNotesPanel
             article={article}
             articleHistory={articleHistory}

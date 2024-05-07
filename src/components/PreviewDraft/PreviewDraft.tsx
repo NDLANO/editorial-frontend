@@ -46,6 +46,7 @@ type Props = PreviewArticleV2Props | PreviewFormArticleV2Props;
 export const toFormArticle = (article: IArticle, language: string): FormArticle => {
   return {
     id: article.id,
+    articleType: article.articleType,
     content: article.content?.content,
     visualElement: article.visualElement?.visualElement,
     title: article.title?.htmlTitle,

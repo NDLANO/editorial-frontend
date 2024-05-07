@@ -649,7 +649,7 @@ const phrases = {
     title: "Nykeltal",
     edit: "Rediger nykeltal",
   },
-  qualityEvaluation: {
+  qualityEvaluationForm: {
     title: "Kvalitetsvurdering",
     unavailable: "Ikkje satt",
     modalTitle: "Oppdater kvalitetsvurdering",

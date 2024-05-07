@@ -98,7 +98,7 @@ const toInitialValues = (initialData?: QualityEvaluationFormValues): QualityEval
   };
 };
 
-const QualityEvaluation = ({ qualityEvaluation, setOpen }: Props) => {
+const QualityEvaluationForm = ({ qualityEvaluation, setOpen }: Props) => {
   const { t } = useTranslation();
   const [qualityEvaluationField, , helpers] = useField<QualityEvaluationFormValues>("qualityEvaluation");
 
@@ -194,4 +194,4 @@ const QualityEvaluation = ({ qualityEvaluation, setOpen }: Props) => {
   );
 };
 
-export default QualityEvaluation;
+export default QualityEvaluationForm;

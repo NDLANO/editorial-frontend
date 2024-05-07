@@ -649,7 +649,7 @@ const phrases = {
     title: "Key figure",
     edit: "Edit key figure",
   },
-  qualityEvaluation: {
+  qualityEvaluationForm: {
     title: "Quality evaluation",
     unavailable: "Not specified",
     modalTitle: "Update quality evaluation",

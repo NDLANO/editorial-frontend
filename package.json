@@ -36,7 +36,7 @@
     "@emotion/eslint-plugin": "11.11.0",
     "@emotion/jest": "11.11.0",
     "@ndla/scripts": "^2.1.2",
-    "@ndla/types-backend": "^0.2.72",
+    "@ndla/types-backend": "^0.2.75",
     "@ndla/types-embed": "^4.1.6",
     "@ndla/types-taxonomy": "^1.0.24",
     "@playwright/test": "^1.42.0",

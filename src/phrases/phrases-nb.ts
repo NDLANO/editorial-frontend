@@ -654,10 +654,12 @@ const phrases = {
     unavailable: "Ikke satt",
     modalTitle: "Oppdater kvalitetsvurdering",
     description:
-      "Legg inn en kvalitetsvurdering av artikkelen med en beskrivelse av den valgte graderingen. Skalaen er som følger: 1 = svært bra, 2 = bra, 3 = middels, 4 = dårlig, 5 = svært dårlig.",
+      "Legg inn en kvalitetsvurdering av {{ resource }} med en beskrivelse av den valgte graderingen. Skalaen er som følger: 1 = svært bra, 2 = bra, 3 = middels, 4 = dårlig, 5 = svært dårlig.",
     edit: "Rediger kvalitetsvurdering",
     delete: "Slett",
     note: "Notat",
+    article: "artikkelen",
+    topicArticle: "emnet som helhet",
   },
   editorToolbar: {
     bold: "Fet\n({{ctrl}}+b)",

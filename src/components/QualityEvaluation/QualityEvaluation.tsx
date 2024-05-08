@@ -13,16 +13,8 @@ import styled from "@emotion/styled";
 import { colors, spacing } from "@ndla/core";
 import { IQualityEvaluation } from "@ndla/types-backend/draft-api";
 import { Text } from "@ndla/typography";
-import { QualityEvaluationFormValues, gradeItemStyles } from "./QualityEvaluationForm";
+import { QualityEvaluationFormValues, gradeItemStyles, qualityEvaluationOptions } from "./QualityEvaluationForm";
 import QualityEvaluationModal from "./QualityEvaluationModal";
-
-const qualityEvaluationOptions: { value: number; color: string }[] = [
-  { value: 1, color: colors.support.green },
-  { value: 2, color: "#C3D060" },
-  { value: 3, color: colors.support.yellow },
-  { value: 4, color: "#CF9065" },
-  { value: 5, color: colors.assessmentResource.dark },
-];
 
 const FlexWrapper = styled.div`
   display: flex;
@@ -42,9 +34,10 @@ const StyledNoEvaluation = styled(Text)`
 
 interface Props {
   qualityEvaluation: IQualityEvaluation | undefined;
+  articleType?: string;
 }
 
-const QualityEvaluation = ({ qualityEvaluation }: Props) => {
+const QualityEvaluation = ({ qualityEvaluation, articleType }: Props) => {
   const { t } = useTranslation();
 
   const [qualityEvaluationField] = useField<QualityEvaluationFormValues>("qualityEvaluation");
@@ -76,7 +69,7 @@ const QualityEvaluation = ({ qualityEvaluation }: Props) => {
           {t("qualityEvaluationForm.unavailable")}
         </StyledNoEvaluation>
       )}
-      <QualityEvaluationModal qualityEvaluation={qualityEvaluation} />
+      <QualityEvaluationModal qualityEvaluation={qualityEvaluation} articleType={articleType} />
     </FlexWrapper>
   );
 };

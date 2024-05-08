@@ -26,11 +26,15 @@ const StyledModalBody = styled(ModalBody)`
 
 interface Props {
   qualityEvaluation: IQualityEvaluation | undefined;
+  articleType?: string;
 }
 
-const QualityEvaluationModal = ({ qualityEvaluation }: Props) => {
+const QualityEvaluationModal = ({ qualityEvaluation, articleType }: Props) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
+
+  const resourceTranslation =
+    articleType === "topic-article" ? t("qualityEvaluationForm.topicArticle") : t("qualityEvaluationForm.article");
 
   return (
     <Modal open={open} onOpenChange={setOpen}>
@@ -52,7 +56,7 @@ const QualityEvaluationModal = ({ qualityEvaluation }: Props) => {
         </ModalHeader>
         <StyledModalBody>
           <Text margin="none" textStyle="meta-text-small">
-            {t("qualityEvaluationForm.description")}
+            {t("qualityEvaluationForm.description", { resource: resourceTranslation })}
           </Text>
           <QualityEvaluationForm qualityEvaluation={qualityEvaluation} setOpen={setOpen} />
         </StyledModalBody>

@@ -100,7 +100,7 @@ const FormAccordionsWithComments = ({
     <ContentWrapper>
       <FlexWrapper>
         <FormControls data-wide={isWideArticle}>
-          <QualityEvaluation qualityEvaluation={qualityEvaluation} />
+          <QualityEvaluation qualityEvaluation={qualityEvaluation} articleType={articleType} />
           <RightFlexWrapper>
             {!!articleId && articleType === "frontpage-article" && (
               <StyledSwitch

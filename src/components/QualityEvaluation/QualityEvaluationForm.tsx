@@ -19,7 +19,7 @@ import { IQualityEvaluation } from "@ndla/types-backend/draft-api";
 import { FormControl, FormField } from "../FormField";
 import validateFormik, { RulesType } from "../formikValidationSchema";
 
-const qualityEvaluationOptions: { value: number; color: string }[] = [
+export const qualityEvaluationOptions: { value: number; color: string }[] = [
   { value: 1, color: colors.support.green },
   { value: 2, color: "#C3D060" },
   { value: 3, color: colors.support.yellow },
@@ -77,6 +77,7 @@ const StyledForm = styled(Form)`
 interface Props {
   qualityEvaluation: IQualityEvaluation | undefined;
   setOpen: (open: boolean) => void;
+  articleType?: string;
 }
 
 export interface QualityEvaluationFormValues {

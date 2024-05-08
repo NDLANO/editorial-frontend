@@ -16,7 +16,7 @@ import { toggleDefinitionList } from "../definitionList/utils/toggleDefinitionLi
 import { HeadingElement } from "../heading";
 import { TYPE_HEADING } from "../heading/types";
 import { toggleHeading } from "../heading/utils";
-import { insertLink } from "../link/utils";
+import { insertLink, unwrapLink } from "../link/utils";
 import { LIST_TYPES } from "../list/types";
 import { toggleList } from "../list/utils/toggleList";
 import { insertMathml } from "../mathml/utils";
@@ -61,6 +61,7 @@ export const handleTextChange = (editor: Editor, type: string) => {
     // Find the current node in use
     const [node] = Editor.nodes(editor, options);
     if (node) {
+      if (props.type === TYPE_HEADING && props.level === 2) unwrapLink(editor);
       Transforms.setNodes(editor, props, options);
     } else {
       // If there is no heading or paragraph nodes its a filtered span node

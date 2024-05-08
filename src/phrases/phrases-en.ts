@@ -111,6 +111,7 @@ const phrases = {
     change: "Change to {{language}} version",
   },
   welcomePage: {
+    lastFavorited: "Last favorited resource: ",
     addSearch: "Add new search",
     deleteSavedSearch: "Delete saved search",
     deleteSearch: "Delete search",
@@ -633,11 +634,6 @@ const phrases = {
       missingEmbedData: "One or more included video, image, or audio elements is missing caption or alternative text.",
     },
     fields: {
-      rightAside: {
-        title: "Right column",
-        moveContent: "Move content into the text",
-        delete: "Delete right aside",
-      },
       footnotes: {
         edition: "Edition",
         publisher: "Publisher",
@@ -745,9 +741,12 @@ const phrases = {
     openAll: "Open all",
     hideAll: "Hide all",
     unpublishedChanges: "(Changed since last publish)",
+    moveContent: "Move content into the text",
     comment: {
       comment: "Comment",
       hide: "Hide comment",
+      hideComments: "Hide comments",
+      showComments: "Show comments",
       show: "Show comment",
       commentField: "Comment field",
       solve: "The comment is marked as unresolved. Mark as solved",

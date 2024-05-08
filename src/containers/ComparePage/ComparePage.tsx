@@ -10,16 +10,11 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
+import { spacing, colors } from "@ndla/core";
 import { HelmetWithTracker } from "@ndla/tracker";
 import PreviewDraft from "../../components/PreviewDraft/PreviewDraft";
 import Spinner from "../../components/Spinner";
-import {
-  draftApiTypeToLearningResourceFormType,
-  learningResourceFormTypeToDraftApiType,
-} from "../../containers/ArticlePage/articleTransformers";
-import { LearningResourceFormType, useArticleFormHooks } from "../../containers/FormikForm/articleFormHooks";
-import { useDraft, useLicenses } from "../../modules/draft/draftQueries";
+import { useDraft } from "../../modules/draft/draftQueries";
 
 const StyledPreviewWrapper = styled.div`
   width: 100%;
@@ -53,6 +48,16 @@ const TwoArticleWrapper = styled(StyledPreviewWrapper)`
       max-width: unset;
     }
   }
+
+  span[lang] {
+    text-decoration: underline;
+    text-decoration-color: ${colors.brand.tertiary};
+    &::after {
+      content: "(" attr(lang) ")";
+      color: ${colors.brand.greyMedium};
+      font-style: italic;
+    }
+  }
 `;
 
 const PreviewTitleWrapper = styled.div`
@@ -70,9 +75,9 @@ const ComparePage = () => {
   const formArticle = useMemo(() => {
     return {
       id: article?.id!,
-      title: article?.title?.title ?? "",
+      title: article?.title?.htmlTitle ?? "",
       content: article?.content?.content ?? "",
-      introduction: article?.introduction?.introduction ?? "",
+      introduction: article?.introduction?.htmlIntroduction ?? "",
       visualElement: article?.visualElement?.visualElement ?? "",
       published: article?.published,
       copyright: article?.copyright,

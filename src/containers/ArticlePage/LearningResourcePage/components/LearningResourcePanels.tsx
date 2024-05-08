@@ -14,7 +14,7 @@ import { Node, TaxonomyContext } from "@ndla/types-taxonomy";
 import LearningResourceContent from "./LearningResourceContent";
 import LearningResourceTaxonomy from "./LearningResourceTaxonomy";
 import FormAccordion from "../../../../components/Accordion/FormAccordion";
-import FormAccordions from "../../../../components/Accordion/FormAccordions";
+import FormAccordionsWithComments from "../../../../components/Accordion/FormAccordionsWithComments";
 import { IsNewArticleLanguageProvider } from "../../../../components/SlateEditor/IsNewArticleLanguageProvider";
 import config from "../../../../config";
 import { TAXONOMY_WRITE_SCOPE } from "../../../../constants";
@@ -58,7 +58,7 @@ const LearningResourcePanels = ({
   const copyrightFields = useMemo<FlatArticleKeys[]>(() => ["copyright"], []);
 
   return (
-    <FormAccordions defaultOpen={defaultOpen}>
+    <FormAccordionsWithComments defaultOpen={defaultOpen} articleType="standard" articleStatus={article?.status}>
       <FormAccordion
         id={"learning-resource-content"}
         title={
@@ -81,12 +81,7 @@ const LearningResourcePanels = ({
         </IsNewArticleLanguageProvider>
       </FormAccordion>
       {!!article && !!taxonomy && !!userPermissions?.includes(TAXONOMY_WRITE_SCOPE) && (
-        <FormAccordion
-          id={"learning-resource-taxonomy"}
-          title={t("form.taxonomySection")}
-          className={"u-6/6"}
-          hasError={!contexts?.length}
-        >
+        <FormAccordion id={"learning-resource-taxonomy"} title={t("form.taxonomySection")} hasError={!contexts?.length}>
           <LearningResourceTaxonomy
             article={article}
             updateNotes={updateNotes}
@@ -105,7 +100,6 @@ const LearningResourcePanels = ({
             fieldsToIndicatedChangesFor={copyrightFields}
           />
         }
-        className={"u-6/6"}
         hasError={!!(errors.creators || errors.rightsholders || errors.processors || errors.license)}
       >
         <CopyrightFieldGroup />
@@ -113,24 +107,17 @@ const LearningResourcePanels = ({
       <FormAccordion
         id={"learning-resource-metadata"}
         title={t("form.metadataSection")}
-        className={"u-6/6"}
         hasError={!!(errors.metaDescription || errors.metaImageAlt || errors.tags)}
       >
         <MetaDataField articleLanguage={articleLanguage} />
       </FormAccordion>
-      <FormAccordion
-        id={"learning-resource-grepCodes"}
-        title={t("form.name.grepCodes")}
-        className={"u-6/6"}
-        hasError={!!errors.grepCodes}
-      >
+      <FormAccordion id={"learning-resource-grepCodes"} title={t("form.name.grepCodes")} hasError={!!errors.grepCodes}>
         <GrepCodesField />
       </FormAccordion>
       {config.ndlaEnvironment === "test" && (
         <FormAccordion
           id={"learning-resource-related"}
           title={t("form.name.relatedContent")}
-          className={"u-6/6"}
           hasError={!!(errors.conceptIds || errors.relatedContent)}
         >
           <RelatedContentFieldGroup />
@@ -139,7 +126,6 @@ const LearningResourcePanels = ({
       <FormAccordion
         id={"learning-resource-revisions"}
         title={t("form.name.revisions")}
-        className={"u-6/6"}
         hasError={!!errors.revisionMeta || !!errors.revisionError}
       >
         <RevisionNotes />
@@ -148,7 +134,6 @@ const LearningResourcePanels = ({
         <FormAccordion
           id={"learning-resource-workflow"}
           title={t("form.workflowSection")}
-          className={"u-6/6"}
           hasError={!!errors.notes}
           data-testid={"learning-resource-workflow"}
         >
@@ -160,7 +145,7 @@ const LearningResourcePanels = ({
           />
         </FormAccordion>
       )}
-    </FormAccordions>
+    </FormAccordionsWithComments>
   );
 };
 

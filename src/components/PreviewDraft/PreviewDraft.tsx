@@ -46,6 +46,7 @@ type Props = PreviewArticleV2Props | PreviewFormArticleV2Props;
 export const toFormArticle = (article: IArticle, language: string): FormArticle => {
   return {
     id: article.id,
+    articleType: article.articleType,
     content: article.content?.content,
     visualElement: article.visualElement?.visualElement,
     title: article.title?.htmlTitle,
@@ -63,7 +64,12 @@ export const PreviewDraft = (props: Props) => {
     return draftProp;
   }, [draftProp, type, language]);
 
-  const { article } = useTransformedArticle({ draft, language });
+  const { article } = useTransformedArticle({
+    draft,
+    language,
+    previewAlt: false,
+    useDraftConcepts: false,
+  });
 
   return <TransformedPreviewDraft article={article} contentType={contentType} draft={draft} label={label} />;
 };

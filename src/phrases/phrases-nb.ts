@@ -111,6 +111,7 @@ const phrases = {
     change: "Bytt til {{language}} versjon",
   },
   welcomePage: {
+    lastFavorited: "Siste hjertemarkerte ressurs: ",
     addSearch: "Legg til nytt søk",
     deleteSavedSearch: "Slett lagret søk",
     deleteSearch: "Slett søk",
@@ -633,11 +634,6 @@ const phrases = {
         "En eller flere inkluderte lyd-, bilde-, eller videoelementer mangler beskrivende tekst eller alternativ tekst.",
     },
     fields: {
-      rightAside: {
-        title: "Høyrespalte",
-        moveContent: "Flytt innhold inn i teksten",
-        delete: "Slett høyrespalte",
-      },
       footnotes: {
         edition: "Utgave",
         publisher: "Utgiver",
@@ -746,9 +742,12 @@ const phrases = {
     openAll: "Åpne alle",
     hideAll: "Lukk alle",
     unpublishedChanges: "(Endret siden siste publisering)",
+    moveContent: "Flytt innhold inn i teksten",
     comment: {
       comment: "Kommenter",
       hide: "Skjul kommentar",
+      hideComments: "Skjul kommentarer",
+      showComments: "Vis kommentarer",
       show: "Vis kommentar",
       commentField: "Kommentarfelt",
       solve: "Kommentaren er merket som uløst. Merk som løst",

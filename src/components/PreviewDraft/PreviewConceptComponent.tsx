@@ -36,6 +36,7 @@ const PreviewConceptComponent = ({ concept, language }: Props) => {
     concept.visualElement?.visualElement!,
     concept.visualElement?.language ?? language,
     undefined,
+    false,
     { enabled: !!concept.visualElement?.visualElement },
   );
 

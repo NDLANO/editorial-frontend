@@ -179,6 +179,7 @@ const frameSrc = (() => {
     "sketchfab.com",
     "jeopardylabs.com",
     "*.uio.no",
+    "geodata.maps.arcgis.com",
   ];
   if (process.env.NODE_ENV === "development") {
     return [

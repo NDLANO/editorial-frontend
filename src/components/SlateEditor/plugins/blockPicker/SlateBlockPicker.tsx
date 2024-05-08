@@ -297,7 +297,7 @@ const SlateBlockPicker = ({
         break;
       }
       case TYPE_ASIDE: {
-        onInsertBlock(defaultAsideBlock(data.object), true);
+        onInsertBlock(defaultAsideBlock(), true);
         break;
       }
       case TYPE_AUDIO: {

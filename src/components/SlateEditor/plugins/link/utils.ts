@@ -24,7 +24,7 @@ const isLinkActive = (editor: Editor) => {
   return !!link;
 };
 
-const unwrapLink = (editor: Editor) => {
+export const unwrapLink = (editor: Editor) => {
   Transforms.unwrapNodes(editor, {
     match: (n) => !Editor.isEditor(n) && Element.isElement(n) && (n.type === "link" || n.type === "content-link"),
   });

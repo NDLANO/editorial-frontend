@@ -2079,6 +2079,11 @@ const phrases = {
     hide: "Hide",
     show: "Show",
   },
+  codeEditor: {
+    title: "Add code example",
+    titleLabel: "Title",
+    programmingLanguage: "Programming language",
+  },
 };
 
 export default phrases;

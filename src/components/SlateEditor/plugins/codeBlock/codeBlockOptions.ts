@@ -6,6 +6,7 @@
  *
  */
 
+// TODO: This should be available in @ndla/ui later.
 export const languageOptions: Array<ICodeLangugeOption> = [
   {
     title: "Bash",

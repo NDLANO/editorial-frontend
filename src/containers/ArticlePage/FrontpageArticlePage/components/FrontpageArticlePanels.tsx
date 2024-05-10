@@ -38,7 +38,6 @@ const FrontpageArticlePanels = ({ article, articleHistory, articleLanguage }: Pr
       defaultOpen={["frontpage-article-content"]}
       articleId={article?.id}
       articleType="frontpage-article"
-      qualityEvaluation={article?.qualityEvaluation}
     >
       <FormAccordion
         id={"frontpage-article-content"}

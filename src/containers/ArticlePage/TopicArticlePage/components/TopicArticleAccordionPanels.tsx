@@ -55,7 +55,6 @@ const TopicArticleAccordionPanels = ({
       defaultOpen={["topic-article-content"]}
       articleType="topic-article"
       articleStatus={article?.status}
-      qualityEvaluation={article?.qualityEvaluation}
     >
       <FormAccordion
         id={"topic-article-content"}

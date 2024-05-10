@@ -13,7 +13,6 @@ import { IconButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { Pencil } from "@ndla/icons/action";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
-import { IQualityEvaluation } from "@ndla/types-backend/draft-api";
 import { Text } from "@ndla/typography";
 import QualityEvaluationForm from "./QualityEvaluationForm";
 
@@ -25,11 +24,10 @@ const StyledModalBody = styled(ModalBody)`
 `;
 
 interface Props {
-  qualityEvaluation: IQualityEvaluation | undefined;
   articleType?: string;
 }
 
-const QualityEvaluationModal = ({ qualityEvaluation, articleType }: Props) => {
+const QualityEvaluationModal = ({ articleType }: Props) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
 
@@ -58,7 +56,7 @@ const QualityEvaluationModal = ({ qualityEvaluation, articleType }: Props) => {
           <Text margin="none" textStyle="meta-text-small">
             {t("qualityEvaluationForm.description", { resource: resourceTranslation })}
           </Text>
-          <QualityEvaluationForm qualityEvaluation={qualityEvaluation} setOpen={setOpen} />
+          <QualityEvaluationForm setOpen={setOpen} />
         </StyledModalBody>
       </ModalContent>
     </Modal>

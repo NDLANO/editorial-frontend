@@ -15,7 +15,6 @@ import { Item, Indicator } from "@radix-ui/react-radio-group";
 import { ButtonV2 } from "@ndla/button";
 import { colors, spacing, fonts, misc } from "@ndla/core";
 import { FieldErrorMessage, Fieldset, InputV3, Label, Legend, RadioButtonGroup } from "@ndla/forms";
-import { IQualityEvaluation } from "@ndla/types-backend/draft-api";
 import { FormControl, FormField } from "../FormField";
 import validateFormik, { RulesType } from "../formikValidationSchema";
 
@@ -75,9 +74,7 @@ const StyledForm = styled(Form)`
 `;
 
 interface Props {
-  qualityEvaluation: IQualityEvaluation | undefined;
   setOpen: (open: boolean) => void;
-  articleType?: string;
 }
 
 export interface QualityEvaluationFormValues {
@@ -89,33 +86,29 @@ const rules: RulesType<QualityEvaluationFormValues> = {
   grade: {
     required: true,
   },
-  note: { required: true },
+  note: { required: false },
 };
 
-const toInitialValues = (initialData?: QualityEvaluationFormValues): QualityEvaluationFormValues => {
+const toInitialValues = (initialData: QualityEvaluationFormValues | null): QualityEvaluationFormValues => {
   return {
     grade: initialData?.grade,
     note: initialData?.note ?? "",
   };
 };
 
-const QualityEvaluationForm = ({ qualityEvaluation, setOpen }: Props) => {
+const QualityEvaluationForm = ({ setOpen }: Props) => {
   const { t } = useTranslation();
-  const [qualityEvaluationField, , helpers] = useField<QualityEvaluationFormValues>("qualityEvaluation");
+  const [qualityEvaluationField, , helpers] = useField<QualityEvaluationFormValues | null>("qualityEvaluation");
 
-  const initialValues = useMemo(
-    () => toInitialValues(qualityEvaluationField.value ?? qualityEvaluation),
-    [qualityEvaluation, qualityEvaluationField.value],
-  );
+  const initialValues = useMemo(() => toInitialValues(qualityEvaluationField.value), [qualityEvaluationField.value]);
   const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
-
   const onSubmit = (values: QualityEvaluationFormValues) => {
     helpers.setValue(values);
     setOpen(false);
   };
 
   const onDelete = () => {
-    helpers.setValue({ grade: undefined, note: undefined });
+    helpers.setValue(null);
     setOpen(false);
   };
   return (
@@ -124,15 +117,16 @@ const QualityEvaluationForm = ({ qualityEvaluation, setOpen }: Props) => {
       initialErrors={initialErrors}
       validate={(values) => validateFormik(values, rules, t)}
       onSubmit={onSubmit}
+      onReset={onDelete}
     >
-      {({ dirty, isValid, values }) => (
+      {({ dirty, isValid }) => (
         <StyledForm>
           <FormField name="grade">
-            {({ meta, helpers }) => (
+            {({ field, meta, helpers }) => (
               <FormControl isInvalid={!!meta.error} isRequired>
                 <RadioButtonGroup
                   orientation="horizontal"
-                  defaultValue={values.grade?.toString()}
+                  defaultValue={field.value?.toString()}
                   onValueChange={(v) => helpers.setValue(Number(v))}
                   asChild
                 >
@@ -162,20 +156,19 @@ const QualityEvaluationForm = ({ qualityEvaluation, setOpen }: Props) => {
             )}
           </FormField>
           <FormField name="note">
-            {({ field, meta }) => (
-              <FormControl isInvalid={!!meta.error} isRequired>
+            {({ field }) => (
+              <>
                 <Label margin="none" textStyle="label-small">
                   {t("qualityEvaluationForm.note")}
                 </Label>
                 <InputV3 {...field} />
-                <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-              </FormControl>
+              </>
             )}
           </FormField>
           <ButtonContainer>
             <div>
               {qualityEvaluationField.value?.grade && (
-                <ButtonV2 variant="outline" colorTheme="danger" onClick={onDelete}>
+                <ButtonV2 variant="outline" colorTheme="danger" type="reset">
                   {t("qualityEvaluationForm.delete")}
                 </ButtonV2>
               )}

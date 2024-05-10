@@ -11,7 +11,6 @@ import { CSSProperties, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { colors, spacing } from "@ndla/core";
-import { IQualityEvaluation } from "@ndla/types-backend/draft-api";
 import { Text } from "@ndla/typography";
 import { QualityEvaluationFormValues, gradeItemStyles, qualityEvaluationOptions } from "./QualityEvaluationForm";
 import QualityEvaluationModal from "./QualityEvaluationModal";
@@ -33,11 +32,10 @@ const StyledNoEvaluation = styled(Text)`
 `;
 
 interface Props {
-  qualityEvaluation: IQualityEvaluation | undefined;
   articleType?: string;
 }
 
-const QualityEvaluation = ({ qualityEvaluation, articleType }: Props) => {
+const QualityEvaluation = ({ articleType }: Props) => {
   const { t } = useTranslation();
 
   const [qualityEvaluationField] = useField<QualityEvaluationFormValues>("qualityEvaluation");
@@ -69,7 +67,7 @@ const QualityEvaluation = ({ qualityEvaluation, articleType }: Props) => {
           {t("qualityEvaluationForm.unavailable")}
         </StyledNoEvaluation>
       )}
-      <QualityEvaluationModal qualityEvaluation={qualityEvaluation} articleType={articleType} />
+      <QualityEvaluationModal articleType={articleType} />
     </FlexWrapper>
   );
 };

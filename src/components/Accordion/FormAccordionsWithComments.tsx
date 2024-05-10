@@ -13,7 +13,6 @@ import { AccordionRoot } from "@ndla/accordion";
 import { fonts, spacing } from "@ndla/core";
 import { Switch } from "@ndla/switch";
 import { IStatus } from "@ndla/types-backend/concept-api";
-import { IQualityEvaluation } from "@ndla/types-backend/draft-api";
 import { FormAccordionProps } from "./FormAccordion";
 import OpenAllButton from "./OpenAllButton";
 import { ARCHIVED, PUBLISHED, STORED_HIDE_COMMENTS, UNPUBLISHED } from "../../constants";
@@ -28,7 +27,6 @@ export type ChildType = ReactElement<FormAccordionProps> | undefined | false;
 interface Props {
   defaultOpen: string[];
   children: ChildType | ChildType[];
-  qualityEvaluation: IQualityEvaluation | undefined;
   articleId?: number;
   articleType?: string;
   articleStatus?: IStatus;
@@ -76,14 +74,7 @@ const FormControls = styled(MainContent)`
   padding-left: ${spacing.small};
 `;
 
-const FormAccordionsWithComments = ({
-  defaultOpen,
-  children,
-  articleId,
-  articleType,
-  articleStatus,
-  qualityEvaluation,
-}: Props) => {
+const FormAccordionsWithComments = ({ defaultOpen, children, articleId, articleType, articleStatus }: Props) => {
   const { t } = useTranslation();
   const { toggleWideArticles, isWideArticle } = useWideArticle();
 
@@ -100,7 +91,7 @@ const FormAccordionsWithComments = ({
     <ContentWrapper>
       <FlexWrapper>
         <FormControls data-wide={isWideArticle}>
-          <QualityEvaluation qualityEvaluation={qualityEvaluation} articleType={articleType} />
+          <QualityEvaluation articleType={articleType} />
           <RightFlexWrapper>
             {!!articleId && articleType === "frontpage-article" && (
               <StyledSwitch

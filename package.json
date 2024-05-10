@@ -27,7 +27,7 @@
     "check-translations": "vitest src/phrases/__tests__/ --run"
   },
   "engines": {
-    "node": ">=20.9.0",
+    "node": ">=20.13.1",
     "npm": ">=8.0.0"
   },
   "devDependencies": {
@@ -46,7 +46,7 @@
     "@types/auth0-js": "^9.13.2",
     "@types/diff-match-patch": "^1.0.32",
     "@types/express": "^4.17.21",
-    "@types/node": "^20.9.4",
+    "@types/node": "^20.12.11",
     "@types/node-fetch": "^2.6.2",
     "@types/prismjs": "^1.26.0",
     "@types/react": "^18.3.0",

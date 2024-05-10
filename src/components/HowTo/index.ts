@@ -6,4 +6,4 @@
  *
  */
 
-export { normalPaddingCSS, HelpIcon, default as HowToHelper } from "./HowToHelper";
+export { default as HowToHelper } from "./HowToHelper";

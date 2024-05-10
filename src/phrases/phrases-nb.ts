@@ -2078,6 +2078,11 @@ const phrases = {
     hide: "Skjul",
     show: "Vis",
   },
+  codeEditor: {
+    title: "Legg til kodeeksempel",
+    titleLabel: "Tittel",
+    programmingLanguage: "Kodespråk",
+  },
 };
 
 export default phrases;

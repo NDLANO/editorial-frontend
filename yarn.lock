@@ -5856,6 +5856,7 @@ __metadata:
     react-i18next: "npm:^13.3.0"
     react-image-crop: "npm:^11.0.2"
     react-router-dom: "npm:^6.1.0"
+    react-simple-code-editor: "npm:^0.13.1"
     rimraf: "npm:^3.0.0"
     serialize-javascript: "npm:^6.0.1"
     sirv: "npm:^2.0.4"
@@ -11279,7 +11280,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-simple-code-editor@npm:^0.13.0":
+"react-simple-code-editor@npm:^0.13.0, react-simple-code-editor@npm:^0.13.1":
   version: 0.13.1
   resolution: "react-simple-code-editor@npm:0.13.1"
   peerDependencies:

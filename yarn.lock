@@ -4535,6 +4535,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"bowser@npm:2.9.0":
+  version: 2.9.0
+  resolution: "bowser@npm:2.9.0"
+  checksum: 10c0/501ca1ffbca20fc93bffc21d633d43241156ca5aa3237ed65e4a165ac97cb129429818f51ffa8becdb4a0861b352ad685e7495db9ebccd8c93771715a6913169
+  languageName: node
+  linkType: hard
+
 "brace-expansion@npm:^1.1.7":
   version: 1.1.11
   resolution: "brace-expansion@npm:1.1.11"
@@ -5537,13 +5544,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dns-prefetch-control@npm:0.2.0":
-  version: 0.2.0
-  resolution: "dns-prefetch-control@npm:0.2.0"
-  checksum: 10c0/9e1c1544a6d3eb5c28808489f36795309d34dffb9c1287db888b00c2dbc95f3a168b54e7707d059e4aeee4458cfa293291d01d53765e7f9c1ca441e3ec29ab90
-  languageName: node
-  linkType: hard
-
 "doctrine@npm:^2.1.0":
   version: 2.1.0
   resolution: "doctrine@npm:2.1.0"
@@ -5801,7 +5801,7 @@ __metadata:
     graphql: "npm:^16.8.1"
     graphql-request: "npm:^6.0.0"
     he: "npm:^1.2.0"
-    helmet: "npm:^3.20.0"
+    helmet: "npm:^3.23.3"
     history: "npm:^5.1.0"
     html-react-parser: "npm:^5.1.8"
     htmldiff-js: "npm:^1.0.5"
@@ -6868,13 +6868,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expect-ct@npm:0.2.0":
-  version: 0.2.0
-  resolution: "expect-ct@npm:0.2.0"
-  checksum: 10c0/14807decadb1d1a5b87b1a8ac08b4bbc45e5285ba2aeda85f8d874cd478478c7c0ceeed372aa01aa3af42d43390d4f5666a20bfa7b11063ddc9c672e878c6021
-  languageName: node
-  linkType: hard
-
 "exponential-backoff@npm:^3.1.1":
   version: 3.1.1
   resolution: "exponential-backoff@npm:3.1.1"
@@ -7206,13 +7199,6 @@ __metadata:
   version: 4.2.0
   resolution: "fraction.js@npm:4.2.0"
   checksum: 10c0/b16c0a6a7f045b3416c1afbb174b7afca73bd7eb0c62598a0c734a8b1f888cb375684174daf170abfba314da9f366b7d6445e396359d5fae640883bdb2ed18cb
-  languageName: node
-  linkType: hard
-
-"frameguard@npm:3.1.0":
-  version: 3.1.0
-  resolution: "frameguard@npm:3.1.0"
-  checksum: 10c0/01ec3dd38a13f69b9e73bdf2673b41e387bc14d0c0b55f08d3e31798d1b1a1a028ec2d22663fe7d2ac8f29c85f45e07e780ba9b94513f67088de935b166e9121
   languageName: node
   linkType: hard
 
@@ -7728,38 +7714,34 @@ __metadata:
   languageName: node
   linkType: hard
 
-"helmet-csp@npm:2.8.0":
-  version: 2.8.0
-  resolution: "helmet-csp@npm:2.8.0"
+"helmet-csp@npm:2.10.0":
+  version: 2.10.0
+  resolution: "helmet-csp@npm:2.10.0"
   dependencies:
+    bowser: "npm:2.9.0"
     camelize: "npm:1.0.0"
     content-security-policy-builder: "npm:2.1.0"
     dasherize: "npm:2.0.0"
-    platform: "npm:1.3.5"
-  checksum: 10c0/fe1f7f76e19eaf8b68a8aced2507406d3b8a15abf513eb4d59f0215e51db4056fc694fcc544e7b1fe8b6721f4a9a2792673f656fd1a1feb35c056bee140ad897
+  checksum: 10c0/6db1f6f056fea00a8abefdcf86dae9abd807c8513c92ccba86c1ab93b500c237262c30f5e037b2b7579727ec473ddd6a75a26b93647214dbb42fe406a42f34b0
   languageName: node
   linkType: hard
 
-"helmet@npm:^3.20.0":
-  version: 3.20.0
-  resolution: "helmet@npm:3.20.0"
+"helmet@npm:^3.23.3":
+  version: 3.23.3
+  resolution: "helmet@npm:3.23.3"
   dependencies:
     depd: "npm:2.0.0"
-    dns-prefetch-control: "npm:0.2.0"
     dont-sniff-mimetype: "npm:1.1.0"
-    expect-ct: "npm:0.2.0"
     feature-policy: "npm:0.3.0"
-    frameguard: "npm:3.1.0"
     helmet-crossdomain: "npm:0.4.0"
-    helmet-csp: "npm:2.8.0"
+    helmet-csp: "npm:2.10.0"
     hide-powered-by: "npm:1.1.0"
     hpkp: "npm:2.0.0"
     hsts: "npm:2.2.0"
-    ienoopen: "npm:1.1.0"
     nocache: "npm:2.1.0"
     referrer-policy: "npm:1.2.0"
-    x-xss-protection: "npm:1.2.0"
-  checksum: 10c0/a9d05a3c14f14b2adbb233d98c52469f8edb2ee0f27329fb2e6e83a94fdaa1ee858875f6c14a2ae2dff20717013a25943a0c371379c52f579e17b46f791c9838
+    x-xss-protection: "npm:1.3.0"
+  checksum: 10c0/19a8d23384a09fa2cc3618723bac096c220e7d761f600475caa52a9378eb2e1426820458f2673e3d442e3dde0b5cfeda6b2d309ff34d26523103227f13754a2d
   languageName: node
   linkType: hard
 
@@ -8054,13 +8036,6 @@ __metadata:
   version: 1.2.1
   resolution: "ieee754@npm:1.2.1"
   checksum: 10c0/b0782ef5e0935b9f12883a2e2aa37baa75da6e66ce6515c168697b42160807d9330de9a32ec1ed73149aea02e0d822e572bca6f1e22bdcbd2149e13b050b17bb
-  languageName: node
-  linkType: hard
-
-"ienoopen@npm:1.1.0":
-  version: 1.1.0
-  resolution: "ienoopen@npm:1.1.0"
-  checksum: 10c0/bca0be4a50815e7934dd6a2cab1aae4f61b7a1ce8b98b6e499d372c6fae3fa0d4890199a31d2b7de896bb265930f1681720375e8db4f79b4d51cc9e256ffcffc
   languageName: node
   linkType: hard
 
@@ -10262,13 +10237,6 @@ __metadata:
     mlly: "npm:^1.2.0"
     pathe: "npm:^1.1.0"
   checksum: 10c0/7f692ff2005f51b8721381caf9bdbc7f5461506ba19c34f8631660a215c8de5e6dca268f23a319dd180b8f7c47a0dc6efea14b376c485ff99e98d810b8f786c4
-  languageName: node
-  linkType: hard
-
-"platform@npm:1.3.5":
-  version: 1.3.5
-  resolution: "platform@npm:1.3.5"
-  checksum: 10c0/9d58cde5ed8e6f7c2865be6fd988fb018dd1ded022e09f021eedc723da77f1e9ce4ef9aa6648984951de4ecdd2d57bd48843ede294c413b97bf5d106d69fbfad
   languageName: node
   linkType: hard
 
@@ -13768,10 +13736,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"x-xss-protection@npm:1.2.0":
-  version: 1.2.0
-  resolution: "x-xss-protection@npm:1.2.0"
-  checksum: 10c0/eb2b4b581e518272b5fc4f821132fb9dc6645c408139e35d8f0fc3fc8bd017d7b036c114f6fbb8f03e33b508516a736742d85165c493489db2d91a8c46bcd84d
+"x-xss-protection@npm:1.3.0":
+  version: 1.3.0
+  resolution: "x-xss-protection@npm:1.3.0"
+  checksum: 10c0/8255f7a4a8789a114bce972b881b7373ff368d0d17bef3c6d9c37fc51436b0cab3ec1f9d91dbf4432325e4a94eb4454e5c85326c73550d5c79105018080b9f3d
   languageName: node
   linkType: hard
 

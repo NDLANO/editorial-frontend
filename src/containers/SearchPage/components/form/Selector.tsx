@@ -94,7 +94,7 @@ const Selector = ({ formType, selector, onFieldChange, searchObject }: SelectorP
         <CheckboxSelector
           name={selector.parameterName}
           checked={checkboxValue ?? false}
-          onChange={(e) => onFieldChange(selector.parameterName, e.currentTarget.checked, e)}
+          onCheckedChange={(val) => onFieldChange(selector.parameterName, val)}
         />
       );
     }
@@ -104,7 +104,7 @@ const Selector = ({ formType, selector, onFieldChange, searchObject }: SelectorP
         <CheckboxSelector
           name={selector.parameterName}
           checked={!(checkboxValue ?? false)}
-          onChange={(e) => onFieldChange(selector.parameterName, !e.currentTarget.checked, e)}
+          onCheckedChange={(val) => onFieldChange(selector.parameterName, !val)}
         />
       );
     }

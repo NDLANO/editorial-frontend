@@ -32,6 +32,7 @@ import { framedContentPlugin } from "../../../../components/SlateEditor/plugins/
 import { gridPlugin } from "../../../../components/SlateEditor/plugins/grid";
 import { h5pPlugin } from "../../../../components/SlateEditor/plugins/h5p";
 import { headingPlugin } from "../../../../components/SlateEditor/plugins/heading";
+import { imagePlugin } from "../../../../components/SlateEditor/plugins/image";
 import { keyFigurePlugin } from "../../../../components/SlateEditor/plugins/keyFigure";
 import { linkPlugin } from "../../../../components/SlateEditor/plugins/link";
 import { linkBlockListPlugin } from "../../../../components/SlateEditor/plugins/linkBlockList";
@@ -47,6 +48,7 @@ import { tablePlugin } from "../../../../components/SlateEditor/plugins/table";
 import { textTransformPlugin } from "../../../../components/SlateEditor/plugins/textTransform";
 import { toolbarPlugin } from "../../../../components/SlateEditor/plugins/toolbar";
 import { disclaimerPlugin } from "../../../../components/SlateEditor/plugins/uuDisclaimer";
+import { videoPlugin } from "../../../../components/SlateEditor/plugins/video";
 
 // Plugins are checked from last to first
 export const frontpagePlugins: SlatePlugin[] = [
@@ -58,7 +60,9 @@ export const frontpagePlugins: SlatePlugin[] = [
   externalPlugin(),
   embedPlugin(),
   audioPlugin(),
+  imagePlugin(),
   h5pPlugin(),
+  videoPlugin(),
   framedContentPlugin,
   blockQuotePlugin,
   ...linkPlugin,

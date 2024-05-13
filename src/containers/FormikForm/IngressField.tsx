@@ -76,6 +76,7 @@ const IngressField = ({ name = "introduction", maxLength = 300, placeholder }: P
       {({ field, form: { isSubmitting } }) => (
         <RichTextEditor
           {...field}
+          id="ingress-editor"
           testId="ingress-editor"
           hideBlockPicker
           placeholder={placeholder || t("form.introduction.label")}

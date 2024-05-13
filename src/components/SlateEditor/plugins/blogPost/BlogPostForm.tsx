@@ -19,7 +19,6 @@ import { Text } from "@ndla/typography";
 import InlineImageSearch from "../../../../containers/ConceptPage/components/InlineImageSearch";
 import { InlineField } from "../../../../containers/FormikForm/InlineField";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
-import parseMarkdown from "../../../../util/parseMarkdown";
 import { RadioButtonWrapper, FieldsetRow, StyledFormControl, LeftLegend } from "../../../Form/styles";
 import { FormControl, FormField } from "../../../FormField";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
@@ -58,7 +57,7 @@ const rules: RulesType<BlogPostFormValues> = {
 const toInitialValues = (initialData?: BlogPostEmbedData): BlogPostFormValues => {
   return {
     resource: "blog-post",
-    title: inlineContentToEditorValue(parseMarkdown({ markdown: initialData?.title ?? "", inline: true }), true),
+    title: inlineContentToEditorValue(initialData?.title ?? "", true),
     metaImageId: initialData?.imageId ? parseInt(initialData.imageId) : undefined,
     size: initialData?.size ?? "normal",
     link: initialData?.url ?? "",

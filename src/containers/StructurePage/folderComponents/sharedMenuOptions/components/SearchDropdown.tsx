@@ -12,7 +12,7 @@ import { useState } from "react";
 import styled from "@emotion/styled";
 import { UseQueryOptions, UseQueryResult } from "@tanstack/react-query";
 //@ts-ignore
-import { Input, DropdownMenu } from "@ndla/forms";
+import { DropdownMenu, InputContainer, InputV3 } from "@ndla/forms";
 import { Spinner } from "@ndla/icons";
 import { Search } from "@ndla/icons/common";
 import { Node } from "@ndla/types-taxonomy";
@@ -118,12 +118,10 @@ const SearchDropdown = <ParamType extends BaseParams, InnerType, ApiType, Type>(
       {({ getInputProps, getRootProps, getItemProps, ...downShiftProps }) => {
         return (
           <DropdownWrapper {...getRootProps()}>
-            <Input
-              {...getInputProps({ placeholder })}
-              white
-              id={id}
-              iconRight={searchQuery.isLoading ? <StyledSpinner size="normal" /> : <Search />}
-            />
+            <InputContainer>
+              <InputV3 {...getInputProps({ placeholder })} id={id} />
+              {searchQuery.isLoading ? <StyledSpinner size="normal" /> : <Search />}
+            </InputContainer>
             <DropdownMenu
               items={transformed?.results ?? []}
               idField="id"
@@ -140,7 +138,6 @@ const SearchDropdown = <ParamType extends BaseParams, InnerType, ApiType, Type>(
               selectedItems={selectedItems}
               multiSelect={isMultiSelect}
               maxRender={maxRender ? maxRender : pageSize}
-              pageSize={pageSize}
             />
           </DropdownWrapper>
         );

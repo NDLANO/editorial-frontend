@@ -6,19 +6,19 @@
  *
  */
 
-import { JwtPayload, jwtDecode as decode } from 'jwt-decode';
-import { test as setup } from '@playwright/test';
-import { STORAGE_STATE } from '../playwright.config';
+import { JwtPayload, jwtDecode as decode } from "jwt-decode";
+import { test as setup } from "@playwright/test";
+import { STORAGE_STATE } from "../playwright.config";
 
 const mockTokenAllPermissions =
-  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJuZGxhX3N5c3RlbSIsImV4cCI6MzI1MTg3MDY0MzAsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyIsImh0dHBzOi8vbmRsYS5uby9uZGxhX2lkIjoieHh4eXl5IiwiaWF0IjoxNjg3NTY0ODkwLCJpc3MiOiJodHRwczovL25kbGEuZXUuYXV0aDAuY29tLyIsInBlcm1pc3Npb25zIjpbImFydGljbGVzOnB1Ymxpc2giLCJhcnRpY2xlczp3cml0ZSIsImF1ZGlvOndyaXRlIiwiY29uY2VwdDphZG1pbiIsImNvbmNlcHQ6d3JpdGUiLCJkcmFmdHM6YWRtaW4iLCJkcmFmdHM6cHVibGlzaCIsImRyYWZ0czp3cml0ZSIsImRyYWZ0czpodG1sIiwiZnJvbnRwYWdlOndyaXRlIiwiaW1hZ2VzOndyaXRlIiwibGVhcm5pbmdwYXRoOmFkbWluIiwibGVhcm5pbmdwYXRoOnB1Ymxpc2giLCJsZWFybmluZ3BhdGg6d3JpdGUiLCJ0YXhvbm9teTphZG1pbiIsInRheG9ub215OndyaXRlIl0sInN1YiI6Inh4eHl5eUBjbGllbnRzIn0.1SVkHhIe_A47fSTyVNnsSfOGvqaulddKEJho2iG--l4';
+  "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJuZGxhX3N5c3RlbSIsImV4cCI6MzI1MTg3MDY0MzAsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyIsImh0dHBzOi8vbmRsYS5uby9uZGxhX2lkIjoieHh4eXl5IiwiaWF0IjoxNjg3NTY0ODkwLCJpc3MiOiJodHRwczovL25kbGEuZXUuYXV0aDAuY29tLyIsInBlcm1pc3Npb25zIjpbImFydGljbGVzOnB1Ymxpc2giLCJhcnRpY2xlczp3cml0ZSIsImF1ZGlvOndyaXRlIiwiY29uY2VwdDphZG1pbiIsImNvbmNlcHQ6d3JpdGUiLCJkcmFmdHM6YWRtaW4iLCJkcmFmdHM6cHVibGlzaCIsImRyYWZ0czp3cml0ZSIsImRyYWZ0czpodG1sIiwiZnJvbnRwYWdlOndyaXRlIiwiaW1hZ2VzOndyaXRlIiwibGVhcm5pbmdwYXRoOmFkbWluIiwibGVhcm5pbmdwYXRoOnB1Ymxpc2giLCJsZWFybmluZ3BhdGg6d3JpdGUiLCJ0YXhvbm9teTphZG1pbiIsInRheG9ub215OndyaXRlIl0sInN1YiI6Inh4eHl5eUBjbGllbnRzIn0.1SVkHhIe_A47fSTyVNnsSfOGvqaulddKEJho2iG--l4";
 
-setup('authenticate', async ({ page, request }) => {
+setup("authenticate", async ({ page, request }) => {
   let token = mockTokenAllPermissions;
-  let expAt = '';
+  let expAt = "";
   if (process.env.RECORD_FIXTURES) {
-    const res = await request.post('https://ndla-test.eu.auth0.com/oauth/token', {
-      headers: { 'Content-Type': 'application/json' },
+    const res = await request.post("https://ndla-test.eu.auth0.com/oauth/token", {
+      headers: { "Content-Type": "application/json" },
       data: JSON.stringify({
         client_id: process.env.CYPRESS_NDLA_END_TO_END_TESTING_CLIENT_ID,
         client_secret: process.env.CYPRESS_NDLA_END_TO_END_TESTING_CLIENT_SECRET,
@@ -35,19 +35,19 @@ setup('authenticate', async ({ page, request }) => {
   await page.addInitScript(
     async ({ recordFixtures, token, expAt }) => {
       if (recordFixtures) {
-        localStorage.setItem('access_token', token);
-        localStorage.setItem('access_token_expires_at', expAt);
-        localStorage.setItem('access_token_personal', 'true');
+        localStorage.setItem("access_token", token);
+        localStorage.setItem("access_token_expires_at", expAt);
+        localStorage.setItem("access_token_personal", "true");
       } else {
         // This number must match exp in the mockTokenAllPermissions above
         const expAt = (32518706430 - 1687564890 - 60) * 1000 + new Date().getTime();
-        localStorage.setItem('access_token', token);
-        localStorage.setItem('access_token_expires_at', expAt.toString());
-        localStorage.setItem('access_token_personal', 'true');
+        localStorage.setItem("access_token", token);
+        localStorage.setItem("access_token_expires_at", expAt.toString());
+        localStorage.setItem("access_token_personal", "true");
       }
     },
-    { token, expAt, recordFixtures: process.env.RECORD_FIXTURES === 'true' },
+    { token, expAt, recordFixtures: process.env.RECORD_FIXTURES === "true" },
   );
-  await page.goto('/');
+  await page.goto("/");
   await page.context().storageState({ path: STORAGE_STATE });
 });

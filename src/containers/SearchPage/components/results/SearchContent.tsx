@@ -162,6 +162,7 @@ const SearchContent = ({ content, locale, responsibleName }: Props) => {
             expirationDate={expirationDate}
             type={content.learningResourceType}
             responsibleName={responsibleName}
+            favoriteCount={content.favorited}
           />
         </StyledSearchBreadcrumbs>
       </StyledSearchContent>

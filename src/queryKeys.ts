@@ -11,6 +11,7 @@ export const SEARCH_CONCEPTS = "searchConcepts";
 export const SEARCH_SERIES = "searchSeries";
 export const SEARCH_IMAGES = "searchImages";
 export const SEARCH = "search";
+export const SEARCH_SUBJECT_STATS = "searchSubjectStats";
 export const MYNDLA_RESOURCE_STATS = "myNdlaResourceStats";
 
 export const CONCEPT_STATE_MACHINE = "conceptStateMachine";
@@ -25,7 +26,9 @@ export const IMAGE = "image";
 
 export const AUDIO = "audio";
 
-export const AUDIO_EMBED = "audio";
+export const AUDIO_EMBED = "audioEmbed";
+export const BRIGHTCOVE_EMBED = "brightcoveEmbed";
+export const IMAGE_EMBED = "imageEmbed";
 
 export const PODCAST_SERIES = "podcastSeries";
 

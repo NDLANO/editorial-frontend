@@ -69,8 +69,6 @@ export const TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE = "subjectType";
 export const TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA = "subjectLMA";
 export const TAXONOMY_CUSTOM_FIELD_SUBJECT_SA = "subjectSA";
 export const TAXONOMY_CUSTOM_FIELD_SUBJECT_DA = "subjectDA";
-export const TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH = "requestPublish";
-export const TAXONOMY_CUSTOM_FIELD_IS_PUBLISHING = "isPublishing";
 export const TAXONOMY_CUSTOM_FIELD_PROGRAMME_SUBJECT = "programfag";
 
 export const MAX_IMAGE_UPLOAD_SIZE = 1024 * 1024 * 40; // 40MB.
@@ -78,7 +76,6 @@ export const LAST_UPDATED_SIZE = 50;
 
 export const MAX_PAGE_WIDTH = 1024;
 export const MAX_FRONTPAGE_ARTICLE_WIDTH = 1400;
-export const DEFAULT_FRONTPAGE_ARTICLE_WIDTH = 1073;
 
 export const LOCALE_VALUES = ["nb", "nn", "en", "se", "sma"] as const;
 
@@ -116,6 +113,10 @@ export const STORED_PAGE_SIZE_ON_HOLD = "STORED_PAGE_SIZE_ON_HOLD";
 export const STORED_PAGE_SIZE_LAST_UPDATED = "STORED_PAGE_SIZE_LAST_UPDATED";
 export const STORED_PAGE_SIZE_LAST_UPDATED_CONCEPT = "STORED_PAGE_SIZE_LAST_UPDATED_CONCEPT";
 export const STORED_PAGE_SIZE_REVISION = "STORED_PAGE_SIZE_REVISION";
+export const STORED_PAGE_SIZE_SUBJECT_VIEW_FAVORITES = "STORED_PAGE_SIZE_SUBJECT_VIEW_FAVORITES";
+export const STORED_PAGE_SIZE_SUBJECT_VIEW_LMA = "STORED_PAGE_SIZE_SUBJECT_VIEW_LMA";
+export const STORED_PAGE_SIZE_SUBJECT_VIEW_DA = "STORED_PAGE_SIZE_SUBJECT_VIEW_DA";
+export const STORED_PAGE_SIZE_SUBJECT_VIEW_SA = "STORED_PAGE_SIZE_SUBJECT_VIEW_SA";
 
 export const STORED_SORT_OPTION_WORKLIST = "STORED_SORT_OPTION_WORKLIST";
 export const STORED_SORT_OPTION_WORKLIST_CONCEPT = "STORED_SORT_OPTION_WORKLIST_CONCEPT";
@@ -136,10 +137,11 @@ export const STORED_ON_HOLD_LMA_SUBJECT = "STORED_ON_HOLD_LMA_SUBJECT";
 export const STORED_ON_HOLD_DA_SUBJECT = "STORED_ON_HOLD_DA_SUBJECT";
 export const STORED_ON_HOLD_SA_SUBJECT = "STORED_ON_HOLD_SA_SUBJECT";
 export const STORED_ON_HOLD_FAVORITES = "STORED_ON_HOLD_FAVORITES";
+export const STORED_HIDE_COMMENTS = "STORED_HIDE_COMMENTS";
 
 export const EXTERNAL_WHITELIST_PROVIDERS: WhitelistProvider[] = [
   { name: "H5P", url: ["h5p"] },
-  { name: "YouTube", url: ["youtube.com", "youtu.be"], height: "486px" },
+  { name: "YouTube", url: ["youtube.com", "youtu.be", "www.youtube.com"], height: "486px" },
   { name: "NRK", url: ["static.nrk.no"], height: "398px" },
   { name: "Vimeo", url: ["vimeo.com", "vimeopro.com"], height: "486px" },
   { name: "Norgesfilm", url: ["ndla.filmiundervisning.no"] },
@@ -192,6 +194,8 @@ export const EXTERNAL_WHITELIST_PROVIDERS: WhitelistProvider[] = [
   { name: "Sketchfab", url: ["sketchfab.com"] },
   { name: "JeopardyLabs", url: ["jeopardylabs.com"] },
   { name: "Brightcove", url: ["players.brightcove.net"] },
+  { name: "UIO", url: ["vrtx.uio.no", "www.mn.uio.no"] },
+  { name: "Geodata", url: ["geodata.maps.arcgis.com"] },
 ];
 
 export const SearchTypeValues = [

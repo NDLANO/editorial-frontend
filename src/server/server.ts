@@ -11,7 +11,6 @@ import { join } from "path";
 import bodyParser from "body-parser";
 import compression from "compression";
 import express from "express";
-import proxy from "express-http-proxy";
 import helmet from "helmet";
 import serialize from "serialize-javascript";
 import { ViteDevServer } from "vite";
@@ -89,11 +88,6 @@ app.use(
 );
 
 const serializedConfig = serialize(config);
-
-if (config.runtimeType === "development") {
-  // proxy js request to handle web worker crossorgin issue (only necessary under development)
-  app.get("/static/js/*", proxy("http://localhost:3001"));
-}
 
 app.use(api);
 

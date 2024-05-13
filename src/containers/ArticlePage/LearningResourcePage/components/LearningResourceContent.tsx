@@ -18,23 +18,25 @@ import { learningResourcePlugins } from "./learningResourcePlugins";
 import { learningResourceRenderers } from "./learningResourceRenderers";
 import AlertModal from "../../../../components/AlertModal";
 import { EditMarkupLink } from "../../../../components/EditMarkupLink";
+import { FormField } from "../../../../components/FormField";
 import FormikField from "../../../../components/FormikField";
 import LastUpdatedLine from "../../../../components/LastUpdatedLine/LastUpdatedLine";
 import { TYPE_AUDIO } from "../../../../components/SlateEditor/plugins/audio/types";
 import { learningResourceActions } from "../../../../components/SlateEditor/plugins/blockPicker/actions";
 import { TYPE_CODEBLOCK } from "../../../../components/SlateEditor/plugins/codeBlock/types";
-import { TYPE_EMBED_BRIGHTCOVE, TYPE_EMBED_IMAGE } from "../../../../components/SlateEditor/plugins/embed/types";
 import { TYPE_EXTERNAL } from "../../../../components/SlateEditor/plugins/external/types";
 import { TYPE_FILE } from "../../../../components/SlateEditor/plugins/file/types";
 import { FootnoteElement } from "../../../../components/SlateEditor/plugins/footnote";
 import { TYPE_FOOTNOTE } from "../../../../components/SlateEditor/plugins/footnote/types";
 import { TYPE_GRID } from "../../../../components/SlateEditor/plugins/grid/types";
 import { TYPE_H5P } from "../../../../components/SlateEditor/plugins/h5p/types";
+import { TYPE_IMAGE } from "../../../../components/SlateEditor/plugins/image/types";
 import { TYPE_TABLE } from "../../../../components/SlateEditor/plugins/table/types";
 import {
   createToolbarAreaOptions,
   createToolbarDefaultValues,
 } from "../../../../components/SlateEditor/plugins/toolbar/toolbarState";
+import { TYPE_EMBED_BRIGHTCOVE } from "../../../../components/SlateEditor/plugins/video/types";
 import RichTextEditor from "../../../../components/SlateEditor/RichTextEditor";
 import { DRAFT_HTML_SCOPE } from "../../../../constants";
 import { isFormikFormDirty } from "../../../../util/formHelper";
@@ -43,13 +45,6 @@ import { findNodesByType } from "../../../../util/slateHelpers";
 import { IngressField, TitleField } from "../../../FormikForm";
 import { HandleSubmitFunc, LearningResourceFormType } from "../../../FormikForm/articleFormHooks";
 import { useSession } from "../../../Session/SessionProvider";
-
-const StyledFormikField = styled(FormikField)`
-  display: flex;
-  margin-top: 0;
-  align-items: center;
-  justify-content: space-between;
-`;
 
 const StyledContentDiv = styled(FormikField)`
   position: static;
@@ -61,15 +56,15 @@ const findFootnotes = (content: Descendant[]): FootnoteType[] =>
     .filter((footnote) => Object.keys(footnote.data).length > 0)
     .map((footnoteElement) => footnoteElement.data);
 
-const visualElements = [TYPE_H5P, TYPE_EMBED_BRIGHTCOVE, TYPE_AUDIO, TYPE_EXTERNAL, TYPE_EMBED_IMAGE];
+const visualElements = [TYPE_H5P, TYPE_EMBED_BRIGHTCOVE, TYPE_AUDIO, TYPE_EXTERNAL, TYPE_IMAGE];
 
 const actions = [TYPE_TABLE, TYPE_CODEBLOCK, TYPE_FILE, TYPE_GRID].concat(visualElements);
 const actionsToShowInAreas = {
   details: actions,
   aside: actions,
   framedContent: actions,
-  "table-cell": [TYPE_EMBED_IMAGE],
-  "grid-cell": [TYPE_EMBED_IMAGE],
+  "table-cell": [TYPE_IMAGE],
+  "grid-cell": [TYPE_IMAGE],
 };
 
 const toolbarOptions = createToolbarDefaultValues();
@@ -118,18 +113,16 @@ const LearningResourceContent = ({ articleLanguage, articleId, handleSubmit: _ha
   return (
     <>
       <TitleField />
-      <StyledFormikField name="published">
-        {({ field, form }) => (
+      <FormField name="published">
+        {({ field, helpers }) => (
           <LastUpdatedLine
             creators={creatorsField.value}
             published={field.value}
             allowEdit={true}
-            onChange={(date) => {
-              form.setFieldValue(field.name, date);
-            }}
+            onChange={helpers.setValue}
           />
         )}
-      </StyledFormikField>
+      </FormField>
       <IngressField />
       <AlertModal
         title={t("editorFooter.changeHeader")}

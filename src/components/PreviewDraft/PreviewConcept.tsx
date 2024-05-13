@@ -1,79 +1,41 @@
 /**
- * Copyright (c) 2023-present, NDLA.
+ * Copyright (c) 2024-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
  */
 
-import parse from "html-react-parser";
-import { useMemo } from "react";
-import { extractEmbedMeta } from "@ndla/article-converter";
-import { IConcept } from "@ndla/types-backend/concept-api";
-import { ConceptVisualElementMeta } from "@ndla/types-embed";
-import { ConceptNotionV2, Gloss } from "@ndla/ui";
-import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVersionProvider";
-import { usePreviewArticle } from "../../modules/article/articleGqlQueries";
-import { useSearchNodes } from "../../modules/nodes/nodeQueries";
-import parseMarkdown from "../../util/parseMarkdown";
+import { useFormikContext } from "formik";
+import { ReactElement, useMemo } from "react";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import PreviewConceptComponent from "./PreviewConceptComponent";
+import { ConceptFormValues } from "../../containers/ConceptPage/conceptInterfaces";
+import { conceptFormTypeToApiType } from "../../containers/ConceptPage/conceptTransformers";
+import { useLicenses } from "../../modules/draft/draftQueries";
 
-const getAudioData = (visualElement?: ConceptVisualElementMeta): { title: string; src?: string } => {
-  const isSuccessAudio = visualElement?.resource === "audio" && visualElement?.status === "success";
-  if (!isSuccessAudio) return { title: "" };
+export const ConceptWrapper = styled.div`
+  padding: 0 ${spacing.normal} ${spacing.normal} ${spacing.normal};
+`;
 
-  return {
-    title: visualElement?.data.title.title,
-    src: visualElement?.data.audioFile?.url,
-  };
-};
-
-interface Props {
-  concept: IConcept;
+export interface ConceptPreviewProps {
+  type: "concept";
   language: string;
 }
-const PreviewConcept = ({ concept, language }: Props) => {
-  const { taxonomyVersion } = useTaxonomyVersion();
-  const { data } = usePreviewArticle(
-    concept.visualElement?.visualElement!,
-    concept.visualElement?.language ?? language,
-    undefined,
-    { enabled: !!concept.visualElement?.visualElement },
+
+export const PreviewConcept = ({ language }: ConceptPreviewProps) => {
+  const { data: licenses } = useLicenses({ placeholderData: [] });
+  const { values } = useFormikContext<ConceptFormValues>();
+
+  const formConcept = useMemo(
+    () => conceptFormTypeToApiType(values, licenses!, values.conceptType),
+    [values, licenses],
   );
-
-  const parsedContent = useMemo(() => {
-    if (!concept.content) return;
-    return parse(parseMarkdown({ markdown: concept.content.htmlContent, inline: true }));
-  }, [concept.content]);
-
-  const { data: subjects } = useSearchNodes(
-    {
-      ids: concept.subjectIds!,
-      taxonomyVersion,
-    },
-    { enabled: !!concept.subjectIds?.length },
-  );
-  const visualElementMeta = extractEmbedMeta(data ?? "") as ConceptVisualElementMeta;
-
-  const audioData = useMemo(() => getAudioData(visualElementMeta), [visualElementMeta]);
 
   return (
-    <>
-      {concept.conceptType === "gloss" ? (
-        <Gloss title={concept.title} glossData={concept.glossData!} audio={audioData} />
-      ) : (
-        <ConceptNotionV2
-          title={concept.title}
-          content={parsedContent}
-          visualElement={visualElementMeta}
-          copyright={concept.copyright}
-          tags={concept.tags?.tags}
-          subjects={subjects?.results?.map((res) => res.name)}
-          conceptType={concept.conceptType}
-          previewAlt
-        />
-      )}
-    </>
+    <ConceptWrapper>
+      <PreviewConceptComponent concept={formConcept} language={language} />
+    </ConceptWrapper>
   );
 };
-
-export default PreviewConcept;

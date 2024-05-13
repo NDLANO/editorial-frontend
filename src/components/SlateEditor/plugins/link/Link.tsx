@@ -8,8 +8,8 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { BaseSelection, Editor, Node, Transforms } from "slate";
-import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
+import { BaseSelection, Editor, Node, Transforms, Element } from "slate";
+import { ReactEditor, RenderElementProps } from "slate-react";
 import styled from "@emotion/styled";
 import { Portal } from "@radix-ui/react-portal";
 import { ButtonV2 } from "@ndla/button";
@@ -17,9 +17,11 @@ import { colors, spacing, stackOrder } from "@ndla/core";
 import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
 import { ContentLinkElement, LinkElement } from ".";
 import EditLink from "./EditLink";
+import { TYPE_CONTENT_LINK, TYPE_LINK } from "./types";
 import config from "../../../../config";
 import { toEditGenericArticle, toLearningpathFull } from "../../../../util/routeHelpers";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
+import { InlineBugfix } from "../../utils/InlineBugFix";
 
 interface StyledLinkMenuProps {
   top: number;
@@ -79,8 +81,8 @@ const Link = ({ attributes, editor, element, children }: Props) => {
   const startOpen = useRef(!hasHrefOrContentId(element));
   const [editMode, setEditMode] = useState(!hasHrefOrContentId(element));
   const [editorSelection, setEditorSelection] = useState<BaseSelection | undefined>(undefined);
+  const [selected, setSelected] = useState<boolean>(false);
   const language = useArticleLanguage();
-  const selected = useSelected();
   const { t } = useTranslation();
 
   const getMenuPosition = () => {
@@ -114,6 +116,15 @@ const Link = ({ attributes, editor, element, children }: Props) => {
     [focusEditor],
   );
 
+  const handleRemove = () => {
+    const path = ReactEditor.findPath(editor, element);
+    Transforms.unwrapNodes(editor, {
+      match: (node) => Element.isElement(node) && (node.type === TYPE_LINK || node.type === TYPE_CONTENT_LINK),
+      at: path,
+    });
+    ReactEditor.focus(editor);
+  };
+
   useEffect(() => {
     const setStateFromNode = async () => {
       let href;
@@ -136,12 +147,35 @@ const Link = ({ attributes, editor, element, children }: Props) => {
     setStateFromNode();
   }, [element, language]);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      setSelected(false);
+      const targetNode = event.target as Node | null;
+      if (targetNode instanceof HTMLElement && linkRef.current && linkRef.current.contains(targetNode)) {
+        setSelected(true);
+      }
+    };
+    const handleEscapeKeyPress = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setSelected(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEscapeKeyPress);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscapeKeyPress);
+    };
+  }, [setSelected, selected]);
+
   const { top, left } = getMenuPosition();
 
   return (
     <Modal defaultOpen={startOpen.current} open={editMode} onOpenChange={toggleEditMode}>
       <StyledLink {...attributes} href={model?.href} ref={linkRef}>
+        <InlineBugfix />
         {children}
+        <InlineBugfix />
         {model && (
           <Portal asChild>
             <StyledLinkMenu
@@ -168,12 +202,21 @@ const Link = ({ attributes, editor, element, children }: Props) => {
       <ModalContent
         onEscapeKeyDown={(e) => e.stopPropagation()}
         onCloseAutoFocus={(e) => {
+          if (!model?.href) {
+            handleRemove();
+          }
           e.preventDefault();
           focusEditor();
         }}
       >
         {model && (
-          <EditLink editor={editor} element={element} model={model} closeEditMode={() => toggleEditMode(false)} />
+          <EditLink
+            editor={editor}
+            element={element}
+            model={model}
+            closeEditMode={() => toggleEditMode(false)}
+            handleRemove={handleRemove}
+          />
         )}
       </ModalContent>
     </Modal>

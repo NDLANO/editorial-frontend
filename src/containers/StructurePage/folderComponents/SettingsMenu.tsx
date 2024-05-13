@@ -9,8 +9,9 @@
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { Root, Trigger, Close, Content, Portal } from "@radix-ui/react-popover";
-import { CloseButton, IconButtonV2 } from "@ndla/button";
+import { IconButtonV2 } from "@ndla/button";
 import { animations, colors, spacing, stackOrder } from "@ndla/core";
+import { Cross } from "@ndla/icons/action";
 import { Settings } from "@ndla/icons/editor";
 import { Node } from "@ndla/types-taxonomy";
 import SettingsMenuDropdownType from "./SettingsMenuDropdownType";
@@ -84,7 +85,9 @@ const SettingsMenu = ({ node, rootNodeId, onCurrentNodeChanged, nodeChildren }: 
                   <span>{t(`taxonomy.${nodeType.toLowerCase()}Settings`)}</span>
                 </TitleWrapper>
                 <Close asChild>
-                  <CloseButton />
+                  <IconButtonV2 aria-label={t("close")} variant="ghost" title={t("close")}>
+                    <Cross />
+                  </IconButtonV2>
                 </Close>
               </Header>
               <SettingsMenuDropdownType

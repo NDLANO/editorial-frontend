@@ -7,7 +7,7 @@
  */
 
 import styled from "@emotion/styled";
-import { ButtonV2, CloseButton } from "@ndla/button";
+import { ButtonV2 } from "@ndla/button";
 import { spacing, colors, fonts } from "@ndla/core";
 import { BookOpen } from "@ndla/icons/common";
 import { ModalCloseButton, ModalTitle } from "@ndla/modal";
@@ -88,9 +88,7 @@ const TaxonomyLightbox = ({ children, title, actions = [] }: Props) => {
           </StyledIconWrapper>
           <StyledTitle as="h2">{title}</StyledTitle>
         </StyledTitleWrapper>
-        <ModalCloseButton>
-          <CloseButton data-testid="taxonomyLightboxCloseButton" />
-        </ModalCloseButton>
+        <ModalCloseButton />
       </StyledHeader>
       <StyledContent>
         {children}

@@ -20,7 +20,6 @@ import { Embed } from "../../interfaces";
 import { fetchAudio, postSearchAudio } from "../../modules/audio/audioApi";
 import { fetchImage, postSearchImages } from "../../modules/image/imageApi";
 import { searchVideos, VideoSearchQuery } from "../../modules/video/brightcoveApi";
-import { convertFieldWithFallback } from "../../util/convertFieldWithFallback";
 import { NdlaErrorPayload, onError } from "../../util/resolveJsonOrRejectWithError";
 
 const titles = (t: TFunction, resource: string) => ({
@@ -77,11 +76,11 @@ const VisualElementSearch = ({
           onImageSelect={(image) =>
             handleVisualElementChange({
               resource: selectedResource,
-              resource_id: image.id,
+              resourceId: image.id,
               size: "full",
               align: "",
-              alt: convertFieldWithFallback<"alttext">(image, "alttext", ""),
-              caption: convertFieldWithFallback<"caption">(image, "caption", ""),
+              alt: image.alttext.alttext ?? "",
+              caption: image.caption.caption ?? "",
               metaData: image,
             })
           }

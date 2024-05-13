@@ -74,6 +74,7 @@ interface Props {
   hasRSS?: boolean;
   inSearch?: boolean;
   slug?: string;
+  favoriteCount?: number;
 }
 
 const StyledStatus = styled.p`
@@ -139,6 +140,7 @@ const HeaderStatusInformation = ({
   responsibleName,
   slug,
   hasRSS,
+  favoriteCount,
 }: Props) => {
   const { t } = useTranslation();
   const [learningpaths, setLearningpaths] = useState<ILearningPathV2[]>([]);
@@ -150,9 +152,8 @@ const HeaderStatusInformation = ({
   }, [learningpaths, articles, concepts, setHasConnections]);
 
   const expirationColor = useMemo(() => getWarnStatus(expirationDate), [expirationDate]);
-
+  const hideFavoritedIcon = type === "frontpage-article" || type === "image" || type === "audio" || type === "concept";
   if (!noStatus || isNewLanguage) {
-    const showFavoritedIcon = type !== "frontpage-article" && !inSearch;
     return (
       <StyledStatusWrapper>
         {(type === "standard" || type === "topic-article") && !inSearch ? (
@@ -194,7 +195,7 @@ const HeaderStatusInformation = ({
             aria-hidden={false}
           />
         )}
-        {showFavoritedIcon && <HeaderFavoriteStatus id={id} type={type} />}
+        {!hideFavoritedIcon && <HeaderFavoriteStatus id={id} type={type} favoriteCount={favoriteCount} />}
         <StyledStatus data-compact={compact}>
           <span>
             <StyledSmallText data-compact={compact}>{`${t("form.responsible.label")}:`}</StyledSmallText>
@@ -214,7 +215,7 @@ const HeaderStatusInformation = ({
   } else if (type === "image") {
     return (
       <StyledStatusWrapper>
-        {!inSearch && <HeaderFavoriteStatus id={id} type={type} />}
+        <HeaderFavoriteStatus id={id} type={type} />
         <EmbedConnection
           id={id}
           type="image"
@@ -228,7 +229,7 @@ const HeaderStatusInformation = ({
   } else if (type === "audio" || type === "podcast") {
     return (
       <StyledStatusWrapper>
-        {!inSearch && <HeaderFavoriteStatus id={id} type="audio" />}
+        <HeaderFavoriteStatus id={id} type="audio" />
         <EmbedConnection
           id={id}
           type="audio"

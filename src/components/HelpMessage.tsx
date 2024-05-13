@@ -12,7 +12,7 @@ import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, Modal, ModalTrigger, ModalContent } from "@ndla/modal";
-import { HelpIcon } from "./HowTo";
+import { HelpIcon } from "./HelpIcon";
 
 const StyledHelpIcon = styled(HelpIcon)`
   width: ${spacing.normal};

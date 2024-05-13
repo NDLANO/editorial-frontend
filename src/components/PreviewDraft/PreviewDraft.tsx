@@ -6,18 +6,11 @@
  *
  */
 
-import parse from "html-react-parser";
-import { useEffect, useMemo } from "react";
-import { transform } from "@ndla/article-converter";
+import { useMemo } from "react";
 import { IArticle, IDraftCopyright } from "@ndla/types-backend/draft-api";
-import { ContentTypeBadge, Article, FrontpageArticle } from "@ndla/ui";
-import config from "../../config";
-import { LocaleType } from "../../interfaces";
+import { TransformedPreviewDraft } from "./TransformedPreviewDraft";
 import "../DisplayEmbed/helpers/h5pResizer";
-import { usePreviewArticle } from "../../modules/article/articleGqlQueries";
-import formatDate from "../../util/formatDate";
-import parseMarkdown from "../../util/parseMarkdown";
-import { articleIsWide } from "../WideArticleEditorProvider";
+import { useTransformedArticle } from "./useTransformedArticle";
 
 interface BaseProps {
   label: string;
@@ -36,7 +29,7 @@ interface PreviewFormArticleV2Props extends BaseProps {
   draft: FormArticle;
 }
 
-interface FormArticle {
+export interface FormArticle {
   id: number;
   title?: string;
   content?: string;
@@ -50,72 +43,35 @@ interface FormArticle {
 
 type Props = PreviewArticleV2Props | PreviewFormArticleV2Props;
 
-const getUpdatedLanguage = (language: string | undefined) => (language === "nb" ? "no" : language);
+export const toFormArticle = (article: IArticle, language: string): FormArticle => {
+  return {
+    id: article.id,
+    articleType: article.articleType,
+    content: article.content?.content,
+    visualElement: article.visualElement?.visualElement,
+    title: article.title?.htmlTitle,
+    introduction: article.introduction?.htmlIntroduction,
+    published: article.published,
+    copyright: article.copyright,
+    language: article.title?.language ?? language,
+  };
+};
 
-export const PreviewDraft = ({ type, draft: draftProp, label, contentType, language }: Props) => {
+export const PreviewDraft = (props: Props) => {
+  const { label, type, language, contentType, draft: draftProp } = props;
   const draft = useMemo(() => {
-    if (type === "article") {
-      return {
-        id: draftProp.id,
-        content: draftProp.content?.content,
-        visualElement: draftProp.visualElement?.visualElement,
-        title: draftProp.title?.htmlTitle,
-        introduction: draftProp.introduction?.htmlIntroduction,
-        published: draftProp.published,
-        copyright: draftProp.copyright,
-        language: draftProp.title?.language ?? language,
-      };
-    }
+    if (type === "article") return toFormArticle(draftProp, language);
     return draftProp;
   }, [draftProp, type, language]);
 
-  const transformedContent = usePreviewArticle(draft.content!, language, draft.visualElement);
+  const { article } = useTransformedArticle({
+    draft,
+    language,
+    previewAlt: false,
+    useDraftConcepts: false,
+  });
 
-  useEffect(() => {
-    if (window.MathJax) {
-      window.MathJax.typesetPromise();
-    }
-  }, [transformedContent]);
-
-  const article = useMemo(() => {
-    if (!transformedContent.data) return;
-    const content = transform(transformedContent.data, {
-      previewAlt: true,
-      frontendDomain: config.ndlaFrontendDomain,
-      articleLanguage: getUpdatedLanguage(draft.language),
-    });
-    return {
-      title: parse(draft.title ?? ""),
-      introduction: parse(parseMarkdown({ markdown: draft.introduction ?? "", inline: true })),
-      content,
-      copyright: draft.copyright,
-      published: draft.published ? formatDate(draft.published) : "",
-      footNotes: [],
-    };
-  }, [transformedContent.data, draft]);
-
-  const isWide = useMemo(() => articleIsWide(draft.id), [draft.id]);
-
-  if (!transformedContent.data) {
-    return null;
-  }
-
-  if (!!article && draftProp.articleType === "frontpage-article") {
-    return <FrontpageArticle article={article} id={draft.id.toString()} isWide={isWide} />;
-  }
-
-  return (
-    <Article
-      //@ts-ignore
-      article={article}
-      contentTransformed
-      icon={contentType ? <ContentTypeBadge type={contentType} background size="large" /> : null}
-      id={draft.id.toString()}
-      locale={language as LocaleType}
-      messages={{ label }}
-      lang={getUpdatedLanguage(draft.language)}
-    />
-  );
+  return <TransformedPreviewDraft article={article} contentType={contentType} draft={draft} label={label} />;
 };
 
 export default PreviewDraft;

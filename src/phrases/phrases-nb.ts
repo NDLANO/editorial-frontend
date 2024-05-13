@@ -28,7 +28,6 @@ const phrases = {
     podcastUploaderPage: `Podkastepisode ${titleTemplate}`,
     podcastSeriesPage: `Podkastserie ${titleTemplate}`,
     h5pPage: `H5P ${titleTemplate}`,
-    publishRequestsPage: `Publiseringsforespørsler ${titleTemplate}`,
     nodeDiffPage: `Sammenlign noder ${titleTemplate}`,
     editFrontpage: "Rediger forside",
     comparePage: `Sammenlign versjoner ${titleTemplate}`,
@@ -112,6 +111,7 @@ const phrases = {
     change: "Bytt til {{language}} versjon",
   },
   welcomePage: {
+    lastFavorited: "Siste hjertemarkerte ressurs: ",
     addSearch: "Legg til nytt søk",
     deleteSavedSearch: "Slett lagret søk",
     deleteSearch: "Slett søk",
@@ -178,6 +178,23 @@ const phrases = {
       onHoldFilter: "Ikke tell parkerte",
       loading: "Laster...",
     },
+    subjectView: {
+      lma: "Fagoversikt LMA-fag",
+      da: "Fagoversikt DA-fag",
+      sa: "Fagoversikt SA-fag",
+      favorites: "Fagoversikt favorittfag",
+      description: "Oversikt over statistikk knyttet til ressurser i dine fag",
+      heart: "Hjerter",
+      heartDescription: "Antall favorittmarkerte ressurser",
+      flow: "I flyt",
+      flowDescription: "Antall ressurser i flyt",
+      old: "Utdaterte",
+      oldDescription: "Antall ressurser det er mer enn 5 år siden ble sist faglig vurdert",
+      revision: "Revisjoner",
+      revisionDescription: "Antall ressurser med utløpt revisjonsdato",
+      published: "Publisert",
+      publishedDescription: "Antall publiserte ressurser",
+    },
     welcomeBack: "Velkommen",
   },
   searchPage: {
@@ -233,7 +250,6 @@ const phrases = {
     structure: "Strukturredigering",
     programme: "Rediger utdanningsprogram",
     taxonomyVersions: "Taksonomiversjoner",
-    publishRequests: "Publiseringsforespørsler",
     searchContent: "Søk innhold",
     searchAudio: "Søk lyd",
     searchPodcastSeries: "Søk serie",
@@ -340,6 +356,7 @@ const phrases = {
       title: "Tittel",
       lastUpdated: "Sist oppdatert",
       revisionDate: "Neste revisjon",
+      favorited: "Favorittmarkeringer",
     },
     resultError: "Noe gikk feil med innlasting av type: {{type}}",
     favourites: "Mine favorittfag",
@@ -617,11 +634,6 @@ const phrases = {
         "En eller flere inkluderte lyd-, bilde-, eller videoelementer mangler beskrivende tekst eller alternativ tekst.",
     },
     fields: {
-      rightAside: {
-        title: "Høyrespalte",
-        moveContent: "Flytt innhold inn i teksten",
-        delete: "Slett høyrespalte",
-      },
       footnotes: {
         edition: "Utgave",
         publisher: "Utgiver",
@@ -728,9 +740,12 @@ const phrases = {
     openAll: "Åpne alle",
     hideAll: "Lukk alle",
     unpublishedChanges: "(Endret siden siste publisering)",
+    moveContent: "Flytt innhold inn i teksten",
     comment: {
       comment: "Kommenter",
       hide: "Skjul kommentar",
+      hideComments: "Skjul kommentarer",
+      showComments: "Vis kommentarer",
       show: "Vis kommentar",
       commentField: "Kommentarfelt",
       solve: "Kommentaren er merket som uløst. Merk som løst",
@@ -810,6 +825,9 @@ const phrases = {
       current: "Gjeldende versjon",
       published: "Publisert versjon",
       article: "Artikkel",
+      enableDiff: "Marker forskjeller",
+      diffInfo:
+        "Markerer forskjeller i den upubliserte versjonen. Slettet tekst vil markeres med rødt, endret tekst med gult og ny tekst med grønt. Bilder og blokkelementer vil vises med en ramme rundt, men visningen kan være noe mangelfull for noen elementer.",
     },
     previewLanguageArticle: {
       button: "Sammenlign språkversjoner",
@@ -1345,6 +1363,7 @@ const phrases = {
       },
       edit: "Rediger lyd",
       remove: "Fjern lydfil",
+      chooseAudioType: "Velg lydtype",
       sound: "Lyd",
       speech: "Tale",
       dragdrop: {
@@ -1488,6 +1507,8 @@ const phrases = {
         "F.eks. Har du utfordringer med syn eller kognisjon? Da kan du få problemer med å oppfatte og forstå dette innholdet. Du kan istedet bruke denne siden: www.ndla.eksempel.no",
       exampleLinkText: "Her finner du eksempelsetninger som skal brukes i fritekstfelt",
       editorHeader: "Skriv inn hvor brukeren finner alternativt innhold",
+      articleId: "Artikkel med alternativt innhold",
+      removeArticle: "Fjern artikkel",
     },
     copyright: {
       title: "Rediger lisens",
@@ -1545,7 +1566,6 @@ const phrases = {
   },
   warningMessage: {
     fieldWithWrongLanguage: "Dette feltet er hentet fra språkkode: {{language}}",
-    taxonomy: "Alle taksonomiendringer krever delpublisering",
   },
   notFound: {
     description: "Denne siden finnes ikke.",
@@ -1744,9 +1764,6 @@ const phrases = {
     missingResourceType: "Mangler ressurstype",
     metadata: {
       customFields: {
-        cancelPublishRequest: "Avbryt forespørsel om delvis publisering av struktur",
-        requestPublish: "Be om delpublisering av struktur",
-        requestVersionError: "Publiseringsforespørsler kan bare opprettes fra Draft",
         alterFields: "Legg til/endre metadata",
         addField: "Nytt metadata felt",
         languagePlaceholder: "Visningsspråk ndla.no",
@@ -1888,28 +1905,7 @@ const phrases = {
       },
     },
   },
-  publishRequests: {
-    title: "Publiseringsforespørsler",
-    nodePublished: "Noden har blitt publisert!",
-    showInStructure: "Vis i struktur",
-    compare: "Sammenlign",
-    deleteAll: "Slett publiseringsforespørsler",
-    deleteAllInfo:
-      "Er du sikker på at du ønsker å slette alle publiseringsforespørsler? Denne handlingen kan ikke angres.",
-    errors: {
-      noPublishedVersion: "Klarte ikke finne publisert versjon",
-      noVersions: "Klarte ikke finne versjoner",
-    },
-    numberRequests: "Antall publiseringsforespørsler",
-  },
   diff: {
-    published:
-      "Nodepubliseringen har startet. Dette kan ta litt tid. Prosessen er fullført når denne siden viser at de to versjonene er like",
-    publishing: "Publiserer node...",
-    publish: "Publiser node",
-    publishWarning:
-      "Er du sikker på at du ønsker å publisere denne noden? Alle endringer vil bli tilgjengelige i målversjonen når publiseringen er ferdig",
-    publishError: "Publisering av node feilet",
     equalNodes: "Disse nodene er like!",
     defaultVersion: "Draft",
     compareVersions: "Sammenlign versjoner",
@@ -1921,8 +1917,6 @@ const phrases = {
     },
     options: {
       about: "Denne siden lar deg sammenligne et nodetre i to forskjellige versjoner.",
-      admin:
-        "Du kan publisere nodetreet mellom versjonene. Du kan publisere nye, og oppdatere eksisterende noder til målversjonen, men ikke slette dem. Sletting må skje i den enkelte versjonen. Endringer høyere oppe i strukturen tas ikke hensyn til.",
       originalHashLabel: "Målversjon",
       otherHashLabel: "Kildeversjon",
       viewLabel: "Visningstype",
@@ -2083,6 +2077,11 @@ const phrases = {
     closeChildren: "Skjul barn",
     hide: "Skjul",
     show: "Vis",
+  },
+  codeEditor: {
+    title: "Legg til kodeeksempel",
+    titleLabel: "Tittel",
+    programmingLanguage: "Kodespråk",
   },
 };
 

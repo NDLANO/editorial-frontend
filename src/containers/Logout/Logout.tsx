@@ -20,7 +20,7 @@ const Logout = () => {
   return (
     <>
       <HelmetWithTracker title={t("htmlTitles.logoutPage")} />
-      <OneColumn cssModifier="clear">
+      <OneColumn>
         <div className="u-2/3@desktop u-push-1/3@desktop">
           <Routes>
             <Route path="federated" element={<LogoutFederated />} />

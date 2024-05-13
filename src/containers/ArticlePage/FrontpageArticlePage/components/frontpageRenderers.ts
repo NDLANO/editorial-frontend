@@ -30,6 +30,7 @@ import { framedContentRenderer } from "../../../../components/SlateEditor/plugin
 import { gridRenderer } from "../../../../components/SlateEditor/plugins/grid/render";
 import { h5pRenderer } from "../../../../components/SlateEditor/plugins/h5p/render";
 import { headingRenderer } from "../../../../components/SlateEditor/plugins/heading/render";
+import { imageRenderer } from "../../../../components/SlateEditor/plugins/image/render";
 import { keyFigureRenderer } from "../../../../components/SlateEditor/plugins/keyFigure/render";
 import { linkRenderer } from "../../../../components/SlateEditor/plugins/link/render";
 import { linkBlockListRenderer } from "../../../../components/SlateEditor/plugins/linkBlockList/render";
@@ -42,6 +43,7 @@ import { sectionRenderer } from "../../../../components/SlateEditor/plugins/sect
 import { spanRenderer } from "../../../../components/SlateEditor/plugins/span/render";
 import { tableRenderer } from "../../../../components/SlateEditor/plugins/table/render";
 import { disclaimerRenderer } from "../../../../components/SlateEditor/plugins/uuDisclaimer/render";
+import { videoRenderer } from "../../../../components/SlateEditor/plugins/video/render";
 
 // Plugins are checked from last to first
 export const frontpageRenderers: SlatePlugin[] = [
@@ -51,9 +53,11 @@ export const frontpageRenderers: SlatePlugin[] = [
   paragraphRenderer,
   footnoteRenderer,
   externalRenderer,
-  embedRenderer(),
+  embedRenderer,
   audioRenderer,
+  imageRenderer(true),
   h5pRenderer,
+  videoRenderer,
   framedContentRenderer,
   asideRenderer,
   detailsRenderer,

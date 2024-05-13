@@ -6,22 +6,22 @@
  *
  */
 
-import { defineConfig, splitVendorChunkPlugin } from 'vite';
-import react from '@vitejs/plugin-react';
+import { defineConfig, splitVendorChunkPlugin } from "vite";
+import react from "@vitejs/plugin-react";
 
 export default defineConfig(() => {
   return {
     test: {
-      include: ['src/**/__tests__/*-test.(js|jsx|ts|tsx)'],
-      environment: 'jsdom',
+      include: ["src/**/__tests__/**/*-test.(js|jsx|ts|tsx)"],
+      environment: "jsdom",
       globals: true,
-      setupFiles: './src/__tests__/vitest.setup.ts',
+      setupFiles: "./src/__tests__/vitest.setup.ts",
     },
     plugins: [
       react({
-        jsxImportSource: '@emotion/react',
+        jsxImportSource: "@emotion/react",
         babel: {
-          configFile: './babel.config.cjs',
+          configFile: "./babel.config.cjs",
         },
       }),
       splitVendorChunkPlugin(),
@@ -38,8 +38,8 @@ export default defineConfig(() => {
       ],
     },
     build: {
-      assetsDir: 'static',
-      outDir: 'build/public',
+      assetsDir: "static",
+      outDir: "build/public",
       sourcemap: true,
     },
   };

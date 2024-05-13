@@ -86,7 +86,7 @@ export const minLength = (value: Descendant[] | Descendant | string | null, leng
 export const maxLength = (value: Descendant[] | Descendant | string | null, length: number) =>
   getLength(value) > length;
 
-export const minItems = (value: Descendant[] | Descendant | string, number: number) =>
+export const minItems = <T>(value: Descendant[] | Descendant | T[] | undefined, number: number) =>
   !value || (Array.isArray(value) && value.length < number);
 
 //  https://stackoverflow.com/a/1830844

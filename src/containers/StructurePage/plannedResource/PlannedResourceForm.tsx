@@ -7,21 +7,22 @@
  */
 
 import { FieldProps, Formik } from "formik";
+import { TFunction } from "i18next";
 import sortBy from "lodash/sortBy";
 import uniq from "lodash/uniq";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
 import { ButtonV2 } from "@ndla/button";
 import { fonts, spacing, colors } from "@ndla/core";
-import { InputV2 } from "@ndla/forms";
+import { FieldErrorMessage, InputV3, Label } from "@ndla/forms";
 import { Option, SingleValue } from "@ndla/select";
 import { IUpdatedArticle } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import PlannedResourceSelect from "./PlannedResourceSelect";
+import { FormControl, FormField } from "../../../components/FormField";
 import FormikField from "../../../components/FormikField";
 import validateFormik, { RulesType } from "../../../components/formikValidationSchema";
 import { TYPE_DIV } from "../../../components/SlateEditor/plugins/div/types";
@@ -72,15 +73,6 @@ export const StyledFormikField = styled(FormikField)`
 
 export const ErrorMessage = styled.div`
   color: ${colors.support.red};
-`;
-
-export const inputWrapperStyles = css`
-  flex-direction: column;
-  label {
-    padding: 0;
-    ${fonts.sizes("16px")};
-    white-space: nowrap;
-  }
 `;
 
 export const ButtonWrapper = styled.div`
@@ -136,6 +128,21 @@ const formatUserList = (users: Auth0UserData[]) =>
     value: `${u.app_metadata.ndla_id}`,
     label: u.name,
   }));
+
+const getSlateComment = (userName: string | undefined, t: TFunction, formikComment: string): Descendant[] => {
+  if (!formikComment) return [];
+  const infoText = getCommentInfoText(userName, t);
+  const slateComment: Descendant[] = [
+    {
+      type: TYPE_DIV,
+      children: [
+        { type: TYPE_PARAGRAPH, children: [{ text: formikComment }] },
+        { type: TYPE_PARAGRAPH, children: [{ text: infoText }] },
+      ],
+    },
+  ];
+  return slateComment;
+};
 
 interface Props {
   articleType: string;
@@ -204,20 +211,10 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
     async (values: PlannedResourceFormikType) => {
       try {
         setError(undefined);
-        const infoText = getCommentInfoText(userName, t);
-
-        const slateComment: Descendant[] = [
-          {
-            type: TYPE_DIV,
-            children: [
-              { type: TYPE_PARAGRAPH, children: [{ text: values.comments }] },
-              { type: TYPE_PARAGRAPH, children: [{ text: infoText }] },
-            ],
-          },
-        ];
+        const slateComment = getSlateComment(userName, t, values.comments);
         const plannedResource: IUpdatedArticle = {
           title: values.title,
-          comments: [{ content: inlineContentToHTML(slateComment), isOpen: true }],
+          comments: slateComment.length ? [{ content: inlineContentToHTML(slateComment), isOpen: true }] : [],
           language: i18n.language,
           articleType: values.articleType,
           responsibleId: values.responsible,
@@ -308,28 +305,28 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
     >
       {({ dirty, isValid, handleSubmit }) => (
         <StyledForm id="planned-resource-form">
-          <StyledFormikField name="title">
-            {({ field }: FieldProps) => (
-              <InputV2
-                customCss={inputWrapperStyles}
-                label={t("taxonomy.title")}
-                placeholder={t("taxonomy.title")}
-                white
-                {...field}
-              />
+          <FormField name="title">
+            {({ field, meta }) => (
+              <FormControl isRequired isInvalid={!!meta.error}>
+                <Label textStyle="label-small" margin="none">
+                  {t("taxonomy.title")}
+                </Label>
+                <InputV3 placeholder={t("taxonomy.title")} {...field} />
+                <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+              </FormControl>
             )}
-          </StyledFormikField>
-          <StyledFormikField name="comments">
-            {({ field }: FieldProps) => (
-              <InputV2
-                customCss={inputWrapperStyles}
-                label={t("taxonomy.comment")}
-                placeholder={t("taxonomy.commentPlaceholder")}
-                white
-                {...field}
-              />
+          </FormField>
+          <FormField name="comments">
+            {({ field, meta }) => (
+              <FormControl isRequired isInvalid={!!meta.error}>
+                <Label textStyle="label-small" margin="none">
+                  {t("taxonomy.comment")}
+                </Label>
+                <InputV3 placeholder={t("taxonomy.commentPlaceholder")} {...field} />
+                <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+              </FormControl>
             )}
-          </StyledFormikField>
+          </FormField>
           {!isTopicArticle && (
             <PlannedResourceSelect
               label="taxonomy.contentType"

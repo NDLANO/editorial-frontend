@@ -124,7 +124,8 @@ export const MultiSelectDropdown = <T extends { id: string }>({
               onChange: onInputChange,
               value: inputValue,
             })}
-            idField={idField}
+            idField={idField as keyof T}
+            //@ts-ignore
             labelField={labelField}
             values={value}
             removeItem={removeItem}
@@ -138,7 +139,7 @@ export const MultiSelectDropdown = <T extends { id: string }>({
             {...downshiftProps}
             isOpen={isOpen}
             items={data}
-            onCreate={showCreateOption && onCreate}
+            onCreate={showCreateOption ? onCreate : undefined}
             positionAbsolute
             disableSelected
           />

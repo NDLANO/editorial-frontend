@@ -28,7 +28,6 @@ const phrases = {
     podcastUploaderPage: `Podcast episode ${titleTemplate}`,
     podcastSeriesPage: `Podcast series ${titleTemplate}`,
     h5pPage: `H5P ${titleTemplate}`,
-    publishRequestsPage: `Publish Requests ${titleTemplate}`,
     nodeDiffPage: `Compare Nodes ${titleTemplate}`,
     editFrontpage: "Edit front page",
     comparePage: `Compare versions ${titleTemplate}`,
@@ -112,6 +111,7 @@ const phrases = {
     change: "Change to {{language}} version",
   },
   welcomePage: {
+    lastFavorited: "Last favorited resource: ",
     addSearch: "Add new search",
     deleteSavedSearch: "Delete saved search",
     deleteSearch: "Delete search",
@@ -179,6 +179,23 @@ const phrases = {
       onHoldFilter: "Do not count on hold",
       loading: "Loading...",
     },
+    subjectView: {
+      lma: "Subject view LMA-subjects",
+      da: "Subject view DA-subjects",
+      sa: "Subject view SA-subjects",
+      favorites: "Subject view favorite subjects",
+      description: "Overview of statistics related to resources in your subjects",
+      heart: "Hearts",
+      heartDescription: "Number of favorited resources",
+      flow: "In flow",
+      flowDescription: "Number of resources in flow",
+      old: "Outdated",
+      oldDescription: "Number of resources that have not been revised in over 5 years",
+      revision: "Revisions",
+      revisionDescription: "Number of resources with expired revision date",
+      published: "Published",
+      publishedDescription: "Number of published resources",
+    },
     welcomeBack: "Welcome",
   },
   searchPage: {
@@ -234,7 +251,6 @@ const phrases = {
     structure: "Structure",
     programme: "Programmes",
     taxonomyVersions: "Taxonomy Versions",
-    publishRequests: "Publish Requests",
     searchContent: "Search content",
     searchAudio: "Search audio",
     searchPodcastSeries: "Search series",
@@ -341,6 +357,7 @@ const phrases = {
       title: "Title",
       lastUpdated: "Last updated",
       revisionDate: "Next revision",
+      favorited: "Favorite marks",
     },
     resultError: "Something went wrong with type: {{type}}",
     favourites: "My favourite subjects",
@@ -617,11 +634,6 @@ const phrases = {
       missingEmbedData: "One or more included video, image, or audio elements is missing caption or alternative text.",
     },
     fields: {
-      rightAside: {
-        title: "Right column",
-        moveContent: "Move content into the text",
-        delete: "Delete right aside",
-      },
       footnotes: {
         edition: "Edition",
         publisher: "Publisher",
@@ -727,9 +739,12 @@ const phrases = {
     openAll: "Open all",
     hideAll: "Hide all",
     unpublishedChanges: "(Changed since last publish)",
+    moveContent: "Move content into the text",
     comment: {
       comment: "Comment",
       hide: "Hide comment",
+      hideComments: "Hide comments",
+      showComments: "Show comments",
       show: "Show comment",
       commentField: "Comment field",
       solve: "The comment is marked as unresolved. Mark as solved",
@@ -809,6 +824,9 @@ const phrases = {
       current: "Current version",
       published: "Published version",
       article: "Article",
+      enableDiff: "Highlight differences",
+      diffInfo:
+        "Highlights the differences in the unpublished version. Deleted text will be marked in red, changed text in yellow and new text in green. Images and block elements will be displayed with a frame around them, but the display may be somewhat incomplete for some elements.",
     },
     previewLanguageArticle: {
       button: "Compare language versions",
@@ -1345,6 +1363,7 @@ const phrases = {
       },
       edit: "Edit audio",
       remove: "Remove audio",
+      chooseAudioType: "Choose audio type",
       sound: "Audio",
       speech: "Speech",
       dragdrop: {
@@ -1490,6 +1509,8 @@ const phrases = {
         "E.g. Do you have issues with sight or cognition? Then you may experience issues perceiving and understanding this content. You can alternatively use this page: www.ndla.eksempel.no",
       exampleLinkText: "You can find example sentences for use in multiline textfields here",
       editorHeader: "Write down where the user can find alternative content",
+      articleId: "Article with alternative content",
+      removeArticle: "Remove article",
     },
     copyright: {
       title: "Edit license",
@@ -1547,7 +1568,6 @@ const phrases = {
   },
   warningMessage: {
     fieldWithWrongLanguage: "This value is fetched from language code: {{language}}",
-    taxonomy: "All taxonomy changes require partial publishing",
   },
   notFound: {
     description: "The page cannot be found",
@@ -1746,9 +1766,6 @@ const phrases = {
     missingResourceType: "Missing resource type",
     metadata: {
       customFields: {
-        cancelPublishRequest: "Cancel request for partial structure publication",
-        requestPublish: "Request partial publication of structure",
-        requestVersionError: "Publish requests can only be made from Draft",
         alterFields: "Add/change metadata",
         addField: "New metadata field",
         languagePlaceholder: "Ndla.no interface language",
@@ -1890,27 +1907,7 @@ const phrases = {
       },
     },
   },
-  publishRequests: {
-    title: "Publish Requests",
-    nodePublished: "The node has been published!",
-    showInStructure: "Show in structure",
-    compare: "Compare",
-    deleteAll: "Remove publish requests",
-    deleteAllInfo: "Are you sure you want to remove all publish requests? This action cannot be undone.",
-    errors: {
-      noPublishedVersion: "Failed to find a published version",
-      noVersions: "Failed to find other versions",
-    },
-    numberRequests: "Number of publication request",
-  },
   diff: {
-    published:
-      "Node publishing has started! This will take a while. The process is completed once the two versions of this node are marked as identical",
-    publishing: "Publishing node...",
-    publish: "Publish node",
-    publishWarning:
-      "Are you sure you want to publish this node? All the changes will be available in the targeted version after the publishing have completed",
-    publishError: "Failed to publish node",
     equalNodes: "These nodes are equal!",
     defaultVersion: "Draft",
     compareVersions: "Compare versions",
@@ -1922,8 +1919,6 @@ const phrases = {
     },
     options: {
       about: "This page enables you to compare a node-tree between two different versions.",
-      admin:
-        "You can publish the node-tree between versions. You can publish new, and update existing nodes to the target version, but not delete them. Deleting nodes need to be done in the specific version. Changes further up in the structure is disregarded.",
       originalHashLabel: "Target version",
       otherHashLabel: "Source version",
       viewLabel: "View type",
@@ -2083,6 +2078,11 @@ const phrases = {
     closeChildren: "Hide children",
     hide: "Hide",
     show: "Show",
+  },
+  codeEditor: {
+    title: "Add code example",
+    titleLabel: "Title",
+    programmingLanguage: "Programming language",
   },
 };
 

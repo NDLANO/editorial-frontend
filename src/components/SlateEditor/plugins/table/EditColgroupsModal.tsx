@@ -17,23 +17,6 @@ import { Spinner } from "@ndla/icons";
 import { Pencil } from "@ndla/icons/action";
 import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, Modal, ModalTrigger, ModalContent } from "@ndla/modal";
 import { TableElement } from "./interfaces";
-import config from "../../../../config";
-
-window.MonacoEnvironment = {
-  getWorkerUrl: function (moduleId: string, label: string) {
-    if (label === "html") {
-      return config.runtimeType !== "production"
-        ? "/static/js/html.worker.js"
-        : // @ts-ignore
-          window.assets["html.worker.js"] ?? "";
-    }
-    return config.runtimeType !== "production"
-      ? "/static/js/editor.worker.js"
-      : // @ts-ignore
-        window.assets["editor.worker.js"] ?? "";
-  },
-  globalAPI: true,
-};
 
 const MonacoEditor = lazy(() => import("../../../MonacoEditor"));
 
@@ -82,7 +65,7 @@ const EditColgroupsModal = ({ element }: Props) => {
             <StyledCode>{'<colgroup><col><col><col style="width:200px;"></colgroup>'}</StyledCode>
           </p>
           <Suspense fallback={<Spinner />}>
-            <MonacoEditor onChange={setColgroups} onSave={onSave} value={colgroups} height={"50vh"} />
+            <MonacoEditor onChange={setColgroups} onSave={onSave} value={colgroups} size="small" />
           </Suspense>
           <ButtonV2 onClick={() => onSave(colgroups)}>{t("form.save")}</ButtonV2>
         </ModalBody>

@@ -9,7 +9,7 @@
 import isEqual from "lodash/fp/isEqual";
 import { Descendant, Node } from "slate";
 import { IArticle, ILicense, IArticleMetaImage } from "@ndla/types-backend/draft-api";
-import { blockContentToHTML, inlineContentToEditorValue, inlineContentToHTML } from "./articleContentConverter";
+import { blockContentToHTML, inlineContentToEditorValue } from "./articleContentConverter";
 import { isGrepCodeValid } from "./articleUtil";
 import { diffHTML } from "./diffHTML";
 import { isUserProvidedEmbedDataValid } from "./embedTagHelpers";
@@ -30,12 +30,9 @@ export const DEFAULT_LICENSE: ILicense = {
   url: "https://creativecommons.org/licenses/by-sa/4.0/",
 };
 
-const checkIfContentHasChanged = (currentValue: Descendant[], initialContent: Descendant[], type: string) => {
+const checkIfContentHasChanged = (currentValue: Descendant[], initialContent: Descendant[]) => {
   if (currentValue.length !== initialContent.length) return true;
-  const toHTMLFunction = type === "standard" || type === "frontpage-article" ? blockContentToHTML : inlineContentToHTML;
-  const newHTML = toHTMLFunction(currentValue);
-
-  const diff = diffHTML(newHTML, toHTMLFunction(initialContent));
+  const diff = diffHTML(blockContentToHTML(currentValue), blockContentToHTML(initialContent));
   return diff;
 };
 
@@ -75,7 +72,7 @@ export const isFormikFormDirty = <T extends FormikFields>({
     .filter(([key]) => !skipFields.includes(key))
     .forEach(([key, value]) => {
       if (Array.isArray(value) && value.length > 0 && Node.isNodeList(value)) {
-        if (checkIfContentHasChanged(values[key]!, initialValues[key]!, initialValues.articleType!)) {
+        if (checkIfContentHasChanged(values[key]!, initialValues[key]!)) {
           dirtyFields.push(value);
         }
       } else if (!isEqual(value, initialValues[key as keyof T])) {
@@ -222,7 +219,7 @@ export const learningResourceRules: RulesType<LearningResourceFormType, IArticle
     test: (values) => {
       const embeds = findNodesByType(
         values.content ?? [],
-        "image-embed",
+        "image",
         "brightcove-embed",
         "h5p",
         "audio",

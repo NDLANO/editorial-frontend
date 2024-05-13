@@ -13,7 +13,7 @@ import { IUpdatedArticle, IArticle } from "@ndla/types-backend/draft-api";
 import TopicArticleContent from "./TopicArticleContent";
 import TopicArticleTaxonomy from "./TopicArticleTaxonomy";
 import FormAccordion from "../../../../components/Accordion/FormAccordion";
-import FormAccordions from "../../../../components/Accordion/FormAccordions";
+import FormAccordionsWithComments from "../../../../components/Accordion/FormAccordionsWithComments";
 import config from "../../../../config";
 import { TAXONOMY_WRITE_SCOPE } from "../../../../constants";
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from "../../../FormikForm";
@@ -51,7 +51,11 @@ const TopicArticleAccordionPanels = ({
 
   const { values, errors } = formikContext;
   return (
-    <FormAccordions defaultOpen={["topic-article-content"]}>
+    <FormAccordionsWithComments
+      defaultOpen={["topic-article-content"]}
+      articleType="topic-article"
+      articleStatus={article?.status}
+    >
       <FormAccordion
         id={"topic-article-content"}
         title={
@@ -68,12 +72,7 @@ const TopicArticleAccordionPanels = ({
         <TopicArticleContent values={values} />
       </FormAccordion>
       {article && !!userPermissions?.includes(TAXONOMY_WRITE_SCOPE) && (
-        <FormAccordion
-          id={"topic-article-taxonomy"}
-          title={t("form.taxonomySection")}
-          className={"u-6/6"}
-          hasError={!hasTaxonomyEntries}
-        >
+        <FormAccordion id={"topic-article-taxonomy"} title={t("form.taxonomySection")} hasError={!hasTaxonomyEntries}>
           <TopicArticleTaxonomy
             article={article}
             updateNotes={updateNotes}
@@ -92,7 +91,6 @@ const TopicArticleAccordionPanels = ({
             fieldsToIndicatedChangesFor={copyrightFields}
           />
         }
-        className={"u-6/6"}
         hasError={!!(errors.creators || errors.rightsholders || errors.processors || errors.license)}
       >
         <CopyrightFieldGroup enableLicenseNA />
@@ -100,7 +98,6 @@ const TopicArticleAccordionPanels = ({
       <FormAccordion
         id={"topic-article-metadata"}
         title={t("form.metadataSection")}
-        className={"u-6/6"}
         hasError={!!(errors.metaDescription || errors.tags)}
       >
         <MetaDataField
@@ -109,19 +106,13 @@ const TopicArticleAccordionPanels = ({
           checkboxAction={(image) => onSaveAsVisualElement(image, formikContext)}
         />
       </FormAccordion>
-      <FormAccordion
-        id={"topic-article-grepCodes"}
-        title={t("form.name.grepCodes")}
-        className={"u-6/6"}
-        hasError={!!errors.grepCodes}
-      >
+      <FormAccordion id={"topic-article-grepCodes"} title={t("form.name.grepCodes")} hasError={!!errors.grepCodes}>
         <GrepCodesField />
       </FormAccordion>
       {config.ndlaEnvironment === "test" && (
         <FormAccordion
           id={"learning-resource-related"}
           title={t("form.name.relatedContent")}
-          className={"u-6/6"}
           hasError={!!(errors.conceptIds || errors.relatedContent)}
         >
           <RelatedContentFieldGroup />
@@ -130,18 +121,12 @@ const TopicArticleAccordionPanels = ({
       <FormAccordion
         id={"topic-article-revisions"}
         title={t("form.name.revisions")}
-        className={"u-6/6"}
         hasError={!!errors.revisionMeta || !!errors.revisionError}
       >
         <RevisionNotes />
       </FormAccordion>
       {article && (
-        <FormAccordion
-          id={"topic-article-workflow"}
-          title={t("form.workflowSection")}
-          className={"u-6/6"}
-          hasError={!!errors.notes}
-        >
+        <FormAccordion id={"topic-article-workflow"} title={t("form.workflowSection")} hasError={!!errors.notes}>
           <VersionAndNotesPanel
             article={article}
             articleHistory={articleHistory}
@@ -150,7 +135,7 @@ const TopicArticleAccordionPanels = ({
           />
         </FormAccordion>
       )}
-    </FormAccordions>
+    </FormAccordionsWithComments>
   );
 };
 

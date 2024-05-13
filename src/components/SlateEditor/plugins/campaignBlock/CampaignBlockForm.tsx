@@ -21,7 +21,6 @@ import InlineImageSearch from "../../../../containers/ConceptPage/components/Inl
 import { InlineField } from "../../../../containers/FormikForm/InlineField";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
 import { isFormikFormDirty } from "../../../../util/formHelper";
-import parseMarkdown from "../../../../util/parseMarkdown";
 import { FormRemainingCharacters } from "../../../Form/FormRemainingCharacters";
 import { CheckboxWrapper, RadioButtonWrapper, FieldsetRow, StyledFormControl, LeftLegend } from "../../../Form/styles";
 import { FormControl, FormField } from "../../../FormField";
@@ -76,16 +75,13 @@ const rules: RulesType<CampaignBlockFormValues> = {
 const toInitialValues = (initialData?: CampaignBlockEmbedData): CampaignBlockFormValues => {
   return {
     resource: TYPE_CAMPAIGN_BLOCK,
-    title: inlineContentToEditorValue(parseMarkdown({ markdown: initialData?.title ?? "", inline: true }), true),
-    description: inlineContentToEditorValue(
-      parseMarkdown({ markdown: initialData?.description ?? "", inline: true }),
-      true,
-    ),
+    title: inlineContentToEditorValue(initialData?.title ?? "", true),
+    description: inlineContentToEditorValue(initialData?.description ?? "", true),
     metaImageId: initialData?.imageId,
     imageSide: initialData?.imageSide ?? "left",
     headingLevel: initialData?.headingLevel ?? "h2",
     link: initialData?.url,
-    linkText: inlineContentToEditorValue(parseMarkdown({ markdown: initialData?.urlText ?? "", inline: true }), true),
+    linkText: inlineContentToEditorValue(initialData?.urlText ?? "", true),
     metaImageAlt: initialData?.alt ?? "",
     isDecorative: initialData ? initialData.alt === undefined : false,
   };
@@ -110,6 +106,12 @@ const StyledForm = styled(Form)`
   display: flex;
   flex-direction: column;
   gap: ${spacing.small};
+`;
+
+const StyledFieldWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.xsmall};
 `;
 
 const placements: CampaignBlockEmbedData["imageSide"][] = ["left", "right"];
@@ -209,7 +211,7 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
                 </FormControl>
               )}
             </FormField>
-            <div>
+            <StyledFieldWrapper>
               <Text textStyle="label-small" margin="none">
                 {t("form.name.linkText")}
                 <RichTextIndicator />
@@ -227,7 +229,7 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
                   </FormControl>
                 )}
               </FormField>
-            </div>
+            </StyledFieldWrapper>
           </UrlWrapper>
           <FormField name="imageSide">
             {({ field, helpers }) => (

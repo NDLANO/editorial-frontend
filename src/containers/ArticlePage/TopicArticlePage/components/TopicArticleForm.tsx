@@ -32,8 +32,6 @@ import {
   getExpirationDate,
   topicArticleFormTypeToDraftApiType,
 } from "../../articleTransformers";
-import CommentSection from "../../components/CommentSection";
-import { FlexWrapper, MainContent } from "../../styles";
 
 interface Props {
   article?: IArticle;
@@ -131,20 +129,15 @@ const TopicArticleForm = ({
           type="topic-article"
           expirationDate={getExpirationDate(article)}
         />
-        <FlexWrapper>
-          <MainContent>
-            <TaxonomyVersionProvider>
-              <TopicArticleAccordionPanels
-                articleLanguage={articleLanguage}
-                articleHistory={articleHistory?.data}
-                updateNotes={updateArticle}
-                article={article}
-                hasTaxonomyEntries={!!articleTaxonomy?.length}
-              />
-            </TaxonomyVersionProvider>
-          </MainContent>
-          <CommentSection savedStatus={article?.status} articleType="topic-article" />
-        </FlexWrapper>
+        <TaxonomyVersionProvider>
+          <TopicArticleAccordionPanels
+            articleLanguage={articleLanguage}
+            articleHistory={articleHistory?.data}
+            updateNotes={updateArticle}
+            article={article}
+            hasTaxonomyEntries={!!articleTaxonomy?.length}
+          />
+        </TaxonomyVersionProvider>
         <FormFooter
           licenses={licenses ?? []}
           articleChanged={!!articleChanged}

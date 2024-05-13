@@ -8,7 +8,7 @@
 import { useFormikContext } from "formik";
 import isEqual from "lodash/isEqual";
 import { FocusEvent, KeyboardEvent, useCallback, useEffect, useRef, useState } from "react";
-import { createEditor, Descendant, Editor, NodeEntry, Range, Transforms, Element } from "slate";
+import { createEditor, Descendant, Editor, NodeEntry, Range, Transforms } from "slate";
 import { withHistory } from "slate-history";
 import { Slate, Editable, withReact, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
 import { EditableProps } from "slate-react/dist/components/editable";
@@ -221,18 +221,15 @@ const RichTextEditor = ({
   const handleKeyDown = useCallback(
     (e: KeyboardEvent<HTMLDivElement>) => {
       if (editor.selection && Range.isCollapsed(editor.selection) && !e.shiftKey) {
-        const [parent] = Editor.parent(editor, editor.selection);
-        if (Element.isElement(parent) && editor.isInline(parent)) {
-          if (e.key === KEY_ARROW_LEFT) {
-            e.preventDefault();
-            Transforms.move(editor, { unit: "offset", reverse: true });
-            return;
-          }
-          if (e.key === KEY_ARROW_RIGHT) {
-            e.preventDefault();
-            Transforms.move(editor, { unit: "offset" });
-            return;
-          }
+        if (e.key === KEY_ARROW_LEFT) {
+          e.preventDefault();
+          Transforms.move(editor, { unit: "offset", reverse: true });
+          return;
+        }
+        if (e.key === KEY_ARROW_RIGHT) {
+          e.preventDefault();
+          Transforms.move(editor, { unit: "offset" });
+          return;
         }
       }
 

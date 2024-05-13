@@ -10,12 +10,12 @@ import { Editor } from "slate";
 import SlateFigure from "./SlateFigure";
 import { isSlateEmbedElement } from "./utils";
 
-export const embedRenderer = (allowDecorative?: boolean) => (editor: Editor) => {
+export const embedRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
     if (isSlateEmbedElement(element)) {
       return (
-        <SlateFigure attributes={attributes} editor={editor} element={element} allowDecorative={allowDecorative}>
+        <SlateFigure attributes={attributes} editor={editor} element={element}>
           {children}
         </SlateFigure>
       );

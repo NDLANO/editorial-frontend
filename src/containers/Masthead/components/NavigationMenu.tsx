@@ -7,14 +7,13 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
 import { colors, spacing, stackOrder } from "@ndla/core";
 import { List } from "@ndla/icons/action";
 import { Launch, Audio, Podcast } from "@ndla/icons/common";
-import { Camera, CloudUploadOutline, Concept, Globe, H5P, Taxonomy, Video } from "@ndla/icons/editor";
+import { Camera, Concept, Globe, H5P, Taxonomy, Video } from "@ndla/icons/editor";
+import { SafeLinkButton } from "@ndla/safelink";
 import { ContentTypeBadge, constants } from "@ndla/ui";
-import { styledListElement } from "../../../components/StyledListElement/StyledListElement";
 import config from "../../../config";
 import { AUDIO_ADMIN_SCOPE, DRAFT_ADMIN_SCOPE, FRONTPAGE_ADMIN_SCOPE, TAXONOMY_ADMIN_SCOPE } from "../../../constants";
 import {
@@ -36,8 +35,8 @@ const StyledMenuItem = styled.span`
 `;
 
 const ContentWrapper = styled.div`
+  position: relative;
   padding: ${spacing.large} 0;
-  position: absolute;
   z-index: ${stackOrder.banner};
   left: 0;
   right: 0;
@@ -55,6 +54,11 @@ interface Props {
   close: () => void;
 }
 
+const StyledSafeLinkButton = styled(SafeLinkButton)`
+  display: block;
+  justify-content: flex-start;
+`;
+
 const OpenMenu = ({ close }: Props) => {
   const { t } = useTranslation();
   const { contentTypes } = constants;
@@ -64,103 +68,128 @@ const OpenMenu = ({ close }: Props) => {
     <ContentWrapper>
       <StyledNav>
         <div>
-          <Link css={styledListElement} to={toCreateConcept()} onClick={close}>
+          <StyledSafeLinkButton variant="ghost" colorTheme="light" shape="sharp" to={toCreateConcept()} onClick={close}>
             <StyledMenuItem>
               <Concept /> {t("subNavigation.newConcept")}
             </StyledMenuItem>
-          </Link>
-          <Link css={styledListElement} to={toCreateGloss()} onClick={close}>
+          </StyledSafeLinkButton>
+          <StyledSafeLinkButton variant="ghost" colorTheme="light" shape="sharp" to={toCreateGloss()} onClick={close}>
             <StyledMenuItem>
               <Globe /> {t("subNavigation.newGloss")}
             </StyledMenuItem>
-          </Link>
-          <Link css={styledListElement} to={toCreateImage()} onClick={close}>
+          </StyledSafeLinkButton>
+          <StyledSafeLinkButton variant="ghost" colorTheme="light" shape="sharp" to={toCreateImage()} onClick={close}>
             <StyledMenuItem>
               <Camera />
               {t("subNavigation.image")}
             </StyledMenuItem>
-          </Link>
-          <Link css={styledListElement} to={toCreateAudioFile()} onClick={close}>
+          </StyledSafeLinkButton>
+          <StyledSafeLinkButton
+            variant="ghost"
+            colorTheme="light"
+            shape="sharp"
+            to={toCreateAudioFile()}
+            onClick={close}
+          >
             <StyledMenuItem>
               <Audio />
               {t("subNavigation.audio")}
             </StyledMenuItem>
-          </Link>
-          <Link css={styledListElement} to={toCreatePodcastFile()} onClick={close}>
+          </StyledSafeLinkButton>
+          <StyledSafeLinkButton
+            variant="ghost"
+            colorTheme="light"
+            shape="sharp"
+            to={toCreatePodcastFile()}
+            onClick={close}
+          >
             <StyledMenuItem>
               <Podcast />
               {t("subNavigation.podcast")}
             </StyledMenuItem>
-          </Link>
+          </StyledSafeLinkButton>
           {userPermissions?.includes(AUDIO_ADMIN_SCOPE) && (
-            <Link css={styledListElement} to={toCreatePodcastSeries()} onClick={close}>
+            <StyledSafeLinkButton
+              variant="ghost"
+              colorTheme="light"
+              shape="sharp"
+              to={toCreatePodcastSeries()}
+              onClick={close}
+            >
               <StyledMenuItem>
                 <List />
                 {t("subNavigation.podcastSeries")}
               </StyledMenuItem>
-            </Link>
+            </StyledSafeLinkButton>
           )}
-          <Link css={styledListElement} to={toCreateFrontPageArticle()} onClick={close}>
+          <StyledSafeLinkButton
+            variant="ghost"
+            colorTheme="light"
+            shape="sharp"
+            to={toCreateFrontPageArticle()}
+            onClick={close}
+          >
             <StyledMenuItem>
               <ContentTypeBadge type={contentTypes.SUBJECT_MATERIAL} background size="xx-small" />
               {t("subNavigation.newFrontpageArticle")}
             </StyledMenuItem>
-          </Link>
-          <Link css={styledListElement} to={toEditNdlaFilm()} onClick={close}>
+          </StyledSafeLinkButton>
+          <StyledSafeLinkButton variant="ghost" colorTheme="light" shape="sharp" to={toEditNdlaFilm()} onClick={close}>
             <StyledMenuItem>
               <ContentTypeBadge type={contentTypes.SUBJECT} background size="xx-small" />
               {t("subNavigation.film")}
             </StyledMenuItem>
-          </Link>
+          </StyledSafeLinkButton>
         </div>
         <div>
-          <Link css={styledListElement} to="/structure" onClick={close}>
+          <StyledSafeLinkButton variant="ghost" colorTheme="light" shape="sharp" to="/structure" onClick={close}>
             <StyledMenuItem>
               <Taxonomy />
               {t("subNavigation.structure")}
             </StyledMenuItem>
-          </Link>
+          </StyledSafeLinkButton>
           {userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) && (
-            <Link css={styledListElement} to="/programme" onClick={close}>
+            <StyledSafeLinkButton variant="ghost" colorTheme="light" shape="sharp" to="/programme" onClick={close}>
               <StyledMenuItem>
                 <Taxonomy />
                 {t("subNavigation.programme")}
               </StyledMenuItem>
-            </Link>
+            </StyledSafeLinkButton>
           )}
           {userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) && (
-            <Link css={styledListElement} to="/taxonomyVersions" onClick={close}>
+            <StyledSafeLinkButton
+              variant="ghost"
+              colorTheme="light"
+              shape="sharp"
+              to="/taxonomyVersions"
+              onClick={close}
+            >
               <StyledMenuItem>
                 <Taxonomy />
                 {t("subNavigation.taxonomyVersions")}
               </StyledMenuItem>
-            </Link>
+            </StyledSafeLinkButton>
           )}
-          <Link css={styledListElement} to="publishRequests" onClick={close}>
-            <StyledMenuItem>
-              <CloudUploadOutline />
-              {t("subNavigation.publishRequests")}
-            </StyledMenuItem>
-          </Link>
-
-          <Link css={styledListElement} to="/h5p" onClick={close}>
+          <StyledSafeLinkButton variant="ghost" colorTheme="light" shape="sharp" to="/h5p" onClick={close}>
             <StyledMenuItem>
               <H5P />
               {t("subNavigation.h5p")}
             </StyledMenuItem>
-          </Link>
+          </StyledSafeLinkButton>
           {userPermissions?.includes(FRONTPAGE_ADMIN_SCOPE) && (
-            <Link css={styledListElement} to="/frontpage" onClick={close}>
+            <StyledSafeLinkButton variant="ghost" colorTheme="light" shape="sharp" to="/frontpage" onClick={close}>
               <StyledMenuItem>
                 <ContentTypeBadge type={contentTypes.SUBJECT} background size="xx-small" />
                 {t("subNavigation.frontpage")}
               </StyledMenuItem>
-            </Link>
+            </StyledSafeLinkButton>
           )}
           {userPermissions?.includes(DRAFT_ADMIN_SCOPE) && (
-            <a
-              css={styledListElement}
-              href={config.brightcoveUrl}
+            <StyledSafeLinkButton
+              variant="ghost"
+              colorTheme="light"
+              shape="sharp"
+              to={config.brightcoveUrl}
               target="_blank"
               rel="noopener noreferrer"
               onClick={close}
@@ -170,11 +199,13 @@ const OpenMenu = ({ close }: Props) => {
                 {t("subNavigation.brightcoveLink")}
                 <Launch />
               </StyledMenuItem>
-            </a>
+            </StyledSafeLinkButton>
           )}
-          <a
-            css={styledListElement}
-            href={config.learningpathFrontendDomain}
+          <StyledSafeLinkButton
+            variant="ghost"
+            colorTheme="light"
+            shape="sharp"
+            to={config.learningpathFrontendDomain}
             target="_blank"
             rel="noopener noreferrer"
             onClick={close}
@@ -184,7 +215,7 @@ const OpenMenu = ({ close }: Props) => {
               {t("subNavigation.learningPathLink")}
               <Launch />
             </StyledMenuItem>
-          </a>
+          </StyledSafeLinkButton>
         </div>
       </StyledNav>
     </ContentWrapper>

@@ -13,6 +13,7 @@ import {
   ITagsSearchResult,
   ISearchParams,
 } from "@ndla/types-backend/image-api";
+import { StringSort } from "../../containers/SearchPage/components/form/SearchForm";
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
@@ -46,7 +47,7 @@ export const updateImage = (
     body: formData || JSON.stringify(imageMetadata),
   }).then((r) => resolveJsonOrRejectWithError<IImageMetaInformationV3>(r));
 
-export const postSearchImages = async (body: ISearchParams): Promise<ISearchResultV3> => {
+export const postSearchImages = async (body: StringSort<ISearchParams>): Promise<ISearchResultV3> => {
   const response = await fetchAuthorized(`${baseUrl}/search/`, { method: "POST", body: JSON.stringify(body) });
   return resolveJsonOrRejectWithError(response);
 };

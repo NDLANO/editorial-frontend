@@ -20,7 +20,7 @@ const TaxonomyMetadataLanguageSelector = ({ customFields, updateCustomFields }: 
   const { t } = useTranslation();
   const options = subjectpageLanguages.map((lang) => ({
     key: lang,
-    value: lang,
+    value: t(`languages.${lang}`),
   }));
   const messages = {
     selected: t("taxonomy.metadata.placeholders.language"),

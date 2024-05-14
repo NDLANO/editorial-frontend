@@ -6,6 +6,7 @@
  *
  */
 
+import merge from "lodash/merge";
 import {
   Children,
   ComponentPropsWithRef,
@@ -18,7 +19,7 @@ import {
   useMemo,
   useRef,
 } from "react";
-import { Editor, Range } from "slate";
+import { Editor, Range, Element, BaseSelection } from "slate";
 import { useSlate, useSlateSelection } from "slate-react";
 import styled from "@emotion/styled";
 import { Portal } from "@radix-ui/react-portal";
@@ -38,6 +39,7 @@ import {
 } from "./toolbarState";
 import { ToolbarTableOptions } from "./ToolbarTableOptions";
 import { ToolbarTextOptions } from "./ToolbarTextOptions";
+import { nonOverlappingCommentTypes } from "../../helpers";
 
 const ToolbarContainer = styled(Toolbar)`
   position: absolute;
@@ -90,14 +92,40 @@ const showToolbar = (toolbar: HTMLElement, modalRef: HTMLElement | null) => {
   toolbar.style.left = `${left}px`;
 };
 
+export interface ToolbarCategoryProps<T extends ToolbarValues> {
+  options: ToolbarValue<T>[];
+}
+
+const selectionHasInlineElement = (editor: Editor, selection: BaseSelection) => {
+  if (!selection) return false;
+  for (const [node] of Editor.nodes(editor, { at: selection })) {
+    if (Element.isElement(node) && nonOverlappingCommentTypes.some((type) => type === node.type)) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
+const getToolbarOptions = (
+  toolbarOptions: CategoryFilters,
+  editor: Editor,
+  selection: BaseSelection,
+): CategoryFilters => {
+  if (!selection) return toolbarOptions;
+  const hasInlineElement = selectionHasInlineElement(editor, selection);
+  if (!hasInlineElement) return toolbarOptions;
+
+  const toolbarOptionsWithDisabledComments = merge({}, toolbarOptions, {
+    inline: { "comment-inline": { disabled: true } },
+  });
+  return toolbarOptionsWithDisabledComments;
+};
+
 interface Props {
   options: CategoryFilters;
   areaOptions: AreaFilters;
   hideToolbar?: boolean;
-}
-
-export interface ToolbarCategoryProps<T extends ToolbarValues> {
-  options: ToolbarValue<T>[];
 }
 
 const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideToolbarProp }: Props) => {
@@ -155,10 +183,10 @@ const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideT
     if (hideToolbar) return;
     return toolbarState({
       editorAncestors: getEditorAncestors(editor),
-      options: toolbarOptions,
+      options: getToolbarOptions(toolbarOptions, editor, selection),
       areaOptions,
     });
-  }, [areaOptions, editor, hideToolbar, toolbarOptions]);
+  }, [areaOptions, editor, hideToolbar, selection, toolbarOptions]);
 
   if (hideToolbar) {
     return null;

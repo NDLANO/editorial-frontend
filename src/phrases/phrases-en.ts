@@ -680,6 +680,9 @@ const phrases = {
     left: "Left aligned",
     center: "Center aligned",
     right: "Right aligned",
+    disabled: {
+      "comment-inline": "Comment can't overlap inline element",
+    },
   },
   editorBlockpicker: {
     open: "Open menu ({{ctrl}}+Enter)",

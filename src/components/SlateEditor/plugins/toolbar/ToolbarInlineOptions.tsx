@@ -67,7 +67,7 @@ export const ToolbarInlineOptions = ({ options }: ToolbarCategoryProps<InlineTyp
     <StyledToggleGroup type="single" value={value ?? ""}>
       {visibleOptions.map((type) => (
         <ToggleItem key={type.value} value={type.value} asChild disabled={type.disabled}>
-          <ToolbarButton type={type.value} onClick={() => onClick(type.value)} />
+          <ToolbarButton type={type.value} onClick={() => onClick(type.value)} disabled={type.disabled} />
         </ToggleItem>
       ))}
     </StyledToggleGroup>

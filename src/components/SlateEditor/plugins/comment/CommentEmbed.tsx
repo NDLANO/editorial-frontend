@@ -17,18 +17,13 @@ import { Comment } from "@ndla/icons/common";
 import { CommentEmbedData, CommentMetaData } from "@ndla/types-embed";
 import { Text, Heading } from "@ndla/typography";
 import CommentForm from "./CommentForm";
+import { InlineBugfix } from "../../utils/InlineBugFix";
 
 const InlineComment = styled.span`
   display: inline;
   span {
     background: ${colors.support.yellowLight};
     cursor: pointer;
-    &:focus,
-    &:hover,
-    &:active,
-    &[data-open="true"] {
-      background: ${colors.support.yellow};
-    }
   }
 `;
 
@@ -64,7 +59,7 @@ const BlockCommentButton = styled.button`
   all: unset;
   background: ${colors.support.yellowLight};
   cursor: pointer;
-  color: ${colors.brand.grey};
+  color: ${colors.brand.greyDark};
   font-style: italic;
   display: flex;
   align-items: center;
@@ -72,11 +67,6 @@ const BlockCommentButton = styled.button`
   padding: ${spacing.xxsmall} 0px ${spacing.xxsmall} ${spacing.xxsmall};
   margin: ${spacing.xxsmall} 0px;
   width: 100%;
-  &:focus,
-  &:hover,
-  &[data-open="true"] {
-    background: ${colors.support.yellow};
-  }
 `;
 
 const CommentText = styled(Text)`
@@ -107,8 +97,10 @@ const CommentEmbed = ({ embed, onSave, children, onRemove, commentType, attribut
     <Root open={isOpen} onOpenChange={setIsOpen}>
       <Trigger asChild type={undefined}>
         {commentType === "inline" ? (
-          <InlineComment role="button" tabIndex={0} {...attributes}>
+          <InlineComment role="button" contentEditable={false} tabIndex={0} {...attributes}>
+            <InlineBugfix />
             {children}
+            <InlineBugfix />
           </InlineComment>
         ) : (
           <BlockCommentButton type="button" contentEditable={false} {...attributes}>

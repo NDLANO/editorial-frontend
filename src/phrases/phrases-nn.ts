@@ -680,6 +680,9 @@ const phrases = {
     left: "Venstrejustert",
     center: "Midtstilt",
     right: "Høgrejustert",
+    disabled: {
+      "comment-inline": "Kommentar kan ikkje overlappe inline element",
+    },
   },
   editorBlockpicker: {
     heading: "Legg til",

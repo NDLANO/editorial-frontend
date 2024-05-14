@@ -195,7 +195,7 @@ export const EXTERNAL_WHITELIST_PROVIDERS: WhitelistProvider[] = [
   { name: "JeopardyLabs", url: ["jeopardylabs.com"] },
   { name: "Brightcove", url: ["players.brightcove.net"] },
   { name: "UIO", url: ["vrtx.uio.no", "www.mn.uio.no"] },
-  { name: "Geodata", url: ["geodata.maps.arcgis.com"] },
+  { name: "Geodata", url: ["geodata.maps.arcgis.com", "arcg.is"] },
 ];
 
 export const SearchTypeValues = [

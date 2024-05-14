@@ -8,14 +8,13 @@
 
 import { Element, Descendant, Editor, Text, Transforms, Node, Range, Location, Path } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { RenderLeafProps, ReactEditor } from "slate-react";
+import { ReactEditor } from "slate-react";
 import { TYPE_DETAILS, TYPE_SUMMARY } from "./types";
 import WithPlaceHolder from "../../common/WithPlaceHolder";
 import { SlateSerializer } from "../../interfaces";
 import containsVoid from "../../utils/containsVoid";
-import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
+import { NormalizerConfig } from "../../utils/defaultNormalizer";
 import getCurrentBlock from "../../utils/getCurrentBlock";
-import hasNodeOfType from "../../utils/hasNodeOfType";
 import { KEY_BACKSPACE, KEY_ENTER } from "../../utils/keys";
 import {
   afterOrBeforeTextBlockElement,
@@ -127,7 +126,7 @@ export const detailsSerializer: SlateSerializer = {
 
 export const detailsPlugin = createPlugin<DetailsElement["type"]>({
   type: TYPE_DETAILS,
-  normalizerConfig: detailsNormalizerConfig,
+  normalizeWithConfig: detailsNormalizerConfig,
   renderLeaf: ({ attributes, children, text }, editor) => {
     const path = ReactEditor.findPath(editor, text);
 
@@ -157,8 +156,8 @@ export const detailsPlugin = createPlugin<DetailsElement["type"]>({
       onKeyDown: {
         [KEY_ENTER]: onEnter,
       },
-      normalizerConfig: summaryNormalizerConfig,
-      normalize: [
+      normalizeWithConfig: summaryNormalizerConfig,
+      normalizeMethods: [
         {
           description: "Assure that paragraphs should serialize as plaintext",
           normalize: ([node, path], editor) => {

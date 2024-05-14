@@ -10,7 +10,7 @@ import { Node, Element, Descendant, Editor, Text, Transforms, Range, NodeEntry }
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_SECTION } from "./types";
 import { SlateSerializer } from "../../interfaces";
-import { KEY_BACKSPACE, KEY_TAB } from "../../utils/keys";
+import { KEY_BACKSPACE } from "../../utils/keys";
 import { TYPE_HEADING } from "../heading/types";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
 import { defaultParagraphBlock } from "../paragraph/utils";
@@ -68,7 +68,7 @@ const onBackspace = (e: KeyboardEvent, editor: Editor, entry: NodeEntry) => {
 
 export const sectionPlugin = createPlugin<SectionElement["type"]>({
   type: TYPE_SECTION,
-  normalize: [
+  normalizeMethods: [
     {
       description: "Insert empty paragraph if section has no children",
       normalize: ([node, path], editor) => {

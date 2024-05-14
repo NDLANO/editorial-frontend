@@ -18,7 +18,7 @@ import { TYPE_BREAK } from "../break/types";
 import { TYPE_SUMMARY } from "../details/types";
 import { TYPE_LIST_ITEM } from "../list/types";
 import { TYPE_NOOP } from "../noop/types";
-import { KeyDown, createPlugin, createPluginFactory } from "../PluginFactory";
+import { KeyDown, createPlugin } from "../PluginFactory";
 import { TYPE_TABLE_CELL } from "../table/types";
 
 export interface ParagraphElement {
@@ -132,7 +132,7 @@ export const paragraphPlugin = createPlugin<ParagraphElement["type"]>({
   onKeyDown: {
     [KEY_ENTER]: onEnter,
   },
-  normalize: [
+  normalizeMethods: [
     {
       description: "Pargraph should be rendered as plaintext",
       normalize: ([node, path], editor) => {

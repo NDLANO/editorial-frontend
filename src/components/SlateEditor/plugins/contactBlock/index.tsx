@@ -52,5 +52,5 @@ export const contactBlockSerializer: SlateSerializer = {
 
 export const contactBlockPlugin = createPlugin<ContactBlockElement["type"]>({
   type: TYPE_CONTACT_BLOCK,
-  normalizerConfig,
+  normalizeWithConfig: normalizerConfig,
 });

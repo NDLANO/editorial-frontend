@@ -6,7 +6,6 @@
  *
  */
 
-import { ElementType } from "react";
 import { Descendant, Editor, Element, Text, Node, Transforms, NodeEntry } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { ContentLinkEmbedData } from "@ndla/types-embed";
@@ -87,37 +86,40 @@ export const linkSerializer: SlateSerializer = {
   },
 };
 
-const unwrapPargraphsInLink = ([node, path]: NodeEntry<Element>, editor: Editor) => {
-  for (const [index, child] of node.children.entries()) {
-    if (!Text.isText(child)) {
-      Transforms.unwrapNodes(editor, { at: [...path, index] });
-      return true;
-    }
-  }
-  return false;
-};
-const removeEmptyLinkNodes = ([node, path]: NodeEntry, editor: Editor) => {
-  if (Node.string(node) === "") {
-    Transforms.removeNodes(editor, { at: path });
-    return true;
-  }
-  return false;
-};
-
 const normalizeLink: Normalize<LinkElement | ContentLinkElement>[] = [
-  { description: "Remove empty nodes", normalize: removeEmptyLinkNodes },
-  { description: "Unwrap paragraphs in link", normalize: unwrapPargraphsInLink },
+  {
+    description: "Remove empty nodes",
+    normalize: ([node, path]: NodeEntry<Element>, editor: Editor) => {
+      if (Node.string(node) === "") {
+        Transforms.removeNodes(editor, { at: path });
+        return true;
+      }
+      return false;
+    },
+  },
+  {
+    description: "Unwrap paragraphs in link",
+    normalize: ([node, path]: NodeEntry<Element>, editor: Editor) => {
+      for (const [index, child] of node.children.entries()) {
+        if (!Text.isText(child)) {
+          Transforms.unwrapNodes(editor, { at: [...path, index] });
+          return true;
+        }
+      }
+      return false;
+    },
+  },
 ];
 
 export const linkPlugin = createPlugin<LinkElement["type"]>({
   type: TYPE_LINK,
   isInline: true,
-  normalize: normalizeLink,
+  normalizeMethods: normalizeLink,
   childPlugins: [
     {
       type: TYPE_CONTENT_LINK,
       isInline: true,
-      normalize: normalizeLink,
+      normalizeMethods: normalizeLink,
     },
   ],
 });

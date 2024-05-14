@@ -81,8 +81,8 @@ export const definitionListSerializer: SlateSerializer = {
 
 export const definitionListPlugin = createPlugin<DefinitionListElement["type"]>({
   type: TYPE_DEFINITION_LIST,
-  normalizerConfig: normalizerDLConfig,
-  normalize: [
+  normalizeWithConfig: normalizerDLConfig,
+  normalizeMethods: [
     {
       description: "Merge definition lists if they are next to each other",
       normalize: ([_node, path], editor) => {
@@ -105,7 +105,7 @@ export const definitionListPlugin = createPlugin<DefinitionListElement["type"]>(
   childPlugins: [
     {
       type: TYPE_DEFINITION_TERM,
-      normalizerConfig: normalizerDTConfig,
+      normalizeWithConfig: normalizerDTConfig,
       onKeyDown: {
         [KEY_ENTER]: onEnter,
         [KEY_TAB]: onTab,
@@ -114,7 +114,7 @@ export const definitionListPlugin = createPlugin<DefinitionListElement["type"]>(
     },
     {
       type: TYPE_DEFINITION_DESCRIPTION,
-      normalizerConfig: normalizerDDConfig,
+      normalizeWithConfig: normalizerDDConfig,
       onKeyDown: {
         [KEY_ENTER]: onEnter,
         [KEY_TAB]: onTab,

@@ -145,7 +145,7 @@ export const listSerializer: SlateSerializer = {
 
 export const listPlugin = createPlugin<ListElement["type"]>({
   type: TYPE_LIST,
-  normalize: [
+  normalizeMethods: [
     {
       description: "If list is empty or zero-length text element, remove it",
       normalize: ([node, path], editor) => {
@@ -224,7 +224,7 @@ export const listPlugin = createPlugin<ListElement["type"]>({
         [KEY_ENTER]: onEnter,
         [KEY_TAB]: onTab,
       },
-      normalize: [
+      normalizeMethods: [
         {
           description: "If listItem is not placed insine list, unwrap it",
           normalize: ([_node, path], editor) => {

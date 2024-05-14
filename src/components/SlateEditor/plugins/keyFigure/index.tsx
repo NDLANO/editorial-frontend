@@ -6,7 +6,7 @@
  *
  */
 
-import { Descendant, Editor, Element } from "slate";
+import { Descendant, Element } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { EmbedData, KeyFigureEmbedData } from "@ndla/types-embed";
 import { TYPE_KEY_FIGURE } from "./types";
@@ -16,7 +16,7 @@ import { NormalizerConfig } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
 import { TYPE_NDLA_EMBED } from "../embed/types";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
-import { createPlugin, createPluginFactory } from "../PluginFactory";
+import { createPlugin } from "../PluginFactory";
 
 export interface KeyFigureElement {
   type: "key-figure";
@@ -54,7 +54,7 @@ export const keyFigureSerializer: SlateSerializer = {
 };
 
 export const keyFigurePlugin = createPlugin<KeyFigureElement["type"]>({
-  normalizerConfig: normalizerConfig,
+  normalizeWithConfig: normalizerConfig,
   type: TYPE_KEY_FIGURE,
   isVoid: true,
 });

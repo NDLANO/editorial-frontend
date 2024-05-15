@@ -15,6 +15,8 @@ import { Item, Indicator } from "@radix-ui/react-radio-group";
 import { ButtonV2 } from "@ndla/button";
 import { colors, spacing, fonts, misc } from "@ndla/core";
 import { FieldErrorMessage, Fieldset, InputV3, Label, Legend, RadioButtonGroup } from "@ndla/forms";
+import { RevisionMetaFormType } from "../../containers/FormikForm/AddRevisionDateField";
+import { formatDateForBackend } from "../../util/formatDate";
 import { FormControl, FormField } from "../FormField";
 import validateFormik, { RulesType } from "../formikValidationSchema";
 
@@ -99,10 +101,22 @@ const toInitialValues = (initialData: QualityEvaluationFormValues | null): Quali
 const QualityEvaluationForm = ({ setOpen }: Props) => {
   const { t } = useTranslation();
   const [qualityEvaluationField, , helpers] = useField<QualityEvaluationFormValues | null>("qualityEvaluation");
+  const [revisionMetaField, , revisionMetaHelpers] = useField<RevisionMetaFormType>("revisionMeta");
 
   const initialValues = useMemo(() => toInitialValues(qualityEvaluationField.value), [qualityEvaluationField.value]);
   const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
+
   const onSubmit = (values: QualityEvaluationFormValues) => {
+    if (values.grade === 5 && qualityEvaluationField.value?.grade !== 5) {
+      const revisions = revisionMetaField.value ?? [];
+      revisionMetaHelpers.setValue(
+        revisions.concat({
+          revisionDate: formatDateForBackend(new Date()),
+          note: values.note ?? t("qualityEvaluationForm.needRevision"),
+          status: "needs-revision",
+        }),
+      );
+    }
     helpers.setValue(values);
     setOpen(false);
   };

@@ -660,6 +660,7 @@ const phrases = {
     note: "Note",
     article: "article",
     topicArticle: "full topic article",
+    needsRevision: "Needs revision",
   },
   editorToolbar: {
     bold: "Bold\n({{ctrl}}+b)",

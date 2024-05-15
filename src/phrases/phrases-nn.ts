@@ -659,7 +659,8 @@ const phrases = {
     delete: "Slett",
     note: "Notat",
     article: "artikkelen",
-    topicArticle: "emnet som helhet",
+    topicArticle: "emnet som heilskap",
+    needsRevision: "Treng revisjon",
   },
   editorToolbar: {
     bold: "Feit\n({{ctrl}}+b)",

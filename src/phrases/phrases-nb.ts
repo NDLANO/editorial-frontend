@@ -660,6 +660,7 @@ const phrases = {
     note: "Notat",
     article: "artikkelen",
     topicArticle: "emnet som helhet",
+    needsRevision: "Trenger revisjon",
   },
   editorToolbar: {
     bold: "Fet\n({{ctrl}}+b)",

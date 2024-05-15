@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import { RenderElementProps } from "slate-react";
 import styled from "@emotion/styled";
 import { Root, Trigger, Content, Arrow, Portal } from "@radix-ui/react-popover";
-import { IconButtonV2 } from "@ndla/button";
+import { ButtonV2, IconButtonV2 } from "@ndla/button";
 import { colors, spacing, animations, stackOrder } from "@ndla/core";
 import { Cross, TrashCanOutline } from "@ndla/icons/action";
 import { Comment } from "@ndla/icons/common";
@@ -22,7 +22,7 @@ import { InlineBugfix } from "../../utils/InlineBugFix";
 const InlineComment = styled.span`
   display: inline;
   span {
-    background: ${colors.support.yellowLight};
+    background: ${colors.support.yellow};
     cursor: pointer;
   }
 `;
@@ -55,9 +55,9 @@ const CommentHeader = styled.div`
   border-bottom: 2px solid ${colors.brand.tertiary};
 `;
 
-const BlockCommentButton = styled.button`
+const BlockCommentButton = styled(ButtonV2)`
   all: unset;
-  background: ${colors.support.yellowLight};
+  background: ${colors.support.yellow};
   cursor: pointer;
   color: ${colors.brand.greyDark};
   font-style: italic;
@@ -67,6 +67,11 @@ const BlockCommentButton = styled.button`
   padding: ${spacing.xxsmall} 0px ${spacing.xxsmall} ${spacing.xxsmall};
   margin: ${spacing.xxsmall} 0px;
   width: 100%;
+  &:hover,
+  &:focus {
+    background: ${colors.support.yellow};
+    color: ${colors.brand.greyDark};
+  }
 `;
 
 const CommentText = styled(Text)`
@@ -103,7 +108,7 @@ const CommentEmbed = ({ embed, onSave, children, onRemove, commentType, attribut
             <InlineBugfix />
           </InlineComment>
         ) : (
-          <BlockCommentButton type="button" contentEditable={false} {...attributes}>
+          <BlockCommentButton variant="stripped" contentEditable={false} {...attributes}>
             <Comment />
             <CommentText textStyle="button" margin="none">
               {embed?.embedData?.text ?? ""}

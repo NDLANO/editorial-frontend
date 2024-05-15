@@ -93,7 +93,7 @@ const CommentForm = ({
       onSubmit={onSubmit}
       validate={(values) => validateFormik(values, rules, t)}
     >
-      {() => (
+      {({ isValid }) => (
         <Form>
           <FormField name="text">
             {({ field, meta }) => {
@@ -106,18 +106,18 @@ const CommentForm = ({
                     <StyledPlainTextEditor id={field.name} {...field} value={initialValues.text} />
                     <FieldErrorMessage>{meta.error}</FieldErrorMessage>
                   </FormControl>
-                  <CommentActions>
-                    <ButtonV2 onClick={() => onOpenChange(false)} variant="outline">
-                      {t("form.abort")}
-                    </ButtonV2>
-                    <ButtonV2 type="submit" variant="solid" data-testid="disclaimer-save" disabled={!!meta.error}>
-                      {t("form.save")}
-                    </ButtonV2>
-                  </CommentActions>
                 </>
               );
             }}
           </FormField>
+          <CommentActions>
+            <ButtonV2 onClick={() => onOpenChange(false)} variant="outline">
+              {t("form.abort")}
+            </ButtonV2>
+            <ButtonV2 type="submit" variant="solid" data-testid="disclaimer-save" disabled={!isValid}>
+              {t("form.save")}
+            </ButtonV2>
+          </CommentActions>
         </Form>
       )}
     </Formik>

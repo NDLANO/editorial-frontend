@@ -651,7 +651,7 @@ const phrases = {
     "code-block": "Code",
     "concept-inline": "Concept\n({{ctrl}}+alt+c)",
     "gloss-inline": "Gloss\n({{ctrl}}+alt+g)",
-    "comment-inline": "Comment",
+    "comment-inline": "Comment\n({{ctrl}}+alt+e)",
     footnote: "Footnote\n({{ctrl}}+alt+f)",
     language: `Language`,
     noneLanguage: "None",
@@ -681,7 +681,7 @@ const phrases = {
     center: "Center aligned",
     right: "Right aligned",
     disabled: {
-      "comment-inline": "Comment can't overlap inline element",
+      "comment-inline": "Comment can only overlap text",
     },
   },
   editorBlockpicker: {

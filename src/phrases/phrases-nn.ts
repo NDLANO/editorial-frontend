@@ -651,7 +651,7 @@ const phrases = {
     "code-block": "Kodeblokk",
     "concept-inline": "Forklaring\n({{ctrl}}+alt+c)",
     "gloss-inline": "Glose\n({{ctrl}}+alt+g)",
-    "comment-inline": "Kommentar",
+    "comment-inline": "Kommentar\n({{ctrl}}+alt+e)",
     footnote: "Fotnote\n({{ctrl}}+alt+f)",
     language: `Språk`,
     noneLanguage: "Ingen",
@@ -681,7 +681,7 @@ const phrases = {
     center: "Midtstilt",
     right: "Høgrejustert",
     disabled: {
-      "comment-inline": "Kommentar kan ikkje overlappe inline element",
+      "comment-inline": "Kommentar kan kun overlappe tekst",
     },
   },
   editorBlockpicker: {

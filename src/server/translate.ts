@@ -6,6 +6,7 @@
  *
  */
 
+import { load } from "cheerio";
 import FormData from "form-data";
 import fetch from "node-fetch";
 import queryString from "query-string";
@@ -60,9 +61,16 @@ const doFetch = (name: string, element: ApiTranslateType): Promise<ResponseType>
       });
   } else {
     const formData = new FormData();
-    const wrappedContent = `<html>${element.content}</html>`;
-    const buffer = Buffer.from(wrappedContent);
+    const html = load(`${element.content}`);
+    html("span[lang]").each((_, el) => {
+      html(el).wrap("<ndskip></ndskip>");
+    });
+    html("math").each((_, el) => {
+      html(el).wrap("<ndskip></ndskip>");
+    });
+    const buffer = Buffer.from(html.html());
     const params = { stilmal };
+    console.log(html.html());
 
     formData.append("file", buffer, { filename: `${name}.html` });
     return fetch(`${htmlUrl}?${queryString.stringify(params)}`, {
@@ -73,7 +81,12 @@ const doFetch = (name: string, element: ApiTranslateType): Promise<ResponseType>
       .then((res) => res.blob())
       .then((res) => res.text())
       .then(async (res) => {
-        const strippedResponse = res.replace("<html>", "").replace("</html>", "");
+        const response = load(res);
+        response("ndskip").each((_, el) => {
+          response(el).contents().unwrap();
+        });
+        const strippedResponse = response("body").unwrap().html() ?? "";
+        //const strippedResponse = res.replace("<html>", "").replace("</html>", "");
         return { key: name, value: strippedResponse };
       });
   }

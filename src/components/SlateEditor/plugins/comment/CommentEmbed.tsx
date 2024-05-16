@@ -102,7 +102,7 @@ const CommentEmbed = ({ embed, onSave, children, onRemove, commentType, attribut
     <Root open={isOpen} onOpenChange={setIsOpen}>
       <Trigger asChild type={undefined}>
         {commentType === "inline" ? (
-          <InlineComment role="button" contentEditable={false} tabIndex={0} {...attributes}>
+          <InlineComment role="button" tabIndex={0} {...attributes}>
             <InlineBugfix />
             {children}
             <InlineBugfix />

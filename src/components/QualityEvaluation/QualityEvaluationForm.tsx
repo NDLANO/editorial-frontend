@@ -171,12 +171,12 @@ const QualityEvaluationForm = ({ setOpen }: Props) => {
           </FormField>
           <FormField name="note">
             {({ field }) => (
-              <>
+              <FormControl>
                 <Label margin="none" textStyle="label-small">
                   {t("qualityEvaluationForm.note")}
                 </Label>
                 <InputV3 {...field} />
-              </>
+              </FormControl>
             )}
           </FormField>
           <ButtonContainer>

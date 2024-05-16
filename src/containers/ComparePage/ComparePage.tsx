@@ -106,6 +106,7 @@ const ComparePage = () => {
             type="formArticle"
             draft={formArticle}
             language={language}
+            previewAlt
             label={t(`articleType.${article.articleType}`)}
           />
         </div>
@@ -129,6 +130,7 @@ const ComparePage = () => {
               type="article"
               draft={draft.data}
               language={previewLanguage}
+              previewAlt
               label={t(`articleType.${draft.data.articleType}`)}
             />
           )}

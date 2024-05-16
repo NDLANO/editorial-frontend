@@ -16,6 +16,7 @@ interface BaseProps {
   label: string;
   contentType?: string;
   language: string;
+  previewAlt?: boolean;
   type: "article" | "formArticle";
 }
 
@@ -58,7 +59,7 @@ export const toFormArticle = (article: IArticle, language: string): FormArticle 
 };
 
 export const PreviewDraft = (props: Props) => {
-  const { label, type, language, contentType, draft: draftProp } = props;
+  const { label, type, language, contentType, previewAlt = false, draft: draftProp } = props;
   const draft = useMemo(() => {
     if (type === "article") return toFormArticle(draftProp, language);
     return draftProp;
@@ -67,7 +68,7 @@ export const PreviewDraft = (props: Props) => {
   const { article } = useTransformedArticle({
     draft,
     language,
-    previewAlt: false,
+    previewAlt,
     useDraftConcepts: false,
   });
 

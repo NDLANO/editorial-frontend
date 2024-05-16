@@ -63,14 +63,13 @@ const doFetch = (name: string, element: ApiTranslateType): Promise<ResponseType>
     const formData = new FormData();
     const html = load(`${element.content}`);
     html("span[lang]").each((_, el) => {
-      html(el).wrap("<ndskip></ndskip>");
+      html(el).wrap("<ndlaskip></ndlaskip>");
     });
     html("math").each((_, el) => {
-      html(el).wrap("<ndskip></ndskip>");
+      html(el).wrap("<ndlaskip></ndlaskip>");
     });
     const buffer = Buffer.from(html.html());
     const params = { stilmal };
-    console.log(html.html());
 
     formData.append("file", buffer, { filename: `${name}.html` });
     return fetch(`${htmlUrl}?${queryString.stringify(params)}`, {
@@ -82,11 +81,10 @@ const doFetch = (name: string, element: ApiTranslateType): Promise<ResponseType>
       .then((res) => res.text())
       .then(async (res) => {
         const response = load(res);
-        response("ndskip").each((_, el) => {
+        response("ndlaskip").each((_, el) => {
           response(el).contents().unwrap();
         });
         const strippedResponse = response("body").unwrap().html() ?? "";
-        //const strippedResponse = res.replace("<html>", "").replace("</html>", "");
         return { key: name, value: strippedResponse };
       });
   }

@@ -7,7 +7,7 @@
  */
 
 import { useField } from "formik";
-import { CSSProperties, useMemo } from "react";
+import { CSSProperties } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { colors, spacing } from "@ndla/core";
@@ -40,11 +40,6 @@ const QualityEvaluation = ({ articleType }: Props) => {
 
   const [qualityEvaluationField] = useField<QualityEvaluationFormValues>("qualityEvaluation");
 
-  const evaluationGradeColor = useMemo(
-    () => qualityEvaluationOptions.find((option) => option.value === qualityEvaluationField.value?.grade)?.color,
-    [qualityEvaluationField.value?.grade],
-  );
-
   return (
     <FlexWrapper>
       <Text margin="none" textStyle="button">
@@ -56,7 +51,7 @@ const QualityEvaluation = ({ articleType }: Props) => {
           aria-label={qualityEvaluationField.value?.note}
           style={
             {
-              "--item-color": evaluationGradeColor,
+              "--item-color": qualityEvaluationOptions[qualityEvaluationField.value?.grade],
             } as CSSProperties
           }
         >

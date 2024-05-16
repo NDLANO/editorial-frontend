@@ -20,13 +20,13 @@ import { formatDateForBackend } from "../../util/formatDate";
 import { FormControl, FormField } from "../FormField";
 import validateFormik, { RulesType } from "../formikValidationSchema";
 
-export const qualityEvaluationOptions: { value: number; color: string }[] = [
-  { value: 1, color: colors.support.green },
-  { value: 2, color: "#C3D060" },
-  { value: 3, color: colors.support.yellow },
-  { value: 4, color: "#CF9065" },
-  { value: 5, color: colors.assessmentResource.dark },
-];
+export const qualityEvaluationOptions: { [key: number]: string } = {
+  1: colors.support.green,
+  2: "#C3D060",
+  3: colors.support.yellow,
+  4: "#CF9065",
+  5: colors.assessmentResource.dark,
+};
 
 const StyledFieldset = styled(Fieldset)`
   display: flex;
@@ -49,12 +49,15 @@ export const gradeItemStyles = css`
 const StyledItem = styled(Item)`
   all: unset;
   ${gradeItemStyles};
-  &:hover,
-  &:focus-visible,
-  &[data-state="checked"] {
+
+  &:hover {
     cursor: pointer;
-    box-shadow: 0 0 0 2px ${blackContrastColor};
+    box-shadow: 0 0 0 2px ${colors.brand.primary};
     border-radius: ${misc.borderRadius};
+  }
+
+  &[data-state="checked"] {
+    box-shadow: 0 0 0 2px ${blackContrastColor};
   }
 `;
 
@@ -107,12 +110,13 @@ const QualityEvaluationForm = ({ setOpen }: Props) => {
   const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
 
   const onSubmit = (values: QualityEvaluationFormValues) => {
+    // Automatically add revision when grade is lowest possible value (5)
     if (values.grade === 5 && qualityEvaluationField.value?.grade !== 5) {
       const revisions = revisionMetaField.value ?? [];
       revisionMetaHelpers.setValue(
         revisions.concat({
           revisionDate: formatDateForBackend(new Date()),
-          note: values.note ?? t("qualityEvaluationForm.needRevision"),
+          note: values.note || t("qualityEvaluationForm.needsRevision"),
           status: "needs-revision",
         }),
       );
@@ -148,7 +152,7 @@ const QualityEvaluationForm = ({ setOpen }: Props) => {
                     <Legend margin="none" textStyle="label-small">
                       {t("qualityEvaluationForm.title")}
                     </Legend>
-                    {qualityEvaluationOptions.map(({ value, color }) => (
+                    {Object.entries(qualityEvaluationOptions).map(([value, color]) => (
                       <div key={value}>
                         <StyledItem
                           id={`quality-${value}`}

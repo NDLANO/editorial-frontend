@@ -11,7 +11,7 @@ import { ISingleResourceStats } from "@ndla/types-backend/myndla-api";
 import { fetchResourceStats } from "./myndlaApi";
 import { MYNDLA_RESOURCE_STATS } from "../../queryKeys";
 
-export interface UseResourceStats {
+interface UseResourceStats {
   resourceTypes: string;
   resourceIds: string;
 }

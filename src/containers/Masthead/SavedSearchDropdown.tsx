@@ -68,11 +68,7 @@ const pathToTypeMapping: Record<string, string> = {
   default: "content",
 };
 
-interface Props {
-  onClose: () => void;
-}
-
-const SearchDropdown = ({ onClose }: Props) => {
+const SearchDropdown = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [enableUserData, setEnableUserData] = useState(false);
 
@@ -111,9 +107,8 @@ const SearchDropdown = ({ onClose }: Props) => {
     (open: boolean): void => {
       if (!enableUserData) setEnableUserData(isValid(getAccessToken()) && getAccessTokenPersonal() && open);
       setMenuOpen(open);
-      onClose();
     },
-    [enableUserData, onClose],
+    [enableUserData],
   );
 
   const { searchObjects, getSavedSearchData, loading, error } = useSavedSearchUrl(userData);

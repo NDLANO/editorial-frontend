@@ -5,27 +5,33 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { ChangeEvent } from "react";
 import { useTranslation } from "react-i18next";
-import { ToggleItem } from "@ndla/ui";
+import styled from "@emotion/styled";
+import { colors, fonts } from "@ndla/core";
+import { CheckboxItem, Label } from "@ndla/forms";
+import { CheckboxWrapper } from "../../../../components/Form/styles";
 
 interface Props {
   checked: boolean;
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onCheckedChange: (value: boolean) => void;
   name: string;
 }
 
-const CheckboxSelector = ({ name, checked, onChange }: Props) => {
+const StyledLabel = styled(Label)`
+  color: ${colors.brand.primary};
+  font-weight: ${fonts.weight.normal};
+`;
+
+const CheckboxSelector = ({ name, checked, onCheckedChange }: Props) => {
   const { t } = useTranslation();
 
   return (
-    <ToggleItem
-      id={`checkbox-${name}`}
-      label={t(`searchForm.types.${name}`)}
-      onChange={onChange}
-      checked={checked}
-      component="div"
-    />
+    <CheckboxWrapper>
+      <CheckboxItem id={`checkbox-${name}`} checked={checked} onCheckedChange={onCheckedChange} />
+      <StyledLabel margin="none" textStyle="label-small" htmlFor={`checkbox-${name}`}>
+        {t(`searchForm.types.${name}`)}
+      </StyledLabel>
+    </CheckboxWrapper>
   );
 };
 

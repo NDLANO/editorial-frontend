@@ -16,7 +16,6 @@ import validateFormik, { getWarnings } from "../../../../components/formikValida
 import HeaderWithLanguage from "../../../../components/HeaderWithLanguage";
 import EditorFooter from "../../../../components/SlateEditor/EditorFooter";
 import StyledForm from "../../../../components/StyledFormComponents";
-import { useWideArticle } from "../../../../components/WideArticleEditorProvider";
 import { validateDraft } from "../../../../modules/draft/draftApi";
 import { useLicenses, useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
 import { frontPageArticleRules, isFormikFormDirty } from "../../../../util/formHelper";
@@ -29,8 +28,6 @@ import {
   frontpageArticleFormTypeToDraftApiType,
   getExpirationDate,
 } from "../../articleTransformers";
-import CommentSection from "../../components/CommentSection";
-import { FlexWrapper, MainContent } from "../../styles";
 
 interface Props {
   article?: IArticle;
@@ -54,7 +51,6 @@ const FrontpageArticleForm = ({
   supportedLanguages,
 }: Props) => {
   const { t } = useTranslation();
-  const { isWideArticle } = useWideArticle();
   const { ndlaId } = useSession();
   const { savedToServer, formikRef, initialValues, handleSubmit } = useArticleFormHooks<FrontpageArticleFormType>({
     getInitialValues: draftApiTypeToFrontpageArticleFormType,
@@ -95,16 +91,11 @@ const FrontpageArticleForm = ({
           type="frontpage-article"
           expirationDate={getExpirationDate(article)}
         />
-        <FlexWrapper>
-          <MainContent data-wide={isWideArticle}>
-            <FrontpageArticlePanels
-              articleLanguage={articleLanguage}
-              article={article}
-              articleHistory={articleHistory?.data}
-            />
-          </MainContent>
-          <CommentSection savedStatus={article?.status} articleType="frontpage-article" />
-        </FlexWrapper>
+        <FrontpageArticlePanels
+          articleLanguage={articleLanguage}
+          article={article}
+          articleHistory={articleHistory?.data}
+        />
         <FormFooter
           articleChanged={!!articleChanged}
           isNewlyCreated={isNewlyCreated}

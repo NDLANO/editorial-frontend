@@ -8,7 +8,7 @@
 
 import { Descendant } from "slate";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../../util/articleContentConverter";
-import { TYPE_EMBED_IMAGE } from "../../embed/types";
+import { TYPE_IMAGE } from "../../image/types";
 import { TYPE_PARAGRAPH } from "../../paragraph/types";
 import { TYPE_SECTION } from "../../section/types";
 
@@ -18,7 +18,7 @@ const editor: Descendant[] = [
     children: [
       { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
       {
-        type: TYPE_EMBED_IMAGE,
+        type: TYPE_IMAGE,
         children: [
           {
             text: "",
@@ -29,7 +29,7 @@ const editor: Descendant[] = [
           alt: " ",
           caption: " ",
           resource: "image",
-          resource_id: "41176",
+          resourceId: "41176",
           size: "fullbredde",
           url: "https://test123.no",
         },

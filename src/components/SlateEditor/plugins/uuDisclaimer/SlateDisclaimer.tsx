@@ -131,7 +131,7 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
   );
 
   return (
-    <div data-testid="slate-disclaimer-block" {...attributes}>
+    <div data-testid="slate-disclaimer-block" {...attributes} contentEditable="true">
       <ButtonContainer>
         <DeleteButton aria-label={t("delete")} data-testid="delete-disclaimer" onClick={handleDelete} />
         <Modal open={modalOpen} onOpenChange={setModalOpen}>
@@ -154,7 +154,7 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
           </ModalContent>
         </Modal>
         <MoveContentButton
-          aria-label={t("learningResourceForm.fields.rightAside.moveContent")}
+          aria-label={t("form.moveContent")}
           data-testid="move-disclaimer"
           onMouseDown={handleRemoveDisclaimer}
         />

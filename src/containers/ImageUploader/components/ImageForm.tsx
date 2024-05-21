@@ -223,20 +223,10 @@ const ImageForm = ({
               >
                 <ImageCopyright />
               </FormAccordion>
-              <FormAccordion
-                id="metadata"
-                title={t("form.metadataSection")}
-                className={"u-6/6"}
-                hasError={hasError(["tags"])}
-              >
+              <FormAccordion id="metadata" title={t("form.metadataSection")} hasError={hasError(["tags"])}>
                 <ImageMetaData imageLanguage={language} imageTags={values.tags} />
               </FormAccordion>
-              <FormAccordion
-                id="image-upload-version-history"
-                title={t("form.workflowSection")}
-                className={"u-6/6"}
-                hasError={false}
-              >
+              <FormAccordion id="image-upload-version-history" title={t("form.workflowSection")} hasError={false}>
                 <SimpleVersionPanel editorNotes={image?.editorNotes} />
               </FormAccordion>
             </FormAccordions>

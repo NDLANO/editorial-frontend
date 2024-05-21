@@ -80,8 +80,13 @@ const SubjectViewContent = ({
       enabled: isFavoriteTab,
     },
   );
-
-  const subjectIds = isFavoriteTab ? subjects : subjects.map((s) => s.id);
+  const subjectIds = useMemo(() => {
+    if (isFavoriteTab) {
+      if (favoriteSubjects) return favoriteSubjects.results.map((s) => s.id);
+      return [];
+    }
+    return subjects.map((s) => s.id);
+  }, [favoriteSubjects, isFavoriteTab, subjects]);
 
   const currentPageSubjectIds = useMemo(() => {
     return getCurrentPageData(page, subjectIds, Number(pageSize!.value));
@@ -153,7 +158,7 @@ const SubjectViewContent = ({
       const subjectName = isFavoriteTab
         ? favoriteSubjects?.results.find((s) => s.id === stats.subjectId)?.name
         : subjects.find((s) => s.id === stats.subjectId)?.name;
-      if (!subjectName) return [];
+
       return [
         {
           id: `title_${stats.subjectId}`,

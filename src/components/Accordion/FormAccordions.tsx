@@ -6,15 +6,13 @@
  *
  */
 
-import { Children, ReactElement, memo, useCallback, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { ReactElement, memo, useState } from "react";
 import styled from "@emotion/styled";
 import { AccordionRoot } from "@ndla/accordion";
-import { ButtonV2 } from "@ndla/button";
-import { fonts, spacing } from "@ndla/core";
-import { Switch } from "@ndla/switch";
+import { spacing } from "@ndla/core";
 import { FormAccordionProps } from "./FormAccordion";
-import { useWideArticle } from "../WideArticleEditorProvider";
+import OpenAllButton from "./OpenAllButton";
+import { MainContent } from "../../containers/ArticlePage/styles";
 
 type ChildType = ReactElement<FormAccordionProps> | undefined | false;
 
@@ -31,63 +29,29 @@ const AccordionsWrapper = styled.div`
   gap: ${spacing.small};
 `;
 
-const OpenAllButton = styled(ButtonV2)`
-  align-self: flex-end;
-`;
-
 const FlexWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
 `;
 
-const StyledSwitch = styled(Switch)`
-  > label {
-    font-weight: ${fonts.weight.semibold};
-    ${fonts.sizes("16px")};
-  }
-  padding-right: ${spacing.small};
-`;
-
-const FormAccordions = ({ defaultOpen, children, articleId, articleType }: Props) => {
-  const { t } = useTranslation();
+const FormAccordions = ({ defaultOpen, children }: Props) => {
   const [openAccordions, setOpenAccordions] = useState<string[]>(defaultOpen);
-  const { toggleWideArticles, isWideArticle } = useWideArticle();
-  const accordionChildren = useMemo(
-    () => Children.map(children, (c) => (!c ? false : c?.props?.id))?.filter(Boolean) ?? [],
-    [children],
-  );
-  const allOpen = useMemo(
-    () => accordionChildren.length === openAccordions.length,
-    [accordionChildren, openAccordions.length],
-  );
-
-  const onChangeAll = useCallback(() => {
-    if (allOpen) {
-      setOpenAccordions([]);
-    } else {
-      setOpenAccordions(accordionChildren);
-    }
-  }, [allOpen, accordionChildren]);
 
   return (
     <AccordionsWrapper>
       <FlexWrapper>
-        {!!articleId && articleType === "frontpage-article" && (
-          <StyledSwitch
-            id={articleId}
-            label={t("frontpageArticleForm.isFrontpageArticle.toggleArticle")}
-            checked={isWideArticle}
-            onChange={() => toggleWideArticles(articleId)}
-          />
-        )}
-        <OpenAllButton onClick={onChangeAll} variant="ghost">
-          {allOpen ? t("accordion.closeAll") : t("accordion.openAll")}
-        </OpenAllButton>
+        <OpenAllButton
+          openAccordions={openAccordions}
+          setOpenAccordions={setOpenAccordions}
+          formAccordionChildren={children}
+        />
       </FlexWrapper>
-      <AccordionRoot type="multiple" value={openAccordions} onValueChange={setOpenAccordions}>
-        {children}
-      </AccordionRoot>
+      <MainContent>
+        <AccordionRoot type="multiple" value={openAccordions} onValueChange={setOpenAccordions}>
+          {children}
+        </AccordionRoot>
+      </MainContent>
     </AccordionsWrapper>
   );
 };

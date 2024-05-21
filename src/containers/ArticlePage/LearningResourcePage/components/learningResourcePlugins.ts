@@ -29,6 +29,7 @@ import { framedContentPlugin } from "../../../../components/SlateEditor/plugins/
 import { gridPlugin } from "../../../../components/SlateEditor/plugins/grid";
 import { h5pPlugin } from "../../../../components/SlateEditor/plugins/h5p";
 import { headingPlugin } from "../../../../components/SlateEditor/plugins/heading";
+import { imagePlugin } from "../../../../components/SlateEditor/plugins/image";
 import { linkPlugin } from "../../../../components/SlateEditor/plugins/link";
 import { listPlugin } from "../../../../components/SlateEditor/plugins/list";
 import { markPlugin } from "../../../../components/SlateEditor/plugins/mark";
@@ -51,6 +52,7 @@ export const learningResourcePlugins: SlatePlugin[] = [
   paragraphPlugin,
   footnotePlugin,
   audioPlugin(),
+  imagePlugin(),
   h5pPlugin(),
   externalPlugin(),
   videoPlugin(),

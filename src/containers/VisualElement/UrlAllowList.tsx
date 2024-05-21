@@ -30,7 +30,7 @@ const UrlAllowList = ({ allowList }: Props) => {
 
   const filteredAllowList = allowList.sort(sortEntries);
   return (
-    <StyledTable className="c-table">
+    <StyledTable>
       <thead>
         <tr>
           <th>{t("form.content.link.name")}</th>

@@ -1,12 +1,12 @@
 /**
- * Copyright (c) 2017-present, NDLA.
+ * Copyright (c) 2024-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
  */
 
-import { Form, Formik, FormikProps } from "formik";
+import { Form, Formik, useFormikContext } from "formik";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
@@ -14,10 +14,11 @@ import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { colors, spacing, stackOrder } from "@ndla/core";
 import { CheckboxItem, FieldErrorMessage, Label, TextAreaV3 } from "@ndla/forms";
+import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
+import { ImageEmbedData } from "@ndla/types-embed";
 import { Text } from "@ndla/typography";
 import { InlineField } from "../../../../containers/FormikForm/InlineField";
 import ImageEditor from "../../../../containers/ImageEditor/ImageEditor";
-import { ImageEmbed } from "../../../../interfaces";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
 import { isFormikFormDirty } from "../../../../util/formHelper";
 import { CheckboxWrapper } from "../../../Form/styles";
@@ -27,50 +28,33 @@ import { RichTextIndicator } from "../../RichTextIndicator";
 import { useInGrid } from "../grid/GridContext";
 
 interface Props {
-  embed: ImageEmbed;
-  saveEmbedUpdates: (values: { [x: string]: string | undefined }) => void;
-  setEditModus: Function;
+  embed: ImageEmbedData;
+  image?: IImageMetaInformationV3;
+  onSave: (data: ImageEmbedData) => void;
+  onClose: () => void;
   language: string;
-  allowDecorative?: boolean;
+  allowDecorative: boolean;
 }
 
-export interface ImageEditFormValues {
+export interface ImageEmbedFormValues {
+  size?: string;
+  align?: string;
   alt: string;
-  resourceId: string;
   caption: Descendant[];
-  isDecorative: boolean;
-  border: boolean;
+  url?: string;
   focalX?: string;
   focalY?: string;
-  upperLeftX?: string;
-  upperLeftY?: string;
-  lowerRightX?: string;
   lowerRightY?: string;
-  align?: string;
-  size?: string;
-  hideByline: boolean;
+  lowerRightX?: string;
+  upperLeftY?: string;
+  upperLeftX?: string;
+  metaData?: any;
+  border?: boolean;
+  isDecorative: boolean;
+  hideByline?: boolean;
 }
 
-const toImageEmbedFormValues = (embed: ImageEmbed): ImageEditFormValues => {
-  return {
-    resourceId: embed.resource_id,
-    alt: embed.alt,
-    caption: inlineContentToEditorValue(embed.caption ?? "", true),
-    isDecorative: embed["is-decorative"] === "true",
-    border: embed.border === "true",
-    focalX: embed["focal-x"],
-    focalY: embed["focal-y"],
-    upperLeftX: embed["upper-left-x"],
-    upperLeftY: embed["upper-left-y"],
-    lowerRightX: embed["lower-right-x"],
-    lowerRightY: embed["lower-right-y"],
-    align: embed.align,
-    size: embed.size?.replace("-hide-byline", ""),
-    hideByline: !!embed.size?.includes("hide-byline"),
-  };
-};
-
-const formRules: RulesType<ImageEditFormValues> = {
+const formRules: RulesType<ImageEmbedFormValues> = {
   alt: {
     test: (values) => {
       if (!values.alt && !values.isDecorative) {
@@ -80,28 +64,48 @@ const formRules: RulesType<ImageEditFormValues> = {
   },
 };
 
-const EditImage = ({ embed, saveEmbedUpdates, setEditModus, language, allowDecorative }: Props) => {
-  const { t } = useTranslation();
-  const initialValues = useMemo(() => toImageEmbedFormValues(embed), [embed]);
+const toImageEmbedFormvalues = (embed: ImageEmbedData): ImageEmbedFormValues => {
+  return {
+    alt: embed.alt,
+    caption: inlineContentToEditorValue(embed.caption ?? "", true),
+    isDecorative: embed.isDecorative === "true",
+    border: embed.border === "true",
+    focalX: embed.focalX,
+    focalY: embed.focalY,
+    upperLeftX: embed.upperLeftX,
+    upperLeftY: embed.upperLeftY,
+    lowerRightX: embed.lowerRightX,
+    lowerRightY: embed.lowerRightY,
+    align: embed.align,
+    size: embed.size?.replace("hide-byline", ""),
+    hideByline: !!embed.size?.includes("hide-byline"),
+  };
+};
 
-  const handleSave = (values: ImageEditFormValues) => {
-    saveEmbedUpdates({
+const ImageEmbedForm = ({ embed, onSave, onClose, language, allowDecorative, image }: Props) => {
+  const { t } = useTranslation();
+  const initialValues = useMemo(() => {
+    return toImageEmbedFormvalues(embed);
+  }, [embed]);
+
+  const handleSave = (values: ImageEmbedFormValues) => {
+    onSave({
       resource: "image",
-      resource_id: embed.resource_id,
+      resourceId: embed.resourceId,
       alt: values.alt,
       caption: inlineContentToHTML(values.caption),
-      "is-decorative": values.isDecorative ? "true" : "false",
+      isDecorative: values.isDecorative ? "true" : "false",
       border: values.border ? "true" : "false",
-      "focal-x": values.focalX,
-      "focal-y": values.focalY,
-      "upper-left-x": values.upperLeftX,
-      "upper-left-y": values.upperLeftY,
-      "lower-right-x": values.lowerRightX,
-      "lower-right-y": values.lowerRightY,
+      focalX: values.focalX,
+      focalY: values.focalY,
+      upperLeftX: values.upperLeftX,
+      upperLeftY: values.upperLeftY,
+      lowerRightX: values.lowerRightX,
+      lowerRightY: values.lowerRightY,
       align: values.align,
       size: values.hideByline ? `${values.size}-hide-byline` : values.size,
     });
-    setEditModus(false);
+    onClose();
   };
 
   return (
@@ -109,26 +113,17 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus, language, allowDecor
       initialValues={initialValues}
       onSubmit={handleSave}
       validate={(values) => validateFormik(values, formRules, t)}
-      validateOnBlur={false}
-      validateOnMount
     >
-      {(formik) => (
-        <EditImageForm
-          {...formik}
-          language={language}
-          close={() => setEditModus(false)}
-          allowDecorative={allowDecorative}
-        />
-      )}
+      <EmbedForm onClose={onClose} language={language} allowDecorative={allowDecorative} image={image} />
     </Formik>
   );
 };
 
-interface EditImageFormProps extends FormikProps<ImageEditFormValues> {
-  close: () => void;
-  allowDecorative?: boolean;
-  language: string;
-}
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: ${spacing.small};
+`;
 
 const StyledInputWrapper = styled.div`
   display: flex;
@@ -140,25 +135,17 @@ const StyledInputWrapper = styled.div`
   z-index: ${stackOrder.offsetSingle};
 `;
 
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  gap: ${spacing.small};
-`;
-
-const EditImageForm = ({
-  isValid,
-  values,
+const EmbedForm = ({
+  onClose,
   language,
-  setFieldValue,
-  isSubmitting,
-  dirty,
   allowDecorative,
-  close,
-  initialValues,
-}: EditImageFormProps) => {
+  image,
+}: Pick<Props, "onClose" | "language" | "allowDecorative" | "image">) => {
   const { t } = useTranslation();
   const inGrid = useInGrid();
+  const { values, initialValues, isValid, setFieldValue, dirty, isSubmitting } =
+    useFormikContext<ImageEmbedFormValues>();
+
   const formIsDirty = isFormikFormDirty({
     values,
     initialValues,
@@ -166,7 +153,7 @@ const EditImageForm = ({
   });
   return (
     <Form>
-      <ImageEditor language={language} />
+      {!!image && <ImageEditor language={language} image={image} />}
       <StyledInputWrapper>
         <div>
           <Text textStyle="label-small" margin="none">
@@ -234,7 +221,7 @@ const EditImageForm = ({
           </FormField>
         )}
         <ButtonWrapper>
-          <ButtonV2 onClick={close} variant="outline">
+          <ButtonV2 onClick={onClose} variant="outline">
             {t("form.abort")}
           </ButtonV2>
           <ButtonV2 disabled={!formIsDirty || !isValid} type="submit">
@@ -246,4 +233,4 @@ const EditImageForm = ({
   );
 };
 
-export default EditImage;
+export default ImageEmbedForm;

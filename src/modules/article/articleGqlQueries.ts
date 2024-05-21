@@ -33,7 +33,8 @@ export const transformArticleQueryKeys = {
 export const usePreviewArticle = (
   content: string,
   language: string,
-  visualElement?: string,
+  visualElement: string | undefined,
+  useDraftConcepts: boolean,
   options?: Partial<UseQueryOptions<string>>,
 ): UseQueryResult<string> => {
   return useTransformArticle(
@@ -42,7 +43,7 @@ export const usePreviewArticle = (
       language,
       visualElement,
       previewH5p: true,
-      draftConcept: true,
+      draftConcept: useDraftConcepts,
       absoluteUrl: true,
     },
     options,

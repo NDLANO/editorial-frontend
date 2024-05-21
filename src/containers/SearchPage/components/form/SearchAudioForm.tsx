@@ -53,7 +53,7 @@ const SearchAudioForm = ({
   }, [search.query]);
 
   const onFieldChange: OnFieldChangeFunction = (name, value, evt) => {
-    if (name === "query") setQueryInput(evt.currentTarget.value);
+    if (name === "query" && evt) setQueryInput(evt.currentTarget.value);
     else doSearch({ ...search, [name]: value });
   };
 

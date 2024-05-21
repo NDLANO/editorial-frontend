@@ -95,10 +95,7 @@ const SlateFramedContent = (props: Props & RenderElementProps) => {
             <Copyright />
           </IconButtonV2>
         )}
-        <MoveContentButton
-          onMouseDown={onMoveContent}
-          aria-label={t("learningResourceForm.fields.rightAside.moveContent")}
-        />
+        <MoveContentButton onMouseDown={onMoveContent} aria-label={t("form.moveContent")} />
         <DeleteButton
           aria-label={t("form.remove")}
           tabIndex={-1}

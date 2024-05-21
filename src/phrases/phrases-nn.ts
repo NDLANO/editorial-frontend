@@ -28,7 +28,6 @@ const phrases = {
     podcastUploaderPage: `Podkastepisode ${titleTemplate}`,
     podcastSeriesPage: `Podkastserie ${titleTemplate}`,
     h5pPage: `H5P ${titleTemplate}`,
-    publishRequestsPage: `Publiseringsforespørsler ${titleTemplate}`,
     nodeDiffPage: `Samanlikne nodar ${titleTemplate}`,
     editFrontpage: "Rediger forside",
     comparePage: `Samanlikne versjonar ${titleTemplate}`,
@@ -112,6 +111,7 @@ const phrases = {
     change: "Bytt til {{language}} versjon",
   },
   welcomePage: {
+    lastFavorited: "Siste hjertemarkerte ressurs: ",
     addSearch: "Legg til nytt søk",
     deleteSavedSearch: "Slett lagra søk",
     deleteSearch: "Slett søk",
@@ -250,7 +250,6 @@ const phrases = {
     structure: "Strukturredigering",
     programme: "Redigering av utdanningsprogram",
     taxonomyVersions: "Taksonomiversjonar",
-    publishRequests: "Publiseringsforespørjingar",
     searchContent: "Søk innhald",
     searchAudio: "Søk lyd",
     searchPodcastSeries: "Søk serie",
@@ -358,6 +357,7 @@ const phrases = {
       lastUpdated: "Sist oppdatert",
       revisionDate: "Neste revisjon",
       favorited: "Favorittmarkeringar",
+      published: "Sist faglig vurdert",
     },
     resultError: "Noko gjekk feil med innlasting av type: {{type}}",
     favourites: "Mine favorittfag",
@@ -635,11 +635,6 @@ const phrases = {
         "Ein eller fleire inkluderte lyd-, bilete-, eller videoelementer mangler beskrivende tekst eller alternativ tekst.",
     },
     fields: {
-      rightAside: {
-        title: "Høgrespalte",
-        moveContent: "Flytt innhald inn i teksten",
-        delete: "Slett høgrespalte",
-      },
       footnotes: {
         edition: "Utgåve",
         publisher: "Utgjevar",
@@ -649,6 +644,19 @@ const phrases = {
   keyFigureForm: {
     title: "Nykeltal",
     edit: "Rediger nykeltal",
+  },
+  qualityEvaluationForm: {
+    title: "Kvalitetsvurdering",
+    unavailable: "Ikkje satt",
+    modalTitle: "Oppdater kvalitetsvurdering",
+    description:
+      "Legg inn ei kvalitetsvurdering av {{ resource }} med ei beskriving av den valde graderinga. Skalaen er som følgjer: 1 = svært bra, 2 = bra, 3 = middels, 4 = dårlege, 5 = svært dårlege.",
+    edit: "Rediger kvalitetsvurdering",
+    delete: "Slett",
+    note: "Notat",
+    article: "artikkelen",
+    topicArticle: "emnet som heilskap",
+    needsRevision: "Treng revisjon",
   },
   editorToolbar: {
     bold: "Feit\n({{ctrl}}+b)",
@@ -745,9 +753,12 @@ const phrases = {
     openAll: "Opne alle",
     hideAll: "Lukk alle",
     unpublishedChanges: "(Endra sidan siste publisering)",
+    moveContent: "Flytt innhald inn i teksten",
     comment: {
       comment: "Kommenter",
       hide: "Skjul kommentar",
+      hideComments: "Skjul kommentarar",
+      showComments: "Vis kommentarar",
       show: "Vis kommentar",
       commentField: "Kommentarfelt",
       solve: "Kommentaren er merka som uløyst. Merk som løyst",
@@ -819,6 +830,8 @@ const phrases = {
       sides: "Kva for ei side biletet skal vises på",
       transcription: "Transkripsjon",
       type: "Type",
+      grade: "Gradering",
+      note: "Notat",
     },
     previewProductionArticle: {
       button: "Samanlikn gjeldande versjon med sist publiserte versjon",
@@ -827,6 +840,9 @@ const phrases = {
       current: "Gjeldende versjon",
       published: "Publisert versjon",
       article: "Artikkel",
+      enableDiff: "Marker forskjeller",
+      diffInfo:
+        "Markerer forskjellar i den upubliserte versjonen. Sletta tekst vil markerast med raudt, endra tekst med gult og ny tekst med grønt. Bilete og blokkelement vil visast med ei ramme rundt, men visninga kan vera noko mangelfull for nokre element.",
     },
     previewLanguageArticle: {
       button: "Samanlikn språkversjonar",
@@ -1765,12 +1781,9 @@ const phrases = {
     missingResourceType: "Mangler ressurstype",
     metadata: {
       customFields: {
-        cancelPublishRequest: "Avbryt forespørjing om delvis publisering av struktur",
-        requestPublish: "Be om delvis publisering av struktur",
-        requestVersionError: "Publiseringsforespørjingar kan bare opprettes fra Draft",
         alterFields: "Legg til/endra metadata",
         addField: "Nytt metadata felt",
-        languagePlaceholder: "Visningsspråk ndla.no",
+        languagePlaceholder: "Språksamling ndla.no",
         explanationSubject: "Forklaringsfag",
         programmeSubject: "Felles programfag",
         oldSubjectId: "ID for vidaresending",
@@ -1784,7 +1797,7 @@ const phrases = {
       },
       placeholders: {
         category: "Velg kategori",
-        language: "Velg språkkode",
+        language: "Velg språk",
         type: "Velg type",
         lma: "Velg LMA",
         sa: "Velg SA",
@@ -1909,28 +1922,7 @@ const phrases = {
       },
     },
   },
-  publishRequests: {
-    title: "Publiseringsforespørsler",
-    nodePublished: "Noden har blitt publisert!",
-    showInStructure: "Vis i struktur",
-    compare: "Samanlikn",
-    deleteAll: "Slett publiseringsforespørsler",
-    deleteAllInfo:
-      "Er du sikker på at du ønsker å slette alle publiseringsforespørsler? Denne handlingen kan ikkje angres.",
-    errors: {
-      noPublishedVersion: "Klarte ikkje finne publisert versjon",
-      noVersions: "Klarte ikkje finne versjonar",
-    },
-    numberRequests: "Antall publiseringsforespørslar",
-  },
   diff: {
-    published:
-      "Nodepublisering har starta. Dette kan ta litt tid. Prosessen er fullført når denne siden viser at dei to versjonane er like",
-    publishing: "Publiserar node...",
-    publish: "Publiser node",
-    publishWarning:
-      "Er du sikker på at du ønskjer å publisere denne noden? Alle endringar vil bli tilgjengelege i målversjonen når publiseringa er ferdig",
-    publishError: "Publisering av node feilet",
     equalNodes: "Disse nodene er like!",
     defaultVersion: "Draft",
     compareVersions: "Samanlikne versjonar",
@@ -1942,8 +1934,6 @@ const phrases = {
     },
     options: {
       about: "Denne sida lar deg samanlikne eit nodetre i to forskjellige versjoner.",
-      admin:
-        "Du kan publisere nodetreet mellom versjonane. Du kan publisere nye, og oppdatere eksisterande noder til målversjonen, men ikkje slette dei. Sletting må skje i den enkelte versjonen. Endringar høgare oppe i strukturen tas ikkje hensyn til.",
       originalHashLabel: "Målversjon",
       otherHashLabel: "Kildeversjon",
       viewLabel: "Visningstype",
@@ -2103,6 +2093,11 @@ const phrases = {
     closeChildren: "Skjul barn",
     hide: "Skjul",
     show: "Vis",
+  },
+  codeEditor: {
+    title: "Legg til kodeeksempel",
+    titleLabel: "Tittel",
+    programmingLanguage: "Kodespråk",
   },
 };
 

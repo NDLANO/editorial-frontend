@@ -12,9 +12,9 @@ import { ButtonV2 } from "@ndla/button";
 import { FieldHeader } from "@ndla/forms";
 import { ModalBody, Modal, ModalTrigger, ModalContent } from "@ndla/modal";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
+import { ImageEmbedData } from "@ndla/types-embed";
 import SubjectpageBannerImage from "./SubjectpageBannerImage";
 import ImageSearchAndUploader from "../../../components/ImageSearchAndUploader";
-import { ImageEmbed } from "../../../interfaces";
 import { fetchImage, onError, postSearchImages } from "../../../modules/image/imageApi";
 import { SubjectPageFormikType } from "../../../util/subjectHelpers";
 
@@ -27,7 +27,7 @@ const SubjectpageBanner = ({ title, fieldName }: Props) => {
   const { t, i18n } = useTranslation();
   const { setFieldTouched } = useFormikContext();
   const [image, setImage] = useState<IImageMetaInformationV3 | undefined>(undefined);
-  const [FieldInputProps] = useField<ImageEmbed>(fieldName);
+  const [FieldInputProps] = useField<ImageEmbedData>(fieldName);
   const { onChange } = FieldInputProps;
   const [showImageSelect, setShowImageSelect] = useState(false);
   const { values } = useFormikContext<SubjectPageFormikType>();

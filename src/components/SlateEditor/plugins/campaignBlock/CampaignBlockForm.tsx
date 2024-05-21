@@ -108,6 +108,12 @@ const StyledForm = styled(Form)`
   gap: ${spacing.small};
 `;
 
+const StyledFieldWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.xsmall};
+`;
+
 const placements: CampaignBlockEmbedData["imageSide"][] = ["left", "right"];
 
 const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
@@ -205,7 +211,7 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
                 </FormControl>
               )}
             </FormField>
-            <div>
+            <StyledFieldWrapper>
               <Text textStyle="label-small" margin="none">
                 {t("form.name.linkText")}
                 <RichTextIndicator />
@@ -223,7 +229,7 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
                   </FormControl>
                 )}
               </FormField>
-            </div>
+            </StyledFieldWrapper>
           </UrlWrapper>
           <FormField name="imageSide">
             {({ field, helpers }) => (

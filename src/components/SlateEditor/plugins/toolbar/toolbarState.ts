@@ -140,6 +140,7 @@ export const defaultAreaOptions: AreaFilters = {
   "comment-inline": { inline: { disabled: true, "comment-inline": { disabled: false } } },
   list: { inline: { "comment-inline": { disabled: true } } },
   "definition-term": { inline: { "comment-inline": { disabled: true } } },
+  quote: { inline: { "comment-inline": { disabled: true } } },
 };
 
 export type ToolbarType = {

@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import { ReactNode, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { RenderElementProps } from "slate-react";
@@ -21,9 +22,10 @@ import { InlineBugfix } from "../../utils/InlineBugFix";
 
 const InlineComment = styled.span`
   display: inline;
-  span {
+  background: ${colors.support.yellowLight};
+  cursor: pointer;
+  &:hover {
     background: ${colors.support.yellow};
-    cursor: pointer;
   }
 `;
 
@@ -57,7 +59,7 @@ const CommentHeader = styled.div`
 
 const BlockCommentButton = styled(ButtonV2)`
   all: unset;
-  background: ${colors.support.yellow};
+  background: ${colors.support.yellowLight};
   cursor: pointer;
   color: ${colors.brand.greyDark};
   font-style: italic;

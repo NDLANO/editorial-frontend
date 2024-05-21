@@ -1783,7 +1783,7 @@ const phrases = {
       customFields: {
         alterFields: "Add/change metadata",
         addField: "New metadata field",
-        languagePlaceholder: "Ndla.no interface language",
+        languagePlaceholder: "Ndla.no language collection",
         explanationSubject: "Explanation subject",
         programmeSubject: "Common programme subject",
         oldSubjectId: "Old ID for redirecting",

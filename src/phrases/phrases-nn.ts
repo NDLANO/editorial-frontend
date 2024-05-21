@@ -1782,7 +1782,7 @@ const phrases = {
       customFields: {
         alterFields: "Legg til/endra metadata",
         addField: "Nytt metadata felt",
-        languagePlaceholder: "Visningsspråk ndla.no",
+        languagePlaceholder: "Språksamling ndla.no",
         explanationSubject: "Forklaringsfag",
         programmeSubject: "Felles programfag",
         oldSubjectId: "ID for vidaresending",
@@ -1796,7 +1796,7 @@ const phrases = {
       },
       placeholders: {
         category: "Velg kategori",
-        language: "Velg språkkode",
+        language: "Velg språk",
         type: "Velg type",
         lma: "Velg LMA",
         sa: "Velg SA",

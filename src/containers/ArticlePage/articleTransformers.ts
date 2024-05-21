@@ -103,6 +103,7 @@ const draftApiTypeToArticleFormType = (
     responsibleId: article === undefined ? ndlaId : article?.responsible?.responsibleId,
     comments: getCommentsDraftApiToArticleFormType(article, articleType),
     priority: article?.priority ?? "unspecified",
+    qualityEvaluation: article?.qualityEvaluation,
   };
 };
 
@@ -174,6 +175,7 @@ export const learningResourceFormTypeToDraftApiType = (
     responsibleId: article.responsibleId,
     comments: article.comments?.map((c) => ({ ...c, content: inlineContentToHTML(c.content) })),
     priority: article.priority ?? "unspecified",
+    qualityEvaluation: article.qualityEvaluation,
   };
 };
 
@@ -215,6 +217,7 @@ export const frontpageArticleFormTypeToDraftApiType = (
     responsibleId: article.responsibleId,
     comments: article.comments?.map((c) => ({ ...c, content: inlineContentToHTML(c.content) })),
     priority: article.priority ?? "unspecified",
+    qualityEvaluation: article.qualityEvaluation,
   };
 };
 
@@ -259,6 +262,7 @@ export const topicArticleFormTypeToDraftApiType = (
     responsibleId: article.responsibleId,
     comments: article.comments?.map((c) => ({ ...c, content: inlineContentToHTML(c.content) })),
     priority: article.priority ?? "unspecified",
+    qualityEvaluation: article.qualityEvaluation,
   };
 };
 

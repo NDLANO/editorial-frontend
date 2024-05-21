@@ -21,7 +21,7 @@ import { Revision } from "../../constants";
 import { formatDateForBackend } from "../../util/formatDate";
 import { useMessages } from "../Messages/MessagesProvider";
 
-type RevisionMetaFormType = ArticleFormType["revisionMeta"];
+export type RevisionMetaFormType = ArticleFormType["revisionMeta"];
 
 interface Props {
   formikField: FieldInputProps<RevisionMetaFormType>;

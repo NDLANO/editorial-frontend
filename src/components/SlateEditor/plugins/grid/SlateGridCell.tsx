@@ -45,7 +45,6 @@ const GridCell = ({ element, editor, attributes, children }: Props) => {
     <StyledGridCell {...attributes} data-testid="slate-grid-cell">
       <StyledButton
         contentEditable={false}
-        tabIndex={-1}
         onClick={onClickSticky}
         variant={element.data?.parallaxCell === "true" ? "solid" : "ghost"}
         aria-label={label}

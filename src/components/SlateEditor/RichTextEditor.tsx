@@ -8,7 +8,7 @@
 import { useFormikContext } from "formik";
 import isEqual from "lodash/isEqual";
 import { FocusEvent, KeyboardEvent, useCallback, useEffect, useRef, useState } from "react";
-import { createEditor, Descendant, Editor, Node, NodeEntry, Path, Range, Transforms } from "slate";
+import { createEditor, Descendant, Editor, NodeEntry, Range, Transforms } from "slate";
 import { withHistory } from "slate-history";
 import { Slate, Editable, withReact, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
 import { EditableProps } from "slate-react/dist/components/editable";
@@ -28,7 +28,6 @@ import { SlateToolbar } from "./plugins/toolbar";
 import { AreaFilters, CategoryFilters } from "./plugins/toolbar/toolbarState";
 import { SlateProvider } from "./SlateContext";
 import getCurrentBlock from "./utils/getCurrentBlock";
-import getNextNode from "./utils/getNextNode";
 import { KEY_ARROW_LEFT, KEY_ARROW_RIGHT, KEY_TAB } from "./utils/keys";
 import withPlugins from "./utils/withPlugins";
 import { BLOCK_PICKER_TRIGGER_ID } from "../../constants";
@@ -269,21 +268,6 @@ const RichTextEditor = ({
             }
           }
         }
-
-        // let nodeToMoveTo: Descendant[] | Node | null = null;
-        // nodeToMoveTo = getNextNode(editor, path, e.shiftKey);
-
-        // if ("type" in nodeToMoveTo) {
-        //   const element = getElementByType(e.target as HTMLElement, "button");
-        //   // element?.focus();
-        //   return;
-        //   e.preventDefault();
-        //   // if (Editor.isVoid(editor, nodeToMoveTo)) Transforms.move(editor, { unit: "offset" });
-        //   // Transforms.select(editor, ReactEditor.findPath(editor, nodeToMoveTo));
-        //   // Transforms.collapse(editor);
-        //   // ReactEditor.focus(editor);
-        //   // return;
-        // }
       }
 
       if (editor.selection && Range.isCollapsed(editor.selection) && !e.shiftKey) {

@@ -9,28 +9,13 @@
 import { Form, Formik } from "formik";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Descendant } from "slate";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
-import { colors, misc, spacing } from "@ndla/core";
-import { FieldErrorMessage, Label } from "@ndla/forms";
+import { spacing } from "@ndla/core";
+import { FieldErrorMessage, Label, TextAreaV3 } from "@ndla/forms";
 import { CommentEmbedData } from "@ndla/types-embed";
-import { editorValueToPlainText, plainTextToEditorValue } from "../../../../util/articleContentConverter";
 import { FormControl, FormField } from "../../../FormField";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
-import PlainTextEditor from "../../PlainTextEditor";
-
-const StyledPlainTextEditor = styled(PlainTextEditor)`
-  border-radius: ${misc.borderRadius};
-  min-height: ${spacing.xxlarge};
-  outline: 1px solid transparent;
-  border: 1px solid ${colors.brand.primary};
-  padding: ${spacing.xsmall};
-  &:active,
-  &:focus-visible {
-    outline-color: ${colors.brand.primary};
-  }
-`;
 
 const CommentActions = styled.div`
   display: flex;
@@ -51,13 +36,13 @@ interface Props {
 
 interface CommentFormValues {
   resource: "comment";
-  text: Descendant[];
+  text: string;
 }
 
 const toInitialValues = (data?: CommentEmbedData): CommentFormValues => {
   return {
     resource: "comment",
-    text: plainTextToEditorValue(data?.text ?? ""),
+    text: data?.text ?? "",
   };
 };
 
@@ -81,7 +66,7 @@ const CommentForm = ({
   const onSubmit = (values: CommentFormValues) => {
     onSave({
       resource: "comment",
-      text: editorValueToPlainText(values.text),
+      text: values.text,
       type: commentType,
     });
   };
@@ -96,19 +81,15 @@ const CommentForm = ({
       {({ isValid }) => (
         <Form>
           <FormField name="text">
-            {({ field, meta }) => {
-              return (
-                <>
-                  <FormControl isRequired isInvalid={!!meta.error}>
-                    <Label visuallyHidden={labelVisuallyHidden} textStyle="label-small" margin="none">
-                      {labelText}
-                    </Label>
-                    <StyledPlainTextEditor id={field.name} {...field} value={initialValues.text} />
-                    <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-                  </FormControl>
-                </>
-              );
-            }}
+            {({ field, meta }) => (
+              <FormControl isRequired isInvalid={!!meta.error}>
+                <Label visuallyHidden={labelVisuallyHidden} textStyle="label-small" margin="none">
+                  {labelText}
+                </Label>
+                <TextAreaV3 {...field} />
+                <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+              </FormControl>
+            )}
           </FormField>
           <CommentActions>
             <ButtonV2 onClick={() => onOpenChange(false)} variant="outline">

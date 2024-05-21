@@ -644,6 +644,19 @@ const phrases = {
     title: "Key figure",
     edit: "Edit key figure",
   },
+  qualityEvaluationForm: {
+    title: "Quality evaluation",
+    unavailable: "Not specified",
+    modalTitle: "Update quality evaluation",
+    description:
+      "Provide a quality assessment of the {{ resource }} with a description of the chosen rating. The scale is as follows: 1 = very good, 2 = good, 3 = average, 4 = poor, 5 = very poor.",
+    edit: "Edit quality evaluation",
+    delete: "Delete",
+    note: "Note",
+    article: "article",
+    topicArticle: "full topic article",
+    needsRevision: "Needs revision",
+  },
   editorToolbar: {
     bold: "Bold\n({{ctrl}}+b)",
     "bulleted-list": "Bulleted list\n({{ctrl}}+l)",
@@ -822,6 +835,8 @@ const phrases = {
       transcription: "Transcription",
       type: "Type",
       text: "Comment",
+      grade: "Grade",
+      note: "Note",
     },
     previewProductionArticle: {
       button: "Compare current version with last published version",
@@ -1777,7 +1792,7 @@ const phrases = {
       customFields: {
         alterFields: "Add/change metadata",
         addField: "New metadata field",
-        languagePlaceholder: "Ndla.no interface language",
+        languagePlaceholder: "Ndla.no language collection",
         explanationSubject: "Explanation subject",
         programmeSubject: "Common programme subject",
         oldSubjectId: "Old ID for redirecting",
@@ -2087,6 +2102,11 @@ const phrases = {
     closeChildren: "Hide children",
     hide: "Hide",
     show: "Show",
+  },
+  codeEditor: {
+    title: "Add code example",
+    titleLabel: "Title",
+    programmingLanguage: "Programming language",
   },
 };
 

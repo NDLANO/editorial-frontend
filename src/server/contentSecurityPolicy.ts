@@ -180,6 +180,7 @@ const frameSrc = (() => {
     "jeopardylabs.com",
     "*.uio.no",
     "geodata.maps.arcgis.com",
+    "arcg.is",
   ];
   if (process.env.NODE_ENV === "development") {
     return [

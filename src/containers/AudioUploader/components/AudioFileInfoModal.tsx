@@ -9,8 +9,7 @@
 import { useTranslation } from "react-i18next";
 import { IconButtonV2 } from "@ndla/button";
 import { ModalBody, ModalCloseButton, ModalTitle, ModalHeader, Modal, ModalTrigger, ModalContent } from "@ndla/modal";
-
-import { HelpIcon, normalPaddingCSS } from "../../../components/HowTo";
+import { HelpIcon } from "../../../components/HelpIcon";
 
 const AudioFileInfoModal = () => {
   const { t } = useTranslation();
@@ -24,7 +23,7 @@ const AudioFileInfoModal = () => {
           variant="stripped"
           colorTheme="light"
         >
-          <HelpIcon css={normalPaddingCSS} />
+          <HelpIcon size="normal" />
         </IconButtonV2>
       </ModalTrigger>
       <ModalContent>

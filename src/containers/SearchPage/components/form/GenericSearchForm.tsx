@@ -22,7 +22,7 @@ type FieldChangedEvent = FormEvents | DateChangedEvent;
 export type OnFieldChangeFunction = <T extends keyof SearchParams>(
   name: T,
   value: SearchParams[T],
-  event: FieldChangedEvent,
+  event?: FieldChangedEvent,
 ) => void;
 
 interface Props {

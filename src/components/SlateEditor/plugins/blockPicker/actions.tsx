@@ -36,6 +36,7 @@ import {
 } from "@ndla/icons/editor";
 import { DRAFT_ADMIN_SCOPE } from "../../../../constants";
 import HowToHelper from "../../../HowTo/HowToHelper";
+import { StoryType } from "../../../HowTo/stories";
 import { TYPE_ASIDE } from "../aside/types";
 import { TYPE_AUDIO } from "../audio/types";
 import { TYPE_BLOGPOST } from "../blogPost/types";
@@ -59,7 +60,7 @@ import { TYPE_TABLE } from "../table/types";
 import { TYPE_DISCLAIMER } from "../uuDisclaimer/types";
 import { TYPE_EMBED_BRIGHTCOVE } from "../video/types";
 
-const renderArticleInModal = (pageId: string) => <HowToHelper pageId={pageId} extraIconPadding />;
+const renderArticleInModal = (pageId: string) => <HowToHelper pageId={pageId as StoryType} />;
 
 export interface ActionData {
   type: Element["type"];

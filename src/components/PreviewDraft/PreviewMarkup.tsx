@@ -26,6 +26,7 @@ export const PreviewMarkup = ({ article, language }: MarkupPreviewProps) => {
           type="article"
           draft={article}
           language={language}
+          previewAlt
           label={t("form.previewProductionArticle.article")}
         />
       </OneColumn>

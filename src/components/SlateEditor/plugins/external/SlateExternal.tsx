@@ -113,26 +113,6 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
     }
   }, [embed]);
 
-  const onClose = useCallback(
-    (open?: boolean) => {
-      setIsEditing(!!open);
-      ReactEditor.focus(editor);
-      if (element.isFirstEdit) {
-        Transforms.removeNodes(editor, {
-          at: ReactEditor.findPath(editor, element),
-          voids: true,
-        });
-      }
-      const path = ReactEditor.findPath(editor, element);
-      if (Editor.hasPath(editor, Path.next(path))) {
-        setTimeout(() => {
-          Transforms.select(editor, Path.next(path));
-        }, 0);
-      }
-    },
-    [editor, element],
-  );
-
   const onSave = useCallback(
     (data: OembedEmbedData | IframeEmbedData) => {
       setIsEditing(false);
@@ -145,9 +125,8 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
           Transforms.select(editor, Path.next(path));
         }, 0);
       }
-      onClose();
     },
-    [editor, element, onClose],
+    [editor, element],
   );
 
   const handleRemove = useCallback(
@@ -225,7 +204,6 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
                 <Expandable />
               </ExpandableButton>
             )}
-            {children}
           </ExternalWrapper>
         )}
         <ModalContent size="large">
@@ -249,6 +227,7 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
           </ModalBody>
         </ModalContent>
       </Modal>
+      {children}
     </div>
   );
 };

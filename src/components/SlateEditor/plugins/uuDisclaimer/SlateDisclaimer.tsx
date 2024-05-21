@@ -131,7 +131,7 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
   );
 
   return (
-    <div data-testid="slate-disclaimer-block" {...attributes} contentEditable="false">
+    <div data-testid="slate-disclaimer-block" {...attributes} contentEditable="true">
       <ButtonContainer>
         <DeleteButton aria-label={t("delete")} data-testid="delete-disclaimer" onClick={handleDelete} />
         <Modal open={modalOpen} onOpenChange={setModalOpen}>

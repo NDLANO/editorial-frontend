@@ -644,6 +644,19 @@ const phrases = {
     edit: "Rediger Nøkkeltall",
     title: "Nøkkeltall",
   },
+  qualityEvaluationForm: {
+    title: "Kvalitetsvurdering",
+    unavailable: "Ikke satt",
+    modalTitle: "Oppdater kvalitetsvurdering",
+    description:
+      "Legg inn en kvalitetsvurdering av {{ resource }} med en beskrivelse av den valgte graderingen. Skalaen er som følger: 1 = svært bra, 2 = bra, 3 = middels, 4 = dårlig, 5 = svært dårlig.",
+    edit: "Rediger kvalitetsvurdering",
+    delete: "Slett",
+    note: "Notat",
+    article: "artikkelen",
+    topicArticle: "emnet som helhet",
+    needsRevision: "Trenger revisjon",
+  },
   editorToolbar: {
     bold: "Fet\n({{ctrl}}+b)",
     "bulleted-list": "Punktliste\n({{ctrl}}+l)",
@@ -823,6 +836,8 @@ const phrases = {
       transcription: "Transkripsjon",
       type: "Type",
       text: "Kommentar",
+      grade: "Gradering",
+      note: "Notat",
     },
     previewProductionArticle: {
       button: "Sammenlign gjeldende versjon med sist publiserte versjon",
@@ -1775,7 +1790,7 @@ const phrases = {
       customFields: {
         alterFields: "Legg til/endre metadata",
         addField: "Nytt metadata felt",
-        languagePlaceholder: "Visningsspråk ndla.no",
+        languagePlaceholder: "Språksamling ndla.no",
         explanationSubject: "Forklaringsfag",
         programmeSubject: "Felles programfag",
         oldSubjectId: "ID for videresending",
@@ -1789,7 +1804,7 @@ const phrases = {
       },
       placeholders: {
         category: "Velg kategori",
-        language: "Velg språkkode",
+        language: "Velg språk",
         type: "Velg type",
         lma: "Velg LMA",
         sa: "Velg SA",
@@ -2086,6 +2101,11 @@ const phrases = {
     closeChildren: "Skjul barn",
     hide: "Skjul",
     show: "Vis",
+  },
+  codeEditor: {
+    title: "Legg til kodeeksempel",
+    titleLabel: "Tittel",
+    programmingLanguage: "Kodespråk",
   },
 };
 

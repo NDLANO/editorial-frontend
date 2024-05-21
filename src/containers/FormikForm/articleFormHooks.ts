@@ -11,7 +11,15 @@ import { TFunction } from "i18next";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Descendant } from "slate";
 import { UseQueryResult } from "@tanstack/react-query";
-import { IArticle, ILicense, IStatus, IUpdatedArticle, IAuthor, IComment } from "@ndla/types-backend/draft-api";
+import {
+  IArticle,
+  ILicense,
+  IStatus,
+  IUpdatedArticle,
+  IAuthor,
+  IComment,
+  IQualityEvaluation,
+} from "@ndla/types-backend/draft-api";
 import { getWarnings, RulesType } from "../../components/formikValidationSchema";
 import { PUBLISHED } from "../../constants";
 import { RelatedContent } from "../../interfaces";
@@ -77,6 +85,7 @@ export interface ArticleFormType {
   priority: string;
   processed: boolean;
   origin?: string;
+  qualityEvaluation?: IQualityEvaluation;
 }
 
 export interface LearningResourceFormType extends ArticleFormType {}

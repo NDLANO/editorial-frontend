@@ -16,7 +16,6 @@ import { ModalCloseButton, ModalBody, Modal, ModalTitle, ModalHeader, ModalTrigg
 import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
 import ElementList from "../../containers/FormikForm/components/ElementList";
 import { fetchLearningpathsWithArticle } from "../../modules/learningpath/learningpathApi";
-import { normalPaddingCSS } from "../HowTo";
 
 interface Props {
   id?: number;
@@ -51,7 +50,7 @@ const LearningpathConnection = ({ id, learningpaths, setLearningpaths }: Props) 
           aria-label={t("form.learningpathConnections.sectionTitle")}
           title={t("form.learningpathConnections.sectionTitle")}
         >
-          <LearningpathIcon css={normalPaddingCSS} />
+          <LearningpathIcon size="normal" />
         </ButtonV2>
       </ModalTrigger>
       <ModalContent>

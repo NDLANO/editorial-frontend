@@ -6,10 +6,12 @@
  *
  */
 
-import { load } from "cheerio";
+import { CheerioAPI, load } from "cheerio";
 import FormData from "form-data";
+import { JSDOM } from "jsdom";
 import fetch from "node-fetch";
 import queryString from "query-string";
+import serialize from "w3c-xmlserializer";
 import errorLogger from "./logger";
 import config, { getEnvironmentVariabel } from "../config";
 import { ApiTranslateType } from "../interfaces";
@@ -42,6 +44,16 @@ const headers = user
     }
   : undefined;
 
+const wrapAttribute = (html: CheerioAPI, element: any, attribute: string, selector: string) => {
+  const value = html(element).attr(attribute) ?? "";
+  if (!value) return;
+  const innerHtml = load(value);
+  html(selector).each((_, el) => {
+    html(el).wrap("<ndlaskip></ndlaskip>");
+  });
+  html(element).attr(attribute, innerHtml("body").html());
+};
+
 const doFetch = (name: string, element: ApiTranslateType): Promise<ResponseType> => {
   if (element.type === "text") {
     const parsedContent = element.isArray ? element.content.join("|") : element.content;
@@ -68,7 +80,20 @@ const doFetch = (name: string, element: ApiTranslateType): Promise<ResponseType>
     html("math").each((_, el) => {
       html(el).wrap("<ndlaskip></ndlaskip>");
     });
-    const buffer = Buffer.from(html.html());
+    html("ndlaembed").each((_, el) => {
+      wrapAttribute(html, el, "data-caption", "span[lang]");
+      wrapAttribute(html, el, "data-title", "span[lang]");
+      wrapAttribute(html, el, "data-subtitle", "span[lang]");
+      wrapAttribute(html, el, "data-description", "span[lang]");
+      wrapAttribute(html, el, "data-url-text", "span[lang]");
+    });
+    const content = html.html();
+
+    // Our backend uses Jsoup to encode html. However, > is not encoded, and nynodata expects it to be. As such, we have to parse
+    // the entire html string and reencode it using an xmlSerializer.
+    const dom = new JSDOM(content);
+    const sanitized = serialize(dom.window.document);
+    const buffer = Buffer.from(sanitized);
     const params = { stilmal };
 
     formData.append("file", buffer, { filename: `${name}.html` });

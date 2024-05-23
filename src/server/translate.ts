@@ -48,8 +48,8 @@ const wrapAttribute = (html: CheerioAPI, element: any, attribute: string, select
   const value = html(element).attr(attribute) ?? "";
   if (!value) return;
   const innerHtml = load(value);
-  html(selector).each((_, el) => {
-    html(el).wrap("<ndlaskip></ndlaskip>");
+  innerHtml(selector).each((_, el) => {
+    innerHtml(el).wrap("<ndlaskip></ndlaskip>");
   });
   html(element).attr(attribute, innerHtml("body").html());
 };
@@ -87,13 +87,14 @@ const doFetch = (name: string, element: ApiTranslateType): Promise<ResponseType>
       wrapAttribute(html, el, "data-description", "span[lang]");
       wrapAttribute(html, el, "data-url-text", "span[lang]");
     });
-    const content = html.html();
-
+    const content = html.html({ xmlMode: true });
+    //console.log(content);
     // Our backend uses Jsoup to encode html. However, > is not encoded, and nynodata expects it to be. As such, we have to parse
     // the entire html string and reencode it using an xmlSerializer.
-    const dom = new JSDOM(content);
-    const sanitized = serialize(dom.window.document);
-    const buffer = Buffer.from(sanitized);
+    //const dom = new JSDOM(content);
+    //const sanitized = serialize(dom.window.document);
+
+    const buffer = Buffer.from(content);
     const params = { stilmal };
 
     formData.append("file", buffer, { filename: `${name}.html` });
@@ -105,6 +106,7 @@ const doFetch = (name: string, element: ApiTranslateType): Promise<ResponseType>
       .then((res) => res.blob())
       .then((res) => res.text())
       .then(async (res) => {
+        //console.log(res);
         const response = load(res);
         response("ndlaskip").each((_, el) => {
           response(el).contents().unwrap();

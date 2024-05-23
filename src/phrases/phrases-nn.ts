@@ -357,6 +357,7 @@ const phrases = {
       lastUpdated: "Sist oppdatert",
       revisionDate: "Neste revisjon",
       favorited: "Favorittmarkeringar",
+      published: "Sist faglig vurdert",
     },
     resultError: "Noko gjekk feil med innlasting av type: {{type}}",
     favourites: "Mine favorittfag",
@@ -644,6 +645,19 @@ const phrases = {
     title: "Nykeltal",
     edit: "Rediger nykeltal",
   },
+  qualityEvaluationForm: {
+    title: "Kvalitetsvurdering",
+    unavailable: "Ikkje satt",
+    modalTitle: "Oppdater kvalitetsvurdering",
+    description:
+      "Legg inn ei kvalitetsvurdering av {{ resource }} med ei beskriving av den valde graderinga. Skalaen er som følgjer: 1 = svært bra, 2 = bra, 3 = middels, 4 = dårlege, 5 = svært dårlege.",
+    edit: "Rediger kvalitetsvurdering",
+    delete: "Slett",
+    note: "Notat",
+    article: "artikkelen",
+    topicArticle: "emnet som heilskap",
+    needsRevision: "Treng revisjon",
+  },
   editorToolbar: {
     bold: "Feit\n({{ctrl}}+b)",
     "bulleted-list": "Punktliste\n({{ctrl}}+l)",
@@ -816,6 +830,8 @@ const phrases = {
       sides: "Kva for ei side biletet skal vises på",
       transcription: "Transkripsjon",
       type: "Type",
+      grade: "Gradering",
+      note: "Notat",
     },
     previewProductionArticle: {
       button: "Samanlikn gjeldande versjon med sist publiserte versjon",
@@ -1767,7 +1783,7 @@ const phrases = {
       customFields: {
         alterFields: "Legg til/endra metadata",
         addField: "Nytt metadata felt",
-        languagePlaceholder: "Visningsspråk ndla.no",
+        languagePlaceholder: "Språksamling ndla.no",
         explanationSubject: "Forklaringsfag",
         programmeSubject: "Felles programfag",
         oldSubjectId: "ID for vidaresending",
@@ -1781,7 +1797,7 @@ const phrases = {
       },
       placeholders: {
         category: "Velg kategori",
-        language: "Velg språkkode",
+        language: "Velg språk",
         type: "Velg type",
         lma: "Velg LMA",
         sa: "Velg SA",

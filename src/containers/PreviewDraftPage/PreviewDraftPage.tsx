@@ -62,7 +62,14 @@ const PreviewDraftPage = () => {
       </Hero>
       <HelmetWithTracker title={`${draft.data?.title?.title} ${t("htmlTitles.titleTemplate")}`} />
       <StyledOneColumn data-wide={isFrontpage}>
-        <PreviewDraft type="article" draft={draft.data!} label={label} contentType={contentType} language={language} />
+        <PreviewDraft
+          type="article"
+          draft={draft.data!}
+          label={label}
+          contentType={contentType}
+          language={language}
+          previewAlt={false}
+        />
       </StyledOneColumn>
     </>
   );

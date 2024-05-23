@@ -147,7 +147,7 @@ const InlineWrapper = (props: Props) => {
   };
 
   return (
-    <Modal open={isEditing}>
+    <Modal open={isEditing} onOpenChange={setIsEditing}>
       {!embed ? (
         children
       ) : embed.status === "error" ? (
@@ -215,7 +215,17 @@ const InlineWrapper = (props: Props) => {
           }
         />
       )}
-      <ModalContent size={{ width: "large", height: "large" }}>
+      <ModalContent
+        size={{ width: "large", height: "large" }}
+        onEscapeKeyDown={(e) => e.stopPropagation()}
+        onCloseAutoFocus={(e) => {
+          if (!embed) {
+            handleRemove();
+          }
+          e.preventDefault();
+          ReactEditor.focus(editor);
+        }}
+      >
         <ConceptModalContent
           onClose={onClose}
           addConcept={addConcept}

@@ -8,10 +8,8 @@
 
 import { CheerioAPI, load } from "cheerio";
 import FormData from "form-data";
-import { JSDOM } from "jsdom";
 import fetch from "node-fetch";
 import queryString from "query-string";
-import serialize from "w3c-xmlserializer";
 import errorLogger from "./logger";
 import config, { getEnvironmentVariabel } from "../config";
 import { ApiTranslateType } from "../interfaces";
@@ -87,12 +85,10 @@ const doFetch = (name: string, element: ApiTranslateType): Promise<ResponseType>
       wrapAttribute(html, el, "data-description", "span[lang]");
       wrapAttribute(html, el, "data-url-text", "span[lang]");
     });
-    const content = html.html({ xmlMode: true });
-    //console.log(content);
     // Our backend uses Jsoup to encode html. However, > is not encoded, and nynodata expects it to be. As such, we have to parse
     // the entire html string and reencode it using an xmlSerializer.
-    //const dom = new JSDOM(content);
-    //const sanitized = serialize(dom.window.document);
+    const content = html.html({ xml: { xmlMode: false, decodeEntities: true } });
+    //console.log(content);
 
     const buffer = Buffer.from(content);
     const params = { stilmal };
@@ -112,6 +108,7 @@ const doFetch = (name: string, element: ApiTranslateType): Promise<ResponseType>
           response(el).contents().unwrap();
         });
         const strippedResponse = response("body").unwrap().html() ?? "";
+        //console.log(strippedResponse);
         return { key: name, value: strippedResponse };
       });
   }

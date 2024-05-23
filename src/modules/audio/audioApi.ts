@@ -30,7 +30,7 @@ export const postAudio = (formData: FormData): Promise<IAudioMetaInformation> =>
   }).then((r) => resolveJsonOrRejectWithError<IAudioMetaInformation>(r));
 
 export const fetchAudio = (id: number, locale?: string): Promise<IAudioMetaInformation> => {
-  const languageParam = locale ? `?language=${locale}` : "";
+  const languageParam = locale ? `?language=${locale}&fallback=true` : "";
   return fetchAuthorized(`${baseUrl}/${id}${languageParam}`).then((r) =>
     resolveJsonOrRejectWithError<IAudioMetaInformation>(r),
   );

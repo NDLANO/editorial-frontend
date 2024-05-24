@@ -13,7 +13,7 @@ export const StyledPreviewWrapper = styled.div`
   max-width: 100%;
   display: inline-flex;
   justify-content: center;
-  & .c-article {
+  & [data-ndla-article] {
     padding: 0;
     margin-top: 20px;
     line-height: unset;
@@ -21,9 +21,6 @@ export const StyledPreviewWrapper = styled.div`
     > section {
       width: unset !important;
       left: unset !important;
-    }
-    & .c-article__header {
-      margin-bottom: unset;
     }
   }
 `;

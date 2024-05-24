@@ -32,16 +32,13 @@ import { usePostSearchNodes } from "../../../modules/nodes/nodeQueries";
 import { postSearch } from "../../../modules/search/searchApi";
 import { fetchResourceType } from "../../../modules/taxonomy";
 import { transformQuery } from "../../../util/searchHelpers";
-import { SearchParamsBody, parseSearchParams } from "../../SearchPage/components/form/SearchForm";
+import { SearchParamsBody, parseSearchParams, StringSort } from "../../SearchPage/components/form/SearchForm";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { customFieldsBody, defaultSubjectIdObject, getResultSubjectIdObject, getSubjectsIdsQuery } from "../utils";
 
-type QueryType =
-  | IAudioSearchParams
-  | IDraftConceptSearchParams
-  | IImageSearchParams
-  | ISeriesSearchParams
-  | IDraftSearchParams;
+type QueryType = StringSort<
+  IAudioSearchParams & IDraftConceptSearchParams & IImageSearchParams & ISeriesSearchParams & IDraftSearchParams
+>;
 
 type SearchFetchReturnType =
   | IAudioSummarySearchResult

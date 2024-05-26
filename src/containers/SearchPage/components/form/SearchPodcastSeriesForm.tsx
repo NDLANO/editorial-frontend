@@ -8,6 +8,7 @@
 
 import { useEffect, useState, MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
+import { IUserData } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import GenericSearchForm, { OnFieldChangeFunction } from "./GenericSearchForm";
 import { SearchParams } from "./SearchForm";
@@ -20,6 +21,7 @@ interface Props {
   subjects: Node[];
   searchObject: SearchParams;
   locale: string;
+  userData: IUserData | undefined;
 }
 
 const SearchAudioForm = ({
@@ -29,6 +31,7 @@ const SearchAudioForm = ({
     language: "",
     "audio-type": "",
   },
+  userData,
 }: Props) => {
   const { t } = useTranslation();
   const [queryInput, setQueryInput] = useState(search.query ?? "");
@@ -70,7 +73,7 @@ const SearchAudioForm = ({
 
   return (
     <GenericSearchForm
-      type="podcastSeries"
+      type="podcast-series"
       selectors={selectors}
       query={queryInput}
       onSubmit={handleSearch}
@@ -78,6 +81,7 @@ const SearchAudioForm = ({
       onFieldChange={onFieldChange}
       emptySearch={emptySearch}
       removeTag={removeTagItem}
+      userData={userData}
     />
   );
 };

@@ -9,6 +9,7 @@
 import sortBy from "lodash/sortBy";
 import { useEffect, useState, MouseEvent, useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { IUserData } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import GenericSearchForm, { OnFieldChangeFunction } from "./GenericSearchForm";
 import { SearchParams } from "./SearchForm";
@@ -24,9 +25,17 @@ interface Props {
   subjects: Node[];
   searchObject: SearchParams;
   locale: string;
+  userData?: IUserData | undefined;
+  disableSavedSearch?: boolean;
 }
 
-const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }: Props) => {
+const SearchConceptForm = ({
+  search: doSearch,
+  searchObject: search,
+  subjects,
+  userData,
+  disableSavedSearch,
+}: Props) => {
   const { t } = useTranslation();
   const [queryInput, setQueryInput] = useState(search.query ?? "");
   const { data: users } = useAuth0Editors({
@@ -165,6 +174,8 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
       onFieldChange={onFieldChange}
       emptySearch={emptySearch}
       removeTag={removeTagItem}
+      userData={userData}
+      disableSavedSearch={disableSavedSearch}
     />
   );
 };

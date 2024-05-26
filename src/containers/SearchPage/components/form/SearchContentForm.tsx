@@ -10,6 +10,7 @@ import { TFunction } from "i18next";
 import sortBy from "lodash/sortBy";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { IUserData } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import GenericSearchForm, { OnFieldChangeFunction } from "./GenericSearchForm";
 import { SearchParams } from "./SearchForm";
@@ -62,10 +63,10 @@ interface Props {
   subjects: Node[];
   searchObject: SearchParams;
   locale: string;
-  userId: string | undefined;
+  userData: IUserData | undefined;
 }
 
-const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, locale, userId }: Props) => {
+const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, locale, userData }: Props) => {
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const [queryInput, setQueryInput] = useState(search.query ?? "");
@@ -177,9 +178,9 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
   const sortedSubjects = useMemo(() => {
     const favoriteSubject: Node = generateSubjectNode(FAVOURITES_SUBJECT_ID, "searchForm.favourites", t);
 
-    const userHasLMASubjects = userHasCustomField(subjects, userId, TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA);
-    const userHasSASubjects = userHasCustomField(subjects, userId, TAXONOMY_CUSTOM_FIELD_SUBJECT_SA);
-    const userHasDASubjects = userHasCustomField(subjects, userId, TAXONOMY_CUSTOM_FIELD_SUBJECT_DA);
+    const userHasLMASubjects = userHasCustomField(subjects, userData?.userId, TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA);
+    const userHasSASubjects = userHasCustomField(subjects, userData?.userId, TAXONOMY_CUSTOM_FIELD_SUBJECT_SA);
+    const userHasDASubjects = userHasCustomField(subjects, userData?.userId, TAXONOMY_CUSTOM_FIELD_SUBJECT_DA);
 
     const LMAsubjects: Node = generateSubjectNode(LMA_SUBJECT_ID, "searchForm.LMASubjects", t);
     const SASubjects: Node = generateSubjectNode(SA_SUBJECT_ID, "searchForm.SASubjects", t);
@@ -194,7 +195,7 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
       ...(userHasSASubjects ? [SASubjects] : []),
       ...(userHasDASubjects ? [DASubjects] : []),
     ].concat(filteredAndSortedSubjects);
-  }, [subjects, t, userId]);
+  }, [subjects, t, userData]);
 
   const selectors: SearchFormSelector[] = [
     {
@@ -267,7 +268,6 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
       formElementType: "date-picker",
     },
   );
-
   return (
     <GenericSearchForm
       type="content"
@@ -281,6 +281,7 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
       onFieldChange={onFieldChange}
       emptySearch={emptySearch}
       removeTag={removeTagItem}
+      userData={userData}
     />
   );
 };

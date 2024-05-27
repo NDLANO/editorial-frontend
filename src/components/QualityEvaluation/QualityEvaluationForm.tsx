@@ -35,7 +35,7 @@ const StyledFieldset = styled(Fieldset)`
 `;
 
 // Color needed in order for wcag contrast reqirements to be met
-const blackContrastColor = "#000";
+export const blackContrastColor = "#000";
 
 export const gradeItemStyles = css`
   padding: 0px ${spacing.nsmall};

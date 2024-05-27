@@ -13,6 +13,7 @@ import { SafeLinkButton } from "@ndla/safelink";
 
 const StyledSafeLinkButton = styled(SafeLinkButton)`
   height: fit-content;
+  white-space: nowrap;
 `;
 
 interface Props {

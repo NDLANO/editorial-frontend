@@ -37,7 +37,6 @@ export const TransformedPreviewDraft = ({ article, draft, contentType, label }: 
   return (
     <Article
       article={article}
-      contentTransformed
       icon={contentType ? <ContentTypeBadge type={contentType} background size="large" /> : null}
       id={draft.id.toString()}
       messages={{ label }}

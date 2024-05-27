@@ -87,7 +87,7 @@ const doFetch = (name: string, element: ApiTranslateType): Promise<ResponseType>
     });
     // Our backend uses Jsoup to encode html. However, > is not encoded, and nynodata expects it to be. As such, we have to parse
     // the entire html string and reencode it using an xmlSerializer.
-    const content = html.html({ xml: { xmlMode: false, decodeEntities: true } });
+    const content = html.html({ xml: { xmlMode: false, decodeEntities: false } });
     //console.log(content);
 
     const buffer = Buffer.from(content);

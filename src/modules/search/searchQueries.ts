@@ -16,6 +16,7 @@ import {
 } from "@ndla/types-backend/search-api";
 import { postSearch, searchSubjectStats } from "./searchApi";
 import { DA_SUBJECT_ID, SA_SUBJECT_ID, LMA_SUBJECT_ID } from "../../constants";
+import { StringSort } from "../../containers/SearchPage/components/form/SearchForm";
 import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVersionProvider";
 import {
   customFieldsBody,
@@ -30,11 +31,11 @@ import { useUserData } from "../draft/draftQueries";
 import { usePostSearchNodes } from "../nodes/nodeQueries";
 
 export const searchQueryKeys = {
-  search: (params?: Partial<IDraftSearchParams>) => [SEARCH, params] as const,
+  search: (params?: Partial<StringSort<IDraftSearchParams>>) => [SEARCH, params] as const,
   searchSubjectStats: (params?: Partial<ISubjectAggsInput>) => [SEARCH_SUBJECT_STATS, params] as const,
 };
 
-export interface UseSearch extends IDraftSearchParams {
+export interface UseSearch extends StringSort<IDraftSearchParams> {
   favoriteSubjects?: string[];
 }
 

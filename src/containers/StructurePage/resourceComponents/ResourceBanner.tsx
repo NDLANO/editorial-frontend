@@ -12,7 +12,7 @@ import { ButtonV2, IconButtonV2 } from "@ndla/button";
 import { spacing, fonts } from "@ndla/core";
 import { Plus } from "@ndla/icons/action";
 import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
-import Tabs from "@ndla/tabs";
+import { Tabs } from "@ndla/tabs";
 import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
 import ApproachingRevisionDate from "./ApproachingRevisionDate";
 import GroupResourceSwitch from "./GroupResourcesSwitch";

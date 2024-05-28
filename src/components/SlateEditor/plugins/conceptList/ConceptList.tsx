@@ -56,10 +56,10 @@ const ConceptList = ({ element, editor, attributes, children }: Props) => {
 
   const conceptsQuery = useSearchConcepts(
     {
-      subjects: element.data?.subjectId,
-      tags: element.data?.tag,
+      ...(element.data?.subjectId ? { subjects: [element.data.subjectId] } : {}),
+      ...(element.data?.tag ? { tags: [element.data.tag] } : {}),
       language,
-      "page-size": 200,
+      pageSize: 200,
     },
     { enabled: !!element.data?.tag },
   );
@@ -142,7 +142,7 @@ const ConceptList = ({ element, editor, attributes, children }: Props) => {
         {children}
       </StyledWrapper>
       <ModalContent size={{ height: "large", width: "large" }}>
-        <ConceptTagPicker element={element} onClose={onClose} language={language} onSave={onSave} />
+        <ConceptTagPicker element={element} language={language} onSave={onSave} />
       </ModalContent>
     </Modal>
   );

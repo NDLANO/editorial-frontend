@@ -97,41 +97,27 @@ const getUser = (userId: string, allUsers: SimpleUserType[]) => {
 
 interface Props {
   article: IArticle;
+  articleHistory: IArticle[] | undefined;
   type: "standard" | "topic-article";
   currentLanguage: string;
 }
 
-const VersionAndNotesPanel = ({ article, type, currentLanguage }: Props) => {
+const VersionAndNotesPanel = ({ article, articleHistory, type, currentLanguage }: Props) => {
   const { t } = useTranslation();
   const { ndlaId } = useSession();
-  const [versions, setVersions] = useState<IArticle[]>([]);
-  const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState<SimpleUserType[]>([]);
   const { createMessage } = useMessages();
   const { setStatus, setValues, status } = useFormikContext();
 
-  useEffect(() => {
-    const getVersions = async () => {
-      try {
-        setLoading(true);
-        const versions = await fetchDraftHistory(article.id, article.title?.language);
-        setVersions(versions);
-        setLoading(false);
-      } catch (e) {
-        handleError(e);
-        setLoading(false);
-      }
-    };
-    getVersions();
-  }, [article]);
+  const loading = !articleHistory;
 
   useEffect(() => {
-    if (versions.length) {
-      const notes = versions.reduce((acc: IEditorNote[], v) => [...acc, ...v.notes], []);
+    if (articleHistory?.length) {
+      const notes = articleHistory.reduce((acc: IEditorNote[], v) => [...acc, ...v.notes], []);
       const userIds = notes.map((note) => note.user).filter((user) => user !== "System");
       fetchAuth0UsersFromUserIds(userIds, setUsers);
     }
-  }, [versions]);
+  }, [articleHistory]);
 
   const cleanupNotes = (notes: IEditorNote[]) =>
     notes.map((note, idx) => ({
@@ -199,7 +185,7 @@ const VersionAndNotesPanel = ({ article, type, currentLanguage }: Props) => {
         )}
       </FormikField>
       <StyledAccordionRoot type="multiple" defaultValue={["0"]}>
-        {versions.map((version, index) => {
+        {articleHistory.map((version, index) => {
           const isLatestVersion = index === 0;
           const published =
             version.status.current === "PUBLISHED" || version.status.other.some((s) => s === "PUBLISHED");
@@ -219,7 +205,7 @@ const VersionAndNotesPanel = ({ article, type, currentLanguage }: Props) => {
                 </InfoGrouping>
                 <InfoGrouping>
                   <VersionActionbuttons
-                    showFromArticleApi={versions.length === 1 && published}
+                    showFromArticleApi={articleHistory.length === 1 && published}
                     current={isLatestVersion}
                     version={version}
                     resetVersion={resetVersion}
@@ -227,7 +213,7 @@ const VersionAndNotesPanel = ({ article, type, currentLanguage }: Props) => {
                     currentLanguage={currentLanguage}
                   />
                   {isLatestVersion && <VersionLogTag color="yellow" label={t("form.notes.areHere")} />}
-                  {published && (!isLatestVersion || versions.length === 1) && (
+                  {published && (!isLatestVersion || articleHistory.length === 1) && (
                     <VersionLogTag color="green" label={t("form.notes.published")} />
                   )}
                 </InfoGrouping>

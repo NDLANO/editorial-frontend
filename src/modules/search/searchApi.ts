@@ -7,16 +7,24 @@
  */
 
 import queryString from "query-string";
-import { IGroupSearchResult, IMultiSearchResult } from "@ndla/types-backend/search-api";
+import {
+  IDraftSearchParams,
+  IMultiSearchResult,
+  ISubjectAggregations,
+  ISubjectAggsInput,
+} from "@ndla/types-backend/search-api";
 import { MultiSearchApiQuery } from "./searchApiInterfaces";
+import { StringSort } from "../../containers/SearchPage/components/form/SearchForm";
 import { resolveJsonOrRejectWithError, apiResourceUrl, fetchAuthorized } from "../../util/apiHelpers";
-import { transformQuery } from "../../util/searchHelpers";
+import { transformQuery, transformSearchBody } from "../../util/searchHelpers";
 
 const baseUrl = apiResourceUrl("/search-api/v1/search");
-const groupUrl = apiResourceUrl("/search-api/v1/search/group/");
 
-export const search = async (query: MultiSearchApiQuery): Promise<IMultiSearchResult> => {
-  const response = await fetchAuthorized(`${baseUrl}/editorial/?${queryString.stringify(transformQuery(query))}`);
+export const postSearch = async (body: StringSort<IDraftSearchParams>): Promise<IMultiSearchResult> => {
+  const response = await fetchAuthorized(`${baseUrl}/editorial/`, {
+    method: "POST",
+    body: JSON.stringify(transformSearchBody(body)),
+  });
   return resolveJsonOrRejectWithError(response);
 };
 
@@ -25,7 +33,10 @@ export const searchResources = async (query: MultiSearchApiQuery): Promise<IMult
   return resolveJsonOrRejectWithError(response);
 };
 
-export const groupSearch = (query: MultiSearchApiQuery): Promise<IGroupSearchResult[]> =>
-  fetchAuthorized(`${groupUrl}?${queryString.stringify(transformQuery(query))}`).then((r) =>
-    resolveJsonOrRejectWithError<IGroupSearchResult[]>(r),
-  );
+export const searchSubjectStats = async (body: ISubjectAggsInput): Promise<ISubjectAggregations> => {
+  const response = await fetchAuthorized(`${baseUrl}/subjects`, {
+    method: "POST",
+    body: JSON.stringify(transformSearchBody(body)),
+  });
+  return resolveJsonOrRejectWithError(response);
+};

@@ -13,7 +13,7 @@ import styled from "@emotion/styled";
 import { colors, spacing } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
 import { Subject } from "@ndla/icons/contentType";
-import { CloudUploadOutline, DragVertical, Star, SubjectMatter, Taxonomy } from "@ndla/icons/editor";
+import { DragVertical, Star, SubjectMatter, Taxonomy } from "@ndla/icons/editor";
 import { NodeChild, Node, NodeType } from "@ndla/types-taxonomy";
 import FolderItem from "./folderComponents/FolderItem";
 import DndList from "../../components/DndList";
@@ -26,7 +26,7 @@ import {
   StyledItemBar,
   StyledStructureItem,
 } from "../../components/Taxonomy/nodeStyles";
-import { TAXONOMY_ADMIN_SCOPE, TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH } from "../../constants";
+import { TAXONOMY_ADMIN_SCOPE } from "../../constants";
 import { NodeChildWithChildren } from "../../modules/nodes/nodeQueries";
 import { createGuard } from "../../util/guards";
 import { nodePathToUrnPath } from "../../util/taxonomyHelpers";
@@ -45,6 +45,13 @@ interface RoundIconProps {
   clicked?: boolean;
   type?: "button" | "reset" | "submit";
 }
+
+const StyledStar = styled(Star)`
+  color: ${colors.brand.greyDark};
+  &[data-favorite="true"] {
+    color: ${colors.favoriteColor};
+  }
+`;
 
 const RoundIcon = ({ smallIcon, ...rest }: RoundIconProps & Omit<HTMLProps<HTMLButtonElement>, "as">) => (
   <StyledIcon {...rest}>{smallIcon}</StyledIcon>
@@ -152,7 +159,6 @@ const NodeItem = ({
   };
 
   const nodeTypeIcon = useMemo(() => getNodeIcon(item.nodeType), [item.nodeType]);
-  const publishing = item.metadata.customFields[TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH] === "true";
 
   return (
     <StyledStructureItem connectionId={connectionId} id={item.id} key={path} greyedOut={!parentActive && !isActive}>
@@ -160,9 +166,7 @@ const NodeItem = ({
         {isRoot && (
           <RoundIcon
             onClick={toggleFavorite}
-            smallIcon={
-              <Star color={isFavorite ? colors.favoriteColor : colors.brand.greyDark} data-testid="star-icon" />
-            }
+            smallIcon={<StyledStar data-favorite={isFavorite} data-testid="star-icon" />}
             data-testid="favourite-subject"
           />
         )}
@@ -180,15 +184,6 @@ const NodeItem = ({
           <IconWrapper title={t(nodeTypeIcon.title)} aria-label={t(nodeTypeIcon.title)}>
             {nodeTypeIcon.icon}
           </IconWrapper>
-          {publishing && (
-            <IconWrapper
-              data-color="green"
-              title={t("diff.fields.requestPublish.title")}
-              aria-label={t("diff.fields.requestPublish.title")}
-            >
-              <CloudUploadOutline />
-            </IconWrapper>
-          )}
           {item.name}
         </ItemTitleButton>
         {isActive && (

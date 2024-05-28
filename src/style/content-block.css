@@ -9,10 +9,3 @@
 details {
   position: relative;
 }
-
-.o-list--two-columns {
-  & p {
-    margin: 0;
-    display: inline-block;
-  }
-}

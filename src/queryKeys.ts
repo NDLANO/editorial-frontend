@@ -11,6 +11,7 @@ export const SEARCH_CONCEPTS = "searchConcepts";
 export const SEARCH_SERIES = "searchSeries";
 export const SEARCH_IMAGES = "searchImages";
 export const SEARCH = "search";
+export const SEARCH_SUBJECT_STATS = "searchSubjectStats";
 export const MYNDLA_RESOURCE_STATS = "myNdlaResourceStats";
 
 export const CONCEPT_STATE_MACHINE = "conceptStateMachine";
@@ -25,11 +26,14 @@ export const IMAGE = "image";
 
 export const AUDIO = "audio";
 
-export const AUDIO_EMBED = "audio";
+export const AUDIO_EMBED = "audioEmbed";
+export const BRIGHTCOVE_EMBED = "brightcoveEmbed";
+export const IMAGE_EMBED = "imageEmbed";
 
 export const PODCAST_SERIES = "podcastSeries";
 
 export const DRAFT = "draft";
+export const DRAFT_HISTORY = "draftHistory";
 export const SEARCH_DRAFTS = "searchDrafts";
 export const LICENSES = "licenses";
 export const USER_DATA = "userData";
@@ -53,6 +57,7 @@ export const ARTICLE_SEARCH = "articleSearch";
 export const NODE = "node";
 export const NODES = "nodes";
 export const SEARCH_NODES = "searchNodes";
+export const POST_SEARCH_NODES = "postSearchNodes";
 export const CHILD_NODES_WITH_ARTICLE_TYPE = "childNodesWithArticleType";
 export const NODE_TRANSLATIONS = "nodeTranslations";
 export const NODE_CONNECTION = "nodeConnection";

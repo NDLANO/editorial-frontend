@@ -20,19 +20,3 @@ export interface PodcastFormValues extends AudioFormikType {
   series: ISeries | null;
   seriesId?: number;
 }
-
-export interface AudioSearchParams {
-  "audio-type"?: string;
-  "page-size"?: number;
-  language?: string;
-  page?: number;
-  query?: string;
-  sort?: string;
-}
-
-export interface SeriesSearchParams {
-  query?: string;
-  page?: number;
-  "page-size"?: number;
-  language?: string;
-}

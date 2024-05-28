@@ -16,6 +16,7 @@ import { codeblockPlugin } from "../../../../components/SlateEditor/plugins/code
 import { blockConceptPlugin } from "../../../../components/SlateEditor/plugins/concept/block";
 import { inlineConceptPlugin } from "../../../../components/SlateEditor/plugins/concept/inline";
 import { conceptListPlugin } from "../../../../components/SlateEditor/plugins/conceptList";
+import { copyrightPlugin } from "../../../../components/SlateEditor/plugins/copyright";
 import { definitionListPlugin } from "../../../../components/SlateEditor/plugins/definitionList";
 import { detailsPlugin } from "../../../../components/SlateEditor/plugins/details";
 import { divPlugin } from "../../../../components/SlateEditor/plugins/div";
@@ -28,6 +29,7 @@ import { framedContentPlugin } from "../../../../components/SlateEditor/plugins/
 import { gridPlugin } from "../../../../components/SlateEditor/plugins/grid";
 import { h5pPlugin } from "../../../../components/SlateEditor/plugins/h5p";
 import { headingPlugin } from "../../../../components/SlateEditor/plugins/heading";
+import { imagePlugin } from "../../../../components/SlateEditor/plugins/image";
 import { linkPlugin } from "../../../../components/SlateEditor/plugins/link";
 import { listPlugin } from "../../../../components/SlateEditor/plugins/list";
 import { markPlugin } from "../../../../components/SlateEditor/plugins/mark";
@@ -41,6 +43,7 @@ import { tablePlugin } from "../../../../components/SlateEditor/plugins/table";
 import { textTransformPlugin } from "../../../../components/SlateEditor/plugins/textTransform";
 import { toolbarPlugin } from "../../../../components/SlateEditor/plugins/toolbar";
 import { disclaimerPlugin } from "../../../../components/SlateEditor/plugins/uuDisclaimer";
+import { videoPlugin } from "../../../../components/SlateEditor/plugins/video";
 
 export const learningResourcePlugins: SlatePlugin[] = [
   sectionPlugin,
@@ -49,8 +52,10 @@ export const learningResourcePlugins: SlatePlugin[] = [
   paragraphPlugin,
   footnotePlugin,
   audioPlugin(),
+  imagePlugin(),
   h5pPlugin(),
   externalPlugin(),
+  videoPlugin(),
   embedPlugin(),
   framedContentPlugin,
   blockQuotePlugin,
@@ -71,7 +76,6 @@ export const learningResourcePlugins: SlatePlugin[] = [
   codeblockPlugin,
   blockPickerPlugin,
   dndPlugin,
-  // pasteHandler(),
   toolbarPlugin(),
   textTransformPlugin,
   breakPlugin,
@@ -81,4 +85,5 @@ export const learningResourcePlugins: SlatePlugin[] = [
   listPlugin,
   gridPlugin,
   disclaimerPlugin,
+  copyrightPlugin,
 ];

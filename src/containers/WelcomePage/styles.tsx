@@ -5,9 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import styled from "@emotion/styled";
 import { spacing, colors, mq, breakpoints, fonts } from "@ndla/core";
-import SafeLink from "@ndla/safelink";
+import { SafeLink } from "@ndla/safelink";
 import { Switch } from "@ndla/switch";
 
 export const StyledColumnHeader = styled.div`
@@ -89,6 +90,7 @@ export const StyledSwitch = styled(Switch)`
 export const TopRowControls = styled.div`
   display: flex;
   justify-content: flex-end;
+  flex-wrap: wrap;
   gap: ${spacing.xsmall};
   ${mq.range({ until: breakpoints.tabletWide })} {
     justify-content: flex-start;

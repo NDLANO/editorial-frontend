@@ -10,7 +10,16 @@ import { FormikHelpers } from "formik";
 import { TFunction } from "i18next";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Descendant } from "slate";
-import { IArticle, ILicense, IStatus, IUpdatedArticle, IAuthor, IComment } from "@ndla/types-backend/draft-api";
+import { UseQueryResult } from "@tanstack/react-query";
+import {
+  IArticle,
+  ILicense,
+  IStatus,
+  IUpdatedArticle,
+  IAuthor,
+  IComment,
+  IQualityEvaluation,
+} from "@ndla/types-backend/draft-api";
 import { getWarnings, RulesType } from "../../components/formikValidationSchema";
 import { PUBLISHED } from "../../constants";
 import { RelatedContent } from "../../interfaces";
@@ -76,6 +85,7 @@ export interface ArticleFormType {
   priority: string;
   processed: boolean;
   origin?: string;
+  qualityEvaluation?: IQualityEvaluation;
 }
 
 export interface LearningResourceFormType extends ArticleFormType {}
@@ -97,6 +107,7 @@ type HooksInputObject<T extends ArticleFormType> = {
   articleLanguage: string;
   rules?: RulesType<T, IArticle>;
   ndlaId?: string;
+  articleHistory: UseQueryResult<IArticle[]> | undefined;
 };
 
 export type HandleSubmitFunc<T> = (values: T, formikHelpers: FormikHelpers<T>, saveAsNew?: boolean) => Promise<void>;
@@ -111,6 +122,7 @@ export function useArticleFormHooks<T extends ArticleFormType>({
   articleLanguage,
   rules,
   ndlaId,
+  articleHistory,
 }: HooksInputObject<T>) {
   const { id, revision } = article ?? {};
   const formikRef: any = useRef<any>(null);
@@ -151,6 +163,8 @@ export function useArticleFormHooks<T extends ArticleFormType>({
 
         await deleteRemovedFiles(article?.content?.content ?? "", newArticle.content ?? "");
 
+        articleHistory?.refetch();
+
         setSavedToServer(true);
         const newInitialValues = getInitialValues(savedArticle, articleLanguage, ndlaId);
         formikHelpers.resetForm({ values: newInitialValues });
@@ -183,6 +197,7 @@ export function useArticleFormHooks<T extends ArticleFormType>({
     [
       applicationError,
       article?.content?.content,
+      articleHistory,
       articleLanguage,
       articleStatus,
       createMessage,

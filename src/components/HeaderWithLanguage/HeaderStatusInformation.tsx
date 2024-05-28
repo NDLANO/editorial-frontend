@@ -12,7 +12,7 @@ import styled from "@emotion/styled";
 import { colors, fonts, spacing } from "@ndla/core";
 import { RssFeed, Time } from "@ndla/icons/common";
 import { Check, AlertCircle } from "@ndla/icons/editor";
-import SafeLink from "@ndla/safelink";
+import { SafeLink } from "@ndla/safelink";
 import { IConceptSummary } from "@ndla/types-backend/concept-api";
 import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
@@ -74,6 +74,7 @@ interface Props {
   hasRSS?: boolean;
   inSearch?: boolean;
   slug?: string;
+  favoriteCount?: number;
 }
 
 const StyledStatus = styled.p`
@@ -139,6 +140,7 @@ const HeaderStatusInformation = ({
   responsibleName,
   slug,
   hasRSS,
+  favoriteCount,
 }: Props) => {
   const { t } = useTranslation();
   const [learningpaths, setLearningpaths] = useState<ILearningPathV2[]>([]);
@@ -150,9 +152,8 @@ const HeaderStatusInformation = ({
   }, [learningpaths, articles, concepts, setHasConnections]);
 
   const expirationColor = useMemo(() => getWarnStatus(expirationDate), [expirationDate]);
-
+  const hideFavoritedIcon = type === "frontpage-article" || type === "image" || type === "audio" || type === "concept";
   if (!noStatus || isNewLanguage) {
-    const showFavoritedIcon = type !== "frontpage-article" && !inSearch;
     return (
       <StyledStatusWrapper>
         {(type === "standard" || type === "topic-article") && !inSearch ? (
@@ -194,7 +195,7 @@ const HeaderStatusInformation = ({
             aria-hidden={false}
           />
         )}
-        {showFavoritedIcon && <HeaderFavoriteStatus id={id} type={type} />}
+        {!hideFavoritedIcon && <HeaderFavoriteStatus id={id} type={type} favoriteCount={favoriteCount} />}
         <StyledStatus data-compact={compact}>
           <span>
             <StyledSmallText data-compact={compact}>{`${t("form.responsible.label")}:`}</StyledSmallText>
@@ -214,6 +215,7 @@ const HeaderStatusInformation = ({
   } else if (type === "image") {
     return (
       <StyledStatusWrapper>
+        <HeaderFavoriteStatus id={id} type={type} />
         <EmbedConnection
           id={id}
           type="image"
@@ -227,6 +229,7 @@ const HeaderStatusInformation = ({
   } else if (type === "audio" || type === "podcast") {
     return (
       <StyledStatusWrapper>
+        <HeaderFavoriteStatus id={id} type="audio" />
         <EmbedConnection
           id={id}
           type="audio"

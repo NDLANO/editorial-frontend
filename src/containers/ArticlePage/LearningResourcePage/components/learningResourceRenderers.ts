@@ -15,6 +15,7 @@ import { codeblockRenderer } from "../../../../components/SlateEditor/plugins/co
 import { blockConceptRenderer } from "../../../../components/SlateEditor/plugins/concept/block/render";
 import { inlineConceptRenderer } from "../../../../components/SlateEditor/plugins/concept/inline/render";
 import { conceptListRenderer } from "../../../../components/SlateEditor/plugins/conceptList/render";
+import { copyrightRenderer } from "../../../../components/SlateEditor/plugins/copyright/render";
 import { definitionListRenderer } from "../../../../components/SlateEditor/plugins/definitionList/render";
 import { detailsRenderer } from "../../../../components/SlateEditor/plugins/details/render";
 import { divRenderer } from "../../../../components/SlateEditor/plugins/div/render";
@@ -26,6 +27,7 @@ import { framedContentRenderer } from "../../../../components/SlateEditor/plugin
 import { gridRenderer } from "../../../../components/SlateEditor/plugins/grid/render";
 import { h5pRenderer } from "../../../../components/SlateEditor/plugins/h5p/render";
 import { headingRenderer } from "../../../../components/SlateEditor/plugins/heading/render";
+import { imageRenderer } from "../../../../components/SlateEditor/plugins/image/render";
 import { linkRenderer } from "../../../../components/SlateEditor/plugins/link/render";
 import { listRenderer } from "../../../../components/SlateEditor/plugins/list/render";
 import { markRenderer } from "../../../../components/SlateEditor/plugins/mark/render";
@@ -36,6 +38,7 @@ import { sectionRenderer } from "../../../../components/SlateEditor/plugins/sect
 import { spanRenderer } from "../../../../components/SlateEditor/plugins/span/render";
 import { tableRenderer } from "../../../../components/SlateEditor/plugins/table/render";
 import { disclaimerRenderer } from "../../../../components/SlateEditor/plugins/uuDisclaimer/render";
+import { videoRenderer } from "../../../../components/SlateEditor/plugins/video/render";
 
 // Plugins are checked from last to first
 export const learningResourceRenderers: SlatePlugin[] = [
@@ -45,9 +48,11 @@ export const learningResourceRenderers: SlatePlugin[] = [
   paragraphRenderer,
   footnoteRenderer,
   audioRenderer,
+  imageRenderer(true),
   h5pRenderer,
+  videoRenderer,
   externalRenderer,
-  embedRenderer(),
+  embedRenderer,
   framedContentRenderer,
   asideRenderer,
   detailsRenderer,
@@ -71,4 +76,5 @@ export const learningResourceRenderers: SlatePlugin[] = [
   listRenderer,
   gridRenderer,
   disclaimerRenderer,
+  copyrightRenderer,
 ];

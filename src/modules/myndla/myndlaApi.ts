@@ -6,12 +6,40 @@
  *
  */
 
-import { ISingleResourceStats } from "@ndla/types-backend/myndla-api";
+import queryString from "query-string";
+import { IResource, ISingleResourceStats, ResourceType } from "@ndla/types-backend/myndla-api";
 import { resolveJsonOrRejectWithError, apiResourceUrl, fetchAuthorized } from "../../util/apiHelpers";
 
 const statsUrl = apiResourceUrl("/myndla-api/v1/stats");
+const foldersUrl = apiResourceUrl("/myndla-api/v1/folders");
 
-export const fetchResourceStats = async (resourceType: string, resourceId: string): Promise<ISingleResourceStats> => {
-  const response = await fetchAuthorized(`${statsUrl}/favorites/${resourceType}/${resourceId}`);
+export const fetchResourceStats = async (
+  resourceTypes: string,
+  resourceIds: string,
+): Promise<ISingleResourceStats[]> => {
+  const response = await fetchAuthorized(`${statsUrl}/favorites/${resourceTypes}/${resourceIds}`);
+  return resolveJsonOrRejectWithError(response);
+};
+
+interface ResourceWithFilteredResourceType<T extends ResourceType> extends Omit<IResource, "resourceType"> {
+  resourceType: Exclude<ResourceType, T>;
+}
+
+interface RecentFavoritedParams<T extends ResourceType> {
+  size?: number;
+  exclude: T[];
+}
+
+export const fetchRecentFavorited = async <T extends ResourceType>({
+  exclude,
+  ...params
+}: RecentFavoritedParams<T>): Promise<ResourceWithFilteredResourceType<(typeof exclude)[number]>[]> => {
+  const stringifiedParams = queryString.stringify({
+    ...params,
+    ...(exclude.length ? { exclude: exclude.join(",") } : {}),
+  });
+
+  const query = params ? `?${stringifiedParams}` : "";
+  const response = await fetchAuthorized(`${foldersUrl}/resources/recent${query}`);
   return resolveJsonOrRejectWithError(response);
 };

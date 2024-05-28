@@ -6,16 +6,13 @@
  *
  */
 import { MouseEvent } from "react";
+import { ImageEmbedFormValues } from "../components/SlateEditor/plugins/image/ImageEmbedForm";
 import config from "../config";
 
-export interface TransformData {
-  "focal-x"?: string;
-  "focal-y"?: string;
-  "upper-left-x"?: string;
-  "upper-left-y"?: string;
-  "lower-right-x"?: string;
-  "lower-right-y"?: string;
-}
+type Transform = Pick<
+  ImageEmbedFormValues,
+  "focalX" | "focalY" | "upperLeftX" | "upperLeftY" | "lowerRightX" | "lowerRightY"
+>;
 
 export function getElementOffset(el: HTMLImageElement) {
   const rect = el.getBoundingClientRect();
@@ -56,31 +53,31 @@ export function getImageDimensions(e: HTMLImageElement) {
   };
 }
 
-export function getCrop(transformData: TransformData) {
+export function getCrop(transformData: Transform) {
   if (
-    transformData["upper-left-x"] === undefined ||
-    transformData["upper-left-y"] === undefined ||
-    transformData["lower-right-x"] === undefined ||
-    transformData["lower-right-y"] === undefined
+    transformData.upperLeftX === undefined ||
+    transformData.upperLeftY === undefined ||
+    transformData.lowerRightX === undefined ||
+    transformData.lowerRightY === undefined
   ) {
     return undefined;
   }
-  return `cropStartX=${transformData["upper-left-x"]}&cropStartY=${transformData["upper-left-y"]}&cropEndX=${transformData["lower-right-x"]}&cropEndY=${transformData["lower-right-y"]}`;
+  return `cropStartX=${transformData.upperLeftX}&cropStartY=${transformData.upperLeftY}&cropEndX=${transformData.lowerRightX}&cropEndY=${transformData.lowerRightY}`;
 }
 
-export function getFocalPoint(transformData: TransformData) {
-  if (transformData["focal-x"] === undefined || transformData["focal-y"] === undefined) {
+export function getFocalPoint(transformData: Transform) {
+  if (transformData.focalX === undefined || transformData.focalY === undefined) {
     return undefined;
   }
-  return `focalX=${transformData["focal-x"]}&focalY=${transformData["focal-y"]}`;
+  return `focalX=${transformData.focalX}&focalY=${transformData.focalY}`;
 }
 
 const imageWidths = [1440, 1120, 1000, 960, 800, 640, 480, 320];
 
-export function getSrcSets(imageId: string, transformData?: TransformData, language?: string) {
-  const src = `${config.ndlaApiUrl}/image-api/raw/id/${imageId}`;
-  const crop = transformData ? getCrop(transformData) : undefined;
-  const focalPoint = transformData ? getFocalPoint(transformData) : undefined;
+export function getSrcSets(resourceId: string, imageData: Transform, language?: string) {
+  const src = `${config.ndlaApiUrl}/image-api/raw/id/${resourceId}`;
+  const crop = getCrop(imageData);
+  const focalPoint = getFocalPoint(imageData);
 
   const cropString = crop ? `&${crop}` : "";
   const languageString = language ? `&language=${language}` : "";

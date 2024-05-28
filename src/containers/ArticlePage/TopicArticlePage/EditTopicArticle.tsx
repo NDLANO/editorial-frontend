@@ -12,8 +12,10 @@ import { Navigate, useParams } from "react-router-dom";
 import { HelmetWithTracker } from "@ndla/tracker";
 import TopicArticleForm from "./components/TopicArticleForm";
 import { TranslateType, useTranslateToNN } from "../../../components/NynorskTranslateProvider";
+import { isNewArticleLanguage } from "../../../components/SlateEditor/IsNewArticleLanguageProvider";
 import Spinner from "../../../components/Spinner";
 import { LocaleType } from "../../../interfaces";
+import { useDraftHistory } from "../../../modules/draft/draftQueries";
 import { useNodes } from "../../../modules/nodes/nodeQueries";
 import { toEditArticle } from "../../../util/routeHelpers";
 import { useFetchArticleData } from "../../FormikForm/formikDraftHooks";
@@ -30,12 +32,20 @@ const translateFields: TranslateType[] = [
     type: "text",
   },
   {
+    field: "title.htmlTitle",
+    type: "html",
+  },
+  {
     field: "metaDescription.metaDescription",
     type: "text",
   },
   {
     field: "introduction.introduction",
     type: "text",
+  },
+  {
+    field: "introduction.htmlIntroduction",
+    type: "html",
   },
   {
     field: "content.content",
@@ -53,7 +63,7 @@ const EditTopicArticle = ({ isNewlyCreated }: Props) => {
   const selectedLanguage = params.selectedLanguage as LocaleType;
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
-  const { loading, article, setArticle, articleChanged, updateArticle } = useFetchArticleData(
+  const { loading, article, setArticle, articleChanged, updateArticle, articleHistory } = useFetchArticleData(
     articleId,
     selectedLanguage,
   );
@@ -92,7 +102,7 @@ const EditTopicArticle = ({ isNewlyCreated }: Props) => {
     const redirectUrl = toEditArticle(article.id, article.articleType, article.title?.language);
     return <Navigate replace to={redirectUrl} />;
   }
-  const newLanguage = !article.supportedLanguages.includes(selectedLanguage);
+  const newLanguage = isNewArticleLanguage(selectedLanguage, article);
   return (
     <>
       <HelmetWithTracker title={`${article.title?.title} ${t("htmlTitles.titleTemplate")}`} />
@@ -102,6 +112,7 @@ const EditTopicArticle = ({ isNewlyCreated }: Props) => {
         articleLanguage={selectedLanguage}
         articleChanged={articleChanged || newLanguage}
         article={article}
+        articleHistory={articleHistory}
         isNewlyCreated={!!isNewlyCreated}
         updateArticle={updateArticle}
         supportedLanguages={article.supportedLanguages}

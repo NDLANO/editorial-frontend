@@ -26,6 +26,7 @@ const Wrapper = styled.div`
 interface Props {
   id: number | string | undefined;
   type: string | undefined;
+  favoriteCount?: number;
 }
 
 const getResourceType = (type: string | undefined) => {
@@ -33,36 +34,38 @@ const getResourceType = (type: string | undefined) => {
     case "standard":
     case "topic-article":
     case "frontpage-article":
-      return "article";
+      return "article,multidiciplinary";
     default:
       return type;
   }
 };
 
-const HeaderFavoriteStatus = ({ id, type }: Props) => {
+const HeaderFavoriteStatus = ({ id, type, favoriteCount }: Props) => {
   const favoriteMakesSense = id !== undefined && type !== undefined;
   const resourceType = getResourceType(type);
   const { t } = useTranslation();
   const { isLoading, isError, data } = useResourceStats(
     {
-      resourceId: id?.toString() ?? "",
-      resourceType: resourceType ?? "",
+      resourceIds: id?.toString() ?? "",
+      resourceTypes: resourceType ?? "",
     },
     {
-      enabled: favoriteMakesSense,
+      enabled: favoriteMakesSense && favoriteCount === undefined,
     },
   );
 
-  if (!favoriteMakesSense || isError || isLoading || !data) return null;
+  if (!favoriteMakesSense || isError || isLoading || (!data?.length && favoriteCount === undefined)) return null;
 
+  const resourceFavorites =
+    favoriteCount !== undefined ? favoriteCount : data?.find((d) => d.id === id.toString())?.favourites;
   const tooltipText =
-    data.favourites === 0 ? t("form.myNdla.noFavorites") : t("form.myNdla.numFavorites", { num: data.favourites });
+    resourceFavorites === 0 ? t("form.myNdla.noFavorites") : t("form.myNdla.numFavorites", { num: resourceFavorites });
 
   return (
     <Wrapper title={tooltipText} aria-label={tooltipText}>
       <StyledHeartOutline />
       <Text margin="none" textStyle="label-small">
-        {data.favourites}
+        {resourceFavorites}
       </Text>
     </Wrapper>
   );

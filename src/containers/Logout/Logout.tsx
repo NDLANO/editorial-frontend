@@ -13,14 +13,14 @@ import { OneColumn } from "@ndla/ui";
 import LogoutFederated from "./LogoutFederated";
 import LogoutProviders from "./LogoutProviders";
 import LogoutSession from "./LogoutSession";
-import Footer from "../App/components/Footer";
+import Footer from "../App/components/FooterWrapper";
 
 const Logout = () => {
   const { t } = useTranslation();
   return (
     <>
       <HelmetWithTracker title={t("htmlTitles.logoutPage")} />
-      <OneColumn cssModifier="clear">
+      <OneColumn>
         <div className="u-2/3@desktop u-push-1/3@desktop">
           <Routes>
             <Route path="federated" element={<LogoutFederated />} />

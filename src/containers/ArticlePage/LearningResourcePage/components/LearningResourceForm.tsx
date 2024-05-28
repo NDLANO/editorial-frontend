@@ -9,6 +9,7 @@
 import { Formik, useFormikContext } from "formik";
 import { memo, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { UseQueryResult } from "@tanstack/react-query";
 import { IArticle, IUpdatedArticle, IStatus } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import LearningResourcePanels from "./LearningResourcePanels";
@@ -18,24 +19,23 @@ import HeaderWithLanguage from "../../../../components/HeaderWithLanguage";
 import EditorFooter from "../../../../components/SlateEditor/EditorFooter";
 import StyledForm from "../../../../components/StyledFormComponents";
 import { ARCHIVED, UNPUBLISHED } from "../../../../constants";
-import { useSession } from "../../../../containers/Session/SessionProvider";
 import { validateDraft } from "../../../../modules/draft/draftApi";
 import { useLicenses, useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
 import { isFormikFormDirty, learningResourceRules } from "../../../../util/formHelper";
 import { AlertModalWrapper } from "../../../FormikForm";
 import { HandleSubmitFunc, LearningResourceFormType, useArticleFormHooks } from "../../../FormikForm/articleFormHooks";
 import usePreventWindowUnload from "../../../FormikForm/preventWindowUnloadHook";
+import { useSession } from "../../../Session/SessionProvider";
 import { TaxonomyVersionProvider } from "../../../StructureVersion/TaxonomyVersionProvider";
 import {
   draftApiTypeToLearningResourceFormType,
   getExpirationDate,
   learningResourceFormTypeToDraftApiType,
 } from "../../articleTransformers";
-import CommentSection from "../../components/CommentSection";
-import { FlexWrapper, MainContent } from "../../styles";
 
 interface Props {
   article?: IArticle;
+  articleHistory?: UseQueryResult<IArticle[]>;
   articleTaxonomy?: Node[];
   articleStatus?: IStatus;
   supportedLanguages: string[];
@@ -54,6 +54,7 @@ const LearningResourceForm = ({
   supportedLanguages,
   articleChanged,
   articleLanguage,
+  articleHistory,
 }: Props) => {
   const [showTaxWarning, setShowTaxWarning] = useState(false);
   const { t } = useTranslation();
@@ -77,6 +78,7 @@ const LearningResourceForm = ({
     article,
     t,
     articleStatus,
+    articleHistory,
     updateArticle,
     getArticleFromSlate: learningResourceFormTypeToDraftApiType,
     articleLanguage,
@@ -125,28 +127,25 @@ const LearningResourceForm = ({
           language={articleLanguage}
           article={article}
           status={article?.status}
+          articleHistory={articleHistory?.data}
           supportedLanguages={supportedLanguages}
           taxonomy={contexts}
           title={article?.title?.title}
           type="standard"
           expirationDate={getExpirationDate(article)}
         />
-        <FlexWrapper>
-          <MainContent>
-            <TaxonomyVersionProvider>
-              <LearningResourcePanels
-                // Formik does not allow for invalid form submissions through their handleSubmit function, so we have to bypass formik
-                handleSubmit={handleSubmit}
-                articleLanguage={articleLanguage}
-                article={article}
-                taxonomy={articleTaxonomy}
-                updateNotes={updateArticle}
-                contexts={contexts}
-              />
-            </TaxonomyVersionProvider>
-          </MainContent>
-          <CommentSection savedStatus={article?.status} articleType="standard" />
-        </FlexWrapper>
+        <TaxonomyVersionProvider>
+          <LearningResourcePanels
+            // Formik does not allow for invalid form submissions through their handleSubmit function, so we have to bypass formik
+            handleSubmit={handleSubmit}
+            articleLanguage={articleLanguage}
+            article={article}
+            articleHistory={articleHistory?.data}
+            taxonomy={articleTaxonomy}
+            updateNotes={updateArticle}
+            contexts={contexts}
+          />
+        </TaxonomyVersionProvider>
         <FormFooter
           articleChanged={!!articleChanged}
           isNewlyCreated={isNewlyCreated}

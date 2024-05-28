@@ -33,6 +33,7 @@ import SubjectMatterPage from "./SubjectMatterPage";
 import Zendesk from "./Zendesk";
 import ErrorBoundary from "../../components/ErrorBoundary";
 import { scheduleRenewal } from "../../util/authHelpers";
+import ComparePage from "../ComparePage/ComparePage";
 import ConceptPage from "../ConceptPage/ConceptPage";
 import EditMarkupPage from "../EditMarkupPage/EditMarkupPage";
 import Subjectpage from "../EditSubjectFrontpage/Subjectpage";
@@ -50,7 +51,6 @@ import NodeDiffPage from "../NodeDiff/NodeDiffPage";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import PreviewDraftPage from "../PreviewDraftPage/PreviewDraftPage";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
-import PublishRequestsPage from "../PublishRequests/PublishRequestsPage";
 import { getSessionStateFromLocalStorage, SessionProvider } from "../Session/SessionProvider";
 import ProgrammePage from "../StructurePage/ProgrammePage";
 import StructurePage from "../StructurePage/StructurePage";
@@ -90,13 +90,13 @@ const App = () => {
                   <Route path="/concept/*" element={<PrivateRoute component={<ConceptPage />} />} />
                   <Route path="/gloss/*" element={<PrivateRoute component={<GlossPage />} />} />
                   <Route path="/preview/:draftId/:language/*" element={<PreviewDraftPage />} />
+                  <Route path="/compare/:draftId/:language/*" element={<ComparePage />} />
                   <Route path="/media/*" element={<PrivateRoute component={<MediaPage />} />} />
                   <Route path="/film/*" element={<PrivateRoute component={<NdlaFilm />} />} />
                   <Route path="/h5p/*" element={<PrivateRoute component={<H5PPage />} />} />
                   <Route path="/structure/*" element={<PrivateRoute component={<StructurePage />} />} />
                   <Route path="/programme/*" element={<PrivateRoute component={<ProgrammePage />} />} />
                   <Route path="/taxonomyVersions/*" element={<PrivateRoute component={<TaxonomyVersionsPage />} />} />
-                  <Route path="/publishRequests/*" element={<PrivateRoute component={<PublishRequestsPage />} />} />
                   <Route path="/nodeDiff/:nodeId" element={<PrivateRoute component={<NodeDiffPage />} />} />
                   <Route path="/frontpage/" element={<PrivateRoute component={<FrontpageEditPage />} />} />
                   <Route path="/forbidden" element={<ForbiddenPage />} />

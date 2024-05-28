@@ -6,10 +6,10 @@
  *
  */
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import Tabs from "@ndla/tabs";
+import { Tabs } from "@ndla/tabs";
 import ArticleStatusContent from "./ArticleStatusContent";
 import { GRID_GAP } from "../../../components/Layout/Layout";
 import {
@@ -26,9 +26,9 @@ import {
   STORED_ON_HOLD_LMA_SUBJECT,
   STORED_ON_HOLD_SA_SUBJECT,
 } from "../../../constants";
-import { usePostSearchNodesMutation } from "../../../modules/nodes/nodeMutations";
+import { usePostSearchNodes } from "../../../modules/nodes/nodeQueries";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
-import { SubjectIdObject, customFieldsBody, defaultSubjectIdObject, getResultSubjectIdObject } from "../utils";
+import { SubjectIdObject, customFieldsBody } from "../utils";
 
 const StyledWrapper = styled.div`
   margin-top: ${GRID_GAP};
@@ -38,119 +38,109 @@ interface Props {
   ndlaId: string;
   favoriteSubjects: string[] | undefined;
   userDataLoading: boolean;
+  subjectIdObject: SubjectIdObject;
 }
 
-const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataLoading }: Props) => {
-  const [subjectIdObject, setSubjectIdObject] = useState<SubjectIdObject>(defaultSubjectIdObject);
+const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataLoading, subjectIdObject }: Props) => {
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
-  const { mutateAsync: postSearchNodes, isPending } = usePostSearchNodesMutation();
 
-  useEffect(() => {
-    const updateSubjectIds = async () => {
-      const nodesSearchResult = await postSearchNodes({
-        body: customFieldsBody(ndlaId),
-        taxonomyVersion,
-      });
-      const resultSubjectIdObject = getResultSubjectIdObject(ndlaId, nodesSearchResult.results);
-
-      setSubjectIdObject(resultSubjectIdObject);
-    };
-    updateSubjectIds();
-  }, [ndlaId, postSearchNodes, taxonomyVersion]);
+  const searchQuery = usePostSearchNodes({ ...customFieldsBody(ndlaId), taxonomyVersion });
 
   const tabs = useMemo(() => {
-    if (!isPending) {
-      return [
-        ...(subjectIdObject.subjectLMA.length
-          ? [
-              {
-                title: t("welcomePage.lmaSubjects"),
-                id: "lma-subjects",
-                content: (
-                  <ArticleStatusContent
-                    ndlaId={ndlaId}
-                    subjectIds={subjectIdObject.subjectLMA}
-                    title={t("welcomePage.lmaSubjectsHeading")}
-                    description={t("welcomePage.lmaSubjectsDescription")}
-                    searchPageSubjectFilter={LMA_SUBJECT_ID}
-                    localStorageKey={STORED_FILTER_LMA_SUBJECT}
-                    onHoldLocalStorageKey={STORED_ON_HOLD_LMA_SUBJECT}
-                  />
-                ),
-              },
-            ]
-          : []),
-        ...(subjectIdObject.subjectDA.length
-          ? [
-              {
-                title: t("welcomePage.daSubjects"),
-                id: "desk-subjects",
-                content: (
-                  <ArticleStatusContent
-                    ndlaId={ndlaId}
-                    subjectIds={subjectIdObject.subjectDA}
-                    title={t("welcomePage.daSubjectsHeading")}
-                    description={t("welcomePage.daSubjectsDescription")}
-                    searchPageSubjectFilter={DA_SUBJECT_ID}
-                    localStorageKey={STORED_FILTER_DA_SUBJECT}
-                    onHoldLocalStorageKey={STORED_ON_HOLD_DA_SUBJECT}
-                  />
-                ),
-              },
-            ]
-          : []),
-        ...(subjectIdObject.subjectSA.length
-          ? [
-              {
-                title: t("welcomePage.saSubjects"),
-                id: "langauge-subjects",
-                content: (
-                  <ArticleStatusContent
-                    ndlaId={ndlaId}
-                    subjectIds={subjectIdObject.subjectSA}
-                    title={t("welcomePage.saSubjectsHeading")}
-                    description={t("welcomePage.saSubjectsDescription")}
-                    searchPageSubjectFilter={SA_SUBJECT_ID}
-                    localStorageKey={STORED_FILTER_SA_SUBJECT}
-                    onHoldLocalStorageKey={STORED_ON_HOLD_SA_SUBJECT}
-                  />
-                ),
-              },
-            ]
-          : []),
-        ...(favoriteSubjects?.length
-          ? [
-              {
-                title: t("welcomePage.favoriteSubjects"),
-                id: "favorite-subjects",
-                content: (
-                  <ArticleStatusContent
-                    ndlaId={ndlaId}
-                    subjectIds={favoriteSubjects}
-                    title={t("welcomePage.favoriteSubjectsHeading")}
-                    description={t("welcomePage.favoriteSubjectsDescription")}
-                    searchPageSubjectFilter={FAVOURITES_SUBJECT_ID}
-                    localStorageKey={STORED_FILTER_FAVORITES}
-                    onHoldLocalStorageKey={STORED_ON_HOLD_FAVORITES}
-                  />
-                ),
-              },
-            ]
-          : []),
-      ];
+    if (searchQuery.isLoading) return [];
+
+    const tabsList = [];
+
+    if (subjectIdObject.subjectLMA.length) {
+      tabsList.push({
+        title: t("welcomePage.lmaSubjects"),
+        id: "lma-subjects",
+        content: (
+          <ArticleStatusContent
+            ndlaId={ndlaId}
+            subjectIds={subjectIdObject.subjectLMA.map((s) => s.id)}
+            title={t("welcomePage.lmaSubjectsHeading")}
+            description={t("welcomePage.lmaSubjectsDescription")}
+            searchPageSubjectFilter={LMA_SUBJECT_ID}
+            localStorageKey={STORED_FILTER_LMA_SUBJECT}
+            onHoldLocalStorageKey={STORED_ON_HOLD_LMA_SUBJECT}
+          />
+        ),
+      });
     }
-    return [];
-  }, [isPending, subjectIdObject, t, ndlaId, favoriteSubjects]);
+
+    if (subjectIdObject.subjectDA.length) {
+      tabsList.push({
+        title: t("welcomePage.daSubjects"),
+        id: "desk-subjects",
+        content: (
+          <ArticleStatusContent
+            ndlaId={ndlaId}
+            subjectIds={subjectIdObject.subjectDA.map((s) => s.id)}
+            title={t("welcomePage.daSubjectsHeading")}
+            description={t("welcomePage.daSubjectsDescription")}
+            searchPageSubjectFilter={DA_SUBJECT_ID}
+            localStorageKey={STORED_FILTER_DA_SUBJECT}
+            onHoldLocalStorageKey={STORED_ON_HOLD_DA_SUBJECT}
+          />
+        ),
+      });
+    }
+
+    if (subjectIdObject.subjectSA.length) {
+      tabsList.push({
+        title: t("welcomePage.saSubjects"),
+        id: "langauge-subjects",
+        content: (
+          <ArticleStatusContent
+            ndlaId={ndlaId}
+            subjectIds={subjectIdObject.subjectSA.map((s) => s.id)}
+            title={t("welcomePage.saSubjectsHeading")}
+            description={t("welcomePage.saSubjectsDescription")}
+            searchPageSubjectFilter={SA_SUBJECT_ID}
+            localStorageKey={STORED_FILTER_SA_SUBJECT}
+            onHoldLocalStorageKey={STORED_ON_HOLD_SA_SUBJECT}
+          />
+        ),
+      });
+    }
+
+    if (favoriteSubjects?.length) {
+      tabsList.push({
+        title: t("welcomePage.favoriteSubjects"),
+        id: "favorite-subjects",
+        content: (
+          <ArticleStatusContent
+            ndlaId={ndlaId}
+            subjectIds={favoriteSubjects}
+            title={t("welcomePage.favoriteSubjectsHeading")}
+            description={t("welcomePage.favoriteSubjectsDescription")}
+            searchPageSubjectFilter={FAVOURITES_SUBJECT_ID}
+            localStorageKey={STORED_FILTER_FAVORITES}
+            onHoldLocalStorageKey={STORED_ON_HOLD_FAVORITES}
+          />
+        ),
+      });
+    }
+
+    return tabsList;
+  }, [
+    searchQuery.isLoading,
+    subjectIdObject.subjectLMA,
+    subjectIdObject.subjectDA,
+    subjectIdObject.subjectSA,
+    t,
+    ndlaId,
+    favoriteSubjects,
+  ]);
+
+  if (!tabs.length || userDataLoading) return null;
 
   return (
-    <>
-      {!!tabs.length && !userDataLoading && (
-        <StyledWrapper>
-          <Tabs variant="rounded" tabs={tabs} />
-        </StyledWrapper>
-      )}
-    </>
+    <StyledWrapper>
+      <Tabs variant="rounded" tabs={tabs} />
+    </StyledWrapper>
   );
 };
 

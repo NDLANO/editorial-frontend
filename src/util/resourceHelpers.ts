@@ -23,8 +23,8 @@ import {
   RESOURCE_TYPE_SUBJECT_MATERIAL,
   RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
   RESOURCE_TYPE_ASSESSMENT_RESOURCES,
-  RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES,
   RESOURCE_TYPE_SOURCE_MATERIAL,
+  RESOURCE_TYPE_CONCEPT,
 } from "../constants";
 
 const { contentTypes } = constants;
@@ -46,8 +46,8 @@ const mapping: Record<string, ContentTypeType> = {
   [RESOURCE_TYPE_ASSESSMENT_RESOURCES]: {
     contentType: contentTypes.ASSESSMENT_RESOURCES,
   },
-  [RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES]: {
-    contentType: contentTypes.EXTERNAL_LEARNING_RESOURCES,
+  [RESOURCE_TYPE_CONCEPT]: {
+    contentType: contentTypes.CONCEPT,
   },
   [RESOURCE_TYPE_SOURCE_MATERIAL]: {
     contentType: contentTypes.SOURCE_MATERIAL,
@@ -89,7 +89,7 @@ export const resourceToLinkProps = (
   content: {
     id: number;
     supportedLanguages?: string[];
-    contexts?: { learningResourceType: string }[];
+    contexts?: { contextType: string }[];
   },
   contentType: string | undefined,
   locale: string,
@@ -128,6 +128,6 @@ export const resourceToLinkProps = (
   }
 
   return {
-    to: toEditArticle(content.id, content?.contexts?.[0]?.learningResourceType || "standard", languageOrDefault),
+    to: toEditArticle(content.id, content?.contexts?.[0]?.contextType || "standard", languageOrDefault),
   };
 };

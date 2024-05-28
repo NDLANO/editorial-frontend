@@ -8,7 +8,7 @@
 
 import { useTranslation } from "react-i18next";
 import { Check } from "@ndla/icons/editor";
-import SafeLink from "@ndla/safelink";
+import { SafeLink } from "@ndla/safelink";
 import HeaderLanguagePill from "./HeaderLanguagePill";
 
 interface LinkWithReplaceProps {

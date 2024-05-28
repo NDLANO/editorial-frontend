@@ -15,7 +15,7 @@ import { OneColumn } from "@ndla/ui";
 import LoginFailure from "./LoginFailure";
 import LoginProviders from "./LoginProviders";
 import LoginSuccess from "./LoginSuccess";
-import Footer from "../App/components/Footer";
+import Footer from "../App/components/FooterWrapper";
 import { useSession } from "../Session/SessionProvider";
 
 const StyledOneColumn = styled(OneColumn)`
@@ -36,7 +36,7 @@ export const Login = () => {
   return (
     <>
       <HelmetWithTracker title={t("htmlTitles.loginPage")} />
-      <StyledOneColumn cssModifier="clear">
+      <StyledOneColumn>
         <div className="u-2/3@desktop u-push-1/3@desktop">
           <Routes>
             <Route path="success/*" element={<LoginSuccess />} />

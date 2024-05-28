@@ -8,7 +8,7 @@
 
 import { IAudioMetaInformation } from "@ndla/types-backend/audio-api";
 import { IArticle, IRelatedContentLink } from "@ndla/types-backend/draft-api";
-import { AudioEmbedData, H5pEmbedData } from "@ndla/types-embed";
+import { AudioEmbedData, BrightcoveEmbedData, H5pEmbedData, ImageEmbedData } from "@ndla/types-embed";
 import { SearchTypeValues, LOCALE_VALUES } from "./constants";
 
 export interface FormikStatus {
@@ -96,37 +96,6 @@ export type RelatedContent = IRelatedContentLink | number;
 export type ConvertedRelatedContent = RelatedContent | IArticle;
 
 export type MessageSeverity = "danger" | "info" | "success" | "warning";
-export interface ImageEmbed {
-  resource: "image";
-  resource_id: string;
-  size?: string;
-  align?: string;
-  alt: string;
-  caption?: string;
-  url?: string;
-  "focal-x"?: string;
-  "focal-y"?: string;
-  "lower-right-y"?: string;
-  "lower-right-x"?: string;
-  "upper-left-y"?: string;
-  "upper-left-x"?: string;
-  metaData?: any;
-  "is-decorative"?: string;
-  allowDecorative?: string;
-  border?: string;
-}
-
-export interface BrightcoveEmbed {
-  resource: "brightcove" | "video";
-  alt?: string;
-  videoid: string;
-  caption: string;
-  url?: string;
-  account: string;
-  player: string;
-  title: string;
-  metaData?: any;
-}
 
 export interface H5pEmbed {
   resource: "h5p";
@@ -140,7 +109,7 @@ export interface ErrorEmbed {
   message: string;
 }
 
-export type Embed = ImageEmbed | BrightcoveEmbed | AudioEmbedData | H5pEmbedData | ErrorEmbed;
+export type Embed = ImageEmbedData | BrightcoveEmbedData | AudioEmbedData | H5pEmbedData | ErrorEmbed;
 
 export interface FileFormat {
   url: string;
@@ -220,24 +189,3 @@ interface ApiTranslateTypeArray extends BaseApiTranslateType {
 }
 
 export type ApiTranslateType = ApiTranslateTypeSingle | ApiTranslateTypeArray;
-
-type Keys =
-  | "type"
-  | "query"
-  | "language"
-  | "audio-type"
-  | "draft-status"
-  | "resource-types"
-  | "article-types"
-  | "context-type"
-  | "users"
-  | "license"
-  | "model-released"
-  | "responsible-ids"
-  | "subjects"
-  | "filter-inactive"
-  | "concept-type";
-
-export type SearchObjectType = {
-  [K in Keys]?: string;
-};

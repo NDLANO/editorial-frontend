@@ -5,7 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import { ReactElement, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ModalHeader, ModalBody, ModalCloseButton, Modal, ModalContent } from "@ndla/modal";
 
@@ -37,6 +39,7 @@ const StyledModalBody = styled.div`
 `;
 
 const VisualElementModalWrapper = ({ resource, children, onClose, isOpen, label }: Props) => {
+  const { t } = useTranslation();
   const onOpenChange = useCallback(
     (open: boolean) => {
       if (!open) {

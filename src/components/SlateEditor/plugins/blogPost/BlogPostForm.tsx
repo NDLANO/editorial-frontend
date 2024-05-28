@@ -6,27 +6,28 @@
  *
  */
 
-import { FieldProps, Formik, FieldInputProps, Field } from "formik";
+import { Formik, Form } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { css } from "@emotion/react";
+import { Descendant } from "slate";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { InputV2, Label, RadioButtonGroup, RadioButtonItem } from "@ndla/forms";
+import { FieldErrorMessage, InputV3, Label, RadioButtonGroup, RadioButtonItem } from "@ndla/forms";
 import { BlogPostEmbedData } from "@ndla/types-embed";
+import { Text } from "@ndla/typography";
 import InlineImageSearch from "../../../../containers/ConceptPage/components/InlineImageSearch";
-import { frontpageLanguages } from "../../../../i18n2";
+import { InlineField } from "../../../../containers/FormikForm/InlineField";
+import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
 import { RadioButtonWrapper, FieldsetRow, StyledFormControl, LeftLegend } from "../../../Form/styles";
-import { FormField } from "../../../FormField";
-import FormikField from "../../../FormikField";
+import { FormControl, FormField } from "../../../FormField";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
+import { RichTextIndicator } from "../../RichTextIndicator";
 
 interface BlogPostFormValues {
   resource: "blog-post";
   metaImageId?: number;
-  language: string;
-  title: string;
+  title: Descendant[];
   size?: "normal" | "large";
   author?: string;
   link: string;
@@ -43,9 +44,6 @@ const rules: RulesType<BlogPostFormValues> = {
   size: {
     required: true,
   },
-  language: {
-    required: true,
-  },
   link: {
     required: true,
     url: true,
@@ -56,18 +54,12 @@ const rules: RulesType<BlogPostFormValues> = {
   },
 };
 
-const StyledSelect = styled.select`
-  background-color: transparent;
-  border: none;
-`;
-
 const toInitialValues = (initialData?: BlogPostEmbedData): BlogPostFormValues => {
   return {
     resource: "blog-post",
-    title: initialData?.title ?? "",
+    title: inlineContentToEditorValue(initialData?.title ?? "", true),
     metaImageId: initialData?.imageId ? parseInt(initialData.imageId) : undefined,
     size: initialData?.size ?? "normal",
-    language: initialData?.language ?? "nb",
     link: initialData?.url ?? "",
     author: initialData?.author ?? "",
     metaImageAlt: initialData?.alt ?? "",
@@ -87,17 +79,7 @@ interface Props {
   onCancel: () => void;
 }
 
-const inputStyle = css`
-  display: flex;
-  flex-direction: column;
-  & > label {
-    white-space: nowrap;
-  }
-`;
-
-const StyledFormikField = styled(FormikField)`
-  margin: 0px;
-`;
+const sizeValues: string[] = ["normal", "large"];
 
 const BlogPostForm = ({ initialData, onSave, onCancel }: Props) => {
   const { t } = useTranslation();
@@ -113,8 +95,7 @@ const BlogPostForm = ({ initialData, onSave, onCancel }: Props) => {
       const newData: BlogPostEmbedData = {
         resource: "blog-post",
         imageId: values.metaImageId.toString(),
-        language: values.language,
-        title: values.title,
+        title: inlineContentToHTML(values.title),
         size: values.size,
         author: values.author ?? "",
         url: values.link,
@@ -134,99 +115,101 @@ const BlogPostForm = ({ initialData, onSave, onCancel }: Props) => {
       validateOnMount
       validate={(values) => validateFormik(values, rules, t)}
     >
-      {({ dirty, isValid, handleSubmit }) => (
-        <>
-          <StyledFormikField name="title" showError>
-            {({ field }: FieldProps) => (
-              <InputV2
-                customCss={inputStyle}
-                label={t("form.name.title")}
-                {...field}
-                after={
-                  <StyledFormikField name="language">
-                    {({ field }: FieldProps) => (
-                      <StyledSelect {...field} title={t("blogPostForm.languageExplanation")}>
-                        {frontpageLanguages.map((lang) => (
-                          <option value={lang} key={lang}>
-                            {t(`languages.${lang}`)}
-                          </option>
-                        ))}
-                      </StyledSelect>
-                    )}
-                  </StyledFormikField>
-                }
-              />
+      {({ dirty, isValid, values, isSubmitting }) => (
+        <Form>
+          <div>
+            <Text textStyle="label-small" margin="none">
+              {t("form.name.title")}
+              <RichTextIndicator />
+            </Text>
+            <FormField name="title">
+              {({ field, helpers, meta }) => (
+                <FormControl isInvalid={!!meta.error}>
+                  <InlineField
+                    {...field}
+                    placeholder={t("form.name.title")}
+                    submitted={isSubmitting}
+                    onChange={helpers.setValue}
+                  />
+                  <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                </FormControl>
+              )}
+            </FormField>
+          </div>
+          <FormField name="author">
+            {({ field, meta }) => (
+              <FormControl isRequired isInvalid={!!meta.error}>
+                <Label textStyle="label-small" margin="none">
+                  {t("form.name.author")}
+                </Label>
+                <InputV3 {...field} />
+                <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+              </FormControl>
             )}
-          </StyledFormikField>
-          <StyledFormikField name="author" showError>
-            {({ field }: FieldProps) => <InputV2 customCss={inputStyle} label={t("form.name.author")} {...field} />}
-          </StyledFormikField>
-          <StyledFormikField name="link" showError>
-            {({ field }: FieldProps) => <InputV2 customCss={inputStyle} label={t("form.name.link")} {...field} />}
-          </StyledFormikField>
-          <FormField name="size">{({ field }) => <SizeField field={field} />}</FormField>
+          </FormField>
+          <FormField name="link">
+            {({ field, meta }) => (
+              <FormControl isRequired isInvalid={!!meta.error}>
+                <Label textStyle="label-small" margin="none">
+                  {t("form.name.link")}
+                </Label>
+                <InputV3 {...field} />
+                <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+              </FormControl>
+            )}
+          </FormField>
+          <FormField name="size">
+            {({ field, helpers }) => (
+              <StyledFormControl isRequired>
+                <RadioButtonGroup
+                  onValueChange={helpers.setValue}
+                  orientation="horizontal"
+                  defaultValue={field.value}
+                  asChild
+                >
+                  <FieldsetRow>
+                    <LeftLegend margin="none" textStyle="label-small">
+                      {t("form.name.size")}
+                    </LeftLegend>
+                    {sizeValues.map((value) => (
+                      <RadioButtonWrapper key={value}>
+                        <RadioButtonItem id={`size-${value}`} value={value} />
+                        <Label htmlFor={`size-${value}`} margin="none" textStyle="label-small">
+                          {t(`blogPostForm.sizes.${value}`)}
+                        </Label>
+                      </RadioButtonWrapper>
+                    ))}
+                  </FieldsetRow>
+                </RadioButtonGroup>
+              </StyledFormControl>
+            )}
+          </FormField>
           <InlineImageSearch name="metaImageId" disableAltEditing hideAltText />
-          <StyledFormikField name="metaImageAlt">
-            {({ field, form }: FieldProps) => (
-              <>
-                {form.values.metaImageId && (
-                  <InputV2 customCss={inputStyle} label={t("form.name.metaImageAlt")} {...field} />
-                )}
-              </>
-            )}
-          </StyledFormikField>
+
+          {values.metaImageId && (
+            <FormField name="metaImageAlt">
+              {({ field, meta }) => (
+                <FormControl isRequired isInvalid={!!meta.error}>
+                  <Label textStyle="label-small" margin="none">
+                    {t("form.name.metaImageAlt")}
+                  </Label>
+                  <InputV3 {...field} />
+                  <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                </FormControl>
+              )}
+            </FormField>
+          )}
           <ButtonContainer>
             <ButtonV2 variant="outline" onClick={onCancel}>
               {t("cancel")}
             </ButtonV2>
-            <ButtonV2 variant="solid" disabled={!dirty || !isValid} type="submit" onClick={() => handleSubmit()}>
+            <ButtonV2 variant="solid" disabled={!dirty || !isValid} type="submit">
               {t("save")}
             </ButtonV2>
           </ButtonContainer>
-        </>
+        </Form>
       )}
     </Formik>
-  );
-};
-
-interface SizeFieldProps {
-  field: FieldInputProps<string>;
-}
-
-const SizeField = ({ field }: SizeFieldProps) => {
-  const { t } = useTranslation();
-  const availabilityValues: string[] = ["normal", "large"];
-
-  return (
-    <StyledFormControl>
-      <RadioButtonGroup
-        onValueChange={(value: string) =>
-          field.onChange({
-            target: {
-              name: field.name,
-              value: value,
-            },
-          })
-        }
-        orientation="horizontal"
-        defaultValue={field.value}
-        asChild
-      >
-        <FieldsetRow>
-          <LeftLegend margin="none" textStyle="label-small">
-            {t("form.name.size")}
-          </LeftLegend>
-          {availabilityValues.map((value) => (
-            <RadioButtonWrapper key={value}>
-              <RadioButtonItem id={`size-${value}`} value={value} />
-              <Label htmlFor={`size-${value}`} margin="none" textStyle="label-small">
-                {t(`blogPostForm.sizes.${value}`)}
-              </Label>
-            </RadioButtonWrapper>
-          ))}
-        </FieldsetRow>
-      </RadioButtonGroup>
-    </StyledFormControl>
   );
 };
 

@@ -6,98 +6,77 @@
  *
  */
 
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
-import { IMultiSearchResult } from "@ndla/types-backend/search-api";
-import { search } from "./searchApi";
-import { MultiSearchApiQuery } from "./searchApiInterfaces";
 import {
-  DA_SUBJECT_ID,
-  FAVOURITES_SUBJECT_ID,
-  SA_SUBJECT_ID,
-  LMA_SUBJECT_ID,
-  TAXONOMY_CUSTOM_FIELD_SUBJECT_DA,
-  TAXONOMY_CUSTOM_FIELD_SUBJECT_SA,
-  TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
-} from "../../constants";
+  IDraftSearchParams,
+  IMultiSearchResult,
+  ISubjectAggregations,
+  ISubjectAggsInput,
+} from "@ndla/types-backend/search-api";
+import { postSearch, searchSubjectStats } from "./searchApi";
+import { DA_SUBJECT_ID, SA_SUBJECT_ID, LMA_SUBJECT_ID } from "../../constants";
+import { StringSort } from "../../containers/SearchPage/components/form/SearchForm";
 import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVersionProvider";
 import {
-  SubjectIdObject,
   customFieldsBody,
   defaultSubjectIdObject,
   getResultSubjectIdObject,
+  getSubjectsIdsQuery,
 } from "../../containers/WelcomePage/utils";
-import { SEARCH } from "../../queryKeys";
+import { SEARCH, SEARCH_SUBJECT_STATS } from "../../queryKeys";
 import { getAccessToken, getAccessTokenPersonal } from "../../util/authHelpers";
 import { isValid } from "../../util/jwtHelper";
 import { useUserData } from "../draft/draftQueries";
-import { usePostSearchNodesMutation } from "../nodes/nodeMutations";
+import { usePostSearchNodes } from "../nodes/nodeQueries";
 
 export const searchQueryKeys = {
-  search: (params?: Partial<MultiSearchApiQuery>) => [SEARCH, params] as const,
+  search: (params?: Partial<StringSort<IDraftSearchParams>>) => [SEARCH, params] as const,
+  searchSubjectStats: (params?: Partial<ISubjectAggsInput>) => [SEARCH_SUBJECT_STATS, params] as const,
 };
 
-const getActualQuery = (query: UseSearch, favoriteSubjects: string[] | undefined, subjectIdObject: SubjectIdObject) => {
-  let subjects;
-
-  if (query.subjects === FAVOURITES_SUBJECT_ID) {
-    subjects = favoriteSubjects?.join(",");
-  } else if (query.subjects === LMA_SUBJECT_ID) {
-    subjects = subjectIdObject[TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA].join(",");
-  } else if (query.subjects === SA_SUBJECT_ID) {
-    subjects = subjectIdObject[TAXONOMY_CUSTOM_FIELD_SUBJECT_SA].join(",");
-  } else if (query.subjects === DA_SUBJECT_ID) {
-    subjects = subjectIdObject[TAXONOMY_CUSTOM_FIELD_SUBJECT_DA].join(",");
-  } else {
-    subjects = query.subjects;
-  }
-
-  return {
-    ...query,
-    subjects: subjects,
-  };
-};
-
-export interface UseSearch extends MultiSearchApiQuery {
+export interface UseSearch extends StringSort<IDraftSearchParams> {
   favoriteSubjects?: string[];
 }
 
 export const useSearch = (query: UseSearch, options?: Partial<UseQueryOptions<IMultiSearchResult>>) => {
-  const [subjectIdObject, setSubjectIdObject] = useState<SubjectIdObject>(defaultSubjectIdObject);
-
   const { taxonomyVersion } = useTaxonomyVersion();
 
-  const isFavourite = query.subjects === FAVOURITES_SUBJECT_ID;
-
   const { data, isLoading } = useUserData({
-    enabled: !!isFavourite && isValid(getAccessToken()) && getAccessTokenPersonal(),
+    enabled: isValid(getAccessToken()) && getAccessTokenPersonal(),
   });
 
-  const { mutateAsync: postSearchNodes, isPending } = usePostSearchNodesMutation();
+  const isLMASubjects = query.subjects?.join("") === LMA_SUBJECT_ID;
+  const isDASubjects = query.subjects?.join("") === DA_SUBJECT_ID;
+  const isSASubjects = query.subjects?.join("") === SA_SUBJECT_ID;
 
-  useEffect(() => {
-    const isLMASubjects = query.subjects === LMA_SUBJECT_ID;
-    const isDASubjects = query.subjects === DA_SUBJECT_ID;
-    const isSASubjects = query.subjects === SA_SUBJECT_ID;
+  const searchNodesQuery = usePostSearchNodes(
+    { ...customFieldsBody(data?.userId ?? ""), taxonomyVersion },
+    { enabled: !!data?.userId && (isLMASubjects || isDASubjects || isSASubjects) },
+  );
 
-    const updateSubjectId = async () => {
-      if (!data?.userId || (!isLMASubjects && !isDASubjects && !isSASubjects)) return [];
-      const nodesSearchResult = await postSearchNodes({
-        body: customFieldsBody(data.userId),
-        taxonomyVersion,
-      });
-      const resultSubjectIdObject = getResultSubjectIdObject(data.userId, nodesSearchResult.results);
-      setSubjectIdObject(resultSubjectIdObject);
-    };
-    updateSubjectId();
-  }, [data?.userId, postSearchNodes, query.subjects, taxonomyVersion]);
+  const subjectIdObject = useMemo(() => {
+    if (!data?.userId || !searchNodesQuery.data) return defaultSubjectIdObject;
+    return getResultSubjectIdObject(data.userId, searchNodesQuery.data.results);
+  }, [data?.userId, searchNodesQuery.data]);
 
-  const actualQuery = getActualQuery(query, data?.favoriteSubjects, subjectIdObject);
+  const actualQuery = getSubjectsIdsQuery(query, data?.favoriteSubjects, subjectIdObject);
 
   return useQuery<IMultiSearchResult>({
     queryKey: searchQueryKeys.search(actualQuery),
-    queryFn: () => search(actualQuery),
+    queryFn: () => postSearch(actualQuery),
     ...options,
-    enabled: options?.enabled && !isLoading && !isPending,
+    enabled: options?.enabled && !isLoading && !searchNodesQuery.isLoading,
+  });
+};
+
+export const useSearchSubjectStats = (
+  body: ISubjectAggsInput,
+  options?: Partial<UseQueryOptions<ISubjectAggregations>>,
+) => {
+  return useQuery<ISubjectAggregations>({
+    queryKey: searchQueryKeys.searchSubjectStats(body),
+    queryFn: () => searchSubjectStats(body),
+    ...options,
   });
 };

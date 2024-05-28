@@ -18,6 +18,7 @@ import { blockConceptRenderer } from "../../../../components/SlateEditor/plugins
 import { inlineConceptRenderer } from "../../../../components/SlateEditor/plugins/concept/inline/render";
 import { conceptListRenderer } from "../../../../components/SlateEditor/plugins/conceptList/render";
 import { contactBlockRenderer } from "../../../../components/SlateEditor/plugins/contactBlock/render";
+import { copyrightRenderer } from "../../../../components/SlateEditor/plugins/copyright/render";
 import { definitionListRenderer } from "../../../../components/SlateEditor/plugins/definitionList/render";
 import { detailsRenderer } from "../../../../components/SlateEditor/plugins/details/render";
 import { divRenderer } from "../../../../components/SlateEditor/plugins/div/render";
@@ -29,6 +30,7 @@ import { framedContentRenderer } from "../../../../components/SlateEditor/plugin
 import { gridRenderer } from "../../../../components/SlateEditor/plugins/grid/render";
 import { h5pRenderer } from "../../../../components/SlateEditor/plugins/h5p/render";
 import { headingRenderer } from "../../../../components/SlateEditor/plugins/heading/render";
+import { imageRenderer } from "../../../../components/SlateEditor/plugins/image/render";
 import { keyFigureRenderer } from "../../../../components/SlateEditor/plugins/keyFigure/render";
 import { linkRenderer } from "../../../../components/SlateEditor/plugins/link/render";
 import { linkBlockListRenderer } from "../../../../components/SlateEditor/plugins/linkBlockList/render";
@@ -41,6 +43,7 @@ import { sectionRenderer } from "../../../../components/SlateEditor/plugins/sect
 import { spanRenderer } from "../../../../components/SlateEditor/plugins/span/render";
 import { tableRenderer } from "../../../../components/SlateEditor/plugins/table/render";
 import { disclaimerRenderer } from "../../../../components/SlateEditor/plugins/uuDisclaimer/render";
+import { videoRenderer } from "../../../../components/SlateEditor/plugins/video/render";
 
 // Plugins are checked from last to first
 export const frontpageRenderers: SlatePlugin[] = [
@@ -50,9 +53,11 @@ export const frontpageRenderers: SlatePlugin[] = [
   paragraphRenderer,
   footnoteRenderer,
   externalRenderer,
-  embedRenderer(),
+  embedRenderer,
   audioRenderer,
+  imageRenderer(true),
   h5pRenderer,
+  videoRenderer,
   framedContentRenderer,
   asideRenderer,
   detailsRenderer,
@@ -81,4 +86,5 @@ export const frontpageRenderers: SlatePlugin[] = [
   campaignBlockRenderer,
   linkBlockListRenderer,
   disclaimerRenderer,
+  copyrightRenderer,
 ];

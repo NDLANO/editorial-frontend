@@ -12,13 +12,14 @@ import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { InputV2 } from "@ndla/forms";
+import { InputV3, Label } from "@ndla/forms";
 import { IArticleV2 } from "@ndla/types-backend/article-api";
 import { ILearningPathSummaryV2, ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
 import { IGroupSearchResult, IMultiSearchSummary } from "@ndla/types-backend/search-api";
-import { ButtonWrapper, ErrorMessage, StyledLabel, inputWrapperStyles } from "./PlannedResourceForm";
+import { ButtonWrapper, ErrorMessage, StyledLabel } from "./PlannedResourceForm";
 import ArticlePreview from "../../../components/ArticlePreview";
 import AsyncDropdown from "../../../components/Dropdown/asyncDropdown/AsyncDropdown";
+import { FormControl } from "../../../components/FormField";
 import Spinner from "../../../components/Spinner";
 import { RESOURCE_TYPE_LEARNING_PATH, RESOURCE_TYPE_SUBJECT_MATERIAL } from "../../../constants";
 import { getArticle } from "../../../modules/article/articleApi";
@@ -30,7 +31,7 @@ import {
 import { fetchNodes } from "../../../modules/nodes/nodeApi";
 import { usePostResourceForNodeMutation } from "../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys, useNodes } from "../../../modules/nodes/nodeQueries";
-import { search } from "../../../modules/search/searchApi";
+import { postSearch } from "../../../modules/search/searchApi";
 import { resolveUrls } from "../../../modules/taxonomy/taxonomyApi";
 import handleError from "../../../util/handleError";
 import { getResourceIdFromPath } from "../../../util/routeHelpers";
@@ -167,9 +168,9 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
         verificationStatus: "CREATED_BY_NDLA",
       });
     } else {
-      const res = await search({
+      const res = await postSearch({
         ...baseQuery,
-        "resource-types": selectedType,
+        resourceTypes: [selectedType],
       });
       return res ?? emptySearchResults;
     }
@@ -271,14 +272,12 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
     <PreviewWrapper>
       {selectedType && (
         <>
-          <InputV2
-            customCss={inputWrapperStyles}
-            label={t("taxonomy.urlPlaceholder")}
-            white
-            onChange={onPaste}
-            name="pasteUrlInput"
-            placeholder={t("taxonomy.urlPlaceholder")}
-          />
+          <FormControl>
+            <Label margin="none" textStyle="label-small">
+              {t("taxonomy.urlPlaceholder")}
+            </Label>
+            <InputV3 onChange={onPaste} name="pasteUrlInput" placeholder={t("taxonomy.urlPlaceholder")} />
+          </FormControl>
           {!pastedUrl && <StyledOrDivider>{t("taxonomy.or")}</StyledOrDivider>}
         </>
       )}
@@ -305,7 +304,6 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
           showPagination
           initialSearch={false}
           label={t("form.content.relatedArticle.placeholder")}
-          white
         />
       )}
       {previewLoading ? <Spinner /> : preview && <ArticlePreview article={preview} />}

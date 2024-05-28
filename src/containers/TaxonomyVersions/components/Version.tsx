@@ -15,7 +15,7 @@ import { colors, spacing } from "@ndla/core";
 import { Pencil } from "@ndla/icons/action";
 import { Launch } from "@ndla/icons/common";
 import { DeleteForever, Keyhole } from "@ndla/icons/editor";
-import SafeLink from "@ndla/safelink";
+import { SafeLink } from "@ndla/safelink";
 import { Version as TaxVersion, VersionType } from "@ndla/types-taxonomy";
 import { StyledErrorMessage } from "./StyledErrorMessage";
 import VersionForm from "./VersionForm";

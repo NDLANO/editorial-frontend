@@ -6,103 +6,150 @@
  *
  */
 
-import { Page } from '@playwright/test';
-import { readFile, writeFile, mkdir } from 'fs/promises';
-const mockDir = 'e2e/apiMocks/';
+import { readFile, writeFile } from "fs/promises";
+import { test as Ptest, TestInfo } from "@playwright/test";
+import {
+  brightcoveTokenMock,
+  copyrightMock,
+  editorMock,
+  getNoteUsersMock,
+  responsiblesMock,
+  userDataMock,
+  zendeskMock,
+} from "./mockResponses";
 
-interface MockRoute {
-  page: Page;
-  path: string | RegExp;
-  fixture: string;
-  overrideValue?: string | ((value: string) => string);
-  status?: number;
-  overrideRoute?: boolean;
+const mockDir = "e2e/apiMocks/";
+
+const localHostRegex = "http://localhost:3000/(?!@)((?!/).)+";
+const apiTestRegex = "https://api.test.ndla.no/(?!image-api/raw.*).*";
+const mathjax = "https://www.wiris.net/.*";
+const brightCoveRegex = "https://(.*).brightcove.(com|net)/(.+/)?([^/]+)";
+
+interface ExtendParams {
+  harCheckpoint: () => Promise<void>;
 }
+const regex = new RegExp(`^(${localHostRegex}|${apiTestRegex}|${mathjax}|${brightCoveRegex})$`);
 
-const skipHttpMethods = ['POST', 'PATCH', 'PUT', 'DELETE'];
-
-export const mockRoute = async ({
-  page,
-  path,
-  fixture,
-  overrideValue,
-  overrideRoute,
-  status = 200,
-}: MockRoute) => {
-  if (overrideRoute) {
-    await page.unroute(path);
-  }
-
-  return await page.route(path, async (route) => {
-    if (process.env.RECORD_FIXTURES === 'true') {
-      const text = skipHttpMethods.includes(route.request().method())
-        ? ''
-        : await (await route.fetch()).text();
-      const override = overrideValue
-        ? typeof overrideValue === 'string'
-          ? overrideValue
-          : overrideValue(text)
-        : undefined;
-      await mkdir(mockDir, { recursive: true });
-      await writeFile(`${mockDir}${fixture}.json`, override ?? text, {
-        flag: 'w',
-      });
-      return route.fulfill({ body: text, status });
-    } else {
-      try {
-        const res = await readFile(`${mockDir}${fixture}.json`, 'utf8');
-        return route.fulfill({ body: res, status });
-      } catch (e) {
-        route.abort();
-      }
-    }
-  });
+const mockFile = ({ titlePath, title: test_name }: TestInfo) => {
+  const SPEC_NAME = titlePath[0].split("/")[1];
+  return `${mockDir}${SPEC_NAME}_${test_name.replace(/\s/g, "_")}.har`;
 };
 
-interface GraphqlMockRoute {
-  page: Page;
-  operationNames: string[];
-  fixture: string;
-  overrideRoute?: boolean;
-}
+/**
+ * Extending the playwright test object with a checkpoint function.
+ * The checkpoint function helps us differentiate between subsequent
+ * requests, and allows us to more easily mock recurring calls.
+ */
+export const test = Ptest.extend<ExtendParams>({
+  harCheckpoint: [
+    async ({ context, page }, use) => {
+      let checkpointIndex = 0;
 
-export const mockGraphqlRoute = async ({
-  page,
-  operationNames,
-  fixture,
-  overrideRoute,
-}: GraphqlMockRoute) => {
-  if (overrideRoute) {
-    await page.unroute('**/graphql-api/graphql');
-  }
+      // Appending the checkpoint index to the request headers
+      // Only appended for the stored headers in the HAR file
+      await context.route(
+        regex,
+        async (route, request) =>
+          await route.fallback({
+            headers: {
+              ...request.headers(),
+              "X-Playwright-Checkpoint": `${checkpointIndex}`,
+            },
+          }),
+      );
 
-  return await page.route('**/graphql-api/graphql', async (route) => {
-    if (process.env.RECORD_FIXTURES === 'true') {
-      const body = await route.request().postDataJSON();
-      const res = await route.fetch();
-      if (operationNames.includes(body.operationName)) {
-        await mkdir(mockDir, { recursive: true });
-        await writeFile(`${mockDir}${fixture}_${body.operationName}.json`, await res.text(), {
-          flag: 'w',
+      // Appending the checkpoint index to the request headers
+      if (process.env.RECORD_FIXTURES === "true") {
+        await page.setExtraHTTPHeaders({
+          "X-Playwright-Checkpoint": `${checkpointIndex}`,
         });
-        return route.fulfill({ contentType: 'application/json', body: await res.text() });
       }
-    } else {
-      const body = await route.request().postDataJSON();
-      if (operationNames.includes(body.operationName)) {
-        try {
-          const res = await readFile(`${mockDir}${fixture}_${body.operationName}.json`, 'utf-8');
-          return route.fulfill({ contentType: 'application/json', body: res });
-        } catch (e) {
-          route.abort();
-        }
-      }
+
+      // Appending the new checkpoint index to the request headers
+      await use(async () => {
+        checkpointIndex += 1;
+        process.env.RECORD_FIXTURES !== "true" &&
+          (await page.setExtraHTTPHeaders({
+            "X-Playwright-Checkpoint": `${checkpointIndex}`,
+          }));
+      });
+    },
+    { auto: true, scope: "test" },
+  ],
+  page: async ({ page }, use, testInfo) => {
+    // Creating the API mocking for the wanted API's
+    await page.routeFromHAR(mockFile(testInfo), {
+      update: process.env.RECORD_FIXTURES === "true",
+      updateMode: "minimal",
+      url: regex,
+      updateContent: "embed",
+    });
+
+    await use(page);
+
+    await page.close();
+  },
+  context: async ({ context }, use, testInfo) => {
+    await use(context);
+    await context.close();
+
+    // Removing sensitive data from the HAR file after saving. Har files are saved on close.
+    if (process.env.RECORD_FIXTURES === "true") {
+      await removeSensitiveData(mockFile(testInfo));
+    }
+  },
+});
+
+const urlsToReplace = [
+  {
+    url: "get_zendesk_token",
+    value: zendeskMock,
+  },
+  {
+    url: "get_responsibles",
+    value: responsiblesMock,
+  },
+  {
+    url: "draft-api/v1/user-data",
+    value: userDataMock,
+  },
+  {
+    url: "get_note_users",
+    value: getNoteUsersMock,
+  },
+  {
+    url: "get_brightcove_token",
+    value: brightcoveTokenMock,
+  },
+  {
+    url: "get_editors",
+    value: editorMock,
+  },
+];
+
+const removeSensitiveData = async (fileName: string) => {
+  const data = JSON.parse(await readFile(fileName, "utf8"));
+  data.log.entries.forEach((entry: any, index: number) => {
+    const val = urlsToReplace.find(({ url }) => entry?.request?.url.includes(url));
+    if (val) {
+      data.log.entries[index].response.content.text = JSON.stringify(val.value);
     }
   });
-};
 
-export const mockWaitResponse = async (page: Page, url: string) => {
-  if (process.env.RECORD_FIXTURES === 'true') {
-    await page.waitForResponse(url);
-  }
+  const result = JSON.stringify(data)
+    .replace(/\\"license\\":{.*?}/g, `\\"license\\":${JSON.stringify(copyrightMock.license).replace(/["]/g, '\\"')}`)
+    .replace(
+      /\\"creators\\":\[.*?\]/g,
+      `\\"creators\\":${JSON.stringify(copyrightMock.creators).replace(/["]/g, '\\"')}`,
+    )
+    .replace(
+      /\\"processors\\":\[.*?\]/g,
+      `\\"processors\\":${JSON.stringify(copyrightMock.processors).replace(/["]/g, '\\"')}`,
+    )
+    .replace(
+      /\\"rightsholders\\":\[.*?\]/g,
+      `\\"rightsholders\\":${JSON.stringify(copyrightMock.rightsholders).replace(/["]/g, '\\"')}`,
+    )
+    .replace(/"Bearer (.*?)"/g, '""');
+  await writeFile(fileName, result, "utf8");
 };

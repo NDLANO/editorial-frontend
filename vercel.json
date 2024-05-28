@@ -23,17 +23,6 @@
     { "src": "/(.*)", "dest": "/build/server.mjs" }
   ],
   "env": {
-    "NDLA_EDITORIAL_CLIENT_ID": "@ndla_editorial_client_id",
-    "NDLA_EDITORIAL_CLIENT_SECRET": "@ndla_editorial_client_secret",
-    "NDLA_GOOGLE_API_KEY": "@ndla_google_api_key",
-    "NDLA_GOOGLE_SEARCH_ENGINE_ID": "@ndla_google_search_engine_id",
-    "NDLA_PERSONAL_CLIENT_ID": "@ndla_personal_client_id",
-    "BRIGHTCOVE_PLAYER_ID": "@brightcove_player_id",
-    "BRIGHTCOVE_ACCOUNT_ID": "@brightcove_account_id",
-    "BRIGHTCOVE_API_CLIENT_ID": "@brightcove_api_client_id",
-    "BRIGHTCOVE_API_CLIENT_SECRET": "@brightcove_api_client_secret",
-    "NDLA_ED_ZENDESK_WIDGET_KEY": "@ndla_ed_zendesk_widget_key",
-    "NDLA_ED_ZENDESK_WIDGET_SECRET": "@ndla_ed_zendesk_widget_secret",
     "IS_VERCEL": "true"
   }
 }

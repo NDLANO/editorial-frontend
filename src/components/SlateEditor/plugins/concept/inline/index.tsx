@@ -74,17 +74,17 @@ export const inlineConceptPlugin = (editor: Editor) => {
   editor.isInline = (element: Element) => {
     if (element.type === TYPE_CONCEPT_INLINE) {
       return true;
-    } else {
-      return nextIsInline(element);
     }
+    return nextIsInline(element);
   };
 
   editor.onKeyDown = (e: KeyboardEvent) => {
+    if (!editor.selection) return nextOnKeyDown?.(e);
     if (e.key === KEY_BACKSPACE) {
-      onBackspace(e, editor, nextOnKeyDown);
-    } else if (nextOnKeyDown) {
-      nextOnKeyDown(e);
+      return onBackspace(e, editor, nextOnKeyDown);
     }
+
+    nextOnKeyDown?.(e);
   };
 
   return editor;

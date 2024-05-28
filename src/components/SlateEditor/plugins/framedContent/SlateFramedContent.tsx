@@ -6,15 +6,21 @@
  *
  */
 
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Element, Transforms } from "slate";
+import { Editor, Element, NodeEntry, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
+import { Copyright } from "@ndla/icons/licenses";
 import { FramedContent } from "@ndla/ui";
+import { FramedContentElement } from ".";
 import { TYPE_FRAMED_CONTENT } from "./types";
 import DeleteButton from "../../../DeleteButton";
 import MoveContentButton from "../../../MoveContentButton";
+import { TYPE_COPYRIGHT } from "../copyright/types";
+import { defaultCopyrightBlock } from "../copyright/utils";
 
 const StyledFramedContent = styled(FramedContent)`
   display: flex;
@@ -40,6 +46,9 @@ interface Props {
 const SlateFramedContent = (props: Props & RenderElementProps) => {
   const { element, editor, attributes, children } = props;
   const { t } = useTranslation();
+  const hasSlateCopyright = useMemo(() => {
+    return element.children.some((child) => Element.isElement(child) && child.type === TYPE_COPYRIGHT);
+  }, [element.children]);
 
   const onRemoveClick = () => {
     const path = ReactEditor.findPath(editor, element);
@@ -68,13 +77,25 @@ const SlateFramedContent = (props: Props & RenderElementProps) => {
     }, 0);
   };
 
+  const insertCopyright = () => {
+    const [node, path] = Editor.node(editor, ReactEditor.findPath(editor, element)) as NodeEntry<FramedContentElement>;
+    Transforms.insertNodes(editor, defaultCopyrightBlock(), { at: path.concat(node.children.length) });
+  };
+
   return (
     <StyledFramedContent draggable {...attributes}>
       <ButtonContainer>
-        <MoveContentButton
-          onMouseDown={onMoveContent}
-          aria-label={t("learningResourceForm.fields.rightAside.moveContent")}
-        />
+        {!hasSlateCopyright && (
+          <IconButtonV2
+            variant="ghost"
+            aria-label={t("form.copyright.add")}
+            title={t("form.copyright.add")}
+            onClick={insertCopyright}
+          >
+            <Copyright />
+          </IconButtonV2>
+        )}
+        <MoveContentButton onMouseDown={onMoveContent} aria-label={t("form.moveContent")} />
         <DeleteButton
           aria-label={t("form.remove")}
           tabIndex={-1}

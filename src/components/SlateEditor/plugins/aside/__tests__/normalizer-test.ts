@@ -32,12 +32,12 @@ describe("aside normalizer tests", () => {
           },
           {
             type: TYPE_ASIDE,
-            data: { type: "rightAside" },
+            data: { type: "factAside" },
             children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
           },
           {
             type: TYPE_ASIDE,
-            data: { type: "rightAside" },
+            data: { type: "factAside" },
             children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
           },
         ],
@@ -57,13 +57,13 @@ describe("aside normalizer tests", () => {
           { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
           {
             type: TYPE_ASIDE,
-            data: { type: "rightAside" },
+            data: { type: "factAside" },
             children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
           },
           { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
           {
             type: TYPE_ASIDE,
-            data: { type: "rightAside" },
+            data: { type: "factAside" },
             children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
           },
           { type: TYPE_PARAGRAPH, children: [{ text: "" }] },

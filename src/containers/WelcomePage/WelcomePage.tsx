@@ -14,14 +14,18 @@ import { HelmetWithTracker } from "@ndla/tracker";
 import ArticleStatuses from "./components/ArticleStatuses";
 import LastUsedItems from "./components/LastUsedItems";
 import Revisions from "./components/Revisions";
+import SubjectView from "./components/SubjectView";
 import WelcomeHeader from "./components/WelcomeHeader";
 import WorkList from "./components/worklist/WorkList";
+import { customFieldsBody, defaultSubjectIdObject, getResultSubjectIdObject } from "./utils";
 import { GridContainer, Column } from "../../components/Layout/Layout";
 import { useUserData } from "../../modules/draft/draftQueries";
+import { usePostSearchNodes } from "../../modules/nodes/nodeQueries";
 import { getAccessToken, getAccessTokenPersonal } from "../../util/authHelpers";
 import { isValid } from "../../util/jwtHelper";
-import Footer from "../App/components/Footer";
+import Footer from "../App/components/FooterWrapper";
 import { useSession } from "../Session/SessionProvider";
+import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 
 export const Wrapper = styled.div`
   display: flex;
@@ -33,17 +37,37 @@ export const Wrapper = styled.div`
 `;
 
 export const WelcomePage = () => {
+  const { taxonomyVersion } = useTaxonomyVersion();
+  const { ndlaId } = useSession();
+  const searchQuery = usePostSearchNodes(
+    {
+      ...customFieldsBody(ndlaId ?? ""),
+      taxonomyVersion,
+    },
+    { enabled: !!ndlaId },
+  );
+
+  const subjectIdObject = useMemo(() => {
+    if (!searchQuery.data) return defaultSubjectIdObject;
+    return getResultSubjectIdObject(ndlaId, searchQuery.data.results);
+  }, [ndlaId, searchQuery.data]);
+
   const { t } = useTranslation();
 
   const { data, isLoading } = useUserData({
     enabled: isValid(getAccessToken()) && getAccessTokenPersonal(),
   });
-  const { ndlaId } = useSession();
 
   const lastUsedResources = useMemo(
     () => data?.latestEditedArticles?.map((a) => Number(a)) ?? [],
     [data?.latestEditedArticles],
   );
+
+  const lastUsedConcepts = useMemo(
+    () => data?.latestEditedConcepts?.map((a) => Number(a)) ?? [],
+    [data?.latestEditedConcepts],
+  );
+
   localStorage.setItem("lastPath", "");
 
   return (
@@ -57,12 +81,29 @@ export const WelcomePage = () => {
         <Column colEnd={6}>
           {ndlaId && (
             <>
-              <LastUsedItems lastUsedResources={lastUsedResources} lastUsedConcepts={data?.latestEditedConcepts} />
-              <ArticleStatuses ndlaId={ndlaId} favoriteSubjects={data?.favoriteSubjects} userDataLoading={isLoading} />
+              <LastUsedItems lastUsedResources={lastUsedResources} lastUsedConcepts={lastUsedConcepts} />
+              <ArticleStatuses
+                ndlaId={ndlaId}
+                favoriteSubjects={data?.favoriteSubjects}
+                userDataLoading={isLoading}
+                subjectIdObject={subjectIdObject}
+              />
             </>
           )}
         </Column>
-        <Column colStart={6}>{ndlaId && <Revisions userData={data} />}</Column>
+        <Column colStart={6}>
+          {ndlaId && (
+            <>
+              <Revisions userData={data} />
+              <SubjectView
+                userDataLoading={isLoading}
+                favoriteSubjects={data?.favoriteSubjects}
+                subjectIdObject={subjectIdObject}
+                isLoading={searchQuery.isLoading}
+              />
+            </>
+          )}
+        </Column>
       </GridContainer>
       <Footer showLocaleSelector />
     </Wrapper>

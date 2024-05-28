@@ -8,10 +8,9 @@
 
 import { FormikContextType } from "formik";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
+import { ImageEmbedData } from "@ndla/types-embed";
 import { ArticleFormType } from "./articleFormHooks";
 import { defaultEmbedBlock } from "../../components/SlateEditor/plugins/embed/utils";
-import { ImageEmbed } from "../../interfaces";
-import { convertFieldWithFallback } from "../../util/convertFieldWithFallback";
 import { ConceptFormValues } from "../ConceptPage/conceptInterfaces";
 
 export const onSaveAsVisualElement = <T extends ArticleFormType>(
@@ -21,13 +20,13 @@ export const onSaveAsVisualElement = <T extends ArticleFormType>(
   const { setFieldValue, setFieldTouched } = formikContext;
 
   if (image) {
-    const visualElement: ImageEmbed = {
+    const visualElement: ImageEmbedData = {
       resource: "image",
-      resource_id: image.id,
+      resourceId: image.id,
       size: "full",
       align: "",
-      alt: convertFieldWithFallback(image as Object, "alttext", ""),
-      caption: convertFieldWithFallback(image as Object, "caption", "") || "",
+      alt: image.alttext.alttext ?? "",
+      caption: image.caption.caption ?? "",
     };
     setFieldValue("visualElement", [defaultEmbedBlock(visualElement)]);
     setTimeout(() => {

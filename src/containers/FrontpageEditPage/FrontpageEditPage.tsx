@@ -14,7 +14,7 @@ import { IconButtonV2 } from "@ndla/button";
 import { colors, misc, spacing } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
 import { Pencil, Plus } from "@ndla/icons/action";
-import SafeLink from "@ndla/safelink";
+import { SafeLink } from "@ndla/safelink";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { IArticleSummaryV2 } from "@ndla/types-backend/article-api";
 import { Heading } from "@ndla/typography";
@@ -102,6 +102,10 @@ const FrontpageEditPage = () => {
   }, [articlesQuery.data, articlesQuery.isLoading, frontpageQuery.data, frontpageQuery.isLoading]);
   const postFrontpageMutation = useUpdateFrontpageMutation();
 
+  const initialFrontpageArticle = useMemo(() => {
+    return articlesQuery.data?.results.find((article) => article.id === frontpageQuery.data?.articleId);
+  }, [articlesQuery.data?.results, frontpageQuery.data?.articleId]);
+
   const onSubmit = useCallback(
     async (values: MenuWithArticle) => {
       if (!values.articleId) return;
@@ -123,7 +127,7 @@ const FrontpageEditPage = () => {
         <Spinner />
       ) : transformedMenu ? (
         <Formik
-          initialValues={transformedMenu}
+          initialValues={{ ...transformedMenu, article: initialFrontpageArticle }}
           onSubmit={onSubmit}
           validate={validate}
           validateOnMount

@@ -6,42 +6,13 @@
  *
  */
 
-import { test, expect } from "@playwright/test";
-import { mockRoute } from "../apiMock";
-import { responsiblesMock, zendeskMock } from "../mockResponses";
+import { expect } from "@playwright/test";
+import { test } from "../apiMock";
 
 const metaKey = process.platform === "darwin" ? "Meta" : "Control";
 
 test.beforeEach(async ({ page }) => {
-  const zendesk = await mockRoute({
-    page,
-    path: "**/get_zendesk_token",
-    fixture: "toolbar_zendesk_token",
-    overrideValue: JSON.stringify(zendeskMock),
-  });
-
-  const responsibles = await mockRoute({
-    page,
-    path: "**/get_responsibles?permission=drafts:responsible",
-    fixture: "toolbar_responsibles",
-    overrideValue: JSON.stringify(responsiblesMock),
-  });
-
-  const licenses = await mockRoute({
-    page,
-    path: "**/draft-api/v1/drafts/licenses/",
-    fixture: "toolbar_licenses",
-  });
-
-  const statuses = await mockRoute({
-    page,
-    path: "**/draft-api/v1/drafts/status-state-machine/",
-    fixture: "toolbar_status_state_machine",
-  });
-
   await page.goto("/subject-matter/learning-resource/new");
-
-  await Promise.all([zendesk, responsibles, licenses, statuses]);
 });
 
 test("can change text styling", async ({ page }) => {
@@ -138,7 +109,7 @@ test("can create a valid link", async ({ page }) => {
 test("All lists work properly", async ({ page }) => {
   const el = page.getByTestId("slate-editor");
   await el.click();
-  await el.type("First item in the list");
+  await page.keyboard.type("First item in the list");
   await el.press(`${metaKey}+A`);
   const numberedList = page.getByTestId("toolbar-button-numbered-list");
   await numberedList.waitFor();
@@ -148,7 +119,7 @@ test("All lists work properly", async ({ page }) => {
   await el.press("ArrowRight");
   await el.press("End");
   await el.press("Enter");
-  await el.type("Second item in the list");
+  await page.keyboard.type("Second item in the list");
   await expect(page.getByRole("listitem")).toHaveCount(2);
   await el.press(`${metaKey}+A`);
   const bulletList = page.getByTestId("toolbar-button-bulleted-list");
@@ -165,7 +136,7 @@ test("All lists work properly", async ({ page }) => {
 test("Definition list work properly", async ({ page }) => {
   const el = page.getByTestId("slate-editor");
   await el.click();
-  await el.type("Definition term");
+  await page.keyboard.type("Definition term");
   await el.press(`${metaKey}+A`);
   const definitionList = page.getByTestId("toolbar-button-definition-list");
   await definitionList.waitFor();
@@ -176,18 +147,18 @@ test("Definition list work properly", async ({ page }) => {
   await el.press("End");
   await el.press("Enter");
   await el.press("Tab");
-  await el.type("Definition description");
+  await page.keyboard.type("Definition description");
   await expect(page.locator("dl > dd")).toHaveCount(1);
 });
 
 test("Selecting multiple paragraphs gives multiple terms", async ({ page }) => {
   const el = page.getByTestId("slate-editor");
   await el.click();
-  await el.type("Definition term 1");
+  await page.keyboard.type("Definition term 1");
   await el.press("Enter");
-  await el.type("Definition term 2");
+  await page.keyboard.type("Definition term 2");
   await el.press("Enter");
-  await el.type("Definition term 3");
+  await page.keyboard.type("Definition term 3");
   await el.press("Enter");
   await el.press(`${metaKey}+A`);
   const definitionList = page.getByTestId("toolbar-button-definition-list");

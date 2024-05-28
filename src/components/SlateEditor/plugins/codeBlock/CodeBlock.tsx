@@ -39,16 +39,17 @@ import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
-import { CodeBlockEditor, Codeblock } from "@ndla/code";
-import { DeleteForever } from "@ndla/icons/editor";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTrigger } from "@ndla/modal";
+import { Code, DeleteForever } from "@ndla/icons/editor";
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
 import { CodeEmbedData } from "@ndla/types-embed";
 
+import { Figure, CodeBlock as UICodeBlock } from "@ndla/ui";
 import { CodeblockElement } from ".";
+import CodeBlockEditor from "./CodeBlockEditor";
 import { CodeBlockType } from "../../../../interfaces";
 import AlertModal from "../../../AlertModal";
 
-const CodeDiv = styled.div`
+const StyledFigure = styled(Figure)`
   cursor: pointer;
 `;
 
@@ -160,15 +161,14 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
   return (
     <Modal open={editMode} onOpenChange={onOpenChange}>
       <ModalTrigger>
-        <CodeDiv
-          className="c-figure"
+        <StyledFigure
           aria-label={t("codeEditor.subtitle")}
           contentEditable={false}
           draggable={!editMode}
           role="button"
           {...attributes}
         >
-          <Codeblock
+          <UICodeBlock
             actionButton={<RemoveCodeBlock handleRemove={handleRemove} />}
             code={embedData.codeContent}
             format={embedData.codeFormat}
@@ -176,10 +176,13 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
             highlightedCode={highlightedCode}
           />
           {children}
-        </CodeDiv>
+        </StyledFigure>
       </ModalTrigger>
       <ModalContent size={{ width: "large", height: "large" }} onCloseAutoFocus={(e) => e.preventDefault()}>
         <ModalHeader>
+          <ModalTitle>
+            {t("codeEditor.title")} <Code />
+          </ModalTitle>
           <ModalCloseButton />
         </ModalHeader>
         <ModalBody>

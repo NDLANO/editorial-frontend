@@ -13,7 +13,12 @@ import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { IImageMetaInformationV3, INewImageMetaInformationV2, ILicense } from "@ndla/types-backend/image-api";
+import {
+  IImageMetaInformationV3,
+  INewImageMetaInformationV2,
+  ILicense,
+  IUpdateImageMetaInformation,
+} from "@ndla/types-backend/image-api";
 import ImageContent from "./ImageContent";
 import ImageCopyright from "./ImageCopyright";
 import ImageMetaData from "./ImageMetaData";
@@ -40,6 +45,11 @@ const ButtonContainer = styled.div`
 const imageRules: RulesType<ImageFormikType, IImageMetaInformationV3> = {
   title: {
     required: true,
+    warnings: {
+      languageMatch: true,
+    },
+  },
+  caption: {
     warnings: {
       languageMatch: true,
     },
@@ -84,7 +94,7 @@ const imageRules: RulesType<ImageFormikType, IImageMetaInformationV3> = {
 interface Props {
   image?: IImageMetaInformationV3;
   licenses: ILicense[];
-  onSubmitFunc: (imageMetadata: INewImageMetaInformationV2, image: string | Blob) => void;
+  onSubmitFunc: (imageMetadata: INewImageMetaInformationV2 & IUpdateImageMetaInformation, image: string | Blob) => void;
   inModal?: boolean;
   isNewlyCreated?: boolean;
   closeModal?: () => void;
@@ -144,7 +154,7 @@ const ImageForm = ({
     }
 
     actions.setSubmitting(true);
-    const imageMetaData: INewImageMetaInformationV2 = {
+    const imageMetaData: INewImageMetaInformationV2 & IUpdateImageMetaInformation = {
       title: editorValueToPlainText(values.title),
       alttext: values.alttext,
       caption: values.caption,
@@ -201,7 +211,7 @@ const ImageForm = ({
               <FormAccordion
                 id="content"
                 title={t("form.contentSection")}
-                className="u-4/6@desktop u-push-1/6@desktop"
+                className="u-10/12 u-push-1/12"
                 hasError={hasError(["title", "imageFile", "caption", "alttext"])}
               >
                 <ImageContent />
@@ -213,20 +223,10 @@ const ImageForm = ({
               >
                 <ImageCopyright />
               </FormAccordion>
-              <FormAccordion
-                id="metadata"
-                title={t("form.metadataSection")}
-                className={"u-6/6"}
-                hasError={hasError(["tags"])}
-              >
+              <FormAccordion id="metadata" title={t("form.metadataSection")} hasError={hasError(["tags"])}>
                 <ImageMetaData imageLanguage={language} imageTags={values.tags} />
               </FormAccordion>
-              <FormAccordion
-                id="image-upload-version-history"
-                title={t("form.workflowSection")}
-                className={"u-6/6"}
-                hasError={false}
-              >
+              <FormAccordion id="image-upload-version-history" title={t("form.workflowSection")} hasError={false}>
                 <SimpleVersionPanel editorNotes={image?.editorNotes} />
               </FormAccordion>
             </FormAccordions>

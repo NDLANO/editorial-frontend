@@ -143,6 +143,10 @@ const rules: RulesType<ExternalFormValues> = {
     url: true,
     onlyValidateIf: (values) => values.validUrl !== values.url,
     test: (values) => {
+      const hasUrlTransform = urlTransformers.some((rule) => rule.shouldTransform(values.url, rule.domains));
+      if (hasUrlTransform) {
+        return;
+      }
       const provider = getWhitelistedProvider(values.url);
       if (!provider) {
         return { translationKey: "form.content.link.unSupported" };
@@ -224,7 +228,8 @@ export const ExternalEmbedForm = ({ initialData, onSave }: Props) => {
 
 const InnerForm = () => {
   const { t } = useTranslation();
-  const { setFieldValue, setValues, values, dirty, errors, isValid } = useFormikContext<ExternalFormValues>();
+  const { setFieldValue, setFieldError, setValues, values, dirty, errors, isValid } =
+    useFormikContext<ExternalFormValues>();
   const { userPermissions } = useSession();
 
   const onInsertValidUrl = useCallback(
@@ -232,7 +237,12 @@ const InnerForm = () => {
       let url = urlParam;
       const rule = urlTransformers.find((rule) => rule.shouldTransform(url, rule.domains));
       if (rule) {
-        url = await rule.transform(url);
+        try {
+          url = await rule.transform(url);
+        } catch (e) {
+          setFieldError("url", t("form.content.link.unSupported"));
+          return;
+        }
       }
       try {
         const data = await fetchExternalOembed(url);
@@ -246,7 +256,7 @@ const InnerForm = () => {
         );
       }
     },
-    [setValues],
+    [setFieldError, setValues, t],
   );
 
   return (

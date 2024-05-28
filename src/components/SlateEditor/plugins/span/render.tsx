@@ -10,6 +10,7 @@ import { Editor } from "slate";
 import { RenderElementProps } from "slate-react";
 import Span from "./Span";
 import { TYPE_SPAN } from "./types";
+import { InlineBugfix } from "../../utils/InlineBugFix";
 
 export const spanRenderer = (editor: Editor) => {
   const { renderElement } = editor;
@@ -17,7 +18,9 @@ export const spanRenderer = (editor: Editor) => {
     if (element.type === TYPE_SPAN) {
       return (
         <Span {...attributes} lang={element.data.lang}>
+          <InlineBugfix />
           {children}
+          <InlineBugfix />
         </Span>
       );
     } else return renderElement?.({ element, attributes, children });

@@ -6,14 +6,14 @@
  *
  */
 
-import FocusTrapReact from "focus-trap-react";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
+import { Popover, PopoverAnchor, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
 import { IconButtonV2 } from "@ndla/button";
 import { colors, fonts, spacing, stackOrder } from "@ndla/core";
 import { Menu } from "@ndla/icons/common";
-import SafeLink from "@ndla/safelink";
+import { SafeLink } from "@ndla/safelink";
 import { Logo } from "@ndla/ui";
 import NavigationMenu from "./NavigationMenu";
 import SessionContainer from "./SessionContainer";
@@ -79,6 +79,12 @@ const LinkWrapper = styled.div`
   gap: ${spacing.small};
 `;
 
+const StyledPopoverContent = styled(PopoverContent)`
+  z-index: ${stackOrder.popover};
+  background-color: ${colors.brand.primary};
+  width: 100vw;
+`;
+
 interface EnvironmentSettings {
   color: string;
   name: string;
@@ -102,24 +108,13 @@ const Navigation = () => {
     }
   }, [t]);
 
-  const toggleOpen = () => {
-    setOpen((prevState) => !prevState);
-  };
-
   const closeMenu = () => {
     setOpen(false);
   };
 
   return (
-    <>
-      <FocusTrapReact
-        active={open}
-        focusTrapOptions={{
-          onDeactivate: closeMenu,
-          clickOutsideDeactivates: true,
-          escapeDeactivates: true,
-        }}
-      >
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverAnchor asChild>
         <StyledNavigationWrapper backgroundColor={envSettings?.color}>
           <FlexWrapper>
             <EnvText>
@@ -129,20 +124,17 @@ const Navigation = () => {
               <Column>
                 <StyledHeaderItems>
                   <LeftContent>
-                    <IconButtonV2
-                      aria-label={t("menu.title")}
-                      aria-expanded={open}
-                      colorTheme="light"
-                      onClick={toggleOpen}
-                    >
-                      <Menu />
-                    </IconButtonV2>
+                    <PopoverTrigger asChild>
+                      <IconButtonV2 aria-label={t("menu.title")} colorTheme="light">
+                        <Menu />
+                      </IconButtonV2>
+                    </PopoverTrigger>
                     <StyledLogoDiv>
                       <SafeLink to="/" aria-label={t("logo.altText")} title={t("logo.altText")} reloadDocument>
                         <Logo label={t("logo.altText")} />
                       </SafeLink>
                     </StyledLogoDiv>
-                    <SavedSearchDropdown onClose={closeMenu} />
+                    <SavedSearchDropdown />
                   </LeftContent>
                   <LinkWrapper>
                     <SafeLink target="_blank" to="https://edndla.zendesk.com/hc/no">
@@ -160,11 +152,14 @@ const Navigation = () => {
               <StyledEnvironmentText>{envSettings.name}</StyledEnvironmentText>
             </HiddenEnvText>
           </FlexWrapper>
-          {open && <NavigationMenu close={closeMenu} />}
         </StyledNavigationWrapper>
-      </FocusTrapReact>
+      </PopoverAnchor>
+
+      <StyledPopoverContent>
+        <NavigationMenu close={closeMenu} />
+      </StyledPopoverContent>
       {open && <Overlay modifiers={"lighter"} />}
-    </>
+    </Popover>
   );
 };
 

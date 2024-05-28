@@ -15,8 +15,8 @@ import {
   IVisualElement,
 } from "@ndla/types-backend/frontpage-api";
 import { editorValueToPlainText, plainTextToEditorValue } from "./articleContentConverter";
-import { TYPE_EMBED_BRIGHTCOVE } from "../components/SlateEditor/plugins/embed/types";
 import { defineTypeOfEmbed, isSlateEmbed } from "../components/SlateEditor/plugins/embed/utils";
+import { TYPE_EMBED_BRIGHTCOVE } from "../components/SlateEditor/plugins/video/types";
 import { LOCALE_VALUES } from "../constants";
 import { FilmFormikType } from "../containers/NdlaFilm/components/NdlaFilmForm";
 import { ThemeNames } from "../containers/NdlaFilm/components/ThemeEditor";
@@ -53,7 +53,7 @@ export const convertVisualElement = (visualElement: IVisualElement): Descendant[
           data: {
             url: visualElement.url,
             resource: visualElement.type,
-            resource_id: id,
+            resourceId: id,
             alt: visualElement.alt,
             metaData: {
               id: id,
@@ -77,7 +77,7 @@ export const convertVisualElement = (visualElement: IVisualElement): Descendant[
         data: {
           url: visualElement.url,
           resource: visualElement.type,
-          resource_id: id,
+          resourceId: id,
           caption: visualElement.alt,
           metaData: {
             id: id,

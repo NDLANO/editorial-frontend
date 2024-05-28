@@ -9,7 +9,7 @@
 import isEqual from "lodash/fp/isEqual";
 import { Descendant, Node } from "slate";
 import { IArticle, ILicense, IArticleMetaImage } from "@ndla/types-backend/draft-api";
-import { blockContentToHTML, inlineContentToEditorValue, inlineContentToHTML } from "./articleContentConverter";
+import { blockContentToHTML, inlineContentToEditorValue } from "./articleContentConverter";
 import { isGrepCodeValid } from "./articleUtil";
 import { diffHTML } from "./diffHTML";
 import { isUserProvidedEmbedDataValid } from "./embedTagHelpers";
@@ -30,12 +30,9 @@ export const DEFAULT_LICENSE: ILicense = {
   url: "https://creativecommons.org/licenses/by-sa/4.0/",
 };
 
-const checkIfContentHasChanged = (currentValue: Descendant[], initialContent: Descendant[], type: string) => {
+const checkIfContentHasChanged = (currentValue: Descendant[], initialContent: Descendant[]) => {
   if (currentValue.length !== initialContent.length) return true;
-  const toHTMLFunction = type === "standard" || type === "frontpage-article" ? blockContentToHTML : inlineContentToHTML;
-  const newHTML = toHTMLFunction(currentValue);
-
-  const diff = diffHTML(newHTML, toHTMLFunction(initialContent));
+  const diff = diffHTML(blockContentToHTML(currentValue), blockContentToHTML(initialContent));
   return diff;
 };
 
@@ -67,30 +64,15 @@ export const isFormikFormDirty = <T extends FormikFields>({
   if (!dirty) {
     return changed;
   }
-  // Checking specific slate object fields if they really have changed
-  const slateFields = [
-    "description",
-    "introduction",
-    "title",
-    "metaDescription",
-    "content",
-    "title",
-    "introduction",
-    "conceptContent",
-    "manuscript",
-  ];
-  // and skipping fields that only changes on the server
+
+  // Skipping fields that only changes on the server
   const skipFields = ["revision", "updated", "updatePublished", "id"];
   const dirtyFields = [];
   Object.entries(values)
     .filter(([key]) => !skipFields.includes(key))
     .forEach(([key, value]) => {
-      if (slateFields.includes(key)) {
-        if (key === "content" || key === "title" || key === "introduction") {
-          if (checkIfContentHasChanged(values[key]!, initialValues[key]!, initialValues.articleType!)) {
-            dirtyFields.push(value);
-          }
-        } else if (typeof value === "object" && !isEqual(value, initialValues[key])) {
+      if (Array.isArray(value) && value.length > 0 && Node.isNodeList(value)) {
+        if (checkIfContentHasChanged(values[key]!, initialValues[key]!)) {
           dirtyFields.push(value);
         }
       } else if (!isEqual(value, initialValues[key as keyof T])) {
@@ -129,13 +111,40 @@ export const formikCommonArticleRules: RulesType<ArticleFormType, IArticle> = {
     },
   },
   creators: {
-    allObjectFieldsRequired: true,
+    rules: {
+      name: {
+        required: true,
+        translationKey: "form.name.name",
+      },
+      type: {
+        required: true,
+        translationKey: "form.name.type",
+      },
+    },
   },
   processors: {
-    allObjectFieldsRequired: true,
+    rules: {
+      name: {
+        required: true,
+        translationKey: "form.name.name",
+      },
+      type: {
+        required: true,
+        translationKey: "form.name.type",
+      },
+    },
   },
   rightsholders: {
-    allObjectFieldsRequired: true,
+    rules: {
+      name: {
+        required: true,
+        translationKey: "form.name.name",
+      },
+      type: {
+        required: true,
+        translationKey: "form.name.type",
+      },
+    },
   },
   license: {
     required: false,
@@ -193,6 +202,9 @@ export const formikCommonArticleRules: RulesType<ArticleFormType, IArticle> = {
   prioritized: {
     required: false,
   },
+  qualityEvaluation: {
+    required: false,
+  },
 };
 
 export const learningResourceRules: RulesType<LearningResourceFormType, IArticle> = {
@@ -210,7 +222,7 @@ export const learningResourceRules: RulesType<LearningResourceFormType, IArticle
     test: (values) => {
       const embeds = findNodesByType(
         values.content ?? [],
-        "image-embed",
+        "image",
         "brightcove-embed",
         "h5p",
         "audio",
@@ -299,6 +311,6 @@ export const getTagName = (id: string | undefined, data: { id: string; name: str
 };
 
 export const stripInlineContentHtmlTags = (html: string): string =>
-  inlineContentToEditorValue(html)
+  inlineContentToEditorValue(html, true)
     .map((n) => Node.string(n))
     .join("");

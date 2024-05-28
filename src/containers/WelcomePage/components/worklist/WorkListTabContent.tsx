@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ExclamationMark } from "@ndla/icons/common";
 import { Calendar } from "@ndla/icons/editor";
-import Pager from "@ndla/pager";
+import { Pager } from "@ndla/pager";
 import { SingleValue } from "@ndla/select";
 import { IMultiSearchResult } from "@ndla/types-backend/search-api";
 import CommentIndicator from "./CommentIndicator";
@@ -57,7 +57,7 @@ interface Props {
   setSortOption: (o: Prefix<"-", SortOptionWorkList>) => void;
   sortOption: string;
   error: string | undefined;
-  ndlaId: string | undefined;
+  ndlaId: string;
   setPage: (page: number) => void;
   pageSize: SingleValue;
   setPageSize: (p: SingleValue) => void;
@@ -90,10 +90,10 @@ const WorkListTabContent = ({
   // Separated request to not update subjects when filtered subject changes
   const searchQuery = useSearch(
     {
-      "responsible-ids": ndlaId,
-      "page-size": 0,
+      responsibleIds: [ndlaId],
+      pageSize: 0,
       fallback: true,
-      "aggregate-paths": "contexts.rootId",
+      aggregatePaths: ["contexts.rootId"],
       language: i18n.language,
     },
     { enabled: !!ndlaId },

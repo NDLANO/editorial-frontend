@@ -142,7 +142,7 @@ const TaxonomyBlock = ({
         .filter((rt) => !blacklistedResourceTypes.includes(rt.id))
         .map((rt) => ({
           ...rt,
-          subtype: rt?.subtypes.filter((st) => !blacklistedResourceTypes.includes(st.id)),
+          subtype: rt?.subtypes?.filter((st) => !blacklistedResourceTypes.includes(st.id)),
         })) ?? [],
     [resourceTypes],
   );
@@ -372,9 +372,6 @@ const TaxonomyBlock = ({
           formIsDirty={isDirty}
         />
       </ButtonContainer>
-      <FormikFieldHelp float="right" warning>
-        {t("warningMessage.taxonomy")}
-      </FormikFieldHelp>
     </>
   );
 };

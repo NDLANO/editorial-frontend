@@ -6,14 +6,14 @@
  *
  */
 
+import queryString from "query-string";
 import { ReactElement } from "react";
-
 import { useTranslation } from "react-i18next";
 import { Route, Routes } from "react-router-dom";
 import { UseQueryResult } from "@tanstack/react-query";
 import { List } from "@ndla/icons/action";
 import { SearchMedia, SearchContent, Concept, SquareAudio } from "@ndla/icons/editor";
-import Footer from "./components/Footer";
+import Footer from "./components/FooterWrapper";
 import { SearchType } from "../../interfaces";
 import { useSearchAudio, useSearchSeries } from "../../modules/audio/audioQueries";
 import { useSearchConcepts } from "../../modules/concept/conceptQueries";
@@ -23,7 +23,7 @@ import { toSearch } from "../../util/routeHelpers";
 import SubNavigation from "../Masthead/components/SubNavigation";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
-import { SearchParams } from "../SearchPage/components/form/SearchForm";
+import { SearchParams, SearchParamsBody, parseSearchParams } from "../SearchPage/components/form/SearchForm";
 import SearchContainer, { ResultType } from "../SearchPage/SearchContainer";
 
 const SearchPage = () => {
@@ -34,7 +34,7 @@ const SearchPage = () => {
     url: string;
     icon: ReactElement;
     path: string;
-    searchHook: (query: SearchParams) => UseQueryResult<ResultType>;
+    searchHook: (query: SearchParamsBody) => UseQueryResult<ResultType>;
   }[] = [
     {
       title: t("subNavigation.searchContent"),
@@ -111,7 +111,15 @@ const SearchPage = () => {
               element={
                 <PrivateRoute
                   key={type.type}
-                  component={<SearchContainer searchHook={type.searchHook} type={type.type} />}
+                  component={
+                    <SearchContainer
+                      searchHook={(query: SearchParams) => {
+                        const toBody = parseSearchParams(queryString.stringify(query), true);
+                        return type.searchHook(toBody);
+                      }}
+                      type={type.type}
+                    />
+                  }
                 />
               }
             />

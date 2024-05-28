@@ -127,6 +127,7 @@ exports[`EditorErrorMessage renders 1`] = `
       class="emotion-2"
       contenteditable="false"
       data-testid="close-related-button"
+      tabindex="-1"
       title="Fjern"
       type="button"
     >

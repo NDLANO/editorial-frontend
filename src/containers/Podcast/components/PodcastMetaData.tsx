@@ -30,7 +30,6 @@ const PodcastMetaData = ({ language, onImageLoad }: Props) => {
           <PlainTextEditor
             id={field.name}
             {...field}
-            className={"introduction"}
             placeholder={t("podcastForm.fields.introduction")}
             plugins={plugins}
           />

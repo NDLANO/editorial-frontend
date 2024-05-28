@@ -78,7 +78,7 @@ const CommentForm = ({
       onSubmit={onSubmit}
       validate={(values) => validateFormik(values, rules, t)}
     >
-      {({ isValid }) => (
+      {({ isValid, dirty }) => (
         <Form>
           <FormField name="text">
             {({ field, meta }) => (
@@ -95,7 +95,7 @@ const CommentForm = ({
             <ButtonV2 onClick={() => onOpenChange(false)} variant="outline">
               {t("form.abort")}
             </ButtonV2>
-            <ButtonV2 type="submit" variant="solid" data-testid="disclaimer-save" disabled={!isValid}>
+            <ButtonV2 type="submit" variant="solid" data-testid="disclaimer-save" disabled={!isValid || !dirty}>
               {t("form.save")}
             </ButtonV2>
           </CommentActions>

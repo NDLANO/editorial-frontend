@@ -10,12 +10,43 @@ import { ReactNode, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
+import styled from "@emotion/styled";
+import { Root, Trigger } from "@radix-ui/react-popover";
+import { ButtonV2 } from "@ndla/button";
+import { colors, spacing } from "@ndla/core";
+import { Comment } from "@ndla/icons/common";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle } from "@ndla/modal";
 import { CommentEmbedData, CommentMetaData } from "@ndla/types-embed";
+import { Text } from "@ndla/typography";
 import { TYPE_COMMENT_BLOCK } from "./types";
-import CommentEmbed from "../CommentEmbed";
 import CommentForm from "../CommentForm";
+import CommentPopoverPortal from "../CommentPopoverPortal";
 import { CommentBlockElement } from "../interfaces";
+
+const BlockCommentButton = styled(ButtonV2)`
+  all: unset;
+  background: ${colors.support.yellowLight};
+  cursor: pointer;
+  color: ${colors.brand.greyDark};
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  gap: ${spacing.xsmall};
+  padding: ${spacing.xxsmall} 0px ${spacing.xxsmall} ${spacing.xxsmall};
+  margin: ${spacing.xxsmall} 0px;
+  width: 100%;
+  &:hover,
+  &:focus {
+    background: ${colors.support.yellow};
+    color: ${colors.brand.greyDark};
+  }
+`;
+const CommentText = styled(Text)`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: ${spacing.xxsmall};
+`;
 
 interface Props {
   attributes: RenderElementProps["attributes"];
@@ -26,6 +57,7 @@ interface Props {
 
 const SlateCommentBlock = ({ attributes, editor, element, children }: Props) => {
   const { t } = useTranslation();
+  const [popoverOpen, setPopoverOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(element.isFirstEdit);
 
   const embed: CommentMetaData | undefined = useMemo(() => {
@@ -97,15 +129,27 @@ const SlateCommentBlock = ({ attributes, editor, element, children }: Props) => 
         </ModalBody>
       </ModalContent>
       {embed && (
-        <CommentEmbed
-          embed={embed}
-          onSave={onUpdateComment}
-          onRemove={onRemove}
-          commentType="block"
-          attributes={attributes}
-        >
-          {children}
-        </CommentEmbed>
+        <Root open={popoverOpen} onOpenChange={setPopoverOpen}>
+          <Trigger asChild type={undefined}>
+            <BlockCommentButton variant="stripped" contentEditable={false} {...attributes}>
+              <Comment />
+              <CommentText textStyle="button" margin="none">
+                {embed?.embedData?.text ?? ""}
+              </CommentText>
+            </BlockCommentButton>
+          </Trigger>
+          <CommentPopoverPortal
+            onSave={(data) => {
+              setPopoverOpen(false);
+              onUpdateComment(data);
+            }}
+            embed={embed}
+            onDelete={onRemove}
+            onClose={() => setPopoverOpen(false)}
+            onOpenChange={setPopoverOpen}
+            variant="block"
+          />
+        </Root>
       )}
     </Modal>
   );

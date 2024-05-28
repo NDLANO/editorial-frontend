@@ -10,12 +10,23 @@ import { ReactNode, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle } from "@ndla/modal";
+import styled from "@emotion/styled";
+import { Root, Trigger } from "@radix-ui/react-popover";
+import { colors } from "@ndla/core";
 import { CommentEmbedData, CommentMetaData } from "@ndla/types-embed";
 import { TYPE_COMMENT_INLINE } from "./types";
-import CommentEmbed from "../CommentEmbed";
-import CommentForm from "../CommentForm";
+import { InlineBugfix } from "../../../utils/InlineBugFix";
+import CommentPopoverPortal from "../CommentPopoverPortal";
 import { CommentInlineElement } from "../interfaces";
+
+const InlineComment = styled.span`
+  display: inline;
+  background: ${colors.support.yellowLight};
+  cursor: pointer;
+  &:hover {
+    background: ${colors.support.yellow};
+  }
+`;
 
 interface Props {
   attributes: RenderElementProps["attributes"];
@@ -26,7 +37,7 @@ interface Props {
 
 const SlateCommentInline = ({ attributes, editor, element, children }: Props) => {
   const { t } = useTranslation();
-  const [modalOpen, setModalOpen] = useState(element.isFirstEdit);
+  const [open, setOpen] = useState(element.isFirstEdit);
 
   const embed: CommentMetaData = useMemo(() => {
     return {
@@ -48,7 +59,7 @@ const SlateCommentInline = ({ attributes, editor, element, children }: Props) =>
   };
 
   const onUpdateComment = (values: CommentEmbedData) => {
-    setModalOpen(false);
+    setOpen(false);
     handleSelectionChange(false);
     if (element) {
       const path = ReactEditor.findPath(editor, element);
@@ -73,7 +84,7 @@ const SlateCommentInline = ({ attributes, editor, element, children }: Props) =>
   };
 
   const onOpenChange = (open: boolean) => {
-    setModalOpen(open);
+    setOpen(open);
     if (open === false) {
       if (!element.data?.text) {
         onRemove();
@@ -84,32 +95,23 @@ const SlateCommentInline = ({ attributes, editor, element, children }: Props) =>
   };
 
   return (
-    <Modal open={modalOpen} onOpenChange={onOpenChange}>
-      <ModalContent size="small">
-        <ModalHeader>
-          <ModalTitle>{t("form.workflow.addComment.add")}</ModalTitle>
-          <ModalCloseButton />
-        </ModalHeader>
-        <ModalBody>
-          <CommentForm
-            initialData={embed?.embedData}
-            onSave={onUpdateComment}
-            onOpenChange={onOpenChange}
-            labelText={t("form.workflow.addComment.label")}
-            commentType="inline"
-          />
-        </ModalBody>
-      </ModalContent>
-      <CommentEmbed
+    <Root open={open} onOpenChange={(v) => setOpen(v)}>
+      <Trigger asChild type={undefined}>
+        <InlineComment role="button" tabIndex={0} {...attributes}>
+          <InlineBugfix />
+          {children}
+          <InlineBugfix />
+        </InlineComment>
+      </Trigger>
+      <CommentPopoverPortal
+        onSave={(data) => onUpdateComment(data)}
         embed={embed}
-        onSave={onUpdateComment}
-        onRemove={onRemove}
-        commentType="inline"
-        attributes={attributes}
-      >
-        {children}
-      </CommentEmbed>
-    </Modal>
+        onDelete={onRemove}
+        onClose={() => onOpenChange(false)}
+        onOpenChange={onOpenChange}
+        variant="inline"
+      />
+    </Root>
   );
 };
 

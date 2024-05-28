@@ -81,7 +81,7 @@ const SlateCommentBlock = ({ attributes, editor, element, children }: Props) => 
 
   return (
     <Modal open={modalOpen} onOpenChange={onOpenChange}>
-      <ModalContent>
+      <ModalContent size="small">
         <ModalHeader>
           <ModalTitle>{t("form.workflow.addComment.add")}</ModalTitle>
           <ModalCloseButton />

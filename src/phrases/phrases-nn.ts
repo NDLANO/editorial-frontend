@@ -1624,7 +1624,7 @@ const phrases = {
     topicArticle: "Emneartikkel:",
     fullTopic: "Heile emnet:",
     qualityDescriptionTopic: "Kvalitetsvurdering av emneartikkelen",
-    qualityDescription: "Gjennomsnitt av kvalitetsvurdering av alle ressurser i emnet",
+    qualityDescription: "Snitt av kvalitetsvurdering av alle ressursar i emnet",
     connectExistingNode: "Knytt {{nodeType}} til denne noden",
     connectExistingLoading: "Legger til ...",
     connectExistingSuccess: "Noden har blitt knytta til!",

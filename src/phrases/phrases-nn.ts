@@ -1622,7 +1622,7 @@ const phrases = {
     existingNode: "Eksisterande node",
     workflow: "i flyt",
     topicArticle: "Emneartikkel:",
-    fullTopic: "Hele emnet:",
+    fullTopic: "Heile emnet:",
     qualityDescriptionTopic: "Kvalitetsvurdering av emneartikkelen",
     qualityDescription: "Gjennomsnitt av kvalitetsvurdering av alle ressurser i emnet",
     connectExistingNode: "Knytt {{nodeType}} til denne noden",

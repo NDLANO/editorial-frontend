@@ -113,7 +113,7 @@ const FormAccordionsWithComments = ({ defaultOpen, children, articleId, articleT
             <StyledSwitch
               id="hide-comments"
               label={hideComments ? t("form.comment.showComments") : t("form.comment.hideComments")}
-              checked={hideComments}
+              checked={!hideComments}
               onChange={() => setHideComments(!hideComments)}
             />
           </CommentWrapper>

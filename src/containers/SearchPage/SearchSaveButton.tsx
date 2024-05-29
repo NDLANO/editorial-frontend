@@ -10,6 +10,7 @@ import { TFunction } from "i18next";
 import { parse, stringify } from "query-string";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
 import styled from "@emotion/styled";
 import { colors, fonts, spacing } from "@ndla/core";
 import { IUserData } from "@ndla/types-backend/draft-api";
@@ -126,6 +127,7 @@ interface Props {
 
 const SearchSaveButton = ({ userData, selectors, searchContentType }: Props) => {
   const { t } = useTranslation();
+  const location = useLocation();
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<Error>("");
   const [loading, setLoading] = useState(false);
@@ -160,7 +162,12 @@ const SearchSaveButton = ({ userData, selectors, searchContentType }: Props) => 
       return;
     }
     const newSearch = createSearchString(window.location);
-    const newSearchPhrase = createSearchPhrase(selectors, searchContentType, t);
+
+    // Need to remove query if it is not in search url as it can exist in search input only
+    const actualSelectors = location.search.includes("query")
+      ? selectors
+      : selectors.map((s) => (s.parameterName === "query" ? { ...s, value: "" } : s));
+    const newSearchPhrase = createSearchPhrase(actualSelectors, searchContentType, t);
 
     const newSearchList = [
       { searchUrl: getSavedSearchRelativeUrl(newSearch), searchPhrase: newSearchPhrase },

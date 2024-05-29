@@ -238,6 +238,24 @@ exports[`Messages > A message is removed if the modal is closed 1`] = `
   flex-direction: column;
   gap: 24px;
   padding: 24px;
+}
+
+.emotion-6[data-severity="success"] {
+  background-color: #5cbc80;
+  color: #fff;
+}
+
+.emotion-6[data-severity="info"] {
+  background-color: #fff;
+  color: #444;
+}
+
+.emotion-6[data-severity="warning"] {
+  background-color: #ead854;
+  color: #444;
+}
+
+.emotion-6[data-severity="danger"] {
   background-color: #d1372e;
   color: #fff;
 }
@@ -498,6 +516,7 @@ exports[`Messages > A message is removed if the modal is closed 1`] = `
   >
     <div
       class="emotion-6 emotion-7"
+      data-severity="danger"
       data-testid="alert-modal"
     >
       <div
@@ -837,6 +856,24 @@ exports[`Messages > A single message renders correctly 1`] = `
   flex-direction: column;
   gap: 24px;
   padding: 24px;
+}
+
+.emotion-6[data-severity="success"] {
+  background-color: #5cbc80;
+  color: #fff;
+}
+
+.emotion-6[data-severity="info"] {
+  background-color: #fff;
+  color: #444;
+}
+
+.emotion-6[data-severity="warning"] {
+  background-color: #ead854;
+  color: #444;
+}
+
+.emotion-6[data-severity="danger"] {
   background-color: #d1372e;
   color: #fff;
 }
@@ -1097,6 +1134,7 @@ exports[`Messages > A single message renders correctly 1`] = `
   >
     <div
       class="emotion-6 emotion-7"
+      data-severity="danger"
       data-testid="alert-modal"
     >
       <div
@@ -1412,6 +1450,24 @@ exports[`Messages > Several messages renders correctly 1`] = `
   flex-direction: column;
   gap: 24px;
   padding: 24px;
+}
+
+.emotion-6[data-severity="success"] {
+  background-color: #5cbc80;
+  color: #fff;
+}
+
+.emotion-6[data-severity="info"] {
+  background-color: #fff;
+  color: #444;
+}
+
+.emotion-6[data-severity="warning"] {
+  background-color: #ead854;
+  color: #444;
+}
+
+.emotion-6[data-severity="danger"] {
   background-color: #d1372e;
   color: #fff;
 }
@@ -1674,6 +1730,7 @@ exports[`Messages > Several messages renders correctly 1`] = `
   >
     <div
       class="emotion-6 emotion-7"
+      data-severity="danger"
       data-testid="alert-modal"
     >
       <div
@@ -1766,6 +1823,7 @@ exports[`Messages > Several messages renders correctly 1`] = `
   >
     <div
       class="emotion-6 emotion-7"
+      data-severity="danger"
       data-testid="alert-modal"
     >
       <div
@@ -2081,6 +2139,24 @@ exports[`Messages > auth0 messages provides a cancel button 1`] = `
   flex-direction: column;
   gap: 24px;
   padding: 24px;
+}
+
+.emotion-6[data-severity="success"] {
+  background-color: #5cbc80;
+  color: #fff;
+}
+
+.emotion-6[data-severity="info"] {
+  background-color: #fff;
+  color: #444;
+}
+
+.emotion-6[data-severity="warning"] {
+  background-color: #ead854;
+  color: #444;
+}
+
+.emotion-6[data-severity="danger"] {
   background-color: #d1372e;
   color: #fff;
 }
@@ -2420,6 +2496,7 @@ exports[`Messages > auth0 messages provides a cancel button 1`] = `
   >
     <div
       class="emotion-6 emotion-7"
+      data-severity="danger"
       data-testid="alert-modal"
     >
       <div

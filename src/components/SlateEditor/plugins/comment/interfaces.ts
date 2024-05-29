@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import { Descendant } from "slate";
 import { CommentEmbedData } from "@ndla/types-embed";
 import { TYPE_COMMENT_BLOCK } from "./block/types";

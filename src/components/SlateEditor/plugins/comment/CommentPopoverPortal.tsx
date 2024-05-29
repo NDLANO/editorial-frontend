@@ -90,7 +90,7 @@ const CommentPopoverPortal = ({ onSave, embed, onDelete, onClose, onOpenChange, 
           onOpenChange={onOpenChange}
           labelText={t("form.workflow.updateComment")}
           labelVisuallyHidden
-          commentType="block"
+          commentType={variant}
         />
         <StyledArrow />
       </StyledContent>

@@ -6,7 +6,11 @@
  *
  */
 
-import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+
+const StyledInlineBugFix = styled.span`
+  font-size: 0;
+`;
 
 /**
  *
@@ -15,12 +19,5 @@ import { css } from "@emotion/react";
  *
  */
 export const InlineBugfix = () => (
-  <span
-    contentEditable={false}
-    css={css`
-      font-size: 0;
-    `}
-  >
-    {String.fromCodePoint(160) /* Non-breaking space */}
-  </span>
+  <StyledInlineBugFix contentEditable={false}>{String.fromCodePoint(160) /* Non-breaking space */}</StyledInlineBugFix>
 );

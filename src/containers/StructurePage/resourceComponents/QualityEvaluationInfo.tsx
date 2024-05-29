@@ -6,27 +6,18 @@
  *
  */
 
-import { CSSProperties, useMemo } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { spacing, misc } from "@ndla/core";
-import { Text } from "@ndla/typography";
-import { qualityEvaluationOptions } from "../../../components/QualityEvaluation/QualityEvaluationForm";
+import { spacing } from "@ndla/core";
+import QualityEvaluationGrade from "./QualityEvaluationGrade";
 import { Dictionary } from "../../../interfaces";
 import { NodeResourceMeta } from "../../../modules/nodes/nodeQueries";
 
-const GradeItem = styled.div`
-  border: 2px solid var(--item-color);
-  border-radius: ${misc.borderRadius};
-  padding: 0px ${spacing.xxsmall};
-`;
-
-const StyledQualityText = styled(Text)`
-  white-space: nowrap;
-`;
 const QualityInfoWrapper = styled.div`
   display: flex;
   gap: ${spacing.xsmall};
+  align-items: center;
 `;
 
 const getAverageResourceGrade = (contentMeta: Dictionary<NodeResourceMeta>): number | undefined => {
@@ -65,40 +56,18 @@ const QualityEvaluationInfo = ({ contentMeta }: Props) => {
   return (
     <QualityInfoWrapper>
       {topicArticleGrade && (
-        <>
-          <StyledQualityText margin="none" textStyle="meta-text-small">
-            {t("taxonomy.topicArticle")}
-          </StyledQualityText>
-          <GradeItem
-            title={t("taxonomy.qualityDescriptionTopic")}
-            aria-label={t("taxonomy.qualityDescriptionTopic")}
-            style={
-              {
-                "--item-color": qualityEvaluationOptions[Number(topicArticleGrade.toFixed())],
-              } as CSSProperties
-            }
-          >
-            {topicArticleGrade}
-          </GradeItem>
-        </>
+        <QualityEvaluationGrade
+          grade={topicArticleGrade}
+          ariaLabel={t("taxonomy.qualityDescriptionTopic")}
+          titleText={t("taxonomy.topicArticle")}
+        />
       )}
       {averageResourceGrade && (
-        <>
-          <StyledQualityText margin="none" textStyle="meta-text-small">
-            {t("taxonomy.fullTopic")}
-          </StyledQualityText>
-          <GradeItem
-            title={t("taxonomy.qualityDescription")}
-            aria-label={t("taxonomy.qualityDescription")}
-            style={
-              {
-                "--item-color": qualityEvaluationOptions[Number(averageResourceGrade.toFixed())],
-              } as CSSProperties
-            }
-          >
-            {averageResourceGrade}
-          </GradeItem>
-        </>
+        <QualityEvaluationGrade
+          grade={averageResourceGrade}
+          ariaLabel={t("taxonomy.qualityDescription")}
+          titleText={t("taxonomy.fullTopic")}
+        />
       )}
     </QualityInfoWrapper>
   );

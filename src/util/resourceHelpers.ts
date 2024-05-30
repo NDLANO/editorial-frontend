@@ -18,44 +18,7 @@ import {
   toLearningpathFull,
 } from "./routeHelpers";
 
-import {
-  RESOURCE_TYPE_LEARNING_PATH,
-  RESOURCE_TYPE_SUBJECT_MATERIAL,
-  RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
-  RESOURCE_TYPE_ASSESSMENT_RESOURCES,
-  RESOURCE_TYPE_SOURCE_MATERIAL,
-  RESOURCE_TYPE_CONCEPT,
-} from "../constants";
-
-const { contentTypes } = constants;
-
-interface ContentTypeType {
-  contentType: string;
-}
-
-const mapping: Record<string, ContentTypeType> = {
-  [RESOURCE_TYPE_LEARNING_PATH]: {
-    contentType: contentTypes.LEARNING_PATH,
-  },
-  [RESOURCE_TYPE_SUBJECT_MATERIAL]: {
-    contentType: contentTypes.SUBJECT_MATERIAL,
-  },
-  [RESOURCE_TYPE_TASKS_AND_ACTIVITIES]: {
-    contentType: contentTypes.TASKS_AND_ACTIVITIES,
-  },
-  [RESOURCE_TYPE_ASSESSMENT_RESOURCES]: {
-    contentType: contentTypes.ASSESSMENT_RESOURCES,
-  },
-  [RESOURCE_TYPE_CONCEPT]: {
-    contentType: contentTypes.CONCEPT,
-  },
-  [RESOURCE_TYPE_SOURCE_MATERIAL]: {
-    contentType: contentTypes.SOURCE_MATERIAL,
-  },
-  default: {
-    contentType: contentTypes.SUBJECT_MATERIAL,
-  },
-};
+const { contentTypes, contentTypeMapping } = constants;
 
 export const getResourceLanguages = (t: TFunction) => [
   { id: "nb", name: t("languages.nb") },
@@ -70,12 +33,12 @@ export const getResourceLanguages = (t: TFunction) => [
   { id: "zh", name: t("languages.zh") },
 ];
 
-export const getContentTypeFromResourceTypes = (resourceTypes: Pick<ResourceType, "id">[]): ContentTypeType => {
-  const resourceType = resourceTypes.find((type) => !!mapping[type.id]);
+export const getContentTypeFromResourceTypes = (resourceTypes: Pick<ResourceType, "id">[]): string => {
+  const resourceType = resourceTypes.find((type) => !!contentTypeMapping[type.id]);
   if (resourceType) {
-    return mapping[resourceType.id];
+    return contentTypeMapping[resourceType.id];
   }
-  return mapping.default;
+  return contentTypeMapping.default;
 };
 
 const isLearningPathResourceType = (contentType?: string) => contentType === contentTypes.LEARNING_PATH;
@@ -94,36 +57,39 @@ export const resourceToLinkProps = (
   contentType: string | undefined,
   locale: string,
 ) => {
+  const foundSupportedLanguage = content.supportedLanguages?.find((l) => l === locale);
+  const languageOrDefault = foundSupportedLanguage ?? content.supportedLanguages?.[0] ?? "nb";
+
+  // Only tax-types have contexts
+  if (!content.contexts) {
+    if (isConceptType(contentType)) {
+      return {
+        to: toEditConcept(content.id, languageOrDefault),
+      };
+    }
+    if (isGlossType(contentType)) {
+      return {
+        to: toEditGloss(content.id, languageOrDefault),
+      };
+    }
+    if (isAudioType(contentType)) {
+      return {
+        to: toEditAudio(content.id, languageOrDefault),
+      };
+    }
+
+    if (isSeriesType(contentType)) {
+      return {
+        to: toEditPodcastSeries(content.id, languageOrDefault),
+      };
+    }
+  }
+
   if (isLearningPathResourceType(contentType)) {
     return {
       href: toLearningpathFull(content.id, locale),
       target: "_blank",
       rel: "noopener noreferrer",
-    };
-  }
-
-  const foundSupportedLanguage = content.supportedLanguages?.find((l) => l === locale);
-  const languageOrDefault = foundSupportedLanguage ?? content.supportedLanguages?.[0] ?? "nb";
-
-  if (isConceptType(contentType)) {
-    return {
-      to: toEditConcept(content.id, languageOrDefault),
-    };
-  }
-  if (isGlossType(contentType)) {
-    return {
-      to: toEditGloss(content.id, languageOrDefault),
-    };
-  }
-  if (isAudioType(contentType)) {
-    return {
-      to: toEditAudio(content.id, languageOrDefault),
-    };
-  }
-
-  if (isSeriesType(contentType)) {
-    return {
-      to: toEditPodcastSeries(content.id, languageOrDefault),
     };
   }
 

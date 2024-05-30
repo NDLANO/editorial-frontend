@@ -32,6 +32,7 @@ const connectSrc = (() => {
     "https://cors-anywhere.herokuapp.com",
     "https://trinket.io",
     "https://*.clarity.ms",
+    "https://api.fontshare.com",
   ];
   if (process.env.NODE_ENV === "development") {
     return [
@@ -196,7 +197,7 @@ const fontSrc = (() => {
     "https://www.wiris.net",
     "https://cdn.jsdelivr.net",
     "https://*.clarity.ms",
-    "https://api.fontshare.com",
+    "https://cdn.fontshare.com",
   ];
   if (process.env.NODE_ENV === "development") {
     return defaultFontSrc.concat("http://localhost:3001");

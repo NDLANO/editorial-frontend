@@ -98,7 +98,7 @@ interface FavoriteResource {
 }
 
 const getFavoriteResource = async (locale: string): Promise<FavoriteResource | undefined> => {
-  const recentFavoritedResult = await fetchRecentFavorited({ exclude: ["folder", "video"] });
+  const recentFavoritedResult = await fetchRecentFavorited({ exclude: ["video"] });
   if (!recentFavoritedResult) return;
 
   const recentFavorited = recentFavoritedResult[0];

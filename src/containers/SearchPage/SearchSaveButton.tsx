@@ -166,7 +166,7 @@ const SearchSaveButton = ({ userData, selectors, searchContentType }: Props) => 
     // Need to remove query if it is not in search url as it can exist in search input only
     const actualSelectors = location.search.includes("query")
       ? selectors
-      : selectors.map((s) => (s.parameterName === "query" ? { ...s, value: "" } : s));
+      : selectors.map((selector) => (selector.parameterName === "query" ? { ...selector, value: "" } : selector));
     const newSearchPhrase = createSearchPhrase(actualSelectors, searchContentType, t);
 
     const newSearchList = [

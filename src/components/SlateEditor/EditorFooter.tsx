@@ -18,7 +18,6 @@ import { SingleValue } from "@ndla/select";
 import { IStatus as ConceptStatus } from "@ndla/types-backend/concept-api";
 import { IStatus as DraftStatus } from "@ndla/types-backend/draft-api";
 import { ARCHIVED, PUBLISHED, SAVE_BUTTON_ID, UNPUBLISHED } from "../../constants";
-import { articleResourcePageStyle } from "../../containers/ArticlePage/styles";
 import PrioritySelect from "../../containers/FormikForm/components/PrioritySelect";
 import ResponsibleSelect from "../../containers/FormikForm/components/ResponsibleSelect";
 import StatusSelect from "../../containers/FormikForm/components/StatusSelect";
@@ -209,7 +208,7 @@ function EditorFooter<T extends FormValues>({
 
   if (showSimpleFooter) {
     return (
-      <Footer css={isArticle && articleResourcePageStyle}>
+      <Footer isArticle={isArticle}>
         <StyledFooter>
           <StyledFooterControls>
             {isArticle && (
@@ -242,7 +241,7 @@ function EditorFooter<T extends FormValues>({
   }
 
   return (
-    <Footer css={isArticle && articleResourcePageStyle}>
+    <Footer isArticle={isArticle}>
       <>
         <div data-testid="footerPreviewAndValidate">
           {values.id && isConcept && (

@@ -32,7 +32,6 @@ const connectSrc = (() => {
     "https://cors-anywhere.herokuapp.com",
     "https://trinket.io",
     "https://*.clarity.ms",
-    "https://api.fontshare.com",
   ];
   if (process.env.NODE_ENV === "development") {
     return [
@@ -217,6 +216,7 @@ const contentSecurityPolicy = {
       "https://fonts.googleapis.com",
       "https://www.wiris.net",
       "https://cdn.jsdelivr.net",
+      "https://api.fontshare.com",
     ],
     fontSrc: fontSrc,
     imgSrc: [

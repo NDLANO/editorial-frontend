@@ -69,18 +69,18 @@ const SearchContent = ({ content, locale, responsibleName }: Props) => {
   const { contexts, metaImage } = content;
   const { url, alt } = metaImage || {};
   const imageUrl = url ? `${url}?width=200&language=${locale}` : "/placeholder.png";
-  let resourceType: string | undefined;
+  let contentType: string | undefined;
   if ((contexts[0]?.resourceTypes?.length ?? 0) > 0) {
-    resourceType = getContentTypeFromResourceTypes(contexts[0].resourceTypes);
+    contentType = getContentTypeFromResourceTypes(contexts[0].resourceTypes);
   } else if (isLearningpath(content.url)) {
-    resourceType = getContentTypeFromResourceTypes([{ id: RESOURCE_TYPE_LEARNING_PATH }]);
+    contentType = getContentTypeFromResourceTypes([{ id: RESOURCE_TYPE_LEARNING_PATH }]);
   }
 
-  const linkProps = resourceToLinkProps(content, resourceType, locale);
+  const linkProps = resourceToLinkProps(content, contentType, locale);
 
   const statusType = () => {
     const status = content.status?.current.toLowerCase();
-    const isLearningpath = resourceType === "learning-path";
+    const isLearningpath = contentType === "learning-path";
     return t(`form.status.${isLearningpath ? "learningpath_statuses." + status : status}`);
   };
   const EditMarkup = (
@@ -100,9 +100,9 @@ const SearchContent = ({ content, locale, responsibleName }: Props) => {
 
   const ContentType = (
     <>
-      {resourceType && (
+      {contentType && (
         <ContentTypeWrapper>
-          <ContentTypeBadge background type={resourceType} />
+          <ContentTypeBadge background type={contentType} />
         </ContentTypeWrapper>
       )}{" "}
     </>
@@ -136,7 +136,7 @@ const SearchContent = ({ content, locale, responsibleName }: Props) => {
               key={`${lang}_search_content`}
               language={lang}
               content={content}
-              contentType={resourceType}
+              contentType={contentType}
             />
           ))}
         </div>

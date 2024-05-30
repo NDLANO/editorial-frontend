@@ -40,6 +40,13 @@ const SwitchWrapper = styled.div`
   gap: ${spacing.xsmall};
 `;
 
+const CenterWrapper = styled.div`
+  position: relative;
+  width: 83.333%;
+  right: auto;
+  left: 8.333%;
+`;
+
 const TwoArticleWrapperWithDiff = styled(TwoArticleWrapper)`
   del.diffmod,
   ins.diffmod,
@@ -150,20 +157,20 @@ export const PreviewVersion = ({ article, language, customTitle }: VersionPrevie
       </SwitchWrapper>
       <TwoArticleWrapperWithDiff>
         <div>
-          <div className="u-10/12 u-push-1/12">
+          <CenterWrapper>
             <h2>
               {customTitle ??
                 t("form.previewProductionArticle.version", {
                   revision: article.revision,
                 })}
             </h2>
-          </div>
+          </CenterWrapper>
           <TransformedPreviewDraft {...publishedTransformed} label={article.articleType} />
         </div>
         <div>
-          <div className="u-10/12 u-push-1/12">
+          <CenterWrapper>
             <h2>{t("form.previewProductionArticle.current")}</h2>
-          </div>
+          </CenterWrapper>
           <TransformedPreviewDraft {...transformedWithDiff} label={article.articleType} />
         </div>
       </TwoArticleWrapperWithDiff>

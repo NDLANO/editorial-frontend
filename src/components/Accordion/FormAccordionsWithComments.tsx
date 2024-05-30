@@ -19,6 +19,7 @@ import { ARCHIVED, PUBLISHED, STORED_HIDE_COMMENTS, UNPUBLISHED } from "../../co
 import CommentSection, { COMMENT_WIDTH, SPACING_COMMENT } from "../../containers/ArticlePage/components/CommentSection";
 import { MainContent } from "../../containers/ArticlePage/styles";
 import { useLocalStorageBooleanState } from "../../containers/WelcomePage/hooks/storedFilterHooks";
+import QualityEvaluation from "../QualityEvaluation/QualityEvaluation";
 import { useWideArticle } from "../WideArticleEditorProvider";
 
 export type ChildType = ReactElement<FormAccordionProps> | undefined | false;
@@ -39,6 +40,11 @@ const ContentWrapper = styled.div`
 
 const FlexWrapper = styled.div`
   display: flex;
+`;
+
+const RightFlexWrapper = styled.div`
+  display: flex;
+  gap: ${spacing.small};
 `;
 
 const CommentWrapper = styled.div`
@@ -64,7 +70,8 @@ const StyledSwitch = styled(Switch)`
 
 const FormControls = styled(MainContent)`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  padding-left: ${spacing.small};
 `;
 
 const FormAccordionsWithComments = ({ defaultOpen, children, articleId, articleType, articleStatus }: Props) => {
@@ -84,19 +91,22 @@ const FormAccordionsWithComments = ({ defaultOpen, children, articleId, articleT
     <ContentWrapper>
       <FlexWrapper>
         <FormControls data-wide={isWideArticle}>
-          {!!articleId && articleType === "frontpage-article" && (
-            <StyledSwitch
-              id={articleId}
-              label={t("frontpageArticleForm.isFrontpageArticle.toggleArticle")}
-              checked={isWideArticle}
-              onChange={() => toggleWideArticles(articleId)}
+          <QualityEvaluation articleType={articleType} />
+          <RightFlexWrapper>
+            {!!articleId && articleType === "frontpage-article" && (
+              <StyledSwitch
+                id={articleId}
+                label={t("frontpageArticleForm.isFrontpageArticle.toggleArticle")}
+                checked={isWideArticle}
+                onChange={() => toggleWideArticles(articleId)}
+              />
+            )}
+            <OpenAllButton
+              openAccordions={openAccordions}
+              setOpenAccordions={setOpenAccordions}
+              formAccordionChildren={children}
             />
-          )}
-          <OpenAllButton
-            openAccordions={openAccordions}
-            setOpenAccordions={setOpenAccordions}
-            formAccordionChildren={children}
-          />
+          </RightFlexWrapper>
         </FormControls>
         {!disableComments && (
           <CommentWrapper>

@@ -211,7 +211,7 @@ const ImageForm = ({
               <FormAccordion
                 id="content"
                 title={t("form.contentSection")}
-                className="u-10/12 u-push-1/12"
+                variant="center"
                 hasError={hasError(["title", "imageFile", "caption", "alttext"])}
               >
                 <ImageContent />

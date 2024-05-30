@@ -9,13 +9,15 @@ import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2, IconButtonV2 } from "@ndla/button";
-import { spacing, fonts } from "@ndla/core";
+import { spacing } from "@ndla/core";
 import { Plus } from "@ndla/icons/action";
 import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
 import { Tabs } from "@ndla/tabs";
 import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
+import { Text } from "@ndla/typography";
 import ApproachingRevisionDate from "./ApproachingRevisionDate";
 import GroupResourceSwitch from "./GroupResourcesSwitch";
+import QualityEvaluationInfo from "./QualityEvaluationInfo";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
 import TaxonomyLightbox from "../../../components/Taxonomy/TaxonomyLightbox";
 import { PUBLISHED } from "../../../constants";
@@ -26,10 +28,6 @@ import AddExistingResource from "../plannedResource/AddExistingResource";
 import AddResourceModal from "../plannedResource/AddResourceModal";
 import PlannedResourceForm from "../plannedResource/PlannedResourceForm";
 import { ResourceGroupBanner, StyledShareIcon } from "../styles";
-
-const PublishedText = styled.div`
-  font-weight: ${fonts.weight.normal};
-`;
 
 const BannerWrapper = styled.div`
   display: flex;
@@ -99,7 +97,10 @@ const ResourceBanner = ({ title, contentMeta, currentNode, onCurrentNodeChanged,
             {t("taxonomy.jumpToStructure")}
           </ButtonV2>
           <ControlWrapper>
-            <PublishedText>{`${workflowCount}/${elementCount} ${t("taxonomy.workflow").toLowerCase()}`}</PublishedText>
+            <QualityEvaluationInfo contentMeta={contentMeta} />
+            <Text margin="none" textStyle="meta-text-small">{`${workflowCount}/${elementCount} ${t(
+              "taxonomy.workflow",
+            ).toLowerCase()}`}</Text>
             {lastCommentTopicArticle && <CommentIndicator comment={lastCommentTopicArticle} />}
             <ApproachingRevisionDate revisions={allRevisions} />
             {currentNode && currentNode.id && (

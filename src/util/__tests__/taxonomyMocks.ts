@@ -257,4 +257,6 @@ export const flattenedResourceTypes = [
   },
   { id: "topic-article", name: "Emne" },
   { id: "frontpage-article", name: "Forsideartikkel" },
+  { id: "concept", name: "Forklaring" },
+  { id: "gloss", name: "Glose" },
 ];

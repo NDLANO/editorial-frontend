@@ -10,7 +10,6 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
-import { colors, spacing, breakpoints, fonts, misc } from "@ndla/core";
 import { ContentTypeBadge } from "@ndla/ui";
 import GrepCodesModal from "./GrepCodesModal";
 import QualityEvaluationGrade from "./QualityEvaluationGrade";
@@ -20,33 +19,15 @@ import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
 import VersionHistory from "./VersionHistory";
 import RelevanceOption from "../../../components/Taxonomy/RelevanceOption";
 import { getContentTypeFromResourceTypes } from "../../../util/resourceHelpers";
-
-export const Wrapper = styled.div`
-  display: flex;
-  flex: 1;
-  margin-bottom: ${spacing.xsmall};
-`;
-
-export const StyledCard = styled.div`
-  border: 1px solid ${colors.brand.light};
-  border-radius: ${misc.borderRadius};
-  width: 100%;
-  padding: 5px;
-  display: flex;
-`;
-
-export const StyledResourceIcon = styled.div`
-  display: flex;
-  text-align: center;
-  justify-content: center;
-  width: 42px;
-  box-sizing: content-box;
-  padding-right: ${spacing.small};
-
-  @media (min-width: ${breakpoints.tablet}) {
-    padding-right: ${spacing.small};
-  }
-`;
+import {
+  BoldFont,
+  ButtonRow,
+  CardWrapper,
+  ResourceCardContentWrapper,
+  StyledResourceCard,
+  StyledResourceIcon,
+  StyledResponsibleBadge,
+} from "../styles";
 
 const StyledResourceBody = styled.div`
   flex: 1 1 auto;
@@ -60,40 +41,13 @@ const StyledText = styled.div`
   align-items: center;
 `;
 
-export const ButtonRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-  gap: ${spacing.xsmall};
-`;
-
-export const BadgeWrapper = styled.div`
+const BadgeWrapper = styled.div`
   display: flex;
   align-items: center;
-`;
-export const ContentWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.xxsmall};
 `;
 
 const RemoveButton = styled(ButtonV2)`
   flex: 0;
-`;
-
-export const StyledResponsibleBadge = styled.div`
-  height: ${spacing.normal};
-  border-radius: 4px;
-  color: ${colors.brand.dark};
-  ${fonts.sizes(14)};
-  flex: 6;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-`;
-
-export const BoldFont = styled.span`
-  font-weight: ${fonts.weight.semibold};
 `;
 
 interface Props {
@@ -121,8 +75,8 @@ const Resource = ({ resource, onDelete, currentNodeId, contentMetaLoading, respo
   });
 
   return (
-    <Wrapper>
-      <StyledCard>
+    <CardWrapper>
+      <StyledResourceCard>
         <BadgeWrapper>
           {contentType && (
             <StyledResourceIcon key="img">
@@ -136,7 +90,7 @@ const Resource = ({ resource, onDelete, currentNodeId, contentMetaLoading, respo
             </StyledResourceIcon>
           )}
         </BadgeWrapper>
-        <ContentWrapper>
+        <ResourceCardContentWrapper>
           <StyledText data-testid={`resource-type-${contentType}`}>
             <StyledResourceBody key="body">
               <ResourceItemLink
@@ -175,9 +129,9 @@ const Resource = ({ resource, onDelete, currentNodeId, contentMetaLoading, respo
               {t("form.remove")}
             </RemoveButton>
           </ButtonRow>
-        </ContentWrapper>
-      </StyledCard>
-    </Wrapper>
+        </ResourceCardContentWrapper>
+      </StyledResourceCard>
+    </CardWrapper>
   );
 };
 

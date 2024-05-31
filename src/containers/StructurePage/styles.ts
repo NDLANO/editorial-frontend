@@ -7,7 +7,7 @@
  */
 
 import styled from "@emotion/styled";
-import { colors, fonts, spacing } from "@ndla/core";
+import { colors, fonts, spacing, breakpoints, misc } from "@ndla/core";
 import { Share } from "@ndla/icons/common";
 
 export const ResourceGroupBanner = styled.div`
@@ -30,4 +30,58 @@ export const StyledShareIcon = styled(Share)`
   width: 24px;
   height: 24px;
   margin-right: ${spacing.small};
+`;
+
+export const CardWrapper = styled.div`
+  flex: 1;
+  margin-bottom: ${spacing.xsmall};
+`;
+
+export const StyledResponsibleBadge = styled.div`
+  height: ${spacing.normal};
+  border-radius: 4px;
+  color: ${colors.brand.dark};
+  ${fonts.sizes(14)};
+  flex: 6;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+`;
+
+export const StyledResourceIcon = styled.div`
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  width: 42px;
+  box-sizing: content-box;
+  padding-right: ${spacing.small};
+
+  @media (min-width: ${breakpoints.tablet}) {
+    padding-right: ${spacing.small};
+  }
+`;
+
+export const StyledResourceCard = styled.div`
+  border: 1px solid ${colors.brand.light};
+  border-radius: ${misc.borderRadius};
+  width: 100%;
+  padding: 5px;
+  display: flex;
+`;
+
+export const BoldFont = styled.span`
+  font-weight: ${fonts.weight.semibold};
+`;
+
+export const ResourceCardContentWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.xxsmall};
+`;
+
+export const ButtonRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: ${spacing.xsmall};
 `;

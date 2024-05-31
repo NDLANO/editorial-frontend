@@ -6,11 +6,27 @@
  *
  */
 
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { breakpoints, colors, fonts, mq, spacing, stackOrder } from "@ndla/core";
-import { SafeLinkButton } from "@ndla/safelink";
+import { SafeLink, SafeLinkButton } from "@ndla/safelink";
+import { Text } from "@ndla/typography";
+import { getArticle } from "../../../modules/article/articleApi";
+import { fetchAudio } from "../../../modules/audio/audioApi";
+import { fetchConcept } from "../../../modules/concept/conceptApi";
+import { fetchImage } from "../../../modules/image/imageApi";
+import { fetchLearningpath } from "../../../modules/learningpath/learningpathApi";
+import { fetchRecentFavorited } from "../../../modules/myndla/myndlaApi";
+import { unreachable } from "../../../util/guards";
+import {
+  toEditArticle,
+  toEditAudio,
+  toEditConcept,
+  toEditImage,
+  toEditLearningResource,
+} from "../../../util/routeHelpers";
 import { useSession } from "../../Session/SessionProvider";
 
 const StyledHeader = styled.div`
@@ -76,9 +92,57 @@ const ContentWrapper = styled.div`
   text-align: center;
 `;
 
+interface FavoriteResource {
+  title: string;
+  path: string;
+}
+
+const getFavoriteResource = async (locale: string): Promise<FavoriteResource | undefined> => {
+  const recentFavoritedResult = await fetchRecentFavorited({ exclude: ["video"] });
+  if (!recentFavoritedResult) return;
+
+  const recentFavorited = recentFavoritedResult[0];
+  const id = Number(recentFavorited.resourceId);
+
+  switch (recentFavorited.resourceType) {
+    case "article":
+    case "multidisciplinary": {
+      const article = await getArticle(id, locale);
+      return { title: article.title.title, path: toEditArticle(article.id, article.articleType) };
+    }
+    case "image": {
+      const image = await fetchImage(id, locale);
+      return { title: image.title.title, path: toEditImage(image.id, locale) };
+    }
+    case "concept": {
+      const concept = await fetchConcept(id, locale);
+      return { title: concept.title.title, path: toEditConcept(concept.id, locale) };
+    }
+    case "audio": {
+      const audio = await fetchAudio(id, locale);
+      return { title: audio.title.title, path: toEditAudio(audio.id, locale) };
+    }
+    case "learningpath": {
+      const learningpath = await fetchLearningpath(id, locale);
+      return { title: learningpath.title.title, path: toEditLearningResource(learningpath.id, locale) };
+    }
+    default:
+      return unreachable(recentFavorited.resourceType);
+  }
+};
+
 export const WelcomeHeader = () => {
+  const [favoriteResource, setFavoriteResource] = useState<FavoriteResource | undefined>();
   const { userName } = useSession();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+  useEffect(() => {
+    (async () => {
+      if (!userName) return;
+      const favoriteResource = await getFavoriteResource(i18n.language);
+      setFavoriteResource(favoriteResource);
+    })();
+  }, [i18n.language, userName]);
 
   return (
     <StyledHeader>
@@ -87,6 +151,14 @@ export const WelcomeHeader = () => {
         <StyledTitle>
           {`${t("welcomePage.welcomeBack")} ${userName ? `${userName}!` : t("welcomePage.welcomeText")}`}
         </StyledTitle>
+        {favoriteResource && (
+          <Text margin="none" textStyle="label-small">
+            {t("welcomePage.lastFavorited")}
+            <SafeLink to={favoriteResource.path} title={favoriteResource.title}>
+              {favoriteResource.title}
+            </SafeLink>
+          </Text>
+        )}
       </ContentWrapper>
       <ButtonWrapper>
         <StyledSafeLinkButton to="/structure">{t("subNavigation.structure")}</StyledSafeLinkButton>

@@ -11,7 +11,7 @@ import styled from "@emotion/styled";
 import { colors, spacing, stackOrder } from "@ndla/core";
 import { List } from "@ndla/icons/action";
 import { Launch, Audio, Podcast } from "@ndla/icons/common";
-import { Camera, CloudUploadOutline, Concept, Globe, H5P, Taxonomy, Video } from "@ndla/icons/editor";
+import { Camera, Concept, Globe, H5P, Taxonomy, Video } from "@ndla/icons/editor";
 import { SafeLinkButton } from "@ndla/safelink";
 import { ContentTypeBadge, constants } from "@ndla/ui";
 import config from "../../../config";
@@ -35,8 +35,8 @@ const StyledMenuItem = styled.span`
 `;
 
 const ContentWrapper = styled.div`
+  position: relative;
   padding: ${spacing.large} 0;
-  position: absolute;
   z-index: ${stackOrder.banner};
   left: 0;
   right: 0;
@@ -170,13 +170,6 @@ const OpenMenu = ({ close }: Props) => {
               </StyledMenuItem>
             </StyledSafeLinkButton>
           )}
-          <StyledSafeLinkButton variant="ghost" colorTheme="light" shape="sharp" to="publishRequests" onClick={close}>
-            <StyledMenuItem>
-              <CloudUploadOutline />
-              {t("subNavigation.publishRequests")}
-            </StyledMenuItem>
-          </StyledSafeLinkButton>
-
           <StyledSafeLinkButton variant="ghost" colorTheme="light" shape="sharp" to="/h5p" onClick={close}>
             <StyledMenuItem>
               <H5P />

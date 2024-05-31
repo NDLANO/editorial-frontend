@@ -20,11 +20,14 @@ interface Props {
 
 const StyledParagraph = styled.p`
   position: relative;
+  &[data-align="center"] {
+    text-align: center;
+  }
 `;
 
 const Paragraph = ({ attributes, children, element }: Props) => {
   return (
-    <StyledParagraph className={element.data?.align === "center" ? "u-text-center" : ""} {...attributes}>
+    <StyledParagraph data-align={element.data?.align ?? ""} {...attributes}>
       {children}
     </StyledParagraph>
   );

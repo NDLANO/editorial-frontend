@@ -15,6 +15,7 @@ import { colors, spacing, breakpoints, fonts } from "@ndla/core";
 import { NodeConnectionPUT, NodeChild } from "@ndla/types-taxonomy";
 import { ContentTypeBadge } from "@ndla/ui";
 import GrepCodesModal from "./GrepCodesModal";
+import QualityEvaluationGrade from "./QualityEvaluationGrade";
 import ResourceItemLink from "./ResourceItemLink";
 import StatusIcons from "./StatusIcons";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
@@ -142,9 +143,7 @@ const Resource = ({ resource, onDelete, currentNodeId, contentMetaLoading, respo
   });
 
   const contentType =
-    resource.resourceTypes.length > 0
-      ? getContentTypeFromResourceTypes(resource.resourceTypes).contentType
-      : "topic-article";
+    resource.resourceTypes.length > 0 ? getContentTypeFromResourceTypes(resource.resourceTypes) : "topic-article";
 
   const contentTypeName =
     resource.resourceTypes.length > 0
@@ -199,6 +198,14 @@ const Resource = ({ resource, onDelete, currentNodeId, contentMetaLoading, respo
                 size="small"
               />
             </StyledResourceBody>
+            <QualityEvaluationGrade
+              grade={resource.contentMeta?.qualityEvaluation?.grade}
+              ariaLabel={
+                resource.contentMeta?.qualityEvaluation?.note
+                  ? `${t("qualityEvaluationForm.title")}: ${resource.contentMeta?.qualityEvaluation?.note}`
+                  : t("qualityEvaluationForm.title")
+              }
+            />
             <StatusIcons contentMetaLoading={contentMetaLoading} resource={resource} path={path} />
             <RelevanceOption relevanceId={resource.relevanceId} onChange={updateRelevanceId} />
           </StyledText>

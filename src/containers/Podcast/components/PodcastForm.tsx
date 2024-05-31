@@ -242,7 +242,7 @@ const PodcastForm = ({
                 <FormAccordion
                   id="podcast-upload-content"
                   title={t("form.contentSection")}
-                  className="u-10/12 u-push-1/12"
+                  variant="center"
                   hasError={["title", "audioFile"].some((field) => field in errors)}
                 >
                   <AudioContent handleSubmit={handleSubmit} />
@@ -250,7 +250,6 @@ const PodcastForm = ({
                 <FormAccordion
                   id="podcast-upload-podcastmanus"
                   title={t("podcastForm.fields.manuscript")}
-                  className={"u-6/6"}
                   hasError={[].some((field) => field in errors)}
                 >
                   <AudioManuscript />
@@ -258,7 +257,6 @@ const PodcastForm = ({
                 <FormAccordion
                   id="podcast-upload-podcastmeta"
                   title={t("form.podcastSection")}
-                  className={"u-6/6"}
                   hasError={["introduction", "coverPhotoId", "metaImageAlt"].some((field) => field in errors)}
                 >
                   <PodcastMetaData
@@ -273,7 +271,6 @@ const PodcastForm = ({
                 <FormAccordion
                   id="audio-upload-copyright"
                   title={t("form.copyrightSection")}
-                  className={"u-6/6"}
                   hasError={["rightsholders", "creators", "processors", "license"].some((field) => field in errors)}
                 >
                   <AudioCopyright />
@@ -281,7 +278,6 @@ const PodcastForm = ({
                 <FormAccordion
                   id="podcast-upload-metadata"
                   title={t("form.metadataSection")}
-                  className={"u-6/6"}
                   hasError={["tags"].some((field) => field in errors)}
                 >
                   <AudioMetaData />

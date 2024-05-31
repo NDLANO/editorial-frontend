@@ -21,8 +21,6 @@ const connectSrc = (() => {
     "https://static.zdassets.com",
     "https://zendesk-eu.my.sentry.io",
     "https://*.boltdns.net",
-    "https://*.google-analytics.com",
-    "https://*.analytics.google.com",
     "https://www.googleapis.com/customsearch/",
     "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com",
     "https://www.wiris.net",
@@ -97,10 +95,6 @@ const scriptSrc = (() => {
     "cdn.jsdelivr.net",
     "https://www.wiris.net",
     "https://*.auth0.com",
-    "https://www.googletagmanager.com",
-    "https://www.google-analytics.com",
-    "https://tagmanager.google.com",
-    "http://www.google-analytics.com",
     "https://*.zendesk.com",
     "https://static.zdassets.com",
     "https://zendesk-eu.my.sentry.io",
@@ -178,6 +172,9 @@ const frameSrc = (() => {
     "fb.watch",
     "sketchfab.com",
     "jeopardylabs.com",
+    "*.uio.no",
+    "geodata.maps.arcgis.com",
+    "arcg.is",
   ];
   if (process.env.NODE_ENV === "development") {
     return [
@@ -196,10 +193,10 @@ const fontSrc = (() => {
     "'self'",
     " data:",
     "https://fonts.gstatic.com",
-    "https://tagmanager.google.com",
     "https://www.wiris.net",
     "https://cdn.jsdelivr.net",
     "https://*.clarity.ms",
+    "https://cdn.fontshare.com",
   ];
   if (process.env.NODE_ENV === "development") {
     return defaultFontSrc.concat("http://localhost:3001");
@@ -217,10 +214,9 @@ const contentSecurityPolicy = {
       "'unsafe-inline'",
       "'unsafe-eval'",
       "https://fonts.googleapis.com",
-      "https://fonts.gstatic.com",
-      "https://tagmanager.google.com",
       "https://www.wiris.net",
       "https://cdn.jsdelivr.net",
+      "https://api.fontshare.com",
     ],
     fontSrc: fontSrc,
     imgSrc: [
@@ -232,11 +228,6 @@ const contentSecurityPolicy = {
       "https://*.boltdns.net",
       "https://www.nrk.no/",
       "https://i.ytimg.com/",
-      "https://ssl.gstatic.com",
-      "https://www.gstatic.com",
-      "https://*.google-analytics.com",
-      "https://*.analytics.google.com",
-      "https://stats.g.doubleclick.net",
       "https://ndla.zendesk.com",
       "https://edndla.zendesk.com",
       " data:",

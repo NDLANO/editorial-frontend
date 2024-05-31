@@ -51,7 +51,7 @@ const PreviewDraftPage = () => {
 
   const label = resources.data?.[0]?.resourceTypes?.[0]?.name ?? "";
   const contentType = resources.data?.length
-    ? getContentTypeFromResourceTypes(resources.data[0].resourceTypes).contentType
+    ? getContentTypeFromResourceTypes(resources.data[0].resourceTypes)
     : undefined;
 
   const isFrontpage = draft.data?.articleType === "frontpage-article";
@@ -62,7 +62,14 @@ const PreviewDraftPage = () => {
       </Hero>
       <HelmetWithTracker title={`${draft.data?.title?.title} ${t("htmlTitles.titleTemplate")}`} />
       <StyledOneColumn data-wide={isFrontpage}>
-        <PreviewDraft type="article" draft={draft.data!} label={label} contentType={contentType} language={language} />
+        <PreviewDraft
+          type="article"
+          draft={draft.data!}
+          label={label}
+          contentType={contentType}
+          language={language}
+          previewAlt={false}
+        />
       </StyledOneColumn>
     </>
   );

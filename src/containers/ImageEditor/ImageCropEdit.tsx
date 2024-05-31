@@ -9,16 +9,18 @@
 import { useFormikContext } from "formik";
 import { useState } from "react";
 import ReactCrop, { Crop, PercentCrop } from "react-image-crop";
-import { ImageEditFormValues } from "../../components/SlateEditor/plugins/embed/EditImage";
+import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
+import { ImageEmbedFormValues } from "../../components/SlateEditor/plugins/image/ImageEmbedForm";
 import config from "../../config";
 
 interface Props {
   language: string;
+  image: IImageMetaInformationV3;
   onCropComplete: (crop: PercentCrop) => void;
   aspect?: number;
 }
 
-const getCrop = (data: ImageEditFormValues): Crop | undefined => {
+const getCrop = (data: ImageEmbedFormValues): Crop | undefined => {
   if (data.upperLeftX && data.upperLeftY && data.lowerRightX && data.lowerRightY) {
     const upperLeftX = parseInt(data.upperLeftX);
     const upperLeftY = parseInt(data.upperLeftY);
@@ -32,9 +34,9 @@ const getCrop = (data: ImageEditFormValues): Crop | undefined => {
   }
 };
 
-const ImageCropEdit = ({ language, onCropComplete, aspect }: Props) => {
-  const { values } = useFormikContext<ImageEditFormValues>();
-  const src = `${config.ndlaApiUrl}/image-api/raw/id/${values.resourceId}?language=${language}`;
+const ImageCropEdit = ({ language, onCropComplete, aspect, image }: Props) => {
+  const { values } = useFormikContext<ImageEmbedFormValues>();
+  const src = `${config.ndlaApiUrl}/image-api/raw/id/${image.id}?language=${language}`;
   const [crop, setCrop] = useState<Crop | undefined>(getCrop(values));
 
   const onComplete = (crop: PercentCrop) => {

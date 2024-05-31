@@ -6,6 +6,5 @@
  *
  */
 
-export const TYPE_EMBED_IMAGE = "image-embed";
 export const TYPE_EMBED_ERROR = "error-embed";
 export const TYPE_NDLA_EMBED = "ndlaembed";

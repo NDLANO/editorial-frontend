@@ -52,6 +52,6 @@ export const transformSearchBody = (searchBody: SearchParamsBody) => {
     ...searchBody,
     ...articleTypes,
     ...contextTypes,
-    resultTypes: ["article", "draft", "concept", "learningpath"],
+    resultTypes: ["draft", "concept", "learningpath"],
   };
 };

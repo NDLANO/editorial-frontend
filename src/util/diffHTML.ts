@@ -7,6 +7,7 @@
  */
 
 import { Diff, diff_match_patch } from "diff-match-patch";
+import HtmlDiff from "htmldiff-js";
 
 const differ = new diff_match_patch();
 
@@ -24,7 +25,7 @@ interface Value {
 }
 
 /**
- * Get current, next and previous diff values. Return undefined if one of them is undefiend
+ * Get current, next and previous diff values. Return undefined if one of them is undefined
  */
 function getValues(index: number, diffs: Diff[]) {
   const prevDiff = diffs[index - 1];
@@ -130,10 +131,22 @@ function isRemovalAllowed(index: number, diffs: Diff[]) {
 const cleanUpHtml = (newHtml: string) =>
   tagRegexes.reduce((currString, currRegExp) => currString.replace(currRegExp, ""), newHtml);
 
-export function diffHTML(oldHtml: string, newHtml: string) {
+function removeNoise(html: string): string {
   // we remove some noise coming from Slate, ex </strong><strong>
   // we run it twice to remove nested mark tags
-  const cleanHtml = cleanUpHtml(cleanUpHtml(newHtml));
+  return cleanUpHtml(cleanUpHtml(html));
+}
+
+export function getDiff(oldHtml: string, newHtml: string): string {
+  const unifiedDiff = HtmlDiff.execute(oldHtml, newHtml) as string;
+  const parser = new DOMParser();
+  const parsedDiff = parser.parseFromString(unifiedDiff, "text/html");
+  parsedDiff.querySelectorAll("del.diffmod").forEach((el) => el.remove());
+  return parsedDiff.body.outerHTML;
+}
+
+export function diffHTML(oldHtml: string, newHtml: string) {
+  const cleanHtml = removeNoise(newHtml);
 
   const diffs = differ.diff_main(oldHtml, cleanHtml);
   differ.diff_cleanupEfficiency(diffs);

@@ -13,7 +13,7 @@ import { fonts } from "@ndla/core";
 import { Concept, Globe } from "@ndla/icons/editor";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
 import { Node } from "@ndla/types-taxonomy";
-import { ContentTypeBadge } from "@ndla/ui";
+import { ContentTypeBadge, constants } from "@ndla/ui";
 import SearchContentLanguage from "./SearchContentLanguage";
 import SearchHighlight from "./SearchHighlight";
 import { EditMarkupLink } from "../../../../components/EditMarkupLink";
@@ -58,11 +58,6 @@ interface Props {
   responsibleName?: string;
   subjects: Node[];
 }
-
-interface ContentType {
-  contentType: string;
-}
-
 const Title = StyledSearchTitle.withComponent("h2");
 const NoShadowLink = NoShadowAnchor.withComponent(Link);
 const MetaImageComponent = ({ content, locale }: { content: IMultiSearchSummary; locale: string }) => {
@@ -104,24 +99,26 @@ const SubjectBreadcrumb = ({ content, subjects }: { content: IMultiSearchSummary
 const SearchContent = ({ content, locale, subjects, responsibleName }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
-  const { contexts } = content;
-  let resourceType: ContentType | undefined;
+  const { contexts, metaImage } = content;
+  const { url, alt } = metaImage || {};
+  const imageUrl = url ? `${url}?width=200&language=${locale}` : "/placeholder.png";
+  let contentType: string | undefined;
   if ((contexts[0]?.resourceTypes?.length ?? 0) > 0) {
-    resourceType = getContentTypeFromResourceTypes(contexts[0].resourceTypes);
+    contentType = getContentTypeFromResourceTypes(contexts[0].resourceTypes);
   } else if (isLearningpath(content.url)) {
-    resourceType = getContentTypeFromResourceTypes([{ id: RESOURCE_TYPE_LEARNING_PATH }]);
+    contentType = getContentTypeFromResourceTypes([{ id: RESOURCE_TYPE_LEARNING_PATH }]);
   }
 
-  const linkProps = resourceToLinkProps(content, resourceType?.contentType, locale);
+  const linkProps = resourceToLinkProps(content, content.resultType, locale);
 
   const statusType = () => {
     const status = content.status?.current.toLowerCase();
-    const isLearningpath = resourceType?.contentType === "learning-path";
+    const isLearningpath = contentType === constants.contentTypes.LEARNING_PATH;
     return t(`form.status.${isLearningpath ? "learningpath_statuses." + status : status}`);
   };
   const EditMarkup = (
     <>
-      {content.id && userPermissions?.includes(DRAFT_HTML_SCOPE) && (
+      {content.id && content.resultType === "draft" && userPermissions?.includes(DRAFT_HTML_SCOPE) && (
         <EditMarkupLink
           to={toEditMarkup(
             content.id,
@@ -136,9 +133,9 @@ const SearchContent = ({ content, locale, subjects, responsibleName }: Props) =>
 
   const ContentType = (
     <>
-      {resourceType?.contentType && (
+      {contentType && (
         <ContentTypeWrapper>
-          <ContentTypeBadge background type={resourceType.contentType} />
+          <ContentTypeBadge background type={contentType} />
         </ContentTypeWrapper>
       )}{" "}
     </>
@@ -172,7 +169,7 @@ const SearchContent = ({ content, locale, subjects, responsibleName }: Props) =>
               key={`${lang}_search_content`}
               language={lang}
               content={content}
-              contentType={resourceType?.contentType}
+              contentType={contentType}
             />
           ))}
         </div>

@@ -14,7 +14,8 @@ export const sortMoviesByIdList = (
   movieList: IMultiSearchSummary[],
   i18n: i18n,
 ): IMultiSearchSummary[] => {
-  const notFoundMovie: Omit<IMultiSearchSummary, "id"> = {
+  const notFoundMovie: IMultiSearchSummary = {
+    id: -1,
     title: {
       title: i18n.t("ndlaFilm.editor.notFound"),
       language: i18n.language,
@@ -35,6 +36,7 @@ export const sortMoviesByIdList = (
     revisions: [],
     resultType: "article",
   };
+
   return idList.map(
     (id) =>
       movieList.find((movie) => movie.id === id) || {

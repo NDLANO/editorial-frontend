@@ -48,6 +48,7 @@ const searchAudios = (query: LocalAudioSearchParams) => {
     sort: query.sort,
     pageSize: 16,
     audioType: query.audioType,
+    fallback: true,
   };
   return postSearchAudio(correctedQuery);
 };
@@ -76,7 +77,7 @@ const VisualElementSearch = ({
           onImageSelect={(image) =>
             handleVisualElementChange({
               resource: selectedResource,
-              resource_id: image.id,
+              resourceId: image.id,
               size: "full",
               align: "",
               alt: image.alttext.alttext ?? "",
@@ -138,6 +139,7 @@ const VisualElementSearch = ({
         page: 1,
         pageSize: 16,
         locale,
+        fallback: true,
         audioType,
       };
 

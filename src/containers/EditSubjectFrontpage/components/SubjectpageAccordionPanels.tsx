@@ -76,7 +76,7 @@ const SubjectpageAccordionPanels = ({ buildsOn, connectedTo, editorsChoices, ele
       <FormAccordion
         id="about"
         title={t("subjectpageForm.about")}
-        className="u-10/12 u-push-1/12"
+        variant="center"
         hasError={["title", "description", "visualElement"].some((field) => field in errors)}
       >
         <SubjectpageAbout />
@@ -84,7 +84,6 @@ const SubjectpageAccordionPanels = ({ buildsOn, connectedTo, editorsChoices, ele
       <FormAccordion
         id="metadata"
         title={t("subjectpageForm.metadata")}
-        className="u-6/6"
         hasError={["metaDescription", "desktopBannerId", "mobileBannerId"].some((field) => field in errors)}
       >
         <SubjectpageMetadata />
@@ -92,7 +91,6 @@ const SubjectpageAccordionPanels = ({ buildsOn, connectedTo, editorsChoices, ele
       <FormAccordion
         id="subjectlinks"
         title={t("subjectpageForm.subjectlinks")}
-        className="u-6/6"
         hasError={["connectedTo", "buildsOn", "leadsTo"].some((field) => field in errors)}
       >
         <SubjectpageSubjectlinks subjects={transformToNodes(connectedTo)} fieldName={"connectedTo"} />
@@ -102,7 +100,6 @@ const SubjectpageAccordionPanels = ({ buildsOn, connectedTo, editorsChoices, ele
       <FormAccordion
         id="articles"
         title={t("subjectpageForm.articles")}
-        className="u-6/6"
         hasError={["editorsChoices"].some((field) => field in errors)}
       >
         <FormikField name={"editorsChoices"}>{SubjectPageArticle}</FormikField>

@@ -36,14 +36,12 @@ export const Login = () => {
   return (
     <>
       <HelmetWithTracker title={t("htmlTitles.loginPage")} />
-      <StyledOneColumn cssModifier="clear">
-        <div className="u-2/3@desktop u-push-1/3@desktop">
-          <Routes>
-            <Route path="success/*" element={<LoginSuccess />} />
-            <Route path="failure" element={<LoginFailure />} />
-            <Route path="/" element={<LoginProviders />} />
-          </Routes>
-        </div>
+      <StyledOneColumn>
+        <Routes>
+          <Route path="success/*" element={<LoginSuccess />} />
+          <Route path="failure" element={<LoginFailure />} />
+          <Route path="/" element={<LoginProviders />} />
+        </Routes>
       </StyledOneColumn>
       <Footer showLocaleSelector />
     </>

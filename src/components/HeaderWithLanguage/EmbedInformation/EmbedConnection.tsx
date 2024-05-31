@@ -18,7 +18,6 @@ import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
 import ElementList from "../../../containers/FormikForm/components/ElementList";
 import { postSearchConcepts } from "../../../modules/concept/conceptApi";
 import { postSearch } from "../../../modules/search/searchApi";
-import { normalPaddingCSS } from "../../HowTo";
 
 type EmbedType = "image" | "audio" | "concept" | "gloss" | "article";
 
@@ -88,7 +87,7 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
           aria-label={t(`form.embedConnections.info.${type}`)}
           title={t(`form.embedConnections.info.${type}`)}
         >
-          <ImageInformationIcon css={normalPaddingCSS} />
+          <ImageInformationIcon size="normal" />
         </ButtonV2>
       </ModalTrigger>
       <ModalContent>

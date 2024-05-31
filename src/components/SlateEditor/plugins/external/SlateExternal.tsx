@@ -12,7 +12,7 @@ import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import styled from "@emotion/styled";
 import { ButtonV2, IconButtonV2 } from "@ndla/button";
-import { spacing, colors } from "@ndla/core";
+import { colors, spacing } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
 import { Pencil } from "@ndla/icons/action";
 import { DeleteForever, Expandable } from "@ndla/icons/editor";
@@ -23,8 +23,9 @@ import { ExternalEmbed, IframeEmbed } from "@ndla/ui";
 import { ExternalEmbedForm } from "./ExternalEmbedForm";
 import { ExternalElement, IframeElement } from "./types";
 import { EXTERNAL_WHITELIST_PROVIDERS } from "../../../../constants";
+import { WhitelistProvider } from "../../../../interfaces";
 import { useExternalEmbed } from "../../../../modules/embed/queries";
-import { urlOrigin } from "../../../../util/htmlHelpers";
+import { urlDomain } from "../../../../util/htmlHelpers";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import EditorErrorMessage from "../../EditorErrorMessage";
 import { StyledDeleteEmbedButton, StyledFigureButtons } from "../embed/FigureButtons";
@@ -70,6 +71,18 @@ const StyledModalHeader = styled(ModalHeader)`
   border-bottom: 2px solid ${colors.brand.tertiary};
 `;
 
+const getAllowedProvider = (embed: OembedMetaData | IframeMetaData | undefined): WhitelistProvider | undefined => {
+  const maybeProviderName =
+    embed?.resource === "external" && embed?.status === "success" ? embed.data.oembed.providerName : undefined;
+  const embedUrlOrigin = embed?.embedData.url && urlDomain(embed?.embedData.url);
+
+  return EXTERNAL_WHITELIST_PROVIDERS.find((whitelistProvider) => {
+    if (whitelistProvider.name === maybeProviderName) return true;
+    if (embed?.resource === "iframe") return embedUrlOrigin;
+    return whitelistProvider.url.includes(embedUrlOrigin ?? "");
+  });
+};
+
 export const SlateExternal = ({ element, editor, attributes, children }: Props) => {
   const { t } = useTranslation();
   const language = useArticleLanguage();
@@ -99,26 +112,6 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
       return [undefined, "iframe"];
     }
   }, [embed]);
-
-  const onOpenChange = useCallback(
-    (open?: boolean) => {
-      setIsEditing(!!open);
-      ReactEditor.focus(editor);
-      if (element.isFirstEdit) {
-        Transforms.removeNodes(editor, {
-          at: ReactEditor.findPath(editor, element),
-          voids: true,
-        });
-      }
-      const path = ReactEditor.findPath(editor, element);
-      if (Editor.hasPath(editor, Path.next(path))) {
-        setTimeout(() => {
-          Transforms.select(editor, Path.next(path));
-        }, 0);
-      }
-    },
-    [editor, element],
-  );
 
   const onSave = useCallback(
     (data: OembedEmbedData | IframeEmbedData) => {
@@ -166,21 +159,13 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
     document.body.addEventListener("mouseup", onMouseUp, { once: true });
   }, [editor, element]);
 
-  const providerName =
-    embed?.resource === "external" && embed?.status === "success" ? embed.data.oembed.providerName : undefined;
-
-  const [allowedProvider] = EXTERNAL_WHITELIST_PROVIDERS.filter((whitelistProvider) => {
-    return embed?.resource === "iframe" && embed?.embedData.url
-      ? urlOrigin(embed.embedData.url)
-      : whitelistProvider.name === providerName;
-  });
-
-  const editLabel = t("form.external.edit", { type: providerName || t("form.external.title") });
-  const deleteLabel = t("form.external.remove", { type: providerName || t("form.external.title") });
+  const allowedProvider = getAllowedProvider(embed);
+  const editLabel = t("form.external.edit", { type: allowedProvider?.name || t("form.external.title") });
+  const deleteLabel = t("form.external.remove", { type: allowedProvider?.name || t("form.external.title") });
 
   return (
     <div {...attributes}>
-      <Modal open={isEditing} onOpenChange={onOpenChange}>
+      <Modal open={isEditing} onOpenChange={setIsEditing}>
         {!!embed && (
           <ExternalWrapper ref={wrapperRef} contentEditable={false}>
             <StyledFigureButtons>
@@ -219,7 +204,6 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
                 <Expandable />
               </ExpandableButton>
             )}
-            {children}
           </ExternalWrapper>
         )}
         <ModalContent size="large">
@@ -243,6 +227,7 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
           </ModalBody>
         </ModalContent>
       </Modal>
+      {children}
     </div>
   );
 };

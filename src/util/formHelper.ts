@@ -202,6 +202,9 @@ export const formikCommonArticleRules: RulesType<ArticleFormType, IArticle> = {
   prioritized: {
     required: false,
   },
+  qualityEvaluation: {
+    required: false,
+  },
 };
 
 export const learningResourceRules: RulesType<LearningResourceFormType, IArticle> = {
@@ -219,7 +222,7 @@ export const learningResourceRules: RulesType<LearningResourceFormType, IArticle
     test: (values) => {
       const embeds = findNodesByType(
         values.content ?? [],
-        "image-embed",
+        "image",
         "brightcove-embed",
         "h5p",
         "audio",

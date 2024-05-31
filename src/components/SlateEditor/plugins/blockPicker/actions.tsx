@@ -26,6 +26,7 @@ import {
 } from "@ndla/icons/editor";
 import { DRAFT_ADMIN_SCOPE } from "../../../../constants";
 import HowToHelper from "../../../HowTo/HowToHelper";
+import { StoryType } from "../../../HowTo/stories";
 import { TYPE_ASIDE } from "../aside/types";
 import { TYPE_AUDIO } from "../audio/types";
 import { TYPE_BLOGPOST } from "../blogPost/types";
@@ -35,12 +36,12 @@ import { TYPE_CONCEPT_BLOCK, TYPE_GLOSS_BLOCK } from "../concept/block/types";
 import { TYPE_CONCEPT_LIST } from "../conceptList/types";
 import { TYPE_CONTACT_BLOCK } from "../contactBlock/types";
 import { TYPE_DETAILS } from "../details/types";
-import { TYPE_EMBED_IMAGE } from "../embed/types";
 import { TYPE_EXTERNAL } from "../external/types";
 import { TYPE_FILE } from "../file/types";
 import { TYPE_FRAMED_CONTENT } from "../framedContent/types";
 import { TYPE_GRID } from "../grid/types";
 import { TYPE_H5P } from "../h5p/types";
+import { TYPE_IMAGE } from "../image/types";
 import { TYPE_KEY_FIGURE } from "../keyFigure/types";
 import { TYPE_LINK_BLOCK_LIST } from "../linkBlockList/types";
 import { TYPE_RELATED } from "../related/types";
@@ -48,7 +49,7 @@ import { TYPE_TABLE } from "../table/types";
 import { TYPE_DISCLAIMER } from "../uuDisclaimer/types";
 import { TYPE_EMBED_BRIGHTCOVE } from "../video/types";
 
-const renderArticleInModal = (pageId: string) => <HowToHelper pageId={pageId} extraIconPadding />;
+const renderArticleInModal = (pageId: string) => <HowToHelper pageId={pageId as StoryType} />;
 
 export interface ActionData {
   type: Element["type"];
@@ -84,7 +85,7 @@ export const commonActions: Action[] = [
     helpIcon: renderArticleInModal("FramedContent"),
   },
   {
-    data: { type: TYPE_EMBED_IMAGE, object: "image" },
+    data: { type: TYPE_IMAGE, object: "image" },
     icon: <Camera />,
     helpIcon: renderArticleInModal("Images"),
   },

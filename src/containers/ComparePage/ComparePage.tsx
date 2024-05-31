@@ -10,23 +10,18 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
+import { spacing, colors } from "@ndla/core";
 import { HelmetWithTracker } from "@ndla/tracker";
 import PreviewDraft from "../../components/PreviewDraft/PreviewDraft";
 import Spinner from "../../components/Spinner";
-import {
-  draftApiTypeToLearningResourceFormType,
-  learningResourceFormTypeToDraftApiType,
-} from "../../containers/ArticlePage/articleTransformers";
-import { LearningResourceFormType, useArticleFormHooks } from "../../containers/FormikForm/articleFormHooks";
-import { useDraft, useLicenses } from "../../modules/draft/draftQueries";
+import { useDraft } from "../../modules/draft/draftQueries";
 
 const StyledPreviewWrapper = styled.div`
   width: 100%;
   max-width: 100%;
   display: inline-flex;
   justify-content: center;
-  & .c-article {
+  & [data-ndla-article] {
     padding: 0;
     margin-top: 20px;
     line-height: unset;
@@ -34,9 +29,6 @@ const StyledPreviewWrapper = styled.div`
     > section {
       width: unset !important;
       left: unset !important;
-    }
-    & .c-article__header {
-      margin-bottom: unset;
     }
   }
 `;
@@ -53,10 +45,24 @@ const TwoArticleWrapper = styled(StyledPreviewWrapper)`
       max-width: unset;
     }
   }
+
+  span[lang] {
+    text-decoration: underline;
+    text-decoration-color: ${colors.brand.tertiary};
+    &::after {
+      content: "(" attr(lang) ")";
+      color: ${colors.brand.greyMedium};
+      font-style: italic;
+    }
+  }
 `;
 
 const PreviewTitleWrapper = styled.div`
   height: 90px;
+  position: relative;
+  width: 83.333%;
+  right: auto;
+  left: 8.333%;
 `;
 
 const ComparePage = () => {
@@ -70,9 +76,9 @@ const ComparePage = () => {
   const formArticle = useMemo(() => {
     return {
       id: article?.id!,
-      title: article?.title?.title ?? "",
+      title: article?.title?.htmlTitle ?? "",
       content: article?.content?.content ?? "",
-      introduction: article?.introduction?.introduction ?? "",
+      introduction: article?.introduction?.htmlIntroduction ?? "",
       visualElement: article?.visualElement?.visualElement ?? "",
       published: article?.published,
       copyright: article?.copyright,
@@ -90,7 +96,7 @@ const ComparePage = () => {
       <HelmetWithTracker title={t("htmlTitles.comparePage")} />
       <TwoArticleWrapper>
         <div>
-          <PreviewTitleWrapper className="u-10/12 u-push-1/12">
+          <PreviewTitleWrapper>
             <h2>
               {t(`form.previewLanguageArticle.title`, {
                 language: t(`languages.${language}`).toLowerCase(),
@@ -101,11 +107,12 @@ const ComparePage = () => {
             type="formArticle"
             draft={formArticle}
             language={language}
+            previewAlt
             label={t(`articleType.${article.articleType}`)}
           />
         </div>
         <div>
-          <PreviewTitleWrapper className="u-10/12 u-push-1/12">
+          <PreviewTitleWrapper>
             <h2>
               {t("form.previewLanguageArticle.title", {
                 language: t(`languages.${previewLanguage}`).toLowerCase(),
@@ -124,6 +131,7 @@ const ComparePage = () => {
               type="article"
               draft={draft.data}
               language={previewLanguage}
+              previewAlt
               label={t(`articleType.${draft.data.articleType}`)}
             />
           )}

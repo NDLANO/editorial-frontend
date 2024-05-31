@@ -89,10 +89,7 @@ const diffAndGroupChildren = <T extends Node = Node>(
       breadcrumbs: true,
       language: true,
       metadata: {
-        customFields: {
-          requestPublish: true,
-          isPublishing: true,
-        },
+        customFields: {},
       },
     });
     const resourcesDiff = doDiff(
@@ -197,10 +194,7 @@ const diffChildren = (
           contexts: true,
           language: true,
           metadata: {
-            customFields: {
-              requestPublish: true,
-              isPublishing: true,
-            },
+            customFields: {},
           },
         }),
         resources: diffedResources.diff,
@@ -236,10 +230,7 @@ export const diffTrees = (
     breadcrumbs: true,
     language: true,
     metadata: {
-      customFields: {
-        requestPublish: true,
-        isPublishing: true,
-      },
+      customFields: {},
     },
   });
   const rootResourcesDiff = doDiff(

@@ -27,11 +27,11 @@ import { TYPE_BLOGPOST } from "../../../../components/SlateEditor/plugins/blogPo
 import { TYPE_CAMPAIGN_BLOCK } from "../../../../components/SlateEditor/plugins/campaignBlock/types";
 import { TYPE_CODEBLOCK } from "../../../../components/SlateEditor/plugins/codeBlock/types";
 import { TYPE_CONTACT_BLOCK } from "../../../../components/SlateEditor/plugins/contactBlock/types";
-import { TYPE_EMBED_IMAGE } from "../../../../components/SlateEditor/plugins/embed/types";
 import { TYPE_EXTERNAL } from "../../../../components/SlateEditor/plugins/external/types";
 import { TYPE_FILE } from "../../../../components/SlateEditor/plugins/file/types";
 import { TYPE_GRID } from "../../../../components/SlateEditor/plugins/grid/types";
 import { TYPE_H5P } from "../../../../components/SlateEditor/plugins/h5p/types";
+import { TYPE_IMAGE } from "../../../../components/SlateEditor/plugins/image/types";
 import { TYPE_KEY_FIGURE } from "../../../../components/SlateEditor/plugins/keyFigure/types";
 import { TYPE_LINK_BLOCK_LIST } from "../../../../components/SlateEditor/plugins/linkBlockList/types";
 import { TYPE_TABLE } from "../../../../components/SlateEditor/plugins/table/types";
@@ -78,7 +78,7 @@ const StyledIconButton = styled(IconButtonV2)`
   }
 `;
 
-const visualElements = [TYPE_H5P, TYPE_EMBED_BRIGHTCOVE, TYPE_AUDIO, TYPE_EXTERNAL, TYPE_EMBED_IMAGE];
+const visualElements = [TYPE_H5P, TYPE_EMBED_BRIGHTCOVE, TYPE_AUDIO, TYPE_EXTERNAL, TYPE_IMAGE];
 
 const actions = [
   TYPE_TABLE,
@@ -94,9 +94,9 @@ const actions = [
 ].concat(visualElements);
 
 const actionsToShowInAreas = {
-  "table-cell": [TYPE_EMBED_IMAGE],
+  "table-cell": [TYPE_IMAGE],
   section: actions,
-  "grid-cell": [TYPE_EMBED_IMAGE, TYPE_KEY_FIGURE, TYPE_BLOGPOST],
+  "grid-cell": [TYPE_IMAGE, TYPE_KEY_FIGURE, TYPE_BLOGPOST],
 };
 
 const toolbarOptions = createToolbarDefaultValues();

@@ -68,6 +68,7 @@ const StyledTable = styled.table`
     font-size: unset;
     line-height: unset !important;
   }
+  ${TableStyling}
 `;
 
 const StyledWrapper = styled.div`
@@ -83,7 +84,7 @@ const SlateTable = ({ attributes, children, element, editor }: Props) => {
   const { t } = useTranslation();
   return (
     <StyledWrapper>
-      <StyledTable css={TableStyling} {...attributes}>
+      <StyledTable {...attributes}>
         <DeleteButton
           variant="stripped"
           onClick={() => removeTable(editor, element)}

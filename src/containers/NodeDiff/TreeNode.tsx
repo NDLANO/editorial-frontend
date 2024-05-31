@@ -161,7 +161,7 @@ export const TreeNode = ({ node, onNodeSelected, selectedNode, parentActive, nod
         nodes &&
         nodes.map((node) => (
           <StructureWrapper key={`${path}/${node.id.other ?? node.id.original}`}>
-            <Fade show={true} fadeType="fadeInTop">
+            <Fade show={true}>
               <TreeNode
                 key={`${path}/${node.id.other ?? node.id.original}`}
                 parentActive={isActive}

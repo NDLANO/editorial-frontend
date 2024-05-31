@@ -22,10 +22,10 @@ import validateFormik, { RulesType } from "../formikValidationSchema";
 
 export const qualityEvaluationOptions: { [key: number]: string } = {
   1: colors.support.green,
-  2: "#C3D060",
-  3: colors.support.yellow,
-  4: "#CF9065",
-  5: colors.assessmentResource.dark,
+  2: "#90C670",
+  3: "#C3D060",
+  4: colors.support.yellow,
+  5: colors.support.red,
 };
 
 const StyledFieldset = styled(Fieldset)`
@@ -35,15 +35,20 @@ const StyledFieldset = styled(Fieldset)`
 `;
 
 // Color needed in order for wcag contrast reqirements to be met
-const blackContrastColor = "#000";
+export const blackContrastColor = "#000";
 
 export const gradeItemStyles = css`
   padding: 0px ${spacing.nsmall};
-  background-color: var(--item-color);
   font-weight: ${fonts.weight.semibold};
   border-radius: ${misc.borderRadius};
   color: ${blackContrastColor};
   ${fonts.size.text.content};
+  &[data-border="false"] {
+    background-color: var(--item-color);
+  }
+  &[data-border="true"] {
+    box-shadow: inset 0px 0px 0px 2px var(--item-color);
+  }
 `;
 
 const StyledItem = styled(Item)`
@@ -52,12 +57,11 @@ const StyledItem = styled(Item)`
 
   &:hover {
     cursor: pointer;
-    box-shadow: 0 0 0 2px ${colors.brand.primary};
     border-radius: ${misc.borderRadius};
+    outline: 2px solid ${colors.brand.primary};
   }
-
   &[data-state="checked"] {
-    box-shadow: 0 0 0 2px ${blackContrastColor};
+    outline: 2px solid ${blackContrastColor};
   }
 `;
 
@@ -159,6 +163,7 @@ const QualityEvaluationForm = ({ setOpen }: Props) => {
                           value={value.toString()}
                           data-color-value={value}
                           style={{ "--item-color": color } as CSSProperties}
+                          data-border={value === "1" || value === "5"}
                         >
                           <Indicator forceMount>{value}</Indicator>
                         </StyledItem>

@@ -55,12 +55,11 @@ const StyledIconWrapper = styled.div`
   justify-content: center;
   align-items: center;
   margin-right: ${spacing.small};
-`;
-
-const iconStyles = css`
-  color: ${colors.white};
-  width: 24px;
-  height: 24px;
+  [data-icon] {
+    color: ${colors.white};
+    width: ${spacing.normal};
+    height: ${spacing.normal};
+  }
 `;
 
 interface Props {
@@ -74,7 +73,7 @@ const TableComponent = ({ title, description, Icon, infoText }: Props) => {
   return (
     <ComponentWrapper>
       <StyledIconWrapper>
-        <Icon css={iconStyles} />
+        <Icon data-icon="" />
       </StyledIconWrapper>
       <TextWrapper>
         <TitleWrapper>

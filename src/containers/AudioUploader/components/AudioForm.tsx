@@ -211,7 +211,7 @@ const AudioForm = ({
             <FormAccordions defaultOpen={["audio-upload-content"]}>
               <FormAccordion
                 id="audio-upload-content"
-                className="u-10/12 u-push-1/12"
+                variant="center"
                 title={t("form.contentSection")}
                 hasError={hasError(["title", "audioFile"])}
               >

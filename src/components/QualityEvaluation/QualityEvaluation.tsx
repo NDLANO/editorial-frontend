@@ -38,24 +38,25 @@ interface Props {
 const QualityEvaluation = ({ articleType }: Props) => {
   const { t } = useTranslation();
 
-  const [qualityEvaluationField] = useField<QualityEvaluationFormValues>("qualityEvaluation");
+  const [{ value }] = useField<QualityEvaluationFormValues>("qualityEvaluation");
 
   return (
     <FlexWrapper>
       <Text margin="none" textStyle="button">
         {`${t("qualityEvaluationForm.title")}:`}
       </Text>
-      {qualityEvaluationField.value?.grade ? (
+      {value?.grade ? (
         <GradeItem
-          title={qualityEvaluationField.value?.note}
-          aria-label={qualityEvaluationField.value?.note}
+          title={value?.note}
+          aria-label={value?.note}
           style={
             {
-              "--item-color": qualityEvaluationOptions[qualityEvaluationField.value?.grade],
+              "--item-color": qualityEvaluationOptions[value?.grade],
             } as CSSProperties
           }
+          data-border={value?.grade === 1 || value?.grade === 5}
         >
-          {qualityEvaluationField.value?.grade}
+          {value?.grade}
         </GradeItem>
       ) : (
         <StyledNoEvaluation margin="none" textStyle="button">

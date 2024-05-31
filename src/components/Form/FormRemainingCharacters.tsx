@@ -8,6 +8,7 @@
 
 import { ComponentPropsWithRef, forwardRef } from "react";
 import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
 import { utils } from "@ndla/core";
 import { FieldHelper } from "@ndla/forms";
 import useDebounce from "../../util/useDebounce";
@@ -18,6 +19,10 @@ interface Props extends ComponentPropsWithRef<"div"> {
   debounceDuration?: number;
 }
 
+const StyledFieldHelper = styled(FieldHelper)`
+  ${utils.visuallyHidden};
+`;
+
 export const FormRemainingCharacters = forwardRef<HTMLDivElement, Props>(
   ({ value, maxLength, debounceDuration = 500, ...rest }, ref) => {
     const { t } = useTranslation();
@@ -27,9 +32,9 @@ export const FormRemainingCharacters = forwardRef<HTMLDivElement, Props>(
         <div ref={ref} {...rest}>
           {t("form.remainingCharacters", { remaining: maxLength - value, maxLength })}
         </div>
-        <FieldHelper css={[utils.visuallyHidden]} aria-live="polite">
+        <StyledFieldHelper aria-live="polite">
           {t("form.remainingCharacters", { remaining: maxLength - debouncedValue, maxLength })}
-        </FieldHelper>
+        </StyledFieldHelper>
       </>
     );
   },

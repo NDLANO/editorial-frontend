@@ -217,7 +217,7 @@ const ConceptForm = ({
             <FormAccordions defaultOpen={["content"]}>
               <FormAccordion
                 id="content"
-                className="u-10/12 u-push-1/12"
+                variant="center"
                 title={t("form.contentSection")}
                 hasError={!!(errors.title || errors.conceptContent)}
               >

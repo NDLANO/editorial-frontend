@@ -205,7 +205,7 @@ const NodeItem = ({
         )}
       </StyledItemBar>
       {hasChildNodes && isOpen && nodes && (
-        <Fade show={true} fadeType="fadeInTop">
+        <Fade show={true}>
           <StructureWrapper>
             <DndList
               items={nodes}

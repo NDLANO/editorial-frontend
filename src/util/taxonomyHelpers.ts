@@ -95,7 +95,7 @@ export const groupResourcesByType = (resources: ResourceWithNodeConnectionAndMet
     .map((rt) => ({
       ...rt,
       resources: sortBy(unique[rt.id], (res) => res.rank) ?? [],
-      contentType: getContentTypeFromResourceTypes([rt]).contentType,
+      contentType: getContentTypeFromResourceTypes([rt]),
     }))
     .filter((rt) => rt.resources.length > 0);
 };

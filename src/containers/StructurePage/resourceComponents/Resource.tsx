@@ -12,7 +12,6 @@ import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
 import { ButtonV2 } from "@ndla/button";
 import { colors, spacing, breakpoints, fonts } from "@ndla/core";
-import { IQualityEvaluation } from "@ndla/types-backend/draft-api";
 import { NodeConnectionPUT, NodeChild } from "@ndla/types-taxonomy";
 import { ContentTypeBadge } from "@ndla/ui";
 import GrepCodesModal from "./GrepCodesModal";
@@ -144,9 +143,7 @@ const Resource = ({ resource, onDelete, currentNodeId, contentMetaLoading, respo
   });
 
   const contentType =
-    resource.resourceTypes.length > 0
-      ? getContentTypeFromResourceTypes(resource.resourceTypes).contentType
-      : "topic-article";
+    resource.resourceTypes.length > 0 ? getContentTypeFromResourceTypes(resource.resourceTypes) : "topic-article";
 
   const contentTypeName =
     resource.resourceTypes.length > 0

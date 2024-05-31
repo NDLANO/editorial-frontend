@@ -85,10 +85,9 @@ const doFetch = (name: string, element: ApiTranslateType): Promise<ResponseType>
       wrapAttribute(html, el, "data-description", "span[lang]");
       wrapAttribute(html, el, "data-url-text", "span[lang]");
     });
-    // Our backend uses Jsoup to encode html. However, > is not encoded, and nynodata expects it to be. As such, we have to parse
-    // the entire html string and reencode it using an xmlSerializer.
+    // Our backend uses Jsoup to encode html. However, nynodata expects it to be not encoded. As such, we have to parse
+    // the entire html string and reencode it.
     const content = html.html({ xml: { xmlMode: false, decodeEntities: false } });
-    //console.log(content);
 
     const buffer = Buffer.from(content);
     const params = { stilmal };
@@ -102,13 +101,11 @@ const doFetch = (name: string, element: ApiTranslateType): Promise<ResponseType>
       .then((res) => res.blob())
       .then((res) => res.text())
       .then(async (res) => {
-        //console.log(res);
         const response = load(res);
         response("ndlaskip").each((_, el) => {
           response(el).contents().unwrap();
         });
         const strippedResponse = response("body").unwrap().html() ?? "";
-        //console.log(strippedResponse);
         return { key: name, value: strippedResponse };
       });
   }

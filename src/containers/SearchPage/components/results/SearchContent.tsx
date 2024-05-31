@@ -55,11 +55,6 @@ interface Props {
   locale: string;
   responsibleName?: string;
 }
-
-interface ContentType {
-  contentType: string;
-}
-
 const Title = StyledSearchTitle.withComponent("h2");
 const NoShadowLink = NoShadowAnchor.withComponent(Link);
 

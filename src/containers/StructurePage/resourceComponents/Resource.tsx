@@ -9,10 +9,8 @@
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import styled from "@emotion/styled";
-import { useQueryClient } from "@tanstack/react-query";
 import { ButtonV2 } from "@ndla/button";
-import { colors, spacing, breakpoints, fonts } from "@ndla/core";
-import { NodeConnectionPUT, NodeChild } from "@ndla/types-taxonomy";
+import { colors, spacing, breakpoints, fonts, misc } from "@ndla/core";
 import { ContentTypeBadge } from "@ndla/ui";
 import GrepCodesModal from "./GrepCodesModal";
 import QualityEvaluationGrade from "./QualityEvaluationGrade";
@@ -21,26 +19,23 @@ import StatusIcons from "./StatusIcons";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
 import VersionHistory from "./VersionHistory";
 import RelevanceOption from "../../../components/Taxonomy/RelevanceOption";
-import { usePutResourceForNodeMutation, useUpdateNodeConnectionMutation } from "../../../modules/nodes/nodeMutations";
-import { nodeQueryKeys } from "../../../modules/nodes/nodeQueries";
 import { getContentTypeFromResourceTypes } from "../../../util/resourceHelpers";
-import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
   display: flex;
   flex: 1;
   margin-bottom: ${spacing.xsmall};
 `;
 
-const StyledCard = styled.div`
-  border: 1px solid ${colors.brand.lighter};
-  border-radius: 5px;
+export const StyledCard = styled.div`
+  border: 1px solid ${colors.brand.light};
+  border-radius: ${misc.borderRadius};
   width: 100%;
   padding: 5px;
   display: flex;
 `;
 
-const StyledResourceIcon = styled.div`
+export const StyledResourceIcon = styled.div`
   display: flex;
   text-align: center;
   justify-content: center;
@@ -49,7 +44,7 @@ const StyledResourceIcon = styled.div`
   padding-right: ${spacing.small};
 
   @media (min-width: ${breakpoints.tablet}) {
-    padding-right: ${spacing.normal};
+    padding-right: ${spacing.small};
   }
 `;
 
@@ -61,30 +56,32 @@ const StyledResourceBody = styled.div`
 
 const StyledText = styled.div`
   display: flex;
-  margin-bottom: ${spacing.xxsmall};
   box-shadow: none;
   align-items: center;
 `;
 
-const ButtonRow = styled.div`
+export const ButtonRow = styled.div`
   display: flex;
   justify-content: space-between;
   gap: ${spacing.xsmall};
 `;
 
-const BadgeWrapper = styled.div`
+export const BadgeWrapper = styled.div`
   display: flex;
   align-items: center;
 `;
-const ContentWrapper = styled.div`
+export const ContentWrapper = styled.div`
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.xxsmall};
 `;
 
 const RemoveButton = styled(ButtonV2)`
   flex: 0;
 `;
 
-const StyledResponsibleBadge = styled.div`
+export const StyledResponsibleBadge = styled.div`
   height: ${spacing.normal};
   border-radius: 4px;
   color: ${colors.brand.dark};
@@ -95,7 +92,7 @@ const StyledResponsibleBadge = styled.div`
   text-overflow: ellipsis;
 `;
 
-const BoldFont = styled.span`
+export const BoldFont = styled.span`
   font-weight: ${fonts.weight.semibold};
 `;
 
@@ -103,54 +100,16 @@ interface Props {
   currentNodeId: string;
   responsible?: string;
   resource: ResourceWithNodeConnectionAndMeta;
-  onDelete?: (connectionId: string) => void;
+  onDelete: (connectionId: string) => void;
   contentMetaLoading: boolean;
-  className?: string;
 }
 
-const Resource = ({ resource, onDelete, currentNodeId, contentMetaLoading, responsible, className }: Props) => {
-  const { t, i18n } = useTranslation();
+const Resource = ({ resource, onDelete, currentNodeId, contentMetaLoading, responsible }: Props) => {
+  const { t } = useTranslation();
   const location = useLocation();
 
-  const qc = useQueryClient();
-  const { taxonomyVersion } = useTaxonomyVersion();
-  const compKey = nodeQueryKeys.resources({
-    id: currentNodeId,
-    language: i18n.language,
-  });
-
-  const onUpdateConnection = async (id: string, { relevanceId }: NodeConnectionPUT) => {
-    await qc.cancelQueries({ queryKey: compKey });
-    const resources = qc.getQueryData<NodeChild[]>(compKey) ?? [];
-    if (relevanceId) {
-      const newResources = resources.map((res) => {
-        if (res.id === id) {
-          return { ...res, relevanceId: relevanceId };
-        } else return res;
-      });
-      qc.setQueryData<NodeChild[]>(compKey, newResources);
-    }
-    return resources;
-  };
-
-  const { mutateAsync: updateNodeConnection } = useUpdateNodeConnectionMutation({
-    onMutate: async ({ id, body }) => onUpdateConnection(id, body),
-    onSettled: () => qc.invalidateQueries({ queryKey: compKey }),
-  });
-  const { mutateAsync: updateResourceConnection } = usePutResourceForNodeMutation({
-    onMutate: async ({ id, body }) => onUpdateConnection(id, body),
-    onSettled: () => qc.invalidateQueries({ queryKey: compKey }),
-  });
-
-  const contentType =
-    resource.resourceTypes.length > 0 ? getContentTypeFromResourceTypes(resource.resourceTypes) : "topic-article";
-
-  const contentTypeName =
-    resource.resourceTypes.length > 0
-      ? resource.resourceTypes[resource.resourceTypes.length - 1].name
-      : t("searchForm.articleType.topicArticle");
-
-  const iconType = contentType === "topic-article" ? "topic" : contentType;
+  const contentType = getContentTypeFromResourceTypes(resource.resourceTypes);
+  const contentTypeName = resource.resourceTypes[resource.resourceTypes.length - 1].name;
 
   const structurePaths: string[] = location.pathname.replace("/structure", "").split("/");
   const currentPath = structurePaths.map((p) => p.replace("urn:", "")).join("/");
@@ -161,18 +120,8 @@ const Resource = ({ resource, onDelete, currentNodeId, contentMetaLoading, respo
     return pathWithoutResource === currentPath;
   });
 
-  const updateRelevanceId = async (relevanceId: string) => {
-    const { connectionId, isPrimary, rank } = resource;
-    const func = connectionId.includes("-resource") ? updateResourceConnection : updateNodeConnection;
-    await func({
-      id: connectionId,
-      body: { relevanceId, primary: isPrimary, rank: rank },
-      taxonomyVersion,
-    });
-  };
-
   return (
-    <Wrapper className={className}>
+    <Wrapper>
       <StyledCard>
         <BadgeWrapper>
           {contentType && (
@@ -180,7 +129,7 @@ const Resource = ({ resource, onDelete, currentNodeId, contentMetaLoading, respo
               <ContentTypeBadge
                 aria-label={contentTypeName}
                 background
-                type={iconType}
+                type={contentType}
                 size="x-small"
                 title={contentTypeName}
               />
@@ -207,7 +156,7 @@ const Resource = ({ resource, onDelete, currentNodeId, contentMetaLoading, respo
               }
             />
             <StatusIcons contentMetaLoading={contentMetaLoading} resource={resource} path={path} />
-            <RelevanceOption relevanceId={resource.relevanceId} onChange={updateRelevanceId} />
+            <RelevanceOption resource={resource} currentNodeId={currentNodeId} />
           </StyledText>
           <ButtonRow>
             <StyledResponsibleBadge>
@@ -222,12 +171,7 @@ const Resource = ({ resource, onDelete, currentNodeId, contentMetaLoading, respo
               currentNodeId={currentNodeId}
             />
             <VersionHistory resource={resource} contentType={contentType} />
-            <RemoveButton
-              onClick={() => (onDelete ? onDelete(resource.connectionId) : null)}
-              size="xsmall"
-              colorTheme="danger"
-              disabled={!onDelete}
-            >
+            <RemoveButton onClick={() => onDelete(resource.connectionId)} size="xsmall" colorTheme="danger">
               {t("form.remove")}
             </RemoveButton>
           </ButtonRow>

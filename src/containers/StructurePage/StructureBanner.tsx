@@ -15,6 +15,7 @@ import { Plus } from "@ndla/icons/action";
 import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
 import { Switch } from "@ndla/switch";
 import { NodeType } from "@ndla/types-taxonomy";
+import { Text } from "@ndla/typography";
 import AddNodeModalContent from "./AddNodeModalContent";
 import { ResourceGroupBanner, StyledShareIcon } from "./styles";
 import TaxonomyLightbox from "../../components/Taxonomy/TaxonomyLightbox";
@@ -31,7 +32,7 @@ const AddSubjectButton = styled(ButtonV2)`
   margin: 0 0 0 ${spacing.small};
 `;
 
-const StyledPlusIcon = styled(Plus)`
+export const StyledPlusIcon = styled(Plus)`
   ${mq.range({ until: breakpoints.tablet })} {
     display: none;
   }
@@ -94,7 +95,9 @@ const StructureBanner = ({
     <ResourceGroupBanner>
       <FlexWrapper>
         <StyledShareIcon />
-        {t("taxonomy.editStructure")}
+        <Text textStyle="button" margin="none">
+          {t("taxonomy.editStructure")}
+        </Text>
       </FlexWrapper>
       <FlexWrapper>
         <SwitchWrapper>
@@ -142,7 +145,7 @@ const StructureBanner = ({
                 data-testid="AddSubjectButton"
               >
                 <StyledPlusIcon />
-                {t("taxonomy.addNode", { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
+                {t("taxonomy.newNode", { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
               </AddSubjectButton>
             </ModalTrigger>
             <ModalContent position="top">

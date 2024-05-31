@@ -28,7 +28,7 @@ import validateFormik, { RulesType } from "../../../components/formikValidationS
 import { TYPE_DIV } from "../../../components/SlateEditor/plugins/div/types";
 import { TYPE_PARAGRAPH } from "../../../components/SlateEditor/plugins/paragraph/types";
 import Spinner from "../../../components/Spinner";
-import RelevanceOption from "../../../components/Taxonomy/RelevanceOption";
+import RelevanceOptionSwitch from "../../../components/Taxonomy/RelevanceOptionSwitch";
 import { DRAFT_RESPONSIBLE, LAST_UPDATED_SIZE, RESOURCE_FILTER_CORE } from "../../../constants";
 import { Auth0UserData } from "../../../interfaces";
 import { useAuth0Responsibles } from "../../../modules/auth0/auth0Queries";
@@ -361,7 +361,7 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
           <StyledFormikField name="relevance">
             {({ field }: FieldProps) => (
               <SwitchWrapper>
-                <RelevanceOption
+                <RelevanceOptionSwitch
                   relevanceId={field.value}
                   onChange={(id: string) => {
                     field.onChange({ target: { name: field.name, value: id } });

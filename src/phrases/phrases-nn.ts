@@ -1611,6 +1611,7 @@ const phrases = {
     addNode: "Legg til {{nodeType}}",
     newNode: "Nytt {{nodeType}}",
     newNodeName: "Namn på nytt element",
+    newResource: "Ny ressurs",
     editStructure: "Rediger struktur",
     editSubjectpage: "Rediger fagforside",
     deleteSubject: "Slett fag",

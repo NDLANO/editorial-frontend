@@ -1612,6 +1612,7 @@ const phrases = {
     addNode: "Add {{nodeType}}",
     newNode: "New {{nodeType}}",
     newNodeName: "Name of new element",
+    newResource: "New resource",
     editStructure: "Edit structure",
     editSubjectpage: "Edit subjectpage",
     deleteSubject: "Delete subject",

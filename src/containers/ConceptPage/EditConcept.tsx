@@ -24,6 +24,10 @@ const translateFields: TranslateType[] = [
   },
   {
     field: "content.content",
+    type: "text",
+  },
+  {
+    field: "content.htmlContent",
     type: "html",
   },
   {

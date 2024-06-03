@@ -292,7 +292,7 @@ const phrases = {
       glossQuery: "Søk på glose",
       contentQuery: "Søk på innhold",
       audioQuery: "Søk på lydfiler",
-      podcastSeriesQuery: "Søk på podkastserier",
+      "podcast-seriesQuery": "Søk på podkastserier",
       imageQuery: "Søk på bilder",
       language: "Velg språk",
       users: "Velg bruker",

@@ -293,7 +293,7 @@ const phrases = {
       glossQuery: "Search for gloss",
       contentQuery: "Search for content",
       audioQuery: "Search for audio files",
-      podcastSeriesQuery: "Search for podcast series",
+      "podcast-seriesQuery": "Search for podcast series",
       imageQuery: "Search for images",
       language: "Select language",
       users: "Select editor",

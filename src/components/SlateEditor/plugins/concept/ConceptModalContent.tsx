@@ -26,11 +26,11 @@ import {
 } from "@ndla/types-backend/concept-api";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
+import SearchConceptForm from "./SearchConceptForm";
 import SearchConceptResults from "./SearchConceptResults";
 import ConceptForm from "../../../../containers/ConceptPage/ConceptForm/ConceptForm";
 import { ConceptType } from "../../../../containers/ConceptPage/conceptInterfaces";
 import { GlossForm } from "../../../../containers/GlossPage/components/GlossForm";
-import SearchConceptForm from "../../../../containers/SearchPage/components/form/SearchConceptForm";
 import { SearchParams, parseSearchParams } from "../../../../containers/SearchPage/components/form/SearchForm";
 import { postSearchConcepts } from "../../../../modules/concept/conceptApi";
 

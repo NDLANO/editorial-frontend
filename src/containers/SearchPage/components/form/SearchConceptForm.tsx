@@ -29,15 +29,9 @@ interface Props {
   disableSavedSearch?: boolean;
 }
 
-const SearchConceptForm = ({
-  search: doSearch,
-  searchObject: search,
-  subjects,
-  userData,
-  disableSavedSearch,
-}: Props) => {
+const SearchConceptForm = ({ search, searchObject, subjects, userData, disableSavedSearch }: Props) => {
   const { t } = useTranslation();
-  const [queryInput, setQueryInput] = useState(search.query ?? "");
+  const [queryInput, setQueryInput] = useState(searchObject.query ?? "");
   const { data: users } = useAuth0Editors({
     select: (users) => users.map((u) => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })),
     placeholderData: [],
@@ -60,15 +54,15 @@ const SearchConceptForm = ({
 
   const onFieldChange: OnFieldChangeFunction = (name, value, evt) => {
     if (name === "query" && evt) setQueryInput(evt.currentTarget.value);
-    else doSearch({ ...search, [name]: value });
+    else search({ ...searchObject, [name]: value });
   };
 
   useEffect(() => {
-    if (search.query !== queryInput) {
-      setQueryInput(search.query ?? "");
+    if (searchObject.query !== queryInput) {
+      setQueryInput(searchObject.query ?? "");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [search.query]);
+  }, [searchObject.query]);
 
   const { data: statuses } = useConceptStateMachine();
 
@@ -78,11 +72,11 @@ const SearchConceptForm = ({
     });
   };
 
-  const handleSearch = () => doSearch({ ...search, page: 1, query: queryInput });
+  const handleSearch = () => search({ ...searchObject, page: 1, query: queryInput });
 
   const removeTagItem = (tag: SearchFormSelector) => {
     if (tag.parameterName === "query") setQueryInput("");
-    doSearch({ ...search, [tag.parameterName]: "" });
+    search({ ...searchObject, [tag.parameterName]: "" });
   };
 
   const conceptTypes = useMemo(
@@ -96,7 +90,7 @@ const SearchConceptForm = ({
   const emptySearch = (evt: MouseEvent<HTMLButtonElement>) => {
     evt.persist();
     setQueryInput("");
-    doSearch({
+    search({
       query: "",
       language: "",
       "audio-type": "",
@@ -120,14 +114,14 @@ const SearchConceptForm = ({
   const selectors: SearchFormSelector[] = [
     {
       parameterName: "concept-type",
-      value: getTagName(search["concept-type"], conceptTypes),
+      value: getTagName(searchObject["concept-type"], conceptTypes),
       options: conceptTypes,
       formElementType: "dropdown",
       width: 25,
     },
     {
       parameterName: "subjects",
-      value: getTagName(search.subjects, subjects),
+      value: getTagName(searchObject.subjects, subjects),
       options: subjects
         .filter((s) => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === "true")
         .sort(sortByProperty("name")),
@@ -135,7 +129,7 @@ const SearchConceptForm = ({
       width: 25,
     },
     {
-      value: getTagName(search["responsible-ids"], responsibles),
+      value: getTagName(searchObject["responsible-ids"], responsibles),
       parameterName: "responsible-ids",
       width: 25,
       options: responsibles!,
@@ -143,21 +137,21 @@ const SearchConceptForm = ({
     },
     {
       parameterName: "status",
-      value: getTagName(search.status, getConceptStatuses()),
+      value: getTagName(searchObject.status, getConceptStatuses()),
       options: getConceptStatuses(),
       width: 25,
       formElementType: "dropdown",
     },
     {
       parameterName: "language",
-      value: getTagName(search.language, getResourceLanguages(t)),
+      value: getTagName(searchObject.language, getResourceLanguages(t)),
       options: getResourceLanguages(t),
       width: 25,
       formElementType: "dropdown",
     },
     {
       parameterName: "users",
-      value: getTagName(search.users, users),
+      value: getTagName(searchObject.users, users),
       options: users!.sort(sortByProperty("name")),
       width: 25,
       formElementType: "dropdown",
@@ -170,7 +164,7 @@ const SearchConceptForm = ({
       selectors={selectors}
       query={queryInput}
       onSubmit={handleSearch}
-      searchObject={search}
+      searchObject={searchObject}
       onFieldChange={onFieldChange}
       emptySearch={emptySearch}
       removeTag={removeTagItem}

@@ -53,16 +53,14 @@ export const tableRenderer = (editor: Editor) => {
       case TYPE_TABLE_ROW:
         return <tr {...attributes}>{children}</tr>;
       case TYPE_TABLE_CELL: {
-        const align = element.data.align || "";
-        const parsedAlign = (
-          ["left", "center", "right"].includes(align) ? align : undefined
-        ) as TdHTMLAttributes<HTMLTableCellElement>["align"];
+        const align = element.data?.align || "";
+        const parsedAlign = ["left", "center", "right"].includes(align) ? align : undefined;
         return (
           <td
             rowSpan={element.data.rowspan}
             colSpan={element.data.colspan}
             headers={element.data.headers}
-            align={parsedAlign}
+            data-align={parsedAlign}
             {...attributes}
           >
             {children}

@@ -131,14 +131,14 @@ const ConceptModalContent = ({
                     {t(`searchPage.header.concept`)}
                   </h2>
                   <SearchConceptForm
-                    search={(params) => {
+                    search={(params: SearchParams) => {
                       updateSearchObject(params);
                       debouncedSearchConcept(params);
                     }}
                     subjects={subjects}
                     searchObject={searchObject}
                     locale={locale}
-                    disableSavedSearch={true}
+                    userData={undefined}
                   />
                   <SearchConceptResults
                     searchObject={searchObject}

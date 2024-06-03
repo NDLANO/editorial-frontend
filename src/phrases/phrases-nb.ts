@@ -657,6 +657,7 @@ const phrases = {
     article: "artikkelen",
     topicArticle: "emnet som helhet",
     needsRevision: "Kvalitetsvurdert til 5",
+    add: "Legg til",
   },
   editorToolbar: {
     bold: "Fet\n({{ctrl}}+b)",

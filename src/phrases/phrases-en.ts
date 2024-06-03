@@ -657,6 +657,7 @@ const phrases = {
     article: "article",
     topicArticle: "full topic article",
     needsRevision: "Quality evaluated to grade 5",
+    add: "Add",
   },
   editorToolbar: {
     bold: "Bold\n({{ctrl}}+b)",

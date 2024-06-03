@@ -201,7 +201,7 @@ const QualityEvaluationForm = ({ setOpen }: Props) => {
                 {t("form.abort")}
               </ButtonV2>
               <ButtonV2 disabled={!dirty || !isValid} type="submit">
-                {t("form.save")}
+                {t("qualityEvaluationForm.add")}
               </ButtonV2>
             </RightButtonswrapper>
           </ButtonContainer>

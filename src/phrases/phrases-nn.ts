@@ -657,6 +657,7 @@ const phrases = {
     article: "artikkelen",
     topicArticle: "emnet som heilskap",
     needsRevision: "Kvalitetsvurdert til 5",
+    add: "Legg til",
   },
   editorToolbar: {
     bold: "Feit\n({{ctrl}}+b)",

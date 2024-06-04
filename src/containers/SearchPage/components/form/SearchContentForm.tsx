@@ -24,6 +24,7 @@ import {
   TAXONOMY_CUSTOM_FIELD_SUBJECT_SA,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_DA,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_LMA,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
 } from "../../../../constants";
 import { useAuth0Editors, useAuth0Responsibles } from "../../../../modules/auth0/auth0Queries";
 import { useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
@@ -185,13 +186,22 @@ const SearchContentForm = ({ search, searchObject, subjects, locale, userData }:
     const SASubjects: Node = generateSubjectNode(SA_SUBJECT_ID, "searchForm.SASubjects", t);
     const DASubjects: Node = generateSubjectNode(DA_SUBJECT_ID, "searchForm.DASubjects", t);
 
-    const filteredAndSortedSubjects = subjects.sort(sortByProperty("name"));
+    const filteredAndSortedSubjects = subjects
+      .filter((s) => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== "true")
+      .sort(sortByProperty("name"));
+    const filteredAndSortedConceptSubjects = subjects
+      .filter((s) => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === "true")
+      .sort(sortByProperty("name"))
+      .map((s) => ({ ...s, name: t("searchForm.conceptSubject", { name: s.name }) }));
+
     return [
       favoriteSubject,
       ...(userHasLMASubjects ? [LMAsubjects] : []),
       ...(userHasSASubjects ? [SASubjects] : []),
       ...(userHasDASubjects ? [DASubjects] : []),
-    ].concat(filteredAndSortedSubjects);
+    ]
+      .concat(filteredAndSortedSubjects)
+      .concat(filteredAndSortedConceptSubjects);
   }, [subjects, t, userData]);
 
   const selectors: SearchFormSelector[] = [

@@ -366,6 +366,7 @@ const phrases = {
     DASubjects: "Mine DA-fag",
     archivedIncluded: "Utgåtte fag inkludert",
     error: "Noe gikk galt med søket",
+    conceptSubject: "Forklaringsfag: {{name}}",
   },
   subjectsPage: {
     subjects: "Fag",

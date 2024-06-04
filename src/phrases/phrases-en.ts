@@ -367,6 +367,7 @@ const phrases = {
     DASubjects: "My DA-subjects",
     archivedIncluded: "Archived subjects included",
     error: "Something went wrong with the search",
+    conceptSubject: "Concept subject: {{name}}",
   },
   subjectsPage: {
     subjects: "Subjects",

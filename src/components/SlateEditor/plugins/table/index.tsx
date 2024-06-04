@@ -184,12 +184,12 @@ export const tableSerializer: SlateSerializer = {
     if (node.type === TYPE_TABLE_CELL) {
       return (
         <td
-          data-align={node.data.align}
           rowSpan={node.data.rowspan !== 1 ? node.data.rowspan : undefined}
           colSpan={node.data.colspan !== 1 ? node.data.colspan : undefined}
           className={node.data.class}
           headers={node.data.headers}
           id={node.data.id}
+          data-align={node.data.align}
         >
           {children}
         </td>
@@ -202,9 +202,9 @@ export const tableSerializer: SlateSerializer = {
           colSpan={node.data.colspan !== 1 ? node.data.colspan : undefined}
           className={node.data.class}
           headers={node.data.headers}
-          data-align={node.data.align}
           scope={node.data.scope}
           id={node.data.id}
+          data-align={node.data.align}
         >
           {children}
         </th>

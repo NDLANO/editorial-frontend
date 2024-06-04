@@ -192,8 +192,7 @@ const SearchContentForm = ({ search, searchObject, subjects, locale, userData }:
     const filteredAndSortedConceptSubjects = subjects
       .filter((s) => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === "true")
       .sort(sortByProperty("name"))
-      .map((s) => ({ ...s, name: t("searchForm.conceptSubject", { name: s.name }) }));
-
+      .map((s: Node) => ({ ...s, name: t("searchForm.conceptSubject", { name: s.name }) }));
     return [
       favoriteSubject,
       ...(userHasLMASubjects ? [LMAsubjects] : []),

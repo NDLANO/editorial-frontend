@@ -181,21 +181,33 @@ export const tableSerializer: SlateSerializer = {
     if (node.type === TYPE_TABLE_ROW) {
       return <tr>{children}</tr>;
     }
-    if (node.type === TYPE_TABLE_CELL || node.type === TYPE_TABLE_CELL_HEADER) {
-      const Element = node.type === TYPE_TABLE_CELL ? "td" : "th";
-
+    if (node.type === TYPE_TABLE_CELL) {
       return (
-        <Element
-          id={node.data.id}
-          scope={"scope" in node.data ? node.data.scope : undefined}
+        <td
           data-align={node.data.align}
-          headers={node.data.headers}
-          colSpan={node.data.colspan !== 1 ? node.data.colspan : undefined}
           rowSpan={node.data.rowspan !== 1 ? node.data.rowspan : undefined}
+          colSpan={node.data.colspan !== 1 ? node.data.colspan : undefined}
           className={node.data.class}
+          headers={node.data.headers}
+          id={node.data.id}
         >
           {children}
-        </Element>
+        </td>
+      );
+    }
+    if (node.type === TYPE_TABLE_CELL_HEADER) {
+      return (
+        <th
+          rowSpan={node.data.rowspan !== 1 ? node.data.rowspan : undefined}
+          colSpan={node.data.colspan !== 1 ? node.data.colspan : undefined}
+          className={node.data.class}
+          headers={node.data.headers}
+          data-align={node.data.align}
+          scope={node.data.scope}
+          id={node.data.id}
+        >
+          {children}
+        </th>
       );
     }
   },

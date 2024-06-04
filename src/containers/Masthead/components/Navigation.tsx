@@ -8,6 +8,7 @@
 
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
 import styled from "@emotion/styled";
 import { Popover, PopoverAnchor, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
 import { IconButtonV2 } from "@ndla/button";
@@ -92,6 +93,7 @@ interface EnvironmentSettings {
 
 const Navigation = () => {
   const { t } = useTranslation();
+  const { pathname } = useLocation();
   const [open, setOpen] = useState<boolean>(false);
 
   const envSettings = useMemo((): EnvironmentSettings => {
@@ -130,7 +132,12 @@ const Navigation = () => {
                       </IconButtonV2>
                     </PopoverTrigger>
                     <StyledLogoDiv>
-                      <SafeLink to="/" aria-label={t("logo.altText")} title={t("logo.altText")} reloadDocument>
+                      <SafeLink
+                        to="/"
+                        aria-label={t("logo.altText")}
+                        title={t("logo.altText")}
+                        reloadDocument={pathname === "/"}
+                      >
                         <Logo label={t("logo.altText")} />
                       </SafeLink>
                     </StyledLogoDiv>

@@ -7,7 +7,8 @@
  */
 
 import styled from "@emotion/styled";
-import { colors, fonts, spacing, breakpoints, misc } from "@ndla/core";
+import { colors, fonts, spacing, breakpoints, misc, mq } from "@ndla/core";
+import { Plus } from "@ndla/icons/action";
 import { Share } from "@ndla/icons/common";
 
 export const ResourceGroupBanner = styled.div`
@@ -84,4 +85,10 @@ export const ButtonRow = styled.div`
   display: flex;
   justify-content: space-between;
   gap: ${spacing.xsmall};
+`;
+
+export const StyledPlusIcon = styled(Plus)`
+  ${mq.range({ until: breakpoints.tablet })} {
+    display: none;
+  }
 `;

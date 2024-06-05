@@ -10,14 +10,13 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
-import { spacing, mq, breakpoints } from "@ndla/core";
-import { Plus } from "@ndla/icons/action";
+import { spacing } from "@ndla/core";
 import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
 import { Switch } from "@ndla/switch";
 import { NodeType } from "@ndla/types-taxonomy";
 import { Text } from "@ndla/typography";
 import AddNodeModalContent from "./AddNodeModalContent";
-import { ResourceGroupBanner, StyledShareIcon } from "./styles";
+import { ResourceGroupBanner, StyledPlusIcon, StyledShareIcon } from "./styles";
 import TaxonomyLightbox from "../../components/Taxonomy/TaxonomyLightbox";
 import { TAXONOMY_ADMIN_SCOPE } from "../../constants";
 import { useSession } from "../Session/SessionProvider";
@@ -30,12 +29,6 @@ const FlexWrapper = styled.div`
 
 const AddSubjectButton = styled(ButtonV2)`
   margin: 0 0 0 ${spacing.small};
-`;
-
-export const StyledPlusIcon = styled(Plus)`
-  ${mq.range({ until: breakpoints.tablet })} {
-    display: none;
-  }
 `;
 
 const SwitchWrapper = styled.div`

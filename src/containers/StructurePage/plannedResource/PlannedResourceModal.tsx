@@ -17,7 +17,7 @@ import TaxonomyLightbox from "../../../components/Taxonomy/TaxonomyLightbox";
 import AddExistingResource from "../plannedResource/AddExistingResource";
 import PlannedResourceForm from "../plannedResource/PlannedResourceForm";
 import { ResourceWithNodeConnectionAndMeta } from "../resourceComponents/StructureResources";
-import { StyledPlusIcon } from "../StructureBanner";
+import { StyledPlusIcon } from "../styles";
 
 const FullWidth = styled.div`
   width: 100%;

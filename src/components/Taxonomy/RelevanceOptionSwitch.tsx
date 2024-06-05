@@ -25,14 +25,14 @@ export const StyledToggleSwitch = styled.div`
 `;
 
 interface Props {
-  relevanceId: string | null | undefined;
+  relevanceId: string | undefined;
   onChange: (id: string) => void;
 }
 
 const RelevanceOptionSwitch = ({ relevanceId, onChange }: Props) => {
   const { t } = useTranslation();
 
-  const [isOn, setIsOn] = useState((relevanceId ?? RESOURCE_FILTER_CORE) === RESOURCE_FILTER_CORE);
+  const [checked, setChecked] = useState((relevanceId ?? RESOURCE_FILTER_CORE) === RESOURCE_FILTER_CORE);
 
   return (
     <StyledToggleSwitch>
@@ -40,13 +40,13 @@ const RelevanceOptionSwitch = ({ relevanceId, onChange }: Props) => {
         aria-label={t("form.topics.RGTooltip")}
         id="toggleRelevanceId"
         test-id="toggleRelevanceId"
-        checked={isOn}
+        checked={checked}
         label=""
         onChange={() => {
-          onChange(isOn ? RESOURCE_FILTER_SUPPLEMENTARY : RESOURCE_FILTER_CORE);
-          setIsOn(!isOn);
+          onChange(checked ? RESOURCE_FILTER_SUPPLEMENTARY : RESOURCE_FILTER_CORE);
+          setChecked(!checked);
         }}
-        thumbCharacter={isOn ? "K" : "T"}
+        thumbCharacter={checked ? "K" : "T"}
         title={t("form.topics.RGTooltip")}
       />
     </StyledToggleSwitch>

@@ -23,6 +23,9 @@ const StyledParagraph = styled.p`
   &[data-align="center"] {
     text-align: center;
   }
+  &[dir="rtl"] {
+    direction: rtl;
+  }
 `;
 
 const Paragraph = ({ attributes, children, element }: Props) => {

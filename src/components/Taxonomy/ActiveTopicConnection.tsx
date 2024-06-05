@@ -11,7 +11,7 @@ import styled from "@emotion/styled";
 import { misc, spacing, fonts, colors } from "@ndla/core";
 import { Node } from "@ndla/types-taxonomy";
 import Breadcrumb from "./Breadcrumb";
-import RelevanceOption from "./RelevanceOption";
+import RelevanceOptionSwitch from "./RelevanceOptionSwitch";
 import RemoveButton from "./RemoveButton";
 import { MinimalNodeChild } from "../../containers/ArticlePage/LearningResourcePage/components/LearningResourceTaxonomy";
 
@@ -86,7 +86,7 @@ const ActiveTopicConnection = ({ removeConnection, setPrimaryConnection, setRele
         <Breadcrumb node={node} />
       </StyledFlexWrapper>
       <StyledFlexWrapper>
-        <RelevanceOption
+        <RelevanceOptionSwitch
           relevanceId={node.relevanceId}
           onChange={(relevanceId) => setRelevance?.(node.id, relevanceId)}
         />

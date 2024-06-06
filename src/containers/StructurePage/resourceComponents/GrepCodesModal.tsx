@@ -59,7 +59,7 @@ const GrepCodesModal = ({ codes, contentType, contentUri, revision, currentNodeI
   return (
     <Modal>
       <ModalTrigger>
-        <StyledButton size="xsmall" colorTheme="lighter">{`GREP (${codes.length})`}</StyledButton>
+        <StyledButton size="xsmall" colorTheme="light">{`GREP (${codes.length})`}</StyledButton>
       </ModalTrigger>
       <ModalContent size="large">
         <GrepCodeContent

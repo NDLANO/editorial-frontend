@@ -23,6 +23,7 @@ import StatusIcons from "./StatusIcons";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
 import VersionHistory from "./VersionHistory";
 import RelevanceOption from "../../../components/Taxonomy/RelevanceOption";
+import config from "../../../config";
 import { PUBLISHED } from "../../../constants";
 import { Dictionary } from "../../../interfaces";
 import { NodeResourceMeta } from "../../../modules/nodes/nodeQueries";
@@ -123,7 +124,7 @@ const ResourceBanner = ({
           <PlannedResourceModal currentNode={currentNode} resourceTypes={resourceTypes} resources={resources} />
         </FlexContentWrapper>
         <FlexContentWrapper>
-          <QualityEvaluationInfo contentMeta={contentMeta} />
+          {config.qualityEvaluationEnabled === true && <QualityEvaluationInfo contentMeta={contentMeta} />}
           <Text margin="none" textStyle="meta-text-small">{`${workflowCount}/${elementCount} ${t(
             "taxonomy.workflow",
           ).toLowerCase()}`}</Text>

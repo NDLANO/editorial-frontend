@@ -18,6 +18,7 @@ import StatusIcons from "./StatusIcons";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
 import VersionHistory from "./VersionHistory";
 import RelevanceOption from "../../../components/Taxonomy/RelevanceOption";
+import config from "../../../config";
 import { getContentTypeFromResourceTypes } from "../../../util/resourceHelpers";
 import {
   BoldFont,
@@ -101,14 +102,16 @@ const Resource = ({ resource, onDelete, currentNodeId, contentMetaLoading, respo
                 size="small"
               />
             </StyledResourceBody>
-            <QualityEvaluationGrade
-              grade={resource.contentMeta?.qualityEvaluation?.grade}
-              ariaLabel={
-                resource.contentMeta?.qualityEvaluation?.note
-                  ? `${t("qualityEvaluationForm.title")}: ${resource.contentMeta?.qualityEvaluation?.note}`
-                  : t("qualityEvaluationForm.title")
-              }
-            />
+            {config.qualityEvaluationEnabled === true && (
+              <QualityEvaluationGrade
+                grade={resource.contentMeta?.qualityEvaluation?.grade}
+                ariaLabel={
+                  resource.contentMeta?.qualityEvaluation?.note
+                    ? `${t("qualityEvaluationForm.title")}: ${resource.contentMeta?.qualityEvaluation?.note}`
+                    : t("qualityEvaluationForm.title")
+                }
+              />
+            )}
             <StatusIcons contentMetaLoading={contentMetaLoading} resource={resource} path={path} />
             <RelevanceOption resource={resource} currentNodeId={currentNodeId} />
           </StyledText>

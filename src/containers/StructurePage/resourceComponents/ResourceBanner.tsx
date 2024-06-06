@@ -20,6 +20,7 @@ import GroupResourceSwitch from "./GroupResourcesSwitch";
 import QualityEvaluationInfo from "./QualityEvaluationInfo";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
 import TaxonomyLightbox from "../../../components/Taxonomy/TaxonomyLightbox";
+import config from "../../../config";
 import { PUBLISHED } from "../../../constants";
 import { Dictionary } from "../../../interfaces";
 import { NodeResourceMeta } from "../../../modules/nodes/nodeQueries";
@@ -97,7 +98,7 @@ const ResourceBanner = ({ title, contentMeta, currentNode, onCurrentNodeChanged,
             {t("taxonomy.jumpToStructure")}
           </ButtonV2>
           <ControlWrapper>
-            <QualityEvaluationInfo contentMeta={contentMeta} />
+            {config.qualityEvaluationEnabled === true && <QualityEvaluationInfo contentMeta={contentMeta} />}
             <Text margin="none" textStyle="meta-text-small">{`${workflowCount}/${elementCount} ${t(
               "taxonomy.workflow",
             ).toLowerCase()}`}</Text>

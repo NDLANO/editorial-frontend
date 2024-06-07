@@ -53,7 +53,7 @@ describe("createToolbarAreaOptions", () => {
       ...defaultAreaOptions,
       heading: {
         ...defaultAreaOptions.heading,
-        inline: { hidden: false },
+        inline: { ...defaultAreaOptions.heading?.inline, hidden: false },
       },
     };
     expect(res).toEqual(expected);
@@ -103,6 +103,7 @@ describe("createToolbarDefaultValues", () => {
         mathml: { hidden: true, disabled: true },
         "concept-inline": { hidden: true, disabled: true },
         "gloss-inline": { hidden: true, disabled: true },
+        "comment-inline": { hidden: true, disabled: true },
       },
     };
 
@@ -178,6 +179,7 @@ describe("toolbarState", () => {
         mathml: { ...allOptions.inline.mathml, hidden: true },
         "concept-inline": { ...allOptions.inline["concept-inline"], hidden: true },
         "gloss-inline": { ...allOptions.inline["gloss-inline"], hidden: true },
+        "comment-inline": { ...allOptions.inline["comment-inline"], hidden: false },
       },
     };
     const expected = arrayifyToolbar(opts);

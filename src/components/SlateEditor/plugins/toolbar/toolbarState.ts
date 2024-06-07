@@ -7,7 +7,7 @@
  */
 
 import merge from "lodash/merge";
-import { Editor, Element, Node } from "slate";
+import { Editor, Element, Node, BaseSelection } from "slate";
 import { ElementType } from "../../interfaces";
 
 export const languages = ["ar", "de", "en", "es", "fr", "la", "no", "se", "sma", "so", "ti", "zh"] as const;
@@ -15,7 +15,7 @@ export const languages = ["ar", "de", "en", "es", "fr", "la", "no", "se", "sma",
 export type TextType = "normal-text" | "heading-2" | "heading-3" | "heading-4";
 export type MarkType = "bold" | "italic" | "code" | "sub" | "sup";
 export type BlockType = "quote" | "definition-list" | "numbered-list" | "bulleted-list" | "letter-list";
-export type InlineType = "content-link" | "mathml" | "concept-inline" | "gloss-inline";
+export type InlineType = "content-link" | "mathml" | "concept-inline" | "gloss-inline" | "comment-inline";
 export type TableType = "left" | "center" | "right";
 export type LanguageType = (typeof languages)[number];
 
@@ -81,6 +81,7 @@ export const allOptions: OptionsType = {
     mathml: { value: "mathml" },
     "concept-inline": { value: "concept-inline" },
     "gloss-inline": { value: "gloss-inline" },
+    "comment-inline": { value: "comment-inline" },
   },
   table: {
     left: { value: "left" },
@@ -119,7 +120,7 @@ export const defaultAreaOptions: AreaFilters = {
     block: { disabled: true },
   },
   heading: {
-    inline: { hidden: true },
+    inline: { hidden: true, "comment-inline": { hidden: false } },
   },
   table: {
     text: { hidden: true },
@@ -127,6 +128,22 @@ export const defaultAreaOptions: AreaFilters = {
   "table-cell": {
     table: { hidden: false },
   },
+  "concept-inline": {
+    inline: { disabled: true, "concept-inline": { disabled: false } },
+  },
+  "content-link": {
+    inline: { disabled: true, "content-link": { disabled: false } },
+  },
+  link: {
+    inline: { disabled: true },
+  },
+  mathml: {
+    inline: { disabled: true, mathml: { disabled: false } },
+  },
+  "comment-inline": { inline: { disabled: true, "comment-inline": { disabled: false } } },
+  list: { inline: { disabled: true } },
+  "definition-term": { inline: { disabled: true } },
+  quote: { inline: { disabled: true } },
 };
 
 export type ToolbarType = {
@@ -178,7 +195,18 @@ interface ToolbarStateProps {
   options?: CategoryFilters;
   areaOptions?: AreaFilters;
   editorAncestors?: Element[];
+  selection?: BaseSelection;
 }
+
+export const getSelectionElements = (editor: Editor, selection: BaseSelection): Element[] => {
+  // Get elements in the selection only
+  if (selection) {
+    const fragments = editor.getFragment();
+    const elementFragments = fragments.filter((fragment) => Element.isElement(fragment)) as Element[];
+    return elementFragments;
+  }
+  return [];
+};
 
 export const getEditorAncestors = (editor: Editor, reverse?: boolean): Element[] => {
   // Finds the current lowest node in the editor and creates an array of its ancestors.

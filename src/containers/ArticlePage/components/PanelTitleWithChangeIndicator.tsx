@@ -6,26 +6,15 @@
  *
  */
 
-import isEqual from "lodash/fp/isEqual";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { colors } from "@ndla/core";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import { Text } from "@ndla/typography";
+import { FlatArticleKeys } from "./types";
+import { hasArticleFieldsChanged } from "../../../components/HeaderWithLanguage/util";
 import { PUBLISHED } from "../../../constants";
-
-const contentPanelChanges = (
-  current: IArticle | undefined,
-  lastPublished: IArticle | undefined,
-  fields: (keyof IArticle)[],
-): boolean => {
-  if (current === undefined || lastPublished === undefined) return false;
-  for (const field of fields) {
-    if (!isEqual(current[field], lastPublished[field])) return true;
-  }
-  return false;
-};
 
 const StyledText = styled(Text)`
   color: ${colors.brand.grey};
@@ -35,7 +24,7 @@ interface PanelTitleProps {
   title: string;
   article: IArticle | undefined;
   articleHistory: IArticle[] | undefined;
-  fieldsToIndicatedChangesFor: (keyof IArticle)[];
+  fieldsToIndicatedChangesFor: FlatArticleKeys[];
 }
 
 const PanelTitleWithChangeIndicator = ({
@@ -47,7 +36,7 @@ const PanelTitleWithChangeIndicator = ({
   const { t } = useTranslation();
   const hasChanges = useMemo(() => {
     const lastPublishedVersion = articleHistory?.find((a) => a.status.current === PUBLISHED);
-    return contentPanelChanges(article, lastPublishedVersion, fieldsToIndicatedChangesFor);
+    return hasArticleFieldsChanged(article, lastPublishedVersion, fieldsToIndicatedChangesFor);
   }, [article, articleHistory, fieldsToIndicatedChangesFor]);
 
   if (hasChanges) {

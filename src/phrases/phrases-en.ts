@@ -665,6 +665,7 @@ const phrases = {
     "code-block": "Code",
     "concept-inline": "Concept\n({{ctrl}}+alt+c)",
     "gloss-inline": "Gloss\n({{ctrl}}+alt+g)",
+    "comment-inline": "Comment\n({{ctrl}}+alt+e)",
     footnote: "Footnote\n({{ctrl}}+alt+f)",
     language: `Language`,
     noneLanguage: "None",
@@ -693,6 +694,9 @@ const phrases = {
     left: "Left aligned",
     center: "Center aligned",
     right: "Right aligned",
+    disabled: {
+      "comment-inline": "Comment can only overlap text",
+    },
   },
   editorBlockpicker: {
     open: "Open menu ({{ctrl}}+Enter)",
@@ -723,6 +727,7 @@ const phrases = {
       linkBlockList: "Link block",
       gloss: "Gloss",
       disclaimer: "Accessability disclaimer",
+      comment: "Comment",
     },
   },
   form: {
@@ -830,6 +835,7 @@ const phrases = {
       sides: "Image side",
       transcription: "Transcription",
       type: "Type",
+      text: "Comment",
       grade: "Grade",
       note: "Note",
     },
@@ -1038,7 +1044,10 @@ const phrases = {
         createdBy: "Created by",
         warn: "Remember to add a comment",
         description: "You have changed responsible without adding a comment!",
+        add: "Add new comment",
+        label: "Write down comment",
       },
+      updateComment: "Update comment",
     },
     status: {
       new: "New - unsaved",

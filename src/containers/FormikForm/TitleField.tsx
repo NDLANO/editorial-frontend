@@ -71,9 +71,7 @@ const toolbarOptions = createToolbarDefaultValues({
     },
   },
   block: { hidden: true },
-  inline: {
-    hidden: true,
-  },
+  inline: { hidden: true },
 });
 
 const toolbarAreaFilters = createToolbarAreaOptions();

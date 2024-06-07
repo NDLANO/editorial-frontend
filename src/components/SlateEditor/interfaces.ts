@@ -15,6 +15,7 @@ import { BlogPostElement } from "./plugins/blogPost/types";
 import { BreakElement } from "./plugins/break";
 import { CampaignBlockElement } from "./plugins/campaignBlock";
 import { CodeblockElement } from "./plugins/codeBlock";
+import { CommentBlockElement, CommentInlineElement } from "./plugins/comment/interfaces";
 import { ConceptBlockElement } from "./plugins/concept/block/interfaces";
 import { ConceptInlineElement } from "./plugins/concept/inline/interfaces";
 import { ConceptListElement } from "./plugins/conceptList";
@@ -126,7 +127,9 @@ declare module "slate" {
       | NoopElement
       | ExternalElement
       | IframeElement
-      | CopyrightElement;
+      | CopyrightElement
+      | CommentInlineElement
+      | CommentBlockElement;
     Text: CustomTextWithMarks;
   }
 }

@@ -25,6 +25,7 @@ const isBoldHotkey = isKeyHotkey("mod+b");
 const isCodeHotKey = isKeyHotkey("mod+k");
 const isConceptHotKey = isCodeHotkey("mod+alt+c");
 const isGlossHotKey = isCodeHotkey("mod+alt+g");
+const isCommentHotKey = isCodeHotkey("mod+alt+e");
 const isH2HotKey = isKeyHotkey("mod+2");
 const isH3HotKey = isKeyHotkey("mod+3");
 const isH4HotKey = isKeyHotkey("mod+4");
@@ -67,6 +68,8 @@ const toolbarPlugin =
         action = { category: "inline", value: "concept-inline" };
       } else if (isGlossHotKey(e)) {
         action = { category: "inline", value: "gloss-inline" };
+      } else if (isCommentHotKey(e)) {
+        action = { category: "inline", value: "comment-inline" };
       } else if (isH2HotKey(e)) {
         action = { category: "text", value: "heading-2" };
       } else if (isH3HotKey(e)) {

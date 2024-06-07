@@ -72,7 +72,7 @@ const StyledIconWrapper = styled.div`
 
 const InlineWrapper = (props: Props) => {
   const { t } = useTranslation();
-  const { children, element, editor } = props;
+  const { children, element, editor, attributes } = props;
   const nodeText = Node.string(element).trim();
   const [isEditing, setIsEditing] = useState(element.isFirstEdit);
   const locale = useArticleLanguage();
@@ -147,7 +147,7 @@ const InlineWrapper = (props: Props) => {
   };
 
   return (
-    <Modal open={isEditing}>
+    <Modal open={isEditing} onOpenChange={setIsEditing}>
       {!embed ? (
         children
       ) : embed.status === "error" ? (
@@ -166,6 +166,9 @@ const InlineWrapper = (props: Props) => {
           glossData={embed.data.concept.glossData}
           exampleIds={embed.embedData.exampleIds}
           exampleLangs={embed.embedData.exampleLangs}
+          setSelection={(e: MouseEvent) => {
+            Transforms.select(editor, ReactEditor.findEventRange(editor, e));
+          }}
           headerButtons={
             <>
               {concept?.status.current === PUBLISHED ||
@@ -213,9 +216,20 @@ const InlineWrapper = (props: Props) => {
               </SafeLinkIconButton>
             </>
           }
+          {...attributes}
         />
       )}
-      <ModalContent size={{ width: "large", height: "large" }}>
+      <ModalContent
+        size={{ width: "large", height: "large" }}
+        onEscapeKeyDown={(e) => e.stopPropagation()}
+        onCloseAutoFocus={(e) => {
+          if (!embed) {
+            handleRemove();
+          }
+          e.preventDefault();
+          ReactEditor.focus(editor);
+        }}
+      >
         <ConceptModalContent
           onClose={onClose}
           addConcept={addConcept}

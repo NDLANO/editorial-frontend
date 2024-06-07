@@ -11,6 +11,8 @@ import styled from "@emotion/styled";
 import { AccordionContent, AccordionHeader, AccordionItem } from "@ndla/accordion";
 import { colors, misc, spacing } from "@ndla/core";
 
+type Variant = "center";
+
 export interface FormAccordionProps {
   children: ReactNode;
   title: ReactNode;
@@ -19,6 +21,7 @@ export interface FormAccordionProps {
   id: string;
   wide?: boolean;
   isFrontpageArticle?: boolean;
+  variant?: Variant;
 }
 
 const StyledHeader = styled(AccordionHeader)`
@@ -88,15 +91,36 @@ const StyledAccordionContent = styled(AccordionContent)`
     align-items: center;
     justify-content: center;
   }
+  &[data-variant="center"] {
+    position: relative;
+    width: 83.333%;
+    right: auto;
+    left: 8.333%;
+  }
 `;
 
-const FormAccordion = ({ children, title, hasError, id, className, wide, isFrontpageArticle }: FormAccordionProps) => {
+const FormAccordion = ({
+  children,
+  title,
+  hasError,
+  id,
+  className,
+  wide,
+  isFrontpageArticle,
+  variant,
+}: FormAccordionProps) => {
   return (
     <StyledItem value={id} data-error={hasError}>
       <StyledHeader data-error={hasError}>
         <HeaderWrapper data-error={hasError}>{title}</HeaderWrapper>
       </StyledHeader>
-      <StyledAccordionContent id={id} className={className} data-wide={!!wide} data-frontpage={!!isFrontpageArticle}>
+      <StyledAccordionContent
+        id={id}
+        className={className}
+        data-wide={!!wide}
+        data-frontpage={!!isFrontpageArticle}
+        data-variant={variant}
+      >
         {children}
       </StyledAccordionContent>
     </StyledItem>

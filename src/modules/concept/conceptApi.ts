@@ -14,6 +14,7 @@ import {
   ITagsSearchResult,
   IUpdatedConcept,
 } from "@ndla/types-backend/concept-api";
+import { StringSort } from "../../containers/SearchPage/components/form/SearchForm";
 import { ConceptStatusStateMachineType } from "../../interfaces";
 import { resolveJsonOrRejectWithError, apiResourceUrl, fetchAuthorized } from "../../util/apiHelpers";
 
@@ -70,7 +71,9 @@ export const updateConceptStatus = async (id: number, status: string): Promise<I
     method: "PUT",
   }).then((r) => resolveJsonOrRejectWithError<IConcept>(r));
 
-export const postSearchConcepts = async (body: IDraftConceptSearchParams): Promise<IConceptSearchResult> => {
+export const postSearchConcepts = async (
+  body: StringSort<IDraftConceptSearchParams>,
+): Promise<IConceptSearchResult> => {
   const response = await fetchAuthorized(`${draftConceptUrl}/search/`, {
     method: "POST",
     body: JSON.stringify(body),

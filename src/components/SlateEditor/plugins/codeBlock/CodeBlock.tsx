@@ -39,12 +39,11 @@ import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
-import { Codeblock } from "@ndla/code";
 import { Code, DeleteForever } from "@ndla/icons/editor";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
 import { CodeEmbedData } from "@ndla/types-embed";
 
-import { Figure } from "@ndla/ui";
+import { Figure, CodeBlock as UICodeBlock } from "@ndla/ui";
 import { CodeblockElement } from ".";
 import CodeBlockEditor from "./CodeBlockEditor";
 import { CodeBlockType } from "../../../../interfaces";
@@ -169,7 +168,7 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
           role="button"
           {...attributes}
         >
-          <Codeblock
+          <UICodeBlock
             actionButton={<RemoveCodeBlock handleRemove={handleRemove} />}
             code={embedData.codeContent}
             format={embedData.codeFormat}

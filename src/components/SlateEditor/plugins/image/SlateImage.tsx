@@ -134,7 +134,7 @@ const SlateImage = ({ element, editor, attributes, children, allowDecorative = t
         <ImageEmbed embed={embed}>
           <FigureButtons>
             <ModalTrigger>
-              <IconButtonV2 title={t("form.audio.edit")} aria-label={t("form.audio.edit")} colorTheme="light">
+              <IconButtonV2 title={t("form.image.editImage")} aria-label={t("form.image.editImage")} colorTheme="light">
                 <Pencil />
               </IconButtonV2>
             </ModalTrigger>
@@ -142,8 +142,8 @@ const SlateImage = ({ element, editor, attributes, children, allowDecorative = t
               colorTheme="light"
               to={`/media/image-upload/${embed.embedData.resourceId}/edit/${language}`}
               target="_blank"
-              title={t("form.editOriginalAudio")}
-              aria-label={t("form.editOriginalAudio")}
+              title={t("form.editOriginalImage")}
+              aria-label={t("form.editOriginalImage")}
             >
               <Link />
             </SafeLinkIconButton>

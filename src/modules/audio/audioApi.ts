@@ -16,6 +16,7 @@ import {
   ISeriesSearchParams,
   ISearchParams,
 } from "@ndla/types-backend/audio-api";
+import { StringSort } from "../../containers/SearchPage/components/form/SearchForm";
 import { apiResourceUrl, fetchAuthorized, resolveJsonOrRejectWithError } from "../../util/apiHelpers";
 import { resolveJsonOrVoidOrRejectWithError } from "../../util/resolveJsonOrRejectWithError";
 
@@ -30,7 +31,7 @@ export const postAudio = (formData: FormData): Promise<IAudioMetaInformation> =>
   }).then((r) => resolveJsonOrRejectWithError<IAudioMetaInformation>(r));
 
 export const fetchAudio = (id: number, locale?: string): Promise<IAudioMetaInformation> => {
-  const languageParam = locale ? `?language=${locale}` : "";
+  const languageParam = locale ? `?language=${locale}&fallback=true` : "";
   return fetchAuthorized(`${baseUrl}/${id}${languageParam}`).then((r) =>
     resolveJsonOrRejectWithError<IAudioMetaInformation>(r),
   );
@@ -43,7 +44,7 @@ export const updateAudio = (id: number, formData: FormData): Promise<IAudioMetaI
     body: formData,
   }).then((r) => resolveJsonOrRejectWithError<IAudioMetaInformation>(r));
 
-export const postSearchAudio = async (body: ISearchParams): Promise<IAudioSummarySearchResult> => {
+export const postSearchAudio = async (body: StringSort<ISearchParams>): Promise<IAudioSummarySearchResult> => {
   const response = await fetchAuthorized(`${baseUrl}/search/`, { method: "POST", body: JSON.stringify(body) });
   return resolveJsonOrRejectWithError(response);
 };
@@ -83,7 +84,7 @@ export const updateSeries = (id: number, newSeries: INewSeries): Promise<ISeries
     body: JSON.stringify(newSeries),
   }).then((r) => resolveJsonOrRejectWithError<ISeries>(r));
 
-export const postSearchSeries = async (body: ISeriesSearchParams): Promise<ISeriesSummarySearchResult> => {
+export const postSearchSeries = async (body: StringSort<ISeriesSearchParams>): Promise<ISeriesSummarySearchResult> => {
   const response = await fetchAuthorized(`${seriesBaseUrl}/search/`, { method: "POST", body: JSON.stringify(body) });
   return resolveJsonOrRejectWithError(response);
 };

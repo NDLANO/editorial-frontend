@@ -9,7 +9,6 @@
 import isEmpty from "lodash/isEmpty";
 import { CSSProperties, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { spacing, colors, fonts } from "@ndla/core";
 import { ExpandLess, ExpandMore } from "@ndla/icons/action";
@@ -89,12 +88,14 @@ const NoResultsText = styled.div`
 const ContentWrapper = styled.div`
   height: ${spacing.nsmall};
   display: flex;
-`;
-
-const orderButtonStyle = (isHidden: boolean) => css`
-  cursor: pointer;
-  color: ${colors.text.primary};
-  visibility: ${isHidden ? "hidden" : "visible"};
+  svg {
+    cursor: pointer;
+    color: ${colors.text.primary};
+    visibility: visible;
+  }
+  svg[data-hidden="true"] {
+    visibility: hidden;
+  }
 `;
 
 export interface FieldElement {
@@ -154,7 +155,7 @@ const TableComponent = <T extends string>({
                           aria-label={t("welcomePage.workList.sortAsc")}
                           role="button"
                           onClick={() => setSortOption(tableTitle.sortableField!)}
-                          css={orderButtonStyle(!tableTitle.sortableField || sortOption === tableTitle.sortableField)}
+                          data-hidden={!tableTitle.sortableField || sortOption === tableTitle.sortableField}
                           title={t("welcomePage.workList.sortAsc")}
                         />
                       </ContentWrapper>
@@ -163,9 +164,7 @@ const TableComponent = <T extends string>({
                           aria-label={t("welcomePage.workList.sortDesc")}
                           role="button"
                           onClick={() => setSortOption(`-${tableTitle.sortableField!}`!)}
-                          css={orderButtonStyle(
-                            !tableTitle.sortableField || sortOption === `-${tableTitle.sortableField}`,
-                          )}
+                          data-hidden={!tableTitle.sortableField || sortOption === `-${tableTitle.sortableField}`}
                           title={t("welcomePage.workList.sortDesc")}
                         />
                       </ContentWrapper>

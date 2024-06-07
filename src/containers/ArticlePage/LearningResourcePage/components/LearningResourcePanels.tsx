@@ -69,7 +69,7 @@ const LearningResourcePanels = ({
             fieldsToIndicatedChangesFor={contentTitleFields}
           />
         }
-        className="u-10/12 u-push-1/12"
+        variant="center"
         hasError={!!(errors.title || errors.introduction || errors.content)}
       >
         <IsNewArticleLanguageProvider locale={articleLanguage} article={article}>

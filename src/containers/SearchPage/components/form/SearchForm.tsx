@@ -7,8 +7,9 @@
  */
 
 import queryString from "query-string";
-import { ISeriesSearchParams, ISearchParams as IAudioSearchParams } from "@ndla/types-backend/audio-api";
+import { ISearchParams as IAudioSearchParams, ISeriesSearchParams } from "@ndla/types-backend/audio-api";
 import { IDraftConceptSearchParams } from "@ndla/types-backend/concept-api";
+import { IUserData } from "@ndla/types-backend/draft-api";
 import { ISearchParams as IImageSearchParams } from "@ndla/types-backend/image-api";
 import { IDraftSearchParams } from "@ndla/types-backend/search-api";
 import { Node } from "@ndla/types-taxonomy";
@@ -44,11 +45,12 @@ export interface SearchParams {
   "filter-inactive"?: boolean;
 }
 
-export type SearchParamsBody = IDraftConceptSearchParams &
-  IDraftSearchParams &
-  IImageSearchParams &
-  IAudioSearchParams &
-  ISeriesSearchParams;
+/** Used to wraps backend types and replaces their `sort` with `sort?: string` */
+export type StringSort<T> = Omit<T, "sort"> & { sort?: string };
+
+export type SearchParamsBody = StringSort<
+  IDraftConceptSearchParams & IDraftSearchParams & IImageSearchParams & IAudioSearchParams & ISeriesSearchParams
+>;
 
 type ReturnType<T> = T extends true ? SearchParamsBody : SearchParams;
 
@@ -121,13 +123,13 @@ interface Props {
   search: (o: SearchParams) => void;
   subjects: Node[];
   locale: string;
-  userId?: string | undefined;
+  userData: IUserData | undefined;
 }
 
-const SearchForm = ({ type, searchObject, userId, ...rest }: Props) => {
+const SearchForm = ({ type, searchObject, ...rest }: Props) => {
   switch (type) {
     case "content":
-      return <SearchContentForm searchObject={searchObject} userId={userId} {...rest} />;
+      return <SearchContentForm searchObject={searchObject} {...rest} />;
     case "audio":
       return <SearchAudioForm searchObject={searchObject} {...rest} />;
     case "image":

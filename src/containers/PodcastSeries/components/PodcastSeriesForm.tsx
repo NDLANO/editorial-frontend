@@ -184,7 +184,7 @@ const PodcastSeriesForm = ({
               <FormAccordion
                 id="podcast-series-podcastmeta"
                 title={t("form.podcastSeriesSection")}
-                className="u-10/12 u-push-1/12"
+                variant="center"
                 hasError={["title", "coverPhotoId", "metaImageAlt"].some((field) => field in errors)}
               >
                 <PodcastSeriesMetaData

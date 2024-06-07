@@ -21,7 +21,7 @@ const StyledPreviewWrapper = styled.div`
   max-width: 100%;
   display: inline-flex;
   justify-content: center;
-  & .c-article {
+  & [data-ndla-article] {
     padding: 0;
     margin-top: 20px;
     line-height: unset;
@@ -29,9 +29,6 @@ const StyledPreviewWrapper = styled.div`
     > section {
       width: unset !important;
       left: unset !important;
-    }
-    & .c-article__header {
-      margin-bottom: unset;
     }
   }
 `;
@@ -62,6 +59,10 @@ const TwoArticleWrapper = styled(StyledPreviewWrapper)`
 
 const PreviewTitleWrapper = styled.div`
   height: 90px;
+  position: relative;
+  width: 83.333%;
+  right: auto;
+  left: 8.333%;
 `;
 
 const ComparePage = () => {
@@ -95,7 +96,7 @@ const ComparePage = () => {
       <HelmetWithTracker title={t("htmlTitles.comparePage")} />
       <TwoArticleWrapper>
         <div>
-          <PreviewTitleWrapper className="u-10/12 u-push-1/12">
+          <PreviewTitleWrapper>
             <h2>
               {t(`form.previewLanguageArticle.title`, {
                 language: t(`languages.${language}`).toLowerCase(),
@@ -111,7 +112,7 @@ const ComparePage = () => {
           />
         </div>
         <div>
-          <PreviewTitleWrapper className="u-10/12 u-push-1/12">
+          <PreviewTitleWrapper>
             <h2>
               {t("form.previewLanguageArticle.title", {
                 language: t(`languages.${previewLanguage}`).toLowerCase(),

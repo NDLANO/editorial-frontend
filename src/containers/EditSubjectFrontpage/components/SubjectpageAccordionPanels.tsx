@@ -76,7 +76,7 @@ const SubjectpageAccordionPanels = ({ buildsOn, connectedTo, editorsChoices, ele
       <FormAccordion
         id="about"
         title={t("subjectpageForm.about")}
-        className="u-10/12 u-push-1/12"
+        variant="center"
         hasError={["title", "description", "visualElement"].some((field) => field in errors)}
       >
         <SubjectpageAbout />

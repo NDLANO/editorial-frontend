@@ -145,7 +145,7 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
     onClose();
   };
   return (
-    <Fade show fadeType="fadeInTop">
+    <Fade show>
       <Formik
         enableReinitialize
         initialValues={initialValues}

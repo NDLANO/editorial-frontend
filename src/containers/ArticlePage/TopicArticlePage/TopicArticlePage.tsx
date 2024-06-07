@@ -10,7 +10,6 @@ import CreateTopicArticle from "./CreateTopicArticle";
 import EditTopicArticle from "./EditTopicArticle";
 import ResourcePage from "../../../components/ResourcePage";
 import { useDraft } from "../../../modules/draft/draftQueries";
-import { articleResourcePageStyle } from "../styles";
 
 const TopicArticlePage = () => (
   <ResourcePage
@@ -18,7 +17,7 @@ const TopicArticlePage = () => (
     EditComponent={EditTopicArticle}
     useHook={useDraft}
     createUrl="/subject-matter/topic-article/new"
-    css={articleResourcePageStyle}
+    isArticle
   />
 );
 

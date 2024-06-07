@@ -51,7 +51,7 @@ const PreviewDraftPage = () => {
 
   const label = resources.data?.[0]?.resourceTypes?.[0]?.name ?? "";
   const contentType = resources.data?.length
-    ? getContentTypeFromResourceTypes(resources.data[0].resourceTypes).contentType
+    ? getContentTypeFromResourceTypes(resources.data[0].resourceTypes)
     : undefined;
 
   const isFrontpage = draft.data?.articleType === "frontpage-article";

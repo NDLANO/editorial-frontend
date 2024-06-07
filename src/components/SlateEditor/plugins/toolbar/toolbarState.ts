@@ -134,6 +134,9 @@ export const defaultAreaOptions: AreaFilters = {
   "content-link": {
     inline: { disabled: true, "content-link": { disabled: false } },
   },
+  link: {
+    inline: { disabled: true },
+  },
   mathml: {
     inline: { disabled: true, mathml: { disabled: false } },
   },

@@ -246,8 +246,7 @@ const InnerForm = () => {
       }
       try {
         const data = await fetchExternalOembed(url);
-        const src = getIframeSrcFromHtmlString(data.html) ?? "";
-        setValues((values) => ({ ...values, validUrl: src, url: src, resource: "external" }), true);
+        setValues((values) => ({ ...values, validUrl: url, url, resource: "external" }), true);
       } catch (e) {
         const provider = getWhitelistedProvider(url);
         setValues(

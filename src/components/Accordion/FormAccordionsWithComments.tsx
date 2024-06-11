@@ -71,8 +71,11 @@ const StyledSwitch = styled(Switch)`
 
 const FormControls = styled(MainContent)`
   display: flex;
-  justify-content: flex-end;
   padding-left: ${spacing.small};
+  justify-content: flex-end;
+  &[data-enabled-quality-evaluation="true"] {
+    justify-content: space-between;
+  }
 `;
 
 const FormAccordionsWithComments = ({ defaultOpen, children, articleId, articleType, articleStatus }: Props) => {
@@ -82,17 +85,20 @@ const FormAccordionsWithComments = ({ defaultOpen, children, articleId, articleT
   const [openAccordions, setOpenAccordions] = useState<string[]>(defaultOpen);
   const [hideComments, setHideComments] = useLocalStorageBooleanState(STORED_HIDE_COMMENTS);
 
+  const isTopicArticle = articleType === "topic-article";
+
   const disableComments = useMemo(
-    () =>
-      articleType !== "topic-article" && [PUBLISHED, ARCHIVED, UNPUBLISHED].some((s) => s === articleStatus?.current),
-    [articleStatus, articleType],
+    () => !isTopicArticle && [PUBLISHED, ARCHIVED, UNPUBLISHED].some((s) => s === articleStatus?.current),
+    [articleStatus, isTopicArticle],
   );
 
   return (
     <ContentWrapper>
       <FlexWrapper>
-        <FormControls data-wide={isWideArticle}>
-          {config.qualityEvaluationEnabled === true && <QualityEvaluation articleType={articleType} />}
+        <FormControls data-enabled-quality-evaluation={config.qualityEvaluationEnabled === true && !isTopicArticle}>
+          {config.qualityEvaluationEnabled === true && !isTopicArticle && (
+            <QualityEvaluation articleType={articleType} />
+          )}
           <RightFlexWrapper>
             {!!articleId && articleType === "frontpage-article" && (
               <StyledSwitch

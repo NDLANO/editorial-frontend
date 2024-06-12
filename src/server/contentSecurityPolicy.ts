@@ -173,8 +173,11 @@ const frameSrc = (() => {
     "sketchfab.com",
     "jeopardylabs.com",
     "*.uio.no",
-    "geodata.maps.arcgis.com",
+    "*.maps.arcgis.com",
     "arcg.is",
+    "norgeskart.no",
+    "kartiskolen.no",
+    "norgeibilder.no",
   ];
   if (process.env.NODE_ENV === "development") {
     return [

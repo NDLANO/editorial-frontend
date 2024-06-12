@@ -195,7 +195,10 @@ export const EXTERNAL_WHITELIST_PROVIDERS: WhitelistProvider[] = [
   { name: "JeopardyLabs", url: ["jeopardylabs.com"] },
   { name: "Brightcove", url: ["players.brightcove.net"] },
   { name: "UIO", url: ["vrtx.uio.no", "www.mn.uio.no"] },
-  { name: "Geodata", url: ["geodata.maps.arcgis.com", "arcg.is"] },
+  { name: "Geodata", url: ["geodata.maps.arcgis.com", "ndla.maps.arcgis.com", "arcg.is"] },
+  { name: "Norgeskart", url: ["norgeskart.no"] },
+  { name: "Kart i skolen", url: ["kartiskolen.no"] },
+  { name: "Norge i bilder", url: ["norgeibilder.no"] },
 ];
 
 export const SearchTypeValues = [

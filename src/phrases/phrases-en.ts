@@ -657,6 +657,8 @@ const phrases = {
     article: "article",
     topicArticle: "full topic article",
     needsRevision: "Quality evaluated to grade 5",
+    error: "An error occured while updating taxonomy",
+    disabled: "Resources without taxonomy cannot be evaluated",
   },
   editorToolbar: {
     bold: "Bold\n({{ctrl}}+b)",

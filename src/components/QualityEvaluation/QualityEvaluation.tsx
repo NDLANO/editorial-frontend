@@ -6,13 +6,13 @@
  *
  */
 
-import { useField } from "formik";
 import { CSSProperties } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { colors, spacing } from "@ndla/core";
+import { Node } from "@ndla/types-taxonomy";
 import { Text } from "@ndla/typography";
-import { QualityEvaluationFormValues, gradeItemStyles, qualityEvaluationOptions } from "./QualityEvaluationForm";
+import { gradeItemStyles, qualityEvaluationOptions } from "./QualityEvaluationForm";
 import QualityEvaluationModal from "./QualityEvaluationModal";
 
 const FlexWrapper = styled.div`
@@ -33,37 +33,37 @@ const StyledNoEvaluation = styled(Text)`
 
 interface Props {
   articleType?: string;
+  taxonomy?: Node[];
 }
 
-const QualityEvaluation = ({ articleType }: Props) => {
+const QualityEvaluation = ({ articleType, taxonomy }: Props) => {
   const { t } = useTranslation();
-
-  const [{ value }] = useField<QualityEvaluationFormValues>("qualityEvaluation");
+  const qualityEvaluation = taxonomy?.[0].qualityEvaluation;
 
   return (
     <FlexWrapper>
       <Text margin="none" textStyle="button">
         {`${t("qualityEvaluationForm.title")}:`}
       </Text>
-      {value?.grade ? (
+      {qualityEvaluation?.grade ? (
         <GradeItem
-          title={value?.note}
-          aria-label={value?.note}
+          title={qualityEvaluation?.note}
+          aria-label={qualityEvaluation?.note}
           style={
             {
-              "--item-color": qualityEvaluationOptions[value?.grade],
+              "--item-color": qualityEvaluationOptions[qualityEvaluation?.grade],
             } as CSSProperties
           }
-          data-border={value?.grade === 1 || value?.grade === 5}
+          data-border={qualityEvaluation?.grade === 1 || qualityEvaluation?.grade === 5}
         >
-          {value?.grade}
+          {qualityEvaluation?.grade}
         </GradeItem>
       ) : (
         <StyledNoEvaluation margin="none" textStyle="button">
           {t("qualityEvaluationForm.unavailable")}
         </StyledNoEvaluation>
       )}
-      <QualityEvaluationModal articleType={articleType} />
+      <QualityEvaluationModal articleType={articleType} taxonomy={taxonomy} />
     </FlexWrapper>
   );
 };

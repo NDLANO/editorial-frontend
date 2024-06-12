@@ -13,6 +13,7 @@ import { AccordionRoot } from "@ndla/accordion";
 import { fonts, spacing } from "@ndla/core";
 import { Switch } from "@ndla/switch";
 import { IStatus } from "@ndla/types-backend/concept-api";
+import { Node } from "@ndla/types-taxonomy";
 import { FormAccordionProps } from "./FormAccordion";
 import OpenAllButton from "./OpenAllButton";
 import config from "../../config";
@@ -31,6 +32,7 @@ interface Props {
   articleId?: number;
   articleType?: string;
   articleStatus?: IStatus;
+  taxonomy?: Node[];
 }
 
 const ContentWrapper = styled.div`
@@ -78,7 +80,14 @@ const FormControls = styled(MainContent)`
   }
 `;
 
-const FormAccordionsWithComments = ({ defaultOpen, children, articleId, articleType, articleStatus }: Props) => {
+const FormAccordionsWithComments = ({
+  defaultOpen,
+  children,
+  articleId,
+  articleType,
+  articleStatus,
+  taxonomy,
+}: Props) => {
   const { t } = useTranslation();
   const { toggleWideArticles, isWideArticle } = useWideArticle();
 
@@ -96,8 +105,12 @@ const FormAccordionsWithComments = ({ defaultOpen, children, articleId, articleT
     <ContentWrapper>
       <FlexWrapper>
         <FormControls data-enabled-quality-evaluation={config.qualityEvaluationEnabled === true && !isTopicArticle}>
-          {config.qualityEvaluationEnabled === true && !isTopicArticle && (
-            <QualityEvaluation articleType={articleType} />
+          {!isTopicArticle && (
+            <>
+              {config.qualityEvaluationEnabled === true && !isTopicArticle && (
+                <QualityEvaluation articleType={articleType} taxonomy={taxonomy} />
+              )}
+            </>
           )}
           <RightFlexWrapper>
             {!!articleId && articleType === "frontpage-article" && (

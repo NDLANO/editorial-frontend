@@ -85,7 +85,6 @@ export interface ArticleFormType {
   priority: string;
   processed: boolean;
   origin?: string;
-  qualityEvaluation?: IQualityEvaluation;
 }
 
 export interface LearningResourceFormType extends ArticleFormType {}

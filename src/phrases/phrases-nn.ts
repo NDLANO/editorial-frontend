@@ -657,6 +657,8 @@ const phrases = {
     article: "artikkelen",
     topicArticle: "emnet som heilskap",
     needsRevision: "Kvalitetsvurdert til 5",
+    error: "Ein feil oppstod ved oppdatering av taksonomi",
+    disabled: "Ressursar utan taksonomi kan ikkje kvalitetsvurderast",
   },
   editorToolbar: {
     bold: "Feit\n({{ctrl}}+b)",

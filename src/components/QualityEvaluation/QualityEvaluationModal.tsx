@@ -13,6 +13,7 @@ import { IconButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { Pencil } from "@ndla/icons/action";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
+import { Node } from "@ndla/types-taxonomy";
 import { Text } from "@ndla/typography";
 import QualityEvaluationForm from "./QualityEvaluationForm";
 
@@ -25,24 +26,27 @@ const StyledModalBody = styled(ModalBody)`
 
 interface Props {
   articleType?: string;
+  taxonomy?: Node[];
 }
 
-const QualityEvaluationModal = ({ articleType }: Props) => {
+const QualityEvaluationModal = ({ articleType, taxonomy }: Props) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
 
   const resourceTranslation =
     articleType === "topic-article" ? t("qualityEvaluationForm.topicArticle") : t("qualityEvaluationForm.article");
+  const title = taxonomy ? t("qualityEvaluationForm.edit") : t("qualityEvaluationForm.disabled");
 
   return (
     <Modal open={open} onOpenChange={setOpen}>
       <ModalTrigger>
         <IconButtonV2
-          title={t("qualityEvaluationForm.edit")}
-          aria-label={t("qualityEvaluationForm.edit")}
+          title={title}
+          aria-label={title}
           variant="solid"
           colorTheme="light"
           size="xsmall"
+          disabled={!taxonomy}
         >
           <Pencil />
         </IconButtonV2>
@@ -56,7 +60,7 @@ const QualityEvaluationModal = ({ articleType }: Props) => {
           <Text margin="none" textStyle="meta-text-small">
             {t("qualityEvaluationForm.description", { resource: resourceTranslation })}
           </Text>
-          <QualityEvaluationForm setOpen={setOpen} />
+          {taxonomy && <QualityEvaluationForm setOpen={setOpen} taxonomy={taxonomy} />}
         </StyledModalBody>
       </ModalContent>
     </Modal>

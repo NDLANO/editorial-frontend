@@ -657,6 +657,8 @@ const phrases = {
     article: "artikkelen",
     topicArticle: "emnet som helhet",
     needsRevision: "Kvalitetsvurdert til 5",
+    error: "En feil oppstod ved oppdatering av taksonomi",
+    disabled: "Ressurser uten taksonomi kan ikke kvalitetsvurderes",
   },
   editorToolbar: {
     bold: "Fet\n({{ctrl}}+b)",

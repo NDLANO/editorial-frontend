@@ -115,6 +115,7 @@ interface ExternalFormValues {
   url: string;
   title?: string;
   validUrl: string;
+  iframeUrl?: string;
   isFullscreen: boolean;
   isDecorative: boolean;
   metaImageAlt?: string;
@@ -246,7 +247,18 @@ const InnerForm = () => {
       }
       try {
         const data = await fetchExternalOembed(url);
-        setValues((values) => ({ ...values, validUrl: url, url, resource: "external" }), true);
+        const iframeUrl = getIframeSrcFromHtmlString(data.html) ?? "";
+
+        setValues(
+          (values) => ({
+            ...values,
+            validUrl: url,
+            url,
+            iframeUrl,
+            resource: "external",
+          }),
+          true,
+        );
       } catch (e) {
         const provider = getWhitelistedProvider(url);
         setValues(
@@ -308,7 +320,7 @@ const InnerForm = () => {
       </FormField>
       {!errors.validUrl && !!values.validUrl.length && !values.isFullscreen && (
         <IframeWrapper>
-          <iframe src={values.validUrl} title={values.title} height="350px" frameBorder="0" />
+          <iframe src={values.iframeUrl ?? values.validUrl} title={values.title} height="350px" frameBorder="0" />
         </IframeWrapper>
       )}
       {values.validUrl?.includes("youtube.com") && (

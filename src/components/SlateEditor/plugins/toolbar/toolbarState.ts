@@ -7,7 +7,7 @@
  */
 
 import merge from "lodash/merge";
-import { Editor, Element, Node, BaseSelection } from "slate";
+import { Editor, Element, Node, BaseSelection, Text } from "slate";
 import { ElementType } from "../../interfaces";
 
 export const languages = ["ar", "de", "en", "es", "fr", "la", "no", "se", "sma", "so", "ti", "zh"] as const;
@@ -222,6 +222,32 @@ export const getEditorAncestors = (editor: Editor, reverse?: boolean): Element[]
   return elementAncestors;
 };
 
+const disableInlineOnMultipleBlocksSelected = (
+  options: OptionsType,
+  editorAncestors?: Element[],
+): OptionsType & CategoryFilters => {
+  const ancestors =
+    editorAncestors?.filter(
+      (fragment) =>
+        fragment.children.length > 1 ||
+        (fragment.children.length === 1 && Text.isText(fragment.children[0]) && fragment.children[0].text !== ""),
+    ) ?? [];
+
+  if (ancestors.length > 1 && options.inline) {
+    const disabledInlines = Object.entries(options.inline).reduce(
+      (acc, [key, value]) => {
+        const k = key as InlineType;
+        acc[k] = { ...value, disabled: true };
+        return acc;
+      },
+      {} as OptionsType["inline"],
+    );
+    return { ...options, inline: disabledInlines };
+  }
+
+  return options;
+};
+
 /**
  * Generates the toolbar based on the current selection of the editor.
  **/
@@ -245,7 +271,9 @@ export const toolbarState = ({
   });
 
   const merged = merge({}, allOptions, options);
-  const toolbar = Object.entries(merged).reduce<ToolbarType>(
+  const maybeDisabledInline = disableInlineOnMultipleBlocksSelected(merged, editorAncestors);
+
+  const toolbar = Object.entries(maybeDisabledInline).reduce<ToolbarType>(
     (acc, curr) => {
       acc[curr[0] as ToolbarCategories] = Object.values(curr[1]);
       return acc;

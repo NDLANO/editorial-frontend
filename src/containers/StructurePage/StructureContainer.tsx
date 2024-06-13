@@ -14,6 +14,7 @@ import { Spinner } from "@ndla/icons";
 import { NodeChild, Node, NodeType } from "@ndla/types-taxonomy";
 import StructureErrorIcon from "./folderComponents/StructureErrorIcon";
 import StructureResources from "./resourceComponents/StructureResources";
+import SubjectBanner from "./resourceComponents/SubjectBanner";
 import RootNode from "./RootNode";
 import StickyVersionSelector from "./StickyVersionSelector";
 import StructureBanner from "./StructureBanner";
@@ -171,10 +172,6 @@ const StructureContainer = ({
 
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
 
-  const addChildTooltip = childNodeTypes.includes("TOPIC")
-    ? t("taxonomy.addTopicHeader")
-    : t("taxonomy.addNode", { nodeType: t("taxonomy.nodeType.PROGRAMME") });
-
   return (
     <ErrorBoundary>
       <Wrapper>
@@ -210,7 +207,6 @@ const StructureContainer = ({
                       key={node.id}
                       node={node}
                       toggleOpen={handleStructureToggle}
-                      addChildTooltip={addChildTooltip}
                       childNodeTypes={childNodeTypes}
                     />
                   ))}
@@ -220,12 +216,17 @@ const StructureContainer = ({
           </Column>
           {showResourceColumn && (
             <Column colStart={7}>
-              {currentNode && isChildNode(currentNode) && (
-                <StructureResources
-                  currentChildNode={currentNode}
-                  setCurrentNode={setCurrentNode}
-                  resourceRef={resourceSection}
-                />
+              {currentNode && (
+                <div>
+                  {currentNode.nodeType === "SUBJECT" && <SubjectBanner subjectNode={currentNode} />}
+                  {isChildNode(currentNode) && (
+                    <StructureResources
+                      currentChildNode={currentNode}
+                      setCurrentNode={setCurrentNode}
+                      resourceRef={resourceSection}
+                    />
+                  )}
+                </div>
               )}
             </Column>
           )}

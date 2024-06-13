@@ -117,7 +117,6 @@ interface Props {
   nodes?: NodeChildWithChildren[];
   isLoading?: boolean;
   renderBeforeTitle?: RenderBeforeFunction;
-  addChildTooltip: string;
 }
 
 const NodeItem = ({
@@ -135,7 +134,6 @@ const NodeItem = ({
   isLoading,
   nodes,
   renderBeforeTitle,
-  addChildTooltip,
 }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
@@ -203,7 +201,6 @@ const NodeItem = ({
             onCurrentNodeChanged={(node) => onNodeSelected(node)}
             jumpToResources={() => resourceSectionRef?.current?.scrollIntoView()}
             nodeChildren={nodes ?? []}
-            addChildTooltip={addChildTooltip}
           />
         )}
         {isLoading && (
@@ -235,7 +232,6 @@ const NodeItem = ({
                   nodes={t.childNodes}
                   toggleOpen={toggleOpen}
                   onDragEnd={onDragEnd}
-                  addChildTooltip={addChildTooltip}
                 />
               )}
               dragHandle={

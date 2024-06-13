@@ -30,7 +30,6 @@ interface Props {
   onNodeSelected: (node?: Node) => void;
   resourceSectionRef: MutableRefObject<HTMLDivElement | null>;
   renderBeforeTitle?: RenderBeforeFunction;
-  addChildTooltip: string;
   childNodeTypes: NodeType[];
 }
 
@@ -42,7 +41,6 @@ const RootNode = ({
   onNodeSelected,
   resourceSectionRef,
   renderBeforeTitle,
-  addChildTooltip,
   childNodeTypes,
 }: Props) => {
   const { i18n } = useTranslation();
@@ -126,7 +124,6 @@ const RootNode = ({
       isRoot={true}
       isFavorite={isFavorite}
       isLoading={childNodesQuery.isLoading}
-      addChildTooltip={addChildTooltip}
     />
   );
 };

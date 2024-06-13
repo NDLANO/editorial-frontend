@@ -9,13 +9,7 @@
 import chunk from "lodash/chunk";
 import uniqBy from "lodash/uniqBy";
 import { useQuery, useQueryClient, UseQueryOptions } from "@tanstack/react-query";
-import {
-  IComment,
-  IDraftResponsible,
-  IEditorNote,
-  IQualityEvaluation,
-  IRevisionMeta,
-} from "@ndla/types-backend/draft-api";
+import { IComment, IDraftResponsible, IEditorNote, IRevisionMeta } from "@ndla/types-backend/draft-api";
 import { Node, NodeChild, NodeType } from "@ndla/types-taxonomy";
 import { fetchChildNodes, fetchNode, fetchNodeResources, fetchNodes, postSearchNodes, searchNodes } from "./nodeApi";
 import { GetNodeParams, GetNodeResourcesParams, RESOURCE_NODE, TOPIC_NODE } from "./nodeApiTypes";

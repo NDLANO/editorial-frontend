@@ -98,6 +98,7 @@ const FormAccordionsWithComments = ({
   const [hideComments, setHideComments] = useLocalStorageBooleanState(STORED_HIDE_COMMENTS);
 
   const isTopicArticle = articleType === "topic-article";
+  const isFrontPageArticle = articleType === "frontpage-article";
 
   const disableComments = useMemo(
     () => !isTopicArticle && [PUBLISHED, ARCHIVED, UNPUBLISHED].some((s) => s === articleStatus?.current),
@@ -110,8 +111,12 @@ const FormAccordionsWithComments = ({
   return (
     <ContentWrapper>
       <FlexWrapper>
-        <FormControls data-enabled-quality-evaluation={config.qualityEvaluationEnabled === true && !isTopicArticle}>
-          {!isTopicArticle && (
+        <FormControls
+          data-enabled-quality-evaluation={
+            config.qualityEvaluationEnabled === true && !isTopicArticle && !isFrontPageArticle
+          }
+        >
+          {!isTopicArticle && !isFrontPageArticle && (
             <>
               {config.qualityEvaluationEnabled === true && !isTopicArticle && (
                 <QualityEvaluation
@@ -124,7 +129,7 @@ const FormAccordionsWithComments = ({
             </>
           )}
           <RightFlexWrapper>
-            {!!articleId && articleType === "frontpage-article" && (
+            {!!articleId && isFrontPageArticle && (
               <StyledSwitch
                 id={articleId}
                 label={t("frontpageArticleForm.isFrontpageArticle.toggleArticle")}

@@ -7,8 +7,9 @@
  */
 
 import merge from "lodash/merge";
-import { Editor, Element, Node, BaseSelection, Text } from "slate";
+import { Editor, Element, Node, BaseSelection, Text, fragment } from "slate";
 import { ElementType } from "../../interfaces";
+import { TYPE_NOOP } from "../noop/types";
 
 export const languages = ["ar", "de", "en", "es", "fr", "la", "no", "se", "sma", "so", "ti", "zh"] as const;
 
@@ -222,30 +223,34 @@ export const getEditorAncestors = (editor: Editor, reverse?: boolean): Element[]
   return elementAncestors;
 };
 
+/**
+ * Sets all inline types as disabled if multiple element blocks are selected.
+ */
 const disableInlineOnMultipleBlocksSelected = (
   options: OptionsType,
   editorAncestors?: Element[],
 ): OptionsType & CategoryFilters => {
   const ancestors =
-    editorAncestors?.filter(
+    editorAncestors?.[0]?.type === TYPE_NOOP ? (editorAncestors[0].children as Element[]) : editorAncestors;
+
+  const filteredAncestors =
+    ancestors?.filter(
       (fragment) =>
         fragment.children.length > 1 ||
         (fragment.children.length === 1 && Text.isText(fragment.children[0]) && fragment.children[0].text !== ""),
     ) ?? [];
 
-  if (ancestors.length > 1 && options.inline) {
-    const disabledInlines = Object.entries(options.inline).reduce(
-      (acc, [key, value]) => {
-        const k = key as InlineType;
-        acc[k] = { ...value, disabled: true };
-        return acc;
-      },
-      {} as OptionsType["inline"],
-    );
-    return { ...options, inline: disabledInlines };
-  }
+  if (filteredAncestors.length < 2) return options;
 
-  return options;
+  const disabledInlines = Object.entries(options.inline).reduce(
+    (acc, [key, value]) => {
+      const k = key as InlineType;
+      acc[k] = { ...value, disabled: true };
+      return acc;
+    },
+    {} as OptionsType["inline"],
+  );
+  return { ...options, inline: disabledInlines };
 };
 
 /**

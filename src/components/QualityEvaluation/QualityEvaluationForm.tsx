@@ -135,8 +135,7 @@ const QualityEvaluationForm = ({ setOpen, taxonomy, revisionMetaField, revisionM
 
     const promises = taxonomy.map((n) =>
       updateTaxMutation.mutateAsync({
-        id: n.id,
-        nodeType: n.nodeType,
+        ...n,
         qualityEvaluation: { ...values, grade: Number(values.grade) as Grade },
         taxonomyVersion,
       }),
@@ -173,16 +172,21 @@ const QualityEvaluationForm = ({ setOpen, taxonomy, revisionMetaField, revisionM
 
   const onDelete = async () => {
     setLoading({ ...loading, delete: true });
-    // TODO: add support for deleting once supported in taxonomy-api
     const promises = taxonomy.map((n) =>
       updateTaxMutation.mutateAsync({
-        id: n.id,
-        nodeType: n.nodeType,
-        qualityEvaluation: undefined,
+        ...n,
+        qualityEvaluation: null,
         taxonomyVersion,
       }),
     );
     await Promise.all(promises);
+
+    await qc.invalidateQueries({
+      queryKey: nodeQueryKeys.nodes({
+        taxonomyVersion,
+      }),
+    });
+    await qc.invalidateQueries({ queryKey: nodeQueryKeys.childNodes({ taxonomyVersion }) });
     setOpen(false);
     setLoading({ ...loading, delete: false });
   };

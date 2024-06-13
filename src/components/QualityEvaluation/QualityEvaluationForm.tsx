@@ -6,7 +6,7 @@
  *
  */
 
-import { Form, Formik, useField } from "formik";
+import { FieldHelperProps, FieldInputProps, Form, Formik } from "formik";
 import { CSSProperties, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "@emotion/react";
@@ -94,6 +94,8 @@ const MutationErrorMessage = styled(FieldErrorMessage)`
 interface Props {
   setOpen: (open: boolean) => void;
   taxonomy: Node[];
+  revisionMetaField?: FieldInputProps<RevisionMetaFormType>;
+  revisionMetaHelpers?: FieldHelperProps<RevisionMetaFormType>;
 }
 
 interface QualityEvaluationFormValues {
@@ -115,26 +117,23 @@ const toInitialValues = (initialData: QualityEvaluationFormValues | undefined): 
   };
 };
 
-const QualityEvaluationForm = ({ setOpen, taxonomy }: Props) => {
+const QualityEvaluationForm = ({ setOpen, taxonomy, revisionMetaField, revisionMetaHelpers }: Props) => {
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const qc = useQueryClient();
   const updateTaxMutation = usePutNodeMutation();
 
-  const [revisionMetaField, , revisionMetaHelpers] = useField<RevisionMetaFormType>("revisionMeta");
   const [loading, setLoading] = useState({ save: false, delete: false });
 
-  // Since quality evaluation is updated every place the resource is used in taxonomy, we can use the first node
+  // Since quality evaluation is the same every place the resource is used in taxonomy, we can use the first node
   const node = useMemo(() => taxonomy[0], [taxonomy]);
   const initialValues = useMemo(() => toInitialValues(node.qualityEvaluation), [node.qualityEvaluation]);
   const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
-  // Topics are updated from structure edit page
-  const withoutTopics = taxonomy.filter((n) => n.nodeType !== "TOPIC");
 
   const onSubmit = async (values: QualityEvaluationFormValues) => {
     setLoading({ ...loading, save: true });
 
-    const promises = withoutTopics.map((n) =>
+    const promises = taxonomy.map((n) =>
       updateTaxMutation.mutateAsync({
         id: n.id,
         nodeType: n.nodeType,
@@ -145,7 +144,13 @@ const QualityEvaluationForm = ({ setOpen, taxonomy }: Props) => {
     await Promise.all(promises);
 
     // Automatically add revision when grade is lowest possible value (5)
-    if (!updateTaxMutation.isError && values.grade === 5 && node.qualityEvaluation?.grade !== 5) {
+    if (
+      revisionMetaField &&
+      revisionMetaHelpers &&
+      !updateTaxMutation.isError &&
+      values.grade === 5 &&
+      node.qualityEvaluation?.grade !== 5
+    ) {
       const revisions = revisionMetaField.value ?? [];
       revisionMetaHelpers.setValue(
         revisions.concat({
@@ -160,6 +165,7 @@ const QualityEvaluationForm = ({ setOpen, taxonomy }: Props) => {
         taxonomyVersion,
       }),
     });
+    await qc.invalidateQueries({ queryKey: nodeQueryKeys.childNodes({ taxonomyVersion }) });
 
     setOpen(false);
     setLoading({ ...loading, save: false });
@@ -168,7 +174,7 @@ const QualityEvaluationForm = ({ setOpen, taxonomy }: Props) => {
   const onDelete = async () => {
     setLoading({ ...loading, delete: true });
     // TODO: add support for deleting once supported in taxonomy-api
-    const promises = withoutTopics.map((n) =>
+    const promises = taxonomy.map((n) =>
       updateTaxMutation.mutateAsync({
         id: n.id,
         nodeType: n.nodeType,

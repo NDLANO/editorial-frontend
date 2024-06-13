@@ -12,47 +12,35 @@ import { spacing, misc } from "@ndla/core";
 import { Text } from "@ndla/typography";
 import { qualityEvaluationOptions } from "../../../components/QualityEvaluation/QualityEvaluationForm";
 
-const GradeItem = styled(Text)`
+const SmallGradeItem = styled(Text)`
   border: 2px solid var(--item-color);
   border-radius: ${misc.borderRadius};
   padding: 0px ${spacing.xxsmall};
   line-height: 18px;
 `;
 
-const StyledQualityText = styled(Text)`
-  white-space: nowrap;
-`;
-
 interface Props {
   grade: number | undefined;
-  ariaLabel: string;
-  titleText?: string;
+  ariaLabel?: string;
 }
 
-const QualityEvaluationGrade = ({ grade, ariaLabel, titleText }: Props) => {
+const QualityEvaluationGrade = ({ grade, ariaLabel }: Props) => {
   if (!grade) return;
 
   return (
-    <>
-      {titleText && (
-        <StyledQualityText margin="none" textStyle="meta-text-small">
-          {titleText}
-        </StyledQualityText>
-      )}
-      <GradeItem
-        title={ariaLabel}
-        aria-label={ariaLabel}
-        style={
-          {
-            "--item-color": qualityEvaluationOptions[Number(grade.toFixed())],
-          } as CSSProperties
-        }
-        margin="none"
-        textStyle="button"
-      >
-        {grade}
-      </GradeItem>
-    </>
+    <SmallGradeItem
+      title={ariaLabel}
+      aria-label={ariaLabel}
+      style={
+        {
+          "--item-color": qualityEvaluationOptions[Number(grade.toFixed())],
+        } as CSSProperties
+      }
+      margin="none"
+      textStyle="button"
+    >
+      {grade}
+    </SmallGradeItem>
   );
 };
 

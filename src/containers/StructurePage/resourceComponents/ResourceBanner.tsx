@@ -17,11 +17,11 @@ import { ContentTypeBadge } from "@ndla/ui";
 import ApproachingRevisionDate from "./ApproachingRevisionDate";
 import GrepCodesModal from "./GrepCodesModal";
 import GroupResourceSwitch from "./GroupResourcesSwitch";
-import QualityEvaluationInfo from "./QualityEvaluationInfo";
 import ResourceItemLink from "./ResourceItemLink";
 import StatusIcons from "./StatusIcons";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
 import VersionHistory from "./VersionHistory";
+import QualityEvaluation from "../../../components/QualityEvaluation/QualityEvaluation";
 import RelevanceOption from "../../../components/Taxonomy/RelevanceOption";
 import config from "../../../config";
 import { PUBLISHED } from "../../../constants";
@@ -125,7 +125,12 @@ const ResourceBanner = ({
         </FlexContentWrapper>
         <FlexContentWrapper>
           {config.qualityEvaluationEnabled === true && (
-            <QualityEvaluationInfo currentNode={currentNode} resourceCount={resources.length} />
+            <QualityEvaluation
+              articleType="topic-article"
+              taxonomy={[currentNode]}
+              iconButtonColor="primary"
+              gradeVariant="small"
+            />
           )}
           <Text margin="none" textStyle="meta-text-small">{`${workflowCount}/${elementCount} ${t(
             "taxonomy.workflow",

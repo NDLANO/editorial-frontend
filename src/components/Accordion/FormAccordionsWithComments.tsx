@@ -6,6 +6,7 @@
  *
  */
 
+import { useField } from "formik";
 import { ReactElement, memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
@@ -20,6 +21,7 @@ import config from "../../config";
 import { ARCHIVED, PUBLISHED, STORED_HIDE_COMMENTS, UNPUBLISHED } from "../../constants";
 import CommentSection, { COMMENT_WIDTH, SPACING_COMMENT } from "../../containers/ArticlePage/components/CommentSection";
 import { MainContent } from "../../containers/ArticlePage/styles";
+import { RevisionMetaFormType } from "../../containers/FormikForm/AddRevisionDateField";
 import { useLocalStorageBooleanState } from "../../containers/WelcomePage/hooks/storedFilterHooks";
 import QualityEvaluation from "../QualityEvaluation/QualityEvaluation";
 import { useWideArticle } from "../WideArticleEditorProvider";
@@ -90,6 +92,7 @@ const FormAccordionsWithComments = ({
 }: Props) => {
   const { t } = useTranslation();
   const { toggleWideArticles, isWideArticle } = useWideArticle();
+  const [revisionMetaField, , revisionMetaHelpers] = useField<RevisionMetaFormType>("revisionMeta");
 
   const [openAccordions, setOpenAccordions] = useState<string[]>(defaultOpen);
   const [hideComments, setHideComments] = useLocalStorageBooleanState(STORED_HIDE_COMMENTS);
@@ -101,6 +104,9 @@ const FormAccordionsWithComments = ({
     [articleStatus, isTopicArticle],
   );
 
+  // Topics are updated from structure edit page
+  const withoutTopics = taxonomy?.filter((n) => n.nodeType !== "TOPIC");
+
   return (
     <ContentWrapper>
       <FlexWrapper>
@@ -108,7 +114,12 @@ const FormAccordionsWithComments = ({
           {!isTopicArticle && (
             <>
               {config.qualityEvaluationEnabled === true && !isTopicArticle && (
-                <QualityEvaluation articleType={articleType} taxonomy={taxonomy} />
+                <QualityEvaluation
+                  articleType={articleType}
+                  taxonomy={withoutTopics}
+                  revisionMetaField={revisionMetaField}
+                  revisionMetaHelpers={revisionMetaHelpers}
+                />
               )}
             </>
           )}

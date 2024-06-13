@@ -6,6 +6,7 @@
  *
  */
 
+import { FieldHelperProps, FieldInputProps } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
@@ -16,6 +17,7 @@ import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTit
 import { Node } from "@ndla/types-taxonomy";
 import { Text } from "@ndla/typography";
 import QualityEvaluationForm from "./QualityEvaluationForm";
+import { RevisionMetaFormType } from "../../containers/FormikForm/AddRevisionDateField";
 
 const StyledModalBody = styled(ModalBody)`
   display: flex;
@@ -27,9 +29,18 @@ const StyledModalBody = styled(ModalBody)`
 interface Props {
   articleType?: string;
   taxonomy?: Node[];
+  iconButtonColor?: "light" | "primary";
+  revisionMetaField?: FieldInputProps<RevisionMetaFormType>;
+  revisionMetaHelpers?: FieldHelperProps<RevisionMetaFormType>;
 }
 
-const QualityEvaluationModal = ({ articleType, taxonomy }: Props) => {
+const QualityEvaluationModal = ({
+  articleType,
+  taxonomy,
+  iconButtonColor = "light",
+  revisionMetaField,
+  revisionMetaHelpers,
+}: Props) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
 
@@ -44,7 +55,7 @@ const QualityEvaluationModal = ({ articleType, taxonomy }: Props) => {
           title={title}
           aria-label={title}
           variant="solid"
-          colorTheme="light"
+          colorTheme={iconButtonColor}
           size="xsmall"
           disabled={!taxonomy}
         >
@@ -60,7 +71,14 @@ const QualityEvaluationModal = ({ articleType, taxonomy }: Props) => {
           <Text margin="none" textStyle="meta-text-small">
             {t("qualityEvaluationForm.description", { resource: resourceTranslation })}
           </Text>
-          {taxonomy && <QualityEvaluationForm setOpen={setOpen} taxonomy={taxonomy} />}
+          {taxonomy && (
+            <QualityEvaluationForm
+              setOpen={setOpen}
+              taxonomy={taxonomy}
+              revisionMetaField={revisionMetaField}
+              revisionMetaHelpers={revisionMetaHelpers}
+            />
+          )}
         </StyledModalBody>
       </ModalContent>
     </Modal>

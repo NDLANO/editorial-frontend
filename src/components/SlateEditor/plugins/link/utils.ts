@@ -33,6 +33,7 @@ export const unwrapLink = (editor: Editor) => {
 const wrapLink = (editor: Editor) => {
   if (isLinkActive(editor)) {
     unwrapLink(editor);
+    return;
   }
 
   const { selection } = editor;

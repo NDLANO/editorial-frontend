@@ -124,7 +124,9 @@ const ResourceBanner = ({
           <PlannedResourceModal currentNode={currentNode} resourceTypes={resourceTypes} resources={resources} />
         </FlexContentWrapper>
         <FlexContentWrapper>
-          {config.qualityEvaluationEnabled === true && <QualityEvaluationInfo contentMeta={contentMeta} />}
+          {config.qualityEvaluationEnabled === true && (
+            <QualityEvaluationInfo currentNode={currentNode} resourceCount={resources.length} />
+          )}
           <Text margin="none" textStyle="meta-text-small">{`${workflowCount}/${elementCount} ${t(
             "taxonomy.workflow",
           ).toLowerCase()}`}</Text>

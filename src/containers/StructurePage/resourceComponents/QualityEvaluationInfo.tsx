@@ -6,13 +6,11 @@
  *
  */
 
-import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 import QualityEvaluationGrade from "./QualityEvaluationGrade";
-import { Dictionary } from "../../../interfaces";
-import { NodeResourceMeta } from "../../../modules/nodes/nodeQueries";
+import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
 
 const QualityInfoWrapper = styled.div`
   display: flex;
@@ -20,51 +18,26 @@ const QualityInfoWrapper = styled.div`
   align-items: center;
 `;
 
-const getAverageResourceGrade = (contentMeta: Dictionary<NodeResourceMeta>): number | undefined => {
-  const contentMetaList = Object.values(contentMeta).filter((c) => c.articleType !== "topic-article");
-
-  // Only display average if all resources have a grade
-  if (!contentMetaList.length || contentMetaList.some((c) => !c.qualityEvaluation?.grade)) return;
-  const accumulated = contentMetaList.reduce((acc, c) => {
-    if (c.qualityEvaluation?.grade) return acc + Number(c.qualityEvaluation.grade);
-    return acc;
-  }, 0);
-
-  const average = accumulated / contentMetaList.length;
-
-  // One decimal if average is not an integer
-  const averageFormatted = Math.round(average * 10) / 10;
-
-  return averageFormatted;
-};
-
 interface Props {
-  contentMeta: Dictionary<NodeResourceMeta>;
+  currentNode: ResourceWithNodeConnectionAndMeta;
+  resourceCount: number;
 }
 
-const QualityEvaluationInfo = ({ contentMeta }: Props) => {
+const QualityEvaluationInfo = ({ currentNode, resourceCount }: Props) => {
   const { t } = useTranslation();
-
-  const topicArticleGrade = useMemo(
-    () => Object.values(contentMeta).find((c) => c.articleType === "topic-article")?.qualityEvaluation?.grade,
-    [contentMeta],
-  );
-  const averageResourceGrade = useMemo(() => getAverageResourceGrade(contentMeta), [contentMeta]);
-
-  if (!topicArticleGrade && !averageResourceGrade) return null;
 
   return (
     <QualityInfoWrapper>
-      {topicArticleGrade && (
+      {currentNode.qualityEvaluation?.grade && (
         <QualityEvaluationGrade
-          grade={topicArticleGrade}
+          grade={currentNode.qualityEvaluation.grade}
           ariaLabel={t("taxonomy.qualityDescriptionTopic")}
           titleText={t("taxonomy.topicArticle")}
         />
       )}
-      {averageResourceGrade && (
+      {currentNode.gradeAverage?.averageValue && currentNode.gradeAverage.count === resourceCount && (
         <QualityEvaluationGrade
-          grade={averageResourceGrade}
+          grade={currentNode.gradeAverage.averageValue}
           ariaLabel={t("taxonomy.qualityDescription")}
           titleText={t("taxonomy.fullTopic")}
         />

@@ -96,7 +96,6 @@ export interface NodeResourceMeta {
   responsible?: IDraftResponsible;
   started?: boolean;
   comments?: IComment[];
-  qualityEvaluation?: IQualityEvaluation;
 }
 
 export const useNodeResourceMetas = (
@@ -143,19 +142,7 @@ const fetchNodeResourceMetas = async (params: UseNodeResourceMetas): Promise<Nod
     : Promise.resolve([]);
   const [articles, learningpaths] = await Promise.all([articlesPromise, learningpathsPromise]);
   const transformedArticles: NodeResourceMeta[] = articles.map(
-    ({
-      status,
-      grepCodes,
-      articleType,
-      id,
-      revision,
-      revisions,
-      notes,
-      responsible,
-      started,
-      comments,
-      qualityEvaluation,
-    }) => ({
+    ({ status, grepCodes, articleType, id, revision, revisions, notes, responsible, started, comments }) => ({
       status,
       grepCodes,
       articleType,
@@ -166,7 +153,6 @@ const fetchNodeResourceMetas = async (params: UseNodeResourceMetas): Promise<Nod
       notes,
       started,
       comments,
-      qualityEvaluation,
     }),
   );
   const transformedLearningpaths: NodeResourceMeta[] = learningpaths.map((lp) => ({

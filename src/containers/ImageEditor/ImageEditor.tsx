@@ -22,8 +22,9 @@ import {
   ImageSmall,
   ImageXsmall,
   ImageXxSmall,
+  Copyright,
+  PublicDomain,
 } from "@ndla/icons/editor";
-import { Copyright, Publicdomain } from "@ndla/icons/licenses";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import ImageTransformEditor from "./ImageTransformEditor";
 import { FormField } from "../../components/FormField";
@@ -75,7 +76,7 @@ const sizes = [
 ] as const;
 
 const bylineOptions = [
-  { value: "hide", children: <Publicdomain /> },
+  { value: "hide", children: <PublicDomain /> },
   { value: "show", children: <Copyright /> },
 ] as const;
 

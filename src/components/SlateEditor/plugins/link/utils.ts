@@ -33,6 +33,7 @@ export const unwrapLink = (editor: Editor) => {
 const wrapLink = (editor: Editor) => {
   if (isLinkActive(editor)) {
     unwrapLink(editor);
+    return;
   }
 
   const { selection } = editor;
@@ -90,6 +91,14 @@ export const splitTaxonomyUrl = async (href: string) => {
 
 export const splitEdPathUrl = (href: string) => {
   const id = href.split("subject-matter/")[1].split("/")[1];
+  return {
+    resourceId: id,
+    resourceType: "article",
+  };
+};
+
+export const splitEdPreviewUrl = (href: string) => {
+  const id = href.split("preview/")[1].split("/")[0];
   return {
     resourceId: id,
     resourceType: "article",

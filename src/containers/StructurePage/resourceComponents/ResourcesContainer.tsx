@@ -12,7 +12,6 @@ import styled from "@emotion/styled";
 import { breakpoints, mq } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
 import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
-import Resource from "./Resource";
 import ResourceBanner from "./ResourceBanner";
 import ResourceItems from "./ResourceItems";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
@@ -28,10 +27,6 @@ const ResourceWrapper = styled.div`
   ${mq.range({ from: breakpoints.desktop })} {
     max-height: 80vh;
   }
-`;
-
-const StyledResource = styled(Resource)`
-  margin-left: 44px;
 `;
 
 interface Props {
@@ -87,27 +82,20 @@ const ResourcesContainer = ({
     <>
       <ResourceBanner
         resources={nodeResourcesWithMeta}
-        title={currentNode.name}
         contentMeta={contentMeta}
-        currentNode={currentNode}
         onCurrentNodeChanged={setCurrentNode}
         resourceTypes={resourceTypesWithoutMissing}
+        currentNode={{
+          ...currentNode,
+          paths,
+          contentMeta: currentMeta,
+          resourceTypes: [],
+          relevanceId: currentNode.relevanceId,
+        }}
+        contentMetaLoading={contentMetaLoading}
+        responsible={currentMeta?.responsible ? users?.[currentMeta.responsible.responsibleId]?.name : undefined}
       />
       <ResourceWrapper>
-        {currentNode.name && (
-          <StyledResource
-            currentNodeId={currentNode.id}
-            responsible={currentMeta?.responsible ? users?.[currentMeta.responsible.responsibleId]?.name : undefined}
-            resource={{
-              ...currentNode,
-              paths,
-              contentMeta: currentMeta,
-              resourceTypes: [],
-              relevanceId: currentNode.relevanceId,
-            }}
-            contentMetaLoading={contentMetaLoading}
-          />
-        )}
         {contentMetaLoading ? (
           <Spinner />
         ) : (

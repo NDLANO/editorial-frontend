@@ -15,6 +15,7 @@ import { Switch } from "@ndla/switch";
 import { IStatus } from "@ndla/types-backend/concept-api";
 import { FormAccordionProps } from "./FormAccordion";
 import OpenAllButton from "./OpenAllButton";
+import config from "../../config";
 import { ARCHIVED, PUBLISHED, STORED_HIDE_COMMENTS, UNPUBLISHED } from "../../constants";
 import CommentSection, { COMMENT_WIDTH, SPACING_COMMENT } from "../../containers/ArticlePage/components/CommentSection";
 import { MainContent } from "../../containers/ArticlePage/styles";
@@ -70,7 +71,7 @@ const StyledSwitch = styled(Switch)`
 
 const FormControls = styled(MainContent)`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding-left: ${spacing.small};
 `;
 
@@ -91,7 +92,7 @@ const FormAccordionsWithComments = ({ defaultOpen, children, articleId, articleT
     <ContentWrapper>
       <FlexWrapper>
         <FormControls data-wide={isWideArticle}>
-          <QualityEvaluation articleType={articleType} />
+          {config.qualityEvaluationEnabled === true && <QualityEvaluation articleType={articleType} />}
           <RightFlexWrapper>
             {!!articleId && articleType === "frontpage-article" && (
               <StyledSwitch
@@ -113,7 +114,7 @@ const FormAccordionsWithComments = ({ defaultOpen, children, articleId, articleT
             <StyledSwitch
               id="hide-comments"
               label={hideComments ? t("form.comment.showComments") : t("form.comment.hideComments")}
-              checked={hideComments}
+              checked={!hideComments}
               onChange={() => setHideComments(!hideComments)}
             />
           </CommentWrapper>

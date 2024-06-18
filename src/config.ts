@@ -158,6 +158,7 @@ export type ConfigType = {
   disableCSP: string | undefined;
   usernamePasswordEnabled: boolean;
   h5pMetaEnabled: boolean;
+  qualityEvaluationEnabled: boolean;
   translateServiceUrl: string;
   isVercel: boolean;
   defaultLanguage: LocaleType;
@@ -204,7 +205,8 @@ const getServerSideConfig = (): ConfigType => {
       "USERNAME_PASSWORD_ENABLED",
       usernamePasswordEnabled(ndlaEnvironment),
     ),
-    h5pMetaEnabled: getEnvironmentVariabel("H5PMETA_ENABLED", false),
+    h5pMetaEnabled: getEnvironmentVariabel("H5PMETA_ENABLED", "false") === "true",
+    qualityEvaluationEnabled: getEnvironmentVariabel("QUALITY_EVALUATION_ENABLED", "false") === "true",
     translateServiceUrl: getEnvironmentVariabel("NDKM_URL", getTranslateServiceUrl(ndlaEnvironment)),
     isVercel: getEnvironmentVariabel("IS_VERCEL", "false") === "true",
     runtimeType: getEnvironmentVariabel("NODE_ENV", "development") as "test" | "development" | "production",

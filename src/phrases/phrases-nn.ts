@@ -665,6 +665,7 @@ const phrases = {
     "code-block": "Kodeblokk",
     "concept-inline": "Forklaring\n({{ctrl}}+alt+c)",
     "gloss-inline": "Glose\n({{ctrl}}+alt+g)",
+    "comment-inline": "Kommentar\n({{ctrl}}+alt+e)",
     footnote: "Fotnote\n({{ctrl}}+alt+f)",
     language: `Språk`,
     noneLanguage: "Ingen",
@@ -693,6 +694,9 @@ const phrases = {
     left: "Venstrejustert",
     center: "Midtstilt",
     right: "Høgrejustert",
+    disabled: {
+      "comment-inline": "Kommentar kan kun overlappe tekst",
+    },
   },
   editorBlockpicker: {
     heading: "Legg til",
@@ -723,6 +727,7 @@ const phrases = {
       linkBlockList: "Lenkeblokk",
       gloss: "Glose",
       disclaimer: "UU-åtvaring",
+      comment: "Kommentar",
     },
   },
   form: {
@@ -830,6 +835,7 @@ const phrases = {
       sides: "Kva for ei side biletet skal vises på",
       transcription: "Transkripsjon",
       type: "Type",
+      text: "Kommentar",
       grade: "Gradering",
       note: "Notat",
     },
@@ -1038,7 +1044,10 @@ const phrases = {
         createdBy: "Oppretta av",
         warn: "Hugs å legge til kommentar",
         description: "Du har endra ansvarleg uten å legge til kommentar!",
+        add: "Legg til ny kommentar",
+        label: "Skriv inn kommentar",
       },
+      updateComment: "Oppdater kommentar",
     },
     status: {
       new: "Ny - Ikke lagret",
@@ -1611,6 +1620,7 @@ const phrases = {
     addNode: "Legg til {{nodeType}}",
     newNode: "Nytt {{nodeType}}",
     newNodeName: "Namn på nytt element",
+    newResource: "Ny ressurs",
     editStructure: "Rediger struktur",
     editSubjectpage: "Rediger fagforside",
     deleteSubject: "Slett fag",

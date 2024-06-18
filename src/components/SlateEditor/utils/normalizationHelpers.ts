@@ -12,6 +12,7 @@ import { TYPE_ASIDE } from "../plugins/aside/types";
 import { TYPE_AUDIO } from "../plugins/audio/types";
 import { TYPE_QUOTE } from "../plugins/blockquote/types";
 import { TYPE_CODEBLOCK } from "../plugins/codeBlock/types";
+import { TYPE_COMMENT_BLOCK } from "../plugins/comment/block/types";
 import { TYPE_DEFINITION_LIST } from "../plugins/definitionList/types";
 import { TYPE_DETAILS } from "../plugins/details/types";
 import { TYPE_EMBED_ERROR } from "../plugins/embed/types";
@@ -52,7 +53,7 @@ export const textBlockElements: Element["type"][] = [
 
 export const lastTextBlockElement: Element["type"][] = [TYPE_PARAGRAPH];
 
-export const afterOrBeforeTextBlockElement: Element["type"][] = [TYPE_PARAGRAPH, TYPE_HEADING];
+export const afterOrBeforeTextBlockElement: Element["type"][] = [TYPE_PARAGRAPH, TYPE_HEADING, TYPE_COMMENT_BLOCK];
 
 export const createNode = (type: ElementType, attributes?: Partial<Element>) =>
   slatejsx("element", { ...attributes, type });

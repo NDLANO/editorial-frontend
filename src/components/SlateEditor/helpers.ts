@@ -10,6 +10,7 @@ import { TYPE_AUDIO } from "./plugins/audio/types";
 import { TYPE_BLOGPOST } from "./plugins/blogPost/types";
 import { TYPE_CAMPAIGN_BLOCK } from "./plugins/campaignBlock/types";
 import { TYPE_CODEBLOCK } from "./plugins/codeBlock/types";
+import { TYPE_COMMENT_INLINE } from "./plugins/comment/inline/types";
 import { TYPE_CONCEPT_INLINE } from "./plugins/concept/inline/types";
 import { TYPE_DETAILS } from "./plugins/details/types";
 import { TYPE_EMBED_ERROR } from "./plugins/embed/types";
@@ -28,7 +29,15 @@ import { TYPE_SPAN } from "./plugins/span/types";
 import { TYPE_TABLE } from "./plugins/table/types";
 import { TYPE_EMBED_BRIGHTCOVE } from "./plugins/video/types";
 
-export const inlines = [TYPE_CONCEPT_INLINE, TYPE_FOOTNOTE, TYPE_LINK, TYPE_CONTENT_LINK, TYPE_MATHML, TYPE_SPAN];
+export const inlines = [
+  TYPE_CONCEPT_INLINE,
+  TYPE_FOOTNOTE,
+  TYPE_LINK,
+  TYPE_CONTENT_LINK,
+  TYPE_MATHML,
+  TYPE_SPAN,
+  TYPE_COMMENT_INLINE,
+];
 
 export const blocks = [
   TYPE_ASIDE,

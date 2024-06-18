@@ -18,6 +18,7 @@ import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from "../../
 import { FrontpageArticleFormType } from "../../../FormikForm/articleFormHooks";
 import PanelTitleWithChangeIndicator from "../../components/PanelTitleWithChangeIndicator";
 import RevisionNotes from "../../components/RevisionNotes";
+import { FlatArticleKeys } from "../../components/types";
 
 interface Props {
   article?: IArticle;
@@ -30,8 +31,11 @@ const FrontpageArticlePanels = ({ article, articleHistory, articleLanguage }: Pr
   const { errors } = useFormikContext<FrontpageArticleFormType>();
   const { isWideArticle } = useWideArticle();
 
-  const contentTitleFields = useMemo<(keyof IArticle)[]>(() => ["title", "introduction", "content"], []);
-  const copyrightFields = useMemo<(keyof IArticle)[]>(() => ["copyright"], []);
+  const contentTitleFields = useMemo<FlatArticleKeys[]>(
+    () => ["title.title", "introduction.introduction", "content.content"],
+    [],
+  );
+  const copyrightFields = useMemo<FlatArticleKeys[]>(() => ["copyright"], []);
 
   return (
     <FormAccordionsWithComments

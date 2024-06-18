@@ -41,7 +41,7 @@ const QualityEvaluationModal = ({ articleType }: Props) => {
           title={t("qualityEvaluationForm.edit")}
           aria-label={t("qualityEvaluationForm.edit")}
           variant="solid"
-          colorTheme="primary"
+          colorTheme="light"
           size="xsmall"
         >
           <Pencil />

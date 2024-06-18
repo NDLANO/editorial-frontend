@@ -14,6 +14,8 @@ import { blogPostRenderer } from "../../../../components/SlateEditor/plugins/blo
 import { breakRenderer } from "../../../../components/SlateEditor/plugins/break/render";
 import { campaignBlockRenderer } from "../../../../components/SlateEditor/plugins/campaignBlock/render";
 import { codeblockRenderer } from "../../../../components/SlateEditor/plugins/codeBlock/render";
+import { commentBlockRenderer } from "../../../../components/SlateEditor/plugins/comment/block/render";
+import { commentInlineRenderer } from "../../../../components/SlateEditor/plugins/comment/inline/render";
 import { blockConceptRenderer } from "../../../../components/SlateEditor/plugins/concept/block/render";
 import { inlineConceptRenderer } from "../../../../components/SlateEditor/plugins/concept/inline/render";
 import { conceptListRenderer } from "../../../../components/SlateEditor/plugins/conceptList/render";
@@ -66,6 +68,8 @@ export const frontpageRenderers: SlatePlugin[] = [
   conceptListRenderer,
   inlineConceptRenderer,
   blockConceptRenderer,
+  commentInlineRenderer,
+  commentBlockRenderer,
   headingRenderer,
   // // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
   // // Blockquote and editList actions need to be triggered before paragraph action, else

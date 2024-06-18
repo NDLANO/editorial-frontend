@@ -65,6 +65,7 @@ const scriptSrc = (() => {
     "*.nrk.no",
     "http://nrk.no",
     "https://www.youtube.com",
+    "https//*.youtube.com",
     "https://s.ytimg.com",
     "https://cdn.auth0.com",
     "https://vjs.zencdn.net",
@@ -119,6 +120,7 @@ const frameSrc = (() => {
     "elevkanalen.no",
     "https://www.scribd.com/",
     "https://www.youtube.com",
+    "https://*.youtube.com",
     "https://youtu.be",
     "ndla.no",
     "https://*.ndlah5p.com",
@@ -173,8 +175,11 @@ const frameSrc = (() => {
     "sketchfab.com",
     "jeopardylabs.com",
     "*.uio.no",
-    "geodata.maps.arcgis.com",
+    "*.maps.arcgis.com",
     "arcg.is",
+    "norgeskart.no",
+    "kartiskolen.no",
+    "norgeibilder.no",
   ];
   if (process.env.NODE_ENV === "development") {
     return [

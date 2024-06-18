@@ -24,6 +24,7 @@ import { useSession } from "../../../Session/SessionProvider";
 import PanelTitleWithChangeIndicator from "../../components/PanelTitleWithChangeIndicator";
 import RelatedContentFieldGroup from "../../components/RelatedContentFieldGroup";
 import RevisionNotes from "../../components/RevisionNotes";
+import { FlatArticleKeys } from "../../components/types";
 
 interface Props {
   article?: IArticle;
@@ -43,11 +44,11 @@ const TopicArticleAccordionPanels = ({
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const formikContext = useFormikContext<TopicArticleFormType>();
-  const contentTitleFields = useMemo<(keyof IArticle)[]>(
-    () => ["title", "introduction", "content", "visualElement"],
+  const contentTitleFields = useMemo<FlatArticleKeys[]>(
+    () => ["title.title", "introduction.introduction", "content.content", "visualElement.visualElement"],
     [],
   );
-  const copyrightFields = useMemo<(keyof IArticle)[]>(() => ["copyright"], []);
+  const copyrightFields = useMemo<FlatArticleKeys[]>(() => ["copyright"], []);
 
   const { values, errors } = formikContext;
   return (

@@ -20,7 +20,6 @@ import Spinner from "../../../components/Spinner";
 import TaxonomyLightbox from "../../../components/Taxonomy/TaxonomyLightbox";
 import { getNodeTypeFromNodeId } from "../../../modules/nodes/nodeUtil";
 import AddNodeModalContent from "../AddNodeModalContent";
-import AddResourceModal from "../plannedResource/AddResourceModal";
 import PlannedResourceForm from "../plannedResource/PlannedResourceForm";
 
 const StyledResourceButton = styled(ButtonV2)`
@@ -48,6 +47,9 @@ const ControlButtonsWrapper = styled.div`
 
 const IconButtonContainer = styled.div`
   display: flex;
+`;
+const FullWidth = styled.div`
+  width: 100%;
 `;
 
 interface Props {
@@ -102,9 +104,9 @@ const FolderItem = ({
             >
               {node.id.includes("topic") || node.id.includes("subject") ? (
                 <TaxonomyLightbox title={t("taxonomy.addTopicHeader")}>
-                  <AddResourceModal>
+                  <FullWidth>
                     <PlannedResourceForm node={node} articleType="topic-article" onClose={close} />
-                  </AddResourceModal>
+                  </FullWidth>
                 </TaxonomyLightbox>
               ) : (
                 <TaxonomyLightbox

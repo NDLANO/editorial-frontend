@@ -7,7 +7,17 @@
  */
 import { Element } from "slate";
 import { List } from "@ndla/icons/action";
-import { Announcement, Download, Insights, Link, Person, Podcast, VolumeUp, WarningOutline } from "@ndla/icons/common";
+import {
+  Announcement,
+  Download,
+  Insights,
+  Link,
+  Person,
+  Podcast,
+  VolumeUp,
+  WarningOutline,
+  Comment,
+} from "@ndla/icons/common";
 import {
   ArrowExpand,
   BlogPost,
@@ -32,6 +42,7 @@ import { TYPE_AUDIO } from "../audio/types";
 import { TYPE_BLOGPOST } from "../blogPost/types";
 import { TYPE_CAMPAIGN_BLOCK } from "../campaignBlock/types";
 import { TYPE_CODEBLOCK } from "../codeBlock/types";
+import { TYPE_COMMENT_BLOCK } from "../comment/block/types";
 import { TYPE_CONCEPT_BLOCK, TYPE_GLOSS_BLOCK } from "../concept/block/types";
 import { TYPE_CONCEPT_LIST } from "../conceptList/types";
 import { TYPE_CONTACT_BLOCK } from "../contactBlock/types";
@@ -149,6 +160,12 @@ export const commonActions: Action[] = [
     data: { type: TYPE_DISCLAIMER, object: "disclaimer" },
     icon: <WarningOutline />,
     helpIcon: renderArticleInModal("Disclaimer"),
+    requiredScope: DRAFT_ADMIN_SCOPE,
+  },
+  {
+    data: { type: TYPE_COMMENT_BLOCK, object: "comment" },
+    icon: <Comment />,
+    helpIcon: renderArticleInModal("Comment"),
     requiredScope: DRAFT_ADMIN_SCOPE,
   },
 ];

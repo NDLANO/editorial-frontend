@@ -5,7 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+import isEqual from "lodash/fp/isEqual";
+import get from "lodash/get";
+import { IArticle } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
+import { FlatArticleKeys } from "../../containers/ArticlePage/components/types";
+import { removeCommentTags } from "../../util/compareHTMLHelpers";
 import {
   toEditAudio,
   toEditConcept,
@@ -53,4 +58,22 @@ export const translatableTypes: TranslatableType[] = [
 
 export const createEditUrl = (id: number, locale: string, type: keyof typeof toMapping) => {
   return toMapping[type](id, locale);
+};
+
+export const hasArticleFieldsChanged = (
+  current: IArticle | undefined,
+  lastPublished: IArticle | undefined,
+  fields: FlatArticleKeys[],
+): boolean => {
+  if (current === undefined || lastPublished === undefined) return false;
+  for (const field of fields) {
+    const currentField = get(current, field, "");
+    const lastPublishedField = get(lastPublished, field, "");
+
+    const currentWithoutComments = removeCommentTags(currentField.toString());
+    const publishedWithoutComments = removeCommentTags(lastPublishedField.toString());
+
+    if (!isEqual(currentWithoutComments, publishedWithoutComments)) return true;
+  }
+  return false;
 };

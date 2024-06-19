@@ -17,12 +17,12 @@ import {
   AlignCenter,
   AlignLeft,
   AlignRight,
+  Copyright,
   Crop,
   FocalPoint,
   ImageSmall,
   ImageXsmall,
   ImageXxSmall,
-  Copyright,
   PublicDomain,
 } from "@ndla/icons/editor";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";

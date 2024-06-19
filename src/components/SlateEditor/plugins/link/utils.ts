@@ -96,3 +96,11 @@ export const splitEdPathUrl = (href: string) => {
     resourceType: "article",
   };
 };
+
+export const splitEdPreviewUrl = (href: string) => {
+  const id = href.split("preview/")[1].split("/")[0];
+  return {
+    resourceId: id,
+    resourceType: "article",
+  };
+};

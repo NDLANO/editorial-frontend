@@ -31,20 +31,22 @@ export const calcSecondsFromHMS = (hms: string) => {
 };
 
 export const getYoutubeEmbedUrl = (url: string, start?: string, stop?: string) => {
-  const youtubeEmbedUrl = `https://www.youtube.com/embed/${(url.split("/").pop() || "").split("v=").pop()}?`;
-  return addYoutubeTimeStamps(youtubeEmbedUrl, start, stop);
+  return addYoutubeTimeStamps(url, start, stop);
 };
 
 export const addYoutubeTimeStamps = (url: string, start?: string, stop?: string) => {
-  const [baseUrl] = url.split("?");
+  const [baseUrl, ...queries] = url.split("?");
+  const query = queryString.parse(queries.join("?"));
 
   const startSeconds = start ? calcSecondsFromHMS(start) : undefined;
   const stopSeconds = stop ? calcSecondsFromHMS(stop) : undefined;
 
-  const updatedQuery = queryString.stringify({
+  const startStopObj = {
     ...(startSeconds && { start: startSeconds }),
     ...(stopSeconds && { end: stopSeconds }),
-  });
+  };
+
+  const updatedQuery = queryString.stringify({ ...query, ...startStopObj });
   return `${baseUrl}?${updatedQuery}`;
 };
 

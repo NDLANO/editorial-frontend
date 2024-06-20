@@ -81,7 +81,6 @@ export const searchTypeToFetchMapping: Record<string, SearchFetchType> = {
 const pathToTypeMapping: Record<string, string> = {
   "image-upload": "image",
   "audio-upload": "audio",
-  concept: "concept",
   "podcast-series": "podcast-series",
   default: "content",
 };

@@ -59,7 +59,7 @@ const toolbarAreaFilters = createToolbarAreaOptions();
 
 const ingressPlugins: SlatePlugin[] = [
   spanPlugin,
-  paragraphPlugin,
+  ...paragraphPlugin,
   toolbarPlugin(toolbarOptions, toolbarAreaFilters),
   textTransformPlugin,
   breakPlugin,

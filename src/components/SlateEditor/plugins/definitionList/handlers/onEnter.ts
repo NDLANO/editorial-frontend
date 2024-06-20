@@ -6,36 +6,23 @@
  *
  */
 
-import { Editor, Element, Path, Transforms, Node, Range, Point } from "slate";
+import { Editor, Element, Path, Transforms, Node, Range, Point, NodeEntry } from "slate";
 import { ReactEditor } from "slate-react";
 import { getEditorAncestors } from "../../toolbar/toolbarState";
 import { TYPE_DEFINITION_TERM, TYPE_DEFINITION_DESCRIPTION } from "../types";
 import { definitionDescription, definitionTerm } from "../utils/defaultBlocks";
 
-const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown: ((e: KeyboardEvent) => void) | undefined) => {
-  if ((e.shiftKey && nextOnKeyDown) || (!editor.selection && nextOnKeyDown)) {
-    return nextOnKeyDown(e);
-  } else if (!editor.selection) return;
+const onEnter = (e: KeyboardEvent, editor: Editor, entry: NodeEntry) => {
+  if (!editor.selection) return false;
 
-  const [firstChild, secondChild] = getEditorAncestors(editor, true);
-  const selectedDefinitionItem =
-    firstChild.type === TYPE_DEFINITION_DESCRIPTION || firstChild.type === TYPE_DEFINITION_TERM
-      ? firstChild
-      : secondChild;
-
-  if (!selectedDefinitionItem) {
-    return nextOnKeyDown?.(e);
-  }
-
-  const selectedDefinitionItemPath = ReactEditor.findPath(editor, selectedDefinitionItem);
+  const [selectedDefinitionItem, selectedDefinitionItemPath] = entry;
 
   if (
-    !selectedDefinitionItem ||
     !Element.isElement(selectedDefinitionItem) ||
     (selectedDefinitionItem.type !== TYPE_DEFINITION_DESCRIPTION &&
       selectedDefinitionItem.type !== TYPE_DEFINITION_TERM)
   ) {
-    return nextOnKeyDown?.(e);
+    return false;
   }
 
   e.preventDefault();
@@ -53,7 +40,7 @@ const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown: ((e: KeyboardE
         at: selectedDefinitionItemPath,
       });
     });
-    return;
+    return true;
   }
 
   Transforms.unsetNodes(editor, "serializeAsText", {
@@ -76,7 +63,7 @@ const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown: ((e: KeyboardE
       Transforms.insertNodes(editor, definitionDescription(), { at: nextPath });
     }
     Transforms.select(editor, Editor.start(editor, nextPath));
-    return;
+    return true;
   }
 
   // Split current listItem at selection.
@@ -85,6 +72,7 @@ const onEnter = (e: KeyboardEvent, editor: Editor, nextOnKeyDown: ((e: KeyboardE
       Element.isElement(node) && (node.type === TYPE_DEFINITION_TERM || node.type === TYPE_DEFINITION_DESCRIPTION),
     mode: "lowest",
   });
+  return true;
 };
 
 export default onEnter;

@@ -54,10 +54,10 @@ import { videoPlugin } from "../../../../components/SlateEditor/plugins/video";
 
 // Plugins are checked from last to first
 export const frontpagePlugins: SlatePlugin[] = [
-  sectionPlugin,
+  ...sectionPlugin,
   spanPlugin,
   divPlugin,
-  paragraphPlugin,
+  ...paragraphPlugin,
   footnotePlugin,
   externalPlugin(),
   embedPlugin(),
@@ -67,7 +67,7 @@ export const frontpagePlugins: SlatePlugin[] = [
   videoPlugin(),
   framedContentPlugin,
   blockQuotePlugin,
-  linkPlugin,
+  ...linkPlugin,
   conceptListPlugin,
   inlineConceptPlugin,
   blockConceptPlugin,
@@ -75,7 +75,7 @@ export const frontpagePlugins: SlatePlugin[] = [
   commentBlockPlugin,
   headingPlugin,
   asidePlugin,
-  detailsPlugin,
+  ...detailsPlugin,
   // // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
   // // Blockquote and editList actions need to be triggered before paragraph action, else
   // // unwrapping (jumping out of block) will not work.
@@ -83,9 +83,9 @@ export const frontpagePlugins: SlatePlugin[] = [
   relatedPlugin,
   filePlugin,
   mathmlPlugin,
-  contactBlockPlugin,
+  ...contactBlockPlugin,
   codeblockPlugin,
-  keyFigurePlugin,
+  ...keyFigurePlugin,
   blockPickerPlugin,
   dndPlugin,
   toolbarPlugin(),
@@ -93,8 +93,8 @@ export const frontpagePlugins: SlatePlugin[] = [
   breakPlugin,
   saveHotkeyPlugin,
   markPlugin,
-  definitionListPlugin,
-  listPlugin,
+  ...definitionListPlugin,
+  ...listPlugin,
   gridPlugin,
   blogPostPlugin,
   campaignBlockPlugin,

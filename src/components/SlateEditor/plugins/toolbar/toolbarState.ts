@@ -7,8 +7,9 @@
  */
 
 import merge from "lodash/merge";
-import { Editor, Element, Node, BaseSelection } from "slate";
+import { Editor, Element, Node, BaseSelection, Text, fragment } from "slate";
 import { ElementType } from "../../interfaces";
+import { TYPE_NOOP } from "../noop/types";
 
 export const languages = ["ar", "de", "en", "es", "fr", "la", "no", "se", "sma", "so", "ti", "zh"] as const;
 
@@ -223,6 +224,36 @@ export const getEditorAncestors = (editor: Editor, reverse?: boolean): Element[]
 };
 
 /**
+ * Sets all inline types as disabled if multiple element blocks are selected.
+ */
+const disableInlineOnMultipleBlocksSelected = (
+  options: OptionsType,
+  editorAncestors?: Element[],
+): OptionsType & CategoryFilters => {
+  const ancestors =
+    editorAncestors?.[0]?.type === TYPE_NOOP ? (editorAncestors[0].children as Element[]) : editorAncestors;
+
+  const filteredAncestors =
+    ancestors?.filter(
+      (fragment) =>
+        fragment.children.length > 1 ||
+        (fragment.children.length === 1 && Text.isText(fragment.children[0]) && fragment.children[0].text !== ""),
+    ) ?? [];
+
+  if (filteredAncestors.length < 2) return options;
+
+  const disabledInlines = Object.entries(options.inline).reduce(
+    (acc, [key, value]) => {
+      const k = key as InlineType;
+      acc[k] = { ...value, disabled: true };
+      return acc;
+    },
+    {} as OptionsType["inline"],
+  );
+  return { ...options, inline: disabledInlines };
+};
+
+/**
  * Generates the toolbar based on the current selection of the editor.
  **/
 export const toolbarState = ({
@@ -245,7 +276,9 @@ export const toolbarState = ({
   });
 
   const merged = merge({}, allOptions, options);
-  const toolbar = Object.entries(merged).reduce<ToolbarType>(
+  const maybeDisabledInline = disableInlineOnMultipleBlocksSelected(merged, editorAncestors);
+
+  const toolbar = Object.entries(maybeDisabledInline).reduce<ToolbarType>(
     (acc, curr) => {
       acc[curr[0] as ToolbarCategories] = Object.values(curr[1]);
       return acc;

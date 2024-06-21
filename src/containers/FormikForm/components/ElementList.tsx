@@ -63,7 +63,7 @@ const ElementList = ({
     <StyledWrapper>
       {isDraggable ? (
         <DndList
-          items={elements.map((element, index) => ({ ...element, id: index + 1 }))}
+          items={elements.map((element, index) => ({ ...element, id: "id" in element ? element.id : index + 1 }))}
           dragHandle={
             <DragHandle aria-label={messages?.dragElement ?? t("dragAndDrop.handle")}>
               <DragVertical />

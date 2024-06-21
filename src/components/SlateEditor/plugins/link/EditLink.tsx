@@ -17,7 +17,14 @@ import { LinkElement, ContentLinkElement } from ".";
 import { Model } from "./Link";
 import LinkForm from "./LinkForm";
 import { TYPE_CONTENT_LINK, TYPE_LINK } from "./types";
-import { splitLearningPathUrl, splitEdPathUrl, splitArticleUrl, splitPlainUrl, splitTaxonomyUrl } from "./utils";
+import {
+  splitArticleUrl,
+  splitEdPathUrl,
+  splitEdPreviewUrl,
+  splitLearningPathUrl,
+  splitPlainUrl,
+  splitTaxonomyUrl,
+} from "./utils";
 
 const newTabAttributes = {
   target: "_blank",
@@ -61,6 +68,8 @@ export const isNDLALearningPathUrl = (url: string) =>
   /^http(s)?:\/\/((.*)\.)?ndla.no\/((.*)\/)?learningpaths\/(.*)/.test(url);
 export const isNDLAEdPathUrl = (url: string) =>
   /^http(s)?:\/\/ed.((.*)\.)?ndla.no\/((.*)\/)?subject-matter\/(.*)/.test(url);
+export const isNDLAEdPreviewUrl = (url: string) =>
+  /^http(s)?:\/\/ed.((.*)\.)?ndla.no\/((.*)\/)?preview\/(.*)/.test(url);
 export const isPlainId = (url: string) => /^\d+/.test(url);
 
 const getIdAndTypeFromUrl = async (href: string) => {
@@ -76,6 +85,8 @@ const getIdAndTypeFromUrl = async (href: string) => {
     return await splitTaxonomyUrl(baseHref);
   } else if (isNDLAEdPathUrl(baseHref)) {
     return splitEdPathUrl(baseHref);
+  } else if (isNDLAEdPreviewUrl(baseHref)) {
+    return splitEdPreviewUrl(baseHref);
   }
   return { resourceId: null, resourceType: "" };
 };

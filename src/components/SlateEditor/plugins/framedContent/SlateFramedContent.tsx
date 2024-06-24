@@ -13,7 +13,7 @@ import { ReactEditor, RenderElementProps } from "slate-react";
 import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { Copyright } from "@ndla/icons/licenses";
+import { Copyright } from "@ndla/icons/editor";
 import { FramedContent } from "@ndla/ui";
 import { FramedContentElement } from ".";
 import { TYPE_FRAMED_CONTENT } from "./types";

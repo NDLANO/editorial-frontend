@@ -82,14 +82,6 @@ const SearchPage = () => {
       searchHook: useSearchImages,
     },
     {
-      title: t("subNavigation.searchConcepts"),
-      type: "concept",
-      url: toSearch({ page: "1", sort: "-lastUpdated", "page-size": 10 }, "concept"),
-      icon: <Concept size="large" />,
-      path: "concept",
-      searchHook: useSearchConcepts,
-    },
-    {
       title: t("subNavigation.searchPodcastSeries"),
       type: "podcast-series",
       url: toSearch({ page: "1", sort: "-relevance", "page-size": 10 }, "podcast-series"),

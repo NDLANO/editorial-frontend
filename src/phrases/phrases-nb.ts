@@ -366,6 +366,7 @@ const phrases = {
     DASubjects: "Mine DA-fag",
     archivedIncluded: "Utgåtte fag inkludert",
     error: "Noe gikk galt med søket",
+    conceptSubject: "Forklaringsfag: {{name}}",
   },
   subjectsPage: {
     subjects: "Fag",
@@ -1827,6 +1828,8 @@ const phrases = {
   contextTypes: {
     topic: "Emne",
     frontpage: "Om-NDLA-artikkel",
+    concept: "Forklaring",
+    gloss: "Glose",
   },
   ndlaFilm: {
     editor: {

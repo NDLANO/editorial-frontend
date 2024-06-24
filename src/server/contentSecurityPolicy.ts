@@ -180,6 +180,7 @@ const frameSrc = (() => {
     "norgeskart.no",
     "kartiskolen.no",
     "norgeibilder.no",
+    "video.qbrick.com",
   ];
   if (process.env.NODE_ENV === "development") {
     return [

@@ -152,7 +152,7 @@ const HeaderStatusInformation = ({
   }, [learningpaths, articles, concepts, setHasConnections]);
 
   const expirationColor = useMemo(() => getWarnStatus(expirationDate), [expirationDate]);
-  const hideFavoritedIcon = type === "frontpage-article" || type === "image" || type === "audio" || type === "concept";
+  const hideFavoritedIcon = type === "frontpage-article" || type === "image" || type === "audio";
   if (!noStatus || isNewLanguage) {
     return (
       <StyledStatusWrapper>

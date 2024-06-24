@@ -11,10 +11,12 @@ import { useEffect, useState, MouseEvent, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { IUserData } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
-import GenericSearchForm, { OnFieldChangeFunction } from "./GenericSearchForm";
-import { SearchParams } from "./SearchForm";
-import { SearchFormSelector } from "./Selector";
 import { CONCEPT_RESPONSIBLE, TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from "../../../../constants";
+import GenericSearchForm, {
+  OnFieldChangeFunction,
+} from "../../../../containers/SearchPage/components/form/GenericSearchForm";
+import { SearchParams } from "../../../../containers/SearchPage/components/form/SearchForm";
+import { SearchFormSelector } from "../../../../containers/SearchPage/components/form/Selector";
 import { useAuth0Editors, useAuth0Responsibles } from "../../../../modules/auth0/auth0Queries";
 import { useConceptStateMachine } from "../../../../modules/concept/conceptQueries";
 import { getTagName } from "../../../../util/formHelper";
@@ -25,11 +27,10 @@ interface Props {
   subjects: Node[];
   searchObject: SearchParams;
   locale: string;
-  userData?: IUserData | undefined;
-  disableSavedSearch?: boolean;
+  userData: IUserData | undefined;
 }
 
-const SearchConceptForm = ({ search, searchObject, subjects, userData, disableSavedSearch }: Props) => {
+const SearchConceptForm = ({ search, searchObject, subjects, userData }: Props) => {
   const { t } = useTranslation();
   const [queryInput, setQueryInput] = useState(searchObject.query ?? "");
   const { data: users } = useAuth0Editors({
@@ -169,7 +170,7 @@ const SearchConceptForm = ({ search, searchObject, subjects, userData, disableSa
       emptySearch={emptySearch}
       removeTag={removeTagItem}
       userData={userData}
-      disableSavedSearch={disableSavedSearch}
+      disableSavedSearch
     />
   );
 };

@@ -14,7 +14,7 @@ import { spacing, colors } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
 import { ModalBody, ModalHeader, ModalTitle, Modal, ModalTrigger, ModalContent, ModalCloseButton } from "@ndla/modal";
 import { IEditorNote } from "@ndla/types-backend/draft-api";
-import { ContentTypeBadge } from "@ndla/ui";
+import { constants, ContentTypeBadge } from "@ndla/ui";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
 import ResourceItemLink from "../../../components/Taxonomy/ResourceItemLink";
 import NotesVersionHistory from "../../../components/VersionHistory/VersionHistory";
@@ -23,6 +23,8 @@ import { fetchAuth0Users } from "../../../modules/auth0/auth0Api";
 import { fetchDraftHistory } from "../../../modules/draft/draftApi";
 import formatDate from "../../../util/formatDate";
 import { getIdFromUrn } from "../../../util/taxonomyHelpers";
+
+const { contentTypes } = constants;
 
 interface Props {
   resource: ResourceWithNodeConnectionAndMeta;
@@ -71,7 +73,7 @@ const VersionHistory = ({ resource, contentType }: Props) => {
         <StyledButton
           colorTheme="light"
           size="xsmall"
-          disabled={contentType === "learning-path"}
+          disabled={contentType === contentTypes.LEARNING_PATH}
           isPublished={resource.contentMeta.status.current.toLowerCase() === "published"}
         >
           {t(`form.status.${resource.contentMeta.status.current.toLowerCase()}`)}

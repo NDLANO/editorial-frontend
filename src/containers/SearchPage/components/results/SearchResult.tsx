@@ -14,11 +14,10 @@ import { IImageMetaSummary } from "@ndla/types-backend/image-api";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
 import { Node } from "@ndla/types-taxonomy";
 import SearchAudio from "./SearchAudio";
-import SearchConcept from "./SearchConcept";
 import SearchContent from "./SearchContent";
 import SearchImage from "./SearchImage";
 import SearchPodcastSeries from "./SearchPodcastSeries";
-import { LocaleType, ReturnType } from "../../../../interfaces";
+import { ReturnType } from "../../../../interfaces";
 
 type ContentReturnType = ReturnType<"content", IMultiSearchSummary>;
 type ConceptReturnType = ReturnType<"concept", IConceptSummary>;
@@ -46,16 +45,8 @@ const SearchResult = ({ result, locale, subjects, editingState, responsibleName 
   const { t } = useTranslation();
   switch (result.type) {
     case "content":
-      return <SearchContent content={result.value} locale={locale} responsibleName={responsibleName} />;
-    case "concept":
       return (
-        <SearchConcept
-          concept={result.value}
-          locale={locale as LocaleType}
-          subjects={subjects}
-          editingState={editingState}
-          responsibleName={responsibleName}
-        />
+        <SearchContent subjects={subjects} content={result.value} locale={locale} responsibleName={responsibleName} />
       );
     case "image":
       return <SearchImage image={result.value} locale={locale} />;

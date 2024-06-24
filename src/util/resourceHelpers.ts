@@ -41,17 +41,18 @@ export const getContentTypeFromResourceTypes = (resourceTypes: Pick<ResourceType
   return contentTypeMapping.default;
 };
 
-const isLearningPathResourceType = (contentType?: string) => contentType === contentTypes.LEARNING_PATH;
-
-const isConceptType = (contentType?: string) => contentType === "concept";
-const isGlossType = (contentType?: string) => contentType === "gloss";
-const isAudioType = (contentType?: string) => contentType === "audio";
-const isSeriesType = (contentType?: string) => contentType === "series";
+const isLearningPathResourceType = (contentType?: string) =>
+  contentType === "learningpath" || contentType === contentTypes.LEARNING_PATH;
+const isConceptType = (contentType: string | undefined) => contentType === "concept";
+const isGlossType = (contentType: string | undefined) => contentType === "gloss";
+const isAudioType = (contentType: string | undefined) => contentType === "audio";
+const isSeriesType = (contentType: string | undefined) => contentType === "series";
 
 export const resourceToLinkProps = (
   content: {
     id: number;
     supportedLanguages?: string[];
+    learningResourceType?: string;
     contexts?: { contextType: string }[];
   },
   contentType: string | undefined,
@@ -60,31 +61,26 @@ export const resourceToLinkProps = (
   const foundSupportedLanguage = content.supportedLanguages?.find((l) => l === locale);
   const languageOrDefault = foundSupportedLanguage ?? content.supportedLanguages?.[0] ?? "nb";
 
-  // Only tax-types have contexts
-  if (!content.contexts) {
-    if (isConceptType(contentType)) {
-      return {
-        to: toEditConcept(content.id, languageOrDefault),
-      };
-    }
-    if (isGlossType(contentType)) {
-      return {
-        to: toEditGloss(content.id, languageOrDefault),
-      };
-    }
-    if (isAudioType(contentType)) {
-      return {
-        to: toEditAudio(content.id, languageOrDefault),
-      };
-    }
-
-    if (isSeriesType(contentType)) {
-      return {
-        to: toEditPodcastSeries(content.id, languageOrDefault),
-      };
-    }
+  if (isConceptType(content.learningResourceType)) {
+    return {
+      to: toEditConcept(content.id, languageOrDefault),
+    };
   }
-
+  if (isGlossType(content.learningResourceType)) {
+    return {
+      to: toEditGloss(content.id, languageOrDefault),
+    };
+  }
+  if (isAudioType(contentType)) {
+    return {
+      to: toEditAudio(content.id, languageOrDefault),
+    };
+  }
+  if (isSeriesType(contentType)) {
+    return {
+      to: toEditPodcastSeries(content.id, languageOrDefault),
+    };
+  }
   if (isLearningPathResourceType(contentType)) {
     return {
       href: toLearningpathFull(content.id, locale),
@@ -92,8 +88,7 @@ export const resourceToLinkProps = (
       rel: "noopener noreferrer",
     };
   }
-
   return {
-    to: toEditArticle(content.id, content?.contexts?.[0]?.contextType || "standard", languageOrDefault),
+    to: toEditArticle(content.id, content.learningResourceType ?? "standard", languageOrDefault),
   };
 };

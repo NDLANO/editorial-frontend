@@ -15,11 +15,14 @@ import { spacing, colors } from "@ndla/core";
 import { BookOpen } from "@ndla/icons/common";
 import { ModalBody, ModalHeader, Modal, ModalTitle, ModalTrigger, ModalContent, ModalCloseButton } from "@ndla/modal";
 import { IArticle } from "@ndla/types-backend/draft-api";
+import { constants } from "@ndla/ui";
 import GrepCodesForm from "./GrepCodesForm";
 import { useUpdateDraftMutation } from "../../../modules/draft/draftMutations";
 import { draftQueryKeys } from "../../../modules/draft/draftQueries";
 import { NodeResourceMeta, nodeQueryKeys } from "../../../modules/nodes/nodeQueries";
 import { getIdFromUrn } from "../../../util/taxonomyHelpers";
+
+const { contentTypes } = constants;
 
 interface Props {
   codes: string[];
@@ -55,7 +58,7 @@ const StyledModalHeader = styled(ModalHeader)`
 
 const GrepCodesModal = ({ codes, contentType, contentUri, revision, currentNodeId }: Props) => {
   const draftId = Number(getIdFromUrn(contentUri));
-  if (contentType === "learning-path" || !draftId || !revision) return null;
+  if (contentType === contentTypes.LEARNING_PATH || !draftId || !revision) return null;
   return (
     <Modal>
       <ModalTrigger>

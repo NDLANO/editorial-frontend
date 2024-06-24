@@ -53,7 +53,7 @@ const QualityEvaluation = ({
 }: Props) => {
   const { t } = useTranslation();
   // Since quality evaluation is the same every place the resource is used in taxonomy, we can use the first node
-  const qualityEvaluation = taxonomy?.[0].qualityEvaluation;
+  const qualityEvaluation = taxonomy?.[0]?.qualityEvaluation;
 
   return (
     <FlexWrapper>

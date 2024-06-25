@@ -115,7 +115,7 @@ export const tableSerializer: SlateSerializer = {
     }
     // We treat th and td the same as they're both cell elements. Ensuring they both have the same formatting options/data object
     if (tagName === "th" || tagName === "td") {
-      const filter = ["rowspan", "colspan", "align", "class", "id", "headers"];
+      const filter = ["rowspan", "colspan", "data-align", "class", "id", "headers"];
 
       if (tagName === "th") {
         filter.push("scope");

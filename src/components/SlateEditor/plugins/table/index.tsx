@@ -42,7 +42,7 @@ import {
   TYPE_TABLE_CELL,
   TYPE_TABLE_CELL_HEADER,
 } from "./types";
-import { reduceElementDataAttributes, removeEmptyElementDataAttributes } from "../../../../util/embedTagHelpers";
+import { reduceElementDataAttributes } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 import { NormalizerConfig, defaultBlockNormalizer } from "../../utils/defaultNormalizer";
 import getCurrentBlock from "../../utils/getCurrentBlock";
@@ -115,7 +115,12 @@ export const tableSerializer: SlateSerializer = {
     }
     // We treat th and td the same as they're both cell elements. Ensuring they both have the same formatting options/data object
     if (tagName === "th" || tagName === "td") {
-      const filter = ["rowspan", "colspan", "align", "valign", "class", "scope", "id", "headers"];
+      const filter = ["rowspan", "colspan", "data-align", "class", "id", "headers"];
+
+      if (tagName === "th") {
+        filter.push("scope");
+      }
+
       const attrs = reduceElementDataAttributes(el, filter);
       const colspan = attrs.colspan && parseInt(attrs.colspan);
       const rowspan = attrs.rowspan && parseInt(attrs.rowspan);
@@ -176,27 +181,34 @@ export const tableSerializer: SlateSerializer = {
     if (node.type === TYPE_TABLE_ROW) {
       return <tr>{children}</tr>;
     }
-    if (node.type === TYPE_TABLE_CELL || node.type === TYPE_TABLE_CELL_HEADER) {
-      const data = node.data;
-      const props = removeEmptyElementDataAttributes({ ...data });
-
-      // There is no need in saving colspan and rowspan = 1.
-      // Undefined gives the same result in html-rendering
-      if (data.colspan === 1) {
-        delete props.colspan;
-      }
-      if (data.rowspan === 1) {
-        delete props.rowspan;
-      }
-
-      if (node.type === TYPE_TABLE_CELL_HEADER) {
-        return (
-          <th {...props} scope={node.data.scope}>
-            {children}
-          </th>
-        );
-      }
-      return <td {...props}>{children}</td>;
+    if (node.type === TYPE_TABLE_CELL) {
+      return (
+        <td
+          rowSpan={node.data.rowspan !== 1 ? node.data.rowspan : undefined}
+          colSpan={node.data.colspan !== 1 ? node.data.colspan : undefined}
+          className={node.data.class}
+          headers={node.data.headers}
+          id={node.data.id}
+          data-align={node.data.align}
+        >
+          {children}
+        </td>
+      );
+    }
+    if (node.type === TYPE_TABLE_CELL_HEADER) {
+      return (
+        <th
+          rowSpan={node.data.rowspan !== 1 ? node.data.rowspan : undefined}
+          colSpan={node.data.colspan !== 1 ? node.data.colspan : undefined}
+          className={node.data.class}
+          headers={node.data.headers}
+          scope={node.data.scope}
+          id={node.data.id}
+          data-align={node.data.align}
+        >
+          {children}
+        </th>
+      );
     }
   },
 };
@@ -269,9 +281,8 @@ export const tablePlugin = (editor: Editor) => {
             if (maybeNode?.[1] && !previousMatrixCellIsEqualCurrent(matrix, rowIndex, cellIndex)) {
               const [_, cellPath] = maybeNode;
               const [parent] = Editor.node(editor, Path.parent(Path.parent(cellPath)));
-              const headers = !((node.rowHeaders && cellIndex === 0) || rowIndex === 0)
-                ? getHeader(matrix, rowIndex, cellIndex, node.rowHeaders)
-                : undefined;
+              const shouldHaveHeaders = !((node.rowHeaders && cellIndex === 0) || rowIndex === 0);
+              const headers = shouldHaveHeaders ? getHeader(matrix, rowIndex, cellIndex, node.rowHeaders) : undefined;
 
               if (isTableHead(parent)) {
                 // If first row we add only a double digit id based on the cellIndex
@@ -283,7 +294,8 @@ export const tablePlugin = (editor: Editor) => {
                 if (
                   rowIndex === 1 &&
                   matrix?.[1]?.[1]?.type === TYPE_TABLE_CELL_HEADER &&
-                  (cell.data.id !== `0${cellIndex}1${cellIndex}` || (!!headers && headers !== cell.data.headers))
+                  (cell.data.id !== `0${cellIndex}1${cellIndex}` ||
+                    (shouldHaveHeaders && headers !== cell.data.headers))
                 ) {
                   return updateCell(
                     editor,
@@ -299,7 +311,7 @@ export const tablePlugin = (editor: Editor) => {
                   return updateCell(editor, cell, { id: `r${rowIndex}` }, TYPE_TABLE_CELL_HEADER);
                 }
                 // Adds headers to the cell
-                if (!!headers && cell.type === TYPE_TABLE_CELL && headers !== cell.data.headers) {
+                if (shouldHaveHeaders && cell.type === TYPE_TABLE_CELL && headers !== cell.data.headers) {
                   return updateCell(editor, cell, { headers: headers });
                 }
               }

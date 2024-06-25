@@ -171,9 +171,9 @@ const StructureContainer = ({
   );
 
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
-  const addChildTooltip = childNodeTypes.includes("TOPIC")
-    ? t("taxonomy.addTopicHeader")
-    : t("taxonomy.addNode", { nodeType: t("taxonomy.nodeType.PROGRAMME") });
+  const addChildTooltip = childNodeTypes.includes("PROGRAMME")
+    ? t("taxonomy.addNode", { nodeType: t("taxonomy.nodeType.PROGRAMME") })
+    : undefined;
 
   return (
     <ErrorBoundary>
@@ -222,7 +222,9 @@ const StructureContainer = ({
             <Column colStart={7}>
               {currentNode && (
                 <div>
-                  {currentNode.nodeType === "SUBJECT" && <SubjectBanner subjectNode={currentNode} />}
+                  {(currentNode.nodeType === "SUBJECT" || currentNode.nodeType === "TOPIC") && (
+                    <SubjectBanner subjectNode={currentNode} />
+                  )}
                   {isChildNode(currentNode) && (
                     <StructureResources
                       currentChildNode={currentNode}

@@ -171,6 +171,9 @@ const StructureContainer = ({
   );
 
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
+  const addChildTooltip = childNodeTypes.includes("TOPIC")
+    ? t("taxonomy.addTopicHeader")
+    : t("taxonomy.addNode", { nodeType: t("taxonomy.nodeType.PROGRAMME") });
 
   return (
     <ErrorBoundary>
@@ -208,6 +211,7 @@ const StructureContainer = ({
                       node={node}
                       toggleOpen={handleStructureToggle}
                       childNodeTypes={childNodeTypes}
+                      addChildTooltip={addChildTooltip}
                     />
                   ))}
                 </StructureWrapper>

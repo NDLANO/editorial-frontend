@@ -173,7 +173,7 @@ const StructureContainer = ({
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
   const addChildTooltip = childNodeTypes.includes("PROGRAMME")
     ? t("taxonomy.addNode", { nodeType: t("taxonomy.nodeType.PROGRAMME") })
-    : undefined;
+    : t("taxonomy.addTopic"); // Return undefined to hide plus for topics
 
   return (
     <ErrorBoundary>
@@ -222,9 +222,9 @@ const StructureContainer = ({
             <Column colStart={7}>
               {currentNode && (
                 <div>
-                  {(currentNode.nodeType === "SUBJECT" || currentNode.nodeType === "TOPIC") && (
-                    <SubjectBanner subjectNode={currentNode} />
-                  )}
+                  {/*(currentNode.nodeType === "SUBJECT" || currentNode.nodeType === "TOPIC") && (
+                    <SubjectBanner subjectNode={currentNode} /> // hide banner for now
+                  )*/}
                   {isChildNode(currentNode) && (
                     <StructureResources
                       currentChildNode={currentNode}

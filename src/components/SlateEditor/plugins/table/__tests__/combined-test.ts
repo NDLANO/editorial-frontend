@@ -19,7 +19,7 @@ const editor = withHistory(withReact(withPlugins(createEditor(), learningResourc
 describe("combined table plugin tests", () => {
   test("id in th and td is preserved on serialize and normalize", () => {
     const html =
-      '<section><table><tbody><tr><th id="r0" scope="row" align="right"><p>1</p></th><td align="right" id="abc"><p>2</p></td></tr></tbody></table></section>';
+      '<section><table><tbody><tr><th scope="row" id="r0" data-align="right"><p>1</p></th><td id="abc" data-align="right"><p>2</p></td></tr></tbody></table></section>';
 
     const deserialized = blockContentToEditorValue(html);
 
@@ -32,10 +32,10 @@ describe("combined table plugin tests", () => {
 
   test("Make sure cells in first row is marked as header", () => {
     const initial =
-      '<section><table><thead><tr><th align="right">1</th></tr></thead><tbody><tr><td><p>2</p></td></tr></tbody></table></section>';
+      '<section><table><thead><tr><th data-align="right">1</th></tr></thead><tbody><tr><td><p>2</p></td></tr></tbody></table></section>';
 
     const expected =
-      '<section><table><thead><tr><th align="right" scope="col"><p>1</p></th></tr></thead><tbody><tr><td align="right"><p>2</p></td></tr></tbody></table></section>';
+      '<section><table><thead><tr><th scope="col" data-align="right"><p>1</p></th></tr></thead><tbody><tr><td data-align="right"><p>2</p></td></tr></tbody></table></section>';
 
     const deserialized = blockContentToEditorValue(initial);
 

@@ -66,6 +66,7 @@ export const useAddNodeMutation = () => {
         contexts: [],
         metadata: { visible: true, grepCodes: [], customFields: {} },
         breadcrumbs: [],
+        qualityEvaluation: undefined,
         language: "",
         qualityEvaluation: newNode.qualityEvaluation ? newNode.qualityEvaluation : undefined,
       };

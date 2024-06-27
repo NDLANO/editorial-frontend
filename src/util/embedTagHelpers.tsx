@@ -13,16 +13,6 @@ import { TYPE_IMAGE } from "../components/SlateEditor/plugins/image/types";
 import { isEmpty } from "../components/validators";
 import { Dictionary, Embed } from "../interfaces";
 
-export const removeEmptyElementDataAttributes = (obj: Dictionary<any>) => {
-  const newObject: Dictionary<string> = {};
-  Object.keys(obj).forEach((key: string) => {
-    if (obj[key] !== null && obj[key] !== undefined) {
-      newObject[key] = obj[key];
-    }
-  });
-  return newObject;
-};
-
 const reduceRegexp = /(-|_)[a-z]/g;
 
 export const reduceElementDataAttributesV2 = (

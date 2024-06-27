@@ -199,6 +199,7 @@ export const EXTERNAL_WHITELIST_PROVIDERS: WhitelistProvider[] = [
   { name: "Norgeskart", url: ["norgeskart.no"] },
   { name: "Kart i skolen", url: ["kartiskolen.no"] },
   { name: "Norge i bilder", url: ["norgeibilder.no"] },
+  { name: "Qbrick", url: ["video.qbrick.com"] },
 ];
 
 export const SearchTypeValues = [

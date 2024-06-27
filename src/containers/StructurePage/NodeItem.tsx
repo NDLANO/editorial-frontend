@@ -16,6 +16,7 @@ import { Subject } from "@ndla/icons/contentType";
 import { DragVertical, Star, SubjectMatter, Taxonomy } from "@ndla/icons/editor";
 import { NodeChild, Node, NodeType } from "@ndla/types-taxonomy";
 import FolderItem from "./folderComponents/FolderItem";
+import QualityEvaluationGrade from "./resourceComponents/QualityEvaluationGrade";
 import DndList from "../../components/DndList";
 import { DragHandle } from "../../components/DraggableItem";
 import Fade from "../../components/Taxonomy/Fade";
@@ -26,6 +27,7 @@ import {
   StyledItemBar,
   StyledStructureItem,
 } from "../../components/Taxonomy/nodeStyles";
+import config from "../../config";
 import { TAXONOMY_ADMIN_SCOPE } from "../../constants";
 import { NodeChildWithChildren } from "../../modules/nodes/nodeQueries";
 import { createGuard } from "../../util/guards";
@@ -115,7 +117,7 @@ interface Props {
   nodes?: NodeChildWithChildren[];
   isLoading?: boolean;
   renderBeforeTitle?: RenderBeforeFunction;
-  addChildTooltip: string;
+  addChildTooltip?: string;
 }
 
 const NodeItem = ({
@@ -186,6 +188,12 @@ const NodeItem = ({
           </IconWrapper>
           {item.name}
         </ItemTitleButton>
+        {config.qualityEvaluationEnabled === true && (item.nodeType === "TOPIC" || item.nodeType === "SUBJECT") && (
+          <QualityEvaluationGrade
+            grade={item.gradeAverage?.averageValue}
+            ariaLabel={t("taxonomy.qualityDescription", { nodeType: t(`taxonomy.${item.nodeType}`) })}
+          />
+        )}
         {isActive && (
           <FolderItem
             node={item}

@@ -6,6 +6,7 @@
  *
  */
 
+import { useField } from "formik";
 import { ReactElement, memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
@@ -13,12 +14,14 @@ import { AccordionRoot } from "@ndla/accordion";
 import { fonts, spacing } from "@ndla/core";
 import { Switch } from "@ndla/switch";
 import { IStatus } from "@ndla/types-backend/concept-api";
+import { Node } from "@ndla/types-taxonomy";
 import { FormAccordionProps } from "./FormAccordion";
 import OpenAllButton from "./OpenAllButton";
 import config from "../../config";
 import { ARCHIVED, PUBLISHED, STORED_HIDE_COMMENTS, UNPUBLISHED } from "../../constants";
 import CommentSection, { COMMENT_WIDTH, SPACING_COMMENT } from "../../containers/ArticlePage/components/CommentSection";
 import { MainContent } from "../../containers/ArticlePage/styles";
+import { RevisionMetaFormType } from "../../containers/FormikForm/AddRevisionDateField";
 import { useLocalStorageBooleanState } from "../../containers/WelcomePage/hooks/storedFilterHooks";
 import QualityEvaluation from "../QualityEvaluation/QualityEvaluation";
 import { useWideArticle } from "../WideArticleEditorProvider";
@@ -31,6 +34,7 @@ interface Props {
   articleId?: number;
   articleType?: string;
   articleStatus?: IStatus;
+  taxonomy?: Node[];
 }
 
 const ContentWrapper = styled.div`
@@ -71,30 +75,61 @@ const StyledSwitch = styled(Switch)`
 
 const FormControls = styled(MainContent)`
   display: flex;
-  justify-content: flex-end;
   padding-left: ${spacing.small};
+  justify-content: flex-end;
+  &[data-enabled-quality-evaluation="true"] {
+    justify-content: space-between;
+  }
 `;
 
-const FormAccordionsWithComments = ({ defaultOpen, children, articleId, articleType, articleStatus }: Props) => {
+const FormAccordionsWithComments = ({
+  defaultOpen,
+  children,
+  articleId,
+  articleType,
+  articleStatus,
+  taxonomy,
+}: Props) => {
   const { t } = useTranslation();
   const { toggleWideArticles, isWideArticle } = useWideArticle();
+  const [revisionMetaField, , revisionMetaHelpers] = useField<RevisionMetaFormType>("revisionMeta");
 
   const [openAccordions, setOpenAccordions] = useState<string[]>(defaultOpen);
   const [hideComments, setHideComments] = useLocalStorageBooleanState(STORED_HIDE_COMMENTS);
 
+  const isTopicArticle = articleType === "topic-article";
+  const isFrontPageArticle = articleType === "frontpage-article";
+
   const disableComments = useMemo(
-    () =>
-      articleType !== "topic-article" && [PUBLISHED, ARCHIVED, UNPUBLISHED].some((s) => s === articleStatus?.current),
-    [articleStatus, articleType],
+    () => !isTopicArticle && [PUBLISHED, ARCHIVED, UNPUBLISHED].some((s) => s === articleStatus?.current),
+    [articleStatus, isTopicArticle],
   );
+
+  // Topics are updated from structure edit page
+  const withoutTopics = taxonomy?.filter((n) => n.nodeType !== "TOPIC");
 
   return (
     <ContentWrapper>
       <FlexWrapper>
-        <FormControls data-wide={isWideArticle}>
-          {config.qualityEvaluationEnabled === true && <QualityEvaluation articleType={articleType} />}
+        <FormControls
+          data-enabled-quality-evaluation={
+            config.qualityEvaluationEnabled === true && !isTopicArticle && !isFrontPageArticle
+          }
+        >
+          {!isTopicArticle && !isFrontPageArticle && (
+            <>
+              {config.qualityEvaluationEnabled === true && !isTopicArticle && (
+                <QualityEvaluation
+                  articleType={articleType}
+                  taxonomy={withoutTopics}
+                  revisionMetaField={revisionMetaField}
+                  revisionMetaHelpers={revisionMetaHelpers}
+                />
+              )}
+            </>
+          )}
           <RightFlexWrapper>
-            {!!articleId && articleType === "frontpage-article" && (
+            {!!articleId && isFrontPageArticle && (
               <StyledSwitch
                 id={articleId}
                 label={t("frontpageArticleForm.isFrontpageArticle.toggleArticle")}

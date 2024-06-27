@@ -30,8 +30,8 @@ interface Props {
   onNodeSelected: (node?: Node) => void;
   resourceSectionRef: MutableRefObject<HTMLDivElement | null>;
   renderBeforeTitle?: RenderBeforeFunction;
-  addChildTooltip: string;
   childNodeTypes: NodeType[];
+  addChildTooltip?: string;
 }
 
 const RootNode = ({
@@ -42,8 +42,8 @@ const RootNode = ({
   onNodeSelected,
   resourceSectionRef,
   renderBeforeTitle,
-  addChildTooltip,
   childNodeTypes,
+  addChildTooltip,
 }: Props) => {
   const { i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();

@@ -60,7 +60,7 @@ interface Props {
   rootNodeId: string;
   onCurrentNodeChanged: (node?: Node) => void;
   nodeChildren: Node[];
-  addChildTooltip: string;
+  addChildTooltip?: string;
 }
 
 const FolderItem = ({
@@ -89,41 +89,43 @@ const FolderItem = ({
             onCurrentNodeChanged={onCurrentNodeChanged}
             nodeChildren={nodeChildren}
           />
-          <Modal open={open} onOpenChange={setOpen} modal={false}>
-            <IconButtonContainer>
-              <ModalTrigger>
-                <IconButtonV2 size="xsmall" variant="ghost" title={addChildTooltip} aria-label={addChildTooltip}>
-                  <Plus />
-                </IconButtonV2>
-              </ModalTrigger>
-            </IconButtonContainer>
-            <ModalContent
-              forceOverlay
-              size={node.id.includes("topic") ? { height: "normal", width: "normal" } : "normal"}
-              position="top"
-            >
-              {node.id.includes("topic") || node.id.includes("subject") ? (
-                <TaxonomyLightbox title={t("taxonomy.addTopicHeader")}>
-                  <FullWidth>
-                    <PlannedResourceForm node={node} articleType="topic-article" onClose={close} />
-                  </FullWidth>
-                </TaxonomyLightbox>
-              ) : (
-                <TaxonomyLightbox
-                  title={t("taxonomy.addNode", {
-                    nodeType: t(`taxonomy.nodeType.${node.nodeType}`),
-                  })}
-                >
-                  <AddNodeModalContent
-                    parentNode={node}
-                    rootId={rootNodeId}
-                    nodeType={getNodeTypeFromNodeId(rootNodeId)}
-                    onClose={close}
-                  />
-                </TaxonomyLightbox>
-              )}
-            </ModalContent>
-          </Modal>
+          {addChildTooltip && (
+            <Modal open={open} onOpenChange={setOpen} modal={false}>
+              <IconButtonContainer>
+                <ModalTrigger>
+                  <IconButtonV2 size="xsmall" variant="ghost" title={addChildTooltip} aria-label={addChildTooltip}>
+                    <Plus />
+                  </IconButtonV2>
+                </ModalTrigger>
+              </IconButtonContainer>
+              <ModalContent
+                forceOverlay
+                size={node.id.includes("topic") ? { height: "normal", width: "normal" } : "normal"}
+                position="top"
+              >
+                {node.id.includes("topic") || node.id.includes("subject") ? (
+                  <TaxonomyLightbox title={t("taxonomy.addTopicHeader")}>
+                    <FullWidth>
+                      <PlannedResourceForm node={node} articleType="topic-article" onClose={close} />
+                    </FullWidth>
+                  </TaxonomyLightbox>
+                ) : (
+                  <TaxonomyLightbox
+                    title={t("taxonomy.addNode", {
+                      nodeType: t(`taxonomy.nodeType.${node.nodeType}`),
+                    })}
+                  >
+                    <AddNodeModalContent
+                      parentNode={node}
+                      rootId={rootNodeId}
+                      nodeType={getNodeTypeFromNodeId(rootNodeId)}
+                      onClose={close}
+                    />
+                  </TaxonomyLightbox>
+                )}
+              </ModalContent>
+            </Modal>
+          )}
         </ControlButtonsWrapper>
       )}
       {showJumpToResources && (

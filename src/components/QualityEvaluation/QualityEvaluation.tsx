@@ -6,14 +6,17 @@
  *
  */
 
-import { useField } from "formik";
+import { FieldHelperProps, FieldInputProps } from "formik";
 import { CSSProperties } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { colors, spacing } from "@ndla/core";
+import { Node } from "@ndla/types-taxonomy";
 import { Text } from "@ndla/typography";
-import { QualityEvaluationFormValues, gradeItemStyles, qualityEvaluationOptions } from "./QualityEvaluationForm";
+import { gradeItemStyles, qualityEvaluationOptions } from "./QualityEvaluationForm";
 import QualityEvaluationModal from "./QualityEvaluationModal";
+import { RevisionMetaFormType } from "../../containers/FormikForm/AddRevisionDateField";
+import SmallQualityEvaluationGrade from "../../containers/StructurePage/resourceComponents/QualityEvaluationGrade";
 
 const FlexWrapper = styled.div`
   display: flex;
@@ -21,7 +24,7 @@ const FlexWrapper = styled.div`
   gap: ${spacing.xsmall};
 `;
 
-const GradeItem = styled.div`
+const LargeGradeItem = styled.div`
   ${gradeItemStyles}
   cursor: default;
 `;
@@ -33,37 +36,62 @@ const StyledNoEvaluation = styled(Text)`
 
 interface Props {
   articleType?: string;
+  taxonomy?: Node[];
+  iconButtonColor?: "light" | "primary";
+  revisionMetaField?: FieldInputProps<RevisionMetaFormType>;
+  revisionMetaHelpers?: FieldHelperProps<RevisionMetaFormType>;
+  gradeVariant?: "small" | "large";
 }
 
-const QualityEvaluation = ({ articleType }: Props) => {
+const QualityEvaluation = ({
+  articleType,
+  taxonomy,
+  iconButtonColor,
+  revisionMetaField,
+  revisionMetaHelpers,
+  gradeVariant = "large",
+}: Props) => {
   const { t } = useTranslation();
-
-  const [{ value }] = useField<QualityEvaluationFormValues>("qualityEvaluation");
+  // Since quality evaluation is the same every place the resource is used in taxonomy, we can use the first node
+  const qualityEvaluation = taxonomy?.[0]?.qualityEvaluation;
 
   return (
     <FlexWrapper>
       <Text margin="none" textStyle="button">
         {`${t("qualityEvaluationForm.title")}:`}
       </Text>
-      {value?.grade ? (
-        <GradeItem
-          title={value?.note}
-          aria-label={value?.note}
-          style={
-            {
-              "--item-color": qualityEvaluationOptions[value?.grade],
-            } as CSSProperties
-          }
-          data-border={value?.grade === 1 || value?.grade === 5}
-        >
-          {value?.grade}
-        </GradeItem>
+      {qualityEvaluation?.grade ? (
+        <>
+          {gradeVariant === "large" && (
+            <LargeGradeItem
+              title={qualityEvaluation?.note}
+              aria-label={qualityEvaluation?.note}
+              style={
+                {
+                  "--item-color": qualityEvaluationOptions[qualityEvaluation.grade],
+                } as CSSProperties
+              }
+              data-border={qualityEvaluation.grade === 1 || qualityEvaluation.grade === 5}
+            >
+              {qualityEvaluation?.grade}
+            </LargeGradeItem>
+          )}
+          {gradeVariant === "small" && (
+            <SmallQualityEvaluationGrade grade={qualityEvaluation.grade} ariaLabel={qualityEvaluation?.note} />
+          )}
+        </>
       ) : (
         <StyledNoEvaluation margin="none" textStyle="button">
           {t("qualityEvaluationForm.unavailable")}
         </StyledNoEvaluation>
       )}
-      <QualityEvaluationModal articleType={articleType} />
+      <QualityEvaluationModal
+        articleType={articleType}
+        taxonomy={taxonomy}
+        iconButtonColor={iconButtonColor}
+        revisionMetaField={revisionMetaField}
+        revisionMetaHelpers={revisionMetaHelpers}
+      />
     </FlexWrapper>
   );
 };

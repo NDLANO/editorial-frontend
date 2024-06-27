@@ -6,19 +6,25 @@
  *
  */
 
-import { Form, Formik, useField } from "formik";
-import { CSSProperties, useMemo } from "react";
+import { FieldHelperProps, FieldInputProps, Form, Formik } from "formik";
+import { CSSProperties, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { Item, Indicator } from "@radix-ui/react-radio-group";
+import { useQueryClient } from "@tanstack/react-query";
 import { ButtonV2 } from "@ndla/button";
 import { colors, spacing, fonts, misc } from "@ndla/core";
 import { FieldErrorMessage, Fieldset, InputV3, Label, Legend, RadioButtonGroup } from "@ndla/forms";
+import { Grade, Node } from "@ndla/types-taxonomy";
 import { RevisionMetaFormType } from "../../containers/FormikForm/AddRevisionDateField";
+import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVersionProvider";
+import { usePutNodeMutation } from "../../modules/nodes/nodeMutations";
+import { nodeQueryKeys } from "../../modules/nodes/nodeQueries";
 import { formatDateForBackend } from "../../util/formatDate";
 import { FormControl, FormField } from "../FormField";
 import validateFormik, { RulesType } from "../formikValidationSchema";
+import Spinner from "../Spinner";
 
 export const qualityEvaluationOptions: { [key: number]: string } = {
   1: colors.support.green,
@@ -71,7 +77,7 @@ const ButtonContainer = styled.div`
   justify-content: space-between;
 `;
 
-const RightButtonswrapper = styled.div`
+const RightButtonsWrapper = styled.div`
   display: flex;
   gap: ${spacing.xsmall};
 `;
@@ -81,12 +87,18 @@ const StyledForm = styled(Form)`
   flex-direction: column;
   gap: ${spacing.small};
 `;
+const MutationErrorMessage = styled(FieldErrorMessage)`
+  margin-left: auto;
+`;
 
 interface Props {
   setOpen: (open: boolean) => void;
+  taxonomy: Node[];
+  revisionMetaField?: FieldInputProps<RevisionMetaFormType>;
+  revisionMetaHelpers?: FieldHelperProps<RevisionMetaFormType>;
 }
 
-export interface QualityEvaluationFormValues {
+interface QualityEvaluationFormValues {
   grade?: number;
   note?: string;
 }
@@ -98,24 +110,46 @@ const rules: RulesType<QualityEvaluationFormValues> = {
   note: { required: false },
 };
 
-const toInitialValues = (initialData: QualityEvaluationFormValues | null): QualityEvaluationFormValues => {
+const toInitialValues = (initialData: QualityEvaluationFormValues | undefined): QualityEvaluationFormValues => {
   return {
     grade: initialData?.grade,
     note: initialData?.note ?? "",
   };
 };
 
-const QualityEvaluationForm = ({ setOpen }: Props) => {
+const QualityEvaluationForm = ({ setOpen, taxonomy, revisionMetaField, revisionMetaHelpers }: Props) => {
   const { t } = useTranslation();
-  const [qualityEvaluationField, , helpers] = useField<QualityEvaluationFormValues | null>("qualityEvaluation");
-  const [revisionMetaField, , revisionMetaHelpers] = useField<RevisionMetaFormType>("revisionMeta");
+  const { taxonomyVersion } = useTaxonomyVersion();
+  const qc = useQueryClient();
+  const updateTaxMutation = usePutNodeMutation();
 
-  const initialValues = useMemo(() => toInitialValues(qualityEvaluationField.value), [qualityEvaluationField.value]);
+  const [loading, setLoading] = useState({ save: false, delete: false });
+
+  // Since quality evaluation is the same every place the resource is used in taxonomy, we can use the first node
+  const node = useMemo(() => taxonomy[0], [taxonomy]);
+  const initialValues = useMemo(() => toInitialValues(node.qualityEvaluation), [node.qualityEvaluation]);
   const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
 
-  const onSubmit = (values: QualityEvaluationFormValues) => {
+  const onSubmit = async (values: QualityEvaluationFormValues) => {
+    setLoading({ ...loading, save: true });
+
+    const promises = taxonomy.map((n) =>
+      updateTaxMutation.mutateAsync({
+        ...n,
+        qualityEvaluation: { ...values, grade: Number(values.grade) as Grade },
+        taxonomyVersion,
+      }),
+    );
+    await Promise.all(promises);
+
     // Automatically add revision when grade is lowest possible value (5)
-    if (values.grade === 5 && qualityEvaluationField.value?.grade !== 5) {
+    if (
+      revisionMetaField &&
+      revisionMetaHelpers &&
+      !updateTaxMutation.isError &&
+      values.grade === 5 &&
+      node.qualityEvaluation?.grade !== 5
+    ) {
       const revisions = revisionMetaField.value ?? [];
       revisionMetaHelpers.setValue(
         revisions.concat({
@@ -125,14 +159,38 @@ const QualityEvaluationForm = ({ setOpen }: Props) => {
         }),
       );
     }
-    helpers.setValue(values);
+    await qc.invalidateQueries({
+      queryKey: nodeQueryKeys.nodes({
+        taxonomyVersion,
+      }),
+    });
+    await qc.invalidateQueries({ queryKey: nodeQueryKeys.childNodes({ taxonomyVersion }) });
+
     setOpen(false);
+    setLoading({ ...loading, save: false });
   };
 
-  const onDelete = () => {
-    helpers.setValue(null);
+  const onDelete = async () => {
+    setLoading({ ...loading, delete: true });
+    const promises = taxonomy.map((n) =>
+      updateTaxMutation.mutateAsync({
+        ...n,
+        qualityEvaluation: null,
+        taxonomyVersion,
+      }),
+    );
+    await Promise.all(promises);
+
+    await qc.invalidateQueries({
+      queryKey: nodeQueryKeys.nodes({
+        taxonomyVersion,
+      }),
+    });
+    await qc.invalidateQueries({ queryKey: nodeQueryKeys.childNodes({ taxonomyVersion }) });
     setOpen(false);
+    setLoading({ ...loading, delete: false });
   };
+
   return (
     <Formik
       initialValues={initialValues}
@@ -141,14 +199,14 @@ const QualityEvaluationForm = ({ setOpen }: Props) => {
       onSubmit={onSubmit}
       onReset={onDelete}
     >
-      {({ dirty, isValid }) => (
+      {({ dirty, isValid, isSubmitting }) => (
         <StyledForm>
           <FormField name="grade">
             {({ field, meta, helpers }) => (
               <FormControl isInvalid={!!meta.error} isRequired>
                 <RadioButtonGroup
                   orientation="horizontal"
-                  defaultValue={field.value?.toString()}
+                  value={field.value?.toString()}
                   onValueChange={(v) => helpers.setValue(Number(v))}
                   asChild
                 >
@@ -190,21 +248,23 @@ const QualityEvaluationForm = ({ setOpen }: Props) => {
           </FormField>
           <ButtonContainer>
             <div>
-              {qualityEvaluationField.value?.grade && (
+              {node.qualityEvaluation?.grade && (
                 <ButtonV2 variant="outline" colorTheme="danger" type="reset">
+                  {loading.delete && <Spinner appearance="small" />}
                   {t("qualityEvaluationForm.delete")}
                 </ButtonV2>
               )}
             </div>
-            <RightButtonswrapper>
+            <RightButtonsWrapper>
               <ButtonV2 variant="outline" onClick={() => setOpen(false)}>
                 {t("form.abort")}
               </ButtonV2>
-              <ButtonV2 disabled={!dirty || !isValid} type="submit">
-                {t("form.save")}
+              <ButtonV2 disabled={!dirty || !isValid || isSubmitting} type="submit">
+                {loading.save && <Spinner appearance="small" />} {t("form.save")}
               </ButtonV2>
-            </RightButtonswrapper>
+            </RightButtonsWrapper>
           </ButtonContainer>
+          {updateTaxMutation.isError && <MutationErrorMessage>{t("qualityEvaluationForm.error")}</MutationErrorMessage>}
         </StyledForm>
       )}
     </Formik>

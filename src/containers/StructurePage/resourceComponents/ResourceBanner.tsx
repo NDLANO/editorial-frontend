@@ -9,19 +9,18 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { spacing, mq, breakpoints } from "@ndla/core";
 import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
 import { Text } from "@ndla/typography";
 import { ContentTypeBadge } from "@ndla/ui";
 import ApproachingRevisionDate from "./ApproachingRevisionDate";
 import GrepCodesModal from "./GrepCodesModal";
 import GroupResourceSwitch from "./GroupResourcesSwitch";
-import QualityEvaluationInfo from "./QualityEvaluationInfo";
+import JumpToStructureButton from "./JumpToStructureButton";
 import ResourceItemLink from "./ResourceItemLink";
 import StatusIcons from "./StatusIcons";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
 import VersionHistory from "./VersionHistory";
+import QualityEvaluation from "../../../components/QualityEvaluation/QualityEvaluation";
 import RelevanceOption from "../../../components/Taxonomy/RelevanceOption";
 import config from "../../../config";
 import { PUBLISHED } from "../../../constants";
@@ -30,44 +29,18 @@ import { NodeResourceMeta } from "../../../modules/nodes/nodeQueries";
 import CommentIndicator from "../../WelcomePage/components/worklist/CommentIndicator";
 import PlannedResourceModal from "../plannedResource/PlannedResourceModal";
 import {
+  BannerWrapper,
   BoldFont,
   ButtonRow,
   CardWrapper,
+  FlexContentWrapper,
   ResourceCardContentWrapper,
-  ResourceGroupBanner,
   StyledResourceCard,
   StyledResourceIcon,
   StyledResponsibleBadge,
+  TitleRow,
+  TopInfoRow,
 } from "../styles";
-
-const BannerWrapper = styled(ResourceGroupBanner)`
-  flex-direction: column;
-  gap: ${spacing.xsmall};
-`;
-
-const FlexContentWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${spacing.small};
-`;
-
-const TopInfoRow = styled(FlexContentWrapper)`
-  gap: ${spacing.small};
-  justify-content: space-between;
-  flex-wrap: wrap;
-`;
-
-const JumpToStructureButton = styled(ButtonV2)`
-  ${mq.range({ from: breakpoints.desktop })} {
-    display: none;
-  }
-`;
-
-const TitleRow = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
 
 const ContentGroup = styled.div`
   display: flex;
@@ -114,17 +87,18 @@ const ResourceBanner = ({
     <BannerWrapper>
       <TopInfoRow>
         <FlexContentWrapper>
-          <JumpToStructureButton
-            size="small"
-            variant="outline"
-            onClick={() => document.getElementById(currentNode.id)?.scrollIntoView({ block: "center" })}
-          >
-            {t("taxonomy.jumpToStructure")}
-          </JumpToStructureButton>
+          <JumpToStructureButton nodeId={currentNode.id} />
           <PlannedResourceModal currentNode={currentNode} resourceTypes={resourceTypes} resources={resources} />
         </FlexContentWrapper>
         <FlexContentWrapper>
-          {config.qualityEvaluationEnabled === true && <QualityEvaluationInfo contentMeta={contentMeta} />}
+          {config.qualityEvaluationEnabled === true && (
+            <QualityEvaluation
+              articleType="topic-article"
+              taxonomy={[currentNode]}
+              iconButtonColor="primary"
+              gradeVariant="small"
+            />
+          )}
           <Text margin="none" textStyle="meta-text-small">{`${workflowCount}/${elementCount} ${t(
             "taxonomy.workflow",
           ).toLowerCase()}`}</Text>

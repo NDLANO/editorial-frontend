@@ -104,10 +104,10 @@ const Resource = ({ resource, onDelete, currentNodeId, contentMetaLoading, respo
             </StyledResourceBody>
             {config.qualityEvaluationEnabled === true && (
               <QualityEvaluationGrade
-                grade={resource.contentMeta?.qualityEvaluation?.grade}
+                grade={resource.qualityEvaluation?.grade}
                 ariaLabel={
-                  resource.contentMeta?.qualityEvaluation?.note
-                    ? `${t("qualityEvaluationForm.title")}: ${resource.contentMeta?.qualityEvaluation?.note}`
+                  resource.qualityEvaluation?.note
+                    ? `${t("qualityEvaluationForm.title")}: ${resource.qualityEvaluation?.note}`
                     : t("qualityEvaluationForm.title")
                 }
               />

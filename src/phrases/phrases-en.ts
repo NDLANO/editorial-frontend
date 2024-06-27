@@ -107,6 +107,7 @@ const phrases = {
     ti: "Tigrinya",
     und: "Undetermined",
     ukr: "Ukranian",
+    prs: "Dari",
     empty: "No languages left",
     change: "Change to {{language}} version",
   },

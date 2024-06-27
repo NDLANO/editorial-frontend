@@ -651,7 +651,7 @@ const phrases = {
     unavailable: "Ikkje satt",
     modalTitle: "Oppdater kvalitetsvurdering",
     description:
-      "Legg inn ei kvalitetsvurdering av {{ resource }} med ei beskriving av den valde graderinga. Skalaen er som følgjer: 1 = eineståande, 2 = veldig bra, 3 = OK, 4 = bør fiksast, 5 = må fiksast.",
+      "Legg inn ei kvalitetsvurdering av {{ resource }} med ei beskriving av den valde graderinga. Skalaen er som følgjer: 1 = eineståande, 2 = veldig bra, 3 = OK, 4 = bør fiksast, 5 = må fiksast. Hugs å lagre artikkelen dersom du velger gradering 5.",
     edit: "Rediger kvalitetsvurdering",
     delete: "Slett",
     note: "Notat",

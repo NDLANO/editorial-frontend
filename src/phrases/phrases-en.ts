@@ -651,7 +651,7 @@ const phrases = {
     unavailable: "Not specified",
     modalTitle: "Update quality evaluation",
     description:
-      "Provide a quality assessment of the {{ resource }} with a description of the chosen rating. The scale is as follows: 1 = outstanding, 2 = very good, 3 = OK, 4 = should be fixed, 5 = needs to be fixed.",
+      "Provide a quality assessment of the {{ resource }} with a description of the chosen rating. The scale is as follows: 1 = outstanding, 2 = very good, 3 = OK, 4 = should be fixed, 5 = needs to be fixed. Remember to save the article if choosing grade 5.",
     edit: "Edit quality evaluation",
     delete: "Delete",
     note: "Note",

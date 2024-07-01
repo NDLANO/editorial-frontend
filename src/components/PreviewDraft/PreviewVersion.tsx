@@ -8,12 +8,13 @@
 
 import { useFormikContext } from "formik";
 import parse from "html-react-parser";
-import { ReactElement, useMemo, useState } from "react";
+import { ReactElement, ReactNode, useMemo, useState } from "react";
 import { renderToString } from "react-dom/server";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { colors, spacing } from "@ndla/core";
 import { InformationOutline } from "@ndla/icons/common";
+import { MissingRouterContext } from "@ndla/safelink";
 import { Switch } from "@ndla/switch";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import { toFormArticle } from "./PreviewDraft";
@@ -75,6 +76,10 @@ const TwoArticleWrapperWithDiff = styled(TwoArticleWrapper)`
   }
 `;
 
+const renderWithoutRouter = (node: ReactNode) => {
+  return renderToString(<MissingRouterContext.Provider value={true}>{node}</MissingRouterContext.Provider>);
+};
+
 export const PreviewVersion = ({ article, language, customTitle }: VersionPreviewProps) => {
   const [diffEnable, setDiffEnable] = useState(false);
   const { t } = useTranslation();
@@ -98,20 +103,21 @@ export const PreviewVersion = ({ article, language, customTitle }: VersionPrevie
     previewAlt: true,
     useDraftConcepts: true,
   });
+
   const currentObj = useMemo(() => {
     if (!diffEnable) return null;
     return {
-      title: renderToString(currentTransformed.article?.title as ReactElement),
-      introduction: renderToString(currentTransformed.article?.introduction as ReactElement),
-      content: renderToString(currentTransformed.article?.content as ReactElement),
+      title: renderWithoutRouter(currentTransformed.article?.title),
+      introduction: renderWithoutRouter(currentTransformed.article?.introduction),
+      content: renderWithoutRouter(currentTransformed.article?.content),
     };
   }, [diffEnable, currentTransformed]);
   const publishObj = useMemo(() => {
     if (!diffEnable) return null;
     return {
-      title: renderToString(publishedTransformed.article?.title as ReactElement),
-      introduction: renderToString(publishedTransformed.article?.introduction as ReactElement),
-      content: renderToString(publishedTransformed.article?.content as ReactElement),
+      title: renderWithoutRouter(publishedTransformed.article?.title),
+      introduction: renderWithoutRouter(publishedTransformed.article?.introduction),
+      content: renderWithoutRouter(publishedTransformed.article?.content),
     };
   }, [diffEnable, publishedTransformed]);
 

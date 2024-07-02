@@ -6,6 +6,7 @@
  *
  */
 
+import { CheerioAPI, load } from "cheerio";
 import FormData from "form-data";
 import fetch from "node-fetch";
 import queryString from "query-string";
@@ -41,6 +42,16 @@ const headers = user
     }
   : undefined;
 
+const wrapAttribute = (html: CheerioAPI, element: any, attribute: string, selector: string) => {
+  const value = html(element).attr(attribute) ?? "";
+  if (!value) return;
+  const innerHtml = load(value);
+  innerHtml(selector).each((_, el) => {
+    innerHtml(el).wrap("<ndlaskip></ndlaskip>");
+  });
+  html(element).attr(attribute, innerHtml("body").html());
+};
+
 const doFetch = (name: string, element: ApiTranslateType): Promise<ResponseType> => {
   if (element.type === "text") {
     const parsedContent = element.isArray ? element.content.join("|") : element.content;
@@ -60,8 +71,25 @@ const doFetch = (name: string, element: ApiTranslateType): Promise<ResponseType>
       });
   } else {
     const formData = new FormData();
-    const wrappedContent = `<html>${element.content}</html>`;
-    const buffer = Buffer.from(wrappedContent);
+    const html = load(`${element.content}`);
+    html("span[lang]").each((_, el) => {
+      html(el).wrap("<ndlaskip></ndlaskip>");
+    });
+    html("math").each((_, el) => {
+      html(el).wrap("<ndlaskip></ndlaskip>");
+    });
+    html("ndlaembed").each((_, el) => {
+      wrapAttribute(html, el, "data-caption", "span[lang]");
+      wrapAttribute(html, el, "data-title", "span[lang]");
+      wrapAttribute(html, el, "data-subtitle", "span[lang]");
+      wrapAttribute(html, el, "data-description", "span[lang]");
+      wrapAttribute(html, el, "data-url-text", "span[lang]");
+    });
+    // Our backend uses Jsoup to encode html. However, nynodata expects it to be not encoded. As such, we have to parse
+    // the entire html string and reencode it.
+    const content = html.html({ xml: { xmlMode: false, decodeEntities: false } });
+
+    const buffer = Buffer.from(content);
     const params = { stilmal };
 
     formData.append("file", buffer, { filename: `${name}.html` });
@@ -73,7 +101,11 @@ const doFetch = (name: string, element: ApiTranslateType): Promise<ResponseType>
       .then((res) => res.blob())
       .then((res) => res.text())
       .then(async (res) => {
-        const strippedResponse = res.replace("<html>", "").replace("</html>", "");
+        const response = load(res);
+        response("ndlaskip").each((_, el) => {
+          response(el).contents().unwrap();
+        });
+        const strippedResponse = response("body").unwrap().html() ?? "";
         return { key: name, value: strippedResponse };
       });
   }

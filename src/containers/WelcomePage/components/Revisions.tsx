@@ -117,7 +117,7 @@ const Revisions = ({ userData }: Props) => {
 
   const currentDateAddYear = formatDateForBackend(addYears(new Date(), 1));
 
-  const { data, isLoading, isError } = useSearch(
+  const { data, isPending, isError } = useSearch(
     {
       subjects: filterSubject ? [filterSubject.value] : userData?.favoriteSubjects,
       revisionDateTo: currentDateAddYear,
@@ -280,7 +280,7 @@ const Revisions = ({ userData }: Props) => {
           </ControlWrapperDashboard>
         </StyledTopRowDashboardInfo>
         <TableComponent
-          isLoading={isLoading}
+          isPending={isPending}
           tableTitleList={tableTitles}
           tableData={tableData}
           setSortOption={setSortOption}

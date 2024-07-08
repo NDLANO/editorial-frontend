@@ -22,7 +22,7 @@ import { StyledLink, StyledTopRowDashboardInfo, TopRowControls } from "../styles
 
 interface Props {
   data: IConceptSummary[];
-  isLoading: boolean;
+  isPending: boolean;
   page: number;
   setPage: (page: number) => void;
   sortOption: string;
@@ -36,7 +36,7 @@ interface Props {
 
 const LastUsedConcepts = ({
   data,
-  isLoading,
+  isPending,
   page,
   setPage,
   sortOption,
@@ -77,7 +77,7 @@ const LastUsedConcepts = ({
         </TopRowControls>
       </StyledTopRowDashboardInfo>
       <TableComponent
-        isLoading={isLoading}
+        isPending={isPending}
         tableTitleList={titles}
         tableData={tableData}
         setSortOption={setSortOption}

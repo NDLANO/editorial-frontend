@@ -37,18 +37,18 @@ const StyledWrapper = styled.div`
 interface Props {
   ndlaId: string;
   favoriteSubjects: string[] | undefined;
-  userDataLoading: boolean;
+  userDataPending: boolean;
   subjectIdObject: SubjectIdObject;
 }
 
-const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataLoading, subjectIdObject }: Props) => {
+const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataPending, subjectIdObject }: Props) => {
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
 
   const searchQuery = usePostSearchNodes({ ...customFieldsBody(ndlaId), taxonomyVersion });
 
   const tabs = useMemo(() => {
-    if (searchQuery.isLoading) return [];
+    if (searchQuery.isPending) return [];
 
     const tabsList = [];
 
@@ -126,7 +126,7 @@ const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataLoading, subjectIdO
 
     return tabsList;
   }, [
-    searchQuery.isLoading,
+    searchQuery.isPending,
     subjectIdObject.subjectLMA,
     subjectIdObject.subjectDA,
     subjectIdObject.subjectSA,
@@ -135,7 +135,7 @@ const ArticleStatuses = ({ ndlaId, favoriteSubjects, userDataLoading, subjectIdO
     favoriteSubjects,
   ]);
 
-  if (!tabs.length || userDataLoading) return null;
+  if (!tabs.length || userDataPending) return null;
 
   return (
     <StyledWrapper>

@@ -54,7 +54,7 @@ export const WelcomePage = () => {
 
   const { t } = useTranslation();
 
-  const { data, isLoading } = useUserData({
+  const { data, isPending } = useUserData({
     enabled: isValid(getAccessToken()) && getAccessTokenPersonal(),
   });
 
@@ -85,7 +85,7 @@ export const WelcomePage = () => {
               <ArticleStatuses
                 ndlaId={ndlaId}
                 favoriteSubjects={data?.favoriteSubjects}
-                userDataLoading={isLoading}
+                userDataPending={isPending}
                 subjectIdObject={subjectIdObject}
               />
             </>
@@ -96,10 +96,10 @@ export const WelcomePage = () => {
             <>
               <Revisions userData={data} />
               <SubjectView
-                userDataLoading={isLoading}
+                userDataPending={isPending}
                 favoriteSubjects={data?.favoriteSubjects}
                 subjectIdObject={subjectIdObject}
-                isLoading={searchQuery.isLoading}
+                isPending={searchQuery.isPending}
               />
             </>
           )}

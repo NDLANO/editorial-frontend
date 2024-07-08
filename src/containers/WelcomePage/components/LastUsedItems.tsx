@@ -169,7 +169,7 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [] }: Props)
           content: (
             <LastUsedResources
               data={sortedData}
-              isLoading={searchDraftsQuery.isLoading}
+              isPending={searchDraftsQuery.isPending}
               page={page}
               setPage={setPage}
               lastPage={lastPage}
@@ -188,7 +188,7 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [] }: Props)
           content: (
             <LastUsedConcepts
               data={sortedConceptsData}
-              isLoading={searchConceptsQuery.isLoading}
+              isPending={searchConceptsQuery.isPending}
               page={pageConcept}
               setPage={setPageConcept}
               sortOption={sortOptionConcept}

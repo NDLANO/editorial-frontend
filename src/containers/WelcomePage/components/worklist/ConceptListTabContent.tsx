@@ -26,7 +26,7 @@ import TableTitle from "../TableTitle";
 interface Props {
   data: IConceptSearchResult | undefined;
   filterSubject: SingleValue | undefined;
-  isLoading: boolean;
+  isPending: boolean;
   setSortOption: (o: Prefix<"-", SortOptionConceptList>) => void;
   sortOption: string;
   error: string | undefined;
@@ -40,7 +40,7 @@ interface Props {
 const ConceptListTabContent = ({
   data,
   filterSubject,
-  isLoading,
+  isPending,
   setSortOption,
   sortOption,
   error,
@@ -150,7 +150,7 @@ const ConceptListTabContent = ({
         </ControlWrapperDashboard>
       </StyledTopRowDashboardInfo>
       <TableComponent
-        isLoading={isLoading}
+        isPending={isPending}
         tableTitleList={tableTitles}
         tableData={tableData}
         setSortOption={setSortOption}

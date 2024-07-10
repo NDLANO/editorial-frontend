@@ -20,6 +20,23 @@ import {
 import { useDraftHistory } from "../../modules/draft/draftQueries";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 
+const updateUserData = async (articleId: number) => {
+  const stringId = articleId.toString();
+  const result = await fetchUserData();
+  const latest = uniq([stringId].concat(result.latestEditedArticles ?? []));
+  const latestEditedArticles = latest.slice(0, LAST_UPDATED_SIZE);
+  apiUpdateUserData({ latestEditedArticles });
+};
+
+const checkArticleChanged = (old: IArticle | undefined, upd: IUpdatedArticle): boolean => {
+  if (!old) throw new Error("Did not get old article when checking for changes");
+  return (
+    (old.title?.title ?? "") !== (upd.title ?? "") ||
+    (old.introduction?.introduction ?? "") !== (upd.introduction ?? "") ||
+    (old.content?.content ?? "") !== (upd.content ?? "")
+  );
+};
+
 export function useFetchArticleData(articleId: number | undefined, language: string) {
   const [article, _setArticle] = useState<IArticle | undefined>(undefined);
   const [articleChanged, setArticleChanged] = useState(false);
@@ -40,36 +57,26 @@ export function useFetchArticleData(articleId: number | undefined, language: str
     fetchArticle();
   }, [articleId, language, taxonomyVersion]);
 
-  const updateUserData = useCallback(async (articleId: number) => {
-    const stringId = articleId.toString();
-    const result = await fetchUserData();
-    const latest = uniq([stringId].concat(result.latestEditedArticles ?? []));
-    const latestEditedArticles = latest.slice(0, LAST_UPDATED_SIZE);
-    apiUpdateUserData({ latestEditedArticles });
-  }, []);
-
   const updateArticle = useCallback(
     async (updatedArticle: IUpdatedArticle): Promise<IArticle> => {
       if (!articleId) throw new Error("Received article without id when updating");
       const savedArticle = await updateDraft(articleId, updatedArticle);
-      await updateUserData(savedArticle.id);
+      const articleContentChanged = checkArticleChanged(article, updatedArticle);
+      if (articleContentChanged) await updateUserData(savedArticle.id);
       _setArticle(savedArticle);
       setArticleChanged(false);
       return savedArticle;
     },
-    [articleId, updateUserData],
+    [article, articleId],
   );
 
-  const createArticle = useCallback(
-    async (createdArticle: INewArticle) => {
-      const savedArticle = await createDraft(createdArticle);
-      _setArticle(savedArticle);
-      setArticleChanged(false);
-      await updateUserData(savedArticle.id);
-      return savedArticle;
-    },
-    [updateUserData],
-  );
+  const createArticle = useCallback(async (createdArticle: INewArticle) => {
+    const savedArticle = await createDraft(createdArticle);
+    _setArticle(savedArticle);
+    setArticleChanged(false);
+    await updateUserData(savedArticle.id);
+    return savedArticle;
+  }, []);
 
   const setArticle = useCallback((article: IArticle) => {
     _setArticle(article);

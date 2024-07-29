@@ -77,8 +77,8 @@ const toImageEmbedFormvalues = (embed: ImageEmbedData): ImageEmbedFormValues => 
     lowerRightX: embed.lowerRightX,
     lowerRightY: embed.lowerRightY,
     align: embed.align,
-    size: embed.size?.replace("hide-byline", ""),
-    hideByline: !!embed.size?.includes("hide-byline"),
+    size: embed.size?.replace("--hide-byline", ""),
+    hideByline: !!embed.size?.includes("hide-byline") || embed.hideByline === "true",
   };
 };
 
@@ -103,7 +103,9 @@ const ImageEmbedForm = ({ embed, onSave, onClose, language, allowDecorative, ima
       lowerRightX: values.lowerRightX,
       lowerRightY: values.lowerRightY,
       align: values.align,
-      size: values.hideByline ? `${values.size}-hide-byline` : values.size,
+      size: values.hideByline ? `${values.size}--hide-byline` : values.size,
+      hideByline: values.hideByline ? "true" : undefined,
+      hideCaption: values.hideByline ? "true" : undefined,
     });
     onClose();
   };

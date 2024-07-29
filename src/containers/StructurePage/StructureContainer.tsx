@@ -14,6 +14,7 @@ import { Spinner } from "@ndla/icons";
 import { NodeChild, Node, NodeType } from "@ndla/types-taxonomy";
 import StructureErrorIcon from "./folderComponents/StructureErrorIcon";
 import StructureResources from "./resourceComponents/StructureResources";
+import SubjectBanner from "./resourceComponents/SubjectBanner";
 import RootNode from "./RootNode";
 import StickyVersionSelector from "./StickyVersionSelector";
 import StructureBanner from "./StructureBanner";
@@ -25,7 +26,6 @@ import {
   REMEMBER_SA_SUBJECTS,
   REMEMBER_LMA_SUBJECTS,
   TAXONOMY_ADMIN_SCOPE,
-  TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
 } from "../../constants";
 import { useUserData } from "../../modules/draft/draftQueries";
 import { useNodes } from "../../modules/nodes/nodeQueries";
@@ -161,16 +161,8 @@ const StructureContainer = ({
     [ndlaId, nodesQuery.data],
   );
 
-  const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
-
-  const filtered = isTaxonomyAdmin
-    ? nodesQuery.data
-    : nodesQuery.data?.filter(
-        (node) => node.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== "true",
-      ) ?? [];
-
   const nodes = getNodes(
-    filtered,
+    nodesQuery.data,
     showLmaSubjects ? resultSubjectIdObject.subjectLMA.map((s) => s.id) : [],
     showDaSubjects ? resultSubjectIdObject.subjectDA.map((s) => s.id) : [],
     showSaSubjects ? resultSubjectIdObject.subjectSA.map((s) => s.id) : [],
@@ -178,9 +170,10 @@ const StructureContainer = ({
     rootId,
   );
 
-  const addChildTooltip = childNodeTypes.includes("TOPIC")
-    ? t("taxonomy.addTopicHeader")
-    : t("taxonomy.addNode", { nodeType: t("taxonomy.nodeType.PROGRAMME") });
+  const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
+  const addChildTooltip = childNodeTypes.includes("PROGRAMME")
+    ? t("taxonomy.addNode", { nodeType: t("taxonomy.nodeType.PROGRAMME") })
+    : t("taxonomy.addTopic"); // Return undefined to hide plus for topics
 
   return (
     <ErrorBoundary>
@@ -217,8 +210,8 @@ const StructureContainer = ({
                       key={node.id}
                       node={node}
                       toggleOpen={handleStructureToggle}
-                      addChildTooltip={addChildTooltip}
                       childNodeTypes={childNodeTypes}
+                      addChildTooltip={addChildTooltip}
                     />
                   ))}
                 </StructureWrapper>
@@ -227,12 +220,19 @@ const StructureContainer = ({
           </Column>
           {showResourceColumn && (
             <Column colStart={7}>
-              {currentNode && isChildNode(currentNode) && (
-                <StructureResources
-                  currentChildNode={currentNode}
-                  setCurrentNode={setCurrentNode}
-                  resourceRef={resourceSection}
-                />
+              {currentNode && (
+                <div>
+                  {/*(currentNode.nodeType === "SUBJECT" || currentNode.nodeType === "TOPIC") && (
+                    <SubjectBanner subjectNode={currentNode} /> // hide banner for now
+                  )*/}
+                  {isChildNode(currentNode) && (
+                    <StructureResources
+                      currentChildNode={currentNode}
+                      setCurrentNode={setCurrentNode}
+                      resourceRef={resourceSection}
+                    />
+                  )}
+                </div>
               )}
             </Column>
           )}

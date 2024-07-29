@@ -58,7 +58,12 @@ const LearningResourcePanels = ({
   const copyrightFields = useMemo<FlatArticleKeys[]>(() => ["copyright"], []);
 
   return (
-    <FormAccordionsWithComments defaultOpen={defaultOpen} articleType="standard" articleStatus={article?.status}>
+    <FormAccordionsWithComments
+      defaultOpen={defaultOpen}
+      articleType="standard"
+      articleStatus={article?.status}
+      taxonomy={taxonomy}
+    >
       <FormAccordion
         id={"learning-resource-content"}
         title={

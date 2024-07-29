@@ -29,16 +29,16 @@ const StyledWrapper = styled.div`
 
 interface Props {
   favoriteSubjects: string[] | undefined;
-  userDataLoading: boolean;
+  userDataPending: boolean;
   subjectIdObject: SubjectIdObject;
-  isLoading: boolean;
+  isPending: boolean;
 }
 
-const SubjectView = ({ favoriteSubjects, userDataLoading, subjectIdObject, isLoading }: Props) => {
+const SubjectView = ({ favoriteSubjects, userDataPending, subjectIdObject, isPending }: Props) => {
   const { t } = useTranslation();
 
   const tabs = useMemo(() => {
-    if (isLoading) return [];
+    if (isPending) return [];
 
     const tabsList = [];
 
@@ -108,14 +108,14 @@ const SubjectView = ({ favoriteSubjects, userDataLoading, subjectIdObject, isLoa
     return tabsList;
   }, [
     favoriteSubjects,
-    isLoading,
+    isPending,
     subjectIdObject.subjectDA,
     subjectIdObject.subjectLMA,
     subjectIdObject.subjectSA,
     t,
   ]);
 
-  if (!tabs.length || userDataLoading) return null;
+  if (!tabs.length || userDataPending) return null;
 
   return (
     <StyledWrapper>

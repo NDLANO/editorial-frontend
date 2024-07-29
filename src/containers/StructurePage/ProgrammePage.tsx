@@ -19,7 +19,9 @@ const ProgrammePage = () => {
   const messageBox = useMemo(
     () => (
       <MessageBox>
-        {`[${t("taxonomy.previewProgrammes")}](${config.ndlaFrontendDomain}?taxStructure=true&versionHash=default)`}
+        <a href={`${config.ndlaFrontendDomain}?versionHash=default`} target="_blank" rel="noreferrer">
+          {t("taxonomy.previewProgrammes")}
+        </a>
       </MessageBox>
     ),
     [t],

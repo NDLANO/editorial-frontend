@@ -265,13 +265,9 @@ export const postSearchNodes = ({ taxonomyVersion, ...body }: PostSearchNodes): 
   });
 };
 
-export interface PutNodeParams extends WithTaxonomyVersion {
+export interface PutNodeParams extends WithTaxonomyVersion, Omit<NodePostPut, "nodeType"> {
   id: string;
-  contentUri?: string;
-  name?: string;
-  nodeId?: string;
-  nodeType?: NodeType;
-  root?: boolean;
+  nodeType?: string;
 }
 
 export const putNode = ({ taxonomyVersion, id, ...params }: PutNodeParams): Promise<void> => {

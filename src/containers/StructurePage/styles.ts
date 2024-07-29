@@ -92,3 +92,25 @@ export const StyledPlusIcon = styled(Plus)`
     display: none;
   }
 `;
+export const BannerWrapper = styled(ResourceGroupBanner)`
+  flex-direction: column;
+  gap: ${spacing.xsmall};
+`;
+
+export const FlexContentWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${spacing.small};
+`;
+
+export const TopInfoRow = styled(FlexContentWrapper)`
+  gap: ${spacing.small};
+  justify-content: space-between;
+  flex-wrap: wrap;
+`;
+
+export const TitleRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;

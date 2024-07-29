@@ -9,7 +9,8 @@
 import styled from "@emotion/styled";
 
 const StyledInlineBugFix = styled.span`
-  font-size: 0;
+  font-size: unset;
+  line-height: unset;
 `;
 
 /**
@@ -18,6 +19,4 @@ const StyledInlineBugFix = styled.span`
  * https://github.com/ianstormtaylor/slate/blob/d271c4be543027be2197f353d7ea61b51e9c48c6/site/examples/inlines.tsx#L77-L82
  *
  */
-export const InlineBugfix = () => (
-  <StyledInlineBugFix contentEditable={false}>{String.fromCodePoint(160) /* Non-breaking space */}</StyledInlineBugFix>
-);
+export const InlineBugfix = () => <StyledInlineBugFix contentEditable={false} />;

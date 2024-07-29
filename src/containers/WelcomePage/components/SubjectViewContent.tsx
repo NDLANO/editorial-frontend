@@ -92,7 +92,7 @@ const SubjectViewContent = ({
     return getCurrentPageData(page, subjectIds, Number(pageSize!.value));
   }, [page, pageSize, subjectIds]);
 
-  const { data, isLoading, isError } = useSearchSubjectStats(
+  const { data, isPending, isError } = useSearchSubjectStats(
     { subjects: currentPageSubjectIds },
     { enabled: !!currentPageSubjectIds.length },
   );
@@ -200,7 +200,7 @@ const SubjectViewContent = ({
         </ControlWrapperDashboard>
       </StyledTopRowDashboardInfo>
       <TableComponent
-        isLoading={isLoading}
+        isPending={isPending}
         tableTitleList={tableTitles}
         tableData={tableData.filter((el) => el.length > 0)}
         error={error}

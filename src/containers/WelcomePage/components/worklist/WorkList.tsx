@@ -157,7 +157,7 @@ const WorkList = ({ ndlaId }: Props) => {
               filterSubject={filterSubject}
               setSortOption={setSortOption}
               setFilterSubject={setFilterSubject}
-              isLoading={searchQuery.isLoading}
+              isPending={searchQuery.isPending}
               error={searchError}
               sortOption={sortOption}
               ndlaId={ndlaId}
@@ -176,7 +176,7 @@ const WorkList = ({ ndlaId }: Props) => {
             <WorkListTabContent
               data={searchOnHoldQuery.data}
               setSortOption={setSortOptionOnHold}
-              isLoading={searchOnHoldQuery.isLoading}
+              isPending={searchOnHoldQuery.isPending}
               error={searchOnHoldError}
               sortOption={sortOptionOnHold}
               ndlaId={ndlaId}
@@ -195,7 +195,7 @@ const WorkList = ({ ndlaId }: Props) => {
             <ConceptListTabContent
               data={searchConceptsQuery.data}
               setSortOption={setSortOptionConcepts}
-              isLoading={searchConceptsQuery.isLoading}
+              isPending={searchConceptsQuery.isPending}
               error={searchConceptsError}
               sortOption={sortOptionConcepts}
               filterSubject={filterConceptSubject}

@@ -22,7 +22,7 @@ import { StyledLink, StyledTopRowDashboardInfo, TopRowControls } from "../styles
 
 interface Props {
   data: IArticleSummary[];
-  isLoading: boolean;
+  isPending: boolean;
   page: number;
   setPage: (page: number) => void;
   sortOption: string;
@@ -36,7 +36,7 @@ interface Props {
 
 const LastUsedResources = ({
   data = [],
-  isLoading,
+  isPending,
   page,
   setPage,
   sortOption,
@@ -78,7 +78,7 @@ const LastUsedResources = ({
         </TopRowControls>
       </StyledTopRowDashboardInfo>
       <TableComponent
-        isLoading={isLoading}
+        isPending={isPending}
         tableTitleList={titles}
         tableData={tableData}
         setSortOption={setSortOption}

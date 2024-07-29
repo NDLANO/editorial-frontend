@@ -6,6 +6,7 @@
  *
  */
 
+import queryString from "query-string";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
@@ -61,6 +62,24 @@ const FigureButtons = styled(StyledFigureButtons)`
   z-index: ${stackOrder.offsetSingle};
 `;
 
+const disableImageCache = (embed: ImageMetaData | undefined): ImageMetaData | undefined => {
+  if (embed?.status !== "success") return embed;
+  // NOTE: We add a query parameter to the imageUrl to avoid cache
+  const parsed = queryString.parseUrl(embed.data.image.imageUrl);
+  const newQuery = queryString.stringify({ ...parsed.query, ts: Date.now() });
+  const newUrl = `${parsed.url}?${newQuery}`;
+  return {
+    ...embed,
+    data: {
+      ...embed.data,
+      image: {
+        ...embed.data.image,
+        imageUrl: newUrl,
+      },
+    },
+  };
+};
+
 const SlateImage = ({ element, editor, attributes, children, allowDecorative = true }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -81,6 +100,8 @@ const SlateImage = ({ element, editor, attributes, children, allowDecorative = t
       resource: "image",
     };
   }, [element.data, imageEmbedQuery.data, imageEmbedQuery.error, imageEmbedQuery.isLoading]);
+
+  const embedWithoutCaching = useMemo(() => disableImageCache(embed), [embed]);
 
   const handleRemove = () => {
     Transforms.removeNodes(editor, {
@@ -118,7 +139,7 @@ const SlateImage = ({ element, editor, attributes, children, allowDecorative = t
     [editor, element],
   );
 
-  if (imageEmbedQuery.isLoading || !embed) {
+  if (imageEmbedQuery.isLoading || !embed || !embedWithoutCaching) {
     return <Spinner />;
   }
 
@@ -131,7 +152,7 @@ const SlateImage = ({ element, editor, attributes, children, allowDecorative = t
         data-invalid={embed.embedData.isDecorative === "false" && !embed.embedData.alt}
         data-selected={isSelected}
       >
-        <ImageEmbed embed={embed}>
+        <ImageEmbed embed={embedWithoutCaching}>
           <FigureButtons>
             <ModalTrigger>
               <IconButtonV2 title={t("form.image.editImage")} aria-label={t("form.image.editImage")} colorTheme="light">

@@ -11,7 +11,7 @@ import { Editor, Element, Node, BaseSelection, Text, fragment } from "slate";
 import { ElementType } from "../../interfaces";
 import { TYPE_NOOP } from "../noop/types";
 
-export const languages = ["ar", "de", "en", "es", "fr", "la", "no", "se", "sma", "so", "ti", "zh"] as const;
+export const languages = ["ar", "de", "en", "es", "fr", "la", "no", "prs", "se", "sma", "so", "ti", "zh"] as const;
 
 export type TextType = "normal-text" | "heading-2" | "heading-3" | "heading-4";
 export type MarkType = "bold" | "italic" | "code" | "sub" | "sup";
@@ -236,11 +236,11 @@ const disableInlineOnMultipleBlocksSelected = (
   const filteredAncestors =
     ancestors?.filter(
       (fragment) =>
-        fragment.children.length > 1 ||
-        (fragment.children.length === 1 && Text.isText(fragment.children[0]) && fragment.children[0].text !== ""),
+        fragment.children?.length > 1 ||
+        (fragment.children?.length === 1 && Text.isText(fragment.children[0]) && fragment.children[0].text !== ""),
     ) ?? [];
 
-  if (filteredAncestors.length < 2) return options;
+  if (filteredAncestors?.length < 2) return options;
 
   const disabledInlines = Object.entries(options.inline).reduce(
     (acc, [key, value]) => {

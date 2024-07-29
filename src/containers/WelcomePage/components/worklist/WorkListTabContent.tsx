@@ -53,7 +53,7 @@ const StyledExclamationMark = styled(ExclamationMark)`
 `;
 interface Props {
   data: IMultiSearchResult | undefined;
-  isLoading: boolean;
+  isPending: boolean;
   setSortOption: (o: Prefix<"-", SortOptionWorkList>) => void;
   sortOption: string;
   error: string | undefined;
@@ -72,7 +72,7 @@ const WorkListTabContent = ({
   data,
   filterSubject,
   setSortOption,
-  isLoading,
+  isPending,
   sortOption,
   error,
   setFilterSubject,
@@ -205,7 +205,7 @@ const WorkListTabContent = ({
         </ControlWrapperDashboard>
       </StyledTopRowDashboardInfo>
       <TableComponent
-        isLoading={isLoading}
+        isPending={isPending}
         tableTitleList={tableTitles}
         tableData={tableData}
         setSortOption={setSortOption}

@@ -10,7 +10,9 @@ import { FieldProps, FormikHelpers, FormikValues } from "formik";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { FormPill } from "@ndla/forms";
+import { ButtonV2 } from "@ndla/button";
+import { spacing } from "@ndla/core";
+import { Cross } from "@ndla/icons/action";
 import AsyncDropdown from "../../components/Dropdown/asyncDropdown/AsyncDropdown";
 import { FormikFieldHelp } from "../../components/FormikField";
 import FormikFieldDescription from "../../components/FormikField/FormikFieldDescription";
@@ -27,6 +29,10 @@ interface Props {
 
 const StyledErrorPreLine = styled.span`
   white-space: pre-line;
+`;
+
+const StyledButton = styled(ButtonV2)`
+  margin: ${spacing.xsmall} ${spacing.xsmall} 0 0;
 `;
 
 interface GrepCode {
@@ -149,7 +155,16 @@ const GrepCodesFieldContent = ({ field, form }: Props) => {
       />
 
       {grepCodes.map((grepCode, index) => (
-        <FormPill id={index.toString()} label={isTitleTooLong(grepCode.title)} onClick={removeGrepCode} key={index} />
+        <StyledButton
+          size="small"
+          colorTheme="light"
+          id={index.toString()}
+          onClick={() => removeGrepCode(index.toString())}
+          key={index}
+        >
+          {isTitleTooLong(grepCode.title)}
+          <Cross />
+        </StyledButton>
       ))}
     </>
   );

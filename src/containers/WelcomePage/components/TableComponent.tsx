@@ -114,7 +114,7 @@ export interface TitleElement<T extends string> {
 interface Props<T extends string> {
   tableTitleList: TitleElement<T>[];
   tableData: FieldElement[][];
-  isLoading: boolean;
+  isPending: boolean;
   setSortOption?: (o: Prefix<"-", T>) => void;
   noResultsText?: string;
   sortOption?: string;
@@ -125,7 +125,7 @@ interface Props<T extends string> {
 const TableComponent = <T extends string>({
   tableTitleList,
   tableData = [[]],
-  isLoading,
+  isPending,
   setSortOption,
   noResultsText,
   sortOption,
@@ -175,7 +175,7 @@ const TableComponent = <T extends string>({
             ))}
           </tr>
         </thead>
-        {!isLoading ? (
+        {!isPending ? (
           <tbody>
             {tableData.map((contentRow, index) => (
               <tr key={`tablerow_${contentRow?.[0]?.id}_${index}`}>
@@ -189,7 +189,7 @@ const TableComponent = <T extends string>({
           </tbody>
         ) : null}
       </StyledTable>
-      {isLoading ? (
+      {isPending ? (
         <SpinnerWrapper>
           <Spinner appearance="small" />
         </SpinnerWrapper>

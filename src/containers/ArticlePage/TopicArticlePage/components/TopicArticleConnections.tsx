@@ -17,6 +17,7 @@ import { Node, NodeChild } from "@ndla/types-taxonomy";
 import { HowToHelper } from "../../../../components/HowTo";
 import ActiveTopicConnections from "../../../../components/Taxonomy/ActiveTopicConnections";
 import TaxonomyBlockNode, { NodeWithChildren } from "../../../../components/Taxonomy/TaxonomyBlockNode";
+import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from "../../../../constants";
 import { fetchUserData } from "../../../../modules/draft/draftApi";
 import { MinimalNodeChild } from "../../LearningResourcePage/components/LearningResourceTaxonomy";
 
@@ -38,9 +39,13 @@ const TopicArticleConnections = ({ structure, selectedNodes, addConnection, getS
   const [showFavorites, setShowFavorites] = useState(true);
   const [favoriteSubjectIds, setFavoriteSubjectIds] = useState<string[]>([]);
 
+  const filtered = structure.filter(
+    (node) => node.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== "true",
+  );
+
   const nodes = useMemo(
-    () => (showFavorites ? structure.filter((node) => favoriteSubjectIds.includes(node.id)) : structure),
-    [favoriteSubjectIds, showFavorites, structure],
+    () => (showFavorites ? filtered.filter((node) => favoriteSubjectIds.includes(node.id)) : filtered),
+    [favoriteSubjectIds, showFavorites, filtered],
   );
 
   const fetchFavoriteSubjects = async () => {

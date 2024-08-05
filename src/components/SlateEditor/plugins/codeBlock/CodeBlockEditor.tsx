@@ -16,6 +16,7 @@ import { InputV3, Label, Select } from "@ndla/forms";
 import { languageOptions, ICodeLangugeOption } from "./codeBlockOptions";
 import { editorStyle } from "./editorStyle";
 import { FormControl } from "../../../FormField";
+import { KEY_TAB } from "../../utils/keys";
 
 type Props = {
   onSave: Function;
@@ -136,6 +137,9 @@ const CodeBlockEditor = ({ onSave, onAbort, highlight, content = null }: Props) 
         value={codeContent.code}
         onValueChange={(code) => {
           setCodeContent({ ...codeContent, code });
+        }}
+        onKeyDown={(event) => {
+          if (event.key === KEY_TAB) event.stopPropagation();
         }}
         highlight={(code) => highlightWithLineNumbers(code, codeContent.format)}
         padding={10}

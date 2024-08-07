@@ -172,10 +172,9 @@ const StructureContainer = ({
   );
 
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
-  const filtered = rootNodes.filter(
-    (node) => node.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== "true",
-  );
-  const nodes = isTaxonomyAdmin ? rootNodes : filtered;
+  const nodes = isTaxonomyAdmin
+    ? rootNodes
+    : rootNodes.filter((node) => node.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== "true");
 
   const addChildTooltip = childNodeTypes.includes("PROGRAMME")
     ? t("taxonomy.addNode", { nodeType: t("taxonomy.nodeType.PROGRAMME") })

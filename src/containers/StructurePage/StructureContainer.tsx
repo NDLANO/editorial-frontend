@@ -26,6 +26,7 @@ import {
   REMEMBER_SA_SUBJECTS,
   REMEMBER_LMA_SUBJECTS,
   TAXONOMY_ADMIN_SCOPE,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
 } from "../../constants";
 import { useUserData } from "../../modules/draft/draftQueries";
 import { useNodes } from "../../modules/nodes/nodeQueries";
@@ -161,7 +162,7 @@ const StructureContainer = ({
     [ndlaId, nodesQuery.data],
   );
 
-  const nodes = getNodes(
+  const rootNodes = getNodes(
     nodesQuery.data,
     showLmaSubjects ? resultSubjectIdObject.subjectLMA.map((s) => s.id) : [],
     showDaSubjects ? resultSubjectIdObject.subjectDA.map((s) => s.id) : [],
@@ -171,6 +172,10 @@ const StructureContainer = ({
   );
 
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
+  const nodes = isTaxonomyAdmin
+    ? rootNodes
+    : rootNodes.filter((node) => node.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== "true");
+
   const addChildTooltip = childNodeTypes.includes("PROGRAMME")
     ? t("taxonomy.addNode", { nodeType: t("taxonomy.nodeType.PROGRAMME") })
     : t("taxonomy.addTopic"); // Return undefined to hide plus for topics

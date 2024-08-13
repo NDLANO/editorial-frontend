@@ -52,6 +52,7 @@ export interface ImageEmbedFormValues {
   border?: boolean;
   isDecorative: boolean;
   hideByline?: boolean;
+  hideCaption?: boolean;
 }
 
 const formRules: RulesType<ImageEmbedFormValues> = {
@@ -79,6 +80,7 @@ const toImageEmbedFormvalues = (embed: ImageEmbedData): ImageEmbedFormValues => 
     align: embed.align,
     size: embed.size?.replace("--hide-byline", ""),
     hideByline: !!embed.size?.includes("hide-byline") || embed.hideByline === "true",
+    hideCaption: embed.hideCaption === "true",
   };
 };
 
@@ -105,7 +107,7 @@ const ImageEmbedForm = ({ embed, onSave, onClose, language, allowDecorative, ima
       align: values.align,
       size: values.hideByline ? `${values.size}--hide-byline` : values.size,
       hideByline: values.hideByline ? "true" : undefined,
-      hideCaption: values.hideByline ? "true" : undefined,
+      hideCaption: values.hideCaption ? "true" : undefined,
     });
     onClose();
   };
@@ -158,56 +160,74 @@ const EmbedForm = ({
       {!!image && <ImageEditor language={language} image={image} />}
       <StyledInputWrapper>
         <div>
-          <Text textStyle="label-small" margin="none">
-            {t("form.image.caption.label")}
-            <RichTextIndicator />
-          </Text>
-          <FormField name="caption">
-            {({ field, helpers }) => (
-              <InlineField
-                {...field}
-                placeholder={t("form.image.caption.placeholder")}
-                submitted={isSubmitting}
-                onChange={helpers.setValue}
-              />
-            )}
-          </FormField>
-        </div>
-        {!values.isDecorative && (
-          <FormField name="alt">
-            {({ field, meta }) => (
-              <FormControl isInvalid={!!meta.error}>
-                <Label margin="none" textStyle="label-small">
-                  {t("form.image.alt.label")}
-                </Label>
-                <TextAreaV3 {...field} placeholder={t("form.image.alt.placeholder")} />
-                <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-              </FormControl>
-            )}
-          </FormField>
-        )}
-        {allowDecorative && (
-          <FormField name="isDecorative">
+          {!values.hideCaption && (
+            <>
+              <Text textStyle="label-small" margin="none">
+                {t("form.image.caption.label")}
+                <RichTextIndicator />
+              </Text>
+              <FormField name="caption">
+                {({ field, helpers }) => (
+                  <InlineField
+                    {...field}
+                    placeholder={t("form.image.caption.placeholder")}
+                    submitted={isSubmitting}
+                    onChange={helpers.setValue}
+                  />
+                )}
+              </FormField>
+            </>
+          )}
+          <FormField name="hideCaption">
             {({ field, helpers }) => (
               <FormControl>
                 <CheckboxWrapper>
-                  <CheckboxItem
-                    checked={field.value}
-                    onCheckedChange={(newValue) => {
-                      helpers.setValue(newValue, false);
-                      if (newValue) {
-                        setFieldValue("alt", "", false);
-                      }
-                    }}
-                  />
+                  <CheckboxItem checked={field.value} onCheckedChange={() => helpers.setValue(!field.value, true)} />
                   <Label margin="none" textStyle="label-small">
-                    {t("form.image.isDecorative")}
+                    {t("form.image.caption.hide")}
                   </Label>
                 </CheckboxWrapper>
               </FormControl>
             )}
           </FormField>
-        )}
+        </div>
+        <div>
+          {!values.isDecorative && (
+            <FormField name="alt">
+              {({ field, meta }) => (
+                <FormControl isInvalid={!!meta.error}>
+                  <Label margin="none" textStyle="label-small">
+                    {t("form.image.alt.label")}
+                  </Label>
+                  <TextAreaV3 {...field} placeholder={t("form.image.alt.placeholder")} />
+                  <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                </FormControl>
+              )}
+            </FormField>
+          )}
+          {allowDecorative && (
+            <FormField name="isDecorative">
+              {({ field, helpers }) => (
+                <FormControl>
+                  <CheckboxWrapper>
+                    <CheckboxItem
+                      checked={field.value}
+                      onCheckedChange={(newValue) => {
+                        helpers.setValue(newValue, false);
+                        if (newValue) {
+                          setFieldValue("alt", "", false);
+                        }
+                      }}
+                    />
+                    <Label margin="none" textStyle="label-small">
+                      {t("form.image.isDecorative")}
+                    </Label>
+                  </CheckboxWrapper>
+                </FormControl>
+              )}
+            </FormField>
+          )}
+        </div>
         {inGrid && (
           <FormField name="border">
             {({ field, helpers }) => (
@@ -222,6 +242,18 @@ const EmbedForm = ({
             )}
           </FormField>
         )}
+        <FormField name="hideByline">
+          {({ field, helpers }) => (
+            <FormControl>
+              <CheckboxWrapper>
+                <CheckboxItem checked={field.value} onCheckedChange={() => helpers.setValue(!field.value, true)} />
+                <Label margin="none" textStyle="label-small">
+                  {t("form.image.byline.hide")}
+                </Label>
+              </CheckboxWrapper>
+            </FormControl>
+          )}
+        </FormField>
         <ButtonWrapper>
           <ButtonV2 onClick={onClose} variant="outline">
             {t("form.abort")}

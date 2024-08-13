@@ -1333,6 +1333,7 @@ const phrases = {
       caption: {
         label: "Bildetekst",
         placeholder: "Bildetekst",
+        hide: "Skjul bildetekst",
       },
       alt: {
         label: "Alt-tekst",

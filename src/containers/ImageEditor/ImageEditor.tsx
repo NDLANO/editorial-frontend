@@ -243,30 +243,6 @@ const ImageEditor = ({ language, image }: Props) => {
           </FormField>
         </StyledImageEditorMenu>
       ) : null}
-      {values.size?.startsWith("full") || values.size?.startsWith("medium") ? (
-        <StyledImageEditorMenu>
-          <FormField name="hideByline">
-            {({ field, helpers }) => (
-              <StyledToggleGroup
-                type="single"
-                value={field.value ? "hide" : "show"}
-                onValueChange={(val) => helpers.setValue(val === "hide")}
-              >
-                {bylineOptions.map(({ value, children }) => (
-                  <StyledToggleGroupItem
-                    key={value}
-                    value={value}
-                    aria-label={t(`form.image.byline.${value}`)}
-                    title={t(`form.image.byline.${value}`)}
-                  >
-                    {children}
-                  </StyledToggleGroupItem>
-                ))}
-              </StyledToggleGroup>
-            )}
-          </FormField>
-        </StyledImageEditorMenu>
-      ) : null}
       <ImageTransformEditor
         language={language}
         editType={editType}

@@ -223,9 +223,6 @@ const ImageEditor = ({ language, image }: Props) => {
                 value={field.value}
                 onValueChange={(val) => {
                   helpers.setValue(val);
-                  if (val !== "medium") {
-                    setFieldValue("hideByline", false);
-                  }
                 }}
               >
                 {sizes.map(({ value, children }) => (

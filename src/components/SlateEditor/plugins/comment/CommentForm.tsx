@@ -25,6 +25,11 @@ const CommentActions = styled.div`
   padding: ${spacing.normal} 0 0;
 `;
 
+const StyledTextArea = styled(TextAreaV3)`
+  max-height: 300px;
+  overflow-y: scroll;
+`;
+
 interface Props {
   initialData: CommentEmbedData | undefined;
   onSave: (data: CommentEmbedData) => void;
@@ -86,7 +91,7 @@ const CommentForm = ({
                 <Label visuallyHidden={labelVisuallyHidden} textStyle="label-small" margin="none">
                   {labelText}
                 </Label>
-                <TextAreaV3 {...field} />
+                <StyledTextArea {...field} />
                 <FieldErrorMessage>{meta.error}</FieldErrorMessage>
               </FormControl>
             )}

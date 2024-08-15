@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactNode, useMemo, useState } from "react";
+import { ReactNode, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
@@ -94,10 +94,24 @@ const SlateCommentInline = ({ attributes, editor, element, children }: Props) =>
     }
   };
 
+  const preventAutoFocusInEditor = useCallback(
+    (e: MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      Transforms.select(editor, ReactEditor.findEventRange(editor, e));
+    },
+    [editor],
+  );
+
   return (
     <Root open={open} onOpenChange={(v) => setOpen(v)}>
       <Trigger asChild type={undefined}>
-        <InlineComment role="button" tabIndex={0} {...attributes}>
+        <InlineComment
+          role="button"
+          tabIndex={0}
+          onMouseDown={(e) => preventAutoFocusInEditor(e.nativeEvent)}
+          {...attributes}
+        >
           <InlineBugfix />
           {children}
           <InlineBugfix />

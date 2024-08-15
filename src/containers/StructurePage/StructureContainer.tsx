@@ -226,7 +226,7 @@ const StructureContainer = ({
           {showResourceColumn && (
             <Column colStart={7}>
               {currentNode && (
-                <div>
+                <>
                   {/*(currentNode.nodeType === "SUBJECT" || currentNode.nodeType === "TOPIC") && (
                     <SubjectBanner subjectNode={currentNode} /> // hide banner for now
                   )*/}
@@ -237,7 +237,7 @@ const StructureContainer = ({
                       resourceRef={resourceSection}
                     />
                   )}
-                </div>
+                </>
               )}
             </Column>
           )}

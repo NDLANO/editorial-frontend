@@ -166,7 +166,6 @@ export const commonActions: Action[] = [
     data: { type: TYPE_COMMENT_BLOCK, object: "comment" },
     icon: <Comment />,
     helpIcon: renderArticleInModal("Comment"),
-    requiredScope: DRAFT_ADMIN_SCOPE,
   },
 ];
 

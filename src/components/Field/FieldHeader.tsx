@@ -26,8 +26,6 @@ const StyledWrapper = styled.div<StyledWrapperProps>`
   align-items: center;
   border-bottom: 2px solid ${colors.brand.light};
   display: flex;
-  /* margin-bottom: ${spacing.small};
-  margin-top: ${spacing.normal}; */
   padding-bottom: ${spacing.xsmall};
   padding-top: ${spacing.normal};
   ${(props) => css`

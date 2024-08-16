@@ -10,9 +10,10 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { FieldErrorMessage, FieldRemoveButton, Fieldset, InputV3, Label, Legend, Select } from "@ndla/forms";
+import { FieldErrorMessage, Fieldset, InputV3, Label, Legend, Select } from "@ndla/forms";
 import { contributorGroups, contributorTypes } from "@ndla/licenses";
 import { IAuthor } from "@ndla/types-backend/draft-api";
+import FieldRemoveButton from "../../../components/Field/FieldRemoveButton";
 import { FormControl, FormField } from "../../../components/FormField";
 
 type ContributorType = keyof typeof contributorGroups;

@@ -8,9 +8,9 @@
 
 import { useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
-import { FieldHeader } from "@ndla/forms";
 import { IArticle, IArticleSummary } from "@ndla/types-backend/draft-api";
 import AsyncDropdown from "../../../components/Dropdown/asyncDropdown/AsyncDropdown";
+import FieldHeader from "../../../components/Field/FieldHeader";
 import { fetchDraft, searchDrafts } from "../../../modules/draft/draftApi";
 import handleError from "../../../util/handleError";
 import ElementList from "../../FormikForm/components/ElementList";

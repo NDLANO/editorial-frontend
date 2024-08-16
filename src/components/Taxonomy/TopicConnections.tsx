@@ -10,7 +10,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
-import { FieldHeader } from "@ndla/forms";
 import { ModalHeader, ModalBody, ModalCloseButton, Modal, ModalTitle, ModalTrigger, ModalContent } from "@ndla/modal";
 import { Switch } from "@ndla/switch";
 import { Node, NodeChild } from "@ndla/types-taxonomy";
@@ -19,6 +18,7 @@ import TaxonomyBlockNode, { NodeWithChildren } from "./TaxonomyBlockNode";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from "../../constants";
 import { MinimalNodeChild } from "../../containers/ArticlePage/LearningResourcePage/components/LearningResourceTaxonomy";
 import { fetchUserData } from "../../modules/draft/draftApi";
+import FieldHeader from "../Field/FieldHeader";
 import HowToHelper from "../HowTo/HowToHelper";
 
 const StyledModalHeader = styled(ModalHeader)`

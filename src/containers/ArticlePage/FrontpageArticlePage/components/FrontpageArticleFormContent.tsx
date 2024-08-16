@@ -12,12 +12,12 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
 import { colors } from "@ndla/core";
-import { FieldHeader } from "@ndla/forms";
 import { Link } from "@ndla/icons/editor";
 import { frontpagePlugins } from "./frontpagePlugins";
 import { frontpageRenderers } from "./frontpageRenderers";
 import AlertModal from "../../../../components/AlertModal";
 import { EditMarkupLink } from "../../../../components/EditMarkupLink";
+import FieldHeader from "../../../../components/Field/FieldHeader";
 import { FormField } from "../../../../components/FormField";
 import FormikField from "../../../../components/FormikField";
 import LastUpdatedLine from "../../../../components/LastUpdatedLine/LastUpdatedLine";
@@ -183,7 +183,7 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
       <StyledContentDiv name="content" label={t("form.content.label")} noBorder>
         {({ field: { value, name, onChange }, form: { isSubmitting } }) => (
           <>
-            <FieldHeader title={t("form.content.label")}>
+            <FieldHeader title={t("form.content.label")} subTitle="en undertittel">
               {id && userPermissions?.includes(DRAFT_HTML_SCOPE) && (
                 <EditMarkupLink to={toEditMarkup(id, language ?? "")} title={t("editMarkup.linkTitle")} />
               )}

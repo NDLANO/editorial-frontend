@@ -9,9 +9,9 @@
 import { FieldInputProps, FormikHelpers } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FieldHeader } from "@ndla/forms";
 import { IConcept, IConceptSummary } from "@ndla/types-backend/concept-api";
 import AsyncDropdown from "../../../components/Dropdown/asyncDropdown/AsyncDropdown";
+import FieldHeader from "../../../components/Field/FieldHeader";
 import { fetchConcept, postSearchConcepts } from "../../../modules/concept/conceptApi";
 import handleError from "../../../util/handleError";
 import { ArticleFormType } from "../../FormikForm/articleFormHooks";

@@ -12,13 +12,13 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2, IconButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { FieldHeader } from "@ndla/forms";
 import { Pencil } from "@ndla/icons/action";
 import { ChevronUp, ChevronDown } from "@ndla/icons/common";
 import { DeleteForever } from "@ndla/icons/editor";
 import { IMovieTheme } from "@ndla/types-backend/frontpage-api";
 import { ThemeMovies } from "./ThemeMovies";
 import ThemeNameModal from "./ThemeNameModal";
+import FieldHeader from "../../../components/Field/FieldHeader";
 import { LocaleType } from "../../../interfaces";
 import { findName, convertThemeNames, changeThemeNames } from "../../../util/ndlaFilmHelpers";
 

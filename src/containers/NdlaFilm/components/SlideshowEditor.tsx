@@ -8,8 +8,8 @@
 
 import { useField, useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
-import { FieldHeader } from "@ndla/forms";
 import { ThemeMovies } from "./ThemeMovies";
+import FieldHeader from "../../../components/Field/FieldHeader";
 
 interface Props {
   onUpdateSlideshow: Function;

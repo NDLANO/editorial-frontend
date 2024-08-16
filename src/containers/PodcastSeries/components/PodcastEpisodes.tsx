@@ -8,10 +8,10 @@
 
 import { useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
-import { FieldHeader } from "@ndla/forms";
 import { IAudioSummarySearchResult, IAudioSummary } from "@ndla/types-backend/audio-api";
 import { PodcastSeriesFormikType } from "./PodcastSeriesForm";
 import AsyncDropdown from "../../../components/Dropdown/asyncDropdown/AsyncDropdown";
+import FieldHeader from "../../../components/Field/FieldHeader";
 import { fetchAudio, postSearchAudio } from "../../../modules/audio/audioApi";
 import handleError from "../../../util/handleError";
 import ElementList from "../../FormikForm/components/ElementList";

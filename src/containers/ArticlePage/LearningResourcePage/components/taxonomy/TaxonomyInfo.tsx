@@ -9,9 +9,9 @@
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { colors } from "@ndla/core";
-import { FieldHeader } from "@ndla/forms";
 import { Switch } from "@ndla/switch";
 import { TaxNode } from "./TaxonomyBlock";
+import FieldHeader from "../../../../../components/Field/FieldHeader";
 
 type StyledIdProps = {
   isVisible: boolean;

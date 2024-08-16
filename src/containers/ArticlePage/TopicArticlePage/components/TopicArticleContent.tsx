@@ -7,12 +7,12 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { FieldHeader } from "@ndla/forms";
 import LastUpdatedLine from "./../../../../components/LastUpdatedLine/LastUpdatedLine";
 
 import { topicArticlePlugins } from "./topicArticlePlugins";
 import { topicArticleRenderers } from "./topicArticleRenderers";
 import { EditMarkupLink } from "../../../../components/EditMarkupLink";
+import FieldHeader from "../../../../components/Field/FieldHeader";
 import { FormField } from "../../../../components/FormField";
 import FormikField from "../../../../components/FormikField";
 import {

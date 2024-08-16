@@ -135,7 +135,7 @@ const QualityEvaluationForm = ({ setOpen, taxonomy, revisionMetaField, revisionM
 
     const promises = taxonomy.map((n) =>
       updateTaxMutation.mutateAsync({
-        ...n,
+        id: n.id,
         qualityEvaluation: { ...values, grade: Number(values.grade) as Grade },
         taxonomyVersion,
       }),
@@ -174,7 +174,7 @@ const QualityEvaluationForm = ({ setOpen, taxonomy, revisionMetaField, revisionM
     setLoading({ ...loading, delete: true });
     const promises = taxonomy.map((n) =>
       updateTaxMutation.mutateAsync({
-        ...n,
+        id: n.id,
         qualityEvaluation: null,
         taxonomyVersion,
       }),

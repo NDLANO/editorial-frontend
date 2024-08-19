@@ -17,7 +17,7 @@ import { DeleteForever } from "@ndla/icons/editor";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import { ContactBlockEmbedData } from "@ndla/types-embed";
-import { ContactBlock } from "@ndla/ui";
+import { ContactBlock, ContactBlockBackground, contactBlockBackgrounds } from "@ndla/ui";
 import { ContactBlockElement } from ".";
 import ContactBlockForm from "./ContactBlockForm";
 import { fetchImage } from "../../../../modules/image/imageApi";
@@ -51,8 +51,16 @@ const StyledModalBody = styled(ModalBody)`
   }
 `;
 
+function isBackground(background?: string): background is ContactBlockBackground {
+  return (contactBlockBackgrounds as readonly string[]).includes(background ?? "");
+}
+
+const parseBackground = (background: string | undefined): ContactBlockBackground | undefined => {
+  if (isBackground(background)) return background;
+};
+
 const SlateContactBlock = ({ element, editor, attributes, children }: Props) => {
-  const { t } = useTranslation();
+  const { i18n, t } = useTranslation();
   const [isEditing, setIsEditing] = useState(element.isFirstEdit);
   const contactBlock = element.data;
   const [image, setImage] = useState<IImageMetaInformationV3 | undefined>(undefined);
@@ -140,8 +148,8 @@ const SlateContactBlock = ({ element, editor, attributes, children }: Props) => 
               name={contactBlock.name}
               description={contactBlock.description}
               email={contactBlock.email}
-              blob={contactBlock.blob}
-              blobColor={contactBlock.blobColor}
+              backgroundColor={parseBackground(contactBlock.background)}
+              lang={i18n.language}
             />
           </div>
         )}

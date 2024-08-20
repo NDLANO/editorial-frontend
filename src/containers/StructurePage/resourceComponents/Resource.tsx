@@ -112,7 +112,12 @@ const Resource = ({ resource, onDelete, currentNodeId, contentMetaLoading, respo
                 }
               />
             )}
-            <StatusIcons contentMetaLoading={contentMetaLoading} resource={resource} path={path} />
+            <StatusIcons
+              contentMetaLoading={contentMetaLoading}
+              resource={resource}
+              multipleTaxonomy={resource.contexts?.length > 1}
+              path={path}
+            />
             <RelevanceOption resource={resource} currentNodeId={currentNodeId} />
           </StyledText>
           <ButtonRow>

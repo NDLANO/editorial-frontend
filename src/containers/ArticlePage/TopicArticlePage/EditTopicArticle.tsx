@@ -15,7 +15,6 @@ import { TranslateType, useTranslateToNN } from "../../../components/NynorskTran
 import { isNewArticleLanguage } from "../../../components/SlateEditor/IsNewArticleLanguageProvider";
 import Spinner from "../../../components/Spinner";
 import { LocaleType } from "../../../interfaces";
-import { useDraftHistory } from "../../../modules/draft/draftQueries";
 import { useNodes } from "../../../modules/nodes/nodeQueries";
 import { toEditArticle } from "../../../util/routeHelpers";
 import { useFetchArticleData } from "../../FormikForm/formikDraftHooks";

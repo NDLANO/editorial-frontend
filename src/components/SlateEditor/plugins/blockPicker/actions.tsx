@@ -206,5 +206,4 @@ export const learningResourceActions = commonActions.concat({
   data: { type: TYPE_GRID, object: "grid" },
   icon: <Grid />,
   helpIcon: renderArticleInModal("Grid"),
-  requiredScope: DRAFT_ADMIN_SCOPE,
 });

@@ -60,7 +60,7 @@ const ResourcesContainer = ({
   );
 
   const { data } = useNodes(
-    { contentURI: currentNode.contentUri!, taxonomyVersion },
+    { contentURI: currentNode.contentUri, taxonomyVersion, includeContexts: true, filterProgrammes: true },
     { enabled: !!currentNode.contentUri },
   );
 
@@ -94,6 +94,7 @@ const ResourcesContainer = ({
         }}
         contentMetaLoading={contentMetaLoading}
         responsible={currentMeta?.responsible ? users?.[currentMeta.responsible.responsibleId]?.name : undefined}
+        topicNodes={data}
       />
       <ResourceWrapper>
         {contentMetaLoading ? (

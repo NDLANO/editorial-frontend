@@ -9,7 +9,7 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
+import { Node, NodeChild, ResourceType } from "@ndla/types-taxonomy";
 import { Text } from "@ndla/typography";
 import { ContentTypeBadge } from "@ndla/ui";
 import ApproachingRevisionDate from "./ApproachingRevisionDate";
@@ -62,6 +62,7 @@ interface Props {
   articleIds?: number[];
   contentMetaLoading: boolean;
   responsible: string | undefined;
+  topicNodes: Node[] | undefined;
 }
 
 const ResourceBanner = ({
@@ -72,6 +73,7 @@ const ResourceBanner = ({
   resources,
   contentMetaLoading,
   responsible,
+  topicNodes,
 }: Props) => {
   const { t } = useTranslation();
 
@@ -82,6 +84,8 @@ const ResourceBanner = ({
     () => Object.values(contentMeta).find((el) => el.articleType === "topic-article")?.comments?.[0]?.content,
     [contentMeta],
   );
+
+  const contexts = topicNodes?.filter((node) => !!node.contexts.length);
 
   return (
     <BannerWrapper>
@@ -142,7 +146,12 @@ const ResourceBanner = ({
                 />
               </span>
               <ContentGroup>
-                <StatusIcons contentMetaLoading={contentMetaLoading} resource={currentNode} path={currentNode.path} />
+                <StatusIcons
+                  contentMetaLoading={contentMetaLoading}
+                  resource={currentNode}
+                  path={currentNode.path}
+                  multipleTaxonomy={contexts?.length ? contexts.length > 1 : false}
+                />
                 <RelevanceOption resource={currentNode} currentNodeId={currentNode.id} />
               </ContentGroup>
             </TitleRow>

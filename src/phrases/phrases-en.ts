@@ -1642,6 +1642,8 @@ const phrases = {
     TOPIC: "topic",
     SUBJECT: "subject",
     qualityDescription: "Average quality evaluation of all resources within the {{nodeType}}",
+    average: "Average",
+    qualityEvaluation: "Evaluation of the {{nodeType}}",
     connectExistingNode: "Connect {{nodeType}} to this node",
     connectExistingLoading: "Connection ...",
     connectExistingSuccess: "Node successfully connected!",

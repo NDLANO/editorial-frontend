@@ -6,18 +6,29 @@
  *
  */
 
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { colors } from "@ndla/core";
 import { Node } from "@ndla/types-taxonomy";
 import { Text } from "@ndla/typography";
 import JumpToStructureButton from "./JumpToStructureButton";
+import AverageQualityEvaluation from "../../../components/QualityEvaluation/AverageQualityEvaluation";
 import QualityEvaluation from "../../../components/QualityEvaluation/QualityEvaluation";
 import config from "../../../config";
 import { BannerWrapper, FlexContentWrapper, TitleRow, TopInfoRow } from "../styles";
+
+const StyledNoEvaluation = styled(Text)`
+  color: ${colors.brand.greyMedium};
+  font-style: italic;
+`;
 
 interface Props {
   subjectNode: Node;
 }
 
 const SubjectBanner = ({ subjectNode }: Props) => {
+  const { t } = useTranslation();
+
   return (
     <BannerWrapper>
       <TopInfoRow>
@@ -26,12 +37,15 @@ const SubjectBanner = ({ subjectNode }: Props) => {
         </FlexContentWrapper>
         <FlexContentWrapper>
           {config.qualityEvaluationEnabled === true && (
-            <QualityEvaluation
-              articleType="subject"
-              taxonomy={[subjectNode]}
-              iconButtonColor="primary"
-              gradeVariant="small"
-            />
+            <>
+              <AverageQualityEvaluation averageGrade={subjectNode.gradeAverage?.averageValue} nodeType="SUBJECT" />
+              <QualityEvaluation
+                articleType="subject"
+                taxonomy={[subjectNode]}
+                iconButtonColor="primary"
+                gradeVariant="small"
+              />
+            </>
           )}
         </FlexContentWrapper>
       </TopInfoRow>

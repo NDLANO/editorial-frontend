@@ -12,9 +12,9 @@ import styled from "@emotion/styled";
 import { breakpoints, mq } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
 import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
-import ResourceBanner from "./ResourceBanner";
 import ResourceItems from "./ResourceItems";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
+import TopicResourceBanner from "./TopicResourceBanner";
 import { DRAFT_RESPONSIBLE } from "../../../constants";
 import { Dictionary } from "../../../interfaces";
 import { useAuth0Responsibles } from "../../../modules/auth0/auth0Queries";
@@ -80,7 +80,7 @@ const ResourcesContainer = ({
 
   return (
     <>
-      <ResourceBanner
+      <TopicResourceBanner
         resources={nodeResourcesWithMeta}
         contentMeta={contentMeta}
         onCurrentNodeChanged={setCurrentNode}

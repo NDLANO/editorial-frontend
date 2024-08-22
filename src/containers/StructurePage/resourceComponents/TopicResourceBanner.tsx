@@ -9,6 +9,7 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
+import { colors } from "@ndla/core";
 import { Node, NodeChild, ResourceType } from "@ndla/types-taxonomy";
 import { Text } from "@ndla/typography";
 import { ContentTypeBadge } from "@ndla/ui";
@@ -20,6 +21,7 @@ import ResourceItemLink from "./ResourceItemLink";
 import StatusIcons from "./StatusIcons";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
 import VersionHistory from "./VersionHistory";
+import AverageQualityEvaluation from "../../../components/QualityEvaluation/AverageQualityEvaluation";
 import QualityEvaluation from "../../../components/QualityEvaluation/QualityEvaluation";
 import RelevanceOption from "../../../components/Taxonomy/RelevanceOption";
 import config from "../../../config";
@@ -47,6 +49,11 @@ const ContentGroup = styled.div`
   align-items: center;
 `;
 
+const StyledNoEvaluation = styled(Text)`
+  color: ${colors.brand.greyMedium};
+  font-style: italic;
+`;
+
 const getWorkflowCount = (contentMeta: Dictionary<NodeResourceMeta>) => {
   const contentMetaList = Object.values(contentMeta);
   const workflowCount = contentMetaList.filter((c) => c.status?.current !== PUBLISHED).length;
@@ -65,7 +72,7 @@ interface Props {
   topicNodes: Node[] | undefined;
 }
 
-const ResourceBanner = ({
+const TopicResourceBanner = ({
   contentMeta,
   currentNode,
   onCurrentNodeChanged,
@@ -86,7 +93,6 @@ const ResourceBanner = ({
   );
 
   const contexts = topicNodes?.filter((node) => !!node.contexts.length);
-
   return (
     <BannerWrapper>
       <TopInfoRow>
@@ -96,12 +102,15 @@ const ResourceBanner = ({
         </FlexContentWrapper>
         <FlexContentWrapper>
           {config.qualityEvaluationEnabled === true && (
-            <QualityEvaluation
-              articleType="topic-article"
-              taxonomy={[currentNode]}
-              iconButtonColor="primary"
-              gradeVariant="small"
-            />
+            <>
+              <AverageQualityEvaluation averageGrade={currentNode.gradeAverage?.averageValue} nodeType="TOPIC" />
+              <QualityEvaluation
+                articleType="topic-article"
+                taxonomy={[currentNode]}
+                iconButtonColor="primary"
+                gradeVariant="small"
+              />
+            </>
           )}
           <Text margin="none" textStyle="meta-text-small">{`${workflowCount}/${elementCount} ${t(
             "taxonomy.workflow",
@@ -176,4 +185,4 @@ const ResourceBanner = ({
   );
 };
 
-export default ResourceBanner;
+export default TopicResourceBanner;

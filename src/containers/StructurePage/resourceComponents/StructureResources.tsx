@@ -26,7 +26,6 @@ export interface ResourceWithNodeConnectionAndMeta extends NodeChild {
 
 interface Props {
   currentChildNode: NodeChild;
-  resourceRef: RefObject<HTMLDivElement>;
   setCurrentNode: (changedNode: NodeChild) => void;
 }
 
@@ -52,7 +51,7 @@ const withMissing = (r: NodeChild): NodeChild => ({
   resourceTypes: [missingObject],
 });
 
-const StructureResources = ({ currentChildNode, resourceRef, setCurrentNode }: Props) => {
+const StructureResources = ({ currentChildNode, setCurrentNode }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const grouped = currentChildNode?.metadata?.customFields["topic-resources"] ?? "grouped";

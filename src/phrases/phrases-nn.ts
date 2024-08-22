@@ -1641,6 +1641,8 @@ const phrases = {
     TOPIC: "emnet",
     SUBJECT: "faget",
     qualityDescription: "Snitt av kvalitetsvurdering av alle ressursar i {{nodeType}}",
+    average: "Gj.snitt",
+    qualityEvaluation: "Heilskapleg vurdering av {{nodeType}}",
     connectExistingNode: "Knytt {{nodeType}} til denne noden",
     connectExistingLoading: "Legger til ...",
     connectExistingSuccess: "Noden har blitt knytta til!",

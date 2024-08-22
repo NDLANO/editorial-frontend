@@ -234,11 +234,7 @@ const StructureContainer = ({
                 <StickyContainer ref={resourceSection}>
                   {currentNode.nodeType === "SUBJECT" && <SubjectBanner subjectNode={currentNode} />}
                   {isChildNode(currentNode) && (
-                    <StructureResources
-                      currentChildNode={currentNode}
-                      setCurrentNode={setCurrentNode}
-                      resourceRef={resourceSection}
-                    />
+                    <StructureResources currentChildNode={currentNode} setCurrentNode={setCurrentNode} />
                   )}
                 </StickyContainer>
               )}

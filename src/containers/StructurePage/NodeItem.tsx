@@ -79,6 +79,11 @@ const IconWrapper = styled.div`
   }
 `;
 
+const EvaluationWrapper = styled.div`
+  display: flex;
+  gap: ${spacing.xxsmall};
+`;
+
 const isChildNode = createGuard<NodeChild & { articleType?: string; isPublished?: boolean }>("connectionId");
 
 const getNodeIcon = (nodeType: NodeType): { icon: ReactNode; title: string } => {
@@ -189,10 +194,19 @@ const NodeItem = ({
           {item.name}
         </ItemTitleButton>
         {config.qualityEvaluationEnabled === true && (item.nodeType === "TOPIC" || item.nodeType === "SUBJECT") && (
-          <QualityEvaluationGrade
-            grade={item.gradeAverage?.averageValue}
-            ariaLabel={t("taxonomy.qualityDescription", { nodeType: t(`taxonomy.${item.nodeType}`) })}
-          />
+          <EvaluationWrapper>
+            <QualityEvaluationGrade
+              grade={item.gradeAverage?.averageValue}
+              averageGrade={item.gradeAverage?.averageValue.toFixed(1)}
+              ariaLabel={t("taxonomy.qualityDescription", { nodeType: t(`taxonomy.${item.nodeType}`) })}
+            />
+            <QualityEvaluationGrade
+              grade={item.qualityEvaluation?.grade}
+              ariaLabel={`${t("taxonomy.qualityEvaluation", { nodeType: t(`taxonomy.${item.nodeType}`) })}${
+                item?.qualityEvaluation?.note ? `: ${item.qualityEvaluation.note}` : ""
+              }`}
+            />
+          </EvaluationWrapper>
         )}
         {isActive && (
           <FolderItem

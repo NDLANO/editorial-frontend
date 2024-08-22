@@ -652,7 +652,7 @@ const phrases = {
     unavailable: "Not specified",
     modalTitle: "Update quality evaluation",
     description:
-      "Provide a quality assessment of the {{ resource }} with a description of the chosen rating. The scale is as follows: 1 = outstanding, 2 = very good, 3 = OK, 4 = should be fixed, 5 = needs to be fixed. Remember to save the article if choosing grade 5.",
+      "Provide a quality assessment of the {{ resource }} with a description of the chosen rating. The scale is as follows: 1 = outstanding, 2 = very good, 3 = OK, 4 = should be fixed, 5 = needs to be fixed.",
     edit: "Edit quality evaluation",
     delete: "Delete",
     note: "Note",
@@ -661,6 +661,8 @@ const phrases = {
     needsRevision: "Quality evaluated to grade 5",
     error: "An error occured while updating taxonomy",
     disabled: "Resources without taxonomy cannot be evaluated",
+    warning:
+      "The revision note is set automatically when the quality rating is set to 5. The article will have unsaved changes.",
   },
   editorToolbar: {
     bold: "Bold\n({{ctrl}}+b)",

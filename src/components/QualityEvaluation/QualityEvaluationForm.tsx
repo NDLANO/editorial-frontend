@@ -23,7 +23,7 @@ import { usePutNodeMutation } from "../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../modules/nodes/nodeQueries";
 import { formatDateForBackend } from "../../util/formatDate";
 import handleError from "../../util/handleError";
-import { FormControl, FormField } from "../FormField";
+import { FieldWarning, FormControl, FormField } from "../FormField";
 import validateFormik, { RulesType } from "../formikValidationSchema";
 import Spinner from "../Spinner";
 
@@ -89,6 +89,10 @@ const StyledForm = styled(Form)`
   gap: ${spacing.small};
 `;
 const MutationErrorMessage = styled(FieldErrorMessage)`
+  margin-left: auto;
+`;
+
+const StyledFieldWarning = styled(FieldWarning)`
   margin-left: auto;
 `;
 
@@ -207,7 +211,7 @@ const QualityEvaluationForm = ({ setOpen, taxonomy, revisionMetaField, revisionM
       onSubmit={onSubmit}
       onReset={onDelete}
     >
-      {({ dirty, isValid, isSubmitting }) => (
+      {({ dirty, isValid, isSubmitting, values }) => (
         <StyledForm>
           <FormField name="grade">
             {({ field, meta, helpers }) => (
@@ -273,6 +277,7 @@ const QualityEvaluationForm = ({ setOpen, taxonomy, revisionMetaField, revisionM
             </RightButtonsWrapper>
           </ButtonContainer>
           {updateTaxMutation.isError && <MutationErrorMessage>{t("qualityEvaluationForm.error")}</MutationErrorMessage>}
+          {values.grade === 5 && <StyledFieldWarning>{t("qualityEvaluationForm.warning")}</StyledFieldWarning>}
         </StyledForm>
       )}
     </Formik>

@@ -132,6 +132,7 @@ const QualityEvaluationForm = ({ setOpen, taxonomy, revisionMetaField, revisionM
 
   // Since quality evaluation is the same every place the resource is used in taxonomy, we can use the first node
   const node = useMemo(() => taxonomy[0], [taxonomy]);
+  const isResource = node.nodeType !== "SUBJECT" && node.nodeType !== "TOPIC";
   const initialValues = useMemo(() => toInitialValues(node.qualityEvaluation), [node.qualityEvaluation]);
   const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
 
@@ -154,7 +155,8 @@ const QualityEvaluationForm = ({ setOpen, taxonomy, revisionMetaField, revisionM
         revisionMetaHelpers &&
         !updateTaxMutation.isError &&
         values.grade === 5 &&
-        node.qualityEvaluation?.grade !== 5
+        node.qualityEvaluation?.grade !== 5 &&
+        isResource
       ) {
         const revisions = revisionMetaField.value ?? [];
         revisionMetaHelpers.setValue(
@@ -277,7 +279,9 @@ const QualityEvaluationForm = ({ setOpen, taxonomy, revisionMetaField, revisionM
             </RightButtonsWrapper>
           </ButtonContainer>
           {updateTaxMutation.isError && <MutationErrorMessage>{t("qualityEvaluationForm.error")}</MutationErrorMessage>}
-          {values.grade === 5 && <StyledFieldWarning>{t("qualityEvaluationForm.warning")}</StyledFieldWarning>}
+          {isResource && values.grade === 5 && (
+            <StyledFieldWarning>{t("qualityEvaluationForm.warning")}</StyledFieldWarning>
+          )}
         </StyledForm>
       )}
     </Formik>

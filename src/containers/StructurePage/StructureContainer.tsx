@@ -9,7 +9,7 @@ import { useEffect, useRef, useState, ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
-import { breakpoints } from "@ndla/core";
+import { breakpoints, spacing } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
 import { NodeChild, Node, NodeType } from "@ndla/types-taxonomy";
 import StructureErrorIcon from "./folderComponents/StructureErrorIcon";
@@ -41,6 +41,11 @@ import { getResultSubjectIdObject } from "../WelcomePage/utils";
 const StructureWrapper = styled.ul`
   margin: 0;
   padding: 0;
+`;
+
+const StickyContainer = styled.div`
+  position: sticky;
+  top: ${spacing.small};
 `;
 
 const isChildNode = createGuard<NodeChild>("connectionId");
@@ -178,7 +183,7 @@ const StructureContainer = ({
 
   const addChildTooltip = childNodeTypes.includes("PROGRAMME")
     ? t("taxonomy.addNode", { nodeType: t("taxonomy.nodeType.PROGRAMME") })
-    : t("taxonomy.addTopic"); // Return undefined to hide plus for topics
+    : t("taxonomy.addTopic");
 
   return (
     <ErrorBoundary>
@@ -226,10 +231,8 @@ const StructureContainer = ({
           {showResourceColumn && (
             <Column colStart={7}>
               {currentNode && (
-                <>
-                  {/*(currentNode.nodeType === "SUBJECT" || currentNode.nodeType === "TOPIC") && (
-                    <SubjectBanner subjectNode={currentNode} /> // hide banner for now
-                  )*/}
+                <StickyContainer ref={resourceSection}>
+                  {currentNode.nodeType === "SUBJECT" && <SubjectBanner subjectNode={currentNode} />}
                   {isChildNode(currentNode) && (
                     <StructureResources
                       currentChildNode={currentNode}
@@ -237,7 +240,7 @@ const StructureContainer = ({
                       resourceRef={resourceSection}
                     />
                   )}
-                </>
+                </StickyContainer>
               )}
             </Column>
           )}

@@ -6,58 +6,23 @@
  *
  */
 
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
 import { Node } from "@ndla/types-taxonomy";
 import { Text } from "@ndla/typography";
 import JumpToStructureButton from "./JumpToStructureButton";
 import QualityEvaluation from "../../../components/QualityEvaluation/QualityEvaluation";
-import TaxonomyLightbox from "../../../components/Taxonomy/TaxonomyLightbox";
 import config from "../../../config";
-import PlannedResourceForm from "../plannedResource/PlannedResourceForm";
-import { StyledPlusIcon, BannerWrapper, FlexContentWrapper, TitleRow, TopInfoRow } from "../styles";
-
-const IconButtonContainer = styled.div`
-  display: flex;
-`;
-const FullWidth = styled.div`
-  width: 100%;
-`;
+import { BannerWrapper, FlexContentWrapper, TitleRow, TopInfoRow } from "../styles";
 
 interface Props {
   subjectNode: Node;
 }
 
 const SubjectBanner = ({ subjectNode }: Props) => {
-  const { t } = useTranslation();
-  const [open, setOpen] = useState(false);
-
   return (
     <BannerWrapper>
       <TopInfoRow>
         <FlexContentWrapper>
           <JumpToStructureButton nodeId={subjectNode.id} />
-          <Modal open={open} onOpenChange={setOpen} modal={false}>
-            <IconButtonContainer>
-              <ModalTrigger>
-                <ButtonV2 size="small">
-                  <StyledPlusIcon />
-                  {t("taxonomy.newTopic")}
-                </ButtonV2>
-              </ModalTrigger>
-            </IconButtonContainer>
-            <ModalContent forceOverlay size="normal" position="top">
-              <TaxonomyLightbox title={t("taxonomy.addTopicHeader")}>
-                <FullWidth>
-                  <PlannedResourceForm node={subjectNode} articleType="topic-article" onClose={() => setOpen(false)} />
-                </FullWidth>
-              </TaxonomyLightbox>
-              )
-            </ModalContent>
-          </Modal>
         </FlexContentWrapper>
         <FlexContentWrapper>
           {config.qualityEvaluationEnabled === true && (

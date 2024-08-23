@@ -10,8 +10,6 @@ import { TFunction } from "i18next";
 import keyBy from "lodash/keyBy";
 import { memo, RefObject } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
 import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
 import ResourcesContainer from "./ResourcesContainer";
 import {
@@ -22,18 +20,12 @@ import {
 import { useAllResourceTypes } from "../../../modules/taxonomy/resourcetypes/resourceTypesQueries";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
-const StickyContainer = styled.div`
-  position: sticky;
-  top: ${spacing.small};
-`;
-
 export interface ResourceWithNodeConnectionAndMeta extends NodeChild {
   contentMeta?: NodeResourceMeta;
 }
 
 interface Props {
   currentChildNode: NodeChild;
-  resourceRef: RefObject<HTMLDivElement>;
   setCurrentNode: (changedNode: NodeChild) => void;
 }
 
@@ -59,7 +51,7 @@ const withMissing = (r: NodeChild): NodeChild => ({
   resourceTypes: [missingObject],
 });
 
-const StructureResources = ({ currentChildNode, resourceRef, setCurrentNode }: Props) => {
+const StructureResources = ({ currentChildNode, setCurrentNode }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const grouped = currentChildNode?.metadata?.customFields["topic-resources"] ?? "grouped";
@@ -101,18 +93,16 @@ const StructureResources = ({ currentChildNode, resourceRef, setCurrentNode }: P
   );
 
   return (
-    <StickyContainer ref={resourceRef}>
-      <ResourcesContainer
-        key="ungrouped"
-        nodeResources={nodeResources ?? []}
-        resourceTypes={resourceTypes ?? []}
-        currentNode={currentChildNode}
-        contentMeta={keyedMetas}
-        grouped={grouped === "grouped"}
-        setCurrentNode={setCurrentNode}
-        contentMetaLoading={contentMetaLoading}
-      />
-    </StickyContainer>
+    <ResourcesContainer
+      key="ungrouped"
+      nodeResources={nodeResources ?? []}
+      resourceTypes={resourceTypes ?? []}
+      currentNode={currentChildNode}
+      contentMeta={keyedMetas}
+      grouped={grouped === "grouped"}
+      setCurrentNode={setCurrentNode}
+      contentMetaLoading={contentMetaLoading}
+    />
   );
 };
 

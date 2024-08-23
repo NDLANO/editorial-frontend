@@ -652,7 +652,7 @@ const phrases = {
     unavailable: "Ikke satt",
     modalTitle: "Oppdater kvalitetsvurdering",
     description:
-      "Legg inn en kvalitetsvurdering av {{ resource }} med en beskrivelse av den valgte graderingen. Skalaen er som følger: 1 = enestående, 2 = veldig bra, 3 = OK, 4 = bør fikses, 5 = må fikses. Husk å lagre artikkelen dersom du velger gradering 5.",
+      "Legg inn en kvalitetsvurdering av {{ resource }} med en beskrivelse av den valgte graderingen. Skalaen er som følger: 1 = enestående, 3 = veldig bra, 3 = OK, 4 = bør fikses, 5 = må fikses.",
     edit: "Rediger kvalitetsvurdering",
     delete: "Slett",
     note: "Notat",
@@ -661,6 +661,8 @@ const phrases = {
     needsRevision: "Kvalitetsvurdert til 5",
     error: "En feil oppstod ved oppdatering av taksonomi",
     disabled: "Ressurser uten taksonomi kan ikke kvalitetsvurderes",
+    warning:
+      "Revisjonsmerknad settes automatisk når man setter kvalitetsvurdering til 5. Artikkelen vil derfor få ulagrede endringer.",
   },
   editorToolbar: {
     bold: "Fet\n({{ctrl}}+b)",
@@ -1638,6 +1640,8 @@ const phrases = {
     TOPIC: "emnet",
     SUBJECT: "faget",
     qualityDescription: "Gjennomsnitt av kvalitetsvurdering av alle ressurser i {{nodeType}}",
+    average: "Gj.snitt",
+    qualityEvaluation: "Satt vurdering av {{nodeType}} som helhet",
     connectExistingNode: "Knytt {{nodeType}} til denne noden",
     connectExistingLoading: "Legger til ...",
     connectExistingSuccess: "Noden har blitt tilknyttet!",

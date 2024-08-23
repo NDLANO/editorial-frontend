@@ -23,7 +23,7 @@ import { usePutNodeMutation } from "../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../modules/nodes/nodeQueries";
 import { formatDateForBackend } from "../../util/formatDate";
 import handleError from "../../util/handleError";
-import { FormControl, FormField } from "../FormField";
+import { FieldWarning, FormControl, FormField } from "../FormField";
 import validateFormik, { RulesType } from "../formikValidationSchema";
 import Spinner from "../Spinner";
 
@@ -92,6 +92,10 @@ const MutationErrorMessage = styled(FieldErrorMessage)`
   margin-left: auto;
 `;
 
+const StyledFieldWarning = styled(FieldWarning)`
+  margin-left: auto;
+`;
+
 interface Props {
   setOpen: (open: boolean) => void;
   taxonomy: Node[];
@@ -128,6 +132,7 @@ const QualityEvaluationForm = ({ setOpen, taxonomy, revisionMetaField, revisionM
 
   // Since quality evaluation is the same every place the resource is used in taxonomy, we can use the first node
   const node = useMemo(() => taxonomy[0], [taxonomy]);
+  const isResource = node.nodeType !== "SUBJECT" && node.nodeType !== "TOPIC";
   const initialValues = useMemo(() => toInitialValues(node.qualityEvaluation), [node.qualityEvaluation]);
   const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
 
@@ -150,7 +155,8 @@ const QualityEvaluationForm = ({ setOpen, taxonomy, revisionMetaField, revisionM
         revisionMetaHelpers &&
         !updateTaxMutation.isError &&
         values.grade === 5 &&
-        node.qualityEvaluation?.grade !== 5
+        node.qualityEvaluation?.grade !== 5 &&
+        isResource
       ) {
         const revisions = revisionMetaField.value ?? [];
         revisionMetaHelpers.setValue(
@@ -207,7 +213,7 @@ const QualityEvaluationForm = ({ setOpen, taxonomy, revisionMetaField, revisionM
       onSubmit={onSubmit}
       onReset={onDelete}
     >
-      {({ dirty, isValid, isSubmitting }) => (
+      {({ dirty, isValid, isSubmitting, values }) => (
         <StyledForm>
           <FormField name="grade">
             {({ field, meta, helpers }) => (
@@ -273,6 +279,9 @@ const QualityEvaluationForm = ({ setOpen, taxonomy, revisionMetaField, revisionM
             </RightButtonsWrapper>
           </ButtonContainer>
           {updateTaxMutation.isError && <MutationErrorMessage>{t("qualityEvaluationForm.error")}</MutationErrorMessage>}
+          {isResource && values.grade === 5 && (
+            <StyledFieldWarning>{t("qualityEvaluationForm.warning")}</StyledFieldWarning>
+          )}
         </StyledForm>
       )}
     </Formik>

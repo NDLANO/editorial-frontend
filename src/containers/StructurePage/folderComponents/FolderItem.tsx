@@ -77,7 +77,7 @@ const FolderItem = ({
   const { t } = useTranslation();
 
   const close = useCallback(() => setOpen(false), [setOpen]);
-  const showJumpToResources = isMainActive && node.id.includes("topic");
+  const showJumpToResources = isMainActive && (node.id.includes("topic") || node.id.includes("subject"));
 
   return (
     <StyledFolderWrapper data-testid="folderWrapper">

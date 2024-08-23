@@ -21,10 +21,11 @@ const SmallGradeItem = styled(Text)`
 
 interface Props {
   grade: number | undefined;
+  averageGrade?: string;
   ariaLabel?: string;
 }
 
-const QualityEvaluationGrade = ({ grade, ariaLabel }: Props) => {
+const QualityEvaluationGrade = ({ grade, averageGrade, ariaLabel }: Props) => {
   if (!grade) return;
 
   return (
@@ -39,7 +40,7 @@ const QualityEvaluationGrade = ({ grade, ariaLabel }: Props) => {
       margin="none"
       textStyle="button"
     >
-      {grade}
+      {averageGrade ?? grade}
     </SmallGradeItem>
   );
 };

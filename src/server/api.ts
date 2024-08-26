@@ -9,14 +9,7 @@ import express from "express";
 import { GetVerificationKey, expressjwt as jwt, Request } from "express-jwt";
 import jwksRsa from "jwks-rsa";
 import prettier from "prettier";
-import {
-  getToken,
-  getBrightcoveToken,
-  fetchAuth0UsersById,
-  getEditors,
-  getZendeskToken,
-  getResponsibles,
-} from "./auth";
+import { getToken, getBrightcoveToken, fetchAuth0UsersById, getEditors, getResponsibles } from "./auth";
 import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN } from "./httpCodes";
 import errorLogger from "./logger";
 import { translateDocument } from "./translate";
@@ -66,26 +59,6 @@ router.get("/get_brightcove_token", (_, res) => {
     })
     .catch((err) => res.status(INTERNAL_SERVER_ERROR).send(err.message));
 });
-
-router.get(
-  "/get_zendesk_token",
-  jwt({
-    secret: jwksRsa.expressJwtSecret({
-      cache: true,
-      jwksUri: `https://${config.auth0Domain}/.well-known/jwks.json`,
-    }) as GetVerificationKey,
-    audience: "ndla_system",
-    issuer: `https://${config.auth0Domain}/`,
-    algorithms: ["RS256"],
-  }),
-  async (req: Request, res) => {
-    const user = req.auth as NdlaUser;
-    const name = user["https://ndla.no/user_name"] || "";
-    const email = user["https://ndla.no/user_email"] || "";
-    const token = getZendeskToken(name, email);
-    res.send({ token });
-  },
-);
 
 router.get(
   "/get_note_users",

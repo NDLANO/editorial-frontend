@@ -11,7 +11,24 @@ import { Editor, Element, Node, BaseSelection, Text, fragment } from "slate";
 import { ElementType } from "../../interfaces";
 import { TYPE_NOOP } from "../noop/types";
 
-export const languages = ["ar", "de", "en", "es", "fr", "la", "no", "prs", "se", "sma", "so", "ti", "zh"] as const;
+export const languages = [
+  "ar",
+  "de",
+  "en",
+  "es",
+  "fr",
+  "heb",
+  "la",
+  "no",
+  "pli",
+  "prs",
+  "san",
+  "se",
+  "sma",
+  "so",
+  "ti",
+  "zh",
+] as const;
 
 export type TextType = "normal-text" | "heading-2" | "heading-3" | "heading-4";
 export type MarkType = "bold" | "italic" | "code" | "sub" | "sup";

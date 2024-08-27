@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-export const zendeskMock = { token: "test_token" };
 
 export const brightcoveTokenMock = {
   access_token: "test",

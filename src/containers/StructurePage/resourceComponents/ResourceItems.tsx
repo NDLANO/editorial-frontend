@@ -47,11 +47,12 @@ interface Props {
   contentMeta: Dictionary<NodeResourceMeta>;
   contentMetaLoading: boolean;
   users?: Dictionary<Auth0UserData>;
+  showQuality: boolean;
 }
 
 const isError = (error: unknown): error is Error => (error as Error).message !== undefined;
 
-const ResourceItems = ({ resources, currentNodeId, contentMeta, contentMetaLoading, users }: Props) => {
+const ResourceItems = ({ resources, currentNodeId, contentMeta, contentMetaLoading, users, showQuality }: Props) => {
   const { t, i18n } = useTranslation();
   const [deleteId, setDeleteId] = useState<string>("");
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -141,6 +142,7 @@ const ResourceItems = ({ resources, currentNodeId, contentMeta, contentMetaLoadi
             key={resource.id}
             onDelete={toggleDelete}
             contentMetaLoading={contentMetaLoading}
+            showQuality={showQuality}
           />
         )}
       />

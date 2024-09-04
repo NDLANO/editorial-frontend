@@ -37,6 +37,7 @@ interface Props {
   grouped: boolean;
   setCurrentNode: (changedNode: NodeChild) => void;
   contentMetaLoading: boolean;
+  showQuality: boolean;
 }
 const ResourcesContainer = ({
   resourceTypes,
@@ -46,6 +47,7 @@ const ResourcesContainer = ({
   grouped,
   setCurrentNode,
   contentMetaLoading,
+  showQuality,
 }: Props) => {
   const resourceTypesWithoutMissing = useMemo(
     () => resourceTypes.filter((rt) => rt.id !== "missing").map((rt) => ({ id: rt.id, name: rt.name })),
@@ -95,6 +97,7 @@ const ResourcesContainer = ({
         contentMetaLoading={contentMetaLoading}
         responsible={currentMeta?.responsible ? users?.[currentMeta.responsible.responsibleId]?.name : undefined}
         topicNodes={data}
+        showQuality={showQuality}
       />
       <ResourceWrapper>
         {contentMetaLoading ? (
@@ -110,6 +113,7 @@ const ResourcesContainer = ({
                   contentMeta={contentMeta}
                   contentMetaLoading={contentMetaLoading}
                   users={users}
+                  showQuality={showQuality}
                 />
               ))
             ) : (
@@ -119,6 +123,7 @@ const ResourcesContainer = ({
                 contentMeta={contentMeta}
                 contentMetaLoading={contentMetaLoading}
                 users={users}
+                showQuality={showQuality}
               />
             )}
           </>

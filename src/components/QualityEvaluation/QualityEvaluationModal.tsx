@@ -46,7 +46,7 @@ const QualityEvaluationModal = ({
 
   const resourceTranslation =
     articleType === "topic-article" ? t("qualityEvaluationForm.topicArticle") : t("qualityEvaluationForm.article");
-  const title = taxonomy ? t("qualityEvaluationForm.edit") : t("qualityEvaluationForm.disabled");
+  const title = taxonomy?.length ? t("qualityEvaluationForm.edit") : t("qualityEvaluationForm.disabled");
 
   return (
     <Modal open={open} onOpenChange={setOpen}>
@@ -57,7 +57,7 @@ const QualityEvaluationModal = ({
           variant="solid"
           colorTheme={iconButtonColor}
           size="xsmall"
-          disabled={!taxonomy}
+          disabled={!taxonomy?.length}
         >
           <Pencil />
         </IconButtonV2>

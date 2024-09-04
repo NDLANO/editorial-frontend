@@ -70,6 +70,7 @@ interface Props {
   contentMetaLoading: boolean;
   responsible: string | undefined;
   topicNodes: Node[] | undefined;
+  showQuality: boolean;
 }
 
 const TopicResourceBanner = ({
@@ -81,6 +82,7 @@ const TopicResourceBanner = ({
   contentMetaLoading,
   responsible,
   topicNodes,
+  showQuality,
 }: Props) => {
   const { t } = useTranslation();
 
@@ -101,7 +103,7 @@ const TopicResourceBanner = ({
           <PlannedResourceModal currentNode={currentNode} resourceTypes={resourceTypes} resources={resources} />
         </FlexContentWrapper>
         <FlexContentWrapper>
-          {config.qualityEvaluationEnabled === true && (
+          {showQuality && config.qualityEvaluationEnabled === true && (
             <>
               <AverageQualityEvaluation averageGrade={currentNode.gradeAverage?.averageValue} nodeType="TOPIC" />
               <QualityEvaluation

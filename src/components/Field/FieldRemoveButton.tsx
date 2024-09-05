@@ -46,7 +46,7 @@ const StyledButton = styled.button`
 const FieldRemoveButton = ({ children, type = "button", ...rest }: ComponentPropsWithRef<"button">) => (
   // eslint-disable-next-line react/button-has-type
   <StyledButton type={type} {...rest}>
-    <Cross size="normal" aria-hidden={true} />
+    <Cross />
     <span>{children}</span>
   </StyledButton>
 );

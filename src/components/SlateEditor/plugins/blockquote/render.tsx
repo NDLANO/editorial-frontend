@@ -7,13 +7,14 @@
  */
 
 import { Editor } from "slate";
+import { BlockQuote } from "@ndla/primitives";
 import { TYPE_QUOTE } from "./types";
 
 export const blockQuoteRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
     if (element.type === TYPE_QUOTE) {
-      return <blockquote {...attributes}>{children}</blockquote>;
+      return <BlockQuote {...attributes}>{children}</BlockQuote>;
     } else return renderElement?.({ attributes, children, element });
   };
 

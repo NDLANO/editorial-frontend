@@ -87,7 +87,7 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
           aria-label={t(`form.embedConnections.info.${type}`)}
           title={t(`form.embedConnections.info.${type}`)}
         >
-          <ImageInformationIcon size="normal" />
+          <ImageInformationIcon />
         </ButtonV2>
       </ModalTrigger>
       <ModalContent>

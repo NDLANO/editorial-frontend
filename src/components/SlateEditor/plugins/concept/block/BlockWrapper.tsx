@@ -219,8 +219,7 @@ const ConceptButtonContainer = ({ concept, handleRemove, language, editor, eleme
       <SafeLinkIconButton
         arial-label={t(`form.${concept?.conceptType}.edit`)}
         title={t(`form.${concept?.conceptType}.edit`)}
-        variant="ghost"
-        colorTheme="light"
+        variant="tertiary"
         to={`/${concept.conceptType}/${concept.id}/edit/${language}`}
         target="_blank"
       >

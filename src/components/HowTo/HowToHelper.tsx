@@ -45,13 +45,13 @@ const HowToHelper = ({ pageId, tooltip }: Props) => {
     <Modal>
       <ModalTrigger>
         <ButtonV2 variant="stripped" aria-label={tooltip} title={tooltip}>
-          <HelpIcon size="normal" />
+          <HelpIcon />
         </ButtonV2>
       </ModalTrigger>
       <ModalContent>
         <ModalHeader>
           <StyledModalTitle>
-            <InformationOutline size="large" />
+            <InformationOutline />
             {story.title}
           </StyledModalTitle>
           <ModalCloseButton />

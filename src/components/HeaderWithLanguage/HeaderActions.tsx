@@ -64,7 +64,12 @@ const PreviewLightBox = memo(({ type, currentLanguage, article, concept }: Previ
     );
   } else if ((type === "standard" || type === "topic-article" || type === "frontpage-article") && article) {
     return (
-      <SafeLinkButton size="small" variant="ghost" to={toCompareLanguage(article.id, currentLanguage)} target="_blank">
+      <SafeLinkButton
+        size="small"
+        variant="tertiary"
+        to={toCompareLanguage(article.id, currentLanguage)}
+        target="_blank"
+      >
         {t("form.previewLanguageArticle.button")}
         <Launch />
       </SafeLinkButton>

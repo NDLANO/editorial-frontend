@@ -6,23 +6,16 @@
     "esModuleInterop": true,
     "outDir": "build",
     "jsx": "react-jsx",
-    "jsxImportSource": "@emotion/react",
     "isolatedModules": true,
     // "declaration": true,
     "strict": true,
-    "moduleResolution": "node",
+    "moduleResolution": "Bundler",
     "noLib": false,
     "noEmit": false,
     "sourceMap": true,
     "skipLibCheck": true,
-    "lib": ["es2022", "esnext.asynciterable", "dom"],
-    "types": [
-      "@emotion/react",
-      "@emotion/styled",
-      "vitest/globals",
-      "node",
-      "@testing-library/jest-dom"
-    ],
+    "lib": ["es2023", "esnext.asynciterable", "dom"],
+    "types": ["vitest/globals", "node", "@testing-library/jest-dom"],
     "paths": {
       "*": ["node_modules/*", "src/types/*"]
     },

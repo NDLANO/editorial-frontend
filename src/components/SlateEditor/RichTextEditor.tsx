@@ -298,7 +298,7 @@ const RichTextEditor = ({
   );
 
   return (
-    <article>
+    <article className="ndla-article">
       <ArticleLanguageProvider language={language}>
         <SlateProvider isSubmitted={submitted}>
           <StyledSlateWrapper data-testid={testId}>

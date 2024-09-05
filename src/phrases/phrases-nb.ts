@@ -593,13 +593,10 @@ const phrases = {
     title: "Kontaktblokk",
     edit: "Rediger kontaktblokk",
     delete: "Fjern kontaktblokk",
-    blobColor: {
-      green: "Grønn",
-      pink: "Rosa",
-    },
-    blob: {
-      pointy: "Spiss",
-      round: "Rund",
+    background: {
+      subtle: "Subtil",
+      moderate: "Moderat",
+      strong: "Sterk",
     },
   },
   frontpageArticleForm: {
@@ -826,8 +823,6 @@ const phrases = {
       name: "Navn",
       subtitle: "Undertittel",
       email: "E-post",
-      blob: "Blob-type",
-      blobColor: "Blob-farge",
       jobTitle: "Stilling",
       language: "Språk",
       author: "Forfatter",

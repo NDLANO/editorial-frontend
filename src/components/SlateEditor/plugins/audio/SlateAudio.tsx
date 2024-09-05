@@ -149,7 +149,7 @@ const SlateAudio = ({ element, editor, attributes, children }: Props) => {
               {embed.embedData.type !== "minimal" && (
                 <>
                   <SafeLinkIconButton
-                    colorTheme="light"
+                    variant="secondary"
                     to={`/media/${embed.embedData.type === "podcast" ? "podcast" : "audio"}-upload/${
                       embed.embedData.resourceId
                     }/edit/${language}`}

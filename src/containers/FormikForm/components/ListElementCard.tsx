@@ -92,7 +92,7 @@ const ListElementCard = ({ element, onDelete, index, removeElementTranslation, a
       <StyledCard>
         <StyledWrapper>
           <StyledLinkContainer>
-            <Link size="normal" />
+            <Link />
           </StyledLinkContainer>
           <StyledSafeLink to={element.url} target="_blank">
             {element.title}

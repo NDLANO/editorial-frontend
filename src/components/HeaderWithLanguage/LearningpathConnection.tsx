@@ -50,7 +50,7 @@ const LearningpathConnection = ({ id, learningpaths, setLearningpaths }: Props) 
           aria-label={t("form.learningpathConnections.sectionTitle")}
           title={t("form.learningpathConnections.sectionTitle")}
         >
-          <LearningpathIcon size="normal" />
+          <LearningpathIcon />
         </ButtonV2>
       </ModalTrigger>
       <ModalContent>

@@ -37,21 +37,32 @@ import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
-import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
 import { Code, DeleteForever } from "@ndla/icons/editor";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
+import { Figure } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { CodeEmbedData } from "@ndla/types-embed";
 
-import { Figure, CodeBlock as UICodeBlock } from "@ndla/ui";
+import { CodeBlock as UICodeBlock } from "@ndla/ui";
 import { CodeblockElement } from ".";
 import CodeBlockEditor from "./CodeBlockEditor";
 import { CodeBlockType } from "../../../../interfaces";
 import AlertModal from "../../../AlertModal";
 
-const StyledFigure = styled(Figure)`
-  cursor: pointer;
-`;
+const StyledFigure = styled(Figure, {
+  base: {
+    cursor: "pointer",
+  },
+});
+
+const TitleWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "xsmall",
+    justifyContent: "space-between",
+  },
+});
 
 interface Props extends RenderElementProps {
   element: CodeblockElement;
@@ -168,13 +179,11 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
           role="button"
           {...attributes}
         >
-          <UICodeBlock
-            actionButton={<RemoveCodeBlock handleRemove={handleRemove} />}
-            code={embedData.codeContent}
-            format={embedData.codeFormat}
-            title={embedData.title}
-            highlightedCode={highlightedCode}
-          />
+          <TitleWrapper>
+            {embedData.title && <h3>{embedData.title}</h3>}
+            <RemoveCodeBlock handleRemove={handleRemove} />
+          </TitleWrapper>
+          <UICodeBlock format={embedData.codeFormat} highlightedCode={highlightedCode} />
           {children}
         </StyledFigure>
       </ModalTrigger>

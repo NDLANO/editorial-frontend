@@ -14,8 +14,8 @@ import { Popover, PopoverAnchor, PopoverContent, PopoverTrigger } from "@radix-u
 import { IconButtonV2 } from "@ndla/button";
 import { colors, fonts, spacing, stackOrder } from "@ndla/core";
 import { Menu } from "@ndla/icons/common";
+import { NdlaLogoText } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { Logo } from "@ndla/ui";
 import NavigationMenu from "./NavigationMenu";
 import SessionContainer from "./SessionContainer";
 import { Column, GridContainer } from "../../../components/Layout/Layout";
@@ -138,7 +138,7 @@ const Navigation = () => {
                         title={t("logo.altText")}
                         reloadDocument={pathname === "/"}
                       >
-                        <Logo label={t("logo.altText")} />
+                        <NdlaLogoText />
                       </SafeLink>
                     </StyledLogoDiv>
                     <SavedSearchDropdown />

@@ -160,7 +160,7 @@ const SlateImage = ({ element, editor, attributes, children, allowDecorative = t
               </IconButtonV2>
             </ModalTrigger>
             <SafeLinkIconButton
-              colorTheme="light"
+              variant="secondary"
               to={`/media/image-upload/${embed.embedData.resourceId}/edit/${language}`}
               target="_blank"
               title={t("form.editOriginalImage")}

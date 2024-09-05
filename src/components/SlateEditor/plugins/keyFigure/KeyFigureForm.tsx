@@ -14,8 +14,8 @@ import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { CheckboxItem, FieldErrorMessage, InputV3, Label } from "@ndla/forms";
-import { KeyFigureEmbedData } from "@ndla/types-embed";
 import { Text } from "@ndla/typography";
+import { KeyFigureEmbedDataTemp } from "./KeyFigureEmbedDataTemp";
 import { TYPE_KEY_FIGURE } from "./types";
 import InlineImageSearch from "../../../../containers/ConceptPage/components/InlineImageSearch";
 import { InlineField } from "../../../../containers/FormikForm/InlineField";
@@ -27,23 +27,23 @@ import validateFormik, { RulesType } from "../../../formikValidationSchema";
 import { RichTextIndicator } from "../../RichTextIndicator";
 
 interface Props {
-  onSave: (data: KeyFigureEmbedData) => void;
-  initialData: KeyFigureEmbedData;
+  onSave: (data: KeyFigureEmbedDataTemp) => void;
+  initialData: KeyFigureEmbedDataTemp;
   onCancel: () => void;
 }
 
 interface KeyFigureFormValue {
   resource: "key-figure";
-  metaImageId: string;
+  metaImageId: string | undefined;
   title: Descendant[];
   subtitle: Descendant[];
   metaImageAlt?: string;
   isDecorative?: boolean;
 }
 
-const toInitialValues = (initialData: KeyFigureEmbedData): KeyFigureFormValue => ({
+const toInitialValues = (initialData: KeyFigureEmbedDataTemp): KeyFigureFormValue => ({
   resource: TYPE_KEY_FIGURE,
-  metaImageId: initialData?.imageId ?? "",
+  metaImageId: initialData?.imageId,
   title: inlineContentToEditorValue(initialData?.title ?? "", true),
   subtitle: inlineContentToEditorValue(initialData?.subtitle, true),
   metaImageAlt: initialData?.alt ?? "",
@@ -58,7 +58,7 @@ const rules: RulesType<KeyFigureFormValue> = {
     required: true,
   },
   metaImageId: {
-    required: true,
+    required: false,
   },
   metaImageAlt: {
     required: true,
@@ -87,7 +87,7 @@ const KeyFigureForm = ({ onSave, initialData, onCancel }: Props) => {
 
   const onSubmit = useCallback(
     (values: KeyFigureFormValue) => {
-      const newData: KeyFigureEmbedData = {
+      const newData: KeyFigureEmbedDataTemp = {
         resource: TYPE_KEY_FIGURE,
         imageId: values.metaImageId,
         title: inlineContentToHTML(values.title),

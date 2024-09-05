@@ -27,7 +27,6 @@ import { commentBlockSerializer } from "../components/SlateEditor/plugins/commen
 import { commentInlineSerializer } from "../components/SlateEditor/plugins/comment/inline";
 import { blockConceptSerializer } from "../components/SlateEditor/plugins/concept/block";
 import { inlineConceptSerializer } from "../components/SlateEditor/plugins/concept/inline";
-import { conceptListSerializer } from "../components/SlateEditor/plugins/conceptList";
 import { contactBlockSerializer } from "../components/SlateEditor/plugins/contactBlock";
 import { copyrightSerializer } from "../components/SlateEditor/plugins/copyright";
 import { definitionListSerializer } from "../components/SlateEditor/plugins/definitionList";
@@ -105,7 +104,6 @@ const extendedRules: SlateSerializer[] = [
   definitionListSerializer,
   footnoteSerializer,
   mathmlSerializer,
-  conceptListSerializer,
   inlineConceptSerializer,
   blockConceptSerializer,
   commentInlineSerializer,

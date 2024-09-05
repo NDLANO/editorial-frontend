@@ -35,8 +35,6 @@ import { TYPE_COMMENT_BLOCK } from "../comment/block/types";
 import { defaultCommentBlock } from "../comment/block/utils";
 import { TYPE_CONCEPT_BLOCK, TYPE_GLOSS_BLOCK } from "../concept/block/types";
 import { defaultConceptBlock } from "../concept/block/utils";
-import { TYPE_CONCEPT_LIST } from "../conceptList/types";
-import { defaultConceptListBlock } from "../conceptList/utils";
 import { TYPE_CONTACT_BLOCK } from "../contactBlock/types";
 import { defaultContactBlock } from "../contactBlock/utils";
 import { TYPE_DETAILS } from "../details/types";
@@ -339,10 +337,6 @@ const SlateBlockPicker = ({
       }
       case TYPE_BLOGPOST: {
         onInsertBlock(defaultBlogPostBlock());
-        break;
-      }
-      case TYPE_CONCEPT_LIST: {
-        onInsertBlock({ ...defaultConceptListBlock(), isFirstEdit: true });
         break;
       }
       case TYPE_CONCEPT_BLOCK: {

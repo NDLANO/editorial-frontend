@@ -123,6 +123,7 @@ interface Props {
   isLoading?: boolean;
   renderBeforeTitle?: RenderBeforeFunction;
   addChildTooltip?: string;
+  showQuality: boolean;
 }
 
 const NodeItem = ({
@@ -141,6 +142,7 @@ const NodeItem = ({
   nodes,
   renderBeforeTitle,
   addChildTooltip,
+  showQuality,
 }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
@@ -193,21 +195,23 @@ const NodeItem = ({
           </IconWrapper>
           {item.name}
         </ItemTitleButton>
-        {config.qualityEvaluationEnabled === true && (item.nodeType === "TOPIC" || item.nodeType === "SUBJECT") && (
-          <EvaluationWrapper>
-            <QualityEvaluationGrade
-              grade={item.gradeAverage?.averageValue}
-              averageGrade={item.gradeAverage?.averageValue.toFixed(1)}
-              ariaLabel={t("taxonomy.qualityDescription", { nodeType: t(`taxonomy.${item.nodeType}`) })}
-            />
-            <QualityEvaluationGrade
-              grade={item.qualityEvaluation?.grade}
-              ariaLabel={`${t("taxonomy.qualityEvaluation", { nodeType: t(`taxonomy.${item.nodeType}`) })}${
-                item?.qualityEvaluation?.note ? `: ${item.qualityEvaluation.note}` : ""
-              }`}
-            />
-          </EvaluationWrapper>
-        )}
+        {showQuality &&
+          config.qualityEvaluationEnabled === true &&
+          (item.nodeType === "TOPIC" || item.nodeType === "SUBJECT") && (
+            <EvaluationWrapper>
+              <QualityEvaluationGrade
+                grade={item.gradeAverage?.averageValue}
+                averageGrade={item.gradeAverage?.averageValue.toFixed(1)}
+                ariaLabel={t("taxonomy.qualityDescription", { nodeType: t(`taxonomy.${item.nodeType}`) })}
+              />
+              <QualityEvaluationGrade
+                grade={item.qualityEvaluation?.grade}
+                ariaLabel={`${t("taxonomy.qualityEvaluation", { nodeType: t(`taxonomy.${item.nodeType}`) })}${
+                  item?.qualityEvaluation?.note ? `: ${item.qualityEvaluation.note}` : ""
+                }`}
+              />
+            </EvaluationWrapper>
+          )}
         {isActive && (
           <FolderItem
             node={item}
@@ -250,6 +254,7 @@ const NodeItem = ({
                   toggleOpen={toggleOpen}
                   onDragEnd={onDragEnd}
                   addChildTooltip={addChildTooltip}
+                  showQuality={showQuality}
                 />
               )}
               dragHandle={

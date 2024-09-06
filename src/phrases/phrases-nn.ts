@@ -1734,6 +1734,7 @@ const phrases = {
       waiting: "Kloner ressurser",
     },
     favorites: "Vis favorittar",
+    quality: "Vis kvalitet",
     publish: {
       button: "Publiser alle ressursar",
       waiting: "Publiserar ressurser",

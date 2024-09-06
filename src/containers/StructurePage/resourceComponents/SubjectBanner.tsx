@@ -6,9 +6,6 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { colors } from "@ndla/core";
 import { Node } from "@ndla/types-taxonomy";
 import { Text } from "@ndla/typography";
 import JumpToStructureButton from "./JumpToStructureButton";
@@ -17,18 +14,12 @@ import QualityEvaluation from "../../../components/QualityEvaluation/QualityEval
 import config from "../../../config";
 import { BannerWrapper, FlexContentWrapper, TitleRow, TopInfoRow } from "../styles";
 
-const StyledNoEvaluation = styled(Text)`
-  color: ${colors.brand.greyMedium};
-  font-style: italic;
-`;
-
 interface Props {
   subjectNode: Node;
+  showQuality: boolean;
 }
 
-const SubjectBanner = ({ subjectNode }: Props) => {
-  const { t } = useTranslation();
-
+const SubjectBanner = ({ subjectNode, showQuality }: Props) => {
   return (
     <BannerWrapper>
       <TopInfoRow>
@@ -36,7 +27,7 @@ const SubjectBanner = ({ subjectNode }: Props) => {
           <JumpToStructureButton nodeId={subjectNode.id} />
         </FlexContentWrapper>
         <FlexContentWrapper>
-          {config.qualityEvaluationEnabled === true && (
+          {showQuality && config.qualityEvaluationEnabled === true && (
             <>
               <AverageQualityEvaluation averageGrade={subjectNode.gradeAverage?.averageValue} nodeType="SUBJECT" />
               <QualityEvaluation

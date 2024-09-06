@@ -1733,6 +1733,7 @@ const phrases = {
       error: "Noe gikk galt under kloning",
     },
     favorites: "Vis favoritter",
+    quality: "Vis kvalitet",
     publish: {
       button: "Publiser alle ressurser",
       waiting: "Publiserer ressurser",

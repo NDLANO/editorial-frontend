@@ -57,9 +57,10 @@ interface Props {
   resource: ResourceWithNodeConnectionAndMeta;
   onDelete: (connectionId: string) => void;
   contentMetaLoading: boolean;
+  showQuality: boolean;
 }
 
-const Resource = ({ resource, onDelete, currentNodeId, contentMetaLoading, responsible }: Props) => {
+const Resource = ({ resource, onDelete, currentNodeId, contentMetaLoading, responsible, showQuality }: Props) => {
   const { t } = useTranslation();
   const location = useLocation();
 
@@ -102,7 +103,7 @@ const Resource = ({ resource, onDelete, currentNodeId, contentMetaLoading, respo
                 size="small"
               />
             </StyledResourceBody>
-            {config.qualityEvaluationEnabled === true && (
+            {showQuality && config.qualityEvaluationEnabled === true && (
               <QualityEvaluationGrade
                 grade={resource.qualityEvaluation?.grade}
                 ariaLabel={

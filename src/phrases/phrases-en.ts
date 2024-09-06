@@ -1735,6 +1735,7 @@ const phrases = {
       waiting: "Cloning resources",
     },
     favorites: "Show favorites",
+    quality: "Show quality",
     publish: {
       button: "Publish all resources",
       waiting: "Publishing resourses",

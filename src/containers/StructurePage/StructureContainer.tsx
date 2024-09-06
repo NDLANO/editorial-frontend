@@ -27,6 +27,7 @@ import {
   REMEMBER_LMA_SUBJECTS,
   TAXONOMY_ADMIN_SCOPE,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
+  REMEMBER_QUALITY,
 } from "../../constants";
 import { useUserData } from "../../modules/draft/draftQueries";
 import { useNodes } from "../../modules/nodes/nodeQueries";
@@ -111,6 +112,7 @@ const StructureContainer = ({
   const [showLmaSubjects, setShowLmaSubjects] = useLocalStorageBooleanState(REMEMBER_LMA_SUBJECTS);
   const [showDaSubjects, setShowDaSubjects] = useLocalStorageBooleanState(REMEMBER_DA_SUBJECTS);
   const [showSaSubjects, setShowSaSubjects] = useLocalStorageBooleanState(REMEMBER_SA_SUBJECTS);
+  const [showQuality, setShowQuality] = useLocalStorageBooleanState(REMEMBER_QUALITY);
 
   const resourceSection = useRef<HTMLDivElement>(null);
   const firstRender = useRef(true);
@@ -204,6 +206,8 @@ const StructureContainer = ({
               hasLmaSubjects={!!resultSubjectIdObject.subjectLMA.length}
               hasDaSubjects={!!resultSubjectIdObject.subjectDA.length}
               hasSaSubjects={!!resultSubjectIdObject.subjectSA.length}
+              showQuality={showQuality}
+              setShowQuality={setShowQuality}
             />
             <StyledStructureContainer>
               {userDataQuery.isLoading || nodesQuery.isLoading ? (
@@ -222,6 +226,7 @@ const StructureContainer = ({
                       toggleOpen={handleStructureToggle}
                       childNodeTypes={childNodeTypes}
                       addChildTooltip={addChildTooltip}
+                      showQuality={showQuality}
                     />
                   ))}
                 </StructureWrapper>
@@ -232,9 +237,15 @@ const StructureContainer = ({
             <Column colStart={7}>
               {currentNode && (
                 <StickyContainer ref={resourceSection}>
-                  {currentNode.nodeType === "SUBJECT" && <SubjectBanner subjectNode={currentNode} />}
+                  {currentNode.nodeType === "SUBJECT" && (
+                    <SubjectBanner subjectNode={currentNode} showQuality={showQuality} />
+                  )}
                   {isChildNode(currentNode) && (
-                    <StructureResources currentChildNode={currentNode} setCurrentNode={setCurrentNode} />
+                    <StructureResources
+                      currentChildNode={currentNode}
+                      setCurrentNode={setCurrentNode}
+                      showQuality={showQuality}
+                    />
                   )}
                 </StickyContainer>
               )}

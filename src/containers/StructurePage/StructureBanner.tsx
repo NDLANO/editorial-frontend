@@ -18,6 +18,7 @@ import { Text } from "@ndla/typography";
 import AddNodeModalContent from "./AddNodeModalContent";
 import { ResourceGroupBanner, StyledPlusIcon, StyledShareIcon } from "./styles";
 import TaxonomyLightbox from "../../components/Taxonomy/TaxonomyLightbox";
+import config from "../../config";
 import { TAXONOMY_ADMIN_SCOPE } from "../../constants";
 import { useSession } from "../Session/SessionProvider";
 
@@ -36,10 +37,11 @@ const SwitchWrapper = styled.div`
   gap: ${spacing.small};
 `;
 
-const CustomFilterSwitchWrapper = styled.div`
+const SwitchGroupWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  justify-content: center;
 `;
 
 const StyledSwitch = styled(Switch)`
@@ -61,6 +63,8 @@ interface Props {
   hasLmaSubjects: boolean;
   hasDaSubjects: boolean;
   hasSaSubjects: boolean;
+  showQuality: boolean;
+  setShowQuality: (checked: boolean) => void;
 }
 
 const StructureBanner = ({
@@ -76,6 +80,8 @@ const StructureBanner = ({
   hasLmaSubjects,
   hasDaSubjects,
   hasSaSubjects,
+  showQuality,
+  setShowQuality,
 }: Props) => {
   const [addSubjectModalOpen, setAddSubjectModalOpen] = useState(false);
 
@@ -94,7 +100,7 @@ const StructureBanner = ({
       </FlexWrapper>
       <FlexWrapper>
         <SwitchWrapper>
-          <CustomFilterSwitchWrapper>
+          <SwitchGroupWrapper>
             {hasLmaSubjects && (
               <StyledSwitch
                 onChange={setShowLmaSubjects}
@@ -119,14 +125,24 @@ const StructureBanner = ({
                 id="language-subject-switch"
               />
             )}
-          </CustomFilterSwitchWrapper>
-          <StyledSwitch
-            onChange={setShowFavorites}
-            checked={showFavorites}
-            label={t("taxonomy.favorites")}
-            id="favorites"
-            data-testid="switch-favorites"
-          />
+          </SwitchGroupWrapper>
+          <SwitchGroupWrapper>
+            <StyledSwitch
+              onChange={setShowFavorites}
+              checked={showFavorites}
+              label={t("taxonomy.favorites")}
+              id="favorites"
+              data-testid="switch-favorites"
+            />
+            {config.qualityEvaluationEnabled === true && (
+              <StyledSwitch
+                onChange={setShowQuality}
+                checked={showQuality}
+                label={t("taxonomy.quality")}
+                id="quality"
+              />
+            )}
+          </SwitchGroupWrapper>
         </SwitchWrapper>
 
         {isTaxonomyAdmin && (

@@ -218,10 +218,9 @@ const RichTextEditor = ({
     (e: FocusEvent<HTMLDivElement>) => {
       if (e.relatedTarget?.id === BLOCK_PICKER_TRIGGER_ID) return;
       if (e.relatedTarget?.closest("[data-toolbar]")) return;
-      Transforms.deselect(editor);
       if (onBlurProp) onBlurProp(e);
     },
-    [editor, onBlurProp],
+    [onBlurProp],
   );
 
   const handleKeyDown = useCallback(

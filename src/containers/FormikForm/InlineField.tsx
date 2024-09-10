@@ -49,7 +49,7 @@ const toolbarAreaFilters = createToolbarAreaOptions();
 
 const inlinePlugins: SlatePlugin[] = [
   spanPlugin,
-  paragraphPlugin,
+  ...paragraphPlugin,
   toolbarPlugin(toolbarOptions, toolbarAreaFilters),
   textTransformPlugin,
   breakPlugin,

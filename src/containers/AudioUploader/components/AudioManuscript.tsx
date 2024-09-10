@@ -58,7 +58,7 @@ const toolbarAreaFilters = createToolbarAreaOptions();
 
 const manuscriptPlugins: SlatePlugin[] = [
   spanPlugin,
-  paragraphPlugin,
+  ...paragraphPlugin,
   toolbarPlugin(toolbarOptions, toolbarAreaFilters),
   textTransformPlugin,
   breakPlugin,

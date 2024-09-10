@@ -18,7 +18,6 @@ import { CodeblockElement } from "./plugins/codeBlock";
 import { CommentBlockElement, CommentInlineElement } from "./plugins/comment/interfaces";
 import { ConceptBlockElement } from "./plugins/concept/block/interfaces";
 import { ConceptInlineElement } from "./plugins/concept/inline/interfaces";
-import { ConceptListElement } from "./plugins/conceptList";
 import { ContactBlockElement } from "./plugins/contactBlock";
 import { CopyrightElement } from "./plugins/copyright/types";
 import { DefinitionDescriptionElement, DefinitionListElement, DefinitionTermElement } from "./plugins/definitionList";
@@ -112,7 +111,6 @@ declare module "slate" {
       | FramedContentElement
       | DivElement
       | SpanElement
-      | ConceptListElement
       | DefinitionListElement
       | DefinitionDescriptionElement
       | DefinitionTermElement

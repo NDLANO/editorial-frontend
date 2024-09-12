@@ -183,7 +183,7 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
       <StyledContentDiv name="content" label={t("form.content.label")} noBorder>
         {({ field: { value, name, onChange }, form: { isSubmitting } }) => (
           <>
-            <FieldHeader title={t("form.content.label")} subTitle="en undertittel">
+            <FieldHeader title={t("form.content.label")}>
               {id && userPermissions?.includes(DRAFT_HTML_SCOPE) && (
                 <EditMarkupLink to={toEditMarkup(id, language ?? "")} title={t("editMarkup.linkTitle")} />
               )}

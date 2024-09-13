@@ -12,9 +12,7 @@ import { extractEmbedMeta } from "@ndla/article-converter";
 import { IConcept } from "@ndla/types-backend/concept-api";
 import { ConceptVisualElementMeta } from "@ndla/types-embed";
 import { BlockConcept, Gloss } from "@ndla/ui";
-// import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVersionProvider";
 import { usePreviewArticle } from "../../modules/article/articleGqlQueries";
-// import { useSearchNodes } from "../../modules/nodes/nodeQueries";
 
 const getAudioData = (visualElement?: ConceptVisualElementMeta): { title: string; src?: string } => {
   const isSuccessAudio = visualElement?.resource === "audio" && visualElement?.status === "success";
@@ -31,7 +29,6 @@ interface Props {
   language: string;
 }
 const PreviewConceptComponent = ({ concept, language }: Props) => {
-  // const { taxonomyVersion } = useTaxonomyVersion();
   const { data } = usePreviewArticle(
     concept.visualElement?.visualElement!,
     concept.visualElement?.language ?? language,
@@ -45,13 +42,6 @@ const PreviewConceptComponent = ({ concept, language }: Props) => {
     return parse(concept.content.htmlContent);
   }, [concept.content]);
 
-  // const { data: subjects } = useSearchNodes(
-  //   {
-  //     ids: concept.subjectIds!,
-  //     taxonomyVersion,
-  //   },
-  //   { enabled: !!concept.subjectIds?.length },
-  // );
   const visualElementMeta = extractEmbedMeta(data ?? "") as ConceptVisualElementMeta;
 
   const audioData = useMemo(() => getAudioData(visualElementMeta), [visualElementMeta]);
@@ -65,10 +55,6 @@ const PreviewConceptComponent = ({ concept, language }: Props) => {
       title={concept.title.title}
       visualElement={visualElementMeta}
       copyright={concept.copyright}
-      // TODO: Consider if we should add support for these again
-      // tags={concept.tags?.tags}
-      // subjects={subjects?.results?.map((res) => res.name)}
-      // conceptType={concept.conceptType}
       previewAlt
     >
       {parsedContent}

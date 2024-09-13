@@ -10,5 +10,6 @@ import styled from "@emotion/styled";
 export const TwoArticleWrapper = styled.div`
   width: 100%;
   max-width: 100%;
-  display: inline-flex;
+  display: flex;
+  align-items: flex-start;
 `;

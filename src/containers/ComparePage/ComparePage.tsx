@@ -18,12 +18,11 @@ import PreviewDraft from "../../components/PreviewDraft/PreviewDraft";
 import Spinner from "../../components/Spinner";
 import { useDraft } from "../../modules/draft/draftQueries";
 
-const StyledPreviewWrapper = styled.div``;
-
-const TwoArticleWrapper = styled(StyledPreviewWrapper)`
+const TwoArticleWrapper = styled.div`
   width: 100%;
   max-width: 100%;
-  display: inline-flex;
+  display: flex;
+  align-items: flex-start;
 
   span[lang] {
     text-decoration: underline;

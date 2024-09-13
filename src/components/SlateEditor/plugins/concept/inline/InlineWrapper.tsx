@@ -185,16 +185,15 @@ const InlineWrapper = (props: Props) => {
           <Portal>
             <StyledPopoverContent>
               <ButtonWrapper>
-                {concept?.status.current === PUBLISHED ||
-                  (concept?.status.other.includes(PUBLISHED) && (
-                    <StyledIconWrapper
-                      data-color="green"
-                      aria-label={t("form.workflow.published")}
-                      title={t("form.workflow.published")}
-                    >
-                      <Check />
-                    </StyledIconWrapper>
-                  ))}
+                {(concept?.status.current === PUBLISHED || concept?.status.other.includes(PUBLISHED)) && (
+                  <StyledIconWrapper
+                    data-color="green"
+                    aria-label={t("form.workflow.published")}
+                    title={t("form.workflow.published")}
+                  >
+                    <Check />
+                  </StyledIconWrapper>
+                )}
                 {concept?.status.current !== PUBLISHED && (
                   <StyledIconWrapper
                     data-color="red"

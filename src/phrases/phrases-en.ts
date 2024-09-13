@@ -614,6 +614,7 @@ const phrases = {
     background: {
       white: "White",
       transparent: "Transparent",
+      gray: "Gray",
     },
     setSticky: "Lock content to adjacent grid cell",
     unsetSticky: "Unlock content from adjacent grid cell",

@@ -613,6 +613,7 @@ const phrases = {
     background: {
       white: "Kvit",
       transparent: "Transparent",
+      gray: "Grå",
     },
     setSticky: "Lås innhald til cella ved sida av",
     unsetSticky: "Frigjer innhald frå cella ved sida av",

@@ -46,7 +46,7 @@ const LanguagePicker = ({ id, emptyLanguages, editUrl }: Props) => {
           <StyledArrow width={20} height={10} />
           {emptyLanguages.map((language) => (
             <DropdownItem key={language.key} asChild>
-              <StyledSafeLinkButton shape="sharp" colorTheme="light" variant="ghost" to={editUrl(id, language.key)}>
+              <StyledSafeLinkButton variant="tertiary" to={editUrl(id, language.key)}>
                 {language.title}
               </StyledSafeLinkButton>
             </DropdownItem>

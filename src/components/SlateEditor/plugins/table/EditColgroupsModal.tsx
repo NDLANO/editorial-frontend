@@ -13,10 +13,10 @@ import { useSlateStatic } from "slate-react";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { fonts } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
 import { Pencil } from "@ndla/icons/action";
 import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, Modal, ModalTrigger, ModalContent } from "@ndla/modal";
 import { TableElement } from "./interfaces";
+import { OldSpinner } from "../../../OldSpinner";
 
 const MonacoEditor = lazy(() => import("../../../MonacoEditor"));
 
@@ -64,7 +64,7 @@ const EditColgroupsModal = ({ element }: Props) => {
             {t("form.content.table.colgroupInfo")}
             <StyledCode>{'<colgroup><col><col><col style="width:200px;"></colgroup>'}</StyledCode>
           </p>
-          <Suspense fallback={<Spinner />}>
+          <Suspense fallback={<OldSpinner />}>
             <MonacoEditor onChange={setColgroups} onSave={onSave} value={colgroups} size="small" />
           </Suspense>
           <ButtonV2 onClick={() => onSave(colgroups)}>{t("form.save")}</ButtonV2>

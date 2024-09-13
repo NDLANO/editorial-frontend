@@ -594,13 +594,10 @@ const phrases = {
     title: "Contact block",
     edit: "Edit contact block",
     delete: "Remove contact block",
-    blobColor: {
-      green: "Green",
-      pink: "Pink",
-    },
-    blob: {
-      pointy: "Pointy",
-      round: "Round",
+    background: {
+      subtle: "Subtle",
+      moderate: "Moderate",
+      strong: "Strong",
     },
   },
   frontpageArticleForm: {
@@ -617,6 +614,7 @@ const phrases = {
     background: {
       white: "White",
       transparent: "Transparent",
+      gray: "Gray",
     },
     setSticky: "Lock content to adjacent grid cell",
     unsetSticky: "Unlock content from adjacent grid cell",
@@ -825,8 +823,6 @@ const phrases = {
       name: "Name",
       subtitle: "Subtitle",
       email: "Email",
-      blob: "Blob type",
-      blobColor: "Blob color",
       jobTitle: "Job title",
       author: "Author",
       language: "Language",

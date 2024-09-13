@@ -11,7 +11,6 @@ import { useTranslation } from "react-i18next";
 import { DragEndEvent } from "@dnd-kit/core";
 import styled from "@emotion/styled";
 import { colors, spacing } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
 import { Subject } from "@ndla/icons/contentType";
 import { DragVertical, Star, SubjectMatter, Taxonomy } from "@ndla/icons/editor";
 import { NodeChild, Node, NodeType } from "@ndla/types-taxonomy";
@@ -19,6 +18,7 @@ import FolderItem from "./folderComponents/FolderItem";
 import QualityEvaluationGrade from "./resourceComponents/QualityEvaluationGrade";
 import DndList from "../../components/DndList";
 import { DragHandle } from "../../components/DraggableItem";
+import { OldSpinner } from "../../components/OldSpinner";
 import Fade from "../../components/Taxonomy/Fade";
 import {
   ItemTitleButton,
@@ -59,7 +59,7 @@ const RoundIcon = ({ smallIcon, ...rest }: RoundIconProps & Omit<HTMLProps<HTMLB
   <StyledIcon {...rest}>{smallIcon}</StyledIcon>
 );
 
-const StyledSpinner = styled(Spinner)`
+const StyledSpinner = styled(OldSpinner)`
   margin: 4px ${spacing.normal};
 `;
 

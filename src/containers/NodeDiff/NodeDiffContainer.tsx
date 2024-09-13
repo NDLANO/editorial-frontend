@@ -13,8 +13,9 @@ import { useSearchParams } from "react-router-dom";
 import styled from "@emotion/styled";
 import { spacing, fonts } from "@ndla/core";
 import { ChevronRight } from "@ndla/icons/common";
-import { NodeChild, Node } from "@ndla/types-taxonomy";
-import { ContentLoader, MessageBox } from "@ndla/ui";
+import { MessageBox } from "@ndla/primitives";
+import { NodeChild } from "@ndla/types-taxonomy";
+import { ContentLoader } from "@ndla/ui";
 import { diffTrees, DiffType, DiffTypeWithChildren, RootDiffType } from "./diffUtils";
 import NodeDiff from "./NodeDiff";
 import { RootNode } from "./TreeNode";
@@ -152,7 +153,7 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
         })}
       </StyledBreadCrumb>
       {equal && <MessageBox>{t("diff.equalNodes")}</MessageBox>}
-      {error && <MessageBox>{t(error)}</MessageBox>}
+      {error && <MessageBox variant="error">{t(error)}</MessageBox>}
       {view === "tree" && <RootNode tree={diff} onNodeSelected={setSelectedNode} selectedNode={selectedNode} />}
       {view === "tree" && selectedNode && (
         <NodeDiff node={selectedNode} isRoot={isEqual(selectedNode.id, diff.root.id)} />

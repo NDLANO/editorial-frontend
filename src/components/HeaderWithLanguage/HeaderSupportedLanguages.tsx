@@ -39,7 +39,7 @@ const HeaderSupportedLanguages = ({ supportedLanguages = [], id, editUrl, isSubm
               language: t(`languages.${supportedLanguage}`),
             })}
             size="small"
-            variant="ghost"
+            variant="tertiary"
             to={editUrl(id, supportedLanguage)}
             replace={replace}
             disabled={isSubmitting}

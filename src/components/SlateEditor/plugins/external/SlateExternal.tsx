@@ -13,7 +13,6 @@ import { ReactEditor, RenderElementProps } from "slate-react";
 import styled from "@emotion/styled";
 import { ButtonV2, IconButtonV2 } from "@ndla/button";
 import { colors, spacing } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
 import { Pencil } from "@ndla/icons/action";
 import { DeleteForever, Expandable } from "@ndla/icons/editor";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
@@ -26,6 +25,7 @@ import { EXTERNAL_WHITELIST_PROVIDERS } from "../../../../constants";
 import { WhitelistProvider } from "../../../../interfaces";
 import { useExternalEmbed } from "../../../../modules/embed/queries";
 import { urlDomain } from "../../../../util/htmlHelpers";
+import { OldSpinner } from "../../../OldSpinner";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import EditorErrorMessage from "../../EditorErrorMessage";
 import { StyledDeleteEmbedButton, StyledFigureButtons } from "../embed/FigureButtons";
@@ -185,7 +185,7 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
               </StyledDeleteEmbedButton>
             </StyledFigureButtons>
             {metaQuery.isLoading ? (
-              <Spinner />
+              <OldSpinner />
             ) : !allowedProvider ? (
               <EditorErrorMessage msg={t("displayOembed.notSupported", { type, provider: provider })} />
             ) : embed?.resource === "external" ? (

@@ -54,7 +54,7 @@ interface Props {
 }
 
 const columns: GridType["columns"][] = ["2", "4", "2x2"];
-const backgrounds: GridType["background"][] = ["transparent", "white"];
+const backgrounds: GridType["background"][] = ["transparent", "white", "gray"];
 
 const GridForm = ({ initialData, onSave, onCancel }: Props) => {
   const { t } = useTranslation();

@@ -65,8 +65,8 @@ const MetaImageComponent = ({ content, locale }: { content: IMultiSearchSummary;
   const imageUrl = url ? `${url}?width=200&language=${locale}` : null;
 
   if (!imageUrl) {
-    if (content.learningResourceType === "gloss") return <Globe size="large" />;
-    if (content.learningResourceType === "concept") return <Concept size="large" />;
+    if (content.learningResourceType === "gloss") return <Globe />;
+    if (content.learningResourceType === "concept") return <Concept />;
     return <img src={"/placeholder.png"} alt={alt} />;
   }
 

@@ -67,7 +67,7 @@ const SessionContainer = () => {
           <StyledDropdownContent>
             <StyledArrow width={20} height={10} />
             <DropdownItem asChild>
-              <SafeLinkButton colorTheme="light" shape="sharp" to={toLogoutSession()}>
+              <SafeLinkButton variant="secondary" to={toLogoutSession()}>
                 {t("logoutProviders.localLogout")}
               </SafeLinkButton>
             </DropdownItem>

@@ -14,6 +14,7 @@ import { spacing } from "@ndla/core";
 import { ImageSearch } from "@ndla/image-search";
 import { Tabs } from "@ndla/tabs";
 import { IImageMetaInformationV3, ISearchParams, ISearchResultV3 } from "@ndla/types-backend/image-api";
+import { useImageSearchTranslations } from "@ndla/ui";
 import CreateImage from "../containers/ImageUploader/CreateImage";
 
 const StyledTitleDiv = styled.div`
@@ -47,6 +48,7 @@ const ImageSearchAndUploader = ({
 }: Props) => {
   const [selectedTab, setSelectedTab] = useState<string | undefined>(undefined);
   const { t } = useTranslation();
+  const imageSearchTranslations = useImageSearchTranslations();
 
   const searchImagesWithParameters = (query?: string, page?: number) => {
     return searchImages({
@@ -71,10 +73,7 @@ const ImageSearchAndUploader = ({
               fetchImage={fetchImage}
               searchImages={searchImagesWithParameters}
               locale={locale}
-              searchPlaceholder={t("imageSearch.placeholder")}
-              searchButtonTitle={t("imageSearch.buttonTitle")}
-              useImageTitle={t("imageSearch.useImage")}
-              checkboxLabel={t("imageSearch.metaImageCheckboxLabel")}
+              translations={imageSearchTranslations}
               onImageSelect={onImageSelect}
               noResults={
                 <>

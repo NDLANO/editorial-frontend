@@ -17,7 +17,7 @@ import { DeleteForever } from "@ndla/icons/editor";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import { ContactBlockEmbedData } from "@ndla/types-embed";
-import { ContactBlock } from "@ndla/ui";
+import { ContactBlock, ContactBlockBackground } from "@ndla/ui";
 import { ContactBlockElement } from ".";
 import ContactBlockForm from "./ContactBlockForm";
 import { fetchImage } from "../../../../modules/image/imageApi";
@@ -140,8 +140,7 @@ const SlateContactBlock = ({ element, editor, attributes, children }: Props) => 
               name={contactBlock.name}
               description={contactBlock.description}
               email={contactBlock.email}
-              blob={contactBlock.blob}
-              blobColor={contactBlock.blobColor}
+              backgroundColor={contactBlock.background as ContactBlockBackground | undefined}
             />
           </div>
         )}

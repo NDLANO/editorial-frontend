@@ -593,13 +593,10 @@ const phrases = {
     title: "Kontaktblokk",
     edit: "Rediger kontaktblokk",
     delete: "Fjern kontaktblokk",
-    blobColor: {
-      green: "Grønn",
-      pink: "Rosa",
-    },
-    blob: {
-      pointy: "Spiss",
-      round: "Rund",
+    background: {
+      subtle: "Subtil",
+      moderate: "Moderat",
+      strong: "Sterk",
     },
   },
   frontpageArticleForm: {
@@ -616,6 +613,7 @@ const phrases = {
     background: {
       white: "Kvit",
       transparent: "Transparent",
+      gray: "Grå",
     },
     setSticky: "Lås innhald til cella ved sida av",
     unsetSticky: "Frigjer innhald frå cella ved sida av",
@@ -825,8 +823,6 @@ const phrases = {
       name: "Namn",
       subtitle: "Undertittel",
       email: "E-post",
-      blob: "Blob-type",
-      blobColor: "Blob-farge",
       jobTitle: "Stilling",
       language: "Språk",
       author: "Forfattar",

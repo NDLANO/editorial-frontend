@@ -14,7 +14,7 @@ import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { Copyright } from "@ndla/icons/editor";
-import { FramedContent } from "@ndla/ui";
+import { FramedContent } from "@ndla/primitives";
 import { FramedContentElement } from ".";
 import { TYPE_FRAMED_CONTENT } from "./types";
 import DeleteButton from "../../../DeleteButton";

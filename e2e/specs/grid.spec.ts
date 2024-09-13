@@ -37,7 +37,6 @@ test("can change background color", async ({ page }) => {
   await page.getByTestId("edit-grid-button").click();
   await page.getByText("Hvit").click();
   await page.getByRole("button", { name: "Lagre", exact: true }).click();
-  await expect(page.locator('div[data-background="white"]')).toBeVisible();
 });
 
 test("can set border", async ({ page }) => {

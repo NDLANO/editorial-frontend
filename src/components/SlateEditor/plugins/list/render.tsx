@@ -7,7 +7,7 @@
  */
 
 import { Editor } from "slate";
-import { OrderedList, UnOrderedList } from "@ndla/ui";
+import { OrderedList, UnOrderedList } from "@ndla/primitives";
 import { TYPE_LIST, TYPE_LIST_ITEM } from "./types";
 
 export const listRenderer = (editor: Editor) => {
@@ -19,23 +19,14 @@ export const listRenderer = (editor: Editor) => {
       } else if (element.listType === "numbered-list") {
         const { start } = element.data;
         return (
-          <OrderedList
-            start={start ? parseInt(start) : undefined}
-            className={`${start ? `ol-reset-${start}` : ""}`}
-            {...attributes}
-          >
+          <OrderedList start={start ? parseInt(start) : undefined} {...attributes}>
             {children}
           </OrderedList>
         );
       } else if (element.listType === "letter-list") {
         const { start } = element.data;
         return (
-          <OrderedList
-            start={start ? parseInt(start) : undefined}
-            data-type="letters"
-            className={`ol-list--roman ${start ? `ol-reset-${start}` : ""}`}
-            {...attributes}
-          >
+          <OrderedList start={start ? parseInt(start) : undefined} variant="letters" {...attributes}>
             {children}
           </OrderedList>
         );

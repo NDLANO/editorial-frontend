@@ -14,7 +14,6 @@ import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
 import { misc, spacing, stackOrder } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
 import { Pencil } from "@ndla/icons/action";
 import { Link } from "@ndla/icons/common";
 import { DeleteForever } from "@ndla/icons/editor";
@@ -25,6 +24,7 @@ import { ImageEmbed } from "@ndla/ui";
 import ImageEmbedForm from "./ImageEmbedForm";
 import { ImageElement } from "./types";
 import { useImageMeta } from "../../../../modules/embed/queries";
+import { OldSpinner } from "../../../OldSpinner";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import { StyledDeleteEmbedButton, StyledFigureButtons } from "../embed/FigureButtons";
 
@@ -140,7 +140,7 @@ const SlateImage = ({ element, editor, attributes, children, allowDecorative = t
   );
 
   if (imageEmbedQuery.isLoading || !embed || !embedWithoutCaching) {
-    return <Spinner />;
+    return <OldSpinner />;
   }
 
   return (
@@ -160,7 +160,7 @@ const SlateImage = ({ element, editor, attributes, children, allowDecorative = t
               </IconButtonV2>
             </ModalTrigger>
             <SafeLinkIconButton
-              colorTheme="light"
+              variant="secondary"
               to={`/media/image-upload/${embed.embedData.resourceId}/edit/${language}`}
               target="_blank"
               title={t("form.editOriginalImage")}

@@ -126,7 +126,7 @@ const GenericSearchForm = ({
       {!disableSavedSearch && (
         <StyledSearchHeader>
           <h2>
-            <Search size="normal" />
+            <Search />
             {t(`searchPage.header.${type}`)}
           </h2>
           <SearchSaveButton userData={userData} selectors={selectors} searchContentType={type} />

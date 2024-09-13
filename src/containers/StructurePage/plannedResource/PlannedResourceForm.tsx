@@ -195,12 +195,11 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
     {
       select: (res) =>
         res
-          .flatMap(
-            (parent) =>
-              parent.subtypes?.map((s) => ({
-                label: `${parent.name} - ${s.name}`,
-                value: `${s.id},${parent.id}`,
-              })),
+          .flatMap((parent) =>
+            parent.subtypes?.map((s) => ({
+              label: `${parent.name} - ${s.name}`,
+              value: `${s.id},${parent.id}`,
+            })),
           )
           .filter((r) => !!r) as Option[],
       placeholderData: [],

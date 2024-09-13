@@ -9,9 +9,9 @@
 import isEqual from "lodash/isEqual";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Spinner } from "@ndla/icons";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
 import DropdownSearch from "./DropdownSearch";
+import { OldSpinner } from "../../../components/OldSpinner";
 import { NDLA_FILM_SUBJECT } from "../../../constants";
 import { useMoviesQuery } from "../../../modules/frontpage/filmQueries";
 import { getUrnFromId } from "../../../util/ndlaFilmHelpers";
@@ -51,7 +51,7 @@ export const ThemeMovies = ({ movies, onMoviesUpdated, placeholder }: Props) => 
   return (
     <>
       {moviesQuery.isLoading ? (
-        <Spinner />
+        <OldSpinner />
       ) : (
         <ElementList
           articleType="standard"

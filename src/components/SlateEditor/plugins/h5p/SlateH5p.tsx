@@ -12,7 +12,6 @@ import { Editor, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import styled from "@emotion/styled";
 import { spacing, colors, stackOrder } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
 import { DeleteForever } from "@ndla/icons/editor";
 import { H5pMetaData } from "@ndla/types-embed";
 import { H5pEmbed } from "@ndla/ui";
@@ -21,6 +20,7 @@ import EditMetadataModal from "./EditMetadataModal";
 import { H5pElement } from "./types";
 import config from "../../../../config";
 import { useH5pMeta } from "../../../../modules/embed/queries";
+import { OldSpinner } from "../../../OldSpinner";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import { StyledDeleteEmbedButton, StyledFigureButtons } from "../embed/FigureButtons";
 
@@ -94,7 +94,7 @@ const SlateH5p = ({ element, editor, attributes, children }: Props) => {
             <DeleteForever />
           </StyledDeleteEmbedButton>
         </FigureButtons>
-        {h5pMetaQuery.isLoading || !embed ? <Spinner /> : <H5pEmbed embed={embed} />}
+        {h5pMetaQuery.isLoading || !embed ? <OldSpinner /> : <H5pEmbed embed={embed} />}
       </div>
       {children}
     </H5pWrapper>

@@ -13,7 +13,6 @@ import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
 import { spacing, colors, stackOrder } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
 import { Pencil } from "@ndla/icons/action";
 import { Link } from "@ndla/icons/common";
 import { DeleteForever } from "@ndla/icons/editor";
@@ -24,6 +23,7 @@ import { AudioEmbed } from "@ndla/ui";
 import AudioEmbedForm from "./AudioEmbedForm";
 import { AudioElement } from "./types";
 import { useAudioMeta } from "../../../../modules/embed/queries";
+import { OldSpinner } from "../../../OldSpinner";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import { StyledDeleteEmbedButton, StyledFigureButtons } from "../embed/FigureButtons";
 
@@ -135,7 +135,7 @@ const SlateAudio = ({ element, editor, attributes, children }: Props) => {
         data-type={embed?.embedData.type}
       >
         {audioMetaQuery.isLoading ? (
-          <Spinner />
+          <OldSpinner />
         ) : embed ? (
           <>
             <FigureButtons data-type={embed.embedData.type}>

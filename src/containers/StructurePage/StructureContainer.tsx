@@ -10,7 +10,6 @@ import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { breakpoints, spacing } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
 import { NodeChild, Node, NodeType } from "@ndla/types-taxonomy";
 import StructureErrorIcon from "./folderComponents/StructureErrorIcon";
 import StructureResources from "./resourceComponents/StructureResources";
@@ -20,6 +19,7 @@ import StickyVersionSelector from "./StickyVersionSelector";
 import StructureBanner from "./StructureBanner";
 import ErrorBoundary from "../../components/ErrorBoundary";
 import { GridContainer, Column } from "../../components/Layout/Layout";
+import { OldSpinner } from "../../components/OldSpinner";
 import {
   REMEMBER_DA_SUBJECTS,
   REMEMBER_FAVORITE_NODES,
@@ -207,7 +207,7 @@ const StructureContainer = ({
             />
             <StyledStructureContainer>
               {userDataQuery.isLoading || nodesQuery.isLoading ? (
-                <Spinner />
+                <OldSpinner />
               ) : (
                 <StructureWrapper data-testid="structure">
                   {nodes!.map((node) => (

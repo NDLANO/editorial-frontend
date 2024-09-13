@@ -10,11 +10,11 @@ import keyBy from "lodash/keyBy";
 import { useMemo } from "react";
 import styled from "@emotion/styled";
 import { breakpoints, mq } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
 import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
 import ResourceItems from "./ResourceItems";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
 import TopicResourceBanner from "./TopicResourceBanner";
+import { OldSpinner } from "../../../components/OldSpinner";
 import { DRAFT_RESPONSIBLE } from "../../../constants";
 import { Dictionary } from "../../../interfaces";
 import { useAuth0Responsibles } from "../../../modules/auth0/auth0Queries";
@@ -98,7 +98,7 @@ const ResourcesContainer = ({
       />
       <ResourceWrapper>
         {contentMetaLoading ? (
-          <Spinner />
+          <OldSpinner />
         ) : (
           <>
             {grouped ? (

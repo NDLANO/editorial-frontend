@@ -12,13 +12,13 @@ import styled from "@emotion/styled";
 import { AudioSearch } from "@ndla/audio-search";
 import { ButtonV2, IconButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
 import { Cross } from "@ndla/icons/action";
 import { Audio } from "@ndla/icons/common";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
 import { ISearchParams } from "@ndla/types-backend/audio-api";
 import { AudioEmbedData } from "@ndla/types-embed";
 import { AudioPlayer, useAudioSearchTranslations } from "@ndla/ui";
+import { OldSpinner } from "../../../components/OldSpinner";
 import { fetchAudio, postSearchAudio } from "../../../modules/audio/audioApi";
 import { useAudio } from "../../../modules/audio/audioQueries";
 import { onError } from "../../../util/resolveJsonOrRejectWithError";
@@ -80,7 +80,7 @@ export const GlossAudioField = ({ element, onElementChange, glossLanguage }: Pro
       </AudioWrapper>
     );
   } else if (element) {
-    return <Spinner />;
+    return <OldSpinner />;
   }
 
   return (

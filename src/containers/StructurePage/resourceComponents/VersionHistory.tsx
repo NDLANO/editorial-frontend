@@ -11,11 +11,11 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing, colors } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
 import { ModalBody, ModalHeader, ModalTitle, Modal, ModalTrigger, ModalContent, ModalCloseButton } from "@ndla/modal";
 import { IEditorNote } from "@ndla/types-backend/draft-api";
 import { constants, ContentTypeBadge } from "@ndla/ui";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
+import { OldSpinner } from "../../../components/OldSpinner";
 import ResourceItemLink from "../../../components/Taxonomy/ResourceItemLink";
 import NotesVersionHistory from "../../../components/VersionHistory/VersionHistory";
 import { Auth0UserData } from "../../../interfaces";
@@ -148,7 +148,7 @@ const VersionHistoryContent = ({ contentType, resource }: ModalContentProps) => 
             isVisible={resource.metadata?.visible}
           />
         </LinkWrapper>
-        {notes?.length ? <NotesVersionHistory notes={notes} /> : notes ? t("form.notes.history.empty") : <Spinner />}
+        {notes?.length ? <NotesVersionHistory notes={notes} /> : notes ? t("form.notes.history.empty") : <OldSpinner />}
       </StyledModalBody>
     </>
   );

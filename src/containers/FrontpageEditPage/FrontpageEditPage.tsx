@@ -12,7 +12,6 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
 import { colors, misc, spacing } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
 import { Pencil, Plus } from "@ndla/icons/action";
 import { SafeLink } from "@ndla/safelink";
 import { HelmetWithTracker } from "@ndla/tracker";
@@ -24,6 +23,7 @@ import { addArticlesToAboutMenu, extractArticleIds, menuWithArticleToIMenu } fro
 import FrontpageNodeList from "./FrontpageNodeList";
 import { MenuWithArticle } from "./types";
 import validateFormik, { RulesType } from "../../components/formikValidationSchema";
+import { OldSpinner } from "../../components/OldSpinner";
 import SaveButton from "../../components/SaveButton";
 import { FRONTPAGE_ADMIN_SCOPE } from "../../constants";
 import { useArticleSearch } from "../../modules/article/articleQueries";
@@ -124,7 +124,7 @@ const FrontpageEditPage = () => {
     <OneColumn>
       <HelmetWithTracker title={t("htmlTitles.editFrontpage")} />
       {frontpageQuery.isLoading || articlesQuery.isLoading ? (
-        <Spinner />
+        <OldSpinner />
       ) : transformedMenu ? (
         <Formik
           initialValues={{ ...transformedMenu, article: initialFrontpageArticle }}

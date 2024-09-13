@@ -10,8 +10,8 @@ import { FieldProps } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
-import { Spinner } from "@ndla/icons";
 import FormikField from "../../../components/FormikField";
+import { OldSpinner } from "../../../components/OldSpinner";
 import PlainTextEditor from "../../../components/SlateEditor/PlainTextEditor";
 import { TitleField } from "../../FormikForm";
 import VisualElementField from "../../FormikForm/components/VisualElementField";
@@ -30,7 +30,7 @@ const SubjectpageAbout = ({ selectedLanguage }: Props) => {
   }, [selectedLanguage]);
 
   if (showLoading) {
-    return <Spinner />;
+    return <OldSpinner />;
   }
   return (
     <>

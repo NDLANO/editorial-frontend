@@ -79,7 +79,7 @@ const toImageEmbedFormvalues = (embed: ImageEmbedData): ImageEmbedFormValues => 
     lowerRightY: embed.lowerRightY,
     align: embed.align,
     size: embed.size?.replace("--hide-byline", ""),
-    hideByline: !!embed.size?.includes("hide-byline") || embed.hideByline === "true",
+    hideByline: embed.hideByline === "true",
     hideCaption: embed.hideCaption === "true",
   };
 };
@@ -105,7 +105,7 @@ const ImageEmbedForm = ({ embed, onSave, onClose, language, allowDecorative, ima
       lowerRightX: values.lowerRightX,
       lowerRightY: values.lowerRightY,
       align: values.align,
-      size: values.hideByline ? `${values.size}--hide-byline` : values.size,
+      size: values.size,
       hideByline: values.hideByline ? "true" : undefined,
       hideCaption: values.hideCaption ? "true" : undefined,
     });

@@ -1334,6 +1334,7 @@ const phrases = {
       caption: {
         label: "Biletetekst",
         placeholder: "Biletetekst",
+        hide: "Skjul biletetekst",
       },
       alt: {
         label: "Alt-tekst",

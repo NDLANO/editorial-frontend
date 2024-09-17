@@ -1339,6 +1339,7 @@ const phrases = {
       caption: {
         label: "Image caption",
         placeholder: "Image caption",
+        hide: "Hide caption",
       },
       dragdrop: {
         main: "Drag and drop",

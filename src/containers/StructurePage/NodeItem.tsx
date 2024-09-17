@@ -195,23 +195,21 @@ const NodeItem = ({
           </IconWrapper>
           {item.name}
         </ItemTitleButton>
-        {showQuality &&
-          config.qualityEvaluationEnabled === true &&
-          (item.nodeType === "TOPIC" || item.nodeType === "SUBJECT") && (
-            <EvaluationWrapper>
-              <QualityEvaluationGrade
-                grade={item.gradeAverage?.averageValue}
-                averageGrade={item.gradeAverage?.averageValue.toFixed(1)}
-                ariaLabel={t("taxonomy.qualityDescription", { nodeType: t(`taxonomy.${item.nodeType}`) })}
-              />
-              <QualityEvaluationGrade
-                grade={item.qualityEvaluation?.grade}
-                ariaLabel={`${t("taxonomy.qualityEvaluation", { nodeType: t(`taxonomy.${item.nodeType}`) })}${
-                  item?.qualityEvaluation?.note ? `: ${item.qualityEvaluation.note}` : ""
-                }`}
-              />
-            </EvaluationWrapper>
-          )}
+        {showQuality && (item.nodeType === "TOPIC" || item.nodeType === "SUBJECT") && (
+          <EvaluationWrapper>
+            <QualityEvaluationGrade
+              grade={item.gradeAverage?.averageValue}
+              averageGrade={item.gradeAverage?.averageValue.toFixed(1)}
+              ariaLabel={t("taxonomy.qualityDescription", { nodeType: t(`taxonomy.${item.nodeType}`) })}
+            />
+            <QualityEvaluationGrade
+              grade={item.qualityEvaluation?.grade}
+              ariaLabel={`${t("taxonomy.qualityEvaluation", { nodeType: t(`taxonomy.${item.nodeType}`) })}${
+                item?.qualityEvaluation?.note ? `: ${item.qualityEvaluation.note}` : ""
+              }`}
+            />
+          </EvaluationWrapper>
+        )}
         {isActive && (
           <FolderItem
             node={item}

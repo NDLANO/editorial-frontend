@@ -124,7 +124,6 @@ const usernamePasswordEnabled = (ndlaEnvironment: string) => {
 
 export type ConfigType = {
   brightcoveAccountId: string | undefined;
-  checkArticleScript: boolean;
   logEnvironment: string | undefined;
   ndlaApiUrl: string | undefined;
   ndlaBaseUrl: string;
@@ -153,7 +152,6 @@ export type ConfigType = {
   disableCSP: string | undefined;
   usernamePasswordEnabled: boolean;
   h5pMetaEnabled: boolean;
-  qualityEvaluationEnabled: boolean;
   translateServiceUrl: string;
   isVercel: boolean;
   defaultLanguage: LocaleType;
@@ -192,7 +190,6 @@ const getServerSideConfig = (): ConfigType => {
     brightcoveUrl: "https://studio.brightcove.com/products/videocloud/home",
     h5pApiUrl: getEnvironmentVariabel("H5P_API_URL", h5pApiUrl(ndlaEnvironment)),
     localConverter: getEnvironmentVariabel("LOCAL_CONVERTER", "false") === "true",
-    checkArticleScript: getEnvironmentVariabel("CHECK_ARTICLE_SCRIPT", "false") === "true",
     googleTagManagerId: getEnvironmentVariabel("NDLA_GOOGLE_TAG_MANAGER_ID"),
     disableCSP: getEnvironmentVariabel("DISABLE_CSP", "false"),
     usernamePasswordEnabled: getEnvironmentVariabel(
@@ -200,7 +197,6 @@ const getServerSideConfig = (): ConfigType => {
       usernamePasswordEnabled(ndlaEnvironment),
     ),
     h5pMetaEnabled: getEnvironmentVariabel("H5PMETA_ENABLED", "false") === "true",
-    qualityEvaluationEnabled: getEnvironmentVariabel("QUALITY_EVALUATION_ENABLED", "false") === "true",
     translateServiceUrl: getEnvironmentVariabel("NDKM_URL", getTranslateServiceUrl(ndlaEnvironment)),
     isVercel: getEnvironmentVariabel("IS_VERCEL", "false") === "true",
     runtimeType: getEnvironmentVariabel("NODE_ENV", "development") as "test" | "development" | "production",

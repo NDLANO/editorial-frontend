@@ -9,11 +9,9 @@
 import { useField } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-
-import { FieldHeader } from "@ndla/forms";
 import { Node } from "@ndla/types-taxonomy";
-
 import { NodeList, NodeSearchDropdown } from "./nodes";
+import FieldHeader from "../../../components/Field/FieldHeader";
 
 interface Props {
   subjects: Node[];

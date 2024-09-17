@@ -126,9 +126,9 @@ const SlateVideo = ({ attributes, element, editor, children }: Props) => {
                 </IconButtonV2>
               </ModalTrigger>
               <SafeLinkIconButton
+                variant="secondary"
                 title={t("form.video.brightcove")}
                 aria-label={t("form.video.brightcove")}
-                colorTheme="light"
                 to={`https://studio.brightcove.com/products/videocloud/media/videos/${embed.embedData.videoid}`}
               >
                 <Link />

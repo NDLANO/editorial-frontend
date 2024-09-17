@@ -20,6 +20,7 @@ import {
   INewImageMetaInformationV2,
   ISearchParams,
 } from "@ndla/types-backend/image-api";
+import { useImageSearchTranslations } from "@ndla/ui";
 import EditorErrorMessage from "./SlateEditor/EditorErrorMessage";
 import ImageForm from "../containers/ImageUploader/components/ImageForm";
 import { draftLicensesToImageLicenses } from "../modules/draft/draftApiUtils";
@@ -66,6 +67,7 @@ const ImageSearchAndUploader = ({
 }: Props) => {
   const { t } = useTranslation();
   const [selectedTab, setSelectedTab] = useState<string | undefined>(undefined);
+  const imageSearchTranslations = useImageSearchTranslations();
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const searchImagesWithParameters = (query?: string, page?: number) => {
     return searchImages({
@@ -92,10 +94,7 @@ const ImageSearchAndUploader = ({
               fetchImage={fetchImage}
               searchImages={searchImagesWithParameters}
               locale={locale}
-              searchPlaceholder={t("imageSearch.placeholder")}
-              searchButtonTitle={t("imageSearch.buttonTitle")}
-              useImageTitle={t("imageSearch.useImage")}
-              checkboxLabel={t("imageSearch.visualElementCheckboxLabel")}
+              translations={imageSearchTranslations}
               onImageSelect={onImageSelect}
               noResults={
                 <>

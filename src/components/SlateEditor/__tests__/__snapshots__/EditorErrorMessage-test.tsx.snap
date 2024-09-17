@@ -15,7 +15,7 @@ exports[`EditorErrorMessage renders 1`] = `
   padding: 1rem;
 }
 
-.emotion-2 {
+.emotion-1 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -60,61 +60,49 @@ exports[`EditorErrorMessage renders 1`] = `
   min-height: unset;
 }
 
-.emotion-2:hover,
-.emotion-2:focus-visible {
+.emotion-1:hover,
+.emotion-1:focus-visible {
   color: #fff;
   background-color: #d1372e;
   border-color: #d1372e;
 }
 
-.emotion-2[disabled] {
+.emotion-1[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-2:where([lang='zh'], .emotion-2[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-1:where([lang='zh'], .emotion-1[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(14px * 1.11);
   font-size: calc(0.7777777777777778rem * 1.11);
 }
 
-.emotion-2:hover,
-.emotion-2:active,
-.emotion-2:focus-visible {
+.emotion-1:hover,
+.emotion-1:active,
+.emotion-1:focus-visible {
   color: #fff;
   background: #d1372e;
   border-color: #d1372e;
 }
 
-.emotion-2[disabled] {
+.emotion-1[disabled] {
   color: #777777;
   background-color: transparent;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-2 svg {
+.emotion-1 svg {
   width: 24px;
   height: 24px;
   margin: 0;
 }
 
-.emotion-3 {
-  display: inline-block;
-  fill: currentColor;
-  vertical-align: middle;
-  line-height: 1em;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  width: 16px;
-  height: 16px;
-}
-
 <div>
   <div
-    class="emotion-0 emotion-1"
+    class="emotion-0"
     contenteditable="false"
   >
     <div>
@@ -124,7 +112,7 @@ exports[`EditorErrorMessage renders 1`] = `
     </div>
     <button
       aria-label="Fjern"
-      class="emotion-2"
+      class="emotion-1"
       contenteditable="false"
       data-testid="close-related-button"
       tabindex="-1"
@@ -133,11 +121,10 @@ exports[`EditorErrorMessage renders 1`] = `
     >
       <svg
         aria-hidden="true"
-        class="emotion-3 emotion-4"
+        class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
         data-icon=""
         data-license="Apache License 2.0"
         data-source="Material Design"
-        fill="currentColor"
         preserveAspectRatio="xMidYMid meet"
         viewBox="0 0 24 24"
       >

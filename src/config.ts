@@ -109,10 +109,6 @@ const getTranslateServiceUrl = (ndlaEnvironment: string) => {
 
 export const taxonomyApi = `/taxonomy/v1`;
 
-export const getZendeskWidgetSecret = () => {
-  return getEnvironmentVariabel("NDLA_ED_ZENDESK_SECRET_KEY", "something");
-};
-
 const getDefaultLanguage = () => getEnvironmentVariabel("NDLA_DEFAULT_LANGUAGE", "nb") as LocaleType;
 
 const usernamePasswordEnabled = (ndlaEnvironment: string) => {
@@ -150,7 +146,6 @@ export type ConfigType = {
   h5pApiUrl: string | undefined;
   port: string | undefined;
   ndlaPersonalClientId: string | undefined;
-  zendeskWidgetKey: string | undefined;
   brightcoveEdPlayerId: string | undefined;
   brightcovePlayerId: string | undefined;
   brightcove360PlayerId: string | undefined;
@@ -199,7 +194,6 @@ const getServerSideConfig = (): ConfigType => {
     localConverter: getEnvironmentVariabel("LOCAL_CONVERTER", "false") === "true",
     checkArticleScript: getEnvironmentVariabel("CHECK_ARTICLE_SCRIPT", "false") === "true",
     googleTagManagerId: getEnvironmentVariabel("NDLA_GOOGLE_TAG_MANAGER_ID"),
-    zendeskWidgetKey: getEnvironmentVariabel("NDLA_ED_ZENDESK_WIDGET_KEY"),
     disableCSP: getEnvironmentVariabel("DISABLE_CSP", "false"),
     usernamePasswordEnabled: getEnvironmentVariabel(
       "USERNAME_PASSWORD_ENABLED",

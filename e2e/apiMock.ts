@@ -15,7 +15,6 @@ import {
   getNoteUsersMock,
   responsiblesMock,
   userDataMock,
-  zendeskMock,
 } from "./mockResponses";
 
 const mockDir = "e2e/apiMocks/";
@@ -101,10 +100,6 @@ export const test = Ptest.extend<ExtendParams>({
 });
 
 const urlsToReplace = [
-  {
-    url: "get_zendesk_token",
-    value: zendeskMock,
-  },
   {
     url: "get_responsibles",
     value: responsiblesMock,

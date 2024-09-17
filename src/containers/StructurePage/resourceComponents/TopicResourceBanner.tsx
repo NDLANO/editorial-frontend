@@ -9,7 +9,8 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
+import { colors } from "@ndla/core";
+import { Node, NodeChild, ResourceType } from "@ndla/types-taxonomy";
 import { Text } from "@ndla/typography";
 import { ContentTypeBadge } from "@ndla/ui";
 import ApproachingRevisionDate from "./ApproachingRevisionDate";
@@ -20,6 +21,7 @@ import ResourceItemLink from "./ResourceItemLink";
 import StatusIcons from "./StatusIcons";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
 import VersionHistory from "./VersionHistory";
+import AverageQualityEvaluation from "../../../components/QualityEvaluation/AverageQualityEvaluation";
 import QualityEvaluation from "../../../components/QualityEvaluation/QualityEvaluation";
 import RelevanceOption from "../../../components/Taxonomy/RelevanceOption";
 import config from "../../../config";
@@ -47,6 +49,11 @@ const ContentGroup = styled.div`
   align-items: center;
 `;
 
+const StyledNoEvaluation = styled(Text)`
+  color: ${colors.brand.greyMedium};
+  font-style: italic;
+`;
+
 const getWorkflowCount = (contentMeta: Dictionary<NodeResourceMeta>) => {
   const contentMetaList = Object.values(contentMeta);
   const workflowCount = contentMetaList.filter((c) => c.status?.current !== PUBLISHED).length;
@@ -62,9 +69,11 @@ interface Props {
   articleIds?: number[];
   contentMetaLoading: boolean;
   responsible: string | undefined;
+  topicNodes: Node[] | undefined;
+  showQuality: boolean;
 }
 
-const ResourceBanner = ({
+const TopicResourceBanner = ({
   contentMeta,
   currentNode,
   onCurrentNodeChanged,
@@ -72,6 +81,8 @@ const ResourceBanner = ({
   resources,
   contentMetaLoading,
   responsible,
+  topicNodes,
+  showQuality,
 }: Props) => {
   const { t } = useTranslation();
 
@@ -83,6 +94,7 @@ const ResourceBanner = ({
     [contentMeta],
   );
 
+  const contexts = topicNodes?.filter((node) => !!node.contexts.length);
   return (
     <BannerWrapper>
       <TopInfoRow>
@@ -91,13 +103,16 @@ const ResourceBanner = ({
           <PlannedResourceModal currentNode={currentNode} resourceTypes={resourceTypes} resources={resources} />
         </FlexContentWrapper>
         <FlexContentWrapper>
-          {config.qualityEvaluationEnabled === true && (
-            <QualityEvaluation
-              articleType="topic-article"
-              taxonomy={[currentNode]}
-              iconButtonColor="primary"
-              gradeVariant="small"
-            />
+          {showQuality && config.qualityEvaluationEnabled === true && (
+            <>
+              <AverageQualityEvaluation averageGrade={currentNode.gradeAverage?.averageValue} nodeType="TOPIC" />
+              <QualityEvaluation
+                articleType="topic-article"
+                taxonomy={[currentNode]}
+                iconButtonColor="primary"
+                gradeVariant="small"
+              />
+            </>
           )}
           <Text margin="none" textStyle="meta-text-small">{`${workflowCount}/${elementCount} ${t(
             "taxonomy.workflow",
@@ -142,7 +157,12 @@ const ResourceBanner = ({
                 />
               </span>
               <ContentGroup>
-                <StatusIcons contentMetaLoading={contentMetaLoading} resource={currentNode} path={currentNode.path} />
+                <StatusIcons
+                  contentMetaLoading={contentMetaLoading}
+                  resource={currentNode}
+                  path={currentNode.path}
+                  multipleTaxonomy={contexts?.length ? contexts.length > 1 : false}
+                />
                 <RelevanceOption resource={currentNode} currentNodeId={currentNode.id} />
               </ContentGroup>
             </TitleRow>
@@ -167,4 +187,4 @@ const ResourceBanner = ({
   );
 };
 
-export default ResourceBanner;
+export default TopicResourceBanner;

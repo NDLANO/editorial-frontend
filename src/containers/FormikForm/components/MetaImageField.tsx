@@ -55,8 +55,7 @@ const MetaImageField = ({ image, onImageRemove, onImageLoad, disableAltEditing, 
         <DeleteForever />
       </IconButtonV2>
       <SafeLinkIconButton
-        variant="ghost"
-        colorTheme="light"
+        variant="tertiary"
         to={`/media/image-upload/${image.id}/edit/${image.title.language}`}
         target="_blank"
         title={t("form.image.editImage")}

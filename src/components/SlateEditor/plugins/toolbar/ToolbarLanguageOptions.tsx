@@ -87,7 +87,7 @@ export const ToolbarLanguageOptions = ({ options }: ToolbarCategoryProps<Languag
       <ToolbarButton asChild>
         <DropdownTrigger asChild>
           <UIToolbarButton type="language">
-            {currentLanguage ?? t("editorToolbar.noneLanguage")}
+            {currentLanguage ? t(`languages.${currentLanguage}`) : t("editorToolbar.noneLanguage")}
             <ArrowDropDown />
           </UIToolbarButton>
         </DropdownTrigger>

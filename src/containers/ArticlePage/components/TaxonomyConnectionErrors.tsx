@@ -12,10 +12,10 @@ import { Link } from "react-router-dom";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { colors, spacing } from "@ndla/core";
-import { FieldHeader } from "@ndla/forms";
 import { InformationOutline } from "@ndla/icons/common";
 import { AlertCircle } from "@ndla/icons/editor";
 import { Node } from "@ndla/types-taxonomy";
+import FieldHeader from "../../../components/Field/FieldHeader";
 import { toStructure } from "../../../util/routeHelpers";
 
 const StyledWarnIcon = styled(AlertCircle)`

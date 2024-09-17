@@ -8,8 +8,8 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { MessageBox } from "@ndla/primitives";
 import { HelmetWithTracker } from "@ndla/tracker";
-import { MessageBox } from "@ndla/ui";
 import StructureContainer from "./StructureContainer";
 import config from "../../config";
 import { TaxonomyVersionProvider } from "../StructureVersion/TaxonomyVersionProvider";

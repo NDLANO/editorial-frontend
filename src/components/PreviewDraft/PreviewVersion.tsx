@@ -8,15 +8,17 @@
 
 import { useFormikContext } from "formik";
 import parse from "html-react-parser";
-import { ReactElement, ReactNode, useMemo, useState } from "react";
+import { ReactNode, useMemo, useState } from "react";
 import { renderToString } from "react-dom/server";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { colors, spacing } from "@ndla/core";
 import { InformationOutline } from "@ndla/icons/common";
+import { PageContent } from "@ndla/primitives";
 import { MissingRouterContext } from "@ndla/safelink";
 import { Switch } from "@ndla/switch";
 import { IArticle } from "@ndla/types-backend/draft-api";
+import { ArticleWrapper } from "@ndla/ui";
 import { toFormArticle } from "./PreviewDraft";
 import { TwoArticleWrapper } from "./styles";
 import { TransformedPreviewDraft } from "./TransformedPreviewDraft";
@@ -39,13 +41,6 @@ const SwitchWrapper = styled.div`
   justify-content: flex-end;
   align-items: center;
   gap: ${spacing.xsmall};
-`;
-
-const CenterWrapper = styled.div`
-  position: relative;
-  width: 83.333%;
-  right: auto;
-  left: 8.333%;
 `;
 
 const TwoArticleWrapperWithDiff = styled(TwoArticleWrapper)`
@@ -162,23 +157,35 @@ export const PreviewVersion = ({ article, language, customTitle }: VersionPrevie
         />
       </SwitchWrapper>
       <TwoArticleWrapperWithDiff>
-        <div>
-          <CenterWrapper>
-            <h2>
-              {customTitle ??
-                t("form.previewProductionArticle.version", {
-                  revision: article.revision,
-                })}
-            </h2>
-          </CenterWrapper>
-          <TransformedPreviewDraft {...publishedTransformed} label={article.articleType} />
-        </div>
-        <div>
-          <CenterWrapper>
-            <h2>{t("form.previewProductionArticle.current")}</h2>
-          </CenterWrapper>
-          <TransformedPreviewDraft {...transformedWithDiff} label={article.articleType} />
-        </div>
+        <PageContent variant="content">
+          <h2>
+            {customTitle ??
+              t("form.previewProductionArticle.version", {
+                revision: article.revision,
+              })}
+          </h2>
+          <ArticleWrapper>
+            {!!publishedTransformed.article && (
+              <TransformedPreviewDraft
+                {...publishedTransformed}
+                article={publishedTransformed.article}
+                draft={publishedTransformed.draft}
+              />
+            )}
+          </ArticleWrapper>
+        </PageContent>
+        <PageContent variant="content">
+          <h2>{t("form.previewProductionArticle.current")}</h2>
+          <ArticleWrapper>
+            {transformedWithDiff.article && (
+              <TransformedPreviewDraft
+                {...transformedWithDiff}
+                article={transformedWithDiff.article}
+                draft={transformedWithDiff.draft}
+              />
+            )}
+          </ArticleWrapper>
+        </PageContent>
       </TwoArticleWrapperWithDiff>
     </>
   );

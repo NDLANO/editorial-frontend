@@ -13,10 +13,10 @@ import styled from "@emotion/styled";
 import { UseQueryOptions, UseQueryResult } from "@tanstack/react-query";
 //@ts-ignore
 import { DropdownMenu, InputContainer, InputV3 } from "@ndla/forms";
-import { Spinner } from "@ndla/icons";
 import { Search } from "@ndla/icons/common";
 import { Node } from "@ndla/types-taxonomy";
 
+import { OldSpinner } from "../../../../../components/OldSpinner";
 import { SearchResultBase } from "../../../../../interfaces";
 import useDebounce from "../../../../../util/useDebounce";
 
@@ -25,7 +25,7 @@ const DropdownWrapper = styled.div`
   width: 100%;
 `;
 
-const StyledSpinner = styled(Spinner)`
+const StyledSpinner = styled(OldSpinner)`
   margin: 0px;
 `;
 

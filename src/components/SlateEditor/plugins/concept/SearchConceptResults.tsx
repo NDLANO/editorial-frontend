@@ -78,7 +78,7 @@ const SearchConceptResults = ({ results, searchObject, addConcept, searching = t
       {results.length === 0 ? <p>{t(`searchPage.conceptNoHits`, { query: searchObject.query })}</p> : null}
       {results.map((result) => (
         <StyledConceptResult key={result.id}>
-          {result.glossData ? <StyledGlobe size="large" /> : <StyledConcept size="large" />}
+          {result.glossData ? <StyledGlobe /> : <StyledConcept />}
           <StyledConceptResultHeader>
             {(result.glossData
               ? `${t(`languages.${result.glossData.originalLanguage}`)}: ${result.glossData.gloss}`

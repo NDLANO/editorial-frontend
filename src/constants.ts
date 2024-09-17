@@ -29,6 +29,7 @@ export const REMEMBER_FAVORITE_NODES = "rememberFavoriteNodes";
 export const REMEMBER_LMA_SUBJECTS = "rememberLMASubjects";
 export const REMEMBER_DA_SUBJECTS = "rememberDASubjects";
 export const REMEMBER_SA_SUBJECTS = "rememberSASubjects";
+export const REMEMBER_QUALITY = "rememberQuality";
 export const FAVOURITES_SUBJECT_ID = "urn:favourites";
 export const LMA_SUBJECT_ID = "urn:lmaSubjects";
 export const SA_SUBJECT_ID = "urn:saSubjects";

@@ -11,7 +11,8 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { FieldRemoveButton, Label, InputV3, FieldErrorMessage } from "@ndla/forms";
+import { Label, InputV3, FieldErrorMessage } from "@ndla/forms";
+import FieldRemoveButton from "../../components/Field/FieldRemoveButton";
 import { FormControl } from "../../components/FormField";
 
 interface Props {

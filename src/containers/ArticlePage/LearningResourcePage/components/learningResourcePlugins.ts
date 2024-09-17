@@ -17,7 +17,6 @@ import { commentBlockPlugin } from "../../../../components/SlateEditor/plugins/c
 import { commentInlinePlugin } from "../../../../components/SlateEditor/plugins/comment/inline";
 import { blockConceptPlugin } from "../../../../components/SlateEditor/plugins/concept/block";
 import { inlineConceptPlugin } from "../../../../components/SlateEditor/plugins/concept/inline";
-import { conceptListPlugin } from "../../../../components/SlateEditor/plugins/conceptList";
 import { copyrightPlugin } from "../../../../components/SlateEditor/plugins/copyright";
 import { definitionListPlugin } from "../../../../components/SlateEditor/plugins/definitionList";
 import { detailsPlugin } from "../../../../components/SlateEditor/plugins/details";
@@ -62,7 +61,6 @@ export const learningResourcePlugins: SlatePlugin[] = [
   framedContentPlugin,
   blockQuotePlugin,
   linkPlugin,
-  conceptListPlugin,
   inlineConceptPlugin,
   blockConceptPlugin,
   commentInlinePlugin,

@@ -14,7 +14,8 @@ import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { fonts, spacing } from "@ndla/core";
 import { CheckboxItem, Label } from "@ndla/forms";
-import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle } from "@ndla/modal";
+import { Cross } from "@ndla/icons/action";
+import { DialogBody, DialogCloseTrigger, DialogHeader, DialogTitle, IconButton } from "@ndla/primitives";
 import { IGlossExample } from "@ndla/types-backend/concept-api";
 import { ConceptMetaData } from "@ndla/types-embed";
 import { Text } from "@ndla/typography";
@@ -109,11 +110,15 @@ const EditGlossExamplesModalContent = ({ originalLanguage, examples, editor, ele
 
   return (
     <>
-      <ModalHeader>
-        <ModalTitle>{t("form.gloss.editExamplesHeading")}</ModalTitle>
-        <ModalCloseButton />
-      </ModalHeader>
-      <ModalBody>
+      <DialogHeader>
+        <DialogTitle>{t("form.gloss.editExamplesHeading")}</DialogTitle>
+        <DialogCloseTrigger asChild>
+          <IconButton variant="clear" title={t("form.close")} aria-label={t("form.close")}>
+            <Cross />
+          </IconButton>
+        </DialogCloseTrigger>
+      </DialogHeader>
+      <DialogBody>
         <StyledForm>
           <FlexWrapper>
             {examples.map((glossExample, index) => {
@@ -121,15 +126,7 @@ const EditGlossExamplesModalContent = ({ originalLanguage, examples, editor, ele
               return (
                 <div key={`edit-gloss-example-${index}`}>
                   <div>
-                    {filtered.map((example, innerIndex) => (
-                      <GlossExample
-                        key={`edit-gloss-example-${index}-${innerIndex}`}
-                        example={example}
-                        originalLanguage={originalLanguage}
-                        index={innerIndex}
-                        isStandalone
-                      />
-                    ))}
+                    <GlossExample examples={filtered} originalLanguage={originalLanguage} />
                   </div>
 
                   <StyledCheckboxWrapper>
@@ -184,7 +181,7 @@ const EditGlossExamplesModalContent = ({ originalLanguage, examples, editor, ele
             <ButtonV2 onClick={saveGlossUpdates}>{t("form.save")}</ButtonV2>
           </ButtonWrapper>
         </StyledForm>
-      </ModalBody>
+      </DialogBody>
     </>
   );
 };

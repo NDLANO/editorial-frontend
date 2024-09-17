@@ -18,7 +18,6 @@ import { commentBlockRenderer } from "../../../../components/SlateEditor/plugins
 import { commentInlineRenderer } from "../../../../components/SlateEditor/plugins/comment/inline/render";
 import { blockConceptRenderer } from "../../../../components/SlateEditor/plugins/concept/block/render";
 import { inlineConceptRenderer } from "../../../../components/SlateEditor/plugins/concept/inline/render";
-import { conceptListRenderer } from "../../../../components/SlateEditor/plugins/conceptList/render";
 import { contactBlockRenderer } from "../../../../components/SlateEditor/plugins/contactBlock/render";
 import { copyrightRenderer } from "../../../../components/SlateEditor/plugins/copyright/render";
 import { definitionListRenderer } from "../../../../components/SlateEditor/plugins/definitionList/render";
@@ -65,7 +64,6 @@ export const frontpageRenderers: SlatePlugin[] = [
   detailsRenderer,
   blockQuoteRenderer,
   linkRenderer,
-  conceptListRenderer,
   inlineConceptRenderer,
   blockConceptRenderer,
   commentInlineRenderer,

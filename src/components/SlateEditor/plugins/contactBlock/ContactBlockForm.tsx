@@ -34,8 +34,7 @@ interface ContactBlockFormValues {
   jobTitle: string;
   name: string;
   email: string;
-  blobColor: ContactBlockEmbedData["blobColor"];
-  blob: ContactBlockEmbedData["blob"];
+  background: ContactBlockEmbedData["background"];
   metaImageId?: string;
   metaImageAlt: string;
   isDecorative: boolean;
@@ -58,10 +57,7 @@ const rules: RulesType<ContactBlockFormValues> = {
   metaImageId: {
     required: true,
   },
-  blobColor: {
-    required: true,
-  },
-  blob: {
+  background: {
     required: true,
   },
   metaImageAlt: {
@@ -90,9 +86,8 @@ const toInitialValues = (initialData?: ContactBlockEmbedData): ContactBlockFormV
   return {
     resource: TYPE_CONTACT_BLOCK,
     jobTitle: initialData?.jobTitle ?? "",
-    blobColor: initialData?.blobColor ?? "green",
+    background: initialData?.background ?? "subtle",
     description: initialData?.description ?? "",
-    blob: initialData?.blob ?? "pointy",
     metaImageId: initialData?.imageId,
     name: initialData?.name ?? "",
     email: initialData?.email ?? "",
@@ -100,8 +95,7 @@ const toInitialValues = (initialData?: ContactBlockEmbedData): ContactBlockFormV
     isDecorative: initialData?.alt === "",
   };
 };
-const types: ContactBlockEmbedData["blob"][] = ["pointy", "round"];
-const colors: ContactBlockEmbedData["blobColor"][] = ["green", "pink"];
+const colors: ContactBlockEmbedData["background"][] = ["subtle", "moderate", "strong"];
 
 const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
   const { t } = useTranslation();
@@ -119,8 +113,7 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
         jobTitle: values.jobTitle,
         description: values.description,
         name: values.name,
-        blob: values.blob,
-        blobColor: values.blobColor,
+        background: values.background,
         email: values.email,
         alt: values.isDecorative ? "" : values.metaImageAlt,
       };
@@ -129,19 +122,10 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
     [onSave],
   );
 
-  const blobTypes = useMemo(
-    () =>
-      types.map((value) => ({
-        title: t(`contactBlockForm.blob.${value}`),
-        value: value!,
-      })),
-    [t],
-  );
-
-  const blobColors = useMemo(
+  const backgrounds = useMemo(
     () =>
       colors.map((value) => ({
-        title: t(`contactBlockForm.blobColor.${value}`),
+        title: t(`contactBlockForm.background.${value}`),
         value: value!,
       })),
     [t],
@@ -201,7 +185,7 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
               </FormControl>
             )}
           </FormField>
-          <FormField name="blob">
+          <FormField name="background">
             {({ field, helpers }) => (
               <StyledFormControl>
                 <RadioButtonGroup
@@ -212,38 +196,12 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
                 >
                   <FieldsetRow>
                     <LeftLegend margin="none" textStyle="label-small">
-                      {t("form.name.blob")}
+                      {t("form.name.background")}
                     </LeftLegend>
-                    {blobTypes.map((value) => (
+                    {backgrounds.map((value) => (
                       <RadioButtonWrapper key={value.value}>
-                        <RadioButtonItem id={`blob-type-${value.value}`} value={value.value} />
-                        <Label htmlFor={`blob-type-${value.value}`} margin="none" textStyle="label-small">
-                          {value.title}
-                        </Label>
-                      </RadioButtonWrapper>
-                    ))}
-                  </FieldsetRow>
-                </RadioButtonGroup>
-              </StyledFormControl>
-            )}
-          </FormField>
-          <FormField name="blobColor">
-            {({ field, helpers }) => (
-              <StyledFormControl>
-                <RadioButtonGroup
-                  onValueChange={helpers.setValue}
-                  orientation="horizontal"
-                  defaultValue={field.value}
-                  asChild
-                >
-                  <FieldsetRow>
-                    <LeftLegend margin="none" textStyle="label-small">
-                      {t("form.name.blobColor")}
-                    </LeftLegend>
-                    {blobColors.map((value) => (
-                      <RadioButtonWrapper key={value.value}>
-                        <RadioButtonItem id={`blob-color-${value.value}`} value={value.value} />
-                        <Label htmlFor={`blob-color-${value.value}`} margin="none" textStyle="label-small">
+                        <RadioButtonItem id={`background-${value.value}`} value={value.value} />
+                        <Label htmlFor={`background-${value.value}`} margin="none" textStyle="label-small">
                           {value.title}
                         </Label>
                       </RadioButtonWrapper>

@@ -12,12 +12,12 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
 import { colors } from "@ndla/core";
-import { FieldHeader } from "@ndla/forms";
 import { Link } from "@ndla/icons/editor";
 import { frontpagePlugins } from "./frontpagePlugins";
 import { frontpageRenderers } from "./frontpageRenderers";
 import AlertModal from "../../../../components/AlertModal";
 import { EditMarkupLink } from "../../../../components/EditMarkupLink";
+import FieldHeader from "../../../../components/Field/FieldHeader";
 import { FormField } from "../../../../components/FormField";
 import FormikField from "../../../../components/FormikField";
 import LastUpdatedLine from "../../../../components/LastUpdatedLine/LastUpdatedLine";
@@ -26,6 +26,7 @@ import { frontpageActions } from "../../../../components/SlateEditor/plugins/blo
 import { TYPE_BLOGPOST } from "../../../../components/SlateEditor/plugins/blogPost/types";
 import { TYPE_CAMPAIGN_BLOCK } from "../../../../components/SlateEditor/plugins/campaignBlock/types";
 import { TYPE_CODEBLOCK } from "../../../../components/SlateEditor/plugins/codeBlock/types";
+import { TYPE_COMMENT_BLOCK } from "../../../../components/SlateEditor/plugins/comment/block/types";
 import { TYPE_CONTACT_BLOCK } from "../../../../components/SlateEditor/plugins/contactBlock/types";
 import { TYPE_EXTERNAL } from "../../../../components/SlateEditor/plugins/external/types";
 import { TYPE_FILE } from "../../../../components/SlateEditor/plugins/file/types";
@@ -91,6 +92,7 @@ const actions = [
   TYPE_CAMPAIGN_BLOCK,
   TYPE_LINK_BLOCK_LIST,
   TYPE_DISCLAIMER,
+  TYPE_COMMENT_BLOCK,
 ].concat(visualElements);
 
 const actionsToShowInAreas = {

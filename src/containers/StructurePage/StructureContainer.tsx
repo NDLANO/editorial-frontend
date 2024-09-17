@@ -9,8 +9,7 @@ import { useEffect, useRef, useState, ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
-import { breakpoints } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
+import { breakpoints, spacing } from "@ndla/core";
 import { NodeChild, Node, NodeType } from "@ndla/types-taxonomy";
 import StructureErrorIcon from "./folderComponents/StructureErrorIcon";
 import StructureResources from "./resourceComponents/StructureResources";
@@ -20,6 +19,7 @@ import StickyVersionSelector from "./StickyVersionSelector";
 import StructureBanner from "./StructureBanner";
 import ErrorBoundary from "../../components/ErrorBoundary";
 import { GridContainer, Column } from "../../components/Layout/Layout";
+import { OldSpinner } from "../../components/OldSpinner";
 import {
   REMEMBER_DA_SUBJECTS,
   REMEMBER_FAVORITE_NODES,
@@ -27,6 +27,7 @@ import {
   REMEMBER_LMA_SUBJECTS,
   TAXONOMY_ADMIN_SCOPE,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
+  REMEMBER_QUALITY,
 } from "../../constants";
 import { useUserData } from "../../modules/draft/draftQueries";
 import { useNodes } from "../../modules/nodes/nodeQueries";
@@ -41,6 +42,11 @@ import { getResultSubjectIdObject } from "../WelcomePage/utils";
 const StructureWrapper = styled.ul`
   margin: 0;
   padding: 0;
+`;
+
+const StickyContainer = styled.div`
+  position: sticky;
+  top: ${spacing.small};
 `;
 
 const isChildNode = createGuard<NodeChild>("connectionId");
@@ -106,6 +112,7 @@ const StructureContainer = ({
   const [showLmaSubjects, setShowLmaSubjects] = useLocalStorageBooleanState(REMEMBER_LMA_SUBJECTS);
   const [showDaSubjects, setShowDaSubjects] = useLocalStorageBooleanState(REMEMBER_DA_SUBJECTS);
   const [showSaSubjects, setShowSaSubjects] = useLocalStorageBooleanState(REMEMBER_SA_SUBJECTS);
+  const [showQuality, setShowQuality] = useLocalStorageBooleanState(REMEMBER_QUALITY);
 
   const resourceSection = useRef<HTMLDivElement>(null);
   const firstRender = useRef(true);
@@ -178,7 +185,7 @@ const StructureContainer = ({
 
   const addChildTooltip = childNodeTypes.includes("PROGRAMME")
     ? t("taxonomy.addNode", { nodeType: t("taxonomy.nodeType.PROGRAMME") })
-    : t("taxonomy.addTopic"); // Return undefined to hide plus for topics
+    : t("taxonomy.addTopic");
 
   return (
     <ErrorBoundary>
@@ -199,10 +206,12 @@ const StructureContainer = ({
               hasLmaSubjects={!!resultSubjectIdObject.subjectLMA.length}
               hasDaSubjects={!!resultSubjectIdObject.subjectDA.length}
               hasSaSubjects={!!resultSubjectIdObject.subjectSA.length}
+              showQuality={showQuality}
+              setShowQuality={setShowQuality}
             />
             <StyledStructureContainer>
               {userDataQuery.isLoading || nodesQuery.isLoading ? (
-                <Spinner />
+                <OldSpinner />
               ) : (
                 <StructureWrapper data-testid="structure">
                   {nodes!.map((node) => (
@@ -217,6 +226,7 @@ const StructureContainer = ({
                       toggleOpen={handleStructureToggle}
                       childNodeTypes={childNodeTypes}
                       addChildTooltip={addChildTooltip}
+                      showQuality={showQuality}
                     />
                   ))}
                 </StructureWrapper>
@@ -226,18 +236,18 @@ const StructureContainer = ({
           {showResourceColumn && (
             <Column colStart={7}>
               {currentNode && (
-                <div>
-                  {/*(currentNode.nodeType === "SUBJECT" || currentNode.nodeType === "TOPIC") && (
-                    <SubjectBanner subjectNode={currentNode} /> // hide banner for now
-                  )*/}
+                <StickyContainer ref={resourceSection}>
+                  {currentNode.nodeType === "SUBJECT" && (
+                    <SubjectBanner subjectNode={currentNode} showQuality={showQuality} />
+                  )}
                   {isChildNode(currentNode) && (
                     <StructureResources
                       currentChildNode={currentNode}
                       setCurrentNode={setCurrentNode}
-                      resourceRef={resourceSection}
+                      showQuality={showQuality}
                     />
                   )}
-                </div>
+                </StickyContainer>
               )}
             </Column>
           )}

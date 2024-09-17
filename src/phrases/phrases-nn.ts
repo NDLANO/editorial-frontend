@@ -108,6 +108,9 @@ const phrases = {
     und: "Udefinert",
     ukr: "Ukrainsk",
     prs: "Dari",
+    san: "Sanskrit",
+    heb: "Hebraisk",
+    pli: "Pali",
     empty: "Ingen fleire språk",
     change: "Bytt til {{language}} versjon",
   },
@@ -590,13 +593,10 @@ const phrases = {
     title: "Kontaktblokk",
     edit: "Rediger kontaktblokk",
     delete: "Fjern kontaktblokk",
-    blobColor: {
-      green: "Grønn",
-      pink: "Rosa",
-    },
-    blob: {
-      pointy: "Spiss",
-      round: "Rund",
+    background: {
+      subtle: "Subtil",
+      moderate: "Moderat",
+      strong: "Sterk",
     },
   },
   frontpageArticleForm: {
@@ -613,6 +613,7 @@ const phrases = {
     background: {
       white: "Kvit",
       transparent: "Transparent",
+      gray: "Grå",
     },
     setSticky: "Lås innhald til cella ved sida av",
     unsetSticky: "Frigjer innhald frå cella ved sida av",
@@ -652,7 +653,7 @@ const phrases = {
     unavailable: "Ikkje satt",
     modalTitle: "Oppdater kvalitetsvurdering",
     description:
-      "Legg inn ei kvalitetsvurdering av {{ resource }} med ei beskriving av den valde graderinga. Skalaen er som følgjer: 1 = eineståande, 2 = veldig bra, 3 = OK, 4 = bør fiksast, 5 = må fiksast. Hugs å lagre artikkelen dersom du velger gradering 5.",
+      "Legg inn ei kvalitetsvurdering av {{ resource }} med ei beskriving av den valde graderinga. Skalaen er som følgjer: 1 = eineståande, 2 = veldig bra, 3 = OK, 4 = bør fiksast, 5 = må fiksast.",
     edit: "Rediger kvalitetsvurdering",
     delete: "Slett",
     note: "Notat",
@@ -661,6 +662,8 @@ const phrases = {
     needsRevision: "Kvalitetsvurdert til 5",
     error: "Ein feil oppstod ved oppdatering av taksonomi",
     disabled: "Ressursar utan taksonomi kan ikkje kvalitetsvurderast",
+    warning:
+      "Revisjonsmerknad blir sett automatisk når ein set kvalitetsvurdering til 5. Artikkelen vil derfor få ulagra endringar.",
   },
   editorToolbar: {
     bold: "Feit\n({{ctrl}}+b)",
@@ -820,8 +823,6 @@ const phrases = {
       name: "Namn",
       subtitle: "Undertittel",
       email: "E-post",
-      blob: "Blob-type",
-      blobColor: "Blob-farge",
       jobTitle: "Stilling",
       language: "Språk",
       author: "Forfattar",
@@ -1640,6 +1641,8 @@ const phrases = {
     TOPIC: "emnet",
     SUBJECT: "faget",
     qualityDescription: "Snitt av kvalitetsvurdering av alle ressursar i {{nodeType}}",
+    average: "Gj.snitt",
+    qualityEvaluation: "Heilskapleg vurdering av {{nodeType}}",
     connectExistingNode: "Knytt {{nodeType}} til denne noden",
     connectExistingLoading: "Legger til ...",
     connectExistingSuccess: "Noden har blitt knytta til!",
@@ -1728,6 +1731,7 @@ const phrases = {
       waiting: "Kloner ressurser",
     },
     favorites: "Vis favorittar",
+    quality: "Vis kvalitet",
     publish: {
       button: "Publiser alle ressursar",
       waiting: "Publiserar ressurser",

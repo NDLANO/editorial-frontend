@@ -22,7 +22,8 @@ import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVe
 import { usePutNodeMutation } from "../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../modules/nodes/nodeQueries";
 import { formatDateForBackend } from "../../util/formatDate";
-import { FormControl, FormField } from "../FormField";
+import handleError from "../../util/handleError";
+import { FieldWarning, FormControl, FormField } from "../FormField";
 import validateFormik, { RulesType } from "../formikValidationSchema";
 import Spinner from "../Spinner";
 
@@ -91,6 +92,10 @@ const MutationErrorMessage = styled(FieldErrorMessage)`
   margin-left: auto;
 `;
 
+const StyledFieldWarning = styled(FieldWarning)`
+  margin-left: auto;
+`;
+
 interface Props {
   setOpen: (open: boolean) => void;
   taxonomy: Node[];
@@ -127,67 +132,76 @@ const QualityEvaluationForm = ({ setOpen, taxonomy, revisionMetaField, revisionM
 
   // Since quality evaluation is the same every place the resource is used in taxonomy, we can use the first node
   const node = useMemo(() => taxonomy[0], [taxonomy]);
+  const isResource = node.nodeType !== "SUBJECT" && node.nodeType !== "TOPIC";
   const initialValues = useMemo(() => toInitialValues(node.qualityEvaluation), [node.qualityEvaluation]);
   const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
 
   const onSubmit = async (values: QualityEvaluationFormValues) => {
-    setLoading({ ...loading, save: true });
+    try {
+      setLoading({ ...loading, save: true });
 
-    const promises = taxonomy.map((n) =>
-      updateTaxMutation.mutateAsync({
-        ...n,
-        qualityEvaluation: { ...values, grade: Number(values.grade) as Grade },
-        taxonomyVersion,
-      }),
-    );
-    await Promise.all(promises);
-
-    // Automatically add revision when grade is lowest possible value (5)
-    if (
-      revisionMetaField &&
-      revisionMetaHelpers &&
-      !updateTaxMutation.isError &&
-      values.grade === 5 &&
-      node.qualityEvaluation?.grade !== 5
-    ) {
-      const revisions = revisionMetaField.value ?? [];
-      revisionMetaHelpers.setValue(
-        revisions.concat({
-          revisionDate: formatDateForBackend(new Date()),
-          note: values.note || t("qualityEvaluationForm.needsRevision"),
-          status: "needs-revision",
+      const promises = taxonomy.map((n) =>
+        updateTaxMutation.mutateAsync({
+          id: n.id,
+          qualityEvaluation: { ...values, grade: Number(values.grade) as Grade },
+          taxonomyVersion,
         }),
       );
-    }
-    await qc.invalidateQueries({
-      queryKey: nodeQueryKeys.nodes({
-        taxonomyVersion,
-      }),
-    });
-    await qc.invalidateQueries({ queryKey: nodeQueryKeys.childNodes({ taxonomyVersion }) });
+      await Promise.all(promises);
 
-    setOpen(false);
+      // Automatically add revision when grade is lowest possible value (5)
+      if (
+        revisionMetaField &&
+        revisionMetaHelpers &&
+        !updateTaxMutation.isError &&
+        values.grade === 5 &&
+        node.qualityEvaluation?.grade !== 5 &&
+        isResource
+      ) {
+        const revisions = revisionMetaField.value ?? [];
+        revisionMetaHelpers.setValue(
+          revisions.concat({
+            revisionDate: formatDateForBackend(new Date()),
+            note: values.note || t("qualityEvaluationForm.needsRevision"),
+            status: "needs-revision",
+          }),
+        );
+      }
+      await qc.invalidateQueries({
+        queryKey: nodeQueryKeys.nodes({
+          taxonomyVersion,
+        }),
+      });
+      await qc.invalidateQueries({ queryKey: nodeQueryKeys.childNodes({ taxonomyVersion }) });
+      setOpen(false);
+    } catch (err) {
+      handleError(err);
+    }
     setLoading({ ...loading, save: false });
   };
 
   const onDelete = async () => {
-    setLoading({ ...loading, delete: true });
-    const promises = taxonomy.map((n) =>
-      updateTaxMutation.mutateAsync({
-        ...n,
-        qualityEvaluation: null,
-        taxonomyVersion,
-      }),
-    );
-    await Promise.all(promises);
+    try {
+      setLoading({ ...loading, delete: true });
+      const promises = taxonomy.map((n) =>
+        updateTaxMutation.mutateAsync({
+          id: n.id,
+          qualityEvaluation: null,
+          taxonomyVersion,
+        }),
+      );
+      await Promise.all(promises);
 
-    await qc.invalidateQueries({
-      queryKey: nodeQueryKeys.nodes({
-        taxonomyVersion,
-      }),
-    });
-    await qc.invalidateQueries({ queryKey: nodeQueryKeys.childNodes({ taxonomyVersion }) });
-    setOpen(false);
+      await qc.invalidateQueries({
+        queryKey: nodeQueryKeys.nodes({
+          taxonomyVersion,
+        }),
+      });
+      await qc.invalidateQueries({ queryKey: nodeQueryKeys.childNodes({ taxonomyVersion }) });
+      setOpen(false);
+    } catch (err) {
+      handleError(err);
+    }
     setLoading({ ...loading, delete: false });
   };
 
@@ -199,7 +213,7 @@ const QualityEvaluationForm = ({ setOpen, taxonomy, revisionMetaField, revisionM
       onSubmit={onSubmit}
       onReset={onDelete}
     >
-      {({ dirty, isValid, isSubmitting }) => (
+      {({ dirty, isValid, isSubmitting, values }) => (
         <StyledForm>
           <FormField name="grade">
             {({ field, meta, helpers }) => (
@@ -265,6 +279,9 @@ const QualityEvaluationForm = ({ setOpen, taxonomy, revisionMetaField, revisionM
             </RightButtonsWrapper>
           </ButtonContainer>
           {updateTaxMutation.isError && <MutationErrorMessage>{t("qualityEvaluationForm.error")}</MutationErrorMessage>}
+          {isResource && values.grade === 5 && (
+            <StyledFieldWarning>{t("qualityEvaluationForm.warning")}</StyledFieldWarning>
+          )}
         </StyledForm>
       )}
     </Formik>

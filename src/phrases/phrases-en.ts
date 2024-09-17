@@ -108,6 +108,9 @@ const phrases = {
     und: "Undetermined",
     ukr: "Ukranian",
     prs: "Dari",
+    san: "Sanskrit",
+    heb: "Hebrew",
+    pli: "Pali",
     empty: "No languages left",
     change: "Change to {{language}} version",
   },
@@ -591,13 +594,10 @@ const phrases = {
     title: "Contact block",
     edit: "Edit contact block",
     delete: "Remove contact block",
-    blobColor: {
-      green: "Green",
-      pink: "Pink",
-    },
-    blob: {
-      pointy: "Pointy",
-      round: "Round",
+    background: {
+      subtle: "Subtle",
+      moderate: "Moderate",
+      strong: "Strong",
     },
   },
   frontpageArticleForm: {
@@ -614,6 +614,7 @@ const phrases = {
     background: {
       white: "White",
       transparent: "Transparent",
+      gray: "Gray",
     },
     setSticky: "Lock content to adjacent grid cell",
     unsetSticky: "Unlock content from adjacent grid cell",
@@ -652,7 +653,7 @@ const phrases = {
     unavailable: "Not specified",
     modalTitle: "Update quality evaluation",
     description:
-      "Provide a quality assessment of the {{ resource }} with a description of the chosen rating. The scale is as follows: 1 = outstanding, 2 = very good, 3 = OK, 4 = should be fixed, 5 = needs to be fixed. Remember to save the article if choosing grade 5.",
+      "Provide a quality assessment of the {{ resource }} with a description of the chosen rating. The scale is as follows: 1 = outstanding, 2 = very good, 3 = OK, 4 = should be fixed, 5 = needs to be fixed.",
     edit: "Edit quality evaluation",
     delete: "Delete",
     note: "Note",
@@ -661,6 +662,8 @@ const phrases = {
     needsRevision: "Quality evaluated to grade 5",
     error: "An error occured while updating taxonomy",
     disabled: "Resources without taxonomy cannot be evaluated",
+    warning:
+      "The revision note is set automatically when the quality rating is set to 5. The article will have unsaved changes.",
   },
   editorToolbar: {
     bold: "Bold\n({{ctrl}}+b)",
@@ -820,8 +823,6 @@ const phrases = {
       name: "Name",
       subtitle: "Subtitle",
       email: "Email",
-      blob: "Blob type",
-      blobColor: "Blob color",
       jobTitle: "Job title",
       author: "Author",
       language: "Language",
@@ -1641,6 +1642,8 @@ const phrases = {
     TOPIC: "topic",
     SUBJECT: "subject",
     qualityDescription: "Average quality evaluation of all resources within the {{nodeType}}",
+    average: "Average",
+    qualityEvaluation: "Evaluation of the {{nodeType}}",
     connectExistingNode: "Connect {{nodeType}} to this node",
     connectExistingLoading: "Connection ...",
     connectExistingSuccess: "Node successfully connected!",
@@ -1729,6 +1732,7 @@ const phrases = {
       waiting: "Cloning resources",
     },
     favorites: "Show favorites",
+    quality: "Show quality",
     publish: {
       button: "Publish all resources",
       waiting: "Publishing resourses",

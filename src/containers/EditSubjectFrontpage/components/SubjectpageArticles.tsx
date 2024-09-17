@@ -9,10 +9,10 @@
 import { useField, useFormikContext } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FieldHeader } from "@ndla/forms";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
+import FieldHeader from "../../../components/Field/FieldHeader";
 import { fetchDraft } from "../../../modules/draft/draftApi";
 import { fetchLearningpath } from "../../../modules/learningpath/learningpathApi";
 import handleError from "../../../util/handleError";

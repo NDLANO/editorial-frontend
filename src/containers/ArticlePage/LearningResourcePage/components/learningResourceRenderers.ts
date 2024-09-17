@@ -16,7 +16,6 @@ import { commentBlockRenderer } from "../../../../components/SlateEditor/plugins
 import { commentInlineRenderer } from "../../../../components/SlateEditor/plugins/comment/inline/render";
 import { blockConceptRenderer } from "../../../../components/SlateEditor/plugins/concept/block/render";
 import { inlineConceptRenderer } from "../../../../components/SlateEditor/plugins/concept/inline/render";
-import { conceptListRenderer } from "../../../../components/SlateEditor/plugins/conceptList/render";
 import { copyrightRenderer } from "../../../../components/SlateEditor/plugins/copyright/render";
 import { definitionListRenderer } from "../../../../components/SlateEditor/plugins/definitionList/render";
 import { detailsRenderer } from "../../../../components/SlateEditor/plugins/details/render";
@@ -60,7 +59,6 @@ export const learningResourceRenderers: SlatePlugin[] = [
   detailsRenderer,
   blockQuoteRenderer,
   linkRenderer,
-  conceptListRenderer,
   inlineConceptRenderer,
   blockConceptRenderer,
   commentInlineRenderer,

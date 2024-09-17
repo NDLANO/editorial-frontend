@@ -136,7 +136,7 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
                 </em>
               </p>
               <ElementList
-                elements={concepts?.map((obj) => ({ ...obj, articleType: obj.conceptType })) ?? []}
+                elements={concepts?.map((obj) => ({ ...obj, learningResourceType: obj.conceptType })) ?? []}
                 isDeletable={false}
                 isDraggable={false}
               />

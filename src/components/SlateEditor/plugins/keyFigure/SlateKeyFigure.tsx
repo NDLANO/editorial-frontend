@@ -16,9 +16,9 @@ import { Pencil } from "@ndla/icons/action";
 import { DeleteForever } from "@ndla/icons/editor";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
+import { KeyFigureEmbedData } from "@ndla/types-embed";
 import { KeyFigure } from "@ndla/ui";
 import { KeyFigureElement } from ".";
-import { KeyFigureEmbedDataTemp } from "./KeyFigureEmbedDataTemp";
 import KeyFigureForm from "./KeyFigureForm";
 import { fetchImage } from "../../../../modules/image/imageApi";
 import { StyledDeleteEmbedButton, StyledFigureButtons } from "../embed/FigureButtons";
@@ -83,7 +83,7 @@ const SlateKeyFigure = ({ element, editor, attributes, children }: Props) => {
   };
 
   const onSave = useCallback(
-    (data: KeyFigureEmbedDataTemp) => {
+    (data: KeyFigureEmbedData) => {
       setIsEditing(false);
       const properties = {
         data,

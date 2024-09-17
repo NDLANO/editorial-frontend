@@ -14,8 +14,8 @@ import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { CheckboxItem, FieldErrorMessage, InputV3, Label } from "@ndla/forms";
+import { KeyFigureEmbedData } from "@ndla/types-embed";
 import { Text } from "@ndla/typography";
-import { KeyFigureEmbedDataTemp } from "./KeyFigureEmbedDataTemp";
 import { TYPE_KEY_FIGURE } from "./types";
 import InlineImageSearch from "../../../../containers/ConceptPage/components/InlineImageSearch";
 import { InlineField } from "../../../../containers/FormikForm/InlineField";
@@ -27,8 +27,8 @@ import validateFormik, { RulesType } from "../../../formikValidationSchema";
 import { RichTextIndicator } from "../../RichTextIndicator";
 
 interface Props {
-  onSave: (data: KeyFigureEmbedDataTemp) => void;
-  initialData: KeyFigureEmbedDataTemp;
+  onSave: (data: KeyFigureEmbedData) => void;
+  initialData: KeyFigureEmbedData;
   onCancel: () => void;
 }
 
@@ -41,7 +41,7 @@ interface KeyFigureFormValue {
   isDecorative?: boolean;
 }
 
-const toInitialValues = (initialData: KeyFigureEmbedDataTemp): KeyFigureFormValue => ({
+const toInitialValues = (initialData: KeyFigureEmbedData): KeyFigureFormValue => ({
   resource: TYPE_KEY_FIGURE,
   metaImageId: initialData?.imageId,
   title: inlineContentToEditorValue(initialData?.title ?? "", true),
@@ -87,7 +87,7 @@ const KeyFigureForm = ({ onSave, initialData, onCancel }: Props) => {
 
   const onSubmit = useCallback(
     (values: KeyFigureFormValue) => {
-      const newData: KeyFigureEmbedDataTemp = {
+      const newData: KeyFigureEmbedData = {
         resource: TYPE_KEY_FIGURE,
         imageId: values.metaImageId,
         title: inlineContentToHTML(values.title),

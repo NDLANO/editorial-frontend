@@ -8,8 +8,7 @@
 
 import { Descendant, Editor, Element } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { EmbedData } from "@ndla/types-embed";
-import { KeyFigureEmbedDataTemp } from "./KeyFigureEmbedDataTemp";
+import { EmbedData, KeyFigureEmbedData } from "@ndla/types-embed";
 import { TYPE_KEY_FIGURE } from "./types";
 import { createEmbedTagV2, reduceElementDataAttributesV2 } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
@@ -20,7 +19,7 @@ import { TYPE_PARAGRAPH } from "../paragraph/types";
 
 export interface KeyFigureElement {
   type: "key-figure";
-  data: KeyFigureEmbedDataTemp;
+  data: KeyFigureEmbedData;
   isFirstEdit?: boolean;
   children: Descendant[];
 }

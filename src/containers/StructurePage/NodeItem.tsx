@@ -200,7 +200,10 @@ const NodeItem = ({
             <QualityEvaluationGrade
               grade={item.gradeAverage?.averageValue}
               averageGrade={item.gradeAverage?.averageValue.toFixed(1)}
-              ariaLabel={t("taxonomy.qualityDescription", { nodeType: t(`taxonomy.${item.nodeType}`) })}
+              ariaLabel={t("taxonomy.qualityDescription", {
+                nodeType: t(`taxonomy.${item.nodeType}`),
+                count: item.gradeAverage?.count,
+              })}
             />
             <QualityEvaluationGrade
               grade={item.qualityEvaluation?.grade}

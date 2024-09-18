@@ -182,7 +182,7 @@ const QualityEvaluationForm = ({
       if (updateNotes && article) {
         await updateNotes({
           revision: article.revision,
-          notes: ["Oppdatert kvalitetsvurdering."],
+          notes: [`Oppdatert kvalitetsvurdering til ${values.grade}.`],
           metaImage: undefined,
           responsibleId: undefined,
         });

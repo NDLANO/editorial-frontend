@@ -9,6 +9,7 @@
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { colors } from "@ndla/core";
+import { GradeAverage } from "@ndla/types-taxonomy";
 import { Text } from "@ndla/typography";
 import QualityEvaluationGrade from "../../containers/StructurePage/resourceComponents/QualityEvaluationGrade";
 
@@ -18,11 +19,11 @@ const StyledNoEvaluation = styled(Text)`
 `;
 
 interface Props {
-  averageGrade: number | undefined;
+  gradeAverage: GradeAverage | undefined;
   nodeType: string;
 }
 
-const AverageQualityEvaluation = ({ averageGrade, nodeType }: Props) => {
+const AverageQualityEvaluation = ({ gradeAverage, nodeType }: Props) => {
   const { t } = useTranslation();
 
   return (
@@ -30,11 +31,14 @@ const AverageQualityEvaluation = ({ averageGrade, nodeType }: Props) => {
       <Text margin="none" textStyle="button">
         {`${t("taxonomy.average")}:`}
       </Text>
-      {averageGrade ? (
+      {gradeAverage ? (
         <QualityEvaluationGrade
-          grade={averageGrade}
-          averageGrade={averageGrade.toFixed(1)}
-          ariaLabel={t("taxonomy.qualityDescription", { nodeType: t(`taxonomy.${nodeType}`) })}
+          grade={gradeAverage.averageValue}
+          averageGrade={gradeAverage.averageValue.toFixed(1)}
+          ariaLabel={t("taxonomy.qualityDescription", {
+            nodeType: t(`taxonomy.${nodeType}`),
+            count: gradeAverage.count,
+          })}
         />
       ) : (
         <StyledNoEvaluation margin="none" textStyle="button">

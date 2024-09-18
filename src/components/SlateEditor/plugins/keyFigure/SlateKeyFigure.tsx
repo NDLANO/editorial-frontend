@@ -104,13 +104,15 @@ const SlateKeyFigure = ({ element, editor, attributes, children }: Props) => {
   useEffect(() => {
     if (data?.imageId) {
       fetchImage(data.imageId).then((image) => setImage(image));
+    } else {
+      setImage(undefined);
     }
   }, [data?.imageId, setImage]);
 
   return (
     <Modal open={isEditing} onOpenChange={setIsEditing}>
       <KeyFigureWrapper {...attributes} data-testid="slate-key-figure">
-        {data && image && (
+        {data && (
           <div contentEditable={false}>
             <StyledFigureButtons>
               <ModalTrigger>
@@ -131,7 +133,7 @@ const SlateKeyFigure = ({ element, editor, attributes, children }: Props) => {
             <KeyFigure
               title={data.title}
               subtitle={data.subtitle}
-              image={{ src: image.image.imageUrl, alt: image.alttext.alttext }}
+              image={image ? { src: image.image.imageUrl, alt: image.alttext.alttext } : undefined}
             />
           </div>
         )}

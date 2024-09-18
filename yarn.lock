@@ -2099,10 +2099,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/types-embed@npm:^5.0.1-alpha.0":
-  version: 5.0.1-alpha.0
-  resolution: "@ndla/types-embed@npm:5.0.1-alpha.0"
-  checksum: 10c0/ab556f4eb98ab6c5ea66dfcc1d9312bb5cbd3a56bfe9266ca97613b7292ec7ed9e9123659f5be8303260b47876d3cc664fcaf256eea438aca24f1ce87a464783
+"@ndla/types-embed@npm:^5.0.2-alpha.0":
+  version: 5.0.2-alpha.0
+  resolution: "@ndla/types-embed@npm:5.0.2-alpha.0"
+  checksum: 10c0/a6bf0ed1accb09f2f67db7915dabdcc2ce3b58e0109e7bce51d07f3c51c27c0e1c6cdecac126d42f971930d9a5530a68cde11f9f9f76a70d2f53d99b4c715f53
   languageName: node
   linkType: hard
 
@@ -7036,7 +7036,7 @@ __metadata:
     "@ndla/tooltip": "npm:^8.0.2"
     "@ndla/tracker": "npm:^5.0.7"
     "@ndla/types-backend": "npm:^0.2.86"
-    "@ndla/types-embed": "npm:^5.0.1-alpha.0"
+    "@ndla/types-embed": "npm:^5.0.2-alpha.0"
     "@ndla/types-taxonomy": "npm:^1.0.26"
     "@ndla/typography": "npm:^0.4.24"
     "@ndla/ui": "npm:^56.0.28-alpha.0"

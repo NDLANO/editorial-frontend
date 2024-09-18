@@ -34,7 +34,7 @@ interface Props {
 
 interface KeyFigureFormValue {
   resource: "key-figure";
-  metaImageId: string;
+  metaImageId: string | undefined;
   title: Descendant[];
   subtitle: Descendant[];
   metaImageAlt?: string;
@@ -43,7 +43,7 @@ interface KeyFigureFormValue {
 
 const toInitialValues = (initialData: KeyFigureEmbedData): KeyFigureFormValue => ({
   resource: TYPE_KEY_FIGURE,
-  metaImageId: initialData?.imageId ?? "",
+  metaImageId: initialData?.imageId,
   title: inlineContentToEditorValue(initialData?.title ?? "", true),
   subtitle: inlineContentToEditorValue(initialData?.subtitle, true),
   metaImageAlt: initialData?.alt ?? "",
@@ -58,7 +58,7 @@ const rules: RulesType<KeyFigureFormValue> = {
     required: true,
   },
   metaImageId: {
-    required: true,
+    required: false,
   },
   metaImageAlt: {
     required: true,

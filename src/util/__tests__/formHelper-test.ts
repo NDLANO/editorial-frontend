@@ -26,6 +26,7 @@ test("util/formHelper isFormDirty is false", () => {
     content: [valueWithTwoImageEmbeds, valueWithInlineFootnotesAndContentLinks] as Descendant[],
   };
   const values = {
+    articleType: "standard",
     content: [valueWithTwoImageEmbeds, valueWithInlineFootnotesAndContentLinks] as Descendant[],
   };
   expect(

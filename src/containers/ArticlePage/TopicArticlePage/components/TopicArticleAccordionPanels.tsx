@@ -52,11 +52,7 @@ const TopicArticleAccordionPanels = ({
 
   const { values, errors } = formikContext;
   return (
-    <FormAccordionsWithComments
-      defaultOpen={["topic-article-content"]}
-      articleType="topic-article"
-      articleStatus={article?.status}
-    >
+    <FormAccordionsWithComments defaultOpen={["topic-article-content"]} article={article}>
       <FormAccordion
         id={"topic-article-content"}
         title={

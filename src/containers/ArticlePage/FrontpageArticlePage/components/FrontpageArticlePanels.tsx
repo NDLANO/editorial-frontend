@@ -38,11 +38,7 @@ const FrontpageArticlePanels = ({ article, articleHistory, articleLanguage }: Pr
   const copyrightFields = useMemo<FlatArticleKeys[]>(() => ["copyright"], []);
 
   return (
-    <FormAccordionsWithComments
-      defaultOpen={["frontpage-article-content"]}
-      articleId={article?.id}
-      articleType="frontpage-article"
-    >
+    <FormAccordionsWithComments defaultOpen={["frontpage-article-content"]} article={article}>
       <FormAccordion
         id={"frontpage-article-content"}
         title={

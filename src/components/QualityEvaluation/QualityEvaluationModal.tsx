@@ -14,6 +14,7 @@ import { IconButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { Pencil } from "@ndla/icons/action";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
+import { IArticle, IUpdatedArticle } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import { Text } from "@ndla/typography";
 import QualityEvaluationForm from "./QualityEvaluationForm";
@@ -28,18 +29,22 @@ const StyledModalBody = styled(ModalBody)`
 
 interface Props {
   articleType?: string;
+  article?: IArticle;
   taxonomy?: Node[];
   iconButtonColor?: "light" | "primary";
   revisionMetaField?: FieldInputProps<RevisionMetaFormType>;
   revisionMetaHelpers?: FieldHelperProps<RevisionMetaFormType>;
+  updateNotes?: (art: IUpdatedArticle) => Promise<IArticle>;
 }
 
 const QualityEvaluationModal = ({
   articleType,
+  article,
   taxonomy,
   iconButtonColor = "light",
   revisionMetaField,
   revisionMetaHelpers,
+  updateNotes,
 }: Props) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
@@ -77,6 +82,8 @@ const QualityEvaluationModal = ({
               taxonomy={taxonomy}
               revisionMetaField={revisionMetaField}
               revisionMetaHelpers={revisionMetaHelpers}
+              updateNotes={updateNotes}
+              article={article}
             />
           )}
         </StyledModalBody>

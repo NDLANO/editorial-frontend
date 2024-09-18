@@ -13,11 +13,10 @@ import styled from "@emotion/styled";
 import { AccordionRoot } from "@ndla/accordion";
 import { fonts, spacing } from "@ndla/core";
 import { Switch } from "@ndla/switch";
-import { IStatus } from "@ndla/types-backend/concept-api";
+import { IArticle, IUpdatedArticle } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import { FormAccordionProps } from "./FormAccordion";
 import OpenAllButton from "./OpenAllButton";
-import config from "../../config";
 import { ARCHIVED, PUBLISHED, STORED_HIDE_COMMENTS, UNPUBLISHED } from "../../constants";
 import CommentSection, { COMMENT_WIDTH, SPACING_COMMENT } from "../../containers/ArticlePage/components/CommentSection";
 import { MainContent } from "../../containers/ArticlePage/styles";
@@ -31,10 +30,9 @@ export type ChildType = ReactElement<FormAccordionProps> | undefined | false;
 interface Props {
   defaultOpen: string[];
   children: ChildType | ChildType[];
-  articleId?: number;
-  articleType?: string;
-  articleStatus?: IStatus;
+  article?: IArticle;
   taxonomy?: Node[];
+  updateNotes?: (art: IUpdatedArticle) => Promise<IArticle>;
 }
 
 const ContentWrapper = styled.div`
@@ -82,14 +80,7 @@ const FormControls = styled(MainContent)`
   }
 `;
 
-const FormAccordionsWithComments = ({
-  defaultOpen,
-  children,
-  articleId,
-  articleType,
-  articleStatus,
-  taxonomy,
-}: Props) => {
+const FormAccordionsWithComments = ({ defaultOpen, children, article, taxonomy, updateNotes }: Props) => {
   const { t } = useTranslation();
   const { toggleWideArticles, isWideArticle } = useWideArticle();
   const [revisionMetaField, , revisionMetaHelpers] = useField<RevisionMetaFormType>("revisionMeta");
@@ -97,12 +88,12 @@ const FormAccordionsWithComments = ({
   const [openAccordions, setOpenAccordions] = useState<string[]>(defaultOpen);
   const [hideComments, setHideComments] = useLocalStorageBooleanState(STORED_HIDE_COMMENTS);
 
-  const isTopicArticle = articleType === "topic-article";
-  const isFrontPageArticle = articleType === "frontpage-article";
+  const isTopicArticle = article?.articleType === "topic-article";
+  const isFrontPageArticle = article?.articleType === "frontpage-article";
 
   const disableComments = useMemo(
-    () => !isTopicArticle && [PUBLISHED, ARCHIVED, UNPUBLISHED].some((s) => s === articleStatus?.current),
-    [articleStatus, isTopicArticle],
+    () => !isTopicArticle && [PUBLISHED, ARCHIVED, UNPUBLISHED].some((s) => s === article?.status.current),
+    [article?.status, isTopicArticle],
   );
 
   // Topics are updated from structure edit page
@@ -112,25 +103,23 @@ const FormAccordionsWithComments = ({
     <ContentWrapper>
       <FlexWrapper>
         <FormControls data-enabled-quality-evaluation={!isTopicArticle && !isFrontPageArticle}>
-          {!isTopicArticle && !isFrontPageArticle && (
-            <>
-              {!isTopicArticle && (
-                <QualityEvaluation
-                  articleType={articleType}
-                  taxonomy={withoutTopics}
-                  revisionMetaField={revisionMetaField}
-                  revisionMetaHelpers={revisionMetaHelpers}
-                />
-              )}
-            </>
+          {!isTopicArticle && !isFrontPageArticle && !isTopicArticle && (
+            <QualityEvaluation
+              articleType={article?.articleType}
+              article={article}
+              taxonomy={withoutTopics}
+              revisionMetaField={revisionMetaField}
+              revisionMetaHelpers={revisionMetaHelpers}
+              updateNotes={updateNotes}
+            />
           )}
           <RightFlexWrapper>
-            {!!articleId && isFrontPageArticle && (
+            {!!article?.id && isFrontPageArticle && (
               <StyledSwitch
-                id={articleId}
+                id={article.id}
                 label={t("frontpageArticleForm.isFrontpageArticle.toggleArticle")}
                 checked={isWideArticle}
-                onChange={() => toggleWideArticles(articleId)}
+                onChange={() => toggleWideArticles(article.id)}
               />
             )}
             <OpenAllButton

@@ -11,6 +11,7 @@ import { CSSProperties } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { colors, spacing } from "@ndla/core";
+import { IArticle, IUpdatedArticle } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import { Text } from "@ndla/typography";
 import { gradeItemStyles, qualityEvaluationOptions } from "./QualityEvaluationForm";
@@ -36,20 +37,24 @@ const StyledNoEvaluation = styled(Text)`
 
 interface Props {
   articleType?: string;
+  article?: IArticle;
   taxonomy?: Node[];
   iconButtonColor?: "light" | "primary";
   revisionMetaField?: FieldInputProps<RevisionMetaFormType>;
   revisionMetaHelpers?: FieldHelperProps<RevisionMetaFormType>;
   gradeVariant?: "small" | "large";
+  updateNotes?: (art: IUpdatedArticle) => Promise<IArticle>;
 }
 
 const QualityEvaluation = ({
   articleType,
+  article,
   taxonomy,
   iconButtonColor,
   revisionMetaField,
   revisionMetaHelpers,
   gradeVariant = "large",
+  updateNotes,
 }: Props) => {
   const { t } = useTranslation();
   // Since quality evaluation is the same every place the resource is used in taxonomy, we can use the first node
@@ -87,10 +92,12 @@ const QualityEvaluation = ({
       )}
       <QualityEvaluationModal
         articleType={articleType}
+        article={article}
         taxonomy={taxonomy}
         iconButtonColor={iconButtonColor}
         revisionMetaField={revisionMetaField}
         revisionMetaHelpers={revisionMetaHelpers}
+        updateNotes={updateNotes}
       />
     </FlexWrapper>
   );

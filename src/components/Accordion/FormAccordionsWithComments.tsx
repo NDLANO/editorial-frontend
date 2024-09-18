@@ -103,7 +103,7 @@ const FormAccordionsWithComments = ({ defaultOpen, children, article, taxonomy, 
     <ContentWrapper>
       <FlexWrapper>
         <FormControls data-enabled-quality-evaluation={!isTopicArticle && !isFrontPageArticle}>
-          {!isTopicArticle && !isFrontPageArticle && !isTopicArticle && (
+          {!isTopicArticle && !isFrontPageArticle && (
             <QualityEvaluation
               articleType={article?.articleType}
               article={article}

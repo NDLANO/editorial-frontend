@@ -1642,7 +1642,8 @@ const phrases = {
     fullTopic: "Gjennomsnitt:",
     TOPIC: "emnet",
     SUBJECT: "faget",
-    qualityDescription: "Gjennomsnitt av kvalitetsvurdering av alle ressurser i {{nodeType}}",
+    qualityDescription:
+      "Gjennomsnitt av kvalitetsvurdering av alle vurderte ressurser i {{nodeType}} ({{count}} vurderte ressurser)",
     average: "Gj.snitt",
     qualityEvaluation: "Satt vurdering av {{nodeType}} som helhet",
     connectExistingNode: "Knytt {{nodeType}} til denne noden",

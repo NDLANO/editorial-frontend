@@ -103,7 +103,7 @@ const TopicResourceBanner = ({
           <PlannedResourceModal currentNode={currentNode} resourceTypes={resourceTypes} resources={resources} />
         </FlexContentWrapper>
         <FlexContentWrapper>
-          {showQuality && config.qualityEvaluationEnabled === true && (
+          {showQuality && (
             <>
               <AverageQualityEvaluation averageGrade={currentNode.gradeAverage?.averageValue} nodeType="TOPIC" />
               <QualityEvaluation

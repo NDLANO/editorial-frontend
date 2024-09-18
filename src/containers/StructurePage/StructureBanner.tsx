@@ -134,14 +134,7 @@ const StructureBanner = ({
               id="favorites"
               data-testid="switch-favorites"
             />
-            {config.qualityEvaluationEnabled === true && (
-              <StyledSwitch
-                onChange={setShowQuality}
-                checked={showQuality}
-                label={t("taxonomy.quality")}
-                id="quality"
-              />
-            )}
+            <StyledSwitch onChange={setShowQuality} checked={showQuality} label={t("taxonomy.quality")} id="quality" />
           </SwitchGroupWrapper>
         </SwitchWrapper>
 

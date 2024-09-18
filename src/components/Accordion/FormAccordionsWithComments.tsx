@@ -111,14 +111,10 @@ const FormAccordionsWithComments = ({
   return (
     <ContentWrapper>
       <FlexWrapper>
-        <FormControls
-          data-enabled-quality-evaluation={
-            config.qualityEvaluationEnabled === true && !isTopicArticle && !isFrontPageArticle
-          }
-        >
+        <FormControls data-enabled-quality-evaluation={!isTopicArticle && !isFrontPageArticle}>
           {!isTopicArticle && !isFrontPageArticle && (
             <>
-              {config.qualityEvaluationEnabled === true && !isTopicArticle && (
+              {!isTopicArticle && (
                 <QualityEvaluation
                   articleType={articleType}
                   taxonomy={withoutTopics}

@@ -103,7 +103,7 @@ const Resource = ({ resource, onDelete, currentNodeId, contentMetaLoading, respo
                 size="small"
               />
             </StyledResourceBody>
-            {showQuality && config.qualityEvaluationEnabled === true && (
+            {showQuality && (
               <QualityEvaluationGrade
                 grade={resource.qualityEvaluation?.grade}
                 ariaLabel={

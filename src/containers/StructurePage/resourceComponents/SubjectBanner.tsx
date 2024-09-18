@@ -27,7 +27,7 @@ const SubjectBanner = ({ subjectNode, showQuality }: Props) => {
           <JumpToStructureButton nodeId={subjectNode.id} />
         </FlexContentWrapper>
         <FlexContentWrapper>
-          {showQuality && config.qualityEvaluationEnabled === true && (
+          {showQuality && (
             <>
               <AverageQualityEvaluation averageGrade={subjectNode.gradeAverage?.averageValue} nodeType="SUBJECT" />
               <QualityEvaluation

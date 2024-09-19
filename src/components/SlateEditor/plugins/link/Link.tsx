@@ -73,6 +73,10 @@ export interface Model {
 const StyledLink = styled.a`
   color: ${colors.brand.primary};
   cursor: text;
+  text-decoration: underline;
+  &:hover {
+    text-decoration: none;
+  }
 `;
 
 const Link = ({ attributes, editor, element, children }: Props) => {

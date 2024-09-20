@@ -99,44 +99,51 @@ const StructureBanner = ({
         </Text>
       </FlexWrapper>
       <FlexWrapper>
-        <SwitchWrapper>
-          <SwitchGroupWrapper>
-            {hasLmaSubjects && (
+        {nodeType !== "PROGRAMME" && (
+          <SwitchWrapper>
+            <SwitchGroupWrapper>
+              {hasLmaSubjects && (
+                <StyledSwitch
+                  onChange={setShowLmaSubjects}
+                  checked={showLmaSubjects}
+                  label={t("taxonomy.showLMASubject")}
+                  id="lma-subject-switch"
+                />
+              )}
+              {hasDaSubjects && (
+                <StyledSwitch
+                  onChange={setShowDaSubjects}
+                  checked={showDaSubjects}
+                  label={t("taxonomy.showDASubject")}
+                  id="desk-subject-switch"
+                />
+              )}
+              {hasSaSubjects && (
+                <StyledSwitch
+                  onChange={setShowSaSubjects}
+                  checked={showSaSubjects}
+                  label={t("taxonomy.showSASubject")}
+                  id="language-subject-switch"
+                />
+              )}
+            </SwitchGroupWrapper>
+            <SwitchGroupWrapper>
               <StyledSwitch
-                onChange={setShowLmaSubjects}
-                checked={showLmaSubjects}
-                label={t("taxonomy.showLMASubject")}
-                id="lma-subject-switch"
+                onChange={setShowFavorites}
+                checked={showFavorites}
+                label={t("taxonomy.favorites")}
+                id="favorites"
+                data-testid="switch-favorites"
               />
-            )}
-            {hasDaSubjects && (
               <StyledSwitch
-                onChange={setShowDaSubjects}
-                checked={showDaSubjects}
-                label={t("taxonomy.showDASubject")}
-                id="desk-subject-switch"
+                onChange={setShowQuality}
+                checked={showQuality}
+                label={t("taxonomy.quality")}
+                id="quality"
               />
-            )}
-            {hasSaSubjects && (
-              <StyledSwitch
-                onChange={setShowSaSubjects}
-                checked={showSaSubjects}
-                label={t("taxonomy.showSASubject")}
-                id="language-subject-switch"
-              />
-            )}
-          </SwitchGroupWrapper>
-          <SwitchGroupWrapper>
-            <StyledSwitch
-              onChange={setShowFavorites}
-              checked={showFavorites}
-              label={t("taxonomy.favorites")}
-              id="favorites"
-              data-testid="switch-favorites"
-            />
-            <StyledSwitch onChange={setShowQuality} checked={showQuality} label={t("taxonomy.quality")} id="quality" />
-          </SwitchGroupWrapper>
-        </SwitchWrapper>
+            </SwitchGroupWrapper>
+          </SwitchWrapper>
+        )}
 
         {isTaxonomyAdmin && (
           <Modal open={addSubjectModalOpen} onOpenChange={setAddSubjectModalOpen}>

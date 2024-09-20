@@ -11,7 +11,6 @@ import { Text } from "@ndla/typography";
 import JumpToStructureButton from "./JumpToStructureButton";
 import AverageQualityEvaluation from "../../../components/QualityEvaluation/AverageQualityEvaluation";
 import QualityEvaluation from "../../../components/QualityEvaluation/QualityEvaluation";
-import config from "../../../config";
 import { BannerWrapper, FlexContentWrapper, TitleRow, TopInfoRow } from "../styles";
 
 interface Props {

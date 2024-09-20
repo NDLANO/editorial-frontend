@@ -105,7 +105,7 @@ const TopicResourceBanner = ({
         <FlexContentWrapper>
           {showQuality && (
             <>
-              <AverageQualityEvaluation averageGrade={currentNode.gradeAverage?.averageValue} nodeType="TOPIC" />
+              <AverageQualityEvaluation gradeAverage={currentNode.gradeAverage} nodeType="TOPIC" />
               <QualityEvaluation
                 articleType="topic-article"
                 taxonomy={[currentNode]}

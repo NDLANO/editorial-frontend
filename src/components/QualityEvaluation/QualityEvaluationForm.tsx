@@ -16,9 +16,11 @@ import { useQueryClient } from "@tanstack/react-query";
 import { ButtonV2 } from "@ndla/button";
 import { colors, spacing, fonts, misc } from "@ndla/core";
 import { FieldErrorMessage, Fieldset, InputV3, Label, Legend, RadioButtonGroup } from "@ndla/forms";
+import { IArticle, IUpdatedArticle } from "@ndla/types-backend/draft-api";
 import { Grade, Node } from "@ndla/types-taxonomy";
 import { RevisionMetaFormType } from "../../containers/FormikForm/AddRevisionDateField";
 import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVersionProvider";
+import { draftQueryKeys } from "../../modules/draft/draftQueries";
 import { usePutNodeMutation } from "../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../modules/nodes/nodeQueries";
 import { formatDateForBackend } from "../../util/formatDate";
@@ -101,6 +103,8 @@ interface Props {
   taxonomy: Node[];
   revisionMetaField?: FieldInputProps<RevisionMetaFormType>;
   revisionMetaHelpers?: FieldHelperProps<RevisionMetaFormType>;
+  updateNotes?: (art: IUpdatedArticle) => Promise<IArticle>;
+  article?: IArticle;
 }
 
 interface QualityEvaluationFormValues {
@@ -122,7 +126,14 @@ const toInitialValues = (initialData: QualityEvaluationFormValues | undefined): 
   };
 };
 
-const QualityEvaluationForm = ({ setOpen, taxonomy, revisionMetaField, revisionMetaHelpers }: Props) => {
+const QualityEvaluationForm = ({
+  setOpen,
+  taxonomy,
+  revisionMetaField,
+  revisionMetaHelpers,
+  updateNotes,
+  article,
+}: Props) => {
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const qc = useQueryClient();
@@ -167,6 +178,19 @@ const QualityEvaluationForm = ({ setOpen, taxonomy, revisionMetaField, revisionM
           }),
         );
       }
+
+      if (updateNotes && article) {
+        await updateNotes({
+          revision: article.revision,
+          notes: [`Oppdatert kvalitetsvurdering til ${values.grade}.`],
+          metaImage: undefined,
+          responsibleId: undefined,
+        });
+        await qc.invalidateQueries({
+          queryKey: draftQueryKeys.draft({ id: article.id }),
+        });
+      }
+
       await qc.invalidateQueries({
         queryKey: nodeQueryKeys.nodes({
           taxonomyVersion,

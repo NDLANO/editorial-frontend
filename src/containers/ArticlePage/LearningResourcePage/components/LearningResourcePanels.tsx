@@ -60,9 +60,9 @@ const LearningResourcePanels = ({
   return (
     <FormAccordionsWithComments
       defaultOpen={defaultOpen}
-      articleType="standard"
-      articleStatus={article?.status}
+      article={article}
       taxonomy={taxonomy}
+      updateNotes={updateNotes}
     >
       <FormAccordion
         id={"learning-resource-content"}

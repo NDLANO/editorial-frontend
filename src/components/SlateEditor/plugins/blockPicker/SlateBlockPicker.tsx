@@ -77,7 +77,7 @@ interface Props {
 
 const StyledContent = styled(PopoverContent)`
   background-color: ${colors.white};
-  z-index: ${stackOrder.trigger};
+  z-index: ${stackOrder.popover};
   padding: ${spacing.normal};
   box-shadow: ${shadows.levitate1};
   ${animations.fadeInLeft(animations.durations.fast)};

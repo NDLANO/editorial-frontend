@@ -13,16 +13,18 @@ import { ReactEditor, RenderElementProps } from "slate-react";
 import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { Copyright } from "@ndla/icons/editor";
-import { FramedContent } from "@ndla/primitives";
+import { BrushLine, Copyright } from "@ndla/icons/editor";
+import { IconButton } from "@ndla/primitives";
+import { ContentTypeFramedContent } from "@ndla/ui";
 import { FramedContentElement } from ".";
 import { TYPE_FRAMED_CONTENT } from "./types";
+import { useArticleContentType } from "../../../ContentTypeProvider";
 import DeleteButton from "../../../DeleteButton";
 import MoveContentButton from "../../../MoveContentButton";
 import { TYPE_COPYRIGHT } from "../copyright/types";
 import { defaultCopyrightBlock } from "../copyright/utils";
 
-const StyledFramedContent = styled(FramedContent)`
+const StyledFramedContent = styled(ContentTypeFramedContent)`
   display: flex;
   flex-direction: column;
 `;
@@ -39,13 +41,16 @@ const ChildrenWrapper = styled.div`
   padding: 0 ${spacing.medium} ${spacing.medium} ${spacing.medium};
 `;
 
-interface Props {
+interface Props extends RenderElementProps {
   editor: Editor;
+  element: FramedContentElement;
 }
 
-const SlateFramedContent = (props: Props & RenderElementProps) => {
+const SlateFramedContent = (props: Props) => {
   const { element, editor, attributes, children } = props;
   const { t } = useTranslation();
+  const variant = element.data?.variant ?? "neutral";
+  const contentType = useArticleContentType();
   const hasSlateCopyright = useMemo(() => {
     return element.children.some((child) => Element.isElement(child) && child.type === TYPE_COPYRIGHT);
   }, [element.children]);
@@ -77,13 +82,18 @@ const SlateFramedContent = (props: Props & RenderElementProps) => {
     }, 0);
   };
 
+  const changeVariant = () => {
+    const newData = { variant: element.data?.variant === "colored" ? "neutral" : "colored" };
+    Transforms.setNodes(editor, { data: newData }, { at: ReactEditor.findPath(editor, element) });
+  };
+
   const insertCopyright = () => {
     const [node, path] = Editor.node(editor, ReactEditor.findPath(editor, element)) as NodeEntry<FramedContentElement>;
     Transforms.insertNodes(editor, defaultCopyrightBlock(), { at: path.concat(node.children.length) });
   };
 
   return (
-    <StyledFramedContent draggable {...attributes}>
+    <StyledFramedContent variant={variant} contentType={contentType} draggable {...attributes}>
       <ButtonContainer>
         {!hasSlateCopyright && (
           <IconButtonV2
@@ -95,6 +105,14 @@ const SlateFramedContent = (props: Props & RenderElementProps) => {
             <Copyright />
           </IconButtonV2>
         )}
+        <IconButton
+          onClick={changeVariant}
+          variant={variant === "colored" ? "primary" : "secondary"}
+          title={t(`framedContentForm.changeVariant.${variant === "neutral" ? "colored" : "neutral"}`)}
+          aria-label={t(`framedContentForm.changeVariant.${variant === "neutral" ? "colored" : "neutral"}`)}
+        >
+          <BrushLine />
+        </IconButton>
         <MoveContentButton onMouseDown={onMoveContent} aria-label={t("form.moveContent")} />
         <DeleteButton
           aria-label={t("form.remove")}

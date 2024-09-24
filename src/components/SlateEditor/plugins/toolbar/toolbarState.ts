@@ -7,7 +7,7 @@
  */
 
 import merge from "lodash/merge";
-import { Editor, Element, Node, BaseSelection, Text, fragment } from "slate";
+import { Editor, Element, Node, BaseSelection, Text, Range, Transforms } from "slate";
 import { ElementType } from "../../interfaces";
 import { TYPE_NOOP } from "../noop/types";
 
@@ -160,7 +160,8 @@ export const defaultAreaOptions: AreaFilters = {
   },
   "comment-inline": { inline: { disabled: true, "comment-inline": { disabled: false } } },
   list: { inline: { disabled: true } },
-  "definition-term": { inline: { disabled: true } },
+  "definition-term": { block: { quote: { disabled: true } }, inline: { disabled: true } },
+  "definition-description": { block: { quote: { disabled: true } }, inline: { disabled: true } },
   quote: { inline: { disabled: true } },
 };
 
@@ -219,8 +220,14 @@ interface ToolbarStateProps {
 export const getSelectionElements = (editor: Editor, selection: BaseSelection): Element[] => {
   // Get elements in the selection only
   if (selection) {
-    const fragments = editor.getFragment();
-    const elementFragments = fragments.filter((fragment) => Element.isElement(fragment)) as Element[];
+    const fragments = Editor.fragment(editor, selection);
+    const elementFragments = fragments.filter(Element.isElement);
+
+    if (elementFragments.length === 1) {
+      const [[node]] = Editor.nodes(editor, { at: selection.focus, mode: "lowest", match: Element.isElement });
+      return [node];
+    }
+
     return elementFragments;
   }
   return [];

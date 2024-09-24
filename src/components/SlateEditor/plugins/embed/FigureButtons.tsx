@@ -7,21 +7,7 @@
  */
 
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
-import { colors, spacing, stackOrder } from "@ndla/core";
-
-export const StyledDeleteEmbedButton = styled(IconButtonV2)`
-  &:hover,
-  &:focus,
-  &:focus-within,
-  &:focus-visible,
-  &:active {
-    background-color: ${colors.white};
-    svg {
-      color: ${colors.support.red};
-    }
-  }
-`;
+import { spacing, stackOrder } from "@ndla/core";
 
 export const StyledFigureButtons = styled.div`
   display: flex;

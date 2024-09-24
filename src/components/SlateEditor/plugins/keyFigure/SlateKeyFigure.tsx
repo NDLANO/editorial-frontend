@@ -11,17 +11,17 @@ import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
 import { Pencil } from "@ndla/icons/action";
 import { DeleteForever } from "@ndla/icons/editor";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
+import { IconButton } from "@ndla/primitives";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import { KeyFigureEmbedData } from "@ndla/types-embed";
 import { KeyFigure } from "@ndla/ui";
 import { KeyFigureElement } from ".";
 import KeyFigureForm from "./KeyFigureForm";
 import { fetchImage } from "../../../../modules/image/imageApi";
-import { StyledDeleteEmbedButton, StyledFigureButtons } from "../embed/FigureButtons";
+import { StyledFigureButtons } from "../embed/FigureButtons";
 
 interface Props extends RenderElementProps {
   element: KeyFigureElement;
@@ -116,19 +116,25 @@ const SlateKeyFigure = ({ element, editor, attributes, children }: Props) => {
           <div contentEditable={false}>
             <StyledFigureButtons>
               <ModalTrigger>
-                <IconButtonV2 colorTheme="light" aria-label={t("keyFigureForm.edit")} title={t("keyFigureForm.edit")}>
+                <IconButton
+                  variant="secondary"
+                  size="small"
+                  aria-label={t("keyFigureForm.edit")}
+                  title={t("keyFigureForm.edit")}
+                >
                   <Pencil />
-                </IconButtonV2>
+                </IconButton>
               </ModalTrigger>
-              <StyledDeleteEmbedButton
-                colorTheme="danger"
+              <IconButton
+                variant="danger"
+                size="small"
                 aria-label={t("delete")}
                 title={t("delete")}
                 data-testid="remove-key-figure"
                 onClick={handleRemove}
               >
                 <DeleteForever />
-              </StyledDeleteEmbedButton>
+              </IconButton>
             </StyledFigureButtons>
             <KeyFigure
               title={data.title}

@@ -10,9 +10,9 @@ import { useFormikContext } from "formik";
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { colors, spacing } from "@ndla/core";
 import { Launch } from "@ndla/icons/common";
+import { Button } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { SingleValue } from "@ndla/select";
 import { IStatus as ConceptStatus } from "@ndla/types-backend/concept-api";
@@ -248,7 +248,7 @@ function EditorFooter<T extends FormValues>({
             <PreviewDraftLightboxV2
               type="concept"
               language={values.language}
-              activateButton={<ButtonV2 variant="link">{t("form.preview.button")}</ButtonV2>}
+              activateButton={<Button variant="link">{t("form.preview.button")}</Button>}
             />
           )}
           {values.id && isArticle && (

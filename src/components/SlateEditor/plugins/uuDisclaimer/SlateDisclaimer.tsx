@@ -11,17 +11,16 @@ import { useTranslation } from "react-i18next";
 import { Editor, Element, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
 import { colors, spacing } from "@ndla/core";
 import { Pencil } from "@ndla/icons/action";
 import { Modal, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
+import { IconButton } from "@ndla/primitives";
 import { IArticleV2 } from "@ndla/types-backend/article-api";
 import { UuDisclaimerEmbedData, UuDisclaimerMetaData } from "@ndla/types-embed";
 import { UuDisclaimerEmbed } from "@ndla/ui";
 import DisclaimerForm from "./DisclaimerForm";
 import { DisclaimerElement, TYPE_DISCLAIMER } from "./types";
 import { toEditPage } from "./utils";
-import config from "../../../../config";
 import { getArticle } from "../../../../modules/article/articleApi";
 import DeleteButton from "../../../DeleteButton";
 import MoveContentButton from "../../../MoveContentButton";
@@ -136,14 +135,15 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
         <DeleteButton aria-label={t("delete")} data-testid="delete-disclaimer" onClick={handleDelete} />
         <Modal open={modalOpen} onOpenChange={setModalOpen}>
           <ModalTrigger>
-            <IconButtonV2
-              variant="ghost"
+            <IconButton
+              variant="tertiary"
+              size="small"
               aria-label={t("form.disclaimer.edit")}
               data-testid="edit-disclaimer"
               title={t("form.disclaimer.edit")}
             >
               <Pencil />
-            </IconButtonV2>
+            </IconButton>
           </ModalTrigger>
           <ModalContent size="normal">
             <StyledModalHeader>

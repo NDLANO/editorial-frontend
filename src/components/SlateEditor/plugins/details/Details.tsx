@@ -131,12 +131,7 @@ const Details = ({ children, editor, element, attributes }: Props & RenderElemen
     <StyledDetailsDiv {...attributes} draggable>
       <ButtonContainer>
         <MoveContentButton onMouseDown={onMoveContent} aria-label={t("form.moveContent")} />
-        <DeleteButton
-          data-testid="remove-details"
-          aria-label={t("form.remove")}
-          variant="stripped"
-          onMouseDown={onRemoveClick}
-        />
+        <DeleteButton data-testid="remove-details" aria-label={t("form.remove")} onMouseDown={onRemoveClick} />
       </ButtonContainer>
       <StyledRow>
         <div contentEditable={false}>

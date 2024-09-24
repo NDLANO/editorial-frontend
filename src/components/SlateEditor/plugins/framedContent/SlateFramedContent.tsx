@@ -11,7 +11,6 @@ import { useTranslation } from "react-i18next";
 import { Editor, Element, NodeEntry, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { BrushLine, Copyright } from "@ndla/icons/editor";
 import { IconButton } from "@ndla/primitives";
@@ -96,18 +95,20 @@ const SlateFramedContent = (props: Props) => {
     <StyledFramedContent variant={variant} contentType={contentType} draggable {...attributes}>
       <ButtonContainer>
         {!hasSlateCopyright && (
-          <IconButtonV2
-            variant="ghost"
+          <IconButton
+            variant="tertiary"
+            size="small"
             aria-label={t("form.copyright.add")}
             title={t("form.copyright.add")}
             onClick={insertCopyright}
           >
             <Copyright />
-          </IconButtonV2>
+          </IconButton>
         )}
         <IconButton
           onClick={changeVariant}
           variant={variant === "colored" ? "primary" : "secondary"}
+          size="small"
           title={t(`framedContentForm.changeVariant.${variant === "neutral" ? "colored" : "neutral"}`)}
           aria-label={t(`framedContentForm.changeVariant.${variant === "neutral" ? "colored" : "neutral"}`)}
         >
@@ -118,7 +119,6 @@ const SlateFramedContent = (props: Props) => {
           aria-label={t("form.remove")}
           tabIndex={-1}
           data-testid="remove-framedContent"
-          colorTheme="danger"
           onMouseDown={onRemoveClick}
         />
       </ButtonContainer>

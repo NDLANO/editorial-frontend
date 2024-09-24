@@ -39,12 +39,7 @@ const SlateFactAside = ({ children, onRemoveClick, attributes, onMoveContent }: 
     <div>
       <ButtonContainer>
         <MoveContentButton onMouseDown={onMoveContent} aria-label={t("form.moveContent")} />
-        <DeleteButton
-          aria-label={t("form.remove")}
-          variant="stripped"
-          onMouseDown={onRemoveClick}
-          data-testid="remove-fact-aside"
-        />
+        <DeleteButton aria-label={t("form.remove")} onMouseDown={onRemoveClick} data-testid="remove-fact-aside" />
       </ButtonContainer>
       <StyledFactBox open={open} draggable {...attributes} onOpenChange={setIsOpen}>
         {children}

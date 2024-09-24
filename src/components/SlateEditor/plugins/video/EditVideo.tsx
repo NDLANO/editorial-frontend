@@ -11,10 +11,10 @@ import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { FieldErrorMessage, InputV3, Label } from "@ndla/forms";
 import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle } from "@ndla/modal";
+import { Button } from "@ndla/primitives";
 import { BrightcoveEmbedData } from "@ndla/types-embed";
 import { Text } from "@ndla/typography";
 import { VideoWrapper } from "./SlateVideo";
@@ -172,10 +172,12 @@ const VideoEmbedForm = ({ setHasError, close, isValid, dirty, initialValues, val
         )}
       </FormField>
       <ButtonWrapper>
-        <ButtonV2 onClick={close}>{t("form.abort")}</ButtonV2>
-        <ButtonV2 disabled={!isValid || !formIsDirty} type="submit">
+        <Button variant="secondary" onClick={close}>
+          {t("form.abort")}
+        </Button>
+        <Button disabled={!isValid || !formIsDirty} type="submit">
           {t("form.save")}
-        </ButtonV2>
+        </Button>
       </ButtonWrapper>
     </StyledForm>
   );

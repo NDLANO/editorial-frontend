@@ -10,7 +10,6 @@ import { Form, Formik } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import {
   CheckboxItem,
@@ -21,6 +20,7 @@ import {
   InputV3,
   TextAreaV3,
 } from "@ndla/forms";
+import { Button } from "@ndla/primitives";
 import { ContactBlockEmbedData } from "@ndla/types-embed";
 import { TYPE_CONTACT_BLOCK } from "./types";
 import InlineImageSearch from "../../../../containers/ConceptPage/components/InlineImageSearch";
@@ -240,12 +240,12 @@ const ContactBlockForm = ({ initialData, onSave, onCancel }: Props) => {
             </FormField>
           )}
           <ButtonContainer>
-            <ButtonV2 variant="outline" onClick={onCancel}>
+            <Button variant="secondary" onClick={onCancel}>
               {t("cancel")}
-            </ButtonV2>
-            <ButtonV2 variant="solid" disabled={!dirty || !isValid} type="submit">
+            </Button>
+            <Button disabled={!dirty || !isValid} type="submit">
               {t("save")}
-            </ButtonV2>
+            </Button>
           </ButtonContainer>
         </Form>
       )}

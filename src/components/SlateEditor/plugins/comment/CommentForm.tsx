@@ -10,9 +10,9 @@ import { Form, Formik } from "formik";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { FieldErrorMessage, Label, TextAreaV3 } from "@ndla/forms";
+import { Button } from "@ndla/primitives";
 import { CommentEmbedData } from "@ndla/types-embed";
 import { FormControl, FormField } from "../../../FormField";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
@@ -97,12 +97,12 @@ const CommentForm = ({
             )}
           </FormField>
           <CommentActions>
-            <ButtonV2 onClick={() => onOpenChange(false)} variant="outline">
+            <Button onClick={() => onOpenChange(false)} variant="secondary">
               {t("form.abort")}
-            </ButtonV2>
-            <ButtonV2 type="submit" variant="solid" data-testid="disclaimer-save" disabled={!isValid || !dirty}>
+            </Button>
+            <Button type="submit" data-testid="disclaimer-save" disabled={!isValid || !dirty}>
               {t("form.save")}
-            </ButtonV2>
+            </Button>
           </CommentActions>
         </Form>
       )}

@@ -37,10 +37,9 @@ import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
-import { IconButtonV2 } from "@ndla/button";
 import { Code, DeleteForever } from "@ndla/icons/editor";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
-import { Figure } from "@ndla/primitives";
+import { Figure, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { CodeEmbedData } from "@ndla/types-embed";
 
@@ -76,15 +75,15 @@ interface RemoveCodeBlockProps {
 const RemoveCodeBlock = ({ handleRemove }: RemoveCodeBlockProps) => {
   const { t } = useTranslation();
   return (
-    <IconButtonV2
-      variant="ghost"
-      colorTheme="danger"
+    <IconButton
+      variant="danger"
+      size="small"
       aria-label={t("form.remove")}
       data-testid="remove-code"
       onClick={handleRemove}
     >
       <DeleteForever />
-    </IconButtonV2>
+    </IconButton>
   );
 };
 const highlightCode = (code: string, language: string): string => {

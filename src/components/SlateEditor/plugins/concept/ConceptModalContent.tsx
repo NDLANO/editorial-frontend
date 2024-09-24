@@ -10,11 +10,11 @@ import debounce from "lodash/debounce";
 import queryString from "query-string";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ButtonV2, IconButtonV2 } from "@ndla/button";
 import { Cross } from "@ndla/icons/action";
 import { Search } from "@ndla/icons/common";
 import { ModalHeader, ModalBody } from "@ndla/modal";
 import { Pager } from "@ndla/pager";
+import { Button, IconButton } from "@ndla/primitives";
 import { Tabs } from "@ndla/tabs";
 import {
   IConcept,
@@ -113,12 +113,12 @@ const ConceptModalContent = ({
   return (
     <div>
       <ModalHeader>
-        <IconButtonV2 variant="ghost" title={t("dialog.close")} aria-label={t("dialog.close")} onClick={onClose}>
+        <IconButton variant="tertiary" title={t("dialog.close")} aria-label={t("dialog.close")} onClick={onClose}>
           <Cross />
-        </IconButtonV2>
+        </IconButton>
       </ModalHeader>
       <ModalBody>
-        {concept?.id && <ButtonV2 onClick={handleRemove}>{t(`form.content.${concept.conceptType}.remove`)}</ButtonV2>}
+        {concept?.id && <Button onClick={handleRemove}>{t(`form.content.${concept.conceptType}.remove`)}</Button>}
         <Tabs
           tabs={[
             {

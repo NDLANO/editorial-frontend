@@ -11,12 +11,12 @@ import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
 import { spacing, colors, stackOrder } from "@ndla/core";
 import { Pencil } from "@ndla/icons/action";
 import { Link } from "@ndla/icons/common";
 import { DeleteForever } from "@ndla/icons/editor";
 import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
+import { IconButton } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { AudioEmbedData, AudioMetaData } from "@ndla/types-embed";
 import { AudioEmbed } from "@ndla/ui";
@@ -25,7 +25,7 @@ import { AudioElement } from "./types";
 import { useAudioMeta } from "../../../../modules/embed/queries";
 import { OldSpinner } from "../../../OldSpinner";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
-import { StyledDeleteEmbedButton, StyledFigureButtons } from "../embed/FigureButtons";
+import { StyledFigureButtons } from "../embed/FigureButtons";
 
 interface Props extends RenderElementProps {
   element: AudioElement;
@@ -46,17 +46,6 @@ const AudioWrapper = styled.div`
     figure {
       outline: 2px solid ${colors.brand.primary};
     }
-  }
-`;
-
-const FigureButtons = styled(StyledFigureButtons)`
-  right: ${spacing.small};
-  top: ${spacing.medium};
-  z-index: ${stackOrder.offsetSingle};
-  &[data-type="minimal"] {
-    position: static;
-    top: unset;
-    right: unset;
   }
 `;
 
@@ -138,18 +127,24 @@ const SlateAudio = ({ element, editor, attributes, children }: Props) => {
           <OldSpinner />
         ) : embed ? (
           <>
-            <FigureButtons data-type={embed.embedData.type}>
+            <StyledFigureButtons data-type={embed.embedData.type}>
               {embed.embedData.type !== "podcast" && (
                 <ModalTrigger>
-                  <IconButtonV2 title={t("form.audio.edit")} aria-label={t("form.audio.edit")} variant="ghost">
+                  <IconButton
+                    title={t("form.audio.edit")}
+                    aria-label={t("form.audio.edit")}
+                    variant="tertiary"
+                    size="small"
+                  >
                     <Pencil />
-                  </IconButtonV2>
+                  </IconButton>
                 </ModalTrigger>
               )}
               {embed.embedData.type !== "minimal" && (
                 <>
                   <SafeLinkIconButton
                     variant="secondary"
+                    size="small"
                     to={`/media/${embed.embedData.type === "podcast" ? "podcast" : "audio"}-upload/${
                       embed.embedData.resourceId
                     }/edit/${language}`}
@@ -159,18 +154,19 @@ const SlateAudio = ({ element, editor, attributes, children }: Props) => {
                   >
                     <Link />
                   </SafeLinkIconButton>
-                  <StyledDeleteEmbedButton
+                  <IconButton
                     title={t("form.audio.remove")}
                     aria-label={t("form.audio.remove")}
-                    colorTheme="danger"
+                    variant="danger"
+                    size="small"
                     onClick={handleRemove}
                     data-testid="remove-element"
                   >
                     <DeleteForever />
-                  </StyledDeleteEmbedButton>
+                  </IconButton>
                 </>
               )}
-            </FigureButtons>
+            </StyledFigureButtons>
             <AudioEmbed embed={embed} />
           </>
         ) : null}

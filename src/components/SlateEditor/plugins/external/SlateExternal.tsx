@@ -11,11 +11,11 @@ import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import styled from "@emotion/styled";
-import { ButtonV2, IconButtonV2 } from "@ndla/button";
 import { colors, spacing } from "@ndla/core";
 import { Pencil } from "@ndla/icons/action";
 import { DeleteForever, Expandable } from "@ndla/icons/editor";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
+import { Button, IconButton } from "@ndla/primitives";
 import { IframeEmbedData, IframeMetaData, OembedEmbedData, OembedMetaData } from "@ndla/types-embed";
 import { Text } from "@ndla/typography";
 import { ExternalEmbed, IframeEmbed } from "@ndla/ui";
@@ -28,7 +28,7 @@ import { urlDomain } from "../../../../util/htmlHelpers";
 import { OldSpinner } from "../../../OldSpinner";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import EditorErrorMessage from "../../EditorErrorMessage";
-import { StyledDeleteEmbedButton, StyledFigureButtons } from "../embed/FigureButtons";
+import { StyledFigureButtons } from "../embed/FigureButtons";
 
 interface Props extends RenderElementProps {
   element: ExternalElement | IframeElement;
@@ -46,9 +46,8 @@ const ExternalWrapper = styled.div`
   }
 `;
 
-const ExpandableButton = styled(ButtonV2)`
+const ExpandableButton = styled(Button)`
   position: absolute;
-  color: ${colors.brand.greyLight};
   right: ${spacing.nsmall};
   bottom: ${spacing.normal};
 `;
@@ -170,19 +169,20 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
           <ExternalWrapper ref={wrapperRef} contentEditable={false}>
             <StyledFigureButtons>
               <ModalTrigger>
-                <IconButtonV2 aria-label={editLabel} title={editLabel} colorTheme="light">
+                <IconButton aria-label={editLabel} title={editLabel} variant="secondary" size="small">
                   <Pencil />
-                </IconButtonV2>
+                </IconButton>
               </ModalTrigger>
-              <StyledDeleteEmbedButton
+              <IconButton
                 aria-label={deleteLabel}
                 title={deleteLabel}
-                colorTheme="danger"
+                variant="danger"
+                size="small"
                 onClick={handleRemove}
                 data-testid="remove-element"
               >
                 <DeleteForever />
-              </StyledDeleteEmbedButton>
+              </IconButton>
             </StyledFigureButtons>
             {metaQuery.isLoading ? (
               <OldSpinner />
@@ -197,8 +197,8 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
               <ExpandableButton
                 onMouseDown={onMouseDown}
                 contentEditable={false}
-                colorTheme="greyLighter"
-                variant="ghost"
+                variant="tertiary"
+                size="small"
                 aria-label={t("form.resize")}
               >
                 <Expandable />

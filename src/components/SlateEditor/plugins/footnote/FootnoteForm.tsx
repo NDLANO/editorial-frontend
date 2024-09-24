@@ -9,8 +9,8 @@
 import { Formik, Form, FormikHelpers } from "formik";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
+import { Button } from "@ndla/primitives";
 import { FootnoteElement } from ".";
 import MultiSelectDropdown from "../../../Dropdown/MultiSelectDropdown";
 import FormikField from "../../../FormikField";
@@ -91,13 +91,13 @@ const FootnoteForm = ({ isEdit, footnote, onRemove, onClose, onSave }: Props) =>
 
           <FormikField name="publisher" label={t("form.content.footnote.publisher")} />
           <ButtonContainer>
-            {isEdit && <ButtonV2 onClick={onRemove}>{t("form.content.footnote.removeFootnote")}</ButtonV2>}
-            <ButtonV2 variant="outline" onClick={onClose}>
+            {isEdit && <Button onClick={onRemove}>{t("form.content.footnote.removeFootnote")}</Button>}
+            <Button variant="secondary" onClick={onClose}>
               {t("form.abort")}
-            </ButtonV2>
-            <ButtonV2 data-testid="save_footnote" onClick={submitForm}>
+            </Button>
+            <Button data-testid="save_footnote" onClick={submitForm}>
               {t("form.save")}
-            </ButtonV2>
+            </Button>
           </ButtonContainer>
         </Form>
       )}

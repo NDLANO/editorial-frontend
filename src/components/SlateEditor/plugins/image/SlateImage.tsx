@@ -12,12 +12,12 @@ import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
 import { misc, spacing, stackOrder } from "@ndla/core";
 import { Pencil } from "@ndla/icons/action";
 import { Link } from "@ndla/icons/common";
 import { DeleteForever } from "@ndla/icons/editor";
 import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
+import { IconButton } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { ImageEmbedData, ImageMetaData } from "@ndla/types-embed";
 import { ImageEmbed } from "@ndla/ui";
@@ -26,7 +26,7 @@ import { ImageElement } from "./types";
 import { useImageMeta } from "../../../../modules/embed/queries";
 import { OldSpinner } from "../../../OldSpinner";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
-import { StyledDeleteEmbedButton, StyledFigureButtons } from "../embed/FigureButtons";
+import { StyledFigureButtons } from "../embed/FigureButtons";
 
 interface Props extends RenderElementProps {
   element: ImageElement;
@@ -155,12 +155,18 @@ const SlateImage = ({ element, editor, attributes, children, allowDecorative = t
         <ImageEmbed embed={embedWithoutCaching}>
           <FigureButtons>
             <ModalTrigger>
-              <IconButtonV2 title={t("form.image.editImage")} aria-label={t("form.image.editImage")} colorTheme="light">
+              <IconButton
+                title={t("form.image.editImage")}
+                aria-label={t("form.image.editImage")}
+                variant="secondary"
+                size="small"
+              >
                 <Pencil />
-              </IconButtonV2>
+              </IconButton>
             </ModalTrigger>
             <SafeLinkIconButton
               variant="secondary"
+              size="small"
               to={`/media/image-upload/${embed.embedData.resourceId}/edit/${language}`}
               target="_blank"
               title={t("form.editOriginalImage")}
@@ -168,15 +174,16 @@ const SlateImage = ({ element, editor, attributes, children, allowDecorative = t
             >
               <Link />
             </SafeLinkIconButton>
-            <StyledDeleteEmbedButton
+            <IconButton
               title={t("form.image.removeImage")}
               aria-label={t("form.image.removeImage")}
-              colorTheme="danger"
+              variant="danger"
+              size="small"
               onClick={handleRemove}
               data-testid="remove-element"
             >
               <DeleteForever />
-            </StyledDeleteEmbedButton>
+            </IconButton>
           </FigureButtons>
         </ImageEmbed>
         {children}

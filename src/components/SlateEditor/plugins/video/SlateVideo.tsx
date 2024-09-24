@@ -11,11 +11,11 @@ import { useTranslation } from "react-i18next";
 import { Editor, Element, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
 import { colors } from "@ndla/core";
 import { Pencil } from "@ndla/icons/action";
 import { DeleteForever, Link } from "@ndla/icons/editor";
 import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
+import { IconButton } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { BrightcoveMetaData } from "@ndla/types-embed";
 import { BrightcoveEmbed } from "@ndla/ui";
@@ -25,7 +25,7 @@ import { useBrightcoveMeta } from "../../../../modules/embed/queries";
 import { inlineContentToHTML } from "../../../../util/articleContentConverter";
 import { addBrightCoveTimeStampVideoid } from "../../../../util/videoUtil";
 import Spinner from "../../../Spinner";
-import { StyledDeleteEmbedButton, StyledFigureButtons } from "../embed/FigureButtons";
+import { StyledFigureButtons } from "../embed/FigureButtons";
 
 export const VideoWrapper = styled.div`
   position: relative;
@@ -117,31 +117,34 @@ const SlateVideo = ({ attributes, element, editor, children }: Props) => {
           ) : (
             <StyledFigureButtons>
               <ModalTrigger>
-                <IconButtonV2
+                <IconButton
                   aria-label={t("form.video.editVideo")}
                   title={t("form.video.editVideo")}
-                  colorTheme="light"
+                  variant="secondary"
+                  size="small"
                 >
                   <Pencil />
-                </IconButtonV2>
+                </IconButton>
               </ModalTrigger>
               <SafeLinkIconButton
                 variant="secondary"
                 title={t("form.video.brightcove")}
                 aria-label={t("form.video.brightcove")}
                 to={`https://studio.brightcove.com/products/videocloud/media/videos/${embed.embedData.videoid}`}
+                size="small"
               >
                 <Link />
               </SafeLinkIconButton>
-              <StyledDeleteEmbedButton
+              <IconButton
                 aria-label={t("form.video.remove")}
                 title={t("form.video.remove")}
-                colorTheme="danger"
+                variant="danger"
                 onClick={removeVideo}
                 data-testid="remove-video-element"
+                size="small"
               >
                 <DeleteForever />
-              </StyledDeleteEmbedButton>
+              </IconButton>
             </StyledFigureButtons>
           )}
           <ModalContent>

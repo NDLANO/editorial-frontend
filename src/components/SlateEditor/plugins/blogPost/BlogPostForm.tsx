@@ -11,9 +11,9 @@ import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { FieldErrorMessage, InputV3, Label, RadioButtonGroup, RadioButtonItem } from "@ndla/forms";
+import { Button } from "@ndla/primitives";
 import { BlogPostEmbedData } from "@ndla/types-embed";
 import { Text } from "@ndla/typography";
 import InlineImageSearch from "../../../../containers/ConceptPage/components/InlineImageSearch";
@@ -200,12 +200,12 @@ const BlogPostForm = ({ initialData, onSave, onCancel }: Props) => {
             </FormField>
           )}
           <ButtonContainer>
-            <ButtonV2 variant="outline" onClick={onCancel}>
+            <Button variant="secondary" onClick={onCancel}>
               {t("cancel")}
-            </ButtonV2>
-            <ButtonV2 variant="solid" disabled={!dirty || !isValid} type="submit">
+            </Button>
+            <Button disabled={!dirty || !isValid} type="submit">
               {t("save")}
-            </ButtonV2>
+            </Button>
           </ButtonContainer>
         </Form>
       )}

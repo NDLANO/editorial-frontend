@@ -11,17 +11,17 @@ import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
 import { Pencil } from "@ndla/icons/action";
 import { DeleteForever } from "@ndla/icons/editor";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
+import { IconButton } from "@ndla/primitives";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import { ContactBlockEmbedData } from "@ndla/types-embed";
 import { ContactBlock, ContactBlockBackground } from "@ndla/ui";
 import { ContactBlockElement } from ".";
 import ContactBlockForm from "./ContactBlockForm";
 import { fetchImage } from "../../../../modules/image/imageApi";
-import { StyledDeleteEmbedButton, StyledFigureButtons } from "../embed/FigureButtons";
+import { StyledFigureButtons } from "../embed/FigureButtons";
 
 interface Props extends RenderElementProps {
   element: ContactBlockElement;
@@ -115,23 +115,25 @@ const SlateContactBlock = ({ element, editor, attributes, children }: Props) => 
           <div contentEditable={false}>
             <StyledFigureButtons>
               <ModalTrigger>
-                <IconButtonV2
-                  colorTheme="light"
+                <IconButton
+                  variant="secondary"
+                  size="small"
                   aria-label={t("contactBlockForm.edit")}
                   title={t("contactBlockForm.edit")}
                 >
                   <Pencil />
-                </IconButtonV2>
+                </IconButton>
               </ModalTrigger>
-              <StyledDeleteEmbedButton
+              <IconButton
                 aria-label={t("contactBlockForm.delete")}
                 title={t("contactBlockForm.delete")}
-                colorTheme="danger"
+                variant="danger"
+                size="small"
                 onClick={handleRemove}
                 data-testid="remove-contact-block"
               >
                 <DeleteForever />
-              </StyledDeleteEmbedButton>
+              </IconButton>
             </StyledFigureButtons>
             <ContactBlock
               image={image}

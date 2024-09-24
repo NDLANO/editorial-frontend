@@ -11,10 +11,10 @@ import { useTranslation } from "react-i18next";
 import { Editor, Element, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
 import { colors, spacing } from "@ndla/core";
 import { Pencil } from "@ndla/icons/action";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
+import { IconButton } from "@ndla/primitives";
 import { CopyrightEmbedData, CopyrightMetaData } from "@ndla/types-embed";
 import { CopyrightEmbed } from "@ndla/ui";
 import { EmbedCopyrightForm } from "./EmbedCopyrightForm";
@@ -136,14 +136,15 @@ const SlateCopyright = ({ attributes, children, element, editor }: Props) => {
         <DeleteButton aria-label={t("delete")} data-testid="delete-copyright" onClick={handleDelete} />
         <Modal open={modalOpen} onOpenChange={setModalOpen}>
           <ModalTrigger>
-            <IconButtonV2
-              variant="ghost"
+            <IconButton
+              variant="tertiary"
+              size="small"
               aria-label={t("form.copyright.edit")}
               data-testid="edit-copyright"
               title={t("form.copyright.edit")}
             >
               <Pencil />
-            </IconButtonV2>
+            </IconButton>
           </ModalTrigger>
           <ModalContent size="normal">
             <StyledModalHeader>

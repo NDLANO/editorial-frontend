@@ -11,11 +11,11 @@ import { useTranslation } from "react-i18next";
 import { Editor, Element, Transforms, Path } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
 import { spacing, colors } from "@ndla/core";
 import { Link as LinkIcon } from "@ndla/icons/common";
 import { Check, AlertCircle, DeleteForever } from "@ndla/icons/editor";
 import { Modal, ModalContent } from "@ndla/modal";
+import { IconButton } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { IConcept, IConceptSummary } from "@ndla/types-backend/concept-api";
 import { ConceptEmbedData, ConceptMetaData } from "@ndla/types-embed";
@@ -206,20 +206,21 @@ const ConceptButtonContainer = ({ concept, handleRemove, language, editor, eleme
 
   return (
     <ButtonContainer>
-      <IconButtonV2
+      <IconButton
         title={t(`form.${concept?.conceptType}.remove`)}
         aria-label={t(`form.${concept?.conceptType}.remove`)}
-        variant="ghost"
-        colorTheme="danger"
+        variant="danger"
+        size="small"
         onClick={handleRemove}
       >
         <DeleteForever />
-      </IconButtonV2>
+      </IconButton>
       <EditGlossExamplesModal concept={concept} editor={editor} element={element} embed={embed} />
       <SafeLinkIconButton
         arial-label={t(`form.${concept?.conceptType}.edit`)}
         title={t(`form.${concept?.conceptType}.edit`)}
         variant="tertiary"
+        size="small"
         to={`/${concept.conceptType}/${concept.id}/edit/${language}`}
         target="_blank"
       >

@@ -10,9 +10,9 @@ import { ChangeEvent, createRef, useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Editor from "react-simple-code-editor";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { InputV3, Label, Select } from "@ndla/forms";
+import { Button } from "@ndla/primitives";
 import { languageOptions, ICodeLangugeOption } from "./codeBlockOptions";
 import { editorStyle } from "./editorStyle";
 import { FormControl } from "../../../FormField";
@@ -126,10 +126,10 @@ const CodeBlockEditor = ({ onSave, onAbort, highlight, content = null }: Props) 
           </FormControl>
         </InputWrapper>
         <ButtonWrapper>
-          <ButtonV2 onClick={save}>{t("codeEditor.save")}</ButtonV2>
-          <ButtonV2 variant="outline" onClick={abort}>
+          <Button onClick={save}>{t("codeEditor.save")}</Button>
+          <Button variant="secondary" onClick={abort}>
             {t("codeEditor.abort")}
-          </ButtonV2>
+          </Button>
         </ButtonWrapper>
       </HeaderWrapper>
       <Editor

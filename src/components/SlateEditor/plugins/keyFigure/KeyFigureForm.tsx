@@ -11,9 +11,9 @@ import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { CheckboxItem, FieldErrorMessage, InputV3, Label } from "@ndla/forms";
+import { Button } from "@ndla/primitives";
 import { KeyFigureEmbedData } from "@ndla/types-embed";
 import { Text } from "@ndla/typography";
 import { TYPE_KEY_FIGURE } from "./types";
@@ -175,16 +175,12 @@ const KeyFigureForm = ({ onSave, initialData, onCancel }: Props) => {
             </FormField>
           )}
           <ButtonContainer>
-            <ButtonV2 variant="outline" onClick={onCancel}>
+            <Button variant="secondary" onClick={onCancel}>
               {t("cancel")}
-            </ButtonV2>
-            <ButtonV2
-              variant="solid"
-              disabled={!isFormikFormDirty({ values, initialValues, dirty }) || !isValid}
-              type="submit"
-            >
+            </Button>
+            <Button disabled={!isFormikFormDirty({ values, initialValues, dirty }) || !isValid} type="submit">
               {t("save")}
-            </ButtonV2>
+            </Button>
           </ButtonContainer>
         </StyledForm>
       )}

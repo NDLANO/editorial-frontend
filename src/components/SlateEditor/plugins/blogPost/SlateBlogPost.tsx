@@ -11,16 +11,16 @@ import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
 import { Cross, Pencil } from "@ndla/icons/action";
 import { DeleteForever } from "@ndla/icons/editor";
 import { ModalBody, ModalHeader, ModalTitle, Modal, ModalTrigger, ModalContent } from "@ndla/modal";
+import { IconButton } from "@ndla/primitives";
 import { BlogPostEmbedData } from "@ndla/types-embed";
 import { BlogPostV2 } from "@ndla/ui";
 import BlogPostForm from "./BlogPostForm";
 import { BlogPostElement } from "./types";
 import config from "../../../../config";
-import { StyledDeleteEmbedButton, StyledFigureButtons } from "../embed/FigureButtons";
+import { StyledFigureButtons } from "../embed/FigureButtons";
 
 interface Props extends RenderElementProps {
   element: BlogPostElement;
@@ -109,24 +109,26 @@ const SlateBlogPost = ({ element, editor, attributes, children }: Props) => {
           <div contentEditable={false}>
             <StyledFigureButtons>
               <ModalTrigger>
-                <IconButtonV2
-                  colorTheme="light"
+                <IconButton
+                  variant="secondary"
+                  size="small"
                   onClick={() => setIsEditing(true)}
                   aria-label={t("blogPostForm.title")}
                   title={t("blogPostForm.title")}
                 >
                   <Pencil />
-                </IconButtonV2>
+                </IconButton>
               </ModalTrigger>
-              <StyledDeleteEmbedButton
+              <IconButton
                 aria-label={t("delete")}
-                colorTheme="danger"
+                variant="danger"
+                size="small"
                 title={t("delete")}
                 data-testid="remove-blogpost"
                 onClick={handleRemove}
               >
                 <DeleteForever />
-              </StyledDeleteEmbedButton>
+              </IconButton>
             </StyledFigureButtons>
             <BlogPostV2
               title={data.title}
@@ -145,9 +147,9 @@ const SlateBlogPost = ({ element, editor, attributes, children }: Props) => {
       <ModalContent>
         <StyledModalHeader>
           <ModalTitle>{t("blogPostForm.title")}</ModalTitle>
-          <IconButtonV2 variant="ghost" aria-label={t("close")} title={t("close")} onClick={onClose}>
+          <IconButton variant="tertiary" aria-label={t("close")} title={t("close")} onClick={onClose}>
             <Cross />
-          </IconButtonV2>
+          </IconButton>
         </StyledModalHeader>
         <StyledModalBody>
           <BlogPostForm onSave={onSave} initialData={data} onCancel={onClose} />

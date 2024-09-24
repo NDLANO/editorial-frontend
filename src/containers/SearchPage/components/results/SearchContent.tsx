@@ -13,7 +13,7 @@ import { fonts } from "@ndla/core";
 import { Concept, Globe } from "@ndla/icons/editor";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
 import { Node } from "@ndla/types-taxonomy";
-import { ContentTypeBadge, constants } from "@ndla/ui";
+import { ContentTypeBadgeNew, constants } from "@ndla/ui";
 import SearchContentLanguage from "./SearchContentLanguage";
 import SearchHighlight from "./SearchHighlight";
 import { EditMarkupLink } from "../../../../components/EditMarkupLink";
@@ -135,7 +135,7 @@ const SearchContent = ({ content, locale, subjects, responsibleName }: Props) =>
     <>
       {contentType && (
         <ContentTypeWrapper>
-          <ContentTypeBadge background type={contentType} />
+          <ContentTypeBadgeNew contentType={contentType} />
         </ContentTypeWrapper>
       )}{" "}
     </>

@@ -8,9 +8,9 @@
 
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { spacing, colors } from "@ndla/core";
 import { Concept, Check, Globe } from "@ndla/icons/editor";
+import { Button } from "@ndla/primitives";
 import { IConceptSummary } from "@ndla/types-backend/concept-api";
 import { SearchParams } from "../../../../containers/SearchPage/components/form/SearchForm";
 import Spinner from "../../../Spinner";
@@ -49,7 +49,7 @@ const StyledConceptContent = styled.p`
   margin: 0;
 `;
 
-const StyledButton = styled(ButtonV2)`
+const StyledButton = styled(Button)`
   grid-row-start: 1 / 3;
   grid-column: 3 / 3;
   align-self: center;

@@ -11,11 +11,10 @@ import { useTranslation } from "react-i18next";
 import { Editor, Transforms } from "slate";
 import { ReactEditor } from "slate-react";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { fonts, spacing } from "@ndla/core";
 import { CheckboxItem, Label } from "@ndla/forms";
 import { Cross } from "@ndla/icons/action";
-import { DialogBody, DialogCloseTrigger, DialogHeader, DialogTitle, IconButton } from "@ndla/primitives";
+import { Button, DialogBody, DialogCloseTrigger, DialogHeader, DialogTitle, IconButton } from "@ndla/primitives";
 import { IGlossExample } from "@ndla/types-backend/concept-api";
 import { ConceptMetaData } from "@ndla/types-embed";
 import { Text } from "@ndla/typography";
@@ -175,10 +174,10 @@ const EditGlossExamplesModalContent = ({ originalLanguage, examples, editor, ele
             </CheckboxGroupWrapper>
           </div>
           <ButtonWrapper>
-            <ButtonV2 onClick={close} variant="outline">
+            <Button onClick={close} variant="secondary">
               {t("form.abort")}
-            </ButtonV2>
-            <ButtonV2 onClick={saveGlossUpdates}>{t("form.save")}</ButtonV2>
+            </Button>
+            <Button onClick={saveGlossUpdates}>{t("form.save")}</Button>
           </ButtonWrapper>
         </StyledForm>
       </DialogBody>

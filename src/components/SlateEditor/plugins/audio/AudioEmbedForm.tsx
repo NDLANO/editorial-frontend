@@ -10,10 +10,10 @@ import { Form, Formik, useFormikContext } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { FieldErrorMessage, Label, Select } from "@ndla/forms";
 import { ModalBody, ModalHeader, ModalTitle } from "@ndla/modal";
+import { Button } from "@ndla/primitives";
 import { IAudioMetaInformation } from "@ndla/types-backend/audio-api";
 import { AudioEmbedData } from "@ndla/types-embed";
 import { AudioPlayer } from "@ndla/ui";
@@ -117,10 +117,10 @@ const EmbedForm = ({ onCancel, audio }: EmbedFormProps) => {
         <AudioPlayer src={audio.audioFile.url} title={audio.title.title} speech={values.type === "minimal"} />
       </div>
       <ButtonWrapper>
-        <ButtonV2 onClick={onCancel}>{t("form.abort")}</ButtonV2>
-        <ButtonV2 disabled={!isValid || !dirty} type="submit">
+        <Button onClick={onCancel}>{t("form.abort")}</Button>
+        <Button disabled={!isValid || !dirty} type="submit">
           {t("form.save")}
-        </ButtonV2>
+        </Button>
       </ButtonWrapper>
     </StyledForm>
   );

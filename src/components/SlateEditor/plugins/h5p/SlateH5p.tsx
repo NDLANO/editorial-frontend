@@ -13,6 +13,7 @@ import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import styled from "@emotion/styled";
 import { spacing, colors, stackOrder } from "@ndla/core";
 import { DeleteForever } from "@ndla/icons/editor";
+import { IconButton } from "@ndla/primitives";
 import { H5pMetaData } from "@ndla/types-embed";
 import { H5pEmbed } from "@ndla/ui";
 import EditH5PModal from "./EditH5PModal";
@@ -22,7 +23,7 @@ import config from "../../../../config";
 import { useH5pMeta } from "../../../../modules/embed/queries";
 import { OldSpinner } from "../../../OldSpinner";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
-import { StyledDeleteEmbedButton, StyledFigureButtons } from "../embed/FigureButtons";
+import { StyledFigureButtons } from "../embed/FigureButtons";
 
 interface Props extends RenderElementProps {
   element: H5pElement;
@@ -84,15 +85,16 @@ const SlateH5p = ({ element, editor, attributes, children }: Props) => {
         <FigureButtons>
           {config.h5pMetaEnabled === true && <EditMetadataModal embed={embed} editor={editor} element={element} />}
           <EditH5PModal embed={embed} language={language} editor={editor} element={element} />
-          <StyledDeleteEmbedButton
+          <IconButton
             title={t("form.h5p.remove")}
             aria-label={t("form.h5p.remove")}
-            colorTheme="danger"
+            variant="danger"
+            size="small"
             onClick={handleRemove}
             data-testid="remove-h5p-element"
           >
             <DeleteForever />
-          </StyledDeleteEmbedButton>
+          </IconButton>
         </FigureButtons>
         {h5pMetaQuery.isLoading || !embed ? <OldSpinner /> : <H5pEmbed embed={embed} />}
       </div>

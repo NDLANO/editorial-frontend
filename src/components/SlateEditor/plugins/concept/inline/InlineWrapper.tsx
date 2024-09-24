@@ -209,6 +209,7 @@ const InlineWrapper = (props: Props) => {
                 )}
                 <IconButton
                   variant="danger"
+                  size="small"
                   onClick={handleRemove}
                   aria-label={t(`form.${concept?.conceptType}.remove`)}
                   title={t(`form.${concept?.conceptType}.remove`)}
@@ -222,6 +223,7 @@ const InlineWrapper = (props: Props) => {
                   to={`/${concept?.conceptType}/${concept?.id}/edit/${concept?.content?.language}`}
                   target="_blank"
                   variant="tertiary"
+                  size="small"
                   title={t(`form.${concept?.conceptType}.edit`)}
                   aria-label={t(`form.${concept?.conceptType}.edit`)}
                 >

@@ -16,6 +16,7 @@ import { Link } from "@ndla/icons/editor";
 import { frontpagePlugins } from "./frontpagePlugins";
 import { frontpageRenderers } from "./frontpageRenderers";
 import AlertModal from "../../../../components/AlertModal";
+import { ContentTypeProvider } from "../../../../components/ContentTypeProvider";
 import { EditMarkupLink } from "../../../../components/EditMarkupLink";
 import FieldHeader from "../../../../components/Field/FieldHeader";
 import { FormField } from "../../../../components/FormField";
@@ -182,7 +183,7 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
       />
       <StyledContentDiv name="content" label={t("form.content.label")} noBorder>
         {({ field: { value, name, onChange }, form: { isSubmitting } }) => (
-          <>
+          <ContentTypeProvider value="subject-material">
             <FieldHeader title={t("form.content.label")}>
               {id && userPermissions?.includes(DRAFT_HTML_SCOPE) && (
                 <EditMarkupLink to={toEditMarkup(id, language ?? "")} title={t("editMarkup.linkTitle")} />
@@ -210,7 +211,7 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
                 });
               }}
             />
-          </>
+          </ContentTypeProvider>
         )}
       </StyledContentDiv>
     </StyledContentWrapper>

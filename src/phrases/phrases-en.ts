@@ -2126,6 +2126,18 @@ const phrases = {
     titleLabel: "Title",
     programmingLanguage: "Programming language",
   },
+  framedContentForm: {
+    changeVariant: {
+      colored: "Use colored variant",
+      neutral: "Use neutral variant",
+    },
+  },
+  blockquoteForm: {
+    changeVariant: {
+      colored: "Use colored variant",
+      neutral: "Use neutral variant",
+    },
+  },
 };
 
 export default phrases;

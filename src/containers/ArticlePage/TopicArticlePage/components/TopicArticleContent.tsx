@@ -11,6 +11,7 @@ import LastUpdatedLine from "./../../../../components/LastUpdatedLine/LastUpdate
 
 import { topicArticlePlugins } from "./topicArticlePlugins";
 import { topicArticleRenderers } from "./topicArticleRenderers";
+import { ContentTypeProvider } from "../../../../components/ContentTypeProvider";
 import { EditMarkupLink } from "../../../../components/EditMarkupLink";
 import FieldHeader from "../../../../components/Field/FieldHeader";
 import { FormField } from "../../../../components/FormField";
@@ -44,7 +45,7 @@ const TopicArticleContent = (props: Props) => {
   const { userPermissions } = useSession();
 
   return (
-    <>
+    <ContentTypeProvider value="topic">
       <TitleField />
       <FormField name="published">
         {({ field, helpers }) => (
@@ -82,7 +83,7 @@ const TopicArticleContent = (props: Props) => {
           </>
         )}
       </FormikField>
-    </>
+    </ContentTypeProvider>
   );
 };
 

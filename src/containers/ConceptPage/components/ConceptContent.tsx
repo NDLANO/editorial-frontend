@@ -9,6 +9,7 @@
 import { useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
 
+import { ContentTypeProvider } from "../../../components/ContentTypeProvider";
 import LastUpdatedLine from "../../../components/LastUpdatedLine/LastUpdatedLine";
 import { IngressField, TitleField } from "../../FormikForm";
 import VisualElementField from "../../FormikForm/components/VisualElementField";
@@ -23,12 +24,12 @@ const ConceptContent = () => {
   } = formikContext;
 
   return (
-    <>
+    <ContentTypeProvider value="concept">
       <TitleField hideToolbar />
       <LastUpdatedLine onChange={() => {}} creators={creators} published={updated} contentType="concept" />
       <VisualElementField types={["image"]} />
       <IngressField name="conceptContent" maxLength={800} placeholder={t("form.name.conceptContent")} />
-    </>
+    </ContentTypeProvider>
   );
 };
 

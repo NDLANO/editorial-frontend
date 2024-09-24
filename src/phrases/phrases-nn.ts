@@ -2125,6 +2125,18 @@ const phrases = {
     titleLabel: "Tittel",
     programmingLanguage: "Kodespråk",
   },
+  framedContentForm: {
+    changeVariant: {
+      colored: "Bruk farga variant",
+      neutral: "Bruk nøytral variant",
+    },
+  },
+  blockquoteForm: {
+    changeVariant: {
+      colored: "Bruk farga variant",
+      neutral: "Bruk nøytral variant",
+    },
+  },
 };
 
 export default phrases;

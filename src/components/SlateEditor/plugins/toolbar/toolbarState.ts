@@ -160,8 +160,7 @@ export const defaultAreaOptions: AreaFilters = {
   },
   "comment-inline": { inline: { disabled: true, "comment-inline": { disabled: false } } },
   list: { inline: { disabled: true } },
-  "definition-term": { block: { quote: { disabled: true } }, inline: { disabled: true } },
-  "definition-description": { block: { quote: { disabled: true } }, inline: { disabled: true } },
+  "definition-list": { block: { quote: { disabled: true } }, inline: { disabled: true } },
   quote: { inline: { disabled: true } },
 };
 
@@ -220,15 +219,8 @@ interface ToolbarStateProps {
 export const getSelectionElements = (editor: Editor, selection: BaseSelection): Element[] => {
   // Get elements in the selection only
   if (selection) {
-    const fragments = Editor.fragment(editor, selection);
-    const elementFragments = fragments.filter(Element.isElement);
-
-    if (elementFragments.length === 1) {
-      const [[node]] = Editor.nodes(editor, { at: selection.focus, mode: "lowest", match: Element.isElement });
-      return [node];
-    }
-
-    return elementFragments;
+    const nodes = Node.fragment(editor, selection) as Element[];
+    return nodes.flatMap((node) => node?.children).filter(Element.isElement);
   }
   return [];
 };

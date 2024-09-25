@@ -8,7 +8,6 @@
 
 import styled from "@emotion/styled";
 import { Comment } from "@ndla/icons/common";
-import { Tooltip } from "@ndla/tooltip";
 import { stripInlineContentHtmlTags } from "../../../../util/formHelper";
 
 const StyledIconWrapper = styled.div`
@@ -29,11 +28,9 @@ const CommentIndicator = ({ comment }: Props) => {
   const strippedComment = stripInlineContentHtmlTags(comment);
 
   return (
-    <Tooltip tooltip={strippedComment} delayDuration={0}>
-      <StyledIconWrapper>
-        <StyledCommentIcon aria-label={strippedComment} />
-      </StyledIconWrapper>
-    </Tooltip>
+    <StyledIconWrapper title={strippedComment}>
+      <StyledCommentIcon aria-label={strippedComment} />
+    </StyledIconWrapper>
   );
 };
 export default CommentIndicator;

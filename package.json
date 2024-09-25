@@ -6,7 +6,7 @@
   "scripts": {
     "build:client": "vite build --outDir build/public",
     "build:server": "node scripts/build-server.mjs",
-    "build": "yarn clean && yarn tsc && cross-env NODE_ENV=production NODE_OPTIONS='--max-old-space-size=2048 --preserve-symlinks' yarn build:client && yarn build:server",
+    "build": "yarn clean && yarn tsc && cross-env NODE_ENV=production NODE_OPTIONS='--max-old-space-size=3072 --preserve-symlinks' yarn build:client && yarn build:server",
     "clean": "rimraf ./build ./node_modules/.cache",
     "check-all": "yarn lint && yarn tsc --noEmit && yarn test",
     "lint": "yarn format-check && yarn lint-es",
@@ -14,7 +14,7 @@
     "format-check": "prettier '{src,scripts}/**/*(*.js|*.jsx|*.ts|*.tsx)' --check",
     "format": "prettier '{src,scripts}/**/*(*.js|*.jsx|*.ts|*.tsx)' --write",
     "start:tsc": "tsc -b -w --preserveWatchOutput",
-    "start": "cross-env NODE_ENV=development NODE_OPTIONS='--max-old-space-size=2048 --preserve-symlinks' concurrently \"yarn start:tsc\" \"tsx src/index.ts\"",
+    "start": "cross-env NODE_ENV=development NODE_OPTIONS='--max-old-space-size=3072 --preserve-symlinks' concurrently \"yarn start:tsc\" \"tsx src/index.ts\"",
     "start-with-local-converter": "LOCAL_CONVERTER=true NODE_OPTIONS='--preserve-symlinks' yarn start",
     "start-prod": "cross-env NODE_ENV=production node build/server.mjs",
     "now-start": "cross-env NODE_ENV=production NOW=true node build/server.mjs",

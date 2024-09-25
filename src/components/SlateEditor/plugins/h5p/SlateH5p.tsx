@@ -15,7 +15,7 @@ import { spacing, colors, stackOrder } from "@ndla/core";
 import { DeleteForever } from "@ndla/icons/editor";
 import { IconButton } from "@ndla/primitives";
 import { H5pMetaData } from "@ndla/types-embed";
-import { H5pEmbed } from "@ndla/ui";
+import { EmbedWrapper, H5pEmbed } from "@ndla/ui";
 import EditH5PModal from "./EditH5PModal";
 import EditMetadataModal from "./EditMetadataModal";
 import { H5pElement } from "./types";
@@ -30,14 +30,7 @@ interface Props extends RenderElementProps {
   editor: Editor;
 }
 
-const H5pWrapper = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  > div {
-    width: 100%;
-  }
+const StyledEmbedWrapper = styled(EmbedWrapper)`
   &[data-selected="true"] {
     figure {
       outline: 2px solid ${colors.brand.primary};
@@ -80,26 +73,24 @@ const SlateH5p = ({ element, editor, attributes, children }: Props) => {
   };
 
   return (
-    <H5pWrapper {...attributes} data-selected={isSelected}>
-      <div contentEditable={false}>
-        <FigureButtons>
-          {config.h5pMetaEnabled === true && <EditMetadataModal embed={embed} editor={editor} element={element} />}
-          <EditH5PModal embed={embed} language={language} editor={editor} element={element} />
-          <IconButton
-            title={t("form.h5p.remove")}
-            aria-label={t("form.h5p.remove")}
-            variant="danger"
-            size="small"
-            onClick={handleRemove}
-            data-testid="remove-h5p-element"
-          >
-            <DeleteForever />
-          </IconButton>
-        </FigureButtons>
-        {h5pMetaQuery.isLoading || !embed ? <OldSpinner /> : <H5pEmbed embed={embed} />}
-      </div>
+    <StyledEmbedWrapper {...attributes} data-selected={isSelected} contentEditable={false}>
+      <FigureButtons>
+        {config.h5pMetaEnabled === true && <EditMetadataModal embed={embed} editor={editor} element={element} />}
+        <EditH5PModal embed={embed} language={language} editor={editor} element={element} />
+        <IconButton
+          title={t("form.h5p.remove")}
+          aria-label={t("form.h5p.remove")}
+          variant="danger"
+          size="small"
+          onClick={handleRemove}
+          data-testid="remove-h5p-element"
+        >
+          <DeleteForever />
+        </IconButton>
+      </FigureButtons>
+      {h5pMetaQuery.isLoading || !embed ? <OldSpinner /> : <H5pEmbed embed={embed} />}
       {children}
-    </H5pWrapper>
+    </StyledEmbedWrapper>
   );
 };
 

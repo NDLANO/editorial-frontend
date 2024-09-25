@@ -17,7 +17,7 @@ import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTit
 import { IconButton } from "@ndla/primitives";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import { CampaignBlockEmbedData } from "@ndla/types-embed";
-import { CampaignBlock } from "@ndla/ui";
+import { CampaignBlock, EmbedWrapper } from "@ndla/ui";
 import { CampaignBlockElement } from ".";
 import CampaignBlockForm from "./CampaignBlockForm";
 import { fetchImage } from "../../../../modules/image/imageApi";
@@ -27,19 +27,6 @@ interface Props extends RenderElementProps {
   element: CampaignBlockElement;
   editor: Editor;
 }
-const CampaignBlockWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  > div {
-    width: 100%;
-
-    &:first-child {
-      position: relative;
-    }
-  }
-`;
 
 const StyledModalHeader = styled(ModalHeader)`
   padding-bottom: 0px;
@@ -113,9 +100,9 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
 
   return (
     <Modal open={isEditing} onOpenChange={setIsEditing}>
-      <CampaignBlockWrapper {...attributes} data-testid="slate-campaign-block">
+      <EmbedWrapper {...attributes} data-testid="slate-campaign-block" contentEditable={false}>
         {campaignBlock && (
-          <div contentEditable={false}>
+          <>
             <StyledFigureButtons data-white={true}>
               <ModalTrigger>
                 <IconButton
@@ -152,7 +139,7 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
               }
               imageSide={campaignBlock.imageSide}
             />
-          </div>
+          </>
         )}
         {children}
         <ModalContent size={{ width: "large", height: "full" }}>
@@ -164,7 +151,7 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
             <CampaignBlockForm initialData={campaignBlock} onSave={onSave} onCancel={onClose} />
           </StyledModalBody>
         </ModalContent>
-      </CampaignBlockWrapper>
+      </EmbedWrapper>
     </Modal>
   );
 };

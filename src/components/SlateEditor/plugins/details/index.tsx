@@ -6,7 +6,7 @@
  *
  */
 
-import { Element, Descendant, Editor, Text, Transforms, Node, Range, Location, Path } from "slate";
+import { Element, Descendant, Editor, Transforms, Node, Range, Location, Path } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { RenderLeafProps, ReactEditor } from "slate-react";
 import { TYPE_DETAILS, TYPE_SUMMARY } from "./types";

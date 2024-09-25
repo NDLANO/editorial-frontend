@@ -15,7 +15,7 @@ import { spacing } from "@ndla/core";
 import { Pencil } from "@ndla/icons/action";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
 import { IconButton } from "@ndla/primitives";
-import { Grid, GridType } from "@ndla/ui";
+import { EmbedWrapper, Grid, GridType } from "@ndla/ui";
 import { GridElement } from ".";
 import { GridProvider } from "./GridContext";
 import GridForm from "./GridForm";
@@ -32,16 +32,6 @@ const StyledModalHeader = styled(ModalHeader)`
 
 const StyledModalBody = styled(ModalBody)`
   padding-top: 0px;
-`;
-
-const GridWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  position: relative;
-`;
-
-const StyledGrid = styled(Grid)`
-  width: 100%;
 `;
 
 const ButtonContainer = styled.div`
@@ -88,7 +78,7 @@ export const SlateGrid = ({ element, editor, children }: Props) => {
   );
 
   return (
-    <GridWrapper>
+    <EmbedWrapper>
       <ButtonContainer>
         <DeleteButton aria-label={t("delete")} data-testid="remove-grid" onClick={handleRemove} />
         <Modal open={isEditing} onOpenChange={setIsEditing}>
@@ -109,10 +99,10 @@ export const SlateGrid = ({ element, editor, children }: Props) => {
         </Modal>
       </ButtonContainer>
       <GridProvider value={true}>
-        <StyledGrid border="none" columns={element.data.columns} background={element.data.background}>
+        <Grid border="none" columns={element.data.columns} background={element.data.background}>
           {children}
-        </StyledGrid>
+        </Grid>
       </GridProvider>
-    </GridWrapper>
+    </EmbedWrapper>
   );
 };

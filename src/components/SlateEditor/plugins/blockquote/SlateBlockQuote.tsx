@@ -12,7 +12,7 @@ import { ReactEditor, RenderElementProps } from "slate-react";
 import { BrushLine } from "@ndla/icons/editor";
 import { IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ContentTypeBlockQuote } from "@ndla/ui";
+import { ContentTypeBlockQuote, EmbedWrapper } from "@ndla/ui";
 import { BlockQuoteElement } from ".";
 import { useArticleContentType } from "../../../ContentTypeProvider";
 
@@ -20,12 +20,6 @@ interface Props extends RenderElementProps {
   editor: Editor;
   element: BlockQuoteElement;
 }
-
-const StyledBlockQuote = styled(ContentTypeBlockQuote, {
-  base: {
-    position: "relative",
-  },
-});
 
 const StyledIconButton = styled(IconButton, {
   base: {
@@ -46,17 +40,19 @@ export const SlateBlockQuote = ({ element, editor, attributes, children }: Props
   };
 
   return (
-    <StyledBlockQuote {...attributes} draggable variant={element.data?.variant} contentType={contentType}>
-      <StyledIconButton
-        size="small"
-        onClick={changeVariant}
-        variant={variant === "colored" ? "primary" : "secondary"}
-        title={t(`blockquoteForm.changeVariant.${variant === "neutral" ? "colored" : "neutral"}`)}
-        aria-label={t(`blockquoteForm.changeVariant.${variant === "neutral" ? "colored" : "neutral"}`)}
-      >
-        <BrushLine />
-      </StyledIconButton>
-      {children}
-    </StyledBlockQuote>
+    <EmbedWrapper {...attributes} draggable>
+      <ContentTypeBlockQuote variant={element.data?.variant} contentType={contentType}>
+        <StyledIconButton
+          size="small"
+          onClick={changeVariant}
+          variant={variant === "colored" ? "primary" : "secondary"}
+          title={t(`blockquoteForm.changeVariant.${variant === "neutral" ? "colored" : "neutral"}`)}
+          aria-label={t(`blockquoteForm.changeVariant.${variant === "neutral" ? "colored" : "neutral"}`)}
+        >
+          <BrushLine />
+        </StyledIconButton>
+        {children}
+      </ContentTypeBlockQuote>
+    </EmbedWrapper>
   );
 };

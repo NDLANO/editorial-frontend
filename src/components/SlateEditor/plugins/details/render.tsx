@@ -7,18 +7,25 @@
  */
 
 import { Editor } from "slate";
+import { ExpandableBoxSummary } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import Details from "./Details";
-import Summary from "./Summary";
 import { TYPE_DETAILS, TYPE_SUMMARY } from "./types";
+
+const StyledExpandableBoxSummary = styled(ExpandableBoxSummary, {
+  base: {
+    cursor: "default",
+  },
+});
 
 export const detailsRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
     if (element.type === TYPE_SUMMARY) {
       return (
-        <Summary attributes={attributes} element={element}>
+        <StyledExpandableBoxSummary {...attributes} onClick={(e) => e.preventDefault()}>
           {children}
-        </Summary>
+        </StyledExpandableBoxSummary>
       );
     } else if (element.type === TYPE_DETAILS) {
       return (

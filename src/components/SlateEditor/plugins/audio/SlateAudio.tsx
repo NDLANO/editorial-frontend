@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import styled from "@emotion/styled";
-import { spacing, colors, stackOrder } from "@ndla/core";
+import { colors } from "@ndla/core";
 import { Pencil } from "@ndla/icons/action";
 import { Link } from "@ndla/icons/common";
 import { DeleteForever } from "@ndla/icons/editor";
@@ -19,7 +19,7 @@ import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
 import { IconButton } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { AudioEmbedData, AudioMetaData } from "@ndla/types-embed";
-import { AudioEmbed } from "@ndla/ui";
+import { AudioEmbed, EmbedWrapper } from "@ndla/ui";
 import AudioEmbedForm from "./AudioEmbedForm";
 import { AudioElement } from "./types";
 import { useAudioMeta } from "../../../../modules/embed/queries";
@@ -32,16 +32,8 @@ interface Props extends RenderElementProps {
   editor: Editor;
 }
 
-const AudioWrapper = styled.div`
+const StyledEmbedWrapper = styled(EmbedWrapper)`
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  &[data-type="minimal"] {
-    justify-content: flex-end;
-    flex-direction: row-reverse;
-    gap: ${spacing.xsmall};
-  }
   &[data-selected="true"] {
     figure {
       outline: 2px solid ${colors.brand.primary};
@@ -117,7 +109,7 @@ const SlateAudio = ({ element, editor, attributes, children }: Props) => {
 
   return (
     <Modal open={isEditing} onOpenChange={setIsEditing}>
-      <AudioWrapper
+      <StyledEmbedWrapper
         {...attributes}
         contentEditable={false}
         data-selected={isSelected}
@@ -127,7 +119,7 @@ const SlateAudio = ({ element, editor, attributes, children }: Props) => {
           <OldSpinner />
         ) : embed ? (
           <>
-            <StyledFigureButtons data-type={embed.embedData.type}>
+            <StyledFigureButtons>
               {embed.embedData.type !== "podcast" && (
                 <ModalTrigger>
                   <IconButton
@@ -170,7 +162,7 @@ const SlateAudio = ({ element, editor, attributes, children }: Props) => {
             <AudioEmbed embed={embed} />
           </>
         ) : null}
-      </AudioWrapper>
+      </StyledEmbedWrapper>
       <ModalContent>
         {!!element.data && !!audioMetaQuery.data && (
           <AudioEmbedForm audio={audioMetaQuery.data} onSave={onSave} onCancel={onClose} embed={element.data} />

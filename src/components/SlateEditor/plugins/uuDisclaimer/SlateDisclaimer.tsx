@@ -17,7 +17,7 @@ import { Modal, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTr
 import { IconButton } from "@ndla/primitives";
 import { IArticleV2 } from "@ndla/types-backend/article-api";
 import { UuDisclaimerEmbedData, UuDisclaimerMetaData } from "@ndla/types-embed";
-import { UuDisclaimerEmbed } from "@ndla/ui";
+import { EmbedWrapper, UuDisclaimerEmbed } from "@ndla/ui";
 import DisclaimerForm from "./DisclaimerForm";
 import { DisclaimerElement, TYPE_DISCLAIMER } from "./types";
 import { toEditPage } from "./utils";
@@ -32,10 +32,12 @@ interface Props {
   element: DisclaimerElement;
 }
 
-const DisclaimerBlockContent = styled.div`
-  border: 1px solid ${colors.brand.primary};
-  margin-top: ${spacing.xsmall};
-  padding: ${spacing.xsmall};
+const StyledEmbedWrapper = styled(EmbedWrapper)`
+  [data-uu-content] {
+    border: 1px solid ${colors.brand.primary};
+    margin-top: ${spacing.xsmall};
+    padding: ${spacing.xsmall};
+  }
 `;
 
 const ButtonContainer = styled.div`
@@ -130,8 +132,8 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
   );
 
   return (
-    <div data-testid="slate-disclaimer-block" {...attributes} contentEditable="true">
-      <ButtonContainer>
+    <StyledEmbedWrapper data-testid="slate-disclaimer-block" {...attributes}>
+      <ButtonContainer contentEditable={false}>
         <DeleteButton aria-label={t("delete")} data-testid="delete-disclaimer" onClick={handleDelete} />
         <Modal open={modalOpen} onOpenChange={setModalOpen}>
           <ModalTrigger>
@@ -159,10 +161,8 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
           onMouseDown={handleRemoveDisclaimer}
         />
       </ButtonContainer>
-      <UuDisclaimerEmbed embed={embed}>
-        <DisclaimerBlockContent data-testid="slate-disclaimer-content">{children}</DisclaimerBlockContent>
-      </UuDisclaimerEmbed>
-    </div>
+      <UuDisclaimerEmbed embed={embed}>{children}</UuDisclaimerEmbed>
+    </StyledEmbedWrapper>
   );
 };
 

@@ -28,6 +28,9 @@ const StyledButton = styled(IconButton)`
   right: ${spacing.xxsmall};
 `;
 
+// TODO: Having the sticky button messes with the actual styling of the cell (I think)
+// TODO: We seem to render empty paragraphs in the grid cells, which messes with margin.
+
 const GridCell = ({ element, editor, attributes, children }: Props) => {
   const { t } = useTranslation();
   const onClickSticky = useCallback(() => {

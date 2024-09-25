@@ -17,7 +17,7 @@ import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTit
 import { IconButton } from "@ndla/primitives";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import { KeyFigureEmbedData } from "@ndla/types-embed";
-import { KeyFigure } from "@ndla/ui";
+import { EmbedWrapper, KeyFigure } from "@ndla/ui";
 import { KeyFigureElement } from ".";
 import KeyFigureForm from "./KeyFigureForm";
 import { fetchImage } from "../../../../modules/image/imageApi";
@@ -27,18 +27,6 @@ interface Props extends RenderElementProps {
   element: KeyFigureElement;
   editor: Editor;
 }
-
-const KeyFigureWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex: 1;
-
-  > div:first-child {
-    position: relative;
-    width: 100%;
-  }
-`;
 
 const StyledModalHeader = styled(ModalHeader)`
   padding-bottom: 0px;
@@ -111,9 +99,9 @@ const SlateKeyFigure = ({ element, editor, attributes, children }: Props) => {
 
   return (
     <Modal open={isEditing} onOpenChange={setIsEditing}>
-      <KeyFigureWrapper {...attributes} data-testid="slate-key-figure">
+      <EmbedWrapper {...attributes} contentEditable={false} data-testid="slate-key-figure">
         {data && (
-          <div contentEditable={false}>
+          <>
             <StyledFigureButtons>
               <ModalTrigger>
                 <IconButton
@@ -141,19 +129,19 @@ const SlateKeyFigure = ({ element, editor, attributes, children }: Props) => {
               subtitle={data.subtitle}
               image={image ? { src: image.image.imageUrl, alt: image.alttext.alttext } : undefined}
             />
-          </div>
+          </>
         )}
         {children}
-        <ModalContent>
-          <StyledModalHeader>
-            <ModalTitle>{t("keyFigureForm.title")}</ModalTitle>
-            <ModalCloseButton />
-          </StyledModalHeader>
-          <StyledModalBody>
-            <KeyFigureForm onSave={onSave} initialData={data} onCancel={onClose} />
-          </StyledModalBody>
-        </ModalContent>
-      </KeyFigureWrapper>
+      </EmbedWrapper>
+      <ModalContent>
+        <StyledModalHeader>
+          <ModalTitle>{t("keyFigureForm.title")}</ModalTitle>
+          <ModalCloseButton />
+        </StyledModalHeader>
+        <StyledModalBody>
+          <KeyFigureForm onSave={onSave} initialData={data} onCancel={onClose} />
+        </StyledModalBody>
+      </ModalContent>
     </Modal>
   );
 };

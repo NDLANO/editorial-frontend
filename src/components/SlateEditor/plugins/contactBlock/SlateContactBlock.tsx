@@ -17,7 +17,7 @@ import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTit
 import { IconButton } from "@ndla/primitives";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import { ContactBlockEmbedData } from "@ndla/types-embed";
-import { ContactBlock, ContactBlockBackground } from "@ndla/ui";
+import { ContactBlock, ContactBlockBackground, EmbedWrapper } from "@ndla/ui";
 import { ContactBlockElement } from ".";
 import ContactBlockForm from "./ContactBlockForm";
 import { fetchImage } from "../../../../modules/image/imageApi";
@@ -27,18 +27,6 @@ interface Props extends RenderElementProps {
   element: ContactBlockElement;
   editor: Editor;
 }
-const ContactBlockWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  > div {
-    width: 100%;
-  }
-
-  > div:first-child {
-    position: relative;
-  }
-`;
 
 const StyledModalHeader = styled(ModalHeader)`
   padding-bottom: 0px;
@@ -110,9 +98,9 @@ const SlateContactBlock = ({ element, editor, attributes, children }: Props) => 
 
   return (
     <Modal open={isEditing} onOpenChange={setIsEditing}>
-      <ContactBlockWrapper {...attributes} data-testid="slate-contact-block">
+      <EmbedWrapper {...attributes} contentEditable={false} data-testid="slate-contact-block">
         {contactBlock && image && (
-          <div contentEditable={false}>
+          <>
             <StyledFigureButtons>
               <ModalTrigger>
                 <IconButton
@@ -144,10 +132,10 @@ const SlateContactBlock = ({ element, editor, attributes, children }: Props) => 
               email={contactBlock.email}
               backgroundColor={contactBlock.background as ContactBlockBackground | undefined}
             />
-          </div>
+          </>
         )}
         {children}
-      </ContactBlockWrapper>
+      </EmbedWrapper>
       <ModalContent>
         <StyledModalHeader>
           <ModalTitle>{t("contactBlockForm.title")}</ModalTitle>

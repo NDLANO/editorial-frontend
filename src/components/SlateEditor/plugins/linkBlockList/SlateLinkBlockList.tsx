@@ -17,7 +17,7 @@ import { DeleteForever } from "@ndla/icons/editor";
 import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
 import { IconButton } from "@ndla/primitives";
 import { LinkBlockEmbedData } from "@ndla/types-embed";
-import { LinkBlock, LinkBlockSection } from "@ndla/ui";
+import { EmbedWrapper, LinkBlock, LinkBlockSection } from "@ndla/ui";
 import LinkBlockForm from "./LinkBlockForm";
 import { LinkBlockListElement } from "./types";
 
@@ -28,16 +28,13 @@ interface Props {
   children: ReactNode;
 }
 
-const BlockListWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.xsmall};
-`;
-
 const HeaderWrapper = styled.div`
+  position: absolute;
+  right: 0;
+  top: -${spacing.large};
   display: flex;
   width: 100%;
-  align-items: flex-end;
+  justify-content: flex-end;
   gap: ${spacing.small};
 `;
 
@@ -117,7 +114,7 @@ const SlateLinkBlockList = ({ attributes, editor, element, children }: Props) =>
   );
 
   return (
-    <BlockListWrapper {...attributes} contentEditable={false}>
+    <EmbedWrapper {...attributes} contentEditable={false}>
       {children}
       <HeaderWrapper>
         <Modal open={open} onOpenChange={onOpenChange}>
@@ -152,7 +149,7 @@ const SlateLinkBlockList = ({ attributes, editor, element, children }: Props) =>
           />
         ))}
       </LinkBlockSection>
-    </BlockListWrapper>
+    </EmbedWrapper>
   );
 };
 
@@ -164,20 +161,10 @@ interface SlateLinkBlockProps {
   onDelete: (index: number) => void;
 }
 
-const LinkBlockWrapper = styled.div`
-  position: relative;
-  display: flex;
-  width: 100%;
-  align-items: center;
-  a {
-    width: 100%;
-  }
-  gap: ${spacing.small};
-`;
-
 const ButtonWrapper = styled.div`
   position: absolute;
   right: -${spacing.large};
+  top: 0;
   display: flex;
   flex-direction: column;
   gap: ${spacing.xsmall};
@@ -198,7 +185,7 @@ const SlateLinkBlock = ({ link, onSave, onDelete, allEmbeds, index }: SlateLinkB
   );
 
   return (
-    <LinkBlockWrapper>
+    <EmbedWrapper>
       <LinkBlock title={link.title} url={link.url} date={link.date} />
       <ButtonWrapper>
         <Modal open={open} onOpenChange={setOpen}>
@@ -221,7 +208,7 @@ const SlateLinkBlock = ({ link, onSave, onDelete, allEmbeds, index }: SlateLinkB
           <DeleteForever />
         </IconButton>
       </ButtonWrapper>
-    </LinkBlockWrapper>
+    </EmbedWrapper>
   );
 };
 

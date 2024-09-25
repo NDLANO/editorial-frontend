@@ -20,7 +20,7 @@ import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
 import { IconButton } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { ImageEmbedData, ImageMetaData } from "@ndla/types-embed";
-import { ImageEmbed } from "@ndla/ui";
+import { EmbedWrapper, ImageEmbed } from "@ndla/ui";
 import ImageEmbedForm from "./ImageEmbedForm";
 import { ImageElement } from "./types";
 import { useImageMeta } from "../../../../modules/embed/queries";
@@ -34,11 +34,9 @@ interface Props extends RenderElementProps {
   allowDecorative?: boolean;
 }
 
-const StyledImageWrapper = styled.div`
+const StyledImageWrapper = styled(EmbedWrapper)`
   width: 100%;
-  &:has(figure[data-sizetype="full"]) {
-    display: inline-block;
-  }
+  display: inline-block;
 
   &[data-invalid="true"] {
     figure {

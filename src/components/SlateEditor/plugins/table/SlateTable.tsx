@@ -10,10 +10,12 @@ import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor } from "slate";
 import { RenderElementProps } from "slate-react";
-import { Table } from "@ndla/primitives";
+import { DeleteForever } from "@ndla/icons/editor";
+import { IconButton, Table } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { EmbedWrapper } from "@ndla/ui";
 import { TableElement } from "./interfaces";
 import { removeTable } from "./slateActions";
-import DeleteButton from "../../../DeleteButton";
 
 interface Props {
   editor: Editor;
@@ -22,18 +24,30 @@ interface Props {
   children: ReactNode;
 }
 
+const StyledIconButton = styled(IconButton, {
+  base: {
+    position: "absolute",
+    top: "0",
+    left: "-xlarge",
+  },
+});
+
 const SlateTable = ({ attributes, children, element, editor }: Props) => {
   const { t } = useTranslation();
   return (
-    <Table {...attributes}>
-      <DeleteButton
+    <EmbedWrapper>
+      <StyledIconButton
+        variant="danger"
+        size="small"
         onClick={() => removeTable(editor, element)}
         data-testid="table-remove"
         aria-label={t("form.content.table.table-remove")}
-        tabIndex={-1}
-      />
-      {children}
-    </Table>
+        title={t("form.content.table.table-remove")}
+      >
+        <DeleteForever />
+      </StyledIconButton>
+      <Table {...attributes}>{children}</Table>
+    </EmbedWrapper>
   );
 };
 

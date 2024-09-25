@@ -16,7 +16,7 @@ import { DeleteForever } from "@ndla/icons/editor";
 import { ModalBody, ModalHeader, ModalTitle, Modal, ModalTrigger, ModalContent } from "@ndla/modal";
 import { IconButton } from "@ndla/primitives";
 import { BlogPostEmbedData } from "@ndla/types-embed";
-import { BlogPostV2 } from "@ndla/ui";
+import { BlogPostV2, EmbedWrapper } from "@ndla/ui";
 import BlogPostForm from "./BlogPostForm";
 import { BlogPostElement } from "./types";
 import config from "../../../../config";
@@ -27,18 +27,8 @@ interface Props extends RenderElementProps {
   editor: Editor;
 }
 
-const BlogPostWrapper = styled.div`
-  display: flex;
-  height: 100%;
-  flex-direction: column;
-  align-items: flex-start;
-  div[contenteditable] {
-    height: 100%;
-  }
-
-  > div:first-child {
-    position: relative;
-  }
+const StyledEmbedWrapper = styled(EmbedWrapper)`
+  width: fit-content;
 `;
 
 const StyledModalHeader = styled(ModalHeader)`
@@ -104,9 +94,9 @@ const SlateBlogPost = ({ element, editor, attributes, children }: Props) => {
 
   return (
     <Modal open={isEditing} onOpenChange={setIsEditing}>
-      <BlogPostWrapper {...attributes} data-testid="slate-blog-post">
+      <StyledEmbedWrapper {...attributes} data-testid="slate-blog-post" contentEditable={false}>
         {data && (
-          <div contentEditable={false}>
+          <>
             <StyledFigureButtons>
               <ModalTrigger>
                 <IconButton
@@ -140,10 +130,10 @@ const SlateBlogPost = ({ element, editor, attributes, children }: Props) => {
                 alt: "",
               }}
             />
-          </div>
+          </>
         )}
         {children}
-      </BlogPostWrapper>
+      </StyledEmbedWrapper>
       <ModalContent>
         <StyledModalHeader>
           <ModalTitle>{t("blogPostForm.title")}</ModalTitle>

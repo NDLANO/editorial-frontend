@@ -101,7 +101,6 @@
     "@ndla/styled-system": "^0.0.23",
     "@ndla/switch": "^1.1.45",
     "@ndla/tabs": "^4.0.9",
-    "@ndla/tooltip": "^8.0.2",
     "@ndla/tracker": "^5.0.9",
     "@ndla/typography": "^0.4.25",
     "@ndla/ui": "^56.0.39-alpha.0",

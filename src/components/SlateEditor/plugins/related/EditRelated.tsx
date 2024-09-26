@@ -55,6 +55,7 @@ const StyledTabs = styled(Tabs)`
 
 const ButtonWrapper = styled.div`
   display: flex;
+  flex-direction: column;
   gap: ${spacing.xxsmall};
 `;
 

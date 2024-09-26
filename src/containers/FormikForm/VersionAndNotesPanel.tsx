@@ -195,7 +195,7 @@ const VersionAndNotesPanel = ({ article, articleHistory, type, currentLanguage }
           />
         )}
       </FormikField>
-      <StyledAccordionRoot multiple defaultValue={["0"]} variant="clean">
+      <StyledAccordionRoot multiple defaultValue={["0"]} variant="clean" lazyMount unmountOnExit>
         {articleHistory.map((version, index) => {
           const isLatestVersion = index === 0;
           const published =

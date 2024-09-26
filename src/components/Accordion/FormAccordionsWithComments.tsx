@@ -154,6 +154,8 @@ const FormAccordionsWithComments = ({ defaultOpen, children, article, taxonomy, 
           multiple
           value={openAccordions}
           onValueChange={(details) => setOpenAccordions(details.value)}
+          lazyMount
+          unmountOnExit
         >
           {children}
         </StyledAccordionRoot>

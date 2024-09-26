@@ -54,6 +54,8 @@ const FormAccordions = ({ defaultOpen, children }: Props) => {
         multiple
         value={openAccordions}
         onValueChange={(details) => setOpenAccordions(details.value)}
+        lazyMount
+        unmountOnExit
       >
         {children}
       </StyledAccordionRoot>

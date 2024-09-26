@@ -11,12 +11,12 @@ import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { Popover, PopoverArrow, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
-import { ButtonV2, IconButtonV2 } from "@ndla/button";
 import { spacing, colors, shadows, misc, stackOrder } from "@ndla/core";
 import { CheckboxItem, FieldErrorMessage, InputContainer, InputV3, Label, TextAreaV3 } from "@ndla/forms";
 import { Cross } from "@ndla/icons/action";
 import { Information } from "@ndla/icons/common";
 import { ModalCloseButton } from "@ndla/modal";
+import { Button, IconButton } from "@ndla/primitives";
 import { IframeEmbedData, OembedEmbedData } from "@ndla/types-embed";
 import { DRAFT_ADMIN_SCOPE, EXTERNAL_WHITELIST_PROVIDERS } from "../../../../constants";
 import InlineImageSearch from "../../../../containers/ConceptPage/components/InlineImageSearch";
@@ -293,10 +293,11 @@ const InnerForm = () => {
             <LinkInputWrapper data-has-link={!!field.value}>
               <InputContainer>
                 <InputV3 {...field} />
-                <IconButtonV2
+                <IconButton
                   aria-label={t("form.content.link.remove")}
                   title={t("form.content.link.remove")}
-                  variant="ghost"
+                  variant="tertiary"
+                  size="small"
                   disabled={!field.value}
                   onClick={() => {
                     helpers.setValue("", true);
@@ -304,15 +305,15 @@ const InnerForm = () => {
                   }}
                 >
                   <Cross />
-                </IconButtonV2>
+                </IconButton>
               </InputContainer>
-              <ButtonV2
-                variant="outline"
+              <Button
+                variant="secondary"
                 disabled={!!meta.error || field.value === values.validUrl}
                 onClick={() => onInsertValidUrl(values.url)}
               >
                 {!values.url ? t("form.content.link.insert") : t("form.content.link.update")}
-              </ButtonV2>
+              </Button>
             </LinkInputWrapper>
             {meta.initialValue !== field.value && <FieldErrorMessage>{meta.error}</FieldErrorMessage>}
           </FormControl>
@@ -422,11 +423,11 @@ const InnerForm = () => {
       )}
       <ButtonContainer>
         <ModalCloseButton>
-          <ButtonV2 variant="outline">{t("cancel")}</ButtonV2>
+          <Button variant="secondary">{t("cancel")}</Button>
         </ModalCloseButton>
-        <ButtonV2 variant="solid" type="submit" disabled={!dirty || !isValid}>
+        <Button type="submit" disabled={!dirty || !isValid}>
           {t("save")}
-        </ButtonV2>
+        </Button>
       </ButtonContainer>
     </StyledForm>
   );

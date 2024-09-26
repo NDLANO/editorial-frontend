@@ -83,7 +83,12 @@ const EditGlossExamplesModal = ({ concept, editor, element, embed }: Props) => {
     <DialogRoot open={modalOpen} onOpenChange={(details) => setModalOpen(details.open)}>
       {concept.conceptType === "gloss" && concept.glossData?.examples.length ? (
         <DialogTrigger asChild>
-          <IconButton title={t("form.gloss.editExamples")} aria-label={t("form.gloss.editExamples")} variant="tertiary">
+          <IconButton
+            title={t("form.gloss.editExamples")}
+            aria-label={t("form.gloss.editExamples")}
+            variant="tertiary"
+            size="small"
+          >
             <Pencil />
           </IconButton>
         </DialogTrigger>

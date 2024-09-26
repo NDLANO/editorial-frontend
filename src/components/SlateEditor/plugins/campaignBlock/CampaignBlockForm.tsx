@@ -11,9 +11,9 @@ import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant, Node } from "slate";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { CheckboxItem, Label, RadioButtonItem, RadioButtonGroup, FieldErrorMessage, InputV3 } from "@ndla/forms";
+import { Button } from "@ndla/primitives";
 import { CampaignBlockEmbedData } from "@ndla/types-embed";
 import { HeadingLevel, Text } from "@ndla/typography";
 import { TYPE_CAMPAIGN_BLOCK } from "./types";
@@ -287,16 +287,12 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
             </FormField>
           )}
           <ButtonContainer>
-            <ButtonV2 variant="outline" onClick={onCancel}>
+            <Button variant="secondary" onClick={onCancel}>
               {t("cancel")}
-            </ButtonV2>
-            <ButtonV2
-              variant="solid"
-              disabled={!isFormikFormDirty({ values, initialValues, dirty }) || !isValid}
-              type="submit"
-            >
+            </Button>
+            <Button disabled={!isFormikFormDirty({ values, initialValues, dirty }) || !isValid} type="submit">
               {t("save")}
-            </ButtonV2>
+            </Button>
           </ButtonContainer>
         </StyledForm>
       )}

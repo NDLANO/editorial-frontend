@@ -6,27 +6,23 @@
  *
  */
 
-import { ComponentProps } from "react";
-import { useTranslation } from "react-i18next";
-import { IconButtonV2 } from "@ndla/button";
 import { ChevronLeft } from "@ndla/icons/common";
+import { IconButton, IconButtonProps } from "@ndla/primitives";
 
-interface Props extends ComponentProps<typeof IconButtonV2> {}
-
-export const MoveContentButton = ({ onMouseDown, ...rest }: Props) => {
-  const { t } = useTranslation();
+export const MoveContentButton = ({ onMouseDown, ...rest }: IconButtonProps) => {
   return (
-    <IconButtonV2
+    <IconButton
       contentEditable={false}
       tabIndex={-1}
-      variant="ghost"
+      variant="secondary"
+      size="small"
       onMouseDown={onMouseDown}
       title={rest["aria-label" ?? ""]}
       {...rest}
       aria-label={rest["aria-label" ?? ""]}
     >
       <ChevronLeft />
-    </IconButtonV2>
+    </IconButton>
   );
 };
 

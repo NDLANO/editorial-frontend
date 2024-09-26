@@ -9,9 +9,9 @@
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { Content, Arrow, Portal } from "@radix-ui/react-popover";
-import { IconButtonV2 } from "@ndla/button";
 import { colors, spacing, animations, stackOrder } from "@ndla/core";
 import { Cross, TrashCanOutline } from "@ndla/icons/action";
+import { IconButton } from "@ndla/primitives";
 import { CommentEmbedData, CommentMetaData } from "@ndla/types-embed";
 import { Heading } from "@ndla/typography";
 import CommentForm from "./CommentForm";
@@ -63,25 +63,24 @@ const CommentPopoverPortal = ({ onSave, embed, onDelete, onClose, onOpenChange, 
             {t("form.comment.comment")}
           </Heading>
           <div>
-            <IconButtonV2
-              variant="ghost"
-              size="xsmall"
+            <IconButton
+              variant="danger"
+              size="small"
               aria-label={t("form.workflow.deleteComment.title")}
               title={t("form.workflow.deleteComment.title")}
               onClick={onDelete}
-              colorTheme="danger"
             >
               <TrashCanOutline />
-            </IconButtonV2>
-            <IconButtonV2
-              variant="ghost"
-              size="xsmall"
+            </IconButton>
+            <IconButton
+              variant="tertiary"
+              size="small"
               aria-label={t("modal.closeModal")}
               title={t("modal.closeModal")}
               onClick={onClose}
             >
               <Cross />
-            </IconButtonV2>
+            </IconButton>
           </div>
         </CommentHeader>
         <CommentForm

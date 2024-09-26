@@ -11,11 +11,11 @@ import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor } from "slate-react";
 import styled from "@emotion/styled";
-import { ButtonV2, IconButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { Label, TextAreaV3 } from "@ndla/forms";
 import { Pencil } from "@ndla/icons/action";
 import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
+import { Button, IconButton } from "@ndla/primitives";
 import { H5pEmbedData, H5pMetaData } from "@ndla/types-embed";
 import { H5pElement } from "./types";
 import { FormControl } from "../../../FormField";
@@ -73,9 +73,14 @@ const EditMetadataModal = ({ embed, editor, element }: Props) => {
   return (
     <Modal open={isOpen} onOpenChange={setOpen}>
       <ModalTrigger>
-        <IconButtonV2 colorTheme="light" title={t("form.h5p.metadata.edit")} aria-label={t("form.h5p.metadata.edit")}>
+        <IconButton
+          variant="secondary"
+          size="small"
+          title={t("form.h5p.metadata.edit")}
+          aria-label={t("form.h5p.metadata.edit")}
+        >
           <Pencil />
-        </IconButtonV2>
+        </IconButton>
       </ModalTrigger>
       <ModalContent size="small">
         <StyledModalBody>
@@ -95,10 +100,10 @@ const EditMetadataModal = ({ embed, editor, element }: Props) => {
             />
           </FormControl>
           <ButtonWrapper>
-            <ButtonV2 onClick={onCancel}>{t("form.h5p.metadata.cancel")}</ButtonV2>
-            <ButtonV2 onClick={onSaveMetadata} disabled={alttext === embed?.embedData.alt}>
+            <Button onClick={onCancel}>{t("form.h5p.metadata.cancel")}</Button>
+            <Button onClick={onSaveMetadata} disabled={alttext === embed?.embedData.alt}>
               {t("form.h5p.metadata.save")}
-            </ButtonV2>
+            </Button>
           </ButtonWrapper>
         </StyledModalBody>
       </ModalContent>

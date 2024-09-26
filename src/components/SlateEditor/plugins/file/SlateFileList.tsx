@@ -11,10 +11,9 @@ import { ReactNode, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
-import { IconButtonV2 } from "@ndla/button";
 import { Cross, Plus } from "@ndla/icons/action";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTrigger } from "@ndla/modal";
-import { Heading } from "@ndla/primitives";
+import { Heading, IconButton } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { FileListWrapper } from "@ndla/ui";
 import { FileElement } from ".";
@@ -113,14 +112,14 @@ const SlateFileList = ({ element, editor, attributes, children }: Props) => {
         <HStack gap="3xsmall">
           <Modal open={showFileUploader} onOpenChange={setShowFileUploader}>
             <ModalTrigger>
-              <IconButtonV2
-                variant="ghost"
+              <IconButton
+                variant="tertiary"
                 title={t("form.file.addFile")}
                 aria-label={t("form.file.addFile")}
-                size="xsmall"
+                size="small"
               >
                 <Plus />
-              </IconButtonV2>
+              </IconButton>
             </ModalTrigger>
             <ModalContent>
               <ModalHeader>
@@ -131,16 +130,15 @@ const SlateFileList = ({ element, editor, attributes, children }: Props) => {
               </ModalBody>
             </ModalContent>
           </Modal>
-          <IconButtonV2
-            variant="ghost"
-            colorTheme="danger"
+          <IconButton
+            variant="danger"
             title={t("form.file.removeList")}
             aria-label={t("form.file.removeList")}
             onClick={removeFileList}
-            size="xsmall"
+            size="small"
           >
             <Cross />
-          </IconButtonV2>
+          </IconButton>
         </HStack>
       </StyledHeaderWrapper>
       <ul>

@@ -10,9 +10,9 @@ import { Formik } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { CheckboxItem, Label, RadioButtonGroup, RadioButtonItem } from "@ndla/forms";
+import { Button } from "@ndla/primitives";
 import { GridType } from "@ndla/ui";
 import { CheckboxWrapper, RadioButtonWrapper, FieldsetRow, StyledFormControl, LeftLegend } from "../../../Form/styles";
 import { FormControl, FormField } from "../../../FormField";
@@ -190,12 +190,12 @@ const GridForm = ({ initialData, onSave, onCancel }: Props) => {
             )}
           </FormField>
           <ButtonContainer>
-            <ButtonV2 variant="outline" onClick={onCancel}>
+            <Button variant="secondary" onClick={onCancel}>
               {t("cancel")}
-            </ButtonV2>
-            <ButtonV2 variant="solid" disabled={!dirty || !isValid} type="submit" onClick={() => handleSubmit()}>
+            </Button>
+            <Button disabled={!dirty || !isValid} type="submit" onClick={() => handleSubmit()}>
               {t("save")}
-            </ButtonV2>
+            </Button>
           </ButtonContainer>
         </>
       )}

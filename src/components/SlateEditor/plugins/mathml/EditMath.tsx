@@ -9,9 +9,9 @@
 import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { ModalBody, ModalHeader, ModalTitle } from "@ndla/modal";
+import { Button } from "@ndla/primitives";
 import { uuid } from "@ndla/util";
 
 export const emptyMathTag = '<math xmlns="http://www.w3.org/1998/Math/MathML"/>';
@@ -96,26 +96,26 @@ const EditMath = ({ model: { innerHTML }, onExit, onRemove, onSave, mathEditor, 
         <hr />
         <StyledMathEditorWrapper id={`mathEditorContainer-${id}`} />
         <StyledButtonWrapper>
-          <ButtonV2
+          <Button
             data-testid="preview-math"
-            variant="outline"
+            variant="secondary"
             onClick={() => setRenderedMathML(mathEditor?.getMathML() ?? emptyMathTag)}
           >
             {t("form.preview.button")}
-          </ButtonV2>
-          <ButtonV2
-            variant="outline"
+          </Button>
+          <Button
+            variant="secondary"
             data-testid="save-math"
             onClick={() => onSave(mathEditor?.getMathML() ?? emptyMathTag)}
           >
             {t("form.save")}
-          </ButtonV2>
-          <ButtonV2 data-testid="abort-math" variant="outline" onClick={onExit}>
+          </Button>
+          <Button data-testid="abort-math" variant="secondary" onClick={onExit}>
             {t("form.abort")}
-          </ButtonV2>
-          <ButtonV2 variant="outline" onClick={onRemove}>
+          </Button>
+          <Button variant="secondary" onClick={onRemove}>
             {t("form.remove")}
-          </ButtonV2>
+          </Button>
         </StyledButtonWrapper>
         <h3>{t("mathEditor.preview")}</h3>
         <hr />

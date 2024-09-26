@@ -9,8 +9,8 @@ import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
-import { ButtonV2 } from "@ndla/button";
 import { DeleteForever } from "@ndla/icons/editor";
+import { IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { SectionElement } from ".";
 import StyledFormContainer from "../../common/StyledFormContainer";
@@ -38,11 +38,11 @@ const Section = ({ attributes, children, element, editor }: Props) => {
       <section {...attributes}>{children}</section>
       {editor.children.length > 1 && (
         <ButtonWrapper contentEditable={false}>
-          <ButtonV2
+          <IconButton
             aria-label={t("form.section.remove")}
             contentEditable={false}
-            colorTheme="danger"
-            variant="ghost"
+            variant="danger"
+            size="small"
             onClick={() => {
               const path = ReactEditor.findPath(editor, element);
               Transforms.removeNodes(editor, { at: path });
@@ -50,7 +50,7 @@ const Section = ({ attributes, children, element, editor }: Props) => {
             title={t("form.section.remove")}
           >
             <DeleteForever />
-          </ButtonV2>
+          </IconButton>
         </ButtonWrapper>
       )}
     </StyledFormContainer>

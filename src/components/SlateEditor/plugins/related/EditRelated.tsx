@@ -11,10 +11,10 @@ import { useTranslation } from "react-i18next";
 import { DragEndEvent } from "@dnd-kit/core";
 import styled from "@emotion/styled";
 import { Content } from "@radix-ui/react-popover";
-import { IconButtonV2 } from "@ndla/button";
 import { colors, spacing, stackOrder } from "@ndla/core";
 import { Pencil } from "@ndla/icons/action";
 import { DeleteForever } from "@ndla/icons/editor";
+import { IconButton } from "@ndla/primitives";
 import { Tabs } from "@ndla/tabs";
 import { RelatedContentEmbedData, RelatedContentMetaData } from "@ndla/types-embed";
 import { Heading } from "@ndla/typography";
@@ -55,6 +55,7 @@ const StyledTabs = styled(Tabs)`
 
 const ButtonWrapper = styled.div`
   display: flex;
+  flex-direction: column;
   gap: ${spacing.xxsmall};
 `;
 
@@ -152,16 +153,16 @@ const EditRelated = forwardRef<HTMLDivElement, Props>(
           <Heading element="h3" headingStyle="list-title">
             {t("form.related.title")}
           </Heading>
-          <IconButtonV2
+          <IconButton
             data-testid="close-related-button"
             aria-label={t("form.remove")}
-            variant="ghost"
-            colorTheme="danger"
+            variant="danger"
+            size="small"
             onClick={onRemoveClick}
             title={t("form.remove")}
           >
             <DeleteForever />
-          </IconButtonV2>
+          </IconButton>
         </HeadingWrapper>
         <p>{t("form.related.subtitle")}</p>
         <StyledUl>
@@ -177,10 +178,10 @@ const EditRelated = forwardRef<HTMLDivElement, Props>(
                 <RelatedContentEmbed embed={embed} />
                 <ButtonWrapper>
                   {!embed.embedData.articleId && (
-                    <IconButtonV2
+                    <IconButton
                       aria-label={t("form.content.relatedArticle.changeExternal")}
-                      variant="ghost"
-                      colorTheme="light"
+                      variant="tertiary"
+                      size="small"
                       onClick={() => {
                         setExternalToEdit({ ...embed, index });
                         setCurrentTab("externalArticle");
@@ -188,17 +189,17 @@ const EditRelated = forwardRef<HTMLDivElement, Props>(
                       title={t("form.content.relatedArticle.changeExternal")}
                     >
                       <Pencil />
-                    </IconButtonV2>
+                    </IconButton>
                   )}
-                  <IconButtonV2
+                  <IconButton
                     aria-label={t("form.content.relatedArticle.removeExternal")}
-                    variant="ghost"
-                    colorTheme="danger"
+                    variant="danger"
+                    size="small"
                     onClick={(e) => deleteRelatedArticle(e, embed, index)}
                     title={t("form.content.relatedArticle.removeExternal")}
                   >
                     <DeleteForever />
-                  </IconButtonV2>
+                  </IconButton>
                 </ButtonWrapper>
               </RelatedArticleWrapper>
             )}

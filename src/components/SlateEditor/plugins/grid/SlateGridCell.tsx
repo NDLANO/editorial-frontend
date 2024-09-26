@@ -11,9 +11,9 @@ import { useTranslation } from "react-i18next";
 import { Editor, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
 import { spacing, colors, stackOrder } from "@ndla/core";
 import { Pin } from "@ndla/icons/common";
+import { IconButton } from "@ndla/primitives";
 import { GridCellElement } from ".";
 
 interface Props extends RenderElementProps {
@@ -21,12 +21,15 @@ interface Props extends RenderElementProps {
   element: GridCellElement;
 }
 
-const StyledButton = styled(IconButtonV2)`
+const StyledButton = styled(IconButton)`
   position: absolute;
   z-index: ${stackOrder.offsetDouble};
   top: ${spacing.xxsmall};
   right: ${spacing.xxsmall};
 `;
+
+// TODO: Having the sticky button messes with the actual styling of the cell (I think)
+// TODO: We seem to render empty paragraphs in the grid cells, which messes with margin.
 
 const GridCell = ({ element, editor, attributes, children }: Props) => {
   const { t } = useTranslation();
@@ -46,9 +49,10 @@ const GridCell = ({ element, editor, attributes, children }: Props) => {
       <StyledButton
         contentEditable={false}
         onClick={onClickSticky}
-        variant={element.data?.parallaxCell === "true" ? "solid" : "ghost"}
+        variant={element.data?.parallaxCell === "true" ? "primary" : "tertiary"}
         aria-label={label}
         title={label}
+        size="small"
         data-testid="grid-cell-parallax"
       >
         <Pin />

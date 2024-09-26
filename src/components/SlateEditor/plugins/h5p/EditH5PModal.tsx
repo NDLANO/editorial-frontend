@@ -11,9 +11,9 @@ import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor } from "slate-react";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
 import { Link } from "@ndla/icons/common";
 import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
+import { IconButton } from "@ndla/primitives";
 import { H5pEmbedData, H5pMetaData } from "@ndla/types-embed";
 import { H5pElement } from "./types";
 import config from "../../../../config";
@@ -86,9 +86,9 @@ const EditH5PModal = ({ embed, language, editor, element }: Props) => {
   return (
     <Modal open={isOpen} onOpenChange={setOpen}>
       <ModalTrigger>
-        <IconButtonV2 colorTheme="light" title={t("form.editH5p")} aria-label={t("form.editH5p")}>
+        <IconButton variant="secondary" size="small" title={t("form.editH5p")} aria-label={t("form.editH5p")}>
           <Link />
-        </IconButtonV2>
+        </IconButton>
       </ModalTrigger>
       <StyledModalContent size="large">
         <StyledModalBody>

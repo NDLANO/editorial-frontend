@@ -11,9 +11,9 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { colors, spacing, stackOrder } from "@ndla/core";
 import { CheckboxItem, FieldErrorMessage, Label, TextAreaV3 } from "@ndla/forms";
+import { Button } from "@ndla/primitives";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import { ImageEmbedData } from "@ndla/types-embed";
 import { Text } from "@ndla/typography";
@@ -255,12 +255,12 @@ const EmbedForm = ({
           )}
         </FormField>
         <ButtonWrapper>
-          <ButtonV2 onClick={onClose} variant="outline">
+          <Button onClick={onClose} variant="secondary">
             {t("form.abort")}
-          </ButtonV2>
-          <ButtonV2 disabled={!formIsDirty || !isValid} type="submit">
+          </Button>
+          <Button disabled={!formIsDirty || !isValid} type="submit">
             {t("form.image.save")}
-          </ButtonV2>
+          </Button>
         </ButtonWrapper>
       </StyledInputWrapper>
     </Form>

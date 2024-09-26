@@ -11,35 +11,32 @@ import { useTranslation } from "react-i18next";
 import { Editor, Element, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
 import { colors } from "@ndla/core";
 import { Pencil } from "@ndla/icons/action";
 import { DeleteForever, Link } from "@ndla/icons/editor";
 import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
+import { IconButton } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { BrightcoveMetaData } from "@ndla/types-embed";
-import { BrightcoveEmbed } from "@ndla/ui";
+import { BrightcoveEmbed, EmbedWrapper } from "@ndla/ui";
 import EditVideo, { FormValues } from "./EditVideo";
 import { BrightcoveEmbedElement, TYPE_EMBED_BRIGHTCOVE } from "./types";
 import { useBrightcoveMeta } from "../../../../modules/embed/queries";
 import { inlineContentToHTML } from "../../../../util/articleContentConverter";
 import { addBrightCoveTimeStampVideoid } from "../../../../util/videoUtil";
 import Spinner from "../../../Spinner";
-import { StyledDeleteEmbedButton, StyledFigureButtons } from "../embed/FigureButtons";
+import { StyledFigureButtons } from "../embed/FigureButtons";
 
-export const VideoWrapper = styled.div`
-  position: relative;
+export const VideoWrapper = styled(EmbedWrapper)`
   display: block;
-  border-style: solid;
-  border-width: 2px;
-  border-color: transparent;
+  outline: 2px solid transparent;
 
-  &[data-outline="true"] {
-    border-color: ${colors.brand.primary};
+  &[data-selected="true"] {
+    outline-color: ${colors.brand.primary};
   }
 
   &[data-error="true"] {
-    border-color: ${colors.support.red};
+    outline-color: ${colors.support.red};
   }
 `;
 
@@ -109,51 +106,52 @@ const SlateVideo = ({ attributes, element, editor, children }: Props) => {
   };
 
   return (
-    <>
-      <Modal open={open} onOpenChange={setOpen}>
-        <VideoWrapper {...attributes} data-selected={isSelected} data-error={hasError} contentEditable={false}>
-          {!embed ? (
-            <Spinner />
-          ) : (
-            <StyledFigureButtons>
-              <ModalTrigger>
-                <IconButtonV2
-                  aria-label={t("form.video.editVideo")}
-                  title={t("form.video.editVideo")}
-                  colorTheme="light"
-                >
-                  <Pencil />
-                </IconButtonV2>
-              </ModalTrigger>
-              <SafeLinkIconButton
+    <Modal open={open} onOpenChange={setOpen}>
+      <VideoWrapper {...attributes} data-selected={isSelected} data-error={hasError} contentEditable={false}>
+        {!embed ? (
+          <Spinner />
+        ) : (
+          <StyledFigureButtons>
+            <ModalTrigger>
+              <IconButton
+                aria-label={t("form.video.editVideo")}
+                title={t("form.video.editVideo")}
                 variant="secondary"
-                title={t("form.video.brightcove")}
-                aria-label={t("form.video.brightcove")}
-                to={`https://studio.brightcove.com/products/videocloud/media/videos/${embed.embedData.videoid}`}
+                size="small"
               >
-                <Link />
-              </SafeLinkIconButton>
-              <StyledDeleteEmbedButton
-                aria-label={t("form.video.remove")}
-                title={t("form.video.remove")}
-                colorTheme="danger"
-                onClick={removeVideo}
-                data-testid="remove-video-element"
-              >
-                <DeleteForever />
-              </StyledDeleteEmbedButton>
-            </StyledFigureButtons>
+                <Pencil />
+              </IconButton>
+            </ModalTrigger>
+            <SafeLinkIconButton
+              variant="secondary"
+              title={t("form.video.brightcove")}
+              aria-label={t("form.video.brightcove")}
+              to={`https://studio.brightcove.com/products/videocloud/media/videos/${embed.embedData.videoid}`}
+              size="small"
+            >
+              <Link />
+            </SafeLinkIconButton>
+            <IconButton
+              aria-label={t("form.video.remove")}
+              title={t("form.video.remove")}
+              variant="danger"
+              onClick={removeVideo}
+              data-testid="remove-video-element"
+              size="small"
+            >
+              <DeleteForever />
+            </IconButton>
+          </StyledFigureButtons>
+        )}
+        <ModalContent>
+          {element.data && (
+            <EditVideo onClose={onClose} onSave={onSave} embed={element.data} setHasError={setHasError} />
           )}
-          <ModalContent>
-            {element.data && (
-              <EditVideo onClose={onClose} onSave={onSave} embed={element.data} setHasError={setHasError} />
-            )}
-          </ModalContent>
-          {!embed || brightcoveQuery.isLoading ? <Spinner /> : <BrightcoveEmbed embed={embed} />}
-          {children}
-        </VideoWrapper>
-      </Modal>
-    </>
+        </ModalContent>
+        {!embed || brightcoveQuery.isLoading ? <Spinner /> : <BrightcoveEmbed embed={embed} />}
+        {children}
+      </VideoWrapper>
+    </Modal>
   );
 };
 

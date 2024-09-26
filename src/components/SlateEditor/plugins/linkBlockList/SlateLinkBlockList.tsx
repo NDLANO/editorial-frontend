@@ -11,16 +11,15 @@ import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { Pencil, Plus } from "@ndla/icons/action";
 import { DeleteForever } from "@ndla/icons/editor";
 import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
+import { IconButton } from "@ndla/primitives";
 import { LinkBlockEmbedData } from "@ndla/types-embed";
-import { LinkBlock, LinkBlockSection } from "@ndla/ui";
+import { EmbedWrapper, LinkBlock, LinkBlockSection } from "@ndla/ui";
 import LinkBlockForm from "./LinkBlockForm";
 import { LinkBlockListElement } from "./types";
-import { StyledDeleteEmbedButton } from "../embed/FigureButtons";
 
 interface Props {
   attributes: RenderElementProps["attributes"];
@@ -29,16 +28,13 @@ interface Props {
   children: ReactNode;
 }
 
-const BlockListWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.xsmall};
-`;
-
 const HeaderWrapper = styled.div`
+  position: absolute;
+  right: 0;
+  top: -${spacing.large};
   display: flex;
   width: 100%;
-  align-items: flex-end;
+  justify-content: flex-end;
   gap: ${spacing.small};
 `;
 
@@ -118,27 +114,28 @@ const SlateLinkBlockList = ({ attributes, editor, element, children }: Props) =>
   );
 
   return (
-    <BlockListWrapper {...attributes} contentEditable={false}>
+    <EmbedWrapper {...attributes} contentEditable={false}>
       {children}
       <HeaderWrapper>
         <Modal open={open} onOpenChange={onOpenChange}>
           <ModalTrigger>
-            <IconButtonV2 aria-label={t("linkBlock.create")} title={t("linkBlock.create")}>
+            <IconButton aria-label={t("linkBlock.create")} title={t("linkBlock.create")} size="small">
               <Plus />
-            </IconButtonV2>
+            </IconButton>
           </ModalTrigger>
           <ModalContent>
             <LinkBlockForm onSave={onSaveNewElement} existingEmbeds={element.data ?? []} />
           </ModalContent>
         </Modal>
-        <StyledDeleteEmbedButton
+        <IconButton
           aria-label={t("linkBlock.deleteBlock")}
           title={t("linkBlock.deleteBlock")}
-          colorTheme="danger"
+          variant="danger"
+          size="small"
           onClick={handleRemove}
         >
           <DeleteForever />
-        </StyledDeleteEmbedButton>
+        </IconButton>
       </HeaderWrapper>
       <LinkBlockSection>
         {element.data?.map((el, index) => (
@@ -152,7 +149,7 @@ const SlateLinkBlockList = ({ attributes, editor, element, children }: Props) =>
           />
         ))}
       </LinkBlockSection>
-    </BlockListWrapper>
+    </EmbedWrapper>
   );
 };
 
@@ -164,20 +161,10 @@ interface SlateLinkBlockProps {
   onDelete: (index: number) => void;
 }
 
-const LinkBlockWrapper = styled.div`
-  position: relative;
-  display: flex;
-  width: 100%;
-  align-items: center;
-  a {
-    width: 100%;
-  }
-  gap: ${spacing.small};
-`;
-
 const ButtonWrapper = styled.div`
   position: absolute;
   right: -${spacing.large};
+  top: 0;
   display: flex;
   flex-direction: column;
   gap: ${spacing.xsmall};
@@ -198,29 +185,30 @@ const SlateLinkBlock = ({ link, onSave, onDelete, allEmbeds, index }: SlateLinkB
   );
 
   return (
-    <LinkBlockWrapper>
+    <EmbedWrapper>
       <LinkBlock title={link.title} url={link.url} date={link.date} />
       <ButtonWrapper>
         <Modal open={open} onOpenChange={setOpen}>
           <ModalTrigger>
-            <IconButtonV2 aria-label={t("linkBlock.edit")} title={t("linkBlock.edit")}>
+            <IconButton aria-label={t("linkBlock.edit")} title={t("linkBlock.edit")} size="small">
               <Pencil />
-            </IconButtonV2>
+            </IconButton>
           </ModalTrigger>
           <ModalContent>
             <LinkBlockForm embed={link} onSave={onSaveElement} existingEmbeds={otherEmbeds} />
           </ModalContent>
         </Modal>
-        <StyledDeleteEmbedButton
-          colorTheme="danger"
+        <IconButton
+          variant="danger"
+          size="small"
           aria-label={t("linkBlock.delete")}
           title={t("linkBlock.delete")}
           onClick={() => onDelete(index)}
         >
           <DeleteForever />
-        </StyledDeleteEmbedButton>
+        </IconButton>
       </ButtonWrapper>
-    </LinkBlockWrapper>
+    </EmbedWrapper>
   );
 };
 

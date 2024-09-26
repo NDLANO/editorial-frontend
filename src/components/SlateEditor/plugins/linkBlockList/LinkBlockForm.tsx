@@ -11,10 +11,10 @@ import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { FieldErrorMessage, InputV3, Label } from "@ndla/forms";
 import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle } from "@ndla/modal";
+import { Button } from "@ndla/primitives";
 import { LinkBlockEmbedData } from "@ndla/types-embed";
 import { Text } from "@ndla/typography";
 import InlineDatePicker from "../../../../containers/FormikForm/components/InlineDatePicker";
@@ -163,7 +163,7 @@ const LinkBlockForm = ({ embed, existingEmbeds, onSave }: Props) => {
                       </Label>
                       <DateWrapper>
                         <InlineDatePicker placeholder={t("linkBlock.chooseDate")} {...field} />
-                        <ButtonV2 onClick={() => helpers.setValue("")}>{t("reset")}</ButtonV2>
+                        <Button onClick={() => helpers.setValue("")}>{t("reset")}</Button>
                       </DateWrapper>
                       <FieldErrorMessage>{meta.error}</FieldErrorMessage>
                     </FormControl>
@@ -171,15 +171,11 @@ const LinkBlockForm = ({ embed, existingEmbeds, onSave }: Props) => {
                 </FormField>
                 <ButtonContainer>
                   <ModalCloseButton>
-                    <ButtonV2 variant="outline">{t("cancel")}</ButtonV2>
+                    <Button variant="secondary">{t("cancel")}</Button>
                   </ModalCloseButton>
-                  <ButtonV2
-                    variant="solid"
-                    disabled={!isFormikFormDirty({ values, initialValues, dirty }) || !isValid}
-                    type="submit"
-                  >
+                  <Button disabled={!isFormikFormDirty({ values, initialValues, dirty }) || !isValid} type="submit">
                     {t("save")}
-                  </ButtonV2>
+                  </Button>
                 </ButtonContainer>
               </StyledForm>
             );

@@ -11,11 +11,11 @@ import { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useState } f
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
 import styled from "@emotion/styled";
-import { ButtonV2, IconButtonV2 } from "@ndla/button";
 import { colors, fonts, misc, spacing } from "@ndla/core";
 import { Label, FieldErrorMessage } from "@ndla/forms";
 import { DeleteForever } from "@ndla/icons/editor";
 import { ModalBody } from "@ndla/modal";
+import { Button, IconButton } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { IArticleSummaryV2, IArticleV2 } from "@ndla/types-backend/article-api";
 import { UuDisclaimerEmbedData } from "@ndla/types-embed";
@@ -196,16 +196,15 @@ const DisclaimerForm = ({ initialData, onOpenChange, onSave }: DisclaimerFormPro
                         >
                           {selectedArticle.title.title}
                         </SafeLink>
-                        <IconButtonV2
+                        <IconButton
                           aria-label={t("form.disclaimer.removeArticle")}
-                          variant="ghost"
+                          variant="danger"
                           title={t("form.disclaimer.removeArticle")}
-                          colorTheme="danger"
                           data-testid="disclaimerArticleDeleteButton"
                           onClick={() => handleChange(undefined)}
                         >
                           <DeleteForever />
-                        </IconButtonV2>
+                        </IconButton>
                       </SelectedArticle>
                     )}
                   </FormControl>
@@ -213,12 +212,12 @@ const DisclaimerForm = ({ initialData, onOpenChange, onSave }: DisclaimerFormPro
               }}
             </StyledFormField>
             <DisclaimerActions>
-              <ButtonV2 onClick={() => onOpenChange(false)} variant="outline">
+              <Button onClick={() => onOpenChange(false)} variant="secondary">
                 {t("form.abort")}
-              </ButtonV2>
-              <ButtonV2 type="submit" variant="solid" data-testid="disclaimer-save">
+              </Button>
+              <Button type="submit" data-testid="disclaimer-save">
                 {t("form.save")}
-              </ButtonV2>
+              </Button>
             </DisclaimerActions>
           </StyledModalBody>
         </Form>

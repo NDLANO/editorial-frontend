@@ -10,9 +10,9 @@ import { Form, Formik } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { InputV3, Label } from "@ndla/forms";
+import { Button } from "@ndla/primitives";
 import { IAuthor } from "@ndla/types-backend/article-api";
 import { CopyrightEmbedData } from "@ndla/types-embed";
 import { CopyrightFieldGroup } from "../../../../containers/FormikForm";
@@ -150,12 +150,12 @@ export const EmbedCopyrightForm = ({ embedData, onSave, onCancel }: Props) => {
           </FormField>
           <CopyrightFieldGroup />
           <ButtonWrapper>
-            <ButtonV2 variant="outline" onClick={onCancel}>
+            <Button variant="secondary" onClick={onCancel}>
               {t("cancel")}
-            </ButtonV2>
-            <ButtonV2 type="submit" disabled={!dirty || !isValid}>
+            </Button>
+            <Button type="submit" disabled={!dirty || !isValid}>
               {t("save")}
-            </ButtonV2>
+            </Button>
           </ButtonWrapper>
         </Form>
       )}

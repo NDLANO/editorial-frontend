@@ -11,15 +11,15 @@ import { useTranslation } from "react-i18next";
 import { Editor, Element, Transforms, Path } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
 import { spacing, colors } from "@ndla/core";
 import { Link as LinkIcon } from "@ndla/icons/common";
 import { Check, AlertCircle, DeleteForever } from "@ndla/icons/editor";
 import { Modal, ModalContent } from "@ndla/modal";
+import { IconButton } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { IConcept, IConceptSummary } from "@ndla/types-backend/concept-api";
 import { ConceptEmbedData, ConceptMetaData } from "@ndla/types-embed";
-import { ConceptEmbed } from "@ndla/ui";
+import { ConceptEmbed, EmbedWrapper } from "@ndla/ui";
 import { ConceptBlockElement } from "./interfaces";
 import { TYPE_CONCEPT_BLOCK } from "./types";
 import { PUBLISHED } from "../../../../../constants";
@@ -48,8 +48,7 @@ interface Props {
   children: ReactNode;
 }
 
-const StyledWrapper = styled.div`
-  position: relative;
+const StyledEmbedWrapper = styled(EmbedWrapper)`
   &[data-solid-border="true"] {
     outline: 2px solid ${colors.brand.primary};
   }
@@ -132,9 +131,9 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
 
   return (
     <Modal open={isEditing} onOpenChange={setIsEditing}>
-      <StyledWrapper {...attributes} data-solid-border={isSelected} draggable={true}>
+      <StyledEmbedWrapper {...attributes} data-solid-border={isSelected} draggable={true} contentEditable={false}>
         {concept && embed && (
-          <div contentEditable={false}>
+          <>
             <ConceptButtonContainer
               concept={concept}
               handleRemove={handleRemove}
@@ -144,7 +143,7 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
               embed={embed}
             />
             <ConceptEmbed embed={embed} />
-          </div>
+          </>
         )}
         <ModalContent size={{ width: "large", height: "large" }}>
           <ConceptModalContent
@@ -159,7 +158,7 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
           />
         </ModalContent>
         {children}
-      </StyledWrapper>
+      </StyledEmbedWrapper>
     </Modal>
   );
 };
@@ -206,20 +205,21 @@ const ConceptButtonContainer = ({ concept, handleRemove, language, editor, eleme
 
   return (
     <ButtonContainer>
-      <IconButtonV2
+      <IconButton
         title={t(`form.${concept?.conceptType}.remove`)}
         aria-label={t(`form.${concept?.conceptType}.remove`)}
-        variant="ghost"
-        colorTheme="danger"
+        variant="danger"
+        size="small"
         onClick={handleRemove}
       >
         <DeleteForever />
-      </IconButtonV2>
+      </IconButton>
       <EditGlossExamplesModal concept={concept} editor={editor} element={element} embed={embed} />
       <SafeLinkIconButton
         arial-label={t(`form.${concept?.conceptType}.edit`)}
         title={t(`form.${concept?.conceptType}.edit`)}
         variant="tertiary"
+        size="small"
         to={`/${concept.conceptType}/${concept.id}/edit/${language}`}
         target="_blank"
       >

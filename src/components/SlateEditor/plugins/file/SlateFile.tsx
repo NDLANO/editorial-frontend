@@ -9,11 +9,11 @@
 import { KeyboardEvent, MouseEvent, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
 import { colors, fonts, spacing } from "@ndla/core";
 import { CheckboxItem, InputContainer, InputV3, Label } from "@ndla/forms";
 import { Cross, Pencil } from "@ndla/icons/action";
 import { Check, DeleteForever } from "@ndla/icons/editor";
+import { IconButton } from "@ndla/primitives";
 import { File as FileComponent, FileListItem } from "@ndla/ui";
 import { File as FileType } from "../../../../interfaces";
 import { FormControl } from "../../../FormField";
@@ -120,17 +120,17 @@ export const SlateFile = ({
                 // eslint-disable-next-line jsx-a11y/no-autofocus
                 autoFocus
               />
-              <IconButtonV2
-                variant="ghost"
+              <IconButton
+                variant="tertiary"
                 type="button"
                 onMouseDown={(e) => e.preventDefault()}
                 onClick={onCommitFileName}
-                size="xsmall"
+                size="small"
                 aria-label={t("save")}
                 title={t("save")}
               >
                 <Check />
-              </IconButtonV2>
+              </IconButton>
             </StyledInputContainer>
           </StyledFormControl>
         ) : (
@@ -144,16 +144,15 @@ export const SlateFile = ({
 
         <StyledButtonWrapper>
           {isEditMode ? (
-            <IconButtonV2
+            <IconButton
               title={t("cancel")}
               aria-label={t("form.file.changeName")}
               onClick={() => setEditIndex(undefined)}
-              variant="ghost"
-              colorTheme="danger"
-              size="xsmall"
+              variant="danger"
+              size="small"
             >
               <Cross />
-            </IconButtonV2>
+            </IconButton>
           ) : (
             <>
               {file.type === "pdf" && (
@@ -164,27 +163,26 @@ export const SlateFile = ({
                   </Label>
                 </CheckboxFormControl>
               )}
-              <IconButtonV2
+              <IconButton
                 title={t("form.file.changeName")}
                 aria-label={t("form.file.changeName")}
                 onClick={() => setEditIndex(index)}
-                variant="ghost"
-                size="xsmall"
+                variant="tertiary"
+                size="small"
               >
                 <Pencil />
-              </IconButtonV2>
+              </IconButton>
             </>
           )}
-          <IconButtonV2
+          <IconButton
             title={t("form.file.removeFile")}
             aria-label={t("form.file.removeFile")}
             onClick={() => onDeleteFile(index)}
-            colorTheme="danger"
-            variant="ghost"
-            size="xsmall"
+            variant="danger"
+            size="small"
           >
             <DeleteForever />
-          </IconButtonV2>
+          </IconButton>
         </StyledButtonWrapper>
       </div>
     </StyledFileListItem>

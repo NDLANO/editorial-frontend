@@ -6,11 +6,9 @@
  *
  */
 
-import { Element, Descendant, Editor, Text, Transforms, Node, Range, Location, Path } from "slate";
+import { Element, Descendant, Editor, Transforms, Node, Range, Location } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { RenderLeafProps, ReactEditor } from "slate-react";
 import { TYPE_DETAILS, TYPE_SUMMARY } from "./types";
-import WithPlaceHolder from "../../common/WithPlaceHolder";
 import { SlateSerializer } from "../../interfaces";
 import containsVoid from "../../utils/containsVoid";
 import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
@@ -142,7 +140,6 @@ export const detailsPlugin = (editor: Editor) => {
     normalizeNode: nextNormalizeNode,
     shouldHideBlockPicker: nextShouldHideBlockPicker,
     onKeyDown: nextOnKeyDown,
-    renderLeaf,
   } = editor;
 
   editor.onKeyDown = (event) => {
@@ -153,21 +150,6 @@ export const detailsPlugin = (editor: Editor) => {
     } else if (nextOnKeyDown) {
       nextOnKeyDown(event);
     }
-  };
-
-  editor.renderLeaf = (props: RenderLeafProps) => {
-    const { attributes, children, text } = props;
-    const path = ReactEditor.findPath(editor, text);
-
-    const [parent] = Editor.node(editor, Path.parent(Path.parent(path)));
-    if (Element.isElement(parent) && parent.type === TYPE_SUMMARY && Node.string(parent) === "") {
-      return (
-        <WithPlaceHolder attributes={attributes} placeholder="form.name.title">
-          {children}
-        </WithPlaceHolder>
-      );
-    }
-    return renderLeaf?.(props);
   };
 
   editor.shouldHideBlockPicker = () => {

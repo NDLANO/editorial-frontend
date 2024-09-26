@@ -9,9 +9,9 @@
 import { Formik, Form, FormikHelpers } from "formik";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { colors, spacing } from "@ndla/core";
 import { CheckboxItem, FieldErrorMessage, FieldHelper, InputV3, Label } from "@ndla/forms";
+import { Button } from "@ndla/primitives";
 import { isNDLAArticleUrl, isNDLAEdPathUrl, isNDLALearningPathUrl, isNDLATaxonomyUrl, isPlainId } from "./EditLink";
 import { Model } from "./Link";
 import config from "../../../../config";
@@ -135,11 +135,11 @@ const LinkForm = ({ onSave, link, isEdit, onRemove, onClose }: Props) => {
           )}
         </FormField>
         <StyledField>
-          {isEdit ? <ButtonV2 onClick={onRemove}>{t("form.content.link.remove")}</ButtonV2> : ""}
-          <ButtonV2 variant="outline" onClick={onClose}>
+          {isEdit ? <Button onClick={onRemove}>{t("form.content.link.remove")}</Button> : ""}
+          <Button variant="secondary" onClick={onClose}>
             {t("form.abort")}
-          </ButtonV2>
-          <ButtonV2 type="submit">{isEdit ? t("form.content.link.update") : t("form.content.link.insert")}</ButtonV2>
+          </Button>
+          <Button type="submit">{isEdit ? t("form.content.link.update") : t("form.content.link.insert")}</Button>
         </StyledField>
       </StyledForm>
     </Formik>

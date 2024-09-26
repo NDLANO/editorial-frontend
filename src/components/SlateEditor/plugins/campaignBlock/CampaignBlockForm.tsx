@@ -287,7 +287,7 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
             </FormField>
           )}
           <ButtonContainer>
-            <Button variant="tertiary" onClick={onCancel}>
+            <Button variant="secondary" onClick={onCancel}>
               {t("cancel")}
             </Button>
             <Button disabled={!isFormikFormDirty({ values, initialValues, dirty }) || !isValid} type="submit">

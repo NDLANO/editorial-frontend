@@ -297,6 +297,7 @@ const InnerForm = () => {
                   aria-label={t("form.content.link.remove")}
                   title={t("form.content.link.remove")}
                   variant="tertiary"
+                  size="small"
                   disabled={!field.value}
                   onClick={() => {
                     helpers.setValue("", true);

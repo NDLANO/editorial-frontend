@@ -12,13 +12,12 @@ import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
-import { Switch } from "@ndla/switch";
+import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { NodeType } from "@ndla/types-taxonomy";
 import { Text } from "@ndla/typography";
 import AddNodeModalContent from "./AddNodeModalContent";
 import { ResourceGroupBanner, StyledPlusIcon, StyledShareIcon } from "./styles";
 import TaxonomyLightbox from "../../components/Taxonomy/TaxonomyLightbox";
-import config from "../../config";
 import { TAXONOMY_ADMIN_SCOPE } from "../../constants";
 import { useSession } from "../Session/SessionProvider";
 
@@ -40,14 +39,9 @@ const SwitchWrapper = styled.div`
 const SwitchGroupWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  gap: ${spacing.xxsmall};
   align-items: flex-end;
   justify-content: center;
-`;
-
-const StyledSwitch = styled(Switch)`
-  & button {
-    flex-shrink: 0;
-  }
 `;
 
 interface Props {
@@ -103,44 +97,55 @@ const StructureBanner = ({
           <SwitchWrapper>
             <SwitchGroupWrapper>
               {hasLmaSubjects && (
-                <StyledSwitch
-                  onChange={setShowLmaSubjects}
+                <SwitchRoot
                   checked={showLmaSubjects}
-                  label={t("taxonomy.showLMASubject")}
-                  id="lma-subject-switch"
-                />
+                  onCheckedChange={(details) => setShowLmaSubjects(details.checked)}
+                >
+                  <SwitchLabel>{t("taxonomy.showLMASubject")}</SwitchLabel>
+                  <SwitchControl>
+                    <SwitchThumb />
+                  </SwitchControl>
+                  <SwitchHiddenInput />
+                </SwitchRoot>
               )}
               {hasDaSubjects && (
-                <StyledSwitch
-                  onChange={setShowDaSubjects}
-                  checked={showDaSubjects}
-                  label={t("taxonomy.showDASubject")}
-                  id="desk-subject-switch"
-                />
+                <SwitchRoot checked={showDaSubjects} onCheckedChange={(details) => setShowDaSubjects(details.checked)}>
+                  <SwitchLabel>{t("taxonomy.showDASubject")}</SwitchLabel>
+                  <SwitchControl>
+                    <SwitchThumb />
+                  </SwitchControl>
+                  <SwitchHiddenInput />
+                </SwitchRoot>
               )}
               {hasSaSubjects && (
-                <StyledSwitch
-                  onChange={setShowSaSubjects}
-                  checked={showSaSubjects}
-                  label={t("taxonomy.showSASubject")}
-                  id="language-subject-switch"
-                />
+                <SwitchRoot checked={showSaSubjects} onCheckedChange={(details) => setShowSaSubjects(details.checked)}>
+                  <SwitchLabel>{t("taxonomy.showSASubject")}</SwitchLabel>
+                  <SwitchControl>
+                    <SwitchThumb />
+                  </SwitchControl>
+                  <SwitchHiddenInput />
+                </SwitchRoot>
               )}
             </SwitchGroupWrapper>
             <SwitchGroupWrapper>
-              <StyledSwitch
-                onChange={setShowFavorites}
+              <SwitchRoot
                 checked={showFavorites}
-                label={t("taxonomy.favorites")}
-                id="favorites"
                 data-testid="switch-favorites"
-              />
-              <StyledSwitch
-                onChange={setShowQuality}
-                checked={showQuality}
-                label={t("taxonomy.quality")}
-                id="quality"
-              />
+                onCheckedChange={(details) => setShowFavorites(details.checked)}
+              >
+                <SwitchLabel>{t("taxonomy.favorites")}</SwitchLabel>
+                <SwitchControl>
+                  <SwitchThumb />
+                </SwitchControl>
+                <SwitchHiddenInput />
+              </SwitchRoot>
+              <SwitchRoot checked={showQuality} onCheckedChange={(details) => setShowQuality(details.checked)}>
+                <SwitchLabel>{t("taxonomy.quality")}</SwitchLabel>
+                <SwitchControl>
+                  <SwitchThumb />
+                </SwitchControl>
+                <SwitchHiddenInput />
+              </SwitchRoot>
             </SwitchGroupWrapper>
           </SwitchWrapper>
         )}

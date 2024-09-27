@@ -12,6 +12,7 @@ import styled from "@emotion/styled";
 import { ExclamationMark } from "@ndla/icons/common";
 import { Calendar } from "@ndla/icons/editor";
 import { Pager } from "@ndla/pager";
+import { SwitchControl, SwitchHiddenInput, SwitchThumb } from "@ndla/primitives";
 import { SingleValue } from "@ndla/select";
 import { IMultiSearchResult } from "@ndla/types-backend/search-api";
 import CommentIndicator from "./CommentIndicator";
@@ -25,9 +26,9 @@ import { toEditArticle } from "../../../../util/routeHelpers";
 import {
   ControlWrapperDashboard,
   StyledLink,
-  StyledSwitch,
+  StyledSwitchLabel,
+  StyledSwitchRoot,
   StyledTopRowDashboardInfo,
-  SwitchWrapper,
   TopRowControls,
 } from "../../styles";
 import GoToSearch from "../GoToSearch";
@@ -190,17 +191,19 @@ const WorkListTabContent = ({
             )}
           </TopRowControls>
           {setPrioritized && (
-            <SwitchWrapper>
-              <StyledSwitch
-                checked={prioritized ?? false}
-                onChange={() => {
-                  setPrioritized(!prioritized);
-                  setPage(1);
-                }}
-                label={t("welcomePage.prioritizedLabel")}
-                id="filter-prioritized-switch"
-              />
-            </SwitchWrapper>
+            <StyledSwitchRoot
+              checked={prioritized}
+              onCheckedChange={(details) => {
+                setPrioritized(details.checked);
+                setPage(1);
+              }}
+            >
+              <StyledSwitchLabel>{t("welcomePage.prioritizedLabel")}</StyledSwitchLabel>
+              <SwitchControl>
+                <SwitchThumb />
+              </SwitchControl>
+              <SwitchHiddenInput />
+            </StyledSwitchRoot>
           )}
         </ControlWrapperDashboard>
       </StyledTopRowDashboardInfo>

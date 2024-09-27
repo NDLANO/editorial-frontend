@@ -8,7 +8,7 @@
 
 import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
-import { Switch } from "@ndla/switch";
+import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { Node, Metadata } from "@ndla/types-taxonomy";
 import RoundIcon from "../../../../components/RoundIcon";
 import {
@@ -20,7 +20,7 @@ import { useUpdateNodeMetadataMutation } from "../../../../modules/nodes/nodeMut
 import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
 import { getRootIdForNode, isRootNode } from "../../../../modules/nodes/nodeUtil";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
-import { StyledMenuItemEditField, StyledMenuItemInputField } from "../styles";
+import { StyledMenuItemEditField } from "../styles";
 
 interface Props {
   node: Node;
@@ -66,18 +66,18 @@ const GroupTopicResources = ({ node, hideIcon, onChanged }: Props) => {
   return (
     <StyledMenuItemEditField>
       {hideIcon || <RoundIcon open small />}
-      <StyledMenuItemInputField placeholder={t("taxonomy.metadata.customFields.resourceGroupPlaceholder")} disabled />
-      <div>
-        <Switch
-          aria-label={t("taxonomy.metadata.customFields.RGTooltip")}
-          id="group-topic-resources"
-          checked={isGrouped}
-          label=""
-          onChange={updateMetadata}
-          thumbCharacter={isGrouped ? "G" : "U"}
-          title={t("taxonomy.metadata.customFields.RGTooltip")}
-        />
-      </div>
+      <SwitchRoot
+        checked={isGrouped}
+        onCheckedChange={updateMetadata}
+        title={t("taxonomy.metadata.customFields.RGTooltip")}
+        aria-label={t("taxonomy.metadata.customFields.RGTooltip")}
+      >
+        <SwitchLabel>{t("taxonomy.metadata.customFields.resourceGroupPlaceholder")}</SwitchLabel>
+        <SwitchControl>
+          <SwitchThumb>{isGrouped ? "G" : "U"}</SwitchThumb>
+        </SwitchControl>
+        <SwitchHiddenInput />
+      </SwitchRoot>
     </StyledMenuItemEditField>
   );
 };

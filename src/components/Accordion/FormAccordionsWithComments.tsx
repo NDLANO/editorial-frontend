@@ -11,8 +11,8 @@ import { ReactElement, memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { AccordionRoot } from "@ndla/accordion";
-import { fonts, spacing } from "@ndla/core";
-import { Switch } from "@ndla/switch";
+import { spacing } from "@ndla/core";
+import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { IArticle, IUpdatedArticle } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import { FormAccordionProps } from "./FormAccordion";
@@ -61,14 +61,8 @@ const CommentWrapper = styled.div`
   }
 `;
 
-const StyledSwitch = styled(Switch)`
-  > label {
-    font-weight: ${fonts.weight.semibold};
-    ${fonts.size.text.button};
-  }
+const StyledSwitchRoot = styled(SwitchRoot)`
   min-height: 40px;
-  display: flex;
-  justify-content: flex-end;
 `;
 
 const FormControls = styled(MainContent)`
@@ -115,12 +109,13 @@ const FormAccordionsWithComments = ({ defaultOpen, children, article, taxonomy, 
           )}
           <RightFlexWrapper>
             {!!article?.id && isFrontPageArticle && (
-              <StyledSwitch
-                id={article.id}
-                label={t("frontpageArticleForm.isFrontpageArticle.toggleArticle")}
-                checked={isWideArticle}
-                onChange={() => toggleWideArticles(article.id)}
-              />
+              <StyledSwitchRoot checked={isWideArticle} onCheckedChange={() => toggleWideArticles(article.id)}>
+                <SwitchLabel>{t("frontpageArticleForm.isFrontpageArticle.toggleArticle")}</SwitchLabel>
+                <SwitchControl>
+                  <SwitchThumb />
+                </SwitchControl>
+                <SwitchHiddenInput />
+              </StyledSwitchRoot>
             )}
             <OpenAllButton
               openAccordions={openAccordions}
@@ -131,12 +126,13 @@ const FormAccordionsWithComments = ({ defaultOpen, children, article, taxonomy, 
         </FormControls>
         {!disableComments && (
           <CommentWrapper>
-            <StyledSwitch
-              id="hide-comments"
-              label={hideComments ? t("form.comment.showComments") : t("form.comment.hideComments")}
-              checked={!hideComments}
-              onChange={() => setHideComments(!hideComments)}
-            />
+            <StyledSwitchRoot checked={!hideComments} onCheckedChange={() => setHideComments(!hideComments)}>
+              <SwitchLabel>{t("form.comment.showComments")}</SwitchLabel>
+              <SwitchControl>
+                <SwitchThumb />
+              </SwitchControl>
+              <SwitchHiddenInput />
+            </StyledSwitchRoot>
           </CommentWrapper>
         )}
       </FlexWrapper>

@@ -13,6 +13,7 @@ import styled from "@emotion/styled";
 import { mq, breakpoints, colors, spacing } from "@ndla/core";
 import { Alarm, Time } from "@ndla/icons/common";
 import { Pager } from "@ndla/pager";
+import { SwitchControl, SwitchHiddenInput, SwitchThumb } from "@ndla/primitives";
 import { IUserData } from "@ndla/types-backend/draft-api";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
 import GoToSearch from "./GoToSearch";
@@ -44,9 +45,9 @@ import {
   ControlWrapperDashboard,
   StyledDashboardInfo,
   StyledLink,
-  StyledSwitch,
+  StyledSwitchLabel,
+  StyledSwitchRoot,
   StyledTopRowDashboardInfo,
-  SwitchWrapper,
   TopRowControls,
 } from "../styles";
 
@@ -264,19 +265,21 @@ const Revisions = ({ userData }: Props) => {
                 revisionDateTo={currentDateAddYear}
               />
             </TopRowControls>
-            <SwitchWrapper>
-              <StyledSwitch
-                aria-label={t("welcomePage.primaryConnection")}
-                checked={onlyShowPrimaryConnection}
-                onChange={() => {
-                  setOnlyShowPrimaryConnection(!onlyShowPrimaryConnection);
-                  setPage(1);
-                }}
-                label={t("welcomePage.primaryConnectionLabel")}
-                id="filter-primary-connection-switch"
-                title={t("welcomePage.primaryConnection")}
-              />
-            </SwitchWrapper>
+            <StyledSwitchRoot
+              checked={onlyShowPrimaryConnection}
+              title={t("welcomePage.primaryConnection")}
+              aria-label={t("welcomePage.primaryConnection")}
+              onCheckedChange={(details) => {
+                setOnlyShowPrimaryConnection(details.checked);
+                setPage(1);
+              }}
+            >
+              <StyledSwitchLabel>{t("welcomePage.primaryConnectionLabel")}</StyledSwitchLabel>
+              <SwitchControl>
+                <SwitchThumb />
+              </SwitchControl>
+              <SwitchHiddenInput />
+            </StyledSwitchRoot>
           </ControlWrapperDashboard>
         </StyledTopRowDashboardInfo>
         <TableComponent

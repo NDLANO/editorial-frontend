@@ -13,7 +13,7 @@ import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { colors, spacing } from "@ndla/core";
 import { InputV3, FieldErrorMessage } from "@ndla/forms";
-import { Switch } from "@ndla/switch";
+import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { ArticleFormType } from "./articleFormHooks";
 import InlineDatePicker from "./components/InlineDatePicker";
 import FieldRemoveButton from "../../components/Field/FieldRemoveButton";
@@ -53,10 +53,6 @@ const InputWrapper = styled.div`
   flex: 1;
 `;
 
-const StyledSwitch = styled(Switch)`
-  outline: none;
-`;
-
 const StyledDatePickerWrapper = styled.div`
   height: ${spacing.large};
 `;
@@ -72,6 +68,7 @@ const StyledRemoveButton = styled(FieldRemoveButton)`
 const VerticalCenter = styled.div`
   display: flex;
   align-items: center;
+  gap: ${spacing.xsmall};
 `;
 
 const AddRevisionDateField = ({ formikField, showError }: Props) => {
@@ -149,26 +146,27 @@ const AddRevisionDateField = ({ formikField, showError }: Props) => {
                     title={t("form.revisions.datePickerTooltip")}
                   />
                 </StyledDatePickerWrapper>
-                <div>
-                  <StyledSwitch
-                    aria-label={t("form.revisions.switchTooltip")}
-                    checked={revisionMeta.status === Revision.revised}
-                    onChange={(c) => {
-                      const status = c ? Revision.revised : Revision.needsRevision;
-                      editRevision((old) => ({ ...old, status }));
-                      if (status === Revision.revised) {
-                        createMessage({
-                          translationKey: "form.revisions.reminder",
-                          severity: "info",
-                          timeToLive: 0,
-                        });
-                      }
-                    }}
-                    label={""}
-                    id={`revision_switch_${index}`}
-                    title={t("form.revisions.switchTooltip")}
-                  />
-                </div>
+                <SwitchRoot
+                  title={t("form.revisions.switchTooltip")}
+                  checked={revisionMeta.status === Revision.revised}
+                  onCheckedChange={(details) => {
+                    const status = details.checked ? Revision.revised : Revision.needsRevision;
+                    editRevision((old) => ({ ...old, status }));
+                    if (status === Revision.revised) {
+                      createMessage({
+                        translationKey: "form.revisions.reminder",
+                        severity: "info",
+                        timeToLive: 0,
+                      });
+                    }
+                  }}
+                >
+                  <SwitchLabel srOnly>{t("form.revisions.switchTooltip")}</SwitchLabel>
+                  <SwitchControl>
+                    <SwitchThumb />
+                  </SwitchControl>
+                  <SwitchHiddenInput />
+                </SwitchRoot>
                 <StyledRemoveButton
                   aria-label={t("form.revisions.deleteTooltip")}
                   data-visible={true}

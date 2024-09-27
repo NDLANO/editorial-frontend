@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { ModalHeader, ModalBody, ModalCloseButton, Modal, ModalTitle, ModalTrigger, ModalContent } from "@ndla/modal";
-import { Switch } from "@ndla/switch";
+import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { Node, NodeChild } from "@ndla/types-taxonomy";
 import FieldHeader from "../../../../components/Field/FieldHeader";
 import { HowToHelper } from "../../../../components/HowTo";
@@ -101,12 +101,13 @@ const TopicArticleConnections = ({ structure, selectedNodes, addConnection, getS
         <ModalContent animation="subtle" size={{ width: "large", height: "large" }}>
           <StyledModalHeader>
             <ModalTitle>{t("taxonomy.topics.filestructureHeading")}</ModalTitle>
-            <Switch
-              onChange={toggleShowFavorites}
-              checked={showFavorites}
-              label={t("taxonomy.favorites")}
-              id={"favorites"}
-            />
+            <SwitchRoot checked={showFavorites} onCheckedChange={toggleShowFavorites}>
+              <SwitchLabel>{t("taxonomy.favorites")}</SwitchLabel>
+              <SwitchControl>
+                <SwitchThumb />
+              </SwitchControl>
+              <SwitchHiddenInput />
+            </SwitchRoot>
             <ModalCloseButton title={t("taxonomy.topics.filestructureClose")} />
           </StyledModalHeader>
           <ModalBody>

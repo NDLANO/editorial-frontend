@@ -53,6 +53,7 @@ const StyledConnections = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: ${spacing.xsmall};
   background: ${colors.brand.greyLightest};
   padding: ${spacing.xsmall};
   margin-bottom: 2px;

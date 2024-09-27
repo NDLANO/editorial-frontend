@@ -2064,7 +2064,7 @@ const phrases = {
     },
   },
   metadata: {
-    visible: "is visible",
+    visible: "Visible",
     notVisible: "is not visible",
     changeVisibility: "Change visibility",
   },

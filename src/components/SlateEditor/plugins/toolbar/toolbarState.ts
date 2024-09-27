@@ -10,6 +10,7 @@ import merge from "lodash/merge";
 import { Editor, Element, Node, BaseSelection, Text, Range, Transforms } from "slate";
 import { ElementType } from "../../interfaces";
 import { TYPE_NOOP } from "../noop/types";
+import { TYPE_SECTION } from "../section/types";
 
 export const languages = [
   "ar",
@@ -220,10 +221,17 @@ interface ToolbarStateProps {
 export const getSelectionElements = (editor: Editor, selection: BaseSelection): Element[] => {
   // Get elements in the selection only
   if (selection) {
-    return Node.fragment(editor, selection)
-      .filter(Element.isElement)
-      .flatMap((node) => node?.children as Element[])
-      .flatMap((node) => node?.children as Element[]);
+    const fragments = editor.getFragment();
+    const elementFragments = fragments.filter(Element.isElement);
+    // When a fragment selects multiple blocks it seems to return the blocks in a section,
+    // if it is a section we have to flatten it and find the inline children.
+    // TODO: This logic works for the current nodes we have, further nested might provide a problem and must be solved in a different way.
+    if (elementFragments?.[0]?.type === TYPE_SECTION) {
+      return elementFragments
+        .flatMap((node) => node?.children as Element[])
+        .flatMap((node) => node?.children as Element[]);
+    }
+    return elementFragments;
   }
   return [];
 };

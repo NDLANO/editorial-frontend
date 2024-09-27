@@ -105,7 +105,7 @@ app.get("*", async (req, res) => {
     }
 
     const html = template
-      .replace("'__CONFIG__'", serializedConfig)
+      .replace(/"__CONFIG__"/, serializedConfig)
       .replaceAll("__ENVIRONMENT__", config.ndlaEnvironment);
 
     res.status(200).set({ "Content-Type": "text/html" }).end(html);

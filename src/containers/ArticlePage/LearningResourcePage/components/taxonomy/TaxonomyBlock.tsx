@@ -20,6 +20,7 @@ import { IArticle, IUpdatedArticle } from "@ndla/types-backend/draft-api";
 import {
   Node,
   NodeChild,
+  NodeType,
   ResourceType,
   ResourceTypeWithConnection,
   TaxonomyContext,
@@ -61,11 +62,15 @@ interface Props {
   articleLanguage: string;
 }
 
-export interface TaxNode extends Pick<Node, "resourceTypes" | "metadata" | "id"> {
+export interface TaxNode extends Pick<Node, "resourceTypes" | "metadata" | "id" | "context"> {
   placements: MinimalNodeChild[];
 }
 
-export const contextToMinimalNodeChild = (context: TaxonomyContext, articleLanguage: string): MinimalNodeChild => {
+export const contextToMinimalNodeChild = (
+  nodeType: NodeType,
+  context: TaxonomyContext,
+  articleLanguage: string,
+): MinimalNodeChild => {
   const crumb = context.breadcrumbs[articleLanguage] ?? Object.values(context.breadcrumbs)[0] ?? [];
   return {
     id: context.parentIds[context.parentIds.length - 1],
@@ -78,6 +83,8 @@ export const contextToMinimalNodeChild = (context: TaxonomyContext, articleLangu
     metadata: {
       visible: context.isVisible,
     },
+    nodeType,
+    context,
   };
 };
 
@@ -90,8 +97,11 @@ export const toInitialResource = (resource: Node | undefined, language: string):
       visible: true,
       customFields: {},
     },
+    context: resource?.context,
     placements: sortBy(
-      resource?.contexts.filter((c) => c.rootId.includes("subject")).map((c) => contextToMinimalNodeChild(c, language)),
+      resource?.contexts
+        .filter((c) => c.rootId.includes("subject"))
+        .map((c) => contextToMinimalNodeChild(resource.nodeType, c, language)),
       (c) => c.connectionId,
     ),
   };
@@ -236,6 +246,7 @@ const TaxonomyBlock = ({
         },
         connectionId: "",
         name: node.name,
+        nodeType: node.nodeType,
       };
       return { ...res, placements: res.placements.concat(newPlacement) };
     });

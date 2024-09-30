@@ -6,7 +6,9 @@
  *
  */
 
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { createListCollection } from "@ark-ui/react";
 import emotionStyled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 import { ArrowDownShortLine } from "@ndla/icons/common";
@@ -66,16 +68,24 @@ const FooterTextWrapper = emotionStyled.div`
 const FooterWrapper = ({ showLocaleSelector }: Props) => {
   const { t, i18n } = useTranslation();
 
+  const supportedLanguagesCollection = useMemo(
+    () =>
+      createListCollection({
+        items: supportedLanguages,
+        itemToString: (item) => t(`languages.${item}`),
+      }),
+    [t],
+  );
+
   return (
     <FooterContainer>
       <FooterBlock lang={i18n.language}>
         {showLocaleSelector && (
           <LanguageSelectorWrapper>
             <SelectRoot
-              items={supportedLanguages}
+              collection={supportedLanguagesCollection}
               onValueChange={(details) => i18n.changeLanguage(details.value[0] as LocaleType)}
               value={[i18n.language]}
-              itemToString={(item) => t(`languages.${item}`)}
             >
               <SelectLabel srOnly>{t("languages.prefixChangeLanguage")}</SelectLabel>
               <LanguageSelectTrigger asChild>

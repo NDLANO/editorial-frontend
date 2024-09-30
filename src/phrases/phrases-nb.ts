@@ -2062,7 +2062,7 @@ const phrases = {
     },
   },
   metadata: {
-    visible: "er synlig",
+    visible: "Synlig",
     notVisible: "er ikke synlig",
     changeVisibility: "Endre synlighet",
   },

@@ -7,27 +7,13 @@
  */
 
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
-import { spacing } from "@ndla/core";
-import { Switch } from "@ndla/switch";
 import { NodeChild, NodeConnectionPUT } from "@ndla/types-taxonomy";
 import RelevanceOptionSwitch from "./RelevanceOptionSwitch";
 import { ResourceWithNodeConnectionAndMeta } from "../../containers/StructurePage/resourceComponents/StructureResources";
 import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVersionProvider";
 import { usePutResourceForNodeMutation, useUpdateNodeConnectionMutation } from "../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../modules/nodes/nodeQueries";
-
-export const StyledSwitch = styled(Switch)`
-  margin-left: -${spacing.nsmall};
-`;
-
-export const StyledToggleSwitch = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-left: 10px;
-`;
 
 interface Props {
   resource: ResourceWithNodeConnectionAndMeta;

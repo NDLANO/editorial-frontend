@@ -9,6 +9,7 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { BookOpen } from "@ndla/icons/common";
+import { SwitchControl, SwitchHiddenInput, SwitchThumb } from "@ndla/primitives";
 import { IMultiSearchResult } from "@ndla/types-backend/search-api";
 import { Text } from "@ndla/typography";
 import TableComponent, { FieldElement } from "./TableComponent";
@@ -18,7 +19,13 @@ import { ARCHIVED, PUBLISHED, STATUS_ORDER, UNPUBLISHED } from "../../../constan
 import { useSearch } from "../../../modules/search/searchQueries";
 import { toSearch } from "../../../util/routeHelpers";
 import { useLocalStorageSubjectFilterState, useLocalStorageBooleanState } from "../hooks/storedFilterHooks";
-import { ControlWrapperDashboard, StyledLink, StyledSwitch, StyledTopRowDashboardInfo, SwitchWrapper } from "../styles";
+import {
+  ControlWrapperDashboard,
+  StyledLink,
+  StyledSwitchLabel,
+  StyledSwitchRoot,
+  StyledTopRowDashboardInfo,
+} from "../styles";
 
 const EXCLUDE_STATUSES = [PUBLISHED, UNPUBLISHED, ARCHIVED];
 
@@ -197,14 +204,13 @@ const ArticleStatusContent = ({
             setFilterSubject={setFilterSubject}
             removeArchived
           />
-          <SwitchWrapper>
-            <StyledSwitch
-              checked={hideOnHold}
-              onChange={(checked) => setHideOnHold(checked)}
-              label={t("welcomePage.workList.onHoldFilter")}
-              id="filter-on-hold-switch"
-            />
-          </SwitchWrapper>
+          <StyledSwitchRoot checked={hideOnHold} onCheckedChange={(details) => setHideOnHold(details.checked)}>
+            <StyledSwitchLabel textStyle="label.small">{t("welcomePage.workList.onHoldFilter")}</StyledSwitchLabel>
+            <SwitchControl>
+              <SwitchThumb />
+            </SwitchControl>
+            <SwitchHiddenInput />
+          </StyledSwitchRoot>
         </ControlWrapperDashboard>
       </StyledTopRowDashboardInfo>
       <TableComponent

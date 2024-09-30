@@ -14,9 +14,8 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { colors, spacing } from "@ndla/core";
 import { InformationOutline } from "@ndla/icons/common";
-import { PageContent } from "@ndla/primitives";
+import { PageContent, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { MissingRouterContext } from "@ndla/safelink";
-import { Switch } from "@ndla/switch";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import { ArticleWrapper } from "@ndla/ui";
 import { toFormArticle } from "./PreviewDraft";
@@ -149,12 +148,13 @@ export const PreviewVersion = ({ article, language, customTitle }: VersionPrevie
           aria-label={t("form.previewProductionArticle.diffInfo")}
           title={t("form.previewProductionArticle.diffInfo")}
         />
-        <Switch
-          onChange={() => setDiffEnable((p) => !p)}
-          checked={diffEnable}
-          label={t("form.previewProductionArticle.enableDiff")}
-          id={"diff"}
-        />
+        <SwitchRoot checked={diffEnable} onCheckedChange={(details) => setDiffEnable(details.checked)}>
+          <SwitchLabel>{t("form.previewProductionArticle.enableDiff")}</SwitchLabel>
+          <SwitchControl>
+            <SwitchThumb />
+          </SwitchControl>
+          <SwitchHiddenInput />
+        </SwitchRoot>
       </SwitchWrapper>
       <TwoArticleWrapperWithDiff>
         <PageContent variant="content">

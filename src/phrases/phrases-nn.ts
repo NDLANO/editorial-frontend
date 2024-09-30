@@ -2063,7 +2063,7 @@ const phrases = {
     },
   },
   metadata: {
-    visible: "er synleg",
+    visible: "Synleg",
     notVisible: "er ikkje synleg",
     changeVisibility: "Endre synlegheit",
   },

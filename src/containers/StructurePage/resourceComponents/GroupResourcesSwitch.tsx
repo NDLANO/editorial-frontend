@@ -7,10 +7,8 @@
  */
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
-import { spacing } from "@ndla/core";
-import { Switch } from "@ndla/switch";
+import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { Node, Metadata } from "@ndla/types-taxonomy";
 import {
   TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE,
@@ -21,10 +19,6 @@ import { useUpdateNodeMetadataMutation } from "../../../modules/nodes/nodeMutati
 import { nodeQueryKeys } from "../../../modules/nodes/nodeQueries";
 import { getRootIdForNode, isRootNode } from "../../../modules/nodes/nodeUtil";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
-
-const StyledSwitch = styled(Switch)`
-  margin-left: -${spacing.small};
-`;
 
 interface Props {
   node: Node;
@@ -71,17 +65,17 @@ const GroupResourceSwitch = ({ node, onChanged }: Props) => {
   };
 
   return (
-    <div>
-      <StyledSwitch
-        aria-label={t("taxonomy.metadata.customFields.RGTooltip")}
-        id="group-resources"
-        checked={grouped}
-        label=""
-        onChange={updateMetadata}
-        thumbCharacter={grouped ? "G" : "U"}
-        title={t("taxonomy.metadata.customFields.RGTooltip")}
-      />
-    </div>
+    <SwitchRoot
+      checked={grouped}
+      onCheckedChange={updateMetadata}
+      title={t("taxonomy.metadata.customFields.RGTooltip")}
+    >
+      <SwitchLabel srOnly>{t("taxonomy.metadata.customFields.RGTooltip")}</SwitchLabel>
+      <SwitchControl>
+        <SwitchThumb>{grouped ? "G" : "U"}</SwitchThumb>
+      </SwitchControl>
+      <SwitchHiddenInput />
+    </SwitchRoot>
   );
 };
 

@@ -7,9 +7,10 @@
  */
 
 import merge from "lodash/merge";
-import { Editor, Element, Node, BaseSelection, Text, Range, Transforms } from "slate";
+import { Editor, Element, Node, BaseSelection, Text } from "slate";
 import { ElementType } from "../../interfaces";
 import { TYPE_NOOP } from "../noop/types";
+import { TYPE_PARAGRAPH } from "../paragraph/types";
 import { TYPE_SECTION } from "../section/types";
 
 export const languages = [
@@ -163,6 +164,7 @@ export const defaultAreaOptions: AreaFilters = {
   list: { inline: { disabled: true } },
   "definition-term": { block: { quote: { disabled: true } }, inline: { disabled: true } },
   "definition-description": { block: { quote: { disabled: true } }, inline: { disabled: true } },
+  "definition-list": { block: { quote: { disabled: true } }, inline: { disabled: true } },
   quote: { inline: { disabled: true } },
 };
 
@@ -223,6 +225,7 @@ export const getSelectionElements = (editor: Editor, selection: BaseSelection): 
   if (selection) {
     const fragments = editor.getFragment();
     const elementFragments = fragments.filter(Element.isElement);
+
     // When a fragment selects multiple blocks it seems to return the blocks in a section,
     // if it is a section we have to flatten it and find the inline children.
     // TODO: This logic works for the current nodes we have, further nested might provide a problem and must be solved in a different way.
@@ -230,7 +233,10 @@ export const getSelectionElements = (editor: Editor, selection: BaseSelection): 
       return elementFragments
         .flatMap((node) => node?.children as Element[])
         .flatMap((node) => node?.children as Element[]);
+    } else if (elementFragments?.[0]?.type === TYPE_PARAGRAPH) {
+      return elementFragments.flatMap((node) => node?.children as Element[]);
     }
+
     return elementFragments;
   }
   return [];

@@ -30,6 +30,7 @@ export const StyledDashboardInfo = styled.div`
 
 export const StyledTopRowDashboardInfo = styled.div`
   display: flex;
+  width: 100%;
   justify-content: space-between;
   margin-bottom: ${spacing.small};
   ${mq.range({ until: breakpoints.tabletWide })} {

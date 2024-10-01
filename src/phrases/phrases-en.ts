@@ -201,6 +201,12 @@ const phrases = {
       publishedDescription: "Number of published resources",
     },
     welcomeBack: "Welcome",
+    listLabels: {
+      worklist: "Resource types",
+      lastUsed: "Resource types",
+      subjectView: "Subject types",
+      articleStatuses: "Subject types",
+    },
   },
   searchPage: {
     header: {

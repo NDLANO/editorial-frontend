@@ -6,29 +6,22 @@
  *
  */
 
-import { Form, Formik } from "formik";
+import { Formik } from "formik";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
-import { FieldErrorMessage, Label, TextAreaV3 } from "@ndla/forms";
-import { Button } from "@ndla/primitives";
+import { Button, FieldErrorMessage, FieldLabel, FieldRoot, FieldTextArea } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { CommentEmbedData } from "@ndla/types-embed";
-import { FormControl, FormField } from "../../../FormField";
+import { FormField } from "../../../FormField";
+import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
 
-const CommentActions = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  gap: ${spacing.xsmall};
-  padding: ${spacing.normal} 0 0;
-`;
-
-const StyledTextArea = styled(TextAreaV3)`
-  max-height: 300px;
-  overflow-y: scroll;
-`;
+const StyledTextArea = styled(FieldTextArea, {
+  base: {
+    maxHeight: "surface.xsmall",
+    overflowY: "auto",
+  },
+});
 
 interface Props {
   initialData: CommentEmbedData | undefined;
@@ -84,27 +77,25 @@ const CommentForm = ({
       validate={(values) => validateFormik(values, rules, t)}
     >
       {({ isValid, dirty }) => (
-        <Form>
+        <FormikForm>
           <FormField name="text">
             {({ field, meta }) => (
-              <FormControl isRequired isInvalid={!!meta.error}>
-                <Label visuallyHidden={labelVisuallyHidden} textStyle="label-small" margin="none">
-                  {labelText}
-                </Label>
+              <FieldRoot required invalid={!!meta.error}>
+                <FieldLabel srOnly={labelVisuallyHidden}>{labelText}</FieldLabel>
                 <StyledTextArea {...field} />
                 <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-              </FormControl>
+              </FieldRoot>
             )}
           </FormField>
-          <CommentActions>
+          <FormActionsContainer>
             <Button onClick={() => onOpenChange(false)} variant="secondary">
               {t("form.abort")}
             </Button>
             <Button type="submit" data-testid="disclaimer-save" disabled={!isValid || !dirty}>
               {t("form.save")}
             </Button>
-          </CommentActions>
-        </Form>
+          </FormActionsContainer>
+        </FormikForm>
       )}
     </Formik>
   );

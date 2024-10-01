@@ -6,23 +6,21 @@
  *
  */
 
-import { Form, Formik } from "formik";
+import { Formik } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
-import { FieldErrorMessage, InputV3, Label } from "@ndla/forms";
 import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle } from "@ndla/modal";
-import { Button } from "@ndla/primitives";
+import { Button, FieldErrorMessage, FieldInput, FieldLabel, FieldRoot, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { LinkBlockEmbedData } from "@ndla/types-embed";
-import { Text } from "@ndla/typography";
 import InlineDatePicker from "../../../../containers/FormikForm/components/InlineDatePicker";
 import { InlineField } from "../../../../containers/FormikForm/InlineField";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
 import { formatDateForBackend } from "../../../../util/formatDate";
 import { isFormikFormDirty } from "../../../../util/formHelper";
-import { FormControl, FormField } from "../../../FormField";
+import { FormField } from "../../../FormField";
+import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
 import { RichTextIndicator } from "../../RichTextIndicator";
 
@@ -46,23 +44,12 @@ const toInitialValues = (initialData: LinkBlockEmbedData | undefined): LinkBlock
   };
 };
 
-const ButtonContainer = styled.div`
-  padding-top: ${spacing.small};
-  display: flex;
-  justify-content: flex-end;
-  gap: ${spacing.small};
-`;
-
-const StyledForm = styled(Form)`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-`;
-
-const DateWrapper = styled.div`
-  display: flex;
-  gap: ${spacing.xsmall};
-`;
+const DateWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "3xsmall",
+  },
+});
 
 const LinkBlockForm = ({ embed, existingEmbeds, onSave }: Props) => {
   const { t } = useTranslation();
@@ -126,14 +113,14 @@ const LinkBlockForm = ({ embed, existingEmbeds, onSave }: Props) => {
         >
           {({ dirty, isValid, isSubmitting, values }) => {
             return (
-              <StyledForm>
-                <Text textStyle="label-small" margin="none">
-                  {t("form.name.title")}
-                  <RichTextIndicator />
-                </Text>
+              <FormikForm>
                 <FormField name="title">
                   {({ field, helpers, meta }) => (
-                    <FormControl isInvalid={!!meta.error}>
+                    <FieldRoot invalid={!!meta.error}>
+                      <Text textStyle="label.medium" fontWeight="bold">
+                        {t("form.name.title")}
+                        <RichTextIndicator />
+                      </Text>
                       <InlineField
                         {...field}
                         placeholder={t("form.name.title")}
@@ -141,43 +128,39 @@ const LinkBlockForm = ({ embed, existingEmbeds, onSave }: Props) => {
                         onChange={helpers.setValue}
                       />
                       <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-                    </FormControl>
+                    </FieldRoot>
                   )}
                 </FormField>
                 <FormField name="url">
                   {({ field, meta }) => (
-                    <FormControl isInvalid={!!meta.error}>
-                      <Label margin="none" textStyle="label-small">
-                        {t("form.name.url")}
-                      </Label>
-                      <InputV3 {...field} />
+                    <FieldRoot invalid={!!meta.error}>
+                      <FieldLabel>{t("form.name.url")}</FieldLabel>
+                      <FieldInput {...field} />
                       <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-                    </FormControl>
+                    </FieldRoot>
                   )}
                 </FormField>
                 <FormField name="date">
                   {({ field, meta, helpers }) => (
-                    <FormControl isInvalid={!!meta.error}>
-                      <Label margin="none" textStyle="label-small">
-                        {t("form.name.date")}
-                      </Label>
+                    <FieldRoot invalid={!!meta.error}>
+                      <FieldLabel>{t("form.name.date")}</FieldLabel>
                       <DateWrapper>
                         <InlineDatePicker placeholder={t("linkBlock.chooseDate")} {...field} />
                         <Button onClick={() => helpers.setValue("")}>{t("reset")}</Button>
                       </DateWrapper>
                       <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-                    </FormControl>
+                    </FieldRoot>
                   )}
                 </FormField>
-                <ButtonContainer>
+                <FormActionsContainer>
                   <ModalCloseButton>
                     <Button variant="secondary">{t("cancel")}</Button>
                   </ModalCloseButton>
                   <Button disabled={!isFormikFormDirty({ values, initialValues, dirty }) || !isValid} type="submit">
                     {t("save")}
                   </Button>
-                </ButtonContainer>
-              </StyledForm>
+                </FormActionsContainer>
+              </FormikForm>
             );
           }}
         </Formik>

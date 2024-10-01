@@ -6,18 +6,34 @@
  *
  */
 
-import { Form, Formik, useFormikContext } from "formik";
+import { Formik, useFormikContext } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
-import { FieldErrorMessage, Label, Select } from "@ndla/forms";
+import { createListCollection } from "@ark-ui/react";
+import { ArrowDownShortLine } from "@ndla/icons/common";
+import { CheckLine } from "@ndla/icons/editor";
 import { ModalBody, ModalHeader, ModalTitle } from "@ndla/modal";
-import { Button } from "@ndla/primitives";
+import {
+  Button,
+  FieldErrorMessage,
+  FieldRoot,
+  SelectContent,
+  SelectControl,
+  SelectIndicator,
+  SelectItem,
+  SelectItemIndicator,
+  SelectItemText,
+  SelectLabel,
+  SelectPositioner,
+  SelectRoot,
+  SelectTrigger,
+  SelectValueText,
+} from "@ndla/primitives";
 import { IAudioMetaInformation } from "@ndla/types-backend/audio-api";
 import { AudioEmbedData } from "@ndla/types-embed";
 import { AudioPlayer } from "@ndla/ui";
-import { FormControl, FormField } from "../../../FormField";
+import { FormField } from "../../../FormField";
+import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
 
 interface Props {
@@ -26,19 +42,6 @@ interface Props {
   onCancel: () => void;
   onSave: (embed: AudioEmbedData) => void;
 }
-
-const StyledForm = styled(Form)`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.normal};
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  gap: ${spacing.small};
-  padding: ${spacing.small} 0;
-`;
 
 interface FormValues {
   type: string;
@@ -97,32 +100,71 @@ interface EmbedFormProps {
 const EmbedForm = ({ onCancel, audio }: EmbedFormProps) => {
   const { t } = useTranslation();
   const { isValid, dirty, values } = useFormikContext<FormValues>();
+
+  const collection = useMemo(
+    () =>
+      createListCollection({
+        items: [
+          {
+            value: "standard",
+            label: t("form.audio.sound"),
+          },
+          {
+            value: "minimal",
+            label: t("form.audio.speech"),
+          },
+        ],
+      }),
+    [t],
+  );
+
   return (
-    <StyledForm>
+    <FormikForm>
       <FormField name="type">
-        {({ field, meta }) => (
-          <FormControl isRequired isInvalid={!!meta.error}>
-            <Label textStyle="label-small" margin="none">
-              {t("form.audio.chooseAudioType")}
-            </Label>
-            <Select {...field}>
-              <option value="standard">{t("form.audio.sound")}</option>
-              <option value="minimal">{t("form.audio.speech")}</option>
-            </Select>
+        {({ field, meta, helpers }) => (
+          <FieldRoot required invalid={!!meta.error}>
+            <SelectRoot
+              value={[field.value]}
+              onValueChange={(details) => helpers.setValue(details.value[0])}
+              collection={collection}
+            >
+              <SelectLabel>{t("form.audio.chooseAudioType")}</SelectLabel>
+              <SelectControl>
+                <SelectTrigger asChild>
+                  <Button variant="secondary">
+                    <SelectValueText />
+
+                    <SelectIndicator asChild>
+                      <ArrowDownShortLine />
+                    </SelectIndicator>
+                  </Button>
+                </SelectTrigger>
+              </SelectControl>
+              <SelectPositioner>
+                <SelectContent>
+                  {collection.items.map((item) => (
+                    <SelectItem item={item} key={item.value}>
+                      <SelectItemText>{item.label}</SelectItemText>
+                      <SelectItemIndicator asChild>
+                        <CheckLine />
+                      </SelectItemIndicator>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </SelectPositioner>
+            </SelectRoot>
             <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-          </FormControl>
+          </FieldRoot>
         )}
       </FormField>
-      <div>
-        <AudioPlayer src={audio.audioFile.url} title={audio.title.title} speech={values.type === "minimal"} />
-      </div>
-      <ButtonWrapper>
+      <AudioPlayer src={audio.audioFile.url} title={audio.title.title} speech={values.type === "minimal"} />
+      <FormActionsContainer>
         <Button onClick={onCancel}>{t("form.abort")}</Button>
         <Button disabled={!isValid || !dirty} type="submit">
           {t("form.save")}
         </Button>
-      </ButtonWrapper>
-    </StyledForm>
+      </FormActionsContainer>
+    </FormikForm>
   );
 };
 

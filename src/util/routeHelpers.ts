@@ -218,7 +218,8 @@ export function toCompareLanguage(draftId: number, language: string) {
   return `/compare/${draftId}/${language}`;
 }
 
-export function toStructure(path: string) {
+export function toStructure(path?: string) {
+  if (!path) return "/structure";
   const urnPath = path
     .split("/")
     .slice(1)

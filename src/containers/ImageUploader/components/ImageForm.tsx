@@ -28,7 +28,7 @@ import validateFormik, { RulesType, getWarnings } from "../../../components/form
 import FormWrapper from "../../../components/FormWrapper";
 import HeaderWithLanguage from "../../../components/HeaderWithLanguage/HeaderWithLanguage";
 import SaveButton from "../../../components/SaveButton";
-import { MAX_IMAGE_UPLOAD_SIZE, SAVE_BUTTON_ID } from "../../../constants";
+import { SAVE_BUTTON_ID } from "../../../constants";
 import { editorValueToPlainText } from "../../../util/articleContentConverter";
 import { isFormikFormDirty } from "../../../util/formHelper";
 import { AlertModalWrapper } from "../../FormikForm";
@@ -77,9 +77,6 @@ const imageRules: RulesType<ImageFormikType, IImageMetaInformationV3> = {
   },
   imageFile: {
     required: true,
-  },
-  "imageFile.size": {
-    maxSize: MAX_IMAGE_UPLOAD_SIZE,
   },
   license: {
     required: true,

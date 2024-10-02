@@ -1341,10 +1341,12 @@ const phrases = {
         placeholder: "Alt-tekst",
         noText: "Universell utforming krever alt-tekst for bilder som ikke er dekorative.",
       },
-      dragdrop: {
-        main: "Dra og slipp",
-        sub: "eller trykk for å laste opp bilde",
-        ariaLabel: "Dra og slipp eller trykk for å laste opp bilde",
+      fileUpload: {
+        description: "Dra og slipp eller trykk for å laste opp bilde",
+        button: "Legg til",
+        genericError: "Opplastning av bildefil feilet",
+        tooLargeError: "Bildefil er for stor",
+        fileTypeInvalidError: "Filtypen er ikke støttet",
       },
       byline: {
         show: "Vis byline",

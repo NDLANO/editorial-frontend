@@ -193,7 +193,7 @@ const phrases = {
       flow: "I flyt",
       flowDescription: "Tal på ressursar i flyt",
       old: "Utdaterte",
-      oldDescription: "Tal på ressurser det er meir enn 5 år sidan vart sist fagleg vurdert",
+      oldDescription: "Tal på ressurser det er meir enn 5 år sidan vart sist fagleg oppdatert",
       revision: "Revisjonar",
       revisionDescription: "Tal på ressursar med utgått revisjonsdato",
       published: "Publisert",
@@ -361,7 +361,7 @@ const phrases = {
       lastUpdated: "Sist oppdatert",
       revisionDate: "Neste revisjon",
       favorited: "Favorittmarkeringar",
-      published: "Sist faglig vurdert",
+      published: "Sist faglig oppdatert",
     },
     resultError: "Noko gjekk feil med innlasting av type: {{type}}",
     favourites: "Mine favorittfag",
@@ -500,7 +500,7 @@ const phrases = {
     visualElementCopyright: "Opphav",
     removeVisualElement: "Fjern element",
     info: {
-      lastUpdated: "Sist faglig vurdert",
+      lastUpdated: "Sist faglig oppdatert",
     },
     title: "Emne",
     fields: {

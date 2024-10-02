@@ -24,6 +24,10 @@ export const routes = {
   editMarkup: toEditMarkup,
   structure: toStructure,
   nodeDiff: toNodeDiff,
+  taxonomy: {
+    structure: toStructure,
+    versions: "/taxonomyVersions",
+  },
   notFound: "/404",
   home: "/",
   login: "/login",
@@ -32,12 +36,16 @@ export const routes = {
     logoutSession: "/logout/session",
     logoutFederated: "/logout/federated",
   },
+  h5p: {
+    edit: "/h5p",
+  },
   film: {
     edit: toEditNdlaFilm,
   },
   frontpage: {
     create: "/subject-matter/frontpage-article/new",
     edit: toEditFrontPageArticle,
+    structure: "/frontpage",
   },
   subjectPage: {
     create: toCreateSubjectpage,

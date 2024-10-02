@@ -7,10 +7,8 @@
  */
 
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
-import { FieldErrorMessage, Label, TextAreaV3 } from "@ndla/forms";
-import { FormControl, FormField } from "../../components/FormField";
+import { FieldLabel, FieldErrorMessage, FieldRoot, TextArea } from "@ndla/primitives";
+import { FormField } from "../../components/FormField";
 
 interface Props {
   maxLength?: number;
@@ -18,20 +16,16 @@ interface Props {
   type?: string;
 }
 
-const StyledFormControl = styled(FormControl)`
-  margin-top: ${spacing.mediumlarge};
-`;
-
 const SlugField = ({ name = "slug" }: Props) => {
   const { t } = useTranslation();
   return (
     <FormField name={name}>
       {({ field, meta }) => (
-        <StyledFormControl isRequired isInvalid={!!meta.error}>
-          <Label visuallyHidden>{t("form.slug.label")}</Label>
-          <TextAreaV3 {...field} placeholder={t("form.slug.label")} />
+        <FieldRoot required invalid={!!meta.error}>
+          <FieldLabel>{t("form.slug.label")}</FieldLabel>
+          <TextArea {...field} placeholder={t("form.slug.label")} />
           <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-        </StyledFormControl>
+        </FieldRoot>
       )}
     </FormField>
   );

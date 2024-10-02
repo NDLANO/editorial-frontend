@@ -6,17 +6,31 @@
  *
  */
 
-import { Form, Formik, useFormikContext } from "formik";
+import { Formik, useFormikContext } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { Popover, PopoverArrow, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
 import { spacing, colors, shadows, misc, stackOrder } from "@ndla/core";
-import { CheckboxItem, FieldErrorMessage, InputContainer, InputV3, Label, TextAreaV3 } from "@ndla/forms";
 import { Cross } from "@ndla/icons/action";
 import { Information } from "@ndla/icons/common";
+import { CheckLine } from "@ndla/icons/editor";
 import { ModalCloseButton } from "@ndla/modal";
-import { Button, IconButton } from "@ndla/primitives";
+import {
+  Button,
+  CheckboxControl,
+  CheckboxHiddenInput,
+  CheckboxIndicator,
+  CheckboxLabel,
+  CheckboxRoot,
+  FieldErrorMessage,
+  FieldInput,
+  FieldLabel,
+  FieldRoot,
+  FieldTextArea,
+  IconButton,
+  InputContainer,
+} from "@ndla/primitives";
 import { IframeEmbedData, OembedEmbedData } from "@ndla/types-embed";
 import { DRAFT_ADMIN_SCOPE, EXTERNAL_WHITELIST_PROVIDERS } from "../../../../constants";
 import InlineImageSearch from "../../../../containers/ConceptPage/components/InlineImageSearch";
@@ -27,9 +41,13 @@ import { WhitelistProvider } from "../../../../interfaces";
 import { fetchExternalOembed } from "../../../../util/apiHelpers";
 import { getIframeSrcFromHtmlString, urlDomain } from "../../../../util/htmlHelpers";
 import { getStartTime, getStopTime, getYoutubeEmbedUrl, removeYoutubeTimeStamps } from "../../../../util/videoUtil";
-import { CheckboxWrapper } from "../../../Form/styles";
-import { FormControl, FormField } from "../../../FormField";
+import { FormField } from "../../../FormField";
+import { FormikForm } from "../../../FormikForm";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
+
+const StyledCheckboxRoot = styled(CheckboxRoot)`
+  width: fit-content;
+`;
 
 const ButtonContainer = styled.div`
   margin-top: ${spacing.small};
@@ -44,12 +62,6 @@ const LinkInputWrapper = styled.div`
   button {
     white-space: nowrap;
   }
-`;
-
-const StyledForm = styled(Form)`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.normal};
 `;
 
 const LabelWrapper = styled.div`
@@ -271,14 +283,12 @@ const InnerForm = () => {
   );
 
   return (
-    <StyledForm>
+    <FormikForm>
       <FormField name="url">
         {({ field, meta, helpers }) => (
-          <FormControl isRequired isInvalid={!!meta.error}>
+          <FieldRoot required invalid={!!meta.error}>
             <LabelWrapper>
-              <Label textStyle="label-small" margin="none">
-                {t("form.name.url")}
-              </Label>
+              <FieldLabel>{t("form.name.url")}</FieldLabel>
               <Popover>
                 <InfoButton title={t("link.validDomains")} aria-label={t("form.content.link.validDomains")}>
                   <Information />
@@ -292,7 +302,7 @@ const InnerForm = () => {
             </LabelWrapper>
             <LinkInputWrapper data-has-link={!!field.value}>
               <InputContainer>
-                <InputV3 {...field} />
+                <FieldInput {...field} />
                 <IconButton
                   aria-label={t("form.content.link.remove")}
                   title={t("form.content.link.remove")}
@@ -316,7 +326,7 @@ const InnerForm = () => {
               </Button>
             </LinkInputWrapper>
             {meta.initialValue !== field.value && <FieldErrorMessage>{meta.error}</FieldErrorMessage>}
-          </FormControl>
+          </FieldRoot>
         )}
       </FormField>
       {!errors.validUrl && !!values.validUrl.length && !values.isFullscreen && (
@@ -328,92 +338,88 @@ const InnerForm = () => {
         <TimeWrapper>
           <FormField name="startTime">
             {({ field }) => (
-              <FormControl>
-                <Label textStyle="label-small" margin="none">
-                  {t("form.video.time.start")}
-                </Label>
-                <InputV3 {...field} placeholder="h:m:s" />
-              </FormControl>
+              <FieldRoot>
+                <FieldLabel>{t("form.video.time.start")}</FieldLabel>
+                <FieldInput {...field} placeholder="h:m:s" />
+              </FieldRoot>
             )}
           </FormField>
           <FormField name="stopTime">
             {({ field }) => (
-              <FormControl>
-                <Label textStyle="label-small" margin="none">
-                  {t("form.video.time.stop")}
-                </Label>
-                <InputV3 {...field} placeholder="h:m:s" />
-              </FormControl>
+              <FieldRoot>
+                <FieldLabel>{t("form.video.time.stop")}</FieldLabel>
+                <FieldInput {...field} placeholder="h:m:s" />
+              </FieldRoot>
             )}
           </FormField>
         </TimeWrapper>
       )}
       {userPermissions?.includes(DRAFT_ADMIN_SCOPE) && (
         <FormField name="isFullscreen">
-          {({ field }) => (
-            <FormControl>
-              <CheckboxWrapper>
-                <CheckboxItem
-                  checked={field.value}
-                  onCheckedChange={() => field.onChange({ target: { name: field.name, value: !field.value } })}
-                />
-                <Label margin="none" textStyle="label-small">
-                  {t("form.content.link.fullscreen")}
-                </Label>
-              </CheckboxWrapper>
-            </FormControl>
+          {({ field, helpers }) => (
+            <FieldRoot>
+              <StyledCheckboxRoot
+                checked={field.checked}
+                onCheckedChange={(details) => helpers.setValue(details.checked, true)}
+              >
+                <CheckboxLabel>{t("form.content.link.fullscreen")}</CheckboxLabel>
+                <CheckboxControl>
+                  <CheckboxIndicator asChild>
+                    <CheckLine />
+                  </CheckboxIndicator>
+                </CheckboxControl>
+                <CheckboxHiddenInput />
+              </StyledCheckboxRoot>
+            </FieldRoot>
           )}
         </FormField>
       )}
       <FormField name="title">
         {({ field }) => (
-          <FormControl>
-            <Label textStyle="label-small" margin="none">
-              {t("form.name.title")}
-            </Label>
-            <InputV3 {...field} />
-          </FormControl>
+          <FieldRoot>
+            <FieldLabel>{t("form.name.title")}</FieldLabel>
+            <FieldInput {...field} />
+          </FieldRoot>
         )}
       </FormField>
       {values.isFullscreen && (
         <>
           <FormField name="caption">
             {({ field }) => (
-              <FormControl>
-                <Label textStyle="label-small" margin="none">
-                  {t("form.name.description")}
-                </Label>
-                <TextAreaV3 {...field} />
-              </FormControl>
+              <FieldRoot>
+                <FieldLabel>{t("form.name.description")}</FieldLabel>
+                <FieldTextArea {...field} />
+              </FieldRoot>
             )}
           </FormField>
           <InlineImageSearch name="metaImageId" disableAltEditing hideAltText />
           {values.metaImageId && (
             <>
               <FormField name="isDecorative">
-                {({ field }) => (
-                  <FormControl>
-                    <CheckboxWrapper>
-                      <CheckboxItem
-                        checked={field.value}
-                        onCheckedChange={() => field.onChange({ target: { name: field.name, value: !field.value } })}
-                      />
-                      <Label margin="none" textStyle="label-small">
-                        {t("form.image.isDecorative")}
-                      </Label>
-                    </CheckboxWrapper>
-                  </FormControl>
+                {({ field, helpers }) => (
+                  <FieldRoot>
+                    <StyledCheckboxRoot
+                      checked={field.value}
+                      onCheckedChange={(details) => helpers.setValue(details.checked, true)}
+                    >
+                      <CheckboxLabel>{t("form.image.isDecorative")}</CheckboxLabel>
+                      <CheckboxControl>
+                        <CheckboxIndicator asChild>
+                          <CheckLine />
+                        </CheckboxIndicator>
+                      </CheckboxControl>
+                      <CheckboxHiddenInput />
+                    </StyledCheckboxRoot>
+                  </FieldRoot>
                 )}
               </FormField>
               <FormField name="metaImageAlt">
                 {({ field }) =>
                   !values.isDecorative && (
-                    <FormControl>
-                      <Label textStyle="label-small" margin="none">
-                        {t("form.name.alttext")}
-                      </Label>
-                      <InputV3 {...field} />
-                    </FormControl>
+                    <FieldRoot>
+                      <FieldLabel>{t("form.name.alttext")}</FieldLabel>
+                      <FieldInput {...field} />
+                    </FieldRoot>
                   )
                 }
               </FormField>
@@ -429,6 +435,6 @@ const InnerForm = () => {
           {t("save")}
         </Button>
       </ButtonContainer>
-    </StyledForm>
+    </FormikForm>
   );
 };

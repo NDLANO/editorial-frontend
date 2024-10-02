@@ -15,8 +15,8 @@ details {
   position: relative;
 }
 
-input,
-textarea {
+input:not([class]),
+textarea:not([class]) {
   color: #4d4d4d;
   width: 100%;
   max-width: 100%;
@@ -45,7 +45,6 @@ select {
 input::placeholder {
   color: rgb(153, 153, 153);
 }
-
 
 /* DatePicker styling */
 .rdp-months {
@@ -86,4 +85,3 @@ mjx-container.MathJax[jax="CHTML"][display="true"] {
     max-height: none;
   }
 }
-

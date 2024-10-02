@@ -8,47 +8,44 @@
 
 import { KeyboardEvent, MouseEvent, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { colors, fonts, spacing } from "@ndla/core";
-import { CheckboxItem, InputContainer, InputV3, Label } from "@ndla/forms";
 import { Cross, Pencil } from "@ndla/icons/action";
-import { Check, DeleteForever } from "@ndla/icons/editor";
-import { IconButton } from "@ndla/primitives";
+import { Check, CheckLine, DeleteForever } from "@ndla/icons/editor";
+import {
+  CheckboxControl,
+  CheckboxHiddenInput,
+  CheckboxIndicator,
+  CheckboxLabel,
+  CheckboxRoot,
+  FieldInput,
+  FieldLabel,
+  FieldRoot,
+  IconButton,
+  InputContainer,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { File as FileComponent, FileListItem } from "@ndla/ui";
 import { File as FileType } from "../../../../interfaces";
-import { FormControl } from "../../../FormField";
 
-const StyledButtonWrapper = styled.div`
-  white-space: nowrap;
-  display: flex;
-  gap: ${spacing.xxsmall};
-  align-items: center;
-`;
+const ButtonWrapper = styled("div", {
+  base: {
+    whiteSpace: "nowrap",
+    display: "flex",
+    gap: "3xsmall",
+    alignItems: "center",
+  },
+});
 
-const CheckboxFormControl = styled(FormControl)`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: ${spacing.xsmall};
-  margin-right: ${spacing.normal};
-  & label {
-    font-size: ${fonts.size.text.button};
-    font-weight: ${fonts.weight.semibold};
-  }
-`;
+const StyledFieldRoot = styled(FieldRoot, {
+  base: {
+    width: "100%",
+  },
+});
 
-const StyledInputContainer = styled(InputContainer)`
-  background-color: ${colors.white};
-  width: 100%;
-`;
-
-const StyledFormControl = styled(FormControl)`
-  width: 100%;
-`;
-
-const StyledFileListItem = styled(FileListItem)`
-  width: 100%;
-`;
+const StyledCheckboxRoot = styled(CheckboxRoot, {
+  base: {
+    width: "fit-content",
+  },
+});
 
 interface Props {
   index: number;
@@ -106,14 +103,13 @@ export const SlateFile = ({
   );
 
   return (
-    <StyledFileListItem asChild consumeCss>
+    <FileListItem css={{ width: "100%", gap: "xsmall" }} asChild consumeCss>
       <div>
         {isEditMode ? (
-          <StyledFormControl id={"update-file-name"}>
-            <Label visuallyHidden>{t("form.file.changeName")}</Label>
-            <StyledInputContainer>
-              <InputV3
-                name="file-name"
+          <StyledFieldRoot>
+            <FieldLabel srOnly>{t("form.file.changeName")}</FieldLabel>
+            <InputContainer>
+              <FieldInput
                 value={fileName}
                 onKeyDown={onKeyDown}
                 onChange={(e) => setFileName(e.currentTarget.value)}
@@ -131,8 +127,8 @@ export const SlateFile = ({
               >
                 <Check />
               </IconButton>
-            </StyledInputContainer>
-          </StyledFormControl>
+            </InputContainer>
+          </StyledFieldRoot>
         ) : (
           <FileComponent
             title={file.title}
@@ -142,13 +138,13 @@ export const SlateFile = ({
           />
         )}
 
-        <StyledButtonWrapper>
+        <ButtonWrapper>
           {isEditMode ? (
             <IconButton
               title={t("cancel")}
               aria-label={t("form.file.changeName")}
               onClick={() => setEditIndex(undefined)}
-              variant="danger"
+              variant="secondary"
               size="small"
             >
               <Cross />
@@ -156,12 +152,15 @@ export const SlateFile = ({
           ) : (
             <>
               {file.type === "pdf" && (
-                <CheckboxFormControl>
-                  <CheckboxItem checked={file.display === "block"} onCheckedChange={onToggleRenderInline} />
-                  <Label margin="none" textStyle="label-small">
-                    {t("form.file.showPdf")}
-                  </Label>
-                </CheckboxFormControl>
+                <StyledCheckboxRoot checked={file.display === "block"} onCheckedChange={onToggleRenderInline}>
+                  <CheckboxControl>
+                    <CheckboxIndicator asChild>
+                      <CheckLine />
+                    </CheckboxIndicator>
+                  </CheckboxControl>
+                  <CheckboxLabel>{t("form.file.showPdf")}</CheckboxLabel>
+                  <CheckboxHiddenInput />
+                </StyledCheckboxRoot>
               )}
               <IconButton
                 title={t("form.file.changeName")}
@@ -183,8 +182,8 @@ export const SlateFile = ({
           >
             <DeleteForever />
           </IconButton>
-        </StyledButtonWrapper>
+        </ButtonWrapper>
       </div>
-    </StyledFileListItem>
+    </FileListItem>
   );
 };

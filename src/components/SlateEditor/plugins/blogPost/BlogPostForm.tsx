@@ -6,21 +6,30 @@
  *
  */
 
-import { Formik, Form } from "formik";
+import { Formik } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
-import { FieldErrorMessage, InputV3, Label, RadioButtonGroup, RadioButtonItem } from "@ndla/forms";
-import { Button } from "@ndla/primitives";
+import {
+  Button,
+  FieldErrorMessage,
+  FieldInput,
+  FieldLabel,
+  FieldRoot,
+  RadioGroupItem,
+  RadioGroupItemControl,
+  RadioGroupItemHiddenInput,
+  RadioGroupItemText,
+  RadioGroupLabel,
+  RadioGroupRoot,
+  Text,
+} from "@ndla/primitives";
 import { BlogPostEmbedData } from "@ndla/types-embed";
-import { Text } from "@ndla/typography";
 import InlineImageSearch from "../../../../containers/ConceptPage/components/InlineImageSearch";
 import { InlineField } from "../../../../containers/FormikForm/InlineField";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
-import { RadioButtonWrapper, FieldsetRow, StyledFormControl, LeftLegend } from "../../../Form/styles";
-import { FormControl, FormField } from "../../../FormField";
+import { FormField } from "../../../FormField";
+import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
 import { RichTextIndicator } from "../../RichTextIndicator";
 
@@ -66,13 +75,6 @@ const toInitialValues = (initialData?: BlogPostEmbedData): BlogPostFormValues =>
   };
 };
 
-const ButtonContainer = styled.div`
-  margin-top: ${spacing.small};
-  display: flex;
-  justify-content: flex-end;
-  gap: ${spacing.small};
-`;
-
 interface Props {
   initialData?: BlogPostEmbedData;
   onSave: (data: BlogPostEmbedData) => void;
@@ -116,98 +118,83 @@ const BlogPostForm = ({ initialData, onSave, onCancel }: Props) => {
       validate={(values) => validateFormik(values, rules, t)}
     >
       {({ dirty, isValid, values, isSubmitting }) => (
-        <Form>
-          <div>
-            <Text textStyle="label-small" margin="none">
-              {t("form.name.title")}
-              <RichTextIndicator />
-            </Text>
-            <FormField name="title">
-              {({ field, helpers, meta }) => (
-                <FormControl isInvalid={!!meta.error}>
-                  <InlineField
-                    {...field}
-                    placeholder={t("form.name.title")}
-                    submitted={isSubmitting}
-                    onChange={helpers.setValue}
-                  />
-                  <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-                </FormControl>
-              )}
-            </FormField>
-          </div>
+        <FormikForm>
+          <FormField name="title">
+            {({ field, helpers, meta }) => (
+              <FieldRoot invalid={!!meta.error}>
+                <Text textStyle="label.medium" fontWeight="bold">
+                  {t("form.name.title")}
+                  <RichTextIndicator />
+                </Text>
+                <InlineField
+                  {...field}
+                  placeholder={t("form.name.title")}
+                  submitted={isSubmitting}
+                  onChange={helpers.setValue}
+                />
+                <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+              </FieldRoot>
+            )}
+          </FormField>
           <FormField name="author">
             {({ field, meta }) => (
-              <FormControl isRequired isInvalid={!!meta.error}>
-                <Label textStyle="label-small" margin="none">
-                  {t("form.name.author")}
-                </Label>
-                <InputV3 {...field} />
+              <FieldRoot required invalid={!!meta.error}>
+                <FieldLabel>{t("form.name.author")}</FieldLabel>
+                <FieldInput {...field} />
                 <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-              </FormControl>
+              </FieldRoot>
             )}
           </FormField>
           <FormField name="link">
             {({ field, meta }) => (
-              <FormControl isRequired isInvalid={!!meta.error}>
-                <Label textStyle="label-small" margin="none">
-                  {t("form.name.link")}
-                </Label>
-                <InputV3 {...field} />
+              <FieldRoot required invalid={!!meta.error}>
+                <FieldLabel>{t("form.name.link")}</FieldLabel>
+                <FieldInput {...field} />
                 <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-              </FormControl>
+              </FieldRoot>
             )}
           </FormField>
           <FormField name="size">
             {({ field, helpers }) => (
-              <StyledFormControl isRequired>
-                <RadioButtonGroup
-                  onValueChange={helpers.setValue}
+              <FieldRoot required>
+                <RadioGroupRoot
+                  value={field.value}
                   orientation="horizontal"
-                  defaultValue={field.value}
-                  asChild
+                  onValueChange={(details) => helpers.setValue(details.value)}
                 >
-                  <FieldsetRow>
-                    <LeftLegend margin="none" textStyle="label-small">
-                      {t("form.name.size")}
-                    </LeftLegend>
-                    {sizeValues.map((value) => (
-                      <RadioButtonWrapper key={value}>
-                        <RadioButtonItem id={`size-${value}`} value={value} />
-                        <Label htmlFor={`size-${value}`} margin="none" textStyle="label-small">
-                          {t(`blogPostForm.sizes.${value}`)}
-                        </Label>
-                      </RadioButtonWrapper>
-                    ))}
-                  </FieldsetRow>
-                </RadioButtonGroup>
-              </StyledFormControl>
+                  <RadioGroupLabel>{t("form.name.size")}</RadioGroupLabel>
+                  {sizeValues.map((value) => (
+                    <RadioGroupItem value={value} key={value}>
+                      <RadioGroupItemControl />
+                      <RadioGroupItemText>{t(`blogPostForm.sizes.${value}`)}</RadioGroupItemText>
+                      <RadioGroupItemHiddenInput />
+                    </RadioGroupItem>
+                  ))}
+                </RadioGroupRoot>
+              </FieldRoot>
             )}
           </FormField>
           <InlineImageSearch name="metaImageId" disableAltEditing hideAltText />
-
           {values.metaImageId && (
             <FormField name="metaImageAlt">
               {({ field, meta }) => (
-                <FormControl isRequired isInvalid={!!meta.error}>
-                  <Label textStyle="label-small" margin="none">
-                    {t("form.name.metaImageAlt")}
-                  </Label>
-                  <InputV3 {...field} />
+                <FieldRoot required invalid={!!meta.error}>
+                  <FieldLabel>{t("form.name.metaImageAlt")}</FieldLabel>
+                  <FieldInput {...field} />
                   <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-                </FormControl>
+                </FieldRoot>
               )}
             </FormField>
           )}
-          <ButtonContainer>
+          <FormActionsContainer>
             <Button variant="secondary" onClick={onCancel}>
               {t("cancel")}
             </Button>
             <Button disabled={!dirty || !isValid} type="submit">
               {t("save")}
             </Button>
-          </ButtonContainer>
-        </Form>
+          </FormActionsContainer>
+        </FormikForm>
       )}
     </Formik>
   );

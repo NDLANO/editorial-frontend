@@ -41,10 +41,12 @@ test("can change background color", async ({ page }) => {
 
 test("can set border", async ({ page }) => {
   await page.getByTestId("edit-grid-button").click();
-  await page.getByRole("checkbox").setChecked(true);
+  let checkbox = page.locator('[data-scope="checkbox"][data-part="root"]');
+  await checkbox.click();
   await page.getByRole("button", { name: "Lagre", exact: true }).click();
   await page.getByTestId("edit-grid-button").click();
-  expect(await page.getByRole("checkbox").isChecked()).toBeTruthy();
+  checkbox = page.locator('[data-scope="checkbox"][data-part="root"][data-state="checked"]');
+  await expect(checkbox).toBeVisible();
 });
 
 test("can enable parallax on cells", async ({ page }) => {

@@ -17,6 +17,70 @@ const articleTypes: Record<string, string> = {
   "frontpage-article": "frontpage-article",
 };
 
+export const routes = {
+  search: toSearch,
+  editArticle: toEditArticle,
+  editGenericArticle: toEditGenericArticle,
+  editMarkup: toEditMarkup,
+  structure: toStructure,
+  nodeDiff: toNodeDiff,
+  notFound: "/404",
+  home: "/",
+  login: "/login",
+  logout: {
+    logout: "/logout",
+    logoutSession: "/logout/session",
+    logoutFederated: "/logout/federated",
+  },
+  film: {
+    edit: toEditNdlaFilm,
+  },
+  frontpage: {
+    create: "/subject-matter/frontpage-article/new",
+    edit: toEditFrontPageArticle,
+  },
+  subjectPage: {
+    create: toCreateSubjectpage,
+    edit: toEditSubjectpage,
+  },
+  learningResource: {
+    create: "/subject-matter/learning-resource/new",
+    edit: toEditLearningResource,
+  },
+  topic: {
+    create: "/subject-matter/topic-article/new",
+    edit: toEditTopicArticle,
+  },
+  gloss: {
+    create: "/gloss/new",
+    edit: toEditGloss,
+  },
+  concept: {
+    create: "/concept/new",
+    edit: toEditConcept,
+  },
+  audio: {
+    create: "/media/audio-upload/new",
+    edit: toEditAudio,
+  },
+  podcast: {
+    create: "/media/podcast-upload/new",
+    edit: toEditPodcast,
+  },
+  podcastSeries: {
+    create: "/media/podcast-series/new",
+    edit: toEditPodcastSeries,
+  },
+  image: {
+    create: "/media/image-upload/new",
+    edit: toEditImage,
+  },
+  preview: {
+    draft: toPreviewDraft,
+    language: toCompareLanguage,
+  },
+};
+
 export function toSearch(query: object, type = "content") {
   if (query) {
     return `/search/${type}?${queryString.stringify(query)}`;
@@ -38,9 +102,9 @@ export function toEditLearningResource(id: number, locale: string) {
   return `/subject-matter/learning-resource/${id}/edit/${locale}`;
 }
 
-export const toEditGenericArticle = (articleId: number | string) => {
+export function toEditGenericArticle(articleId: number | string) {
   return `/subject-matter/article/${articleId}`;
-};
+}
 
 export function toEditSubjectpage(subjectId: string, locale: string, subjectpageId?: number | string) {
   if (subjectId === NDLA_FILM_SUBJECT) {
@@ -163,18 +227,9 @@ export function toStructure(path: string) {
   return `/structure/${urnPath}`;
 }
 
-export const toStructureOld = (path: string) => {
-  const urnPath = path
-    .split("/")
-    .slice(1)
-    .map((part) => `urn:${part}`)
-    .join("/");
-  return `/structureOld/${urnPath}`;
-};
-
-export const toNodeDiff = (nodeId: string, originalHash: string, otherHash: string) => {
+export function toNodeDiff(nodeId: string, originalHash: string, otherHash: string) {
   return `/nodeDiff/${nodeId}?originalHash=${originalHash}&otherHash=${otherHash}`;
-};
+}
 
 export function to404() {
   return "/404";

@@ -1399,10 +1399,11 @@ const phrases = {
       chooseAudioType: "Choose audio type",
       sound: "Audio",
       speech: "Speech",
-      dragdrop: {
-        main: "Drag and drop",
-        sub: "or click to upload image",
-        ariaLabel: "Drag and drop or click to upload image",
+      fileUpload: {
+        description: "Drag and drop or click to upload audio",
+        button: "Add",
+        genericError: "Audio upload failed",
+        fileTypeInvalidError: "The file type is not supported",
       },
       copiedFrom:
         "Audio file will be copied from {{language}}. Click the delete icon to remove it and upload a new file.",

@@ -456,6 +456,7 @@ const phrases = {
     noResults: "No concepts found",
     noTitle: "No title",
     noContent: "No content",
+    listLabel: "Options",
   },
   searchTypes: {
     content: "Content",
@@ -1155,6 +1156,7 @@ const phrases = {
         removeExternal: "Delete external article",
         changeExternal: "Edit external article",
         searchExternal: "Write the title and url of the external article",
+        listLabel: "Options",
       },
       conceptList: {
         subjectMissing: "Subject missing: {{subjectId}}",

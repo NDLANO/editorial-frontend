@@ -14,8 +14,7 @@ import { Content } from "@radix-ui/react-popover";
 import { colors, spacing, stackOrder } from "@ndla/core";
 import { Pencil } from "@ndla/icons/action";
 import { DeleteForever } from "@ndla/icons/editor";
-import { IconButton } from "@ndla/primitives";
-import { Tabs } from "@ndla/tabs";
+import { IconButton, TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
 import { RelatedContentEmbedData, RelatedContentMetaData } from "@ndla/types-embed";
 import { Heading } from "@ndla/typography";
 import { RelatedContentEmbed } from "@ndla/ui";
@@ -28,6 +27,12 @@ const StyledUl = styled.ul`
   list-style: none;
   margin: 0;
   padding: 0;
+`;
+
+const StyledTabsContent = styled(TabsContent)`
+  & > div {
+    width: 100%;
+  }
 `;
 
 const HeadingWrapper = styled.div`
@@ -45,12 +50,6 @@ const StyledBorderDiv = styled(Content)`
   max-height: 1100px;
   overflow-y: scroll;
   z-index: ${stackOrder.popover};
-`;
-
-const StyledTabs = styled(Tabs)`
-  [data-tab-panel] {
-    padding: ${spacing.normal} 0;
-  }
 `;
 
 const ButtonWrapper = styled.div`
@@ -205,48 +204,47 @@ const EditRelated = forwardRef<HTMLDivElement, Props>(
             )}
           />
         </StyledUl>
-        <StyledTabs
-          variant="underlined"
+        <TabsRoot
+          defaultValue="internalArticle"
           value={currentTab}
-          onValueChange={(val) => onTabChange(val as TabType)}
-          tabs={[
-            {
-              title: t("form.article.add"),
-              id: "internalArticle",
-              content: (
-                <AsyncDropdown
-                  clearInputField
-                  idField="id"
-                  labelField="title"
-                  placeholder={t("form.content.relatedArticle.placeholder")}
-                  apiAction={searchForArticles}
-                  onClick={(e) => e.stopPropagation()}
-                  onChange={(selected) => selected && onInsertBlock(selected.id.toString())}
-                  showPagination
-                  menuHeight={windowHeight * 0.3}
-                />
-              ),
-            },
-            {
-              title: t("form.content.relatedArticle.addExternal"),
-              id: "externalArticle",
-              content: (
-                <ContentLink
-                  onAddLink={(title, url) => {
-                    if (externalToEdit) {
-                      onExternalEdit(externalToEdit, title, url);
-                    } else {
-                      insertExternal(title, url);
-                    }
-                    setExternalToEdit(undefined);
-                  }}
-                  initialTitle={externalToEdit?.embedData.title}
-                  initialUrl={externalToEdit?.embedData.url}
-                />
-              ),
-            },
-          ]}
-        />
+          onValueChange={(details) => onTabChange(details.value as TabType)}
+          translations={{
+            listLabel: t("form.content.relatedArticle.listLabel"),
+          }}
+        >
+          <TabsList>
+            <TabsTrigger value="internalArticle">{t("form.article.add")}</TabsTrigger>
+            <TabsTrigger value="externalArticle">{t("form.content.relatedArticle.addExternal")}</TabsTrigger>
+            <TabsIndicator />
+          </TabsList>
+          <StyledTabsContent value="internalArticle">
+            <AsyncDropdown
+              clearInputField
+              idField="id"
+              labelField="title"
+              placeholder={t("form.content.relatedArticle.placeholder")}
+              apiAction={searchForArticles}
+              onClick={(e) => e.stopPropagation()}
+              onChange={(selected) => selected && onInsertBlock(selected.id.toString())}
+              showPagination
+              menuHeight={windowHeight * 0.3}
+            />
+          </StyledTabsContent>
+          <TabsContent value="externalArticle">
+            <ContentLink
+              onAddLink={(title, url) => {
+                if (externalToEdit) {
+                  onExternalEdit(externalToEdit, title, url);
+                } else {
+                  insertExternal(title, url);
+                }
+                setExternalToEdit(undefined);
+              }}
+              initialTitle={externalToEdit?.embedData.title}
+              initialUrl={externalToEdit?.embedData.url}
+            />
+          </TabsContent>
+        </TabsRoot>
       </StyledBorderDiv>
     );
   },

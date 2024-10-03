@@ -14,8 +14,7 @@ import { Cross } from "@ndla/icons/action";
 import { Search } from "@ndla/icons/common";
 import { ModalHeader, ModalBody } from "@ndla/modal";
 import { Pager } from "@ndla/pager";
-import { Button, IconButton } from "@ndla/primitives";
-import { Tabs } from "@ndla/tabs";
+import { Button, IconButton, TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
 import {
   IConcept,
   IConceptSearchResult,
@@ -119,79 +118,86 @@ const ConceptModalContent = ({
       </ModalHeader>
       <ModalBody>
         {concept?.id && <Button onClick={handleRemove}>{t(`form.content.${concept.conceptType}.remove`)}</Button>}
-        <Tabs
-          tabs={[
-            {
-              title: t(`searchForm.types.${conceptType}Query`),
-              id: "concepts",
-              content: (
-                <div>
-                  <h2>
-                    <Search />
-                    {t(`searchPage.header.concept`)}
-                  </h2>
-                  <SearchConceptForm
-                    search={(params: SearchParams) => {
-                      updateSearchObject(params);
-                      debouncedSearchConcept(params);
-                    }}
-                    subjects={subjects}
-                    searchObject={searchObject}
-                    locale={locale}
-                    userData={undefined}
-                  />
-                  <SearchConceptResults
-                    searchObject={searchObject}
-                    results={results.results}
-                    searching={searching}
-                    addConcept={addConcept}
-                  />
-                  <Pager
-                    query={searchObject}
-                    page={results.page ?? 1}
-                    pathname=""
-                    lastPage={Math.ceil(results.totalCount / results.pageSize)}
-                    onClick={searchConcept}
-                    pageItemComponentClass="button"
-                  />
-                </div>
-              ),
-            },
-            ...conceptTypeTabs.map((conceptType) => ({
-              title: t(`form.${conceptType}.create`),
-              id: `new_${conceptType}`,
-              content:
-                conceptType === "gloss" ? (
-                  <GlossForm
-                    onUpserted={addConcept}
-                    inModal
-                    onClose={onClose}
-                    subjects={subjects}
-                    upsertProps={upsertProps}
-                    language={locale}
-                    concept={concept}
-                    conceptArticles={conceptArticles}
-                    initialTitle={selectedText}
-                    supportedLanguages={concept?.supportedLanguages ?? [locale]}
-                  />
-                ) : (
-                  <ConceptForm
-                    onUpserted={addConcept}
-                    inModal
-                    onClose={onClose}
-                    subjects={subjects}
-                    upsertProps={upsertProps}
-                    language={locale}
-                    fetchConceptTags={fetchSearchTags}
-                    concept={concept}
-                    conceptArticles={conceptArticles}
-                    initialTitle={selectedText}
-                    supportedLanguages={concept?.supportedLanguages ?? [locale]}
-                  />
-                ),
-            })),
-          ]}
-        />
+        <TabsRoot
+          defaultValue="concepts"
+          translations={{
+            listLabel: t("conceptSearch.listLabel"),
+          }}
+        >
+          <TabsList>
+            <TabsTrigger value="concepts">{t(`searchForm.types.${conceptType}Query`)}</TabsTrigger>
+            {conceptTypeTabs.map((conceptType) => (
+              <TabsTrigger key={conceptType} value={`new_${conceptType}`}>
+                {t(`form.${conceptType}.create`)}
+              </TabsTrigger>
+            ))}
+            <TabsIndicator />
+          </TabsList>
+          <TabsContent value="concepts">
+            <div>
+              <h2>
+                <Search />
+                {t(`searchPage.header.concept`)}
+              </h2>
+              <SearchConceptForm
+                search={(params: SearchParams) => {
+                  updateSearchObject(params);
+                  debouncedSearchConcept(params);
+                }}
+                subjects={subjects}
+                searchObject={searchObject}
+                locale={locale}
+                userData={undefined}
+              />
+              <SearchConceptResults
+                searchObject={searchObject}
+                results={results.results}
+                searching={searching}
+                addConcept={addConcept}
+              />
+              <Pager
+                query={searchObject}
+                page={results.page ?? 1}
+                pathname=""
+                lastPage={Math.ceil(results.totalCount / results.pageSize)}
+                onClick={searchConcept}
+                pageItemComponentClass="button"
+              />
+            </div>
+          </TabsContent>
+          {conceptTypeTabs.map((conceptType) => (
+            <TabsContent value={`new_${conceptType}`} key={conceptType}>
+              {conceptType === "gloss" ? (
+                <GlossForm
+                  onUpserted={addConcept}
+                  inModal
+                  onClose={onClose}
+                  subjects={subjects}
+                  upsertProps={upsertProps}
+                  language={locale}
+                  concept={concept}
+                  conceptArticles={conceptArticles}
+                  initialTitle={selectedText}
+                  supportedLanguages={concept?.supportedLanguages ?? [locale]}
+                />
+              ) : (
+                <ConceptForm
+                  onUpserted={addConcept}
+                  inModal
+                  onClose={onClose}
+                  subjects={subjects}
+                  upsertProps={upsertProps}
+                  language={locale}
+                  fetchConceptTags={fetchSearchTags}
+                  concept={concept}
+                  conceptArticles={conceptArticles}
+                  initialTitle={selectedText}
+                  supportedLanguages={concept?.supportedLanguages ?? [locale]}
+                />
+              )}
+            </TabsContent>
+          ))}
+        </TabsRoot>
       </ModalBody>
     </div>
   );

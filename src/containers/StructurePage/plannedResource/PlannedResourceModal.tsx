@@ -8,20 +8,15 @@
 
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
-import { Tabs } from "@ndla/tabs";
+import { TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
 import { ResourceType } from "@ndla/types-taxonomy";
 import TaxonomyLightbox from "../../../components/Taxonomy/TaxonomyLightbox";
 import AddExistingResource from "../plannedResource/AddExistingResource";
 import PlannedResourceForm from "../plannedResource/PlannedResourceForm";
 import { ResourceWithNodeConnectionAndMeta } from "../resourceComponents/StructureResources";
 import { StyledPlusIcon } from "../styles";
-
-const FullWidth = styled.div`
-  width: 100%;
-`;
 
 interface Props {
   currentNode: ResourceWithNodeConnectionAndMeta;
@@ -43,31 +38,29 @@ const PlannedResourceModal = ({ currentNode, resourceTypes, resources }: Props) 
       </ModalTrigger>
       <ModalContent size={{ width: "normal", height: "large" }} position="top" forceOverlay>
         <TaxonomyLightbox title={t("taxonomy.addResource")}>
-          <FullWidth>
-            <Tabs
-              tabs={[
-                {
-                  title: t("taxonomy.createResource"),
-                  id: "create-new-resource",
-                  content: (
-                    <PlannedResourceForm onClose={() => setOpen(false)} articleType="standard" node={currentNode} />
-                  ),
-                },
-                {
-                  title: t("taxonomy.getExisting"),
-                  id: "get-existing-resource",
-                  content: (
-                    <AddExistingResource
-                      resourceTypes={resourceTypes}
-                      nodeId={currentNode.id}
-                      onClose={() => setOpen(false)}
-                      existingResourceIds={resources.map((r) => r.id)}
-                    />
-                  ),
-                },
-              ]}
-            />
-          </FullWidth>
+          <TabsRoot
+            defaultValue={"create-new-resource"}
+            translations={{
+              listLabel: t("taxonomy.addResource"),
+            }}
+          >
+            <TabsList>
+              <TabsTrigger value="create-new-resource">{t("taxonomy.createResource")}</TabsTrigger>
+              <TabsTrigger value="get-existing-resource">{t("taxonomy.getExisting")}</TabsTrigger>
+              <TabsIndicator />
+            </TabsList>
+            <TabsContent value="create-new-resource">
+              <PlannedResourceForm onClose={() => setOpen(false)} articleType="standard" node={currentNode} />
+            </TabsContent>
+            <TabsContent value="get-existing-resource">
+              <AddExistingResource
+                resourceTypes={resourceTypes}
+                nodeId={currentNode.id}
+                onClose={() => setOpen(false)}
+                existingResourceIds={resources.map((r) => r.id)}
+              />
+            </TabsContent>
+          </TabsRoot>
         </TaxonomyLightbox>
       </ModalContent>
     </Modal>

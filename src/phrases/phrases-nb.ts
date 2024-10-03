@@ -1405,10 +1405,11 @@ const phrases = {
       chooseAudioType: "Velg lydtype",
       sound: "Lyd",
       speech: "Tale",
-      dragdrop: {
-        main: "Dra og slipp",
-        sub: "eller trykk for å laste opp lydfil",
-        ariaLabel: "Dra og slipp eller trykk for å laste opp lydfil",
+      fileUpload: {
+        description: "Dra og slipp eller trykk for å laste opp lydfil",
+        button: "Legg til",
+        genericError: "Opplastning av lydfil feilet",
+        fileTypeInvalidError: "Filtypen er ikke støttet",
       },
       copiedFrom: "Lydfil kopieres fra {{language}}. Trykk på søppelbøtten for å slette den og laste opp en ny fil.",
       info: {

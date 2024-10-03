@@ -28,6 +28,10 @@ export const Form = styled("form", {
   base: formCss,
 });
 
+export const FormContent = styled("div", {
+  base: formCss,
+});
+
 export const FormActionsContainer = styled("div", {
   base: {
     display: "flex",

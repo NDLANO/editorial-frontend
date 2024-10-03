@@ -1341,10 +1341,12 @@ const phrases = {
         placeholder: "Image caption",
         hide: "Hide caption",
       },
-      dragdrop: {
-        main: "Drag and drop",
-        sub: "or click to upload image",
-        ariaLabel: "Drag and drop or click to upload image",
+      fileUpload: {
+        description: "Drag and drop or click to upload image",
+        button: "Add",
+        genericError: "Image upload failed",
+        tooLargeError: "Image is too large",
+        fileTypeInvalidError: "The file type is not supported",
       },
       byline: {
         show: "Show byline",

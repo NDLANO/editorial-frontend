@@ -62,7 +62,6 @@ export interface ImageEmbedFormValues {
   border?: boolean;
   isDecorative: boolean;
   hideByline?: boolean;
-  hideCaption?: boolean;
 }
 
 const formRules: RulesType<ImageEmbedFormValues> = {
@@ -90,7 +89,6 @@ const toImageEmbedFormvalues = (embed: ImageEmbedData): ImageEmbedFormValues => 
     align: embed.align,
     size: embed.size?.replace("--hide-byline", ""),
     hideByline: embed.hideByline === "true",
-    hideCaption: embed.hideCaption === "true",
   };
 };
 
@@ -117,7 +115,6 @@ const ImageEmbedForm = ({ embed, onSave, onClose, language, allowDecorative, ima
       align: values.align,
       size: values.size,
       hideByline: values.hideByline ? "true" : undefined,
-      hideCaption: values.hideCaption ? "true" : undefined,
     });
     onClose();
   };
@@ -175,37 +172,18 @@ const EmbedForm = ({
     <StyledFormikForm>
       {!!image && <ImageEditor language={language} image={image} />}
       <InputWrapper>
-        {!values.hideCaption && (
-          <>
-            <Text textStyle="label.medium" fontWeight="bold">
-              {t("form.image.caption.label")}
-              <RichTextIndicator />
-            </Text>
-            <FormField name="caption">
-              {({ field, helpers }) => (
-                <InlineField
-                  {...field}
-                  placeholder={t("form.image.caption.placeholder")}
-                  submitted={isSubmitting}
-                  onChange={helpers.setValue}
-                />
-              )}
-            </FormField>
-          </>
-        )}
-        <FormField name="hideCaption">
+        <Text textStyle="label.medium" fontWeight="bold">
+          {t("form.image.caption.label")}
+          <RichTextIndicator />
+        </Text>
+        <FormField name="caption">
           {({ field, helpers }) => (
-            <FieldRoot>
-              <StyledCheckboxRoot checked={field.value} onCheckedChange={() => helpers.setValue(!field.value, true)}>
-                <CheckboxLabel>{t("form.image.caption.hide")}</CheckboxLabel>
-                <CheckboxControl>
-                  <CheckboxIndicator asChild>
-                    <CheckLine />
-                  </CheckboxIndicator>
-                </CheckboxControl>
-                <CheckboxHiddenInput />
-              </StyledCheckboxRoot>
-            </FieldRoot>
+            <InlineField
+              {...field}
+              placeholder={t("form.image.caption.placeholder")}
+              submitted={isSubmitting}
+              onChange={helpers.setValue}
+            />
           )}
         </FormField>
 

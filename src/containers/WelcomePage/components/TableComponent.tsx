@@ -16,6 +16,7 @@ import Spinner from "../../../components/Spinner";
 
 const TableWrapper = styled.div`
   overflow-x: auto;
+  width: 100%;
 `;
 
 const StyledTable = styled.table`

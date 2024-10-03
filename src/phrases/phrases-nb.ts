@@ -200,6 +200,12 @@ const phrases = {
       publishedDescription: "Antall publiserte ressurser",
     },
     welcomeBack: "Velkommen",
+    listLabels: {
+      worklist: "Ressurstyper",
+      lastUsed: "Ressurstyper",
+      subjectView: "Fagtyper",
+      articleStatuses: "Fagtyper",
+    },
   },
   searchPage: {
     header: {

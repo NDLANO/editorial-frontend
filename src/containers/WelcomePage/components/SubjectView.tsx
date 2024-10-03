@@ -8,11 +8,9 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { mq, breakpoints } from "@ndla/core";
-import { Tabs } from "@ndla/tabs";
+import { TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
 import SubjectViewContent from "./SubjectViewContent";
-import { GRID_GAP } from "../../../components/Layout/Layout";
+import { WelcomePageTabsContent } from "./WelcomePageTabsContent";
 import {
   STORED_PAGE_SIZE_SUBJECT_VIEW_DA,
   STORED_PAGE_SIZE_SUBJECT_VIEW_FAVORITES,
@@ -20,12 +18,6 @@ import {
   STORED_PAGE_SIZE_SUBJECT_VIEW_SA,
 } from "../../../constants";
 import { SubjectIdObject } from "../utils";
-
-const StyledWrapper = styled.div`
-  ${mq.range({ from: breakpoints.tabletWide })} {
-    margin-top: ${GRID_GAP};
-  }
-`;
 
 interface Props {
   favoriteSubjects: string[] | undefined;
@@ -118,9 +110,27 @@ const SubjectView = ({ favoriteSubjects, userDataPending, subjectIdObject, isPen
   if (!tabs.length || userDataPending) return null;
 
   return (
-    <StyledWrapper>
-      <Tabs variant="rounded" tabs={tabs} />
-    </StyledWrapper>
+    <TabsRoot
+      translations={{
+        listLabel: t("welcomePage.listLabels.subjectView"),
+      }}
+      variant="outline"
+      defaultValue={tabs[0].id}
+    >
+      <TabsList>
+        {tabs.map((tab) => (
+          <TabsTrigger key={tab.id} value={tab.id}>
+            {tab.title}
+          </TabsTrigger>
+        ))}
+        <TabsIndicator />
+      </TabsList>
+      {tabs.map((tab) => (
+        <WelcomePageTabsContent key={tab.id} value={tab.id}>
+          {tab.content}
+        </WelcomePageTabsContent>
+      ))}
+    </TabsRoot>
   );
 };
 export default SubjectView;

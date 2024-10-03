@@ -10,15 +10,24 @@ import addYears from "date-fns/addYears";
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { mq, breakpoints, colors, spacing } from "@ndla/core";
+import { colors, spacing } from "@ndla/core";
 import { Alarm, Time } from "@ndla/icons/common";
 import { Pager } from "@ndla/pager";
-import { SwitchControl, SwitchHiddenInput, SwitchThumb } from "@ndla/primitives";
+import {
+  SwitchControl,
+  SwitchHiddenInput,
+  SwitchThumb,
+  TabsIndicator,
+  TabsList,
+  TabsRoot,
+  TabsTrigger,
+} from "@ndla/primitives";
 import { IUserData } from "@ndla/types-backend/draft-api";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
 import GoToSearch from "./GoToSearch";
 import TableComponent, { FieldElement, TitleElement } from "./TableComponent";
 import TableTitle from "./TableTitle";
+import { WelcomePageTabsContent } from "./WelcomePageTabsContent";
 import PageSizeDropdown from "./worklist/PageSizeDropdown";
 import SubjectDropdown from "./worklist/SubjectDropdown";
 import { getWarnStatus } from "../../../components/HeaderWithLanguage/HeaderStatusInformation";
@@ -43,19 +52,12 @@ import {
 } from "../hooks/storedFilterHooks";
 import {
   ControlWrapperDashboard,
-  StyledDashboardInfo,
   StyledLink,
   StyledSwitchLabel,
   StyledSwitchRoot,
   StyledTopRowDashboardInfo,
   TopRowControls,
 } from "../styles";
-
-const RevisionsWrapper = styled.div`
-  ${mq.range({ from: breakpoints.tabletWide })} {
-    margin-top: 25px;
-  }
-`;
 
 const StyledTitle = styled.div`
   align-items: center;
@@ -240,8 +242,12 @@ const Revisions = ({ userData }: Props) => {
   );
 
   return (
-    <RevisionsWrapper>
-      <StyledDashboardInfo>
+    <TabsRoot variant="outline" defaultValue="revision" translations={{}}>
+      <TabsList>
+        <TabsTrigger value="revision">{t("welcomePage.revision")}</TabsTrigger>
+        <TabsIndicator />
+      </TabsList>
+      <WelcomePageTabsContent value="revision">
         <StyledTopRowDashboardInfo>
           <TableTitle
             title={t("welcomePage.revision")}
@@ -301,8 +307,8 @@ const Revisions = ({ userData }: Props) => {
           colorTheme="lighter"
           pageItemComponentClass="button"
         />
-      </StyledDashboardInfo>
-    </RevisionsWrapper>
+      </WelcomePageTabsContent>
+    </TabsRoot>
   );
 };
 

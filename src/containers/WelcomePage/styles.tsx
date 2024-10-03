@@ -11,25 +11,9 @@ import { spacing, colors, mq, breakpoints } from "@ndla/core";
 import { SwitchLabel, SwitchRoot } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 
-export const StyledColumnHeader = styled.div`
-  display: flex;
-  align-items: center;
-  font-size: 1.2rem;
-  margin-top: ${spacing.medium};
-  & > span {
-    text-transform: uppercase;
-    margin-left: ${spacing.small};
-  }
-`;
-
-export const StyledDashboardInfo = styled.div`
-  background-color: ${colors.brand.lighter};
-  border-radius: 10px;
-  padding: ${spacing.nsmall};
-`;
-
 export const StyledTopRowDashboardInfo = styled.div`
   display: flex;
+  width: 100%;
   justify-content: space-between;
   margin-bottom: ${spacing.small};
   ${mq.range({ until: breakpoints.tabletWide })} {
@@ -68,10 +52,6 @@ export const ControlWrapperDashboard = styled.div`
   ${mq.range({ until: breakpoints.tabletWide })} {
     flex-direction: row;
   }
-`;
-export const SwitchWrapper = styled.div`
-  margin-top: ${spacing.xxsmall};
-  margin-left: auto;
 `;
 
 export const StyledSwitchLabel = styled(SwitchLabel)`

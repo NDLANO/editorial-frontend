@@ -162,6 +162,7 @@ const VisualElementSearch = ({
             }));
             handleVisualElementChange(preparedFiles);
           }}
+          close={closeModal}
         />
       );
     default:

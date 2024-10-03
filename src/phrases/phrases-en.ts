@@ -849,6 +849,7 @@ const phrases = {
       text: "Comment",
       grade: "Grade",
       note: "Note",
+      files: "File upload",
     },
     previewProductionArticle: {
       button: "Compare current version with last published version",
@@ -1461,11 +1462,12 @@ const phrases = {
       missingFileTooltip:
         "This file does not seem to exist on the server. It might have been deleted from another article.",
       missingFilename: "File type is not supported",
-      dragdrop: {
-        main: "Drag and drop",
-        sub: "or click to upload file(s)",
-        ariaLabel: "Drag and drop or click to upload file(s)",
-        noFilesAdded: "No files are added",
+      fileUpload: {
+        description: "Drag and drop or click to upload file(s)",
+        button: "Add",
+        genericError: "File upload failed",
+        fileTypeInvalidError: "The file type is not supported",
+        tooManyError: "Maximum 5 files can be uploaded at once",
       },
       showPdf: "Show expanded",
       showPdfTooltip: "Show expanded PDF in article",

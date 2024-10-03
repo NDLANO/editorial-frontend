@@ -849,6 +849,7 @@ const phrases = {
       text: "Kommentar",
       grade: "Gradering",
       note: "Notat",
+      files: "filopplasting",
     },
     previewProductionArticle: {
       button: "Samanlikn gjeldande versjon med sist publiserte versjon",
@@ -1459,11 +1460,12 @@ const phrases = {
       removeFile: "Fjern fil",
       missingFileTooltip: "Ser ikkje ut til å eksistere på serveren. Den kan ha blitt sletta frå ein annan artikkel.",
       missingFilename: "Filtypen støttes ikke",
-      dragdrop: {
-        main: "Dra og slipp",
-        sub: "eller trykk for å laste opp file(r)",
-        ariaLabel: "Dra og slipp eller trykk for å laste opp file(r)",
-        noFilesAdded: "Ingen filer er lagt til",
+      fileUpload: {
+        description: "Dra og slipp eller trykk for å laste opp fil(er)",
+        button: "Legg til",
+        genericError: "Opplastning av fil(er) feila",
+        fileTypeInvalidError: "Filtypen er ikkje støttet",
+        tooManyError: "Maks 5 filer kan lastast opp om gongen",
       },
       showPdf: "Vis ekspandert",
       showPdfTooltip: "Vis ekspandert PDF i artikkel",

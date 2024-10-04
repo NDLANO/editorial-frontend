@@ -44,6 +44,7 @@ const StyledOrDivider = styled.div`
   padding: ${spacing.small} 0 0;
 `;
 const PreviewWrapper = styled.div`
+  width: 100%;
   padding-left: ${spacing.medium};
   padding-top: ${spacing.normal};
   display: flex;

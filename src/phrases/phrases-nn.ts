@@ -455,6 +455,7 @@ const phrases = {
     noResults: "Ingen resultat funnet",
     noTitle: "Ingen tittel",
     noContent: "Ingen innhald",
+    listLabel: "Valg",
   },
   searchTypes: {
     content: "Innhald",
@@ -1155,6 +1156,7 @@ const phrases = {
         removeExternal: "Slett ekstern artikkel",
         changeExternal: "Endre ekstern artikkel",
         searchExternal: "Skriv inn tittel og url på ekstern artikkel",
+        listLabel: "Valg",
       },
       conceptList: {
         subjectMissing: "Fag manglar: {{subjectId}}",

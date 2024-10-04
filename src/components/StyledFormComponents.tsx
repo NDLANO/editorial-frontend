@@ -11,6 +11,7 @@ import styled from "@emotion/styled";
 import { spacing, mq } from "@ndla/core";
 
 const StyledForm = styled(Form)`
+  width: 100%;
   margin-top: ${spacing.normal};
   ${mq.range({ from: "37.5em" })} {
     padding-left: 0;

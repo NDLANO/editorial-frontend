@@ -10,6 +10,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { BookOpen, InformationOutline } from "@ndla/icons/common";
+import { SafeLink } from "@ndla/safelink";
 import { getCurrentPageData } from "./LastUsedItems";
 import Pagination from "./Pagination";
 import TableComponent, { FieldElement, TitleElement } from "./TableComponent";
@@ -21,7 +22,7 @@ import { useSearchSubjectStats } from "../../../modules/search/searchQueries";
 import { toSearch } from "../../../util/routeHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { useLocalStoragePageSizeState } from "../hooks/storedFilterHooks";
-import { ControlWrapperDashboard, StyledLink, StyledTopRowDashboardInfo, TopRowControls } from "../styles";
+import { ControlWrapperDashboard, StyledTopRowDashboardInfo, TopRowControls } from "../styles";
 import { SubjectData } from "../utils";
 
 const StyledTableHeader = styled.span`
@@ -163,7 +164,7 @@ const SubjectViewContent = ({
         {
           id: `title_${stats.subjectId}`,
           data: (
-            <StyledLink
+            <SafeLink
               to={toSearch(
                 {
                   page: "1",
@@ -175,7 +176,7 @@ const SubjectViewContent = ({
               )}
             >
               {subjectName}
-            </StyledLink>
+            </SafeLink>
           ),
         },
         { id: `favorites_${stats.subjectId}`, data: stats.favoritedCount },

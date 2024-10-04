@@ -9,9 +9,9 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { BookOpen } from "@ndla/icons/common";
-import { SwitchControl, SwitchHiddenInput, SwitchThumb } from "@ndla/primitives";
+import { SwitchControl, SwitchHiddenInput, SwitchThumb, Text } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
 import { IMultiSearchResult } from "@ndla/types-backend/search-api";
-import { Text } from "@ndla/typography";
 import TableComponent, { FieldElement } from "./TableComponent";
 import TableTitle from "./TableTitle";
 import SubjectDropdown from "./worklist/SubjectDropdown";
@@ -19,13 +19,7 @@ import { ARCHIVED, PUBLISHED, STATUS_ORDER, UNPUBLISHED } from "../../../constan
 import { useSearch } from "../../../modules/search/searchQueries";
 import { toSearch } from "../../../util/routeHelpers";
 import { useLocalStorageSubjectFilterState, useLocalStorageBooleanState } from "../hooks/storedFilterHooks";
-import {
-  ControlWrapperDashboard,
-  StyledLink,
-  StyledSwitchLabel,
-  StyledSwitchRoot,
-  StyledTopRowDashboardInfo,
-} from "../styles";
+import { ControlWrapperDashboard, StyledSwitchLabel, StyledSwitchRoot, StyledTopRowDashboardInfo } from "../styles";
 
 const EXCLUDE_STATUSES = [PUBLISHED, UNPUBLISHED, ARCHIVED];
 
@@ -139,34 +133,22 @@ const ArticleStatusContent = ({
           ? [
               {
                 id: `status_${statusData.value}`,
-                data: (
-                  <Text textStyle="button" margin="none">
-                    {t("form.status.sum")}
-                  </Text>
-                ),
+                data: <Text fontWeight="bold">{t("form.status.sum")}</Text>,
               },
               {
                 id: `count_${statusData.value}`,
-                data: (
-                  <Text textStyle="button" margin="none">
-                    {statusData.count}
-                  </Text>
-                ),
+                data: <Text fontWeight="bold">{statusData.count}</Text>,
               },
               {
                 id: `responsible_${statusData.value}`,
-                data: (
-                  <Text textStyle="button" margin="none">
-                    {statusData.responsibleCount}
-                  </Text>
-                ),
+                data: <Text fontWeight="bold">{statusData.responsibleCount}</Text>,
               },
             ]
           : [
               {
                 id: `status_${statusData.value}`,
                 data: (
-                  <StyledLink
+                  <SafeLink
                     to={toSearch(
                       {
                         page: "1",
@@ -180,7 +162,7 @@ const ArticleStatusContent = ({
                     title={statusTitle}
                   >
                     {statusTitle}
-                  </StyledLink>
+                  </SafeLink>
                 ),
               },
               { id: `count_${statusData.value}`, data: statusData.count },

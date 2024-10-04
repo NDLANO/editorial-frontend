@@ -16,7 +16,6 @@ import {
   PaginationPrevTrigger,
   PaginationRoot,
   Text,
-  PaginationRootProps,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { usePaginationTranslations } from "@ndla/ui";

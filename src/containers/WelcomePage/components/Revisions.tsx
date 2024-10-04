@@ -21,6 +21,7 @@ import {
   TabsRoot,
   TabsTrigger,
 } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
 import { IUserData } from "@ndla/types-backend/draft-api";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
 import GoToSearch from "./GoToSearch";
@@ -52,7 +53,6 @@ import {
 } from "../hooks/storedFilterHooks";
 import {
   ControlWrapperDashboard,
-  StyledLink,
   StyledSwitchLabel,
   StyledSwitchRoot,
   StyledTopRowDashboardInfo,
@@ -208,12 +208,9 @@ const Revisions = ({ userData }: Props) => {
                     aria-hidden={warnStatus === "warn"}
                   />
                 </IconWrapper>
-                <StyledLink
-                  to={toEditArticle(resource.id, resource.learningResourceType)}
-                  title={resource.title?.title}
-                >
+                <SafeLink to={toEditArticle(resource.id, resource.learningResourceType)} title={resource.title?.title}>
                   {resource.title?.title}
-                </StyledLink>
+                </SafeLink>
               </StyledTitle>
             ),
           },

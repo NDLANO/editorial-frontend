@@ -9,6 +9,7 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Calendar } from "@ndla/icons/editor";
+import { SafeLink } from "@ndla/safelink";
 import { SingleValue } from "@ndla/select";
 import { IConceptSearchResult } from "@ndla/types-backend/concept-api";
 import PageSizeDropdown from "./PageSizeDropdown";
@@ -17,7 +18,7 @@ import SubjectDropdown from "./SubjectDropdown";
 import { SortOptionConceptList } from "./WorkList";
 import { useSearchConcepts } from "../../../../modules/concept/conceptQueries";
 import { toEditConcept, toEditGloss } from "../../../../util/routeHelpers";
-import { ControlWrapperDashboard, StyledLink, StyledTopRowDashboardInfo, TopRowControls } from "../../styles";
+import { ControlWrapperDashboard, StyledTopRowDashboardInfo, TopRowControls } from "../../styles";
 import GoToSearch from "../GoToSearch";
 import Pagination from "../Pagination";
 import TableComponent, { FieldElement, Prefix, TitleElement } from "../TableComponent";
@@ -71,12 +72,12 @@ const ConceptListTabContent = ({
             {
               id: `title_${res.id}`,
               data: (
-                <StyledLink
+                <SafeLink
                   to={res.conceptType === "concept" ? toEditConcept(res.id) : toEditGloss(res.id)}
                   title={res.title?.title}
                 >
                   {res.title?.title}
-                </StyledLink>
+                </SafeLink>
               ),
               title: res.title?.title,
             },

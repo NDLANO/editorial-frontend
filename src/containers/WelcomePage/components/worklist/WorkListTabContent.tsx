@@ -12,6 +12,7 @@ import oldstyled from "@emotion/styled";
 import { ExclamationMark } from "@ndla/icons/common";
 import { Calendar } from "@ndla/icons/editor";
 import { SwitchControl, SwitchHiddenInput, SwitchThumb } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
 import { SingleValue } from "@ndla/select";
 import { IMultiSearchResult } from "@ndla/types-backend/search-api";
 import CommentIndicator from "./CommentIndicator";
@@ -24,7 +25,6 @@ import formatDate from "../../../../util/formatDate";
 import { toEditArticle } from "../../../../util/routeHelpers";
 import {
   ControlWrapperDashboard,
-  StyledLink,
   StyledSwitchLabel,
   StyledSwitchRoot,
   StyledTopRowDashboardInfo,
@@ -116,9 +116,9 @@ const WorkListTabContent = ({
                       title={t("editorFooter.prioritized")}
                       size="small"
                     />
-                    <StyledLink to={toEditArticle(res.id, res.learningResourceType)} title={res.title?.title}>
+                    <SafeLink to={toEditArticle(res.id, res.learningResourceType)} title={res.title?.title}>
                       {res.title?.title}
-                    </StyledLink>
+                    </SafeLink>
                   </StyledTitleWrapper>
                   {res.comments?.length ? <CommentIndicator comment={res.comments[0].content} /> : null}
                 </CellWrapper>

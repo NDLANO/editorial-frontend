@@ -10,8 +10,8 @@ import orderBy from "lodash/orderBy";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
-import { IConceptSearchResult, IConceptSummary } from "@ndla/types-backend/concept-api";
-import { IArticleSummary, ISearchResult } from "@ndla/types-backend/draft-api";
+import { IConceptSummary } from "@ndla/types-backend/concept-api";
+import { IArticleSummary } from "@ndla/types-backend/draft-api";
 import LastUsedConcepts from "./LastUsedConcepts";
 import LastUsedResources from "./LastUsedResources";
 import { Prefix, TitleElement } from "./TableComponent";
@@ -27,9 +27,6 @@ import { useSearchDrafts } from "../../../modules/draft/draftQueries";
 import { useLocalStoragePageSizeState, useLocalStorageSortOptionState } from "../hooks/storedFilterHooks";
 
 export type SortOptionLastUsed = "title" | "lastUpdated";
-
-const getLastPage = (pageSize: number, res?: ISearchResult | IConceptSearchResult) =>
-  res?.results.length ? Math.ceil(res.results.length / pageSize) : 1;
 
 type SortOptionType = Prefix<"-", SortOptionLastUsed>;
 
@@ -96,13 +93,12 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [] }: Props)
       ids: lastUsedResources!,
       sort: "-lastUpdated",
       language,
-      pageSize: Number(pageSize!.value),
     },
     { enabled: !!lastUsedResources.length },
   );
 
   const searchConceptsQuery = useSearchConcepts(
-    { ids: lastUsedConcepts, sort: "-lastUpdated", language },
+    { ids: lastUsedConcepts, sort: "-lastUpdated", language, pageSize: lastUsedConcepts.length },
     {
       enabled: !!lastUsedConcepts.length,
     },
@@ -141,15 +137,6 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [] }: Props)
     [searchConceptsQuery.data, pageConcept, sortOptionConcept, pageSizeConcept],
   );
 
-  const lastPage = useMemo(
-    () => getLastPage(Number(pageSize!.value), searchDraftsQuery.data),
-    [searchDraftsQuery.data, pageSize],
-  );
-  const lastPageConcepts = useMemo(
-    () => getLastPage(Number(pageSizeConcept!.value), searchConceptsQuery.data),
-    [searchConceptsQuery.data, pageSizeConcept],
-  );
-
   const tableTitles: TitleElement<SortOptionLastUsed>[] = [
     { title: t("form.name.title"), sortableField: "title" },
     {
@@ -182,13 +169,13 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [] }: Props)
           isPending={searchDraftsQuery.isPending}
           page={page}
           setPage={setPage}
-          lastPage={lastPage}
           sortOption={sortOption}
           setSortOption={setSortOption}
           error={draftsError}
           titles={tableTitles}
           pageSize={pageSize}
           setPageSize={setPageSize}
+          totalCount={searchDraftsQuery.data?.totalCount}
         />
       </WelcomePageTabsContent>
       <WelcomePageTabsContent value="concepts">
@@ -200,10 +187,10 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [] }: Props)
           sortOption={sortOptionConcept}
           setSortOption={setSortOptionConcept}
           error={conceptsError}
-          lastPage={lastPageConcepts}
           titles={tableTitles}
           pageSize={pageSizeConcept}
           setPageSize={setPageSizeConcept}
+          totalCount={searchConceptsQuery.data?.totalCount}
         />
       </WelcomePageTabsContent>
     </TabsRoot>

@@ -10,8 +10,8 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { BookOpen, InformationOutline } from "@ndla/icons/common";
-import { Pager } from "@ndla/pager";
 import { getCurrentPageData } from "./LastUsedItems";
+import Pagination from "./Pagination";
 import TableComponent, { FieldElement, TitleElement } from "./TableComponent";
 import TableTitle from "./TableTitle";
 import PageSizeDropdown from "./worklist/PageSizeDropdown";
@@ -35,7 +35,7 @@ interface CellHeaderProps {
 
 const CellHeader = ({ title, description }: CellHeaderProps) => (
   <StyledTableHeader>
-    {title} <InformationOutline aria-label={description} title={description} />
+    {title} <InformationOutline aria-label={description} title={description} size="small" />
   </StyledTableHeader>
 );
 
@@ -187,8 +187,6 @@ const SubjectViewContent = ({
     });
   }, [data, favoriteSubjects?.results, isFavoriteTab, subjects]);
 
-  const lastPage = subjectIds.length ? Math.ceil(subjectIds.length / Number(pageSize!.value)) : 1;
-
   return (
     <>
       <StyledTopRowDashboardInfo>
@@ -206,14 +204,11 @@ const SubjectViewContent = ({
         error={error}
         minWidth="650px"
       />
-      <Pager
-        page={page ?? 1}
-        lastPage={lastPage}
-        query={{}}
-        onClick={(el) => setPage(el.page)}
-        small
-        colorTheme="lighter"
-        pageItemComponentClass="button"
+      <Pagination
+        page={page}
+        onPageChange={(details) => setPage(details.page)}
+        count={subjectIds.length}
+        pageSize={Number(pageSize!.value)}
       />
     </>
   );

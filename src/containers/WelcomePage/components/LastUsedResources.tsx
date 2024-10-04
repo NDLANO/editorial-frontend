@@ -9,6 +9,7 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Pencil } from "@ndla/icons/action";
+import { SafeLink } from "@ndla/safelink";
 import { SingleValue } from "@ndla/select";
 import { IArticleSummary } from "@ndla/types-backend/draft-api";
 import { SortOptionLastUsed } from "./LastUsedItems";
@@ -18,7 +19,7 @@ import TableTitle from "./TableTitle";
 import PageSizeDropdown from "./worklist/PageSizeDropdown";
 import formatDate from "../../../util/formatDate";
 import { toEditArticle } from "../../../util/routeHelpers";
-import { StyledLink, StyledTopRowDashboardInfo, TopRowControls } from "../styles";
+import { StyledTopRowDashboardInfo, TopRowControls } from "../styles";
 
 interface Props {
   data: IArticleSummary[];
@@ -55,9 +56,9 @@ const LastUsedResources = ({
         {
           id: `title_${a.id}`,
           data: (
-            <StyledLink to={toEditArticle(a.id, a.articleType)} title={a.title?.title}>
+            <SafeLink to={toEditArticle(a.id, a.articleType)} title={a.title?.title}>
               {a.title?.title}
-            </StyledLink>
+            </SafeLink>
           ),
         },
         { id: `lastUpdated_${a.id}`, data: formatDate(a.updated) },

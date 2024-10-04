@@ -8,10 +8,9 @@
 
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Heading } from "@ndla/primitives";
+import { Heading, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { Text } from "@ndla/typography";
 import { getArticle } from "../../../modules/article/articleApi";
 import { fetchAudio } from "../../../modules/audio/audioApi";
 import { fetchConcept } from "../../../modules/concept/conceptApi";
@@ -110,7 +109,7 @@ export const WelcomeHeader = () => {
           {`${t("welcomePage.welcomeBack")} ${userName ? `${userName}!` : t("welcomePage.welcomeText")}`}
         </Heading>
         {favoriteResource && (
-          <Text margin="none" textStyle="label-small">
+          <Text>
             {t("welcomePage.lastFavorited")}
             <SafeLink to={favoriteResource.path} title={favoriteResource.title}>
               {favoriteResource.title}

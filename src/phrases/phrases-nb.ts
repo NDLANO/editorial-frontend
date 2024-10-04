@@ -1463,7 +1463,7 @@ const phrases = {
       fileUpload: {
         description: "Dra og slipp eller trykk for å laste opp fil(er)",
         button: "Legg til",
-        genericError: "Opplastning av fil(er) feilet",
+        genericError: "Opplasting av fil(er) feilet",
         fileTypeInvalidError: "Filtypen er ikke støttet",
         tooManyError: "Maks 5 filer kan lastes opp om gangen",
       },

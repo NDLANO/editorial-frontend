@@ -10,9 +10,8 @@ import isEmpty from "lodash/isEmpty";
 import { CSSProperties, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { ExpandLess, ExpandMore } from "@ndla/icons/action";
-import { Table, Text } from "@ndla/primitives";
+import { Spinner, Table, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import Spinner from "../../../components/Spinner";
 
 const TableWrapper = styled("div", {
   base: {
@@ -54,17 +53,20 @@ const StyledErrorText = styled(Text, {
     color: "surface.danger",
   },
 });
-const SpinnerWrapper = styled("div", {
-  base: {
-    padding: "small",
-  },
-});
 
 const ContentWrapper = styled("div", {
   base: {
     height: "small",
     display: "flex",
     cursor: "pointer",
+  },
+});
+
+const SpinnerWrapper = styled("div", {
+  base: {
+    padding: "small",
+    display: "flex",
+    justifyContent: "center",
   },
 });
 
@@ -162,7 +164,7 @@ const TableComponent = <T extends string>({
       </StyledTable>
       {isPending ? (
         <SpinnerWrapper>
-          <Spinner appearance="small" />
+          <Spinner />
         </SpinnerWrapper>
       ) : noResultsText && isEmpty(tableData.flat()) ? (
         <Text>{noResultsText}</Text>

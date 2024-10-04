@@ -11,6 +11,7 @@ import { ContributorsField } from ".";
 import LicenseField from "./components/LicenseField";
 import OriginField from "./components/OriginField";
 import ProcessedField from "./components/ProcessedField";
+import { FormContent } from "../../components/FormikForm";
 
 const contributorTypes = ["creators", "rightsholders", "processors"] as const;
 
@@ -20,12 +21,12 @@ interface Props {
 
 const CopyrightFieldGroup = ({ enableLicenseNA }: Props) => {
   return (
-    <>
+    <FormContent>
       <ContributorsField contributorTypes={contributorTypes} />
       <LicenseField enableLicenseNA={enableLicenseNA} />
       <OriginField />
       <ProcessedField />
-    </>
+    </FormContent>
   );
 };
 

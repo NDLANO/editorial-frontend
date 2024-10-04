@@ -6,15 +6,37 @@
  *
  */
 import { FieldArray, useFormikContext } from "formik";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { spacing } from "@ndla/core";
-import { FieldErrorMessage, Fieldset, InputV3, Label, Legend, Select } from "@ndla/forms";
+import { createListCollection } from "@ark-ui/react";
+import { CloseLine } from "@ndla/icons/action";
+import { ArrowDownShortLine } from "@ndla/icons/common";
+import { CheckLine } from "@ndla/icons/editor";
 import { contributorGroups, contributorTypes } from "@ndla/licenses";
+import {
+  Button,
+  FieldErrorMessage,
+  FieldInput,
+  FieldLabel,
+  FieldRoot,
+  FieldsetLegend,
+  FieldsetRoot,
+  SelectContent,
+  SelectControl,
+  SelectHiddenSelect,
+  SelectIndicator,
+  SelectItem,
+  SelectItemIndicator,
+  SelectItemText,
+  SelectLabel,
+  SelectPositioner,
+  SelectRoot,
+  SelectTrigger,
+  SelectValueText,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IAuthor } from "@ndla/types-backend/draft-api";
-import FieldRemoveButton from "../../../components/Field/FieldRemoveButton";
-import { FormControl, FormField } from "../../../components/FormField";
+import { FormField } from "../../../components/FormField";
 
 type ContributorType = keyof typeof contributorGroups;
 
@@ -23,36 +45,26 @@ interface Props {
   width?: number;
 }
 
-interface ContributorTypeItem {
-  translation: string;
-  type: string;
-}
-
 interface ContributorTypes {
   creators: IAuthor[];
   processors: IAuthor[];
   rightsholders: IAuthor[];
 }
 
-const RootFieldset = styled(Fieldset)`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: ${spacing.small};
-`;
+const StyledFieldsetRoot = styled(FieldsetRoot, {
+  base: {
+    alignItems: "flex-start",
+  },
+});
 
-const StyledFieldset = styled(Fieldset)`
-  display: flex;
-  gap: ${spacing.small};
-  align-items: flex-start;
-  width: 100%;
-  div {
-    width: 100%;
-  }
-  button {
-    align-self: center;
-  }
-`;
+const StyledInnerFieldsetRoot = styled(FieldsetRoot, {
+  base: {
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr auto",
+    gap: "xsmall",
+    alignItems: "flex-end",
+  },
+});
 
 const ContributorsField = ({ contributorTypes }: Props) => {
   return (
@@ -80,59 +92,88 @@ const Contributor = ({ type, onAddNew, onRemove }: ContributorProps) => {
   const { t, i18n } = useTranslation();
   const { values } = useFormikContext<ContributorTypes>();
 
-  const contributorTypeItems = contributorGroups[type].map((item: string) => ({
-    type: item,
-    translation: contributorTypes[i18n.language] ? contributorTypes[i18n.language][item] : contributorTypes.nb[item],
-  }));
+  const collection = useMemo(() => {
+    const contributorTypeItems = contributorGroups[type].map((item: string) => ({
+      type: item,
+      translation: contributorTypes[i18n.language] ? contributorTypes[i18n.language][item] : contributorTypes.nb[item],
+    }));
+
+    return createListCollection({
+      items: contributorTypeItems,
+      itemToValue: (item) => item.type,
+      itemToString: (item) => item.translation,
+    });
+  }, [i18n.language, type]);
 
   return (
-    <RootFieldset data-testid={`contributor-fieldset`}>
-      <Legend>{t(`form.${type}.label`)}</Legend>
+    <StyledFieldsetRoot data-testid={`contributor-fieldset`}>
+      <FieldsetLegend>{t(`form.${type}.label`)}</FieldsetLegend>
       {values[type].map((_: IAuthor, contributorIndex: number) => (
-        <StyledFieldset key={`${type}.${contributorIndex}`}>
-          <Legend visuallyHidden>
+        <StyledInnerFieldsetRoot key={`${type}.${contributorIndex}`}>
+          <FieldsetLegend srOnly>
             {t(`form.${type}.label`)} {contributorIndex + 1}
-          </Legend>
+          </FieldsetLegend>
           <FormField name={`${type}.${contributorIndex}.name`}>
             {({ field, meta }) => (
-              <FormControl isRequired isInvalid={!!meta.error}>
-                <Label margin="none" textStyle="label-small">
-                  {t("form.name.name")}
-                </Label>
-                <InputV3
+              <FieldRoot required invalid={!!meta.error}>
+                <FieldLabel>{t("form.name.name")}</FieldLabel>
+                <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                <FieldInput
                   {...field}
                   // eslint-disable-next-line jsx-a11y/no-autofocus
                   autoFocus={!meta.touched}
                 />
-                <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-              </FormControl>
+              </FieldRoot>
             )}
           </FormField>
           <FormField name={`${type}.${contributorIndex}.type`}>
-            {({ field, meta }) => (
-              <FormControl isRequired isInvalid={!!meta.error}>
-                <Label margin="none" textStyle="label-small">
-                  {t("form.name.type")}
-                </Label>
-                <Select {...field} value={field.value.toLowerCase()} data-testid="contributor-selector">
-                  <option value="" />
-                  {contributorTypeItems.map((item: ContributorTypeItem) => (
-                    <option value={item.type} key={item.type}>
-                      {item.translation}
-                    </option>
-                  ))}
-                </Select>
-                <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-              </FormControl>
+            {({ field, meta, helpers }) => (
+              <FieldRoot required invalid={!!meta.error}>
+                <SelectRoot
+                  value={field.value.length ? [field.value] : undefined}
+                  onValueChange={(details) => helpers.setValue(details.value[0])}
+                  collection={collection}
+                  positioning={{ sameWidth: true }}
+                >
+                  <SelectLabel>{t("form.name.type")}</SelectLabel>
+                  <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                  <SelectControl>
+                    <SelectTrigger asChild>
+                      <Button variant="secondary">
+                        <SelectValueText placeholder={t("form.name.type")} />
+                        <SelectIndicator asChild>
+                          <ArrowDownShortLine />
+                        </SelectIndicator>
+                      </Button>
+                    </SelectTrigger>
+                  </SelectControl>
+                  <SelectPositioner>
+                    <SelectContent>
+                      {collection.items.map((item) => (
+                        <SelectItem key={item.type} item={item}>
+                          <SelectItemText>{item.translation}</SelectItemText>
+                          <SelectItemIndicator asChild>
+                            <CheckLine />
+                          </SelectItemIndicator>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </SelectPositioner>
+                  <SelectHiddenSelect data-testid="contributor-selector" />
+                </SelectRoot>
+              </FieldRoot>
             )}
           </FormField>
-          <FieldRemoveButton onClick={() => onRemove(contributorIndex)}>{t("remove")}</FieldRemoveButton>
-        </StyledFieldset>
+          <Button variant="tertiary" onClick={() => onRemove(contributorIndex)}>
+            {t("remove")}
+            <CloseLine />
+          </Button>
+        </StyledInnerFieldsetRoot>
       ))}
-      <ButtonV2 variant="outline" onClick={() => onAddNew({ name: "", type: "" })} data-testid="addContributor">
+      <Button variant="secondary" onClick={() => onAddNew({ name: "", type: "" })} data-testid="addContributor">
         {t("form.contributor.add")}
-      </ButtonV2>
-    </RootFieldset>
+      </Button>
+    </StyledFieldsetRoot>
   );
 };
 

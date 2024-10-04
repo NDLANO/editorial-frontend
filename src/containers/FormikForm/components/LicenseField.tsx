@@ -6,9 +6,30 @@
  *
  */
 
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { FieldErrorMessage, Label, Select } from "@ndla/forms";
-import { FormControl, FormField } from "../../../components/FormField";
+import { createListCollection } from "@ark-ui/react";
+import { ArrowDownShortLine } from "@ndla/icons/common";
+import { CheckLine } from "@ndla/icons/editor";
+import {
+  Button,
+  FieldErrorMessage,
+  FieldRoot,
+  SelectContent,
+  SelectControl,
+  SelectHiddenSelect,
+  SelectIndicator,
+  SelectItem,
+  SelectItemIndicator,
+  SelectItemText,
+  SelectLabel,
+  SelectPositioner,
+  SelectRoot,
+  SelectTrigger,
+  SelectValueText,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { FormField } from "../../../components/FormField";
 import { useLicenses } from "../../../modules/draft/draftQueries";
 import { getLicensesWithTranslations } from "../../../util/licenseHelpers";
 
@@ -17,29 +38,63 @@ interface Props {
   enableLicenseNA?: boolean;
 }
 
+const StyledSelectTrigger = styled(SelectTrigger, {
+  base: {
+    width: "100%",
+  },
+});
+
 const LicenseField = ({ name = "license", enableLicenseNA }: Props) => {
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const { t, i18n } = useTranslation();
-  const locale = i18n.language;
-  const licensesWithTranslations = getLicensesWithTranslations(licenses!, locale, enableLicenseNA);
+
+  const collection = useMemo(
+    () =>
+      createListCollection({
+        items: getLicensesWithTranslations(licenses!, i18n.language, enableLicenseNA),
+        itemToString: (item) => item.title,
+        itemToValue: (item) => item.license,
+      }),
+    [enableLicenseNA, licenses, i18n.language],
+  );
 
   return (
     <FormField name={name}>
-      {({ field, meta }) => (
-        <FormControl isInvalid={!!meta.error}>
-          <Label textStyle="label-small" margin="small">
-            {t("form.license.label")}
-          </Label>
-          <Select {...field}>
-            {!field.value && <option>{t("form.license.choose")}</option>}
-            {licensesWithTranslations.map((license) => (
-              <option value={license.license} key={license.license}>
-                {license.title}
-              </option>
-            ))}
-          </Select>
-          <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-        </FormControl>
+      {({ field, meta, helpers }) => (
+        <FieldRoot invalid={!!meta.error}>
+          <SelectRoot
+            value={[field.value]}
+            onValueChange={(details) => helpers.setValue(details.value[0])}
+            collection={collection}
+            positioning={{ sameWidth: true }}
+          >
+            <SelectLabel>{t("form.license.label")}</SelectLabel>
+            <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+            <SelectControl>
+              <StyledSelectTrigger asChild>
+                <Button variant="secondary">
+                  <SelectValueText placeholder={t("form.license.choose")} />
+                  <SelectIndicator asChild>
+                    <ArrowDownShortLine />
+                  </SelectIndicator>
+                </Button>
+              </StyledSelectTrigger>
+            </SelectControl>
+            <SelectPositioner>
+              <SelectContent>
+                {collection.items.map((item) => (
+                  <SelectItem key={item.license} item={item}>
+                    <SelectItemText>{item.title}</SelectItemText>
+                    <SelectItemIndicator asChild>
+                      <CheckLine />
+                    </SelectItemIndicator>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </SelectPositioner>
+            <SelectHiddenSelect />
+          </SelectRoot>
+        </FieldRoot>
       )}
     </FormField>
   );

@@ -267,7 +267,6 @@ export const nodeTreeWithDirectChildren: NodeTree = {
       language: "nb",
       contentUri: "urn:article:20136",
       parentId: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
-      parent: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
       path: "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
       paths: ["/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6"],
       connectionId: "urn:subject-topic:b5c7dede-f8ec-4a57-909f-940343eb4155",
@@ -303,7 +302,6 @@ export const nodeTreeWithDirectChildren: NodeTree = {
       language: "nb",
       contentUri: "urn:article:20126",
       parentId: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
-      parent: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
       path: "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:d208bf2d-836c-43fe-977b-de4af1771396",
       paths: ["/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:d208bf2d-836c-43fe-977b-de4af1771396"],
       connectionId: "urn:subject-topic:2b597082-6c36-4fc1-ac60-f7b9aec06cfc",
@@ -382,7 +380,6 @@ export const nodeTreeWithDirectChildrenUpdated: NodeTree = {
       language: "nb",
       contentUri: "urn:article:20136",
       parentId: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
-      parent: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
       path: "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
       paths: ["/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6"],
       connectionId: "urn:subject-topic:b5c7dede-f8ec-4a57-909f-940343eb4155",
@@ -418,7 +415,6 @@ export const nodeTreeWithDirectChildrenUpdated: NodeTree = {
       language: "nb",
       contentUri: "urn:article:20138",
       parentId: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
-      parent: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
       path: "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:00018b29-3b51-478d-a691-20732e0601fd",
       paths: ["/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:00018b29-3b51-478d-a691-20732e0601fd"],
       connectionId: "urn:subject-topic:e497ff48-b716-4d42-a5f2-c06c44c771eb",
@@ -612,11 +608,6 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
         other: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
         diffType: "NONE",
       },
-      parent: {
-        original: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
-        other: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
-        diffType: "NONE",
-      },
       path: {
         original: "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
         other: "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
@@ -756,11 +747,6 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
         other: undefined,
         diffType: "DELETED",
       },
-      parent: {
-        original: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
-        other: undefined,
-        diffType: "DELETED",
-      },
       path: {
         original: "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:d208bf2d-836c-43fe-977b-de4af1771396",
         other: undefined,
@@ -886,11 +872,6 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
         diffType: "ADDED",
       },
       parentId: {
-        original: undefined,
-        other: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
-        diffType: "ADDED",
-      },
-      parent: {
         original: undefined,
         other: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
         diffType: "ADDED",
@@ -1039,7 +1020,6 @@ export const nodeTreeWithDirectChildrenAndResources: NodeTree = {
       language: "nb",
       contentUri: "urn:article:20136",
       parentId: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
-      parent: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
       path: "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
       paths: ["/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6"],
       connectionId: "urn:subject-topic:b5c7dede-f8ec-4a57-909f-940343eb4155",
@@ -1075,7 +1055,6 @@ export const nodeTreeWithDirectChildrenAndResources: NodeTree = {
       language: "nb",
       contentUri: "urn:article:20126",
       parentId: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
-      parent: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
       path: "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:d208bf2d-836c-43fe-977b-de4af1771396",
       paths: ["/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:d208bf2d-836c-43fe-977b-de4af1771396"],
       connectionId: "urn:subject-topic:2b597082-6c36-4fc1-ac60-f7b9aec06cfc",
@@ -1154,7 +1133,6 @@ export const nodeTreeWithNestedChildren: NodeTree = {
       language: "nb",
       contentUri: "urn:article:20136",
       parentId: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
-      parent: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
       path: "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
       paths: ["/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6"],
       connectionId: "urn:subject-topic:b5c7dede-f8ec-4a57-909f-940343eb4155",
@@ -1190,7 +1168,6 @@ export const nodeTreeWithNestedChildren: NodeTree = {
       language: "nb",
       contentUri: "urn:article:20161",
       parentId: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
-      parent: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
       path: "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6",
       paths: [
         "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6",
@@ -1228,7 +1205,6 @@ export const nodeTreeWithNestedChildren: NodeTree = {
       language: "nb",
       contentUri: "urn:article:20162",
       parentId: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
-      parent: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
       path: "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8",
       paths: [
         "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8",
@@ -1309,7 +1285,6 @@ export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
       language: "nb",
       contentUri: "urn:article:20136",
       parentId: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
-      parent: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
       path: "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
       paths: ["/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6"],
       connectionId: "urn:subject-topic:b5c7dede-f8ec-4a57-909f-940343eb4155",
@@ -1345,7 +1320,6 @@ export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
       language: "nb",
       contentUri: "urn:article:20161",
       parentId: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
-      parent: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
       path: "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6",
       paths: [
         "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6",
@@ -1383,7 +1357,6 @@ export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
       language: "nb",
       contentUri: "urn:article:20162",
       parentId: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
-      parent: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
       path: "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8",
       paths: [
         "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8",
@@ -1588,11 +1561,6 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
         other: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
         diffType: "NONE",
       },
-      parent: {
-        original: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
-        other: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
-        diffType: "NONE",
-      },
       path: {
         original: "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
         other: "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
@@ -1704,11 +1672,6 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
             diffType: "NONE",
           },
           parentId: {
-            original: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
-            other: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
-            diffType: "NONE",
-          },
-          parent: {
             original: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
             other: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
             diffType: "NONE",
@@ -1845,11 +1808,6 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
             diffType: "NONE",
           },
           parentId: {
-            original: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
-            other: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
-            diffType: "NONE",
-          },
-          parent: {
             original: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
             other: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
             diffType: "NONE",
@@ -2270,7 +2228,6 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
       language: "nb",
       contentUri: "urn:article:20136",
       parentId: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
-      parent: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
       path: "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
       paths: ["/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6"],
       connectionId: "urn:subject-topic:b5c7dede-f8ec-4a57-909f-940343eb4155",
@@ -2306,7 +2263,6 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
       language: "nb",
       contentUri: "urn:article:20161",
       parentId: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
-      parent: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
       path: "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6",
       paths: [
         "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6",
@@ -2389,7 +2345,6 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
           ],
           supportedLanguages: ["nb", "nn"],
           parentId: "urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6",
-          parent: "urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6",
           connectionId: "urn:topic-resource:4e8305fa-7aac-4c08-97dc-9630becdb83a",
           rank: 2,
           relevanceId: "urn:relevance:core",
@@ -2411,7 +2366,6 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
       language: "nb",
       contentUri: "urn:article:20162",
       parentId: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
-      parent: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
       path: "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8",
       paths: [
         "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8",
@@ -2492,7 +2446,6 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
       language: "nb",
       contentUri: "urn:article:20136",
       parentId: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
-      parent: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
       path: "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
       paths: ["/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6"],
       connectionId: "urn:subject-topic:b5c7dede-f8ec-4a57-909f-940343eb4155",
@@ -2528,7 +2481,6 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
       language: "nb",
       contentUri: "urn:article:20161",
       parentId: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
-      parent: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
       path: "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6",
       paths: [
         "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6",
@@ -2613,7 +2565,6 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
           ],
           supportedLanguages: ["nb", "nn"],
           parentId: "urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6",
-          parent: "urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6",
           connectionId: "urn:topic-resource:4e8305fa-7aac-4c08-97dc-9630becdb83a",
           rank: 2,
           relevanceId: "urn:relevance:core",
@@ -2633,7 +2584,6 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
       language: "nb",
       contentUri: "urn:article:20162",
       parentId: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
-      parent: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
       path: "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8",
       paths: [
         "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8",
@@ -2827,11 +2777,6 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
         other: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
         diffType: "NONE",
       },
-      parent: {
-        original: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
-        other: "urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578",
-        diffType: "NONE",
-      },
       path: {
         original: "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
         other: "/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
@@ -2943,11 +2888,6 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
             diffType: "NONE",
           },
           parentId: {
-            original: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
-            other: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
-            diffType: "NONE",
-          },
-          parent: {
             original: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
             other: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
             diffType: "NONE",
@@ -3198,11 +3138,6 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
                 other: "urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6",
                 diffType: "NONE",
               },
-              parent: {
-                original: "urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6",
-                other: "urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6",
-                diffType: "NONE",
-              },
               connectionId: {
                 original: "urn:topic-resource:4e8305fa-7aac-4c08-97dc-9630becdb83a",
                 other: "urn:topic-resource:4e8305fa-7aac-4c08-97dc-9630becdb83a",
@@ -3284,11 +3219,6 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
             diffType: "NONE",
           },
           parentId: {
-            original: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
-            other: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
-            diffType: "NONE",
-          },
-          parent: {
             original: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
             other: "urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6",
             diffType: "NONE",

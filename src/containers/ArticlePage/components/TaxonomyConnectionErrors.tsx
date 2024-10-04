@@ -61,7 +61,7 @@ const getOtherArticleType = (articleType: string): string => {
   return articleType === "standard" ? "topic-article" : "standard";
 };
 
-const LinkWrapper = ({ children, path }: { children: ReactNode; path: string }) => {
+const LinkWrapper = ({ children, path }: { children: ReactNode; path?: string }) => {
   if (!path) {
     return <div>{children}</div>;
   }

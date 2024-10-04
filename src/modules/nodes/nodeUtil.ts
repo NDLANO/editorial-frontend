@@ -20,5 +20,5 @@ export const isRootNode = (node: Node): boolean => {
 };
 
 export const getRootIdForNode = (node: Node): string => {
-  return `urn:${node.path.substring(1).split("/")[0]}`;
+  return `urn:${node.path?.substring(1).split("/")[0]}`;
 };

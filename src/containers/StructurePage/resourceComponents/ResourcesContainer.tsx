@@ -66,7 +66,7 @@ const ResourcesContainer = ({
     { enabled: !!currentNode.contentUri },
   );
 
-  const paths = useMemo(() => data?.map((d) => d.path).filter((d) => !!d) ?? [], [data]);
+  const paths = useMemo(() => data?.map((d) => d.path ?? "").filter((d) => !!d) ?? [], [data]);
 
   const nodeResourcesWithMeta: ResourceWithNodeConnectionAndMeta[] =
     useMemo(

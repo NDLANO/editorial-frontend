@@ -26,7 +26,10 @@ interface Props {
 }
 
 export interface MinimalNodeChild
-  extends Pick<NodeChild, "id" | "relevanceId" | "isPrimary" | "path" | "name" | "connectionId" | "breadcrumbs"> {
+  extends Pick<
+    NodeChild,
+    "id" | "relevanceId" | "isPrimary" | "path" | "name" | "connectionId" | "breadcrumbs" | "context" | "nodeType"
+  > {
   metadata: Pick<Metadata, "visible">;
 }
 

@@ -84,7 +84,7 @@ const SwapTopicArticle = ({ node, rootNodeId, editModeHandler: { editMode, toggl
     toggleEditModeFunc();
     try {
       await putNodeMutation.mutateAsync({
-        ...node,
+        id: node.id,
         nodeType: TOPIC_NODE,
         contentUri: `urn:article:${topic.id}`,
         taxonomyVersion,

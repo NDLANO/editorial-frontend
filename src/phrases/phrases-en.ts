@@ -851,6 +851,7 @@ const phrases = {
       grade: "Grade",
       note: "Note",
       files: "File upload",
+      code: "Code",
     },
     previewProductionArticle: {
       button: "Compare current version with last published version",

@@ -104,6 +104,7 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
   const embedData = useMemo(() => getInfoFromNode(element.data), [element.data]);
   const [editMode, setEditMode] = useState<boolean>(!embedData.codeContent && !embedData.title);
   const [showWarning, setShowWarning] = useState(false);
+  const [shouldShowWarning, setShouldShowWarning] = useState(false);
   const { t } = useTranslation();
 
   const highlightedCode = useMemo(() => {
@@ -146,7 +147,7 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
     (open: boolean) => {
       if (open) {
         setEditMode(true);
-      } else if (!element.isFirstEdit && !showWarning) {
+      } else if (shouldShowWarning) {
         setShowWarning(true);
       } else {
         ReactEditor.focus(editor);
@@ -165,7 +166,7 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
         }
       }
     },
-    [editor, element, showWarning],
+    [editor, element, shouldShowWarning],
   );
 
   return (
@@ -203,6 +204,7 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
             onSave={handleSave}
             highlight={highlightCode}
             onAbort={() => onOpenChange(false)}
+            setShowWarning={setShouldShowWarning}
           />
         </ModalBody>
       </ModalContent>

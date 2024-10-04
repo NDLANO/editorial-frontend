@@ -88,20 +88,19 @@ const ImageContent = () => {
                   onFileReject={(details) => {
                     // Bug in formik's setError function requiring setTimeout to make it work,
                     // as discussed here: https://github.com/jaredpalmer/formik/discussions/3870
-                    const fileErrors = details.files?.[0].errors;
+                    const fileErrors = details.files?.[0]?.errors;
+                    if (!fileErrors) return;
                     if (fileErrors.includes("FILE_TOO_LARGE")) {
+                      const errorMessage = `${t("form.image.fileUpload.genericError")}: ${t("form.image.fileUpload.tooLargeError")}`;
                       setTimeout(() => {
-                        helpers.setError(
-                          `${t("form.image.fileUpload.genericError")}: ${t("form.image.fileUpload.tooLargeError")}`,
-                        );
+                        helpers.setError(errorMessage);
                       }, 0);
                       return;
                     }
                     if (fileErrors.includes("FILE_INVALID_TYPE")) {
+                      const errorMessage = `${t("form.image.fileUpload.genericError")}: ${t("form.image.fileUpload.fileTypeInvalidError")}`;
                       setTimeout(() => {
-                        helpers.setError(
-                          `${t("form.image.fileUpload.genericError")}: ${t("form.image.fileUpload.fileTypeInvalidError")}`,
-                        );
+                        helpers.setError(errorMessage);
                       }, 0);
                       return;
                     }

@@ -115,21 +115,19 @@ const FileUploader = ({ onFileSave, close }: Props) => {
                   onFileReject={(details) => {
                     const fileErrors = details.files?.[0]?.errors;
                     if (!fileErrors) return;
+                    // Bug in formik's setError function requiring setTimeout to make it work,
+                    // as discussed here: https://github.com/jaredpalmer/formik/discussions/3870
                     if (fileErrors.includes("FILE_INVALID_TYPE")) {
-                      // Bug in formik's setError function requiring setTimeout to make it work,
-                      // as discussed here: https://github.com/jaredpalmer/formik/discussions/3870
+                      const errorMessage = `${t("form.file.fileUpload.genericError")}: ${t("form.file.fileUpload.fileTypeInvalidError")}`;
                       setTimeout(() => {
-                        helpers.setError(
-                          `${t("form.file.fileUpload.genericError")}: ${t("form.file.fileUpload.fileTypeInvalidError")}`,
-                        );
+                        helpers.setError(errorMessage);
                       }, 0);
                       return;
                     }
                     if (fileErrors.includes("TOO_MANY_FILES")) {
+                      const errorMessage = `${t("form.file.fileUpload.genericError")}: ${t("form.file.fileUpload.tooManyError")}`;
                       setTimeout(() => {
-                        helpers.setError(
-                          `${t("form.file.fileUpload.genericError")}: ${t("form.file.fileUpload.tooManyError")}`,
-                        );
+                        helpers.setError(errorMessage);
                       }, 0);
                       return;
                     }

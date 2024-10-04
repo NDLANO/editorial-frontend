@@ -9,95 +9,64 @@
 import isEmpty from "lodash/isEmpty";
 import { CSSProperties, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { spacing, colors, fonts } from "@ndla/core";
 import { ExpandLess, ExpandMore } from "@ndla/icons/action";
+import { Table, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import Spinner from "../../../components/Spinner";
 
-const TableWrapper = styled.div`
-  overflow-x: auto;
-  width: 100%;
-`;
+const TableWrapper = styled("div", {
+  base: {
+    width: "100%",
+    overflowX: "auto",
+  },
+});
 
-const StyledTable = styled.table`
-  font-family: arial, sans-serif;
-  border-collapse: separate;
-  width: 100%;
-  min-width: var(--table-min-width);
-  border-spacing: 0;
-  font-family: ${fonts.sans};
-  margin-bottom: 0px;
-  display: inline-table;
-  table-layout: fixed;
+const StyledTable = styled(Table, {
+  base: {
+    width: "100%",
+    tableLayout: "fixed",
+    minWidth: "var(--table-min-width)",
+    display: "inline-table",
 
-  td {
-    ${fonts.sizes(16, 1.1)};
-    padding: ${spacing.xsmall};
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  tr:nth-of-type(even) {
-    background: ${colors.brand.lightest};
-  }
-  thead tr th {
-    position: sticky;
-    top: 0;
-  }
-`;
+    "& td": {
+      overflow: "hidden",
+      whiteSpace: "nowrap",
+      textOverflow: "ellipsis",
+    },
+  },
+});
 
-const StyledTableHeader = styled.th`
-  font-weight: ${fonts.weight.bold};
-  padding: 0px ${spacing.xsmall};
-  border-bottom: 1px solid ${colors.text.primary};
-  background-color: ${colors.brand.lighter};
-  width: var(--header-width);
+const TableTitleComponent = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "xxsmall",
+  },
+});
+const StyledTableHeader = styled("th", {
+  base: { width: "var(--header-width)" },
+});
 
-  :not(:first-of-type) {
-    border-left: 1px solid ${colors.text.primary};
-  }
-`;
+const StyledErrorText = styled(Text, {
+  base: {
+    color: "surface.danger",
+  },
+});
+const SpinnerWrapper = styled("div", {
+  base: {
+    padding: "small",
+  },
+});
 
-const SortArrowWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-left: auto;
-`;
-
-const TableTitleComponent = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
-
-const StyledError = styled.p`
-  color: ${colors.support.red};
-`;
-
-const SpinnerWrapper = styled.div`
-  padding: ${spacing.small};
-`;
-
-const NoResultsText = styled.div`
-  display: flex;
-  justify-content: center;
-  ${fonts.sizes("16px", "20px")};
-  color: ${colors.text.light};
-  margin-bottom: ${spacing.nsmall};
-`;
-
-const ContentWrapper = styled.div`
-  height: ${spacing.nsmall};
-  display: flex;
-  svg {
-    cursor: pointer;
-    color: ${colors.text.primary};
-    visibility: visible;
-  }
-  svg[data-hidden="true"] {
-    visibility: hidden;
-  }
-`;
+const ContentWrapper = styled("div", {
+  base: {
+    height: "small",
+    display: "flex",
+    cursor: "pointer",
+  },
+});
 
 export interface FieldElement {
   id: string;
@@ -134,7 +103,7 @@ const TableComponent = <T extends string>({
   minWidth,
 }: Props<T>) => {
   const { t } = useTranslation();
-  if (error) return <StyledError>{error}</StyledError>;
+  if (error) return <StyledErrorText>{error}</StyledErrorText>;
 
   return (
     <TableWrapper>
@@ -148,9 +117,8 @@ const TableComponent = <T extends string>({
               >
                 <TableTitleComponent>
                   {tableTitle.title}
-
                   {setSortOption && tableTitle.sortableField && (
-                    <SortArrowWrapper>
+                    <div>
                       <ContentWrapper>
                         <ExpandLess
                           aria-label={t("welcomePage.workList.sortAsc")}
@@ -158,6 +126,7 @@ const TableComponent = <T extends string>({
                           onClick={() => setSortOption(tableTitle.sortableField!)}
                           data-hidden={!tableTitle.sortableField || sortOption === tableTitle.sortableField}
                           title={t("welcomePage.workList.sortAsc")}
+                          size="small"
                         />
                       </ContentWrapper>
                       <ContentWrapper>
@@ -167,9 +136,10 @@ const TableComponent = <T extends string>({
                           onClick={() => setSortOption(`-${tableTitle.sortableField!}`!)}
                           data-hidden={!tableTitle.sortableField || sortOption === `-${tableTitle.sortableField}`}
                           title={t("welcomePage.workList.sortDesc")}
+                          size="small"
                         />
                       </ContentWrapper>
-                    </SortArrowWrapper>
+                    </div>
                   )}
                 </TableTitleComponent>
               </StyledTableHeader>
@@ -195,7 +165,7 @@ const TableComponent = <T extends string>({
           <Spinner appearance="small" />
         </SpinnerWrapper>
       ) : noResultsText && isEmpty(tableData.flat()) ? (
-        <NoResultsText>{noResultsText}</NoResultsText>
+        <Text>{noResultsText}</Text>
       ) : null}
     </TableWrapper>
   );

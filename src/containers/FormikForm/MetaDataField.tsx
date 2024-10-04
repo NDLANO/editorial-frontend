@@ -8,12 +8,21 @@
 
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
+import {
+  FieldRoot,
+  RadioGroupItem,
+  RadioGroupItemControl,
+  RadioGroupItemHiddenInput,
+  RadioGroupItemText,
+  RadioGroupLabel,
+  RadioGroupRoot,
+} from "@ndla/primitives";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import { MetaImageSearch } from ".";
-import AvailabilityField from "./components/AvailabilityField";
 import AsyncSearchTags from "../../components/Dropdown/asyncDropdown/AsyncSearchTags";
 import { FormField } from "../../components/FormField";
 import FormikField from "../../components/FormikField";
+import { FormContent } from "../../components/FormikForm";
 import PlainTextEditor from "../../components/SlateEditor/PlainTextEditor";
 import { textTransformPlugin } from "../../components/SlateEditor/plugins/textTransform";
 import { DRAFT_ADMIN_SCOPE } from "../../constants";
@@ -26,13 +35,15 @@ interface Props {
   checkboxAction?: (image: IImageMetaInformationV3) => void;
 }
 
+const availabilityValues: string[] = ["everyone", "teacher"];
+
 const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props) => {
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const plugins = [textTransformPlugin];
 
   return (
-    <>
+    <FormContent>
       <FormikField name="tags" label={t("form.tags.label")} showError description={t("form.tags.description")}>
         {({ field, form }) => (
           <AsyncSearchTags
@@ -46,7 +57,26 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
         )}
       </FormikField>
       {userPermissions?.includes(DRAFT_ADMIN_SCOPE) && (
-        <FormField name="availability">{({ field }) => <AvailabilityField field={field} />}</FormField>
+        <FormField name="availability">
+          {({ field, helpers }) => (
+            <FieldRoot>
+              <RadioGroupRoot
+                orientation="horizontal"
+                value={field.value}
+                onValueChange={(details) => helpers.setValue(details.value)}
+              >
+                <RadioGroupLabel>{t("form.availability.description")}</RadioGroupLabel>
+                {availabilityValues.map((value) => (
+                  <RadioGroupItem key={value} value={value}>
+                    <RadioGroupItemControl />
+                    <RadioGroupItemText>{t(`form.availability.${value}`)}</RadioGroupItemText>
+                    <RadioGroupItemHiddenInput />
+                  </RadioGroupItem>
+                ))}
+              </RadioGroupRoot>
+            </FieldRoot>
+          )}
+        </FormField>
       )}
       <FormikField
         name="metaDescription"
@@ -72,7 +102,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
           />
         )}
       </FormikField>
-    </>
+    </FormContent>
   );
 };
 

@@ -852,6 +852,7 @@ const phrases = {
       grade: "Gradering",
       note: "Notat",
       files: "filopplasting",
+      code: "Kode",
     },
     previewProductionArticle: {
       button: "Sammenlign gjeldende versjon med sist publiserte versjon",

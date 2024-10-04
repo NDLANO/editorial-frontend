@@ -60,7 +60,7 @@ test("adds and removes code-block", async ({ page }) => {
   await expect(page.getByTestId("modal-header")).toBeVisible();
   const modalBody = page.getByTestId("modal-body");
   await modalBody.locator("input").first().fill("Tittel");
-  await modalBody.locator("select").selectOption("HTML");
+  await modalBody.getByTestId("code-language").selectOption("markup");
   await modalBody.locator("textarea").first().fill("Some <strong>markup</strong>{enter}Newline");
   await page.getByRole("button").getByText("Lagre").click();
   await expect(page.getByTestId("remove-code")).toBeVisible();

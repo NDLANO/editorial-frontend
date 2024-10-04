@@ -12,7 +12,6 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { colors, spacing } from "@ndla/core";
 import { Alarm, Time } from "@ndla/icons/common";
-import { Pager } from "@ndla/pager";
 import {
   SwitchControl,
   SwitchHiddenInput,
@@ -25,6 +24,7 @@ import {
 import { IUserData } from "@ndla/types-backend/draft-api";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
 import GoToSearch from "./GoToSearch";
+import Pagination from "./Pagination";
 import TableComponent, { FieldElement, TitleElement } from "./TableComponent";
 import TableTitle from "./TableTitle";
 import { WelcomePageTabsContent } from "./WelcomePageTabsContent";
@@ -78,8 +78,6 @@ const StyledTimeIcon = styled(Time)`
   width: 20px;
   height: 20px;
 `;
-
-const getLastPage = (totalCount: number, pageSize: number) => Math.ceil(totalCount / (pageSize ?? 1));
 
 interface Props {
   userData: IUserData | undefined;
@@ -179,11 +177,6 @@ const Revisions = ({ userData }: Props) => {
       getDataPrimaryConnectionToFavorite,
       pageSize,
     ],
-  );
-
-  const lastPage = useMemo(
-    () => (filteredData.totalCount ? getLastPage(filteredData.totalCount, filteredData.pageSize) : 1),
-    [filteredData.pageSize, filteredData.totalCount],
   );
 
   useEffect(() => {
@@ -298,14 +291,11 @@ const Revisions = ({ userData }: Props) => {
           noResultsText={t("welcomePage.emptyRevision")}
           minWidth="500px"
         />
-        <Pager
-          page={data?.page ?? 1}
-          lastPage={lastPage}
-          query={{}}
-          onClick={(el) => setPage(el.page)}
-          small
-          colorTheme="lighter"
-          pageItemComponentClass="button"
+        <Pagination
+          page={data?.page}
+          onPageChange={(details) => setPage(details.page)}
+          count={data?.totalCount}
+          pageSize={data?.pageSize}
         />
       </WelcomePageTabsContent>
     </TabsRoot>

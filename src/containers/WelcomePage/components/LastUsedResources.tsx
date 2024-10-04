@@ -9,10 +9,10 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Pencil } from "@ndla/icons/action";
-import { Pager } from "@ndla/pager";
 import { SingleValue } from "@ndla/select";
 import { IArticleSummary } from "@ndla/types-backend/draft-api";
 import { SortOptionLastUsed } from "./LastUsedItems";
+import Pagination from "./Pagination";
 import TableComponent, { FieldElement, Prefix, TitleElement } from "./TableComponent";
 import TableTitle from "./TableTitle";
 import PageSizeDropdown from "./worklist/PageSizeDropdown";
@@ -28,10 +28,10 @@ interface Props {
   sortOption: string;
   setSortOption: (o: Prefix<"-", SortOptionLastUsed>) => void;
   error: string | undefined;
-  lastPage: number;
   titles: TitleElement<SortOptionLastUsed>[];
   pageSize: SingleValue;
   setPageSize: (p: SingleValue) => void;
+  totalCount: number | undefined;
 }
 
 const LastUsedResources = ({
@@ -42,10 +42,10 @@ const LastUsedResources = ({
   sortOption,
   setSortOption,
   error,
-  lastPage,
   titles,
   pageSize,
   setPageSize,
+  totalCount,
 }: Props) => {
   const { t } = useTranslation();
 
@@ -87,14 +87,11 @@ const LastUsedResources = ({
         noResultsText={t("welcomePage.emptyLastUsed")}
         minWidth="250px"
       />
-      <Pager
+      <Pagination
         page={page}
-        lastPage={lastPage}
-        query={{}}
-        onClick={(el) => setPage(el.page)}
-        small
-        colorTheme="lighter"
-        pageItemComponentClass="button"
+        onPageChange={(details) => setPage(details.page)}
+        count={totalCount}
+        pageSize={Number(pageSize!.value)}
       />
     </>
   );

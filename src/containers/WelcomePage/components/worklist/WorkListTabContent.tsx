@@ -8,10 +8,9 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
+import oldstyled from "@emotion/styled";
 import { ExclamationMark } from "@ndla/icons/common";
 import { Calendar } from "@ndla/icons/editor";
-import { Pager } from "@ndla/pager";
 import { SwitchControl, SwitchHiddenInput, SwitchThumb } from "@ndla/primitives";
 import { SingleValue } from "@ndla/select";
 import { IMultiSearchResult } from "@ndla/types-backend/search-api";
@@ -32,26 +31,28 @@ import {
   TopRowControls,
 } from "../../styles";
 import GoToSearch from "../GoToSearch";
+import Pagination from "../Pagination";
 import TableComponent, { FieldElement, Prefix, TitleElement } from "../TableComponent";
 import TableTitle from "../TableTitle";
 
-export const CellWrapper = styled.div`
+export const CellWrapper = oldstyled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
 `;
 
-const StyledTitleWrapper = styled.div`
+const StyledTitleWrapper = oldstyled.div`
   display: flex;
   overflow: hidden;
   align-items: center;
 `;
 
-const StyledExclamationMark = styled(ExclamationMark)`
+const StyledExclamationMark = oldstyled(ExclamationMark)`
   &[aria-hidden="false"] {
     visibility: hidden;
   }
 `;
+
 interface Props {
   data: IMultiSearchResult | undefined;
   isPending: boolean;
@@ -170,7 +171,6 @@ const WorkListTabContent = ({
     },
   ];
 
-  const lastPage = data?.totalCount ? Math.ceil(data?.totalCount / (data.pageSize ?? 1)) : 1;
   const subjectIds = searchQuery.data?.aggregations.flatMap((a) => a.values.map((v) => v.value));
 
   return (
@@ -218,14 +218,11 @@ const WorkListTabContent = ({
         noResultsText={t("welcomePage.noArticles")}
         minWidth="850px"
       />
-      <Pager
-        page={data?.page ?? 1}
-        lastPage={lastPage}
-        query={{}}
-        onClick={(el) => setPage(el.page)}
-        small
-        colorTheme="lighter"
-        pageItemComponentClass="button"
+      <Pagination
+        page={data?.page}
+        onPageChange={(details) => setPage(details.page)}
+        count={data?.totalCount}
+        pageSize={data?.pageSize}
       />
     </>
   );

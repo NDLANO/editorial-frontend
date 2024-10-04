@@ -126,7 +126,7 @@ const SlateFileList = ({ element, editor, attributes, children }: Props) => {
                 <ModalCloseButton />
               </ModalHeader>
               <ModalBody>
-                <FileUploader onFileSave={onAddFileToList} />
+                <FileUploader onFileSave={onAddFileToList} close={() => setShowFileUploader(false)} />
               </ModalBody>
             </ModalContent>
           </Modal>

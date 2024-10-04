@@ -101,14 +101,14 @@ const AudioContent = <T extends AudioFormikType | PodcastFormValues>({ handleSub
                     setFieldValue("audioFile", { newFile });
                   }}
                   onFileReject={(details) => {
-                    const fileErrors = details.files?.[0].errors;
+                    const fileErrors = details.files?.[0]?.errors;
+                    if (!fileErrors) return;
                     if (fileErrors.includes("FILE_INVALID_TYPE")) {
+                      const errorMessage = `${t("form.audio.fileUpload.genericError")}: ${t("form.audio.fileUpload.fileTypeInvalidError")}`;
                       // Bug in formik's setError function requiring setTimeout to make it work,
                       // as discussed here: https://github.com/jaredpalmer/formik/discussions/3870
                       setTimeout(() => {
-                        helpers.setError(
-                          `${t("form.audio.fileUpload.genericError")}: ${t("form.audio.fileUpload.fileTypeInvalidError")}`,
-                        );
+                        helpers.setError(errorMessage);
                       }, 0);
                       return;
                     }

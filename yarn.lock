@@ -1933,12 +1933,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/article-converter@npm:^10.0.46-alpha.0":
-  version: 10.0.46-alpha.0
-  resolution: "@ndla/article-converter@npm:10.0.46-alpha.0"
+"@ndla/article-converter@npm:^10.0.47-alpha.0":
+  version: 10.0.47-alpha.0
+  resolution: "@ndla/article-converter@npm:10.0.47-alpha.0"
   dependencies:
     "@ndla/primitives": "npm:^1.0.39-alpha.0"
-    "@ndla/ui": "npm:^56.0.43-alpha.0"
+    "@ndla/ui": "npm:^56.0.44-alpha.0"
     html-react-parser: "npm:^5.1.8"
   peerDependencies:
     i18next: ">= 23.11.5"
@@ -1946,7 +1946,7 @@ __metadata:
     react-dom: ">= 16.8.0"
     react-i18next: ^14.1.1
     react-router-dom: ">= 6.0.0"
-  checksum: 10c0/fb8c07457653d338e9b124491e58bb15057f76a3a339a5e81a97664f548a907ca33d087724ad65da2d27fe1516158d72ab1f8e8aae78c1a4ba60f0a2a13f4915
+  checksum: 10c0/4fcf6a137d8df44bd75971ec921e76938056601faab10ce995dcf009846dec75348945b39722786eca153a2edd4b7461e063f8a176287dd6873477d7951ce2d7
   languageName: node
   linkType: hard
 
@@ -2229,9 +2229,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/ui@npm:^56.0.43-alpha.0":
-  version: 56.0.43-alpha.0
-  resolution: "@ndla/ui@npm:56.0.43-alpha.0"
+"@ndla/ui@npm:^56.0.44-alpha.0":
+  version: 56.0.44-alpha.0
+  resolution: "@ndla/ui@npm:56.0.44-alpha.0"
   dependencies:
     "@ndla/core": "npm:^5.0.2"
     "@ndla/icons": "npm:^8.0.28-alpha.0"
@@ -2248,7 +2248,7 @@ __metadata:
     react-dom: ">= 18"
     react-i18next: ^14.1.1
     react-router-dom: "> 6.0.0"
-  checksum: 10c0/d2d2a9cf8784a9a88b3824e74f43546bc18021105b2427ff3ff994d24c4e61186eb09521da63d1d08563bcb3113acfc0d183194f79ba5caa91dc3c52a654c283
+  checksum: 10c0/b2ea8c5c67b994acf29523407a3c278e2331b4df7e6b9fd4e54c18e3f010ea18f979247e38cc22014d3a1291c0b937948dd215e91cfbe175556246fda96a7074
   languageName: node
   linkType: hard
 
@@ -7038,7 +7038,7 @@ __metadata:
     "@fontsource/source-sans-pro": "npm:^4.5.9"
     "@fontsource/source-serif-pro": "npm:^4.5.7"
     "@ndla/accordion": "npm:^6.0.29-alpha.0"
-    "@ndla/article-converter": "npm:^10.0.46-alpha.0"
+    "@ndla/article-converter": "npm:^10.0.47-alpha.0"
     "@ndla/audio-search": "npm:^7.0.40-alpha.0"
     "@ndla/button": "npm:^15.0.29-alpha.0"
     "@ndla/error-reporter": "npm:^2.0.4"
@@ -7059,7 +7059,7 @@ __metadata:
     "@ndla/types-embed": "npm:^5.0.3-alpha.0"
     "@ndla/types-taxonomy": "npm:^1.0.30"
     "@ndla/typography": "npm:^0.4.25"
-    "@ndla/ui": "npm:^56.0.43-alpha.0"
+    "@ndla/ui": "npm:^56.0.44-alpha.0"
     "@ndla/util": "npm:^5.0.0-alpha.0"
     "@ndla/video-search": "npm:^8.0.39-alpha.0"
     "@pandacss/dev": "npm:^0.46.0"

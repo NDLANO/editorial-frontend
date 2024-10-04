@@ -113,6 +113,7 @@ const WorkListTabContent = ({
                       aria-hidden={!!res?.prioritized}
                       aria-label={t("editorFooter.prioritized")}
                       title={t("editorFooter.prioritized")}
+                      size="small"
                     />
                     <StyledLink to={toEditArticle(res.id, res.learningResourceType)} title={res.title?.title}>
                       {res.title?.title}

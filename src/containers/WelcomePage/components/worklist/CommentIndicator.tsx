@@ -15,11 +15,6 @@ const StyledIconWrapper = styled.div`
   align-items: center;
   height: 100%;
 `;
-const StyledCommentIcon = styled(Comment)`
-  width: 20px;
-  height: 20px;
-`;
-
 interface Props {
   comment: string;
 }
@@ -28,8 +23,8 @@ const CommentIndicator = ({ comment }: Props) => {
   const strippedComment = stripInlineContentHtmlTags(comment);
 
   return (
-    <StyledIconWrapper title={strippedComment}>
-      <StyledCommentIcon aria-label={strippedComment} />
+    <StyledIconWrapper title={strippedComment} aria-label={strippedComment}>
+      <Comment size="small" />
     </StyledIconWrapper>
   );
 };

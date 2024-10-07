@@ -81,19 +81,19 @@ test("Can use content type dropdown", async ({ page }) => {
 });
 
 test("Can use inactive checkbox", async ({ page }) => {
-  await page.getByLabel("Inkluder utgåtte fag").click();
+  await page.locator("label", { hasText: "Inkluder utgåtte fag" }).click();
   await page.getByTestId("content-search-result").first().waitFor();
   expect(await page.getByTestId("searchTotalCount").innerText()).toEqual("42700");
-  await page.getByLabel("Inkluder utgåtte fag").click();
+  await page.locator("label", { hasText: "Inkluder utgåtte fag" }).click();
   await page.getByTestId("content-search-result").first().waitFor();
   expect(await page.getByTestId("searchTotalCount").innerText()).toEqual(searchTotalCount);
 });
 
 test("Can use exclude checkbox", async ({ page }) => {
-  await page.getByLabel("Ekskluder endringslogg").click();
+  await page.locator("label", { hasText: "Ekskluder endringslogg" }).click();
   await page.getByTestId("content-search-result").first().waitFor();
   expect(await page.getByTestId("searchTotalCount").innerText()).toEqual(searchTotalCount);
-  await page.getByLabel("Ekskluder endringslogg").click();
+  await page.locator("label", { hasText: "Ekskluder endringslogg" }).click();
   await page.getByTestId("content-search-result").first().waitFor();
   expect(await page.getByTestId("searchTotalCount").innerText()).toEqual(searchTotalCount);
 });

@@ -13,7 +13,7 @@ import { Select, SingleValue } from "@ndla/select";
 import { SUBJECT_NODE } from "../../../../modules/nodes/nodeApiTypes";
 import { useSearchNodes } from "../../../../modules/nodes/nodeQueries";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
-import { DropdownWrapper } from "../../styles";
+import { SelectWrapper } from "../../styles";
 
 interface Props {
   subjectIds: string[];
@@ -63,7 +63,7 @@ const SubjectDropdown = ({
   }, [removeArchived, subjects]);
 
   return (
-    <DropdownWrapper>
+    <SelectWrapper>
       <Select<false>
         aria-label={placeholder ?? t("welcomePage.chooseSubject")}
         options={subjectContexts}
@@ -82,7 +82,7 @@ const SubjectDropdown = ({
         }}
         isLoading={isLoading}
       />
-    </DropdownWrapper>
+    </SelectWrapper>
   );
 };
 

@@ -12,13 +12,14 @@ import { Calendar } from "@ndla/icons/editor";
 import { SafeLink } from "@ndla/safelink";
 import { SingleValue } from "@ndla/select";
 import { IConceptSearchResult } from "@ndla/types-backend/concept-api";
-import PageSizeDropdown from "./PageSizeDropdown";
+import PageSizeSelect from "./PageSizeSelect";
 import StatusCell from "./StatusCell";
 import SubjectDropdown from "./SubjectDropdown";
 import { SortOptionConceptList } from "./WorkList";
 import { useSearchConcepts } from "../../../../modules/concept/conceptQueries";
 import { toEditConcept, toEditGloss } from "../../../../util/routeHelpers";
 import { ControlWrapperDashboard, StyledTopRowDashboardInfo, TopRowControls } from "../../styles";
+import { SelectItem } from "../../types";
 import GoToSearch from "../GoToSearch";
 import Pagination from "../Pagination";
 import TableComponent, { FieldElement, Prefix, TitleElement } from "../TableComponent";
@@ -34,8 +35,8 @@ interface Props {
   setFilterSubject: (fs: SingleValue) => void;
   ndlaId: string;
   setPageConcept: (page: number) => void;
-  pageSizeConcept: SingleValue;
-  setPageSizeConcept: (p: SingleValue) => void;
+  pageSizeConcept: SelectItem;
+  setPageSizeConcept: (p: SelectItem) => void;
 }
 
 const ConceptListTabContent = ({
@@ -135,7 +136,7 @@ const ConceptListTabContent = ({
         />
         <ControlWrapperDashboard>
           <TopRowControls>
-            <PageSizeDropdown pageSize={pageSizeConcept} setPageSize={setPageSizeConcept} />
+            <PageSizeSelect pageSize={pageSizeConcept} setPageSize={setPageSizeConcept} />
             {setFilterSubject && (
               <>
                 <SubjectDropdown

@@ -15,7 +15,7 @@ import { getCurrentPageData } from "./LastUsedItems";
 import Pagination from "./Pagination";
 import TableComponent, { FieldElement, TitleElement } from "./TableComponent";
 import TableTitle from "./TableTitle";
-import PageSizeDropdown from "./worklist/PageSizeDropdown";
+import PageSizeSelect from "./worklist/PageSizeSelect";
 import { SUBJECT_NODE } from "../../../modules/nodes/nodeApiTypes";
 import { useSearchNodes } from "../../../modules/nodes/nodeQueries";
 import { useSearchSubjectStats } from "../../../modules/search/searchQueries";
@@ -194,7 +194,7 @@ const SubjectViewContent = ({
         <TableTitle title={title} description={description} Icon={BookOpen} />
         <ControlWrapperDashboard>
           <TopRowControls>
-            <PageSizeDropdown pageSize={pageSize} setPageSize={setPageSize} />
+            <PageSizeSelect pageSize={pageSize} setPageSize={setPageSize} />
           </TopRowControls>
         </ControlWrapperDashboard>
       </StyledTopRowDashboardInfo>

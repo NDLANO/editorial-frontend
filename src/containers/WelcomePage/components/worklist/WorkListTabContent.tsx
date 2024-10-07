@@ -16,7 +16,7 @@ import { SafeLink } from "@ndla/safelink";
 import { SingleValue } from "@ndla/select";
 import { IMultiSearchResult } from "@ndla/types-backend/search-api";
 import CommentIndicator from "./CommentIndicator";
-import PageSizeDropdown from "./PageSizeDropdown";
+import PageSizeSelect from "./PageSizeSelect";
 import StatusCell from "./StatusCell";
 import SubjectDropdown from "./SubjectDropdown";
 import { SortOptionWorkList } from "./WorkList";
@@ -30,6 +30,7 @@ import {
   StyledTopRowDashboardInfo,
   TopRowControls,
 } from "../../styles";
+import { SelectItem } from "../../types";
 import GoToSearch from "../GoToSearch";
 import Pagination from "../Pagination";
 import TableComponent, { FieldElement, Prefix, TitleElement } from "../TableComponent";
@@ -61,8 +62,8 @@ interface Props {
   error: string | undefined;
   ndlaId: string;
   setPage: (page: number) => void;
-  pageSize: SingleValue;
-  setPageSize: (p: SingleValue) => void;
+  pageSize: SelectItem;
+  setPageSize: (p: SelectItem) => void;
   filterSubject?: SingleValue;
   setFilterSubject?: (fs: SingleValue) => void;
   setPrioritized?: (prioritized: boolean) => void;
@@ -179,7 +180,7 @@ const WorkListTabContent = ({
         <TableTitle title={t(headerText)} description={t(descriptionText)} Icon={Calendar} />
         <ControlWrapperDashboard>
           <TopRowControls>
-            <PageSizeDropdown pageSize={pageSize} setPageSize={setPageSize} />
+            <PageSizeSelect pageSize={pageSize} setPageSize={setPageSize} />
             {setFilterSubject && (
               <>
                 <SubjectDropdown

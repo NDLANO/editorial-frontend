@@ -6,42 +6,79 @@
  *
  */
 
-import { CSSProperties } from "react";
-import styled from "@emotion/styled";
-import { spacing, misc } from "@ndla/core";
-import { Text } from "@ndla/typography";
-import { qualityEvaluationOptions } from "../../../components/QualityEvaluation/QualityEvaluationForm";
+import { HTMLArkProps } from "@ark-ui/react";
+import { Text, TextProps } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { ColorToken } from "@ndla/styled-system/tokens";
+import { QualityEvaluationValue } from "../../../components/QualityEvaluation/QualityEvaluationForm";
 
-const SmallGradeItem = styled(Text)`
-  border: 2px solid var(--item-color);
-  border-radius: ${misc.borderRadius};
-  padding: 0px ${spacing.xxsmall};
-  line-height: 18px;
-`;
+const qualityEvaluationOptions: Record<QualityEvaluationValue, ColorToken> = {
+  "1": "surface.brand.3.moderate",
+  "2": "surface.brand.3",
+  "3": "surface.brand.4.moderate",
+  "4": "surface.brand.4",
+  "5": "surface.brand.5",
+};
 
-interface Props {
+const GradeItem = styled(Text, {
+  base: {
+    border: "2px solid",
+    borderRadius: "xsmall",
+    paddingInline: "xxsmall",
+    borderColor: "var(--border-color)",
+  },
+  variants: {
+    quality: {
+      "1": {
+        borderColor: qualityEvaluationOptions["1"],
+      },
+
+      "2": {
+        borderColor: qualityEvaluationOptions["2"],
+      },
+
+      "3": {
+        borderColor: qualityEvaluationOptions["3"],
+      },
+      "4": {
+        borderColor: qualityEvaluationOptions["4"],
+      },
+      "5": {
+        borderColor: qualityEvaluationOptions["5"],
+      },
+    },
+  },
+});
+
+interface Props extends HTMLArkProps<"p"> {
   grade: number | undefined;
   averageGrade?: string;
-  ariaLabel?: string;
+  tooltip: string | undefined;
 }
 
-const QualityEvaluationGrade = ({ grade, averageGrade, ariaLabel }: Props) => {
-  if (!grade) return;
+const QualityEvaluationGrade = ({
+  grade,
+  textStyle = "body.small",
+  color = "text.default",
+  averageGrade,
+  tooltip,
+  ...rest
+}: Props & TextProps) => {
+  if (!grade && !averageGrade) return;
+
+  const roundedGrade = Math.round(grade ?? Math.round(Number(averageGrade!)));
 
   return (
-    <SmallGradeItem
-      title={ariaLabel}
-      aria-label={ariaLabel}
-      style={
-        {
-          "--item-color": qualityEvaluationOptions[Number(grade.toFixed())],
-        } as CSSProperties
-      }
-      margin="none"
-      textStyle="button"
+    <GradeItem
+      quality={roundedGrade.toString() as QualityEvaluationValue}
+      title={tooltip}
+      aria-label={tooltip}
+      textStyle={textStyle}
+      color={color}
+      {...rest}
     >
       {averageGrade ?? grade}
-    </SmallGradeItem>
+    </GradeItem>
   );
 };
 

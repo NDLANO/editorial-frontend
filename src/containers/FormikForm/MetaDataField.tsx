@@ -54,7 +54,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
   const tagSelectorTranslations = useTagSelectorTranslations();
   const plugins = [textTransformPlugin];
   const [inputQuery, setInputQuery] = useState<string>("");
-  const debouncedQuery = useDebounce(inputQuery);
+  const debouncedQuery = useDebounce(inputQuery, 300);
   const searchTagsQuery = useDraftSearchTags(
     {
       input: debouncedQuery,

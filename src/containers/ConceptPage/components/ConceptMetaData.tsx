@@ -46,7 +46,7 @@ const ConceptMetaData = ({ subjects, inModal, language }: Props) => {
   const tagSelectorTranslations = useTagSelectorTranslations();
   const { values } = formikContext;
   const [inputQuery, setInputQuery] = useState<string>("");
-  const debouncedQuery = useDebounce(inputQuery);
+  const debouncedQuery = useDebounce(inputQuery, 300);
   const searchTagsQuery = useConceptSearchTags(
     {
       input: debouncedQuery,

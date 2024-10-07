@@ -53,7 +53,7 @@ const ImageMetaData = ({ imageLanguage }: Props) => {
   const { t } = useTranslation();
   const tagSelectorTranslations = useTagSelectorTranslations();
   const [inputQuery, setInputQuery] = useState<string>("");
-  const debouncedQuery = useDebounce(inputQuery);
+  const debouncedQuery = useDebounce(inputQuery, 300);
 
   const searchTagsQuery = useImageSearchTags(
     {

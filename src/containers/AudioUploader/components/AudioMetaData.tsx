@@ -32,7 +32,7 @@ const AudioMetaData = () => {
   const { values } = useFormikContext<AudioFormikType>();
   const { t } = useTranslation();
   const [inputQuery, setInputQuery] = useState<string>("");
-  const debouncedQuery = useDebounce(inputQuery);
+  const debouncedQuery = useDebounce(inputQuery, 300);
   const tagSelectorTranslations = useTagSelectorTranslations();
   const searchTagsQuery = useAudioSearchTags(
     {

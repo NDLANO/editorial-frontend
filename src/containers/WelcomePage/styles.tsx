@@ -20,7 +20,7 @@ export const StyledTopRowDashboardInfo = styled.div`
   }
 `;
 
-export const DropdownWrapper = styled.div`
+export const SelectWrapper = styled.div`
   max-width: 200px;
   min-width: 130px;
   ${mq.range({ until: breakpoints.tablet })} {

@@ -29,7 +29,7 @@ import Pagination from "./Pagination";
 import TableComponent, { FieldElement, TitleElement } from "./TableComponent";
 import TableTitle from "./TableTitle";
 import { WelcomePageTabsContent } from "./WelcomePageTabsContent";
-import PageSizeDropdown from "./worklist/PageSizeDropdown";
+import PageSizeSelect from "./worklist/PageSizeSelect";
 import SubjectDropdown from "./worklist/SubjectDropdown";
 import { getWarnStatus } from "../../../components/HeaderWithLanguage/HeaderStatusInformation";
 import {
@@ -247,7 +247,7 @@ const Revisions = ({ userData }: Props) => {
           />
           <ControlWrapperDashboard>
             <TopRowControls>
-              <PageSizeDropdown pageSize={pageSize} setPageSize={setPageSize} />
+              <PageSizeSelect pageSize={pageSize} setPageSize={setPageSize} />
               <SubjectDropdown
                 subjectIds={userData?.favoriteSubjects ?? []}
                 filterSubject={filterSubject}

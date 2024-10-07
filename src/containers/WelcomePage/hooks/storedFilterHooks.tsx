@@ -10,6 +10,7 @@ import { useCallback, useEffect, useState } from "react";
 import { SingleValue } from "@ndla/select";
 import { fetchNode } from "../../../modules/nodes/nodeApi";
 import { Prefix } from "../components/TableComponent";
+import { SelectItem } from "../types";
 
 type ReturnStateType<T> = [T, (v: T) => void];
 
@@ -47,10 +48,10 @@ export const useLocalStorageSubjectFilterState = (
 
 const defaultPageSize = { label: "6", value: "6" };
 
-export const useLocalStoragePageSizeState = (localStorageKey: string): ReturnStateType<SingleValue> => {
+export const useLocalStoragePageSizeState = (localStorageKey: string): ReturnStateType<SelectItem> => {
   const storedPageSize = localStorage.getItem(localStorageKey);
 
-  const [pageSize, _setPageSize] = useState<SingleValue>(
+  const [pageSize, _setPageSize] = useState<SelectItem>(
     storedPageSize
       ? {
           label: storedPageSize,
@@ -59,7 +60,7 @@ export const useLocalStoragePageSizeState = (localStorageKey: string): ReturnSta
       : defaultPageSize,
   );
   const setPageSize = useCallback(
-    (p: SingleValue) => {
+    (p: SelectItem) => {
       if (!p) return;
       _setPageSize(p);
       localStorage.setItem(localStorageKey, p.value);

@@ -10,16 +10,16 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Pencil } from "@ndla/icons/action";
 import { SafeLink } from "@ndla/safelink";
-import { SingleValue } from "@ndla/select";
 import { IConceptSummary } from "@ndla/types-backend/concept-api";
 import { SortOptionLastUsed } from "./LastUsedItems";
 import Pagination from "./Pagination";
 import TableComponent, { FieldElement, Prefix, TitleElement } from "./TableComponent";
 import TableTitle from "./TableTitle";
-import PageSizeDropdown from "./worklist/PageSizeDropdown";
+import PageSizeSelect from "./worklist/PageSizeSelect";
 import formatDate from "../../../util/formatDate";
 import { toEditConcept, toEditGloss } from "../../../util/routeHelpers";
 import { StyledTopRowDashboardInfo, TopRowControls } from "../styles";
+import { SelectItem } from "../types";
 
 interface Props {
   data: IConceptSummary[];
@@ -30,8 +30,8 @@ interface Props {
   setSortOption: (o: Prefix<"-", SortOptionLastUsed>) => void;
   error: string | undefined;
   titles: TitleElement<SortOptionLastUsed>[];
-  pageSize: SingleValue;
-  setPageSize: (p: SingleValue) => void;
+  pageSize: SelectItem;
+  setPageSize: (p: SelectItem) => void;
   totalCount: number | undefined;
 }
 
@@ -71,7 +71,7 @@ const LastUsedConcepts = ({
       <StyledTopRowDashboardInfo>
         <TableTitle title={t("welcomePage.lastUsed")} description={t("welcomePage.lastUsedConcepts")} Icon={Pencil} />
         <TopRowControls>
-          <PageSizeDropdown pageSize={pageSize} setPageSize={setPageSize} />
+          <PageSizeSelect pageSize={pageSize} setPageSize={setPageSize} />
         </TopRowControls>
       </StyledTopRowDashboardInfo>
       <TableComponent

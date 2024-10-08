@@ -16,7 +16,7 @@ import { Node } from "@ndla/types-taxonomy";
 import { Text } from "@ndla/typography";
 import { gradeItemStyles, qualityEvaluationOptions } from "./QualityEvaluationForm";
 import QualityEvaluationModal from "./QualityEvaluationModal";
-import { RevisionMetaFormType } from "../../containers/FormikForm/AddRevisionDateField";
+import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
 import SmallQualityEvaluationGrade from "../../containers/StructurePage/resourceComponents/QualityEvaluationGrade";
 
 const FlexWrapper = styled.div`
@@ -40,8 +40,8 @@ interface Props {
   article?: IArticle;
   taxonomy?: Node[];
   iconButtonColor?: "light" | "primary";
-  revisionMetaField?: FieldInputProps<RevisionMetaFormType>;
-  revisionMetaHelpers?: FieldHelperProps<RevisionMetaFormType>;
+  revisionMetaField?: FieldInputProps<ArticleFormType["revisionMeta"]>;
+  revisionMetaHelpers?: FieldHelperProps<ArticleFormType["revisionMeta"]>;
   gradeVariant?: "small" | "large";
   updateNotes?: (art: IUpdatedArticle) => Promise<IArticle>;
 }

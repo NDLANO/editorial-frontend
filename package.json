@@ -17,6 +17,7 @@
     "start": "cross-env NODE_ENV=development NODE_OPTIONS='--max-old-space-size=3072 --preserve-symlinks' concurrently \"yarn start:tsc\" \"tsx src/index.ts\"",
     "start-with-local-converter": "LOCAL_CONVERTER=true NODE_OPTIONS='--preserve-symlinks' yarn start",
     "start-prod": "cross-env NODE_ENV=production node build/server.mjs",
+    "start-minimal": "NODE_ENV=development NODE_OPTIONS='--max-old-space-size=3072 --preserve-symlinks' tsx src/index.ts",
     "now-start": "cross-env NODE_ENV=production NOW=true node build/server.mjs",
     "test": "vitest --run",
     "tdd": "vitest",

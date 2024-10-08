@@ -11,23 +11,15 @@ import { TFunction } from "i18next";
 import { ReactNode, useCallback, useMemo, useState } from "react";
 import { DayPicker, Dropdown, Labels, DropdownProps, CustomComponents, useNavigation } from "react-day-picker";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { Arrow, Content, Portal, Root, Trigger } from "@radix-ui/react-popover";
-import { ButtonV2 } from "@ndla/button";
-import { colors, misc, stackOrder } from "@ndla/core";
+import { Portal } from "@ark-ui/react";
+import { Button, PopoverArrow, PopoverContent, PopoverRoot, PopoverTrigger } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 
 interface Props {
   children: ReactNode;
   value?: Date;
   onChange: (value?: Date) => void;
 }
-
-const StyledContent = styled(Content)`
-  background-color: ${colors.white};
-  z-index: ${stackOrder.popover + stackOrder.modal};
-  border: 1px solid ${colors.black};
-  border-radius: ${misc.borderRadius};
-`;
 
 const getDatePickerTranslations = (t: TFunction): Partial<Labels> => {
   return {
@@ -38,11 +30,13 @@ const getDatePickerTranslations = (t: TFunction): Partial<Labels> => {
   };
 };
 
-const StyledInput = styled.input`
-  border-radius: ${misc.borderRadius};
-  min-width: 80px;
-  flex: 0;
-`;
+const StyledInput = styled("input", {
+  base: {
+    borderRadius: "xsmall",
+    minWidth: "4xlarge",
+    flex: "0",
+  },
+});
 
 const MIN_YEAR = 1900;
 const MAX_YEAR = 3000;
@@ -52,9 +46,9 @@ const DatePickerFooter = () => {
   const { goToDate } = useNavigation();
 
   return (
-    <ButtonV2 variant="outline" onClick={() => goToDate(new Date())}>
+    <Button variant="secondary" onClick={() => goToDate(new Date())}>
       {t("datePicker.goToToday")}
-    </ButtonV2>
+    </Button>
   );
 };
 
@@ -92,11 +86,11 @@ const DatePicker = ({ children, value, onChange }: Props) => {
   );
 
   return (
-    <Root open={open} onOpenChange={setOpen}>
-      <Trigger asChild>{children}</Trigger>
+    <PopoverRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
+      <PopoverTrigger asChild>{children}</PopoverTrigger>
       <Portal>
-        <StyledContent>
-          <Arrow />
+        <PopoverContent>
+          <PopoverArrow />
           <DayPicker
             components={components}
             mode="single"
@@ -112,9 +106,9 @@ const DatePicker = ({ children, value, onChange }: Props) => {
             labels={translations}
             footer={<DatePickerFooter />}
           />
-        </StyledContent>
+        </PopoverContent>
       </Portal>
-    </Root>
+    </PopoverRoot>
   );
 };
 

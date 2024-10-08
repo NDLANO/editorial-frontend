@@ -45,7 +45,7 @@ if (!isProduction) {
 const allowedBodyContentTypes = ["application/csp-report", "application/json"];
 
 // Temporal hack to send users to prod
-app.get("*", (req, res, next) => {
+app.get("*splat", (req, res, next) => {
   if (!req.hostname.includes("ed.ff")) {
     next();
   } else {
@@ -91,7 +91,7 @@ const serializedConfig = serialize(config);
 
 app.use(api);
 
-app.get("*", async (req, res) => {
+app.get("*splat", async (req, res) => {
   try {
     const url = req.originalUrl.replace(base, "");
 

@@ -7,8 +7,15 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { Label, RadioButtonGroup, RadioButtonItem } from "@ndla/forms";
-import { RadioButtonWrapper, FieldsetRow, LeftLegend, StyledFormControl } from "../../../components/Form/styles";
+import {
+  FieldRoot,
+  RadioGroupItem,
+  RadioGroupItemControl,
+  RadioGroupItemHiddenInput,
+  RadioGroupItemText,
+  RadioGroupLabel,
+  RadioGroupRoot,
+} from "@ndla/primitives";
 import { FormField } from "../../../components/FormField";
 
 const VersionLockedField = () => {
@@ -26,36 +33,23 @@ const VersionLockedField = () => {
   ];
   return (
     <FormField name="locked">
-      {({ field }) => (
-        <StyledFormControl>
-          <RadioButtonGroup
-            onValueChange={(value: string) =>
-              field.onChange({
-                target: {
-                  name: field.name,
-                  value: value,
-                },
-              })
-            }
+      {({ field, helpers }) => (
+        <FieldRoot>
+          <RadioGroupRoot
+            value={field.value.toString()}
             orientation="horizontal"
-            defaultValue={field.value.toString()}
-            asChild
+            onValueChange={(details) => helpers.setValue(details.value)}
           >
-            <FieldsetRow>
-              <LeftLegend margin="none" textStyle="label-small">
-                {t("taxonomyVersions.form.locked.subTitle")}
-              </LeftLegend>
-              {options.map((option) => (
-                <RadioButtonWrapper key={option.value}>
-                  <RadioButtonItem id={`locked-${option.value}`} value={option.value} />
-                  <Label htmlFor={`locked-${option.value}`} margin="none" textStyle="label-small">
-                    {option.title}
-                  </Label>
-                </RadioButtonWrapper>
-              ))}
-            </FieldsetRow>
-          </RadioButtonGroup>
-        </StyledFormControl>
+            <RadioGroupLabel>{t("taxonomyVersions.form.locked.subTitle")}</RadioGroupLabel>
+            {options.map((option) => (
+              <RadioGroupItem key={option.value} value={option.value}>
+                <RadioGroupItemControl />
+                <RadioGroupItemText>{option.title}</RadioGroupItemText>
+                <RadioGroupItemHiddenInput />
+              </RadioGroupItem>
+            ))}
+          </RadioGroupRoot>
+        </FieldRoot>
       )}
     </FormField>
   );

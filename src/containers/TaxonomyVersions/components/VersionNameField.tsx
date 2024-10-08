@@ -7,20 +7,19 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { FieldErrorMessage, InputV3, Label } from "@ndla/forms";
-import { FormControl, FormField } from "../../../components/FormField";
+import { FieldErrorMessage, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
+import { FormField } from "../../../components/FormField";
+
 const VersionNameField = () => {
   const { t } = useTranslation();
   return (
     <FormField name="name">
       {({ field, meta }) => (
-        <FormControl isRequired isInvalid={!!meta.error}>
-          <Label textStyle="label-small" margin="none">
-            {t("taxonomyVersions.form.name.label")}
-          </Label>
-          <InputV3 {...field} placeholder={t("taxonomyVersions.form.name.placeholder")} />
+        <FieldRoot required invalid={!!meta.error}>
+          <FieldLabel>{t("taxonomyVersions.form.name.label")}</FieldLabel>
           <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-        </FormControl>
+          <FieldInput {...field} placeholder={t("taxonomyVersions.form.name.placeholder")} />
+        </FieldRoot>
       )}
     </FormField>
   );

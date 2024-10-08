@@ -7,31 +7,22 @@
  */
 
 import { useEffect, useMemo, useState } from "react";
-
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { spacing } from "@ndla/core";
-import { FieldErrorMessage, InputV3, Label } from "@ndla/forms";
-import { FormControl } from "../../../components/FormField";
-
-const StyledContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: ${spacing.small};
-`;
-
-const StyledSaveButton = styled(ButtonV2)`
-  align-self: flex-end;
-  width: auto;
-`;
+import { Button, FieldErrorMessage, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { FormActionsContainer, FormContent } from "../../../components/FormikForm";
 
 interface Props {
   onAddLink: (title: string, url: string) => void;
   initialTitle?: string;
   initialUrl?: string;
 }
+
+const StyledFormContent = styled(FormContent, {
+  base: {
+    width: "100%",
+  },
+});
 
 const URL_PATTERN = /^((http:|https:)\/\/)/;
 
@@ -62,35 +53,33 @@ const ContentLink = ({ onAddLink, initialTitle = "", initialUrl = "" }: Props) =
   };
 
   return (
-    <StyledContent>
-      <FormControl isRequired isInvalid={titleError}>
-        <Label textStyle="label-small" margin="none">
-          {t("form.name.title")}
-        </Label>
-        <InputV3
+    <StyledFormContent>
+      <FieldRoot required invalid={titleError}>
+        <FieldLabel>{t("form.name.title")}</FieldLabel>
+        <FieldErrorMessage>{t("form.relatedContent.link.missingTitle")}</FieldErrorMessage>
+        <FieldInput
           data-testid="addExternalTitleInput"
           type="text"
           placeholder={t("form.relatedContent.link.titlePlaceholder")}
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
-        <FieldErrorMessage>{t("form.relatedContent.link.missingTitle")}</FieldErrorMessage>
-      </FormControl>
-      <FormControl isRequired isInvalid={urlError}>
-        <Label textStyle="label-small" margin="none">
-          {t("form.name.url")}
-        </Label>
-        <InputV3
+      </FieldRoot>
+      <FieldRoot required invalid={urlError}>
+        <FieldLabel>{t("form.name.url")}</FieldLabel>
+        <FieldErrorMessage>{t("form.relatedContent.link.missingUrl")}</FieldErrorMessage>
+        <FieldInput
           data-testid="addExternalUrlInput"
           type="text"
           placeholder={t("form.relatedContent.link.urlPlaceholder")}
           value={url}
           onChange={(e) => setUrl(e.target.value)}
         />
-        <FieldErrorMessage>{t("form.relatedContent.link.missingUrl")}</FieldErrorMessage>
-      </FormControl>
-      <StyledSaveButton onClick={handleSubmit}>{t("save")}</StyledSaveButton>
-    </StyledContent>
+      </FieldRoot>
+      <FormActionsContainer>
+        <Button onClick={handleSubmit}>{t("save")}</Button>
+      </FormActionsContainer>
+    </StyledFormContent>
   );
 };
 

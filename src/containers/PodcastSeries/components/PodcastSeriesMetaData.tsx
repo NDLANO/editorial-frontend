@@ -7,10 +7,18 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { CheckboxItem, Label } from "@ndla/forms";
-import { CheckboxWrapper } from "../../../components/Form/styles";
-import { FormControl, FormField } from "../../../components/FormField";
+import { CheckLine } from "@ndla/icons/editor";
+import {
+  CheckboxControl,
+  CheckboxHiddenInput,
+  CheckboxIndicator,
+  CheckboxLabel,
+  CheckboxRoot,
+  FieldRoot,
+} from "@ndla/primitives";
+import { FormField } from "../../../components/FormField";
 import FormikField from "../../../components/FormikField";
+import { FormContent } from "../../../components/FormikForm";
 import PlainTextEditor from "../../../components/SlateEditor/PlainTextEditor";
 import { textTransformPlugin } from "../../../components/SlateEditor/plugins/textTransform";
 import { MetaImageSearch, TitleField } from "../../FormikForm";
@@ -25,7 +33,7 @@ const PodcastSeriesMetaData = ({ language, onImageLoad }: Props) => {
   const { t } = useTranslation();
   const plugins = [textTransformPlugin];
   return (
-    <>
+    <FormContent>
       <TitleField hideToolbar />
 
       <FormikField name="description" label={t("podcastSeriesForm.description")}>
@@ -55,28 +63,21 @@ const PodcastSeriesMetaData = ({ language, onImageLoad }: Props) => {
       </FormikField>
 
       <FormField name="hasRSS">
-        {({ field }) => (
-          <FormControl>
-            <CheckboxWrapper>
-              <CheckboxItem
-                checked={field.value}
-                onCheckedChange={() =>
-                  field.onChange({
-                    target: {
-                      name: field.name,
-                      value: !field.value,
-                    },
-                  })
-                }
-              />
-              <Label margin="none" textStyle="label-small">
-                {t("podcastSeriesForm.hasRSS")}
-              </Label>
-            </CheckboxWrapper>
-          </FormControl>
+        {({ field, helpers }) => (
+          <FieldRoot>
+            <CheckboxRoot checked={field.value} onCheckedChange={(details) => helpers.setValue(details.checked)}>
+              <CheckboxControl>
+                <CheckboxIndicator asChild>
+                  <CheckLine />
+                </CheckboxIndicator>
+              </CheckboxControl>
+              <CheckboxLabel>{t("podcastSeriesForm.hasRSS")}</CheckboxLabel>
+              <CheckboxHiddenInput />
+            </CheckboxRoot>
+          </FieldRoot>
         )}
       </FormField>
-    </>
+    </FormContent>
   );
 };
 

@@ -7,10 +7,8 @@
  */
 import { format } from "date-fns";
 import { useCallback, useMemo } from "react";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { colors, misc, spacing } from "@ndla/core";
 import { Calendar } from "@ndla/icons/editor";
+import { Button } from "@ndla/primitives";
 import DatePicker from "../../../components/DatePicker";
 import { formatDateForBackend } from "../../../util/formatDate";
 
@@ -35,40 +33,6 @@ interface Props {
   title?: string;
 }
 
-const StyledButton = styled(ButtonV2)`
-  width: 100%;
-  height: 100%;
-  justify-content: space-between;
-  border-radius: ${misc.borderRadius};
-  border: 1px solid ${colors.brand.greyLighter};
-  color: ${colors.brand.greyMedium};
-  padding-left: ${spacing.nsmall};
-  padding-right: ${spacing.xsmall};
-  svg {
-    color: ${colors.brand.tertiary};
-    width: 24px;
-    height: 24px;
-  }
-
-  &[data-has-value="true"] {
-    color: ${colors.text.primary};
-  }
-
-  &:hover,
-  &:focus,
-  &:focus-within,
-  &:active,
-  &:focus-visible {
-    border: 1px solid ${colors.brand.greyLighter};
-    padding-left: ${spacing.nsmall};
-    padding-right: ${spacing.xsmall};
-    color: ${colors.brand.greyMedium};
-    &[data-has-value="true"] {
-      color: ${colors.text.primary};
-    }
-  }
-`;
-
 const InlineDatePicker = ({ onChange, value, name, placeholder, title }: Props) => {
   const dateValue = useMemo(() => (value ? new Date(value) : undefined), [value]);
   const displayValue = useMemo(() => (dateValue ? format(dateValue, "dd/MM/yyyy") : undefined), [dateValue]);
@@ -90,10 +54,10 @@ const InlineDatePicker = ({ onChange, value, name, placeholder, title }: Props) 
 
   return (
     <DatePicker onChange={onValueChange} value={dateValue}>
-      <StyledButton variant="stripped" data-has-value={!!displayValue} title={title}>
+      <Button variant="secondary" title={title}>
         {displayValue ?? placeholder}
         <Calendar />
-      </StyledButton>
+      </Button>
     </DatePicker>
   );
 };

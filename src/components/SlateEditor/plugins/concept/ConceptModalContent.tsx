@@ -11,10 +11,25 @@ import queryString from "query-string";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Cross } from "@ndla/icons/action";
-import { Search } from "@ndla/icons/common";
+import { ArrowLeftShortLine, ArrowRightShortLine, Search } from "@ndla/icons/common";
 import { ModalHeader, ModalBody } from "@ndla/modal";
-import { Pager } from "@ndla/pager";
-import { Button, IconButton, TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
+import {
+  Button,
+  IconButton,
+  PaginationContext,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationNextTrigger,
+  PaginationPrevTrigger,
+  PaginationRoot,
+  TabsContent,
+  TabsIndicator,
+  TabsList,
+  TabsRoot,
+  TabsTrigger,
+  Text,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import {
   IConcept,
   IConceptSearchResult,
@@ -25,6 +40,7 @@ import {
 } from "@ndla/types-backend/concept-api";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
+import { usePaginationTranslations } from "@ndla/ui";
 import SearchConceptForm from "./SearchConceptForm";
 import SearchConceptResults from "./SearchConceptResults";
 import ConceptForm from "../../../../containers/ConceptPage/ConceptForm/ConceptForm";
@@ -48,6 +64,12 @@ interface Props {
   conceptType: ConceptType;
 }
 
+const StyledPaginationRoot = styled(PaginationRoot, {
+  base: {
+    flexWrap: "wrap",
+  },
+});
+
 const ConceptModalContent = ({
   onClose,
   subjects,
@@ -63,6 +85,7 @@ const ConceptModalContent = ({
   conceptType,
 }: Props) => {
   const { t } = useTranslation();
+  const paginationTranslations = usePaginationTranslations();
   const [searchObject, updateSearchObject] = useState<SearchParams>({
     page: 1,
     sort: "-relevance",
@@ -155,14 +178,44 @@ const ConceptModalContent = ({
                 searching={searching}
                 addConcept={addConcept}
               />
-              <Pager
-                query={searchObject}
+              <StyledPaginationRoot
                 page={results.page ?? 1}
-                pathname=""
-                lastPage={Math.ceil(results.totalCount / results.pageSize)}
-                onClick={searchConcept}
-                pageItemComponentClass="button"
-              />
+                onPageChange={(details) => searchConcept({ ...searchObject, page: details.page })}
+                count={Math.min(results?.totalCount ?? 0, 1000)}
+                pageSize={results?.pageSize}
+                translations={paginationTranslations}
+                siblingCount={1}
+              >
+                <PaginationPrevTrigger asChild>
+                  <Button variant="tertiary" aria-label={t("pagination.prev")} title={t("pagination.prev")}>
+                    <ArrowLeftShortLine />
+                  </Button>
+                </PaginationPrevTrigger>
+                <PaginationContext>
+                  {(pagination) =>
+                    pagination.pages.map((page, index) =>
+                      page.type === "page" ? (
+                        <PaginationItem key={index} {...page} asChild>
+                          <Button variant={page.value === pagination.page ? "primary" : "tertiary"}>
+                            {page.value}
+                          </Button>
+                        </PaginationItem>
+                      ) : (
+                        <PaginationEllipsis key={index} index={index} asChild>
+                          <Text asChild consumeCss>
+                            <div>&#8230;</div>
+                          </Text>
+                        </PaginationEllipsis>
+                      ),
+                    )
+                  }
+                </PaginationContext>
+                <PaginationNextTrigger asChild>
+                  <Button variant="tertiary" aria-label={t("pagination.next")} title={t("pagination.next")}>
+                    <ArrowRightShortLine />
+                  </Button>
+                </PaginationNextTrigger>
+              </StyledPaginationRoot>
             </div>
           </TabsContent>
           {conceptTypeTabs.map((conceptType) => (

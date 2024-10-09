@@ -44,7 +44,6 @@ import {
 import { TYPE_DISCLAIMER } from "../../../../components/SlateEditor/plugins/uuDisclaimer/types";
 import { TYPE_EMBED_BRIGHTCOVE } from "../../../../components/SlateEditor/plugins/video/types";
 import RichTextEditor from "../../../../components/SlateEditor/RichTextEditor";
-import { useWideArticle } from "../../../../components/WideArticleEditorProvider";
 import { DRAFT_HTML_SCOPE } from "../../../../constants";
 import { isFormikFormDirty } from "../../../../util/formHelper";
 import { toCreateFrontPageArticle, toEditMarkup } from "../../../../util/routeHelpers";
@@ -60,16 +59,6 @@ const StyledDiv = styled.div`
 
 const StyledContentDiv = styled(FormikField)`
   position: static;
-`;
-
-const StyledContentWrapper = styled.div`
-  width: 100%;
-
-  &[data-wide="true"] {
-    max-width: 1100px;
-  }
-
-  max-width: 773px;
 `;
 
 const StyledIconButton = styled(IconButtonV2)`
@@ -114,7 +103,6 @@ const editorPlugins = frontpagePlugins.concat(frontpageRenderers);
 const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
   const { userPermissions } = useSession();
   const { t } = useTranslation();
-  const { isWideArticle } = useWideArticle();
 
   const { dirty, initialValues, values } = useFormikContext<FrontpageArticleFormType>();
   const { slug, id, creators, language } = values;
@@ -145,7 +133,7 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
   const [editSlug, setEditSlug] = useState(false);
 
   return (
-    <StyledContentWrapper data-wide={isWideArticle}>
+    <>
       {editSlug && slug !== undefined ? <SlugField /> : <TitleField />}
       <StyledDiv>
         <FormField name="published">
@@ -214,7 +202,7 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
           </ContentTypeProvider>
         )}
       </StyledContentDiv>
-    </StyledContentWrapper>
+    </>
   );
 };
 

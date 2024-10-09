@@ -7,9 +7,8 @@
  */
 
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { colors, spacing } from "@ndla/core";
 import { Eye, Restore } from "@ndla/icons/editor";
+import { IconButton } from "@ndla/primitives";
 import { IArticle } from "@ndla/types-backend/draft-api";
 
 import PreviewDraftLightboxV2 from "../../components/PreviewDraft/PreviewDraftLightboxV2";
@@ -22,28 +21,6 @@ interface Props {
   current: boolean;
   currentLanguage: string;
 }
-
-const StyledActionButton = styled.button`
-  all: unset;
-  color: ${colors.brand.primary};
-  height: ${spacing.normal};
-  width: ${spacing.normal};
-  transition: background 200ms ease;
-  border-radius: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  svg {
-    width: ${spacing.normal};
-    height: ${spacing.normal};
-    cursor: pointer;
-  }
-  &:hover,
-  &:focus {
-    background: ${colors.brand.tertiary};
-  }
-`;
 
 const VersionActionButtons = ({
   showFromArticleApi,
@@ -64,25 +41,27 @@ const VersionActionButtons = ({
         article={version}
         language={currentLanguage}
         activateButton={
-          <StyledActionButton
-            type="button"
+          <IconButton
+            variant="tertiary"
+            size="small"
             title={t("form.previewVersion")}
             aria-label={t("form.previewVersion")}
             data-testid="previewVersion"
           >
             <Eye />
-          </StyledActionButton>
+          </IconButton>
         }
       />
-      <StyledActionButton
+      <IconButton
+        variant="tertiary"
+        size="small"
         aria-label={t("form.resetToVersion")}
         title={t("form.resetToVersion")}
-        type="button"
         data-testid="resetToVersion"
         onClick={() => resetVersion(version, article.title!.language, showFromArticleApi)}
       >
         <Restore />
-      </StyledActionButton>
+      </IconButton>
     </>
   );
 };

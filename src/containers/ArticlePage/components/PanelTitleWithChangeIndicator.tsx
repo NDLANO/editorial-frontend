@@ -8,17 +8,12 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { colors } from "@ndla/core";
+import { Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IArticle } from "@ndla/types-backend/draft-api";
-import { Text } from "@ndla/typography";
 import { FlatArticleKeys } from "./types";
 import { hasArticleFieldsChanged } from "../../../components/HeaderWithLanguage/util";
 import { PUBLISHED } from "../../../constants";
-
-const StyledText = styled(Text)`
-  color: ${colors.brand.grey};
-`;
 
 interface PanelTitleProps {
   title: string;
@@ -26,6 +21,14 @@ interface PanelTitleProps {
   articleHistory: IArticle[] | undefined;
   fieldsToIndicatedChangesFor: FlatArticleKeys[];
 }
+
+const StyledSpan = styled("span", {
+  base: {
+    display: "flex",
+    gap: "xsmall",
+    alignItems: "baseline",
+  },
+});
 
 const PanelTitleWithChangeIndicator = ({
   title,
@@ -41,12 +44,12 @@ const PanelTitleWithChangeIndicator = ({
 
   if (hasChanges) {
     return (
-      <>
-        <span data-underline="">{title}</span>
-        <StyledText element="span" textStyle="meta-text-small">
-          {t("form.unpublishedChanges")}
-        </StyledText>
-      </>
+      <StyledSpan>
+        <span>{title}</span>
+        <Text asChild consumeCss color="text.subtle" textStyle="label.small">
+          <span>{t("form.unpublishedChanges")}</span>
+        </Text>
+      </StyledSpan>
     );
   }
 

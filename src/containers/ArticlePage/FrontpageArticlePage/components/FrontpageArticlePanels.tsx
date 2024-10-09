@@ -9,6 +9,7 @@
 import { useFormikContext } from "formik";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { PageContent } from "@ndla/primitives";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import FrontpageArticleFormContent from "./FrontpageArticleFormContent";
 import FormAccordion from "../../../../components/Accordion/FormAccordion";
@@ -50,10 +51,10 @@ const FrontpageArticlePanels = ({ article, articleHistory, articleLanguage }: Pr
           />
         }
         hasError={!!(errors.title || errors.introduction || errors.content)}
-        wide={isWideArticle}
-        isFrontpageArticle={article?.articleType === "frontpage-article"}
       >
-        <FrontpageArticleFormContent articleLanguage={articleLanguage} />
+        <PageContent variant={isWideArticle ? "wide" : "content"}>
+          <FrontpageArticleFormContent articleLanguage={articleLanguage} />
+        </PageContent>
       </FormAccordion>
       <FormAccordion
         id={"frontpage-article-copyright"}

@@ -7,6 +7,7 @@
  */
 import { FieldProps, FormikErrors, FormikHelpers, FormikProps, FormikValues } from "formik";
 import { useTranslation } from "react-i18next";
+import { PageContent } from "@ndla/primitives";
 import NdlaFilmArticle from "./NdlaFilmArticle";
 import { FilmFormikType } from "./NdlaFilmForm";
 import SlideshowEditor from "./SlideshowEditor";
@@ -61,10 +62,11 @@ const SubjectpageAccordionPanels = ({ errors, selectedLanguage }: ComponentProps
       <FormAccordion
         id="about"
         title={t("subjectpageForm.about")}
-        variant="center"
         hasError={["title", "description", "visualElement"].some((field) => field in errors)}
       >
-        <SubjectpageAbout selectedLanguage={selectedLanguage} />
+        <PageContent variant="content">
+          <SubjectpageAbout selectedLanguage={selectedLanguage} />
+        </PageContent>
       </FormAccordion>
       <FormAccordion id="article" title={t("ndlaFilm.editor.moreInfoHeader")} hasError={false}>
         <NdlaFilmArticle fieldName={"article"} onUpdateArticle={onUpdateArticle} />

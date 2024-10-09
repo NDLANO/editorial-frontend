@@ -7,7 +7,6 @@
  */
 
 import { useCallback, useEffect, useState } from "react";
-import { SingleValue } from "@ndla/select";
 import { fetchNode } from "../../../modules/nodes/nodeApi";
 import { Prefix } from "../components/TableComponent";
 import { SelectItem } from "../types";
@@ -17,8 +16,8 @@ type ReturnStateType<T> = [T, (v: T) => void];
 export const useLocalStorageSubjectFilterState = (
   localStorageKey: string,
   language: string,
-): ReturnStateType<SingleValue | undefined> => {
-  const [filterSubject, _setFilterSubject] = useState<SingleValue | undefined>(undefined);
+): ReturnStateType<SelectItem | undefined> => {
+  const [filterSubject, _setFilterSubject] = useState<SelectItem | undefined>(undefined);
   const storedFilterSubject = localStorage.getItem(localStorageKey);
 
   useEffect(() => {
@@ -36,7 +35,7 @@ export const useLocalStorageSubjectFilterState = (
   }, [language, storedFilterSubject]);
 
   const setFilterSubject = useCallback(
-    (fs: SingleValue | undefined) => {
+    (fs: SelectItem | undefined) => {
       _setFilterSubject(fs);
       fs ? localStorage.setItem(localStorageKey, fs.value) : localStorage.removeItem(localStorageKey);
     },

@@ -6,15 +6,17 @@
  *
  */
 
-import styled from "@emotion/styled";
 import { Comment } from "@ndla/icons/common";
+import { styled } from "@ndla/styled-system/jsx";
 import { stripInlineContentHtmlTags } from "../../../../util/formHelper";
 
-const StyledIconWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  height: 100%;
-`;
+const StyledIconWrapper = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    height: "100%",
+  },
+});
 interface Props {
   comment: string;
 }

@@ -62,7 +62,7 @@ const ContentWrapper = styled("div", {
   },
 });
 
-const SpinnerWrapper = styled("div", {
+const LoadingNoContentWrapper = styled("div", {
   base: {
     padding: "small",
     display: "flex",
@@ -163,11 +163,13 @@ const TableComponent = <T extends string>({
         ) : null}
       </StyledTable>
       {isPending ? (
-        <SpinnerWrapper>
+        <LoadingNoContentWrapper>
           <Spinner />
-        </SpinnerWrapper>
+        </LoadingNoContentWrapper>
       ) : noResultsText && isEmpty(tableData.flat()) ? (
-        <Text>{noResultsText}</Text>
+        <LoadingNoContentWrapper>
+          <Text>{noResultsText}</Text>
+        </LoadingNoContentWrapper>
       ) : null}
     </TableWrapper>
   );

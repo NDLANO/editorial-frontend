@@ -8,51 +8,56 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import oldstyled from "@emotion/styled";
 import { ExclamationMark } from "@ndla/icons/common";
 import { Calendar } from "@ndla/icons/editor";
-import { SwitchControl, SwitchHiddenInput, SwitchThumb } from "@ndla/primitives";
+import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchThumb } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { SingleValue } from "@ndla/select";
+import { styled } from "@ndla/styled-system/jsx";
 import { IMultiSearchResult } from "@ndla/types-backend/search-api";
 import CommentIndicator from "./CommentIndicator";
 import PageSizeSelect from "./PageSizeSelect";
 import StatusCell from "./StatusCell";
-import SubjectDropdown from "./SubjectDropdown";
+import SubjectCombobox from "./SubjectCombobox";
 import { SortOptionWorkList } from "./WorkList";
 import { useSearch } from "../../../../modules/search/searchQueries";
 import formatDate from "../../../../util/formatDate";
 import { toEditArticle } from "../../../../util/routeHelpers";
-import {
-  ControlWrapperDashboard,
-  StyledSwitchLabel,
-  StyledSwitchRoot,
-  StyledTopRowDashboardInfo,
-  TopRowControls,
-} from "../../styles";
+import { ControlWrapperDashboard, StyledSwitchRoot, StyledTopRowDashboardInfo, TopRowControls } from "../../styles";
 import { SelectItem } from "../../types";
 import GoToSearch from "../GoToSearch";
 import Pagination from "../Pagination";
 import TableComponent, { FieldElement, Prefix, TitleElement } from "../TableComponent";
 import TableTitle from "../TableTitle";
 
-export const CellWrapper = oldstyled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
+const StyledExclamationMark = styled(ExclamationMark, {
+  base: {
+    "&[aria-hidden='false']": {
+      visibility: "hidden",
+    },
+  },
+});
 
-const StyledTitleWrapper = oldstyled.div`
-  display: flex;
-  overflow: hidden;
-  align-items: center;
-`;
+const CellWrapper = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    gap: "xxsmall",
+  },
+});
 
-const StyledExclamationMark = oldstyled(ExclamationMark)`
-  &[aria-hidden="false"] {
-    visibility: hidden;
-  }
-`;
+const TextWrapper = styled("div", {
+  base: {
+    overflow: "hidden",
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
+  },
+});
+
+const CommentIndicatorWrapper = styled("div", {
+  base: {
+    marginLeft: "auto",
+  },
+});
 
 interface Props {
   data: IMultiSearchResult | undefined;
@@ -64,8 +69,8 @@ interface Props {
   setPage: (page: number) => void;
   pageSize: SelectItem;
   setPageSize: (p: SelectItem) => void;
-  filterSubject?: SingleValue;
-  setFilterSubject?: (fs: SingleValue) => void;
+  filterSubject?: SelectItem;
+  setFilterSubject?: (fs: SelectItem) => void;
   setPrioritized?: (prioritized: boolean) => void;
   prioritized?: boolean;
   headerText?: string;
@@ -110,18 +115,22 @@ const WorkListTabContent = ({
               id: `title_${res.id}`,
               data: (
                 <CellWrapper>
-                  <StyledTitleWrapper>
-                    <StyledExclamationMark
-                      aria-hidden={!!res?.prioritized}
-                      aria-label={t("editorFooter.prioritized")}
-                      title={t("editorFooter.prioritized")}
-                      size="small"
-                    />
+                  <StyledExclamationMark
+                    aria-hidden={!!res?.prioritized}
+                    aria-label={t("editorFooter.prioritized")}
+                    title={t("editorFooter.prioritized")}
+                    size="small"
+                  />
+                  <TextWrapper>
                     <SafeLink to={toEditArticle(res.id, res.learningResourceType)} title={res.title?.title}>
                       {res.title?.title}
                     </SafeLink>
-                  </StyledTitleWrapper>
-                  {res.comments?.length ? <CommentIndicator comment={res.comments[0].content} /> : null}
+                  </TextWrapper>
+                  {res.comments?.length ? (
+                    <CommentIndicatorWrapper>
+                      <CommentIndicator comment={res.comments[0].content} />
+                    </CommentIndicatorWrapper>
+                  ) : null}
                 </CellWrapper>
               ),
             },
@@ -183,7 +192,7 @@ const WorkListTabContent = ({
             <PageSizeSelect pageSize={pageSize} setPageSize={setPageSize} />
             {setFilterSubject && (
               <>
-                <SubjectDropdown
+                <SubjectCombobox
                   subjectIds={subjectIds ?? []}
                   filterSubject={filterSubject}
                   setFilterSubject={setFilterSubject}
@@ -200,7 +209,7 @@ const WorkListTabContent = ({
                 setPage(1);
               }}
             >
-              <StyledSwitchLabel>{t("welcomePage.prioritizedLabel")}</StyledSwitchLabel>
+              <SwitchLabel>{t("welcomePage.prioritizedLabel")}</SwitchLabel>
               <SwitchControl>
                 <SwitchThumb />
               </SwitchControl>

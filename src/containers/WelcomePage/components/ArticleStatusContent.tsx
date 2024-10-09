@@ -9,17 +9,17 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { BookOpen } from "@ndla/icons/common";
-import { SwitchControl, SwitchHiddenInput, SwitchThumb, Text } from "@ndla/primitives";
+import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchThumb, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { IMultiSearchResult } from "@ndla/types-backend/search-api";
 import TableComponent, { FieldElement } from "./TableComponent";
 import TableTitle from "./TableTitle";
-import SubjectDropdown from "./worklist/SubjectDropdown";
+import SubjectCombobox from "./worklist/SubjectCombobox";
 import { ARCHIVED, PUBLISHED, STATUS_ORDER, UNPUBLISHED } from "../../../constants";
 import { useSearch } from "../../../modules/search/searchQueries";
 import { toSearch } from "../../../util/routeHelpers";
 import { useLocalStorageSubjectFilterState, useLocalStorageBooleanState } from "../hooks/storedFilterHooks";
-import { ControlWrapperDashboard, StyledSwitchLabel, StyledSwitchRoot, StyledTopRowDashboardInfo } from "../styles";
+import { ControlWrapperDashboard, StyledSwitchRoot, StyledTopRowDashboardInfo } from "../styles";
 
 const EXCLUDE_STATUSES = [PUBLISHED, UNPUBLISHED, ARCHIVED];
 
@@ -180,14 +180,14 @@ const ArticleStatusContent = ({
       <StyledTopRowDashboardInfo>
         <TableTitle title={title} description={description} Icon={BookOpen} />
         <ControlWrapperDashboard>
-          <SubjectDropdown
+          <SubjectCombobox
             subjectIds={subjectIds || []}
             filterSubject={filterSubject}
             setFilterSubject={setFilterSubject}
             removeArchived
           />
           <StyledSwitchRoot checked={hideOnHold} onCheckedChange={(details) => setHideOnHold(details.checked)}>
-            <StyledSwitchLabel textStyle="label.small">{t("welcomePage.workList.onHoldFilter")}</StyledSwitchLabel>
+            <SwitchLabel textStyle="label.small">{t("welcomePage.workList.onHoldFilter")}</SwitchLabel>
             <SwitchControl>
               <SwitchThumb />
             </SwitchControl>

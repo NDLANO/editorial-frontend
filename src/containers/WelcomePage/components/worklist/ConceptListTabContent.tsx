@@ -10,11 +10,10 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Calendar } from "@ndla/icons/editor";
 import { SafeLink } from "@ndla/safelink";
-import { SingleValue } from "@ndla/select";
 import { IConceptSearchResult } from "@ndla/types-backend/concept-api";
 import PageSizeSelect from "./PageSizeSelect";
 import StatusCell from "./StatusCell";
-import SubjectDropdown from "./SubjectDropdown";
+import SubjectCombobox from "./SubjectCombobox";
 import { SortOptionConceptList } from "./WorkList";
 import { useSearchConcepts } from "../../../../modules/concept/conceptQueries";
 import { toEditConcept, toEditGloss } from "../../../../util/routeHelpers";
@@ -27,12 +26,12 @@ import TableTitle from "../TableTitle";
 
 interface Props {
   data: IConceptSearchResult | undefined;
-  filterSubject: SingleValue | undefined;
+  filterSubject: SelectItem | undefined;
   isPending: boolean;
   setSortOption: (o: Prefix<"-", SortOptionConceptList>) => void;
   sortOption: string;
   error: string | undefined;
-  setFilterSubject: (fs: SingleValue) => void;
+  setFilterSubject: (fs: SelectItem) => void;
   ndlaId: string;
   setPageConcept: (page: number) => void;
   pageSizeConcept: SelectItem;
@@ -139,7 +138,7 @@ const ConceptListTabContent = ({
             <PageSizeSelect pageSize={pageSizeConcept} setPageSize={setPageSizeConcept} />
             {setFilterSubject && (
               <>
-                <SubjectDropdown
+                <SubjectCombobox
                   subjectIds={subjectIds ?? []}
                   filterSubject={filterSubject}
                   setFilterSubject={setFilterSubject}

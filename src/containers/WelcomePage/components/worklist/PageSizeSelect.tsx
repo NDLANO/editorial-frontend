@@ -26,7 +26,6 @@ import {
   SelectValueText,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { SelectWrapper } from "../../styles";
 import { SelectItem as SelectItemType } from "../../types";
 
 const StyledButtonContent = styled("span", {
@@ -56,41 +55,39 @@ const PageSizeSelect = ({ pageSize, setPageSize }: Props) => {
     [],
   );
   return (
-    <SelectWrapper>
-      <SelectRoot
-        collection={collection}
-        positioning={{ sameWidth: true }}
-        onValueChange={(details) => setPageSize(details.items[0])}
-        value={[pageSize.value]}
-      >
-        <SelectLabel srOnly>{t("welcomePage.workList.pickPageSize")}</SelectLabel>
-        <SelectControl>
-          <SelectTrigger asChild>
-            <Button variant="secondary">
-              <StyledButtonContent>
-                {t("welcomePage.workList.numberOfRows")}:<SelectValueText />
-              </StyledButtonContent>
-              <SelectIndicator asChild>
-                <ArrowDownShortLine />
-              </SelectIndicator>
-            </Button>
-          </SelectTrigger>
-        </SelectControl>
-        <SelectPositioner>
-          <SelectContent>
-            {collection.items.map((item) => (
-              <SelectItem item={item} key={item.value}>
-                <SelectItemText>{item.label}</SelectItemText>
-                <SelectItemIndicator asChild>
-                  <CheckLine />
-                </SelectItemIndicator>
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </SelectPositioner>
-        <SelectHiddenSelect />
-      </SelectRoot>
-    </SelectWrapper>
+    <SelectRoot<SelectItemType>
+      collection={collection}
+      positioning={{ sameWidth: true }}
+      onValueChange={(details) => setPageSize(details.items[0])}
+      value={[pageSize.value]}
+    >
+      <SelectLabel srOnly>{t("welcomePage.workList.pickPageSize")}</SelectLabel>
+      <SelectControl>
+        <SelectTrigger asChild style={{ width: "unset" }}>
+          <Button variant="secondary" size="small">
+            <StyledButtonContent>
+              {t("welcomePage.workList.numberOfRows")}:<SelectValueText />
+            </StyledButtonContent>
+            <SelectIndicator asChild>
+              <ArrowDownShortLine />
+            </SelectIndicator>
+          </Button>
+        </SelectTrigger>
+      </SelectControl>
+      <SelectPositioner>
+        <SelectContent>
+          {collection.items.map((item) => (
+            <SelectItem item={item} key={item.value}>
+              <SelectItemText>{item.label}</SelectItemText>
+              <SelectItemIndicator asChild>
+                <CheckLine />
+              </SelectItemIndicator>
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </SelectPositioner>
+      <SelectHiddenSelect />
+    </SelectRoot>
   );
 };
 

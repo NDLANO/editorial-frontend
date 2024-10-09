@@ -244,6 +244,7 @@ const contentSecurityPolicy = {
     ],
     connectSrc,
     reportUri: "/csp-report",
+    reportTo: "csp-endpoint",
   },
 };
 export default contentSecurityPolicy;

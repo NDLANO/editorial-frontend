@@ -108,7 +108,13 @@ app.get("*", async (req, res) => {
       .replace(/"__CONFIG__"/, serializedConfig)
       .replaceAll("__ENVIRONMENT__", config.ndlaEnvironment);
 
-    res.status(200).set({ "Content-Type": "text/html" }).end(html);
+    res
+      .status(200)
+      .set({
+        "Content-Type": "text/html",
+        "Reporting-Endpoints": `csp-endpoint="${config.editorialFrontendDomain}/csp-reporting"`,
+      })
+      .end(html);
   } catch (e) {
     //@ts-ignore
     vite?.ssrFixStacktrace(e);

@@ -48,9 +48,6 @@ const SpinnerWrapper = styled("div", {
 const StyledInputContainer = styled(InputContainer, {
   base: {
     boxShadowColor: "stroke.default",
-    "& input": {
-      color: "primary",
-    },
   },
 });
 
@@ -136,7 +133,6 @@ const SubjectCombobox = ({
       onFocus={() => {
         if (!enableSearch) setEnableSearch(true);
       }}
-      // TODO: this value is not updated properly because of async data
       value={value}
       onValueChange={(details) => {
         setValue(details.value);

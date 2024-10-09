@@ -8,9 +8,9 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
 import { BookOpen, InformationOutline } from "@ndla/icons/common";
 import { SafeLink } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { getCurrentPageData } from "./LastUsedItems";
 import Pagination from "./Pagination";
 import TableComponent, { FieldElement, TitleElement } from "./TableComponent";
@@ -25,9 +25,11 @@ import { useLocalStoragePageSizeState } from "../hooks/storedFilterHooks";
 import { ControlWrapperDashboard, StyledTopRowDashboardInfo, TopRowControls } from "../styles";
 import { SubjectData } from "../utils";
 
-const StyledTableHeader = styled.span`
-  white-space: nowrap;
-`;
+const StyledTableHeader = styled("span", {
+  base: {
+    whiteSpace: "nowrap",
+  },
+});
 
 interface CellHeaderProps {
   title: string;

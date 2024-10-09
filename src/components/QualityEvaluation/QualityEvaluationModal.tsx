@@ -18,7 +18,7 @@ import { IArticle, IUpdatedArticle } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import { Text } from "@ndla/typography";
 import QualityEvaluationForm from "./QualityEvaluationForm";
-import { RevisionMetaFormType } from "../../containers/FormikForm/AddRevisionDateField";
+import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
 
 const StyledModalBody = styled(ModalBody)`
   display: flex;
@@ -32,8 +32,8 @@ interface Props {
   article?: IArticle;
   taxonomy?: Node[];
   iconButtonColor?: "light" | "primary";
-  revisionMetaField?: FieldInputProps<RevisionMetaFormType>;
-  revisionMetaHelpers?: FieldHelperProps<RevisionMetaFormType>;
+  revisionMetaField?: FieldInputProps<ArticleFormType["revisionMeta"]>;
+  revisionMetaHelpers?: FieldHelperProps<ArticleFormType["revisionMeta"]>;
   updateNotes?: (art: IUpdatedArticle) => Promise<IArticle>;
 }
 

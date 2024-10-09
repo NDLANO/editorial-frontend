@@ -1534,6 +1534,7 @@ const phrases = {
     revisions: {
       add: "Ny revisjon",
       remove: "Fjern revisjon",
+      revisionNumber: "Revisjon {{number}}",
       description:
         "Revisjoner krever en beskrivelse og en dato artikkelen utløper på. Bryteren markerer hvorvidt en revisjon er utført eller ikke. Husk at en revidert artikkel må republiseres.",
       datePickerTooltip: "Dato artikkelen utløper dersom revisjonen ikke blir markert som revidert.",

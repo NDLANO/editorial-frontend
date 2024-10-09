@@ -18,7 +18,7 @@ import { colors, spacing, fonts, misc } from "@ndla/core";
 import { FieldErrorMessage, Fieldset, InputV3, Label, Legend, RadioButtonGroup } from "@ndla/forms";
 import { IArticle, IUpdatedArticle } from "@ndla/types-backend/draft-api";
 import { Grade, Node } from "@ndla/types-taxonomy";
-import { RevisionMetaFormType } from "../../containers/FormikForm/AddRevisionDateField";
+import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
 import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVersionProvider";
 import { draftQueryKeys } from "../../modules/draft/draftQueries";
 import { usePutNodeMutation } from "../../modules/nodes/nodeMutations";
@@ -101,8 +101,8 @@ const StyledFieldWarning = styled(FieldWarning)`
 interface Props {
   setOpen: (open: boolean) => void;
   taxonomy: Node[];
-  revisionMetaField?: FieldInputProps<RevisionMetaFormType>;
-  revisionMetaHelpers?: FieldHelperProps<RevisionMetaFormType>;
+  revisionMetaField?: FieldInputProps<ArticleFormType["revisionMeta"]>;
+  revisionMetaHelpers?: FieldHelperProps<ArticleFormType["revisionMeta"]>;
   updateNotes?: (art: IUpdatedArticle) => Promise<IArticle>;
   article?: IArticle;
 }

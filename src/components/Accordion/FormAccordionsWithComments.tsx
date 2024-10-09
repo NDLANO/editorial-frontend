@@ -20,7 +20,7 @@ import OpenAllButton from "./OpenAllButton";
 import { ARCHIVED, PUBLISHED, STORED_HIDE_COMMENTS, UNPUBLISHED } from "../../constants";
 import CommentSection, { COMMENT_WIDTH, SPACING_COMMENT } from "../../containers/ArticlePage/components/CommentSection";
 import { MainContent } from "../../containers/ArticlePage/styles";
-import { RevisionMetaFormType } from "../../containers/FormikForm/AddRevisionDateField";
+import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
 import { useLocalStorageBooleanState } from "../../containers/WelcomePage/hooks/storedFilterHooks";
 import QualityEvaluation from "../QualityEvaluation/QualityEvaluation";
 import { useWideArticle } from "../WideArticleEditorProvider";
@@ -77,7 +77,7 @@ const FormControls = styled(MainContent)`
 const FormAccordionsWithComments = ({ defaultOpen, children, article, taxonomy, updateNotes }: Props) => {
   const { t } = useTranslation();
   const { toggleWideArticles, isWideArticle } = useWideArticle();
-  const [revisionMetaField, , revisionMetaHelpers] = useField<RevisionMetaFormType>("revisionMeta");
+  const [revisionMetaField, , revisionMetaHelpers] = useField<ArticleFormType["revisionMeta"]>("revisionMeta");
 
   const [openAccordions, setOpenAccordions] = useState<string[]>(defaultOpen);
   const [hideComments, setHideComments] = useLocalStorageBooleanState(STORED_HIDE_COMMENTS);

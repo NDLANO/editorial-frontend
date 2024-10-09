@@ -15,11 +15,11 @@ interface Props extends ComboboxContentProps {
   hits: number;
 }
 
-export const SearchTagsContent = forwardRef<HTMLDivElement, Props>(({ isFetching, hits, children, ...props }) => {
+export const SearchTagsContent = forwardRef<HTMLDivElement, Props>(({ isFetching, hits, children, ...props }, ref) => {
   const { t } = useTranslation();
   return (
     <ComboboxPositioner>
-      <ComboboxContent {...props}>
+      <ComboboxContent {...props} ref={ref}>
         {isFetching ? <Spinner /> : hits ? children : <Text>{t("dropdown.numberHits", { hits: 0 })}</Text>}
       </ComboboxContent>
     </ComboboxPositioner>

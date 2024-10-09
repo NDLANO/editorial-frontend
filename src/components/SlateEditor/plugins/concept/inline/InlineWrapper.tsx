@@ -12,12 +12,12 @@ import { useTranslation } from "react-i18next";
 import { Editor, Element, Node, Transforms, Path } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
-import styled from "@emotion/styled";
-import { colors, spacing } from "@ndla/core";
-import { AlertCircle, Check, DeleteForever, Link } from "@ndla/icons/editor";
+import { AlertFill } from "@ndla/icons/common";
+import { CheckLine, DeleteForever, Link } from "@ndla/icons/editor";
 import { Modal, ModalContent } from "@ndla/modal";
 import { PopoverRoot, PopoverTrigger, PopoverContent, Figure, IconButton } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { IConcept, IConceptSummary } from "@ndla/types-backend/concept-api";
 import { ConceptEmbedData, ConceptMetaData } from "@ndla/types-embed";
 import { ConceptEmbed, Concept, InlineTriggerButton, Gloss } from "@ndla/ui";
@@ -53,37 +53,35 @@ interface Props {
   children: ReactNode;
 }
 
-const StyledIconWrapper = styled.div`
-  svg {
-    height: ${spacing.normal};
-    width: ${spacing.normal};
-    fill: ${colors.brand.grey};
-  }
-  &[data-color="green"] {
-    svg {
-      fill: ${colors.support.green};
-    }
-  }
-  &[data-color="red"] {
-    svg {
-      fill: ${colors.support.red};
-    }
-  }
-`;
+const StyledPopoverContent = styled(PopoverContent, {
+  base: {
+    width: "surface.xlarge",
+    maxHeight: "50vh",
+    overflowY: "auto",
+  },
+});
 
-const StyledPopoverContent = styled(PopoverContent)`
-  width: 700px;
-  max-height: 50vh;
-  overflow-y: auto;
-`;
+const ButtonWrapper = styled("div", {
+  base: {
+    display: "inline-flex",
+    gap: "3xsmall",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    position: "relative",
+  },
+});
 
-const ButtonWrapper = styled.div`
-  display: inline-flex;
-  gap: ${spacing.small};
-  align-items: center;
-  justify-content: flex-end;
-  position: relative;
-`;
+const StyledCheckLine = styled(CheckLine, {
+  base: {
+    fill: "surface.success",
+  },
+});
+
+const StyledAlertFill = styled(AlertFill, {
+  base: {
+    fill: "surface.error",
+  },
+});
 
 const InlineWrapper = (props: Props) => {
   const { t } = useTranslation();
@@ -186,26 +184,17 @@ const InlineWrapper = (props: Props) => {
             <StyledPopoverContent>
               <ButtonWrapper>
                 {(concept?.status.current === PUBLISHED || concept?.status.other.includes(PUBLISHED)) && (
-                  <StyledIconWrapper
-                    data-color="green"
-                    aria-label={t("form.workflow.published")}
-                    title={t("form.workflow.published")}
-                  >
-                    <Check />
-                  </StyledIconWrapper>
+                  <StyledCheckLine aria-label={t("form.workflow.published")} title={t("form.workflow.published")} />
                 )}
                 {concept?.status.current !== PUBLISHED && (
-                  <StyledIconWrapper
-                    data-color="red"
+                  <StyledAlertFill
                     aria-label={t("form.workflow.currentStatus", {
                       status: t(`form.status.${concept?.status.current.toLowerCase()}`),
                     })}
                     title={t("form.workflow.currentStatus", {
                       status: t(`form.status.${concept?.status.current.toLowerCase()}`),
                     })}
-                  >
-                    <AlertCircle />
-                  </StyledIconWrapper>
+                  />
                 )}
                 <IconButton
                   variant="danger"

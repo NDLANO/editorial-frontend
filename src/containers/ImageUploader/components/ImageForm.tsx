@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
+import { PageContent } from "@ndla/primitives";
 import {
   IImageMetaInformationV3,
   INewImageMetaInformationV2,
@@ -40,6 +41,10 @@ const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   gap: ${spacing.xsmall};
+`;
+
+const StyledPageContent = styled(PageContent)`
+  position: relative;
 `;
 
 const imageRules: RulesType<ImageFormikType, IImageMetaInformationV3> = {
@@ -208,10 +213,11 @@ const ImageForm = ({
               <FormAccordion
                 id="content"
                 title={t("form.contentSection")}
-                variant="center"
                 hasError={hasError(["title", "imageFile", "caption", "alttext"])}
               >
-                <ImageContent />
+                <StyledPageContent variant="content">
+                  <ImageContent />
+                </StyledPageContent>
               </FormAccordion>
               <FormAccordion
                 id="copyright"

@@ -9,6 +9,7 @@
 import { useFormikContext } from "formik";
 import { memo, useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { PageContent } from "@ndla/primitives";
 import { IUpdatedArticle, IArticle } from "@ndla/types-backend/draft-api";
 import { Node, TaxonomyContext } from "@ndla/types-taxonomy";
 import LearningResourceContent from "./LearningResourceContent";
@@ -74,15 +75,16 @@ const LearningResourcePanels = ({
             fieldsToIndicatedChangesFor={contentTitleFields}
           />
         }
-        variant="center"
         hasError={!!(errors.title || errors.introduction || errors.content)}
       >
         <IsNewArticleLanguageProvider locale={articleLanguage} article={article}>
-          <LearningResourceContent
-            articleLanguage={articleLanguage}
-            articleId={article?.id}
-            handleSubmit={handleSubmit}
-          />
+          <PageContent variant="content">
+            <LearningResourceContent
+              articleLanguage={articleLanguage}
+              articleId={article?.id}
+              handleSubmit={handleSubmit}
+            />
+          </PageContent>
         </IsNewArticleLanguageProvider>
       </FormAccordion>
       {!!article && !!taxonomy && !!userPermissions?.includes(TAXONOMY_WRITE_SCOPE) && (

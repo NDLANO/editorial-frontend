@@ -9,6 +9,7 @@
 import { useFormikContext } from "formik";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { PageContent } from "@ndla/primitives";
 import { IUpdatedArticle, IArticle } from "@ndla/types-backend/draft-api";
 import TopicArticleContent from "./TopicArticleContent";
 import TopicArticleTaxonomy from "./TopicArticleTaxonomy";
@@ -63,10 +64,11 @@ const TopicArticleAccordionPanels = ({
             fieldsToIndicatedChangesFor={contentTitleFields}
           />
         }
-        variant="center"
         hasError={!!(errors.title || errors.introduction || errors.content || errors.visualElement)}
       >
-        <TopicArticleContent values={values} />
+        <PageContent variant="content">
+          <TopicArticleContent values={values} />
+        </PageContent>
       </FormAccordion>
       {article && !!userPermissions?.includes(TAXONOMY_WRITE_SCOPE) && (
         <FormAccordion id={"topic-article-taxonomy"} title={t("form.taxonomySection")} hasError={!hasTaxonomyEntries}>

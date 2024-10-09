@@ -52,6 +52,12 @@ const StyledIconButton = styled(IconButton, {
   },
 });
 
+const ImageContentWrapper = styled("div", {
+  base: {
+    position: "relative",
+  },
+});
+
 const ImageContent = () => {
   const { t } = useTranslation();
   const formikContext = useFormikContext<ImageFormikType>();
@@ -64,7 +70,7 @@ const ImageContent = () => {
   return (
     <FormContent>
       <TitleField hideToolbar />
-      <div>
+      <ImageContentWrapper>
         {!values.imageFile && (
           <FormField name="imageFile">
             {({ helpers, meta }) => (
@@ -152,7 +158,7 @@ const ImageContent = () => {
             />
           </ImageWrapper>
         )}
-      </div>
+      </ImageContentWrapper>
       <FormField name="caption">
         {({ field, meta }) => (
           <FieldRoot invalid={!!meta.error}>

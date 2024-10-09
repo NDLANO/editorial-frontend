@@ -8,11 +8,10 @@
 
 import { ReactElement, memo, useState } from "react";
 import styled from "@emotion/styled";
-import { AccordionRoot } from "@ndla/accordion";
 import { spacing } from "@ndla/core";
+import { AccordionRoot } from "@ndla/primitives";
 import { FormAccordionProps } from "./FormAccordion";
 import OpenAllButton from "./OpenAllButton";
-import { MainContent } from "../../containers/ArticlePage/styles";
 
 type ChildType = ReactElement<FormAccordionProps> | undefined | false;
 
@@ -35,6 +34,10 @@ const FlexWrapper = styled.div`
   justify-content: flex-end;
 `;
 
+const StyledAccordionRoot = styled(AccordionRoot)`
+  width: 100%;
+`;
+
 const FormAccordions = ({ defaultOpen, children }: Props) => {
   const [openAccordions, setOpenAccordions] = useState<string[]>(defaultOpen);
 
@@ -47,11 +50,15 @@ const FormAccordions = ({ defaultOpen, children }: Props) => {
           formAccordionChildren={children}
         />
       </FlexWrapper>
-      <MainContent>
-        <AccordionRoot type="multiple" value={openAccordions} onValueChange={setOpenAccordions}>
-          {children}
-        </AccordionRoot>
-      </MainContent>
+      <StyledAccordionRoot
+        multiple
+        value={openAccordions}
+        onValueChange={(details) => setOpenAccordions(details.value)}
+        lazyMount
+        unmountOnExit
+      >
+        {children}
+      </StyledAccordionRoot>
     </AccordionsWrapper>
   );
 };

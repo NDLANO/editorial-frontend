@@ -9,6 +9,7 @@
 import { Formik, FormikProps, FormikHelpers } from "formik";
 import { useState, useMemo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
+import { PageContent } from "@ndla/primitives";
 import { IConcept, INewConcept, IUpdatedConcept, IConceptSummary } from "@ndla/types-backend/concept-api";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
@@ -209,11 +210,12 @@ const ConceptForm = ({
             <FormAccordions defaultOpen={["content"]}>
               <FormAccordion
                 id="content"
-                variant="center"
                 title={t("form.contentSection")}
                 hasError={!!(errors.title || errors.conceptContent)}
               >
-                <ConceptContent />
+                <PageContent variant="content">
+                  <ConceptContent />
+                </PageContent>
               </FormAccordion>
               <FormAccordion
                 id="copyright"

@@ -10,6 +10,7 @@ import { FormikErrors } from "formik";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
+import { PageContent } from "@ndla/primitives";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
 import { Node } from "@ndla/types-taxonomy";
@@ -76,10 +77,11 @@ const SubjectpageAccordionPanels = ({ buildsOn, connectedTo, editorsChoices, ele
       <FormAccordion
         id="about"
         title={t("subjectpageForm.about")}
-        variant="center"
         hasError={["title", "description", "visualElement"].some((field) => field in errors)}
       >
-        <SubjectpageAbout />
+        <PageContent variant="content">
+          <SubjectpageAbout />
+        </PageContent>
       </FormAccordion>
       <FormAccordion
         id="metadata"

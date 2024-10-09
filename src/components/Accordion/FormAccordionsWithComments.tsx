@@ -10,16 +10,21 @@ import { useField } from "formik";
 import { ReactElement, memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { AccordionRoot } from "@ndla/accordion";
 import { spacing } from "@ndla/core";
-import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
+import {
+  AccordionRoot,
+  SwitchControl,
+  SwitchHiddenInput,
+  SwitchLabel,
+  SwitchRoot,
+  SwitchThumb,
+} from "@ndla/primitives";
 import { IArticle, IUpdatedArticle } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import { FormAccordionProps } from "./FormAccordion";
 import OpenAllButton from "./OpenAllButton";
 import { ARCHIVED, PUBLISHED, STORED_HIDE_COMMENTS, UNPUBLISHED } from "../../constants";
 import CommentSection, { COMMENT_WIDTH, SPACING_COMMENT } from "../../containers/ArticlePage/components/CommentSection";
-import { MainContent } from "../../containers/ArticlePage/styles";
 import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
 import { useLocalStorageBooleanState } from "../../containers/WelcomePage/hooks/storedFilterHooks";
 import QualityEvaluation from "../QualityEvaluation/QualityEvaluation";
@@ -57,6 +62,9 @@ const CommentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   &[data-hidden="true"] {
+    visibility: none;
+  }
+  &[data-none="true"] {
     display: none;
   }
 `;
@@ -65,13 +73,18 @@ const StyledSwitchRoot = styled(SwitchRoot)`
   min-height: 40px;
 `;
 
-const FormControls = styled(MainContent)`
+const FormControls = styled.div`
   display: flex;
+  width: 100%;
   padding-left: ${spacing.small};
   justify-content: flex-end;
   &[data-enabled-quality-evaluation="true"] {
     justify-content: space-between;
   }
+`;
+
+const StyledAccordionRoot = styled(AccordionRoot)`
+  width: 100%;
 `;
 
 const FormAccordionsWithComments = ({ defaultOpen, children, article, taxonomy, updateNotes }: Props) => {
@@ -124,8 +137,8 @@ const FormAccordionsWithComments = ({ defaultOpen, children, article, taxonomy, 
             />
           </RightFlexWrapper>
         </FormControls>
-        {!disableComments && (
-          <CommentWrapper>
+        <CommentWrapper>
+          {!disableComments && (
             <StyledSwitchRoot checked={!hideComments} onCheckedChange={() => setHideComments(!hideComments)}>
               <SwitchLabel>{t("form.comment.showComments")}</SwitchLabel>
               <SwitchControl>
@@ -133,20 +146,25 @@ const FormAccordionsWithComments = ({ defaultOpen, children, article, taxonomy, 
               </SwitchControl>
               <SwitchHiddenInput />
             </StyledSwitchRoot>
-          </CommentWrapper>
-        )}
+          )}
+        </CommentWrapper>
       </FlexWrapper>
       <FlexWrapper>
-        <MainContent data-wide={isWideArticle}>
-          <AccordionRoot type="multiple" value={openAccordions} onValueChange={setOpenAccordions}>
-            {children}
-          </AccordionRoot>
-        </MainContent>
-        {!disableComments && (
-          <CommentWrapper data-hidden={hideComments}>
-            <CommentSection />
-          </CommentWrapper>
-        )}
+        <StyledAccordionRoot
+          multiple
+          value={openAccordions}
+          onValueChange={(details) => setOpenAccordions(details.value)}
+          lazyMount
+          unmountOnExit
+        >
+          {children}
+        </StyledAccordionRoot>
+        <CommentWrapper
+          data-hidden={hideComments || disableComments}
+          data-none={isWideArticle && (hideComments || disableComments)}
+        >
+          {!hideComments && !disableComments && <CommentSection />}
+        </CommentWrapper>
       </FlexWrapper>
     </ContentWrapper>
   );

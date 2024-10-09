@@ -69,10 +69,17 @@ const SubjectCombobox = ({
   removeArchived = false,
   placeholder,
 }: Props) => {
+  const [inputValue, setInputValue] = useState("");
+  const [value, setValue] = useState<string[] | undefined>(undefined);
   const [enableSearch, setEnableSearch] = useState(false);
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const translations = useComboboxTranslations();
+
+  useEffect(() => {
+    setValue(filterSubject ? [filterSubject.value] : undefined);
+    setInputValue(filterSubject ? filterSubject.label : "");
+  }, [filterSubject]);
 
   const { data: subjects, isLoading } = useSearchNodes(
     {
@@ -115,20 +122,24 @@ const SubjectCombobox = ({
   }, [items]);
 
   const handleInputChange = (details: Combobox.InputValueChangeDetails) => {
+    setInputValue(details.inputValue);
     setItems(initialData.filter((item) => item.label.toLowerCase().includes(details.inputValue.toLowerCase())));
   };
 
   return (
-    <ComboboxRoot<SelectItemType>
+    <ComboboxRoot
+      key={value?.[0]}
       collection={collection}
+      inputValue={inputValue}
       onInputValueChange={handleInputChange}
       translations={translations}
       onFocus={() => {
         if (!enableSearch) setEnableSearch(true);
       }}
       // TODO: this value is not updated properly because of async data
-      value={filterSubject ? [filterSubject.value] : undefined}
+      value={value}
       onValueChange={(details) => {
+        setValue(details.value);
         setFilterSubject(details.items[0]);
       }}
     >

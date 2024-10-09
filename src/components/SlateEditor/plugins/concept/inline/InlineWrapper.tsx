@@ -89,8 +89,10 @@ const InlineWrapper = (props: Props) => {
   const nodeText = Node.string(element).trim();
   const [isEditing, setIsEditing] = useState(element.isFirstEdit);
   const locale = useArticleLanguage();
-  const { concept, subjects, loading, fetchSearchTags, conceptArticles, createConcept, updateConcept } =
-    useFetchConceptData(parseInt(element.data.contentId), locale);
+  const { concept, subjects, loading, conceptArticles, createConcept, updateConcept } = useFetchConceptData(
+    parseInt(element.data.contentId),
+    locale,
+  );
 
   const visualElementQuery = useConceptVisualElement(concept?.id!, concept?.visualElement?.visualElement!, locale, {
     enabled: !!concept?.id && !!concept?.visualElement?.visualElement.length,
@@ -258,7 +260,6 @@ const InlineWrapper = (props: Props) => {
             subjects={subjects}
             handleRemove={handleRemove}
             selectedText={nodeText}
-            fetchSearchTags={fetchSearchTags}
             createConcept={createConcept}
             updateConcept={updateConcept}
             conceptArticles={conceptArticles}

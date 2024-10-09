@@ -6,33 +6,85 @@
  *
  */
 
-import { FieldProps, useFormikContext } from "formik";
+import { useFormikContext } from "formik";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { createListCollection } from "@ark-ui/react";
+import { CheckLine } from "@ndla/icons/editor";
+import {
+  ComboboxItem,
+  ComboboxItemIndicator,
+  ComboboxItemText,
+  FieldErrorMessage,
+  FieldHelper,
+  FieldRoot,
+  Input,
+} from "@ndla/primitives";
+import { TagSelectorLabel, TagSelectorRoot, useTagSelectorTranslations } from "@ndla/ui";
 import { AudioFormikType } from "./AudioForm";
-import AsyncSearchTags from "../../../components/Dropdown/asyncDropdown/AsyncSearchTags";
-import FormikField from "../../../components/FormikField";
-import { fetchSearchTags } from "../../../modules/audio/audioApi";
+import { SearchTagsContent } from "../../../components/Form/SearchTagsContent";
+import { SearchTagsTagSelectorInput } from "../../../components/Form/SearchTagsTagSelectorInput";
+import { FormField } from "../../../components/FormField";
+import { useAudioSearchTags } from "../../../modules/audio/audioQueries";
+import useDebounce from "../../../util/useDebounce";
 
 const AudioMetaData = () => {
-  const {
-    values: { language, tags },
-  } = useFormikContext<AudioFormikType>();
+  const { values } = useFormikContext<AudioFormikType>();
   const { t } = useTranslation();
+  const [inputQuery, setInputQuery] = useState<string>("");
+  const debouncedQuery = useDebounce(inputQuery, 300);
+  const tagSelectorTranslations = useTagSelectorTranslations();
+  const searchTagsQuery = useAudioSearchTags(
+    {
+      input: debouncedQuery,
+      language: values.language,
+    },
+    {
+      enabled: !!debouncedQuery.length,
+      placeholderData: (prev) => prev,
+    },
+  );
+
+  const collection = useMemo(() => {
+    return createListCollection({
+      items: searchTagsQuery.data?.results ?? [],
+      itemToValue: (item) => item,
+      itemToString: (item) => item,
+    });
+  }, [searchTagsQuery.data?.results]);
+
   return (
-    <>
-      <FormikField name="tags" label={t("form.tags.label")} obligatory description={t("form.tags.description")}>
-        {({ field, form }: FieldProps<string[], string[]>) => (
-          <AsyncSearchTags
-            multiSelect
-            language={language}
-            initialTags={tags}
-            field={field}
-            form={form}
-            fetchTags={fetchSearchTags}
-          />
-        )}
-      </FormikField>
-    </>
+    <FormField name="tags">
+      {({ field, meta, helpers }) => (
+        <FieldRoot invalid={!!meta.error}>
+          <TagSelectorRoot
+            collection={collection}
+            value={field.value}
+            onValueChange={(details) => helpers.setValue(details.value)}
+            translations={tagSelectorTranslations}
+            inputValue={inputQuery}
+            onInputValueChange={(details) => setInputQuery(details.inputValue)}
+          >
+            <TagSelectorLabel>{t("form.tags.label")}</TagSelectorLabel>
+            <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+            <FieldHelper>{t("form.tags.description")}</FieldHelper>
+            <SearchTagsTagSelectorInput asChild>
+              <Input placeholder={t("form.tags.searchPlaceholder")} />
+            </SearchTagsTagSelectorInput>
+            <SearchTagsContent isFetching={searchTagsQuery.isFetching} hits={collection.items.length}>
+              {collection.items.map((item) => (
+                <ComboboxItem key={item} item={item}>
+                  <ComboboxItemText>{item}</ComboboxItemText>
+                  <ComboboxItemIndicator asChild>
+                    <CheckLine />
+                  </ComboboxItemIndicator>
+                </ComboboxItem>
+              ))}
+            </SearchTagsContent>
+          </TagSelectorRoot>
+        </FieldRoot>
+      )}
+    </FormField>
   );
 };
 

@@ -18,7 +18,6 @@ import StatusIcons from "./StatusIcons";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
 import VersionHistory from "./VersionHistory";
 import RelevanceOption from "../../../components/Taxonomy/RelevanceOption";
-import config from "../../../config";
 import { getContentTypeFromResourceTypes } from "../../../util/resourceHelpers";
 import {
   BoldFont,
@@ -106,7 +105,7 @@ const Resource = ({ resource, onDelete, currentNodeId, contentMetaLoading, respo
             {showQuality && (
               <QualityEvaluationGrade
                 grade={resource.qualityEvaluation?.grade}
-                ariaLabel={
+                tooltip={
                   resource.qualityEvaluation?.note
                     ? `${t("qualityEvaluationForm.title")}: ${resource.qualityEvaluation?.note}`
                     : t("qualityEvaluationForm.title")

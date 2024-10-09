@@ -9,7 +9,6 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { colors } from "@ndla/core";
 import { Node, NodeChild, ResourceType } from "@ndla/types-taxonomy";
 import { Text } from "@ndla/typography";
 import { ContentTypeBadge } from "@ndla/ui";
@@ -24,7 +23,6 @@ import VersionHistory from "./VersionHistory";
 import AverageQualityEvaluation from "../../../components/QualityEvaluation/AverageQualityEvaluation";
 import QualityEvaluation from "../../../components/QualityEvaluation/QualityEvaluation";
 import RelevanceOption from "../../../components/Taxonomy/RelevanceOption";
-import config from "../../../config";
 import { PUBLISHED } from "../../../constants";
 import { Dictionary } from "../../../interfaces";
 import { NodeResourceMeta } from "../../../modules/nodes/nodeQueries";
@@ -47,11 +45,6 @@ import {
 const ContentGroup = styled.div`
   display: flex;
   align-items: center;
-`;
-
-const StyledNoEvaluation = styled(Text)`
-  color: ${colors.brand.greyMedium};
-  font-style: italic;
 `;
 
 const getWorkflowCount = (contentMeta: Dictionary<NodeResourceMeta>) => {
@@ -106,12 +99,7 @@ const TopicResourceBanner = ({
           {showQuality && (
             <>
               <AverageQualityEvaluation gradeAverage={currentNode.gradeAverage} nodeType="TOPIC" />
-              <QualityEvaluation
-                articleType="topic-article"
-                taxonomy={[currentNode]}
-                iconButtonColor="primary"
-                gradeVariant="small"
-              />
+              <QualityEvaluation articleType="topic-article" taxonomy={[currentNode]} iconButtonColor="primary" />
             </>
           )}
           <Text margin="none" textStyle="meta-text-small">{`${workflowCount}/${elementCount} ${t(

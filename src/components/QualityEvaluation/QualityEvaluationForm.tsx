@@ -6,16 +6,27 @@
  *
  */
 
-import { FieldHelperProps, FieldInputProps, Form, Formik } from "formik";
-import { CSSProperties, useMemo, useState } from "react";
+import { FieldHelperProps, FieldInputProps, Formik } from "formik";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { css } from "@emotion/react";
-import styled from "@emotion/styled";
-import { Item, Indicator } from "@radix-ui/react-radio-group";
 import { useQueryClient } from "@tanstack/react-query";
-import { ButtonV2 } from "@ndla/button";
-import { colors, spacing, fonts, misc } from "@ndla/core";
-import { FieldErrorMessage, Fieldset, InputV3, Label, Legend, RadioButtonGroup } from "@ndla/forms";
+import {
+  Button,
+  FieldErrorMessage,
+  FieldHelper,
+  FieldInput,
+  FieldLabel,
+  FieldRoot,
+  RadioGroupItem,
+  RadioGroupItemControl,
+  RadioGroupItemHiddenInput,
+  RadioGroupItemText,
+  RadioGroupLabel,
+  RadioGroupRoot,
+  Text,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { ColorToken } from "@ndla/styled-system/tokens";
 import { IArticle, IUpdatedArticle } from "@ndla/types-backend/draft-api";
 import { Grade, Node } from "@ndla/types-taxonomy";
 import { RevisionMetaFormType } from "../../containers/FormikForm/AddRevisionDateField";
@@ -25,78 +36,103 @@ import { usePutNodeMutation } from "../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../modules/nodes/nodeQueries";
 import { formatDateForBackend } from "../../util/formatDate";
 import handleError from "../../util/handleError";
-import { FieldWarning, FormControl, FormField } from "../FormField";
+import { FormField } from "../FormField";
+import { FormActionsContainer, FormikForm } from "../FormikForm";
 import validateFormik, { RulesType } from "../formikValidationSchema";
-import Spinner from "../Spinner";
 
-export const qualityEvaluationOptions: { [key: number]: string } = {
-  1: colors.support.green,
-  2: "#90C670",
-  3: "#C3D060",
-  4: colors.support.yellow,
-  5: colors.support.red,
+export type QualityEvaluationValue = "1" | "2" | "3" | "4" | "5";
+
+const qualityEvaluationOptions: Record<QualityEvaluationValue, ColorToken> = {
+  "1": "surface.brand.3.moderate",
+  "2": "surface.brand.3",
+  "3": "surface.brand.4.moderate",
+  "4": "surface.brand.4",
+  "5": "surface.brand.5",
 };
 
-const StyledFieldset = styled(Fieldset)`
-  display: flex;
-  gap: ${spacing.xsmall};
-  align-items: center;
-`;
+const ButtonContainer = styled("div", {
+  base: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+});
 
-// Color needed in order for wcag contrast reqirements to be met
-export const blackContrastColor = "#000";
+const StyledRadioGroupItem = styled(RadioGroupItem, {
+  base: {
+    padding: "4xsmall",
+    borderRadius: "xsmall",
+  },
+  variants: {
+    quality: {
+      "1": {
+        borderRadius: "xsmall",
+        outline: "2px solid",
+        outlineOffset: "-5xsmall",
+        outlineColor: qualityEvaluationOptions["1"],
+      },
+      "2": {
+        background: qualityEvaluationOptions["2"],
+      },
+      "3": {
+        background: qualityEvaluationOptions[3],
+      },
+      "4": {
+        background: qualityEvaluationOptions[4],
+      },
+      "5": {
+        borderRadius: "xsmall",
+        outline: "2px solid",
+        outlineOffset: "-5xsmall",
+        outlineColor: qualityEvaluationOptions[5],
+      },
+    },
+  },
+});
 
-export const gradeItemStyles = css`
-  padding: 0px ${spacing.nsmall};
-  font-weight: ${fonts.weight.semibold};
-  border-radius: ${misc.borderRadius};
-  color: ${blackContrastColor};
-  ${fonts.size.text.content};
-  &[data-border="false"] {
-    background-color: var(--item-color);
-  }
-  &[data-border="true"] {
-    box-shadow: inset 0px 0px 0px 2px var(--item-color);
-  }
-`;
+const StyledRadioGroupItemControl = styled(RadioGroupItemControl, {
+  variants: {
+    quality: {
+      "1": {
+        _checked: {
+          background: "surface.brand.3.strong",
+          borderColor: "surface.brand.3.strong",
+        },
+      },
+      "2": {
+        _checked: {
+          background: "surface.brand.3.strong",
+          borderColor: "surface.brand.3.strong",
+        },
+      },
+      "3": {
+        _checked: {
+          background: "surface.brand.4.strong",
+          borderColor: "surface.brand.4.strong",
+        },
+      },
+      "4": {
+        _checked: {
+          background: "surface.brand.4.strong",
+          borderColor: "surface.brand.4.strong",
+        },
+      },
+      "5": {
+        _checked: {
+          background: "surface.brand.5.strong",
+          borderColor: "surface.brand.5.strong",
+        },
+      },
+    },
+  },
+});
 
-const StyledItem = styled(Item)`
-  all: unset;
-  ${gradeItemStyles};
-
-  &:hover {
-    cursor: pointer;
-    border-radius: ${misc.borderRadius};
-    outline: 2px solid ${colors.brand.primary};
-  }
-  &[data-state="checked"] {
-    outline: 2px solid ${blackContrastColor};
-  }
-`;
-
-const ButtonContainer = styled.div`
-  margin-top: ${spacing.small};
-  display: flex;
-  justify-content: space-between;
-`;
-
-const RightButtonsWrapper = styled.div`
-  display: flex;
-  gap: ${spacing.xsmall};
-`;
-
-const StyledForm = styled(Form)`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-`;
-const MutationErrorMessage = styled(FieldErrorMessage)`
-  margin-left: auto;
-`;
-
-const StyledFieldWarning = styled(FieldWarning)`
-  margin-left: auto;
-`;
+const ItemsWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "xsmall",
+    flexWrap: "wrap",
+  },
+});
 
 interface Props {
   setOpen: (open: boolean) => void;
@@ -237,76 +273,57 @@ const QualityEvaluationForm = ({
       onSubmit={onSubmit}
       onReset={onDelete}
     >
-      {({ dirty, isValid, isSubmitting, values }) => (
-        <StyledForm>
+      {({ dirty, isValid, isSubmitting }) => (
+        <FormikForm>
           <FormField name="grade">
             {({ field, meta, helpers }) => (
-              <FormControl isInvalid={!!meta.error} isRequired>
-                <RadioButtonGroup
-                  orientation="horizontal"
+              <FieldRoot invalid={!!meta.error} required>
+                <RadioGroupRoot
+                  orientation="vertical"
                   value={field.value?.toString()}
-                  onValueChange={(v) => helpers.setValue(Number(v))}
-                  asChild
+                  onValueChange={(details) => helpers.setValue(Number(details.value))}
                 >
-                  <StyledFieldset>
-                    <Legend margin="none" textStyle="label-small">
-                      {t("qualityEvaluationForm.title")}
-                    </Legend>
-                    {Object.entries(qualityEvaluationOptions).map(([value, color]) => (
-                      <div key={value}>
-                        <StyledItem
-                          id={`quality-${value}`}
-                          value={value.toString()}
-                          data-color-value={value}
-                          style={{ "--item-color": color } as CSSProperties}
-                          data-border={value === "1" || value === "5"}
-                        >
-                          <Indicator forceMount>{value}</Indicator>
-                        </StyledItem>
-                        <Label htmlFor={`quality-${value}`} visuallyHidden>
-                          {value}
-                        </Label>
-                      </div>
+                  <RadioGroupLabel>{t("qualityEvaluationForm.title")}</RadioGroupLabel>
+                  <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                  {field.value === 5 && <FieldHelper>{t("qualityEvaluationForm.warning")}</FieldHelper>}
+                  <ItemsWrapper>
+                    {Object.entries(qualityEvaluationOptions).map(([value, _]) => (
+                      <StyledRadioGroupItem key={value} value={value} quality={value as QualityEvaluationValue}>
+                        <StyledRadioGroupItemControl quality={value as QualityEvaluationValue} />
+                        <RadioGroupItemText>{value}</RadioGroupItemText>
+                        <RadioGroupItemHiddenInput />
+                      </StyledRadioGroupItem>
                     ))}
-                  </StyledFieldset>
-                </RadioButtonGroup>
-                <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-              </FormControl>
+                  </ItemsWrapper>
+                </RadioGroupRoot>
+              </FieldRoot>
             )}
           </FormField>
           <FormField name="note">
             {({ field }) => (
-              <FormControl>
-                <Label margin="none" textStyle="label-small">
-                  {t("qualityEvaluationForm.note")}
-                </Label>
-                <InputV3 {...field} />
-              </FormControl>
+              <FieldRoot>
+                <FieldLabel>{t("qualityEvaluationForm.note")}</FieldLabel>
+                <FieldInput {...field} />
+              </FieldRoot>
             )}
           </FormField>
           <ButtonContainer>
-            <div>
-              {node.qualityEvaluation?.grade && (
-                <ButtonV2 variant="outline" colorTheme="danger" type="reset">
-                  {loading.delete && <Spinner appearance="small" />}
-                  {t("qualityEvaluationForm.delete")}
-                </ButtonV2>
-              )}
-            </div>
-            <RightButtonsWrapper>
-              <ButtonV2 variant="outline" onClick={() => setOpen(false)}>
+            {node.qualityEvaluation?.grade && (
+              <Button variant="danger" type="reset" loading={loading.delete}>
+                {t("qualityEvaluationForm.delete")}
+              </Button>
+            )}
+            <FormActionsContainer>
+              <Button variant="secondary" onClick={() => setOpen(false)}>
                 {t("form.abort")}
-              </ButtonV2>
-              <ButtonV2 disabled={!dirty || !isValid || isSubmitting} type="submit">
-                {loading.save && <Spinner appearance="small" />} {t("form.save")}
-              </ButtonV2>
-            </RightButtonsWrapper>
+              </Button>
+              <Button disabled={!dirty || !isValid || isSubmitting} loading={loading.save} type="submit">
+                {t("form.save")}
+              </Button>
+            </FormActionsContainer>
           </ButtonContainer>
-          {updateTaxMutation.isError && <MutationErrorMessage>{t("qualityEvaluationForm.error")}</MutationErrorMessage>}
-          {isResource && values.grade === 5 && (
-            <StyledFieldWarning>{t("qualityEvaluationForm.warning")}</StyledFieldWarning>
-          )}
-        </StyledForm>
+          {updateTaxMutation.isError && <Text color="text.error">{t("qualityEvaluationForm.error")}</Text>}
+        </FormikForm>
       )}
     </Formik>
   );

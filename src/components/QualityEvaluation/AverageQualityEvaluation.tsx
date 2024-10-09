@@ -35,7 +35,7 @@ const AverageQualityEvaluation = ({ gradeAverage, nodeType }: Props) => {
         <QualityEvaluationGrade
           grade={gradeAverage.averageValue}
           averageGrade={gradeAverage.averageValue.toFixed(1)}
-          ariaLabel={t("taxonomy.qualityDescription", {
+          tooltip={t("taxonomy.qualityDescription", {
             nodeType: t(`taxonomy.${nodeType}`),
             count: gradeAverage.count,
           })}

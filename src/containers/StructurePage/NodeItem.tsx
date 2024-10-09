@@ -27,7 +27,6 @@ import {
   StyledItemBar,
   StyledStructureItem,
 } from "../../components/Taxonomy/nodeStyles";
-import config from "../../config";
 import { TAXONOMY_ADMIN_SCOPE } from "../../constants";
 import { NodeChildWithChildren } from "../../modules/nodes/nodeQueries";
 import { createGuard } from "../../util/guards";
@@ -200,14 +199,14 @@ const NodeItem = ({
             <QualityEvaluationGrade
               grade={item.gradeAverage?.averageValue}
               averageGrade={item.gradeAverage?.averageValue.toFixed(1)}
-              ariaLabel={t("taxonomy.qualityDescription", {
+              tooltip={t("taxonomy.qualityDescription", {
                 nodeType: t(`taxonomy.${item.nodeType}`),
                 count: item.gradeAverage?.count,
               })}
             />
             <QualityEvaluationGrade
               grade={item.qualityEvaluation?.grade}
-              ariaLabel={`${t("taxonomy.qualityEvaluation", { nodeType: t(`taxonomy.${item.nodeType}`) })}${
+              tooltip={`${t("taxonomy.qualityEvaluation", { nodeType: t(`taxonomy.${item.nodeType}`) })}${
                 item?.qualityEvaluation?.note ? `: ${item.qualityEvaluation.note}` : ""
               }`}
             />

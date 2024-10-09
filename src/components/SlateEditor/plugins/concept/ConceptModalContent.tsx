@@ -35,7 +35,6 @@ import {
   IConceptSearchResult,
   INewConcept,
   IUpdatedConcept,
-  ITagsSearchResult,
   IConceptSummary,
 } from "@ndla/types-backend/concept-api";
 import { IArticle } from "@ndla/types-backend/draft-api";
@@ -53,7 +52,6 @@ interface Props {
   addConcept: (concept: IConceptSummary | IConcept) => void;
   concept?: IConcept;
   createConcept: (createdConcept: INewConcept) => Promise<IConcept>;
-  fetchSearchTags: (input: string, language: string) => Promise<ITagsSearchResult>;
   handleRemove: () => void;
   onClose: () => void;
   locale: string;
@@ -80,7 +78,6 @@ const ConceptModalContent = ({
   updateConcept,
   createConcept,
   concept,
-  fetchSearchTags,
   conceptArticles,
   conceptType,
 }: Props) => {
@@ -241,7 +238,6 @@ const ConceptModalContent = ({
                   subjects={subjects}
                   upsertProps={upsertProps}
                   language={locale}
-                  fetchConceptTags={fetchSearchTags}
                   concept={concept}
                   conceptArticles={conceptArticles}
                   initialTitle={selectedText}

@@ -9,13 +9,7 @@
 import { Formik, FormikProps, FormikHelpers } from "formik";
 import { useState, useMemo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  IConcept,
-  INewConcept,
-  IUpdatedConcept,
-  ITagsSearchResult,
-  IConceptSummary,
-} from "@ndla/types-backend/concept-api";
+import { IConcept, INewConcept, IUpdatedConcept, IConceptSummary } from "@ndla/types-backend/concept-api";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import ConceptFormFooter from "./ConceptFormFooter";
@@ -49,7 +43,6 @@ interface Props {
   upsertProps: CreateProps | UpdateProps;
   concept?: IConcept;
   conceptChanged?: boolean;
-  fetchConceptTags: (input: string, language: string) => Promise<ITagsSearchResult>;
   inModal: boolean;
   isNewlyCreated?: boolean;
   conceptArticles: IArticle[];
@@ -122,7 +115,6 @@ const conceptRules: RulesType<ConceptFormValues, IConcept> = {
 const ConceptForm = ({
   concept,
   conceptChanged,
-  fetchConceptTags,
   inModal,
   isNewlyCreated = false,
   onClose,
@@ -235,12 +227,7 @@ const ConceptForm = ({
                 title={t("form.metadataSection")}
                 hasError={!!(errors.tags || errors.metaImageAlt || errors.subjects)}
               >
-                <ConceptMetaData
-                  fetchTags={fetchConceptTags}
-                  subjects={subjects}
-                  inModal={inModal}
-                  language={language}
-                />
+                <ConceptMetaData subjects={subjects} inModal={inModal} language={language} />
               </FormAccordion>
               <FormAccordion id="articles" title={t("form.articleSection")} hasError={!!errors.articles}>
                 <ConceptArticles />

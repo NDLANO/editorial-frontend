@@ -8,7 +8,6 @@
 
 import fs from "fs/promises";
 import { join } from "path";
-import bodyParser from "body-parser";
 import compression from "compression";
 import express from "express";
 import helmet from "helmet";
@@ -57,11 +56,9 @@ app.get("*splat", (req, res, next) => {
 if (!config.isVercel) {
   app.use(compression());
 }
-app.use(express.json({ limit: "1mb" }));
-app.use(express.json());
-
 app.use(
-  bodyParser.json({
+  express.json({
+    limit: "1mb",
     type: (req) => {
       const contentType = req.headers["content-type"];
       if (typeof contentType === "string") return allowedBodyContentTypes.includes(contentType);

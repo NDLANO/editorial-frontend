@@ -126,7 +126,7 @@ const SlateVideo = ({ attributes, element, editor, children }: Props) => {
               variant="secondary"
               title={t("form.video.brightcove")}
               aria-label={t("form.video.brightcove")}
-              to={`https://studio.brightcove.com/products/videocloud/media/videos/${embed.embedData.videoid}`}
+              to={`https://studio.brightcove.com/products/videocloud/media/videos/${embed.embedData.videoid.split("&t=")[0]}`}
               size="small"
             >
               <Link />

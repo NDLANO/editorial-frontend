@@ -104,7 +104,7 @@ const EditLearningResource = ({ isNewlyCreated }: Props) => {
   }
   const newLanguage = isNewArticleLanguage(selectedLanguage, article);
   return (
-    <ContentTypeProvider value={getContentTypeFromResourceTypes(taxonomyQuery.data?.[0].resourceTypes ?? [])}>
+    <ContentTypeProvider value={getContentTypeFromResourceTypes(taxonomyQuery.data?.[0]?.resourceTypes ?? [])}>
       <HelmetWithTracker title={`${article.title?.title} ${t("htmlTitles.titleTemplate")}`} />
       <LearningResourceForm
         articleLanguage={selectedLanguage}

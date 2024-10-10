@@ -125,12 +125,12 @@ export function toEditNdlaFilm(language?: string) {
   return `/film/${language ? language : "nb"}`;
 }
 
-export function toEditConcept(conceptId: number, locale?: string) {
+export function toEditConcept(conceptId: number | string, locale?: string) {
   const path = `/concept/${conceptId}/edit`;
   return locale ? `${path}/${locale}` : path;
 }
 
-export function toEditGloss(glossId: number, locale?: string) {
+export function toEditGloss(glossId: number | string, locale?: string) {
   const path = `/gloss/${glossId}/edit`;
   return locale ? `${path}/${locale}` : path;
 }
@@ -190,7 +190,7 @@ export function toCreateAudioFile() {
   return "/media/audio-upload/new";
 }
 
-export function toEditAudio(audioId: number, language: string) {
+export function toEditAudio(audioId: number | string, language: string) {
   return `/media/audio-upload/${audioId}/edit/${language}`;
 }
 
@@ -202,11 +202,11 @@ export function toCreatePodcastSeries() {
   return "/media/podcast-series/new";
 }
 
-export function toEditPodcast(audioId: number, language: string) {
+export function toEditPodcast(audioId: number | string, language: string) {
   return `/media/podcast-upload/${audioId}/edit/${language}`;
 }
 
-export function toEditPodcastSeries(seriesId: number, language: string) {
+export function toEditPodcastSeries(seriesId: number | string, language: string) {
   return `/media/podcast-series/${seriesId}/edit/${language}`;
 }
 

@@ -10,8 +10,18 @@ import { Formik } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
-import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle } from "@ndla/modal";
-import { Button, FieldErrorMessage, FieldInput, FieldLabel, FieldRoot, Text } from "@ndla/primitives";
+import {
+  Button,
+  DialogBody,
+  DialogCloseTrigger,
+  DialogHeader,
+  DialogTitle,
+  FieldErrorMessage,
+  FieldInput,
+  FieldLabel,
+  FieldRoot,
+  Text,
+} from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { LinkBlockEmbedData } from "@ndla/types-embed";
 import InlineDatePicker from "../../../../containers/FormikForm/components/InlineDatePicker";
@@ -19,6 +29,7 @@ import { InlineField } from "../../../../containers/FormikForm/InlineField";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
 import { formatDateForBackend } from "../../../../util/formatDate";
 import { isFormikFormDirty } from "../../../../util/formHelper";
+import { DialogCloseButton } from "../../../DialogCloseButton";
 import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
@@ -99,11 +110,11 @@ const LinkBlockForm = ({ embed, existingEmbeds, onSave }: Props) => {
 
   return (
     <>
-      <ModalHeader>
-        <ModalTitle>{embed ? t("linkBlock.edit") : t("linkBlock.create")}</ModalTitle>
-        <ModalCloseButton />
-      </ModalHeader>
-      <ModalBody>
+      <DialogHeader>
+        <DialogTitle>{embed ? t("linkBlock.edit") : t("linkBlock.create")}</DialogTitle>
+        <DialogCloseButton />
+      </DialogHeader>
+      <DialogBody>
         <Formik
           initialValues={initialValues}
           initialErrors={initialErrors}
@@ -153,9 +164,9 @@ const LinkBlockForm = ({ embed, existingEmbeds, onSave }: Props) => {
                   )}
                 </FormField>
                 <FormActionsContainer>
-                  <ModalCloseButton>
+                  <DialogCloseTrigger asChild>
                     <Button variant="secondary">{t("cancel")}</Button>
-                  </ModalCloseButton>
+                  </DialogCloseTrigger>
                   <Button disabled={!isFormikFormDirty({ values, initialValues, dirty }) || !isValid} type="submit">
                     {t("save")}
                   </Button>
@@ -164,7 +175,7 @@ const LinkBlockForm = ({ embed, existingEmbeds, onSave }: Props) => {
             );
           }}
         </Formik>
-      </ModalBody>
+      </DialogBody>
     </>
   );
 };

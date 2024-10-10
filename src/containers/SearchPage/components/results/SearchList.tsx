@@ -49,13 +49,7 @@ const toResultReturnType = (results: ResultType["results"], type: SearchType): S
 
 const SearchList = ({ results, searchObject, type, searching = true, locale, subjects, error }: Props) => {
   const { t } = useTranslation();
-  const editingState = useState(false);
-  const setEditing = editingState[1];
   const [responsibleNames, setResponsibleNames] = useState<(string | undefined)[]>([]);
-
-  useEffect(() => {
-    setEditing(false);
-  }, [results, setEditing]);
 
   const responsibleIds = useMemo(
     () =>
@@ -93,7 +87,6 @@ const SearchList = ({ results, searchObject, type, searching = true, locale, sub
             result={result}
             locale={locale || result.value.title.language}
             subjects={subjects}
-            editingState={editingState}
             responsibleName={responsibleNames?.[index]}
           />
         );

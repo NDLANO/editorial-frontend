@@ -6,7 +6,6 @@
  *
  */
 
-import { Dispatch, SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
 import { IAudioSummary, ISeriesSummary } from "@ndla/types-backend/audio-api";
 import { IConceptSummary } from "@ndla/types-backend/concept-api";
@@ -37,11 +36,10 @@ interface Props {
   result: SearchResultReturnType;
   locale: string;
   subjects: Node[];
-  editingState: [boolean, Dispatch<SetStateAction<boolean>>];
   responsibleName?: string;
 }
 
-const SearchResult = ({ result, locale, subjects, editingState, responsibleName }: Props) => {
+const SearchResult = ({ result, locale, subjects, responsibleName }: Props) => {
   const { t } = useTranslation();
   switch (result.type) {
     case "content":

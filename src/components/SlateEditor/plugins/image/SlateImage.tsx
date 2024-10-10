@@ -11,14 +11,13 @@ import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
-import styled from "@emotion/styled";
-import { misc, spacing, stackOrder } from "@ndla/core";
 import { Pencil } from "@ndla/icons/action";
 import { Link } from "@ndla/icons/common";
 import { DeleteForever } from "@ndla/icons/editor";
 import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
 import { IconButton } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { ImageEmbedData, ImageMetaData } from "@ndla/types-embed";
 import { EmbedWrapper, ImageEmbed } from "@ndla/ui";
 import ImageEmbedForm from "./ImageEmbedForm";
@@ -34,30 +33,40 @@ interface Props extends RenderElementProps {
   allowDecorative?: boolean;
 }
 
-const StyledImageWrapper = styled(EmbedWrapper)`
-  width: 100%;
+const StyledEmbedWrapper = styled(EmbedWrapper, {
+  base: {
+    width: "100%",
+  },
+  variants: {
+    variant: {
+      invalid: {
+        "& figure": {
+          outline: "2px solid",
+          outlineColor: "stroke.error",
+        },
+      },
+      selected: {
+        "& figure": {
+          outline: "2px solid",
+          outlineColor: "stroke.default",
+        },
+      },
+    },
+    fullSize: {
+      true: {
+        display: "inline-block",
+      },
+    },
+  },
+});
 
-  &[data-invalid="true"] {
-    figure {
-      outline: 2px solid rgba(209, 55, 46, 0.3);
-      border-bottom-right-radius: ${misc.borderRadius};
-      border-bottom-left-radius: ${misc.borderRadius};
-    }
-  }
-  &[data-selected="true"] {
-    figure {
-      outline: 2px solid rgb(32, 88, 143);
-      border-bottom-right-radius: ${misc.borderRadius};
-      border-bottom-left-radius: ${misc.borderRadius};
-    }
-  }
-`;
-
-const FigureButtons = styled(StyledFigureButtons)`
-  right: ${spacing.small};
-  top: ${spacing.small};
-  z-index: ${stackOrder.offsetSingle};
-`;
+const FigureButtons = styled(StyledFigureButtons, {
+  base: {
+    right: "xsmall",
+    top: "xsmall",
+    zIndex: "docked",
+  },
+});
 
 const disableImageCache = (embed: ImageMetaData | undefined): ImageMetaData | undefined => {
   if (embed?.status !== "success") return embed;
@@ -142,12 +151,13 @@ const SlateImage = ({ element, editor, attributes, children, allowDecorative = t
 
   return (
     <Modal open={isEditing} onOpenChange={setIsEditing}>
-      <StyledImageWrapper
+      <StyledEmbedWrapper
         {...attributes}
         contentEditable={false}
         draggable
-        data-invalid={embed.embedData.isDecorative === "false" && !embed.embedData.alt}
-        data-selected={isSelected}
+        noClear
+        variant={isSelected ? "selected" : undefined}
+        fullSize={embed.embedData.size === "full"}
       >
         <ImageEmbed embed={embedWithoutCaching}>
           <FigureButtons>
@@ -194,7 +204,7 @@ const SlateImage = ({ element, editor, attributes, children, allowDecorative = t
             allowDecorative={allowDecorative}
           />
         </ModalContent>
-      </StyledImageWrapper>
+      </StyledEmbedWrapper>
     </Modal>
   );
 };

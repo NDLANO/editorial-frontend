@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import express from "express";
 import { GetVerificationKey, expressjwt as jwt, Request } from "express-jwt";
 import jwksRsa from "jwks-rsa";
@@ -119,6 +120,18 @@ router.get("/get_responsibles", jwtMiddleware, async (req, res) => {
     res.status(OK).json(editors);
   } catch (err) {
     res.status(INTERNAL_SERVER_ERROR).send((err as NdlaError).message);
+  }
+});
+
+router.post("/csp-reporting", (req, res) => {
+  const { body } = req;
+  if (body && body["type"] === "csp-violation") {
+    const cspReport = body["body"];
+    const errorMessage = `Refused to load the resource because it violates the following Content Security Policy directive: ${cspReport["effectiveDirective"]}`;
+    errorLogger.error(errorMessage, cspReport);
+    res.status(OK).json({ status: OK, text: "CSP Error recieved" });
+  } else {
+    res.status(NOT_ACCEPTABLE).json({ status: NOT_ACCEPTABLE, text: "CSP Error not recieved" });
   }
 });
 

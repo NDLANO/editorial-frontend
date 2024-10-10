@@ -9,25 +9,18 @@
 import { Editor, Path, Element, Node } from "slate";
 import { ReactEditor, RenderLeafProps } from "slate-react";
 import { ExpandableBoxSummary } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
 import Details from "./Details";
 import { TYPE_DETAILS, TYPE_SUMMARY } from "./types";
 import WithPlaceHolder from "../../common/WithPlaceHolder";
-
-const StyledExpandableBoxSummary = styled(ExpandableBoxSummary, {
-  base: {
-    cursor: "default",
-  },
-});
 
 export const detailsRenderer = (editor: Editor) => {
   const { renderElement, renderLeaf } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
     if (element.type === TYPE_SUMMARY) {
       return (
-        <StyledExpandableBoxSummary {...attributes} onClick={(e) => e.preventDefault()}>
-          {children}
-        </StyledExpandableBoxSummary>
+        <ExpandableBoxSummary {...attributes} onClick={(e) => e.preventDefault()} asChild consumeCss>
+          <div>{children}</div>
+        </ExpandableBoxSummary>
       );
     } else if (element.type === TYPE_DETAILS) {
       return (

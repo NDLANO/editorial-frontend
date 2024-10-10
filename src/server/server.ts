@@ -8,7 +8,6 @@
 
 import fs from "fs/promises";
 import { join } from "path";
-import bodyParser from "body-parser";
 import compression from "compression";
 import express from "express";
 import helmet from "helmet";
@@ -45,7 +44,7 @@ if (!isProduction) {
 const allowedBodyContentTypes = ["application/csp-report", "application/json"];
 
 // Temporal hack to send users to prod
-app.get("*", (req, res, next) => {
+app.get("*splat", (req, res, next) => {
   if (!req.hostname.includes("ed.ff")) {
     next();
   } else {
@@ -57,11 +56,9 @@ app.get("*", (req, res, next) => {
 if (!config.isVercel) {
   app.use(compression());
 }
-app.use(express.json({ limit: "1mb" }));
-app.use(express.json());
-
 app.use(
-  bodyParser.json({
+  express.json({
+    limit: "1mb",
     type: (req) => {
       const contentType = req.headers["content-type"];
       if (typeof contentType === "string") return allowedBodyContentTypes.includes(contentType);
@@ -91,7 +88,7 @@ const serializedConfig = serialize(config);
 
 app.use(api);
 
-app.get("*", async (req, res) => {
+app.get("*splat", async (req, res) => {
   try {
     const url = req.originalUrl.replace(base, "");
 

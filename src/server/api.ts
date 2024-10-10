@@ -26,7 +26,7 @@ type NdlaUser = {
 };
 
 // Temporal hack to send users to prod
-router.get("*", (req, res, next) => {
+router.get("*splat", (req, res, next) => {
   if (!req.hostname.includes("ed.ff")) {
     next();
   } else {
@@ -60,9 +60,8 @@ router.get("/get_brightcove_token", (_, res) => {
     .catch((err) => res.status(INTERNAL_SERVER_ERROR).send(err.message));
 });
 
-router.get(
-  "/get_note_users",
-  jwt({
+const jwtMiddleware = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  await jwt({
     secret: jwksRsa.expressJwtSecret({
       cache: true,
       jwksUri: `https://${config.auth0Domain}/.well-known/jwks.json`,
@@ -70,81 +69,58 @@ router.get(
     audience: "ndla_system",
     issuer: `https://${config.auth0Domain}/`,
     algorithms: ["RS256"],
-  }),
-  async (req: Request, res) => {
-    const {
-      auth: untypedUser,
-      query: { userIds },
-    } = req;
+  })(req, res, next);
+};
 
-    const user = untypedUser as NdlaUser;
+router.get("/get_note_users", jwtMiddleware, async (req: Request, res) => {
+  const {
+    auth: untypedUser,
+    query: { userIds },
+  } = req;
 
-    const hasWriteAccess =
-      user &&
-      user.permissions &&
-      (user.permissions.includes(DRAFT_WRITE_SCOPE) || user.permissions.includes(DRAFT_PUBLISH_SCOPE));
+  const user = untypedUser as NdlaUser;
 
-    if (!hasWriteAccess) {
-      res.status(FORBIDDEN).json({ status: FORBIDDEN, text: "No access allowed" });
-    } else {
-      try {
-        const managementToken = await getToken(`https://${config.auth0Domain}/api/v2/`);
-        const users = await fetchAuth0UsersById(managementToken, userIds as string);
-        res.status(OK).json(users);
-      } catch (err) {
-        res.status(INTERNAL_SERVER_ERROR).send((err as NdlaError).message);
-      }
-    }
-  },
-);
+  const hasWriteAccess =
+    user &&
+    user.permissions &&
+    (user.permissions.includes(DRAFT_WRITE_SCOPE) || user.permissions.includes(DRAFT_PUBLISH_SCOPE));
 
-router.get(
-  "/get_editors",
-  jwt({
-    secret: jwksRsa.expressJwtSecret({
-      cache: true,
-      jwksUri: `https://${config.auth0Domain}/.well-known/jwks.json`,
-    }) as GetVerificationKey,
-    audience: "ndla_system",
-    issuer: `https://${config.auth0Domain}/`,
-    algorithms: ["RS256"],
-  }),
-  async (_, res) => {
+  if (!hasWriteAccess) {
+    res.status(FORBIDDEN).json({ status: FORBIDDEN, text: "No access allowed" });
+  } else {
     try {
       const managementToken = await getToken(`https://${config.auth0Domain}/api/v2/`);
-      const editors = await getEditors(managementToken);
-      res.status(OK).json(editors);
+      const users = await fetchAuth0UsersById(managementToken, userIds as string);
+      res.status(OK).json(users);
     } catch (err) {
       res.status(INTERNAL_SERVER_ERROR).send((err as NdlaError).message);
     }
-  },
-);
+  }
+});
 
-router.get(
-  "/get_responsibles",
-  jwt({
-    secret: jwksRsa.expressJwtSecret({
-      cache: true,
-      jwksUri: `https://${config.auth0Domain}/.well-known/jwks.json`,
-    }) as GetVerificationKey,
-    audience: "ndla_system",
-    issuer: `https://${config.auth0Domain}/`,
-    algorithms: ["RS256"],
-  }),
-  async (req, res) => {
-    const {
-      query: { permission },
-    } = req;
+router.get("/get_editors", jwtMiddleware, async (_, res) => {
+  try {
+    const managementToken = await getToken(`https://${config.auth0Domain}/api/v2/`);
+    const editors = await getEditors(managementToken);
+    res.status(OK).json(editors);
+  } catch (err) {
+    res.status(INTERNAL_SERVER_ERROR).send((err as NdlaError).message);
+  }
+});
 
-    try {
-      const managementToken = await getToken(`https://${config.auth0Domain}/api/v2/`);
-      const editors = await getResponsibles(managementToken, permission as string);
-      res.status(OK).json(editors);
-    } catch (err) {
-      res.status(INTERNAL_SERVER_ERROR).send((err as NdlaError).message);
-    }
-  },
-);
+router.get("/get_responsibles", jwtMiddleware, async (req, res) => {
+  const {
+    query: { permission },
+  } = req;
+
+  try {
+    const managementToken = await getToken(`https://${config.auth0Domain}/api/v2/`);
+    const editors = await getResponsibles(managementToken, permission as string);
+    res.status(OK).json(editors);
+  } catch (err) {
+    res.status(INTERNAL_SERVER_ERROR).send((err as NdlaError).message);
+  }
+});
 
 router.post("/csp-report", (req, res) => {
   const { body } = req;

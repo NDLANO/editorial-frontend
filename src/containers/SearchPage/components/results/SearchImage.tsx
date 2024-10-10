@@ -31,7 +31,7 @@ const SearchImage = ({ image, locale }: Props) => {
   const license = licenses && licenses.find((l) => image.copyright.license.license === l.license);
 
   return (
-    <ListItemRoot variant="list" data-testid="image-search-result">
+    <ListItemRoot context="list" variant="subtle" data-testid="image-search-result">
       <SearchListItemImage
         src={image.image.imageUrl}
         alt={image.alttext.alttext}

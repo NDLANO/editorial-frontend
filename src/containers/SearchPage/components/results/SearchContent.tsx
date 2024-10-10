@@ -173,7 +173,7 @@ const SearchContent = ({ content, locale, subjects, responsibleName }: Props) =>
   const metaDescription = content.metaDescription.metaDescription ?? "";
 
   return (
-    <StyledListItemRoot variant="list" data-testid="content-search-result">
+    <StyledListItemRoot context="list" variant="subtle" data-testid="content-search-result">
       <StyledSearchListItemImage
         src={imageData.imageUrl}
         imageLanguage={locale}

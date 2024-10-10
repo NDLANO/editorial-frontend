@@ -156,7 +156,13 @@ const SlateImage = ({ element, editor, attributes, children, allowDecorative = t
         contentEditable={false}
         draggable
         noClear
-        variant={isSelected ? "selected" : undefined}
+        variant={
+          embed.embedData.isDecorative === "false" && !embed.embedData.alt
+            ? "invalid"
+            : isSelected
+              ? "selected"
+              : undefined
+        }
         fullSize={embed.embedData.size === "full"}
       >
         <ImageEmbed embed={embedWithoutCaching}>

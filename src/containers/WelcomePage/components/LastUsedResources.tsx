@@ -12,10 +12,10 @@ import { Pencil } from "@ndla/icons/action";
 import { SafeLink } from "@ndla/safelink";
 import { IArticleSummary } from "@ndla/types-backend/draft-api";
 import { SortOptionLastUsed } from "./LastUsedItems";
-import Pagination from "./Pagination";
 import TableComponent, { FieldElement, Prefix, TitleElement } from "./TableComponent";
 import TableTitle from "./TableTitle";
 import PageSizeSelect from "./worklist/PageSizeSelect";
+import Pagination from "../../../components/Pagination/Pagination";
 import formatDate from "../../../util/formatDate";
 import { toEditArticle } from "../../../util/routeHelpers";
 import { StyledTopRowDashboardInfo, TopRowControls } from "../styles";
@@ -91,7 +91,7 @@ const LastUsedResources = ({
       <Pagination
         page={page}
         onPageChange={(details) => setPage(details.page)}
-        count={totalCount}
+        count={totalCount ?? 0}
         pageSize={Number(pageSize!.value)}
       />
     </>

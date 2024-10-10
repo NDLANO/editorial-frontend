@@ -15,12 +15,12 @@ import PageSizeSelect from "./PageSizeSelect";
 import StatusCell from "./StatusCell";
 import SubjectCombobox from "./SubjectCombobox";
 import { SortOptionConceptList } from "./WorkList";
+import Pagination from "../../../../components/Pagination/Pagination";
 import { useSearchConcepts } from "../../../../modules/concept/conceptQueries";
 import { toEditConcept, toEditGloss } from "../../../../util/routeHelpers";
 import { ControlWrapperDashboard, StyledTopRowDashboardInfo, TopRowControls } from "../../styles";
 import { SelectItem } from "../../types";
 import GoToSearch from "../GoToSearch";
-import Pagination from "../Pagination";
 import TableComponent, { FieldElement, Prefix, TitleElement } from "../TableComponent";
 import TableTitle from "../TableTitle";
 
@@ -162,7 +162,7 @@ const ConceptListTabContent = ({
       <Pagination
         page={data?.page}
         onPageChange={(details) => setPageConcept(details.page)}
-        count={data?.totalCount}
+        count={data?.totalCount ?? 0}
         pageSize={data?.pageSize}
       />
     </>

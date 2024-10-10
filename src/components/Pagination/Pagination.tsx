@@ -6,6 +6,7 @@
  *
  */
 
+import { PaginationRootProps } from "@ark-ui/react";
 import { ChevronLeft, ChevronRight } from "@ndla/icons/common";
 import {
   Button,
@@ -26,14 +27,7 @@ const StyledPaginationRoot = styled(PaginationRoot, {
   },
 });
 
-interface Props {
-  page: number | undefined;
-  onPageChange: (details: { page: number; pageSize: number }) => void;
-  count: number | undefined;
-  pageSize: number | undefined;
-}
-
-const Pagination = ({ page = 1, onPageChange, count = 0, pageSize }: Props) => {
+const Pagination = ({ page = 1, onPageChange, count, pageSize, ...props }: PaginationRootProps) => {
   const translations = usePaginationTranslations();
   return (
     <StyledPaginationRoot
@@ -42,6 +36,7 @@ const Pagination = ({ page = 1, onPageChange, count = 0, pageSize }: Props) => {
       count={count}
       pageSize={pageSize}
       translations={translations}
+      {...props}
     >
       <PaginationPrevTrigger asChild>
         <Button

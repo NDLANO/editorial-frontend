@@ -36,7 +36,6 @@ interface Props extends RenderElementProps {
 
 const StyledImageWrapper = styled(EmbedWrapper)`
   width: 100%;
-  display: inline-block;
 
   &[data-invalid="true"] {
     figure {

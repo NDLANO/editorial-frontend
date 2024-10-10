@@ -6,7 +6,6 @@
  *
  */
 
-import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { createListCollection, SelectHiddenSelect } from "@ark-ui/react";
 import { ArrowDownShortLine } from "@ndla/icons/common";
@@ -35,6 +34,20 @@ const StyledButtonContent = styled("span", {
   },
 });
 
+const collection = createListCollection({
+  items: [
+    { label: "6", value: "6" },
+    { label: "20", value: "20" },
+    { label: "50", value: "50" },
+  ],
+});
+
+const StyledSelectTrigger = styled(SelectTrigger, {
+  base: {
+    width: "unset",
+  },
+});
+
 interface Props {
   pageSize: SelectItemType;
   setPageSize: (p: SelectItemType) => void;
@@ -43,17 +56,6 @@ interface Props {
 const PageSizeSelect = ({ pageSize, setPageSize }: Props) => {
   const { t } = useTranslation();
 
-  const collection = useMemo(
-    () =>
-      createListCollection({
-        items: [
-          { label: "6", value: "6" },
-          { label: "20", value: "20" },
-          { label: "50", value: "50" },
-        ],
-      }),
-    [],
-  );
   return (
     <SelectRoot<SelectItemType>
       collection={collection}
@@ -63,7 +65,7 @@ const PageSizeSelect = ({ pageSize, setPageSize }: Props) => {
     >
       <SelectLabel srOnly>{t("welcomePage.workList.pickPageSize")}</SelectLabel>
       <SelectControl>
-        <SelectTrigger asChild style={{ width: "unset" }}>
+        <StyledSelectTrigger asChild>
           <Button variant="secondary" size="small">
             <StyledButtonContent>
               {t("welcomePage.workList.numberOfRows")}:<SelectValueText />
@@ -72,7 +74,7 @@ const PageSizeSelect = ({ pageSize, setPageSize }: Props) => {
               <ArrowDownShortLine />
             </SelectIndicator>
           </Button>
-        </SelectTrigger>
+        </StyledSelectTrigger>
       </SelectControl>
       <SelectPositioner>
         <SelectContent>

@@ -8,34 +8,26 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { ExclamationMark } from "@ndla/icons/common";
+import { ExclamationMark, Comment } from "@ndla/icons/common";
 import { Calendar } from "@ndla/icons/editor";
 import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchThumb } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { IMultiSearchResult } from "@ndla/types-backend/search-api";
-import CommentIndicator from "./CommentIndicator";
 import PageSizeSelect from "./PageSizeSelect";
 import StatusCell from "./StatusCell";
 import SubjectCombobox from "./SubjectCombobox";
 import { SortOptionWorkList } from "./WorkList";
+import Pagination from "../../../../components/Pagination/Pagination";
 import { useSearch } from "../../../../modules/search/searchQueries";
 import formatDate from "../../../../util/formatDate";
+import { stripInlineContentHtmlTags } from "../../../../util/formHelper";
 import { toEditArticle } from "../../../../util/routeHelpers";
 import { ControlWrapperDashboard, StyledSwitchRoot, StyledTopRowDashboardInfo, TopRowControls } from "../../styles";
 import { SelectItem } from "../../types";
 import GoToSearch from "../GoToSearch";
-import Pagination from "../Pagination";
 import TableComponent, { FieldElement, Prefix, TitleElement } from "../TableComponent";
 import TableTitle from "../TableTitle";
-
-const StyledExclamationMark = styled(ExclamationMark, {
-  base: {
-    "&[aria-hidden='false']": {
-      visibility: "hidden",
-    },
-  },
-});
 
 const CellWrapper = styled("div", {
   base: {
@@ -55,7 +47,7 @@ const TextWrapper = styled("div", {
 
 const CommentIndicatorWrapper = styled("div", {
   base: {
-    marginLeft: "auto",
+    marginInlineStart: "auto",
   },
 });
 
@@ -115,8 +107,9 @@ const WorkListTabContent = ({
               id: `title_${res.id}`,
               data: (
                 <CellWrapper>
-                  <StyledExclamationMark
-                    aria-hidden={!!res?.prioritized}
+                  <ExclamationMark
+                    aria-hidden={!res?.prioritized}
+                    visibility={!res?.prioritized ? "hidden" : "visible"}
                     aria-label={t("editorFooter.prioritized")}
                     title={t("editorFooter.prioritized")}
                     size="small"
@@ -128,7 +121,11 @@ const WorkListTabContent = ({
                   </TextWrapper>
                   {res.comments?.length ? (
                     <CommentIndicatorWrapper>
-                      <CommentIndicator comment={res.comments[0].content} />
+                      <Comment
+                        size="small"
+                        title={stripInlineContentHtmlTags(res.comments[0].content)}
+                        aria-label={stripInlineContentHtmlTags(res.comments[0].content)}
+                      />
                     </CommentIndicatorWrapper>
                   ) : null}
                 </CellWrapper>
@@ -231,7 +228,7 @@ const WorkListTabContent = ({
       <Pagination
         page={data?.page}
         onPageChange={(details) => setPage(details.page)}
-        count={data?.totalCount}
+        count={data?.totalCount ?? 0}
         pageSize={data?.pageSize}
       />
     </>

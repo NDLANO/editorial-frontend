@@ -15,6 +15,7 @@ import {
   PaginationNextTrigger,
   PaginationPrevTrigger,
   PaginationRoot,
+  PaginationRootProps,
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -26,14 +27,13 @@ const StyledPaginationRoot = styled(PaginationRoot, {
   },
 });
 
-interface Props {
-  page: number | undefined;
-  onPageChange: (details: { page: number; pageSize: number }) => void;
-  count: number | undefined;
-  pageSize: number | undefined;
-}
-
-const Pagination = ({ page = 1, onPageChange, count = 0, pageSize }: Props) => {
+const Pagination = ({
+  page = 1,
+  onPageChange,
+  count,
+  pageSize,
+  ...props
+}: Omit<PaginationRootProps, "translations">) => {
   const translations = usePaginationTranslations();
   return (
     <StyledPaginationRoot
@@ -42,6 +42,7 @@ const Pagination = ({ page = 1, onPageChange, count = 0, pageSize }: Props) => {
       count={count}
       pageSize={pageSize}
       translations={translations}
+      {...props}
     >
       <PaginationPrevTrigger asChild>
         <Button

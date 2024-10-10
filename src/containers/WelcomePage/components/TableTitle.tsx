@@ -9,6 +9,7 @@
 import { ElementType } from "react";
 import { InformationOutline } from "@ndla/icons/common";
 import { Heading, Text } from "@ndla/primitives";
+import { css } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
 
 const ComponentWrapper = styled("div", {
@@ -44,11 +45,11 @@ const StyledIconWrapper = styled("div", {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-
-    "& [data-icon]": {
-      color: "surface.default",
-    },
   },
+});
+
+const iconCss = css.raw({
+  color: "text.onAction",
 });
 
 interface Props {
@@ -62,7 +63,7 @@ const TableTitle = ({ title, description, Icon, infoText }: Props) => {
   return (
     <ComponentWrapper>
       <StyledIconWrapper>
-        <Icon data-icon="" />
+        <Icon css={iconCss} />
       </StyledIconWrapper>
       <TextWrapper>
         <TitleWrapper>

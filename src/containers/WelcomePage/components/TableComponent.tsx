@@ -48,12 +48,6 @@ const StyledTableHeader = styled("th", {
   base: { width: "var(--header-width)" },
 });
 
-const StyledErrorText = styled(Text, {
-  base: {
-    color: "surface.danger",
-  },
-});
-
 const ContentWrapper = styled("div", {
   base: {
     height: "small",
@@ -105,7 +99,7 @@ const TableComponent = <T extends string>({
   minWidth,
 }: Props<T>) => {
   const { t } = useTranslation();
-  if (error) return <StyledErrorText>{error}</StyledErrorText>;
+  if (error) return <Text color="text.error">{error}</Text>;
 
   return (
     <TableWrapper>

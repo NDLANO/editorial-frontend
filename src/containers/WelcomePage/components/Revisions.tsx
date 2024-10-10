@@ -25,13 +25,13 @@ import { styled } from "@ndla/styled-system/jsx";
 import { IUserData } from "@ndla/types-backend/draft-api";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
 import GoToSearch from "./GoToSearch";
-import Pagination from "./Pagination";
 import TableComponent, { FieldElement, TitleElement } from "./TableComponent";
 import TableTitle from "./TableTitle";
 import { WelcomePageTabsContent } from "./WelcomePageTabsContent";
 import PageSizeSelect from "./worklist/PageSizeSelect";
 import SubjectCombobox from "./worklist/SubjectCombobox";
 import { getWarnStatus } from "../../../components/HeaderWithLanguage/HeaderStatusInformation";
+import Pagination from "../../../components/Pagination/Pagination";
 import {
   FAVOURITES_SUBJECT_ID,
   PUBLISHED,
@@ -54,15 +54,16 @@ import {
 import { ControlWrapperDashboard, StyledSwitchRoot, StyledTopRowDashboardInfo, TopRowControls } from "../styles";
 
 const TextWrapper = styled("div", {
-  base: { overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis" },
+  base: {
+    overflow: "hidden",
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
+  },
 });
 
 const StyledTimeIcon = styled(Time, {
   base: {
-    fill: "surface.danger",
-    "&[data-status='warn']": {
-      visibility: "hidden",
-    },
+    fill: "stroke.error",
   },
 });
 
@@ -201,6 +202,7 @@ const Revisions = ({ userData }: Props) => {
                   title={revisions}
                   aria-label={revisions}
                   aria-hidden={warnStatus === "warn"}
+                  visibility={warnStatus === "warn" ? "hidden" : "visible"}
                 />
                 <TextWrapper>
                   <SafeLink
@@ -290,7 +292,7 @@ const Revisions = ({ userData }: Props) => {
         <Pagination
           page={data?.page}
           onPageChange={(details) => setPage(details.page)}
-          count={data?.totalCount}
+          count={data?.totalCount ?? 0}
           pageSize={data?.pageSize}
         />
       </WelcomePageTabsContent>

@@ -10,6 +10,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { colors } from "@ndla/core";
+import { Comment } from "@ndla/icons/common";
 import { Node, NodeChild, ResourceType } from "@ndla/types-taxonomy";
 import { Text } from "@ndla/typography";
 import { ContentTypeBadge } from "@ndla/ui";
@@ -24,11 +25,10 @@ import VersionHistory from "./VersionHistory";
 import AverageQualityEvaluation from "../../../components/QualityEvaluation/AverageQualityEvaluation";
 import QualityEvaluation from "../../../components/QualityEvaluation/QualityEvaluation";
 import RelevanceOption from "../../../components/Taxonomy/RelevanceOption";
-import config from "../../../config";
 import { PUBLISHED } from "../../../constants";
 import { Dictionary } from "../../../interfaces";
 import { NodeResourceMeta } from "../../../modules/nodes/nodeQueries";
-import CommentIndicator from "../../WelcomePage/components/worklist/CommentIndicator";
+import { stripInlineContentHtmlTags } from "../../../util/formHelper";
 import PlannedResourceModal from "../plannedResource/PlannedResourceModal";
 import {
   BannerWrapper,
@@ -47,11 +47,6 @@ import {
 const ContentGroup = styled.div`
   display: flex;
   align-items: center;
-`;
-
-const StyledNoEvaluation = styled(Text)`
-  color: ${colors.brand.greyMedium};
-  font-style: italic;
 `;
 
 const getWorkflowCount = (contentMeta: Dictionary<NodeResourceMeta>) => {
@@ -117,7 +112,13 @@ const TopicResourceBanner = ({
           <Text margin="none" textStyle="meta-text-small">{`${workflowCount}/${elementCount} ${t(
             "taxonomy.workflow",
           ).toLowerCase()}`}</Text>
-          {lastCommentTopicArticle && <CommentIndicator comment={lastCommentTopicArticle} />}
+          {lastCommentTopicArticle && (
+            <Comment
+              size="small"
+              title={stripInlineContentHtmlTags(lastCommentTopicArticle)}
+              aria-label={stripInlineContentHtmlTags(lastCommentTopicArticle)}
+            />
+          )}
           <ApproachingRevisionDate resources={resources} contentMeta={contentMeta} currentNode={currentNode} />
           {currentNode && currentNode.id && (
             <GroupResourceSwitch

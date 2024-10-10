@@ -12,12 +12,12 @@ import { Pencil } from "@ndla/icons/action";
 import { SafeLink } from "@ndla/safelink";
 import { IConceptSummary } from "@ndla/types-backend/concept-api";
 import { SortOptionLastUsed } from "./LastUsedItems";
-import Pagination from "./Pagination";
 import TableComponent, { FieldElement, Prefix, TitleElement } from "./TableComponent";
 import TableTitle from "./TableTitle";
 import PageSizeSelect from "./worklist/PageSizeSelect";
+import Pagination from "../../../components/Pagination/Pagination";
 import formatDate from "../../../util/formatDate";
-import { toEditConcept, toEditGloss } from "../../../util/routeHelpers";
+import { routes } from "../../../util/routeHelpers";
 import { StyledTopRowDashboardInfo, TopRowControls } from "../styles";
 import { SelectItem } from "../types";
 
@@ -56,7 +56,10 @@ const LastUsedConcepts = ({
         {
           id: `title_${a.id}`,
           data: (
-            <SafeLink to={a.conceptType === "concept" ? toEditConcept(a.id) : toEditGloss(a.id)} title={a.title?.title}>
+            <SafeLink
+              to={a.conceptType === "concept" ? routes.concept.edit(a.id) : routes.gloss.edit(a.id)}
+              title={a.title?.title}
+            >
               {a.title.title}
             </SafeLink>
           ),
@@ -87,7 +90,7 @@ const LastUsedConcepts = ({
       <Pagination
         page={page}
         onPageChange={(details) => setPage(details.page)}
-        count={totalCount}
+        count={totalCount ?? 0}
         pageSize={Number(pageSize!.value)}
       />
     </>

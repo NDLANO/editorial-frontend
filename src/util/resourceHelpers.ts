@@ -48,13 +48,14 @@ const isGlossType = (contentType: string | undefined) => contentType === "gloss"
 const isAudioType = (contentType: string | undefined) => contentType === "audio";
 const isSeriesType = (contentType: string | undefined) => contentType === "series";
 
+export interface ResourceToLinkContent {
+  id: number | string;
+  supportedLanguages?: string[];
+  learningResourceType?: string;
+}
+
 export const resourceToLinkProps = (
-  content: {
-    id: number;
-    supportedLanguages?: string[];
-    learningResourceType?: string;
-    contexts?: { contextType: string }[];
-  },
+  content: ResourceToLinkContent,
   contentType: string | undefined,
   locale: string,
 ) => {

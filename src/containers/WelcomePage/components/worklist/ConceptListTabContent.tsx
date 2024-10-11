@@ -15,7 +15,7 @@ import PageSizeSelect from "./PageSizeSelect";
 import StatusCell from "./StatusCell";
 import SubjectCombobox from "./SubjectCombobox";
 import { SortOptionConceptList } from "./WorkList";
-import Pagination from "../../../../components/Pagination/Pagination";
+import Pagination from "../../../../components/abstractions/Pagination";
 import { useSearchConcepts } from "../../../../modules/concept/conceptQueries";
 import { toEditConcept, toEditGloss } from "../../../../util/routeHelpers";
 import { ControlWrapperDashboard, StyledTopRowDashboardInfo, TopRowControls } from "../../styles";
@@ -165,6 +165,7 @@ const ConceptListTabContent = ({
         count={data?.totalCount ?? 0}
         pageSize={data?.pageSize}
         aria-label={t("welcomePage.pagination.workList", { resourceType: t("welcomePage.pagination.concepts") })}
+        buttonSize="small"
       />
     </>
   );

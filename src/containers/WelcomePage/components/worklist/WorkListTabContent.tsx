@@ -18,7 +18,7 @@ import PageSizeSelect from "./PageSizeSelect";
 import StatusCell from "./StatusCell";
 import SubjectCombobox from "./SubjectCombobox";
 import { SortOptionWorkList } from "./WorkList";
-import Pagination from "../../../../components/Pagination/Pagination";
+import Pagination from "../../../../components/abstractions/Pagination";
 import { useSearch } from "../../../../modules/search/searchQueries";
 import formatDate from "../../../../util/formatDate";
 import { stripInlineContentHtmlTags } from "../../../../util/formHelper";
@@ -231,6 +231,7 @@ const WorkListTabContent = ({
         count={data?.totalCount ?? 0}
         pageSize={data?.pageSize}
         aria-label={t("welcomePage.pagination.workList", { resourceType: t("welcomePage.pagination.resources") })}
+        buttonSize="small"
       />
     </>
   );

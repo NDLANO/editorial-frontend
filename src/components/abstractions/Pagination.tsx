@@ -27,13 +27,9 @@ const StyledPaginationRoot = styled(PaginationRoot, {
   },
 });
 
-const Pagination = ({
-  page = 1,
-  onPageChange,
-  count,
-  pageSize,
-  ...props
-}: Omit<PaginationRootProps, "translations">) => {
+type Props = Omit<PaginationRootProps, "translations"> & { buttonSize?: "small" | "medium" };
+
+const Pagination = ({ page = 1, onPageChange, count, pageSize, buttonSize = "medium", ...props }: Props) => {
   const translations = usePaginationTranslations();
   return (
     <StyledPaginationRoot
@@ -46,7 +42,7 @@ const Pagination = ({
     >
       <PaginationPrevTrigger asChild>
         <Button
-          size="small"
+          size={buttonSize}
           variant="tertiary"
           aria-label={translations?.prevTriggerLabel}
           title={translations?.prevTriggerLabel}
@@ -59,7 +55,7 @@ const Pagination = ({
           pagination.pages.map((page, index) =>
             page.type === "page" ? (
               <PaginationItem key={index} {...page} asChild>
-                <Button size="small" variant={page.value === pagination.page ? "primary" : "tertiary"}>
+                <Button size={buttonSize} variant={page.value === pagination.page ? "primary" : "tertiary"}>
                   {page.value}
                 </Button>
               </PaginationItem>
@@ -75,7 +71,7 @@ const Pagination = ({
       </PaginationContext>
       <PaginationNextTrigger asChild>
         <Button
-          size="small"
+          size={buttonSize}
           variant="tertiary"
           aria-label={translations?.nextTriggerLabel}
           title={translations?.nextTriggerLabel}

@@ -14,9 +14,8 @@ import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { colors, spacing, misc } from "@ndla/core";
-import { FormControl, Label, TextAreaV3 } from "@ndla/forms";
+import { Button, FieldLabel, FieldRoot, FieldTextArea } from "@ndla/primitives";
 import { plugins, toolbarAreaFilters, toolbarOptions } from "./commentToolbarUtils";
 import { COMMENT_COLOR, formControlStyles, textAreaStyles } from "./styles";
 import { TYPE_DIV } from "../../../components/SlateEditor/plugins/div/types";
@@ -34,7 +33,7 @@ const CommentCard = styled.div`
   background-color: ${COMMENT_COLOR};
 `;
 
-const StyledTextArea = styled(TextAreaV3)`
+const StyledFieldTextArea = styled(FieldTextArea)`
   ${textAreaStyles}
   border: 1px solid ${colors.brand.neutral7};
 `;
@@ -45,19 +44,7 @@ const WrapperColumn = styled.div`
   gap: ${spacing.xsmall};
 `;
 
-const StyledButtonSmall = styled(ButtonV2)`
-  flex: 1;
-`;
-const StyledButtonMedium = styled(ButtonV2)`
-  flex: 2;
-  background-color: ${colors.white};
-
-  &[disabled] {
-    background-color: ${colors.brand.neutral7};
-  }
-`;
-
-const StyledFormControl = styled(FormControl)`
+const StyledFieldRoot = styled(FieldRoot)`
   ${formControlStyles}
   [data-comment] {
     border: 1px solid ${colors.brand.neutral7};
@@ -127,8 +114,8 @@ const InputComment = ({ isSubmitting, arrayHelpers }: Props) => {
   return (
     <CommentCard>
       <WrapperColumn>
-        <StyledFormControl id="input-comment">
-          <Label visuallyHidden>{t("form.comment.commentField")}</Label>
+        <StyledFieldRoot id="input-comment">
+          <FieldLabel srOnly>{t("form.comment.commentField")}</FieldLabel>
           {isFocused ? (
             <RichTextEditor
               value={inputValue ?? []}
@@ -143,20 +130,20 @@ const InputComment = ({ isSubmitting, arrayHelpers }: Props) => {
               receiveInitialFocus
             />
           ) : (
-            <StyledTextArea
+            <StyledFieldTextArea
               name={t("form.comment.commentField")}
               placeholder={`${t("form.comment.comment")}...`}
               onFocus={handleFocus}
             />
           )}
-        </StyledFormControl>
+        </StyledFieldRoot>
         <ButtonWrapper>
-          <StyledButtonSmall shape="pill" size="xsmall" colorTheme="danger" disabled={!isFocused} onClick={onCancel}>
+          <Button variant="tertiary" size="small" onClick={onCancel}>
             {t("form.abort")}
-          </StyledButtonSmall>
-          <StyledButtonMedium variant="outline" shape="pill" size="xsmall" disabled={!isFocused} onClick={onSubmit}>
+          </Button>
+          <Button variant="tertiary" size="small" onClick={onSubmit}>
             {t("form.comment.comment")}
-          </StyledButtonMedium>
+          </Button>
         </ButtonWrapper>
       </WrapperColumn>
     </CommentCard>

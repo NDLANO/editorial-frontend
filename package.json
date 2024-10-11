@@ -134,6 +134,7 @@
     "monaco-editor": "0.47.0",
     "prettier": "^3.1.1",
     "prismjs": "^1.29.0",
+    "punycode": "2.3.1",
     "query-string": "^5.1.1",
     "react": "^18.3.1",
     "react-day-picker": "^8.8.0",

@@ -11,21 +11,9 @@ import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
 import emotionStyled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { ArrowDownShortLine } from "@ndla/icons/common";
-import { CheckLine } from "@ndla/icons/editor";
-import {
-  Button,
-  SelectContent,
-  SelectItem,
-  SelectItemIndicator,
-  SelectItemText,
-  SelectLabel,
-  SelectPositioner,
-  SelectRoot,
-  SelectTrigger,
-  Text,
-} from "@ndla/primitives";
+import { SelectContent, SelectLabel, SelectPositioner, SelectRoot, SelectValueText, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
 import { supportedLanguages } from "../../../i18n2";
 import { LocaleType } from "../../../interfaces";
 
@@ -38,7 +26,7 @@ export const FooterBlock = styled("footer", {
   },
 });
 
-const LanguageSelectTrigger = styled(SelectTrigger, {
+const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
   base: {
     width: "unset",
   },
@@ -88,20 +76,15 @@ const FooterWrapper = ({ showLocaleSelector }: Props) => {
               value={[i18n.language]}
             >
               <SelectLabel srOnly>{t("languages.prefixChangeLanguage")}</SelectLabel>
-              <LanguageSelectTrigger asChild>
-                <Button variant="secondary">
-                  {t("languages.prefixChangeLanguage")} <ArrowDownShortLine />
-                </Button>
-              </LanguageSelectTrigger>
+              <StyledGenericSelectTrigger>
+                <SelectValueText>{t("languages.prefixChangeLanguage")}</SelectValueText>
+              </StyledGenericSelectTrigger>
               <SelectPositioner>
                 <SelectContent>
                   {supportedLanguages.map((lang) => (
-                    <SelectItem key={lang} item={lang}>
-                      <SelectItemText>{t(`languages.${lang}`)}</SelectItemText>
-                      <SelectItemIndicator>
-                        <CheckLine />
-                      </SelectItemIndicator>
-                    </SelectItem>
+                    <GenericSelectItem key={lang} item={lang}>
+                      {t(`languages.${lang}`)}
+                    </GenericSelectItem>
                   ))}
                 </SelectContent>
               </SelectPositioner>

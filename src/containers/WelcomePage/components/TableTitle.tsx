@@ -7,60 +7,50 @@
  */
 
 import { ElementType } from "react";
-import { css } from "@emotion/react";
-import styled from "@emotion/styled";
-import { spacing, colors, fonts } from "@ndla/core";
 import { InformationOutline } from "@ndla/icons/common";
+import { Heading, Text } from "@ndla/primitives";
+import { css } from "@ndla/styled-system/css";
+import { styled } from "@ndla/styled-system/jsx";
 
-const componentWrapperStyles = css`
-  display: flex;
-  flex-direction: row;
-  gap: ${spacing.xsmall};
-`;
+const ComponentWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "small",
+  },
+});
 
-const ComponentWrapper = styled.div`
-  ${componentWrapperStyles}
-`;
+const TitleWrapper = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    gap: "xsmall",
+  },
+});
 
-const TitleWrapper = styled.div`
-  align-items: center;
-  ${componentWrapperStyles}
-`;
+const TextWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "4xsmall",
+  },
+});
 
-const TextWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: ${spacing.small};
-`;
+const StyledIconWrapper = styled("div", {
+  base: {
+    width: "xxlarge",
+    height: "xxlarge",
+    flexShrink: "0",
+    backgroundColor: "surface.action",
+    borderRadius: "50%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
 
-const StyledTitle = styled.span`
-  color: ${colors.brand.primary};
-  font-weight: ${fonts.weight.semibold};
-  ${fonts.sizes("22px", "27px")};
-`;
-
-const StyledDescription = styled.div`
-  font-weight: normal;
-  ${fonts.sizes("12px")};
-  color: ${colors.text.light};
-`;
-
-const StyledIconWrapper = styled.div`
-  width: 50px;
-  height: 50px;
-  flex-shrink: 0;
-  background-color: ${colors.brand.primary};
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: ${spacing.small};
-  [data-icon] {
-    color: ${colors.white};
-    width: ${spacing.normal};
-    height: ${spacing.normal};
-  }
-`;
+const iconCss = css.raw({
+  color: "text.onAction",
+});
 
 interface Props {
   title: string;
@@ -69,21 +59,23 @@ interface Props {
   infoText?: string;
 }
 
-const TableComponent = ({ title, description, Icon, infoText }: Props) => {
+const TableTitle = ({ title, description, Icon, infoText }: Props) => {
   return (
     <ComponentWrapper>
       <StyledIconWrapper>
-        <Icon data-icon="" />
+        <Icon css={iconCss} />
       </StyledIconWrapper>
       <TextWrapper>
         <TitleWrapper>
-          <StyledTitle>{title}</StyledTitle>
-          {infoText && <InformationOutline aria-label={infoText} title={infoText} />}
+          <Heading textStyle="title.medium" asChild consumeCss>
+            <h2>{title}</h2>
+          </Heading>
+          {infoText && <InformationOutline aria-label={infoText} title={infoText} size="small" />}
         </TitleWrapper>
-        <StyledDescription>{description}</StyledDescription>
+        <Text textStyle="body.small">{description}</Text>
       </TextWrapper>
     </ComponentWrapper>
   );
 };
 
-export default TableComponent;
+export default TableTitle;

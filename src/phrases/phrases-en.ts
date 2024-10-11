@@ -161,6 +161,14 @@ const phrases = {
     noResultsLMASubjects: "The following statuses will not be shown",
     count: "Count",
     countResponsible: "Responsible count",
+    pagination: {
+      resources: "resources",
+      concepts: "concepts",
+      workList: "Pages containing {{ resourceType }} where you are responsible",
+      lastUsed: "Pages containing your last edited {{ resourceType }}",
+      revision: "Pages containing expiring resources in your favorite subjects",
+      subjectView: "Pages containing statistics for your {{ group }}",
+    },
     workList: {
       heading: "My tasks",
       description: "Resources where you are responsible",

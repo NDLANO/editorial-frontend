@@ -9,28 +9,30 @@
 import addYears from "date-fns/addYears";
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { colors, spacing } from "@ndla/core";
 import { Alarm, Time } from "@ndla/icons/common";
-import { Pager } from "@ndla/pager";
 import {
   SwitchControl,
   SwitchHiddenInput,
+  SwitchLabel,
+  SwitchRoot,
   SwitchThumb,
   TabsIndicator,
   TabsList,
   TabsRoot,
   TabsTrigger,
 } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { IUserData } from "@ndla/types-backend/draft-api";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
 import GoToSearch from "./GoToSearch";
 import TableComponent, { FieldElement, TitleElement } from "./TableComponent";
 import TableTitle from "./TableTitle";
 import { WelcomePageTabsContent } from "./WelcomePageTabsContent";
-import PageSizeDropdown from "./worklist/PageSizeDropdown";
-import SubjectDropdown from "./worklist/SubjectDropdown";
+import PageSizeSelect from "./worklist/PageSizeSelect";
+import SubjectCombobox from "./worklist/SubjectCombobox";
 import { getWarnStatus } from "../../../components/HeaderWithLanguage/HeaderStatusInformation";
+import Pagination from "../../../components/Pagination/Pagination";
 import {
   FAVOURITES_SUBJECT_ID,
   PUBLISHED,
@@ -50,36 +52,29 @@ import {
   useLocalStorageSubjectFilterState,
   useLocalStorageBooleanState,
 } from "../hooks/storedFilterHooks";
-import {
-  ControlWrapperDashboard,
-  StyledLink,
-  StyledSwitchLabel,
-  StyledSwitchRoot,
-  StyledTopRowDashboardInfo,
-  TopRowControls,
-} from "../styles";
+import { ControlWrapperDashboard, StyledTopRowDashboardInfo, TopRowControls } from "../styles";
 
-const StyledTitle = styled.div`
-  align-items: center;
-  display: flex;
-  justify-content: row-start;
-`;
+const TextWrapper = styled("div", {
+  base: {
+    overflow: "hidden",
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
+  },
+});
 
-const IconWrapper = styled.div`
-  display: flex;
-  margin-right: ${spacing.xsmall};
-`;
+const StyledTimeIcon = styled(Time, {
+  base: {
+    fill: "stroke.error",
+  },
+});
 
-const StyledTimeIcon = styled(Time)`
-  &[data-status="warn"] {
-    visibility: hidden;
-  }
-  fill: ${colors.support.red};
-  width: 20px;
-  height: 20px;
-`;
-
-const getLastPage = (totalCount: number, pageSize: number) => Math.ceil(totalCount / (pageSize ?? 1));
+const CellWrapper = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    gap: "xxsmall",
+  },
+});
 
 interface Props {
   userData: IUserData | undefined;
@@ -181,11 +176,6 @@ const Revisions = ({ userData }: Props) => {
     ],
   );
 
-  const lastPage = useMemo(
-    () => (filteredData.totalCount ? getLastPage(filteredData.totalCount, filteredData.pageSize) : 1),
-    [filteredData.pageSize, filteredData.totalCount],
-  );
-
   useEffect(() => {
     setPage(1);
   }, [filterSubject]);
@@ -206,22 +196,24 @@ const Revisions = ({ userData }: Props) => {
           {
             id: `title_${resource.id}`,
             data: (
-              <StyledTitle>
-                <IconWrapper>
-                  <StyledTimeIcon
-                    data-status={warnStatus}
-                    title={revisions}
-                    aria-label={revisions}
-                    aria-hidden={warnStatus === "warn"}
-                  />
-                </IconWrapper>
-                <StyledLink
-                  to={toEditArticle(resource.id, resource.learningResourceType)}
-                  title={resource.title?.title}
-                >
-                  {resource.title?.title}
-                </StyledLink>
-              </StyledTitle>
+              <CellWrapper>
+                <StyledTimeIcon
+                  size="small"
+                  data-status={warnStatus}
+                  title={revisions}
+                  aria-label={revisions}
+                  aria-hidden={warnStatus === "warn"}
+                  visibility={warnStatus === "warn" ? "hidden" : "visible"}
+                />
+                <TextWrapper>
+                  <SafeLink
+                    to={toEditArticle(resource.id, resource.learningResourceType)}
+                    title={resource.title?.title}
+                  >
+                    {resource.title?.title}
+                  </SafeLink>
+                </TextWrapper>
+              </CellWrapper>
             ),
           },
           {
@@ -257,8 +249,8 @@ const Revisions = ({ userData }: Props) => {
           />
           <ControlWrapperDashboard>
             <TopRowControls>
-              <PageSizeDropdown pageSize={pageSize} setPageSize={setPageSize} />
-              <SubjectDropdown
+              <PageSizeSelect pageSize={pageSize} setPageSize={setPageSize} />
+              <SubjectCombobox
                 subjectIds={userData?.favoriteSubjects ?? []}
                 filterSubject={filterSubject}
                 setFilterSubject={setFilterSubject}
@@ -270,22 +262,22 @@ const Revisions = ({ userData }: Props) => {
                 searchEnv="content"
                 revisionDateTo={currentDateAddYear}
               />
+              <SwitchRoot
+                checked={onlyShowPrimaryConnection}
+                title={t("welcomePage.primaryConnection")}
+                aria-label={t("welcomePage.primaryConnection")}
+                onCheckedChange={(details) => {
+                  setOnlyShowPrimaryConnection(details.checked);
+                  setPage(1);
+                }}
+              >
+                <SwitchLabel>{t("welcomePage.primaryConnectionLabel")}</SwitchLabel>
+                <SwitchControl>
+                  <SwitchThumb />
+                </SwitchControl>
+                <SwitchHiddenInput />
+              </SwitchRoot>
             </TopRowControls>
-            <StyledSwitchRoot
-              checked={onlyShowPrimaryConnection}
-              title={t("welcomePage.primaryConnection")}
-              aria-label={t("welcomePage.primaryConnection")}
-              onCheckedChange={(details) => {
-                setOnlyShowPrimaryConnection(details.checked);
-                setPage(1);
-              }}
-            >
-              <StyledSwitchLabel>{t("welcomePage.primaryConnectionLabel")}</StyledSwitchLabel>
-              <SwitchControl>
-                <SwitchThumb />
-              </SwitchControl>
-              <SwitchHiddenInput />
-            </StyledSwitchRoot>
           </ControlWrapperDashboard>
         </StyledTopRowDashboardInfo>
         <TableComponent
@@ -298,14 +290,12 @@ const Revisions = ({ userData }: Props) => {
           noResultsText={t("welcomePage.emptyRevision")}
           minWidth="500px"
         />
-        <Pager
-          page={data?.page ?? 1}
-          lastPage={lastPage}
-          query={{}}
-          onClick={(el) => setPage(el.page)}
-          small
-          colorTheme="lighter"
-          pageItemComponentClass="button"
+        <Pagination
+          page={data?.page}
+          onPageChange={(details) => setPage(details.page)}
+          count={data?.totalCount ?? 0}
+          pageSize={data?.pageSize}
+          aria-label={t("welcomePage.pagination.revision")}
         />
       </WelcomePageTabsContent>
     </TabsRoot>

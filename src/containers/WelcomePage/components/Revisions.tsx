@@ -294,6 +294,7 @@ const Revisions = ({ userData }: Props) => {
           onPageChange={(details) => setPage(details.page)}
           count={data?.totalCount ?? 0}
           pageSize={data?.pageSize}
+          aria-label={t("welcomePage.pagination.revision")}
         />
       </WelcomePageTabsContent>
     </TabsRoot>

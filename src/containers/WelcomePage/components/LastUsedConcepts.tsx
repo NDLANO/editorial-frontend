@@ -92,6 +92,7 @@ const LastUsedConcepts = ({
         onPageChange={(details) => setPage(details.page)}
         count={totalCount ?? 0}
         pageSize={Number(pageSize!.value)}
+        aria-label={t("welcomePage.pagination.lastUsed", { resourceType: t("welcomePage.pagination.concepts") })}
       />
     </>
   );

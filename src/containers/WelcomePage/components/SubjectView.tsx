@@ -43,6 +43,7 @@ const SubjectView = ({ favoriteSubjects, userDataPending, subjectIdObject, isPen
             subjects={subjectIdObject.subjectLMA}
             isFavoriteTab={false}
             title={t("welcomePage.subjectView.lma")}
+            tabTitle={t("welcomePage.lmaSubjects")}
             description={t("welcomePage.subjectView.description")}
             localStoragePageSizeKey={STORED_PAGE_SIZE_SUBJECT_VIEW_LMA}
           />
@@ -59,6 +60,7 @@ const SubjectView = ({ favoriteSubjects, userDataPending, subjectIdObject, isPen
             subjects={subjectIdObject.subjectDA}
             isFavoriteTab={false}
             title={t("welcomePage.subjectView.da")}
+            tabTitle={t("welcomePage.daSubjects")}
             description={t("welcomePage.subjectView.description")}
             localStoragePageSizeKey={STORED_PAGE_SIZE_SUBJECT_VIEW_DA}
           />
@@ -75,6 +77,7 @@ const SubjectView = ({ favoriteSubjects, userDataPending, subjectIdObject, isPen
             subjects={subjectIdObject.subjectSA}
             isFavoriteTab={false}
             title={t("welcomePage.subjectView.sa")}
+            tabTitle={t("welcomePage.saSubjects")}
             description={t("welcomePage.subjectView.description")}
             localStoragePageSizeKey={STORED_PAGE_SIZE_SUBJECT_VIEW_SA}
           />
@@ -91,6 +94,7 @@ const SubjectView = ({ favoriteSubjects, userDataPending, subjectIdObject, isPen
             subjects={favoriteSubjects}
             isFavoriteTab={true}
             title={t("welcomePage.subjectView.favorites")}
+            tabTitle={t("welcomePage.favoriteSubjects")}
             description={t("welcomePage.subjectView.description")}
             localStoragePageSizeKey={STORED_PAGE_SIZE_SUBJECT_VIEW_FAVORITES}
           />

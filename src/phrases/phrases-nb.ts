@@ -160,6 +160,14 @@ const phrases = {
     noResultsLMASubjects: "Følgende statuser vil ikke vises i oversikten",
     count: "Antall",
     countResponsible: "Antall ansvarlig for",
+    pagination: {
+      resources: "ressurser",
+      concepts: "forklaringer",
+      workList: "Sider med {{ resourceType }} du er ansvarlig for",
+      lastUsed: "Sider med dine sist redigerte {{ resourceType }}",
+      revision: "Sider med utløpende ressurser i dine favorittfag",
+      subjectView: "Sider med statistikk for dine {{ group }}",
+    },
     workList: {
       heading: "Mine arbeidsoppgaver",
       description: "Ressurser hvor du står som ansvarlig",

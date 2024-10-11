@@ -164,6 +164,7 @@ const ConceptListTabContent = ({
         onPageChange={(details) => setPageConcept(details.page)}
         count={data?.totalCount ?? 0}
         pageSize={data?.pageSize}
+        aria-label={t("welcomePage.pagination.workList", { resourceType: t("welcomePage.pagination.concepts") })}
       />
     </>
   );

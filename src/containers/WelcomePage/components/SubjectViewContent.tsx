@@ -44,6 +44,7 @@ const CellHeader = ({ title, description }: CellHeaderProps) => (
 
 interface BaseProps {
   title: string;
+  tabTitle: string;
   description: string;
   localStoragePageSizeKey: string;
 }
@@ -63,6 +64,7 @@ const SubjectViewContent = ({
   subjects,
   isFavoriteTab,
   title,
+  tabTitle,
   description,
   localStoragePageSizeKey,
 }: FavoriteProps | SubjectProps) => {
@@ -212,6 +214,7 @@ const SubjectViewContent = ({
         onPageChange={(details) => setPage(details.page)}
         count={subjectIds.length}
         pageSize={Number(pageSize!.value)}
+        aria-label={t("welcomePage.pagination.subjectView", { group: tabTitle.toLocaleLowerCase() })}
       />
     </>
   );

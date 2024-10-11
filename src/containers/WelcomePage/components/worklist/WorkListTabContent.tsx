@@ -230,6 +230,7 @@ const WorkListTabContent = ({
         onPageChange={(details) => setPage(details.page)}
         count={data?.totalCount ?? 0}
         pageSize={data?.pageSize}
+        aria-label={t("welcomePage.pagination.workList", { resourceType: t("welcomePage.pagination.resources") })}
       />
     </>
   );

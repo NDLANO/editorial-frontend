@@ -18,7 +18,7 @@ import PageSizeSelect from "./worklist/PageSizeSelect";
 import Pagination from "../../../components/Pagination/Pagination";
 import formatDate from "../../../util/formatDate";
 import { routes } from "../../../util/routeHelpers";
-import { StyledTopRowDashboardInfo, TopRowControls } from "../styles";
+import { StyledTopRowDashboardInfo } from "../styles";
 import { SelectItem } from "../types";
 
 interface Props {
@@ -73,9 +73,7 @@ const LastUsedConcepts = ({
     <>
       <StyledTopRowDashboardInfo>
         <TableTitle title={t("welcomePage.lastUsed")} description={t("welcomePage.lastUsedConcepts")} Icon={Pencil} />
-        <TopRowControls>
-          <PageSizeSelect pageSize={pageSize} setPageSize={setPageSize} />
-        </TopRowControls>
+        <PageSizeSelect pageSize={pageSize} setPageSize={setPageSize} />
       </StyledTopRowDashboardInfo>
       <TableComponent
         isPending={isPending}

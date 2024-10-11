@@ -6,7 +6,6 @@
  *
  */
 
-import { SwitchRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 
 export const StyledTopRowDashboardInfo = styled("div", {
@@ -28,12 +27,6 @@ export const ControlWrapperDashboard = styled("div", {
     tabletDown: {
       flexDirection: "row",
     },
-  },
-});
-
-export const StyledSwitchRoot = styled(SwitchRoot, {
-  base: {
-    marginInlineStart: "auto",
   },
 });
 

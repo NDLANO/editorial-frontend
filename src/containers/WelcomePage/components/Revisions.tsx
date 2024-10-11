@@ -14,6 +14,7 @@ import {
   SwitchControl,
   SwitchHiddenInput,
   SwitchLabel,
+  SwitchRoot,
   SwitchThumb,
   TabsIndicator,
   TabsList,
@@ -51,7 +52,7 @@ import {
   useLocalStorageSubjectFilterState,
   useLocalStorageBooleanState,
 } from "../hooks/storedFilterHooks";
-import { ControlWrapperDashboard, StyledSwitchRoot, StyledTopRowDashboardInfo, TopRowControls } from "../styles";
+import { ControlWrapperDashboard, StyledTopRowDashboardInfo, TopRowControls } from "../styles";
 
 const TextWrapper = styled("div", {
   base: {
@@ -261,22 +262,22 @@ const Revisions = ({ userData }: Props) => {
                 searchEnv="content"
                 revisionDateTo={currentDateAddYear}
               />
+              <SwitchRoot
+                checked={onlyShowPrimaryConnection}
+                title={t("welcomePage.primaryConnection")}
+                aria-label={t("welcomePage.primaryConnection")}
+                onCheckedChange={(details) => {
+                  setOnlyShowPrimaryConnection(details.checked);
+                  setPage(1);
+                }}
+              >
+                <SwitchLabel>{t("welcomePage.primaryConnectionLabel")}</SwitchLabel>
+                <SwitchControl>
+                  <SwitchThumb />
+                </SwitchControl>
+                <SwitchHiddenInput />
+              </SwitchRoot>
             </TopRowControls>
-            <StyledSwitchRoot
-              checked={onlyShowPrimaryConnection}
-              title={t("welcomePage.primaryConnection")}
-              aria-label={t("welcomePage.primaryConnection")}
-              onCheckedChange={(details) => {
-                setOnlyShowPrimaryConnection(details.checked);
-                setPage(1);
-              }}
-            >
-              <SwitchLabel>{t("welcomePage.primaryConnectionLabel")}</SwitchLabel>
-              <SwitchControl>
-                <SwitchThumb />
-              </SwitchControl>
-              <SwitchHiddenInput />
-            </StyledSwitchRoot>
           </ControlWrapperDashboard>
         </StyledTopRowDashboardInfo>
         <TableComponent

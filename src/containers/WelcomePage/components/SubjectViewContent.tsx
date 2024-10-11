@@ -22,7 +22,7 @@ import { useSearchSubjectStats } from "../../../modules/search/searchQueries";
 import { toSearch } from "../../../util/routeHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 import { useLocalStoragePageSizeState } from "../hooks/storedFilterHooks";
-import { ControlWrapperDashboard, StyledTopRowDashboardInfo, TopRowControls } from "../styles";
+import { ControlWrapperDashboard, StyledTopRowDashboardInfo } from "../styles";
 import { SubjectData } from "../utils";
 
 const StyledTableHeader = styled("span", {
@@ -197,9 +197,7 @@ const SubjectViewContent = ({
       <StyledTopRowDashboardInfo>
         <TableTitle title={title} description={description} Icon={BookOpen} />
         <ControlWrapperDashboard>
-          <TopRowControls>
-            <PageSizeSelect pageSize={pageSize} setPageSize={setPageSize} />
-          </TopRowControls>
+          <PageSizeSelect pageSize={pageSize} setPageSize={setPageSize} />
         </ControlWrapperDashboard>
       </StyledTopRowDashboardInfo>
       <TableComponent

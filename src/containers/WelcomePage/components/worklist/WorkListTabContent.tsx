@@ -10,7 +10,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { ExclamationMark, Comment } from "@ndla/icons/common";
 import { Calendar } from "@ndla/icons/editor";
-import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchThumb } from "@ndla/primitives";
+import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { IMultiSearchResult } from "@ndla/types-backend/search-api";
@@ -23,7 +23,7 @@ import { useSearch } from "../../../../modules/search/searchQueries";
 import formatDate from "../../../../util/formatDate";
 import { stripInlineContentHtmlTags } from "../../../../util/formHelper";
 import { toEditArticle } from "../../../../util/routeHelpers";
-import { ControlWrapperDashboard, StyledSwitchRoot, StyledTopRowDashboardInfo, TopRowControls } from "../../styles";
+import { ControlWrapperDashboard, StyledTopRowDashboardInfo, TopRowControls } from "../../styles";
 import { SelectItem } from "../../types";
 import GoToSearch from "../GoToSearch";
 import TableComponent, { FieldElement, Prefix, TitleElement } from "../TableComponent";
@@ -197,22 +197,22 @@ const WorkListTabContent = ({
                 <GoToSearch ndlaId={ndlaId} filterSubject={filterSubject?.value} searchEnv="content" />
               </>
             )}
+            {setPrioritized && (
+              <SwitchRoot
+                checked={prioritized}
+                onCheckedChange={(details) => {
+                  setPrioritized(details.checked);
+                  setPage(1);
+                }}
+              >
+                <SwitchLabel>{t("welcomePage.prioritizedLabel")}</SwitchLabel>
+                <SwitchControl>
+                  <SwitchThumb />
+                </SwitchControl>
+                <SwitchHiddenInput />
+              </SwitchRoot>
+            )}
           </TopRowControls>
-          {setPrioritized && (
-            <StyledSwitchRoot
-              checked={prioritized}
-              onCheckedChange={(details) => {
-                setPrioritized(details.checked);
-                setPage(1);
-              }}
-            >
-              <SwitchLabel>{t("welcomePage.prioritizedLabel")}</SwitchLabel>
-              <SwitchControl>
-                <SwitchThumb />
-              </SwitchControl>
-              <SwitchHiddenInput />
-            </StyledSwitchRoot>
-          )}
         </ControlWrapperDashboard>
       </StyledTopRowDashboardInfo>
       <TableComponent

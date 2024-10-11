@@ -7,9 +7,9 @@
  */
 
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { FieldErrorMessage, InputV3, Label } from "@ndla/forms";
-import { FormControl, FormField } from "../../../components/FormField";
+import { FieldErrorMessage, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { FormField } from "../../../components/FormField";
 
 interface Props {
   label: string;
@@ -17,24 +17,22 @@ interface Props {
   value?: string;
 }
 
-const FieldWrapper = styled.div`
-  width: 50%;
-`;
+const StyledFieldRoot = styled(FieldRoot, {
+  base: {
+    width: "50%",
+  },
+});
 
 export const TranscriptionField = ({ name, label }: Props) => {
   const { t } = useTranslation();
   return (
     <FormField name={name}>
       {({ field, meta }) => (
-        <FieldWrapper>
-          <FormControl isInvalid={!!meta.error}>
-            <Label textStyle="label-small" margin="none">
-              {label}
-            </Label>
-            <InputV3 {...field} placeholder={t("form.gloss.transcription")} />
-            <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-          </FormControl>
-        </FieldWrapper>
+        <StyledFieldRoot invalid={!!meta.error}>
+          <FieldLabel>{label}</FieldLabel>
+          <FieldInput {...field} placeholder={t("form.gloss.transcription")} />
+          <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+        </StyledFieldRoot>
       )}
     </FormField>
   );

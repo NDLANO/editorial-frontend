@@ -47,6 +47,13 @@ const StyledCheckboxRoot = styled(CheckboxRoot, {
   },
 });
 
+const StyledFileListItem = styled(FileListItem, {
+  base: {
+    width: "100%",
+    gap: "xsmall",
+  },
+});
+
 interface Props {
   index: number;
   file: FileType;
@@ -103,7 +110,7 @@ export const SlateFile = ({
   );
 
   return (
-    <FileListItem css={{ width: "100%", gap: "xsmall" }} asChild consumeCss>
+    <StyledFileListItem asChild consumeCss>
       <div>
         {isEditMode ? (
           <StyledFieldRoot>
@@ -184,6 +191,6 @@ export const SlateFile = ({
           </IconButton>
         </ButtonWrapper>
       </div>
-    </FileListItem>
+    </StyledFileListItem>
   );
 };

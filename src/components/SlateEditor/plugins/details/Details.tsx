@@ -43,6 +43,35 @@ const StyledIconButton = styled(IconButton, {
   },
 });
 
+const StyledExpandableBox = styled(ExpandableBox, {
+  base: {
+    "& [data-embed-type='expandable-box-summary']": {
+      cursor: "text",
+      position: "relative",
+      placeSelf: "center",
+      _before: {
+        position: "absolute",
+        content: "'▶'",
+        fontSize: "0.7em",
+        display: "block",
+      },
+      "& >:first-child": {
+        marginInlineStart: "small",
+      },
+    },
+    "&:not([open]) >:not([data-embed-type='expandable-box-summary'])": {
+      display: "none",
+    },
+    _open: {
+      "& [data-embed-type='expandable-box-summary']": {
+        _before: {
+          content: "'▼'",
+        },
+      },
+    },
+  },
+});
+
 const Details = ({ children, editor, element, attributes }: Props & RenderElementProps) => {
   const [isOpen, setIsOpen] = useState(true);
   const { t } = useTranslation();
@@ -88,7 +117,9 @@ const Details = ({ children, editor, element, attributes }: Props & RenderElemen
         <MoveContentButton onMouseDown={onMoveContent} aria-label={t("form.moveContent")} />
         <DeleteButton data-testid="remove-details" aria-label={t("form.remove")} onMouseDown={onRemoveClick} />
       </ButtonContainer>
-      <ExpandableBox open={isOpen}>{children}</ExpandableBox>
+      <StyledExpandableBox open={isOpen} asChild consumeCss>
+        <div>{children}</div>
+      </StyledExpandableBox>
     </EmbedWrapper>
   );
 };

@@ -10,28 +10,21 @@ import { Formik, useFormikContext } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
-import { ArrowDownShortLine } from "@ndla/icons/common";
-import { CheckLine } from "@ndla/icons/editor";
 import { ModalBody, ModalHeader, ModalTitle } from "@ndla/modal";
 import {
   Button,
   FieldErrorMessage,
   FieldRoot,
   SelectContent,
-  SelectControl,
-  SelectIndicator,
-  SelectItem,
-  SelectItemIndicator,
-  SelectItemText,
   SelectLabel,
   SelectPositioner,
   SelectRoot,
-  SelectTrigger,
   SelectValueText,
 } from "@ndla/primitives";
 import { IAudioMetaInformation } from "@ndla/types-backend/audio-api";
 import { AudioEmbedData } from "@ndla/types-embed";
 import { AudioPlayer } from "@ndla/ui";
+import { GenericSelectItem, GenericSelectTrigger } from "../../../abstractions/Select";
 import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
@@ -129,26 +122,15 @@ const EmbedForm = ({ onCancel, audio }: EmbedFormProps) => {
               collection={collection}
             >
               <SelectLabel>{t("form.audio.chooseAudioType")}</SelectLabel>
-              <SelectControl>
-                <SelectTrigger asChild>
-                  <Button variant="secondary">
-                    <SelectValueText />
-
-                    <SelectIndicator asChild>
-                      <ArrowDownShortLine />
-                    </SelectIndicator>
-                  </Button>
-                </SelectTrigger>
-              </SelectControl>
+              <GenericSelectTrigger>
+                <SelectValueText />
+              </GenericSelectTrigger>
               <SelectPositioner>
                 <SelectContent>
                   {collection.items.map((item) => (
-                    <SelectItem item={item} key={item.value}>
-                      <SelectItemText>{item.label}</SelectItemText>
-                      <SelectItemIndicator asChild>
-                        <CheckLine />
-                      </SelectItemIndicator>
-                    </SelectItem>
+                    <GenericSelectItem item={item} key={item.value}>
+                      {item.label}
+                    </GenericSelectItem>
                   ))}
                 </SelectContent>
               </SelectPositioner>

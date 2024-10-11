@@ -11,8 +11,6 @@ import { ComponentProps, useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import Editor from "react-simple-code-editor";
 import { FieldContext, SelectHiddenSelect, createListCollection } from "@ark-ui/react";
-import { ArrowDownShortLine } from "@ndla/icons/common";
-import { CheckLine } from "@ndla/icons/editor";
 import {
   Button,
   FieldErrorMessage,
@@ -20,19 +18,14 @@ import {
   FieldLabel,
   FieldRoot,
   SelectContent,
-  SelectControl,
-  SelectIndicator,
-  SelectItem,
-  SelectItemIndicator,
-  SelectItemText,
   SelectLabel,
   SelectPositioner,
   SelectRoot,
-  SelectTrigger,
   SelectValueText,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { languageOptions } from "./codeBlockOptions";
+import { GenericSelectItem, GenericSelectTrigger } from "../../../abstractions/Select";
 import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
@@ -168,25 +161,15 @@ const CodeBlockEditor = ({ onSave, onAbort, highlight, content, setShowWarning }
                   >
                     <SelectLabel>{t("codeEditor.languageSelect")}</SelectLabel>
                     <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-                    <SelectControl>
-                      <SelectTrigger asChild>
-                        <Button variant="secondary">
-                          <SelectValueText />
-                          <SelectIndicator asChild>
-                            <ArrowDownShortLine />
-                          </SelectIndicator>
-                        </Button>
-                      </SelectTrigger>
-                    </SelectControl>
+                    <GenericSelectTrigger>
+                      <SelectValueText />
+                    </GenericSelectTrigger>
                     <SelectPositioner>
                       <SelectContent>
                         {languageOptions.map((item) => (
-                          <SelectItem key={item.format} item={item}>
-                            <SelectItemText>{item.title}</SelectItemText>
-                            <SelectItemIndicator asChild>
-                              <CheckLine />
-                            </SelectItemIndicator>
-                          </SelectItem>
+                          <GenericSelectItem key={item.format} item={item}>
+                            {item.title}
+                          </GenericSelectItem>
                         ))}
                       </SelectContent>
                     </SelectPositioner>

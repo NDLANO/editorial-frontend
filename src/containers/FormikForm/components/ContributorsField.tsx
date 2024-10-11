@@ -10,8 +10,6 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
 import { CloseLine } from "@ndla/icons/action";
-import { ArrowDownShortLine } from "@ndla/icons/common";
-import { CheckLine } from "@ndla/icons/editor";
 import { contributorGroups, contributorTypes } from "@ndla/licenses";
 import {
   Button,
@@ -22,20 +20,15 @@ import {
   FieldsetLegend,
   FieldsetRoot,
   SelectContent,
-  SelectControl,
   SelectHiddenSelect,
-  SelectIndicator,
-  SelectItem,
-  SelectItemIndicator,
-  SelectItemText,
   SelectLabel,
   SelectPositioner,
   SelectRoot,
-  SelectTrigger,
   SelectValueText,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IAuthor } from "@ndla/types-backend/draft-api";
+import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
 import { FormField } from "../../../components/FormField";
 
 type ContributorType = keyof typeof contributorGroups;
@@ -137,25 +130,15 @@ const Contributor = ({ type, onAddNew, onRemove }: ContributorProps) => {
                 >
                   <SelectLabel>{t("form.name.type")}</SelectLabel>
                   <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-                  <SelectControl>
-                    <SelectTrigger asChild>
-                      <Button variant="secondary">
-                        <SelectValueText placeholder={t("form.name.type")} />
-                        <SelectIndicator asChild>
-                          <ArrowDownShortLine />
-                        </SelectIndicator>
-                      </Button>
-                    </SelectTrigger>
-                  </SelectControl>
+                  <GenericSelectTrigger>
+                    <SelectValueText placeholder={t("form.name.type")} />
+                  </GenericSelectTrigger>
                   <SelectPositioner>
                     <SelectContent>
                       {collection.items.map((item) => (
-                        <SelectItem key={item.type} item={item}>
-                          <SelectItemText>{item.translation}</SelectItemText>
-                          <SelectItemIndicator asChild>
-                            <CheckLine />
-                          </SelectItemIndicator>
-                        </SelectItem>
+                        <GenericSelectItem key={item.type} item={item}>
+                          {item.translation}
+                        </GenericSelectItem>
                       ))}
                     </SelectContent>
                   </SelectPositioner>

@@ -12,8 +12,7 @@ import { createEditor, Descendant, Editor, NodeEntry, Range, Transforms } from "
 import { withHistory } from "slate-history";
 import { Slate, Editable, withReact, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
 import { EditableProps } from "slate-react/dist/components/editable";
-import styled from "@emotion/styled";
-import { fonts } from "@ndla/core";
+import { styled } from "@ndla/styled-system/jsx";
 import { ArticleLanguageProvider } from "./ArticleLanguageProvider";
 import { SlatePlugin } from "./interfaces";
 import { Action, commonActions } from "./plugins/blockPicker/actions";
@@ -36,14 +35,21 @@ import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
 import { FormikStatus } from "../../interfaces";
 import Spinner from "../Spinner";
 
-const StyledSlateWrapper = styled.div`
-  position: relative;
-`;
+const StyledSlateWrapper = styled("div", {
+  base: {
+    position: "relative",
+  },
+});
 
-const StyledEditable = styled(Editable)`
-  font-family: ${fonts.serif};
-  outline: none;
-`;
+const StyledEditable = styled(
+  Editable,
+  {
+    base: {
+      outline: "none",
+    },
+  },
+  { baseComponent: true },
+);
 
 export interface RichTextEditorProps extends Omit<EditableProps, "value" | "onChange" | "onKeyDown"> {
   value: Descendant[];

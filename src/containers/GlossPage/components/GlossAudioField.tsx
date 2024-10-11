@@ -8,16 +8,24 @@
 
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
 import { AudioSearch } from "@ndla/audio-search";
-import { ButtonV2, IconButtonV2 } from "@ndla/button";
-import { spacing } from "@ndla/core";
-import { Cross } from "@ndla/icons/action";
+import { CloseLine } from "@ndla/icons/action";
 import { Audio } from "@ndla/icons/common";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
+import {
+  Button,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  IconButton,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { ISearchParams } from "@ndla/types-backend/audio-api";
 import { AudioEmbedData } from "@ndla/types-embed";
 import { AudioPlayer, useAudioSearchTranslations } from "@ndla/ui";
+import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { OldSpinner } from "../../../components/OldSpinner";
 import { fetchAudio, postSearchAudio } from "../../../modules/audio/audioApi";
 import { useAudio } from "../../../modules/audio/audioQueries";
@@ -29,11 +37,12 @@ interface Props {
   onElementChange: (element?: AudioEmbedData) => void;
 }
 
-const AudioWrapper = styled.div`
-  display: flex;
-  justify-items: flex-start;
-  gap: ${spacing.small};
-`;
+const AudioWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "xsmall",
+  },
+});
 
 interface LocalAudioSearchParams extends ISearchParams {
   locale?: string;
@@ -68,15 +77,14 @@ export const GlossAudioField = ({ element, onElementChange, glossLanguage }: Pro
     return (
       <AudioWrapper>
         <AudioPlayer speech src={audioQuery.data.audioFile.url} title={audioQuery.data.title.title} />
-        <IconButtonV2
-          variant="ghost"
-          colorTheme="danger"
+        <IconButton
+          variant="danger"
           aria-label={t("remove")}
           title={t("remove")}
           onClick={() => onElementChange(undefined)}
         >
-          <Cross />
-        </IconButtonV2>
+          <CloseLine />
+        </IconButton>
       </AudioWrapper>
     );
   } else if (element) {
@@ -84,19 +92,19 @@ export const GlossAudioField = ({ element, onElementChange, glossLanguage }: Pro
   }
 
   return (
-    <Modal open={isOpen} onOpenChange={setIsOpen}>
-      <ModalTrigger>
-        <ButtonV2 colorTheme="light">
+    <DialogRoot open={isOpen} onOpenChange={(details) => setIsOpen(details.open)}>
+      <DialogTrigger asChild>
+        <Button>
           <Audio />
           {t("form.gloss.audio.button")}
-        </ButtonV2>
-      </ModalTrigger>
-      <ModalContent>
-        <ModalHeader>
-          <ModalTitle>{t("audioSearch.useAudio")}</ModalTitle>
-          <ModalCloseButton />
-        </ModalHeader>
-        <ModalBody>
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{t("audioSearch.useAudio")}</DialogTitle>
+          <DialogCloseButton />
+        </DialogHeader>
+        <DialogBody>
           <AudioSearch
             translations={audioSearchTranslations}
             fetchAudio={(id) => fetchAudio(id, glossLanguage)}
@@ -113,8 +121,8 @@ export const GlossAudioField = ({ element, onElementChange, glossLanguage }: Pro
             onError={onError}
             queryObject={defaultQueryObject}
           />
-        </ModalBody>
-      </ModalContent>
-    </Modal>
+        </DialogBody>
+      </DialogContent>
+    </DialogRoot>
   );
 };

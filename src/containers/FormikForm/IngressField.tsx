@@ -7,6 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
+import { styled } from "@ndla/styled-system/jsx";
 
 import FormikField from "../../components/FormikField";
 import { SlatePlugin } from "../../components/SlateEditor/interfaces";
@@ -55,6 +56,13 @@ const toolbarOptions = createToolbarDefaultValues({
   },
 });
 
+// Forces panda to generate css to be used in preview
+const StyledRichTextEditor = styled(RichTextEditor, {
+  base: {
+    textStyle: "body.xlarge",
+  },
+});
+
 const toolbarAreaFilters = createToolbarAreaOptions();
 
 const ingressPlugins: SlatePlugin[] = [
@@ -85,7 +93,7 @@ const IngressField = ({ name = "introduction", maxLength = 300, placeholder }: P
   return (
     <FormikField noBorder label={t("form.introduction.label")} name={name} showMaxLength maxLength={maxLength}>
       {({ field, form: { isSubmitting } }) => (
-        <RichTextEditor
+        <StyledRichTextEditor
           {...field}
           id="ingress-editor"
           testId="ingress-editor"

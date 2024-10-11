@@ -899,6 +899,7 @@ const phrases = {
       warning: "Ein merknad må ha tekst",
       areHere: "Du er her",
       published: "Publisert",
+      placeholder: "Skriv inn merknad",
       history: {
         user: "Bruker",
         time: "Når",

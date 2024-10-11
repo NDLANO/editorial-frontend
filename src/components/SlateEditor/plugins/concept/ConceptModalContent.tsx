@@ -11,25 +11,9 @@ import queryString from "query-string";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Cross } from "@ndla/icons/action";
-import { ArrowLeftShortLine, ArrowRightShortLine, Search } from "@ndla/icons/common";
+import { Search } from "@ndla/icons/common";
 import { ModalHeader, ModalBody } from "@ndla/modal";
-import {
-  Button,
-  IconButton,
-  PaginationContext,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationNextTrigger,
-  PaginationPrevTrigger,
-  PaginationRoot,
-  TabsContent,
-  TabsIndicator,
-  TabsList,
-  TabsRoot,
-  TabsTrigger,
-  Text,
-} from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
+import { Button, IconButton, TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
 import {
   IConcept,
   IConceptSearchResult,
@@ -47,6 +31,7 @@ import { ConceptType } from "../../../../containers/ConceptPage/conceptInterface
 import { GlossForm } from "../../../../containers/GlossPage/components/GlossForm";
 import { SearchParams, parseSearchParams } from "../../../../containers/SearchPage/components/form/SearchForm";
 import { postSearchConcepts } from "../../../../modules/concept/conceptApi";
+import Pagination from "../../../abstractions/Pagination";
 
 interface Props {
   addConcept: (concept: IConceptSummary | IConcept) => void;
@@ -61,12 +46,6 @@ interface Props {
   conceptArticles: IArticle[];
   conceptType: ConceptType;
 }
-
-const StyledPaginationRoot = styled(PaginationRoot, {
-  base: {
-    flexWrap: "wrap",
-  },
-});
 
 const ConceptModalContent = ({
   onClose,
@@ -175,44 +154,13 @@ const ConceptModalContent = ({
                 searching={searching}
                 addConcept={addConcept}
               />
-              <StyledPaginationRoot
-                page={results.page ?? 1}
+              <Pagination
+                page={results.page}
                 onPageChange={(details) => searchConcept({ ...searchObject, page: details.page })}
                 count={Math.min(results?.totalCount ?? 0, 1000)}
                 pageSize={results?.pageSize}
-                translations={paginationTranslations}
                 siblingCount={1}
-              >
-                <PaginationPrevTrigger asChild>
-                  <Button variant="tertiary" aria-label={t("pagination.prev")} title={t("pagination.prev")}>
-                    <ArrowLeftShortLine />
-                  </Button>
-                </PaginationPrevTrigger>
-                <PaginationContext>
-                  {(pagination) =>
-                    pagination.pages.map((page, index) =>
-                      page.type === "page" ? (
-                        <PaginationItem key={index} {...page} asChild>
-                          <Button variant={page.value === pagination.page ? "primary" : "tertiary"}>
-                            {page.value}
-                          </Button>
-                        </PaginationItem>
-                      ) : (
-                        <PaginationEllipsis key={index} index={index} asChild>
-                          <Text asChild consumeCss>
-                            <div>&#8230;</div>
-                          </Text>
-                        </PaginationEllipsis>
-                      ),
-                    )
-                  }
-                </PaginationContext>
-                <PaginationNextTrigger asChild>
-                  <Button variant="tertiary" aria-label={t("pagination.next")} title={t("pagination.next")}>
-                    <ArrowRightShortLine />
-                  </Button>
-                </PaginationNextTrigger>
-              </StyledPaginationRoot>
+              />
             </div>
           </TabsContent>
           {conceptTypeTabs.map((conceptType) => (

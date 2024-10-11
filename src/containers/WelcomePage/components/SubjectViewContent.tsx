@@ -15,7 +15,7 @@ import { getCurrentPageData } from "./LastUsedItems";
 import TableComponent, { FieldElement, TitleElement } from "./TableComponent";
 import TableTitle from "./TableTitle";
 import PageSizeSelect from "./worklist/PageSizeSelect";
-import Pagination from "../../../components/Pagination/Pagination";
+import Pagination from "../../../components/abstractions/Pagination";
 import { SUBJECT_NODE } from "../../../modules/nodes/nodeApiTypes";
 import { useSearchNodes } from "../../../modules/nodes/nodeQueries";
 import { useSearchSubjectStats } from "../../../modules/search/searchQueries";
@@ -213,6 +213,7 @@ const SubjectViewContent = ({
         count={subjectIds.length}
         pageSize={Number(pageSize!.value)}
         aria-label={t("welcomePage.pagination.subjectView", { group: tabTitle.toLocaleLowerCase() })}
+        buttonSize="small"
       />
     </>
   );

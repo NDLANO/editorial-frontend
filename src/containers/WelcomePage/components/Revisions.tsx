@@ -31,8 +31,8 @@ import TableTitle from "./TableTitle";
 import { WelcomePageTabsContent } from "./WelcomePageTabsContent";
 import PageSizeSelect from "./worklist/PageSizeSelect";
 import SubjectCombobox from "./worklist/SubjectCombobox";
+import Pagination from "../../../components/abstractions/Pagination";
 import { getWarnStatus } from "../../../components/HeaderWithLanguage/HeaderStatusInformation";
-import Pagination from "../../../components/Pagination/Pagination";
 import {
   FAVOURITES_SUBJECT_ID,
   PUBLISHED,
@@ -296,6 +296,7 @@ const Revisions = ({ userData }: Props) => {
           count={data?.totalCount ?? 0}
           pageSize={data?.pageSize}
           aria-label={t("welcomePage.pagination.revision")}
+          buttonSize="small"
         />
       </WelcomePageTabsContent>
     </TabsRoot>

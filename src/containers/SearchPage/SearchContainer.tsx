@@ -10,28 +10,17 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { UseQueryResult } from "@tanstack/react-query";
-import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons/common";
-import {
-  Button,
-  PaginationContext,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationNextTrigger,
-  PaginationPrevTrigger,
-  PaginationRoot,
-  Text,
-} from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { IAudioSummarySearchResult, ISeriesSummarySearchResult } from "@ndla/types-backend/audio-api";
 import { IConceptSearchResult } from "@ndla/types-backend/concept-api";
 import { ISearchResultV3 } from "@ndla/types-backend/image-api";
 import { IMultiSearchResult } from "@ndla/types-backend/search-api";
-import { OneColumn, usePaginationTranslations } from "@ndla/ui";
+import { OneColumn } from "@ndla/ui";
 import SearchForm, { parseSearchParams, SearchParams } from "./components/form/SearchForm";
 import SearchList from "./components/results/SearchList";
 import SearchListOptions from "./components/results/SearchListOptions";
 import SearchSort from "./components/sort/SearchSort";
+import Pagination from "../../components/abstractions/Pagination";
 import { SearchType } from "../../interfaces";
 import { useUserData } from "../../modules/draft/draftQueries";
 import { useNodes } from "../../modules/nodes/nodeQueries";
@@ -52,17 +41,10 @@ interface Props {
   searchHook: (query: SearchParams) => UseQueryResult<ResultType>;
 }
 
-const StyledPaginationRoot = styled(PaginationRoot, {
-  base: {
-    flexWrap: "wrap",
-  },
-});
-
 const SearchContainer = ({ searchHook, type }: Props) => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
-  const paginationTranslations = usePaginationTranslations();
   const locale = i18n.language;
   const { taxonomyVersion } = useTaxonomyVersion();
   const { data: subjectData } = useNodes({
@@ -133,42 +115,14 @@ const SearchContainer = ({ searchHook, type }: Props) => {
           subjects={subjects}
           error={!!searchError}
         />
-        <StyledPaginationRoot
-          page={searchObject.page ?? 1}
+        <Pagination
+          page={searchObject.page}
           onPageChange={(details) => onQueryPush({ ...searchObject, page: details.page })}
-          count={Math.min(results?.totalCount ?? 0, 1000)}
           pageSize={results?.pageSize}
-          translations={paginationTranslations}
+          count={Math.min(results?.totalCount ?? 0, 1000)}
           siblingCount={1}
-        >
-          <PaginationPrevTrigger asChild>
-            <Button variant="tertiary" aria-label={t("pagination.prev")} title={t("pagination.prev")}>
-              <ArrowLeftShortLine />
-            </Button>
-          </PaginationPrevTrigger>
-          <PaginationContext>
-            {(pagination) =>
-              pagination.pages.map((page, index) =>
-                page.type === "page" ? (
-                  <PaginationItem key={index} {...page} asChild>
-                    <Button variant={page.value === pagination.page ? "primary" : "tertiary"}>{page.value}</Button>
-                  </PaginationItem>
-                ) : (
-                  <PaginationEllipsis key={index} index={index} asChild>
-                    <Text asChild consumeCss>
-                      <div>&#8230;</div>
-                    </Text>
-                  </PaginationEllipsis>
-                ),
-              )
-            }
-          </PaginationContext>
-          <PaginationNextTrigger asChild>
-            <Button variant="tertiary" aria-label={t("pagination.next")} title={t("pagination.next")}>
-              <ArrowRightShortLine />
-            </Button>
-          </PaginationNextTrigger>
-        </StyledPaginationRoot>
+          buttonSize="small"
+        />
       </OneColumn>
     </>
   );

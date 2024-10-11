@@ -15,7 +15,7 @@ import { SortOptionLastUsed } from "./LastUsedItems";
 import TableComponent, { FieldElement, Prefix, TitleElement } from "./TableComponent";
 import TableTitle from "./TableTitle";
 import PageSizeSelect from "./worklist/PageSizeSelect";
-import Pagination from "../../../components/Pagination/Pagination";
+import Pagination from "../../../components/abstractions/Pagination";
 import formatDate from "../../../util/formatDate";
 import { routes } from "../../../util/routeHelpers";
 import { StyledTopRowDashboardInfo } from "../styles";
@@ -92,6 +92,7 @@ const LastUsedResources = ({
         count={totalCount ?? 0}
         pageSize={Number(pageSize!.value)}
         aria-label={t("welcomePage.pagination.lastUsed", { resourceType: t("welcomePage.pagination.resources") })}
+        buttonSize="small"
       />
     </>
   );

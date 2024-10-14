@@ -9,8 +9,9 @@
 import { memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
-import { CheckLine } from "@ndla/icons/editor";
+import { BlogPost, CheckLine } from "@ndla/icons/editor";
 import {
+  Button,
   ComboboxItem,
   ComboboxItemIndicator,
   ComboboxItemText,
@@ -25,6 +26,7 @@ import {
   RadioGroupLabel,
   RadioGroupRoot,
 } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import { TagSelectorLabel, TagSelectorRoot, useTagSelectorTranslations } from "@ndla/ui";
 import { MetaImageSearch } from ".";
@@ -47,6 +49,12 @@ interface Props {
 }
 
 const availabilityValues: string[] = ["everyone", "teacher"];
+
+const StyledButton = styled(Button, {
+  base: {
+    alignSelf: "flex-start",
+  },
+});
 
 const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props) => {
   const { t } = useTranslation();
@@ -73,6 +81,10 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
       itemToString: (item) => item,
     });
   }, [searchTagsQuery.data?.results]);
+
+  const generateMetaDescription = () => {
+    // ... do something
+  };
 
   return (
     <FormContent>
@@ -140,6 +152,9 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
           <PlainTextEditor id={field.name} placeholder={t("form.metaDescription.label")} {...field} plugins={plugins} />
         )}
       </FormikField>
+      <StyledButton size="small" onClick={generateMetaDescription}>
+        {t("editorSummary.generate")} <BlogPost />
+      </StyledButton>
       <FormikField name="metaImageId">
         {({ field, form }) => (
           <MetaImageSearch

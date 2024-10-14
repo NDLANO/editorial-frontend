@@ -12,16 +12,20 @@ import { BlogPost } from "@ndla/icons/editor";
 import { Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import FieldHeader from "../../../../components/Field/FieldHeader";
-import { fetchAuthorized } from "../../../../util/apiHelpers";
 
 import { IngressField } from "../../../FormikForm";
 
 const StyledButton = styled(Button, {
   base: {
-    color: "primary",
-    _hover: {
-      color: "stroke.subtle",
-    },
+    alignSelf: "flex-start",
+  },
+});
+
+const ComponentRoot = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
   },
 });
 
@@ -29,18 +33,17 @@ const ArticleSummary = () => {
   const { t } = useTranslation();
 
   const generateSummary = () => {
-    const response = fetchAuthorized("/generate-summary");
+    // ... do something
   };
 
   return (
-    <>
-      <FieldHeader title={t("editorSummary.title")}>
-        <StyledButton size="small" onClick={generateSummary}>
-          {t("editorSummary.generate")} <BlogPost />
-        </StyledButton>
-      </FieldHeader>
+    <ComponentRoot>
+      <FieldHeader title={t("editorSummary.title")}></FieldHeader>
       <IngressField placeholder={" "} showMaxLength={false} />
-    </>
+      <StyledButton size="small" onClick={generateSummary}>
+        {t("editorSummary.generate")} <BlogPost />
+      </StyledButton>
+    </ComponentRoot>
   );
 };
 

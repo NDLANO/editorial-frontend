@@ -65,7 +65,8 @@ exports[`deserializing related-content works 1`] = `
       {
         "resource": "related-content",
         "title": "Forsiden vg",
-        "url": "www.vg.no",
+        "url": "http://www.vg.no",
+        "urlDomain": "www.vg.no",
       },
       {
         "articleId": "54",

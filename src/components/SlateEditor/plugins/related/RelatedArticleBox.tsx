@@ -6,6 +6,7 @@
  *
  */
 
+import { toUnicode } from "punycode";
 import { useEffect, useRef, useState, MouseEvent, ReactNode, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Transforms } from "slate";
@@ -126,6 +127,7 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
       resource: "related-content",
       title,
       url,
+      urlDomain: toUnicode(new URL(url).hostname),
     };
     const nodeData = (element.data ?? []).concat(newEmbed);
     setNodeData(nodeData);

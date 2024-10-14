@@ -14,8 +14,8 @@ import { colors } from "@ndla/core";
 import { LearningPath } from "@ndla/icons/contentType";
 import { ModalCloseButton, ModalBody, Modal, ModalTitle, ModalHeader, ModalTrigger, ModalContent } from "@ndla/modal";
 import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
-import ElementList from "../../containers/FormikForm/components/ElementList";
 import { fetchLearningpathsWithArticle } from "../../modules/learningpath/learningpathApi";
+import ListResource from "../Form/ListResource";
 
 interface Props {
   id?: number;
@@ -59,7 +59,9 @@ const LearningpathConnection = ({ id, learningpaths, setLearningpaths }: Props) 
           <ModalCloseButton />
         </ModalHeader>
         <ModalBody>
-          <ElementList elements={learningpaths} isDeletable={false} isDraggable={false} />
+          {learningpaths.map((element, index) => (
+            <ListResource key={index} element={element} />
+          ))}
         </ModalBody>
       </ModalContent>
     </Modal>

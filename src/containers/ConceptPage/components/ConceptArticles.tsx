@@ -8,12 +8,15 @@
 
 import { useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
+import { DragVertical } from "@ndla/icons/editor";
 import { IArticle, IArticleSummary } from "@ndla/types-backend/draft-api";
+import DndList from "../../../components/DndList";
+import { DragHandle } from "../../../components/DraggableItem";
 import AsyncDropdown from "../../../components/Dropdown/asyncDropdown/AsyncDropdown";
 import FieldHeader from "../../../components/Field/FieldHeader";
+import ListResource from "../../../components/Form/ListResource";
 import { fetchDraft, searchDrafts } from "../../../modules/draft/draftApi";
 import handleError from "../../../util/handleError";
-import ElementList from "../../FormikForm/components/ElementList";
 import { ConceptFormValues } from "../conceptInterfaces";
 
 const ConceptArticles = () => {
@@ -39,6 +42,11 @@ const ConceptArticles = () => {
     setFieldValue("articles", articleList);
   };
 
+  const onDeleteElement = (elements: IArticle[], deleteIndex: number) => {
+    const newElements = elements.filter((_, i) => i !== deleteIndex);
+    onUpdateElements(newElements);
+  };
+
   const searchForArticles = async (input: string) => {
     return searchDrafts({
       query: input,
@@ -49,13 +57,22 @@ const ConceptArticles = () => {
   return (
     <>
       <FieldHeader title={t("form.related.title")} subTitle={t("subjectpageForm.articles")} />
-      <ElementList
-        elements={articles}
-        messages={{
-          dragElement: t("conceptpageForm.changeOrder"),
-          removeElement: t("conceptpageForm.removeArticle"),
-        }}
-        onUpdateElements={onUpdateElements}
+      <DndList
+        items={articles}
+        dragHandle={
+          <DragHandle aria-label={t("conceptpageForm.changeOrder")}>
+            <DragVertical />
+          </DragHandle>
+        }
+        renderItem={(item, index) => (
+          <ListResource
+            key={item.id}
+            element={item}
+            onDelete={() => onDeleteElement(articles, index)}
+            removeElementTranslation={t("conceptpageForm.removeArticle")}
+          />
+        )}
+        onDragEnd={(_, newArray) => onUpdateElements(newArray)}
       />
       <AsyncDropdown
         selectedItems={articles}

@@ -15,9 +15,9 @@ import { SubjectMaterial } from "@ndla/icons/contentType";
 import { ModalHeader, ModalCloseButton, ModalBody, Modal, ModalTitle, ModalTrigger, ModalContent } from "@ndla/modal";
 import { IConceptSummary } from "@ndla/types-backend/concept-api";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
-import ElementList from "../../../containers/FormikForm/components/ElementList";
 import { postSearchConcepts } from "../../../modules/concept/conceptApi";
 import { postSearch } from "../../../modules/search/searchApi";
+import ListResource from "../../Form/ListResource";
 
 type EmbedType = "image" | "audio" | "concept" | "gloss" | "article";
 
@@ -112,15 +112,9 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
               )
             </em>
           </p>
-          <ElementList
-            elements={articles?.map((obj) => ({
-              ...obj,
-              articleType: obj.learningResourceType,
-            }))}
-            isDeletable={false}
-            isDraggable={false}
-          />
-
+          {articles.map((element, index) => (
+            <ListResource key={index} element={{ ...element, articleType: element.learningResourceType }} />
+          ))}
           {(type === "image" || type === "audio") && (
             <>
               <p>
@@ -135,11 +129,9 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
                   )
                 </em>
               </p>
-              <ElementList
-                elements={concepts?.map((obj) => ({ ...obj, learningResourceType: obj.conceptType })) ?? []}
-                isDeletable={false}
-                isDraggable={false}
-              />
+              {concepts?.map((element, index) => (
+                <ListResource key={index} element={{ ...element, learningResourceType: element.conceptType }} />
+              ))}
             </>
           )}
         </ModalBody>

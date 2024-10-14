@@ -9,13 +9,16 @@
 import { FieldInputProps, FormikHelpers } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { DragVertical } from "@ndla/icons/editor";
 import { IConcept, IConceptSummary } from "@ndla/types-backend/concept-api";
+import DndList from "../../../components/DndList";
+import { DragHandle } from "../../../components/DraggableItem";
 import AsyncDropdown from "../../../components/Dropdown/asyncDropdown/AsyncDropdown";
 import FieldHeader from "../../../components/Field/FieldHeader";
+import ListResource from "../../../components/Form/ListResource";
 import { fetchConcept, postSearchConcepts } from "../../../modules/concept/conceptApi";
 import handleError from "../../../util/handleError";
 import { ArticleFormType } from "../../FormikForm/articleFormHooks";
-import ElementList from "../../FormikForm/components/ElementList";
 
 interface ConceptApiTypeWithArticleType extends IConcept {
   articleType?: string;
@@ -59,6 +62,11 @@ const ConceptsField = ({ field, form }: Props) => {
     updateFormik(field, conceptList);
   };
 
+  const onDeleteElements = (elements: ConceptApiTypeWithArticleType[], deleteIndex: number) => {
+    const newElements = elements.filter((_, i) => i !== deleteIndex);
+    onUpdateElements(newElements);
+  };
+
   const updateFormik = (formikField: Props["field"], newData: ConceptApiTypeWithArticleType[]) => {
     form.setFieldTouched("conceptIds", true, false);
     formikField.onChange({
@@ -80,13 +88,22 @@ const ConceptsField = ({ field, form }: Props) => {
   return (
     <>
       <FieldHeader title={t("form.relatedConcepts.articlesTitle")} />
-      <ElementList
-        elements={concepts}
-        messages={{
-          dragElement: t("form.relatedConcepts.changeOrder"),
-          removeElement: t("form.relatedConcepts.removeArticle"),
-        }}
-        onUpdateElements={onUpdateElements}
+      <DndList
+        items={concepts.map((element, index) => ({ ...element, id: "id" in element ? element.id : index + 1 }))}
+        dragHandle={
+          <DragHandle aria-label={t("form.relatedConcepts.changeOrder")}>
+            <DragVertical />
+          </DragHandle>
+        }
+        renderItem={(item, index) => (
+          <ListResource
+            key={item.id}
+            element={item}
+            onDelete={() => onDeleteElements(concepts, index)}
+            removeElementTranslation={t("form.relatedConcepts.removeArticle")}
+          />
+        )}
+        onDragEnd={(_, newArray) => onUpdateElements(newArray)}
       />
       <AsyncDropdown<IConceptSummary>
         selectedItems={concepts}

@@ -9,14 +9,17 @@
 import { useField, useFormikContext } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { DragVertical } from "@ndla/icons/editor";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
+import DndList from "../../../components/DndList";
+import { DragHandle } from "../../../components/DraggableItem";
 import FieldHeader from "../../../components/Field/FieldHeader";
+import ListResource from "../../../components/Form/ListResource";
 import { fetchDraft } from "../../../modules/draft/draftApi";
 import { fetchLearningpath } from "../../../modules/learningpath/learningpathApi";
 import handleError from "../../../util/handleError";
-import ElementList from "../../FormikForm/components/ElementList";
 import DropdownSearch from "../../NdlaFilm/components/DropdownSearch";
 
 interface Props {
@@ -56,6 +59,11 @@ const SubjectpageArticles = ({ editorsChoices, elementId, fieldName }: Props) =>
     updateFormik(articleList);
   };
 
+  const onDeleteElement = (elements: (IArticle | ILearningPathV2)[], deleteIndex: number) => {
+    const newElements = elements.filter((_, i) => i !== deleteIndex);
+    onUpdateElements(newElements);
+  };
+
   const updateFormik = (newData: (IArticle | ILearningPathV2)[]) => {
     setFieldTouched(fieldName, true, false);
     fieldInputProps.onChange({
@@ -69,14 +77,23 @@ const SubjectpageArticles = ({ editorsChoices, elementId, fieldName }: Props) =>
   return (
     <>
       <FieldHeader title={t("subjectpageForm.editorsChoices")} subTitle={t("subjectpageForm.articles")} />
-      <ElementList
-        elements={resources}
+      <DndList
         data-testid="editors-choices-article-list"
-        messages={{
-          dragElement: t("form.file.changeOrder"),
-          removeElement: t("subjectpageForm.removeArticle"),
-        }}
-        onUpdateElements={onUpdateElements}
+        items={resources}
+        dragHandle={
+          <DragHandle aria-label={t("form.file.changeOrder")}>
+            <DragVertical />
+          </DragHandle>
+        }
+        renderItem={(item, index) => (
+          <ListResource
+            key={item.id}
+            element={item}
+            onDelete={() => onDeleteElement(resources, index)}
+            removeElementTranslation={t("subjectpageForm.removeArticle")}
+          />
+        )}
+        onDragEnd={(_, newArray) => onUpdateElements(newArray)}
       />
       <DropdownSearch
         selectedElements={resources}

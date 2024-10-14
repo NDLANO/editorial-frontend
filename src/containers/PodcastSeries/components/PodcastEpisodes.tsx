@@ -12,9 +12,9 @@ import { IAudioSummarySearchResult, IAudioSummary } from "@ndla/types-backend/au
 import { PodcastSeriesFormikType } from "./PodcastSeriesForm";
 import AsyncDropdown from "../../../components/Dropdown/asyncDropdown/AsyncDropdown";
 import FieldHeader from "../../../components/Field/FieldHeader";
+import ListResource, { ElementType } from "../../../components/Form/ListResource";
 import { fetchAudio, postSearchAudio } from "../../../modules/audio/audioApi";
 import handleError from "../../../util/handleError";
-import ElementList from "../../FormikForm/components/ElementList";
 
 const PodcastEpisodes = () => {
   const { t } = useTranslation();
@@ -32,8 +32,9 @@ const PodcastEpisodes = () => {
     }
   };
 
-  const onUpdateElements = (eps: IAudioSummary[]) => {
-    setFieldValue("episodes", eps);
+  const onDeleteElements = (elements: ElementType[], deleteIndex: number) => {
+    const newElements = elements.filter((_, i) => i !== deleteIndex);
+    setFieldValue("episodes", newElements);
   };
 
   const searchForPodcasts = async (input: string, page?: number): Promise<IAudioSummarySearchResult> => {
@@ -71,15 +72,14 @@ const PodcastEpisodes = () => {
   return (
     <>
       <FieldHeader title={t("form.podcastEpisodesSection")} subTitle={t("form.podcastEpisodesTypeName")} />
-      <ElementList
-        elements={elements}
-        isDraggable={false}
-        messages={{
-          dragElement: t("conceptpageForm.changeOrder"),
-          removeElement: t("conceptpageForm.removeArticle"),
-        }}
-        onUpdateElements={onUpdateElements}
-      />
+      {elements.map((element, index) => (
+        <ListResource
+          key={index}
+          element={element}
+          onDelete={() => onDeleteElements(elements, index)}
+          removeElementTranslation={t("conceptpageForm.removeArticle")}
+        />
+      ))}
       <AsyncDropdown
         selectedItems={elements}
         idField="id"

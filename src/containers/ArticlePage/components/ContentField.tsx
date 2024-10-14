@@ -12,18 +12,23 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
+import { DragVertical } from "@ndla/icons/editor";
 import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
 import { IArticle, IArticleSummary, IRelatedContentLink } from "@ndla/types-backend/draft-api";
 import ContentLink from "./ContentLink";
+import DndList from "../../../components/DndList";
+import { DragHandle } from "../../../components/DraggableItem";
 import AsyncDropdown from "../../../components/Dropdown/asyncDropdown/AsyncDropdown";
 import FieldHeader from "../../../components/Field/FieldHeader";
+import ListResource, { ExternalElementType, ExternalListResource } from "../../../components/Form/ListResource";
 import TaxonomyLightbox from "../../../components/Taxonomy/TaxonomyLightbox";
 import { ConvertedRelatedContent, RelatedContent } from "../../../interfaces";
 import { fetchDraft, searchDrafts } from "../../../modules/draft/draftApi";
+import { createGuard } from "../../../util/guards";
 import handleError from "../../../util/handleError";
 import { ArticleFormType } from "../../FormikForm/articleFormHooks";
-import ElementList from "../../FormikForm/components/ElementList";
 
+const isExternal = createGuard<ExternalElementType>("isExternal");
 interface Props {
   field: FieldInputProps<ArticleFormType["relatedContent"]>;
   form: FormikHelpers<ArticleFormType>;
@@ -65,6 +70,11 @@ const ContentField = ({ field, form }: Props) => {
     updateFormik(field, relatedContent);
   };
 
+  const onDeleteElement = (elements: ConvertedRelatedContent[], deleteIndex: number) => {
+    const newElements = elements.filter((_, i) => i !== deleteIndex);
+    onUpdateElements(newElements);
+  };
+
   const updateFormik = (formikField: Props["field"], newData: ConvertedRelatedContent[]) => {
     form.setFieldTouched("relatedContent", true, false);
     const newRc: RelatedContent[] = newData.map((rc) => (isDraftApiType(rc) ? rc.id : rc));
@@ -98,18 +108,37 @@ const ContentField = ({ field, form }: Props) => {
   return (
     <>
       <FieldHeader title={t("form.relatedContent.articlesTitle")} />
-      <ElementList
-        elements={relatedContent
+      <DndList
+        items={relatedContent
           .filter(
             (rc: number | IArticle | IRelatedContentLink): rc is IArticle | IRelatedContentLink =>
               typeof rc !== "number",
           )
-          .map((r) => ("id" in r ? r : { ...r, isExternal: true }))}
-        messages={{
-          dragElement: t("form.relatedContent.changeOrder"),
-          removeElement: t("form.relatedContent.removeArticle"),
-        }}
-        onUpdateElements={onUpdateElements}
+          .map((r, index) => ("id" in r ? r : { ...r, isExternal: true, id: index + 1 }))}
+        dragHandle={
+          <DragHandle aria-label={t("form.relatedContent.changeOrder")}>
+            <DragVertical />
+          </DragHandle>
+        }
+        renderItem={(item, index) => (
+          <>
+            {isExternal(item) ? (
+              <ExternalListResource
+                element={item}
+                onDelete={() => onDeleteElement(relatedContent, index)}
+                removeElementTranslation={t("form.relatedContent.removeArticle")}
+              />
+            ) : (
+              <ListResource
+                key={item.id}
+                element={item}
+                onDelete={() => onDeleteElement(relatedContent, index)}
+                removeElementTranslation={t("form.relatedContent.removeArticle")}
+              />
+            )}
+          </>
+        )}
+        onDragEnd={(_, newArray) => onUpdateElements(newArray)}
       />
       <AsyncDropdown
         selectedItems={selectedItems}

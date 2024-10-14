@@ -6,14 +6,13 @@
  *
  */
 
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { BlogPost } from "@ndla/icons/editor";
-import { Button } from "@ndla/primitives";
+import { Button, Spinner, TextArea } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import FieldHeader from "../../../../components/Field/FieldHeader";
-
-import { IngressField } from "../../../FormikForm";
 
 const StyledButton = styled(Button, {
   base: {
@@ -31,17 +30,22 @@ const ComponentRoot = styled("div", {
 
 const ArticleSummary = () => {
   const { t } = useTranslation();
+  const [isLoading, setIsLoading] = useState(false);
 
   const generateSummary = () => {
     // ... do something
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
   };
 
   return (
     <ComponentRoot>
       <FieldHeader title={t("editorSummary.title")}></FieldHeader>
-      <IngressField placeholder={" "} showMaxLength={false} />
+      <TextArea />
       <StyledButton size="small" onClick={generateSummary}>
-        {t("editorSummary.generate")} <BlogPost />
+        {t("editorSummary.generate")} {isLoading ? <Spinner size="small" /> : <BlogPost />}
       </StyledButton>
     </ComponentRoot>
   );

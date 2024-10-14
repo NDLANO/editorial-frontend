@@ -46,6 +46,7 @@ import { findNodesByType } from "../../../../util/slateHelpers";
 import { IngressField, TitleField } from "../../../FormikForm";
 import { HandleSubmitFunc, LearningResourceFormType } from "../../../FormikForm/articleFormHooks";
 import { useSession } from "../../../Session/SessionProvider";
+import ArticleSummary from "../../components/summary/ArticleSummary";
 
 const StyledContentDiv = styled(FormikField)`
   position: static;
@@ -139,6 +140,7 @@ const LearningResourceContent = ({ articleLanguage, articleId, handleSubmit: _ha
         onCancel={() => setIsNormalizedOnLoad(false)}
         severity="warning"
       />
+      <ArticleSummary />
       <StyledContentDiv name="content" label={t("form.content.label")} noBorder key={values.revision}>
         {(fieldProps) => <ContentField articleLanguage={articleLanguage} articleId={articleId} {...fieldProps} />}
       </StyledContentDiv>

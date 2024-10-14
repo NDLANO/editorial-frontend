@@ -25,6 +25,7 @@ import {
   RadioGroupItemText,
   RadioGroupLabel,
   RadioGroupRoot,
+  Spinner,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
@@ -58,6 +59,7 @@ const StyledButton = styled(Button, {
 
 const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props) => {
   const { t } = useTranslation();
+  const [isLoading, setIsLoading] = useState(false);
   const { userPermissions } = useSession();
   const tagSelectorTranslations = useTagSelectorTranslations();
   const plugins = [textTransformPlugin];
@@ -84,6 +86,10 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
 
   const generateMetaDescription = () => {
     // ... do something
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
   };
 
   return (
@@ -153,7 +159,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
         )}
       </FormikField>
       <StyledButton size="small" onClick={generateMetaDescription}>
-        {t("editorSummary.generate")} <BlogPost />
+        {t("editorSummary.generate")} {isLoading ? <Spinner size="small" /> : <BlogPost />}
       </StyledButton>
       <FormikField name="metaImageId">
         {({ field, form }) => (

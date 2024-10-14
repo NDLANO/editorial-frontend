@@ -9,10 +9,9 @@
 import { useFormikContext } from "formik";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
+import { Heading } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IConcept } from "@ndla/types-backend/concept-api";
-import { Heading } from "@ndla/typography";
-import { ConceptWrapper } from "./PreviewConcept";
 import PreviewConceptComponent from "./PreviewConceptComponent";
 import { TwoArticleWrapper } from "./styles";
 import { ConceptFormValues } from "../../containers/ConceptPage/conceptInterfaces";
@@ -20,9 +19,19 @@ import { conceptFormTypeToApiType } from "../../containers/ConceptPage/conceptTr
 import { useConcept } from "../../modules/concept/conceptQueries";
 import { useLicenses } from "../../modules/draft/draftQueries";
 
-const PreviewTitleWrapper = styled.div`
-  height: 90px;
-`;
+const ConceptWrapper = styled("div", {
+  base: {
+    width: "100%",
+    paddingInline: "medium",
+    paddingBlockEnd: "medium",
+  },
+});
+
+const PreviewTitleWrapper = styled("div", {
+  base: {
+    height: "4xlarge",
+  },
+});
 
 export interface CompareConceptPreviewProps {
   type: "conceptCompare";
@@ -46,20 +55,24 @@ export const PreviewConceptCompare = ({ concept, language }: CompareConceptPrevi
     <TwoArticleWrapper>
       <ConceptWrapper>
         <PreviewTitleWrapper>
-          <Heading element="h2" headingStyle="h2" margin="none">
-            {t("form.previewLanguageArticle.title", {
-              language: t(`languages.${language}`).toLowerCase(),
-            })}
+          <Heading textStyle="title.large" asChild consumeCss>
+            <h2>
+              {t("form.previewLanguageArticle.title", {
+                language: t(`languages.${language}`).toLowerCase(),
+              })}
+            </h2>
           </Heading>
         </PreviewTitleWrapper>
         <PreviewConceptComponent concept={formConcept} language={language} />
       </ConceptWrapper>
       <ConceptWrapper>
         <PreviewTitleWrapper>
-          <Heading element="h2" headingStyle="h2" margin="none">
-            {t("form.previewLanguageArticle.title", {
-              language: t(`languages.${previewLanguage}`).toLowerCase(),
-            })}
+          <Heading textStyle="title.large" asChild consumeCss>
+            <h2>
+              {t("form.previewLanguageArticle.title", {
+                language: t(`languages.${previewLanguage}`).toLowerCase(),
+              })}
+            </h2>
           </Heading>
           <select onChange={(evt) => setPreviewLanguage(evt.target.value)} value={previewLanguage}>
             {concept.supportedLanguages.map((language) => (

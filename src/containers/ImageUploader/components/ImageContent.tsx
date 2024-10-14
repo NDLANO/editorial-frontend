@@ -31,14 +31,6 @@ import { MAX_IMAGE_UPLOAD_SIZE } from "../../../constants";
 import { TitleField } from "../../FormikForm";
 import { ImageFormikType } from "../imageTransformers";
 
-const ImageWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-});
-
 const StyledImg = styled("img", {
   base: {
     borderRadius: "xsmall",
@@ -143,7 +135,7 @@ const ImageContent = () => {
           </StyledIconButton>
         )}
         {values.imageFile && (
-          <ImageWrapper>
+          <>
             {typeof values.imageFile === "string" ? (
               <SafeLink target="_blank" to={values.imageFile}>
                 <StyledImg src={imgSrc} alt="" srcSet="" />
@@ -156,7 +148,7 @@ const ImageContent = () => {
               fileSize={values.fileSize ?? 0}
               imageDimensions={values.imageDimensions}
             />
-          </ImageWrapper>
+          </>
         )}
       </ImageContentWrapper>
       <FormField name="caption">

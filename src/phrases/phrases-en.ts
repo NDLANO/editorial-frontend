@@ -2161,6 +2161,10 @@ const phrases = {
       neutral: "Use neutral variant",
     },
   },
+  editorSummary: {
+    title: "Summary",
+    generate: "Generate",
+  },
 };
 
 export default phrases;

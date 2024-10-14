@@ -2160,6 +2160,10 @@ const phrases = {
       neutral: "Bruk nøytral variant",
     },
   },
+  editorSummary: {
+    title: "Oppsummering",
+    generate: "Generer",
+  },
 };
 
 export default phrases;

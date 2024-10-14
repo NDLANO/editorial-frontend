@@ -14,8 +14,8 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { MastheadDrawer } from "./components/MastheadDrawer";
 import { MastheadLinks } from "./components/MastheadLinks";
+import { MastheadSearch } from "./components/MastheadSearch";
 import { MastheadSessionLink } from "./components/MastheadSessionLink";
-import SavedSearchDropdown from "./SavedSearchDropdown";
 import config from "../../config";
 import { routes } from "../../util/routeHelpers";
 
@@ -48,7 +48,7 @@ const MastheadContainer = styled("div", {
 const ContentWrapper = styled("div", {
   base: {
     display: "flex",
-    gap: "xsmall",
+    gap: "medium",
     alignItems: "center",
     width: "100%",
     justifySelf: "center",
@@ -118,7 +118,7 @@ export const Masthead = () => {
           >
             <NdlaLogoText />
           </SafeLink>
-          <SavedSearchDropdown />
+          <MastheadSearch />
           <StyledMastheadLinks />
           <StyledMastheadSessionLink />
         </ContentWrapper>

@@ -10,6 +10,12 @@ import express from "express";
 import { GetVerificationKey, expressjwt as jwt, Request } from "express-jwt";
 import jwksRsa from "jwks-rsa";
 import prettier from "prettier";
+import {
+  BedrockRuntimeClient,
+  ConverseCommand,
+  ConversationRole,
+  InvokeModelCommand,
+} from "@aws-sdk/client-bedrock-runtime";
 import { getToken, getBrightcoveToken, fetchAuth0UsersById, getEditors, getResponsibles } from "./auth";
 import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN } from "./httpCodes";
 import errorLogger from "./logger";
@@ -17,7 +23,6 @@ import { translateDocument } from "./translate";
 import config from "../config";
 import { DRAFT_PUBLISH_SCOPE, DRAFT_WRITE_SCOPE } from "../constants";
 import { NdlaError } from "../interfaces";
-import { BedrockRuntimeClient, ConverseCommand, ConversationRole } from "@aws-sdk/client-bedrock-runtime";
 
 const router = express.Router();
 
@@ -159,25 +164,32 @@ router.post("/translate", async (req, res) => {
 });
 
 router.post("/invoke-model", async (req, res) => {
-  const client = new BedrockRuntimeClient({ region: "eu-central-1" }); //TODO: Can we use env variable for this? Models are a bit different places
-  const input = {
-    modelId: "anthropic.claude-3-5-sonnet-20240620-v1:0", // WE CAN USE SET THIS IN CALL
+  const client = new BedrockRuntimeClient({ region: "eu-central-1" }); //As of now this is the closest region with the service
+  const modelId = "anthropic.claude-3-haiku-20240307-v1:0";
+
+  const payload = {
+    anthropic_version: "bedrock-2023-05-31",
+    max_tokens: 2000,
     messages: [
       {
         role: ConversationRole.USER,
-        content: req.body.prompt
+        content: [{ type: "text", text: req.body.prompt }],
       },
     ],
   };
-  const command = new ConverseCommand(input);
+
+  const command = new InvokeModelCommand({
+    contentType: "application/json",
+    body: JSON.stringify(payload),
+    modelId,
+  });
   try {
-    console.log(input);
     const response = await client.send(command);
-    console.log("received response", response);
-    res.status(OK).json(response);
-   } catch (err) {
-    console.error("Error sending request:", err);
+    const decodedResponseBody = new TextDecoder().decode(response.body);
+    const responseBody = JSON.parse(decodedResponseBody);
+    res.status(OK).json(responseBody);
+  } catch (err) {
     res.status(INTERNAL_SERVER_ERROR).send((err as NdlaError).message);
-   }
+  }
 });
 export default router;

@@ -8,7 +8,7 @@
 
 import { ChevronLeft, ChevronRight } from "@ndla/icons/common";
 import {
-  Button,
+  IconButton,
   PaginationContext,
   PaginationEllipsis,
   PaginationItem,
@@ -31,33 +31,34 @@ type Props = Omit<PaginationRootProps, "translations"> & { buttonSize?: "small" 
 
 const Pagination = ({ page = 1, onPageChange, count, pageSize, buttonSize = "medium", ...props }: Props) => {
   const translations = usePaginationTranslations();
+  const countWithMaxValue = Math.min(count, 1000);
   return (
     <StyledPaginationRoot
       page={page}
       onPageChange={onPageChange}
-      count={count}
+      count={countWithMaxValue}
       pageSize={pageSize}
       translations={translations}
       {...props}
     >
       <PaginationPrevTrigger asChild>
-        <Button
+        <IconButton
           size={buttonSize}
           variant="tertiary"
           aria-label={translations?.prevTriggerLabel}
           title={translations?.prevTriggerLabel}
         >
           <ChevronLeft />
-        </Button>
+        </IconButton>
       </PaginationPrevTrigger>
       <PaginationContext>
         {(pagination) =>
           pagination.pages.map((page, index) =>
             page.type === "page" ? (
               <PaginationItem key={index} {...page} asChild>
-                <Button size={buttonSize} variant={page.value === pagination.page ? "primary" : "tertiary"}>
+                <IconButton size={buttonSize} variant={page.value === pagination.page ? "primary" : "tertiary"}>
                   {page.value}
-                </Button>
+                </IconButton>
               </PaginationItem>
             ) : (
               <PaginationEllipsis key={index} index={index} asChild>
@@ -70,14 +71,14 @@ const Pagination = ({ page = 1, onPageChange, count, pageSize, buttonSize = "med
         }
       </PaginationContext>
       <PaginationNextTrigger asChild>
-        <Button
+        <IconButton
           size={buttonSize}
           variant="tertiary"
           aria-label={translations?.nextTriggerLabel}
           title={translations?.nextTriggerLabel}
         >
           <ChevronRight />
-        </Button>
+        </IconButton>
       </PaginationNextTrigger>
     </StyledPaginationRoot>
   );

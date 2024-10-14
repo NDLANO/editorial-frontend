@@ -9,10 +9,9 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { colors } from "@ndla/core";
 import { Comment } from "@ndla/icons/common";
+import { Text } from "@ndla/primitives";
 import { Node, NodeChild, ResourceType } from "@ndla/types-taxonomy";
-import { Text } from "@ndla/typography";
 import { ContentTypeBadge } from "@ndla/ui";
 import ApproachingRevisionDate from "./ApproachingRevisionDate";
 import GrepCodesModal from "./GrepCodesModal";
@@ -109,7 +108,7 @@ const TopicResourceBanner = ({
               />
             </>
           )}
-          <Text margin="none" textStyle="meta-text-small">{`${workflowCount}/${elementCount} ${t(
+          <Text textStyle="label.small">{`${workflowCount}/${elementCount} ${t(
             "taxonomy.workflow",
           ).toLowerCase()}`}</Text>
           {lastCommentTopicArticle && (

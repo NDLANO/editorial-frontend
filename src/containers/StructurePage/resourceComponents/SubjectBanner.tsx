@@ -6,8 +6,8 @@
  *
  */
 
+import { Text } from "@ndla/primitives";
 import { Node } from "@ndla/types-taxonomy";
-import { Text } from "@ndla/typography";
 import JumpToStructureButton from "./JumpToStructureButton";
 import AverageQualityEvaluation from "../../../components/QualityEvaluation/AverageQualityEvaluation";
 import QualityEvaluation from "../../../components/QualityEvaluation/QualityEvaluation";
@@ -40,7 +40,7 @@ const SubjectBanner = ({ subjectNode, showQuality }: Props) => {
         </FlexContentWrapper>
       </TopInfoRow>
       <TitleRow>
-        <Text textStyle="button" margin="none">
+        <Text textStyle="label.small" fontWeight="bold">
           {subjectNode.name}
         </Text>
       </TitleRow>

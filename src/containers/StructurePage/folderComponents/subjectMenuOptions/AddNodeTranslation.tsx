@@ -6,25 +6,24 @@
  *
  */
 
-import { Form, Formik, FormikProps } from "formik";
-import { KeyboardEvent } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { spacing } from "@ndla/core";
-import { Select, InputV3, Label, FieldErrorMessage } from "@ndla/forms";
+import { createListCollection } from "@ark-ui/react";
+import {
+  Button,
+  SelectContent,
+  SelectHiddenSelect,
+  SelectLabel,
+  SelectPositioner,
+  SelectRoot,
+  SelectValueText,
+  Heading,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { Translation } from "@ndla/types-taxonomy";
-import { Heading } from "@ndla/typography";
-import { Row } from "../../../../components";
-import { FormControl, FormField } from "../../../../components/FormField";
-import validateFormik from "../../../../components/formikValidationSchema";
+import { GenericSelectItem, GenericSelectTrigger } from "../../../../components/abstractions/Select";
+import { FormContent } from "../../../../components/FormikForm";
 import { LocaleType } from "../../../../interfaces";
-
-const StyledForm = styled(Form)`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-`;
 
 interface Props {
   onAddTranslation: (translation: Translation) => void;
@@ -32,103 +31,85 @@ interface Props {
   defaultName: string;
 }
 
-interface FormValues {
-  name: string;
-  language: LocaleType;
-}
+const FieldWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "xsmall",
+    alignItems: "flex-end",
+  },
+});
+
+const StyledSelectRoot = styled(SelectRoot, {
+  base: {
+    flex: "1",
+  },
+});
+
+const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
+  base: {
+    width: "100%",
+  },
+});
 
 const AddNodeTranslation = ({ onAddTranslation, availableLanguages, defaultName }: Props) => {
+  const [selectedLanguage, setSelectedLanguage] = useState<string | undefined>(undefined);
   const { t } = useTranslation();
 
-  const rules = {
-    name: { required: true },
-    language: { required: true },
-  };
+  const collection = useMemo(() => {
+    return createListCollection({
+      items: availableLanguages,
+      itemToString: (item) => t(`languages.${item}`),
+      itemToValue: (item) => item,
+    });
+  }, [availableLanguages, t]);
 
-  const handleAddTranslation = (formik: FormikProps<FormValues>) => {
-    const { values, resetForm } = formik;
-    const newObj = { name: values.name!, language: values.language! };
-    onAddTranslation(newObj);
-    const next = availableLanguages.find((l) => l !== values.language) ?? availableLanguages[0];
-    resetForm({ values: { language: next, name: defaultName } });
+  useEffect(() => {
+    setSelectedLanguage(availableLanguages[0]);
+  }, [availableLanguages]);
+
+  const handleAddTranslation = () => {
+    if (!selectedLanguage) return;
+    onAddTranslation({ language: selectedLanguage, name: defaultName });
+    setSelectedLanguage(undefined);
   };
 
   if (availableLanguages.length === 0) {
     return null;
   }
 
-  const onKeyDown = (event: KeyboardEvent<HTMLInputElement>, formik: FormikProps<FormValues>) => {
-    if (event.key === "Enter" && formik.isValid && !formik.isSubmitting) {
-      event.preventDefault();
-      handleAddTranslation(formik);
-    }
-  };
-
   return (
-    <Formik
-      initialValues={{ language: availableLanguages[0], name: defaultName }}
-      validate={(values) => validateFormik(values, rules, t, "taxonomy.changeName")}
-      validateOnBlur={false}
-      enableReinitialize
-      onSubmit={(_) => {}}
-    >
-      {(formik) => {
-        const { isValid } = formik;
-        return (
-          <StyledForm>
-            <Heading element="h2" headingStyle="h3">
-              {t("taxonomy.changeName.addNewTranslation")}
-            </Heading>
-            <Row>
-              <FormField name="language">
-                {({ field, meta }) => {
-                  return (
-                    <FormControl isRequired isInvalid={!!meta.error}>
-                      <Label margin="none" textStyle="label-small">
-                        {t("taxonomy.changeName.language")}
-                      </Label>
-                      <Select {...field}>
-                        {availableLanguages.map((lang) => (
-                          <option value={lang} key={lang}>
-                            {t(`languages.${lang}`)}
-                          </option>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  );
-                }}
-              </FormField>
-              <FormField name="name">
-                {({ field, meta }) => (
-                  <FormControl isRequired isInvalid={!!meta.error}>
-                    <Label margin="none" textStyle="label-small">
-                      {t("taxonomy.changeName.name")}
-                    </Label>
-                    <Row>
-                      <InputV3
-                        {...field}
-                        type="text"
-                        onKeyDown={(e) => onKeyDown(e, formik)}
-                        placeholder={t("taxonomy.changeName.namePlaceholder")}
-                        data-testid="addNodeNameTranslation"
-                      />
-                      <ButtonV2
-                        data-testid="addNodeNameTranslationButton"
-                        onClick={() => handleAddTranslation(formik)}
-                        disabled={!isValid}
-                      >
-                        {t("taxonomy.changeName.add")}
-                      </ButtonV2>
-                    </Row>
-                    <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-                  </FormControl>
-                )}
-              </FormField>
-            </Row>
-          </StyledForm>
-        );
-      }}
-    </Formik>
+    <FormContent>
+      <Heading asChild consumeCss textStyle="title.medium">
+        <h2>{t("taxonomy.changeName.addNewTranslation")}</h2>
+      </Heading>
+      <FieldWrapper>
+        <StyledSelectRoot
+          collection={collection}
+          value={selectedLanguage ? [selectedLanguage] : undefined}
+          onValueChange={(details) => setSelectedLanguage(details.value[0])}
+          positioning={{ sameWidth: true }}
+        >
+          <SelectLabel>{t("taxonomy.changeName.language")}</SelectLabel>
+          <StyledGenericSelectTrigger>
+            <SelectValueText />
+          </StyledGenericSelectTrigger>
+          <SelectPositioner>
+            <SelectContent>
+              {availableLanguages.map((lang) => (
+                <GenericSelectItem key={lang} item={lang}>
+                  {t(`languages.${lang}`)}
+                </GenericSelectItem>
+              ))}
+            </SelectContent>
+          </SelectPositioner>
+          <SelectHiddenSelect />
+        </StyledSelectRoot>
+
+        <Button data-testid="addNodeNameTranslationButton" onClick={handleAddTranslation} disabled={!selectedLanguage}>
+          {t("taxonomy.changeName.add")}
+        </Button>
+      </FieldWrapper>
+    </FormContent>
   );
 };
 

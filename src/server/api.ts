@@ -17,6 +17,7 @@ import { translateDocument } from "./translate";
 import config from "../config";
 import { DRAFT_PUBLISH_SCOPE, DRAFT_WRITE_SCOPE } from "../constants";
 import { NdlaError } from "../interfaces";
+import { BedrockRuntimeClient, ConverseCommand, ConversationRole } from "@aws-sdk/client-bedrock-runtime";
 
 const router = express.Router();
 
@@ -157,4 +158,26 @@ router.post("/translate", async (req, res) => {
   }
 });
 
+router.post("/invoke-model", async (req, res) => {
+  const client = new BedrockRuntimeClient({ region: "eu-central-1" }); //TODO: Can we use env variable for this? Models are a bit different places
+  const input = {
+    modelId: "anthropic.claude-3-5-sonnet-20240620-v1:0", // WE CAN USE SET THIS IN CALL
+    messages: [
+      {
+        role: ConversationRole.USER,
+        content: req.body.prompt
+      },
+    ],
+  };
+  const command = new ConverseCommand(input);
+  try {
+    console.log(input);
+    const response = await client.send(command);
+    console.log("received response", response);
+    res.status(OK).json(response);
+   } catch (err) {
+    console.error("Error sending request:", err);
+    res.status(INTERNAL_SERVER_ERROR).send((err as NdlaError).message);
+   }
+});
 export default router;

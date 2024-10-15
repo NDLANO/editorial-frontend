@@ -12,25 +12,35 @@ import { createEditor, Descendant } from "slate";
 import { withHistory } from "slate-history";
 import { Slate, Editable, ReactEditor, withReact } from "slate-react";
 import { EditableProps } from "slate-react/dist/components/editable";
-import styled from "@emotion/styled";
 import { useFormControl } from "@ndla/forms";
+import { styled } from "@ndla/styled-system/jsx";
+import { JsxStyleProps } from "@ndla/styled-system/types";
 import { SlatePlugin } from "./interfaces";
 import withPlugins from "./utils/withPlugins";
 import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
 import { FormikStatus } from "../../interfaces";
 
-const StyledEditable = styled(Editable)`
-  outline: none;
-`;
-const StyledPlaceholder = styled.div`
-  display: inline-block;
-  width: 0;
-  white-space: nowrap;
-  opacity: 0.33;
-  pointer-events: none;
-`;
+const StyledEditable = styled(
+  Editable,
+  {
+    base: {
+      outline: "none",
+    },
+  },
+  { baseComponent: true },
+);
 
-interface Props extends Omit<EditableProps, "value"> {
+const StyledPlaceholder = styled("div", {
+  base: {
+    display: "inline-block",
+    width: "0",
+    whiteSpace: "nowrap",
+    opacity: "0.33",
+    pointerEvents: "none",
+  },
+});
+
+interface Props extends Omit<EditableProps & JsxStyleProps, "value"> {
   id: string;
   value: Descendant[];
   onChange: FormikHandlers["handleChange"];

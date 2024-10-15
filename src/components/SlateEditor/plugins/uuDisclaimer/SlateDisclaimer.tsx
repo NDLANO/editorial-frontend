@@ -10,11 +10,10 @@ import { ReactNode, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
-import styled from "@emotion/styled";
-import { colors, spacing } from "@ndla/core";
+import { Portal } from "@ark-ui/react";
 import { Pencil } from "@ndla/icons/action";
-import { Modal, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
-import { IconButton } from "@ndla/primitives";
+import { DialogContent, DialogHeader, DialogRoot, DialogTitle, DialogTrigger, IconButton } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IArticleV2 } from "@ndla/types-backend/article-api";
 import { UuDisclaimerEmbedData, UuDisclaimerMetaData } from "@ndla/types-embed";
 import { EmbedWrapper, UuDisclaimerEmbed } from "@ndla/ui";
@@ -23,6 +22,7 @@ import { DisclaimerElement, TYPE_DISCLAIMER } from "./types";
 import { toEditPage } from "./utils";
 import { getArticle } from "../../../../modules/article/articleApi";
 import DeleteButton from "../../../DeleteButton";
+import { DialogCloseButton } from "../../../DialogCloseButton";
 import MoveContentButton from "../../../MoveContentButton";
 
 interface Props {
@@ -32,24 +32,25 @@ interface Props {
   element: DisclaimerElement;
 }
 
-const StyledEmbedWrapper = styled(EmbedWrapper)`
-  [data-uu-content] {
-    border: 1px solid ${colors.brand.primary};
-    margin-top: ${spacing.xsmall};
-    padding: ${spacing.xsmall};
-  }
-`;
+const StyledEmbedWrapper = styled(EmbedWrapper, {
+  base: {
+    "& [data-uu-content]": {
+      border: "1px solid",
+      borderColor: "stroke.default",
+      marginBlockStart: "3xsmall",
+      padding: "3xsmall",
+    },
+  },
+});
 
-const ButtonContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  right: -${spacing.large};
-`;
-
-const StyledModalHeader = styled(ModalHeader)`
-  padding-bottom: 0px;
-`;
+const ButtonContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    position: "absolute",
+    right: "-xxlarge",
+  },
+});
 
 const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
   const { t, i18n } = useTranslation();
@@ -135,8 +136,8 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
     <StyledEmbedWrapper data-testid="slate-disclaimer-block" {...attributes}>
       <ButtonContainer contentEditable={false}>
         <DeleteButton aria-label={t("delete")} data-testid="delete-disclaimer" onClick={handleDelete} />
-        <Modal open={modalOpen} onOpenChange={setModalOpen}>
-          <ModalTrigger>
+        <DialogRoot open={modalOpen} onOpenChange={(details) => setModalOpen(details.open)}>
+          <DialogTrigger asChild>
             <IconButton
               variant="tertiary"
               size="small"
@@ -146,15 +147,21 @@ const SlateDisclaimer = ({ attributes, children, element, editor }: Props) => {
             >
               <Pencil />
             </IconButton>
-          </ModalTrigger>
-          <ModalContent size="normal">
-            <StyledModalHeader>
-              <ModalTitle>{t("form.disclaimer.title")}</ModalTitle>
-              <ModalCloseButton />
-            </StyledModalHeader>
-            <DisclaimerForm initialData={embed?.embedData} onOpenChange={setModalOpen} onSave={onSaveDisclaimerText} />
-          </ModalContent>
-        </Modal>
+          </DialogTrigger>
+          <Portal>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>{t("form.disclaimer.title")}</DialogTitle>
+                <DialogCloseButton />
+              </DialogHeader>
+              <DisclaimerForm
+                initialData={embed?.embedData}
+                onOpenChange={setModalOpen}
+                onSave={onSaveDisclaimerText}
+              />
+            </DialogContent>
+          </Portal>
+        </DialogRoot>
         <MoveContentButton
           aria-label={t("form.moveContent")}
           data-testid="move-disclaimer"

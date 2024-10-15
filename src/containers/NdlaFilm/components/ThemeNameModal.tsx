@@ -13,7 +13,7 @@ import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { InputV3, Label } from "@ndla/forms";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
-import { ThemeNames } from "./ThemeEditor";
+import { ThemeNames } from "./ThemeEditorField";
 import { FormControl } from "../../../components/FormField";
 
 const blankTheme = {

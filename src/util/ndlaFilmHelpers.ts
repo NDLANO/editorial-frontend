@@ -18,25 +18,23 @@ import { editorValueToPlainText, plainTextToEditorValue } from "./articleContent
 import { defineTypeOfEmbed, isSlateEmbed } from "../components/SlateEditor/plugins/embed/utils";
 import { TYPE_EMBED_BRIGHTCOVE } from "../components/SlateEditor/plugins/video/types";
 import { LOCALE_VALUES } from "../constants";
-import { FilmFormikType } from "../containers/NdlaFilm/components/NdlaFilmForm";
-import { ThemeNames } from "../containers/NdlaFilm/components/ThemeEditor";
+import { FilmFormValues } from "../containers/NdlaFilm/components/NdlaFilmForm";
+import { ThemeNames } from "../containers/NdlaFilm/components/ThemeEditorField";
 import { LocaleType } from "../interfaces";
 
-export const getInitialValues = (filmFrontpage: IFilmFrontPageData, selectedLanguage: string): FilmFormikType => {
+export const getInitialValues = (filmFrontpage: IFilmFrontPageData, selectedLanguage: string): FilmFormValues => {
   const supportedLanguages = filmFrontpage.about.map((about) => about.language);
   const languageAbout = filmFrontpage.about.find((about) => about.language === selectedLanguage);
   const about = languageAbout ?? filmFrontpage.about?.[0];
 
   const visualElement = about?.visualElement && convertVisualElement(about?.visualElement);
   return {
-    articleType: "subjectpage",
-    name: filmFrontpage.name,
     title: plainTextToEditorValue(about?.title ?? ""),
     description: plainTextToEditorValue(about?.description ?? ""),
     visualElement: visualElement ?? [],
     language: selectedLanguage,
     supportedLanguages,
-    slideShow: filmFrontpage.slideShow,
+    slideshow: filmFrontpage.slideShow,
     themes: filmFrontpage.movieThemes,
     article: filmFrontpage.article,
   };
@@ -101,7 +99,7 @@ const getVisualElementId = (visualElement: IVisualElement): string => {
 
 export const getNdlaFilmFromSlate = (
   initialFrontpage: IFilmFrontPageData,
-  newFrontpage: FilmFormikType,
+  newFrontpage: FilmFormValues,
   selectedLanguage: string,
 ): INewOrUpdatedFilmFrontPageData => {
   const slateVisualElement = newFrontpage.visualElement?.[0];
@@ -137,7 +135,7 @@ export const getNdlaFilmFromSlate = (
   if (newLanguage) {
     newAbout.push(editedAbout);
   }
-  const newSlideShow = newFrontpage.slideShow;
+  const newSlideShow = newFrontpage.slideshow;
   const newThemes = newFrontpage.themes.map((theme) => {
     return {
       name: theme.name,
@@ -146,7 +144,7 @@ export const getNdlaFilmFromSlate = (
   });
 
   return {
-    name: newFrontpage.name,
+    name: initialFrontpage.name,
     about: newAbout,
     movieThemes: newThemes,
     slideShow: newSlideShow,

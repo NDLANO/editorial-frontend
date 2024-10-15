@@ -6,7 +6,6 @@
  *
  */
 
-import { useField, useFormikContext } from "formik";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
@@ -22,8 +21,8 @@ import { getUrnFromId, getIdFromUrn } from "../../../util/ndlaFilmHelpers";
 import { toEditFrontPageArticle } from "../../../util/routeHelpers";
 
 interface Props {
-  fieldName: string;
-  onUpdateArticle: Function;
+  updateFieldValue: (v: string | null) => void;
+  fieldValue: string;
 }
 
 const ArticleElement = styled.div`
@@ -35,23 +34,21 @@ const ArticleElement = styled.div`
   padding: ${spacing.small};
 `;
 
-const NdlaFilmArticle = ({ fieldName, onUpdateArticle }: Props) => {
+const NdlaFilmArticle = ({ updateFieldValue, fieldValue }: Props) => {
   const { t } = useTranslation();
-  const form = useFormikContext();
-  const [field] = useField<string>(fieldName);
   const [selectedArticle, setSelectedArticle] = useState<undefined | IArticleV2>(undefined);
 
   useEffect(() => {
     const initSelectedArticle = async () => {
-      if (field.value) {
-        const response = await getArticle(getIdFromUrn(field.value));
+      if (fieldValue) {
+        const response = await getArticle(getIdFromUrn(fieldValue));
         setSelectedArticle(response);
       } else {
         setSelectedArticle(undefined);
       }
     };
     initSelectedArticle();
-  }, [field.value]);
+  }, [fieldValue]);
 
   const onSearch = useCallback((query: string, page?: number) => {
     return searchArticles({ articleTypes: ["frontpage-article"], page, query });
@@ -71,7 +68,7 @@ const NdlaFilmArticle = ({ fieldName, onUpdateArticle }: Props) => {
             title={t("ndlaFilm.editor.removeArticleFromMoreInformation")}
             colorTheme="danger"
             data-testid="elementListItemDeleteButton"
-            onClick={() => onUpdateArticle(field, form, null)}
+            onClick={() => updateFieldValue(null)}
           >
             <DeleteForever />
           </IconButtonV2>
@@ -83,10 +80,10 @@ const NdlaFilmArticle = ({ fieldName, onUpdateArticle }: Props) => {
         placeholder={t("frontpageForm.search")}
         apiAction={onSearch}
         disableSelected
-        onChange={(article: IArticleSummaryV2) => onUpdateArticle(field, form, getUrnFromId(article.id))}
-        startOpen={!field.value}
+        onChange={(article: IArticleSummaryV2) => updateFieldValue(getUrnFromId(article.id))}
+        startOpen={!fieldValue}
         showPagination
-        initialSearch={!field.value}
+        initialSearch={!fieldValue}
         clearInputField
       />
     </>

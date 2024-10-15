@@ -8,7 +8,7 @@
 
 import { IFilmFrontPageData } from "@ndla/types-backend/frontpage-api";
 import { TYPE_IMAGE } from "../../components/SlateEditor/plugins/image/types";
-import { FilmFormikType } from "../../containers/NdlaFilm/components/NdlaFilmForm";
+import { FilmFormValues } from "../../containers/NdlaFilm/components/NdlaFilmForm";
 import { getInitialValues, getIdFromUrn, getUrnFromId } from "../ndlaFilmHelpers";
 
 const filmFrontPage: IFilmFrontPageData = {
@@ -39,8 +39,7 @@ const filmFrontPage: IFilmFrontPageData = {
   slideShow: [],
 };
 
-const filmFrontPageAfterTransformation: FilmFormikType = {
-  articleType: "subjectpage",
+const filmFrontPageAfterTransformation: FilmFormValues = {
   description: [
     {
       children: [
@@ -62,10 +61,9 @@ const filmFrontPageAfterTransformation: FilmFormikType = {
       movies: ["urn:article:288"],
     },
   ],
-  name: "Film",
   language: "nb",
   supportedLanguages: ["nb"],
-  slideShow: [],
+  slideshow: [],
   title: [
     {
       children: [

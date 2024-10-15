@@ -73,7 +73,7 @@ const PlainTextEditor = ({ onChange, value, id, submitted, className, placeholde
   const { status, setStatus } = useFormikContext<ArticleFormType>();
 
   useEffect(() => {
-    if (status?.status === "revertVersion") {
+    if (status?.status === "revertVersion" || status?.status === "acceptGenerated") {
       ReactEditor.deselect(editor);
       editor.children = value;
       setStatus((prevStatus: FormikStatus) => ({

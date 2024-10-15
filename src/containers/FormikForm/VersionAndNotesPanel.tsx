@@ -25,7 +25,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { IArticle, IEditorNote } from "@ndla/types-backend/draft-api";
 import AddNotesField from "./AddNotesField";
 import VersionActionbuttons from "./VersionActionButtons";
-import FormikField from "../../components/FormikField";
+import { FormField } from "../../components/FormField";
 import Spinner from "../../components/Spinner";
 import VersionHistory from "../../components/VersionHistory/VersionHistory";
 import { useSession } from "../../containers/Session/SessionProvider";
@@ -184,17 +184,9 @@ const VersionAndNotesPanel = ({ article, articleHistory, type, currentLanguage }
 
   return (
     <Wrapper>
-      <FormikField name="notes" showError={false}>
-        {({ field, form: { errors } }) => (
-          <AddNotesField
-            showError={!!errors[field.name]}
-            labelAddNote={t("form.notes.add")}
-            labelRemoveNote={t("form.notes.remove")}
-            labelWarningNote={errors[field.name]}
-            {...field}
-          />
-        )}
-      </FormikField>
+      <FormField name="notes">
+        {({ field, meta }) => <AddNotesField showError={!!meta.error} labelWarningNote={meta.error} {...field} />}
+      </FormField>
       <StyledAccordionRoot multiple defaultValue={["0"]} variant="clean" lazyMount unmountOnExit>
         {articleHistory.map((version, index) => {
           const isLatestVersion = index === 0;

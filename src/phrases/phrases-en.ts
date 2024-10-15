@@ -899,6 +899,7 @@ const phrases = {
       warning: "A note must contain text",
       areHere: "You are here",
       published: "Published",
+      placeholder: "Write a note",
       history: {
         user: "User",
         time: "When",

@@ -159,9 +159,9 @@ router.post("/translate", async (req, res) => {
 });
 
 router.post("/invoke-model", async (req, res) => {
-  const modelRegion = getEnvironmentVariabel("NDLA_MODEL_REGION");
+  const modelRegion = getEnvironmentVariabel("NDLA_AI_MODEL_REGION");
   const client = new BedrockRuntimeClient({ region: modelRegion }); //As of now this is the closest region with the service
-  const modelId = getEnvironmentVariabel("NDLA_MODEL_ID");
+  const modelId = getEnvironmentVariabel("NDLA_AI_MODEL_ID");
 
   const payload = {
     anthropic_version: "bedrock-2023-05-31",

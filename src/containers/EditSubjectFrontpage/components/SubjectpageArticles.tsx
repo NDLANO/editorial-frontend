@@ -20,6 +20,7 @@ import ListResource from "../../../components/Form/ListResource";
 import { fetchDraft } from "../../../modules/draft/draftApi";
 import { fetchLearningpath } from "../../../modules/learningpath/learningpathApi";
 import handleError from "../../../util/handleError";
+import { routes, toLearningpathFull } from "../../../util/routeHelpers";
 import DropdownSearch from "../../NdlaFilm/components/DropdownSearch";
 
 interface Props {
@@ -36,7 +37,7 @@ const getSubject = (elementId: string) => {
 };
 
 const SubjectpageArticles = ({ editorsChoices, elementId, fieldName }: Props) => {
-  const { t } = useTranslation();
+  const { i18n, t } = useTranslation();
   const [resources, setResources] = useState<(IArticle | ILearningPathV2)[]>(editorsChoices);
   const { setFieldTouched } = useFormikContext();
   const [fieldInputProps] = useField<(IArticle | ILearningPathV2)[]>(fieldName);
@@ -88,7 +89,14 @@ const SubjectpageArticles = ({ editorsChoices, elementId, fieldName }: Props) =>
         renderItem={(item, index) => (
           <ListResource
             key={item.id}
-            element={item}
+            title={item.title?.title}
+            metaImage={"metaImage" in item ? item.metaImage : undefined}
+            url={
+              "articleType" in item
+                ? routes.editArticle(item.id, item.articleType ?? "standard", i18n.language)
+                : toLearningpathFull(item.id, i18n.language)
+            }
+            isExternal={!("articleType" in item)}
             onDelete={() => onDeleteElement(resources, index)}
             removeElementTranslation={t("subjectpageForm.removeArticle")}
           />

@@ -8,13 +8,14 @@
 
 import { useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
-import { IAudioSummarySearchResult, IAudioSummary } from "@ndla/types-backend/audio-api";
+import { IAudioSummarySearchResult, IAudioSummary, IAudioMetaInformation } from "@ndla/types-backend/audio-api";
 import { PodcastSeriesFormikType } from "./PodcastSeriesForm";
 import AsyncDropdown from "../../../components/Dropdown/asyncDropdown/AsyncDropdown";
 import FieldHeader from "../../../components/Field/FieldHeader";
-import ListResource, { ElementType } from "../../../components/Form/ListResource";
+import ListResource from "../../../components/Form/ListResource";
 import { fetchAudio, postSearchAudio } from "../../../modules/audio/audioApi";
 import handleError from "../../../util/handleError";
+import { routes } from "../../../util/routeHelpers";
 
 const PodcastEpisodes = () => {
   const { t } = useTranslation();
@@ -32,7 +33,7 @@ const PodcastEpisodes = () => {
     }
   };
 
-  const onDeleteElements = (elements: ElementType[], deleteIndex: number) => {
+  const onDeleteElements = (elements: IAudioMetaInformation[], deleteIndex: number) => {
     const newElements = elements.filter((_, i) => i !== deleteIndex);
     setFieldValue("episodes", newElements);
   };
@@ -74,8 +75,10 @@ const PodcastEpisodes = () => {
       <FieldHeader title={t("form.podcastEpisodesSection")} subTitle={t("form.podcastEpisodesTypeName")} />
       {elements.map((element, index) => (
         <ListResource
-          key={index}
-          element={element}
+          key={element.id}
+          title={element.title.title}
+          metaImage={element.metaImage}
+          url={routes.audio.edit(element.id, language)}
           onDelete={() => onDeleteElements(elements, index)}
           removeElementTranslation={t("conceptpageForm.removeArticle")}
         />

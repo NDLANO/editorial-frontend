@@ -18,6 +18,7 @@ import FieldHeader from "../../../components/Field/FieldHeader";
 import ListResource from "../../../components/Form/ListResource";
 import { fetchConcept, postSearchConcepts } from "../../../modules/concept/conceptApi";
 import handleError from "../../../util/handleError";
+import { routes } from "../../../util/routeHelpers";
 import { ArticleFormType } from "../../FormikForm/articleFormHooks";
 
 interface ConceptApiTypeWithArticleType extends IConcept {
@@ -89,7 +90,7 @@ const ConceptsField = ({ field, form }: Props) => {
     <>
       <FieldHeader title={t("form.relatedConcepts.articlesTitle")} />
       <DndList
-        items={concepts.map((element, index) => ({ ...element, id: "id" in element ? element.id : index + 1 }))}
+        items={concepts}
         dragHandle={
           <DragHandle aria-label={t("form.relatedConcepts.changeOrder")}>
             <DragVertical />
@@ -98,7 +99,13 @@ const ConceptsField = ({ field, form }: Props) => {
         renderItem={(item, index) => (
           <ListResource
             key={item.id}
-            element={item}
+            title={item.title.title}
+            metaImage={item.metaImage}
+            url={
+              item.conceptType === "concept"
+                ? routes.concept.edit(item.id, i18n.language)
+                : routes.gloss.edit(item.id, i18n.language)
+            }
             onDelete={() => onDeleteElements(concepts, index)}
             removeElementTranslation={t("form.relatedConcepts.removeArticle")}
           />

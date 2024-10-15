@@ -19,6 +19,7 @@ import { OldSpinner } from "../../../components/OldSpinner";
 import { NDLA_FILM_SUBJECT } from "../../../constants";
 import { useMoviesQuery } from "../../../modules/frontpage/filmQueries";
 import { getUrnFromId } from "../../../util/ndlaFilmHelpers";
+import { routes } from "../../../util/routeHelpers";
 
 interface Props {
   movies: string[];
@@ -27,7 +28,7 @@ interface Props {
 }
 
 export const ThemeMovies = ({ movies, onMoviesUpdated, placeholder }: Props) => {
-  const { t } = useTranslation();
+  const { i18n, t } = useTranslation();
   const [localMovies, setLocalMovies] = useState<string[]>([]);
   const [apiMovies, setApiMovies] = useState<IMultiSearchSummary[]>([]);
   const moviesQuery = useMoviesQuery({ movieUrns: movies }, { enabled: !isEqual(movies, localMovies) });
@@ -72,9 +73,10 @@ export const ThemeMovies = ({ movies, onMoviesUpdated, placeholder }: Props) => 
             renderItem={(item, index) => (
               <ListResource
                 key={item.id}
-                element={item}
+                title={item.title.title}
+                metaImage={item.metaImage}
+                url={routes.editArticle(item.id, item.learningResourceType ?? "standard", i18n.language)}
                 onDelete={() => onDeleteElement(apiMovies, index)}
-                articleType="standard"
                 removeElementTranslation={t("ndlaFilm.editor.removeMovieFromGroup")}
               />
             )}

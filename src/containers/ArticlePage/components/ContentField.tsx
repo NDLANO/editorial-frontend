@@ -7,12 +7,12 @@
  */
 
 import { FieldInputProps, FormikHelpers } from "formik";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { DragVertical } from "@ndla/icons/editor";
+import { DragVertical, Link } from "@ndla/icons/editor";
 import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
 import { IArticle, IArticleSummary, IRelatedContentLink } from "@ndla/types-backend/draft-api";
 import ContentLink from "./ContentLink";
@@ -20,15 +20,14 @@ import DndList from "../../../components/DndList";
 import { DragHandle } from "../../../components/DraggableItem";
 import AsyncDropdown from "../../../components/Dropdown/asyncDropdown/AsyncDropdown";
 import FieldHeader from "../../../components/Field/FieldHeader";
-import ListResource, { ExternalElementType, ExternalListResource } from "../../../components/Form/ListResource";
+import ListResource from "../../../components/Form/ListResource";
 import TaxonomyLightbox from "../../../components/Taxonomy/TaxonomyLightbox";
 import { ConvertedRelatedContent, RelatedContent } from "../../../interfaces";
 import { fetchDraft, searchDrafts } from "../../../modules/draft/draftApi";
-import { createGuard } from "../../../util/guards";
 import handleError from "../../../util/handleError";
+import { routes } from "../../../util/routeHelpers";
 import { ArticleFormType } from "../../FormikForm/articleFormHooks";
 
-const isExternal = createGuard<ExternalElementType>("isExternal");
 interface Props {
   field: FieldInputProps<ArticleFormType["relatedContent"]>;
   form: FormikHelpers<ArticleFormType>;
@@ -105,39 +104,48 @@ const ContentField = ({ field, form }: Props) => {
 
   const selectedItems = relatedContent.filter(isDraftApiType);
 
+  const releatedContentDndItems = useMemo(
+    () =>
+      relatedContent
+        .filter(
+          (rc: number | IArticle | IRelatedContentLink): rc is IArticle | IRelatedContentLink => typeof rc !== "number",
+        )
+        .map((r, index) => ("id" in r ? r : { ...r, isExternal: true, id: `${r.url}_${index + 1}` })),
+    [relatedContent],
+  );
+
   return (
     <>
       <FieldHeader title={t("form.relatedContent.articlesTitle")} />
       <DndList
-        items={relatedContent
-          .filter(
-            (rc: number | IArticle | IRelatedContentLink): rc is IArticle | IRelatedContentLink =>
-              typeof rc !== "number",
-          )
-          .map((r, index) => ("id" in r ? r : { ...r, isExternal: true, id: index + 1 }))}
+        items={releatedContentDndItems}
         dragHandle={
           <DragHandle aria-label={t("form.relatedContent.changeOrder")}>
             <DragVertical />
           </DragHandle>
         }
-        renderItem={(item, index) => (
-          <>
-            {isExternal(item) ? (
-              <ExternalListResource
-                element={item}
-                onDelete={() => onDeleteElement(relatedContent, index)}
-                removeElementTranslation={t("form.relatedContent.removeArticle")}
-              />
-            ) : (
-              <ListResource
-                key={item.id}
-                element={item}
-                onDelete={() => onDeleteElement(relatedContent, index)}
-                removeElementTranslation={t("form.relatedContent.removeArticle")}
-              />
-            )}
-          </>
-        )}
+        renderItem={(item, index) =>
+          "isExternal" in item ? (
+            <ListResource
+              key={item.id}
+              title={item.title}
+              url={item.url}
+              isExternal
+              fallbackElement={<Link />}
+              onDelete={() => onDeleteElement(relatedContent, index)}
+              removeElementTranslation={t("form.relatedContent.removeArticle")}
+            />
+          ) : (
+            <ListResource
+              key={item.id}
+              title={item.title?.title}
+              metaImage={item.metaImage}
+              url={routes.editArticle(item.id, item.articleType ?? "standard", i18n.language)}
+              onDelete={() => onDeleteElement(relatedContent, index)}
+              removeElementTranslation={t("form.relatedContent.removeArticle")}
+            />
+          )
+        }
         onDragEnd={(_, newArray) => onUpdateElements(newArray)}
       />
       <AsyncDropdown

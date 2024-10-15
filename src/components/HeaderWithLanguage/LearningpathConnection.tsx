@@ -15,6 +15,7 @@ import { LearningPath } from "@ndla/icons/contentType";
 import { ModalCloseButton, ModalBody, Modal, ModalTitle, ModalHeader, ModalTrigger, ModalContent } from "@ndla/modal";
 import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
 import { fetchLearningpathsWithArticle } from "../../modules/learningpath/learningpathApi";
+import { toLearningpathFull } from "../../util/routeHelpers";
 import ListResource from "../Form/ListResource";
 
 interface Props {
@@ -30,7 +31,7 @@ const LearningpathIcon = styled(LearningPath)`
 `;
 
 const LearningpathConnection = ({ id, learningpaths, setLearningpaths }: Props) => {
-  const { t } = useTranslation();
+  const { i18n, t } = useTranslation();
 
   useEffect(() => {
     if (id) {
@@ -59,8 +60,13 @@ const LearningpathConnection = ({ id, learningpaths, setLearningpaths }: Props) 
           <ModalCloseButton />
         </ModalHeader>
         <ModalBody>
-          {learningpaths.map((element, index) => (
-            <ListResource key={index} element={element} />
+          {learningpaths.map((element) => (
+            <ListResource
+              key={element.id}
+              title={element.title.title}
+              url={toLearningpathFull(element.id, i18n.language)}
+              isExternal
+            />
           ))}
         </ModalBody>
       </ModalContent>

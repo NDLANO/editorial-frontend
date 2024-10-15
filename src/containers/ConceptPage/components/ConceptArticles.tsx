@@ -17,10 +17,11 @@ import FieldHeader from "../../../components/Field/FieldHeader";
 import ListResource from "../../../components/Form/ListResource";
 import { fetchDraft, searchDrafts } from "../../../modules/draft/draftApi";
 import handleError from "../../../util/handleError";
+import { routes } from "../../../util/routeHelpers";
 import { ConceptFormValues } from "../conceptInterfaces";
 
 const ConceptArticles = () => {
-  const { t } = useTranslation();
+  const { i18n, t } = useTranslation();
   const {
     values: { articles, language },
     setFieldValue,
@@ -67,7 +68,9 @@ const ConceptArticles = () => {
         renderItem={(item, index) => (
           <ListResource
             key={item.id}
-            element={item}
+            title={item.title?.title}
+            metaImage={item.metaImage}
+            url={routes.editArticle(item.id, item.articleType ?? "standard", i18n.language)}
             onDelete={() => onDeleteElement(articles, index)}
             removeElementTranslation={t("conceptpageForm.removeArticle")}
           />

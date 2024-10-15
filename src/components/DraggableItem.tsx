@@ -27,7 +27,6 @@ const StyledListElement = styled("li", {
     listStyle: "none",
     display: "flex",
     alignItems: "center",
-    padding: "0",
     "&[data-has-handle='false']": {
       cursor: "grab",
     },

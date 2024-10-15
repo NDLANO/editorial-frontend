@@ -10,11 +10,12 @@ import express from "express";
 import { GetVerificationKey, expressjwt as jwt, Request } from "express-jwt";
 import jwksRsa from "jwks-rsa";
 import prettier from "prettier";
+import { BedrockRuntimeClient, ConversationRole, InvokeModelCommand } from "@aws-sdk/client-bedrock-runtime";
 import { getToken, getBrightcoveToken, fetchAuth0UsersById, getEditors, getResponsibles } from "./auth";
 import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN } from "./httpCodes";
 import errorLogger from "./logger";
 import { translateDocument } from "./translate";
-import config from "../config";
+import config, { getEnvironmentVariabel } from "../config";
 import { DRAFT_PUBLISH_SCOPE, DRAFT_WRITE_SCOPE } from "../constants";
 import { NdlaError } from "../interfaces";
 
@@ -157,4 +158,34 @@ router.post("/translate", async (req, res) => {
   }
 });
 
+router.post("/invoke-model", async (req, res) => {
+  const modelRegion = getEnvironmentVariabel("NDLA_MODEL_REGION");
+  const client = new BedrockRuntimeClient({ region: modelRegion }); //As of now this is the closest region with the service
+  const modelId = getEnvironmentVariabel("NDLA_MODEL_ID");
+
+  const payload = {
+    anthropic_version: "bedrock-2023-05-31",
+    max_tokens: 2000,
+    messages: [
+      {
+        role: ConversationRole.USER,
+        content: [{ type: "text", text: req.body.prompt }],
+      },
+    ],
+  };
+
+  const command = new InvokeModelCommand({
+    contentType: "application/json",
+    body: JSON.stringify(payload),
+    modelId,
+  });
+  try {
+    const response = await client.send(command);
+    const decodedResponseBody = new TextDecoder().decode(response.body);
+    const responseBody = JSON.parse(decodedResponseBody);
+    res.status(OK).json(responseBody);
+  } catch (err) {
+    res.status(INTERNAL_SERVER_ERROR).send((err as NdlaError).message);
+  }
+});
 export default router;

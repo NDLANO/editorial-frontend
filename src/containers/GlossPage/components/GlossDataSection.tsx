@@ -6,37 +6,50 @@
  *
  */
 
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
-import { FieldErrorMessage, InputV3, Label, Select } from "@ndla/forms";
-import { Text } from "@ndla/typography";
+import { createListCollection } from "@ark-ui/react";
+import {
+  FieldErrorMessage,
+  FieldHelper,
+  FieldInput,
+  FieldLabel,
+  FieldRoot,
+  Heading,
+  SelectContent,
+  SelectHiddenSelect,
+  SelectLabel,
+  SelectPositioner,
+  SelectRoot,
+  SelectValueText,
+  Text,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { constants } from "@ndla/ui";
 import ExamplesFieldArray from "./ExamplesFieldArray";
 import { GlossAudioField } from "./GlossAudioField";
 import TranscriptionsField from "./TranscriptionsField";
-import { FormControl, FormField } from "../../../components/FormField";
+import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
+import { FormField } from "../../../components/FormField";
+import { FormContent } from "../../../components/FormikForm";
 import { LANGUAGES } from "../glossData";
 
 const {
   wordClass: { wordClass },
 } = constants;
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: ${spacing.small};
-`;
+const FieldWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "xsmall",
+  },
+});
 
-const StyledFormControl = styled(FormControl)`
-  width: 80%;
-`;
-
-const FieldWrapper = styled.div`
-  display: flex;
-  gap: ${spacing.small};
-`;
+const StyledFormContent = styled(FormContent, {
+  base: {
+    alignItems: "flex-start",
+  },
+});
 
 interface Props {
   glossLanguage: string;
@@ -45,78 +58,101 @@ interface Props {
 const GlossDataSection = ({ glossLanguage }: Props) => {
   const { t } = useTranslation();
 
+  const languageCollection = useMemo(() => {
+    return createListCollection({
+      items: LANGUAGES,
+      itemToString: (item) => t(`languages.${item}`),
+      itemToValue: (item) => item,
+    });
+  }, [t]);
+
+  const wordClassCollection = useMemo(() => {
+    return createListCollection({
+      items: Object.entries(wordClass).map(([, value]) => value),
+      itemToString: (item) => t(`wordClass.${item}`),
+      itemToValue: (item) => item,
+    });
+  }, [t]);
+
   return (
-    <Wrapper>
-      <Text element="h4" textStyle="label-large" margin="none">
-        {t("form.gloss.glossHeading")}
-      </Text>
+    <StyledFormContent>
+      <Heading asChild consumeCss textStyle="title.medium">
+        <h3>{t("form.gloss.glossHeading")}</h3>
+      </Heading>
       <FieldWrapper>
         <FormField name="gloss.originalLanguage">
-          {({ field, meta }) => (
-            <FormControl isRequired isInvalid={!!meta.error}>
-              <Label visuallyHidden>{t("form.gloss.originalLanguage")}</Label>
-              <Select {...field}>
-                {!field.value && (
-                  <option>
-                    {t("form.gloss.choose", {
-                      label: t("form.gloss.originalLanguage").toLowerCase(),
-                    })}
-                  </option>
-                )}
-                {LANGUAGES.map((language, index) => (
-                  <option value={language} key={index}>
-                    {t(`languages.${language}`)}
-                  </option>
-                ))}
-              </Select>
+          {({ field, meta, helpers }) => (
+            <FieldRoot required invalid={!!meta.error}>
+              <SelectRoot
+                collection={languageCollection}
+                value={[field.value]}
+                onValueChange={(details) => helpers.setValue(details.value[0])}
+                positioning={{ sameWidth: true }}
+              >
+                <SelectLabel>{t("form.gloss.originalLanguage")}</SelectLabel>
+                <GenericSelectTrigger>
+                  <SelectValueText placeholder={t("form.gloss.choose", { label: t("form.gloss.originalLanguage") })} />
+                </GenericSelectTrigger>
+                <SelectPositioner>
+                  <SelectContent>
+                    {languageCollection.items.map((language) => (
+                      <GenericSelectItem key={language} item={language}>
+                        {t(`languages.${language}`)}
+                      </GenericSelectItem>
+                    ))}
+                  </SelectContent>
+                </SelectPositioner>
+                <SelectHiddenSelect />
+              </SelectRoot>
               <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-            </FormControl>
+            </FieldRoot>
           )}
         </FormField>
         <FormField name="gloss.wordClass">
-          {({ field, meta }) => (
-            <FormControl isRequired isInvalid={!!meta.error}>
-              <Label visuallyHidden>{t("form.gloss.wordClass")}</Label>
-              <Select {...field}>
-                {!field.value && (
-                  <option>
-                    {t("form.gloss.choose", {
-                      label: t("form.gloss.wordClass").toLowerCase(),
-                    })}
-                  </option>
-                )}
-                {Object.entries(wordClass)?.map(([key, value]) => (
-                  <option value={value} key={key}>
-                    {t(`wordClass.${value}`)}
-                  </option>
-                ))}
-              </Select>
-              <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-            </FormControl>
+          {({ field, meta, helpers }) => (
+            <FieldRoot required invalid={!!meta.error}>
+              <SelectRoot
+                collection={wordClassCollection}
+                value={[field.value]}
+                onValueChange={(details) => helpers.setValue(details.value[0])}
+                positioning={{ sameWidth: true }}
+              >
+                <SelectLabel>{t("form.gloss.wordClass")}</SelectLabel>
+                <GenericSelectTrigger>
+                  <SelectValueText placeholder={t("form.gloss.choose", { label: t("form.gloss.wordClass") })} />
+                </GenericSelectTrigger>
+                <SelectPositioner>
+                  <SelectContent>
+                    {wordClassCollection.items.map((wordClass) => (
+                      <GenericSelectItem key={wordClass} item={wordClass}>
+                        {t(`wordClass.${wordClass}`)}
+                      </GenericSelectItem>
+                    ))}
+                  </SelectContent>
+                  <SelectHiddenSelect />
+                </SelectPositioner>
+              </SelectRoot>
+            </FieldRoot>
           )}
         </FormField>
       </FieldWrapper>
       <FormField name="gloss.gloss">
         {({ field, meta }) => (
-          <StyledFormControl isRequired isInvalid={!!meta.error}>
-            <Label textStyle="label-small" margin="none">
-              {t("form.gloss.gloss")}
-            </Label>
-            <InputV3 {...field} placeholder={t("form.gloss.gloss")} type="text" />
+          <FieldRoot required invalid={!!meta.error}>
+            <FieldLabel>{t("form.gloss.gloss")}</FieldLabel>
+            <FieldInput {...field} placeholder={t("form.gloss.gloss")} type="text" />
             <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-          </StyledFormControl>
+          </FieldRoot>
         )}
       </FormField>
       <TranscriptionsField name="transcriptions" />
       <FormField name="visualElement">
         {({ field, meta }) => (
-          <FormControl isInvalid={!!meta.error}>
-            <Text textStyle="label-small" margin="none">
+          <FieldRoot invalid={!!meta.error}>
+            <Text textStyle="label.medium" fontWeight="bold">
               {t("form.name.audioFile")}
             </Text>
-            <Text margin="small" textStyle="meta-text-medium">
-              {t("form.gloss.audio.helperText")}
-            </Text>
+            <FieldHelper>{t("form.gloss.audio.helperText")}</FieldHelper>
             <GlossAudioField
               glossLanguage={glossLanguage}
               element={field.value[0]?.data}
@@ -130,11 +166,11 @@ const GlossDataSection = ({ glossLanguage }: Props) => {
               }}
             />
             <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-          </FormControl>
+          </FieldRoot>
         )}
       </FormField>
       <ExamplesFieldArray name="examples" />
-    </Wrapper>
+    </StyledFormContent>
   );
 };
 

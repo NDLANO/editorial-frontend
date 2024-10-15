@@ -7,17 +7,20 @@
  */
 
 import { useFormikContext } from "formik";
-import { ReactElement, useMemo } from "react";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
+import { useMemo } from "react";
+import { styled } from "@ndla/styled-system/jsx";
 import PreviewConceptComponent from "./PreviewConceptComponent";
 import { ConceptFormValues } from "../../containers/ConceptPage/conceptInterfaces";
 import { conceptFormTypeToApiType } from "../../containers/ConceptPage/conceptTransformers";
 import { useLicenses } from "../../modules/draft/draftQueries";
 
-export const ConceptWrapper = styled.div`
-  padding: 0 ${spacing.normal} ${spacing.normal} ${spacing.normal};
-`;
+const ConceptWrapper = styled("div", {
+  base: {
+    paddingInline: "medium",
+    paddingBlockEnd: "medium",
+    width: "100%",
+  },
+});
 
 export interface ConceptPreviewProps {
   type: "concept";

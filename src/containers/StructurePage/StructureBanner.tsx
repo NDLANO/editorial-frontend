@@ -12,9 +12,8 @@ import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
-import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
+import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb, Text } from "@ndla/primitives";
 import { NodeType } from "@ndla/types-taxonomy";
-import { Text } from "@ndla/typography";
 import AddNodeModalContent from "./AddNodeModalContent";
 import { ResourceGroupBanner, StyledPlusIcon, StyledShareIcon } from "./styles";
 import TaxonomyLightbox from "../../components/Taxonomy/TaxonomyLightbox";
@@ -88,7 +87,7 @@ const StructureBanner = ({
     <ResourceGroupBanner>
       <FlexWrapper>
         <StyledShareIcon />
-        <Text textStyle="button" margin="none">
+        <Text textStyle="label.small" fontWeight="bold">
           {t("taxonomy.editStructure")}
         </Text>
       </FlexWrapper>

@@ -119,9 +119,8 @@ const SearchContainer = ({ searchHook, type }: Props) => {
           page={searchObject.page}
           onPageChange={(details) => onQueryPush({ ...searchObject, page: details.page })}
           pageSize={results?.pageSize}
-          count={Math.min(results?.totalCount ?? 0, 1000)}
+          count={results?.totalCount ?? 0}
           siblingCount={1}
-          buttonSize="small"
         />
       </OneColumn>
     </>

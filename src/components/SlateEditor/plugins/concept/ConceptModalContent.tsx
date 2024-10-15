@@ -157,7 +157,7 @@ const ConceptModalContent = ({
               <Pagination
                 page={results.page}
                 onPageChange={(details) => searchConcept({ ...searchObject, page: details.page })}
-                count={Math.min(results?.totalCount ?? 0, 1000)}
+                count={results?.totalCount ?? 0}
                 pageSize={results?.pageSize}
                 siblingCount={1}
               />

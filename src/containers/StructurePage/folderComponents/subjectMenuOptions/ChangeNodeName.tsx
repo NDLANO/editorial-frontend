@@ -9,25 +9,35 @@
 import { FieldArray, Formik, FormikProps } from "formik";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
+import { Portal } from "@ark-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
-
-import { ButtonV2 } from "@ndla/button";
-import { spacing } from "@ndla/core";
-import { FieldErrorMessage, InputV3, Label } from "@ndla/forms";
-import { Pencil } from "@ndla/icons/action";
-import { ModalHeader, ModalBody, Modal, ModalTitle, ModalContent, ModalTrigger, ModalCloseButton } from "@ndla/modal";
+import { Pencil, TrashCanOutline } from "@ndla/icons/action";
+import {
+  Button,
+  DialogBody,
+  DialogCloseTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  FieldErrorMessage,
+  FieldInput,
+  FieldLabel,
+  FieldRoot,
+  IconButton,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { Translation, Node, NodeType } from "@ndla/types-taxonomy";
 import AddNodeTranslation from "./AddNodeTranslation";
 import { Row } from "../../../../components";
-import DeleteButton from "../../../../components/DeleteButton";
-import UIField from "../../../../components/Field";
-import { FormControl, FormField } from "../../../../components/FormField";
+import { DialogCloseButton } from "../../../../components/DialogCloseButton";
+import { FormField } from "../../../../components/FormField";
+import { FormActionsContainer, FormikForm } from "../../../../components/FormikForm";
 import validateFormik, { RulesType } from "../../../../components/formikValidationSchema";
 import RoundIcon from "../../../../components/RoundIcon";
 import SaveButton from "../../../../components/SaveButton";
 import Spinner from "../../../../components/Spinner";
-import StyledForm from "../../../../components/StyledFormComponents";
 import { subjectpageLanguages } from "../../../../i18n2";
 import {
   useDeleteNodeTranslationMutation,
@@ -42,32 +52,12 @@ import { EditModeHandler } from "../SettingsMenuDropdownType";
 import MenuItemButton from "../sharedMenuOptions/components/MenuItemButton";
 import { StyledErrorMessage } from "../styles";
 
-const StyledDeleteButton = styled(DeleteButton)`
-  text-align: center;
-  align-items: center;
-`;
-
-const InputRow = styled.div`
-  display: flex;
-  width: 100%;
-  gap: ${spacing.normal};
-  align-items: center;
-  > div {
-    width: 100%;
-  }
-`;
-
-const StyledModalBody = styled(ModalBody)`
-  padding-top: 0;
-`;
-
-const StyledCancelButton = styled(ButtonV2)`
-  padding: 0 ${spacing.normal};
-`;
-
-const StyledUIField = styled(UIField)`
-  margin-right: 0px;
-`;
+const InputWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "xsmall",
+  },
+});
 
 interface FormikTranslationFormValues {
   translations: Translation[];
@@ -101,19 +91,20 @@ const ChangeNodeName = ({ editModeHandler: { editMode, toggleEditMode }, node }:
   );
 
   return (
-    <>
-      <Modal open={editMode === "changeSubjectName"} onOpenChange={onModalChange}>
-        <ModalTrigger>
-          <MenuItemButton data-testid="changeNodeNameButton">
-            <RoundIcon small icon={<Pencil />} />
-            {t("taxonomy.changeName.buttonTitle")}
-          </MenuItemButton>
-        </ModalTrigger>
-        <ModalContent>
+    <DialogRoot open={editMode === "changeSubjectName"} onOpenChange={(details) => onModalChange(details.open)}>
+      {/* TODO: Remove consumeCss once MenuItemButton is updated */}
+      <DialogTrigger asChild consumeCss>
+        <MenuItemButton data-testid="changeNodeNameButton">
+          <RoundIcon small icon={<Pencil />} />
+          {t("taxonomy.changeName.buttonTitle")}
+        </MenuItemButton>
+      </DialogTrigger>
+      <Portal>
+        <DialogContent>
           <ChangeNodeNameContent node={node} />
-        </ModalContent>
-      </Modal>
-    </>
+        </DialogContent>
+      </Portal>
+    </DialogRoot>
   );
 };
 
@@ -223,11 +214,11 @@ const ChangeNodeNameContent = ({ node, nodeType = "SUBJECT" }: ModalProps) => {
 
   return (
     <>
-      <ModalHeader>
-        <ModalTitle>{t("taxonomy.changeName.title")}</ModalTitle>
-        <ModalCloseButton />
-      </ModalHeader>
-      <StyledModalBody>
+      <DialogHeader>
+        <DialogTitle>{t("taxonomy.changeName.title")}</DialogTitle>
+        <DialogCloseButton />
+      </DialogHeader>
+      <DialogBody>
         <Formik
           initialValues={initialValues}
           onSubmit={(_, __) => {}}
@@ -266,16 +257,14 @@ const ChangeNodeNameContent = ({ node, nodeType = "SUBJECT" }: ModalProps) => {
               setSaved(false);
             }
             return (
-              <StyledForm data-testid="edit-node-name-form">
+              <FormikForm data-testid="edit-node-name-form">
                 <FormField name="name">
                   {({ field, meta }) => (
-                    <FormControl isRequired isInvalid={!!meta.error}>
-                      <Label margin="none" textStyle="label-small">
-                        {t("taxonomy.changeName.defaultName")}
-                      </Label>
-                      <InputV3 {...field} />
+                    <FieldRoot required invalid={!!meta.error}>
+                      <FieldLabel>{t("taxonomy.changeName.defaultName")}</FieldLabel>
+                      <FieldInput {...field} />
                       <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-                    </FormControl>
+                    </FieldRoot>
                   )}
                 </FormField>
                 {values.translations.length === 0 && <>{t("taxonomy.changeName.noTranslations")}</>}
@@ -286,20 +275,22 @@ const ChangeNodeNameContent = ({ node, nodeType = "SUBJECT" }: ModalProps) => {
                         <Row key={i}>
                           <FormField name={`translations.${i}.name`}>
                             {({ field, meta }) => (
-                              <FormControl isRequired isInvalid={!!meta.error}>
-                                <Label margin="none" textStyle="label-small">
-                                  {t(`languages.${trans.language}`)}
-                                </Label>
-                                <InputRow>
-                                  <InputV3 {...field} data-testid={`subjectName_${trans.language}`} />
-                                  <StyledDeleteButton
+                              <FieldRoot required invalid={!!meta.error}>
+                                <FieldLabel>{t(`languages.${trans.language}`)}</FieldLabel>
+                                <InputWrapper>
+                                  <FieldInput {...field} data-testid={`subjectName_${trans.language}`} />
+                                  <IconButton
+                                    variant="danger"
                                     aria-label={t("form.remove")}
+                                    title={t("form.remove")}
                                     onClick={() => remove(i)}
                                     data-testid={`subjectName_${trans.language}_delete`}
-                                  />
-                                </InputRow>
+                                  >
+                                    <TrashCanOutline />
+                                  </IconButton>
+                                </InputWrapper>
                                 <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-                              </FormControl>
+                              </FieldRoot>
                             )}
                           </FormField>
                         </Row>
@@ -312,28 +303,26 @@ const ChangeNodeNameContent = ({ node, nodeType = "SUBJECT" }: ModalProps) => {
                     </>
                   )}
                 </FieldArray>
-                <StyledUIField right noBorder>
-                  <Row justifyContent="end">
-                    <ModalCloseButton>
-                      <StyledCancelButton>{t("taxonomy.changeName.cancel")}</StyledCancelButton>
-                    </ModalCloseButton>
-                    <SaveButton
-                      data-testid="saveNodeTranslationsButton"
-                      size="large"
-                      isSaving={isSubmitting}
-                      showSaved={!formIsDirty && saved}
-                      formIsDirty={formIsDirty}
-                      onClick={() => onSubmit(formik)}
-                      disabled={!isValid}
-                    />
-                  </Row>
-                </StyledUIField>
+                <FormActionsContainer>
+                  <DialogCloseTrigger asChild>
+                    <Button variant="secondary">{t("taxonomy.changeName.cancel")}</Button>
+                  </DialogCloseTrigger>
+                  <SaveButton
+                    data-testid="saveNodeTranslationsButton"
+                    size="large"
+                    isSaving={isSubmitting}
+                    showSaved={!formIsDirty && saved}
+                    formIsDirty={formIsDirty}
+                    onClick={() => onSubmit(formik)}
+                    disabled={!isValid}
+                  />
+                </FormActionsContainer>
                 {updateError && <StyledErrorMessage>{updateError}</StyledErrorMessage>}
-              </StyledForm>
+              </FormikForm>
             );
           }}
         </Formik>
-      </StyledModalBody>
+      </DialogBody>
     </>
   );
 };

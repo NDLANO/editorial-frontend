@@ -15,7 +15,7 @@ import { getToken, getBrightcoveToken, fetchAuth0UsersById, getEditors, getRespo
 import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN } from "./httpCodes";
 import errorLogger from "./logger";
 import { translateDocument } from "./translate";
-import config from "../config";
+import config, { getEnvironmentVariabel } from "../config";
 import { DRAFT_PUBLISH_SCOPE, DRAFT_WRITE_SCOPE } from "../constants";
 import { NdlaError } from "../interfaces";
 
@@ -159,8 +159,9 @@ router.post("/translate", async (req, res) => {
 });
 
 router.post("/invoke-model", async (req, res) => {
-  const client = new BedrockRuntimeClient({ region: "eu-central-1" }); //As of now this is the closest region with the service
-  const modelId = "anthropic.claude-3-haiku-20240307-v1:0";
+  const modelRegion = getEnvironmentVariabel("NDLA_MODEL_REGION");
+  const client = new BedrockRuntimeClient({ region: modelRegion }); //As of now this is the closest region with the service
+  const modelId = getEnvironmentVariabel("NDLA_MODEL_ID");
 
   const payload = {
     anthropic_version: "bedrock-2023-05-31",

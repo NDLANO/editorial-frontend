@@ -8,7 +8,7 @@
 
 import { Descendant, Editor, Element } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { TYPE_BLOGPOST } from "./types";
+import { TYPE_PITCH } from "./types";
 import { createEmbedTagV2, reduceElementDataAttributesV2 } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
@@ -27,33 +27,33 @@ const normalizerConfig: NormalizerConfig = {
   },
 };
 
-export const blogPostSerializer: SlateSerializer = {
+export const pitchSerializer: SlateSerializer = {
   deserialize(el: HTMLElement) {
     if (el.tagName.toLowerCase() !== TYPE_NDLA_EMBED) return;
     const embed = el as HTMLEmbedElement;
     const embedAttributes = reduceElementDataAttributesV2(Array.from(embed.attributes));
-    if (embedAttributes.resource !== TYPE_BLOGPOST) return;
+    if (embedAttributes.resource !== TYPE_PITCH) return;
     return slatejsx(
       "element",
       {
-        type: TYPE_BLOGPOST,
+        type: TYPE_PITCH,
         data: embedAttributes,
       },
       { text: "" },
     );
   },
   serialize(node: Descendant) {
-    if (!Element.isElement(node) || node.type !== TYPE_BLOGPOST || !node.data) return;
+    if (!Element.isElement(node) || node.type !== TYPE_PITCH || !node.data) return;
     return createEmbedTagV2(node.data);
   },
 };
 
-export const blogPostPlugin = (editor: Editor) => {
+export const pitchPlugin = (editor: Editor) => {
   const { normalizeNode: nextNormalizeNode, isVoid: nextIsVoid } = editor;
 
   editor.normalizeNode = (entry) => {
     const [node] = entry;
-    if (Element.isElement(node) && node.type === TYPE_BLOGPOST) {
+    if (Element.isElement(node) && node.type === TYPE_PITCH) {
       if (defaultBlockNormalizer(editor, entry, normalizerConfig)) {
         return;
       }
@@ -61,7 +61,7 @@ export const blogPostPlugin = (editor: Editor) => {
     nextNormalizeNode(entry);
   };
 
-  editor.isVoid = (element) => (element.type === TYPE_BLOGPOST ? true : nextIsVoid(element));
+  editor.isVoid = (element) => (element.type === TYPE_PITCH ? true : nextIsVoid(element));
 
   return editor;
 };

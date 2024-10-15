@@ -634,8 +634,8 @@ const phrases = {
     setSticky: "Lock content to adjacent grid cell",
     unsetSticky: "Unlock content from adjacent grid cell",
   },
-  blogPostForm: {
-    title: "Edit blog post",
+  pitchForm: {
+    title: "Edit pitch",
     languageExplanation: "Choose language for screen readers",
     sizes: {
       normal: "Normal",
@@ -743,7 +743,7 @@ const phrases = {
       concept: "Concept",
       keyFigure: "Key figure",
       contactBlock: "Contact block",
-      blogPost: "Blog post",
+      pitch: "Pitch",
       grid: "Grid",
       campaignBlock: "Kampanjeblokk",
       linkBlockList: "Link block",

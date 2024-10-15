@@ -15,21 +15,17 @@ import { Cross, Pencil } from "@ndla/icons/action";
 import { DeleteForever } from "@ndla/icons/editor";
 import { ModalBody, ModalHeader, ModalTitle, Modal, ModalTrigger, ModalContent } from "@ndla/modal";
 import { IconButton } from "@ndla/primitives";
-import { BlogPostEmbedData } from "@ndla/types-embed";
-import { BlogPostV2, EmbedWrapper } from "@ndla/ui";
-import BlogPostForm from "./BlogPostForm";
-import { BlogPostElement } from "./types";
+import { PitchEmbedData } from "@ndla/types-embed";
+import { Pitch, EmbedWrapper } from "@ndla/ui";
+import PitchForm from "./PitchForm";
+import { PitchElement } from "./types";
 import config from "../../../../config";
 import { StyledFigureButtons } from "../embed/FigureButtons";
 
 interface Props extends RenderElementProps {
-  element: BlogPostElement;
+  element: PitchElement;
   editor: Editor;
 }
-
-const StyledEmbedWrapper = styled(EmbedWrapper)`
-  width: fit-content;
-`;
 
 const StyledModalHeader = styled(ModalHeader)`
   padding-bottom: 0px;
@@ -44,7 +40,7 @@ const StyledModalBody = styled(ModalBody)`
 
 const imageUrl = `${config.ndlaApiUrl}/image-api/raw/id/`;
 
-const SlateBlogPost = ({ element, editor, attributes, children }: Props) => {
+const SlatePitch = ({ element, editor, attributes, children }: Props) => {
   const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(element.isFirstEdit);
   const { data } = element;
@@ -74,7 +70,7 @@ const SlateBlogPost = ({ element, editor, attributes, children }: Props) => {
   };
 
   const onSave = useCallback(
-    (data: BlogPostEmbedData) => {
+    (data: PitchEmbedData) => {
       setIsEditing(false);
       const properties = {
         data,
@@ -94,7 +90,7 @@ const SlateBlogPost = ({ element, editor, attributes, children }: Props) => {
 
   return (
     <Modal open={isEditing} onOpenChange={setIsEditing}>
-      <StyledEmbedWrapper {...attributes} data-testid="slate-blog-post" contentEditable={false}>
+      <EmbedWrapper {...attributes} data-testid="slate-pitch" contentEditable={false}>
         {data && (
           <>
             <StyledFigureButtons>
@@ -103,8 +99,8 @@ const SlateBlogPost = ({ element, editor, attributes, children }: Props) => {
                   variant="secondary"
                   size="small"
                   onClick={() => setIsEditing(true)}
-                  aria-label={t("blogPostForm.title")}
-                  title={t("blogPostForm.title")}
+                  aria-label={t("pitchForm.title")}
+                  title={t("pitchForm.title")}
                 >
                   <Pencil />
                 </IconButton>
@@ -114,16 +110,15 @@ const SlateBlogPost = ({ element, editor, attributes, children }: Props) => {
                 variant="danger"
                 size="small"
                 title={t("delete")}
-                data-testid="remove-blogpost"
+                data-testid="remove-pitch"
                 onClick={handleRemove}
               >
                 <DeleteForever />
               </IconButton>
             </StyledFigureButtons>
-            <BlogPostV2
+            <Pitch
               title={data.title}
-              author={data.author}
-              size={data.size}
+              description={data.description}
               url={data.url}
               metaImage={{
                 url: `${imageUrl}/${data.imageId}`,
@@ -133,20 +128,20 @@ const SlateBlogPost = ({ element, editor, attributes, children }: Props) => {
           </>
         )}
         {children}
-      </StyledEmbedWrapper>
+      </EmbedWrapper>
       <ModalContent>
         <StyledModalHeader>
-          <ModalTitle>{t("blogPostForm.title")}</ModalTitle>
+          <ModalTitle>{t("pitchForm.title")}</ModalTitle>
           <IconButton variant="tertiary" aria-label={t("close")} title={t("close")} onClick={onClose}>
             <Cross />
           </IconButton>
         </StyledModalHeader>
         <StyledModalBody>
-          <BlogPostForm onSave={onSave} initialData={data} onCancel={onClose} />
+          <PitchForm onSave={onSave} initialData={data} onCancel={onClose} />
         </StyledModalBody>
       </ModalContent>
     </Modal>
   );
 };
 
-export default SlateBlogPost;
+export default SlatePitch;

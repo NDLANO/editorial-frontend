@@ -11,7 +11,6 @@ import { ReactEditor, RenderElementProps, RenderLeafProps } from "slate-react";
 import { AsideElement } from "./plugins/aside";
 import { AudioElement } from "./plugins/audio/types";
 import { BlockQuoteElement } from "./plugins/blockquote";
-import { BlogPostElement } from "./plugins/blogPost/types";
 import { BreakElement } from "./plugins/break";
 import { CampaignBlockElement } from "./plugins/campaignBlock";
 import { CodeblockElement } from "./plugins/codeBlock";
@@ -40,6 +39,7 @@ import { CustomTextWithMarks } from "./plugins/mark";
 import { MathmlElement } from "./plugins/mathml";
 import { NoopElement } from "./plugins/noop";
 import { ParagraphElement } from "./plugins/paragraph";
+import { PitchElement } from "./plugins/pitch/types";
 import { RelatedElement } from "./plugins/related";
 import { SectionElement } from "./plugins/section";
 import { SpanElement } from "./plugins/span";
@@ -114,7 +114,7 @@ declare module "slate" {
       | DefinitionListElement
       | DefinitionDescriptionElement
       | DefinitionTermElement
-      | BlogPostElement
+      | PitchElement
       | GridElement
       | GridCellElement
       | KeyFigureElement

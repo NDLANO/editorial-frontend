@@ -6,8 +6,10 @@
  *
  */
 
+import { FieldHelperProps, useFormikContext } from "formik";
 import { memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Descendant } from "slate";
 import { createListCollection } from "@ark-ui/react";
 import { BlogPost, CheckLine } from "@ndla/icons/editor";
 import {
@@ -17,6 +19,7 @@ import {
   ComboboxItemText,
   FieldErrorMessage,
   FieldHelper,
+  FieldLabel,
   FieldRoot,
   Input,
   RadioGroupItem,
@@ -31,15 +34,17 @@ import { styled } from "@ndla/styled-system/jsx";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import { TagSelectorLabel, TagSelectorRoot, useTagSelectorTranslations } from "@ndla/ui";
 import { MetaImageSearch } from ".";
+import { ArticleFormType } from "./articleFormHooks";
 import { SearchTagsContent } from "../../components/Form/SearchTagsContent";
 import { SearchTagsTagSelectorInput } from "../../components/Form/SearchTagsTagSelectorInput";
-import { FormField } from "../../components/FormField";
+import { FormField, FormRemainingCharacters } from "../../components/FormField";
 import FormikField from "../../components/FormikField";
 import { FormContent } from "../../components/FormikForm";
 import PlainTextEditor from "../../components/SlateEditor/PlainTextEditor";
 import { textTransformPlugin } from "../../components/SlateEditor/plugins/textTransform";
 import { DRAFT_ADMIN_SCOPE } from "../../constants";
 import { useDraftSearchTags } from "../../modules/draft/draftQueries";
+import { inlineContentToEditorValue } from "../../util/articleContentConverter";
 import useDebounce from "../../util/useDebounce";
 import { useSession } from "../Session/SessionProvider";
 
@@ -66,6 +71,7 @@ const MetaDataField = ({ articleLanguage, articleContent, showCheckbox, checkbox
   const plugins = [textTransformPlugin];
   const [inputQuery, setInputQuery] = useState<string>("");
   const debouncedQuery = useDebounce(inputQuery, 300);
+  const { setStatus } = useFormikContext<ArticleFormType>();
   const searchTagsQuery = useDraftSearchTags(
     {
       input: debouncedQuery,
@@ -85,12 +91,39 @@ const MetaDataField = ({ articleLanguage, articleContent, showCheckbox, checkbox
     });
   }, [searchTagsQuery.data?.results]);
 
-  const generateMetaDescription = () => {
-    // ... do something
+  const fetchMetaDescription = async (inputQuery: string) => {
+    const response = await fetch("/invoke-model", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        prompt: t("prompts.metaDescription") + inputQuery,
+        max_tokens: 2000,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to generate meta description");
+    }
+
+    const responseBody = await response.json();
+    return responseBody.content[0].text;
+  };
+
+  const generateMetaDescription = async (helpers: FieldHelperProps<Descendant[]>) => {
+    const inputQuery = articleContent ?? "";
     setIsLoading(true);
-    setTimeout(() => {
+    try {
+      const generatedText = await fetchMetaDescription(inputQuery);
+      await helpers.setValue(inlineContentToEditorValue(generatedText, true), true);
+      // We have to invalidate slate children. We do this with status.
+      setStatus({ status: "acceptGenerated" });
+    } catch (error) {
+      console.error("Error generating meta description", error);
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   return (
@@ -148,20 +181,27 @@ const MetaDataField = ({ articleLanguage, articleContent, showCheckbox, checkbox
           )}
         </FormField>
       )}
-      <FormikField
-        name="metaDescription"
-        maxLength={155}
-        showMaxLength
-        label={t("form.metaDescription.label")}
-        description={t("form.metaDescription.description")}
-      >
-        {({ field }) => (
-          <PlainTextEditor id={field.name} placeholder={t("form.metaDescription.label")} {...field} plugins={plugins} />
-        )}
-      </FormikField>
-      <StyledButton size="small" onClick={generateMetaDescription}>
-        {t("editorSummary.generate")} {isLoading ? <Spinner size="small" /> : <BlogPost />}
-      </StyledButton>
+      <FormField name="metaDescription">
+        {({ field, helpers, meta }) => {
+          return (
+            <FieldRoot required invalid={!!meta.error}>
+              <FieldLabel>{t("form.metaDescription.label")}</FieldLabel>
+              <FieldHelper>{t("form.metaDescription.description")}</FieldHelper>
+              <PlainTextEditor
+                key={field.value}
+                id={field.name}
+                placeholder={t("form.metaDescription.label")}
+                {...field}
+                plugins={plugins}
+              />
+              <FormRemainingCharacters value={field.value.length} maxLength={155} />
+              <StyledButton size="small" onClick={() => generateMetaDescription(helpers)}>
+                {t("editorSummary.generate")} {isLoading ? <Spinner size="small" /> : <BlogPost />}
+              </StyledButton>
+            </FieldRoot>
+          );
+        }}
+      </FormField>
       <FormikField name="metaImageId">
         {({ field, form }) => (
           <MetaImageSearch

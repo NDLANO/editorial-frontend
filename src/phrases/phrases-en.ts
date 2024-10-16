@@ -1890,6 +1890,7 @@ const phrases = {
       moreInfoSubTitle: "for Read more-link",
       addArticleToMoreInformation: "Add an article",
       removeArticleFromMoreInformation: "Remove article",
+      createGroup: "Create new group",
     },
   },
   modal: {

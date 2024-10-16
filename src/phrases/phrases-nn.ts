@@ -1889,6 +1889,7 @@ const phrases = {
       moreInfoSubTitle: "til Les meir-lenke",
       addArticleToMoreInformation: "Legg til ein artikkel",
       removeArticleFromMoreInformation: "Fjern artikkel",
+      createGroup: "Lag ny gruppe",
     },
   },
   modal: {

@@ -45,6 +45,7 @@ import { useSession } from "../Session/SessionProvider";
 
 interface Props {
   articleLanguage: string;
+  articleContent?: string;
   showCheckbox?: boolean;
   checkboxAction?: (image: IImageMetaInformationV3) => void;
 }
@@ -57,7 +58,7 @@ const StyledButton = styled(Button, {
   },
 });
 
-const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props) => {
+const MetaDataField = ({ articleLanguage, articleContent, showCheckbox, checkboxAction }: Props) => {
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const { userPermissions } = useSession();

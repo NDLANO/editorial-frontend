@@ -160,12 +160,12 @@ router.post("/translate", async (req, res) => {
 
 router.post("/invoke-model", async (req, res) => {
   const modelRegion = getEnvironmentVariabel("NDLA_AI_MODEL_REGION");
-  const client = new BedrockRuntimeClient({ region: modelRegion }); //As of now this is the closest region with the service
+  const client = new BedrockRuntimeClient({ region: modelRegion }); //As of now this is the closest aws-region, with the service
   const modelId = getEnvironmentVariabel("NDLA_AI_MODEL_ID");
 
   const payload = {
     anthropic_version: "bedrock-2023-05-31",
-    max_tokens: 2000,
+    max_tokens: req.body.max_tokens || 500,
     messages: [
       {
         role: ConversationRole.USER,
@@ -173,7 +173,6 @@ router.post("/invoke-model", async (req, res) => {
       },
     ],
   };
-
   const command = new InvokeModelCommand({
     contentType: "application/json",
     body: JSON.stringify(payload),

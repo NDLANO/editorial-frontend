@@ -2166,6 +2166,9 @@ const phrases = {
     title: "Summary",
     generate: "Generate",
   },
+  prompts: {
+    metaDescription: "Return a metadescription of the following educational article:",
+  },
 };
 
 export default phrases;

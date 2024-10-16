@@ -2165,6 +2165,9 @@ const phrases = {
     title: "Oppsummering",
     generate: "Generer",
   },
+  prompts: {
+    metaDescription: "Returner ei metabeskriving av følgjande utdanningstekst:",
+  },
 };
 
 export default phrases;

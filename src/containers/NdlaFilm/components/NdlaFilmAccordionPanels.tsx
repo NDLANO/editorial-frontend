@@ -43,19 +43,6 @@ const SubjectpageAccordionPanels = ({ errors, selectedLanguage }: ComponentProps
       },
     });
   };
-  const onUpdateArticle = (
-    field: FieldProps<FormikValues>["field"],
-    form: FormikHelpers<FormikValues>,
-    article?: string,
-  ) => {
-    form.setFieldTouched(field.name, true, false);
-    field.onChange({
-      target: {
-        name: field.name,
-        value: article,
-      },
-    });
-  };
 
   return (
     <FormAccordions defaultOpen={["slideshow", "themes"]}>
@@ -69,7 +56,7 @@ const SubjectpageAccordionPanels = ({ errors, selectedLanguage }: ComponentProps
         </PageContent>
       </FormAccordion>
       <FormAccordion id="article" title={t("ndlaFilm.editor.moreInfoHeader")} hasError={false}>
-        <NdlaFilmArticle fieldName={"article"} onUpdateArticle={onUpdateArticle} />
+        <NdlaFilmArticle fieldName={"article"} />
       </FormAccordion>
       <FormAccordion
         id="slideshow"

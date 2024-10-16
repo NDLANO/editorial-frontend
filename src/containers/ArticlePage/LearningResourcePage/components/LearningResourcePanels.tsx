@@ -38,6 +38,12 @@ interface Props {
   contexts?: TaxonomyContext[];
 }
 
+const getTextFromHTML = (html: string) => {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, "text/html");
+  return doc.body.textContent || "";
+};
+
 const LearningResourcePanels = ({
   article,
   articleHistory,
@@ -57,6 +63,11 @@ const LearningResourcePanels = ({
     [],
   );
   const copyrightFields = useMemo<FlatArticleKeys[]>(() => ["copyright"], []);
+
+  const articleText = useMemo(() => {
+    if (!article?.content) return " ";
+    return getTextFromHTML(article.content.content);
+  }, [article?.content]);
 
   return (
     <FormAccordionsWithComments
@@ -116,7 +127,7 @@ const LearningResourcePanels = ({
         title={t("form.metadataSection")}
         hasError={!!(errors.metaDescription || errors.metaImageAlt || errors.tags)}
       >
-        <MetaDataField articleLanguage={articleLanguage} />
+        <MetaDataField articleContent={articleText} articleLanguage={articleLanguage} />
       </FormAccordion>
       <FormAccordion id={"learning-resource-grepCodes"} title={t("form.name.grepCodes")} hasError={!!errors.grepCodes}>
         <GrepCodesField />

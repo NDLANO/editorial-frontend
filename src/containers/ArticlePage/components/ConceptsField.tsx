@@ -10,6 +10,7 @@ import { FieldInputProps, FormikHelpers } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DragVertical } from "@ndla/icons/editor";
+import { styled } from "@ndla/styled-system/jsx";
 import { IConcept, IConceptSummary } from "@ndla/types-backend/concept-api";
 import DndList from "../../../components/DndList";
 import { DragHandle } from "../../../components/DraggableItem";
@@ -20,6 +21,10 @@ import { fetchConcept, postSearchConcepts } from "../../../modules/concept/conce
 import handleError from "../../../util/handleError";
 import { routes } from "../../../util/routeHelpers";
 import { ArticleFormType } from "../../FormikForm/articleFormHooks";
+
+const StyledList = styled("ul", {
+  base: { listStyle: "none" },
+});
 
 interface ConceptApiTypeWithArticleType extends IConcept {
   articleType?: string;
@@ -89,29 +94,31 @@ const ConceptsField = ({ field, form }: Props) => {
   return (
     <>
       <FieldHeader title={t("form.relatedConcepts.articlesTitle")} />
-      <DndList
-        items={concepts}
-        dragHandle={
-          <DragHandle aria-label={t("form.relatedConcepts.changeOrder")}>
-            <DragVertical />
-          </DragHandle>
-        }
-        renderItem={(item, index) => (
-          <ListResource
-            key={item.id}
-            title={item.title.title}
-            metaImage={item.metaImage}
-            url={
-              item.conceptType === "concept"
-                ? routes.concept.edit(item.id, i18n.language)
-                : routes.gloss.edit(item.id, i18n.language)
-            }
-            onDelete={() => onDeleteElements(concepts, index)}
-            removeElementTranslation={t("form.relatedConcepts.removeArticle")}
-          />
-        )}
-        onDragEnd={(_, newArray) => onUpdateElements(newArray)}
-      />
+      <StyledList>
+        <DndList
+          items={concepts}
+          dragHandle={
+            <DragHandle aria-label={t("form.relatedConcepts.changeOrder")}>
+              <DragVertical />
+            </DragHandle>
+          }
+          renderItem={(item, index) => (
+            <ListResource
+              key={item.id}
+              title={item.title.title}
+              metaImage={item.metaImage}
+              url={
+                item.conceptType === "concept"
+                  ? routes.concept.edit(item.id, i18n.language)
+                  : routes.gloss.edit(item.id, i18n.language)
+              }
+              onDelete={() => onDeleteElements(concepts, index)}
+              removeElementTranslation={t("form.relatedConcepts.removeArticle")}
+            />
+          )}
+          onDragEnd={(_, newArray) => onUpdateElements(newArray)}
+        />
+      </StyledList>
       <AsyncDropdown<IConceptSummary>
         selectedItems={concepts}
         idField="id"

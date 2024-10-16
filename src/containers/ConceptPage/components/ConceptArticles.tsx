@@ -9,6 +9,7 @@
 import { useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
 import { DragVertical } from "@ndla/icons/editor";
+import { styled } from "@ndla/styled-system/jsx";
 import { IArticle, IArticleSummary } from "@ndla/types-backend/draft-api";
 import DndList from "../../../components/DndList";
 import { DragHandle } from "../../../components/DraggableItem";
@@ -19,6 +20,10 @@ import { fetchDraft, searchDrafts } from "../../../modules/draft/draftApi";
 import handleError from "../../../util/handleError";
 import { routes } from "../../../util/routeHelpers";
 import { ConceptFormValues } from "../conceptInterfaces";
+
+const StyledList = styled("ul", {
+  base: { listStyle: "none" },
+});
 
 const ConceptArticles = () => {
   const { i18n, t } = useTranslation();
@@ -58,25 +63,27 @@ const ConceptArticles = () => {
   return (
     <>
       <FieldHeader title={t("form.related.title")} subTitle={t("subjectpageForm.articles")} />
-      <DndList
-        items={articles}
-        dragHandle={
-          <DragHandle aria-label={t("conceptpageForm.changeOrder")}>
-            <DragVertical />
-          </DragHandle>
-        }
-        renderItem={(item, index) => (
-          <ListResource
-            key={item.id}
-            title={item.title?.title}
-            metaImage={item.metaImage}
-            url={routes.editArticle(item.id, item.articleType ?? "standard", i18n.language)}
-            onDelete={() => onDeleteElement(articles, index)}
-            removeElementTranslation={t("conceptpageForm.removeArticle")}
-          />
-        )}
-        onDragEnd={(_, newArray) => onUpdateElements(newArray)}
-      />
+      <StyledList>
+        <DndList
+          items={articles}
+          dragHandle={
+            <DragHandle aria-label={t("conceptpageForm.changeOrder")}>
+              <DragVertical />
+            </DragHandle>
+          }
+          renderItem={(item, index) => (
+            <ListResource
+              key={item.id}
+              title={item.title?.title}
+              metaImage={item.metaImage}
+              url={routes.editArticle(item.id, item.articleType ?? "standard", i18n.language)}
+              onDelete={() => onDeleteElement(articles, index)}
+              removeElementTranslation={t("conceptpageForm.removeArticle")}
+            />
+          )}
+          onDragEnd={(_, newArray) => onUpdateElements(newArray)}
+        />
+      </StyledList>
       <AsyncDropdown
         selectedItems={articles}
         idField="id"

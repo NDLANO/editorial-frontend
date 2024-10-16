@@ -9,11 +9,10 @@
 import { FieldInputProps, FormikHelpers } from "formik";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
-import { spacing } from "@ndla/core";
 import { DragVertical, Link } from "@ndla/icons/editor";
 import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
+import { styled } from "@ndla/styled-system/jsx";
 import { IArticle, IArticleSummary, IRelatedContentLink } from "@ndla/types-backend/draft-api";
 import ContentLink from "./ContentLink";
 import DndList from "../../../components/DndList";
@@ -27,6 +26,18 @@ import { fetchDraft, searchDrafts } from "../../../modules/draft/draftApi";
 import handleError from "../../../util/handleError";
 import { routes } from "../../../util/routeHelpers";
 import { ArticleFormType } from "../../FormikForm/articleFormHooks";
+
+const StyledList = styled("ul", {
+  base: {
+    listStyle: "none",
+  },
+});
+
+const StyledButtonWrapper = styled("div", {
+  base: {
+    marginBlock: "small",
+  },
+});
 
 interface Props {
   field: FieldInputProps<ArticleFormType["relatedContent"]>;
@@ -117,37 +128,39 @@ const ContentField = ({ field, form }: Props) => {
   return (
     <>
       <FieldHeader title={t("form.relatedContent.articlesTitle")} />
-      <DndList
-        items={releatedContentDndItems}
-        dragHandle={
-          <DragHandle aria-label={t("form.relatedContent.changeOrder")}>
-            <DragVertical />
-          </DragHandle>
-        }
-        renderItem={(item, index) =>
-          "isExternal" in item ? (
-            <ListResource
-              key={item.id}
-              title={item.title}
-              url={item.url}
-              isExternal
-              fallbackElement={<Link />}
-              onDelete={() => onDeleteElement(relatedContent, index)}
-              removeElementTranslation={t("form.relatedContent.removeArticle")}
-            />
-          ) : (
-            <ListResource
-              key={item.id}
-              title={item.title?.title}
-              metaImage={item.metaImage}
-              url={routes.editArticle(item.id, item.articleType ?? "standard", i18n.language)}
-              onDelete={() => onDeleteElement(relatedContent, index)}
-              removeElementTranslation={t("form.relatedContent.removeArticle")}
-            />
-          )
-        }
-        onDragEnd={(_, newArray) => onUpdateElements(newArray)}
-      />
+      <StyledList>
+        <DndList
+          items={releatedContentDndItems}
+          dragHandle={
+            <DragHandle aria-label={t("form.relatedContent.changeOrder")}>
+              <DragVertical />
+            </DragHandle>
+          }
+          renderItem={(item, index) =>
+            "isExternal" in item ? (
+              <ListResource
+                key={item.id}
+                title={item.title}
+                url={item.url}
+                isExternal
+                fallbackElement={<Link />}
+                onDelete={() => onDeleteElement(relatedContent, index)}
+                removeElementTranslation={t("form.relatedContent.removeArticle")}
+              />
+            ) : (
+              <ListResource
+                key={item.id}
+                title={item.title?.title}
+                metaImage={item.metaImage}
+                url={routes.editArticle(item.id, item.articleType ?? "standard", i18n.language)}
+                onDelete={() => onDeleteElement(relatedContent, index)}
+                removeElementTranslation={t("form.relatedContent.removeArticle")}
+              />
+            )
+          }
+          onDragEnd={(_, newArray) => onUpdateElements(newArray)}
+        />
+      </StyledList>
       <AsyncDropdown
         selectedItems={selectedItems}
         idField="id"
@@ -181,9 +194,5 @@ const ContentField = ({ field, form }: Props) => {
     </>
   );
 };
-
-const StyledButtonWrapper = styled.div`
-  margin: ${spacing.small} 0;
-`;
 
 export default ContentField;

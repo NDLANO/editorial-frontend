@@ -10,6 +10,7 @@ import isEqual from "lodash/isEqual";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DragVertical } from "@ndla/icons/editor";
+import { styled } from "@ndla/styled-system/jsx";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
 import DropdownSearch from "./DropdownSearch";
 import DndList from "../../../components/DndList";
@@ -20,6 +21,12 @@ import { NDLA_FILM_SUBJECT } from "../../../constants";
 import { useMoviesQuery } from "../../../modules/frontpage/filmQueries";
 import { getUrnFromId } from "../../../util/ndlaFilmHelpers";
 import { routes } from "../../../util/routeHelpers";
+
+const StyledList = styled("ul", {
+  base: {
+    listStyle: "none",
+  },
+});
 
 interface Props {
   movies: string[];
@@ -62,7 +69,7 @@ export const ThemeMovies = ({ movies, onMoviesUpdated, placeholder }: Props) => 
       {moviesQuery.isLoading ? (
         <OldSpinner />
       ) : (
-        <>
+        <StyledList>
           <DndList
             items={apiMovies}
             dragHandle={
@@ -82,7 +89,7 @@ export const ThemeMovies = ({ movies, onMoviesUpdated, placeholder }: Props) => 
             )}
             onDragEnd={(_, newArray) => onUpdateMovies(newArray)}
           />
-        </>
+        </StyledList>
       )}
       <DropdownSearch
         selectedElements={apiMovies}

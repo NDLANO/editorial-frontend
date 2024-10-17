@@ -2167,6 +2167,7 @@ const phrases = {
   },
   prompts: {
     metaDescription: "Returner en metabeskrivelse av følgende utdanningstekst:",
+    reflectionQuestions: "Returner 5 refleksjonsspørsmål for følgende utdanningstekst:",
     summary: "Returner en kort oppsummering av følgende utdanningstekst:",
   },
 };

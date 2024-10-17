@@ -14,7 +14,6 @@ import { SafeLink } from "@ndla/safelink";
 import { IAudioSummary } from "@ndla/types-backend/audio-api";
 import { LicenseLink } from "@ndla/ui";
 import { SearchContentWrapper } from "./SearchContentWrapper";
-import { SearchLanguages } from "./SearchLanguages";
 import { useLicenses } from "../../../../modules/draft/draftQueries";
 import { routes } from "../../../../util/routeHelpers";
 
@@ -45,7 +44,6 @@ const SearchAudio = ({ audio, locale }: Props) => {
               {audio.title.title || t("audioSearch.noTitle")}
             </SafeLink>
           </ListItemHeading>
-          <SearchLanguages includeCurrent content={audio} language={audio.title.language} contentType="audio" />
         </SearchContentWrapper>
         {!!license && <LicenseLink license={getLicenseByAbbreviation(license?.license, locale)} />}
       </ListItemContent>

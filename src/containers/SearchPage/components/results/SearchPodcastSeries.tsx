@@ -12,7 +12,6 @@ import { ListItemContent, ListItemHeading, ListItemRoot } from "@ndla/primitives
 import { SafeLink } from "@ndla/safelink";
 import { ISeriesSummary } from "@ndla/types-backend/audio-api";
 import { SearchContentWrapper } from "./SearchContentWrapper";
-import { SearchLanguages } from "./SearchLanguages";
 import { SearchListItemImage } from "./SearchListItemImage";
 import { routes } from "../../../../util/routeHelpers";
 
@@ -39,7 +38,6 @@ const SearchPodcastSeries = ({ series }: Props) => {
               {series.title.title || t("podcastSearch.noTitle")}
             </SafeLink>
           </ListItemHeading>
-          <SearchLanguages includeCurrent content={series} language={series.title.language} contentType="series" />
         </SearchContentWrapper>
       </ListItemContent>
     </ListItemRoot>

@@ -15,7 +15,6 @@ import { SafeLink } from "@ndla/safelink";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import { LicenseLink } from "@ndla/ui";
 import { SearchContentWrapper } from "./SearchContentWrapper";
-import { SearchLanguages } from "./SearchLanguages";
 import { SearchListItemImage } from "./SearchListItemImage";
 import { useLicenses } from "../../../../modules/draft/draftQueries";
 import { routes } from "../../../../util/routeHelpers";
@@ -46,7 +45,6 @@ const SearchImage = ({ image, locale }: Props) => {
               {image.title.title || t("imageSearch.noTitle")}
             </SafeLink>
           </ListItemHeading>
-          <SearchLanguages includeCurrent content={image} language={image.title.language} contentType="image" />
           <ImageMeta
             contentType={image.image.contentType}
             fileSize={image.image.size}

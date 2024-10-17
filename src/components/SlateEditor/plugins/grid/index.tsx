@@ -120,6 +120,8 @@ export const gridPlugin = (editor: Editor) => {
             .map(() => defaultGridCellBlock()),
           { at: [...path, node.children.length] },
         );
+
+        return;
       } else if (node.children.length > columns) {
         Editor.withoutNormalizing(editor, () => {
           Array(node.children.length - columns)
@@ -130,6 +132,8 @@ export const gridPlugin = (editor: Editor) => {
               }),
             );
         });
+
+        return;
       }
 
       if (defaultBlockNormalizer(editor, entry, normalizerConfig)) {

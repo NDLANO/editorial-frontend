@@ -3729,13 +3729,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/is-hotkey@npm:^0.1.8":
-  version: 0.1.10
-  resolution: "@types/is-hotkey@npm:0.1.10"
-  checksum: 10c0/8ce7cc70a42e4191ba9871905a68fa6586a9da0bfa9940e20fe67e573b34bc79bfc23158e842c7bd3288ebf9c82ee5cce0c7fa1fe8245f6845c2f9b9f3afc536
-  languageName: node
-  linkType: hard
-
 "@types/istanbul-lib-coverage@npm:*, @types/istanbul-lib-coverage@npm:^2.0.0":
   version: 2.0.4
   resolution: "@types/istanbul-lib-coverage@npm:2.0.4"
@@ -3784,10 +3777,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:^4.14.200":
-  version: 4.14.202
-  resolution: "@types/lodash@npm:4.14.202"
-  checksum: 10c0/6064d43c8f454170841bd67c8266cc9069d9e570a72ca63f06bceb484cb4a3ee60c9c1f305c1b9e3a87826049fd41124b8ef265c4dd08b00f6766609c7fe9973
+"@types/lodash@npm:^4.17.10":
+  version: 4.17.10
+  resolution: "@types/lodash@npm:4.17.10"
+  checksum: 10c0/149b2b9fcc277204393423ed14df28894980c2322ec522fc23f2c6f7edef6ee8d876ee09ed4520f45d128adc0a7a6e618bb0017668349716cd99c6ef54a21621
   languageName: node
   linkType: hard
 
@@ -7055,6 +7048,7 @@ __metadata:
     "@types/auth0-js": "npm:^9.13.2"
     "@types/diff-match-patch": "npm:^1.0.32"
     "@types/express": "npm:^5.0.0"
+    "@types/lodash": "npm:^4.17.10"
     "@types/node": "npm:^20.12.12"
     "@types/node-fetch": "npm:^2.6.2"
     "@types/prismjs": "npm:^1.26.0"
@@ -7113,10 +7107,10 @@ __metadata:
     rimraf: "npm:^3.0.0"
     serialize-javascript: "npm:^6.0.2"
     sirv: "npm:^2.0.4"
-    slate: "npm:^0.102.0"
-    slate-history: "npm:^0.100.0"
+    slate: "npm:^0.110.2"
+    slate-history: "npm:^0.109.0"
     slate-hyperscript: "npm:^0.100.0"
-    slate-react: "npm:^0.102.0"
+    slate-react: "npm:^0.110.2"
     source-map-support: "npm:^0.5.13"
     tsx: "npm:^4.7.2"
     typescript: "npm:^5.4.5"
@@ -13014,14 +13008,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"slate-history@npm:^0.100.0":
-  version: 0.100.0
-  resolution: "slate-history@npm:0.100.0"
+"slate-history@npm:^0.109.0":
+  version: 0.109.0
+  resolution: "slate-history@npm:0.109.0"
   dependencies:
     is-plain-object: "npm:^5.0.0"
   peerDependencies:
     slate: ">=0.65.3"
-  checksum: 10c0/1043aa250086a0fc0050447ca460fe3fa728f78a8cc05d09beb9a6d44af0b66deea69b59a332ff736159a6b3d2fd296ea924eb6f032270afd522153420834186
+  checksum: 10c0/70c97de22100307211ca9d647bc4f775899388d1cbab800a26557ef91be4d894bbe51ddd2542e57137713e95a360e41f05af61d90ef9e14b920e19fc2cf7a72d
   languageName: node
   linkType: hard
 
@@ -13036,13 +13030,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"slate-react@npm:^0.102.0":
-  version: 0.102.0
-  resolution: "slate-react@npm:0.102.0"
+"slate-react@npm:^0.110.2":
+  version: 0.110.2
+  resolution: "slate-react@npm:0.110.2"
   dependencies:
     "@juggle/resize-observer": "npm:^3.4.0"
-    "@types/is-hotkey": "npm:^0.1.8"
-    "@types/lodash": "npm:^4.14.200"
     direction: "npm:^1.0.4"
     is-hotkey: "npm:^0.2.0"
     is-plain-object: "npm:^5.0.0"
@@ -13053,18 +13045,18 @@ __metadata:
     react: ">=18.2.0"
     react-dom: ">=18.2.0"
     slate: ">=0.99.0"
-  checksum: 10c0/f405bc5561185c23eb1c32028e917abe45522058eaf4c158505a98fe83e22492228b3d5a7aa4ae150ed374f70c5592a6a62025f71b279208166af36ac601e29a
+  checksum: 10c0/6b59edbe534f249257c9c739a4b332d15ce04e919005e849ff2fb90b8783ba1f01b0bc845cc14b2e0279af8bf0cc6c5fc7faa27be0b76820f46cd05a8919e054
   languageName: node
   linkType: hard
 
-"slate@npm:^0.102.0":
-  version: 0.102.0
-  resolution: "slate@npm:0.102.0"
+"slate@npm:^0.110.2":
+  version: 0.110.2
+  resolution: "slate@npm:0.110.2"
   dependencies:
     immer: "npm:^10.0.3"
     is-plain-object: "npm:^5.0.0"
     tiny-warning: "npm:^1.0.3"
-  checksum: 10c0/cce8271c36228c16b2512ce48b1aac6a00b33aa24771ee925d6eed4c20d19b82a45125f70be161f3d51fc887b7a8f560885a1c438d71abf0acd13a3d42a87a03
+  checksum: 10c0/90ed1b3c92898ccd4b3cb33216797acfb6eacbc2e60c7b8d8af4f02305195c3832a8cddb4651b10c4beb1da122bfaa42bb748e6464d75c8bfd545f017297041c
   languageName: node
   linkType: hard
 

@@ -7,7 +7,7 @@
  */
 
 import { FormikHandlers, useFormikContext } from "formik";
-import { useEffect, useCallback, useState } from "react";
+import { useEffect, useCallback, useState, forwardRef, Ref } from "react";
 import { createEditor, Descendant } from "slate";
 import { withHistory } from "slate-history";
 import { Slate, Editable, ReactEditor, withReact } from "slate-react";
@@ -50,59 +50,63 @@ interface Props extends Omit<EditableProps & JsxStyleProps, "value"> {
   plugins?: SlatePlugin[];
 }
 
-const PlainTextEditor = ({ onChange, value, id, submitted, className, placeholder, plugins, ...rest }: Props) => {
-  const [editor] = useState(() => withPlugins(withHistory(withReact(createEditor())), plugins));
-  const props = useFormControl({ id, readOnly: submitted, ...rest });
+const PlainTextEditor = forwardRef<HTMLTextAreaElement, Props>(
+  ({ onChange, value, id, submitted, className, placeholder, plugins, ...rest }, ref) => {
+    const [editor] = useState(() => withPlugins(withHistory(withReact(createEditor())), plugins));
+    const props = useFormControl({ id, readOnly: submitted, ...rest });
 
-  const onBlur = useCallback(() => {
-    ReactEditor.deselect(editor);
-  }, [editor]);
-
-  const onSlateChange = useCallback(
-    (val: Descendant[]) =>
-      onChange({
-        target: {
-          name: id,
-          value: val,
-          type: "SlateEditorValue",
-        },
-      }),
-    [id, onChange],
-  );
-
-  const { status, setStatus } = useFormikContext<ArticleFormType>();
-
-  useEffect(() => {
-    if (status?.status === "revertVersion") {
+    const onBlur = useCallback(() => {
       ReactEditor.deselect(editor);
-      editor.children = value;
-      setStatus((prevStatus: FormikStatus) => ({
-        ...prevStatus,
-        status: undefined,
-      }));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status]);
+    }, [editor]);
 
-  return (
-    <Slate editor={editor} initialValue={value} onChange={onSlateChange}>
-      <StyledEditable
-        // Forcing slate field to be deselected before selecting new field.
-        // Fixes a problem where slate field is not properly focused on click.
-        onBlur={onBlur}
-        // @ts-ignore is-hotkey and editor.onKeyDown does not have matching types
-        onKeyDown={editor.onKeyDown}
-        className={className}
-        placeholder={placeholder}
-        renderPlaceholder={({ children, attributes }) => {
-          // Remove inline styling to be able to apply styling from StyledPlaceholder
-          const { style, ...remainingAttributes } = attributes;
-          return <StyledPlaceholder {...remainingAttributes}>{children}</StyledPlaceholder>;
-        }}
-        {...props}
-      />
-    </Slate>
-  );
-};
+    const onSlateChange = useCallback(
+      (val: Descendant[]) =>
+        onChange({
+          target: {
+            name: id,
+            value: val,
+            type: "SlateEditorValue",
+          },
+        }),
+      [id, onChange],
+    );
+
+    const { status, setStatus } = useFormikContext<ArticleFormType>();
+
+    useEffect(() => {
+      if (status?.status === "revertVersion") {
+        ReactEditor.deselect(editor);
+        editor.children = value;
+        setStatus((prevStatus: FormikStatus) => ({
+          ...prevStatus,
+          status: undefined,
+        }));
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [status]);
+
+    return (
+      <Slate editor={editor} initialValue={value} onChange={onSlateChange}>
+        <StyledEditable
+          // Forcing slate field to be deselected before selecting new field.
+          // Fixes a problem where slate field is not properly focused on click.
+          onBlur={onBlur}
+          // @ts-ignore is-hotkey and editor.onKeyDown does not have matching types
+          onKeyDown={editor.onKeyDown}
+          className={className}
+          placeholder={placeholder}
+          renderPlaceholder={({ children, attributes }) => {
+            // Remove inline styling to be able to apply styling from StyledPlaceholder
+            const { style, ...remainingAttributes } = attributes;
+            return <StyledPlaceholder {...remainingAttributes}>{children}</StyledPlaceholder>;
+          }}
+          {...props}
+          // Weird typescript error. Let's just ignore it
+          ref={ref as Ref<never>}
+        />
+      </Slate>
+    );
+  },
+);
 
 export default PlainTextEditor;

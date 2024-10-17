@@ -10,70 +10,62 @@ import { FieldInputProps, FormikHelpers } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DragVertical } from "@ndla/icons/editor";
+import { ComboboxLabel } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IConcept, IConceptSummary } from "@ndla/types-backend/concept-api";
+import { IConceptSummary } from "@ndla/types-backend/concept-api";
+import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
 import DndList from "../../../components/DndList";
 import { DragHandle } from "../../../components/DraggableItem";
-import AsyncDropdown from "../../../components/Dropdown/asyncDropdown/AsyncDropdown";
-import FieldHeader from "../../../components/Field/FieldHeader";
+import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCombobox";
 import ListResource from "../../../components/Form/ListResource";
-import { fetchConcept, postSearchConcepts } from "../../../modules/concept/conceptApi";
-import handleError from "../../../util/handleError";
+import { FormContent } from "../../../components/FormikForm";
+import { postSearchConcepts } from "../../../modules/concept/conceptApi";
+import { useSearchConcepts } from "../../../modules/concept/conceptQueries";
 import { routes } from "../../../util/routeHelpers";
+import useDebounce from "../../../util/useDebounce";
 import { ArticleFormType } from "../../FormikForm/articleFormHooks";
 
 const StyledList = styled("ul", {
   base: { listStyle: "none" },
 });
 
-interface ConceptApiTypeWithArticleType extends IConcept {
-  articleType?: string;
-}
 interface Props {
   field: FieldInputProps<ArticleFormType["conceptIds"]>;
   form: FormikHelpers<ArticleFormType>;
 }
 
 const ConceptsField = ({ field, form }: Props) => {
+  const [query, setQuery] = useState("");
+  const [page, setPage] = useState(1);
+  const delayedQuery = useDebounce(query, 300);
   const { t, i18n } = useTranslation();
-  const [concepts, setConcepts] = useState<ConceptApiTypeWithArticleType[]>([]);
+  const [concepts, setConcepts] = useState<IConceptSummary[]>([]);
+
+  const searchQuery = useSearchConcepts(
+    { query: delayedQuery, language: i18n.language, page },
+    { placeholderData: (prev) => prev },
+  );
 
   useEffect(() => {
     (async () => {
-      const conceptPromises = field.value.filter((a) => !!a).map((id) => fetchConcept(id, ""));
-      const fetchedConcepts = await Promise.all(conceptPromises);
-      setConcepts(
-        fetchedConcepts.map((concept) => ({
-          ...concept,
-          articleType: "concept",
-        })),
-      );
+      if (!field.value.length) return;
+      const concepts = await postSearchConcepts({ ids: field.value, language: i18n.language });
+      setConcepts(concepts.results);
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onAddConceptToList = async (concept: IConceptSummary) => {
-    try {
-      const newConcept = await fetchConcept(concept.id, i18n.language);
-      const temp = [...concepts, { ...newConcept, articleType: "concept" }];
-      setConcepts(temp);
-      updateFormik(field, temp);
-    } catch (e) {
-      handleError(e);
-    }
-  };
-
-  const onUpdateElements = (conceptList: ConceptApiTypeWithArticleType[]) => {
+  const onUpdateElements = (conceptList: IConceptSummary[]) => {
     setConcepts(conceptList);
     updateFormik(field, conceptList);
   };
 
-  const onDeleteElements = (elements: ConceptApiTypeWithArticleType[], deleteIndex: number) => {
+  const onDeleteElements = (elements: IConceptSummary[], deleteIndex: number) => {
     const newElements = elements.filter((_, i) => i !== deleteIndex);
     onUpdateElements(newElements);
   };
 
-  const updateFormik = (formikField: Props["field"], newData: ConceptApiTypeWithArticleType[]) => {
+  const updateFormik = (formikField: Props["field"], newData: IConceptSummary[]) => {
     form.setFieldTouched("conceptIds", true, false);
     formikField.onChange({
       target: {
@@ -83,17 +75,28 @@ const ConceptsField = ({ field, form }: Props) => {
     });
   };
 
-  const searchForConcepts = async (query: string, page?: number) => {
-    return postSearchConcepts({
-      query,
-      page,
-      language: i18n.language,
-    });
-  };
-
   return (
-    <>
-      <FieldHeader title={t("form.relatedConcepts.articlesTitle")} />
+    <FormContent>
+      <GenericSearchCombobox
+        value={field.value.map((c) => c.toString())}
+        multiple
+        onValueChange={(details) => {
+          field.onChange({ target: { name: field.name, value: details.items.map((c) => c.id) } });
+          setConcepts(details.items);
+        }}
+        items={searchQuery.data?.results ?? []}
+        itemToString={(item) => item.title.title}
+        itemToValue={(item) => item.id.toString()}
+        inputValue={query}
+        isSuccess={searchQuery.isSuccess}
+        paginationData={searchQuery.data}
+        onInputValueChange={(details) => setQuery(details.inputValue)}
+        onPageChange={(details) => setPage(details.page)}
+        renderItem={(item) => <GenericComboboxItemContent title={item.title.title} image={item.metaImage} />}
+      >
+        <ComboboxLabel>{t("form.relatedConcepts.articlesTitle")}</ComboboxLabel>
+        <GenericComboboxInput placeholder={t("form.relatedConcepts.placeholder")} isFetching={searchQuery.isFetching} />
+      </GenericSearchCombobox>
       <StyledList>
         <DndList
           items={concepts}
@@ -119,20 +122,7 @@ const ConceptsField = ({ field, form }: Props) => {
           onDragEnd={(_, newArray) => onUpdateElements(newArray)}
         />
       </StyledList>
-      <AsyncDropdown<IConceptSummary>
-        selectedItems={concepts}
-        idField="id"
-        labelField="title"
-        placeholder={t("form.relatedConcepts.placeholder")}
-        apiAction={searchForConcepts}
-        onClick={(event: Event) => event.stopPropagation()}
-        onChange={onAddConceptToList}
-        multiSelect
-        disableSelected
-        clearInputField
-        showPagination
-      />
-    </>
+    </FormContent>
   );
 };
 

@@ -94,7 +94,13 @@ const FormikField = ({
         <FormikRemainingCharacters
           maxLength={maxLength}
           getRemainingLabel={getRemainingLabel}
-          value={isSlateValue ? Node.string(values[name][0]) : values[name]}
+          value={
+            isSlateValue
+              ? values[name]
+                  .map((node: Node) => Node.string(node))
+                  .reduce((str: string, acc: string) => (acc = acc + str), "")
+              : values[name]
+          }
         />
       )}
       {showError && get(errors, name) && (

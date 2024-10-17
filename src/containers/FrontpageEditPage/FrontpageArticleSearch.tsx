@@ -7,17 +7,27 @@
  */
 
 import { useFormikContext } from "formik";
-import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
+import { ReactNode, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { Content, Portal as PopoverPortal, Root, Trigger } from "@radix-ui/react-popover";
-import { colors, misc, spacing, stackOrder } from "@ndla/core";
+import { createListCollection } from "@ark-ui/react";
+import {
+  ComboboxContent,
+  ComboboxItem,
+  ComboboxLabel,
+  ComboboxRoot,
+  PopoverContent,
+  PopoverRoot,
+  PopoverTrigger,
+  Text,
+} from "@ndla/primitives";
 import { IArticleSummaryV2 } from "@ndla/types-backend/article-api";
-import { Heading } from "@ndla/typography";
+import { useComboboxTranslations } from "@ndla/ui";
 import { extractArticleIds } from "./frontpageHelpers";
 import { MenuWithArticle } from "./types";
-import AsyncDropdown from "../../components/Dropdown/asyncDropdown/AsyncDropdown";
-import { searchArticles } from "../../modules/article/articleApi";
+import { GenericComboboxInput, GenericComboboxItemContent } from "../../components/abstractions/Combobox";
+import Pagination from "../../components/abstractions/Pagination";
+import { useArticleSearch } from "../../modules/article/articleQueries";
+import { usePaginatedQuery } from "../../util/usePaginatedQuery";
 
 interface Props {
   articleId?: number;
@@ -25,70 +35,85 @@ interface Props {
   onChange: (article: IArticleSummaryV2) => void;
 }
 
-const PopoverContent = styled(Content)`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-  border-radius: ${misc.borderRadius};
-  border: 1px solid ${colors.brand.primary};
-  background: ${colors.white};
-  z-index: ${stackOrder.popover};
-  color: ${colors.text.primary};
-  padding: ${spacing.small};
-`;
-
 const FrontpageArticleSearch = ({ articleId, children, onChange }: Props) => {
   const { t } = useTranslation();
   const { values } = useFormikContext<MenuWithArticle>();
-  const [windowHeight, setWindowHeight] = useState<number>(window.innerHeight);
+  const [open, setOpen] = useState(false);
+  const { query, setQuery, page, setPage, delayedQuery } = usePaginatedQuery();
+  const comboboxTranslations = useComboboxTranslations();
 
-  useEffect(() => {
-    const changeSize = () => {
-      setWindowHeight(window.innerHeight);
-    };
-
-    window.addEventListener("resize", changeSize);
-
-    return () => {
-      window.removeEventListener("resize", changeSize);
-    };
-  });
+  const articleQuery = useArticleSearch(
+    { articleTypes: ["frontpage-article"], page, query: delayedQuery },
+    { placeholderData: (prev) => prev },
+  );
 
   const selectedValues = useMemo(() => {
     const articleIds = extractArticleIds(values);
-    return articleIds.map((id) => ({ id }));
+    return articleIds.map((id) => id.toString());
   }, [values]);
 
-  const onSearch = useCallback((query: string, page?: number) => {
-    return searchArticles({ articleTypes: ["frontpage-article"], page, query });
-  }, []);
+  const articleCollection = useMemo(
+    () =>
+      createListCollection({
+        items: articleQuery.data?.results ?? [],
+        itemToValue: (item) => item.id.toString(),
+        isItemDisabled: (item) => selectedValues.includes(item.id.toString()),
+      }),
+    [articleQuery.data?.results, selectedValues],
+  );
 
   return (
-    <Root>
-      <Trigger asChild>{children}</Trigger>
-      <PopoverPortal>
-        <PopoverContent>
-          <Heading element="h1" headingStyle="h3" margin="none">
-            {articleId ? t("frontpageForm.changeArticle") : t("frontpageForm.addArticle")}
-          </Heading>
-          <AsyncDropdown<IArticleSummaryV2>
-            idField="id"
-            labelField="title"
-            placeholder={t("frontpageForm.search")}
-            apiAction={onSearch}
-            selectedItems={selectedValues}
-            disableSelected
-            onChange={onChange}
-            positionAbsolute
-            multiSelect
-            startOpen
-            showPagination
-            initialSearch={true}
-            menuHeight={windowHeight * 0.3}
-          />
-        </PopoverContent>
-      </PopoverPortal>
-    </Root>
+    <PopoverRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
+      <PopoverTrigger asChild consumeCss>
+        {children}
+      </PopoverTrigger>
+      <PopoverContent>
+        <ComboboxRoot
+          collection={articleCollection}
+          inputValue={query}
+          value={selectedValues}
+          onValueChange={(details) => !!details.items[0] && onChange(details.items[0])}
+          onInputValueChange={(details) => setQuery(details.inputValue)}
+          onFocusOutside={(e) => e.preventDefault()}
+          onInteractOutside={(e) => e.preventDefault()}
+          onOpenChange={(details) => !details.open && setOpen(false)}
+          translations={comboboxTranslations}
+          selectionBehavior="clear"
+          defaultOpen
+          closeOnSelect
+          context="composite"
+          variant="complex"
+          css={{ width: "surface.small" }}
+        >
+          <ComboboxLabel>{articleId ? t("frontpageForm.changeArticle") : t("frontpageForm.addArticle")}</ComboboxLabel>
+          <GenericComboboxInput isFetching={articleQuery.isFetching} />
+          {!!articleQuery.data?.results.length && (
+            <ComboboxContent>
+              {articleQuery.data.results.map((article) => (
+                <ComboboxItem key={article.id} item={article} asChild>
+                  <GenericComboboxItemContent
+                    title={article.title.title}
+                    image={article.metaImage}
+                    description={article.metaDescription?.metaDescription}
+                    useFallbackImage
+                  />
+                </ComboboxItem>
+              ))}
+            </ComboboxContent>
+          )}
+          {articleQuery.isSuccess && <Text>{t("dropdown.numberHits", { hits: articleQuery.data.totalCount })}</Text>}
+          {!!articleQuery.data && articleQuery.data.totalCount > articleQuery.data.pageSize && (
+            <Pagination
+              count={articleQuery.data.totalCount}
+              pageSize={articleQuery.data.pageSize}
+              page={page}
+              onPageChange={(details) => setPage(details.page)}
+              buttonSize="small"
+            />
+          )}
+        </ComboboxRoot>
+      </PopoverContent>
+    </PopoverRoot>
   );
 };
 

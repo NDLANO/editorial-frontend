@@ -10,21 +10,8 @@ import { Formik } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
-import {
-  Button,
-  FieldErrorMessage,
-  FieldInput,
-  FieldLabel,
-  FieldRoot,
-  RadioGroupItem,
-  RadioGroupItemControl,
-  RadioGroupItemHiddenInput,
-  RadioGroupItemText,
-  RadioGroupLabel,
-  RadioGroupRoot,
-  Text,
-} from "@ndla/primitives";
-import { BlogPostEmbedData } from "@ndla/types-embed";
+import { Button, FieldErrorMessage, FieldInput, FieldLabel, FieldRoot, Text } from "@ndla/primitives";
+import { PitchEmbedData } from "@ndla/types-embed";
 import InlineImageSearch from "../../../../containers/ConceptPage/components/InlineImageSearch";
 import { InlineField } from "../../../../containers/FormikForm/InlineField";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
@@ -33,24 +20,23 @@ import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
 import { RichTextIndicator } from "../../RichTextIndicator";
 
-interface BlogPostFormValues {
-  resource: "blog-post";
+interface PitchFormValues {
+  resource: "pitch";
   metaImageId?: number;
   title: Descendant[];
-  size?: "normal" | "large";
-  author?: string;
+  description?: Descendant[];
   link: string;
   metaImageAlt?: string;
 }
 
-const rules: RulesType<BlogPostFormValues> = {
+const rules: RulesType<PitchFormValues> = {
   title: {
     required: true,
   },
   metaImageId: {
     required: true,
   },
-  size: {
+  description: {
     required: true,
   },
   link: {
@@ -63,43 +49,39 @@ const rules: RulesType<BlogPostFormValues> = {
   },
 };
 
-const toInitialValues = (initialData?: BlogPostEmbedData): BlogPostFormValues => {
+const toInitialValues = (initialData?: PitchEmbedData): PitchFormValues => {
   return {
-    resource: "blog-post",
+    resource: "pitch",
     title: inlineContentToEditorValue(initialData?.title ?? "", true),
     metaImageId: initialData?.imageId ? parseInt(initialData.imageId) : undefined,
-    size: initialData?.size ?? "normal",
+    description: inlineContentToEditorValue(initialData?.description ?? "", true),
     link: initialData?.url ?? "",
-    author: initialData?.author ?? "",
     metaImageAlt: initialData?.alt ?? "",
   };
 };
 
 interface Props {
-  initialData?: BlogPostEmbedData;
-  onSave: (data: BlogPostEmbedData) => void;
+  initialData?: PitchEmbedData;
+  onSave: (data: PitchEmbedData) => void;
   onCancel: () => void;
 }
 
-const sizeValues: string[] = ["normal", "large"];
-
-const BlogPostForm = ({ initialData, onSave, onCancel }: Props) => {
+const PitchForm = ({ initialData, onSave, onCancel }: Props) => {
   const { t } = useTranslation();
   const initialValues = useMemo(() => toInitialValues(initialData), [initialData]);
   const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
 
   const onSubmit = useCallback(
-    (values: BlogPostFormValues) => {
+    (values: PitchFormValues) => {
       if (!values.metaImageId) {
         return;
       }
 
-      const newData: BlogPostEmbedData = {
-        resource: "blog-post",
+      const newData: PitchEmbedData = {
+        resource: "pitch",
         imageId: values.metaImageId.toString(),
         title: inlineContentToHTML(values.title),
-        size: values.size,
-        author: values.author ?? "",
+        description: inlineContentToHTML(values.description ?? []),
         url: values.link,
         alt: values.metaImageAlt ?? "",
       };
@@ -136,11 +118,19 @@ const BlogPostForm = ({ initialData, onSave, onCancel }: Props) => {
               </FieldRoot>
             )}
           </FormField>
-          <FormField name="author">
-            {({ field, meta }) => (
+          <FormField name="description">
+            {({ field, meta, helpers }) => (
               <FieldRoot required invalid={!!meta.error}>
-                <FieldLabel>{t("form.name.author")}</FieldLabel>
-                <FieldInput {...field} />
+                <Text textStyle="label.medium" fontWeight="bold">
+                  {t("form.name.description")}
+                  <RichTextIndicator />
+                </Text>
+                <InlineField
+                  {...field}
+                  placeholder={t("form.name.description")}
+                  submitted={isSubmitting}
+                  onChange={helpers.setValue}
+                />
                 <FieldErrorMessage>{meta.error}</FieldErrorMessage>
               </FieldRoot>
             )}
@@ -151,26 +141,6 @@ const BlogPostForm = ({ initialData, onSave, onCancel }: Props) => {
                 <FieldLabel>{t("form.name.link")}</FieldLabel>
                 <FieldInput {...field} />
                 <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-              </FieldRoot>
-            )}
-          </FormField>
-          <FormField name="size">
-            {({ field, helpers }) => (
-              <FieldRoot required>
-                <RadioGroupRoot
-                  value={field.value}
-                  orientation="horizontal"
-                  onValueChange={(details) => helpers.setValue(details.value)}
-                >
-                  <RadioGroupLabel>{t("form.name.size")}</RadioGroupLabel>
-                  {sizeValues.map((value) => (
-                    <RadioGroupItem value={value} key={value}>
-                      <RadioGroupItemControl />
-                      <RadioGroupItemText>{t(`blogPostForm.sizes.${value}`)}</RadioGroupItemText>
-                      <RadioGroupItemHiddenInput />
-                    </RadioGroupItem>
-                  ))}
-                </RadioGroupRoot>
               </FieldRoot>
             )}
           </FormField>
@@ -200,4 +170,4 @@ const BlogPostForm = ({ initialData, onSave, onCancel }: Props) => {
   );
 };
 
-export default BlogPostForm;
+export default PitchForm;

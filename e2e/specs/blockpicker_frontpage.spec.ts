@@ -25,7 +25,7 @@ test("adds and removes grid", async ({ page }) => {
   await page.getByTestId("slate-block-picker").click();
   await expect(page.getByTestId("create-keyFigure")).toBeVisible();
   await expect(page.getByTestId("create-image")).toBeVisible();
-  await expect(page.getByTestId("create-blogPost")).toBeVisible();
+  await expect(page.getByTestId("create-pitch")).toBeVisible();
   await expect(page.getByTestId("slate-block-picker-menu").getByRole("button")).toHaveCount(6);
   await expect(page.getByTestId("remove-grid")).toBeVisible();
   await page.getByTestId("remove-grid").click();
@@ -47,20 +47,24 @@ test("adds and removes keyfigure", async ({ page }) => {
   await expect(page.getByTestId("slate-key-figure")).toHaveCount(0);
 });
 
-test("adds and removes blogpost", async ({ page }) => {
-  await page.getByTestId("create-blogPost").click();
+test("adds and removes pitch", async ({ page }) => {
+  await page.getByTestId("create-grid").click();
+  await expect(page.getByTestId("slate-grid-cell")).toHaveCount(2);
+  await page.getByTestId("slate-grid-cell").first().click();
+  await page.getByTestId("slate-block-picker").click();
+  await page.getByTestId("create-pitch").click();
   await expect(page.getByRole("button", { name: "Lagre", exact: true })).toBeDisabled();
   const modal = page.locator('div[role="dialog"]');
   await modal.locator("div[name='title']").fill("test");
-  await page.locator("input[name='author']").fill("test");
+  await page.locator("div[name='description']").fill("test");
   await page.locator("input[name='link']").fill("https://test.test");
   await page.getByTestId("select-image-from-list").first().click();
   await page.getByTestId("use-image").click();
   await expect(page.getByRole("button", { name: "Lagre", exact: true })).toBeEnabled();
   await page.getByRole("button", { name: "Lagre", exact: true }).click();
-  await expect(page.getByTestId("slate-blog-post")).toBeVisible();
-  await page.getByTestId("remove-blogpost").click();
-  await expect(page.getByTestId("slate-blog-post")).toHaveCount(0);
+  await expect(page.getByTestId("slate-pitch")).toBeVisible();
+  await page.getByTestId("remove-pitch").click();
+  await expect(page.getByTestId("slate-pitch")).toHaveCount(0);
 });
 
 test("adds and removes contactblock", async ({ page }) => {

@@ -15,12 +15,12 @@ import { reduceElementDataAttributesV2 } from "../../../../util/embedTagHelpers"
 import { SlateSerializer } from "../../interfaces";
 import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
-import { TYPE_BLOGPOST } from "../blogPost/types";
 import { TYPE_HEADING } from "../heading/types";
 import { TYPE_IMAGE } from "../image/types";
 import { TYPE_KEY_FIGURE } from "../keyFigure/types";
 import { TYPE_LIST } from "../list/types";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
+import { TYPE_PITCH } from "../pitch/types";
 
 export interface GridElement {
   type: "grid";
@@ -53,7 +53,7 @@ const normalizerConfig: NormalizerConfig = {
 
 const normalizerConfigGridCell: NormalizerConfig = {
   nodes: {
-    allowed: [TYPE_KEY_FIGURE, TYPE_BLOGPOST, TYPE_PARAGRAPH, TYPE_IMAGE, TYPE_HEADING, TYPE_LIST],
+    allowed: [TYPE_KEY_FIGURE, TYPE_PITCH, TYPE_PARAGRAPH, TYPE_IMAGE, TYPE_HEADING, TYPE_LIST],
     defaultType: TYPE_PARAGRAPH,
   },
 };
@@ -120,6 +120,8 @@ export const gridPlugin = (editor: Editor) => {
             .map(() => defaultGridCellBlock()),
           { at: [...path, node.children.length] },
         );
+
+        return;
       } else if (node.children.length > columns) {
         Editor.withoutNormalizing(editor, () => {
           Array(node.children.length - columns)
@@ -130,6 +132,8 @@ export const gridPlugin = (editor: Editor) => {
               }),
             );
         });
+
+        return;
       }
 
       if (defaultBlockNormalizer(editor, entry, normalizerConfig)) {

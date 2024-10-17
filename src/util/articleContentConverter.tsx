@@ -19,7 +19,6 @@ import { SlateSerializer } from "../components/SlateEditor/interfaces";
 import { asideSerializer } from "../components/SlateEditor/plugins/aside";
 import { audioSerializer } from "../components/SlateEditor/plugins/audio";
 import { blockQuoteSerializer } from "../components/SlateEditor/plugins/blockquote";
-import { blogPostSerializer } from "../components/SlateEditor/plugins/blogPost";
 import { breakSerializer } from "../components/SlateEditor/plugins/break";
 import { campaignBlockSerializer } from "../components/SlateEditor/plugins/campaignBlock";
 import { codeblockSerializer } from "../components/SlateEditor/plugins/codeBlock";
@@ -53,6 +52,7 @@ import { noopSerializer } from "../components/SlateEditor/plugins/noop";
 import { TYPE_NOOP } from "../components/SlateEditor/plugins/noop/types";
 import { paragraphSerializer } from "../components/SlateEditor/plugins/paragraph";
 import { TYPE_PARAGRAPH } from "../components/SlateEditor/plugins/paragraph/types";
+import { pitchSerializer } from "../components/SlateEditor/plugins/pitch";
 import { relatedSerializer } from "../components/SlateEditor/plugins/related";
 import { sectionSerializer } from "../components/SlateEditor/plugins/section";
 import { TYPE_SECTION } from "../components/SlateEditor/plugins/section/types";
@@ -115,7 +115,7 @@ const extendedRules: SlateSerializer[] = [
   tableSerializer,
   relatedSerializer,
   gridSerializer,
-  blogPostSerializer,
+  pitchSerializer,
   codeblockSerializer,
   keyFigureSerializer,
   contactBlockSerializer,

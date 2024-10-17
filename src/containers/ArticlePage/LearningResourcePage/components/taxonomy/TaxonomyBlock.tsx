@@ -158,9 +158,9 @@ const TaxonomyBlock = ({
   );
 
   const onVersionChanged = useCallback(
-    (newVersion: SingleValue) => {
-      if (!newVersion || newVersion.value === taxonomyVersion) return;
-      changeVersion(newVersion.value);
+    (versionHash: string) => {
+      if (versionHash === taxonomyVersion) return;
+      changeVersion(versionHash);
       setShowWarning(false);
       updateTaxMutation.reset();
     },

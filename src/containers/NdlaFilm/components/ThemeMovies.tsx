@@ -9,13 +9,24 @@
 import isEqual from "lodash/isEqual";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { DragVertical } from "@ndla/icons/editor";
+import { styled } from "@ndla/styled-system/jsx";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
 import DropdownSearch from "./DropdownSearch";
+import DndList from "../../../components/DndList";
+import { DragHandle } from "../../../components/DraggableItem";
+import ListResource from "../../../components/Form/ListResource";
 import { OldSpinner } from "../../../components/OldSpinner";
 import { NDLA_FILM_SUBJECT } from "../../../constants";
 import { useMoviesQuery } from "../../../modules/frontpage/filmQueries";
 import { getUrnFromId } from "../../../util/ndlaFilmHelpers";
-import ElementList from "../../FormikForm/components/ElementList";
+import { routes } from "../../../util/routeHelpers";
+
+const StyledList = styled("ul", {
+  base: {
+    listStyle: "none",
+  },
+});
 
 interface Props {
   movies: string[];
@@ -24,7 +35,7 @@ interface Props {
 }
 
 export const ThemeMovies = ({ movies, onMoviesUpdated, placeholder }: Props) => {
-  const { t } = useTranslation();
+  const { i18n, t } = useTranslation();
   const [localMovies, setLocalMovies] = useState<string[]>([]);
   const [apiMovies, setApiMovies] = useState<IMultiSearchSummary[]>([]);
   const moviesQuery = useMoviesQuery({ movieUrns: movies }, { enabled: !isEqual(movies, localMovies) });
@@ -42,6 +53,11 @@ export const ThemeMovies = ({ movies, onMoviesUpdated, placeholder }: Props) => 
     onMoviesUpdated(updated);
   };
 
+  const onDeleteElement = (elements: IMultiSearchSummary[], deleteIndex: number) => {
+    const newElements = elements.filter((_, i) => i !== deleteIndex);
+    onUpdateMovies(newElements);
+  };
+
   const onAddMovieToTheme = (movie: IMultiSearchSummary) => {
     setLocalMovies([...movies, getUrnFromId(movie.id)]);
     setApiMovies((prevMovies) => [...prevMovies, movie]);
@@ -53,17 +69,28 @@ export const ThemeMovies = ({ movies, onMoviesUpdated, placeholder }: Props) => 
       {moviesQuery.isLoading ? (
         <OldSpinner />
       ) : (
-        <ElementList
-          articleType="standard"
-          elements={apiMovies}
-          messages={{
-            dragElement: t("ndlaFilm.editor.changeOrder"),
-            removeElement: t("ndlaFilm.editor.removeMovieFromGroup"),
-          }}
-          onUpdateElements={(elements: IMultiSearchSummary[]) => onUpdateMovies(elements)}
-        />
+        <StyledList>
+          <DndList
+            items={apiMovies}
+            dragHandle={
+              <DragHandle aria-label={t("ndlaFilm.editor.changeOrder")}>
+                <DragVertical />
+              </DragHandle>
+            }
+            renderItem={(item, index) => (
+              <ListResource
+                key={item.id}
+                title={item.title.title}
+                metaImage={item.metaImage}
+                url={routes.editArticle(item.id, item.learningResourceType ?? "standard", i18n.language)}
+                onDelete={() => onDeleteElement(apiMovies, index)}
+                removeElementTranslation={t("ndlaFilm.editor.removeMovieFromGroup")}
+              />
+            )}
+            onDragEnd={(_, newArray) => onUpdateMovies(newArray)}
+          />
+        </StyledList>
       )}
-
       <DropdownSearch
         selectedElements={apiMovies}
         onChange={(movie: IMultiSearchSummary) => onAddMovieToTheme(movie)}

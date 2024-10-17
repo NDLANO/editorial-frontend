@@ -25,8 +25,6 @@ import getCurrentBlock from "../../utils/getCurrentBlock";
 import { TYPE_ASIDE } from "../aside/types";
 import { defaultAsideBlock } from "../aside/utils";
 import { TYPE_AUDIO } from "../audio/types";
-import { TYPE_BLOGPOST } from "../blogPost/types";
-import { defaultBlogPostBlock } from "../blogPost/utils";
 import { TYPE_CAMPAIGN_BLOCK } from "../campaignBlock/types";
 import { defaultCampaignBlock } from "../campaignBlock/utils";
 import { TYPE_CODEBLOCK } from "../codeBlock/types";
@@ -56,6 +54,8 @@ import { defaultLinkBlockList } from "../linkBlockList";
 import { TYPE_LINK_BLOCK_LIST } from "../linkBlockList/types";
 import { TYPE_LIST_ITEM } from "../list/types";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
+import { TYPE_PITCH } from "../pitch/types";
+import { defaultPitchBlock } from "../pitch/utils";
 import { defaultRelatedBlock } from "../related";
 import { TYPE_RELATED } from "../related/types";
 import { defaultTableBlock } from "../table/defaultBlocks";
@@ -335,8 +335,8 @@ const SlateBlockPicker = ({
         onInsertBlock(defaultCodeblockBlock());
         break;
       }
-      case TYPE_BLOGPOST: {
-        onInsertBlock(defaultBlogPostBlock());
+      case TYPE_PITCH: {
+        onInsertBlock(defaultPitchBlock());
         break;
       }
       case TYPE_CONCEPT_BLOCK: {

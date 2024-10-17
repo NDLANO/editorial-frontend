@@ -68,6 +68,7 @@ const NdlaFilmArticle = ({ fieldName }: Props) => {
             title={item.title.title}
             description={item.metaDescription?.metaDescription}
             image={item.metaImage}
+            useFallbackImage
           />
         )}
       >

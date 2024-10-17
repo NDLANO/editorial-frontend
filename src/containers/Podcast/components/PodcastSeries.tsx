@@ -101,6 +101,7 @@ const PodcastSeries = () => {
                 title={item.title.title}
                 description={item.description.description}
                 image={item.coverPhoto}
+                useFallbackImage
               />
             )}
           >

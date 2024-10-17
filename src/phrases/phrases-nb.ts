@@ -633,8 +633,8 @@ const phrases = {
     setSticky: "Lås innhold til cellen ved siden av",
     unsetSticky: "Frigjør innhold fra cellen ved siden av",
   },
-  blogPostForm: {
-    title: "Rediger bloggpost",
+  pitchForm: {
+    title: "Rediger pitch",
     languageExplanation: "Velg språk for skjermleser",
     sizes: {
       normal: "Normal",
@@ -743,7 +743,7 @@ const phrases = {
       concept: "Forklaring",
       keyFigure: "Nøkkeltall",
       contactBlock: "Kontaktblokk",
-      blogPost: "Bloggpost",
+      pitch: "Pitch",
       grid: "Grid",
       campaignBlock: "Kampanjeblokk",
       linkBlockList: "Lenkeblokk",

@@ -10,7 +10,7 @@ import { Descendant } from "slate";
 import { blockContentToEditorValue, blockContentToHTML } from "../../../../../util/articleContentConverter";
 import { TYPE_PARAGRAPH } from "../../paragraph/types";
 import { TYPE_SECTION } from "../../section/types";
-import { TYPE_BLOGPOST } from "../types";
+import { TYPE_PITCH } from "../types";
 
 const editor: Descendant[] = [
   {
@@ -18,13 +18,12 @@ const editor: Descendant[] = [
     children: [
       { type: TYPE_PARAGRAPH, children: [{ text: "" }] },
       {
-        type: TYPE_BLOGPOST,
+        type: TYPE_PITCH,
         data: {
-          resource: "blog-post",
+          resource: "pitch",
           imageId: "123",
-          title: "Min bloggpost",
-          size: "large",
-          author: "Ola Nordmann",
+          title: "Min pitch",
+          description: "Min beskrivelse",
           url: "https://ndla.no",
         },
         children: [{ text: "" }],
@@ -35,9 +34,9 @@ const editor: Descendant[] = [
 ];
 
 const html =
-  '<section><ndlaembed data-resource="blog-post" data-image-id="123" data-title="Min bloggpost" data-size="large" data-author="Ola Nordmann" data-url="https://ndla.no"></ndlaembed></section>';
+  '<section><ndlaembed data-resource="pitch" data-image-id="123" data-title="Min pitch" data-description="Min beskrivelse" data-url="https://ndla.no"></ndlaembed></section>';
 
-describe("blogPost serializing tests", () => {
+describe("pitch serializing tests", () => {
   test("serializing", () => {
     const res = blockContentToHTML(editor);
     expect(res).toMatch(html);

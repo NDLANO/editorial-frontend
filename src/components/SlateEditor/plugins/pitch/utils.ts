@@ -7,6 +7,6 @@
  */
 
 import { jsx as slatejsx } from "slate-hyperscript";
-import { TYPE_BLOGPOST } from "./types";
+import { TYPE_PITCH } from "./types";
 
-export const defaultBlogPostBlock = () => slatejsx("element", { type: TYPE_BLOGPOST, isFirstEdit: true }, { text: "" });
+export const defaultPitchBlock = () => slatejsx("element", { type: TYPE_PITCH, isFirstEdit: true }, { text: "" });

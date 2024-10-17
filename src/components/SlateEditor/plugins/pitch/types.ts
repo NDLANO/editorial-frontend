@@ -7,13 +7,13 @@
  */
 
 import { Descendant } from "slate";
-import { BlogPostEmbedData } from "@ndla/types-embed";
+import { PitchEmbedData } from "@ndla/types-embed";
 
-export const TYPE_BLOGPOST = "blog-post";
+export const TYPE_PITCH = "pitch";
 
-export interface BlogPostElement {
-  type: "blog-post";
-  data?: BlogPostEmbedData;
+export interface PitchElement {
+  type: "pitch";
+  data?: PitchEmbedData;
   isFirstEdit?: boolean;
   children: Descendant[];
 }

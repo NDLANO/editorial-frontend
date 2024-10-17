@@ -38,7 +38,6 @@ import HowToHelper from "../../../HowTo/HowToHelper";
 import { StoryType } from "../../../HowTo/stories";
 import { TYPE_ASIDE } from "../aside/types";
 import { TYPE_AUDIO } from "../audio/types";
-import { TYPE_BLOGPOST } from "../blogPost/types";
 import { TYPE_CAMPAIGN_BLOCK } from "../campaignBlock/types";
 import { TYPE_CODEBLOCK } from "../codeBlock/types";
 import { TYPE_COMMENT_BLOCK } from "../comment/block/types";
@@ -53,6 +52,7 @@ import { TYPE_H5P } from "../h5p/types";
 import { TYPE_IMAGE } from "../image/types";
 import { TYPE_KEY_FIGURE } from "../keyFigure/types";
 import { TYPE_LINK_BLOCK_LIST } from "../linkBlockList/types";
+import { TYPE_PITCH } from "../pitch/types";
 import { TYPE_RELATED } from "../related/types";
 import { TYPE_TABLE } from "../table/types";
 import { TYPE_DISCLAIMER } from "../uuDisclaimer/types";
@@ -168,9 +168,9 @@ export const frontpageActions = commonActions.concat(
     helpIcon: renderArticleInModal("Grid"),
   },
   {
-    data: { type: TYPE_BLOGPOST, object: "blogPost" },
+    data: { type: TYPE_PITCH, object: "pitch" },
     icon: <BlogPost />,
-    helpIcon: renderArticleInModal("BlogPost"),
+    helpIcon: renderArticleInModal("Pitch"),
   },
   {
     data: { type: TYPE_KEY_FIGURE, object: "keyFigure" },

@@ -10,7 +10,6 @@ import { SlatePlugin } from "../../../../components/SlateEditor/interfaces";
 import { asideRenderer } from "../../../../components/SlateEditor/plugins/aside/render";
 import { audioRenderer } from "../../../../components/SlateEditor/plugins/audio/render";
 import { blockQuoteRenderer } from "../../../../components/SlateEditor/plugins/blockquote/render";
-import { blogPostRenderer } from "../../../../components/SlateEditor/plugins/blogPost/render";
 import { breakRenderer } from "../../../../components/SlateEditor/plugins/break/render";
 import { campaignBlockRenderer } from "../../../../components/SlateEditor/plugins/campaignBlock/render";
 import { codeblockRenderer } from "../../../../components/SlateEditor/plugins/codeBlock/render";
@@ -39,6 +38,7 @@ import { listRenderer } from "../../../../components/SlateEditor/plugins/list/re
 import { markRenderer } from "../../../../components/SlateEditor/plugins/mark/render";
 import { mathRenderer } from "../../../../components/SlateEditor/plugins/mathml/mathRenderer";
 import { paragraphRenderer } from "../../../../components/SlateEditor/plugins/paragraph/render";
+import { pitchRenderer } from "../../../../components/SlateEditor/plugins/pitch/render";
 import { relatedRenderer } from "../../../../components/SlateEditor/plugins/related/relatedRenderer";
 import { sectionRenderer } from "../../../../components/SlateEditor/plugins/section/render";
 import { spanRenderer } from "../../../../components/SlateEditor/plugins/span/render";
@@ -84,7 +84,7 @@ export const frontpageRenderers: SlatePlugin[] = [
   definitionListRenderer,
   listRenderer,
   gridRenderer,
-  blogPostRenderer,
+  pitchRenderer,
   campaignBlockRenderer,
   linkBlockListRenderer,
   disclaimerRenderer,

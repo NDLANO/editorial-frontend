@@ -24,7 +24,6 @@ import FormikField from "../../../../components/FormikField";
 import LastUpdatedLine from "../../../../components/LastUpdatedLine/LastUpdatedLine";
 import { TYPE_AUDIO } from "../../../../components/SlateEditor/plugins/audio/types";
 import { frontpageActions } from "../../../../components/SlateEditor/plugins/blockPicker/actions";
-import { TYPE_BLOGPOST } from "../../../../components/SlateEditor/plugins/blogPost/types";
 import { TYPE_CAMPAIGN_BLOCK } from "../../../../components/SlateEditor/plugins/campaignBlock/types";
 import { TYPE_CODEBLOCK } from "../../../../components/SlateEditor/plugins/codeBlock/types";
 import { TYPE_COMMENT_BLOCK } from "../../../../components/SlateEditor/plugins/comment/block/types";
@@ -36,6 +35,7 @@ import { TYPE_H5P } from "../../../../components/SlateEditor/plugins/h5p/types";
 import { TYPE_IMAGE } from "../../../../components/SlateEditor/plugins/image/types";
 import { TYPE_KEY_FIGURE } from "../../../../components/SlateEditor/plugins/keyFigure/types";
 import { TYPE_LINK_BLOCK_LIST } from "../../../../components/SlateEditor/plugins/linkBlockList/types";
+import { TYPE_PITCH } from "../../../../components/SlateEditor/plugins/pitch/types";
 import { TYPE_TABLE } from "../../../../components/SlateEditor/plugins/table/types";
 import {
   createToolbarAreaOptions,
@@ -77,7 +77,6 @@ const actions = [
   TYPE_FILE,
   TYPE_CONTACT_BLOCK,
   TYPE_GRID,
-  TYPE_BLOGPOST,
   TYPE_KEY_FIGURE,
   TYPE_CAMPAIGN_BLOCK,
   TYPE_LINK_BLOCK_LIST,
@@ -88,7 +87,7 @@ const actions = [
 const actionsToShowInAreas = {
   "table-cell": [TYPE_IMAGE],
   section: actions,
-  "grid-cell": [TYPE_IMAGE, TYPE_KEY_FIGURE, TYPE_BLOGPOST],
+  "grid-cell": [TYPE_IMAGE, TYPE_KEY_FIGURE, TYPE_PITCH],
 };
 
 const toolbarOptions = createToolbarDefaultValues();

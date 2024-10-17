@@ -53,7 +53,7 @@ export type StoryType =
   | "CodeBlock"
   | "Concept"
   | "ConceptList"
-  | "BlogPost"
+  | "Pitch"
   | "status"
   | "ContactBlock"
   | "Grid"
@@ -324,13 +324,13 @@ export const stories: Record<StoryType, Story> = {
       },
     ],
   },
-  BlogPost: {
-    title: "Blogginnlegg",
-    lead: "Legg til et blogginnlegg",
+  Pitch: {
+    title: "Pitch",
+    lead: "Legg til en pitch",
     body: [
       {
         type: "text",
-        content: "Lim inn lenke til artikkel og legg til tittel for å generere en bloggpost.",
+        content: "Lim inn lenke til artikkel og legg til tittel for å generere en pitch.",
       },
     ],
   },

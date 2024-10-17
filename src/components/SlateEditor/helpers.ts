@@ -7,7 +7,6 @@
  */
 import { TYPE_ASIDE } from "./plugins/aside/types";
 import { TYPE_AUDIO } from "./plugins/audio/types";
-import { TYPE_BLOGPOST } from "./plugins/blogPost/types";
 import { TYPE_CAMPAIGN_BLOCK } from "./plugins/campaignBlock/types";
 import { TYPE_CODEBLOCK } from "./plugins/codeBlock/types";
 import { TYPE_COMMENT_INLINE } from "./plugins/comment/inline/types";
@@ -24,6 +23,7 @@ import { TYPE_IMAGE } from "./plugins/image/types";
 import { TYPE_KEY_FIGURE } from "./plugins/keyFigure/types";
 import { TYPE_LINK, TYPE_CONTENT_LINK } from "./plugins/link/types";
 import { TYPE_MATHML } from "./plugins/mathml/types";
+import { TYPE_PITCH } from "./plugins/pitch/types";
 import { TYPE_RELATED } from "./plugins/related/types";
 import { TYPE_SPAN } from "./plugins/span/types";
 import { TYPE_TABLE } from "./plugins/table/types";
@@ -53,7 +53,7 @@ export const blocks = [
   TYPE_FILE,
   TYPE_RELATED,
   TYPE_TABLE,
-  TYPE_BLOGPOST,
+  TYPE_PITCH,
   TYPE_GRID,
   TYPE_KEY_FIGURE,
   TYPE_CAMPAIGN_BLOCK,

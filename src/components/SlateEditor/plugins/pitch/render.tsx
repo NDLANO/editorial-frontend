@@ -7,17 +7,17 @@
  */
 
 import { Editor } from "slate";
-import SlateBlogPost from "./SlateBlogPost";
-import { TYPE_BLOGPOST } from "./types";
+import SlatePitch from "./SlatePitch";
+import { TYPE_PITCH } from "./types";
 
-export const blogPostRenderer = (editor: Editor) => {
+export const pitchRenderer = (editor: Editor) => {
   const { renderElement } = editor;
   editor.renderElement = ({ attributes, children, element }) => {
-    if (element.type === TYPE_BLOGPOST) {
+    if (element.type === TYPE_PITCH) {
       return (
-        <SlateBlogPost editor={editor} element={element} attributes={attributes}>
+        <SlatePitch editor={editor} element={element} attributes={attributes}>
           {children}
-        </SlateBlogPost>
+        </SlatePitch>
       );
     } else return renderElement?.({ attributes, children, element });
   };

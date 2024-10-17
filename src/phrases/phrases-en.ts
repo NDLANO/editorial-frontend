@@ -2162,6 +2162,15 @@ const phrases = {
       neutral: "Use neutral variant",
     },
   },
+  editorSummary: {
+    title: "Summary",
+    generate: "Generate",
+  },
+  prompts: {
+    metaDescription: "Return a metadescription of the following educational article:",
+    reflectionQuestions: "Return 5 reflection questions for the following educational article:",
+    summary: "Return a short summary of the following educational article:",
+  },
 };
 
 export default phrases;

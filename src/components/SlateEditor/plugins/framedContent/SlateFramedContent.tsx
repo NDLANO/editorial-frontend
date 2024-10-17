@@ -6,19 +6,21 @@
  *
  */
 
-import { useMemo } from "react";
+import escapeHtml from "escape-html";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Element, NodeEntry, Transforms } from "slate";
+import { Editor, Element, NodeEntry, Text, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { BrushLine, Copyright } from "@ndla/icons/editor";
+import { BlogPost, BrushLine, Copyright } from "@ndla/icons/editor";
 import { IconButton } from "@ndla/primitives";
 import { ContentTypeFramedContent, EmbedWrapper } from "@ndla/ui";
 import { FramedContentElement } from ".";
 import { TYPE_FRAMED_CONTENT } from "./types";
 import { useArticleContentType } from "../../../ContentTypeProvider";
 import DeleteButton from "../../../DeleteButton";
+import { getTextFromHTML, invokeModel } from "../../../LLM/helpers";
 import MoveContentButton from "../../../MoveContentButton";
 import { TYPE_COPYRIGHT } from "../copyright/types";
 import { defaultCopyrightBlock } from "../copyright/utils";
@@ -40,6 +42,7 @@ interface Props extends RenderElementProps {
 const SlateFramedContent = (props: Props) => {
   const { element, editor, attributes, children } = props;
   const { t } = useTranslation();
+  const [isLoading, setIsLoading] = useState(false);
   const variant = element.data?.variant ?? "neutral";
   const contentType = useArticleContentType();
   const hasSlateCopyright = useMemo(() => {
@@ -83,9 +86,55 @@ const SlateFramedContent = (props: Props) => {
     Transforms.insertNodes(editor, defaultCopyrightBlock(), { at: path.concat(node.children.length) });
   };
 
+  const serialize = (node: any) => {
+    if (Text.isText(node)) {
+      let string = escapeHtml(node.text);
+      if (node.bold) {
+        string = `<strong>${string}</strong>`;
+      }
+      return string;
+    }
+
+    const children = node.children.map((n: any) => serialize(n)).join("");
+
+    switch (node.type) {
+      case "quote":
+        return `<blockquote><p>${children}</p></blockquote>`;
+      case "paragraph":
+        return `<p>${children}</p>`;
+      case "link":
+        return `<a href="${escapeHtml(node.url)}">${children}</a>`;
+      default:
+        return children;
+    }
+  };
+
+  const generateQuestions = async () => {
+    const articleHTML = await serialize(editor.children[0]);
+    const articleText = getTextFromHTML(articleHTML);
+    setIsLoading(true);
+    try {
+      const generatedText = await invokeModel(t("prompts.reflectionQuestions") + articleText);
+    } catch (error) {
+      console.error("Error generating reflection questions", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <EmbedWrapper draggable {...attributes}>
       <FigureButtons contentEditable={false}>
+        <IconButton
+          variant={variant === "colored" ? "primary" : "secondary"}
+          size="small"
+          title={t("editorSummary.title")}
+          aria-label={t("editorSummary.title")}
+          onClick={() => generateQuestions}
+          loading={isLoading}
+        >
+          <BlogPost />
+        </IconButton>
         {!hasSlateCopyright && (
           <IconButton
             variant="tertiary"

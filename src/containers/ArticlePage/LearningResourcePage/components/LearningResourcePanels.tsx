@@ -16,6 +16,7 @@ import LearningResourceContent from "./LearningResourceContent";
 import LearningResourceTaxonomy from "./LearningResourceTaxonomy";
 import FormAccordion from "../../../../components/Accordion/FormAccordion";
 import FormAccordionsWithComments from "../../../../components/Accordion/FormAccordionsWithComments";
+import { getTextFromHTML } from "../../../../components/LLM/helpers";
 import { IsNewArticleLanguageProvider } from "../../../../components/SlateEditor/IsNewArticleLanguageProvider";
 import config from "../../../../config";
 import { TAXONOMY_WRITE_SCOPE } from "../../../../constants";
@@ -58,6 +59,11 @@ const LearningResourcePanels = ({
   );
   const copyrightFields = useMemo<FlatArticleKeys[]>(() => ["copyright"], []);
 
+  const articleText = useMemo(() => {
+    if (!article?.content) return " ";
+    return getTextFromHTML(article.content.content);
+  }, [article?.content]);
+
   return (
     <FormAccordionsWithComments
       defaultOpen={defaultOpen}
@@ -80,6 +86,7 @@ const LearningResourcePanels = ({
         <IsNewArticleLanguageProvider locale={articleLanguage} article={article}>
           <PageContent variant="content">
             <LearningResourceContent
+              articleContent={articleText}
               articleLanguage={articleLanguage}
               articleId={article?.id}
               handleSubmit={handleSubmit}
@@ -116,7 +123,7 @@ const LearningResourcePanels = ({
         title={t("form.metadataSection")}
         hasError={!!(errors.metaDescription || errors.metaImageAlt || errors.tags)}
       >
-        <MetaDataField articleLanguage={articleLanguage} />
+        <MetaDataField articleContent={articleText} articleLanguage={articleLanguage} />
       </FormAccordion>
       <FormAccordion id={"learning-resource-grepCodes"} title={t("form.name.grepCodes")} hasError={!!errors.grepCodes}>
         <GrepCodesField />

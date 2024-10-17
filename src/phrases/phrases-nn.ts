@@ -2161,6 +2161,15 @@ const phrases = {
       neutral: "Bruk nøytral variant",
     },
   },
+  editorSummary: {
+    title: "Oppsummering",
+    generate: "Generer",
+  },
+  prompts: {
+    metaDescription: "Returner ei metabeskriving av følgjande utdanningstekst:",
+    reflectionQuestions: "Returner 5 refleksjonsspørsmål for følgjande utdanningstekst:",
+    summary: "Returner ei kort oppsummering av følgjande utdanningstekst:",
+  },
 };
 
 export default phrases;

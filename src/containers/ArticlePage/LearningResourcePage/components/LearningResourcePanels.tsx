@@ -86,6 +86,7 @@ const LearningResourcePanels = ({
         <IsNewArticleLanguageProvider locale={articleLanguage} article={article}>
           <PageContent variant="content">
             <LearningResourceContent
+              articleContent={articleText}
               articleLanguage={articleLanguage}
               articleId={article?.id}
               handleSubmit={handleSubmit}

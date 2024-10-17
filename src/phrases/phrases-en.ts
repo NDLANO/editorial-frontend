@@ -2168,6 +2168,7 @@ const phrases = {
   },
   prompts: {
     metaDescription: "Return a metadescription of the following educational article:",
+    summary: "Return a short summary of the following educational article:",
   },
 };
 

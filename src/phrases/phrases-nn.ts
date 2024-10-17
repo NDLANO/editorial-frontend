@@ -2167,6 +2167,7 @@ const phrases = {
   },
   prompts: {
     metaDescription: "Returner ei metabeskriving av følgjande utdanningstekst:",
+    summary: "Returner ei kort oppsummering av følgjande utdanningstekst:",
   },
 };
 

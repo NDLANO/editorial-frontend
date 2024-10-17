@@ -75,11 +75,17 @@ const toolbarAreaFilters = createToolbarAreaOptions();
 // Plugins are checked from last to first
 interface Props {
   articleLanguage: string;
+  articleContent?: string;
   articleId?: number;
   handleSubmit: HandleSubmitFunc<LearningResourceFormType>;
 }
 
-const LearningResourceContent = ({ articleLanguage, articleId, handleSubmit: _handleSubmit }: Props) => {
+const LearningResourceContent = ({
+  articleContent,
+  articleLanguage,
+  articleId,
+  handleSubmit: _handleSubmit,
+}: Props) => {
   const { t } = useTranslation();
   const [creatorsField] = useField<IAuthor[]>("creators");
 
@@ -140,7 +146,7 @@ const LearningResourceContent = ({ articleLanguage, articleId, handleSubmit: _ha
         onCancel={() => setIsNormalizedOnLoad(false)}
         severity="warning"
       />
-      <ArticleSummary />
+      {/* <ArticleSummary articleContent={articleContent} /> */}
       <StyledContentDiv name="content" label={t("form.content.label")} noBorder key={values.revision}>
         {(fieldProps) => <ContentField articleLanguage={articleLanguage} articleId={articleId} {...fieldProps} />}
       </StyledContentDiv>

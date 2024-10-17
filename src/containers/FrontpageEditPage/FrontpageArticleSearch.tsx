@@ -20,7 +20,6 @@ import {
   PopoverTrigger,
   Text,
 } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
 import { IArticleSummaryV2 } from "@ndla/types-backend/article-api";
 import { useComboboxTranslations } from "@ndla/ui";
 import { extractArticleIds } from "./frontpageHelpers";
@@ -28,7 +27,7 @@ import { MenuWithArticle } from "./types";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../components/abstractions/Combobox";
 import Pagination from "../../components/abstractions/Pagination";
 import { useArticleSearch } from "../../modules/article/articleQueries";
-import useDebounce from "../../util/useDebounce";
+import { usePaginatedQuery } from "../../util/usePaginatedQuery";
 
 interface Props {
   articleId?: number;
@@ -39,10 +38,8 @@ interface Props {
 const FrontpageArticleSearch = ({ articleId, children, onChange }: Props) => {
   const { t } = useTranslation();
   const { values } = useFormikContext<MenuWithArticle>();
-  const [page, setPage] = useState(1);
-  const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
-  const delayedQuery = useDebounce(query);
+  const { query, setQuery, page, setPage, delayedQuery } = usePaginatedQuery();
   const comboboxTranslations = useComboboxTranslations();
 
   const articleQuery = useArticleSearch(

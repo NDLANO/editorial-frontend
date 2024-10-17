@@ -6,7 +6,6 @@
  *
  */
 
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
@@ -20,7 +19,7 @@ import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCom
 import { FormField } from "../../../components/FormField";
 import { useSearchSeries } from "../../../modules/audio/audioQueries";
 import { toEditPodcastSeries } from "../../../util/routeHelpers";
-import useDebounce from "../../../util/useDebounce";
+import { usePaginatedQuery } from "../../../util/usePaginatedQuery";
 import ElementImage from "../../FormikForm/components/ElementImage";
 
 const StyledWrapper = styled.div`
@@ -44,9 +43,7 @@ const StyledSafeLink = styled(SafeLink)`
 
 const PodcastSeries = () => {
   const { t, i18n } = useTranslation();
-  const [query, setQuery] = useState("");
-  const [page, setPage] = useState(1);
-  const delayedQuery = useDebounce(query, 300);
+  const { query, delayedQuery, page, setPage, setQuery } = usePaginatedQuery();
 
   const searchQuery = useSearchSeries({ query: delayedQuery, page: page }, { placeholderData: (prev) => prev });
 

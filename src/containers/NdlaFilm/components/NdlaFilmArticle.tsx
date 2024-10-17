@@ -18,7 +18,7 @@ import { getArticle } from "../../../modules/article/articleApi";
 import { useArticleSearch } from "../../../modules/article/articleQueries";
 import { getUrnFromId, getIdFromUrn } from "../../../util/ndlaFilmHelpers";
 import { routes } from "../../../util/routeHelpers";
-import useDebounce from "../../../util/useDebounce";
+import { usePaginatedQuery } from "../../../util/usePaginatedQuery";
 
 interface Props {
   fieldName: string;
@@ -28,15 +28,16 @@ const NdlaFilmArticle = ({ fieldName }: Props) => {
   const { t } = useTranslation();
   const [field, _, helpers] = useField<string | null>(fieldName);
   const [selectedArticle, setSelectedArticle] = useState<undefined | IArticleV2>(undefined);
-  const [query, setQuery] = useState("");
-  const [page, setPage] = useState(1);
-  const delayedQuery = useDebounce(query, 300);
+  const { query, page, setPage, delayedQuery, setQuery } = usePaginatedQuery();
 
-  const searchQuery = useArticleSearch({
-    articleTypes: ["frontpage-article"],
-    page,
-    query: delayedQuery,
-  });
+  const searchQuery = useArticleSearch(
+    {
+      articleTypes: ["frontpage-article"],
+      page,
+      query: delayedQuery,
+    },
+    { placeholderData: (prev) => prev },
+  );
 
   useEffect(() => {
     const initSelectedArticle = async () => {

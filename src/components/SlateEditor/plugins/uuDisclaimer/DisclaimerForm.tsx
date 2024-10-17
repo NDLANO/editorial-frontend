@@ -33,7 +33,7 @@ import { getArticle } from "../../../../modules/article/articleApi";
 import { useArticleSearch } from "../../../../modules/article/articleQueries";
 import { plainTextToEditorValue, editorValueToPlainText } from "../../../../util/articleContentConverter";
 import { routes } from "../../../../util/routeHelpers";
-import useDebounce from "../../../../util/useDebounce";
+import { usePaginatedQuery } from "../../../../util/usePaginatedQuery";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../abstractions/Combobox";
 import { GenericSearchCombobox } from "../../../Form/GenericSearchCombobox";
 import { FormField } from "../../../FormField";
@@ -82,10 +82,7 @@ const DisclaimerForm = ({ initialData, onOpenChange, onSave }: DisclaimerFormPro
   const initialValues = useMemo(() => toInitialValues(initialData), [initialData]);
   const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
   const [selectedArticle, setSelectedArticle] = useState<IArticleV2 | IArticleSummaryV2 | undefined>(undefined);
-
-  const [query, setQuery] = useState("");
-  const [page, setPage] = useState(1);
-  const delayedQuery = useDebounce(query, 300);
+  const { query, delayedQuery, setQuery, page, setPage } = usePaginatedQuery();
 
   const searchQuery = useArticleSearch({ query: delayedQuery, page: page }, { placeholderData: (prev) => prev });
 

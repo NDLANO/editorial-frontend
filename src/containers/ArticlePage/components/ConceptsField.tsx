@@ -22,7 +22,7 @@ import { FormContent } from "../../../components/FormikForm";
 import { postSearchConcepts } from "../../../modules/concept/conceptApi";
 import { useSearchConcepts } from "../../../modules/concept/conceptQueries";
 import { routes } from "../../../util/routeHelpers";
-import useDebounce from "../../../util/useDebounce";
+import { usePaginatedQuery } from "../../../util/usePaginatedQuery";
 import { ArticleFormType } from "../../FormikForm/articleFormHooks";
 
 const StyledList = styled("ul", {
@@ -35,9 +35,7 @@ interface Props {
 }
 
 const ConceptsField = ({ field, form }: Props) => {
-  const [query, setQuery] = useState("");
-  const [page, setPage] = useState(1);
-  const delayedQuery = useDebounce(query, 300);
+  const { query, delayedQuery, setQuery, page, setPage } = usePaginatedQuery();
   const { t, i18n } = useTranslation();
   const [concepts, setConcepts] = useState<IConceptSummary[]>([]);
 

@@ -8,16 +8,25 @@
 
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Portal } from "@ark-ui/react";
 import styled from "@emotion/styled";
-import { ButtonV2, IconButtonV2 } from "@ndla/button";
+import { ButtonV2 } from "@ndla/button";
 import { spacing, fonts, mq, breakpoints } from "@ndla/core";
-import { Plus } from "@ndla/icons/action";
-import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
+import { AddLine } from "@ndla/icons/action";
+import {
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  IconButton,
+} from "@ndla/primitives";
 import { Node } from "@ndla/types-taxonomy";
 import SettingsMenu from "./SettingsMenu";
 import { Row } from "../../../components";
+import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import Spinner from "../../../components/Spinner";
-import TaxonomyLightbox from "../../../components/Taxonomy/TaxonomyLightbox";
 import { getNodeTypeFromNodeId } from "../../../modules/nodes/nodeUtil";
 import AddNodeModalContent from "../AddNodeModalContent";
 import PlannedResourceForm from "../plannedResource/PlannedResourceForm";
@@ -43,13 +52,6 @@ const ControlButtonsWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: ${spacing.xxsmall};
-`;
-
-const IconButtonContainer = styled.div`
-  display: flex;
-`;
-const FullWidth = styled.div`
-  width: 100%;
 `;
 
 interface Props {
@@ -90,41 +92,45 @@ const FolderItem = ({
             nodeChildren={nodeChildren}
           />
           {addChildTooltip && (
-            <Modal open={open} onOpenChange={setOpen} modal={false}>
-              <IconButtonContainer>
-                <ModalTrigger>
-                  <IconButtonV2 size="xsmall" variant="ghost" title={addChildTooltip} aria-label={addChildTooltip}>
-                    <Plus />
-                  </IconButtonV2>
-                </ModalTrigger>
-              </IconButtonContainer>
-              <ModalContent
-                forceOverlay
-                size={node.id.includes("topic") ? { height: "normal", width: "normal" } : "normal"}
-                position="top"
-              >
+            <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)} position="top">
+              <DialogTrigger asChild>
+                <IconButton size="small" variant="tertiary" title={addChildTooltip} aria-label={addChildTooltip}>
+                  <AddLine />
+                </IconButton>
+              </DialogTrigger>
+              <Portal>
                 {node.id.includes("topic") || node.id.includes("subject") ? (
-                  <TaxonomyLightbox title={t("taxonomy.addTopicHeader")}>
-                    <FullWidth>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>{t("taxonomy.addTopicHeader")}</DialogTitle>
+                      <DialogCloseButton />
+                    </DialogHeader>
+                    <DialogBody>
                       <PlannedResourceForm node={node} articleType="topic-article" onClose={close} />
-                    </FullWidth>
-                  </TaxonomyLightbox>
+                    </DialogBody>
+                  </DialogContent>
                 ) : (
-                  <TaxonomyLightbox
-                    title={t("taxonomy.addNode", {
-                      nodeType: t(`taxonomy.nodeType.${node.nodeType}`),
-                    })}
-                  >
-                    <AddNodeModalContent
-                      parentNode={node}
-                      rootId={rootNodeId}
-                      nodeType={getNodeTypeFromNodeId(rootNodeId)}
-                      onClose={close}
-                    />
-                  </TaxonomyLightbox>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>
+                        {t("taxonomy.addNode", {
+                          nodeType: t(`taxonomy.nodeType.${node.nodeType}`),
+                        })}
+                      </DialogTitle>
+                      <DialogCloseButton />
+                    </DialogHeader>
+                    <DialogBody>
+                      <AddNodeModalContent
+                        parentNode={node}
+                        rootId={rootNodeId}
+                        nodeType={getNodeTypeFromNodeId(rootNodeId)}
+                        onClose={close}
+                      />
+                    </DialogBody>
+                  </DialogContent>
                 )}
-              </ModalContent>
-            </Modal>
+              </Portal>
+            </DialogRoot>
           )}
         </ControlButtonsWrapper>
       )}

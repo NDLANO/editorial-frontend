@@ -80,6 +80,7 @@ interface GenericComboboxItemProps {
   title: string;
   description?: string;
   fallbackImageElement?: ReactNode;
+  useFallbackImage?: boolean;
   image?: {
     url?: string;
     alt?: string;
@@ -99,12 +100,12 @@ const StyledListItemRoot = styled(ListItemRoot, {
 });
 
 export const GenericComboboxItemContent = forwardRef<HTMLDivElement, GenericComboboxItemProps & ListItemProps>(
-  ({ title, image, description, fallbackImageElement, ...props }, ref) => (
+  ({ title, image, description, fallbackImageElement, useFallbackImage, ...props }, ref) => (
     <StyledListItemRoot context="list" ref={ref} {...props}>
-      {!!image && (
+      {(!!image || useFallbackImage) && (
         <ListItemImage
-          src={image.url ?? ""}
-          alt={image.alt ?? ""}
+          src={image?.url ?? ""}
+          alt={image?.alt ?? ""}
           fallbackElement={fallbackImageElement ?? <ImageLine />}
         />
       )}

@@ -92,7 +92,9 @@ const ConceptsField = ({ field, form }: Props) => {
         paginationData={searchQuery.data}
         onInputValueChange={(details) => setQuery(details.inputValue)}
         onPageChange={(details) => setPage(details.page)}
-        renderItem={(item) => <GenericComboboxItemContent title={item.title.title} image={item.metaImage} />}
+        renderItem={(item) => (
+          <GenericComboboxItemContent title={item.title.title} image={item.metaImage} useFallbackImage />
+        )}
       >
         <ComboboxLabel>{t("form.relatedConcepts.articlesTitle")}</ComboboxLabel>
         <GenericComboboxInput placeholder={t("form.relatedConcepts.placeholder")} isFetching={searchQuery.isFetching} />

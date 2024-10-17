@@ -40,6 +40,7 @@ import { SearchTagsTagSelectorInput } from "../../components/Form/SearchTagsTagS
 import { FormField, FormRemainingCharacters } from "../../components/FormField";
 import FormikField from "../../components/FormikField";
 import { FormContent } from "../../components/FormikForm";
+import { invokeModel } from "../../components/LLM/helpers";
 import PlainTextEditor from "../../components/SlateEditor/PlainTextEditor";
 import { textTransformPlugin } from "../../components/SlateEditor/plugins/textTransform";
 import { DRAFT_ADMIN_SCOPE } from "../../constants";
@@ -91,31 +92,11 @@ const MetaDataField = ({ articleLanguage, articleContent, showCheckbox, checkbox
     });
   }, [searchTagsQuery.data?.results]);
 
-  const fetchMetaDescription = async (inputQuery: string) => {
-    const response = await fetch("/invoke-model", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        prompt: t("prompts.metaDescription") + inputQuery,
-        max_tokens: 2000,
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error("Failed to generate meta description");
-    }
-
-    const responseBody = await response.json();
-    return responseBody.content[0].text;
-  };
-
   const generateMetaDescription = async (helpers: FieldHelperProps<Descendant[]>) => {
     const inputQuery = articleContent ?? "";
     setIsLoading(true);
     try {
-      const generatedText = await fetchMetaDescription(inputQuery);
+      const generatedText = await invokeModel(t("prompts.metaDescription") + inputQuery);
       await helpers.setValue(inlineContentToEditorValue(generatedText, true), true);
       // We have to invalidate slate children. We do this with status.
       setStatus({ status: "acceptGenerated" });

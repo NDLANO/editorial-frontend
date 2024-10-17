@@ -16,6 +16,7 @@ import LearningResourceContent from "./LearningResourceContent";
 import LearningResourceTaxonomy from "./LearningResourceTaxonomy";
 import FormAccordion from "../../../../components/Accordion/FormAccordion";
 import FormAccordionsWithComments from "../../../../components/Accordion/FormAccordionsWithComments";
+import { getTextFromHTML } from "../../../../components/LLM/helpers";
 import { IsNewArticleLanguageProvider } from "../../../../components/SlateEditor/IsNewArticleLanguageProvider";
 import config from "../../../../config";
 import { TAXONOMY_WRITE_SCOPE } from "../../../../constants";
@@ -37,12 +38,6 @@ interface Props {
   articleLanguage: string;
   contexts?: TaxonomyContext[];
 }
-
-const getTextFromHTML = (html: string) => {
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(html, "text/html");
-  return doc.body.textContent || "";
-};
 
 const LearningResourcePanels = ({
   article,

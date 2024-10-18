@@ -385,6 +385,7 @@ const phrases = {
     archivedIncluded: "Utgåtte fag inkludert",
     error: "Noe gikk galt med søket",
     conceptSubject: "Forklaringsfag: {{name}}",
+    multiTaxonomy: "{{count}} plasseringer i taksonomi",
   },
   subjectsPage: {
     subjects: "Fag",

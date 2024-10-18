@@ -8,6 +8,7 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { AlertFill } from "@ndla/icons/common";
 import { CheckLine, Code, Concept, Globe } from "@ndla/icons/editor";
 import { ListItemContent, ListItemHeading, ListItemRoot, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
@@ -135,6 +136,13 @@ const StyledText = styled(Text, {
   },
 });
 
+const StyledAlertFill = styled(AlertFill, {
+  base: {
+    fill: "yellow.700",
+    stroke: "black",
+  },
+});
+
 const conceptTypes = ["concept", "gloss"];
 
 const SearchContent = ({ content, locale, subjects, responsibleName }: Props) => {
@@ -189,6 +197,9 @@ const SearchContent = ({ content, locale, subjects, responsibleName }: Props) =>
             </SafeLink>
           </ListItemHeading>
           <InfoWrapper>
+            {content.contexts.length > 1 && (
+              <StyledAlertFill title={t("searchForm.multiTaxonomy", { count: content.contexts.length })} />
+            )}
             {!!contentType && <ContentTypeBadgeNew contentType={contentType} />}
             {content.learningResourceType !== "frontpage-article" && (
               <HeaderFavoriteStatus
@@ -222,7 +233,6 @@ const SearchContent = ({ content, locale, subjects, responsibleName }: Props) =>
                   <Code />
                 </SafeLinkIconButton>
               )}
-
             {(content.status?.current === PUBLISHED || content.status?.other.includes(PUBLISHED)) && (
               <SafeLinkIconButton
                 size="small"

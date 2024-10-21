@@ -169,7 +169,7 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
         onCancel={() => setIsNormalizedOnLoad(false)}
         severity="warning"
       />
-      <ArticleSummary />
+      {/* <ArticleSummary /> */}
       <StyledContentDiv name="content" label={t("form.content.label")} noBorder>
         {({ field: { value, name, onChange }, form: { isSubmitting } }) => (
           <ContentTypeProvider value="subject-material">

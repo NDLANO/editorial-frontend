@@ -115,6 +115,7 @@ const SlateFramedContent = (props: Props) => {
     setIsLoading(true);
     try {
       const generatedText = await invokeModel(t("prompts.reflectionQuestions") + articleText);
+      editor.insertText(generatedText);
     } catch (error) {
       console.error("Error generating reflection questions", error);
     } finally {
@@ -130,7 +131,7 @@ const SlateFramedContent = (props: Props) => {
           size="small"
           title={t("editorSummary.title")}
           aria-label={t("editorSummary.title")}
-          onClick={() => generateQuestions}
+          onClick={generateQuestions}
           loading={isLoading}
         >
           <BlogPost />

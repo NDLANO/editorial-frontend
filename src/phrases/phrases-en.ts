@@ -2167,7 +2167,7 @@ const phrases = {
     generate: "Generate",
   },
   prompts: {
-    metaDescription: "Return a metadescription of the following educational article:",
+    metaDescription: "Return a metadescription, maximum 155 characters long, of the following educational article:",
     reflectionQuestions: "Return 5 reflection questions for the following educational article:",
     summary: "Return a short summary of the following educational article:",
   },

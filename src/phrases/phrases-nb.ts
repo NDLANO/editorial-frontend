@@ -2166,7 +2166,7 @@ const phrases = {
     generate: "Generer",
   },
   prompts: {
-    metaDescription: "Returner en metabeskrivelse av følgende utdanningstekst:",
+    metaDescription: "Returner en metabeskrivelse på maksimalt 155 tegn av følgende utdanningstekst:",
     reflectionQuestions: "Returner 5 refleksjonsspørsmål for følgende utdanningstekst:",
     summary: "Returner en kort oppsummering av følgende utdanningstekst:",
   },

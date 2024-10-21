@@ -386,6 +386,7 @@ const phrases = {
     archivedIncluded: "Archived subjects included",
     error: "Something went wrong with the search",
     conceptSubject: "Concept subject: {{name}}",
+    multiTaxonomy: "{{count}} placements in taxonomy",
   },
   subjectsPage: {
     subjects: "Subjects",

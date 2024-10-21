@@ -41,17 +41,31 @@ const ComponentRoot = styled("div", {
 
 const ArticleSummary = ({ articleContent }: Props) => {
   const { t } = useTranslation();
+  const [generatedSummary, setGeneratedSummary] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { setStatus } = useFormikContext<ArticleFormType>();
 
-  const generateSummary = async (helpers: FieldHelperProps<Descendant[]>) => {
+  // const generateSummary = async (helpers: FieldHelperProps<Descendant[]>) => {
+  //   const inputQuery = articleContent ?? "";
+  //   setIsLoading(true);
+  //   try {
+  //     const generatedText = await invokeModel(t("prompts.summary") + inputQuery);
+  //     await helpers.setValue(inlineContentToEditorValue(generatedText, true), true);
+  //     // We have to invalidate slate children. We do this with status.
+  //     setStatus({ status: "acceptGenerated" });
+  //   } catch (error) {
+  //     console.error("Error genetating summary", error);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+
+  const generate = async () => {
     const inputQuery = articleContent ?? "";
     setIsLoading(true);
     try {
       const generatedText = await invokeModel(t("prompts.summary") + inputQuery);
-      await helpers.setValue(inlineContentToEditorValue(generatedText, true), true);
-      // We have to invalidate slate children. We do this with status.
-      setStatus({ status: "acceptGenerated" });
+      setGeneratedSummary(generatedText);
     } catch (error) {
       console.error("Error genetating summary", error);
     } finally {
@@ -62,7 +76,12 @@ const ArticleSummary = ({ articleContent }: Props) => {
   return (
     <ComponentRoot>
       <FieldHeader title={t("editorSummary.title")}></FieldHeader>
-      <FormField name={t("editorSummary.title")}>
+      <TextArea value={generatedSummary} />
+      <StyledButton size="small" onClick={generate}>
+        {t("editorSummary.generate")} {isLoading ? <Spinner size="small" /> : <BlogPost />}
+      </StyledButton>
+
+      {/* <FormField name={t("editorSummary.title")}>
         {({ field, helpers, meta }) => {
           return (
             <FieldRoot required invalid={!!meta.error}>
@@ -75,7 +94,7 @@ const ArticleSummary = ({ articleContent }: Props) => {
             </FieldRoot>
           );
         }}
-      </FormField>
+      </FormField> */}
     </ComponentRoot>
   );
 };

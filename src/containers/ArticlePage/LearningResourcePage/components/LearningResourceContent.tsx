@@ -146,7 +146,7 @@ const LearningResourceContent = ({
         onCancel={() => setIsNormalizedOnLoad(false)}
         severity="warning"
       />
-      {/* <ArticleSummary articleContent={articleContent} /> */}
+      <ArticleSummary articleContent={articleContent} />
       <StyledContentDiv name="content" label={t("form.content.label")} noBorder key={values.revision}>
         {(fieldProps) => <ContentField articleLanguage={articleLanguage} articleId={articleId} {...fieldProps} />}
       </StyledContentDiv>

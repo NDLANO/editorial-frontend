@@ -20,7 +20,7 @@ import { FramedContentElement } from ".";
 import { TYPE_FRAMED_CONTENT } from "./types";
 import { useArticleContentType } from "../../../ContentTypeProvider";
 import DeleteButton from "../../../DeleteButton";
-import { getTextFromHTML, invokeModel } from "../../../LLM/helpers";
+import { claudeHaikuDefaults, getTextFromHTML, invokeModel } from "../../../LLM/helpers";
 import MoveContentButton from "../../../MoveContentButton";
 import { TYPE_COPYRIGHT } from "../copyright/types";
 import { defaultCopyrightBlock } from "../copyright/utils";
@@ -112,10 +112,17 @@ const SlateFramedContent = (props: Props) => {
   const generateQuestions = async () => {
     const articleHTML = await serialize(editor.children[0]);
     const articleText = getTextFromHTML(articleHTML);
+    if (!articleText) {
+      console.error("No article content provided to generate meta description");
+      return;
+    }
     setIsLoading(true);
     try {
-      const generatedText = await invokeModel(t("prompts.reflectionQuestions") + articleText);
-      editor.insertText(generatedText);
+      const generatedText = await invokeModel({
+        prompt: t("prompts.reflectionQuestions") + articleText,
+        ...claudeHaikuDefaults,
+      });
+      generatedText ? editor.insertText(generatedText) : console.error("No generated text");
     } catch (error) {
       console.error("Error generating reflection questions", error);
     } finally {

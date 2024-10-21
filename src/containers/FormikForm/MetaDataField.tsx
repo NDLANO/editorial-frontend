@@ -40,7 +40,7 @@ import { SearchTagsTagSelectorInput } from "../../components/Form/SearchTagsTagS
 import { FormField, FormRemainingCharacters } from "../../components/FormField";
 import FormikField from "../../components/FormikField";
 import { FormContent } from "../../components/FormikForm";
-import { invokeModel } from "../../components/LLM/helpers";
+import { claudeHaikuDefaults, invokeModel } from "../../components/LLM/helpers";
 import PlainTextEditor from "../../components/SlateEditor/PlainTextEditor";
 import { textTransformPlugin } from "../../components/SlateEditor/plugins/textTransform";
 import { DRAFT_ADMIN_SCOPE } from "../../constants";
@@ -93,11 +93,20 @@ const MetaDataField = ({ articleLanguage, articleContent, showCheckbox, checkbox
   }, [searchTagsQuery.data?.results]);
 
   const generateMetaDescription = async (helpers: FieldHelperProps<Descendant[]>) => {
-    const inputQuery = articleContent ?? "";
+    if (!articleContent) {
+      console.error("No article content provided to generate meta description");
+      return;
+    }
     setIsLoading(true);
     try {
-      const generatedText = await invokeModel(t("prompts.metaDescription") + inputQuery);
-      await helpers.setValue(inlineContentToEditorValue(generatedText, true), true);
+      const generatedText = await invokeModel({
+        prompt: t("prompts.metaDescription") + articleContent,
+        max_tokens: 155,
+        ...claudeHaikuDefaults,
+      });
+      generatedText
+        ? await helpers.setValue(inlineContentToEditorValue(generatedText, true), true)
+        : console.error("No generated text");
       // We have to invalidate slate children. We do this with status.
       setStatus({ status: "acceptGenerated" });
     } catch (error) {

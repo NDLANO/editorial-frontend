@@ -16,7 +16,7 @@ import { Button, FieldHelper, FieldLabel, FieldRoot, Spinner, TextArea } from "@
 import { styled } from "@ndla/styled-system/jsx";
 import FieldHeader from "../../../../components/Field/FieldHeader";
 import { FormField } from "../../../../components/FormField";
-import { invokeModel } from "../../../../components/LLM/helpers";
+import { claudeHaikuDefaults, invokeModel } from "../../../../components/LLM/helpers";
 import PlainTextEditor from "../../../../components/SlateEditor/PlainTextEditor";
 import { inlineContentToEditorValue } from "../../../../util/articleContentConverter";
 import { ArticleFormType } from "../../../FormikForm/articleFormHooks";
@@ -61,11 +61,17 @@ const ArticleSummary = ({ articleContent }: Props) => {
   // };
 
   const generate = async () => {
-    const inputQuery = articleContent ?? "";
+    if (!articleContent) {
+      console.error("No article content provided to generate meta description");
+      return;
+    }
     setIsLoading(true);
     try {
-      const generatedText = await invokeModel(t("prompts.summary") + inputQuery);
-      setGeneratedSummary(generatedText);
+      const generatedText = await invokeModel({
+        prompt: t("prompts.summary") + articleContent,
+        ...claudeHaikuDefaults,
+      });
+      generatedText ? setGeneratedSummary(generatedText) : console.error("No generated text");
     } catch (error) {
       console.error("Error genetating summary", error);
     } finally {

@@ -6,7 +6,6 @@
  *
  */
 
-import escapeHtml from "escape-html";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, NodeEntry, Text, Transforms } from "slate";
@@ -18,9 +17,10 @@ import { IconButton } from "@ndla/primitives";
 import { ContentTypeFramedContent, EmbedWrapper } from "@ndla/ui";
 import { FramedContentElement } from ".";
 import { TYPE_FRAMED_CONTENT } from "./types";
+import { editorValueToPlainText } from "../../../../util/articleContentConverter";
 import { useArticleContentType } from "../../../ContentTypeProvider";
 import DeleteButton from "../../../DeleteButton";
-import { claudeHaikuDefaults, getTextFromHTML, invokeModel } from "../../../LLM/helpers";
+import { claudeHaikuDefaults, invokeModel } from "../../../LLM/helpers";
 import MoveContentButton from "../../../MoveContentButton";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import { TYPE_COPYRIGHT } from "../copyright/types";
@@ -88,32 +88,8 @@ const SlateFramedContent = (props: Props) => {
     Transforms.insertNodes(editor, defaultCopyrightBlock(), { at: path.concat(node.children.length) });
   };
 
-  const serialize = (node: any) => {
-    if (Text.isText(node)) {
-      let string = escapeHtml(node.text);
-      if (node.bold) {
-        string = `<strong>${string}</strong>`;
-      }
-      return string;
-    }
-
-    const children = node.children.map((n: any) => serialize(n)).join("");
-
-    switch (node.type) {
-      case "quote":
-        return `<blockquote><p>${children}</p></blockquote>`;
-      case "paragraph":
-        return `<p>${children}</p>`;
-      case "link":
-        return `<a href="${escapeHtml(node.url)}">${children}</a>`;
-      default:
-        return children;
-    }
-  };
-
   const generateQuestions = async () => {
-    const articleHTML = await serialize(editor.children[0]);
-    const articleText = getTextFromHTML(articleHTML);
+    const articleText = editorValueToPlainText(editor.children);
     if (!articleText) {
       console.error("No article content provided to generate meta description");
       return;

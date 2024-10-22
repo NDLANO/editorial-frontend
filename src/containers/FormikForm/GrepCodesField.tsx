@@ -51,12 +51,10 @@ export const convertGrepCodesToObject = async (grepCodes: string[]) => {
 const GrepCodesField = () => {
   const { t } = useTranslation();
   const [field, _, helpers] = useField<string[]>("grepCodes");
-
   const [grepCodes, setGrepCodes] = useState<GrepCode[]>([]);
 
   const tagSelectorTranslations = useTagSelectorTranslations();
   const { query, setQuery } = usePaginatedQuery();
-
   const searchQuery = useGrepCodesSearch({ input: query });
 
   useEffect(() => {
@@ -130,6 +128,7 @@ const GrepCodesField = () => {
             translations={tagSelectorTranslations}
             inputValue={query}
             onInputValueChange={(details) => setQuery(details.inputValue)}
+            positioning={{ strategy: "fixed" }}
           >
             <TagSelectorLabel>{t("form.grepCodes.comboboxLabel")}</TagSelectorLabel>
             <Text color="text.error" aria-live="polite">

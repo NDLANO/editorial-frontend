@@ -24,7 +24,6 @@ import SaveButton from "../../../components/SaveButton";
 import { isSlateEmbed } from "../../../components/SlateEditor/plugins/embed/utils";
 import StyledForm from "../../../components/StyledFormComponents";
 import { SAVE_BUTTON_ID } from "../../../constants";
-import { LocaleType } from "../../../interfaces";
 import { useUpdateFilmFrontpageMutation } from "../../../modules/frontpage/filmMutations";
 import { isFormikFormDirty } from "../../../util/formHelper";
 import { getInitialValues, getNdlaFilmFromSlate } from "../../../util/ndlaFilmHelpers";
@@ -144,7 +143,7 @@ const NdlaFilmForm = ({ filmFrontpage, selectedLanguage }: Props) => {
                 </PageContent>
               </FormAccordion>
               <FormAccordion id="article" title={t("ndlaFilm.editor.moreInfoHeader")} hasError={!!errors.article}>
-                <NdlaFilmArticle fieldName={"article"} />
+                <NdlaFilmArticle fieldName="article" />
               </FormAccordion>
               <FormAccordion id="slideshow" title={t("ndlaFilm.editor.slideshowHeader")} hasError={!!errors.slideShow}>
                 <SlideshowEditor fieldName="slideShow" />

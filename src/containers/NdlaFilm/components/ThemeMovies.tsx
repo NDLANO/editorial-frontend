@@ -101,6 +101,7 @@ export const ThemeMovies = ({ movies, onMoviesUpdated, placeholder, comboboxLabe
             description={item.metaDescription.metaDescription}
             image={item.metaImage}
             useFallbackImage
+            data-testid="dropdown-item"
           />
         )}
         multiple

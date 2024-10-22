@@ -2169,7 +2169,7 @@ const phrases = {
     },
     metaDescription: {
       button: "Generer",
-      prompt: "Returner ei metabeskriving på {{ language }} og maksimalt 155 tegn av følgjande utdanningstekst:",
+      prompt: "Returner ei metabeskriving på {{ language }} og mindre enn 15 ord av følgjande utdanningstekst:",
     },
     reflectionQuestions: {
       button: "Generer refleksjonsspørsmål",

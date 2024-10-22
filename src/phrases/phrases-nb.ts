@@ -2169,7 +2169,7 @@ const phrases = {
     },
     metaDescription: {
       button: "Generer",
-      prompt: "Returner en veldig kort metabeskrivelse på {{ language }} av følgende tekst:",
+      prompt: "Returner en metabeskrivelse på {{ language }} og mindre enn 15 ord av følgende tekst:",
     },
     reflectionQuestions: {
       button: "Generer refleksjonsspørsmål",

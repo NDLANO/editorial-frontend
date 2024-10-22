@@ -22,6 +22,7 @@ import { useArticleContentType } from "../../../ContentTypeProvider";
 import DeleteButton from "../../../DeleteButton";
 import { claudeHaikuDefaults, getTextFromHTML, invokeModel } from "../../../LLM/helpers";
 import MoveContentButton from "../../../MoveContentButton";
+import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import { TYPE_COPYRIGHT } from "../copyright/types";
 import { defaultCopyrightBlock } from "../copyright/utils";
 import { StyledFigureButtons } from "../embed/FigureButtons";
@@ -42,6 +43,7 @@ interface Props extends RenderElementProps {
 const SlateFramedContent = (props: Props) => {
   const { element, editor, attributes, children } = props;
   const { t } = useTranslation();
+  const language = useArticleLanguage();
   const [isLoading, setIsLoading] = useState(false);
   const variant = element.data?.variant ?? "neutral";
   const contentType = useArticleContentType();
@@ -119,8 +121,7 @@ const SlateFramedContent = (props: Props) => {
     setIsLoading(true);
     try {
       const generatedText = await invokeModel({
-        prompt: t("textGeneration.reflectionQuestions.prompt", { language: t(`languages.NO`) }) + articleText,
-        // t("textGeneration.reflectionQuestions.prompt", { language: t(`languages.${articleLanguage}`) }) + articleText,
+        prompt: t("textGeneration.reflectionQuestions.prompt", { language: t(`languages.${language}`) }) + articleText,
         ...claudeHaikuDefaults,
       });
       generatedText ? editor.insertText(generatedText) : console.error("No generated text");

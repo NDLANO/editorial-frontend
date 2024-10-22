@@ -2170,8 +2170,7 @@ const phrases = {
     },
     metaDescription: {
       button: "Generate",
-      prompt:
-        "Return a metadescription in {{ language }} and with a maximum of 155 characters of the following educational article:",
+      prompt: "Return a metadescription in {{ language }} and less than 15 words of the following educational article:",
     },
     reflectionQuestions: {
       button: "Generate reflection questions",

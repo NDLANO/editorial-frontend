@@ -2162,14 +2162,21 @@ const phrases = {
       neutral: "Use neutral variant",
     },
   },
-  editorSummary: {
-    title: "Summary",
-    generate: "Generate",
-  },
-  prompts: {
-    metaDescription: "Return a metadescription, maximum 155 characters long, of the following educational article:",
-    reflectionQuestions: "Return 5 reflection questions for the following educational article:",
-    summary: "Return a short summary of the following educational article:",
+  textGeneration: {
+    articleSummary: {
+      button: "Generate",
+      prompt: "Return a short summary in {{ language }} of the following educational article:",
+      title: "Summary",
+    },
+    metaDescription: {
+      button: "Generate",
+      prompt:
+        "Return a metadescription in {{ language }} and with a maximum of 155 characters of the following educational article:",
+    },
+    reflectionQuestions: {
+      button: "Generate reflection questions",
+      prompt: "Return 5 reflection questions in {{ language }} for the following educational article:",
+    },
   },
 };
 

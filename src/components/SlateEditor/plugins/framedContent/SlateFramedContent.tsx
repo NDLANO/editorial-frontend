@@ -119,7 +119,8 @@ const SlateFramedContent = (props: Props) => {
     setIsLoading(true);
     try {
       const generatedText = await invokeModel({
-        prompt: t("prompts.reflectionQuestions") + articleText,
+        prompt: t("textGeneration.reflectionQuestions.prompt", { language: t(`languages.NO`) }) + articleText,
+        // t("textGeneration.reflectionQuestions.prompt", { language: t(`languages.${articleLanguage}`) }) + articleText,
         ...claudeHaikuDefaults,
       });
       generatedText ? editor.insertText(generatedText) : console.error("No generated text");
@@ -136,8 +137,8 @@ const SlateFramedContent = (props: Props) => {
         <IconButton
           variant={variant === "colored" ? "primary" : "secondary"}
           size="small"
-          title={t("editorSummary.title")}
-          aria-label={t("editorSummary.title")}
+          title={t("textGeneration.reflectionQuestions.button")}
+          aria-label={t("textGeneration.reflectionQuestions.button")}
           onClick={generateQuestions}
           loading={isLoading}
         >

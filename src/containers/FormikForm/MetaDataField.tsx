@@ -100,7 +100,8 @@ const MetaDataField = ({ articleLanguage, articleContent, showCheckbox, checkbox
     setIsLoading(true);
     try {
       const generatedText = await invokeModel({
-        prompt: t("prompts.metaDescription") + articleContent,
+        prompt:
+          t("textGeneration.metaDescription.prompt", { language: t(`languages.${articleLanguage}`) }) + articleContent,
         max_tokens: 155,
         ...claudeHaikuDefaults,
       });
@@ -184,9 +185,9 @@ const MetaDataField = ({ articleLanguage, articleContent, showCheckbox, checkbox
                 {...field}
                 plugins={plugins}
               />
-              <FormRemainingCharacters value={field.value.length} maxLength={155} />
+              <FormRemainingCharacters value={field.value[0].children[0].text.length} maxLength={155} />
               <StyledButton size="small" onClick={() => generateMetaDescription(helpers)}>
-                {t("editorSummary.generate")} {isLoading ? <Spinner size="small" /> : <BlogPost />}
+                {t("textGeneration.metaDescription.button")} {isLoading ? <Spinner size="small" /> : <BlogPost />}
               </StyledButton>
             </FieldRoot>
           );

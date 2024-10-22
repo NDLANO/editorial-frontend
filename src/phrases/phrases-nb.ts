@@ -2161,14 +2161,20 @@ const phrases = {
       neutral: "Bruk nøytral variant",
     },
   },
-  editorSummary: {
-    title: "Oppsummering",
-    generate: "Generer",
-  },
-  prompts: {
-    metaDescription: "Returner en metabeskrivelse på maksimalt 155 tegn av følgende utdanningstekst:",
-    reflectionQuestions: "Returner 5 refleksjonsspørsmål for følgende utdanningstekst:",
-    summary: "Returner en kort oppsummering av følgende utdanningstekst:",
+  textGeneration: {
+    articleSummary: {
+      button: "Generer",
+      prompt: "Returner en kort oppsummering på {{ language }} av følgende utdanningstekst:",
+      title: "Oppsummering",
+    },
+    metaDescription: {
+      button: "Generer",
+      prompt: "Returner en veldig kort metabeskrivelse på {{ language }} av følgende tekst:",
+    },
+    reflectionQuestions: {
+      button: "Generer refleksjonsspørsmål",
+      prompt: "Returner 5 refleksjonsspørsmål på {{ language }} for følgende utdanningstekst:",
+    },
   },
 };
 

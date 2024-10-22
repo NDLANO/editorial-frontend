@@ -23,6 +23,7 @@ import { ArticleFormType } from "../../../FormikForm/articleFormHooks";
 
 interface Props {
   articleContent?: string;
+  articleLanguage?: string;
 }
 
 const StyledButton = styled(Button, {
@@ -39,7 +40,7 @@ const ComponentRoot = styled("div", {
   },
 });
 
-const ArticleSummary = ({ articleContent }: Props) => {
+const ArticleSummary = ({ articleContent, articleLanguage }: Props) => {
   const { t } = useTranslation();
   const [generatedSummary, setGeneratedSummary] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -49,7 +50,7 @@ const ArticleSummary = ({ articleContent }: Props) => {
   //   const inputQuery = articleContent ?? "";
   //   setIsLoading(true);
   //   try {
-  //     const generatedText = await invokeModel(t("prompts.summary") + inputQuery);
+  //     const generatedText = await invokeModel(t("textGeneration.articleSummary.prompt") + inputQuery);
   //     await helpers.setValue(inlineContentToEditorValue(generatedText, true), true);
   //     // We have to invalidate slate children. We do this with status.
   //     setStatus({ status: "acceptGenerated" });
@@ -68,7 +69,8 @@ const ArticleSummary = ({ articleContent }: Props) => {
     setIsLoading(true);
     try {
       const generatedText = await invokeModel({
-        prompt: t("prompts.summary") + articleContent,
+        prompt:
+          t("textGeneration.articleSummary.prompt", { language: t(`languages.${articleLanguage}`) }) + articleContent,
         ...claudeHaikuDefaults,
       });
       generatedText ? setGeneratedSummary(generatedText) : console.error("No generated text");
@@ -81,21 +83,21 @@ const ArticleSummary = ({ articleContent }: Props) => {
 
   return (
     <ComponentRoot>
-      <FieldHeader title={t("editorSummary.title")}></FieldHeader>
+      <FieldHeader title={t("textGeneration.articleSummary.title")}></FieldHeader>
       <TextArea value={generatedSummary} />
       <StyledButton size="small" onClick={generate}>
-        {t("editorSummary.generate")} {isLoading ? <Spinner size="small" /> : <BlogPost />}
+        {t("textGeneration.articleSummary.button")} {isLoading ? <Spinner size="small" /> : <BlogPost />}
       </StyledButton>
 
-      {/* <FormField name={t("editorSummary.title")}>
+      {/* <FormField name={t("textGeneration.articleSummary.title")}>
         {({ field, helpers, meta }) => {
           return (
             <FieldRoot required invalid={!!meta.error}>
-              <FieldLabel>{t("editorSummary.title")}</FieldLabel>
-              <FieldHelper>{t("editorSummary.title")}</FieldHelper>
-              <PlainTextEditor key={field.value} id={field.name} placeholder={t("editorSummary.title")} {...field} />
+              <FieldLabel>{t("textGeneration.articleSummary.title")}</FieldLabel>
+              <FieldHelper>{t("textGeneration.articleSummary.title")}</FieldHelper>
+              <PlainTextEditor key={field.value} id={field.name} placeholder={t("textGeneration.articleSummary.title")} {...field} />
               <StyledButton size="small" onClick={() => generateSummary(helpers)}>
-                {t("editorSummary.generate")} {isLoading ? <Spinner size="small" /> : <BlogPost />}
+                {t("textGeneration.articleSummary.button")} {isLoading ? <Spinner size="small" /> : <BlogPost />}
               </StyledButton>
             </FieldRoot>
           );

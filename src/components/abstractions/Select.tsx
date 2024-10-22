@@ -14,11 +14,14 @@ import {
   SelectItemProps,
   SelectTriggerProps,
 } from "@ark-ui/react";
+import { CloseLine } from "@ndla/icons/action";
 import { ArrowDownShortLine } from "@ndla/icons/common";
 import { CheckLine } from "@ndla/icons/editor";
 import {
   Button,
   ButtonProps,
+  IconButton,
+  SelectClearTrigger,
   SelectControl,
   SelectIndicator,
   SelectItem,
@@ -27,18 +30,31 @@ import {
 } from "@ndla/primitives";
 import { JsxStyleProps } from "@ndla/styled-system/types";
 
-export const GenericSelectTrigger = forwardRef<HTMLButtonElement, SelectTriggerProps & ButtonProps>(
-  ({ children, variant = "secondary", ...props }, ref) => (
-    <SelectControl>
-      <SelectTrigger asChild ref={ref} {...props}>
-        <Button variant={variant}>
-          {children}
-          <GenericSelectIndicator />
-        </Button>
-      </SelectTrigger>
-    </SelectControl>
-  ),
-);
+interface GenericSelectTriggerProps {
+  clearable?: boolean;
+}
+
+export const GenericSelectTrigger = forwardRef<
+  HTMLButtonElement,
+  SelectTriggerProps & ButtonProps & GenericSelectTriggerProps
+>(({ children, variant = "secondary", clearable, ...props }, ref) => (
+  <SelectControl>
+    <SelectTrigger asChild ref={ref} {...props}>
+      <Button variant={variant}>
+        {children}
+        <GenericSelectIndicator />
+      </Button>
+    </SelectTrigger>
+
+    {clearable && (
+      <SelectClearTrigger asChild>
+        <IconButton variant="secondary">
+          <CloseLine />
+        </IconButton>
+      </SelectClearTrigger>
+    )}
+  </SelectControl>
+));
 
 export const GenericSelectIndicator = forwardRef<HTMLDivElement, SelectIndicatorProps & JsxStyleProps>(
   ({ children, ...props }, ref) => (

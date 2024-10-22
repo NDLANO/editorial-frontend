@@ -6,30 +6,49 @@
  *
  */
 
-import { FieldProps, Formik } from "formik";
+import { Formik } from "formik";
 import { TFunction } from "i18next";
 import sortBy from "lodash/sortBy";
 import uniq from "lodash/uniq";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
-import styled from "@emotion/styled";
+import { createListCollection } from "@ark-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
-import { ButtonV2 } from "@ndla/button";
-import { fonts, spacing, colors } from "@ndla/core";
-import { FieldErrorMessage, InputV3, Label } from "@ndla/forms";
-import { Option, SingleValue } from "@ndla/select";
+import {
+  Button,
+  FieldErrorMessage,
+  FieldInput,
+  FieldLabel,
+  FieldRoot,
+  SelectContent,
+  SelectLabel,
+  SelectPositioner,
+  SelectRoot,
+  SelectValueText,
+  SwitchControl,
+  SwitchHiddenInput,
+  SwitchLabel,
+  SwitchRoot,
+  SwitchThumb,
+  Text,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IUpdatedArticle } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import PlannedResourceSelect from "./PlannedResourceSelect";
-import { FormControl, FormField } from "../../../components/FormField";
-import FormikField from "../../../components/FormikField";
+import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
+import { FormField } from "../../../components/FormField";
+import { FormActionsContainer, FormikForm } from "../../../components/FormikForm";
 import validateFormik, { RulesType } from "../../../components/formikValidationSchema";
 import { TYPE_DIV } from "../../../components/SlateEditor/plugins/div/types";
 import { TYPE_PARAGRAPH } from "../../../components/SlateEditor/plugins/paragraph/types";
-import Spinner from "../../../components/Spinner";
-import RelevanceOptionSwitch from "../../../components/Taxonomy/RelevanceOptionSwitch";
-import { DRAFT_RESPONSIBLE, LAST_UPDATED_SIZE, RESOURCE_FILTER_CORE } from "../../../constants";
+import {
+  DRAFT_RESPONSIBLE,
+  LAST_UPDATED_SIZE,
+  RESOURCE_FILTER_CORE,
+  RESOURCE_FILTER_SUPPLEMENTARY,
+} from "../../../constants";
 import { Auth0UserData } from "../../../interfaces";
 import { useAuth0Responsibles } from "../../../modules/auth0/auth0Queries";
 import { createDraft, updateUserData } from "../../../modules/draft/draftApi";
@@ -46,46 +65,8 @@ import { useAllResourceTypes } from "../../../modules/taxonomy/resourcetypes/res
 import { inlineContentToHTML } from "../../../util/articleContentConverter";
 import { convertUpdateToNewDraft } from "../../../util/articleUtil";
 import { getCommentInfoText } from "../../ArticlePage/components/InputComment";
-import PrioritySelect from "../../FormikForm/components/PrioritySelect";
 import { useSession } from "../../Session/SessionProvider";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
-
-const StyledForm = styled.form`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.nsmall};
-  padding-left: ${spacing.medium};
-  padding-top: ${spacing.normal};
-`;
-
-export const StyledLabel = styled.label`
-  font-weight: ${fonts.weight.semibold};
-  ${fonts.sizes("16px")};
-`;
-
-export const StyledFormikField = styled(FormikField)`
-  margin: 0px;
-  label {
-    ${fonts.sizes("16px")};
-  }
-`;
-
-export const ErrorMessage = styled.div`
-  color: ${colors.support.red};
-`;
-
-export const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: ${spacing.medium};
-`;
-
-export const SwitchWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${spacing.small};
-`;
 
 interface PlannedResourceFormikType {
   title: string;
@@ -96,6 +77,18 @@ interface PlannedResourceFormikType {
   relevance: string;
   priority: string;
 }
+
+const StyledFormikForm = styled(FormikForm, {
+  base: {
+    width: "100%",
+  },
+});
+
+const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
+  base: {
+    width: "100%",
+  },
+});
 
 const plannedResourceRules: RulesType<PlannedResourceFormikType> = {
   title: {
@@ -195,13 +188,14 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
     {
       select: (res) =>
         res
-          .flatMap((parent) =>
-            parent.subtypes?.map((s) => ({
-              label: `${parent.name} - ${s.name}`,
-              value: `${s.id},${parent.id}`,
-            })),
+          .flatMap(
+            (parent) =>
+              parent.subtypes?.map((s) => ({
+                label: `${parent.name} - ${s.name}`,
+                value: `${s.id},${parent.id}`,
+              })) ?? [],
           )
-          .filter((r) => !!r) as Option[],
+          .filter((r) => !!r),
       placeholderData: [],
       enabled: !isTopicArticle,
     },
@@ -295,6 +289,17 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
     ],
   );
 
+  const priorityCollection = useMemo(() => {
+    return createListCollection({
+      items: [
+        { label: t("editorFooter.prioritized"), value: "prioritized" },
+        { label: t("welcomePage.workList.onHold"), value: "on-hold" },
+      ],
+      itemToString: (item) => item.label,
+      itemToValue: (item) => item.value,
+    });
+  }, [t]);
+
   return (
     <Formik
       initialValues={initialValues}
@@ -302,35 +307,30 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
       validate={(values) => validateFormik(values, plannedResourceRules, t)}
       validateOnMount
     >
-      {({ dirty, isValid, handleSubmit }) => (
-        <StyledForm id="planned-resource-form">
+      {({ dirty, isValid }) => (
+        <StyledFormikForm id="planned-resource-form">
           <FormField name="title">
             {({ field, meta }) => (
-              <FormControl isRequired isInvalid={!!meta.error}>
-                <Label textStyle="label-small" margin="none">
-                  {t("taxonomy.title")}
-                </Label>
-                <InputV3 placeholder={t("taxonomy.title")} {...field} />
+              <FieldRoot required invalid={!!meta.error}>
+                <FieldLabel>{t("taxonomy.title")}</FieldLabel>
+                <FieldInput placeholder={t("taxonomy.title")} {...field} />
                 <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-              </FormControl>
+              </FieldRoot>
             )}
           </FormField>
           <FormField name="comments">
             {({ field, meta }) => (
-              <FormControl isRequired isInvalid={!!meta.error}>
-                <Label textStyle="label-small" margin="none">
-                  {t("taxonomy.comment")}
-                </Label>
-                <InputV3 placeholder={t("taxonomy.commentPlaceholder")} {...field} />
+              <FieldRoot required invalid={!!meta.error}>
+                <FieldLabel>{t("taxonomy.comment")}</FieldLabel>
+                <FieldInput placeholder={t("taxonomy.commentPlaceholder")} {...field} />
                 <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-              </FormControl>
+              </FieldRoot>
             )}
           </FormField>
           {!isTopicArticle && (
             <PlannedResourceSelect
               label="taxonomy.contentType"
               fieldName="contentType"
-              id="select-contentType"
               placeholder="taxonomy.contentTypePlaceholder"
               options={contentTypes?.length ? contentTypes : []}
             />
@@ -338,55 +338,67 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
           <PlannedResourceSelect
             label="form.responsible.label"
             fieldName="responsible"
-            id="select-responsible"
             placeholder="form.responsible.label"
             options={users ?? []}
             defaultValue={ndlaId && userName ? { value: ndlaId, label: userName } : undefined}
           />
-          <StyledFormikField name="priority">
-            {({ field, form }: FieldProps) => (
-              <>
-                <StyledLabel htmlFor="select-priority">{t("taxonomy.addPriority")}</StyledLabel>
-                <PrioritySelect
-                  id="select-priority"
-                  priority={field.value}
-                  menuPlacement="bottom"
-                  inModal
-                  updatePriority={(p: SingleValue) => form.setFieldValue("priority", p ? p.value : "unspecified")}
-                />
-              </>
+          <FormField name="priority">
+            {({ field, helpers, meta }) => (
+              <FieldRoot invalid={!!meta.error}>
+                <SelectRoot
+                  collection={priorityCollection}
+                  value={["prioritized", "on-hold"].includes(field.value) ? [field.value] : undefined}
+                  onValueChange={(details) => helpers.setValue(details.value[0])}
+                  positioning={{ sameWidth: true }}
+                >
+                  <SelectLabel>{t("taxonomy.addPriority")}</SelectLabel>
+                  <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                  <StyledGenericSelectTrigger clearable>
+                    <SelectValueText placeholder={t("editorFooter.placeholderPrioritized")} />
+                  </StyledGenericSelectTrigger>
+                  <SelectPositioner>
+                    <SelectContent>
+                      {priorityCollection.items.map((item) => (
+                        <GenericSelectItem key={item.value} item={item}>
+                          {item.label}
+                        </GenericSelectItem>
+                      ))}
+                    </SelectContent>
+                  </SelectPositioner>
+                </SelectRoot>
+              </FieldRoot>
             )}
-          </StyledFormikField>
-          <StyledFormikField name="relevance">
-            {({ field }: FieldProps) => (
-              <SwitchWrapper>
-                <RelevanceOptionSwitch
-                  relevanceId={field.value}
-                  onChange={(id: string) => {
-                    field.onChange({ target: { name: field.name, value: id } });
+          </FormField>
+          <FormField name="relevance">
+            {({ field, meta, helpers }) => (
+              <FieldRoot invalid={!!meta.error}>
+                <SwitchRoot
+                  checked={field.value === RESOURCE_FILTER_CORE}
+                  onCheckedChange={(details) => {
+                    helpers.setValue(details.checked ? RESOURCE_FILTER_CORE : RESOURCE_FILTER_SUPPLEMENTARY);
                   }}
-                />
-                <StyledLabel htmlFor="toggleRelevanceId">{t("taxonomy.resourceType")}</StyledLabel>
-              </SwitchWrapper>
+                >
+                  <SwitchControl>
+                    <SwitchThumb>{field.value === RESOURCE_FILTER_CORE ? "K" : "T"}</SwitchThumb>
+                  </SwitchControl>
+                  <SwitchLabel>{t("taxonomy.resourceType")}</SwitchLabel>
+                  <SwitchHiddenInput />
+                </SwitchRoot>
+                <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+              </FieldRoot>
             )}
-          </StyledFormikField>
-          <ButtonWrapper>
-            <ButtonV2
-              onClick={(e) => {
-                e.preventDefault();
-                handleSubmit();
-              }}
+          </FormField>
+          <FormActionsContainer>
+            <Button
               disabled={!dirty || !isValid}
               type="submit"
+              loading={addNodeMutationLoading || postResourceLoading || createResourceTypeLoading}
             >
               {t("taxonomy.create")}
-              {(addNodeMutationLoading || postResourceLoading || createResourceTypeLoading) && (
-                <Spinner appearance="small" />
-              )}
-            </ButtonV2>
-          </ButtonWrapper>
-          {error && <ErrorMessage>{t(error)}</ErrorMessage>}
-        </StyledForm>
+            </Button>
+          </FormActionsContainer>
+          {error && <Text color="text.error">{t(error)}</Text>}
+        </StyledFormikForm>
       )}
     </Formik>
   );

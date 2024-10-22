@@ -84,7 +84,7 @@ const ArticleSummary = ({ articleContent, articleLanguage }: Props) => {
   return (
     <ComponentRoot>
       <FieldHeader title={t("textGeneration.articleSummary.title")}></FieldHeader>
-      <TextArea value={generatedSummary} />
+      <TextArea onChange={() => {}} value={generatedSummary} />
       <StyledButton size="small" onClick={generate}>
         {t("textGeneration.articleSummary.button")} {isLoading ? <Spinner size="small" /> : <BlogPost />}
       </StyledButton>

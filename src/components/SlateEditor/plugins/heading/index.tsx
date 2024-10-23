@@ -7,7 +7,7 @@
  */
 
 import { createElement } from "react";
-import { Descendant, Editor, Element, Transforms, Range, Node, Path } from "slate";
+import { Descendant, Text, Editor, Element, Transforms, Range, Node, Path, BaseText } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_HEADING } from "./types";
 import { SlateSerializer } from "../../interfaces";
@@ -123,6 +123,15 @@ export const headingPlugin = (editor: Editor) => {
 
     if (Element.isElement(node) && node.type === TYPE_HEADING) {
       // No strong in heading
+      if (node.children.some((child: any) => child.bold)) {
+        Editor.withoutNormalizing(editor, () => {
+          node.children.forEach((child: any, idx: number) => {
+            if (child.bold) {
+              Transforms.setNodes(editor, { bold: false }, { at: path.concat(idx) });
+            }
+          });
+        });
+      }
 
       // Remove empty headers, but not when cursor is placed inside it.
       if (

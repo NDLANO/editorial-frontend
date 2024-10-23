@@ -182,7 +182,7 @@ const ContentField = ({ field, form }: Props) => {
         clearInputField
         showPagination
       />
-      <DialogRoot open={showAddExternal} onOpenChange={({ open }) => setShowAddExternal(open)} modal position="top">
+      <DialogRoot open={showAddExternal} onOpenChange={({ open }) => setShowAddExternal(open)}>
         <StyledButtonWrapper>
           <DialogTrigger asChild>
             <Button>{t("form.relatedContent.addExternal")}</Button>
@@ -190,9 +190,7 @@ const ContentField = ({ field, form }: Props) => {
         </StyledButtonWrapper>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle asChild>
-              <Heading>{t("form.content.relatedArticle.searchExternal")}</Heading>
-            </DialogTitle>
+            <DialogTitle>{t("form.content.relatedArticle.searchExternal")}</DialogTitle>
             <DialogCloseButton />
           </DialogHeader>
           <DialogBody>

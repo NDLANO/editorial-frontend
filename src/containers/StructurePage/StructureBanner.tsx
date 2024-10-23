@@ -9,7 +9,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import {
   Button,
@@ -18,7 +17,6 @@ import {
   DialogHeader,
   DialogRoot,
   DialogTrigger,
-  Heading,
   SwitchControl,
   SwitchHiddenInput,
   SwitchLabel,
@@ -160,12 +158,7 @@ const StructureBanner = ({
         )}
 
         {isTaxonomyAdmin && (
-          <DialogRoot
-            open={addSubjectModalOpen}
-            onOpenChange={({ open }) => setAddSubjectModalOpen(open)}
-            modal
-            position="top"
-          >
+          <DialogRoot open={addSubjectModalOpen} onOpenChange={({ open }) => setAddSubjectModalOpen(open)}>
             <DialogTrigger asChild>
               <Button size="small" onClick={() => setAddSubjectModalOpen(true)} data-testid="AddSubjectButton">
                 <StyledPlusIcon />
@@ -174,12 +167,10 @@ const StructureBanner = ({
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle asChild>
-                  <Heading color="primary">
-                    {t("taxonomy.addNode", {
-                      nodeType: t(`taxonomy.nodeType.${nodeType}`),
-                    })}
-                  </Heading>
+                <DialogTitle>
+                  {t("taxonomy.addNode", {
+                    nodeType: t(`taxonomy.nodeType.${nodeType}`),
+                  })}
                 </DialogTitle>
                 <DialogCloseButton />
               </DialogHeader>

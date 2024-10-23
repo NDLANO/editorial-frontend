@@ -122,6 +122,8 @@ export const headingPlugin = (editor: Editor) => {
     const [node, path] = entry;
 
     if (Element.isElement(node) && node.type === TYPE_HEADING) {
+      // No strong in heading
+
       // Remove empty headers, but not when cursor is placed inside it.
       if (
         Node.string(node) === "" &&

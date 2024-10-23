@@ -181,6 +181,13 @@ describe("toolbarState", () => {
         "gloss-inline": { ...allOptions.inline["gloss-inline"], hidden: true },
         "comment-inline": { ...allOptions.inline["comment-inline"], hidden: false },
       },
+      mark: {
+        ...allOptions.mark,
+        bold: {
+          ...allOptions.mark.bold,
+          hidden: true,
+        },
+      },
     };
     const expected = arrayifyToolbar(opts);
     expect(res).toEqual(expected);
@@ -189,7 +196,13 @@ describe("toolbarState", () => {
   test("prefers areaOptions over default values", () => {
     const res = toolbarState({
       options: createToolbarDefaultValues(),
-      areaOptions: createToolbarAreaOptions({ heading: { inline: { hidden: false } } }),
+      areaOptions: createToolbarAreaOptions({
+        heading: {
+          inline: {
+            hidden: false,
+          },
+        },
+      }),
       editorAncestors: [
         { type: "heading", children: [], level: 1 },
         { type: "paragraph", children: [{ text: "test" }] },
@@ -206,6 +219,13 @@ describe("toolbarState", () => {
         (acc, v) => ({ ...acc, [v.value]: { ...v, hidden: false } }),
         {} as Record<InlineType, ToolbarValue<InlineType>>,
       ),
+      mark: {
+        ...allOptions.mark,
+        bold: {
+          ...allOptions.mark.bold,
+          hidden: true,
+        },
+      },
     };
     const expected = arrayifyToolbar(opts);
     expect(res).toEqual(expected);

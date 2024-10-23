@@ -7,29 +7,30 @@
  */
 
 import { memo } from "react";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { spacing, colors } from "@ndla/core";
+import { Portal } from "@ark-ui/react";
 import { InformationOutline } from "@ndla/icons/common";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
-import { Text } from "@ndla/typography";
+import {
+  Text,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  IconButton,
+} from "@ndla/primitives";
+import { HStack, styled } from "@ndla/styled-system/jsx";
 import { StoryType, stories } from "./stories";
+import { DialogCloseButton } from "../DialogCloseButton";
 
-const HelpIcon = styled(InformationOutline)`
-  color: ${colors.brand.tertiary};
-
-  &:hover,
-  &:focus {
-    color: ${colors.brand.primary};
-  }
-`;
-
-const StyledModalTitle = styled(ModalTitle)`
-  display: flex;
-  gap: ${spacing.xsmall};
-  align-items: center;
-  color: ${colors.brand.primary} !important;
-`;
+const HelpIcon = styled(InformationOutline, {
+  base: {
+    color: "tertiary",
+    "&:hover, &:focus": {
+      color: "primary",
+    },
+  },
+});
 
 interface Props {
   pageId: StoryType;
@@ -42,44 +43,48 @@ const HowToHelper = ({ pageId, tooltip }: Props) => {
     lead: "Sjekk key-names i stories.ts og propType pageId til <ArticleInModal />",
   };
   return (
-    <Modal>
-      <ModalTrigger>
-        <ButtonV2 variant="stripped" aria-label={tooltip} title={tooltip}>
+    <DialogRoot>
+      <DialogTrigger asChild>
+        <IconButton size="small" variant="tertiary" aria-label={tooltip} title={tooltip}>
           <HelpIcon />
-        </ButtonV2>
-      </ModalTrigger>
-      <ModalContent>
-        <ModalHeader>
-          <StyledModalTitle>
-            <InformationOutline />
-            {story.title}
-          </StyledModalTitle>
-          <ModalCloseButton />
-        </ModalHeader>
-        <ModalBody>
-          <Text margin="none">{story.lead}</Text>
-          {story.body?.map((block, index) => {
-            if (block.type === "text") {
-              return <p key={`${pageId}-${index}`}>{block.content}</p>;
-            }
-            if (block.type === "image") {
-              return <img key={`${pageId}-${index}`} src={block.content} alt="example" />;
-            }
-            if (block.type === "component") {
-              return <block.content key={`${pageId}-${index}`} />;
-            }
-            if (block.type === "link") {
-              return (
-                <a key={`${pageId}-${index}`} href={block.content.href} target="_blank" rel="noopener noreferrer">
-                  {block.content.text}
-                </a>
-              );
-            }
-            return null;
-          })}
-        </ModalBody>
-      </ModalContent>
-    </Modal>
+        </IconButton>
+      </DialogTrigger>
+      <Portal>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              <HStack>
+                <InformationOutline />
+                {story.title}
+              </HStack>
+            </DialogTitle>
+            <DialogCloseButton />
+          </DialogHeader>
+          <DialogBody>
+            <Text>{story.lead}</Text>
+            {story.body?.map((block, index) => {
+              if (block.type === "text") {
+                return <p key={`${pageId}-${index}`}>{block.content}</p>;
+              }
+              if (block.type === "image") {
+                return <img key={`${pageId}-${index}`} src={block.content} alt="example" />;
+              }
+              if (block.type === "component") {
+                return <block.content key={`${pageId}-${index}`} />;
+              }
+              if (block.type === "link") {
+                return (
+                  <a key={`${pageId}-${index}`} href={block.content.href} target="_blank" rel="noopener noreferrer">
+                    {block.content.text}
+                  </a>
+                );
+              }
+              return null;
+            })}
+          </DialogBody>
+        </DialogContent>
+      </Portal>
+    </DialogRoot>
   );
 };
 

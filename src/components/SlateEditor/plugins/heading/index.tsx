@@ -7,13 +7,15 @@
  */
 
 import { createElement } from "react";
-import { Descendant, Editor, Element, Transforms, Range, Node, Path } from "slate";
+import { Descendant, Text, Editor, Element, Transforms, Range, Node, Path, NodeEntry } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_HEADING } from "./types";
 import { SlateSerializer } from "../../interfaces";
 import hasNodeOfType from "../../utils/hasNodeOfType";
 import { KEY_BACKSPACE, KEY_ENTER } from "../../utils/keys";
+import { CustomTextWithMarks } from "../mark";
 import { TYPE_PARAGRAPH } from "../paragraph/types";
+import { TYPE_SPAN } from "../span/types";
 
 export interface HeadingElement {
   type: "heading";
@@ -115,6 +117,15 @@ const onBackspace = (e: KeyboardEvent, editor: Editor, nextOnKeyDown?: (event: K
   return nextOnKeyDown && nextOnKeyDown(e);
 };
 
+const isBoldText = (node: Descendant): node is CustomTextWithMarks & { bold: boolean } =>
+  Text.isText(node) && (node?.bold ?? false);
+const isBoldSpanChild = (node: Descendant): node is Element =>
+  Element.isElement(node) && node.type === TYPE_SPAN && node.children.some((spanChild) => isBoldText(spanChild));
+
+const unboldTextNode = (editor: Editor, node: Text, path: Path) => {
+  Transforms.setNodes(editor, { ...node, bold: undefined }, { at: path });
+};
+
 export const headingPlugin = (editor: Editor) => {
   const { normalizeNode: nextNormalizeNode, onKeyDown: nextOnKeyDown } = editor;
 
@@ -122,6 +133,24 @@ export const headingPlugin = (editor: Editor) => {
     const [node, path] = entry;
 
     if (Element.isElement(node) && node.type === TYPE_HEADING) {
+      // Remove bold mark on heading text and span children
+      if (node.children.some((child) => isBoldText(child) || isBoldSpanChild(child))) {
+        Editor.withoutNormalizing(editor, () => {
+          node.children.forEach((child, idx) => {
+            if (isBoldText(child)) {
+              unboldTextNode(editor, child, path.concat(idx));
+            } else if (isBoldSpanChild(child)) {
+              child.children.forEach((spanChild, spanIdx) => {
+                if (isBoldText(spanChild)) {
+                  unboldTextNode(editor, spanChild, path.concat(idx, spanIdx));
+                }
+              });
+            }
+          });
+        });
+        return;
+      }
+
       // Remove empty headers, but not when cursor is placed inside it.
       if (
         Node.string(node) === "" &&

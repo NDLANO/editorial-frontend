@@ -78,7 +78,7 @@ const ImageMetaData = ({ imageLanguage }: Props) => {
     <FormContent>
       <FormField name="tags">
         {({ field, meta, helpers }) => (
-          <FieldRoot required invalid={!!meta.error}>
+          <FieldRoot invalid={!!meta.error}>
             <TagSelectorRoot
               collection={collection}
               value={field.value}

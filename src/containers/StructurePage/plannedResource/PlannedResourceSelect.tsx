@@ -6,51 +6,78 @@
  *
  */
 
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { FieldErrorMessage, Label } from "@ndla/forms";
-import { Select, SingleValue, Option } from "@ndla/select";
-import { FormControl, FormField } from "../../../components/FormField";
+import { createListCollection } from "@ark-ui/react";
+import {
+  ComboboxContent,
+  ComboboxItem,
+  ComboboxItemText,
+  ComboboxLabel,
+  ComboboxPositioner,
+  ComboboxRoot,
+  FieldErrorMessage,
+  FieldRoot,
+  Text,
+} from "@ndla/primitives";
+import { useComboboxTranslations } from "@ndla/ui";
+import { GenericComboboxInput, GenericComboboxItemIndicator } from "../../../components/abstractions/Combobox";
+import { FormField } from "../../../components/FormField";
 
 interface Props {
   label: string;
   fieldName: string;
-  id: string;
-  isRequired?: boolean;
   placeholder: string;
-  options: Option[];
-  defaultValue?: Option;
+  options: { label: string; value: string }[];
+  defaultValue?: { label: string; value: string };
 }
 
-const SelectWrapper = styled.div`
-  position: relative;
-`;
-
-const PlannedResourceSelect = ({ label, fieldName, id, placeholder, options = [], defaultValue }: Props) => {
+const PlannedResourceSelect = ({ label, fieldName, placeholder, options = [], defaultValue }: Props) => {
   const { t } = useTranslation();
+  const comboboxTranslations = useComboboxTranslations();
+  const [query, setQuery] = useState(defaultValue?.label ?? "");
+
+  const filteredOptions = useMemo(() => {
+    return options.filter((option) => option.label.toLowerCase().includes(query.toLowerCase()));
+  }, [options, query]);
+
+  const collection = useMemo(() => {
+    return createListCollection({
+      items: filteredOptions,
+      itemToString: (item) => item.label,
+      itemToValue: (item) => item.value,
+    });
+  }, [filteredOptions]);
+
   return (
     <FormField name={fieldName}>
       {({ meta, helpers }) => (
-        <SelectWrapper>
-          <FormControl isInvalid={!!meta.error}>
-            <Label textStyle="label-small" margin="none">
-              {t(label)}
-            </Label>
-            <Select<false>
-              id={id}
-              options={options}
-              placeholder={t(placeholder)}
-              required
-              inModal
-              isSearchable
-              matchFrom="any"
-              defaultValue={defaultValue}
-              noOptionsMessage={() => t("form.responsible.noResults")}
-              onChange={(value: SingleValue) => helpers.setValue(value?.value)}
-            />
+        <FieldRoot invalid={!!meta.error}>
+          <ComboboxRoot
+            inputValue={query}
+            onInputValueChange={(details) => setQuery(details.inputValue)}
+            collection={collection}
+            positioning={{ placement: "bottom", strategy: "absolute" }}
+            defaultValue={defaultValue?.value ? [defaultValue.value] : undefined}
+            onValueChange={(details) => helpers.setValue(details.value[0])}
+            translations={comboboxTranslations}
+          >
+            <ComboboxLabel>{t(label)}</ComboboxLabel>
             <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-          </FormControl>
-        </SelectWrapper>
+            <GenericComboboxInput triggerable placeholder={t(placeholder)} />
+            <ComboboxPositioner>
+              <ComboboxContent>
+                {!collection.items.length && <Text>{t("form.responsible.noResults")}</Text>}
+                {collection.items.map((item) => (
+                  <ComboboxItem item={item} key={item.value}>
+                    <ComboboxItemText>{item.label}</ComboboxItemText>
+                    <GenericComboboxItemIndicator />
+                  </ComboboxItem>
+                ))}
+              </ComboboxContent>
+            </ComboboxPositioner>
+          </ComboboxRoot>
+        </FieldRoot>
       )}
     </FormField>
   );

@@ -9,14 +9,26 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
-import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb, Text } from "@ndla/primitives";
+import {
+  Button,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTrigger,
+  SwitchControl,
+  SwitchHiddenInput,
+  SwitchLabel,
+  SwitchRoot,
+  SwitchThumb,
+  Text,
+  DialogTitle,
+} from "@ndla/primitives";
 import { NodeType } from "@ndla/types-taxonomy";
 import AddNodeModalContent from "./AddNodeModalContent";
 import { ResourceGroupBanner, StyledPlusIcon, StyledShareIcon } from "./styles";
-import TaxonomyLightbox from "../../components/Taxonomy/TaxonomyLightbox";
+import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { TAXONOMY_ADMIN_SCOPE } from "../../constants";
 import { useSession } from "../Session/SessionProvider";
 
@@ -24,10 +36,6 @@ const FlexWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: ${spacing.xsmall};
-`;
-
-const AddSubjectButton = styled(ButtonV2)`
-  margin: 0 0 0 ${spacing.small};
 `;
 
 const SwitchWrapper = styled.div`
@@ -150,27 +158,27 @@ const StructureBanner = ({
         )}
 
         {isTaxonomyAdmin && (
-          <Modal open={addSubjectModalOpen} onOpenChange={setAddSubjectModalOpen}>
-            <ModalTrigger>
-              <AddSubjectButton
-                size="small"
-                onClick={() => setAddSubjectModalOpen(true)}
-                data-testid="AddSubjectButton"
-              >
+          <DialogRoot open={addSubjectModalOpen} onOpenChange={({ open }) => setAddSubjectModalOpen(open)}>
+            <DialogTrigger asChild>
+              <Button size="small" onClick={() => setAddSubjectModalOpen(true)} data-testid="AddSubjectButton">
                 <StyledPlusIcon />
                 {t("taxonomy.newNode", { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
-              </AddSubjectButton>
-            </ModalTrigger>
-            <ModalContent position="top">
-              <TaxonomyLightbox
-                title={t("taxonomy.addNode", {
-                  nodeType: t(`taxonomy.nodeType.${nodeType}`),
-                })}
-              >
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>
+                  {t("taxonomy.addNode", {
+                    nodeType: t(`taxonomy.nodeType.${nodeType}`),
+                  })}
+                </DialogTitle>
+                <DialogCloseButton />
+              </DialogHeader>
+              <DialogBody>
                 <AddNodeModalContent onClose={() => setAddSubjectModalOpen(false)} nodeType={nodeType} />
-              </TaxonomyLightbox>
-            </ModalContent>
-          </Modal>
+              </DialogBody>
+            </DialogContent>
+          </DialogRoot>
         )}
       </FlexWrapper>
     </ResourceGroupBanner>

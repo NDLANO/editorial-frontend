@@ -10,9 +10,11 @@ import { Formik, useFormikContext } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
-import { ModalBody, ModalHeader, ModalTitle } from "@ndla/modal";
 import {
   Button,
+  DialogBody,
+  DialogHeader,
+  DialogTitle,
   FieldErrorMessage,
   FieldRoot,
   SelectContent,
@@ -67,10 +69,10 @@ const AudioEmbedForm = ({ embed, onCancel, onSave, audio }: Props) => {
 
   return (
     <>
-      <ModalHeader>
-        <ModalTitle>{t("form.editAudio")}</ModalTitle>
-      </ModalHeader>
-      <ModalBody>
+      <DialogHeader>
+        <DialogTitle>{t("form.editAudio")}</DialogTitle>
+      </DialogHeader>
+      <DialogBody>
         <Formik
           initialValues={initialValues}
           validate={validate}
@@ -80,7 +82,7 @@ const AudioEmbedForm = ({ embed, onCancel, onSave, audio }: Props) => {
         >
           <EmbedForm audio={audio} onCancel={onCancel} />
         </Formik>
-      </ModalBody>
+      </DialogBody>
     </>
   );
 };

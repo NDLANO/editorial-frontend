@@ -10,13 +10,13 @@ import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
-import styled from "@emotion/styled";
-import { colors } from "@ndla/core";
+import { Portal } from "@ark-ui/react";
 import { Pencil } from "@ndla/icons/action";
 import { Link } from "@ndla/icons/common";
 import { DeleteForever } from "@ndla/icons/editor";
 import { DialogContent, DialogRoot, DialogTrigger, IconButton } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { AudioEmbedData, AudioMetaData } from "@ndla/types-embed";
 import { AudioEmbed, EmbedWrapper } from "@ndla/ui";
 import AudioEmbedForm from "./AudioEmbedForm";
@@ -31,14 +31,16 @@ interface Props extends RenderElementProps {
   editor: Editor;
 }
 
-const StyledEmbedWrapper = styled(EmbedWrapper)`
-  position: relative;
-  &[data-selected="true"] {
-    figure {
-      outline: 2px solid ${colors.brand.primary};
-    }
-  }
-`;
+const StyledEmbedWrapper = styled(EmbedWrapper, {
+  base: {
+    position: "relative",
+    _selected: {
+      "& > figure": {
+        outline: "2px solid brand.primary",
+      },
+    },
+  },
+});
 
 const SlateAudio = ({ element, editor, attributes, children }: Props) => {
   const { t } = useTranslation();
@@ -162,11 +164,14 @@ const SlateAudio = ({ element, editor, attributes, children }: Props) => {
           </>
         ) : null}
       </StyledEmbedWrapper>
-      <DialogContent>
-        {!!element.data && !!audioMetaQuery.data && (
-          <AudioEmbedForm audio={audioMetaQuery.data} onSave={onSave} onCancel={onClose} embed={element.data} />
-        )}
-      </DialogContent>
+      <Portal>
+        <DialogContent>
+          {!!element.data && !!audioMetaQuery.data && (
+            <AudioEmbedForm audio={audioMetaQuery.data} onSave={onSave} onCancel={onClose} embed={element.data} />
+          )}
+        </DialogContent>
+      </Portal>
+
       {children}
     </DialogRoot>
   );

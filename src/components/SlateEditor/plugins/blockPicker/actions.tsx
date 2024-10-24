@@ -22,7 +22,6 @@ import {
   BlogPost,
   Camera,
   Code,
-  Concept,
   FactBoxMaterial,
   Framed,
   Globe,
@@ -41,7 +40,7 @@ import { TYPE_AUDIO } from "../audio/types";
 import { TYPE_CAMPAIGN_BLOCK } from "../campaignBlock/types";
 import { TYPE_CODEBLOCK } from "../codeBlock/types";
 import { TYPE_COMMENT_BLOCK } from "../comment/block/types";
-import { TYPE_CONCEPT_BLOCK, TYPE_GLOSS_BLOCK } from "../concept/block/types";
+import { TYPE_GLOSS_BLOCK } from "../concept/block/types";
 import { TYPE_CONTACT_BLOCK } from "../contactBlock/types";
 import { TYPE_DETAILS } from "../details/types";
 import { TYPE_EXTERNAL } from "../external/types";
@@ -137,11 +136,6 @@ export const commonActions: Action[] = [
     data: { type: TYPE_CODEBLOCK, object: "code" },
     icon: <Code />,
     helpIcon: renderArticleInModal("CodeBlock"),
-  },
-  {
-    data: { type: TYPE_CONCEPT_BLOCK, object: "concept" },
-    icon: <Concept />,
-    helpIcon: renderArticleInModal("Concept"),
   },
   {
     data: { type: TYPE_GLOSS_BLOCK, object: "gloss" },

@@ -104,6 +104,7 @@ describe("createToolbarDefaultValues", () => {
         "concept-inline": { hidden: true, disabled: true },
         "gloss-inline": { hidden: true, disabled: true },
         "comment-inline": { hidden: true, disabled: true },
+        rewrite: { hidden: true, disabled: true },
       },
     };
 
@@ -180,6 +181,7 @@ describe("toolbarState", () => {
         "concept-inline": { ...allOptions.inline["concept-inline"], hidden: true },
         "gloss-inline": { ...allOptions.inline["gloss-inline"], hidden: true },
         "comment-inline": { ...allOptions.inline["comment-inline"], hidden: false },
+        rewrite: { ...allOptions.inline.rewrite, hidden: true },
       },
     };
     const expected = arrayifyToolbar(opts);

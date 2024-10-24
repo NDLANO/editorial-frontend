@@ -2171,6 +2171,9 @@ const phrases = {
       button: "Generer",
       prompt: "Returner ei metabeskriving på {{ language }} og mindre enn 15 ord av følgjande utdanningstekst:",
     },
+    alternativePhrasing: {
+      prompt: "Returner ei alternativ formulering på {{ language }} for følgjande tekst:",
+    },
     reflectionQuestions: {
       button: "Generer refleksjonsspørsmål",
       prompt: "Returner 5 refleksjonsspørsmål på {{ language }} for følgjande utdanningstekst:",

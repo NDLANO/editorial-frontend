@@ -32,6 +32,7 @@ import {
   AlignRight,
   FormatList,
   Globe,
+  BlogPost,
 } from "@ndla/icons/editor";
 
 const StyledHeadingSpan = styled.span`
@@ -90,6 +91,7 @@ const icon: Record<string, ElementType> = {
   left: AlignLeft,
   center: AlignCenter,
   right: AlignRight,
+  rewrite: BlogPost,
 };
 
 interface Props {

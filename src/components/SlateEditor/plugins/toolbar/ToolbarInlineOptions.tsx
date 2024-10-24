@@ -7,12 +7,14 @@
  */
 
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { Editor, Element } from "slate";
 import { useSlate, useSlateSelector } from "slate-react";
 import { ToggleItem } from "@radix-ui/react-toolbar";
 import { StyledToggleGroup, ToolbarCategoryProps } from "./SlateToolbar";
 import ToolbarButton from "./ToolbarButton";
 import { InlineType } from "./toolbarState";
+import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import { insertComment } from "../comment/inline/utils";
 import { insertInlineConcept } from "../concept/inline/utils";
 import { insertLink } from "../link/utils";
@@ -39,6 +41,8 @@ const getCurrentInlineValues = (editor: Editor): InlineType | undefined => {
 export const ToolbarInlineOptions = ({ options }: ToolbarCategoryProps<InlineType>) => {
   const editor = useSlate();
   const value = useSlateSelector(getCurrentInlineValues);
+  const { t } = useTranslation();
+  const language = useArticleLanguage();
 
   const onClick = useCallback(
     (type: InlineType) => {
@@ -58,10 +62,13 @@ export const ToolbarInlineOptions = ({ options }: ToolbarCategoryProps<InlineTyp
         insertComment(editor);
       }
       if (type === "rephrase") {
-        insertRephrase(editor);
+        insertRephrase(
+          editor,
+          t("textGeneration.alternativePhrasing.prompt", { language: t(`languages.${language}`) }),
+        );
       }
     },
-    [editor],
+    [editor, language, t],
   );
 
   const visibleOptions = options.filter((option) => !option.hidden);

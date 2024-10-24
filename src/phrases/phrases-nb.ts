@@ -2164,19 +2164,19 @@ const phrases = {
   textGeneration: {
     articleSummary: {
       button: "Generer",
-      prompt: "Returner en kort oppsummering på {{ language }} av følgende utdanningstekst:",
+      prompt: "Returner en kort oppsummering på {{ language }} av følgende utdanningstekst: ",
       title: "Oppsummering",
     },
     metaDescription: {
       button: "Generer",
-      prompt: "Returner en metabeskrivelse på {{ language }} og mindre enn 15 ord av følgende tekst:",
+      prompt: "Returner en metabeskrivelse på {{ language }} og mindre enn 15 ord av følgende tekst: ",
     },
     alternativePhrasing: {
-      prompt: "Returner en alternativ formulering på {{ language }} for følgende tekst:",
+      prompt: "Forslå en formulering på {{ language }} av følgende tekst: ",
     },
     reflectionQuestions: {
       button: "Generer refleksjonsspørsmål",
-      prompt: "Returner 5 refleksjonsspørsmål på {{ language }} for følgende utdanningstekst:",
+      prompt: "Returner 5 refleksjonsspørsmål på {{ language }} for følgende utdanningstekst: ",
     },
   },
 };

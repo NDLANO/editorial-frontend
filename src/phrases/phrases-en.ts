@@ -2165,19 +2165,20 @@ const phrases = {
   textGeneration: {
     articleSummary: {
       button: "Generate",
-      prompt: "Return a short summary in {{ language }} of the following educational article:",
+      prompt: "Return a short summary in {{ language }} of the following educational article: ",
       title: "Summary",
     },
     metaDescription: {
       button: "Generate",
-      prompt: "Return a metadescription in {{ language }} and less than 15 words of the following educational article:",
+      prompt:
+        "Return a metadescription in {{ language }} and less than 15 words of the following educational article: ",
     },
     alternativePhrasing: {
-      prompt: "Return an alternative phrasing in {{ language }} for the following text:",
+      prompt: "Suggest a different phrasing in {{ language }} of the following text: ",
     },
     reflectionQuestions: {
       button: "Generate reflection questions",
-      prompt: "Return 5 reflection questions in {{ language }} for the following educational article:",
+      prompt: "Return 5 reflection questions in {{ language }} for the following educational article: ",
     },
   },
 };

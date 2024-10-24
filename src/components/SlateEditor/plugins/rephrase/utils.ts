@@ -7,12 +7,21 @@
  */
 
 import { Editor } from "slate";
-import { invokeModel } from "../../../LLM/helpers";
+import { claudeHaikuDefaults, invokeModel } from "../../../LLM/helpers";
 
-export const insertRephrase = (editor: Editor) => {
+const getRephrasing = async (prompt: string) => {
+  try {
+    return await invokeModel({ prompt: prompt, ...claudeHaikuDefaults });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const insertRephrase = async (editor: Editor, prompt: string) => {
   if (editor.selection === null) return;
   const selectedText = Editor.string(editor, editor.selection);
-  // console.log(selectedText);
+  if (!selectedText) return;
+  const rephrasedText = await getRephrasing(prompt + selectedText);
 
   // const text = editorValueToPlainText(editor.selection);
 };

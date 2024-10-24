@@ -10,7 +10,6 @@ import { Formik, FormikProps, useFormikContext } from "formik";
 import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
-import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle } from "@ndla/modal";
 import {
   Button,
   FieldInput,
@@ -22,7 +21,7 @@ import {
   DialogTitle,
   DialogBody,
 } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
+import { HStack, styled } from "@ndla/styled-system/jsx";
 import { BrightcoveEmbedData } from "@ndla/types-embed";
 import { VideoWrapper } from "./SlateVideo";
 import config from "../../../../config";
@@ -135,10 +134,13 @@ const VideoEmbedForm = ({ setHasError, close, isValid, dirty, initialValues, val
       <FormField name="caption">
         {({ field }) => (
           <>
-            <Text textStyle="label.medium" fontWeight="bold">
-              {t("form.video.caption.label")}
+            <HStack>
+              <Text textStyle="label.medium" fontWeight="bold" consumeCss asChild>
+                <label>{t("form.video.caption.label")}</label>
+              </Text>
               <RichTextIndicator />
-            </Text>
+            </HStack>
+
             <InlineField
               {...field}
               placeholder={t("form.video.caption.placeholder")}

@@ -10,9 +10,18 @@ import { Formik, FormikProps, useFormikContext } from "formik";
 import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
-import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle } from "@ndla/modal";
-import { Button, FieldInput, FieldErrorMessage, FieldLabel, FieldRoot, Text } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
+import {
+  Button,
+  FieldInput,
+  FieldErrorMessage,
+  FieldLabel,
+  FieldRoot,
+  Text,
+  DialogHeader,
+  DialogTitle,
+  DialogBody,
+} from "@ndla/primitives";
+import { HStack, styled } from "@ndla/styled-system/jsx";
 import { BrightcoveEmbedData } from "@ndla/types-embed";
 import { VideoWrapper } from "./SlateVideo";
 import config from "../../../../config";
@@ -20,6 +29,7 @@ import { InlineField } from "../../../../containers/FormikForm/InlineField";
 import { inlineContentToEditorValue } from "../../../../util/articleContentConverter";
 import { isFormikFormDirty } from "../../../../util/formHelper";
 import { addBrightCoveTimeStampVideoid, getBrightCoveStartTime } from "../../../../util/videoUtil";
+import { DialogCloseButton } from "../../../DialogCloseButton";
 import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
@@ -79,11 +89,11 @@ const EditVideo = ({ onSave, setHasError, embed, onClose }: Props) => {
 
   return (
     <>
-      <ModalHeader>
-        <ModalTitle>{t("form.video.editVideo")}</ModalTitle>
-        <ModalCloseButton />
-      </ModalHeader>
-      <ModalBody>
+      <DialogHeader>
+        <DialogTitle>{t("form.video.editVideo")}</DialogTitle>
+        <DialogCloseButton />
+      </DialogHeader>
+      <DialogBody>
         <VideoWrapper>
           <StyledVideo title={`Video: ${embed?.title}`} src={activeSrc(embed)} allowFullScreen />
         </VideoWrapper>
@@ -96,7 +106,7 @@ const EditVideo = ({ onSave, setHasError, embed, onClose }: Props) => {
         >
           {(field) => <VideoEmbedForm {...field} setHasError={setHasError} close={onClose} />}
         </Formik>
-      </ModalBody>
+      </DialogBody>
     </>
   );
 };
@@ -124,10 +134,13 @@ const VideoEmbedForm = ({ setHasError, close, isValid, dirty, initialValues, val
       <FormField name="caption">
         {({ field }) => (
           <>
-            <Text textStyle="label.medium" fontWeight="bold">
-              {t("form.video.caption.label")}
+            <HStack>
+              <Text textStyle="label.medium" fontWeight="bold" consumeCss asChild>
+                <label>{t("form.video.caption.label")}</label>
+              </Text>
               <RichTextIndicator />
-            </Text>
+            </HStack>
+
             <InlineField
               {...field}
               placeholder={t("form.video.caption.placeholder")}

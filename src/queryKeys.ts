@@ -42,6 +42,7 @@ export const LICENSES = "licenses";
 export const USER_DATA = "userData";
 export const DRAFT_STATUS_STATE_MACHINE = "draftStatusStateMachine";
 export const DRAFT_SEARCH_TAGS = "draftSearchTags";
+export const GREP_CODES_SEARCH = "grepCodesSearch";
 
 export const RESOURCE_TYPE = "resourceType";
 export const RESOURCE_TYPES = "resourceTypes";

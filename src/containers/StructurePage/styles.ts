@@ -15,7 +15,6 @@ export const ResourceGroupBanner = styled.div`
   background-color: ${colors.brand.lighter};
   border-radius: 10px;
   ${fonts.sizes(16)};
-  color: ${colors.brand.primary};
   padding: ${spacing.small};
   margin-top: ${spacing.small};
   margin-bottom: ${spacing.small};

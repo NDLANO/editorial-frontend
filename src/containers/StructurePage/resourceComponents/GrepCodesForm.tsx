@@ -6,8 +6,10 @@
  *
  */
 
-import { Form, Formik, FormikHelpers } from "formik";
+import { Formik, FormikHelpers } from "formik";
 import { useState } from "react";
+import { FormContent } from "../../../components/FormikForm";
+import FormWrapper from "../../../components/FormWrapper";
 import SaveMultiButton from "../../../components/SaveMultiButton";
 import GrepCodesField from "../../FormikForm/GrepCodesField";
 
@@ -37,17 +39,19 @@ const GrepCodesForm = ({ codes, onUpdate }: Props) => {
           setSaved(false);
         }
         return (
-          <Form>
-            <GrepCodesField />
-            <SaveMultiButton
-              isSaving={isSubmitting}
-              formIsDirty={dirty}
-              showSaved={saved && !dirty}
-              onClick={submitForm}
-              disabled={!!Object.keys(errors).length}
-              hideSecondaryButton
-            />
-          </Form>
+          <FormWrapper inModal>
+            <FormContent>
+              <GrepCodesField />
+              <SaveMultiButton
+                isSaving={isSubmitting}
+                formIsDirty={dirty}
+                showSaved={saved && !dirty}
+                onClick={submitForm}
+                disabled={!!Object.keys(errors).length}
+                hideSecondaryButton
+              />
+            </FormContent>
+          </FormWrapper>
         );
       }}
     </Formik>

@@ -234,6 +234,7 @@ const phrases = {
     audioNoHits: "Your search - {{query}} - did not match any audio files.",
     imageNoHits: "Your search - {{query}} - did not match any images.",
     pageSize: "{{pageSize}} hits per page",
+    hitsSelectLabel: "Number of hits per page",
     totalCount: "Total results",
     highlights: {
       title: "Search hits",

@@ -133,7 +133,7 @@ export const headingPlugin = (editor: Editor) => {
     const [node, path] = entry;
 
     if (Element.isElement(node) && node.type === TYPE_HEADING) {
-      // No strong in heading in Text Elements
+      // Remove bold mark on heading text and span children
       if (node.children.some((child) => isBoldText(child) || isBoldSpanChild(child))) {
         Editor.withoutNormalizing(editor, () => {
           node.children.forEach((child, idx) => {
@@ -148,6 +148,7 @@ export const headingPlugin = (editor: Editor) => {
             }
           });
         });
+        return;
       }
 
       // Remove empty headers, but not when cursor is placed inside it.

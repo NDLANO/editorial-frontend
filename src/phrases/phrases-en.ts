@@ -2164,6 +2164,21 @@ const phrases = {
       neutral: "Use neutral variant",
     },
   },
+  textGeneration: {
+    articleSummary: {
+      button: "Generate",
+      prompt: "Return a short summary in {{ language }} of the following educational article:",
+      title: "Summary",
+    },
+    metaDescription: {
+      button: "Generate",
+      prompt: "Return a metadescription in {{ language }} and less than 15 words of the following educational article:",
+    },
+    reflectionQuestions: {
+      button: "Generate reflection questions",
+      prompt: "Return 5 reflection questions in {{ language }} for the following educational article:",
+    },
+  },
 };
 
 export default phrases;

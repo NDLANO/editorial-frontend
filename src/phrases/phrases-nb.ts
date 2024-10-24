@@ -2163,6 +2163,21 @@ const phrases = {
       neutral: "Bruk nøytral variant",
     },
   },
+  textGeneration: {
+    articleSummary: {
+      button: "Generer",
+      prompt: "Returner en kort oppsummering på {{ language }} av følgende utdanningstekst:",
+      title: "Oppsummering",
+    },
+    metaDescription: {
+      button: "Generer",
+      prompt: "Returner en metabeskrivelse på {{ language }} og mindre enn 15 ord av følgende tekst:",
+    },
+    reflectionQuestions: {
+      button: "Generer refleksjonsspørsmål",
+      prompt: "Returner 5 refleksjonsspørsmål på {{ language }} for følgende utdanningstekst:",
+    },
+  },
 };
 
 export default phrases;

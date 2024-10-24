@@ -15,8 +15,7 @@ import { colors } from "@ndla/core";
 import { Pencil } from "@ndla/icons/action";
 import { Link } from "@ndla/icons/common";
 import { DeleteForever } from "@ndla/icons/editor";
-import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
-import { IconButton } from "@ndla/primitives";
+import { DialogContent, DialogRoot, DialogTrigger, IconButton } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { AudioEmbedData, AudioMetaData } from "@ndla/types-embed";
 import { AudioEmbed, EmbedWrapper } from "@ndla/ui";
@@ -108,7 +107,7 @@ const SlateAudio = ({ element, editor, attributes, children }: Props) => {
   );
 
   return (
-    <Modal open={isEditing} onOpenChange={setIsEditing}>
+    <DialogRoot open={isEditing} onOpenChange={({ open }) => setIsEditing(open)}>
       <StyledEmbedWrapper
         {...attributes}
         contentEditable={false}
@@ -121,7 +120,7 @@ const SlateAudio = ({ element, editor, attributes, children }: Props) => {
           <>
             <StyledFigureButtons>
               {embed.embedData.type !== "podcast" && (
-                <ModalTrigger>
+                <DialogTrigger asChild>
                   <IconButton
                     title={t("form.audio.edit")}
                     aria-label={t("form.audio.edit")}
@@ -130,7 +129,7 @@ const SlateAudio = ({ element, editor, attributes, children }: Props) => {
                   >
                     <Pencil />
                   </IconButton>
-                </ModalTrigger>
+                </DialogTrigger>
               )}
               {embed.embedData.type !== "minimal" && (
                 <>
@@ -163,13 +162,13 @@ const SlateAudio = ({ element, editor, attributes, children }: Props) => {
           </>
         ) : null}
       </StyledEmbedWrapper>
-      <ModalContent>
+      <DialogContent>
         {!!element.data && !!audioMetaQuery.data && (
           <AudioEmbedForm audio={audioMetaQuery.data} onSave={onSave} onCancel={onClose} embed={element.data} />
         )}
-      </ModalContent>
+      </DialogContent>
       {children}
-    </Modal>
+    </DialogRoot>
   );
 };
 

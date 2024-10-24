@@ -51,6 +51,7 @@ export const SUBJECT = "subject";
 
 export const FILM_FRONTPAGE_QUERY = "filmFrontpage";
 export const FILM_SLIDESHOW = "filmSlideshow";
+export const FILM_SEARCH = "filmSearch";
 
 export const FRONTPAGE = "frontpage";
 

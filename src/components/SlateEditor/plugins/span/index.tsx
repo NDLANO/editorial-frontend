@@ -7,7 +7,7 @@
  */
 
 import isEmpty from "lodash/isEmpty";
-import { Descendant, Editor, Element, Node, Transforms } from "slate";
+import { Descendant, Editor, Element, Node, Text, Transforms } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
 import { TYPE_SPAN } from "./types";
 import { createProps, reduceElementDataAttributes } from "../../../../util/embedTagHelpers";

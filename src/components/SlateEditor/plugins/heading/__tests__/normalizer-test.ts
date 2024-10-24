@@ -156,7 +156,7 @@ test("remove bold marker on header", () => {
         {
           type: TYPE_HEADING,
           level: 2,
-          children: [{ text: "Test", bold: false }],
+          children: [{ text: "Test" }],
         },
         {
           type: TYPE_PARAGRAPH,

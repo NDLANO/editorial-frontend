@@ -7,12 +7,12 @@
  */
 
 import { Editor } from "slate";
+import { invokeModel } from "../../../LLM/helpers";
 
-export const insertRewrite = (editor: Editor) => {
-  // console.log(editor.selection);
-  if (editor.selection !== null) {
-    const selectedText = Editor.string(editor, editor.selection);
-    // console.log(selectedText);
-  }
+export const insertRephrase = (editor: Editor) => {
+  if (editor.selection === null) return;
+  const selectedText = Editor.string(editor, editor.selection);
+  // console.log(selectedText);
+
   // const text = editorValueToPlainText(editor.selection);
 };

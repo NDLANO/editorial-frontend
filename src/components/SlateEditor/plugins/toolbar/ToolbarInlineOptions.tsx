@@ -17,7 +17,7 @@ import { insertComment } from "../comment/inline/utils";
 import { insertInlineConcept } from "../concept/inline/utils";
 import { insertLink } from "../link/utils";
 import { insertMathml } from "../mathml/utils";
-import { insertRewrite } from "../rewrite/utils";
+import { insertRephrase } from "../rephrase/utils";
 
 const getCurrentInlineValues = (editor: Editor): InlineType | undefined => {
   const [currentBlock] =
@@ -57,8 +57,8 @@ export const ToolbarInlineOptions = ({ options }: ToolbarCategoryProps<InlineTyp
       if (type === "comment-inline") {
         insertComment(editor);
       }
-      if (type === "rewrite") {
-        insertRewrite(editor);
+      if (type === "rephrase") {
+        insertRephrase(editor);
       }
     },
     [editor],

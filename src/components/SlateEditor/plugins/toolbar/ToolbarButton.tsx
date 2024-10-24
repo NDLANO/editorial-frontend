@@ -91,7 +91,7 @@ const icon: Record<string, ElementType> = {
   left: AlignLeft,
   center: AlignCenter,
   right: AlignRight,
-  rewrite: BlogPost,
+  rephrase: BlogPost,
 };
 
 interface Props {

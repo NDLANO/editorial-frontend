@@ -19,6 +19,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogBody,
+  Text,
 } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { BrightcoveEmbedData } from "@ndla/types-embed";
@@ -132,11 +133,11 @@ const VideoEmbedForm = ({ setHasError, close, isValid, dirty, initialValues, val
     <FormikForm>
       <FormField name="caption">
         {({ field, meta }) => (
-          <FieldRoot>
-            <HStack>
-              <FieldLabel>{t("form.video.caption.label")}</FieldLabel>
+          <FieldRoot invalid={!!meta.error}>
+            <Text textStyle="label.medium" fontWeight="bold">
+              {t("form.video.caption.label")}
               <RichTextIndicator />
-            </HStack>
+            </Text>
             <InlineField
               {...field}
               placeholder={t("form.video.caption.placeholder")}

@@ -107,11 +107,19 @@ const Details = ({ children, editor, element, attributes }: Props & RenderElemen
   };
 
   const openAttribute = isOpen ? { "data-open": "" } : {};
+  const toggleOpenTitle = isOpen ? t("form.close") : t("form.open");
 
   return (
     <EmbedWrapper {...attributes} draggable>
       <ButtonContainer contentEditable={false}>
-        <StyledIconButton {...openAttribute} size="small" variant="secondary" onClick={toggleOpen}>
+        <StyledIconButton
+          {...openAttribute}
+          size="small"
+          variant="secondary"
+          onClick={toggleOpen}
+          aria-label={toggleOpenTitle}
+          title={toggleOpenTitle}
+        >
           <ArrowDownShortLine />
         </StyledIconButton>
         <MoveContentButton onMouseDown={onMoveContent} aria-label={t("form.moveContent")} />

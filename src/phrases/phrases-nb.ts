@@ -784,6 +784,8 @@ const phrases = {
     hideAll: "Lukk alle",
     unpublishedChanges: "(Endret siden siste publisering)",
     moveContent: "Flytt innhold inn i teksten",
+    open: "Åpne",
+    close: "Lukk",
     comment: {
       comment: "Kommenter",
       hide: "Skjul kommentar",

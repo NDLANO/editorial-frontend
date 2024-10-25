@@ -783,6 +783,8 @@ const phrases = {
     hideAll: "Hide all",
     unpublishedChanges: "(Changed since last publish)",
     moveContent: "Move content into the text",
+    open: "Open",
+    close: "Close",
     comment: {
       comment: "Comment",
       hide: "Hide comment",

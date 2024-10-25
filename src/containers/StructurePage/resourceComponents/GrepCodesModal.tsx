@@ -43,7 +43,7 @@ const GrepCodesModal = ({ codes, contentType, contentUri, revision, currentNodeI
   if (contentType === contentTypes.LEARNING_PATH || !draftId || !revision) return null;
 
   return (
-    <DialogRoot position="top">
+    <DialogRoot size="large" position="top">
       <DialogTrigger asChild>
         <Button size="small" variant="secondary">{`GREP (${codes.length})`}</Button>
       </DialogTrigger>

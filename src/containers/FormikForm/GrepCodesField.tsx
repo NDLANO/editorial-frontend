@@ -8,9 +8,12 @@
 
 import { useField } from "formik";
 import difference from "lodash/difference";
+import uniq from "lodash/uniq";
 import { memo, useState, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { createListCollection } from "@ark-ui/react";
+import { createListCollection, useTagsInputContext } from "@ark-ui/react";
+import { CloseLine } from "@ndla/icons/action";
+import { ArrowDownShortLine } from "@ndla/icons/common";
 import { CheckLine } from "@ndla/icons/editor";
 import {
   ComboboxItem,
@@ -19,39 +22,70 @@ import {
   FieldHelper,
   FieldLabel,
   FieldRoot,
+  IconButton,
   Input,
+  TagsInputItem,
+  TagsInputItemDeleteTrigger,
+  TagsInputItemInput,
+  TagsInputItemPreview,
+  TagsInputItemText,
   Text,
 } from "@ndla/primitives";
-import { TagSelectorLabel, TagSelectorRoot, useTagSelectorTranslations } from "@ndla/ui";
+import { Flex, HStack, Wrap } from "@ndla/styled-system/jsx";
+import {
+  TagSelectorControl,
+  TagSelectorInputBase,
+  TagSelectorLabel,
+  TagSelectorRoot,
+  TagSelectorTrigger,
+  useTagSelectorTranslations,
+} from "@ndla/ui";
 import { SearchTagsContent } from "../../components/Form/SearchTagsContent";
-import { SearchTagsTagSelectorInput } from "../../components/Form/SearchTagsTagSelectorInput";
 import { FormField } from "../../components/FormField";
 import { useGrepCodesSearch } from "../../modules/draft/draftQueries";
 import { fetchGrepCodeTitle } from "../../modules/grep/grepApi";
+import { GrepCode } from "../../modules/grep/grepApiInterfaces";
 import { isGrepCodeValid } from "../../util/articleUtil";
 import { usePaginatedQuery } from "../../util/usePaginatedQuery";
 
-interface GrepCode {
-  code: string;
-  title?: string;
-}
-
-export const convertGrepCodesToObject = async (grepCodes: string[]) => {
-  return Promise.all(
+export const convertGrepCodesToObject = async (grepCodes: string[]): Promise<Record<string, string>> => {
+  const grepCodesWithTitle = await Promise.all(
     grepCodes.map(async (c) => {
       const grepCodeTitle = await fetchGrepCodeTitle(c);
       return {
-        code: c,
-        title: grepCodeTitle ? `${c} - ${grepCodeTitle}` : c,
+        [c]: grepCodeTitle ? `${c} - ${grepCodeTitle}` : c,
       };
     }),
+  );
+  return Object.assign({}, ...grepCodesWithTitle);
+};
+
+interface GrepCodeTagItemsProps {
+  grepCodes: Record<string, string>;
+}
+const GrepCodeTagItems = ({ grepCodes }: GrepCodeTagItemsProps) => {
+  const tagsApi = useTagsInputContext();
+  return (
+    <Wrap gap="3xsmall">
+      {tagsApi.value.map((value, index) => (
+        <TagsInputItem index={index} value={value} key={value}>
+          <TagsInputItemPreview>
+            <TagsInputItemText>{grepCodes[value] ?? value}</TagsInputItemText>
+            <TagsInputItemDeleteTrigger>
+              <CloseLine />
+            </TagsInputItemDeleteTrigger>
+          </TagsInputItemPreview>
+          <TagsInputItemInput />
+        </TagsInputItem>
+      ))}
+    </Wrap>
   );
 };
 
 const GrepCodesField = () => {
   const { t } = useTranslation();
   const [field, _, helpers] = useField<string[]>("grepCodes");
-  const [grepCodes, setGrepCodes] = useState<GrepCode[]>([]);
+  const [grepCodes, setGrepCodes] = useState<Record<string, string>>({});
 
   const tagSelectorTranslations = useTagSelectorTranslations();
   const { query, setQuery } = usePaginatedQuery();
@@ -59,51 +93,53 @@ const GrepCodesField = () => {
 
   useEffect(() => {
     (async () => {
-      const comp = await convertGrepCodesToObject(field.value);
-      setGrepCodes(comp);
+      const grepCodesObject = await convertGrepCodesToObject(field.value);
+      setGrepCodes(grepCodesObject);
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const fetchGrepCodeTitles = async (
-    newGrepCodes: string[],
-  ): Promise<{ newGrepCodes: GrepCode[]; failedGrepCodes: string[] }> => {
+  const fetchGrepCodeTitles = async (newGrepCodes: string[]): Promise<GrepCode[]> => {
     const newGrepCodeNames: GrepCode[] = [];
-    const failed: string[] = [];
     for (const grepCode of newGrepCodes) {
       const grepCodeTitle = await fetchGrepCodeTitle(grepCode);
-      const savedGrepCode = grepCodes.filter((c) => c.code === grepCode).length;
-      if (grepCodeTitle && !savedGrepCode && isGrepCodeValid(grepCode)) {
+      const isGrepCodeSaved = grepCodes[grepCode];
+
+      if (grepCodeTitle && !isGrepCodeSaved && isGrepCodeValid(grepCode)) {
         newGrepCodeNames.push({
           code: grepCode,
           title: `${grepCode} - ${grepCodeTitle}`,
         });
-      } else if (!savedGrepCode) {
-        failed.push(grepCode);
+      } else if (!isGrepCodeSaved) {
         setTimeout(() => {
           helpers.setError(`${t("errorMessage.grepCodes")}${grepCode}`);
         }, 0);
       }
     }
-    return { newGrepCodes: newGrepCodeNames, failedGrepCodes: failed };
+    return newGrepCodeNames;
   };
 
   const updateGrepCodes = async (values: string[]) => {
     helpers.setError(undefined);
-    const trimmedValues = values.map((v) => v.toUpperCase().trim());
+    const trimmedValues = uniq(values.map((v) => v.toUpperCase().trim()));
     // Grep code is added
     if (trimmedValues.length > field.value.length) {
       const addedGrepCodes = difference(trimmedValues, field.value);
       const grepCodesWithNames = await fetchGrepCodeTitles(addedGrepCodes);
-      setGrepCodes([...grepCodes, ...grepCodesWithNames.newGrepCodes]);
-      const valuesRemoveFailed = trimmedValues.filter((v) => !grepCodesWithNames.failedGrepCodes.includes(v));
-      helpers.setValue(valuesRemoveFailed);
+      const grepCodesObject = grepCodesWithNames.reduce((acc, c) => ({ ...acc, [c.code]: c.title }), grepCodes);
+      setGrepCodes(grepCodesObject);
+      helpers.setValue(Object.keys(grepCodesObject));
+      return;
     }
     // Grep code is removed
     if (trimmedValues.length < field.value.length) {
-      const fileredGrepCodes = grepCodes.filter((c) => trimmedValues.includes(c.code));
-      setGrepCodes(fileredGrepCodes);
+      const filteredGrepCodes = trimmedValues.reduce(
+        (acc, c) => (values.includes(c) ? { ...acc, [c]: grepCodes[c] } : acc),
+        {},
+      );
+      setGrepCodes(filteredGrepCodes);
       helpers.setValue(values);
+      return;
     }
   };
 
@@ -129,14 +165,27 @@ const GrepCodesField = () => {
             inputValue={query}
             onInputValueChange={(details) => setQuery(details.inputValue)}
             positioning={{ strategy: "fixed" }}
+            editable={false}
           >
             <TagSelectorLabel>{t("form.grepCodes.comboboxLabel")}</TagSelectorLabel>
             <Text color="text.error" aria-live="polite">
               {meta.error}
             </Text>
-            <SearchTagsTagSelectorInput asChild>
-              <Input placeholder={t("form.grepCodes.placeholder")} />
-            </SearchTagsTagSelectorInput>
+            <Flex direction="column">
+              <HStack gap="3xsmall">
+                <TagSelectorControl asChild>
+                  <TagSelectorInputBase asChild>
+                    <Input placeholder={t("form.grepCodes.placeholder")} />
+                  </TagSelectorInputBase>
+                </TagSelectorControl>
+                <TagSelectorTrigger asChild>
+                  <IconButton variant="secondary">
+                    <ArrowDownShortLine />
+                  </IconButton>
+                </TagSelectorTrigger>
+              </HStack>
+              <GrepCodeTagItems grepCodes={grepCodes} />
+            </Flex>
             <SearchTagsContent isFetching={searchQuery.isFetching} hits={collection.items.length}>
               {collection.items.map((item) => (
                 <ComboboxItem key={item.code} item={item}>

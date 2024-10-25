@@ -10,14 +10,13 @@ import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
-import styled from "@emotion/styled";
-import { colors } from "@ndla/core";
+import { Portal } from "@ark-ui/react";
 import { Pencil } from "@ndla/icons/action";
 import { Link } from "@ndla/icons/common";
 import { DeleteForever } from "@ndla/icons/editor";
-import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
-import { IconButton } from "@ndla/primitives";
+import { DialogContent, DialogRoot, DialogTrigger, IconButton } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { AudioEmbedData, AudioMetaData } from "@ndla/types-embed";
 import { AudioEmbed, EmbedWrapper } from "@ndla/ui";
 import AudioEmbedForm from "./AudioEmbedForm";
@@ -32,14 +31,17 @@ interface Props extends RenderElementProps {
   editor: Editor;
 }
 
-const StyledEmbedWrapper = styled(EmbedWrapper)`
-  position: relative;
-  &[data-selected="true"] {
-    figure {
-      outline: 2px solid ${colors.brand.primary};
-    }
-  }
-`;
+const StyledEmbedWrapper = styled(EmbedWrapper, {
+  base: {
+    position: "relative",
+    _selected: {
+      "& > figure": {
+        outline: "2px solid",
+        outlineColor: "brand.primary",
+      },
+    },
+  },
+});
 
 const SlateAudio = ({ element, editor, attributes, children }: Props) => {
   const { t } = useTranslation();
@@ -108,7 +110,7 @@ const SlateAudio = ({ element, editor, attributes, children }: Props) => {
   );
 
   return (
-    <Modal open={isEditing} onOpenChange={setIsEditing}>
+    <DialogRoot open={isEditing} onOpenChange={({ open }) => setIsEditing(open)}>
       <StyledEmbedWrapper
         {...attributes}
         contentEditable={false}
@@ -121,7 +123,7 @@ const SlateAudio = ({ element, editor, attributes, children }: Props) => {
           <>
             <StyledFigureButtons>
               {embed.embedData.type !== "podcast" && (
-                <ModalTrigger>
+                <DialogTrigger asChild>
                   <IconButton
                     title={t("form.audio.edit")}
                     aria-label={t("form.audio.edit")}
@@ -130,7 +132,7 @@ const SlateAudio = ({ element, editor, attributes, children }: Props) => {
                   >
                     <Pencil />
                   </IconButton>
-                </ModalTrigger>
+                </DialogTrigger>
               )}
               {embed.embedData.type !== "minimal" && (
                 <>
@@ -163,13 +165,16 @@ const SlateAudio = ({ element, editor, attributes, children }: Props) => {
           </>
         ) : null}
       </StyledEmbedWrapper>
-      <ModalContent>
-        {!!element.data && !!audioMetaQuery.data && (
-          <AudioEmbedForm audio={audioMetaQuery.data} onSave={onSave} onCancel={onClose} embed={element.data} />
-        )}
-      </ModalContent>
+      <Portal>
+        <DialogContent>
+          {!!element.data && !!audioMetaQuery.data && (
+            <AudioEmbedForm audio={audioMetaQuery.data} onSave={onSave} onCancel={onClose} embed={element.data} />
+          )}
+        </DialogContent>
+      </Portal>
+
       {children}
-    </Modal>
+    </DialogRoot>
   );
 };
 

@@ -2172,7 +2172,9 @@ const phrases = {
       prompt: "Returner en metabeskrivelse på {{ language }} og mindre enn 15 ord av følgende tekst: ",
     },
     alternativePhrasing: {
+      button: "Generer",
       prompt: "Forslå en formulering på {{ language }} av følgende tekst: ",
+      title: "Alternativ formulering",
     },
     reflectionQuestions: {
       button: "Generer refleksjonsspørsmål",

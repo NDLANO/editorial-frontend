@@ -2172,7 +2172,9 @@ const phrases = {
       prompt: "Returner ei metabeskriving på {{ language }} og mindre enn 15 ord av følgjande utdanningstekst: ",
     },
     alternativePhrasing: {
+      button: "Generer",
       prompt: "Foreslå en annen formulering på {{ language }} av følgjande tekst: ",
+      title: "Alternativ formulering",
     },
     reflectionQuestions: {
       button: "Generer refleksjonsspørsmål",

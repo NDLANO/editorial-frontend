@@ -2174,7 +2174,9 @@ const phrases = {
         "Return a metadescription in {{ language }} and less than 15 words of the following educational article: ",
     },
     alternativePhrasing: {
+      button: "Generate",
       prompt: "Suggest a different phrasing in {{ language }} of the following text: ",
+      title: "Alternative phrasing",
     },
     reflectionQuestions: {
       button: "Generate reflection questions",

@@ -9,16 +9,18 @@
 import {
   Children,
   ComponentPropsWithRef,
+  Dispatch,
   forwardRef,
   isValidElement,
   memo,
   MouseEvent,
+  SetStateAction,
   useCallback,
   useEffect,
   useMemo,
   useRef,
 } from "react";
-import { Editor, Range } from "slate";
+import { BaseRange, Editor, Range } from "slate";
 import { useSlate, useSlateSelection } from "slate-react";
 import styled from "@emotion/styled";
 import { Portal } from "@radix-ui/react-portal";
@@ -27,6 +29,7 @@ import { colors, spacing, misc, stackOrder } from "@ndla/core";
 import { ToolbarBlockOptions } from "./ToolbarBlockOptions";
 import { ToolbarInlineOptions } from "./ToolbarInlineOptions";
 import { ToolbarLanguageOptions } from "./ToolbarLanguageOptions";
+import { ToolbarLLMOptions } from "./ToolbarLLMOptions";
 import { ToolbarMarkOptions } from "./ToolbarMarkOptions";
 import {
   getSelectionElements,
@@ -98,9 +101,10 @@ interface Props {
   options: CategoryFilters;
   areaOptions: AreaFilters;
   hideToolbar?: boolean;
+  selectors?: { [key: string]: Dispatch<SetStateAction<BaseRange | null>> };
 }
 
-const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideToolbarProp }: Props) => {
+const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideToolbarProp, selectors }: Props) => {
   const portalRef = useRef<HTMLDivElement | null>(null);
   const selection = useSlateSelection();
   const editor = useSlate();
@@ -174,6 +178,7 @@ const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideT
           <ToolbarBlockOptions options={options?.block ?? []} />
           <ToolbarInlineOptions options={options?.inline ?? []} />
           <ToolbarTableOptions options={options?.table ?? []} />
+          {selectors && <ToolbarLLMOptions options={options?.llm ?? []} selectors={selectors} />}
         </ToolbarRow>
       </ToolbarContainer>
     </Portal>

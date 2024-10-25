@@ -141,6 +141,7 @@ export const defaultAreaOptions: AreaFilters = {
   },
   heading: {
     inline: { hidden: true, "comment-inline": { hidden: false } },
+    mark: { bold: { hidden: true } },
   },
   table: {
     text: { hidden: true },

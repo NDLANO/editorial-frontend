@@ -13,7 +13,17 @@ import { useTranslation } from "react-i18next";
 import { Cross } from "@ndla/icons/action";
 import { Search } from "@ndla/icons/common";
 import { ModalHeader, ModalBody } from "@ndla/modal";
-import { Button, IconButton, TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
+import {
+  Button,
+  DialogBody,
+  DialogHeader,
+  IconButton,
+  TabsContent,
+  TabsIndicator,
+  TabsList,
+  TabsRoot,
+  TabsTrigger,
+} from "@ndla/primitives";
 import {
   IConcept,
   IConceptSearchResult,
@@ -32,6 +42,7 @@ import { GlossForm } from "../../../../containers/GlossPage/components/GlossForm
 import { SearchParams, parseSearchParams } from "../../../../containers/SearchPage/components/form/SearchForm";
 import { postSearchConcepts } from "../../../../modules/concept/conceptApi";
 import Pagination from "../../../abstractions/Pagination";
+import { DialogCloseButton } from "../../../DialogCloseButton";
 
 interface Props {
   addConcept: (concept: IConceptSummary | IConcept) => void;
@@ -61,7 +72,6 @@ const ConceptModalContent = ({
   conceptType,
 }: Props) => {
   const { t } = useTranslation();
-  const paginationTranslations = usePaginationTranslations();
   const [searchObject, updateSearchObject] = useState<SearchParams>({
     page: 1,
     sort: "-relevance",
@@ -110,12 +120,10 @@ const ConceptModalContent = ({
 
   return (
     <div>
-      <ModalHeader>
-        <IconButton variant="tertiary" title={t("dialog.close")} aria-label={t("dialog.close")} onClick={onClose}>
-          <Cross />
-        </IconButton>
-      </ModalHeader>
-      <ModalBody>
+      <DialogHeader>
+        <DialogCloseButton onClick={onClose} />
+      </DialogHeader>
+      <DialogBody>
         {concept?.id && <Button onClick={handleRemove}>{t(`form.content.${concept.conceptType}.remove`)}</Button>}
         <TabsRoot
           defaultValue="concepts"
@@ -195,7 +203,7 @@ const ConceptModalContent = ({
             </TabsContent>
           ))}
         </TabsRoot>
-      </ModalBody>
+      </DialogBody>
     </div>
   );
 };

@@ -16,7 +16,6 @@ import {
   FieldErrorMessage,
   FieldLabel,
   FieldRoot,
-  Text,
   DialogHeader,
   DialogTitle,
   DialogBody,
@@ -132,22 +131,20 @@ const VideoEmbedForm = ({ setHasError, close, isValid, dirty, initialValues, val
   return (
     <FormikForm>
       <FormField name="caption">
-        {({ field }) => (
-          <>
+        {({ field, meta }) => (
+          <FieldRoot>
             <HStack>
-              <Text textStyle="label.medium" fontWeight="bold" consumeCss asChild>
-                <label>{t("form.video.caption.label")}</label>
-              </Text>
+              <FieldLabel>{t("form.video.caption.label")}</FieldLabel>
               <RichTextIndicator />
             </HStack>
-
             <InlineField
               {...field}
               placeholder={t("form.video.caption.placeholder")}
               submitted={isSubmitting}
               onChange={(val) => field.onChange({ target: { value: val, name: field.name } })}
             />
-          </>
+            <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+          </FieldRoot>
         )}
       </FormField>
       <FormField name="startTime">

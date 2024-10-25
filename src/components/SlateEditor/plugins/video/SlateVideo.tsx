@@ -31,10 +31,10 @@ export const VideoWrapper = styled(EmbedWrapper, {
     display: "block",
     outline: "2px solid transparent",
     _selected: {
-      outlineColor: "brand.primary",
+      outlineColor: "stroke.default",
     },
     "&[data-error='true']": {
-      outlineColor: "support.red",
+      outlineColor: "stroke.error",
     },
   },
 });

@@ -36,7 +36,8 @@ const StyledEmbedWrapper = styled(EmbedWrapper, {
     position: "relative",
     _selected: {
       "& > figure": {
-        outline: "2px solid brand.primary",
+        outline: "2px solid",
+        outlineColor: "brand.primary",
       },
     },
   },

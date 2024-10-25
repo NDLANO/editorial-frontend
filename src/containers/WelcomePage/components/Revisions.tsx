@@ -30,6 +30,7 @@ import TableComponent, { FieldElement, TitleElement } from "./TableComponent";
 import TableTitle from "./TableTitle";
 import { WelcomePageTabsContent } from "./WelcomePageTabsContent";
 import PageSizeSelect from "./worklist/PageSizeSelect";
+import StatusCell from "./worklist/StatusCell";
 import SubjectCombobox from "./worklist/SubjectCombobox";
 import Pagination from "../../../components/abstractions/Pagination";
 import { getWarnStatus } from "../../../components/HeaderWithLanguage/HeaderStatusInformation";
@@ -218,7 +219,7 @@ const Revisions = ({ userData }: Props) => {
           },
           {
             id: `status_${resource.id}`,
-            data: resource.status?.current ? t(`form.status.${resource.status.current.toLowerCase()}`) : "",
+            data: resource.status?.current ? <StatusCell status={resource.status} /> : "",
           },
           {
             id: `primarySubject_${resource.id}`,
@@ -230,7 +231,7 @@ const Revisions = ({ userData }: Props) => {
           },
         ];
       }) ?? [[]],
-    [filteredData, t],
+    [filteredData],
   );
 
   return (

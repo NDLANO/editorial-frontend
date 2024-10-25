@@ -10,34 +10,31 @@ import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
-import styled from "@emotion/styled";
+import { Portal } from "@ark-ui/react";
 import { Pencil } from "@ndla/icons/action";
 import { DeleteForever } from "@ndla/icons/editor";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
-import { IconButton } from "@ndla/primitives";
+import {
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  IconButton,
+} from "@ndla/primitives";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import { ContactBlockEmbedData } from "@ndla/types-embed";
 import { ContactBlock, ContactBlockBackground, EmbedWrapper } from "@ndla/ui";
 import { ContactBlockElement } from ".";
 import ContactBlockForm from "./ContactBlockForm";
 import { fetchImage } from "../../../../modules/image/imageApi";
+import { DialogCloseButton } from "../../../DialogCloseButton";
 import { StyledFigureButtons } from "../embed/FigureButtons";
 
 interface Props extends RenderElementProps {
   element: ContactBlockElement;
   editor: Editor;
 }
-
-const StyledModalHeader = styled(ModalHeader)`
-  padding-bottom: 0px;
-`;
-
-const StyledModalBody = styled(ModalBody)`
-  padding-top: 0px;
-  h2 {
-    margin: 0px;
-  }
-`;
 
 const SlateContactBlock = ({ element, editor, attributes, children }: Props) => {
   const { t } = useTranslation();
@@ -97,12 +94,12 @@ const SlateContactBlock = ({ element, editor, attributes, children }: Props) => 
     });
 
   return (
-    <Modal open={isEditing} onOpenChange={setIsEditing}>
+    <DialogRoot open={isEditing} onOpenChange={({ open }) => setIsEditing(open)}>
       <EmbedWrapper {...attributes} contentEditable={false} data-testid="slate-contact-block">
         {contactBlock && image && (
           <>
             <StyledFigureButtons>
-              <ModalTrigger>
+              <DialogTrigger>
                 <IconButton
                   variant="secondary"
                   size="small"
@@ -111,7 +108,7 @@ const SlateContactBlock = ({ element, editor, attributes, children }: Props) => 
                 >
                   <Pencil />
                 </IconButton>
-              </ModalTrigger>
+              </DialogTrigger>
               <IconButton
                 aria-label={t("contactBlockForm.delete")}
                 title={t("contactBlockForm.delete")}
@@ -136,16 +133,18 @@ const SlateContactBlock = ({ element, editor, attributes, children }: Props) => 
         )}
         {children}
       </EmbedWrapper>
-      <ModalContent>
-        <StyledModalHeader>
-          <ModalTitle>{t("contactBlockForm.title")}</ModalTitle>
-          <ModalCloseButton />
-        </StyledModalHeader>
-        <StyledModalBody>
-          <ContactBlockForm initialData={contactBlock} onSave={onSave} onCancel={onClose} />
-        </StyledModalBody>
-      </ModalContent>
-    </Modal>
+      <Portal>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("contactBlockForm.title")}</DialogTitle>
+            <DialogCloseButton />
+          </DialogHeader>
+          <DialogBody>
+            <ContactBlockForm initialData={contactBlock} onSave={onSave} onCancel={onClose} />
+          </DialogBody>
+        </DialogContent>
+      </Portal>
+    </DialogRoot>
   );
 };
 

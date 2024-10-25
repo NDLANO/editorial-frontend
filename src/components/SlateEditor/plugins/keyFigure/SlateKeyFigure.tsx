@@ -10,34 +10,31 @@ import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
-import styled from "@emotion/styled";
+import { Portal } from "@ark-ui/react";
 import { Pencil } from "@ndla/icons/action";
 import { DeleteForever } from "@ndla/icons/editor";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
-import { IconButton } from "@ndla/primitives";
+import {
+  DialogBody,
+  DialogContent,
+  DialogTitle,
+  DialogHeader,
+  DialogRoot,
+  DialogTrigger,
+  IconButton,
+} from "@ndla/primitives";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import { KeyFigureEmbedData } from "@ndla/types-embed";
 import { EmbedWrapper, KeyFigure } from "@ndla/ui";
 import { KeyFigureElement } from ".";
 import KeyFigureForm from "./KeyFigureForm";
 import { fetchImage } from "../../../../modules/image/imageApi";
+import { DialogCloseButton } from "../../../DialogCloseButton";
 import { StyledFigureButtons } from "../embed/FigureButtons";
 
 interface Props extends RenderElementProps {
   element: KeyFigureElement;
   editor: Editor;
 }
-
-const StyledModalHeader = styled(ModalHeader)`
-  padding-bottom: 0px;
-`;
-
-const StyledModalBody = styled(ModalBody)`
-  padding-top: 0px;
-  h2 {
-    margin: 0px;
-  }
-`;
 
 const SlateKeyFigure = ({ element, editor, attributes, children }: Props) => {
   const [isEditing, setIsEditing] = useState<boolean | undefined>(element.isFirstEdit);
@@ -98,12 +95,12 @@ const SlateKeyFigure = ({ element, editor, attributes, children }: Props) => {
   }, [data?.imageId, setImage]);
 
   return (
-    <Modal open={isEditing} onOpenChange={setIsEditing}>
+    <DialogRoot open={isEditing} onOpenChange={({ open }) => setIsEditing(open)}>
       <EmbedWrapper {...attributes} contentEditable={false} data-testid="slate-key-figure">
         {data && (
           <>
             <StyledFigureButtons>
-              <ModalTrigger>
+              <DialogTrigger asChild>
                 <IconButton
                   variant="secondary"
                   size="small"
@@ -112,7 +109,7 @@ const SlateKeyFigure = ({ element, editor, attributes, children }: Props) => {
                 >
                   <Pencil />
                 </IconButton>
-              </ModalTrigger>
+              </DialogTrigger>
               <IconButton
                 variant="danger"
                 size="small"
@@ -133,16 +130,18 @@ const SlateKeyFigure = ({ element, editor, attributes, children }: Props) => {
         )}
         {children}
       </EmbedWrapper>
-      <ModalContent>
-        <StyledModalHeader>
-          <ModalTitle>{t("keyFigureForm.title")}</ModalTitle>
-          <ModalCloseButton />
-        </StyledModalHeader>
-        <StyledModalBody>
-          <KeyFigureForm onSave={onSave} initialData={data} onCancel={onClose} />
-        </StyledModalBody>
-      </ModalContent>
-    </Modal>
+      <Portal>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("keyFigureForm.title")}</DialogTitle>
+            <DialogCloseButton />
+          </DialogHeader>
+          <DialogBody>
+            <KeyFigureForm onSave={onSave} initialData={data} onCancel={onClose} />
+          </DialogBody>
+        </DialogContent>
+      </Portal>
+    </DialogRoot>
   );
 };
 

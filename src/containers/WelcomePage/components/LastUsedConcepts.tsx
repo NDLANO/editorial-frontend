@@ -85,7 +85,7 @@ const LastUsedConcepts = ({
         sortOption={sortOption}
         error={error}
         noResultsText={t("welcomePage.emptyLastUsed")}
-        minWidth="250px"
+        minWidth="500px"
       />
       <Pagination
         page={page}

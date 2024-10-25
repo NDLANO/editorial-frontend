@@ -15,7 +15,15 @@ import { Portal } from "@ark-ui/react";
 import { AlertFill } from "@ndla/icons/common";
 import { CheckLine, DeleteForever, Link } from "@ndla/icons/editor";
 import { Modal, ModalContent } from "@ndla/modal";
-import { PopoverRoot, PopoverTrigger, PopoverContent, Figure, IconButton } from "@ndla/primitives";
+import {
+  PopoverRoot,
+  PopoverTrigger,
+  PopoverContent,
+  Figure,
+  IconButton,
+  DialogRoot,
+  DialogContent,
+} from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { IConcept, IConceptSummary } from "@ndla/types-backend/concept-api";
@@ -240,33 +248,36 @@ const InlineWrapper = (props: Props) => {
           </Portal>
         </PopoverRoot>
       )}
-      <Modal open={isEditing} onOpenChange={setIsEditing}>
-        <ModalContent
-          size={{ width: "large", height: "large" }}
-          onEscapeKeyDown={(e) => e.stopPropagation()}
-          onCloseAutoFocus={(e) => {
-            if (!embed) {
-              handleRemove();
-            }
-            e.preventDefault();
-            ReactEditor.focus(editor);
-          }}
-        >
-          <ConceptModalContent
-            onClose={onClose}
-            addConcept={addConcept}
-            locale={locale}
-            concept={concept}
-            subjects={subjects}
-            handleRemove={handleRemove}
-            selectedText={nodeText}
-            createConcept={createConcept}
-            updateConcept={updateConcept}
-            conceptArticles={conceptArticles}
-            conceptType={(concept?.conceptType ?? element.conceptType) as ConceptType}
-          />
-        </ModalContent>
-      </Modal>
+      <DialogRoot
+        open={isEditing}
+        onOpenChange={({ open }) => setIsEditing(open)}
+        onEscapeKeyDown={(e) => e.stopPropagation()}
+        onExitComplete={() => {
+          if (!embed) {
+            handleRemove();
+          }
+          ReactEditor.focus(editor);
+        }}
+        size="large"
+      >
+        <Portal>
+          <DialogContent>
+            <ConceptModalContent
+              onClose={onClose}
+              addConcept={addConcept}
+              locale={locale}
+              concept={concept}
+              subjects={subjects}
+              handleRemove={handleRemove}
+              selectedText={nodeText}
+              createConcept={createConcept}
+              updateConcept={updateConcept}
+              conceptArticles={conceptArticles}
+              conceptType={(concept?.conceptType ?? element.conceptType) as ConceptType}
+            />
+          </DialogContent>
+        </Portal>
+      </DialogRoot>
     </>
   );
 };

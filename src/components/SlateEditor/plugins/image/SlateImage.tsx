@@ -14,8 +14,7 @@ import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import { Pencil } from "@ndla/icons/action";
 import { Link } from "@ndla/icons/common";
 import { DeleteForever } from "@ndla/icons/editor";
-import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
-import { IconButton } from "@ndla/primitives";
+import { DialogBody, DialogContent, DialogHeader, DialogRoot, DialogTrigger, IconButton } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { ImageEmbedData, ImageMetaData } from "@ndla/types-embed";
@@ -23,6 +22,7 @@ import { EmbedWrapper, ImageEmbed } from "@ndla/ui";
 import ImageEmbedForm from "./ImageEmbedForm";
 import { ImageElement } from "./types";
 import { useImageMeta } from "../../../../modules/embed/queries";
+import { DialogCloseButton } from "../../../DialogCloseButton";
 import { OldSpinner } from "../../../OldSpinner";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import { StyledFigureButtons } from "../embed/FigureButtons";
@@ -150,7 +150,7 @@ const SlateImage = ({ element, editor, attributes, children, allowDecorative = t
   }
 
   return (
-    <Modal open={isEditing} onOpenChange={setIsEditing}>
+    <DialogRoot open={isEditing} onOpenChange={({ open }) => setIsEditing(open)}>
       <StyledEmbedWrapper
         {...attributes}
         contentEditable={false}
@@ -167,7 +167,7 @@ const SlateImage = ({ element, editor, attributes, children, allowDecorative = t
       >
         <ImageEmbed embed={embedWithoutCaching}>
           <FigureButtons>
-            <ModalTrigger>
+            <DialogTrigger asChild>
               <IconButton
                 title={t("form.image.editImage")}
                 aria-label={t("form.image.editImage")}
@@ -176,7 +176,7 @@ const SlateImage = ({ element, editor, attributes, children, allowDecorative = t
               >
                 <Pencil />
               </IconButton>
-            </ModalTrigger>
+            </DialogTrigger>
             <SafeLinkIconButton
               variant="secondary"
               size="small"
@@ -199,8 +199,7 @@ const SlateImage = ({ element, editor, attributes, children, allowDecorative = t
             </IconButton>
           </FigureButtons>
         </ImageEmbed>
-        {children}
-        <ModalContent>
+        <DialogContent>
           <ImageEmbedForm
             embed={embed.embedData}
             image={embed.status === "success" ? embed.data : undefined}
@@ -209,9 +208,10 @@ const SlateImage = ({ element, editor, attributes, children, allowDecorative = t
             language={language}
             allowDecorative={allowDecorative}
           />
-        </ModalContent>
+        </DialogContent>
+        {children}
       </StyledEmbedWrapper>
-    </Modal>
+    </DialogRoot>
   );
 };
 export default SlateImage;

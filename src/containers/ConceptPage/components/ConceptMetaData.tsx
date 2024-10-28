@@ -209,11 +209,11 @@ const ConceptMetaData = ({ subjects, inModal, language }: Props) => {
               inputValue={inputQuery}
               onInputValueChange={(details) => setInputQuery(details.inputValue)}
             >
-              <TagSelectorLabel>{t("form.tags.label")}</TagSelectorLabel>
+              <TagSelectorLabel>{t("form.categories.label")}</TagSelectorLabel>
               <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-              <FieldHelper>{t("form.tags.description")}</FieldHelper>
+              <FieldHelper>{t("form.categories.description")}</FieldHelper>
               <SearchTagsTagSelectorInput asChild>
-                <Input placeholder={t("form.tags.searchPlaceholder")} />
+                <Input placeholder={t("form.categories.searchPlaceholder")} />
               </SearchTagsTagSelectorInput>
               <SearchTagsContent isFetching={searchTagsQuery.isFetching} hits={collection.items.length}>
                 {collection.items.map((item) => (

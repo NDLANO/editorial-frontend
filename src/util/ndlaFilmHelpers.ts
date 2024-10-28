@@ -28,8 +28,8 @@ export const getInitialValues = (filmFrontpage: IFilmFrontPageData, selectedLang
   const about = languageAbout ?? filmFrontpage.about?.[0];
 
   const visualElement = about?.visualElement && convertVisualElement(about?.visualElement);
+
   return {
-    articleType: "subjectpage",
     name: filmFrontpage.name,
     title: plainTextToEditorValue(about?.title ?? ""),
     description: plainTextToEditorValue(about?.description ?? ""),

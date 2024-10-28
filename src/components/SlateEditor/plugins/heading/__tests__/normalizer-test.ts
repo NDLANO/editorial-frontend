@@ -122,3 +122,50 @@ describe("heading normalizer tests", () => {
     expect(editor.children).toEqual(expectedValue);
   });
 });
+
+test("remove bold marker on header", () => {
+  const editorValue: Descendant[] = [
+    {
+      type: TYPE_SECTION,
+      children: [
+        {
+          type: TYPE_PARAGRAPH,
+          children: [{ text: "" }],
+        },
+        {
+          type: TYPE_HEADING,
+          level: 2,
+          children: [{ text: "Test", bold: true }],
+        },
+        {
+          type: TYPE_PARAGRAPH,
+          children: [{ text: "" }],
+        },
+      ],
+    },
+  ];
+
+  const expectedValue: Descendant[] = [
+    {
+      type: TYPE_SECTION,
+      children: [
+        {
+          type: TYPE_PARAGRAPH,
+          children: [{ text: "" }],
+        },
+        {
+          type: TYPE_HEADING,
+          level: 2,
+          children: [{ text: "Test" }],
+        },
+        {
+          type: TYPE_PARAGRAPH,
+          children: [{ text: "" }],
+        },
+      ],
+    },
+  ];
+  editor.children = editorValue;
+  Editor.normalize(editor, { force: true });
+  expect(editor.children).toEqual(expectedValue);
+});

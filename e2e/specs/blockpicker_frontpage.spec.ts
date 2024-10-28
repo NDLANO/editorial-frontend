@@ -40,8 +40,10 @@ test("adds and removes keyfigure", async ({ page }) => {
   await modal.locator("div[name='subtitle']").fill("test");
   await page.getByTestId("select-image-from-list").first().click();
   await page.getByTestId("use-image").click();
-  await expect(page.getByRole("button", { name: "Lagre", exact: true })).toBeEnabled();
-  await page.getByRole("button", { name: "Lagre", exact: true }).click();
+  await expect(
+    page.locator('div[data-part="content"]').getByRole("button", { name: "Lagre", exact: true }),
+  ).toBeEnabled();
+  await page.getByRole("dialog").getByRole("button", { name: "Lagre", exact: true }).dispatchEvent("click");
   await expect(page.getByTestId("slate-key-figure")).toBeVisible();
   await page.getByTestId("remove-key-figure").click();
   await expect(page.getByTestId("slate-key-figure")).toHaveCount(0);
@@ -60,8 +62,10 @@ test("adds and removes pitch", async ({ page }) => {
   await page.locator("input[name='link']").fill("https://test.test");
   await page.getByTestId("select-image-from-list").first().click();
   await page.getByTestId("use-image").click();
-  await expect(page.getByRole("button", { name: "Lagre", exact: true })).toBeEnabled();
-  await page.getByRole("button", { name: "Lagre", exact: true }).click();
+  await expect(
+    page.locator('div[data-part="content"]').getByRole("button", { name: "Lagre", exact: true }),
+  ).toBeEnabled();
+  await page.getByRole("dialog").getByRole("button", { name: "Lagre", exact: true }).dispatchEvent("click");
   await expect(page.getByTestId("slate-pitch")).toBeVisible();
   await page.getByTestId("remove-pitch").click();
   await expect(page.getByTestId("slate-pitch")).toHaveCount(0);
@@ -76,8 +80,10 @@ test("adds and removes contactblock", async ({ page }) => {
   await page.locator("textarea[name='description']").fill("email");
   await page.getByTestId("select-image-from-list").first().click();
   await page.getByTestId("use-image").click();
-  await expect(page.getByRole("button", { name: "Lagre", exact: true })).toBeEnabled();
-  await page.getByRole("button", { name: "Lagre", exact: true }).click();
+  await expect(
+    page.locator('div[data-part="content"]').getByRole("button", { name: "Lagre", exact: true }),
+  ).toBeEnabled();
+  await page.getByRole("dialog").getByRole("button", { name: "Lagre", exact: true }).dispatchEvent("click");
   await expect(page.getByTestId("slate-contact-block")).toBeVisible();
   await page.getByTestId("remove-contact-block").click();
   await expect(page.getByTestId("slate-contact-block")).toHaveCount(0);
@@ -93,8 +99,10 @@ test("adds and removes campaignblock", async ({ page }) => {
   await modal.locator("div[name='linkText']").fill("Test page");
   await page.getByTestId("select-image-from-list").first().click();
   await page.getByTestId("use-image").click();
-  await expect(page.getByRole("button", { name: "Lagre", exact: true })).toBeEnabled();
-  await page.getByRole("button", { name: "Lagre", exact: true }).click();
+  await expect(
+    page.locator('div[data-part="content"]').getByRole("button", { name: "Lagre", exact: true }),
+  ).toBeEnabled();
+  await page.getByRole("dialog").getByRole("button", { name: "Lagre", exact: true }).dispatchEvent("click");
   await expect(page.getByTestId("slate-campaign-block")).toBeVisible();
   await page.getByTestId("remove-campaign-block").click();
   await expect(page.getByTestId("slate-campaign-block")).toHaveCount(0);

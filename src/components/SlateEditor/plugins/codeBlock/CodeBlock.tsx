@@ -37,29 +37,30 @@ import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
+import { Portal } from "@ark-ui/react";
 import { Code, DeleteForever } from "@ndla/icons/editor";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
-import { Figure, IconButton } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
+import {
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  Figure,
+  IconButton,
+} from "@ndla/primitives";
+import { HStack, styled } from "@ndla/styled-system/jsx";
 import { CodeEmbedData } from "@ndla/types-embed";
-
 import { CodeBlock as UICodeBlock } from "@ndla/ui";
 import { CodeblockElement } from ".";
 import CodeBlockEditor from "./CodeBlockEditor";
 import { CodeBlockType } from "../../../../interfaces";
 import AlertModal from "../../../AlertModal";
+import { DialogCloseButton } from "../../../DialogCloseButton";
 
 const StyledFigure = styled(Figure, {
   base: {
     cursor: "pointer",
-  },
-});
-
-const TitleWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-    justifyContent: "space-between",
   },
 });
 
@@ -170,8 +171,8 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
   );
 
   return (
-    <Modal open={editMode} onOpenChange={onOpenChange}>
-      <ModalTrigger>
+    <DialogRoot open={editMode} onOpenChange={({ open }) => onOpenChange(open)} size="large">
+      <DialogTrigger>
         <StyledFigure
           aria-label={t("codeEditor.subtitle")}
           contentEditable={false}
@@ -179,35 +180,37 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
           role="button"
           {...attributes}
         >
-          <TitleWrapper>
+          <HStack gap="xsmall" justify="space-between">
             {embedData.title && <h3>{embedData.title}</h3>}
             <RemoveCodeBlock handleRemove={handleRemove} />
-          </TitleWrapper>
+          </HStack>
           <UICodeBlock format={embedData.codeFormat} highlightedCode={highlightedCode} />
           {children}
         </StyledFigure>
-      </ModalTrigger>
-      <ModalContent size={{ width: "large", height: "large" }} onCloseAutoFocus={(e) => e.preventDefault()}>
-        <ModalHeader>
-          <ModalTitle>
-            {t("codeEditor.title")} <Code />
-          </ModalTitle>
-          <ModalCloseButton />
-        </ModalHeader>
-        <ModalBody>
-          <CodeBlockEditor
-            content={{
-              code: embedData.codeContent,
-              format: embedData.codeFormat,
-              title: embedData.title || "",
-            }}
-            onSave={handleSave}
-            highlight={highlightCode}
-            onAbort={() => onOpenChange(false)}
-            setShowWarning={setShouldShowWarning}
-          />
-        </ModalBody>
-      </ModalContent>
+      </DialogTrigger>
+      <Portal>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              {t("codeEditor.title")} <Code />
+            </DialogTitle>
+            <DialogCloseButton />
+          </DialogHeader>
+          <DialogBody>
+            <CodeBlockEditor
+              content={{
+                code: embedData.codeContent,
+                format: embedData.codeFormat,
+                title: embedData.title || "",
+              }}
+              onSave={handleSave}
+              highlight={highlightCode}
+              onAbort={() => onOpenChange(false)}
+              setShowWarning={setShouldShowWarning}
+            />
+          </DialogBody>
+        </DialogContent>
+      </Portal>
 
       <AlertModal
         title={t("unsavedChanges")}
@@ -229,7 +232,7 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
         ]}
         onCancel={() => setShowWarning(false)}
       />
-    </Modal>
+    </DialogRoot>
   );
 };
 

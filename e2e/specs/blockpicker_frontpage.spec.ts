@@ -62,10 +62,10 @@ test("adds and removes pitch", async ({ page }) => {
   ).toBeDisabled();
   const modal = page.locator('div[role="dialog"]');
   await modal.locator("div[name='title']").fill("test");
-  await page.locator("div[name='description']").fill("test");
-  await page.locator("input[name='link']").fill("https://test.test");
+  await modal.locator("div[name='description']").fill("test");
   await page.getByTestId("select-image-from-list").first().click();
   await page.getByTestId("use-image").click();
+  await modal.locator("input[name='link']").fill("https://test.test");
   await expect(
     page.locator('div[data-part="content"]').getByRole("button", { name: "Lagre", exact: true }),
   ).toBeEnabled();

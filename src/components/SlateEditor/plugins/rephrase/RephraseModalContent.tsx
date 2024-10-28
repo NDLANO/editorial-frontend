@@ -42,6 +42,7 @@ const Actions = styled("div", {
 const RephraseModalContent = ({ selection, setSelection }: Props) => {
   const { t } = useTranslation();
   const editor = useSlate();
+  const { insertText } = editor;
   const language = useArticleLanguage();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [rephrasedText, setRephrasedText] = useState<string>("");
@@ -62,7 +63,8 @@ const RephraseModalContent = ({ selection, setSelection }: Props) => {
   };
 
   const insertGeneratedText = () => {
-    //console.log("Inserting text");
+    insertText(rephrasedText);
+    setSelection(null);
   };
 
   return (

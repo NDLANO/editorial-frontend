@@ -11,7 +11,9 @@ import { useTranslation } from "react-i18next";
 import { BaseRange, Editor } from "slate";
 import { useSlate } from "slate-react";
 import { Cross } from "@ndla/icons/action";
-import { Button, DialogBody, DialogHeader, DialogTitle, IconButton } from "@ndla/primitives";
+import { BlogPost } from "@ndla/icons/editor";
+import { Button, DialogBody, DialogHeader, DialogTitle, Heading, IconButton } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { getRephrasing } from "./utils";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
 
@@ -19,6 +21,23 @@ interface Props {
   selection: BaseRange | null;
   setSelection: Dispatch<SetStateAction<BaseRange | null>>;
 }
+
+const TextBox = styled("div", {
+  base: {
+    border: "1px solid",
+    borderColor: "primary",
+    borderRadius: "small",
+    padding: "small",
+  },
+});
+
+const Actions = styled("div", {
+  base: {
+    display: "flex",
+    gap: "xxsmall",
+    justifyContent: "flex-end",
+  },
+});
 
 const RephraseModalContent = ({ selection, setSelection }: Props) => {
   const { t } = useTranslation();
@@ -39,25 +58,48 @@ const RephraseModalContent = ({ selection, setSelection }: Props) => {
     response && setRephrasedText(response);
   };
 
+  const insertGeneratedText = () => {
+    //console.log("Inserting text");
+  };
+
   return (
     <>
       <DialogHeader>
         <DialogTitle>{t("textGeneration.alternativePhrasing.title")}</DialogTitle>
         <IconButton
           variant="clear"
-          title={t("form.close")}
-          aria-label={t("form.close")}
+          title={t("dialog.close")}
+          aria-label={t("dialog.close")}
           onClick={() => setSelection(null)}
         >
           <Cross />
         </IconButton>
       </DialogHeader>
       <DialogBody>
-        <div>{inputText}</div>
-        <Button size="small" onClick={generateRephrasedText}>
-          {t("textGeneration.alternativePhrasing.button")}
-        </Button>
-        <div>{rephrasedText}</div>
+        <div>
+          <Heading asChild consumeCss textStyle="label.medium">
+            <h2>Tekst som skal omformuleres</h2>
+          </Heading>
+          <TextBox>{inputText}</TextBox>
+        </div>
+        <div>
+          <Heading asChild consumeCss textStyle="label.medium">
+            <h2>Foreslått omformulering</h2>
+          </Heading>
+          <TextBox>{rephrasedText}</TextBox>
+        </div>
+        <Actions>
+          <Button size="small" onClick={generateRephrasedText}>
+            {t("textGeneration.alternativePhrasing.button")}
+            <BlogPost />
+          </Button>
+          <Button size="small" onClick={() => setSelection(null)} variant="secondary">
+            {t("dialog.close")}
+          </Button>
+          <Button size="small" onClick={insertGeneratedText}>
+            {t("textGeneration.alternativePhrasing.button")}
+          </Button>
+        </Actions>
       </DialogBody>
     </>
   );

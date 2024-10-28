@@ -13,7 +13,7 @@ import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import { AlertFill, Link as LinkIcon } from "@ndla/icons/common";
 import { DeleteForever, CheckLine } from "@ndla/icons/editor";
 import { Modal, ModalContent } from "@ndla/modal";
-import { IconButton } from "@ndla/primitives";
+import { DialogContent, DialogRoot, IconButton } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { IConcept, IConceptSummary } from "@ndla/types-backend/concept-api";
@@ -138,7 +138,7 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
   }, [editor, element]);
 
   return (
-    <Modal open={isEditing} onOpenChange={setIsEditing}>
+    <DialogRoot size="large" open={isEditing} onOpenChange={({ open }) => setIsEditing(open)}>
       <StyledEmbedWrapper {...attributes} data-solid-border={isSelected} draggable={true} contentEditable={false}>
         {concept && embed && (
           <>
@@ -153,7 +153,7 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
             <ConceptEmbed embed={embed} />
           </>
         )}
-        <ModalContent size={{ width: "large", height: "large" }}>
+        <DialogContent>
           <ConceptModalContent
             onClose={onClose}
             addConcept={addConcept}
@@ -164,10 +164,10 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
             conceptType={(concept?.conceptType ?? element.conceptType) as ConceptType}
             {...conceptHooks}
           />
-        </ModalContent>
+        </DialogContent>
         {children}
       </StyledEmbedWrapper>
-    </Modal>
+    </DialogRoot>
   );
 };
 

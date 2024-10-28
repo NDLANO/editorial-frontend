@@ -9,7 +9,7 @@
 import { useField } from "formik";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ComboboxLabel, FieldHelper, FieldRoot } from "@ndla/primitives";
+import { ComboboxLabel, FieldRoot } from "@ndla/primitives";
 import { IArticleV2 } from "@ndla/types-backend/article-api";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
 import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCombobox";
@@ -74,10 +74,9 @@ const NdlaFilmArticle = ({ fieldName }: Props) => {
         )}
       >
         <ComboboxLabel>{t("ndlaFilm.editor.moreInfoTitle")}</ComboboxLabel>
-        <FieldHelper>{t("ndlaFilm.editor.moreInfoSubTitle")}</FieldHelper>
         <GenericComboboxInput placeholder={t("frontpageForm.search")} isFetching={searchQuery.isFetching} />
       </GenericSearchCombobox>
-      {!!selectedArticle && (
+      {!!selectedArticle && field.value && (
         <ListResource
           title={selectedArticle.title.title}
           metaImage={selectedArticle.metaImage}

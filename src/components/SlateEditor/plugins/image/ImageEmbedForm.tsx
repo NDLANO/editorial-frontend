@@ -136,12 +136,6 @@ const StyledCheckboxRoot = styled(CheckboxRoot, {
   },
 });
 
-const StyledFormikForm = styled(FormikForm, {
-  base: {
-    background: "background.subtle",
-  },
-});
-
 const InputWrapper = styled("div", {
   base: {
     display: "flex",
@@ -169,7 +163,7 @@ const EmbedForm = ({
     dirty,
   });
   return (
-    <StyledFormikForm>
+    <FormikForm>
       {!!image && <ImageEditor language={language} image={image} />}
       <InputWrapper>
         <Text textStyle="label.medium" fontWeight="bold">
@@ -270,7 +264,7 @@ const EmbedForm = ({
           </Button>
         </FormActionsContainer>
       </InputWrapper>
-    </StyledFormikForm>
+    </FormikForm>
   );
 };
 

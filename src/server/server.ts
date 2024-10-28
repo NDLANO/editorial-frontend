@@ -62,8 +62,7 @@ app.use(
     limit: "1mb",
     type: (req) => {
       for (const allowedType of allowedBodyContentTypes) {
-        // @ts-ignore - TODO: type definition doesn't include `is()`
-        if (req.is(allowedType)) {
+        if ((req as express.Request).is(allowedType)) {
           return true;
         }
       }

@@ -15,6 +15,7 @@ import { SortOptionLastUsed } from "./LastUsedItems";
 import TableComponent, { FieldElement, Prefix, TitleElement } from "./TableComponent";
 import TableTitle from "./TableTitle";
 import PageSizeSelect from "./worklist/PageSizeSelect";
+import StatusCell from "./worklist/StatusCell";
 import Pagination from "../../../components/abstractions/Pagination";
 import formatDate from "../../../util/formatDate";
 import { routes } from "../../../util/routeHelpers";
@@ -61,6 +62,7 @@ const LastUsedResources = ({
             </SafeLink>
           ),
         },
+        { id: `status_${a.id}`, data: <StatusCell status={a.status} /> },
         { id: `lastUpdated_${a.id}`, data: formatDate(a.updated) },
       ]) ?? [[]],
     [data],
@@ -84,7 +86,7 @@ const LastUsedResources = ({
         sortOption={sortOption}
         error={error}
         noResultsText={t("welcomePage.emptyLastUsed")}
-        minWidth="250px"
+        minWidth="500px"
       />
       <Pagination
         page={page}

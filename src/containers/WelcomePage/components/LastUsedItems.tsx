@@ -26,7 +26,7 @@ import { useSearchConcepts } from "../../../modules/concept/conceptQueries";
 import { useSearchDrafts } from "../../../modules/draft/draftQueries";
 import { useLocalStoragePageSizeState, useLocalStorageSortOptionState } from "../hooks/storedFilterHooks";
 
-export type SortOptionLastUsed = "title" | "lastUpdated";
+export type SortOptionLastUsed = "title" | "status" | "lastUpdated";
 
 type SortOptionType = Prefix<"-", SortOptionLastUsed>;
 
@@ -49,7 +49,14 @@ const getSortedPaginationData = <T extends IConceptSummary | IArticleSummary>(
 
   return orderBy(
     currentPageElements,
-    (e) => (sortOption.includes("title") ? e.title?.title : "updated" in e ? e.updated : e.lastUpdated),
+    (e) =>
+      sortOption.includes("title")
+        ? e.title?.title
+        : sortOption.includes("status")
+          ? e.status.current
+          : "updated" in e
+            ? e.updated
+            : e.lastUpdated,
     [sortDesc ? "desc" : "asc"],
   );
 };
@@ -139,10 +146,11 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [] }: Props)
 
   const tableTitles: TitleElement<SortOptionLastUsed>[] = [
     { title: t("form.name.title"), sortableField: "title" },
+    { title: t("welcomePage.workList.status"), sortableField: "status", width: "20%" },
     {
       title: t("welcomePage.updated"),
       sortableField: "lastUpdated",
-      width: "40%",
+      width: "20%",
     },
   ];
 

@@ -306,8 +306,8 @@ const TaxonomyBlock = ({
   );
 
   const onChangeSelectedResource = useCallback(
-    (value: SingleValue) => {
-      const options = value?.value?.split(",") ?? [];
+    (value?: string) => {
+      const options = value?.split(",") ?? [];
       const selectedResource = resourceTypes.find((rt) => rt.id === options[0]);
 
       if (selectedResource) {
@@ -356,7 +356,6 @@ const TaxonomyBlock = ({
       )}
       <ResourceTypeSelect
         availableResourceTypes={filteredResourceTypes}
-        resourceTypes={workingResource?.resourceTypes}
         onChangeSelectedResource={onChangeSelectedResource}
       />
       <TopicConnections

@@ -14,6 +14,8 @@ import {
   CheckboxIndicator,
   CheckboxLabel,
   CheckboxRoot,
+  FieldErrorMessage,
+  FieldLabel,
   FieldRoot,
 } from "@ndla/primitives";
 import { FormField } from "../../../components/FormField";
@@ -36,16 +38,20 @@ const PodcastSeriesMetaData = ({ language, onImageLoad }: Props) => {
     <FormContent>
       <TitleField hideToolbar />
 
-      <FormikField name="description" label={t("podcastSeriesForm.description")}>
-        {({ field }) => (
-          <PlainTextEditor
-            id={field.name}
-            placeholder={t("podcastSeriesForm.description")}
-            {...field}
-            plugins={plugins}
-          />
+      <FormField name="description">
+        {({ field, meta }) => (
+          <FieldRoot invalid={!!meta.error}>
+            <FieldLabel>{t("podcastSeriesForm.description")}</FieldLabel>
+            <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+            <PlainTextEditor
+              id={field.name}
+              placeholder={t("podcastSeriesForm.description")}
+              {...field}
+              plugins={plugins}
+            />
+          </FieldRoot>
         )}
-      </FormikField>
+      </FormField>
 
       <FormikField name="coverPhotoId">
         {({ field, form }) => (

@@ -233,6 +233,7 @@ const phrases = {
     audioNoHits: "Ingen lydfiler samsvarte med søket ditt på: {{query}}",
     imageNoHits: "Ingen bilder samsvarte med søket ditt på: {{query}}",
     pageSize: "{{pageSize}} treff per side",
+    hitsSelectLabel: "Antall treff per side",
     totalCount: "Antall søketreff",
     highlights: {
       title: "Søketreff",
@@ -385,6 +386,7 @@ const phrases = {
     archivedIncluded: "Utgåtte fag inkludert",
     error: "Noe gikk galt med søket",
     conceptSubject: "Forklaringsfag: {{name}}",
+    multiTaxonomy: "{{count}} plasseringer i taksonomi",
   },
   subjectsPage: {
     subjects: "Fag",
@@ -782,6 +784,8 @@ const phrases = {
     hideAll: "Lukk alle",
     unpublishedChanges: "(Endret siden siste publisering)",
     moveContent: "Flytt innhold inn i teksten",
+    open: "Åpne",
+    close: "Lukk",
     comment: {
       comment: "Kommenter",
       hide: "Skjul kommentar",
@@ -1865,11 +1869,11 @@ const phrases = {
   ndlaFilm: {
     editor: {
       slideshowHeader: "Slideshow",
-      slideshowTitle: "Filmer i slideshow",
-      slideshowSubTitle: "på forsiden",
+      slideshowTitle: "Filmer i slideshow på forsiden",
       movieGroupHeader: "Filmgrupperinger",
       addMovieToSlideshow: "Legg til film i slideshow",
       addMovieToGroup: 'Legg til film i "{{name}}"',
+      comboboxGroupLabel: 'Filmer i gruppen "{{name}}"',
       editMovieGroupName: "Endre navnene til filmgruppen",
       deleteMovieGroup: 'Slett "{{name}}"',
       moveMovieGroupUp: "Flytt opp",
@@ -1880,14 +1884,14 @@ const phrases = {
       createThemeGroup: "Opprett gruppe",
       saveNameChanges: "Lagre endringer",
       cancel: "Avbryt",
-      editGroupTitle: "Endre navn(ene) på filmgruppen:",
+      editGroupTitle: "Endre navn på filmgruppen",
       newGroupTitle: "Hva skal gruppen hete?",
       notFound: "Vi finner ikke metadata for denne filmen...",
       moreInfoHeader: "Mer informasjon",
-      moreInfoTitle: "Artikkel",
-      moreInfoSubTitle: "til Les mer-lenke",
+      moreInfoTitle: "Artikkel til Les mer-lenke",
       addArticleToMoreInformation: "Legg til en artikkel",
       removeArticleFromMoreInformation: "Fjern artikkel",
+      createGroup: "Lag ny gruppe",
     },
   },
   modal: {

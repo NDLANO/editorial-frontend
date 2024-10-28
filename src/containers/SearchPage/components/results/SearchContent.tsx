@@ -8,6 +8,7 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { AlertFill } from "@ndla/icons/common";
 import { CheckLine, Code, Concept, Globe } from "@ndla/icons/editor";
 import { ListItemContent, ListItemHeading, ListItemRoot, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
@@ -16,7 +17,6 @@ import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
 import { Node } from "@ndla/types-taxonomy";
 import { ContentTypeBadgeNew, constants } from "@ndla/ui";
 import SearchHighlight from "./SearchHighlight";
-import { SearchLanguages } from "./SearchLanguages";
 import { SearchListItemImage } from "./SearchListItemImage";
 import HeaderFavoriteStatus from "../../../../components/HeaderWithLanguage/HeaderFavoriteStatus";
 import config from "../../../../config";
@@ -136,6 +136,13 @@ const StyledText = styled(Text, {
   },
 });
 
+const StyledAlertFill = styled(AlertFill, {
+  base: {
+    fill: "yellow.700",
+    stroke: "black",
+  },
+});
+
 const conceptTypes = ["concept", "gloss"];
 
 const SearchContent = ({ content, locale, subjects, responsibleName }: Props) => {
@@ -190,6 +197,9 @@ const SearchContent = ({ content, locale, subjects, responsibleName }: Props) =>
             </SafeLink>
           </ListItemHeading>
           <InfoWrapper>
+            {content.contexts.length > 1 && (
+              <StyledAlertFill title={t("searchForm.multiTaxonomy", { count: content.contexts.length })} />
+            )}
             {!!contentType && <ContentTypeBadgeNew contentType={contentType} />}
             {content.learningResourceType !== "frontpage-article" && (
               <HeaderFavoriteStatus
@@ -202,16 +212,8 @@ const SearchContent = ({ content, locale, subjects, responsibleName }: Props) =>
         </ListItemHeadingContent>
         <ListItemMainContent>
           <ContentWrapper>
-            <SearchLanguages content={content} language={content.title.language} contentType={contentType} />
             <SearchHighlight content={content} locale={locale} />
-            {!!metaDescription.length && (
-              <>
-                <Text textStyle="body.small" fontWeight="bold">
-                  {t("form.name.metaDescription")}
-                </Text>
-                <StyledText textStyle="body.small">{metaDescription}</StyledText>
-              </>
-            )}
+            {!!metaDescription.length && <StyledText textStyle="body.small">{metaDescription}</StyledText>}
           </ContentWrapper>
           <InfoWrapper>
             {!conceptTypes.includes(contentType ?? "") &&
@@ -231,11 +233,10 @@ const SearchContent = ({ content, locale, subjects, responsibleName }: Props) =>
                   <Code />
                 </SafeLinkIconButton>
               )}
-
             {(content.status?.current === PUBLISHED || content.status?.other.includes(PUBLISHED)) && (
               <SafeLinkIconButton
                 size="small"
-                variant="secondary"
+                variant="success"
                 target="_blank"
                 aria-label={t("form.workflow.published")}
                 title={t("form.workflow.published")}

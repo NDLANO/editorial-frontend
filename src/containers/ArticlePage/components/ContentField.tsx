@@ -9,18 +9,26 @@
 import { FieldInputProps, FormikHelpers } from "formik";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ButtonV2 } from "@ndla/button";
 import { DragVertical, Link } from "@ndla/icons/editor";
-import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
+import {
+  Button,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  Heading,
+} from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IArticle, IArticleSummary, IRelatedContentLink } from "@ndla/types-backend/draft-api";
 import ContentLink from "./ContentLink";
+import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import DndList from "../../../components/DndList";
 import { DragHandle } from "../../../components/DraggableItem";
 import AsyncDropdown from "../../../components/Dropdown/asyncDropdown/AsyncDropdown";
 import FieldHeader from "../../../components/Field/FieldHeader";
 import ListResource from "../../../components/Form/ListResource";
-import TaxonomyLightbox from "../../../components/Taxonomy/TaxonomyLightbox";
 import { ConvertedRelatedContent, RelatedContent } from "../../../interfaces";
 import { fetchDraft, searchDrafts } from "../../../modules/draft/draftApi";
 import handleError from "../../../util/handleError";
@@ -174,23 +182,27 @@ const ContentField = ({ field, form }: Props) => {
         clearInputField
         showPagination
       />
-      <Modal open={showAddExternal} onOpenChange={setShowAddExternal}>
+      <DialogRoot open={showAddExternal} onOpenChange={({ open }) => setShowAddExternal(open)}>
         <StyledButtonWrapper>
-          <ModalTrigger>
-            <ButtonV2>{t("form.relatedContent.addExternal")}</ButtonV2>
-          </ModalTrigger>
+          <DialogTrigger asChild>
+            <Button>{t("form.relatedContent.addExternal")}</Button>
+          </DialogTrigger>
         </StyledButtonWrapper>
-        <ModalContent position="top">
-          <TaxonomyLightbox title={t("form.content.relatedArticle.searchExternal")}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("form.content.relatedArticle.searchExternal")}</DialogTitle>
+            <DialogCloseButton />
+          </DialogHeader>
+          <DialogBody>
             <ContentLink
               onAddLink={(title, url) => {
                 addExternalLink(title, url);
                 setShowAddExternal(false);
               }}
             />
-          </TaxonomyLightbox>
-        </ModalContent>
-      </Modal>
+          </DialogBody>
+        </DialogContent>
+      </DialogRoot>
     </>
   );
 };

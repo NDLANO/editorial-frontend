@@ -56,13 +56,18 @@ app.get("*splat", (req, res, next) => {
 if (!config.isVercel) {
   app.use(compression());
 }
+
 app.use(
   express.json({
     limit: "1mb",
     type: (req) => {
-      const contentType = req.headers["content-type"];
-      if (typeof contentType === "string") return allowedBodyContentTypes.includes(contentType);
-      else return false;
+      for (const allowedType of allowedBodyContentTypes) {
+        // @ts-ignore - TODO: type definition doesn't include `is()`
+        if (req.is(allowedType)) {
+          return true;
+        }
+      }
+      return false;
     },
   }),
 );

@@ -13,13 +13,15 @@ import { IFilmFrontPageData } from "@ndla/types-backend/frontpage-api";
 import { IMultiSearchResult } from "@ndla/types-backend/search-api";
 import { fetchFilmFrontpage } from "./frontpageApi";
 import { sortMoviesByIdList } from "../../containers/NdlaFilm/filmUtil";
-import { FILM_FRONTPAGE_QUERY, FILM_SLIDESHOW } from "../../queryKeys";
+import { FILM_FRONTPAGE_QUERY, FILM_SEARCH, FILM_SLIDESHOW } from "../../queryKeys";
 import { getIdFromUrn } from "../../util/ndlaFilmHelpers";
 import { searchResources } from "../search/searchApi";
+import { MultiSearchApiQuery } from "../search/searchApiInterfaces";
 
 export const filmQueryKeys = {
   filmFrontpage: [FILM_FRONTPAGE_QUERY],
   movies: (params: UseMovies) => [FILM_SLIDESHOW, params] as const,
+  search: (params: MultiSearchApiQuery) => [FILM_SEARCH, params] as const,
 };
 
 export const useFilmFrontpageQuery = (options?: Partial<UseQueryOptions<IFilmFrontPageData>>) => {
@@ -53,6 +55,17 @@ export const useMoviesQuery = (params: UseMovies, options: Partial<UseQueryOptio
       ...res,
       results: sortMoviesByIdList(movieIds, res.results, i18n),
     }),
+    ...options,
+  });
+};
+
+export const useMoviesQuerySearch = (
+  params: MultiSearchApiQuery,
+  options: Partial<UseQueryOptions<IMultiSearchResult>> = {},
+) => {
+  return useQuery<IMultiSearchResult>({
+    queryKey: filmQueryKeys.search(params),
+    queryFn: () => searchResources(params),
     ...options,
   });
 };

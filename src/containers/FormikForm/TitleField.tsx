@@ -71,6 +71,9 @@ const toolbarOptions = createToolbarDefaultValues({
     hidden: true,
   },
   mark: {
+    bold: {
+      hidden: true,
+    },
     code: {
       hidden: true,
     },

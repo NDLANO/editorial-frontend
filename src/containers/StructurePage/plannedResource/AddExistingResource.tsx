@@ -8,18 +8,15 @@
 
 import { ChangeEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
-import { ButtonV2 } from "@ndla/button";
-import { spacing } from "@ndla/core";
-import { InputV3, Label } from "@ndla/forms";
+import { Button, FieldInput, FieldLabel, FieldRoot, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IArticleV2 } from "@ndla/types-backend/article-api";
 import { ILearningPathSummaryV2, ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
 import { IGroupSearchResult, IMultiSearchSummary } from "@ndla/types-backend/search-api";
-import { ButtonWrapper, ErrorMessage, StyledLabel } from "./PlannedResourceForm";
 import ArticlePreview from "../../../components/ArticlePreview";
 import AsyncDropdown from "../../../components/Dropdown/asyncDropdown/AsyncDropdown";
-import { FormControl } from "../../../components/FormField";
+import { FormActionsContainer, FormContent } from "../../../components/FormikForm";
 import Spinner from "../../../components/Spinner";
 import { RESOURCE_TYPE_LEARNING_PATH, RESOURCE_TYPE_SUBJECT_MATERIAL } from "../../../constants";
 import { getArticle } from "../../../modules/article/articleApi";
@@ -38,20 +35,6 @@ import { getResourceIdFromPath } from "../../../util/routeHelpers";
 import ResourceTypeSelect from "../../ArticlePage/components/ResourceTypeSelect";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
-const StyledOrDivider = styled.div`
-  display: flex;
-  justify-content: center;
-  padding: ${spacing.small} 0 0;
-`;
-const PreviewWrapper = styled.div`
-  width: 100%;
-  padding-left: ${spacing.medium};
-  padding-top: ${spacing.normal};
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.nsmall};
-`;
-
 const emptySearchResults: IGroupSearchResult = {
   totalCount: 0,
   page: 0,
@@ -62,6 +45,18 @@ const emptySearchResults: IGroupSearchResult = {
   aggregations: [],
   resourceType: "",
 };
+
+const StyledText = styled(Text, {
+  base: {
+    textAlign: "center",
+  },
+});
+
+const StyledFormContent = styled(FormContent, {
+  base: {
+    width: "100%",
+  },
+});
 
 interface Props {
   onClose: () => void;
@@ -270,29 +265,24 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
   };
 
   return (
-    <PreviewWrapper>
+    <StyledFormContent>
       {selectedType && (
         <>
-          <FormControl>
-            <Label margin="none" textStyle="label-small">
-              {t("taxonomy.urlPlaceholder")}
-            </Label>
-            <InputV3 onChange={onPaste} name="pasteUrlInput" placeholder={t("taxonomy.urlPlaceholder")} />
-          </FormControl>
-          {!pastedUrl && <StyledOrDivider>{t("taxonomy.or")}</StyledOrDivider>}
+          <FieldRoot>
+            <FieldLabel>{t("taxonomy.urlPlaceholder")}</FieldLabel>
+            <FieldInput onChange={onPaste} name="pasteUrlInput" placeholder={t("taxonomy.urlPlaceholder")} />
+          </FieldRoot>
+          {!pastedUrl && <StyledText>{t("taxonomy.or")}</StyledText>}
         </>
       )}
       {!pastedUrl && (
-        <div>
-          <StyledLabel htmlFor="select-resource-type">{t("taxonomy.contentType")}</StyledLabel>
-          <ResourceTypeSelect
-            availableResourceTypes={resourceTypes ?? []}
-            onChangeSelectedResource={(value) => {
-              if (value) setSelectedType(value?.value);
-            }}
-            isClearable
-          />
-        </div>
+        <ResourceTypeSelect
+          availableResourceTypes={resourceTypes ?? []}
+          onChangeSelectedResource={(value) => {
+            if (value) setSelectedType(value);
+          }}
+          isClearable
+        />
       )}
       {!pastedUrl && selectedType && (
         <AsyncDropdown<ILearningPathSummaryV2 | IMultiSearchSummary>
@@ -308,13 +298,13 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
         />
       )}
       {previewLoading ? <Spinner /> : preview && <ArticlePreview article={preview} />}
-      {error && <ErrorMessage>{t(error)}</ErrorMessage>}
-      <ButtonWrapper>
-        <ButtonV2 disabled={preview === undefined} onClick={onAddResource} type="submit">
-          {t("taxonomy.add")} {loading && <Spinner appearance="small" />}
-        </ButtonV2>
-      </ButtonWrapper>
-    </PreviewWrapper>
+      {error && <Text color="text.error">{t(error)}</Text>}
+      <FormActionsContainer>
+        <Button disabled={preview === undefined} onClick={onAddResource} loading={loading} type="submit">
+          {t("taxonomy.add")}
+        </Button>
+      </FormActionsContainer>
+    </StyledFormContent>
   );
 };
 

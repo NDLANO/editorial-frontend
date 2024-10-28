@@ -43,6 +43,7 @@ const RephraseModalContent = ({ selection, setSelection }: Props) => {
   const { t } = useTranslation();
   const editor = useSlate();
   const language = useArticleLanguage();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [rephrasedText, setRephrasedText] = useState<string>("");
 
   const inputText = useMemo(() => {
@@ -52,10 +53,12 @@ const RephraseModalContent = ({ selection, setSelection }: Props) => {
 
   const generateRephrasedText = async () => {
     if (!inputText) return;
+    setIsLoading(true);
     const response = await getRephrasing(
       t("textGeneration.alternativePhrasing.prompt", { language: t(`languages.${language}`) }) + inputText,
     );
     response && setRephrasedText(response);
+    setIsLoading(false);
   };
 
   const insertGeneratedText = () => {
@@ -78,26 +81,26 @@ const RephraseModalContent = ({ selection, setSelection }: Props) => {
       <DialogBody>
         <div>
           <Heading asChild consumeCss textStyle="label.medium">
-            <h2>Tekst som skal omformuleres</h2>
+            <h2>{t("textGeneration.alternativePhrasing.textCurrent")}</h2>
           </Heading>
           <TextBox>{inputText}</TextBox>
         </div>
         <div>
           <Heading asChild consumeCss textStyle="label.medium">
-            <h2>Foreslått omformulering</h2>
+            <h2>{t("textGeneration.alternativePhrasing.textSuggested")}</h2>
           </Heading>
           <TextBox>{rephrasedText}</TextBox>
         </div>
         <Actions>
-          <Button size="small" onClick={generateRephrasedText}>
-            {t("textGeneration.alternativePhrasing.button")}
+          <Button size="small" onClick={generateRephrasedText} loading={isLoading}>
+            {t("textGeneration.alternativePhrasing.buttonGenerate")}
             <BlogPost />
           </Button>
           <Button size="small" onClick={() => setSelection(null)} variant="secondary">
             {t("dialog.close")}
           </Button>
           <Button size="small" onClick={insertGeneratedText}>
-            {t("textGeneration.alternativePhrasing.button")}
+            {t("textGeneration.alternativePhrasing.buttonInsert")}
           </Button>
         </Actions>
       </DialogBody>

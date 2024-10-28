@@ -2178,8 +2178,11 @@ const phrases = {
         "Return a metadescription in {{ language }} and less than 15 words of the following educational article: ",
     },
     alternativePhrasing: {
-      button: "Generate",
+      buttonGenerate: "Generate",
+      buttonInsert: "Insert",
       prompt: "Suggest a different phrasing in {{ language }} of the following text: ",
+      textCurrent: "Selected text",
+      textSuggested: "Suggested phrasing",
       title: "Alternative phrasing",
     },
     reflectionQuestions: {

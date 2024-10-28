@@ -43,7 +43,7 @@ jobs:
             .eslintcache
             .yarn/cache
             ~/.npm
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-modules-2-${{ hashFiles('**/yarn.lock') }}
       - name: "Install"
         run: yarn install --immutable
       - name: "Check-all"

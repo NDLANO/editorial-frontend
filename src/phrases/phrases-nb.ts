@@ -1649,6 +1649,7 @@ const phrases = {
       SUBJECT: "fag",
       TOPIC: "emne",
     },
+    noValue: "Ikke satt",
     previewProgrammes: "Forhåndsvis utdanningsprogram i frontend",
     addNode: "Legg til {{nodeType}}",
     newNode: "Nytt {{nodeType}}",

@@ -34,7 +34,9 @@ test("adds and removes grid", async ({ page }) => {
 
 test("adds and removes keyfigure", async ({ page }) => {
   await page.getByTestId("create-keyFigure").click();
-  await expect(page.getByRole("button", { name: "Lagre", exact: true })).toBeDisabled();
+  await expect(
+    page.locator('div[data-part="content"]').getByRole("button", { name: "Lagre", exact: true }),
+  ).toBeDisabled();
   const modal = page.locator('div[role="dialog"]');
   await modal.locator("div[name='title']").fill("test");
   await modal.locator("div[name='subtitle']").fill("test");
@@ -55,7 +57,9 @@ test("adds and removes pitch", async ({ page }) => {
   await page.getByTestId("slate-grid-cell").first().click();
   await page.getByTestId("slate-block-picker").click();
   await page.getByTestId("create-pitch").click();
-  await expect(page.getByRole("button", { name: "Lagre", exact: true })).toBeDisabled();
+  await expect(
+    page.locator('div[data-part="content"]').getByRole("button", { name: "Lagre", exact: true }),
+  ).toBeDisabled();
   const modal = page.locator('div[role="dialog"]');
   await modal.locator("div[name='title']").fill("test");
   await page.locator("div[name='description']").fill("test");
@@ -73,7 +77,9 @@ test("adds and removes pitch", async ({ page }) => {
 
 test("adds and removes contactblock", async ({ page }) => {
   await page.getByTestId("create-contactBlock").click();
-  await expect(page.getByRole("button", { name: "Lagre", exact: true })).toBeDisabled();
+  await expect(
+    page.locator('div[data-part="content"]').getByRole("button", { name: "Lagre", exact: true }),
+  ).toBeDisabled();
   await page.locator("input[name='name']").fill("test");
   await page.locator("input[name='jobTitle']").fill("test");
   await page.locator("input[name='email']").fill("email@email.no");
@@ -91,7 +97,9 @@ test("adds and removes contactblock", async ({ page }) => {
 
 test("adds and removes campaignblock", async ({ page }) => {
   await page.getByTestId("create-campaignBlock").click();
-  await expect(page.getByRole("button", { name: "Lagre", exact: true })).toBeDisabled();
+  await expect(
+    page.locator('div[data-part="content"]').getByRole("button", { name: "Lagre", exact: true }),
+  ).toBeDisabled();
   const modal = page.locator('div[role="dialog"]');
   await modal.locator("div[name='title']").fill("test");
   await modal.locator("div[name='description']").fill("test");

@@ -96,7 +96,7 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
   );
 
   return (
-    <DialogRoot open={isEditing} onOpenChange={({ open }) => setIsEditing(open)}>
+    <DialogRoot size="large" open={isEditing} onOpenChange={({ open }) => setIsEditing(open)}>
       <EmbedWrapper {...attributes} data-testid="slate-campaign-block" contentEditable={false}>
         {campaignBlock && (
           <>

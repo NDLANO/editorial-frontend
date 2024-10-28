@@ -94,7 +94,7 @@ const SlateContactBlock = ({ element, editor, attributes, children }: Props) => 
     });
 
   return (
-    <DialogRoot open={isEditing} onOpenChange={({ open }) => setIsEditing(open)}>
+    <DialogRoot size="large" open={isEditing} onOpenChange={({ open }) => setIsEditing(open)}>
       <EmbedWrapper {...attributes} contentEditable={false} data-testid="slate-contact-block">
         {contactBlock && image && (
           <>

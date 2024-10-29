@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
+import keyBy from "lodash/keyBy";
 import { useEffect, useRef, useState, ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -28,7 +30,9 @@ import {
   TAXONOMY_ADMIN_SCOPE,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
   REMEMBER_QUALITY,
+  DRAFT_RESPONSIBLE,
 } from "../../constants";
+import { useAuth0Responsibles } from "../../modules/auth0/auth0Queries";
 import { useUserData } from "../../modules/draft/draftQueries";
 import { useNodes } from "../../modules/nodes/nodeQueries";
 import { createGuard } from "../../util/guards";
@@ -139,6 +143,11 @@ const StructureContainer = ({
     },
   );
 
+  const { data: users } = useAuth0Responsibles(
+    { permission: DRAFT_RESPONSIBLE },
+    { select: (users) => keyBy(users, (u) => u.app_metadata.ndla_id) },
+  );
+
   useEffect(() => {
     if (currentNode && shouldScroll) {
       document.getElementById(currentNode.id)?.scrollIntoView({ block: "center" });
@@ -238,13 +247,14 @@ const StructureContainer = ({
               {currentNode && (
                 <StickyContainer ref={resourceSection}>
                   {currentNode.nodeType === "SUBJECT" && (
-                    <SubjectBanner subjectNode={currentNode} showQuality={showQuality} />
+                    <SubjectBanner subjectNode={currentNode} showQuality={showQuality} users={users} />
                   )}
                   {isChildNode(currentNode) && (
                     <StructureResources
                       currentChildNode={currentNode}
                       setCurrentNode={setCurrentNode}
                       showQuality={showQuality}
+                      users={users}
                     />
                   )}
                 </StickyContainer>

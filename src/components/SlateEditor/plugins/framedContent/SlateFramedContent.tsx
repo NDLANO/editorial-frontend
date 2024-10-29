@@ -14,7 +14,7 @@ import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 import { BlogPost, BrushLine, Copyright } from "@ndla/icons/editor";
 import { IconButton } from "@ndla/primitives";
-import { ContentTypeFramedContent, EmbedWrapper } from "@ndla/ui";
+import { ArticleContent, ContentTypeFramedContent, EmbedWrapper } from "@ndla/ui";
 import { FramedContentElement } from ".";
 import { TYPE_FRAMED_CONTENT } from "./types";
 import { editorValueToPlainText } from "../../../../util/articleContentConverter";
@@ -97,7 +97,10 @@ const SlateFramedContent = (props: Props) => {
     setIsLoading(true);
     try {
       const generatedText = await invokeModel({
-        prompt: t("textGeneration.reflectionQuestions.prompt", { language: t(`languages.${language}`) }) + articleText,
+        prompt: t("textGeneration.reflectionQuestions.prompt", {
+          language: t(`languages.${language}`),
+          article: ArticleContent,
+        }),
         ...claudeHaikuDefaults,
       });
       generatedText ? editor.insertText(generatedText) : console.error("No generated text");

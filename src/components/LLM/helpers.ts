@@ -36,7 +36,7 @@ export const invokeModel = async ({ prompt, max_tokens = 2000, ...rest }: modelP
   }
 
   const responseBody = await response.json();
-  return removeConfirmationSentence(responseBody.content[0].text);
+  return parseResponse(responseBody.content[0].text);
 };
 
 export const getTextFromHTML = (html: string) => {
@@ -45,6 +45,6 @@ export const getTextFromHTML = (html: string) => {
   return doc.body.textContent || "";
 };
 
-const removeConfirmationSentence = (text: string) => {
-  return text.includes(":") ? text.split(/:\s*\n/)[1] : text;
+const parseResponse = (response: string) => {
+  return response.split("<answer>")[1].split("</answer>")[0].trim();
 };

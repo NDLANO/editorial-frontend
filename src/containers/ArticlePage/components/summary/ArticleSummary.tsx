@@ -69,8 +69,10 @@ const ArticleSummary = ({ articleContent, articleLanguage }: Props) => {
     setIsLoading(true);
     try {
       const generatedText = await invokeModel({
-        prompt:
-          t("textGeneration.articleSummary.prompt", { language: t(`languages.${articleLanguage}`) }) + articleContent,
+        prompt: t("textGeneration.articleSummary.prompt", {
+          language: t(`languages.${articleLanguage}`),
+          article: articleContent,
+        }),
         ...claudeHaikuDefaults,
       });
       generatedText ? setGeneratedSummary(generatedText) : console.error("No generated text");

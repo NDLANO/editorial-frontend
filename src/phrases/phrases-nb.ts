@@ -2204,8 +2204,8 @@ const phrases = {
       prompt: `<draft>{{ article }}</draft>
         <Instructions>
         Du har lang erfaring fra utdanningssektoren. Du er spesialist i å analysere fagartikler for å finne gode refleksjonsspørsmål som får elevene til å tenke gjennom hva de har lest.
-        Du har fått som oppdrag å lese gjennom artikkelen i <draft> og skrive fem refleksjonsspørsmål baser på artikkelen i {{ language }}. Spørsmålene skal være på et nivå som passer seg for videregåendeelever.
-        Svaret skal leveres i <answer> tags. De skal også stå som en punktliste. Før du skriver selve spørsmålene, skriv noen refleksjoner om hvorfor du har valgt å inkludere de punktene. Dette skal stå før <answer> taggen.
+        Du har fått som oppdrag å lese gjennom artikkelen i <draft> og skrive fem refleksjonsspørsmål basert på artikkelen på {{ language }}. Spørsmålene skal være på et nivå som passer for elever på videregående skole.
+        Svaret skal leveres med refleksjoner på hvorfor du har valgt å inkludere de punktene du har valgt først. Deretter skal refleksjonsspørsmålene gis som punktliste i en <answer> tag.
         </Instructions>`,
     },
   },

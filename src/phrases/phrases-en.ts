@@ -2197,7 +2197,12 @@ const phrases = {
     },
     reflectionQuestions: {
       button: "Generate reflection questions",
-      prompt: "Return 5 reflection questions in {{ language }} for the following educational article: ",
+      prompt: `<draft>{{ article }}</draft>
+        <Instructions>
+        You have an extensive esperience from the educational sector. You are specialized in analyzing educational articles to find good reflection questions which enables the students to reflect on what they have read.
+        Your task is to read through the article in <draft> og write five reflection questions based on the article in {{ language }}. The questions must be on a level which fits students in high school.
+        The response must be given with reflections as to why you have chosen to include the selected points first. Then, the reflection questions must be given as bulletpoints in an <answer> tag.
+        </Instructions>`,
     },
   },
 };

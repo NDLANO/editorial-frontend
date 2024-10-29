@@ -100,9 +100,10 @@ const MetaDataField = ({ articleLanguage, articleContent, showCheckbox, checkbox
     setIsLoading(true);
     try {
       const generatedText = await invokeModel({
-        prompt:
-          t("textGeneration.metaDescription.prompt", { language: t(`languages.${articleLanguage}`) }) + articleContent,
-        max_tokens: 155,
+        prompt: t("textGeneration.metaDescription.prompt", {
+          language: t(`languages.${articleLanguage}`),
+          article: articleContent,
+        }),
         ...claudeHaikuDefaults,
       });
       generatedText

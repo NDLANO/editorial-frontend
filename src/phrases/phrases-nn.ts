@@ -2182,7 +2182,7 @@ const phrases = {
       prompt: `<draft>{{ article }}</draft>
         <Instructions>
         Du har lang erfaring frå utdanningssektoren. Du er spesialist i å finne gode måter å skildre fagartiklar på, slik at man frå ein kort oppsummering kan forstå kva artikkelen handlar om.
-        Du har fått i oppgåve å lese igjennom artikkelen i <draft> og skrive ein metabeskriving av artikkelen på {{ language }}. Metabeskrivinga skal vere på mindre enn 20 ord.
+        Du har fått i oppgåve å lese igjennom artikkelen i <draft> og skrive ein metabeskriving av artikkelen på {{ language }}. Metabeskrivinga skal vere på mindre enn 15 ord.
         Svaret skal leverast med refleksjonar på kvifor du har valt å inkludere dei punktane du har valt først, så selve metabeskrivinga skrevet i ein <answer> tag.
         </Instructions>`,
     },

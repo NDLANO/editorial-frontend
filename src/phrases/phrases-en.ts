@@ -2183,7 +2183,7 @@ const phrases = {
       prompt: `<draft>{{ article }}</draft>
         <Instructions>
         You have an extensive experience from the educational sector. You are specialized in finding good ways to describe educational articles, in a way that the reader can understand what the article is about from a very short summary.
-        Your task is to read through the article in <draft> and write meta description in {{ Language }}. The meta description must be in less than 20 Words.
+        Your task is to read through the article in <draft> and write meta description in {{ language }}. The meta description must be in less than 15 words.
         The response must be given with reflections as to why you have chosen to include the selected points first, then the meta description in an <answer> tag.
         </Instructions>`,
     },

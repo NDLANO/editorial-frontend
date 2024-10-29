@@ -33,7 +33,7 @@ const getArticleTypesField = (resourceTypes?: string[]) => {
   else return {};
 };
 
-const getContextTypes = (resourceType: string[] | undefined) => {
+const getContextTypes = (resourceType: string[] | undefined, contextTypes: string[]) => {
   if (resourceType?.includes("gloss")) {
     return { contextTypes: ["gloss"], resourceTypes: [] };
   }
@@ -41,12 +41,12 @@ const getContextTypes = (resourceType: string[] | undefined) => {
     return { contextTypes: ["concept"], resourceTypes: [] };
   }
 
-  return { contextTypes: [] };
+  return { contextTypes };
 };
 
 export const transformSearchBody = (searchBody: SearchParamsBody) => {
   const articleTypes = getArticleTypesField(searchBody.resourceTypes);
-  const contextTypes = getContextTypes(searchBody.resourceTypes);
+  const contextTypes = getContextTypes(searchBody.resourceTypes, searchBody.contextTypes || []);
 
   return {
     ...searchBody,

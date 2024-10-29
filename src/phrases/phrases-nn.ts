@@ -2168,24 +2168,46 @@ const phrases = {
   textGeneration: {
     articleSummary: {
       button: "Generer",
-      prompt: "Returner ei kort oppsummering på {{ language }} av følgjande utdanningstekst: ",
+      prompt: `<draft>{{ article }}</draft>
+        <Instructions>
+        Du har meir enn 20 års erfaring frå utdanningssektoren. Du har spesialisert deg i å oppsummere fagartiklar for å gjere dei meir tilgjengeleg for eit større publikum. Du har fått som oppdrag å hjelpe med å forbedre læringsopplevelsen for elevane. For å gjere dette må du lese igjennom og lage ein oppsummering av artiklar så vidaregåandestudentane lett kan få eit inntrykk av dei viktigaste poenga i artikkelen. 
+        Du har fått i oppgåve å lese gjennom artikkelen i <draft> og skrive ein oppsummering på {{ Language }}. Oppsummeringa skal vere på mindre enn 300 ord.
+        Svaret skal leverast med refleksjonar på kvifor du har valt å inkludere dei punktane du har valt først, så selve oppsummeringa skrevet i ein <answer> tag.
+        </Instructions>
+      `,
       title: "Oppsummering",
     },
     metaDescription: {
       button: "Generer",
-      prompt: "Returner ei metabeskriving på {{ language }} og mindre enn 15 ord av følgjande utdanningstekst: ",
+      prompt: `<draft>{{ article }}</draft>
+        <Instructions>
+        Du har lang erfaring frå utdanningssektoren. Du er spesialist i å finne gode måter å skildre fagartiklar på, slik at man frå ein kort oppsummering kan forstå kva artikkelen handlar om.
+        Du har fått i oppgåve å lese igjennom artikkelen i <draft> og skrive ein metabeskriving av artikkelen på {{ language }}. Metabeskrivinga skal vere på mindre enn 15 ord.
+        Svaret skal leverast med refleksjonar på kvifor du har valt å inkludere dei punktane du har valt først, så selve metabeskrivinga skrevet i ein <answer> tag.
+        </Instructions>`,
     },
     alternativePhrasing: {
       buttonGenerate: "Generer",
       buttonInsert: "Set inn",
-      prompt: "Foreslå en annen formulering på {{ language }} av følgjande tekst: ",
+      prompt: `<excerpt>{{ excerpt }}</excerpt>
+        <draft>{{ article }}</draft>
+        <Instructions>
+        Du har lang erfaring frå utdanningssektoren. Du er spesialist i å finskrive fagartiklar for å gjere det tekstlige innhaldet betre, med fokus på klarleik og lesbarheit.
+        Du har fått i oppgåve å foreslå ein betre formulering av teksten i <excertp> på {{ language }}. Innhaldet i <draft> kan nyttast som kontekst, men skal ikkje gjenbrukast som deil av den føreslåtte omformuleringa.
+        Svaret skal leverast med refleksjonar på kvifor du har valt å inkludere dei punktane du har valt først, så selve forslaget til betre formulering skrevet i ein <answer> tag.
+        </Instructions>`,
       textCurrent: "Valt tekst",
       textSuggested: "Forslag til ny formulering",
       title: "Alternativ formulering",
     },
     reflectionQuestions: {
       button: "Generer refleksjonsspørsmål",
-      prompt: "Returner 5 refleksjonsspørsmål på {{ language }} for følgjande utdanningstekst: ",
+      prompt: `<draft>{{ article }}</draft>
+        <Instructions>
+        Du har lang erfaring frå utdanningssektoren. Du er spesialist i å analysere fagartiklar for å finne gode refleksjonsspørsmål som får elevane til å tenke igjennom kva de har lest.
+        Du har fått i oppgåve å lese igjennom artikkelen i <draft> og skrive fem refleksjonsspørsmål basert på artikkelen på {{ Language }}. Spørsmåla skal vere på eit nivå som passar elevar på vidaregåande skule.
+        Svaret skal leverast med refleksjonar på kvifor du har valt å inkludere dei punktane du har valt først. Deretter skal refleksjonsspørmåla gjes som punktliste i ein <answer> tag.
+        </Instructions>`,
     },
   },
 };

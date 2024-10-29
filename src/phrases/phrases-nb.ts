@@ -2194,7 +2194,8 @@ const phrases = {
         </Instructions>`,
     },
     alternativePhrasing: {
-      button: "Generer",
+      buttonGenerate: "Generer",
+      buttonInsert: "Sett inn",
       prompt: `<excerpt>
             {{ excerpt }}
         </excerpt>
@@ -2208,6 +2209,8 @@ const phrases = {
 
         Svaret skal leveres i <answer> tags. Før du skriver selve forslaget til tekstforberedelsen, skriv noen refleksjoner om hvorfor du har valgt å inkludere de punktene. Dette skal stå før <answer> taggen.
         </Instructions>`,
+      textCurrent: "Valgt tekst",
+      textSuggested: "Forslag til ny formulering",
       title: "Alternativ formulering",
     },
     reflectionQuestions: {

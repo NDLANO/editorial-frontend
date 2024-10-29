@@ -2153,6 +2153,8 @@ const phrases = {
     title: "Add code example",
     titleLabel: "Title",
     programmingLanguage: "Programming language",
+    edit: "Edit code example",
+    delete: "Remove code example",
   },
   framedContentForm: {
     changeVariant: {

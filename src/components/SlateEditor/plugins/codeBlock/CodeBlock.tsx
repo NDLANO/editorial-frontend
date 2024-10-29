@@ -38,6 +38,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
+import { Pencil } from "@ndla/icons/action";
 import { Code, DeleteForever } from "@ndla/icons/editor";
 import {
   DialogBody,
@@ -49,7 +50,7 @@ import {
   Figure,
   IconButton,
 } from "@ndla/primitives";
-import { HStack, styled } from "@ndla/styled-system/jsx";
+import { HStack } from "@ndla/styled-system/jsx";
 import { CodeEmbedData } from "@ndla/types-embed";
 import { CodeBlock as UICodeBlock } from "@ndla/ui";
 import { CodeblockElement } from ".";
@@ -57,12 +58,6 @@ import CodeBlockEditor from "./CodeBlockEditor";
 import { CodeBlockType } from "../../../../interfaces";
 import AlertModal from "../../../AlertModal";
 import { DialogCloseButton } from "../../../DialogCloseButton";
-
-const StyledFigure = styled(Figure, {
-  base: {
-    cursor: "pointer",
-  },
-});
 
 interface Props extends RenderElementProps {
   element: CodeblockElement;
@@ -79,7 +74,7 @@ const RemoveCodeBlock = ({ handleRemove }: RemoveCodeBlockProps) => {
     <IconButton
       variant="danger"
       size="small"
-      aria-label={t("form.remove")}
+      aria-label={t("codeEditor.remove")}
       data-testid="remove-code"
       onClick={handleRemove}
     >
@@ -171,23 +166,22 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
   );
 
   return (
-    <DialogRoot open={editMode} onOpenChange={({ open }) => onOpenChange(open)} size="large">
-      <DialogTrigger>
-        <StyledFigure
-          aria-label={t("codeEditor.subtitle")}
-          contentEditable={false}
-          draggable={!editMode}
-          role="button"
-          {...attributes}
-        >
-          <HStack gap="xsmall" justify="space-between">
-            {embedData.title && <h3>{embedData.title}</h3>}
+    <DialogRoot open={editMode} onOpenChange={(details) => onOpenChange(details.open)} size="large">
+      <Figure aria-label={t("codeEditor.subtitle")} contentEditable={false} {...attributes}>
+        <HStack justify="space-between">
+          {embedData.title && <h3>{embedData.title}</h3>}
+          <HStack gap="3xsmall">
+            <DialogTrigger asChild>
+              <IconButton size="small" title={t("codeEditor.edit")} aria-label={t("codeEditor.edit")}>
+                <Pencil />
+              </IconButton>
+            </DialogTrigger>
             <RemoveCodeBlock handleRemove={handleRemove} />
           </HStack>
-          <UICodeBlock format={embedData.codeFormat} highlightedCode={highlightedCode} />
-          {children}
-        </StyledFigure>
-      </DialogTrigger>
+        </HStack>
+        <UICodeBlock format={embedData.codeFormat} highlightedCode={highlightedCode} />
+        {children}
+      </Figure>
       <Portal>
         <DialogContent>
           <DialogHeader>

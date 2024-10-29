@@ -77,7 +77,8 @@ const H5PElement = ({ h5pUrl, onSelect, onClose, locale, canReturnResources }: P
       return;
     }
     // Currently, we need to strip oembed part of H5P-url to support NDLA proxy oembed service
-    const path = new URL(event.data.oembed_url).searchParams.get("url");
+    const url = new URL(event.data.oembed_url).searchParams.get("url");
+    const path = url?.replace(/https?:\/\/h5p.{0,8}.ndla.no/, "");
     try {
       const metadata = await fetchH5PInfo(event.data.embed_id);
       const title = metadata.title;

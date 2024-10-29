@@ -2168,7 +2168,13 @@ const phrases = {
   textGeneration: {
     articleSummary: {
       button: "Generer",
-      prompt: "Returner ei kort oppsummering på {{ language }} av følgjande utdanningstekst: ",
+      prompt: `<draft>{{ article }}</draft>
+      <Instructions>
+      Du har meir enn 20 års erfaring frå utdanningssektoren. Du har spesialisert deg i å oppsummere fagartiklar for å gjere dei meir tilgjengeleg for eit større publikum. Du har fått som oppdrag å hjelpe med å forbedre læringsopplevelsen for elevane. For å gjere dette må du lese igjennom og lage ein oppsummering av artiklar så vidaregåandestudentane lett kan få eit inntrykk av dei viktigaste poenga i artikkelen. 
+      Din oppgåve er å lese gjennom artikkelen i <draft> og skrive ein oppsummering på {{ Language }}. Oppsummeringa skal vere på maks 500 ord.
+      Svaret skal leverast med refleksjonar på kvifor du har valt å inkludere dei punktane du har valt fyst, så selve oppsummeringa skrevet i ein <answer> tag.
+      </Instructions>
+      `,
       title: "Oppsummering",
     },
     metaDescription: {

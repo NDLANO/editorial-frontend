@@ -2169,7 +2169,13 @@ const phrases = {
   textGeneration: {
     articleSummary: {
       button: "Generate",
-      prompt: "Return a short summary in {{ language }} of the following educational article: ",
+      prompt: `<draft>{{ article }}</draft>
+      <Instructions>
+      You have more than 20 years experience from the educational sector. You have specialized in summarizing educational articles to make them more accessible for a wider audience. Your task is to help improving the learning experience for the students. To achieve this you have to read and summarize articles in a way that high school students can easily gain an impression of the most important points in the article.
+      Your task is to read through the article in <draft> og Write a summary in {{ Language }}. The summary must be no more than 500 words.
+      The response must be given with reflections as to why you have chosen to include the selected points first, then the summary in an <answer> tag.
+      </Instructions>
+      `,
       title: "Summary",
     },
     metaDescription: {

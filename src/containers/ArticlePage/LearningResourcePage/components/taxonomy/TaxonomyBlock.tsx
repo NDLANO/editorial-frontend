@@ -15,7 +15,6 @@ import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { SingleValue } from "@ndla/select";
 import { IArticle, IUpdatedArticle } from "@ndla/types-backend/draft-api";
 import {
   Node,

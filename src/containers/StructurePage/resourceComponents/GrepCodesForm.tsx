@@ -7,10 +7,10 @@
  */
 
 import { Formik, FormikHelpers } from "formik";
-import { useState } from "react";
-import { FormContent } from "../../../components/FormikForm";
+import { useTranslation } from "react-i18next";
+import { Button } from "@ndla/primitives";
+import { FormActionsContainer, FormContent } from "../../../components/FormikForm";
 import FormWrapper from "../../../components/FormWrapper";
-import SaveMultiButton from "../../../components/SaveMultiButton";
 import GrepCodesField from "../../FormikForm/GrepCodesField";
 
 interface Props {
@@ -23,33 +23,26 @@ interface Values {
 }
 
 const GrepCodesForm = ({ codes, onUpdate }: Props) => {
-  const [saved, setSaved] = useState(false);
+  const { t } = useTranslation();
   const initialValues = { grepCodes: codes };
 
   const handleSubmit = async (values: Values, helpers: FormikHelpers<Values>) => {
     await onUpdate(values.grepCodes);
     helpers.resetForm({ values: values });
-    setSaved(true);
   };
 
   return (
     <Formik initialValues={initialValues} onSubmit={handleSubmit} enableReinitialize>
-      {({ dirty, errors, isSubmitting, submitForm }) => {
-        if (saved && dirty) {
-          setSaved(false);
-        }
+      {({ dirty, isValid }) => {
         return (
           <FormWrapper inModal>
             <FormContent>
               <GrepCodesField />
-              <SaveMultiButton
-                isSaving={isSubmitting}
-                formIsDirty={dirty}
-                showSaved={saved && !dirty}
-                onClick={submitForm}
-                disabled={!!Object.keys(errors).length}
-                hideSecondaryButton
-              />
+              <FormActionsContainer>
+                <Button disabled={!dirty || !isValid} type="submit">
+                  {t("save")}
+                </Button>
+              </FormActionsContainer>
             </FormContent>
           </FormWrapper>
         );

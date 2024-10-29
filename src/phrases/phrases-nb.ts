@@ -2181,8 +2181,8 @@ const phrases = {
       prompt: `<draft>{{ article }}</draft>
         <Instructions>
         Du har lang erfaring fra utdanningssektoren. Du er spesialist i å finne gode måter å beskrive fagartikler på, slik at man fra en kort oppsummering klarer å forstå hva artiklene handler om.
-        Du har fått som oppdrag å lese gjennom artikkelen i <draft> og skrive en metabeskrivelse av artikkelen på {{ language }}. Metabeskrivelsen skal være på maks 30 ord.
-        Svaret skal leveres i <answer> tags. Før du skriver selve metabeskrivelsen, skriv noen refleksjoner om hvorfor du har valgt å inkludere de punktene. Dette skal stå før <answer> taggen. 
+        Du har fått som oppdrag å lese gjennom artikkelen i <draft> og skrive en metabeskrivelse av artikkelen på {{ language }}. Metabeskrivelsen skal være på mindre enn 20 ord.
+        Svaret skal leveres med refleksjoner på hvorfor du har valgt å inkludere de punktene du har valgt først, så selve metabeskrivelsen skrevet i en <answer> tag.
         </Instructions>`,
     },
     alternativePhrasing: {

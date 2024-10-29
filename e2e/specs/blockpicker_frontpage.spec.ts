@@ -40,8 +40,8 @@ test("adds and removes keyfigure", async ({ page }) => {
   const modal = page.locator('div[role="dialog"]');
   await modal.locator("div[name='title']").fill("test");
   await modal.locator("div[name='subtitle']").fill("test");
-  await page.getByTestId("select-image-from-list").first().click();
-  await page.getByTestId("use-image").click();
+  await modal.getByTestId("select-image-from-list").first().click();
+  await modal.getByTestId("use-image").click();
   await expect(
     page.locator('div[data-part="content"]').getByRole("button", { name: "Lagre", exact: true }),
   ).toBeEnabled();
@@ -63,9 +63,9 @@ test("adds and removes pitch", async ({ page }) => {
   const modal = page.locator('div[role="dialog"]');
   await modal.locator("div[name='title']").fill("test");
   await modal.locator("div[name='description']").fill("test");
-  await page.getByTestId("select-image-from-list").first().click();
-  await page.getByTestId("use-image").click();
   await modal.locator("input[name='link']").fill("https://test.test");
+  await modal.getByTestId("select-image-from-list").first().click();
+  await modal.getByTestId("use-image").click();
   await expect(
     page.locator('div[data-part="content"]').getByRole("button", { name: "Lagre", exact: true }),
   ).toBeEnabled();
@@ -103,10 +103,10 @@ test("adds and removes campaignblock", async ({ page }) => {
   const modal = page.locator('div[role="dialog"]');
   await modal.locator("div[name='title']").fill("test");
   await modal.locator("div[name='description']").fill("test");
-  await page.locator("input[name='link']").fill("https://test.test");
+  await modal.locator("input[name='link']").fill("https://test.test");
   await modal.locator("div[name='linkText']").fill("Test page");
-  await page.getByTestId("select-image-from-list").first().click();
-  await page.getByTestId("use-image").click();
+  await modal.getByTestId("select-image-from-list").first().click();
+  await modal.getByTestId("use-image").click();
   await expect(
     page.locator('div[data-part="content"]').getByRole("button", { name: "Lagre", exact: true }),
   ).toBeEnabled();

@@ -86,12 +86,12 @@ const SlatePitch = ({ element, editor, attributes, children }: Props) => {
   );
 
   return (
-    <DialogRoot size="large" open={isEditing} onOpenChange={({ open }) => setIsEditing(open)}>
+    <DialogRoot size="large" open={isEditing} onOpenChange={(details) => setIsEditing(details.open)}>
       <EmbedWrapper {...attributes} data-testid="slate-pitch" contentEditable={false}>
         {data && (
           <>
             <StyledFigureButtons>
-              <DialogTrigger>
+              <DialogTrigger asChild>
                 <IconButton
                   variant="secondary"
                   size="small"

@@ -96,12 +96,12 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
   );
 
   return (
-    <DialogRoot size="large" open={isEditing} onOpenChange={({ open }) => setIsEditing(open)}>
+    <DialogRoot size="large" open={isEditing} onOpenChange={(details) => setIsEditing(details.open)}>
       <EmbedWrapper {...attributes} data-testid="slate-campaign-block" contentEditable={false}>
         {campaignBlock && (
           <>
             <StyledFigureButtons data-white={true}>
-              <DialogTrigger>
+              <DialogTrigger asChild>
                 <IconButton
                   size="small"
                   variant="secondary"

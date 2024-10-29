@@ -95,7 +95,7 @@ const SlateKeyFigure = ({ element, editor, attributes, children }: Props) => {
   }, [data?.imageId, setImage]);
 
   return (
-    <DialogRoot size="large" open={isEditing} onOpenChange={({ open }) => setIsEditing(open)}>
+    <DialogRoot size="large" open={isEditing} onOpenChange={(details) => setIsEditing(details.open)}>
       <EmbedWrapper {...attributes} contentEditable={false} data-testid="slate-key-figure">
         {data && (
           <>

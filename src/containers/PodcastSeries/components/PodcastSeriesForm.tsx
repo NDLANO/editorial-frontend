@@ -202,7 +202,7 @@ const PodcastSeriesForm = ({
                 title={t("form.podcastEpisodesSection")}
                 hasError={["title", "coverPhotoId", "metaImageAlt"].some((field) => field in errors)}
               >
-                <PodcastEpisodes />
+                <PodcastEpisodes language={language} seriesId={values.id} />
               </FormAccordion>
             </FormAccordions>
             <Field right>

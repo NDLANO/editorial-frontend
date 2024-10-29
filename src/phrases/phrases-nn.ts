@@ -2193,7 +2193,7 @@ const phrases = {
         <draft>{{ article }}</draft>
         <Instructions>
         Du har lang erfaring frå utdanningssektoren. Du er spesialist i å finskrive fagartiklar for å gjere det tekstlige innhaldet betre, med fokus på klarleik og lesbarheit.
-        Du har fått i oppgåve å gjere teksten i <exerpt>, som er et utdrag få artikkelen i <draft>, betre, og kome med eit forslag til ein betre formulering av teksten på {{ language }}.
+        Du har fått i oppgåve å foreslå ein betre formulering av teksten i <excertp> på {{ language }}. Innhaldet i <draft> kan nyttast som kontekst, men skal ikkje gjenbrukast som deil av den føreslåtte omformuleringa.
         Svaret skal leverast med refleksjonar på kvifor du har valt å inkludere dei punktane du har valt først, så selve forslaget til betre formulering skrevet i ein <answer> tag.
         </Instructions>`,
       textCurrent: "Valt tekst",

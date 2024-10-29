@@ -2194,7 +2194,7 @@ const phrases = {
         <draft>{{ article }}</draft>
         <Instructions>
         You have an extensive experience from the educational sector. You are specialized in rewriting educational articles to improve its contents, with focus on clarity and readability.
-        Your task is to improve the text in <excerpt>, which is an excerpt from the article in <draft>, and suggest an improved phrasing of the text in {{ language }}.
+        Your task is to suggest a better phrasing of the text in <excerpt> in {{ language }}. The content in <draft> can be used as context, but should not be reused as part of the suggested rephrasing.
         The response must be given with reflections as to why you have chosen to include the selected points first, then the suggested rephrasing in an <answer> tag.
         </Instructions>`,
       textCurrent: "Selected text",

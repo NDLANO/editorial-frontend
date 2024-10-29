@@ -15,6 +15,7 @@ import { BlogPost } from "@ndla/icons/editor";
 import { Button, DialogBody, DialogHeader, DialogTitle, Heading, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { getRephrasing } from "./utils";
+import { editorValueToPlainText } from "../../../../util/articleContentConverter";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
 
 interface Props {
@@ -42,7 +43,7 @@ const Actions = styled("div", {
 const RephraseModalContent = ({ selection, setSelection }: Props) => {
   const { t } = useTranslation();
   const editor = useSlate();
-  const { insertText } = editor;
+  const { children: editorChildren, insertText } = editor;
   const language = useArticleLanguage();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [rephrasedText, setRephrasedText] = useState<string>("");
@@ -54,9 +55,14 @@ const RephraseModalContent = ({ selection, setSelection }: Props) => {
 
   const generateRephrasedText = async () => {
     if (!inputText) return;
+    const articleText = editorValueToPlainText(editorChildren);
     setIsLoading(true);
     const response = await getRephrasing(
-      t("textGeneration.alternativePhrasing.prompt", { language: t(`languages.${language}`) }) + inputText,
+      t("textGeneration.alternativePhrasing.prompt", {
+        article: articleText,
+        excerpt: inputText,
+        language: t(`languages.${language}`),
+      }),
     );
     response && setRephrasedText(response);
     setIsLoading(false);

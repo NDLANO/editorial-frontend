@@ -14,7 +14,7 @@ import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 import { BlogPost, BrushLine, Copyright } from "@ndla/icons/editor";
 import { IconButton } from "@ndla/primitives";
-import { ArticleContent, ContentTypeFramedContent, EmbedWrapper } from "@ndla/ui";
+import { ContentTypeFramedContent, EmbedWrapper } from "@ndla/ui";
 import { FramedContentElement } from ".";
 import { TYPE_FRAMED_CONTENT } from "./types";
 import { editorValueToPlainText } from "../../../../util/articleContentConverter";
@@ -98,8 +98,8 @@ const SlateFramedContent = (props: Props) => {
     try {
       const generatedText = await invokeModel({
         prompt: t("textGeneration.reflectionQuestions.prompt", {
+          article: articleText,
           language: t(`languages.${language}`),
-          article: ArticleContent,
         }),
         ...claudeHaikuDefaults,
       });

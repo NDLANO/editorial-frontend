@@ -70,8 +70,8 @@ const ArticleSummary = ({ articleContent, articleLanguage }: Props) => {
     try {
       const generatedText = await invokeModel({
         prompt: t("textGeneration.articleSummary.prompt", {
-          language: t(`languages.${articleLanguage}`),
           article: articleContent,
+          language: t(`languages.${articleLanguage}`),
         }),
         ...claudeHaikuDefaults,
       });

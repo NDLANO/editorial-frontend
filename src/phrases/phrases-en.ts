@@ -2170,11 +2170,11 @@ const phrases = {
     articleSummary: {
       button: "Generate",
       prompt: `<draft>{{ article }}</draft>
-      <Instructions>
-      You have more than 20 years experience from the educational sector. You are specialized in summarizing educational articles to make them more accessible for a wider audience. Your task is to help improving the learning experience for the students. To achieve this you have to read and summarize articles in a way that high school students can easily gain an impression of the most important points in the article.
-      Your task is to read through the article in <draft> og Write a summary in {{ Language }}. The summary must be in less than 300 words.
-      The response must be given with reflections as to why you have chosen to include the selected points first, then the summary in an <answer> tag.
-      </Instructions>
+        <Instructions>
+        You have more than 20 years experience from the educational sector. You are specialized in summarizing educational articles to make them more accessible for a wider audience. Your task is to help improving the learning experience for the students. To achieve this you have to read and summarize articles in a way that high school students can easily gain an impression of the most important points in the article.
+        Your task is to read through the article in <draft> og Write a summary in {{ Language }}. The summary must be in less than 300 words.
+        The response must be given with reflections as to why you have chosen to include the selected points first, then the summary in an <answer> tag.
+        </Instructions>
       `,
       title: "Summary",
     },
@@ -2190,7 +2190,13 @@ const phrases = {
     alternativePhrasing: {
       buttonGenerate: "Generate",
       buttonInsert: "Insert",
-      prompt: "Suggest a different phrasing in {{ language }} of the following text: ",
+      prompt: `<excerpt>{{ excerpt }}</excerpt>
+        <draft>{{ article }}</draft>
+        <Instructions>
+        You have an extensive experience from the educational sector. You are specialized in rewriting educational articles to improve its contents, with focus on clarity and readability.
+        Your task is to improve the text in <excerpt>, which is an excerpt from the article in <draft>, and suggest an improved phrasing of the text in {{ language }}.
+        The response must be given with reflections as to why you have chosen to include the selected points first, then the suggested rephrasing in an <answer> tag.
+        </Instructions>`,
       textCurrent: "Selected text",
       textSuggested: "Suggested phrasing",
       title: "Alternative phrasing",

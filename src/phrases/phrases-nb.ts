@@ -2171,7 +2171,7 @@ const phrases = {
       prompt: `<draft>{{ article }}</draft>
         <Instructions>
         Du har over 20 års erfaring fra utdanningssektoren. Du har spesialisert deg i å oppsummere fagartikler for å gjøre dem mer tilgjengelige for et bredere publikum. Du har fått som oppdrag å hjelpe med å forbedre læringsopplevelsen for elevene. For å gjøre dette må du lese gjennom og lage en oppsummering av artikler sånn at videregåendestudentene lett kan få et inntrykk av de viktigste poengene i artikkelen.
-        Din oppgave er å lese gjennom artikkelen i <draft> og skrive en oppsummering på {{ language }}. Oppsummeringen skal være på mindre enn 300 ord. 
+        Du har fått som oppdrag å lese gjennom artikkelen i <draft> og skrive en oppsummering på {{ language }}. Oppsummeringen skal være på mindre enn 300 ord. 
         Svaret skal leveres med refleksjoner på hvorfor du har valgt å inkludere de punktene du har valgt først, så selve oppsummeringen skrevet i en <answer> tag.
         </Instructions>`,
       title: "Oppsummering",
@@ -2189,11 +2189,11 @@ const phrases = {
       buttonGenerate: "Generer",
       buttonInsert: "Sett inn",
       prompt: `<excerpt>{{ excerpt }}</excerpt>
-        <articleContext>{{ article }}</articleContext>
+        <draft>{{ article }}</draft>
         <Instructions>
         Du har lang erfaring fra utdanningssektoren. Du er spesialist i å finskrive fagartikler for å forbedre det tekstlige innholdet, med fokus på tydelighet og lesbarhet.
-        Du har fått som oppdrag å forbedre teksten i {{ excerpt }} fra {{ article }} og komme med et forslag til en bedre formulering av teksten.
-        Svaret skal leveres i <answer> tags. Før du skriver selve forslaget til tekstforberedelsen, skriv noen refleksjoner om hvorfor du har valgt å inkludere de punktene. Dette skal stå før <answer> taggen.
+        Du har fått som oppdrag å forbedre teksten i <excerpt>, som er et utdrag fra artikkelen i <draft>, og komme med et forslag til en bedre formulering av teksten på {{ language }}.
+        Svaret skal leveres med refleksjoner på hvorfor du har valgt å inkludere de punktene du har valgt først, så selve forslaget til forbedring av teksten skrevet i en <answer> tag.
         </Instructions>`,
       textCurrent: "Valgt tekst",
       textSuggested: "Forslag til ny formulering",

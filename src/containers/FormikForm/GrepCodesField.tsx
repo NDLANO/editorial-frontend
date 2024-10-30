@@ -8,7 +8,7 @@
 
 import { useField } from "formik";
 import difference from "lodash/difference";
-import { memo, useState, useEffect, useMemo } from "react";
+import { memo, useState, useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
 import { DeleteForever } from "@ndla/icons/editor";
@@ -29,6 +29,7 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { useComboboxTranslations } from "@ndla/ui";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../components/abstractions/Combobox";
+import { scrollToIndexFn } from "../../components/Form/utils";
 import { FormField } from "../../components/FormField";
 import { useGrepCodesSearch } from "../../modules/draft/draftQueries";
 import { fetchGrepCodeTitle } from "../../modules/grep/grepApi";
@@ -66,6 +67,7 @@ const GrepCodesField = () => {
 
   const { query, setQuery } = usePaginatedQuery();
   const searchQuery = useGrepCodesSearch({ input: query });
+  const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     (async () => {
@@ -148,6 +150,9 @@ const GrepCodesField = () => {
             positioning={{ strategy: "fixed" }}
             variant="complex"
             context="standalone"
+            scrollToIndexFn={(details) => {
+              scrollToIndexFn(contentRef, details.index);
+            }}
           >
             <GenericComboboxInput
               placeholder={t("form.grepCodes.placeholder")}
@@ -160,7 +165,7 @@ const GrepCodesField = () => {
               triggerable
             />
             <ComboboxPositioner>
-              <ComboboxContent>
+              <ComboboxContent ref={contentRef}>
                 <StyledComboboxList>
                   {collection.items.map((item) => (
                     <ComboboxItem key={item.code} item={item} asChild>

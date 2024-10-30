@@ -20,6 +20,7 @@ import {
   Heading,
   PopoverPositioner,
   PopoverContentStandalone,
+  PopoverContent,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Action, ActionData } from "./actions";
@@ -99,21 +100,6 @@ const StyledLi = styled("li", {
     display: "flex",
     gap: "small",
     justifyContent: "space-between",
-  },
-});
-
-const StyledPopoverContent = styled(PopoverContentStandalone, {
-  base: {
-    padding: "xsmall",
-    borderRadius: "small",
-    boxShadow: "large",
-  },
-});
-
-const StyledPopoverPositioner = styled(PopoverPositioner, {
-  base: {
-    transform: "none",
-    zIndex: "calc(token(zIndex.popover) - token(zIndex.modal))!important",
   },
 });
 
@@ -242,7 +228,7 @@ const SlateBlockPicker = ({
     ({ open }: PopoverOpenChangeDetails) => {
       setBlockPickerOpen(open);
       if (!open && !visualElementPickerOpen) {
-        ReactEditor.focus(editor, { retries: 100 });
+        ReactEditor.focus(editor);
       }
     },
     [editor, visualElementPickerOpen],
@@ -420,10 +406,8 @@ const SlateBlockPicker = ({
       />
       <PopoverRoot
         open={blockPickerOpen}
-        positioning={{ placement: "right", getAnchorRect: () => portalRef.current?.getBoundingClientRect()! }}
-        onOpenChange={(details) => {
-          onOpenChange(details);
-        }}
+        positioning={{ placement: "right", getAnchorRect: () => portalRef.current?.getBoundingClientRect() ?? null }}
+        onOpenChange={onOpenChange}
         ids={{
           trigger: BLOCK_PICKER_TRIGGER_ID,
         }}
@@ -436,34 +420,36 @@ const SlateBlockPicker = ({
               aria-label={blockPickerLabel}
               title={blockPickerLabel}
               open={blockPickerOpen}
-              onFocus={(_e) => ReactEditor.focus(editor)}
+              onFocus={(_e) => {
+                if (!blockPickerOpen) {
+                  ReactEditor.focus(editor);
+                }
+              }}
             >
               <Plus />
             </BlockPickerButton>
           </PopoverTrigger>
-          <StyledPopoverPositioner>
-            <StyledPopoverContent data-testid="slate-block-picker-menu">
-              <StyledHeading textStyle="title.small">{t("editorBlockpicker.heading")}</StyledHeading>
-              <StyledList>
-                {getActionsForArea()
-                  .filter((a) => !a.requiredScope || userPermissions?.includes(a.requiredScope))
-                  .map((action) => (
-                    <StyledLi key={action.data.object}>
-                      <ActionButton
-                        onClick={() => onElementAdd(action.data)}
-                        variant="tertiary"
-                        data-testid={`create-${action.data.object}`}
-                        size="small"
-                      >
-                        {action.icon}
-                        {t(`editorBlockpicker.actions.${action.data.object}`)}
-                      </ActionButton>
-                      {action.helpIcon}
-                    </StyledLi>
-                  ))}
-              </StyledList>
-            </StyledPopoverContent>
-          </StyledPopoverPositioner>
+          <PopoverContent data-testid="slate-block-picker-menu">
+            <StyledHeading textStyle="title.small">{t("editorBlockpicker.heading")}</StyledHeading>
+            <StyledList>
+              {getActionsForArea()
+                .filter((a) => !a.requiredScope || userPermissions?.includes(a.requiredScope))
+                .map((action) => (
+                  <StyledLi key={action.data.object}>
+                    <ActionButton
+                      onClick={() => onElementAdd(action.data)}
+                      variant="tertiary"
+                      data-testid={`create-${action.data.object}`}
+                      size="small"
+                    >
+                      {action.icon}
+                      {t(`editorBlockpicker.actions.${action.data.object}`)}
+                    </ActionButton>
+                    {action.helpIcon}
+                  </StyledLi>
+                ))}
+            </StyledList>
+          </PopoverContent>
         </Portal>
       </PopoverRoot>
     </>

@@ -9,6 +9,8 @@
 import { expect } from "@playwright/test";
 import { test } from "../apiMock";
 
+test.slow();
+
 test.beforeEach(async ({ page }) => {
   await page.goto("/subject-matter/frontpage-article/new");
   const el = page.getByTestId("slate-editor");

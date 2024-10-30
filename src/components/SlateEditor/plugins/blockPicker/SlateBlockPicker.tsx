@@ -85,7 +85,6 @@ const ActionButton = styled(Button, {
   base: {
     width: "100%",
     justifyContent: "flex-start",
-    padding: "xsmall",
   },
 });
 
@@ -105,26 +104,13 @@ const StyledLi = styled("li", {
 
 const BlockPickerButton = styled(IconButton, {
   base: {
-    backgroundColor: "white",
     position: "absolute",
-    zIndex: "calc(token(zIndex.popover) - token(zIndex.modal))",
-    border: "2px solid",
-    borderColor: "brand.primary",
-    height: "2xlarge",
-    width: "2xlarge",
     "& > svg": {
       transition: "background 200ms ease, transform 200ms ease",
     },
-    "&[hidden]": {
-      display: "none",
-    },
-  },
-  variants: {
-    open: {
-      true: {
-        "& > svg": {
-          transform: "rotate(135deg)",
-        },
+    _open: {
+      "& > svg": {
+        transform: "rotate(45deg)",
       },
     },
   },
@@ -225,7 +211,7 @@ const SlateBlockPicker = ({
   }, [editor, editor.selection, lastActiveSelection]);
 
   const onOpenChange = useCallback(
-    ({ open }: PopoverOpenChangeDetails) => {
+    (open: boolean) => {
       setBlockPickerOpen(open);
       if (!open && !visualElementPickerOpen) {
         ReactEditor.focus(editor);
@@ -407,7 +393,7 @@ const SlateBlockPicker = ({
       <PopoverRoot
         open={blockPickerOpen}
         positioning={{ placement: "right", getAnchorRect: () => portalRef.current?.getBoundingClientRect() ?? null }}
-        onOpenChange={onOpenChange}
+        onOpenChange={(details) => onOpenChange(details.open)}
         ids={{
           trigger: BLOCK_PICKER_TRIGGER_ID,
         }}
@@ -415,11 +401,11 @@ const SlateBlockPicker = ({
         <Portal>
           <PopoverTrigger ref={portalRef} asChild>
             <BlockPickerButton
-              variant="tertiary"
+              variant="secondary"
               data-testid="slate-block-picker"
               aria-label={blockPickerLabel}
               title={blockPickerLabel}
-              open={blockPickerOpen}
+              data-state={blockPickerOpen ? "open" : "closed"}
               onFocus={(_e) => {
                 if (!blockPickerOpen) {
                   ReactEditor.focus(editor);

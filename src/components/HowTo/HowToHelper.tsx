@@ -19,18 +19,9 @@ import {
   DialogTrigger,
   IconButton,
 } from "@ndla/primitives";
-import { HStack, styled } from "@ndla/styled-system/jsx";
+import { HStack } from "@ndla/styled-system/jsx";
 import { StoryType, stories } from "./stories";
 import { DialogCloseButton } from "../DialogCloseButton";
-
-const HelpIcon = styled(InformationOutline, {
-  base: {
-    color: "tertiary",
-    "&:hover, &:focus": {
-      color: "primary",
-    },
-  },
-});
 
 interface Props {
   pageId: StoryType;
@@ -46,7 +37,7 @@ const HowToHelper = ({ pageId, tooltip }: Props) => {
     <DialogRoot>
       <DialogTrigger asChild>
         <IconButton size="small" variant="tertiary" aria-label={tooltip} title={tooltip}>
-          <HelpIcon />
+          <InformationOutline />
         </IconButton>
       </DialogTrigger>
       <Portal>

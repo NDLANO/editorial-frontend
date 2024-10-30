@@ -15,7 +15,7 @@ import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { colors } from "@ndla/core";
 import { PageContent } from "@ndla/primitives";
-import { IAudioMetaInformation, INewSeries, ISeries } from "@ndla/types-backend/audio-api";
+import { INewSeries, ISeries } from "@ndla/types-backend/audio-api";
 import PodcastEpisodes from "./PodcastEpisodes";
 import PodcastSeriesMetaData from "./PodcastSeriesMetaData";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
@@ -71,7 +71,7 @@ export interface PodcastSeriesFormikType {
   language: string;
   coverPhotoId?: string;
   metaImageAlt?: string;
-  episodes: IAudioMetaInformation[];
+  episodes: number[];
   supportedLanguages: string[];
   hasRSS?: boolean;
 }
@@ -128,7 +128,7 @@ const PodcastSeriesForm = ({
       coverPhotoId: values.coverPhotoId,
       coverPhotoAltText: values.metaImageAlt,
       language: values.language,
-      episodes: values.episodes.map((ep) => ep.id),
+      episodes: values.episodes,
       hasRSS: values.hasRSS,
     };
 
@@ -202,7 +202,7 @@ const PodcastSeriesForm = ({
                 title={t("form.podcastEpisodesSection")}
                 hasError={["title", "coverPhotoId", "metaImageAlt"].some((field) => field in errors)}
               >
-                <PodcastEpisodes language={language} seriesId={values.id} />
+                <PodcastEpisodes language={language} seriesId={values.id} initialEpisodes={podcastSeries?.episodes} />
               </FormAccordion>
             </FormAccordions>
             <Field right>

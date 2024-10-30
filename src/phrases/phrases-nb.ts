@@ -2153,6 +2153,8 @@ const phrases = {
     title: "Legg til kodeeksempel",
     titleLabel: "Tittel",
     programmingLanguage: "Kodespråk",
+    edit: "Rediger kodevisning",
+    delete: "Fjerne kodevisning",
   },
   framedContentForm: {
     changeVariant: {

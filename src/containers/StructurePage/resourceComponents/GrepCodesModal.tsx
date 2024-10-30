@@ -6,7 +6,7 @@
  *
  */
 
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Portal } from "@ark-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
@@ -39,11 +39,12 @@ interface Props {
 }
 
 const GrepCodesModal = ({ codes, contentType, contentUri, revision, currentNodeId }: Props) => {
+  const [open, setOpen] = useState(false);
   const draftId = Number(getIdFromUrn(contentUri));
   if (contentType === contentTypes.LEARNING_PATH || !draftId || !revision) return null;
 
   return (
-    <DialogRoot size="large" position="top">
+    <DialogRoot size="large" position="top" open={open} onOpenChange={(details) => setOpen(details.open)}>
       <DialogTrigger asChild>
         <Button size="small" variant="secondary">{`GREP (${codes.length})`}</Button>
       </DialogTrigger>
@@ -54,6 +55,7 @@ const GrepCodesModal = ({ codes, contentType, contentUri, revision, currentNodeI
           draftId={draftId}
           currentNodeId={currentNodeId}
           contentUri={contentUri!}
+          close={() => setOpen(false)}
         />
       </Portal>
     </DialogRoot>
@@ -66,9 +68,10 @@ interface ModalContentProps {
   revision: number;
   currentNodeId: string;
   contentUri: string;
+  close: () => void;
 }
 
-const GrepCodeDialogContent = ({ codes, draftId, revision, currentNodeId, contentUri }: ModalContentProps) => {
+const GrepCodeDialogContent = ({ codes, draftId, revision, currentNodeId, contentUri, close }: ModalContentProps) => {
   const updateDraft = useUpdateDraftMutation();
   const { t, i18n } = useTranslation();
   const qc = useQueryClient();
@@ -84,8 +87,9 @@ const GrepCodeDialogContent = ({ codes, draftId, revision, currentNodeId, conten
 
   const onUpdateGrepCodes = useCallback(
     async (grepCodes: string[]) => {
+      const updatedRevision = updateDraft.data?.revision ?? revision;
       await updateDraft.mutateAsync(
-        { id: draftId, body: { grepCodes, revision, metaImage: undefined, responsibleId: undefined } },
+        { id: draftId, body: { grepCodes, revision: updatedRevision, metaImage: undefined, responsibleId: undefined } },
         {
           onSuccess: (data) => {
             qc.cancelQueries({ queryKey: key });
@@ -107,7 +111,7 @@ const GrepCodeDialogContent = ({ codes, draftId, revision, currentNodeId, conten
         <DialogCloseButton />
       </DialogHeader>
       <DialogBody>
-        <GrepCodesForm codes={codes} onUpdate={onUpdateGrepCodes} />
+        <GrepCodesForm codes={codes} onUpdate={onUpdateGrepCodes} close={close} />
       </DialogBody>
     </DialogContent>
   );

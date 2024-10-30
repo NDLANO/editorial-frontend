@@ -11,18 +11,20 @@ import { useTranslation } from "react-i18next";
 import { Button } from "@ndla/primitives";
 import { FormActionsContainer, FormContent } from "../../../components/FormikForm";
 import FormWrapper from "../../../components/FormWrapper";
+import SaveButton from "../../../components/SaveButton";
 import GrepCodesField from "../../FormikForm/GrepCodesField";
 
 interface Props {
   codes: string[];
   onUpdate: (grepCodes: string[]) => Promise<void>;
+  close: () => void;
 }
 
 interface Values {
   grepCodes: string[];
 }
 
-const GrepCodesForm = ({ codes, onUpdate }: Props) => {
+const GrepCodesForm = ({ codes, onUpdate, close }: Props) => {
   const { t } = useTranslation();
   const initialValues = { grepCodes: codes };
 
@@ -33,13 +35,16 @@ const GrepCodesForm = ({ codes, onUpdate }: Props) => {
 
   return (
     <Formik initialValues={initialValues} onSubmit={handleSubmit} enableReinitialize>
-      {({ dirty, isValid }) => {
+      {({ dirty, isValid, submitForm }) => {
         return (
           <FormWrapper inModal>
             <FormContent>
               <GrepCodesField />
               <FormActionsContainer>
-                <Button disabled={!dirty || !isValid} type="submit">
+                <Button variant="secondary" onClick={close}>
+                  {t("cancel")}
+                </Button>
+                <Button disabled={!dirty || !isValid} onClick={submitForm}>
                   {t("save")}
                 </Button>
               </FormActionsContainer>

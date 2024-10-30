@@ -11,42 +11,49 @@ import difference from "lodash/difference";
 import uniq from "lodash/uniq";
 import { memo, useState, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { createListCollection, useTagsInputContext } from "@ark-ui/react";
-import { CloseLine } from "@ndla/icons/action";
-import { ArrowDownShortLine } from "@ndla/icons/common";
-import { CheckLine } from "@ndla/icons/editor";
+import { createListCollection } from "@ark-ui/react";
+import { DeleteForever } from "@ndla/icons/editor";
 import {
+  ComboboxContent,
   ComboboxItem,
-  ComboboxItemIndicator,
-  ComboboxItemText,
+  ComboboxList,
+  ComboboxPositioner,
+  ComboboxRoot,
   FieldHelper,
   FieldLabel,
   FieldRoot,
   IconButton,
-  Input,
-  TagsInputItem,
-  TagsInputItemDeleteTrigger,
-  TagsInputItemInput,
-  TagsInputItemPreview,
-  TagsInputItemText,
+  ListItemContent,
+  ListItemRoot,
   Text,
 } from "@ndla/primitives";
-import { Flex, HStack, Wrap } from "@ndla/styled-system/jsx";
-import {
-  TagSelectorControl,
-  TagSelectorInputBase,
-  TagSelectorLabel,
-  TagSelectorRoot,
-  TagSelectorTrigger,
-  useTagSelectorTranslations,
-} from "@ndla/ui";
-import { SearchTagsContent } from "../../components/Form/SearchTagsContent";
+import { styled } from "@ndla/styled-system/jsx";
+import { useComboboxTranslations } from "@ndla/ui";
+import { GenericComboboxInput, GenericComboboxItemContent } from "../../components/abstractions/Combobox";
 import { FormField } from "../../components/FormField";
 import { useGrepCodesSearch } from "../../modules/draft/draftQueries";
 import { fetchGrepCodeTitle } from "../../modules/grep/grepApi";
 import { GrepCode } from "../../modules/grep/grepApiInterfaces";
 import { isGrepCodeValid } from "../../util/articleUtil";
 import { usePaginatedQuery } from "../../util/usePaginatedQuery";
+
+const StyledList = styled("ul", {
+  base: { listStyle: "none" },
+});
+
+const StyledComboboxContent = styled(ComboboxContent, {
+  base: {
+    maxHeight: "unset",
+    overflowY: "unset",
+  },
+});
+
+const StyledComboboxList = styled(ComboboxList, {
+  base: {
+    maxHeight: "surface.xsmall",
+    overflowY: "auto",
+  },
+});
 
 export const convertGrepCodesToObject = async (grepCodes: string[]): Promise<Record<string, string>> => {
   const grepCodesWithTitle = await Promise.all(
@@ -60,34 +67,12 @@ export const convertGrepCodesToObject = async (grepCodes: string[]): Promise<Rec
   return Object.assign({}, ...grepCodesWithTitle);
 };
 
-interface GrepCodeTagItemsProps {
-  grepCodes: Record<string, string>;
-}
-const GrepCodeTagItems = ({ grepCodes }: GrepCodeTagItemsProps) => {
-  const tagsApi = useTagsInputContext();
-  return (
-    <Wrap gap="3xsmall">
-      {tagsApi.value.map((value, index) => (
-        <TagsInputItem index={index} value={value} key={value}>
-          <TagsInputItemPreview>
-            <TagsInputItemText>{grepCodes[value] ?? value}</TagsInputItemText>
-            <TagsInputItemDeleteTrigger>
-              <CloseLine />
-            </TagsInputItemDeleteTrigger>
-          </TagsInputItemPreview>
-          <TagsInputItemInput />
-        </TagsInputItem>
-      ))}
-    </Wrap>
-  );
-};
-
 const GrepCodesField = () => {
   const { t } = useTranslation();
+  const translations = useComboboxTranslations();
   const [field, _, helpers] = useField<string[]>("grepCodes");
   const [grepCodes, setGrepCodes] = useState<Record<string, string>>({});
 
-  const tagSelectorTranslations = useTagSelectorTranslations();
   const { query, setQuery } = usePaginatedQuery();
   const searchQuery = useGrepCodesSearch({ input: query });
 
@@ -146,10 +131,11 @@ const GrepCodesField = () => {
   const collection = useMemo(() => {
     return createListCollection({
       items: searchQuery.data?.results ?? [],
-      itemToValue: (item) => item.code,
       itemToString: (item) => item.title,
+      itemToValue: (item) => item.code,
+      isItemDisabled: (item) => !!grepCodes[item.code],
     });
-  }, [searchQuery.data?.results]);
+  }, [grepCodes, searchQuery.data?.results]);
 
   return (
     <FormField name="grepCodes">
@@ -157,46 +143,67 @@ const GrepCodesField = () => {
         <FieldRoot>
           <FieldLabel>{t("form.grepCodes.label")}</FieldLabel>
           <FieldHelper>{t("form.grepCodes.description")}</FieldHelper>
-          <TagSelectorRoot
+          <Text color="text.error" aria-live="polite">
+            {meta.error}
+          </Text>
+          <ComboboxRoot
             collection={collection}
-            value={field.value}
-            onValueChange={(details) => updateGrepCodes(details.value)}
-            translations={tagSelectorTranslations}
-            inputValue={query}
+            translations={translations}
             onInputValueChange={(details) => setQuery(details.inputValue)}
+            inputValue={query}
+            onValueChange={(details) => updateGrepCodes(details.value)}
+            value={field.value}
+            multiple
             positioning={{ strategy: "fixed" }}
-            editable={false}
+            variant="complex"
+            context="standalone"
           >
-            <TagSelectorLabel>{t("form.grepCodes.comboboxLabel")}</TagSelectorLabel>
-            <Text color="text.error" aria-live="polite">
-              {meta.error}
-            </Text>
-            <Flex direction="column">
-              <HStack gap="3xsmall">
-                <TagSelectorControl asChild>
-                  <TagSelectorInputBase asChild>
-                    <Input placeholder={t("form.grepCodes.placeholder")} />
-                  </TagSelectorInputBase>
-                </TagSelectorControl>
-                <TagSelectorTrigger asChild>
-                  <IconButton variant="secondary">
-                    <ArrowDownShortLine />
+            <GenericComboboxInput
+              placeholder={t("form.grepCodes.placeholder")}
+              isFetching={searchQuery.isFetching}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" && !!query.trim()) {
+                  updateGrepCodes([...field.value, query]);
+                }
+              }}
+              triggerable
+            />
+            <ComboboxPositioner>
+              <StyledComboboxContent>
+                <StyledComboboxList>
+                  {collection.items.map((item) => (
+                    <ComboboxItem key={item.code} item={item} asChild>
+                      <GenericComboboxItemContent title={item.title} />
+                    </ComboboxItem>
+                  ))}
+                </StyledComboboxList>
+                {searchQuery.isSuccess && (
+                  <Text>{t("dropdown.numberHits", { hits: searchQuery.data?.totalCount ?? 0 })}</Text>
+                )}
+              </StyledComboboxContent>
+            </ComboboxPositioner>
+          </ComboboxRoot>
+          <StyledList>
+            {Object.entries(grepCodes).map(([code, title]) => (
+              <ListItemRoot key={code} context="list" variant="subtle" asChild consumeCss>
+                <li>
+                  <ListItemContent>{title}</ListItemContent>
+                  <IconButton
+                    variant="danger"
+                    size="small"
+                    aria-label={t("delete")}
+                    title={t("delete")}
+                    onClick={() => {
+                      const filtered = field.value.filter((el: string) => el !== code);
+                      updateGrepCodes(filtered);
+                    }}
+                  >
+                    <DeleteForever />
                   </IconButton>
-                </TagSelectorTrigger>
-              </HStack>
-              <GrepCodeTagItems grepCodes={grepCodes} />
-            </Flex>
-            <SearchTagsContent isFetching={searchQuery.isFetching} hits={collection.items.length}>
-              {collection.items.map((item) => (
-                <ComboboxItem key={item.code} item={item}>
-                  <ComboboxItemText>{item.title}</ComboboxItemText>
-                  <ComboboxItemIndicator asChild>
-                    <CheckLine />
-                  </ComboboxItemIndicator>
-                </ComboboxItem>
-              ))}
-            </SearchTagsContent>
-          </TagSelectorRoot>
+                </li>
+              </ListItemRoot>
+            ))}
+          </StyledList>
         </FieldRoot>
       )}
     </FormField>

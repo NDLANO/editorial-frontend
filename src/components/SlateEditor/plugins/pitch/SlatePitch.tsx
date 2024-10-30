@@ -6,7 +6,7 @@
  *
  */
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
@@ -39,8 +39,12 @@ const imageUrl = `${config.ndlaApiUrl}/image-api/raw/id/`;
 
 const SlatePitch = ({ element, editor, attributes, children }: Props) => {
   const { t } = useTranslation();
-  const [isEditing, setIsEditing] = useState(element.isFirstEdit);
+  const [isEditing, setIsEditing] = useState(false);
   const { data } = element;
+
+  useEffect(() => {
+    setIsEditing(!!element.isFirstEdit);
+  }, [element.isFirstEdit]);
 
   const handleRemove = () => {
     Transforms.removeNodes(editor, {

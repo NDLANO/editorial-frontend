@@ -38,9 +38,13 @@ interface Props extends RenderElementProps {
 
 const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) => {
   const { t } = useTranslation();
-  const [isEditing, setIsEditing] = useState(element.isFirstEdit);
+  const [isEditing, setIsEditing] = useState(false);
   const campaignBlock = element.data;
   const [image, setImage] = useState<IImageMetaInformationV3 | undefined>(undefined);
+
+  useEffect(() => {
+    setIsEditing(!!element.isFirstEdit);
+  }, [element.isFirstEdit]);
 
   const onClose = useCallback(() => {
     ReactEditor.focus(editor);

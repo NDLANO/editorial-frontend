@@ -24,7 +24,7 @@ import {
   getResultSubjectIdObject,
   getSubjectsIdsQuery,
 } from "../../containers/WelcomePage/utils";
-import { SEARCH, SEARCH_SUBJECT_STATS } from "../../queryKeys";
+import { SEARCH, SEARCH_SUBJECT_STATS, SEARCH_WITH_CUSTOM_SUBJECTS_FILTERING } from "../../queryKeys";
 import { getAccessToken, getAccessTokenPersonal } from "../../util/authHelpers";
 import { isValid } from "../../util/jwtHelper";
 import { useUserData } from "../draft/draftQueries";
@@ -32,14 +32,31 @@ import { usePostSearchNodes } from "../nodes/nodeQueries";
 
 export const searchQueryKeys = {
   search: (params?: Partial<StringSort<IDraftSearchParams>>) => [SEARCH, params] as const,
+  searchWithCustomSubjectsFiltering: (params?: Partial<StringSort<IDraftSearchParams>>) =>
+    [SEARCH_WITH_CUSTOM_SUBJECTS_FILTERING, params] as const,
   searchSubjectStats: (params?: Partial<ISubjectAggsInput>) => [SEARCH_SUBJECT_STATS, params] as const,
 };
 
-export interface UseSearch extends StringSort<IDraftSearchParams> {
+export const useSearch = (
+  query: StringSort<IDraftSearchParams>,
+  options?: Partial<UseQueryOptions<IMultiSearchResult>>,
+) =>
+  useQuery<IMultiSearchResult>({
+    queryKey: searchQueryKeys.search(query),
+    queryFn: () => postSearch(query),
+    ...options,
+  });
+
+interface UseSearchWithCustomSubjectsFiltering extends StringSort<IDraftSearchParams> {
   favoriteSubjects?: string[];
 }
 
-export const useSearch = (query: UseSearch, options?: Partial<UseQueryOptions<IMultiSearchResult>>) => {
+/** Search hook for filtering grouped custom subjects(urn:favourites, urn:lmaSubjects, urn:daSubjects, urn:saSubjects).
+ These custom subjects represent multiple related subjects, requiring this custom search hook to correctly transform them */
+export const useSearchWithCustomSubjectsFiltering = (
+  query: UseSearchWithCustomSubjectsFiltering,
+  options?: Partial<UseQueryOptions<IMultiSearchResult>>,
+) => {
   const { taxonomyVersion } = useTaxonomyVersion();
 
   const { data, isLoading } = useUserData({
@@ -63,7 +80,7 @@ export const useSearch = (query: UseSearch, options?: Partial<UseQueryOptions<IM
   const actualQuery = getSubjectsIdsQuery(query, data?.favoriteSubjects, subjectIdObject);
 
   return useQuery<IMultiSearchResult>({
-    queryKey: searchQueryKeys.search(actualQuery),
+    queryKey: searchQueryKeys.searchWithCustomSubjectsFiltering(actualQuery),
     queryFn: () => postSearch(actualQuery),
     ...options,
     enabled: options?.enabled && !isLoading && !searchNodesQuery.isLoading,

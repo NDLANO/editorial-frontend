@@ -9,13 +9,9 @@
 import { Formik, useFormikContext } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { Popover, PopoverArrow, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
-import { spacing, colors, shadows, misc, stackOrder } from "@ndla/core";
 import { Cross } from "@ndla/icons/action";
 import { Information } from "@ndla/icons/common";
 import { CheckLine } from "@ndla/icons/editor";
-import { ModalCloseButton } from "@ndla/modal";
 import {
   Button,
   CheckboxControl,
@@ -23,6 +19,7 @@ import {
   CheckboxIndicator,
   CheckboxLabel,
   CheckboxRoot,
+  DialogCloseTrigger,
   FieldErrorMessage,
   FieldInput,
   FieldLabel,
@@ -30,7 +27,11 @@ import {
   FieldTextArea,
   IconButton,
   InputContainer,
+  PopoverContent,
+  PopoverRoot,
+  PopoverTrigger,
 } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IframeEmbedData, OembedEmbedData } from "@ndla/types-embed";
 import { DRAFT_ADMIN_SCOPE, EXTERNAL_WHITELIST_PROVIDERS } from "../../../../constants";
 import InlineImageSearch from "../../../../containers/ConceptPage/components/InlineImageSearch";
@@ -42,80 +43,55 @@ import { fetchExternalOembed } from "../../../../util/apiHelpers";
 import { getIframeSrcFromHtmlString, urlDomain } from "../../../../util/htmlHelpers";
 import { getStartTime, getStopTime, getYoutubeEmbedUrl, removeYoutubeTimeStamps } from "../../../../util/videoUtil";
 import { FormField } from "../../../FormField";
-import { FormikForm } from "../../../FormikForm";
+import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
 
-const StyledCheckboxRoot = styled(CheckboxRoot)`
-  width: fit-content;
-`;
+const LinkInputWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "xsmall",
+    "& button": {
+      whiteSpace: "nowrap",
+    },
+  },
+});
 
-const ButtonContainer = styled.div`
-  margin-top: ${spacing.small};
-  display: flex;
-  justify-content: flex-end;
-  gap: ${spacing.small};
-`;
+const LabelWrapper = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    gap: "4xsmall",
+    overflow: "auto",
+  },
+});
 
-const LinkInputWrapper = styled.div`
-  display: flex;
-  gap: ${spacing.small};
-  button {
-    white-space: nowrap;
-  }
-`;
+const StyledPopoverContent = styled(PopoverContent, {
+  base: {
+    overflow: "auto",
+    maxHeight: "surface.xsmall",
+  },
+});
 
-const LabelWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${spacing.small};
-  overflow: auto;
-`;
+const IframeWrapper = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    "& div": {
+      width: "50%",
+    },
+  },
+});
 
-const StyledPopoverContent = styled(PopoverContent)`
-  background-color: ${colors.white};
-  padding: ${spacing.small};
-  border: 1px solid ${colors.brand.primary};
-  border-radius: ${misc.borderRadius};
-  box-shadow: ${shadows.levitate1};
-  z-index: ${stackOrder.modal + stackOrder.popover};
-  overflow: auto;
-  max-height: 300px;
-`;
-
-const StyledPopoverArrow = styled(PopoverArrow)`
-  fill: ${colors.brand.primary};
-`;
-
-const InfoButton = styled(PopoverTrigger)`
-  all: unset;
-  cursor: pointer;
-  color: ${colors.brand.primary};
-  svg {
-    height: ${spacing.normal};
-    width: ${spacing.normal};
-  }
-  &:hover,
-  &:focus-within {
-    color: ${colors.brand.tertiary};
-  }
-`;
-
-const IframeWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  div {
-    width: 50%;
-  }
-`;
-
-const TimeWrapper = styled.div`
-  display: flex;
-  gap: ${spacing.small};
-  div {
-    width: 100%;
-  }
-`;
+const TimeWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "xsmall",
+    "& div": {
+      width: "100%",
+    },
+  },
+});
 
 interface Props {
   initialData?: OembedEmbedData | IframeEmbedData;
@@ -289,16 +265,21 @@ const InnerForm = () => {
           <FieldRoot required invalid={!!meta.error}>
             <LabelWrapper>
               <FieldLabel>{t("form.name.url")}</FieldLabel>
-              <Popover>
-                <InfoButton title={t("link.validDomains")} aria-label={t("form.content.link.validDomains")}>
-                  <Information />
-                </InfoButton>
-
-                <StyledPopoverContent align="start">
-                  <StyledPopoverArrow />
+              <PopoverRoot positioning={{ strategy: "fixed" }}>
+                <PopoverTrigger asChild>
+                  <IconButton
+                    size="small"
+                    variant="tertiary"
+                    title={t("link.validDomains")}
+                    aria-label={t("form.content.link.validDomains")}
+                  >
+                    <Information />
+                  </IconButton>
+                </PopoverTrigger>
+                <StyledPopoverContent>
                   <UrlAllowList allowList={EXTERNAL_WHITELIST_PROVIDERS} />
                 </StyledPopoverContent>
-              </Popover>
+              </PopoverRoot>
             </LabelWrapper>
             <LinkInputWrapper data-has-link={!!field.value}>
               <InputContainer>
@@ -358,7 +339,7 @@ const InnerForm = () => {
         <FormField name="isFullscreen">
           {({ field, helpers }) => (
             <FieldRoot>
-              <StyledCheckboxRoot
+              <CheckboxRoot
                 checked={field.checked}
                 onCheckedChange={(details) => helpers.setValue(details.checked, true)}
               >
@@ -369,7 +350,7 @@ const InnerForm = () => {
                   </CheckboxIndicator>
                 </CheckboxControl>
                 <CheckboxHiddenInput />
-              </StyledCheckboxRoot>
+              </CheckboxRoot>
             </FieldRoot>
           )}
         </FormField>
@@ -398,7 +379,7 @@ const InnerForm = () => {
               <FormField name="isDecorative">
                 {({ field, helpers }) => (
                   <FieldRoot>
-                    <StyledCheckboxRoot
+                    <CheckboxRoot
                       checked={field.value}
                       onCheckedChange={(details) => helpers.setValue(details.checked, true)}
                     >
@@ -409,7 +390,7 @@ const InnerForm = () => {
                         </CheckboxIndicator>
                       </CheckboxControl>
                       <CheckboxHiddenInput />
-                    </StyledCheckboxRoot>
+                    </CheckboxRoot>
                   </FieldRoot>
                 )}
               </FormField>
@@ -427,14 +408,14 @@ const InnerForm = () => {
           )}
         </>
       )}
-      <ButtonContainer>
-        <ModalCloseButton>
+      <FormActionsContainer>
+        <DialogCloseTrigger asChild>
           <Button variant="secondary">{t("cancel")}</Button>
-        </ModalCloseButton>
+        </DialogCloseTrigger>
         <Button type="submit" disabled={!dirty || !isValid}>
           {t("save")}
         </Button>
-      </ButtonContainer>
+      </FormActionsContainer>
     </FormikForm>
   );
 };

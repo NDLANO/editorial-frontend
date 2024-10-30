@@ -111,9 +111,10 @@ test("opens and closes file", async ({ page }) => {
 
 test("opens and closes url", async ({ page }) => {
   await page.getByTestId("create-url").click();
-  await expect(page.getByTestId("modal-header")).toBeVisible();
-  await page.getByTestId("close-modal-button").click();
-  await expect(page.getByTestId("modal-header")).toHaveCount(0);
+  const dialog = page.getByRole("dialog");
+  await expect(dialog).toBeVisible();
+  await dialog.getByRole("button").getByText("Avbryt").click();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
 });
 
 test("opens and closes related content", async ({ page }) => {

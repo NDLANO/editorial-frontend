@@ -2186,8 +2186,20 @@ const phrases = {
         </Instructions>`,
     },
     alternativePhrasing: {
-      buttonGenerate: "Generer",
-      buttonInsert: "Sett inn",
+      buttons: {
+        generate: {
+          text: "Generer",
+          title: "Generer forslag",
+        },
+        replace: {
+          text: "Erstatt",
+          title: "Legg til istedet for valgt tekst",
+        },
+        add: {
+          text: "Legg til etter",
+          title: "Legg til etter valgt tekst",
+        },
+      },
       prompt: `<excerpt>{{ excerpt }}</excerpt>
         <draft>{{ article }}</draft>
         <Instructions>

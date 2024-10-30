@@ -68,8 +68,13 @@ const RephraseModalContent = ({ selection, setSelection }: Props) => {
     setIsLoading(false);
   };
 
-  const insertGeneratedText = () => {
+  const replaceSelectedText = () => {
     insertText(rephrasedText);
+    setSelection(null);
+  };
+
+  const addTextAfterSelection = () => {
+    insertText(inputText + rephrasedText);
     setSelection(null);
   };
 
@@ -93,6 +98,16 @@ const RephraseModalContent = ({ selection, setSelection }: Props) => {
           </Heading>
           <TextBox>{inputText}</TextBox>
         </div>
+        <Button
+          aria-label={t("textGeneration.alternativePhrasing.buttons.generate.title")}
+          size="small"
+          title={t("textGeneration.alternativePhrasing.buttons.generate.title")}
+          onClick={generateRephrasedText}
+          loading={isLoading}
+        >
+          {t("textGeneration.alternativePhrasing.buttons.generate.text")}
+          <BlogPost />
+        </Button>
         <div>
           <Heading asChild consumeCss textStyle="label.medium">
             <h2>{t("textGeneration.alternativePhrasing.textSuggested")}</h2>
@@ -100,15 +115,24 @@ const RephraseModalContent = ({ selection, setSelection }: Props) => {
           <TextBox>{rephrasedText}</TextBox>
         </div>
         <Actions>
-          <Button size="small" onClick={generateRephrasedText} loading={isLoading}>
-            {t("textGeneration.alternativePhrasing.buttonGenerate")}
-            <BlogPost />
-          </Button>
           <Button size="small" onClick={() => setSelection(null)} variant="secondary">
             {t("dialog.close")}
           </Button>
-          <Button size="small" onClick={insertGeneratedText}>
-            {t("textGeneration.alternativePhrasing.buttonInsert")}
+          <Button
+            aria-label={t("textGeneration.alternativePhrasing.buttons.add.title")}
+            size="small"
+            title={t("textGeneration.alternativePhrasing.buttons.add.title")}
+            onClick={addTextAfterSelection}
+          >
+            {t("textGeneration.alternativePhrasing.buttons.add.text")}
+          </Button>
+          <Button
+            aria-label={t("textGeneration.alternativePhrasing.buttons.replace.title")}
+            size="small"
+            title={t("textGeneration.alternativePhrasing.buttons.replace.title")}
+            onClick={replaceSelectedText}
+          >
+            {t("textGeneration.alternativePhrasing.buttons.replace.text")}
           </Button>
         </Actions>
       </DialogBody>

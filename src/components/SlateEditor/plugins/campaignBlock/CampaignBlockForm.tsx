@@ -9,7 +9,7 @@
 import { Formik } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Descendant, Node } from "slate";
+import { Descendant } from "slate";
 import { CheckboxIndicator } from "@ark-ui/react";
 import { CheckLine } from "@ndla/icons/editor";
 import {
@@ -196,7 +196,7 @@ const CampaignBlockForm = ({ initialData, onSave, onCancel }: Props) => {
                   onChange={helpers.setValue}
                 />
                 <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-                <FormRemainingCharacters value={Node.string(field.value[0]).length} maxLength={250} />
+                <FormRemainingCharacters value={field.value} maxLength={250} />
               </FieldRoot>
             )}
           </FormField>

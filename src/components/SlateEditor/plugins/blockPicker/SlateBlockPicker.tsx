@@ -10,13 +10,19 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Node, Location, Range, Path, Transforms } from "slate";
 import { ReactEditor } from "slate-react";
-import styled from "@emotion/styled";
-import { Popover, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
-import { Portal } from "@radix-ui/react-portal";
-import { ButtonV2, IconButtonV2 } from "@ndla/button";
-import { animations, colors, fonts, shadows, spacing, stackOrder } from "@ndla/core";
+import { PopoverOpenChangeDetails, Portal } from "@ark-ui/react";
 import { Plus } from "@ndla/icons/action";
-import { Heading } from "@ndla/typography";
+import {
+  PopoverRoot,
+  PopoverTrigger,
+  IconButton,
+  Button,
+  Heading,
+  PopoverPositioner,
+  PopoverContentStandalone,
+  PopoverContent,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { Action, ActionData } from "./actions";
 import SlateVisualElementPicker from "./SlateVisualElementPicker";
 import { BLOCK_PICKER_TRIGGER_ID } from "../../../../constants";
@@ -75,86 +81,46 @@ interface Props {
   articleLanguage?: string;
 }
 
-const StyledContent = styled(PopoverContent)`
-  background-color: ${colors.white};
-  z-index: ${stackOrder.popover};
-  padding: ${spacing.normal};
-  box-shadow: ${shadows.levitate1};
-  ${animations.fadeInLeft(animations.durations.fast)};
-`;
+const ActionButton = styled(Button, {
+  base: {
+    width: "100%",
+    justifyContent: "flex-start",
+  },
+});
 
-const BlockPickerLabel = styled(Heading)`
-  font-weight: ${fonts.weight.normal};
-  color: ${colors.text.light};
-`;
+const StyledList = styled("ul", {
+  base: {
+    listStyle: "none",
+  },
+});
 
-const StyledList = styled.ul`
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  padding: 0;
+const StyledLi = styled("li", {
+  base: {
+    display: "flex",
+    gap: "small",
+    justifyContent: "space-between",
+  },
+});
 
-  li {
-    display: flex;
-    gap: ${spacing.normal};
-    justify-content: space-between;
-    padding: 0px;
-  }
-`;
+const BlockPickerButton = styled(IconButton, {
+  base: {
+    position: "absolute",
+    "& > svg": {
+      transition: "background 200ms ease, transform 200ms ease",
+    },
+    _open: {
+      "& > svg": {
+        transform: "rotate(45deg)",
+      },
+    },
+  },
+});
 
-const ActionButton = styled(ButtonV2)`
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  color: ${colors.brand.primary};
-  font-weight: ${fonts.weight.semibold};
-  svg {
-    color: ${colors.brand.tertiary};
-    width: ${spacing.normal};
-    height: ${spacing.normal};
-  }
-  transition: color 200ms ease;
-  &:hover,
-  &:focus-within {
-    text-decoration: none;
-    svg {
-      color: ${colors.brand.primary};
-    }
-  }
-`;
-
-const BlockPickerButton = styled(IconButtonV2)`
-  position: absolute;
-  z-index: ${stackOrder.trigger + stackOrder.offsetSingle};
-  border: 2px solid ${colors.brand.primary};
-  height: ${spacing.large};
-  width: ${spacing.large};
-  transition:
-    background 200ms ease,
-    transform 200ms ease;
-  svg {
-    transition: transform 300ms ease;
-    height: ${spacing.medium};
-    width: ${spacing.medium};
-  }
-  &:hover,
-  &:focus-visible {
-    border-color: ${colors.brand.primary};
-    background-color: ${colors.brand.tertiary};
-    color: ${colors.brand.primary};
-  }
-  &:active {
-    transform: scale(0.9);
-  }
-
-  &[data-state="open"] {
-    svg {
-      transform: rotate(135deg);
-    }
-  }
-  &[hidden] {
-    display: none;
-  }
-`;
+const StyledHeading = styled(Heading, {
+  base: {
+    paddingInlineStart: "xsmall",
+  },
+});
 
 const getLeftAdjust = (parent?: Node) => {
   if (Element.isElement(parent) && parent.type === TYPE_LIST_ITEM) {
@@ -424,43 +390,54 @@ const SlateBlockPicker = ({
         onVisualElementClose={onVisualElementClose}
         onInsertBlock={onInsertBlock}
       />
-      <Popover open={blockPickerOpen} onOpenChange={onOpenChange}>
+      <PopoverRoot
+        open={blockPickerOpen}
+        positioning={{ placement: "right", getAnchorRect: () => portalRef.current?.getBoundingClientRect() ?? null }}
+        onOpenChange={(details) => onOpenChange(details.open)}
+        ids={{
+          trigger: BLOCK_PICKER_TRIGGER_ID,
+        }}
+      >
         <Portal>
-          <PopoverTrigger asChild ref={portalRef}>
+          <PopoverTrigger ref={portalRef} asChild>
             <BlockPickerButton
-              colorTheme="light"
+              variant="secondary"
               data-testid="slate-block-picker"
-              id={BLOCK_PICKER_TRIGGER_ID}
               aria-label={blockPickerLabel}
               title={blockPickerLabel}
+              data-state={blockPickerOpen ? "open" : "closed"}
+              onFocus={(_e) => {
+                if (!blockPickerOpen) {
+                  ReactEditor.focus(editor);
+                }
+              }}
             >
               <Plus />
             </BlockPickerButton>
           </PopoverTrigger>
+          <PopoverContent data-testid="slate-block-picker-menu">
+            <StyledHeading textStyle="title.small">{t("editorBlockpicker.heading")}</StyledHeading>
+            <StyledList>
+              {getActionsForArea()
+                .filter((a) => !a.requiredScope || userPermissions?.includes(a.requiredScope))
+                .map((action) => (
+                  <StyledLi key={action.data.object}>
+                    <ActionButton
+                      onClick={() => onElementAdd(action.data)}
+                      variant="tertiary"
+                      data-testid={`create-${action.data.object}`}
+                      size="small"
+                    >
+                      {action.icon}
+                      {t(`editorBlockpicker.actions.${action.data.object}`)}
+                    </ActionButton>
+                    {action.helpIcon}
+                  </StyledLi>
+                ))}
+            </StyledList>
+          </PopoverContent>
         </Portal>
-        <StyledContent side="right" sideOffset={6} data-testid="slate-block-picker-menu" avoidCollisions={false}>
-          <BlockPickerLabel element="h1" headingStyle="list-title" margin="none">
-            {t("editorBlockpicker.heading")}
-          </BlockPickerLabel>
-          <StyledList>
-            {getActionsForArea()
-              .filter((a) => !a.requiredScope || userPermissions?.includes(a.requiredScope))
-              .map((action) => (
-                <li key={action.data.object}>
-                  <ActionButton
-                    onClick={() => onElementAdd(action.data)}
-                    variant="stripped"
-                    data-testid={`create-${action.data.object}`}
-                  >
-                    {action.icon}
-                    {t(`editorBlockpicker.actions.${action.data.object}`)}
-                  </ActionButton>
-                  {action.helpIcon}
-                </li>
-              ))}
-          </StyledList>
-        </StyledContent>
-      </Popover>
+      </PopoverRoot>
     </>
   );
 };

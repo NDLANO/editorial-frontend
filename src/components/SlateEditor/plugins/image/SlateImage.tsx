@@ -11,6 +11,7 @@ import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
+import { Portal } from "@ark-ui/react";
 import { Pencil } from "@ndla/icons/action";
 import { Link } from "@ndla/icons/common";
 import { DeleteForever } from "@ndla/icons/editor";
@@ -22,7 +23,6 @@ import { EmbedWrapper, ImageEmbed } from "@ndla/ui";
 import ImageEmbedForm from "./ImageEmbedForm";
 import { ImageElement } from "./types";
 import { useImageMeta } from "../../../../modules/embed/queries";
-import { DialogCloseButton } from "../../../DialogCloseButton";
 import { OldSpinner } from "../../../OldSpinner";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import { StyledFigureButtons } from "../embed/FigureButtons";
@@ -199,16 +199,18 @@ const SlateImage = ({ element, editor, attributes, children, allowDecorative = t
             </IconButton>
           </FigureButtons>
         </ImageEmbed>
-        <DialogContent>
-          <ImageEmbedForm
-            embed={embed.embedData}
-            image={embed.status === "success" ? embed.data : undefined}
-            onSave={onSave}
-            onClose={onClose}
-            language={language}
-            allowDecorative={allowDecorative}
-          />
-        </DialogContent>
+        <Portal>
+          <DialogContent>
+            <ImageEmbedForm
+              embed={embed.embedData}
+              image={embed.status === "success" ? embed.data : undefined}
+              onSave={onSave}
+              onClose={onClose}
+              language={language}
+              allowDecorative={allowDecorative}
+            />
+          </DialogContent>
+        </Portal>
         {children}
       </StyledEmbedWrapper>
     </DialogRoot>

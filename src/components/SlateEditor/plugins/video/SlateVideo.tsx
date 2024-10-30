@@ -10,9 +10,9 @@ import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
+import { Portal } from "@ark-ui/react";
 import { Pencil } from "@ndla/icons/action";
 import { DeleteForever, Link } from "@ndla/icons/editor";
-import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
 import { DialogContent, DialogRoot, DialogTrigger, IconButton } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -142,11 +142,13 @@ const SlateVideo = ({ attributes, element, editor, children }: Props) => {
             </IconButton>
           </StyledFigureButtons>
         )}
-        <DialogContent>
-          {element.data && (
-            <EditVideo onClose={onClose} onSave={onSave} embed={element.data} setHasError={setHasError} />
-          )}
-        </DialogContent>
+        <Portal>
+          <DialogContent>
+            {element.data && (
+              <EditVideo onClose={onClose} onSave={onSave} embed={element.data} setHasError={setHasError} />
+            )}
+          </DialogContent>
+        </Portal>
         {!embed || brightcoveQuery.isLoading ? <Spinner /> : <BrightcoveEmbed embed={embed} />}
         {children}
       </VideoWrapper>

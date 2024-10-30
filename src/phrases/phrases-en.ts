@@ -1651,6 +1651,7 @@ const phrases = {
       SUBJECT: "subject",
       TOPIC: "topic",
     },
+    noValue: "No value",
     previewProgrammes: "Preview programmes in frontend",
     addNode: "Add {{nodeType}}",
     newNode: "New {{nodeType}}",
@@ -2153,6 +2154,8 @@ const phrases = {
     title: "Add code example",
     titleLabel: "Title",
     programmingLanguage: "Programming language",
+    edit: "Edit code example",
+    delete: "Remove code example",
   },
   framedContentForm: {
     changeVariant: {

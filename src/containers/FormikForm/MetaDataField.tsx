@@ -111,7 +111,7 @@ const MetaDataField = ({ articleLanguage, articleContent, showCheckbox, checkbox
       // We have to invalidate slate children. We do this with status.
       setStatus({ status: "acceptGenerated" });
     } catch (error) {
-      console.error("Error generatning meta description", error);
+      console.error("Error generating meta description", error);
     } finally {
       setIsLoading(false);
     }

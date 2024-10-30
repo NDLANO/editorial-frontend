@@ -64,24 +64,6 @@ interface Props extends RenderElementProps {
   editor: Editor;
 }
 
-interface RemoveCodeBlockProps {
-  handleRemove: () => void;
-}
-
-const RemoveCodeBlock = ({ handleRemove }: RemoveCodeBlockProps) => {
-  const { t } = useTranslation();
-  return (
-    <IconButton
-      variant="danger"
-      size="small"
-      aria-label={t("codeEditor.remove")}
-      data-testid="remove-code"
-      onClick={handleRemove}
-    >
-      <DeleteForever />
-    </IconButton>
-  );
-};
 const highlightCode = (code: string, language: string): string => {
   const highlighted = highlight(code, languages[language], language);
   return highlighted;
@@ -170,13 +152,26 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
       <Figure aria-label={t("codeEditor.subtitle")} contentEditable={false} {...attributes}>
         <HStack justify="space-between">
           {embedData.title && <h3>{embedData.title}</h3>}
-          <HStack gap="3xsmall">
+          <HStack gap="4xsmall">
             <DialogTrigger asChild>
-              <IconButton size="small" title={t("codeEditor.edit")} aria-label={t("codeEditor.edit")}>
+              <IconButton
+                size="small"
+                variant="secondary"
+                title={t("codeEditor.edit")}
+                aria-label={t("codeEditor.edit")}
+              >
                 <Pencil />
               </IconButton>
             </DialogTrigger>
-            <RemoveCodeBlock handleRemove={handleRemove} />
+            <IconButton
+              variant="danger"
+              size="small"
+              aria-label={t("codeEditor.remove")}
+              data-testid="remove-code"
+              onClick={handleRemove}
+            >
+              <DeleteForever />
+            </IconButton>
           </HStack>
         </HStack>
         <UICodeBlock format={embedData.codeFormat} highlightedCode={highlightedCode} />

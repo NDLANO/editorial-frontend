@@ -6,19 +6,20 @@
  *
  */
 
-import { ComponentProps } from "react";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
-import { Text } from "@ndla/typography";
+import { ComponentPropsWithRef, forwardRef } from "react";
+import { Text, TextProps } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 
-const StyledText = styled(Text)`
-  margin-left: ${spacing.small};
-`;
+const StyledText = styled(Text, {
+  base: {
+    marginInlineStart: "xsmall",
+  },
+});
 
-export const RichTextIndicator = (props: Omit<ComponentProps<"span">, "ref" | "children">) => {
-  return (
-    <StyledText element="span" textStyle="meta-text-small" {...props}>
-      (HTML)
+export const RichTextIndicator = forwardRef<HTMLParagraphElement, ComponentPropsWithRef<"p"> & TextProps>(
+  ({ textStyle = "label.xsmall", ...props }, ref) => (
+    <StyledText textStyle={textStyle} ref={ref} asChild consumeCss {...props}>
+      <span>(HTML)</span>
     </StyledText>
-  );
-};
+  ),
+);

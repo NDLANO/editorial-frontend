@@ -8,7 +8,6 @@
 
 import { useField } from "formik";
 import difference from "lodash/difference";
-import uniq from "lodash/uniq";
 import { memo, useState, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
@@ -41,16 +40,8 @@ const StyledList = styled("ul", {
   base: { listStyle: "none" },
 });
 
-const StyledComboboxContent = styled(ComboboxContent, {
-  base: {
-    maxHeight: "unset",
-    overflowY: "unset",
-  },
-});
-
 const StyledComboboxList = styled(ComboboxList, {
   base: {
-    maxHeight: "surface.xsmall",
     overflowY: "auto",
   },
 });
@@ -106,7 +97,7 @@ const GrepCodesField = () => {
 
   const updateGrepCodes = async (values: string[]) => {
     helpers.setError(undefined);
-    const trimmedValues = uniq(values.map((v) => v.toUpperCase().trim()));
+    const trimmedValues = Array.from(new Set(values.map((v) => v.toUpperCase().trim())));
     // Grep code is added
     if (trimmedValues.length > field.value.length) {
       const addedGrepCodes = difference(trimmedValues, field.value);
@@ -169,7 +160,7 @@ const GrepCodesField = () => {
               triggerable
             />
             <ComboboxPositioner>
-              <StyledComboboxContent>
+              <ComboboxContent>
                 <StyledComboboxList>
                   {collection.items.map((item) => (
                     <ComboboxItem key={item.code} item={item} asChild>
@@ -180,7 +171,7 @@ const GrepCodesField = () => {
                 {searchQuery.isSuccess && (
                   <Text>{t("dropdown.numberHits", { hits: searchQuery.data?.totalCount ?? 0 })}</Text>
                 )}
-              </StyledComboboxContent>
+              </ComboboxContent>
             </ComboboxPositioner>
           </ComboboxRoot>
           <StyledList>

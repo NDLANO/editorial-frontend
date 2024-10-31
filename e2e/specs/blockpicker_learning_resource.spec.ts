@@ -57,13 +57,13 @@ test("adds and removes grid", async ({ page }) => {
 
 test("adds and removes code-block", async ({ page }) => {
   await page.getByTestId("create-code").click();
-  await expect(page.locator('div[data-scope="dialog"][data-state="open"]').getByRole("dialog")).toBeVisible();
-  const modalBody = page.locator('div[data-scope="dialog"][data-state="open"]').getByRole("dialog");
-  await modalBody.getByLabel("Tittel").fill("Tittel");
-  await modalBody.getByRole("combobox", { name: "Velg kodespråk:" }).click();
-  await modalBody.getByRole("option", { name: "Markdown" }).click();
-  await modalBody.locator("textarea").first().fill("Some <strong>markup</strong>{enter}Newline");
-  await modalBody.getByRole("button", { name: "Lagre" }).click();
+  const dialog = page.getByRole("dialog");
+  await expect(dialog).toBeVisible();
+  await dialog.getByLabel("Tittel").fill("Tittel");
+  await dialog.getByRole("combobox", { name: "Velg kodespråk:" }).click();
+  await dialog.getByRole("option", { name: "Markdown" }).click();
+  await dialog.locator("textarea").first().fill("Some <strong>markup</strong>{enter}Newline");
+  await dialog.getByRole("button", { name: "Lagre" }).click();
   await expect(page.getByTestId("remove-code")).toBeVisible();
   await page.getByTestId("remove-code").click();
   await expect(page.getByTestId("remove-code")).toHaveCount(0);

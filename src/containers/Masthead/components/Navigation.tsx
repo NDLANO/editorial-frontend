@@ -9,13 +9,18 @@
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
-import styled from "@emotion/styled";
-import { Popover, PopoverAnchor, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
-import { IconButtonV2 } from "@ndla/button";
-import { colors, fonts, spacing, stackOrder } from "@ndla/core";
 import { Menu } from "@ndla/icons/common";
-import { NdlaLogoText } from "@ndla/primitives";
+import {
+  IconButton,
+  NdlaLogoText,
+  PopoverAnchor,
+  PopoverContent,
+  PopoverRoot,
+  PopoverTrigger,
+  Text,
+} from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
+import { HStack, styled } from "@ndla/styled-system/jsx";
 import NavigationMenu from "./NavigationMenu";
 import SessionContainer from "./SessionContainer";
 import { Column, GridContainer } from "../../../components/Layout/Layout";
@@ -23,71 +28,43 @@ import Overlay from "../../../components/Overlay";
 import config from "../../../config";
 import SavedSearchDropdown from "../SavedSearchDropdown";
 
-const StyledLogoDiv = styled.div`
-  transform: translateY(3px);
-`;
+const StyledNavigationWrapper = styled("div", {
+  base: {
+    zIndex: "banner",
+    width: "100%",
+  },
+  variants: {
+    backgroundColor: {
+      white: {
+        backgroundColor: "background.subtle",
+      },
+      purple: {
+        backgroundColor: "surface.brand.1.moderate",
+      },
+      red: {
+        backgroundColor: "surface.dangerSubtle",
+      },
+    },
+  },
+});
 
-interface StyledNavigationWrapperProps {
-  backgroundColor?: string;
-}
+const StyledHeaderItems = styled("div", {
+  base: {
+    display: "flex",
+    gap: "medium",
+    paddingBlock: "xsmall",
+    borderBottom: "1px solid",
+    borderColor: "stroke.subtle",
+  },
+});
 
-const StyledNavigationWrapper = styled.div<StyledNavigationWrapperProps>`
-  position: relative;
-  z-index: ${stackOrder.banner};
-  background: ${(props) => props.backgroundColor};
-`;
-
-const StyledHeaderItems = styled.div`
-  display: flex;
-  gap: ${spacing.medium};
-  padding: ${spacing.small} 0;
-  border-bottom: 1px solid ${colors.brand.neutral7};
-  > div {
-    display: flex;
-    align-items: center;
-  }
-`;
-
-const StyledEnvironmentText = styled.p`
-  font-weight: ${fonts.weight.semibold};
-  color: ${colors.brand.primary};
-  margin: 0px;
-`;
-
-const FlexWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  flex: 1;
-`;
-
-const LeftContent = styled.div`
-  display: flex;
-  gap: ${spacing.normal};
-  flex: 1;
-`;
-
-const EnvText = styled(FlexWrapper)`
-  align-items: center;
-  justify-content: flex-start;
-  padding-left: ${spacing.small};
-`;
-
-const HiddenEnvText = styled(EnvText)`
-  visibility: hidden;
-`;
-
-const LinkWrapper = styled.div`
-  gap: ${spacing.small};
-`;
-
-const StyledPopoverContent = styled(PopoverContent)`
-  z-index: ${stackOrder.popover};
-  background-color: ${colors.brand.primary};
-  width: 100vw;
-`;
-
+const StyledPopoverContent = styled(PopoverContent, {
+  base: {
+    width: "100vw",
+  },
+});
 interface EnvironmentSettings {
-  color: string;
+  color: "red" | "purple" | "white";
   name: string;
 }
 
@@ -99,12 +76,12 @@ const Navigation = () => {
   const envSettings = useMemo((): EnvironmentSettings => {
     switch (config.ndlaEnvironment) {
       case "prod":
-        return { color: colors.white, name: t("environment.production") };
+        return { color: "white", name: t("environment.production") };
       case "staging":
-        return { color: colors.brand.lighter, name: t("environment.staging") };
+        return { color: "purple", name: t("environment.staging") };
       default:
         return {
-          color: colors.assessmentResource.background,
+          color: "red",
           name: t("environment.test"),
         };
     }
@@ -115,58 +92,53 @@ const Navigation = () => {
   };
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <PopoverRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
       <PopoverAnchor asChild>
         <StyledNavigationWrapper backgroundColor={envSettings?.color}>
-          <FlexWrapper>
-            <EnvText>
-              <StyledEnvironmentText>{envSettings.name}</StyledEnvironmentText>
-            </EnvText>
+          <HStack justify="center">
+            <Text fontWeight="bold">{envSettings.name}</Text>
             <GridContainer>
               <Column>
                 <StyledHeaderItems>
-                  <LeftContent>
+                  <HStack gap="medium">
                     <PopoverTrigger asChild>
-                      <IconButtonV2 aria-label={t("menu.title")} colorTheme="light">
+                      <IconButton aria-label={t("menu.title")} variant="clear">
                         <Menu />
-                      </IconButtonV2>
+                      </IconButton>
                     </PopoverTrigger>
-                    <StyledLogoDiv>
-                      <SafeLink
-                        to="/"
-                        aria-label={t("logo.altText")}
-                        title={t("logo.altText")}
-                        reloadDocument={pathname === "/"}
-                      >
-                        <NdlaLogoText />
-                      </SafeLink>
-                    </StyledLogoDiv>
+                    <SafeLink
+                      to="/"
+                      aria-label={t("logo.altText")}
+                      title={t("logo.altText")}
+                      reloadDocument={pathname === "/"}
+                    >
+                      <NdlaLogoText />
+                    </SafeLink>
                     <SavedSearchDropdown />
-                  </LeftContent>
-                  <LinkWrapper>
+                  </HStack>
+                  <HStack gap="xsmall">
                     <SafeLink target="_blank" to="https://edndla.zendesk.com/hc/no">
                       Zendesk
                     </SafeLink>
                     <SafeLink target="_blank" to="https://kvalitet.ndla.no/">
                       Kvalitaisen
                     </SafeLink>
-                  </LinkWrapper>
+                  </HStack>
                   <SessionContainer />
                 </StyledHeaderItems>
               </Column>
             </GridContainer>
-            <HiddenEnvText aria-hidden>
-              <StyledEnvironmentText>{envSettings.name}</StyledEnvironmentText>
-            </HiddenEnvText>
-          </FlexWrapper>
+            <div hidden={true} aria-hidden>
+              <Text fontWeight="bold">{envSettings.name}</Text>
+            </div>
+          </HStack>
         </StyledNavigationWrapper>
       </PopoverAnchor>
-
       <StyledPopoverContent>
         <NavigationMenu close={closeMenu} />
       </StyledPopoverContent>
       {open && <Overlay modifiers={"lighter"} />}
-    </Popover>
+    </PopoverRoot>
   );
 };
 

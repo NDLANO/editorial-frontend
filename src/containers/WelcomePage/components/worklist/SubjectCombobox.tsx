@@ -138,6 +138,7 @@ const SubjectCombobox = ({
         setValue(details.value);
         setFilterSubject(details.items[0]);
       }}
+      selectionBehavior="preserve"
     >
       <ComboboxLabel srOnly>{placeholder ?? t("welcomePage.chooseSubject")}</ComboboxLabel>
       <ComboboxControl>

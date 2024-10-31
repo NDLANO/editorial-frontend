@@ -35,6 +35,11 @@ export const StyledShareIcon = styled(Share)`
 export const CardWrapper = styled.div`
   flex: 1;
   margin-bottom: ${spacing.xsmall};
+  border: 1px solid ${colors.brand.light};
+  border-radius: ${misc.borderRadius};
+  width: 100%;
+  padding: 5px;
+  display: flex;
 `;
 
 export const StyledResponsibleBadge = styled.div`
@@ -59,14 +64,6 @@ export const StyledResourceIcon = styled.div`
   @media (min-width: ${breakpoints.tablet}) {
     padding-right: ${spacing.small};
   }
-`;
-
-export const StyledResourceCard = styled.div`
-  border: 1px solid ${colors.brand.light};
-  border-radius: ${misc.borderRadius};
-  width: 100%;
-  padding: 5px;
-  display: flex;
 `;
 
 export const BoldFont = styled.span`

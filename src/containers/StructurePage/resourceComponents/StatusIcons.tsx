@@ -6,55 +6,29 @@
  *
  */
 
-import React, { ReactElement, useMemo } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { colors } from "@ndla/core";
-import { AlertCircle, CheckboxCircleFill, InProgress } from "@ndla/icons/editor";
-import { SafeLink } from "@ndla/safelink";
+import { AlertCircle, InProgress } from "@ndla/icons/editor";
+import { styled } from "@ndla/styled-system/jsx";
 import { isApproachingRevision } from "./ApproachingRevisionDate";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
 import WrongTypeError from "./WrongTypeError";
 import { getWarnStatus, StyledTimeIcon } from "../../../components/HeaderWithLanguage/HeaderStatusInformation";
-import config from "../../../config";
-import { PUBLISHED } from "../../../constants";
 import formatDate from "../../../util/formatDate";
 import { getExpirationDate } from "../../ArticlePage/articleTransformers";
-import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
-const StyledCheckIcon = styled(CheckboxCircleFill)`
-  height: 24px;
-  width: 24px;
-  fill: ${colors.support.green};
-`;
+const StyledWarnIcon = styled(AlertCircle, {
+  base: {
+    fill: "surface.warning",
+  },
+});
 
-const StyledWarnIcon = styled(AlertCircle)`
-  height: 24px;
-  width: 24px;
-  fill: ${colors.support.yellow};
-`;
-
-const StyledInProgressIcon = styled(InProgress)`
-  width: 24px;
-  height: 24px;
-`;
-
-const StyledLink = styled(SafeLink)`
-  box-shadow: inset 0 0;
-`;
-
-const CheckedWrapper = styled.div`
-  display: flex;
-`;
-const TimeIconWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const IconWrapper = styled.div`
-  display: flex;
-`;
+const IconWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "3xsmall",
+  },
+});
 
 interface Props {
   contentMetaLoading: boolean;
@@ -86,49 +60,16 @@ const StatusIcons = ({ contentMetaLoading, resource, multipleTaxonomy, path }: P
   return (
     <IconWrapper>
       {resource.contentMeta?.started && (
-        <IconWrapper>
-          <StyledInProgressIcon aria-label={t("taxonomy.inProgress")} title={t("taxonomy.inProgress")} />
-        </IconWrapper>
+        <InProgress aria-label={t("taxonomy.inProgress")} title={t("taxonomy.inProgress")} />
       )}
-      {approachingRevision ? (
-        <>
-          {expirationColor && expirationDate && (
-            <TimeIconWrapper>
-              <StyledTimeIcon data-status={expirationColor} aria-label={expirationText} title={expirationText} />
-            </TimeIconWrapper>
-          )}
-        </>
-      ) : null}
+      {approachingRevision && expirationColor && expirationDate && (
+        <StyledTimeIcon data-status={expirationColor} aria-label={expirationText} title={expirationText} />
+      )}
       {!contentMetaLoading && <WrongTypeError resource={resource} articleType={resource.contentMeta?.articleType} />}
       {multipleTaxonomy && (
-        <IconWrapper>
-          <StyledWarnIcon
-            aria-label={t("form.workflow.multipleTaxonomy")}
-            title={t("form.workflow.multipleTaxonomy")}
-          />
-        </IconWrapper>
-      )}
-      {(resource.contentMeta?.status?.current === PUBLISHED ||
-        resource.contentMeta?.status?.other?.includes(PUBLISHED)) && (
-        <PublishedWrapper path={path}>
-          <CheckedWrapper>
-            <StyledCheckIcon aria-label={t("form.workflow.published")} title={t("form.workflow.published")} />
-          </CheckedWrapper>
-        </PublishedWrapper>
+        <StyledWarnIcon aria-label={t("form.workflow.multipleTaxonomy")} title={t("form.workflow.multipleTaxonomy")} />
       )}
     </IconWrapper>
-  );
-};
-
-const PublishedWrapper = ({ path, children }: { path?: string; children: ReactElement }) => {
-  const { taxonomyVersion } = useTaxonomyVersion();
-  if (!path) {
-    return children;
-  }
-  return (
-    <StyledLink target="_blank" to={`${config.ndlaFrontendDomain}${path}?versionHash=${taxonomyVersion}`}>
-      {children}
-    </StyledLink>
   );
 };
 

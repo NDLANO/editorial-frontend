@@ -55,8 +55,6 @@ export const StyledTimeIcon = styled(Time)`
   &[data-status="expired"] {
     fill: ${colors.support.red};
   }
-  width: 24px;
-  height: 24px;
 `;
 
 interface Props {

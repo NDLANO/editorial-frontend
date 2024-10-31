@@ -36,7 +36,6 @@ import {
   CardWrapper,
   FlexContentWrapper,
   ResourceCardContentWrapper,
-  StyledResourceCard,
   StyledResourceIcon,
   StyledResponsibleBadge,
   TitleRow,
@@ -128,44 +127,44 @@ const TopicResourceBanner = ({
         </FlexContentWrapper>
       </TopInfoRow>
       <CardWrapper>
-        <StyledResourceCard>
-          <ContentGroup>
-            <StyledResourceIcon key="img">
-              <ContentTypeBadge
-                aria-label={t("searchForm.articleType.topicArticle")}
-                background
-                type="topic"
-                size="x-small"
-                title={t("searchForm.articleType.topicArticle")}
+        <ContentGroup>
+          <StyledResourceIcon key="img">
+            <ContentTypeBadge
+              aria-label={t("searchForm.articleType.topicArticle")}
+              background
+              type="topic"
+              size="x-small"
+              title={t("searchForm.articleType.topicArticle")}
+            />
+          </StyledResourceIcon>
+        </ContentGroup>
+        <ResourceCardContentWrapper>
+          <TitleRow>
+            <span>
+              <ResourceItemLink
+                contentType={"topic-article"}
+                contentUri={currentNode.contentUri}
+                name={currentNode.name}
+                isVisible={currentNode.metadata?.visible}
+                size="small"
               />
-            </StyledResourceIcon>
-          </ContentGroup>
-          <ResourceCardContentWrapper>
-            <TitleRow>
-              <span>
-                <ResourceItemLink
-                  contentType={"topic-article"}
-                  contentUri={currentNode.contentUri}
-                  name={currentNode.name}
-                  isVisible={currentNode.metadata?.visible}
-                  size="small"
-                />
-              </span>
-              <ContentGroup>
-                <StatusIcons
-                  contentMetaLoading={contentMetaLoading}
-                  resource={currentNode}
-                  path={currentNode.path}
-                  multipleTaxonomy={contexts?.length ? contexts.length > 1 : false}
-                />
-                <RelevanceOption resource={currentNode} currentNodeId={currentNode.id} />
-              </ContentGroup>
-            </TitleRow>
+            </span>
+            <ContentGroup>
+              <StatusIcons
+                contentMetaLoading={contentMetaLoading}
+                resource={currentNode}
+                path={currentNode.path}
+                multipleTaxonomy={contexts?.length ? contexts.length > 1 : false}
+              />
+              <RelevanceOption resource={currentNode} currentNodeId={currentNode.id} />
+            </ContentGroup>
+          </TitleRow>
+          <ButtonRow>
+            <StyledResponsibleBadge>
+              <BoldFont>{`${t("form.responsible.label")}: `}</BoldFont>
+              {responsible ?? t("form.responsible.noResponsible")}
+            </StyledResponsibleBadge>
             <ButtonRow>
-              <StyledResponsibleBadge>
-                <BoldFont>{`${t("form.responsible.label")}: `}</BoldFont>
-                {responsible ?? t("form.responsible.noResponsible")}
-              </StyledResponsibleBadge>
               <GrepCodesModal
                 codes={currentNode.contentMeta?.grepCodes ?? []}
                 contentType={"topic-article"}
@@ -175,8 +174,8 @@ const TopicResourceBanner = ({
               />
               <VersionHistory resource={currentNode} contentType={"topic-article"} />
             </ButtonRow>
-          </ResourceCardContentWrapper>
-        </StyledResourceCard>
+          </ButtonRow>
+        </ResourceCardContentWrapper>
       </CardWrapper>
     </BannerWrapper>
   );

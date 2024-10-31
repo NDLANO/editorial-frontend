@@ -8,47 +8,86 @@
 
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { ContentTypeBadge } from "@ndla/ui";
+import { TrashCanOutline } from "@ndla/icons/action";
+import { Check } from "@ndla/icons/editor";
+import { Text, ListItemContent, ListItemHeading, ListItemRoot, IconButton } from "@ndla/primitives";
+import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
+import { cva } from "@ndla/styled-system/css";
+import { styled } from "@ndla/styled-system/jsx";
+import { ContentTypeBadgeNew } from "@ndla/ui";
 import GrepCodesModal from "./GrepCodesModal";
 import QualityEvaluationGrade from "./QualityEvaluationGrade";
-import ResourceItemLink from "./ResourceItemLink";
 import StatusIcons from "./StatusIcons";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
 import VersionHistory from "./VersionHistory";
 import RelevanceOption from "../../../components/Taxonomy/RelevanceOption";
+import config from "../../../config";
+import { PUBLISHED } from "../../../constants";
 import { getContentTypeFromResourceTypes } from "../../../util/resourceHelpers";
-import {
-  BoldFont,
-  ButtonRow,
-  CardWrapper,
-  ResourceCardContentWrapper,
-  StyledResourceCard,
-  StyledResourceIcon,
-  StyledResponsibleBadge,
-} from "../styles";
+import { routes, toLearningpathFull } from "../../../util/routeHelpers";
+import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
-const StyledResourceBody = styled.div`
-  flex: 1 1 auto;
-  justify-content: space-between;
-  text-align: left;
-`;
+const StyledListItemRoot = styled(ListItemRoot, {
+  base: {
+    width: "100%",
+  },
+});
 
-const StyledText = styled.div`
-  display: flex;
-  box-shadow: none;
-  align-items: center;
-`;
+const InfoItems = styled("div", {
+  base: {
+    display: "flex",
+    gap: "3xsmall",
+    justifyContent: "flex-end",
+  },
+});
 
-const BadgeWrapper = styled.div`
-  display: flex;
-  align-items: center;
-`;
+const StyledCheckIcon = styled(Check, {
+  base: {
+    fill: "surface.success",
+  },
+});
 
-const RemoveButton = styled(ButtonV2)`
-  flex: 0;
-`;
+const TopRow = styled("div", {
+  base: {
+    display: "flex",
+    width: "100%",
+    justifyContent: "space-between",
+  },
+});
+
+const BottomRow = styled("div", {
+  base: {
+    display: "flex",
+    width: "100%",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+});
+
+const ControlButtonGroup = styled("div", {
+  base: {
+    display: "flex",
+    gap: "3xsmall",
+  },
+});
+
+const linkRecipe = cva({
+  base: {
+    color: "text.default",
+    textDecoration: "underline",
+    _hover: {
+      textDecoration: "none",
+    },
+  },
+});
+
+const StyledListItemContent = styled(ListItemContent, {
+  base: {
+    flexDirection: "column",
+    alignItems: "flex-start",
+    gap: "5xsmall",
+  },
+});
 
 interface Props {
   currentNodeId: string;
@@ -60,11 +99,12 @@ interface Props {
 }
 
 const Resource = ({ resource, onDelete, currentNodeId, contentMetaLoading, responsible, showQuality }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const location = useLocation();
+  const { taxonomyVersion } = useTaxonomyVersion();
 
   const contentType = getContentTypeFromResourceTypes(resource.resourceTypes);
-  const contentTypeName = resource.resourceTypes[resource.resourceTypes.length - 1].name;
+  const numericId = parseInt(resource.contentUri?.split(":").pop() ?? "");
 
   const structurePaths: string[] = location.pathname.replace("/structure", "").split("/");
   const currentPath = structurePaths.map((p) => p.replace("urn:", "")).join("/");
@@ -76,32 +116,11 @@ const Resource = ({ resource, onDelete, currentNodeId, contentMetaLoading, respo
   });
 
   return (
-    <CardWrapper>
-      <StyledResourceCard>
-        <BadgeWrapper>
-          {contentType && (
-            <StyledResourceIcon key="img">
-              <ContentTypeBadge
-                aria-label={contentTypeName}
-                background
-                type={contentType}
-                size="x-small"
-                title={contentTypeName}
-              />
-            </StyledResourceIcon>
-          )}
-        </BadgeWrapper>
-        <ResourceCardContentWrapper>
-          <StyledText data-testid={`resource-type-${contentType}`}>
-            <StyledResourceBody key="body">
-              <ResourceItemLink
-                contentType={contentType}
-                contentUri={resource.contentUri}
-                name={resource.name}
-                isVisible={resource.metadata?.visible}
-                size="small"
-              />
-            </StyledResourceBody>
+    <StyledListItemRoot context="list" variant="subtle">
+      <StyledListItemContent>
+        <TopRow>
+          <ContentTypeBadgeNew contentType={contentType} />
+          <InfoItems>
             {showQuality && (
               <QualityEvaluationGrade
                 grade={resource.qualityEvaluation?.grade}
@@ -119,12 +138,47 @@ const Resource = ({ resource, onDelete, currentNodeId, contentMetaLoading, respo
               path={path}
             />
             <RelevanceOption resource={resource} currentNodeId={currentNodeId} />
-          </StyledText>
-          <ButtonRow>
-            <StyledResponsibleBadge>
-              <BoldFont>{`${t("form.responsible.label")}: `}</BoldFont>
-              {responsible ?? t("form.responsible.noResponsible")}
-            </StyledResponsibleBadge>
+          </InfoItems>
+        </TopRow>
+        <ListItemHeading>
+          {numericId ? (
+            <SafeLink
+              to={
+                contentType === "learning-path"
+                  ? toLearningpathFull(numericId, i18n.language)
+                  : routes.editArticle(numericId, contentType)
+              }
+              target="_blank"
+              rel="noopener noreferrer"
+              css={linkRecipe.raw()}
+            >
+              {resource.name}
+            </SafeLink>
+          ) : (
+            <Text textStyle="body.link" css={linkRecipe.raw()}>
+              {resource.name}
+            </Text>
+          )}
+        </ListItemHeading>
+        <BottomRow>
+          <Text textStyle="label.small">
+            <b>{`${t("form.responsible.label")}: `}</b>
+            {responsible ?? t("form.responsible.noResponsible")}
+          </Text>
+          <ControlButtonGroup>
+            {(resource.contentMeta?.status?.current === PUBLISHED ||
+              resource.contentMeta?.status?.other?.includes(PUBLISHED)) && (
+              <SafeLinkIconButton
+                target="_blank"
+                to={`${config.ndlaFrontendDomain}${path}?versionHash=${taxonomyVersion}`}
+                aria-label={t("form.workflow.published")}
+                title={t("form.workflow.published")}
+                variant="secondary"
+                size="small"
+              >
+                <StyledCheckIcon />
+              </SafeLinkIconButton>
+            )}
             <GrepCodesModal
               codes={resource.contentMeta?.grepCodes ?? []}
               contentType={contentType}
@@ -133,13 +187,19 @@ const Resource = ({ resource, onDelete, currentNodeId, contentMetaLoading, respo
               currentNodeId={currentNodeId}
             />
             <VersionHistory resource={resource} contentType={contentType} />
-            <RemoveButton onClick={() => onDelete(resource.connectionId)} size="xsmall" colorTheme="danger">
-              {t("form.remove")}
-            </RemoveButton>
-          </ButtonRow>
-        </ResourceCardContentWrapper>
-      </StyledResourceCard>
-    </CardWrapper>
+            <IconButton
+              aria-label={t("form.remove")}
+              title={t("form.remove")}
+              onClick={() => onDelete(resource.connectionId)}
+              size="small"
+              variant="danger"
+            >
+              <TrashCanOutline />
+            </IconButton>
+          </ControlButtonGroup>
+        </BottomRow>
+      </StyledListItemContent>
+    </StyledListItemRoot>
   );
 };
 

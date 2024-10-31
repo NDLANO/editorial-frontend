@@ -19,6 +19,7 @@ import {
   DialogTrigger,
   DialogContent,
 } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import { constants } from "@ndla/ui";
 import GrepCodesForm from "./GrepCodesForm";
@@ -29,6 +30,12 @@ import { NodeResourceMeta, nodeQueryKeys } from "../../../modules/nodes/nodeQuer
 import { getIdFromUrn } from "../../../util/taxonomyHelpers";
 
 const { contentTypes } = constants;
+
+const StyledButton = styled(Button, {
+  base: {
+    whiteSpace: "nowrap",
+  },
+});
 
 interface Props {
   codes: string[];
@@ -46,7 +53,7 @@ const GrepCodesModal = ({ codes, contentType, contentUri, revision, currentNodeI
   return (
     <DialogRoot size="large" position="top" open={open} onOpenChange={(details) => setOpen(details.open)}>
       <DialogTrigger asChild>
-        <Button size="small" variant="secondary">{`GREP (${codes.length})`}</Button>
+        <StyledButton size="small" variant="secondary">{`Grep (${codes.length})`}</StyledButton>
       </DialogTrigger>
       <Portal>
         <GrepCodeDialogContent

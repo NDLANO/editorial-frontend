@@ -77,10 +77,18 @@ const ConceptsField = ({ field, form }: Props) => {
     <FormContent>
       <GenericSearchCombobox
         value={field.value.map((c) => c.toString())}
-        multiple
+        closeOnSelect={false}
+        selectionBehavior="preserve"
         onValueChange={(details) => {
-          field.onChange({ target: { name: field.name, value: details.items.map((c) => c.id) } });
-          setConcepts(details.items);
+          const newValue = parseInt(details.value[0]);
+          if (!newValue) return;
+          if (field.value.includes(newValue)) {
+            field.onChange({ target: { name: field.name, value: field.value.filter((val) => val !== newValue) } });
+            setConcepts(concepts.filter((c) => c.id !== newValue));
+          } else {
+            field.onChange({ target: { name: field.name, value: field.value.concat(newValue) } });
+            setConcepts((prev) => prev.concat(details.items[0]));
+          }
         }}
         items={searchQuery.data?.results ?? []}
         itemToString={(item) => item.title.title}

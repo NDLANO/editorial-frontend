@@ -48,7 +48,6 @@ const StyledExpandableBox = styled(ExpandableBox, {
     "& [data-embed-type='expandable-box-summary']": {
       cursor: "text",
       position: "relative",
-      placeSelf: "center",
       _before: {
         position: "absolute",
         content: "'▶'",

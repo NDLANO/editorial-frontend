@@ -159,9 +159,15 @@ router.post("/translate", async (req, res) => {
 });
 
 router.post("/invoke-model", async (req, res) => {
-  const modelRegion = getEnvironmentVariabel("NDLA_AI_MODEL_REGION");
-  const client = new BedrockRuntimeClient({ region: modelRegion }); //As of now this is the closest aws-region, with the service
   const modelId = getEnvironmentVariabel("NDLA_AI_MODEL_ID");
+  const modelRegion = getEnvironmentVariabel("NDLA_AI_MODEL_REGION");
+  const secretKey = getEnvironmentVariabel("NDLA_AI_SECRET_KEY", "");
+  const secretId = getEnvironmentVariabel("NDLA_AI_SECRET_ID", "");
+
+  const client = new BedrockRuntimeClient({
+    region: modelRegion, //As of now this is the closest aws-region, with the service
+    credentials: { accessKeyId: secretId, secretAccessKey: secretKey },
+  });
 
   const payload = {
     anthropic_version: "bedrock-2023-05-31",

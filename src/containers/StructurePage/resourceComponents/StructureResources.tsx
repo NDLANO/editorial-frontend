@@ -8,10 +8,11 @@
 
 import { TFunction } from "i18next";
 import keyBy from "lodash/keyBy";
-import { memo, RefObject } from "react";
+import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
 import ResourcesContainer from "./ResourcesContainer";
+import { Auth0UserData, Dictionary } from "../../../interfaces";
 import {
   NodeResourceMeta,
   useNodeResourceMetas,
@@ -28,6 +29,7 @@ interface Props {
   currentChildNode: NodeChild;
   setCurrentNode: (changedNode: NodeChild) => void;
   showQuality: boolean;
+  users: Dictionary<Auth0UserData> | undefined;
 }
 
 const getMissingResourceType = (t: TFunction): ResourceType & { disabled?: boolean } => ({
@@ -52,7 +54,7 @@ const withMissing = (r: NodeChild): NodeChild => ({
   resourceTypes: [missingObject],
 });
 
-const StructureResources = ({ currentChildNode, setCurrentNode, showQuality }: Props) => {
+const StructureResources = ({ currentChildNode, setCurrentNode, showQuality, users }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const grouped = currentChildNode?.metadata?.customFields["topic-resources"] ?? "grouped";
@@ -104,6 +106,7 @@ const StructureResources = ({ currentChildNode, setCurrentNode, showQuality }: P
       setCurrentNode={setCurrentNode}
       contentMetaLoading={contentMetaLoading}
       showQuality={showQuality}
+      users={users}
     />
   );
 };

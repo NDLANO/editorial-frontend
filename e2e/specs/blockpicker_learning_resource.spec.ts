@@ -105,8 +105,7 @@ test("opens and closes file", async ({ page }) => {
   await page.getByTestId("create-file").click();
   await expect(page.getByRole("dialog")).toBeVisible();
   await page.getByRole("dialog").getByRole("button", { name: "Avbryt" }).click();
-  await page.waitForTimeout(200);
-  await expect(page.getByRole("dialog")).not.toBeVisible();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
 });
 
 test("opens and closes url", async ({ page }) => {

@@ -11,11 +11,14 @@ import { Cross, Plus } from "@ndla/icons/action";
 import { Audio } from "@ndla/icons/common";
 import { Camera, H5P, Link, Video } from "@ndla/icons/editor";
 import { Button } from "@ndla/primitives";
-import { HStack, styled } from "@ndla/styled-system/jsx";
+import { styled } from "@ndla/styled-system/jsx";
 
-const StyledHStack = styled(HStack, {
+const ButtonWrapper = styled("div", {
   base: {
-    marginTop: "xsmall",
+    display: "flex",
+    marginBlockStart: "xsmall",
+    flexDirection: "row",
+    gap: "xsmall",
   },
 });
 
@@ -61,7 +64,7 @@ const VisualElementMenu = ({ onSelect, types = ["image", "video", "h5p", "url"] 
   ];
 
   return (
-    <StyledHStack gap="xsmall">
+    <ButtonWrapper>
       <Button variant="secondary" onClick={toggleIsOpen}>
         {isOpen ? <Cross /> : <Plus />}
       </Button>
@@ -75,7 +78,7 @@ const VisualElementMenu = ({ onSelect, types = ["image", "video", "h5p", "url"] 
               </Button>
             );
           })}
-    </StyledHStack>
+    </ButtonWrapper>
   );
 };
 

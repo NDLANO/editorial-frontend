@@ -6,17 +6,23 @@
  *
  */
 
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
+import { Portal } from "@ark-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
-import { ButtonV2 } from "@ndla/button";
-import { spacing, colors } from "@ndla/core";
-import { BookOpen } from "@ndla/icons/common";
-import { ModalBody, ModalHeader, Modal, ModalTitle, ModalTrigger, ModalContent, ModalCloseButton } from "@ndla/modal";
+import {
+  Button,
+  DialogBody,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  DialogContent,
+} from "@ndla/primitives";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import { constants } from "@ndla/ui";
 import GrepCodesForm from "./GrepCodesForm";
+import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { useUpdateDraftMutation } from "../../../modules/draft/draftMutations";
 import { draftQueryKeys } from "../../../modules/draft/draftQueries";
 import { NodeResourceMeta, nodeQueryKeys } from "../../../modules/nodes/nodeQueries";
@@ -32,48 +38,27 @@ interface Props {
   currentNodeId: string;
 }
 
-const StyledButton = styled(ButtonV2)`
-  flex: 2;
-`;
-
-const StyledIconWrapper = styled.div`
-  padding: ${spacing.small};
-  border-radius: 50%;
-  background-color: ${colors.brand.primary};
-  display: flex;
-  align-items: center;
-  color: ${colors.white};
-  margin-right: ${spacing.nsmall};
-  svg {
-    width: ${spacing.normal};
-    height: ${spacing.normal};
-  }
-`;
-
-const StyledModalHeader = styled(ModalHeader)`
-  display: flex;
-  align-items: center;
-  background-color: ${colors.brand.light};
-`;
-
 const GrepCodesModal = ({ codes, contentType, contentUri, revision, currentNodeId }: Props) => {
+  const [open, setOpen] = useState(false);
   const draftId = Number(getIdFromUrn(contentUri));
   if (contentType === contentTypes.LEARNING_PATH || !draftId || !revision) return null;
+
   return (
-    <Modal>
-      <ModalTrigger>
-        <StyledButton size="xsmall" colorTheme="light">{`GREP (${codes.length})`}</StyledButton>
-      </ModalTrigger>
-      <ModalContent size="large">
-        <GrepCodeContent
+    <DialogRoot size="large" position="top" open={open} onOpenChange={(details) => setOpen(details.open)}>
+      <DialogTrigger asChild>
+        <Button size="small" variant="secondary">{`GREP (${codes.length})`}</Button>
+      </DialogTrigger>
+      <Portal>
+        <GrepCodeDialogContent
           codes={codes}
           revision={revision}
           draftId={draftId}
           currentNodeId={currentNodeId}
           contentUri={contentUri!}
+          close={() => setOpen(false)}
         />
-      </ModalContent>
-    </Modal>
+      </Portal>
+    </DialogRoot>
   );
 };
 
@@ -83,9 +68,10 @@ interface ModalContentProps {
   revision: number;
   currentNodeId: string;
   contentUri: string;
+  close: () => void;
 }
 
-const GrepCodeContent = ({ codes, draftId, revision, currentNodeId, contentUri }: ModalContentProps) => {
+const GrepCodeDialogContent = ({ codes, draftId, revision, currentNodeId, contentUri, close }: ModalContentProps) => {
   const updateDraft = useUpdateDraftMutation();
   const { t, i18n } = useTranslation();
   const qc = useQueryClient();
@@ -101,8 +87,9 @@ const GrepCodeContent = ({ codes, draftId, revision, currentNodeId, contentUri }
 
   const onUpdateGrepCodes = useCallback(
     async (grepCodes: string[]) => {
+      const updatedRevision = updateDraft.data?.revision ?? revision;
       await updateDraft.mutateAsync(
-        { id: draftId, body: { grepCodes, revision, metaImage: undefined, responsibleId: undefined } },
+        { id: draftId, body: { grepCodes, revision: updatedRevision, metaImage: undefined, responsibleId: undefined } },
         {
           onSuccess: (data) => {
             qc.cancelQueries({ queryKey: key });
@@ -118,18 +105,15 @@ const GrepCodeContent = ({ codes, draftId, revision, currentNodeId, contentUri }
     [updateDraft, draftId, revision, qc, key, nodeKey, contentUri],
   );
   return (
-    <>
-      <StyledModalHeader>
-        <StyledIconWrapper>
-          <BookOpen />
-        </StyledIconWrapper>
-        <ModalTitle>{t("form.name.grepCodes")}</ModalTitle>
-        <ModalCloseButton />
-      </StyledModalHeader>
-      <ModalBody>
-        <GrepCodesForm codes={codes} onUpdate={onUpdateGrepCodes} />
-      </ModalBody>
-    </>
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>{t("form.name.grepCodes")}</DialogTitle>
+        <DialogCloseButton />
+      </DialogHeader>
+      <DialogBody>
+        <GrepCodesForm codes={codes} onUpdate={onUpdateGrepCodes} close={close} />
+      </DialogBody>
+    </DialogContent>
   );
 };
 

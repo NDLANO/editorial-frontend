@@ -22,6 +22,7 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useComboboxTranslations } from "@ndla/ui";
+import { scrollToIndexFn } from "./utils";
 import Pagination from "../abstractions/Pagination";
 
 interface PaginationData {
@@ -91,12 +92,8 @@ export const GenericSearchCombobox = <T extends CollectionItem>({
       selectionBehavior={selectionBehavior}
       variant={variant}
       context={context}
-      // keyboard scrolling does not work properly when items are not nested directly within
-      // ComboboxContent, so we need to provide a custom scroll function
-      // TODO: Check if ark provides a better fix for this.
       scrollToIndexFn={(details) => {
-        const el = contentRef.current?.querySelectorAll(`[role='option']`)[details.index];
-        el?.scrollIntoView({ behavior: "auto", block: "nearest" });
+        scrollToIndexFn(contentRef, details.index);
       }}
       {...props}
     >

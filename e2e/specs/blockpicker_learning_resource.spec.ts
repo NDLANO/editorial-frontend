@@ -121,6 +121,6 @@ test("opens and closes url", async ({ page }) => {
 test("opens and closes related content", async ({ page }) => {
   await page.getByTestId("create-related").click();
   await expect(page.getByTestId("editRelated")).toBeVisible();
-  await page.getByTestId("close-related-button").click();
-  await expect(page.getByTestId("styled-article-modal")).toHaveCount(0);
+  await page.getByRole("button", { name: "Lukk" }).click();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
 });

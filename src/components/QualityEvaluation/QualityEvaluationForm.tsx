@@ -7,7 +7,7 @@
  */
 
 import { FieldHelperProps, FieldInputProps, Formik } from "formik";
-import { useMemo, useState } from "react";
+import { CSSProperties, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
 import {
@@ -28,6 +28,7 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { IArticle, IUpdatedArticle } from "@ndla/types-backend/draft-api";
 import { Grade, Node } from "@ndla/types-taxonomy";
+import { qualityEvaluationOptionColors } from "./qualityEvaluationOptions";
 import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
 import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVersionProvider";
 import { draftQueryKeys } from "../../modules/draft/draftQueries";
@@ -40,15 +41,6 @@ import { FormActionsContainer, FormikForm } from "../FormikForm";
 import validateFormik, { RulesType } from "../formikValidationSchema";
 
 export type QualityEvaluationValue = "1" | "2" | "3" | "4" | "5";
-
-// TODO: We should change these colors
-const qualityEvaluationOptions: Record<QualityEvaluationValue, string> = {
-  "1": "#5cbc80",
-  "2": "#90C670",
-  "3": "#C3D060",
-  "4": "#ead854",
-  "5": "#d1372e",
-};
 
 const ButtonContainer = styled("div", {
   base: {
@@ -75,39 +67,21 @@ const StyledRadioGroupItem = styled(RadioGroupItem, {
     },
   },
   variants: {
-    quality: {
-      "1": {
+    variant: {
+      bordered: {
         borderRadius: "xsmall",
         outline: "2px solid",
         outlineOffset: "-5xsmall",
-        outlineColor: qualityEvaluationOptions["1"],
+        outlineColor: "var(--grade-color)",
         "&:has(input:focus-visible)": {
-          outlineColor: qualityEvaluationOptions["1"],
+          outlineColor: "var(--grade-color)",
           outlineOffset: "-5xsmall",
           boxShadow: "0 0 0 2px var(--shadow-color)",
           boxShadowColor: "stroke.default",
         },
       },
-      "2": {
-        background: qualityEvaluationOptions["2"],
-      },
-      "3": {
-        background: qualityEvaluationOptions["3"],
-      },
-      "4": {
-        background: qualityEvaluationOptions["4"],
-      },
-      "5": {
-        borderRadius: "xsmall",
-        outline: "2px solid",
-        outlineOffset: "-5xsmall",
-        outlineColor: qualityEvaluationOptions["5"],
-        "&:has(input:focus-visible)": {
-          outlineColor: qualityEvaluationOptions["5"],
-          outlineOffset: "-5xsmall",
-          boxShadow: "0 0 0 2px var(--shadow-color)",
-          boxShadowColor: "stroke.default",
-        },
+      solid: {
+        background: "var(--grade-color)",
       },
     },
   },
@@ -274,8 +248,17 @@ const QualityEvaluationForm = ({
                   <FieldErrorMessage>{meta.error}</FieldErrorMessage>
                   {field.value === 5 && <FieldHelper>{t("qualityEvaluationForm.warning")}</FieldHelper>}
                   <ItemsWrapper>
-                    {Object.entries(qualityEvaluationOptions).map(([value, _]) => (
-                      <StyledRadioGroupItem key={value} value={value} quality={value as QualityEvaluationValue}>
+                    {Object.keys(qualityEvaluationOptionColors).map((value) => (
+                      <StyledRadioGroupItem
+                        key={value}
+                        value={value}
+                        variant={value === "1" || value === "5" ? "bordered" : "solid"}
+                        style={
+                          {
+                            "--grade-color": qualityEvaluationOptionColors[value as QualityEvaluationValue],
+                          } as CSSProperties
+                        }
+                      >
                         <RadioGroupItemControl />
                         <RadioGroupItemText>{value}</RadioGroupItemText>
                         <RadioGroupItemHiddenInput />

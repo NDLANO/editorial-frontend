@@ -6,19 +6,12 @@
  *
  */
 
+import { CSSProperties } from "react";
 import { HTMLArkProps } from "@ark-ui/react";
 import { Text, TextProps } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { QualityEvaluationValue } from "../../../components/QualityEvaluation/QualityEvaluationForm";
-
-// TODO: We should change these colors
-const qualityEvaluationOptions: Record<QualityEvaluationValue, string> = {
-  "1": "#5cbc80",
-  "2": "#90C670",
-  "3": "#C3D060",
-  "4": "#ead854",
-  "5": "#d1372e",
-};
+import { qualityEvaluationOptionColors } from "../../../components/QualityEvaluation/qualityEvaluationOptions";
 
 const GradeItem = styled(Text, {
   base: {
@@ -26,27 +19,6 @@ const GradeItem = styled(Text, {
     borderRadius: "xsmall",
     paddingInline: "xxsmall",
     borderColor: "var(--border-color)",
-  },
-  variants: {
-    quality: {
-      "1": {
-        borderColor: qualityEvaluationOptions["1"],
-      },
-
-      "2": {
-        borderColor: qualityEvaluationOptions["2"],
-      },
-
-      "3": {
-        borderColor: qualityEvaluationOptions["3"],
-      },
-      "4": {
-        borderColor: qualityEvaluationOptions["4"],
-      },
-      "5": {
-        borderColor: qualityEvaluationOptions["5"],
-      },
-    },
   },
 });
 
@@ -71,7 +43,11 @@ const QualityEvaluationGrade = ({
 
   return (
     <GradeItem
-      quality={roundedGrade.toString() as QualityEvaluationValue}
+      style={
+        {
+          "--border-color": qualityEvaluationOptionColors[roundedGrade.toString() as QualityEvaluationValue],
+        } as CSSProperties
+      }
       title={tooltip}
       aria-label={tooltip}
       textStyle={textStyle}

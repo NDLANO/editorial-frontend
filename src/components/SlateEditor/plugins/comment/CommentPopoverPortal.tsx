@@ -7,41 +7,38 @@
  */
 
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { Content, Arrow, Portal } from "@radix-ui/react-popover";
-import { colors, spacing, animations, stackOrder } from "@ndla/core";
+import { Portal } from "@ark-ui/react";
 import { Cross, TrashCanOutline } from "@ndla/icons/action";
-import { IconButton } from "@ndla/primitives";
+import { IconButton, PopoverContent, PopoverTitle } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { CommentEmbedData, CommentMetaData } from "@ndla/types-embed";
-import { Heading } from "@ndla/typography";
 import CommentForm from "./CommentForm";
 
-const StyledContent = styled(Content)`
-  padding: ${spacing.normal};
-  width: 500px;
-  background-color: ${colors.white};
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
-  ${animations.fadeIn(animations.durations.fast)}
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-  z-index: ${stackOrder.popover};
-  &[data-state="closed"] {
-    display: none;
-  }
-`;
+const StyledPopoverContent = styled(PopoverContent, {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+    width: "surface.small",
+  },
+});
 
-const CommentHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: ${spacing.normal};
-  border-bottom: 2px solid ${colors.brand.tertiary};
-`;
+const CommentHeader = styled("div", {
+  base: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    gap: "medium",
+  },
+});
 
-const StyledArrow = styled(Arrow)`
-  fill: ${colors.white};
-`;
+const ButtonContainer = styled("div", {
+  base: {
+    display: "flex",
+    gap: "3xsmall",
+    alignItems: "center",
+  },
+});
 
 interface Props {
   onSave: (data: CommentEmbedData) => void;
@@ -57,12 +54,10 @@ const CommentPopoverPortal = ({ onSave, embed, onDelete, onClose, onOpenChange, 
 
   return (
     <Portal>
-      <StyledContent onPointerDownOutside={() => (variant === "inline" ? onOpenChange(false) : null)}>
+      <StyledPopoverContent>
         <CommentHeader>
-          <Heading headingStyle="h4" element="h1" margin="none">
-            {t("form.comment.comment")}
-          </Heading>
-          <div>
+          <PopoverTitle>{t("form.comment.comment")}</PopoverTitle>
+          <ButtonContainer>
             <IconButton
               variant="danger"
               size="small"
@@ -81,7 +76,7 @@ const CommentPopoverPortal = ({ onSave, embed, onDelete, onClose, onOpenChange, 
             >
               <Cross />
             </IconButton>
-          </div>
+          </ButtonContainer>
         </CommentHeader>
         <CommentForm
           initialData={embed?.embedData}
@@ -91,8 +86,7 @@ const CommentPopoverPortal = ({ onSave, embed, onDelete, onClose, onOpenChange, 
           labelVisuallyHidden
           commentType={variant}
         />
-        <StyledArrow />
-      </StyledContent>
+      </StyledPopoverContent>
     </Portal>
   );
 };

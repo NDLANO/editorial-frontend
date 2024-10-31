@@ -12,11 +12,10 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { colors, misc, spacing } from "@ndla/core";
 import { AddLine, PencilFill } from "@ndla/icons/action";
-import { IconButton } from "@ndla/primitives";
+import { Heading, IconButton } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { IArticleSummaryV2 } from "@ndla/types-backend/article-api";
-import { Heading } from "@ndla/typography";
 import { OneColumn } from "@ndla/ui";
 import FrontpageArticleSearch from "./FrontpageArticleSearch";
 import { addArticlesToAboutMenu, extractArticleIds, menuWithArticleToIMenu } from "./frontpageHelpers";
@@ -174,9 +173,7 @@ const RootFields = () => {
   );
   return (
     <FrontpageArticleWrapper>
-      <Heading element="h1" headingStyle="h3" margin="none">
-        {t("htmlTitles.editFrontpage")}
-      </Heading>
+      <Heading textStyle="title.large">{t("htmlTitles.editFrontpage")}</Heading>
       <Wrapper>
         <ArticleTitle>
           <span>

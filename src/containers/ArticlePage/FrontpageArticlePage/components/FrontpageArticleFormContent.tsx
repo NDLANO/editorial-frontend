@@ -15,7 +15,7 @@ import { colors } from "@ndla/core";
 import { Link } from "@ndla/icons/editor";
 import { frontpagePlugins } from "./frontpagePlugins";
 import { frontpageRenderers } from "./frontpageRenderers";
-import AlertModal from "../../../../components/AlertModal";
+import { AlertModal } from "../../../../components/AlertModal/AlertModal";
 import { ContentTypeProvider } from "../../../../components/ContentTypeProvider";
 import { EditMarkupLink } from "../../../../components/EditMarkupLink";
 import FieldHeader from "../../../../components/Field/FieldHeader";

@@ -13,7 +13,7 @@ import { css, SerializedStyles } from "@emotion/react";
 import styled from "@emotion/styled";
 import { stackOrder } from "@ndla/core";
 import { useMessages } from "./MessagesProvider";
-import AlertModal from "../../components/AlertModal";
+import { AlertModal } from "../../components/AlertModal/AlertModal";
 
 const appearances: Record<string, SerializedStyles> = {
   hidden: css`

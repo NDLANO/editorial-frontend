@@ -16,7 +16,7 @@ import { Done } from "@ndla/icons/editor";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
 import { Node } from "@ndla/types-taxonomy";
-import AlertModal from "../../../../components/AlertModal";
+import { AlertModal } from "../../../../components/AlertModal/AlertModal";
 import { OldSpinner } from "../../../../components/OldSpinner";
 import RoundIcon from "../../../../components/RoundIcon";
 import { PUBLISHED } from "../../../../constants";

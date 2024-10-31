@@ -10,7 +10,7 @@ import { History, Blocker, Transition } from "history";
 import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { UNSAFE_NavigationContext, useNavigate, Location } from "react-router-dom";
-import AlertModal from "../../components/AlertModal";
+import { AlertModal } from "../../components/AlertModal/AlertModal";
 import { supportedLanguages } from "../../i18n2";
 import { MessageSeverity } from "../../interfaces";
 

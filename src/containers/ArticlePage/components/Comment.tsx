@@ -17,7 +17,7 @@ import { Done } from "@ndla/icons/editor";
 import { FieldLabel, FieldRoot, IconButton } from "@ndla/primitives";
 import { plugins, toolbarAreaFilters, toolbarOptions } from "./commentToolbarUtils";
 import { COMMENT_COLOR, formControlStyles } from "./styles";
-import AlertModal from "../../../components/AlertModal";
+import { AlertModal } from "../../../components/AlertModal/AlertModal";
 import RichTextEditor from "../../../components/SlateEditor/RichTextEditor";
 import { SlateCommentType } from "../../FormikForm/articleFormHooks";
 

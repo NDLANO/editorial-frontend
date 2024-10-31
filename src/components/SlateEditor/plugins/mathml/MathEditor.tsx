@@ -19,7 +19,7 @@ import { Button } from "@ndla/primitives";
 import { MathmlElement } from ".";
 import EditMath, { MathMLType, emptyMathTag } from "./EditMath";
 import MathML from "./MathML";
-import AlertModal from "../../../AlertModal";
+import { AlertModal } from "../../../AlertModal/AlertModal";
 import mergeLastUndos from "../../utils/mergeLastUndos";
 
 const getInfoFromNode = (node: MathmlElement) => {

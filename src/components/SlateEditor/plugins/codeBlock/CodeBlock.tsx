@@ -56,7 +56,7 @@ import { CodeBlock as UICodeBlock } from "@ndla/ui";
 import { CodeblockElement } from ".";
 import CodeBlockEditor from "./CodeBlockEditor";
 import { CodeBlockType } from "../../../../interfaces";
-import AlertModal from "../../../AlertModal";
+import { AlertModal } from "../../../AlertModal/AlertModal";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 
 interface Props extends RenderElementProps {

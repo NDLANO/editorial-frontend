@@ -19,7 +19,7 @@ import { SafeLink } from "@ndla/safelink";
 import { Version as TaxVersion, VersionType } from "@ndla/types-taxonomy";
 import { StyledErrorMessage } from "./StyledErrorMessage";
 import VersionForm from "./VersionForm";
-import AlertModal from "../../../components/AlertModal";
+import { AlertModal } from "../../../components/AlertModal/AlertModal";
 import config from "../../../config";
 import { useDeleteVersionMutation } from "../../../modules/taxonomy/versions/versionMutations";
 import { versionQueryKeys } from "../../../modules/taxonomy/versions/versionQueries";

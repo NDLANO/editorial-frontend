@@ -19,7 +19,7 @@ import VersionLockedField from "./VersionLockedField";
 import VersionNameField from "./VersionNameField";
 import VersionSourceField from "./VersionSourceField";
 import { Row } from "../../../components";
-import AlertModal from "../../../components/AlertModal";
+import { AlertModal } from "../../../components/AlertModal/AlertModal";
 import Field from "../../../components/Field";
 import { FormikForm } from "../../../components/FormikForm";
 import validateFormik, { RulesType } from "../../../components/formikValidationSchema";

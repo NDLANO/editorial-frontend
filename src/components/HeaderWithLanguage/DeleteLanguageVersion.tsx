@@ -36,7 +36,7 @@ import {
   toEditPodcastSeries,
   toEditTopicArticle,
 } from "../../util/routeHelpers";
-import AlertModal from "../AlertModal";
+import { AlertModal } from "../AlertModal/AlertModal";
 
 const DeleteButton = styled(ButtonV2)`
   white-space: nowrap;

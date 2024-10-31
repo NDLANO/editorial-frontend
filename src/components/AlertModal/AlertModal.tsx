@@ -7,92 +7,49 @@
  */
 
 import { MouseEvent, ReactElement, useCallback, useRef } from "react";
-import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
-import { spacing, colors } from "@ndla/core";
-import { Cross } from "@ndla/icons/action";
 import { Warning } from "@ndla/icons/editor";
-import { ModalHeader, Modal, ModalContent } from "@ndla/modal";
-import AlertModalFooter from "./AlertModalFooter";
+import { DialogBody, DialogHeader, DialogRoot, DialogContent, DialogTitle, Button, Text } from "@ndla/primitives";
+import { HStack, styled } from "@ndla/styled-system/jsx";
 import { MessageSeverity } from "../../interfaces";
+import { DialogCloseButton } from "../DialogCloseButton";
 
-const StyledModalBody = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.normal};
-  padding: ${spacing.normal};
+const StyledDialogBody = styled(DialogBody, {
+  base: {
+    gap: "medium",
+    padding: "medium",
+  },
+  variants: {
+    severity: {
+      success: {
+        backgroundColor: "surface.success",
+      },
+      info: {
+        backgroundColor: "surface.infoSubtle",
+      },
+      warning: {
+        backgroundColor: "surface.warning",
+      },
+      danger: {
+        backgroundColor: "surface.danger",
+      },
+    },
+  },
+});
 
-  &[data-severity="success"] {
-    background-color: ${colors.support.green};
-    color: ${colors.white};
-  }
-  &[data-severity="info"] {
-    background-color: ${colors.white};
-    color: ${colors.text.primary};
-  }
-  &[data-severity="warning"] {
-    background-color: ${colors.support.yellow};
-    color: ${colors.text.primary};
-  }
-  &[data-severity="danger"] {
-    background-color: ${colors.support.red};
-    color: ${colors.white};
-  }
-`;
-
-const Header = styled(ModalHeader)`
-  display: flex;
-  padding: 0;
-  justify-content: space-between;
-  h1 {
-    color: ${colors.white};
-  }
-`;
-
-const Heading = styled.h1`
-  flex: 1;
-  margin: 0;
-  color: ${colors.white};
-
-  &[data-severity="info"] {
-    color: ${colors.text.primary};
-  }
-  &[data-severity="warning"] {
-    color: ${colors.text.primary};
-  }
-`;
-
-const StyledBody = styled.div`
-  display: flex;
-  gap: ${spacing.small};
-`;
-
-const StyledIcon = styled(Warning)`
-  width: 27px;
-  height: 27px;
-`;
-
-const CloseButton = styled(IconButtonV2)`
-  svg {
-    color: ${colors.white};
-    &[data-severity="info"] {
-      color: ${colors.text.primary};
-    }
-    &[data-severity="warning"] {
-      color: ${colors.text.primary};
-    }
-  }
-  &:hover,
-  &:focus,
-  &:focus-within,
-  &:focus-visible {
-    background-color: ${colors.white};
-    svg {
-      color: ${colors.brand.primary};
-    }
-  }
-`;
+const ActionWrapper = styled("div", {
+  base: {
+    display: "flex",
+    justifyContent: "space-between",
+    marginBlockStart: "xsmall",
+  },
+  variants: {
+    singleChild: {
+      true: {
+        justifyContent: "flex-end",
+      },
+    },
+  },
+});
 
 interface Props {
   text: string;
@@ -109,13 +66,23 @@ interface Props {
   show?: boolean;
 }
 
-const AlertModal = ({ text, onCancel, title, actions, component, show, label, severity = "danger" }: Props) => {
-  const { t } = useTranslation();
+export const AlertModal = ({
+  text,
+  onCancel,
+  title,
+  component,
+  show,
+  label,
+  severity = "danger",
+  actions = [],
+}: Props) => {
   const focusedElementBeforeModalRef = useRef<HTMLElement | null>(null);
 
   const onOpenChange = useCallback(
     (open: boolean) => {
-      if (!open) {
+      if (open) {
+        focusedElementBeforeModalRef.current = document.activeElement as HTMLElement;
+      } else {
         onCancel();
       }
     },
@@ -123,41 +90,38 @@ const AlertModal = ({ text, onCancel, title, actions, component, show, label, se
   );
 
   return (
-    <Modal open={!!show} onOpenChange={onOpenChange} aria-label={label}>
-      <ModalContent
-        onOpenAutoFocus={() => {
-          focusedElementBeforeModalRef.current = document.activeElement as HTMLElement;
-        }}
-        onCloseAutoFocus={() => {
-          focusedElementBeforeModalRef.current?.focus();
-          focusedElementBeforeModalRef.current = null;
-        }}
-      >
-        <StyledModalBody data-severity={severity} data-testid="alert-modal">
-          <Header>
-            {title && <Heading data-severity={severity}>{title}</Heading>}
-            <CloseButton
-              data-testid="closeAlert"
-              variant="ghost"
-              aria-label={t("close")}
-              colorTheme="lighter"
-              onClick={(e) => {
-                e.preventDefault();
-                onCancel();
-              }}
-            >
-              <Cross data-severity={severity} />
-            </CloseButton>
-          </Header>
-          <StyledBody>
-            <StyledIcon />
-            {text}
-          </StyledBody>
-          <AlertModalFooter actions={actions} component={component} />
-        </StyledModalBody>
-      </ModalContent>
-    </Modal>
+    <DialogRoot
+      open={!!show}
+      onOpenChange={(details) => onOpenChange(details.open)}
+      aria-label={label}
+      onExitComplete={() => {
+        focusedElementBeforeModalRef.current?.focus();
+        focusedElementBeforeModalRef.current = null;
+      }}
+    >
+      <DialogContent>
+        <StyledDialogBody severity={severity} data-testid="alert-modal">
+          <DialogHeader>
+            {title && <DialogTitle data-severity={severity}>{title}</DialogTitle>}
+            <DialogCloseButton variant="clear" data-testid="closeAlert" />
+          </DialogHeader>
+          <HStack gap="medium">
+            <Warning />
+            <Text>{text}</Text>
+          </HStack>
+          {component ? (
+            component
+          ) : (
+            <ActionWrapper singleChild={actions.length === 1}>
+              {actions.map((action, id) => (
+                <Button key={id} variant="secondary" onClick={action.onClick} data-testid={action["data-testid"]}>
+                  {action.text}
+                </Button>
+              ))}
+            </ActionWrapper>
+          )}
+        </StyledDialogBody>
+      </DialogContent>
+    </DialogRoot>
   );
 };
-
-export default AlertModal;

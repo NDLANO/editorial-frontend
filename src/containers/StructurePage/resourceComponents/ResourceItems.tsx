@@ -17,7 +17,7 @@ import { DragVertical } from "@ndla/icons/editor";
 import { NodeChild } from "@ndla/types-taxonomy";
 import Resource from "./Resource";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
-import AlertModal from "../../../components/AlertModal";
+import { AlertModal } from "../../../components/AlertModal/AlertModal";
 import DndList from "../../../components/DndList";
 import { DragHandle } from "../../../components/DraggableItem";
 import { Auth0UserData, Dictionary } from "../../../interfaces";

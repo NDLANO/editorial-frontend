@@ -13,7 +13,7 @@ import { UseQueryResult } from "@tanstack/react-query";
 import { IArticle, IUpdatedArticle, IStatus } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import LearningResourcePanels from "./LearningResourcePanels";
-import AlertModal from "../../../../components/AlertModal";
+import { AlertModal } from "../../../../components/AlertModal/AlertModal";
 import validateFormik, { getWarnings } from "../../../../components/formikValidationSchema";
 import HeaderWithLanguage from "../../../../components/HeaderWithLanguage";
 import EditorFooter from "../../../../components/SlateEditor/EditorFooter";

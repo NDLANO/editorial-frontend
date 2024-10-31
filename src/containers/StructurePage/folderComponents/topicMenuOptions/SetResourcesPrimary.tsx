@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pencil } from "@ndla/icons/action";
 import { Node } from "@ndla/types-taxonomy";
-import AlertModal from "../../../../components/AlertModal";
+import { AlertModal } from "../../../../components/AlertModal/AlertModal";
 import Overlay from "../../../../components/Overlay";
 import RoundIcon from "../../../../components/RoundIcon";
 import Spinner from "../../../../components/Spinner";

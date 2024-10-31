@@ -7,12 +7,12 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { AlertCircle } from "@ndla/icons/editor";
+import { ErrorWarningFill } from "@ndla/icons/common";
 import { styled } from "@ndla/styled-system/jsx";
 import { NodeChild } from "@ndla/types-taxonomy";
 import { getIdFromUrn } from "../../../util/taxonomyHelpers";
 
-const StyledWarnIcon = styled(AlertCircle, {
+const StyledErrorWarningFill = styled(ErrorWarningFill, {
   base: {
     fill: "surface.error",
   },
@@ -48,7 +48,7 @@ const WrongTypeError = ({ resource, articleType }: Props) => {
 
   const errorText = articleType ? wrongArticleTypeError : missingArticleTypeError;
 
-  return <StyledWarnIcon title={errorText} aria-label={errorText} />;
+  return <StyledErrorWarningFill title={errorText} aria-label={errorText} />;
 };
 
 export default WrongTypeError;

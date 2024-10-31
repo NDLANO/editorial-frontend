@@ -8,7 +8,8 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { AlertCircle, InProgress } from "@ndla/icons/editor";
+import { ErrorWarningFill } from "@ndla/icons/common";
+import { InProgress } from "@ndla/icons/editor";
 import { styled } from "@ndla/styled-system/jsx";
 import { isApproachingRevision } from "./ApproachingRevisionDate";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
@@ -17,9 +18,10 @@ import { getWarnStatus, StyledTimeIcon } from "../../../components/HeaderWithLan
 import formatDate from "../../../util/formatDate";
 import { getExpirationDate } from "../../ArticlePage/articleTransformers";
 
-const StyledWarnIcon = styled(AlertCircle, {
+const StyledErrorWarningFill = styled(ErrorWarningFill, {
   base: {
     fill: "surface.warning",
+    stroke: "stroke.default",
   },
 });
 
@@ -67,7 +69,10 @@ const StatusIcons = ({ contentMetaLoading, resource, multipleTaxonomy, path }: P
       )}
       {!contentMetaLoading && <WrongTypeError resource={resource} articleType={resource.contentMeta?.articleType} />}
       {multipleTaxonomy && (
-        <StyledWarnIcon aria-label={t("form.workflow.multipleTaxonomy")} title={t("form.workflow.multipleTaxonomy")} />
+        <StyledErrorWarningFill
+          aria-label={t("form.workflow.multipleTaxonomy")}
+          title={t("form.workflow.multipleTaxonomy")}
+        />
       )}
     </IconWrapper>
   );

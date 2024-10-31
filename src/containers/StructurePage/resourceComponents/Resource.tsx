@@ -8,8 +8,8 @@
 
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
-import { TrashCanOutline } from "@ndla/icons/action";
-import { Check } from "@ndla/icons/editor";
+import { DeleteBinLine } from "@ndla/icons/action";
+import { CheckboxCircleFill } from "@ndla/icons/editor";
 import { Text, ListItemContent, ListItemHeading, ListItemRoot, IconButton } from "@ndla/primitives";
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { cva } from "@ndla/styled-system/css";
@@ -41,7 +41,7 @@ const InfoItems = styled("div", {
   },
 });
 
-const StyledCheckIcon = styled(Check, {
+const StyledCheckboxCircleFill = styled(CheckboxCircleFill, {
   base: {
     fill: "surface.success",
   },
@@ -176,7 +176,7 @@ const Resource = ({ resource, onDelete, currentNodeId, contentMetaLoading, respo
                 variant="secondary"
                 size="small"
               >
-                <StyledCheckIcon />
+                <StyledCheckboxCircleFill />
               </SafeLinkIconButton>
             )}
             <GrepCodesModal
@@ -194,7 +194,7 @@ const Resource = ({ resource, onDelete, currentNodeId, contentMetaLoading, respo
               size="small"
               variant="danger"
             >
-              <TrashCanOutline />
+              <DeleteBinLine />
             </IconButton>
           </ControlButtonGroup>
         </BottomRow>

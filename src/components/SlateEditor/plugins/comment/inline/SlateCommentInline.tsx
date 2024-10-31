@@ -7,26 +7,26 @@
  */
 
 import { ReactNode, useCallback, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { Editor, Element, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
-import styled from "@emotion/styled";
-import { Root, Trigger } from "@radix-ui/react-popover";
-import { colors } from "@ndla/core";
+import { PopoverRoot, PopoverTrigger } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { CommentEmbedData, CommentMetaData } from "@ndla/types-embed";
 import { TYPE_COMMENT_INLINE } from "./types";
 import { InlineBugfix } from "../../../utils/InlineBugFix";
 import CommentPopoverPortal from "../CommentPopoverPortal";
 import { CommentInlineElement } from "../interfaces";
 
-const InlineComment = styled.span`
-  display: inline;
-  background: ${colors.support.yellowLight};
-  cursor: pointer;
-  &:hover {
-    background: ${colors.support.yellow};
-  }
-`;
+const InlineComment = styled("span", {
+  base: {
+    display: "inline",
+    background: "surface.brand.4.subtle",
+    cursor: "pointer",
+    _hover: {
+      background: "surface.brand.4",
+    },
+  },
+});
 
 interface Props {
   attributes: RenderElementProps["attributes"];
@@ -36,7 +36,6 @@ interface Props {
 }
 
 const SlateCommentInline = ({ attributes, editor, element, children }: Props) => {
-  const { t } = useTranslation();
   const [open, setOpen] = useState(element.isFirstEdit);
 
   const embed: CommentMetaData = useMemo(() => {
@@ -104,8 +103,12 @@ const SlateCommentInline = ({ attributes, editor, element, children }: Props) =>
   );
 
   return (
-    <Root open={open} onOpenChange={(v) => setOpen(v)}>
-      <Trigger asChild type={undefined}>
+    <PopoverRoot
+      open={open}
+      onOpenChange={(details) => onOpenChange(details.open)}
+      onInteractOutside={() => setOpen(false)}
+    >
+      <PopoverTrigger asChild type={undefined}>
         <InlineComment
           role="button"
           tabIndex={0}
@@ -116,7 +119,7 @@ const SlateCommentInline = ({ attributes, editor, element, children }: Props) =>
           {children}
           <InlineBugfix />
         </InlineComment>
-      </Trigger>
+      </PopoverTrigger>
       <CommentPopoverPortal
         onSave={(data) => onUpdateComment(data)}
         embed={embed}
@@ -125,7 +128,7 @@ const SlateCommentInline = ({ attributes, editor, element, children }: Props) =>
         onOpenChange={onOpenChange}
         variant="inline"
       />
-    </Root>
+    </PopoverRoot>
   );
 };
 

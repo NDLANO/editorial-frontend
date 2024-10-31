@@ -8,7 +8,7 @@
 
 import { Dispatch, SetStateAction, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { BaseRange, Editor } from "slate";
+import { BaseRange, Editor, Path, Range } from "slate";
 import { useSlate } from "slate-react";
 import { Cross } from "@ndla/icons/action";
 import { BlogPost } from "@ndla/icons/editor";
@@ -17,6 +17,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { getRephrasing } from "./utils";
 import { editorValueToPlainText } from "../../../../util/articleContentConverter";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
+import { TYPE_PARAGRAPH } from "../paragraph/types";
 
 interface Props {
   selection: BaseRange | null;
@@ -43,7 +44,7 @@ const Actions = styled("div", {
 const RephraseModalContent = ({ selection, setSelection }: Props) => {
   const { t } = useTranslation();
   const editor = useSlate();
-  const { children: editorChildren, insertText } = editor;
+  const { children: editorChildren, insertNode, insertText, apply } = editor;
   const language = useArticleLanguage();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [rephrasedText, setRephrasedText] = useState<string>("");
@@ -74,7 +75,18 @@ const RephraseModalContent = ({ selection, setSelection }: Props) => {
   };
 
   const addTextAfterSelection = () => {
-    insertText(inputText + rephrasedText);
+    const point = Range.end(selection as Range);
+
+    insertNode(
+      {
+        type: TYPE_PARAGRAPH,
+        children: [{ text: rephrasedText }],
+      },
+      {
+        at: Path.next(Path.parent(point.path)),
+      },
+    );
+
     setSelection(null);
   };
 

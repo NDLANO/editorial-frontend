@@ -11,12 +11,12 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
 import { spacing, colors } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
 import { Plus } from "@ndla/icons/action";
 import { Done } from "@ndla/icons/editor";
 import { Node, NodeType } from "@ndla/types-taxonomy";
 import MenuItemButton from "./components/MenuItemButton";
 import NodeSearchDropdown from "./components/NodeSearchDropdown";
+import { OldSpinner } from "../../../../components/OldSpinner";
 import RoundIcon from "../../../../components/RoundIcon";
 import { usePostNodeConnectionMutation } from "../../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
@@ -29,7 +29,7 @@ interface Props {
   nodeType: NodeType;
 }
 
-const StyledSpinner = styled(Spinner)`
+const StyledSpinner = styled(OldSpinner)`
   margin: 0px 4px;
 `;
 

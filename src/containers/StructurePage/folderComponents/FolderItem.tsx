@@ -8,19 +8,27 @@
 
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Portal } from "@ark-ui/react";
 import styled from "@emotion/styled";
-import { ButtonV2, IconButtonV2 } from "@ndla/button";
+import { ButtonV2 } from "@ndla/button";
 import { spacing, fonts, mq, breakpoints } from "@ndla/core";
-import { Plus } from "@ndla/icons/action";
-import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
+import { AddLine } from "@ndla/icons/action";
+import {
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  IconButton,
+} from "@ndla/primitives";
 import { Node } from "@ndla/types-taxonomy";
 import SettingsMenu from "./SettingsMenu";
 import { Row } from "../../../components";
+import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import Spinner from "../../../components/Spinner";
-import TaxonomyLightbox from "../../../components/Taxonomy/TaxonomyLightbox";
 import { getNodeTypeFromNodeId } from "../../../modules/nodes/nodeUtil";
 import AddNodeModalContent from "../AddNodeModalContent";
-import AddResourceModal from "../plannedResource/AddResourceModal";
 import PlannedResourceForm from "../plannedResource/PlannedResourceForm";
 
 const StyledResourceButton = styled(ButtonV2)`
@@ -46,10 +54,6 @@ const ControlButtonsWrapper = styled.div`
   gap: ${spacing.xxsmall};
 `;
 
-const IconButtonContainer = styled.div`
-  display: flex;
-`;
-
 interface Props {
   node: Node;
   jumpToResources?: () => void;
@@ -58,7 +62,7 @@ interface Props {
   rootNodeId: string;
   onCurrentNodeChanged: (node?: Node) => void;
   nodeChildren: Node[];
-  addChildTooltip: string;
+  addChildTooltip?: string;
 }
 
 const FolderItem = ({
@@ -75,7 +79,7 @@ const FolderItem = ({
   const { t } = useTranslation();
 
   const close = useCallback(() => setOpen(false), [setOpen]);
-  const showJumpToResources = isMainActive && node.id.includes("topic");
+  const showJumpToResources = isMainActive && (node.id.includes("topic") || node.id.includes("subject"));
 
   return (
     <StyledFolderWrapper data-testid="folderWrapper">
@@ -87,41 +91,47 @@ const FolderItem = ({
             onCurrentNodeChanged={onCurrentNodeChanged}
             nodeChildren={nodeChildren}
           />
-          <Modal open={open} onOpenChange={setOpen} modal={false}>
-            <IconButtonContainer>
-              <ModalTrigger>
-                <IconButtonV2 size="xsmall" variant="ghost" title={addChildTooltip} aria-label={addChildTooltip}>
-                  <Plus />
-                </IconButtonV2>
-              </ModalTrigger>
-            </IconButtonContainer>
-            <ModalContent
-              forceOverlay
-              size={node.id.includes("topic") ? { height: "normal", width: "normal" } : "normal"}
-              position="top"
-            >
-              {node.id.includes("topic") || node.id.includes("subject") ? (
-                <TaxonomyLightbox title={t("taxonomy.addTopicHeader")}>
-                  <AddResourceModal>
-                    <PlannedResourceForm node={node} articleType="topic-article" onClose={close} />
-                  </AddResourceModal>
-                </TaxonomyLightbox>
-              ) : (
-                <TaxonomyLightbox
-                  title={t("taxonomy.addNode", {
-                    nodeType: t(`taxonomy.nodeType.${node.nodeType}`),
-                  })}
-                >
-                  <AddNodeModalContent
-                    parentNode={node}
-                    rootId={rootNodeId}
-                    nodeType={getNodeTypeFromNodeId(rootNodeId)}
-                    onClose={close}
-                  />
-                </TaxonomyLightbox>
-              )}
-            </ModalContent>
-          </Modal>
+          {addChildTooltip && (
+            <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)} position="top">
+              <DialogTrigger asChild>
+                <IconButton size="small" variant="tertiary" title={addChildTooltip} aria-label={addChildTooltip}>
+                  <AddLine />
+                </IconButton>
+              </DialogTrigger>
+              <Portal>
+                {node.id.includes("topic") || node.id.includes("subject") ? (
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>{t("taxonomy.addTopicHeader")}</DialogTitle>
+                      <DialogCloseButton />
+                    </DialogHeader>
+                    <DialogBody>
+                      <PlannedResourceForm node={node} articleType="topic-article" onClose={close} />
+                    </DialogBody>
+                  </DialogContent>
+                ) : (
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>
+                        {t("taxonomy.addNode", {
+                          nodeType: t(`taxonomy.nodeType.${node.nodeType}`),
+                        })}
+                      </DialogTitle>
+                      <DialogCloseButton />
+                    </DialogHeader>
+                    <DialogBody>
+                      <AddNodeModalContent
+                        parentNode={node}
+                        rootId={rootNodeId}
+                        nodeType={getNodeTypeFromNodeId(rootNodeId)}
+                        onClose={close}
+                      />
+                    </DialogBody>
+                  </DialogContent>
+                )}
+              </Portal>
+            </DialogRoot>
+          )}
         </ControlButtonsWrapper>
       )}
       {showJumpToResources && (

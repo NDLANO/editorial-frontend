@@ -6,7 +6,12 @@
  *
  */
 
-import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+
+const StyledInlineBugFix = styled.span`
+  font-size: unset;
+  line-height: unset;
+`;
 
 /**
  *
@@ -14,13 +19,4 @@ import { css } from "@emotion/react";
  * https://github.com/ianstormtaylor/slate/blob/d271c4be543027be2197f353d7ea61b51e9c48c6/site/examples/inlines.tsx#L77-L82
  *
  */
-export const InlineBugfix = () => (
-  <span
-    contentEditable={false}
-    css={css`
-      font-size: 0;
-    `}
-  >
-    {String.fromCodePoint(160) /* Non-breaking space */}
-  </span>
-);
+export const InlineBugfix = () => <StyledInlineBugFix contentEditable={false} />;

@@ -6,24 +6,32 @@
  *
  */
 
-import { Form, Formik, FormikProps, useFormikContext } from "formik";
+import { Formik, FormikProps, useFormikContext } from "formik";
 import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { spacing } from "@ndla/core";
-import { FieldErrorMessage, InputV3, Label } from "@ndla/forms";
-import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle } from "@ndla/modal";
+import {
+  Button,
+  FieldInput,
+  FieldErrorMessage,
+  FieldLabel,
+  FieldRoot,
+  DialogHeader,
+  DialogTitle,
+  DialogBody,
+  Text,
+} from "@ndla/primitives";
+import { HStack, styled } from "@ndla/styled-system/jsx";
 import { BrightcoveEmbedData } from "@ndla/types-embed";
-import { Text } from "@ndla/typography";
 import { VideoWrapper } from "./SlateVideo";
 import config from "../../../../config";
 import { InlineField } from "../../../../containers/FormikForm/InlineField";
 import { inlineContentToEditorValue } from "../../../../util/articleContentConverter";
 import { isFormikFormDirty } from "../../../../util/formHelper";
 import { addBrightCoveTimeStampVideoid, getBrightCoveStartTime } from "../../../../util/videoUtil";
-import { FormControl, FormField } from "../../../FormField";
+import { DialogCloseButton } from "../../../DialogCloseButton";
+import { FormField } from "../../../FormField";
+import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
 import { RichTextIndicator } from "../../RichTextIndicator";
 
@@ -34,23 +42,12 @@ interface Props {
   setHasError: (hasError: boolean) => void;
 }
 
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  gap: ${spacing.small};
-  padding-top: ${spacing.small};
-`;
-
-const StyledForm = styled(Form)`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-`;
-
-const StyledVideo = styled.iframe`
-  width: 100%;
-  aspect-ratio: 16/9;
-`;
+const StyledVideo = styled("iframe", {
+  base: {
+    width: "100%",
+    aspectRatio: "16/9",
+  },
+});
 
 export interface FormValues {
   alttext: string;
@@ -92,11 +89,11 @@ const EditVideo = ({ onSave, setHasError, embed, onClose }: Props) => {
 
   return (
     <>
-      <ModalHeader>
-        <ModalTitle>{t("form.video.editVideo")}</ModalTitle>
-        <ModalCloseButton />
-      </ModalHeader>
-      <ModalBody>
+      <DialogHeader>
+        <DialogTitle>{t("form.video.editVideo")}</DialogTitle>
+        <DialogCloseButton />
+      </DialogHeader>
+      <DialogBody>
         <VideoWrapper>
           <StyledVideo title={`Video: ${embed?.title}`} src={activeSrc(embed)} allowFullScreen />
         </VideoWrapper>
@@ -109,7 +106,7 @@ const EditVideo = ({ onSave, setHasError, embed, onClose }: Props) => {
         >
           {(field) => <VideoEmbedForm {...field} setHasError={setHasError} close={onClose} />}
         </Formik>
-      </ModalBody>
+      </DialogBody>
     </>
   );
 };
@@ -117,16 +114,6 @@ interface VideoEmbedFormProps extends FormikProps<FormValues> {
   setHasError: (hasError: boolean) => void;
   close: () => void;
 }
-
-const StyledFormControl = styled(FormControl)`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: ${spacing.small};
-  input {
-    width: 120px;
-  }
-`;
 
 const VideoEmbedForm = ({ setHasError, close, isValid, dirty, initialValues, values }: VideoEmbedFormProps) => {
   const { t } = useTranslation();
@@ -143,11 +130,11 @@ const VideoEmbedForm = ({ setHasError, close, isValid, dirty, initialValues, val
   });
 
   return (
-    <StyledForm>
+    <FormikForm>
       <FormField name="caption">
-        {({ field }) => (
-          <>
-            <Text textStyle="label-small" margin="none">
+        {({ field, meta }) => (
+          <FieldRoot invalid={!!meta.error}>
+            <Text textStyle="label.medium" fontWeight="bold">
               {t("form.video.caption.label")}
               <RichTextIndicator />
             </Text>
@@ -157,27 +144,28 @@ const VideoEmbedForm = ({ setHasError, close, isValid, dirty, initialValues, val
               submitted={isSubmitting}
               onChange={(val) => field.onChange({ target: { value: val, name: field.name } })}
             />
-          </>
+            <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+          </FieldRoot>
         )}
       </FormField>
       <FormField name="startTime">
         {({ field, meta }) => (
-          <StyledFormControl isInvalid={!!meta.error}>
-            <Label textStyle="label-small" margin="none">
-              {t("form.video.time.start")}
-            </Label>
-            <InputV3 {...field} placeholder={t("form.video.time.hms")} />
+          <FieldRoot invalid={!!meta.error}>
+            <FieldLabel textStyle="label.medium">{t("form.video.time.start")}</FieldLabel>
+            <FieldInput {...field} placeholder={t("form.video.time.hms")} />
             <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-          </StyledFormControl>
+          </FieldRoot>
         )}
       </FormField>
-      <ButtonWrapper>
-        <ButtonV2 onClick={close}>{t("form.abort")}</ButtonV2>
-        <ButtonV2 disabled={!isValid || !formIsDirty} type="submit">
+      <FormActionsContainer>
+        <Button variant="secondary" onClick={close}>
+          {t("form.abort")}
+        </Button>
+        <Button disabled={!isValid || !formIsDirty} type="submit">
           {t("form.save")}
-        </ButtonV2>
-      </ButtonWrapper>
-    </StyledForm>
+        </Button>
+      </FormActionsContainer>
+    </FormikForm>
   );
 };
 

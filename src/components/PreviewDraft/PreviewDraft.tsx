@@ -13,9 +13,9 @@ import "../DisplayEmbed/helpers/h5pResizer";
 import { useTransformedArticle } from "./useTransformedArticle";
 
 interface BaseProps {
-  label: string;
   contentType?: string;
   language: string;
+  previewAlt?: boolean;
   type: "article" | "formArticle";
 }
 
@@ -58,7 +58,7 @@ export const toFormArticle = (article: IArticle, language: string): FormArticle 
 };
 
 export const PreviewDraft = (props: Props) => {
-  const { label, type, language, contentType, draft: draftProp } = props;
+  const { type, language, contentType, previewAlt = false, draft: draftProp } = props;
   const draft = useMemo(() => {
     if (type === "article") return toFormArticle(draftProp, language);
     return draftProp;
@@ -67,11 +67,13 @@ export const PreviewDraft = (props: Props) => {
   const { article } = useTransformedArticle({
     draft,
     language,
-    previewAlt: false,
+    previewAlt,
     useDraftConcepts: false,
   });
 
-  return <TransformedPreviewDraft article={article} contentType={contentType} draft={draft} label={label} />;
+  if (!article) return null;
+
+  return <TransformedPreviewDraft article={article} contentType={contentType} draft={draft} />;
 };
 
 export default PreviewDraft;

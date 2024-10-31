@@ -7,99 +7,74 @@
  */
 
 import { ReactNode, memo } from "react";
-import styled from "@emotion/styled";
-import { AccordionContent, AccordionHeader, AccordionItem } from "@ndla/accordion";
-import { colors, misc, spacing } from "@ndla/core";
+import { ArrowDownShortLine } from "@ndla/icons/common";
+import {
+  AccordionItem,
+  AccordionItemContent,
+  AccordionItemIndicator,
+  AccordionItemTrigger,
+  Heading,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 
 export interface FormAccordionProps {
   children: ReactNode;
   title: ReactNode;
   hasError: boolean;
-  className?: string;
   id: string;
-  wide?: boolean;
-  isFrontpageArticle?: boolean;
 }
 
-const StyledHeader = styled(AccordionHeader)`
-  &[data-error="true"] {
-    background-color: ${colors.support.redLight};
-    border-color: ${colors.support.red};
-    color: ${colors.text.primary};
-    svg {
-      color: ${colors.text.primary};
-    }
-  }
-  &:focus-visible {
-    outline: 2px solid ${colors.support.red};
-  }
+const StyledAccordionItemTrigger = styled(AccordionItemTrigger, {
+  variants: {
+    invalid: {
+      true: {
+        background: "surface.dangerSubtle",
+        boxShadowColor: "stroke.error",
+        _hover: {
+          background: "surface.dangerSubtle.hover",
+          boxShadowColor: "stroke.error",
+        },
+        _active: {
+          background: "surface.dangerSubtle.active",
+          boxShadowColor: "stroke.error",
+        },
+        _open: {
+          background: "surface.dangerSubtle",
+          boxShadowColor: "stroke.error",
+        },
+      },
+    },
+  },
+});
 
-  &:hover {
-    text-decoration: none;
+const StyledAccordionItemContent = styled(AccordionItemContent, {
+  base: {
+    overflowX: "visible",
+  },
+  variants: {
+    invalid: {
+      true: {
+        borderColor: "stroke.error",
+      },
+    },
+  },
+});
 
-    // Underline normal string headers
-    > div:not(:has(*)) {
-      text-decoration: underline;
-    }
-
-    // Use data-underline to determine which parts of header should be underlined
-    > div > [data-underline=""] {
-      text-decoration: underline;
-    }
-  }
-`;
-
-const StyledItem = styled(AccordionItem)`
-  border-radius: ${misc.borderRadius};
-  background-color: ${colors.white};
-  overflow: hidden;
-
-  &:focus-visible {
-    border: 2px solid ${colors.support.red};
-  }
-
-  & > div {
-    overflow: unset;
-  }
-
-  &[data-error="true"] {
-    border-color: ${colors.support.red};
-  }
-`;
-
-const HeaderWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${spacing.small};
-  svg {
-    color: ${colors.white};
-    width: 20px;
-    height: 20px;
-  }
-`;
-
-const StyledAccordionContent = styled(AccordionContent)`
-  width: 100%;
-  &[data-frontpage="true"] {
-    background-color: ${colors.background.lightBlue};
-    inset: unset !important;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-`;
-
-const FormAccordion = ({ children, title, hasError, id, className, wide, isFrontpageArticle }: FormAccordionProps) => {
+const FormAccordion = ({ children, title, hasError, id }: FormAccordionProps) => {
   return (
-    <StyledItem value={id} data-error={hasError}>
-      <StyledHeader data-error={hasError}>
-        <HeaderWrapper data-error={hasError}>{title}</HeaderWrapper>
-      </StyledHeader>
-      <StyledAccordionContent id={id} className={className} data-wide={!!wide} data-frontpage={!!isFrontpageArticle}>
-        {children}
-      </StyledAccordionContent>
-    </StyledItem>
+    <AccordionItem value={id}>
+      <Heading asChild consumeCss textStyle="label.medium" fontWeight="bold">
+        <h2>
+          <StyledAccordionItemTrigger invalid={hasError}>
+            {title}
+            <AccordionItemIndicator asChild>
+              <ArrowDownShortLine size="medium" />
+            </AccordionItemIndicator>
+          </StyledAccordionItemTrigger>
+        </h2>
+      </Heading>
+      <StyledAccordionItemContent invalid={hasError}>{children}</StyledAccordionItemContent>
+    </AccordionItem>
   );
 };
 

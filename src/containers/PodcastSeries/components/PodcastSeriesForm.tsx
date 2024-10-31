@@ -14,6 +14,7 @@ import { Descendant } from "slate";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { colors } from "@ndla/core";
+import { PageContent } from "@ndla/primitives";
 import { IAudioMetaInformation, INewSeries, ISeries } from "@ndla/types-backend/audio-api";
 import PodcastEpisodes from "./PodcastEpisodes";
 import PodcastSeriesMetaData from "./PodcastSeriesMetaData";
@@ -184,16 +185,17 @@ const PodcastSeriesForm = ({
               <FormAccordion
                 id="podcast-series-podcastmeta"
                 title={t("form.podcastSeriesSection")}
-                className="u-10/12 u-push-1/12"
                 hasError={["title", "coverPhotoId", "metaImageAlt"].some((field) => field in errors)}
               >
-                <PodcastSeriesMetaData
-                  language={language}
-                  onImageLoad={(width, height) => {
-                    size.current = [width, height];
-                    validateForm();
-                  }}
-                />
+                <PageContent variant="content">
+                  <PodcastSeriesMetaData
+                    language={language}
+                    onImageLoad={(width, height) => {
+                      size.current = [width, height];
+                      validateForm();
+                    }}
+                  />
+                </PageContent>
               </FormAccordion>
               <FormAccordion
                 id="podcast-series-podcastepisodes"

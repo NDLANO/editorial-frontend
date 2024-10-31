@@ -8,12 +8,7 @@
 
 import queryString from "query-string";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
 import { SafeLinkButton } from "@ndla/safelink";
-
-const StyledSafeLinkButton = styled(SafeLinkButton)`
-  height: fit-content;
-`;
 
 interface Props {
   ndlaId?: string;
@@ -36,9 +31,9 @@ const GoToSearch = ({ ndlaId, filterSubject, searchEnv, revisionDateTo }: Props)
   };
 
   return (
-    <StyledSafeLinkButton to={onSearch()} size="small">
+    <SafeLinkButton to={onSearch()} size="small">
       {t("welcomePage.goToSearch")}
-    </StyledSafeLinkButton>
+    </SafeLinkButton>
   );
 };
 

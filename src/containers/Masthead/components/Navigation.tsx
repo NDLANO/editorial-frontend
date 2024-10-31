@@ -8,13 +8,14 @@
 
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
 import styled from "@emotion/styled";
 import { Popover, PopoverAnchor, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
 import { IconButtonV2 } from "@ndla/button";
 import { colors, fonts, spacing, stackOrder } from "@ndla/core";
 import { Menu } from "@ndla/icons/common";
+import { NdlaLogoText } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { Logo } from "@ndla/ui";
 import NavigationMenu from "./NavigationMenu";
 import SessionContainer from "./SessionContainer";
 import { Column, GridContainer } from "../../../components/Layout/Layout";
@@ -92,6 +93,7 @@ interface EnvironmentSettings {
 
 const Navigation = () => {
   const { t } = useTranslation();
+  const { pathname } = useLocation();
   const [open, setOpen] = useState<boolean>(false);
 
   const envSettings = useMemo((): EnvironmentSettings => {
@@ -130,8 +132,13 @@ const Navigation = () => {
                       </IconButtonV2>
                     </PopoverTrigger>
                     <StyledLogoDiv>
-                      <SafeLink to="/" aria-label={t("logo.altText")} title={t("logo.altText")} reloadDocument>
-                        <Logo label={t("logo.altText")} />
+                      <SafeLink
+                        to="/"
+                        aria-label={t("logo.altText")}
+                        title={t("logo.altText")}
+                        reloadDocument={pathname === "/"}
+                      >
+                        <NdlaLogoText />
                       </SafeLink>
                     </StyledLogoDiv>
                     <SavedSearchDropdown />

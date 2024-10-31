@@ -6,10 +6,8 @@
  *
  */
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { colors, fonts } from "@ndla/core";
-import { CheckboxItem, Label } from "@ndla/forms";
-import { CheckboxWrapper } from "../../../../components/Form/styles";
+import { CheckLine } from "@ndla/icons/editor";
+import { CheckboxControl, CheckboxHiddenInput, CheckboxIndicator, CheckboxLabel, CheckboxRoot } from "@ndla/primitives";
 
 interface Props {
   checked: boolean;
@@ -17,21 +15,19 @@ interface Props {
   name: string;
 }
 
-const StyledLabel = styled(Label)`
-  color: ${colors.brand.primary};
-  font-weight: ${fonts.weight.normal};
-`;
-
 const CheckboxSelector = ({ name, checked, onCheckedChange }: Props) => {
   const { t } = useTranslation();
 
   return (
-    <CheckboxWrapper>
-      <CheckboxItem id={`checkbox-${name}`} checked={checked} onCheckedChange={onCheckedChange} />
-      <StyledLabel margin="none" textStyle="label-small" htmlFor={`checkbox-${name}`}>
-        {t(`searchForm.types.${name}`)}
-      </StyledLabel>
-    </CheckboxWrapper>
+    <CheckboxRoot checked={checked} onCheckedChange={(details) => onCheckedChange(details.checked as boolean)}>
+      <CheckboxControl>
+        <CheckboxIndicator asChild>
+          <CheckLine />
+        </CheckboxIndicator>
+      </CheckboxControl>
+      <CheckboxLabel>{t(`searchForm.types.${name}`)}</CheckboxLabel>
+      <CheckboxHiddenInput />
+    </CheckboxRoot>
   );
 };
 

@@ -15,9 +15,10 @@ import { SubjectMaterial } from "@ndla/icons/contentType";
 import { ModalHeader, ModalCloseButton, ModalBody, Modal, ModalTitle, ModalTrigger, ModalContent } from "@ndla/modal";
 import { IConceptSummary } from "@ndla/types-backend/concept-api";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
-import ElementList from "../../../containers/FormikForm/components/ElementList";
 import { postSearchConcepts } from "../../../modules/concept/conceptApi";
 import { postSearch } from "../../../modules/search/searchApi";
+import { routes } from "../../../util/routeHelpers";
+import ListResource from "../../Form/ListResource";
 
 type EmbedType = "image" | "audio" | "concept" | "gloss" | "article";
 
@@ -56,7 +57,7 @@ const searchObjects = (embedId: number, embedType: EmbedType) => ({
 });
 
 const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcepts }: Props) => {
-  const { t } = useTranslation();
+  const { i18n, t } = useTranslation();
 
   useEffect(() => {
     let shouldUpdateState = true;
@@ -87,7 +88,7 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
           aria-label={t(`form.embedConnections.info.${type}`)}
           title={t(`form.embedConnections.info.${type}`)}
         >
-          <ImageInformationIcon size="normal" />
+          <ImageInformationIcon />
         </ButtonV2>
       </ModalTrigger>
       <ModalContent>
@@ -112,15 +113,14 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
               )
             </em>
           </p>
-          <ElementList
-            elements={articles?.map((obj) => ({
-              ...obj,
-              articleType: obj.learningResourceType,
-            }))}
-            isDeletable={false}
-            isDraggable={false}
-          />
-
+          {articles.map((element) => (
+            <ListResource
+              key={element.id}
+              title={element.title.title}
+              metaImage={element.metaImage}
+              url={routes.editArticle(element.id, element.learningResourceType ?? "standard", i18n.language)}
+            />
+          ))}
           {(type === "image" || type === "audio") && (
             <>
               <p>
@@ -135,11 +135,18 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
                   )
                 </em>
               </p>
-              <ElementList
-                elements={concepts?.map((obj) => ({ ...obj, articleType: obj.conceptType })) ?? []}
-                isDeletable={false}
-                isDraggable={false}
-              />
+              {concepts?.map((element) => (
+                <ListResource
+                  key={element.id}
+                  title={element.title.title}
+                  metaImage={element.metaImage}
+                  url={
+                    element.conceptType === "concept"
+                      ? routes.concept.edit(element.id, i18n.language)
+                      : routes.gloss.edit(element.id, i18n.language)
+                  }
+                />
+              ))}
             </>
           )}
         </ModalBody>

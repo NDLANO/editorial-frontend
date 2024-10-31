@@ -8,73 +8,53 @@
 
 import { useTranslation } from "react-i18next";
 
-import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
-import { colors, spacing } from "@ndla/core";
-import { DeleteForever, DragHorizontal } from "@ndla/icons/editor";
+import { DragVertical } from "@ndla/icons/editor";
+import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
 
 import DndList from "../../../../components/DndList";
+import { DragHandle } from "../../../../components/DraggableItem";
+import ListResource from "../../../../components/Form/ListResource";
+import { routes } from "../../../../util/routeHelpers";
 
-const NodeWrapper = styled.div`
-  align-items: center;
-  background: ${colors.brand.greyLighter};
-  display: flex;
-  justify-content: space-between;
-  margin: ${spacing.xxsmall};
-  padding: ${spacing.xxsmall};
-  padding-left: ${spacing.small};
-  width: 100%;
-`;
-
-const ActionsContainer = styled.div`
-  display: flex;
-`;
-
-const DraggableIconButton = styled(IconButtonV2)`
-  cursor: grabbing;
-`;
+const StyledList = styled("ul", {
+  base: {
+    listStyle: "none",
+  },
+});
 
 interface Props {
   nodes: Node[];
-  nodeSet: string;
-  onUpdate: Function;
+  onUpdate: (value: Node[]) => void;
 }
 
-const NodeList = ({ nodes, nodeSet, onUpdate }: Props) => {
+const NodeList = ({ nodes, onUpdate }: Props) => {
   const { t } = useTranslation();
+  if (!nodes.length) return null;
 
   return (
-    <DndList
-      items={nodes}
-      onDragEnd={(_, newArray) => onUpdate(newArray)}
-      renderItem={(node, index) => {
-        return (
-          <NodeWrapper key={`${nodeSet}-${node.id}-${index}`}>
-            {node.name}
-            <ActionsContainer>
-              <DraggableIconButton
-                aria-label={t("subjectpageForm.moveSubject")}
-                colorTheme="light"
-                variant="ghost"
-                title={t("subjectpageForm.moveSubject")}
-              >
-                <DragHorizontal />
-              </DraggableIconButton>
-              <IconButtonV2
-                aria-label={t("subjectpageForm.removeSubject")}
-                colorTheme="danger"
-                onClick={() => onUpdate(nodes.filter((item) => item.id !== node.id))}
-                variant="ghost"
-                title={t("subjectpageForm.removeSubject")}
-              >
-                <DeleteForever />
-              </IconButtonV2>
-            </ActionsContainer>
-          </NodeWrapper>
-        );
-      }}
-    />
+    <StyledList>
+      <DndList
+        items={nodes}
+        onDragEnd={(_, newArray) => onUpdate(newArray)}
+        dragHandle={
+          <DragHandle aria-label={t("form.file.changeOrder")}>
+            <DragVertical />
+          </DragHandle>
+        }
+        renderItem={(item) => {
+          return (
+            <ListResource
+              key={item.id}
+              title={item.name}
+              url={routes.structure(item.url)}
+              onDelete={() => onUpdate(nodes.filter((node) => node.id !== item.id))}
+              removeElementTranslation={t("subjectpageForm.removeArticle")}
+            />
+          );
+        }}
+      />
+    </StyledList>
   );
 };
 

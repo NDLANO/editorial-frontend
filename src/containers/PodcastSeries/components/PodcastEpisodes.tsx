@@ -8,13 +8,14 @@
 
 import { useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
-import { FieldHeader } from "@ndla/forms";
-import { IAudioSummarySearchResult, IAudioSummary } from "@ndla/types-backend/audio-api";
+import { IAudioSummarySearchResult, IAudioSummary, IAudioMetaInformation } from "@ndla/types-backend/audio-api";
 import { PodcastSeriesFormikType } from "./PodcastSeriesForm";
 import AsyncDropdown from "../../../components/Dropdown/asyncDropdown/AsyncDropdown";
+import FieldHeader from "../../../components/Field/FieldHeader";
+import ListResource from "../../../components/Form/ListResource";
 import { fetchAudio, postSearchAudio } from "../../../modules/audio/audioApi";
 import handleError from "../../../util/handleError";
-import ElementList from "../../FormikForm/components/ElementList";
+import { routes } from "../../../util/routeHelpers";
 
 const PodcastEpisodes = () => {
   const { t } = useTranslation();
@@ -32,8 +33,9 @@ const PodcastEpisodes = () => {
     }
   };
 
-  const onUpdateElements = (eps: IAudioSummary[]) => {
-    setFieldValue("episodes", eps);
+  const onDeleteElements = (elements: IAudioMetaInformation[], deleteIndex: number) => {
+    const newElements = elements.filter((_, i) => i !== deleteIndex);
+    setFieldValue("episodes", newElements);
   };
 
   const searchForPodcasts = async (input: string, page?: number): Promise<IAudioSummarySearchResult> => {
@@ -71,15 +73,16 @@ const PodcastEpisodes = () => {
   return (
     <>
       <FieldHeader title={t("form.podcastEpisodesSection")} subTitle={t("form.podcastEpisodesTypeName")} />
-      <ElementList
-        elements={elements}
-        isDraggable={false}
-        messages={{
-          dragElement: t("conceptpageForm.changeOrder"),
-          removeElement: t("conceptpageForm.removeArticle"),
-        }}
-        onUpdateElements={onUpdateElements}
-      />
+      {elements.map((element, index) => (
+        <ListResource
+          key={element.id}
+          title={element.title.title}
+          metaImage={element.metaImage}
+          url={routes.audio.edit(element.id, language)}
+          onDelete={() => onDeleteElements(elements, index)}
+          removeElementTranslation={t("conceptpageForm.removeArticle")}
+        />
+      ))}
       <AsyncDropdown
         selectedItems={elements}
         idField="id"

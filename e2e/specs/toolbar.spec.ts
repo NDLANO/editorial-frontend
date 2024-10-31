@@ -190,6 +190,6 @@ test("Language label buttons are available, and labels can be set", async ({ pag
   const firstLangButton = page.getByTestId("language-button-ar");
   await firstLangButton.click();
   await el.press(`${metaKey}+A`);
-  await expect(page.getByTestId("toolbar-button-language")).toHaveText("ar");
+  await expect(page.getByTestId("toolbar-button-language")).toHaveText("Arabisk");
   expect(page.locator('span[lang="ar"]')).toBeDefined();
 });

@@ -15,11 +15,11 @@ import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { SingleValue } from "@ndla/select";
 import { IArticle, IUpdatedArticle } from "@ndla/types-backend/draft-api";
 import {
   Node,
   NodeChild,
+  NodeType,
   ResourceType,
   ResourceTypeWithConnection,
   TaxonomyContext,
@@ -61,11 +61,15 @@ interface Props {
   articleLanguage: string;
 }
 
-export interface TaxNode extends Pick<Node, "resourceTypes" | "metadata" | "id"> {
+export interface TaxNode extends Pick<Node, "resourceTypes" | "metadata" | "id" | "context"> {
   placements: MinimalNodeChild[];
 }
 
-export const contextToMinimalNodeChild = (context: TaxonomyContext, articleLanguage: string): MinimalNodeChild => {
+export const contextToMinimalNodeChild = (
+  nodeType: NodeType,
+  context: TaxonomyContext,
+  articleLanguage: string,
+): MinimalNodeChild => {
   const crumb = context.breadcrumbs[articleLanguage] ?? Object.values(context.breadcrumbs)[0] ?? [];
   return {
     id: context.parentIds[context.parentIds.length - 1],
@@ -78,6 +82,8 @@ export const contextToMinimalNodeChild = (context: TaxonomyContext, articleLangu
     metadata: {
       visible: context.isVisible,
     },
+    nodeType,
+    context,
   };
 };
 
@@ -90,8 +96,11 @@ export const toInitialResource = (resource: Node | undefined, language: string):
       visible: true,
       customFields: {},
     },
+    context: resource?.context,
     placements: sortBy(
-      resource?.contexts.filter((c) => c.rootId.includes("subject")).map((c) => contextToMinimalNodeChild(c, language)),
+      resource?.contexts
+        .filter((c) => c.rootId.includes("subject"))
+        .map((c) => contextToMinimalNodeChild(resource.nodeType, c, language)),
       (c) => c.connectionId,
     ),
   };
@@ -148,9 +157,9 @@ const TaxonomyBlock = ({
   );
 
   const onVersionChanged = useCallback(
-    (newVersion: SingleValue) => {
-      if (!newVersion || newVersion.value === taxonomyVersion) return;
-      changeVersion(newVersion.value);
+    (versionHash: string) => {
+      if (versionHash === taxonomyVersion) return;
+      changeVersion(versionHash);
       setShowWarning(false);
       updateTaxMutation.reset();
     },
@@ -236,6 +245,7 @@ const TaxonomyBlock = ({
         },
         connectionId: "",
         name: node.name,
+        nodeType: node.nodeType,
       };
       return { ...res, placements: res.placements.concat(newPlacement) };
     });
@@ -295,8 +305,8 @@ const TaxonomyBlock = ({
   );
 
   const onChangeSelectedResource = useCallback(
-    (value: SingleValue) => {
-      const options = value?.value?.split(",") ?? [];
+    (value?: string) => {
+      const options = value?.split(",") ?? [];
       const selectedResource = resourceTypes.find((rt) => rt.id === options[0]);
 
       if (selectedResource) {
@@ -345,7 +355,6 @@ const TaxonomyBlock = ({
       )}
       <ResourceTypeSelect
         availableResourceTypes={filteredResourceTypes}
-        resourceTypes={workingResource?.resourceTypes}
         onChangeSelectedResource={onChangeSelectedResource}
       />
       <TopicConnections

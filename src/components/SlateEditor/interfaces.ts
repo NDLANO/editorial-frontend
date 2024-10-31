@@ -11,13 +11,12 @@ import { ReactEditor, RenderElementProps, RenderLeafProps } from "slate-react";
 import { AsideElement } from "./plugins/aside";
 import { AudioElement } from "./plugins/audio/types";
 import { BlockQuoteElement } from "./plugins/blockquote";
-import { BlogPostElement } from "./plugins/blogPost/types";
 import { BreakElement } from "./plugins/break";
 import { CampaignBlockElement } from "./plugins/campaignBlock";
 import { CodeblockElement } from "./plugins/codeBlock";
+import { CommentBlockElement, CommentInlineElement } from "./plugins/comment/interfaces";
 import { ConceptBlockElement } from "./plugins/concept/block/interfaces";
 import { ConceptInlineElement } from "./plugins/concept/inline/interfaces";
-import { ConceptListElement } from "./plugins/conceptList";
 import { ContactBlockElement } from "./plugins/contactBlock";
 import { CopyrightElement } from "./plugins/copyright/types";
 import { DefinitionDescriptionElement, DefinitionListElement, DefinitionTermElement } from "./plugins/definitionList";
@@ -40,6 +39,7 @@ import { CustomTextWithMarks } from "./plugins/mark";
 import { MathmlElement } from "./plugins/mathml";
 import { NoopElement } from "./plugins/noop";
 import { ParagraphElement } from "./plugins/paragraph";
+import { PitchElement } from "./plugins/pitch/types";
 import { RelatedElement } from "./plugins/related";
 import { SectionElement } from "./plugins/section";
 import { SpanElement } from "./plugins/span";
@@ -111,11 +111,10 @@ declare module "slate" {
       | FramedContentElement
       | DivElement
       | SpanElement
-      | ConceptListElement
       | DefinitionListElement
       | DefinitionDescriptionElement
       | DefinitionTermElement
-      | BlogPostElement
+      | PitchElement
       | GridElement
       | GridCellElement
       | KeyFigureElement
@@ -126,7 +125,9 @@ declare module "slate" {
       | NoopElement
       | ExternalElement
       | IframeElement
-      | CopyrightElement;
+      | CopyrightElement
+      | CommentInlineElement
+      | CommentBlockElement;
     Text: CustomTextWithMarks;
   }
 }

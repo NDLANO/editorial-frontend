@@ -8,16 +8,25 @@
 
 import { useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
-import { FieldHeader } from "@ndla/forms";
+import { DragVertical } from "@ndla/icons/editor";
+import { styled } from "@ndla/styled-system/jsx";
 import { IArticle, IArticleSummary } from "@ndla/types-backend/draft-api";
+import DndList from "../../../components/DndList";
+import { DragHandle } from "../../../components/DraggableItem";
 import AsyncDropdown from "../../../components/Dropdown/asyncDropdown/AsyncDropdown";
+import FieldHeader from "../../../components/Field/FieldHeader";
+import ListResource from "../../../components/Form/ListResource";
 import { fetchDraft, searchDrafts } from "../../../modules/draft/draftApi";
 import handleError from "../../../util/handleError";
-import ElementList from "../../FormikForm/components/ElementList";
+import { routes } from "../../../util/routeHelpers";
 import { ConceptFormValues } from "../conceptInterfaces";
 
+const StyledList = styled("ul", {
+  base: { listStyle: "none" },
+});
+
 const ConceptArticles = () => {
-  const { t } = useTranslation();
+  const { i18n, t } = useTranslation();
   const {
     values: { articles, language },
     setFieldValue,
@@ -39,6 +48,11 @@ const ConceptArticles = () => {
     setFieldValue("articles", articleList);
   };
 
+  const onDeleteElement = (elements: IArticle[], deleteIndex: number) => {
+    const newElements = elements.filter((_, i) => i !== deleteIndex);
+    onUpdateElements(newElements);
+  };
+
   const searchForArticles = async (input: string) => {
     return searchDrafts({
       query: input,
@@ -49,14 +63,27 @@ const ConceptArticles = () => {
   return (
     <>
       <FieldHeader title={t("form.related.title")} subTitle={t("subjectpageForm.articles")} />
-      <ElementList
-        elements={articles}
-        messages={{
-          dragElement: t("conceptpageForm.changeOrder"),
-          removeElement: t("conceptpageForm.removeArticle"),
-        }}
-        onUpdateElements={onUpdateElements}
-      />
+      <StyledList>
+        <DndList
+          items={articles}
+          dragHandle={
+            <DragHandle aria-label={t("conceptpageForm.changeOrder")}>
+              <DragVertical />
+            </DragHandle>
+          }
+          renderItem={(item, index) => (
+            <ListResource
+              key={item.id}
+              title={item.title?.title}
+              metaImage={item.metaImage}
+              url={routes.editArticle(item.id, item.articleType ?? "standard", i18n.language)}
+              onDelete={() => onDeleteElement(articles, index)}
+              removeElementTranslation={t("conceptpageForm.removeArticle")}
+            />
+          )}
+          onDragEnd={(_, newArray) => onUpdateElements(newArray)}
+        />
+      </StyledList>
       <AsyncDropdown
         selectedItems={articles}
         idField="id"

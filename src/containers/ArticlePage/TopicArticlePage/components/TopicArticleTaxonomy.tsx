@@ -9,11 +9,11 @@
 import sortBy from "lodash/sortBy";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Spinner } from "@ndla/icons";
 import { IUpdatedArticle, IArticle } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import { ErrorMessage } from "@ndla/ui";
 import TopicTaxonomyBlock from "./TopicTaxonomyBlock";
+import { OldSpinner } from "../../../../components/OldSpinner";
 import { useNodes } from "../../../../modules/nodes/nodeQueries";
 import { useVersions } from "../../../../modules/taxonomy/versions/versionQueries";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
@@ -85,7 +85,7 @@ const TopicArticleTaxonomy = ({ article, updateNotes, articleLanguage, hasTaxEnt
       />
     );
   } else if (nodesQuery.isLoading || subjectsQuery.isLoading || versionsQuery.isLoading) {
-    return <Spinner />;
+    return <OldSpinner />;
   }
 
   return (

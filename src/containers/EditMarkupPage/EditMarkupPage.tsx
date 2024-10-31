@@ -12,12 +12,12 @@ import { Link, useLocation, useParams } from "react-router-dom";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing, colors } from "@ndla/core";
-import { FieldHeader } from "@ndla/forms";
-import { Spinner } from "@ndla/icons";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import { Row } from "../../components";
+import FieldHeader from "../../components/Field/FieldHeader";
 import HeaderSupportedLanguages from "../../components/HeaderWithLanguage/HeaderSupportedLanguages";
 import HelpMessage from "../../components/HelpMessage";
+import { OldSpinner } from "../../components/OldSpinner";
 import PreviewDraftLightboxV2 from "../../components/PreviewDraft/PreviewDraftLightboxV2";
 import SaveButton from "../../components/SaveButton";
 import { DRAFT_HTML_SCOPE } from "../../constants";
@@ -192,7 +192,7 @@ const EditMarkupPage = () => {
           replace={true}
         />
       </LanguageWrapper>
-      <Suspense fallback={<Spinner />}>
+      <Suspense fallback={<OldSpinner />}>
         <MonacoEditor
           key={draft && draft.content ? draft.id + draft.revision + "-" + draft.content.language : "draft"}
           value={draft?.content?.content ?? ""}

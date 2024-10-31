@@ -15,7 +15,6 @@ import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
 import { ButtonV2 } from "@ndla/button";
 import { spacing, colors } from "@ndla/core";
-import { SingleValue } from "@ndla/select";
 import { IArticle, IUpdatedArticle } from "@ndla/types-backend/draft-api";
 import { Node, Version } from "@ndla/types-taxonomy";
 import TopicArticleConnections from "./TopicArticleConnections";
@@ -105,9 +104,9 @@ const TopicTaxonomyBlock = ({
   }, [propValidPlacements]);
 
   const onVersionChanged = useCallback(
-    (newVersion: SingleValue) => {
-      if (!newVersion || newVersion.value === taxonomyVersion) return;
-      changeVersion(newVersion.value);
+    (versionHash: string) => {
+      if (versionHash === taxonomyVersion) return;
+      changeVersion(versionHash);
       setShowWarning(false);
       createTopicNodeConnectionsMutation.reset();
     },

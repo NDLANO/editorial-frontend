@@ -18,7 +18,7 @@ import Spinner from "./Spinner";
 import { useWideArticle } from "./WideArticleEditorProvider";
 import { MAX_PAGE_WIDTH } from "../constants";
 import Footer from "../containers/App/components/FooterWrapper";
-import { MAX_WIDTH_FRONTPAGE_WITH_COMMENTS } from "../containers/ArticlePage/styles";
+import { MAX_WIDTH_FRONTPAGE_WITH_COMMENTS, MAX_WIDTH_WITH_COMMENTS } from "../containers/ArticlePage/styles";
 import NotFoundPage from "../containers/NotFoundPage/NotFoundPage";
 import { usePreviousLocation } from "../util/routeHelpers";
 
@@ -40,6 +40,9 @@ const PageContent = styled.div`
   &[data-wide="true"] {
     max-width: ${MAX_WIDTH_FRONTPAGE_WITH_COMMENTS}px;
   }
+  &[data-article="true"] {
+    max-width: ${MAX_WIDTH_WITH_COMMENTS}px;
+  }
 `;
 
 interface ResourceComponentProps {
@@ -57,6 +60,7 @@ interface Props<T extends BaseResource> {
   useHook: (params: { id: number; language?: string }, options?: Partial<UseQueryOptions<T>>) => UseQueryResult<T>;
   createUrl: string;
   titleTranslationKey?: string;
+  isArticle?: boolean;
 }
 
 const ResourcePage = <T extends BaseResource>({
@@ -66,13 +70,14 @@ const ResourcePage = <T extends BaseResource>({
   createUrl,
   titleTranslationKey,
   className,
+  isArticle,
 }: Props<T>) => {
   const { t } = useTranslation();
   const previousLocation = usePreviousLocation();
   const { isWideArticle } = useWideArticle();
   return (
     <Wrapper>
-      <PageContent className={className} data-wide={isWideArticle}>
+      <PageContent className={className} data-wide={isWideArticle} data-article={isArticle}>
         {titleTranslationKey && <HelmetWithTracker title={t(titleTranslationKey)} />}
         <Routes>
           <Route path="new" element={<CreateComponent />} />

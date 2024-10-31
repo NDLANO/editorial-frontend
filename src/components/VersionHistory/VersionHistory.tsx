@@ -6,35 +6,9 @@
  *
  */
 
-import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { spacing, colors, fonts } from "@ndla/core";
-
-const StyledWrapper = styled.div`
-  padding: ${spacing.small} 0;
-  width: 100%;
-`;
-
-const StyledTable = styled.table`
-  width: 100%;
-  margin: 0;
-  th {
-    ${fonts.sizes(16, 1.1)}
-    font-weight: ${fonts.weight.semibold};
-    border-bottom: 2px solid ${colors.brand.tertiary};
-    padding: ${spacing.xsmall};
-  }
-  td {
-    padding: ${spacing.xsmall};
-    ${fonts.sizes(14, 1.3)}
-  }
-  tbody tr {
-    &:nth-child(odd) {
-      background: ${colors.brand.greyLighter};
-    }
-  }
-`;
+import { Table } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 
 type Props = {
   notes: {
@@ -44,36 +18,40 @@ type Props = {
     status?: string;
     id: number;
   }[];
-  children?: ReactNode;
 };
 
-const VersionHistory = ({ notes, children }: Props) => {
+const StyledTable = styled(Table, {
+  base: {
+    tableLayout: "fixed",
+    width: "100%",
+    display: "inline-table",
+  },
+});
+
+const VersionHistory = ({ notes }: Props) => {
   const { t } = useTranslation();
   const hasStatus = notes.some((n) => n.status !== undefined);
   return (
-    <StyledWrapper>
-      <StyledTable>
-        <thead>
-          <tr>
-            <th>{t("editor.versionHistory.who")}</th>
-            <th>{t("editor.versionHistory.when")}</th>
-            <th>{t("editor.versionHistory.message")}</th>
-            {hasStatus && <th>{t("editor.versionHistory.status")}</th>}
+    <StyledTable>
+      <thead>
+        <tr>
+          <th>{t("editor.versionHistory.who")}</th>
+          <th>{t("editor.versionHistory.when")}</th>
+          <th>{t("editor.versionHistory.message")}</th>
+          {hasStatus && <th>{t("editor.versionHistory.status")}</th>}
+        </tr>
+      </thead>
+      <tbody>
+        {notes.map(({ author, date, note, status, id }) => (
+          <tr key={id}>
+            <td>{author}</td>
+            <td>{date}</td>
+            <td>{note}</td>
+            {hasStatus && <td>{status}</td>}
           </tr>
-        </thead>
-        <tbody>
-          {notes.map(({ author, date, note, status, id }) => (
-            <tr key={id}>
-              <td>{author}</td>
-              <td>{date}</td>
-              <td>{note}</td>
-              {hasStatus && <td>{status}</td>}
-            </tr>
-          ))}
-        </tbody>
-      </StyledTable>
-      {children}
-    </StyledWrapper>
+        ))}
+      </tbody>
+    </StyledTable>
   );
 };
 

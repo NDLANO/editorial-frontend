@@ -11,11 +11,11 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
 import { spacing, colors } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
 import { SubjectMaterial } from "@ndla/icons/contentType";
 import { Done } from "@ndla/icons/editor";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
 import { Node } from "@ndla/types-taxonomy";
+import { OldSpinner } from "../../../../components/OldSpinner";
 import RoundIcon from "../../../../components/RoundIcon";
 import { fetchDraft, updateDraft } from "../../../../modules/draft/draftApi";
 import { TOPIC_NODE } from "../../../../modules/nodes/nodeApiTypes";
@@ -34,7 +34,7 @@ interface Props {
   editModeHandler: EditModeHandler;
 }
 
-const StyledSpinner = styled(Spinner)`
+const StyledSpinner = styled(OldSpinner)`
   margin: 0px 4px;
 `;
 
@@ -84,7 +84,7 @@ const SwapTopicArticle = ({ node, rootNodeId, editModeHandler: { editMode, toggl
     toggleEditModeFunc();
     try {
       await putNodeMutation.mutateAsync({
-        ...node,
+        id: node.id,
         nodeType: TOPIC_NODE,
         contentUri: `urn:article:${topic.id}`,
         taxonomyVersion,

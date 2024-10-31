@@ -6,19 +6,17 @@
  *
  */
 
-import { Form, Formik } from "formik";
+import { Formik } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { spacing } from "@ndla/core";
-import { InputV3, Label } from "@ndla/forms";
+import { Button, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { IAuthor } from "@ndla/types-backend/article-api";
 import { CopyrightEmbedData } from "@ndla/types-embed";
 import { CopyrightFieldGroup } from "../../../../containers/FormikForm";
 import { useLicenses } from "../../../../modules/draft/draftQueries";
 import { DEFAULT_LICENSE } from "../../../../util/formHelper";
-import { FormControl, FormField } from "../../../FormField";
+import { FormField } from "../../../FormField";
+import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
 
 interface Props {
@@ -97,13 +95,6 @@ const rules: RulesType<FormValues> = {
   },
 };
 
-const ButtonWrapper = styled.div`
-  margin-top: ${spacing.small};
-  display: flex;
-  gap: ${spacing.small};
-  justify-content: flex-end;
-`;
-
 export const EmbedCopyrightForm = ({ embedData, onSave, onCancel }: Props) => {
   const { t } = useTranslation();
   const initialValues = useMemo(() => toInitialValues(embedData), [embedData]);
@@ -137,27 +128,25 @@ export const EmbedCopyrightForm = ({ embedData, onSave, onCancel }: Props) => {
       validate={(values) => validateFormik(values, rules, t)}
     >
       {({ dirty, isValid }) => (
-        <Form>
+        <FormikForm>
           <FormField name="title">
             {({ field, meta }) => (
-              <FormControl isInvalid={!!meta.error}>
-                <Label textStyle="label-small" margin="none">
-                  {t("form.title.label")}
-                </Label>
-                <InputV3 {...field} />
-              </FormControl>
+              <FieldRoot invalid={!!meta.error}>
+                <FieldLabel>{t("form.title.label")}</FieldLabel>
+                <FieldInput {...field} />
+              </FieldRoot>
             )}
           </FormField>
           <CopyrightFieldGroup />
-          <ButtonWrapper>
-            <ButtonV2 variant="outline" onClick={onCancel}>
+          <FormActionsContainer>
+            <Button variant="secondary" onClick={onCancel}>
               {t("cancel")}
-            </ButtonV2>
-            <ButtonV2 type="submit" disabled={!dirty || !isValid}>
+            </Button>
+            <Button type="submit" disabled={!dirty || !isValid}>
               {t("save")}
-            </ButtonV2>
-          </ButtonWrapper>
-        </Form>
+            </Button>
+          </FormActionsContainer>
+        </FormikForm>
       )}
     </Formik>
   );

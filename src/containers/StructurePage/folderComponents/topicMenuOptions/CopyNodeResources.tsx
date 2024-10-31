@@ -11,11 +11,11 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
 import { spacing, colors } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
 import { Copy } from "@ndla/icons/action";
 import { Done } from "@ndla/icons/editor";
 import { Node, NodeChild } from "@ndla/types-taxonomy";
 import AlertModal from "../../../../components/AlertModal";
+import { OldSpinner } from "../../../../components/OldSpinner";
 import RoundIcon from "../../../../components/RoundIcon";
 import { EditMode } from "../../../../interfaces";
 import { cloneDraft } from "../../../../modules/draft/draftApi";
@@ -35,7 +35,7 @@ interface Props {
   type: ActionType;
 }
 
-const StyledSpinner = styled(Spinner)`
+const StyledSpinner = styled(OldSpinner)`
   margin: 0px 4px;
 `;
 

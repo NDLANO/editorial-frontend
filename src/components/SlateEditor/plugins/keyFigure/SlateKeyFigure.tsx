@@ -11,34 +11,22 @@ import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
 import { Pencil } from "@ndla/icons/action";
 import { DeleteForever } from "@ndla/icons/editor";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
+import { IconButton } from "@ndla/primitives";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import { KeyFigureEmbedData } from "@ndla/types-embed";
-import { KeyFigure } from "@ndla/ui";
+import { EmbedWrapper, KeyFigure } from "@ndla/ui";
 import { KeyFigureElement } from ".";
 import KeyFigureForm from "./KeyFigureForm";
 import { fetchImage } from "../../../../modules/image/imageApi";
-import { StyledDeleteEmbedButton, StyledFigureButtons } from "../embed/FigureButtons";
+import { StyledFigureButtons } from "../embed/FigureButtons";
 
 interface Props extends RenderElementProps {
   element: KeyFigureElement;
   editor: Editor;
 }
-
-const KeyFigureWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex: 1;
-
-  > div:first-child {
-    position: relative;
-    width: 100%;
-  }
-`;
 
 const StyledModalHeader = styled(ModalHeader)`
   padding-bottom: 0px;
@@ -104,48 +92,56 @@ const SlateKeyFigure = ({ element, editor, attributes, children }: Props) => {
   useEffect(() => {
     if (data?.imageId) {
       fetchImage(data.imageId).then((image) => setImage(image));
+    } else {
+      setImage(undefined);
     }
   }, [data?.imageId, setImage]);
 
   return (
     <Modal open={isEditing} onOpenChange={setIsEditing}>
-      <KeyFigureWrapper {...attributes} data-testid="slate-key-figure">
-        {data && image && (
-          <div contentEditable={false}>
+      <EmbedWrapper {...attributes} contentEditable={false} data-testid="slate-key-figure">
+        {data && (
+          <>
             <StyledFigureButtons>
               <ModalTrigger>
-                <IconButtonV2 colorTheme="light" aria-label={t("keyFigureForm.edit")} title={t("keyFigureForm.edit")}>
+                <IconButton
+                  variant="secondary"
+                  size="small"
+                  aria-label={t("keyFigureForm.edit")}
+                  title={t("keyFigureForm.edit")}
+                >
                   <Pencil />
-                </IconButtonV2>
+                </IconButton>
               </ModalTrigger>
-              <StyledDeleteEmbedButton
-                colorTheme="danger"
+              <IconButton
+                variant="danger"
+                size="small"
                 aria-label={t("delete")}
                 title={t("delete")}
                 data-testid="remove-key-figure"
                 onClick={handleRemove}
               >
                 <DeleteForever />
-              </StyledDeleteEmbedButton>
+              </IconButton>
             </StyledFigureButtons>
             <KeyFigure
               title={data.title}
               subtitle={data.subtitle}
-              image={{ src: image.image.imageUrl, alt: image.alttext.alttext }}
+              image={image ? { src: image.image.imageUrl, alt: image.alttext.alttext } : undefined}
             />
-          </div>
+          </>
         )}
         {children}
-        <ModalContent>
-          <StyledModalHeader>
-            <ModalTitle>{t("keyFigureForm.title")}</ModalTitle>
-            <ModalCloseButton />
-          </StyledModalHeader>
-          <StyledModalBody>
-            <KeyFigureForm onSave={onSave} initialData={data} onCancel={onClose} />
-          </StyledModalBody>
-        </ModalContent>
-      </KeyFigureWrapper>
+      </EmbedWrapper>
+      <ModalContent>
+        <StyledModalHeader>
+          <ModalTitle>{t("keyFigureForm.title")}</ModalTitle>
+          <ModalCloseButton />
+        </StyledModalHeader>
+        <StyledModalBody>
+          <KeyFigureForm onSave={onSave} initialData={data} onCancel={onClose} />
+        </StyledModalBody>
+      </ModalContent>
     </Modal>
   );
 };

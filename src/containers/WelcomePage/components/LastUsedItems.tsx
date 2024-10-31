@@ -9,12 +9,13 @@
 import orderBy from "lodash/orderBy";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Tabs } from "@ndla/tabs";
-import { IConceptSearchResult, IConceptSummary } from "@ndla/types-backend/concept-api";
-import { IArticleSummary, ISearchResult } from "@ndla/types-backend/draft-api";
+import { TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
+import { IConceptSummary } from "@ndla/types-backend/concept-api";
+import { IArticleSummary } from "@ndla/types-backend/draft-api";
 import LastUsedConcepts from "./LastUsedConcepts";
 import LastUsedResources from "./LastUsedResources";
 import { Prefix, TitleElement } from "./TableComponent";
+import { WelcomePageTabsContent } from "./WelcomePageTabsContent";
 import {
   STORED_PAGE_SIZE_LAST_UPDATED,
   STORED_PAGE_SIZE_LAST_UPDATED_CONCEPT,
@@ -25,10 +26,7 @@ import { useSearchConcepts } from "../../../modules/concept/conceptQueries";
 import { useSearchDrafts } from "../../../modules/draft/draftQueries";
 import { useLocalStoragePageSizeState, useLocalStorageSortOptionState } from "../hooks/storedFilterHooks";
 
-export type SortOptionLastUsed = "title" | "lastUpdated";
-
-const getLastPage = (pageSize: number, res?: ISearchResult | IConceptSearchResult) =>
-  res?.results.length ? Math.ceil(res.results.length / pageSize) : 1;
+export type SortOptionLastUsed = "title" | "status" | "lastUpdated";
 
 type SortOptionType = Prefix<"-", SortOptionLastUsed>;
 
@@ -51,7 +49,14 @@ const getSortedPaginationData = <T extends IConceptSummary | IArticleSummary>(
 
   return orderBy(
     currentPageElements,
-    (e) => (sortOption.includes("title") ? e.title?.title : "updated" in e ? e.updated : e.lastUpdated),
+    (e) =>
+      sortOption.includes("title")
+        ? e.title?.title
+        : sortOption.includes("status")
+          ? e.status.current
+          : "updated" in e
+            ? e.updated
+            : e.lastUpdated,
     [sortDesc ? "desc" : "asc"],
   );
 };
@@ -95,13 +100,12 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [] }: Props)
       ids: lastUsedResources!,
       sort: "-lastUpdated",
       language,
-      pageSize: Number(pageSize!.value),
     },
     { enabled: !!lastUsedResources.length },
   );
 
   const searchConceptsQuery = useSearchConcepts(
-    { ids: lastUsedConcepts, sort: "-lastUpdated", language },
+    { ids: lastUsedConcepts, sort: "-lastUpdated", language, pageSize: lastUsedConcepts.length },
     {
       enabled: !!lastUsedConcepts.length,
     },
@@ -140,69 +144,64 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [] }: Props)
     [searchConceptsQuery.data, pageConcept, sortOptionConcept, pageSizeConcept],
   );
 
-  const lastPage = useMemo(
-    () => getLastPage(Number(pageSize!.value), searchDraftsQuery.data),
-    [searchDraftsQuery.data, pageSize],
-  );
-  const lastPageConcepts = useMemo(
-    () => getLastPage(Number(pageSizeConcept!.value), searchConceptsQuery.data),
-    [searchConceptsQuery.data, pageSizeConcept],
-  );
-
   const tableTitles: TitleElement<SortOptionLastUsed>[] = [
     { title: t("form.name.title"), sortableField: "title" },
+    { title: t("welcomePage.workList.status"), sortableField: "status", width: "20%" },
     {
       title: t("welcomePage.updated"),
       sortableField: "lastUpdated",
-      width: "40%",
+      width: "20%",
     },
   ];
 
   return (
-    <Tabs
-      variant="rounded"
-      aria-label={t("welcomePage.lastUsed")}
-      tabs={[
-        {
-          title: `${t("taxonomy.resources")} (${searchDraftsQuery.data?.totalCount ?? 0})`,
-          id: "articles",
-          content: (
-            <LastUsedResources
-              data={sortedData}
-              isLoading={searchDraftsQuery.isLoading}
-              page={page}
-              setPage={setPage}
-              lastPage={lastPage}
-              sortOption={sortOption}
-              setSortOption={setSortOption}
-              error={draftsError}
-              titles={tableTitles}
-              pageSize={pageSize}
-              setPageSize={setPageSize}
-            />
-          ),
-        },
-        {
-          title: `${t("form.name.concepts")} (${searchConceptsQuery.data?.totalCount ?? 0})`,
-          id: "concepts",
-          content: (
-            <LastUsedConcepts
-              data={sortedConceptsData}
-              isLoading={searchConceptsQuery.isLoading}
-              page={pageConcept}
-              setPage={setPageConcept}
-              sortOption={sortOptionConcept}
-              setSortOption={setSortOptionConcept}
-              error={conceptsError}
-              lastPage={lastPageConcepts}
-              titles={tableTitles}
-              pageSize={pageSizeConcept}
-              setPageSize={setPageSizeConcept}
-            />
-          ),
-        },
-      ]}
-    />
+    <TabsRoot
+      variant="outline"
+      translations={{
+        listLabel: t("welcomePage.listLabels.lastUsed"),
+      }}
+      defaultValue="articles"
+    >
+      <TabsList>
+        <TabsTrigger value="articles">
+          {`${t("taxonomy.resources")} (${searchDraftsQuery.data?.totalCount ?? 0})`}
+        </TabsTrigger>
+        <TabsTrigger value="concepts">
+          {`${t("form.name.concepts")} (${searchConceptsQuery.data?.totalCount ?? 0})`}
+        </TabsTrigger>
+        <TabsIndicator />
+      </TabsList>
+      <WelcomePageTabsContent value="articles">
+        <LastUsedResources
+          data={sortedData}
+          isPending={searchDraftsQuery.isPending}
+          page={page}
+          setPage={setPage}
+          sortOption={sortOption}
+          setSortOption={setSortOption}
+          error={draftsError}
+          titles={tableTitles}
+          pageSize={pageSize}
+          setPageSize={setPageSize}
+          totalCount={searchDraftsQuery.data?.totalCount}
+        />
+      </WelcomePageTabsContent>
+      <WelcomePageTabsContent value="concepts">
+        <LastUsedConcepts
+          data={sortedConceptsData}
+          isPending={searchConceptsQuery.isPending}
+          page={pageConcept}
+          setPage={setPageConcept}
+          sortOption={sortOptionConcept}
+          setSortOption={setSortOptionConcept}
+          error={conceptsError}
+          titles={tableTitles}
+          pageSize={pageSizeConcept}
+          setPageSize={setPageSizeConcept}
+          totalCount={searchConceptsQuery.data?.totalCount}
+        />
+      </WelcomePageTabsContent>
+    </TabsRoot>
   );
 };
 

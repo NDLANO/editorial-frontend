@@ -7,17 +7,13 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Podcast } from "@ndla/icons/common";
+import { ListItemContent, ListItemHeading, ListItemRoot } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
 import { ISeriesSummary } from "@ndla/types-backend/audio-api";
-import { toEditPodcastSeries } from "../../../../util/routeHelpers";
-import {
-  StyledSearchContent,
-  StyledSearchDescription,
-  StyledSearchImageContainer,
-  StyledSearchOtherLink,
-  StyledSearchResult,
-  StyledSearchTitle,
-} from "../form/StyledSearchComponents";
+import { SearchContentWrapper } from "./SearchContentWrapper";
+import { SearchListItemImage } from "./SearchListItemImage";
+import { routes } from "../../../../util/routeHelpers";
 
 interface Props {
   series: ISeriesSummary;
@@ -25,23 +21,26 @@ interface Props {
 
 const SearchPodcastSeries = ({ series }: Props) => {
   const { t } = useTranslation();
+
   return (
-    <StyledSearchResult>
-      <StyledSearchImageContainer>
-        <img src={series.coverPhoto.url + "?width=200"} alt={`${series.coverPhoto.altText}`} />
-      </StyledSearchImageContainer>
-      <StyledSearchContent>
-        <Link to={toEditPodcastSeries(series.id, series.title.language)}>
-          <StyledSearchTitle>{series.title.title || t("podcastSearch.noTitle")}</StyledSearchTitle>
-        </Link>
-        <StyledSearchDescription>
-          {`${t("searchPage.language")}: `}
-          {series.supportedLanguages?.map((lang) => (
-            <StyledSearchOtherLink key={lang}>{t(`languages.${lang}`)}</StyledSearchOtherLink>
-          ))}
-        </StyledSearchDescription>
-      </StyledSearchContent>
-    </StyledSearchResult>
+    <ListItemRoot context="list" variant="subtle">
+      <SearchListItemImage
+        src={series.coverPhoto.url}
+        alt={series.coverPhoto.altText}
+        sizes="56px"
+        fallbackWidth={56}
+        fallbackElement={<Podcast />}
+      />
+      <ListItemContent>
+        <SearchContentWrapper>
+          <ListItemHeading asChild consumeCss>
+            <SafeLink to={routes.podcastSeries.edit(series.id, series.title.language)} unstyled>
+              {series.title.title || t("podcastSearch.noTitle")}
+            </SafeLink>
+          </ListItemHeading>
+        </SearchContentWrapper>
+      </ListItemContent>
+    </ListItemRoot>
   );
 };
 

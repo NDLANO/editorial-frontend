@@ -11,12 +11,11 @@ import { ReactNode, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
-import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
-import { spacing } from "@ndla/core";
 import { Cross, Plus } from "@ndla/icons/action";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTrigger } from "@ndla/modal";
-import { FileList } from "@ndla/ui";
+import { Heading, IconButton } from "@ndla/primitives";
+import { HStack, styled } from "@ndla/styled-system/jsx";
+import { FileListWrapper } from "@ndla/ui";
 import { FileElement } from ".";
 import DndFileList from "./DndFileList";
 import { TYPE_FILE } from "./types";
@@ -25,9 +24,13 @@ import { File, UnsavedFile } from "../../../../interfaces";
 import { headFileAtRemote } from "../../../../modules/draft/draftApi";
 import FileUploader from "../../../FileUploader";
 
-const StyledSection = styled.section`
-  margin-bottom: ${spacing.normal};
-`;
+const StyledHeaderWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "xsmall",
+    justifyContent: "space-between",
+  },
+});
 
 const formatFile = (file: File, t: TFunction): File => ({
   ...file,
@@ -101,52 +104,53 @@ const SlateFileList = ({ element, editor, attributes, children }: Props) => {
     return null;
   }
   return (
-    <StyledSection {...attributes} contentEditable={false}>
-      <FileList
-        headingButtons={
-          <>
-            <Modal open={showFileUploader} onOpenChange={setShowFileUploader}>
-              <ModalTrigger>
-                <IconButtonV2
-                  variant="ghost"
-                  title={t("form.file.addFile")}
-                  aria-label={t("form.file.addFile")}
-                  size="xsmall"
-                >
-                  <Plus />
-                </IconButtonV2>
-              </ModalTrigger>
-              <ModalContent>
-                <ModalHeader>
-                  <ModalCloseButton />
-                </ModalHeader>
-                <ModalBody>
-                  <FileUploader onFileSave={onAddFileToList} />
-                </ModalBody>
-              </ModalContent>
-            </Modal>
-            <IconButtonV2
-              variant="ghost"
-              colorTheme="danger"
-              title={t("form.file.removeList")}
-              aria-label={t("form.file.removeList")}
-              onClick={removeFileList}
-              size="xsmall"
-            >
-              <Cross />
-            </IconButtonV2>
-          </>
-        }
-      >
+    <FileListWrapper {...attributes} contentEditable={false}>
+      <StyledHeaderWrapper>
+        <Heading fontWeight="bold" textStyle="heading.small" asChild consumeCss>
+          <h3>{t("files")}</h3>
+        </Heading>
+        <HStack gap="3xsmall">
+          <Modal open={showFileUploader} onOpenChange={setShowFileUploader}>
+            <ModalTrigger>
+              <IconButton
+                variant="tertiary"
+                title={t("form.file.addFile")}
+                aria-label={t("form.file.addFile")}
+                size="small"
+              >
+                <Plus />
+              </IconButton>
+            </ModalTrigger>
+            <ModalContent>
+              <ModalHeader>
+                <ModalCloseButton />
+              </ModalHeader>
+              <ModalBody>
+                <FileUploader onFileSave={onAddFileToList} close={() => setShowFileUploader(false)} />
+              </ModalBody>
+            </ModalContent>
+          </Modal>
+          <IconButton
+            variant="danger"
+            title={t("form.file.removeList")}
+            aria-label={t("form.file.removeList")}
+            onClick={removeFileList}
+            size="small"
+          >
+            <Cross />
+          </IconButton>
+        </HStack>
+      </StyledHeaderWrapper>
+      <ul>
         <DndFileList
           files={files}
           onEditFileList={onEditFileList}
           onDeleteFile={onDeleteFile}
           missingFilePaths={missingFilePaths}
         />
-      </FileList>
+      </ul>
       {children}
-    </StyledSection>
+    </FileListWrapper>
   );
 };
 

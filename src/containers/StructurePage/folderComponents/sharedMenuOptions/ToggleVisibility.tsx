@@ -8,11 +8,10 @@
 
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
-import { spacing } from "@ndla/core";
 import { Eye } from "@ndla/icons/editor";
-import { Switch } from "@ndla/switch";
+import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { Node, NodeType } from "@ndla/types-taxonomy";
 import MenuItemButton from "./components/MenuItemButton";
 import RoundIcon from "../../../../components/RoundIcon";
@@ -28,13 +27,12 @@ interface Props {
   rootNodeType?: NodeType;
 }
 
-export const DropDownWrapper = styled("div")`
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.9rem;
-  background-color: white;
-  padding: calc(${spacing.small} / 2);
-`;
+const Wrapper = styled("div", {
+  base: {
+    background: "background.default",
+    padding: "xxsmall",
+  },
+});
 
 const ToggleVisibility = ({
   node,
@@ -43,7 +41,7 @@ const ToggleVisibility = ({
   rootNodeType = "SUBJECT",
 }: Props) => {
   const { t, i18n } = useTranslation();
-  const { name, id, metadata } = node;
+  const { id, metadata } = node;
   const [visible, setVisible] = useState(metadata?.visible);
 
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -78,10 +76,15 @@ const ToggleVisibility = ({
         {t("metadata.changeVisibility")}
       </MenuItemButton>
       {editMode === "toggleMetadataVisibility" && (
-        <DropDownWrapper>
-          {name} {t(`metadata.${visible ? "visible" : "notVisible"}`)}
-          <Switch onChange={toggleVisibility} checked={visible} label="" id={"visible"} />
-        </DropDownWrapper>
+        <Wrapper>
+          <SwitchRoot checked={visible} onCheckedChange={toggleVisibility}>
+            <SwitchLabel>{t("metadata.visible")}</SwitchLabel>
+            <SwitchControl>
+              <SwitchThumb />
+            </SwitchControl>
+            <SwitchHiddenInput />
+          </SwitchRoot>
+        </Wrapper>
       )}
     </>
   );

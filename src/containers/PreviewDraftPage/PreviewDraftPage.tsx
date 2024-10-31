@@ -6,30 +6,19 @@
  *
  */
 
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
-import styled from "@emotion/styled";
-import { spacing, colors } from "@ndla/core";
+import { HeroBackground, HeroContent, PageContent } from "@ndla/primitives";
 import { HelmetWithTracker } from "@ndla/tracker";
-import { Hero, HeroContentType, OneColumn } from "@ndla/ui";
+import { ArticleWrapper, ContentTypeHero } from "@ndla/ui";
 import LanguageSelector from "./LanguageSelector";
 import PreviewDraft from "../../components/PreviewDraft/PreviewDraft";
+import { articleIsWide } from "../../components/WideArticleEditorProvider";
 import { useDraft } from "../../modules/draft/draftQueries";
 import { useNodes } from "../../modules/nodes/nodeQueries";
 import { getContentTypeFromResourceTypes } from "../../util/resourceHelpers";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
-
-const StyledOneColumn = styled(OneColumn)`
-  &[data-wide="true"] {
-    background-color: ${colors.background.lightBlue};
-    display: flex;
-    flex-flow: column;
-    justify-content: center;
-    align-items: center;
-    padding: 0 ${spacing.normal};
-    max-width: 100%;
-  }
-`;
 
 const PreviewDraftPage = () => {
   const params = useParams<"draftId" | "language">();
@@ -44,27 +33,59 @@ const PreviewDraftPage = () => {
     language,
     nodeType: "RESOURCE",
   });
+  const isWide = useMemo(() => articleIsWide(draftId), [draftId]);
 
   if (resources.isLoading || draft.isLoading) {
     return null;
   }
 
-  const label = resources.data?.[0]?.resourceTypes?.[0]?.name ?? "";
   const contentType = resources.data?.length
-    ? getContentTypeFromResourceTypes(resources.data[0].resourceTypes).contentType
+    ? getContentTypeFromResourceTypes(resources.data[0].resourceTypes)
     : undefined;
 
   const isFrontpage = draft.data?.articleType === "frontpage-article";
-  return (
-    <>
-      <Hero contentType={isFrontpage ? "frontpage-article" : (contentType as HeroContentType | undefined)}>
+
+  if (isWide) {
+    return (
+      <PageContent variant="page">
         <LanguageSelector supportedLanguages={draft.data?.supportedLanguages ?? []} />
-      </Hero>
+        <ArticleWrapper>
+          <PreviewDraft
+            type="article"
+            draft={draft.data!}
+            contentType={contentType}
+            language={language}
+            previewAlt={false}
+          />
+        </ArticleWrapper>
+        <HelmetWithTracker title={`${draft.data?.title?.title} ${t("htmlTitles.titleTemplate")}`} />
+      </PageContent>
+    );
+  }
+
+  return (
+    <ContentTypeHero contentType={isFrontpage ? "subject-material" : contentType}>
+      <HeroBackground />
+      <PageContent variant="article" asChild>
+        <HeroContent>
+          <LanguageSelector supportedLanguages={draft.data?.supportedLanguages ?? []} />
+        </HeroContent>
+      </PageContent>
+      <PageContent variant="article" gutters="tabletUp">
+        <PageContent variant="content" asChild>
+          <ArticleWrapper>
+            <PreviewDraft
+              type="article"
+              draft={draft.data!}
+              contentType={contentType}
+              language={language}
+              previewAlt={false}
+            />
+          </ArticleWrapper>
+        </PageContent>
+      </PageContent>
       <HelmetWithTracker title={`${draft.data?.title?.title} ${t("htmlTitles.titleTemplate")}`} />
-      <StyledOneColumn data-wide={isFrontpage}>
-        <PreviewDraft type="article" draft={draft.data!} label={label} contentType={contentType} language={language} />
-      </StyledOneColumn>
-    </>
+    </ContentTypeHero>
   );
 };
 

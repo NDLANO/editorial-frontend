@@ -30,7 +30,6 @@ import { PageContainer } from "@ndla/ui";
 import MediaPage from "./MediaPage";
 import SearchPage from "./SearchPage";
 import SubjectMatterPage from "./SubjectMatterPage";
-import Zendesk from "./Zendesk";
 import ErrorBoundary from "../../components/ErrorBoundary";
 import { scheduleRenewal } from "../../util/authHelpers";
 import ComparePage from "../ComparePage/ComparePage";
@@ -72,7 +71,6 @@ const App = () => {
         <SessionProvider initialValue={getSessionStateFromLocalStorage()}>
           <AuthInitializer>
             <PageContainer>
-              <Zendesk />
               <Helmet meta={[{ name: "description", content: t("meta.description") }]} />
               <StyledContent>
                 <Navigation />

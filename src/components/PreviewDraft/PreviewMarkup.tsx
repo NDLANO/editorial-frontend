@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { useTranslation } from "react-i18next";
+
+import { PageContent } from "@ndla/primitives";
 import { IArticle } from "@ndla/types-backend/draft-api";
-import { OneColumn } from "@ndla/ui";
+import { ArticleWrapper } from "@ndla/ui";
 import PreviewDraft from "./PreviewDraft";
-import { StyledPreviewWrapper } from "./styles";
 
 export interface MarkupPreviewProps {
   type: "markup";
@@ -18,17 +18,13 @@ export interface MarkupPreviewProps {
 }
 
 export const PreviewMarkup = ({ article, language }: MarkupPreviewProps) => {
-  const { t } = useTranslation();
   return (
-    <StyledPreviewWrapper>
-      <OneColumn>
-        <PreviewDraft
-          type="article"
-          draft={article}
-          language={language}
-          label={t("form.previewProductionArticle.article")}
-        />
-      </OneColumn>
-    </StyledPreviewWrapper>
+    <PageContent variant="article">
+      <PageContent variant="content" asChild>
+        <ArticleWrapper>
+          <PreviewDraft type="article" draft={article} language={language} previewAlt />
+        </ArticleWrapper>
+      </PageContent>
+    </PageContent>
   );
 };

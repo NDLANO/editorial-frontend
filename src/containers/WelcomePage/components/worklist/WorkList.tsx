@@ -8,7 +8,8 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Tabs } from "@ndla/tabs";
+import { TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import ConceptListTabContent from "./ConceptListTabContent";
 import WorkListTabContent from "./WorkListTabContent";
 import {
@@ -30,6 +31,7 @@ import {
   useLocalStorageSubjectFilterState,
   useLocalStorageBooleanState,
 } from "../../hooks/storedFilterHooks";
+import { WelcomePageTabsContent } from "../WelcomePageTabsContent";
 
 interface Props {
   ndlaId: string;
@@ -43,6 +45,12 @@ export type SortOptionWorkList =
   | "primaryRoot";
 
 export type SortOptionConceptList = "title" | "responsibleLastUpdated" | "status" | "subject" | "conceptType";
+
+const StyledTabsRoot = styled(TabsRoot, {
+  base: {
+    gridColumn: "1 / -1",
+  },
+});
 
 const WorkList = ({ ndlaId }: Props) => {
   const { t, i18n } = useTranslation();
@@ -144,71 +152,67 @@ const WorkList = ({ ndlaId }: Props) => {
   }, [searchOnHoldQuery.isError, t]);
 
   return (
-    <Tabs
-      variant="rounded"
-      aria-label={t("welcomePage.workList.ariaLabel")}
-      tabs={[
-        {
-          title: `${t("taxonomy.resources")} (${searchQuery.data?.totalCount ?? 0})`,
-          id: "articles",
-          content: (
-            <WorkListTabContent
-              data={searchQuery.data}
-              filterSubject={filterSubject}
-              setSortOption={setSortOption}
-              setFilterSubject={setFilterSubject}
-              isLoading={searchQuery.isLoading}
-              error={searchError}
-              sortOption={sortOption}
-              ndlaId={ndlaId}
-              setPage={setPage}
-              setPrioritized={setPrioritized}
-              prioritized={prioritized}
-              pageSize={pageSize}
-              setPageSize={setPageSize}
-            />
-          ),
-        },
-        {
-          title: `${t("welcomePage.workList.onHold")} (${searchOnHoldQuery.data?.totalCount ?? 0})`,
-          id: "onHold",
-          content: (
-            <WorkListTabContent
-              data={searchOnHoldQuery.data}
-              setSortOption={setSortOptionOnHold}
-              isLoading={searchOnHoldQuery.isLoading}
-              error={searchOnHoldError}
-              sortOption={sortOptionOnHold}
-              ndlaId={ndlaId}
-              setPage={setPageOnHold}
-              pageSize={pageSizeOnHold}
-              setPageSize={setPageSizeOnHold}
-              headerText="welcomePage.workList.onHoldHeading"
-              descriptionText="welcomePage.workList.onHoldDescription"
-            />
-          ),
-        },
-        {
-          title: `${t("form.name.concepts")} (${searchConceptsQuery.data?.totalCount ?? 0})`,
-          id: "concepts",
-          content: (
-            <ConceptListTabContent
-              data={searchConceptsQuery.data}
-              setSortOption={setSortOptionConcepts}
-              isLoading={searchConceptsQuery.isLoading}
-              error={searchConceptsError}
-              sortOption={sortOptionConcepts}
-              filterSubject={filterConceptSubject}
-              setFilterSubject={setFilterConceptSubject}
-              ndlaId={ndlaId}
-              setPageConcept={setPageConcept}
-              pageSizeConcept={pageSizeConcept}
-              setPageSizeConcept={setPageSizeConcept}
-            />
-          ),
-        },
-      ]}
-    />
+    <StyledTabsRoot
+      variant="outline"
+      defaultValue="articles"
+      translations={{
+        listLabel: t("welcomePage.listLabels.worklist"),
+      }}
+    >
+      <TabsList>
+        <TabsTrigger value="articles">{`${t("taxonomy.resources")} (${searchQuery.data?.totalCount ?? 0})`}</TabsTrigger>
+        <TabsTrigger value="onHold">{`${t("welcomePage.workList.onHold")} (${searchOnHoldQuery.data?.totalCount ?? 0})`}</TabsTrigger>
+        <TabsTrigger value="concepts">{`${t("form.name.concepts")} (${searchConceptsQuery.data?.totalCount ?? 0})`}</TabsTrigger>
+        <TabsIndicator />
+      </TabsList>
+      <WelcomePageTabsContent value="articles">
+        <WorkListTabContent
+          data={searchQuery.data}
+          filterSubject={filterSubject}
+          setSortOption={setSortOption}
+          setFilterSubject={setFilterSubject}
+          isPending={searchQuery.isPending}
+          error={searchError}
+          sortOption={sortOption}
+          ndlaId={ndlaId}
+          setPage={setPage}
+          setPrioritized={setPrioritized}
+          prioritized={prioritized}
+          pageSize={pageSize}
+          setPageSize={setPageSize}
+        />
+      </WelcomePageTabsContent>
+      <WelcomePageTabsContent value="onHold">
+        <WorkListTabContent
+          data={searchOnHoldQuery.data}
+          setSortOption={setSortOptionOnHold}
+          isPending={searchOnHoldQuery.isPending}
+          error={searchOnHoldError}
+          sortOption={sortOptionOnHold}
+          ndlaId={ndlaId}
+          setPage={setPageOnHold}
+          pageSize={pageSizeOnHold}
+          setPageSize={setPageSizeOnHold}
+          headerText="welcomePage.workList.onHoldHeading"
+          descriptionText="welcomePage.workList.onHoldDescription"
+        />
+      </WelcomePageTabsContent>
+      <WelcomePageTabsContent value="concepts">
+        <ConceptListTabContent
+          data={searchConceptsQuery.data}
+          setSortOption={setSortOptionConcepts}
+          isPending={searchConceptsQuery.isPending}
+          error={searchConceptsError}
+          sortOption={sortOptionConcepts}
+          filterSubject={filterConceptSubject}
+          setFilterSubject={setFilterConceptSubject}
+          ndlaId={ndlaId}
+          setPageConcept={setPageConcept}
+          pageSizeConcept={pageSizeConcept}
+          setPageSizeConcept={setPageSizeConcept}
+        />
+      </WelcomePageTabsContent>
+    </StyledTabsRoot>
   );
 };
 

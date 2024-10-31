@@ -8,14 +8,16 @@
 
 import { useFormikContext } from "formik";
 import parse from "html-react-parser";
-import { ReactElement, useMemo, useState } from "react";
+import { ReactNode, useMemo, useState } from "react";
 import { renderToString } from "react-dom/server";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { colors, spacing } from "@ndla/core";
 import { InformationOutline } from "@ndla/icons/common";
-import { Switch } from "@ndla/switch";
+import { PageContent, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
+import { MissingRouterContext } from "@ndla/safelink";
 import { IArticle } from "@ndla/types-backend/draft-api";
+import { ArticleWrapper } from "@ndla/ui";
 import { toFormArticle } from "./PreviewDraft";
 import { TwoArticleWrapper } from "./styles";
 import { TransformedPreviewDraft } from "./TransformedPreviewDraft";
@@ -68,6 +70,10 @@ const TwoArticleWrapperWithDiff = styled(TwoArticleWrapper)`
   }
 `;
 
+const renderWithoutRouter = (node: ReactNode) => {
+  return renderToString(<MissingRouterContext.Provider value={true}>{node}</MissingRouterContext.Provider>);
+};
+
 export const PreviewVersion = ({ article, language, customTitle }: VersionPreviewProps) => {
   const [diffEnable, setDiffEnable] = useState(false);
   const { t } = useTranslation();
@@ -91,20 +97,21 @@ export const PreviewVersion = ({ article, language, customTitle }: VersionPrevie
     previewAlt: true,
     useDraftConcepts: true,
   });
+
   const currentObj = useMemo(() => {
     if (!diffEnable) return null;
     return {
-      title: renderToString(currentTransformed.article?.title as ReactElement),
-      introduction: renderToString(currentTransformed.article?.introduction as ReactElement),
-      content: renderToString(currentTransformed.article?.content as ReactElement),
+      title: renderWithoutRouter(currentTransformed.article?.title),
+      introduction: renderWithoutRouter(currentTransformed.article?.introduction),
+      content: renderWithoutRouter(currentTransformed.article?.content),
     };
   }, [diffEnable, currentTransformed]);
   const publishObj = useMemo(() => {
     if (!diffEnable) return null;
     return {
-      title: renderToString(publishedTransformed.article?.title as ReactElement),
-      introduction: renderToString(publishedTransformed.article?.introduction as ReactElement),
-      content: renderToString(publishedTransformed.article?.content as ReactElement),
+      title: renderWithoutRouter(publishedTransformed.article?.title),
+      introduction: renderWithoutRouter(publishedTransformed.article?.introduction),
+      content: renderWithoutRouter(publishedTransformed.article?.content),
     };
   }, [diffEnable, publishedTransformed]);
 
@@ -141,31 +148,44 @@ export const PreviewVersion = ({ article, language, customTitle }: VersionPrevie
           aria-label={t("form.previewProductionArticle.diffInfo")}
           title={t("form.previewProductionArticle.diffInfo")}
         />
-        <Switch
-          onChange={() => setDiffEnable((p) => !p)}
-          checked={diffEnable}
-          label={t("form.previewProductionArticle.enableDiff")}
-          id={"diff"}
-        />
+        <SwitchRoot checked={diffEnable} onCheckedChange={(details) => setDiffEnable(details.checked)}>
+          <SwitchLabel>{t("form.previewProductionArticle.enableDiff")}</SwitchLabel>
+          <SwitchControl>
+            <SwitchThumb />
+          </SwitchControl>
+          <SwitchHiddenInput />
+        </SwitchRoot>
       </SwitchWrapper>
       <TwoArticleWrapperWithDiff>
-        <div>
-          <div className="u-10/12 u-push-1/12">
-            <h2>
-              {customTitle ??
-                t("form.previewProductionArticle.version", {
-                  revision: article.revision,
-                })}
-            </h2>
-          </div>
-          <TransformedPreviewDraft {...publishedTransformed} label={article.articleType} />
-        </div>
-        <div>
-          <div className="u-10/12 u-push-1/12">
-            <h2>{t("form.previewProductionArticle.current")}</h2>
-          </div>
-          <TransformedPreviewDraft {...transformedWithDiff} label={article.articleType} />
-        </div>
+        <PageContent variant="content">
+          <h2>
+            {customTitle ??
+              t("form.previewProductionArticle.version", {
+                revision: article.revision,
+              })}
+          </h2>
+          <ArticleWrapper>
+            {!!publishedTransformed.article && (
+              <TransformedPreviewDraft
+                {...publishedTransformed}
+                article={publishedTransformed.article}
+                draft={publishedTransformed.draft}
+              />
+            )}
+          </ArticleWrapper>
+        </PageContent>
+        <PageContent variant="content">
+          <h2>{t("form.previewProductionArticle.current")}</h2>
+          <ArticleWrapper>
+            {transformedWithDiff.article && (
+              <TransformedPreviewDraft
+                {...transformedWithDiff}
+                article={transformedWithDiff.article}
+                draft={transformedWithDiff.draft}
+              />
+            )}
+          </ArticleWrapper>
+        </PageContent>
       </TwoArticleWrapperWithDiff>
     </>
   );

@@ -8,25 +8,36 @@
 
 import { FieldArray, useField } from "formik";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { spacing } from "@ndla/core";
+import { Button, FieldsetHelper, FieldsetLegend, FieldsetRoot } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IGlossExample } from "@ndla/types-backend/concept-api";
-import { Text } from "@ndla/typography";
 
 import LanguageVariantFieldArray from "./LanguageVariantFieldArray";
 import { FormField } from "../../../components/FormField";
 import { emptyGlossExample } from "../glossData";
 
-const StyledFieldset = styled.fieldset`
-  border: none;
-  display: flex;
-  align-items: flex-start;
-  flex-direction: column;
-  gap: ${spacing.small};
-  width: 100%;
-  padding: 0px;
-`;
+const StyledFieldsetRoot = styled(FieldsetRoot, {
+  base: {
+    alignItems: "flex-start",
+    width: "100%",
+    gap: "xsmall",
+  },
+});
+
+const ArrayWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "large",
+    width: "100%",
+  },
+});
+
+const StyledButton = styled(Button, {
+  base: {
+    marginBlockStart: "medium",
+  },
+});
 
 interface Props {
   name: string;
@@ -41,24 +52,24 @@ const ExamplesFieldArray = ({ name }: Props) => {
     <FieldArray
       name={name}
       render={(arrayHelpers) => (
-        <StyledFieldset>
-          <Text element="legend" textStyle="label-large">
-            {t("form.gloss.examples.title")}
-          </Text>
-          <Text textStyle="meta-text-medium">{t("form.gloss.examples.description")}</Text>
-          {value?.map((languageVariantExamples, index) => (
-            <FormField key={`${name}.${index}`} name={`${name}.${index}`}>
-              {({ field }) => (
-                <LanguageVariantFieldArray
-                  examples={languageVariantExamples}
-                  index={index}
-                  {...field}
-                  removeFromParentArray={() => arrayHelpers.remove(index)}
-                />
-              )}
-            </FormField>
-          ))}
-          <ButtonV2
+        <StyledFieldsetRoot>
+          <FieldsetLegend textStyle="title.medium">{t("form.gloss.examples.title")}</FieldsetLegend>
+          <FieldsetHelper>{t("form.gloss.examples.description")}</FieldsetHelper>
+          <ArrayWrapper>
+            {value?.map((languageVariantExamples, index) => (
+              <FormField key={`${name}.${index}`} name={`${name}.${index}`}>
+                {({ field }) => (
+                  <LanguageVariantFieldArray
+                    examples={languageVariantExamples}
+                    index={index}
+                    {...field}
+                    removeFromParentArray={() => arrayHelpers.remove(index)}
+                  />
+                )}
+              </FormField>
+            ))}
+          </ArrayWrapper>
+          <StyledButton
             disabled={!originalLanguageField.value}
             onClick={() => {
               arrayHelpers.push([emptyGlossExample]);
@@ -67,8 +78,8 @@ const ExamplesFieldArray = ({ name }: Props) => {
             {t("form.gloss.add", {
               label: t(`form.gloss.example`).toLowerCase(),
             })}
-          </ButtonV2>
-        </StyledFieldset>
+          </StyledButton>
+        </StyledFieldsetRoot>
       )}
     />
   );

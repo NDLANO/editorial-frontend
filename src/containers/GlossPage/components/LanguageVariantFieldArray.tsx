@@ -8,34 +8,20 @@
 
 import { FieldArray } from "formik";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { spacing } from "@ndla/core";
 import { TrashCanOutline } from "@ndla/icons/action";
+import { Button, FieldsetLegend, FieldsetRoot } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IGlossExample } from "@ndla/types-backend/concept-api";
-import { Text } from "@ndla/typography";
 import ExampleField from "./ExampleField";
 import { emptyGlossExample } from "../glossData";
 
-const StyledFieldset = styled.fieldset`
-  border: none;
-  margin-bottom: ${spacing.small};
-  width: 100%;
-  padding: 0px;
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-`;
-
-const StyledButton = styled(ButtonV2)`
-  align-self: flex-start;
-`;
-
-const ExampleWrapper = styled.div`
-  display: flex;
-  gap: ${spacing.small};
-  align-items: center;
-`;
+const StyledFieldsetRoot = styled(FieldsetRoot, {
+  base: {
+    width: "100%",
+    alignItems: "flex-start",
+    gap: "small",
+  },
+});
 
 type Props = {
   name: string;
@@ -47,40 +33,37 @@ type Props = {
 const LanguageVariantFieldArray = ({ examples, name, index, removeFromParentArray }: Props) => {
   const { t } = useTranslation();
   return (
-    <StyledFieldset>
-      <Text element="legend" textStyle="label-large">
-        {t("form.gloss.examples.exampleOnIndex", { index: index + 1 })}
-      </Text>
+    <StyledFieldsetRoot>
+      <FieldsetLegend>{t("form.gloss.examples.exampleOnIndex", { index: index + 1 })}</FieldsetLegend>
       <FieldArray
         name={name}
         render={(arrayHelpers) => (
           <>
             {examples?.map((example, exampleIndex) => (
-              <ExampleWrapper key={exampleIndex}>
-                <ExampleField
-                  name={`${name}.${exampleIndex}`}
-                  example={example}
-                  index={index}
-                  exampleIndex={exampleIndex}
-                  onRemoveExample={() =>
-                    examples.length === 1 ? removeFromParentArray() : arrayHelpers.remove(exampleIndex)
-                  }
-                />
-              </ExampleWrapper>
+              <ExampleField
+                key={exampleIndex}
+                name={`${name}.${exampleIndex}`}
+                example={example}
+                index={index}
+                exampleIndex={exampleIndex}
+                onRemoveExample={() =>
+                  examples.length === 1 ? removeFromParentArray() : arrayHelpers.remove(exampleIndex)
+                }
+              />
             ))}
-            <StyledButton variant="outline" onClick={() => arrayHelpers.push(emptyGlossExample)}>
+            <Button variant="secondary" size="small" onClick={() => arrayHelpers.push(emptyGlossExample)}>
               {t("form.gloss.add", {
                 label: t(`form.gloss.languageVariant`).toLowerCase(),
               })}
-            </StyledButton>
-            <StyledButton variant="outline" colorTheme="danger" onClick={removeFromParentArray}>
-              <TrashCanOutline />
+            </Button>
+            <Button variant="danger" size="small" onClick={removeFromParentArray}>
+              <TrashCanOutline size="small" />
               {t("form.gloss.examples.remove", { index: index + 1 })}
-            </StyledButton>
+            </Button>
           </>
         )}
       />
-    </StyledFieldset>
+    </StyledFieldsetRoot>
   );
 };
 

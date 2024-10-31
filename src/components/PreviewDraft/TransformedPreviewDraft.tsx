@@ -6,42 +6,48 @@
  *
  */
 
-import { useEffect, useMemo } from "react";
-import { ContentTypeBadge, Article, FrontpageArticle, ArticleType } from "@ndla/ui";
+import { useEffect } from "react";
+import { ArticleType, ArticleTitle, ArticleContent, ArticleFooter, ArticleByline } from "@ndla/ui";
 import { FormArticle } from "./PreviewDraft";
 import { getUpdatedLanguage } from "./useTransformedArticle";
-import { articleIsWide } from "../WideArticleEditorProvider";
 
 interface Props {
-  article: ArticleType | undefined;
+  article: ArticleType;
   draft: FormArticle;
-  label: string;
   contentType?: string;
 }
 
-export const TransformedPreviewDraft = ({ article, draft, contentType, label }: Props) => {
-  const isWide = useMemo(() => articleIsWide(draft.id), [draft.id]);
-
+export const TransformedPreviewDraft = ({ article, draft, contentType }: Props) => {
   useEffect(() => {
     if (window.MathJax) {
       window.MathJax.typesetPromise();
     }
   }, [article]);
 
-  if (!!article && draft.articleType === "frontpage-article") {
-    return <FrontpageArticle article={article} id={draft.id.toString()} isWide={isWide} />;
-  }
-
-  if (!article) return null;
+  const authors =
+    article.copyright?.creators.length || article.copyright?.rightsholders.length
+      ? article.copyright.creators
+      : article.copyright?.processors;
 
   return (
-    <Article
-      article={article}
-      contentTransformed
-      icon={contentType ? <ContentTypeBadge type={contentType} background size="large" /> : null}
-      id={draft.id.toString()}
-      messages={{ label }}
-      lang={getUpdatedLanguage(draft.language)}
-    />
+    <>
+      <ArticleTitle
+        id={draft.id.toString()}
+        contentType={contentType}
+        title={article.title}
+        introduction={article.introduction}
+        lang={getUpdatedLanguage(draft.language)}
+      />
+      <ArticleContent>{article.content ?? ""}</ArticleContent>
+      <ArticleFooter>
+        <ArticleByline
+          footnotes={article.footNotes}
+          authors={authors}
+          suppliers={article.copyright?.rightsholders}
+          published={article.published}
+          license={article.copyright?.license?.license ?? ""}
+        />
+      </ArticleFooter>
+    </>
   );
 };

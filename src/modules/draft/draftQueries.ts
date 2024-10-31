@@ -7,7 +7,14 @@
  */
 
 import { useMutation, useQuery, useQueryClient, UseQueryOptions } from "@tanstack/react-query";
-import { ILicense, IArticle, IUserData, IUpdatedUserData, ISearchResult } from "@ndla/types-backend/draft-api";
+import {
+  ILicense,
+  IArticle,
+  IUserData,
+  IUpdatedUserData,
+  ISearchResult,
+  ITagsSearchResult,
+} from "@ndla/types-backend/draft-api";
 import {
   fetchDraft,
   fetchLicenses,
@@ -16,10 +23,22 @@ import {
   updateUserData,
   searchAllDrafts,
   fetchDraftHistory,
+  fetchSearchTags,
+  fetchGrepCodes,
 } from "./draftApi";
 import { DraftSearchQuery } from "./draftApiInterfaces";
 import { DraftStatusStateMachineType } from "../../interfaces";
-import { DRAFT, DRAFT_STATUS_STATE_MACHINE, LICENSES, USER_DATA, SEARCH_DRAFTS, DRAFT_HISTORY } from "../../queryKeys";
+import {
+  DRAFT,
+  DRAFT_STATUS_STATE_MACHINE,
+  LICENSES,
+  USER_DATA,
+  SEARCH_DRAFTS,
+  DRAFT_HISTORY,
+  DRAFT_SEARCH_TAGS,
+  GREP_CODES_SEARCH,
+} from "../../queryKeys";
+import { fetchGrepCodeTitle } from "../grep/grepApi";
 
 export interface UseDraft {
   id: number;
@@ -39,6 +58,8 @@ export const draftQueryKeys = {
   licenses: [LICENSES] as const,
   userData: [USER_DATA] as const,
   statusStateMachine: (params?: Partial<StatusStateMachineParams>) => [DRAFT_STATUS_STATE_MACHINE, params] as const,
+  draftSearchTags: (params?: Partial<UseSearchTags>) => [DRAFT_SEARCH_TAGS, params] as const,
+  grepCodesSearch: (params?: Partial<UseGrepCodesSearch>) => [GREP_CODES_SEARCH, params] as const,
 };
 
 draftQueryKeys.draft({ id: 1 });
@@ -126,6 +147,56 @@ export const useDraftStatusStateMachine = (
   return useQuery<DraftStatusStateMachineType>({
     queryKey: draftQueryKeys.statusStateMachine(params),
     queryFn: () => fetchStatusStateMachine(params.articleId),
+    ...options,
+  });
+};
+
+export interface UseSearchTags {
+  input: string;
+  language: string;
+}
+
+export const useDraftSearchTags = (params: UseSearchTags, options?: Partial<UseQueryOptions<ITagsSearchResult>>) => {
+  return useQuery<ITagsSearchResult>({
+    queryKey: draftQueryKeys.draftSearchTags(params),
+    queryFn: () => fetchSearchTags(params.input, params.language),
+    ...options,
+  });
+};
+
+export interface UseGrepCodesSearch {
+  input: string;
+}
+
+interface GrepCodesSearchResult {
+  results: {
+    code: string;
+    title: string;
+  }[];
+  totalCount: number;
+  page: number;
+  pageSize: number;
+}
+
+export const useGrepCodesSearch = (
+  params: UseGrepCodesSearch,
+  options?: Partial<UseQueryOptions<GrepCodesSearchResult>>,
+) => {
+  return useQuery<GrepCodesSearchResult>({
+    queryKey: draftQueryKeys.grepCodesSearch(params),
+    queryFn: async () => {
+      const result = await fetchGrepCodes(params.input);
+      const convertedGrepCodes = await Promise.all(
+        result.results.map(async (c) => {
+          const grepCodeTitle = await fetchGrepCodeTitle(c);
+          return {
+            code: c,
+            title: grepCodeTitle ? `${c} - ${grepCodeTitle}` : c,
+          };
+        }),
+      );
+      return { ...result, results: convertedGrepCodes };
+    },
     ...options,
   });
 };

@@ -59,10 +59,11 @@ export const IconWrapper = styled.div`
 interface Props {
   contentMetaLoading: boolean;
   resource: ResourceWithNodeConnectionAndMeta;
+  multipleTaxonomy: boolean;
   path?: string;
 }
 
-const StatusIcons = ({ contentMetaLoading, resource, path }: Props) => {
+const StatusIcons = ({ contentMetaLoading, resource, multipleTaxonomy, path }: Props) => {
   const { t } = useTranslation();
   const approachingRevision = useMemo(
     () => isApproachingRevision(resource.contentMeta?.revisions),
@@ -99,7 +100,7 @@ const StatusIcons = ({ contentMetaLoading, resource, path }: Props) => {
         </>
       ) : null}
       {!contentMetaLoading && <WrongTypeError resource={resource} articleType={resource.contentMeta?.articleType} />}
-      {resource.contexts?.length > 1 && (
+      {multipleTaxonomy && (
         <IconWrapper>
           <StyledWarnIcon
             aria-label={t("form.workflow.multipleTaxonomy")}

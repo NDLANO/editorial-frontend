@@ -6,50 +6,63 @@
  *
  */
 
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
-import { Switch } from "@ndla/switch";
-import { RESOURCE_FILTER_CORE, RESOURCE_FILTER_SUPPLEMENTARY } from "../../constants";
-
-export const StyledSwitch = styled(Switch)`
-  margin-left: -${spacing.nsmall};
-`;
-
-export const StyledToggleSwitch = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-left: 10px;
-`;
+import { useQueryClient } from "@tanstack/react-query";
+import { NodeChild, NodeConnectionPUT } from "@ndla/types-taxonomy";
+import RelevanceOptionSwitch from "./RelevanceOptionSwitch";
+import { ResourceWithNodeConnectionAndMeta } from "../../containers/StructurePage/resourceComponents/StructureResources";
+import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVersionProvider";
+import { usePutResourceForNodeMutation, useUpdateNodeConnectionMutation } from "../../modules/nodes/nodeMutations";
+import { nodeQueryKeys } from "../../modules/nodes/nodeQueries";
 
 interface Props {
-  relevanceId: string | null | undefined;
-  onChange: (id: string) => void;
+  resource: ResourceWithNodeConnectionAndMeta;
+  currentNodeId: string;
 }
 
-const RelevanceOption = ({ relevanceId, onChange }: Props) => {
-  const { t } = useTranslation();
-  const [isOn, setIsOn] = useState((relevanceId ?? RESOURCE_FILTER_CORE) === RESOURCE_FILTER_CORE);
+const RelevanceOption = ({ resource, currentNodeId }: Props) => {
+  const { i18n } = useTranslation();
+  const { taxonomyVersion } = useTaxonomyVersion();
+  const qc = useQueryClient();
+  const compKey = nodeQueryKeys.resources({
+    id: currentNodeId,
+    language: i18n.language,
+  });
 
-  return (
-    <StyledToggleSwitch>
-      <StyledSwitch
-        aria-label={t("form.topics.RGTooltip")}
-        id="toggleRelevanceId"
-        test-id="toggleRelevanceId"
-        checked={isOn}
-        label=""
-        onChange={() => {
-          onChange(isOn ? RESOURCE_FILTER_SUPPLEMENTARY : RESOURCE_FILTER_CORE);
-          setIsOn(!isOn);
-        }}
-        thumbCharacter={isOn ? "K" : "T"}
-        title={t("form.topics.RGTooltip")}
-      />
-    </StyledToggleSwitch>
-  );
+  const onUpdateConnection = async (id: string, { relevanceId }: NodeConnectionPUT) => {
+    await qc.cancelQueries({ queryKey: compKey });
+    const resources = qc.getQueryData<NodeChild[]>(compKey) ?? [];
+    if (relevanceId) {
+      const newResources = resources.map((res) => {
+        if (res.id === id) {
+          return { ...res, relevanceId: relevanceId };
+        } else return res;
+      });
+      qc.setQueryData<NodeChild[]>(compKey, newResources);
+    }
+    return resources;
+  };
+
+  const { mutateAsync: updateNodeConnection } = useUpdateNodeConnectionMutation({
+    onMutate: async ({ id, body }) => onUpdateConnection(id, body),
+    onSettled: () => qc.invalidateQueries({ queryKey: compKey }),
+  });
+  const { mutateAsync: updateResourceConnection } = usePutResourceForNodeMutation({
+    onMutate: async ({ id, body }) => onUpdateConnection(id, body),
+    onSettled: () => qc.invalidateQueries({ queryKey: compKey }),
+  });
+
+  const updateRelevanceId = async (relevanceId: string) => {
+    const { connectionId, isPrimary, rank } = resource;
+    const func = connectionId.includes("-resource") ? updateResourceConnection : updateNodeConnection;
+    await func({
+      id: connectionId,
+      body: { relevanceId, primary: isPrimary, rank: rank },
+      taxonomyVersion,
+    });
+  };
+
+  return <RelevanceOptionSwitch relevanceId={resource?.relevanceId} onChange={updateRelevanceId} />;
 };
 
 export default RelevanceOption;

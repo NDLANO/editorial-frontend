@@ -11,10 +11,14 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
+import { Search } from "@ndla/icons/common";
+import { IUserData } from "@ndla/types-backend/draft-api";
 import { SearchParams } from "./SearchForm";
 import SearchTagGroup from "./SearchTagGroup";
 import Selector, { SearchFormSelector, TextInputSelectorType } from "./Selector";
+import { SearchType } from "../../../../interfaces";
 import { DateChangedEvent } from "../../../FormikForm/components/InlineDatePicker";
+import SearchSaveButton from "../../SearchSaveButton";
 
 type FormEvents = FormEvent<HTMLInputElement> | FormEvent<HTMLSelectElement>;
 type FieldChangedEvent = FormEvents | DateChangedEvent;
@@ -26,7 +30,7 @@ export type OnFieldChangeFunction = <T extends keyof SearchParams>(
 ) => void;
 
 interface Props {
-  type: string;
+  type: SearchType;
   selectors: SearchFormSelector[];
   query: string;
   searchObject: SearchParams;
@@ -34,6 +38,8 @@ interface Props {
   onFieldChange: OnFieldChangeFunction;
   emptySearch: (evt: MouseEvent<HTMLButtonElement>) => void;
   removeTag: (tag: SearchFormSelector) => void;
+  userData: IUserData | undefined;
+  disableSavedSearch?: boolean;
 }
 
 const StyledButton = styled(ButtonV2)`
@@ -53,6 +59,13 @@ const StyledForm = styled.form`
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
   }
+`;
+
+const StyledSearchHeader = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: space-between;
 `;
 
 interface StyledFieldProps {
@@ -87,6 +100,8 @@ const GenericSearchForm = ({
   onFieldChange,
   emptySearch,
   removeTag,
+  userData,
+  disableSavedSearch,
 }: Props) => {
   const { t } = useTranslation();
 
@@ -107,31 +122,42 @@ const GenericSearchForm = ({
   ];
 
   return (
-    <StyledForm
-      onSubmit={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-      }}
-    >
-      {selectors.map((selector) => {
-        return (
-          <StyledField key={`search-form-field-${selector.parameterName}`} width={selector.width ?? 50}>
-            <Selector searchObject={searchObject} selector={selector} onFieldChange={onFieldChange} formType={type} />
-          </StyledField>
-        );
-      })}
-      <ButtonContainer>
-        <StyledButton onClick={emptySearch} variant="outline">
-          {t("searchForm.empty")}
-        </StyledButton>
-        <StyledButton type="submit" onClick={onSubmit}>
-          {t("searchForm.btn")}
-        </StyledButton>
-      </ButtonContainer>
-      <StyledTagline>
-        <SearchTagGroup onRemoveItem={removeTag} tagTypes={tags} />
-      </StyledTagline>
-    </StyledForm>
+    <>
+      {!disableSavedSearch && (
+        <StyledSearchHeader>
+          <h2>
+            <Search />
+            {t(`searchPage.header.${type}`)}
+          </h2>
+          <SearchSaveButton userData={userData} selectors={selectors} searchContentType={type} />
+        </StyledSearchHeader>
+      )}
+      <StyledForm
+        onSubmit={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        }}
+      >
+        {selectors.map((selector) => {
+          return (
+            <StyledField key={`search-form-field-${selector.parameterName}`} width={selector.width ?? 50}>
+              <Selector searchObject={searchObject} selector={selector} onFieldChange={onFieldChange} formType={type} />
+            </StyledField>
+          );
+        })}
+        <ButtonContainer>
+          <StyledButton onClick={emptySearch} variant="outline">
+            {t("searchForm.empty")}
+          </StyledButton>
+          <StyledButton type="submit" onClick={onSubmit}>
+            {t("searchForm.btn")}
+          </StyledButton>
+        </ButtonContainer>
+        <StyledTagline>
+          <SearchTagGroup onRemoveItem={removeTag} tagTypes={tags} />
+        </StyledTagline>
+      </StyledForm>
+    </>
   );
 };
 

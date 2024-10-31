@@ -6,16 +6,17 @@
  *
  */
 
+import { toUnicode } from "punycode";
 import { useEffect, useRef, useState, MouseEvent, ReactNode, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import styled from "@emotion/styled";
 import { Root, Anchor, Portal } from "@radix-ui/react-popover";
-import { IconButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { Pencil } from "@ndla/icons/action";
 import { DeleteForever } from "@ndla/icons/editor";
+import { IconButton } from "@ndla/primitives";
 import { RelatedContentEmbedData, RelatedContentMetaData } from "@ndla/types-embed";
 import { RelatedArticleList, RelatedContentEmbed } from "@ndla/ui";
 import { RelatedElement } from ".";
@@ -102,11 +103,6 @@ const embedsToMeta = async (embeds: RelatedContentEmbedData[], language: string,
   return await Promise.all(promises);
 };
 
-const StyledIconButton = styled(IconButtonV2)`
-  width: 40px;
-  height: 40px;
-`;
-
 const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, children }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -131,6 +127,7 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
       resource: "related-content",
       title,
       url,
+      urlDomain: toUnicode(new URL(url).hostname),
     };
     const nodeData = (element.data ?? []).concat(newEmbed);
     setNodeData(nodeData);
@@ -194,24 +191,25 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
         data-testid="relatedWrapper"
         headingButtons={
           <ButtonWrapper>
-            <StyledIconButton
+            <IconButton
               onClick={() => setEditMode(true)}
               aria-label={t("form.edit")}
-              variant="ghost"
+              variant="tertiary"
+              size="small"
               title={t("form.edit")}
             >
               <Pencil />
-            </StyledIconButton>
+            </IconButton>
 
-            <StyledIconButton
+            <IconButton
               onClick={deleteElement}
               aria-label={t("delete")}
-              variant="ghost"
-              colorTheme="danger"
+              variant="danger"
               title={t("delete")}
+              size="small"
             >
               <DeleteForever />
-            </StyledIconButton>
+            </IconButton>
           </ButtonWrapper>
         }
       >

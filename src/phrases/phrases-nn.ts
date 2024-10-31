@@ -107,6 +107,10 @@ const phrases = {
     ti: "Tigrinja",
     und: "Udefinert",
     ukr: "Ukrainsk",
+    prs: "Dari",
+    san: "Sanskrit",
+    heb: "Hebraisk",
+    pli: "Pali",
     empty: "Ingen fleire språk",
     change: "Bytt til {{language}} versjon",
   },
@@ -156,6 +160,14 @@ const phrases = {
     noResultsLMASubjects: "Følgjande statusar vil ikkje visast i oversikta",
     count: "Antall",
     countResponsible: "Antall ansvarleg for",
+    pagination: {
+      resources: "ressursar",
+      concepts: "forklaringar",
+      workList: "Sider med {{ resourceType }} du er ansvarleg for",
+      lastUsed: "Sider med dine sist redigerte {{ resourceType }}",
+      revision: "Sider med utløpande ressursar i favorittfaga dine",
+      subjectView: "Sider med statistikk for dine {{ group }}",
+    },
     workList: {
       heading: "Mine arbeidsoppgåver",
       description: "Ressursar der du står som ansvarleg",
@@ -189,13 +201,19 @@ const phrases = {
       flow: "I flyt",
       flowDescription: "Tal på ressursar i flyt",
       old: "Utdaterte",
-      oldDescription: "Tal på ressurser det er meir enn 5 år sidan vart sist fagleg vurdert",
+      oldDescription: "Tal på ressurser det er meir enn 5 år sidan vart sist fagleg oppdatert",
       revision: "Revisjonar",
       revisionDescription: "Tal på ressursar med utgått revisjonsdato",
       published: "Publisert",
       publishedDescription: "Tal på publiserte ressursar",
     },
     welcomeBack: "Velkommen",
+    listLabels: {
+      worklist: "Ressurstypar",
+      lastUsed: "Ressurstypar",
+      subjectView: "Fagtypar",
+      articleStatuses: "Fagtypar",
+    },
   },
   searchPage: {
     header: {
@@ -215,6 +233,7 @@ const phrases = {
     audioNoHits: "Ingen lydfiler samsvarte med søket ditt på: {{query}}",
     imageNoHits: "Ingen bilete samsvarte med søket ditt på: {{query}}",
     pageSize: "{{pageSize}} treff per side",
+    hitsSelectLabel: "Antall treff per side",
     totalCount: "Antall søketreff",
     highlights: {
       title: "Søketreff",
@@ -292,7 +311,7 @@ const phrases = {
       glossQuery: "Søk på glose",
       contentQuery: "Søk på innhald",
       audioQuery: "Søk på lydfiler",
-      podcastSeriesQuery: "Søk på podkastserier",
+      "podcast-seriesQuery": "Søk på podkastserier",
       imageQuery: "Søk på bilete",
       language: "Velg språk",
       users: "Velg bruker",
@@ -357,6 +376,7 @@ const phrases = {
       lastUpdated: "Sist oppdatert",
       revisionDate: "Neste revisjon",
       favorited: "Favorittmarkeringar",
+      published: "Sist faglig oppdatert",
     },
     resultError: "Noko gjekk feil med innlasting av type: {{type}}",
     favourites: "Mine favorittfag",
@@ -365,6 +385,8 @@ const phrases = {
     DASubjects: "Mine DA-fag",
     archivedIncluded: "Utgåtte fag inkludert",
     error: "Noko gjekk galt med søket",
+    conceptSubject: "Forklaringsfag: {{name}}",
+    multiTaxonomy: "{{count}} plasseringer i taksonomi",
   },
   subjectsPage: {
     subjects: "Fag",
@@ -443,6 +465,7 @@ const phrases = {
     noResults: "Ingen resultat funnet",
     noTitle: "Ingen tittel",
     noContent: "Ingen innhald",
+    listLabel: "Valg",
   },
   searchTypes: {
     content: "Innhald",
@@ -494,7 +517,7 @@ const phrases = {
     visualElementCopyright: "Opphav",
     removeVisualElement: "Fjern element",
     info: {
-      lastUpdated: "Sist faglig vurdert",
+      lastUpdated: "Sist faglig oppdatert",
     },
     title: "Emne",
     fields: {
@@ -587,13 +610,10 @@ const phrases = {
     title: "Kontaktblokk",
     edit: "Rediger kontaktblokk",
     delete: "Fjern kontaktblokk",
-    blobColor: {
-      green: "Grønn",
-      pink: "Rosa",
-    },
-    blob: {
-      pointy: "Spiss",
-      round: "Rund",
+    background: {
+      subtle: "Subtil",
+      moderate: "Moderat",
+      strong: "Sterk",
     },
   },
   frontpageArticleForm: {
@@ -610,12 +630,13 @@ const phrases = {
     background: {
       white: "Kvit",
       transparent: "Transparent",
+      gray: "Grå",
     },
     setSticky: "Lås innhald til cella ved sida av",
     unsetSticky: "Frigjer innhald frå cella ved sida av",
   },
-  blogPostForm: {
-    title: "Rediger bloggpost",
+  pitchForm: {
+    title: "Rediger pitch",
     languageExplanation: "Vel språk for skjermlesar",
     sizes: {
       normal: "Normal",
@@ -644,6 +665,23 @@ const phrases = {
     title: "Nykeltal",
     edit: "Rediger nykeltal",
   },
+  qualityEvaluationForm: {
+    title: "Kvalitetsvurdering",
+    unavailable: "Ikkje satt",
+    modalTitle: "Oppdater kvalitetsvurdering",
+    description:
+      "Legg inn ei kvalitetsvurdering av {{ resource }} med ei beskriving av den valde graderinga. Skalaen er som følgjer: 1 = eineståande, 2 = veldig bra, 3 = OK, 4 = bør fiksast, 5 = må fiksast.",
+    edit: "Rediger kvalitetsvurdering",
+    delete: "Slett",
+    note: "Notat",
+    article: "artikkelen",
+    topicArticle: "emnet som heilskap",
+    needsRevision: "Kvalitetsvurdert til 5",
+    error: "Ein feil oppstod ved oppdatering av taksonomi",
+    disabled: "Ressursar utan taksonomi kan ikkje kvalitetsvurderast",
+    warning:
+      "Revisjonsmerknad blir sett automatisk når ein set kvalitetsvurdering til 5. Artikkelen vil derfor få ulagra endringar.",
+  },
   editorToolbar: {
     bold: "Feit\n({{ctrl}}+b)",
     "bulleted-list": "Punktliste\n({{ctrl}}+l)",
@@ -651,6 +689,7 @@ const phrases = {
     "code-block": "Kodeblokk",
     "concept-inline": "Forklaring\n({{ctrl}}+alt+c)",
     "gloss-inline": "Glose\n({{ctrl}}+alt+g)",
+    "comment-inline": "Kommentar\n({{ctrl}}+alt+e)",
     footnote: "Fotnote\n({{ctrl}}+alt+f)",
     language: `Språk`,
     noneLanguage: "Ingen",
@@ -679,6 +718,9 @@ const phrases = {
     left: "Venstrejustert",
     center: "Midtstilt",
     right: "Høgrejustert",
+    disabled: {
+      "comment-inline": "Kommentar kan kun overlappe tekst",
+    },
   },
   editorBlockpicker: {
     heading: "Legg til",
@@ -703,12 +745,13 @@ const phrases = {
       concept: "Forklaring",
       keyFigure: "Nykeltal",
       contactBlock: "Kontaktblokk",
-      blogPost: "Bloggpost",
+      pitch: "Pitch",
       grid: "Grid",
       campaignBlock: "Kampanjeblokk",
       linkBlockList: "Lenkeblokk",
       gloss: "Glose",
       disclaimer: "UU-åtvaring",
+      comment: "Kommentar",
     },
   },
   form: {
@@ -740,6 +783,8 @@ const phrases = {
     hideAll: "Lukk alle",
     unpublishedChanges: "(Endra sidan siste publisering)",
     moveContent: "Flytt innhald inn i teksten",
+    open: "Åpne",
+    close: "Lukk",
     comment: {
       comment: "Kommenter",
       hide: "Skjul kommentar",
@@ -797,8 +842,6 @@ const phrases = {
       name: "Namn",
       subtitle: "Undertittel",
       email: "E-post",
-      blob: "Blob-type",
-      blobColor: "Blob-farge",
       jobTitle: "Stilling",
       language: "Språk",
       author: "Forfattar",
@@ -816,6 +859,11 @@ const phrases = {
       sides: "Kva for ei side biletet skal vises på",
       transcription: "Transkripsjon",
       type: "Type",
+      text: "Kommentar",
+      grade: "Gradering",
+      note: "Notat",
+      files: "filopplasting",
+      code: "Kode",
     },
     previewProductionArticle: {
       button: "Samanlikn gjeldande versjon med sist publiserte versjon",
@@ -855,6 +903,7 @@ const phrases = {
       warning: "Ein merknad må ha tekst",
       areHere: "Du er her",
       published: "Publisert",
+      placeholder: "Skriv inn merknad",
       history: {
         user: "Bruker",
         time: "Når",
@@ -1022,7 +1071,10 @@ const phrases = {
         createdBy: "Oppretta av",
         warn: "Hugs å legge til kommentar",
         description: "Du har endra ansvarleg uten å legge til kommentar!",
+        add: "Legg til ny kommentar",
+        label: "Skriv inn kommentar",
       },
+      updateComment: "Oppdater kommentar",
     },
     status: {
       new: "Ny - Ikke lagret",
@@ -1119,6 +1171,7 @@ const phrases = {
         removeExternal: "Slett ekstern artikkel",
         changeExternal: "Endre ekstern artikkel",
         searchExternal: "Skriv inn tittel og url på ekstern artikkel",
+        listLabel: "Valg",
       },
       conceptList: {
         subjectMissing: "Fag manglar: {{subjectId}}",
@@ -1304,16 +1357,19 @@ const phrases = {
       caption: {
         label: "Biletetekst",
         placeholder: "Biletetekst",
+        hide: "Skjul biletetekst",
       },
       alt: {
         label: "Alt-tekst",
         placeholder: "Alt-tekst",
         noText: "Universell utforming krever alt-tekst for bilde som ikkje er dekorative.",
       },
-      dragdrop: {
-        main: "Dra og slipp",
-        sub: "eller trykk for å laste opp bilete",
-        ariaLabel: "Dra og slipp eller trykk for å laste opp bilete",
+      fileUpload: {
+        description: "Dra og slipp eller trykk for å laste opp bilete",
+        button: "Legg til",
+        genericError: "Opplasting av biletfil feila",
+        tooLargeError: "Biletfil  er for stor",
+        fileTypeInvalidError: "Filtypen er ikkje støtta",
       },
       byline: {
         show: "Vis byline",
@@ -1366,10 +1422,11 @@ const phrases = {
       chooseAudioType: "Velg lydtype",
       sound: "Lyd",
       speech: "Tale",
-      dragdrop: {
-        main: "Dra og slipp",
-        sub: "eller trykk for å laste opp lydfil",
-        ariaLabel: "Dra og slipp eller trykk for å laste opp lydfil",
+      fileUpload: {
+        description: "Dra og slipp eller trykk for å laste opp lydfil",
+        button: "Legg til",
+        genericError: "Opplastning av lydfil feila",
+        fileTypeInvalidError: "Filtypen er ikkje støtta",
       },
       copiedFrom: "Lydfil kopierast frå {{language}}. Trykk på søppelbøtta for å slette den og laste opp ei ny fil.",
       info: {
@@ -1419,11 +1476,12 @@ const phrases = {
       removeFile: "Fjern fil",
       missingFileTooltip: "Ser ikkje ut til å eksistere på serveren. Den kan ha blitt sletta frå ein annan artikkel.",
       missingFilename: "Filtypen støttes ikke",
-      dragdrop: {
-        main: "Dra og slipp",
-        sub: "eller trykk for å laste opp file(r)",
-        ariaLabel: "Dra og slipp eller trykk for å laste opp file(r)",
-        noFilesAdded: "Ingen filer er lagt til",
+      fileUpload: {
+        description: "Dra og slipp eller trykk for å laste opp fil(er)",
+        button: "Legg til",
+        genericError: "Opplasting av fil(er) feila",
+        fileTypeInvalidError: "Filtypen er ikkje støttet",
+        tooManyError: "Maks 5 filer kan lastast opp om gongen",
       },
       showPdf: "Vis ekspandert",
       showPdfTooltip: "Vis ekspandert PDF i artikkel",
@@ -1489,6 +1547,7 @@ const phrases = {
     revisions: {
       add: "Ny revisjon",
       remove: "Fjern revisjon",
+      revisionNumber: "Revisjon {{number}}",
       description:
         "Revisjonar krev ei skildring og ein dato artikkelen går ut på. Bryteren markerar i kva grad ein revisjon er utført eller ikkje. Hugs at ein revidert artikkel må republiserast.",
       datePickerTooltip: "Dato artikkelen går ut dersom revisjonen ikkje blir markert som revidert.",
@@ -1591,10 +1650,12 @@ const phrases = {
       SUBJECT: "fag",
       TOPIC: "emne",
     },
+    noValue: "Ikkje satt",
     previewProgrammes: "Forhåndsvis utdanningsprogram i frontend",
     addNode: "Legg til {{nodeType}}",
     newNode: "Nytt {{nodeType}}",
     newNodeName: "Namn på nytt element",
+    newResource: "Ny ressurs",
     editStructure: "Rediger struktur",
     editSubjectpage: "Rediger fagforside",
     deleteSubject: "Slett fag",
@@ -1604,7 +1665,14 @@ const phrases = {
     addExistingLoading: "Flyttar ...",
     addExistingSuccess: "Noden har blitt flytta!",
     existingNode: "Eksisterande node",
-    workflow: "i arbeidsflyt",
+    workflow: "i flyt",
+    fullTopic: "Gjennomsnitt:",
+    TOPIC: "emnet",
+    SUBJECT: "faget",
+    qualityDescription:
+      "Snitt av kvalitetsvurdering av alle vurderte ressursar i {{nodeType}} ({{count}} vurderte ressurser)",
+    average: "Gj.snitt",
+    qualityEvaluation: "Heilskapleg vurdering av {{nodeType}}",
     connectExistingNode: "Knytt {{nodeType}} til denne noden",
     connectExistingLoading: "Legger til ...",
     connectExistingSuccess: "Noden har blitt knytta til!",
@@ -1693,6 +1761,7 @@ const phrases = {
       waiting: "Kloner ressurser",
     },
     favorites: "Vis favorittar",
+    quality: "Vis kvalitet",
     publish: {
       button: "Publiser alle ressursar",
       waiting: "Publiserar ressurser",
@@ -1767,7 +1836,7 @@ const phrases = {
       customFields: {
         alterFields: "Legg til/endra metadata",
         addField: "Nytt metadata felt",
-        languagePlaceholder: "Visningsspråk ndla.no",
+        languagePlaceholder: "Språksamling ndla.no",
         explanationSubject: "Forklaringsfag",
         programmeSubject: "Felles programfag",
         oldSubjectId: "ID for vidaresending",
@@ -1781,7 +1850,7 @@ const phrases = {
       },
       placeholders: {
         category: "Velg kategori",
-        language: "Velg språkkode",
+        language: "Velg språk",
         type: "Velg type",
         lma: "Velg LMA",
         sa: "Velg SA",
@@ -1796,15 +1865,17 @@ const phrases = {
   contextTypes: {
     topic: "Emne",
     frontpage: "Om-NDLA-artikkel",
+    concept: "Forklaring",
+    gloss: "Glose",
   },
   ndlaFilm: {
     editor: {
       slideshowHeader: "Slideshow",
-      slideshowTitle: "Filmer i slideshow",
-      slideshowSubTitle: "på forsida",
+      slideshowTitle: "Filmer i slideshow på forsida",
       movieGroupHeader: "Filmgrupperinger",
       addMovieToSlideshow: "Legg til film i slideshow",
       addMovieToGroup: 'Legg til film i "{{name}}"',
+      comboboxGroupLabel: 'Filmer i gruppa "{{name}}"',
       editMovieGroupName: "Endre namna til filmgruppa",
       deleteMovieGroup: 'Slett "{{name}}"',
       moveMovieGroupUp: "Flytt opp",
@@ -1815,14 +1886,14 @@ const phrases = {
       createThemeGroup: "Opprett gruppe",
       saveNameChanges: "Lagre endringer",
       cancel: "Avbryt",
-      editGroupTitle: "Endre namn(a) på filmgruppa:",
+      editGroupTitle: "Endre namn på filmgruppa",
       newGroupTitle: "Kva skal gruppa heite?",
       notFound: "Vi finn ikkje metadata for denne filmen...",
       moreInfoHeader: "Meir informasjon",
-      moreInfoTitle: "Artikkel",
-      moreInfoSubTitle: "til Les meir-lenke",
+      moreInfoTitle: "Artikkel til Les meir-lenke",
       addArticleToMoreInformation: "Legg til ein artikkel",
       removeArticleFromMoreInformation: "Fjern artikkel",
+      createGroup: "Lag ny gruppe",
     },
   },
   modal: {
@@ -2021,7 +2092,7 @@ const phrases = {
     },
   },
   metadata: {
-    visible: "er synleg",
+    visible: "Synleg",
     notVisible: "er ikkje synleg",
     changeVisibility: "Endre synlegheit",
   },
@@ -2082,6 +2153,20 @@ const phrases = {
     title: "Legg til kodeeksempel",
     titleLabel: "Tittel",
     programmingLanguage: "Kodespråk",
+    edit: "Rediger kodevisning",
+    delete: "Fjerne kodevisning",
+  },
+  framedContentForm: {
+    changeVariant: {
+      colored: "Bruk farga variant",
+      neutral: "Bruk nøytral variant",
+    },
+  },
+  blockquoteForm: {
+    changeVariant: {
+      colored: "Bruk farga variant",
+      neutral: "Bruk nøytral variant",
+    },
   },
 };
 

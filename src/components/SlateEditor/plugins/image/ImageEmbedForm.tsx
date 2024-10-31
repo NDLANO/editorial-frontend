@@ -6,23 +6,33 @@
  *
  */
 
-import { Form, Formik, useFormikContext } from "formik";
+import { Formik, useFormikContext } from "formik";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { colors, spacing, stackOrder } from "@ndla/core";
-import { CheckboxItem, FieldErrorMessage, Label, TextAreaV3 } from "@ndla/forms";
+import { CheckLine } from "@ndla/icons/editor";
+import {
+  Button,
+  CheckboxControl,
+  CheckboxHiddenInput,
+  CheckboxIndicator,
+  CheckboxLabel,
+  CheckboxRoot,
+  FieldLabel,
+  FieldRoot,
+  Text,
+  FieldErrorMessage,
+  FieldTextArea,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import { ImageEmbedData } from "@ndla/types-embed";
-import { Text } from "@ndla/typography";
 import { InlineField } from "../../../../containers/FormikForm/InlineField";
 import ImageEditor from "../../../../containers/ImageEditor/ImageEditor";
 import { inlineContentToEditorValue, inlineContentToHTML } from "../../../../util/articleContentConverter";
 import { isFormikFormDirty } from "../../../../util/formHelper";
-import { CheckboxWrapper } from "../../../Form/styles";
-import { FormControl, FormField } from "../../../FormField";
+import { FormField } from "../../../FormField";
+import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
 import { RichTextIndicator } from "../../RichTextIndicator";
 import { useInGrid } from "../grid/GridContext";
@@ -77,8 +87,8 @@ const toImageEmbedFormvalues = (embed: ImageEmbedData): ImageEmbedFormValues => 
     lowerRightX: embed.lowerRightX,
     lowerRightY: embed.lowerRightY,
     align: embed.align,
-    size: embed.size?.replace("hide-byline", ""),
-    hideByline: !!embed.size?.includes("hide-byline"),
+    size: embed.size?.replace("--hide-byline", ""),
+    hideByline: embed.hideByline === "true",
   };
 };
 
@@ -103,7 +113,8 @@ const ImageEmbedForm = ({ embed, onSave, onClose, language, allowDecorative, ima
       lowerRightX: values.lowerRightX,
       lowerRightY: values.lowerRightY,
       align: values.align,
-      size: values.hideByline ? `${values.size}-hide-byline` : values.size,
+      size: values.size,
+      hideByline: values.hideByline ? "true" : undefined,
     });
     onClose();
   };
@@ -119,21 +130,21 @@ const ImageEmbedForm = ({ embed, onSave, onClose, language, allowDecorative, ima
   );
 };
 
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  gap: ${spacing.small};
-`;
+const StyledCheckboxRoot = styled(CheckboxRoot, {
+  base: {
+    width: "fit-content",
+  },
+});
 
-const StyledInputWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-  background: ${colors.brand.greyLightest};
-  padding: ${spacing.normal};
-  position: relative;
-  z-index: ${stackOrder.offsetSingle};
-`;
+const InputWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+    paddingInline: "xsmall",
+    paddingBlockEnd: "xsmall",
+  },
+});
 
 const EmbedForm = ({
   onClose,
@@ -152,84 +163,108 @@ const EmbedForm = ({
     dirty,
   });
   return (
-    <Form>
+    <FormikForm>
       {!!image && <ImageEditor language={language} image={image} />}
-      <StyledInputWrapper>
-        <div>
-          <Text textStyle="label-small" margin="none">
-            {t("form.image.caption.label")}
-            <RichTextIndicator />
-          </Text>
-          <FormField name="caption">
-            {({ field, helpers }) => (
-              <InlineField
-                {...field}
-                placeholder={t("form.image.caption.placeholder")}
-                submitted={isSubmitting}
-                onChange={helpers.setValue}
-              />
-            )}
-          </FormField>
-        </div>
+      <InputWrapper>
+        <Text textStyle="label.medium" fontWeight="bold">
+          {t("form.image.caption.label")}
+          <RichTextIndicator />
+        </Text>
+        <FormField name="caption">
+          {({ field, helpers }) => (
+            <InlineField
+              {...field}
+              placeholder={t("form.image.caption.placeholder")}
+              submitted={isSubmitting}
+              onChange={helpers.setValue}
+            />
+          )}
+        </FormField>
+
         {!values.isDecorative && (
           <FormField name="alt">
             {({ field, meta }) => (
-              <FormControl isInvalid={!!meta.error}>
-                <Label margin="none" textStyle="label-small">
-                  {t("form.image.alt.label")}
-                </Label>
-                <TextAreaV3 {...field} placeholder={t("form.image.alt.placeholder")} />
+              <FieldRoot invalid={!!meta.error}>
+                <FieldLabel>{t("form.image.alt.label")}</FieldLabel>
+                <FieldTextArea {...field} placeholder={t("form.image.alt.placeholder")} />
                 <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-              </FormControl>
+              </FieldRoot>
             )}
           </FormField>
         )}
         {allowDecorative && (
           <FormField name="isDecorative">
             {({ field, helpers }) => (
-              <FormControl>
-                <CheckboxWrapper>
-                  <CheckboxItem
-                    checked={field.value}
-                    onCheckedChange={(newValue) => {
-                      helpers.setValue(newValue, false);
-                      if (newValue) {
-                        setFieldValue("alt", "", false);
-                      }
-                    }}
-                  />
-                  <Label margin="none" textStyle="label-small">
-                    {t("form.image.isDecorative")}
-                  </Label>
-                </CheckboxWrapper>
-              </FormControl>
+              <FieldRoot>
+                <StyledCheckboxRoot
+                  checked={field.value}
+                  onCheckedChange={(details) => {
+                    helpers.setValue(details.checked, false);
+                    if (details.checked) {
+                      setFieldValue("alt", "", false);
+                    }
+                  }}
+                >
+                  <CheckboxLabel>{t("form.image.isDecorative")}</CheckboxLabel>
+                  <CheckboxControl>
+                    <CheckboxIndicator asChild>
+                      <CheckLine />
+                    </CheckboxIndicator>
+                  </CheckboxControl>
+                  <CheckboxHiddenInput />
+                </StyledCheckboxRoot>
+              </FieldRoot>
             )}
           </FormField>
         )}
         {inGrid && (
           <FormField name="border">
             {({ field, helpers }) => (
-              <FormControl>
-                <CheckboxWrapper>
-                  <CheckboxItem checked={field.value} onCheckedChange={() => helpers.setValue(!field.value, true)} />
-                  <Label margin="none" textStyle="label-small">
-                    {t("form.image.showBorder")}
-                  </Label>
-                </CheckboxWrapper>
-              </FormControl>
+              <FieldRoot>
+                <StyledCheckboxRoot
+                  checked={field.value}
+                  onCheckedChange={(details) => helpers.setValue(details.checked, true)}
+                >
+                  <CheckboxLabel>{t("form.image.showBorder")}</CheckboxLabel>
+                  <CheckboxControl>
+                    <CheckboxIndicator asChild>
+                      <CheckLine />
+                    </CheckboxIndicator>
+                  </CheckboxControl>
+                  <CheckboxHiddenInput />
+                </StyledCheckboxRoot>
+              </FieldRoot>
             )}
           </FormField>
         )}
-        <ButtonWrapper>
-          <ButtonV2 onClick={onClose} variant="outline">
+        <FormField name="hideByline">
+          {({ field, helpers }) => (
+            <FieldRoot>
+              <StyledCheckboxRoot
+                checked={field.value}
+                onCheckedChange={(details) => helpers.setValue(details.checked, true)}
+              >
+                <CheckboxLabel>{t("form.image.byline.hide")}</CheckboxLabel>
+                <CheckboxControl>
+                  <CheckboxIndicator asChild>
+                    <CheckLine />
+                  </CheckboxIndicator>
+                </CheckboxControl>
+                <CheckboxHiddenInput />
+              </StyledCheckboxRoot>
+            </FieldRoot>
+          )}
+        </FormField>
+        <FormActionsContainer>
+          <Button onClick={onClose} variant="secondary">
             {t("form.abort")}
-          </ButtonV2>
-          <ButtonV2 disabled={!formIsDirty || !isValid} type="submit">
+          </Button>
+          <Button disabled={!formIsDirty || !isValid} type="submit">
             {t("form.image.save")}
-          </ButtonV2>
-        </ButtonWrapper>
-      </StyledInputWrapper>
-    </Form>
+          </Button>
+        </FormActionsContainer>
+      </InputWrapper>
+    </FormikForm>
   );
 };
 

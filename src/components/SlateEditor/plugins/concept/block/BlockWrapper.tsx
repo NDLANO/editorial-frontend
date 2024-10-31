@@ -6,20 +6,19 @@
  *
  */
 
-import { useState, ReactNode, useCallback, useMemo } from "react";
+import { useState, ReactNode, useCallback, useMemo, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Transforms, Path } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
-import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
-import { spacing, colors } from "@ndla/core";
-import { Link as LinkIcon } from "@ndla/icons/common";
-import { Check, AlertCircle, DeleteForever } from "@ndla/icons/editor";
+import { AlertFill, Link as LinkIcon } from "@ndla/icons/common";
+import { DeleteForever, CheckLine } from "@ndla/icons/editor";
 import { Modal, ModalContent } from "@ndla/modal";
+import { DialogContent, DialogRoot, IconButton } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { IConcept, IConceptSummary } from "@ndla/types-backend/concept-api";
 import { ConceptEmbedData, ConceptMetaData } from "@ndla/types-embed";
-import { ConceptEmbed } from "@ndla/ui";
+import { ConceptEmbed, EmbedWrapper } from "@ndla/ui";
 import { ConceptBlockElement } from "./interfaces";
 import { TYPE_CONCEPT_BLOCK } from "./types";
 import { PUBLISHED } from "../../../../../constants";
@@ -48,18 +47,26 @@ interface Props {
   children: ReactNode;
 }
 
-const StyledWrapper = styled.div`
-  position: relative;
-  &[data-solid-border="true"] {
-    outline: 2px solid ${colors.brand.primary};
-  }
-`;
+const StyledEmbedWrapper = styled(EmbedWrapper, {
+  variants: {
+    selected: {
+      true: {
+        outline: "2px solid",
+        outlineColor: "stroke.default",
+      },
+    },
+  },
+});
 
 const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
   const isSelected = useSelected();
   const locale = useArticleLanguage();
-  const [isEditing, setIsEditing] = useState(element.isFirstEdit);
+  const [isEditing, setIsEditing] = useState(false);
   const { concept, subjects, loading, ...conceptHooks } = useFetchConceptData(parseInt(element.data.contentId), locale);
+
+  useEffect(() => {
+    setIsEditing(!!element.isFirstEdit);
+  }, [element.isFirstEdit]);
 
   const visualElementQuery = useConceptVisualElement(concept?.id!, concept?.visualElement?.visualElement!, locale, {
     enabled: !!concept?.id && !!concept?.visualElement?.visualElement.length,
@@ -131,10 +138,10 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
   }, [editor, element]);
 
   return (
-    <Modal open={isEditing} onOpenChange={setIsEditing}>
-      <StyledWrapper {...attributes} data-solid-border={isSelected} draggable={true}>
+    <DialogRoot size="large" open={isEditing} onOpenChange={({ open }) => setIsEditing(open)}>
+      <StyledEmbedWrapper {...attributes} data-solid-border={isSelected} draggable={true} contentEditable={false}>
         {concept && embed && (
-          <div contentEditable={false}>
+          <>
             <ConceptButtonContainer
               concept={concept}
               handleRemove={handleRemove}
@@ -144,9 +151,9 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
               embed={embed}
             />
             <ConceptEmbed embed={embed} />
-          </div>
+          </>
         )}
-        <ModalContent size={{ width: "large", height: "large" }}>
+        <DialogContent>
           <ConceptModalContent
             onClose={onClose}
             addConcept={addConcept}
@@ -157,10 +164,10 @@ const BlockWrapper = ({ element, editor, attributes, children }: Props) => {
             conceptType={(concept?.conceptType ?? element.conceptType) as ConceptType}
             {...conceptHooks}
           />
-        </ModalContent>
+        </DialogContent>
         {children}
-      </StyledWrapper>
-    </Modal>
+      </StyledEmbedWrapper>
+    </DialogRoot>
   );
 };
 
@@ -173,32 +180,28 @@ interface ButtonContainerProps {
   embed: ConceptMetaData;
 }
 
-const ButtonContainer = styled.div`
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: ${spacing.xsmall};
-  right: -${spacing.large};
-`;
+const ButtonContainer = styled("div", {
+  base: {
+    position: "absolute",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: "3xsmall",
+    right: "-xlarge",
+  },
+});
 
-const IconWrapper = styled.div`
-  svg {
-    height: ${spacing.normal};
-    width: ${spacing.normal};
-    fill: ${colors.brand.grey};
-  }
-  &[data-color="green"] {
-    svg {
-      fill: ${colors.support.green};
-    }
-  }
-  &[data-color="red"] {
-    svg {
-      fill: ${colors.support.red};
-    }
-  }
-`;
+const StyledCheckLine = styled(CheckLine, {
+  base: {
+    fill: "surface.success",
+  },
+});
+
+const StyledAlertFill = styled(AlertFill, {
+  base: {
+    fill: "surface.error",
+  },
+});
 
 const ConceptButtonContainer = ({ concept, handleRemove, language, editor, element, embed }: ButtonContainerProps) => {
   const { t } = useTranslation();
@@ -206,43 +209,38 @@ const ConceptButtonContainer = ({ concept, handleRemove, language, editor, eleme
 
   return (
     <ButtonContainer>
-      <IconButtonV2
+      <IconButton
         title={t(`form.${concept?.conceptType}.remove`)}
         aria-label={t(`form.${concept?.conceptType}.remove`)}
-        variant="ghost"
-        colorTheme="danger"
+        variant="danger"
+        size="small"
         onClick={handleRemove}
       >
         <DeleteForever />
-      </IconButtonV2>
+      </IconButton>
       <EditGlossExamplesModal concept={concept} editor={editor} element={element} embed={embed} />
       <SafeLinkIconButton
         arial-label={t(`form.${concept?.conceptType}.edit`)}
         title={t(`form.${concept?.conceptType}.edit`)}
-        variant="ghost"
-        colorTheme="light"
+        variant="tertiary"
+        size="small"
         to={`/${concept.conceptType}/${concept.id}/edit/${language}`}
         target="_blank"
       >
         <LinkIcon />
       </SafeLinkIconButton>
       {(concept?.status.current === PUBLISHED || concept?.status.other.includes(PUBLISHED)) && (
-        <IconWrapper aria-label={t("form.workflow.published")} title={t("form.workflow.published")} data-color="green">
-          <Check />
-        </IconWrapper>
+        <StyledCheckLine aria-label={t("form.workflow.published")} title={t("form.workflow.published")} />
       )}
       {concept?.status.current !== PUBLISHED && (
-        <IconWrapper
+        <StyledAlertFill
           aria-label={t("form.workflow.currentStatus", {
             status: translatedCurrent,
           })}
           title={t("form.workflow.currentStatus", {
             status: translatedCurrent,
           })}
-          data-color="red"
-        >
-          <AlertCircle />
-        </IconWrapper>
+        />
       )}
     </ButtonContainer>
   );

@@ -10,13 +10,14 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
-import { FieldHeader } from "@ndla/forms";
 import { ModalHeader, ModalBody, ModalCloseButton, Modal, ModalTitle, ModalTrigger, ModalContent } from "@ndla/modal";
-import { Switch } from "@ndla/switch";
+import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { Node, NodeChild } from "@ndla/types-taxonomy";
+import FieldHeader from "../../../../components/Field/FieldHeader";
 import { HowToHelper } from "../../../../components/HowTo";
 import ActiveTopicConnections from "../../../../components/Taxonomy/ActiveTopicConnections";
 import TaxonomyBlockNode, { NodeWithChildren } from "../../../../components/Taxonomy/TaxonomyBlockNode";
+import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from "../../../../constants";
 import { fetchUserData } from "../../../../modules/draft/draftApi";
 import { MinimalNodeChild } from "../../LearningResourcePage/components/LearningResourceTaxonomy";
 
@@ -38,9 +39,13 @@ const TopicArticleConnections = ({ structure, selectedNodes, addConnection, getS
   const [showFavorites, setShowFavorites] = useState(true);
   const [favoriteSubjectIds, setFavoriteSubjectIds] = useState<string[]>([]);
 
+  const filtered = structure.filter(
+    (node) => node.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== "true",
+  );
+
   const nodes = useMemo(
-    () => (showFavorites ? structure.filter((node) => favoriteSubjectIds.includes(node.id)) : structure),
-    [favoriteSubjectIds, showFavorites, structure],
+    () => (showFavorites ? filtered.filter((node) => favoriteSubjectIds.includes(node.id)) : filtered),
+    [favoriteSubjectIds, showFavorites, filtered],
   );
 
   const fetchFavoriteSubjects = async () => {
@@ -96,12 +101,13 @@ const TopicArticleConnections = ({ structure, selectedNodes, addConnection, getS
         <ModalContent animation="subtle" size={{ width: "large", height: "large" }}>
           <StyledModalHeader>
             <ModalTitle>{t("taxonomy.topics.filestructureHeading")}</ModalTitle>
-            <Switch
-              onChange={toggleShowFavorites}
-              checked={showFavorites}
-              label={t("taxonomy.favorites")}
-              id={"favorites"}
-            />
+            <SwitchRoot checked={showFavorites} onCheckedChange={toggleShowFavorites}>
+              <SwitchLabel>{t("taxonomy.favorites")}</SwitchLabel>
+              <SwitchControl>
+                <SwitchThumb />
+              </SwitchControl>
+              <SwitchHiddenInput />
+            </SwitchRoot>
             <ModalCloseButton title={t("taxonomy.topics.filestructureClose")} />
           </StyledModalHeader>
           <ModalBody>

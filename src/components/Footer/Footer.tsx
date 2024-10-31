@@ -10,6 +10,7 @@ import { ReactNode } from "react";
 import styled from "@emotion/styled";
 import { colors, spacing, stackOrder } from "@ndla/core";
 import { MAX_PAGE_WIDTH } from "../../constants";
+import { MAX_WIDTH_WITH_COMMENTS } from "../../containers/ArticlePage/styles";
 
 const StyledFooter = styled.footer`
   position: fixed;
@@ -30,6 +31,9 @@ const StyledContentWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   gap: ${spacing.medium};
+  &[data-article="true"] {
+    max-width: ${MAX_WIDTH_WITH_COMMENTS}px;
+  }
   > div {
     display: flex;
     align-items: center;
@@ -48,11 +52,14 @@ const StyledContentWrapper = styled.div`
 type Props = {
   children: ReactNode;
   className?: string;
+  isArticle?: boolean;
 };
 
-const Footer = ({ children, className }: Props) => (
+const Footer = ({ children, className, isArticle }: Props) => (
   <StyledFooter>
-    <StyledContentWrapper className={className}>{children}</StyledContentWrapper>
+    <StyledContentWrapper data-article={!!isArticle} className={className}>
+      {children}
+    </StyledContentWrapper>
   </StyledFooter>
 );
 

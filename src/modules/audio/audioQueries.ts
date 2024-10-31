@@ -14,9 +14,11 @@ import {
   ISeries,
   ISeriesSearchParams,
   ISearchParams as IAudioSearchParams,
+  ITagsSearchResult,
 } from "@ndla/types-backend/audio-api";
-import { fetchAudio, fetchSeries, postSearchAudio, postSearchSeries } from "./audioApi";
-import { AUDIO, PODCAST_SERIES, SEARCH_AUDIO, SEARCH_SERIES } from "../../queryKeys";
+import { fetchAudio, fetchSearchTags, fetchSeries, postSearchAudio, postSearchSeries } from "./audioApi";
+import { StringSort } from "../../containers/SearchPage/components/form/SearchForm";
+import { AUDIO, PODCAST_SERIES, SEARCH_AUDIO, AUDIO_SEARCH_TAGS, SEARCH_SERIES } from "../../queryKeys";
 
 export interface UseAudio {
   id: number;
@@ -25,9 +27,10 @@ export interface UseAudio {
 
 export const audioQueryKeys = {
   audio: (params?: Partial<UseAudio>) => [AUDIO, params] as const,
-  search: (params?: Partial<IAudioSearchParams>) => [SEARCH_AUDIO, params] as const,
+  search: (params?: Partial<StringSort<IAudioSearchParams>>) => [SEARCH_AUDIO, params] as const,
   podcastSeries: (params?: Partial<UseSeries>) => [PODCAST_SERIES, params] as const,
-  podcastSeriesSearch: (params?: Partial<ISeriesSearchParams>) => [SEARCH_SERIES, params] as const,
+  podcastSeriesSearch: (params?: Partial<StringSort<ISeriesSearchParams>>) => [SEARCH_SERIES, params] as const,
+  audioSearchTags: (params?: Partial<UseSearchTags>) => [AUDIO_SEARCH_TAGS, params] as const,
 };
 
 export const useAudio = (params: UseAudio, options?: Partial<UseQueryOptions<IAudioMetaInformation>>) =>
@@ -50,7 +53,7 @@ export const useSeries = (params: UseSeries, options?: Partial<UseQueryOptions<I
   });
 
 export const useSearchSeries = (
-  query: ISeriesSearchParams,
+  query: StringSort<ISeriesSearchParams>,
   options?: Partial<UseQueryOptions<ISeriesSummarySearchResult>>,
 ) => {
   return useQuery<ISeriesSummarySearchResult>({
@@ -61,12 +64,25 @@ export const useSearchSeries = (
 };
 
 export const useSearchAudio = (
-  query: IAudioSearchParams,
+  query: StringSort<IAudioSearchParams>,
   options?: Partial<UseQueryOptions<IAudioSummarySearchResult>>,
 ) => {
   return useQuery<IAudioSummarySearchResult>({
     queryKey: audioQueryKeys.search(query),
     queryFn: () => postSearchAudio(query),
+    ...options,
+  });
+};
+
+interface UseSearchTags {
+  input: string;
+  language: string;
+}
+
+export const useAudioSearchTags = (params: UseSearchTags, options?: Partial<UseQueryOptions<ITagsSearchResult>>) => {
+  return useQuery<ITagsSearchResult>({
+    queryKey: audioQueryKeys.audioSearchTags(params),
+    queryFn: () => fetchSearchTags(params.input, params.language),
     ...options,
   });
 };

@@ -29,12 +29,29 @@ const getArticleTypesField = (resourceTypes?: string[]) => {
     return {};
   }
   if (resourceTypes?.includes("topic-article") || resourceTypes?.includes("frontpage-article"))
-    return { articleTypes: resourceTypes };
-  else return { resourceTypes: resourceTypes };
+    return { articleTypes: resourceTypes, resourceTypes: [] };
+  else return {};
 };
 
-export const transformSearchBody = ({ resourceTypes, ...searchBody }: SearchParamsBody) => {
-  const articleTypes = getArticleTypesField(resourceTypes);
+const getContextTypes = (resourceType: string[] | undefined, contextTypes: string[]) => {
+  if (resourceType?.includes("gloss")) {
+    return { contextTypes: ["gloss"], resourceTypes: [] };
+  }
+  if (resourceType?.includes("concept")) {
+    return { contextTypes: ["concept"], resourceTypes: [] };
+  }
 
-  return { ...searchBody, ...articleTypes };
+  return { contextTypes };
+};
+
+export const transformSearchBody = (searchBody: SearchParamsBody) => {
+  const articleTypes = getArticleTypesField(searchBody.resourceTypes);
+  const contextTypes = getContextTypes(searchBody.resourceTypes, searchBody.contextTypes || []);
+
+  return {
+    ...searchBody,
+    ...articleTypes,
+    ...contextTypes,
+    resultTypes: ["draft", "concept", "learningpath"],
+  };
 };

@@ -6,22 +6,12 @@
  *
  */
 import isObject from "lodash/fp/isObject";
-import { ReactNode } from "react";
+import { ElementType, ReactNode } from "react";
 import { TYPE_AUDIO } from "../components/SlateEditor/plugins/audio/types";
 import { TYPE_NDLA_EMBED } from "../components/SlateEditor/plugins/embed/types";
 import { TYPE_IMAGE } from "../components/SlateEditor/plugins/image/types";
 import { isEmpty } from "../components/validators";
 import { Dictionary, Embed } from "../interfaces";
-
-export const removeEmptyElementDataAttributes = (obj: Dictionary<any>) => {
-  const newObject: Dictionary<string> = {};
-  Object.keys(obj).forEach((key: string) => {
-    if (obj[key] !== null && obj[key] !== undefined) {
-      newObject[key] = obj[key];
-    }
-  });
-  return newObject;
-};
 
 const reduceRegexp = /(-|_)[a-z]/g;
 
@@ -121,15 +111,15 @@ type EmbedProps<T extends object> = {
   [Key in keyof T]: string | undefined;
 };
 
-export const createEmbedTagV2 = <T extends object>(
-  data: EmbedProps<T>,
-  children?: ReactNode[],
-): JSX.Element | undefined => {
+export const createDataAttributes = <T extends object, R extends boolean = false>(
+  data?: EmbedProps<T>,
+  bailOnEmpty?: R,
+): Record<string, string> | (R extends true ? undefined : never) => {
   const entries = Object.entries(data ?? {});
-  if (entries.length === 0) {
-    return undefined;
+  if (bailOnEmpty && entries.length === 0) {
+    return undefined as R extends true ? undefined : never;
   }
-  const dataSet = entries.reduce<Record<string, string>>((acc, [key, value]) => {
+  return entries.reduce<Record<string, string>>((acc, [key, value]) => {
     const newKey = key.replace(attributeRegex, (m) => `-${m.toLowerCase()}`);
     if (value != null && typeof value === "string") {
       if (key === "resourceId") {
@@ -140,9 +130,27 @@ export const createEmbedTagV2 = <T extends object>(
     }
     return acc;
   }, {});
-
-  return <ndlaembed {...dataSet}>{children}</ndlaembed>;
 };
+
+export const createTag = <T extends object>(
+  Tag: ElementType,
+  data?: EmbedProps<T>,
+  children?: ReactNode[],
+  opts?: { bailOnEmptyData?: boolean },
+): JSX.Element | undefined => {
+  const dataAttributes = createDataAttributes(data, opts?.bailOnEmptyData);
+  // dataAttributes is undefined if bailOnEmptyData is true and data is empty
+  if (!dataAttributes) {
+    return undefined;
+  }
+
+  return <Tag {...dataAttributes}>{children}</Tag>;
+};
+
+export const createEmbedTagV2 = <T extends object>(
+  data: EmbedProps<T>,
+  children?: ReactNode[],
+): JSX.Element | undefined => createTag("ndlaembed", data, children, { bailOnEmptyData: true });
 
 export const createEmbedTag = (data?: { [key: string]: any }) => {
   if (!data || Object.keys(data).length === 0) {

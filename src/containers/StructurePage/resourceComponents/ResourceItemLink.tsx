@@ -10,7 +10,10 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
 import { colors, fonts, mq, breakpoints } from "@ndla/core";
+import { constants } from "@ndla/ui";
 import { toEditArticle, toLearningpathFull } from "../../../util/routeHelpers";
+
+const { contentTypes } = constants;
 
 type FontSizeType = "small" | "medium";
 
@@ -42,7 +45,7 @@ const ResourceItemLink = ({ contentType, contentUri, name, isVisible = true, siz
   const linkTo = contentUri && contentUri.split(":").pop();
 
   if (linkTo) {
-    if (contentType === "learning-path") {
+    if (contentType === contentTypes.LEARNING_PATH) {
       const linkProps = {
         href: toLearningpathFull(parseInt(linkTo), i18n.language),
         target: "_blank",

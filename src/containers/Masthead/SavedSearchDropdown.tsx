@@ -13,16 +13,24 @@ import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { colors, fonts, misc, spacing, stackOrder } from "@ndla/core";
+import { ISavedSearch } from "@ndla/types-backend/draft-api";
 import MastheadSearchForm from "./components/MastheadSearchForm";
 import SavedSearchItem from "./components/SavedSearchItem";
 import Spinner from "../../components/Spinner";
+import { postSearchAudio, postSearchSeries } from "../../modules/audio/audioApi";
+import { postSearchConcepts } from "../../modules/concept/conceptApi";
 import { useUpdateUserDataMutation, useUserData } from "../../modules/draft/draftQueries";
+import { postSearchImages } from "../../modules/image/imageApi";
+import { usePostSearchNodes } from "../../modules/nodes/nodeQueries";
+import { postSearch } from "../../modules/search/searchApi";
 import { getAccessToken, getAccessTokenPersonal } from "../../util/authHelpers";
 import { isValid } from "../../util/jwtHelper";
 import { toSearch } from "../../util/routeHelpers";
-import { parseSearchParams } from "../SearchPage/components/form/SearchForm";
+import { SearchParamsBody, parseSearchParams } from "../SearchPage/components/form/SearchForm";
+import { ResultType } from "../SearchPage/SearchContainer";
+import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 import { StyledErrorMessage } from "../TaxonomyVersions/components/StyledErrorMessage";
-import { useSavedSearchUrl } from "../WelcomePage/hooks/savedSearchHook";
+import { customFieldsBody, getResultSubjectIdObject, getSubjectsIdsQuery } from "../WelcomePage/utils";
 
 const DropdownWrapper = styled.div`
   position: relative;
@@ -60,10 +68,19 @@ const StyledSavedSearchItem = styled(SavedSearchItem)`
   }
 `;
 
+type SearchFetchType = (query: SearchParamsBody) => Promise<ResultType>;
+
+export const searchTypeToFetchMapping: Record<string, SearchFetchType> = {
+  content: postSearch,
+  audio: postSearchAudio,
+  concept: postSearchConcepts,
+  image: postSearchImages,
+  "podcast-series": postSearchSeries,
+};
+
 const pathToTypeMapping: Record<string, string> = {
   "image-upload": "image",
   "audio-upload": "audio",
-  concept: "concept",
   "podcast-series": "podcast-series",
   default: "content",
 };
@@ -73,10 +90,22 @@ const SearchDropdown = () => {
   const [enableUserData, setEnableUserData] = useState(false);
 
   const { t } = useTranslation();
-  const { data: userData } = useUserData({
+  const { taxonomyVersion } = useTaxonomyVersion();
+  const {
+    data: userData,
+    error,
+    isLoading,
+  } = useUserData({
     enabled: isValid(getAccessToken()) && getAccessTokenPersonal() && enableUserData,
     select: (data) => (enableUserData ? data : undefined),
   });
+
+  const [savedSearchData, setSavedSearchData] = useState<ISavedSearch[]>([]);
+
+  const searchQuery = usePostSearchNodes(
+    { ...customFieldsBody(userData?.userId ?? ""), taxonomyVersion },
+    { enabled: !!userData?.userId },
+  );
 
   const userDataMutation = useUpdateUserDataMutation();
   const location = useLocation();
@@ -103,6 +132,27 @@ const SearchDropdown = () => {
     return () => window.removeEventListener("keydown", onSlashPressed);
   }, [menuOpen]);
 
+  useEffect(() => {
+    (async () => {
+      if (!userData?.savedSearches) return;
+      setSavedSearchData(userData.savedSearches);
+      const searchResultData = await Promise.all(
+        userData.savedSearches.map(async (savedSearch) => {
+          const [searchUrl, searchParams] = savedSearch.searchUrl.split("?");
+          const queryParams = parseSearchParams(searchParams, true);
+          const searchType = searchUrl.replace("/search/", "") ?? "content";
+
+          const subjectIdObject = getResultSubjectIdObject(userData?.userId, searchQuery.data?.results);
+          const actualQuery = getSubjectsIdsQuery(queryParams, userData?.favoriteSubjects, subjectIdObject);
+          const searchFunction = searchTypeToFetchMapping[searchType] ?? postSearch;
+          const searchResult = await searchFunction({ ...actualQuery, pageSize: 0 });
+          return { ...savedSearch, searchPhrase: `${savedSearch.searchPhrase} (${searchResult.totalCount})` };
+        }),
+      );
+      setSavedSearchData(searchResultData);
+    })();
+  }, [searchQuery.data?.results, userData]);
+
   const onMenuOpen = useCallback(
     (open: boolean): void => {
       if (!enableUserData) setEnableUserData(isValid(getAccessToken()) && getAccessTokenPersonal() && open);
@@ -110,10 +160,6 @@ const SearchDropdown = () => {
     },
     [enableUserData],
   );
-
-  const { searchObjects, getSavedSearchData, loading, error } = useSavedSearchUrl(userData);
-
-  const savedSearchData = getSavedSearchData(searchObjects);
 
   const deleteSearch = (index: number) => {
     const reduced_array = userData?.savedSearches?.filter((_, idx) => idx !== index);
@@ -169,20 +215,20 @@ const SearchDropdown = () => {
                 <StyledTitle>{t("welcomePage.savedSearch")}</StyledTitle>
                 {error ? (
                   <StyledErrorMessage>{t("errorMessage.description")}</StyledErrorMessage>
-                ) : loading ? (
+                ) : isLoading ? (
                   <Spinner appearance="small" />
-                ) : userData?.savedSearches?.length ? (
-                  savedSearchData.map((item, index) => (
+                ) : savedSearchData.length ? (
+                  savedSearchData.map((savedSearch, index) => (
                     <StyledSavedSearchItem
-                      key={`${item}_${index}`}
-                      searchText={item.text}
+                      key={`${savedSearch}_${index}`}
+                      searchText={savedSearch.searchPhrase}
                       deleteSearch={deleteSearch}
                       index={index}
                       data-highlighted={highlightedIndex === index}
-                      url={item.url}
+                      url={savedSearch.searchUrl}
                       {...getItemProps({
                         index,
-                        item,
+                        item: savedSearch.searchUrl,
                       })}
                     />
                   ))

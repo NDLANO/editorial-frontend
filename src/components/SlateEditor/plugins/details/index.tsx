@@ -6,11 +6,9 @@
  *
  */
 
-import { Element, Descendant, Editor, Text, Transforms, Node, Range, Location, Path } from "slate";
+import { Element, Descendant, Editor, Transforms, Node, Range, Location } from "slate";
 import { jsx as slatejsx } from "slate-hyperscript";
-import { ReactEditor } from "slate-react";
 import { TYPE_DETAILS, TYPE_SUMMARY } from "./types";
-import WithPlaceHolder from "../../common/WithPlaceHolder";
 import { SlateSerializer } from "../../interfaces";
 import containsVoid from "../../utils/containsVoid";
 import { NormalizerConfig } from "../../utils/defaultNormalizer";
@@ -127,20 +125,6 @@ export const detailsSerializer: SlateSerializer = {
 export const detailsPlugin = createPlugin<DetailsElement["type"]>({
   type: TYPE_DETAILS,
   normalizeWithConfig: detailsNormalizerConfig,
-  renderLeaf: ({ attributes, children, text }, editor) => {
-    const path = ReactEditor.findPath(editor, text);
-
-    const [parent] = Editor.node(editor, Path.parent(Path.parent(path)));
-    if (Element.isElement(parent) && parent.type === TYPE_SUMMARY && Node.string(parent) === "") {
-      return (
-        <WithPlaceHolder attributes={attributes} placeholder="form.name.title">
-          {children}
-        </WithPlaceHolder>
-      );
-    }
-    return undefined;
-  },
-
   onKeyDown: {
     [KEY_BACKSPACE]: onBackspace,
   },

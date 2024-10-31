@@ -6,26 +6,26 @@
  *
  */
 
+import queryString from "query-string";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
-import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
-import { misc, spacing, stackOrder } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
+import { Portal } from "@ark-ui/react";
 import { Pencil } from "@ndla/icons/action";
 import { Link } from "@ndla/icons/common";
 import { DeleteForever } from "@ndla/icons/editor";
-import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
+import { DialogBody, DialogContent, DialogHeader, DialogRoot, DialogTrigger, IconButton } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { ImageEmbedData, ImageMetaData } from "@ndla/types-embed";
-import { ImageEmbed } from "@ndla/ui";
+import { EmbedWrapper, ImageEmbed } from "@ndla/ui";
 import ImageEmbedForm from "./ImageEmbedForm";
 import { ImageElement } from "./types";
 import { useImageMeta } from "../../../../modules/embed/queries";
+import { OldSpinner } from "../../../OldSpinner";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
-import { StyledDeleteEmbedButton, StyledFigureButtons } from "../embed/FigureButtons";
+import { StyledFigureButtons } from "../embed/FigureButtons";
 
 interface Props extends RenderElementProps {
   element: ImageElement;
@@ -33,33 +33,58 @@ interface Props extends RenderElementProps {
   allowDecorative?: boolean;
 }
 
-const StyledImageWrapper = styled.div`
-  width: 100%;
-  &:has(figure[data-sizetype="full"]) {
-    display: inline-block;
-  }
+const StyledEmbedWrapper = styled(EmbedWrapper, {
+  base: {
+    width: "100%",
+  },
+  variants: {
+    variant: {
+      invalid: {
+        "& figure": {
+          outline: "2px solid",
+          outlineColor: "stroke.error",
+        },
+      },
+      selected: {
+        "& figure": {
+          outline: "2px solid",
+          outlineColor: "stroke.default",
+        },
+      },
+    },
+    fullSize: {
+      true: {
+        display: "inline-block",
+      },
+    },
+  },
+});
 
-  &[data-invalid="true"] {
-    figure {
-      outline: 2px solid rgba(209, 55, 46, 0.3);
-      border-bottom-right-radius: ${misc.borderRadius};
-      border-bottom-left-radius: ${misc.borderRadius};
-    }
-  }
-  &[data-selected="true"] {
-    figure {
-      outline: 2px solid rgb(32, 88, 143);
-      border-bottom-right-radius: ${misc.borderRadius};
-      border-bottom-left-radius: ${misc.borderRadius};
-    }
-  }
-`;
+const FigureButtons = styled(StyledFigureButtons, {
+  base: {
+    right: "xsmall",
+    top: "xsmall",
+    zIndex: "docked",
+  },
+});
 
-const FigureButtons = styled(StyledFigureButtons)`
-  right: ${spacing.small};
-  top: ${spacing.small};
-  z-index: ${stackOrder.offsetSingle};
-`;
+const disableImageCache = (embed: ImageMetaData | undefined): ImageMetaData | undefined => {
+  if (embed?.status !== "success") return embed;
+  // NOTE: We add a query parameter to the imageUrl to avoid cache
+  const parsed = queryString.parseUrl(embed.data.image.imageUrl);
+  const newQuery = queryString.stringify({ ...parsed.query, ts: Date.now() });
+  const newUrl = `${parsed.url}?${newQuery}`;
+  return {
+    ...embed,
+    data: {
+      ...embed.data,
+      image: {
+        ...embed.data.image,
+        imageUrl: newUrl,
+      },
+    },
+  };
+};
 
 const SlateImage = ({ element, editor, attributes, children, allowDecorative = true }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -81,6 +106,8 @@ const SlateImage = ({ element, editor, attributes, children, allowDecorative = t
       resource: "image",
     };
   }, [element.data, imageEmbedQuery.data, imageEmbedQuery.error, imageEmbedQuery.isLoading]);
+
+  const embedWithoutCaching = useMemo(() => disableImageCache(embed), [embed]);
 
   const handleRemove = () => {
     Transforms.removeNodes(editor, {
@@ -118,59 +145,75 @@ const SlateImage = ({ element, editor, attributes, children, allowDecorative = t
     [editor, element],
   );
 
-  if (imageEmbedQuery.isLoading || !embed) {
-    return <Spinner />;
+  if (imageEmbedQuery.isLoading || !embed || !embedWithoutCaching) {
+    return <OldSpinner />;
   }
 
   return (
-    <Modal open={isEditing} onOpenChange={setIsEditing}>
-      <StyledImageWrapper
+    <DialogRoot open={isEditing} onOpenChange={({ open }) => setIsEditing(open)}>
+      <StyledEmbedWrapper
         {...attributes}
         contentEditable={false}
         draggable
-        data-invalid={embed.embedData.isDecorative === "false" && !embed.embedData.alt}
-        data-selected={isSelected}
+        noClear
+        variant={
+          embed.embedData.isDecorative === "false" && !embed.embedData.alt
+            ? "invalid"
+            : isSelected
+              ? "selected"
+              : undefined
+        }
+        fullSize={embed.embedData.size === "full"}
       >
-        <ImageEmbed embed={embed}>
+        <ImageEmbed embed={embedWithoutCaching}>
           <FigureButtons>
-            <ModalTrigger>
-              <IconButtonV2 title={t("form.audio.edit")} aria-label={t("form.audio.edit")} colorTheme="light">
+            <DialogTrigger asChild>
+              <IconButton
+                title={t("form.image.editImage")}
+                aria-label={t("form.image.editImage")}
+                variant="secondary"
+                size="small"
+              >
                 <Pencil />
-              </IconButtonV2>
-            </ModalTrigger>
+              </IconButton>
+            </DialogTrigger>
             <SafeLinkIconButton
-              colorTheme="light"
+              variant="secondary"
+              size="small"
               to={`/media/image-upload/${embed.embedData.resourceId}/edit/${language}`}
               target="_blank"
-              title={t("form.editOriginalAudio")}
-              aria-label={t("form.editOriginalAudio")}
+              title={t("form.editOriginalImage")}
+              aria-label={t("form.editOriginalImage")}
             >
               <Link />
             </SafeLinkIconButton>
-            <StyledDeleteEmbedButton
+            <IconButton
               title={t("form.image.removeImage")}
               aria-label={t("form.image.removeImage")}
-              colorTheme="danger"
+              variant="danger"
+              size="small"
               onClick={handleRemove}
               data-testid="remove-element"
             >
               <DeleteForever />
-            </StyledDeleteEmbedButton>
+            </IconButton>
           </FigureButtons>
         </ImageEmbed>
+        <Portal>
+          <DialogContent>
+            <ImageEmbedForm
+              embed={embed.embedData}
+              image={embed.status === "success" ? embed.data : undefined}
+              onSave={onSave}
+              onClose={onClose}
+              language={language}
+              allowDecorative={allowDecorative}
+            />
+          </DialogContent>
+        </Portal>
         {children}
-        <ModalContent>
-          <ImageEmbedForm
-            embed={embed.embedData}
-            image={embed.status === "success" ? embed.data : undefined}
-            onSave={onSave}
-            onClose={onClose}
-            language={language}
-            allowDecorative={allowDecorative}
-          />
-        </ModalContent>
-      </StyledImageWrapper>
-    </Modal>
+      </StyledEmbedWrapper>
+    </DialogRoot>
   );
 };
 export default SlateImage;

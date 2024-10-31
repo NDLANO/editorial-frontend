@@ -12,17 +12,17 @@ import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 //@ts-ignore
 import { DropdownMenu, InputContainer, InputV3, Label } from "@ndla/forms";
-import { Spinner } from "@ndla/icons";
 import { Search } from "@ndla/icons/common";
 import { SearchResultBase } from "../../../interfaces";
 import { itemToString } from "../../../util/downShiftHelpers";
 import { FormControl } from "../../FormField";
+import { OldSpinner } from "../../OldSpinner";
 
 const IconWrapper = styled.div`
   padding: 0 ${spacing.small};
 `;
 
-const StyledSpinner = styled(Spinner)`
+const StyledSpinner = styled(OldSpinner)`
   margin: 0;
 `;
 

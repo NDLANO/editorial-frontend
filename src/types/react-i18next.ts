@@ -5,9 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import { Callback, FlatNamespace, i18n, KeyPrefix, Namespace, TFunction } from "i18next";
-import { $Tuple } from "react-i18next/helpers";
+import { FallbackNs, UseTranslationOptions } from "react-i18next";
 import { LocaleType } from "../interfaces";
+
+// TS somehow considers this a namespace if we import it from react-i18next.
+export type $Tuple<T> = readonly [T?, ...T[]];
 
 declare module "react-i18next" {
   interface CustomI18n extends Omit<i18n, "language" | "changeLanguage"> {

@@ -12,9 +12,10 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { FieldHeader } from "@ndla/forms";
 import { ImageSearch } from "@ndla/image-search";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
+import { useImageSearchTranslations } from "@ndla/ui";
+import FieldHeader from "../../../components/Field/FieldHeader";
 import HowToHelper from "../../../components/HowTo/HowToHelper";
 import { LocaleType } from "../../../interfaces";
 import { fetchImage, postSearchImages, onError } from "../../../modules/image/imageApi";
@@ -35,6 +36,7 @@ const InlineImageSearch = ({ name, disableAltEditing, hideAltText }: Props) => {
   const { t, i18n } = useTranslation();
   const { setFieldValue, values, setFieldTouched } = useFormikContext<ConceptFormValues>();
   const [image, setImage] = useState<IImageMetaInformationV3 | undefined>();
+  const imageSearchTranslations = useImageSearchTranslations();
   const locale: LocaleType = i18n.language;
   const fetchImageWithLocale = (id: number) => fetchImage(id, locale);
   const searchImagesWithParameters = (query?: string, page?: number) => {
@@ -76,9 +78,7 @@ const InlineImageSearch = ({ name, disableAltEditing, hideAltText }: Props) => {
         fetchImage={fetchImageWithLocale}
         searchImages={searchImagesWithParameters}
         locale={locale}
-        searchPlaceholder={t("imageSearch.placeholder")}
-        searchButtonTitle={t("imageSearch.buttonTitle")}
-        useImageTitle={t("imageSearch.useImage")}
+        translations={imageSearchTranslations}
         onImageSelect={(image: IImageMetaInformationV3) => {
           setFieldValue(name, image.id);
           setFieldValue("metaImageAlt", image.alttext.alttext.trim(), true);

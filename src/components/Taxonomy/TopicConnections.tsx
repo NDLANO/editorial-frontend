@@ -10,14 +10,15 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
-import { FieldHeader } from "@ndla/forms";
 import { ModalHeader, ModalBody, ModalCloseButton, Modal, ModalTitle, ModalTrigger, ModalContent } from "@ndla/modal";
-import { Switch } from "@ndla/switch";
+import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { Node, NodeChild } from "@ndla/types-taxonomy";
 import ActiveTopicConnections from "./ActiveTopicConnections";
 import TaxonomyBlockNode, { NodeWithChildren } from "./TaxonomyBlockNode";
+import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from "../../constants";
 import { MinimalNodeChild } from "../../containers/ArticlePage/LearningResourcePage/components/LearningResourceTaxonomy";
 import { fetchUserData } from "../../modules/draft/draftApi";
+import FieldHeader from "../Field/FieldHeader";
 import HowToHelper from "../HowTo/HowToHelper";
 
 const StyledModalHeader = styled(ModalHeader)`
@@ -49,9 +50,13 @@ const TopicConnections = ({
   const [showFavorites, setShowFavorites] = useState(true);
   const [favoriteSubjectIds, setFavoriteSubjectIds] = useState<string[]>([]);
 
+  const filtered = structure.filter(
+    (node) => node.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== "true",
+  );
+
   const nodes = useMemo(
-    () => (showFavorites ? structure.filter((node) => favoriteSubjectIds.includes(node.id)) : structure),
-    [favoriteSubjectIds, showFavorites, structure],
+    () => (showFavorites ? filtered.filter((node) => favoriteSubjectIds.includes(node.id)) : filtered),
+    [favoriteSubjectIds, showFavorites, filtered],
   );
 
   useEffect(() => {
@@ -112,12 +117,13 @@ const TopicConnections = ({
         >
           <StyledModalHeader>
             <ModalTitle>{t("taxonomy.topics.filestructureHeading")}</ModalTitle>
-            <Switch
-              onChange={() => setShowFavorites(!showFavorites)}
-              checked={showFavorites}
-              label={t("taxonomy.favorites")}
-              id={"favorites"}
-            />
+            <SwitchRoot checked={showFavorites} onCheckedChange={(details) => setShowFavorites(details.checked)}>
+              <SwitchLabel>{t("taxonomy.favorites")}</SwitchLabel>
+              <SwitchControl>
+                <SwitchThumb />
+              </SwitchControl>
+              <SwitchHiddenInput />
+            </SwitchRoot>
             <ModalCloseButton title={t("taxonomy.topics.filestructureClose")} />
           </StyledModalHeader>
           <ModalBody>

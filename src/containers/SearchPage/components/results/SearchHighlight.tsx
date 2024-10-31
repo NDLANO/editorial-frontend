@@ -7,8 +7,8 @@
  */
 
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { fonts } from "@ndla/core";
+import { Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
 
 interface Props {
@@ -16,21 +16,17 @@ interface Props {
   locale: string;
 }
 
-const StyledHeading = styled.p`
-  font-weight: ${fonts.weight.semibold};
-  margin-top: 0;
-  margin-bottom: 0;
-`;
+const StyledText = styled(Text, {
+  base: {
+    cursor: "help",
+  },
+});
 
-const StyledHighlights = styled.p`
-  cursor: help;
-  margin-top: 0;
-  margin-bottom: 0;
-`;
-
-const StyledDiv = styled.div`
-  display: inline-block;
-`;
+const StyledDiv = styled("div", {
+  base: {
+    display: "inline-block",
+  },
+});
 
 const SearchHighlight = ({ content, locale }: Props) => {
   const { t } = useTranslation();
@@ -54,8 +50,11 @@ const SearchHighlight = ({ content, locale }: Props) => {
 
   return selectedHighlights ? (
     <StyledDiv>
-      <StyledHeading>{t("searchPage.highlights.title")}</StyledHeading>
-      <StyledHighlights
+      <Text textStyle="body.small" fontWeight="bold">
+        {t("searchPage.highlights.title")}
+      </Text>
+      <StyledText
+        textStyle="body.small"
         title={t(`searchPage.highlights.${selectedHighlights.field.split(".")[0]}`)}
         dangerouslySetInnerHTML={{
           __html: selectedHighlights.matches.join(" [...] "),

@@ -41,15 +41,17 @@ const Breadcrumb = ({ node, error }: Props) => {
   let url = "/structure";
 
   const crumbs = useMemo(() => {
-    const paths = node.path
-      .split("/")
-      .filter((id) => id && !id.includes("resource:"))
-      .map((id) => `urn:${id}`);
-    return paths.map((path, index) => ({
-      id: path,
-      name: node.breadcrumbs[index],
-    }));
-  }, [node.breadcrumbs, node.path]);
+    const ids = node.context?.parentIds ?? [];
+    if (node.nodeType === "TOPIC") {
+      ids.push(node.id);
+    }
+    return (
+      ids.map((path, index) => ({
+        id: path,
+        name: node.breadcrumbs[index],
+      })) ?? []
+    );
+  }, [node.breadcrumbs, node.context, node.id, node.nodeType]);
 
   return (
     <StyledBreadCrumb>

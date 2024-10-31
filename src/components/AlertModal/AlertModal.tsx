@@ -8,7 +8,6 @@
 
 import { MouseEvent, ReactElement, useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { css, SerializedStyles } from "@emotion/react";
 import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
 import { spacing, colors } from "@ndla/core";
@@ -18,30 +17,28 @@ import { ModalHeader, Modal, ModalContent } from "@ndla/modal";
 import AlertModalFooter from "./AlertModalFooter";
 import { MessageSeverity } from "../../interfaces";
 
-const severities: Record<string, SerializedStyles> = {
-  success: css`
-    background-color: ${colors.support.green};
-    color: ${colors.white};
-  `,
-  info: css`
-    background-color: ${colors.white};
-    color: ${colors.text.primary};
-  `,
-  warning: css`
-    background-color: ${colors.support.yellow};
-    color: ${colors.text.primary};
-  `,
-  danger: css`
-    background-color: ${colors.support.red};
-    color: ${colors.white};
-  `,
-};
-
 const StyledModalBody = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${spacing.normal};
   padding: ${spacing.normal};
+
+  &[data-severity="success"] {
+    background-color: ${colors.support.green};
+    color: ${colors.white};
+  }
+  &[data-severity="info"] {
+    background-color: ${colors.white};
+    color: ${colors.text.primary};
+  }
+  &[data-severity="warning"] {
+    background-color: ${colors.support.yellow};
+    color: ${colors.text.primary};
+  }
+  &[data-severity="danger"] {
+    background-color: ${colors.support.red};
+    color: ${colors.white};
+  }
 `;
 
 const Header = styled(ModalHeader)`
@@ -136,7 +133,7 @@ const AlertModal = ({ text, onCancel, title, actions, component, show, label, se
           focusedElementBeforeModalRef.current = null;
         }}
       >
-        <StyledModalBody css={severities[severity]} data-testid="alert-modal">
+        <StyledModalBody data-severity={severity} data-testid="alert-modal">
           <Header>
             {title && <Heading data-severity={severity}>{title}</Heading>}
             <CloseButton

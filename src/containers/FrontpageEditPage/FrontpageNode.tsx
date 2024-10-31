@@ -10,11 +10,12 @@ import { ArrayHelpers, FieldArray, useField } from "formik";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2, IconButtonV2 } from "@ndla/button";
+import { ButtonV2 } from "@ndla/button";
 import { spacing, colors, fonts } from "@ndla/core";
-import { Plus } from "@ndla/icons/action";
+import { AddLine } from "@ndla/icons/action";
 import { ChevronRight } from "@ndla/icons/common";
-import { DeleteForever, Eye } from "@ndla/icons/editor";
+import { DeleteForever, EyeFill } from "@ndla/icons/editor";
+import { IconButton } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { IArticleSummaryV2 } from "@ndla/types-backend/article-api";
 import FrontpageArticleSearch from "./FrontpageArticleSearch";
@@ -81,12 +82,7 @@ const OpenButton = styled(ButtonV2)`
 const EditButtonWrapper = styled.div`
   display: flex;
   align-self: flex-end;
-`;
-
-const HideButton = styled(IconButtonV2)`
-  &[data-hidden="true"] {
-    color: ${colors.brand.greyLight};
-  }
+  gap: ${spacing.xsmall};
 `;
 
 const FrontpageNode = ({ name, remove, index, level, replace }: Props) => {
@@ -152,37 +148,38 @@ const FrontpageNode = ({ name, remove, index, level, replace }: Props) => {
         </TitleWrapper>
         <EditButtonWrapper>
           {level > 0 && (
-            <HideButton
-              data-hidden={field.value.hideLevel}
+            <IconButton
               aria-label={field.value.hideLevel ? t("frontpageForm.show") : t("frontpageForm.hide")}
               title={field.value.hideLevel ? t("frontpageForm.show") : t("frontpageForm.hide")}
-              variant="ghost"
+              variant={field.value.hideLevel ? "primary" : "tertiary"}
+              size="small"
               onClick={onHide}
             >
-              <Eye />
-            </HideButton>
+              <EyeFill />
+            </IconButton>
           )}
           {!field.value.menu.length && (
-            <IconButtonV2
+            <IconButton
               aria-label={t("remove")}
+              size="small"
               title={t("remove")}
               hidden={!!field.value.menu.length}
-              variant="ghost"
-              colorTheme="danger"
+              variant="danger"
               onClick={onRemove}
             >
               <DeleteForever />
-            </IconButtonV2>
+            </IconButton>
           )}
           <FrontpageArticleSearch onChange={onAdd}>
-            <IconButtonV2
-              variant="ghost"
+            <IconButton
+              variant="tertiary"
+              size="small"
               aria-label={t("frontpageForm.addArticle")}
               title={t("frontpageForm.addArticle")}
               disabled={level > FRONTPAGE_DEPTH_LIMIT - 1}
             >
-              <Plus />
-            </IconButtonV2>
+              <AddLine />
+            </IconButton>
           </FrontpageArticleSearch>
         </EditButtonWrapper>
       </NodeContentWrapper>

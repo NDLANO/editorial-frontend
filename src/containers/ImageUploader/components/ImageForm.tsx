@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
+import { PageContent } from "@ndla/primitives";
 import {
   IImageMetaInformationV3,
   INewImageMetaInformationV2,
@@ -28,7 +29,7 @@ import validateFormik, { RulesType, getWarnings } from "../../../components/form
 import FormWrapper from "../../../components/FormWrapper";
 import HeaderWithLanguage from "../../../components/HeaderWithLanguage/HeaderWithLanguage";
 import SaveButton from "../../../components/SaveButton";
-import { MAX_IMAGE_UPLOAD_SIZE, SAVE_BUTTON_ID } from "../../../constants";
+import { SAVE_BUTTON_ID } from "../../../constants";
 import { editorValueToPlainText } from "../../../util/articleContentConverter";
 import { isFormikFormDirty } from "../../../util/formHelper";
 import { AlertModalWrapper } from "../../FormikForm";
@@ -40,6 +41,10 @@ const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   gap: ${spacing.xsmall};
+`;
+
+const StyledPageContent = styled(PageContent)`
+  position: relative;
 `;
 
 const imageRules: RulesType<ImageFormikType, IImageMetaInformationV3> = {
@@ -77,9 +82,6 @@ const imageRules: RulesType<ImageFormikType, IImageMetaInformationV3> = {
   },
   imageFile: {
     required: true,
-  },
-  "imageFile.size": {
-    maxSize: MAX_IMAGE_UPLOAD_SIZE,
   },
   license: {
     required: true,
@@ -211,10 +213,11 @@ const ImageForm = ({
               <FormAccordion
                 id="content"
                 title={t("form.contentSection")}
-                className="u-10/12 u-push-1/12"
                 hasError={hasError(["title", "imageFile", "caption", "alttext"])}
               >
-                <ImageContent />
+                <StyledPageContent variant="content">
+                  <ImageContent />
+                </StyledPageContent>
               </FormAccordion>
               <FormAccordion
                 id="copyright"
@@ -224,7 +227,7 @@ const ImageForm = ({
                 <ImageCopyright />
               </FormAccordion>
               <FormAccordion id="metadata" title={t("form.metadataSection")} hasError={hasError(["tags"])}>
-                <ImageMetaData imageLanguage={language} imageTags={values.tags} />
+                <ImageMetaData imageLanguage={language} />
               </FormAccordion>
               <FormAccordion id="image-upload-version-history" title={t("form.workflowSection")} hasError={false}>
                 <SimpleVersionPanel editorNotes={image?.editorNotes} />

@@ -7,26 +7,17 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
-import styled from "@emotion/styled";
+import { ImageLine } from "@ndla/icons/editor";
 import { ImageMeta } from "@ndla/image-search";
 import { getLicenseByAbbreviation } from "@ndla/licenses";
+import { ListItemContent, ListItemHeading, ListItemRoot } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import { LicenseLink } from "@ndla/ui";
+import { SearchContentWrapper } from "./SearchContentWrapper";
+import { SearchListItemImage } from "./SearchListItemImage";
 import { useLicenses } from "../../../../modules/draft/draftQueries";
-import { toEditImage } from "../../../../util/routeHelpers";
-import {
-  StyledOtherLink,
-  StyledSearchContent,
-  StyledSearchDescription,
-  StyledSearchImageContainer,
-  StyledSearchResult,
-  StyledSearchTitle,
-} from "../form/StyledSearchComponents";
-
-const StyledImageMeta = styled(ImageMeta)`
-  margin-bottom: 5px;
-`;
+import { routes } from "../../../../util/routeHelpers";
 
 interface Props {
   image: IImageMetaInformationV3;
@@ -39,28 +30,30 @@ const SearchImage = ({ image, locale }: Props) => {
   const license = licenses && licenses.find((l) => image.copyright.license.license === l.license);
 
   return (
-    <StyledSearchResult data-testid="image-search-result">
-      <StyledSearchImageContainer>
-        <img src={image.image.imageUrl + "?width=200"} alt={`${image.alttext.alttext}`} />
-      </StyledSearchImageContainer>
-      <StyledSearchContent>
-        <Link to={toEditImage(image.id, image.title.language)}>
-          <StyledSearchTitle>{image.title.title || t("imageSearch.noTitle")}</StyledSearchTitle>
-        </Link>
-        <StyledSearchDescription>
-          {`${t("searchPage.language")}: `}
-          {image.supportedLanguages?.map((lang) => (
-            <StyledOtherLink key={lang}>{t(`languages.${lang}`)}</StyledOtherLink>
-          ))}
-        </StyledSearchDescription>
-        <StyledImageMeta
-          contentType={image.image.contentType}
-          fileSize={image.image.size}
-          imageDimensions={image.image.dimensions}
-        />
+    <ListItemRoot context="list" variant="subtle" data-testid="image-search-result">
+      <SearchListItemImage
+        src={image.image.imageUrl}
+        alt={image.alttext.alttext}
+        fallbackElement={<ImageLine />}
+        sizes="56px"
+        fallbackWidth={56}
+      />
+      <ListItemContent>
+        <SearchContentWrapper>
+          <ListItemHeading asChild consumeCss>
+            <SafeLink to={routes.image.edit(image.id, image.title.language)} unstyled>
+              {image.title.title || t("imageSearch.noTitle")}
+            </SafeLink>
+          </ListItemHeading>
+          <ImageMeta
+            contentType={image.image.contentType}
+            fileSize={image.image.size}
+            imageDimensions={image.image.dimensions}
+          />
+        </SearchContentWrapper>
         {license && <LicenseLink license={getLicenseByAbbreviation(license.license, locale)} />}
-      </StyledSearchContent>
-    </StyledSearchResult>
+      </ListItemContent>
+    </ListItemRoot>
   );
 };
 

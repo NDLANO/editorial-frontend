@@ -77,27 +77,20 @@ const normalizeRow = (
 
     const row = matrix[rowIndex].entries();
     for (const [index, cell] of row) {
-      const scope = cell?.data?.scope;
       // A. Normalize table head
       if (cell) {
+        const hasScope = "scope" in cell.data;
         if (isHead) {
           // i. If cell in header
           //    Make sure scope='col' and isHeader=true and type is correct
-          if (isTableCell(cell) && (cell.type !== TYPE_TABLE_CELL_HEADER || scope !== "col")) {
-            updateCell(
-              editor,
-              cell,
-              {
-                scope: "col",
-              },
-              TYPE_TABLE_CELL_HEADER,
-            );
+          if ((isTableCell(cell) && cell.type !== TYPE_TABLE_CELL_HEADER) || cell.data.scope !== "col") {
+            updateCell(editor, cell, { scope: "col" }, TYPE_TABLE_CELL_HEADER);
             return true;
           }
         } else {
           // i. If table does not have headers on rows
           //    Make sure cells in body has scope=undefined and isHeader=false
-          if (!rowHeaders && (scope || cell.type === TYPE_TABLE_CELL_HEADER)) {
+          if (!rowHeaders && (cell.type === TYPE_TABLE_CELL_HEADER || hasScope)) {
             updateCell(
               editor,
               cell,
@@ -114,7 +107,7 @@ const normalizeRow = (
           //    Other cells should not be a header
           if (rowHeaders) {
             if (index === 0) {
-              if (scope !== "row" || cell.type !== TYPE_TABLE_CELL_HEADER) {
+              if (cell.type !== TYPE_TABLE_CELL_HEADER || cell.data.scope !== "row") {
                 updateCell(
                   editor,
                   cell,
@@ -126,7 +119,7 @@ const normalizeRow = (
                 return true;
               }
             } else {
-              if ((scope || cell.type === TYPE_TABLE_CELL_HEADER) && getPrevCell(matrix, rowIndex, index) !== cell) {
+              if ((cell.type === TYPE_TABLE_CELL_HEADER && getPrevCell(matrix, rowIndex, index) !== cell) || hasScope) {
                 updateCell(
                   editor,
                   cell,

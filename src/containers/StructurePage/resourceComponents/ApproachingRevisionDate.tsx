@@ -12,6 +12,9 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { IRevisionMeta } from "@ndla/types-backend/draft-api";
+import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
+import { Dictionary } from "../../../interfaces";
+import { NodeResourceMeta } from "../../../modules/nodes/nodeQueries";
 import { getExpirationDate } from "../../ArticlePage/articleTransformers";
 
 const Wrapper = styled.div`
@@ -23,20 +26,22 @@ const Wrapper = styled.div`
 `;
 
 const StyledIcon = styled.div`
-  // TODO: Update when color is added to colors
   background-color: transparent;
+  // TODO: Update when color is added to colors
   border: 1px solid #c77623;
+  color: #c77623;
   width: 20px;
   height: 20px;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #c77623;
 `;
 
 interface Props {
-  revisions: (IRevisionMeta[] | undefined)[];
+  resources: ResourceWithNodeConnectionAndMeta[];
+  contentMeta: Dictionary<NodeResourceMeta>;
+  currentNode: ResourceWithNodeConnectionAndMeta;
 }
 
 export const isApproachingRevision = (revisions?: IRevisionMeta[]) => {
@@ -47,12 +52,18 @@ export const isApproachingRevision = (revisions?: IRevisionMeta[]) => {
   return isBefore(new Date(expirationDate), currentDateAddYear);
 };
 
-const ApproachingRevisionDate = ({ revisions }: Props) => {
+const ApproachingRevisionDate = ({ resources, currentNode, contentMeta }: Props) => {
   const { t } = useTranslation();
 
+  const allRevisions = useMemo(() => {
+    const resourceRevisions = resources.map((r) => r.contentMeta?.revisions).filter((r) => !!r);
+    const currentNodeRevision = currentNode.contentUri ? contentMeta[currentNode.contentUri]?.revisions : undefined;
+    return resourceRevisions.concat([currentNodeRevision]);
+  }, [contentMeta, currentNode.contentUri, resources]);
+
   const approachingRevision = useMemo(
-    () => revisions.map((r) => isApproachingRevision(r)).filter((a) => !!a).length,
-    [revisions],
+    () => allRevisions.map((r) => isApproachingRevision(r)).filter((a) => !!a).length,
+    [allRevisions],
   );
 
   return (

@@ -12,12 +12,12 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
 import { colors } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
 import { Done } from "@ndla/icons/editor";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
 import { Node } from "@ndla/types-taxonomy";
 import AlertModal from "../../../../components/AlertModal";
+import { OldSpinner } from "../../../../components/OldSpinner";
 import RoundIcon from "../../../../components/RoundIcon";
 import { PUBLISHED } from "../../../../constants";
 import { fetchDrafts, updateStatusDraft } from "../../../../modules/draft/draftApi";
@@ -47,7 +47,7 @@ const LinkWrapper = styled.div`
   margin-top: 0.5em;
 `;
 
-const StyledSpinner = styled(Spinner)`
+const StyledSpinner = styled(OldSpinner)`
   margin: 0px 4px;
 `;
 

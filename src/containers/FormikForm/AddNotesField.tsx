@@ -8,53 +8,48 @@
 
 import { FormEvent, MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { spacing } from "@ndla/core";
-import { FieldRemoveButton, Label, InputV3, FieldErrorMessage } from "@ndla/forms";
-import { FormControl } from "../../components/FormField";
+import { TrashCanOutline } from "@ndla/icons/action";
+import {
+  Button,
+  FieldErrorMessage,
+  FieldInput,
+  FieldLabel,
+  FieldRoot,
+  FieldsetLegend,
+  FieldsetRoot,
+  IconButton,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 
 interface Props {
   name: string;
-  placeholder?: string;
-  labelRemoveNote: string;
-  labelAddNote: string;
   labelWarningNote?: string;
   onChange: Function;
   value: string[];
   showError?: boolean;
 }
 
-const NoteWrapper = styled.li`
-  display: flex;
-  gap: ${spacing.small};
-  margin: 0;
-  padding: 0;
-`;
+const StyledFieldsetRoot = styled(FieldsetRoot, {
+  base: {
+    alignItems: "flex-start",
+    gap: "small",
+  },
+});
 
-const NotesContainer = styled.ul`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-  align-items: flex-start;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  div {
-    width: 100%;
-  }
-`;
+const NoteWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "xsmall",
+  },
+});
 
-const AddNotesField = ({
-  name,
-  placeholder,
-  labelAddNote,
-  labelRemoveNote,
-  labelWarningNote,
-  onChange,
-  value,
-  showError,
-}: Props) => {
+const StyledFieldRoot = styled(FieldRoot, {
+  base: {
+    width: "100%",
+  },
+});
+
+const AddNotesField = ({ name, labelWarningNote, onChange, value, showError }: Props) => {
   const { t } = useTranslation();
   const onNotesChange = (newContributors: string[]) => {
     onChange({
@@ -81,29 +76,37 @@ const AddNotesField = ({
   };
 
   return (
-    <NotesContainer>
+    <StyledFieldsetRoot>
+      <FieldsetLegend>{t("form.name.notes")}</FieldsetLegend>
       {value.map((note, index) => (
-        <FormControl key={`note-${index}`} isInvalid={showError && note === ""}>
-          <Label visuallyHidden>{`${t("form.notes.history.note")} ${index + 1}`}</Label>
+        <StyledFieldRoot key={`note-${index}`} invalid={showError && note === ""}>
+          <FieldLabel srOnly>{`${t("form.notes.history.note")} ${index + 1}`}</FieldLabel>
           <NoteWrapper>
-            <InputV3
+            <FieldInput
               type="text"
               // eslint-disable-next-line jsx-a11y/no-autofocus
               autoFocus
-              placeholder={placeholder}
               value={note}
               data-testid="notesInput"
               onChange={(e) => handleNoteChange(e, index)}
+              placeholder={t("form.notes.placeholder")}
             />
-            <FieldRemoveButton onClick={(evt) => removeNote(evt, index)}>{labelRemoveNote}</FieldRemoveButton>
+            <IconButton
+              variant="danger"
+              onClick={(e) => removeNote(e, index)}
+              aria-label={t("form.notes.remove")}
+              title={t("form.notes.remove")}
+            >
+              <TrashCanOutline />
+            </IconButton>
           </NoteWrapper>
           <FieldErrorMessage>{labelWarningNote}</FieldErrorMessage>
-        </FormControl>
+        </StyledFieldRoot>
       ))}
-      <ButtonV2 variant="outline" onClick={addNote} data-testid="addNote">
-        {labelAddNote}
-      </ButtonV2>
-    </NotesContainer>
+      <Button variant="secondary" onClick={addNote} data-testid="addNote">
+        {t("form.notes.add")}
+      </Button>
+    </StyledFieldsetRoot>
   );
 };
 

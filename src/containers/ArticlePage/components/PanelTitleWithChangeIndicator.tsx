@@ -6,37 +6,29 @@
  *
  */
 
-import isEqual from "lodash/fp/isEqual";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { colors } from "@ndla/core";
+import { Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IArticle } from "@ndla/types-backend/draft-api";
-import { Text } from "@ndla/typography";
+import { FlatArticleKeys } from "./types";
+import { hasArticleFieldsChanged } from "../../../components/HeaderWithLanguage/util";
 import { PUBLISHED } from "../../../constants";
-
-const contentPanelChanges = (
-  current: IArticle | undefined,
-  lastPublished: IArticle | undefined,
-  fields: (keyof IArticle)[],
-): boolean => {
-  if (current === undefined || lastPublished === undefined) return false;
-  for (const field of fields) {
-    if (!isEqual(current[field], lastPublished[field])) return true;
-  }
-  return false;
-};
-
-const StyledText = styled(Text)`
-  color: ${colors.brand.grey};
-`;
 
 interface PanelTitleProps {
   title: string;
   article: IArticle | undefined;
   articleHistory: IArticle[] | undefined;
-  fieldsToIndicatedChangesFor: (keyof IArticle)[];
+  fieldsToIndicatedChangesFor: FlatArticleKeys[];
 }
+
+const StyledSpan = styled("span", {
+  base: {
+    display: "flex",
+    gap: "xsmall",
+    alignItems: "baseline",
+  },
+});
 
 const PanelTitleWithChangeIndicator = ({
   title,
@@ -47,17 +39,17 @@ const PanelTitleWithChangeIndicator = ({
   const { t } = useTranslation();
   const hasChanges = useMemo(() => {
     const lastPublishedVersion = articleHistory?.find((a) => a.status.current === PUBLISHED);
-    return contentPanelChanges(article, lastPublishedVersion, fieldsToIndicatedChangesFor);
+    return hasArticleFieldsChanged(article, lastPublishedVersion, fieldsToIndicatedChangesFor);
   }, [article, articleHistory, fieldsToIndicatedChangesFor]);
 
   if (hasChanges) {
     return (
-      <>
-        <span data-underline="">{title}</span>
-        <StyledText element="span" textStyle="meta-text-small">
-          {t("form.unpublishedChanges")}
-        </StyledText>
-      </>
+      <StyledSpan>
+        <span>{title}</span>
+        <Text asChild consumeCss color="text.subtle" textStyle="label.small">
+          <span>{t("form.unpublishedChanges")}</span>
+        </Text>
+      </StyledSpan>
     );
   }
 

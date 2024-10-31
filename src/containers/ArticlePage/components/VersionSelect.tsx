@@ -8,41 +8,32 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
-import { Select, SingleValue } from "@ndla/select";
-import { Version } from "@ndla/types-taxonomy";
+import { createListCollection } from "@ark-ui/react";
+import {
+  SelectContent,
+  SelectHiddenSelect,
+  SelectItemGroup,
+  SelectItemGroupLabel,
+  SelectLabel,
+  SelectPositioner,
+  SelectRoot,
+  SelectValueText,
+} from "@ndla/primitives";
+import { Version, VersionType } from "@ndla/types-taxonomy";
+import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
 import { generateOptionGroups } from "../../../components/Taxonomy/OptGroupVersionSelector";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
-const Wrapper = styled.div`
-  margin-top: ${spacing.normal};
-  margin-bottom: ${spacing.small};
-`;
-
 interface Props {
-  onVersionChanged: (value: SingleValue) => void;
+  onVersionChanged: (hash: string) => void;
   versions?: Version[];
 }
-
-const getCurrentTaxVersion = (versions: Version[], oldTaxVersion: string): SingleValue => {
-  const currentVersion = versions?.find((version) => version.hash === oldTaxVersion);
-  return currentVersion ? { value: currentVersion.hash, label: currentVersion.name } : null;
-};
 
 const VersionSelect = ({ versions = [], onVersionChanged }: Props) => {
   const { taxonomyVersion } = useTaxonomyVersion();
   const { t } = useTranslation();
 
-  const fakeDefault = useMemo(
-    () => ({
-      value: "",
-      label: t("diff.defaultVersion"),
-    }),
-    [t],
-  );
-
-  const currentVersion = getCurrentTaxVersion(versions, taxonomyVersion) ?? fakeDefault;
+  const currentVersion = versions?.find((version) => version.hash === taxonomyVersion)?.hash;
   const options = useMemo(
     () =>
       versions.map((version) => ({
@@ -52,26 +43,50 @@ const VersionSelect = ({ versions = [], onVersionChanged }: Props) => {
       })),
     [versions],
   );
-  const optGroups = useMemo(
-    () =>
-      [{ label: "", options: [fakeDefault] }].concat(
-        generateOptionGroups(options, t).map((g) => ({
-          label: g.label,
-          options: g.options.map((o) => ({ value: o.id, label: o.name })),
-        })),
-      ),
-    [fakeDefault, options, t],
-  );
+  const optGroups = useMemo(() => generateOptionGroups(options, t), [options, t]);
+
+  const fakeDefault = useMemo(() => {
+    return { id: "", name: t("diff.defaultVersion"), type: "default" as VersionType };
+  }, [t]);
+
+  const collection = useMemo(() => {
+    return createListCollection({
+      items: [fakeDefault].concat(options),
+      itemToString: (item) => item.name,
+      itemToValue: (item) => item.id,
+    });
+  }, [fakeDefault, options]);
 
   return (
-    <Wrapper>
-      <Select<false>
-        options={optGroups}
-        value={currentVersion}
-        onChange={onVersionChanged}
-        prefix={`${t("taxonomy.version")}: `}
-      />
-    </Wrapper>
+    <SelectRoot
+      collection={collection}
+      positioning={{ sameWidth: true }}
+      value={currentVersion ? [currentVersion] : undefined}
+      onValueChange={(details) => onVersionChanged(details.value[0])}
+    >
+      <SelectLabel>{t("taxonomy.version")}</SelectLabel>
+      <GenericSelectTrigger>
+        <SelectValueText placeholder={t("diff.defaultVersion")} />
+      </GenericSelectTrigger>
+      <SelectPositioner>
+        <SelectContent>
+          <GenericSelectItem key={fakeDefault.id} item={fakeDefault}>
+            {fakeDefault.name}
+          </GenericSelectItem>
+          {optGroups.map((group) => (
+            <SelectItemGroup key={group.label}>
+              <SelectItemGroupLabel>{group.label}</SelectItemGroupLabel>
+              {group.options.map((item) => (
+                <GenericSelectItem key={item.id} item={item}>
+                  {item.name}
+                </GenericSelectItem>
+              ))}
+            </SelectItemGroup>
+          ))}
+        </SelectContent>
+      </SelectPositioner>
+      <SelectHiddenSelect />
+    </SelectRoot>
   );
 };
 

@@ -6,25 +6,38 @@
  *
  */
 
-import { Form, Formik, FormikValues } from "formik";
+import { Formik, FormikValues } from "formik";
 import { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
-import styled from "@emotion/styled";
-import { ButtonV2, IconButtonV2 } from "@ndla/button";
-import { colors, fonts, misc, spacing } from "@ndla/core";
-import { Label, FieldErrorMessage } from "@ndla/forms";
 import { DeleteForever } from "@ndla/icons/editor";
-import { ModalBody } from "@ndla/modal";
+import {
+  Button,
+  ComboboxLabel,
+  DialogBody,
+  FieldErrorMessage,
+  FieldLabel,
+  FieldRoot,
+  IconButton,
+  ListItemContent,
+  ListItemHeading,
+  ListItemRoot,
+  Text,
+  TextArea,
+} from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { IArticleSummaryV2, IArticleV2 } from "@ndla/types-backend/article-api";
 import { UuDisclaimerEmbedData } from "@ndla/types-embed";
-import { Text } from "@ndla/typography";
-import { toEditPage } from "./utils";
-import { getArticle, searchArticles } from "../../../../modules/article/articleApi";
+import { getArticle } from "../../../../modules/article/articleApi";
+import { useArticleSearch } from "../../../../modules/article/articleQueries";
 import { plainTextToEditorValue, editorValueToPlainText } from "../../../../util/articleContentConverter";
-import AsyncDropdown from "../../../Dropdown/asyncDropdown/AsyncDropdown";
-import { FormControl, FormField } from "../../../FormField";
+import { routes } from "../../../../util/routeHelpers";
+import { usePaginatedQuery } from "../../../../util/usePaginatedQuery";
+import { GenericComboboxInput, GenericComboboxItemContent } from "../../../abstractions/Combobox";
+import { GenericSearchCombobox } from "../../../Form/GenericSearchCombobox";
+import { FormField } from "../../../FormField";
+import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
 import PlainTextEditor from "../../PlainTextEditor";
 
@@ -43,47 +56,6 @@ interface DisclaimerFormValues {
   disclaimer: Descendant[];
 }
 
-const StyledFormField = styled(FormField)`
-  margin: 0;
-`;
-
-const StyledPlainTextEditor = styled(PlainTextEditor)`
-  border: 1px solid ${colors.brand.grey};
-  border-radius: ${misc.borderRadius};
-  min-height: ${spacing.xxlarge};
-  outline: none;
-  padding: ${spacing.small};
-  transition-duration: outline-color 100ms ease;
-  outline: 2px solid transparent;
-
-  &:focus {
-    outline-color: ${colors.brand.primary};
-  }
-`;
-
-const StyledModalBody = styled(ModalBody)`
-  padding: ${spacing.normal};
-`;
-
-const DisclaimerActions = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  gap: ${spacing.xsmall};
-  padding: ${spacing.normal} 0 0;
-`;
-
-const StyledText = styled(Text)`
-  ${fonts.size.text.label.small}
-`;
-
-const SelectedArticle = styled.div`
-  align-items: center;
-  display: flex;
-  gap: ${spacing.xsmall};
-  margin-top: ${spacing.small};
-`;
-
 const rules: RulesType<DisclaimerFormValues> = {
   disclaimer: {
     required: true,
@@ -98,12 +70,21 @@ const toInitialValues = (data?: UuDisclaimerEmbedData): DisclaimerFormValues => 
   };
 };
 
+const StyledTextArea = styled(TextArea, {
+  base: {
+    minHeight: "unset",
+    height: "unset",
+  },
+});
+
 const DisclaimerForm = ({ initialData, onOpenChange, onSave }: DisclaimerFormProps) => {
   const { t, i18n } = useTranslation();
   const initialValues = useMemo(() => toInitialValues(initialData), [initialData]);
   const initialErrors = useMemo(() => validateFormik(initialValues, rules, t), [initialValues, t]);
-  const [windowHeight, setWindowHeight] = useState<number>(window.innerHeight);
-  const [selectedArticle, setSelectedArticle] = useState<undefined | IArticleV2 | IArticleSummaryV2>(undefined);
+  const [selectedArticle, setSelectedArticle] = useState<IArticleV2 | IArticleSummaryV2 | undefined>(undefined);
+  const { query, delayedQuery, setQuery, page, setPage } = usePaginatedQuery();
+
+  const searchQuery = useArticleSearch({ query: delayedQuery, page: page }, { placeholderData: (prev) => prev });
 
   useEffect(() => {
     const initSelectedArticle = async () => {
@@ -113,13 +94,6 @@ const DisclaimerForm = ({ initialData, onOpenChange, onSave }: DisclaimerFormPro
     };
     initSelectedArticle();
   }, [initialValues.articleId]);
-
-  const searchForArticles = async (query: string, page: number | undefined) => {
-    return searchArticles({
-      query,
-      page,
-    });
-  };
 
   const handleSubmit = useCallback(
     (values: FormikValues) => {
@@ -142,86 +116,101 @@ const DisclaimerForm = ({ initialData, onOpenChange, onSave }: DisclaimerFormPro
       validate={(values) => validateFormik(values, rules, t)}
     >
       {() => (
-        <Form>
-          <StyledModalBody>
-            <StyledText element="p" textStyle="label-small" margin="small">
-              {t("form.disclaimer.exampleHeader")}
-            </StyledText>
-            <StyledText element="p" textStyle="meta-text-small" margin="none">
-              {t("form.disclaimer.exampleText")}
-            </StyledText>
-            <StyledText element="p" textStyle="meta-text-small">
-              <SafeLink to={DISCLAIMER_EXAMPLES_LINK}>{t("form.disclaimer.exampleLinkText")}</SafeLink>
-            </StyledText>
-            <StyledFormField name="disclaimer">
+        <DialogBody>
+          <FormikForm>
+            <Text>{t("form.disclaimer.exampleHeader")}</Text>
+            <Text>{t("form.disclaimer.exampleText")}</Text>
+            <SafeLink to={DISCLAIMER_EXAMPLES_LINK}>{t("form.disclaimer.exampleLinkText")}</SafeLink>
+            <FormField name="disclaimer">
               {({ field, meta }) => (
-                <FormControl>
-                  <Label textStyle="label-small">{t("form.disclaimer.editorHeader")}</Label>
-                  <StyledPlainTextEditor
-                    data-testid="disclaimer-editor"
-                    id={field.name}
-                    {...field}
-                    value={initialValues.disclaimer}
-                  />
+                <FieldRoot>
+                  <FieldLabel>{t("form.disclaimer.editorHeader")}</FieldLabel>
+                  <StyledTextArea asChild>
+                    <PlainTextEditor
+                      data-testid="disclaimer-editor"
+                      id={field.name}
+                      {...field}
+                      value={initialValues.disclaimer}
+                    />
+                  </StyledTextArea>
                   <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-                </FormControl>
+                </FieldRoot>
               )}
-            </StyledFormField>
-            <StyledFormField name="articleId">
-              {({ field }) => {
+            </FormField>
+            <FormField name="articleId">
+              {({ field, helpers }) => {
                 const handleChange = (selected: IArticleSummaryV2 | undefined) => {
-                  field.onChange({ target: { value: selected?.id.toString() ?? "", name: field.name } });
+                  helpers.setValue(selected?.id.toString() ?? "");
                   setSelectedArticle(selected);
                 };
-
                 return (
-                  <FormControl>
-                    <Label textStyle="label-small">{t("form.disclaimer.articleId")}</Label>
-                    <AsyncDropdown
-                      clearInputField
-                      idField="id"
-                      labelField="title"
-                      placeholder={t("form.content.relatedArticle.placeholder")}
-                      apiAction={searchForArticles}
-                      onClick={(e) => e.stopPropagation()}
-                      onChange={handleChange}
-                      showPagination
-                      menuHeight={windowHeight * 0.3}
-                    />
-                    {selectedArticle && (
-                      <SelectedArticle>
-                        <SafeLink
-                          to={toEditPage(selectedArticle.articleType, selectedArticle.id, i18n.language)}
-                          target="_blank"
-                        >
-                          {selectedArticle.title.title}
-                        </SafeLink>
-                        <IconButtonV2
-                          aria-label={t("form.disclaimer.removeArticle")}
-                          variant="ghost"
-                          title={t("form.disclaimer.removeArticle")}
-                          colorTheme="danger"
-                          data-testid="disclaimerArticleDeleteButton"
-                          onClick={() => handleChange(undefined)}
-                        >
-                          <DeleteForever />
-                        </IconButtonV2>
-                      </SelectedArticle>
+                  <FieldRoot>
+                    <GenericSearchCombobox
+                      items={searchQuery.data?.results ?? []}
+                      itemToString={(item) => item.title.title}
+                      itemToValue={(item) => item.id.toString()}
+                      inputValue={query}
+                      isSuccess={searchQuery.isSuccess}
+                      paginationData={searchQuery.data}
+                      onInputValueChange={(details) => setQuery(details.inputValue)}
+                      onPageChange={(details) => setPage(details.page)}
+                      value={[field.value?.toString()]}
+                      onValueChange={(details) => handleChange(details.items[0])}
+                      renderItem={(item) => (
+                        <GenericComboboxItemContent
+                          title={item.title.title}
+                          description={item.metaDescription?.metaDescription}
+                          image={item.metaImage}
+                          useFallbackImage
+                        />
+                      )}
+                    >
+                      <ComboboxLabel>{t("form.disclaimer.articleId")}</ComboboxLabel>
+                      <GenericComboboxInput
+                        placeholder={t("form.content.relatedArticle.placeholder")}
+                        isFetching={searchQuery.isFetching}
+                      />
+                    </GenericSearchCombobox>
+                    {!!selectedArticle && (
+                      <ListItemRoot variant="subtle">
+                        <ListItemContent>
+                          <ListItemHeading asChild>
+                            <SafeLink
+                              to={routes.editArticle(selectedArticle.id, selectedArticle.articleType, i18n.language)}
+                              unstyled
+                            >
+                              {selectedArticle.title.title}
+                            </SafeLink>
+                          </ListItemHeading>
+                          <IconButton
+                            aria-label={t("form.disclaimer.removeArticle")}
+                            variant="danger"
+                            title={t("form.disclaimer.removeArticle")}
+                            data-testid="disclaimerArticleDeleteButton"
+                            onClick={() => {
+                              helpers.setValue("");
+                              setSelectedArticle(undefined);
+                            }}
+                          >
+                            <DeleteForever />
+                          </IconButton>
+                        </ListItemContent>
+                      </ListItemRoot>
                     )}
-                  </FormControl>
+                  </FieldRoot>
                 );
               }}
-            </StyledFormField>
-            <DisclaimerActions>
-              <ButtonV2 onClick={() => onOpenChange(false)} variant="outline">
+            </FormField>
+            <FormActionsContainer>
+              <Button onClick={() => onOpenChange(false)} variant="secondary">
                 {t("form.abort")}
-              </ButtonV2>
-              <ButtonV2 type="submit" variant="solid" data-testid="disclaimer-save">
+              </Button>
+              <Button type="submit" data-testid="disclaimer-save">
                 {t("form.save")}
-              </ButtonV2>
-            </DisclaimerActions>
-          </StyledModalBody>
-        </Form>
+              </Button>
+            </FormActionsContainer>
+          </FormikForm>
+        </DialogBody>
       )}
     </Formik>
   );

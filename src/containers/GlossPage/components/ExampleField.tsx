@@ -7,16 +7,29 @@
  */
 
 import { useField } from "formik";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
-import { spacing } from "@ndla/core";
-import { Select, InputV3, FieldErrorMessage, Label } from "@ndla/forms";
-import { Cross } from "@ndla/icons/action";
+import { createListCollection } from "@ark-ui/react";
+import { TrashCanOutline } from "@ndla/icons/action";
+import {
+  FieldErrorMessage,
+  FieldInput,
+  FieldLabel,
+  FieldRoot,
+  FieldsetLegend,
+  FieldsetRoot,
+  IconButton,
+  SelectContent,
+  SelectHiddenSelect,
+  SelectLabel,
+  SelectPositioner,
+  SelectRoot,
+  SelectValueText,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IGlossExample } from "@ndla/types-backend/concept-api";
-import { Text } from "@ndla/typography";
-import { FormControl, FormField } from "../../../components/FormField";
+import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
+import { FormField } from "../../../components/FormField";
 import { LANGUAGES } from "../glossData";
 
 interface Props {
@@ -27,27 +40,30 @@ interface Props {
   onRemoveExample: () => void;
 }
 
-const Wrapper = styled.fieldset`
-  width: 100%;
-  border: none;
-  padding: 0px;
-  margin: 0px;
-`;
+const FieldWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "xsmall",
+  },
+});
 
-const FieldWrapper = styled.div`
-  display: flex;
-  gap: ${spacing.small};
-  width: 100%;
-`;
+const StyledFieldsetRoot = styled(FieldsetRoot, {
+  base: {
+    width: "100%",
+  },
+});
 
-const StyledFormControl = styled(FormControl)`
-  flex: 1;
-`;
+const StyledFieldRoot = styled(FieldRoot, {
+  base: {
+    width: "100%",
+  },
+});
 
-const RemoveButton = styled(IconButtonV2)`
-  height: ${spacing.large};
-  width: ${spacing.large};
-`;
+const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
+  base: {
+    width: "surface.xxsmall",
+  },
+});
 
 const ExampleField = ({ example, name, index, exampleIndex, onRemoveExample }: Props) => {
   const { t } = useTranslation();
@@ -60,6 +76,16 @@ const ExampleField = ({ example, name, index, exampleIndex, onRemoveExample }: P
     index: exampleIndex + 1,
   });
 
+  const collection = useMemo(
+    () =>
+      createListCollection({
+        items: LANGUAGES,
+        itemToString: (item) => t(`languages.${item}`),
+        itemToValue: (item) => item,
+      }),
+    [t],
+  );
+
   useEffect(() => {
     if (exampleIndex === 0) {
       languageHelpers.setValue(originalLanguageField.value, true);
@@ -69,50 +95,61 @@ const ExampleField = ({ example, name, index, exampleIndex, onRemoveExample }: P
   }, [exampleIndex, languageField.value, languageHelpers, originalLanguageField.value]);
 
   return (
-    <Wrapper>
-      <Text element="legend" textStyle="label-small">
+    <StyledFieldsetRoot>
+      <FieldsetLegend textStyle="label.small">
         {t("form.gloss.examples.exampleOnLanguage", {
           index: labelIndex,
           language: t(`languages.${languageField.value}`).toLowerCase(),
         })}
-      </Text>
+      </FieldsetLegend>
       <FieldWrapper>
         <FormField name={`${name}.example`}>
           {({ field, meta }) => (
-            <StyledFormControl isRequired isInvalid={!!meta.error}>
-              <Label textStyle="label-small" margin="none" visuallyHidden>
+            <StyledFieldRoot required invalid={!!meta.error}>
+              <FieldLabel srOnly>
                 {t("form.gloss.examples.exampleTextLabel", {
                   index: labelIndex,
                   language: t(`languages.${languageField.value}`).toLowerCase(),
                 })}
-              </Label>
-              <InputV3 type="text" placeholder={t("form.gloss.example")} {...field} />
+              </FieldLabel>
+              <FieldInput type="text" placeholder={t("form.gloss.example")} {...field} />
               <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-            </StyledFormControl>
+            </StyledFieldRoot>
           )}
         </FormField>
-        <FormControl isRequired isDisabled={exampleIndex === 0} isInvalid={!!languageMeta.error}>
-          <Select {...languageField}>
-            {!example.language && (
-              <option>
-                {t("form.gloss.choose", {
-                  label: t("form.gloss.language").toLowerCase(),
-                })}
-              </option>
-            )}
-            {LANGUAGES.map((language, languageIndex) => (
-              <option value={language} key={languageIndex}>
-                {t(`languages.${language}`)}
-              </option>
-            ))}
-          </Select>
-          <FieldErrorMessage>{languageMeta.error}</FieldErrorMessage>
-        </FormControl>
-        <RemoveButton colorTheme="light" aria-label={removeLabel} title={removeLabel} onClick={onRemoveExample}>
-          <Cross />
-        </RemoveButton>
+        {exampleIndex !== 0 && (
+          <FieldRoot required invalid={!!languageMeta.error}>
+            <SelectRoot
+              collection={collection}
+              positioning={{ sameWidth: true }}
+              value={[languageField.value]}
+              onValueChange={(details) => languageHelpers.setValue(details.value[0])}
+            >
+              <SelectLabel srOnly>{t("form.gloss.language")}</SelectLabel>
+              <FieldErrorMessage>{languageMeta.error}</FieldErrorMessage>
+              <StyledGenericSelectTrigger>
+                <SelectValueText
+                  placeholder={t("form.gloss.choose", { label: t("form.gloss.language").toLowerCase() })}
+                />
+              </StyledGenericSelectTrigger>
+              <SelectPositioner>
+                <SelectContent>
+                  {collection.items.map((language) => (
+                    <GenericSelectItem key={language} item={language}>
+                      {t(`languages.${language}`)}
+                    </GenericSelectItem>
+                  ))}
+                </SelectContent>
+              </SelectPositioner>
+              <SelectHiddenSelect />
+            </SelectRoot>
+          </FieldRoot>
+        )}
+        <IconButton variant="danger" aria-label={removeLabel} title={removeLabel} onClick={onRemoveExample}>
+          <TrashCanOutline />
+        </IconButton>
       </FieldWrapper>
-    </Wrapper>
+    </StyledFieldsetRoot>
   );
 };
 

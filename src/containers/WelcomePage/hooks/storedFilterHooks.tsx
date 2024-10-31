@@ -7,17 +7,17 @@
  */
 
 import { useCallback, useEffect, useState } from "react";
-import { SingleValue } from "@ndla/select";
 import { fetchNode } from "../../../modules/nodes/nodeApi";
 import { Prefix } from "../components/TableComponent";
+import { SelectItem } from "../types";
 
 type ReturnStateType<T> = [T, (v: T) => void];
 
 export const useLocalStorageSubjectFilterState = (
   localStorageKey: string,
   language: string,
-): ReturnStateType<SingleValue | undefined> => {
-  const [filterSubject, _setFilterSubject] = useState<SingleValue | undefined>(undefined);
+): ReturnStateType<SelectItem | undefined> => {
+  const [filterSubject, _setFilterSubject] = useState<SelectItem | undefined>(undefined);
   const storedFilterSubject = localStorage.getItem(localStorageKey);
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export const useLocalStorageSubjectFilterState = (
   }, [language, storedFilterSubject]);
 
   const setFilterSubject = useCallback(
-    (fs: SingleValue | undefined) => {
+    (fs: SelectItem | undefined) => {
       _setFilterSubject(fs);
       fs ? localStorage.setItem(localStorageKey, fs.value) : localStorage.removeItem(localStorageKey);
     },
@@ -47,10 +47,10 @@ export const useLocalStorageSubjectFilterState = (
 
 const defaultPageSize = { label: "6", value: "6" };
 
-export const useLocalStoragePageSizeState = (localStorageKey: string): ReturnStateType<SingleValue> => {
+export const useLocalStoragePageSizeState = (localStorageKey: string): ReturnStateType<SelectItem> => {
   const storedPageSize = localStorage.getItem(localStorageKey);
 
-  const [pageSize, _setPageSize] = useState<SingleValue>(
+  const [pageSize, _setPageSize] = useState<SelectItem>(
     storedPageSize
       ? {
           label: storedPageSize,
@@ -59,7 +59,7 @@ export const useLocalStoragePageSizeState = (localStorageKey: string): ReturnSta
       : defaultPageSize,
   );
   const setPageSize = useCallback(
-    (p: SingleValue) => {
+    (p: SelectItem) => {
       if (!p) return;
       _setPageSize(p);
       localStorage.setItem(localStorageKey, p.value);

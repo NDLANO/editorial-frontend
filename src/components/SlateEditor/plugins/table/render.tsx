@@ -6,11 +6,8 @@
  *
  */
 
-import { TdHTMLAttributes } from "react";
 import { Editor, Element, Node, Path } from "slate";
 import { ReactEditor } from "slate-react";
-import styled from "@emotion/styled";
-import { colors, fonts } from "@ndla/core";
 import SlateTable from "./SlateTable";
 import TableActions from "./TableActions";
 import {
@@ -23,16 +20,6 @@ import {
   TYPE_TABLE_ROW,
 } from "./types";
 import WithPlaceHolder from "../../common/WithPlaceHolder";
-
-const StyledTh = styled.th`
-  border: 1px solid ${colors.brand.lighter};
-  background-color: transparent !important;
-  text-align: top;
-  vertical-align: inherit;
-  border-bottom: 3px solid ${colors.brand.tertiary} !important;
-  font-weight: ${fonts.weight.bold};
-  vertical-align: text-top;
-`;
 
 export const tableRenderer = (editor: Editor) => {
   const { renderElement, renderLeaf } = editor;
@@ -53,16 +40,14 @@ export const tableRenderer = (editor: Editor) => {
       case TYPE_TABLE_ROW:
         return <tr {...attributes}>{children}</tr>;
       case TYPE_TABLE_CELL: {
-        const align = element.data.align || "";
-        const parsedAlign = (
-          ["left", "center", "right"].includes(align) ? align : undefined
-        ) as TdHTMLAttributes<HTMLTableCellElement>["align"];
+        const align = element.data?.align || "";
+        const parsedAlign = ["left", "center", "right"].includes(align) ? align : undefined;
         return (
           <td
             rowSpan={element.data.rowspan}
             colSpan={element.data.colspan}
             headers={element.data.headers}
-            align={parsedAlign}
+            data-align={parsedAlign}
             {...attributes}
           >
             {children}
@@ -75,7 +60,7 @@ export const tableRenderer = (editor: Editor) => {
         return <tbody {...attributes}>{children}</tbody>;
       case TYPE_TABLE_CELL_HEADER:
         return (
-          <StyledTh
+          <th
             rowSpan={element.data.rowspan}
             colSpan={element.data.colspan}
             headers={element.data.headers}
@@ -84,7 +69,7 @@ export const tableRenderer = (editor: Editor) => {
             {...attributes}
           >
             {children}
-          </StyledTh>
+          </th>
         );
       default:
         return renderElement?.({ attributes, children, element });

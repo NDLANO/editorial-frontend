@@ -10,21 +10,17 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
 import { colors, fonts, spacing } from "@ndla/core";
-import { FieldHeader } from "@ndla/forms";
 import { DeleteForever } from "@ndla/icons/editor";
+import { ComboboxLabel, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { ISeriesSummary } from "@ndla/types-backend/audio-api";
-import { Text } from "@ndla/typography";
-import AsyncDropdown from "../../../components/Dropdown/asyncDropdown/AsyncDropdown";
-import FormikField from "../../../components/FormikField";
-import { SearchResultBase } from "../../../interfaces";
-import { postSearchSeries } from "../../../modules/audio/audioApi";
+import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
+import FieldHeader from "../../../components/Field/FieldHeader";
+import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCombobox";
+import { FormField } from "../../../components/FormField";
+import { useSearchSeries } from "../../../modules/audio/audioQueries";
 import { toEditPodcastSeries } from "../../../util/routeHelpers";
+import { usePaginatedQuery } from "../../../util/usePaginatedQuery";
 import ElementImage from "../../FormikForm/components/ElementImage";
-
-interface SeriesType extends Omit<ISeriesSummary, "coverPhoto"> {
-  metaImage: { id: string; url: string; alt: string };
-}
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -45,27 +41,15 @@ const StyledSafeLink = styled(SafeLink)`
   font-weight: ${fonts.weight.semibold};
 `;
 
-const StyledFormikField = styled(FormikField)`
-  margin: 0;
-`;
-
 const PodcastSeries = () => {
   const { t, i18n } = useTranslation();
+  const { query, delayedQuery, page, setPage, setQuery } = usePaginatedQuery();
 
-  const searchForSeries = async (query: string, page: number | undefined): Promise<SearchResultBase<SeriesType>> => {
-    const searchResult = await postSearchSeries({
-      query,
-      page,
-    });
-    const results = searchResult.results.map((result) => ({
-      ...result,
-      metaImage: { ...result.coverPhoto, alt: result.coverPhoto.altText },
-    }));
-    return { ...searchResult, results };
-  };
+  const searchQuery = useSearchSeries({ query: delayedQuery, page: page }, { placeholderData: (prev) => prev });
+
   return (
-    <StyledFormikField name="series">
-      {({ field }) => (
+    <FormField name="series">
+      {({ field, helpers }) => (
         <StyledWrapper>
           <FieldHeader title={t("podcastForm.fields.series")} />
           {field.value ? (
@@ -83,36 +67,50 @@ const PodcastSeries = () => {
                 title={t("podcastForm.information.removeSeries")}
                 variant="ghost"
                 colorTheme="danger"
-                onClick={() => field.onChange({ target: { name: field.name, value: null } })}
+                onClick={() => helpers.setValue(null, true)}
               >
                 <DeleteForever />
               </IconButtonV2>
             </PodcastSeriesElement>
           ) : (
-            <Text textStyle="content-alt">{t("podcastForm.information.noSeries")}</Text>
+            <Text>{t("podcastForm.information.noSeries")}</Text>
           )}
-          <AsyncDropdown<SeriesType>
-            selectedItems={field.value ? [field.value] : []}
-            idField="id"
-            labelField="title"
-            placeholder={t("form.content.relatedArticle.placeholder")}
-            apiAction={searchForSeries}
-            onClick={(e) => e.stopPropagation()}
-            onChange={(series) => {
+
+          <GenericSearchCombobox
+            items={searchQuery.data?.results ?? []}
+            itemToString={(item) => item.title.title}
+            itemToValue={(item) => item.id.toString()}
+            inputValue={query}
+            isSuccess={searchQuery.isSuccess}
+            paginationData={searchQuery.data}
+            onInputValueChange={(details) => setQuery(details.inputValue)}
+            onPageChange={(details) => setPage(details.page)}
+            value={field.value ? [field.value.id.toString()] : []}
+            onValueChange={(details) => {
+              const series = details.items[0];
+              if (!series) return;
               // Delete episodes from series object, keep remaining
               const { episodes: _, ...remaining } = series;
-              field.onChange({
-                target: { name: field.name, value: remaining },
-              });
+              helpers.setValue(remaining);
             }}
-            multiSelect
-            disableSelected
-            clearInputField
-            showPagination
-          />
+            renderItem={(item) => (
+              <GenericComboboxItemContent
+                title={item.title.title}
+                description={item.description.description}
+                image={item.coverPhoto}
+                useFallbackImage
+              />
+            )}
+          >
+            <ComboboxLabel>{t("podcastForm.fields.series")}</ComboboxLabel>
+            <GenericComboboxInput
+              placeholder={t("form.content.relatedArticle.placeholder")}
+              isFetching={searchQuery.isFetching}
+            />
+          </GenericSearchCombobox>
         </StyledWrapper>
       )}
-    </StyledFormikField>
+    </FormField>
   );
 };
 

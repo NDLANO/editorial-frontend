@@ -14,6 +14,8 @@ test("taxonomy/flattenResourceTypesAndAddContextTypes flattening", () => {
   const types: Record<string, string> = {
     "contextTypes.topic": "Emne",
     "contextTypes.frontpage": "Forsideartikkel",
+    "contextTypes.concept": "Forklaring",
+    "contextTypes.gloss": "Glose",
   };
   const t = (key: string) => types[key];
   expect(flattenResourceTypesAndAddContextTypes(resourceTypesMock as ResourceType[], t)).toEqual(

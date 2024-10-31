@@ -6,7 +6,7 @@
  *
  */
 
-import { Auth0UserData, ZendeskToken } from "../../interfaces";
+import { Auth0UserData } from "../../interfaces";
 import { resolveJsonOrRejectWithError, fetchAuthorized } from "../../util/apiHelpers";
 
 export const fetchAuth0Users = (uniqueUserIds: string): Promise<Auth0UserData[]> =>
@@ -46,6 +46,3 @@ export const fetchAuth0Responsibles = (permission: string): Promise<Auth0UserDat
   fetchAuthorized(`/get_responsibles?permission=${permission}`).then((r) =>
     resolveJsonOrRejectWithError<Auth0UserData[]>(r),
   );
-
-export const fetchZendeskToken = (): Promise<ZendeskToken> =>
-  fetchAuthorized("/get_zendesk_token").then((r) => resolveJsonOrRejectWithError<ZendeskToken>(r));

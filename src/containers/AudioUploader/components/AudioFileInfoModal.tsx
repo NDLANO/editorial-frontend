@@ -23,7 +23,7 @@ const AudioFileInfoModal = () => {
           variant="stripped"
           colorTheme="light"
         >
-          <HelpIcon size="normal" />
+          <HelpIcon />
         </IconButtonV2>
       </ModalTrigger>
       <ModalContent>

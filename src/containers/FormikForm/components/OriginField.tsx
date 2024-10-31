@@ -7,21 +7,19 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { FieldErrorMessage, InputV3, Label } from "@ndla/forms";
-import { FormControl, FormField } from "../../../components/FormField";
+import { FieldErrorMessage, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
+import { FormField } from "../../../components/FormField";
 
 const OriginField = () => {
   const { t } = useTranslation();
   return (
     <FormField name="origin">
       {({ field, meta }) => (
-        <FormControl isDisabled={!!meta.error}>
-          <Label textStyle="label-small" margin="small">
-            {t("form.origin.label")}
-          </Label>
-          <InputV3 {...field}></InputV3>
+        <FieldRoot invalid={!!meta.error}>
+          <FieldLabel>{t("form.origin.label")}</FieldLabel>
+          <FieldInput {...field}></FieldInput>
           <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-        </FormControl>
+        </FieldRoot>
       )}
     </FormField>
   );

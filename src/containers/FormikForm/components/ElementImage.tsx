@@ -9,7 +9,7 @@
 import styled from "@emotion/styled";
 import { spacing, spacingUnit } from "@ndla/core";
 
-export const ELEMENT_HEIGHT = 69;
+const ELEMENT_HEIGHT = 69;
 
 const StyledElementImage = styled.img`
   width: ${ELEMENT_HEIGHT * 1.33}px;

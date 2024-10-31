@@ -38,7 +38,7 @@ const editor: Descendant[] = [
 const html =
   '<section><ndlaembed data-resource="brightcove" data-videoid="123" data-title="title" data-url="url" data-caption="caption" data-account="account" data-player="player"></ndlaembed></section>';
 
-describe("blogPost serializing tests", () => {
+describe("brightcove serializing tests", () => {
   test("serializing", () => {
     const res = blockContentToHTML(editor);
     expect(res).toMatch(html);

@@ -9,20 +9,22 @@
 import { MouseEventHandler, ReactNode, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { RenderElementProps } from "slate-react";
-import styled from "@emotion/styled";
-import { FactBox } from "@ndla/ui";
+import { styled } from "@ndla/styled-system/jsx";
+import { EmbedWrapper, FactBox } from "@ndla/ui";
 import DeleteButton from "../../../DeleteButton";
 import MoveContentButton from "../../../MoveContentButton";
 
-const ButtonContainer = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: flex-end;
-`;
-
-const StyledFactBox = styled(FactBox)`
-  margin: 0px;
-`;
+const ButtonContainer = styled("div", {
+  base: {
+    position: "absolute",
+    top: "xsmall",
+    right: "xsmall",
+    display: "flex",
+    justifyContent: "flex-end",
+    zIndex: "docked",
+    gap: "3xsmall",
+  },
+});
 
 interface Props {
   children: ReactNode;
@@ -36,20 +38,15 @@ const SlateFactAside = ({ children, onRemoveClick, attributes, onMoveContent }: 
   const { t } = useTranslation();
 
   return (
-    <div>
-      <ButtonContainer>
+    <EmbedWrapper>
+      <ButtonContainer contentEditable={false}>
         <MoveContentButton onMouseDown={onMoveContent} aria-label={t("form.moveContent")} />
-        <DeleteButton
-          aria-label={t("form.remove")}
-          variant="stripped"
-          onMouseDown={onRemoveClick}
-          data-testid="remove-fact-aside"
-        />
+        <DeleteButton aria-label={t("form.remove")} onMouseDown={onRemoveClick} data-testid="remove-fact-aside" />
       </ButtonContainer>
-      <StyledFactBox open={open} draggable {...attributes} onOpenChange={setIsOpen}>
+      <FactBox open={open} draggable {...attributes} onOpenChange={setIsOpen}>
         {children}
-      </StyledFactBox>
-    </div>
+      </FactBox>
+    </EmbedWrapper>
   );
 };
 

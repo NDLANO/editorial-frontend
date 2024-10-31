@@ -12,6 +12,7 @@ import { AudioSearch } from "@ndla/audio-search";
 import { IAudioSummary, ISearchParams } from "@ndla/types-backend/audio-api";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import { BrightcoveApiType } from "@ndla/types-embed";
+import { useAudioSearchTranslations, useVideoSearchTranslations } from "@ndla/ui";
 import { VideoSearch } from "@ndla/video-search";
 import FileUploader from "../../components/FileUploader";
 import ImageSearchAndUploader from "../../components/ImageSearchAndUploader";
@@ -48,6 +49,7 @@ const searchAudios = (query: LocalAudioSearchParams) => {
     sort: query.sort,
     pageSize: 16,
     audioType: query.audioType,
+    fallback: true,
   };
   return postSearchAudio(correctedQuery);
 };
@@ -61,6 +63,8 @@ const VisualElementSearch = ({
   checkboxAction: onSaveAsMetaImage,
 }: Props) => {
   const { t, i18n } = useTranslation();
+  const audioSearchTranslations = useAudioSearchTranslations();
+  const videoSearchTranslations = useVideoSearchTranslations();
   const locale = i18n.language;
   switch (selectedResource) {
     case "image":
@@ -89,26 +93,13 @@ const VisualElementSearch = ({
         />
       );
     case "video": {
-      const videoTranslations = {
-        searchPlaceholder: t("videoSearch.searchPlaceholder"),
-        searchButtonTitle: t("videoSearch.searchButtonTitle"),
-        loadMoreVideos: t("videoSearch.loadMoreVideos"),
-        noResults: t("videoSearch.noResults"),
-        addVideo: t("videoSearch.addVideo"),
-        previewVideo: t("videoSearch.previewVideo"),
-        publishedDate: t("videoSearch.publishedDate"),
-        duration: t("videoSearch.duration"),
-        interactioncount: t("videoSearch.interactioncount"),
-        is360Video: t("videoSearch.is360Video"),
-      };
-
       return (
         <>
           <h2>{titles(t, selectedResource)[selectedResource]}</h2>
           <VideoSearch
             searchVideos={(query: VideoSearchQuery) => searchVideos(query)}
             locale={locale}
-            translations={videoTranslations}
+            translations={videoSearchTranslations}
             onVideoSelect={(video: BrightcoveApiType) =>
               handleVisualElementChange({
                 resource: "brightcove",
@@ -138,19 +129,13 @@ const VisualElementSearch = ({
         page: 1,
         pageSize: 16,
         locale,
+        fallback: true,
         audioType,
-      };
-
-      const translations = {
-        searchPlaceholder: t("audioSearch.searchPlaceholder"),
-        searchButtonTitle: t("audioSearch.searchButtonTitle"),
-        useAudio: t("audioSearch.useAudio"),
-        noResults: t("audioSearch.noResults"),
       };
 
       return (
         <AudioSearch
-          translations={translations}
+          translations={audioSearchTranslations}
           fetchAudio={(id: number) => fetchAudio(id, articleLanguage ?? locale)}
           searchAudios={searchAudios}
           onAudioSelect={(audio: IAudioSummary) =>
@@ -177,6 +162,7 @@ const VisualElementSearch = ({
             }));
             handleVisualElementChange(preparedFiles);
           }}
+          close={closeModal}
         />
       );
     default:

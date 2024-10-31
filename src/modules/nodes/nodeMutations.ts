@@ -53,11 +53,11 @@ export const useAddNodeMutation = () => {
       await queryClient.cancelQueries({ queryKey: key });
       const previousNodes = queryClient.getQueryData<Node[]>(key) ?? [];
       const optimisticNode: Node = {
-        ...newNode,
         baseName: newNode.name ?? "",
         name: newNode.name ?? "",
         contentUri: newNode.contentUri ?? "",
         id: newNode.nodeId ?? "",
+        nodeType: newNode.nodeType,
         path: "",
         paths: [],
         translations: [],
@@ -67,6 +67,7 @@ export const useAddNodeMutation = () => {
         metadata: { visible: true, grepCodes: [], customFields: {} },
         breadcrumbs: [],
         language: "",
+        qualityEvaluation: newNode.qualityEvaluation ? newNode.qualityEvaluation : undefined,
       };
       queryClient.setQueryData<Node[]>(key, [...previousNodes, optimisticNode]);
       return previousNodes;

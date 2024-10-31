@@ -48,6 +48,8 @@ const flattenResourceTypesAndAddContextTypes = (data: ResourceType[] = [], t: (k
     name: t("contextTypes.frontpage"),
     id: "frontpage-article",
   });
+  resourceTypes.push({ name: t("contextTypes.concept"), id: "concept" });
+  resourceTypes.push({ name: t("contextTypes.gloss"), id: "gloss" });
   return resourceTypes;
 };
 
@@ -95,7 +97,7 @@ export const groupResourcesByType = (resources: ResourceWithNodeConnectionAndMet
     .map((rt) => ({
       ...rt,
       resources: sortBy(unique[rt.id], (res) => res.rank) ?? [],
-      contentType: getContentTypeFromResourceTypes([rt]).contentType,
+      contentType: getContentTypeFromResourceTypes([rt]),
     }))
     .filter((rt) => rt.resources.length > 0);
 };
@@ -117,7 +119,7 @@ const insertChild = (
   });
 };
 
-const parentIsRoot = (node: NodeChild) => node.path.startsWith(node.parentId.replace("urn:", "/"));
+const parentIsRoot = (node: NodeChild) => node.path?.startsWith(node.parentId.replace("urn:", "/"));
 
 const groupChildNodes = (childNodes: NodeChild[]) =>
   childNodes.reduce((acc, curr) => {
@@ -138,6 +140,6 @@ const selectedResourceTypeValue = (resourceTypes: { id: string; parentId?: strin
   return resourceTypes[0].id;
 };
 
-export const nodePathToUrnPath = (path: string) => path.replace(/\//g, "/urn:").substr(1);
+export const nodePathToUrnPath = (path?: string) => path?.replace(/\//g, "/urn:")?.substring(1);
 
 export { groupChildNodes, flattenResourceTypesAndAddContextTypes, selectedResourceTypeValue };

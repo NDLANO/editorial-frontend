@@ -10,24 +10,27 @@ import { useFormikContext } from "formik";
 import { useEffect, useState, memo } from "react";
 
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { AccordionTrigger } from "@radix-ui/react-accordion";
-import { AccordionRoot, AccordionItem, AccordionContent } from "@ndla/accordion";
-import { ButtonV2 } from "@ndla/button";
-import { spacing, colors, fonts } from "@ndla/core";
-import { ChevronRight } from "@ndla/icons/common";
+import { ArrowDownShortLine } from "@ndla/icons/common";
+import {
+  AccordionItem,
+  AccordionItemContent,
+  AccordionItemIndicator,
+  AccordionItemTrigger,
+  AccordionRoot,
+  Badge,
+  Button,
+  Text,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IArticle, IEditorNote } from "@ndla/types-backend/draft-api";
-import { Text } from "@ndla/typography";
 import AddNotesField from "./AddNotesField";
 import VersionActionbuttons from "./VersionActionButtons";
-import FormikField from "../../components/FormikField";
+import { FormField } from "../../components/FormField";
 import Spinner from "../../components/Spinner";
 import VersionHistory from "../../components/VersionHistory/VersionHistory";
-import VersionLogTag from "../../components/VersionHistory/VersionLogTag";
 import { useSession } from "../../containers/Session/SessionProvider";
 import * as articleApi from "../../modules/article/articleApi";
 import { fetchAuth0UsersFromUserIds, SimpleUserType } from "../../modules/auth0/auth0Api";
-import { fetchDraftHistory } from "../../modules/draft/draftApi";
 import formatDate from "../../util/formatDate";
 import handleError from "../../util/handleError";
 import {
@@ -36,59 +39,67 @@ import {
 } from "../ArticlePage/articleTransformers";
 import { useMessages } from "../Messages/MessagesProvider";
 
-const StyledAccordionBar = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: ${spacing.small};
-  background-color: ${colors.brand.light};
-  button {
-    font-weight: ${fonts.weight.semibold};
-  }
-`;
+const Wrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+  },
+});
 
-const InfoGrouping = styled.div`
-  display: flex;
-  gap: ${spacing.small};
-`;
+const StyledAccordionRoot = styled(AccordionRoot, {
+  base: {
+    gap: "0",
+  },
+});
 
-const StyledAccordionItem = styled(AccordionItem)`
-  border-radius: 0px;
-  border: none;
-  svg {
-    transition: all 200ms;
-  }
-  &[data-state="open"] {
-    svg[data-open-indicator] {
-      transform: rotate(90deg);
-    }
-  }
-`;
+const AccordionHeadingWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "xsmall",
+    justifyContent: "space-between",
+    paddingInline: "xsmall",
+    paddingBlock: "xsmall",
+    background: "surface.brand.1.moderate",
+  },
+});
 
-const StyledButton = styled(ButtonV2)`
-  box-shadow: none;
-  text-decoration: underline;
-  &:hover,
-  &:focus-visible,
-  &:active {
-    text-decoration: none;
-  }
-`;
+const InfoGrouping = styled("div", {
+  base: {
+    display: "flex",
+    gap: "3xsmall",
+    alignItems: "center",
+  },
+});
 
-const StyledAccordionRoot = styled(AccordionRoot)`
-  gap: 0px;
-  padding: ${spacing.normal} 0px;
-`;
+const HeaderWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "xsmall",
+    alignItems: "flex-end",
+  },
+});
 
-const StyledAccordionContent = styled(AccordionContent)`
-  background-color: ${colors.white};
-  padding: 0px;
-  padding-bottom: ${spacing.small};
-`;
+const StyledAccordionItem = styled(AccordionItem, {
+  base: {
+    overflow: "hidden",
+    _first: {
+      borderTopRadius: "xsmall",
+    },
+    _last: {
+      borderBottomRadius: "xsmall",
+    },
+  },
+});
 
-const VersionHistoryWrapper = styled.div`
-  padding: 0px ${spacing.normal};
-  background-color: ${colors.brand.greyLightest};
-`;
+const StyledAccordionItemTrigger = styled(AccordionItemTrigger, {
+  base: {
+    background: "transparent",
+    minWidth: "3xlarge",
+    gap: "3xsmall",
+    justifyContent: "flex-start",
+  },
+});
 
 const getUser = (userId: string, allUsers: SimpleUserType[]) => {
   const user = allUsers.find((user) => user.id === userId);
@@ -172,37 +183,32 @@ const VersionAndNotesPanel = ({ article, articleHistory, type, currentLanguage }
   if (loading) return <Spinner />;
 
   return (
-    <>
-      <FormikField name="notes" showError={false}>
-        {({ field, form: { errors } }) => (
-          <AddNotesField
-            showError={!!errors[field.name]}
-            labelAddNote={t("form.notes.add")}
-            labelRemoveNote={t("form.notes.remove")}
-            labelWarningNote={errors[field.name]}
-            {...field}
-          />
-        )}
-      </FormikField>
-      <StyledAccordionRoot type="multiple" defaultValue={["0"]}>
+    <Wrapper>
+      <FormField name="notes">
+        {({ field, meta }) => <AddNotesField showError={!!meta.error} labelWarningNote={meta.error} {...field} />}
+      </FormField>
+      <StyledAccordionRoot multiple defaultValue={["0"]} variant="clean" lazyMount unmountOnExit>
         {articleHistory.map((version, index) => {
           const isLatestVersion = index === 0;
           const published =
             version.status.current === "PUBLISHED" || version.status.other.some((s) => s === "PUBLISHED");
+
           return (
             <StyledAccordionItem value={index.toString()} key={index}>
-              <StyledAccordionBar>
-                <InfoGrouping>
-                  <AccordionTrigger asChild>
-                    <StyledButton variant="link">
-                      <ChevronRight data-open-indicator="" />
+              <AccordionHeadingWrapper>
+                <HeaderWrapper>
+                  <StyledAccordionItemTrigger asChild>
+                    <Button variant="link">
+                      <AccordionItemIndicator asChild>
+                        <ArrowDownShortLine />
+                      </AccordionItemIndicator>
                       {version.revision}
-                    </StyledButton>
-                  </AccordionTrigger>
-                  <Text element="span" margin="none" textStyle="meta-text-small">
-                    {formatDate(version.updated)}
+                    </Button>
+                  </StyledAccordionItemTrigger>
+                  <Text textStyle="label.small" asChild consumeCss>
+                    <span>{formatDate(version.updated)}</span>
                   </Text>
-                </InfoGrouping>
+                </HeaderWrapper>
                 <InfoGrouping>
                   <VersionActionbuttons
                     showFromArticleApi={articleHistory.length === 1 && published}
@@ -212,22 +218,20 @@ const VersionAndNotesPanel = ({ article, articleHistory, type, currentLanguage }
                     article={article}
                     currentLanguage={currentLanguage}
                   />
-                  {isLatestVersion && <VersionLogTag color="yellow" label={t("form.notes.areHere")} />}
+                  {isLatestVersion && <Badge colorTheme="brand2">{t("form.notes.areHere")}</Badge>}
                   {published && (!isLatestVersion || articleHistory.length === 1) && (
-                    <VersionLogTag color="green" label={t("form.notes.published")} />
+                    <Badge colorTheme="brand3">{t("form.notes.published")}</Badge>
                   )}
                 </InfoGrouping>
-              </StyledAccordionBar>
-              <StyledAccordionContent>
-                <VersionHistoryWrapper>
-                  <VersionHistory notes={cleanupNotes(version.notes)} />
-                </VersionHistoryWrapper>
-              </StyledAccordionContent>
+              </AccordionHeadingWrapper>
+              <AccordionItemContent>
+                <VersionHistory notes={cleanupNotes(version.notes)} />
+              </AccordionItemContent>
             </StyledAccordionItem>
           );
         })}
       </StyledAccordionRoot>
-    </>
+    </Wrapper>
   );
 };
 

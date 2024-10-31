@@ -11,7 +11,6 @@ import EditFrontpageArticle from "./EditFrontpageArticle";
 import ResourcePage from "../../../components/ResourcePage";
 import { WideArticleEditorProvider } from "../../../components/WideArticleEditorProvider";
 import { useDraft } from "../../../modules/draft/draftQueries";
-import { articleResourcePageStyle } from "../styles";
 
 const FrontpageArticlePage = () => (
   <WideArticleEditorProvider initialValue={false}>
@@ -20,7 +19,7 @@ const FrontpageArticlePage = () => (
       EditComponent={EditFrontpageArticle}
       useHook={useDraft}
       createUrl="/subject-matter/frontpage-article/new"
-      css={articleResourcePageStyle}
+      isArticle
     />
   </WideArticleEditorProvider>
 );

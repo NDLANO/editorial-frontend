@@ -23,7 +23,7 @@ import HeaderLanguagePicker from "./HeaderLanguagePicker";
 import HeaderLanguagePill from "./HeaderLanguagePill";
 import HeaderSupportedLanguages from "./HeaderSupportedLanguages";
 import TranslateNbToNn from "./TranslateNbToNn";
-import { createEditUrl, toMapping, translatableTypes } from "./util";
+import { createEditUrl, hasArticleFieldsChanged, toMapping, translatableTypes } from "./util";
 import { PUBLISHED } from "../../constants";
 import { toCompareLanguage } from "../../util/routeHelpers";
 import { useIsTranslatableToNN } from "../NynorskTranslateProvider";
@@ -64,7 +64,12 @@ const PreviewLightBox = memo(({ type, currentLanguage, article, concept }: Previ
     );
   } else if ((type === "standard" || type === "topic-article" || type === "frontpage-article") && article) {
     return (
-      <SafeLinkButton size="small" variant="ghost" to={toCompareLanguage(article.id, currentLanguage)} target="_blank">
+      <SafeLinkButton
+        size="small"
+        variant="tertiary"
+        to={toCompareLanguage(article.id, currentLanguage)}
+        target="_blank"
+      >
         {t("form.previewLanguageArticle.button")}
         <Launch />
       </SafeLinkButton>
@@ -112,15 +117,13 @@ const HeaderActions = ({
     () => articleHistory?.find((v) => v.status.current === PUBLISHED),
     [articleHistory],
   );
-  const isIdenticalToPublished = useMemo(() => {
-    if (lastPublishedVersion) {
-      return (
-        lastPublishedVersion.content?.content === article?.content?.content &&
-        lastPublishedVersion.title?.htmlTitle === article?.title?.htmlTitle &&
-        lastPublishedVersion.introduction?.htmlIntroduction === article?.introduction?.htmlIntroduction
-      );
-    }
-    return false;
+
+  const hasChanges = useMemo(() => {
+    return hasArticleFieldsChanged(article, lastPublishedVersion, [
+      "title.title",
+      "content.content",
+      "introduction.introduction",
+    ]);
   }, [article, lastPublishedVersion]);
 
   const languages = useMemo(
@@ -191,15 +194,15 @@ const HeaderActions = ({
                     variant="ghost"
                     size="small"
                     aria-label={
-                      isIdenticalToPublished
-                        ? t("form.previewProductionArticle.buttonDisabled")
-                        : t("form.previewProductionArticle.button")
+                      hasChanges
+                        ? t("form.previewProductionArticle.button")
+                        : t("form.previewProductionArticle.buttonDisabled")
                     }
-                    disabled={isIdenticalToPublished}
+                    disabled={!hasChanges}
                     title={
-                      isIdenticalToPublished
-                        ? t("form.previewProductionArticle.buttonDisabled")
-                        : t("form.previewProductionArticle.button")
+                      hasChanges
+                        ? t("form.previewProductionArticle.button")
+                        : t("form.previewProductionArticle.buttonDisabled")
                     }
                   >
                     <Eye /> {t("form.previewVersion")}

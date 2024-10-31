@@ -6,19 +6,28 @@
  *
  */
 
+import { useField } from "formik";
 import { ReactElement, memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { AccordionRoot } from "@ndla/accordion";
-import { fonts, spacing } from "@ndla/core";
-import { Switch } from "@ndla/switch";
-import { IStatus } from "@ndla/types-backend/concept-api";
+import { spacing } from "@ndla/core";
+import {
+  AccordionRoot,
+  SwitchControl,
+  SwitchHiddenInput,
+  SwitchLabel,
+  SwitchRoot,
+  SwitchThumb,
+} from "@ndla/primitives";
+import { IArticle, IUpdatedArticle } from "@ndla/types-backend/draft-api";
+import { Node } from "@ndla/types-taxonomy";
 import { FormAccordionProps } from "./FormAccordion";
 import OpenAllButton from "./OpenAllButton";
 import { ARCHIVED, PUBLISHED, STORED_HIDE_COMMENTS, UNPUBLISHED } from "../../constants";
 import CommentSection, { COMMENT_WIDTH, SPACING_COMMENT } from "../../containers/ArticlePage/components/CommentSection";
-import { MainContent } from "../../containers/ArticlePage/styles";
+import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
 import { useLocalStorageBooleanState } from "../../containers/WelcomePage/hooks/storedFilterHooks";
+import QualityEvaluation from "../QualityEvaluation/QualityEvaluation";
 import { useWideArticle } from "../WideArticleEditorProvider";
 
 export type ChildType = ReactElement<FormAccordionProps> | undefined | false;
@@ -26,9 +35,9 @@ export type ChildType = ReactElement<FormAccordionProps> | undefined | false;
 interface Props {
   defaultOpen: string[];
   children: ChildType | ChildType[];
-  articleId?: number;
-  articleType?: string;
-  articleStatus?: IStatus;
+  article?: IArticle;
+  taxonomy?: Node[];
+  updateNotes?: (art: IUpdatedArticle) => Promise<IArticle>;
 }
 
 const ContentWrapper = styled.div`
@@ -41,6 +50,11 @@ const FlexWrapper = styled.div`
   display: flex;
 `;
 
+const RightFlexWrapper = styled.div`
+  display: flex;
+  gap: ${spacing.small};
+`;
+
 const CommentWrapper = styled.div`
   width: 100%;
   max-width: ${COMMENT_WIDTH}px;
@@ -48,78 +62,109 @@ const CommentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   &[data-hidden="true"] {
+    visibility: none;
+  }
+  &[data-none="true"] {
     display: none;
   }
 `;
 
-const StyledSwitch = styled(Switch)`
-  > label {
-    font-weight: ${fonts.weight.semibold};
-    ${fonts.size.text.button};
-  }
+const StyledSwitchRoot = styled(SwitchRoot)`
   min-height: 40px;
-  display: flex;
-  justify-content: flex-end;
 `;
 
-const FormControls = styled(MainContent)`
+const FormControls = styled.div`
   display: flex;
+  width: 100%;
+  padding-left: ${spacing.small};
   justify-content: flex-end;
+  &[data-enabled-quality-evaluation="true"] {
+    justify-content: space-between;
+  }
 `;
 
-const FormAccordionsWithComments = ({ defaultOpen, children, articleId, articleType, articleStatus }: Props) => {
+const StyledAccordionRoot = styled(AccordionRoot)`
+  width: 100%;
+`;
+
+const FormAccordionsWithComments = ({ defaultOpen, children, article, taxonomy, updateNotes }: Props) => {
   const { t } = useTranslation();
   const { toggleWideArticles, isWideArticle } = useWideArticle();
+  const [revisionMetaField, , revisionMetaHelpers] = useField<ArticleFormType["revisionMeta"]>("revisionMeta");
 
   const [openAccordions, setOpenAccordions] = useState<string[]>(defaultOpen);
   const [hideComments, setHideComments] = useLocalStorageBooleanState(STORED_HIDE_COMMENTS);
 
+  const isTopicArticle = article?.articleType === "topic-article";
+  const isFrontPageArticle = article?.articleType === "frontpage-article";
+
   const disableComments = useMemo(
-    () =>
-      articleType !== "topic-article" && [PUBLISHED, ARCHIVED, UNPUBLISHED].some((s) => s === articleStatus?.current),
-    [articleStatus, articleType],
+    () => !isTopicArticle && [PUBLISHED, ARCHIVED, UNPUBLISHED].some((s) => s === article?.status.current),
+    [article?.status, isTopicArticle],
   );
+
+  // Topics are updated from structure edit page
+  const withoutTopics = taxonomy?.filter((n) => n.nodeType !== "TOPIC");
 
   return (
     <ContentWrapper>
       <FlexWrapper>
-        <FormControls data-wide={isWideArticle}>
-          {!!articleId && articleType === "frontpage-article" && (
-            <StyledSwitch
-              id={articleId}
-              label={t("frontpageArticleForm.isFrontpageArticle.toggleArticle")}
-              checked={isWideArticle}
-              onChange={() => toggleWideArticles(articleId)}
+        <FormControls data-enabled-quality-evaluation={!isTopicArticle && !isFrontPageArticle}>
+          {!isTopicArticle && !isFrontPageArticle && (
+            <QualityEvaluation
+              articleType={article?.articleType}
+              article={article}
+              taxonomy={withoutTopics}
+              revisionMetaField={revisionMetaField}
+              revisionMetaHelpers={revisionMetaHelpers}
+              updateNotes={updateNotes}
             />
           )}
-          <OpenAllButton
-            openAccordions={openAccordions}
-            setOpenAccordions={setOpenAccordions}
-            formAccordionChildren={children}
-          />
-        </FormControls>
-        {!disableComments && (
-          <CommentWrapper>
-            <StyledSwitch
-              id="hide-comments"
-              label={hideComments ? t("form.comment.showComments") : t("form.comment.hideComments")}
-              checked={hideComments}
-              onChange={() => setHideComments(!hideComments)}
+          <RightFlexWrapper>
+            {!!article?.id && isFrontPageArticle && (
+              <StyledSwitchRoot checked={isWideArticle} onCheckedChange={() => toggleWideArticles(article.id)}>
+                <SwitchLabel>{t("frontpageArticleForm.isFrontpageArticle.toggleArticle")}</SwitchLabel>
+                <SwitchControl>
+                  <SwitchThumb />
+                </SwitchControl>
+                <SwitchHiddenInput />
+              </StyledSwitchRoot>
+            )}
+            <OpenAllButton
+              openAccordions={openAccordions}
+              setOpenAccordions={setOpenAccordions}
+              formAccordionChildren={children}
             />
-          </CommentWrapper>
-        )}
+          </RightFlexWrapper>
+        </FormControls>
+        <CommentWrapper>
+          {!disableComments && (
+            <StyledSwitchRoot checked={!hideComments} onCheckedChange={() => setHideComments(!hideComments)}>
+              <SwitchLabel>{t("form.comment.showComments")}</SwitchLabel>
+              <SwitchControl>
+                <SwitchThumb />
+              </SwitchControl>
+              <SwitchHiddenInput />
+            </StyledSwitchRoot>
+          )}
+        </CommentWrapper>
       </FlexWrapper>
       <FlexWrapper>
-        <MainContent data-wide={isWideArticle}>
-          <AccordionRoot type="multiple" value={openAccordions} onValueChange={setOpenAccordions}>
-            {children}
-          </AccordionRoot>
-        </MainContent>
-        {!disableComments && (
-          <CommentWrapper data-hidden={hideComments}>
-            <CommentSection />
-          </CommentWrapper>
-        )}
+        <StyledAccordionRoot
+          multiple
+          value={openAccordions}
+          onValueChange={(details) => setOpenAccordions(details.value)}
+          lazyMount
+          unmountOnExit
+        >
+          {children}
+        </StyledAccordionRoot>
+        <CommentWrapper
+          data-hidden={hideComments || disableComments}
+          data-none={isWideArticle && (hideComments || disableComments)}
+        >
+          {!hideComments && !disableComments && <CommentSection />}
+        </CommentWrapper>
       </FlexWrapper>
     </ContentWrapper>
   );

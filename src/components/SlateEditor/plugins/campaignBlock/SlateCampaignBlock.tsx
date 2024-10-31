@@ -11,35 +11,22 @@ import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
 import { Pencil } from "@ndla/icons/action";
 import { DeleteForever } from "@ndla/icons/editor";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
+import { IconButton } from "@ndla/primitives";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import { CampaignBlockEmbedData } from "@ndla/types-embed";
-import { CampaignBlock } from "@ndla/ui";
+import { CampaignBlock, EmbedWrapper } from "@ndla/ui";
 import { CampaignBlockElement } from ".";
 import CampaignBlockForm from "./CampaignBlockForm";
 import { fetchImage } from "../../../../modules/image/imageApi";
-import { StyledDeleteEmbedButton, StyledFigureButtons } from "../embed/FigureButtons";
+import { StyledFigureButtons } from "../embed/FigureButtons";
 
 interface Props extends RenderElementProps {
   element: CampaignBlockElement;
   editor: Editor;
 }
-const CampaignBlockWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  > div {
-    width: 100%;
-
-    &:first-child {
-      position: relative;
-    }
-  }
-`;
 
 const StyledModalHeader = styled(ModalHeader)`
   padding-bottom: 0px;
@@ -113,29 +100,31 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
 
   return (
     <Modal open={isEditing} onOpenChange={setIsEditing}>
-      <CampaignBlockWrapper {...attributes} data-testid="slate-campaign-block">
+      <EmbedWrapper {...attributes} data-testid="slate-campaign-block" contentEditable={false}>
         {campaignBlock && (
-          <div contentEditable={false}>
+          <>
             <StyledFigureButtons data-white={true}>
               <ModalTrigger>
-                <IconButtonV2
-                  colorTheme="light"
+                <IconButton
+                  size="small"
+                  variant="secondary"
                   aria-label={t("campaignBlockForm.title")}
                   title={t("campaignBlockForm.title")}
                   onClick={() => setIsEditing(true)}
                 >
                   <Pencil />
-                </IconButtonV2>
+                </IconButton>
               </ModalTrigger>
-              <StyledDeleteEmbedButton
+              <IconButton
                 aria-label={t("campaignBlockForm.delete")}
-                colorTheme="danger"
+                size="small"
+                variant="danger"
                 title={t("campaignBlockForm.delete")}
                 data-testid="remove-campaign-block"
                 onClick={handleRemove}
               >
                 <DeleteForever />
-              </StyledDeleteEmbedButton>
+              </IconButton>
             </StyledFigureButtons>
             <CampaignBlock
               title={campaignBlock.title}
@@ -150,7 +139,7 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
               }
               imageSide={campaignBlock.imageSide}
             />
-          </div>
+          </>
         )}
         {children}
         <ModalContent size={{ width: "large", height: "full" }}>
@@ -162,7 +151,7 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
             <CampaignBlockForm initialData={campaignBlock} onSave={onSave} onCancel={onClose} />
           </StyledModalBody>
         </ModalContent>
-      </CampaignBlockWrapper>
+      </EmbedWrapper>
     </Modal>
   );
 };

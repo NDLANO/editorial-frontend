@@ -13,9 +13,9 @@ import { Editor, Node, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import styled from "@emotion/styled";
 import { Content, Root, Trigger } from "@radix-ui/react-popover";
-import { ButtonV2 } from "@ndla/button";
 import { colors, spacing, stackOrder } from "@ndla/core";
 import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
+import { Button } from "@ndla/primitives";
 import { MathmlElement } from ".";
 import EditMath, { MathMLType, emptyMathTag } from "./EditMath";
 import MathML from "./MathML";
@@ -186,11 +186,11 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
           <StyledContent>
             <StyledMenu>
               <ModalTrigger>
-                <ButtonV2 variant="link">{t("form.edit")}</ButtonV2>
+                <Button variant="link">{t("form.edit")}</Button>
               </ModalTrigger>
-              <ButtonV2 variant="link" onClick={handleRemove}>
+              <Button variant="link" onClick={handleRemove}>
                 {t("form.remove")}
-              </ButtonV2>
+              </Button>
             </StyledMenu>
           </StyledContent>
         </Root>

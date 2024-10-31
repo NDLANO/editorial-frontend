@@ -6,48 +6,75 @@
  *
  */
 
-import { Form, Formik, FormikHelpers } from "formik";
+import { Formik, FormikHelpers } from "formik";
 import { useState } from "react";
-import SaveMultiButton from "../../../components/SaveMultiButton";
+import { useTranslation } from "react-i18next";
+import { Button, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { FormActionsContainer, FormContent } from "../../../components/FormikForm";
+import FormWrapper from "../../../components/FormWrapper";
+import handleError from "../../../util/handleError";
 import GrepCodesField from "../../FormikForm/GrepCodesField";
+
+const StyledText = styled(Text, {
+  base: {
+    justifySelf: "flex-end",
+  },
+});
 
 interface Props {
   codes: string[];
   onUpdate: (grepCodes: string[]) => Promise<void>;
+  close: () => void;
 }
 
 interface Values {
   grepCodes: string[];
 }
 
-const GrepCodesForm = ({ codes, onUpdate }: Props) => {
-  const [saved, setSaved] = useState(false);
+const GrepCodesForm = ({ codes, onUpdate, close }: Props) => {
+  const { t } = useTranslation();
   const initialValues = { grepCodes: codes };
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (values: Values, helpers: FormikHelpers<Values>) => {
-    await onUpdate(values.grepCodes);
-    helpers.resetForm({ values: values });
-    setSaved(true);
+    try {
+      setLoading(true);
+      setError(false);
+      await onUpdate(values.grepCodes);
+      helpers.resetForm({ values: values });
+      setLoading(false);
+      close();
+    } catch (err) {
+      setError(true);
+      setLoading(false);
+      handleError(err);
+    }
   };
 
   return (
     <Formik initialValues={initialValues} onSubmit={handleSubmit} enableReinitialize>
-      {({ dirty, errors, isSubmitting, submitForm }) => {
-        if (saved && dirty) {
-          setSaved(false);
-        }
+      {({ dirty, submitForm }) => {
         return (
-          <Form>
-            <GrepCodesField />
-            <SaveMultiButton
-              isSaving={isSubmitting}
-              formIsDirty={dirty}
-              showSaved={saved && !dirty}
-              onClick={submitForm}
-              disabled={!!Object.keys(errors).length}
-              hideSecondaryButton
-            />
-          </Form>
+          <FormWrapper inModal>
+            <FormContent>
+              <GrepCodesField />
+              <FormActionsContainer>
+                <Button variant="secondary" onClick={close}>
+                  {t("cancel")}
+                </Button>
+                <Button disabled={!dirty} loading={loading} onClick={submitForm}>
+                  {t("save")}
+                </Button>
+              </FormActionsContainer>
+            </FormContent>
+            {error && (
+              <StyledText color="text.error" aria-live="polite">
+                {t("errorMessage.genericError")}
+              </StyledText>
+            )}
+          </FormWrapper>
         );
       }}
     </Formik>

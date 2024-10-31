@@ -19,13 +19,13 @@ import { SlateSerializer } from "../components/SlateEditor/interfaces";
 import { asideSerializer } from "../components/SlateEditor/plugins/aside";
 import { audioSerializer } from "../components/SlateEditor/plugins/audio";
 import { blockQuoteSerializer } from "../components/SlateEditor/plugins/blockquote";
-import { blogPostSerializer } from "../components/SlateEditor/plugins/blogPost";
 import { breakSerializer } from "../components/SlateEditor/plugins/break";
 import { campaignBlockSerializer } from "../components/SlateEditor/plugins/campaignBlock";
 import { codeblockSerializer } from "../components/SlateEditor/plugins/codeBlock";
+import { commentBlockSerializer } from "../components/SlateEditor/plugins/comment/block";
+import { commentInlineSerializer } from "../components/SlateEditor/plugins/comment/inline";
 import { blockConceptSerializer } from "../components/SlateEditor/plugins/concept/block";
 import { inlineConceptSerializer } from "../components/SlateEditor/plugins/concept/inline";
-import { conceptListSerializer } from "../components/SlateEditor/plugins/conceptList";
 import { contactBlockSerializer } from "../components/SlateEditor/plugins/contactBlock";
 import { copyrightSerializer } from "../components/SlateEditor/plugins/copyright";
 import { definitionListSerializer } from "../components/SlateEditor/plugins/definitionList";
@@ -52,6 +52,7 @@ import { noopSerializer } from "../components/SlateEditor/plugins/noop";
 import { TYPE_NOOP } from "../components/SlateEditor/plugins/noop/types";
 import { paragraphSerializer } from "../components/SlateEditor/plugins/paragraph";
 import { TYPE_PARAGRAPH } from "../components/SlateEditor/plugins/paragraph/types";
+import { pitchSerializer } from "../components/SlateEditor/plugins/pitch";
 import { relatedSerializer } from "../components/SlateEditor/plugins/related";
 import { sectionSerializer } from "../components/SlateEditor/plugins/section";
 import { TYPE_SECTION } from "../components/SlateEditor/plugins/section/types";
@@ -103,9 +104,10 @@ const extendedRules: SlateSerializer[] = [
   definitionListSerializer,
   footnoteSerializer,
   mathmlSerializer,
-  conceptListSerializer,
   inlineConceptSerializer,
   blockConceptSerializer,
+  commentInlineSerializer,
+  commentBlockSerializer,
   asideSerializer,
   disclaimerSerializer,
   fileSerializer,
@@ -113,7 +115,7 @@ const extendedRules: SlateSerializer[] = [
   tableSerializer,
   relatedSerializer,
   gridSerializer,
-  blogPostSerializer,
+  pitchSerializer,
   codeblockSerializer,
   keyFigureSerializer,
   contactBlockSerializer,
@@ -145,6 +147,7 @@ const commonRules: SlateSerializer[] = [
   footnoteSerializer,
   mathmlSerializer,
   inlineConceptSerializer,
+  commentInlineSerializer,
   noEmbedSerializer,
   divSerializer,
   spanSerializer,

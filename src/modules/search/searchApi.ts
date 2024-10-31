@@ -14,12 +14,13 @@ import {
   ISubjectAggsInput,
 } from "@ndla/types-backend/search-api";
 import { MultiSearchApiQuery } from "./searchApiInterfaces";
+import { StringSort } from "../../containers/SearchPage/components/form/SearchForm";
 import { resolveJsonOrRejectWithError, apiResourceUrl, fetchAuthorized } from "../../util/apiHelpers";
 import { transformQuery, transformSearchBody } from "../../util/searchHelpers";
 
 const baseUrl = apiResourceUrl("/search-api/v1/search");
 
-export const postSearch = async (body: IDraftSearchParams): Promise<IMultiSearchResult> => {
+export const postSearch = async (body: StringSort<IDraftSearchParams>): Promise<IMultiSearchResult> => {
   const response = await fetchAuthorized(`${baseUrl}/editorial/`, {
     method: "POST",
     body: JSON.stringify(transformSearchBody(body)),

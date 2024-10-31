@@ -7,26 +7,23 @@
  */
 
 import { useEffect, useState, ReactNode } from "react";
-import { css } from "@emotion/react";
+import styled from "@emotion/styled";
 import { animations } from "@ndla/core";
 
 type Props = {
   show?: boolean;
   children: ReactNode;
-  fadeType: FadeType;
 };
 
-type FadeType = "fadeIn" | "fadeInTop" | "fadeInBottom" | "fadeInScaled";
+const StyledFade = styled.div`
+  ${animations.fadeInTop(animations.durations.fast)};
+  &[data-out="true"] {
+    ${animations.fadeOutTop(animations.durations.fast)};
+  }
+`;
 
-const fadeOut = (fadeIn: FadeType): "fadeOutTop" | "fadeOutBottom" | "fadeOutScaled" | "fadeOut" => {
-  if (fadeIn === "fadeInTop") return "fadeOutTop";
-  if (fadeIn === "fadeInBottom") return "fadeOutBottom";
-  if (fadeIn === "fadeInScaled") return "fadeOutScaled";
-  return "fadeOut";
-};
-
-const Fade = ({ show = true, fadeType, children }: Props) => {
-  const [shouldRender, setRender] = useState(show);
+const Fade = ({ show = true, children }: Props) => {
+  const [shouldRender, setRender] = useState(true);
 
   useEffect(() => {
     if (show) setRender(true);
@@ -38,17 +35,7 @@ const Fade = ({ show = true, fadeType, children }: Props) => {
 
   if (!shouldRender) return null;
 
-  const animation = show ? animations[fadeType] : animations[fadeOut(fadeType)];
-  return (
-    <div
-      css={css`
-        ${animation(animations.durations.fast)}
-      `}
-      onAnimationEnd={onAnimationEnd}
-    >
-      {children}
-    </div>
-  );
+  return <StyledFade onAnimationEnd={onAnimationEnd}>{children}</StyledFade>;
 };
 
 export default Fade;

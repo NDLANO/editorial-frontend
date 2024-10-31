@@ -53,7 +53,7 @@ describe("createToolbarAreaOptions", () => {
       ...defaultAreaOptions,
       heading: {
         ...defaultAreaOptions.heading,
-        inline: { hidden: false },
+        inline: { ...defaultAreaOptions.heading?.inline, hidden: false },
       },
     };
     expect(res).toEqual(expected);
@@ -103,6 +103,7 @@ describe("createToolbarDefaultValues", () => {
         mathml: { hidden: true, disabled: true },
         "concept-inline": { hidden: true, disabled: true },
         "gloss-inline": { hidden: true, disabled: true },
+        "comment-inline": { hidden: true, disabled: true },
       },
     };
 
@@ -178,6 +179,14 @@ describe("toolbarState", () => {
         mathml: { ...allOptions.inline.mathml, hidden: true },
         "concept-inline": { ...allOptions.inline["concept-inline"], hidden: true },
         "gloss-inline": { ...allOptions.inline["gloss-inline"], hidden: true },
+        "comment-inline": { ...allOptions.inline["comment-inline"], hidden: false },
+      },
+      mark: {
+        ...allOptions.mark,
+        bold: {
+          ...allOptions.mark.bold,
+          hidden: true,
+        },
       },
     };
     const expected = arrayifyToolbar(opts);
@@ -187,7 +196,13 @@ describe("toolbarState", () => {
   test("prefers areaOptions over default values", () => {
     const res = toolbarState({
       options: createToolbarDefaultValues(),
-      areaOptions: createToolbarAreaOptions({ heading: { inline: { hidden: false } } }),
+      areaOptions: createToolbarAreaOptions({
+        heading: {
+          inline: {
+            hidden: false,
+          },
+        },
+      }),
       editorAncestors: [
         { type: "heading", children: [], level: 1 },
         { type: "paragraph", children: [{ text: "test" }] },
@@ -204,6 +219,13 @@ describe("toolbarState", () => {
         (acc, v) => ({ ...acc, [v.value]: { ...v, hidden: false } }),
         {} as Record<InlineType, ToolbarValue<InlineType>>,
       ),
+      mark: {
+        ...allOptions.mark,
+        bold: {
+          ...allOptions.mark.bold,
+          hidden: true,
+        },
+      },
     };
     const expected = arrayifyToolbar(opts);
     expect(res).toEqual(expected);

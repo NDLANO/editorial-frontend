@@ -9,37 +9,70 @@
 import isEqual from "lodash/isEqual";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Spinner } from "@ndla/icons";
+import { DragVertical } from "@ndla/icons/editor";
+import { ComboboxLabel, FieldRoot } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
-import DropdownSearch from "./DropdownSearch";
+import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
+import DndList from "../../../components/DndList";
+import { DragHandle } from "../../../components/DraggableItem";
+import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCombobox";
+import ListResource from "../../../components/Form/ListResource";
+import { OldSpinner } from "../../../components/OldSpinner";
 import { NDLA_FILM_SUBJECT } from "../../../constants";
-import { useMoviesQuery } from "../../../modules/frontpage/filmQueries";
+import { useMoviesQuery, useMoviesQuerySearch } from "../../../modules/frontpage/filmQueries";
 import { getUrnFromId } from "../../../util/ndlaFilmHelpers";
-import ElementList from "../../FormikForm/components/ElementList";
+import { routes } from "../../../util/routeHelpers";
+import { usePaginatedQuery } from "../../../util/usePaginatedQuery";
+
+const StyledList = styled("ul", {
+  base: {
+    listStyle: "none",
+  },
+});
 
 interface Props {
   movies: string[];
   onMoviesUpdated: (movies: string[]) => void;
   placeholder: string;
+  comboboxLabel: string;
 }
 
-export const ThemeMovies = ({ movies, onMoviesUpdated, placeholder }: Props) => {
-  const { t } = useTranslation();
+export const ThemeMovies = ({ movies, onMoviesUpdated, placeholder, comboboxLabel }: Props) => {
+  const { i18n, t } = useTranslation();
   const [localMovies, setLocalMovies] = useState<string[]>([]);
   const [apiMovies, setApiMovies] = useState<IMultiSearchSummary[]>([]);
   const moviesQuery = useMoviesQuery({ movieUrns: movies }, { enabled: !isEqual(movies, localMovies) });
 
+  const { query, page, setPage, delayedQuery, setQuery } = usePaginatedQuery();
+
+  const searchQuery = useMoviesQuerySearch({
+    page,
+    query: delayedQuery,
+    subjects: NDLA_FILM_SUBJECT,
+    "page-size": 10,
+    "context-types": "standard",
+    sort: "-relevance",
+    "resource-types":
+      "urn:resourcetype:documentary,urn:resourcetype:featureFilm,urn:resourcetype:series,urn:resourcetype:shortFilm",
+  });
+
   useEffect(() => {
-    if (moviesQuery.isSuccess) {
+    if (moviesQuery.isSuccess && !apiMovies.length) {
       setApiMovies(moviesQuery.data.results);
     }
-  }, [moviesQuery.data?.results, moviesQuery.isSuccess]);
+  }, [apiMovies.length, moviesQuery.data?.results, moviesQuery.isSuccess]);
 
   const onUpdateMovies = (updates: IMultiSearchSummary[]) => {
     const updated = updates.map((u) => getUrnFromId(u.id));
     setApiMovies(updates);
     setLocalMovies(updated);
     onMoviesUpdated(updated);
+  };
+
+  const onDeleteElement = (elements: IMultiSearchSummary[], deleteIndex: number) => {
+    const newElements = elements.filter((_, i) => i !== deleteIndex);
+    onUpdateMovies(newElements);
   };
 
   const onAddMovieToTheme = (movie: IMultiSearchSummary) => {
@@ -49,29 +82,63 @@ export const ThemeMovies = ({ movies, onMoviesUpdated, placeholder }: Props) => 
   };
 
   return (
-    <>
-      {moviesQuery.isLoading ? (
-        <Spinner />
-      ) : (
-        <ElementList
-          articleType="standard"
-          elements={apiMovies}
-          messages={{
-            dragElement: t("ndlaFilm.editor.changeOrder"),
-            removeElement: t("ndlaFilm.editor.removeMovieFromGroup"),
-          }}
-          onUpdateElements={(elements: IMultiSearchSummary[]) => onUpdateMovies(elements)}
+    <FieldRoot>
+      <GenericSearchCombobox
+        items={searchQuery.data?.results ?? []}
+        itemToString={(item) => item.title.title}
+        itemToValue={(item) => getUrnFromId(item.id)}
+        isItemDisabled={(item) => movies.includes(getUrnFromId(item.id))}
+        inputValue={query}
+        paginationData={searchQuery.data}
+        onInputValueChange={(details) => setQuery(details.inputValue)}
+        onPageChange={(details) => setPage(details.page)}
+        isSuccess={searchQuery.isSuccess}
+        onValueChange={(details) => onAddMovieToTheme(details.items[movies.length])}
+        value={movies}
+        renderItem={(item) => (
+          <GenericComboboxItemContent
+            title={item.title.title}
+            description={item.metaDescription.metaDescription}
+            image={item.metaImage}
+            useFallbackImage
+            data-testid="dropdown-item"
+          />
+        )}
+        multiple
+        closeOnSelect
+      >
+        <ComboboxLabel>{comboboxLabel}</ComboboxLabel>
+        <GenericComboboxInput
+          placeholder={placeholder}
+          isFetching={searchQuery.isFetching}
+          data-testid="dropdown-input"
         />
+      </GenericSearchCombobox>
+      {moviesQuery.isLoading ? (
+        <OldSpinner />
+      ) : (
+        <StyledList>
+          <DndList
+            items={apiMovies}
+            dragHandle={
+              <DragHandle aria-label={t("ndlaFilm.editor.changeOrder")}>
+                <DragVertical />
+              </DragHandle>
+            }
+            renderItem={(item, index) => (
+              <ListResource
+                key={item.id}
+                title={item.title.title}
+                metaImage={item.metaImage}
+                url={routes.editArticle(item.id, item.learningResourceType ?? "standard", i18n.language)}
+                onDelete={() => onDeleteElement(apiMovies, index)}
+                removeElementTranslation={t("ndlaFilm.editor.removeMovieFromGroup")}
+              />
+            )}
+            onDragEnd={(_, newArray) => onUpdateMovies(newArray)}
+          />
+        </StyledList>
       )}
-
-      <DropdownSearch
-        selectedElements={apiMovies}
-        onChange={(movie: IMultiSearchSummary) => onAddMovieToTheme(movie)}
-        subjectId={NDLA_FILM_SUBJECT}
-        contextTypes={["standard"]}
-        placeholder={placeholder}
-        clearInputField
-      />
-    </>
+    </FieldRoot>
   );
 };

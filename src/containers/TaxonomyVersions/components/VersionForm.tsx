@@ -21,6 +21,7 @@ import VersionSourceField from "./VersionSourceField";
 import { Row } from "../../../components";
 import AlertModal from "../../../components/AlertModal";
 import Field from "../../../components/Field";
+import { FormikForm } from "../../../components/FormikForm";
 import validateFormik, { RulesType } from "../../../components/formikValidationSchema";
 import SaveButton from "../../../components/SaveButton";
 import Fade from "../../../components/Taxonomy/Fade";
@@ -145,7 +146,7 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
     onClose();
   };
   return (
-    <Fade show fadeType="fadeInTop">
+    <Fade show>
       <Formik
         enableReinitialize
         initialValues={initialValues}
@@ -155,7 +156,7 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
       >
         {({ isSubmitting, isValid, dirty, handleSubmit }) => {
           return (
-            <>
+            <FormikForm>
               <StyledTitle>{t(`taxonomyVersions.${!version ? "newVersionTitle" : "editVersionTitle"}`)}</StyledTitle>
               <VersionNameField />
               {!version && <VersionSourceField existingVersions={existingVersions} />}
@@ -201,7 +202,7 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
                 ]}
                 onCancel={() => setShowAlertModal(false)}
               />
-            </>
+            </FormikForm>
           );
         }}
       </Formik>

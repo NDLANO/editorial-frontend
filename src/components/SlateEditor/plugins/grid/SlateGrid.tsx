@@ -10,46 +10,39 @@ import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
-import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
-import { spacing } from "@ndla/core";
+import { Portal } from "@ark-ui/react";
 import { Pencil } from "@ndla/icons/action";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
-import { Grid, GridType } from "@ndla/ui";
+import {
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  IconButton,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { EmbedWrapper, Grid, GridType } from "@ndla/ui";
 import { GridElement } from ".";
 import { GridProvider } from "./GridContext";
 import GridForm from "./GridForm";
 import DeleteButton from "../../../DeleteButton";
+import { DialogCloseButton } from "../../../DialogCloseButton";
 
 interface Props extends RenderElementProps {
   element: GridElement;
   editor: Editor;
 }
 
-const StyledModalHeader = styled(ModalHeader)`
-  padding-bottom: 0px;
-`;
-
-const StyledModalBody = styled(ModalBody)`
-  padding-top: 0px;
-`;
-
-const GridWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  position: relative;
-`;
-
-const StyledGrid = styled(Grid)`
-  width: 100%;
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  right: -${spacing.large};
-`;
+const ButtonContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    position: "absolute",
+    right: "-xlarge",
+    gap: "3xsmall",
+  },
+});
 
 export const SlateGrid = ({ element, editor, children }: Props) => {
   const { t } = useTranslation();
@@ -88,31 +81,33 @@ export const SlateGrid = ({ element, editor, children }: Props) => {
   );
 
   return (
-    <GridWrapper>
-      <ButtonContainer>
-        <DeleteButton aria-label={t("delete")} data-testid="remove-grid" onClick={handleRemove} />
-        <Modal open={isEditing} onOpenChange={setIsEditing}>
-          <ModalTrigger>
-            <IconButtonV2 variant="ghost" aria-label={t("gridForm.title")} data-testid="edit-grid-button">
+    <DialogRoot open={isEditing} size="small" onOpenChange={(details) => setIsEditing(details.open)}>
+      <EmbedWrapper>
+        <ButtonContainer>
+          <DeleteButton aria-label={t("delete")} data-testid="remove-grid" onClick={handleRemove} />
+          <DialogTrigger asChild>
+            <IconButton variant="tertiary" aria-label={t("gridForm.title")} data-testid="edit-grid-button" size="small">
               <Pencil />
-            </IconButtonV2>
-          </ModalTrigger>
-          <ModalContent size="small">
-            <StyledModalHeader>
-              <ModalTitle>{t("gridForm.title")}</ModalTitle>
-              <ModalCloseButton />
-            </StyledModalHeader>
-            <StyledModalBody>
-              <GridForm onCancel={onClose} initialData={element.data} onSave={onSave} />
-            </StyledModalBody>
-          </ModalContent>
-        </Modal>
-      </ButtonContainer>
-      <GridProvider value={true}>
-        <StyledGrid border="none" columns={element.data.columns} background={element.data.background}>
-          {children}
-        </StyledGrid>
-      </GridProvider>
-    </GridWrapper>
+            </IconButton>
+          </DialogTrigger>
+          <Portal>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>{t("gridForm.title")}</DialogTitle>
+                <DialogCloseButton />
+              </DialogHeader>
+              <DialogBody>
+                <GridForm onCancel={onClose} initialData={element.data} onSave={onSave} />
+              </DialogBody>
+            </DialogContent>
+          </Portal>
+        </ButtonContainer>
+        <GridProvider value={true}>
+          <Grid border="none" columns={element.data.columns} background={element.data.background}>
+            {children}
+          </Grid>
+        </GridProvider>
+      </EmbedWrapper>
+    </DialogRoot>
   );
 };

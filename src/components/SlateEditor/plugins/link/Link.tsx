@@ -12,9 +12,9 @@ import { BaseSelection, Editor, Node, Transforms, Element } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import styled from "@emotion/styled";
 import { Portal } from "@radix-ui/react-portal";
-import { ButtonV2 } from "@ndla/button";
 import { colors, spacing, stackOrder } from "@ndla/core";
 import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
+import { Button } from "@ndla/primitives";
 import { ContentLinkElement, LinkElement } from ".";
 import EditLink from "./EditLink";
 import { TYPE_CONTENT_LINK, TYPE_LINK } from "./types";
@@ -73,6 +73,10 @@ export interface Model {
 const StyledLink = styled.a`
   color: ${colors.brand.primary};
   cursor: text;
+  text-decoration: underline;
+  &:hover {
+    text-decoration: none;
+  }
 `;
 
 const Link = ({ attributes, editor, element, children }: Props) => {
@@ -189,7 +193,7 @@ const Link = ({ attributes, editor, element, children }: Props) => {
               }}
             >
               <ModalTrigger>
-                <ButtonV2 variant="link">{t("form.content.link.change")}</ButtonV2>
+                <Button variant="link">{t("form.content.link.change")}</Button>
               </ModalTrigger>{" "}
               | {t("form.content.link.goTo")}{" "}
               <a href={model?.href} target="_blank" rel="noopener noreferrer">

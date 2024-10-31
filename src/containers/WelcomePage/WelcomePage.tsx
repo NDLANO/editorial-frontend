@@ -8,8 +8,8 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { breakpoints, spacing } from "@ndla/core";
+import { PageContent } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
 import ArticleStatuses from "./components/ArticleStatuses";
 import LastUsedItems from "./components/LastUsedItems";
@@ -18,7 +18,6 @@ import SubjectView from "./components/SubjectView";
 import WelcomeHeader from "./components/WelcomeHeader";
 import WorkList from "./components/worklist/WorkList";
 import { customFieldsBody, defaultSubjectIdObject, getResultSubjectIdObject } from "./utils";
-import { GridContainer, Column } from "../../components/Layout/Layout";
 import { useUserData } from "../../modules/draft/draftQueries";
 import { usePostSearchNodes } from "../../modules/nodes/nodeQueries";
 import { getAccessToken, getAccessTokenPersonal } from "../../util/authHelpers";
@@ -27,14 +26,32 @@ import Footer from "../App/components/FooterWrapper";
 import { useSession } from "../Session/SessionProvider";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 
-export const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: ${spacing.small};
-  margin-top: ${spacing.small};
-  flex: 1;
-`;
+const StyledPageContent = styled(PageContent, {
+  base: {
+    marginBlockStart: "xsmall",
+    gap: "medium",
+  },
+});
+
+const GridWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "medium",
+    flexDirection: "column",
+    desktop: {
+      display: "grid",
+      gridTemplateColumns: "repeat(2, minmax(400px, 1fr))",
+    },
+  },
+});
+
+const GridColumn = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+  },
+});
 
 export const WelcomePage = () => {
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -54,7 +71,7 @@ export const WelcomePage = () => {
 
   const { t } = useTranslation();
 
-  const { data, isLoading } = useUserData({
+  const { data, isPending } = useUserData({
     enabled: isValid(getAccessToken()) && getAccessTokenPersonal(),
   });
 
@@ -71,42 +88,34 @@ export const WelcomePage = () => {
   localStorage.setItem("lastPath", "");
 
   return (
-    <Wrapper>
-      <GridContainer breakpoint={breakpoints.desktop}>
-        <HelmetWithTracker title={t("htmlTitles.welcomePage")} />
-        <Column>
-          <WelcomeHeader />
-        </Column>
-        <Column>{ndlaId && <WorkList ndlaId={ndlaId} />}</Column>
-        <Column colEnd={6}>
-          {ndlaId && (
-            <>
-              <LastUsedItems lastUsedResources={lastUsedResources} lastUsedConcepts={lastUsedConcepts} />
-              <ArticleStatuses
-                ndlaId={ndlaId}
-                favoriteSubjects={data?.favoriteSubjects}
-                userDataLoading={isLoading}
-                subjectIdObject={subjectIdObject}
-              />
-            </>
-          )}
-        </Column>
-        <Column colStart={6}>
-          {ndlaId && (
-            <>
-              <Revisions userData={data} />
-              <SubjectView
-                userDataLoading={isLoading}
-                favoriteSubjects={data?.favoriteSubjects}
-                subjectIdObject={subjectIdObject}
-                isLoading={searchQuery.isLoading}
-              />
-            </>
-          )}
-        </Column>
-      </GridContainer>
+    <StyledPageContent variant="wide">
+      <HelmetWithTracker title={t("htmlTitles.welcomePage")} />
+      <WelcomeHeader />
+      {ndlaId && (
+        <GridWrapper>
+          <WorkList ndlaId={ndlaId} />
+          <GridColumn>
+            <LastUsedItems lastUsedResources={lastUsedResources} lastUsedConcepts={lastUsedConcepts} />
+            <ArticleStatuses
+              ndlaId={ndlaId}
+              favoriteSubjects={data?.favoriteSubjects}
+              userDataPending={isPending}
+              subjectIdObject={subjectIdObject}
+            />
+          </GridColumn>
+          <GridColumn>
+            <Revisions userData={data} />
+            <SubjectView
+              userDataPending={isPending}
+              favoriteSubjects={data?.favoriteSubjects}
+              subjectIdObject={subjectIdObject}
+              isPending={searchQuery.isPending}
+            />
+          </GridColumn>
+        </GridWrapper>
+      )}
       <Footer showLocaleSelector />
-    </Wrapper>
+    </StyledPageContent>
   );
 };
 

@@ -7,26 +7,28 @@
  */
 
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { colors } from "@ndla/core";
-import { FieldHeader } from "@ndla/forms";
-import { Switch } from "@ndla/switch";
+import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { TaxNode } from "./TaxonomyBlock";
+import FieldHeader from "../../../../../components/Field/FieldHeader";
 
-type StyledIdProps = {
-  isVisible: boolean;
-};
+const InfoWrapper = styled("div", {
+  base: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+});
 
-const TaxonomyInfoDiv = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-`;
-
-const StyledId = styled.span`
-  font-style: ${(props: StyledIdProps) => !props.isVisible && "italic"};
-  color: ${(props: StyledIdProps) => (!props.isVisible ? colors.brand.grey : colors.brand.primary)};
-`;
+const StyledText = styled(Text, {
+  variants: {
+    visible: {
+      false: {
+        fontStyle: "italic",
+        color: "text.subtle",
+      },
+    },
+  },
+});
 
 interface Props {
   taxonomyElement?: TaxNode;
@@ -39,17 +41,21 @@ const TaxonomyInfo = ({ taxonomyElement, updateMetadata }: Props) => {
     <>
       <FieldHeader title={t("taxonomy.info.title")} subTitle={t("taxonomy.info.subTitle")} />
       {taxonomyElement && (
-        <TaxonomyInfoDiv>
-          <StyledId isVisible={taxonomyElement.metadata ? taxonomyElement.metadata.visible : true}>
-            {taxonomyElement.id}
-          </StyledId>
-          <Switch
-            onChange={() => updateMetadata(!taxonomyElement.metadata?.visible)}
-            checked={taxonomyElement.metadata ? taxonomyElement.metadata.visible : true}
-            label={t("metadata.changeVisibility")}
-            id={"visibility"}
-          />
-        </TaxonomyInfoDiv>
+        <InfoWrapper>
+          <StyledText asChild consumeCss visible={taxonomyElement.metadata.visible}>
+            <div>{taxonomyElement.id}</div>
+          </StyledText>
+          <SwitchRoot
+            checked={taxonomyElement.metadata?.visible ?? true}
+            onCheckedChange={(details) => updateMetadata(details.checked)}
+          >
+            <SwitchLabel>{t("metadata.changeVisibility")}</SwitchLabel>
+            <SwitchControl>
+              <SwitchThumb />
+            </SwitchControl>
+            <SwitchHiddenInput />
+          </SwitchRoot>
+        </InfoWrapper>
       )}
     </>
   );

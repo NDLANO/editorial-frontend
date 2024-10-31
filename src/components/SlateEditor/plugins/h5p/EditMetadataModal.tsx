@@ -10,30 +10,26 @@ import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor } from "slate-react";
-import styled from "@emotion/styled";
-import { ButtonV2, IconButtonV2 } from "@ndla/button";
-import { spacing } from "@ndla/core";
-import { Label, TextAreaV3 } from "@ndla/forms";
 import { Pencil } from "@ndla/icons/action";
-import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
+import {
+  Button,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  FieldLabel,
+  FieldRoot,
+  FieldTextArea,
+  IconButton,
+  Text,
+} from "@ndla/primitives";
 import { H5pEmbedData, H5pMetaData } from "@ndla/types-embed";
 import { H5pElement } from "./types";
-import { FormControl } from "../../../FormField";
-import FormikFieldDescription from "../../../FormikField/FormikFieldDescription";
+import { FormActionsContainer } from "../../../FormikForm";
 
-const StyledModalBody = styled.div`
-  display: flex;
-  height: 100%;
-  flex-direction: column;
-  padding: ${spacing.large};
-  gap: ${spacing.medium};
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: end;
-  gap: ${spacing.small};
-`;
+// TODO: This has never been enabled. Will it be?
 
 interface Props {
   embed: H5pMetaData | undefined;
@@ -71,38 +67,41 @@ const EditMetadataModal = ({ embed, editor, element }: Props) => {
   };
 
   return (
-    <Modal open={isOpen} onOpenChange={setOpen}>
-      <ModalTrigger>
-        <IconButtonV2 colorTheme="light" title={t("form.h5p.metadata.edit")} aria-label={t("form.h5p.metadata.edit")}>
+    <DialogRoot open={isOpen} onOpenChange={(details) => setOpen(details.open)} size="small">
+      <DialogTrigger asChild>
+        <IconButton
+          variant="secondary"
+          size="small"
+          title={t("form.h5p.metadata.edit")}
+          aria-label={t("form.h5p.metadata.edit")}
+        >
           <Pencil />
-        </IconButtonV2>
-      </ModalTrigger>
-      <ModalContent size="small">
-        <StyledModalBody>
-          <div>
-            <label>{t("form.h5p.metadata.edit")}</label>
-            <FormikFieldDescription description={t("form.h5p.metadata.description")} />
-          </div>
-          <FormControl>
-            <Label textStyle="label-small" margin="none">
-              {t("form.h5p.metadata.alttext")}
-            </Label>
-            <TextAreaV3
+        </IconButton>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{t("form.h5p.metadata.edit")}</DialogTitle>
+        </DialogHeader>
+        <DialogBody>
+          <Text>{t("form.h5p.metadata.description")} </Text>
+          <FieldRoot>
+            <FieldLabel>{t("form.h5p.metadata.alttext")}</FieldLabel>
+            <FieldTextArea
               name="alt"
               value={alttext}
               onChange={(e) => setAlttext(e.target.value)}
               placeholder={t("form.h5p.metadata.alttext")}
             />
-          </FormControl>
-          <ButtonWrapper>
-            <ButtonV2 onClick={onCancel}>{t("form.h5p.metadata.cancel")}</ButtonV2>
-            <ButtonV2 onClick={onSaveMetadata} disabled={alttext === embed?.embedData.alt}>
+          </FieldRoot>
+          <FormActionsContainer>
+            <Button onClick={onCancel}>{t("form.h5p.metadata.cancel")}</Button>
+            <Button onClick={onSaveMetadata} disabled={alttext === embed?.embedData.alt}>
               {t("form.h5p.metadata.save")}
-            </ButtonV2>
-          </ButtonWrapper>
-        </StyledModalBody>
-      </ModalContent>
-    </Modal>
+            </Button>
+          </FormActionsContainer>
+        </DialogBody>
+      </DialogContent>
+    </DialogRoot>
   );
 };
 

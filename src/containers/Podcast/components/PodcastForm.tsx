@@ -11,6 +11,7 @@ import { useState, useRef, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { ButtonV2 } from "@ndla/button";
+import { PageContent } from "@ndla/primitives";
 import {
   IAudioMetaInformation,
   IUpdatedAudioMetaInformation,
@@ -242,10 +243,11 @@ const PodcastForm = ({
                 <FormAccordion
                   id="podcast-upload-content"
                   title={t("form.contentSection")}
-                  className="u-10/12 u-push-1/12"
                   hasError={["title", "audioFile"].some((field) => field in errors)}
                 >
-                  <AudioContent handleSubmit={handleSubmit} />
+                  <PageContent variant="content">
+                    <AudioContent handleSubmit={handleSubmit} />
+                  </PageContent>
                 </FormAccordion>
                 <FormAccordion
                   id="podcast-upload-podcastmanus"

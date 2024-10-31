@@ -8,47 +8,59 @@
 
 import { useTranslation } from "react-i18next";
 
+import { ComboboxLabel } from "@ndla/primitives";
 import { Node } from "@ndla/types-taxonomy";
 
+import { GenericComboboxInput, GenericComboboxItemContent } from "../../../../components/abstractions/Combobox";
+import { GenericSearchCombobox } from "../../../../components/Form/GenericSearchCombobox";
 import { useSearchNodes } from "../../../../modules/nodes/nodeQueries";
-import SearchDropdown from "../../../StructurePage/folderComponents/sharedMenuOptions/components/SearchDropdown";
+import { usePaginatedQuery } from "../../../../util/usePaginatedQuery";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 
 interface Props {
-  onChange: (t: any) => void;
+  onChange: (t: Node) => void;
   selectedItems: Node[];
-  wide?: boolean;
+  label: string;
 }
 
-const NodeSearchDropdown = ({ onChange, selectedItems, wide }: Props) => {
+export const NodeSearchDropdown = ({ onChange, selectedItems, label }: Props) => {
+  const { query, delayedQuery, setQuery, page, setPage } = usePaginatedQuery();
   const { t } = useTranslation();
 
   const { taxonomyVersion } = useTaxonomyVersion();
+
+  const searchQuery = useSearchNodes(
+    {
+      taxonomyVersion,
+      query: delayedQuery,
+      page,
+      nodeType: "SUBJECT",
+    },
+    { placeholderData: (prev) => prev },
+  );
+
   return (
-    <SearchDropdown
-      selectedItems={selectedItems}
-      id="search-dropdown"
-      onChange={onChange}
-      placeholder={t("subjectpageForm.addSubject")}
-      useQuery={useSearchNodes}
-      params={{ taxonomyVersion, nodeType: "SUBJECT" }}
-      transform={(res: any) => {
-        return {
-          ...res,
-          results: res.results.map((r: any) => ({
-            originalItem: r,
-            id: r.id,
-            name: r.name,
-            description: r.breadcrumbs?.join(" > "),
-            disabled: false,
-          })),
-        };
-      }}
-      wide={wide}
-      positionAbsolute={false}
-      isMultiSelect
-    />
+    <GenericSearchCombobox
+      items={searchQuery.data?.results ?? []}
+      itemToString={(item) => item.name}
+      itemToValue={(item) => item.id}
+      isItemDisabled={(item) => selectedItems.some((selectedItem) => selectedItem.id === item.id)}
+      onValueChange={(details) => onChange(details.items[details.items.length - 1])}
+      paginationData={searchQuery.data}
+      isSuccess={searchQuery.isSuccess}
+      inputValue={query}
+      onInputValueChange={(details) => setQuery(details.inputValue)}
+      onPageChange={(details) => setPage(details.page)}
+      value={selectedItems.map((item) => item.id)}
+      selectionBehavior="preserve"
+      multiple
+      css={{ width: "100%" }}
+      renderItem={(item) => (
+        <GenericComboboxItemContent title={item.name} description={item.breadcrumbs?.join(" > ")} />
+      )}
+    >
+      <ComboboxLabel>{label}</ComboboxLabel>
+      <GenericComboboxInput placeholder={t("subjectpageForm.addSubject")} isFetching={searchQuery.isFetching} />
+    </GenericSearchCombobox>
   );
 };
-
-export default NodeSearchDropdown;

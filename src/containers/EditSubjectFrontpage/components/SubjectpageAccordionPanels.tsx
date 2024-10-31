@@ -7,12 +7,11 @@
  */
 
 import { FormikErrors } from "formik";
-import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
+import { PageContent } from "@ndla/primitives";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
-import { Node } from "@ndla/types-taxonomy";
 
 import SubjectpageAbout from "./SubjectpageAbout";
 import SubjectpageArticles from "./SubjectpageArticles";
@@ -21,7 +20,7 @@ import SubjectpageSubjectlinks from "./SubjectpageSubjectlinks";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
 import FormikField from "../../../components/FormikField";
-import { useSearchNodes } from "../../../modules/nodes/nodeQueries";
+import { FormContent } from "../../../components/FormikForm";
 import { SubjectPageFormikType } from "../../../util/subjectHelpers";
 
 interface Props {
@@ -36,37 +35,6 @@ interface Props {
 const SubjectpageAccordionPanels = ({ buildsOn, connectedTo, editorsChoices, elementId, errors, leadsTo }: Props) => {
   const { t } = useTranslation();
 
-  const subjectsLinks = buildsOn.concat(connectedTo).concat(leadsTo);
-
-  const { data: nodeData } = useSearchNodes(
-    {
-      page: 1,
-      taxonomyVersion: "default",
-      nodeType: "SUBJECT",
-      pageSize: subjectsLinks.length,
-      ids: subjectsLinks,
-    },
-    { enabled: subjectsLinks.length > 0 },
-  );
-
-  const subjectLinks = useMemo(() => {
-    if (nodeData && nodeData.results.length > 0) {
-      return nodeData.results;
-    }
-    return null;
-  }, [nodeData]);
-
-  const transformToNodes = (list: string[]) => {
-    const nodeList: Node[] = [];
-    for (const i in list) {
-      const nodeFound = subjectLinks?.find((value) => value.id === list[i]);
-      if (nodeFound) {
-        nodeList.push(nodeFound);
-      }
-    }
-    return nodeList;
-  };
-
   const SubjectPageArticle = () => (
     <SubjectpageArticles editorsChoices={editorsChoices} elementId={elementId} fieldName={"editorsChoices"} />
   );
@@ -76,10 +44,11 @@ const SubjectpageAccordionPanels = ({ buildsOn, connectedTo, editorsChoices, ele
       <FormAccordion
         id="about"
         title={t("subjectpageForm.about")}
-        className="u-10/12 u-push-1/12"
         hasError={["title", "description", "visualElement"].some((field) => field in errors)}
       >
-        <SubjectpageAbout />
+        <PageContent variant="content">
+          <SubjectpageAbout />
+        </PageContent>
       </FormAccordion>
       <FormAccordion
         id="metadata"
@@ -93,9 +62,11 @@ const SubjectpageAccordionPanels = ({ buildsOn, connectedTo, editorsChoices, ele
         title={t("subjectpageForm.subjectlinks")}
         hasError={["connectedTo", "buildsOn", "leadsTo"].some((field) => field in errors)}
       >
-        <SubjectpageSubjectlinks subjects={transformToNodes(connectedTo)} fieldName={"connectedTo"} />
-        <SubjectpageSubjectlinks subjects={transformToNodes(buildsOn)} fieldName={"buildsOn"} />
-        <SubjectpageSubjectlinks subjects={transformToNodes(leadsTo)} fieldName={"leadsTo"} />
+        <FormContent>
+          <SubjectpageSubjectlinks subjectIds={connectedTo} fieldName={"connectedTo"} />
+          <SubjectpageSubjectlinks subjectIds={buildsOn} fieldName={"buildsOn"} />
+          <SubjectpageSubjectlinks subjectIds={leadsTo} fieldName={"leadsTo"} />
+        </FormContent>
       </FormAccordion>
       <FormAccordion
         id="articles"

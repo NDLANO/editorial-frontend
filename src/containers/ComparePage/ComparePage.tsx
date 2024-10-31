@@ -10,44 +10,19 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import styled from "@emotion/styled";
-import { spacing, colors } from "@ndla/core";
+import { colors } from "@ndla/core";
+import { PageContent } from "@ndla/primitives";
 import { HelmetWithTracker } from "@ndla/tracker";
+import { ArticleWrapper } from "@ndla/ui";
 import PreviewDraft from "../../components/PreviewDraft/PreviewDraft";
 import Spinner from "../../components/Spinner";
 import { useDraft } from "../../modules/draft/draftQueries";
 
-const StyledPreviewWrapper = styled.div`
+const TwoArticleWrapper = styled.div`
   width: 100%;
   max-width: 100%;
-  display: inline-flex;
-  justify-content: center;
-  & .c-article {
-    padding: 0;
-    margin-top: 20px;
-    line-height: unset;
-    font-family: unset;
-    > section {
-      width: unset !important;
-      left: unset !important;
-    }
-    & .c-article__header {
-      margin-bottom: unset;
-    }
-  }
-`;
-
-const TwoArticleWrapper = styled(StyledPreviewWrapper)`
-  > div {
-    margin: 0 2.5%;
-    width: 40%;
-    > h2 {
-      margin: 0;
-      margin-left: ${spacing.large};
-    }
-    > article {
-      max-width: unset;
-    }
-  }
+  display: flex;
+  align-items: flex-start;
 
   span[lang] {
     text-decoration: underline;
@@ -62,6 +37,7 @@ const TwoArticleWrapper = styled(StyledPreviewWrapper)`
 
 const PreviewTitleWrapper = styled.div`
   height: 90px;
+  position: relative;
 `;
 
 const ComparePage = () => {
@@ -94,45 +70,37 @@ const ComparePage = () => {
     <>
       <HelmetWithTracker title={t("htmlTitles.comparePage")} />
       <TwoArticleWrapper>
-        <div>
-          <PreviewTitleWrapper className="u-10/12 u-push-1/12">
-            <h2>
-              {t(`form.previewLanguageArticle.title`, {
-                language: t(`languages.${language}`).toLowerCase(),
-              })}
-            </h2>
-          </PreviewTitleWrapper>
-          <PreviewDraft
-            type="formArticle"
-            draft={formArticle}
-            language={language}
-            label={t(`articleType.${article.articleType}`)}
-          />
-        </div>
-        <div>
-          <PreviewTitleWrapper className="u-10/12 u-push-1/12">
-            <h2>
-              {t("form.previewLanguageArticle.title", {
-                language: t(`languages.${previewLanguage}`).toLowerCase(),
-              })}
-            </h2>
-            <select onChange={(evt) => setPreviewLanguage(evt.target.value)} value={previewLanguage}>
-              {article.supportedLanguages.map((language) => (
-                <option key={language} value={language}>
-                  {t(`languages.${language}`)}
-                </option>
-              ))}
-            </select>
-          </PreviewTitleWrapper>
-          {draft.data && (
-            <PreviewDraft
-              type="article"
-              draft={draft.data}
-              language={previewLanguage}
-              label={t(`articleType.${draft.data.articleType}`)}
-            />
-          )}
-        </div>
+        <PageContent variant="content" asChild>
+          <ArticleWrapper>
+            <PreviewTitleWrapper>
+              <h2>
+                {t(`form.previewLanguageArticle.title`, {
+                  language: t(`languages.${language}`).toLowerCase(),
+                })}
+              </h2>
+            </PreviewTitleWrapper>
+            <PreviewDraft type="formArticle" draft={formArticle} language={language} previewAlt />
+          </ArticleWrapper>
+        </PageContent>
+        <PageContent variant="content" asChild>
+          <ArticleWrapper>
+            <PreviewTitleWrapper>
+              <h2>
+                {t("form.previewLanguageArticle.title", {
+                  language: t(`languages.${previewLanguage}`).toLowerCase(),
+                })}
+              </h2>
+              <select onChange={(evt) => setPreviewLanguage(evt.target.value)} value={previewLanguage}>
+                {article.supportedLanguages.map((language) => (
+                  <option key={language} value={language}>
+                    {t(`languages.${language}`)}
+                  </option>
+                ))}
+              </select>
+            </PreviewTitleWrapper>
+            {draft.data && <PreviewDraft type="article" draft={draft.data} language={previewLanguage} previewAlt />}
+          </ArticleWrapper>
+        </PageContent>
       </TwoArticleWrapper>
     </>
   );

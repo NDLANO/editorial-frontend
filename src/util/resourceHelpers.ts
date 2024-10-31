@@ -18,44 +18,7 @@ import {
   toLearningpathFull,
 } from "./routeHelpers";
 
-import {
-  RESOURCE_TYPE_LEARNING_PATH,
-  RESOURCE_TYPE_SUBJECT_MATERIAL,
-  RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
-  RESOURCE_TYPE_ASSESSMENT_RESOURCES,
-  RESOURCE_TYPE_SOURCE_MATERIAL,
-  RESOURCE_TYPE_CONCEPT,
-} from "../constants";
-
-const { contentTypes } = constants;
-
-interface ContentTypeType {
-  contentType: string;
-}
-
-const mapping: Record<string, ContentTypeType> = {
-  [RESOURCE_TYPE_LEARNING_PATH]: {
-    contentType: contentTypes.LEARNING_PATH,
-  },
-  [RESOURCE_TYPE_SUBJECT_MATERIAL]: {
-    contentType: contentTypes.SUBJECT_MATERIAL,
-  },
-  [RESOURCE_TYPE_TASKS_AND_ACTIVITIES]: {
-    contentType: contentTypes.TASKS_AND_ACTIVITIES,
-  },
-  [RESOURCE_TYPE_ASSESSMENT_RESOURCES]: {
-    contentType: contentTypes.ASSESSMENT_RESOURCES,
-  },
-  [RESOURCE_TYPE_CONCEPT]: {
-    contentType: contentTypes.CONCEPT,
-  },
-  [RESOURCE_TYPE_SOURCE_MATERIAL]: {
-    contentType: contentTypes.SOURCE_MATERIAL,
-  },
-  default: {
-    contentType: contentTypes.SUBJECT_MATERIAL,
-  },
-};
+const { contentTypes, contentTypeMapping } = constants;
 
 export const getResourceLanguages = (t: TFunction) => [
   { id: "nb", name: t("languages.nb") },
@@ -70,47 +33,41 @@ export const getResourceLanguages = (t: TFunction) => [
   { id: "zh", name: t("languages.zh") },
 ];
 
-export const getContentTypeFromResourceTypes = (resourceTypes: Pick<ResourceType, "id">[]): ContentTypeType => {
-  const resourceType = resourceTypes.find((type) => !!mapping[type.id]);
+export const getContentTypeFromResourceTypes = (resourceTypes: Pick<ResourceType, "id">[]): string => {
+  const resourceType = resourceTypes.find((type) => !!contentTypeMapping[type.id]);
   if (resourceType) {
-    return mapping[resourceType.id];
+    return contentTypeMapping[resourceType.id];
   }
-  return mapping.default;
+  return contentTypeMapping.default;
 };
 
-const isLearningPathResourceType = (contentType?: string) => contentType === contentTypes.LEARNING_PATH;
+const isLearningPathResourceType = (contentType?: string) =>
+  contentType === "learningpath" || contentType === contentTypes.LEARNING_PATH;
+const isConceptType = (contentType: string | undefined) => contentType === "concept";
+const isGlossType = (contentType: string | undefined) => contentType === "gloss";
+const isAudioType = (contentType: string | undefined) => contentType === "audio";
+const isSeriesType = (contentType: string | undefined) => contentType === "series";
 
-const isConceptType = (contentType?: string) => contentType === "concept";
-const isGlossType = (contentType?: string) => contentType === "gloss";
-const isAudioType = (contentType?: string) => contentType === "audio";
-const isSeriesType = (contentType?: string) => contentType === "series";
+export interface ResourceToLinkContent {
+  id: number | string;
+  supportedLanguages?: string[];
+  learningResourceType?: string;
+}
 
 export const resourceToLinkProps = (
-  content: {
-    id: number;
-    supportedLanguages?: string[];
-    contexts?: { contextType: string }[];
-  },
+  content: ResourceToLinkContent,
   contentType: string | undefined,
   locale: string,
 ) => {
-  if (isLearningPathResourceType(contentType)) {
-    return {
-      href: toLearningpathFull(content.id, locale),
-      target: "_blank",
-      rel: "noopener noreferrer",
-    };
-  }
-
   const foundSupportedLanguage = content.supportedLanguages?.find((l) => l === locale);
   const languageOrDefault = foundSupportedLanguage ?? content.supportedLanguages?.[0] ?? "nb";
 
-  if (isConceptType(contentType)) {
+  if (isConceptType(content.learningResourceType)) {
     return {
       to: toEditConcept(content.id, languageOrDefault),
     };
   }
-  if (isGlossType(contentType)) {
+  if (isGlossType(content.learningResourceType)) {
     return {
       to: toEditGloss(content.id, languageOrDefault),
     };
@@ -120,14 +77,19 @@ export const resourceToLinkProps = (
       to: toEditAudio(content.id, languageOrDefault),
     };
   }
-
   if (isSeriesType(contentType)) {
     return {
       to: toEditPodcastSeries(content.id, languageOrDefault),
     };
   }
-
+  if (isLearningPathResourceType(contentType)) {
+    return {
+      href: toLearningpathFull(content.id, locale),
+      target: "_blank",
+      rel: "noopener noreferrer",
+    };
+  }
   return {
-    to: toEditArticle(content.id, content?.contexts?.[0]?.contextType || "standard", languageOrDefault),
+    to: toEditArticle(content.id, content.learningResourceType ?? "standard", languageOrDefault),
   };
 };

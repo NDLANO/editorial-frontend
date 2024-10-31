@@ -11,41 +11,37 @@ import { useTranslation } from "react-i18next";
 import { Editor, Element, NodeEntry, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { Copyright } from "@ndla/icons/licenses";
-import { FramedContent } from "@ndla/ui";
+import { BrushLine, Copyright } from "@ndla/icons/editor";
+import { IconButton } from "@ndla/primitives";
+import { ContentTypeFramedContent, EmbedWrapper } from "@ndla/ui";
 import { FramedContentElement } from ".";
 import { TYPE_FRAMED_CONTENT } from "./types";
+import { useArticleContentType } from "../../../ContentTypeProvider";
 import DeleteButton from "../../../DeleteButton";
 import MoveContentButton from "../../../MoveContentButton";
 import { TYPE_COPYRIGHT } from "../copyright/types";
 import { defaultCopyrightBlock } from "../copyright/utils";
+import { StyledFigureButtons } from "../embed/FigureButtons";
 
-const StyledFramedContent = styled(FramedContent)`
+const FigureButtons = styled(StyledFigureButtons)`
+  position: absolute;
+  top: -${spacing.large};
+  right: 0;
   display: flex;
-  flex-direction: column;
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  padding: ${spacing.xsmall};
   justify-content: flex-end;
-  flex: 0;
 `;
 
-const ChildrenWrapper = styled.div`
-  flex: 1;
-  padding: 0 ${spacing.medium} ${spacing.medium} ${spacing.medium};
-`;
-
-interface Props {
+interface Props extends RenderElementProps {
   editor: Editor;
+  element: FramedContentElement;
 }
 
-const SlateFramedContent = (props: Props & RenderElementProps) => {
+const SlateFramedContent = (props: Props) => {
   const { element, editor, attributes, children } = props;
   const { t } = useTranslation();
+  const variant = element.data?.variant ?? "neutral";
+  const contentType = useArticleContentType();
   const hasSlateCopyright = useMemo(() => {
     return element.children.some((child) => Element.isElement(child) && child.type === TYPE_COPYRIGHT);
   }, [element.children]);
@@ -77,35 +73,51 @@ const SlateFramedContent = (props: Props & RenderElementProps) => {
     }, 0);
   };
 
+  const changeVariant = () => {
+    const newData = { variant: element.data?.variant === "colored" ? "neutral" : "colored" };
+    Transforms.setNodes(editor, { data: newData }, { at: ReactEditor.findPath(editor, element) });
+  };
+
   const insertCopyright = () => {
     const [node, path] = Editor.node(editor, ReactEditor.findPath(editor, element)) as NodeEntry<FramedContentElement>;
     Transforms.insertNodes(editor, defaultCopyrightBlock(), { at: path.concat(node.children.length) });
   };
 
   return (
-    <StyledFramedContent draggable {...attributes}>
-      <ButtonContainer>
+    <EmbedWrapper draggable {...attributes}>
+      <FigureButtons contentEditable={false}>
         {!hasSlateCopyright && (
-          <IconButtonV2
-            variant="ghost"
+          <IconButton
+            variant="tertiary"
+            size="small"
             aria-label={t("form.copyright.add")}
             title={t("form.copyright.add")}
             onClick={insertCopyright}
           >
             <Copyright />
-          </IconButtonV2>
+          </IconButton>
         )}
+        <IconButton
+          onClick={changeVariant}
+          variant={variant === "colored" ? "primary" : "secondary"}
+          size="small"
+          title={t(`framedContentForm.changeVariant.${variant === "neutral" ? "colored" : "neutral"}`)}
+          aria-label={t(`framedContentForm.changeVariant.${variant === "neutral" ? "colored" : "neutral"}`)}
+        >
+          <BrushLine />
+        </IconButton>
         <MoveContentButton onMouseDown={onMoveContent} aria-label={t("form.moveContent")} />
         <DeleteButton
           aria-label={t("form.remove")}
           tabIndex={-1}
           data-testid="remove-framedContent"
-          colorTheme="danger"
           onMouseDown={onRemoveClick}
         />
-      </ButtonContainer>
-      <ChildrenWrapper>{children}</ChildrenWrapper>
-    </StyledFramedContent>
+      </FigureButtons>
+      <ContentTypeFramedContent variant={variant} contentType={contentType}>
+        {children}
+      </ContentTypeFramedContent>
+    </EmbedWrapper>
   );
 };
 

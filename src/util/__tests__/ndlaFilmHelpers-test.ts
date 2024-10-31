@@ -40,7 +40,6 @@ const filmFrontPage: IFilmFrontPageData = {
 };
 
 const filmFrontPageAfterTransformation: FilmFormikType = {
-  articleType: "subjectpage",
   description: [
     {
       children: [

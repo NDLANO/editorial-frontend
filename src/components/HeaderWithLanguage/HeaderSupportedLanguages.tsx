@@ -8,16 +8,8 @@
 
 import { useTranslation } from "react-i18next";
 import { Check } from "@ndla/icons/editor";
-import { SafeLink } from "@ndla/safelink";
+import { SafeLinkButton } from "@ndla/safelink";
 import HeaderLanguagePill from "./HeaderLanguagePill";
-
-interface LinkWithReplaceProps {
-  to: string;
-}
-
-const LinkWithReplace = ({ to, ...rest }: LinkWithReplaceProps) => {
-  return <SafeLink to={to} replace {...rest} />;
-};
 
 interface Props {
   id: number;
@@ -39,20 +31,22 @@ const HeaderSupportedLanguages = ({ supportedLanguages = [], id, editUrl, isSubm
             {t(`languages.${supportedLanguage}`)}
           </HeaderLanguagePill>
         ) : (
-          <HeaderLanguagePill
+          <SafeLinkButton
             aria-label={t("languages.change", {
               language: t(`languages.${supportedLanguage}`),
             })}
             title={t("languages.change", {
               language: t(`languages.${supportedLanguage}`),
             })}
+            size="small"
+            variant="tertiary"
             to={editUrl(id, supportedLanguage)}
-            component={replace ? LinkWithReplace : SafeLink}
-            isSubmitting={isSubmitting}
+            replace={replace}
+            disabled={isSubmitting}
             key={`types_${supportedLanguage}`}
           >
             {t(`languages.${supportedLanguage}`)}
-          </HeaderLanguagePill>
+          </SafeLinkButton>
         ),
       )}
     </>

@@ -10,14 +10,21 @@ import { useTranslation } from "react-i18next";
 import { Editor, Transforms, Element, Path } from "slate";
 import { ReactEditor } from "slate-react";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
 import { Cross } from "@ndla/icons/action";
 import { ModalBody, ModalHeader, ModalTitle } from "@ndla/modal";
+import { IconButton } from "@ndla/primitives";
 import { LinkElement, ContentLinkElement } from ".";
 import { Model } from "./Link";
 import LinkForm from "./LinkForm";
 import { TYPE_CONTENT_LINK, TYPE_LINK } from "./types";
-import { splitLearningPathUrl, splitEdPathUrl, splitArticleUrl, splitPlainUrl, splitTaxonomyUrl } from "./utils";
+import {
+  splitArticleUrl,
+  splitEdPathUrl,
+  splitEdPreviewUrl,
+  splitLearningPathUrl,
+  splitPlainUrl,
+  splitTaxonomyUrl,
+} from "./utils";
 
 const newTabAttributes = {
   target: "_blank",
@@ -61,6 +68,8 @@ export const isNDLALearningPathUrl = (url: string) =>
   /^http(s)?:\/\/((.*)\.)?ndla.no\/((.*)\/)?learningpaths\/(.*)/.test(url);
 export const isNDLAEdPathUrl = (url: string) =>
   /^http(s)?:\/\/ed.((.*)\.)?ndla.no\/((.*)\/)?subject-matter\/(.*)/.test(url);
+export const isNDLAEdPreviewUrl = (url: string) =>
+  /^http(s)?:\/\/ed.((.*)\.)?ndla.no\/((.*)\/)?preview\/(.*)/.test(url);
 export const isPlainId = (url: string) => /^\d+/.test(url);
 
 const getIdAndTypeFromUrl = async (href: string) => {
@@ -76,6 +85,8 @@ const getIdAndTypeFromUrl = async (href: string) => {
     return await splitTaxonomyUrl(baseHref);
   } else if (isNDLAEdPathUrl(baseHref)) {
     return splitEdPathUrl(baseHref);
+  } else if (isNDLAEdPreviewUrl(baseHref)) {
+    return splitEdPreviewUrl(baseHref);
   }
   return { resourceId: null, resourceType: "" };
 };
@@ -136,9 +147,9 @@ const EditLink = ({ model, closeEditMode, editor, element, handleRemove }: Props
     <>
       <StyledModalHeader>
         <ModalTitle>{t(`form.content.link.${isEdit ? "changeTitle" : "addTitle"}`)}</ModalTitle>
-        <IconButtonV2 variant="ghost" aria-label={t("close")} title={t("close")} onClick={onClose}>
+        <IconButton variant="tertiary" aria-label={t("close")} title={t("close")} onClick={onClose}>
           <Cross />
-        </IconButtonV2>
+        </IconButton>
       </StyledModalHeader>
       <StyledModalBody>
         <LinkForm onClose={onClose} link={model} isEdit={isEdit} onRemove={handleRemove} onSave={handleSave} />

@@ -8,7 +8,6 @@
 import { ReactNode } from "react";
 import { Editor } from "slate";
 import { RenderElementProps } from "slate-react";
-import styled from "@emotion/styled";
 import { ParagraphElement } from ".";
 
 interface Props {
@@ -18,15 +17,11 @@ interface Props {
   editor: Editor;
 }
 
-const StyledParagraph = styled.p`
-  position: relative;
-`;
-
 const Paragraph = ({ attributes, children, element }: Props) => {
   return (
-    <StyledParagraph className={element.data?.align === "center" ? "u-text-center" : ""} {...attributes}>
+    <p data-align={element.data?.align ?? ""} {...attributes}>
       {children}
-    </StyledParagraph>
+    </p>
   );
 };
 

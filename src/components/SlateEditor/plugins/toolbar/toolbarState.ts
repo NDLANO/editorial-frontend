@@ -7,15 +7,35 @@
  */
 
 import merge from "lodash/merge";
-import { Editor, Element, Node } from "slate";
+import { Editor, Element, Node, BaseSelection, Text } from "slate";
 import { ElementType } from "../../interfaces";
+import { TYPE_NOOP } from "../noop/types";
+import { TYPE_PARAGRAPH } from "../paragraph/types";
+import { TYPE_SECTION } from "../section/types";
 
-export const languages = ["ar", "de", "en", "es", "fr", "la", "no", "se", "sma", "so", "ti", "zh"] as const;
+export const languages = [
+  "ar",
+  "de",
+  "en",
+  "es",
+  "fr",
+  "heb",
+  "la",
+  "no",
+  "pli",
+  "prs",
+  "san",
+  "se",
+  "sma",
+  "so",
+  "ti",
+  "zh",
+] as const;
 
 export type TextType = "normal-text" | "heading-2" | "heading-3" | "heading-4";
 export type MarkType = "bold" | "italic" | "code" | "sub" | "sup";
 export type BlockType = "quote" | "definition-list" | "numbered-list" | "bulleted-list" | "letter-list";
-export type InlineType = "content-link" | "mathml" | "concept-inline" | "gloss-inline";
+export type InlineType = "content-link" | "mathml" | "concept-inline" | "gloss-inline" | "comment-inline";
 export type TableType = "left" | "center" | "right";
 export type LanguageType = (typeof languages)[number];
 
@@ -81,6 +101,7 @@ export const allOptions: OptionsType = {
     mathml: { value: "mathml" },
     "concept-inline": { value: "concept-inline" },
     "gloss-inline": { value: "gloss-inline" },
+    "comment-inline": { value: "comment-inline" },
   },
   table: {
     left: { value: "left" },
@@ -119,7 +140,8 @@ export const defaultAreaOptions: AreaFilters = {
     block: { disabled: true },
   },
   heading: {
-    inline: { hidden: true },
+    inline: { hidden: true, "comment-inline": { hidden: false } },
+    mark: { bold: { hidden: true } },
   },
   table: {
     text: { hidden: true },
@@ -127,6 +149,24 @@ export const defaultAreaOptions: AreaFilters = {
   "table-cell": {
     table: { hidden: false },
   },
+  "concept-inline": {
+    inline: { disabled: true, "concept-inline": { disabled: false } },
+  },
+  "content-link": {
+    inline: { disabled: true, "content-link": { disabled: false } },
+  },
+  link: {
+    inline: { disabled: true },
+  },
+  mathml: {
+    inline: { disabled: true, mathml: { disabled: false } },
+  },
+  "comment-inline": { inline: { disabled: true, "comment-inline": { disabled: false } } },
+  list: { inline: { disabled: true } },
+  "definition-term": { block: { quote: { disabled: true } }, inline: { disabled: true } },
+  "definition-description": { block: { quote: { disabled: true } }, inline: { disabled: true } },
+  "definition-list": { block: { quote: { disabled: true } }, inline: { disabled: true } },
+  quote: { inline: { disabled: true } },
 };
 
 export type ToolbarType = {
@@ -178,7 +218,30 @@ interface ToolbarStateProps {
   options?: CategoryFilters;
   areaOptions?: AreaFilters;
   editorAncestors?: Element[];
+  selection?: BaseSelection;
 }
+
+export const getSelectionElements = (editor: Editor, selection: BaseSelection): Element[] => {
+  // Get elements in the selection only
+  if (selection) {
+    const fragments = editor.getFragment();
+    const elementFragments = fragments.filter(Element.isElement);
+
+    // When a fragment selects multiple blocks it seems to return the blocks in a section,
+    // if it is a section we have to flatten it and find the inline children.
+    // TODO: This logic works for the current nodes we have, further nested might provide a problem and must be solved in a different way.
+    if (elementFragments?.[0]?.type === TYPE_SECTION) {
+      return elementFragments
+        .flatMap((node) => node?.children as Element[])
+        .flatMap((node) => node?.children as Element[]);
+    } else if (elementFragments?.[0]?.type === TYPE_PARAGRAPH) {
+      return elementFragments.flatMap((node) => node?.children as Element[]);
+    }
+
+    return elementFragments;
+  }
+  return [];
+};
 
 export const getEditorAncestors = (editor: Editor, reverse?: boolean): Element[] => {
   // Finds the current lowest node in the editor and creates an array of its ancestors.
@@ -192,6 +255,36 @@ export const getEditorAncestors = (editor: Editor, reverse?: boolean): Element[]
     }
   }
   return elementAncestors;
+};
+
+/**
+ * Sets all inline types as disabled if multiple element blocks are selected.
+ */
+const disableInlineOnMultipleBlocksSelected = (
+  options: OptionsType,
+  editorAncestors?: Element[],
+): OptionsType & CategoryFilters => {
+  const ancestors =
+    editorAncestors?.[0]?.type === TYPE_NOOP ? (editorAncestors[0].children as Element[]) : editorAncestors;
+
+  const filteredAncestors =
+    ancestors?.filter(
+      (fragment) =>
+        fragment.children?.length > 1 ||
+        (fragment.children?.length === 1 && Text.isText(fragment.children[0]) && fragment.children[0].text !== ""),
+    ) ?? [];
+
+  if (filteredAncestors?.length < 2) return options;
+
+  const disabledInlines = Object.entries(options.inline).reduce(
+    (acc, [key, value]) => {
+      const k = key as InlineType;
+      acc[k] = { ...value, disabled: true };
+      return acc;
+    },
+    {} as OptionsType["inline"],
+  );
+  return { ...options, inline: disabledInlines };
 };
 
 /**
@@ -217,7 +310,9 @@ export const toolbarState = ({
   });
 
   const merged = merge({}, allOptions, options);
-  const toolbar = Object.entries(merged).reduce<ToolbarType>(
+  const maybeDisabledInline = disableInlineOnMultipleBlocksSelected(merged, editorAncestors);
+
+  const toolbar = Object.entries(maybeDisabledInline).reduce<ToolbarType>(
     (acc, curr) => {
       acc[curr[0] as ToolbarCategories] = Object.values(curr[1]);
       return acc;

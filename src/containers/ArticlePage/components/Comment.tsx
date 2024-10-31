@@ -11,18 +11,17 @@ import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
 import { colors, spacing, fonts, misc } from "@ndla/core";
-import { FormControl, Label } from "@ndla/forms";
 import { TrashCanOutline, RightArrow, ExpandMore } from "@ndla/icons/action";
 import { Done } from "@ndla/icons/editor";
+import { FieldLabel, FieldRoot, IconButton } from "@ndla/primitives";
 import { plugins, toolbarAreaFilters, toolbarOptions } from "./commentToolbarUtils";
 import { COMMENT_COLOR, formControlStyles } from "./styles";
 import AlertModal from "../../../components/AlertModal";
 import RichTextEditor from "../../../components/SlateEditor/RichTextEditor";
 import { SlateCommentType } from "../../FormikForm/articleFormHooks";
 
-const StyledFormControl = styled(FormControl)`
+const StyledFieldRoot = styled(FieldRoot)`
   ${formControlStyles}
 `;
 
@@ -91,9 +90,9 @@ const Comment = ({ id, index, isSubmitting, field, arrayHelpers }: Props) => {
     <CommentCard data-solved={field.value.solved}>
       <CardContent>
         <TopButtonRow>
-          <IconButtonV2
-            variant="ghost"
-            size="xsmall"
+          <IconButton
+            variant="tertiary"
+            size="small"
             aria-label={tooltipText}
             title={tooltipText}
             onClick={() => updateComment("isOpen", !field.value.isOpen)}
@@ -101,32 +100,30 @@ const Comment = ({ id, index, isSubmitting, field, arrayHelpers }: Props) => {
             aria-controls={commentId}
           >
             {field.value.isOpen ? <ExpandMore /> : <RightArrow />}
-          </IconButtonV2>
+          </IconButton>
           <div>
-            <IconButtonV2
-              variant={field.value.solved ? "solid" : "ghost"}
-              size="xsmall"
+            <IconButton
+              variant={field.value.solved ? "primary" : "clear"}
+              size="small"
               aria-label={field.value.solved ? t("form.comment.unresolve") : t("form.comment.solve")}
               title={field.value.solved ? t("form.comment.unresolve") : t("form.comment.solve")}
               onClick={() => updateComment("solved", !field.value.solved)}
-              colorTheme="darker"
             >
               <Done />
-            </IconButtonV2>
-            <IconButtonV2
-              variant="ghost"
-              size="xsmall"
+            </IconButton>
+            <IconButton
+              variant="danger"
+              size="small"
               aria-label={t("form.workflow.deleteComment.title")}
               title={t("form.workflow.deleteComment.title")}
               onClick={() => setModalOpen(true)}
-              colorTheme="danger"
             >
               <TrashCanOutline />
-            </IconButtonV2>
+            </IconButton>
           </div>
         </TopButtonRow>
-        <StyledFormControl id={`comment-${id}`}>
-          <Label visuallyHidden>{t("form.comment.commentField")}</Label>
+        <StyledFieldRoot id={`comment-${id}`}>
+          <FieldLabel srOnly>{t("form.comment.commentField")}</FieldLabel>
           <RichTextEditor
             value={field.value.content ?? []}
             hideBlockPicker
@@ -140,7 +137,7 @@ const Comment = ({ id, index, isSubmitting, field, arrayHelpers }: Props) => {
             data-open={field.value.isOpen}
             data-comment=""
           />
-        </StyledFormControl>
+        </StyledFieldRoot>
       </CardContent>
 
       <AlertModal

@@ -10,10 +10,9 @@ import { FieldArray, Formik, useField, useFormikContext } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
 import { colors, misc, spacing } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
-import { Pencil, Plus } from "@ndla/icons/action";
+import { AddLine, PencilFill } from "@ndla/icons/action";
+import { IconButton } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { IArticleSummaryV2 } from "@ndla/types-backend/article-api";
@@ -24,6 +23,7 @@ import { addArticlesToAboutMenu, extractArticleIds, menuWithArticleToIMenu } fro
 import FrontpageNodeList from "./FrontpageNodeList";
 import { MenuWithArticle } from "./types";
 import validateFormik, { RulesType } from "../../components/formikValidationSchema";
+import { OldSpinner } from "../../components/OldSpinner";
 import SaveButton from "../../components/SaveButton";
 import { FRONTPAGE_ADMIN_SCOPE } from "../../constants";
 import { useArticleSearch } from "../../modules/article/articleQueries";
@@ -40,7 +40,6 @@ const FrontpageArticleWrapper = styled.div`
   border-radius: ${misc.borderRadius};
   padding: ${spacing.small};
   background-color: ${colors.brand.lighter};
-  color: ${colors.brand.primary};
 `;
 
 const Wrapper = styled.div`
@@ -124,7 +123,7 @@ const FrontpageEditPage = () => {
     <OneColumn>
       <HelmetWithTracker title={t("htmlTitles.editFrontpage")} />
       {frontpageQuery.isLoading || articlesQuery.isLoading ? (
-        <Spinner />
+        <OldSpinner />
       ) : transformedMenu ? (
         <Formik
           initialValues={{ ...transformedMenu, article: initialFrontpageArticle }}
@@ -193,26 +192,26 @@ const RootFields = () => {
             )}
           </span>
           <FrontpageArticleSearch articleId={idField.value} onChange={onChange}>
-            <IconButtonV2
-              colorTheme="primary"
-              variant="outline"
+            <IconButton
+              variant="tertiary"
+              size="small"
               aria-label={t("frontpageForm.changeFrontpageArticle")}
               title={t("frontpageForm.changeFrontpageArticle")}
             >
-              <Pencil />
-            </IconButtonV2>
+              <PencilFill />
+            </IconButton>
           </FrontpageArticleSearch>
         </ArticleTitle>
         <ButtonWrapper>
           <FrontpageArticleSearch onChange={onAddNew}>
-            <IconButtonV2
-              colorTheme="primary"
-              variant="outline"
+            <IconButton
+              variant="secondary"
+              size="small"
               aria-label={t("frontpageForm.addArticleToMenu")}
               title={t("frontpageForm.addArticleToMenu")}
             >
-              <Plus />
-            </IconButtonV2>
+              <AddLine />
+            </IconButton>
           </FrontpageArticleSearch>
           <SaveButton type="submit" disabled={!dirty} isSaving={isSubmitting}>
             {t("save")}

@@ -17,6 +17,78 @@ const articleTypes: Record<string, string> = {
   "frontpage-article": "frontpage-article",
 };
 
+export const routes = {
+  search: toSearch,
+  editArticle: toEditArticle,
+  editGenericArticle: toEditGenericArticle,
+  editMarkup: toEditMarkup,
+  structure: toStructure,
+  nodeDiff: toNodeDiff,
+  taxonomy: {
+    structure: toStructure,
+    versions: "/taxonomyVersions",
+  },
+  notFound: "/404",
+  home: "/",
+  login: "/login",
+  logout: {
+    logout: "/logout",
+    logoutSession: "/logout/session",
+    logoutFederated: "/logout/federated",
+  },
+  h5p: {
+    edit: "/h5p",
+  },
+  film: {
+    edit: toEditNdlaFilm,
+  },
+  frontpage: {
+    create: "/subject-matter/frontpage-article/new",
+    edit: toEditFrontPageArticle,
+    structure: "/frontpage",
+  },
+  subjectPage: {
+    create: toCreateSubjectpage,
+    edit: toEditSubjectpage,
+  },
+  learningResource: {
+    create: "/subject-matter/learning-resource/new",
+    edit: toEditLearningResource,
+  },
+  topic: {
+    create: "/subject-matter/topic-article/new",
+    edit: toEditTopicArticle,
+  },
+  gloss: {
+    create: "/gloss/new",
+    edit: toEditGloss,
+  },
+  concept: {
+    create: "/concept/new",
+    edit: toEditConcept,
+  },
+  audio: {
+    create: "/media/audio-upload/new",
+    edit: toEditAudio,
+  },
+  podcast: {
+    create: "/media/podcast-upload/new",
+    edit: toEditPodcast,
+  },
+  podcastSeries: {
+    create: "/media/podcast-series/new",
+    edit: toEditPodcastSeries,
+  },
+  image: {
+    create: "/media/image-upload/new",
+    edit: toEditImage,
+  },
+  preview: {
+    draft: toPreviewDraft,
+    language: toCompareLanguage,
+  },
+};
+
 export function toSearch(query: object, type = "content") {
   if (query) {
     return `/search/${type}?${queryString.stringify(query)}`;
@@ -38,9 +110,9 @@ export function toEditLearningResource(id: number, locale: string) {
   return `/subject-matter/learning-resource/${id}/edit/${locale}`;
 }
 
-export const toEditGenericArticle = (articleId: number | string) => {
+export function toEditGenericArticle(articleId: number | string) {
   return `/subject-matter/article/${articleId}`;
-};
+}
 
 export function toEditSubjectpage(subjectId: string, locale: string, subjectpageId?: number | string) {
   if (subjectId === NDLA_FILM_SUBJECT) {
@@ -53,12 +125,12 @@ export function toEditNdlaFilm(language?: string) {
   return `/film/${language ? language : "nb"}`;
 }
 
-export function toEditConcept(conceptId: number, locale?: string) {
+export function toEditConcept(conceptId: number | string, locale?: string) {
   const path = `/concept/${conceptId}/edit`;
   return locale ? `${path}/${locale}` : path;
 }
 
-export function toEditGloss(glossId: number, locale?: string) {
+export function toEditGloss(glossId: number | string, locale?: string) {
   const path = `/gloss/${glossId}/edit`;
   return locale ? `${path}/${locale}` : path;
 }
@@ -118,7 +190,7 @@ export function toCreateAudioFile() {
   return "/media/audio-upload/new";
 }
 
-export function toEditAudio(audioId: number, language: string) {
+export function toEditAudio(audioId: number | string, language: string) {
   return `/media/audio-upload/${audioId}/edit/${language}`;
 }
 
@@ -130,11 +202,11 @@ export function toCreatePodcastSeries() {
   return "/media/podcast-series/new";
 }
 
-export function toEditPodcast(audioId: number, language: string) {
+export function toEditPodcast(audioId: number | string, language: string) {
   return `/media/podcast-upload/${audioId}/edit/${language}`;
 }
 
-export function toEditPodcastSeries(seriesId: number, language: string) {
+export function toEditPodcastSeries(seriesId: number | string, language: string) {
   return `/media/podcast-series/${seriesId}/edit/${language}`;
 }
 
@@ -154,7 +226,8 @@ export function toCompareLanguage(draftId: number, language: string) {
   return `/compare/${draftId}/${language}`;
 }
 
-export function toStructure(path: string) {
+export function toStructure(path?: string) {
+  if (!path) return "/structure";
   const urnPath = path
     .split("/")
     .slice(1)
@@ -163,18 +236,9 @@ export function toStructure(path: string) {
   return `/structure/${urnPath}`;
 }
 
-export const toStructureOld = (path: string) => {
-  const urnPath = path
-    .split("/")
-    .slice(1)
-    .map((part) => `urn:${part}`)
-    .join("/");
-  return `/structureOld/${urnPath}`;
-};
-
-export const toNodeDiff = (nodeId: string, originalHash: string, otherHash: string) => {
+export function toNodeDiff(nodeId: string, originalHash: string, otherHash: string) {
   return `/nodeDiff/${nodeId}?originalHash=${originalHash}&otherHash=${otherHash}`;
-};
+}
 
 export function to404() {
   return "/404";

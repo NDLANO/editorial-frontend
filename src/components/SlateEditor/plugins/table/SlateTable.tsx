@@ -10,12 +10,12 @@ import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor } from "slate";
 import { RenderElementProps } from "slate-react";
-import styled from "@emotion/styled";
-import { colors } from "@ndla/core";
-import { TableStyling } from "@ndla/ui";
+import { DeleteForever } from "@ndla/icons/editor";
+import { IconButton, Table } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { EmbedWrapper } from "@ndla/ui";
 import { TableElement } from "./interfaces";
 import { removeTable } from "./slateActions";
-import DeleteButton from "../../../DeleteButton";
 
 interface Props {
   editor: Editor;
@@ -24,76 +24,30 @@ interface Props {
   children: ReactNode;
 }
 
-const StyledTable = styled.table`
-  && {
-    display: block;
-    position: relative;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 0 24px;
-    margin-top: 64px;
-    margin-bottom: 64px;
-  }
-  &:before {
-    display: none;
-  }
-  &:after {
-    display: none;
-  }
-
-  td,
-  th {
-    min-height: 29px;
-
-    p {
-      margin-top: 0;
-      &:last-child {
-        margin: 0;
-      }
-    }
-  }
-  figure {
-    float: unset;
-  }
-
-  tbody th:first-child {
-    border: 1px solid ${colors.brand.lighter} !important;
-    border-right: 3px solid ${colors.brand.tertiary} !important;
-  }
-
-  td ol,
-  td ol li p,
-  td ul,
-  td ul li p {
-    font-size: unset;
-    line-height: unset !important;
-  }
-`;
-
-const StyledWrapper = styled.div`
-  display: flex;
-  padding: 0;
-  margin: 0;
-  max-width: 100% !important;
-  right: unset !important;
-  left: unset !important;
-`;
+const StyledIconButton = styled(IconButton, {
+  base: {
+    position: "absolute",
+    top: "0",
+    left: "-xlarge",
+  },
+});
 
 const SlateTable = ({ attributes, children, element, editor }: Props) => {
   const { t } = useTranslation();
   return (
-    <StyledWrapper>
-      <StyledTable css={TableStyling} {...attributes}>
-        <DeleteButton
-          variant="stripped"
-          onClick={() => removeTable(editor, element)}
-          data-testid="table-remove"
-          aria-label={t("form.content.table.table-remove")}
-          tabIndex={-1}
-        />
-        {children}
-      </StyledTable>
-    </StyledWrapper>
+    <EmbedWrapper>
+      <StyledIconButton
+        variant="danger"
+        size="small"
+        onClick={() => removeTable(editor, element)}
+        data-testid="table-remove"
+        aria-label={t("form.content.table.table-remove")}
+        title={t("form.content.table.table-remove")}
+      >
+        <DeleteForever />
+      </StyledIconButton>
+      <Table {...attributes}>{children}</Table>
+    </EmbedWrapper>
   );
 };
 

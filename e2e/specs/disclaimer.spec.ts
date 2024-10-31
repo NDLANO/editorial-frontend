@@ -27,7 +27,7 @@ test("update disclaimer text", async ({ page }) => {
 });
 
 test("add content to disclaimer", async ({ page }) => {
-  await page.getByTestId("slate-disclaimer-content").click();
+  await page.locator("[data-uu-content]").click();
   await page.getByTestId("slate-block-picker").click();
   await page.getByTestId("create-image").click();
   await page.getByTestId("select-image-from-list").first().click();
@@ -36,7 +36,7 @@ test("add content to disclaimer", async ({ page }) => {
 });
 
 test("move content out of disclaimer", async ({ page }) => {
-  await page.getByTestId("slate-disclaimer-content").click();
+  await page.locator("[data-uu-content]").click();
   await page.getByTestId("slate-block-picker").click();
   await page.getByTestId("create-image").click();
   await page.getByTestId("select-image-from-list").first().click();
@@ -48,7 +48,7 @@ test("move content out of disclaimer", async ({ page }) => {
 });
 
 test("delete disclaimer with content", async ({ page }) => {
-  await page.getByTestId("slate-disclaimer-content").click();
+  await page.locator("[data-uu-content]").click();
   await page.getByTestId("slate-block-picker").click();
   await page.getByTestId("create-image").click();
   await page.getByTestId("select-image-from-list").first().click();

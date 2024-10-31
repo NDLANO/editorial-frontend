@@ -15,7 +15,6 @@ import {
   AudioMetaData,
   BrightcoveEmbedData,
   BrightcoveMetaData,
-  ConceptListData,
   ConceptVisualElement,
   ConceptVisualElementMeta,
   H5pData,
@@ -220,19 +219,6 @@ export const fetchConceptVisualElement = async (
   }
 
   return undefined;
-};
-
-export const fetchConceptListMeta = async (concepts: IConceptSummary[], language: string): Promise<ConceptListData> => {
-  const conceptsWithVisualElement = await Promise.all(
-    concepts.map(async (concept) => {
-      if (!concept.visualElement?.visualElement) return { concept };
-      const visualElement = await fetchConceptVisualElement(concept.visualElement?.visualElement, language).catch(
-        (_) => undefined,
-      );
-      return { concept, visualElement };
-    }),
-  );
-  return { concepts: conceptsWithVisualElement };
 };
 
 export const fetchExternal = async (

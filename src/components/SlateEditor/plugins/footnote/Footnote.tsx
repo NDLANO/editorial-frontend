@@ -6,62 +6,92 @@
  *
  */
 
-import { useCallback, useState } from "react";
-import { Editor } from "slate";
-import { RenderElementProps, useFocused, useSelected } from "slate-react";
-import { colors } from "@ndla/core";
-import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Transforms } from "slate";
+import { ReactEditor, RenderElementProps } from "slate-react";
+import { Portal } from "@ark-ui/react";
+import {
+  Button,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+} from "@ndla/primitives";
 import { FootnoteElement } from ".";
-import EditFootnote from "./EditFootnote";
-
-// Todo: a -> button
-/* eslint jsx-a11y/no-static-element-interactions: 1 */
+import FootnoteForm from "./FootnoteForm";
+import { DialogCloseButton } from "../../../DialogCloseButton";
 
 interface Props extends RenderElementProps {
   editor: Editor;
   element: FootnoteElement;
 }
 
-const Footnote = (props: Props) => {
-  const { attributes, children, editor, element } = props;
+const Footnote = ({ attributes, children, editor, element }: Props) => {
+  const { t } = useTranslation();
 
   const [editMode, setEditMode] = useState(!element.data.title);
-  const selected = useSelected();
-  const focused = useFocused();
 
-  const toggleEditMode = useCallback(() => {
-    setEditMode((prev) => !prev);
-  }, []);
+  const onClose = () => {
+    if (!element.data) {
+      handleRemove();
+    } else {
+      setEditMode(false);
+    }
+  };
+
+  const handleRemove = () => {
+    if (element) {
+      Transforms.removeNodes(editor, {
+        at: ReactEditor.findPath(editor, element),
+      });
+      ReactEditor.focus(editor);
+      setEditMode(false);
+    }
+  };
+
+  const handleSave = (data: FootnoteElement["data"]) => {
+    Transforms.setNodes(
+      editor,
+      { data },
+      {
+        at: ReactEditor.findPath(editor, element),
+      },
+    );
+
+    setEditMode(false);
+  };
 
   return (
-    <Modal open={editMode} onOpenChange={toggleEditMode}>
-      <ModalTrigger>
-        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
-        <a
-          style={{
-            boxShadow: selected && focused ? `0 0 0 1px ${colors.brand.tertiary}` : "none",
-          }}
-          contentEditable={false}
-          {...attributes}
-          role="link"
-          tabIndex={0}
-        >
-          <sup contentEditable={false} style={{ userSelect: "none" }}>
+    <DialogRoot open={editMode} onOpenChange={(details) => setEditMode(details.open)}>
+      <sup>
+        <DialogTrigger asChild>
+          <Button variant="link" {...attributes}>
             [#]
-          </sup>
-          {children}
-        </a>
-      </ModalTrigger>
-      <ModalContent>
-        <EditFootnote
-          editor={editor}
-          node={element}
-          existingFootnote={element.data}
-          closeDialog={toggleEditMode}
-          onChange={editor.onChange}
-        />
-      </ModalContent>
-    </Modal>
+          </Button>
+        </DialogTrigger>
+        {children}
+      </sup>
+      <Portal>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t(`form.content.footnote.${element.data.title ? "editTitle" : "addTitle"}`)}</DialogTitle>
+            <DialogCloseButton />
+          </DialogHeader>
+          <DialogBody>
+            <FootnoteForm
+              footnote={element.data}
+              onClose={onClose}
+              isEdit={!!element.data.title}
+              onRemove={handleRemove}
+              onSave={handleSave}
+            />
+          </DialogBody>
+        </DialogContent>
+      </Portal>
+    </DialogRoot>
   );
 };
 

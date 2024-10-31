@@ -6,22 +6,33 @@
  *
  */
 
-import { Formik, Form, FormikHelpers } from "formik";
+import { Formik, FormikHelpers } from "formik";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { spacing } from "@ndla/core";
+import { TagsInputContext } from "@ark-ui/react";
+import { CloseLine } from "@ndla/icons/action";
+import {
+  Button,
+  FieldErrorMessage,
+  FieldInput,
+  FieldLabel,
+  FieldRoot,
+  Input,
+  InputContainer,
+  TagsInputControl,
+  TagsInputInput,
+  TagsInputItem,
+  TagsInputItemDeleteTrigger,
+  TagsInputItemInput,
+  TagsInputItemPreview,
+  TagsInputItemText,
+  TagsInputLabel,
+  TagsInputRoot,
+} from "@ndla/primitives";
+import { useTagsInputTranslations } from "@ndla/ui";
 import { FootnoteElement } from ".";
-import MultiSelectDropdown from "../../../Dropdown/MultiSelectDropdown";
-import FormikField from "../../../FormikField";
+import { FormField } from "../../../FormField";
+import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik from "../../../formikValidationSchema";
-
-const ButtonContainer = styled.div`
-  margin-top: ${spacing.small};
-  display: flex;
-  gap: ${spacing.xsmall};
-  justify-content: flex-end;
-`;
 
 const rules = {
   title: { required: true },
@@ -33,7 +44,7 @@ const getInitialValues = (footnote: FootnoteElement["data"] | undefined): Footno
   title: footnote?.title || "",
   year: footnote?.year || "",
   resource: footnote?.resource || "footnote",
-  authors: footnote?.authors?.map((author) => ({ id: author })) || [],
+  authors: footnote?.authors ?? [],
   edition: footnote?.edition || "",
   publisher: footnote?.publisher || "",
   type: footnote?.type || "",
@@ -43,7 +54,7 @@ interface FootnoteFormikValues {
   title: string;
   year: string;
   resource: string;
-  authors: { id: string }[];
+  authors: string[];
   edition: string;
   publisher: string;
   type: string;
@@ -59,11 +70,12 @@ interface Props {
 
 const FootnoteForm = ({ isEdit, footnote, onRemove, onClose, onSave }: Props) => {
   const { t } = useTranslation();
+  const tagsInputTranslations = useTagsInputTranslations();
 
   const handleSave = async (values: FootnoteFormikValues, actions: FormikHelpers<FootnoteFormikValues>) => {
     const { setSubmitting } = actions;
     setSubmitting(true);
-    await onSave({ ...values, authors: values.authors.map((auth) => auth.id) });
+    await onSave({ ...values, authors: values.authors });
     setSubmitting(false);
   };
 
@@ -73,34 +85,97 @@ const FootnoteForm = ({ isEdit, footnote, onRemove, onClose, onSave }: Props) =>
       onSubmit={handleSave}
       validate={(values) => validateFormik(values, rules, t, "footnoteForm")}
     >
-      {({ submitForm }) => (
-        <Form>
-          <FormikField name="title" label={t("form.content.footnote.title")} />
-          <FormikField name="year" label={t("form.content.footnote.year")} />
-          <FormikField name="authors" label={t("form.content.footnote.authors.label")} obligatory>
-            {({ field }) => (
-              <MultiSelectDropdown
-                labelField={"id"}
-                showCreateOption
-                shouldCreate={(allValues, newValue) => !allValues.some((v) => v.id === newValue.id)}
-                {...field}
-              />
-            )}
-          </FormikField>
-          <FormikField name="edition" label={t("form.content.footnote.edition")} />
+      <FormikForm>
+        <FormField name="title">
+          {({ field, meta }) => (
+            <FieldRoot invalid={!!meta.error} required>
+              <FieldLabel>{t("form.content.footnote.title")}</FieldLabel>
+              <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+              <FieldInput {...field} />
+            </FieldRoot>
+          )}
+        </FormField>
+        <FormField name="year">
+          {({ field, meta }) => (
+            <FieldRoot invalid={!!meta.error} required>
+              <FieldLabel>{t("form.content.footnote.year")}</FieldLabel>
+              <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+              <FieldInput {...field} />
+            </FieldRoot>
+          )}
+        </FormField>
+        <FormField name="authors">
+          {({ field, meta, helpers }) => (
+            <FieldRoot invalid={!!meta.error} required>
+              <TagsInputRoot
+                editable
+                translations={tagsInputTranslations}
+                value={field.value}
+                onValueChange={(details) => {
+                  helpers.setValue(details.value);
+                }}
+              >
+                <TagsInputLabel>{t("form.content.footnote.authors.label")}</TagsInputLabel>
+                <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                <TagsInputContext>
+                  {(api) => (
+                    <TagsInputControl asChild>
+                      <InputContainer>
+                        {api.value.map((value, index) => (
+                          <TagsInputItem key={index} index={index} value={value}>
+                            <TagsInputItemPreview>
+                              <TagsInputItemText>{value}</TagsInputItemText>
+                              <TagsInputItemDeleteTrigger>
+                                <CloseLine />
+                              </TagsInputItemDeleteTrigger>
+                            </TagsInputItemPreview>
+                            <TagsInputItemInput />
+                          </TagsInputItem>
+                        ))}
+                        <TagsInputInput asChild>
+                          <Input />
+                        </TagsInputInput>
+                      </InputContainer>
+                    </TagsInputControl>
+                  )}
+                </TagsInputContext>
+              </TagsInputRoot>
+            </FieldRoot>
+          )}
+        </FormField>
+        <FormField name="edition">
+          {({ field, meta }) => (
+            <FieldRoot invalid={!!meta.error} required>
+              <FieldLabel>{t("form.content.footnote.edition")}</FieldLabel>
+              <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+              <FieldInput {...field} />
+            </FieldRoot>
+          )}
+        </FormField>
 
-          <FormikField name="publisher" label={t("form.content.footnote.publisher")} />
-          <ButtonContainer>
-            {isEdit && <ButtonV2 onClick={onRemove}>{t("form.content.footnote.removeFootnote")}</ButtonV2>}
-            <ButtonV2 variant="outline" onClick={onClose}>
-              {t("form.abort")}
-            </ButtonV2>
-            <ButtonV2 data-testid="save_footnote" onClick={submitForm}>
-              {t("form.save")}
-            </ButtonV2>
-          </ButtonContainer>
-        </Form>
-      )}
+        <FormField name="publisher">
+          {({ field, meta }) => (
+            <FieldRoot invalid={!!meta.error} required>
+              <FieldLabel>{t("form.content.footnote.publisher")}</FieldLabel>
+              <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+              <FieldInput {...field} />
+            </FieldRoot>
+          )}
+        </FormField>
+        <FormActionsContainer>
+          {isEdit && (
+            <Button variant="danger" onClick={onRemove}>
+              {t("form.content.footnote.removeFootnote")}
+            </Button>
+          )}
+          <Button variant="secondary" onClick={onClose}>
+            {t("form.abort")}
+          </Button>
+          <Button data-testid="save_footnote" type="submit">
+            {t("form.save")}
+          </Button>
+        </FormActionsContainer>
+      </FormikForm>
     </Formik>
   );
 };

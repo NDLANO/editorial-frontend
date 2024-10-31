@@ -14,8 +14,9 @@ import { colors } from "@ndla/core";
 import { LearningPath } from "@ndla/icons/contentType";
 import { ModalCloseButton, ModalBody, Modal, ModalTitle, ModalHeader, ModalTrigger, ModalContent } from "@ndla/modal";
 import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
-import ElementList from "../../containers/FormikForm/components/ElementList";
 import { fetchLearningpathsWithArticle } from "../../modules/learningpath/learningpathApi";
+import { toLearningpathFull } from "../../util/routeHelpers";
+import ListResource from "../Form/ListResource";
 
 interface Props {
   id?: number;
@@ -30,7 +31,7 @@ const LearningpathIcon = styled(LearningPath)`
 `;
 
 const LearningpathConnection = ({ id, learningpaths, setLearningpaths }: Props) => {
-  const { t } = useTranslation();
+  const { i18n, t } = useTranslation();
 
   useEffect(() => {
     if (id) {
@@ -50,7 +51,7 @@ const LearningpathConnection = ({ id, learningpaths, setLearningpaths }: Props) 
           aria-label={t("form.learningpathConnections.sectionTitle")}
           title={t("form.learningpathConnections.sectionTitle")}
         >
-          <LearningpathIcon size="normal" />
+          <LearningpathIcon />
         </ButtonV2>
       </ModalTrigger>
       <ModalContent>
@@ -59,7 +60,14 @@ const LearningpathConnection = ({ id, learningpaths, setLearningpaths }: Props) 
           <ModalCloseButton />
         </ModalHeader>
         <ModalBody>
-          <ElementList elements={learningpaths} isDeletable={false} isDraggable={false} />
+          {learningpaths.map((element) => (
+            <ListResource
+              key={element.id}
+              title={element.title.title}
+              url={toLearningpathFull(element.id, i18n.language)}
+              isExternal
+            />
+          ))}
         </ModalBody>
       </ModalContent>
     </Modal>

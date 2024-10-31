@@ -6,19 +6,15 @@
  *
  */
 
-import keyBy from "lodash/keyBy";
 import { useMemo } from "react";
 import styled from "@emotion/styled";
 import { breakpoints, mq } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
 import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
-import Resource from "./Resource";
-import ResourceBanner from "./ResourceBanner";
 import ResourceItems from "./ResourceItems";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
-import { DRAFT_RESPONSIBLE } from "../../../constants";
-import { Dictionary } from "../../../interfaces";
-import { useAuth0Responsibles } from "../../../modules/auth0/auth0Queries";
+import TopicResourceBanner from "./TopicResourceBanner";
+import { OldSpinner } from "../../../components/OldSpinner";
+import { Auth0UserData, Dictionary } from "../../../interfaces";
 import { NodeResourceMeta, useNodes } from "../../../modules/nodes/nodeQueries";
 import { groupResourcesByType } from "../../../util/taxonomyHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
@@ -30,10 +26,6 @@ const ResourceWrapper = styled.div`
   }
 `;
 
-const StyledResource = styled(Resource)`
-  margin-left: 44px;
-`;
-
 interface Props {
   nodeResources: ResourceWithNodeConnectionAndMeta[];
   resourceTypes: ResourceType[];
@@ -42,6 +34,8 @@ interface Props {
   grouped: boolean;
   setCurrentNode: (changedNode: NodeChild) => void;
   contentMetaLoading: boolean;
+  showQuality: boolean;
+  users: Dictionary<Auth0UserData> | undefined;
 }
 const ResourcesContainer = ({
   resourceTypes,
@@ -51,6 +45,8 @@ const ResourcesContainer = ({
   grouped,
   setCurrentNode,
   contentMetaLoading,
+  showQuality,
+  users,
 }: Props) => {
   const resourceTypesWithoutMissing = useMemo(
     () => resourceTypes.filter((rt) => rt.id !== "missing").map((rt) => ({ id: rt.id, name: rt.name })),
@@ -59,17 +55,12 @@ const ResourcesContainer = ({
   const { taxonomyVersion } = useTaxonomyVersion();
   const currentNodeId = currentNode.id;
 
-  const { data: users } = useAuth0Responsibles(
-    { permission: DRAFT_RESPONSIBLE },
-    { select: (users) => keyBy(users, (u) => u.app_metadata.ndla_id) },
-  );
-
   const { data } = useNodes(
-    { contentURI: currentNode.contentUri!, taxonomyVersion },
+    { contentURI: currentNode.contentUri, taxonomyVersion, includeContexts: true, filterProgrammes: true },
     { enabled: !!currentNode.contentUri },
   );
 
-  const paths = useMemo(() => data?.map((d) => d.path).filter((d) => !!d) ?? [], [data]);
+  const paths = useMemo(() => data?.map((d) => d.path ?? "").filter((d) => !!d) ?? [], [data]);
 
   const nodeResourcesWithMeta: ResourceWithNodeConnectionAndMeta[] =
     useMemo(
@@ -85,31 +76,26 @@ const ResourcesContainer = ({
 
   return (
     <>
-      <ResourceBanner
+      <TopicResourceBanner
         resources={nodeResourcesWithMeta}
-        title={currentNode.name}
         contentMeta={contentMeta}
-        currentNode={currentNode}
         onCurrentNodeChanged={setCurrentNode}
         resourceTypes={resourceTypesWithoutMissing}
+        currentNode={{
+          ...currentNode,
+          paths,
+          contentMeta: currentMeta,
+          resourceTypes: [],
+          relevanceId: currentNode.relevanceId,
+        }}
+        contentMetaLoading={contentMetaLoading}
+        responsible={currentMeta?.responsible ? users?.[currentMeta.responsible.responsibleId]?.name : undefined}
+        topicNodes={data}
+        showQuality={showQuality}
       />
       <ResourceWrapper>
-        {currentNode.name && (
-          <StyledResource
-            currentNodeId={currentNode.id}
-            responsible={currentMeta?.responsible ? users?.[currentMeta.responsible.responsibleId]?.name : undefined}
-            resource={{
-              ...currentNode,
-              paths,
-              contentMeta: currentMeta,
-              resourceTypes: [],
-              relevanceId: currentNode.relevanceId,
-            }}
-            contentMetaLoading={contentMetaLoading}
-          />
-        )}
         {contentMetaLoading ? (
-          <Spinner />
+          <OldSpinner />
         ) : (
           <>
             {grouped ? (
@@ -121,6 +107,7 @@ const ResourcesContainer = ({
                   contentMeta={contentMeta}
                   contentMetaLoading={contentMetaLoading}
                   users={users}
+                  showQuality={showQuality}
                 />
               ))
             ) : (
@@ -130,6 +117,7 @@ const ResourcesContainer = ({
                 contentMeta={contentMeta}
                 contentMetaLoading={contentMetaLoading}
                 users={users}
+                showQuality={showQuality}
               />
             )}
           </>

@@ -9,13 +9,26 @@
 import { Formik } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { spacing } from "@ndla/core";
-import { CheckboxItem, Label, RadioButtonGroup, RadioButtonItem } from "@ndla/forms";
+import { CheckLine } from "@ndla/icons/editor";
+import {
+  Button,
+  CheckboxControl,
+  CheckboxHiddenInput,
+  CheckboxIndicator,
+  CheckboxLabel,
+  CheckboxRoot,
+  FieldRoot,
+  RadioGroupItem,
+  RadioGroupItemControl,
+  RadioGroupItemHiddenInput,
+  RadioGroupItemText,
+  RadioGroupLabel,
+  RadioGroupRoot,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { GridType } from "@ndla/ui";
-import { CheckboxWrapper, RadioButtonWrapper, FieldsetRow, StyledFormControl, LeftLegend } from "../../../Form/styles";
-import { FormControl, FormField } from "../../../FormField";
+import { FormField } from "../../../FormField";
+import { FormActionsContainer, FormikForm } from "../../../FormikForm";
 import validateFormik, { RulesType } from "../../../formikValidationSchema";
 
 interface GridFormValues {
@@ -35,17 +48,11 @@ const rules: RulesType<GridFormValues> = {
 
 const toInitialValues = (initialData?: GridType): GridFormValues => {
   return {
-    columns: initialData?.columns ?? "2",
+    columns: (initialData?.columns?.toString() ?? "2") as GridType["columns"],
     border: initialData?.border === "lightBlue" ? true : false,
     background: initialData?.background ?? "transparent",
   };
 };
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  gap: ${spacing.small};
-`;
 
 interface Props {
   initialData?: GridType;
@@ -53,8 +60,14 @@ interface Props {
   onCancel: () => void;
 }
 
+const StyledCheckboxRoot = styled(CheckboxRoot, {
+  base: {
+    width: "fit-content",
+  },
+});
+
 const columns: GridType["columns"][] = ["2", "4", "2x2"];
-const backgrounds: GridType["background"][] = ["transparent", "white"];
+const backgrounds: GridType["background"][] = ["transparent", "white", "gray"];
 
 const GridForm = ({ initialData, onSave, onCancel }: Props) => {
   const { t } = useTranslation();
@@ -100,104 +113,74 @@ const GridForm = ({ initialData, onSave, onCancel }: Props) => {
       validate={(values) => validateFormik(values, rules, t)}
     >
       {({ dirty, isValid, handleSubmit }) => (
-        <>
+        <FormikForm>
           <FormField name="columns">
-            {({ field }) => (
-              <StyledFormControl>
-                <RadioButtonGroup
-                  onValueChange={(value: string) =>
-                    field.onChange({
-                      target: {
-                        name: field.name,
-                        value: value,
-                      },
-                    })
-                  }
+            {({ field, helpers }) => (
+              <FieldRoot>
+                <RadioGroupRoot
+                  value={field.value}
                   orientation="horizontal"
-                  defaultValue={field.value.toString()}
-                  asChild
+                  onValueChange={(details) => helpers.setValue(details.value, true)}
                 >
-                  <FieldsetRow>
-                    <LeftLegend margin="none" textStyle="label-small">
-                      {t("form.name.columns")}
-                    </LeftLegend>
-                    {columnOptions.map((value) => (
-                      <RadioButtonWrapper key={value.value}>
-                        <RadioButtonItem id={`column-${value.value}`} value={value.value} />
-                        <Label htmlFor={`column-${value.value}`} margin="none" textStyle="label-small">
-                          {value.title}
-                        </Label>
-                      </RadioButtonWrapper>
-                    ))}
-                  </FieldsetRow>
-                </RadioButtonGroup>
-              </StyledFormControl>
+                  <RadioGroupLabel>{t("form.name.columns")}</RadioGroupLabel>
+                  {columnOptions.map((value) => (
+                    <RadioGroupItem value={value.value} key={value.value}>
+                      <RadioGroupItemControl />
+                      <RadioGroupItemText>{value.title}</RadioGroupItemText>
+                      <RadioGroupItemHiddenInput />
+                    </RadioGroupItem>
+                  ))}
+                </RadioGroupRoot>
+              </FieldRoot>
             )}
           </FormField>
           <FormField name="background">
-            {({ field }) => (
-              <StyledFormControl id="background-color">
-                <RadioButtonGroup
-                  onValueChange={(value: string) =>
-                    field.onChange({
-                      target: {
-                        name: field.name,
-                        value: value,
-                      },
-                    })
-                  }
+            {({ field, helpers }) => (
+              <FieldRoot>
+                <RadioGroupRoot
+                  value={field.value}
                   orientation="horizontal"
-                  defaultValue={field.value}
-                  asChild
+                  onValueChange={(details) => helpers.setValue(details.value, true)}
                 >
-                  <FieldsetRow>
-                    <LeftLegend margin="none" textStyle="label-small">
-                      {t("form.name.background")}
-                    </LeftLegend>
-                    {backgroundOptions.map((value) => (
-                      <RadioButtonWrapper key={value.value}>
-                        <RadioButtonItem id={`background-${value.value}`} value={value.value} />
-                        <Label htmlFor={`background-${value.value}`} margin="none" textStyle="label-small">
-                          {value.title}
-                        </Label>
-                      </RadioButtonWrapper>
-                    ))}
-                  </FieldsetRow>
-                </RadioButtonGroup>
-              </StyledFormControl>
+                  <RadioGroupLabel>{t("form.name.background")}</RadioGroupLabel>
+                  {backgroundOptions.map((value) => (
+                    <RadioGroupItem value={value.value} key={value.value}>
+                      <RadioGroupItemControl />
+                      <RadioGroupItemText>{value.title}</RadioGroupItemText>
+                      <RadioGroupItemHiddenInput />
+                    </RadioGroupItem>
+                  ))}
+                </RadioGroupRoot>
+              </FieldRoot>
             )}
           </FormField>
           <FormField name="border">
-            {({ field }) => (
-              <FormControl>
-                <CheckboxWrapper>
-                  <CheckboxItem
-                    checked={field.value}
-                    onCheckedChange={() =>
-                      field.onChange({
-                        target: {
-                          name: field.name,
-                          value: !field.value,
-                        },
-                      })
-                    }
-                  />
-                  <Label margin="none" textStyle="label-small">
-                    {t("form.name.border")}
-                  </Label>
-                </CheckboxWrapper>
-              </FormControl>
+            {({ field, helpers }) => (
+              <FieldRoot>
+                <StyledCheckboxRoot
+                  checked={field.value}
+                  onCheckedChange={(details) => helpers.setValue(details.checked, true)}
+                >
+                  <CheckboxControl>
+                    <CheckboxIndicator asChild>
+                      <CheckLine />
+                    </CheckboxIndicator>
+                  </CheckboxControl>
+                  <CheckboxLabel>{t("form.name.border")}</CheckboxLabel>
+                  <CheckboxHiddenInput />
+                </StyledCheckboxRoot>
+              </FieldRoot>
             )}
           </FormField>
-          <ButtonContainer>
-            <ButtonV2 variant="outline" onClick={onCancel}>
+          <FormActionsContainer>
+            <Button variant="secondary" onClick={onCancel}>
               {t("cancel")}
-            </ButtonV2>
-            <ButtonV2 variant="solid" disabled={!dirty || !isValid} type="submit" onClick={() => handleSubmit()}>
+            </Button>
+            <Button disabled={!dirty || !isValid} type="submit" onClick={() => handleSubmit()}>
               {t("save")}
-            </ButtonV2>
-          </ButtonContainer>
-        </>
+            </Button>
+          </FormActionsContainer>
+        </FormikForm>
       )}
     </Formik>
   );

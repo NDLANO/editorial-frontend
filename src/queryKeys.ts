@@ -11,6 +11,7 @@ export const SEARCH_CONCEPTS = "searchConcepts";
 export const SEARCH_SERIES = "searchSeries";
 export const SEARCH_IMAGES = "searchImages";
 export const SEARCH = "search";
+export const SEARCH_WITH_CUSTOM_SUBJECTS_FILTERING = "searchWithCustomSubjectsFiltering";
 export const SEARCH_SUBJECT_STATS = "searchSubjectStats";
 export const MYNDLA_RESOURCE_STATS = "myNdlaResourceStats";
 

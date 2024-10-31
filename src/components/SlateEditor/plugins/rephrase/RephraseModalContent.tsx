@@ -70,23 +70,23 @@ const RephraseModalContent = ({ selection, setSelection }: Props) => {
   };
 
   const replaceSelectedText = () => {
-    insertText(rephrasedText);
+    rephrasedText && insertText(rephrasedText);
     setSelection(null);
   };
 
   const addTextAfterSelection = () => {
-    const point = Range.end(selection as Range);
-
-    insertNode(
-      {
-        type: TYPE_PARAGRAPH,
-        children: [{ text: rephrasedText }],
-      },
-      {
-        at: Path.next(Path.parent(point.path)),
-      },
-    );
-
+    if (rephrasedText) {
+      const point = Range.end(selection as Range);
+      insertNode(
+        {
+          type: TYPE_PARAGRAPH,
+          children: [{ text: rephrasedText }],
+        },
+        {
+          at: Path.next(Path.parent(point.path)),
+        },
+      );
+    }
     setSelection(null);
   };
 

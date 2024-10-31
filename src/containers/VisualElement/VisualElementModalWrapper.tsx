@@ -7,9 +7,21 @@
  */
 
 import { ReactElement, useCallback } from "react";
-import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ModalHeader, ModalBody, ModalCloseButton, Modal, ModalContent } from "@ndla/modal";
+import { DialogBody, DialogRoot, DialogContent, DialogHeader } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { DialogCloseButton } from "../../components/DialogCloseButton";
+
+const StyledDialogContent = styled(DialogContent, {
+  base: {
+    overflow: "hidden",
+  },
+});
+
+const StyledDialogHeader = styled(DialogHeader, {
+  base: {
+    justifyContent: "flex-end",
+  },
+});
 
 interface Props {
   resource: string;
@@ -19,27 +31,7 @@ interface Props {
   label?: string;
 }
 
-const StyledModalContent = styled(ModalContent)`
-  padding: 0;
-  width: 100% !important;
-  height: 100%;
-  max-height: 95%;
-  overflow: hidden;
-`;
-
-const StyledVisualElementModalContent = styled(ModalContent)`
-  h2 {
-    margin-top: 0 !important;
-  }
-`;
-
-const StyledModalBody = styled.div`
-  display: flex;
-  height: 100%;
-`;
-
 const VisualElementModalWrapper = ({ resource, children, onClose, isOpen, label }: Props) => {
-  const { t } = useTranslation();
   const onOpenChange = useCallback(
     (open: boolean) => {
       if (!open) {
@@ -51,23 +43,23 @@ const VisualElementModalWrapper = ({ resource, children, onClose, isOpen, label 
 
   if (resource === "h5p") {
     return (
-      <Modal open={isOpen} onOpenChange={onOpenChange}>
-        <StyledModalContent size="large">
-          <StyledModalBody>{children}</StyledModalBody>
-        </StyledModalContent>
-      </Modal>
+      <DialogRoot size="large" open={isOpen} onOpenChange={(details) => onOpenChange(details.open)}>
+        <StyledDialogContent>
+          <DialogBody>{children}</DialogBody>
+        </StyledDialogContent>
+      </DialogRoot>
     );
   }
 
   return (
-    <Modal open={isOpen} onOpenChange={onOpenChange}>
-      <StyledVisualElementModalContent aria-label={label} size="large">
-        <ModalHeader>
-          <ModalCloseButton />
-        </ModalHeader>
-        <ModalBody>{children}</ModalBody>
-      </StyledVisualElementModalContent>
-    </Modal>
+    <DialogRoot open={isOpen} size="large" onOpenChange={(details) => onOpenChange(details.open)}>
+      <DialogContent aria-label={label}>
+        <StyledDialogHeader>
+          <DialogCloseButton />
+        </StyledDialogHeader>
+        <DialogBody>{children}</DialogBody>
+      </DialogContent>
+    </DialogRoot>
   );
 };
 

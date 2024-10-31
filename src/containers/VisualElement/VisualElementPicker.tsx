@@ -8,7 +8,6 @@
 
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-
 import { Editor, Element, Transforms } from "slate";
 import VisualElementMenu, { VisualElementType } from "./VisualElementMenu";
 import SlateVisualElementPicker from "../../components/SlateEditor/plugins/blockPicker/SlateVisualElementPicker";

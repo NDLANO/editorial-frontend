@@ -26,19 +26,18 @@ test("can change status correctly", async ({ page, harCheckpoint }) => {
   await harCheckpoint();
   await saveButton.click();
   await saveButton.getByText("Lagret").waitFor();
-  await expect(statusSelect.getByText("I arbeid")).toBeVisible();
+  await expect(statusSelect.locator('[data-part="value-text"]')).toHaveText("I arbeid");
 
   await statusSelect.click();
   await page.getByText("Sisteblikk", { exact: true }).click();
   await harCheckpoint();
   await saveButton.click();
   await saveButton.getByText("Lagret").waitFor();
-  await expect(statusSelect.getByText("Sisteblikk")).toBeVisible();
+  await expect(statusSelect.locator('[data-part="value-text"]')).toHaveText("Sisteblikk");
 
   await statusSelect.click();
   await harCheckpoint();
   await page.getByText("Publiser", { exact: true }).click();
-
   await saveButton.getByText("Lagret").waitFor();
-  await expect(statusSelect.getByText("Publisert")).toBeVisible();
+  await expect(statusSelect.locator('[data-part="value-text"]')).toHaveText("Publisert");
 });

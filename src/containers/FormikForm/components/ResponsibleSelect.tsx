@@ -6,51 +6,62 @@
  *
  */
 import sortBy from "lodash/sortBy";
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Select, SingleValue } from "@ndla/select";
+import { createListCollection } from "@ark-ui/react";
+import { SelectContent, SelectLabel, SelectPositioner, SelectRoot, SelectValueText, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
 import { DRAFT_RESPONSIBLE } from "../../../constants";
 import { useAuth0Responsibles } from "../../../modules/auth0/auth0Queries";
 
 interface Props {
-  responsible: SingleValue;
-  setResponsible: (r: SingleValue) => void;
-  onSave: (r: SingleValue) => void;
+  responsible: string | undefined;
+  setResponsible: (userId: string | undefined) => void;
+  onSave: (userId: string | undefined) => void;
   responsibleId?: string;
 }
+
+const StyledSelectValueText = styled(SelectValueText, {
+  base: {
+    lineClamp: "1",
+    overflowWrap: "anywhere",
+  },
+});
+
+const StyledGenericSelectItem = styled(GenericSelectItem, {
+  base: {
+    overflowWrap: "anywhere",
+  },
+});
 
 const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId }: Props) => {
   const { t } = useTranslation();
 
-  const { data: users, isLoading } = useAuth0Responsibles(
+  const { data: users } = useAuth0Responsibles(
     { permission: DRAFT_RESPONSIBLE },
     {
-      select: (users) =>
-        sortBy(
-          users.map((u) => ({
-            value: `${u.app_metadata.ndla_id}`,
-            label: u.name,
-          })),
-          (u) => u.label,
-        ),
+      select: (users) => sortBy(users, (u) => u.name),
       placeholderData: [],
     },
   );
-  const optionsWithGroupTitle = useMemo(
-    () => [{ label: t("form.responsible.label"), options: users ?? [] }],
-    [t, users],
-  );
 
-  const noOptionsMessage = useMemo(() => () => t("form.responsible.noResults"), [t]);
+  const collection = useMemo(() => {
+    return createListCollection({
+      items: users ?? [],
+      itemToValue: (item) => item.app_metadata.ndla_id,
+      itemToString: (item) => item.name,
+    });
+  }, [users]);
 
   const [enableRequired, setEnableRequired] = useState(false);
 
   useEffect(() => {
     if (users && responsibleId) {
-      const initialResponsible = users.find((user) => user.value === responsibleId) ?? null;
-      setResponsible(initialResponsible);
+      const initialResponsible = users.find((user) => user.app_metadata.ndla_id === responsibleId) ?? null;
+      setResponsible(initialResponsible?.app_metadata.ndla_id);
     } else {
-      setResponsible(null);
+      setResponsible(undefined);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [users, responsibleId]);
@@ -63,29 +74,34 @@ const ResponsibleSelect = ({ responsible, setResponsible, onSave, responsibleId 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [responsible]);
 
-  const updateResponsible = useCallback(
-    async (responsible: SingleValue) => {
-      onSave(responsible);
-    },
-    [onSave],
-  );
-
   return (
-    <div data-testid="responsible-select">
-      <Select<false>
-        options={optionsWithGroupTitle}
-        menuPlacement="top"
-        placeholder={t("form.responsible.choose")}
-        value={responsible}
-        onChange={updateResponsible}
-        isLoading={isLoading}
-        noOptionsMessage={noOptionsMessage}
-        isSearchable
-        isClearable
-        closeMenuOnSelect
-        required={enableRequired}
-      />
-    </div>
+    <SelectRoot
+      data-testid="responsible-select"
+      collection={collection}
+      onValueChange={(details) => onSave(details.value[0])}
+      value={responsible ? [responsible] : []}
+      required={enableRequired}
+      invalid={enableRequired && !responsible}
+      positioning={{ sameWidth: true }}
+    >
+      <SelectLabel srOnly>{t("form.responsible.choose")}</SelectLabel>
+      <GenericSelectTrigger clearable>
+        <StyledSelectValueText placeholder={t("form.responsible.choose")} css={{ lineClamp: "1" }} />
+      </GenericSelectTrigger>
+      <SelectPositioner>
+        <SelectContent>
+          {!collection.items.length ? (
+            <Text>{t("form.responsible.noResults")}</Text>
+          ) : (
+            collection.items.map((item) => (
+              <StyledGenericSelectItem item={item} key={item.app_metadata.ndla_id}>
+                {item.name}
+              </StyledGenericSelectItem>
+            ))
+          )}
+        </SelectContent>
+      </SelectPositioner>
+    </SelectRoot>
   );
 };
 

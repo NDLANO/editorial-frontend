@@ -37,7 +37,7 @@
     "@emotion/jest": "11.11.0",
     "@ndla/preset-panda": "^0.0.41",
     "@ndla/scripts": "^2.1.2",
-    "@ndla/types-backend": "^0.2.92",
+    "@ndla/types-backend": "^0.2.95",
     "@ndla/types-embed": "^5.0.4-alpha.0",
     "@ndla/types-taxonomy": "^1.0.30",
     "@pandacss/dev": "^0.46.1",

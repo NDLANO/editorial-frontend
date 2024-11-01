@@ -143,6 +143,10 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
             : undefined;
       return {
         ...resource,
+        title: {
+          ...resource.title,
+          htmlTitle: resource.title.title,
+        },
         metaUrl: url,
         metaDescription: { metaDescription: description, language },
       };

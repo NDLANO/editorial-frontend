@@ -113,6 +113,9 @@ const ConnectExistingNode = ({ editModeHandler: { editMode, toggleEditMode }, cu
       <Wrapper>
         <RoundIcon open small smallIcon icon={<Plus />} />
         <NodeSearchDropdown
+          label={t("taxonomy.connectExistingNode", {
+            nodeType: t(`taxonomy.nodeType.${nodeType}`),
+          })}
           placeholder={t("taxonomy.existingNode")}
           onChange={handleSubmit}
           searchNodeType={nodeType}

@@ -59,6 +59,7 @@ export const useMoviesQuery = (params: UseMovies, options: Partial<UseQueryOptio
   });
 };
 
+// TODO: Move and rename this query. It should be called useResourceSearchQuery or something like that
 export const useMoviesQuerySearch = (
   params: MultiSearchApiQuery,
   options: Partial<UseQueryOptions<IMultiSearchResult>> = {},

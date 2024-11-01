@@ -8,30 +8,34 @@
 
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Editor, Path, Transforms } from "slate";
+import { Editor, Path, Transforms, Element } from "slate";
 import { ReactEditor } from "slate-react";
-import styled from "@emotion/styled";
+import { Portal } from "@ark-ui/react";
 import { Link } from "@ndla/icons/common";
-import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
-import { IconButton } from "@ndla/primitives";
+import { DialogBody, IconButton, DialogContent, DialogRoot, DialogTrigger } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { H5pEmbedData, H5pMetaData } from "@ndla/types-embed";
-import { H5pElement } from "./types";
+import { H5pElement, TYPE_H5P } from "./types";
 import config from "../../../../config";
 import { getH5pLocale } from "../../../H5PElement/h5pApi";
 import H5PElement, { OnSelectObject } from "../../../H5PElement/H5PElement";
 
-const StyledModalBody = styled.div`
-  display: flex;
-  height: 100%;
-`;
+const StyledDialogBody = styled(DialogBody, {
+  base: {
+    display: "flex",
+    height: "100%",
+    paddingInline: 0,
+    paddingBlock: 0,
+  },
+});
 
-const StyledModalContent = styled(ModalContent)`
-  padding: 0;
-  width: 100% !important;
-  height: 100%;
-  max-height: 95%;
-  overflow: hidden;
-`;
+const StyledDialogContent = styled(DialogContent, {
+  base: {
+    maxHeight: "95%",
+    height: "100%",
+    width: "100%",
+  },
+});
 
 interface Props {
   embed: H5pMetaData | undefined;
@@ -81,27 +85,35 @@ const EditH5PModal = ({ embed, language, editor, element }: Props) => {
         Transforms.select(editor, Path.next(path));
       }, 0);
     }
+    if (!element.data) {
+      Transforms.removeNodes(editor, {
+        at: path,
+        match: (node) => Element.isElement(node) && node.type === TYPE_H5P,
+      });
+    }
   };
 
   return (
-    <Modal open={isOpen} onOpenChange={setOpen}>
-      <ModalTrigger>
+    <DialogRoot size="large" open={isOpen} onOpenChange={(details) => (!details.open ? onClose() : setOpen(true))}>
+      <DialogTrigger>
         <IconButton variant="secondary" size="small" title={t("form.editH5p")} aria-label={t("form.editH5p")}>
           <Link />
         </IconButton>
-      </ModalTrigger>
-      <StyledModalContent size="large">
-        <StyledModalBody>
-          <H5PElement
-            canReturnResources
-            h5pUrl={embed?.embedData.url}
-            onClose={onClose}
-            locale={language}
-            onSelect={onSave}
-          />
-        </StyledModalBody>
-      </StyledModalContent>
-    </Modal>
+      </DialogTrigger>
+      <Portal>
+        <StyledDialogContent>
+          <StyledDialogBody>
+            <H5PElement
+              canReturnResources
+              h5pUrl={embed?.embedData.url}
+              onClose={onClose}
+              locale={language}
+              onSelect={onSave}
+            />
+          </StyledDialogBody>
+        </StyledDialogContent>
+      </Portal>
+    </DialogRoot>
   );
 };
 

@@ -6,9 +6,19 @@
  *
  */
 
-import { MouseEvent, ReactElement, useCallback, useRef } from "react";
+import { MouseEvent, ReactElement, ReactNode, useCallback, useRef } from "react";
 import { Warning } from "@ndla/icons/editor";
-import { DialogRoot, DialogContent, DialogTitle, Button, Text, MessageBox } from "@ndla/primitives";
+import {
+  DialogRoot,
+  DialogContent,
+  DialogTitle,
+  Button,
+  Text,
+  MessageBox,
+  DialogBody,
+  DialogHeader,
+  DialogFooter,
+} from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { MessageSeverity } from "../../interfaces";
 import { DialogCloseButton } from "../DialogCloseButton";
@@ -36,45 +46,34 @@ const ActionWrapper = styled("div", {
   },
 });
 
-const HeaderWrapper = styled("div", {
-  base: {
-    display: "flex",
-    justifyContent: "space-between",
-    width: "100%",
-  },
-});
-
 const StyledDialogContent = styled(DialogContent, {
   base: {
     borderRadius: "xsmall",
   },
 });
 
+const StyledDialogHeader = styled(DialogHeader, {
+  variants: {
+    noTitle: {
+      true: {
+        justifyContent: "flex-end",
+      },
+    },
+  },
+});
+
 interface Props {
-  text: string;
+  children: ReactNode;
   onCancel: () => void;
   title?: string;
   label: string;
   severity?: MessageSeverity;
-  component?: ReactElement[] | ReactElement;
-  actions?: {
-    text: string;
-    onClick: (event: MouseEvent<HTMLButtonElement>) => void;
-    "data-testid"?: string;
-  }[];
+  text: string;
+
   show?: boolean;
 }
 
-export const AlertDialog = ({
-  text,
-  onCancel,
-  title,
-  component,
-  show,
-  label,
-  severity = "danger",
-  actions = [],
-}: Props) => {
+export const AlertDialog = ({ children, text, onCancel, title, show, label, severity = "danger" }: Props) => {
   const focusedElementBeforeModalRef = useRef<HTMLElement | null>(null);
 
   const onOpenChange = useCallback(
@@ -99,27 +98,19 @@ export const AlertDialog = ({
       }}
     >
       <StyledDialogContent data-testid="alert-dialog">
-        <StyledMessageBox variant={severity === "danger" ? "error" : severity}>
-          <HeaderWrapper>
-            {title && <DialogTitle>{title}</DialogTitle>}
-            <DialogCloseButton variant="clear" data-testid="closeAlert" />
-          </HeaderWrapper>
-          <HStack gap="medium">
-            <Warning />
-            <Text>{text}</Text>
-          </HStack>
-          {component ? (
-            component
-          ) : (
-            <ActionWrapper singleChild={actions.length === 1}>
-              {actions.map((action, id) => (
-                <Button key={id} variant="secondary" onClick={action.onClick} data-testid={action["data-testid"]}>
-                  {action.text}
-                </Button>
-              ))}
-            </ActionWrapper>
-          )}
-        </StyledMessageBox>
+        <StyledDialogHeader noTitle={!title}>
+          {title && <DialogTitle>{title}</DialogTitle>}
+          <DialogCloseButton variant="clear" data-testid="closeAlert" />
+        </StyledDialogHeader>
+        <DialogBody>
+          <StyledMessageBox variant={severity === "danger" ? "error" : severity}>
+            <HStack gap="medium">
+              <Warning />
+              <Text>{text}</Text>
+            </HStack>
+          </StyledMessageBox>
+        </DialogBody>
+        <DialogFooter>{children}</DialogFooter>
       </StyledDialogContent>
     </DialogRoot>
   );

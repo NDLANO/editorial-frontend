@@ -10,6 +10,8 @@ import { Formik, useFormikContext } from "formik";
 import { memo, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { UseQueryResult } from "@tanstack/react-query";
+import { Button } from "@ndla/primitives";
+import { HStack } from "@ndla/styled-system/jsx";
 import { IArticle, IUpdatedArticle, IStatus } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import LearningResourcePanels from "./LearningResourcePanels";
@@ -154,13 +156,19 @@ const LearningResourceForm = ({
           article={article}
         />
         <AlertDialog
+          text={t("errorMessage.missingTax")}
           title={t("errorMessage.missingTaxTitle")}
           label={t("errorMessage.missingTaxTitle")}
           show={showTaxWarning}
-          text={t("errorMessage.missingTax")}
           onCancel={() => setShowTaxWarning(false)}
           severity={"danger"}
-        />
+        >
+          <HStack justify="flex-end">
+            <Button variant="secondary" onClick={() => setShowTaxWarning(false)}>
+              {t("alertModal.continue")}
+            </Button>
+          </HStack>
+        </AlertDialog>
       </StyledForm>
     </Formik>
   );

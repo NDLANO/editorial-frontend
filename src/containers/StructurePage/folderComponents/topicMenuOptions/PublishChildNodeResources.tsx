@@ -13,6 +13,8 @@ import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
 import { colors } from "@ndla/core";
 import { Done } from "@ndla/icons/editor";
+import { Button } from "@ndla/primitives";
+import { HStack } from "@ndla/styled-system/jsx";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
 import { Node } from "@ndla/types-taxonomy";
@@ -161,7 +163,8 @@ const PublishChildNodeResources = ({ node }: Props) => {
         show={showAlert}
         onCancel={() => setShowAlert(false)}
         text={t("taxonomy.publish.error")}
-        component={failedResources.map((res, index) => (
+      >
+        {failedResources.map((res, index) => (
           <LinkWrapper key={index}>
             <ResourceItemLink
               contentType={res.contentUri?.split(":")[1] === "article" ? "article" : "learning-resource"}
@@ -170,27 +173,29 @@ const PublishChildNodeResources = ({ node }: Props) => {
             />
           </LinkWrapper>
         ))}
-      />
+      </AlertDialog>
       <AlertDialog
         title={t("taxonomy.publish.button")}
         label={t("taxonomy.publish.button")}
         show={showConfirmation}
-        actions={[
-          {
-            text: t("form.abort"),
-            onClick: () => setShowConfirmation(false),
-          },
-          {
-            text: t("taxonomy.publish.button"),
-            onClick: () => {
+        text={t("taxonomy.publish.info")}
+        onCancel={() => setShowConfirmation(false)}
+      >
+        <HStack justify="flex-end" gap="xsmall">
+          <Button onClick={() => setShowConfirmation(false)} variant="danger">
+            {t("form.abort")}
+          </Button>
+          <Button
+            onClick={() => {
               setShowConfirmation(false);
               publishResources();
-            },
-          },
-        ]}
-        onCancel={() => setShowConfirmation(false)}
-        text={t("taxonomy.publish.info")}
-      />
+            }}
+            variant="secondary"
+          >
+            {t("taxonomy.publish.button")}
+          </Button>
+        </HStack>
+      </AlertDialog>
     </>
   );
 };

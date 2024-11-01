@@ -50,52 +50,27 @@ exports[`Messages > A message is removed if the modal is closed 1`] = `
           tabindex="-1"
         >
           <div
-            class="d_flex ai_flex-start gap_small p_medium bd_1px_solid bdr_xsmall bg_surface.errorSubtle bd-c_stroke.error flex-d_column"
+            class="d_flex px_medium pbs_medium jc_space-between ai_center gap_xsmall"
           >
-            <div
-              class="d_flex jc_space-between w_100%"
+            <h1
+              class="textStyle_title.medium"
+              data-part="title"
+              data-scope="dialog"
+              dir="ltr"
+              id="dialog::r3::title"
             >
-              <h1
-                class="textStyle_title.medium"
-                data-part="title"
-                data-scope="dialog"
-                dir="ltr"
-                id="dialog::r3::title"
-              >
-                Pass på!
-              </h1>
-              <button
-                aria-label="Lukk"
-                class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.strong hover:c_stroke.hover lh_1 min-h_unset --shadow-width_3px h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
-                data-part="close-trigger"
-                data-scope="dialog"
-                data-testid="closeAlert"
-                dir="ltr"
-                id="dialog::r3::close"
-                title="Lukk"
-                type="button"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
-                  data-icon=""
-                  data-license="Apache License 2.0"
-                  data-source="Material Design"
-                  preserveAspectRatio="xMidYMid meet"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z"
-                  />
-                  <path
-                    d="M0 0h24v24H0z"
-                    fill="none"
-                  />
-                </svg>
-              </button>
-            </div>
-            <div
-              class="d_flex ai_center gap_medium flex-d_row"
+              Pass på!
+            </h1>
+            <button
+              aria-label="Lukk"
+              class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.strong hover:c_stroke.hover lh_1 min-h_unset --shadow-width_3px h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
+              data-part="close-trigger"
+              data-scope="dialog"
+              data-testid="closeAlert"
+              dir="ltr"
+              id="dialog::r3::close"
+              title="Lukk"
+              type="button"
             >
               <svg
                 aria-hidden="true"
@@ -107,19 +82,52 @@ exports[`Messages > A message is removed if the modal is closed 1`] = `
                 viewBox="0 0 24 24"
               >
                 <path
+                  d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z"
+                />
+                <path
                   d="M0 0h24v24H0z"
                   fill="none"
                 />
-                <path
-                  d="M11 15h2v2h-2zm0-8h2v6h-2zm1-5a10 10 0 1 0 0 20 10 10 0 0 0 0-20m0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16"
-                />
               </svg>
-              <p
-                class="textStyle_body.medium"
+            </button>
+          </div>
+          <div
+            class="d_flex flex-d_column gap_xsmall px_medium pbs_small pbe_medium"
+          >
+            <div
+              class="d_flex ai_flex-start gap_small p_medium bd_1px_solid bdr_xsmall bg_surface.errorSubtle bd-c_stroke.error flex-d_column"
+            >
+              <div
+                class="d_flex ai_center gap_medium flex-d_row"
               >
-                Testmessage
-              </p>
+                <svg
+                  aria-hidden="true"
+                  class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
+                  data-icon=""
+                  data-license="Apache License 2.0"
+                  data-source="Material Design"
+                  preserveAspectRatio="xMidYMid meet"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M0 0h24v24H0z"
+                    fill="none"
+                  />
+                  <path
+                    d="M11 15h2v2h-2zm0-8h2v6h-2zm1-5a10 10 0 1 0 0 20 10 10 0 0 0 0-20m0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16"
+                  />
+                </svg>
+                <p
+                  class="textStyle_body.medium"
+                >
+                  Testmessage
+                </p>
+              </div>
             </div>
+          </div>
+          <div
+            class="d_flex gap_3xsmall ai_center jc_flex-end px_medium pbs_small pbe_medium"
+          >
             <div
               class="w_100% d_flex jc_space-between mbs_xsmall"
             />
@@ -203,52 +211,27 @@ exports[`Messages > A single message renders correctly 1`] = `
           tabindex="-1"
         >
           <div
-            class="d_flex ai_flex-start gap_small p_medium bd_1px_solid bdr_xsmall bg_surface.errorSubtle bd-c_stroke.error flex-d_column"
+            class="d_flex px_medium pbs_medium jc_space-between ai_center gap_xsmall"
           >
-            <div
-              class="d_flex jc_space-between w_100%"
+            <h1
+              class="textStyle_title.medium"
+              data-part="title"
+              data-scope="dialog"
+              dir="ltr"
+              id="dialog::r0::title"
             >
-              <h1
-                class="textStyle_title.medium"
-                data-part="title"
-                data-scope="dialog"
-                dir="ltr"
-                id="dialog::r0::title"
-              >
-                Pass på!
-              </h1>
-              <button
-                aria-label="Lukk"
-                class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.strong hover:c_stroke.hover lh_1 min-h_unset --shadow-width_3px h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
-                data-part="close-trigger"
-                data-scope="dialog"
-                data-testid="closeAlert"
-                dir="ltr"
-                id="dialog::r0::close"
-                title="Lukk"
-                type="button"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
-                  data-icon=""
-                  data-license="Apache License 2.0"
-                  data-source="Material Design"
-                  preserveAspectRatio="xMidYMid meet"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z"
-                  />
-                  <path
-                    d="M0 0h24v24H0z"
-                    fill="none"
-                  />
-                </svg>
-              </button>
-            </div>
-            <div
-              class="d_flex ai_center gap_medium flex-d_row"
+              Pass på!
+            </h1>
+            <button
+              aria-label="Lukk"
+              class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.strong hover:c_stroke.hover lh_1 min-h_unset --shadow-width_3px h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
+              data-part="close-trigger"
+              data-scope="dialog"
+              data-testid="closeAlert"
+              dir="ltr"
+              id="dialog::r0::close"
+              title="Lukk"
+              type="button"
             >
               <svg
                 aria-hidden="true"
@@ -260,19 +243,52 @@ exports[`Messages > A single message renders correctly 1`] = `
                 viewBox="0 0 24 24"
               >
                 <path
+                  d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z"
+                />
+                <path
                   d="M0 0h24v24H0z"
                   fill="none"
                 />
-                <path
-                  d="M11 15h2v2h-2zm0-8h2v6h-2zm1-5a10 10 0 1 0 0 20 10 10 0 0 0 0-20m0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16"
-                />
               </svg>
-              <p
-                class="textStyle_body.medium"
+            </button>
+          </div>
+          <div
+            class="d_flex flex-d_column gap_xsmall px_medium pbs_small pbe_medium"
+          >
+            <div
+              class="d_flex ai_flex-start gap_small p_medium bd_1px_solid bdr_xsmall bg_surface.errorSubtle bd-c_stroke.error flex-d_column"
+            >
+              <div
+                class="d_flex ai_center gap_medium flex-d_row"
               >
-                Testmessage
-              </p>
+                <svg
+                  aria-hidden="true"
+                  class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
+                  data-icon=""
+                  data-license="Apache License 2.0"
+                  data-source="Material Design"
+                  preserveAspectRatio="xMidYMid meet"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M0 0h24v24H0z"
+                    fill="none"
+                  />
+                  <path
+                    d="M11 15h2v2h-2zm0-8h2v6h-2zm1-5a10 10 0 1 0 0 20 10 10 0 0 0 0-20m0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16"
+                  />
+                </svg>
+                <p
+                  class="textStyle_body.medium"
+                >
+                  Testmessage
+                </p>
+              </div>
             </div>
+          </div>
+          <div
+            class="d_flex gap_3xsmall ai_center jc_flex-end px_medium pbs_small pbe_medium"
+          >
             <div
               class="w_100% d_flex jc_space-between mbs_xsmall"
             />
@@ -334,52 +350,27 @@ exports[`Messages > Several messages renders correctly 1`] = `
           tabindex="-1"
         >
           <div
-            class="d_flex ai_flex-start gap_small p_medium bd_1px_solid bdr_xsmall bg_surface.errorSubtle bd-c_stroke.error flex-d_column"
+            class="d_flex px_medium pbs_medium jc_space-between ai_center gap_xsmall"
           >
-            <div
-              class="d_flex jc_space-between w_100%"
+            <h1
+              class="textStyle_title.medium"
+              data-part="title"
+              data-scope="dialog"
+              dir="ltr"
+              id="dialog::r1::title"
             >
-              <h1
-                class="textStyle_title.medium"
-                data-part="title"
-                data-scope="dialog"
-                dir="ltr"
-                id="dialog::r1::title"
-              >
-                Pass på!
-              </h1>
-              <button
-                aria-label="Lukk"
-                class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.strong hover:c_stroke.hover lh_1 min-h_unset --shadow-width_3px h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
-                data-part="close-trigger"
-                data-scope="dialog"
-                data-testid="closeAlert"
-                dir="ltr"
-                id="dialog::r1::close"
-                title="Lukk"
-                type="button"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
-                  data-icon=""
-                  data-license="Apache License 2.0"
-                  data-source="Material Design"
-                  preserveAspectRatio="xMidYMid meet"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z"
-                  />
-                  <path
-                    d="M0 0h24v24H0z"
-                    fill="none"
-                  />
-                </svg>
-              </button>
-            </div>
-            <div
-              class="d_flex ai_center gap_medium flex-d_row"
+              Pass på!
+            </h1>
+            <button
+              aria-label="Lukk"
+              class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.strong hover:c_stroke.hover lh_1 min-h_unset --shadow-width_3px h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
+              data-part="close-trigger"
+              data-scope="dialog"
+              data-testid="closeAlert"
+              dir="ltr"
+              id="dialog::r1::close"
+              title="Lukk"
+              type="button"
             >
               <svg
                 aria-hidden="true"
@@ -391,19 +382,52 @@ exports[`Messages > Several messages renders correctly 1`] = `
                 viewBox="0 0 24 24"
               >
                 <path
+                  d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z"
+                />
+                <path
                   d="M0 0h24v24H0z"
                   fill="none"
                 />
-                <path
-                  d="M11 15h2v2h-2zm0-8h2v6h-2zm1-5a10 10 0 1 0 0 20 10 10 0 0 0 0-20m0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16"
-                />
               </svg>
-              <p
-                class="textStyle_body.medium"
+            </button>
+          </div>
+          <div
+            class="d_flex flex-d_column gap_xsmall px_medium pbs_small pbe_medium"
+          >
+            <div
+              class="d_flex ai_flex-start gap_small p_medium bd_1px_solid bdr_xsmall bg_surface.errorSubtle bd-c_stroke.error flex-d_column"
+            >
+              <div
+                class="d_flex ai_center gap_medium flex-d_row"
               >
-                Testmessage
-              </p>
+                <svg
+                  aria-hidden="true"
+                  class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
+                  data-icon=""
+                  data-license="Apache License 2.0"
+                  data-source="Material Design"
+                  preserveAspectRatio="xMidYMid meet"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M0 0h24v24H0z"
+                    fill="none"
+                  />
+                  <path
+                    d="M11 15h2v2h-2zm0-8h2v6h-2zm1-5a10 10 0 1 0 0 20 10 10 0 0 0 0-20m0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16"
+                  />
+                </svg>
+                <p
+                  class="textStyle_body.medium"
+                >
+                  Testmessage
+                </p>
+              </div>
             </div>
+          </div>
+          <div
+            class="d_flex gap_3xsmall ai_center jc_flex-end px_medium pbs_small pbe_medium"
+          >
             <div
               class="w_100% d_flex jc_space-between mbs_xsmall"
             />
@@ -440,52 +464,27 @@ exports[`Messages > Several messages renders correctly 1`] = `
           tabindex="-1"
         >
           <div
-            class="d_flex ai_flex-start gap_small p_medium bd_1px_solid bdr_xsmall bg_surface.errorSubtle bd-c_stroke.error flex-d_column"
+            class="d_flex px_medium pbs_medium jc_space-between ai_center gap_xsmall"
           >
-            <div
-              class="d_flex jc_space-between w_100%"
+            <h1
+              class="textStyle_title.medium"
+              data-part="title"
+              data-scope="dialog"
+              dir="ltr"
+              id="dialog::r2::title"
             >
-              <h1
-                class="textStyle_title.medium"
-                data-part="title"
-                data-scope="dialog"
-                dir="ltr"
-                id="dialog::r2::title"
-              >
-                Pass på!
-              </h1>
-              <button
-                aria-label="Lukk"
-                class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.strong hover:c_stroke.hover lh_1 min-h_unset --shadow-width_3px h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
-                data-part="close-trigger"
-                data-scope="dialog"
-                data-testid="closeAlert"
-                dir="ltr"
-                id="dialog::r2::close"
-                title="Lukk"
-                type="button"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
-                  data-icon=""
-                  data-license="Apache License 2.0"
-                  data-source="Material Design"
-                  preserveAspectRatio="xMidYMid meet"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z"
-                  />
-                  <path
-                    d="M0 0h24v24H0z"
-                    fill="none"
-                  />
-                </svg>
-              </button>
-            </div>
-            <div
-              class="d_flex ai_center gap_medium flex-d_row"
+              Pass på!
+            </h1>
+            <button
+              aria-label="Lukk"
+              class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.strong hover:c_stroke.hover lh_1 min-h_unset --shadow-width_3px h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
+              data-part="close-trigger"
+              data-scope="dialog"
+              data-testid="closeAlert"
+              dir="ltr"
+              id="dialog::r2::close"
+              title="Lukk"
+              type="button"
             >
               <svg
                 aria-hidden="true"
@@ -497,19 +496,52 @@ exports[`Messages > Several messages renders correctly 1`] = `
                 viewBox="0 0 24 24"
               >
                 <path
+                  d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z"
+                />
+                <path
                   d="M0 0h24v24H0z"
                   fill="none"
                 />
-                <path
-                  d="M11 15h2v2h-2zm0-8h2v6h-2zm1-5a10 10 0 1 0 0 20 10 10 0 0 0 0-20m0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16"
-                />
               </svg>
-              <p
-                class="textStyle_body.medium"
+            </button>
+          </div>
+          <div
+            class="d_flex flex-d_column gap_xsmall px_medium pbs_small pbe_medium"
+          >
+            <div
+              class="d_flex ai_flex-start gap_small p_medium bd_1px_solid bdr_xsmall bg_surface.errorSubtle bd-c_stroke.error flex-d_column"
+            >
+              <div
+                class="d_flex ai_center gap_medium flex-d_row"
               >
-                Testmessage2
-              </p>
+                <svg
+                  aria-hidden="true"
+                  class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
+                  data-icon=""
+                  data-license="Apache License 2.0"
+                  data-source="Material Design"
+                  preserveAspectRatio="xMidYMid meet"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M0 0h24v24H0z"
+                    fill="none"
+                  />
+                  <path
+                    d="M11 15h2v2h-2zm0-8h2v6h-2zm1-5a10 10 0 1 0 0 20 10 10 0 0 0 0-20m0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16"
+                  />
+                </svg>
+                <p
+                  class="textStyle_body.medium"
+                >
+                  Testmessage2
+                </p>
+              </div>
             </div>
+          </div>
+          <div
+            class="d_flex gap_3xsmall ai_center jc_flex-end px_medium pbs_small pbe_medium"
+          >
             <div
               class="w_100% d_flex jc_space-between mbs_xsmall"
             />
@@ -571,52 +603,27 @@ exports[`Messages > auth0 messages provides a cancel button 1`] = `
           tabindex="-1"
         >
           <div
-            class="d_flex ai_flex-start gap_small p_medium bd_1px_solid bdr_xsmall bg_surface.errorSubtle bd-c_stroke.error flex-d_column"
+            class="d_flex px_medium pbs_medium jc_space-between ai_center gap_xsmall"
           >
-            <div
-              class="d_flex jc_space-between w_100%"
+            <h1
+              class="textStyle_title.medium"
+              data-part="title"
+              data-scope="dialog"
+              dir="ltr"
+              id="dialog::r4::title"
             >
-              <h1
-                class="textStyle_title.medium"
-                data-part="title"
-                data-scope="dialog"
-                dir="ltr"
-                id="dialog::r4::title"
-              >
-                Pass på!
-              </h1>
-              <button
-                aria-label="Lukk"
-                class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.strong hover:c_stroke.hover lh_1 min-h_unset --shadow-width_3px h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
-                data-part="close-trigger"
-                data-scope="dialog"
-                data-testid="closeAlert"
-                dir="ltr"
-                id="dialog::r4::close"
-                title="Lukk"
-                type="button"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
-                  data-icon=""
-                  data-license="Apache License 2.0"
-                  data-source="Material Design"
-                  preserveAspectRatio="xMidYMid meet"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z"
-                  />
-                  <path
-                    d="M0 0h24v24H0z"
-                    fill="none"
-                  />
-                </svg>
-              </button>
-            </div>
-            <div
-              class="d_flex ai_center gap_medium flex-d_row"
+              Pass på!
+            </h1>
+            <button
+              aria-label="Lukk"
+              class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.strong hover:c_stroke.hover lh_1 min-h_unset --shadow-width_3px h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
+              data-part="close-trigger"
+              data-scope="dialog"
+              data-testid="closeAlert"
+              dir="ltr"
+              id="dialog::r4::close"
+              title="Lukk"
+              type="button"
             >
               <svg
                 aria-hidden="true"
@@ -628,30 +635,63 @@ exports[`Messages > auth0 messages provides a cancel button 1`] = `
                 viewBox="0 0 24 24"
               >
                 <path
+                  d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z"
+                />
+                <path
                   d="M0 0h24v24H0z"
                   fill="none"
                 />
-                <path
-                  d="M11 15h2v2h-2zm0-8h2v6h-2zm1-5a10 10 0 1 0 0 20 10 10 0 0 0 0-20m0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16"
-                />
               </svg>
-              <p
-                class="textStyle_body.medium"
+            </button>
+          </div>
+          <div
+            class="d_flex flex-d_column gap_xsmall px_medium pbs_small pbe_medium"
+          >
+            <div
+              class="d_flex ai_flex-start gap_small p_medium bd_1px_solid bdr_xsmall bg_surface.errorSubtle bd-c_stroke.error flex-d_column"
+            >
+              <div
+                class="d_flex ai_center gap_medium flex-d_row"
               >
-                Testmessage
-              </p>
+                <svg
+                  aria-hidden="true"
+                  class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
+                  data-icon=""
+                  data-license="Apache License 2.0"
+                  data-source="Material Design"
+                  preserveAspectRatio="xMidYMid meet"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M0 0h24v24H0z"
+                    fill="none"
+                  />
+                  <path
+                    d="M11 15h2v2h-2zm0-8h2v6h-2zm1-5a10 10 0 1 0 0 20 10 10 0 0 0 0-20m0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16"
+                  />
+                </svg>
+                <p
+                  class="textStyle_body.medium"
+                >
+                  Testmessage
+                </p>
+              </div>
             </div>
+          </div>
+          <div
+            class="d_flex gap_3xsmall ai_center jc_flex-end px_medium pbs_small pbe_medium"
+          >
             <div
               class="w_100% d_flex jc_space-between mbs_xsmall"
             >
               <button
-                class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s c_text.strong bg_surface.default bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover active:bg_surface.actionSubtle.hover.strong textStyle_label.medium px_small py_xxsmall min-h_24 [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium"
+                class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color),_inset_0px_0px_0px_calc(var(--shadow-width,_3px)_*_2)_currentcolor motionReduce:trs_none motionReduce:trs-dur_0s c_text.onAction bg_surface.action hover:c_text.onAction hover:bg_surface.action.hover active:c_text.onAction active:bg_surface.action.active textStyle_label.medium px_small py_xxsmall min-h_24 [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium"
                 type="button"
               >
                 Avbryt
               </button>
               <button
-                class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s c_text.strong bg_surface.default bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover active:bg_surface.actionSubtle.hover.strong textStyle_label.medium px_small py_xxsmall min-h_24 [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium"
+                class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color),_inset_0px_0px_0px_calc(var(--shadow-width,_3px)_*_2)_currentcolor motionReduce:trs_none motionReduce:trs-dur_0s c_text.onAction bg_surface.action hover:c_text.onAction hover:bg_surface.action.hover active:c_text.onAction active:bg_surface.action.active textStyle_label.medium px_small py_xxsmall min-h_24 [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium"
                 type="button"
               >
                 Logg inn på nytt

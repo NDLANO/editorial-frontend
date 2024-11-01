@@ -14,6 +14,8 @@ import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
 import { spacing } from "@ndla/core";
 import { DragVertical } from "@ndla/icons/editor";
+import { Button } from "@ndla/primitives";
+import { HStack } from "@ndla/styled-system/jsx";
 import { NodeChild } from "@ndla/types-taxonomy";
 import Resource from "./Resource";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
@@ -156,18 +158,17 @@ const ResourceItems = ({ resources, currentNodeId, contentMeta, contentMetaLoadi
         label={t("taxonomy.deleteResource")}
         show={!!deleteId}
         text={t("taxonomy.resource.confirmDelete")}
-        actions={[
-          {
-            text: t("form.abort"),
-            onClick: () => toggleDelete(""),
-          },
-          {
-            text: t("alertModal.delete"),
-            onClick: () => onDelete(deleteId!),
-          },
-        ]}
         onCancel={() => toggleDelete("")}
-      />
+      >
+        <HStack justify="center" gap="xsmall">
+          <Button onClick={() => toggleDelete("")} variant="secondary">
+            {t("form.abort")}
+          </Button>
+          <Button onClick={() => onDelete(deleteId)} variant="danger">
+            {t("alertModal.delete")}
+          </Button>
+        </HStack>
+      </AlertDialog>
     </StyledResourceItems>
   );
 };

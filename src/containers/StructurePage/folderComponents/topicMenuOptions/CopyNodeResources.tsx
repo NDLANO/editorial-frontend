@@ -218,7 +218,8 @@ const CopyNodeResources = ({ editModeHandler: { editMode, toggleEditMode }, curr
         show={showAlert}
         onCancel={() => setShowAlert(false)}
         text={t(`taxonomy.${type}.error`)}
-        component={failedResources.map((res, index) => (
+      >
+        {failedResources.map((res, index) => (
           <LinkWrapper key={index}>
             <ResourceItemLink
               contentType={res.contentUri?.split(":")[1] === "article" ? "article" : "learning-resource"}
@@ -227,7 +228,7 @@ const CopyNodeResources = ({ editModeHandler: { editMode, toggleEditMode }, curr
             />
           </LinkWrapper>
         ))}
-      />
+      </AlertDialog>
     </>
   );
 };

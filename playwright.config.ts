@@ -22,7 +22,7 @@ export default defineConfig({
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   retries: 2,
-workers: process.env.CI ? 1 : undefined,
+  workers: process.env.CI ? 1 : undefined,
   reporter: "html",
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */

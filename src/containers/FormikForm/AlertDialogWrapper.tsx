@@ -10,6 +10,8 @@ import { History, Blocker, Transition } from "history";
 import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { UNSAFE_NavigationContext, useNavigate, Location } from "react-router-dom";
+import { Button } from "@ndla/primitives";
+import { HStack } from "@ndla/styled-system/jsx";
 import { AlertDialog } from "../../components/AlertDialog/AlertDialog";
 import { supportedLanguages } from "../../i18n2";
 import { MessageSeverity } from "../../interfaces";
@@ -88,19 +90,18 @@ export const AlertDialogWrapper = ({ text, severity, isSubmitting, formIsDirty, 
       title={t("unsavedChanges")}
       label={t("unsavedChanges")}
       show={openModal}
-      text={text}
-      actions={[
-        {
-          text: t("form.abort"),
-          onClick: onCancel,
-        },
-        {
-          text: t("alertModal.continue"),
-          onClick: onWillContinue,
-        },
-      ]}
       onCancel={onCancel}
+      text={text}
       severity={severity}
-    />
+    >
+      <HStack gap="xsmall" justify="flex-end">
+        <Button onClick={onCancel} variant="secondary">
+          {t("form.abort")}
+        </Button>
+        <Button onClick={onWillContinue} variant="danger">
+          {t("alertModal.continue")}
+        </Button>
+      </HStack>
+    </AlertDialog>
   );
 };

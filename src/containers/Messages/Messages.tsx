@@ -12,6 +12,8 @@ import { useNavigate } from "react-router-dom";
 import { css, SerializedStyles } from "@emotion/react";
 import styled from "@emotion/styled";
 import { stackOrder } from "@ndla/core";
+import { Button } from "@ndla/primitives";
+import { HStack } from "@ndla/styled-system/jsx";
 import { useMessages } from "./MessagesProvider";
 import { AlertDialog } from "../../components/AlertDialog/AlertDialog";
 
@@ -58,33 +60,35 @@ const Message = ({ message }: MessageProps) => {
   const navigate = useNavigate();
   const { clearMessage } = useMessages();
 
-  const auth0Actions = [
-    {
-      text: t("form.abort"),
-      onClick: () => clearMessage(message.id),
-    },
-    {
-      text: t("alertModal.loginAgain"),
-      onClick: (evt: MouseEvent<HTMLButtonElement>) => {
-        evt.preventDefault();
-        const lastPath = `${window.location.pathname}${window.location.search ? window.location.search : ""}`;
-        localStorage.setItem("lastPath", lastPath);
-        navigate("/logout/session?returnToLogin=true"); // Push to logoutPath
-        window.location.reload();
-      },
-    },
-  ];
-
   return (
     <AlertDialog
       title={t(`messages.severity.${message.severity ?? "danger"}`)}
       label={t(`messages.severity.${message.severity ?? "danger"}`)}
       show
-      text={message.translationKey ? t(message.translationKey, message.translationObject) : message.message!}
-      actions={message.type === "auth0" ? auth0Actions : []}
       onCancel={() => clearMessage(message.id)}
       severity={message.severity}
-    />
+      text={message.translationKey ? t(message.translationKey, message.translationObject) : message.message!}
+    >
+      {message.type === "auth0" ? (
+        <HStack justify="flex-end">
+          <Button variant="danger" onClick={() => clearMessage(message.id)}>
+            {t("form.abort")}
+          </Button>
+          <Button
+            variant="secondary"
+            onClick={(e) => {
+              e.preventDefault();
+              const lastPath = `${window.location.pathname}${window.location.search ? window.location.search : ""}`;
+              localStorage.setItem("lastPath", lastPath);
+              navigate("/logout/session?returnToLogin=true"); // Push to logoutPath
+              window.location.reload();
+            }}
+          >
+            {t("alertModal.loginAgain")}
+          </Button>
+        </HStack>
+      ) : null}
+    </AlertDialog>
   );
 };
 

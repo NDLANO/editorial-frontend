@@ -16,6 +16,7 @@ import { Content, Root, Trigger } from "@radix-ui/react-popover";
 import { colors, spacing, stackOrder } from "@ndla/core";
 import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
 import { Button } from "@ndla/primitives";
+import { HStack } from "@ndla/styled-system/jsx";
 import { MathmlElement } from ".";
 import EditMath, { MathMLType, emptyMathTag } from "./EditMath";
 import MathML from "./MathML";
@@ -210,18 +211,17 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
           label={t("unsavedChanges")}
           show={openDiscardModal}
           text={t("mathEditor.continue")}
-          actions={[
-            {
-              text: t("form.abort"),
-              onClick: () => setOpenDiscardModal(false),
-            },
-            {
-              text: t("alertModal.continue"),
-              onClick: onExit,
-            },
-          ]}
           onCancel={() => setOpenDiscardModal(false)}
-        />
+        >
+          <HStack justify="flex-end" gap="xsmall">
+            <Button variant="secondary" onClick={() => setOpenDiscardModal(false)}>
+              {t("form.abort")}
+            </Button>
+            <Button variant="danger" onClick={onExit}>
+              {t("alertModal.continue")}
+            </Button>
+          </HStack>
+        </AlertDialog>
       </ModalContent>
     </Modal>
   );

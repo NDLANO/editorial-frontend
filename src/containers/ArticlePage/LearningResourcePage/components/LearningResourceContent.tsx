@@ -11,6 +11,8 @@ import { useState, useMemo, useCallback, memo, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
 import styled from "@emotion/styled";
+import { Button } from "@ndla/primitives";
+import { HStack } from "@ndla/styled-system/jsx";
 import { IAuthor } from "@ndla/types-backend/draft-api";
 import LearningResourceFootnotes, { FootnoteType } from "./LearningResourceFootnotes";
 import { learningResourcePlugins } from "./learningResourcePlugins";
@@ -130,15 +132,15 @@ const LearningResourceContent = ({ articleLanguage, articleId, handleSubmit: _ha
         label={t("editorFooter.changeHeader")}
         show={isNormalizedOnLoad && !isCreatePage}
         text={t("form.content.normalizedOnLoad")}
-        actions={[
-          {
-            text: t("alertModal.continue"),
-            onClick: () => setIsNormalizedOnLoad(false),
-          },
-        ]}
         onCancel={() => setIsNormalizedOnLoad(false)}
         severity="warning"
-      />
+      >
+        <HStack justify="flex-end">
+          <Button variant="danger" onClick={() => setIsNormalizedOnLoad(false)}>
+            {t("alertModal.continue")}
+          </Button>
+        </HStack>
+      </AlertDialog>
       <StyledContentDiv name="content" label={t("form.content.label")} noBorder key={values.revision}>
         {(fieldProps) => <ContentField articleLanguage={articleLanguage} articleId={articleId} {...fieldProps} />}
       </StyledContentDiv>

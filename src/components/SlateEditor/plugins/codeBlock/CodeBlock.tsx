@@ -41,6 +41,7 @@ import { Portal } from "@ark-ui/react";
 import { Pencil } from "@ndla/icons/action";
 import { Code, DeleteForever } from "@ndla/icons/editor";
 import {
+  Button,
   DialogBody,
   DialogContent,
   DialogHeader,
@@ -206,21 +207,23 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
         label={t("unsavedChanges")}
         show={showWarning}
         text={t("code.continue")}
-        actions={[
-          {
-            text: t("form.abort"),
-            onClick: () => setShowWarning(false),
-          },
-          {
-            text: t("alertModal.continue"),
-            onClick: () => {
+        onCancel={() => setShowWarning(false)}
+      >
+        <HStack justify="flex-end" gap="xsmall">
+          <Button variant="secondary" onClick={() => setShowWarning(false)}>
+            {t("form.abort")}
+          </Button>
+          <Button
+            variant="danger"
+            onClick={() => {
               setShowWarning(false);
               setEditMode(false);
-            },
-          },
-        ]}
-        onCancel={() => setShowWarning(false)}
-      />
+            }}
+          >
+            {t("alertModal.continue")}
+          </Button>
+        </HStack>
+      </AlertDialog>
     </DialogRoot>
   );
 };

@@ -9,6 +9,8 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pencil } from "@ndla/icons/action";
+import { Button } from "@ndla/primitives";
+import { HStack } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
 import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
 import Overlay from "../../../../components/Overlay";
@@ -54,19 +56,18 @@ const SetResourcesPrimary = ({ node, recursive = false, editModeHandler: { editM
         title={t("taxonomy.resourcesPrimary.buttonText")}
         label={t("taxonomy.resourcesPrimary.buttonText")}
         show={editMode === "setResourcesPrimary"}
-        actions={[
-          {
-            text: t("form.abort"),
-            onClick: toggleConnectedResourcesPrimary,
-          },
-          {
-            text: t("alertModal.continue"),
-            onClick: setConnectedResourcesPrimary,
-          },
-        ]}
-        onCancel={toggleConnectedResourcesPrimary}
         text={recursive ? t("taxonomy.resourcesPrimary.recursiveText") : t("taxonomy.resourcesPrimary.text")}
-      />
+        onCancel={toggleConnectedResourcesPrimary}
+      >
+        <HStack justify="flex-end" gap="xsmall">
+          <Button onClick={toggleConnectedResourcesPrimary} variant="danger">
+            {t("form.abort")}
+          </Button>
+          <Button onClick={setConnectedResourcesPrimary} variant="secondary">
+            {t("alertModal.continue")}
+          </Button>
+        </HStack>
+      </AlertDialog>
       {isPending && <Spinner appearance="absolute" />}
       {isPending && <Overlay modifiers={["absolute", "white-opacity", "zIndex"]} />}
       {error && <StyledErrorMessage data-testid="inlineEditErrorMessage">{error}</StyledErrorMessage>}

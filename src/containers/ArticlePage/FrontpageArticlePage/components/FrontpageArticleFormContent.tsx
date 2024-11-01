@@ -13,6 +13,8 @@ import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
 import { colors } from "@ndla/core";
 import { Link } from "@ndla/icons/editor";
+import { Button } from "@ndla/primitives";
+import { HStack } from "@ndla/styled-system/jsx";
 import { frontpagePlugins } from "./frontpagePlugins";
 import { frontpageRenderers } from "./frontpageRenderers";
 import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
@@ -159,15 +161,15 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
         label={t("editorFooter.changeHeader")}
         show={isNormalizedOnLoad && !isCreatePage}
         text={t("form.content.normalizedOnLoad")}
-        actions={[
-          {
-            text: t("alertModal.continue"),
-            onClick: () => setIsNormalizedOnLoad(false),
-          },
-        ]}
         onCancel={() => setIsNormalizedOnLoad(false)}
         severity="warning"
-      />
+      >
+        <HStack justify="flex-end">
+          <Button variant="secondary" onClick={() => setIsNormalizedOnLoad(false)}>
+            {t("alertModal.continue")}
+          </Button>
+        </HStack>
+      </AlertDialog>
       <StyledContentDiv name="content" label={t("form.content.label")} noBorder>
         {({ field: { value, name, onChange }, form: { isSubmitting } }) => (
           <ContentTypeProvider value="subject-material">

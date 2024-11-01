@@ -13,6 +13,8 @@ import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { colors } from "@ndla/core";
 import { DeleteForever } from "@ndla/icons/editor";
+import { Button } from "@ndla/primitives";
+import { HStack } from "@ndla/styled-system/jsx";
 import { useMessages } from "../../containers/Messages/MessagesProvider";
 import { deleteLanguageVersionAudio, deleteLanguageVersionSeries } from "../../modules/audio/audioApi";
 import { deleteLanguageVersionConcept } from "../../modules/concept/conceptApi";
@@ -152,21 +154,16 @@ const DeleteLanguageVersion = ({ id, language, supportedLanguages, type, disable
         title={t("form.workflow.deleteLanguageVersion.title")}
         label={t("form.workflow.deleteLanguageVersion.title")}
         show={showDeleteWarning}
-        text={t("form.workflow.deleteLanguageVersion.modal")}
-        actions={[
-          {
-            text: t("form.abort"),
-            onClick: toggleShowDeleteWarning,
-          },
-          {
-            text: t("form.workflow.deleteLanguageVersion.button", {
-              languageVersion: t(`languages.${language}`).toLowerCase(),
-            }),
-            onClick: deleteLanguageVersion,
-          },
-        ]}
         onCancel={toggleShowDeleteWarning}
-      />
+        text={t("form.workflow.deleteLanguageVersion.modal")}
+      >
+        <HStack justify="flex-end" gap="xsmall">
+          <Button onClick={toggleShowDeleteWarning} variant="danger">
+            {t("form.abort")}
+          </Button>
+          <Button onClick={deleteLanguageVersion}>{t("form.workflow.deleteLanguageVersion.button")}</Button>
+        </HStack>
+      </AlertDialog>
     </StyledWrapper>
   );
 };

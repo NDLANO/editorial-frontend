@@ -11,6 +11,8 @@ import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { DeleteForever } from "@ndla/icons/editor";
+import { Button } from "@ndla/primitives";
+import { HStack } from "@ndla/styled-system/jsx";
 import { Node, NodeChild } from "@ndla/types-taxonomy";
 import MenuItemButton from "./components/MenuItemButton";
 import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
@@ -78,19 +80,18 @@ const DisconnectFromParent = ({ node, editModeHandler: { editMode, toggleEditMod
         label={t("taxonomy.disconnectNode")}
         title={t("taxonomy.disconnectNode")}
         show={editMode === "disconnectFromParent"}
-        actions={[
-          {
-            text: t("form.abort"),
-            onClick: toggleDisconnect,
-          },
-          {
-            text: t("alertModal.disconnect"),
-            onClick: onDisconnect,
-          },
-        ]}
         onCancel={toggleDisconnect}
         text={t("taxonomy.confirmDisconnect")}
-      />
+      >
+        <HStack>
+          <Button variant="secondary" onClick={toggleDisconnect}>
+            {t("form.abort")}
+          </Button>
+          <Button variant="danger" onClick={onDisconnect}>
+            {t("alertModal.disconnect")}
+          </Button>
+        </HStack>
+      </AlertDialog>
       {loading && <Spinner appearance="absolute" />}
       {loading && <Overlay modifiers={["absolute", "white-opacity", "zIndex"]} />}
       {error && <StyledErrorMessage data-testid="inlineEditErrorMessage">{error}</StyledErrorMessage>}

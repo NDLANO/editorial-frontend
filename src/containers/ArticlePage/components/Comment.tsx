@@ -14,7 +14,8 @@ import styled from "@emotion/styled";
 import { colors, spacing, fonts, misc } from "@ndla/core";
 import { TrashCanOutline, RightArrow, ExpandMore } from "@ndla/icons/action";
 import { Done } from "@ndla/icons/editor";
-import { FieldLabel, FieldRoot, IconButton } from "@ndla/primitives";
+import { Button, FieldLabel, FieldRoot, IconButton } from "@ndla/primitives";
+import { HStack } from "@ndla/styled-system/jsx";
 import { plugins, toolbarAreaFilters, toolbarOptions } from "./commentToolbarUtils";
 import { COMMENT_COLOR, formControlStyles } from "./styles";
 import { AlertDialog } from "../../../components/AlertDialog/AlertDialog";
@@ -145,18 +146,17 @@ const Comment = ({ id, index, isSubmitting, field, arrayHelpers }: Props) => {
         label={t("form.workflow.deleteComment.title")}
         show={modalOpen}
         text={t("form.workflow.deleteComment.modal")}
-        actions={[
-          {
-            text: t("form.abort"),
-            onClick: () => setModalOpen(!modalOpen),
-          },
-          {
-            text: t("form.workflow.deleteComment.button"),
-            onClick: handleDelete,
-          },
-        ]}
         onCancel={() => setModalOpen(!modalOpen)}
-      />
+      >
+        <HStack gap="xsmall" justify="flex-end">
+          <Button onClick={() => setModalOpen(false)} variant="secondary">
+            {t("form.abort")}
+          </Button>
+          <Button onClick={handleDelete} variant="danger">
+            {t("form.workflow.deleteComment.button")}
+          </Button>
+        </HStack>
+      </AlertDialog>
     </CommentCard>
   );
 };

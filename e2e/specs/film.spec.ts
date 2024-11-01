@@ -41,6 +41,7 @@ test("Can save changes with new data", async ({ page, harCheckpoint }) => {
   await page.getByRole("button", { name: "Opprett gruppe" }).click();
   await page.getByPlaceholder('Legg til film i "Testgruppee"').fill("Brukerstøtte");
   await page.getByTestId("dropdown-item").getByText("Brukerstøtte").first().click();
+  await page.click("body");
 
   await harCheckpoint();
   await page.getByRole("button").getByText("Lagre").click();

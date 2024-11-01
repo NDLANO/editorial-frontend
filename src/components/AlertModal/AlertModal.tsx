@@ -8,36 +8,21 @@
 
 import { MouseEvent, ReactElement, useCallback, useRef } from "react";
 import { Warning } from "@ndla/icons/editor";
-import { DialogBody, DialogHeader, DialogRoot, DialogContent, DialogTitle, Button, Text } from "@ndla/primitives";
+import { DialogRoot, DialogContent, DialogTitle, Button, Text, MessageBox } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { MessageSeverity } from "../../interfaces";
 import { DialogCloseButton } from "../DialogCloseButton";
 
-const StyledDialogBody = styled(DialogBody, {
+const StyledMessageBox = styled(MessageBox, {
   base: {
-    gap: "medium",
-    padding: "medium",
-  },
-  variants: {
-    severity: {
-      success: {
-        backgroundColor: "surface.success",
-      },
-      info: {
-        backgroundColor: "surface.infoSubtle",
-      },
-      warning: {
-        backgroundColor: "surface.warning",
-      },
-      danger: {
-        backgroundColor: "surface.danger",
-      },
-    },
+    display: "flex",
+    flexDirection: "column",
   },
 });
 
 const ActionWrapper = styled("div", {
   base: {
+    width: "100%",
     display: "flex",
     justifyContent: "space-between",
     marginBlockStart: "xsmall",
@@ -48,6 +33,20 @@ const ActionWrapper = styled("div", {
         justifyContent: "flex-end",
       },
     },
+  },
+});
+
+const HeaderWrapper = styled("div", {
+  base: {
+    display: "flex",
+    justifyContent: "space-between",
+    width: "100%",
+  },
+});
+
+const StyledDialogContent = styled(DialogContent, {
+  base: {
+    borderRadius: "xsmall",
   },
 });
 
@@ -99,12 +98,12 @@ export const AlertModal = ({
         focusedElementBeforeModalRef.current = null;
       }}
     >
-      <DialogContent>
-        <StyledDialogBody severity={severity} data-testid="alert-modal">
-          <DialogHeader>
-            {title && <DialogTitle data-severity={severity}>{title}</DialogTitle>}
+      <StyledDialogContent>
+        <StyledMessageBox variant={severity === "danger" ? "error" : severity}>
+          <HeaderWrapper>
+            {title && <DialogTitle>{title}</DialogTitle>}
             <DialogCloseButton variant="clear" data-testid="closeAlert" />
-          </DialogHeader>
+          </HeaderWrapper>
           <HStack gap="medium">
             <Warning />
             <Text>{text}</Text>
@@ -120,8 +119,8 @@ export const AlertModal = ({
               ))}
             </ActionWrapper>
           )}
-        </StyledDialogBody>
-      </DialogContent>
+        </StyledMessageBox>
+      </StyledDialogContent>
     </DialogRoot>
   );
 };

@@ -7,10 +7,8 @@
  */
 
 import { useTranslation } from "react-i18next";
-
 import { ComboboxLabel } from "@ndla/primitives";
 import { Node } from "@ndla/types-taxonomy";
-
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../../components/abstractions/Combobox";
 import { GenericSearchCombobox } from "../../../../components/Form/GenericSearchCombobox";
 import { useSearchNodes } from "../../../../modules/nodes/nodeQueries";
@@ -44,8 +42,11 @@ export const NodeSearchDropdown = ({ onChange, selectedItems, label }: Props) =>
       items={searchQuery.data?.results ?? []}
       itemToString={(item) => item.name}
       itemToValue={(item) => item.id}
-      isItemDisabled={(item) => selectedItems.some((selectedItem) => selectedItem.id === item.id)}
-      onValueChange={(details) => onChange(details.items[details.items.length - 1])}
+      onValueChange={(details) => {
+        const newItem = details.items[0];
+        if (!newItem) return;
+        onChange(newItem);
+      }}
       paginationData={searchQuery.data}
       isSuccess={searchQuery.isSuccess}
       inputValue={query}
@@ -53,7 +54,7 @@ export const NodeSearchDropdown = ({ onChange, selectedItems, label }: Props) =>
       onPageChange={(details) => setPage(details.page)}
       value={selectedItems.map((item) => item.id)}
       selectionBehavior="preserve"
-      multiple
+      closeOnSelect={false}
       css={{ width: "100%" }}
       renderItem={(item) => (
         <GenericComboboxItemContent title={item.name} description={item.breadcrumbs?.join(" > ")} />

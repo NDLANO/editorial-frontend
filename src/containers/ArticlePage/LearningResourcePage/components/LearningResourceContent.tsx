@@ -15,7 +15,7 @@ import { IAuthor } from "@ndla/types-backend/draft-api";
 import LearningResourceFootnotes, { FootnoteType } from "./LearningResourceFootnotes";
 import { learningResourcePlugins } from "./learningResourcePlugins";
 import { learningResourceRenderers } from "./learningResourceRenderers";
-import { AlertModal } from "../../../../components/AlertModal/AlertModal";
+import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
 import { EditMarkupLink } from "../../../../components/EditMarkupLink";
 import FieldHeader from "../../../../components/Field/FieldHeader";
 import { FormField } from "../../../../components/FormField";
@@ -125,7 +125,7 @@ const LearningResourceContent = ({ articleLanguage, articleId, handleSubmit: _ha
         )}
       </FormField>
       <IngressField />
-      <AlertModal
+      <AlertDialog
         title={t("editorFooter.changeHeader")}
         label={t("editorFooter.changeHeader")}
         show={isNormalizedOnLoad && !isCreatePage}

@@ -13,7 +13,7 @@ import { UseQueryResult } from "@tanstack/react-query";
 import { IUpdatedArticle, IArticle, IStatus, ILicense } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import TopicArticleAccordionPanels from "./TopicArticleAccordionPanels";
-import { AlertModal } from "../../../../components/AlertModal/AlertModal";
+import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
 import validateFormik, { getWarnings } from "../../../../components/formikValidationSchema";
 import HeaderWithLanguage from "../../../../components/HeaderWithLanguage";
 import EditorFooter from "../../../../components/SlateEditor/EditorFooter";
@@ -22,7 +22,7 @@ import { ARCHIVED, UNPUBLISHED } from "../../../../constants";
 import { validateDraft } from "../../../../modules/draft/draftApi";
 import { useLicenses, useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
 import { isFormikFormDirty, topicArticleRules } from "../../../../util/formHelper";
-import { AlertModalWrapper } from "../../../FormikForm";
+import { AlertDialogWrapper } from "../../../FormikForm";
 import { HandleSubmitFunc, TopicArticleFormType, useArticleFormHooks } from "../../../FormikForm/articleFormHooks";
 import usePreventWindowUnload from "../../../FormikForm/preventWindowUnloadHook";
 import { useSession } from "../../../Session/SessionProvider";
@@ -146,7 +146,7 @@ const TopicArticleForm = ({
           handleSubmit={handleSubmit}
           article={article}
         />
-        <AlertModal
+        <AlertDialog
           title={t("errorMessage.missingTaxTitle")}
           label={t("errorMessage.missingTaxTitle")}
           show={showTaxWarning}
@@ -232,7 +232,7 @@ const _FormFooter = ({
         selectedLanguage={article?.content?.language}
         supportedLanguages={article?.supportedLanguages}
       />
-      <AlertModalWrapper
+      <AlertDialogWrapper
         isSubmitting={isSubmitting}
         formIsDirty={formIsDirty}
         severity="danger"

@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Time } from "@ndla/icons/common";
 import { Node } from "@ndla/types-taxonomy";
 import MenuItemButton from "./components/MenuItemButton";
-import { AlertModal } from "../../../../components/AlertModal/AlertModal";
+import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
 import Overlay from "../../../../components/Overlay";
 import RoundIcon from "../../../../components/RoundIcon";
 import Spinner from "../../../../components/Spinner";
@@ -43,7 +43,7 @@ const CopyRevisionDate = ({ node, editModeHandler: { editMode, toggleEditMode } 
         <RoundIcon small icon={<Time />} />
         {t("taxonomy.copyRevisionDates.buttonText")}
       </MenuItemButton>
-      <AlertModal
+      <AlertDialog
         title={t("taxonomy.copyRevisionDates.buttonText")}
         label={t("taxonomy.copyRevisionDates.buttonText")}
         show={editMode === "copyRevisionDate"}

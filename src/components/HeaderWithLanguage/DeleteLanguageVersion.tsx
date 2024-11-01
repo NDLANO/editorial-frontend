@@ -36,7 +36,7 @@ import {
   toEditPodcastSeries,
   toEditTopicArticle,
 } from "../../util/routeHelpers";
-import { AlertModal } from "../AlertModal/AlertModal";
+import { AlertDialog } from "../AlertDialog/AlertDialog";
 
 const DeleteButton = styled(ButtonV2)`
   white-space: nowrap;
@@ -148,7 +148,7 @@ const DeleteLanguageVersion = ({ id, language, supportedLanguages, type, disable
           })}
         </span>
       </DeleteButton>
-      <AlertModal
+      <AlertDialog
         title={t("form.workflow.deleteLanguageVersion.title")}
         label={t("form.workflow.deleteLanguageVersion.title")}
         show={showDeleteWarning}

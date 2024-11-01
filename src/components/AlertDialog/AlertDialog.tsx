@@ -65,7 +65,7 @@ interface Props {
   show?: boolean;
 }
 
-export const AlertModal = ({
+export const AlertDialog = ({
   text,
   onCancel,
   title,

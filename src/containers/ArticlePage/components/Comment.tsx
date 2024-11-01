@@ -17,7 +17,7 @@ import { Done } from "@ndla/icons/editor";
 import { FieldLabel, FieldRoot, IconButton } from "@ndla/primitives";
 import { plugins, toolbarAreaFilters, toolbarOptions } from "./commentToolbarUtils";
 import { COMMENT_COLOR, formControlStyles } from "./styles";
-import { AlertModal } from "../../../components/AlertModal/AlertModal";
+import { AlertDialog } from "../../../components/AlertDialog/AlertDialog";
 import RichTextEditor from "../../../components/SlateEditor/RichTextEditor";
 import { SlateCommentType } from "../../FormikForm/articleFormHooks";
 
@@ -140,7 +140,7 @@ const Comment = ({ id, index, isSubmitting, field, arrayHelpers }: Props) => {
         </StyledFieldRoot>
       </CardContent>
 
-      <AlertModal
+      <AlertDialog
         title={t("form.workflow.deleteComment.title")}
         label={t("form.workflow.deleteComment.title")}
         show={modalOpen}

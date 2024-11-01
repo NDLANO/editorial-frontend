@@ -19,7 +19,7 @@ import VersionLockedField from "./VersionLockedField";
 import VersionNameField from "./VersionNameField";
 import VersionSourceField from "./VersionSourceField";
 import { Row } from "../../../components";
-import { AlertModal } from "../../../components/AlertModal/AlertModal";
+import { AlertDialog } from "../../../components/AlertDialog/AlertDialog";
 import Field from "../../../components/Field";
 import { FormikForm } from "../../../components/FormikForm";
 import validateFormik, { RulesType } from "../../../components/formikValidationSchema";
@@ -182,7 +182,7 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
                   />
                 </ButtonContainer>
               </Row>
-              <AlertModal
+              <AlertDialog
                 title={t("taxonomyVersions.publishTitle")}
                 label={t("taxonomyVersions.publishTitle")}
                 show={showAlertModal}

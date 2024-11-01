@@ -29,7 +29,7 @@ import { useArticleSearch } from "../../modules/article/articleQueries";
 import { useUpdateFrontpageMutation } from "../../modules/frontpage/frontpageMutations";
 import { useFrontpage } from "../../modules/frontpage/frontpageQueries";
 import { toEditFrontPageArticle } from "../../util/routeHelpers";
-import { AlertModalWrapper } from "../FormikForm";
+import { AlertDialogWrapper } from "../FormikForm";
 import NotFound from "../NotFoundPage/NotFoundPage";
 import { useSession } from "../Session/SessionProvider";
 
@@ -215,7 +215,7 @@ const RootFields = () => {
           </SaveButton>
         </ButtonWrapper>
       </Wrapper>
-      <AlertModalWrapper
+      <AlertDialogWrapper
         isSubmitting={isSubmitting}
         formIsDirty={dirty}
         severity="danger"

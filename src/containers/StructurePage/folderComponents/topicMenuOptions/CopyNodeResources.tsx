@@ -14,7 +14,7 @@ import { spacing, colors } from "@ndla/core";
 import { Copy } from "@ndla/icons/action";
 import { Done } from "@ndla/icons/editor";
 import { Node, NodeChild } from "@ndla/types-taxonomy";
-import { AlertModal } from "../../../../components/AlertModal/AlertModal";
+import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
 import { OldSpinner } from "../../../../components/OldSpinner";
 import RoundIcon from "../../../../components/RoundIcon";
 import { EditMode } from "../../../../interfaces";
@@ -212,7 +212,7 @@ const CopyNodeResources = ({ editModeHandler: { editMode, toggleEditMode }, curr
           {`${prefixText} (${count}/${totalAmount})`}
         </StyledDiv>
       )}
-      <AlertModal
+      <AlertDialog
         title={t("errorMessage.description")}
         label={t("errorMessage.description")}
         show={showAlert}

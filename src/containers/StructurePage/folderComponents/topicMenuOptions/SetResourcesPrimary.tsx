@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pencil } from "@ndla/icons/action";
 import { Node } from "@ndla/types-taxonomy";
-import { AlertModal } from "../../../../components/AlertModal/AlertModal";
+import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
 import Overlay from "../../../../components/Overlay";
 import RoundIcon from "../../../../components/RoundIcon";
 import Spinner from "../../../../components/Spinner";
@@ -50,7 +50,7 @@ const SetResourcesPrimary = ({ node, recursive = false, editModeHandler: { editM
         <RoundIcon small icon={<Pencil />} />
         {recursive ? t("taxonomy.resourcesPrimary.recursiveButtonText") : t("taxonomy.resourcesPrimary.buttonText")}
       </MenuItemButton>
-      <AlertModal
+      <AlertDialog
         title={t("taxonomy.resourcesPrimary.buttonText")}
         label={t("taxonomy.resourcesPrimary.buttonText")}
         show={editMode === "setResourcesPrimary"}

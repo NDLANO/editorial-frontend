@@ -32,7 +32,7 @@ import SaveButton from "../../../components/SaveButton";
 import { SAVE_BUTTON_ID } from "../../../constants";
 import { editorValueToPlainText } from "../../../util/articleContentConverter";
 import { isFormikFormDirty } from "../../../util/formHelper";
-import { AlertModalWrapper } from "../../FormikForm";
+import { AlertDialogWrapper } from "../../FormikForm";
 import SimpleVersionPanel from "../../FormikForm/SimpleVersionPanel";
 import { imageApiTypeToFormType, ImageFormikType } from "../imageTransformers";
 
@@ -258,7 +258,7 @@ const ImageForm = ({
                 }}
               />
             </ButtonContainer>
-            <AlertModalWrapper
+            <AlertDialogWrapper
               isSubmitting={isSubmitting}
               severity="danger"
               formIsDirty={formIsDirty}

@@ -39,7 +39,7 @@ exports[`Messages > A message is removed if the modal is closed 1`] = `
           aria-describedby="dialog::r3::description"
           aria-label="Pass på!"
           aria-modal="true"
-          class="--margin_token(sizes.medium) pos_relative bg_surface.default bx-sh_xlarge h_min-content max-w_95% max-h_95% m_auto ov-y_auto bdr_sharp tablet:bdr_small pbs_env(safe-area-inset-top) pbe_env(safe-area-inset-bottom) ps_env(safe-area-inset-left) pe_env(safe-area-inset-right) tabletDown:--margin_0px tabletDown:min-w_100% tabletDown:min-h_100% --size_sizes.surface.xlarge w_var(--size) open:anim_dialog-in open:motionReduce:anim_none closed:anim_dialog-out closed:motionReduce:anim_none"
+          class="--margin_token(sizes.medium) pos_relative bg_surface.default bx-sh_xlarge h_min-content max-w_95% max-h_95% m_auto ov-y_auto bdr_xsmall pbs_env(safe-area-inset-top) pbe_env(safe-area-inset-bottom) ps_env(safe-area-inset-left) pe_env(safe-area-inset-right) tabletDown:--margin_0px tabletDown:min-w_100% tabletDown:min-h_100% --size_sizes.surface.xlarge w_var(--size) open:anim_dialog-in open:motionReduce:anim_none closed:anim_dialog-out closed:motionReduce:anim_none"
           data-part="content"
           data-scope="dialog"
           data-state="open"
@@ -49,17 +49,15 @@ exports[`Messages > A message is removed if the modal is closed 1`] = `
           tabindex="-1"
         >
           <div
-            class="d_flex flex-d_column gap_medium px_medium pbs_small pbe_medium p_medium bg-c_surface.danger"
-            data-testid="alert-modal"
+            class="d_flex ai_flex-start gap_small p_medium bd_1px_solid bdr_xsmall bg_surface.errorSubtle bd-c_stroke.error flex-d_column"
           >
             <div
-              class="d_flex px_medium pbs_medium jc_space-between ai_center gap_xsmall"
+              class="d_flex jc_space-between w_100%"
             >
               <h1
                 class="textStyle_title.medium"
                 data-part="title"
                 data-scope="dialog"
-                data-severity="danger"
                 dir="ltr"
                 id="dialog::r3::title"
               >
@@ -122,7 +120,7 @@ exports[`Messages > A message is removed if the modal is closed 1`] = `
               </p>
             </div>
             <div
-              class="d_flex jc_space-between mbs_xsmall"
+              class="w_100% d_flex jc_space-between mbs_xsmall"
             />
           </div>
         </div>
@@ -193,7 +191,7 @@ exports[`Messages > A single message renders correctly 1`] = `
           aria-describedby="dialog::r0::description"
           aria-label="Pass på!"
           aria-modal="true"
-          class="--margin_token(sizes.medium) pos_relative bg_surface.default bx-sh_xlarge h_min-content max-w_95% max-h_95% m_auto ov-y_auto bdr_sharp tablet:bdr_small pbs_env(safe-area-inset-top) pbe_env(safe-area-inset-bottom) ps_env(safe-area-inset-left) pe_env(safe-area-inset-right) tabletDown:--margin_0px tabletDown:min-w_100% tabletDown:min-h_100% --size_sizes.surface.xlarge w_var(--size) open:anim_dialog-in open:motionReduce:anim_none closed:anim_dialog-out closed:motionReduce:anim_none"
+          class="--margin_token(sizes.medium) pos_relative bg_surface.default bx-sh_xlarge h_min-content max-w_95% max-h_95% m_auto ov-y_auto bdr_xsmall pbs_env(safe-area-inset-top) pbe_env(safe-area-inset-bottom) ps_env(safe-area-inset-left) pe_env(safe-area-inset-right) tabletDown:--margin_0px tabletDown:min-w_100% tabletDown:min-h_100% --size_sizes.surface.xlarge w_var(--size) open:anim_dialog-in open:motionReduce:anim_none closed:anim_dialog-out closed:motionReduce:anim_none"
           data-part="content"
           data-scope="dialog"
           data-state="open"
@@ -203,17 +201,15 @@ exports[`Messages > A single message renders correctly 1`] = `
           tabindex="-1"
         >
           <div
-            class="d_flex flex-d_column gap_medium px_medium pbs_small pbe_medium p_medium bg-c_surface.danger"
-            data-testid="alert-modal"
+            class="d_flex ai_flex-start gap_small p_medium bd_1px_solid bdr_xsmall bg_surface.errorSubtle bd-c_stroke.error flex-d_column"
           >
             <div
-              class="d_flex px_medium pbs_medium jc_space-between ai_center gap_xsmall"
+              class="d_flex jc_space-between w_100%"
             >
               <h1
                 class="textStyle_title.medium"
                 data-part="title"
                 data-scope="dialog"
-                data-severity="danger"
                 dir="ltr"
                 id="dialog::r0::title"
               >
@@ -276,7 +272,7 @@ exports[`Messages > A single message renders correctly 1`] = `
               </p>
             </div>
             <div
-              class="d_flex jc_space-between mbs_xsmall"
+              class="w_100% d_flex jc_space-between mbs_xsmall"
             />
           </div>
         </div>
@@ -325,7 +321,7 @@ exports[`Messages > Several messages renders correctly 1`] = `
           aria-describedby="dialog::r1::description"
           aria-label="Pass på!"
           aria-modal="true"
-          class="--margin_token(sizes.medium) pos_relative bg_surface.default bx-sh_xlarge h_min-content max-w_95% max-h_95% m_auto ov-y_auto bdr_sharp tablet:bdr_small pbs_env(safe-area-inset-top) pbe_env(safe-area-inset-bottom) ps_env(safe-area-inset-left) pe_env(safe-area-inset-right) tabletDown:--margin_0px tabletDown:min-w_100% tabletDown:min-h_100% --size_sizes.surface.xlarge w_var(--size) open:anim_dialog-in open:motionReduce:anim_none closed:anim_dialog-out closed:motionReduce:anim_none"
+          class="--margin_token(sizes.medium) pos_relative bg_surface.default bx-sh_xlarge h_min-content max-w_95% max-h_95% m_auto ov-y_auto bdr_xsmall pbs_env(safe-area-inset-top) pbe_env(safe-area-inset-bottom) ps_env(safe-area-inset-left) pe_env(safe-area-inset-right) tabletDown:--margin_0px tabletDown:min-w_100% tabletDown:min-h_100% --size_sizes.surface.xlarge w_var(--size) open:anim_dialog-in open:motionReduce:anim_none closed:anim_dialog-out closed:motionReduce:anim_none"
           data-part="content"
           data-scope="dialog"
           data-state="open"
@@ -335,17 +331,15 @@ exports[`Messages > Several messages renders correctly 1`] = `
           tabindex="-1"
         >
           <div
-            class="d_flex flex-d_column gap_medium px_medium pbs_small pbe_medium p_medium bg-c_surface.danger"
-            data-testid="alert-modal"
+            class="d_flex ai_flex-start gap_small p_medium bd_1px_solid bdr_xsmall bg_surface.errorSubtle bd-c_stroke.error flex-d_column"
           >
             <div
-              class="d_flex px_medium pbs_medium jc_space-between ai_center gap_xsmall"
+              class="d_flex jc_space-between w_100%"
             >
               <h1
                 class="textStyle_title.medium"
                 data-part="title"
                 data-scope="dialog"
-                data-severity="danger"
                 dir="ltr"
                 id="dialog::r1::title"
               >
@@ -408,7 +402,7 @@ exports[`Messages > Several messages renders correctly 1`] = `
               </p>
             </div>
             <div
-              class="d_flex jc_space-between mbs_xsmall"
+              class="w_100% d_flex jc_space-between mbs_xsmall"
             />
           </div>
         </div>
@@ -432,7 +426,7 @@ exports[`Messages > Several messages renders correctly 1`] = `
           aria-describedby="dialog::r2::description"
           aria-label="Pass på!"
           aria-modal="true"
-          class="--margin_token(sizes.medium) pos_relative bg_surface.default bx-sh_xlarge h_min-content max-w_95% max-h_95% m_auto ov-y_auto bdr_sharp tablet:bdr_small pbs_env(safe-area-inset-top) pbe_env(safe-area-inset-bottom) ps_env(safe-area-inset-left) pe_env(safe-area-inset-right) tabletDown:--margin_0px tabletDown:min-w_100% tabletDown:min-h_100% --size_sizes.surface.xlarge w_var(--size) open:anim_dialog-in open:motionReduce:anim_none closed:anim_dialog-out closed:motionReduce:anim_none"
+          class="--margin_token(sizes.medium) pos_relative bg_surface.default bx-sh_xlarge h_min-content max-w_95% max-h_95% m_auto ov-y_auto bdr_xsmall pbs_env(safe-area-inset-top) pbe_env(safe-area-inset-bottom) ps_env(safe-area-inset-left) pe_env(safe-area-inset-right) tabletDown:--margin_0px tabletDown:min-w_100% tabletDown:min-h_100% --size_sizes.surface.xlarge w_var(--size) open:anim_dialog-in open:motionReduce:anim_none closed:anim_dialog-out closed:motionReduce:anim_none"
           data-part="content"
           data-scope="dialog"
           data-state="open"
@@ -442,17 +436,15 @@ exports[`Messages > Several messages renders correctly 1`] = `
           tabindex="-1"
         >
           <div
-            class="d_flex flex-d_column gap_medium px_medium pbs_small pbe_medium p_medium bg-c_surface.danger"
-            data-testid="alert-modal"
+            class="d_flex ai_flex-start gap_small p_medium bd_1px_solid bdr_xsmall bg_surface.errorSubtle bd-c_stroke.error flex-d_column"
           >
             <div
-              class="d_flex px_medium pbs_medium jc_space-between ai_center gap_xsmall"
+              class="d_flex jc_space-between w_100%"
             >
               <h1
                 class="textStyle_title.medium"
                 data-part="title"
                 data-scope="dialog"
-                data-severity="danger"
                 dir="ltr"
                 id="dialog::r2::title"
               >
@@ -515,7 +507,7 @@ exports[`Messages > Several messages renders correctly 1`] = `
               </p>
             </div>
             <div
-              class="d_flex jc_space-between mbs_xsmall"
+              class="w_100% d_flex jc_space-between mbs_xsmall"
             />
           </div>
         </div>
@@ -564,7 +556,7 @@ exports[`Messages > auth0 messages provides a cancel button 1`] = `
           aria-describedby="dialog::r4::description"
           aria-label="Pass på!"
           aria-modal="true"
-          class="--margin_token(sizes.medium) pos_relative bg_surface.default bx-sh_xlarge h_min-content max-w_95% max-h_95% m_auto ov-y_auto bdr_sharp tablet:bdr_small pbs_env(safe-area-inset-top) pbe_env(safe-area-inset-bottom) ps_env(safe-area-inset-left) pe_env(safe-area-inset-right) tabletDown:--margin_0px tabletDown:min-w_100% tabletDown:min-h_100% --size_sizes.surface.xlarge w_var(--size) open:anim_dialog-in open:motionReduce:anim_none closed:anim_dialog-out closed:motionReduce:anim_none"
+          class="--margin_token(sizes.medium) pos_relative bg_surface.default bx-sh_xlarge h_min-content max-w_95% max-h_95% m_auto ov-y_auto bdr_xsmall pbs_env(safe-area-inset-top) pbe_env(safe-area-inset-bottom) ps_env(safe-area-inset-left) pe_env(safe-area-inset-right) tabletDown:--margin_0px tabletDown:min-w_100% tabletDown:min-h_100% --size_sizes.surface.xlarge w_var(--size) open:anim_dialog-in open:motionReduce:anim_none closed:anim_dialog-out closed:motionReduce:anim_none"
           data-part="content"
           data-scope="dialog"
           data-state="open"
@@ -574,17 +566,15 @@ exports[`Messages > auth0 messages provides a cancel button 1`] = `
           tabindex="-1"
         >
           <div
-            class="d_flex flex-d_column gap_medium px_medium pbs_small pbe_medium p_medium bg-c_surface.danger"
-            data-testid="alert-modal"
+            class="d_flex ai_flex-start gap_small p_medium bd_1px_solid bdr_xsmall bg_surface.errorSubtle bd-c_stroke.error flex-d_column"
           >
             <div
-              class="d_flex px_medium pbs_medium jc_space-between ai_center gap_xsmall"
+              class="d_flex jc_space-between w_100%"
             >
               <h1
                 class="textStyle_title.medium"
                 data-part="title"
                 data-scope="dialog"
-                data-severity="danger"
                 dir="ltr"
                 id="dialog::r4::title"
               >
@@ -647,7 +637,7 @@ exports[`Messages > auth0 messages provides a cancel button 1`] = `
               </p>
             </div>
             <div
-              class="d_flex jc_space-between mbs_xsmall"
+              class="w_100% d_flex jc_space-between mbs_xsmall"
             >
               <button
                 class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s c_text.strong bg_surface.default bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover active:bg_surface.actionSubtle.hover.strong textStyle_label.medium px_small py_xxsmall min-h_24 [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium"

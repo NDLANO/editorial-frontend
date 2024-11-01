@@ -17,7 +17,7 @@ import EditorFooter from "../../../components/SlateEditor/EditorFooter";
 import { SAVE_BUTTON_ID } from "../../../constants";
 import { useConceptStateMachine } from "../../../modules/concept/conceptQueries";
 import { isFormikFormDirty } from "../../../util/formHelper";
-import { AlertModalWrapper } from "../../FormikForm";
+import { AlertDialogWrapper } from "../../FormikForm";
 import { ConceptFormValues } from "../conceptInterfaces";
 
 interface Props {
@@ -98,7 +98,7 @@ const ConceptFormFooter = ({
         hasErrors={isSubmitting || !formIsDirty || disableSave}
         responsibleId={responsibleId}
       />
-      <AlertModalWrapper
+      <AlertDialogWrapper
         formIsDirty={formIsDirty}
         isSubmitting={isSubmitting}
         severity="danger"

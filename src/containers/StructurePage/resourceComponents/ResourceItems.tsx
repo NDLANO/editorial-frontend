@@ -17,7 +17,7 @@ import { DragVertical } from "@ndla/icons/editor";
 import { NodeChild } from "@ndla/types-taxonomy";
 import Resource from "./Resource";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
-import { AlertModal } from "../../../components/AlertModal/AlertModal";
+import { AlertDialog } from "../../../components/AlertDialog/AlertDialog";
 import DndList from "../../../components/DndList";
 import { DragHandle } from "../../../components/DraggableItem";
 import { Auth0UserData, Dictionary } from "../../../interfaces";
@@ -151,7 +151,7 @@ const ResourceItems = ({ resources, currentNodeId, contentMeta, contentMetaLoadi
           {`${t("taxonomy.errorMessage")}: ${deleteNodeResource.error.message}`}
         </StyledErrorMessage>
       ) : null}
-      <AlertModal
+      <AlertDialog
         title={t("taxonomy.deleteResource")}
         label={t("taxonomy.deleteResource")}
         show={!!deleteId}

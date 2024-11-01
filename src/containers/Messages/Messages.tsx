@@ -13,7 +13,7 @@ import { css, SerializedStyles } from "@emotion/react";
 import styled from "@emotion/styled";
 import { stackOrder } from "@ndla/core";
 import { useMessages } from "./MessagesProvider";
-import { AlertModal } from "../../components/AlertModal/AlertModal";
+import { AlertDialog } from "../../components/AlertDialog/AlertDialog";
 
 const appearances: Record<string, SerializedStyles> = {
   hidden: css`
@@ -76,7 +76,7 @@ const Message = ({ message }: MessageProps) => {
   ];
 
   return (
-    <AlertModal
+    <AlertDialog
       title={t(`messages.severity.${message.severity ?? "danger"}`)}
       label={t(`messages.severity.${message.severity ?? "danger"}`)}
       show

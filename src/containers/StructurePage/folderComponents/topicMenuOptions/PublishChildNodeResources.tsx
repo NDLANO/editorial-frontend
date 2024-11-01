@@ -16,7 +16,7 @@ import { Done } from "@ndla/icons/editor";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
 import { Node } from "@ndla/types-taxonomy";
-import { AlertModal } from "../../../../components/AlertModal/AlertModal";
+import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
 import { OldSpinner } from "../../../../components/OldSpinner";
 import RoundIcon from "../../../../components/RoundIcon";
 import { PUBLISHED } from "../../../../constants";
@@ -155,7 +155,7 @@ const PublishChildNodeResources = ({ node }: Props) => {
           {`${publishText} (${publishedCount}/${publishableCount})`}
         </StyledDiv>
       )}
-      <AlertModal
+      <AlertDialog
         title={t("errorMessage.description")}
         label={t("errorMessage.description")}
         show={showAlert}
@@ -171,7 +171,7 @@ const PublishChildNodeResources = ({ node }: Props) => {
           </LinkWrapper>
         ))}
       />
-      <AlertModal
+      <AlertDialog
         title={t("taxonomy.publish.button")}
         label={t("taxonomy.publish.button")}
         show={showConfirmation}

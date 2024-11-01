@@ -13,7 +13,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { DeleteForever } from "@ndla/icons/editor";
 import { Node, NodeChild } from "@ndla/types-taxonomy";
 import MenuItemButton from "./components/MenuItemButton";
-import { AlertModal } from "../../../../components/AlertModal/AlertModal";
+import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
 import Overlay from "../../../../components/Overlay";
 import RoundIcon from "../../../../components/RoundIcon";
 import Spinner from "../../../../components/Spinner";
@@ -74,7 +74,7 @@ const DisconnectFromParent = ({ node, editModeHandler: { editMode, toggleEditMod
         <RoundIcon small icon={<DeleteForever />} />
         {t("taxonomy.disconnectNode")}
       </MenuItemButton>
-      <AlertModal
+      <AlertDialog
         label={t("taxonomy.disconnectNode")}
         title={t("taxonomy.disconnectNode")}
         show={editMode === "disconnectFromParent"}

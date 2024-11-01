@@ -15,7 +15,7 @@ import { colors } from "@ndla/core";
 import { Link } from "@ndla/icons/editor";
 import { frontpagePlugins } from "./frontpagePlugins";
 import { frontpageRenderers } from "./frontpageRenderers";
-import { AlertModal } from "../../../../components/AlertModal/AlertModal";
+import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
 import { ContentTypeProvider } from "../../../../components/ContentTypeProvider";
 import { EditMarkupLink } from "../../../../components/EditMarkupLink";
 import FieldHeader from "../../../../components/Field/FieldHeader";
@@ -154,7 +154,7 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
         )}
       </StyledDiv>
       <IngressField />
-      <AlertModal
+      <AlertDialog
         title={t("editorFooter.changeHeader")}
         label={t("editorFooter.changeHeader")}
         show={isNormalizedOnLoad && !isCreatePage}

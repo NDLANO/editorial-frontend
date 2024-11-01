@@ -56,7 +56,7 @@ import { CodeBlock as UICodeBlock } from "@ndla/ui";
 import { CodeblockElement } from ".";
 import CodeBlockEditor from "./CodeBlockEditor";
 import { CodeBlockType } from "../../../../interfaces";
-import { AlertModal } from "../../../AlertModal/AlertModal";
+import { AlertDialog } from "../../../AlertDialog/AlertDialog";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 
 interface Props extends RenderElementProps {
@@ -201,7 +201,7 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
         </DialogContent>
       </Portal>
 
-      <AlertModal
+      <AlertDialog
         title={t("unsavedChanges")}
         label={t("unsavedChanges")}
         show={showWarning}

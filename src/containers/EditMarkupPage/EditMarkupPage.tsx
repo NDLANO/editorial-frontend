@@ -26,7 +26,7 @@ import { blockContentToEditorValue, blockContentToHTML } from "../../util/articl
 import handleError from "../../util/handleError";
 import { NdlaErrorPayload } from "../../util/resolveJsonOrRejectWithError";
 import { toEditMarkup } from "../../util/routeHelpers";
-import { AlertModalWrapper } from "../FormikForm";
+import { AlertDialogWrapper } from "../FormikForm";
 import { useMessages } from "../Messages/MessagesProvider";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import { getSessionStateFromLocalStorage } from "../Session/SessionProvider";
@@ -222,7 +222,7 @@ const EditMarkupPage = () => {
           </Row>
         </StyledRow>
       </Suspense>
-      <AlertModalWrapper
+      <AlertDialogWrapper
         isSubmitting={isSubmitting}
         formIsDirty={isDirty}
         severity="danger"

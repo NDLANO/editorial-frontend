@@ -11,7 +11,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { DeleteForever } from "@ndla/icons/editor";
 import { Node, NodeChild } from "@ndla/types-taxonomy";
 import MenuItemButton from "./components/MenuItemButton";
-import { AlertModal } from "../../../../components/AlertModal/AlertModal";
+import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
 import Overlay from "../../../../components/Overlay";
 import RoundIcon from "../../../../components/RoundIcon";
 import Spinner from "../../../../components/Spinner";
@@ -98,7 +98,7 @@ const DeleteNode = ({
         <RoundIcon small icon={<DeleteForever />} />
         {t("taxonomy.deleteNode")}
       </MenuItemButton>
-      <AlertModal
+      <AlertDialog
         label={t("taxonomy.deleteNode")}
         title={t("taxonomy.deleteNode")}
         show={editMode === "deleteNode"}

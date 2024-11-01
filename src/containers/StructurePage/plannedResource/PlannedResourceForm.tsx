@@ -320,7 +320,7 @@ const PlannedResourceForm = ({ articleType, node, onClose }: Props) => {
           </FormField>
           <FormField name="comments">
             {({ field, meta }) => (
-              <FieldRoot required invalid={!!meta.error}>
+              <FieldRoot invalid={!!meta.error}>
                 <FieldLabel>{t("taxonomy.comment")}</FieldLabel>
                 <FieldInput placeholder={t("taxonomy.commentPlaceholder")} {...field} />
                 <FieldErrorMessage>{meta.error}</FieldErrorMessage>

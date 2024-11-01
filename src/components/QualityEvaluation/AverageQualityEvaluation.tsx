@@ -7,16 +7,16 @@
  */
 
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { colors } from "@ndla/core";
+import { Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { GradeAverage } from "@ndla/types-taxonomy";
-import { Text } from "@ndla/typography";
 import QualityEvaluationGrade from "../../containers/StructurePage/resourceComponents/QualityEvaluationGrade";
 
-const StyledNoEvaluation = styled(Text)`
-  color: ${colors.brand.greyMedium};
-  font-style: italic;
-`;
+const StyledText = styled(Text, {
+  base: {
+    fontStyle: "italic",
+  },
+});
 
 interface Props {
   gradeAverage: GradeAverage | undefined;
@@ -28,7 +28,7 @@ const AverageQualityEvaluation = ({ gradeAverage, nodeType }: Props) => {
 
   return (
     <>
-      <Text margin="none" textStyle="button">
+      <Text textStyle="label.small" fontWeight="semibold">
         {`${t("taxonomy.average")}:`}
       </Text>
       {gradeAverage ? (
@@ -41,9 +41,9 @@ const AverageQualityEvaluation = ({ gradeAverage, nodeType }: Props) => {
           })}
         />
       ) : (
-        <StyledNoEvaluation margin="none" textStyle="button">
+        <StyledText textStyle="body.small" fontWeight="bold" color="text.subtle">
           {t("qualityEvaluationForm.unavailable")}
-        </StyledNoEvaluation>
+        </StyledText>
       )}
     </>
   );

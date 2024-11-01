@@ -100,7 +100,7 @@ const TopicResourceBanner = ({
           {showQuality && (
             <>
               <AverageQualityEvaluation gradeAverage={currentNode.gradeAverage} nodeType="TOPIC" />
-              <QualityEvaluation articleType="topic-article" taxonomy={[currentNode]} iconButtonColor="primary" />
+              <QualityEvaluation articleType="topic-article" taxonomy={[currentNode]} />
             </>
           )}
           <Text textStyle="label.small">{`${workflowCount}/${elementCount} ${t(

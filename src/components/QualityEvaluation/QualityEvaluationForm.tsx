@@ -42,17 +42,11 @@ import validateFormik, { RulesType } from "../formikValidationSchema";
 
 export type QualityEvaluationValue = "1" | "2" | "3" | "4" | "5";
 
-const ButtonContainer = styled("div", {
-  base: {
-    display: "flex",
-    justifyContent: "space-between",
-  },
-});
-
 const StyledRadioGroupRoot = styled(RadioGroupRoot, {
   base: {
     _horizontal: {
       flexDirection: "column",
+      gap: "xxsmall",
     },
   },
 });
@@ -277,21 +271,19 @@ const QualityEvaluationForm = ({
               </FieldRoot>
             )}
           </FormField>
-          <ButtonContainer>
+          <FormActionsContainer>
             {node.qualityEvaluation?.grade && (
               <Button variant="danger" type="reset" loading={loading.delete}>
                 {t("qualityEvaluationForm.delete")}
               </Button>
             )}
-            <FormActionsContainer>
-              <Button variant="secondary" onClick={() => setOpen(false)}>
-                {t("form.abort")}
-              </Button>
-              <Button disabled={!dirty || !isValid || isSubmitting} loading={loading.save} type="submit">
-                {t("form.save")}
-              </Button>
-            </FormActionsContainer>
-          </ButtonContainer>
+            <Button variant="secondary" onClick={() => setOpen(false)}>
+              {t("form.abort")}
+            </Button>
+            <Button disabled={!dirty || !isValid || isSubmitting} loading={loading.save} type="submit">
+              {t("form.save")}
+            </Button>
+          </FormActionsContainer>
           {updateTaxMutation.isError && <Text color="text.error">{t("qualityEvaluationForm.error")}</Text>}
         </FormikForm>
       )}

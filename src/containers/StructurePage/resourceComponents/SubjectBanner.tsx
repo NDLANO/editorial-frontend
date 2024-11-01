@@ -59,7 +59,7 @@ const SubjectBanner = ({ subjectNode, showQuality, users }: Props) => {
           {showQuality && (
             <>
               <AverageQualityEvaluation gradeAverage={subjectNode.gradeAverage} nodeType="SUBJECT" />
-              <QualityEvaluation articleType="subject" taxonomy={[subjectNode]} iconButtonColor="primary" />
+              <QualityEvaluation articleType="subject" taxonomy={[subjectNode]} />
             </>
           )}
         </FlexContentWrapper>

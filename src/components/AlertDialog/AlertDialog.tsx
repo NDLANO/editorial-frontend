@@ -98,7 +98,7 @@ export const AlertDialog = ({
         focusedElementBeforeModalRef.current = null;
       }}
     >
-      <StyledDialogContent>
+      <StyledDialogContent data-testid="alert-dialog">
         <StyledMessageBox variant={severity === "danger" ? "error" : severity}>
           <HeaderWrapper>
             {title && <DialogTitle>{title}</DialogTitle>}

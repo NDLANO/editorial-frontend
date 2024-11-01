@@ -79,7 +79,16 @@ const PodcastEpisodes = ({ language, seriesId, initialEpisodes = [] }: Props) =>
         onInputValueChange={(details) => setQuery(details.inputValue)}
         onPageChange={(details) => setPage(details.page)}
         renderItem={(item) => (
-          <GenericComboboxItemContent title={item.title.title} image={item.podcastMeta?.coverPhoto} useFallbackImage />
+          <GenericComboboxItemContent
+            title={item.title.title}
+            image={item.podcastMeta?.coverPhoto}
+            useFallbackImage
+            description={
+              item.series?.id !== undefined && item.series.id !== seriesId
+                ? t("podcastSeriesForm.alreadyPartOfSeries")
+                : undefined
+            }
+          />
         )}
       >
         <ComboboxLabel>{t("form.relatedConcepts.articlesTitle")}</ComboboxLabel>

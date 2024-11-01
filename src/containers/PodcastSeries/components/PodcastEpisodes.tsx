@@ -44,21 +44,14 @@ const PodcastEpisodes = ({ language, seriesId, initialEpisodes = [] }: Props) =>
     },
   );
 
-  const onValueChange = async (audio: number[]) => {
-    // Element is added
-    if (audio.length > field.value.length) {
-      const addedElement = audio[audio.length - 1];
-      const newAudio = await fetchAudio(addedElement, language);
-      setApiEpisodes([...apiEpisodes, newAudio]);
-      helpers.setValue(audio);
-      return;
-    }
-    // Element is deleted
-    if (audio.length < field.value.length) {
-      const filteredApiEpisodes = apiEpisodes.filter((element) => audio.includes(element.id));
-      setApiEpisodes(filteredApiEpisodes);
-      helpers.setValue(audio);
-      return;
+  const onValueChange = async (newValue: number) => {
+    if (field.value.includes(newValue)) {
+      helpers.setValue(field.value.filter((val) => val !== newValue));
+      setApiEpisodes(apiEpisodes.filter((c) => c.id !== newValue));
+    } else {
+      helpers.setValue(field.value.concat(newValue));
+      const newAudio = await fetchAudio(newValue, language);
+      setApiEpisodes((prev) => prev.concat(newAudio));
     }
   };
 
@@ -67,17 +60,19 @@ const PodcastEpisodes = ({ language, seriesId, initialEpisodes = [] }: Props) =>
       <GenericSearchCombobox
         value={field.value.map((c) => c.toString())}
         onValueChange={(details) => {
-          onValueChange(details.items.map((i) => i.id));
+          const newValue = parseInt(details.value[0]);
+          if (!newValue) return;
+          onValueChange(newValue);
         }}
         items={searchQuery.data?.results ?? []}
         itemToValue={(item) => item.id.toString()}
         itemToString={(item) => item.title.title}
         isItemDisabled={(item) =>
-          // Disable item if it exists in the list or exists in another series
-          field.value.some((valueItem) => valueItem === item.id) ||
-          (item.series?.id !== undefined && item.series.id !== seriesId)
+          // Disable item if it exists in another series
+          item.series?.id !== undefined && item.series.id !== seriesId
         }
-        multiple
+        closeOnSelect={false}
+        selectionBehavior="preserve"
         isSuccess={searchQuery.isSuccess}
         paginationData={searchQuery.data}
         inputValue={query}
@@ -100,10 +95,7 @@ const PodcastEpisodes = ({ language, seriesId, initialEpisodes = [] }: Props) =>
               title={element.title.title}
               metaImage={element.podcastMeta?.coverPhoto}
               url={routes.audio.edit(element.id, language)}
-              onDelete={() => {
-                const filtered = field.value.filter((el) => el !== element.id);
-                onValueChange(filtered);
-              }}
+              onDelete={() => onValueChange(element.id)}
               removeElementTranslation={t("conceptpageForm.removeArticle")}
             />
           </li>

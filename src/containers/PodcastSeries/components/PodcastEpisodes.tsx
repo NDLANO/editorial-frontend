@@ -6,96 +6,111 @@
  *
  */
 
-import { useFormikContext } from "formik";
+import { useField } from "formik";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { IAudioSummarySearchResult, IAudioSummary, IAudioMetaInformation } from "@ndla/types-backend/audio-api";
-import { PodcastSeriesFormikType } from "./PodcastSeriesForm";
-import AsyncDropdown from "../../../components/Dropdown/asyncDropdown/AsyncDropdown";
-import FieldHeader from "../../../components/Field/FieldHeader";
+import { ComboboxLabel } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { IAudioMetaInformation } from "@ndla/types-backend/audio-api";
+import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
+import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCombobox";
 import ListResource from "../../../components/Form/ListResource";
-import { fetchAudio, postSearchAudio } from "../../../modules/audio/audioApi";
-import handleError from "../../../util/handleError";
+import { FormContent } from "../../../components/FormikForm";
+import { fetchAudio } from "../../../modules/audio/audioApi";
+import { useSearchAudio } from "../../../modules/audio/audioQueries";
 import { routes } from "../../../util/routeHelpers";
+import { usePaginatedQuery } from "../../../util/usePaginatedQuery";
 
-const PodcastEpisodes = () => {
+const StyledList = styled("ul", {
+  base: { listStyle: "none" },
+});
+
+interface Props {
+  language: string;
+  seriesId: number | undefined;
+  initialEpisodes: IAudioMetaInformation[] | undefined;
+}
+
+const PodcastEpisodes = ({ language, seriesId, initialEpisodes = [] }: Props) => {
+  const { query, delayedQuery, setQuery, page, setPage } = usePaginatedQuery();
   const { t } = useTranslation();
-  const { values, setFieldValue } = useFormikContext<PodcastSeriesFormikType>();
-  const { episodes, language } = values;
+  const [field, _meta, helpers] = useField<number[]>("episodes");
+  const [apiEpisodes, setApiEpisodes] = useState<IAudioMetaInformation[]>(initialEpisodes);
 
-  const onAddEpisodeToList = async (audio: IAudioSummary) => {
-    try {
-      const newAudio = await fetchAudio(audio.id, language);
-      if (newAudio !== undefined) {
-        setFieldValue("episodes", [...episodes, newAudio]);
-      }
-    } catch (e) {
-      handleError(e);
+  const searchQuery = useSearchAudio(
+    { query: delayedQuery, language, page, audioType: "podcast" },
+    {
+      placeholderData: (prev) => prev,
+    },
+  );
+
+  const onValueChange = async (newValue: number) => {
+    if (field.value.includes(newValue)) {
+      helpers.setValue(field.value.filter((val) => val !== newValue));
+      setApiEpisodes(apiEpisodes.filter((c) => c.id !== newValue));
+    } else {
+      helpers.setValue(field.value.concat(newValue));
+      const newAudio = await fetchAudio(newValue, language);
+      setApiEpisodes((prev) => prev.concat(newAudio));
     }
   };
 
-  const onDeleteElements = (elements: IAudioMetaInformation[], deleteIndex: number) => {
-    const newElements = elements.filter((_, i) => i !== deleteIndex);
-    setFieldValue("episodes", newElements);
-  };
-
-  const searchForPodcasts = async (input: string, page?: number): Promise<IAudioSummarySearchResult> => {
-    const searchResult = await postSearchAudio({
-      query: input,
-      page,
-      language: language,
-      audioType: "podcast",
-    });
-
-    const results = searchResult.results.map((result) => {
-      const usedByOther = result.series?.id !== undefined && result.series?.id !== values.id;
-      const disabledText = usedByOther ? t("podcastSeriesForm.alreadyPartOfSeries") : undefined;
-      return {
-        ...result,
-        disabledText,
-        image: result.podcastMeta?.coverPhoto.url,
-        alt: result.podcastMeta?.coverPhoto.altText,
-      };
-    });
-
-    return { ...searchResult, results };
-  };
-
-  const elements = episodes.map((ep) => ({
-    ...ep,
-    metaImage: {
-      alt: ep.podcastMeta?.coverPhoto.altText,
-      url: ep.podcastMeta?.coverPhoto.url,
-      language,
-    },
-    articleType: "audio",
-  }));
-
   return (
-    <>
-      <FieldHeader title={t("form.podcastEpisodesSection")} subTitle={t("form.podcastEpisodesTypeName")} />
-      {elements.map((element, index) => (
-        <ListResource
-          key={element.id}
-          title={element.title.title}
-          metaImage={element.metaImage}
-          url={routes.audio.edit(element.id, language)}
-          onDelete={() => onDeleteElements(elements, index)}
-          removeElementTranslation={t("conceptpageForm.removeArticle")}
+    <FormContent>
+      <GenericSearchCombobox
+        value={field.value.map((c) => c.toString())}
+        onValueChange={(details) => {
+          const newValue = parseInt(details.value[0]);
+          if (!newValue) return;
+          onValueChange(newValue);
+        }}
+        items={searchQuery.data?.results ?? []}
+        itemToValue={(item) => item.id.toString()}
+        itemToString={(item) => item.title.title}
+        isItemDisabled={(item) =>
+          // Disable item if it exists in another series
+          item.series?.id !== undefined && item.series.id !== seriesId
+        }
+        closeOnSelect={false}
+        selectionBehavior="preserve"
+        isSuccess={searchQuery.isSuccess}
+        paginationData={searchQuery.data}
+        inputValue={query}
+        onInputValueChange={(details) => setQuery(details.inputValue)}
+        onPageChange={(details) => setPage(details.page)}
+        renderItem={(item) => (
+          <GenericComboboxItemContent
+            title={item.title.title}
+            image={item.podcastMeta?.coverPhoto}
+            useFallbackImage
+            description={
+              item.series?.id !== undefined && item.series.id !== seriesId
+                ? t("podcastSeriesForm.alreadyPartOfSeries")
+                : undefined
+            }
+          />
+        )}
+      >
+        <ComboboxLabel>{t("form.relatedConcepts.articlesTitle")}</ComboboxLabel>
+        <GenericComboboxInput
+          placeholder={t("form.content.relatedArticle.placeholder")}
+          isFetching={searchQuery.isFetching}
         />
-      ))}
-      <AsyncDropdown
-        selectedItems={elements}
-        idField="id"
-        labelField="title"
-        placeholder={t("form.content.relatedArticle.placeholder")}
-        apiAction={searchForPodcasts}
-        onClick={(event: Event) => event.stopPropagation()}
-        onChange={onAddEpisodeToList}
-        multiSelect
-        disableSelected
-        clearInputField
-      />
-    </>
+      </GenericSearchCombobox>
+      <StyledList>
+        {apiEpisodes.map((element) => (
+          <li key={element.id}>
+            <ListResource
+              title={element.title.title}
+              metaImage={element.podcastMeta?.coverPhoto}
+              url={routes.audio.edit(element.id, language)}
+              onDelete={() => onValueChange(element.id)}
+              removeElementTranslation={t("conceptpageForm.removeArticle")}
+            />
+          </li>
+        ))}
+      </StyledList>
+    </FormContent>
   );
 };
 

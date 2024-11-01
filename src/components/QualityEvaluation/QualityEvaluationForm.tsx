@@ -6,18 +6,29 @@
  *
  */
 
-import { FieldHelperProps, FieldInputProps, Form, Formik } from "formik";
+import { FieldHelperProps, FieldInputProps, Formik } from "formik";
 import { CSSProperties, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { css } from "@emotion/react";
-import styled from "@emotion/styled";
-import { Item, Indicator } from "@radix-ui/react-radio-group";
 import { useQueryClient } from "@tanstack/react-query";
-import { ButtonV2 } from "@ndla/button";
-import { colors, spacing, fonts, misc } from "@ndla/core";
-import { FieldErrorMessage, Fieldset, InputV3, Label, Legend, RadioButtonGroup } from "@ndla/forms";
+import {
+  Button,
+  FieldErrorMessage,
+  FieldHelper,
+  FieldInput,
+  FieldLabel,
+  FieldRoot,
+  RadioGroupItem,
+  RadioGroupItemControl,
+  RadioGroupItemHiddenInput,
+  RadioGroupItemText,
+  RadioGroupLabel,
+  RadioGroupRoot,
+  Text,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IArticle, IUpdatedArticle } from "@ndla/types-backend/draft-api";
 import { Grade, Node } from "@ndla/types-taxonomy";
+import { qualityEvaluationOptionColors } from "./qualityEvaluationOptions";
 import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
 import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVersionProvider";
 import { draftQueryKeys } from "../../modules/draft/draftQueries";
@@ -25,78 +36,64 @@ import { usePutNodeMutation } from "../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../modules/nodes/nodeQueries";
 import { formatDateForBackend } from "../../util/formatDate";
 import handleError from "../../util/handleError";
-import { FieldWarning, FormControl, FormField } from "../FormField";
+import { FormField } from "../FormField";
+import { FormActionsContainer, FormikForm } from "../FormikForm";
 import validateFormik, { RulesType } from "../formikValidationSchema";
-import Spinner from "../Spinner";
 
-export const qualityEvaluationOptions: { [key: number]: string } = {
-  1: colors.support.green,
-  2: "#90C670",
-  3: "#C3D060",
-  4: colors.support.yellow,
-  5: colors.support.red,
-};
+export type QualityEvaluationValue = "1" | "2" | "3" | "4" | "5";
 
-const StyledFieldset = styled(Fieldset)`
-  display: flex;
-  gap: ${spacing.xsmall};
-  align-items: center;
-`;
+const ButtonContainer = styled("div", {
+  base: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+});
 
-// Color needed in order for wcag contrast reqirements to be met
-export const blackContrastColor = "#000";
+const StyledRadioGroupRoot = styled(RadioGroupRoot, {
+  base: {
+    _horizontal: {
+      flexDirection: "column",
+    },
+  },
+});
 
-export const gradeItemStyles = css`
-  padding: 0px ${spacing.nsmall};
-  font-weight: ${fonts.weight.semibold};
-  border-radius: ${misc.borderRadius};
-  color: ${blackContrastColor};
-  ${fonts.size.text.content};
-  &[data-border="false"] {
-    background-color: var(--item-color);
-  }
-  &[data-border="true"] {
-    box-shadow: inset 0px 0px 0px 2px var(--item-color);
-  }
-`;
+const StyledRadioGroupItem = styled(RadioGroupItem, {
+  base: {
+    padding: "xxsmall",
+    borderRadius: "xsmall",
+    outlineOffset: "-5xsmall",
+    "&:has(input:focus-visible)": {
+      outlineOffset: "0",
+    },
+  },
+  variants: {
+    variant: {
+      bordered: {
+        borderRadius: "xsmall",
+        outline: "2px solid",
+        outlineOffset: "-5xsmall",
+        outlineColor: "var(--grade-color)",
+        "&:has(input:focus-visible)": {
+          outlineColor: "var(--grade-color)",
+          outlineOffset: "-5xsmall",
+          boxShadow: "0 0 0 2px var(--shadow-color)",
+          boxShadowColor: "stroke.default",
+        },
+      },
+      solid: {
+        background: "var(--grade-color)",
+      },
+    },
+  },
+});
 
-const StyledItem = styled(Item)`
-  all: unset;
-  ${gradeItemStyles};
-
-  &:hover {
-    cursor: pointer;
-    border-radius: ${misc.borderRadius};
-    outline: 2px solid ${colors.brand.primary};
-  }
-  &[data-state="checked"] {
-    outline: 2px solid ${blackContrastColor};
-  }
-`;
-
-const ButtonContainer = styled.div`
-  margin-top: ${spacing.small};
-  display: flex;
-  justify-content: space-between;
-`;
-
-const RightButtonsWrapper = styled.div`
-  display: flex;
-  gap: ${spacing.xsmall};
-`;
-
-const StyledForm = styled(Form)`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-`;
-const MutationErrorMessage = styled(FieldErrorMessage)`
-  margin-left: auto;
-`;
-
-const StyledFieldWarning = styled(FieldWarning)`
-  margin-left: auto;
-`;
+const ItemsWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "3xsmall",
+    flexWrap: "wrap",
+  },
+});
 
 interface Props {
   setOpen: (open: boolean) => void;
@@ -237,76 +234,66 @@ const QualityEvaluationForm = ({
       onSubmit={onSubmit}
       onReset={onDelete}
     >
-      {({ dirty, isValid, isSubmitting, values }) => (
-        <StyledForm>
+      {({ dirty, isValid, isSubmitting }) => (
+        <FormikForm>
           <FormField name="grade">
             {({ field, meta, helpers }) => (
-              <FormControl isInvalid={!!meta.error} isRequired>
-                <RadioButtonGroup
+              <FieldRoot invalid={!!meta.error} required>
+                <StyledRadioGroupRoot
                   orientation="horizontal"
                   value={field.value?.toString()}
-                  onValueChange={(v) => helpers.setValue(Number(v))}
-                  asChild
+                  onValueChange={(details) => helpers.setValue(Number(details.value))}
                 >
-                  <StyledFieldset>
-                    <Legend margin="none" textStyle="label-small">
-                      {t("qualityEvaluationForm.title")}
-                    </Legend>
-                    {Object.entries(qualityEvaluationOptions).map(([value, color]) => (
-                      <div key={value}>
-                        <StyledItem
-                          id={`quality-${value}`}
-                          value={value.toString()}
-                          data-color-value={value}
-                          style={{ "--item-color": color } as CSSProperties}
-                          data-border={value === "1" || value === "5"}
-                        >
-                          <Indicator forceMount>{value}</Indicator>
-                        </StyledItem>
-                        <Label htmlFor={`quality-${value}`} visuallyHidden>
-                          {value}
-                        </Label>
-                      </div>
+                  <RadioGroupLabel>{t("qualityEvaluationForm.title")}</RadioGroupLabel>
+                  <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+                  {field.value === 5 && <FieldHelper>{t("qualityEvaluationForm.warning")}</FieldHelper>}
+                  <ItemsWrapper>
+                    {Object.keys(qualityEvaluationOptionColors).map((value) => (
+                      <StyledRadioGroupItem
+                        key={value}
+                        value={value}
+                        variant={value === "1" || value === "5" ? "bordered" : "solid"}
+                        style={
+                          {
+                            "--grade-color": qualityEvaluationOptionColors[value as QualityEvaluationValue],
+                          } as CSSProperties
+                        }
+                      >
+                        <RadioGroupItemControl />
+                        <RadioGroupItemText>{value}</RadioGroupItemText>
+                        <RadioGroupItemHiddenInput />
+                      </StyledRadioGroupItem>
                     ))}
-                  </StyledFieldset>
-                </RadioButtonGroup>
-                <FieldErrorMessage>{meta.error}</FieldErrorMessage>
-              </FormControl>
+                  </ItemsWrapper>
+                </StyledRadioGroupRoot>
+              </FieldRoot>
             )}
           </FormField>
           <FormField name="note">
             {({ field }) => (
-              <FormControl>
-                <Label margin="none" textStyle="label-small">
-                  {t("qualityEvaluationForm.note")}
-                </Label>
-                <InputV3 {...field} />
-              </FormControl>
+              <FieldRoot>
+                <FieldLabel>{t("qualityEvaluationForm.note")}</FieldLabel>
+                <FieldInput {...field} />
+              </FieldRoot>
             )}
           </FormField>
           <ButtonContainer>
-            <div>
-              {node.qualityEvaluation?.grade && (
-                <ButtonV2 variant="outline" colorTheme="danger" type="reset">
-                  {loading.delete && <Spinner appearance="small" />}
-                  {t("qualityEvaluationForm.delete")}
-                </ButtonV2>
-              )}
-            </div>
-            <RightButtonsWrapper>
-              <ButtonV2 variant="outline" onClick={() => setOpen(false)}>
+            {node.qualityEvaluation?.grade && (
+              <Button variant="danger" type="reset" loading={loading.delete}>
+                {t("qualityEvaluationForm.delete")}
+              </Button>
+            )}
+            <FormActionsContainer>
+              <Button variant="secondary" onClick={() => setOpen(false)}>
                 {t("form.abort")}
-              </ButtonV2>
-              <ButtonV2 disabled={!dirty || !isValid || isSubmitting} type="submit">
-                {loading.save && <Spinner appearance="small" />} {t("form.save")}
-              </ButtonV2>
-            </RightButtonsWrapper>
+              </Button>
+              <Button disabled={!dirty || !isValid || isSubmitting} loading={loading.save} type="submit">
+                {t("form.save")}
+              </Button>
+            </FormActionsContainer>
           </ButtonContainer>
-          {updateTaxMutation.isError && <MutationErrorMessage>{t("qualityEvaluationForm.error")}</MutationErrorMessage>}
-          {isResource && values.grade === 5 && (
-            <StyledFieldWarning>{t("qualityEvaluationForm.warning")}</StyledFieldWarning>
-          )}
-        </StyledForm>
+          {updateTaxMutation.isError && <Text color="text.error">{t("qualityEvaluationForm.error")}</Text>}
+        </FormikForm>
       )}
     </Formik>
   );

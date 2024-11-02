@@ -9,16 +9,20 @@
 import { useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
 import { DragVertical } from "@ndla/icons/editor";
+import { ComboboxLabel } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IArticle, IArticleSummary } from "@ndla/types-backend/draft-api";
+import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
 import DndList from "../../../components/DndList";
 import { DragHandle } from "../../../components/DraggableItem";
-import AsyncDropdown from "../../../components/Dropdown/asyncDropdown/AsyncDropdown";
-import FieldHeader from "../../../components/Field/FieldHeader";
+import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCombobox";
 import ListResource from "../../../components/Form/ListResource";
-import { fetchDraft, searchDrafts } from "../../../modules/draft/draftApi";
+import { FormContent } from "../../../components/FormikForm";
+import { fetchDraft } from "../../../modules/draft/draftApi";
+import { useSearchDrafts } from "../../../modules/draft/draftQueries";
 import handleError from "../../../util/handleError";
 import { routes } from "../../../util/routeHelpers";
+import { usePaginatedQuery } from "../../../util/usePaginatedQuery";
 import { ConceptFormValues } from "../conceptInterfaces";
 
 const StyledList = styled("ul", {
@@ -26,18 +30,27 @@ const StyledList = styled("ul", {
 });
 
 const ConceptArticles = () => {
+  const { query, delayedQuery, setQuery, page, setPage } = usePaginatedQuery();
   const { i18n, t } = useTranslation();
   const {
     values: { articles, language },
     setFieldValue,
   } = useFormikContext<ConceptFormValues>();
 
+  const searchQuery = useSearchDrafts({ query: delayedQuery, language, page }, { placeholderData: (prev) => prev });
+
   const onAddArticleToList = async (article: IArticleSummary) => {
     try {
-      const newArticle = await fetchDraft(article.id);
-      const temp = [...articles, newArticle];
-      if (newArticle !== undefined) {
-        setFieldValue("articles", temp);
+      if (articles.some((a) => a.id === article.id)) {
+        setFieldValue(
+          "articles",
+          articles.filter((a) => a.id !== article.id),
+        );
+      } else {
+        const newArticle = await fetchDraft(article.id);
+        if (newArticle !== undefined) {
+          setFieldValue("articles", articles.concat(newArticle));
+        }
       }
     } catch (e) {
       handleError(e);
@@ -53,16 +66,29 @@ const ConceptArticles = () => {
     onUpdateElements(newElements);
   };
 
-  const searchForArticles = async (input: string) => {
-    return searchDrafts({
-      query: input,
-      language: language,
-    });
-  };
-
   return (
-    <>
-      <FieldHeader title={t("form.related.title")} subTitle={t("subjectpageForm.articles")} />
+    <FormContent>
+      <GenericSearchCombobox
+        value={articles.map((article) => article.id.toString())}
+        closeOnSelect={false}
+        selectionBehavior="preserve"
+        onValueChange={(details) => onAddArticleToList(details.items[0])}
+        items={searchQuery.data?.results ?? []}
+        itemToString={(item) => item.title.title}
+        itemToValue={(item) => item.id.toString()}
+        inputValue={query}
+        onInputValueChange={(details) => setQuery(details.inputValue)}
+        isSuccess={searchQuery.isSuccess}
+        paginationData={searchQuery.data}
+        onPageChange={(details) => setPage(details.page)}
+        renderItem={(item) => <GenericComboboxItemContent title={item.title.title} />}
+      >
+        <ComboboxLabel>{t("form.related.title")}</ComboboxLabel>
+        <GenericComboboxInput
+          placeholder={t("form.content.relatedArticle.placeholder")}
+          isFetching={searchQuery.isFetching}
+        />
+      </GenericSearchCombobox>
       <StyledList>
         <DndList
           items={articles}
@@ -84,19 +110,7 @@ const ConceptArticles = () => {
           onDragEnd={(_, newArray) => onUpdateElements(newArray)}
         />
       </StyledList>
-      <AsyncDropdown
-        selectedItems={articles}
-        idField="id"
-        labelField="title"
-        placeholder={t("form.content.relatedArticle.placeholder")}
-        apiAction={searchForArticles}
-        onClick={(event: Event) => event.stopPropagation()}
-        onChange={onAddArticleToList}
-        multiSelect
-        disableSelected
-        clearInputField
-      />
-    </>
+    </FormContent>
   );
 };
 

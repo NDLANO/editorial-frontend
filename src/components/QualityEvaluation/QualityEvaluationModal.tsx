@@ -9,23 +9,23 @@
 import { FieldHelperProps, FieldInputProps } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
-import { spacing } from "@ndla/core";
+import { Portal } from "@ark-ui/react";
 import { Pencil } from "@ndla/icons/action";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
+import {
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  IconButton,
+  Text,
+} from "@ndla/primitives";
 import { IArticle, IUpdatedArticle } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
-import { Text } from "@ndla/typography";
 import QualityEvaluationForm from "./QualityEvaluationForm";
 import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
-
-const StyledModalBody = styled(ModalBody)`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.nsmall};
-  padding-top: 0px;
-`;
+import { DialogCloseButton } from "../DialogCloseButton";
 
 interface Props {
   articleType?: string;
@@ -41,7 +41,6 @@ const QualityEvaluationModal = ({
   articleType,
   article,
   taxonomy,
-  iconButtonColor = "light",
   revisionMetaField,
   revisionMetaHelpers,
   updateNotes,
@@ -54,41 +53,36 @@ const QualityEvaluationModal = ({
   const title = taxonomy?.length ? t("qualityEvaluationForm.edit") : t("qualityEvaluationForm.disabled");
 
   return (
-    <Modal open={open} onOpenChange={setOpen}>
-      <ModalTrigger>
-        <IconButtonV2
-          title={title}
-          aria-label={title}
-          variant="solid"
-          colorTheme={iconButtonColor}
-          size="xsmall"
-          disabled={!taxonomy?.length}
-        >
+    <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
+      <DialogTrigger asChild>
+        <IconButton title={title} aria-label={title} size="small" disabled={!taxonomy?.length}>
           <Pencil />
-        </IconButtonV2>
-      </ModalTrigger>
-      <ModalContent>
-        <ModalHeader>
-          <ModalTitle>{t("qualityEvaluationForm.modalTitle")}</ModalTitle>
-          <ModalCloseButton />
-        </ModalHeader>
-        <StyledModalBody>
-          <Text margin="none" textStyle="meta-text-small">
-            {t("qualityEvaluationForm.description", { resource: resourceTranslation })}
-          </Text>
-          {taxonomy && (
-            <QualityEvaluationForm
-              setOpen={setOpen}
-              taxonomy={taxonomy}
-              revisionMetaField={revisionMetaField}
-              revisionMetaHelpers={revisionMetaHelpers}
-              updateNotes={updateNotes}
-              article={article}
-            />
-          )}
-        </StyledModalBody>
-      </ModalContent>
-    </Modal>
+        </IconButton>
+      </DialogTrigger>
+      <Portal>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("qualityEvaluationForm.modalTitle")}</DialogTitle>
+            <DialogCloseButton />
+          </DialogHeader>
+          <DialogBody>
+            <Text textStyle="label.small">
+              {t("qualityEvaluationForm.description", { resource: resourceTranslation })}
+            </Text>
+            {taxonomy && (
+              <QualityEvaluationForm
+                setOpen={setOpen}
+                taxonomy={taxonomy}
+                revisionMetaField={revisionMetaField}
+                revisionMetaHelpers={revisionMetaHelpers}
+                updateNotes={updateNotes}
+                article={article}
+              />
+            )}
+          </DialogBody>
+        </DialogContent>
+      </Portal>
+    </DialogRoot>
   );
 };
 

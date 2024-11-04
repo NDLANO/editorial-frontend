@@ -8,31 +8,32 @@
 
 import { FieldHelperProps, FieldInputProps } from "formik";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { colors, spacing } from "@ndla/core";
+import { Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IArticle, IUpdatedArticle } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
-import { Text } from "@ndla/typography";
 import QualityEvaluationModal from "./QualityEvaluationModal";
 import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
 import SmallQualityEvaluationGrade from "../../containers/StructurePage/resourceComponents/QualityEvaluationGrade";
 
-const FlexWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${spacing.xsmall};
-`;
+const FlexWrapper = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    gap: "3xsmall",
+  },
+});
 
-const StyledNoEvaluation = styled(Text)`
-  color: ${colors.brand.greyMedium};
-  font-style: italic;
-`;
+const StyledText = styled(Text, {
+  base: {
+    fontStyle: "italic",
+  },
+});
 
 interface Props {
   articleType?: string;
   article?: IArticle;
   taxonomy?: Node[];
-  iconButtonColor?: "light" | "primary";
   revisionMetaField?: FieldInputProps<ArticleFormType["revisionMeta"]>;
   revisionMetaHelpers?: FieldHelperProps<ArticleFormType["revisionMeta"]>;
   updateNotes?: (art: IUpdatedArticle) => Promise<IArticle>;
@@ -42,7 +43,6 @@ const QualityEvaluation = ({
   articleType,
   article,
   taxonomy,
-  iconButtonColor,
   revisionMetaField,
   revisionMetaHelpers,
   updateNotes,
@@ -53,23 +53,20 @@ const QualityEvaluation = ({
 
   return (
     <FlexWrapper>
-      <Text margin="none" textStyle="button">
-        {`${t("qualityEvaluationForm.title")}:`}
-      </Text>
+      <Text textStyle="label.small" fontWeight="semibold">{`${t("qualityEvaluationForm.title")}:`}</Text>
       {qualityEvaluation?.grade ? (
         <>
           <SmallQualityEvaluationGrade grade={qualityEvaluation.grade} tooltip={qualityEvaluation?.note} />
         </>
       ) : (
-        <StyledNoEvaluation margin="none" textStyle="button">
+        <StyledText textStyle="body.small" fontWeight="bold" color="text.subtle">
           {t("qualityEvaluationForm.unavailable")}
-        </StyledNoEvaluation>
+        </StyledText>
       )}
       <QualityEvaluationModal
         articleType={articleType}
         article={article}
         taxonomy={taxonomy}
-        iconButtonColor={iconButtonColor}
         revisionMetaField={revisionMetaField}
         revisionMetaHelpers={revisionMetaHelpers}
         updateNotes={updateNotes}

@@ -17,5 +17,6 @@ export const StyledFigureButtons = styled("div", {
     right: "xxsmall",
     top: "xxsmall",
     gap: "xsmall",
+    zIndex: "docked",
   },
 });

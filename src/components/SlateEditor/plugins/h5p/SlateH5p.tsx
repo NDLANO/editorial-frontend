@@ -10,7 +10,6 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
-import { spacing, colors, stackOrder } from "@ndla/core";
 import { DeleteForever } from "@ndla/icons/editor";
 import { IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -33,10 +32,8 @@ interface Props extends RenderElementProps {
 const StyledEmbedWrapper = styled(EmbedWrapper, {
   base: {
     _selected: {
-      "& > figure": {
-        outline: "2px solid",
-        outlineColor: "stroke.default",
-      },
+      outline: "2px solid",
+      outlineColor: "stroke.default",
     },
   },
 });
@@ -77,7 +74,7 @@ const SlateH5p = ({ element, editor, attributes, children }: Props) => {
   };
 
   return (
-    <StyledEmbedWrapper {...attributes} data-selected={isSelected} contentEditable={false}>
+    <StyledEmbedWrapper {...attributes} aria-selected={isSelected} contentEditable={false}>
       <FigureButtons>
         {config.h5pMetaEnabled === true && <EditMetadataModal embed={embed} editor={editor} element={element} />}
         <EditH5PModal embed={embed} language={language} editor={editor} element={element} />

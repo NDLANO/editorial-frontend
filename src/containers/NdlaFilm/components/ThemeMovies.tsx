@@ -55,7 +55,10 @@ export const ThemeMovies = ({ movies, onMoviesUpdated, placeholder, comboboxLabe
     contextTypes: ["standard"],
     sort: "-relevance",
     resourceTypes: [
-      "urn:resourcetype:documentary,urn:resourcetype:featureFilm,urn:resourcetype:series,urn:resourcetype:shortFilm",
+      "urn:resourcetype:documentary",
+      "urn:resourcetype:featureFilm",
+      "urn:resourcetype:series",
+      "urn:resourcetype:shortFilm",
     ],
   });
 

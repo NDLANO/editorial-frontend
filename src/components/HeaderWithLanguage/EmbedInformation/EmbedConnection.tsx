@@ -8,16 +8,23 @@
 
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { colors } from "@ndla/core";
 import { SubjectMaterial } from "@ndla/icons/contentType";
-import { ModalHeader, ModalCloseButton, ModalBody, Modal, ModalTitle, ModalTrigger, ModalContent } from "@ndla/modal";
+import {
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  IconButton,
+  Text,
+} from "@ndla/primitives";
 import { IConceptSummary } from "@ndla/types-backend/concept-api";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
 import { postSearchConcepts } from "../../../modules/concept/conceptApi";
 import { postSearch } from "../../../modules/search/searchApi";
 import { routes } from "../../../util/routeHelpers";
+import { DialogCloseButton } from "../../DialogCloseButton";
 import ListResource from "../../Form/ListResource";
 
 type EmbedType = "image" | "audio" | "concept" | "gloss" | "article";
@@ -30,12 +37,6 @@ interface Props {
   concepts?: IConceptSummary[];
   setConcepts?: (concepts: IConceptSummary[]) => void;
 }
-
-const ImageInformationIcon = styled(SubjectMaterial)`
-  margin-top: -3px;
-  color: ${colors.brand.primary};
-  cursor: pointer;
-`;
 
 type SearchEmbedTypes = "image" | "audio" | "concept" | "gloss" | "content-link" | "related-content";
 
@@ -81,27 +82,28 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
   }
 
   return (
-    <Modal>
-      <ModalTrigger>
-        <ButtonV2
-          variant="stripped"
+    <DialogRoot>
+      <DialogTrigger asChild>
+        <IconButton
+          size="small"
+          variant="tertiary"
           aria-label={t(`form.embedConnections.info.${type}`)}
           title={t(`form.embedConnections.info.${type}`)}
         >
-          <ImageInformationIcon />
-        </ButtonV2>
-      </ModalTrigger>
-      <ModalContent>
-        <ModalHeader>
-          <ModalTitle>
+          <SubjectMaterial />
+        </IconButton>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>
             {t("form.embedConnections.title", {
               resource: t(`form.embedConnections.type.${type}`),
             })}
-          </ModalTitle>
-          <ModalCloseButton />
-        </ModalHeader>
-        <ModalBody>
-          <p>
+          </DialogTitle>
+          <DialogCloseButton />
+        </DialogHeader>
+        <DialogBody>
+          <Text>
             {t("form.embedConnections.sectionTitleArticle", {
               resource: t(`form.embedConnections.type.${type}`),
             })}{" "}
@@ -112,7 +114,7 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
               })}
               )
             </em>
-          </p>
+          </Text>
           {articles.map((element) => (
             <ListResource
               key={element.id}
@@ -123,7 +125,7 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
           ))}
           {(type === "image" || type === "audio") && (
             <>
-              <p>
+              <Text>
                 {t("form.embedConnections.sectionTitleConcept", {
                   resource: t(`form.embedConnections.type.${type}`),
                 })}{" "}
@@ -134,7 +136,7 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
                   })}
                   )
                 </em>
-              </p>
+              </Text>
               {concepts?.map((element) => (
                 <ListResource
                   key={element.id}
@@ -149,9 +151,9 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
               ))}
             </>
           )}
-        </ModalBody>
-      </ModalContent>
-    </Modal>
+        </DialogBody>
+      </DialogContent>
+    </DialogRoot>
   );
 };
 

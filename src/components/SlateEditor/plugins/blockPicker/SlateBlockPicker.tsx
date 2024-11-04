@@ -113,6 +113,13 @@ const StyledHeading = styled(Heading, {
   },
 });
 
+const StyledPopoverContent = styled(PopoverContent, {
+  base: {
+    // This acts more like a dropdown than a popover. We only have it as a popover because the "menu" is somewhat interactive.
+    zIndex: "dropdown",
+  },
+});
+
 const getLeftAdjust = (parent?: Node) => {
   if (Element.isElement(parent) && parent.type === TYPE_LIST_ITEM) {
     return 110;
@@ -406,7 +413,7 @@ const SlateBlockPicker = ({
               <Plus />
             </BlockPickerButton>
           </PopoverTrigger>
-          <PopoverContent data-testid="slate-block-picker-menu">
+          <StyledPopoverContent data-testid="slate-block-picker-menu">
             <StyledHeading textStyle="title.small">{t("editorBlockpicker.heading")}</StyledHeading>
             <StyledList>
               {getActionsForArea()
@@ -426,7 +433,7 @@ const SlateBlockPicker = ({
                   </StyledLi>
                 ))}
             </StyledList>
-          </PopoverContent>
+          </StyledPopoverContent>
         </Portal>
       </PopoverRoot>
     </>

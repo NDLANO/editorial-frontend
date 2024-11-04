@@ -928,12 +928,10 @@ const phrases = {
     editPodcast: "Endre podkast",
     editH5p: "Endre H5P",
     resetToProd: {
-      button: "Tilbakestill endringer",
-      modal: "Vil du tilbakestille utkastet til slik det er på ndla forsida?",
       success: "Innhold er tilbakestilt, trykk lagre for å lagre endringene",
     },
-    resetToVersion: "Tilbakestill til versjon",
-    previewVersion: "Samanlikn med publisert",
+    resetToVersion: "Tilbakestill språkvariant fra versjon",
+    previewVersion: "Samanlikn artikkel med versjon",
     variant: {
       create: "Legg til språk",
       translate: "Oversett til nynorsk",

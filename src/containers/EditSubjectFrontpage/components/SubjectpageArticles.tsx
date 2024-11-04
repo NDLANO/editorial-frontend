@@ -22,8 +22,8 @@ import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCom
 import ListResource from "../../../components/Form/ListResource";
 import { FormContent } from "../../../components/FormikForm";
 import { fetchDraft } from "../../../modules/draft/draftApi";
-import { useMoviesQuerySearch } from "../../../modules/frontpage/filmQueries";
 import { fetchLearningpath } from "../../../modules/learningpath/learningpathApi";
+import { useSearchResources } from "../../../modules/search/searchQueries";
 import handleError from "../../../util/handleError";
 import { routes, toLearningpathFull } from "../../../util/routeHelpers";
 import { usePaginatedQuery } from "../../../util/usePaginatedQuery";
@@ -55,15 +55,15 @@ const SubjectpageArticles = ({ editorsChoices, elementId, fieldName }: Props) =>
   const [fieldInputProps] = useField<(IArticle | ILearningPathV2)[]>(fieldName);
   const subjectId = getSubject(elementId);
 
-  const searchQuery = useMoviesQuerySearch(
+  const searchQuery = useSearchResources(
     {
       page,
-      subjects: subjectId,
+      subjects: subjectId ? [subjectId] : undefined,
       sort: "-relevance",
-      "page-size": 10,
+      pageSize: 10,
       query: delayedQuery,
     },
-    { placeholderData: (prev) => prev },
+    { placeholderData: (prev) => prev, enabled: !!subjectId },
   );
 
   const onAddResultToList = async (result: IMultiSearchSummary) => {

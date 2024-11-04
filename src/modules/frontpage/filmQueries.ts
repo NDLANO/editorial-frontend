@@ -46,7 +46,7 @@ export interface UseMovies {
 export const useMoviesQuery = (params: UseMovies, options: Partial<UseQueryOptions<IMultiSearchResult>> = {}) => {
   const { i18n } = useTranslation();
   const movieIds = params.movieUrns.map((urn) => Number(getIdFromUrn(urn))).filter((id) => !isNaN(id));
-  const ids = sortBy(movieIds).join(",");
+  const ids = sortBy(movieIds);
 
   return useQuery<IMultiSearchResult>({
     queryKey: filmQueryKeys.movies(params),
@@ -55,18 +55,6 @@ export const useMoviesQuery = (params: UseMovies, options: Partial<UseQueryOptio
       ...res,
       results: sortMoviesByIdList(movieIds, res.results, i18n),
     }),
-    ...options,
-  });
-};
-
-// TODO: Move and rename this query. It should be called useResourceSearchQuery or something like that
-export const useMoviesQuerySearch = (
-  params: MultiSearchApiQuery,
-  options: Partial<UseQueryOptions<IMultiSearchResult>> = {},
-) => {
-  return useQuery<IMultiSearchResult>({
-    queryKey: filmQueryKeys.search(params),
-    queryFn: () => searchResources(params),
     ...options,
   });
 };

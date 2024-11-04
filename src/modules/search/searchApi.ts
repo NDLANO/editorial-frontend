@@ -6,17 +6,16 @@
  *
  */
 
-import queryString from "query-string";
 import {
   IDraftSearchParams,
   IMultiSearchResult,
+  ISearchParams,
   ISubjectAggregations,
   ISubjectAggsInput,
 } from "@ndla/types-backend/search-api";
-import { MultiSearchApiQuery } from "./searchApiInterfaces";
 import { StringSort } from "../../containers/SearchPage/components/form/SearchForm";
 import { resolveJsonOrRejectWithError, apiResourceUrl, fetchAuthorized } from "../../util/apiHelpers";
-import { transformQuery, transformSearchBody } from "../../util/searchHelpers";
+import { transformSearchBody } from "../../util/searchHelpers";
 
 const baseUrl = apiResourceUrl("/search-api/v1/search");
 
@@ -28,8 +27,11 @@ export const postSearch = async (body: StringSort<IDraftSearchParams>): Promise<
   return resolveJsonOrRejectWithError(response);
 };
 
-export const searchResources = async (query: MultiSearchApiQuery): Promise<IMultiSearchResult> => {
-  const response = await fetchAuthorized(`${baseUrl}/?${queryString.stringify(transformQuery(query))}`);
+export const searchResources = async (body: ISearchParams): Promise<IMultiSearchResult> => {
+  const response = await fetchAuthorized(`${baseUrl}/`, {
+    method: "POST",
+    body: JSON.stringify(transformSearchBody(body)),
+  });
   return resolveJsonOrRejectWithError(response);
 };
 

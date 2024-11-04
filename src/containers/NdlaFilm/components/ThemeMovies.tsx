@@ -20,7 +20,8 @@ import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCom
 import ListResource from "../../../components/Form/ListResource";
 import { OldSpinner } from "../../../components/OldSpinner";
 import { NDLA_FILM_SUBJECT } from "../../../constants";
-import { useMoviesQuery, useMoviesQuerySearch } from "../../../modules/frontpage/filmQueries";
+import { useMoviesQuery } from "../../../modules/frontpage/filmQueries";
+import { useSearchResources } from "../../../modules/search/searchQueries";
 import { getUrnFromId } from "../../../util/ndlaFilmHelpers";
 import { routes } from "../../../util/routeHelpers";
 import { usePaginatedQuery } from "../../../util/usePaginatedQuery";
@@ -46,15 +47,16 @@ export const ThemeMovies = ({ movies, onMoviesUpdated, placeholder, comboboxLabe
 
   const { query, page, setPage, delayedQuery, setQuery } = usePaginatedQuery();
 
-  const searchQuery = useMoviesQuerySearch({
+  const searchQuery = useSearchResources({
     page,
     query: delayedQuery,
-    subjects: NDLA_FILM_SUBJECT,
-    "page-size": 10,
-    "context-types": "standard",
+    subjects: [NDLA_FILM_SUBJECT],
+    pageSize: 10,
+    contextTypes: ["standard"],
     sort: "-relevance",
-    "resource-types":
+    resourceTypes: [
       "urn:resourcetype:documentary,urn:resourcetype:featureFilm,urn:resourcetype:series,urn:resourcetype:shortFilm",
+    ],
   });
 
   useEffect(() => {

@@ -11,10 +11,11 @@ import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import {
   IDraftSearchParams,
   IMultiSearchResult,
+  ISearchParams,
   ISubjectAggregations,
   ISubjectAggsInput,
 } from "@ndla/types-backend/search-api";
-import { postSearch, searchSubjectStats } from "./searchApi";
+import { postSearch, searchResources, searchSubjectStats } from "./searchApi";
 import { DA_SUBJECT_ID, SA_SUBJECT_ID, LMA_SUBJECT_ID } from "../../constants";
 import { StringSort } from "../../containers/SearchPage/components/form/SearchForm";
 import { useTaxonomyVersion } from "../../containers/StructureVersion/TaxonomyVersionProvider";
@@ -24,7 +25,7 @@ import {
   getResultSubjectIdObject,
   getSubjectsIdsQuery,
 } from "../../containers/WelcomePage/utils";
-import { SEARCH, SEARCH_SUBJECT_STATS, SEARCH_WITH_CUSTOM_SUBJECTS_FILTERING } from "../../queryKeys";
+import { SEARCH, SEARCH_RESOURCES, SEARCH_SUBJECT_STATS, SEARCH_WITH_CUSTOM_SUBJECTS_FILTERING } from "../../queryKeys";
 import { getAccessToken, getAccessTokenPersonal } from "../../util/authHelpers";
 import { isValid } from "../../util/jwtHelper";
 import { useUserData } from "../draft/draftQueries";
@@ -35,6 +36,7 @@ export const searchQueryKeys = {
   searchWithCustomSubjectsFiltering: (params?: Partial<StringSort<IDraftSearchParams>>) =>
     [SEARCH_WITH_CUSTOM_SUBJECTS_FILTERING, params] as const,
   searchSubjectStats: (params?: Partial<ISubjectAggsInput>) => [SEARCH_SUBJECT_STATS, params] as const,
+  searchResources: (params: Partial<ISearchParams>) => [SEARCH_RESOURCES, params] as const,
 };
 
 export const useSearch = (
@@ -97,3 +99,10 @@ export const useSearchSubjectStats = (
     ...options,
   });
 };
+
+export const useSearchResources = (query: ISearchParams, options?: Partial<UseQueryOptions<IMultiSearchResult>>) =>
+  useQuery<IMultiSearchResult>({
+    queryKey: searchQueryKeys.searchResources(query),
+    queryFn: () => searchResources(query),
+    ...options,
+  });

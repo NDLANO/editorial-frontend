@@ -10,10 +10,9 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, NodeEntry, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
 import { BrushLine, Copyright } from "@ndla/icons/editor";
 import { IconButton } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { ContentTypeFramedContent, EmbedWrapper } from "@ndla/ui";
 import { FramedContentElement } from ".";
 import { TYPE_FRAMED_CONTENT } from "./types";
@@ -24,13 +23,15 @@ import { TYPE_COPYRIGHT } from "../copyright/types";
 import { defaultCopyrightBlock } from "../copyright/utils";
 import { StyledFigureButtons } from "../embed/FigureButtons";
 
-const FigureButtons = styled(StyledFigureButtons)`
-  position: absolute;
-  top: -${spacing.large};
-  right: 0;
-  display: flex;
-  justify-content: flex-end;
-`;
+const FigureButtons = styled(StyledFigureButtons, {
+  base: {
+    position: "absolute",
+    top: "-large",
+    right: 0,
+    display: "flex",
+    justifyContent: "flex-end",
+  },
+});
 
 interface Props extends RenderElementProps {
   editor: Editor;

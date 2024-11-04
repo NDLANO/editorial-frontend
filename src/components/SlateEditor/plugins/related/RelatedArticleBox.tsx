@@ -183,7 +183,7 @@ const RelatedArticleBox = ({ attributes, editor, element, children }: Props) => 
           data-testid="relatedWrapper"
           headingButtons={
             <ButtonWrapper>
-              <DialogTrigger>
+              <DialogTrigger asChild>
                 <IconButton aria-label={t("form.edit")} variant="tertiary" size="small" title={t("form.edit")}>
                   <Pencil />
                 </IconButton>

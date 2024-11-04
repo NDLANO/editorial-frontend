@@ -11,6 +11,7 @@ import { Portal } from "@ark-ui/react";
 import { DialogBody, DialogRoot, DialogContent, DialogHeader } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
+import { Portal } from "@ark-ui/react";
 
 const StyledDialogContent = styled(DialogContent, {
   base: {

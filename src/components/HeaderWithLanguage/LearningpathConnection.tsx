@@ -8,14 +8,20 @@
 
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { colors } from "@ndla/core";
 import { LearningPath } from "@ndla/icons/contentType";
-import { ModalCloseButton, ModalBody, Modal, ModalTitle, ModalHeader, ModalTrigger, ModalContent } from "@ndla/modal";
+import {
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  IconButton,
+} from "@ndla/primitives";
 import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
 import { fetchLearningpathsWithArticle } from "../../modules/learningpath/learningpathApi";
 import { toLearningpathFull } from "../../util/routeHelpers";
+import { DialogCloseButton } from "../DialogCloseButton";
 import ListResource from "../Form/ListResource";
 
 interface Props {
@@ -23,12 +29,6 @@ interface Props {
   learningpaths: ILearningPathV2[];
   setLearningpaths: (lps: ILearningPathV2[]) => void;
 }
-
-const LearningpathIcon = styled(LearningPath)`
-  margin-top: -3px;
-  color: ${colors.brand.primary};
-  cursor: pointer;
-`;
 
 const LearningpathConnection = ({ id, learningpaths, setLearningpaths }: Props) => {
   const { i18n, t } = useTranslation();
@@ -44,22 +44,23 @@ const LearningpathConnection = ({ id, learningpaths, setLearningpaths }: Props) 
   }
 
   return (
-    <Modal>
-      <ModalTrigger>
-        <ButtonV2
-          variant="stripped"
+    <DialogRoot>
+      <DialogTrigger asChild>
+        <IconButton
+          size="small"
+          variant="tertiary"
           aria-label={t("form.learningpathConnections.sectionTitle")}
           title={t("form.learningpathConnections.sectionTitle")}
         >
-          <LearningpathIcon />
-        </ButtonV2>
-      </ModalTrigger>
-      <ModalContent>
-        <ModalHeader>
-          <ModalTitle>{t("form.learningpathConnections.title")}</ModalTitle>
-          <ModalCloseButton />
-        </ModalHeader>
-        <ModalBody>
+          <LearningPath />
+        </IconButton>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{t("form.learningpathConnections.title")}</DialogTitle>
+          <DialogCloseButton />
+        </DialogHeader>
+        <DialogBody>
           {learningpaths.map((element) => (
             <ListResource
               key={element.id}
@@ -68,9 +69,9 @@ const LearningpathConnection = ({ id, learningpaths, setLearningpaths }: Props) 
               isExternal
             />
           ))}
-        </ModalBody>
-      </ModalContent>
-    </Modal>
+        </DialogBody>
+      </DialogContent>
+    </DialogRoot>
   );
 };
 

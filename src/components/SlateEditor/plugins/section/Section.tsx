@@ -13,14 +13,6 @@ import { DeleteBinLine } from "@ndla/icons";
 import { IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { SectionElement } from ".";
-import StyledFormContainer from "../../common/StyledFormContainer";
-
-interface Props {
-  attributes: RenderElementProps["attributes"];
-  element: SectionElement;
-  children: ReactNode;
-  editor: Editor;
-}
 
 const ButtonWrapper = styled("div", {
   base: {
@@ -29,12 +21,18 @@ const ButtonWrapper = styled("div", {
     right: "0px",
   },
 });
+interface Props {
+  attributes: RenderElementProps["attributes"];
+  element: SectionElement;
+  children: ReactNode;
+  editor: Editor;
+}
 
 const Section = ({ attributes, children, element, editor }: Props) => {
   const { t } = useTranslation();
 
   return (
-    <StyledFormContainer>
+    <div>
       <section {...attributes}>{children}</section>
       {editor.children.length > 1 && (
         <ButtonWrapper contentEditable={false}>
@@ -53,7 +51,7 @@ const Section = ({ attributes, children, element, editor }: Props) => {
           </IconButton>
         </ButtonWrapper>
       )}
-    </StyledFormContainer>
+    </div>
   );
 };
 

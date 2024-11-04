@@ -7,6 +7,7 @@
  */
 
 import { ReactElement, useCallback } from "react";
+import { Portal } from "@ark-ui/react";
 import { DialogBody, DialogRoot, DialogContent, DialogHeader } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
@@ -44,21 +45,25 @@ const VisualElementModalWrapper = ({ resource, children, onClose, isOpen, label 
   if (resource === "h5p") {
     return (
       <DialogRoot size="large" open={isOpen} onOpenChange={(details) => onOpenChange(details.open)}>
-        <StyledDialogContent>
-          <DialogBody>{children}</DialogBody>
-        </StyledDialogContent>
+        <Portal>
+          <StyledDialogContent>
+            <DialogBody>{children}</DialogBody>
+          </StyledDialogContent>
+        </Portal>
       </DialogRoot>
     );
   }
 
   return (
     <DialogRoot open={isOpen} size="large" onOpenChange={(details) => onOpenChange(details.open)}>
-      <DialogContent aria-label={label}>
-        <StyledDialogHeader>
-          <DialogCloseButton />
-        </StyledDialogHeader>
-        <DialogBody>{children}</DialogBody>
-      </DialogContent>
+      <Portal>
+        <DialogContent aria-label={label}>
+          <StyledDialogHeader>
+            <DialogCloseButton />
+          </StyledDialogHeader>
+          <DialogBody>{children}</DialogBody>
+        </DialogContent>
+      </Portal>
     </DialogRoot>
   );
 };

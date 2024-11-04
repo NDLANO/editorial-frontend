@@ -6,38 +6,35 @@
  *
  */
 import { TFunction } from "i18next";
-import { useMemo } from "react";
+import { ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { createListCollection } from "@ark-ui/react";
+import {
+  SelectContent,
+  SelectItemGroup,
+  SelectItemGroupLabel,
+  SelectPositioner,
+  SelectRoot,
+  SelectValueText,
+} from "@ndla/primitives";
 import { Version, VersionType } from "@ndla/types-taxonomy";
-import ObjectSelector from "../ObjectSelector";
+import { GenericSelectItem, GenericSelectTrigger } from "../abstractions/Select";
 
 interface Props {
   versions: Version[];
-  currentVersion?: Version;
-  onVersionChanged: (version: string) => void;
+  currentVersion?: string;
+  onVersionChanged: (version: Version) => void;
+  children?: ReactNode;
 }
 
 type OptGroups = {
   [key in Lowercase<VersionType>]: { id: string; name: string }[];
 };
 
-interface VersionTypeWithDefault extends Omit<Version, "versionType"> {
-  versionType: PossibleVersionTypes;
-}
-
-type PossibleVersionTypes = VersionType | "default";
-
-export const generateOptionGroups = (
-  options: {
-    id: string;
-    name: string;
-    type: VersionType;
-  }[],
-  t: TFunction,
-) => {
+export const generateOptionGroups = (options: Version[], t: TFunction) => {
   const { published, beta, archived } = options.reduce<OptGroups>(
     (acc, curr) => {
-      const type = curr.type.toLowerCase() as Lowercase<VersionType>;
+      const type = curr.versionType.toLowerCase() as Lowercase<VersionType>;
       acc[type].push(curr);
       return acc;
     },
@@ -57,40 +54,67 @@ export const generateOptionGroups = (
   return optGroups;
 };
 
-const OptGroupVersionSelector = ({ versions, currentVersion: currentVersionProp, onVersionChanged }: Props) => {
+export const OptGroupVersionSelector = ({
+  versions,
+  currentVersion: currentVersionProp,
+  onVersionChanged,
+  children,
+}: Props) => {
   const { t } = useTranslation();
 
-  const fakeDefault: VersionTypeWithDefault = {
-    id: "",
-    versionType: "default",
-    name: t("diff.defaultVersion"),
-    hash: "default",
-    locked: false,
-    created: "",
-  };
-  const currentVersion = currentVersionProp ?? fakeDefault;
-  const options = useMemo(
-    () =>
-      versions.map((version) => ({
-        id: version.hash,
-        name: version.name,
-        type: version.versionType,
-      })),
-    [versions],
+  const fakeDefault = useMemo(
+    () => ({
+      id: "",
+      versionType: "default",
+      name: t("diff.defaultVersion"),
+      hash: "default",
+      locked: false,
+      created: "",
+    }),
+    [t],
   );
-  const optGroups = useMemo(() => generateOptionGroups(options, t), [options, t]);
+
+  const currentVersion = currentVersionProp ?? fakeDefault.hash;
+
+  const collection = useMemo(() => {
+    return createListCollection({
+      items: [fakeDefault as Version].concat(versions),
+      itemToString: (item) => item.name,
+      itemToValue: (item) => item.hash,
+    });
+  }, [fakeDefault, versions]);
+
+  const optGroups = useMemo(() => generateOptionGroups(versions, t), [t, versions]);
 
   return (
-    <ObjectSelector
-      options={[fakeDefault]}
-      optGroups={optGroups}
-      onChange={(option) => onVersionChanged(option.currentTarget.value)}
-      onClick={(evt) => evt.stopPropagation()}
-      name="currentHash"
-      labelKey="name"
-      idKey="id"
-      value={currentVersion.hash}
-    />
+    <SelectRoot
+      collection={collection}
+      value={[currentVersion]}
+      positioning={{ sameWidth: true }}
+      onValueChange={(details) => {
+        onVersionChanged(details.items[0]);
+      }}
+    >
+      {children}
+      <GenericSelectTrigger>
+        <SelectValueText />
+      </GenericSelectTrigger>
+      <SelectPositioner>
+        <SelectContent>
+          <GenericSelectItem item={fakeDefault}>{fakeDefault.name}</GenericSelectItem>
+          {optGroups.map((optGroup) => (
+            <SelectItemGroup key={optGroup.label}>
+              <SelectItemGroupLabel>{optGroup.label}</SelectItemGroupLabel>
+              {optGroup.options.map((option) => (
+                <GenericSelectItem key={option.id} item={option}>
+                  {option.name}
+                </GenericSelectItem>
+              ))}
+            </SelectItemGroup>
+          ))}
+        </SelectContent>
+      </SelectPositioner>
+    </SelectRoot>
   );
 };
 

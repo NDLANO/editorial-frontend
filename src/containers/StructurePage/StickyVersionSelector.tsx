@@ -7,40 +7,54 @@
  */
 
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
-import { spacing, colors, stackOrder } from "@ndla/core";
-import { VersionType } from "@ndla/types-taxonomy";
-import OptGroupVersionSelector from "../../components/Taxonomy/OptGroupVersionSelector";
+import { SelectLabel } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { OptGroupVersionSelector } from "../../components/Taxonomy/OptGroupVersionSelector";
 import { useVersions } from "../../modules/taxonomy/versions/versionQueries";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 
-const versionTypeToColorMap: Record<VersionType | "default", string> = {
-  default: colors.brand.primary,
-  PUBLISHED: colors.support.green,
-  BETA: colors.support.yellow,
-  ARCHIVED: colors.brand.grey,
-};
+const StickyDiv = styled("div", {
+  base: {
+    display: "flex",
+    position: "sticky",
+    bottom: "medium",
+    zIndex: "docked",
+    borderRadius: "xsmall",
+    flexDirection: "column",
+    left: "50%",
+    width: "surface.xsmall",
+    transformOrigin: "center",
+    transform: "translateX(-50%)",
+    padding: "xsmall",
+    maxWidth: "surface.small",
+  },
+  defaultVariants: {
+    versionType: "default",
+  },
+  variants: {
+    versionType: {
+      default: {
+        background: "primary",
+      },
+      PUBLISHED: {
+        background: "surface.success",
+      },
+      BETA: {
+        background: "surface.warning",
+      },
+      ARCHIVED: {
+        background: "surface.disabled.strong",
+      },
+    },
+  },
+});
 
-interface StickyDivProps {
-  color: string;
-}
-
-const StickyDiv = styled.div<StickyDivProps>`
-  background-color: ${(props) => props.color};
-  display: flex;
-  position: sticky;
-  bottom: ${spacing.normal};
-  z-index: ${stackOrder.offsetSingle};
-  color: white;
-  border-radius: 20px;
-  flex-direction: column;
-  left: 50%;
-  width: 40%;
-  transform: translateX(-50%);
-  padding: ${spacing.small};
-  max-width: 400px;
-`;
+const StyledSelectLabel = styled(SelectLabel, {
+  base: {
+    color: "text.onAction",
+  },
+});
 
 const StickyVersionSelector = () => {
   const { t } = useTranslation();
@@ -63,9 +77,14 @@ const StickyVersionSelector = () => {
   };
 
   return (
-    <StickyDiv color={versionTypeToColorMap[currentVersion?.versionType ?? "default"]}>
-      {t("taxonomy.currentVersion")}
-      <OptGroupVersionSelector versions={data} currentVersion={currentVersion} onVersionChanged={onVersionChanged} />
+    <StickyDiv versionType={currentVersion?.versionType ?? "default"}>
+      <OptGroupVersionSelector
+        versions={data}
+        currentVersion={currentVersion?.hash}
+        onVersionChanged={(version) => onVersionChanged(version.hash)}
+      >
+        <StyledSelectLabel>{t("taxonomy.currentVersion")}</StyledSelectLabel>
+      </OptGroupVersionSelector>
     </StickyDiv>
   );
 };

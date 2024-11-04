@@ -15,11 +15,13 @@ import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
 import { ButtonV2 } from "@ndla/button";
 import { spacing, colors } from "@ndla/core";
+import { SelectLabel } from "@ndla/primitives";
 import { IArticle, IUpdatedArticle } from "@ndla/types-backend/draft-api";
 import { Node, Version } from "@ndla/types-taxonomy";
 import TopicArticleConnections from "./TopicArticleConnections";
 import { FormikFieldHelp } from "../../../../components/FormikField";
 import SaveButton from "../../../../components/SaveButton";
+import OptGroupVersionSelector from "../../../../components/Taxonomy/OptGroupVersionSelector";
 import { NodeWithChildren } from "../../../../components/Taxonomy/TaxonomyBlockNode";
 import { TAXONOMY_ADMIN_SCOPE } from "../../../../constants";
 import { fetchChildNodes } from "../../../../modules/nodes/nodeApi";
@@ -30,7 +32,6 @@ import { groupChildNodes } from "../../../../util/taxonomyHelpers";
 import { useSession } from "../../../Session/SessionProvider";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 import TaxonomyConnectionErrors from "../../components/TaxonomyConnectionErrors";
-import VersionSelect from "../../components/VersionSelect";
 
 interface Props {
   hasTaxEntries: boolean;
@@ -203,7 +204,14 @@ const TopicTaxonomyBlock = ({
             resources={resources}
             topics={topics}
           />
-          <VersionSelect versions={versions ?? []} onVersionChanged={onVersionChanged} />
+
+          <OptGroupVersionSelector
+            currentVersion={taxonomyVersion}
+            onVersionChanged={(version) => onVersionChanged(version.hash)}
+            versions={versions}
+          >
+            <SelectLabel>{t("taxonomy.version")}</SelectLabel>
+          </OptGroupVersionSelector>
         </>
       )}
       <TopicArticleConnections

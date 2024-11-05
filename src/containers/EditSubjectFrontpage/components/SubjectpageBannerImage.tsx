@@ -34,17 +34,13 @@ const SubjectpageBannerImage = ({ image, onImageSelectOpen }: Props) => {
       <StyledButton onClick={onImageSelectOpen}>{t("subjectpageForm.changeBanner")}</StyledButton>
     </ModalTrigger>
   );
-  const metaInformationTranslations = {
-    title: t("form.metaImage.imageTitle"),
-    copyright: t("form.metaImage.copyright"),
-    alt: t("form.name.alttext"),
-  };
+
   const src = `${config.ndlaApiUrl}/image-api/raw/id/${image.id}`;
   return (
     <>
       <img src={src} style={{ background: colors.brand.primary }} alt={image.alttext.alttext} />
       <div style={{ height: 5 }} />
-      <MetaInformation title={image.caption.caption} action={imageAction} translations={metaInformationTranslations} />
+      <MetaInformation title={image.caption.caption} action={imageAction} />
     </>
   );
 };

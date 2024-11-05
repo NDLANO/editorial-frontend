@@ -64,11 +64,7 @@ const MetaImageField = ({ image, onImageRemove, onImageLoad, disableAltEditing, 
       </SafeLinkIconButton>
     </>
   );
-  const metaInformationTranslations = {
-    title: t("form.metaImage.imageTitle"),
-    copyright: t("form.metaImage.copyright"),
-    alt: t("form.name.alttext"),
-  };
+
   const imageUrl = `${image.image.imageUrl}?width=400`;
   const { width, height } = image.image?.dimensions || { width: 0, height: 0 };
   const onLoad = (_: SyntheticEvent<HTMLImageElement, Event>) => {
@@ -84,7 +80,6 @@ const MetaImageField = ({ image, onImageRemove, onImageLoad, disableAltEditing, 
           copyright={copyright}
           action={imageAction}
           alt={hideAltText ? undefined : disableAltEditing ? alt : undefined}
-          translations={metaInformationTranslations}
         />
       </MetaImageContainer>
       {!disableAltEditing && (

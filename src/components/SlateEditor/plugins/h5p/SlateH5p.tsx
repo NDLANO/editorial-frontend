@@ -10,10 +10,9 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
-import styled from "@emotion/styled";
-import { spacing, colors, stackOrder } from "@ndla/core";
 import { DeleteForever } from "@ndla/icons/editor";
 import { IconButton } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { H5pMetaData } from "@ndla/types-embed";
 import { EmbedWrapper, H5pEmbed } from "@ndla/ui";
 import EditH5PModal from "./EditH5PModal";
@@ -30,19 +29,21 @@ interface Props extends RenderElementProps {
   editor: Editor;
 }
 
-const StyledEmbedWrapper = styled(EmbedWrapper)`
-  &[data-selected="true"] {
-    figure {
-      outline: 2px solid ${colors.brand.primary};
-    }
-  }
-`;
+const StyledEmbedWrapper = styled(EmbedWrapper, {
+  base: {
+    _selected: {
+      outline: "2px solid",
+      outlineColor: "stroke.default",
+    },
+  },
+});
 
-const FigureButtons = styled(StyledFigureButtons)`
-  right: ${spacing.small};
-  top: ${spacing.medium};
-  z-index: ${stackOrder.offsetSingle};
-`;
+const FigureButtons = styled(StyledFigureButtons, {
+  base: {
+    right: "xsmall",
+    top: "medium",
+  },
+});
 
 const SlateH5p = ({ element, editor, attributes, children }: Props) => {
   const { t } = useTranslation();
@@ -73,7 +74,7 @@ const SlateH5p = ({ element, editor, attributes, children }: Props) => {
   };
 
   return (
-    <StyledEmbedWrapper {...attributes} data-selected={isSelected} contentEditable={false}>
+    <StyledEmbedWrapper {...attributes} aria-selected={isSelected} contentEditable={false}>
       <FigureButtons>
         {config.h5pMetaEnabled === true && <EditMetadataModal embed={embed} editor={editor} element={element} />}
         <EditH5PModal embed={embed} language={language} editor={editor} element={element} />

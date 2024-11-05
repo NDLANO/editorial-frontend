@@ -29,8 +29,8 @@ import { StyledFigureButtons } from "../embed/FigureButtons";
 export const VideoWrapper = styled(EmbedWrapper, {
   base: {
     display: "block",
-    outline: "2px solid transparent",
     _selected: {
+      outline: "2px solid",
       outlineColor: "stroke.default",
     },
     "&[data-error='true']": {
@@ -106,7 +106,7 @@ const SlateVideo = ({ attributes, element, editor, children }: Props) => {
 
   return (
     <DialogRoot open={open} onOpenChange={({ open }) => setOpen(open)}>
-      <VideoWrapper {...attributes} data-selected={isSelected} data-error={hasError} contentEditable={false}>
+      <VideoWrapper {...attributes} aria-selected={isSelected} data-error={hasError} contentEditable={false}>
         {!embed ? (
           <Spinner />
         ) : (

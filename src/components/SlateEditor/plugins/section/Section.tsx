@@ -22,6 +22,18 @@ const ButtonWrapper = styled("div", {
   },
 });
 
+const Wrapper = styled("div", {
+  base: {
+    border: "1px solid transparent",
+    _hover: {
+      borderBlockColor: "stroke.hover",
+    },
+    _focusWithin: {
+      borderBlockColor: "stroke.hover",
+    },
+  },
+});
+
 interface Props {
   attributes: RenderElementProps["attributes"];
   element: SectionElement;
@@ -33,7 +45,7 @@ const Section = ({ attributes, children, element, editor }: Props) => {
   const { t } = useTranslation();
 
   return (
-    <div>
+    <Wrapper>
       <section {...attributes}>{children}</section>
       {editor.children.length > 1 && (
         <ButtonWrapper contentEditable={false}>
@@ -52,7 +64,7 @@ const Section = ({ attributes, children, element, editor }: Props) => {
           </IconButton>
         </ButtonWrapper>
       )}
-    </div>
+    </Wrapper>
   );
 };
 

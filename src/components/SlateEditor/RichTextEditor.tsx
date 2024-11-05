@@ -43,13 +43,6 @@ const StyledSlateWrapper = styled("div", {
     position: "relative",
     "& [data-slate-editor]": {
       outline: "none",
-      border: "1px solid transparent",
-      _hover: {
-        borderBlockColor: "stroke.hover",
-      },
-      _focusWithin: {
-        borderBlockColor: "stroke.hover",
-      },
     },
   },
 });

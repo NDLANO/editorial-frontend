@@ -1651,6 +1651,7 @@ const phrases = {
       SUBJECT: "subject",
       TOPIC: "topic",
     },
+    publishedVersion: "See published version",
     noValue: "No value",
     previewProgrammes: "Preview programmes in frontend",
     addNode: "Add {{nodeType}}",

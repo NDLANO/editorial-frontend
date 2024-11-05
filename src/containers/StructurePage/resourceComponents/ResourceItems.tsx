@@ -134,13 +134,11 @@ const ResourceItems = ({ resources, currentNodeId, contentMeta, contentMetaLoadi
         renderItem={(resource) => (
           <Resource
             responsible={users?.[contentMeta[resource.contentUri ?? ""]?.responsible?.responsibleId ?? ""]?.name}
-            currentNodeId={currentNodeId}
             resource={{
               ...resource,
               contentMeta: resource.contentUri ? contentMeta[resource.contentUri] : undefined,
             }}
             key={resource.id}
-            onDelete={toggleDelete}
             contentMetaLoading={contentMetaLoading}
             showQuality={showQuality}
           />

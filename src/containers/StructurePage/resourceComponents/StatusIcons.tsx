@@ -8,22 +8,15 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { ErrorWarningFill } from "@ndla/icons/common";
+import { ErrorWarningLine, TimeLine, WarningOutline } from "@ndla/icons/common";
 import { InProgress } from "@ndla/icons/editor";
 import { styled } from "@ndla/styled-system/jsx";
 import { isApproachingRevision } from "./ApproachingRevisionDate";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
 import WrongTypeError from "./WrongTypeError";
-import { getWarnStatus, StyledTimeIcon } from "../../../components/HeaderWithLanguage/HeaderStatusInformation";
+import { getWarnStatus } from "../../../components/HeaderWithLanguage/HeaderStatusInformation";
 import formatDate from "../../../util/formatDate";
 import { getExpirationDate } from "../../ArticlePage/articleTransformers";
-
-const StyledErrorWarningFill = styled(ErrorWarningFill, {
-  base: {
-    fill: "surface.warning",
-    stroke: "stroke.default",
-  },
-});
 
 const IconWrapper = styled("div", {
   base: {
@@ -36,10 +29,9 @@ interface Props {
   contentMetaLoading: boolean;
   resource: ResourceWithNodeConnectionAndMeta;
   multipleTaxonomy: boolean;
-  path?: string;
 }
 
-const StatusIcons = ({ contentMetaLoading, resource, multipleTaxonomy, path }: Props) => {
+const StatusIcons = ({ contentMetaLoading, resource, multipleTaxonomy }: Props) => {
   const { t } = useTranslation();
   const approachingRevision = useMemo(
     () => isApproachingRevision(resource.contentMeta?.revisions),
@@ -48,31 +40,28 @@ const StatusIcons = ({ contentMetaLoading, resource, multipleTaxonomy, path }: P
   const expirationDate = getExpirationDate({
     revisions: resource.contentMeta?.revisions?.filter((r) => !!r)!,
   });
-  const expirationColor = getWarnStatus(expirationDate);
+  const warnStatus = getWarnStatus(expirationDate);
 
   const expirationText = useMemo(() => {
-    if (expirationColor && expirationDate) {
-      return t(`form.workflow.expiration.${expirationColor}`, {
+    if (expirationDate && warnStatus) {
+      return t(`form.workflow.expiration.${warnStatus}`, {
         date: formatDate(expirationDate),
       });
     }
     return undefined;
-  }, [expirationColor, expirationDate, t]);
+  }, [expirationDate, t, warnStatus]);
 
   return (
     <IconWrapper>
       {resource.contentMeta?.started && (
         <InProgress aria-label={t("taxonomy.inProgress")} title={t("taxonomy.inProgress")} />
       )}
-      {approachingRevision && expirationColor && expirationDate && (
-        <StyledTimeIcon data-status={expirationColor} aria-label={expirationText} title={expirationText} />
+      {approachingRevision && warnStatus && expirationDate && (
+        <TimeLine aria-label={expirationText} title={expirationText} />
       )}
       {!contentMetaLoading && <WrongTypeError resource={resource} articleType={resource.contentMeta?.articleType} />}
       {multipleTaxonomy && (
-        <StyledErrorWarningFill
-          aria-label={t("form.workflow.multipleTaxonomy")}
-          title={t("form.workflow.multipleTaxonomy")}
-        />
+        <WarningOutline aria-label={t("form.workflow.multipleTaxonomy")} title={t("form.workflow.multipleTaxonomy")} />
       )}
     </IconWrapper>
   );

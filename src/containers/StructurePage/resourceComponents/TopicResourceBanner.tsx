@@ -14,7 +14,6 @@ import { Text } from "@ndla/primitives";
 import { Node, NodeChild, ResourceType } from "@ndla/types-taxonomy";
 import { ContentTypeBadge } from "@ndla/ui";
 import ApproachingRevisionDate from "./ApproachingRevisionDate";
-import GrepCodesModal from "./GrepCodesModal";
 import GroupResourceSwitch from "./GroupResourcesSwitch";
 import JumpToStructureButton from "./JumpToStructureButton";
 import ResourceItemLink from "./ResourceItemLink";
@@ -23,7 +22,6 @@ import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
 import VersionHistory from "./VersionHistory";
 import AverageQualityEvaluation from "../../../components/QualityEvaluation/AverageQualityEvaluation";
 import QualityEvaluation from "../../../components/QualityEvaluation/QualityEvaluation";
-import RelevanceOption from "../../../components/Taxonomy/RelevanceOption";
 import { PUBLISHED } from "../../../constants";
 import { Dictionary } from "../../../interfaces";
 import { NodeResourceMeta } from "../../../modules/nodes/nodeQueries";
@@ -153,10 +151,8 @@ const TopicResourceBanner = ({
               <StatusIcons
                 contentMetaLoading={contentMetaLoading}
                 resource={currentNode}
-                path={currentNode.path}
                 multipleTaxonomy={contexts?.length ? contexts.length > 1 : false}
               />
-              <RelevanceOption resource={currentNode} currentNodeId={currentNode.id} />
             </ContentGroup>
           </TitleRow>
           <ButtonRow>
@@ -165,13 +161,6 @@ const TopicResourceBanner = ({
               {responsible ?? t("form.responsible.noResponsible")}
             </StyledResponsibleBadge>
             <ButtonRow>
-              <GrepCodesModal
-                codes={currentNode.contentMeta?.grepCodes ?? []}
-                contentType={"topic-article"}
-                contentUri={currentNode.contentUri}
-                revision={currentNode.contentMeta?.revision}
-                currentNodeId={currentNode.id}
-              />
               <VersionHistory resource={currentNode} contentType={"topic-article"} />
             </ButtonRow>
           </ButtonRow>

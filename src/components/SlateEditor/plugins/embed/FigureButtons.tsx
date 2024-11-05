@@ -6,16 +6,17 @@
  *
  */
 
-import styled from "@emotion/styled";
-import { spacing, stackOrder } from "@ndla/core";
+import { styled } from "@ndla/styled-system/jsx";
 
-export const StyledFigureButtons = styled.div`
-  display: flex;
-  flex-flow: row;
-  justify-content: flex-end;
-  position: absolute;
-  right: ${spacing.nsmall};
-  top: ${spacing.nsmall};
-  z-index: ${stackOrder.offsetDouble};
-  gap: ${spacing.xsmall};
-`;
+export const StyledFigureButtons = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    position: "absolute",
+    right: "xxsmall",
+    top: "xxsmall",
+    gap: "xsmall",
+    zIndex: "docked",
+  },
+});

@@ -9,7 +9,7 @@
 import addYears from "date-fns/addYears";
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Alarm, Time } from "@ndla/icons/common";
+import { Alarm } from "@ndla/icons/common";
 import {
   SwitchControl,
   SwitchHiddenInput,
@@ -33,6 +33,7 @@ import PageSizeSelect from "./worklist/PageSizeSelect";
 import SubjectCombobox from "./worklist/SubjectCombobox";
 import Pagination from "../../../components/abstractions/Pagination";
 import { getWarnStatus } from "../../../components/HeaderWithLanguage/HeaderStatusInformation";
+import { StatusTimeFill } from "../../../components/StatusTimeFill";
 import {
   FAVOURITES_SUBJECT_ID,
   PUBLISHED,
@@ -59,12 +60,6 @@ const TextWrapper = styled("div", {
     overflow: "hidden",
     whiteSpace: "nowrap",
     textOverflow: "ellipsis",
-  },
-});
-
-const StyledTimeIcon = styled(Time, {
-  base: {
-    fill: "stroke.error",
   },
 });
 
@@ -197,14 +192,7 @@ const Revisions = ({ userData }: Props) => {
             id: `title_${resource.id}`,
             data: (
               <CellWrapper>
-                <StyledTimeIcon
-                  size="small"
-                  data-status={warnStatus}
-                  title={revisions}
-                  aria-label={revisions}
-                  aria-hidden={warnStatus === "warn"}
-                  visibility={warnStatus === "warn" ? "hidden" : "visible"}
-                />
+                <StatusTimeFill variant={warnStatus} size="small" title={revisions} aria-label={revisions} />
                 <TextWrapper>
                   <SafeLink
                     to={toEditArticle(resource.id, resource.learningResourceType)}

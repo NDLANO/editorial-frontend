@@ -27,7 +27,6 @@ export interface ResourceWithNodeConnectionAndMeta extends NodeChild {
 
 interface Props {
   currentChildNode: NodeChild;
-  setCurrentNode: (changedNode: NodeChild) => void;
   showQuality: boolean;
   users: Dictionary<Auth0UserData> | undefined;
 }
@@ -54,7 +53,7 @@ const withMissing = (r: NodeChild): NodeChild => ({
   resourceTypes: [missingObject],
 });
 
-const StructureResources = ({ currentChildNode, setCurrentNode, showQuality, users }: Props) => {
+const StructureResources = ({ currentChildNode, showQuality, users }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const grouped = currentChildNode?.metadata?.customFields["topic-resources"] ?? "grouped";
@@ -103,7 +102,6 @@ const StructureResources = ({ currentChildNode, setCurrentNode, showQuality, use
       currentNode={currentChildNode}
       contentMeta={keyedMetas}
       grouped={grouped === "grouped"}
-      setCurrentNode={setCurrentNode}
       contentMetaLoading={contentMetaLoading}
       showQuality={showQuality}
       users={users}

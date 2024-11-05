@@ -12,12 +12,6 @@ import { styled } from "@ndla/styled-system/jsx";
 import { GradeAverage } from "@ndla/types-taxonomy";
 import QualityEvaluationGrade from "../../containers/StructurePage/resourceComponents/QualityEvaluationGrade";
 
-const StyledText = styled(Text, {
-  base: {
-    fontStyle: "italic",
-  },
-});
-
 interface Props {
   gradeAverage: GradeAverage | undefined;
   nodeType: string;
@@ -41,9 +35,9 @@ const AverageQualityEvaluation = ({ gradeAverage, nodeType }: Props) => {
           })}
         />
       ) : (
-        <StyledText textStyle="body.small" fontWeight="bold" color="text.subtle">
+        <Text textStyle="label.small" color="text.subtle">
           {t("qualityEvaluationForm.unavailable")}
-        </StyledText>
+        </Text>
       )}
     </>
   );

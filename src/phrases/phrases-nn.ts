@@ -1650,7 +1650,7 @@ const phrases = {
       SUBJECT: "fag",
       TOPIC: "emne",
     },
-    publishedVersion: "Se publisert versjon",
+    publishedVersion: "Sjå publisert versjon",
     noValue: "Ikkje satt",
     previewProgrammes: "Forhåndsvis utdanningsprogram i frontend",
     addNode: "Legg til {{nodeType}}",
@@ -1704,6 +1704,8 @@ const phrases = {
     getExisting: "Eller hent eksisterande ressurs",
     inProgress: "Denne artikkelen har blitt byrja på",
     addPriority: "Prioritering",
+    supplementary: "Tilleggstoff",
+    displayOptions: "Visningsvalg",
     changeName: {
       loadError: "Klarte ikkje hente omsetjingar",
       updateError: "Klarte ikkje oppdatere omsetjingar",

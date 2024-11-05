@@ -24,12 +24,6 @@ const FlexWrapper = styled("div", {
   },
 });
 
-const StyledText = styled(Text, {
-  base: {
-    fontStyle: "italic",
-  },
-});
-
 interface Props {
   articleType?: string;
   article?: IArticle;
@@ -55,13 +49,11 @@ const QualityEvaluation = ({
     <FlexWrapper>
       <Text textStyle="label.small" fontWeight="semibold">{`${t("qualityEvaluationForm.title")}:`}</Text>
       {qualityEvaluation?.grade ? (
-        <>
-          <SmallQualityEvaluationGrade grade={qualityEvaluation.grade} tooltip={qualityEvaluation?.note} />
-        </>
+        <SmallQualityEvaluationGrade grade={qualityEvaluation.grade} tooltip={qualityEvaluation?.note} />
       ) : (
-        <StyledText textStyle="body.small" fontWeight="bold" color="text.subtle">
+        <Text textStyle="label.small" color="text.subtle">
           {t("qualityEvaluationForm.unavailable")}
-        </StyledText>
+        </Text>
       )}
       <QualityEvaluationModal
         articleType={articleType}

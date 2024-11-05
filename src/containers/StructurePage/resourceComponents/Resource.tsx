@@ -8,17 +8,19 @@
 
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
-import { CheckboxCircleFill } from "@ndla/icons/editor";
+import { CheckboxCircleLine } from "@ndla/icons/editor";
 import { Text, ListItemContent, ListItemHeading, ListItemRoot } from "@ndla/primitives";
-import { SafeLink } from "@ndla/safelink";
+import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { cva } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
+import GrepCodesDialog from "./GrepCodesDialog";
 import QualityEvaluationGrade from "./QualityEvaluationGrade";
 import StatusIcons from "./StatusIcons";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
 import VersionHistory from "./VersionHistory";
+import { SupplementaryIndicator } from "../../../components/Taxonomy/SupplementaryIndicator";
 import config from "../../../config";
-import { PUBLISHED } from "../../../constants";
+import { PUBLISHED, RESOURCE_FILTER_SUPPLEMENTARY } from "../../../constants";
 import { getContentTypeFromResourceTypes } from "../../../util/resourceHelpers";
 import { routes, toLearningpathFull } from "../../../util/routeHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
@@ -37,19 +39,13 @@ const InfoItems = styled("div", {
   },
 });
 
-const StyledCheckboxCircleFill = styled(CheckboxCircleFill, {
-  base: {
-    fill: "surface.success",
-    marginInlineStart: "3xsmall",
-  },
-});
-
 const ContentRow = styled("div", {
   base: {
     display: "flex",
     width: "100%",
     justifyContent: "space-between",
     alignItems: "center",
+    gap: "3xsmall",
   },
 });
 
@@ -62,7 +58,7 @@ const ControlButtonGroup = styled("div", {
   },
 });
 
-const linkRecipe = cva({
+export const linkRecipe = cva({
   base: {
     color: "text.default",
     textDecoration: "underline",
@@ -80,21 +76,23 @@ const StyledListItemContent = styled(ListItemContent, {
   },
 });
 
-const InfoTextWrapper = styled("div", {
+const TextWrapper = styled("div", {
   base: {
     display: "flex",
-    gap: "5xsmall",
+    gap: "xxsmall",
+    alignItems: "center",
   },
 });
 
 interface Props {
+  currentNodeId: string;
   responsible?: string;
   resource: ResourceWithNodeConnectionAndMeta;
   contentMetaLoading: boolean;
   showQuality: boolean;
 }
 
-const Resource = ({ resource, contentMetaLoading, responsible, showQuality }: Props) => {
+const Resource = ({ currentNodeId, resource, contentMetaLoading, responsible, showQuality }: Props) => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
   const { taxonomyVersion } = useTaxonomyVersion();
@@ -111,30 +109,35 @@ const Resource = ({ resource, contentMetaLoading, responsible, showQuality }: Pr
     return pathWithoutResource === currentPath;
   });
 
+  const isSupplementary = resource.relevanceId === RESOURCE_FILTER_SUPPLEMENTARY;
+
   return (
     <StyledListItemRoot context="list" variant="subtle">
       <StyledListItemContent>
         <ContentRow>
-          <ListItemHeading>
-            {numericId ? (
-              <SafeLink
-                to={
-                  contentType === "learning-path"
-                    ? toLearningpathFull(numericId, i18n.language)
-                    : routes.editArticle(numericId, contentType)
-                }
-                target="_blank"
-                rel="noopener noreferrer"
-                css={linkRecipe.raw()}
-              >
-                {resource.name}
-              </SafeLink>
-            ) : (
-              <Text textStyle="body.link" css={linkRecipe.raw()}>
-                {resource.name}
-              </Text>
-            )}
-          </ListItemHeading>
+          <TextWrapper>
+            <ListItemHeading>
+              {numericId ? (
+                <SafeLink
+                  to={
+                    contentType === "learning-path"
+                      ? toLearningpathFull(numericId, i18n.language)
+                      : routes.editArticle(numericId, contentType)
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  css={linkRecipe.raw()}
+                >
+                  {resource.name}
+                </SafeLink>
+              ) : (
+                <Text textStyle="body.link" css={linkRecipe.raw()}>
+                  {resource.name}
+                </Text>
+              )}
+            </ListItemHeading>
+            {isSupplementary && <SupplementaryIndicator />}
+          </TextWrapper>
           <InfoItems>
             {showQuality && (
               <QualityEvaluationGrade
@@ -154,7 +157,7 @@ const Resource = ({ resource, contentMetaLoading, responsible, showQuality }: Pr
           </InfoItems>
         </ContentRow>
         <ContentRow>
-          <InfoTextWrapper>
+          <TextWrapper>
             <Text color="text.subtle" textStyle="label.small">
               {t(`contentTypes.${contentType}`)}
             </Text>
@@ -162,22 +165,30 @@ const Resource = ({ resource, contentMetaLoading, responsible, showQuality }: Pr
               |
             </Text>
             <Text color="text.subtle" textStyle="label.small">
-              <b>{`${t("form.responsible.label")}: `}</b>
               {responsible ?? t("form.responsible.noResponsible")}
             </Text>
-          </InfoTextWrapper>
+          </TextWrapper>
           <ControlButtonGroup>
             {(resource.contentMeta?.status?.current === PUBLISHED ||
               resource.contentMeta?.status?.other?.includes(PUBLISHED)) && (
-              <SafeLink
+              <SafeLinkIconButton
                 target="_blank"
                 to={`${config.ndlaFrontendDomain}${path}?versionHash=${taxonomyVersion}`}
-                css={linkRecipe.raw()}
+                aria-label={t("taxonomy.publishedVersion")}
+                title={t("taxonomy.publishedVersion")}
+                size="small"
+                variant="success"
               >
-                {t("taxonomy.publishedVersion")}
-                <StyledCheckboxCircleFill size="small" />
-              </SafeLink>
+                <CheckboxCircleLine />
+              </SafeLinkIconButton>
             )}
+            <GrepCodesDialog
+              codes={resource.contentMeta?.grepCodes ?? []}
+              contentType={contentType}
+              contentUri={resource.contentUri}
+              revision={resource.contentMeta?.revision}
+              currentNodeId={currentNodeId}
+            />
             <VersionHistory resource={resource} contentType={contentType} />
           </ControlButtonGroup>
         </ContentRow>

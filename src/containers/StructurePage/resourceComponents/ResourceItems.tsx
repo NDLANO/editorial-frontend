@@ -133,6 +133,7 @@ const ResourceItems = ({ resources, currentNodeId, contentMeta, contentMetaLoadi
         }
         renderItem={(resource) => (
           <Resource
+            currentNodeId={currentNodeId}
             responsible={users?.[contentMeta[resource.contentUri ?? ""]?.responsible?.responsibleId ?? ""]?.name}
             resource={{
               ...resource,

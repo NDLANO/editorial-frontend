@@ -1703,6 +1703,8 @@ const phrases = {
     getExisting: "Eller hent eksisterende ressurs",
     inProgress: "Denne artikkelen er påbegynt",
     addPriority: "Prioritering",
+    supplementary: "Tilleggstoff",
+    displayOptions: "Visningsvalg",
     changeName: {
       loadError: "Klarte ikke hente oversettelser",
       updateError: "Klarte ikke oppdatere oversettelser",

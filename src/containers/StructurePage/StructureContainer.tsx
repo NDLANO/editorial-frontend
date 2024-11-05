@@ -64,6 +64,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: space-between;
   flex: 1;
+  padding-block-start: ${spacing.nsmall};
 `;
 
 const getNodes = (
@@ -250,12 +251,7 @@ const StructureContainer = ({
                     <SubjectBanner subjectNode={currentNode} showQuality={showQuality} users={users} />
                   )}
                   {isChildNode(currentNode) && (
-                    <StructureResources
-                      currentChildNode={currentNode}
-                      setCurrentNode={setCurrentNode}
-                      showQuality={showQuality}
-                      users={users}
-                    />
+                    <StructureResources currentChildNode={currentNode} showQuality={showQuality} users={users} />
                   )}
                 </StickyContainer>
               )}

@@ -14,7 +14,7 @@ import { getIdFromUrn } from "../../../util/taxonomyHelpers";
 
 const StyledErrorWarningFill = styled(ErrorWarningFill, {
   base: {
-    fill: "surface.error",
+    fill: "surface.danger",
   },
 });
 

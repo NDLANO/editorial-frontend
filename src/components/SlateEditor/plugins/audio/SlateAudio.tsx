@@ -35,10 +35,8 @@ const StyledEmbedWrapper = styled(EmbedWrapper, {
   base: {
     position: "relative",
     _selected: {
-      "& > figure": {
-        outline: "2px solid",
-        outlineColor: "brand.primary",
-      },
+      outline: "2px solid",
+      outlineColor: "stroke.default",
     },
   },
 });
@@ -114,7 +112,7 @@ const SlateAudio = ({ element, editor, attributes, children }: Props) => {
       <StyledEmbedWrapper
         {...attributes}
         contentEditable={false}
-        data-selected={isSelected}
+        aria-selected={isSelected}
         data-type={embed?.embedData.type}
       >
         {audioMetaQuery.isLoading ? (

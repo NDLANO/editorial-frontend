@@ -10,16 +10,24 @@ import { ReactNode, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
-import styled from "@emotion/styled";
-import { colors, spacing } from "@ndla/core";
+import { Portal } from "@ark-ui/react";
 import { Pencil } from "@ndla/icons/action";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
-import { IconButton } from "@ndla/primitives";
+import {
+  DialogContent,
+  DialogRoot,
+  DialogTitle,
+  DialogBody,
+  DialogHeader,
+  IconButton,
+  DialogTrigger,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { CopyrightEmbedData, CopyrightMetaData } from "@ndla/types-embed";
 import { CopyrightEmbed, EmbedWrapper } from "@ndla/ui";
 import { EmbedCopyrightForm } from "./EmbedCopyrightForm";
 import { CopyrightElement, TYPE_COPYRIGHT } from "./types";
 import DeleteButton from "../../../DeleteButton";
+import { DialogCloseButton } from "../../../DialogCloseButton";
 import MoveContentButton from "../../../MoveContentButton";
 import { StyledFigureButtons } from "../embed/FigureButtons";
 
@@ -30,23 +38,28 @@ interface Props {
   element: CopyrightElement;
 }
 
-const StyledEmbedWrapper = styled(EmbedWrapper)`
-  [data-copyright-content] {
-    border: 1px solid ${colors.brand.primary};
-    padding: ${spacing.xsmall};
-  }
-`;
+const StyledEmbedWrapper = styled(EmbedWrapper, {
+  base: {
+    "&[data-copyright-content]": {
+      border: "1px solid",
+      borderColor: "stroke.default",
+      padding: "2xsmall",
+    },
+  },
+});
 
-const ButtonContainer = styled(StyledFigureButtons)`
-  display: flex;
-  position: absolute;
-  top: -${spacing.large};
-  right: 0;
-`;
-
-const StyledModalHeader = styled(ModalHeader)`
-  padding-bottom: 0px;
-`;
+const ButtonContainer = styled(
+  StyledFigureButtons,
+  {
+    base: {
+      display: "flex",
+      position: "absolute",
+      top: "-large",
+      right: 0,
+    },
+  },
+  { baseComponent: true },
+);
 
 const SlateCopyright = ({ attributes, children, element, editor }: Props) => {
   const { t } = useTranslation();
@@ -131,8 +144,8 @@ const SlateCopyright = ({ attributes, children, element, editor }: Props) => {
     <StyledEmbedWrapper data-testid="slate-copyright-block" {...attributes}>
       <ButtonContainer contentEditable={false}>
         <DeleteButton aria-label={t("delete")} data-testid="delete-copyright" onClick={handleDelete} />
-        <Modal open={modalOpen} onOpenChange={setModalOpen}>
-          <ModalTrigger>
+        <DialogRoot open={modalOpen} onOpenChange={(details) => setModalOpen(details.open)}>
+          <DialogTrigger asChild>
             <IconButton
               variant="tertiary"
               size="small"
@@ -142,17 +155,19 @@ const SlateCopyright = ({ attributes, children, element, editor }: Props) => {
             >
               <Pencil />
             </IconButton>
-          </ModalTrigger>
-          <ModalContent size="normal">
-            <StyledModalHeader>
-              <ModalTitle>{t("form.copyright.title")}</ModalTitle>
-              <ModalCloseButton />
-            </StyledModalHeader>
-            <ModalBody>
-              <EmbedCopyrightForm embedData={element.data} onCancel={onClose} onSave={onSave} />
-            </ModalBody>
-          </ModalContent>
-        </Modal>
+          </DialogTrigger>
+          <Portal>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>{t("form.copyright.title")}</DialogTitle>
+                <DialogCloseButton />
+              </DialogHeader>
+              <DialogBody>
+                <EmbedCopyrightForm embedData={element.data} onCancel={onClose} onSave={onSave} />
+              </DialogBody>
+            </DialogContent>
+          </Portal>
+        </DialogRoot>
         <MoveContentButton
           aria-label={t("form.moveContent")}
           data-testid="move-copyright"

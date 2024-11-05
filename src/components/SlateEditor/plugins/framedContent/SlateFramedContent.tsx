@@ -25,11 +25,8 @@ import { StyledFigureButtons } from "../embed/FigureButtons";
 
 const FigureButtons = styled(StyledFigureButtons, {
   base: {
-    position: "absolute",
-    top: "-large",
+    top: "-xlarge",
     right: 0,
-    display: "flex",
-    justifyContent: "flex-end",
   },
 });
 

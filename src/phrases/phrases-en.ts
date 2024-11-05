@@ -718,6 +718,7 @@ const phrases = {
     left: "Left aligned",
     center: "Center aligned",
     right: "Right aligned",
+    rephrase: "Rephrase",
     disabled: {
       "comment-inline": "Comment can only overlap text",
     },

@@ -718,6 +718,7 @@ const phrases = {
     left: "Venstrejustert",
     center: "Midtstilt",
     right: "Høgrejustert",
+    rephrase: "Omformulering",
     disabled: {
       "comment-inline": "Kommentar kan kun overlappe tekst",
     },

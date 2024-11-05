@@ -40,26 +40,20 @@ interface Props {
 
 const StyledEmbedWrapper = styled(EmbedWrapper, {
   base: {
-    "&[data-copyright-content]": {
+    "& [data-copyright-content]": {
       border: "1px solid",
       borderColor: "stroke.default",
-      padding: "2xsmall",
+      padding: "xsmall",
     },
   },
 });
 
-const ButtonContainer = styled(
-  StyledFigureButtons,
-  {
-    base: {
-      display: "flex",
-      position: "absolute",
-      top: "-large",
-      right: 0,
-    },
+const ButtonContainer = styled(StyledFigureButtons, {
+  base: {
+    top: "-xlarge",
+    right: 0,
   },
-  { baseComponent: true },
-);
+});
 
 const SlateCopyright = ({ attributes, children, element, editor }: Props) => {
   const { t } = useTranslation();

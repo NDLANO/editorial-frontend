@@ -8,8 +8,7 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { ErrorWarningLine, TimeLine, WarningOutline } from "@ndla/icons/common";
-import { InProgress } from "@ndla/icons/editor";
+import { FileEditLine, TimeLine, WarningOutline } from "@ndla/icons/common";
 import { styled } from "@ndla/styled-system/jsx";
 import { isApproachingRevision } from "./ApproachingRevisionDate";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
@@ -54,7 +53,7 @@ const StatusIcons = ({ contentMetaLoading, resource, multipleTaxonomy }: Props) 
   return (
     <IconWrapper>
       {resource.contentMeta?.started && (
-        <InProgress aria-label={t("taxonomy.inProgress")} title={t("taxonomy.inProgress")} />
+        <FileEditLine aria-label={t("taxonomy.inProgress")} title={t("taxonomy.inProgress")} />
       )}
       {approachingRevision && warnStatus && expirationDate && (
         <TimeLine aria-label={expirationText} title={expirationText} />

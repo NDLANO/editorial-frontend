@@ -94,8 +94,8 @@ const EditH5PModal = ({ embed, language, editor, element }: Props) => {
   };
 
   return (
-    <DialogRoot size="large" open={isOpen} onOpenChange={(details) => (!details.open ? onClose() : setOpen(true))}>
-      <DialogTrigger>
+    <DialogRoot size="large" open={isOpen} onOpenChange={(details) => (details.open ? setOpen(true) : onClose())}>
+      <DialogTrigger asChild>
         <IconButton variant="secondary" size="small" title={t("form.editH5p")} aria-label={t("form.editH5p")}>
           <Link />
         </IconButton>

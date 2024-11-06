@@ -14,22 +14,22 @@ import { TYPE_PARAGRAPH } from "../paragraph/types";
 import { TYPE_SECTION } from "../section/types";
 
 export const languages = [
-  "ar",
+  "no",
   "de",
-  "en",
   "es",
+  "se",
+  "sma",
+  "zh",
+  "en",
+  "ar",
+  "prs",
   "fr",
   "heb",
   "la",
-  "no",
   "pli",
-  "prs",
   "san",
-  "se",
-  "sma",
   "so",
   "ti",
-  "zh",
 ] as const;
 
 export type TextType = "normal-text" | "heading-2" | "heading-3" | "heading-4";

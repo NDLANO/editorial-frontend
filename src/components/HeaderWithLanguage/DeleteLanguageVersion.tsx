@@ -9,10 +9,8 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { colors } from "@ndla/core";
-import { DeleteForever } from "@ndla/icons/editor";
+import { TrashCanOutline } from "@ndla/icons/action";
+import { Button } from "@ndla/primitives";
 import { useMessages } from "../../containers/Messages/MessagesProvider";
 import { deleteLanguageVersionAudio, deleteLanguageVersionSeries } from "../../modules/audio/audioApi";
 import { deleteLanguageVersionConcept } from "../../modules/concept/conceptApi";
@@ -37,27 +35,6 @@ import {
   toEditTopicArticle,
 } from "../../util/routeHelpers";
 import AlertModal from "../AlertModal";
-
-const DeleteButton = styled(ButtonV2)`
-  white-space: nowrap;
-  span {
-    color: ${colors.brand.primary};
-  }
-  &:hover,
-  &:active,
-  &:focus-within {
-    span {
-      color: currentColor;
-    }
-  }
-`;
-
-const StyledWrapper = styled.div`
-  flex-grow: 1;
-  display: flex;
-  justify-content: flex-end;
-  align-self: flex-start;
-`;
 
 const nonDeletableTypes = ["standard", "topic-article", "concept"];
 
@@ -139,15 +116,13 @@ const DeleteLanguageVersion = ({ id, language, supportedLanguages, type, disable
   }
 
   return (
-    <StyledWrapper>
-      <DeleteButton disabled={disabled} variant="ghost" colorTheme="danger" onClick={toggleShowDeleteWarning}>
-        <DeleteForever />
-        <span>
-          {t("form.workflow.deleteLanguageVersion.button", {
-            languageVersion: t(`languages.${language}`).toLowerCase(),
-          })}
-        </span>
-      </DeleteButton>
+    <>
+      <Button disabled={disabled} variant="danger" size="small" onClick={toggleShowDeleteWarning}>
+        <TrashCanOutline />
+        {t("form.workflow.deleteLanguageVersion.button", {
+          languageVersion: t(`languages.${language}`).toLowerCase(),
+        })}
+      </Button>
       <AlertModal
         title={t("form.workflow.deleteLanguageVersion.title")}
         label={t("form.workflow.deleteLanguageVersion.title")}
@@ -167,7 +142,7 @@ const DeleteLanguageVersion = ({ id, language, supportedLanguages, type, disable
         ]}
         onCancel={toggleShowDeleteWarning}
       />
-    </StyledWrapper>
+    </>
   );
 };
 

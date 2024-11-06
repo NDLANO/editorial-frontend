@@ -9,12 +9,12 @@
 import { useFormikContext } from "formik";
 import { memo, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { FileCompare } from "@ndla/icons/action";
 import { Launch } from "@ndla/icons/common";
 import { Check, Eye } from "@ndla/icons/editor";
 import { SafeLinkButton } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { IConcept } from "@ndla/types-backend/concept-api";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import DeleteLanguageVersion from "./DeleteLanguageVersion";
@@ -36,16 +36,25 @@ interface PreviewLightBoxProps {
   currentLanguage: string;
 }
 
-const StyledWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-`;
+const StyledWrapper = styled("div", {
+  base: {
+    display: "flex",
+    justifyContent: "space-between",
+    width: "100%",
+    flexWrap: "wrap",
+    alignItems: "center",
+    gap: "3xsmall",
+  },
+});
 
-const StyledGroup = styled.div`
-  display: flex;
-  align-items: center;
-`;
+const StyledGroup = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    flexWrap: "wrap",
+    gap: "3xsmall",
+  },
+});
 
 const PreviewLightBox = memo(({ type, currentLanguage, article, concept }: PreviewLightBoxProps) => {
   const { t } = useTranslation();
@@ -148,8 +157,8 @@ const HeaderActions = ({
   );
 
   return (
-    <>
-      <StyledWrapper>
+    <StyledWrapper>
+      <StyledGroup>
         <HeaderSupportedLanguages
           id={id}
           editUrl={editUrl}
@@ -212,17 +221,15 @@ const HeaderActions = ({
             </>
           )}
         </StyledGroup>
-      </StyledWrapper>
-      {
-        <DeleteLanguageVersion
-          id={id}
-          language={language}
-          supportedLanguages={supportedLanguages}
-          type={type}
-          disabled={disableDelete}
-        />
-      }
-    </>
+      </StyledGroup>
+      <DeleteLanguageVersion
+        id={id}
+        language={language}
+        supportedLanguages={supportedLanguages}
+        type={type}
+        disabled={disableDelete}
+      />
+    </StyledWrapper>
   );
 };
 

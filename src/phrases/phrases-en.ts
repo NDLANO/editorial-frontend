@@ -2169,6 +2169,9 @@ const phrases = {
       neutral: "Use neutral variant",
     },
   },
+  fileUpload: {
+    title: "Upload files",
+  },
 };
 
 export default phrases;

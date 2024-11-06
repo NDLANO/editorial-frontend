@@ -2168,6 +2168,9 @@ const phrases = {
       neutral: "Bruk nøytral variant",
     },
   },
+  fileUpload: {
+    title: "Last opp filer",
+  },
 };
 
 export default phrases;

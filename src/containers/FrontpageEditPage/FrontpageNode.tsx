@@ -13,7 +13,7 @@ import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing, colors, fonts } from "@ndla/core";
 import { AddLine } from "@ndla/icons/action";
-import { ChevronRight } from "@ndla/icons/common";
+import { ArrowRightShortLine } from "@ndla/icons/common";
 import { DeleteForever, EyeFill } from "@ndla/icons/editor";
 import { IconButton } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
@@ -139,7 +139,7 @@ const FrontpageNode = ({ name, remove, index, level, replace }: Props) => {
               hidden={!field.value.menu.length}
               title={openLabel}
             >
-              {!!field.value.menu.length && <ChevronRight />}
+              {!!field.value.menu.length && <ArrowRightShortLine />}
             </OpenButton>
           )}
           <TitleLink to={toEditFrontPageArticle(field.value.articleId, i18n.language)} target="_blank">

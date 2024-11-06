@@ -6,7 +6,7 @@
  *
  */
 
-import { ChevronLeft } from "@ndla/icons/common";
+import { ArrowLeftShortLine } from "@ndla/icons/common";
 import { IconButton, IconButtonProps } from "@ndla/primitives";
 
 export const MoveContentButton = ({ onMouseDown, ...rest }: IconButtonProps) => {
@@ -21,7 +21,7 @@ export const MoveContentButton = ({ onMouseDown, ...rest }: IconButtonProps) => 
       {...rest}
       aria-label={rest["aria-label" ?? ""]}
     >
-      <ChevronLeft />
+      <ArrowLeftShortLine />
     </IconButton>
   );
 };

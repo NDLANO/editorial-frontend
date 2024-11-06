@@ -6,7 +6,7 @@
  *
  */
 
-import { ChevronLeft, ChevronRight } from "@ndla/icons/common";
+import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons/common";
 import {
   IconButton,
   PaginationContext,
@@ -48,7 +48,7 @@ const Pagination = ({ page = 1, onPageChange, count, pageSize, buttonSize = "med
           aria-label={translations?.prevTriggerLabel}
           title={translations?.prevTriggerLabel}
         >
-          <ChevronLeft />
+          <ArrowLeftShortLine />
         </IconButton>
       </PaginationPrevTrigger>
       <PaginationContext>
@@ -77,7 +77,7 @@ const Pagination = ({ page = 1, onPageChange, count, pageSize, buttonSize = "med
           aria-label={translations?.nextTriggerLabel}
           title={translations?.nextTriggerLabel}
         >
-          <ChevronRight />
+          <ArrowRightShortLine />
         </IconButton>
       </PaginationNextTrigger>
     </StyledPaginationRoot>

@@ -10,7 +10,7 @@ import { useField } from "formik";
 import { MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { Pencil } from "@ndla/icons/action";
-import { ChevronUp, ChevronDown } from "@ndla/icons/common";
+import { ArrowUpShortLine, ArrowDownShortLine } from "@ndla/icons/common";
 import { DeleteForever } from "@ndla/icons/editor";
 import { Button, Heading, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -153,7 +153,7 @@ const ThemeEditor = ({ selectedLanguage }: Props) => {
                 }}
                 title={t("ndlaFilm.editor.moveMovieGroupUp")}
               >
-                <ChevronUp />
+                <ArrowUpShortLine />
               </IconButton>
               <IconButton
                 size="small"
@@ -165,7 +165,7 @@ const ThemeEditor = ({ selectedLanguage }: Props) => {
                 }}
                 title={t("ndlaFilm.editor.moveMovieGroupDown")}
               >
-                <ChevronDown />
+                <ArrowDownShortLine />
               </IconButton>
             </div>
           </TitleActionRow>

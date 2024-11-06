@@ -12,11 +12,22 @@ import { Link, useLocation, useParams } from "react-router-dom";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing, colors } from "@ndla/core";
+import { InformationLine } from "@ndla/icons/common";
+import {
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  IconButton,
+  Text,
+} from "@ndla/primitives";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import { Row } from "../../components";
+import { DialogCloseButton } from "../../components/DialogCloseButton";
 import FieldHeader from "../../components/Field/FieldHeader";
 import HeaderSupportedLanguages from "../../components/HeaderWithLanguage/HeaderSupportedLanguages";
-import HelpMessage from "../../components/HelpMessage";
 import { OldSpinner } from "../../components/OldSpinner";
 import PreviewDraftLightboxV2 from "../../components/PreviewDraft/PreviewDraftLightboxV2";
 import SaveButton from "../../components/SaveButton";
@@ -177,10 +188,28 @@ const EditMarkupPage = () => {
   return (
     <Container>
       <FieldHeader title={t("editMarkup.title")} subTitle={t("editMarkup.subTitle")}>
-        <HelpMessage>
-          <p>{t("editMarkup.helpMessage.paragraph1")}</p>
-          <p>{t("editMarkup.helpMessage.paragraph2")}</p>
-        </HelpMessage>
+        <DialogRoot>
+          <DialogTrigger asChild>
+            <IconButton
+              variant="tertiary"
+              size="small"
+              title={t("editMarkup.helpMessage.tooltip")}
+              aria-label={t("editMarkup.helpMessage.tooltip")}
+            >
+              <InformationLine />
+            </IconButton>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>{t("editMarkup.helpMessage.tooltip")}</DialogTitle>
+              <DialogCloseButton />
+            </DialogHeader>
+            <DialogBody>
+              <Text>{t("editMarkup.helpMessage.paragraph1")}</Text>
+              <Text>{t("editMarkup.helpMessage.paragraph2")}</Text>
+            </DialogBody>
+          </DialogContent>
+        </DialogRoot>
       </FieldHeader>
       <LanguageWrapper>
         <HeaderSupportedLanguages

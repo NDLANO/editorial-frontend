@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
 import { spacing, colors } from "@ndla/core";
-import { Plus } from "@ndla/icons/action";
+import { AddLine } from "@ndla/icons/action";
 import { Done } from "@ndla/icons/editor";
 import { Node, NodeType } from "@ndla/types-taxonomy";
 import MenuItemButton from "./components/MenuItemButton";
@@ -111,7 +111,7 @@ const ConnectExistingNode = ({ editModeHandler: { editMode, toggleEditMode }, cu
   if (editMode === "connectExistingNode") {
     return (
       <Wrapper>
-        <RoundIcon open small smallIcon icon={<Plus />} />
+        <RoundIcon open small smallIcon icon={<AddLine />} />
         <NodeSearchDropdown
           label={t("taxonomy.connectExistingNode", {
             nodeType: t(`taxonomy.nodeType.${nodeType}`),
@@ -133,7 +133,7 @@ const ConnectExistingNode = ({ editModeHandler: { editMode, toggleEditMode }, cu
   return (
     <StyledMenuWrapper>
       <MenuItemButton onClick={toggleEditModeFunc}>
-        <RoundIcon small icon={<Plus />} />
+        <RoundIcon small icon={<AddLine />} />
         {t("taxonomy.connectExistingNode", {
           nodeType: t(`taxonomy.nodeType.${nodeType}`),
         })}

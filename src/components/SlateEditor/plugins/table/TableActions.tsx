@@ -12,7 +12,7 @@ import { Editor, Path, Range } from "slate";
 import { ReactEditor } from "slate-react";
 import styled from "@emotion/styled";
 import { colors, fonts, stackOrder } from "@ndla/core";
-import { Minus, Plus } from "@ndla/icons/action";
+import { Minus, AddLine } from "@ndla/icons/action";
 import { AlignCenter, AlignLeft, AlignRight } from "@ndla/icons/editor";
 import { Button, IconButton } from "@ndla/primitives";
 import EditColgroupsModal from "./EditColgroupsModal";
@@ -71,7 +71,7 @@ interface TableIconButtonProps {
 
 const rowActions = [
   {
-    icon: <Plus />,
+    icon: <AddLine />,
     name: "row-add",
   },
   {
@@ -82,7 +82,7 @@ const rowActions = [
 
 const columnActions = [
   {
-    icon: <Plus />,
+    icon: <AddLine />,
     name: "column-add",
   },
   {

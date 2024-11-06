@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
-import { Pencil, Plus } from "@ndla/icons/action";
+import { Pencil, AddLine } from "@ndla/icons/action";
 import { DeleteForever } from "@ndla/icons/editor";
 import { DialogContent, DialogRoot, DialogTrigger, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -125,7 +125,7 @@ const SlateLinkBlockList = ({ attributes, editor, element, children }: Props) =>
         <HeaderWrapper>
           <DialogTrigger asChild>
             <IconButton aria-label={t("linkBlock.create")} title={t("linkBlock.create")} size="small">
-              <Plus />
+              <AddLine />
             </IconButton>
           </DialogTrigger>
           <Portal>

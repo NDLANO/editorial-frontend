@@ -9,11 +9,19 @@
 import { FormikHandlers, useFormikContext } from "formik";
 import { useState, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { ButtonV2 } from "@ndla/button";
-import { ModalBody, ModalCloseButton, Modal, ModalHeader, ModalTrigger, ModalContent } from "@ndla/modal";
+import {
+  Button,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+} from "@ndla/primitives";
 import { IImageMetaInformationV3, IUpdateImageMetaInformation } from "@ndla/types-backend/image-api";
 import MetaImageField from "./components/MetaImageField";
 import ImageSearchAndUploader from "../../components/ControlledImageSearchAndUploader";
+import { DialogCloseButton } from "../../components/DialogCloseButton";
 import FieldHeader from "../../components/Field/FieldHeader";
 import HowToHelper from "../../components/HowTo/HowToHelper";
 import { postImage, updateImage, postSearchImages, fetchImage, onError } from "../../modules/image/imageApi";
@@ -103,17 +111,18 @@ const MetaImageSearch = ({
       <FieldHeader title={t("form.metaImage.title")}>
         <HowToHelper pageId="MetaImage" tooltip={t("form.metaImage.helpLabel")} />
       </FieldHeader>
-      <Modal open={showImageSelect} onOpenChange={setShowImageSelect}>
+      <DialogRoot open={showImageSelect} onOpenChange={(details) => setShowImageSelect(details.open)} size="large">
         {!image && (
-          <ModalTrigger>
-            <ButtonV2>{t("form.metaImage.add")}</ButtonV2>
-          </ModalTrigger>
+          <DialogTrigger asChild>
+            <Button>{t("form.metaImage.add")}</Button>
+          </DialogTrigger>
         )}
-        <ModalContent size={{ width: "large", height: "large" }}>
-          <ModalHeader>
-            <ModalCloseButton />
-          </ModalHeader>
-          <ModalBody>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("form.metaImage.add")}</DialogTitle>
+            <DialogCloseButton />
+          </DialogHeader>
+          <DialogBody>
             <ImageSearchAndUploader
               inModal={true}
               onImageSelect={onImageSet}
@@ -129,9 +138,9 @@ const MetaImageSearch = ({
               checkboxAction={checkboxAction}
               podcastFriendly={podcastFriendly}
             />
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+          </DialogBody>
+        </DialogContent>
+      </DialogRoot>
       {!showImageSelect && image && (
         <MetaImageField
           image={image}

@@ -308,7 +308,7 @@ const RichTextEditor = ({
     <article className={noArticleStyling ? undefined : "ndla-article"}>
       <ArticleLanguageProvider language={language}>
         <SlateProvider isSubmitted={submitted}>
-          <StyledSlateWrapper data-testid={testId}>
+          <StyledSlateWrapper data-testid={testId} data-slate-wrapper="">
             <Slate editor={editor} initialValue={value} onChange={onChange}>
               {isFirstNormalize && !hideSpinner ? (
                 <Spinner />

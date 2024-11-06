@@ -11,19 +11,17 @@ import {
   ComponentPropsWithRef,
   forwardRef,
   isValidElement,
-  memo,
-  MouseEvent,
-  useCallback,
+  ReactNode,
   useEffect,
   useMemo,
   useRef,
+  useState,
 } from "react";
 import { Editor, Range } from "slate";
-import { useSlate, useSlateSelection } from "slate-react";
-import styled from "@emotion/styled";
-import { Portal } from "@radix-ui/react-portal";
-import { ToggleGroup, Toolbar, ToolbarSeparator } from "@radix-ui/react-toolbar";
-import { colors, spacing, misc, stackOrder } from "@ndla/core";
+import { useFocused, useSlate, useSlateSelection } from "slate-react";
+import { usePopoverContext } from "@ark-ui/react";
+import { PopoverContent, PopoverRoot } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { ToolbarBlockOptions } from "./ToolbarBlockOptions";
 import { ToolbarInlineOptions } from "./ToolbarInlineOptions";
 import { ToolbarLanguageOptions } from "./ToolbarLanguageOptions";
@@ -39,56 +37,40 @@ import {
 import { ToolbarTableOptions } from "./ToolbarTableOptions";
 import { ToolbarTextOptions } from "./ToolbarTextOptions";
 
-const ToolbarContainer = styled(Toolbar)`
-  position: absolute;
-  align-self: center;
-  opacity: 0;
-  transition: opacity 0.75s;
-  border: 1px solid ${colors.brand.tertiary};
-  border-radius: ${misc.borderRadius};
-  background-color: ${colors.white};
-  padding: ${spacing.xsmall};
-  overflow: visible;
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.xsmall};
-  pointer-events: auto !important;
-`;
-
-const StyledToolbarRow = styled.div`
-  display: flex;
-`;
-
-const StyledToolbarSeparator = styled(ToolbarSeparator)`
-  margin: 0 ${spacing.xxsmall};
-  width: 1px;
-  background-color: ${colors.brand.greyLight};
-  &:last-child {
-    display: none;
-  }
-`;
-
-export const StyledToggleGroup = styled(ToggleGroup)`
-  display: flex;
-  gap: ${spacing.xxsmall};
-`;
-
-const showToolbar = (toolbar: HTMLElement, modalRef: HTMLElement | null) => {
-  toolbar.style.display = "flex";
-  const native = window.getSelection();
-  if (!native) {
-    return;
-  }
-  const range = native.getRangeAt(0);
-  const rect = range.getBoundingClientRect();
-  toolbar.style.opacity = "1";
-  toolbar.style.zIndex = `${modalRef ? stackOrder.modal + stackOrder.popover : stackOrder.popover}`;
-
-  const left = rect.left < toolbar.offsetWidth / 2 ? 10 : rect.left + rect.width / 2 - toolbar.offsetWidth / 2;
-
-  toolbar.style.top = `${rect.top + window.scrollY - toolbar.offsetHeight}px`;
-  toolbar.style.left = `${left}px`;
-};
+const ToolbarContainer = styled(PopoverContent, {
+  base: {
+    border: "1px solid",
+    isolation: "isolate",
+    borderColor: "stroke.subtle",
+    padding: "4xsmall",
+    textStyle: "body.medium",
+    userSelect: "none",
+    zIndex: "dropdown",
+    rowGap: "xsmall",
+    display: "grid",
+    "& > *": {
+      paddingInline: "3xsmall",
+    },
+    wide: {
+      gridTemplateColumns: "repeat(6, auto)",
+      "& > :not(:last-child)": {
+        borderRight: "1px solid",
+      },
+    },
+    tabletWideToWide: {
+      gridTemplateColumns: "repeat(3, auto)",
+      "& > :not(:last-child):not(:nth-child(3n))": {
+        borderRight: "1px solid",
+      },
+    },
+    tabletWideDown: {
+      gridTemplateColumns: "repeat(2, auto)",
+      "& > :not(:last-child):not(:nth-child(2n))": {
+        borderRight: "1px solid",
+      },
+    },
+  },
+});
 
 export interface ToolbarCategoryProps<T extends ToolbarValues> {
   options: ToolbarValue<T>[];
@@ -99,57 +81,83 @@ interface Props {
   areaOptions: AreaFilters;
   hideToolbar?: boolean;
 }
+const checkHasSelectionWithin = (el?: Element | null) => {
+  if (!el) return false;
+
+  const selection = el.ownerDocument.getSelection();
+  if (!selection?.rangeCount) return false;
+
+  const range = selection.getRangeAt(0);
+  return !range.collapsed && el.contains(range.commonAncestorContainer);
+};
 
 const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideToolbarProp }: Props) => {
-  const portalRef = useRef<HTMLDivElement | null>(null);
   const selection = useSlateSelection();
   const editor = useSlate();
-  const modalRef = useRef<HTMLDivElement | null>(null);
-  const hasCheckedForModal = useRef(false);
+  const toolbarRef = useRef<HTMLDivElement>(null);
+  const editorWrapperRef = useRef<HTMLDivElement | null>(null);
+  const editorFocused = useFocused();
+  const [open, setOpen] = useState(false);
+  const [hasSelectionWithin, setHasSelectionWithin] = useState(false);
+  const [hasMouseDown, setHasMouseDown] = useState(false);
+
+  useEffect(() => {
+    if (toolbarRef.current) {
+      editorWrapperRef.current = toolbarRef.current.closest("[data-slate-wrapper]") as HTMLDivElement;
+    }
+  }, []);
+
+  useEffect(() => {
+    const onSelect = () => {
+      setHasSelectionWithin(!!checkHasSelectionWithin(editorWrapperRef.current));
+    };
+
+    document.addEventListener("selectionchange", onSelect);
+    return () => {
+      document.removeEventListener("selectionchange", onSelect);
+    };
+  }, []);
+
+  useEffect(() => {
+    const element = editorWrapperRef.current?.querySelector("[data-slate-editor]");
+    if (!element) return;
+    const onMouseDown = () => {
+      setHasMouseDown(true);
+    };
+
+    const onMouseUp = () => {
+      setHasMouseDown(false);
+    };
+
+    element.addEventListener("mousedown", onMouseDown);
+    document.addEventListener("mouseup", onMouseUp);
+    return () => {
+      element.removeEventListener("mousedown", onMouseDown);
+      document.removeEventListener("mouseup", onMouseUp);
+    };
+  }, []);
+
+  useEffect(() => {
+    const nonCollapsed = selection && !Range.isCollapsed(selection);
+    if (nonCollapsed && hasSelectionWithin && !hasMouseDown) {
+      setOpen(true);
+    } else if (!document.activeElement?.closest('[role="dialog"]')) {
+      setOpen(false);
+    }
+  }, [editor, editor.selection, editorFocused, hasMouseDown, hasSelectionWithin, selection]);
 
   const hideToolbar = useMemo(() => {
     return (
+      hasMouseDown ||
+      !open ||
       !selection ||
+      !hasSelectionWithin ||
       hideToolbarProp ||
       Range.isCollapsed(selection) ||
       Editor.string(editor, selection) === "" ||
       !editor.shouldShowToolbar()
     );
-  }, [hideToolbarProp, editor, selection]);
-
-  useEffect(() => {
-    const portal = portalRef.current;
-    if (!portal) return;
-    if (!hasCheckedForModal.current) {
-      modalRef.current = document.querySelector('[role="dialog"]') as HTMLDivElement;
-      hasCheckedForModal.current = true;
-    }
-    showToolbar(portal, modalRef.current);
-    return () => {
-      if (portal && modalRef.current) {
-        portal.removeAttribute("style");
-        hasCheckedForModal.current = false;
-      }
-    };
-  });
-
-  // This effect only affects the toolbar when it exists inside a modal. It handles placing the toolbar when
-  // a modal is scrollable.
-  useEffect(() => {
-    if (hideToolbar) return;
-    const initialScroll = modalRef.current?.scrollTop ?? 0;
-    const onModalScroll = () => {
-      if (!modalRef.current || !portalRef.current) return;
-      const scroll = initialScroll - modalRef.current.scrollTop;
-      portalRef.current.style.transform = `translateY(${scroll}px)`;
-    };
-    modalRef.current?.addEventListener("scroll", onModalScroll);
-    return () => {
-      modalRef.current?.removeEventListener("scroll", onModalScroll);
-    };
-  }, [hideToolbar]);
-
-  const onMouseDown = useCallback((e: MouseEvent) => e.preventDefault(), []);
+  }, [hasMouseDown, open, selection, hasSelectionWithin, hideToolbarProp, editor]);
 
   const options = useMemo(() => {
     if (hideToolbar) return;
@@ -158,15 +166,26 @@ const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideT
       options: toolbarOptions,
       areaOptions,
     });
-  }, [areaOptions, editor, hideToolbar, toolbarOptions, selection]);
-
-  if (hideToolbar) {
-    return null;
-  }
+  }, [hideToolbar, editor, selection, toolbarOptions, areaOptions]);
 
   return (
-    <Portal asChild>
-      <ToolbarContainer data-toolbar="" ref={portalRef} onMouseDown={onMouseDown}>
+    <PopoverRoot
+      open={open}
+      // eslint-disable-next-line jsx-a11y/no-autofocus
+      autoFocus={false}
+      positioning={{
+        strategy: "fixed",
+        placement: "top",
+        getAnchorRect() {
+          const selection = editorWrapperRef.current?.ownerDocument.getSelection();
+          if (!selection?.rangeCount) return null;
+          const range = selection.getRangeAt(0);
+          return range.getBoundingClientRect();
+        },
+      }}
+    >
+      <ToolbarRepositioner ref={toolbarRef} />
+      <ToolbarContainer data-toolbar="" hidden={hideToolbar}>
         <ToolbarRow>
           <ToolbarTextOptions options={options?.text ?? []} />
           <ToolbarLanguageOptions options={options?.languages ?? []} />
@@ -176,30 +195,32 @@ const SlateToolbar = ({ options: toolbarOptions, areaOptions, hideToolbar: hideT
           <ToolbarTableOptions options={options?.table ?? []} />
         </ToolbarRow>
       </ToolbarContainer>
-    </Portal>
+    </PopoverRoot>
   );
 };
 
-const ToolbarRow = forwardRef<HTMLDivElement, ComponentPropsWithRef<"div">>(({ children, ...rest }, ref) => {
-  const count = Children.count(children);
+const ToolbarRepositioner = forwardRef<HTMLDivElement, ComponentPropsWithRef<"div">>((props, ref) => {
+  const { open, reposition } = usePopoverContext();
+  const selection = useSlateSelection();
 
-  // Do not draw separators for categories with only disabled and hidden options
+  useEffect(() => {
+    if (open) {
+      reposition();
+    }
+  }, [open, reposition, selection]);
+
+  return <div ref={ref} {...props} />;
+});
+
+const ToolbarRow = ({ children }: { children: ReactNode }) => {
+  // Do not render categories with only disabled and hidden options
   const validChildren = Children.toArray(children).filter(
     (child) =>
       isValidElement<ToolbarCategoryProps<ToolbarValues>>(child) &&
       !child.props.options?.every((el) => el.hidden === true),
   );
 
-  return (
-    <StyledToolbarRow ref={ref} {...rest}>
-      {Children.map(validChildren, (child, i) => (
-        <>
-          {child}
-          {i < count && <StyledToolbarSeparator />}
-        </>
-      ))}
-    </StyledToolbarRow>
-  );
-});
+  return validChildren;
+};
 
-export default memo(SlateToolbar);
+export default SlateToolbar;

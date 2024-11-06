@@ -9,10 +9,9 @@
 import isEqual from "lodash/isEqual";
 import { Editor } from "slate";
 import { useSlate, useSlateSelector } from "slate-react";
-import { ToggleItem } from "@radix-ui/react-toolbar";
-import { StyledToggleGroup, ToolbarCategoryProps } from "./SlateToolbar";
-import ToolbarButton from "./ToolbarButton";
+import { ToolbarCategoryProps } from "./SlateToolbar";
 import { MarkType } from "./toolbarState";
+import { ToolbarToggleButton, ToolbarToggleGroupRoot } from "./ToolbarToggle";
 import { toggleMark } from "../mark/utils";
 
 const getMarks = (editor: Editor) => {
@@ -30,12 +29,20 @@ export const ToolbarMarkOptions = ({ options }: ToolbarCategoryProps<MarkType>) 
   const visibleOptions = options.filter((option) => !option.hidden);
   if (!visibleOptions.length) return null;
   return (
-    <StyledToggleGroup type="multiple" value={marks}>
+    <ToolbarToggleGroupRoot multiple value={marks}>
       {visibleOptions.map((type) => (
-        <ToggleItem key={type.value} asChild value={type.value} disabled={type.disabled}>
-          <ToolbarButton onClick={(e) => toggleMark(e, editor, type.value)} type={type.value} />
-        </ToggleItem>
+        <ToolbarToggleButton
+          onClick={(e) => {
+            e.preventDefault();
+            toggleMark(e, editor, type.value);
+          }}
+          onMouseDown={(e) => e.preventDefault()}
+          type={type.value}
+          key={type.value}
+          value={type.value}
+          disabled={type.disabled}
+        />
       ))}
-    </StyledToggleGroup>
+    </ToolbarToggleGroupRoot>
   );
 };

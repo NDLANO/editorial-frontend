@@ -8,11 +8,10 @@
 
 import { Editor, Element } from "slate";
 import { useSlate, useSlateSelector } from "slate-react";
-import { ToggleItem } from "@radix-ui/react-toolbar";
 import { handleClickTable } from "./handleMenuClicks";
-import { StyledToggleGroup, ToolbarCategoryProps } from "./SlateToolbar";
-import ToolbarButton from "./ToolbarButton";
+import { ToolbarCategoryProps } from "./SlateToolbar";
 import { TableType } from "./toolbarState";
+import { ToolbarToggleButton, ToolbarToggleGroupRoot } from "./ToolbarToggle";
 
 const getCurrentBlockValues = (editor: Editor) => {
   const [currentTableCell] =
@@ -35,12 +34,20 @@ export const ToolbarTableOptions = ({ options }: ToolbarCategoryProps<TableType>
   if (!visibleOptions.length) return null;
 
   return (
-    <StyledToggleGroup type="single" value={value}>
+    <ToolbarToggleGroupRoot value={[value]}>
       {visibleOptions.map((type) => (
-        <ToggleItem key={type.value} value={type.value} asChild disabled={type.disabled}>
-          <ToolbarButton type={type.value} onClick={(e) => handleClickTable(e, editor, type.value)} />
-        </ToggleItem>
+        <ToolbarToggleButton
+          type={type.value}
+          onClick={(e) => {
+            e.preventDefault();
+            handleClickTable(e, editor, type.value);
+          }}
+          onMouseDown={(e) => e.preventDefault()}
+          key={type.value}
+          value={type.value}
+          disabled={type.disabled}
+        />
       ))}
-    </StyledToggleGroup>
+    </ToolbarToggleGroupRoot>
   );
 };

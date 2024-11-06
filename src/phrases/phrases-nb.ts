@@ -113,6 +113,7 @@ const phrases = {
     pli: "Pali",
     empty: "Ingen flere språk",
     change: "Bytt til {{language}} versjon",
+    none: "Ingen",
   },
   welcomePage: {
     lastFavorited: "Siste hjertemarkerte ressurs: ",

@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactNode, useCallback, useMemo, useState } from "react";
+import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import { Editor, Element, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { PopoverRoot, PopoverTrigger } from "@ndla/primitives";
@@ -36,7 +36,12 @@ interface Props {
 }
 
 const SlateCommentInline = ({ attributes, editor, element, children }: Props) => {
-  const [open, setOpen] = useState(element.isFirstEdit);
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    setOpen(!!element.isFirstEdit);
+    Transforms.select(editor, ReactEditor.findPath(editor, element));
+  }, [editor, element, element.isFirstEdit]);
 
   const embed: CommentMetaData = useMemo(() => {
     return {

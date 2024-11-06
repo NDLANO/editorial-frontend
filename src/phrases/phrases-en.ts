@@ -113,6 +113,7 @@ const phrases = {
     pli: "Pali",
     empty: "No languages left",
     change: "Change to {{language}} version",
+    none: "None",
   },
   welcomePage: {
     lastFavorited: "Last favorited resource: ",

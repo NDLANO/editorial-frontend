@@ -14,7 +14,6 @@ import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { AlertFill } from "@ndla/icons/common";
 import { CheckLine, DeleteForever, Link } from "@ndla/icons/editor";
-import { Modal, ModalContent } from "@ndla/modal";
 import {
   PopoverRoot,
   PopoverTrigger,
@@ -28,7 +27,7 @@ import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { IConcept, IConceptSummary } from "@ndla/types-backend/concept-api";
 import { ConceptEmbedData, ConceptMetaData } from "@ndla/types-embed";
-import { ConceptEmbed, Concept, InlineTriggerButton, Gloss } from "@ndla/ui";
+import { ConceptEmbed, Concept, Gloss, ConceptInlineTriggerButton } from "@ndla/ui";
 import { ConceptInlineElement } from "./interfaces";
 import { TYPE_CONCEPT_INLINE } from "./types";
 import { PUBLISHED } from "../../../../../constants";
@@ -188,7 +187,7 @@ const InlineWrapper = (props: Props) => {
       ) : (
         <PopoverRoot>
           <PopoverTrigger asChild {...attributes}>
-            <InlineTriggerButton>{children}</InlineTriggerButton>
+            <ConceptInlineTriggerButton>{children}</ConceptInlineTriggerButton>
           </PopoverTrigger>
           <Portal>
             <StyledPopoverContent>

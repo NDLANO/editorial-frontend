@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactNode, useCallback, useMemo, useState } from "react";
+import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
@@ -57,7 +57,11 @@ const ButtonContainer = styled(StyledFigureButtons, {
 
 const SlateCopyright = ({ attributes, children, element, editor }: Props) => {
   const { t } = useTranslation();
-  const [modalOpen, setModalOpen] = useState<boolean>(!!element.isFirstEdit);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    setModalOpen(!!element.isFirstEdit);
+  }, [element.isFirstEdit]);
 
   const embed: CopyrightMetaData | undefined = useMemo(
     () =>

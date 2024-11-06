@@ -13,10 +13,9 @@ import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { ImageSearch } from "@ndla/image-search";
+import { FieldsetLegend, FieldsetRoot } from "@ndla/primitives";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import { useImageSearchTranslations } from "@ndla/ui";
-import FieldHeader from "../../../components/Field/FieldHeader";
-import HowToHelper from "../../../components/HowTo/HowToHelper";
 import { LocaleType } from "../../../interfaces";
 import { fetchImage, postSearchImages, onError } from "../../../modules/image/imageApi";
 import MetaImageField from "../../FormikForm/components/MetaImageField";
@@ -69,11 +68,8 @@ const InlineImageSearch = ({ name, disableAltEditing, hideAltText }: Props) => {
     );
   }
   return (
-    <>
-      <FieldHeader title={t("form.metaImage.title")}>
-        <HowToHelper pageId="MetaImage" tooltip={t("form.metaImage.helpLabel")} />
-      </FieldHeader>
-
+    <FieldsetRoot>
+      <FieldsetLegend textStyle="label.medium">{t("form.metaImage.title")}</FieldsetLegend>
       <ImageSearch
         fetchImage={fetchImageWithLocale}
         searchImages={searchImagesWithParameters}
@@ -98,7 +94,7 @@ const InlineImageSearch = ({ name, disableAltEditing, hideAltText }: Props) => {
         }
         onError={onError}
       />
-    </>
+    </FieldsetRoot>
   );
 };
 

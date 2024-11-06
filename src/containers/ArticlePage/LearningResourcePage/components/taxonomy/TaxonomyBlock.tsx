@@ -354,6 +354,7 @@ const TaxonomyBlock = ({
         </>
       )}
       <ResourceTypeSelect
+        selectedResourceTypes={workingResource.resourceTypes}
         availableResourceTypes={filteredResourceTypes}
         onChangeSelectedResource={onChangeSelectedResource}
       />

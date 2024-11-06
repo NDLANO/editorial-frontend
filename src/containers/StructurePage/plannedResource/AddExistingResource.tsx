@@ -260,7 +260,6 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
           onChangeSelectedResource={(value) => {
             if (value) setSelectedType(value);
           }}
-          isClearable
         />
       )}
       {!pastedUrl && selectedType && (

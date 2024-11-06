@@ -8,7 +8,7 @@
 import { Fragment, useMemo } from "react";
 import styled from "@emotion/styled";
 import { colors, fonts } from "@ndla/core";
-import { ChevronRight } from "@ndla/icons/common";
+import { ArrowRightShortLine } from "@ndla/icons/common";
 import { SafeLink } from "@ndla/safelink";
 import { Node } from "@ndla/types-taxonomy";
 import { MinimalNodeChild } from "../../containers/ArticlePage/LearningResourcePage/components/LearningResourceTaxonomy";
@@ -64,7 +64,7 @@ const Breadcrumb = ({ node, error }: Props) => {
                 {crumb.name}
               </StyledLink>
             </StyledSpan>
-            {index + 1 !== crumbs.length && <ChevronRight />}
+            {index + 1 !== crumbs.length && <ArrowRightShortLine />}
           </Fragment>
         );
       })}

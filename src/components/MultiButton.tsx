@@ -11,7 +11,7 @@ import styled from "@emotion/styled";
 import { Content, Item, Portal, Root, Trigger } from "@radix-ui/react-dropdown-menu";
 import { ButtonV2 } from "@ndla/button";
 import { colors, shadows, stackOrder } from "@ndla/core";
-import { ChevronDown } from "@ndla/icons/common";
+import { ArrowDownShortLine } from "@ndla/icons/common";
 
 const MainButton = styled(ButtonV2)`
   border-top-right-radius: 0;
@@ -117,7 +117,7 @@ export const MultiButton = ({
           <Root modal={false}>
             <Trigger asChild>
               <ToggleButton size={large ? "large" : undefined} disabled={isDisabled}>
-                <ChevronDown />
+                <ArrowDownShortLine />
               </ToggleButton>
             </Trigger>
             <Portal>

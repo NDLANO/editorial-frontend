@@ -15,7 +15,7 @@ import { GenericComboboxInput, GenericComboboxItemContent } from "../../../compo
 import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCombobox";
 import ListResource from "../../../components/Form/ListResource";
 import { getArticle } from "../../../modules/article/articleApi";
-import { useArticleSearch } from "../../../modules/article/articleQueries";
+import { useSearchResources } from "../../../modules/search/searchQueries";
 import { getUrnFromId, getIdFromUrn } from "../../../util/ndlaFilmHelpers";
 import { routes } from "../../../util/routeHelpers";
 import { usePaginatedQuery } from "../../../util/usePaginatedQuery";
@@ -30,12 +30,8 @@ const NdlaFilmArticle = ({ fieldName }: Props) => {
   const [selectedArticle, setSelectedArticle] = useState<undefined | IArticleV2>(undefined);
   const { query, page, setPage, delayedQuery, setQuery } = usePaginatedQuery();
 
-  const searchQuery = useArticleSearch(
-    {
-      articleTypes: ["frontpage-article"],
-      page,
-      query: delayedQuery,
-    },
+  const searchQuery = useSearchResources(
+    { articleTypes: ["frontpage-article"], page, query: delayedQuery },
     { placeholderData: (prev) => prev },
   );
 

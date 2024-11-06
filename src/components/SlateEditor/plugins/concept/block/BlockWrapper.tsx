@@ -12,7 +12,6 @@ import { Editor, Element, Transforms, Path } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import { AlertFill, Link as LinkIcon } from "@ndla/icons/common";
 import { DeleteForever, CheckLine } from "@ndla/icons/editor";
-import { Modal, ModalContent } from "@ndla/modal";
 import { DialogContent, DialogRoot, IconButton } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";

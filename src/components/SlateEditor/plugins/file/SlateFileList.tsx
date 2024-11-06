@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Element, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
-import { Cross, Plus } from "@ndla/icons/action";
+import { Cross, AddLine } from "@ndla/icons/action";
 import {
   DialogBody,
   DialogContent,
@@ -128,7 +128,7 @@ const SlateFileList = ({ element, editor, attributes, children }: Props) => {
                 aria-label={t("form.file.addFile")}
                 size="small"
               >
-                <Plus />
+                <AddLine />
               </IconButton>
             </DialogTrigger>
             <Portal>

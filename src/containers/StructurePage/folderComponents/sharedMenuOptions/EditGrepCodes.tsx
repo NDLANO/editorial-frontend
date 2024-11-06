@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2, IconButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { Plus, Pencil } from "@ndla/icons/action";
+import { AddLine, Pencil } from "@ndla/icons/action";
 import { DeleteForever } from "@ndla/icons/editor";
 import { Node } from "@ndla/types-taxonomy";
 import MenuItemButton from "./components/MenuItemButton";
@@ -116,7 +116,7 @@ const EditGrepCodes = ({ node, editModeHandler: { editMode, toggleEditMode } }: 
         />
       ) : (
         <ButtonV2 variant="link" data-testid="addFilterButton" onClick={() => setAddingNewGrepCode(!addingNewGrepCode)}>
-          <Plus />
+          <AddLine />
           {t("taxonomy.grepCodes.addNew")}
         </ButtonV2>
       )}

@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { ButtonV2 } from "@ndla/button";
 import { FileCompare } from "@ndla/icons/action";
 import { Launch } from "@ndla/icons/common";
-import { Check, Eye } from "@ndla/icons/editor";
+import { CheckboxCircleFill, Eye } from "@ndla/icons/editor";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { IConcept } from "@ndla/types-backend/concept-api";
@@ -168,7 +168,7 @@ const HeaderActions = ({
         />
         {isNewLanguage && (
           <HeaderLanguagePill current key={`types_${language}`}>
-            <Check />
+            <CheckboxCircleFill />
             {t(`languages.${language}`)}
           </HeaderLanguagePill>
         )}

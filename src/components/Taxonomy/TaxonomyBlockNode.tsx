@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { colors, fonts, spacing } from "@ndla/core";
-import { Check } from "@ndla/icons/editor";
+import { CheckboxCircleFill } from "@ndla/icons/editor";
 import { Node, NodeChild } from "@ndla/types-taxonomy";
 import Fade from "./Fade";
 import { ItemTitleButton, StructureWrapper, StyledItemBar, StyledStructureItem } from "./nodeStyles";
@@ -82,7 +82,7 @@ export const TaxonomyBlockNode = ({
         </ItemTitleButton>
         {isSelected ? (
           <StyledChecked>
-            <Check />
+            <CheckboxCircleFill />
             <span>{t("taxonomy.topics.addedTopic")}</span>
           </StyledChecked>
         ) : onRootSelected ? (
@@ -164,7 +164,7 @@ const ChildNode = ({ node, onSelect, toggleOpen, openedPaths, parentActive, sele
         </ItemTitleButton>
         {isSelected ? (
           <StyledChecked>
-            <Check />
+            <CheckboxCircleFill />
             <span>{t("taxonomy.topics.addedTopic")}</span>
           </StyledChecked>
         ) : (

@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { Check } from "@ndla/icons/editor";
+import { CheckboxCircleFill } from "@ndla/icons/editor";
 import HeaderInformation, { StyledSplitter } from "./HeaderInformation";
 import HeaderLanguagePicker from "./HeaderLanguagePicker";
 import HeaderLanguagePill from "./HeaderLanguagePill";
@@ -73,7 +73,7 @@ const SimpleLanguageHeader = ({
             />
             {isNewLanguage && (
               <HeaderLanguagePill current key={`types_${language}`}>
-                <Check />
+                <CheckboxCircleFill />
                 {t(`languages.${language}`)}
               </HeaderLanguagePill>
             )}
@@ -83,7 +83,7 @@ const SimpleLanguageHeader = ({
         ) : (
           <>
             <HeaderLanguagePill current>
-              <Check />
+              <CheckboxCircleFill />
               {t(`languages.${language}`)}
             </HeaderLanguagePill>
           </>

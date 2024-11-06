@@ -10,7 +10,7 @@ import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { Check } from "@ndla/icons/editor";
+import { CheckboxCircleFill } from "@ndla/icons/editor";
 import { IConcept } from "@ndla/types-backend/concept-api";
 import { IArticle, IStatus } from "@ndla/types-backend/draft-api";
 import { TaxonomyContext } from "@ndla/types-taxonomy";
@@ -112,7 +112,7 @@ const HeaderWithLanguage = ({
           />
         ) : (
           <HeaderLanguagePill current>
-            <Check />
+            <CheckboxCircleFill />
             {t(`languages.${language}`)}
           </HeaderLanguagePill>
         )}

@@ -12,7 +12,6 @@ import { createEditor, Descendant } from "slate";
 import { withHistory } from "slate-history";
 import { Slate, Editable, ReactEditor, withReact } from "slate-react";
 import { EditableProps } from "slate-react/dist/components/editable";
-import { useFormControl } from "@ndla/forms";
 import { styled } from "@ndla/styled-system/jsx";
 import { JsxStyleProps } from "@ndla/styled-system/types";
 import { SlatePlugin } from "./interfaces";
@@ -50,10 +49,11 @@ interface Props extends Omit<EditableProps & JsxStyleProps, "value"> {
   plugins?: SlatePlugin[];
 }
 
+// TODO: Find a way to properly integrate this with `Field`
+
 const PlainTextEditor = forwardRef<HTMLTextAreaElement, Props>(
   ({ onChange, value, id, submitted, className, placeholder, plugins, ...rest }, ref) => {
     const [editor] = useState(() => withPlugins(withHistory(withReact(createEditor())), plugins));
-    const props = useFormControl({ id, readOnly: submitted, ...rest });
 
     const onBlur = useCallback(() => {
       ReactEditor.deselect(editor);
@@ -100,7 +100,7 @@ const PlainTextEditor = forwardRef<HTMLTextAreaElement, Props>(
             const { style, ...remainingAttributes } = attributes;
             return <StyledPlaceholder {...remainingAttributes}>{children}</StyledPlaceholder>;
           }}
-          {...props}
+          {...rest}
           // Weird typescript error. Let's just ignore it
           ref={ref as Ref<never>}
         />

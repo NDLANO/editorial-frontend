@@ -6,12 +6,11 @@
  *
  */
 
-import { FieldProps, useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
+import { FieldErrorMessage, FieldHelper, FieldRoot, SelectLabel } from "@ndla/primitives";
 import { Version } from "@ndla/types-taxonomy";
-import FieldHeader from "../../../components/Field/FieldHeader";
-import FormikField from "../../../components/FormikField";
-import OptGroupVersionSelector from "../../../components/Taxonomy/OptGroupVersionSelector";
+import { FormField } from "../../../components/FormField";
+import { OptGroupVersionSelector } from "../../../components/Taxonomy/OptGroupVersionSelector";
 
 interface Props {
   existingVersions: Version[];
@@ -19,26 +18,23 @@ interface Props {
 
 const VersionSourceField = ({ existingVersions }: Props) => {
   const { t } = useTranslation();
-  const { setFieldValue } = useFormikContext();
-
-  const findCurrentlySelected = (hash: string) => existingVersions.find((v) => v.hash === hash);
 
   return (
-    <>
-      <FieldHeader
-        title={t("taxonomyVersions.form.source.title")}
-        subTitle={t("taxonomyVersions.form.source.subTitle")}
-      />
-      <FormikField name="sourceId">
-        {({ field }: FieldProps) => (
+    <FormField name="sourceId">
+      {({ field, meta, helpers }) => (
+        <FieldRoot invalid={!!meta.error}>
           <OptGroupVersionSelector
             versions={existingVersions}
             currentVersion={field.value}
-            onVersionChanged={(val) => setFieldValue("sourceId", findCurrentlySelected(val)?.id)}
-          />
-        )}
-      </FormikField>
-    </>
+            onVersionChanged={(val) => helpers.setValue(val.id)}
+          >
+            <SelectLabel>{t("taxonomyVersions.form.source.title")}</SelectLabel>
+            <FieldHelper>{t("taxonomyVersions.form.source.subTitle")}</FieldHelper>
+            <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+          </OptGroupVersionSelector>
+        </FieldRoot>
+      )}
+    </FormField>
   );
 };
 export default VersionSourceField;

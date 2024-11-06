@@ -102,6 +102,8 @@ const getTranslateServiceUrl = (ndlaEnvironment: string) => {
     case "local":
     case "dev":
       return "https://preprod.norskrobot.no:4443";
+    case "staging":
+      return "https://ndla.norskrobot.no:6443";
     default:
       return "https://ndla.norskrobot.no:4443";
   }

@@ -17,15 +17,22 @@ import {
   DialogRoot,
   DialogTitle,
   DialogTrigger,
+  FieldsetLegend,
+  FieldsetRoot,
 } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IImageMetaInformationV3, IUpdateImageMetaInformation } from "@ndla/types-backend/image-api";
 import MetaImageField from "./components/MetaImageField";
 import ImageSearchAndUploader from "../../components/ControlledImageSearchAndUploader";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
-import FieldHeader from "../../components/Field/FieldHeader";
-import HowToHelper from "../../components/HowTo/HowToHelper";
 import { postImage, updateImage, postSearchImages, fetchImage, onError } from "../../modules/image/imageApi";
 import { createFormData } from "../../util/formDataHelper";
+
+const StyledButton = styled(Button, {
+  base: {
+    width: "fit-content",
+  },
+});
 
 interface Props {
   metaImageId: string;
@@ -107,14 +114,12 @@ const MetaImageSearch = ({
   };
 
   return (
-    <div>
-      <FieldHeader title={t("form.metaImage.title")}>
-        <HowToHelper pageId="MetaImage" tooltip={t("form.metaImage.helpLabel")} />
-      </FieldHeader>
+    <FieldsetRoot>
+      <FieldsetLegend textStyle="label.medium">{t("form.metaImage.add")}</FieldsetLegend>
       <DialogRoot open={showImageSelect} onOpenChange={(details) => setShowImageSelect(details.open)} size="large">
         {!image && (
           <DialogTrigger asChild>
-            <Button>{t("form.metaImage.add")}</Button>
+            <StyledButton>{t("form.metaImage.add")}</StyledButton>
           </DialogTrigger>
         )}
         <DialogContent>
@@ -150,7 +155,7 @@ const MetaImageSearch = ({
           disableAltEditing={disableAltEditing}
         />
       )}
-    </div>
+    </FieldsetRoot>
   );
 };
 

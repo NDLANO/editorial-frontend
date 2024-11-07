@@ -163,9 +163,18 @@ export const defaultAreaOptions: AreaFilters = {
   },
   "comment-inline": { inline: { disabled: true, "comment-inline": { disabled: false } } },
   list: { inline: { disabled: true } },
-  "definition-term": { block: { quote: { disabled: true } }, inline: { disabled: true } },
-  "definition-description": { block: { quote: { disabled: true } }, inline: { disabled: true } },
-  "definition-list": { block: { quote: { disabled: true } }, inline: { disabled: true } },
+  "definition-term": {
+    block: { quote: { disabled: true } },
+    inline: { disabled: true, "comment-inline": { disabled: false } },
+  },
+  "definition-description": {
+    block: { quote: { disabled: true } },
+    inline: { disabled: true, "comment-inline": { disabled: false } },
+  },
+  "definition-list": {
+    block: { quote: { disabled: true } },
+    inline: { disabled: true },
+  },
   quote: { inline: { disabled: true } },
 };
 

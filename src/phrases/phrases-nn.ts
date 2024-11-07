@@ -1665,7 +1665,7 @@ const phrases = {
     addExistingNode: "Flytt eksisterande {{nodeType}} hit",
     addExistingLoading: "Flyttar ...",
     addExistingSuccess: "Noden har blitt flytta!",
-    existingNode: "Eksisterande node",
+    existingNode: "Søk opp eksisterande {{nodeType}} for flytting",
     workflow: "i flyt",
     fullTopic: "Gjennomsnitt:",
     TOPIC: "emnet",

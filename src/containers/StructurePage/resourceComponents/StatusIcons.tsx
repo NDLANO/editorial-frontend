@@ -27,7 +27,7 @@ const IconWrapper = styled("div", {
 
 const StyledErrorWarningFill = styled(ErrorWarningFill, {
   base: {
-    fill: "text.subtle",
+    fill: "icon.subtle",
   },
 });
 

@@ -13,7 +13,7 @@ import { Editor, Element, Node, Transforms, Path } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { DeleteBinLine } from "@ndla/icons/action";
-import { AlertFill } from "@ndla/icons/common";
+import { ErrorWarningFill } from "@ndla/icons/common";
 import { CheckLine, Link } from "@ndla/icons/editor";
 import {
   PopoverRoot,
@@ -85,9 +85,9 @@ const StyledCheckLine = styled(CheckLine, {
   },
 });
 
-const StyledAlertFill = styled(AlertFill, {
+const StyledErrorWarningFill = styled(ErrorWarningFill, {
   base: {
-    fill: "surface.error",
+    fill: "icon.subtle",
   },
 });
 
@@ -197,7 +197,7 @@ const InlineWrapper = (props: Props) => {
                   <StyledCheckLine aria-label={t("form.workflow.published")} title={t("form.workflow.published")} />
                 )}
                 {concept?.status.current !== PUBLISHED && (
-                  <StyledAlertFill
+                  <StyledErrorWarningFill
                     aria-label={t("form.workflow.currentStatus", {
                       status: t(`form.status.${concept?.status.current.toLowerCase()}`),
                     })}

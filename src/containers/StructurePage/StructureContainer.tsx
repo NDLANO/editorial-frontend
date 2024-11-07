@@ -17,8 +17,8 @@ import StructureErrorIcon from "./folderComponents/StructureErrorIcon";
 import StructureResources from "./resourceComponents/StructureResources";
 import SubjectBanner from "./resourceComponents/SubjectBanner";
 import RootNode from "./RootNode";
-import StickyVersionSelector from "./StickyVersionSelector";
 import StructureBanner from "./StructureBanner";
+import VersionSelector from "./VersionSelector";
 import ErrorBoundary from "../../components/ErrorBoundary";
 import { GridContainer, Column } from "../../components/Layout/Layout";
 import { OldSpinner } from "../../components/OldSpinner";
@@ -258,7 +258,7 @@ const StructureContainer = ({
             </Column>
           )}
         </GridContainer>
-        {isTaxonomyAdmin && <StickyVersionSelector />}
+        {isTaxonomyAdmin && <VersionSelector />}
         <Footer showLocaleSelector />
       </Wrapper>
     </ErrorBoundary>

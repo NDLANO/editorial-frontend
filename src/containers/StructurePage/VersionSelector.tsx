@@ -14,18 +14,10 @@ import { OptGroupVersionSelector } from "../../components/Taxonomy/OptGroupVersi
 import { useVersions } from "../../modules/taxonomy/versions/versionQueries";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 
-const StickyDiv = styled("div", {
+const StyledVersionSelector = styled("div", {
   base: {
-    display: "flex",
-    position: "sticky",
-    bottom: "medium",
-    zIndex: "docked",
     borderRadius: "xsmall",
-    flexDirection: "column",
-    left: "50%",
     width: "surface.xsmall",
-    transformOrigin: "center",
-    transform: "translateX(-50%)",
     padding: "xsmall",
     maxWidth: "surface.small",
   },
@@ -56,7 +48,11 @@ const StyledSelectLabel = styled(SelectLabel, {
   },
 });
 
-const StickyVersionSelector = () => {
+const Wrapper = styled("div", {
+  base: { display: "flex", justifyContent: "center", marginBlockStart: "3xlarge" },
+});
+
+const VersionSelector = () => {
   const { t } = useTranslation();
   const { taxonomyVersion, changeVersion } = useTaxonomyVersion();
   const { data } = useVersions();
@@ -77,16 +73,18 @@ const StickyVersionSelector = () => {
   };
 
   return (
-    <StickyDiv versionType={currentVersion?.versionType ?? "default"}>
-      <OptGroupVersionSelector
-        versions={data}
-        currentVersion={currentVersion?.hash}
-        onVersionChanged={(version) => onVersionChanged(version.hash)}
-      >
-        <StyledSelectLabel>{t("taxonomy.currentVersion")}</StyledSelectLabel>
-      </OptGroupVersionSelector>
-    </StickyDiv>
+    <Wrapper>
+      <StyledVersionSelector versionType={currentVersion?.versionType ?? "default"}>
+        <OptGroupVersionSelector
+          versions={data}
+          currentVersion={currentVersion?.hash}
+          onVersionChanged={(version) => onVersionChanged(version.hash)}
+        >
+          <StyledSelectLabel>{t("taxonomy.currentVersion")}</StyledSelectLabel>
+        </OptGroupVersionSelector>
+      </StyledVersionSelector>
+    </Wrapper>
   );
 };
 
-export default StickyVersionSelector;
+export default VersionSelector;

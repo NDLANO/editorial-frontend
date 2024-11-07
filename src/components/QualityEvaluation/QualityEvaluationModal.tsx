@@ -10,7 +10,7 @@ import { FieldHelperProps, FieldInputProps } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Portal } from "@ark-ui/react";
-import { Pencil } from "@ndla/icons/action";
+import { Pencil, PencilLine } from "@ndla/icons/action";
 import {
   DialogBody,
   DialogContent,
@@ -55,8 +55,8 @@ const QualityEvaluationModal = ({
   return (
     <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
       <DialogTrigger asChild>
-        <IconButton title={title} aria-label={title} size="small" disabled={!taxonomy?.length}>
-          <Pencil />
+        <IconButton title={title} aria-label={title} size="small" disabled={!taxonomy?.length} variant="secondary">
+          <PencilLine />
         </IconButton>
       </DialogTrigger>
       <Portal>

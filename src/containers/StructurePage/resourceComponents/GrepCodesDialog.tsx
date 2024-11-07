@@ -38,7 +38,7 @@ interface Props {
   currentNodeId: string;
 }
 
-const GrepCodesModal = ({ codes, contentType, contentUri, revision, currentNodeId }: Props) => {
+const GrepCodesDialog = ({ codes, contentType, contentUri, revision, currentNodeId }: Props) => {
   const [open, setOpen] = useState(false);
   const draftId = Number(getIdFromUrn(contentUri));
   if (contentType === contentTypes.LEARNING_PATH || !draftId || !revision) return null;
@@ -117,4 +117,4 @@ const GrepCodeDialogContent = ({ codes, draftId, revision, currentNodeId, conten
   );
 };
 
-export default GrepCodesModal;
+export default GrepCodesDialog;

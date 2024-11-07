@@ -17,8 +17,8 @@ import StructureErrorIcon from "./folderComponents/StructureErrorIcon";
 import StructureResources from "./resourceComponents/StructureResources";
 import SubjectBanner from "./resourceComponents/SubjectBanner";
 import RootNode from "./RootNode";
-import StickyVersionSelector from "./StickyVersionSelector";
 import StructureBanner from "./StructureBanner";
+import VersionSelector from "./VersionSelector";
 import ErrorBoundary from "../../components/ErrorBoundary";
 import { GridContainer, Column } from "../../components/Layout/Layout";
 import { OldSpinner } from "../../components/OldSpinner";
@@ -64,6 +64,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: space-between;
   flex: 1;
+  padding-block-start: ${spacing.nsmall};
 `;
 
 const getNodes = (
@@ -250,19 +251,14 @@ const StructureContainer = ({
                     <SubjectBanner subjectNode={currentNode} showQuality={showQuality} users={users} />
                   )}
                   {isChildNode(currentNode) && (
-                    <StructureResources
-                      currentChildNode={currentNode}
-                      setCurrentNode={setCurrentNode}
-                      showQuality={showQuality}
-                      users={users}
-                    />
+                    <StructureResources currentChildNode={currentNode} showQuality={showQuality} users={users} />
                   )}
                 </StickyContainer>
               )}
             </Column>
           )}
         </GridContainer>
-        {isTaxonomyAdmin && <StickyVersionSelector />}
+        {isTaxonomyAdmin && <VersionSelector />}
         <Footer showLocaleSelector />
       </Wrapper>
     </ErrorBoundary>

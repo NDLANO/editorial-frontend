@@ -10,7 +10,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { colors, fonts, spacing } from "@ndla/core";
-import { RssFeed, Time } from "@ndla/icons/common";
+import { RssFeed } from "@ndla/icons/common";
 import { CheckboxCircleFill, AlertCircle } from "@ndla/icons/editor";
 import { SafeLink } from "@ndla/safelink";
 import { IConceptSummary } from "@ndla/types-backend/concept-api";
@@ -21,6 +21,7 @@ import HeaderFavoriteStatus from "./HeaderFavoriteStatus";
 import LearningpathConnection from "./LearningpathConnection";
 import config from "../../config";
 import formatDate from "../../util/formatDate";
+import { StatusTimeFill } from "../StatusTimeFill";
 
 export const StyledSplitter = styled.div`
   width: 1px;
@@ -47,17 +48,6 @@ export const getWarnStatus = (date?: string): "warn" | "expired" | undefined => 
   if (errorDate > parsedDate) return "expired";
   if (warnDate > parsedDate) return "warn";
 };
-
-export const StyledTimeIcon = styled(Time)`
-  &[data-status="warn"] {
-    fill: ${colors.tasksAndActivities.dark};
-  }
-  &[data-status="expired"] {
-    fill: ${colors.support.red};
-  }
-  width: 24px;
-  height: 24px;
-`;
 
 interface Props {
   compact?: boolean;
@@ -161,8 +151,8 @@ const HeaderStatusInformation = ({
             <EmbedConnection id={id} type="article" articles={articles} setArticles={setArticles} />
             <LearningpathConnection id={id} learningpaths={learningpaths} setLearningpaths={setLearningpaths} />
             {!!expirationColor && !!expirationDate && (
-              <StyledTimeIcon
-                data-status={expirationColor}
+              <StatusTimeFill
+                variant={expirationColor}
                 title={t(`form.workflow.expiration.${expirationColor}`, {
                   date: formatDate(expirationDate),
                 })}

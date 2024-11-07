@@ -1651,6 +1651,7 @@ const phrases = {
       SUBJECT: "subject",
       TOPIC: "topic",
     },
+    publishedVersion: "See published version",
     noValue: "No value",
     previewProgrammes: "Preview programmes in frontend",
     addNode: "Add {{nodeType}}",
@@ -1704,6 +1705,8 @@ const phrases = {
     getExisting: "Or get existing resource",
     inProgress: "This article is in progress",
     addPriority: "Priority",
+    supplementary: "Supplementary",
+    displayOptions: "Display options",
     changeName: {
       loadError: "Could not fetch translations",
       updateError: "Could not update translations",

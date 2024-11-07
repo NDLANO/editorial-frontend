@@ -1649,6 +1649,7 @@ const phrases = {
       SUBJECT: "fag",
       TOPIC: "emne",
     },
+    publishedVersion: "Se publisert versjon",
     noValue: "Ikke satt",
     previewProgrammes: "Forhåndsvis utdanningsprogram i frontend",
     addNode: "Legg til {{nodeType}}",
@@ -1702,6 +1703,8 @@ const phrases = {
     getExisting: "Eller hent eksisterende ressurs",
     inProgress: "Denne artikkelen er påbegynt",
     addPriority: "Prioritering",
+    supplementary: "Tilleggstoff",
+    displayOptions: "Visningsvalg",
     changeName: {
       loadError: "Klarte ikke hente oversettelser",
       updateError: "Klarte ikke oppdatere oversettelser",

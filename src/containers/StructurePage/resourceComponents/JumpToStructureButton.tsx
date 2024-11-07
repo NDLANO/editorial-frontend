@@ -7,15 +7,16 @@
  */
 
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { mq, breakpoints } from "@ndla/core";
+import { Button } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 
-export const StyledButton = styled(ButtonV2)`
-  ${mq.range({ from: breakpoints.desktop })} {
-    display: none;
-  }
-`;
+const StyledButton = styled(Button, {
+  base: {
+    desktop: {
+      display: "none",
+    },
+  },
+});
 
 interface Props {
   nodeId: string;
@@ -27,7 +28,7 @@ const JumpToStructureButton = ({ nodeId }: Props) => {
   return (
     <StyledButton
       size="small"
-      variant="outline"
+      variant="secondary"
       onClick={() => document.getElementById(nodeId)?.scrollIntoView({ block: "center" })}
     >
       {t("taxonomy.jumpToStructure")}

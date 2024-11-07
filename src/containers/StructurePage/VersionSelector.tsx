@@ -14,20 +14,14 @@ import { OptGroupVersionSelector } from "../../components/Taxonomy/OptGroupVersi
 import { useVersions } from "../../modules/taxonomy/versions/versionQueries";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 
-const StickyDiv = styled("div", {
+const VersionSelectorContainer = styled("div", {
   base: {
-    display: "flex",
-    position: "sticky",
-    bottom: "medium",
-    zIndex: "docked",
     borderRadius: "xsmall",
-    flexDirection: "column",
-    left: "50%",
     width: "surface.xsmall",
-    transformOrigin: "center",
-    transform: "translateX(-50%)",
     padding: "xsmall",
     maxWidth: "surface.small",
+    alignSelf: "center",
+    marginBlockStart: "3xlarge",
   },
   defaultVariants: {
     versionType: "default",
@@ -56,7 +50,7 @@ const StyledSelectLabel = styled(SelectLabel, {
   },
 });
 
-const StickyVersionSelector = () => {
+const VersionSelector = () => {
   const { t } = useTranslation();
   const { taxonomyVersion, changeVersion } = useTaxonomyVersion();
   const { data } = useVersions();
@@ -77,7 +71,7 @@ const StickyVersionSelector = () => {
   };
 
   return (
-    <StickyDiv versionType={currentVersion?.versionType ?? "default"}>
+    <VersionSelectorContainer versionType={currentVersion?.versionType ?? "default"}>
       <OptGroupVersionSelector
         versions={data}
         currentVersion={currentVersion?.hash}
@@ -85,8 +79,8 @@ const StickyVersionSelector = () => {
       >
         <StyledSelectLabel>{t("taxonomy.currentVersion")}</StyledSelectLabel>
       </OptGroupVersionSelector>
-    </StickyDiv>
+    </VersionSelectorContainer>
   );
 };
 
-export default StickyVersionSelector;
+export default VersionSelector;

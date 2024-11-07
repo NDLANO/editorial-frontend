@@ -10,7 +10,7 @@ import React, { ReactElement, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { colors } from "@ndla/core";
-import { AlertCircle, Check, InProgress } from "@ndla/icons/editor";
+import { AlertCircle, CheckboxCircleFill, InProgress } from "@ndla/icons/editor";
 import { SafeLink } from "@ndla/safelink";
 import { isApproachingRevision } from "./ApproachingRevisionDate";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
@@ -22,7 +22,7 @@ import formatDate from "../../../util/formatDate";
 import { getExpirationDate } from "../../ArticlePage/articleTransformers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
 
-const StyledCheckIcon = styled(Check)`
+const StyledCheckIcon = styled(CheckboxCircleFill)`
   height: 24px;
   width: 24px;
   fill: ${colors.support.green};

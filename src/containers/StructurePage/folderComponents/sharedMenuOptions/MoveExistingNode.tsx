@@ -137,7 +137,7 @@ const MoveExistingNode = ({
           label={t("taxonomy.addExistingNode", {
             nodeType: t(`taxonomy.nodeType.${nodeType}`),
           })}
-          placeholder={t("taxonomy.existingNode")}
+          placeholder={t("taxonomy.existingNode", { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
           onChange={handleSubmit}
           searchNodeType={nodeType}
           filter={(node) => {

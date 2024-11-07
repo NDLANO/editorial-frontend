@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { colors, fonts, spacing } from "@ndla/core";
 import { RssFeed, Time } from "@ndla/icons/common";
-import { Check, AlertCircle } from "@ndla/icons/editor";
+import { CheckboxCircleFill, AlertCircle } from "@ndla/icons/editor";
 import { SafeLink } from "@ndla/safelink";
 import { IConceptSummary } from "@ndla/types-backend/concept-api";
 import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
@@ -103,7 +103,7 @@ const StyledSmallText = styled.small`
   }
 `;
 
-const StyledCheckIcon = styled(Check)`
+const StyledCheckIcon = styled(CheckboxCircleFill)`
   height: ${spacing.normal};
   width: ${spacing.normal};
   fill: ${colors.support.green};

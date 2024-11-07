@@ -12,7 +12,7 @@ import { css, SerializedStyles } from "@emotion/react";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { colors } from "@ndla/core";
-import { Check } from "@ndla/icons/editor";
+import { CheckboxCircleFill } from "@ndla/icons/editor";
 
 export const saveButtonAppearances: Record<string, SerializedStyles> = {
   saved: css`
@@ -42,7 +42,7 @@ const StyledSpan = styled("span")`
   justify-content: space-evenly;
 `;
 
-const StyledCheck = styled(Check)`
+const StyledCheck = styled(CheckboxCircleFill)`
   width: 1.45rem;
   height: 1.45rem;
 `;

@@ -54,7 +54,7 @@ const EditColgroupsModal = ({ element }: Props) => {
   return (
     <DialogRoot open={open} size="large" onOpenChange={(details) => setOpen(details.open)}>
       <DialogTrigger asChild>
-        <Button data-testid="edit-colgroups" title={t("form.content.table.edit-colgroups")}>
+        <Button size="small" data-testid="edit-colgroups" title={t("form.content.table.edit-colgroups")}>
           {t("form.content.table.colgroups")}
           <PencilLine />
         </Button>

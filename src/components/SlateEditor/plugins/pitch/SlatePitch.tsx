@@ -11,8 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
-import { Pencil } from "@ndla/icons/action";
-import { DeleteForever } from "@ndla/icons/editor";
+import { Pencil, DeleteBinLine } from "@ndla/icons/action";
 import {
   DialogBody,
   DialogTitle,
@@ -114,7 +113,7 @@ const SlatePitch = ({ element, editor, attributes, children }: Props) => {
                 data-testid="remove-pitch"
                 onClick={handleRemove}
               >
-                <DeleteForever />
+                <DeleteBinLine />
               </IconButton>
             </StyledFigureButtons>
             <Pitch

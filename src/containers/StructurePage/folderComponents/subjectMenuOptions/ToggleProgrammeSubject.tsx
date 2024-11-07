@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { DeleteForever } from "@ndla/icons/editor";
+import { DeleteBinLine } from "@ndla/icons/action";
 import { IconButton, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import RoundIcon from "../../../../components/RoundIcon";
@@ -63,7 +63,7 @@ const ToggleProgrammeSubject = ({ customFields, updateFields }: Props) => {
           updateFields({ ...customFields });
         }}
       >
-        <DeleteForever />
+        <DeleteBinLine />
       </IconButton>
     </StyledMenuItemEditField>
   );

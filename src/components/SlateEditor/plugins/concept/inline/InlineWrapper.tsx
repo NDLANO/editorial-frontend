@@ -12,8 +12,9 @@ import { useTranslation } from "react-i18next";
 import { Editor, Element, Node, Transforms, Path } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
+import { DeleteBinLine } from "@ndla/icons/action";
 import { AlertFill } from "@ndla/icons/common";
-import { CheckLine, DeleteForever, Link } from "@ndla/icons/editor";
+import { CheckLine, Link } from "@ndla/icons/editor";
 import {
   PopoverRoot,
   PopoverTrigger,
@@ -212,7 +213,7 @@ const InlineWrapper = (props: Props) => {
                   aria-label={t(`form.${concept?.conceptType}.remove`)}
                   title={t(`form.${concept?.conceptType}.remove`)}
                 >
-                  <DeleteForever />
+                  <DeleteBinLine />
                 </IconButton>
                 {concept && (
                   <EditGlossExamplesModal concept={concept} editor={editor} element={element} embed={embed} />

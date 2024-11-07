@@ -9,7 +9,7 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
 import { colors, fonts, spacing } from "@ndla/core";
-import { TrashCanOutline } from "@ndla/icons/action";
+import { DeleteBinLine } from "@ndla/icons/action";
 import { Search } from "@ndla/icons/common";
 import { NoShadowLink } from "../../WelcomePage/components/NoShadowLink";
 
@@ -33,7 +33,7 @@ const StyledSearch = styled(Search)`
   height: 24px;
   margin-right: ${spacing.small};
 `;
-const StyledTrashCanOutline = styled(TrashCanOutline)`
+const StyledDeleteBinLine = styled(DeleteBinLine)`
   width: 24px;
   height: 24px;
 `;
@@ -63,7 +63,7 @@ const SavedSearchItem = ({ searchText = "", deleteSearch, index, url, ...rest }:
         colorTheme="danger"
         title={t("welcomePage.deleteSavedSearch")}
       >
-        <StyledTrashCanOutline />
+        <StyledDeleteBinLine />
       </IconButtonV2>
     </StyledItem>
   );

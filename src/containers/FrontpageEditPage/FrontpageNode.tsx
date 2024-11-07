@@ -12,9 +12,9 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing, colors, fonts } from "@ndla/core";
-import { AddLine } from "@ndla/icons/action";
+import { AddLine, DeleteBinLine } from "@ndla/icons/action";
 import { ArrowRightShortLine } from "@ndla/icons/common";
-import { DeleteForever, EyeFill } from "@ndla/icons/editor";
+import { EyeFill } from "@ndla/icons/editor";
 import { IconButton } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { IArticleSummaryV2 } from "@ndla/types-backend/article-api";
@@ -167,7 +167,7 @@ const FrontpageNode = ({ name, remove, index, level, replace }: Props) => {
               variant="danger"
               onClick={onRemove}
             >
-              <DeleteForever />
+              <DeleteBinLine />
             </IconButton>
           )}
           <FrontpageArticleSearch onChange={onAdd}>

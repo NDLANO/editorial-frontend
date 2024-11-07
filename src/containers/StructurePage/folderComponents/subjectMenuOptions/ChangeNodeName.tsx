@@ -11,7 +11,7 @@ import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Portal } from "@ark-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
-import { Pencil, TrashCanOutline } from "@ndla/icons/action";
+import { Pencil, DeleteBinLine } from "@ndla/icons/action";
 import {
   Button,
   DialogBody,
@@ -286,7 +286,7 @@ const ChangeNodeNameContent = ({ node, nodeType = "SUBJECT" }: ModalProps) => {
                                     onClick={() => remove(i)}
                                     data-testid={`subjectName_${trans.language}_delete`}
                                   >
-                                    <TrashCanOutline />
+                                    <DeleteBinLine />
                                   </IconButton>
                                 </InputWrapper>
                                 <FieldErrorMessage>{meta.error}</FieldErrorMessage>

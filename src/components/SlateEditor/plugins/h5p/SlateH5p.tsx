@@ -10,7 +10,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
-import { DeleteForever } from "@ndla/icons/editor";
+import { DeleteBinLine } from "@ndla/icons/action";
 import { IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { H5pMetaData } from "@ndla/types-embed";
@@ -86,7 +86,7 @@ const SlateH5p = ({ element, editor, attributes, children }: Props) => {
           onClick={handleRemove}
           data-testid="remove-h5p-element"
         >
-          <DeleteForever />
+          <DeleteBinLine />
         </IconButton>
       </FigureButtons>
       {h5pMetaQuery.isLoading || !embed ? <OldSpinner /> : <H5pEmbed embed={embed} />}

@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
 import { colors, fonts, spacing } from "@ndla/core";
-import { DeleteForever } from "@ndla/icons/editor";
+import { DeleteBinLine } from "@ndla/icons/action";
 import { ComboboxLabel, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
@@ -69,7 +69,7 @@ const PodcastSeries = () => {
                 colorTheme="danger"
                 onClick={() => helpers.setValue(null, true)}
               >
-                <DeleteForever />
+                <DeleteBinLine />
               </IconButtonV2>
             </PodcastSeriesElement>
           ) : (

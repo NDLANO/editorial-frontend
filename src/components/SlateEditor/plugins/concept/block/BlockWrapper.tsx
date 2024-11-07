@@ -10,8 +10,9 @@ import { useState, ReactNode, useCallback, useMemo, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Transforms, Path } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
+import { DeleteBinLine } from "@ndla/icons/action";
 import { AlertFill, Link as LinkIcon } from "@ndla/icons/common";
-import { DeleteForever, CheckLine } from "@ndla/icons/editor";
+import { CheckLine } from "@ndla/icons/editor";
 import { DialogContent, DialogRoot, IconButton } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -215,7 +216,7 @@ const ConceptButtonContainer = ({ concept, handleRemove, language, editor, eleme
         size="small"
         onClick={handleRemove}
       >
-        <DeleteForever />
+        <DeleteBinLine />
       </IconButton>
       <EditGlossExamplesModal concept={concept} editor={editor} element={element} embed={embed} />
       <SafeLinkIconButton

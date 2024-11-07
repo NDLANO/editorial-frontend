@@ -9,7 +9,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { TrashCanOutline } from "@ndla/icons/action";
+import { DeleteBinLine } from "@ndla/icons/action";
 import { Button } from "@ndla/primitives";
 import { useMessages } from "../../containers/Messages/MessagesProvider";
 import { deleteLanguageVersionAudio, deleteLanguageVersionSeries } from "../../modules/audio/audioApi";
@@ -118,7 +118,7 @@ const DeleteLanguageVersion = ({ id, language, supportedLanguages, type, disable
   return (
     <>
       <Button disabled={disabled} variant="danger" size="small" onClick={toggleShowDeleteWarning}>
-        <TrashCanOutline />
+        <DeleteBinLine />
         {t("form.workflow.deleteLanguageVersion.button", {
           languageVersion: t(`languages.${language}`).toLowerCase(),
         })}

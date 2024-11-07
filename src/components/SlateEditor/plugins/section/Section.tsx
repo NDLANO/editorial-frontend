@@ -9,7 +9,7 @@ import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
-import { DeleteForever } from "@ndla/icons/editor";
+import { DeleteBinLine } from "@ndla/icons/action";
 import { IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { SectionElement } from ".";
@@ -49,7 +49,7 @@ const Section = ({ attributes, children, element, editor }: Props) => {
             }}
             title={t("form.section.remove")}
           >
-            <DeleteForever />
+            <DeleteBinLine />
           </IconButton>
         </ButtonWrapper>
       )}

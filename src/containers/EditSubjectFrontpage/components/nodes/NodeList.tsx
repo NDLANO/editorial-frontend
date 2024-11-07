@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { TrashCanOutline } from "@ndla/icons/action";
+import { DeleteBinLine } from "@ndla/icons/action";
 import { DragVertical } from "@ndla/icons/editor";
 import { IconButton, ListItemContent, ListItemHeading, ListItemRoot } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
@@ -65,7 +65,7 @@ const NodeList = ({ nodes, onUpdate }: Props) => {
                   title={t("subjectpageForm.removeArticle")}
                   data-testid="elementListItemDeleteButton"
                 >
-                  <TrashCanOutline />
+                  <DeleteBinLine />
                 </IconButton>
               </ListItemContent>
             </StyledListItemRoot>

@@ -79,7 +79,7 @@ const normalizeRow = (
     for (const [index, cell] of row) {
       // A. Normalize table head
       if (cell) {
-        const hasScope = "scope" in cell.data;
+        const hasScope = "scope" in cell.data ? cell.data.scope : undefined;
         if (isHead) {
           // i. If cell in header
           //    Make sure scope='col' and isHeader=true and type is correct
@@ -119,7 +119,7 @@ const normalizeRow = (
                 return true;
               }
             } else {
-              if ((cell.type === TYPE_TABLE_CELL_HEADER && getPrevCell(matrix, rowIndex, index) !== cell) || hasScope) {
+              if ((cell.type === TYPE_TABLE_CELL_HEADER || hasScope) && getPrevCell(matrix, rowIndex, index) !== cell) {
                 updateCell(
                   editor,
                   cell,

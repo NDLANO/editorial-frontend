@@ -10,7 +10,7 @@ import { useField } from "formik";
 import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
-import { TrashCanOutline } from "@ndla/icons/action";
+import { DeleteBinLine } from "@ndla/icons/action";
 import {
   FieldErrorMessage,
   FieldInput,
@@ -146,7 +146,7 @@ const ExampleField = ({ example, name, index, exampleIndex, onRemoveExample }: P
           </FieldRoot>
         )}
         <IconButton variant="danger" aria-label={removeLabel} title={removeLabel} onClick={onRemoveExample}>
-          <TrashCanOutline />
+          <DeleteBinLine />
         </IconButton>
       </FieldWrapper>
     </StyledFieldsetRoot>

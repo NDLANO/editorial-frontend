@@ -9,8 +9,9 @@
 import { useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
 import { Portal } from "@ark-ui/react";
+import { DeleteBinLine } from "@ndla/icons/action";
 import { InformationLine } from "@ndla/icons/common";
-import { DeleteForever, UploadCloudLine } from "@ndla/icons/editor";
+import { UploadCloudLine } from "@ndla/icons/editor";
 import {
   Button,
   DialogBody,
@@ -27,7 +28,6 @@ import {
   FileUploadRoot,
   FileUploadTrigger,
   IconButton,
-  Text,
   UnOrderedList,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -123,7 +123,7 @@ const AudioContent = <T extends AudioFormikType | PodcastFormValues>({ handleSub
                   onClick={() => setFieldValue("audioFile", {})}
                   size="small"
                 >
-                  <DeleteForever />
+                  <DeleteBinLine />
                 </IconButton>
               </PlayerWrapper>
             ) : (

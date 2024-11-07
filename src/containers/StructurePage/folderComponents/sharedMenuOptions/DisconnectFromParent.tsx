@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
-import { DeleteForever } from "@ndla/icons/editor";
+import { DeleteBinLine } from "@ndla/icons/action";
 import { Node, NodeChild } from "@ndla/types-taxonomy";
 import MenuItemButton from "./components/MenuItemButton";
 import AlertModal from "../../../../components/AlertModal";
@@ -71,7 +71,7 @@ const DisconnectFromParent = ({ node, editModeHandler: { editMode, toggleEditMod
   return (
     <>
       <MenuItemButton data-testid="disconnectNode" onClick={toggleDisconnect}>
-        <RoundIcon small icon={<DeleteForever />} />
+        <RoundIcon small icon={<DeleteBinLine />} />
         {t("taxonomy.disconnectNode")}
       </MenuItemButton>
       <AlertModal

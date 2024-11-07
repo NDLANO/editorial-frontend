@@ -8,7 +8,8 @@
 
 import { useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
-import { DeleteForever, UploadCloudLine } from "@ndla/icons/editor";
+import { DeleteBinLine } from "@ndla/icons/action";
+import { UploadCloudLine } from "@ndla/icons/editor";
 import { ImageMeta } from "@ndla/image-search";
 import {
   Button,
@@ -131,7 +132,7 @@ const ImageContent = () => {
             onClick={() => setFieldValue("imageFile", undefined)}
             size="small"
           >
-            <DeleteForever />
+            <DeleteBinLine />
           </StyledIconButton>
         )}
         {values.imageFile && (

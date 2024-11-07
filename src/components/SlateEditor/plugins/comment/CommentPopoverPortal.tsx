@@ -8,7 +8,7 @@
 
 import { useTranslation } from "react-i18next";
 import { Portal } from "@ark-ui/react";
-import { Cross, TrashCanOutline } from "@ndla/icons/action";
+import { Cross, DeleteBinLine } from "@ndla/icons/action";
 import { IconButton, PopoverContent, PopoverTitle } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { CommentEmbedData, CommentMetaData } from "@ndla/types-embed";
@@ -65,7 +65,7 @@ const CommentPopoverPortal = ({ onSave, embed, onDelete, onClose, onOpenChange, 
               title={t("form.workflow.deleteComment.title")}
               onClick={onDelete}
             >
-              <TrashCanOutline />
+              <DeleteBinLine />
             </IconButton>
             <IconButton
               variant="tertiary"

@@ -12,8 +12,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
-import { Pencil } from "@ndla/icons/action";
-import { DeleteForever } from "@ndla/icons/editor";
+import { Pencil, DeleteBinLine } from "@ndla/icons/action";
 import { DialogContent, DialogRoot, DialogTrigger, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { RelatedContentEmbedData, RelatedContentMetaData } from "@ndla/types-embed";
@@ -196,7 +195,7 @@ const RelatedArticleBox = ({ attributes, editor, element, children }: Props) => 
                 title={t("delete")}
                 size="small"
               >
-                <DeleteForever />
+                <DeleteBinLine />
               </IconButton>
             </ButtonWrapper>
           }

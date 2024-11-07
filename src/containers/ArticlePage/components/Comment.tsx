@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
 import styled from "@emotion/styled";
 import { colors, spacing, fonts, misc } from "@ndla/core";
-import { TrashCanOutline, RightArrow, ExpandMore } from "@ndla/icons/action";
+import { DeleteBinLine, RightArrow, ExpandMore } from "@ndla/icons/action";
 import { Done } from "@ndla/icons/editor";
 import { FieldLabel, FieldRoot, IconButton } from "@ndla/primitives";
 import { plugins, toolbarAreaFilters, toolbarOptions } from "./commentToolbarUtils";
@@ -118,7 +118,7 @@ const Comment = ({ id, index, isSubmitting, field, arrayHelpers }: Props) => {
               title={t("form.workflow.deleteComment.title")}
               onClick={() => setModalOpen(true)}
             >
-              <TrashCanOutline />
+              <DeleteBinLine />
             </IconButton>
           </div>
         </TopButtonRow>

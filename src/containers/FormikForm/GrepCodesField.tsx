@@ -10,7 +10,7 @@ import { useField } from "formik";
 import { memo, useState, useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
-import { DeleteForever } from "@ndla/icons/editor";
+import { DeleteBinLine } from "@ndla/icons/action";
 import {
   ComboboxContent,
   ComboboxItem,
@@ -184,7 +184,7 @@ const GrepCodesField = () => {
                       updateGrepCodes(code);
                     }}
                   >
-                    <DeleteForever />
+                    <DeleteBinLine />
                   </IconButton>
                 </li>
               </ListItemRoot>

@@ -9,8 +9,7 @@
 import { MouseEvent, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DragEndEvent } from "@dnd-kit/core";
-import { Pencil } from "@ndla/icons/action";
-import { DeleteForever } from "@ndla/icons/editor";
+import { Pencil, DeleteBinLine } from "@ndla/icons/action";
 import {
   ComboboxLabel,
   DialogBody,
@@ -179,7 +178,7 @@ const EditRelated = ({ updateArticles, insertExternal, embeds, onInsertBlock }: 
                     onClick={(e) => deleteRelatedArticle(e, embed, index)}
                     title={t("form.content.relatedArticle.removeExternal")}
                   >
-                    <DeleteForever />
+                    <DeleteBinLine />
                   </IconButton>
                 </ButtonWrapper>
               </RelatedArticleWrapper>

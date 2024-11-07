@@ -9,9 +9,8 @@
 import { useField } from "formik";
 import { MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
-import { Pencil } from "@ndla/icons/action";
+import { Pencil, DeleteBinLine } from "@ndla/icons/action";
 import { ArrowUpShortLine, ArrowDownShortLine } from "@ndla/icons/common";
-import { DeleteForever } from "@ndla/icons/editor";
 import { Button, Heading, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IMovieTheme } from "@ndla/types-backend/frontpage-api";
@@ -141,7 +140,7 @@ const ThemeEditor = ({ selectedLanguage }: Props) => {
                   name: theme.name.find((name) => name.language === selectedLanguage)?.name || "",
                 })}
               >
-                <DeleteForever />
+                <DeleteBinLine />
               </IconButton>
               <IconButton
                 variant="clear"

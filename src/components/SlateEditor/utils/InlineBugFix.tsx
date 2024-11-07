@@ -6,12 +6,14 @@
  *
  */
 
-import styled from "@emotion/styled";
+import { styled } from "@ndla/styled-system/jsx";
 
-const StyledInlineBugFix = styled.span`
-  font-size: unset;
-  line-height: unset;
-`;
+const StyledInlineBugFix = styled("span", {
+  base: {
+    fontSize: "unset",
+    lineHeight: "unset",
+  },
+});
 
 /**
  *

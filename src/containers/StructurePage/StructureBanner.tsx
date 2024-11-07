@@ -113,7 +113,7 @@ const StructureBanner = ({
         <PopoverRoot>
           <PopoverRoot>
             <PopoverTrigger asChild>
-              <Button variant="secondary" size="small">
+              <Button variant="secondary" size="small" data-testid="display-options">
                 {t("taxonomy.displayOptions")}
               </Button>
             </PopoverTrigger>

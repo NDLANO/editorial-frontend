@@ -57,6 +57,7 @@ test("can toggle favourites", async ({ page }) => {
 });
 
 test("can only toggle only show favourites", async ({ page }) => {
+  await page.getByTestId("display-options").click();
   expect(await page.getByTestId("switch-favorites").isChecked()).toBeFalsy();
   expect(await page.getByTestId("structure").locator("div").count()).toEqual(813);
   await page.getByTestId("switch-favorites").click();

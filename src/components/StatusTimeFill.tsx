@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import { TimeFill } from "@ndla/icons/common";
 import { styled } from "@ndla/styled-system/jsx";
 

@@ -14,12 +14,14 @@ import { OptGroupVersionSelector } from "../../components/Taxonomy/OptGroupVersi
 import { useVersions } from "../../modules/taxonomy/versions/versionQueries";
 import { useTaxonomyVersion } from "../StructureVersion/TaxonomyVersionProvider";
 
-const StyledVersionSelector = styled("div", {
+const VersionSelectorContainer = styled("div", {
   base: {
     borderRadius: "xsmall",
     width: "surface.xsmall",
     padding: "xsmall",
     maxWidth: "surface.small",
+    alignSelf: "center",
+    marginBlockStart: "3xlarge",
   },
   defaultVariants: {
     versionType: "default",
@@ -48,10 +50,6 @@ const StyledSelectLabel = styled(SelectLabel, {
   },
 });
 
-const Wrapper = styled("div", {
-  base: { display: "flex", justifyContent: "center", marginBlockStart: "3xlarge" },
-});
-
 const VersionSelector = () => {
   const { t } = useTranslation();
   const { taxonomyVersion, changeVersion } = useTaxonomyVersion();
@@ -73,17 +71,15 @@ const VersionSelector = () => {
   };
 
   return (
-    <Wrapper>
-      <StyledVersionSelector versionType={currentVersion?.versionType ?? "default"}>
-        <OptGroupVersionSelector
-          versions={data}
-          currentVersion={currentVersion?.hash}
-          onVersionChanged={(version) => onVersionChanged(version.hash)}
-        >
-          <StyledSelectLabel>{t("taxonomy.currentVersion")}</StyledSelectLabel>
-        </OptGroupVersionSelector>
-      </StyledVersionSelector>
-    </Wrapper>
+    <VersionSelectorContainer versionType={currentVersion?.versionType ?? "default"}>
+      <OptGroupVersionSelector
+        versions={data}
+        currentVersion={currentVersion?.hash}
+        onVersionChanged={(version) => onVersionChanged(version.hash)}
+      >
+        <StyledSelectLabel>{t("taxonomy.currentVersion")}</StyledSelectLabel>
+      </OptGroupVersionSelector>
+    </VersionSelectorContainer>
   );
 };
 

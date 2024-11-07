@@ -8,9 +8,17 @@
 
 import { useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
+import { Portal } from "@ark-ui/react";
+import { InformationLine } from "@ndla/icons/common";
 import { DeleteForever, UploadCloudLine } from "@ndla/icons/editor";
 import {
   Button,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
   FieldErrorMessage,
   FieldRoot,
   FileUploadDropzone,
@@ -19,12 +27,14 @@ import {
   FileUploadRoot,
   FileUploadTrigger,
   IconButton,
+  Text,
+  UnOrderedList,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import AudioCopyInfo from "./AudioCopyInfo";
-import AudioFileInfoModal from "./AudioFileInfoModal";
 import { AudioFormikType } from "./AudioForm";
 import AudioPlayer from "./AudioPlayer";
+import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import FieldHeader from "../../../components/Field/FieldHeader";
 import { FormField } from "../../../components/FormField";
 import { FormContent } from "../../../components/FormikForm";
@@ -74,7 +84,34 @@ const AudioContent = <T extends AudioFormikType | PodcastFormValues>({ handleSub
         {({ helpers, meta }) => (
           <>
             <FieldHeader title={t("form.audio.sound")}>
-              <AudioFileInfoModal />
+              <DialogRoot>
+                <DialogTrigger asChild>
+                  <IconButton
+                    variant="tertiary"
+                    size="small"
+                    aria-label={t("form.audio.modal.label")}
+                    title={t("form.audio.modal.label")}
+                  >
+                    <InformationLine />
+                  </IconButton>
+                </DialogTrigger>
+                <Portal>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>{t("form.audio.modal.header")}</DialogTitle>
+                      <DialogCloseButton />
+                    </DialogHeader>
+                    <DialogBody>
+                      <UnOrderedList>
+                        <li>{t("form.audio.info.multipleFiles")}</li>
+                        <li>{t("form.audio.info.changeFile")}</li>
+                        <li>{t("form.audio.info.newLanguage")}</li>
+                        <li>{t("form.audio.info.deleteFiles")}</li>
+                      </UnOrderedList>
+                    </DialogBody>
+                  </DialogContent>
+                </Portal>
+              </DialogRoot>
             </FieldHeader>
             {playerObject ? (
               <PlayerWrapper>

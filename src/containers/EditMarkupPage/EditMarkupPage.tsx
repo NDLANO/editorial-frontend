@@ -10,7 +10,6 @@ import { lazy, Suspense, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation, useParams } from "react-router-dom";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { spacing, colors } from "@ndla/core";
 import { InformationLine } from "@ndla/icons/common";
 import {
@@ -22,6 +21,7 @@ import {
   DialogTrigger,
   IconButton,
   Text,
+  Button,
 } from "@ndla/primitives";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import { Row } from "../../components";
@@ -29,7 +29,7 @@ import { DialogCloseButton } from "../../components/DialogCloseButton";
 import FieldHeader from "../../components/Field/FieldHeader";
 import HeaderSupportedLanguages from "../../components/HeaderWithLanguage/HeaderSupportedLanguages";
 import { OldSpinner } from "../../components/OldSpinner";
-import PreviewDraftLightboxV2 from "../../components/PreviewDraft/PreviewDraftLightboxV2";
+import { PreviewResourceDialog } from "../../components/PreviewDraft/PreviewResourceDialog";
 import SaveButton from "../../components/SaveButton";
 import { DRAFT_HTML_SCOPE } from "../../constants";
 import { fetchDraft, updateDraft } from "../../modules/draft/draftApi";
@@ -231,11 +231,11 @@ const EditMarkupPage = () => {
         />
         <StyledRow>
           {!!draft && (
-            <PreviewDraftLightboxV2
+            <PreviewResourceDialog
               type="markup"
               language={language}
               article={draft}
-              activateButton={<ButtonV2 variant="link">{t("form.preview.button")}</ButtonV2>}
+              activateButton={<Button variant="link">{t("form.preview.button")}</Button>}
             />
           )}
           <Row justifyContent="end" alignItems="baseline">

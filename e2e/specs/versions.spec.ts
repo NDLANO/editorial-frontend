@@ -42,9 +42,9 @@ test("Open previews", async ({ page }) => {
   await page.getByRole("heading", { name: "Versjonslogg og merknader" }).click();
   await page.getByTestId("previewVersion").last().click();
   await page.getByRole("article").first().waitFor();
-  await expect(page.getByTestId("close-modal-button")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Sammenlign med publisert" })).toBeVisible();
   expect(await page.getByRole("article").count()).toBe(2);
-  await page.getByTestId("close-modal-button").click();
+  await page.getByRole("button", { name: "Lukk" }).click();
   await expect(page.getByTestId("preview-draft-modal")).toBeVisible({ visible: false });
 });
 

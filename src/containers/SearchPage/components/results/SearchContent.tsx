@@ -8,7 +8,7 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { AlertFill } from "@ndla/icons/common";
+import { ErrorWarningFill } from "@ndla/icons/common";
 import { CheckLine, Code, Concept, Globe } from "@ndla/icons/editor";
 import { ListItemContent, ListItemHeading, ListItemRoot, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
@@ -136,10 +136,9 @@ const StyledText = styled(Text, {
   },
 });
 
-const StyledAlertFill = styled(AlertFill, {
+const StyledErrorWarningFill = styled(ErrorWarningFill, {
   base: {
-    fill: "yellow.700",
-    stroke: "black",
+    fill: "icon.subtle",
   },
 });
 
@@ -198,7 +197,7 @@ const SearchContent = ({ content, locale, subjects, responsibleName }: Props) =>
           </ListItemHeading>
           <InfoWrapper>
             {content.contexts.length > 1 && (
-              <StyledAlertFill title={t("searchForm.multiTaxonomy", { count: content.contexts.length })} />
+              <StyledErrorWarningFill title={t("searchForm.multiTaxonomy", { count: content.contexts.length })} />
             )}
             {!!contentType && <ContentTypeBadgeNew contentType={contentType} />}
             {content.learningResourceType !== "frontpage-article" && (

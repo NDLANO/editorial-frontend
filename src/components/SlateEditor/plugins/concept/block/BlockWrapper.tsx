@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Element, Transforms, Path } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import { DeleteBinLine } from "@ndla/icons/action";
-import { AlertFill, Link as LinkIcon } from "@ndla/icons/common";
+import { ErrorWarningFill, Link as LinkIcon } from "@ndla/icons/common";
 import { CheckLine } from "@ndla/icons/editor";
 import { DialogContent, DialogRoot, IconButton } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
@@ -197,9 +197,9 @@ const StyledCheckLine = styled(CheckLine, {
   },
 });
 
-const StyledAlertFill = styled(AlertFill, {
+const StyledErrorWarningFill = styled(ErrorWarningFill, {
   base: {
-    fill: "surface.error",
+    fill: "icon.subtle",
   },
 });
 
@@ -233,7 +233,7 @@ const ConceptButtonContainer = ({ concept, handleRemove, language, editor, eleme
         <StyledCheckLine aria-label={t("form.workflow.published")} title={t("form.workflow.published")} />
       )}
       {concept?.status.current !== PUBLISHED && (
-        <StyledAlertFill
+        <StyledErrorWarningFill
           aria-label={t("form.workflow.currentStatus", {
             status: translatedCurrent,
           })}

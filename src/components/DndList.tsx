@@ -24,13 +24,13 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { IconButtonV2 } from "@ndla/button";
+import { IconButton } from "@ndla/primitives";
 import DraggableItem from "./DraggableItem";
 
 interface Props<T extends { id: UniqueIdentifier }> {
   items: T[];
   disabled?: boolean;
-  dragHandle?: ReactElement<ComponentProps<typeof IconButtonV2>>;
+  dragHandle?: ReactElement<ComponentProps<typeof IconButton>>;
   renderItem: (item: T, index: number) => ReactElement;
   onDragEnd: (event: DragEndEvent, items: T[]) => void;
 }

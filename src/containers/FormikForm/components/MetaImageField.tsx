@@ -9,9 +9,9 @@
 import { SyntheticEvent } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
 import { DeleteBinLine } from "@ndla/icons/action";
 import { Link } from "@ndla/icons/common";
+import { IconButton } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import FormikField from "../../../components/FormikField";
@@ -43,22 +43,22 @@ const MetaImageField = ({ image, onImageRemove, onImageLoad, disableAltEditing, 
   const alt = image.alttext.alttext ?? "";
   const imageAction = (
     <>
-      <IconButtonV2
+      <IconButton
         aria-label={t("form.image.removeImage")}
-        colorTheme="danger"
-        variant="ghost"
+        variant="danger"
         onClick={onImageRemove}
-        tabIndex={-1}
         data-testid="remove-element"
         title={t("form.image.removeImage")}
+        size="small"
       >
         <DeleteBinLine />
-      </IconButtonV2>
+      </IconButton>
       <SafeLinkIconButton
         variant="tertiary"
         to={`/media/image-upload/${image.id}/edit/${image.title.language}`}
         target="_blank"
         title={t("form.image.editImage")}
+        size="small"
       >
         <Link />
       </SafeLinkIconButton>

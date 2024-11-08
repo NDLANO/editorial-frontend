@@ -10,13 +10,12 @@ import { ComponentProps, ReactElement, ReactNode, cloneElement, forwardRef } fro
 import { UniqueIdentifier } from "@dnd-kit/core";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { IconButtonV2 } from "@ndla/button";
 import { IconButton, IconButtonProps } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 
 interface Props {
   children: ReactNode;
-  dragHandle?: ReactElement<ComponentProps<typeof IconButtonV2>>;
+  dragHandle?: ReactElement<ComponentProps<typeof IconButton>>;
   id: UniqueIdentifier;
   disabled?: boolean;
   index: number;

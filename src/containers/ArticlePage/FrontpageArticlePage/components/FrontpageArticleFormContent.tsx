@@ -10,9 +10,8 @@ import { useFormikContext } from "formik";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
-import { colors } from "@ndla/core";
 import { Link } from "@ndla/icons/editor";
+import { IconButton } from "@ndla/primitives";
 import { frontpagePlugins } from "./frontpagePlugins";
 import { frontpageRenderers } from "./frontpageRenderers";
 import AlertModal from "../../../../components/AlertModal";
@@ -59,14 +58,6 @@ const StyledDiv = styled.div`
 
 const StyledContentDiv = styled(FormikField)`
   position: static;
-`;
-
-const StyledIconButton = styled(IconButtonV2)`
-  color: ${colors.brand.light};
-
-  &[data-active="true"] {
-    color: ${colors.brand.primary};
-  }
 `;
 
 const visualElements = [TYPE_H5P, TYPE_EMBED_BRIGHTCOVE, TYPE_AUDIO, TYPE_EXTERNAL, TYPE_IMAGE];
@@ -141,16 +132,14 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
           )}
         </FormField>
         {slug && (
-          <StyledIconButton
+          <IconButton
             aria-label={t("form.slug.edit")}
-            variant="stripped"
-            colorTheme="light"
-            data-active={editSlug}
-            onClick={() => setEditSlug(!editSlug)}
             title={t("form.slug.edit")}
+            variant={editSlug ? "secondary" : "clear"}
+            onClick={() => setEditSlug(!editSlug)}
           >
             <Link />
-          </StyledIconButton>
+          </IconButton>
         )}
       </StyledDiv>
       <IngressField />

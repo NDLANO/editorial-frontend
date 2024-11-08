@@ -8,10 +8,9 @@
 
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
 import { colors, fonts, spacing } from "@ndla/core";
 import { DeleteBinLine } from "@ndla/icons/action";
-import { ComboboxLabel, Text } from "@ndla/primitives";
+import { ComboboxLabel, IconButton, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
 import FieldHeader from "../../../components/Field/FieldHeader";
@@ -62,15 +61,15 @@ const PodcastSeries = () => {
                   </StyledSafeLink>
                 )}
               </div>
-              <IconButtonV2
+              <IconButton
                 aria-label={t("podcastForm.information.removeSeries")}
                 title={t("podcastForm.information.removeSeries")}
-                variant="ghost"
-                colorTheme="danger"
+                variant="danger"
                 onClick={() => helpers.setValue(null, true)}
+                size="small"
               >
                 <DeleteBinLine />
-              </IconButtonV2>
+              </IconButton>
             </PodcastSeriesElement>
           ) : (
             <Text>{t("podcastForm.information.noSeries")}</Text>

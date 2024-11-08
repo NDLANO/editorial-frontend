@@ -9,10 +9,10 @@
 import { useFormikContext } from "formik";
 import { memo, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { ButtonV2 } from "@ndla/button";
 import { FileCompare } from "@ndla/icons/action";
 import { Launch } from "@ndla/icons/common";
 import { CheckboxCircleFill, Eye } from "@ndla/icons/editor";
+import { Button } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { IConcept } from "@ndla/types-backend/concept-api";
@@ -27,7 +27,7 @@ import { createEditUrl, hasArticleFieldsChanged, toMapping, translatableTypes } 
 import { PUBLISHED } from "../../constants";
 import { toCompareLanguage } from "../../util/routeHelpers";
 import { useIsTranslatableToNN } from "../NynorskTranslateProvider";
-import PreviewDraftLightboxV2 from "../PreviewDraft/PreviewDraftLightboxV2";
+import { PreviewResourceDialog } from "../PreviewDraft/PreviewResourceDialog";
 
 interface PreviewLightBoxProps {
   article?: IArticle;
@@ -60,14 +60,14 @@ const PreviewLightBox = memo(({ type, currentLanguage, article, concept }: Previ
   const { t } = useTranslation();
   if ((type === "concept" || type === "gloss") && concept) {
     return (
-      <PreviewDraftLightboxV2
+      <PreviewResourceDialog
         type="conceptCompare"
         concept={concept}
         language={currentLanguage}
         activateButton={
-          <ButtonV2 size="small" colorTheme="light">
+          <Button size="small" variant="secondary">
             <FileCompare /> {t("form.previewLanguageArticle.button")}
-          </ButtonV2>
+          </Button>
         }
       />
     );
@@ -193,14 +193,14 @@ const HeaderActions = ({
           {lastPublishedVersion && (
             <>
               <StyledSplitter />
-              <PreviewDraftLightboxV2
+              <PreviewResourceDialog
                 type="version"
                 article={lastPublishedVersion}
                 language={language}
                 customTitle={t("form.previewProductionArticle.published")}
                 activateButton={
-                  <ButtonV2
-                    variant="ghost"
+                  <Button
+                    variant="tertiary"
                     size="small"
                     aria-label={
                       hasChanges
@@ -215,7 +215,7 @@ const HeaderActions = ({
                     }
                   >
                     <Eye /> {t("form.previewVersion")}
-                  </ButtonV2>
+                  </Button>
                 }
               />
             </>

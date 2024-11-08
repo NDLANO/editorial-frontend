@@ -397,6 +397,7 @@ const phrases = {
   editMarkup: {
     linkTitle: "Gå til HTML-editor",
     title: "HTML-editor",
+    previewDialogTitle: "Forhåndsvis artikkel",
     subTitle: "Rediger artikkelinnhold med HTML",
     fetchError: "En feil oppsto ved lasting av HTML-editoren. Gå tilbake eller prøv å laste siden på nytt.",
     saveError: "En feil oppsto ved lagring av endringer.",
@@ -2173,6 +2174,12 @@ const phrases = {
   },
   fileUpload: {
     title: "Last opp filer",
+  },
+  conceptCompare: {
+    title: "Sammenlign språkversjoner",
+  },
+  conceptPreview: {
+    title: "Forhåndsvis forklaring",
   },
 };
 

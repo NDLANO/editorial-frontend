@@ -9,13 +9,23 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
-import { Button, ComboboxLabel, FieldInput, FieldLabel, FieldRoot, Text } from "@ndla/primitives";
+import {
+  Button,
+  ComboboxLabel,
+  FieldInput,
+  FieldLabel,
+  FieldRoot,
+  ListItemContent,
+  ListItemHeading,
+  ListItemImage,
+  ListItemRoot,
+  Text,
+} from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IArticleV2 } from "@ndla/types-backend/article-api";
 import { ILearningPathSummaryV2, ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
-import ArticlePreview from "../../../components/ArticlePreview";
 import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCombobox";
 import { FormActionsContainer, FormContent } from "../../../components/FormikForm";
 import Spinner from "../../../components/Spinner";
@@ -42,6 +52,14 @@ const StyledText = styled(Text, {
 const StyledFormContent = styled(FormContent, {
   base: {
     width: "100%",
+  },
+});
+
+const StyledListItemContent = styled(ListItemContent, {
+  base: {
+    flexDirection: "column",
+    gap: "4xsmall",
+    alignItems: "flex-start",
   },
 });
 
@@ -290,7 +308,19 @@ const AddExistingResource = ({ onClose, resourceTypes, existingResourceIds, node
           />
         </GenericSearchCombobox>
       )}
-      {previewLoading ? <Spinner /> : preview && <ArticlePreview article={preview} />}
+      {previewLoading ? (
+        <Spinner />
+      ) : (
+        preview && (
+          <ListItemRoot data-testid="articlePreview" nonInteractive>
+            <ListItemImage src={preview.metaUrl ?? "/placeholder.png"} alt="" width={200} />
+            <StyledListItemContent>
+              <ListItemHeading>{preview.title.title}</ListItemHeading>
+              <Text textStyle="body.small">{preview.metaDescription?.metaDescription}</Text>
+            </StyledListItemContent>
+          </ListItemRoot>
+        )
+      )}
       {error && <Text color="text.error">{t(error)}</Text>}
       <FormActionsContainer>
         <Button disabled={preview === undefined} onClick={onAddResource} loading={loading} type="submit">

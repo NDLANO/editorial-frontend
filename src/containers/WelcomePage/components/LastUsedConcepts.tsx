@@ -8,7 +8,7 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Pencil } from "@ndla/icons/action";
+import { PencilFill } from "@ndla/icons/action";
 import { SafeLink } from "@ndla/safelink";
 import { IConceptSummary } from "@ndla/types-backend/concept-api";
 import { SortOptionLastUsed } from "./LastUsedItems";
@@ -74,7 +74,11 @@ const LastUsedConcepts = ({
   return (
     <>
       <StyledTopRowDashboardInfo>
-        <TableTitle title={t("welcomePage.lastUsed")} description={t("welcomePage.lastUsedConcepts")} Icon={Pencil} />
+        <TableTitle
+          title={t("welcomePage.lastUsed")}
+          description={t("welcomePage.lastUsedConcepts")}
+          Icon={PencilFill}
+        />
         <PageSizeSelect pageSize={pageSize} setPageSize={setPageSize} />
       </StyledTopRowDashboardInfo>
       <TableComponent

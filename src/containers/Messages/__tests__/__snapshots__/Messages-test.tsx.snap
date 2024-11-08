@@ -529,16 +529,13 @@ exports[`Messages > A message is removed if the modal is closed 1`] = `
             data-icon=""
             data-license="Apache License 2.0"
             data-severity="danger"
-            data-source="Material Design"
+            data-source="RemixIcon"
+            fill="currentColor"
             preserveAspectRatio="xMidYMid meet"
             viewBox="0 0 24 24"
           >
             <path
-              d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z"
-            />
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
+              d="m12 10.59 4.95-4.95 1.41 1.41L13.41 12l4.95 4.95-1.41 1.41L12 13.41l-4.95 4.95-1.41-1.41L10.59 12 5.64 7.05l1.41-1.41z"
             />
           </svg>
         </button>
@@ -1133,16 +1130,13 @@ exports[`Messages > A single message renders correctly 1`] = `
             data-icon=""
             data-license="Apache License 2.0"
             data-severity="danger"
-            data-source="Material Design"
+            data-source="RemixIcon"
+            fill="currentColor"
             preserveAspectRatio="xMidYMid meet"
             viewBox="0 0 24 24"
           >
             <path
-              d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z"
-            />
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
+              d="m12 10.59 4.95-4.95 1.41 1.41L13.41 12l4.95 4.95-1.41 1.41L12 13.41l-4.95 4.95-1.41-1.41L10.59 12 5.64 7.05l1.41-1.41z"
             />
           </svg>
         </button>
@@ -1715,16 +1709,13 @@ exports[`Messages > Several messages renders correctly 1`] = `
             data-icon=""
             data-license="Apache License 2.0"
             data-severity="danger"
-            data-source="Material Design"
+            data-source="RemixIcon"
+            fill="currentColor"
             preserveAspectRatio="xMidYMid meet"
             viewBox="0 0 24 24"
           >
             <path
-              d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z"
-            />
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
+              d="m12 10.59 4.95-4.95 1.41 1.41L13.41 12l4.95 4.95-1.41 1.41L12 13.41l-4.95 4.95-1.41-1.41L10.59 12 5.64 7.05l1.41-1.41z"
             />
           </svg>
         </button>
@@ -1806,16 +1797,13 @@ exports[`Messages > Several messages renders correctly 1`] = `
             data-icon=""
             data-license="Apache License 2.0"
             data-severity="danger"
-            data-source="Material Design"
+            data-source="RemixIcon"
+            fill="currentColor"
             preserveAspectRatio="xMidYMid meet"
             viewBox="0 0 24 24"
           >
             <path
-              d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z"
-            />
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
+              d="m12 10.59 4.95-4.95 1.41 1.41L13.41 12l4.95 4.95-1.41 1.41L12 13.41l-4.95 4.95-1.41-1.41L10.59 12 5.64 7.05l1.41-1.41z"
             />
           </svg>
         </button>
@@ -2465,16 +2453,13 @@ exports[`Messages > auth0 messages provides a cancel button 1`] = `
             data-icon=""
             data-license="Apache License 2.0"
             data-severity="danger"
-            data-source="Material Design"
+            data-source="RemixIcon"
+            fill="currentColor"
             preserveAspectRatio="xMidYMid meet"
             viewBox="0 0 24 24"
           >
             <path
-              d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z"
-            />
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
+              d="m12 10.59 4.95-4.95 1.41 1.41L13.41 12l4.95 4.95-1.41 1.41L12 13.41l-4.95 4.95-1.41-1.41L10.59 12 5.64 7.05l1.41-1.41z"
             />
           </svg>
         </button>

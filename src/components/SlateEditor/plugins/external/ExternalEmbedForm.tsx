@@ -9,7 +9,7 @@
 import { Formik, useFormikContext } from "formik";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Cross } from "@ndla/icons/action";
+import { CloseLine } from "@ndla/icons/action";
 import { Information } from "@ndla/icons/common";
 import { CheckLine } from "@ndla/icons/editor";
 import {
@@ -295,7 +295,7 @@ const InnerForm = () => {
                     setFieldValue("validUrl", "", true);
                   }}
                 >
-                  <Cross />
+                  <CloseLine />
                 </IconButton>
               </InputContainer>
               <Button

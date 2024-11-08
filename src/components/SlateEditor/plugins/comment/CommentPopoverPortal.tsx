@@ -8,7 +8,7 @@
 
 import { useTranslation } from "react-i18next";
 import { Portal } from "@ark-ui/react";
-import { Cross, DeleteBinLine } from "@ndla/icons/action";
+import { CloseLine, DeleteBinLine } from "@ndla/icons/action";
 import { IconButton, PopoverContent, PopoverTitle } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { CommentEmbedData, CommentMetaData } from "@ndla/types-embed";
@@ -74,7 +74,7 @@ const CommentPopoverPortal = ({ onSave, embed, onDelete, onClose, onOpenChange, 
               title={t("modal.closeModal")}
               onClick={onClose}
             >
-              <Cross />
+              <CloseLine />
             </IconButton>
           </ButtonContainer>
         </CommentHeader>

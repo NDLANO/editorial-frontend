@@ -8,7 +8,7 @@
 
 import { KeyboardEvent, MouseEvent, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Cross, Pencil, DeleteBinLine } from "@ndla/icons/action";
+import { CloseLine, Pencil, DeleteBinLine } from "@ndla/icons/action";
 import { CheckboxCircleFill, CheckLine } from "@ndla/icons/editor";
 import {
   CheckboxControl,
@@ -154,7 +154,7 @@ export const SlateFile = ({
               variant="secondary"
               size="small"
             >
-              <Cross />
+              <CloseLine />
             </IconButton>
           ) : (
             <>

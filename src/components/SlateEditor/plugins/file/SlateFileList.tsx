@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Element, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
-import { Cross, AddLine } from "@ndla/icons/action";
+import { CloseLine, AddLine } from "@ndla/icons/action";
 import {
   DialogBody,
   DialogContent,
@@ -150,7 +150,7 @@ const SlateFileList = ({ element, editor, attributes, children }: Props) => {
             onClick={removeFileList}
             size="small"
           >
-            <Cross />
+            <CloseLine />
           </IconButton>
         </HStack>
       </StyledHeaderWrapper>

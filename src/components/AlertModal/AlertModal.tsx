@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
 import { spacing, colors } from "@ndla/core";
-import { Cross } from "@ndla/icons/action";
+import { CloseLine } from "@ndla/icons/action";
 import { Warning } from "@ndla/icons/editor";
 import { ModalHeader, Modal, ModalContent } from "@ndla/modal";
 import AlertModalFooter from "./AlertModalFooter";
@@ -146,7 +146,7 @@ const AlertModal = ({ text, onCancel, title, actions, component, show, label, se
                 onCancel();
               }}
             >
-              <Cross data-severity={severity} />
+              <CloseLine data-severity={severity} />
             </CloseButton>
           </Header>
           <StyledBody>

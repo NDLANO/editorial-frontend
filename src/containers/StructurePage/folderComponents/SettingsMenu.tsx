@@ -11,7 +11,7 @@ import styled from "@emotion/styled";
 import { Root, Trigger, Close, Content, Portal } from "@radix-ui/react-popover";
 import { IconButtonV2 } from "@ndla/button";
 import { animations, colors, spacing, stackOrder } from "@ndla/core";
-import { Cross } from "@ndla/icons/action";
+import { CloseLine } from "@ndla/icons/action";
 import { Settings } from "@ndla/icons/editor";
 import { Node } from "@ndla/types-taxonomy";
 import SettingsMenuDropdownType from "./SettingsMenuDropdownType";
@@ -86,7 +86,7 @@ const SettingsMenu = ({ node, rootNodeId, onCurrentNodeChanged, nodeChildren }: 
                 </TitleWrapper>
                 <Close asChild>
                   <IconButtonV2 aria-label={t("close")} variant="ghost" title={t("close")}>
-                    <Cross />
+                    <CloseLine />
                   </IconButtonV2>
                 </Close>
               </Header>

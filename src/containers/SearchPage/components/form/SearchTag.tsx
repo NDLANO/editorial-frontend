@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
 import { colors, spacing } from "@ndla/core";
-import { Cross } from "@ndla/icons/action";
+import { CloseLine } from "@ndla/icons/action";
 import { SearchFormSelector } from "./Selector";
 import formatDate from "../../../../util/formatDate";
 import { unreachable } from "../../../../util/guards";
@@ -104,7 +104,7 @@ const SearchTag = ({ tag, onRemoveItem }: Props) => {
     <StyledDl>
       <SearchTagContent tag={tag} tagValue={tagValue} />
       <IconButtonV2 aria-label={t("remove")} variant="ghost" title={t("remove")} onClick={onRemove} size="small">
-        <Cross />
+        <CloseLine />
       </IconButtonV2>
     </StyledDl>
   );

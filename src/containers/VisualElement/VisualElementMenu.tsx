@@ -7,7 +7,7 @@
  */
 
 import { useState } from "react";
-import { Cross, AddLine } from "@ndla/icons/action";
+import { CloseLine, AddLine } from "@ndla/icons/action";
 import { Audio } from "@ndla/icons/common";
 import { Camera, H5P, Link, Video } from "@ndla/icons/editor";
 import { Button } from "@ndla/primitives";
@@ -66,7 +66,7 @@ const VisualElementMenu = ({ onSelect, types = ["image", "video", "h5p", "url"] 
   return (
     <ButtonWrapper>
       <Button variant="secondary" onClick={toggleIsOpen}>
-        {isOpen ? <Cross /> : <AddLine />}
+        {isOpen ? <CloseLine /> : <AddLine />}
       </Button>
       {isOpen &&
         visualElementButtons

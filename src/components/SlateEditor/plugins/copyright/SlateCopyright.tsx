@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Element, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
-import { Pencil } from "@ndla/icons/action";
+import { PencilFill } from "@ndla/icons/action";
 import {
   DialogContent,
   DialogRoot,
@@ -151,7 +151,7 @@ const SlateCopyright = ({ attributes, children, element, editor }: Props) => {
               data-testid="edit-copyright"
               title={t("form.copyright.edit")}
             >
-              <Pencil />
+              <PencilFill />
             </IconButton>
           </DialogTrigger>
           <Portal>

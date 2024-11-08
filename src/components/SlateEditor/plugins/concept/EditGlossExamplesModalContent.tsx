@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Transforms } from "slate";
 import { ReactEditor } from "slate-react";
-import { Cross } from "@ndla/icons/action";
+import { CloseLine } from "@ndla/icons/action";
 import { CheckLine } from "@ndla/icons/editor";
 import {
   Button,
@@ -94,7 +94,7 @@ const EditGlossExamplesModalContent = ({ originalLanguage, examples, editor, ele
         <DialogTitle>{t("form.gloss.editExamplesHeading")}</DialogTitle>
         <DialogCloseTrigger asChild>
           <IconButton variant="clear" title={t("form.close")} aria-label={t("form.close")}>
-            <Cross />
+            <CloseLine />
           </IconButton>
         </DialogCloseTrigger>
       </DialogHeader>

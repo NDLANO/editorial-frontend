@@ -7,14 +7,6 @@
  */
 
 import { Editor } from "slate";
-import styled from "@emotion/styled";
-
-const StyledCode = styled.code`
-  display: inline;
-  padding: 0;
-  margin: 0;
-  background-color: #eee;
-`;
 
 export const markRenderer = (editor: Editor) => {
   const { renderLeaf } = editor;
@@ -36,7 +28,7 @@ export const markRenderer = (editor: Editor) => {
       ret = <u {...attributes}>{ret || children}</u>;
     }
     if (leaf.code) {
-      ret = <StyledCode {...attributes}>{ret || children}</StyledCode>;
+      ret = <code {...attributes}>{ret || children}</code>;
     }
     if (ret) {
       return ret;

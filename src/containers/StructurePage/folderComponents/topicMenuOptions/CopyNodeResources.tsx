@@ -33,6 +33,7 @@ interface Props {
   currentNode: Node;
   editModeHandler: EditModeHandler;
   type: ActionType;
+  rootNodeId: string;
 }
 
 const StyledSpinner = styled(OldSpinner)`
@@ -71,7 +72,7 @@ const StyledDone = styled(Done)`
   color: green;
 `;
 
-const CopyNodeResources = ({ editModeHandler: { editMode, toggleEditMode }, currentNode, type }: Props) => {
+const CopyNodeResources = ({ editModeHandler: { editMode, toggleEditMode }, currentNode, type, rootNodeId }: Props) => {
   const {
     t,
     i18n: { language },
@@ -114,6 +115,12 @@ const CopyNodeResources = ({ editModeHandler: { editMode, toggleEditMode }, curr
     qc.invalidateQueries({
       queryKey: nodeQueryKeys.resources({
         id: currentNode.id,
+        taxonomyVersion,
+      }),
+    });
+    qc.invalidateQueries({
+      queryKey: nodeQueryKeys.childNodes({
+        id: rootNodeId,
         taxonomyVersion,
       }),
     });

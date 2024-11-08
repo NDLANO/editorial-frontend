@@ -22,6 +22,7 @@ import PodcastSeries from "./PodcastSeries";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
 import Field from "../../../components/Field";
+import { FormContent } from "../../../components/FormikForm";
 import validateFormik, { getWarnings, RulesType } from "../../../components/formikValidationSchema";
 import FormWrapper from "../../../components/FormWrapper";
 import HeaderWithLanguage from "../../../components/HeaderWithLanguage";
@@ -261,14 +262,16 @@ const PodcastForm = ({
                   title={t("form.podcastSection")}
                   hasError={["introduction", "coverPhotoId", "metaImageAlt"].some((field) => field in errors)}
                 >
-                  <PodcastMetaData
-                    language={language}
-                    onImageLoad={(width, height) => {
-                      size.current = [width, height];
-                      validateForm();
-                    }}
-                  />
-                  <PodcastSeries />
+                  <FormContent>
+                    <PodcastMetaData
+                      language={language}
+                      onImageLoad={(width, height) => {
+                        size.current = [width, height];
+                        validateForm();
+                      }}
+                    />
+                    <PodcastSeries />
+                  </FormContent>
                 </FormAccordion>
                 <FormAccordion
                   id="audio-upload-copyright"

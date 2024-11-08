@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Element, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import { Portal } from "@ark-ui/react";
-import { Pencil, DeleteBinLine } from "@ndla/icons/action";
+import { DeleteBinLine, PencilFill } from "@ndla/icons/action";
 import { Link } from "@ndla/icons/editor";
 import { DialogContent, DialogRoot, DialogTrigger, IconButton } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
@@ -118,7 +118,7 @@ const SlateVideo = ({ attributes, element, editor, children }: Props) => {
                 variant="secondary"
                 size="small"
               >
-                <Pencil />
+                <PencilFill />
               </IconButton>
             </DialogTrigger>
             <SafeLinkIconButton

@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import { Portal } from "@ark-ui/react";
-import { Pencil, DeleteBinLine } from "@ndla/icons/action";
+import { PencilFill, DeleteBinLine } from "@ndla/icons/action";
 import { Expandable } from "@ndla/icons/editor";
 import {
   DialogBody,
@@ -177,7 +177,7 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
           <StyledFigureButtons contentEditable={false}>
             <DialogTrigger asChild>
               <IconButton aria-label={editLabel} title={editLabel} variant="secondary" size="small">
-                <Pencil />
+                <PencilFill />
               </IconButton>
             </DialogTrigger>
             <IconButton

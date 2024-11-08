@@ -6,8 +6,8 @@
  *
  */
 
-import uniq from "lodash/uniq";
-import { useState, useEffect, useMemo } from "react";
+import keyBy from "lodash/keyBy";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { colors } from "@ndla/core";
@@ -19,7 +19,7 @@ import { Node } from "@ndla/types-taxonomy";
 import SearchResult, { SearchResultReturnType } from "./SearchResult";
 import Spinner from "../../../../components/Spinner";
 import { LocaleType, SearchType } from "../../../../interfaces";
-import { fetchAuth0Users } from "../../../../modules/auth0/auth0Api";
+import { useAuth0Users } from "../../../../modules/auth0/auth0Queries";
 import { ResultType } from "../../SearchContainer";
 import { SearchParams } from "../form/SearchForm";
 
@@ -49,45 +49,41 @@ const toResultReturnType = (results: ResultType["results"], type: SearchType): S
 
 const SearchList = ({ results, searchObject, type, searching = true, locale, subjects, error }: Props) => {
   const { t } = useTranslation();
-  const [responsibleNames, setResponsibleNames] = useState<(string | undefined)[]>([]);
 
-  const responsibleIds = useMemo(
-    () =>
-      results.map((r) => {
-        if ("responsible" in r) {
-          return r.responsible?.responsibleId;
-        } else return null;
-      }),
-    [results],
-  );
+  const responsibleIds = useMemo(() => {
+    const ids = results.reduce<string[]>((acc, curr) => {
+      if ("responsible" in curr && curr.responsible) {
+        return acc.concat(curr.responsible.responsibleId);
+      }
+      return acc;
+    }, []);
 
-  useEffect(() => {
-    (async () => {
-      if (!responsibleIds.length) return;
-      const formattedResponsibleIds = uniq(responsibleIds.filter((r) => r)).join(",");
-      const userData = await fetchAuth0Users(formattedResponsibleIds);
-      // UserNames need to be positioned at exact same spot as its corresponsing id to map to correct search result
-      const userNames = responsibleIds.flatMap((r) =>
-        r ? userData.filter((u) => u?.app_metadata?.ndla_id === r).map((user) => user.name) : undefined,
-      );
-      setResponsibleNames(userNames);
-    })();
-  }, [responsibleIds]);
+    return Array.from(new Set(ids));
+  }, [results]);
+
+  const auth0Responsibles = useAuth0Users({ uniqueUserIds: responsibleIds.join(",") }, {});
+
+  const keyedResponsibles = useMemo(() => {
+    return keyBy(auth0Responsibles.data, (responsible) => responsible.app_metadata.ndla_id);
+  }, [auth0Responsibles.data]);
 
   if (searching) return <Spinner />;
   if (error) return <StyledSearchError>{t("searchForm.error")}</StyledSearchError>;
   if (results.length === 0) return <p>{t(`searchPage.${type}NoHits`, { query: searchObject.query ?? "" })}</p>;
   return (
     <div>
-      {toResultReturnType(results, type).map((result, index) => {
+      {toResultReturnType(results, type).map((result) => {
         const learningResourceType = "learningResourceType" in result.value ? result.value.learningResourceType : "";
+        const responsibleName =
+          "responsible" in result.value ? keyedResponsibles[result.value.responsible.responsibleId]?.name : undefined;
+
         return (
           <SearchResult
             key={`${result.value.id}-${learningResourceType}`}
             result={result}
             locale={locale || result.value.title.language}
             subjects={subjects}
-            responsibleName={responsibleNames?.[index]}
+            responsibleName={responsibleName}
           />
         );
       })}

@@ -9,7 +9,7 @@
 import { MouseEvent, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DragEndEvent } from "@dnd-kit/core";
-import { Pencil, DeleteBinLine } from "@ndla/icons/action";
+import { PencilFill, DeleteBinLine } from "@ndla/icons/action";
 import {
   ComboboxLabel,
   DialogBody,
@@ -168,7 +168,7 @@ const EditRelated = ({ updateArticles, insertExternal, embeds, onInsertBlock }: 
                       }}
                       title={t("form.content.relatedArticle.changeExternal")}
                     >
-                      <Pencil />
+                      <PencilFill />
                     </IconButton>
                   )}
                   <IconButton

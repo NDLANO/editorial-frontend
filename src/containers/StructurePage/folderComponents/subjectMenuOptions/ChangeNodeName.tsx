@@ -11,7 +11,7 @@ import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Portal } from "@ark-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
-import { Pencil, DeleteBinLine } from "@ndla/icons/action";
+import { PencilFill, DeleteBinLine } from "@ndla/icons/action";
 import {
   Button,
   DialogBody,
@@ -95,7 +95,7 @@ const ChangeNodeName = ({ editModeHandler: { editMode, toggleEditMode }, node }:
       {/* TODO: Remove consumeCss once MenuItemButton is updated */}
       <DialogTrigger asChild consumeCss>
         <MenuItemButton data-testid="changeNodeNameButton">
-          <RoundIcon small icon={<Pencil />} />
+          <RoundIcon small icon={<PencilFill />} />
           {t("taxonomy.changeName.buttonTitle")}
         </MenuItemButton>
       </DialogTrigger>

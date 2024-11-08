@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
-import { Pencil, DeleteBinLine } from "@ndla/icons/action";
+import { PencilFill, DeleteBinLine } from "@ndla/icons/action";
 import { DialogContent, DialogRoot, DialogTrigger, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { RelatedContentEmbedData, RelatedContentMetaData } from "@ndla/types-embed";
@@ -184,7 +184,7 @@ const RelatedArticleBox = ({ attributes, editor, element, children }: Props) => 
             <ButtonWrapper>
               <DialogTrigger asChild>
                 <IconButton aria-label={t("form.edit")} variant="tertiary" size="small" title={t("form.edit")}>
-                  <Pencil />
+                  <PencilFill />
                 </IconButton>
               </DialogTrigger>
 

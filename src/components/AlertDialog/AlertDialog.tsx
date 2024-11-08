@@ -7,6 +7,7 @@
  */
 
 import { ReactNode, useCallback, useRef } from "react";
+import { Portal } from "@ark-ui/react";
 import { ErrorWarningLine } from "@ndla/icons/common";
 import {
   DialogRoot,
@@ -26,22 +27,6 @@ const StyledMessageBox = styled(MessageBox, {
   base: {
     display: "flex",
     flexDirection: "column",
-  },
-});
-
-const ActionWrapper = styled("div", {
-  base: {
-    width: "100%",
-    display: "flex",
-    justifyContent: "space-between",
-    marginBlockStart: "xsmall",
-  },
-  variants: {
-    singleChild: {
-      true: {
-        justifyContent: "flex-end",
-      },
-    },
   },
 });
 
@@ -97,21 +82,23 @@ export const AlertDialog = ({ children, text, onCancel, title, show, label, seve
         focusedElementBeforeModalRef.current = null;
       }}
     >
-      <StyledDialogContent data-testid="alert-dialog">
-        <StyledDialogHeader noTitle={!title}>
-          {title && <DialogTitle>{title}</DialogTitle>}
-          <DialogCloseButton variant="clear" data-testid="closeAlert" />
-        </StyledDialogHeader>
-        <DialogBody>
-          <StyledMessageBox variant={severity === "danger" ? "error" : severity}>
-            <HStack gap="medium">
-              <ErrorWarningLine />
-              <Text>{text}</Text>
-            </HStack>
-          </StyledMessageBox>
-        </DialogBody>
-        <DialogFooter>{children}</DialogFooter>
-      </StyledDialogContent>
+      <Portal>
+        <StyledDialogContent data-testid="alert-dialog">
+          <StyledDialogHeader noTitle={!title}>
+            {title && <DialogTitle>{title}</DialogTitle>}
+            <DialogCloseButton variant="clear" data-testid="closeAlert" />
+          </StyledDialogHeader>
+          <DialogBody>
+            <StyledMessageBox variant={severity === "danger" ? "error" : severity}>
+              <HStack gap="medium">
+                <ErrorWarningLine />
+                <Text>{text}</Text>
+              </HStack>
+            </StyledMessageBox>
+          </DialogBody>
+          <DialogFooter>{children}</DialogFooter>
+        </StyledDialogContent>
+      </Portal>
     </DialogRoot>
   );
 };

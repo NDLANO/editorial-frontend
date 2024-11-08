@@ -12,7 +12,6 @@ import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
 import styled from "@emotion/styled";
 import { Button } from "@ndla/primitives";
-import { HStack } from "@ndla/styled-system/jsx";
 import { IAuthor } from "@ndla/types-backend/draft-api";
 import LearningResourceFootnotes, { FootnoteType } from "./LearningResourceFootnotes";
 import { learningResourcePlugins } from "./learningResourcePlugins";
@@ -22,6 +21,7 @@ import { EditMarkupLink } from "../../../../components/EditMarkupLink";
 import FieldHeader from "../../../../components/Field/FieldHeader";
 import { FormField } from "../../../../components/FormField";
 import FormikField from "../../../../components/FormikField";
+import { FormActionsContainer } from "../../../../components/FormikForm";
 import LastUpdatedLine from "../../../../components/LastUpdatedLine/LastUpdatedLine";
 import { TYPE_AUDIO } from "../../../../components/SlateEditor/plugins/audio/types";
 import { learningResourceActions } from "../../../../components/SlateEditor/plugins/blockPicker/actions";
@@ -135,11 +135,11 @@ const LearningResourceContent = ({ articleLanguage, articleId, handleSubmit: _ha
         onCancel={() => setIsNormalizedOnLoad(false)}
         severity="warning"
       >
-        <HStack justify="flex-end">
+        <FormActionsContainer>
           <Button variant="danger" onClick={() => setIsNormalizedOnLoad(false)}>
             {t("alertModal.continue")}
           </Button>
-        </HStack>
+        </FormActionsContainer>
       </AlertDialog>
       <StyledContentDiv name="content" label={t("form.content.label")} noBorder key={values.revision}>
         {(fieldProps) => <ContentField articleLanguage={articleLanguage} articleId={articleId} {...fieldProps} />}

@@ -6,16 +6,15 @@
  *
  */
 
-import { MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { css, SerializedStyles } from "@emotion/react";
 import styled from "@emotion/styled";
 import { stackOrder } from "@ndla/core";
 import { Button } from "@ndla/primitives";
-import { HStack } from "@ndla/styled-system/jsx";
 import { useMessages } from "./MessagesProvider";
 import { AlertDialog } from "../../components/AlertDialog/AlertDialog";
+import { FormActionsContainer } from "../../components/FormikForm";
 
 const appearances: Record<string, SerializedStyles> = {
   hidden: css`
@@ -70,7 +69,7 @@ const Message = ({ message }: MessageProps) => {
       text={message.translationKey ? t(message.translationKey, message.translationObject) : message.message!}
     >
       {message.type === "auth0" ? (
-        <HStack justify="flex-end">
+        <FormActionsContainer>
           <Button variant="danger" onClick={() => clearMessage(message.id)}>
             {t("form.abort")}
           </Button>
@@ -86,7 +85,7 @@ const Message = ({ message }: MessageProps) => {
           >
             {t("alertModal.loginAgain")}
           </Button>
-        </HStack>
+        </FormActionsContainer>
       ) : null}
     </AlertDialog>
   );

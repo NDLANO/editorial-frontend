@@ -14,11 +14,11 @@ import { useQueryClient } from "@tanstack/react-query";
 import { colors } from "@ndla/core";
 import { Done } from "@ndla/icons/editor";
 import { Button } from "@ndla/primitives";
-import { HStack } from "@ndla/styled-system/jsx";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
 import { Node } from "@ndla/types-taxonomy";
 import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
+import { FormActionsContainer } from "../../../../components/FormikForm";
 import { OldSpinner } from "../../../../components/OldSpinner";
 import RoundIcon from "../../../../components/RoundIcon";
 import { PUBLISHED } from "../../../../constants";
@@ -181,7 +181,7 @@ const PublishChildNodeResources = ({ node }: Props) => {
         text={t("taxonomy.publish.info")}
         onCancel={() => setShowConfirmation(false)}
       >
-        <HStack justify="flex-end" gap="xsmall">
+        <FormActionsContainer>
           <Button onClick={() => setShowConfirmation(false)} variant="danger">
             {t("form.abort")}
           </Button>
@@ -194,7 +194,7 @@ const PublishChildNodeResources = ({ node }: Props) => {
           >
             {t("taxonomy.publish.button")}
           </Button>
-        </HStack>
+        </FormActionsContainer>
       </AlertDialog>
     </>
   );

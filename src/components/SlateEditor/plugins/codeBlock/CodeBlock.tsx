@@ -59,6 +59,7 @@ import CodeBlockEditor from "./CodeBlockEditor";
 import { CodeBlockType } from "../../../../interfaces";
 import { AlertDialog } from "../../../AlertDialog/AlertDialog";
 import { DialogCloseButton } from "../../../DialogCloseButton";
+import { FormActionsContainer } from "../../../FormikForm";
 
 interface Props extends RenderElementProps {
   element: CodeblockElement;
@@ -209,7 +210,7 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
         text={t("code.continue")}
         onCancel={() => setShowWarning(false)}
       >
-        <HStack justify="flex-end" gap="xsmall">
+        <FormActionsContainer>
           <Button variant="secondary" onClick={() => setShowWarning(false)}>
             {t("form.abort")}
           </Button>
@@ -222,7 +223,7 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
           >
             {t("alertModal.continue")}
           </Button>
-        </HStack>
+        </FormActionsContainer>
       </AlertDialog>
     </DialogRoot>
   );

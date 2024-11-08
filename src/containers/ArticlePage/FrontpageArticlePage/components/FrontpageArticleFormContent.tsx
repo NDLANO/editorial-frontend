@@ -23,6 +23,7 @@ import { EditMarkupLink } from "../../../../components/EditMarkupLink";
 import FieldHeader from "../../../../components/Field/FieldHeader";
 import { FormField } from "../../../../components/FormField";
 import FormikField from "../../../../components/FormikField";
+import { FormActionsContainer } from "../../../../components/FormikForm";
 import LastUpdatedLine from "../../../../components/LastUpdatedLine/LastUpdatedLine";
 import { TYPE_AUDIO } from "../../../../components/SlateEditor/plugins/audio/types";
 import { frontpageActions } from "../../../../components/SlateEditor/plugins/blockPicker/actions";
@@ -164,11 +165,11 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
         onCancel={() => setIsNormalizedOnLoad(false)}
         severity="warning"
       >
-        <HStack justify="flex-end">
+        <FormActionsContainer>
           <Button variant="secondary" onClick={() => setIsNormalizedOnLoad(false)}>
             {t("alertModal.continue")}
           </Button>
-        </HStack>
+        </FormActionsContainer>
       </AlertDialog>
       <StyledContentDiv name="content" label={t("form.content.label")} noBorder>
         {({ field: { value, name, onChange }, form: { isSubmitting } }) => (

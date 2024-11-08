@@ -12,10 +12,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { DeleteBinLine } from "@ndla/icons/action";
 import { Button } from "@ndla/primitives";
-import { HStack } from "@ndla/styled-system/jsx";
 import { Node, NodeChild } from "@ndla/types-taxonomy";
 import MenuItemButton from "./components/MenuItemButton";
 import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
+import { FormActionsContainer } from "../../../../components/FormikForm";
 import Overlay from "../../../../components/Overlay";
 import RoundIcon from "../../../../components/RoundIcon";
 import Spinner from "../../../../components/Spinner";
@@ -83,14 +83,14 @@ const DisconnectFromParent = ({ node, editModeHandler: { editMode, toggleEditMod
         onCancel={toggleDisconnect}
         text={t("taxonomy.confirmDisconnect")}
       >
-        <HStack>
+        <FormActionsContainer>
           <Button variant="secondary" onClick={toggleDisconnect}>
             {t("form.abort")}
           </Button>
           <Button variant="danger" onClick={onDisconnect}>
             {t("alertModal.disconnect")}
           </Button>
-        </HStack>
+        </FormActionsContainer>
       </AlertDialog>
       {loading && <Spinner appearance="absolute" />}
       {loading && <Overlay modifiers={["absolute", "white-opacity", "zIndex"]} />}

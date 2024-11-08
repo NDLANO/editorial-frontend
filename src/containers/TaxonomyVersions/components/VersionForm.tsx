@@ -14,7 +14,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { Button } from "@ndla/primitives";
-import { HStack } from "@ndla/styled-system/jsx";
 import { Version } from "@ndla/types-taxonomy";
 import { StyledErrorMessage } from "./StyledErrorMessage";
 import VersionLockedField from "./VersionLockedField";
@@ -23,7 +22,7 @@ import VersionSourceField from "./VersionSourceField";
 import { Row } from "../../../components";
 import { AlertDialog } from "../../../components/AlertDialog/AlertDialog";
 import Field from "../../../components/Field";
-import { FormikForm } from "../../../components/FormikForm";
+import { FormActionsContainer, FormikForm } from "../../../components/FormikForm";
 import validateFormik, { RulesType } from "../../../components/formikValidationSchema";
 import SaveButton from "../../../components/SaveButton";
 import Fade from "../../../components/Taxonomy/Fade";
@@ -191,7 +190,7 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
                 text={t("taxonomyVersions.publishWarning")}
                 onCancel={() => setShowAlertModal(false)}
               >
-                <HStack justify="center" gap="xsmall">
+                <FormActionsContainer>
                   <Button onClick={() => setShowAlertModal(false)} variant="danger">
                     {t("form.abort")}
                   </Button>
@@ -204,7 +203,7 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
                   >
                     {t("alertModal.delete")}
                   </Button>
-                </HStack>
+                </FormActionsContainer>
               </AlertDialog>
             </FormikForm>
           );

@@ -15,10 +15,10 @@ import { colors, spacing, fonts, misc } from "@ndla/core";
 import { DeleteBinLine, RightArrow, ExpandMore } from "@ndla/icons/action";
 import { Done } from "@ndla/icons/editor";
 import { Button, FieldLabel, FieldRoot, IconButton } from "@ndla/primitives";
-import { HStack } from "@ndla/styled-system/jsx";
 import { plugins, toolbarAreaFilters, toolbarOptions } from "./commentToolbarUtils";
 import { COMMENT_COLOR, formControlStyles } from "./styles";
 import { AlertDialog } from "../../../components/AlertDialog/AlertDialog";
+import { FormActionsContainer } from "../../../components/FormikForm";
 import RichTextEditor from "../../../components/SlateEditor/RichTextEditor";
 import { SlateCommentType } from "../../FormikForm/articleFormHooks";
 
@@ -148,14 +148,14 @@ const Comment = ({ id, index, isSubmitting, field, arrayHelpers }: Props) => {
         text={t("form.workflow.deleteComment.modal")}
         onCancel={() => setModalOpen(!modalOpen)}
       >
-        <HStack gap="xsmall" justify="flex-end">
+        <FormActionsContainer>
           <Button onClick={() => setModalOpen(false)} variant="secondary">
             {t("form.abort")}
           </Button>
           <Button onClick={handleDelete} variant="danger">
             {t("form.workflow.deleteComment.button")}
           </Button>
-        </HStack>
+        </FormActionsContainer>
       </AlertDialog>
     </CommentCard>
   );

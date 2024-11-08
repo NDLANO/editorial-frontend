@@ -10,10 +10,10 @@ import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { DeleteBinLine } from "@ndla/icons/action";
 import { Button } from "@ndla/primitives";
-import { HStack } from "@ndla/styled-system/jsx";
 import { Node, NodeChild } from "@ndla/types-taxonomy";
 import MenuItemButton from "./components/MenuItemButton";
 import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
+import { FormActionsContainer } from "../../../../components/FormikForm";
 import Overlay from "../../../../components/Overlay";
 import RoundIcon from "../../../../components/RoundIcon";
 import Spinner from "../../../../components/Spinner";
@@ -107,14 +107,14 @@ const DeleteNode = ({
         onCancel={toggleDelete}
         text={t("taxonomy.confirmDelete")}
       >
-        <HStack justify="flex-end" gap="xsmall">
+        <FormActionsContainer>
           <Button variant="secondary" onClick={toggleDelete}>
             {t("form.abort")}
           </Button>
           <Button variant="danger" onClick={onDelete}>
             {t("alertModal.delete")}
           </Button>
-        </HStack>
+        </FormActionsContainer>
       </AlertDialog>
       {loading && <Spinner appearance="absolute" />}
       {loading && <Overlay modifiers={["absolute", "white-opacity", "zIndex"]} />}

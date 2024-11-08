@@ -21,7 +21,7 @@ exports[`Messages > A message is removed if the modal is closed 1`] = `
       class="emotion-0"
     >
       <div
-        class="pos_fixed h_100vh w_100vw z_overlay left_0 top_0 bg_rgba(1,_1,_1,_0.3) open:anim_backdrop-in open:motionReduce:anim_none closed:anim_backdrop-out closed:motionReduce:anim_none"
+        class="pos_fixed h_100vh w_100vw left_0 top_0 bg_rgba(1,_1,_1,_0.3) open:anim_backdrop-in open:motionReduce:anim_none closed:anim_backdrop-out closed:motionReduce:anim_none z_alertModalOverlay"
         data-part="backdrop"
         data-scope="dialog"
         data-state="open"
@@ -29,7 +29,7 @@ exports[`Messages > A message is removed if the modal is closed 1`] = `
         id="dialog::r3::backdrop"
       />
       <div
-        class="pos_fixed d_flex ai_center jc_center ov_hidden left_0 top_0 w_100vw h_100dvh z_modal"
+        class="pos_fixed d_flex ai_center jc_center ov_hidden left_0 top_0 w_100vw h_100dvh z_alertModal"
         data-part="positioner"
         data-scope="dialog"
         dir="ltr"
@@ -127,11 +127,7 @@ exports[`Messages > A message is removed if the modal is closed 1`] = `
           </div>
           <div
             class="d_flex gap_3xsmall ai_center jc_flex-end px_medium pbs_small pbe_medium"
-          >
-            <div
-              class="w_100% d_flex jc_space-between mbs_xsmall"
-            />
-          </div>
+          />
         </div>
       </div>
     </div>
@@ -182,7 +178,7 @@ exports[`Messages > A single message renders correctly 1`] = `
       class="emotion-0"
     >
       <div
-        class="pos_fixed h_100vh w_100vw z_overlay left_0 top_0 bg_rgba(1,_1,_1,_0.3) open:anim_backdrop-in open:motionReduce:anim_none closed:anim_backdrop-out closed:motionReduce:anim_none"
+        class="pos_fixed h_100vh w_100vw left_0 top_0 bg_rgba(1,_1,_1,_0.3) open:anim_backdrop-in open:motionReduce:anim_none closed:anim_backdrop-out closed:motionReduce:anim_none z_alertModalOverlay"
         data-part="backdrop"
         data-scope="dialog"
         data-state="open"
@@ -190,7 +186,7 @@ exports[`Messages > A single message renders correctly 1`] = `
         id="dialog::r0::backdrop"
       />
       <div
-        class="pos_fixed d_flex ai_center jc_center ov_hidden left_0 top_0 w_100vw h_100dvh z_modal"
+        class="pos_fixed d_flex ai_center jc_center ov_hidden left_0 top_0 w_100vw h_100dvh z_alertModal"
         data-part="positioner"
         data-scope="dialog"
         dir="ltr"
@@ -288,11 +284,7 @@ exports[`Messages > A single message renders correctly 1`] = `
           </div>
           <div
             class="d_flex gap_3xsmall ai_center jc_flex-end px_medium pbs_small pbe_medium"
-          >
-            <div
-              class="w_100% d_flex jc_space-between mbs_xsmall"
-            />
-          </div>
+          />
         </div>
       </div>
     </div>
@@ -321,7 +313,7 @@ exports[`Messages > Several messages renders correctly 1`] = `
       class="emotion-0"
     >
       <div
-        class="pos_fixed h_100vh w_100vw z_overlay left_0 top_0 bg_rgba(1,_1,_1,_0.3) open:anim_backdrop-in open:motionReduce:anim_none closed:anim_backdrop-out closed:motionReduce:anim_none"
+        class="pos_fixed h_100vh w_100vw left_0 top_0 bg_rgba(1,_1,_1,_0.3) open:anim_backdrop-in open:motionReduce:anim_none closed:anim_backdrop-out closed:motionReduce:anim_none z_alertModalOverlay"
         data-part="backdrop"
         data-scope="dialog"
         data-state="open"
@@ -329,7 +321,7 @@ exports[`Messages > Several messages renders correctly 1`] = `
         id="dialog::r1::backdrop"
       />
       <div
-        class="pos_fixed d_flex ai_center jc_center ov_hidden left_0 top_0 w_100vw h_100dvh z_modal"
+        class="pos_fixed d_flex ai_center jc_center ov_hidden left_0 top_0 w_100vw h_100dvh z_alertModal"
         data-part="positioner"
         data-scope="dialog"
         dir="ltr"
@@ -427,15 +419,11 @@ exports[`Messages > Several messages renders correctly 1`] = `
           </div>
           <div
             class="d_flex gap_3xsmall ai_center jc_flex-end px_medium pbs_small pbe_medium"
-          >
-            <div
-              class="w_100% d_flex jc_space-between mbs_xsmall"
-            />
-          </div>
+          />
         </div>
       </div>
       <div
-        class="pos_fixed h_100vh w_100vw z_overlay left_0 top_0 bg_rgba(1,_1,_1,_0.3) open:anim_backdrop-in open:motionReduce:anim_none closed:anim_backdrop-out closed:motionReduce:anim_none"
+        class="pos_fixed h_100vh w_100vw left_0 top_0 bg_rgba(1,_1,_1,_0.3) open:anim_backdrop-in open:motionReduce:anim_none closed:anim_backdrop-out closed:motionReduce:anim_none z_alertModalOverlay"
         data-part="backdrop"
         data-scope="dialog"
         data-state="open"
@@ -443,7 +431,7 @@ exports[`Messages > Several messages renders correctly 1`] = `
         id="dialog::r2::backdrop"
       />
       <div
-        class="pos_fixed d_flex ai_center jc_center ov_hidden left_0 top_0 w_100vw h_100dvh z_modal"
+        class="pos_fixed d_flex ai_center jc_center ov_hidden left_0 top_0 w_100vw h_100dvh z_alertModal"
         data-part="positioner"
         data-scope="dialog"
         dir="ltr"
@@ -541,11 +529,7 @@ exports[`Messages > Several messages renders correctly 1`] = `
           </div>
           <div
             class="d_flex gap_3xsmall ai_center jc_flex-end px_medium pbs_small pbe_medium"
-          >
-            <div
-              class="w_100% d_flex jc_space-between mbs_xsmall"
-            />
-          </div>
+          />
         </div>
       </div>
     </div>
@@ -574,7 +558,7 @@ exports[`Messages > auth0 messages provides a cancel button 1`] = `
       class="emotion-0"
     >
       <div
-        class="pos_fixed h_100vh w_100vw z_overlay left_0 top_0 bg_rgba(1,_1,_1,_0.3) open:anim_backdrop-in open:motionReduce:anim_none closed:anim_backdrop-out closed:motionReduce:anim_none"
+        class="pos_fixed h_100vh w_100vw left_0 top_0 bg_rgba(1,_1,_1,_0.3) open:anim_backdrop-in open:motionReduce:anim_none closed:anim_backdrop-out closed:motionReduce:anim_none z_alertModalOverlay"
         data-part="backdrop"
         data-scope="dialog"
         data-state="open"
@@ -582,7 +566,7 @@ exports[`Messages > auth0 messages provides a cancel button 1`] = `
         id="dialog::r4::backdrop"
       />
       <div
-        class="pos_fixed d_flex ai_center jc_center ov_hidden left_0 top_0 w_100vw h_100dvh z_modal"
+        class="pos_fixed d_flex ai_center jc_center ov_hidden left_0 top_0 w_100vw h_100dvh z_alertModal"
         data-part="positioner"
         data-scope="dialog"
         dir="ltr"
@@ -682,16 +666,16 @@ exports[`Messages > auth0 messages provides a cancel button 1`] = `
             class="d_flex gap_3xsmall ai_center jc_flex-end px_medium pbs_small pbe_medium"
           >
             <div
-              class="w_100% d_flex jc_space-between mbs_xsmall"
+              class="d_flex jc_flex-end ai_center gap_3xsmall"
             >
               <button
-                class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color),_inset_0px_0px_0px_calc(var(--shadow-width,_3px)_*_2)_currentcolor motionReduce:trs_none motionReduce:trs-dur_0s c_text.onAction bg_surface.action hover:c_text.onAction hover:bg_surface.action.hover active:c_text.onAction active:bg_surface.action.active textStyle_label.medium px_small py_xxsmall min-h_24 [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium"
+                class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color),_inset_0px_0px_0px_calc(var(--shadow-width,_3px)_*_2)_currentcolor focusVisible:bx-sh-c_surface.danger motionReduce:trs_none motionReduce:trs-dur_0s bg_surface.danger c_text.onAction hover:bg_surface.danger.hover active:bg_surface.danger.active textStyle_label.medium px_small py_xxsmall min-h_24 [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium"
                 type="button"
               >
                 Avbryt
               </button>
               <button
-                class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color),_inset_0px_0px_0px_calc(var(--shadow-width,_3px)_*_2)_currentcolor motionReduce:trs_none motionReduce:trs-dur_0s c_text.onAction bg_surface.action hover:c_text.onAction hover:bg_surface.action.hover active:c_text.onAction active:bg_surface.action.active textStyle_label.medium px_small py_xxsmall min-h_24 [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium"
+                class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s c_text.strong bg_surface.default bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover active:bg_surface.actionSubtle.hover.strong textStyle_label.medium px_small py_xxsmall min-h_24 [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium"
                 type="button"
               >
                 Logg inn på nytt
@@ -719,6 +703,7 @@ exports[`Messages > auth0 messages provides a cancel button 2`] = `
 }
 
 <body
+  data-inert=""
   style=""
 >
   <div>

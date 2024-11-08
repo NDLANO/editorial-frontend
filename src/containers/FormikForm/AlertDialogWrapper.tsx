@@ -11,8 +11,8 @@ import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { UNSAFE_NavigationContext, useNavigate, Location } from "react-router-dom";
 import { Button } from "@ndla/primitives";
-import { HStack } from "@ndla/styled-system/jsx";
 import { AlertDialog } from "../../components/AlertDialog/AlertDialog";
+import { FormActionsContainer } from "../../components/FormikForm";
 import { supportedLanguages } from "../../i18n2";
 import { MessageSeverity } from "../../interfaces";
 
@@ -94,14 +94,14 @@ export const AlertDialogWrapper = ({ text, severity, isSubmitting, formIsDirty, 
       text={text}
       severity={severity}
     >
-      <HStack gap="xsmall" justify="flex-end">
+      <FormActionsContainer>
         <Button onClick={onCancel} variant="secondary">
           {t("form.abort")}
         </Button>
         <Button onClick={onWillContinue} variant="danger">
           {t("alertModal.continue")}
         </Button>
-      </HStack>
+      </FormActionsContainer>
     </AlertDialog>
   );
 };

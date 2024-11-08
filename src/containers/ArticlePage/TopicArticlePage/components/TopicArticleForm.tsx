@@ -11,11 +11,11 @@ import { memo, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { UseQueryResult } from "@tanstack/react-query";
 import { Button } from "@ndla/primitives";
-import { HStack } from "@ndla/styled-system/jsx";
 import { IUpdatedArticle, IArticle, IStatus, ILicense } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import TopicArticleAccordionPanels from "./TopicArticleAccordionPanels";
 import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
+import { FormActionsContainer } from "../../../../components/FormikForm";
 import validateFormik, { getWarnings } from "../../../../components/formikValidationSchema";
 import HeaderWithLanguage from "../../../../components/HeaderWithLanguage";
 import EditorFooter from "../../../../components/SlateEditor/EditorFooter";
@@ -156,11 +156,11 @@ const TopicArticleForm = ({
           severity={"danger"}
           text={t("errorMessage.missingTax")}
         >
-          <HStack justify="flex-end">
+          <FormActionsContainer>
             <Button onClick={() => setShowTaxWarning(false)} variant="secondary">
               {t("alertModal.continue")}
             </Button>
-          </HStack>
+          </FormActionsContainer>
         </AlertDialog>
       </StyledForm>
     </Formik>

@@ -15,13 +15,13 @@ import { useQueryClient } from "@tanstack/react-query";
 import { spacing } from "@ndla/core";
 import { DragVertical } from "@ndla/icons/editor";
 import { Button } from "@ndla/primitives";
-import { HStack } from "@ndla/styled-system/jsx";
 import { NodeChild } from "@ndla/types-taxonomy";
 import Resource from "./Resource";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
 import { AlertDialog } from "../../../components/AlertDialog/AlertDialog";
 import DndList from "../../../components/DndList";
 import { DragHandle } from "../../../components/DraggableItem";
+import { FormActionsContainer } from "../../../components/FormikForm";
 import { Auth0UserData, Dictionary } from "../../../interfaces";
 import { useDeleteResourceForNodeMutation, usePutResourceForNodeMutation } from "../../../modules/nodes/nodeMutations";
 import { NodeResourceMeta, nodeQueryKeys } from "../../../modules/nodes/nodeQueries";
@@ -159,14 +159,14 @@ const ResourceItems = ({ resources, currentNodeId, contentMeta, contentMetaLoadi
         text={t("taxonomy.resource.confirmDelete")}
         onCancel={() => toggleDelete("")}
       >
-        <HStack justify="center" gap="xsmall">
+        <FormActionsContainer>
           <Button onClick={() => toggleDelete("")} variant="secondary">
             {t("form.abort")}
           </Button>
           <Button onClick={() => onDelete(deleteId)} variant="danger">
             {t("alertModal.delete")}
           </Button>
-        </HStack>
+        </FormActionsContainer>
       </AlertDialog>
     </StyledResourceItems>
   );

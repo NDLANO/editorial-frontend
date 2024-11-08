@@ -10,10 +10,10 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Time } from "@ndla/icons/common";
 import { Button } from "@ndla/primitives";
-import { HStack } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
 import MenuItemButton from "./components/MenuItemButton";
 import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
+import { FormActionsContainer } from "../../../../components/FormikForm";
 import Overlay from "../../../../components/Overlay";
 import RoundIcon from "../../../../components/RoundIcon";
 import Spinner from "../../../../components/Spinner";
@@ -52,14 +52,14 @@ const CopyRevisionDate = ({ node, editModeHandler: { editMode, toggleEditMode } 
         text={t("taxonomy.copyRevisionDates.text")}
         onCancel={toggleCopyRevisionDate}
       >
-        <HStack justify="flex-end">
+        <FormActionsContainer>
           <Button onClick={toggleCopyRevisionDate} variant="danger">
             {t("form.abort")}
           </Button>
           <Button onClick={copyRevisionDate} variant="secondary">
             {t("alertModal.continue")}
           </Button>
-        </HStack>
+        </FormActionsContainer>
       </AlertDialog>
       {isPending && <Spinner appearance="absolute" />}
       {isPending && <Overlay modifiers={["absolute", "white-opacity", "zIndex"]} />}

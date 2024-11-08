@@ -17,11 +17,11 @@ import { Launch } from "@ndla/icons/common";
 import { Keyhole } from "@ndla/icons/editor";
 import { Button } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { HStack } from "@ndla/styled-system/jsx";
 import { Version as TaxVersion, VersionType } from "@ndla/types-taxonomy";
 import { StyledErrorMessage } from "./StyledErrorMessage";
 import VersionForm from "./VersionForm";
 import { AlertDialog } from "../../../components/AlertDialog/AlertDialog";
+import { FormActionsContainer } from "../../../components/FormikForm";
 import config from "../../../config";
 import { useDeleteVersionMutation } from "../../../modules/taxonomy/versions/versionMutations";
 import { versionQueryKeys } from "../../../modules/taxonomy/versions/versionQueries";
@@ -184,7 +184,7 @@ const Version = ({ version }: Props) => {
             text={t(`taxonomyVersions.deleteWarning${version.versionType === "PUBLISHED" ? "Published" : ""}`)}
             onCancel={() => setShowAlertModal(false)}
           >
-            <HStack justify="center" gap="xsmall">
+            <FormActionsContainer>
               <Button onClick={() => setShowAlertModal(false)} variant="secondary">
                 {t("form.abort")}
               </Button>
@@ -197,7 +197,7 @@ const Version = ({ version }: Props) => {
               >
                 {t("alertModal.delete")}
               </Button>
-            </HStack>
+            </FormActionsContainer>
           </AlertDialog>
         </VersionContentWrapper>
       )}

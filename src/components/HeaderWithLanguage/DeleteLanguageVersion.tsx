@@ -11,7 +11,6 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { DeleteBinLine } from "@ndla/icons/action";
 import { Button } from "@ndla/primitives";
-import { HStack } from "@ndla/styled-system/jsx";
 import { useMessages } from "../../containers/Messages/MessagesProvider";
 import { deleteLanguageVersionAudio, deleteLanguageVersionSeries } from "../../modules/audio/audioApi";
 import { deleteLanguageVersionConcept } from "../../modules/concept/conceptApi";
@@ -36,6 +35,7 @@ import {
   toEditTopicArticle,
 } from "../../util/routeHelpers";
 import { AlertDialog } from "../AlertDialog/AlertDialog";
+import { FormActionsContainer } from "../FormikForm";
 
 const nonDeletableTypes = ["standard", "topic-article", "concept"];
 
@@ -131,12 +131,12 @@ const DeleteLanguageVersion = ({ id, language, supportedLanguages, type, disable
         onCancel={toggleShowDeleteWarning}
         text={t("form.workflow.deleteLanguageVersion.modal")}
       >
-        <HStack justify="flex-end" gap="xsmall">
+        <FormActionsContainer>
           <Button onClick={toggleShowDeleteWarning} variant="danger">
             {t("form.abort")}
           </Button>
           <Button onClick={deleteLanguageVersion}>{t("form.workflow.deleteLanguageVersion.button")}</Button>
-        </HStack>
+        </FormActionsContainer>
       </AlertDialog>
     </>
   );

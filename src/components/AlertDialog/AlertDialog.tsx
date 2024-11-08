@@ -6,13 +6,12 @@
  *
  */
 
-import { MouseEvent, ReactElement, ReactNode, useCallback, useRef } from "react";
+import { ReactNode, useCallback, useRef } from "react";
 import { Warning } from "@ndla/icons/editor";
 import {
   DialogRoot,
   DialogContent,
   DialogTitle,
-  Button,
   Text,
   MessageBox,
   DialogBody,
@@ -92,6 +91,7 @@ export const AlertDialog = ({ children, text, onCancel, title, show, label, seve
       open={!!show}
       onOpenChange={(details) => onOpenChange(details.open)}
       aria-label={label}
+      context="alert"
       onExitComplete={() => {
         focusedElementBeforeModalRef.current?.focus();
         focusedElementBeforeModalRef.current = null;

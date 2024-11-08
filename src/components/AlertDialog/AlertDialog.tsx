@@ -7,7 +7,7 @@
  */
 
 import { ReactNode, useCallback, useRef } from "react";
-import { Warning } from "@ndla/icons/editor";
+import { ErrorWarningLine } from "@ndla/icons/common";
 import {
   DialogRoot,
   DialogContent,
@@ -105,7 +105,7 @@ export const AlertDialog = ({ children, text, onCancel, title, show, label, seve
         <DialogBody>
           <StyledMessageBox variant={severity === "danger" ? "error" : severity}>
             <HStack gap="medium">
-              <Warning />
+              <ErrorWarningLine />
               <Text>{text}</Text>
             </HStack>
           </StyledMessageBox>

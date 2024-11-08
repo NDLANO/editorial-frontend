@@ -6,7 +6,7 @@
  *
  */
 
-import { Pencil } from "@ndla/icons/action";
+import { PencilFill } from "@ndla/icons/action";
 import { Button } from "@ndla/primitives";
 import formatDate, { formatDateForBackend } from "../../util/formatDate";
 import DatePicker from "../DatePicker";
@@ -19,7 +19,7 @@ interface Props {
 const DateEdit = ({ published, onChange }: Props) => (
   <DatePicker value={new Date(published)} onChange={(date) => (date ? onChange(formatDateForBackend(date)) : {})}>
     <Button variant="link" data-testid="last-edited">
-      {formatDate(published)} <Pencil />
+      {formatDate(published)} <PencilFill />
     </Button>
   </DatePicker>
 );

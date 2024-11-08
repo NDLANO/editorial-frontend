@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { Pencil } from "@ndla/icons/action";
+import { PencilFill } from "@ndla/icons/action";
 import { Node } from "@ndla/types-taxonomy";
 import MenuItemButton from "./components/MenuItemButton";
 import MenuItemCustomField from "./components/MenuItemCustomField";
@@ -26,7 +26,7 @@ const EditCustomFields = ({ node, toggleEditMode, editMode, onCurrentNodeChanged
   return (
     <div>
       <MenuItemButton data-testid="editCustomFieldsButton" onClick={() => toggleEditMode("openCustomFields")}>
-        <RoundIcon small open={editMode === "openCustomFields"} icon={<Pencil />} />
+        <RoundIcon small open={editMode === "openCustomFields"} icon={<PencilFill />} />
         {t("taxonomy.metadata.customFields.alterFields")}
       </MenuItemButton>
 

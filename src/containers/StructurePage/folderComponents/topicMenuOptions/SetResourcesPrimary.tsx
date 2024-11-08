@@ -8,7 +8,7 @@
 
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pencil } from "@ndla/icons/action";
+import { PencilFill } from "@ndla/icons/action";
 import { Button } from "@ndla/primitives";
 import { Node } from "@ndla/types-taxonomy";
 import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
@@ -49,7 +49,7 @@ const SetResourcesPrimary = ({ node, recursive = false, editModeHandler: { editM
   return (
     <>
       <MenuItemButton onClick={toggleConnectedResourcesPrimary}>
-        <RoundIcon small icon={<Pencil />} />
+        <RoundIcon small icon={<PencilFill />} />
         {recursive ? t("taxonomy.resourcesPrimary.recursiveButtonText") : t("taxonomy.resourcesPrimary.buttonText")}
       </MenuItemButton>
       <AlertDialog

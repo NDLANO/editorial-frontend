@@ -12,9 +12,9 @@ import { useTranslation } from "react-i18next";
 import { Editor, Element, Node, Transforms, Path } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
-import { AlertFill } from "@ndla/icons/common";
-import { CheckLine, DeleteForever, Link } from "@ndla/icons/editor";
-import { Modal, ModalContent } from "@ndla/modal";
+import { DeleteBinLine } from "@ndla/icons/action";
+import { ErrorWarningFill } from "@ndla/icons/common";
+import { CheckLine, Link } from "@ndla/icons/editor";
 import {
   PopoverRoot,
   PopoverTrigger,
@@ -28,7 +28,7 @@ import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { IConcept, IConceptSummary } from "@ndla/types-backend/concept-api";
 import { ConceptEmbedData, ConceptMetaData } from "@ndla/types-embed";
-import { ConceptEmbed, Concept, InlineTriggerButton, Gloss } from "@ndla/ui";
+import { ConceptEmbed, Concept, Gloss, ConceptInlineTriggerButton } from "@ndla/ui";
 import { ConceptInlineElement } from "./interfaces";
 import { TYPE_CONCEPT_INLINE } from "./types";
 import { PUBLISHED } from "../../../../../constants";
@@ -85,9 +85,9 @@ const StyledCheckLine = styled(CheckLine, {
   },
 });
 
-const StyledAlertFill = styled(AlertFill, {
+const StyledErrorWarningFill = styled(ErrorWarningFill, {
   base: {
-    fill: "surface.error",
+    fill: "icon.subtle",
   },
 });
 
@@ -188,7 +188,7 @@ const InlineWrapper = (props: Props) => {
       ) : (
         <PopoverRoot>
           <PopoverTrigger asChild {...attributes}>
-            <InlineTriggerButton>{children}</InlineTriggerButton>
+            <ConceptInlineTriggerButton>{children}</ConceptInlineTriggerButton>
           </PopoverTrigger>
           <Portal>
             <StyledPopoverContent>
@@ -197,7 +197,7 @@ const InlineWrapper = (props: Props) => {
                   <StyledCheckLine aria-label={t("form.workflow.published")} title={t("form.workflow.published")} />
                 )}
                 {concept?.status.current !== PUBLISHED && (
-                  <StyledAlertFill
+                  <StyledErrorWarningFill
                     aria-label={t("form.workflow.currentStatus", {
                       status: t(`form.status.${concept?.status.current.toLowerCase()}`),
                     })}
@@ -213,7 +213,7 @@ const InlineWrapper = (props: Props) => {
                   aria-label={t(`form.${concept?.conceptType}.remove`)}
                   title={t(`form.${concept?.conceptType}.remove`)}
                 >
-                  <DeleteForever />
+                  <DeleteBinLine />
                 </IconButton>
                 {concept && (
                   <EditGlossExamplesModal concept={concept} editor={editor} element={element} embed={embed} />

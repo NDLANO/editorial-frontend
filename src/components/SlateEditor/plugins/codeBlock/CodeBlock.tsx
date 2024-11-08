@@ -38,8 +38,8 @@ import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
-import { Pencil } from "@ndla/icons/action";
-import { Code, DeleteForever } from "@ndla/icons/editor";
+import { Pencil, DeleteBinLine } from "@ndla/icons/action";
+import { Code } from "@ndla/icons/editor";
 import {
   Button,
   DialogBody,
@@ -171,7 +171,7 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
               data-testid="remove-code"
               onClick={handleRemove}
             >
-              <DeleteForever />
+              <DeleteBinLine />
             </IconButton>
           </HStack>
         </HStack>

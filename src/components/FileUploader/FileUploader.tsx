@@ -9,8 +9,9 @@
 import { Formik } from "formik";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { DeleteBinLine } from "@ndla/icons/action";
 import { FileDocumentOutline } from "@ndla/icons/common";
-import { DeleteForever, UploadCloudLine } from "@ndla/icons/editor";
+import { UploadCloudLine } from "@ndla/icons/editor";
 import {
   Button,
   FieldErrorMessage,
@@ -158,7 +159,7 @@ const FileUploader = ({ onFileSave, close }: Props) => {
                             <FileUploadItemSizeText />
                             <FileUploadItemDeleteTrigger asChild>
                               <IconButton variant="danger">
-                                <DeleteForever />
+                                <DeleteBinLine />
                               </IconButton>
                             </FileUploadItemDeleteTrigger>
                           </FileUploadItem>

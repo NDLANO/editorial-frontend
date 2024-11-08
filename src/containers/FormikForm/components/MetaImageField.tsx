@@ -10,8 +10,8 @@ import { SyntheticEvent } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
+import { DeleteBinLine } from "@ndla/icons/action";
 import { Link } from "@ndla/icons/common";
-import { DeleteForever } from "@ndla/icons/editor";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import FormikField from "../../../components/FormikField";
@@ -52,7 +52,7 @@ const MetaImageField = ({ image, onImageRemove, onImageLoad, disableAltEditing, 
         data-testid="remove-element"
         title={t("form.image.removeImage")}
       >
-        <DeleteForever />
+        <DeleteBinLine />
       </IconButtonV2>
       <SafeLinkIconButton
         variant="tertiary"
@@ -64,11 +64,7 @@ const MetaImageField = ({ image, onImageRemove, onImageLoad, disableAltEditing, 
       </SafeLinkIconButton>
     </>
   );
-  const metaInformationTranslations = {
-    title: t("form.metaImage.imageTitle"),
-    copyright: t("form.metaImage.copyright"),
-    alt: t("form.name.alttext"),
-  };
+
   const imageUrl = `${image.image.imageUrl}?width=400`;
   const { width, height } = image.image?.dimensions || { width: 0, height: 0 };
   const onLoad = (_: SyntheticEvent<HTMLImageElement, Event>) => {
@@ -84,7 +80,6 @@ const MetaImageField = ({ image, onImageRemove, onImageLoad, disableAltEditing, 
           copyright={copyright}
           action={imageAction}
           alt={hideAltText ? undefined : disableAltEditing ? alt : undefined}
-          translations={metaInformationTranslations}
         />
       </MetaImageContainer>
       {!disableAltEditing && (

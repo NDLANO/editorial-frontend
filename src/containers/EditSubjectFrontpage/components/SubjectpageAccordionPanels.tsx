@@ -9,7 +9,7 @@
 import { FormikErrors } from "formik";
 import { useTranslation } from "react-i18next";
 
-import { PageContent } from "@ndla/primitives";
+import { FieldErrorMessage, FieldRoot, PageContent } from "@ndla/primitives";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
 
@@ -19,7 +19,7 @@ import SubjectpageMetadata from "./SubjectpageMetadata";
 import SubjectpageSubjectlinks from "./SubjectpageSubjectlinks";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
-import FormikField from "../../../components/FormikField";
+import { FormField } from "../../../components/FormField";
 import { FormContent } from "../../../components/FormikForm";
 import { SubjectPageFormikType } from "../../../util/subjectHelpers";
 
@@ -34,10 +34,6 @@ interface Props {
 
 const SubjectpageAccordionPanels = ({ buildsOn, connectedTo, editorsChoices, elementId, errors, leadsTo }: Props) => {
   const { t } = useTranslation();
-
-  const SubjectPageArticle = () => (
-    <SubjectpageArticles editorsChoices={editorsChoices} elementId={elementId} fieldName={"editorsChoices"} />
-  );
 
   return (
     <FormAccordions defaultOpen={["about"]}>
@@ -73,7 +69,14 @@ const SubjectpageAccordionPanels = ({ buildsOn, connectedTo, editorsChoices, ele
         title={t("subjectpageForm.articles")}
         hasError={["editorsChoices"].some((field) => field in errors)}
       >
-        <FormikField name={"editorsChoices"}>{SubjectPageArticle}</FormikField>
+        <FormField name="editorsChoices">
+          {({ meta }) => (
+            <FieldRoot invalid={!!meta.error}>
+              <SubjectpageArticles editorsChoices={editorsChoices} elementId={elementId} fieldName={"editorsChoices"} />
+              <FieldErrorMessage>{meta.error}</FieldErrorMessage>
+            </FieldRoot>
+          )}
+        </FormField>
       </FormAccordion>
     </FormAccordions>
   );

@@ -6,20 +6,27 @@
  *
  */
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
-import styled from "@emotion/styled";
-import { Cross, Pencil } from "@ndla/icons/action";
-import { DeleteForever } from "@ndla/icons/editor";
-import { ModalBody, ModalHeader, ModalTitle, Modal, ModalTrigger, ModalContent } from "@ndla/modal";
-import { IconButton } from "@ndla/primitives";
+import { Portal } from "@ark-ui/react";
+import { Pencil, DeleteBinLine } from "@ndla/icons/action";
+import {
+  DialogBody,
+  DialogTitle,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTrigger,
+  IconButton,
+} from "@ndla/primitives";
 import { PitchEmbedData } from "@ndla/types-embed";
 import { Pitch, EmbedWrapper } from "@ndla/ui";
 import PitchForm from "./PitchForm";
 import { PitchElement } from "./types";
 import config from "../../../../config";
+import { DialogCloseButton } from "../../../DialogCloseButton";
 import { StyledFigureButtons } from "../embed/FigureButtons";
 
 interface Props extends RenderElementProps {
@@ -27,23 +34,16 @@ interface Props extends RenderElementProps {
   editor: Editor;
 }
 
-const StyledModalHeader = styled(ModalHeader)`
-  padding-bottom: 0px;
-`;
-
-const StyledModalBody = styled(ModalBody)`
-  padding-top: 0px;
-  h2 {
-    margin: 0px;
-  }
-`;
-
 const imageUrl = `${config.ndlaApiUrl}/image-api/raw/id/`;
 
 const SlatePitch = ({ element, editor, attributes, children }: Props) => {
   const { t } = useTranslation();
-  const [isEditing, setIsEditing] = useState(element.isFirstEdit);
+  const [isEditing, setIsEditing] = useState(false);
   const { data } = element;
+
+  useEffect(() => {
+    setIsEditing(!!element.isFirstEdit);
+  }, [element.isFirstEdit]);
 
   const handleRemove = () => {
     Transforms.removeNodes(editor, {
@@ -89,12 +89,12 @@ const SlatePitch = ({ element, editor, attributes, children }: Props) => {
   );
 
   return (
-    <Modal open={isEditing} onOpenChange={setIsEditing}>
+    <DialogRoot size="large" open={isEditing} onOpenChange={(details) => setIsEditing(details.open)}>
       <EmbedWrapper {...attributes} data-testid="slate-pitch" contentEditable={false}>
         {data && (
           <>
             <StyledFigureButtons>
-              <ModalTrigger>
+              <DialogTrigger asChild>
                 <IconButton
                   variant="secondary"
                   size="small"
@@ -104,7 +104,7 @@ const SlatePitch = ({ element, editor, attributes, children }: Props) => {
                 >
                   <Pencil />
                 </IconButton>
-              </ModalTrigger>
+              </DialogTrigger>
               <IconButton
                 aria-label={t("delete")}
                 variant="danger"
@@ -113,7 +113,7 @@ const SlatePitch = ({ element, editor, attributes, children }: Props) => {
                 data-testid="remove-pitch"
                 onClick={handleRemove}
               >
-                <DeleteForever />
+                <DeleteBinLine />
               </IconButton>
             </StyledFigureButtons>
             <Pitch
@@ -129,18 +129,18 @@ const SlatePitch = ({ element, editor, attributes, children }: Props) => {
         )}
         {children}
       </EmbedWrapper>
-      <ModalContent>
-        <StyledModalHeader>
-          <ModalTitle>{t("pitchForm.title")}</ModalTitle>
-          <IconButton variant="tertiary" aria-label={t("close")} title={t("close")} onClick={onClose}>
-            <Cross />
-          </IconButton>
-        </StyledModalHeader>
-        <StyledModalBody>
-          <PitchForm onSave={onSave} initialData={data} onCancel={onClose} />
-        </StyledModalBody>
-      </ModalContent>
-    </Modal>
+      <Portal>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("pitchForm.title")}</DialogTitle>
+            <DialogCloseButton />
+          </DialogHeader>
+          <DialogBody>
+            <PitchForm onSave={onSave} initialData={data} onCancel={onClose} />
+          </DialogBody>
+        </DialogContent>
+      </Portal>
+    </DialogRoot>
   );
 };
 

@@ -11,9 +11,18 @@ import { ReactNode, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
-import { Cross, Plus } from "@ndla/icons/action";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTrigger } from "@ndla/modal";
-import { Heading, IconButton } from "@ndla/primitives";
+import { Portal } from "@ark-ui/react";
+import { Cross, AddLine } from "@ndla/icons/action";
+import {
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  Heading,
+  IconButton,
+} from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { FileListWrapper } from "@ndla/ui";
 import { FileElement } from ".";
@@ -22,6 +31,7 @@ import { TYPE_FILE } from "./types";
 import config from "../../../../config";
 import { File, UnsavedFile } from "../../../../interfaces";
 import { headFileAtRemote } from "../../../../modules/draft/draftApi";
+import { DialogCloseButton } from "../../../DialogCloseButton";
 import FileUploader from "../../../FileUploader";
 
 const StyledHeaderWrapper = styled("div", {
@@ -110,26 +120,29 @@ const SlateFileList = ({ element, editor, attributes, children }: Props) => {
           <h3>{t("files")}</h3>
         </Heading>
         <HStack gap="3xsmall">
-          <Modal open={showFileUploader} onOpenChange={setShowFileUploader}>
-            <ModalTrigger>
+          <DialogRoot open={showFileUploader} onOpenChange={(details) => setShowFileUploader(details.open)}>
+            <DialogTrigger asChild>
               <IconButton
                 variant="tertiary"
                 title={t("form.file.addFile")}
                 aria-label={t("form.file.addFile")}
                 size="small"
               >
-                <Plus />
+                <AddLine />
               </IconButton>
-            </ModalTrigger>
-            <ModalContent>
-              <ModalHeader>
-                <ModalCloseButton />
-              </ModalHeader>
-              <ModalBody>
-                <FileUploader onFileSave={onAddFileToList} close={() => setShowFileUploader(false)} />
-              </ModalBody>
-            </ModalContent>
-          </Modal>
+            </DialogTrigger>
+            <Portal>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>{t("fileUpload.title")}</DialogTitle>
+                  <DialogCloseButton />
+                </DialogHeader>
+                <DialogBody>
+                  <FileUploader onFileSave={onAddFileToList} close={() => setShowFileUploader(false)} />
+                </DialogBody>
+              </DialogContent>
+            </Portal>
+          </DialogRoot>
           <IconButton
             variant="danger"
             title={t("form.file.removeList")}

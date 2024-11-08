@@ -1649,6 +1649,7 @@ const phrases = {
       SUBJECT: "fag",
       TOPIC: "emne",
     },
+    publishedVersion: "Se publisert versjon",
     noValue: "Ikke satt",
     previewProgrammes: "Forhåndsvis utdanningsprogram i frontend",
     addNode: "Legg til {{nodeType}}",
@@ -1663,7 +1664,7 @@ const phrases = {
     addExistingNode: "Flytt eksisterende {{nodeType}} hit",
     addExistingLoading: "Flytter ...",
     addExistingSuccess: "Noden har blitt flyttet!",
-    existingNode: "Eksisterende node",
+    existingNode: "Søk opp eksisterende {{nodeType}} for flytting",
     workflow: "i flyt",
     fullTopic: "Gjennomsnitt:",
     TOPIC: "emnet",
@@ -1702,6 +1703,8 @@ const phrases = {
     getExisting: "Eller hent eksisterende ressurs",
     inProgress: "Denne artikkelen er påbegynt",
     addPriority: "Prioritering",
+    supplementary: "Tilleggstoff",
+    displayOptions: "Visningsvalg",
     changeName: {
       loadError: "Klarte ikke hente oversettelser",
       updateError: "Klarte ikke oppdatere oversettelser",
@@ -2167,6 +2170,9 @@ const phrases = {
       colored: "Bruk farget variant",
       neutral: "Bruk nøytral variant",
     },
+  },
+  fileUpload: {
+    title: "Last opp filer",
   },
 };
 

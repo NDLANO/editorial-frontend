@@ -15,6 +15,7 @@ import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
+import { SelectLabel } from "@ndla/primitives";
 import { IArticle, IUpdatedArticle } from "@ndla/types-backend/draft-api";
 import {
   Node,
@@ -28,6 +29,7 @@ import {
 import TaxonomyInfo from "./TaxonomyInfo";
 import { FormikFieldHelp } from "../../../../../components/FormikField";
 import SaveButton from "../../../../../components/SaveButton";
+import OptGroupVersionSelector from "../../../../../components/Taxonomy/OptGroupVersionSelector";
 import { NodeWithChildren } from "../../../../../components/Taxonomy/TaxonomyBlockNode";
 import TopicConnections from "../../../../../components/Taxonomy/TopicConnections";
 import { RESOURCE_TYPE_LEARNING_PATH, TAXONOMY_ADMIN_SCOPE } from "../../../../../constants";
@@ -40,7 +42,6 @@ import { useSession } from "../../../../Session/SessionProvider";
 import { useTaxonomyVersion } from "../../../../StructureVersion/TaxonomyVersionProvider";
 import ResourceTypeSelect from "../../../components/ResourceTypeSelect";
 import TaxonomyConnectionErrors from "../../../components/TaxonomyConnectionErrors";
-import VersionSelect from "../../../components/VersionSelect";
 import { MinimalNodeChild } from "../LearningResourceTaxonomy";
 
 const ButtonContainer = styled.div`
@@ -349,11 +350,18 @@ const TaxonomyBlock = ({
       )}
       {isTaxonomyAdmin && (
         <>
-          <VersionSelect versions={versions ?? []} onVersionChanged={onVersionChanged} />
+          <OptGroupVersionSelector
+            currentVersion={taxonomyVersion}
+            onVersionChanged={(version) => onVersionChanged(version.hash)}
+            versions={versions}
+          >
+            <SelectLabel>{t("taxonomy.version")}</SelectLabel>
+          </OptGroupVersionSelector>
           <TaxonomyInfo taxonomyElement={workingResource} updateMetadata={updateMetadata} />
         </>
       )}
       <ResourceTypeSelect
+        selectedResourceTypes={workingResource.resourceTypes}
         availableResourceTypes={filteredResourceTypes}
         onChangeSelectedResource={onChangeSelectedResource}
       />

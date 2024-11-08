@@ -20,7 +20,8 @@ import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCom
 import ListResource from "../../../components/Form/ListResource";
 import { OldSpinner } from "../../../components/OldSpinner";
 import { NDLA_FILM_SUBJECT } from "../../../constants";
-import { useMoviesQuery, useMoviesQuerySearch } from "../../../modules/frontpage/filmQueries";
+import { useMoviesQuery } from "../../../modules/frontpage/filmQueries";
+import { useSearchResources } from "../../../modules/search/searchQueries";
 import { getUrnFromId } from "../../../util/ndlaFilmHelpers";
 import { routes } from "../../../util/routeHelpers";
 import { usePaginatedQuery } from "../../../util/usePaginatedQuery";
@@ -46,15 +47,19 @@ export const ThemeMovies = ({ movies, onMoviesUpdated, placeholder, comboboxLabe
 
   const { query, page, setPage, delayedQuery, setQuery } = usePaginatedQuery();
 
-  const searchQuery = useMoviesQuerySearch({
+  const searchQuery = useSearchResources({
     page,
     query: delayedQuery,
-    subjects: NDLA_FILM_SUBJECT,
-    "page-size": 10,
-    "context-types": "standard",
+    subjects: [NDLA_FILM_SUBJECT],
+    pageSize: 10,
+    contextTypes: ["standard"],
     sort: "-relevance",
-    "resource-types":
-      "urn:resourcetype:documentary,urn:resourcetype:featureFilm,urn:resourcetype:series,urn:resourcetype:shortFilm",
+    resourceTypes: [
+      "urn:resourcetype:documentary",
+      "urn:resourcetype:featureFilm",
+      "urn:resourcetype:series",
+      "urn:resourcetype:shortFilm",
+    ],
   });
 
   useEffect(() => {
@@ -70,15 +75,14 @@ export const ThemeMovies = ({ movies, onMoviesUpdated, placeholder, comboboxLabe
     onMoviesUpdated(updated);
   };
 
-  const onDeleteElement = (elements: IMultiSearchSummary[], deleteIndex: number) => {
-    const newElements = elements.filter((_, i) => i !== deleteIndex);
-    onUpdateMovies(newElements);
-  };
-
-  const onAddMovieToTheme = (movie: IMultiSearchSummary) => {
-    setLocalMovies([...movies, getUrnFromId(movie.id)]);
-    setApiMovies((prevMovies) => [...prevMovies, movie]);
-    onMoviesUpdated([...movies, getUrnFromId(movie.id)]);
+  const onValueChange = (value: string) => {
+    if (movies.includes(value)) {
+      onUpdateMovies(apiMovies.filter((m) => getUrnFromId(m.id) !== value));
+    } else {
+      const apiMovie = searchQuery.data?.results.find((m) => getUrnFromId(m.id) === value);
+      if (!apiMovie) return;
+      onUpdateMovies([...apiMovies, apiMovie]);
+    }
   };
 
   return (
@@ -87,13 +91,16 @@ export const ThemeMovies = ({ movies, onMoviesUpdated, placeholder, comboboxLabe
         items={searchQuery.data?.results ?? []}
         itemToString={(item) => item.title.title}
         itemToValue={(item) => getUrnFromId(item.id)}
-        isItemDisabled={(item) => movies.includes(getUrnFromId(item.id))}
         inputValue={query}
         paginationData={searchQuery.data}
         onInputValueChange={(details) => setQuery(details.inputValue)}
         onPageChange={(details) => setPage(details.page)}
         isSuccess={searchQuery.isSuccess}
-        onValueChange={(details) => onAddMovieToTheme(details.items[movies.length])}
+        onValueChange={(details) => {
+          const newValue = details.value[0];
+          if (!newValue) return;
+          onValueChange(newValue);
+        }}
         value={movies}
         renderItem={(item) => (
           <GenericComboboxItemContent
@@ -104,8 +111,8 @@ export const ThemeMovies = ({ movies, onMoviesUpdated, placeholder, comboboxLabe
             data-testid="dropdown-item"
           />
         )}
-        multiple
-        closeOnSelect
+        closeOnSelect={false}
+        selectionBehavior="preserve"
       >
         <ComboboxLabel>{comboboxLabel}</ComboboxLabel>
         <GenericComboboxInput
@@ -125,13 +132,13 @@ export const ThemeMovies = ({ movies, onMoviesUpdated, placeholder, comboboxLabe
                 <DragVertical />
               </DragHandle>
             }
-            renderItem={(item, index) => (
+            renderItem={(item) => (
               <ListResource
                 key={item.id}
                 title={item.title.title}
                 metaImage={item.metaImage}
                 url={routes.editArticle(item.id, item.learningResourceType ?? "standard", i18n.language)}
-                onDelete={() => onDeleteElement(apiMovies, index)}
+                onDelete={() => onValueChange(getUrnFromId(item.id))}
                 removeElementTranslation={t("ndlaFilm.editor.removeMovieFromGroup")}
               />
             )}

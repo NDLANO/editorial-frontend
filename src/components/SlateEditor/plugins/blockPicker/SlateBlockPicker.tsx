@@ -10,18 +10,9 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Node, Location, Range, Path, Transforms } from "slate";
 import { ReactEditor } from "slate-react";
-import { PopoverOpenChangeDetails, Portal } from "@ark-ui/react";
-import { Plus } from "@ndla/icons/action";
-import {
-  PopoverRoot,
-  PopoverTrigger,
-  IconButton,
-  Button,
-  Heading,
-  PopoverPositioner,
-  PopoverContentStandalone,
-  PopoverContent,
-} from "@ndla/primitives";
+import { Portal } from "@ark-ui/react";
+import { AddLine } from "@ndla/icons/action";
+import { PopoverRoot, PopoverTrigger, IconButton, Button, Heading, PopoverContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Action, ActionData } from "./actions";
 import SlateVisualElementPicker from "./SlateVisualElementPicker";
@@ -119,6 +110,13 @@ const BlockPickerButton = styled(IconButton, {
 const StyledHeading = styled(Heading, {
   base: {
     paddingInlineStart: "xsmall",
+  },
+});
+
+const StyledPopoverContent = styled(PopoverContent, {
+  base: {
+    // This acts more like a dropdown than a popover. We only have it as a popover because the "menu" is somewhat interactive.
+    zIndex: "dropdown",
   },
 });
 
@@ -412,10 +410,10 @@ const SlateBlockPicker = ({
                 }
               }}
             >
-              <Plus />
+              <AddLine />
             </BlockPickerButton>
           </PopoverTrigger>
-          <PopoverContent data-testid="slate-block-picker-menu">
+          <StyledPopoverContent data-testid="slate-block-picker-menu">
             <StyledHeading textStyle="title.small">{t("editorBlockpicker.heading")}</StyledHeading>
             <StyledList>
               {getActionsForArea()
@@ -435,7 +433,7 @@ const SlateBlockPicker = ({
                   </StyledLi>
                 ))}
             </StyledList>
-          </PopoverContent>
+          </StyledPopoverContent>
         </Portal>
       </PopoverRoot>
     </>

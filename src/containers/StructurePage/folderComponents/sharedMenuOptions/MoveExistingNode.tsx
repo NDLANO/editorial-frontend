@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
 import { spacing, colors } from "@ndla/core";
-import { Plus } from "@ndla/icons/action";
+import { AddLine } from "@ndla/icons/action";
 import { Done } from "@ndla/icons/editor";
 import { Node, NodeType } from "@ndla/types-taxonomy";
 import MenuItemButton from "./components/MenuItemButton";
@@ -132,9 +132,12 @@ const MoveExistingNode = ({
   if (editMode === "moveExistingNode") {
     return (
       <Wrapper>
-        <RoundIcon open small smallIcon icon={<Plus />} />
+        <RoundIcon open small smallIcon icon={<AddLine />} />
         <NodeSearchDropdown
-          placeholder={t("taxonomy.existingNode")}
+          label={t("taxonomy.addExistingNode", {
+            nodeType: t(`taxonomy.nodeType.${nodeType}`),
+          })}
+          placeholder={t("taxonomy.existingNode", { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
           onChange={handleSubmit}
           searchNodeType={nodeType}
           filter={(node) => {
@@ -151,7 +154,7 @@ const MoveExistingNode = ({
   return (
     <StyledMenuWrapper>
       <MenuItemButton onClick={toggleEditModeFunc}>
-        <RoundIcon small icon={<Plus />} />
+        <RoundIcon small icon={<AddLine />} />
         {t("taxonomy.addExistingNode", {
           nodeType: t(`taxonomy.nodeType.${nodeType}`),
         })}

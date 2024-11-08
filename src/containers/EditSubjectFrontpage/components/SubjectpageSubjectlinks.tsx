@@ -35,10 +35,13 @@ const SubjectpageSubjectlinks = ({ subjectIds, fieldName }: Props) => {
     })();
   }, [subjectIds, subjectList.length, taxonomyVersion]);
 
-  const handleAddToList = (node: Node) => {
-    const newValue = subjectList.concat(node);
-    setSubjectList(newValue);
-    updateFormik(newValue.map((node) => node.id));
+  const onValueChange = (node: Node) => {
+    if (subjectList.includes(node)) {
+      const filtered = subjectList.filter((item) => item.id !== node.id);
+      onUpdateNodes(filtered);
+    } else {
+      onUpdateNodes(subjectList.concat(node));
+    }
   };
 
   const onUpdateNodes = (updatedList: Node[]) => {
@@ -55,7 +58,7 @@ const SubjectpageSubjectlinks = ({ subjectIds, fieldName }: Props) => {
     <>
       <NodeSearchDropdown
         selectedItems={subjectList}
-        onChange={handleAddToList}
+        onChange={onValueChange}
         label={t(`subjectpageForm.${fieldName}`)}
       />
       <NodeList nodes={subjectList} onUpdate={onUpdateNodes} />

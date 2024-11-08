@@ -6,73 +6,72 @@
  *
  */
 
-import { HTMLAttributes, MouseEvent, forwardRef, useCallback, useEffect, useState } from "react";
+import { MouseEvent, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DragEndEvent } from "@dnd-kit/core";
-import styled from "@emotion/styled";
-import { Content } from "@radix-ui/react-popover";
-import { colors, spacing, stackOrder } from "@ndla/core";
-import { Pencil } from "@ndla/icons/action";
-import { DeleteForever } from "@ndla/icons/editor";
-import { IconButton, TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
+import { Pencil, DeleteBinLine } from "@ndla/icons/action";
+import {
+  ComboboxLabel,
+  DialogBody,
+  DialogHeader,
+  DialogTitle,
+  IconButton,
+  TabsContent,
+  TabsIndicator,
+  TabsList,
+  TabsRoot,
+  TabsTrigger,
+  Text,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { RelatedContentEmbedData, RelatedContentMetaData } from "@ndla/types-embed";
-import { Heading } from "@ndla/typography";
 import { RelatedContentEmbed } from "@ndla/ui";
 import ContentLink from "../../../../containers/ArticlePage/components/ContentLink";
-import { postSearch } from "../../../../modules/search/searchApi";
+import { useSearch } from "../../../../modules/search/searchQueries";
+import { usePaginatedQuery } from "../../../../util/usePaginatedQuery";
+import { GenericComboboxInput, GenericComboboxItemContent } from "../../../abstractions/Combobox";
+import { DialogCloseButton } from "../../../DialogCloseButton";
 import DndList from "../../../DndList";
-import AsyncDropdown from "../../../Dropdown/asyncDropdown/AsyncDropdown";
+import { GenericSearchCombobox } from "../../../Form/GenericSearchCombobox";
 
-const StyledUl = styled.ul`
-  list-style: none;
-  margin: 0;
-  padding: 0;
-`;
+const StyledUl = styled("ul", {
+  base: {
+    listStyle: "none",
+  },
+});
 
-const StyledTabsContent = styled(TabsContent)`
-  & > div {
-    width: 100%;
-  }
-`;
+const StyledTabsContent = styled(TabsContent, {
+  base: {
+    "& > div": {
+      width: "100%",
+    },
+  },
+});
 
-const HeadingWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
+const ButtonWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "3xsmall",
+  },
+});
 
-const StyledBorderDiv = styled(Content)`
-  width: 600px;
-  border: 2px solid ${colors.brand.tertiary};
-  padding: ${spacing.large};
-  padding-top: 0;
-  background-color: ${colors.white};
-  max-height: 1100px;
-  overflow-y: scroll;
-  z-index: ${stackOrder.popover};
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.xxsmall};
-`;
-
-const RelatedArticleWrapper = styled.div`
-  display: flex;
-  gap: ${spacing.xxsmall};
-  width: 100%;
-  & > article {
-    flex: 1;
-    max-width: 100%;
-  }
-`;
+const RelatedArticleWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "3xsmall",
+    width: "100%",
+    "& > article": {
+      flex: "1",
+      maxWidth: "100%",
+    },
+  },
+});
 
 type ExternalToEdit = RelatedContentMetaData & {
   index: number;
 };
-interface Props extends HTMLAttributes<HTMLDivElement> {
-  onRemoveClick: (e: MouseEvent<HTMLButtonElement>) => void;
+interface Props {
   updateArticles: (newEmbeds: RelatedContentMetaData[]) => void;
   embeds: RelatedContentMetaData[];
   onInsertBlock: (articleId: string) => void;
@@ -81,89 +80,71 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 
 type TabType = "internalArticle" | "externalArticle";
 
-const EditRelated = forwardRef<HTMLDivElement, Props>(
-  ({ onRemoveClick, updateArticles, insertExternal, embeds, onInsertBlock, ...rest }, ref) => {
-    const { t } = useTranslation();
-    const [currentTab, setCurrentTab] = useState<TabType>("internalArticle");
-    const [externalToEdit, setExternalToEdit] = useState<ExternalToEdit | undefined>(undefined);
-    const [windowHeight, setWindowHeight] = useState<number>(window.innerHeight);
+const EditRelated = ({ updateArticles, insertExternal, embeds, onInsertBlock }: Props) => {
+  const { t } = useTranslation();
+  const { query, delayedQuery, setQuery, page, setPage } = usePaginatedQuery();
+  const [currentTab, setCurrentTab] = useState<TabType>("internalArticle");
+  const [externalToEdit, setExternalToEdit] = useState<ExternalToEdit | undefined>(undefined);
 
-    const searchForArticles = async (query: string, page: number | undefined) => {
-      return postSearch({
-        query,
-        page,
-        contextTypes: ["standard"],
-      });
+  const searchQuery = useSearch({
+    query: delayedQuery,
+    page,
+    contextTypes: ["standard"],
+  });
+
+  const blockEmbeds = useMemo(() => {
+    return embeds.reduce<string[]>(
+      (acc, curr) => (curr.embedData.articleId ? acc.concat(curr.embedData.articleId) : acc),
+      [],
+    );
+  }, [embeds]);
+
+  const onTabChange = useCallback((tab: TabType) => {
+    if (tab === "internalArticle") {
+      setExternalToEdit(undefined);
+    }
+    setCurrentTab(tab);
+  }, []);
+
+  const onDragEnd = (_event: DragEndEvent, items: RelatedContentMetaData[]) => {
+    updateArticles(items);
+  };
+
+  const deleteRelatedArticle = (
+    e: MouseEvent<HTMLButtonElement>,
+    deleteEmbed: RelatedContentMetaData,
+    index: number,
+  ) => {
+    e.stopPropagation();
+    if (!deleteEmbed.embedData.articleId && deleteEmbed.embedData.url === externalToEdit?.embedData.url) {
+      setExternalToEdit(undefined);
+    }
+    const newEmbeds = embeds.filter((_, idx) => index !== idx);
+    updateArticles(newEmbeds);
+  };
+
+  const onExternalEdit = (editEmbed: ExternalToEdit, title: string, url: string) => {
+    const newEmbedData: RelatedContentEmbedData = {
+      ...editEmbed.embedData,
+      title,
+      url,
     };
-
-    const onTabChange = useCallback((tab: TabType) => {
-      if (tab === "internalArticle") {
-        setExternalToEdit(undefined);
-      }
-      setCurrentTab(tab);
-    }, []);
-
-    const onDragEnd = (_event: DragEndEvent, items: RelatedContentMetaData[]) => {
-      updateArticles(items);
+    const newEmbed: RelatedContentMetaData = {
+      ...editEmbed,
+      embedData: newEmbedData,
     };
+    const newEmbeds = embeds.map((embed, idx) => (idx === editEmbed.index ? newEmbed : embed));
+    updateArticles(newEmbeds);
+  };
 
-    const deleteRelatedArticle = (
-      e: MouseEvent<HTMLButtonElement>,
-      deleteEmbed: RelatedContentMetaData,
-      index: number,
-    ) => {
-      e.stopPropagation();
-      if (!deleteEmbed.embedData.articleId && deleteEmbed.embedData.url === externalToEdit?.embedData.url) {
-        setExternalToEdit(undefined);
-      }
-      const newEmbeds = embeds.filter((_, idx) => index !== idx);
-      updateArticles(newEmbeds);
-    };
-
-    const onExternalEdit = (editEmbed: ExternalToEdit, title: string, url: string) => {
-      const newEmbedData: RelatedContentEmbedData = {
-        ...editEmbed.embedData,
-        title,
-        url,
-      };
-      const newEmbed: RelatedContentMetaData = {
-        ...editEmbed,
-        embedData: newEmbedData,
-      };
-      const newEmbeds = embeds.map((embed, idx) => (idx === editEmbed.index ? newEmbed : embed));
-      updateArticles(newEmbeds);
-    };
-
-    useEffect(() => {
-      const changeSize = () => {
-        setWindowHeight(window.innerHeight);
-      };
-
-      window.addEventListener("resize", changeSize);
-
-      return () => {
-        window.removeEventListener("resize", changeSize);
-      };
-    });
-
-    return (
-      <StyledBorderDiv {...rest} sticky="always" avoidCollisions={false} ref={ref}>
-        <HeadingWrapper>
-          <Heading element="h3" headingStyle="list-title">
-            {t("form.related.title")}
-          </Heading>
-          <IconButton
-            data-testid="close-related-button"
-            aria-label={t("form.remove")}
-            variant="danger"
-            size="small"
-            onClick={onRemoveClick}
-            title={t("form.remove")}
-          >
-            <DeleteForever />
-          </IconButton>
-        </HeadingWrapper>
-        <p>{t("form.related.subtitle")}</p>
+  return (
+    <>
+      <DialogHeader>
+        <DialogTitle>{t("form.related.title")}</DialogTitle>
+        <DialogCloseButton />
+      </DialogHeader>
+      <DialogBody>
+        <Text>{t("form.related.subtitle")}</Text>
         <StyledUl>
           <DndList
             items={embeds.map((embed, index) => ({
@@ -197,7 +178,7 @@ const EditRelated = forwardRef<HTMLDivElement, Props>(
                     onClick={(e) => deleteRelatedArticle(e, embed, index)}
                     title={t("form.content.relatedArticle.removeExternal")}
                   >
-                    <DeleteForever />
+                    <DeleteBinLine />
                   </IconButton>
                 </ButtonWrapper>
               </RelatedArticleWrapper>
@@ -218,17 +199,36 @@ const EditRelated = forwardRef<HTMLDivElement, Props>(
             <TabsIndicator />
           </TabsList>
           <StyledTabsContent value="internalArticle">
-            <AsyncDropdown
-              clearInputField
-              idField="id"
-              labelField="title"
-              placeholder={t("form.content.relatedArticle.placeholder")}
-              apiAction={searchForArticles}
-              onClick={(e) => e.stopPropagation()}
-              onChange={(selected) => selected && onInsertBlock(selected.id.toString())}
-              showPagination
-              menuHeight={windowHeight * 0.3}
-            />
+            <GenericSearchCombobox
+              value={blockEmbeds}
+              items={searchQuery.data?.results ?? []}
+              itemToString={(item) => item.title.title}
+              itemToValue={(item) => item.id.toString()}
+              onValueChange={(details) => {
+                onInsertBlock(details.value[0]);
+              }}
+              paginationData={searchQuery.data}
+              inputValue={query}
+              isSuccess={searchQuery.isSuccess}
+              onInputValueChange={(details) => setQuery(details.inputValue)}
+              onPageChange={(details) => setPage(details.page)}
+              closeOnSelect={false}
+              selectionBehavior="preserve"
+              renderItem={(item) => (
+                <GenericComboboxItemContent
+                  title={item.title.title}
+                  description={item.metaDescription?.metaDescription}
+                  image={item.metaImage}
+                  useFallbackImage
+                />
+              )}
+            >
+              <ComboboxLabel>{t("form.article.add")}</ComboboxLabel>
+              <GenericComboboxInput
+                placeholder={t("form.content.relatedArticle.placeholder")}
+                isFetching={searchQuery.isFetching}
+              />
+            </GenericSearchCombobox>
           </StyledTabsContent>
           <TabsContent value="externalArticle">
             <ContentLink
@@ -245,9 +245,9 @@ const EditRelated = forwardRef<HTMLDivElement, Props>(
             />
           </TabsContent>
         </TabsRoot>
-      </StyledBorderDiv>
-    );
-  },
-);
+      </DialogBody>
+    </>
+  );
+};
 
 export default EditRelated;

@@ -60,7 +60,7 @@ export const podcastSeriesTypeToFormType = (series: ISeries | undefined, languag
     metaImageAlt: series?.coverPhoto.altText,
     title: plainTextToEditorValue(series?.title.title ?? ""),
     description: plainTextToEditorValue(series?.description.description ?? ""),
-    episodes: series?.episodes ?? [],
+    episodes: series?.episodes?.map((e) => e.id) ?? [],
     supportedLanguages: series?.supportedLanguages ?? [language],
     hasRSS: series?.hasRSS,
   };

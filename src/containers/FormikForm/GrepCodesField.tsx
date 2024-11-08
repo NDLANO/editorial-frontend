@@ -7,11 +7,10 @@
  */
 
 import { useField } from "formik";
-import difference from "lodash/difference";
 import { memo, useState, useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
-import { DeleteForever } from "@ndla/icons/editor";
+import { DeleteBinLine } from "@ndla/icons/action";
 import {
   ComboboxContent,
   ComboboxItem,
@@ -77,47 +76,34 @@ const GrepCodesField = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const fetchGrepCodeTitles = async (newGrepCodes: string[]): Promise<GrepCode[]> => {
-    const newGrepCodeNames: GrepCode[] = [];
-    for (const grepCode of newGrepCodes) {
-      const grepCodeTitle = await fetchGrepCodeTitle(grepCode);
-      const isGrepCodeSaved = grepCodes[grepCode];
+  const fetchGrepCodeTitles = async (grepCode: string): Promise<GrepCode | undefined> => {
+    const grepCodeTitle = await fetchGrepCodeTitle(grepCode);
+    const isGrepCodeSaved = grepCodes[grepCode];
 
-      if (grepCodeTitle && !isGrepCodeSaved && isGrepCodeValid(grepCode)) {
-        newGrepCodeNames.push({
-          code: grepCode,
-          title: `${grepCode} - ${grepCodeTitle}`,
-        });
-      } else if (!isGrepCodeSaved) {
-        setTimeout(() => {
-          helpers.setError(`${t("errorMessage.grepCodes")}${grepCode}`);
-        }, 0);
-      }
+    if (grepCodeTitle && !isGrepCodeSaved && isGrepCodeValid(grepCode)) {
+      return {
+        code: grepCode,
+        title: `${grepCode} - ${grepCodeTitle}`,
+      };
+    } else if (!isGrepCodeSaved) {
+      setTimeout(() => {
+        helpers.setError(`${t("errorMessage.grepCodes")}${grepCode}`);
+      }, 0);
     }
-    return newGrepCodeNames;
   };
 
-  const updateGrepCodes = async (values: string[]) => {
+  const updateGrepCodes = async (newValue: string) => {
     helpers.setError(undefined);
-    const trimmedValues = Array.from(new Set(values.map((v) => v.toUpperCase().trim())));
-    // Grep code is added
-    if (trimmedValues.length > field.value.length) {
-      const addedGrepCodes = difference(trimmedValues, field.value);
-      const grepCodesWithNames = await fetchGrepCodeTitles(addedGrepCodes);
-      const grepCodesObject = grepCodesWithNames.reduce((acc, c) => ({ ...acc, [c.code]: c.title }), grepCodes);
-      setGrepCodes(grepCodesObject);
-      helpers.setValue(Object.keys(grepCodesObject));
-      return;
-    }
-    // Grep code is removed
-    if (trimmedValues.length < field.value.length) {
-      const filteredGrepCodes = trimmedValues.reduce(
-        (acc, c) => (values.includes(c) ? { ...acc, [c]: grepCodes[c] } : acc),
-        {},
-      );
-      setGrepCodes(filteredGrepCodes);
-      helpers.setValue(values);
-      return;
+    const trimmedValue = newValue.toUpperCase().trim();
+    if (field.value.includes(trimmedValue)) {
+      const { [trimmedValue]: _, ...remaining } = grepCodes;
+      setGrepCodes(remaining);
+      helpers.setValue(field.value.filter((v) => v !== trimmedValue));
+    } else {
+      const grepCodeWithName = await fetchGrepCodeTitles(trimmedValue);
+      if (!grepCodeWithName) return;
+      setGrepCodes({ ...grepCodes, [grepCodeWithName.code]: grepCodeWithName.title });
+      helpers.setValue([...field.value, grepCodeWithName.code]);
     }
   };
 
@@ -126,9 +112,8 @@ const GrepCodesField = () => {
       items: searchQuery.data?.results ?? [],
       itemToString: (item) => item.title,
       itemToValue: (item) => item.code,
-      isItemDisabled: (item) => !!grepCodes[item.code],
     });
-  }, [grepCodes, searchQuery.data?.results]);
+  }, [searchQuery.data?.results]);
 
   return (
     <FormField name="grepCodes">
@@ -144,22 +129,28 @@ const GrepCodesField = () => {
             translations={translations}
             onInputValueChange={(details) => setQuery(details.inputValue)}
             inputValue={query}
-            onValueChange={(details) => updateGrepCodes(details.value)}
+            onValueChange={(details) => {
+              const newValue = details.value[0];
+              if (!newValue) return;
+              setQuery("");
+              updateGrepCodes(newValue);
+            }}
             value={field.value}
-            multiple
             positioning={{ strategy: "fixed" }}
             variant="complex"
             context="standalone"
             scrollToIndexFn={(details) => {
               scrollToIndexFn(contentRef, details.index);
             }}
+            closeOnSelect={false}
+            selectionBehavior="preserve"
           >
             <GenericComboboxInput
               placeholder={t("form.grepCodes.placeholder")}
               isFetching={searchQuery.isFetching}
-              onKeyDown={(event) => {
+              onKeyUp={(event) => {
                 if (event.key === "Enter" && !!query.trim()) {
-                  updateGrepCodes([...field.value, query]);
+                  updateGrepCodes(query);
                 }
               }}
               triggerable
@@ -181,7 +172,7 @@ const GrepCodesField = () => {
           </ComboboxRoot>
           <StyledList>
             {Object.entries(grepCodes).map(([code, title]) => (
-              <ListItemRoot key={code} context="list" variant="subtle" asChild consumeCss>
+              <ListItemRoot key={code} context="list" variant="subtle" asChild consumeCss id="list-item">
                 <li>
                   <ListItemContent>{title}</ListItemContent>
                   <IconButton
@@ -190,11 +181,10 @@ const GrepCodesField = () => {
                     aria-label={t("delete")}
                     title={t("delete")}
                     onClick={() => {
-                      const filtered = field.value.filter((el: string) => el !== code);
-                      updateGrepCodes(filtered);
+                      updateGrepCodes(code);
                     }}
                   >
-                    <DeleteForever />
+                    <DeleteBinLine />
                   </IconButton>
                 </li>
               </ListItemRoot>

@@ -6,35 +6,40 @@
  *
  */
 
-import { FormEvent } from "react";
+import { FormEvent, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
+import { createListCollection } from "@ark-ui/react";
+import { SelectContent, SelectLabel, SelectPositioner, SelectRoot, SelectValueText } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { ContentLoader } from "@ndla/ui";
-import { Row } from "../../components";
-import ObjectSelector from "../../components/ObjectSelector";
-import OptGroupVersionSelector from "../../components/Taxonomy/OptGroupVersionSelector";
+import { GenericSelectItem, GenericSelectTrigger } from "../../components/abstractions/Select";
+import { OptGroupVersionSelector } from "../../components/Taxonomy/OptGroupVersionSelector";
 import { useVersions } from "../../modules/taxonomy/versions/versionQueries";
-import { useSession } from "../Session/SessionProvider";
 
-const StyledDiffOptions = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.normal};
-`;
+const StyledDiffOptions = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+  },
+});
 
-const StyledOptionRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: ${spacing.small};
-`;
+const StyledOptionRow = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    flexWrap: "wrap",
+    gap: "xsmall",
+  },
+});
 
-const StyledDiffOption = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
+const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
+  base: {
+    width: "unset",
+    minWidth: "surface.3xsmall",
+  },
+});
 
 interface Props {
   originalHash: string;
@@ -47,33 +52,42 @@ interface DiffOptionProps {
   name: string;
   placeholder?: string;
   value: string;
-  onChange: (event: FormEvent<HTMLSelectElement>) => void;
-  emptyField?: boolean;
+  onChange: (id: string) => void;
 }
 
-const DiffOption = ({ label, options, name, placeholder, value, onChange, emptyField }: DiffOptionProps) => {
+const DiffOption = ({ label, options, name, placeholder, value, onChange }: DiffOptionProps) => {
+  const collection = useMemo(() => {
+    return createListCollection({ items: options, itemToValue: (item) => item.id, itemToString: (item) => item.label });
+  }, [options]);
+
   return (
-    <StyledDiffOption>
-      <strong>{label}</strong>
-      <ObjectSelector
-        emptyField={emptyField}
-        onClick={(e) => e.stopPropagation()}
-        options={options}
-        onChange={onChange}
-        name={name}
-        idKey="id"
-        labelKey="label"
-        placeholder={placeholder}
-        value={value}
-      />
-    </StyledDiffOption>
+    <SelectRoot
+      collection={collection}
+      value={[value]}
+      positioning={{ sameWidth: true }}
+      name={name}
+      onValueChange={(details) => onChange(details.value[0])}
+    >
+      <SelectLabel>{label}</SelectLabel>
+      <StyledGenericSelectTrigger>
+        <SelectValueText placeholder={placeholder} />
+      </StyledGenericSelectTrigger>
+      <SelectPositioner>
+        <SelectContent>
+          {collection.items.map((item) => (
+            <GenericSelectItem item={item} key={item.id}>
+              {item.label}
+            </GenericSelectItem>
+          ))}
+        </SelectContent>
+      </SelectPositioner>
+    </SelectRoot>
   );
 };
 
 const DiffOptions = ({ originalHash, otherHash }: Props) => {
   const [params, setParams] = useSearchParams();
   const { t } = useTranslation();
-  const { userPermissions } = useSession();
   const taxonomyVersions = useVersions();
   const originalVersion = originalHash ? taxonomyVersions.data?.find((v) => v.hash === originalHash) : undefined;
   const otherVersion = otherHash ? taxonomyVersions.data?.find((v) => v.hash === otherHash) : undefined;
@@ -127,29 +141,25 @@ const DiffOptions = ({ originalHash, otherHash }: Props) => {
 
   return (
     <StyledDiffOptions>
-      <Row alignItems="center" spacing="small">
-        <span>{t("diff.options.about")}</span>
-      </Row>
+      <span>{t("diff.options.about")}</span>
       <StyledOptionRow>
-        <StyledDiffOption>
-          <strong>{t("diff.options.originalHashLabel")}</strong>
-          <OptGroupVersionSelector
-            versions={taxonomyVersions.data ?? []}
-            currentVersion={originalVersion}
-            onVersionChanged={onOriginalHashChange}
-          />
-        </StyledDiffOption>
-        <StyledDiffOption>
-          <strong>{t("diff.options.otherHashLabel")}</strong>
-          <OptGroupVersionSelector
-            versions={taxonomyVersions.data ?? []}
-            currentVersion={otherVersion}
-            onVersionChanged={(val) => onParamChange("otherHash", val.length ? val : "default")}
-          />
-        </StyledDiffOption>
+        <OptGroupVersionSelector
+          versions={taxonomyVersions.data ?? []}
+          currentVersion={originalVersion?.hash}
+          onVersionChanged={(version) => onOriginalHashChange(version.hash)}
+        >
+          <SelectLabel>{t("diff.options.originalHashLabel")}</SelectLabel>
+        </OptGroupVersionSelector>
+        <OptGroupVersionSelector
+          versions={taxonomyVersions.data ?? []}
+          currentVersion={otherVersion?.hash}
+          onVersionChanged={(version) => onParamChange("otherHash", version.hash.length ? version.hash : "default")}
+        >
+          <SelectLabel>{t("diff.options.otherHashLabel")}</SelectLabel>
+        </OptGroupVersionSelector>
         <DiffOption
           options={viewOptions}
-          onChange={(event) => onParamChange("view", event.currentTarget.value)}
+          onChange={(id) => onParamChange("view", id)}
           name="view"
           label={t("diff.options.viewLabel")}
           value={currentViewOption}
@@ -158,14 +168,14 @@ const DiffOptions = ({ originalHash, otherHash }: Props) => {
       <StyledOptionRow>
         <DiffOption
           options={nodeViewOptions}
-          onChange={(event) => onParamChange("nodeView", event.currentTarget.value)}
+          onChange={(id) => onParamChange("nodeView", id)}
           name="nodeView"
           label={t("diff.options.nodeViewLabel")}
           value={currentNodeViewOption}
         />
         <DiffOption
           options={nodeFieldOptions}
-          onChange={(event) => onParamChange("fieldView", event.currentTarget.value)}
+          onChange={(id) => onParamChange("fieldView", id)}
           name="fieldView"
           label={t("diff.options.fieldViewLabel")}
           value={currentNodeFieldOption}

@@ -8,7 +8,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
-import { DeleteForever } from "@ndla/icons/editor";
+import { DeleteBinLine } from "@ndla/icons/action";
 import { Button } from "@ndla/primitives";
 import { HStack } from "@ndla/styled-system/jsx";
 import { Node, NodeChild } from "@ndla/types-taxonomy";
@@ -97,7 +97,7 @@ const DeleteNode = ({
   return (
     <>
       <MenuItemButton data-testid="deleteNode" disabled={disabled} onClick={toggleDelete}>
-        <RoundIcon small icon={<DeleteForever />} />
+        <RoundIcon small icon={<DeleteBinLine />} />
         {t("taxonomy.deleteNode")}
       </MenuItemButton>
       <AlertDialog

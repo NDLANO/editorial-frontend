@@ -1651,6 +1651,7 @@ const phrases = {
       SUBJECT: "subject",
       TOPIC: "topic",
     },
+    publishedVersion: "See published version",
     noValue: "No value",
     previewProgrammes: "Preview programmes in frontend",
     addNode: "Add {{nodeType}}",
@@ -1665,7 +1666,7 @@ const phrases = {
     addExistingNode: "Move existing {{nodeType}} here",
     addExistingLoading: "Moving ...",
     addExistingSuccess: "Node successfully moved",
-    existingNode: "Existing node",
+    existingNode: "Search for existing {{nodeType}} to be moved",
     workflow: "in workflow",
     fullTopic: "Average:",
     TOPIC: "topic",
@@ -1704,6 +1705,8 @@ const phrases = {
     getExisting: "Or get existing resource",
     inProgress: "This article is in progress",
     addPriority: "Priority",
+    supplementary: "Supplementary",
+    displayOptions: "Display options",
     changeName: {
       loadError: "Could not fetch translations",
       updateError: "Could not update translations",
@@ -2168,6 +2171,9 @@ const phrases = {
       colored: "Use colored variant",
       neutral: "Use neutral variant",
     },
+  },
+  fileUpload: {
+    title: "Upload files",
   },
 };
 

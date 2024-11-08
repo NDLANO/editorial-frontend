@@ -8,8 +8,8 @@
 
 import { KeyboardEvent, MouseEvent, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Cross, Pencil } from "@ndla/icons/action";
-import { Check, CheckLine, DeleteForever } from "@ndla/icons/editor";
+import { Cross, Pencil, DeleteBinLine } from "@ndla/icons/action";
+import { CheckboxCircleFill, CheckLine } from "@ndla/icons/editor";
 import {
   CheckboxControl,
   CheckboxHiddenInput,
@@ -132,7 +132,7 @@ export const SlateFile = ({
                 aria-label={t("save")}
                 title={t("save")}
               >
-                <Check />
+                <CheckboxCircleFill />
               </IconButton>
             </InputContainer>
           </StyledFieldRoot>
@@ -187,7 +187,7 @@ export const SlateFile = ({
             variant="danger"
             size="small"
           >
-            <DeleteForever />
+            <DeleteBinLine />
           </IconButton>
         </ButtonWrapper>
       </div>

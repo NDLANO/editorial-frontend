@@ -11,8 +11,8 @@ import { useTranslation } from "react-i18next";
 import { Editor, Element, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import { Portal } from "@ark-ui/react";
-import { Pencil } from "@ndla/icons/action";
-import { DeleteForever, Link } from "@ndla/icons/editor";
+import { Pencil, DeleteBinLine } from "@ndla/icons/action";
+import { Link } from "@ndla/icons/editor";
 import { DialogContent, DialogRoot, DialogTrigger, IconButton } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -29,8 +29,8 @@ import { StyledFigureButtons } from "../embed/FigureButtons";
 export const VideoWrapper = styled(EmbedWrapper, {
   base: {
     display: "block",
-    outline: "2px solid transparent",
     _selected: {
+      outline: "2px solid",
       outlineColor: "stroke.default",
     },
     "&[data-error='true']": {
@@ -106,7 +106,7 @@ const SlateVideo = ({ attributes, element, editor, children }: Props) => {
 
   return (
     <DialogRoot open={open} onOpenChange={({ open }) => setOpen(open)}>
-      <VideoWrapper {...attributes} data-selected={isSelected} data-error={hasError} contentEditable={false}>
+      <VideoWrapper {...attributes} aria-selected={isSelected} data-error={hasError} contentEditable={false}>
         {!embed ? (
           <Spinner />
         ) : (
@@ -138,7 +138,7 @@ const SlateVideo = ({ attributes, element, editor, children }: Props) => {
               data-testid="remove-video-element"
               size="small"
             >
-              <DeleteForever />
+              <DeleteBinLine />
             </IconButton>
           </StyledFigureButtons>
         )}

@@ -53,7 +53,7 @@ const TopicArticleContent = (props: Props) => {
         )}
       </FormField>
       <IngressField />
-      <VisualElementField />
+      <VisualElementField types={["image"]} />
       <FormikField name="content" label={t("form.content.label")} noBorder>
         {({ field: { value, name, onChange }, form: { isSubmitting } }) => (
           <>

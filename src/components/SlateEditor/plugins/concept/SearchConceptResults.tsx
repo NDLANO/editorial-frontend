@@ -9,7 +9,7 @@
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { spacing, colors } from "@ndla/core";
-import { Concept, Check, Globe } from "@ndla/icons/editor";
+import { Concept, CheckboxCircleFill, Globe } from "@ndla/icons/editor";
 import { Button } from "@ndla/primitives";
 import { IConceptSummary } from "@ndla/types-backend/concept-api";
 import { SearchParams } from "../../../../containers/SearchPage/components/form/SearchForm";
@@ -55,7 +55,7 @@ const StyledButton = styled(Button)`
   align-self: center;
 `;
 
-const StyledCheckIcon = styled(Check)`
+const StyledCheckIcon = styled(CheckboxCircleFill)`
   margin-left: 10px;
   margin-top: 2px;
   height: 25px;

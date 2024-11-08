@@ -98,8 +98,11 @@ const LastUsedItems = ({ lastUsedResources = [], lastUsedConcepts = [] }: Props)
   const searchDraftsQuery = useSearchDrafts(
     {
       ids: lastUsedResources!,
+      //@ts-ignore TODO: Fix this once we can move away from enum
       sort: "-lastUpdated",
       language,
+      pageSize: lastUsedResources.length,
+      fallback: true,
     },
     { enabled: !!lastUsedResources.length },
   );

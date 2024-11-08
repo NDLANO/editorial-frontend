@@ -12,27 +12,30 @@ import { useTranslation } from "react-i18next";
 import { DragVertical, Link } from "@ndla/icons/editor";
 import {
   Button,
+  ComboboxLabel,
   DialogBody,
   DialogContent,
   DialogHeader,
   DialogRoot,
   DialogTitle,
   DialogTrigger,
-  Heading,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IArticle, IArticleSummary, IRelatedContentLink } from "@ndla/types-backend/draft-api";
 import ContentLink from "./ContentLink";
+import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import DndList from "../../../components/DndList";
 import { DragHandle } from "../../../components/DraggableItem";
-import AsyncDropdown from "../../../components/Dropdown/asyncDropdown/AsyncDropdown";
-import FieldHeader from "../../../components/Field/FieldHeader";
+import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCombobox";
 import ListResource from "../../../components/Form/ListResource";
+import { FormContent } from "../../../components/FormikForm";
 import { ConvertedRelatedContent, RelatedContent } from "../../../interfaces";
-import { fetchDraft, searchDrafts } from "../../../modules/draft/draftApi";
+import { fetchDraft } from "../../../modules/draft/draftApi";
+import { useSearchDrafts } from "../../../modules/draft/draftQueries";
 import handleError from "../../../util/handleError";
 import { routes } from "../../../util/routeHelpers";
+import { usePaginatedQuery } from "../../../util/usePaginatedQuery";
 import { ArticleFormType } from "../../FormikForm/articleFormHooks";
 
 const StyledList = styled("ul", {
@@ -52,10 +55,21 @@ interface Props {
   form: FormikHelpers<ArticleFormType>;
 }
 
+const isDraftApiType = (relatedContent: ConvertedRelatedContent): relatedContent is IArticle =>
+  (relatedContent as IArticle).id !== undefined;
+
 const ContentField = ({ field, form }: Props) => {
   const { t, i18n } = useTranslation();
+  const { query, delayedQuery, setQuery, page, setPage } = usePaginatedQuery();
   const [relatedContent, setRelatedContent] = useState<ConvertedRelatedContent[]>([]);
   const [showAddExternal, setShowAddExternal] = useState(false);
+
+  const selectedItems = useMemo(() => relatedContent.filter(isDraftApiType), [relatedContent]);
+
+  const searchQuery = useSearchDrafts(
+    { query: delayedQuery, language: i18n.language, page },
+    { placeholderData: (prev) => prev },
+  );
 
   useEffect(() => {
     (async () => {
@@ -72,11 +86,15 @@ const ContentField = ({ field, form }: Props) => {
 
   const onAddArticleToList = async (article: IArticleSummary) => {
     try {
-      const newArticle = await fetchDraft(article.id, i18n.language);
-      const temp = [...relatedContent, newArticle];
-      if (newArticle) {
-        setRelatedContent(temp);
-        updateFormik(field, temp);
+      if (selectedItems.some((a) => a.id === article.id)) {
+        const newRelatedContent = relatedContent.filter((a) => isDraftApiType(a) && a.id !== article.id);
+        setRelatedContent(newRelatedContent);
+        updateFormik(field, newRelatedContent);
+      } else {
+        const newArticle = await fetchDraft(article.id, i18n.language);
+        const newRelatedContent = relatedContent.concat(newArticle);
+        setRelatedContent(newRelatedContent);
+        updateFormik(field, newRelatedContent);
       }
     } catch (e) {
       handleError(e);
@@ -104,24 +122,11 @@ const ContentField = ({ field, form }: Props) => {
     });
   };
 
-  const searchForArticles = async (query: string, page?: number) => {
-    return searchDrafts({
-      query,
-      page,
-      language: i18n.language,
-    });
-  };
-
   const addExternalLink = (title: string, url: string) => {
     const temp = [...relatedContent, { title, url }];
     setRelatedContent(temp);
     updateFormik(field, temp);
   };
-
-  const isDraftApiType = (relatedContent: ConvertedRelatedContent): relatedContent is IArticle =>
-    (relatedContent as IArticle).id !== undefined;
-
-  const selectedItems = relatedContent.filter(isDraftApiType);
 
   const releatedContentDndItems = useMemo(
     () =>
@@ -134,8 +139,25 @@ const ContentField = ({ field, form }: Props) => {
   );
 
   return (
-    <>
-      <FieldHeader title={t("form.relatedContent.articlesTitle")} />
+    <FormContent>
+      <GenericSearchCombobox
+        value={selectedItems.map((article) => article.id.toString())}
+        closeOnSelect={false}
+        selectionBehavior="preserve"
+        onValueChange={(details) => onAddArticleToList(details.items[0])}
+        items={searchQuery.data?.results ?? []}
+        itemToString={(item) => item.title.title}
+        itemToValue={(item) => item.id.toString()}
+        inputValue={query}
+        onInputValueChange={(details) => setQuery(details.inputValue)}
+        isSuccess={searchQuery.isSuccess}
+        paginationData={searchQuery.data}
+        onPageChange={(details) => setPage(details.page)}
+        renderItem={(item) => <GenericComboboxItemContent title={item.title.title} />}
+      >
+        <ComboboxLabel>{t("form.relatedContent.articlesTitle")}</ComboboxLabel>
+        <GenericComboboxInput placeholder={t("form.relatedContent.placeholder")} isFetching={searchQuery.isFetching} />
+      </GenericSearchCombobox>
       <StyledList>
         <DndList
           items={releatedContentDndItems}
@@ -169,19 +191,6 @@ const ContentField = ({ field, form }: Props) => {
           onDragEnd={(_, newArray) => onUpdateElements(newArray)}
         />
       </StyledList>
-      <AsyncDropdown
-        selectedItems={selectedItems}
-        idField="id"
-        labelField="title"
-        placeholder={t("form.relatedContent.placeholder")}
-        apiAction={searchForArticles}
-        onClick={(event: Event) => event.stopPropagation()}
-        onChange={onAddArticleToList}
-        multiSelect
-        disableSelected
-        clearInputField
-        showPagination
-      />
       <DialogRoot open={showAddExternal} onOpenChange={({ open }) => setShowAddExternal(open)}>
         <StyledButtonWrapper>
           <DialogTrigger asChild>
@@ -203,7 +212,7 @@ const ContentField = ({ field, form }: Props) => {
           </DialogBody>
         </DialogContent>
       </DialogRoot>
-    </>
+    </FormContent>
   );
 };
 

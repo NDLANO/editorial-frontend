@@ -8,7 +8,7 @@
 
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { DeleteForever } from "@ndla/icons/editor";
+import { DeleteBinLine } from "@ndla/icons/action";
 import RoundIcon from "../../../../components/RoundIcon";
 import CustomFieldButton from "../sharedMenuOptions/components/CustomFieldButton";
 import { StyledMenuItemEditField, StyledMenuItemInputField } from "../styles";
@@ -67,7 +67,7 @@ const TaxonomyMetadataDropdown = ({ options, field, customFields, updateCustomFi
           updateCustomFields({ ...customFields });
         }}
       >
-        <DeleteForever />
+        <DeleteBinLine />
       </StyledCustomFieldButton>
     </StyledMenuItemEditField>
   );

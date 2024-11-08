@@ -12,9 +12,9 @@ import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
 import { IconButtonV2 } from "@ndla/button";
 import { colors, spacing } from "@ndla/core";
-import { Pencil } from "@ndla/icons/action";
+import { Pencil, DeleteBinLine } from "@ndla/icons/action";
 import { Launch } from "@ndla/icons/common";
-import { DeleteForever, Keyhole } from "@ndla/icons/editor";
+import { Keyhole } from "@ndla/icons/editor";
 import { Button } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { HStack } from "@ndla/styled-system/jsx";
@@ -174,7 +174,7 @@ const Version = ({ version }: Props) => {
               color={deleteDisabled ? undefined : "red"}
               title={deleteTooltip}
             >
-              <DeleteForever />
+              <DeleteBinLine />
             </IconButtonV2>
           </ContentBlock>
           <AlertDialog

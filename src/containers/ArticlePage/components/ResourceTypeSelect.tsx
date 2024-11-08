@@ -6,20 +6,12 @@
  *
  */
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { createListCollection } from "@ark-ui/react";
-import {
-  ComboboxContent,
-  ComboboxItem,
-  ComboboxItemText,
-  ComboboxLabel,
-  ComboboxPositioner,
-  ComboboxRoot,
-  Text,
-} from "@ndla/primitives";
-import { useComboboxTranslations } from "@ndla/ui";
-import { GenericComboboxInput, GenericComboboxItemIndicator } from "../../../components/abstractions/Combobox";
+import { SelectValueText, createListCollection } from "@ark-ui/react";
+import { SelectContent, SelectLabel, SelectPositioner, SelectRoot } from "@ndla/primitives";
+import { GenericSelectItem, GenericSelectTrigger } from "../../../components/abstractions/Select";
+import { selectedResourceTypeValue } from "../../../util/taxonomyHelpers";
 
 interface ResourceType {
   id: string;
@@ -34,12 +26,10 @@ interface ResourceTypeWithSubtypes extends ResourceType {
 interface Props {
   onChangeSelectedResource: (value?: string) => void;
   availableResourceTypes: ResourceTypeWithSubtypes[];
-  isClearable?: boolean;
+  selectedResourceTypes?: ResourceType[];
 }
-const ResourceTypeSelect = ({ availableResourceTypes, onChangeSelectedResource, isClearable = false }: Props) => {
+const ResourceTypeSelect = ({ availableResourceTypes, selectedResourceTypes, onChangeSelectedResource }: Props) => {
   const { t } = useTranslation();
-  const [query, setQuery] = useState("");
-  const comboboxTranslations = useComboboxTranslations();
 
   const options = useMemo(
     () =>
@@ -54,40 +44,42 @@ const ResourceTypeSelect = ({ availableResourceTypes, onChangeSelectedResource, 
     [availableResourceTypes],
   );
 
-  const filteredOptions = useMemo(() => {
-    return options.filter((option) => option.label.toLowerCase().includes(query.toLowerCase()));
-  }, [options, query]);
+  const value = useMemo(
+    () =>
+      selectedResourceTypes?.length
+        ? options.find((o) => o.value === selectedResourceTypeValue(selectedResourceTypes))
+        : undefined,
+    [options, selectedResourceTypes],
+  );
 
   const collection = useMemo(() => {
     return createListCollection({
-      items: filteredOptions,
+      items: options,
       itemToValue: (item) => item.value,
       itemToString: (item) => item.label,
     });
-  }, [filteredOptions]);
+  }, [options]);
 
   return (
-    <ComboboxRoot
-      inputValue={query}
-      onInputValueChange={(details) => setQuery(details.inputValue)}
+    <SelectRoot
       collection={collection}
-      translations={comboboxTranslations}
+      value={value ? [value.value] : undefined}
       onValueChange={(details) => onChangeSelectedResource(details.items[0]?.value)}
     >
-      <ComboboxLabel>{t("taxonomy.contentType")}</ComboboxLabel>
-      <GenericComboboxInput clearable={isClearable} triggerable placeholder={t("taxonomy.resourceTypes.placeholder")} />
-      <ComboboxPositioner>
-        <ComboboxContent>
-          {!filteredOptions.length && <Text>{t("form.responsible.noResults")}</Text>}
-          {filteredOptions.map((item) => (
-            <ComboboxItem item={item} key={item.value}>
-              <ComboboxItemText>{item.label}</ComboboxItemText>
-              <GenericComboboxItemIndicator />
-            </ComboboxItem>
+      <SelectLabel>{t("taxonomy.contentType")}</SelectLabel>
+      <GenericSelectTrigger>
+        <SelectValueText placeholder={t("taxonomy.resourceTypes.placeholder")} />
+      </GenericSelectTrigger>
+      <SelectPositioner>
+        <SelectContent>
+          {options.map((item) => (
+            <GenericSelectItem item={item} key={item.value}>
+              {item.label}
+            </GenericSelectItem>
           ))}
-        </ComboboxContent>
-      </ComboboxPositioner>
-    </ComboboxRoot>
+        </SelectContent>
+      </SelectPositioner>
+    </SelectRoot>
   );
 };
 

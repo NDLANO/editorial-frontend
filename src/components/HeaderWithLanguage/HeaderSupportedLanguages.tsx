@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { Check } from "@ndla/icons/editor";
+import { CheckboxCircleFill } from "@ndla/icons/editor";
 import { SafeLinkButton } from "@ndla/safelink";
 import HeaderLanguagePill from "./HeaderLanguagePill";
 
@@ -27,7 +27,7 @@ const HeaderSupportedLanguages = ({ supportedLanguages = [], id, editUrl, isSubm
       {supportedLanguages.map((supportedLanguage) =>
         language === supportedLanguage ? (
           <HeaderLanguagePill current key={`types_${supportedLanguage}`}>
-            <Check />
+            <CheckboxCircleFill />
             {t(`languages.${supportedLanguage}`)}
           </HeaderLanguagePill>
         ) : (

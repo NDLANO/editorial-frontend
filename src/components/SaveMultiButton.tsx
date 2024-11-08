@@ -8,7 +8,7 @@
 
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { Check } from "@ndla/icons/editor";
+import { CheckboxCircleFill } from "@ndla/icons/editor";
 import MultiButton from "./MultiButton";
 import { saveButtonAppearances } from "./SaveButton";
 
@@ -27,7 +27,7 @@ const Wrapper = styled("div")`
   }
 `;
 
-const StyledCheck = styled(Check)`
+const StyledCheck = styled(CheckboxCircleFill)`
   width: 1.45rem;
   height: 1.45rem;
 `;

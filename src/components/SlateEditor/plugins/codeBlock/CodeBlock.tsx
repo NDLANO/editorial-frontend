@@ -123,6 +123,23 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
     });
   };
 
+  const handleClose = useCallback(() => {
+    ReactEditor.focus(editor);
+    setEditMode(false);
+    if (element.isFirstEdit) {
+      Transforms.unwrapNodes(editor, {
+        at: ReactEditor.findPath(editor, element),
+        voids: true,
+      });
+    }
+    const path = ReactEditor.findPath(editor, element);
+    if (Editor.hasPath(editor, Path.next(path))) {
+      setTimeout(() => {
+        Transforms.select(editor, Path.next(path));
+      }, 0);
+    }
+  }, [editor, element]);
+
   const onOpenChange = useCallback(
     (open: boolean) => {
       if (open) {
@@ -130,23 +147,10 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
       } else if (shouldShowWarning) {
         setShowWarning(true);
       } else {
-        ReactEditor.focus(editor);
-        setEditMode(false);
-        if (element.isFirstEdit) {
-          Transforms.unwrapNodes(editor, {
-            at: ReactEditor.findPath(editor, element),
-            voids: true,
-          });
-        }
-        const path = ReactEditor.findPath(editor, element);
-        if (Editor.hasPath(editor, Path.next(path))) {
-          setTimeout(() => {
-            Transforms.select(editor, Path.next(path));
-          }, 0);
-        }
+        handleClose();
       }
     },
-    [editor, element, shouldShowWarning],
+    [handleClose, shouldShowWarning],
   );
 
   return (
@@ -219,7 +223,7 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
             variant="danger"
             onClick={() => {
               setShowWarning(false);
-              setEditMode(false);
+              handleClose();
             }}
           >
             {t("alertModal.continue")}

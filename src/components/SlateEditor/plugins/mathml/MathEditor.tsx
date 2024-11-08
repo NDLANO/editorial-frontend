@@ -171,61 +171,59 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
   }, [editor, element, handleRemove, isFirstEdit, mathEditor, nodeInfo.model.innerHTML, openDiscardModal]);
 
   return (
-    <>
-      <Modal open={editMode} onOpenChange={onOpenChange}>
-        <InlineDiv {...attributes} contentEditable={false}>
-          <Root open={showMenu} onOpenChange={setShowMenu}>
-            <Trigger asChild>
-              <MathWrapper role="button" tabIndex={0}>
-                <MathML
-                  model={nodeInfo.model}
-                  onDoubleClick={() => setEditMode(true)}
-                  editor={editor}
-                  element={element}
-                />
-              </MathWrapper>
-            </Trigger>
-            <StyledContent>
-              <StyledMenu>
-                <ModalTrigger>
-                  <Button variant="link">{t("form.edit")}</Button>
-                </ModalTrigger>
-                <Button variant="link" onClick={handleRemove}>
-                  {t("form.remove")}
-                </Button>
-              </StyledMenu>
-            </StyledContent>
-          </Root>
-          {children}
-        </InlineDiv>
-        <ModalContent size="large">
-          <EditMath
-            onExit={onExit}
-            onSave={handleSave}
-            onRemove={handleRemove}
-            model={nodeInfo.model}
-            mathEditor={mathEditor}
-            setMathEditor={setMathEditor}
-          />
-        </ModalContent>
-      </Modal>
-      <AlertDialog
-        title={t("unsavedChanges")}
-        label={t("unsavedChanges")}
-        show={openDiscardModal}
-        text={t("mathEditor.continue")}
-        onCancel={() => setOpenDiscardModal(false)}
-      >
-        <FormActionsContainer>
-          <Button variant="secondary" onClick={() => setOpenDiscardModal(false)}>
-            {t("form.abort")}
-          </Button>
-          <Button variant="danger" onClick={onExit}>
-            {t("alertModal.continue")}
-          </Button>
-        </FormActionsContainer>
-      </AlertDialog>
-    </>
+    <Modal open={editMode} onOpenChange={onOpenChange}>
+      <InlineDiv {...attributes} contentEditable={false}>
+        <Root open={showMenu} onOpenChange={setShowMenu}>
+          <Trigger asChild>
+            <MathWrapper role="button" tabIndex={0}>
+              <MathML
+                model={nodeInfo.model}
+                onDoubleClick={() => setEditMode(true)}
+                editor={editor}
+                element={element}
+              />
+            </MathWrapper>
+          </Trigger>
+          <StyledContent>
+            <StyledMenu>
+              <ModalTrigger>
+                <Button variant="link">{t("form.edit")}</Button>
+              </ModalTrigger>
+              <Button variant="link" onClick={handleRemove}>
+                {t("form.remove")}
+              </Button>
+            </StyledMenu>
+          </StyledContent>
+        </Root>
+        {children}
+      </InlineDiv>
+      <ModalContent size="large">
+        <EditMath
+          onExit={onExit}
+          onSave={handleSave}
+          onRemove={handleRemove}
+          model={nodeInfo.model}
+          mathEditor={mathEditor}
+          setMathEditor={setMathEditor}
+        />
+        <AlertDialog
+          title={t("unsavedChanges")}
+          label={t("unsavedChanges")}
+          show={openDiscardModal}
+          text={t("mathEditor.continue")}
+          onCancel={() => setOpenDiscardModal(false)}
+        >
+          <FormActionsContainer>
+            <Button variant="secondary" onClick={() => setOpenDiscardModal(false)}>
+              {t("form.abort")}
+            </Button>
+            <Button variant="danger" onClick={onExit}>
+              {t("alertModal.continue")}
+            </Button>
+          </FormActionsContainer>
+        </AlertDialog>
+      </ModalContent>
+    </Modal>
   );
 };
 

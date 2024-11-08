@@ -16,6 +16,7 @@ import {
   CheckboxIndicator,
   CheckboxLabel,
   CheckboxRoot,
+  DialogCloseTrigger,
   FieldErrorMessage,
   FieldHelper,
   FieldInput,
@@ -23,8 +24,16 @@ import {
   FieldRoot,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { isNDLAArticleUrl, isNDLAEdPathUrl, isNDLALearningPathUrl, isNDLATaxonomyUrl, isPlainId } from "./EditLink";
-import { Model } from "./Link";
+import { ContentLinkEmbedData } from "@ndla/types-embed";
+import { LinkData, LinkEmbedData, TYPE_CONTENT_LINK } from "./types";
+import {
+  getIdAndTypeFromUrl,
+  isNDLAArticleUrl,
+  isNDLAEdPathUrl,
+  isNDLALearningPathUrl,
+  isNDLATaxonomyUrl,
+  isPlainId,
+} from "./utils";
 import config from "../../../../config";
 import { FormField } from "../../../FormField";
 import { FormActionsContainer, FormikForm } from "../../../FormikForm";
@@ -55,18 +64,16 @@ const StyledCheckboxRoot = styled(CheckboxRoot, {
   },
 });
 
-export const getInitialValues = (link: Partial<Model> = {}): Model => ({
-  text: link.text || "",
-  href: link.href || "",
-  checkbox: link.checkbox || false,
+export const getInitialValues = (link: LinkData | undefined): LinkData => ({
+  text: link?.text ?? "",
+  href: link?.href ?? "",
+  openInNew: link?.openInNew ?? false,
 });
 
 interface Props {
-  onSave: (model: Model) => void;
-  link: Partial<Model>;
-  isEdit: boolean;
+  onSave: (data: ContentLinkEmbedData | LinkEmbedData, text: string) => void;
+  linkData: LinkData;
   onRemove: () => void;
-  onClose: () => void;
 }
 
 const getLinkType = (href: string) => {
@@ -83,18 +90,42 @@ const getLinkType = (href: string) => {
   } else return undefined;
 };
 
-const LinkForm = ({ onSave, link, isEdit, onRemove, onClose }: Props) => {
+const createContentLinkData = (id: string, resourceType: string | undefined, openIn: string): ContentLinkEmbedData => {
+  return {
+    resource: TYPE_CONTENT_LINK,
+    contentId: id,
+    contentType: resourceType || "article",
+    openIn,
+  };
+};
+
+const createLinkData = (href: string, targetRel: { target?: string; rel?: string }): LinkEmbedData => ({
+  href,
+  ...targetRel,
+});
+
+const newTabAttributes = {
+  target: "_blank",
+  rel: "noopener noreferrer",
+};
+
+const LinkForm = ({ onSave, linkData, onRemove }: Props) => {
   const { t } = useTranslation();
 
-  const handleSave = async (values: Model, actions: FormikHelpers<Model>) => {
+  const handleSave = async (values: LinkData, actions: FormikHelpers<LinkData>) => {
     actions.setSubmitting(true);
-    onSave(values);
+    const { resourceId, resourceType } = await getIdAndTypeFromUrl(values.href);
+    const targetRel = values.openInNew ? "new-context" : "current-context";
+    const data = resourceId
+      ? createContentLinkData(resourceId, resourceType, targetRel)
+      : createLinkData(values.href, values.openInNew ? newTabAttributes : {});
+    onSave(data, values.text);
     actions.setSubmitting(false);
   };
 
   return (
     <Formik
-      initialValues={getInitialValues(link)}
+      initialValues={getInitialValues(linkData)}
       onSubmit={handleSave}
       validate={(values) => validateFormik(values, linkValidationRules, t, "linkForm")}
     >
@@ -127,7 +158,7 @@ const LinkForm = ({ onSave, link, isEdit, onRemove, onClose }: Props) => {
             </FieldRoot>
           )}
         </FormField>
-        <FormField name="checkbox">
+        <FormField name="openInNew">
           {({ field, meta, helpers }) => (
             <FieldRoot invalid={!!meta.error}>
               <StyledCheckboxRoot
@@ -146,17 +177,19 @@ const LinkForm = ({ onSave, link, isEdit, onRemove, onClose }: Props) => {
           )}
         </FormField>
         <FormActionsContainer>
-          {isEdit ? (
+          {linkData.href.length ? (
             <Button variant="danger" onClick={onRemove}>
               {t("form.content.link.remove")}
             </Button>
           ) : (
             ""
           )}
-          <Button variant="secondary" onClick={onClose}>
-            {t("form.abort")}
+          <DialogCloseTrigger asChild>
+            <Button variant="secondary">{t("form.abort")}</Button>
+          </DialogCloseTrigger>
+          <Button type="submit">
+            {linkData.href.length ? t("form.content.link.update") : t("form.content.link.insert")}
           </Button>
-          <Button type="submit">{isEdit ? t("form.content.link.update") : t("form.content.link.insert")}</Button>
         </FormActionsContainer>
       </FormikForm>
     </Formik>

@@ -1642,6 +1642,7 @@ const phrases = {
     confirm: "Bekreft",
     disconnect: "Koble fra",
     loginAgain: "Logg inn på nytt",
+    watchOut: "Pass på!",
   },
   environment: { production: "", staging: "staging", test: "test" },
   taxonomy: {

@@ -1643,6 +1643,7 @@ const phrases = {
     confirm: "Bekreft",
     disconnect: "Kople frå",
     loginAgain: "Logg inn på nytt",
+    watchOut: "Pass på!",
   },
   environment: { production: "", staging: "staging", test: "test" },
   taxonomy: {

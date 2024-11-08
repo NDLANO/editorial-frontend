@@ -40,7 +40,7 @@ exports[`Messages > A message is removed if the modal is closed 1`] = `
       aria-describedby="dialog::r3::description"
       aria-label="Pass på!"
       aria-modal="true"
-      class="--margin_token(sizes.medium) pos_relative bg_surface.default bx-sh_xlarge h_min-content max-w_95% max-h_95% m_auto ov-y_auto bdr_xsmall pbs_env(safe-area-inset-top) pbe_env(safe-area-inset-bottom) ps_env(safe-area-inset-left) pe_env(safe-area-inset-right) tabletDown:--margin_0px tabletDown:min-w_100% tabletDown:min-h_100% --size_sizes.surface.xlarge w_var(--size) open:anim_dialog-in open:motionReduce:anim_none closed:anim_dialog-out closed:motionReduce:anim_none"
+      class="--margin_token(sizes.medium) pos_relative bg_surface.default bx-sh_xlarge h_min-content max-w_95% max-h_95% m_auto ov-y_auto bdr_sharp tablet:bdr_small pbs_env(safe-area-inset-top) pbe_env(safe-area-inset-bottom) ps_env(safe-area-inset-left) pe_env(safe-area-inset-right) tabletDown:--margin_0px tabletDown:min-w_100% tabletDown:min-h_100% --size_sizes.surface.xlarge w_var(--size) open:anim_dialog-in open:motionReduce:anim_none closed:anim_dialog-out closed:motionReduce:anim_none"
       data-part="content"
       data-scope="dialog"
       data-state="open"
@@ -93,31 +93,27 @@ exports[`Messages > A message is removed if the modal is closed 1`] = `
         class="d_flex flex-d_column gap_xsmall px_medium pbs_small pbe_medium"
       >
         <div
-          class="d_flex ai_flex-start gap_small p_medium bd_1px_solid bdr_xsmall bg_surface.errorSubtle bd-c_stroke.error flex-d_column"
+          class="d_flex ai_flex-start gap_small p_medium bd_1px_solid bdr_xsmall bg_surface.errorSubtle bd-c_stroke.error"
         >
-          <div
-            class="d_flex ai_center gap_medium flex-d_row"
+          <svg
+            aria-hidden="true"
+            class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
+            data-icon=""
+            data-license="Apache License 2.0"
+            data-source="RemixIcon"
+            fill="currentColor"
+            preserveAspectRatio="xMidYMid meet"
+            viewBox="0 0 24 24"
           >
-            <svg
-              aria-hidden="true"
-              class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
-              data-icon=""
-              data-license="Apache License 2.0"
-              data-source="RemixIcon"
-              fill="currentColor"
-              preserveAspectRatio="xMidYMid meet"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20m0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16m-1-5h2v2h-2zm0-8h2v6h-2z"
-              />
-            </svg>
-            <p
-              class="textStyle_body.medium"
-            >
-              Testmessage
-            </p>
-          </div>
+            <path
+              d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20m0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16m-1-5h2v2h-2zm0-8h2v6h-2z"
+            />
+          </svg>
+          <p
+            class="textStyle_body.medium"
+          >
+            Testmessage
+          </p>
         </div>
       </div>
       <div
@@ -190,7 +186,7 @@ exports[`Messages > A single message renders correctly 1`] = `
       aria-describedby="dialog::r0::description"
       aria-label="Pass på!"
       aria-modal="true"
-      class="--margin_token(sizes.medium) pos_relative bg_surface.default bx-sh_xlarge h_min-content max-w_95% max-h_95% m_auto ov-y_auto bdr_xsmall pbs_env(safe-area-inset-top) pbe_env(safe-area-inset-bottom) ps_env(safe-area-inset-left) pe_env(safe-area-inset-right) tabletDown:--margin_0px tabletDown:min-w_100% tabletDown:min-h_100% --size_sizes.surface.xlarge w_var(--size) open:anim_dialog-in open:motionReduce:anim_none closed:anim_dialog-out closed:motionReduce:anim_none"
+      class="--margin_token(sizes.medium) pos_relative bg_surface.default bx-sh_xlarge h_min-content max-w_95% max-h_95% m_auto ov-y_auto bdr_sharp tablet:bdr_small pbs_env(safe-area-inset-top) pbe_env(safe-area-inset-bottom) ps_env(safe-area-inset-left) pe_env(safe-area-inset-right) tabletDown:--margin_0px tabletDown:min-w_100% tabletDown:min-h_100% --size_sizes.surface.xlarge w_var(--size) open:anim_dialog-in open:motionReduce:anim_none closed:anim_dialog-out closed:motionReduce:anim_none"
       data-part="content"
       data-scope="dialog"
       data-state="open"
@@ -243,31 +239,27 @@ exports[`Messages > A single message renders correctly 1`] = `
         class="d_flex flex-d_column gap_xsmall px_medium pbs_small pbe_medium"
       >
         <div
-          class="d_flex ai_flex-start gap_small p_medium bd_1px_solid bdr_xsmall bg_surface.errorSubtle bd-c_stroke.error flex-d_column"
+          class="d_flex ai_flex-start gap_small p_medium bd_1px_solid bdr_xsmall bg_surface.errorSubtle bd-c_stroke.error"
         >
-          <div
-            class="d_flex ai_center gap_medium flex-d_row"
+          <svg
+            aria-hidden="true"
+            class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
+            data-icon=""
+            data-license="Apache License 2.0"
+            data-source="RemixIcon"
+            fill="currentColor"
+            preserveAspectRatio="xMidYMid meet"
+            viewBox="0 0 24 24"
           >
-            <svg
-              aria-hidden="true"
-              class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
-              data-icon=""
-              data-license="Apache License 2.0"
-              data-source="RemixIcon"
-              fill="currentColor"
-              preserveAspectRatio="xMidYMid meet"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20m0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16m-1-5h2v2h-2zm0-8h2v6h-2z"
-              />
-            </svg>
-            <p
-              class="textStyle_body.medium"
-            >
-              Testmessage
-            </p>
-          </div>
+            <path
+              d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20m0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16m-1-5h2v2h-2zm0-8h2v6h-2z"
+            />
+          </svg>
+          <p
+            class="textStyle_body.medium"
+          >
+            Testmessage
+          </p>
         </div>
       </div>
       <div
@@ -318,7 +310,7 @@ exports[`Messages > Several messages renders correctly 1`] = `
       aria-describedby="dialog::r1::description"
       aria-label="Pass på!"
       aria-modal="true"
-      class="--margin_token(sizes.medium) pos_relative bg_surface.default bx-sh_xlarge h_min-content max-w_95% max-h_95% m_auto ov-y_auto bdr_xsmall pbs_env(safe-area-inset-top) pbe_env(safe-area-inset-bottom) ps_env(safe-area-inset-left) pe_env(safe-area-inset-right) tabletDown:--margin_0px tabletDown:min-w_100% tabletDown:min-h_100% --size_sizes.surface.xlarge w_var(--size) open:anim_dialog-in open:motionReduce:anim_none closed:anim_dialog-out closed:motionReduce:anim_none"
+      class="--margin_token(sizes.medium) pos_relative bg_surface.default bx-sh_xlarge h_min-content max-w_95% max-h_95% m_auto ov-y_auto bdr_sharp tablet:bdr_small pbs_env(safe-area-inset-top) pbe_env(safe-area-inset-bottom) ps_env(safe-area-inset-left) pe_env(safe-area-inset-right) tabletDown:--margin_0px tabletDown:min-w_100% tabletDown:min-h_100% --size_sizes.surface.xlarge w_var(--size) open:anim_dialog-in open:motionReduce:anim_none closed:anim_dialog-out closed:motionReduce:anim_none"
       data-part="content"
       data-scope="dialog"
       data-state="open"
@@ -371,31 +363,27 @@ exports[`Messages > Several messages renders correctly 1`] = `
         class="d_flex flex-d_column gap_xsmall px_medium pbs_small pbe_medium"
       >
         <div
-          class="d_flex ai_flex-start gap_small p_medium bd_1px_solid bdr_xsmall bg_surface.errorSubtle bd-c_stroke.error flex-d_column"
+          class="d_flex ai_flex-start gap_small p_medium bd_1px_solid bdr_xsmall bg_surface.errorSubtle bd-c_stroke.error"
         >
-          <div
-            class="d_flex ai_center gap_medium flex-d_row"
+          <svg
+            aria-hidden="true"
+            class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
+            data-icon=""
+            data-license="Apache License 2.0"
+            data-source="RemixIcon"
+            fill="currentColor"
+            preserveAspectRatio="xMidYMid meet"
+            viewBox="0 0 24 24"
           >
-            <svg
-              aria-hidden="true"
-              class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
-              data-icon=""
-              data-license="Apache License 2.0"
-              data-source="RemixIcon"
-              fill="currentColor"
-              preserveAspectRatio="xMidYMid meet"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20m0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16m-1-5h2v2h-2zm0-8h2v6h-2z"
-              />
-            </svg>
-            <p
-              class="textStyle_body.medium"
-            >
-              Testmessage
-            </p>
-          </div>
+            <path
+              d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20m0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16m-1-5h2v2h-2zm0-8h2v6h-2z"
+            />
+          </svg>
+          <p
+            class="textStyle_body.medium"
+          >
+            Testmessage
+          </p>
         </div>
       </div>
       <div
@@ -422,7 +410,7 @@ exports[`Messages > Several messages renders correctly 1`] = `
       aria-describedby="dialog::r2::description"
       aria-label="Pass på!"
       aria-modal="true"
-      class="--margin_token(sizes.medium) pos_relative bg_surface.default bx-sh_xlarge h_min-content max-w_95% max-h_95% m_auto ov-y_auto bdr_xsmall pbs_env(safe-area-inset-top) pbe_env(safe-area-inset-bottom) ps_env(safe-area-inset-left) pe_env(safe-area-inset-right) tabletDown:--margin_0px tabletDown:min-w_100% tabletDown:min-h_100% --size_sizes.surface.xlarge w_var(--size) open:anim_dialog-in open:motionReduce:anim_none closed:anim_dialog-out closed:motionReduce:anim_none"
+      class="--margin_token(sizes.medium) pos_relative bg_surface.default bx-sh_xlarge h_min-content max-w_95% max-h_95% m_auto ov-y_auto bdr_sharp tablet:bdr_small pbs_env(safe-area-inset-top) pbe_env(safe-area-inset-bottom) ps_env(safe-area-inset-left) pe_env(safe-area-inset-right) tabletDown:--margin_0px tabletDown:min-w_100% tabletDown:min-h_100% --size_sizes.surface.xlarge w_var(--size) open:anim_dialog-in open:motionReduce:anim_none closed:anim_dialog-out closed:motionReduce:anim_none"
       data-part="content"
       data-scope="dialog"
       data-state="open"
@@ -475,31 +463,27 @@ exports[`Messages > Several messages renders correctly 1`] = `
         class="d_flex flex-d_column gap_xsmall px_medium pbs_small pbe_medium"
       >
         <div
-          class="d_flex ai_flex-start gap_small p_medium bd_1px_solid bdr_xsmall bg_surface.errorSubtle bd-c_stroke.error flex-d_column"
+          class="d_flex ai_flex-start gap_small p_medium bd_1px_solid bdr_xsmall bg_surface.errorSubtle bd-c_stroke.error"
         >
-          <div
-            class="d_flex ai_center gap_medium flex-d_row"
+          <svg
+            aria-hidden="true"
+            class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
+            data-icon=""
+            data-license="Apache License 2.0"
+            data-source="RemixIcon"
+            fill="currentColor"
+            preserveAspectRatio="xMidYMid meet"
+            viewBox="0 0 24 24"
           >
-            <svg
-              aria-hidden="true"
-              class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
-              data-icon=""
-              data-license="Apache License 2.0"
-              data-source="RemixIcon"
-              fill="currentColor"
-              preserveAspectRatio="xMidYMid meet"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20m0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16m-1-5h2v2h-2zm0-8h2v6h-2z"
-              />
-            </svg>
-            <p
-              class="textStyle_body.medium"
-            >
-              Testmessage2
-            </p>
-          </div>
+            <path
+              d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20m0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16m-1-5h2v2h-2zm0-8h2v6h-2z"
+            />
+          </svg>
+          <p
+            class="textStyle_body.medium"
+          >
+            Testmessage2
+          </p>
         </div>
       </div>
       <div
@@ -550,7 +534,7 @@ exports[`Messages > auth0 messages provides a cancel button 1`] = `
       aria-describedby="dialog::r4::description"
       aria-label="Pass på!"
       aria-modal="true"
-      class="--margin_token(sizes.medium) pos_relative bg_surface.default bx-sh_xlarge h_min-content max-w_95% max-h_95% m_auto ov-y_auto bdr_xsmall pbs_env(safe-area-inset-top) pbe_env(safe-area-inset-bottom) ps_env(safe-area-inset-left) pe_env(safe-area-inset-right) tabletDown:--margin_0px tabletDown:min-w_100% tabletDown:min-h_100% --size_sizes.surface.xlarge w_var(--size) open:anim_dialog-in open:motionReduce:anim_none closed:anim_dialog-out closed:motionReduce:anim_none"
+      class="--margin_token(sizes.medium) pos_relative bg_surface.default bx-sh_xlarge h_min-content max-w_95% max-h_95% m_auto ov-y_auto bdr_sharp tablet:bdr_small pbs_env(safe-area-inset-top) pbe_env(safe-area-inset-bottom) ps_env(safe-area-inset-left) pe_env(safe-area-inset-right) tabletDown:--margin_0px tabletDown:min-w_100% tabletDown:min-h_100% --size_sizes.surface.xlarge w_var(--size) open:anim_dialog-in open:motionReduce:anim_none closed:anim_dialog-out closed:motionReduce:anim_none"
       data-part="content"
       data-scope="dialog"
       data-state="open"
@@ -603,31 +587,27 @@ exports[`Messages > auth0 messages provides a cancel button 1`] = `
         class="d_flex flex-d_column gap_xsmall px_medium pbs_small pbe_medium"
       >
         <div
-          class="d_flex ai_flex-start gap_small p_medium bd_1px_solid bdr_xsmall bg_surface.errorSubtle bd-c_stroke.error flex-d_column"
+          class="d_flex ai_flex-start gap_small p_medium bd_1px_solid bdr_xsmall bg_surface.errorSubtle bd-c_stroke.error"
         >
-          <div
-            class="d_flex ai_center gap_medium flex-d_row"
+          <svg
+            aria-hidden="true"
+            class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
+            data-icon=""
+            data-license="Apache License 2.0"
+            data-source="RemixIcon"
+            fill="currentColor"
+            preserveAspectRatio="xMidYMid meet"
+            viewBox="0 0 24 24"
           >
-            <svg
-              aria-hidden="true"
-              class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
-              data-icon=""
-              data-license="Apache License 2.0"
-              data-source="RemixIcon"
-              fill="currentColor"
-              preserveAspectRatio="xMidYMid meet"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20m0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16m-1-5h2v2h-2zm0-8h2v6h-2z"
-              />
-            </svg>
-            <p
-              class="textStyle_body.medium"
-            >
-              Testmessage
-            </p>
-          </div>
+            <path
+              d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20m0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16m-1-5h2v2h-2zm0-8h2v6h-2z"
+            />
+          </svg>
+          <p
+            class="textStyle_body.medium"
+          >
+            Testmessage
+          </p>
         </div>
       </div>
       <div

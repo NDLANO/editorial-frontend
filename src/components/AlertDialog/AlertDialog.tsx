@@ -7,6 +7,7 @@
  */
 
 import { ReactNode, useCallback, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { Portal } from "@ark-ui/react";
 import { ErrorWarningLine } from "@ndla/icons/common";
 import {
@@ -19,32 +20,9 @@ import {
   DialogHeader,
   DialogFooter,
 } from "@ndla/primitives";
-import { HStack, styled } from "@ndla/styled-system/jsx";
+import { styled } from "@ndla/styled-system/jsx";
 import { MessageSeverity } from "../../interfaces";
 import { DialogCloseButton } from "../DialogCloseButton";
-
-const StyledMessageBox = styled(MessageBox, {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-  },
-});
-
-const StyledDialogContent = styled(DialogContent, {
-  base: {
-    borderRadius: "xsmall",
-  },
-});
-
-const StyledDialogHeader = styled(DialogHeader, {
-  variants: {
-    noTitle: {
-      true: {
-        justifyContent: "flex-end",
-      },
-    },
-  },
-});
 
 interface Props {
   children: ReactNode;
@@ -59,6 +37,7 @@ interface Props {
 
 export const AlertDialog = ({ children, text, onCancel, title, show, label, severity = "danger" }: Props) => {
   const focusedElementBeforeModalRef = useRef<HTMLElement | null>(null);
+  const { t } = useTranslation();
 
   const onOpenChange = useCallback(
     (open: boolean) => {
@@ -83,21 +62,19 @@ export const AlertDialog = ({ children, text, onCancel, title, show, label, seve
       }}
     >
       <Portal>
-        <StyledDialogContent data-testid="alert-dialog">
-          <StyledDialogHeader noTitle={!title}>
-            {title && <DialogTitle>{title}</DialogTitle>}
+        <DialogContent data-testid="alert-dialog">
+          <DialogHeader>
+            <DialogTitle>{title ?? t("alertDialog.watchOut")}</DialogTitle>
             <DialogCloseButton variant="clear" data-testid="closeAlert" />
-          </StyledDialogHeader>
+          </DialogHeader>
           <DialogBody>
-            <StyledMessageBox variant={severity === "danger" ? "error" : severity}>
-              <HStack gap="medium">
-                <ErrorWarningLine />
-                <Text>{text}</Text>
-              </HStack>
-            </StyledMessageBox>
+            <MessageBox variant={severity === "danger" ? "error" : severity}>
+              <ErrorWarningLine />
+              <Text>{text}</Text>
+            </MessageBox>
           </DialogBody>
           <DialogFooter>{children}</DialogFooter>
-        </StyledDialogContent>
+        </DialogContent>
       </Portal>
     </DialogRoot>
   );

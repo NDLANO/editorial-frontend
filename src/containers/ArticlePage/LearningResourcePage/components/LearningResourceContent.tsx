@@ -11,15 +11,17 @@ import { useState, useMemo, useCallback, memo, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
 import styled from "@emotion/styled";
+import { Button } from "@ndla/primitives";
 import { IAuthor } from "@ndla/types-backend/draft-api";
 import LearningResourceFootnotes, { FootnoteType } from "./LearningResourceFootnotes";
 import { learningResourcePlugins } from "./learningResourcePlugins";
 import { learningResourceRenderers } from "./learningResourceRenderers";
-import AlertModal from "../../../../components/AlertModal";
+import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
 import { EditMarkupLink } from "../../../../components/EditMarkupLink";
 import FieldHeader from "../../../../components/Field/FieldHeader";
 import { FormField } from "../../../../components/FormField";
 import FormikField from "../../../../components/FormikField";
+import { FormActionsContainer } from "../../../../components/FormikForm";
 import LastUpdatedLine from "../../../../components/LastUpdatedLine/LastUpdatedLine";
 import { TYPE_AUDIO } from "../../../../components/SlateEditor/plugins/audio/types";
 import { learningResourceActions } from "../../../../components/SlateEditor/plugins/blockPicker/actions";
@@ -125,20 +127,20 @@ const LearningResourceContent = ({ articleLanguage, articleId, handleSubmit: _ha
         )}
       </FormField>
       <IngressField />
-      <AlertModal
+      <AlertDialog
         title={t("editorFooter.changeHeader")}
         label={t("editorFooter.changeHeader")}
         show={isNormalizedOnLoad && !isCreatePage}
         text={t("form.content.normalizedOnLoad")}
-        actions={[
-          {
-            text: t("alertModal.continue"),
-            onClick: () => setIsNormalizedOnLoad(false),
-          },
-        ]}
         onCancel={() => setIsNormalizedOnLoad(false)}
         severity="warning"
-      />
+      >
+        <FormActionsContainer>
+          <Button variant="danger" onClick={() => setIsNormalizedOnLoad(false)}>
+            {t("alertModal.continue")}
+          </Button>
+        </FormActionsContainer>
+      </AlertDialog>
       <StyledContentDiv name="content" label={t("form.content.label")} noBorder key={values.revision}>
         {(fieldProps) => <ContentField articleLanguage={articleLanguage} articleId={articleId} {...fieldProps} />}
       </StyledContentDiv>

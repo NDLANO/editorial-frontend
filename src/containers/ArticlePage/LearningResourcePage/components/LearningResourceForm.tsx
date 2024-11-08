@@ -10,10 +10,12 @@ import { Formik, useFormikContext } from "formik";
 import { memo, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { UseQueryResult } from "@tanstack/react-query";
+import { Button } from "@ndla/primitives";
 import { IArticle, IUpdatedArticle, IStatus } from "@ndla/types-backend/draft-api";
 import { Node } from "@ndla/types-taxonomy";
 import LearningResourcePanels from "./LearningResourcePanels";
-import AlertModal from "../../../../components/AlertModal";
+import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
+import { FormActionsContainer } from "../../../../components/FormikForm";
 import validateFormik, { getWarnings } from "../../../../components/formikValidationSchema";
 import HeaderWithLanguage from "../../../../components/HeaderWithLanguage";
 import EditorFooter from "../../../../components/SlateEditor/EditorFooter";
@@ -22,7 +24,7 @@ import { ARCHIVED, UNPUBLISHED } from "../../../../constants";
 import { validateDraft } from "../../../../modules/draft/draftApi";
 import { useLicenses, useDraftStatusStateMachine } from "../../../../modules/draft/draftQueries";
 import { isFormikFormDirty, learningResourceRules } from "../../../../util/formHelper";
-import { AlertModalWrapper } from "../../../FormikForm";
+import { AlertDialogWrapper } from "../../../FormikForm";
 import { HandleSubmitFunc, LearningResourceFormType, useArticleFormHooks } from "../../../FormikForm/articleFormHooks";
 import usePreventWindowUnload from "../../../FormikForm/preventWindowUnloadHook";
 import { useSession } from "../../../Session/SessionProvider";
@@ -153,14 +155,20 @@ const LearningResourceForm = ({
           handleSubmit={handleSubmit}
           article={article}
         />
-        <AlertModal
+        <AlertDialog
+          text={t("errorMessage.missingTax")}
           title={t("errorMessage.missingTaxTitle")}
           label={t("errorMessage.missingTaxTitle")}
           show={showTaxWarning}
-          text={t("errorMessage.missingTax")}
           onCancel={() => setShowTaxWarning(false)}
           severity={"danger"}
-        />
+        >
+          <FormActionsContainer>
+            <Button variant="secondary" onClick={() => setShowTaxWarning(false)}>
+              {t("alertModal.continue")}
+            </Button>
+          </FormActionsContainer>
+        </AlertDialog>
       </StyledForm>
     </Formik>
   );
@@ -228,7 +236,7 @@ const _FormFooter = ({ articleChanged, article, isNewlyCreated, savedToServer, h
         selectedLanguage={article?.content?.language}
         supportedLanguages={article?.supportedLanguages}
       />
-      <AlertModalWrapper
+      <AlertDialogWrapper
         isSubmitting={isSubmitting}
         formIsDirty={formIsDirty}
         severity="danger"

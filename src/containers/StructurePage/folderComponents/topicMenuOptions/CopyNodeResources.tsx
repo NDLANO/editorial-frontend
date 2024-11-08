@@ -14,7 +14,7 @@ import { spacing, colors } from "@ndla/core";
 import { Copy } from "@ndla/icons/action";
 import { Done } from "@ndla/icons/editor";
 import { Node, NodeChild } from "@ndla/types-taxonomy";
-import AlertModal from "../../../../components/AlertModal";
+import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
 import { OldSpinner } from "../../../../components/OldSpinner";
 import RoundIcon from "../../../../components/RoundIcon";
 import { EditMode } from "../../../../interfaces";
@@ -213,13 +213,14 @@ const CopyNodeResources = ({ editModeHandler: { editMode, toggleEditMode }, curr
           {`${prefixText} (${count}/${totalAmount})`}
         </StyledDiv>
       )}
-      <AlertModal
+      <AlertDialog
         title={t("errorMessage.description")}
         label={t("errorMessage.description")}
         show={showAlert}
         onCancel={() => setShowAlert(false)}
         text={t(`taxonomy.${type}.error`)}
-        component={failedResources.map((res, index) => (
+      >
+        {failedResources.map((res, index) => (
           <LinkWrapper key={index}>
             <ResourceItemLink
               contentType={res.contentUri?.split(":")[1] === "article" ? "article" : "learning-resource"}
@@ -228,7 +229,7 @@ const CopyNodeResources = ({ editModeHandler: { editMode, toggleEditMode }, curr
             />
           </LinkWrapper>
         ))}
-      />
+      </AlertDialog>
     </>
   );
 };

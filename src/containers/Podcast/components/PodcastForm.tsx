@@ -39,7 +39,7 @@ import AudioContent from "../../AudioUploader/components/AudioContent";
 import AudioCopyright from "../../AudioUploader/components/AudioCopyright";
 import AudioManuscript from "../../AudioUploader/components/AudioManuscript";
 import AudioMetaData from "../../AudioUploader/components/AudioMetaData";
-import { AlertModalWrapper } from "../../FormikForm";
+import { AlertDialogWrapper } from "../../FormikForm";
 
 const podcastRules: RulesType<PodcastFormValues, IAudioMetaInformation> = {
   title: {
@@ -306,7 +306,7 @@ const PodcastForm = ({
                 }}
               />
             </Field>
-            <AlertModalWrapper
+            <AlertDialogWrapper
               {...formikProps}
               formIsDirty={formIsDirty}
               severity="danger"

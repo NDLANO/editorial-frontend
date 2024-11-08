@@ -11,15 +11,16 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { Link } from "@ndla/icons/editor";
-import { IconButton } from "@ndla/primitives";
+import { Button, IconButton } from "@ndla/primitives";
 import { frontpagePlugins } from "./frontpagePlugins";
 import { frontpageRenderers } from "./frontpageRenderers";
-import AlertModal from "../../../../components/AlertModal";
+import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
 import { ContentTypeProvider } from "../../../../components/ContentTypeProvider";
 import { EditMarkupLink } from "../../../../components/EditMarkupLink";
 import FieldHeader from "../../../../components/Field/FieldHeader";
 import { FormField } from "../../../../components/FormField";
 import FormikField from "../../../../components/FormikField";
+import { FormActionsContainer } from "../../../../components/FormikForm";
 import LastUpdatedLine from "../../../../components/LastUpdatedLine/LastUpdatedLine";
 import { TYPE_AUDIO } from "../../../../components/SlateEditor/plugins/audio/types";
 import { frontpageActions } from "../../../../components/SlateEditor/plugins/blockPicker/actions";
@@ -143,20 +144,20 @@ const FrontpageArticleFormContent = ({ articleLanguage }: Props) => {
         )}
       </StyledDiv>
       <IngressField />
-      <AlertModal
+      <AlertDialog
         title={t("editorFooter.changeHeader")}
         label={t("editorFooter.changeHeader")}
         show={isNormalizedOnLoad && !isCreatePage}
         text={t("form.content.normalizedOnLoad")}
-        actions={[
-          {
-            text: t("alertModal.continue"),
-            onClick: () => setIsNormalizedOnLoad(false),
-          },
-        ]}
         onCancel={() => setIsNormalizedOnLoad(false)}
         severity="warning"
-      />
+      >
+        <FormActionsContainer>
+          <Button variant="secondary" onClick={() => setIsNormalizedOnLoad(false)}>
+            {t("alertModal.continue")}
+          </Button>
+        </FormActionsContainer>
+      </AlertDialog>
       <StyledContentDiv name="content" label={t("form.content.label")} noBorder>
         {({ field: { value, name, onChange }, form: { isSubmitting } }) => (
           <ContentTypeProvider value="subject-material">

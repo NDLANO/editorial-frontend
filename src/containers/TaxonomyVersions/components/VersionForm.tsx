@@ -13,15 +13,16 @@ import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
+import { Button } from "@ndla/primitives";
 import { Version } from "@ndla/types-taxonomy";
 import { StyledErrorMessage } from "./StyledErrorMessage";
 import VersionLockedField from "./VersionLockedField";
 import VersionNameField from "./VersionNameField";
 import VersionSourceField from "./VersionSourceField";
 import { Row } from "../../../components";
-import AlertModal from "../../../components/AlertModal";
+import { AlertDialog } from "../../../components/AlertDialog/AlertDialog";
 import Field from "../../../components/Field";
-import { FormikForm } from "../../../components/FormikForm";
+import { FormActionsContainer, FormikForm } from "../../../components/FormikForm";
 import validateFormik, { RulesType } from "../../../components/formikValidationSchema";
 import SaveButton from "../../../components/SaveButton";
 import Fade from "../../../components/Taxonomy/Fade";
@@ -182,26 +183,28 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
                   />
                 </ButtonContainer>
               </Row>
-              <AlertModal
+              <AlertDialog
                 title={t("taxonomyVersions.publishTitle")}
                 label={t("taxonomyVersions.publishTitle")}
                 show={showAlertModal}
                 text={t("taxonomyVersions.publishWarning")}
-                actions={[
-                  {
-                    text: t("form.abort"),
-                    onClick: () => setShowAlertModal(false),
-                  },
-                  {
-                    text: t("alertModal.continue"),
-                    onClick: () => {
+                onCancel={() => setShowAlertModal(false)}
+              >
+                <FormActionsContainer>
+                  <Button onClick={() => setShowAlertModal(false)} variant="danger">
+                    {t("form.abort")}
+                  </Button>
+                  <Button
+                    onClick={() => {
                       setShowAlertModal(false);
                       onPublish();
-                    },
-                  },
-                ]}
-                onCancel={() => setShowAlertModal(false)}
-              />
+                    }}
+                    variant="secondary"
+                  >
+                    {t("alertModal.delete")}
+                  </Button>
+                </FormActionsContainer>
+              </AlertDialog>
             </FormikForm>
           );
         }}

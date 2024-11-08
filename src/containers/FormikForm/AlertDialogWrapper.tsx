@@ -10,7 +10,9 @@ import { History, Blocker, Transition } from "history";
 import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { UNSAFE_NavigationContext, useNavigate, Location } from "react-router-dom";
-import AlertModal from "../../components/AlertModal";
+import { Button } from "@ndla/primitives";
+import { AlertDialog } from "../../components/AlertDialog/AlertDialog";
+import { FormActionsContainer } from "../../components/FormikForm";
 import { supportedLanguages } from "../../i18n2";
 import { MessageSeverity } from "../../interfaces";
 
@@ -46,7 +48,7 @@ const useBlocker = (blocker: Blocker, when = true): void => {
   }, [navigator, blocker, when]);
 };
 
-const AlertModalWrapper = ({ text, severity, isSubmitting, formIsDirty, onContinue }: Props) => {
+export const AlertDialogWrapper = ({ text, severity, isSubmitting, formIsDirty, onContinue }: Props) => {
   const [openModal, setOpenModal] = useState(false);
   const [discardChanges, setDiscardChanges] = useState(false);
   const [nextLocation, setNextLocation] = useState<Location | undefined>(undefined);
@@ -84,25 +86,22 @@ const AlertModalWrapper = ({ text, severity, isSubmitting, formIsDirty, onContin
   };
 
   return (
-    <AlertModal
+    <AlertDialog
       title={t("unsavedChanges")}
       label={t("unsavedChanges")}
       show={openModal}
-      text={text}
-      actions={[
-        {
-          text: t("form.abort"),
-          onClick: onCancel,
-        },
-        {
-          text: t("alertModal.continue"),
-          onClick: onWillContinue,
-        },
-      ]}
       onCancel={onCancel}
+      text={text}
       severity={severity}
-    />
+    >
+      <FormActionsContainer>
+        <Button onClick={onCancel} variant="secondary">
+          {t("form.abort")}
+        </Button>
+        <Button onClick={onWillContinue} variant="danger">
+          {t("alertModal.continue")}
+        </Button>
+      </FormActionsContainer>
+    </AlertDialog>
   );
 };
-
-export default AlertModalWrapper;

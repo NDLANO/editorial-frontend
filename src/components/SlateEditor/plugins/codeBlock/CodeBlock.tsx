@@ -41,6 +41,7 @@ import { Portal } from "@ark-ui/react";
 import { DeleteBinLine, PencilFill } from "@ndla/icons/action";
 import { Code } from "@ndla/icons/editor";
 import {
+  Button,
   DialogBody,
   DialogContent,
   DialogHeader,
@@ -56,8 +57,9 @@ import { CodeBlock as UICodeBlock } from "@ndla/ui";
 import { CodeblockElement } from ".";
 import CodeBlockEditor from "./CodeBlockEditor";
 import { CodeBlockType } from "../../../../interfaces";
-import AlertModal from "../../../AlertModal";
+import { AlertDialog } from "../../../AlertDialog/AlertDialog";
 import { DialogCloseButton } from "../../../DialogCloseButton";
+import { FormActionsContainer } from "../../../FormikForm";
 
 interface Props extends RenderElementProps {
   element: CodeblockElement;
@@ -148,80 +150,83 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
   );
 
   return (
-    <DialogRoot open={editMode} onOpenChange={(details) => onOpenChange(details.open)} size="large">
-      <Figure aria-label={t("codeEditor.subtitle")} contentEditable={false} {...attributes}>
-        <HStack justify="space-between">
-          {embedData.title && <h3>{embedData.title}</h3>}
-          <HStack gap="4xsmall">
-            <DialogTrigger asChild>
+    <>
+      <DialogRoot open={editMode} onOpenChange={(details) => onOpenChange(details.open)} size="large">
+        <Figure aria-label={t("codeEditor.subtitle")} contentEditable={false} {...attributes}>
+          <HStack justify="space-between">
+            {embedData.title && <h3>{embedData.title}</h3>}
+            <HStack gap="4xsmall">
+              <DialogTrigger asChild>
+                <IconButton
+                  size="small"
+                  variant="secondary"
+                  title={t("codeEditor.edit")}
+                  aria-label={t("codeEditor.edit")}
+                >
+                  <PencilFill />
+                </IconButton>
+              </DialogTrigger>
               <IconButton
+                variant="danger"
                 size="small"
-                variant="secondary"
-                title={t("codeEditor.edit")}
-                aria-label={t("codeEditor.edit")}
+                aria-label={t("codeEditor.remove")}
+                data-testid="remove-code"
+                onClick={handleRemove}
               >
-                <PencilFill />
+                <DeleteBinLine />
               </IconButton>
-            </DialogTrigger>
-            <IconButton
-              variant="danger"
-              size="small"
-              aria-label={t("codeEditor.remove")}
-              data-testid="remove-code"
-              onClick={handleRemove}
-            >
-              <DeleteBinLine />
-            </IconButton>
+            </HStack>
           </HStack>
-        </HStack>
-        <UICodeBlock format={embedData.codeFormat} highlightedCode={highlightedCode} />
-        {children}
-      </Figure>
-      <Portal>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>
-              {t("codeEditor.title")} <Code />
-            </DialogTitle>
-            <DialogCloseButton />
-          </DialogHeader>
-          <DialogBody>
-            <CodeBlockEditor
-              content={{
-                code: embedData.codeContent,
-                format: embedData.codeFormat,
-                title: embedData.title || "",
-              }}
-              onSave={handleSave}
-              highlight={highlightCode}
-              onAbort={() => onOpenChange(false)}
-              setShowWarning={setShouldShowWarning}
-            />
-          </DialogBody>
-        </DialogContent>
-      </Portal>
-
-      <AlertModal
+          <UICodeBlock format={embedData.codeFormat} highlightedCode={highlightedCode} />
+          {children}
+        </Figure>
+        <Portal>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>
+                {t("codeEditor.title")} <Code />
+              </DialogTitle>
+              <DialogCloseButton />
+            </DialogHeader>
+            <DialogBody>
+              <CodeBlockEditor
+                content={{
+                  code: embedData.codeContent,
+                  format: embedData.codeFormat,
+                  title: embedData.title || "",
+                }}
+                onSave={handleSave}
+                highlight={highlightCode}
+                onAbort={() => onOpenChange(false)}
+                setShowWarning={setShouldShowWarning}
+              />
+            </DialogBody>
+          </DialogContent>
+        </Portal>
+      </DialogRoot>
+      <AlertDialog
         title={t("unsavedChanges")}
         label={t("unsavedChanges")}
         show={showWarning}
         text={t("code.continue")}
-        actions={[
-          {
-            text: t("form.abort"),
-            onClick: () => setShowWarning(false),
-          },
-          {
-            text: t("alertModal.continue"),
-            onClick: () => {
+        onCancel={() => setShowWarning(false)}
+      >
+        <FormActionsContainer>
+          <Button variant="secondary" onClick={() => setShowWarning(false)}>
+            {t("form.abort")}
+          </Button>
+          <Button
+            variant="danger"
+            onClick={() => {
               setShowWarning(false);
               setEditMode(false);
-            },
-          },
-        ]}
-        onCancel={() => setShowWarning(false)}
-      />
-    </DialogRoot>
+            }}
+          >
+            {t("alertModal.continue")}
+          </Button>
+        </FormActionsContainer>
+      </AlertDialog>
+    </>
   );
 };
 

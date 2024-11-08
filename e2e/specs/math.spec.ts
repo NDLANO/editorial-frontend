@@ -11,7 +11,6 @@ import { test } from "../apiMock";
 
 const metaKey = process.platform === "darwin" ? "Meta" : "Control";
 
-
 test.beforeEach(async ({ page }) => {
   await page.goto("/subject-matter/learning-resource/new");
 
@@ -55,10 +54,10 @@ test("can change preview when preview button pressed", async ({ page }) => {
 });
 
 test("can provide modal when leaving unchecked edits", async ({ page }) => {
-  const mathEditor = page.getByTestId("modal-body").getByRole("application");
+  const mathEditor = page.getByRole("dialog").getByRole("application");
   await mathEditor.waitFor();
   await mathEditor.locator('[class="wrs_focusElementContainer"]').getByRole("textbox").click();
   await page.keyboard.type("=112");
   await page.getByTestId("abort-math").click();
-  await expect(page.getByTestId("alert-modal")).toBeVisible();
+  await expect(page.getByTestId("alert-dialog")).toBeVisible();
 });

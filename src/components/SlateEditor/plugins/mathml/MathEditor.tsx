@@ -19,7 +19,8 @@ import { Button } from "@ndla/primitives";
 import { MathmlElement } from ".";
 import EditMath, { MathMLType, emptyMathTag } from "./EditMath";
 import MathML from "./MathML";
-import AlertModal from "../../../AlertModal";
+import { AlertDialog } from "../../../AlertDialog/AlertDialog";
+import { FormActionsContainer } from "../../../FormikForm";
 import mergeLastUndos from "../../utils/mergeLastUndos";
 
 const getInfoFromNode = (node: MathmlElement) => {
@@ -205,23 +206,22 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
           mathEditor={mathEditor}
           setMathEditor={setMathEditor}
         />
-        <AlertModal
+        <AlertDialog
           title={t("unsavedChanges")}
           label={t("unsavedChanges")}
           show={openDiscardModal}
           text={t("mathEditor.continue")}
-          actions={[
-            {
-              text: t("form.abort"),
-              onClick: () => setOpenDiscardModal(false),
-            },
-            {
-              text: t("alertModal.continue"),
-              onClick: onExit,
-            },
-          ]}
           onCancel={() => setOpenDiscardModal(false)}
-        />
+        >
+          <FormActionsContainer>
+            <Button variant="secondary" onClick={() => setOpenDiscardModal(false)}>
+              {t("form.abort")}
+            </Button>
+            <Button variant="danger" onClick={onExit}>
+              {t("alertModal.continue")}
+            </Button>
+          </FormActionsContainer>
+        </AlertDialog>
       </ModalContent>
     </Modal>
   );

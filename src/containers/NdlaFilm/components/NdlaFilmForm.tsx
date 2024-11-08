@@ -30,7 +30,7 @@ import { getInitialValues, getNdlaFilmFromSlate } from "../../../util/ndlaFilmHe
 import { NdlaErrorPayload } from "../../../util/resolveJsonOrRejectWithError";
 import { toEditNdlaFilm } from "../../../util/routeHelpers";
 import SubjectpageAbout from "../../EditSubjectFrontpage/components/SubjectpageAbout";
-import { AlertModalWrapper } from "../../FormikForm/index";
+import { AlertDialogWrapper } from "../../FormikForm";
 import usePreventWindowUnload from "../../FormikForm/preventWindowUnloadHook";
 import { useMessages } from "../../Messages/MessagesProvider";
 
@@ -163,7 +163,7 @@ const NdlaFilmForm = ({ filmFrontpage, selectedLanguage }: Props) => {
                 disabled={!isValid}
               />
             </Field>
-            <AlertModalWrapper
+            <AlertDialogWrapper
               isSubmitting={isSubmitting}
               formIsDirty={formIsDirty}
               severity="danger"

@@ -14,10 +14,11 @@ import styled from "@emotion/styled";
 import { colors, spacing, fonts, misc } from "@ndla/core";
 import { DeleteBinLine, RightArrow, ExpandMore } from "@ndla/icons/action";
 import { Done } from "@ndla/icons/editor";
-import { FieldLabel, FieldRoot, IconButton } from "@ndla/primitives";
+import { Button, FieldLabel, FieldRoot, IconButton } from "@ndla/primitives";
 import { plugins, toolbarAreaFilters, toolbarOptions } from "./commentToolbarUtils";
 import { COMMENT_COLOR, formControlStyles } from "./styles";
-import AlertModal from "../../../components/AlertModal";
+import { AlertDialog } from "../../../components/AlertDialog/AlertDialog";
+import { FormActionsContainer } from "../../../components/FormikForm";
 import RichTextEditor from "../../../components/SlateEditor/RichTextEditor";
 import { SlateCommentType } from "../../FormikForm/articleFormHooks";
 
@@ -140,23 +141,22 @@ const Comment = ({ id, index, isSubmitting, field, arrayHelpers }: Props) => {
         </StyledFieldRoot>
       </CardContent>
 
-      <AlertModal
+      <AlertDialog
         title={t("form.workflow.deleteComment.title")}
         label={t("form.workflow.deleteComment.title")}
         show={modalOpen}
         text={t("form.workflow.deleteComment.modal")}
-        actions={[
-          {
-            text: t("form.abort"),
-            onClick: () => setModalOpen(!modalOpen),
-          },
-          {
-            text: t("form.workflow.deleteComment.button"),
-            onClick: handleDelete,
-          },
-        ]}
         onCancel={() => setModalOpen(!modalOpen)}
-      />
+      >
+        <FormActionsContainer>
+          <Button onClick={() => setModalOpen(false)} variant="secondary">
+            {t("form.abort")}
+          </Button>
+          <Button onClick={handleDelete} variant="danger">
+            {t("form.workflow.deleteComment.button")}
+          </Button>
+        </FormActionsContainer>
+      </AlertDialog>
     </CommentCard>
   );
 };

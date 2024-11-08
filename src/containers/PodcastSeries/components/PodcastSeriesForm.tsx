@@ -34,7 +34,7 @@ import {
 import { editorValueToPlainText } from "../../../util/articleContentConverter";
 import { podcastSeriesTypeToFormType } from "../../../util/audioHelpers";
 import { isFormikFormDirty } from "../../../util/formHelper";
-import { AlertModalWrapper } from "../../FormikForm";
+import { AlertDialogWrapper } from "../../FormikForm";
 import { useSession } from "../../Session/SessionProvider";
 
 const podcastRules: RulesType<PodcastSeriesFormikType, ISeries> = {
@@ -227,7 +227,7 @@ const PodcastSeriesForm = ({
                 <p>{t("podcastSeriesForm.adminError")}</p>
               </AdminWarningTextWrapper>
             ) : null}
-            <AlertModalWrapper
+            <AlertDialogWrapper
               {...formikProps}
               formIsDirty={formIsDirty}
               severity="danger"

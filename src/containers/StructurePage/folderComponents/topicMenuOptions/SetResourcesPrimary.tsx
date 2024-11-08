@@ -9,8 +9,10 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { PencilFill } from "@ndla/icons/action";
+import { Button } from "@ndla/primitives";
 import { Node } from "@ndla/types-taxonomy";
-import AlertModal from "../../../../components/AlertModal";
+import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
+import { FormActionsContainer } from "../../../../components/FormikForm";
 import Overlay from "../../../../components/Overlay";
 import RoundIcon from "../../../../components/RoundIcon";
 import Spinner from "../../../../components/Spinner";
@@ -50,23 +52,22 @@ const SetResourcesPrimary = ({ node, recursive = false, editModeHandler: { editM
         <RoundIcon small icon={<PencilFill />} />
         {recursive ? t("taxonomy.resourcesPrimary.recursiveButtonText") : t("taxonomy.resourcesPrimary.buttonText")}
       </MenuItemButton>
-      <AlertModal
+      <AlertDialog
         title={t("taxonomy.resourcesPrimary.buttonText")}
         label={t("taxonomy.resourcesPrimary.buttonText")}
         show={editMode === "setResourcesPrimary"}
-        actions={[
-          {
-            text: t("form.abort"),
-            onClick: toggleConnectedResourcesPrimary,
-          },
-          {
-            text: t("alertModal.continue"),
-            onClick: setConnectedResourcesPrimary,
-          },
-        ]}
-        onCancel={toggleConnectedResourcesPrimary}
         text={recursive ? t("taxonomy.resourcesPrimary.recursiveText") : t("taxonomy.resourcesPrimary.text")}
-      />
+        onCancel={toggleConnectedResourcesPrimary}
+      >
+        <FormActionsContainer>
+          <Button onClick={toggleConnectedResourcesPrimary} variant="danger">
+            {t("form.abort")}
+          </Button>
+          <Button onClick={setConnectedResourcesPrimary} variant="secondary">
+            {t("alertModal.continue")}
+          </Button>
+        </FormActionsContainer>
+      </AlertDialog>
       {isPending && <Spinner appearance="absolute" />}
       {isPending && <Overlay modifiers={["absolute", "white-opacity", "zIndex"]} />}
       {error && <StyledErrorMessage data-testid="inlineEditErrorMessage">{error}</StyledErrorMessage>}

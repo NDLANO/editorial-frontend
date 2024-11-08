@@ -11,9 +11,11 @@ import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { DeleteBinLine } from "@ndla/icons/action";
+import { Button } from "@ndla/primitives";
 import { Node, NodeChild } from "@ndla/types-taxonomy";
 import MenuItemButton from "./components/MenuItemButton";
-import AlertModal from "../../../../components/AlertModal";
+import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
+import { FormActionsContainer } from "../../../../components/FormikForm";
 import Overlay from "../../../../components/Overlay";
 import RoundIcon from "../../../../components/RoundIcon";
 import Spinner from "../../../../components/Spinner";
@@ -74,23 +76,22 @@ const DisconnectFromParent = ({ node, editModeHandler: { editMode, toggleEditMod
         <RoundIcon small icon={<DeleteBinLine />} />
         {t("taxonomy.disconnectNode")}
       </MenuItemButton>
-      <AlertModal
+      <AlertDialog
         label={t("taxonomy.disconnectNode")}
         title={t("taxonomy.disconnectNode")}
         show={editMode === "disconnectFromParent"}
-        actions={[
-          {
-            text: t("form.abort"),
-            onClick: toggleDisconnect,
-          },
-          {
-            text: t("alertModal.disconnect"),
-            onClick: onDisconnect,
-          },
-        ]}
         onCancel={toggleDisconnect}
         text={t("taxonomy.confirmDisconnect")}
-      />
+      >
+        <FormActionsContainer>
+          <Button variant="secondary" onClick={toggleDisconnect}>
+            {t("form.abort")}
+          </Button>
+          <Button variant="danger" onClick={onDisconnect}>
+            {t("alertModal.disconnect")}
+          </Button>
+        </FormActionsContainer>
+      </AlertDialog>
       {loading && <Spinner appearance="absolute" />}
       {loading && <Overlay modifiers={["absolute", "white-opacity", "zIndex"]} />}
       {error && <StyledErrorMessage data-testid="inlineEditErrorMessage">{error}</StyledErrorMessage>}

@@ -36,7 +36,7 @@ import {
   subjectpageFormikTypeToPatchType,
   subjectpageFormikTypeToPostType,
 } from "../../../util/subjectHelpers";
-import { AlertModalWrapper } from "../../FormikForm";
+import { AlertDialogWrapper } from "../../FormikForm";
 import usePreventWindowUnload from "../../FormikForm/preventWindowUnloadHook";
 import { useMessages } from "../../Messages/MessagesProvider";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
@@ -211,7 +211,7 @@ const SubjectpageForm = ({
                 disabled={!isValid}
               />
             </Field>
-            <AlertModalWrapper
+            <AlertDialogWrapper
               isSubmitting={isSubmitting}
               formIsDirty={formIsDirty}
               severity="danger"

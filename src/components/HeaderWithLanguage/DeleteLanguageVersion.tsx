@@ -34,7 +34,8 @@ import {
   toEditPodcastSeries,
   toEditTopicArticle,
 } from "../../util/routeHelpers";
-import AlertModal from "../AlertModal";
+import { AlertDialog } from "../AlertDialog/AlertDialog";
+import { FormActionsContainer } from "../FormikForm";
 
 const nonDeletableTypes = ["standard", "topic-article", "concept"];
 
@@ -123,25 +124,20 @@ const DeleteLanguageVersion = ({ id, language, supportedLanguages, type, disable
           languageVersion: t(`languages.${language}`).toLowerCase(),
         })}
       </Button>
-      <AlertModal
+      <AlertDialog
         title={t("form.workflow.deleteLanguageVersion.title")}
         label={t("form.workflow.deleteLanguageVersion.title")}
         show={showDeleteWarning}
-        text={t("form.workflow.deleteLanguageVersion.modal")}
-        actions={[
-          {
-            text: t("form.abort"),
-            onClick: toggleShowDeleteWarning,
-          },
-          {
-            text: t("form.workflow.deleteLanguageVersion.button", {
-              languageVersion: t(`languages.${language}`).toLowerCase(),
-            }),
-            onClick: deleteLanguageVersion,
-          },
-        ]}
         onCancel={toggleShowDeleteWarning}
-      />
+        text={t("form.workflow.deleteLanguageVersion.modal")}
+      >
+        <FormActionsContainer>
+          <Button onClick={toggleShowDeleteWarning} variant="danger">
+            {t("form.abort")}
+          </Button>
+          <Button onClick={deleteLanguageVersion}>{t("form.workflow.deleteLanguageVersion.button")}</Button>
+        </FormActionsContainer>
+      </AlertDialog>
     </>
   );
 };

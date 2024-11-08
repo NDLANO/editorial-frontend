@@ -15,11 +15,13 @@ import { colors, spacing } from "@ndla/core";
 import { PencilFill, DeleteBinLine } from "@ndla/icons/action";
 import { Launch } from "@ndla/icons/common";
 import { Keyhole } from "@ndla/icons/editor";
+import { Button } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { Version as TaxVersion, VersionType } from "@ndla/types-taxonomy";
 import { StyledErrorMessage } from "./StyledErrorMessage";
 import VersionForm from "./VersionForm";
-import AlertModal from "../../../components/AlertModal";
+import { AlertDialog } from "../../../components/AlertDialog/AlertDialog";
+import { FormActionsContainer } from "../../../components/FormikForm";
 import config from "../../../config";
 import { useDeleteVersionMutation } from "../../../modules/taxonomy/versions/versionMutations";
 import { versionQueryKeys } from "../../../modules/taxonomy/versions/versionQueries";
@@ -175,26 +177,28 @@ const Version = ({ version }: Props) => {
               <DeleteBinLine />
             </IconButtonV2>
           </ContentBlock>
-          <AlertModal
+          <AlertDialog
             title={t("taxonomyVersions.delete")}
             label={t("taxonomyVersions.delete")}
             show={showAlertModal}
             text={t(`taxonomyVersions.deleteWarning${version.versionType === "PUBLISHED" ? "Published" : ""}`)}
-            actions={[
-              {
-                text: t("form.abort"),
-                onClick: () => setShowAlertModal(false),
-              },
-              {
-                text: t("alertModal.continue"),
-                onClick: () => {
+            onCancel={() => setShowAlertModal(false)}
+          >
+            <FormActionsContainer>
+              <Button onClick={() => setShowAlertModal(false)} variant="secondary">
+                {t("form.abort")}
+              </Button>
+              <Button
+                onClick={() => {
                   setShowAlertModal(false);
                   onDelete();
-                },
-              },
-            ]}
-            onCancel={() => setShowAlertModal(false)}
-          />
+                }}
+                variant="danger"
+              >
+                {t("alertModal.delete")}
+              </Button>
+            </FormActionsContainer>
+          </AlertDialog>
         </VersionContentWrapper>
       )}
       {error && <StyledErrorMessage>{error}</StyledErrorMessage>}

@@ -6,14 +6,15 @@
  *
  */
 
-import { MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { css, SerializedStyles } from "@emotion/react";
 import styled from "@emotion/styled";
 import { stackOrder } from "@ndla/core";
+import { Button } from "@ndla/primitives";
 import { useMessages } from "./MessagesProvider";
-import AlertModal from "../../components/AlertModal";
+import { AlertDialog } from "../../components/AlertDialog/AlertDialog";
+import { FormActionsContainer } from "../../components/FormikForm";
 
 const appearances: Record<string, SerializedStyles> = {
   hidden: css`
@@ -58,33 +59,35 @@ const Message = ({ message }: MessageProps) => {
   const navigate = useNavigate();
   const { clearMessage } = useMessages();
 
-  const auth0Actions = [
-    {
-      text: t("form.abort"),
-      onClick: () => clearMessage(message.id),
-    },
-    {
-      text: t("alertModal.loginAgain"),
-      onClick: (evt: MouseEvent<HTMLButtonElement>) => {
-        evt.preventDefault();
-        const lastPath = `${window.location.pathname}${window.location.search ? window.location.search : ""}`;
-        localStorage.setItem("lastPath", lastPath);
-        navigate("/logout/session?returnToLogin=true"); // Push to logoutPath
-        window.location.reload();
-      },
-    },
-  ];
-
   return (
-    <AlertModal
+    <AlertDialog
       title={t(`messages.severity.${message.severity ?? "danger"}`)}
       label={t(`messages.severity.${message.severity ?? "danger"}`)}
       show
-      text={message.translationKey ? t(message.translationKey, message.translationObject) : message.message!}
-      actions={message.type === "auth0" ? auth0Actions : []}
       onCancel={() => clearMessage(message.id)}
       severity={message.severity}
-    />
+      text={message.translationKey ? t(message.translationKey, message.translationObject) : message.message!}
+    >
+      {message.type === "auth0" ? (
+        <FormActionsContainer>
+          <Button variant="danger" onClick={() => clearMessage(message.id)}>
+            {t("form.abort")}
+          </Button>
+          <Button
+            variant="secondary"
+            onClick={(e) => {
+              e.preventDefault();
+              const lastPath = `${window.location.pathname}${window.location.search ? window.location.search : ""}`;
+              localStorage.setItem("lastPath", lastPath);
+              navigate("/logout/session?returnToLogin=true"); // Push to logoutPath
+              window.location.reload();
+            }}
+          >
+            {t("alertModal.loginAgain")}
+          </Button>
+        </FormActionsContainer>
+      ) : null}
+    </AlertDialog>
   );
 };
 

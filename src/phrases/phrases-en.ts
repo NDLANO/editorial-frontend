@@ -1644,6 +1644,7 @@ const phrases = {
     confirm: "Confirm",
     disconnect: "Disconnect",
     loginAgain: "Login again",
+    watchOut: "Watch out!",
   },
   environment: { production: "", staging: "Staging", test: "Test" },
   taxonomy: {

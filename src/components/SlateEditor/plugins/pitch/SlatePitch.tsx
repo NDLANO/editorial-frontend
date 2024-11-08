@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
-import { Pencil, DeleteBinLine } from "@ndla/icons/action";
+import { PencilFill, DeleteBinLine } from "@ndla/icons/action";
 import {
   DialogBody,
   DialogTitle,
@@ -102,7 +102,7 @@ const SlatePitch = ({ element, editor, attributes, children }: Props) => {
                   aria-label={t("pitchForm.title")}
                   title={t("pitchForm.title")}
                 >
-                  <Pencil />
+                  <PencilFill />
                 </IconButton>
               </DialogTrigger>
               <IconButton

@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
-import { Pencil, DeleteBinLine } from "@ndla/icons/action";
+import { PencilFill, DeleteBinLine } from "@ndla/icons/action";
 import {
   DialogBody,
   DialogContent,
@@ -109,7 +109,7 @@ const SlateContactBlock = ({ element, editor, attributes, children }: Props) => 
                   aria-label={t("contactBlockForm.edit")}
                   title={t("contactBlockForm.edit")}
                 >
-                  <Pencil />
+                  <PencilFill />
                 </IconButton>
               </DialogTrigger>
               <IconButton

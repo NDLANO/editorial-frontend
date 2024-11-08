@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2, IconButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { AddLine, Pencil, DeleteBinLine } from "@ndla/icons/action";
+import { AddLine, PencilFill, DeleteBinLine } from "@ndla/icons/action";
 import { Node } from "@ndla/types-taxonomy";
 import MenuItemButton from "./components/MenuItemButton";
 import MenuItemEditField from "./components/MenuItemEditField";
@@ -110,7 +110,7 @@ const EditGrepCodes = ({ node, editModeHandler: { editMode, toggleEditMode } }: 
           dataTestid="addGrepCopde"
           onClose={() => setAddingNewGrepCode(!addingNewGrepCode)}
           onSubmit={addGrepCode}
-          icon={<Pencil />}
+          icon={<PencilFill />}
           placeholder={t("form.grepCodes.placeholder")}
         />
       ) : (
@@ -125,7 +125,7 @@ const EditGrepCodes = ({ node, editModeHandler: { editMode, toggleEditMode } }: 
   return (
     <>
       <MenuItemButton data-testid="editGrepCodes" onClick={() => toggleEditModes()}>
-        <RoundIcon small icon={<Pencil />} />
+        <RoundIcon small icon={<PencilFill />} />
         {t("taxonomy.grepCodes.edit")}
       </MenuItemButton>
       {editMode === "editGrepCodes" && grepCodesList}

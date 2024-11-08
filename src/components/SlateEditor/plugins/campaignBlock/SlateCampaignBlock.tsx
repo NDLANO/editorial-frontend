@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
-import { Pencil, DeleteBinLine } from "@ndla/icons/action";
+import { DeleteBinLine, PencilFill } from "@ndla/icons/action";
 import {
   DialogBody,
   DialogContent,
@@ -112,7 +112,7 @@ const SlateCampaignBlock = ({ element, editor, attributes, children }: Props) =>
                   title={t("campaignBlockForm.title")}
                   onClick={() => setIsEditing(true)}
                 >
-                  <Pencil />
+                  <PencilFill />
                 </IconButton>
               </DialogTrigger>
               <IconButton

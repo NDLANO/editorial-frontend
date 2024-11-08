@@ -9,7 +9,7 @@
 import { useField } from "formik";
 import { MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
-import { Pencil, DeleteBinLine } from "@ndla/icons/action";
+import { DeleteBinLine, PencilFill } from "@ndla/icons/action";
 import { ArrowUpShortLine, ArrowDownShortLine } from "@ndla/icons/common";
 import { Button, Heading, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -121,7 +121,7 @@ const ThemeEditor = ({ selectedLanguage }: Props) => {
                     aria-label={t("ndlaFilm.editor.editMovieGroupName")}
                     title={t("ndlaFilm.editor.editMovieGroupName")}
                   >
-                    <Pencil />
+                    <PencilFill />
                   </IconButton>
                 }
                 messages={{

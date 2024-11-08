@@ -12,7 +12,7 @@ import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
 import { IconButtonV2 } from "@ndla/button";
 import { colors, spacing } from "@ndla/core";
-import { Pencil, DeleteBinLine } from "@ndla/icons/action";
+import { PencilFill, DeleteBinLine } from "@ndla/icons/action";
 import { Launch } from "@ndla/icons/common";
 import { Keyhole } from "@ndla/icons/editor";
 import { SafeLink } from "@ndla/safelink";
@@ -161,7 +161,7 @@ const Version = ({ version }: Props) => {
               onClick={() => setIsEditing((prev) => !prev)}
               title={t("taxonomyVersions.editVersionTooltip")}
             >
-              <Pencil />
+              <PencilFill />
             </IconButtonV2>
             <IconButtonV2
               variant="ghost"

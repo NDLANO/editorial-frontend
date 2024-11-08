@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
-import { Pencil, AddLine, DeleteBinLine } from "@ndla/icons/action";
+import { PencilFill, AddLine, DeleteBinLine } from "@ndla/icons/action";
 import { DialogContent, DialogRoot, DialogTrigger, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { LinkBlockEmbedData } from "@ndla/types-embed";
@@ -199,7 +199,7 @@ const SlateLinkBlock = ({ link, onSave, onDelete, allEmbeds, index }: SlateLinkB
         <ButtonWrapper>
           <DialogTrigger>
             <IconButton aria-label={t("linkBlock.edit")} title={t("linkBlock.edit")} size="small">
-              <Pencil />
+              <PencilFill />
             </IconButton>
           </DialogTrigger>
           <Portal>

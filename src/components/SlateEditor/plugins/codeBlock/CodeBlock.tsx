@@ -38,7 +38,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
 import { Portal } from "@ark-ui/react";
-import { Pencil, DeleteBinLine } from "@ndla/icons/action";
+import { DeleteBinLine, PencilLine } from "@ndla/icons/action";
 import { Code } from "@ndla/icons/editor";
 import {
   Button,
@@ -150,59 +150,60 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
   );
 
   return (
-    <DialogRoot open={editMode} onOpenChange={(details) => onOpenChange(details.open)} size="large">
-      <Figure aria-label={t("codeEditor.subtitle")} contentEditable={false} {...attributes}>
-        <HStack justify="space-between">
-          {embedData.title && <h3>{embedData.title}</h3>}
-          <HStack gap="4xsmall">
-            <DialogTrigger asChild>
+    <>
+      <DialogRoot open={editMode} onOpenChange={(details) => onOpenChange(details.open)} size="large">
+        <Figure aria-label={t("codeEditor.subtitle")} contentEditable={false} {...attributes}>
+          <HStack justify="space-between">
+            {embedData.title && <h3>{embedData.title}</h3>}
+            <HStack gap="4xsmall">
+              <DialogTrigger asChild>
+                <IconButton
+                  size="small"
+                  variant="secondary"
+                  title={t("codeEditor.edit")}
+                  aria-label={t("codeEditor.edit")}
+                >
+                  <PencilLine />
+                </IconButton>
+              </DialogTrigger>
               <IconButton
+                variant="danger"
                 size="small"
-                variant="secondary"
-                title={t("codeEditor.edit")}
-                aria-label={t("codeEditor.edit")}
+                aria-label={t("codeEditor.remove")}
+                data-testid="remove-code"
+                onClick={handleRemove}
               >
-                <Pencil />
+                <DeleteBinLine />
               </IconButton>
-            </DialogTrigger>
-            <IconButton
-              variant="danger"
-              size="small"
-              aria-label={t("codeEditor.remove")}
-              data-testid="remove-code"
-              onClick={handleRemove}
-            >
-              <DeleteBinLine />
-            </IconButton>
+            </HStack>
           </HStack>
-        </HStack>
-        <UICodeBlock format={embedData.codeFormat} highlightedCode={highlightedCode} />
-        {children}
-      </Figure>
-      <Portal>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>
-              {t("codeEditor.title")} <Code />
-            </DialogTitle>
-            <DialogCloseButton />
-          </DialogHeader>
-          <DialogBody>
-            <CodeBlockEditor
-              content={{
-                code: embedData.codeContent,
-                format: embedData.codeFormat,
-                title: embedData.title || "",
-              }}
-              onSave={handleSave}
-              highlight={highlightCode}
-              onAbort={() => onOpenChange(false)}
-              setShowWarning={setShouldShowWarning}
-            />
-          </DialogBody>
-        </DialogContent>
-      </Portal>
-
+          <UICodeBlock format={embedData.codeFormat} highlightedCode={highlightedCode} />
+          {children}
+        </Figure>
+        <Portal>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>
+                {t("codeEditor.title")} <Code />
+              </DialogTitle>
+              <DialogCloseButton />
+            </DialogHeader>
+            <DialogBody>
+              <CodeBlockEditor
+                content={{
+                  code: embedData.codeContent,
+                  format: embedData.codeFormat,
+                  title: embedData.title || "",
+                }}
+                onSave={handleSave}
+                highlight={highlightCode}
+                onAbort={() => onOpenChange(false)}
+                setShowWarning={setShouldShowWarning}
+              />
+            </DialogBody>
+          </DialogContent>
+        </Portal>
+      </DialogRoot>
       <AlertDialog
         title={t("unsavedChanges")}
         label={t("unsavedChanges")}
@@ -225,7 +226,7 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
           </Button>
         </FormActionsContainer>
       </AlertDialog>
-    </DialogRoot>
+    </>
   );
 };
 

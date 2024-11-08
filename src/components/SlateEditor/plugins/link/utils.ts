@@ -43,6 +43,7 @@ const wrapLink = (editor: Editor) => {
     "element",
     {
       type: "link",
+      isFirstEdit: true,
     },
     [],
   );
@@ -103,4 +104,34 @@ export const splitEdPreviewUrl = (href: string) => {
     resourceId: id,
     resourceType: "article",
   };
+};
+
+export const isNDLAArticleUrl = (url: string) => /^http(s)?:\/\/((.*)\.)?ndla.no\/((.*)\/)?article\/\d*/.test(url);
+export const isNDLATaxonomyUrl = (url: string) =>
+  /^http(s)?:\/\/((.*)\.)?ndla.no\/((.*)\/)?subject:(.*)\/topic(.*)/.test(url);
+export const isNDLALearningPathUrl = (url: string) =>
+  /^http(s)?:\/\/((.*)\.)?ndla.no\/((.*)\/)?learningpaths\/(.*)/.test(url);
+export const isNDLAEdPathUrl = (url: string) =>
+  /^http(s)?:\/\/ed.((.*)\.)?ndla.no\/((.*)\/)?subject-matter\/(.*)/.test(url);
+export const isNDLAEdPreviewUrl = (url: string) =>
+  /^http(s)?:\/\/ed.((.*)\.)?ndla.no\/((.*)\/)?preview\/(.*)/.test(url);
+export const isPlainId = (url: string) => /^\d+/.test(url);
+
+export const getIdAndTypeFromUrl = async (href: string) => {
+  // Removes search queries before split
+  const baseHref = href.split(/\?/)[0];
+  if (isNDLAArticleUrl(baseHref)) {
+    return splitArticleUrl(baseHref);
+  } else if (isNDLALearningPathUrl(baseHref)) {
+    return splitLearningPathUrl(baseHref);
+  } else if (isPlainId(baseHref)) {
+    return splitPlainUrl(baseHref);
+  } else if (isNDLATaxonomyUrl(baseHref)) {
+    return await splitTaxonomyUrl(baseHref);
+  } else if (isNDLAEdPathUrl(baseHref)) {
+    return splitEdPathUrl(baseHref);
+  } else if (isNDLAEdPreviewUrl(baseHref)) {
+    return splitEdPreviewUrl(baseHref);
+  }
+  return { resourceId: null, resourceType: "" };
 };

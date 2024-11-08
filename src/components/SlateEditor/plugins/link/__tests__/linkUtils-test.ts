@@ -6,8 +6,17 @@
  *
  */
 
-import { isNDLAArticleUrl, isNDLALearningPathUrl, isNDLATaxonomyUrl, isNDLAEdPathUrl, isPlainId } from "../EditLink";
-import { splitArticleUrl, splitLearningPathUrl, splitEdPathUrl, splitPlainUrl } from "../utils";
+import {
+  splitArticleUrl,
+  splitLearningPathUrl,
+  splitEdPathUrl,
+  splitPlainUrl,
+  isNDLAArticleUrl,
+  isNDLALearningPathUrl,
+  isNDLATaxonomyUrl,
+  isNDLAEdPathUrl,
+  isPlainId,
+} from "../utils";
 
 test("urls are parsed correctly", async () => {
   const articleUrls = [

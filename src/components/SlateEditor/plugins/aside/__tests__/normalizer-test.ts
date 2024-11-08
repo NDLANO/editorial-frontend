@@ -155,7 +155,9 @@ describe("aside normalizer tests", () => {
             children: [
               {
                 type: TYPE_LINK,
-                href: "testurl",
+                data: {
+                  href: "testurl",
+                },
                 children: [{ type: TYPE_PARAGRAPH, children: [{ text: "content" }] }],
               },
             ],

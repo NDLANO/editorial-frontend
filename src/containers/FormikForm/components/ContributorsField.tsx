@@ -53,7 +53,7 @@ const StyledFieldsetRoot = styled(FieldsetRoot, {
 const StyledInnerFieldsetRoot = styled(FieldsetRoot, {
   base: {
     display: "grid",
-    gridTemplateColumns: "1fr 1fr auto",
+    gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr) auto",
     gap: "xsmall",
     alignItems: "flex-end",
   },

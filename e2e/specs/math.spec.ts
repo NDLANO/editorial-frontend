@@ -22,20 +22,20 @@ test.beforeEach(async ({ page }) => {
 });
 
 test("editor is visible", async ({ page }) => {
-  const mathEditor = page.getByTestId("modal-body").getByRole("application");
+  const mathEditor = page.getByRole("dialog").getByRole("application");
   await mathEditor.waitFor();
   await expect(mathEditor).toBeVisible();
 });
 
 test("contains text from slate editor", async ({ page }) => {
-  const mathEditor = page.getByTestId("modal-body").getByRole("application");
+  const mathEditor = page.getByRole("dialog").getByRole("application");
   await mathEditor.waitFor();
   await mathEditor.locator('[class="wrs_container"]').waitFor();
   expect((await mathEditor.locator('[class="wrs_container"]').textContent())?.slice(1)).toEqual("111+1");
 });
 
 test("can change text and save", async ({ page }) => {
-  const mathEditor = page.getByTestId("modal-body").getByRole("application");
+  const mathEditor = page.getByRole("dialog").getByRole("application");
   await mathEditor.waitFor();
   await mathEditor.locator('[class="wrs_focusElementContainer"]').getByRole("textbox").click();
   await page.keyboard.type("=112");
@@ -44,7 +44,7 @@ test("can change text and save", async ({ page }) => {
 });
 
 test("can change preview when preview button pressed", async ({ page }) => {
-  const mathEditor = page.getByTestId("modal-body").getByRole("application");
+  const mathEditor = page.getByRole("dialog").getByRole("application");
   await mathEditor.waitFor();
   expect(await page.getByTestId("preview-math-text").textContent()).toEqual("111+1");
   await mathEditor.locator('[class="wrs_focusElementContainer"]').getByRole("textbox").click();
@@ -58,6 +58,6 @@ test("can provide modal when leaving unchecked edits", async ({ page }) => {
   await mathEditor.waitFor();
   await mathEditor.locator('[class="wrs_focusElementContainer"]').getByRole("textbox").click();
   await page.keyboard.type("=112");
-  await page.getByTestId("abort-math").click();
+  await page.getByRole("button", { name: "Lukk" }).click();
   await expect(page.getByTestId("alert-dialog")).toBeVisible();
 });

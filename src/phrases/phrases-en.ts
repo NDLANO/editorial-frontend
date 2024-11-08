@@ -2185,6 +2185,7 @@ const phrases = {
   conceptPreview: {
     title: "Preview concept",
   },
+  math: "Math problem",
 };
 
 export default phrases;

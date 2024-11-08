@@ -2184,6 +2184,7 @@ const phrases = {
   conceptPreview: {
     title: "Forhåndsvis forklaring",
   },
+  math: "Mattestykke",
 };
 
 export default phrases;

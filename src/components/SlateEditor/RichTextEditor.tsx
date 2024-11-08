@@ -68,6 +68,7 @@ export interface RichTextEditorProps extends Omit<EditableProps, "value" | "onCh
   hideToolbar?: boolean;
   receiveInitialFocus?: boolean;
   hideSpinner?: boolean;
+  noArticleStyling?: boolean;
 }
 
 const RichTextEditor = ({
@@ -88,6 +89,7 @@ const RichTextEditor = ({
   receiveInitialFocus,
   hideSpinner,
   onBlur: onBlurProp,
+  noArticleStyling,
   ...rest
 }: RichTextEditorProps) => {
   const [editor] = useState(() => withPlugins(withReact(withHistory(createEditor())), plugins));
@@ -303,7 +305,7 @@ const RichTextEditor = ({
   );
 
   return (
-    <article className="ndla-article">
+    <article className={noArticleStyling ? undefined : "ndla-article"}>
       <ArticleLanguageProvider language={language}>
         <SlateProvider isSubmitted={submitted}>
           <StyledSlateWrapper data-testid={testId}>

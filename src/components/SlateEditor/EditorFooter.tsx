@@ -26,7 +26,7 @@ import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from "../.
 import { toPreviewDraft } from "../../util/routeHelpers";
 import Footer from "../Footer/Footer";
 import { createEditUrl, TranslatableType, translatableTypes } from "../HeaderWithLanguage/util";
-import PreviewDraftLightboxV2 from "../PreviewDraft/PreviewDraftLightboxV2";
+import { PreviewResourceDialog } from "../PreviewDraft/PreviewResourceDialog";
 import SaveMultiButton from "../SaveMultiButton";
 
 interface Props {
@@ -246,7 +246,7 @@ function EditorFooter<T extends FormValues>({
       <>
         <div data-testid="footerPreviewAndValidate">
           {values.id && isConcept && (
-            <PreviewDraftLightboxV2
+            <PreviewResourceDialog
               type="concept"
               language={values.language}
               activateButton={<Button variant="link">{t("form.preview.button")}</Button>}

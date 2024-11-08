@@ -398,6 +398,7 @@ const phrases = {
   editMarkup: {
     linkTitle: "Go to HTML editor",
     title: "HTML editor",
+    previewDialogTitle: "Preview article",
     subTitle: "Edit article with HTML",
     back: "Back",
     fetchError: "An error occurred while loding an article into the HTML editor. Go back or try to reload the page.",
@@ -2174,6 +2175,12 @@ const phrases = {
   },
   fileUpload: {
     title: "Upload files",
+  },
+  conceptCompare: {
+    title: "Compare language versions",
+  },
+  conceptPreview: {
+    title: "Preview concept",
   },
 };
 

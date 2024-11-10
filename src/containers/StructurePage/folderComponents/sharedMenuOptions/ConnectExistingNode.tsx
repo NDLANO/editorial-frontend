@@ -116,7 +116,7 @@ const ConnectExistingNode = ({ editModeHandler: { editMode, toggleEditMode }, cu
           label={t("taxonomy.connectExistingNode", {
             nodeType: t(`taxonomy.nodeType.${nodeType}`),
           })}
-          placeholder={t("taxonomy.existingNode")}
+          placeholder={t("taxonomy.existingNode", { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
           onChange={handleSubmit}
           searchNodeType={nodeType}
           filter={(node) => {

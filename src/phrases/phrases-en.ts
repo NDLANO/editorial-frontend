@@ -1757,12 +1757,14 @@ const phrases = {
     copyResources: {
       error: "Something went wrong during copying",
       info: "Reuse resources from topic",
+      placeholder: "Search for existing {{nodeType}} for reuse of resources",
       done: "Resources copied",
       waiting: "Copying resources",
     },
     cloneResources: {
       error: "Something went wrong during cloning",
       info: "Copy and clone resources from topic",
+      placeholder: "Search for existing {{nodeType}} for copying of resources",
       done: "Resources cloned",
       waiting: "Cloning resources",
     },

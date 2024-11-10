@@ -13,7 +13,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { spacing, colors } from "@ndla/core";
 import { Copy } from "@ndla/icons/action";
 import { Done } from "@ndla/icons/editor";
-import { Node, NodeChild } from "@ndla/types-taxonomy";
+import { Node, NodeChild, NodeType } from "@ndla/types-taxonomy";
 import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
 import { OldSpinner } from "../../../../components/OldSpinner";
 import RoundIcon from "../../../../components/RoundIcon";
@@ -31,6 +31,7 @@ import NodeSearchDropdown from "../sharedMenuOptions/components/NodeSearchDropdo
 type ActionType = Extract<EditMode, "copyResources" | "cloneResources">;
 interface Props {
   currentNode: Node;
+  nodeType: NodeType;
   editModeHandler: EditModeHandler;
   type: ActionType;
 }
@@ -71,7 +72,7 @@ const StyledDone = styled(Done)`
   color: green;
 `;
 
-const CopyNodeResources = ({ editModeHandler: { editMode, toggleEditMode }, currentNode, type }: Props) => {
+const CopyNodeResources = ({ editModeHandler: { editMode, toggleEditMode }, currentNode, nodeType, type }: Props) => {
   const {
     t,
     i18n: { language },
@@ -182,7 +183,7 @@ const CopyNodeResources = ({ editModeHandler: { editMode, toggleEditMode }, curr
         <RoundIcon open small smallIcon icon={<Copy />} />
         <NodeSearchDropdown
           label={t(`taxonomy.${type}.info`)}
-          placeholder={t("taxonomy.existingNode")}
+          placeholder={t(`taxonomy.${type}.placeholder`, { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
           onChange={(node) => cloneOrCopyResources(node, type)}
           searchNodeType={"TOPIC"}
           filter={(node) => {

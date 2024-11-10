@@ -1756,12 +1756,14 @@ const phrases = {
     copyResources: {
       error: "Noko gjekk feil med kopiering",
       info: "Gjenbruk ressurser fra emne",
+      placeholder: "Søk opp eksisterande {{nodeType}} for gjenbruk av ressursar",
       done: "Ressurser ferdigkopiert!",
       waiting: "Kopierer ressurser",
     },
     cloneResources: {
       error: "Noko gjekk feil med kloning",
       info: "Kopier og klon ressurser fra emne",
+      placeholder: "Søk opp eksistarende {{nodeType}} for kopi av ressursar",
       done: "Ressurser ferdigklonet!",
       waiting: "Kloner ressurser",
     },

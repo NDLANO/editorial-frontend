@@ -6,20 +6,24 @@
  *
  */
 
-import { Form } from "formik";
 import { ReactNode } from "react";
-import StyledForm from "./StyledFormComponents";
+import { styled } from "@ndla/styled-system/jsx";
+import { Form } from "./FormikForm";
 
 interface Props {
   inModal?: boolean;
   children: ReactNode;
 }
 
-const DivForm = StyledForm.withComponent("div");
+const StyledForm = styled(Form, {
+  base: {
+    width: "100%",
+  },
+});
 
 const FormWrapper = ({ inModal, children }: Props) => {
   if (inModal) {
-    return <DivForm>{children}</DivForm>;
+    return <StyledForm>{children}</StyledForm>;
   }
   return <Form>{children}</Form>;
 };

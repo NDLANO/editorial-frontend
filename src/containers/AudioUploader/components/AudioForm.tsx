@@ -12,7 +12,6 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { Descendant } from "slate";
 import { Button, PageContent } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
 import {
   IAudio,
   IAuthor,
@@ -26,9 +25,8 @@ import AudioManuscript from "./AudioManuscript";
 import AudioMetaData from "./AudioMetaData";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
-import { FormActionsContainer } from "../../../components/FormikForm";
+import { FormActionsContainer, Form } from "../../../components/FormikForm";
 import validateFormik, { getWarnings, RulesType } from "../../../components/formikValidationSchema";
-import FormWrapper from "../../../components/FormWrapper";
 import HeaderWithLanguage from "../../../components/HeaderWithLanguage";
 import SaveButton from "../../../components/SaveButton";
 import { SAVE_BUTTON_ID } from "../../../constants";
@@ -61,12 +59,6 @@ export interface AudioFormikType {
   origin: string;
   license: string;
 }
-
-const StyledFormActionsContainer = styled(FormActionsContainer, {
-  base: {
-    marginBlockStart: "xsmall",
-  },
-});
 
 const rules: RulesType<AudioFormikType, IAudioMetaInformation> = {
   title: {
@@ -206,7 +198,7 @@ const AudioForm = ({
           return errFields.some((field) => !!errors[field]);
         };
         return (
-          <FormWrapper>
+          <Form>
             <HeaderWithLanguage
               id={audio?.id}
               language={audioLanguage}
@@ -247,7 +239,7 @@ const AudioForm = ({
                 <AudioMetaData />
               </FormAccordion>
             </FormAccordions>
-            <StyledFormActionsContainer>
+            <FormActionsContainer>
               <Button variant="secondary" disabled={isSubmitting} onClick={() => navigate(-1)}>
                 {t("form.abort")}
               </Button>
@@ -261,14 +253,14 @@ const AudioForm = ({
                   submitForm();
                 }}
               />
-            </StyledFormActionsContainer>
+            </FormActionsContainer>
             <AlertDialogWrapper
               {...formikProps}
               formIsDirty={formIsDirty}
               severity="danger"
               text={t("alertModal.notSaved")}
             />
-          </FormWrapper>
+          </Form>
         );
       }}
     </Formik>

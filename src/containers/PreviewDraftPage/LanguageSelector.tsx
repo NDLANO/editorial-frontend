@@ -9,18 +9,12 @@
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "@emotion/styled";
-import { MAX_FRONTPAGE_ARTICLE_WIDTH } from "../../constants";
 import { toPreviewDraft } from "../../util/routeHelpers";
 
 const StyledSelect = styled.select`
-  max-width: 972px;
   margin: 0 auto;
   width: 100%;
   display: block;
-
-  &[data-wide="true"] {
-    max-width: ${MAX_FRONTPAGE_ARTICLE_WIDTH}px;
-  }
 `;
 
 interface Props {

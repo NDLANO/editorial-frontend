@@ -10,7 +10,6 @@ import { ReactElement, memo, useState } from "react";
 import { AccordionRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { FormAccordionProps } from "./FormAccordion";
-import OpenAllButton from "./OpenAllButton";
 
 type ChildType = ReactElement<FormAccordionProps> | undefined | false;
 
@@ -29,14 +28,6 @@ const AccordionsWrapper = styled("div", {
   },
 });
 
-const FlexWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "flex-end",
-  },
-});
-
 const StyledAccordionRoot = styled(AccordionRoot, {
   base: {
     width: "100%",
@@ -48,13 +39,6 @@ const FormAccordions = ({ defaultOpen, children }: Props) => {
 
   return (
     <AccordionsWrapper>
-      <FlexWrapper>
-        <OpenAllButton
-          openAccordions={openAccordions}
-          setOpenAccordions={setOpenAccordions}
-          formAccordionChildren={children}
-        />
-      </FlexWrapper>
       <StyledAccordionRoot
         multiple
         value={openAccordions}

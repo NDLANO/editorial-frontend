@@ -52,7 +52,7 @@ const SimpleLanguageHeader = ({
   );
 
   return (
-    <>
+    <div>
       <HeaderInformation
         type={articleType}
         noStatus
@@ -89,7 +89,7 @@ const SimpleLanguageHeader = ({
           </>
         )}
       </StyledLanguageWrapper>
-    </>
+    </div>
   );
 };
 

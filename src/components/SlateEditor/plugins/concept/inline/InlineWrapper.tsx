@@ -250,14 +250,12 @@ const InlineWrapper = (props: Props) => {
       )}
       <DialogRoot
         open={isEditing}
-        onOpenChange={({ open }) => setIsEditing(open)}
-        onEscapeKeyDown={(e) => e.stopPropagation()}
-        onExitComplete={() => {
-          if (!embed) {
-            handleRemove();
-          }
-          ReactEditor.focus(editor);
+        onOpenChange={({ open }) => {
+          setIsEditing(open);
+          onClose();
         }}
+        onEscapeKeyDown={(e) => e.stopPropagation()}
+        onExitComplete={() => ReactEditor.focus(editor)}
         size="large"
       >
         <Portal>

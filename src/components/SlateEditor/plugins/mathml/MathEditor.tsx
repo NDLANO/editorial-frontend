@@ -7,19 +7,32 @@
  */
 
 import he from "he";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Node, Path, Transforms } from "slate";
 import { ReactEditor, RenderElementProps } from "slate-react";
-import styled from "@emotion/styled";
-import { Content, Root, Trigger } from "@radix-ui/react-popover";
-import { colors, spacing, stackOrder } from "@ndla/core";
-import { Modal, ModalContent, ModalTrigger } from "@ndla/modal";
-import { Button } from "@ndla/primitives";
+import { Portal } from "@ark-ui/react";
+import { DeleteBinLine, PencilLine } from "@ndla/icons/action";
+import {
+  Button,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  IconButton,
+  PopoverContent,
+  PopoverRoot,
+  PopoverTitle,
+  PopoverTrigger,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { MathmlElement } from ".";
 import EditMath, { MathMLType, emptyMathTag } from "./EditMath";
 import MathML from "./MathML";
 import { AlertDialog } from "../../../AlertDialog/AlertDialog";
+import { DialogCloseButton } from "../../../DialogCloseButton";
 import { FormActionsContainer } from "../../../FormikForm";
 import mergeLastUndos from "../../utils/mergeLastUndos";
 
@@ -33,46 +46,49 @@ const getInfoFromNode = (node: MathmlElement) => {
         : `<math xmlns="http://www.w3.org/1998/Math/MathML">${innerHTML}</math>`,
       xlmns: data.xlmns || 'xmlns="http://www.w3.org/1998/Math/MathML',
     },
-    isFirstEdit: data.innerHTML === undefined,
   };
 };
 
-const StyledContent = styled(Content)`
-  padding: ${spacing.small};
-  z-index: ${stackOrder.popover};
-`;
+const StyledPopoverContent = styled(PopoverContent, {
+  base: {
+    zIndex: "dropdown",
+    gap: "xsmall",
+  },
+});
 
-const MathWrapper = styled.span`
-  &[data-state="open"] {
-    box-shadow: 0 0 0 1px ${colors.brand.tertiary};
-  }
-`;
+const StyledFormActionsContainer = styled(FormActionsContainer, {
+  base: {
+    justifyContent: "flex-start",
+  },
+});
 
-const InlineDiv = styled.div`
-  display: inline;
-`;
+const StyledSpan = styled("span", {
+  base: {
+    _open: {
+      outline: "1px solid",
+      outlineColor: "stroke.default",
+      outlineOffset: "4xsmall",
+      borderRadius: "xsmall",
+    },
+  },
+});
 
 interface Props {
   editor: Editor;
   element: MathmlElement;
 }
 
-const StyledMenu = styled.span`
-  display: flex;
-  gap: ${spacing.xsmall};
-  padding: ${spacing.xsmall};
-  background-color: white;
-  border: 1px solid ${colors.brand.greyLight};
-`;
-
 const MathEditor = ({ element, children, attributes, editor }: Props & RenderElementProps) => {
   const { t } = useTranslation();
   const nodeInfo = useMemo(() => getInfoFromNode(element), [element]);
-  const [isFirstEdit, setIsFirstEdit] = useState(nodeInfo.isFirstEdit);
   const [mathEditor, setMathEditor] = useState<MathMLType | undefined>(undefined);
-  const [editMode, setEditMode] = useState(isFirstEdit);
+  const [editMode, setEditMode] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [openDiscardModal, setOpenDiscardModal] = useState(false);
+
+  useEffect(() => {
+    setEditMode(!!element.isFirstEdit);
+  }, [element.isFirstEdit]);
 
   const onOpenChange = useCallback(
     (open: boolean) => {
@@ -91,18 +107,18 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
     (mathML: string) => {
       const properties = {
         data: { innerHTML: mathML },
+        isFirstEdit: false,
       };
       const path = ReactEditor.findPath(editor, element);
 
       const nextPath = Path.next(path);
 
-      setIsFirstEdit(false);
       setEditMode(false);
       setShowMenu(false);
 
       setTimeout(() => {
         ReactEditor.focus(editor);
-        if (isFirstEdit) {
+        if (element.isFirstEdit) {
           Transforms.setNodes(editor, properties, {
             at: path,
             voids: true,
@@ -131,7 +147,7 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
         });
       }, 0);
     },
-    [editor, element, isFirstEdit],
+    [editor, element],
   );
 
   const handleRemove = useCallback(() => {
@@ -154,7 +170,7 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
     setOpenDiscardModal(false);
     const elementPath = ReactEditor.findPath(editor, element);
 
-    if (isFirstEdit) {
+    if (element.isFirstEdit) {
       handleRemove();
     } else {
       const nextPath = Path.next(elementPath);
@@ -168,62 +184,90 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
       setEditMode(false);
       setShowMenu(false);
     }
-  }, [editor, element, handleRemove, isFirstEdit, mathEditor, nodeInfo.model.innerHTML, openDiscardModal]);
+  }, [editor, element, handleRemove, mathEditor, nodeInfo.model.innerHTML, openDiscardModal]);
 
   return (
-    <Modal open={editMode} onOpenChange={onOpenChange}>
-      <InlineDiv {...attributes} contentEditable={false}>
-        <Root open={showMenu} onOpenChange={setShowMenu}>
-          <Trigger asChild>
-            <MathWrapper role="button" tabIndex={0}>
-              <MathML
+    <>
+      <DialogRoot open={editMode} onOpenChange={(details) => onOpenChange(details.open)} size="large">
+        <span {...attributes} contentEditable={false}>
+          <PopoverRoot
+            open={showMenu}
+            onOpenChange={(details) => setShowMenu(details.open)}
+            modal={false}
+            // eslint-disable-next-line jsx-a11y/no-autofocus
+            autoFocus={false}
+          >
+            <PopoverTrigger asChild>
+              <StyledSpan role="button" tabIndex={0}>
+                <MathML
+                  model={nodeInfo.model}
+                  onDoubleClick={() => setEditMode(true)}
+                  editor={editor}
+                  element={element}
+                />
+              </StyledSpan>
+            </PopoverTrigger>
+            <Portal>
+              <StyledPopoverContent>
+                <PopoverTitle textStyle="label.medium" fontWeight="bold">
+                  {t("math")}
+                </PopoverTitle>
+                <StyledFormActionsContainer>
+                  <DialogTrigger asChild>
+                    <IconButton size="small" aria-label={t("form.edit")} title={t("form.edit")}>
+                      <PencilLine />
+                    </IconButton>
+                  </DialogTrigger>
+                  <IconButton
+                    size="small"
+                    variant="danger"
+                    aria-label={t("form.edit")}
+                    title={t("form.edit")}
+                    onClick={handleRemove}
+                  >
+                    <DeleteBinLine />
+                  </IconButton>
+                </StyledFormActionsContainer>
+              </StyledPopoverContent>
+            </Portal>
+          </PopoverRoot>
+          {children}
+        </span>
+        <Portal>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>{t("mathEditor.editMath")}</DialogTitle>
+              <DialogCloseButton />
+            </DialogHeader>
+            <DialogBody>
+              <EditMath
+                onSave={handleSave}
+                onRemove={handleRemove}
                 model={nodeInfo.model}
-                onDoubleClick={() => setEditMode(true)}
-                editor={editor}
-                element={element}
+                mathEditor={mathEditor}
+                setMathEditor={setMathEditor}
               />
-            </MathWrapper>
-          </Trigger>
-          <StyledContent>
-            <StyledMenu>
-              <ModalTrigger>
-                <Button variant="link">{t("form.edit")}</Button>
-              </ModalTrigger>
-              <Button variant="link" onClick={handleRemove}>
-                {t("form.remove")}
-              </Button>
-            </StyledMenu>
-          </StyledContent>
-        </Root>
-        {children}
-      </InlineDiv>
-      <ModalContent size="large">
-        <EditMath
-          onExit={onExit}
-          onSave={handleSave}
-          onRemove={handleRemove}
-          model={nodeInfo.model}
-          mathEditor={mathEditor}
-          setMathEditor={setMathEditor}
-        />
-        <AlertDialog
-          title={t("unsavedChanges")}
-          label={t("unsavedChanges")}
-          show={openDiscardModal}
-          text={t("mathEditor.continue")}
-          onCancel={() => setOpenDiscardModal(false)}
-        >
-          <FormActionsContainer>
-            <Button variant="secondary" onClick={() => setOpenDiscardModal(false)}>
-              {t("form.abort")}
-            </Button>
-            <Button variant="danger" onClick={onExit}>
-              {t("alertModal.continue")}
-            </Button>
-          </FormActionsContainer>
-        </AlertDialog>
-      </ModalContent>
-    </Modal>
+            </DialogBody>
+          </DialogContent>
+        </Portal>
+      </DialogRoot>
+      <AlertDialog
+        title={t("unsavedChanges")}
+        label={t("unsavedChanges")}
+        show={openDiscardModal}
+        text={t("mathEditor.continue")}
+        onCancel={() => setOpenDiscardModal(false)}
+      >
+        <FormActionsContainer>
+          <Button variant="secondary" onClick={() => setOpenDiscardModal(false)}>
+            {t("form.abort")}
+          </Button>
+          <Button variant="danger" onClick={onExit}>
+            {t("alertModal.continue")}
+          </Button>
+        </FormActionsContainer>
+      </AlertDialog>
+    </>
   );
 };
 

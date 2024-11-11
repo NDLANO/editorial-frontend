@@ -86,6 +86,7 @@ const SlateVideo = ({ attributes, element, editor, children }: Props) => {
   };
 
   const onSave = (values: FormValues) => {
+    if (!embed?.embedData) return;
     Transforms.setNodes(
       editor,
       {

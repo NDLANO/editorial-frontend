@@ -48,7 +48,7 @@ export const GenericSelectTrigger = forwardRef<
 
     {clearable && (
       <SelectClearTrigger asChild>
-        <IconButton variant="secondary">
+        <IconButton variant="secondary" size={props.size}>
           <CloseLine />
         </IconButton>
       </SelectClearTrigger>

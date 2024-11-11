@@ -10,6 +10,7 @@ import { Editor, Transforms, Element, Range } from "slate";
 import { HeadingElement } from ".";
 import hasNodeOfType from "../../utils/hasNodeOfType";
 import hasNodeWithProps from "../../utils/hasNodeWithProps";
+import { ParagraphElement } from "../paragraph";
 
 export const toggleHeading = (editor: Editor, level: HeadingElement["level"]) => {
   const newHeadingProps: Partial<HeadingElement> = { type: "heading", level };
@@ -30,7 +31,7 @@ export const toggleHeading = (editor: Editor, level: HeadingElement["level"]) =>
         match: (node) => Element.isElement(node) && node.type === "heading",
         at: Editor.unhangRange(editor, editor.selection),
       });
-      Transforms.setNodes(
+      Transforms.setNodes<ParagraphElement>(
         editor,
         { type: "paragraph" },
         {

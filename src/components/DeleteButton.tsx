@@ -16,9 +16,9 @@ export const DeleteButton = ({ children, ...rest }: IconButtonProps) => (
     tabIndex={-1}
     contentEditable={false}
     data-testid="close-related-button"
-    title={rest["aria-label" ?? ""]}
+    title={rest["aria-label"]}
     {...rest}
-    aria-label={rest["aria-label" ?? ""]}
+    aria-label={rest["aria-label"]}
   >
     <DeleteBinLine />
   </IconButton>

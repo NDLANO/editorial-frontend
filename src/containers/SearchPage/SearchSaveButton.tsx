@@ -207,7 +207,7 @@ const SearchSaveButton = ({ userData, selectors, searchContentType }: Props) => 
       )}
       <StyledWrapper>
         <SaveButton
-          isSaving={loading}
+          loading={loading}
           showSaved={success}
           defaultText={isSaved ? "alreadySaved" : "saveSearch"}
           onClick={saveSearch}

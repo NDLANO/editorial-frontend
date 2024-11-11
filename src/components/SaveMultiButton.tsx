@@ -7,10 +7,11 @@
  */
 
 import { useTranslation } from "react-i18next";
+import { SerializedStyles, css } from "@emotion/react";
 import styled from "@emotion/styled";
+import { colors } from "@ndla/core";
 import { CheckboxCircleFill } from "@ndla/icons/editor";
 import MultiButton from "./MultiButton";
-import { saveButtonAppearances } from "./SaveButton";
 
 type SaveModifiers = "save" | "saving" | "saved";
 
@@ -18,6 +19,29 @@ const StyledSpan = styled("span")`
   display: flex;
   justify-content: space-evenly;
 `;
+
+export const saveButtonAppearances: Record<string, SerializedStyles> = {
+  saved: css`
+    &,
+    &:hover,
+    &:disabled {
+      color: white;
+      transition: all 0.5s ease;
+      background-color: ${colors.support.green};
+      border-color: ${colors.support.green};
+    }
+  `,
+  saving: css`
+    &,
+    &:hover,
+    &:disabled {
+      color: white;
+      transition: all 0.5s ease;
+      background-color: ${colors.support.greenLight};
+      border-color: ${colors.support.greenLight};
+    }
+  `,
+};
 
 const Wrapper = styled("div")`
   div > button:disabled {

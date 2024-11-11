@@ -10,6 +10,7 @@ import { Formik, FormikProps } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import { styled } from "@ndla/styled-system/jsx";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import {
   ISubjectPageData,
@@ -19,7 +20,7 @@ import {
 import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
 
 import SubjectpageAccordionPanels from "./SubjectpageAccordionPanels";
-import Field from "../../../components/Field";
+import { FormActionsContainer } from "../../../components/FormikForm";
 import validateFormik, { RulesType } from "../../../components/formikValidationSchema";
 import SimpleLanguageHeader from "../../../components/HeaderWithLanguage/SimpleLanguageHeader";
 import SaveButton from "../../../components/SaveButton";
@@ -40,6 +41,12 @@ import { AlertDialogWrapper } from "../../FormikForm";
 import usePreventWindowUnload from "../../FormikForm/preventWindowUnloadHook";
 import { useMessages } from "../../Messages/MessagesProvider";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
+
+const StyledFormActionsContainer = styled(FormActionsContainer, {
+  base: {
+    marginBlockStart: "xsmall",
+  },
+});
 
 interface Props {
   subjectpage?: ISubjectPageData;
@@ -200,17 +207,16 @@ const SubjectpageForm = ({
               errors={errors}
               leadsTo={values.leadsTo}
             />
-            <Field right>
+            <StyledFormActionsContainer>
               <SaveButton
                 id={SAVE_BUTTON_ID}
-                size="large"
-                isSaving={isSubmitting}
+                loading={isSubmitting}
                 showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
                 formIsDirty={formIsDirty}
                 onClick={() => handleSubmit(formik)}
                 disabled={!isValid}
               />
-            </Field>
+            </StyledFormActionsContainer>
             <AlertDialogWrapper
               isSubmitting={isSubmitting}
               formIsDirty={formIsDirty}

@@ -9,11 +9,9 @@
 import { Formik, FormikHelpers } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
-import { ButtonV2 } from "@ndla/button";
-import { spacing } from "@ndla/core";
-import { Button } from "@ndla/primitives";
+import { Button, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { Version } from "@ndla/types-taxonomy";
 import { StyledErrorMessage } from "./StyledErrorMessage";
 import VersionLockedField from "./VersionLockedField";
@@ -21,7 +19,6 @@ import VersionNameField from "./VersionNameField";
 import VersionSourceField from "./VersionSourceField";
 import { Row } from "../../../components";
 import { AlertDialog } from "../../../components/AlertDialog/AlertDialog";
-import Field from "../../../components/Field";
 import { FormActionsContainer, FormikForm } from "../../../components/FormikForm";
 import validateFormik, { RulesType } from "../../../components/formikValidationSchema";
 import SaveButton from "../../../components/SaveButton";
@@ -51,16 +48,11 @@ const versionFormRules: RulesType<VersionFormType> = {
   },
 };
 
-const StyledTitle = styled.h2`
-  padding: 0;
-  margin: 0;
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  gap: ${spacing.xsmall};
-`;
+const StyledButton = styled(Button, {
+  base: {
+    width: "fit-content",
+  },
+});
 
 const VersionForm = ({ version, existingVersions, onClose }: Props) => {
   const { t } = useTranslation();
@@ -158,30 +150,28 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
         {({ isSubmitting, isValid, dirty, handleSubmit }) => {
           return (
             <FormikForm>
-              <StyledTitle>{t(`taxonomyVersions.${!version ? "newVersionTitle" : "editVersionTitle"}`)}</StyledTitle>
+              <Text>{t(`taxonomyVersions.${!version ? "newVersionTitle" : "editVersionTitle"}`)}</Text>
               <VersionNameField />
               {!version && <VersionSourceField existingVersions={existingVersions} />}
               {version?.versionType !== "PUBLISHED" && <VersionLockedField />}
               {error && <StyledErrorMessage>{error}</StyledErrorMessage>}
               <Row>
-                <Field>
-                  {version && version.versionType === "BETA" && (
-                    <ButtonV2 disabled={dirty} onClick={() => setShowAlertModal(true)}>
-                      {t("taxonomyVersions.publishButton")}
-                    </ButtonV2>
-                  )}
-                </Field>
-                <ButtonContainer>
-                  <ButtonV2 variant="outline" onClick={onClose}>
+                {version && version.versionType === "BETA" && (
+                  <StyledButton disabled={dirty} onClick={() => setShowAlertModal(true)}>
+                    {t("taxonomyVersions.publishButton")}
+                  </StyledButton>
+                )}
+                <FormActionsContainer>
+                  <Button variant="secondary" onClick={onClose}>
                     {t("form.abort")}
-                  </ButtonV2>
+                  </Button>
                   <SaveButton
-                    isSaving={isSubmitting}
+                    loading={isSubmitting}
                     disabled={!dirty || !isValid}
                     onClick={() => handleSubmit()}
                     formIsDirty={dirty}
                   />
-                </ButtonContainer>
+                </FormActionsContainer>
               </Row>
               <AlertDialog
                 title={t("taxonomyVersions.publishTitle")}

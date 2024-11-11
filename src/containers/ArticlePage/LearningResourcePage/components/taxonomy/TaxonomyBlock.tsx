@@ -11,11 +11,8 @@ import partition from "lodash/partition";
 import sortBy from "lodash/sortBy";
 import { useCallback, useMemo, useState, MouseEvent, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
-import { ButtonV2 } from "@ndla/button";
-import { spacing } from "@ndla/core";
-import { SelectLabel } from "@ndla/primitives";
+import { Button, SelectLabel } from "@ndla/primitives";
 import { IArticle, IUpdatedArticle } from "@ndla/types-backend/draft-api";
 import {
   Node,
@@ -28,6 +25,7 @@ import {
 } from "@ndla/types-taxonomy";
 import TaxonomyInfo from "./TaxonomyInfo";
 import { FormikFieldHelp } from "../../../../../components/FormikField";
+import { FormActionsContainer } from "../../../../../components/FormikForm";
 import SaveButton from "../../../../../components/SaveButton";
 import OptGroupVersionSelector from "../../../../../components/Taxonomy/OptGroupVersionSelector";
 import { NodeWithChildren } from "../../../../../components/Taxonomy/TaxonomyBlockNode";
@@ -43,13 +41,6 @@ import { useTaxonomyVersion } from "../../../../StructureVersion/TaxonomyVersion
 import ResourceTypeSelect from "../../../components/ResourceTypeSelect";
 import TaxonomyConnectionErrors from "../../../components/TaxonomyConnectionErrors";
 import { MinimalNodeChild } from "../LearningResourceTaxonomy";
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  gap: ${spacing.xsmall};
-  margin-bottom: ${spacing.small};
-`;
 
 interface Props {
   nodes: Node[];
@@ -376,19 +367,20 @@ const TaxonomyBlock = ({
       />
       {updateTaxMutation.isError && <FormikFieldHelp error>{t("errorMessage.taxonomy")}</FormikFieldHelp>}
       {showWarning && <FormikFieldHelp error>{t("errorMessage.unsavedTaxonomy")}</FormikFieldHelp>}
-      <ButtonContainer>
-        <ButtonV2 variant="outline" disabled={!isDirty} onClick={onReset}>
+
+      <FormActionsContainer>
+        <Button variant="secondary" disabled={!isDirty} onClick={onReset}>
           {t("reset")}
-        </ButtonV2>
+        </Button>
         <SaveButton
           showSaved={updateTaxMutation.isSuccess && !isDirty}
-          isSaving={isSaving}
+          loading={isSaving}
           disabled={!isDirty || isSaving}
           onClick={handleSubmit}
           defaultText="saveTax"
           formIsDirty={isDirty}
         />
-      </ButtonContainer>
+      </FormActionsContainer>
     </>
   );
 };

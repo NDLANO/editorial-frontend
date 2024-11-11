@@ -11,13 +11,14 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
 import { PageContent } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IFilmFrontPageData, IMovieTheme } from "@ndla/types-backend/frontpage-api";
 import NdlaFilmArticle from "./NdlaFilmArticle";
 import SlideshowEditor from "./SlideshowEditor";
 import ThemeEditor from "./ThemeEditor";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
-import Field from "../../../components/Field";
+import { FormActionsContainer } from "../../../components/FormikForm";
 import validateFormik, { RulesType } from "../../../components/formikValidationSchema";
 import SimpleLanguageHeader from "../../../components/HeaderWithLanguage/SimpleLanguageHeader";
 import SaveButton from "../../../components/SaveButton";
@@ -33,6 +34,12 @@ import SubjectpageAbout from "../../EditSubjectFrontpage/components/SubjectpageA
 import { AlertDialogWrapper } from "../../FormikForm";
 import usePreventWindowUnload from "../../FormikForm/preventWindowUnloadHook";
 import { useMessages } from "../../Messages/MessagesProvider";
+
+const StyledFormActionsContainer = styled(FormActionsContainer, {
+  base: {
+    marginBlockStart: "xsmall",
+  },
+});
 
 interface Props {
   filmFrontpage: IFilmFrontPageData;
@@ -152,17 +159,16 @@ const NdlaFilmForm = ({ filmFrontpage, selectedLanguage }: Props) => {
                 <ThemeEditor selectedLanguage={selectedLanguage} />
               </FormAccordion>
             </FormAccordions>
-            <Field right>
+            <StyledFormActionsContainer>
               <SaveButton
                 id={SAVE_BUTTON_ID}
-                size="large"
-                isSaving={isSubmitting}
+                loading={isSubmitting}
                 showSaved={!formIsDirty && savedToServer}
                 formIsDirty={formIsDirty}
                 onClick={submitForm}
                 disabled={!isValid}
               />
-            </Field>
+            </StyledFormActionsContainer>
             <AlertDialogWrapper
               isSubmitting={isSubmitting}
               formIsDirty={formIsDirty}

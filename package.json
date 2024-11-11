@@ -143,9 +143,10 @@
     "react-simple-code-editor": "^0.13.1",
     "serialize-javascript": "^6.0.2",
     "slate": "^0.110.2",
+    "slate-dom": "^0.111.0",
     "slate-history": "^0.109.0",
     "slate-hyperscript": "^0.100.0",
-    "slate-react": "^0.110.2",
+    "slate-react": "^0.111.0",
     "source-map-support": "^0.5.13",
     "winston": "^3.13.0"
   },

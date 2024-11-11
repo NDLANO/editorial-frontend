@@ -25,12 +25,13 @@ import { ReactElement } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { Route, Routes } from "react-router-dom";
-import styled from "@emotion/styled";
 import { PageContainer } from "@ndla/ui";
 import MediaPage from "./MediaPage";
 import SearchPage from "./SearchPage";
 import SubjectMatterPage from "./SubjectMatterPage";
 import ErrorBoundary from "../../components/ErrorBoundary";
+import { MastheadLayout } from "../../components/Layout/MastheadLayout";
+import { Layout } from "../../components/Page/Layout";
 import { scheduleRenewal } from "../../util/authHelpers";
 import ComparePage from "../ComparePage/ComparePage";
 import ConceptPage from "../ConceptPage/ConceptPage";
@@ -42,7 +43,6 @@ import GlossPage from "../GlossPage/GlossPage";
 import H5PPage from "../H5PPage/H5PPage";
 import Login from "../Login/Login";
 import Logout from "../Logout/Logout";
-import Navigation from "../Masthead/components/Navigation";
 import Messages from "../Messages/Messages";
 import { MessagesProvider, useMessages } from "../Messages/MessagesProvider";
 import NdlaFilm from "../NdlaFilm/NdlaFilm";
@@ -56,12 +56,6 @@ import StructurePage from "../StructurePage/StructurePage";
 import TaxonomyVersionsPage from "../TaxonomyVersions/TaxonomyVersionsPage";
 import WelcomePage from "../WelcomePage/WelcomePage";
 
-const StyledContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-`;
-
 const App = () => {
   const { t } = useTranslation();
 
@@ -72,35 +66,37 @@ const App = () => {
           <AuthInitializer>
             <PageContainer>
               <Helmet meta={[{ name: "description", content: t("meta.description") }]} />
-              <StyledContent>
-                <Navigation />
-                <Routes>
-                  <Route path="/" element={<WelcomePage />} />
-                  <Route path="login/*" element={<Login />} />
-                  <Route path="logout/*" element={<Logout />} />
-                  <Route path="/subjectpage/*" element={<PrivateRoute component={<Subjectpage />} />} />
-                  <Route path="search/*" element={<PrivateRoute component={<SearchPage />} />} />
-                  <Route path="subject-matter/*" element={<PrivateRoute component={<SubjectMatterPage />} />} />
-                  <Route
-                    path="/edit-markup/:draftId/:language/*"
-                    element={<PrivateRoute component={<EditMarkupPage />} />}
-                  />
-                  <Route path="/concept/*" element={<PrivateRoute component={<ConceptPage />} />} />
-                  <Route path="/gloss/*" element={<PrivateRoute component={<GlossPage />} />} />
-                  <Route path="/preview/:draftId/:language/*" element={<PreviewDraftPage />} />
-                  <Route path="/compare/:draftId/:language/*" element={<ComparePage />} />
-                  <Route path="/media/*" element={<PrivateRoute component={<MediaPage />} />} />
-                  <Route path="/film/*" element={<PrivateRoute component={<NdlaFilm />} />} />
+              <Routes>
+                <Route element={<MastheadLayout />}>
+                  <Route path="/" element={<Layout />}>
+                    <Route index element={<WelcomePage />} />
+                    <Route path="login/*" element={<Login />} />
+                    <Route path="logout/*" element={<Logout />} />
+                    <Route path="/subjectpage/*" element={<PrivateRoute component={<Subjectpage />} />} />
+                    <Route path="search/*" element={<PrivateRoute component={<SearchPage />} />} />
+                    <Route path="subject-matter/*" element={<PrivateRoute component={<SubjectMatterPage />} />} />
+                    <Route
+                      path="/edit-markup/:draftId/:language/*"
+                      element={<PrivateRoute component={<EditMarkupPage />} />}
+                    />
+                    <Route path="/concept/*" element={<PrivateRoute component={<ConceptPage />} />} />
+                    <Route path="/gloss/*" element={<PrivateRoute component={<GlossPage />} />} />
+                    <Route path="/preview/:draftId/:language/*" element={<PreviewDraftPage />} />
+                    <Route path="/compare/:draftId/:language/*" element={<ComparePage />} />
+                    <Route path="/media/*" element={<PrivateRoute component={<MediaPage />} />} />
+                    <Route path="/film/*" element={<PrivateRoute component={<NdlaFilm />} />} />
+                    <Route path="/structure/*" element={<PrivateRoute component={<StructurePage />} />} />
+                    <Route path="/programme/*" element={<PrivateRoute component={<ProgrammePage />} />} />
+                    <Route path="/taxonomyVersions/*" element={<PrivateRoute component={<TaxonomyVersionsPage />} />} />
+                    <Route path="/nodeDiff/:nodeId" element={<PrivateRoute component={<NodeDiffPage />} />} />
+                    <Route path="/frontpage/" element={<PrivateRoute component={<FrontpageEditPage />} />} />
+                    <Route path="/forbidden" element={<ForbiddenPage />} />
+                    <Route path="*" element={<NotFoundPage />} />
+                  </Route>
                   <Route path="/h5p/*" element={<PrivateRoute component={<H5PPage />} />} />
-                  <Route path="/structure/*" element={<PrivateRoute component={<StructurePage />} />} />
-                  <Route path="/programme/*" element={<PrivateRoute component={<ProgrammePage />} />} />
-                  <Route path="/taxonomyVersions/*" element={<PrivateRoute component={<TaxonomyVersionsPage />} />} />
-                  <Route path="/nodeDiff/:nodeId" element={<PrivateRoute component={<NodeDiffPage />} />} />
-                  <Route path="/frontpage/" element={<PrivateRoute component={<FrontpageEditPage />} />} />
-                  <Route path="/forbidden" element={<ForbiddenPage />} />
-                  <Route path="*" element={<NotFoundPage />} />
-                </Routes>
-              </StyledContent>
+                </Route>
+              </Routes>
+
               <Messages />
             </PageContainer>
           </AuthInitializer>

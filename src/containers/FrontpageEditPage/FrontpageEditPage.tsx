@@ -21,6 +21,7 @@ import FrontpageArticleSearch from "./FrontpageArticleSearch";
 import { addArticlesToAboutMenu, extractArticleIds, menuWithArticleToIMenu } from "./frontpageHelpers";
 import FrontpageNodeList from "./FrontpageNodeList";
 import { MenuWithArticle } from "./types";
+import { FormActionsContainer } from "../../components/FormikForm";
 import validateFormik, { RulesType } from "../../components/formikValidationSchema";
 import { OldSpinner } from "../../components/OldSpinner";
 import SaveButton from "../../components/SaveButton";
@@ -67,11 +68,6 @@ const StyledSafeLink = styled(SafeLink)`
   &:focus-visible {
     text-decoration: none;
   }
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  gap: ${spacing.xsmall};
 `;
 
 const frontpageRules: RulesType<MenuWithArticle> = {
@@ -199,7 +195,7 @@ const RootFields = () => {
             </IconButton>
           </FrontpageArticleSearch>
         </ArticleTitle>
-        <ButtonWrapper>
+        <FormActionsContainer>
           <FrontpageArticleSearch onChange={onAddNew}>
             <IconButton
               variant="secondary"
@@ -210,10 +206,10 @@ const RootFields = () => {
               <AddLine />
             </IconButton>
           </FrontpageArticleSearch>
-          <SaveButton type="submit" disabled={!dirty} isSaving={isSubmitting}>
+          <SaveButton size="small" type="submit" disabled={!dirty} loading={isSubmitting}>
             {t("save")}
           </SaveButton>
-        </ButtonWrapper>
+        </FormActionsContainer>
       </Wrapper>
       <AlertDialogWrapper
         isSubmitting={isSubmitting}

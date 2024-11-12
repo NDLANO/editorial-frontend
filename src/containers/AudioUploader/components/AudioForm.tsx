@@ -11,8 +11,8 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { Descendant } from "slate";
-import { ButtonV2 } from "@ndla/button";
-import { PageContent } from "@ndla/primitives";
+import { Button, PageContent } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import {
   IAudio,
   IAuthor,
@@ -26,7 +26,7 @@ import AudioManuscript from "./AudioManuscript";
 import AudioMetaData from "./AudioMetaData";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
-import Field from "../../../components/Field";
+import { FormActionsContainer } from "../../../components/FormikForm";
 import validateFormik, { getWarnings, RulesType } from "../../../components/formikValidationSchema";
 import FormWrapper from "../../../components/FormWrapper";
 import HeaderWithLanguage from "../../../components/HeaderWithLanguage";
@@ -61,6 +61,12 @@ export interface AudioFormikType {
   origin: string;
   license: string;
 }
+
+const StyledFormActionsContainer = styled(FormActionsContainer, {
+  base: {
+    marginBlockStart: "xsmall",
+  },
+});
 
 const rules: RulesType<AudioFormikType, IAudioMetaInformation> = {
   title: {
@@ -241,13 +247,13 @@ const AudioForm = ({
                 <AudioMetaData />
               </FormAccordion>
             </FormAccordions>
-            <Field right>
-              <ButtonV2 variant="outline" disabled={isSubmitting} onClick={() => navigate(-1)}>
+            <StyledFormActionsContainer>
+              <Button variant="secondary" disabled={isSubmitting} onClick={() => navigate(-1)}>
                 {t("form.abort")}
-              </ButtonV2>
+              </Button>
               <SaveButton
                 id={SAVE_BUTTON_ID}
-                isSaving={isSubmitting}
+                loading={isSubmitting}
                 formIsDirty={formIsDirty}
                 showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
                 onClick={(evt) => {
@@ -255,7 +261,7 @@ const AudioForm = ({
                   submitForm();
                 }}
               />
-            </Field>
+            </StyledFormActionsContainer>
             <AlertDialogWrapper
               {...formikProps}
               formIsDirty={formIsDirty}

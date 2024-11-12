@@ -309,8 +309,7 @@ const ChangeNodeNameContent = ({ node, nodeType = "SUBJECT" }: ModalProps) => {
                   </DialogCloseTrigger>
                   <SaveButton
                     data-testid="saveNodeTranslationsButton"
-                    size="large"
-                    isSaving={isSubmitting}
+                    loading={isSubmitting}
                     showSaved={!formIsDirty && saved}
                     formIsDirty={formIsDirty}
                     onClick={() => onSubmit(formik)}

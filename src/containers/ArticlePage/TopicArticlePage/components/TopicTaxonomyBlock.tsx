@@ -13,13 +13,13 @@ import { useCallback, useMemo, useState, MouseEvent, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
-import { ButtonV2 } from "@ndla/button";
 import { spacing, colors } from "@ndla/core";
-import { SelectLabel } from "@ndla/primitives";
+import { Button, SelectLabel } from "@ndla/primitives";
 import { IArticle, IUpdatedArticle } from "@ndla/types-backend/draft-api";
 import { Node, Version } from "@ndla/types-taxonomy";
 import TopicArticleConnections from "./TopicArticleConnections";
 import { FormikFieldHelp } from "../../../../components/FormikField";
+import { FormActionsContainer } from "../../../../components/FormikForm";
 import SaveButton from "../../../../components/SaveButton";
 import OptGroupVersionSelector from "../../../../components/Taxonomy/OptGroupVersionSelector";
 import { NodeWithChildren } from "../../../../components/Taxonomy/TaxonomyBlockNode";
@@ -44,13 +44,6 @@ interface Props {
   articleLanguage: string;
   updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
 }
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  gap: ${spacing.xsmall};
-  margin-bottom: ${spacing.small};
-`;
 
 const InvalidPlacementsWrapper = styled.ul`
   display: flex;
@@ -231,23 +224,23 @@ const TopicTaxonomyBlock = ({
         </details>
       )}
       {showWarning && <FormikFieldHelp error>{t("errorMessage.unsavedTaxonomy")}</FormikFieldHelp>}
-      <ButtonContainer>
-        <ButtonV2
-          variant="outline"
+      <FormActionsContainer>
+        <Button
+          variant="secondary"
           onClick={onReset}
           disabled={!isDirty || createTopicNodeConnectionsMutation.isPending}
         >
           {t("reset")}
-        </ButtonV2>
+        </Button>
         <SaveButton
-          isSaving={isSaving}
+          loading={isSaving}
           showSaved={createTopicNodeConnectionsMutation.isSuccess && !isDirty}
           disabled={!isDirty || isSaving}
           onClick={handleSubmit}
           defaultText="saveTax"
           formIsDirty={isDirty}
         />
-      </ButtonContainer>
+      </FormActionsContainer>
     </>
   );
 };

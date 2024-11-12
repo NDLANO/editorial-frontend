@@ -10,8 +10,8 @@ import { Formik, FormikHelpers, FormikErrors } from "formik";
 import { useState, useRef, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { ButtonV2 } from "@ndla/button";
-import { PageContent } from "@ndla/primitives";
+import { Button, PageContent } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import {
   IAudioMetaInformation,
   IUpdatedAudioMetaInformation,
@@ -21,8 +21,7 @@ import PodcastMetaData from "./PodcastMetaData";
 import PodcastSeries from "./PodcastSeries";
 import FormAccordion from "../../../components/Accordion/FormAccordion";
 import FormAccordions from "../../../components/Accordion/FormAccordions";
-import Field from "../../../components/Field";
-import { FormContent } from "../../../components/FormikForm";
+import { FormActionsContainer, FormContent } from "../../../components/FormikForm";
 import validateFormik, { getWarnings, RulesType } from "../../../components/formikValidationSchema";
 import FormWrapper from "../../../components/FormWrapper";
 import HeaderWithLanguage from "../../../components/HeaderWithLanguage";
@@ -40,6 +39,12 @@ import AudioCopyright from "../../AudioUploader/components/AudioCopyright";
 import AudioManuscript from "../../AudioUploader/components/AudioManuscript";
 import AudioMetaData from "../../AudioUploader/components/AudioMetaData";
 import { AlertDialogWrapper } from "../../FormikForm";
+
+const StyledFormActionsContainer = styled(FormActionsContainer, {
+  base: {
+    marginBlockStart: "xsmall",
+  },
+});
 
 const podcastRules: RulesType<PodcastFormValues, IAudioMetaInformation> = {
   title: {
@@ -290,14 +295,14 @@ const PodcastForm = ({
               </FormAccordions>
             )}
 
-            <Field right>
-              <ButtonV2 variant="outline" disabled={isSubmitting} onClick={() => navigate(-1)}>
+            <StyledFormActionsContainer>
+              <Button variant="secondary" disabled={isSubmitting} onClick={() => navigate(-1)}>
                 {t("form.abort")}
-              </ButtonV2>
+              </Button>
               <SaveButton
                 id={SAVE_BUTTON_ID}
                 type={!inModal ? "submit" : "button"}
-                isSaving={isSubmitting}
+                loading={isSubmitting}
                 showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
                 formIsDirty={formIsDirty}
                 onClick={(evt) => {
@@ -305,7 +310,7 @@ const PodcastForm = ({
                   submitForm();
                 }}
               />
-            </Field>
+            </StyledFormActionsContainer>
             <AlertDialogWrapper
               {...formikProps}
               formIsDirty={formIsDirty}

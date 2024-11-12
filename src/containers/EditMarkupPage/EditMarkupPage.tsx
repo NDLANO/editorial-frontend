@@ -23,10 +23,12 @@ import {
   Text,
   Button,
 } from "@ndla/primitives";
+import { SafeLinkButton } from "@ndla/safelink";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import { Row } from "../../components";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
 import FieldHeader from "../../components/Field/FieldHeader";
+import { FormActionsContainer } from "../../components/FormikForm";
 import HeaderSupportedLanguages from "../../components/HeaderWithLanguage/HeaderSupportedLanguages";
 import { OldSpinner } from "../../components/OldSpinner";
 import { PreviewResourceDialog } from "../../components/PreviewDraft/PreviewResourceDialog";
@@ -238,17 +240,20 @@ const EditMarkupPage = () => {
               activateButton={<Button variant="link">{t("form.preview.button")}</Button>}
             />
           )}
-          <Row justifyContent="end" alignItems="baseline">
-            <Link to={locationState?.backUrl || `/subject-matter/learning-resource/${draftId}/edit/${language}`}>
+          <FormActionsContainer>
+            <SafeLinkButton
+              variant="secondary"
+              to={locationState?.backUrl || `/subject-matter/learning-resource/${draftId}/edit/${language}`}
+            >
               {t("editMarkup.back")}
-            </Link>
+            </SafeLinkButton>
             <SaveButton
-              isSaving={status === "saving"}
+              loading={status === "saving"}
               formIsDirty={status === "edit"}
               showSaved={status === "saved"}
               onClick={() => saveChanges(draft?.content?.content ?? "")}
             />
-          </Row>
+          </FormActionsContainer>
         </StyledRow>
       </Suspense>
       <AlertDialogWrapper

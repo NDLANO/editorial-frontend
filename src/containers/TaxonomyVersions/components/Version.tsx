@@ -10,13 +10,12 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
-import { IconButtonV2 } from "@ndla/button";
 import { colors, spacing } from "@ndla/core";
 import { PencilFill, DeleteBinLine } from "@ndla/icons/action";
-import { Launch } from "@ndla/icons/common";
+import { ExternalLinkLine } from "@ndla/icons/common";
 import { Keyhole } from "@ndla/icons/editor";
-import { Button } from "@ndla/primitives";
-import { SafeLink } from "@ndla/safelink";
+import { Button, IconButton } from "@ndla/primitives";
+import { SafeLinkIconButton } from "@ndla/safelink";
 import { Version as TaxVersion, VersionType } from "@ndla/types-taxonomy";
 import { StyledErrorMessage } from "./StyledErrorMessage";
 import VersionForm from "./VersionForm";
@@ -82,20 +81,6 @@ const ContentBlock = styled.div`
   gap: ${spacing.xsmall};
 `;
 
-const StyledLink = styled(SafeLink)`
-  box-shadow: inset 0 0;
-`;
-
-const StyledLaunch = styled(Launch)`
-  height: 24px;
-  width: 100%;
-  color: ${colors.brand.tertiary};
-  margin-right: ${spacing.xsmall};
-  &:hover {
-    color: ${colors.brand.primary};
-  }
-`;
-
 const StyledKeyhole = styled(Keyhole)`
   margin-left: ${spacing.xxsmall};
   height: 30px;
@@ -150,24 +135,28 @@ const Version = ({ version }: Props) => {
             <StatusWrapper color={statusColorMap[version.versionType]}>
               <StyledText>{t(`taxonomyVersions.status.${version.versionType}`)}</StyledText>
             </StatusWrapper>
-            <StyledLink target={"_blank"} to={ndlaUrl}>
-              <StyledLaunch
-                aria-label={t("taxonomyVersions.previewVersion")}
-                title={t("taxonomyVersions.previewVersion")}
-              />
-            </StyledLink>
-            <IconButtonV2
-              variant="ghost"
-              colorTheme="lighter"
+            <SafeLinkIconButton
+              size="small"
+              variant="tertiary"
+              target={"_blank"}
+              to={ndlaUrl}
+              aria-label={t("taxonomyVersions.previewVersion")}
+              title={t("taxonomyVersions.previewVersion")}
+            >
+              <ExternalLinkLine />
+            </SafeLinkIconButton>
+            <IconButton
+              variant="tertiary"
+              size="small"
               aria-label={t("taxonomyVersions.editVersionTooltip")}
               onClick={() => setIsEditing((prev) => !prev)}
               title={t("taxonomyVersions.editVersionTooltip")}
             >
               <PencilFill />
-            </IconButtonV2>
-            <IconButtonV2
-              variant="ghost"
-              colorTheme="danger"
+            </IconButton>
+            <IconButton
+              variant="danger"
+              size="small"
               aria-label={deleteTooltip}
               disabled={deleteDisabled}
               onClick={() => (deleteDisabled ? undefined : setShowAlertModal(true))}
@@ -175,7 +164,7 @@ const Version = ({ version }: Props) => {
               title={deleteTooltip}
             >
               <DeleteBinLine />
-            </IconButtonV2>
+            </IconButton>
           </ContentBlock>
           <AlertDialog
             title={t("taxonomyVersions.delete")}

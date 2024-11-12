@@ -10,47 +10,83 @@ import { FieldArrayRenderProps, FieldInputProps } from "formik";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
-import styled from "@emotion/styled";
-import { colors, spacing, fonts, misc } from "@ndla/core";
-import { DeleteBinLine, RightArrow, ExpandMore } from "@ndla/icons/action";
+import { DeleteBinLine } from "@ndla/icons/action";
+import { ArrowDownShortLine, ArrowRightShortLine } from "@ndla/icons/common";
 import { Done } from "@ndla/icons/editor";
 import { Button, FieldLabel, FieldRoot, IconButton } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { plugins, toolbarAreaFilters, toolbarOptions } from "./commentToolbarUtils";
-import { COMMENT_COLOR, formControlStyles } from "./styles";
 import { AlertDialog } from "../../../components/AlertDialog/AlertDialog";
 import { FormActionsContainer } from "../../../components/FormikForm";
 import RichTextEditor from "../../../components/SlateEditor/RichTextEditor";
 import { SlateCommentType } from "../../FormikForm/articleFormHooks";
 
-const StyledFieldRoot = styled(FieldRoot)`
-  ${formControlStyles}
-`;
+const StyledFieldRoot = styled(FieldRoot, {
+  base: {
+    "& [data-comment]": {
+      paddingInline: "xsmall",
+      paddingBlock: "3xsmall",
+      border: "1px solid transparent",
+      "& li": {
+        margin: "0",
+        padding: "0",
+      },
+    },
+  },
+  variants: {
+    open: {
+      false: {
+        lineClamp: "1",
+        maxHeight: "large",
+      },
+      true: {
+        "& [data-comment]": {
+          _focusVisible: {
+            borderRadius: "xsmall",
+            border: "1px solid",
+            borderColor: "stroke.default",
+          },
+        },
+      },
+    },
+  },
+});
 
-const CommentCard = styled.li`
-  border: 1px solid ${colors.brand.greyMedium};
-  border-radius: ${misc.borderRadius};
-  padding: ${spacing.xsmall};
-  margin-bottom: ${spacing.small};
-  ${fonts.size.text.button};
-  background-color: ${COMMENT_COLOR};
+const CommentCard = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "3xsmall",
+    border: "1px solid",
+    borderColor: "stroke.warning",
+    borderRadius: "xsmall",
+    padding: "xsmall",
+    backgroundColor: "surface.brand.4.subtle",
+    marginBlockEnd: "xsmall",
+  },
+  variants: {
+    solved: {
+      true: {
+        backgroundColor: "surface.brand.3.subtle",
+      },
+    },
+  },
+});
 
-  &[data-solved="true"] {
-    background-color: ${colors.support.greenLight};
-    [data-comment] {
-      background-color: ${colors.support.greenLight};
-    }
-  }
-`;
+const TopButtonRow = styled("div", {
+  base: {
+    display: "flex",
+    justifyContent: "space-between",
+    gap: "3xsmall",
+  },
+});
 
-const CardContent = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const TopButtonRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
+const ButtonsWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "3xsmall",
+  },
+});
 
 // Comment generated on frontend, we will use id from draft-api once comment is generated
 export type CommentType =
@@ -88,8 +124,8 @@ const Comment = ({ id, index, isSubmitting, field, arrayHelpers }: Props) => {
   const commentId = `${id}-comment-section`;
 
   return (
-    <CommentCard data-solved={field.value.solved}>
-      <CardContent>
+    <>
+      <CommentCard solved={field.value.solved}>
         <TopButtonRow>
           <IconButton
             variant="tertiary"
@@ -100,9 +136,9 @@ const Comment = ({ id, index, isSubmitting, field, arrayHelpers }: Props) => {
             aria-expanded={field.value.isOpen}
             aria-controls={commentId}
           >
-            {field.value.isOpen ? <ExpandMore /> : <RightArrow />}
+            {field.value.isOpen ? <ArrowDownShortLine /> : <ArrowRightShortLine />}
           </IconButton>
-          <div>
+          <ButtonsWrapper>
             <IconButton
               variant={field.value.solved ? "primary" : "clear"}
               size="small"
@@ -121,9 +157,9 @@ const Comment = ({ id, index, isSubmitting, field, arrayHelpers }: Props) => {
             >
               <DeleteBinLine />
             </IconButton>
-          </div>
+          </ButtonsWrapper>
         </TopButtonRow>
-        <StyledFieldRoot id={`comment-${id}`}>
+        <StyledFieldRoot id={`comment-${id}`} open={field.value.isOpen}>
           <FieldLabel srOnly>{t("form.comment.commentField")}</FieldLabel>
           <RichTextEditor
             value={field.value.content ?? []}
@@ -135,12 +171,11 @@ const Comment = ({ id, index, isSubmitting, field, arrayHelpers }: Props) => {
             onBlur={updateContentOnBlur}
             toolbarOptions={toolbarOptions}
             toolbarAreaFilters={toolbarAreaFilters}
-            data-open={field.value.isOpen}
             data-comment=""
+            noArticleStyling
           />
         </StyledFieldRoot>
-      </CardContent>
-
+      </CommentCard>
       <AlertDialog
         title={t("form.workflow.deleteComment.title")}
         label={t("form.workflow.deleteComment.title")}
@@ -157,7 +192,7 @@ const Comment = ({ id, index, isSubmitting, field, arrayHelpers }: Props) => {
           </Button>
         </FormActionsContainer>
       </AlertDialog>
-    </CommentCard>
+    </>
   );
 };
 

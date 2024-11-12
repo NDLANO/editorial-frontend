@@ -8,10 +8,8 @@
 
 import { FastField, FieldArray, FieldProps, useField, useFormikContext } from "formik";
 import { memo } from "react";
-import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { spacing, fonts } from "@ndla/core";
+import { spacing } from "@ndla/core";
+import { styled } from "@ndla/styled-system/jsx";
 import Comment, { CommentType } from "./Comment";
 import InputComment from "./InputComment";
 import { ARCHIVED, PUBLISHED, UNPUBLISHED } from "../../../constants";
@@ -20,43 +18,30 @@ export const RESET_COMMENTS_STATUSES = [PUBLISHED, ARCHIVED, UNPUBLISHED];
 export const COMMENT_WIDTH = 220;
 export const SPACING_COMMENT = Number(spacing.small.replace("px", ""));
 
-const StyledList = styled.ul`
-  max-width: ${COMMENT_WIDTH}px;
-  width: 100%;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-`;
+const StyledList = styled("ul", {
+  base: {
+    listStyle: "none",
+  },
+});
 
-const StyledOpenCloseAll = styled(ButtonV2)`
-  ${fonts.size.text.button}
-  margin-left: auto;
-`;
+const StyledCommentWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "large",
+  },
+});
 
 const CommentSection = () => {
-  const { t } = useTranslation();
   const [_, { value }] = useField<CommentType[]>("comments");
   const { isSubmitting } = useFormikContext();
-  const allOpen = (value: CommentType[]) => value.every((v) => v.isOpen);
 
   return (
     <FieldArray
       name="comments"
       render={(arrayHelpers) => (
-        <>
+        <StyledCommentWrapper>
           <InputComment arrayHelpers={arrayHelpers} isSubmitting={isSubmitting} />
-          {value.length ? (
-            <StyledOpenCloseAll
-              variant="stripped"
-              onClick={() => {
-                const open = allOpen(value) !== undefined ? !allOpen(value) : true;
-                value.forEach((v, i) => (v.isOpen !== open ? arrayHelpers.replace(i, { ...v, isOpen: open }) : null));
-              }}
-              fontWeight="semibold"
-            >
-              {allOpen(value) ? t("form.hideAll") : t("form.openAll")}
-            </StyledOpenCloseAll>
-          ) : null}
           <StyledList>
             {value.map((comment, index) => {
               const id = "id" in comment ? comment.id : comment.generatedId;
@@ -76,7 +61,7 @@ const CommentSection = () => {
               );
             })}
           </StyledList>
-        </>
+        </StyledCommentWrapper>
       )}
     />
   );

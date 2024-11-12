@@ -13,12 +13,11 @@ import { useQueryClient } from "@tanstack/react-query";
 import { spacing, colors } from "@ndla/core";
 import { SubjectMaterial } from "@ndla/icons/contentType";
 import { Done } from "@ndla/icons/editor";
-import { ComboboxLabel } from "@ndla/primitives";
+import { ComboboxLabel, Spinner } from "@ndla/primitives";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
 import { Node } from "@ndla/types-taxonomy";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../../components/abstractions/Combobox";
 import { GenericSearchCombobox } from "../../../../components/Form/GenericSearchCombobox";
-import { OldSpinner } from "../../../../components/OldSpinner";
 import RoundIcon from "../../../../components/RoundIcon";
 import { fetchDraft, updateDraft } from "../../../../modules/draft/draftApi";
 import { TOPIC_NODE } from "../../../../modules/nodes/nodeApiTypes";
@@ -36,10 +35,6 @@ interface Props {
   rootNodeId: string;
   editModeHandler: EditModeHandler;
 }
-
-const StyledSpinner = styled(OldSpinner)`
-  margin: 0px 4px;
-`;
 
 const Wrapper = styled.div`
   display: flex;
@@ -164,7 +159,7 @@ const SwapTopicArticle = ({ node, rootNodeId, editModeHandler: { editMode, toggl
       <StyledActionContent>
         {putNodeMutation.isPending && (
           <MenuContent>
-            <StyledSpinner />
+            <Spinner size="small" />
           </MenuContent>
         )}
         {putNodeMutation.isSuccess && (

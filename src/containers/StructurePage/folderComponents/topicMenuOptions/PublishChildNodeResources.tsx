@@ -13,13 +13,12 @@ import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
 import { colors } from "@ndla/core";
 import { Done } from "@ndla/icons/editor";
-import { Button } from "@ndla/primitives";
+import { Button, Spinner } from "@ndla/primitives";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
 import { Node } from "@ndla/types-taxonomy";
 import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
 import { FormActionsContainer } from "../../../../components/FormikForm";
-import { OldSpinner } from "../../../../components/OldSpinner";
 import RoundIcon from "../../../../components/RoundIcon";
 import { PUBLISHED } from "../../../../constants";
 import { fetchDrafts, updateStatusDraft } from "../../../../modules/draft/draftApi";
@@ -49,7 +48,7 @@ const LinkWrapper = styled.div`
   margin-top: 0.5em;
 `;
 
-const StyledSpinner = styled(OldSpinner)`
+const StyledSpinner = styled(Spinner)`
   margin: 0px 4px;
 `;
 
@@ -153,7 +152,7 @@ const PublishChildNodeResources = ({ node }: Props) => {
       </MenuItemButton>
       {showDisplay && (
         <StyledDiv>
-          {done ? <StyledDone /> : <StyledSpinner size="normal" />}
+          {done ? <StyledDone /> : <StyledSpinner size="small" />}
           {`${publishText} (${publishedCount}/${publishableCount})`}
         </StyledDiv>
       )}

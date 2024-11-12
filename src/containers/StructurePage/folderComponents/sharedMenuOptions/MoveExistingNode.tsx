@@ -13,10 +13,10 @@ import { useQueryClient } from "@tanstack/react-query";
 import { spacing, colors } from "@ndla/core";
 import { AddLine } from "@ndla/icons/action";
 import { Done } from "@ndla/icons/editor";
+import { Spinner } from "@ndla/primitives";
 import { Node, NodeType } from "@ndla/types-taxonomy";
 import MenuItemButton from "./components/MenuItemButton";
 import NodeSearchDropdown from "./components/NodeSearchDropdown";
-import { OldSpinner } from "../../../../components/OldSpinner";
 import RoundIcon from "../../../../components/RoundIcon";
 import { fetchConnectionsForNode } from "../../../../modules/nodes/nodeApi";
 import {
@@ -32,10 +32,6 @@ interface Props {
   currentNode: Node;
   nodeType?: NodeType;
 }
-
-const StyledSpinner = styled(OldSpinner)`
-  margin: 0px 4px;
-`;
 
 const StyledSuccessIcon = styled(Done)`
   border-radius: 90px;
@@ -162,7 +158,7 @@ const MoveExistingNode = ({
       <StyledActionContent>
         {loading && (
           <MenuContent>
-            <StyledSpinner size="normal" />
+            <Spinner size="small" />
             {t("taxonomy.addExistingLoading")}
           </MenuContent>
         )}

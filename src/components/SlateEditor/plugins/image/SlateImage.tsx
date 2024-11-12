@@ -14,7 +14,7 @@ import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { PencilFill, DeleteBinLine } from "@ndla/icons/action";
 import { Link } from "@ndla/icons/common";
-import { DialogContent, DialogRoot, DialogTrigger, IconButton } from "@ndla/primitives";
+import { DialogContent, DialogRoot, DialogTrigger, IconButton, Spinner } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { ImageEmbedData, ImageMetaData } from "@ndla/types-embed";
@@ -22,7 +22,6 @@ import { EmbedWrapper, ImageEmbed } from "@ndla/ui";
 import ImageEmbedForm from "./ImageEmbedForm";
 import { ImageElement } from "./types";
 import { useImageMeta } from "../../../../modules/embed/queries";
-import { OldSpinner } from "../../../OldSpinner";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import { StyledFigureButtons } from "../embed/FigureButtons";
 
@@ -145,7 +144,7 @@ const SlateImage = ({ element, editor, attributes, children, allowDecorative = t
   );
 
   if (imageEmbedQuery.isLoading || !embed || !embedWithoutCaching) {
-    return <OldSpinner />;
+    return <Spinner />;
   }
 
   return (

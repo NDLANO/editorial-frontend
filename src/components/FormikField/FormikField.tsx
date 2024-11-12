@@ -12,11 +12,48 @@ import { ReactElement, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Node } from "slate";
 import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
 import FormikFieldDescription from "./FormikFieldDescription";
 import FormikFieldHelp from "./FormikFieldHelp";
 import FormikFieldLabel from "./FormikFieldLabel";
 import FormikRemainingCharacters from "./FormikRemainingCharacters";
-import { StyledField } from "../Field";
+interface StyledFieldProps {
+  right?: boolean;
+  isTitle?: boolean;
+  noBorder?: boolean;
+}
+
+const StyledField = styled.div<StyledFieldProps>`
+  margin-top: 2rem;
+  position: relative;
+  & > select {
+    width: 100%;
+    display: block;
+  }
+  & label {
+    font-size: 1.5rem;
+  }
+  &[data-no-border="true"] {
+    & input {
+      border: none;
+      padding: 0;
+      margin: 0;
+      outline: none;
+    }
+  }
+  &[data-right="true"] {
+    text-align: right;
+    margin-right: ${spacing.small};
+  }
+  &[data-is-title="true"] {
+    & input {
+      font-size: 2.11111rem;
+    }
+    & div {
+      font-size: 2.11111rem;
+    }
+  }
+`;
 
 const StyledErrorPreLine = styled.span`
   white-space: pre-line;

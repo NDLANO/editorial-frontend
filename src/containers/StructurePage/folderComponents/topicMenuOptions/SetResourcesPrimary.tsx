@@ -14,12 +14,10 @@ import { Node } from "@ndla/types-taxonomy";
 import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
 import { FormActionsContainer } from "../../../../components/FormikForm";
 import Overlay from "../../../../components/Overlay";
-import RoundIcon from "../../../../components/RoundIcon";
 import Spinner from "../../../../components/Spinner";
 import { usePutResourcesPrimaryMutation } from "../../../../modules/nodes/nodeMutations";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 import { EditModeHandler } from "../SettingsMenuDropdownType";
-import MenuItemButton from "../sharedMenuOptions/components/MenuItemButton";
 import { StyledErrorMessage } from "../styles";
 
 interface Props {
@@ -48,10 +46,10 @@ const SetResourcesPrimary = ({ node, recursive = false, editModeHandler: { editM
 
   return (
     <>
-      <MenuItemButton onClick={toggleConnectedResourcesPrimary}>
-        <RoundIcon small icon={<PencilFill />} />
+      <Button size="small" variant="tertiary" onClick={toggleConnectedResourcesPrimary}>
+        <PencilFill />
         {recursive ? t("taxonomy.resourcesPrimary.recursiveButtonText") : t("taxonomy.resourcesPrimary.buttonText")}
-      </MenuItemButton>
+      </Button>
       <AlertDialog
         title={t("taxonomy.resourcesPrimary.buttonText")}
         label={t("taxonomy.resourcesPrimary.buttonText")}

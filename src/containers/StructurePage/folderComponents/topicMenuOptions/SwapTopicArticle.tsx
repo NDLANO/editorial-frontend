@@ -11,9 +11,10 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
 import { spacing, colors } from "@ndla/core";
+import { FileTextLine } from "@ndla/icons/common";
 import { SubjectMaterial } from "@ndla/icons/contentType";
 import { Done } from "@ndla/icons/editor";
-import { ComboboxLabel, Spinner } from "@ndla/primitives";
+import { ComboboxLabel, Spinner, Button } from "@ndla/primitives";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
 import { Node } from "@ndla/types-taxonomy";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../../components/abstractions/Combobox";
@@ -27,7 +28,6 @@ import { useSearch } from "../../../../modules/search/searchQueries";
 import { usePaginatedQuery } from "../../../../util/usePaginatedQuery";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 import { EditModeHandler } from "../SettingsMenuDropdownType";
-import MenuItemButton from "../sharedMenuOptions/components/MenuItemButton";
 import { StyledErrorMessage } from "../styles";
 
 interface Props {
@@ -152,10 +152,10 @@ const SwapTopicArticle = ({ node, rootNodeId, editModeHandler: { editMode, toggl
 
   return (
     <StyledMenuWrapper>
-      <MenuItemButton onClick={toggleEditModeFunc}>
-        <RoundIcon small icon={<SubjectMaterial />} />
+      <Button size="small" variant="tertiary" onClick={toggleEditModeFunc}>
+        <FileTextLine />
         {t("taxonomy.swapTopicArticle.info")}
-      </MenuItemButton>
+      </Button>
       <StyledActionContent>
         {putNodeMutation.isPending && (
           <MenuContent>

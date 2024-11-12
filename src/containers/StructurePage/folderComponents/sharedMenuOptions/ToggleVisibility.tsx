@@ -9,12 +9,10 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
-import { Eye } from "@ndla/icons/editor";
-import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
+import { EyeFill } from "@ndla/icons/editor";
+import { Button, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node, NodeType } from "@ndla/types-taxonomy";
-import MenuItemButton from "./components/MenuItemButton";
-import RoundIcon from "../../../../components/RoundIcon";
 import { useUpdateNodeMetadataMutation } from "../../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
@@ -71,10 +69,10 @@ const ToggleVisibility = ({
 
   return (
     <>
-      <MenuItemButton data-testid="toggleVisibilityButton" onClick={toggleEditModes}>
-        <RoundIcon small icon={<Eye />} />
+      <Button size="small" variant="tertiary" onClick={toggleEditModes} data-testid="toggleVisibilityButton">
+        <EyeFill />
         {t("metadata.changeVisibility")}
-      </MenuItemButton>
+      </Button>
       {editMode === "toggleMetadataVisibility" && (
         <Wrapper>
           <SwitchRoot checked={visible} onCheckedChange={toggleVisibility}>

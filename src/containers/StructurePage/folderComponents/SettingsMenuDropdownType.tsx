@@ -7,9 +7,9 @@
  */
 
 import { useState } from "react";
+import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
 import ConnectExistingNode from "./sharedMenuOptions/ConnectExistingNode";
-import CopyRevisionDate from "./sharedMenuOptions/CopyRevisionDate";
 import DeleteNode from "./sharedMenuOptions/DeleteNode";
 import DisconnectFromParent from "./sharedMenuOptions/DisconnectFromParent";
 import EditCustomFields from "./sharedMenuOptions/EditCustomFields";
@@ -28,6 +28,18 @@ import { EditMode } from "../../../interfaces";
 import { PROGRAMME, SUBJECT_NODE, TOPIC_NODE } from "../../../modules/nodes/nodeApiTypes";
 import { getNodeTypeFromNodeId } from "../../../modules/nodes/nodeUtil";
 import { useSession } from "../../Session/SessionProvider";
+
+const ContentWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "3xsmall",
+    alignItems: "flex-start",
+    "& button": {
+      textAlign: "start",
+    },
+  },
+});
 
 interface Props {
   rootNodeId: string;
@@ -52,7 +64,7 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
 
   if (nodeType === PROGRAMME) {
     return (
-      <>
+      <ContentWrapper>
         {isTaxonomyAdmin && <ChangeNodeName editModeHandler={editModeHandler} node={node} />}
         {isTaxonomyAdmin && (
           <EditCustomFields
@@ -81,13 +93,13 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
             onCurrentNodeChanged={onCurrentNodeChanged}
           />
         )}
-      </>
+      </ContentWrapper>
     );
   }
   if (nodeType === SUBJECT_NODE) {
     if (rootNodeId !== node.id) {
       return (
-        <>
+        <ContentWrapper>
           {isTaxonomyAdmin && (
             <DisconnectFromParent
               node={node}
@@ -95,11 +107,11 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
               onCurrentNodeChanged={onCurrentNodeChanged}
             />
           )}
-        </>
+        </ContentWrapper>
       );
     }
     return (
-      <>
+      <ContentWrapper>
         {isTaxonomyAdmin && <ChangeNodeName editModeHandler={editModeHandler} node={node} />}
         {isTaxonomyAdmin && (
           <EditCustomFields
@@ -123,12 +135,12 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
             onCurrentNodeChanged={onCurrentNodeChanged}
           />
         )}
-      </>
+      </ContentWrapper>
     );
   }
   if (nodeType === TOPIC_NODE) {
     return (
-      <>
+      <ContentWrapper>
         {isTaxonomyAdmin && <PublishChildNodeResources node={node} />}
         {isTaxonomyAdmin && <SwapTopicArticle node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />}
         {isTaxonomyAdmin && (
@@ -141,17 +153,6 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
         )}
         <MoveExistingNode editModeHandler={editModeHandler} currentNode={node} />
         <ToggleVisibility node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
-        <ToNodeDiff node={node} />
-        {false && <CopyRevisionDate node={node} editModeHandler={editModeHandler} />}
-        {isTaxonomyAdmin && (
-          <DeleteNode
-            node={node}
-            nodeChildren={nodeChildren}
-            editModeHandler={editModeHandler}
-            rootNodeId={rootNodeId}
-            onCurrentNodeChanged={onCurrentNodeChanged}
-          />
-        )}
         <CopyNodeResources
           currentNode={node}
           nodeType={TOPIC_NODE}
@@ -167,7 +168,17 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onCurrentNodeChanged, node
           />
         )}
         {isTaxonomyAdmin && <SetResourcesPrimary node={node} editModeHandler={editModeHandler} recursive />}
-      </>
+        <ToNodeDiff node={node} />
+        {isTaxonomyAdmin && (
+          <DeleteNode
+            node={node}
+            nodeChildren={nodeChildren}
+            editModeHandler={editModeHandler}
+            rootNodeId={rootNodeId}
+            onCurrentNodeChanged={onCurrentNodeChanged}
+          />
+        )}
+      </ContentWrapper>
     );
   }
   return null;

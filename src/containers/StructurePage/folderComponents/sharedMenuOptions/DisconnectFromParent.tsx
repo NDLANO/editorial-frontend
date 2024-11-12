@@ -13,11 +13,9 @@ import { useQueryClient } from "@tanstack/react-query";
 import { DeleteBinLine } from "@ndla/icons/action";
 import { Button } from "@ndla/primitives";
 import { Node, NodeChild } from "@ndla/types-taxonomy";
-import MenuItemButton from "./components/MenuItemButton";
 import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
 import { FormActionsContainer } from "../../../../components/FormikForm";
 import Overlay from "../../../../components/Overlay";
-import RoundIcon from "../../../../components/RoundIcon";
 import Spinner from "../../../../components/Spinner";
 import { useDeleteNodeConnectionMutation } from "../../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
@@ -72,10 +70,10 @@ const DisconnectFromParent = ({ node, editModeHandler: { editMode, toggleEditMod
 
   return (
     <>
-      <MenuItemButton data-testid="disconnectNode" onClick={toggleDisconnect}>
-        <RoundIcon small icon={<DeleteBinLine />} />
+      <Button size="small" variant="tertiary" data-testid="disconnectNode" onClick={toggleDisconnect}>
+        <DeleteBinLine />
         {t("taxonomy.disconnectNode")}
-      </MenuItemButton>
+      </Button>
       <AlertDialog
         label={t("taxonomy.disconnectNode")}
         title={t("taxonomy.disconnectNode")}

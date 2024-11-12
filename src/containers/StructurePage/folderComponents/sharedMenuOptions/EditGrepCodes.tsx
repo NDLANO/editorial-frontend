@@ -12,11 +12,9 @@ import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { AddLine, PencilFill, DeleteBinLine } from "@ndla/icons/action";
-import { IconButton, Spinner } from "@ndla/primitives";
+import { IconButton, Spinner, Button } from "@ndla/primitives";
 import { Node } from "@ndla/types-taxonomy";
-import MenuItemButton from "./components/MenuItemButton";
 import MenuItemEditField from "./components/MenuItemEditField";
-import RoundIcon from "../../../../components/RoundIcon";
 import { useGrepCodes } from "../../../../modules/grep/grepQueries";
 import { useUpdateNodeMetadataMutation } from "../../../../modules/nodes/nodeMutations";
 import { getRootIdForNode, isRootNode } from "../../../../modules/nodes/nodeUtil";
@@ -122,10 +120,10 @@ const EditGrepCodes = ({ node, editModeHandler: { editMode, toggleEditMode } }: 
 
   return (
     <>
-      <MenuItemButton data-testid="editGrepCodes" onClick={() => toggleEditModes()}>
-        <RoundIcon small icon={<PencilFill />} />
+      <Button size="small" variant="tertiary" data-testid="editGrepCodes" onClick={() => toggleEditModes()}>
+        <PencilFill />
         {t("taxonomy.grepCodes.edit")}
-      </MenuItemButton>
+      </Button>
       {editMode === "editGrepCodes" && grepCodesList}
     </>
   );

@@ -12,14 +12,13 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
 import { colors } from "@ndla/core";
-import { Done } from "@ndla/icons/editor";
+import { CheckLine, Done } from "@ndla/icons/editor";
 import { Button, Spinner } from "@ndla/primitives";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
 import { Node } from "@ndla/types-taxonomy";
 import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
 import { FormActionsContainer } from "../../../../components/FormikForm";
-import RoundIcon from "../../../../components/RoundIcon";
 import { PUBLISHED } from "../../../../constants";
 import { fetchDrafts, updateStatusDraft } from "../../../../modules/draft/draftApi";
 import { fetchLearningpaths, updateStatusLearningpath } from "../../../../modules/learningpath/learningpathApi";
@@ -27,7 +26,6 @@ import { fetchNodeResources } from "../../../../modules/nodes/nodeApi";
 import { RESOURCE_META } from "../../../../queryKeys";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 import ResourceItemLink from "../../resourceComponents/ResourceItemLink";
-import MenuItemButton from "../sharedMenuOptions/components/MenuItemButton";
 
 interface Props {
   node: Node;
@@ -146,10 +144,10 @@ const PublishChildNodeResources = ({ node }: Props) => {
 
   return (
     <>
-      <MenuItemButton onClick={() => setShowConfirmation(true)}>
-        <RoundIcon small icon={<Done />} />
+      <Button size="small" variant="tertiary" onClick={() => setShowConfirmation(true)}>
+        <CheckLine />
         {t("taxonomy.publish.button")}
-      </MenuItemButton>
+      </Button>
       {showDisplay && (
         <StyledDiv>
           {done ? <StyledDone /> : <StyledSpinner size="small" />}

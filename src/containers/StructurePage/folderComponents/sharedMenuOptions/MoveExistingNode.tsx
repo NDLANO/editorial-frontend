@@ -13,9 +13,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import { spacing, colors } from "@ndla/core";
 import { AddLine } from "@ndla/icons/action";
 import { Done } from "@ndla/icons/editor";
-import { Spinner } from "@ndla/primitives";
+import { Spinner, Button } from "@ndla/primitives";
 import { Node, NodeType } from "@ndla/types-taxonomy";
-import MenuItemButton from "./components/MenuItemButton";
 import NodeSearchDropdown from "./components/NodeSearchDropdown";
 import RoundIcon from "../../../../components/RoundIcon";
 import { fetchConnectionsForNode } from "../../../../modules/nodes/nodeApi";
@@ -149,12 +148,12 @@ const MoveExistingNode = ({
 
   return (
     <StyledMenuWrapper>
-      <MenuItemButton onClick={toggleEditModeFunc}>
-        <RoundIcon small icon={<AddLine />} />
+      <Button size="small" variant="tertiary" onClick={toggleEditModeFunc}>
+        <AddLine />
         {t("taxonomy.addExistingNode", {
           nodeType: t(`taxonomy.nodeType.${nodeType}`),
         })}
-      </MenuItemButton>
+      </Button>
       <StyledActionContent>
         {loading && (
           <MenuContent>

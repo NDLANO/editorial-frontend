@@ -7,13 +7,9 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
-import styled from "@emotion/styled";
-import { colors } from "@ndla/core";
-import { Taxonomy } from "@ndla/icons/editor";
+import { ExternalLinkLine } from "@ndla/icons/common";
+import { SafeLinkButton } from "@ndla/safelink";
 import { Node } from "@ndla/types-taxonomy";
-import MenuItemButton from "./components/MenuItemButton";
-import RoundIcon from "../../../../components/RoundIcon";
 import { useTaxonomyVersion } from "../../../../containers/StructureVersion/TaxonomyVersionProvider";
 import { toNodeDiff } from "../../../../util/routeHelpers";
 
@@ -21,22 +17,19 @@ interface Props {
   node: Node;
 }
 
-const StyledLink = styled(Link)`
-  color: ${colors.brand.greyDark};
-  &hover {
-    color: ${colors.brand.primary};
-  }
-`;
 const ToNodeDiff = ({ node }: Props) => {
   const { t } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   return (
-    <StyledLink to={toNodeDiff(node.id, taxonomyVersion, "default")}>
-      <MenuItemButton data-testid="toNodeDiff">
-        <RoundIcon small icon={<Taxonomy />} />
-        {t("diff.compareVersions")}
-      </MenuItemButton>
-    </StyledLink>
+    <SafeLinkButton
+      size="small"
+      variant="tertiary"
+      to={toNodeDiff(node.id, taxonomyVersion, "default")}
+      data-testid="toNodeDiff"
+    >
+      {t("diff.compareVersions")}
+      <ExternalLinkLine />
+    </SafeLinkButton>
   );
 };
 export default ToNodeDiff;

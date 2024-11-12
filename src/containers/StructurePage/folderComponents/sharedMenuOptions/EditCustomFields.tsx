@@ -8,10 +8,9 @@
 
 import { useTranslation } from "react-i18next";
 import { PencilFill } from "@ndla/icons/action";
+import { Button } from "@ndla/primitives";
 import { Node } from "@ndla/types-taxonomy";
-import MenuItemButton from "./components/MenuItemButton";
 import MenuItemCustomField from "./components/MenuItemCustomField";
-import RoundIcon from "../../../../components/RoundIcon";
 import { EditMode } from "../../../../interfaces";
 
 interface Props {
@@ -24,16 +23,21 @@ interface Props {
 const EditCustomFields = ({ node, toggleEditMode, editMode, onCurrentNodeChanged }: Props) => {
   const { t } = useTranslation();
   return (
-    <div>
-      <MenuItemButton data-testid="editCustomFieldsButton" onClick={() => toggleEditMode("openCustomFields")}>
-        <RoundIcon small open={editMode === "openCustomFields"} icon={<PencilFill />} />
+    <>
+      <Button
+        size="small"
+        variant="tertiary"
+        data-testid="editCustomFieldsButton"
+        onClick={() => toggleEditMode("openCustomFields")}
+      >
+        <PencilFill />
         {t("taxonomy.metadata.customFields.alterFields")}
-      </MenuItemButton>
+      </Button>
 
       {editMode === "openCustomFields" && (
         <MenuItemCustomField node={node} onCurrentNodeChanged={onCurrentNodeChanged} />
       )}
-    </div>
+    </>
   );
 };
 

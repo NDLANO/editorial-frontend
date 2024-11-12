@@ -11,9 +11,9 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
 import { spacing, colors } from "@ndla/core";
-import { Copy } from "@ndla/icons/action";
+import { Copy, FileCopyLine } from "@ndla/icons/action";
 import { Done } from "@ndla/icons/editor";
-import { Spinner } from "@ndla/primitives";
+import { Spinner, Button } from "@ndla/primitives";
 import { Node, NodeChild, NodeType } from "@ndla/types-taxonomy";
 import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
 import RoundIcon from "../../../../components/RoundIcon";
@@ -25,7 +25,6 @@ import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 import ResourceItemLink from "../../resourceComponents/ResourceItemLink";
 import { EditModeHandler } from "../SettingsMenuDropdownType";
-import MenuItemButton from "../sharedMenuOptions/components/MenuItemButton";
 import NodeSearchDropdown from "../sharedMenuOptions/components/NodeSearchDropdown";
 
 type ActionType = Extract<EditMode, "copyResources" | "cloneResources">;
@@ -38,11 +37,6 @@ interface Props {
 
 const StyledSpinner = styled(Spinner)`
   margin: 0px 4px;
-`;
-
-const StyledCopyIcon = styled(Copy)`
-  width: 8px;
-  height: 8px;
 `;
 
 const Wrapper = styled.div`
@@ -204,10 +198,10 @@ const CopyNodeResources = ({ editModeHandler: { editMode, toggleEditMode }, curr
 
   return (
     <>
-      <MenuItemButton onClick={toggleEditModeFunc}>
-        <RoundIcon small icon={<StyledCopyIcon />} />
+      <Button size="small" variant="tertiary" onClick={toggleEditModeFunc}>
+        <FileCopyLine />
         {t(`taxonomy.${type}.info`)}
-      </MenuItemButton>
+      </Button>
       {showDisplay && (
         <StyledDiv>
           {done ? <StyledDone /> : <StyledSpinner size="small" />}

@@ -11,11 +11,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { DeleteBinLine } from "@ndla/icons/action";
 import { Button } from "@ndla/primitives";
 import { Node, NodeChild } from "@ndla/types-taxonomy";
-import MenuItemButton from "./components/MenuItemButton";
 import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
 import { FormActionsContainer } from "../../../../components/FormikForm";
 import Overlay from "../../../../components/Overlay";
-import RoundIcon from "../../../../components/RoundIcon";
 import Spinner from "../../../../components/Spinner";
 import { ARCHIVED } from "../../../../constants";
 import { updateStatusDraft } from "../../../../modules/draft/draftApi";
@@ -47,7 +45,7 @@ const DeleteNode = ({
   const navigate = useNavigate();
   const location = useLocation();
 
-  const disabled = nodeChildren && nodeChildren.length !== 0;
+  const disabled = nodeChildren.length !== 0;
 
   const deleteNodeConnectionMutation = useDeleteNodeConnectionMutation();
   const deleteNodeMutation = useDeleteNodeMutation();
@@ -96,10 +94,10 @@ const DeleteNode = ({
   };
   return (
     <>
-      <MenuItemButton data-testid="deleteNode" disabled={disabled} onClick={toggleDelete}>
-        <RoundIcon small icon={<DeleteBinLine />} />
+      <Button data-testid="deleteNode" disabled={disabled} onClick={toggleDelete} size="small" variant="danger">
+        <DeleteBinLine />
         {t("taxonomy.deleteNode")}
-      </MenuItemButton>
+      </Button>
       <AlertDialog
         label={t("taxonomy.deleteNode")}
         title={t("taxonomy.deleteNode")}

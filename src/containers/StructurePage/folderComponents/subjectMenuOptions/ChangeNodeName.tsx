@@ -11,7 +11,7 @@ import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Portal } from "@ark-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
-import { PencilFill, DeleteBinLine } from "@ndla/icons/action";
+import { DeleteBinLine, PencilFill } from "@ndla/icons/action";
 import {
   Button,
   DialogBody,
@@ -35,7 +35,6 @@ import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { FormField } from "../../../../components/FormField";
 import { FormActionsContainer, FormikForm } from "../../../../components/FormikForm";
 import validateFormik, { RulesType } from "../../../../components/formikValidationSchema";
-import RoundIcon from "../../../../components/RoundIcon";
 import SaveButton from "../../../../components/SaveButton";
 import Spinner from "../../../../components/Spinner";
 import { subjectpageLanguages } from "../../../../i18n2";
@@ -49,7 +48,6 @@ import { isFormikFormDirty } from "../../../../util/formHelper";
 import handleError from "../../../../util/handleError";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 import { EditModeHandler } from "../SettingsMenuDropdownType";
-import MenuItemButton from "../sharedMenuOptions/components/MenuItemButton";
 import { StyledErrorMessage } from "../styles";
 
 const InputWrapper = styled("div", {
@@ -92,12 +90,11 @@ const ChangeNodeName = ({ editModeHandler: { editMode, toggleEditMode }, node }:
 
   return (
     <DialogRoot open={editMode === "changeSubjectName"} onOpenChange={(details) => onModalChange(details.open)}>
-      {/* TODO: Remove consumeCss once MenuItemButton is updated */}
-      <DialogTrigger asChild consumeCss>
-        <MenuItemButton data-testid="changeNodeNameButton">
-          <RoundIcon small icon={<PencilFill />} />
+      <DialogTrigger asChild>
+        <Button size="small" variant="tertiary" data-testid="changeNodeNameButton">
+          <PencilFill />
           {t("taxonomy.changeName.buttonTitle")}
-        </MenuItemButton>
+        </Button>
       </DialogTrigger>
       <Portal>
         <DialogContent>

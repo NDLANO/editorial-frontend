@@ -17,7 +17,7 @@ test.beforeEach(async ({ page }) => {
 test("should have settingsMenu available after clicking button", async ({ page }) => {
   await page.getByTestId("structure").getByRole("button", { name: "Engelsk 1" }).click();
   await page.getByTestId("settings-button").click();
-  expect(await page.getByTestId("settings-menu-modal").count()).toEqual(1);
+  expect(await page.getByTestId("settings-menu-dialog").count()).toEqual(1);
 });
 
 test("should be able to change name of node", async ({ page }) => {

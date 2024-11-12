@@ -9,11 +9,11 @@
 import { useMemo } from "react";
 import styled from "@emotion/styled";
 import { breakpoints, mq } from "@ndla/core";
+import { Spinner } from "@ndla/primitives";
 import { NodeChild, ResourceType } from "@ndla/types-taxonomy";
 import ResourceItems from "./ResourceItems";
 import { ResourceWithNodeConnectionAndMeta } from "./StructureResources";
 import TopicResourceBanner from "./TopicResourceBanner";
-import { OldSpinner } from "../../../components/OldSpinner";
 import { Auth0UserData, Dictionary } from "../../../interfaces";
 import { NodeResourceMeta, useNodes } from "../../../modules/nodes/nodeQueries";
 import { groupResourcesByType } from "../../../util/taxonomyHelpers";
@@ -92,7 +92,7 @@ const ResourcesContainer = ({
       />
       <ResourceWrapper>
         {contentMetaLoading ? (
-          <OldSpinner />
+          <Spinner />
         ) : (
           <>
             {grouped ? (

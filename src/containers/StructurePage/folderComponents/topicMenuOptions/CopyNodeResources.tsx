@@ -13,9 +13,9 @@ import { useQueryClient } from "@tanstack/react-query";
 import { spacing, colors } from "@ndla/core";
 import { Copy } from "@ndla/icons/action";
 import { Done } from "@ndla/icons/editor";
+import { Spinner } from "@ndla/primitives";
 import { Node, NodeChild, NodeType } from "@ndla/types-taxonomy";
 import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
-import { OldSpinner } from "../../../../components/OldSpinner";
 import RoundIcon from "../../../../components/RoundIcon";
 import { EditMode } from "../../../../interfaces";
 import { cloneDraft } from "../../../../modules/draft/draftApi";
@@ -36,7 +36,7 @@ interface Props {
   type: ActionType;
 }
 
-const StyledSpinner = styled(OldSpinner)`
+const StyledSpinner = styled(Spinner)`
   margin: 0px 4px;
 `;
 
@@ -210,7 +210,7 @@ const CopyNodeResources = ({ editModeHandler: { editMode, toggleEditMode }, curr
       </MenuItemButton>
       {showDisplay && (
         <StyledDiv>
-          {done ? <StyledDone /> : <StyledSpinner size="normal" />}
+          {done ? <StyledDone /> : <StyledSpinner size="small" />}
           {`${prefixText} (${count}/${totalAmount})`}
         </StyledDiv>
       )}

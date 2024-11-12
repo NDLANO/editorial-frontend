@@ -13,10 +13,10 @@ import { useQueryClient } from "@tanstack/react-query";
 import { spacing, colors } from "@ndla/core";
 import { AddLine } from "@ndla/icons/action";
 import { Done } from "@ndla/icons/editor";
+import { Spinner } from "@ndla/primitives";
 import { Node, NodeType } from "@ndla/types-taxonomy";
 import MenuItemButton from "./components/MenuItemButton";
 import NodeSearchDropdown from "./components/NodeSearchDropdown";
-import { OldSpinner } from "../../../../components/OldSpinner";
 import RoundIcon from "../../../../components/RoundIcon";
 import { usePostNodeConnectionMutation } from "../../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
@@ -28,10 +28,6 @@ interface Props {
   currentNode: Node;
   nodeType: NodeType;
 }
-
-const StyledSpinner = styled(OldSpinner)`
-  margin: 0px 4px;
-`;
 
 const StyledSuccessIcon = styled(Done)`
   border-radius: 90px;
@@ -141,7 +137,7 @@ const ConnectExistingNode = ({ editModeHandler: { editMode, toggleEditMode }, cu
       <StyledActionContent>
         {loading && (
           <MenuContent>
-            <StyledSpinner size="normal" />
+            <Spinner size="small" />
             {t("taxonomy.connectExistingLoading")}
           </MenuContent>
         )}

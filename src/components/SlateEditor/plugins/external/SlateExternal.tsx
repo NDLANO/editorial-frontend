@@ -21,6 +21,7 @@ import {
   DialogTitle,
   DialogTrigger,
   IconButton,
+  Spinner,
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -33,7 +34,6 @@ import { WhitelistProvider } from "../../../../interfaces";
 import { useExternalEmbed } from "../../../../modules/embed/queries";
 import { urlDomain } from "../../../../util/htmlHelpers";
 import { DialogCloseButton } from "../../../DialogCloseButton";
-import { OldSpinner } from "../../../OldSpinner";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import EditorErrorMessage from "../../EditorErrorMessage";
 import { StyledFigureButtons } from "../embed/FigureButtons";
@@ -192,7 +192,7 @@ export const SlateExternal = ({ element, editor, attributes, children }: Props) 
             </IconButton>
           </StyledFigureButtons>
           {metaQuery.isLoading ? (
-            <OldSpinner />
+            <Spinner />
           ) : !allowedProvider ? (
             <EditorErrorMessage msg={t("displayOembed.notSupported", { type, provider: provider })} />
           ) : embed?.resource === "external" ? (

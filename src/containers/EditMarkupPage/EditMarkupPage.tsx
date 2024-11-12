@@ -22,6 +22,7 @@ import {
   IconButton,
   Text,
   Button,
+  Spinner,
 } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { IArticle } from "@ndla/types-backend/draft-api";
@@ -30,7 +31,6 @@ import { DialogCloseButton } from "../../components/DialogCloseButton";
 import FieldHeader from "../../components/Field/FieldHeader";
 import { FormActionsContainer } from "../../components/FormikForm";
 import HeaderSupportedLanguages from "../../components/HeaderWithLanguage/HeaderSupportedLanguages";
-import { OldSpinner } from "../../components/OldSpinner";
 import { PreviewResourceDialog } from "../../components/PreviewDraft/PreviewResourceDialog";
 import SaveButton from "../../components/SaveButton";
 import { DRAFT_HTML_SCOPE } from "../../constants";
@@ -223,7 +223,7 @@ const EditMarkupPage = () => {
           replace={true}
         />
       </LanguageWrapper>
-      <Suspense fallback={<OldSpinner />}>
+      <Suspense fallback={<Spinner />}>
         <MonacoEditor
           key={draft && draft.content ? draft.id + draft.revision + "-" + draft.content.language : "draft"}
           value={draft?.content?.content ?? ""}

@@ -13,12 +13,12 @@ import styled from "@emotion/styled";
 import { colors, spacing } from "@ndla/core";
 import { Subject } from "@ndla/icons/contentType";
 import { DragVertical, Star, SubjectMatter, Taxonomy } from "@ndla/icons/editor";
+import { Spinner } from "@ndla/primitives";
 import { NodeChild, Node, NodeType } from "@ndla/types-taxonomy";
 import FolderItem from "./folderComponents/FolderItem";
 import QualityEvaluationGrade from "./resourceComponents/QualityEvaluationGrade";
 import DndList from "../../components/DndList";
 import { DragHandle } from "../../components/DraggableItem";
-import { OldSpinner } from "../../components/OldSpinner";
 import Fade from "../../components/Taxonomy/Fade";
 import {
   ItemTitleButton,
@@ -57,10 +57,6 @@ const StyledStar = styled(Star)`
 const RoundIcon = ({ smallIcon, ...rest }: RoundIconProps & Omit<HTMLProps<HTMLButtonElement>, "as">) => (
   <StyledIcon {...rest}>{smallIcon}</StyledIcon>
 );
-
-const StyledSpinner = styled(OldSpinner)`
-  margin: 4px ${spacing.normal};
-`;
 
 const IconWrapper = styled.div`
   padding: 0 ${spacing.xxsmall};
@@ -226,7 +222,7 @@ const NodeItem = ({
         )}
         {isLoading && (
           <span>
-            <StyledSpinner size="normal" />
+            <Spinner size="small" />
           </span>
         )}
       </StyledItemBar>

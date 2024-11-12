@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Editor, Transforms } from "slate";
 import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import { DeleteBinLine } from "@ndla/icons/action";
-import { IconButton } from "@ndla/primitives";
+import { IconButton, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { H5pMetaData } from "@ndla/types-embed";
 import { EmbedWrapper, H5pEmbed } from "@ndla/ui";
@@ -20,7 +20,6 @@ import EditMetadataModal from "./EditMetadataModal";
 import { H5pElement } from "./types";
 import config from "../../../../config";
 import { useH5pMeta } from "../../../../modules/embed/queries";
-import { OldSpinner } from "../../../OldSpinner";
 import { useArticleLanguage } from "../../ArticleLanguageProvider";
 import { StyledFigureButtons } from "../embed/FigureButtons";
 
@@ -89,7 +88,7 @@ const SlateH5p = ({ element, editor, attributes, children }: Props) => {
           <DeleteBinLine />
         </IconButton>
       </FigureButtons>
-      {h5pMetaQuery.isLoading || !embed ? <OldSpinner /> : <H5pEmbed embed={embed} />}
+      {h5pMetaQuery.isLoading || !embed ? <Spinner /> : <H5pEmbed embed={embed} />}
       {children}
     </StyledEmbedWrapper>
   );

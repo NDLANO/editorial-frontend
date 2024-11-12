@@ -10,7 +10,7 @@ import isEqual from "lodash/isEqual";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DragVertical } from "@ndla/icons/editor";
-import { ComboboxLabel, FieldRoot } from "@ndla/primitives";
+import { ComboboxLabel, FieldRoot, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IMultiSearchSummary } from "@ndla/types-backend/search-api";
 import { GenericComboboxInput, GenericComboboxItemContent } from "../../../components/abstractions/Combobox";
@@ -18,7 +18,6 @@ import DndList from "../../../components/DndList";
 import { DragHandle } from "../../../components/DraggableItem";
 import { GenericSearchCombobox } from "../../../components/Form/GenericSearchCombobox";
 import ListResource from "../../../components/Form/ListResource";
-import { OldSpinner } from "../../../components/OldSpinner";
 import { NDLA_FILM_SUBJECT } from "../../../constants";
 import { useMoviesQuery } from "../../../modules/frontpage/filmQueries";
 import { useSearchResources } from "../../../modules/search/searchQueries";
@@ -122,7 +121,7 @@ export const ThemeMovies = ({ movies, onMoviesUpdated, placeholder, comboboxLabe
         />
       </GenericSearchCombobox>
       {moviesQuery.isLoading ? (
-        <OldSpinner />
+        <Spinner />
       ) : (
         <StyledList>
           <DndList

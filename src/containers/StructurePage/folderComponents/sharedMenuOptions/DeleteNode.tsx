@@ -8,36 +8,38 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
-import { DeleteBinLine } from "@ndla/icons/action";
-import { Button } from "@ndla/primitives";
+import { ErrorWarningLine } from "@ndla/icons/common";
+import { Text, Button, Heading, MessageBox } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { Node, NodeChild } from "@ndla/types-taxonomy";
-import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
-import { FormActionsContainer } from "../../../../components/FormikForm";
-import Overlay from "../../../../components/Overlay";
-import Spinner from "../../../../components/Spinner";
 import { ARCHIVED } from "../../../../constants";
 import { updateStatusDraft } from "../../../../modules/draft/draftApi";
 import { fetchNodes } from "../../../../modules/nodes/nodeApi";
 import { useDeleteNodeConnectionMutation, useDeleteNodeMutation } from "../../../../modules/nodes/nodeMutations";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
-import { EditModeHandler } from "../SettingsMenuDropdownType";
-import { StyledErrorMessage } from "../styles";
+
+const StyledButton = styled(Button, {
+  base: {
+    alignSelf: "flex-end",
+  },
+});
+
+const Wrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "small",
+  },
+});
 
 interface Props {
   node: Node | NodeChild;
   nodeChildren: Node[];
-  editModeHandler: EditModeHandler;
   onCurrentNodeChanged: (node?: Node) => void;
   rootNodeId?: string;
 }
 
-const DeleteNode = ({
-  node,
-  nodeChildren,
-  editModeHandler: { editMode, toggleEditMode },
-  onCurrentNodeChanged,
-  rootNodeId,
-}: Props) => {
+const DeleteNode = ({ node, nodeChildren, onCurrentNodeChanged, rootNodeId }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const [loading, setLoading] = useState(false);
@@ -50,12 +52,9 @@ const DeleteNode = ({
   const deleteNodeConnectionMutation = useDeleteNodeConnectionMutation();
   const deleteNodeMutation = useDeleteNodeMutation();
 
-  const toggleDelete = () => toggleEditMode("deleteNode");
-
   const onDelete = async (): Promise<void> => {
     setLoading(true);
     setError(undefined);
-    toggleDelete();
     try {
       if ("parentId" in node) {
         await deleteNodeConnectionMutation.mutateAsync({
@@ -93,31 +92,19 @@ const DeleteNode = ({
     }
   };
   return (
-    <>
-      <Button data-testid="deleteNode" disabled={disabled} onClick={toggleDelete} size="small" variant="danger">
-        <DeleteBinLine />
-        {t("taxonomy.deleteNode")}
-      </Button>
-      <AlertDialog
-        label={t("taxonomy.deleteNode")}
-        title={t("taxonomy.deleteNode")}
-        show={editMode === "deleteNode"}
-        onCancel={toggleDelete}
-        text={t("taxonomy.confirmDelete")}
-      >
-        <FormActionsContainer>
-          <Button variant="secondary" onClick={toggleDelete}>
-            {t("form.abort")}
-          </Button>
-          <Button variant="danger" onClick={onDelete}>
-            {t("alertModal.delete")}
-          </Button>
-        </FormActionsContainer>
-      </AlertDialog>
-      {loading && <Spinner appearance="absolute" />}
-      {loading && <Overlay modifiers={["absolute", "white-opacity", "zIndex"]} />}
-      {error && <StyledErrorMessage data-testid="inlineEditErrorMessage">{error}</StyledErrorMessage>}
-    </>
+    <Wrapper>
+      <Heading consumeCss asChild textStyle="label.medium" fontWeight="bold">
+        <h2>{t("taxonomy.deleteNode")}</h2>
+      </Heading>
+      <MessageBox variant="warning">
+        <ErrorWarningLine />
+        <Text>{t("taxonomy.confirmDelete")}</Text>
+      </MessageBox>
+      <StyledButton variant="danger" onClick={onDelete} loading={loading} disabled={disabled}>
+        {t("alertModal.delete")}
+      </StyledButton>
+      {error && <Text color="text.error">{error}</Text>}
+    </Wrapper>
   );
 };
 

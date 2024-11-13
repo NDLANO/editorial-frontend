@@ -1861,6 +1861,8 @@ const phrases = {
         subjectLMA: "LMA for faget",
         subjectSA: "SA for faget",
         subjectDA: "DA for faget",
+        keyPlaceholder: "Skriv inn nøkkel",
+        valuePlaceholder: "Skriv inn verdi",
       },
       placeholders: {
         category: "Velg kategori",

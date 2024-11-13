@@ -1863,6 +1863,8 @@ const phrases = {
         subjectLMA: "Responsible for the subject",
         subjectSA: "Language responsible for the subject",
         subjectDA: "Desk responsible for the subject",
+        keyPlaceholder: "Add key",
+        valuePlaceholder: "Add value",
       },
       placeholders: {
         category: "Choose category",

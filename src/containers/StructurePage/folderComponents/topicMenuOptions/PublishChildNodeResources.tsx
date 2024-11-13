@@ -7,18 +7,16 @@
  */
 
 import partition from "lodash/partition";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
-import { colors } from "@ndla/core";
-import { CheckLine, Done } from "@ndla/icons/editor";
-import { Button, Spinner } from "@ndla/primitives";
+import { ErrorWarningLine } from "@ndla/icons/common";
+import { CheckLine } from "@ndla/icons/editor";
+import { Button, Heading, MessageBox, Spinner, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IArticle } from "@ndla/types-backend/draft-api";
 import { ILearningPathV2 } from "@ndla/types-backend/learningpath-api";
 import { Node } from "@ndla/types-taxonomy";
-import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
-import { FormActionsContainer } from "../../../../components/FormikForm";
 import { PUBLISHED } from "../../../../constants";
 import { fetchDrafts, updateStatusDraft } from "../../../../modules/draft/draftApi";
 import { fetchLearningpaths, updateStatusLearningpath } from "../../../../modules/learningpath/learningpathApi";
@@ -30,30 +28,38 @@ import ResourceItemLink from "../../resourceComponents/ResourceItemLink";
 interface Props {
   node: Node;
 }
-const StyledDiv = styled.div`
-  display: flex;
-  align-items: center;
-  padding-left: 1.2em;
-`;
 
-const LinkWrapper = styled.div`
-  a {
-    color: ${colors.white};
-    &:hover {
-      color: ${colors.white};
-    }
-  }
-  margin-top: 0.5em;
-`;
+const StatusIndicatorContent = styled("div", {
+  base: {
+    display: "flex",
+    gap: "3xsmall",
+  },
+});
 
-const StyledSpinner = styled(Spinner)`
-  margin: 0px 4px;
-`;
+const StyledErrorTextWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+  },
+});
 
-const StyledDone = styled(Done)`
-  margin: 0px 4px;
-  color: green;
-`;
+const StyledCheckLine = styled(CheckLine, {
+  base: { fill: "stroke.success" },
+});
+
+const Wrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "small",
+  },
+});
+
+const StyledButton = styled(Button, {
+  base: {
+    alignSelf: "flex-end",
+  },
+});
 
 interface BaseResource {
   name: string;
@@ -71,13 +77,7 @@ const PublishChildNodeResources = ({ node }: Props) => {
   const [publishedCount, setPublishedCount] = useState(0);
   const [publishableCount, setPublishableCount] = useState(0);
   const [done, setDone] = useState(false);
-  const [showAlert, setShowAlert] = useState(false);
-  const [showConfirmation, setShowConfirmation] = useState(false);
   const qc = useQueryClient();
-
-  useEffect(() => {
-    setShowAlert(failedResources.length !== 0 && done);
-  }, [failedResources, done]);
 
   const publishResources = async () => {
     setFailedResources([]);
@@ -143,57 +143,42 @@ const PublishChildNodeResources = ({ node }: Props) => {
   const publishText = t(`taxonomy.publish.${done ? "done" : "waiting"}`);
 
   return (
-    <>
-      <Button size="small" variant="tertiary" onClick={() => setShowConfirmation(true)}>
-        <CheckLine />
-        {t("taxonomy.publish.button")}
-      </Button>
+    <Wrapper>
+      <Heading consumeCss asChild textStyle="label.medium" fontWeight="bold">
+        <h2>{t("taxonomy.publish.button")}</h2>
+      </Heading>
+      <MessageBox variant="warning">
+        <ErrorWarningLine />
+        <Text>{t("taxonomy.publish.info")}</Text>
+      </MessageBox>
+      <StyledButton onClick={() => publishResources()}>{t("taxonomy.publish.button")}</StyledButton>
       {showDisplay && (
-        <StyledDiv>
-          {done ? <StyledDone /> : <StyledSpinner size="small" />}
-          {`${publishText} (${publishedCount}/${publishableCount})`}
-        </StyledDiv>
+        <StatusIndicatorContent aria-live="polite">
+          {done ? <StyledCheckLine /> : <Spinner size="small" />}
+          <Text>{`${publishText} (${publishedCount}/${publishableCount})`}</Text>
+        </StatusIndicatorContent>
       )}
-      <AlertDialog
-        title={t("errorMessage.description")}
-        label={t("errorMessage.description")}
-        show={showAlert}
-        onCancel={() => setShowAlert(false)}
-        text={t("taxonomy.publish.error")}
-      >
-        {failedResources.map((res, index) => (
-          <LinkWrapper key={index}>
-            <ResourceItemLink
-              contentType={res.contentUri?.split(":")[1] === "article" ? "article" : "learning-resource"}
-              contentUri={res.contentUri}
-              name={res.name}
-            />
-          </LinkWrapper>
-        ))}
-      </AlertDialog>
-      <AlertDialog
-        title={t("taxonomy.publish.button")}
-        label={t("taxonomy.publish.button")}
-        show={showConfirmation}
-        text={t("taxonomy.publish.info")}
-        onCancel={() => setShowConfirmation(false)}
-      >
-        <FormActionsContainer>
-          <Button onClick={() => setShowConfirmation(false)} variant="danger">
-            {t("form.abort")}
-          </Button>
-          <Button
-            onClick={() => {
-              setShowConfirmation(false);
-              publishResources();
-            }}
-            variant="secondary"
-          >
-            {t("taxonomy.publish.button")}
-          </Button>
-        </FormActionsContainer>
-      </AlertDialog>
-    </>
+      {failedResources.length > 0 && (
+        <MessageBox variant="error">
+          <ErrorWarningLine />
+          <StyledErrorTextWrapper>
+            <Text>{t("taxonomy.publish.error")}</Text>
+            <div>
+              {failedResources.map((res, index) => (
+                <div key={index}>
+                  <ResourceItemLink
+                    contentType={res.contentUri?.split(":")[1] === "article" ? "article" : "learning-resource"}
+                    contentUri={res.contentUri}
+                    name={res.name}
+                    key={index}
+                  />
+                </div>
+              ))}
+            </div>
+          </StyledErrorTextWrapper>
+        </MessageBox>
+      )}
+    </Wrapper>
   );
 };
 

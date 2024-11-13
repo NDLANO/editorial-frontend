@@ -42,8 +42,8 @@ test("should be able to change visibility", async ({ page }) => {
   await page.getByTestId("structure").getByRole("button", { name: "Engelsk 1" }).click();
   await page.getByTestId("settings-button").click();
   await page.getByTestId("toggleVisibilityButton").click();
-  expect(await page.getByLabel("Synlig").count()).toEqual(1);
-  expect(await page.getByLabel("Synlig").isChecked()).toBeTruthy();
+  expect(await page.getByLabel("Synlig", { exact: true }).count()).toEqual(1);
+  expect(await page.getByLabel("Synlig", { exact: true }).isChecked()).toBeTruthy();
 });
 
 test("can toggle favourites", async ({ page }) => {

@@ -10,26 +10,29 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
-import { DeleteBinLine } from "@ndla/icons/action";
-import { Button } from "@ndla/primitives";
+import { ErrorWarningLine } from "@ndla/icons/common";
+import { Button, Heading, MessageBox, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { Node, NodeChild } from "@ndla/types-taxonomy";
-import { AlertDialog } from "../../../../components/AlertDialog/AlertDialog";
 import { FormActionsContainer } from "../../../../components/FormikForm";
-import Overlay from "../../../../components/Overlay";
-import Spinner from "../../../../components/Spinner";
 import { useDeleteNodeConnectionMutation } from "../../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
-import { EditModeHandler } from "../SettingsMenuDropdownType";
-import { StyledErrorMessage } from "../styles";
+
+const Wrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "small",
+  },
+});
 
 interface Props {
   node: Node | NodeChild;
-  editModeHandler: EditModeHandler;
   onCurrentNodeChanged: (node?: Node) => void;
 }
 
-const DisconnectFromParent = ({ node, editModeHandler: { editMode, toggleEditMode }, onCurrentNodeChanged }: Props) => {
+const DisconnectFromParent = ({ node, onCurrentNodeChanged }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const { mutateAsync: disconnectNode } = useDeleteNodeConnectionMutation();
@@ -39,12 +42,9 @@ const DisconnectFromParent = ({ node, editModeHandler: { editMode, toggleEditMod
   const location = useLocation();
   const qc = useQueryClient();
 
-  const toggleDisconnect = () => toggleEditMode("disconnectFromParent");
-
   const onDisconnect = async (): Promise<void> => {
     setLoading(true);
     setError(undefined);
-    toggleDisconnect();
     if ("connectionId" in node) {
       await disconnectNode(
         {
@@ -69,31 +69,21 @@ const DisconnectFromParent = ({ node, editModeHandler: { editMode, toggleEditMod
   };
 
   return (
-    <>
-      <Button size="small" variant="tertiary" data-testid="disconnectNode" onClick={toggleDisconnect}>
-        <DeleteBinLine />
-        {t("taxonomy.disconnectNode")}
-      </Button>
-      <AlertDialog
-        label={t("taxonomy.disconnectNode")}
-        title={t("taxonomy.disconnectNode")}
-        show={editMode === "disconnectFromParent"}
-        onCancel={toggleDisconnect}
-        text={t("taxonomy.confirmDisconnect")}
-      >
-        <FormActionsContainer>
-          <Button variant="secondary" onClick={toggleDisconnect}>
-            {t("form.abort")}
-          </Button>
-          <Button variant="danger" onClick={onDisconnect}>
-            {t("alertModal.disconnect")}
-          </Button>
-        </FormActionsContainer>
-      </AlertDialog>
-      {loading && <Spinner appearance="absolute" />}
-      {loading && <Overlay modifiers={["absolute", "white-opacity", "zIndex"]} />}
-      {error && <StyledErrorMessage data-testid="inlineEditErrorMessage">{error}</StyledErrorMessage>}
-    </>
+    <Wrapper>
+      <Heading consumeCss asChild textStyle="label.medium" fontWeight="bold">
+        <h2>{t("taxonomy.disconnectNode")}</h2>
+      </Heading>
+      <MessageBox variant="warning">
+        <ErrorWarningLine />
+        <Text>{t("taxonomy.publish.info")}</Text>
+      </MessageBox>
+      <FormActionsContainer>
+        <Button loading={loading} variant="danger" onClick={onDisconnect}>
+          {t("alertModal.disconnect")}
+        </Button>
+      </FormActionsContainer>
+      {error && <Text color="text.error">{error}</Text>}
+    </Wrapper>
   );
 };
 

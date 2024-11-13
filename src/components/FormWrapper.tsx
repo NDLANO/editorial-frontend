@@ -6,11 +6,11 @@
  *
  */
 
-import { ReactNode } from "react";
+import { ReactNode, ComponentPropsWithRef } from "react";
 import { styled } from "@ndla/styled-system/jsx";
 import { Form } from "./FormikForm";
 
-interface Props {
+interface Props extends ComponentPropsWithRef<"form"> {
   inModal?: boolean;
   children: ReactNode;
 }
@@ -21,11 +21,11 @@ const StyledForm = styled(Form, {
   },
 });
 
-const FormWrapper = ({ inModal, children }: Props) => {
+const FormWrapper = ({ inModal, children, ...rest }: Props) => {
   if (inModal) {
     return <StyledForm>{children}</StyledForm>;
   }
-  return <Form>{children}</Form>;
+  return <Form {...rest}>{children}</Form>;
 };
 
 export default FormWrapper;

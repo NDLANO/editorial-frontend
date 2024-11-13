@@ -148,9 +148,7 @@ const ResourceItems = ({ resources, currentNodeId, contentMeta, contentMetaLoadi
         )}
       />
       {deleteNodeResource.error && isError(deleteNodeResource.error) ? (
-        <StyledErrorMessage data-testid="inlineEditErrorMessage">
-          {`${t("taxonomy.errorMessage")}: ${deleteNodeResource.error.message}`}
-        </StyledErrorMessage>
+        <StyledErrorMessage>{`${t("taxonomy.errorMessage")}: ${deleteNodeResource.error.message}`}</StyledErrorMessage>
       ) : null}
       <AlertDialog
         title={t("taxonomy.deleteResource")}

@@ -17,10 +17,17 @@ import {
   IconButton,
   DialogBody,
 } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
 import SettingsMenuDropdownType from "./SettingsMenuDropdownType";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { getNodeTypeFromNodeId } from "../../../modules/nodes/nodeUtil";
+
+const StyledDialogBody = styled(DialogBody, {
+  base: {
+    alignItems: "flex-start",
+  },
+});
 
 interface Props {
   node: Node;
@@ -50,14 +57,14 @@ const SettingsMenu = ({ node, rootNodeId, onCurrentNodeChanged, nodeChildren }: 
           <DialogTitle>{t(`taxonomy.${nodeType.toLowerCase()}Settings`)}</DialogTitle>
           <DialogCloseButton />
         </DialogHeader>
-        <DialogBody>
+        <StyledDialogBody>
           <SettingsMenuDropdownType
             node={node}
             rootNodeId={rootNodeId}
             onCurrentNodeChanged={onCurrentNodeChanged}
             nodeChildren={nodeChildren}
           />
-        </DialogBody>
+        </StyledDialogBody>
       </DialogContent>
     </DialogRoot>
   );

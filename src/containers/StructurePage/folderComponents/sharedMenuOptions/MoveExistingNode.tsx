@@ -6,17 +6,14 @@
  *
  */
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
-import { spacing, colors } from "@ndla/core";
-import { AddLine } from "@ndla/icons/action";
-import { Done } from "@ndla/icons/editor";
-import { Spinner, Button } from "@ndla/primitives";
+import { CheckLine } from "@ndla/icons/editor";
+import { Text, Spinner } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { Node, NodeType } from "@ndla/types-taxonomy";
 import NodeSearchDropdown from "./components/NodeSearchDropdown";
-import RoundIcon from "../../../../components/RoundIcon";
 import { fetchConnectionsForNode } from "../../../../modules/nodes/nodeApi";
 import {
   useDeleteNodeConnectionMutation,
@@ -24,52 +21,39 @@ import {
 } from "../../../../modules/nodes/nodeMutations";
 import { nodeQueryKeys } from "../../../../modules/nodes/nodeQueries";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
-import { EditModeHandler } from "../SettingsMenuDropdownType";
+
+const Wrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "3xsmall",
+    width: "100%",
+  },
+});
+
+const StyledCheckLine = styled(CheckLine, {
+  base: {
+    fill: "stroke.success",
+  },
+});
+
+const MenuContent = styled("div", {
+  base: {
+    display: "flex",
+    gap: "3xsmall",
+  },
+});
+
+const StyledMenuWrapper = styled("div", {
+  base: { display: "flex" },
+});
 
 interface Props {
-  editModeHandler: EditModeHandler;
   currentNode: Node;
   nodeType?: NodeType;
 }
 
-const StyledSuccessIcon = styled(Done)`
-  border-radius: 90px;
-  margin: 5px;
-  background-color: green;
-  color: white;
-`;
-
-const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
-  margin: ${spacing.xsmall};
-`;
-
-const MenuContent = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`;
-
-const StyledMenuWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: baseline;
-`;
-
-const StyledErrorMessage = styled.div`
-  color: ${colors.support.red};
-`;
-
-const StyledActionContent = styled.div`
-  padding-left: ${spacing.normal};
-`;
-
-const MoveExistingNode = ({
-  editModeHandler: { editMode, toggleEditMode },
-  currentNode,
-  nodeType = "TOPIC",
-}: Props) => {
+const MoveExistingNode = ({ currentNode, nodeType = "TOPIC" }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const deleteNodeConnectionMutation = useDeleteNodeConnectionMutation();
@@ -79,18 +63,9 @@ const MoveExistingNode = ({
   const [success, setSuccess] = useState(false);
   const qc = useQueryClient();
 
-  useEffect(() => {
-    if (success && editMode === "moveExistingNode") {
-      setSuccess(false);
-    }
-  }, [editMode, success]);
-
-  const toggleEditModeFunc = () => toggleEditMode("moveExistingNode");
-
   const handleSubmit = async (node: Node) => {
     setLoading(true);
     setError(undefined);
-    toggleEditModeFunc();
     try {
       // drop all parent connections and replace with this.
       const connections = await fetchConnectionsForNode({
@@ -124,52 +99,38 @@ const MoveExistingNode = ({
     }
   };
 
-  if (editMode === "moveExistingNode") {
-    return (
-      <Wrapper>
-        <RoundIcon open small smallIcon icon={<AddLine />} />
-        <NodeSearchDropdown
-          label={t("taxonomy.addExistingNode", {
-            nodeType: t(`taxonomy.nodeType.${nodeType}`),
-          })}
-          placeholder={t("taxonomy.existingNode", { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
-          onChange={handleSubmit}
-          searchNodeType={nodeType}
-          filter={(node) => {
-            return !node.paths?.some((p) => {
-              const split = p.replace("/", "").split("/");
-              return split[split.length - 2] === currentNode.id.replace("urn:", "");
-            });
-          }}
-        />
-      </Wrapper>
-    );
-  }
-
   return (
-    <StyledMenuWrapper>
-      <Button size="small" variant="tertiary" onClick={toggleEditModeFunc}>
-        <AddLine />
-        {t("taxonomy.addExistingNode", {
+    <Wrapper>
+      <NodeSearchDropdown
+        label={t("taxonomy.addExistingNode", {
           nodeType: t(`taxonomy.nodeType.${nodeType}`),
         })}
-      </Button>
-      <StyledActionContent>
+        placeholder={t("taxonomy.existingNode", { nodeType: t(`taxonomy.nodeType.${nodeType}`) })}
+        onChange={handleSubmit}
+        searchNodeType={nodeType}
+        filter={(node) => {
+          return !node.paths?.some((p) => {
+            const split = p.replace("/", "").split("/");
+            return split[split.length - 2] === currentNode.id.replace("urn:", "");
+          });
+        }}
+      />
+      <StyledMenuWrapper>
         {loading && (
           <MenuContent>
             <Spinner size="small" />
-            {t("taxonomy.addExistingLoading")}
+            <Text>{t("taxonomy.addExistingLoading")}</Text>
           </MenuContent>
         )}
         {success && (
-          <MenuContent>
-            <StyledSuccessIcon />
+          <Text>
+            <StyledCheckLine />
             {t("taxonomy.addExistingSuccess")}
-          </MenuContent>
+          </Text>
         )}
-        {error && <StyledErrorMessage data-testid="inlineEditErrorMessage">{t(error)}</StyledErrorMessage>}
-      </StyledActionContent>
-    </StyledMenuWrapper>
+        {error && <Text color="text.error">{error}</Text>}
+      </StyledMenuWrapper>
+    </Wrapper>
   );
 };
 

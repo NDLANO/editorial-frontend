@@ -6,12 +6,39 @@
  *
  */
 
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
-import { DeleteBinLine } from "@ndla/icons/action";
-import RoundIcon from "../../../../components/RoundIcon";
-import CustomFieldButton from "../sharedMenuOptions/components/CustomFieldButton";
-import { StyledMenuItemEditField, StyledMenuItemInputField } from "../styles";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { createListCollection } from "@ark-ui/react";
+import {
+  SelectContent,
+  SelectHiddenSelect,
+  SelectLabel,
+  SelectPositioner,
+  SelectRoot,
+  SelectValueText,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { GenericSelectItem, GenericSelectTrigger } from "../../../../components/abstractions/Select";
+
+const StyledSelectRoot = styled(SelectRoot, {
+  base: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+  },
+});
+
+const StyledGenericSelectTrigger = styled(GenericSelectTrigger, {
+  base: {
+    maxWidth: "surface.xsmall",
+  },
+});
+
+const StyledWrapper = styled("div", {
+  base: {
+    margin: "xxsmall",
+  },
+});
 
 interface Option {
   key: string;
@@ -25,51 +52,46 @@ interface Props {
   messages: Record<string, string>;
 }
 
-const StyledSelect = styled("select")`
-  padding: 0 ${spacing.nsmall} 0 calc(${spacing.nsmall} / 2);
-  margin-left: 0;
-`;
-
-const StyledCustomFieldButton = styled(CustomFieldButton)`
-  margin-left: ${spacing.xxsmall};
-`;
-
 const TaxonomyMetadataDropdown = ({ options, field, customFields, updateCustomFields, messages }: Props) => {
-  const selectedValue = customFields[field];
+  const { t } = useTranslation();
+
+  const collection = useMemo(() => {
+    return createListCollection({
+      items: options,
+      itemToString: (item) => item.value,
+      itemToValue: (item) => item.key,
+    });
+  }, [options]);
+
   return (
-    <StyledMenuItemEditField>
-      <RoundIcon open small />
-      <StyledMenuItemInputField placeholder={messages["title"]} disabled />
-      <StyledSelect
-        onChange={(e) => {
-          e.persist();
+    <StyledWrapper>
+      <StyledSelectRoot
+        collection={collection}
+        value={[customFields[field]]}
+        onValueChange={(details) =>
           updateCustomFields({
             ...customFields,
-            [field]: e.target.value,
-          });
-        }}
-        value={customFields[field]}
+            [field]: details.value[0],
+          })
+        }
+        positioning={{ sameWidth: true }}
       >
-        {selectedValue || (
-          <option selected disabled hidden>
-            {messages["selected"]}
-          </option>
-        )}
-        {options.map((option: Option) => (
-          <option key={`sortoptions_${option.key}`} value={option.key}>
-            {option.value}
-          </option>
-        ))}
-      </StyledSelect>
-      <StyledCustomFieldButton
-        onClick={() => {
-          delete customFields[field];
-          updateCustomFields({ ...customFields });
-        }}
-      >
-        <DeleteBinLine />
-      </StyledCustomFieldButton>
-    </StyledMenuItemEditField>
+        <SelectLabel>{messages["title"]}</SelectLabel>
+        <StyledGenericSelectTrigger size="small" clearable>
+          <SelectValueText placeholder={messages["selected"]} />
+        </StyledGenericSelectTrigger>
+        <SelectPositioner>
+          <SelectContent>
+            {collection.items.map((item) => (
+              <GenericSelectItem key={`sortoptions_${item.key}`} item={item}>
+                {item.value}
+              </GenericSelectItem>
+            ))}
+          </SelectContent>
+        </SelectPositioner>
+        <SelectHiddenSelect />
+      </StyledSelectRoot>
+    </StyledWrapper>
   );
 };
 

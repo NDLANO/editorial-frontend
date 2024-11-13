@@ -85,12 +85,6 @@ const EditH5PModal = ({ embed, language, editor, element }: Props) => {
         Transforms.select(editor, Path.next(path));
       }, 0);
     }
-    if (!element.data) {
-      Transforms.removeNodes(editor, {
-        at: path,
-        match: (node) => Element.isElement(node) && node.type === TYPE_H5P,
-      });
-    }
   };
 
   return (

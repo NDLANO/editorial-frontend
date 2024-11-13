@@ -11,8 +11,8 @@ import sortBy from "lodash/sortBy";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { colors, spacing, misc } from "@ndla/core";
+import { colors, spacing } from "@ndla/core";
+import { Button } from "@ndla/primitives";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { Version } from "@ndla/types-taxonomy";
 import { OneColumn } from "@ndla/ui";
@@ -55,7 +55,7 @@ const TaxonomyVersionsPage = () => {
         <h1>{t("taxonomyVersions.title")}</h1>
         <Row alignItems="center">
           <p>{t("taxonomyVersions.about")}</p>
-          <ButtonV2 onClick={() => setShowNewForm((prev) => !prev)}>{t("taxonomyVersions.newVersionButton")}</ButtonV2>
+          <Button onClick={() => setShowNewForm((prev) => !prev)}>{t("taxonomyVersions.newVersionButton")}</Button>
         </Row>
         {showNewForm && (
           <FormSpacingWrapper>

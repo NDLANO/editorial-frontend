@@ -12,9 +12,9 @@ import { Navigate, Route, Routes, useLocation, useParams } from "react-router-do
 import styled from "@emotion/styled";
 import { UseQueryOptions, UseQueryResult } from "@tanstack/react-query";
 import { mq, breakpoints } from "@ndla/core";
+import { Spinner } from "@ndla/primitives";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { NynorskTranslateProvider } from "./NynorskTranslateProvider";
-import Spinner from "./Spinner";
 import { useWideArticle } from "./WideArticleEditorProvider";
 import { MAX_PAGE_WIDTH } from "../constants";
 import Footer from "../containers/App/components/FooterWrapper";

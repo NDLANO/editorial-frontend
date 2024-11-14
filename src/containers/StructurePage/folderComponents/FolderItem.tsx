@@ -21,12 +21,12 @@ import {
   DialogTitle,
   DialogTrigger,
   IconButton,
+  Spinner,
 } from "@ndla/primitives";
 import { Node } from "@ndla/types-taxonomy";
 import SettingsMenu from "./SettingsMenu";
 import { Row } from "../../../components";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
-import Spinner from "../../../components/Spinner";
 import { getNodeTypeFromNodeId } from "../../../modules/nodes/nodeUtil";
 import AddNodeModalContent from "../AddNodeModalContent";
 import PlannedResourceForm from "../plannedResource/PlannedResourceForm";
@@ -138,7 +138,7 @@ const FolderItem = ({
         <StyledResourceButton variant="outline" disabled={resourcesLoading} onClick={() => jumpToResources?.()}>
           <Row>
             {t("taxonomy.jumpToResources")}
-            {!!resourcesLoading && <Spinner appearance="small" />}
+            {!!resourcesLoading && <Spinner size="small" />}
           </Row>
         </StyledResourceButton>
       )}

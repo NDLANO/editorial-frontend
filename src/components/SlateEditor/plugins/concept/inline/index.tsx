@@ -12,7 +12,7 @@ import { TYPE_CONCEPT_INLINE } from "./types";
 import { createEmbedTagV2, reduceElementDataAttributesV2 } from "../../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../../interfaces";
 import hasNodeOfType from "../../../utils/hasNodeOfType";
-import { KEY_BACKSPACE } from "../../../utils/keys";
+import { KEY_BACKSPACE, KEY_DELETE } from "../../../utils/keys";
 import { TYPE_NDLA_EMBED } from "../../embed/types";
 
 export const inlineConceptSerializer: SlateSerializer = {
@@ -80,7 +80,7 @@ export const inlineConceptPlugin = (editor: Editor) => {
 
   editor.onKeyDown = (e: KeyboardEvent) => {
     if (!editor.selection) return nextOnKeyDown?.(e);
-    if (e.key === KEY_BACKSPACE) {
+    if (e.key === KEY_BACKSPACE || e.key === KEY_DELETE) {
       return onBackspace(e, editor, nextOnKeyDown);
     }
 

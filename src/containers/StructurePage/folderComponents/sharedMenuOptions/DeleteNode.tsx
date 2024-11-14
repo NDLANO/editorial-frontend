@@ -12,23 +12,19 @@ import { ErrorWarningLine } from "@ndla/icons/common";
 import { Text, Button, Heading, MessageBox } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Node, NodeChild } from "@ndla/types-taxonomy";
+import { FormActionsContainer } from "../../../../components/FormikForm";
 import { ARCHIVED } from "../../../../constants";
 import { updateStatusDraft } from "../../../../modules/draft/draftApi";
 import { fetchNodes } from "../../../../modules/nodes/nodeApi";
 import { useDeleteNodeConnectionMutation, useDeleteNodeMutation } from "../../../../modules/nodes/nodeMutations";
 import { useTaxonomyVersion } from "../../../StructureVersion/TaxonomyVersionProvider";
 
-const StyledButton = styled(Button, {
-  base: {
-    alignSelf: "flex-end",
-  },
-});
-
 const Wrapper = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
     gap: "small",
+    width: "100%",
   },
 });
 
@@ -96,13 +92,15 @@ const DeleteNode = ({ node, nodeChildren, onCurrentNodeChanged, rootNodeId }: Pr
       <Heading consumeCss asChild textStyle="label.medium" fontWeight="bold">
         <h2>{t("taxonomy.deleteNode")}</h2>
       </Heading>
-      <MessageBox variant="warning">
+      <MessageBox variant={disabled ? "info" : "warning"}>
         <ErrorWarningLine />
-        <Text>{t("taxonomy.confirmDelete")}</Text>
+        <Text>{disabled ? t("taxonomy.deleteDisabled") : t("taxonomy.confirmDelete")}</Text>
       </MessageBox>
-      <StyledButton variant="danger" onClick={onDelete} loading={loading} disabled={disabled}>
-        {t("alertModal.delete")}
-      </StyledButton>
+      <FormActionsContainer>
+        <Button variant="danger" onClick={onDelete} loading={loading} disabled={disabled}>
+          {t("alertModal.delete")}
+        </Button>
+      </FormActionsContainer>
       {error && <Text color="text.error">{error}</Text>}
     </Wrapper>
   );

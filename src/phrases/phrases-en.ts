@@ -1700,6 +1700,7 @@ const phrases = {
     currentVersion: "Current version",
     deleteNode: "Delete node",
     deleteResource: "Delete resource",
+    deleteDisabled: "Nodes with children can't be deleted",
     confirmDelete: "Are you sure you want to delete this node?",
     version: "Version",
     createResource: "Create new resource",

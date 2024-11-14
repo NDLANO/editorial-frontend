@@ -1698,6 +1698,7 @@ const phrases = {
     currentVersion: "Nåværende versjon",
     deleteNode: "Slett node",
     deleteResource: "Slett ressurs",
+    deleteDisabled: "Noder med barn kan ikke slettes",
     confirmDelete: "Er du sikker på at du vil slette denne noden?",
     version: "Versjon",
     createResource: "Opprett ny ressurs",

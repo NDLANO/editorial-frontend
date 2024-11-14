@@ -13,7 +13,7 @@ import { ReactEditor, RenderElementProps, useSelected } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { DeleteBinLine, PencilFill } from "@ndla/icons/action";
 import { Link } from "@ndla/icons/editor";
-import { DialogContent, DialogRoot, DialogTrigger, IconButton } from "@ndla/primitives";
+import { DialogContent, DialogRoot, DialogTrigger, IconButton, Spinner } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { BrightcoveMetaData } from "@ndla/types-embed";
@@ -23,7 +23,6 @@ import { BrightcoveEmbedElement, TYPE_EMBED_BRIGHTCOVE } from "./types";
 import { useBrightcoveMeta } from "../../../../modules/embed/queries";
 import { inlineContentToHTML } from "../../../../util/articleContentConverter";
 import { addBrightCoveTimeStampVideoid } from "../../../../util/videoUtil";
-import Spinner from "../../../Spinner";
 import { StyledFigureButtons } from "../embed/FigureButtons";
 
 export const VideoWrapper = styled(EmbedWrapper, {

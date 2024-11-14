@@ -8,9 +8,9 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Spinner } from "@ndla/primitives";
 import { IEditorNote as IEditorNoteConcept } from "@ndla/types-backend/concept-api";
 import { IEditorNote } from "@ndla/types-backend/image-api";
-import Spinner from "../../components/Spinner";
 import VersionHistory from "../../components/VersionHistory/VersionHistory";
 import { fetchAuth0UsersFromUserIds, SimpleUserType } from "../../modules/auth0/auth0Api";
 import formatDate from "../../util/formatDate";

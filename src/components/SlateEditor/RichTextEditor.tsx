@@ -12,6 +12,7 @@ import { createEditor, Descendant, Editor, NodeEntry, Range, Transforms } from "
 import { withHistory } from "slate-history";
 import { Slate, Editable, withReact, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
 import { EditableProps } from "slate-react/dist/components/editable";
+import { Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleLanguageProvider } from "./ArticleLanguageProvider";
 import { SlatePlugin } from "./interfaces";
@@ -33,7 +34,6 @@ import withPlugins from "./utils/withPlugins";
 import { BLOCK_PICKER_TRIGGER_ID } from "../../constants";
 import { ArticleFormType } from "../../containers/FormikForm/articleFormHooks";
 import { FormikStatus } from "../../interfaces";
-import Spinner from "../Spinner";
 
 const StyledSlateWrapper = styled("div", {
   base: {

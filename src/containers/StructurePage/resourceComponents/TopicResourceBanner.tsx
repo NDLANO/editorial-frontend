@@ -179,10 +179,10 @@ const TopicResourceBanner = ({
           )}
           <ApproachingRevisionDate resources={resources} contentMeta={contentMeta} currentNode={currentNode} />
         </ContentWrapper>
-        <ContentWrapper>
+        <ControlButtonGroup>
           <JumpToStructureButton nodeId={currentNode.id} />
           <PlannedResourceModal currentNode={currentNode} resourceTypes={resourceTypes} resources={resources} />
-        </ContentWrapper>
+        </ControlButtonGroup>
       </TopRow>
       <StyledResource>
         <ContentRow>

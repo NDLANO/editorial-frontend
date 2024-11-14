@@ -8,31 +8,10 @@
 
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { css, SerializedStyles } from "@emotion/react";
-import styled from "@emotion/styled";
-import { stackOrder } from "@ndla/core";
 import { Button } from "@ndla/primitives";
 import { useMessages } from "./MessagesProvider";
 import { AlertDialog } from "../../components/AlertDialog/AlertDialog";
 import { FormActionsContainer } from "../../components/FormikForm";
-
-const appearances: Record<string, SerializedStyles> = {
-  hidden: css`
-    display: none;
-  `,
-};
-
-const StyledMessageAlertOverlay = styled("div")`
-  position: fixed;
-  width: 80%;
-  max-width: 800px;
-  top: 50px;
-  left: 0;
-  right: 0;
-  z-index: ${stackOrder.modal};
-  margin: 0 auto;
-  ${(p: { appearance: "hidden" | "" }) => appearances[p.appearance]};
-`;
 
 type MessageSeverity = "danger" | "info" | "success" | "warning";
 
@@ -93,15 +72,14 @@ const Message = ({ message }: MessageProps) => {
 
 const Messages = () => {
   const { messages, clearMessage } = useMessages();
-  const isHidden = messages.length === 0;
   const timeout = (item: MessageType) => setTimeout(() => clearMessage(item.id), item.timeToLive);
   messages.filter((m) => (m.timeToLive ?? 1) > 0).forEach((item) => timeout(item));
   return (
-    <StyledMessageAlertOverlay appearance={isHidden ? "hidden" : ""}>
+    <>
       {messages.map((message) => (
         <Message key={message.id} message={message} />
       ))}
-    </StyledMessageAlertOverlay>
+    </>
   );
 };
 

@@ -13,7 +13,7 @@ import { CheckboxCircleLine } from "@ndla/icons/editor";
 import { Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { Node, ResourceType } from "@ndla/types-taxonomy";
+import { Node, NodeChild, ResourceType } from "@ndla/types-taxonomy";
 import ApproachingRevisionDate from "./ApproachingRevisionDate";
 import GrepCodesDialog from "./GrepCodesDialog";
 import JumpToStructureButton from "./JumpToStructureButton";
@@ -31,6 +31,7 @@ import { NodeResourceMeta } from "../../../modules/nodes/nodeQueries";
 import { stripInlineContentHtmlTags } from "../../../util/formHelper";
 import { routes } from "../../../util/routeHelpers";
 import { useTaxonomyVersion } from "../../StructureVersion/TaxonomyVersionProvider";
+import GroupTopicResources from "../folderComponents/topicMenuOptions/GroupTopicResources";
 import PlannedResourceModal from "../plannedResource/PlannedResourceModal";
 
 const ResourceGroupBanner = styled("div", {
@@ -123,6 +124,7 @@ const getWorkflowCount = (contentMeta: Dictionary<NodeResourceMeta>) => {
 interface Props {
   contentMeta: Dictionary<NodeResourceMeta>;
   currentNode: ResourceWithNodeConnectionAndMeta;
+  onCurrentNodeChanged: (changedNode: NodeChild) => void;
   resources: ResourceWithNodeConnectionAndMeta[];
   resourceTypes: Pick<ResourceType, "id" | "name">[];
   articleIds?: number[];
@@ -135,6 +137,7 @@ interface Props {
 const TopicResourceBanner = ({
   contentMeta,
   currentNode,
+  onCurrentNodeChanged,
   resourceTypes,
   resources,
   contentMetaLoading,
@@ -222,6 +225,17 @@ const TopicResourceBanner = ({
             </Text>
           </TextWrapper>
           <ControlButtonGroup>
+            {currentNode && currentNode.id && (
+              <GroupTopicResources
+                node={currentNode}
+                onChanged={(partialMeta) => {
+                  onCurrentNodeChanged({
+                    ...currentNode,
+                    metadata: { ...currentNode.metadata, ...partialMeta },
+                  });
+                }}
+              />
+            )}
             {(currentNode.contentMeta?.status?.current === PUBLISHED ||
               currentNode.contentMeta?.status?.other?.includes(PUBLISHED)) && (
               <SafeLinkIconButton

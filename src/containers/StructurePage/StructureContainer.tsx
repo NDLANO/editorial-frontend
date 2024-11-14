@@ -251,7 +251,12 @@ const StructureContainer = ({
                     <SubjectBanner subjectNode={currentNode} showQuality={showQuality} users={users} />
                   )}
                   {isChildNode(currentNode) && (
-                    <StructureResources currentChildNode={currentNode} showQuality={showQuality} users={users} />
+                    <StructureResources
+                      currentChildNode={currentNode}
+                      setCurrentNode={setCurrentNode}
+                      showQuality={showQuality}
+                      users={users}
+                    />
                   )}
                 </StickyContainer>
               )}

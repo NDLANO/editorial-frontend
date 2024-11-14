@@ -32,6 +32,7 @@ interface Props {
   currentNode: NodeChild;
   contentMeta: Dictionary<NodeResourceMeta>;
   grouped: boolean;
+  setCurrentNode: (changedNode: NodeChild) => void;
   contentMetaLoading: boolean;
   showQuality: boolean;
   users: Dictionary<Auth0UserData> | undefined;
@@ -42,6 +43,7 @@ const ResourcesContainer = ({
   currentNode,
   contentMeta,
   grouped,
+  setCurrentNode,
   contentMetaLoading,
   showQuality,
   users,
@@ -77,6 +79,7 @@ const ResourcesContainer = ({
       <TopicResourceBanner
         resources={nodeResourcesWithMeta}
         contentMeta={contentMeta}
+        onCurrentNodeChanged={setCurrentNode}
         resourceTypes={resourceTypesWithoutMissing}
         currentNode={{
           ...currentNode,

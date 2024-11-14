@@ -1857,7 +1857,7 @@ const phrases = {
         oldSubjectId: "Old ID for redirecting",
         subjectCategory: "Subject category",
         subjectType: "Subject type",
-        resourceGroupPlaceholder: "Grouping of resources",
+        resourceGroupPlaceholder: "Grouping",
         RGTooltip: "Show resources Grouped or Ungrouped",
         subjectLMA: "Responsible for the subject",
         subjectSA: "Language responsible for the subject",

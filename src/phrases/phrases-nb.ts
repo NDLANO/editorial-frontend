@@ -1855,7 +1855,7 @@ const phrases = {
         oldSubjectId: "ID for videresending",
         subjectCategory: "Fagkategori",
         subjectType: "Fagtype",
-        resourceGroupPlaceholder: "Gruppering av ressurser",
+        resourceGroupPlaceholder: "Gruppering",
         RGTooltip: "Vis ressurser Gruppert eller Ugruppert",
         subjectLMA: "LMA for faget",
         subjectSA: "SA for faget",

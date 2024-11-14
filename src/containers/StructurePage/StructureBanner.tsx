@@ -110,14 +110,14 @@ const StructureBanner = ({
     <ResourceGroupBanner>
       <Heading textStyle="title.small">{t("taxonomy.editStructure")}</Heading>
       <ButtonsWrapper>
-        <PopoverRoot>
-          <PopoverTrigger asChild>
-            <Button variant="secondary" size="small" data-testid="display-options">
-              {t("taxonomy.displayOptions")}
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent>
-            {nodeType !== "PROGRAMME" && (
+        {nodeType !== "PROGRAMME" && (
+          <PopoverRoot>
+            <PopoverTrigger asChild>
+              <Button variant="secondary" size="small" data-testid="display-options">
+                {t("taxonomy.displayOptions")}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent>
               <SwitchWrapper>
                 {hasLmaSubjects && (
                   <SwitchRoot
@@ -174,9 +174,9 @@ const StructureBanner = ({
                   <SwitchHiddenInput />
                 </SwitchRoot>
               </SwitchWrapper>
-            )}
-          </PopoverContent>
-        </PopoverRoot>
+            </PopoverContent>
+          </PopoverRoot>
+        )}
 
         {isTaxonomyAdmin && (
           <DialogRoot open={addSubjectModalOpen} onOpenChange={({ open }) => setAddSubjectModalOpen(open)}>

@@ -10,7 +10,6 @@ import { ArrayHelpers, FieldArray, useField } from "formik";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { spacing, colors, fonts } from "@ndla/core";
 import { AddLine, DeleteBinLine } from "@ndla/icons/action";
 import { ArrowRightShortLine } from "@ndla/icons/common";
@@ -61,7 +60,8 @@ const TitleWrapper = styled.div`
   align-items: center;
 `;
 
-const OpenButton = styled(ButtonV2)`
+const OpenButton = styled("button")`
+  cursor: pointer;
   min-width: ${spacing.normal};
   svg {
     transform: rotate(0deg);
@@ -133,7 +133,7 @@ const FrontpageNode = ({ name, remove, index, level, replace }: Props) => {
           {level < FRONTPAGE_DEPTH_LIMIT && (
             <OpenButton
               data-open={isOpen}
-              variant="stripped"
+              type="button"
               onClick={() => setIsOpen((p) => !p)}
               aria-label={openLabel}
               hidden={!field.value.menu.length}

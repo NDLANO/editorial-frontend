@@ -112,7 +112,6 @@
     "cross-fetch": "^3.1.5",
     "date-fns": "2.30.0",
     "diff-match-patch": "^1.0.5",
-    "downshift": "^3.2.12",
     "escape-html": "^1.0.3",
     "express": "^5.0.0",
     "express-jwt": "^8.4.1",

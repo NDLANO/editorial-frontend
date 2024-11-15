@@ -309,7 +309,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.13.10, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.19.4, @babel/runtime@npm:^7.21.0, @babel/runtime@npm:^7.23.2, @babel/runtime@npm:^7.23.9, @babel/runtime@npm:^7.4.5, @babel/runtime@npm:^7.7.6":
+"@babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.13.10, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.19.4, @babel/runtime@npm:^7.21.0, @babel/runtime@npm:^7.23.2, @babel/runtime@npm:^7.23.9, @babel/runtime@npm:^7.7.6":
   version: 7.24.5
   resolution: "@babel/runtime@npm:7.24.5"
   dependencies:
@@ -6000,13 +6000,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"compute-scroll-into-view@npm:^1.0.9":
-  version: 1.0.17
-  resolution: "compute-scroll-into-view@npm:1.0.17"
-  checksum: 10c0/98ba88a3af2e4d9c39e1a329f9d1615eeed0e528350ce01b63fb43d1c611dfc31c0639f47844dc8e7bf4d429745bce88efbb035ee2116d51d33b33d55d794f0c
-  languageName: node
-  linkType: hard
-
 "compute-scroll-into-view@npm:^3.0.2":
   version: 3.1.0
   resolution: "compute-scroll-into-view@npm:3.1.0"
@@ -6663,20 +6656,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"downshift@npm:^3.2.12":
-  version: 3.2.12
-  resolution: "downshift@npm:3.2.12"
-  dependencies:
-    "@babel/runtime": "npm:^7.4.5"
-    compute-scroll-into-view: "npm:^1.0.9"
-    prop-types: "npm:^15.7.2"
-    react-is: "npm:^16.8.6"
-  peerDependencies:
-    react: ">=0.14.9"
-  checksum: 10c0/24c7e38156b43bf389105cdfbcc2ba86a167cfa4886167db49191ea968b01fba32a08042071489a380ccc40623646528356d5efe2f9e2a225c7e1f226232c1d4
-  languageName: node
-  linkType: hard
-
 "eastasianwidth@npm:^0.2.0":
   version: 0.2.0
   resolution: "eastasianwidth@npm:0.2.0"
@@ -6779,7 +6758,6 @@ __metadata:
     cross-fetch: "npm:^3.1.5"
     date-fns: "npm:2.30.0"
     diff-match-patch: "npm:^1.0.5"
-    downshift: "npm:^3.2.12"
     esbuild: "npm:^0.20.2"
     escape-html: "npm:^1.0.3"
     eslint: "npm:^8.57.0"
@@ -11897,7 +11875,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-is@npm:^16.13.1, react-is@npm:^16.7.0, react-is@npm:^16.8.6":
+"react-is@npm:^16.13.1, react-is@npm:^16.7.0":
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
   checksum: 10c0/33977da7a5f1a287936a0c85639fec6ca74f4f15ef1e59a6bc20338fc73dc69555381e211f7a3529b8150a1f71e4225525b41b60b52965bda53ce7d47377ada1

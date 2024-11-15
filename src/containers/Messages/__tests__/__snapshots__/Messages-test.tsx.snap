@@ -109,11 +109,7 @@ exports[`Messages > A message is removed if the modal is closed 1`] = `
 </body>
 `;
 
-exports[`Messages > A message is removed if the modal is closed 2`] = `
-<body>
-  <div />
-</body>
-`;
+exports[`Messages > A message is removed if the modal is closed 2`] = `"<div></div>"`;
 
 exports[`Messages > A single message renders correctly 1`] = `
 <body
@@ -559,10 +555,4 @@ exports[`Messages > auth0 messages provides a cancel button 1`] = `
 </body>
 `;
 
-exports[`Messages > auth0 messages provides a cancel button 2`] = `
-<body
-  style=""
->
-  <div />
-</body>
-`;
+exports[`Messages > auth0 messages provides a cancel button 2`] = `"<div></div>"`;

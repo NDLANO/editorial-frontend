@@ -9,9 +9,9 @@
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { colors, fonts, spacing } from "@ndla/core";
 import { CheckboxCircleFill } from "@ndla/icons/editor";
+import { Button } from "@ndla/primitives";
 import { Node, NodeChild } from "@ndla/types-taxonomy";
 import Fade from "./Fade";
 import { ItemTitleButton, StructureWrapper, StyledItemBar, StyledStructureItem } from "./nodeStyles";
@@ -86,7 +86,7 @@ export const TaxonomyBlockNode = ({
             <span>{t("taxonomy.topics.addedTopic")}</span>
           </StyledChecked>
         ) : onRootSelected ? (
-          <StyledButton data-select-button="" variant="outline" size="small" onClick={() => onRootSelected(node)}>
+          <StyledButton data-select-button="" variant="secondary" size="small" onClick={() => onRootSelected(node)}>
             {t("taxonomy.topics.filestructureButton")}
           </StyledButton>
         ) : null}
@@ -133,7 +133,7 @@ const StyledChecked = styled.div`
   }
 `;
 
-const StyledButton = styled(ButtonV2)`
+const StyledButton = styled(Button)`
   opacity: 0;
 `;
 
@@ -168,7 +168,7 @@ const ChildNode = ({ node, onSelect, toggleOpen, openedPaths, parentActive, sele
             <span>{t("taxonomy.topics.addedTopic")}</span>
           </StyledChecked>
         ) : (
-          <StyledButton data-select-button="" variant="outline" size="small" onClick={onSelected}>
+          <StyledButton data-select-button="" variant="secondary" size="small" onClick={onSelected}>
             {t("taxonomy.topics.filestructureButton")}
           </StyledButton>
         )}

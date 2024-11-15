@@ -9,11 +9,9 @@
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Portal } from "@ark-ui/react";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { spacing, fonts, mq, breakpoints } from "@ndla/core";
 import { AddLine } from "@ndla/icons/action";
 import {
+  Button,
   DialogBody,
   DialogContent,
   DialogHeader,
@@ -23,36 +21,35 @@ import {
   IconButton,
   Spinner,
 } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { Node } from "@ndla/types-taxonomy";
 import SettingsMenu from "./SettingsMenu";
-import { Row } from "../../../components";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { getNodeTypeFromNodeId } from "../../../modules/nodes/nodeUtil";
 import AddNodeModalContent from "../AddNodeModalContent";
 import PlannedResourceForm from "../plannedResource/PlannedResourceForm";
 
-const StyledResourceButton = styled(ButtonV2)`
-  min-height: unset;
-  margin: 3px ${spacing.xsmall} 3px auto;
-  ${fonts.sizes(14, 1.1)};
+const StyledButton = styled(Button, {
+  base: {
+    desktop: { display: "none" },
+  },
+});
+const StyledFolderWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexGrow: "1",
+    justifyContent: "space-between",
+    gap: "3xsmall",
+  },
+});
 
-  ${mq.range({ from: breakpoints.desktop })} {
-    display: none;
-  }
-`;
-
-const StyledFolderWrapper = styled.div`
-  display: flex;
-  flex-grow: 1;
-  justify-content: space-between;
-  gap: ${spacing.small};
-`;
-
-const ControlButtonsWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${spacing.xxsmall};
-`;
+const ControlButtonsWrapper = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    gap: "3xsmall",
+  },
+});
 
 interface Props {
   node: Node;
@@ -135,12 +132,10 @@ const FolderItem = ({
         </ControlButtonsWrapper>
       )}
       {showJumpToResources && (
-        <StyledResourceButton variant="outline" disabled={resourcesLoading} onClick={() => jumpToResources?.()}>
-          <Row>
-            {t("taxonomy.jumpToResources")}
-            {!!resourcesLoading && <Spinner size="small" />}
-          </Row>
-        </StyledResourceButton>
+        <StyledButton variant="secondary" size="small" disabled={resourcesLoading} onClick={() => jumpToResources?.()}>
+          {t("taxonomy.jumpToResources")}
+          {!!resourcesLoading && <Spinner size="small" />}
+        </StyledButton>
       )}
     </StyledFolderWrapper>
   );

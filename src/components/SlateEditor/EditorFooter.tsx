@@ -226,14 +226,12 @@ function EditorFooter<T extends FormValues>({
               </Wrapper>
             )}
             <SaveMultiButton
-              large
-              saveId={SAVE_BUTTON_ID}
               isSaving={isSubmitting}
               formIsDirty={formIsDirty}
               showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
               onClick={onSave}
               hideSecondaryButton={hideSecondaryButton}
-              disabled={!!hasErrors}
+              hasErrors={!!hasErrors}
             />
           </StyledFooterControls>
         </StyledFooter>
@@ -288,14 +286,12 @@ function EditorFooter<T extends FormValues>({
             />
           </Wrapper>
           <SaveMultiButton
-            large
-            saveId={SAVE_BUTTON_ID}
             isSaving={isSubmitting}
             formIsDirty={formIsDirty}
             showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
             onClick={onSave}
             hideSecondaryButton={hideSecondaryButton}
-            disabled={!!hasErrors}
+            hasErrors={!!hasErrors}
           />
         </StyledFooterControls>
       </>

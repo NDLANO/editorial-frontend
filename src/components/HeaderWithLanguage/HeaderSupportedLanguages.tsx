@@ -7,9 +7,8 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { CheckboxCircleFill } from "@ndla/icons/editor";
 import { SafeLinkButton } from "@ndla/safelink";
-import HeaderLanguagePill from "./HeaderLanguagePill";
+import { HeaderCurrentLanguagePill } from "./HeaderCurrentLanguagePill";
 
 interface Props {
   id: number;
@@ -26,10 +25,9 @@ const HeaderSupportedLanguages = ({ supportedLanguages = [], id, editUrl, isSubm
     <>
       {supportedLanguages.map((supportedLanguage) =>
         language === supportedLanguage ? (
-          <HeaderLanguagePill current key={`types_${supportedLanguage}`}>
-            <CheckboxCircleFill />
+          <HeaderCurrentLanguagePill key={`types_${supportedLanguage}`}>
             {t(`languages.${supportedLanguage}`)}
-          </HeaderLanguagePill>
+          </HeaderCurrentLanguagePill>
         ) : (
           <SafeLinkButton
             aria-label={t("languages.change", {

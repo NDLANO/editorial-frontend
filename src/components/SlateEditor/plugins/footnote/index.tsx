@@ -55,7 +55,7 @@ export const footnoteSerializer: SlateSerializer = {
       authors: node.data.authors ? node.data.authors.join(";") : "",
     };
 
-    return createEmbedTag(data);
+    return createEmbedTag(data, undefined);
   },
 };
 

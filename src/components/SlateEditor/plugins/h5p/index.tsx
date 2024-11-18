@@ -37,7 +37,7 @@ export const h5pSerializer: SlateSerializer = {
   },
   serialize(node: Descendant) {
     if (!Element.isElement(node) || node.type !== TYPE_H5P || !node.data) return;
-    return createEmbedTagV2(node.data);
+    return createEmbedTagV2(node.data, undefined, undefined);
   },
 };
 

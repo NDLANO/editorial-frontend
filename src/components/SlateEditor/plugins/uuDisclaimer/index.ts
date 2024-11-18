@@ -26,7 +26,7 @@ export const disclaimerSerializer: SlateSerializer = {
   },
   serialize(node: Descendant, children: JSX.Element[]) {
     if (!Element.isElement(node) || node.type !== TYPE_DISCLAIMER || !node.data) return;
-    return createEmbedTagV2(node.data, children);
+    return createEmbedTagV2(node.data, children, undefined);
   },
 };
 

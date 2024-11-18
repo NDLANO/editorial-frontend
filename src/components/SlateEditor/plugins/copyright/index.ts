@@ -36,7 +36,7 @@ export const copyrightSerializer: SlateSerializer = {
   },
   serialize(node: Descendant, children: JSX.Element[]) {
     if (!Element.isElement(node) || node.type !== TYPE_COPYRIGHT || !node.data) return;
-    return createEmbedTagV2({ ...node.data, copyright: JSON.stringify(node.data.copyright) }, children);
+    return createEmbedTagV2({ ...node.data, copyright: JSON.stringify(node.data.copyright) }, children, undefined);
   },
 };
 

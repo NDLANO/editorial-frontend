@@ -32,7 +32,7 @@ export const commentInlineSerializer: SlateSerializer = {
   },
   serialize(node: Descendant, children: JSX.Element[]) {
     if (!Element.isElement(node) || node.type !== TYPE_COMMENT_INLINE || !node.data) return;
-    return createEmbedTagV2(node.data, children);
+    return createEmbedTagV2(node.data, children, undefined);
   },
 };
 

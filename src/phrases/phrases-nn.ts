@@ -2028,6 +2028,7 @@ const phrases = {
     nodeTypeTooltips: {
       SUBJECT: "Dette er eit fag",
       TOPIC: "Dette er eit emne",
+      PROGRAMME: "Dette er eit utdanningsprogram",
     },
     fields: {
       id: {

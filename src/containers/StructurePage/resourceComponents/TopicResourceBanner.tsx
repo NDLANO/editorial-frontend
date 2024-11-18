@@ -145,7 +145,7 @@ const TopicResourceBanner = ({
   topicNodes,
   showQuality,
 }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
 
   const elementCount = Object.values(contentMeta).length;
@@ -192,7 +192,7 @@ const TopicResourceBanner = ({
           <TextWrapper>
             {numericId ? (
               <SafeLink
-                to={routes.topic.edit(numericId, "topic-article")}
+                to={routes.topic.edit(numericId, i18n.language)}
                 target="_blank"
                 rel="noopener noreferrer"
                 css={linkRecipe.raw()}

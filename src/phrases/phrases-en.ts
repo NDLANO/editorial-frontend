@@ -1846,6 +1846,7 @@ const phrases = {
       buttonText: "Make resources primary",
       recursiveButtonText: "Make resources and sub resources primary",
       error: "An error occured",
+      success: "All resources have been converted to primary resources",
     },
     goTo: "Open in structure editor",
     missingResourceType: "Missing resource type",

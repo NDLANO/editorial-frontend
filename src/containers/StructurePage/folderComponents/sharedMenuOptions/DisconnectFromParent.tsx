@@ -6,7 +6,6 @@
  *
  */
 
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
@@ -35,16 +34,12 @@ interface Props {
 const DisconnectFromParent = ({ node, onCurrentNodeChanged }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
-  const { mutateAsync: disconnectNode } = useDeleteNodeConnectionMutation();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | undefined>(undefined);
+  const { mutateAsync: disconnectNode, isError, isPending } = useDeleteNodeConnectionMutation();
   const navigate = useNavigate();
   const location = useLocation();
   const qc = useQueryClient();
 
   const onDisconnect = async (): Promise<void> => {
-    setLoading(true);
-    setError(undefined);
     if ("connectionId" in node) {
       await disconnectNode(
         {
@@ -62,7 +57,6 @@ const DisconnectFromParent = ({ node, onCurrentNodeChanged }: Props) => {
             navigate(location.pathname.split(node.id)[0], { replace: true });
             onCurrentNodeChanged(undefined);
           },
-          onError: () => setError(t("taxonomy.errorMessage")),
         },
       );
     }
@@ -78,11 +72,11 @@ const DisconnectFromParent = ({ node, onCurrentNodeChanged }: Props) => {
         <Text>{t("taxonomy.publish.info")}</Text>
       </MessageBox>
       <FormActionsContainer>
-        <Button loading={loading} variant="danger" onClick={onDisconnect}>
+        <Button loading={isPending} variant="danger" onClick={onDisconnect}>
           {t("alertModal.disconnect")}
         </Button>
       </FormActionsContainer>
-      {error && <Text color="text.error">{error}</Text>}
+      {isError && <Text color="text.error">{t("taxonomy.errorMessage")}</Text>}
     </Wrapper>
   );
 };

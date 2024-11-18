@@ -1844,6 +1844,7 @@ const phrases = {
       buttonText: "Gjør alle ressurser om til primærkoblinger",
       recursiveButtonText: "Gjør alle ressurser og underressurser om til primærkoblinger",
       error: "En feil oppstod",
+      success: "Alle ressurser er gjort til primærkoblinger",
     },
     goTo: "Åpne i stukturredigering",
     missingResourceType: "Mangler ressurstype",

@@ -33,6 +33,7 @@ const StatusIndicatorContent = styled("div", {
   base: {
     display: "flex",
     gap: "3xsmall",
+    alignItems: "center",
   },
 });
 
@@ -154,7 +155,7 @@ const PublishChildNodeResources = ({ node }: Props) => {
       <StyledButton onClick={() => publishResources()}>{t("taxonomy.publish.button")}</StyledButton>
       {showDisplay && (
         <StatusIndicatorContent aria-live="polite">
-          {done ? <StyledCheckLine /> : <Spinner size="small" />}
+          <StatusIndicatorContent>{done ? <StyledCheckLine /> : <Spinner size="small" />}</StatusIndicatorContent>
           <Text>{`${publishText} (${publishedCount}/${publishableCount})`}</Text>
         </StatusIndicatorContent>
       )}

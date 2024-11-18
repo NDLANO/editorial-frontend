@@ -6,7 +6,6 @@
  *
  */
 
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
 import { CheckLine } from "@ndla/icons/editor";
@@ -27,6 +26,7 @@ const StatusIndicatorContent = styled("div", {
   base: {
     display: "flex",
     gap: "3xsmall",
+    alignItems: "center",
   },
 });
 
@@ -36,6 +36,7 @@ const Wrapper = styled("div", {
     display: "flex",
     flexDirection: "column",
     gap: "3xsmall",
+    alignItems: "flex-start",
   },
 });
 
@@ -46,15 +47,10 @@ const StyledCheckLine = styled(CheckLine, {
 const ConnectExistingNode = ({ currentNode, nodeType }: Props) => {
   const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
-  const { mutateAsync: connectNode } = usePostNodeConnectionMutation();
-  const [error, setError] = useState<string | undefined>(undefined);
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
+  const { mutateAsync: connectNode, isError, isPending, isSuccess } = usePostNodeConnectionMutation();
   const qc = useQueryClient();
 
   const handleSubmit = async (node: Node) => {
-    setLoading(true);
-    setError(undefined);
     await connectNode(
       {
         taxonomyVersion,
@@ -68,14 +64,10 @@ const ConnectExistingNode = ({ currentNode, nodeType }: Props) => {
               language: i18n.language,
             }),
           });
-          setSuccess(true);
-          setLoading(false);
         },
-        onError: () => setError("taxonomy.errorMessage"),
       },
     );
   };
-
   return (
     <Wrapper>
       <NodeSearchDropdown
@@ -92,21 +84,21 @@ const ConnectExistingNode = ({ currentNode, nodeType }: Props) => {
           });
         }}
       />
-      <div>
-        {loading && (
+      <>
+        {isPending && (
           <StatusIndicatorContent>
             <Spinner size="small" />
             <Text>{t("taxonomy.connectExistingLoading")}</Text>
           </StatusIndicatorContent>
         )}
-        {success && (
+        {isSuccess && (
           <StatusIndicatorContent>
             <StyledCheckLine />
             <Text>{t("taxonomy.connectExistingSuccess")}</Text>
           </StatusIndicatorContent>
         )}
-        {error && <Text color="text.error">{t(error)}</Text>}
-      </div>
+        {isError && <Text color="text.error">{t("taxonomy.errorMessage")}</Text>}
+      </>
     </Wrapper>
   );
 };

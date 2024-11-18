@@ -5,11 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import styled from "@emotion/styled";
 
-export const TwoArticleWrapper = styled.div`
-  width: 100%;
-  max-width: 100%;
-  display: flex;
-  align-items: flex-start;
-`;
+import { styled } from "@ndla/styled-system/jsx";
+
+export const TwoArticleWrapper = styled("div", {
+  base: {
+    width: "100%",
+    maxWidth: "100%",
+    display: "flex",
+    alignItems: "flex-start",
+  },
+});

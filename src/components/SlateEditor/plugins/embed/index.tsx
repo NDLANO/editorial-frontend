@@ -46,7 +46,7 @@ export const embedSerializer: SlateSerializer = {
   },
   serialize(node: Descendant) {
     if (!Element.isElement(node) || !isSlateEmbed(node)) return;
-    return createEmbedTag(node.data);
+    return createEmbedTag(node.data, undefined);
   },
 };
 

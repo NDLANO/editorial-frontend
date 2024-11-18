@@ -7,10 +7,11 @@
  */
 
 import { Descendant, Editor, Element } from "slate";
+import { uuid } from "@ndla/util";
 import { TYPE_FILE } from "./types";
 import { defaultFileBlock } from "./utils";
 import { File } from "../../../../interfaces";
-import { createEmbedTag } from "../../../../util/embedTagHelpers";
+import { createEmbedTag, createEmbedTagV2 } from "../../../../util/embedTagHelpers";
 import { SlateSerializer } from "../../interfaces";
 import { defaultBlockNormalizer, NormalizerConfig } from "../../utils/defaultNormalizer";
 import { afterOrBeforeTextBlockElement } from "../../utils/normalizationHelpers";
@@ -47,7 +48,8 @@ export const fileSerializer: SlateSerializer = {
   serialize(node: Descendant) {
     if (!Element.isElement(node)) return;
     if (node.type !== TYPE_FILE) return;
-    return <div data-type="file">{node.data.map((file) => createEmbedTag(file))}</div>;
+    const children = node.data.map((file) => createEmbedTag(file, file.path));
+    return <div data-type="file">{children}</div>;
   },
 };
 

@@ -66,7 +66,13 @@ export const framedContentSerializer: SlateSerializer = {
   },
   serialize(node: Descendant, children: JSX.Element[]) {
     if (!Element.isElement(node) || node.type !== TYPE_FRAMED_CONTENT) return;
-    return createTag("div", { ...node.data, type: TYPE_FRAMED_CONTENT }, children, { bailOnEmptyData: false });
+    return createTag(
+      "div",
+      { ...node.data, type: TYPE_FRAMED_CONTENT },
+      children,
+      { bailOnEmptyData: false },
+      undefined,
+    );
   },
 };
 

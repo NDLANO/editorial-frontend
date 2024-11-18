@@ -42,7 +42,7 @@ export const inlineConceptSerializer: SlateSerializer = {
       linkText: Node.string(node),
     };
 
-    return createEmbedTagV2(data);
+    return createEmbedTagV2(data, undefined, undefined);
   },
 };
 

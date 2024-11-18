@@ -134,9 +134,10 @@ export const createDataAttributes = <T extends object, R extends boolean = false
 
 export const createTag = <T extends object>(
   Tag: ElementType,
-  data?: EmbedProps<T>,
-  children?: ReactNode[],
-  opts?: { bailOnEmptyData?: boolean },
+  data: EmbedProps<T> | undefined,
+  children: ReactNode[] | undefined,
+  opts: { bailOnEmptyData?: boolean },
+  key: string | undefined,
 ): JSX.Element | undefined => {
   const dataAttributes = createDataAttributes(data, opts?.bailOnEmptyData);
   // dataAttributes is undefined if bailOnEmptyData is true and data is empty
@@ -144,15 +145,20 @@ export const createTag = <T extends object>(
     return undefined;
   }
 
-  return <Tag {...dataAttributes}>{children}</Tag>;
+  return (
+    <Tag {...dataAttributes} key={key}>
+      {children}
+    </Tag>
+  );
 };
 
 export const createEmbedTagV2 = <T extends object>(
   data: EmbedProps<T>,
-  children?: ReactNode[],
-): JSX.Element | undefined => createTag("ndlaembed", data, children, { bailOnEmptyData: true });
+  children: ReactNode[] | undefined,
+  key: string | undefined,
+): JSX.Element | undefined => createTag("ndlaembed", data, children, { bailOnEmptyData: true }, key);
 
-export const createEmbedTag = (data?: { [key: string]: any }) => {
+export const createEmbedTag = (data: { [key: string]: any } | undefined, key: string | undefined) => {
   if (!data || Object.keys(data).length === 0) {
     return undefined;
   }
@@ -161,7 +167,7 @@ export const createEmbedTag = (data?: { [key: string]: any }) => {
     .filter((key) => data[key] !== undefined && !isObject(data[key]))
     .forEach((key) => (props[`data-${key}`] = data[key]));
 
-  return <ndlaembed {...props}></ndlaembed>;
+  return <ndlaembed key={key} {...props}></ndlaembed>;
 };
 
 export const isUserProvidedEmbedDataValid = (embed: Embed) => {

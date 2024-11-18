@@ -63,16 +63,19 @@ test("parseEmbedTag parses related-content embed tag to object", () => {
 });
 
 test("createEmbedTag creates image embed tag from object", () => {
-  const tag = createEmbedTag({
-    align: "",
-    alt: "Guinness sign",
-    caption: "Guinness is good for you",
-    metaData: {},
-    resource: "image",
-    resource_id: "42159",
-    size: "full",
-    url: "https://api.ndla.no/image-api/v3/images/42159",
-  });
+  const tag = createEmbedTag(
+    {
+      align: "",
+      alt: "Guinness sign",
+      caption: "Guinness is good for you",
+      metaData: {},
+      resource: "image",
+      resource_id: "42159",
+      size: "full",
+      url: "https://api.ndla.no/image-api/v3/images/42159",
+    },
+    undefined,
+  );
   expect(tag).toMatchSnapshot();
 });
 
@@ -86,15 +89,18 @@ test("createEmbedTagV2 creates image embed tag from object", () => {
     size: "full",
     url: "https://api.ndla.no/image-api/v3/images/42159",
   };
-  expect(createEmbedTag(data)).toEqual(createEmbedTagV2(data));
+  expect(createEmbedTag(data, undefined)).toEqual(createEmbedTagV2(data, undefined, undefined));
 });
 
 test("createEmbedTag creates h5p embed tag from object", () => {
-  const tag = createEmbedTag({
-    metaData: {},
-    resource: "h5p",
-    url: "https://h5p-test.ndla.no/resource/3ab6850d/oembed",
-  });
+  const tag = createEmbedTag(
+    {
+      metaData: {},
+      resource: "h5p",
+      url: "https://h5p-test.ndla.no/resource/3ab6850d/oembed",
+    },
+    undefined,
+  );
 
   expect(tag).toMatchSnapshot();
 });
@@ -105,7 +111,7 @@ test("createEmbedTagV2 creates h5p embed tag from object", () => {
     url: "https://h5p-test.ndla.no/resource/3ab6850d/oembed",
   };
 
-  const tag = createEmbedTagV2(data);
+  const tag = createEmbedTagV2(data, undefined, undefined);
   expect(tag).toMatchSnapshot();
 });
 
@@ -118,20 +124,23 @@ test("createEmbedTagV2 filters out null and undefined values, but not false valu
     videoid: "123",
   };
 
-  const tag = createEmbedTagV2(data);
+  const tag = createEmbedTagV2(data, undefined, undefined);
 
   expect(tag).toMatchSnapshot();
 });
 
 test("createEmbedTag creates brightcove embed tag from object", () => {
-  const tag = createEmbedTag({
-    account: "4806596774001",
-    caption: "Intervju med Hallvard",
-    metaData: {},
-    player: "BkLm8fT",
-    resource: "brightcove",
-    videoid: "ref:106952",
-  });
+  const tag = createEmbedTag(
+    {
+      account: "4806596774001",
+      caption: "Intervju med Hallvard",
+      metaData: {},
+      player: "BkLm8fT",
+      resource: "brightcove",
+      videoid: "ref:106952",
+    },
+    undefined,
+  );
 
   expect(tag).toMatchSnapshot();
 });
@@ -144,7 +153,7 @@ test("createEmbedTagV2 converts camel-case to kebab-case", () => {
     url: "https://api.test.ndla.no/audio-api/v1/audio/3000",
   };
 
-  const tag = createEmbedTagV2(data);
+  const tag = createEmbedTagV2(data, undefined, undefined);
   expect(tag).toMatchSnapshot();
 });
 
@@ -156,17 +165,17 @@ test("createEmbedTagV2 creates brightcove embed tag from object", () => {
     resource: "brightcove",
     videoid: "ref:106952",
   };
-  const tag = createEmbedTagV2(data);
+  const tag = createEmbedTagV2(data, undefined, undefined);
 
-  expect(tag).toEqual(createEmbedTag(data));
+  expect(tag).toEqual(createEmbedTag(data, undefined));
 });
 
 test("createEmbedTag returns undefined if the object contains no keys", () => {
-  expect(createEmbedTag({})).toBe(undefined);
+  expect(createEmbedTag({}, undefined)).toBe(undefined);
 });
 
 test("createEmbedTagV2 returns undefined if the object contains no keys", () => {
-  expect(createEmbedTagV2({})).toBe(undefined);
+  expect(createEmbedTagV2({}, undefined, undefined)).toBe(undefined);
 });
 
 test("isUserProvidedEmbedDataValid for image", () => {

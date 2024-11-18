@@ -63,7 +63,12 @@ export const relatedSerializer: SlateSerializer = {
   serialize(node: Descendant) {
     if (!Element.isElement(node) || node.type !== TYPE_RELATED) return;
 
-    return <div data-type="related-content">{node.data.map((child) => createEmbedTagV2(child))}</div>;
+    const children = node.data.map((child) => {
+      const key = child.articleId ? child.articleId : child.url;
+      return createEmbedTagV2(child, undefined, key);
+    });
+
+    return <div data-type="related-content">{children}</div>;
   },
 };
 

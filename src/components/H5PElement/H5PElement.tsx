@@ -8,21 +8,25 @@
 
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
+import { styled } from "@ndla/styled-system/jsx";
 import { ErrorMessage } from "@ndla/ui";
 import { fetchH5PiframeUrl, editH5PiframeUrl, fetchH5PInfo } from "./h5pApi";
 import handleError from "../../util/handleError";
 
-const FlexWrapper = styled.div`
-  display: flex;
-  flex: 1;
-  width: 100%;
-`;
+const FlexWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flex: "1",
+    width: "100%",
+  },
+});
 
-const StyledIFrame = styled.iframe`
-  flex: 1;
-  overflow: hidden;
-`;
+const StyledIFrame = styled("iframe", {
+  base: {
+    flex: "1",
+    overflow: "hidden",
+  },
+});
 
 export interface OnSelectObject {
   path?: string;
